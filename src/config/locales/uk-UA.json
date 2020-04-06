@@ -68,8 +68,8 @@
     "next": "НАСТУПНА",
     "delegate": "Делегувати",
     "power_down": "Зменшення Сили Голосу",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
+    "withdraw_steem": "Вивести HIVE",
+    "withdraw_sbd": "Вивести HBD",
     "transfer_to_savings": "В заощадження",
     "convert": "Конвертувати",
     "escrow_transfer": "Передача Ескроу",
@@ -86,14 +86,14 @@
       "buy": "Отримати ESTM"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "HIVE заощадження"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "HBD збереження"
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "ОТРИМАТИ HIVE"
     },
     "sbd": {
       "title": "HBD",
@@ -219,8 +219,8 @@
     "description": "Дані користувача зберігаються локально на пристрої. Посвідчення видаляється після виходу з системи!",
     "cancel": "скасувати",
     "login": "ЛОГІН",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_description": "Якщо ви не хочете зберігати свій зашифрований пароль і зберігати на вашому пристрої, ви можете використовувати Hivesigner.",
+    "steemconnect_fee_description": "інформація"
   },
   "home": {
     "feed": "Стрічка",
