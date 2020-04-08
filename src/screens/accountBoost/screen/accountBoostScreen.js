@@ -16,7 +16,7 @@ import globalStyles from '../../../globalStyles';
 import styles from './accountBoostStyles';
 
 const ITEM_SKUS = Platform.select({
-  ios: ['999boost', '099points'],
+  ios: ['999boost'],
   android: ['999boost'],
 });
 
