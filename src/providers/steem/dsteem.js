@@ -2,10 +2,12 @@
 // import '../../../shim';
 // import * as bitcoin from 'bitcoinjs-lib';
 
-import { Client, PrivateKey } from '@esteemapp/dsteem';
+import { Client, PrivateKey } from '@esteemapp/dhive';
 import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
+import axios from 'axios';
+import { getInputRangeFromIndexes } from 'react-native-snap-carousel';
 import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
 import { userActivity } from '../esteem/ePoint';
@@ -23,19 +25,28 @@ import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
 // Constant
 import AUTH_TYPE from '../../constants/authType';
 
-const DEFAULT_SERVER = 'https://rpc.esteem.app';
-let client = new Client(DEFAULT_SERVER);
+const DEFAULT_SERVER = [
+  'https://rpc.esteem.app',
+  'https://api.hive.blog',
+  'https://anyx.io',
+  'https://api.hivekings.com',
+];
+let client = new Client(DEFAULT_SERVER, {
+  timeout: 3000,
+});
 
 export const checkClient = async () => {
   let selectedServer = DEFAULT_SERVER;
 
   await getServer().then((response) => {
     if (response) {
-      selectedServer = response;
+      selectedServer.unshift(response);
     }
   });
 
-  client = new Client(selectedServer);
+  client = new Client(selectedServer, {
+    timeout: 3000,
+  });
 };
 
 checkClient();
@@ -133,9 +144,11 @@ export const getUser = async (user) => {
     }
 
     const globalProperties = await client.database.getDynamicGlobalProperties();
-    const rcPower = await client.call('rc_api', 'find_rc_accounts', {
-      accounts: [user],
-    });
+    const rcPower =
+      user &&
+      (await client.call('rc_api', 'find_rc_accounts', {
+        accounts: [user],
+      }));
     try {
       unreadActivityCount = await getUnreadActivityCount({
         user,
@@ -164,9 +177,11 @@ export const getUser = async (user) => {
       get(globalProperties, 'total_vesting_fund_steem'),
     );
 
-    if (has(_account, 'json_metadata')) {
+    if (has(_account, 'posting_json_metadata') || has(_account, 'json_metadata')) {
       try {
-        _account.about = JSON.parse(get(_account, 'json_metadata'));
+        _account.about =
+          JSON.parse(get(_account, 'posting_json_metadata')) ||
+          JSON.parse(get(_account, 'json_metadata'));
       } catch (e) {
         //alert(e);
         _account.about = {};
@@ -181,6 +196,53 @@ export const getUser = async (user) => {
     return Promise.reject(error);
   }
 };
+
+const cache = {};
+const patt = /hive-\d\w+/g;
+export const getCommunity = async (tag, observer = '') =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const community = await client.call('bridge', 'get_community', {
+        name: tag,
+        observer: observer,
+      });
+      if (community) {
+        resolve(community);
+      } else {
+        resolve({});
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+export const getCommunityTitle = async (tag) =>
+  new Promise(async (resolve, reject) => {
+    if (cache[tag] !== undefined) {
+      resolve(cache[tag]);
+      return;
+    }
+    const mm = tag.match(patt);
+    if (mm && mm.length > 0) {
+      try {
+        const community = await client.call('bridge', 'get_community', {
+          name: tag,
+          observer: '',
+        });
+        if (community) {
+          const { title } = community;
+          cache[tag] = title;
+          resolve(title);
+        } else {
+          resolve(tag);
+        }
+      } catch (error) {
+        reject(error);
+      }
+    }
+
+    resolve(tag);
+  });
 
 // TODO: Move to utils folder
 export const vestToSteem = async (vestingShares, totalVestingShares, totalVestingFundSteem) =>
@@ -199,34 +261,42 @@ export const getFollowers = (follower, startFollowing, followType = 'blog', limi
 
 export const getIsFollowing = (user, author) =>
   new Promise((resolve, reject) => {
-    client.database
-      .call('get_following', [author, user, 'blog', 1])
-      .then((result) => {
-        if (result[0] && result[0].follower === author && result[0].following === user) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      })
-      .catch((err) => {
-        reject(err);
-      });
+    if (author) {
+      client.database
+        .call('get_following', [author, user, 'blog', 1])
+        .then((result) => {
+          if (result[0] && result[0].follower === author && result[0].following === user) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    } else {
+      resolve(false);
+    }
   });
 
 export const getFollowSearch = (user, targetUser) =>
   new Promise((resolve, reject) => {
-    client.database
-      .call('get_following', [targetUser, user, 'blog', 1])
-      .then((result) => {
-        if (result[0] && result[0].follower === targetUser && result[0].following === user) {
-          resolve(result);
-        } else {
-          resolve(null);
-        }
-      })
-      .catch((err) => {
-        reject(err);
-      });
+    if (targetUser) {
+      client.database
+        .call('get_following', [targetUser, user, 'blog', 1])
+        .then((result) => {
+          if (result[0] && result[0].follower === targetUser && result[0].following === user) {
+            resolve(result);
+          } else {
+            resolve(null);
+          }
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    } else {
+      resolve(null);
+    }
   });
 
 export const getIsMuted = async (targetUsername, username) => {
@@ -1332,7 +1402,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
 
 export const profileUpdate = async (params, pin, currentAccount) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
+  const key = getAnyPrivateKey(get(currentAccount, 'local'), digitPinCode);
 
   if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
@@ -1343,10 +1413,10 @@ export const profileUpdate = async (params, pin, currentAccount) => {
     const _params = {
       account: get(currentAccount, 'name'),
       memo_key: get(currentAccount, 'memo_key'),
-      json_metadata: jsonStringify(params),
+      posting_json_metadata: jsonStringify(params),
     };
 
-    const opArray = [['account_update', _params]];
+    const opArray = [['account_update2', _params]];
 
     return api
       .broadcast(opArray)
@@ -1357,11 +1427,11 @@ export const profileUpdate = async (params, pin, currentAccount) => {
   if (key) {
     const opArray = [
       [
-        'account_update',
+        'account_update2',
         {
           account: get(currentAccount, 'name'),
           memo_key: get(currentAccount, 'memo_key'),
-          json_metadata: jsonStringify({
+          posting_json_metadata: jsonStringify({
             profile: params,
           }),
         },

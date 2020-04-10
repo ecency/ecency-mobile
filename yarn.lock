@@ -1123,10 +1123,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@esteemapp/dsteem@^0.11.5":
-  version "0.11.5"
-  resolved "https://registry.yarnpkg.com/@esteemapp/dsteem/-/dsteem-0.11.5.tgz#d01e09db1d2dccfd6e82c1e577d1bef4c8e42439"
-  integrity sha512-hAU7R+KigkxnyxLMAFWgUmA3JxBpvvKLZcU3Nb07rkF7Tjd/1tWUpdlVamTGSznRy3gRMA1yMrn5S1c17jx8Aw==
+"@esteemapp/dhive@^0.11.6":
+  version "0.11.6"
+  resolved "https://registry.yarnpkg.com/@esteemapp/dhive/-/dhive-0.11.6.tgz#d8be50ac44ea67d9bc356b1d1c4f49de42e38c94"
+  integrity sha512-LBO8sWdQJKKrWKb+axLIiXXdk7vcSaPXYCGHwfB2hLEtEAjGam4Xv9fYRNA1QDXjpo3iFQcUitrro9kQ4cTsaw==
   dependencies:
     bs58 "^4.0.1"
     bytebuffer "^5.0.1"
@@ -4494,14 +4494,19 @@ hermes-engine@^0.2.1:
   resolved "https://registry.yarnpkg.com/hermes-engine/-/hermes-engine-0.2.1.tgz#25c0f1ff852512a92cb5c5cc47cf967e1e722ea2"
   integrity sha512-eNHUQHuadDMJARpaqvlCZoK/Nitpj6oywq3vQ3wCwEsww5morX34mW5PmKWQTO7aU0ck0hgulxR+EVDlXygGxQ==
 
-hivesigner@^3.1.3:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/hivesigner/-/hivesigner-3.1.3.tgz#941b75f984f92807f2377a77d64eef2acb209ad9"
-  integrity sha512-MOAPRTYrbpFwRdh7ebaBXVUdcmryfmnat3oS/sl5Q0BYsA4xVgtTzcFoo4CJ145CraoQ+mn1XY74fSssI0eadQ==
+hive-uri@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/hive-uri/-/hive-uri-0.2.2.tgz#60d57a77a2c7a6394471f700e436f3f9822c737d"
+  integrity sha512-95XH50GsJ+ZuWsLQaNcqYiZ6lmoVDawjG+BCgERqOkoy57b+OgHeNDPeYYY9qkNIi0ThcaYRi6RHVcLbI5EfBw==
+
+hivesigner@^3.1.5:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/hivesigner/-/hivesigner-3.1.5.tgz#8226d0634e6a024602a97679dd20f6402edbc271"
+  integrity sha512-amg6YNUA6zZvbQp6y4L7l0aPClvMCuA3QMiinyhWMfM5WsvUQOQT+w88bwImHOQPhXMN35QnIcipbr1EdhC94w==
   dependencies:
     babel-runtime "^6.26.0"
     cross-fetch "^3.0.1"
-    steem-uri "^0.1.1"
+    hive-uri "^0.2.2"
 
 hmac-drbg@^1.0.0:
   version "1.0.1"
@@ -8710,11 +8715,6 @@ stealthy-require@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
-
-steem-uri@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/steem-uri/-/steem-uri-0.1.1.tgz#20da6f713809398b5f77d251def0eeed92cf966b"
-  integrity sha512-pHe33AlDLlf2jC8hfrEthVj8Zq/DcFg490ID16KK0o7tr02mToeXTpEFGV5dnM2ASeAr3MAOxCJvEFDrCFuZbQ==
 
 stream-buffers@~2.2.0:
   version "2.2.0"

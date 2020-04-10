@@ -126,7 +126,15 @@ class ApplicationContainer extends Component {
     const { isGlobalRenderRequired, dispatch } = this.props;
 
     if (isGlobalRenderRequired !== prevProps.isGlobalRenderRequired && isGlobalRenderRequired) {
-      this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
+      this.setState(
+        {
+          isRenderRequire: false,
+        },
+        () =>
+          this.setState({
+            isRenderRequire: true,
+          }),
+      );
       dispatch(isRenderRequired(false));
     }
   }
@@ -182,11 +190,16 @@ class ApplicationContainer extends Component {
         if (permlink) {
           content = await getPost(author, permlink, currentAccount.name);
           routeName = ROUTES.SCREENS.POST;
-          params = { content };
+          params = {
+            content,
+          };
         } else {
           profile = await getUser(author);
           routeName = ROUTES.SCREENS.PROFILE;
-          params = { username: get(profile, 'name'), reputation: get(profile, 'reputation') };
+          params = {
+            username: get(profile, 'name'),
+            reputation: get(profile, 'reputation'),
+          };
         }
       }
     } catch (error) {
@@ -206,8 +219,12 @@ class ApplicationContainer extends Component {
     const { intl } = this.props;
 
     Alert.alert(
-      intl.formatMessage({ id: title || 'alert.warning' }),
-      intl.formatMessage({ id: text || 'alert.unknow_error' }),
+      intl.formatMessage({
+        id: title || 'alert.warning',
+      }),
+      intl.formatMessage({
+        id: text || 'alert.unknow_error',
+      }),
     );
   };
 
@@ -231,7 +248,9 @@ class ApplicationContainer extends Component {
       this._refreshGlobalProps();
     }
     setPreviousAppState();
-    this.setState({ appState: nextAppState });
+    this.setState({
+      appState: nextAppState,
+    });
   };
 
   _startPinCodeTimer = () => {
@@ -248,7 +267,9 @@ class ApplicationContainer extends Component {
     await this._getSettings();
     await this._refreshGlobalProps();
     const userRealmObject = await this._getUserDataFromRealm();
-    this.setState({ isReady: true });
+    this.setState({
+      isReady: true,
+    });
 
     const { isConnected } = this.props;
     if (isConnected && userRealmObject) {
@@ -329,7 +350,9 @@ class ApplicationContainer extends Component {
 
             case 'transfer':
               routeName = ROUTES.TABBAR.PROFILE;
-              params = { activePage: 2 };
+              params = {
+                activePage: 2,
+              };
               break;
 
             default:
@@ -401,7 +424,9 @@ class ApplicationContainer extends Component {
               dispatch(login(false));
               dispatch(logoutDone());
               removePinCode();
-              setAuthStatus({ isLoggedIn: false });
+              setAuthStatus({
+                isLoggedIn: false,
+              });
               setExistUser(false);
               if (accountData.authType === AUTH_TYPE.STEEM_CONNECT) {
                 removeSCAccount(accountData.username);
@@ -409,7 +434,11 @@ class ApplicationContainer extends Component {
             }
             removeUserData(accountData.username);
           } else {
-            dispatch(addOtherAccount({ username: accountData.username }));
+            dispatch(
+              addOtherAccount({
+                username: accountData.username,
+              }),
+            );
             // TODO: check post v2.2.5+ or remove setexistuser from login
             setExistUser(true);
           }
@@ -462,6 +491,7 @@ class ApplicationContainer extends Component {
         this._connectNotificationServer(accountData.name);
       })
       .catch((err) => {
+        console.log(err);
         Alert.alert(
           `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
         );
@@ -479,7 +509,9 @@ class ApplicationContainer extends Component {
           settings.isDarkTheme === null ? nativeThemeInitialMode === 'dark' : settings.isDarkTheme,
         ),
       );
-      this.setState({ isThemeReady: true });
+      this.setState({
+        isThemeReady: true,
+      });
       if (settings.isPinCodeOpen !== '') dispatch(isPinCodeOpen(settings.isPinCodeOpen));
       if (settings.language !== '') dispatch(setLanguage(settings.language));
       if (settings.server !== '') dispatch(setApi(settings.server));
@@ -489,7 +521,10 @@ class ApplicationContainer extends Component {
       if (settings.isDefaultFooter !== '') dispatch(isDefaultFooter(settings.isDefaultFooter));
       if (settings.notification !== '') {
         dispatch(
-          changeNotificationSettings({ type: 'notification', action: settings.notification }),
+          changeNotificationSettings({
+            type: 'notification',
+            action: settings.notification,
+          }),
         );
         dispatch(changeAllNotificationSettings(settings));
 
@@ -542,7 +577,9 @@ class ApplicationContainer extends Component {
           dispatch(updateCurrentAccount({}));
           dispatch(login(false));
           removePinCode();
-          setAuthStatus({ isLoggedIn: false });
+          setAuthStatus({
+            isLoggedIn: false,
+          });
           setExistUser(false);
           if (local === AUTH_TYPE.STEEM_CONNECT) {
             removeSCAccount(name);
@@ -553,6 +590,7 @@ class ApplicationContainer extends Component {
         dispatch(logoutDone());
       })
       .catch((err) => {
+        console.log('remove', err);
         Alert.alert(
           `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
         );
@@ -600,7 +638,15 @@ class ApplicationContainer extends Component {
       selectedLanguage !== nextProps.selectedLanguage ||
       (api !== nextProps.api && nextProps.api)
     ) {
-      this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
+      this.setState(
+        {
+          isRenderRequire: false,
+        },
+        () =>
+          this.setState({
+            isRenderRequire: true,
+          }),
+      );
       if (nextProps.isDarkTheme) {
         changeNavigationBarColor('#1e2835');
       } else {
@@ -681,7 +727,12 @@ export default connect(
   (dispatch) => ({
     dispatch,
     actions: {
-      ...bindActionCreators({ fetchGlobalProperties }, dispatch),
+      ...bindActionCreators(
+        {
+          fetchGlobalProperties,
+        },
+        dispatch,
+      ),
     },
   }),
 )(injectIntl(ApplicationContainer));
