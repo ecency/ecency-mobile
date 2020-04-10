@@ -9,7 +9,7 @@ import get from 'lodash/get';
 // Services and Actions
 import { reblog } from '../../../providers/steem/dsteem';
 import { addBookmark } from '../../../providers/esteem/esteem';
-import { toastNotification } from '../../../redux/actions/uiAction';
+import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 
 // Constants
@@ -56,6 +56,9 @@ class PostDropdownContainer extends PureComponent {
   // Component Functions
   _handleOnDropdownSelect = async (index) => {
     const { content, dispatch, intl } = this.props;
+
+    // JUST FOR TESTING
+    dispatch(setRcOffer(true));
 
     switch (OPTIONS[index]) {
       case 'copy':
@@ -166,23 +169,7 @@ class PostDropdownContainer extends PureComponent {
           } else {
             if (error && error.jse_shortmsg.split(':')[1].includes('wait to transact')) {
               //when RC is not enough, offer boosting account
-              Alert.alert(
-                intl.formatMessage({
-                  id: 'alert.fail',
-                }),
-                intl.formatMessage({
-                  id: 'alert.rc_down',
-                }),
-                [
-                  {
-                    text: 'Cancel',
-                    onPress: () => console.log('Cancel Pressed'),
-                    style: 'cancel',
-                  },
-                  { text: 'OK', onPress: () => console.log('OK Pressed') },
-                ],
-                { cancelable: false },
-              );
+              dispatch(setRcOffer(true));
             } else {
               //when other errors
               dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));

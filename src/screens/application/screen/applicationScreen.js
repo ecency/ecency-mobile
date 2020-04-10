@@ -1,14 +1,20 @@
 import React, { Component, Fragment } from 'react';
-import { StatusBar, Platform, View } from 'react-native';
+import { StatusBar, Platform, View, Alert } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import { createAppContainer } from 'react-navigation';
+import { injectIntl } from 'react-intl';
 
 import AppNavitation from '../../../navigation/routes';
 import { setTopLevelNavigator, navigate } from '../../../navigation/service';
 
 // Services
-import { toastNotification as toastNotificationAction } from '../../../redux/actions/uiAction';
+import {
+  toastNotification as toastNotificationAction,
+  setRcOffer,
+} from '../../../redux/actions/uiAction';
+
+import ROUTES from '../../../constants/routeNames';
 
 // Components
 import { ToastNotification, NoInternetConnection } from '../../../components';
@@ -25,6 +31,41 @@ class ApplicationScreen extends Component {
     this.state = {
       isShowToastNotification: false,
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    const { rcOffer, dispatch, intl } = this.props;
+    const { rcOffer: rcOfferPrev } = prevProps;
+
+    if (!rcOfferPrev && rcOffer) {
+      setTimeout(() => {
+        Alert.alert(
+          intl.formatMessage({
+            id: 'alert.fail',
+          }),
+          intl.formatMessage({
+            id: 'alert.rc_down',
+          }),
+          [
+            {
+              text: 'Cancel',
+              onPress: () => dispatch(setRcOffer(false)),
+              style: 'cancel',
+            },
+            {
+              text: 'OK',
+              onPress: () => {
+                navigate({
+                  routeName: ROUTES.SCREENS.ACCOUNT_BOOST,
+                });
+                dispatch(setRcOffer(false));
+              },
+            },
+          ],
+          { cancelable: false },
+        );
+      }, 500);
+    }
   }
 
   _handleOnHideToastNotification = () => {
@@ -79,4 +120,4 @@ class ApplicationScreen extends Component {
   }
 }
 
-export default connect()(ApplicationScreen);
+export default injectIntl(connect()(ApplicationScreen));

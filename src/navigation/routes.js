@@ -33,6 +33,7 @@ import {
   Transfer,
   Voters,
   Wallet,
+  AccountBoost,
 } from '../screens';
 
 const bottomTabNavigator = createBottomTabNavigator(
@@ -127,6 +128,7 @@ const stackNavigator = createStackNavigator(
     [ROUTES.SCREENS.REDEEM]: { screen: Redeem },
     [ROUTES.SCREENS.REBLOGS]: { screen: Reblogs },
     [ROUTES.SCREENS.SPIN_GAME]: { screen: SpinGame },
+    [ROUTES.SCREENS.ACCOUNT_BOOST]: { screen: AccountBoost },
   },
   {
     headerMode: 'none',
