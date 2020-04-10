@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 import { connect } from 'react-redux';
 import AppCenter from 'appcenter';
 import Push from 'appcenter-push';
-import { Client } from '@esteemapp/dsteem';
+import { Client } from '@esteemapp/dhive';
 import VersionNumber from 'react-native-version-number';
 import Config from 'react-native-config';
 import { injectIntl } from 'react-intl';

@@ -416,7 +416,7 @@ export const getCommunity = (tag) =>
     }
 
     axios
-      .post('https://rpc.esteem.app', {
+      .post('https://api.hive.blog', {
         jsonrpc: '2.0',
         method: 'bridge.get_community',
         params: {

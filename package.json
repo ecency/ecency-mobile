@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.5.5",
-    "@esteemapp/dsteem": "^0.11.5",
+    "@esteemapp/dhive": "^0.11.6",
     "@esteemapp/esteem-render-helpers": "^1.3.8",
     "@esteemapp/react-native-autocomplete-input": "^4.2.1",
     "@esteemapp/react-native-modal-popover": "^0.0.15",
@@ -44,7 +44,7 @@
     "crypto-js": "^3.1.9-1",
     "currency-symbol-map": "^4.0.4",
     "diff-match-patch": "^1.0.4",
-    "hivesigner": "^3.1.4",
+    "hivesigner": "^3.1.5",
     "intl": "^1.2.5",
     "jsc-android": "^241213.1.0",
     "lodash": "^4.17.13",

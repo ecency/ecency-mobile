@@ -2,10 +2,11 @@
 // import '../../../shim';
 // import * as bitcoin from 'bitcoinjs-lib';
 
-import { Client, PrivateKey } from '@esteemapp/dsteem';
+import { Client, PrivateKey } from '@esteemapp/dhive';
 import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
+import axios from 'axios';
 import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
 import { userActivity } from '../esteem/ePoint';
@@ -23,19 +24,28 @@ import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
 // Constant
 import AUTH_TYPE from '../../constants/authType';
 
-const DEFAULT_SERVER = 'https://rpc.esteem.app';
-let client = new Client(DEFAULT_SERVER);
+const DEFAULT_SERVER = [
+  'https://rpc.esteem.app',
+  'https://api.hive.blog',
+  'https://anyx.io',
+  'https://api.hivekings.com',
+];
+let client = new Client(DEFAULT_SERVER, {
+  timeout: 3000,
+});
 
 export const checkClient = async () => {
   let selectedServer = DEFAULT_SERVER;
 
   await getServer().then((response) => {
     if (response) {
-      selectedServer = response;
+      selectedServer.unshift(response);
     }
   });
 
-  client = new Client(selectedServer);
+  client = new Client(selectedServer, {
+    timeout: 3000,
+  });
 };
 
 checkClient();
@@ -181,6 +191,40 @@ export const getUser = async (user) => {
     return Promise.reject(error);
   }
 };
+
+const cache = {};
+const patt = /hive-\d\w+/g;
+export const getCommunity = async (tag) =>
+  new Promise(async (resolve, reject) => {
+    if (cache[tag] !== undefined) {
+      resolve(cache[tag]);
+      return;
+    }
+    console.log(tag);
+    if (tag.match(patt).length > 0) {
+      try {
+        console.log('m', tag);
+        const community = await client.call('bridge', 'get_community', {
+          name: tag,
+          observer: '',
+        });
+        console.log(community);
+        if (community) {
+          console.log('parsed tag');
+          const { title } = community;
+          cache[tag] = title;
+          resolve(title);
+        } else {
+          console.log('plain tag');
+          resolve(tag);
+        }
+      } catch (error) {
+        reject(error);
+      }
+    }
+
+    resolve(tag);
+  });
 
 // TODO: Move to utils folder
 export const vestToSteem = async (vestingShares, totalVestingShares, totalVestingFundSteem) =>
