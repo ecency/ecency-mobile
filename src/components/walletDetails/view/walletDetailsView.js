@@ -20,7 +20,7 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
   return (
     <View style={styles.container}>
       <WalletLineItem
-        text="Steem"
+        text="Hive"
         isBlackText
         iconName="ios-information-circle-outline"
         rightText={`${Math.round(walletData.balance * 1000) / 1000} HIVE`}
