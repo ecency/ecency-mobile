@@ -23,13 +23,14 @@ const Application = () => {
     <ApplicationContainer>
       {({
         isConnected,
-        locale,
-        toastNotification,
-        isReady,
         isDarkTheme,
+        isPinCodeRequire,
+        isReady,
         isRenderRequire,
         isThemeReady,
-        isPinCodeRequire,
+        locale,
+        rcOffer,
+        toastNotification,
       }) => {
         return (
           <Fragment>
@@ -48,6 +49,7 @@ const Application = () => {
                 toastNotification={toastNotification}
                 isReady={isReady}
                 isDarkTheme={isDarkTheme}
+                rcOffer={rcOffer}
               />
             )}
             {(showAnimation || !isReady || !isRenderRequire || !isThemeReady) && <Launch />}

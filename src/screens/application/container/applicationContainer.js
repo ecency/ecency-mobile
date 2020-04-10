@@ -630,6 +630,7 @@ class ApplicationContainer extends Component {
       isDarkTheme: _isDarkTheme,
       children,
       isPinCodeRequire,
+      rcOffer,
     } = this.props;
     const { isRenderRequire, isReady, isThemeReady } = this.state;
 
@@ -637,13 +638,14 @@ class ApplicationContainer extends Component {
       children &&
       children({
         isConnected,
-        toastNotification,
+        isDarkTheme: _isDarkTheme,
+        isPinCodeRequire,
         isReady,
         isRenderRequire,
         isThemeReady,
-        isPinCodeRequire,
-        isDarkTheme: _isDarkTheme,
         locale: selectedLanguage,
+        rcOffer,
+        toastNotification,
       })
     );
   }
@@ -674,6 +676,7 @@ export default connect(
     // UI
     toastNotification: state.ui.toastNotification,
     activeBottomTab: state.ui.activeBottomTab,
+    rcOffer: state.ui.rcOffer,
   }),
   (dispatch) => ({
     dispatch,
