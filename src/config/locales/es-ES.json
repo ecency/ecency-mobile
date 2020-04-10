@@ -446,7 +446,11 @@
   "boost": {
     "title": "Get Esteem Points",
     "buy": "OBTENER ESTM",
-    "next": "SIGUIENTE"
+    "next": "SIGUIENTE",
+    "account": {
+      "title": "Get Account Boost",
+      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+    }
   },
   "free_estm": {
     "title": "ESTM Gratuitos",
