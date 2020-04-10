@@ -446,7 +446,11 @@
   "boost": {
     "title": "Get Esteem Points",
     "buy": "ESTMê BISTÎNE",
-    "next": "PÊŞVE"
+    "next": "PÊŞVE",
+    "account": {
+      "title": "Get Account Boost",
+      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+    }
   },
   "free_estm": {
     "title": "ESTM ya Belaş",
