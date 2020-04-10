@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { withNavigation } from 'react-navigation';
 
 // Services and Actions
-import { getCommunity } from '../../../../providers/esteem/esteem';
+import { getCommunityTitle } from '../../../../providers/steem/dsteem';
 // Middleware
 
 // Constants
@@ -31,14 +31,14 @@ class TagContainer extends PureComponent {
   componentDidMount() {
     const { value } = this.props;
 
-    if (value.startsWith('hive-')) {
-      getCommunity(value)
-        .then((r) => {
-          this.setState({ label: r });
-          return r;
-        })
-        .catch(() => {});
-    }
+    getCommunityTitle(value)
+      .then((r) => {
+        this.setState({
+          label: r,
+        });
+        return r;
+      })
+      .catch(() => {});
   }
   // Component Functions
   _handleOnTagPress = () => {
