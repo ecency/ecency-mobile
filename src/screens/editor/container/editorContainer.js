@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 // Services and Actions
 import { Buffer } from 'buffer';
 import { uploadImage, addDraft, updateDraft, schedule } from '../../../providers/esteem/esteem';
-import { toastNotification } from '../../../redux/actions/uiAction';
+import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import { postContent, getPurePost, grantPostingPermission } from '../../../providers/steem/dsteem';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
 
@@ -427,11 +427,11 @@ class EditorContainer extends Component {
   };
 
   _handleSubmitFailure = (error) => {
-    const { intl } = this.props;
-    console.log(error);
-    if (error && error.jse_shortmsg.split(':')[1].includes('wait to transact')) {
+    const { intl, dispatch } = this.props;
+    if (error && error.jse_shortmsg.includes('wait to transact')) {
       //when RC is not enough, offer boosting account
-      Alert.alert(
+      dispatch(setRcOffer(true));
+      /*Alert.alert(
         intl.formatMessage({
           id: 'alert.fail',
         }),
@@ -452,7 +452,7 @@ class EditorContainer extends Component {
         {
           cancelable: false,
         },
-      );
+      );*/
     } else {
       //when other errors
       Alert.alert(
