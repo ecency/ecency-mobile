@@ -61,7 +61,9 @@ class EditorContainer extends Component {
 
       if (draftReply) {
         this.setState({
-          draftPost: { body: draftReply },
+          draftPost: {
+            body: draftReply,
+          },
         });
       }
     } else {
@@ -112,9 +114,14 @@ class EditorContainer extends Component {
   };
 
   _handleMediaOnSelected = (media) => {
-    this.setState({ isUploading: true }, () => {
-      this._uploadImage(media);
-    });
+    this.setState(
+      {
+        isUploading: true,
+      },
+      () => {
+        this._uploadImage(media);
+      },
+    );
     // For new image api
     // const { currentAccount } = this.props;
     // const digitPinCode = await getPinCode();
@@ -129,7 +136,10 @@ class EditorContainer extends Component {
     uploadImage(media)
       .then((res) => {
         if (res.data && res.data.url) {
-          this.setState({ uploadedImage: res.data, isUploading: false });
+          this.setState({
+            uploadedImage: res.data,
+            isUploading: false,
+          });
         }
       })
       .catch((error) => {
@@ -141,7 +151,9 @@ class EditorContainer extends Component {
             error.message || error.toString(),
           );
         }
-        this.setState({ isUploading: false });
+        this.setState({
+          isUploading: false,
+        });
       });
   };
 
@@ -168,7 +180,9 @@ class EditorContainer extends Component {
       const username = get(currentAccount, 'name', '');
       let draftField;
 
-      this.setState({ isDraftSaving: true });
+      this.setState({
+        isDraftSaving: true,
+      });
       if (fields) {
         draftField = {
           ...fields,
@@ -178,7 +192,10 @@ class EditorContainer extends Component {
       }
 
       if (draftId && draftField) {
-        updateDraft({ ...draftField, draftId }).then(() => {
+        updateDraft({
+          ...draftField,
+          draftId,
+        }).then(() => {
           this.setState({
             isDraftSaved: true,
           });
@@ -231,7 +248,9 @@ class EditorContainer extends Component {
     } = this.props;
 
     if (currentAccount) {
-      this.setState({ isPostSending: true });
+      this.setState({
+        isPostSending: true,
+      });
 
       const meta = extractMetadata(fields.body);
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
@@ -276,7 +295,14 @@ class EditorContainer extends Component {
           0,
         )
           .then(() => {
-            setDraftPost({ title: '', body: '', tags: '' }, currentAccount.name);
+            setDraftPost(
+              {
+                title: '',
+                body: '',
+                tags: '',
+              },
+              currentAccount.name,
+            );
 
             dispatch(
               toastNotification(
@@ -286,7 +312,9 @@ class EditorContainer extends Component {
               ),
             );
 
-            this.setState({ isPostSending: false });
+            this.setState({
+              isPostSending: false,
+            });
 
             navigation.navigate({
               routeName: ROUTES.SCREENS.POST,
@@ -309,7 +337,9 @@ class EditorContainer extends Component {
     const { currentAccount, pinCode } = this.props;
 
     if (currentAccount) {
-      this.setState({ isPostSending: true });
+      this.setState({
+        isPostSending: true,
+      });
 
       const { post } = this.state;
 
@@ -346,7 +376,9 @@ class EditorContainer extends Component {
     const { currentAccount, pinCode } = this.props;
     const { post } = this.state;
     if (currentAccount) {
-      this.setState({ isPostSending: true });
+      this.setState({
+        isPostSending: true,
+      });
       const { tags, body, title } = fields;
       const {
         markdownBody: oldBody,
@@ -412,9 +444,14 @@ class EditorContainer extends Component {
             onPress: () => console.log('Cancel Pressed'),
             style: 'cancel',
           },
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
         ],
-        { cancelable: false },
+        {
+          cancelable: false,
+        },
       );
     } else {
       //when other errors
@@ -427,7 +464,9 @@ class EditorContainer extends Component {
     }
 
     this.stateTimer = setTimeout(() => {
-      this.setState({ isPostSending: false });
+      this.setState({
+        isPostSending: false,
+      });
       clearTimeout(this.stateTimer);
     }, 500);
   };
@@ -440,7 +479,9 @@ class EditorContainer extends Component {
         navigation.goBack();
         navigation.state.params.fetchPost();
       }
-      this.setState({ isPostSending: false });
+      this.setState({
+        isPostSending: false,
+      });
       clearTimeout(this.stateTimer);
     }, 500);
   };
@@ -470,14 +511,16 @@ class EditorContainer extends Component {
     const { isDraftSaved } = this.state;
 
     if (isDraftSaved) {
-      this.setState({ isDraftSaved: false });
+      this.setState({
+        isDraftSaved: false,
+      });
     }
   };
 
   _handleDatePickerChange = async (datePickerValue, fields) => {
     const { currentAccount, pinCode, intl } = this.props;
 
-    const json = get(currentAccount, 'json_metadata', '');
+    const json = get(currentAccount, 'posting_json_metadata', '');
 
     let hasPostingPerm = false;
 
@@ -519,7 +562,9 @@ class EditorContainer extends Component {
       data.scheduleDate,
     )
       .then(() => {
-        this.setState({ isPostSending: false });
+        this.setState({
+          isPostSending: false,
+        });
         dispatch(
           toastNotification(
             intl.formatMessage({
@@ -527,7 +572,14 @@ class EditorContainer extends Component {
             }),
           ),
         );
-        setDraftPost({ title: '', body: '', tags: '' }, currentAccount.name);
+        setDraftPost(
+          {
+            title: '',
+            body: '',
+            tags: '',
+          },
+          currentAccount.name,
+        );
         setTimeout(() => {
           navigation.navigate({
             routeName: ROUTES.SCREENS.DRAFTS,
@@ -536,7 +588,9 @@ class EditorContainer extends Component {
         }, 3000);
       })
       .catch(() => {
-        this.setState({ isPostSending: false });
+        this.setState({
+          isPostSending: false,
+        });
       });
   };
 
@@ -545,9 +599,18 @@ class EditorContainer extends Component {
       currentAccount: { name },
     } = this.props;
 
-    setDraftPost({ title: '', body: '', tags: '' }, name);
+    setDraftPost(
+      {
+        title: '',
+        body: '',
+        tags: '',
+      },
+      name,
+    );
 
-    this.setState({ uploadedImage: null });
+    this.setState({
+      uploadedImage: null,
+    });
   };
 
   // Component Life Cycle Functions
@@ -578,12 +641,16 @@ class EditorContainer extends Component {
 
       if (navigationParams.post) {
         ({ post } = navigationParams);
-        this.setState({ post });
+        this.setState({
+          post,
+        });
       }
 
       if (navigationParams.isReply) {
         ({ isReply } = navigationParams);
-        this.setState({ isReply });
+        this.setState({
+          isReply,
+        });
       }
 
       if (navigationParams.isEdit) {
@@ -602,7 +669,9 @@ class EditorContainer extends Component {
         this._handleRoutingAction(navigationParams.action);
       }
     } else {
-      this.setState({ autoFocusText: true });
+      this.setState({
+        autoFocusText: true,
+      });
     }
 
     if (!isEdit && !_draft) {

@@ -7,6 +7,7 @@ import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
 import axios from 'axios';
+import { getInputRangeFromIndexes } from 'react-native-snap-carousel';
 import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
 import { userActivity } from '../esteem/ePoint';
@@ -106,6 +107,7 @@ export const fetchGlobalProps = async () => {
 export const getAccount = (user) =>
   new Promise((resolve, reject) => {
     try {
+      console.log('user', user);
       const account = client.database.getAccounts([user]);
       resolve(account);
     } catch (error) {
@@ -132,6 +134,8 @@ export const getState = async (path) => {
  */
 export const getUser = async (user) => {
   try {
+    console.log('user1', user);
+
     const account = await client.database.getAccounts([user]);
     const _account = {
       ...account[0],
@@ -174,9 +178,11 @@ export const getUser = async (user) => {
       get(globalProperties, 'total_vesting_fund_steem'),
     );
 
-    if (has(_account, 'json_metadata')) {
+    if (has(_account, 'posting_json_metadata') || has(_account, 'json_metadata')) {
       try {
-        _account.about = JSON.parse(get(_account, 'json_metadata'));
+        _account.about =
+          JSON.parse(get(_account, 'posting_json_metadata')) ||
+          JSON.parse(get(_account, 'json_metadata'));
       } catch (e) {
         //alert(e);
         _account.about = {};
@@ -194,28 +200,41 @@ export const getUser = async (user) => {
 
 const cache = {};
 const patt = /hive-\d\w+/g;
-export const getCommunity = async (tag) =>
+export const getCommunity = async (tag, observer = '') =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const community = await client.call('bridge', 'get_community', {
+        name: tag,
+        observer: observer,
+      });
+      if (community) {
+        resolve(community);
+      } else {
+        resolve({});
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+export const getCommunityTitle = async (tag) =>
   new Promise(async (resolve, reject) => {
     if (cache[tag] !== undefined) {
       resolve(cache[tag]);
       return;
     }
-    console.log(tag);
-    if (tag.match(patt).length > 0) {
+    const mm = tag.match(patt);
+    if (mm && mm.length > 0) {
       try {
-        console.log('m', tag);
         const community = await client.call('bridge', 'get_community', {
           name: tag,
           observer: '',
         });
-        console.log(community);
         if (community) {
-          console.log('parsed tag');
           const { title } = community;
           cache[tag] = title;
           resolve(title);
         } else {
-          console.log('plain tag');
           resolve(tag);
         }
       } catch (error) {
@@ -1376,7 +1395,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
 
 export const profileUpdate = async (params, pin, currentAccount) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
+  const key = getAnyPrivateKey(get(currentAccount, 'local'), digitPinCode);
 
   if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
@@ -1387,10 +1406,10 @@ export const profileUpdate = async (params, pin, currentAccount) => {
     const _params = {
       account: get(currentAccount, 'name'),
       memo_key: get(currentAccount, 'memo_key'),
-      json_metadata: jsonStringify(params),
+      posting_json_metadata: jsonStringify(params),
     };
 
-    const opArray = [['account_update', _params]];
+    const opArray = [['account_update2', _params]];
 
     return api
       .broadcast(opArray)
@@ -1401,11 +1420,11 @@ export const profileUpdate = async (params, pin, currentAccount) => {
   if (key) {
     const opArray = [
       [
-        'account_update',
+        'account_update2',
         {
           account: get(currentAccount, 'name'),
           memo_key: get(currentAccount, 'memo_key'),
-          json_metadata: jsonStringify({
+          posting_json_metadata: jsonStringify({
             profile: params,
           }),
         },

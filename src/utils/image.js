@@ -85,7 +85,7 @@ export const getResizedImage = (url, size = 640) => {
     return `${url.replace('img.esteem.app/', `img.esteem.app/${size}/`)}`;
   }
   */
-  return `https://steemitimages.com/${size}x0/${url}`;
+  return `https://images.hive.blog/${size}x0/${url}`;
 };
 
 export const getResizedAvatar = (author, sizeString = 'large') => {
