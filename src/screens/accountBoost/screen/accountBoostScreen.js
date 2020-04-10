@@ -16,8 +16,8 @@ import globalStyles from '../../../globalStyles';
 import styles from './accountBoostStyles';
 
 const ITEM_SKUS = Platform.select({
-  ios: ['999boost'],
-  android: ['999boost'],
+  ios: ['999boosts'],
+  android: ['999boosts'],
 });
 
 const AccountBoost = () => {
