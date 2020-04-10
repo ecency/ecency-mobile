@@ -58,13 +58,13 @@ class ApplicationScreen extends Component {
                 navigate({
                   routeName: ROUTES.SCREENS.ACCOUNT_BOOST,
                 });
-                dispatch(setRcOffer(false));
+                dispatch(setRcOffer(true));
               },
             },
           ],
           { cancelable: false },
         );
-      }, 500);
+      }, 300);
     }
   }
 
