@@ -107,7 +107,6 @@ export const fetchGlobalProps = async () => {
 export const getAccount = (user) =>
   new Promise((resolve, reject) => {
     try {
-      console.log('user', user);
       const account = client.database.getAccounts([user]);
       resolve(account);
     } catch (error) {
@@ -134,8 +133,6 @@ export const getState = async (path) => {
  */
 export const getUser = async (user) => {
   try {
-    console.log('user1', user);
-
     const account = await client.database.getAccounts([user]);
     const _account = {
       ...account[0],
@@ -147,9 +144,11 @@ export const getUser = async (user) => {
     }
 
     const globalProperties = await client.database.getDynamicGlobalProperties();
-    const rcPower = await client.call('rc_api', 'find_rc_accounts', {
-      accounts: [user],
-    });
+    const rcPower =
+      user &&
+      (await client.call('rc_api', 'find_rc_accounts', {
+        accounts: [user],
+      }));
     try {
       unreadActivityCount = await getUnreadActivityCount({
         user,
@@ -262,34 +261,42 @@ export const getFollowers = (follower, startFollowing, followType = 'blog', limi
 
 export const getIsFollowing = (user, author) =>
   new Promise((resolve, reject) => {
-    client.database
-      .call('get_following', [author, user, 'blog', 1])
-      .then((result) => {
-        if (result[0] && result[0].follower === author && result[0].following === user) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      })
-      .catch((err) => {
-        reject(err);
-      });
+    if (author) {
+      client.database
+        .call('get_following', [author, user, 'blog', 1])
+        .then((result) => {
+          if (result[0] && result[0].follower === author && result[0].following === user) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    } else {
+      resolve(false);
+    }
   });
 
 export const getFollowSearch = (user, targetUser) =>
   new Promise((resolve, reject) => {
-    client.database
-      .call('get_following', [targetUser, user, 'blog', 1])
-      .then((result) => {
-        if (result[0] && result[0].follower === targetUser && result[0].following === user) {
-          resolve(result);
-        } else {
-          resolve(null);
-        }
-      })
-      .catch((err) => {
-        reject(err);
-      });
+    if (targetUser) {
+      client.database
+        .call('get_following', [targetUser, user, 'blog', 1])
+        .then((result) => {
+          if (result[0] && result[0].follower === targetUser && result[0].following === user) {
+            resolve(result);
+          } else {
+            resolve(null);
+          }
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    } else {
+      resolve(null);
+    }
   });
 
 export const getIsMuted = async (targetUsername, username) => {
