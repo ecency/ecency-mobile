@@ -446,7 +446,11 @@
   "boost": {
     "title": "Get Esteem Points",
     "buy": "ESTM 구매",
-    "next": "다음"
+    "next": "다음",
+    "account": {
+      "title": "Get Account Boost",
+      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+    }
   },
   "free_estm": {
     "title": "무료 ESTM",
