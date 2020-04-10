@@ -1,4 +1,4 @@
-import * as dsteem from '@esteemapp/dsteem';
+import * as dsteem from '@esteemapp/dhive';
 import sha256 from 'crypto-js/sha256';
 import Config from 'react-native-config';
 import get from 'lodash/get';

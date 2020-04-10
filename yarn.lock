@@ -1123,10 +1123,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@esteemapp/dsteem@^0.11.5":
-  version "0.11.5"
-  resolved "https://registry.yarnpkg.com/@esteemapp/dsteem/-/dsteem-0.11.5.tgz#d01e09db1d2dccfd6e82c1e577d1bef4c8e42439"
-  integrity sha512-hAU7R+KigkxnyxLMAFWgUmA3JxBpvvKLZcU3Nb07rkF7Tjd/1tWUpdlVamTGSznRy3gRMA1yMrn5S1c17jx8Aw==
+"@esteemapp/dhive@^0.11.6":
+  version "0.11.6"
+  resolved "https://registry.yarnpkg.com/@esteemapp/dhive/-/dhive-0.11.6.tgz#d8be50ac44ea67d9bc356b1d1c4f49de42e38c94"
+  integrity sha512-LBO8sWdQJKKrWKb+axLIiXXdk7vcSaPXYCGHwfB2hLEtEAjGam4Xv9fYRNA1QDXjpo3iFQcUitrro9kQ4cTsaw==
   dependencies:
     bs58 "^4.0.1"
     bytebuffer "^5.0.1"
@@ -4499,10 +4499,10 @@ hive-uri@^0.2.2:
   resolved "https://registry.yarnpkg.com/hive-uri/-/hive-uri-0.2.2.tgz#60d57a77a2c7a6394471f700e436f3f9822c737d"
   integrity sha512-95XH50GsJ+ZuWsLQaNcqYiZ6lmoVDawjG+BCgERqOkoy57b+OgHeNDPeYYY9qkNIi0ThcaYRi6RHVcLbI5EfBw==
 
-hivesigner@^3.1.4:
-  version "3.1.4"
-  resolved "https://registry.yarnpkg.com/hivesigner/-/hivesigner-3.1.4.tgz#20461dd7cf13c1da131b363872c8f9cb726aeee6"
-  integrity sha512-Mb2y1R/5a6+yvBSWC8+ju9NDb9SEZAETj6KNi94D+xoxwxrSMD1JDGCZx1QPqrIjCOSAGuBpMBHel1c+GCSpRg==
+hivesigner@^3.1.5:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/hivesigner/-/hivesigner-3.1.5.tgz#8226d0634e6a024602a97679dd20f6402edbc271"
+  integrity sha512-amg6YNUA6zZvbQp6y4L7l0aPClvMCuA3QMiinyhWMfM5WsvUQOQT+w88bwImHOQPhXMN35QnIcipbr1EdhC94w==
   dependencies:
     babel-runtime "^6.26.0"
     cross-fetch "^3.0.1"
