@@ -583,7 +583,6 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
           resolve(result);
         })
         .catch((err) => {
-          alert(jsonStringify(err) + jsonStringify(args) + privateKey);
           if (get(err, 'jse_info.code') === 4030100) {
             err.message = getDsteemDateErrorMessage(err);
           }
