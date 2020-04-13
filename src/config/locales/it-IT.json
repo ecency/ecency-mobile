@@ -15,17 +15,17 @@
     "vote": "Voti",
     "reblog": "Post condiviso",
     "login": "Accedi",
-    "incoming_transfer_title": "Trasferimenti in entrata",
-    "outgoing_transfer_title": "Trasferimenti in uscita",
+    "incoming_transfer_title": "Trasferimento in entrata",
+    "outgoing_transfer_title": "Trasferimento in uscita",
     "checkin_extra": "Bonus",
     "delegation": "Delegazione",
     "delegations": "Delegations",
     "delegation_title": "Compenso per la delegazione",
     "delegation_desc": "Earn ESTM everyday for delegation",
     "post_title": "Punti per il post",
-    "comment_title": "Punti per commento",
-    "vote_title": "Punti per voto",
-    "reblog_title": "Punti per il reblog",
+    "comment_title": "Punti per il commento",
+    "vote_title": "Punti per il voto",
+    "reblog_title": "Punti per la condivisione",
     "login_title": "Punti per il primo accesso",
     "checkin_title": "Punti per l'accesso",
     "referral": "Referral",
@@ -115,9 +115,9 @@
     "mention": "mentioned in",
     "follow": "ha iniziato a seguirti",
     "unfollow": "non ti segue più",
-    "ignore": "ti ha ignorato",
+    "ignore": "ti ha silenziato",
     "reblog": "reblogged",
-    "transfer": "transferred",
+    "transfer": "trasferiti",
     "spin": "Time to earn more ESTM",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
@@ -137,9 +137,9 @@
     "noactivity": "No recent activity"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "GIORNALIERO",
+    "weekly": "SETTIMANALE",
+    "monthly": "MENSILE"
   },
   "messages": {
     "comingsoon": "La feature per i messaggi sta per arrivare!"
@@ -168,10 +168,10 @@
     "steem_dollars": "Hive Dollars",
     "savings": "Risparmi",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
-      "website": "Website"
+      "display_name": "Nome che sarà visualizzato",
+      "about": "Info",
+      "location": "Luogo",
+      "website": "Sito Web"
     }
   },
   "settings": {
@@ -316,10 +316,10 @@
     "fetch_error": "Connection issue, please try again or write to support@esteem.app",
     "connection_fail": "Connessione fallita!",
     "connection_success": "Connessione riuscita!",
-    "checking": "Checking...",
+    "checking": "Verifica in corso...",
     "external_link": "Open in Browser",
-    "not_existing_post": "The post does not exist! Please check permlink and author.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!",
+    "not_existing_post": "Il post non esiste! Si prega di controllare il permlink e l'autore.",
+    "google_play_version": "Abbiamo notato che il tuo dispositivo ha una vecchia versione di Google Play. Per favore aggiorna Google Play Services e riprova!",
     "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
   },
   "post": {
@@ -400,7 +400,7 @@
     "comments": "Commenti"
   },
   "comment_filter": {
-    "trending": "TOP",
+    "trending": "MIGLIOR",
     "reputation": "REPUTATION",
     "votes": "VOTE",
     "age": "AGE",
@@ -427,13 +427,13 @@
     "powerUp": "Power Up",
     "withdraw_to_saving": "Versa nei risparmi",
     "steemconnect_title": "Hivesigner Transfer",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
+    "estimated_weekly": "Stima Settimanale",
+    "destination_accounts": "Account di destinazione",
+    "stop_information": "Sei sicuro di voler uscire?",
+    "percent": "%",
     "auto_vests": "Auto Vests",
-    "save": "SAVE",
-    "percent_information": "Percent info",
+    "save": "SALVA",
+    "percent_information": "Informazioni percentuale",
     "next": "PROSSIMO",
     "delegate": "Delega",
     "power_down": "Power Down",
@@ -453,11 +453,11 @@
     }
   },
   "free_estm": {
-    "title": "Free ESTM",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "title": "ESTM gratuito",
+    "button": "GIRA e VINCI",
+    "get_spin": "5 GIRI",
+    "spin_right": "Giro a rimasto",
+    "timer_text": "Prossimo giro gratuito"
   },
   "promote": {
     "title": "Promuovi",
@@ -480,9 +480,9 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "Orario del tuo dispositivo;",
+      "current_time": "Ora corrente;",
+      "information": "Abbiamo notato che il tuo dispositivo ha la data o l'orario errati. Correggi data e ora o imposta la sincronizzazione automatica e riprova."
     }
   },
   "comments": {
