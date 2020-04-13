@@ -45,7 +45,7 @@
     "dropdown_transfer": "Dona",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Potenzia",
-    "from": "From",
+    "from": "Da",
     "to": "A",
     "estimated_value_desc": "According to purchase value",
     "estimated_value": "Estimated value",
@@ -196,7 +196,7 @@
     "nsfw_content": "NSFW",
     "send_feedback": "Invia recensione",
     "send": "Invia",
-    "default_footer": "Default Footer",
+    "default_footer": "Firma di chiusura",
     "nsfw": {
       "always_show": "Mostra sempre",
       "always_hide": "Nascondi sempre",
@@ -260,8 +260,8 @@
     "reply_placeholder": "Add your reply...",
     "publish": "Pubblica",
     "reply": "Rispondi",
-    "open_gallery": "Open Gallery",
-    "capture_photo": "Capture a photo",
+    "open_gallery": "Apri Galleria",
+    "capture_photo": "Scatta una foto",
     "limited_tags": "Only 10 tags allowed, remove some",
     "limited_length": "Maximum length of each tag should be 24",
     "limited_dash": "Use one dash in each tag",
@@ -279,14 +279,14 @@
   },
   "alert": {
     "success": "Successo!",
-    "successful": "Successful",
+    "successful": "Completato",
     "allRead": "Segna tutte le notifiche come lette",
     "claim_reward_balance_ok": "Saldo Ricompensa Richiesto",
     "fail": "Non riuscito!",
     "move": "Move",
-    "move_question": "Are you sure to move to drafts?",
-    "success_shared": "Your post successfully shared",
-    "success_moved": "Moved to draft",
+    "move_question": "Sei sicuro di voler salvare il post nelle bozze?",
+    "success_shared": "Il tuo post è stato pubblicato con successo",
+    "success_moved": "Salvato in bozza",
     "permission_denied": "Permesso negato",
     "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
     "key_warning": "Check private key permission!",
@@ -301,21 +301,21 @@
     "warning": "Attenzione",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear_user_alert": "Are you sure you want to clear all user data?",
+    "clear_alert": "Sei sicuro di voler cancellare?",
+    "clear_user_alert": "Sei sicuro di voler cancellare tutti i dati utente?",
     "clear": "Clear",
     "cancel": "Cancella",
     "delete": "Elimina",
-    "copied": "Copied!",
-    "no_internet": "No connection!",
-    "confirm": "Confirm",
-    "removed": "Removed",
-    "same_user": "This user already added to list",
-    "unknow_error": "An error occurred",
-    "error": "Error",
+    "copied": "Copiato!",
+    "no_internet": "Nessuna connessione!",
+    "confirm": "Conferma",
+    "removed": "Rimosso",
+    "same_user": "Questo utente è già stato aggiunto alla lista",
+    "unknow_error": "Si è verificato un errore",
+    "error": "Errore",
     "fetch_error": "Connection issue, please try again or write to support@esteem.app",
-    "connection_fail": "Connection Failed!",
-    "connection_success": "Successfully connected!",
+    "connection_fail": "Connessione fallita!",
+    "connection_success": "Connessione riuscita!",
     "checking": "Checking...",
     "external_link": "Open in Browser",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
@@ -323,11 +323,11 @@
     "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
-    "removed_hint": "The post was removed by",
+    "reblog_alert": "Sei sicuro di voler condividere?",
+    "removed_hint": "Il post è stato rimosso da",
     "copy_link": "Copy link",
-    "reblogged": "reblogged by",
-    "sponsored": "SPONSORED",
+    "reblogged": "condiviso da",
+    "sponsored": "SPONSORIZZATO",
     "open_thread": "Open thread",
     "image": "Image",
     "link": "Link",
@@ -344,7 +344,7 @@
     "deleted": "Bozza eliminata"
   },
   "schedules": {
-    "title": "Schedules",
+    "title": "Pianificazioni",
     "empty_list": "Non c'è niente qui",
     "deleted": "Pianificazione post eliminata",
     "move": "Sposta in bozze",
@@ -356,8 +356,8 @@
     "empty_list": "Non c'è niente qui",
     "deleted": "Segnalibro rimosso",
     "search": "Cerca tra i segnalibri",
-    "added": "Added to bookmarks",
-    "add": "Add to bookmarks"
+    "added": "Aggiunto ai segnalibri",
+    "add": "Aggiungi ai segnalibri"
   },
   "favorites": {
     "title": "Preferiti",
@@ -387,17 +387,17 @@
     "reblog": "condividi",
     "reply": "rispondi",
     "share": "condividi",
-    "bookmarks": "add to bookmarks",
-    "promote": "promote",
-    "boost": "boost"
+    "bookmarks": "aggiungi ai preferiti",
+    "promote": "promuovi",
+    "boost": "potenzia"
   },
   "deep_link": {
     "no_existing_user": "Utente non esistente",
     "no_existing_post": "Post non esistente"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Articoli",
+    "comments": "Commenti"
   },
   "comment_filter": {
     "trending": "TOP",
@@ -408,7 +408,7 @@
     "time": "TIME"
   },
   "transfer": {
-    "from": "From",
+    "from": "Da",
     "to": "A",
     "amount_information": "Drag the slider to adjust the amount",
     "amount": "Amount",
