@@ -195,20 +195,20 @@
     "reset": "Resetta",
     "nsfw_content": "NSFW",
     "send_feedback": "Invia recensione",
-    "send": "Send",
+    "send": "Invia",
     "default_footer": "Default Footer",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Mostra sempre",
+      "always_hide": "Nascondi sempre",
+      "always_warn": "Avverti sempre"
     },
     "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open",
-    "server_fail": "Server not available"
+    "feedback_fail": "Impossibile aprire il client email",
+    "server_fail": "Server non disponibile"
   },
   "voters": {
     "voters_info": "Info Votanti",
-    "no_user": "User is not found."
+    "no_user": "Utente non trovato."
   },
   "login": {
     "signin": "Accedi",
