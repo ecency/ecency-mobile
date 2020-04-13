@@ -190,7 +190,7 @@
       "reblog": "Post condiviso",
       "transfers": "Trasferimenti"
     },
-    "pincode": "Pincode",
+    "pincode": "Codice PIN",
     "reset_pin": "Resetta il codice Pin",
     "reset": "Reimposta",
     "nsfw_content": "NSFW",
@@ -235,7 +235,7 @@
     "bookmarks": "Segnalibri",
     "favorites": "Preferiti",
     "drafts": "Bozze",
-    "schedules": "Programmazioni",
+    "schedules": "Pianificazioni",
     "gallery": "Galleria",
     "settings": "Impostazioni",
     "add_account": "Aggiungi Account",
