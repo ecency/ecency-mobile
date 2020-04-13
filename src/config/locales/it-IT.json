@@ -202,7 +202,7 @@
       "always_hide": "Nascondi sempre",
       "always_warn": "Avverti sempre"
     },
-    "feedback_success": "Email successfully open",
+    "feedback_success": "Email inviata con successo",
     "feedback_fail": "Impossibile aprire il client email",
     "server_fail": "Server non disponibile"
   },
@@ -283,7 +283,7 @@
     "allRead": "Segna tutte le notifiche come lette",
     "claim_reward_balance_ok": "Saldo Ricompensa Richiesto",
     "fail": "Non riuscito!",
-    "move": "Move",
+    "move": "Sposta",
     "move_question": "Sei sicuro di voler salvare il post nelle bozze?",
     "success_shared": "Il tuo post è stato pubblicato con successo",
     "success_moved": "Salvato in bozza",
@@ -303,7 +303,7 @@
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "Sei sicuro di voler cancellare?",
     "clear_user_alert": "Sei sicuro di voler cancellare tutti i dati utente?",
-    "clear": "Clear",
+    "clear": "Cancellato",
     "cancel": "Cancella",
     "delete": "Elimina",
     "copied": "Copiato!",
@@ -405,7 +405,7 @@
     "votes": "VOTE",
     "age": "AGE",
     "top": "TOP",
-    "time": "TIME"
+    "time": "ORA"
   },
   "transfer": {
     "from": "Da",
@@ -417,7 +417,7 @@
     "amount_desc": "Saldo",
     "memo_desc": "Questo memo è pubblico",
     "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
-    "to_placeholder": "Username",
+    "to_placeholder": "Nome Utente",
     "memo_placeholder": "Inserisci qui le tue note",
     "transfer_token": "Trasferisci",
     "purchase_estm": "Purchase ESTM",
@@ -425,7 +425,7 @@
     "points": "Regala ESTM a qualcuno",
     "transfer_to_saving": "Trasferisci nei risparmi",
     "powerUp": "Power Up",
-    "withdraw_to_saving": "Withdraw To Saving",
+    "withdraw_to_saving": "Versa nei risparmi",
     "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Estimated Weekly",
     "destination_accounts": "Destination Accounts",
@@ -468,15 +468,15 @@
     "information": "Sei sicuro di voler promuovere il post?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Potenzia"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "rewards": "Compensi",
+    "percent": "PERCENTUALE",
+    "time": "ORA"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "Info condivisione"
   },
   "dsteem": {
     "date_error": {
