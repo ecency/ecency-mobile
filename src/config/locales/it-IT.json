@@ -64,12 +64,12 @@
     "transfer_to_saving": "Versa nei risparmi",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Preleva risparmi",
-    "steemconnect_title": "Hivesigner Transfer",
+    "steemconnect_title": "Trasferimento su Hivesigner",
     "next": "PROSSIMO",
     "delegate": "Delega",
     "power_down": "Power Down",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
+    "withdraw_steem": "Ritira HIVE",
+    "withdraw_sbd": "Ritira HBD",
     "transfer_to_savings": "Versa nei risparmi",
     "convert": "Converti",
     "escrow_transfer": "Escrow Transfer",
@@ -86,26 +86,26 @@
       "buy": "OTTIENI ESTM"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "Risparmi HIVE"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "Risparmi HBD"
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "OTTIENI HIVE"
     },
     "sbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "OTTIENI HBD"
     },
     "steem_power": {
       "title": "HIVE POWER"
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "Ottieni BTC",
+      "address": "RICEVI"
     }
   },
   "notification": {
@@ -118,9 +118,9 @@
     "ignore": "ti ha silenziato",
     "reblog": "condiviso",
     "transfer": "trasferiti",
-    "spin": "Time to earn more ESTM",
-    "inactive": "Be active! Write a post, continue earning",
-    "referral": "joined with your referral, welcome them",
+    "spin": "È Tempo di guadagnare più ESTM",
+    "inactive": "Sii attivo! Scrivi un post, continua a guadagnare",
+    "referral": "si è unito con il tuo referral, benvenuto",
     "notification": "Notifiche",
     "leaderboard": "Classifica",
     "epoint": "Punti",
@@ -142,11 +142,11 @@
     "monthly": "MENSILE"
   },
   "messages": {
-    "comingsoon": "La feature per i messaggi sta per arrivare!"
+    "comingsoon": "La funzione dei messaggi è in arrivo!"
   },
   "profile": {
     "following": "Seguito",
-    "follower": "Seguace",
+    "follower": "Follower",
     "post": "Post",
     "details": "Dettagli Del Profilo",
     "comments": "Commenti",
@@ -213,13 +213,13 @@
   "login": {
     "signin": "Accedi",
     "signup": "ISCRIVITI ORA",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "Per ottenere tutti i vantaggi dall' utilizzo di eSteem",
     "username": "Nome Utente",
     "password": "Password o WIF",
     "description": "Le tue credenziali sono memorizzate localmente sul dispositivo. Se fai il Logout le credenziali verranno rimosse!",
     "cancel": "cancella",
     "login": "LOGIN",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_description": "Se non vuoi mantenere la tua password crittografata e salvata sul tuo dispositivo, puoi usare Hivesigner.",
     "steemconnect_fee_description": "info"
   },
   "home": {
@@ -272,8 +272,8 @@
     "limited_lastchar": "Il tag deve terminare con una lettera o un numero"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
+    "enter_text": "Inserisci il PIN per sbloccare",
+    "set_new": "Imposta un nuovo PIN",
     "write_again": "Scrivi di nuovo",
     "forgot_text": "Oh, l'ho dimenticato..."
   },
@@ -288,7 +288,7 @@
     "success_shared": "Il tuo post è stato pubblicato con successo",
     "success_moved": "Salvato in bozza",
     "permission_denied": "Permesso negato",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Per favore, vai alle impostazioni del tuo dispositivo e modifica le autorizzazioni di eSteem app.",
     "key_warning": "Controlla i permessi della tua chiave privata!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Lo hai già condiviso!",
@@ -299,8 +299,8 @@
     "success_unmute": "Riattivazione riuscita!",
     "success_unfollow": "Non segui più!",
     "warning": "Attenzione",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
+    "invalid_pincode": "Codice PIN non valido, si prega di verificare e riprovare.",
+    "remove_alert": "Sei sicuro di volerlo rimuovere?",
     "clear_alert": "Sei sicuro di voler cancellare?",
     "clear_user_alert": "Sei sicuro di voler cancellare tutti i dati utente?",
     "clear": "Cancellato",
@@ -320,7 +320,7 @@
     "external_link": "Apri nel Browser",
     "not_existing_post": "Il post non esiste! Si prega di controllare il permlink e l'autore.",
     "google_play_version": "Abbiamo notato che il tuo dispositivo ha una vecchia versione di Google Play. Per favore aggiorna Google Play Services e riprova!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
+    "rc_down": "Non hai abbastanza crediti di risorse per eseguire un'azione! \n\nPotenzia il tuo account per continuare a godere di questa esperienza. Vuoi farlo ora?"
   },
   "post": {
     "reblog_alert": "Sei sicuro di voler condividere?",
@@ -332,10 +332,10 @@
     "image": "Immagine",
     "link": "Collegamento",
     "gallery_mode": "Modalità galleria",
-    "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
+    "save_to_local": "Scarica sul dispositivo",
+    "image_saved": "Immagine salvata in Galleria Foto",
     "image_saved_error": "Errore nel salvataggio dell'immagine",
-    "wrong_link": "Wrong link"
+    "wrong_link": "Collegamento errato"
   },
   "drafts": {
     "title": "Bozze",
@@ -366,7 +366,7 @@
     "search": "Cerca tra i preferiti"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_pin": "Codice PIN non valido, si prega di controllare e riprovare",
     "invalid_username": "Username invalido, per favore controlla e riprova",
     "already_logged": "Se già connesso, per favore aggiungi un altro account",
     "invalid_credentials": "Credenziali invalide, per favore controlla e riprova",
@@ -416,12 +416,12 @@
     "information": "Sei sicuro di voler trasferire i fondi?",
     "amount_desc": "Saldo",
     "memo_desc": "Questo memo è pubblico",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "La conversione richiede 3,5 giorni e NON è consigliata se il prezzo di HBD è superiore a $1",
     "to_placeholder": "Nome Utente",
     "memo_placeholder": "Inserisci qui le tue note",
     "transfer_token": "Trasferisci",
-    "purchase_estm": "Purchase ESTM",
-    "convert": "Convert HBD to HIVE",
+    "purchase_estm": "Acquista ESTM",
+    "convert": "Converti HBD in HIVE",
     "points": "Regala ESTM a qualcuno",
     "transfer_to_saving": "Trasferisci nei risparmi",
     "powerUp": "Power Up",
@@ -441,7 +441,7 @@
     "withdraw_sbd": "Ritira HIVE Dollar",
     "incoming_funds": "Fondi in arrivo",
     "stop": "Interrompi",
-    "address_view": "View address"
+    "address_view": "Visualizza indirizzo"
   },
   "boost": {
     "title": "Ottieni punti eSteem",
