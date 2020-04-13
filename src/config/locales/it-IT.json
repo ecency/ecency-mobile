@@ -29,7 +29,7 @@
     "login_title": "Punti per il primo accesso",
     "checkin_title": "Punti per l'accesso",
     "referral": "Referral",
-    "referral_title": "Referral rewards",
+    "referral_title": "Ricompensa per la segnalazione",
     "referral_desc": "Invita amici e guadagna ESTM",
     "checkin_extra_title": "Bonus utilizzo",
     "no_activity": "Nessuna attività recente",
@@ -78,9 +78,9 @@
     "escrow_approve": "Escrow Approve",
     "cancel_transfer_from_savings": "Annulla trasferimento dai risparmi",
     "delegate_vesting_shares": "Delegazione",
-    "fill_convert_request": "Convert Executed",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_convert_request": "Conversione eseguita",
+    "fill_transfer_from_savings": "Accantonamento nei risparmi eseguito",
+    "fill_vesting_withdraw": "PowerDown eseguito",
     "estm": {
       "title": "ESTM",
       "buy": "OTTIENI ESTM"
@@ -134,7 +134,7 @@
     "replies": "Rispondi",
     "mentions": "Menzioni",
     "reblogs": "Condivisioni",
-    "noactivity": "No recent activity"
+    "noactivity": "Nessuna attività recente"
   },
   "leaderboard": {
     "daily": "GIORNALIERO",
@@ -212,7 +212,7 @@
   },
   "login": {
     "signin": "Accedi",
-    "signup": "JOIN NOW",
+    "signup": "ISCRIVITI ORA",
     "signin_title": "To get all the benefits of using Esteem",
     "username": "Nome Utente",
     "password": "Password o WIF",
@@ -255,21 +255,21 @@
   },
   "editor": {
     "title": "Titolo",
-    "tags": "Tags (separate with space)",
-    "default_placeholder": "Tell us something...",
-    "reply_placeholder": "Add your reply...",
+    "tags": "Tag (separati dallo spazio)",
+    "default_placeholder": "Dicci qualcosa...",
+    "reply_placeholder": "Aggiungi la tua risposta...",
     "publish": "Pubblica",
     "reply": "Rispondi",
     "open_gallery": "Apri Galleria",
     "capture_photo": "Scatta una foto",
-    "limited_tags": "Only 10 tags allowed, remove some",
-    "limited_length": "Maximum length of each tag should be 24",
-    "limited_dash": "Use one dash in each tag",
-    "limited_space": "Use space to separate tags",
-    "limited_lowercase": "Only use lower letters in tag",
-    "limited_characters": "Use only allowed characters in tag",
-    "limited_firstchar": "Tag must start with a letter",
-    "limited_lastchar": "Tag must end with letter or number"
+    "limited_tags": "Sono consentiti 10 tag, rimuovine alcuni",
+    "limited_length": "La lunghezza massima di ogni tag deve essere 24",
+    "limited_dash": "Usa un trattino per ogni tag",
+    "limited_space": "Usa uno spazio per separare i tag",
+    "limited_lowercase": "Utilizza solo lettere minuscole nel tag",
+    "limited_characters": "Utilizza solo i caratteri consentiti nel tag",
+    "limited_firstchar": "Il tag deve iniziare con una lettera",
+    "limited_lastchar": "Il tag deve terminare con una lettera o un numero"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -289,15 +289,15 @@
     "success_moved": "Salvato in bozza",
     "permission_denied": "Permesso negato",
     "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
-    "key_warning": "Check private key permission!",
+    "key_warning": "Controlla i permessi della tua chiave privata!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Lo hai già condiviso!",
-    "success_favorite": "Favorite added!",
-    "success_unfavorite": "Favorite removed!",
-    "success_follow": "Follow success!",
-    "success_mute": "Mute success!",
-    "success_unmute": "Unmute success!",
-    "success_unfollow": "Unfollow success!",
+    "success_favorite": "Preferito aggiunto!",
+    "success_unfavorite": "Preferito rimosso!",
+    "success_follow": "Seguito con successo!",
+    "success_mute": "Silenziato con successo!",
+    "success_unmute": "Riattivazione riuscita!",
+    "success_unfollow": "Non segui più!",
     "warning": "Attenzione",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
@@ -313,11 +313,11 @@
     "same_user": "Questo utente è già stato aggiunto alla lista",
     "unknow_error": "Si è verificato un errore",
     "error": "Errore",
-    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
+    "fetch_error": "Problema di connessione, riprova o scrivi a support@esteem.app",
     "connection_fail": "Connessione fallita!",
     "connection_success": "Connessione riuscita!",
     "checking": "Verifica in corso...",
-    "external_link": "Open in Browser",
+    "external_link": "Apri nel Browser",
     "not_existing_post": "Il post non esiste! Si prega di controllare il permlink e l'autore.",
     "google_play_version": "Abbiamo notato che il tuo dispositivo ha una vecchia versione di Google Play. Per favore aggiorna Google Play Services e riprova!",
     "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
@@ -325,13 +325,13 @@
   "post": {
     "reblog_alert": "Sei sicuro di voler condividere?",
     "removed_hint": "Il post è stato rimosso da",
-    "copy_link": "Copy link",
+    "copy_link": "Copia il collegamento",
     "reblogged": "condiviso da",
     "sponsored": "SPONSORIZZATO",
-    "open_thread": "Open thread",
-    "image": "Image",
-    "link": "Link",
-    "gallery_mode": "Gallery mode",
+    "open_thread": "Apri una discussione",
+    "image": "Immagine",
+    "link": "Collegamento",
+    "gallery_mode": "Modalità galleria",
     "save_to_local": "Download to device",
     "image_saved": "Image saved to Photo Gallery",
     "image_saved_error": "Errore nel salvataggio dell'immagine",
@@ -370,7 +370,7 @@
     "invalid_username": "Username invalido, per favore controlla e riprova",
     "already_logged": "Se già connesso, per favore aggiungi un altro account",
     "invalid_credentials": "Credenziali invalide, per favore controlla e riprova",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Errore sconosciuto, per favore contattaci a support@esteem.app"
   },
   "payout": {
     "potential_payout": "Ricompensa Potenziale",
@@ -426,7 +426,7 @@
     "transfer_to_saving": "Trasferisci nei risparmi",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Versa nei risparmi",
-    "steemconnect_title": "Hivesigner Transfer",
+    "steemconnect_title": "Trasferimento su Hivesigner",
     "estimated_weekly": "Stima Settimanale",
     "destination_accounts": "Account di destinazione",
     "stop_information": "Sei sicuro di voler uscire?",
@@ -437,19 +437,19 @@
     "next": "PROSSIMO",
     "delegate": "Delega",
     "power_down": "Power Down",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
+    "withdraw_steem": "Ritira HIVE",
+    "withdraw_sbd": "Ritira HIVE Dollar",
     "incoming_funds": "Fondi in arrivo",
     "stop": "Interrompi",
     "address_view": "View address"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Ottieni punti eSteem",
     "buy": "OTTIENI ESTM",
     "next": "PROSSIMO",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "title": "Ottieni un Boost per il tuo Account",
+      "desc": "La delegazione per 30 giorni accrescerà il peso dei tuoi voti e delle tue attività sociali e ti darà più azioni con più crediti di risorse."
     }
   },
   "free_estm": {
@@ -487,8 +487,8 @@
   },
   "comments": {
     "title": "Commenti",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "Mostra Commento",
+    "read_more": "Carica altri commenti",
+    "more_replies": "altre risposte"
   }
 }
