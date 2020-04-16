@@ -320,7 +320,7 @@
     "external_link": "Відкрити у браузері",
     "not_existing_post": "Допису не існує! Будь ласка, перевірте першоджерело та автора.",
     "google_play_version": "Ми помітили, що на вашому пристрої є стара версія Google Play. Оновіть служби Google Play і повторіть спробу!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
+    "rc_down": "Не вистачає ресурс кредитів для виконання дії! \n\nПідсильте свій акаунт, щоб і надалі отримувати задоволення від використання. Бажаєте підсилити свій акаунт зараз?"
   },
   "post": {
     "reblog_alert": "Ви впевнені, що хочете рестімнути?",
@@ -416,7 +416,7 @@
     "information": "Ви впевнені, що хочете перерахувати кошти?",
     "amount_desc": "Баланс",
     "memo_desc": "Ця примітка є публічною",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "Конвертація займає 3,5 дні та НЕ рекомендується при вартості HBD вище $1",
     "to_placeholder": "Ім'я користувача",
     "memo_placeholder": "Введіть сюди свої примітки",
     "transfer_token": "Переказ",
@@ -437,18 +437,18 @@
     "next": "НАСТУПНА",
     "delegate": "Делегувати",
     "power_down": "Зменшення Сили голосу",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
+    "withdraw_steem": "Вивести HIVE",
+    "withdraw_sbd": "Вивести HIVE долар",
     "incoming_funds": "Надходження коштів",
     "stop": "Зупинити",
     "address_view": "Переглянути адресу"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Отримати eSteem бали",
     "buy": "Отримати ESTM",
     "next": "НАСТУПНА",
     "account": {
-      "title": "Get Account Boost",
+      "title": "Отримати підсилення акаунту",
       "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
     }
   },
