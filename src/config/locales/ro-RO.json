@@ -320,7 +320,10 @@
     "external_link": "Deschidere în browser",
     "not_existing_post": "Postarea nu există! Te rugăm să verifici permlink și autorul.",
     "google_play_version": "Am observat că dispozitivul tău are versiunea veche Google Play. Actualiză serviciile Google Play și încearcă din nou!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
+    "payloadTooLarge": "File size too big, please resize or upload smaller image",
+    "qoutaExceeded": "Upload quota exceeded",
+    "invalidImage": "Invalid image, try different file"
   },
   "post": {
     "reblog_alert": "Ești sigur că vrei să redistribui?",
