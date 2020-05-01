@@ -10,7 +10,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { Buffer } from 'buffer';
 import { uploadImage, addDraft, updateDraft, schedule } from '../../../providers/esteem/esteem';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
-import { postContent, getPurePost, grantPostingPermission } from '../../../providers/steem/dsteem';
+import {
+  postContent,
+  getPurePost,
+  grantPostingPermission,
+  signImage,
+} from '../../../providers/steem/dsteem';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
 
 // Constants
@@ -130,12 +135,15 @@ class EditorContainer extends Component {
     // const data = new Buffer(media.data, 'base64');
   };
 
-  _uploadImage = (media) => {
-    const { intl } = this.props;
+  _uploadImage = async (media) => {
+    const { intl, currentAccount, pinCode } = this.props;
 
-    uploadImage(media)
+    let sign = await signImage(media, currentAccount, pinCode);
+
+    uploadImage(media, currentAccount.name, sign)
       .then((res) => {
         if (res.data && res.data.url) {
+          res.data.hash = res.data.url.split('/').pop();
           this.setState({
             uploadedImage: res.data,
             isUploading: false,
@@ -143,7 +151,35 @@ class EditorContainer extends Component {
         }
       })
       .catch((error) => {
-        if (error) {
+        console.log(error, error.message);
+        if (error.toString().includes('code 413')) {
+          Alert.alert(
+            intl.formatMessage({
+              id: 'alert.fail',
+            }),
+            intl.formatMessage({
+              id: 'alert.payloadTooLarge',
+            }),
+          );
+        } else if (error.toString().includes('code 429')) {
+          Alert.alert(
+            intl.formatMessage({
+              id: 'alert.fail',
+            }),
+            intl.formatMessage({
+              id: 'alert.quotaExceeded',
+            }),
+          );
+        } else if (error.toString().includes('code 400')) {
+          Alert.alert(
+            intl.formatMessage({
+              id: 'alert.fail',
+            }),
+            intl.formatMessage({
+              id: 'alert.invalidImage',
+            }),
+          );
+        } else {
           Alert.alert(
             intl.formatMessage({
               id: 'alert.fail',

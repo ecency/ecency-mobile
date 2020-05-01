@@ -8,7 +8,7 @@ import { withNavigation } from 'react-navigation';
 
 import { uploadImage } from '../providers/esteem/esteem';
 
-import { profileUpdate } from '../providers/steem/dsteem';
+import { profileUpdate, signImage } from '../providers/steem/dsteem';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
 
 // import ROUTES from '../constants/routeNames';
@@ -67,11 +67,14 @@ class ProfileEditContainer extends Component {
     this.setState({ [item]: val });
   };
 
-  _uploadImage = (media, action) => {
-    const { intl } = this.props;
+  _uploadImage = async (media, action) => {
+    const { intl, currentAccount, pinCode } = this.props;
 
     this.setState({ isLoading: true });
-    uploadImage(media)
+
+    let sign = await signImage(media, currentAccount, pinCode);
+
+    uploadImage(media, currentAccount.name, sign)
       .then((res) => {
         if (res.data && res.data.url) {
           this.setState({ [action]: res.data.url, isLoading: false });
@@ -157,7 +160,6 @@ class ProfileEditContainer extends Component {
       about,
       location,
     };
-
     await profileUpdate(params, pinCode, currentAccount)
       .then(async () => {
         const _currentAccount = { ...currentAccount, display_name: name, avatar: avatarUrl };
