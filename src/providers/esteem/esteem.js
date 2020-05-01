@@ -1,7 +1,7 @@
 import axios from 'axios';
 import api from '../../config/api';
 import searchApi from '../../config/search';
-import imageApi from '../../config/imageApi';
+import { upload } from '../../config/imageApi';
 import serverList from '../../config/serverListApi';
 import { jsonStringify } from '../../utils/jsonUtils';
 import bugsnag from '../../config/bugsnag';
@@ -334,18 +334,18 @@ export const addMyImage = (user, url) =>
     image_url: url,
   });
 
-export const uploadImage = (media) => {
+export const uploadImage = (media, username, sign) => {
   const file = {
     uri: media.path,
     type: media.mime,
-    name: media.filename || `IMG_${Math.random()}.JPG`,
+    name: media.filename || `img_${Math.random()}.jpg`,
     size: media.size,
   };
 
   const fData = new FormData();
   fData.append('file', file);
 
-  return imageApi.post('', fData);
+  return upload(fData, username, sign);
 };
 
 // New image service

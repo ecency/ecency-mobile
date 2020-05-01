@@ -2,7 +2,7 @@
 // import '../../../shim';
 // import * as bitcoin from 'bitcoinjs-lib';
 
-import { Client, PrivateKey } from '@hivechain/dhive';
+import { Client, PrivateKey, cryptoUtils } from '@esteemapp/dhive';
 import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
@@ -25,10 +25,13 @@ import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
 // Constant
 import AUTH_TYPE from '../../constants/authType';
 
+global.Buffer = global.Buffer || require('buffer').Buffer;
+
 const DEFAULT_SERVER = [
   'https://rpc.esteem.app',
-  'https://api.hive.blog',
   'https://anyx.io',
+  'https://api.pharesim.me',
+  'https://api.hive.blog',
   'https://api.hivekings.com',
 ];
 let client = new Client(DEFAULT_SERVER, {
@@ -529,6 +532,26 @@ export const getPostWithComments = async (user, permlink) => {
   });
 
   return [post, comments];
+};
+
+export const signImage = async (file, currentAccount, pin) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+  const data = Buffer.from(`${currentAccount.name}${Config.PIN_KEY}`);
+
+  const prefix = Buffer.from('ImageSigningChallenge');
+  const buf = Buffer.concat([prefix, data]);
+  const bufSha = cryptoUtils.sha256(buf);
+
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    return `hive${token}signer`;
+  }
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+    const signature = privateKey.sign(bufSha);
+    return `stndt${signature}pupload`;
+  }
 };
 
 /**
@@ -1412,7 +1435,8 @@ export const profileUpdate = async (params, pin, currentAccount) => {
     const _params = {
       account: get(currentAccount, 'name'),
       memo_key: get(currentAccount, 'memo_key'),
-      posting_json_metadata: jsonStringify(params),
+      json_metadata: jsonStringify({ profile: params }),
+      posting_json_metadata: jsonStringify({ profile: params }),
     };
 
     const opArray = [['account_update2', _params]];
@@ -1422,7 +1446,7 @@ export const profileUpdate = async (params, pin, currentAccount) => {
       .then((resp) => resp.result)
       .catch((error) => console.log(error));
   }
-
+  console.log('priv key', key);
   if (key) {
     const opArray = [
       [
@@ -1430,9 +1454,9 @@ export const profileUpdate = async (params, pin, currentAccount) => {
         {
           account: get(currentAccount, 'name'),
           memo_key: get(currentAccount, 'memo_key'),
-          posting_json_metadata: jsonStringify({
-            profile: params,
-          }),
+          json_metadata: jsonStringify({ profile: params }),
+          posting_json_metadata: jsonStringify({ profile: params }),
+          extensions: [],
         },
       ],
     ];
@@ -1479,12 +1503,12 @@ export const getBtcAddress = (pin, currentAccount) => {
 const getAnyPrivateKey = (local, pin) => {
   const { postingKey, activeKey } = local;
 
-  if (postingKey) {
-    return decryptKey(local.postingKey, pin);
-  }
-
   if (activeKey) {
     return decryptKey(local.activeKey, pin);
+  }
+
+  if (postingKey) {
+    return decryptKey(local.postingKey, pin);
   }
 
   return false;
