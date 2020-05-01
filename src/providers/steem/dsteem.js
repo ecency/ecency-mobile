@@ -2,7 +2,7 @@
 // import '../../../shim';
 // import * as bitcoin from 'bitcoinjs-lib';
 
-import { Client, PrivateKey, cryptoUtils } from '@hivechain/dhive';
+import { Client, PrivateKey, cryptoUtils } from '@esteemapp/dhive';
 import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
@@ -35,7 +35,7 @@ const DEFAULT_SERVER = [
   'https://api.hivekings.com',
 ];
 let client = new Client(DEFAULT_SERVER, {
-  timeout: 3000,
+  timeout: 5000,
 });
 
 export const checkClient = async () => {
@@ -48,7 +48,7 @@ export const checkClient = async () => {
   });
 
   client = new Client(selectedServer, {
-    timeout: 3000,
+    timeout: 5000,
   });
 };
 

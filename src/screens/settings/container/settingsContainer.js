@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 import { connect } from 'react-redux';
 import AppCenter from 'appcenter';
 import Push from 'appcenter-push';
-import { Client } from '@hivechain/dhive';
+import { Client } from '@esteemapp/dhive';
 import VersionNumber from 'react-native-version-number';
 import Config from 'react-native-config';
 import { injectIntl } from 'react-intl';
@@ -123,7 +123,7 @@ class SettingsContainer extends Component {
     let isError = false;
     let alertMessage;
     const client = new Client(server, {
-      timeout: 3000,
+      timeout: 5000,
     });
     dispatch(setApi(''));
 
