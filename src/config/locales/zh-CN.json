@@ -320,7 +320,10 @@
     "external_link": "在浏览器中打开",
     "not_existing_post": "文章不存在！请检查链接和作者。",
     "google_play_version": "我们注意到您的设备有旧版本的 Google Play 。请更新 Google Play 服务，然后再试一次！",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
+    "payloadTooLarge": "File size too big, please resize or upload smaller image",
+    "qoutaExceeded": "Upload quota exceeded",
+    "invalidImage": "Invalid image, try different file"
   },
   "post": {
     "reblog_alert": "您确定想要转发？",
