@@ -320,7 +320,10 @@
     "external_link": "Abrir no Navegador",
     "not_existing_post": "Este post não existe! Por favor, verifique o permlink e o autor.",
     "google_play_version": "Notamos que seu dispositivo tem versão antiga do Google Play. Por favor, atualize o Google Play Services e tente novamente!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
+    "payloadTooLarge": "File size too big, please resize or upload smaller image",
+    "qoutaExceeded": "Upload quota exceeded",
+    "invalidImage": "Invalid image, try different file"
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
