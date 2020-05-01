@@ -320,7 +320,10 @@
     "external_link": "Di Gerokê de veke",
     "not_existing_post": "Şandî tune ye! Ji kerema xwe nivîskar û girêdana mayînde kontrol bike.",
     "google_play_version": "Me ferq kir ku li amûra te, guhertoya kevn a Google Playê sazkirî ye. Ji kerema xwe xizmetên Google Playê hildemîne û dîsa biceribîne!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
+    "payloadTooLarge": "File size too big, please resize or upload smaller image",
+    "qoutaExceeded": "Upload quota exceeded",
+    "invalidImage": "Invalid image, try different file"
   },
   "post": {
     "reblog_alert": "Bi rastî jî tu dixwazî dîsa biweşînî?",
