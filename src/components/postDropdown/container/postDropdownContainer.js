@@ -157,7 +157,6 @@ class PostDropdownContainer extends PureComponent {
           );
         })
         .catch((error) => {
-          console.log(error);
           if (String(get(error, 'jse_shortmsg', '')).indexOf('has already reblogged') > -1) {
             dispatch(
               toastNotification(

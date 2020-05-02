@@ -222,6 +222,17 @@
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
     "steemconnect_fee_description": "info"
   },
+  "register": {
+    "register": "Register",
+    "signup": "Sign Up",
+    "username": "Pick a username",
+    "mail": "Enter your email address",
+    "ref_user": "Referred user (Optional)",
+    // TODO: Change messages
+    "500_error": "xxxxxxxxxx",
+    "title_description": "xxxxxxxxxx",
+    "form_description": "xxxxxxxxxx"
+  },
   "home": {
     "feed": "Feed",
     "popular": "Popular",

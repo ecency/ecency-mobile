@@ -182,7 +182,6 @@ class ProfileContainer extends Component {
     this.setState({
       isProfileLoading: false,
     });
-    console.log(error);
     if (error) {
       if (error.jse_shortmsg && error.jse_shortmsg.includes('wait to transact')) {
         //when RC is not enough, offer boosting account
