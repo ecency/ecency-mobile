@@ -321,9 +321,9 @@
     "not_existing_post": "投稿は存在しません！パーマリンクと投稿者を確認してください。",
     "google_play_version": "あなたのデバイスはGoogle Playのバージョンが古いようです。Google Playをアップデートして再度お試しください！",
     "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
-    "payloadTooLarge": "File size too big, please resize or upload smaller image",
-    "qoutaExceeded": "Upload quota exceeded",
-    "invalidImage": "Invalid image, try different file"
+    "payloadTooLarge": "ファイルのサイズが大きすぎます、リサイズするか小さい画像をアップロードしてください",
+    "qoutaExceeded": "アップロードの制限を超えています",
+    "invalidImage": "無効な画像です、違うファイルを試してください"
   },
   "post": {
     "reblog_alert": "本当にリブログしますか？",
