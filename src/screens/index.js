@@ -21,6 +21,7 @@ import SteemConnect from './steem-connect/steemConnect';
 import Transfer from './transfer';
 import Voters from './voters';
 import AccountBoost from './accountBoost/screen/accountBoostScreen';
+import Register from './register/registerScreen';
 
 export {
   Bookmarks,
@@ -39,6 +40,7 @@ export {
   AccountBoost,
   Reblogs,
   Redeem,
+  Register,
   SearchResult,
   Settings,
   SpinGame,
