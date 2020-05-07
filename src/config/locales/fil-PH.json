@@ -10,10 +10,10 @@
     "withdraw_vesting": "Power Down",
     "fill_order": "Punan ang Order",
     "post": "Post",
-    "comment": "Comment",
+    "comment": "Komento",
     "checkin": "Magcheck-in",
-    "vote": "Vote",
-    "reblog": "Reblog",
+    "vote": "Boto",
+    "reblog": "I-reblog",
     "login": "Mag login",
     "incoming_transfer_title": "Papasok na transaksyon",
     "outgoing_transfer_title": "Lalabas na transaksyon",
@@ -43,7 +43,7 @@
     "login_desc": "Kapag nag-login ka sa app sa unang pagkakataon, kikita ka ng 100 na puntos.",
     "checkin_extra_desc": "Ang regular na pag-gamit ng app ay nagbibigay sa iyo ng dagdag na pagkakataon na kumita ng mas maraming pang puntos, maging mas aktibo at kumita ng marami.",
     "dropdown_transfer": "Regalo",
-    "dropdown_promote": "Promote",
+    "dropdown_promote": "I-promote",
     "dropdown_boost": "I-boost",
     "from": "Galing",
     "to": "Sa",
@@ -59,7 +59,7 @@
     "to_placeholder": "Username",
     "memo_placeholder": "I-enter ang iyong lista dito",
     "transfer_token": "Paglipat",
-    "purchase_estm": "GET ESTM",
+    "purchase_estm": "KUNIN ang ESTM",
     "points": "Magregalo ng ESTM sa iba",
     "transfer_to_saving": "Patungong Saving",
     "powerUp": "Power Up",
@@ -83,7 +83,7 @@
     "fill_vesting_withdraw": "Ang pag-powerdown ay naisagawa",
     "estm": {
       "title": "ESTM",
-      "buy": "GET ESTM"
+      "buy": "KUNIN ang ESTM"
     },
     "savingsteem": {
       "title": "Inipong HIVE"
@@ -166,7 +166,7 @@
     "days": "mga araw",
     "day": "araw",
     "steem_dollars": "Hive Dollars",
-    "savings": "Savings",
+    "savings": "Ipon",
     "edit": {
       "display_name": "Ngalan na Ipapakita",
       "about": "Tungkol",
@@ -177,24 +177,24 @@
   "settings": {
     "settings": "Settings",
     "general": "General",
-    "currency": "Currency",
-    "language": "Language",
+    "currency": "Pera",
+    "language": "Wika",
     "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
+    "dark_theme": "Maitim na Tema",
+    "push_notification": "Pa abiso",
     "notification": {
-      "follow": "Follow",
-      "vote": "Vote",
-      "comment": "Comment",
-      "mention": "Mention",
-      "reblog": "Reblog",
-      "transfers": "Transfers"
+      "follow": "Sundan",
+      "vote": "Boto",
+      "comment": "Komento",
+      "mention": "Banggit",
+      "reblog": "I-reblog",
+      "transfers": "Ilipat"
     },
     "pincode": "Pincode",
-    "reset_pin": "Reset Pin Code",
-    "reset": "Reset",
+    "reset_pin": "I-reset ang Pin Code",
+    "reset": "I-reset",
     "nsfw_content": "NSFW",
-    "send_feedback": "Send Feedback",
+    "send_feedback": "Magbigay Feedback",
     "send": "Ipadala",
     "default_footer": "Default na Footer",
     "nsfw": {
@@ -279,43 +279,43 @@
   },
   "alert": {
     "success": "Tagumpay!",
-    "successful": "Successful",
-    "allRead": "Marked all notifications as read",
-    "claim_reward_balance_ok": "Reward balance claimed",
-    "fail": "Fail!",
-    "move": "Move",
-    "move_question": "Are you sure to move to drafts?",
-    "success_shared": "Your post successfully shared",
-    "success_moved": "Moved to draft",
-    "permission_denied": "Permission denied",
+    "successful": "Tagumpay",
+    "allRead": "Markahan ang lahat ng abiso bilang nabasa na",
+    "claim_reward_balance_ok": "Nakuha ang balanse na gantimpala",
+    "fail": "Bigo!",
+    "move": "Ilipat",
+    "move_question": "Sigurado kang ililipat mo sa drafts?",
+    "success_shared": "Matagumpay mong nabahagi ang iyong post",
+    "success_moved": "Nailipat sa draft",
+    "permission_denied": "Hindi pinahintulutan",
     "permission_text": "Maaari lamang na pumunta sa phone Settings at baguhin ang pahintulot ng Esteem app.",
     "key_warning": "I-check ang pahintulot ng pribadong susi!",
     "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
+    "already_rebloged": "Naibahagi mo na ito!",
     "success_favorite": "Paborito ay nadagdag!",
     "success_unfavorite": "Paborito ay natanggal!",
     "success_follow": "Nagtagumpay sa pagsunod!",
     "success_mute": "Nagtagumpay sa pag-mute!",
     "success_unmute": "Nagtagumpay sa pag-unmute!",
     "success_unfollow": "Nagtagumpay sa hindi pagsunod!",
-    "warning": "Warning",
+    "warning": "Babala",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear_user_alert": "Are you sure you want to clear all user data?",
+    "clear_alert": "Sigurado kang nais mong burahin?",
+    "clear_user_alert": "Sigurado kang buburahin ang lahat ng user data?",
     "clear": "Clear",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "copied": "Copied!",
-    "no_internet": "No connection!",
-    "confirm": "Confirm",
-    "removed": "Removed",
-    "same_user": "This user already added to list",
-    "unknow_error": "An error occurred",
+    "cancel": "Kaselahin",
+    "delete": "Tangalin",
+    "copied": "Nakopya!",
+    "no_internet": "Walang koneksyon!",
+    "confirm": "Kumpirmahin",
+    "removed": "Naitanggal",
+    "same_user": "Ang user na ito ay nasa listahan na",
+    "unknow_error": "May lumabas na error",
     "error": "Error",
     "fetch_error": "May problema sa koneksyon, maaaring subukan ulit o sumulat sa support@esteem.app",
-    "connection_fail": "Connection Failed!",
-    "connection_success": "Successfully connected!",
+    "connection_fail": "Nabigo sa pag-konek!",
+    "connection_success": "Matagumpay na komunekta!",
     "checking": "Sinusuri...",
     "external_link": "Buksan sa Browser",
     "not_existing_post": "Ang post ay hindi makita! Maaaring suriin ang permlink at ang lumikha.",
@@ -326,10 +326,10 @@
     "invalidImage": "Inbalidong imahe, subukan ang ibang file"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
-    "removed_hint": "The post was removed by",
+    "reblog_alert": "Sigurado ka, gusto mong i-reblog?",
+    "removed_hint": "Ang post ay tinanggal ni",
     "copy_link": "Kopyahin ang link",
-    "reblogged": "reblogged by",
+    "reblogged": "ni-reblog ni",
     "sponsored": "SPONSORED",
     "open_thread": "Buksan ang pinag-usapan",
     "image": "Imahe",
@@ -341,26 +341,26 @@
     "wrong_link": "Maling link"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "Mga Draft",
+    "load_error": "Hindi ma-iload ang mga draft",
+    "empty_list": "Walang makita dito",
+    "deleted": "Natanggal na draft"
   },
   "schedules": {
-    "title": "Schedules",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "Mga Iskedyul",
+    "empty_list": "Walang makita dito",
+    "deleted": "Ang naka-iskedyul na post ay tinanggal",
+    "move": "Ilipat sa mga draft",
+    "moved": "Nailipat sa mga draft"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks",
-    "added": "Added to bookmarks",
-    "add": "Add to bookmarks"
+    "title": "Mga Bookmark",
+    "load_error": "Hindi ma-iload na mga bookmark",
+    "empty_list": "Walang makita dito",
+    "deleted": "Natanggal na bookmark",
+    "search": "Hanapin sa mga bookmark",
+    "added": "Nadagdag sa mga bookmark",
+    "add": "I-dagdag sa mga bookmark"
   },
   "favorites": {
     "title": "Mga Paborito",
@@ -408,7 +408,7 @@
     "votes": "BOTO",
     "age": "EDAD",
     "top": "TUKTOK",
-    "time": "TIME"
+    "time": "ORAS"
   },
   "transfer": {
     "from": "Galing",
@@ -448,8 +448,8 @@
   },
   "boost": {
     "title": "Kunin ang Esteem Points",
-    "buy": "GET ESTM",
-    "next": "NEXT",
+    "buy": "KUNIN ang ESTM",
+    "next": "SUNOD",
     "account": {
       "title": "Kumuha ng Account Boost",
       "desc": "Papalakasin ng 30 na araw na delegasyon ang iyong mga boto at sosyal na aktibidad at mabibigyan ka ng mas maraming aksyon gamit ang Resource Credits."
@@ -463,23 +463,23 @@
     "timer_text": "Libre ikot sa sunod na"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
+    "title": "I-promote",
+    "days": "mga araw",
     "user": "User",
     "permlink": "Post",
-    "permlinkPlaceholder": "author/permlink",
-    "information": "Are you sure to promote?"
+    "permlinkPlaceholder": "tagalikha/permlink",
+    "information": "Sigurado kang i-popromote mo?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "I-boost"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "rewards": "GANTIMPALA",
+    "percent": "PORSYENTO",
+    "time": "ORAS"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "Impormasyon sa Reblog"
   },
   "dsteem": {
     "date_error": {
