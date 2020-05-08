@@ -401,3 +401,6 @@ export const getPostReblogs = (data) =>
     .get(`/post-reblogs/${data.author}/${data.permlink}`)
     .then((resp) => resp.data)
     .catch((error) => bugsnag.notify(error));
+
+export const register = (data) =>
+  api.post('/signup/account-create', data).then((resp) => resp.data);

@@ -63,7 +63,6 @@ class SteemConnect extends PureComponent {
             }
           })
           .catch((error) => {
-            console.log(error);
             Alert.alert(
               'Error',
               //intl.formatMessage({ id:
