@@ -222,6 +222,16 @@
     "steemconnect_description": "Kung ayaw mong itago ang encrypted password mo sa device mo, gamitin ang Hivesigner.",
     "steemconnect_fee_description": "impormasyon"
   },
+  "register": {
+    "button": "Sign Up",
+    "title": "Mag sign up",
+    "username": "Pick a username",
+    "mail": "Enter your email address",
+    "ref_user": "Referred user (Optional)",
+    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
+    "title_description": "One account to manage everything",
+    "form_description": "After registeration, you will receive an email with further instructions"
+  },
   "home": {
     "feed": "Feed",
     "popular": "Tanyag",
