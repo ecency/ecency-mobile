@@ -223,14 +223,14 @@
     "steemconnect_fee_description": "інформація"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "Зареєструватися",
     "title": "Зареєструватися",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
-    "ref_user": "Referred user (Optional)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
-    "title_description": "One account to manage everything",
-    "form_description": "After registeration, you will receive an email with further instructions"
+    "username": "Введіть ім'я користувача",
+    "mail": "Введіть адресу електронної пошти",
+    "ref_user": "Реферальний користувач (необов'язково)",
+    "500_error": "Ваш запит не може бути оброблений, чергу реєстрації, ймовірно заповнено! Спробуйте ще раз через декілька хвилин...",
+    "title_description": "Один рахунок для управління всім",
+    "form_description": "Після реєстрації, ви отримаєте подальші інструкції"
   },
   "home": {
     "feed": "Стрічка",
