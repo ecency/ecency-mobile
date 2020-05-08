@@ -29,7 +29,7 @@ const RegisterScreen = ({ navigation }) => {
   const [isRefUsernameValid, setIsRefUsernameValid] = useState(true);
 
   const _handleEmailChange = (value) => {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     setIsEmailValid(re.test(value));
     setEmail(value);
   };
@@ -72,7 +72,7 @@ const RegisterScreen = ({ navigation }) => {
                     routeName: ROUTES.SCREENS.LOGIN,
                   });
                 }}
-                text="Login"
+                text="LOGIN"
                 textStyle={{ color: '#357ce6' }}
               />
             </View>
@@ -80,7 +80,7 @@ const RegisterScreen = ({ navigation }) => {
           {!keyboardIsOpen && (
             <View style={styles.header}>
               <View style={styles.titleText}>
-                <Text style={styles.title}>Sign Up</Text>
+                <Text style={styles.title}>{intl.formatMessage({ id: 'register.title' })}</Text>
                 <Text style={styles.description}>
                   {intl.formatMessage({ id: 'register.title_description' })}
                 </Text>
@@ -120,7 +120,7 @@ const RegisterScreen = ({ navigation }) => {
                   id: 'register.mail',
                 })}
                 isEditable
-                type="mail"
+                type="emailAddress"
                 value={email}
                 inputStyle={styles.input}
               />
@@ -161,7 +161,7 @@ const RegisterScreen = ({ navigation }) => {
                 iconName="person"
                 iconColor="white"
                 text={intl.formatMessage({
-                  id: 'register.register',
+                  id: 'register.button',
                 })}
                 isDisable={!isUsernameValid || !isRefUsernameValid || !isEmailValid}
                 isLoading={isLoading}

@@ -45,11 +45,15 @@ const RegisterContainer = ({ children, navigation }) => {
           navigation.navigate({
             routeName: ROUTES.DRAWER.MAIN,
           });
-          Alert.alert('Success', 'heeeey');
+          Alert.alert(
+            'Success',
+            'Hurrah, you did it! Expect email from us with further instructions.',
+          );
         }
         setIsLoading(false);
       })
       .catch((err) => {
+        console.log(err);
         if (get(err, 'response.status', false)) {
           Alert.alert('Error', intl.formatMessage({ id: 'register.500_error' }));
         } else {
