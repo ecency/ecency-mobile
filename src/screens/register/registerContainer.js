@@ -53,7 +53,6 @@ const RegisterContainer = ({ children, navigation }) => {
         setIsLoading(false);
       })
       .catch((err) => {
-        console.log(err);
         if (get(err, 'response.status', false)) {
           Alert.alert('Error', intl.formatMessage({ id: 'register.500_error' }));
         } else {
