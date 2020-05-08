@@ -64,12 +64,12 @@
     "transfer_to_saving": "貯蓄口座への送金",
     "powerUp": "パワーアップ",
     "withdraw_to_saving": "貯蓄口座を引出す",
-    "steemconnect_title": "Hivesigner Transfer",
+    "steemconnect_title": "Hivesigner 転送",
     "next": "次へ",
     "delegate": "デリゲーション",
     "power_down": "パワーダウン",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
+    "withdraw_steem": "HIVEを引き出す",
+    "withdraw_sbd": "HIVEドルを引き出す",
     "transfer_to_savings": "貯蓄口座への送金",
     "convert": "変換",
     "escrow_transfer": "エスクロー送金",
@@ -86,18 +86,18 @@
       "buy": "ESTM を手に入れる"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "HIVE 貯蓄口座"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "HBD 貯蓄口座"
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "HIVEを購入"
     },
     "sbd": {
-      "title": "HBD",
-      "buy": "GET HBD"
+      "title": "HIVEドル",
+      "buy": "HIVEドルを購入"
     },
     "steem_power": {
       "title": "HIVE POWER"
