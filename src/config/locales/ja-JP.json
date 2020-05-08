@@ -223,14 +223,14 @@
     "steemconnect_fee_description": "info"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "サインアップ",
     "title": "新規登録",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
-    "ref_user": "Referred user (Optional)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
-    "title_description": "One account to manage everything",
-    "form_description": "After registeration, you will receive an email with further instructions"
+    "username": "ユーザー名を選択",
+    "mail": "メールアドレスを入力してください",
+    "ref_user": "紹介ユーザー (任意)",
+    "500_error": "リクエストは処理されませんでした、サインアップのキューが一杯です！時間を置いて再度お試しください。。。",
+    "title_description": "一つのアカウント全部管理",
+    "form_description": "登録後は、メールで手順が送られてきます"
   },
   "home": {
     "feed": "フィード",
