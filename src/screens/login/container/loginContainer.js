@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Alert, Linking, Platform } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import AppCenter from 'appcenter';
@@ -142,11 +142,11 @@ class LoginContainer extends PureComponent {
   };
 
   _handleSignUp = () => {
-    const { intl } = this.props;
+    const { navigation } = this.props;
 
-    Linking.openURL('https://esteem.app/signup').catch((err) =>
-      Alert.alert(intl.formatMessage({ id: 'alert.error' }), err.message),
-    );
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.REGISTER,
+    });
   };
 
   render() {
