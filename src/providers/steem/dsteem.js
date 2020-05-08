@@ -362,7 +362,9 @@ export const ignoreUser = async (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private posting key or above.'),
+  );
 };
 
 /**
@@ -614,7 +616,9 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private posting key or above.'),
+  );
 };
 
 /**
@@ -667,7 +671,9 @@ export const transferToken = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const convert = (currentAccount, pin, data) => {
@@ -707,7 +713,9 @@ export const convert = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const transferToSavings = (currentAccount, pin, data) => {
@@ -746,7 +754,9 @@ export const transferToSavings = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const transferFromSavings = (currentAccount, pin, data) => {
@@ -785,7 +795,9 @@ export const transferFromSavings = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const transferToVesting = (currentAccount, pin, data) => {
@@ -822,7 +834,9 @@ export const transferToVesting = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const withdrawVesting = (currentAccount, pin, data) => {
@@ -858,7 +872,9 @@ export const withdrawVesting = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const delegateVestingShares = (currentAccount, pin, data) => {
@@ -895,7 +911,9 @@ export const delegateVestingShares = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
@@ -933,7 +951,9 @@ export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const getWithdrawRoutes = (account) =>
@@ -980,7 +1000,9 @@ export const followUser = async (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private posting key or above.'),
+  );
 };
 
 export const unfollowUser = async (currentAccount, pin, data) => {
@@ -1025,7 +1047,9 @@ export const unfollowUser = async (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private posting key or above.'),
+  );
 };
 
 export const lookupAccounts = async (username) => {
@@ -1189,7 +1213,9 @@ const _postContent = async (
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private posting key or above.'),
+  );
 };
 
 // Re-blog
@@ -1236,7 +1262,9 @@ const _reblog = async (account, pinCode, author, permlink) => {
     return client.broadcast.json(json, privateKey);
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private posting key or above.'),
+  );
 };
 
 export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rewardVests) => {
@@ -1270,7 +1298,9 @@ export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rew
     return client.broadcast.sendOperations(opArray, privateKey);
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private posting key or above.'),
+  );
 };
 
 export const transferPoint = (currentAccount, pinCode, data) => {
@@ -1298,7 +1328,9 @@ export const transferPoint = (currentAccount, pinCode, data) => {
     return client.broadcast.json(op, privateKey);
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const promote = (currentAccount, pinCode, duration, permlink, author) => {
@@ -1324,7 +1356,9 @@ export const promote = (currentAccount, pinCode, duration, permlink, author) => 
     return client.broadcast.json(json, privateKey);
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const boost = (currentAccount, pinCode, point, permlink, author) => {
@@ -1350,7 +1384,9 @@ export const boost = (currentAccount, pinCode, point, permlink, author) => {
     return client.broadcast.json(json, privateKey);
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const grantPostingPermission = async (json, pin, currentAccount) => {
@@ -1419,7 +1455,9 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const profileUpdate = async (params, pin, currentAccount) => {
@@ -1478,7 +1516,9 @@ export const profileUpdate = async (params, pin, currentAccount) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private posting key or above.'),
+  );
 };
 
 export const getBtcAddress = (pin, currentAccount) => {
