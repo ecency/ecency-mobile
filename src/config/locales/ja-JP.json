@@ -100,7 +100,7 @@
       "buy": "HIVEドルを購入"
     },
     "steem_power": {
-      "title": "HIVE POWER"
+      "title": "HIVEパワー"
     },
     "btc": {
       "title": "BTC",
@@ -161,11 +161,11 @@
     "follow_people": "他の人をフォローして自分のフィードに表示しよう",
     "havent_commented": "まだ何もコメントしていません",
     "havent_posted": "まだ何も投稿していません",
-    "steem_power": "Hive Power",
+    "steem_power": "Hiveパワー",
     "next_power_text": "次のパワーダウンまで",
     "days": "日",
     "day": "日",
-    "steem_dollars": "Hive Dollars",
+    "steem_dollars": "Hiveドル",
     "savings": "貯蓄口座",
     "edit": {
       "display_name": "表示名",
@@ -213,14 +213,14 @@
   "login": {
     "signin": "ログイン",
     "signup": "今すぐ参加",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "Esteemの素晴らしさを満喫しよう",
     "username": "ユーザー名",
     "password": "パスワードまたは WIF",
     "description": "ユーザーのログイン情報は端末に保存され、ログアウトすると削除されます。",
     "cancel": "キャンセル",
     "login": "ログイン",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_description": "端末に暗号化したパスワードを保存したくない場合、Hivesignerを利用できます。",
+    "steemconnect_fee_description": "お知らせ"
   },
   "register": {
     "button": "サインアップ",
@@ -298,7 +298,7 @@
     "success_shared": "投稿の共有に成功しました",
     "success_moved": "下書きへ移動",
     "permission_denied": "アクセスが拒否されました",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "本体の設定から Esteem アプリの権限を変更してください。",
     "key_warning": "プライベートキーのパーミッションを確認してください！",
     "success_rebloged": "リブログしました！",
     "already_rebloged": "既にリブログしています！",
@@ -330,7 +330,7 @@
     "external_link": "ブラウザーで開く",
     "not_existing_post": "投稿は存在しません！パーマリンクと投稿者を確認してください。",
     "google_play_version": "あなたのデバイスはGoogle Playのバージョンが古いようです。Google Playをアップデートして再度お試しください！",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
+    "rc_down": "アクションを実行するのに十分なリソースクレジットがありません！ \n\nアカウントを強化して、体験を楽しみましょう。アカウントを強化しますか？",
     "payloadTooLarge": "ファイルのサイズが大きすぎます、リサイズするか小さい画像をアップロードしてください",
     "qoutaExceeded": "アップロードの制限を超えています",
     "invalidImage": "無効な画像です、違うファイルを試してください"
@@ -429,17 +429,17 @@
     "information": "本当に送金しますか？",
     "amount_desc": "残高",
     "memo_desc": "このメモは公開されます",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "変換には3.5にちかかり、HBDの値段が$1以上の場合にはお勧めしません",
     "to_placeholder": "ユーザー名",
     "memo_placeholder": "ここに内容を入力してください",
     "transfer_token": "送金",
     "purchase_estm": "ESTMを購入",
-    "convert": "Convert HBD to HIVE",
+    "convert": "HBDをHIVEに変換",
     "points": "ESTMを贈る",
     "transfer_to_saving": "貯蓄口座に送金",
     "powerUp": "パワーアップ",
     "withdraw_to_saving": "貯蓄口座に引き出す",
-    "steemconnect_title": "Hivesigner Transfer",
+    "steemconnect_title": "Hivesigner 転送",
     "estimated_weekly": "毎週推定される",
     "destination_accounts": "送金先口座",
     "stop_information": "本当に中止してよろしいですか？",
@@ -450,19 +450,19 @@
     "next": "次へ",
     "delegate": "デリゲーション",
     "power_down": "パワーダウン",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
+    "withdraw_steem": "HIVEを引き出す",
+    "withdraw_sbd": "HIVEドルを引き出す",
     "incoming_funds": "入ってくる資金",
     "stop": "中止",
     "address_view": "アドレスを表示"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Esteem ポイントを手に入れる",
     "buy": "ESTM を手に入れる",
     "next": "次へ",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "title": "アカウントブーストをゲット",
+      "desc": "30日間の投資は投票とソーシャルメディア活動を強化し、リソースクレジットが増えることでより多くのアクションが提供されます。"
     }
   },
   "free_estm": {
