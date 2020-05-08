@@ -27,6 +27,7 @@ import {
   ProfileEdit,
   Reblogs,
   Redeem,
+  Register,
   SearchResult,
   Settings,
   SpinGame,
@@ -137,5 +138,6 @@ const stackNavigator = createStackNavigator(
 
 export default createSwitchNavigator({
   stackNavigator,
+  [ROUTES.SCREENS.REGISTER]: { screen: Register },
   [ROUTES.SCREENS.LOGIN]: { screen: Login },
 });

@@ -491,7 +491,6 @@ class ApplicationContainer extends Component {
         this._connectNotificationServer(accountData.name);
       })
       .catch((err) => {
-        console.log(err);
         Alert.alert(
           `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
         );
@@ -590,7 +589,6 @@ class ApplicationContainer extends Component {
         dispatch(logoutDone());
       })
       .catch((err) => {
-        console.log('remove', err);
         Alert.alert(
           `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
         );

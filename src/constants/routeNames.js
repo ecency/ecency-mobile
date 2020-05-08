@@ -19,6 +19,7 @@ export default {
     PROFILE: `Profile${SCREEN_SUFFIX}`,
     REBLOGS: `Reblogs${SCREEN_SUFFIX}`,
     REDEEM: `Redeem${SCREEN_SUFFIX}`,
+    REGISTER: `Register${SCREEN_SUFFIX}`,
     SEARCH_RESULT: `SearchResult${SCREEN_SUFFIX}`,
     SETTINGS: `Settings${SCREEN_SUFFIX}`,
     STEEM_CONNECT: `SteemConnect${SCREEN_SUFFIX}`,
