@@ -223,14 +223,14 @@
     "steemconnect_fee_description": "tietoa"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "Luo tili",
     "title": "Rekisteröidy",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
-    "ref_user": "Referred user (Optional)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
-    "title_description": "One account to manage everything",
-    "form_description": "After registeration, you will receive an email with further instructions"
+    "username": "Valitse käyttäjänimi",
+    "mail": "Syötä sähköpostiosoitteesi",
+    "ref_user": "Suosittelija (valinnainen)",
+    "500_error": "Toiminto epäonnistui, rekisteröitymisjono lienee täynnä! Yritä uudelleen parin minuutin päästä...",
+    "title_description": "Yhdellä tilillä hallitset kaikkea",
+    "form_description": "Saat sähköpostia rekisteröinnin jälkeen lisätietoineen"
   },
   "home": {
     "feed": "Syöte",
