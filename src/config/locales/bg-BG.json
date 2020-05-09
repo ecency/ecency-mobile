@@ -223,14 +223,14 @@
     "steemconnect_fee_description": "информация"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "Регистрация",
     "title": "Регистрирай се",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
-    "ref_user": "Referred user (Optional)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
-    "title_description": "One account to manage everything",
-    "form_description": "After registeration, you will receive an email with further instructions"
+    "username": "Избери потрбителско име",
+    "mail": "Въведете вашата електронна поща",
+    "ref_user": "Кой ви покани в платформата(Опция)",
+    "500_error": "Заявката ви не можа да бъде обработена, опашката за регистрация вероятно е пълна! Опитайте отново след няколко минути ...",
+    "title_description": "Един потребител да ръководи всичко",
+    "form_description": "След регистрация ще получите емайл с допълнителни интрукции"
   },
   "home": {
     "feed": "Постове",
@@ -272,7 +272,7 @@
     "reply": "Отговор",
     "open_gallery": "Отвори Галерия",
     "capture_photo": "Направи снимка",
-    "limited_tags": "Само 10 тага св допускат, премахнете някои",
+    "limited_tags": "Само 10 тага се допускат, премахнете някои",
     "limited_length": "Максималната дължина на всеки таг трябва да бъде 24",
     "limited_dash": "Само по едно тире на таг",
     "limited_space": "Използвай интервали между таговете",
