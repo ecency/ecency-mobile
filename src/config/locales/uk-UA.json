@@ -331,8 +331,8 @@
     "not_existing_post": "Допису не існує! Будь ласка, перевірте першоджерело та автора.",
     "google_play_version": "Ми помітили, що на вашому пристрої є стара версія Google Play. Оновіть служби Google Play і повторіть спробу!",
     "rc_down": "Не вистачає ресурс кредитів для виконання дії! \n\nПідсильте свій акаунт, щоб і надалі отримувати задоволення від використання. Бажаєте підсилити свій акаунт зараз?",
-    "payloadTooLarge": "File size too big, please resize or upload smaller image",
-    "qoutaExceeded": "Upload quota exceeded",
+    "payloadTooLarge": "Завеликий розмір файлу. Змініть розмір або завантажте зображення меншого розміру",
+    "qoutaExceeded": "Перевищено ліміт завантажень",
     "invalidImage": "Invalid image, try different file"
   },
   "post": {
