@@ -65,7 +65,7 @@
     "powerUp": "Збільшення Силу Голосу",
     "withdraw_to_saving": "Вивести заощадження",
     "steemconnect_title": "Hivesigner Transfer",
-    "next": "НАСТУПНА",
+    "next": "ДАЛІ",
     "delegate": "Делегувати",
     "power_down": "Зменшення Сили Голосу",
     "withdraw_steem": "Вивести HIVE",
@@ -89,7 +89,7 @@
       "title": "HIVE заощадження"
     },
     "savingsbd": {
-      "title": "HBD збереження"
+      "title": "HBD заощадження"
     },
     "steem": {
       "title": "HIVE",
@@ -120,7 +120,7 @@
     "transfer": "відправлено",
     "spin": "Час заробляти більше ESTM",
     "inactive": "Будьте активними! Зробіть допис, продовжуйте заробляти",
-    "referral": "joined with your referral, welcome them",
+    "referral": "приєднався за вашим посиланням. Привітайте його",
     "notification": "Сповіщення",
     "leaderboard": "Дошка лідерів",
     "epoint": "Бали",
@@ -309,7 +309,7 @@
     "success_unmute": "Успішно припинили ігнорувати!",
     "success_unfollow": "Успішно відписалися!",
     "warning": "Увага",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
+    "invalid_pincode": "Невірний PIN-код. Будь ласка, перевірте і повторіть спробу.",
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "Ви впевнені, що бажаєте видалити?",
     "clear_user_alert": "Ви впевнені, що хочете видалили всі ваші дані?",
@@ -357,7 +357,7 @@
     "deleted": "Чернетку видалено"
   },
   "schedules": {
-    "title": "Розклади",
+    "title": "Розклад",
     "empty_list": "Тут поки що нічого немає",
     "deleted": "Запланований допис видалено",
     "move": "Перемістити до чернеток",
@@ -379,7 +379,7 @@
     "search": "Пошук в улюблених"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_pin": "Невірний PIN-код. Будь ласка, перевірте і повторіть спробу",
     "invalid_username": "Недійсне ім’я користувача. Перевірте та повторіть спробу",
     "already_logged": "Ви вже ввійшли, спробуйте додати інший обліковий запис",
     "invalid_credentials": "Недійсні облікові дані. Перевірте та повторіть спробу",
@@ -447,7 +447,7 @@
     "auto_vests": "Авто Vests",
     "save": "ЗБЕРЕГТИ",
     "percent_information": "Інформація про Відсоток",
-    "next": "НАСТУПНА",
+    "next": "ДАЛІ",
     "delegate": "Делегувати",
     "power_down": "Зменшення Сили голосу",
     "withdraw_steem": "Вивести HIVE",
@@ -459,7 +459,7 @@
   "boost": {
     "title": "Отримати eSteem бали",
     "buy": "Отримати ESTM",
-    "next": "НАСТУПНА",
+    "next": "ДАЛІ",
     "account": {
       "title": "Отримати підсилення акаунту",
       "desc": "30-денна делегація збільшить ваші голоси та соціальні взаємодії, і дасть вам більше дій з використанням Ресурс Кредитів."
@@ -484,7 +484,7 @@
     "title": "Підсилити"
   },
   "voters_dropdown": {
-    "rewards": "НАГОРОДИ",
+    "rewards": "ВИНАГОРОДИ",
     "percent": "ТОЧНО",
     "time": "ЧАС"
   },
