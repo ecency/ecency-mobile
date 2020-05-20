@@ -116,8 +116,8 @@
     "follow": "подписан",
     "unfollow": "отписан",
     "ignore": "игнорирует",
-    "reblog": "reblogged",
-    "transfer": "transferred",
+    "reblog": "репостнуто",
+    "transfer": "переведено",
     "spin": "Время заработать больше ESTM",
     "inactive": "Будьте активны! Напишите пост, продолжайте зарабатывать",
     "referral": "присоединился по вашей ссылке. Поприветствуйте его",
@@ -137,9 +137,9 @@
     "noactivity": "За последнее время активности нет"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "ЗА ДЕНЬ",
+    "weekly": "ЗА НЕДЕЛЮ",
+    "monthly": "ЗА МЕСЯЦ"
   },
   "messages": {
     "comingsoon": "Здесь будут сообщения!"
@@ -168,7 +168,7 @@
     "steem_dollars": "Hive Dollars",
     "savings": "Сейф",
     "edit": {
-      "display_name": "Display Name",
+      "display_name": "Отображаемое имя",
       "about": "О себе",
       "location": "Местоположение",
       "website": "Веб-сайт"
@@ -212,25 +212,25 @@
   },
   "login": {
     "signin": "Войти",
-    "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signup": "ПРИСОЕДИНЯЙТЕСЬ СЕЙЧАС",
+    "signin_title": "Чтобы получить все преимущества использования Esteem",
     "username": "Пользователь",
     "password": "Пароль или ключ",
     "description": "Ключи хранятся только на вашем устройстве и удаляются во время разлогина!",
     "cancel": "отмена",
     "login": "Войти",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_description": "Если вы не хотите хранить зашифрованные ключи на своем устройстве, используйте Hivesigner.",
+    "steemconnect_fee_description": "информация"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "Зарегистрироваться",
     "title": "Регистрация",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
-    "ref_user": "Referred user (Optional)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
-    "title_description": "One account to manage everything",
-    "form_description": "After registeration, you will receive an email with further instructions"
+    "username": "Выберите имя пользователя",
+    "mail": "Введите свой email адрес",
+    "ref_user": "Реферал (необязательно)",
+    "500_error": "Ваш запрос не может быть обработан, скорее всего, очередь регистрации заполнена! Повторите попытку через несколько минут...",
+    "title_description": "Один аккаунт для управления всем",
+    "form_description": "После регистрации вы получите email с дальнейшими инструкциями"
   },
   "home": {
     "feed": "Лента",
