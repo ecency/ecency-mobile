@@ -42,7 +42,7 @@
     "reblog_desc": "Делитесь постами, что вам нравятся, с друзьями и зарабатывайте баллы.",
     "login_desc": "При первой авторизации в приложении вы получите 100 баллов.",
     "checkin_extra_desc": "Постоянное использование приложения дает вам дополнительные шансы заработать больше очков, быть активным и зарабатывать больше.",
-    "dropdown_transfer": "Gift",
+    "dropdown_transfer": "Подарить",
     "dropdown_promote": "Продвинуть",
     "dropdown_boost": "Boost",
     "from": "От",
@@ -80,16 +80,16 @@
     "delegate_vesting_shares": "Делегирование",
     "fill_convert_request": "Конвертация выполнена",
     "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_vesting_withdraw": "Понижение Силы выполнено",
     "estm": {
       "title": "ESTM",
       "buy": "ПОЛУЧИТЬ ESTM"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "HIVE сбережения"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "HBD сбережения"
     },
     "steem": {
       "title": "HIVE",
@@ -489,7 +489,7 @@
     "time": "ВРЕМЯ"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "Инфо о репостах"
   },
   "dsteem": {
     "date_error": {
