@@ -61,24 +61,24 @@
     "transfer_token": "Перевод",
     "purchase_estm": "ПОЛУЧИТЬ ESTM",
     "points": "Подарить ESTM кому-нибудь",
-    "transfer_to_saving": "To Saving",
+    "transfer_to_saving": "В Сейф",
     "powerUp": "Увеличение силы",
-    "withdraw_to_saving": "Withdraw Saving",
-    "steemconnect_title": "Hivesigner Transfer",
+    "withdraw_to_saving": "Вывести в Сейф",
+    "steemconnect_title": "Hivesigner транзакция",
     "next": "ДАЛЕЕ",
     "delegate": "Делегировать",
     "power_down": "Понижение силы",
     "withdraw_steem": "Вывести HIVE",
     "withdraw_sbd": "Вывести SBD",
-    "transfer_to_savings": "To Savings",
+    "transfer_to_savings": "В Сейф",
     "convert": "Конвертировать",
     "escrow_transfer": "Escrow Transfer",
     "escrow_dispute": "Escrow Dispute",
     "escrow_release": "Escrow Release",
     "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel From Savings",
+    "cancel_transfer_from_savings": "Отменить вывод из Сейфа",
     "delegate_vesting_shares": "Делегирование",
-    "fill_convert_request": "Convert Executed",
+    "fill_convert_request": "Конвертация выполнена",
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
@@ -100,7 +100,7 @@
       "buy": "GET HBD"
     },
     "steem_power": {
-      "title": "HIVE POWER"
+      "title": "HIVE POWER (Сила)"
     },
     "btc": {
       "title": "BTC",
