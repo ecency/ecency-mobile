@@ -272,14 +272,14 @@
     "reply": "Ответить",
     "open_gallery": "Перейти в галерею",
     "capture_photo": "Сделать фото",
-    "limited_tags": "Only 10 tags allowed, remove some",
-    "limited_length": "Maximum length of each tag should be 24",
-    "limited_dash": "Use one dash in each tag",
-    "limited_space": "Use space to separate tags",
-    "limited_lowercase": "Only use lower letters in tag",
-    "limited_characters": "Use only allowed characters in tag",
-    "limited_firstchar": "Tag must start with a letter",
-    "limited_lastchar": "Tag must end with letter or number"
+    "limited_tags": "Допускается только 10 тегов, удалите несколько",
+    "limited_length": "Максимальная длина каждого тeга - 24 символа",
+    "limited_dash": "Только один дефис в каждом теге",
+    "limited_space": "Используйте пробел для разделения тегов",
+    "limited_lowercase": "Используйте для тегов только нижний регистр",
+    "limited_characters": "Используйте в теге только допустимые символы",
+    "limited_firstchar": "Тег должен начинаться с буквы",
+    "limited_lastchar": "Тег должен заканчиваться буквой или цифрой"
   },
   "pincode": {
     "enter_text": "Введите пинкод",
