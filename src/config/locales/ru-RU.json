@@ -323,7 +323,7 @@
     "same_user": "Этот пользователь уже добавлен в список",
     "unknow_error": "Произошла ошибка",
     "error": "Ошибка",
-    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
+    "fetch_error": "Проблема с подключением, попробуйте еще раз или напишите на support@esteem.app",
     "connection_fail": "Ошибка подключения!",
     "connection_success": "Успешное подключение!",
     "checking": "Checking...",
@@ -450,11 +450,11 @@
     "next": "ДАЛЕЕ",
     "delegate": "Делегировать",
     "power_down": "Понижение Силы",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
+    "withdraw_steem": "Вывести HIVE",
+    "withdraw_sbd": "Вывести HIVE Dollar",
     "incoming_funds": "Incoming Funds",
-    "stop": "Stop",
-    "address_view": "View address"
+    "stop": "Остановить",
+    "address_view": "Посмотреть адрес"
   },
   "boost": {
     "title": "Get Esteem Points",
@@ -493,15 +493,15 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
+      "device_time": "Время на вашем устройстве;",
+      "current_time": "Текущее время;",
       "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
     }
   },
   "comments": {
     "title": "Комментарии",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "Показать комментарий",
+    "read_more": "Читать больше комментариев",
+    "more_replies": "больше ответов"
   }
 }
