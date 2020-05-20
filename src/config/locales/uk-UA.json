@@ -300,8 +300,8 @@
     "permission_denied": "У доступі відмовлено",
     "permission_text": "Будь ласка, перейдіть до налаштувань телефону та змініть дозволи для додатку Esteem.",
     "key_warning": "Перевірте права доступу до закритого ключа!",
-    "success_rebloged": "Rebloged!",
-    "already_rebloged": "Ви вже повторно рестімнули!",
+    "success_rebloged": "Репост зроблено!",
+    "already_rebloged": "Ви вже зробили репост!",
     "success_favorite": "До улюблених додано!",
     "success_unfavorite": "З улюблених видалено!",
     "success_follow": "Успішно підписалися!",
@@ -336,10 +336,10 @@
     "invalidImage": "Invalid image, try different file"
   },
   "post": {
-    "reblog_alert": "Ви впевнені, що хочете рестімнути?",
+    "reblog_alert": "Ви дійсно бажаєте зробити репост?",
     "removed_hint": "Допис видалено користувачем",
     "copy_link": "Скопіювати посилання",
-    "reblogged": "рестімнуто",
+    "reblogged": "репостнуто",
     "sponsored": "СПОНСОРОВАНО",
     "open_thread": "Відкрити обговорення",
     "image": "Зображення",
@@ -391,13 +391,13 @@
     "author_payout": "Авторська винагорода",
     "curation_payout": "Кураторська винагорода",
     "payout_date": "Виплата",
-    "beneficiaries": "Отримувачі",
-    "warn_zero_payout": "Сума повинна досягти 0,02 долара за виплату",
+    "beneficiaries": "Бенефіціари",
+    "warn_zero_payout": "Для отримання виплати сума повинна досягти $0.02",
     "breakdown": "Упс... щось Зламалося"
   },
   "post_dropdown": {
     "copy": "копіювати джерело",
-    "reblog": "рестім",
+    "reblog": "репост",
     "reply": "відповісти",
     "share": "поширити",
     "bookmarks": "додати до закладок",
@@ -415,7 +415,7 @@
   "comment_filter": {
     "trending": "ТОП",
     "reputation": "РЕПУТАЦІЯ",
-    "votes": "ГОЛОСУВАТИ",
+    "votes": "ГОЛОСИ",
     "age": "ВІК",
     "top": "ТОП",
     "time": "ЧАС"
@@ -469,8 +469,8 @@
     "title": "Безкоштовні ESTM",
     "button": "Обертай та Вигравай",
     "get_spin": "5 Обертів",
-    "spin_right": "Оберни ліворуч",
-    "timer_text": "Наступне обертання буде безкоштовним"
+    "spin_right": "Обертів лишилось",
+    "timer_text": "До наступного безкоштовного оберту"
   },
   "promote": {
     "title": "Просувати",
@@ -489,7 +489,7 @@
     "time": "ЧАС"
   },
   "reblog": {
-    "title": "Рестім інформація"
+    "title": "Інформація про репости"
   },
   "dsteem": {
     "date_error": {
