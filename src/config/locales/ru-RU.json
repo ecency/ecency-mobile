@@ -122,7 +122,7 @@
     "inactive": "Будьте активны! Напишите пост, продолжайте зарабатывать",
     "referral": "присоединился по вашей ссылке. Поприветствуйте его",
     "notification": "Уведомления",
-    "leaderboard": "Лидеры",
+    "leaderboard": "Таблица лидеров",
     "epoint": "Баллы",
     "leaderboard_title": "Топ пользователей",
     "recent": "Недавно",
@@ -326,29 +326,29 @@
     "fetch_error": "Проблема с подключением, попробуйте еще раз или напишите на support@esteem.app",
     "connection_fail": "Ошибка подключения!",
     "connection_success": "Успешное подключение!",
-    "checking": "Checking...",
-    "external_link": "Open in Browser",
+    "checking": "Проверка...",
+    "external_link": "Открыть в браузере",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!",
     "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
-    "payloadTooLarge": "File size too big, please resize or upload smaller image",
-    "qoutaExceeded": "Upload quota exceeded",
+    "payloadTooLarge": "Размер файла слишком большой. Ппожалуйста, измените размер или загрузите изображение меньшего размера",
+    "qoutaExceeded": "Превышен лимит загрузки",
     "invalidImage": "Invalid image, try different file"
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
     "removed_hint": "Сообщение удалено",
-    "copy_link": "Copy link",
+    "copy_link": "Копировать ссылку",
     "reblogged": "репостнуто",
     "sponsored": "СПОНСИРОВАНО",
-    "open_thread": "Open thread",
-    "image": "Image",
-    "link": "Link",
-    "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image",
-    "wrong_link": "Wrong link"
+    "open_thread": "Открыть обсуждение",
+    "image": "Изображение",
+    "link": "Ссылка",
+    "gallery_mode": "Режим галереи",
+    "save_to_local": "Загрузить на устройство",
+    "image_saved": "Изображение сохранено в фотогалерею",
+    "image_saved_error": "Ошибка при сохранении изображения",
+    "wrong_link": "Неверная ссылка"
   },
   "drafts": {
     "title": "Черновики",
@@ -383,7 +383,7 @@
     "invalid_username": "Неверный пин, попробуйте снова",
     "already_logged": "Вы уже вошли, пожалуйста, попробуйте добавить другой аккаунт",
     "invalid_credentials": "Некорректные данные, пожалуйста, проверьте и повторите снова",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Неизвестная ошибка, пожалуйста, напишите на support@esteem.app"
   },
   "payout": {
     "potential_payout": "Потенциальная выплата",
@@ -391,7 +391,7 @@
     "author_payout": "Автору",
     "curation_payout": "Кураторам",
     "payout_date": "Выплата",
-    "beneficiaries": "Beneficiaries",
+    "beneficiaries": "Бенефициары",
     "warn_zero_payout": "Amount must reach $0.02 for payout",
     "breakdown": "Breakdown"
   },
@@ -413,9 +413,9 @@
     "comments": "Комментарии"
   },
   "comment_filter": {
-    "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
+    "trending": "ТОП",
+    "reputation": "РЕПУТАЦИЯ",
+    "votes": "ГОЛОСА",
     "age": "AGE",
     "top": "TOP",
     "time": "ВРЕМЯ"
