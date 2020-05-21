@@ -165,7 +165,7 @@
     "next_power_text": "Следующее понижение силы",
     "days": "д",
     "day": "д",
-    "steem_dollars": "Hive Dollars",
+    "steem_dollars": "Hive доллары",
     "savings": "Сейф",
     "edit": {
       "display_name": "Отображаемое имя",
@@ -329,8 +329,8 @@
     "checking": "Проверка...",
     "external_link": "Открыть в браузере",
     "not_existing_post": "Такого поста не существует! Пожалуйста, проверьте ссылку и автора.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
+    "google_play_version": "Мы заметили, что на вашем устройстве старая версия Google Play. Пожалуйста, обновите сервисы Google Play и попробуйте еще раз!",
+    "rc_down": "Недостаточно ресурс кредитов для совершения действия! \n\nУсильте свой аккаунт, чтобы и далее получать удовольствие от использования. Хотите усилить свой аккаунт сейчас?",
     "payloadTooLarge": "Размер файла слишком большой. Ппожалуйста, измените размер или загрузите изображение меньшего размера",
     "qoutaExceeded": "Превышен лимит загрузки",
     "invalidImage": "Invalid image, try different file"
