@@ -93,19 +93,19 @@
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "Купить HIVE"
     },
     "sbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "Купить HBD"
     },
     "steem_power": {
       "title": "HIVE POWER (Сила)"
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "Купить BTC",
+      "address": "ПОЛУЧИТЬ"
     }
   },
   "notification": {
@@ -161,7 +161,7 @@
     "follow_people": "Подпишитесь на нескольких людей, чтобы заполнить ленту",
     "havent_commented": "ещё ничего не комментировал",
     "havent_posted": "ещё ничего не написал",
-    "steem_power": "Hive Power",
+    "steem_power": "Hive Power (Сила)",
     "next_power_text": "Следующее понижение силы",
     "days": "д",
     "day": "д",
