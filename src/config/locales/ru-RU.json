@@ -461,16 +461,16 @@
     "buy": "ПОЛУЧИТЬ ESTM",
     "next": "ДАЛЕЕ",
     "account": {
-      "title": "Get Account Boost",
+      "title": "Получить усиление аккаунта",
       "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
     }
   },
   "free_estm": {
     "title": "Free ESTM",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "button": "ВРАЩАЙ И ПОБЕЖДАЙ",
+    "get_spin": "5 ВРАЩЕНИЙ",
+    "spin_right": "Вращений осталось",
+    "timer_text": "Следующее бесплатное вращение через"
   },
   "promote": {
     "title": "Продвинуть",
@@ -495,7 +495,7 @@
     "date_error": {
       "device_time": "Время на вашем устройстве;",
       "current_time": "Текущее время;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "information": "Мы заметили, что на вашем устройстве неправильная дата или время. Пожалуйста, исправьте дату и время или установите Автоматически и повторите попытку."
     }
   },
   "comments": {
