@@ -442,7 +442,7 @@
     "steemconnect_title": "Hivesigner транзакция",
     "estimated_weekly": "Estimated Weekly",
     "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
+    "stop_information": "Вы действительно хотите остановить?",
     "percent": "Процент",
     "auto_vests": "Auto Vests",
     "save": "СОХРАНИТЬ",
@@ -452,7 +452,7 @@
     "power_down": "Понижение Силы",
     "withdraw_steem": "Вывести HIVE",
     "withdraw_sbd": "Вывести HIVE Dollar",
-    "incoming_funds": "Incoming Funds",
+    "incoming_funds": "Входящие средства",
     "stop": "Остановить",
     "address_view": "Посмотреть адрес"
   },
