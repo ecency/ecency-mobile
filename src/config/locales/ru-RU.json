@@ -27,7 +27,7 @@
     "vote_title": "Баллы за голос",
     "reblog_title": "Баллы за репост",
     "login_title": "Баллы за логин",
-    "checkin_title": "Баллы за регулярный вход",
+    "checkin_title": "Баллы за присутствие",
     "referral": "Реферал",
     "referral_title": "Реферальные вознаграждения",
     "referral_desc": "Приглашайте друзей и зарабатывайте ESTM",
@@ -44,7 +44,7 @@
     "checkin_extra_desc": "Постоянное использование приложения дает шанс заработать дополнительные баллы. Больше активности - больше вознаграждений.",
     "dropdown_transfer": "Подарить",
     "dropdown_promote": "Продвинуть",
-    "dropdown_boost": "Boost",
+    "dropdown_boost": "Усилить",
     "from": "От",
     "to": "Кому",
     "estimated_value_desc": "По стоимости покупки",
@@ -481,7 +481,7 @@
     "information": "Действительно хотите продвигать пост?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Усилить"
   },
   "voters_dropdown": {
     "rewards": "ВОЗНАГРАЖДЕНИЕ",
