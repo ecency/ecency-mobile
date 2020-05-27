@@ -3,7 +3,7 @@
     "curation_reward": "Кураторская награда",
     "author_reward": "Авторская награда",
     "comment_benefactor_reward": "Награда бенефициару",
-    "claim_reward_balance": "Claim Reward ",
+    "claim_reward_balance": "Получение Вознаграждений ",
     "transfer": "Перевод",
     "transfer_to_vesting": "В Силу Голоса",
     "transfer_from_savings": "Из сбережений",
@@ -305,8 +305,8 @@
     "success_favorite": "Добавлено в Избранное!",
     "success_unfavorite": "Удалено из Избранного!",
     "success_follow": "Успешная подписка!",
-    "success_mute": "Mute success!",
-    "success_unmute": "Unmute success!",
+    "success_mute": "Успешно игнорируется!",
+    "success_unmute": "Успешно перестали игнорировать!",
     "success_unfollow": "Успешная отписка!",
     "warning": "Внимание",
     "invalid_pincode": "Неверный пин, попробуйте снова.",
@@ -393,7 +393,7 @@
     "payout_date": "Выплата",
     "beneficiaries": "Бенефициары",
     "warn_zero_payout": "Для получения выплаты сумма должна достичь $0.02",
-    "breakdown": "Breakdown"
+    "breakdown": "Разбивка"
   },
   "post_dropdown": {
     "copy": "копировать ссылку",
@@ -444,7 +444,7 @@
     "destination_accounts": "Аккаунт(ы) получателя",
     "stop_information": "Вы действительно хотите остановить?",
     "percent": "Процент",
-    "auto_vests": "Auto Vests",
+    "auto_vests": "Авто Vests",
     "save": "СОХРАНИТЬ",
     "percent_information": "Информация о %",
     "next": "ДАЛЕЕ",
