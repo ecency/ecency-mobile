@@ -2,9 +2,7 @@ import { Component } from 'react';
 import { Platform, BackHandler, Alert, Linking, AppState } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import Config from 'react-native-config';
-import Push from 'appcenter-push';
 import get from 'lodash/get';
-import AppCenter from 'appcenter';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
@@ -16,6 +14,8 @@ import {
   initialMode as nativeThemeInitialMode,
   eventEmitter as nativeThemeEventEmitter,
 } from 'react-native-dark-mode';
+import messaging from '@react-native-firebase/messaging';
+import PushNotification from 'react-native-push-notification';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -85,6 +85,9 @@ export const setPreviousAppState = () => {
   }, 500);
 };
 
+let firebaseOnNotificationOpenedAppListener = null;
+let firebaseOnMessageListener = null;
+
 class ApplicationContainer extends Component {
   constructor(props) {
     super(props);
@@ -153,6 +156,14 @@ class ApplicationContainer extends Component {
 
     if (_isPinCodeOpen) {
       clearTimeout(this._pinCodeTimer);
+    }
+
+    if (firebaseOnMessageListener) {
+      firebaseOnMessageListener();
+    }
+
+    if (firebaseOnNotificationOpenedAppListener) {
+      firebaseOnNotificationOpenedAppListener();
     }
 
     this.netListener();
@@ -277,101 +288,116 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _createPushListener = () => {
+  _pushNavigate = (notification) => {
     const { dispatch } = this.props;
     let params = null;
     let key = null;
     let routeName = null;
 
-    Push.setListener({
-      onPushNotificationReceived(pushNotification) {
-        if (previousAppState !== 'active') {
-          const push = get(pushNotification, 'customProperties');
-          const type = get(push, 'type', '');
-          const permlink1 = get(push, 'permlink1', '');
-          const permlink2 = get(push, 'permlink2', '');
-          const permlink3 = get(push, 'permlink3', '');
-          //const parentPermlink1 = get(push, 'parent_permlink1', '');
-          //const parentPermlink2 = get(push, 'parent_permlink2', '');
-          //const parentPermlink3 = get(push, 'parent_permlink3', '');
+    if (previousAppState !== 'active' && !!notification) {
+      const push = get(notification, 'data');
+      const type = get(push, 'type', '');
+      const fullPermlink = get(push, 'permlink', '');
+      const username = get(push, 'target', '');
+      const activity_id = get(push, 'id', '');
 
-          //const fullParentPermlink = `${parentPermlink1}${parentPermlink2}${parentPermlink3}`;
-          const fullPermlink = `${permlink1}${permlink2}${permlink3}`;
+      switch (type) {
+        case 'vote':
+        case 'unvote':
+          params = {
+            author: get(push, 'target', ''),
+            permlink: fullPermlink,
+          };
+          key = fullPermlink;
+          routeName = ROUTES.SCREENS.POST;
+          break;
+        case 'mention':
+          params = {
+            author: get(push, 'source', ''),
+            permlink: fullPermlink,
+          };
+          key = fullPermlink;
+          routeName = ROUTES.SCREENS.POST;
+          break;
 
-          const username = get(push, 'target', '');
-          const activity_id = get(push, 'id', '');
+        case 'follow':
+        case 'unfollow':
+        case 'ignore':
+          params = {
+            username: get(push, 'source', ''),
+          };
+          key = get(push, 'source', '');
+          routeName = ROUTES.SCREENS.PROFILE;
+          break;
 
-          switch (type) {
-            case 'vote':
-            case 'unvote':
-              params = {
-                author: get(push, 'target', ''),
-                permlink: fullPermlink,
-              };
-              key = fullPermlink;
-              routeName = ROUTES.SCREENS.POST;
-              break;
-            case 'mention':
-              params = {
-                author: get(push, 'source', ''),
-                permlink: fullPermlink,
-              };
-              key = fullPermlink;
-              routeName = ROUTES.SCREENS.POST;
-              break;
+        case 'reblog':
+          params = {
+            author: get(push, 'target', ''),
+            permlink: fullPermlink,
+          };
+          key = fullPermlink;
+          routeName = ROUTES.SCREENS.POST;
+          break;
 
-            case 'follow':
-            case 'unfollow':
-            case 'ignore':
-              params = {
-                username: get(push, 'source', ''),
-              };
-              key = get(push, 'source', '');
-              routeName = ROUTES.SCREENS.PROFILE;
-              break;
+        case 'reply':
+          params = {
+            author: get(push, 'source', ''),
+            permlink: fullPermlink,
+          };
+          key = fullPermlink;
+          routeName = ROUTES.SCREENS.POST;
+          break;
 
-            case 'reblog':
-              params = {
-                author: get(push, 'target', ''),
-                permlink: fullPermlink,
-              };
-              key = fullPermlink;
-              routeName = ROUTES.SCREENS.POST;
-              break;
+        case 'transfer':
+          routeName = ROUTES.TABBAR.PROFILE;
+          params = {
+            activePage: 2,
+          };
+          break;
 
-            case 'reply':
-              params = {
-                author: get(push, 'source', ''),
-                permlink: fullPermlink,
-              };
-              key = fullPermlink;
-              routeName = ROUTES.SCREENS.POST;
-              break;
+        default:
+          break;
+      }
 
-            case 'transfer':
-              routeName = ROUTES.TABBAR.PROFILE;
-              params = {
-                activePage: 2,
-              };
-              break;
+      markActivityAsRead(username, activity_id).then((result) => {
+        dispatch(updateUnreadActivityCount(result.unread));
+      });
+      if (!some(params, isEmpty)) {
+        navigate({
+          routeName,
+          params,
+          key,
+        });
+      }
+    }
+  };
 
-            default:
-              break;
-          }
+  _createPushListener = () => {
+    (async () => await messaging().requestPermission())();
 
-          markActivityAsRead(username, activity_id).then((result) => {
-            dispatch(updateUnreadActivityCount(result.unread));
-          });
-          if (!some(params, isEmpty)) {
-            navigate({
-              routeName,
-              params,
-              key,
-            });
-          }
-        }
-      },
+    PushNotification.setApplicationIconBadgeNumber(0);
+    PushNotification.cancelAllLocalNotifications();
+
+    firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
+      console.log('remoteMessage 1 ', remoteMessage);
+      // this._pushNavigate(remoteMessage);
     });
+
+    firebaseOnNotificationOpenedAppListener = messaging().onNotificationOpenedApp(
+      (remoteMessage) => {
+        console.log('remoteMessage 2:>> ', remoteMessage);
+        // this._pushNavigate(remoteMessage);
+      },
+    );
+
+    messaging()
+      .getInitialNotification()
+      .then((remoteMessage) => {
+        console.log('remoteMessage 3:>> ', remoteMessage);
+        // this._pushNavigate(remoteMessage);
+      });
+
+    // return unsubscribe;
   };
 
   _handleConntectionChange = (status) => {
@@ -526,8 +552,6 @@ class ApplicationContainer extends Component {
           }),
         );
         dispatch(changeAllNotificationSettings(settings));
-
-        Push.setEnabled(settings.notification);
       }
       if (settings.nsfw !== '') dispatch(setNsfw(settings.nsfw));
 
@@ -596,15 +620,18 @@ class ApplicationContainer extends Component {
   };
 
   _enableNotification = async (username, isEnable) => {
-    const token = await AppCenter.getInstallId();
-
-    setPushToken({
-      username,
-      token,
-      system: Platform.OS,
-      allows_notify: Number(isEnable),
-      notify_types: [1, 2, 3, 4, 5, 6],
-    });
+    messaging()
+      .getToken()
+      .then((token) => {
+        console.log('token :>> ', token);
+        setPushToken({
+          username,
+          token,
+          system: Platform.OS,
+          allows_notify: Number(isEnable),
+          notify_types: [1, 2, 3, 4, 5, 6],
+        });
+      });
   };
 
   _switchAccount = async (targetAccountUsername) => {
