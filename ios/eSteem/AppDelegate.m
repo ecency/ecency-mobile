@@ -13,6 +13,7 @@
 #import <AppCenterReactNativeCrashes.h>
 #import <AppCenterReactNativePush.h>
 #import <BugsnagReactNative/BugsnagReactNative.h>
+@import Firebase;
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
@@ -30,6 +31,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [FIRApp configure];
   [AppCenterReactNativePush register];
   [AppCenterReactNative register];
   [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];
