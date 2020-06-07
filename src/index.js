@@ -3,6 +3,7 @@ import 'react-native-gesture-handler';
 import { Provider, connect } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { IntlProvider } from 'react-intl';
+import firebase from '@react-native-firebase/app';
 import { flattenMessages } from './utils/flattenMessages';
 import messages from './config/locales';
 
