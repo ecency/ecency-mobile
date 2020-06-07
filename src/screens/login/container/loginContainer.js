@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react';
 import { Alert, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import AppCenter from 'appcenter';
 import Config from 'react-native-config';
+import messaging from '@react-native-firebase/messaging';
 
 // Services and Actions
 import { login } from '../../../providers/steem/auth';
@@ -100,7 +100,6 @@ class LoginContainer extends PureComponent {
       transfers: 6,
     };
     const notifyTypes = [];
-    const token = await AppCenter.getInstallId();
 
     Object.keys(notificationDetails).map((item) => {
       const notificationType = item.replace('Notification', '');
@@ -110,16 +109,20 @@ class LoginContainer extends PureComponent {
       }
     });
 
-    const data = {
-      username,
-      token,
-      system: Platform.OS,
-      allows_notify: Number(notificationSettings),
-      notify_types: notifyTypes,
-    };
-    setPushToken(data).then(() => {
-      setPushTokenSaved(true);
-    });
+    messaging()
+      .getToken()
+      .then((token) => {
+        const data = {
+          username,
+          token,
+          system: Platform.OS,
+          allows_notify: Number(notificationSettings),
+          notify_types: notifyTypes,
+        };
+        setPushToken(data).then(() => {
+          setPushTokenSaved(true);
+        });
+      });
   };
 
   _getAccountsWithUsername = async (username) => {
