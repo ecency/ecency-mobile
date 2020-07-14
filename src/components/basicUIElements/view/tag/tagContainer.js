@@ -48,7 +48,7 @@ class TagContainer extends PureComponent {
       onPress();
     } else {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.SEARCH_RESULT,
+        routeName: ROUTES.SCREENS.TAG_RESULT,
         params: {
           tag: value,
         },
@@ -57,7 +57,7 @@ class TagContainer extends PureComponent {
   };
 
   render() {
-    const { isPin, value, isPostCardTag, isFilter } = this.props;
+    const { isPin, value, isPostCardTag, isFilter, style, textStyle } = this.props;
     const { label } = this.state;
 
     return (
@@ -68,6 +68,8 @@ class TagContainer extends PureComponent {
         isPostCardTag={isPostCardTag}
         onPress={this._handleOnTagPress}
         isFilter={isFilter}
+        style={style}
+        textStyle={textStyle}
       />
     );
   }

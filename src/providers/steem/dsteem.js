@@ -6,8 +6,6 @@ import { Client, PrivateKey, cryptoUtils } from '@esteemapp/dhive';
 import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
-import axios from 'axios';
-import { getInputRangeFromIndexes } from 'react-native-snap-carousel';
 import { getServer } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
 import { userActivity } from '../esteem/ePoint';

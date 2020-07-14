@@ -1,22 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { useIntl } from 'react-intl';
 
 // Components
-import { SearchInput, Posts, TabBar } from '../../../components';
+import { SearchInput, TabBar } from '../../../components';
+import Communities from './communities';
+import PostResult from './postResult';
+import OtherResult from './otherResults';
 
 // Styles
 import styles from './searchResultStyles';
 import globalStyles from '../../../globalStyles';
 
-import { GLOBAL_POST_FILTERS, GLOBAL_POST_FILTERS_VALUE } from '../../../constants/options/filters';
-
 const SearchResultScreen = ({ navigation }) => {
-  const tag = navigation.getParam('tag', '');
-  const filter = navigation.getParam('filter', '');
-
+  const [searchValue, setSearchValue] = useState('');
+  const [text, setText] = useState('');
   const intl = useIntl();
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      setSearchValue(text);
+    }, 100);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [text]);
 
   const _navigationGoBack = () => {
     navigation.goBack();
@@ -31,34 +39,28 @@ const SearchResultScreen = ({ navigation }) => {
     />
   );
 
-  const _getSelectedIndex = () => {
-    if (filter) {
-      const selectedIndex = GLOBAL_POST_FILTERS_VALUE.indexOf(filter);
-      if (selectedIndex > 0) {
-        return selectedIndex;
-      }
-    }
-    return 0;
-  };
-
   return (
     <View style={styles.container}>
       <SafeAreaView>
         <SearchInput
           handleOnModalClose={_navigationGoBack}
-          placeholder={`#${tag}`}
-          editable={false}
+          placeholder="Search"
+          onChangeText={setText}
         />
       </SafeAreaView>
-      <ScrollableTabView style={globalStyles.tabView} renderTabBar={_renderTabbar}>
+      <ScrollableTabView
+        style={globalStyles.tabView}
+        renderTabBar={_renderTabbar}
+        prerenderingSiblingsNumber={Infinity}
+      >
+        <View tabLabel="Communities" style={styles.tabbarItem}>
+          <Communities searchValue={searchValue} />
+        </View>
         <View tabLabel={intl.formatMessage({ id: 'search.posts' })} style={styles.tabbarItem}>
-          <Posts
-            key={tag}
-            filterOptions={GLOBAL_POST_FILTERS}
-            filterOptionsValue={GLOBAL_POST_FILTERS_VALUE}
-            selectedOptionIndex={_getSelectedIndex()}
-            tag={tag}
-          />
+          <PostResult searchValue={searchValue} />
+        </View>
+        <View tabLabel="Others" style={styles.tabbarItem}>
+          <OtherResult searchValue={searchValue} />
         </View>
       </ScrollableTabView>
     </View>

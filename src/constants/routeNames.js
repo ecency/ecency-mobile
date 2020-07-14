@@ -21,6 +21,7 @@ export default {
     REDEEM: `Redeem${SCREEN_SUFFIX}`,
     REGISTER: `Register${SCREEN_SUFFIX}`,
     SEARCH_RESULT: `SearchResult${SCREEN_SUFFIX}`,
+    TAG_RESULT: `TagResult${SCREEN_SUFFIX}`,
     SETTINGS: `Settings${SCREEN_SUFFIX}`,
     STEEM_CONNECT: `SteemConnect${SCREEN_SUFFIX}`,
     TRANSFER: `Transfer${SCREEN_SUFFIX}`,

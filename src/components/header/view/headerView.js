@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useIntl } from 'react-intl';
+import { withNavigation } from 'react-navigation';
 
 // Components
 import { SearchModal } from '../../searchModal';
 import { IconButton } from '../../iconButton';
 import { UserAvatar } from '../../userAvatar';
+
+// Constants
+import ROUTES from '../../../constants/routeNames';
 
 // Styles
 import styles from './headerStyles';
@@ -21,6 +25,7 @@ const HeaderView = ({
   isReverse,
   reputation,
   username,
+  navigation,
 }) => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const intl = useIntl();
@@ -31,6 +36,12 @@ const HeaderView = ({
   } else {
     gradientColor = isDarkTheme ? ['#081c36', '#43638e'] : ['#2d5aa0', '#357ce6'];
   }
+
+  const _onPressSearchButton = () => {
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.SEARCH_RESULT,
+    });
+  };
 
   return (
     <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
@@ -93,15 +104,11 @@ const HeaderView = ({
         </View>
       ) : (
         <View style={styles.backButtonWrapper}>
-          <IconButton
-            iconStyle={styles.backIcon}
-            name="md-search"
-            onPress={() => setIsSearchModalOpen(true)}
-          />
+          <IconButton iconStyle={styles.backIcon} name="md-search" onPress={_onPressSearchButton} />
         </View>
       )}
     </SafeAreaView>
   );
 };
 
-export default HeaderView;
+export default withNavigation(HeaderView);
