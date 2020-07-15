@@ -1,19 +1,22 @@
 import React from 'react';
 import { SafeAreaView, FlatList } from 'react-native';
-import { withNavigation } from 'react-navigation';
 
 // Components
 import CommunitiesListItem from './CommunitiesListItem';
 import { CommunitiesPlaceHolder } from '../../../components/basicUIElements';
 
-// Constants
-import ROUTES from '../../../constants/routeNames';
-
 // Styles
 import styles from './communitiesListStyles';
 
-const VotersDisplayView = ({ votes, navigation }) => {
+const VotersDisplayView = ({
+  votes,
+  handleOnPress,
+  handleSubscribeButtonPress,
+  allSubscriptions,
+}) => {
   const _renderItem = (item, index) => {
+    const isSubscribed = allSubscriptions.some((sub) => sub[0] === item.name);
+
     return (
       <CommunitiesListItem
         index={index}
@@ -25,6 +28,10 @@ const VotersDisplayView = ({ votes, navigation }) => {
         posts={item.num_pending}
         subscribers={item.subscribers}
         isNsfw={item.is_nsfw}
+        name={item.name}
+        handleOnPress={handleOnPress}
+        handleSubscribeButtonPress={handleSubscribeButtonPress}
+        isSubscribed={isSubscribed}
       />
     );
   };
@@ -55,4 +62,4 @@ const VotersDisplayView = ({ votes, navigation }) => {
   );
 };
 
-export default withNavigation(VotersDisplayView);
+export default VotersDisplayView;

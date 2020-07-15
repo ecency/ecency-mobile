@@ -1482,7 +1482,7 @@ export const profileUpdate = async (params, pin, currentAccount) => {
       .then((resp) => resp.result)
       .catch((error) => console.log(error));
   }
-  console.log('priv key', key);
+
   if (key) {
     const opArray = [
       [
@@ -1516,6 +1516,34 @@ export const profileUpdate = async (params, pin, currentAccount) => {
 
   return Promise.reject(
     new Error('Check private key permission! Required private posting key or above.'),
+  );
+};
+
+export const subscribeCommunity = (currentAccount, pinCode, data) => {
+  const pin = getDigitPinCode(pinCode);
+  const key = getActiveKey(get(currentAccount, 'local'), pin);
+  const username = get(currentAccount, 'name');
+
+  const json = JSON.stringify([
+    data.isSubscribed ? 'unsubscribe' : 'subscribe',
+    { community: data.communityId },
+  ]);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+
+    const op = {
+      id: 'community',
+      json,
+      required_auths: [username],
+      required_posting_auths: [],
+    };
+
+    return client.broadcast.json(op, privateKey);
+  }
+
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
   );
 };
 

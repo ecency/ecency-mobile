@@ -28,6 +28,7 @@ export default {
     VOTERS: `Voters${SCREEN_SUFFIX}`,
     COMMENTS: `Comments${SCREEN_SUFFIX}`,
     ACCOUNT_BOOST: `AccountBoost${SCREEN_SUFFIX}`,
+    COMMUNITY: `Community${SCREEN_SUFFIX}`,
   },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,

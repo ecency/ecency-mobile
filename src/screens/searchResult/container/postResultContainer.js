@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
 import get from 'lodash/get';
 import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
 
 import ROUTES from '../../../constants/routeNames';
 
-import { search } from '../../../providers/esteem/esteem';
+import { search, getPromotePosts } from '../../../providers/esteem/esteem';
+import { getPost } from '../../../providers/steem/dsteem';
 
-const PostResultContainer = (props) => {
+const PostResultContainer = ({ children, navigation, searchValue, currentAccountUsername }) => {
   const [data, setData] = useState([]);
   const [filterIndex, setFilterIndex] = useState(0);
   const [sort, setSort] = useState('relevance');
   const [scrollId, setScrollId] = useState('');
-
-  const { children, navigation, searchValue } = props;
 
   useEffect(() => {
     setData([]);
@@ -22,6 +22,26 @@ const PostResultContainer = (props) => {
         setScrollId(res.scroll_id);
         setData(res.results);
       });
+    } else {
+      getPromotePosts()
+        .then((result) => {
+          return Promise.all(
+            result.map((item) =>
+              getPost(
+                get(item, 'author'),
+                get(item, 'permlink'),
+                currentAccountUsername,
+                true,
+              ).then((post) => {
+                post.author_rep = post.author_reputation;
+                return post;
+              }),
+            ),
+          );
+        })
+        .then((result) => {
+          setData(result);
+        });
     }
   }, [searchValue, sort]);
 
@@ -63,4 +83,8 @@ const PostResultContainer = (props) => {
   );
 };
 
-export default withNavigation(PostResultContainer);
+const mapStateToProps = (state) => ({
+  currentAccountUsername: state.account.currentAccount.username,
+});
+
+export default connect(mapStateToProps)(withNavigation(PostResultContainer));

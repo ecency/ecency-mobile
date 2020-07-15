@@ -22,6 +22,9 @@ const bridgeApiCall = (endpoint, params) =>
       return resp.data.result || null;
     });
 
+export const getCommunity = (name, observer = '') =>
+  bridgeApiCall('bridge.get_community', { name, observer });
+
 export const getCommunities = (last = '', limit = 100, query = '', sort = 'rank', observer = '') =>
   bridgeApiCall('bridge.list_communities', {
     last,
@@ -30,3 +33,6 @@ export const getCommunities = (last = '', limit = 100, query = '', sort = 'rank'
     sort,
     observer,
   });
+
+export const getSubscriptions = (account = '') =>
+  bridgeApiCall('bridge.list_all_subscriptions', { account });

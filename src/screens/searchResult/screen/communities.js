@@ -17,7 +17,14 @@ const CommunitiesScreen = ({ navigation, searchValue }) => {
 
   return (
     <CommunitiesContainer data={activeVotes} searchValue={searchValue}>
-      {({ data, filterIndex, handleOnVotersDropdownSelect }) => (
+      {({
+        data,
+        filterIndex,
+        allSubscriptions,
+        handleOnVotersDropdownSelect,
+        handleOnPress,
+        handleSubscribeButtonPress,
+      }) => (
         <>
           <FilterBar
             dropdownIconName="arrow-drop-down"
@@ -32,7 +39,12 @@ const CommunitiesScreen = ({ navigation, searchValue }) => {
             selectedOptionIndex={filterIndex}
             onDropdownSelect={(index) => handleOnVotersDropdownSelect(index, filterOptions[index])}
           />
-          <CommunitiesList votes={data} />
+          <CommunitiesList
+            votes={data}
+            allSubscriptions={allSubscriptions}
+            handleOnPress={handleOnPress}
+            handleSubscribeButtonPress={handleSubscribeButtonPress}
+          />
         </>
       )}
     </CommunitiesContainer>

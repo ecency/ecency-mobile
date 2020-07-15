@@ -36,6 +36,7 @@ import {
   Wallet,
   AccountBoost,
   TagResult,
+  Community,
 } from '../screens';
 
 const bottomTabNavigator = createBottomTabNavigator(
@@ -132,6 +133,7 @@ const stackNavigator = createStackNavigator(
     [ROUTES.SCREENS.REBLOGS]: { screen: Reblogs },
     [ROUTES.SCREENS.SPIN_GAME]: { screen: SpinGame },
     [ROUTES.SCREENS.ACCOUNT_BOOST]: { screen: AccountBoost },
+    [ROUTES.SCREENS.COMMUNITY]: { screen: Community },
   },
   {
     headerMode: 'none',

@@ -26,6 +26,7 @@ const HeaderView = ({
   reputation,
   username,
   navigation,
+  hideUser,
 }) => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const intl = useIntl();
@@ -45,52 +46,56 @@ const HeaderView = ({
 
   return (
     <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
-      <SearchModal
-        placeholder={intl.formatMessage({
-          id: 'header.search',
-        })}
-        isOpen={isSearchModalOpen}
-        handleOnClose={() => setIsSearchModalOpen(false)}
-      />
-      <TouchableOpacity
-        style={styles.avatarWrapper}
-        onPress={handleOpenDrawer}
-        disabled={isReverse}
-      >
-        <LinearGradient
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          colors={gradientColor}
-          style={[
-            styles.avatarButtonWrapper,
-            isReverse ? styles.avatarButtonWrapperReverse : styles.avatarDefault,
-          ]}
-        >
-          <UserAvatar
-            noAction
-            style={isReverse ? styles.reverseAvatar : styles.avatar}
-            username={username}
+      {!hideUser && (
+        <>
+          <SearchModal
+            placeholder={intl.formatMessage({
+              id: 'header.search',
+            })}
+            isOpen={isSearchModalOpen}
+            handleOnClose={() => setIsSearchModalOpen(false)}
           />
-        </LinearGradient>
-      </TouchableOpacity>
-      {displayName || username ? (
-        <View style={styles.titleWrapper}>
-          {displayName && <Text style={styles.title}>{displayName}</Text>}
-          <Text style={styles.subTitle}>
-            {`@${username}`}
-            {reputation && ` (${reputation})`}
-          </Text>
-        </View>
-      ) : (
-        <View style={styles.titleWrapper}>
-          {isLoginDone && !isLoggedIn && (
-            <Text style={styles.noAuthTitle}>
-              {intl.formatMessage({
-                id: 'header.title',
-              })}
-            </Text>
+          <TouchableOpacity
+            style={styles.avatarWrapper}
+            onPress={handleOpenDrawer}
+            disabled={isReverse}
+          >
+            <LinearGradient
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              colors={gradientColor}
+              style={[
+                styles.avatarButtonWrapper,
+                isReverse ? styles.avatarButtonWrapperReverse : styles.avatarDefault,
+              ]}
+            >
+              <UserAvatar
+                noAction
+                style={isReverse ? styles.reverseAvatar : styles.avatar}
+                username={username}
+              />
+            </LinearGradient>
+          </TouchableOpacity>
+          {displayName || username ? (
+            <View style={styles.titleWrapper}>
+              {displayName && <Text style={styles.title}>{displayName}</Text>}
+              <Text style={styles.subTitle}>
+                {`@${username}`}
+                {reputation && ` (${reputation})`}
+              </Text>
+            </View>
+          ) : (
+            <View style={styles.titleWrapper}>
+              {isLoginDone && !isLoggedIn && (
+                <Text style={styles.noAuthTitle}>
+                  {intl.formatMessage({
+                    id: 'header.title',
+                  })}
+                </Text>
+              )}
+            </View>
           )}
-        </View>
+        </>
       )}
 
       {isReverse ? (

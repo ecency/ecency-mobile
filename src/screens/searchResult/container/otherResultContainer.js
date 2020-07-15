@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import ROUTES from '../../../constants/routeNames';
 
 import { lookupAccounts, getTrendingTags } from '../../../providers/steem/dsteem';
+import { getLeaderboard } from '../../../providers/esteem/esteem';
 
 const OtherResultContainer = (props) => {
   const [users, setUsers] = useState([]);
@@ -24,6 +25,10 @@ const OtherResultContainer = (props) => {
       });
       getTrendingTags(searchValue).then((res) => {
         setTags(res);
+      });
+    } else {
+      getLeaderboard().then((result) => {
+        setUsers(result.map((item) => item._id));
       });
     }
   }, [searchValue]);

@@ -38,7 +38,7 @@ const PostResult = ({ navigation, searchValue }) => {
           </Text>
         </View>
         <View style={styles.stats}>
-          <Text style={styles.postIconText}>{`$ ${item.payout}`}</Text>
+          {item.payout && <Text style={styles.postIconText}>{`$ ${item.payout}`}</Text>}
           <TextWithIcon
             iconName="heart-outline"
             textStyle={styles.postIconText}
