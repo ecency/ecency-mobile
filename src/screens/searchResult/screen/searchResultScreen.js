@@ -44,7 +44,7 @@ const SearchResultScreen = ({ navigation }) => {
       <SafeAreaView>
         <SearchInput
           handleOnModalClose={_navigationGoBack}
-          placeholder="Search"
+          placeholder={intl.formatMessage({ id: 'header.search' })}
           onChangeText={setText}
         />
       </SafeAreaView>
@@ -53,13 +53,19 @@ const SearchResultScreen = ({ navigation }) => {
         renderTabBar={_renderTabbar}
         prerenderingSiblingsNumber={Infinity}
       >
-        <View tabLabel="Communities" style={styles.tabbarItem}>
+        <View
+          tabLabel={intl.formatMessage({ id: 'search_result.communities.title' })}
+          style={styles.tabbarItem}
+        >
           <Communities searchValue={searchValue} />
         </View>
         <View tabLabel={intl.formatMessage({ id: 'search.posts' })} style={styles.tabbarItem}>
           <PostResult searchValue={searchValue} />
         </View>
-        <View tabLabel="Others" style={styles.tabbarItem}>
+        <View
+          tabLabel={intl.formatMessage({ id: 'search_result.others' })}
+          style={styles.tabbarItem}
+        >
           <OtherResult searchValue={searchValue} />
         </View>
       </ScrollableTabView>

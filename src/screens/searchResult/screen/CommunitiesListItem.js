@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { useIntl } from 'react-intl';
+
 import styles from './communitiesListItemStyles';
 
 import { Tag } from '../../../components/basicUIElements';
@@ -21,6 +23,7 @@ const UserListItem = ({
   isSubscribed,
 }) => {
   const [subscribed, setSubscribed] = useState(isSubscribed);
+  const intl = useIntl();
 
   const _handleSubscribeButtonPress = () => {
     handleSubscribeButtonPress({ subscribed: !subscribed, communityId: name }).then(() => {
@@ -40,7 +43,15 @@ const UserListItem = ({
             <Tag
               style={styles.subscribeButton}
               textStyle={!subscribed && styles.subscribeButtonText}
-              value={subscribed ? 'Unsubscribe' : 'Subscribe'}
+              value={
+                subscribed
+                  ? intl.formatMessage({
+                      id: 'search_result.communities.subscribe',
+                    })
+                  : intl.formatMessage({
+                      id: 'search_result.communities.unsubscribe',
+                    })
+              }
               isPin={subscribed}
               isFilter
               onPress={_handleSubscribeButtonPress}
@@ -49,7 +60,13 @@ const UserListItem = ({
           {!!about && <Text style={styles.about}>{about}</Text>}
           <View style={styles.separator} />
           <Text style={styles.stats}>
-            {`${subscribers.toString()} Subscribers • ${authors.toString()} Posters • ${posts} Posts`}
+            {`${subscribers.toString()} ${intl.formatMessage({
+              id: 'search_result.communities.subscribers',
+            })} • ${authors.toString()} ${intl.formatMessage({
+              id: 'search_result.communities.posters',
+            })} • ${posts} ${intl.formatMessage({
+              id: 'search_result.communities.posts',
+            })}`}
           </Text>
         </View>
       </View>

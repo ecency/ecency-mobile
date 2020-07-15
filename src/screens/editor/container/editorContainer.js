@@ -716,7 +716,7 @@ class EditorContainer extends Component {
   }
 
   render() {
-    const { isLoggedIn, isDarkTheme } = this.props;
+    const { isLoggedIn, isDarkTheme, navigation } = this.props;
     const {
       autoFocusText,
       draftPost,
@@ -730,6 +730,8 @@ class EditorContainer extends Component {
       post,
       uploadedImage,
     } = this.state;
+
+    const tags = navigation.state.params.tags;
 
     return (
       <EditorScreen
@@ -754,6 +756,7 @@ class EditorContainer extends Component {
         saveCurrentDraft={this._saveCurrentDraft}
         saveDraftToDB={this._saveDraftToDB}
         uploadedImage={uploadedImage}
+        tags={tags}
       />
     );
   }

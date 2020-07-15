@@ -31,33 +31,49 @@ const TagResultScreen = ({ navigation }) => {
 
   return (
     <CommunityContainer>
-      {({ data, handleSubscribeButtonPress, isSubscribed }) => (
+      {({ data, handleSubscribeButtonPress, handleNewPostButtonPress, isSubscribed }) => (
         <View style={styles.container}>
           <Header isReverse hideUser />
           {data ? (
-            <CollapsibleCard title={data.title} isTitleCenter defaultTitle="test">
+            <CollapsibleCard title={data.title} isTitleCenter defaultTitle="">
               <View style={styles.collapsibleCard}>
                 <Text style={styles.description}>{data.description}</Text>
                 <View style={styles.separator} />
                 <Text style={styles.stats}>
-                  {`${data.subscribers} Subscribers • ${data.num_authors} Posters • ${data.num_pending} Posts`}
+                  {`${data.subscribers} ${intl.formatMessage({
+                    id: 'search_result.communities.subscribers',
+                  })} • ${data.num_authors} ${intl.formatMessage({
+                    id: 'search_result.communities.posters',
+                  })} • ${data.num_pending} ${intl.formatMessage({
+                    id: 'search_result.communities.posts',
+                  })}`}
                 </Text>
                 <View style={styles.separator} />
                 <View style={{ flexDirection: 'row' }}>
                   <Tag
                     style={styles.subscribeButton}
                     textStyle={!isSubscribed && styles.subscribeButtonText}
-                    value={isSubscribed ? 'Unsubscribe' : 'Subscribe'}
+                    value={
+                      isSubscribed
+                        ? intl.formatMessage({
+                            id: 'search_result.communities.subscribe',
+                          })
+                        : intl.formatMessage({
+                            id: 'search_result.communities.unsubscribe',
+                          })
+                    }
                     isPin={isSubscribed}
                     isFilter
                     onPress={handleSubscribeButtonPress}
                   />
                   <Tag
                     style={styles.subscribeButton}
-                    value="New Post"
+                    value={intl.formatMessage({
+                      id: 'community.new_post',
+                    })}
                     isFilter
                     isPin
-                    onPress={handleSubscribeButtonPress}
+                    onPress={handleNewPostButtonPress}
                   />
                 </View>
               </View>

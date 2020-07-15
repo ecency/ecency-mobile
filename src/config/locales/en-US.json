@@ -505,6 +505,15 @@
     "more_replies": "more replies"
   },
   "search_result": {
+    "others": "Others",
+    "communities": {
+      "title": "Communities",
+      "subscribe": "Subscribe",
+      "unsubscribe": "Unsubscribe",
+      "subscribers": "Subscribers",
+      "posters": "Posters",
+      "posts": "Posts"
+    },
     "communities_filter": {
       "rank": "Rank",
       "subs": "Subscribers",
@@ -519,5 +528,8 @@
       "user": "User",
       "tag": "Tag"
     }
+  },
+  "community": {
+    "new_post": "New Post"
   }
 }

@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { getCommunity, getSubscriptions } from '../../../providers/steem/steem';
 import { subscribeCommunity } from '../../../providers/steem/dsteem';
 
+import ROUTES from '../../../constants/routeNames';
+
 const CommunityContainer = ({ children, navigation, currentAccount, pinCode }) => {
   const [data, setData] = useState(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -13,7 +15,6 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode }) =
 
   useEffect(() => {
     getCommunity(tag).then((res) => {
-      console.log('res :>> ', res);
       setData(res);
     });
   }, [tag]);
@@ -38,11 +39,21 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode }) =
     });
   };
 
+  const _handleNewPostButtonPress = () => {
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.EDITOR,
+      params: {
+        tags: [tag],
+      },
+    });
+  };
+
   return (
     children &&
     children({
       data,
       handleSubscribeButtonPress: _handleSubscribeButtonPress,
+      handleNewPostButtonPress: _handleNewPostButtonPress,
       isSubscribed: isSubscribed,
     })
   );
