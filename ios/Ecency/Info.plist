@@ -59,7 +59,7 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>To access your photos, Esteem needs your permission to help you share your photos.</string>
+	<string>To access your photos, Ecency needs your permission to help you share your photos.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>To get accurate location for sharing</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

@@ -1,6 +1,7 @@
 {
   "name": "esteem",
   "version": "3.0.0",
+  "displayName": "Ecency",
   "private": true,
   "rnpm": {
     "assets": [

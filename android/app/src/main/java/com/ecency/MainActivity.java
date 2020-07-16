@@ -1,4 +1,4 @@
-package app.esteem.mobile.android;
+package com.ecency;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

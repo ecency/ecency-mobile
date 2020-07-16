@@ -1,4 +1,4 @@
-package app.esteem.mobile.android;
+package com.ecency;
 
 import android.app.Application;
 
