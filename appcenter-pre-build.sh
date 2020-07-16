@@ -2,13 +2,15 @@
 # Creates an .env from ENV variables for use with react-native-config
 
 GOOGLE_JSON_FILE=$APPCENTER_SOURCE_DIRECTORY/android/app/google-services.json
+GOOGLE_PLIST_FILE=$APPCENTER_SOURCE_DIRECTORY/ios/GoogleService-Info.plist
+
 
 printf "%s\n\n" $APPCENTER_SOURCE_DIRECTORY
 
 if [ -e "$GOOGLE_JSON_FILE" ]
 then
     echo "Updating Google Json"
-    echo "$GOOGLE_JSON" > $GOOGLE_JSON_FILE
+    echo "$GOOGLE_JSON" | base64 --decode > $GOOGLE_JSON_FILE
     sed -i -e 's/\\"/'\"'/g' $GOOGLE_JSON_FILE
 
     echo "File content:"
@@ -16,7 +18,7 @@ then
 else
     echo "Creating and Updating Google Json"
     touch $GOOGLE_JSON_FILE
-    echo "$GOOGLE_JSON" > $GOOGLE_JSON_FILE
+    echo "$GOOGLE_JSON" | base64 --decode > $GOOGLE_JSON_FILE
     sed -i -e 's/\\"/'\"'/g' $GOOGLE_JSON_FILE
 
     echo "File content:"
@@ -26,6 +28,28 @@ fi
 printf "google-services json file:\n"
 
 cat $GOOGLE_JSON_FILE
+
+if [ -e "$GOOGLE_PLIST_FILE" ]
+then
+    echo "Updating Google Json"
+    echo "$GOOGLE_PLIST" | base64 --decode > $GOOGLE_PLIST_FILE
+    sed -i -e 's/\\"/'\"'/g' $GOOGLE_PLIST_FILE
+
+    echo "File content:"
+    cat $GOOGLE_PLIST_FILE
+else
+    echo "Creating and Updating Google Plist"
+    touch $GOOGLE_PLIST_FILE
+    echo "$GOOGLE_PLIST" | base64 --decode > $GOOGLE_PLIST_FILE
+    sed -i -e 's/\\"/'\"'/g' $GOOGLE_PLIST_FILE
+
+    echo "File content:"
+    cat $GOOGLE_PLIST_FILE
+fi
+
+printf "google-services plist file:\n"
+
+cat $GOOGLE_PLIST_FILE
 
 printf "Old .env file:\n"
 cat .env
