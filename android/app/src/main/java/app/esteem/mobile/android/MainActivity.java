@@ -28,11 +28,7 @@ public class MainActivity extends ReactActivity {
       @Override
       protected ReactRootView createRootView() {
         return new RNGestureHandlerEnabledRootView(MainActivity.this);
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        SplashScreen.show(this, R.style.SplashScreenTheme);
-        super.onCreate(savedInstanceState);
-    }      }
+      }
     };
   }
 }
