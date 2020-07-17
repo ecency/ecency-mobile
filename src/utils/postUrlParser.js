@@ -62,9 +62,13 @@ export default (url) => {
   }
 
   if (
-    ['https://estm.to', 'https://ecency.com', 'https://hive.blog', 'https://peakd.com'].some((x) =>
-      url.startsWith(x),
-    )
+    [
+      'https://estm.to',
+      'https://ecency.com',
+      'https://esteem.app',
+      'https://hive.blog',
+      'https://peakd.com',
+    ].some((x) => url.startsWith(x))
   ) {
     return parseCatAuthorPermlink(url);
   }

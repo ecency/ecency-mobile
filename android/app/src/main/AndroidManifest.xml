@@ -44,6 +44,12 @@
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" android:host="esteem.app" />
+        </intent-filter>
+        <intent-filter android:label="Ecency">
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="https" android:host="hive.blog" />
         </intent-filter>
         <intent-filter android:label="Ecency">
