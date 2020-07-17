@@ -503,5 +503,33 @@
     "reveal_comment": "Şîroveyê eşkere bike",
     "read_more": "Zêdetir şîroveyan bixwîne",
     "more_replies": "bersivên zêdetir"
+  },
+  "search_result": {
+    "others": "Others",
+    "communities": {
+      "title": "Communities",
+      "subscribe": "Subscribe",
+      "unsubscribe": "Unsubscribe",
+      "subscribers": "Subscribers",
+      "posters": "Posters",
+      "posts": "Şandî"
+    },
+    "communities_filter": {
+      "rank": "Rank",
+      "subs": "Subscribers",
+      "new": "New"
+    },
+    "post_result_filter": {
+      "popularity": "Popularity",
+      "newest": "Newest",
+      "relevance": "Relevance"
+    },
+    "other_result_filter": {
+      "user": "Bikarhêner",
+      "tag": "Tag"
+    }
+  },
+  "community": {
+    "new_post": "New Post"
   }
 }
