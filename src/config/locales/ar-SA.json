@@ -213,7 +213,7 @@
   "login": {
     "signin": "تسجيل الدخول",
     "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "إسم المستخدم",
     "password": "أدخل دكلمة المرور أو WIF",
     "description": "يتم الاحتفاظ ببيانات اعتماد المستخدم محليًا على الجهاز. تتم إزالة بيانات الاعتماد عند تسجيل الخروج!",
@@ -298,7 +298,7 @@
     "success_shared": "Your post successfully shared",
     "success_moved": "تم النقل إلى المسودات",
     "permission_denied": "طلب الإذن مرفوض",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "أعيد تدوينه!",
     "already_rebloged": "لقد قمت بالفعل بإعادة نشره!",
@@ -323,7 +323,7 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
     "checking": "Checking...",
@@ -383,7 +383,7 @@
     "invalid_username": "اسم المستخدم غير صالح، يرجى التحقق والمحاولة مرة أخرى",
     "already_logged": "لقد قمت بتسجيل الدخول بالفعل، يرجى محاولة إضافة حساب آخر",
     "invalid_credentials": "بيانات الاعتماد غير صالحة، يرجى التحقق والمحاولة مرة أخرى",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "المكافأة المتوقعة",
@@ -457,7 +457,7 @@
     "address_view": "View address"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Get Points",
     "buy": "GET ESTM",
     "next": "NEXT",
     "account": {
