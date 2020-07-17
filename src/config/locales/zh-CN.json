@@ -213,7 +213,7 @@
   "login": {
     "signin": "登录",
     "signup": "立即加入",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "用户名",
     "password": "密码 或 WIF",
     "description": "用户凭据保持在本地设备上。退出时，凭据将被删除！",
@@ -298,7 +298,7 @@
     "success_shared": "已成功分享您的文章",
     "success_moved": "存为草稿",
     "permission_denied": "没有权限",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "检查私钥权限！",
     "success_rebloged": "已转发!",
     "already_rebloged": "您已经转发！",
@@ -323,7 +323,7 @@
     "same_user": "此用户已添加到列表",
     "unknow_error": "发生错误",
     "error": "错误",
-    "fetch_error": "连接问题，请重试或给 support@esteem.app 写电子邮件",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "连接失败!",
     "connection_success": "连接成功！",
     "checking": "正在检查...",
@@ -383,7 +383,7 @@
     "invalid_username": "无效用户名，请检查后重试。",
     "already_logged": "您已登录，请尝试添加其他账户。",
     "invalid_credentials": "无效凭证，请检查后重试。",
-    "unknow_error": "未知错误，请通过 support@esteem.app 与我们联系。"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "可能收益",
@@ -457,7 +457,7 @@
     "address_view": "View address"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Get Points",
     "buy": "获取 ESTM",
     "next": "下一个",
     "account": {
