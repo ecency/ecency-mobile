@@ -503,5 +503,33 @@
     "reveal_comment": "명성도가 낮은 사용자의 댓글 보기",
     "read_more": "댓글 더 보기",
     "more_replies": "개의 대댓글"
+  },
+  "search_result": {
+    "others": "Others",
+    "communities": {
+      "title": "Communities",
+      "subscribe": "Subscribe",
+      "unsubscribe": "Unsubscribe",
+      "subscribers": "Subscribers",
+      "posters": "Posters",
+      "posts": "글 목록"
+    },
+    "communities_filter": {
+      "rank": "Rank",
+      "subs": "Subscribers",
+      "new": "New"
+    },
+    "post_result_filter": {
+      "popularity": "Popularity",
+      "newest": "Newest",
+      "relevance": "Relevance"
+    },
+    "other_result_filter": {
+      "user": "사용자",
+      "tag": "Tag"
+    }
+  },
+  "community": {
+    "new_post": "New Post"
   }
 }
