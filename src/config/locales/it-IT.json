@@ -213,7 +213,7 @@
   "login": {
     "signin": "Accedi",
     "signup": "ISCRIVITI ORA",
-    "signin_title": "Per ottenere tutti i vantaggi dall' utilizzo di eSteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "Nome Utente",
     "password": "Password o WIF",
     "description": "Le tue credenziali sono memorizzate localmente sul dispositivo. Se fai il Logout le credenziali verranno rimosse!",
@@ -298,7 +298,7 @@
     "success_shared": "Il tuo post è stato condiviso con successo",
     "success_moved": "Salvato in bozza",
     "permission_denied": "Permesso negato",
-    "permission_text": "Per favore, vai alle impostazioni del tuo dispositivo e modifica le autorizzazioni di eSteem app.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Controlla i permessi della tua chiave privata!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Lo hai già ribloggato!",
@@ -323,7 +323,7 @@
     "same_user": "Questo utente è già stato aggiunto alla lista",
     "unknow_error": "Si è verificato un errore",
     "error": "Errore",
-    "fetch_error": "Problema di connessione, riprova o scrivi a support@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Connessione fallita!",
     "connection_success": "Connessione riuscita!",
     "checking": "Verifica in corso...",
@@ -383,7 +383,7 @@
     "invalid_username": "Username invalido, per favore controlla e riprova",
     "already_logged": "Se già connesso, per favore aggiungi un altro account",
     "invalid_credentials": "Credenziali non valide, per favore controlla e riprova",
-    "unknow_error": "Errore sconosciuto, per favore contattaci a support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Ricompensa Potenziale",
@@ -457,7 +457,7 @@
     "address_view": "Visualizza indirizzo"
   },
   "boost": {
-    "title": "Ottieni punti eSteem",
+    "title": "Get Points",
     "buy": "OTTIENI ESTM",
     "next": "PROSSIMO",
     "account": {
