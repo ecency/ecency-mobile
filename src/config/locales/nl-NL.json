@@ -213,7 +213,7 @@
   "login": {
     "signin": "Inloggen",
     "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "Gebruikersnaam",
     "password": "Wachtwoord of WIF",
     "description": "Gebruikersgegevens worden lokaal op je apparaat opgeslagen. Bij het uitloggen worden de gegevens verwijderd!",
@@ -298,7 +298,7 @@
     "success_shared": "Your post successfully shared",
     "success_moved": "Moved to draft",
     "permission_denied": "Toegang geweigerd",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "Gedeeld!",
     "already_rebloged": "Je hebt al gedeeld!",
@@ -323,7 +323,7 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
     "checking": "Checking...",
@@ -383,7 +383,7 @@
     "invalid_username": "Ongeldige gebruikersnaam, controleer en probeer het opnieuw",
     "already_logged": "Je bent al ingelogd, probeer een andere account toe te voegen",
     "invalid_credentials": "Ongeldige gegevens, controleer en probeer het opnieuw",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Potentiële Uitbetaling",
@@ -457,7 +457,7 @@
     "address_view": "View address"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Get Points",
     "buy": "GET ESTM",
     "next": "NEXT",
     "account": {
