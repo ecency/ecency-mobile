@@ -503,5 +503,33 @@
     "reveal_comment": "显示评论",
     "read_more": "查看更多评论",
     "more_replies": "更多回复"
+  },
+  "search_result": {
+    "others": "Others",
+    "communities": {
+      "title": "Communities",
+      "subscribe": "Subscribe",
+      "unsubscribe": "Unsubscribe",
+      "subscribers": "Subscribers",
+      "posters": "Posters",
+      "posts": "文章"
+    },
+    "communities_filter": {
+      "rank": "Rank",
+      "subs": "Subscribers",
+      "new": "New"
+    },
+    "post_result_filter": {
+      "popularity": "Popularity",
+      "newest": "Newest",
+      "relevance": "Relevance"
+    },
+    "other_result_filter": {
+      "user": "用户",
+      "tag": "Tag"
+    }
+  },
+  "community": {
+    "new_post": "New Post"
   }
 }
