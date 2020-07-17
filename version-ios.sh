@@ -1,6 +1,6 @@
 #!/usr/bin/env bash -e
 
-PROJECT_DIR="ios/eSteem"
+PROJECT_DIR="ios/Ecency"
 INFOPLIST_FILE="Info.plist"
 INFOPLIST_DIR="${PROJECT_DIR}/${INFOPLIST_FILE}"
 

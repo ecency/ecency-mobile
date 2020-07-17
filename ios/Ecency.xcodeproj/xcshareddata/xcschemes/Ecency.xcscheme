@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "Esteem.app"
-               BlueprintName = "eSteem"
-               ReferencedContainer = "container:eSteem.xcodeproj">
+               BuildableName = "Ecency.app"
+               BlueprintName = "Ecency"
+               ReferencedContainer = "container:Ecency.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -57,9 +57,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "eSteemTests.xctest"
-               BlueprintName = "eSteemTests"
-               ReferencedContainer = "container:eSteem.xcodeproj">
+               BuildableName = "EcencyTests.xctest"
+               BlueprintName = "EcencyTests"
+               ReferencedContainer = "container:Ecency.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -73,9 +73,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Esteem.app"
-            BlueprintName = "eSteem"
-            ReferencedContainer = "container:eSteem.xcodeproj">
+            BuildableName = "Ecency.app"
+            BlueprintName = "Ecency"
+            ReferencedContainer = "container:Ecency.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -84,9 +84,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "eSteemTests.xctest"
-               BlueprintName = "eSteemTests"
-               ReferencedContainer = "container:eSteem.xcodeproj">
+               BuildableName = "EcencyTests.xctest"
+               BlueprintName = "EcencyTests"
+               ReferencedContainer = "container:Ecency.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -106,9 +106,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Esteem.app"
-            BlueprintName = "eSteem"
-            ReferencedContainer = "container:eSteem.xcodeproj">
+            BuildableName = "Ecency.app"
+            BlueprintName = "Ecency"
+            ReferencedContainer = "container:Ecency.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -123,9 +123,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Esteem.app"
-            BlueprintName = "eSteem"
-            ReferencedContainer = "container:eSteem.xcodeproj">
+            BuildableName = "Ecency.app"
+            BlueprintName = "Ecency"
+            ReferencedContainer = "container:Ecency.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
