@@ -213,7 +213,7 @@
   "login": {
     "signin": "Mag sign in",
     "signup": "SUMALI NGAYON",
-    "signin_title": "Para kunin ang lahat ng benepisyo gamit ang Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "Username",
     "password": "Password or WIF",
     "description": "Ang credential ng user ay nananatili sa device. Natatanggal lamang ito pag nag logout!",
@@ -298,7 +298,7 @@
     "success_shared": "Matagumpay mong nabahagi ang iyong post",
     "success_moved": "Nailipat sa draft",
     "permission_denied": "Hindi pinahintulutan",
-    "permission_text": "Maaari lamang na pumunta sa phone Settings at baguhin ang pahintulot ng Esteem app.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "I-check ang pahintulot ng pribadong susi!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Naibahagi mo na ito!",
@@ -323,7 +323,7 @@
     "same_user": "Ang user na ito ay nasa listahan na",
     "unknow_error": "May lumabas na error",
     "error": "Error",
-    "fetch_error": "May problema sa koneksyon, maaaring subukan ulit o sumulat sa support@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Nabigo sa pag-konek!",
     "connection_success": "Matagumpay na komunekta!",
     "checking": "Sinusuri...",
@@ -383,7 +383,7 @@
     "invalid_username": "Maling username, maaaring suriin at subukan ulit",
     "already_logged": "Ikaw ay naka login na, maaaring subukan na magdagdag ng ibang account",
     "invalid_credentials": "Maling credentials, maaaring suriin at subukan ulit",
-    "unknow_error": "Hindi malaman na error, maaaring sumulat sa support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Potensyal na Payout",
@@ -457,7 +457,7 @@
     "address_view": "Tignan ang address"
   },
   "boost": {
-    "title": "Kunin ang Esteem Points",
+    "title": "Get Points",
     "buy": "KUNIN ang ESTM",
     "next": "SUNOD",
     "account": {
