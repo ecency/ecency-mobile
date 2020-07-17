@@ -13,7 +13,7 @@ import styles from './postHeaderDescriptionStyles';
 import { default as ROUTES } from '../../../../constants/routeNames';
 
 // Constants
-const DEFAULT_IMAGE = require('../../../../assets/esteem.png');
+const DEFAULT_IMAGE = require('../../../../assets/ecency.png');
 
 class PostHeaderDescription extends PureComponent {
   // Component Life Cycles

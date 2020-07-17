@@ -33,7 +33,7 @@ class LoginHeaderView extends PureComponent {
           <View style={styles.headerRow}>
             <Image
               style={styles.logo}
-              source={require('../../../assets/esteem_logo_transparent.png')}
+              source={require('../../../assets/ecency_logo_transparent.png')}
             />
             <View style={styles.headerButton}>
               <TextButton
