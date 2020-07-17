@@ -213,7 +213,7 @@
   "login": {
     "signin": "Войти",
     "signup": "ПРИСОЕДИНЯЙТЕСЬ СЕЙЧАС",
-    "signin_title": "Чтобы получить все преимущества использования Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "Пользователь",
     "password": "Пароль или ключ",
     "description": "Ключи хранятся только на вашем устройстве и удаляются во время разлогина!",
@@ -298,7 +298,7 @@
     "success_shared": "Ваш пост успешно опубликован",
     "success_moved": "Перемещён в черновики",
     "permission_denied": "Не достаточно разрешений",
-    "permission_text": "Пожалуйста, перейдите в настройки телефона и измените разрешения для приложения Esteem.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Проверьте разрешения для Закрытого ключа!",
     "success_rebloged": "Репостнуто!",
     "already_rebloged": "Вы уже делились этим постом!",
@@ -323,7 +323,7 @@
     "same_user": "Этот пользователь уже добавлен в список",
     "unknow_error": "Произошла ошибка",
     "error": "Ошибка",
-    "fetch_error": "Проблема с подключением, попробуйте еще раз или напишите на support@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Ошибка подключения!",
     "connection_success": "Успешное подключение!",
     "checking": "Проверка...",
@@ -383,7 +383,7 @@
     "invalid_username": "Неверный пин, попробуйте снова",
     "already_logged": "Вы уже вошли, пожалуйста, попробуйте добавить другой аккаунт",
     "invalid_credentials": "Некорректные данные, пожалуйста, проверьте и повторите снова",
-    "unknow_error": "Неизвестная ошибка, пожалуйста, напишите на support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Потенциальная выплата",
@@ -457,7 +457,7 @@
     "address_view": "Посмотреть адрес"
   },
   "boost": {
-    "title": "Получить Esteem баллы",
+    "title": "Get Points",
     "buy": "ПОЛУЧИТЬ ESTM",
     "next": "ДАЛЕЕ",
     "account": {
