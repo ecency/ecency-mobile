@@ -36,7 +36,7 @@ class EditorScreen extends Component {
       fields: {
         title: (props.draftPost && props.draftPost.title) || '',
         body: (props.draftPost && props.draftPost.body) || '',
-        tags: (props.draftPost && props.draftPost.tags) || [],
+        tags: (props.draftPost && props.draftPost.tags) || props.tags || [],
         isValid: false,
       },
     };
@@ -50,6 +50,7 @@ class EditorScreen extends Component {
         fields: {
           ...prevState.fields,
           ...nextProps.draftPost,
+          tags: prevState.fields.tags,
         },
       }));
     }

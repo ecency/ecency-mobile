@@ -35,6 +35,8 @@ import {
   Voters,
   Wallet,
   AccountBoost,
+  TagResult,
+  Community,
 } from '../screens';
 
 const bottomTabNavigator = createBottomTabNavigator(
@@ -124,12 +126,14 @@ const stackNavigator = createStackNavigator(
     [ROUTES.SCREENS.DRAFTS]: { screen: Drafts },
     [ROUTES.SCREENS.BOOKMARKS]: { screen: Bookmarks },
     [ROUTES.SCREENS.SEARCH_RESULT]: { screen: SearchResult },
+    [ROUTES.SCREENS.TAG_RESULT]: { screen: TagResult },
     [ROUTES.SCREENS.TRANSFER]: { screen: Transfer },
     [ROUTES.SCREENS.BOOST]: { screen: Boost },
     [ROUTES.SCREENS.REDEEM]: { screen: Redeem },
     [ROUTES.SCREENS.REBLOGS]: { screen: Reblogs },
     [ROUTES.SCREENS.SPIN_GAME]: { screen: SpinGame },
     [ROUTES.SCREENS.ACCOUNT_BOOST]: { screen: AccountBoost },
+    [ROUTES.SCREENS.COMMUNITY]: { screen: Community },
   },
   {
     headerMode: 'none',

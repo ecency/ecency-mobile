@@ -22,6 +22,8 @@ import Transfer from './transfer';
 import Voters from './voters';
 import AccountBoost from './accountBoost/screen/accountBoostScreen';
 import Register from './register/registerScreen';
+import TagResult from './tagResult';
+import { Community } from './community';
 
 export {
   Bookmarks,
@@ -48,4 +50,6 @@ export {
   Transfer,
   Voters,
   Wallet,
+  TagResult,
+  Community,
 };

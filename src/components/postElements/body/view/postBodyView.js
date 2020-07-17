@@ -166,7 +166,7 @@ const PostBody = ({
   const _handleTagPress = (tag) => {
     if (tag) {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.SEARCH_RESULT,
+        routeName: ROUTES.SCREENS.TAG_RESULT,
         params: {
           tag,
         },
