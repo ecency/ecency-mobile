@@ -213,7 +213,7 @@
   "login": {
     "signin": "Se connecter",
     "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "Nom d'utilisateur",
     "password": "Mot de passe ou WIF",
     "description": "Vos informations d'identification sont conservées localement sur votre appareil. Elles sont supprimées dès votre déconnexion !",
@@ -298,7 +298,7 @@
     "success_shared": "Votre publication à été partagée avec succès",
     "success_moved": "Déplacé vers Brouillons",
     "permission_denied": "Autorisation refusée",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Vous avez déjà reblogué !",
@@ -323,7 +323,7 @@
     "same_user": "Cet utilisateur a déjà été ajouté à la liste",
     "unknow_error": "Une erreur est survenue",
     "error": "Erreur",
-    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Échec de la connexion !",
     "connection_success": "Connexion réussie!",
     "checking": "Vérification...",
@@ -383,7 +383,7 @@
     "invalid_username": "Nom d’utilisateur invalide, s’il vous plaît vérifiez et réessayez",
     "already_logged": "Vous êtes déjà connecté, essayez d’ajouter un autre compte",
     "invalid_credentials": "Informations d'identification invalides, veuillez vérifier et réessayer",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Gain Potentiel",
@@ -457,7 +457,7 @@
     "address_view": "View address"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Get Points",
     "buy": "GET ESTM",
     "next": "SUIVANT",
     "account": {
