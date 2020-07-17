@@ -990,7 +990,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.Ecency.mobile.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios;
 				PRODUCT_NAME = Ecency;
 				PROVISIONING_PROFILE_SPECIFIER = ecency_development_provision;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1061,7 +1061,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.Ecency.mobile.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios;
 				PRODUCT_NAME = Ecency;
 				PROVISIONING_PROFILE_SPECIFIER = ecency_provision;
 				TARGETED_DEVICE_FAMILY = "1,2";
