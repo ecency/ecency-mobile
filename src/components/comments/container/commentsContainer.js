@@ -205,7 +205,7 @@ const CommentsContainer = ({
 
   const _handleOnPressCommentMenu = (index, selectedComment) => {
     if (index === 0) {
-      writeToClipboard(`https://esteem.app${get(selectedComment, 'url')}`).then(() => {
+      writeToClipboard(`https://ecency.com${get(selectedComment, 'url')}`).then(() => {
         dispatch(
           toastNotification(
             intl.formatMessage({

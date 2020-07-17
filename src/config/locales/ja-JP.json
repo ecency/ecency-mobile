@@ -213,7 +213,7 @@
   "login": {
     "signin": "ログイン",
     "signup": "今すぐ参加",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "ユーザー名",
     "password": "パスワードまたは WIF",
     "description": "ユーザーのログイン情報は端末に保存され、ログアウトすると削除されます。",
@@ -288,7 +288,7 @@
     "success_shared": "投稿の共有に成功しました",
     "success_moved": "下書きへ移動",
     "permission_denied": "アクセスが拒否されました",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "プライベートキーのパーミッションを確認してください！",
     "success_rebloged": "リブログしました！",
     "already_rebloged": "既にリブログしています！",
@@ -313,7 +313,7 @@
     "same_user": "このユーザーは既にリストに追加されています",
     "unknow_error": "エラーが発生しました",
     "error": "エラー",
-    "fetch_error": "接続に問題があります、再度お試しいただくかsupport@esteem.appに連絡してください",
+    "fetch_error": "接続に問題があります、再度お試しいただくかsupport@Ecency.appに連絡してください",
     "connection_fail": "接続に失敗しました！",
     "connection_success": "接続に成功しました！",
     "checking": "確認中...",
@@ -370,7 +370,7 @@
     "invalid_username": "ユーザー名が間違っています。もう一度確認してやり直してください",
     "already_logged": "既にログインしています。他のアカウントを追加してください",
     "invalid_credentials": "ログイン情報が間違っています。もう一度確認してやり直してください",
-    "unknow_error": "不明なエラー、support@esteem.appに連絡してください"
+    "unknow_error": "不明なエラー、support@Ecency.appに連絡してください"
   },
   "payout": {
     "potential_payout": "見込み支払額",
@@ -444,7 +444,7 @@
     "address_view": "アドレスを表示"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Get Points",
     "buy": "ESTM を手に入れる",
     "next": "次へ"
   },

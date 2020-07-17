@@ -6,8 +6,8 @@ import 'intl';
 import 'intl/locale-data/jsonp/en-US';
 
 // set check frequency options
-const eSteemApp = require('./App').default;
+const EcencyApp = require('./App').default;
 
 AppCenter.setLogLevel(AppCenter.LogLevel.VERBOSE);
 
-AppRegistry.registerComponent(appName, () => eSteemApp);
+AppRegistry.registerComponent(appName, () => EcencyApp);

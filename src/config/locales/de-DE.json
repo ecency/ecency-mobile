@@ -123,7 +123,7 @@
     "referral": "joined with your referral, welcome them",
     "notification": "Benachrichtigungen",
     "leaderboard": "Rangliste",
-    "epoint": "eSteem Punkte",
+    "epoint": "Ecency Punkte",
     "leaderboard_title": "Top-Benutzer",
     "recent": "Vor kurzem",
     "yesterday": "Gestern",
@@ -213,7 +213,7 @@
   "login": {
     "signin": "Anmelden",
     "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "Benutzername",
     "password": "Passwort oder WIF",
     "description": "Zugangsdaten werden lokal auf dem Gerät gespeichert. Diese werden nach dem Abmelden gelöscht!",
@@ -288,7 +288,7 @@
     "success_shared": "Dein Beitrag wurde erfolgreich geteilt",
     "success_moved": "Erfolgreich in Entwürfe verschoben",
     "permission_denied": "Berechtigung verweigert",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "Geteilt!",
     "already_rebloged": "Du hast bereits geteilt!",
@@ -313,7 +313,7 @@
     "same_user": "Dieser User ist bereits in der Liste eingetragen.",
     "unknow_error": "Es ist ein Fehler aufgetreten",
     "error": "Fehler",
-    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@Ecency.app",
     "connection_fail": "Verbindung fehlgeschlagen!",
     "connection_success": "Erfolgreich verbunden!",
     "checking": "Wird überprüft...",
@@ -370,7 +370,7 @@
     "invalid_username": "Ungültiger Username, bitte überprüfen und erneut versuchen",
     "already_logged": "Du bist bereits eingeloggt. Bitte versuche ein anderes Konto hinzuzufügen",
     "invalid_credentials": "Ungültige Zugangsdaten, bitte überprüfen und erneut versuchen",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@Ecency.app"
   },
   "payout": {
     "potential_payout": "Potenzielle Auszahlung",
@@ -444,7 +444,7 @@
     "address_view": "View address"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Get Points",
     "buy": "ESTM kaufen",
     "next": "WEITER"
   },

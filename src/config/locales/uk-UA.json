@@ -213,7 +213,7 @@
   "login": {
     "signin": "Увійти",
     "signup": "ПРИЄДНУЙСЯ ЗАРАЗ",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "Ім'я користувача",
     "password": "Пароль або WIF (приватний ключ)",
     "description": "Дані користувача зберігаються локально на пристрої. Посвідчення видаляється після виходу з системи!",
@@ -288,7 +288,7 @@
     "success_shared": "Ваш допис успішно поширили",
     "success_moved": "Переміщено до чернеток",
     "permission_denied": "У доступі відмовлено",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Перевірте права доступу до закритого ключа!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Ви вже повторно рестімнули!",
@@ -313,7 +313,7 @@
     "same_user": "Цього користувача уже додано до списку",
     "unknow_error": "Виникла помилка",
     "error": "Помилка",
-    "fetch_error": "Проблеми з підключенням, спробуйте ще раз або напишіть на support@esteem.app",
+    "fetch_error": "Проблеми з підключенням, спробуйте ще раз або напишіть на support@Ecency.app",
     "connection_fail": "Помилка з’єднання!",
     "connection_success": "Успішне підключення!",
     "checking": "Перевірка...",
@@ -370,7 +370,7 @@
     "invalid_username": "Недійсне ім’я користувача. Перевірте та повторіть спробу",
     "already_logged": "Ви вже ввійшли, спробуйте додати інший обліковий запис",
     "invalid_credentials": "Недійсні облікові дані. Перевірте та повторіть спробу",
-    "unknow_error": "Невідома помилка, будь ласка, напишіть на support@esteem.app"
+    "unknow_error": "Невідома помилка, будь ласка, напишіть на support@Ecency.app"
   },
   "payout": {
     "potential_payout": "Потенційна виплата",
@@ -444,7 +444,7 @@
     "address_view": "Переглянути адресу"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Get Points",
     "buy": "Отримати ESTM",
     "next": "НАСТУПНА"
   },

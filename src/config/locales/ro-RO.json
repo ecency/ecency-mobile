@@ -213,7 +213,7 @@
   "login": {
     "signin": "Loghează-te",
     "signup": "ALĂTURĂ-TE ACUM",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "Nume utilizator",
     "password": "Parolă sau WIF",
     "description": "Credentialele utilizatorului sunt salvate local pe dispozitiv. Credentialele sunt șterse după deconectare!",
@@ -288,7 +288,7 @@
     "success_shared": "Postarea ta a fost distribuită cu succes",
     "success_moved": "Mutat la schițe",
     "permission_denied": "Permisiune respinsă",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Verifică permisiunea oferită de cheia privată!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Ai redistribuit postarea deja!",
@@ -313,7 +313,7 @@
     "same_user": "Utilizator adăugat deja la listă",
     "unknow_error": "A intervenit o eroare",
     "error": "Eroare",
-    "fetch_error": "Probleme de conexiune, încearcă din nou sau raportează la support@esteem.app",
+    "fetch_error": "Probleme de conexiune, încearcă din nou sau raportează la support@Ecency.app",
     "connection_fail": "Connectare Eșuată!",
     "connection_success": "Conectat cu succes!",
     "checking": "Verificare în curs...",
@@ -370,7 +370,7 @@
     "invalid_username": "Nume utilizator invalid, te rugăm să verifici și să reincerci",
     "already_logged": "Ești deja conectat, te rugăm încearcă să adăugi alt cont",
     "invalid_credentials": "Credențiale invalide, te rugăm să verifici și să reîncerci",
-    "unknow_error": "Eroare necunoscută, te rugăm să ne contactezi la support@esteem.app"
+    "unknow_error": "Eroare necunoscută, te rugăm să ne contactezi la support@Ecency.app"
   },
   "payout": {
     "potential_payout": "Plată probabilă",
@@ -444,7 +444,7 @@
     "address_view": "View address"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Get Points",
     "buy": "OBȚINE ESTM",
     "next": "URMĂTORUL"
   },

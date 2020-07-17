@@ -191,7 +191,7 @@ class PromoteView extends PureComponent {
                   })} `}
                 </Text>
                 <Text style={styles.price}>
-                  {`${get(PROMOTE_PRICING[PROMOTE_DAYS.indexOf(day)], 'price')} eSteem points`}
+                  {`${get(PROMOTE_PRICING[PROMOTE_DAYS.indexOf(day)], 'price')} Points`}
                 </Text>
               </View>
 

@@ -338,7 +338,7 @@ class SettingsContainer extends Component {
     let message;
 
     await sendEmail(
-      'bug@esteem.app',
+      'bug@ecency.com',
       'Feedback/Bug report',
       `Write your message here!
 

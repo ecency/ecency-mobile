@@ -213,7 +213,7 @@
   "login": {
     "signin": "ورود",
     "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "نام کاربری",
     "password": "رمز عبور و یا WIF",
     "description": "مدارک کاربر به طور محلی روی دستگاه نگهداری می‌شود. در هنگام خروج، مدارک حذف می‌شود!",
@@ -288,7 +288,7 @@
     "success_shared": "Your post successfully shared",
     "success_moved": "به پیشنویس ها منتقل شد",
     "permission_denied": "خطای دسترسی",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "شما قبلا به اشتراک گذاشته اید!",
@@ -313,7 +313,7 @@
     "same_user": "این کاربر قبلا به لیست اضافه شده است",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@Ecency.app",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
     "checking": "Checking...",
@@ -370,7 +370,7 @@
     "invalid_username": "نام کاربری نامعتبر، لطفا چک کنید و دوباره امتحان کنید",
     "already_logged": "شما در حال حاظر وارد شده اید، لطفا با یک حساب کاربری دیگر تلاش کنید",
     "invalid_credentials": "اعتبار نامه غیر معتبر، لطفا چک کنید و دوباره تلاش کنید",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@Ecency.app"
   },
   "payout": {
     "potential_payout": "پرداخت های بالقوه",
@@ -444,7 +444,7 @@
     "address_view": "View address"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Get Points",
     "buy": "GET ESTM",
     "next": "NEXT"
   },

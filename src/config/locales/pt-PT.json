@@ -213,7 +213,7 @@
   "login": {
     "signin": "Iniciar sessão",
     "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "Nome de Usuário",
     "password": "Senha ou WIF",
     "description": "As credenciais do usuário são mantidas localmente no dispositivo. As credenciais são removidas após logout!",
@@ -288,7 +288,7 @@
     "success_shared": "Sua postagem foi compartilhada com sucesso",
     "success_moved": "Movido para Rascunhos",
     "permission_denied": "Permissão negada",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "Reblogado!",
     "already_rebloged": "Já fez reblogue deste post!",
@@ -313,7 +313,7 @@
     "same_user": "Este usuário já foi adicionado à lista",
     "unknow_error": "Ocorreu um erro",
     "error": "Erro",
-    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@Ecency.app",
     "connection_fail": "Falha na conexão!",
     "connection_success": "Conectado com sucesso!",
     "checking": "A verificar...",
@@ -370,7 +370,7 @@
     "invalid_username": "Nome de usuário inválido, por favor verifique e tente novamente",
     "already_logged": "Você já está logado, por favor, tente adicionar outra conta",
     "invalid_credentials": "Credenciais inválidas. Por favor, verifique e tente novamente",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@Ecency.app"
   },
   "payout": {
     "potential_payout": "Pagamento Potencial",
@@ -444,7 +444,7 @@
     "address_view": "View address"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Get Points",
     "buy": "OBTER ESTM",
     "next": "SEGUINTE"
   },

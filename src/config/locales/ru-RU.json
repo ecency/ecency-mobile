@@ -213,7 +213,7 @@
   "login": {
     "signin": "Войти",
     "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "Пользователь",
     "password": "Пароль или ключ",
     "description": "Ключи хранятся только на вашем устройстве и удаляются во время разлогина!",
@@ -288,7 +288,7 @@
     "success_shared": "Ваш пост успешно опубликован",
     "success_moved": "Перемещён в черновики",
     "permission_denied": "Не достаточно разрешений",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "Репостнуто!",
     "already_rebloged": "Вы уже делились этим постом!",
@@ -313,7 +313,7 @@
     "same_user": "Этот пользователь уже добавлен в список",
     "unknow_error": "Произошла ошибка",
     "error": "Ошибка",
-    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@Ecency.app",
     "connection_fail": "Ошибка подключения!",
     "connection_success": "Успешное подключение!",
     "checking": "Checking...",
@@ -370,7 +370,7 @@
     "invalid_username": "Неверный пин, попробуйте снова",
     "already_logged": "Вы уже вошли, пожалуйста, попробуйте добавить другой аккаунт",
     "invalid_credentials": "Некорректные данные, пожалуйста, проверьте и повторите снова",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@Ecency.app"
   },
   "payout": {
     "potential_payout": "Потенциальная выплата",
@@ -444,7 +444,7 @@
     "address_view": "View address"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Get Points",
     "buy": "ПОЛУЧИТЬ ESTM",
     "next": "ДАЛЕЕ"
   },
