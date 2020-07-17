@@ -119,7 +119,7 @@ class InAppPurchaseContainer extends Component {
     } catch (err) {
       bugsnag.notify(err);
       Alert.alert(
-        `InApp - Connection issue, try again or write to support@esteem.app
+        `InApp - Connection issue, try again or write to support@ecency.com
           ${err.message.substr(0, 20)}`,
       );
     }

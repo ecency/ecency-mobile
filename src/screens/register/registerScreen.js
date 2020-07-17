@@ -15,8 +15,8 @@ import ROUTES from '../../constants/routeNames';
 // Styles
 import styles from './registerStyles';
 
-import ESTEEM_LOGO from '../../assets/esteem-logo.png';
-import ESTEEM_SMALL_LOGO from '../../assets/esteem_logo_transparent.png';
+import ESTEEM_LOGO from '../../assets/ecency-logo.png';
+import ESTEEM_SMALL_LOGO from '../../assets/ecency_logo_transparent.png';
 
 const RegisterScreen = ({ navigation }) => {
   const intl = useIntl();

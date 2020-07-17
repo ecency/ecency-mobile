@@ -213,7 +213,7 @@
   "login": {
     "signin": "Đăng nhập",
     "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "Tên người dùng",
     "password": "Mật khẩu hoặc WIF",
     "description": "Thông tin đăng nhập của người dùng được lưu cục bộ trên thiết bị. Thông tin được xóa khi đăng xuất!",
@@ -288,7 +288,7 @@
     "success_shared": "Your post successfully shared",
     "success_moved": "Được chuyển đến bản dự thảo",
     "permission_denied": "Quyền truy cập bị từ chối",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "Đã đăng lại bài viết!",
     "already_rebloged": "Bạn đã đăng lại bài viết!",
@@ -313,7 +313,7 @@
     "same_user": "Người dùng này đã được thêm vào danh sách",
     "unknow_error": "Đã xảy ra lỗi",
     "error": "Lỗi",
-    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
     "checking": "Checking...",
@@ -370,7 +370,7 @@
     "invalid_username": "Tên đăng nhập không hợp lệ, vui lòng kiểm tra và thử lại",
     "already_logged": "Bạn đã đăng nhập, vui lòng thử thêm tài khoản khác",
     "invalid_credentials": "Thông tin không hợp lệ, vui lòng kiểm tra và thử lại",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Thanh toán dự kiến",
@@ -444,7 +444,7 @@
     "address_view": "View address"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Get Points",
     "buy": "ĐƯỢC ESTM",
     "next": "KẾ TIẾP"
   },

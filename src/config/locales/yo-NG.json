@@ -213,7 +213,7 @@
   "login": {
     "signin": "Atewole",
     "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "Oruko olumulo",
     "password": "Idanimo asiri",
     "description": "Ori ero ilewo re ni gbogbo awon credentials re o wa. Gbogbo credentials re o di yiyo to ba ti jade!",
@@ -288,7 +288,7 @@
     "success_shared": "Your post successfully shared",
     "success_moved": "Moved to draft",
     "permission_denied": "Ko ase fun",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "Oti se eda oro yi!",
     "already_rebloged": "Oti se eda oro tele!",
@@ -313,7 +313,7 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
     "checking": "Checking...",
@@ -370,7 +370,7 @@
     "invalid_username": "Oruko akole yi o ri itewogba, jowo se ayewo ki o tun te",
     "already_logged": "Oti wole, jowo se afikun account miran",
     "invalid_credentials": "Oruko yi o ri itewogba, jowo se ayewo ki o tun se",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Owo ti o n reti",
@@ -444,7 +444,7 @@
     "address_view": "View address"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Get Points",
     "buy": "GET ESTM",
     "next": "NEXT"
   },

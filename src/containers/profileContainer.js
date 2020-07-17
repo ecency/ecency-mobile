@@ -19,7 +19,7 @@ import {
   getIsMuted,
 } from '../providers/steem/dsteem';
 
-// Esteem providers
+// Ecency providers
 import { getIsFavorite, addFavorite, removeFavorite } from '../providers/esteem/esteem';
 
 // Utilitites

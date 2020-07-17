@@ -19,7 +19,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "eSteem";
+    return "Ecency";
   }
 
   @Override

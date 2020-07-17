@@ -28,25 +28,31 @@
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
-        <intent-filter android:label="Esteem">
+        <intent-filter android:label="Ecency">
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="esteem" />
+            <data android:scheme="ecency" />
         </intent-filter>
-        <intent-filter android:label="Esteem">
+        <intent-filter android:label="Ecency">
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" android:host="ecency.com" />
+        </intent-filter>
+        <intent-filter android:label="Ecency">
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="https" android:host="esteem.app" />
         </intent-filter>
-        <intent-filter android:label="Esteem">
+        <intent-filter android:label="Ecency">
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="https" android:host="hive.blog" />
         </intent-filter>
-        <intent-filter android:label="Esteem">
+        <intent-filter android:label="Ecency">
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />

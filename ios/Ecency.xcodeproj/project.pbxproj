@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* eSteemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* eSteemTests.m */; };
-		0A1D279E0D3CD306C889592E /* libPods-eSteem-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7093E51BBC0EE2F41AB19EBA /* libPods-eSteem-tvOS.a */; };
+		00E356F31AD99517003FC87E /* EcencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* EcencyTests.m */; };
+		0A1D279E0D3CD306C889592E /* libPods-Ecency-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7093E51BBC0EE2F41AB19EBA /* libPods-Ecency-tvOS.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -17,7 +17,7 @@
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2DCD954D1E0B4F2C00145EB5 /* eSteemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* eSteemTests.m */; };
+		2DCD954D1E0B4F2C00145EB5 /* EcencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* EcencyTests.m */; };
 		344120660B8D409FAA2DF0F1 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 263FA8C0EF21473FAAAD3EDD /* MaterialIcons.ttf */; };
 		3D9D0CDF34E64065A4C1B635 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9464AFB033664B4F8E9F0BED /* AntDesign.ttf */; };
 		4BA4EB676DE046F9AE69FA61 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 980BC9BC0D3B4AC69645C842 /* Zocial.ttf */; };
@@ -36,16 +36,16 @@
 		58F9BCC724793C61004F0790 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F9BCC224793C61004F0790 /* GoogleService-Info.plist */; };
 		58F9BCC824793C61004F0790 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F9BCC224793C61004F0790 /* GoogleService-Info.plist */; };
 		60B4658C6F794BF28A644ADC /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4EB466C53BAE4EDC904357B3 /* FontAwesome5_Solid.ttf */; };
-		643845B37F268570EDF67449 /* libPods-eSteem-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAA462F8619BEA95CF30F446 /* libPods-eSteem-tvOSTests.a */; };
+		643845B37F268570EDF67449 /* libPods-Ecency-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAA462F8619BEA95CF30F446 /* libPods-Ecency-tvOSTests.a */; };
 		8A865CFDCD1C4F4885488F9D /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 22F5F05A06E142C2B41A4D38 /* MaterialCommunityIcons.ttf */; };
 		8FA95502318C441BB5187988 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 98D3D7C3AF354BF0987A2BFA /* Fontisto.ttf */; };
 		94139B1E6AEB4494837396E2 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 34E88D888DD444F8B285363C /* SimpleLineIcons.ttf */; };
 		9487A245235508C60080E6CD /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9487A244235508C60080E6CD /* File.swift */; };
 		B5B60E44B0FA4A72BB3B3BF2 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 112758B0BBF9458381CE41FD /* FontAwesome.ttf */; };
-		B7EF04A8BDE56D15838E7E47 /* libPods-eSteem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2001C9029EF900E480C6CA3 /* libPods-eSteem.a */; };
+		B7EF04A8BDE56D15838E7E47 /* libPods-Ecency.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2001C9029EF900E480C6CA3 /* libPods-Ecency.a */; };
 		BD7763EC3A6A4DDCB59E8CEE /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A239FC84622A4A9CA7950ED9 /* EvilIcons.ttf */; };
-		CFAA2A599FD65F360D9B3E1E /* libPods-eSteemTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B344CAA24725C973F48BE81E /* libPods-eSteemTests.a */; };
-		D71EB20EDB9B987C0574BAFE /* libPods-eSteemTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C97456BE898C00B5EDA21C2E /* libPods-eSteemTests.a */; };
+		CFAA2A599FD65F360D9B3E1E /* libPods-EcencyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B344CAA24725C973F48BE81E /* libPods-EcencyTests.a */; };
+		D71EB20EDB9B987C0574BAFE /* libPods-EcencyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C97456BE898C00B5EDA21C2E /* libPods-EcencyTests.a */; };
 		ED7C9108CF35437280FB8893 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 000EE3558E824DA88770325D /* Octicons.ttf */; };
 		F063B9897E4B4F2FB9D7E2A6 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9BC08A790166415B9BB3F5CF /* FontAwesome5_Regular.ttf */; };
 		FF83308B30C442BBA8A50D96 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BB1093ACCD904E2883413214 /* FontAwesome5_Brands.ttf */; };
@@ -58,14 +58,14 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = eSteem;
+			remoteInfo = Ecency;
 		};
 		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
-			remoteInfo = "eSteem-tvOS";
+			remoteInfo = "Ecency-tvOS";
 		};
 		588A5069232A497100FC1361 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -86,30 +86,30 @@
 /* Begin PBXFileReference section */
 		000EE3558E824DA88770325D /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		00E356EE1AD99517003FC87E /* eSteemTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = eSteemTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* EcencyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EcencyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* eSteemTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = eSteemTests.m; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* EcencyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EcencyTests.m; sourceTree = "<group>"; };
 		112758B0BBF9458381CE41FD /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		11CAB2F9B4B7425ABCAB4007 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* Esteem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Esteem.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = eSteem/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = eSteem/AppDelegate.m; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* Ecency.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ecency.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Ecency/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Ecency/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = eSteem/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = eSteem/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = eSteem/main.m; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Ecency/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Ecency/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Ecency/main.m; sourceTree = "<group>"; };
 		150E6CAFA5EF11AE47ED825C /* Pods-RnDiffAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RnDiffAppTests.release.xcconfig"; path = "Target Support Files/Pods-RnDiffAppTests/Pods-RnDiffAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		22F5F05A06E142C2B41A4D38 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		263FA8C0EF21473FAAAD3EDD /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
-		2D02E47B1E0B4A5D006451C7 /* eSteem-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "eSteem-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D02E4901E0B4A5D006451C7 /* eSteem-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "eSteem-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E47B1E0B4A5D006451C7 /* Ecency-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ecency-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E4901E0B4A5D006451C7 /* Ecency-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ecency-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34E88D888DD444F8B285363C /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
-		3FCD2A7E1617723964A992ED /* Pods-eSteemTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eSteemTests.release.xcconfig"; path = "Target Support Files/Pods-eSteemTests/Pods-eSteemTests.release.xcconfig"; sourceTree = "<group>"; };
+		3FCD2A7E1617723964A992ED /* Pods-EcencyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EcencyTests.release.xcconfig"; path = "Target Support Files/Pods-EcencyTests/Pods-EcencyTests.release.xcconfig"; sourceTree = "<group>"; };
 		420ABF9795564845A0963C27 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		43307E7576B385875B79FCDF /* Pods-RnDiffAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RnDiffAppTests.debug.xcconfig"; path = "Target Support Files/Pods-RnDiffAppTests/Pods-RnDiffAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4EB466C53BAE4EDC904357B3 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		58190B3B23294814000EA0E1 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		58190B3D23294823000EA0E1 /* eSteem.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = eSteem.entitlements; path = eSteem/eSteem.entitlements; sourceTree = "<group>"; };
+		58190B3D23294823000EA0E1 /* Ecency.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Ecency.entitlements; path = Ecency/Ecency.entitlements; sourceTree = "<group>"; };
 		58190B4723294D1D000EA0E1 /* libreact-native-config.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-config.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		588019232355C26B008397D1 /* AppCenter-Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AppCenter-Config.plist"; sourceTree = "<group>"; };
 		588A504E232A3A4B00FC1361 /* Sansation_Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Sansation_Bold.ttf; path = ../src/assets/Fonts/Sansation_Bold.ttf; sourceTree = "<group>"; };
@@ -123,31 +123,31 @@
 		58F9BCC224793C61004F0790 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		664C331A95B54FA5B7AD4267 /* Pods-RnDiffApp-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RnDiffApp-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-RnDiffApp-tvOSTests/Pods-RnDiffApp-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		6D935B44FB5A4CF3BF4D01DF /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
-		7093E51BBC0EE2F41AB19EBA /* libPods-eSteem-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-eSteem-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7093E51BBC0EE2F41AB19EBA /* libPods-Ecency-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Ecency-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		914896C0CEFDAA592DADF952 /* Pods-RnDiffApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RnDiffApp.release.xcconfig"; path = "Target Support Files/Pods-RnDiffApp/Pods-RnDiffApp.release.xcconfig"; sourceTree = "<group>"; };
 		93B182C6FFA44610AB188D7C /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		9464AFB033664B4F8E9F0BED /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
-		9487A243235508C50080E6CD /* eSteem-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "eSteem-Bridging-Header.h"; sourceTree = "<group>"; };
+		9487A243235508C50080E6CD /* Ecency-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ecency-Bridging-Header.h"; sourceTree = "<group>"; };
 		9487A244235508C60080E6CD /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
-		953EAAA77A0EC5EBF9726221 /* Pods-eSteem-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eSteem-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-eSteem-tvOS/Pods-eSteem-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		953EAAA77A0EC5EBF9726221 /* Pods-Ecency-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-Ecency-tvOS/Pods-Ecency-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		980BC9BC0D3B4AC69645C842 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		98D3D7C3AF354BF0987A2BFA /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
 		9BC08A790166415B9BB3F5CF /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
-		9E07A552EBE184D13C85CDBC /* Pods-eSteem-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eSteem-tvOS.release.xcconfig"; path = "Target Support Files/Pods-eSteem-tvOS/Pods-eSteem-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		9E07A552EBE184D13C85CDBC /* Pods-Ecency-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Ecency-tvOS/Pods-Ecency-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		A239FC84622A4A9CA7950ED9 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
-		A387923BE57BA7D0C6C1FACF /* Pods-eSteemTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eSteemTests.debug.xcconfig"; path = "Target Support Files/Pods-eSteemTests/Pods-eSteemTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A387923BE57BA7D0C6C1FACF /* Pods-EcencyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EcencyTests.debug.xcconfig"; path = "Target Support Files/Pods-EcencyTests/Pods-EcencyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A74FCF62A73172586BCD1E8C /* Pods-RnDiffApp-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RnDiffApp-tvOS.release.xcconfig"; path = "Target Support Files/Pods-RnDiffApp-tvOS/Pods-RnDiffApp-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		B344CAA24725C973F48BE81E /* libPods-eSteemTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-eSteemTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B344CAA24725C973F48BE81E /* libPods-EcencyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EcencyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B932E4CF7C7ADA47E0C72933 /* Pods-RnDiffApp-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RnDiffApp-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-RnDiffApp-tvOSTests/Pods-RnDiffApp-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		BA05FF8B4B959DAAEF11D7E5 /* Pods-eSteem-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eSteem-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-eSteem-tvOSTests/Pods-eSteem-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		BA05FF8B4B959DAAEF11D7E5 /* Pods-Ecency-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Ecency-tvOSTests/Pods-Ecency-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BB1093ACCD904E2883413214 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		BB1DF6C3AB03F9FA00E48CAE /* Pods-RnDiffApp-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RnDiffApp-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-RnDiffApp-tvOS/Pods-RnDiffApp-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		BE357ABE5768F6FBE0B94330 /* Pods-eSteem.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eSteem.release.xcconfig"; path = "Target Support Files/Pods-eSteem/Pods-eSteem.release.xcconfig"; sourceTree = "<group>"; };
-		C2001C9029EF900E480C6CA3 /* libPods-eSteem.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-eSteem.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C97456BE898C00B5EDA21C2E /* libPods-eSteemTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-eSteemTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0889A82442077C50AD17F82 /* Pods-eSteem.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eSteem.debug.xcconfig"; path = "Target Support Files/Pods-eSteem/Pods-eSteem.debug.xcconfig"; sourceTree = "<group>"; };
-		DD6305159032388458398E06 /* Pods-eSteem-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eSteem-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-eSteem-tvOSTests/Pods-eSteem-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		EAA462F8619BEA95CF30F446 /* libPods-eSteem-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-eSteem-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE357ABE5768F6FBE0B94330 /* Pods-Ecency.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency.release.xcconfig"; path = "Target Support Files/Pods-Ecency/Pods-Ecency.release.xcconfig"; sourceTree = "<group>"; };
+		C2001C9029EF900E480C6CA3 /* libPods-Ecency.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Ecency.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C97456BE898C00B5EDA21C2E /* libPods-EcencyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EcencyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0889A82442077C50AD17F82 /* Pods-Ecency.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency.debug.xcconfig"; path = "Target Support Files/Pods-Ecency/Pods-Ecency.debug.xcconfig"; sourceTree = "<group>"; };
+		DD6305159032388458398E06 /* Pods-Ecency-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-Ecency-tvOSTests/Pods-Ecency-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		EAA462F8619BEA95CF30F446 /* libPods-Ecency-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Ecency-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -157,8 +157,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D71EB20EDB9B987C0574BAFE /* libPods-eSteemTests.a in Frameworks */,
-				CFAA2A599FD65F360D9B3E1E /* libPods-eSteemTests.a in Frameworks */,
+				D71EB20EDB9B987C0574BAFE /* libPods-EcencyTests.a in Frameworks */,
+				CFAA2A599FD65F360D9B3E1E /* libPods-EcencyTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,7 +167,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				58190B3C23294814000EA0E1 /* StoreKit.framework in Frameworks */,
-				B7EF04A8BDE56D15838E7E47 /* libPods-eSteem.a in Frameworks */,
+				B7EF04A8BDE56D15838E7E47 /* libPods-Ecency.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,7 +175,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A1D279E0D3CD306C889592E /* libPods-eSteem-tvOS.a in Frameworks */,
+				0A1D279E0D3CD306C889592E /* libPods-Ecency-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,20 +183,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				643845B37F268570EDF67449 /* libPods-eSteem-tvOSTests.a in Frameworks */,
+				643845B37F268570EDF67449 /* libPods-Ecency-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* eSteemTests */ = {
+		00E356EF1AD99517003FC87E /* EcencyTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* eSteemTests.m */,
+				00E356F21AD99517003FC87E /* EcencyTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = eSteemTests;
+			path = EcencyTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -207,11 +207,11 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* eSteem */ = {
+		13B07FAE1A68108700A75B9A /* Ecency */ = {
 			isa = PBXGroup;
 			children = (
 				58F9BCC224793C61004F0790 /* GoogleService-Info.plist */,
-				58190B3D23294823000EA0E1 /* eSteem.entitlements */,
+				58190B3D23294823000EA0E1 /* Ecency.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -220,9 +220,9 @@
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				9487A244235508C60080E6CD /* File.swift */,
-				9487A243235508C50080E6CD /* eSteem-Bridging-Header.h */,
+				9487A243235508C50080E6CD /* Ecency-Bridging-Header.h */,
 			);
-			name = eSteem;
+			name = Ecency;
 			sourceTree = "<group>";
 		};
 		258E34A3BDFFFBF80D598187 /* Pods */ = {
@@ -235,14 +235,14 @@
 				664C331A95B54FA5B7AD4267 /* Pods-RnDiffApp-tvOSTests.release.xcconfig */,
 				43307E7576B385875B79FCDF /* Pods-RnDiffAppTests.debug.xcconfig */,
 				150E6CAFA5EF11AE47ED825C /* Pods-RnDiffAppTests.release.xcconfig */,
-				D0889A82442077C50AD17F82 /* Pods-eSteem.debug.xcconfig */,
-				BE357ABE5768F6FBE0B94330 /* Pods-eSteem.release.xcconfig */,
-				953EAAA77A0EC5EBF9726221 /* Pods-eSteem-tvOS.debug.xcconfig */,
-				9E07A552EBE184D13C85CDBC /* Pods-eSteem-tvOS.release.xcconfig */,
-				BA05FF8B4B959DAAEF11D7E5 /* Pods-eSteem-tvOSTests.debug.xcconfig */,
-				DD6305159032388458398E06 /* Pods-eSteem-tvOSTests.release.xcconfig */,
-				A387923BE57BA7D0C6C1FACF /* Pods-eSteemTests.debug.xcconfig */,
-				3FCD2A7E1617723964A992ED /* Pods-eSteemTests.release.xcconfig */,
+				D0889A82442077C50AD17F82 /* Pods-Ecency.debug.xcconfig */,
+				BE357ABE5768F6FBE0B94330 /* Pods-Ecency.release.xcconfig */,
+				953EAAA77A0EC5EBF9726221 /* Pods-Ecency-tvOS.debug.xcconfig */,
+				9E07A552EBE184D13C85CDBC /* Pods-Ecency-tvOS.release.xcconfig */,
+				BA05FF8B4B959DAAEF11D7E5 /* Pods-Ecency-tvOSTests.debug.xcconfig */,
+				DD6305159032388458398E06 /* Pods-Ecency-tvOSTests.release.xcconfig */,
+				A387923BE57BA7D0C6C1FACF /* Pods-EcencyTests.debug.xcconfig */,
+				3FCD2A7E1617723964A992ED /* Pods-EcencyTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -255,10 +255,10 @@
 				58190B3B23294814000EA0E1 /* StoreKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				C2001C9029EF900E480C6CA3 /* libPods-eSteem.a */,
-				7093E51BBC0EE2F41AB19EBA /* libPods-eSteem-tvOS.a */,
-				EAA462F8619BEA95CF30F446 /* libPods-eSteem-tvOSTests.a */,
-				B344CAA24725C973F48BE81E /* libPods-eSteemTests.a */,
+				C2001C9029EF900E480C6CA3 /* libPods-Ecency.a */,
+				7093E51BBC0EE2F41AB19EBA /* libPods-Ecency-tvOS.a */,
+				EAA462F8619BEA95CF30F446 /* libPods-Ecency-tvOSTests.a */,
+				B344CAA24725C973F48BE81E /* libPods-EcencyTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -304,7 +304,7 @@
 		5898D06F234E104B00E9EE62 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				C97456BE898C00B5EDA21C2E /* libPods-eSteemTests.a */,
+				C97456BE898C00B5EDA21C2E /* libPods-EcencyTests.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -321,9 +321,9 @@
 			isa = PBXGroup;
 			children = (
 				588019232355C26B008397D1 /* AppCenter-Config.plist */,
-				13B07FAE1A68108700A75B9A /* eSteem */,
+				13B07FAE1A68108700A75B9A /* Ecency */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* eSteemTests */,
+				00E356EF1AD99517003FC87E /* EcencyTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				258E34A3BDFFFBF80D598187 /* Pods */,
@@ -338,10 +338,10 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* Esteem.app */,
-				00E356EE1AD99517003FC87E /* eSteemTests.xctest */,
-				2D02E47B1E0B4A5D006451C7 /* eSteem-tvOS.app */,
-				2D02E4901E0B4A5D006451C7 /* eSteem-tvOSTests.xctest */,
+				13B07F961A680F5B00A75B9A /* Ecency.app */,
+				00E356EE1AD99517003FC87E /* EcencyTests.xctest */,
+				2D02E47B1E0B4A5D006451C7 /* Ecency-tvOS.app */,
+				2D02E4901E0B4A5D006451C7 /* Ecency-tvOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -349,9 +349,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* eSteemTests */ = {
+		00E356ED1AD99517003FC87E /* EcencyTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "eSteemTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "EcencyTests" */;
 			buildPhases = (
 				D5C5B21107E23492DA9BDC94 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -363,14 +363,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = eSteemTests;
-			productName = eSteemTests;
-			productReference = 00E356EE1AD99517003FC87E /* eSteemTests.xctest */;
+			name = EcencyTests;
+			productName = EcencyTests;
+			productReference = 00E356EE1AD99517003FC87E /* EcencyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* eSteem */ = {
+		13B07F861A680F5B00A75B9A /* Ecency */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "eSteem" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Ecency" */;
 			buildPhases = (
 				CB3FE51FCBA30C6B8D6A3806 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -385,14 +385,14 @@
 			);
 			dependencies = (
 			);
-			name = eSteem;
-			productName = eSteem;
-			productReference = 13B07F961A680F5B00A75B9A /* Esteem.app */;
+			name = Ecency;
+			productName = Ecency;
+			productReference = 13B07F961A680F5B00A75B9A /* Ecency.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E47A1E0B4A5D006451C7 /* eSteem-tvOS */ = {
+		2D02E47A1E0B4A5D006451C7 /* Ecency-tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "eSteem-tvOS" */;
+			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Ecency-tvOS" */;
 			buildPhases = (
 				777B3928177A0EE7EA1ABCF9 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
@@ -405,14 +405,14 @@
 			);
 			dependencies = (
 			);
-			name = "eSteem-tvOS";
-			productName = "eSteem-tvOS";
-			productReference = 2D02E47B1E0B4A5D006451C7 /* eSteem-tvOS.app */;
+			name = "Ecency-tvOS";
+			productName = "Ecency-tvOS";
+			productReference = 2D02E47B1E0B4A5D006451C7 /* Ecency-tvOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E48F1E0B4A5D006451C7 /* eSteem-tvOSTests */ = {
+		2D02E48F1E0B4A5D006451C7 /* Ecency-tvOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "eSteem-tvOSTests" */;
+			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Ecency-tvOSTests" */;
 			buildPhases = (
 				180EA60986CD4BBD6C799872 /* [CP] Check Pods Manifest.lock */,
 				57F4EECD4004FE3420E6DF92 /* Bundle React Native Code And Images */,
@@ -425,9 +425,9 @@
 			dependencies = (
 				2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */,
 			);
-			name = "eSteem-tvOSTests";
-			productName = "eSteem-tvOSTests";
-			productReference = 2D02E4901E0B4A5D006451C7 /* eSteem-tvOSTests.xctest */;
+			name = "Ecency-tvOSTests";
+			productName = "Ecency-tvOSTests";
+			productReference = 2D02E4901E0B4A5D006451C7 /* Ecency-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -468,7 +468,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "eSteem" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Ecency" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -488,10 +488,10 @@
 			);
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* eSteem */,
-				00E356ED1AD99517003FC87E /* eSteemTests */,
-				2D02E47A1E0B4A5D006451C7 /* eSteem-tvOS */,
-				2D02E48F1E0B4A5D006451C7 /* eSteem-tvOSTests */,
+				13B07F861A680F5B00A75B9A /* Ecency */,
+				00E356ED1AD99517003FC87E /* EcencyTests */,
+				2D02E47A1E0B4A5D006451C7 /* Ecency-tvOS */,
+				2D02E48F1E0B4A5D006451C7 /* Ecency-tvOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -604,7 +604,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-eSteem-tvOSTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Ecency-tvOSTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -671,7 +671,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-eSteem-tvOS-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Ecency-tvOS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -684,7 +684,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-eSteem/Pods-eSteem-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Ecency/Pods-Ecency-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/QBImagePickerController/QBImagePicker.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
@@ -727,7 +727,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-eSteem/Pods-eSteem-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ecency/Pods-Ecency-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CB3FE51FCBA30C6B8D6A3806 /* [CP] Check Pods Manifest.lock */ = {
@@ -745,7 +745,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-eSteem-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Ecency-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -767,7 +767,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-eSteemTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-EcencyTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -819,7 +819,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* eSteemTests.m in Sources */,
+				00E356F31AD99517003FC87E /* EcencyTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -846,7 +846,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2DCD954D1E0B4F2C00145EB5 /* eSteemTests.m in Sources */,
+				2DCD954D1E0B4F2C00145EB5 /* EcencyTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -855,12 +855,12 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* eSteem */;
+			target = 13B07F861A680F5B00A75B9A /* Ecency */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2D02E47A1E0B4A5D006451C7 /* eSteem-tvOS */;
+			target = 2D02E47A1E0B4A5D006451C7 /* Ecency-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -872,7 +872,7 @@
 				13B07FB21A68108700A75B9A /* Base */,
 			);
 			name = LaunchScreen.xib;
-			path = eSteem;
+			path = Ecency;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -880,7 +880,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A387923BE57BA7D0C6C1FACF /* Pods-eSteemTests.debug.xcconfig */;
+			baseConfigurationReference = A387923BE57BA7D0C6C1FACF /* Pods-EcencyTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -890,7 +890,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = eSteemTests/Info.plist;
+				INFOPLIST_FILE = EcencyTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -900,20 +900,20 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/eSteem.app/eSteem";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ecency.app/Ecency";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3FCD2A7E1617723964A992ED /* Pods-eSteemTests.release.xcconfig */;
+			baseConfigurationReference = 3FCD2A7E1617723964A992ED /* Pods-EcencyTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = 6JSWX82A29;
-				INFOPLIST_FILE = eSteemTests/Info.plist;
+				INFOPLIST_FILE = EcencyTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -923,17 +923,18 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/eSteem.app/eSteem";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ecency.app/Ecency";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0889A82442077C50AD17F82 /* Pods-eSteem.debug.xcconfig */;
+			baseConfigurationReference = D0889A82442077C50AD17F82 /* Pods-Ecency.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = eSteem/eSteem.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Ecency/Ecency.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2471;
 				DEAD_CODE_STRIPPING = NO;
@@ -981,7 +982,7 @@
 					"\"${PODS_ROOT}/Headers/Public/react-native-webview\"",
 					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
 				);
-				INFOPLIST_FILE = eSteem/Info.plist;
+				INFOPLIST_FILE = Ecency/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -989,9 +990,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios;
-				PRODUCT_NAME = Esteem;
-				PROVISIONING_PROFILE_SPECIFIER = dev;
+				PRODUCT_BUNDLE_IDENTIFIER = app.Ecency.mobile.ios;
+				PRODUCT_NAME = Ecency;
+				PROVISIONING_PROFILE_SPECIFIER = ecency_development_provision;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -999,11 +1000,11 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BE357ABE5768F6FBE0B94330 /* Pods-eSteem.release.xcconfig */;
+			baseConfigurationReference = BE357ABE5768F6FBE0B94330 /* Pods-Ecency.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = eSteem/eSteem.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Ecency/Ecency.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2471;
@@ -1052,7 +1053,7 @@
 					"\"${PODS_ROOT}/Headers/Public/react-native-webview\"",
 					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
 				);
-				INFOPLIST_FILE = eSteem/Info.plist;
+				INFOPLIST_FILE = Ecency/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -1060,9 +1061,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios;
-				PRODUCT_NAME = Esteem;
-				PROVISIONING_PROFILE_SPECIFIER = prod;
+				PRODUCT_BUNDLE_IDENTIFIER = app.Ecency.mobile.ios;
+				PRODUCT_NAME = Ecency;
+				PROVISIONING_PROFILE_SPECIFIER = ecency_provision;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1070,7 +1071,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 953EAAA77A0EC5EBF9726221 /* Pods-eSteem-tvOS.debug.xcconfig */;
+			baseConfigurationReference = 953EAAA77A0EC5EBF9726221 /* Pods-Ecency-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1081,14 +1082,14 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "eSteem-tvOS/Info.plist";
+				INFOPLIST_FILE = "Ecency-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.eSteem-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Ecency-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -1098,7 +1099,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9E07A552EBE184D13C85CDBC /* Pods-eSteem-tvOS.release.xcconfig */;
+			baseConfigurationReference = 9E07A552EBE184D13C85CDBC /* Pods-Ecency-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1109,14 +1110,14 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "eSteem-tvOS/Info.plist";
+				INFOPLIST_FILE = "Ecency-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.eSteem-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Ecency-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -1126,7 +1127,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BA05FF8B4B959DAAEF11D7E5 /* Pods-eSteem-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = BA05FF8B4B959DAAEF11D7E5 /* Pods-Ecency-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1136,24 +1137,24 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "eSteem-tvOSTests/Info.plist";
+				INFOPLIST_FILE = "Ecency-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.eSteem-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Ecency-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/eSteem-tvOS.app/eSteem-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ecency-tvOS.app/Ecency-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Debug;
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DD6305159032388458398E06 /* Pods-eSteem-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = DD6305159032388458398E06 /* Pods-Ecency-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1163,17 +1164,17 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "eSteem-tvOSTests/Info.plist";
+				INFOPLIST_FILE = "Ecency-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.eSteem-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Ecency-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/eSteem-tvOS.app/eSteem-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ecency-tvOS.app/Ecency-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
@@ -1282,7 +1283,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "eSteemTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "EcencyTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -1291,7 +1292,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "eSteem" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Ecency" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -1300,7 +1301,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "eSteem-tvOS" */ = {
+		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Ecency-tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4971E0B4A5E006451C7 /* Debug */,
@@ -1309,7 +1310,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "eSteem-tvOSTests" */ = {
+		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Ecency-tvOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
@@ -1318,7 +1319,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "eSteem" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Ecency" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

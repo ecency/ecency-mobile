@@ -1,4 +1,4 @@
-### eSteem Mobile
+### Ecency Mobile
 
 iOS ![iOS](https://build.appcenter.ms/v0.1/apps/ef80aa2a-d4e1-4f43-a4f8-be12ea72ba9b/branches/master/badge)
 Android ![Android](https://build.appcenter.ms/v0.1/apps/12aace32-b58a-49da-bf85-5477f89ae16e/branches/master/badge)
@@ -11,14 +11,14 @@ Android ![Android](https://build.appcenter.ms/v0.1/apps/12aace32-b58a-49da-bf85-
 
 ## Download
 
-AppStore iOS: https://ios.esteem.app
-PlayStore Android: https://android.esteem.app
+AppStore iOS: https://ios.ecency.com
+PlayStore Android: https://android.ecency.com
 
 ### I. How do I get set up? 🔧
 
-`$ git clone https://github.com/esteemapp/esteem-mobile.git`
+`$ git clone https://github.com/ecency/ecency-mobile.git`
 
-`$ cd esteem-mobile`
+`$ cd ecency-mobile`
 
 `$ yarn`
 
@@ -51,7 +51,7 @@ TODO
 
 1.  When you address an issue or a feature, make sure that there doesn't already exist a ISSUES ticket for this work item.
 
-- [Issues](https://github.com/esteemapp/esteem-mobile/issues)
+- [Issues](https://github.com/ecency/ecency-mobile/issues)
 
 2.  If the item already exists and is in progress, please remove the card or the issue you were assigned and leave a note that it is a duplicate.
     3.If the item is not being worked on, please make sure that you put the card or issue as "In Progress" and assign it to yourself so other developers know that you are working on it.
@@ -102,13 +102,13 @@ What ever you want number of commit. Before create push squash your all commit. 
 
 To report a non-critical issue, please file an issue on this GitHub project.
 
-If you find a security issue please report details to: security@esteem.app
+If you find a security issue please report details to: security@ecency.com
 
 We will evaluate the risk and make a patch available before filing the issue.
 
 # Sponsors and Collaborators
 
-- Steem community
+- Hive community
 - React native community
 - Bugsnag
 - Appcenter

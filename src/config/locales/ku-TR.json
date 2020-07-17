@@ -213,7 +213,7 @@
   "login": {
     "signin": "Têketin",
     "signup": "BEŞDAR BIBE",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "Navê bikarhêner",
     "password": "Pêborîn an WIF",
     "description": "Daneyên bikarhêner bi awayekî şîfrekirî li ser amûrê tên hilanîn, piştî derketinê hemû dane têne jêbirin!",
@@ -288,7 +288,7 @@
     "success_shared": "Şandiya te bi serkevtî hate parvekirin",
     "success_moved": "Veguhezî reşnivîsê bû",
     "permission_denied": "Destûr hate redkirin",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Destûra kilîda taybet kontrol bike!",
     "success_rebloged": "Reblog bû!",
     "already_rebloged": "Jixwe hatiye dîsweşandin!",
@@ -313,7 +313,7 @@
     "same_user": "Ev bikarhêner berê li lîsteyê hatiye zêdekirin",
     "unknow_error": "Çêwtiyek çêbû",
     "error": "Çewtî",
-    "fetch_error": "Pirsgirêka girêdanê, ji kerema xwe dîsa biceribîne an jî ji support@esteem.app re binivîse",
+    "fetch_error": "Pirsgirêka girêdanê, ji kerema xwe dîsa biceribîne an jî ji support@ecency.com re binivîse",
     "connection_fail": "Girêdan Biserneket!",
     "connection_success": "Bi serkevtî hate girêdan!",
     "checking": "Tê kontrolkirin...",
@@ -370,7 +370,7 @@
     "invalid_username": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
     "already_logged": "Jixwe tu têketî ye, ji kerema xwe tevlîkirina ajimêreke din biceribîne",
     "invalid_credentials": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
-    "unknow_error": "Çewtiya nenas, ji kerema xwe ji support@esteem.app re binivîse"
+    "unknow_error": "Çewtiya nenas, ji kerema xwe ji support@ecency.com re binivîse"
   },
   "payout": {
     "potential_payout": "Peredana Texmînî",
@@ -444,7 +444,7 @@
     "address_view": "View address"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Get Points",
     "buy": "ESTMê BISTÎNE",
     "next": "PÊŞVE"
   },

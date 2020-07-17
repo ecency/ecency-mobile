@@ -14,11 +14,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface eSteemTests : XCTestCase
+@interface EcencyTests : XCTestCase
 
 @end
 
-@implementation eSteemTests
+@implementation EcencyTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL(^)(UIView *view))test
 {

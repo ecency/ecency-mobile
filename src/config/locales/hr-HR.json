@@ -213,7 +213,7 @@
   "login": {
     "signin": "Prijavite se",
     "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "Korisničko ime",
     "password": "Lozinka ili WIF",
     "description": "Korisnički podatci se čuvaju lokalno na uređaju. Nakon odjave podatci za prijavu se uklanjaju!",
@@ -288,7 +288,7 @@
     "success_shared": "Your post successfully shared",
     "success_moved": "Moved to draft",
     "permission_denied": "Dopuštenje odbijeno",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Već ste ponovo podijelili objavu na svom profilu!",
@@ -313,7 +313,7 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
     "checking": "Checking...",
@@ -370,7 +370,7 @@
     "invalid_username": "Nevaljano korisničko ime. Molimo provjerite unos i pokušajte ponovo",
     "already_logged": "Već ste ulogirani, molimo pokušajte dodati drugi račun",
     "invalid_credentials": "Neispravni podatci, molimo provjerite unos i pokušajte ponovo",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Moguća isplata",
@@ -444,7 +444,7 @@
     "address_view": "View address"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Get Points",
     "buy": "GET ESTM",
     "next": "NEXT"
   },
