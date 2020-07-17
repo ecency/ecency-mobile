@@ -28,10 +28,11 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>Ecency</string>
+			<string>ecency</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>Ecency</string>
+				<string>ecency</string>
+				<string>esteem</string>
 				<string>hive</string>
 			</array>
 		</dict>
