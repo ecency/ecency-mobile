@@ -313,7 +313,7 @@
     "same_user": "इस उपयोगकर्ता को पहले ही सूची में जोड़ दिया",
     "unknow_error": "एक त्रुटि पाई गई",
     "error": "त्रुटि",
-    "fetch_error": "Connection issue, please try again or write to support@Ecency.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "कनेक्ट करना विफल रहा",
     "connection_success": "सफलतापूर्वक जुड़ा हुआ है!",
     "checking": "Checking...",
@@ -370,7 +370,7 @@
     "invalid_username": "प्रयोक्ता नाम गलत है, कृप्या जाँच करें और पुनः प्रयाश करें",
     "already_logged": "आप पहले से ही लॉगिन हैं, कृप्या दूसरी खता जोड़ने की कोशिश करें",
     "invalid_credentials": "प्रमाणपत्र गलत है, कृप्या जाँच करें और पुनः प्रयाश करें",
-    "unknow_error": "Unknown error, please write to support@Ecency.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "संभावित भुगतान",

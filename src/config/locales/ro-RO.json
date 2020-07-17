@@ -313,7 +313,7 @@
     "same_user": "Utilizator adăugat deja la listă",
     "unknow_error": "A intervenit o eroare",
     "error": "Eroare",
-    "fetch_error": "Probleme de conexiune, încearcă din nou sau raportează la support@Ecency.app",
+    "fetch_error": "Probleme de conexiune, încearcă din nou sau raportează la support@ecency.com",
     "connection_fail": "Connectare Eșuată!",
     "connection_success": "Conectat cu succes!",
     "checking": "Verificare în curs...",
@@ -370,7 +370,7 @@
     "invalid_username": "Nume utilizator invalid, te rugăm să verifici și să reincerci",
     "already_logged": "Ești deja conectat, te rugăm încearcă să adăugi alt cont",
     "invalid_credentials": "Credențiale invalide, te rugăm să verifici și să reîncerci",
-    "unknow_error": "Eroare necunoscută, te rugăm să ne contactezi la support@Ecency.app"
+    "unknow_error": "Eroare necunoscută, te rugăm să ne contactezi la support@ecency.com"
   },
   "payout": {
     "potential_payout": "Plată probabilă",

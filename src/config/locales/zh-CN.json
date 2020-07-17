@@ -313,7 +313,7 @@
     "same_user": "此用户已添加到列表",
     "unknow_error": "发生错误",
     "error": "错误",
-    "fetch_error": "连接问题，请重试或给 support@Ecency.app 写电子邮件",
+    "fetch_error": "连接问题，请重试或给 support@ecency.com 写电子邮件",
     "connection_fail": "连接失败!",
     "connection_success": "连接成功！",
     "checking": "正在检查...",
@@ -370,7 +370,7 @@
     "invalid_username": "无效用户名，请检查后重试。",
     "already_logged": "您已登录，请尝试添加其他账户。",
     "invalid_credentials": "无效凭证，请检查后重试。",
-    "unknow_error": "未知错误，请通过 support@Ecency.app 与我们联系。"
+    "unknow_error": "未知错误，请通过 support@ecency.com 与我们联系。"
   },
   "payout": {
     "potential_payout": "可能收益",

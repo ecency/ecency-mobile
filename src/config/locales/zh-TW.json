@@ -313,7 +313,7 @@
     "same_user": "此用戶已添加到清單",
     "unknow_error": "發生錯誤",
     "error": "錯誤",
-    "fetch_error": "連接問題，請重試或給support@Ecency.app寫電子郵件",
+    "fetch_error": "連接問題，請重試或給support@ecency.com寫電子郵件",
     "connection_fail": "連接失敗！",
     "connection_success": "連接成功！",
     "checking": "正在檢查…",
@@ -370,7 +370,7 @@
     "invalid_username": "無效的使用者名稱，請核對後再試一次。",
     "already_logged": "您已經登錄, 請嘗試添加另一個帳戶",
     "invalid_credentials": "憑證無效，請核對後再試一次。",
-    "unknow_error": "未知錯誤，請通過support@Ecency.app與我們聯系。"
+    "unknow_error": "未知錯誤，請通過support@ecency.com與我們聯系。"
   },
   "payout": {
     "potential_payout": "潛在收益",

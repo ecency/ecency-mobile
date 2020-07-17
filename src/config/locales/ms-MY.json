@@ -313,7 +313,7 @@
     "same_user": "Pengguna telah ditambah ke dalam senarai",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Connection issue, please try again or write to support@Ecency.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
     "checking": "Checking...",
@@ -370,7 +370,7 @@
     "invalid_username": "Kod PIN tidah sah, sila semak dan cuba lagi",
     "already_logged": "Anda telah daftar masuk, sila cuba dengan nama pengguna lain",
     "invalid_credentials": "Kredensi tidah sah, sila semak dan cuba lagi",
-    "unknow_error": "Unknown error, please write to support@Ecency.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Potensi Ganjaran",

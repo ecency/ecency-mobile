@@ -313,7 +313,7 @@
     "same_user": "Người dùng này đã được thêm vào danh sách",
     "unknow_error": "Đã xảy ra lỗi",
     "error": "Lỗi",
-    "fetch_error": "Connection issue, please try again or write to support@Ecency.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
     "checking": "Checking...",
@@ -370,7 +370,7 @@
     "invalid_username": "Tên đăng nhập không hợp lệ, vui lòng kiểm tra và thử lại",
     "already_logged": "Bạn đã đăng nhập, vui lòng thử thêm tài khoản khác",
     "invalid_credentials": "Thông tin không hợp lệ, vui lòng kiểm tra và thử lại",
-    "unknow_error": "Unknown error, please write to support@Ecency.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Thanh toán dự kiến",

@@ -313,7 +313,7 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Connection issue, please try again or write to support@Ecency.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
     "checking": "Checking...",
@@ -370,7 +370,7 @@
     "invalid_username": "اسم المستخدم غير صالح، يرجى التحقق والمحاولة مرة أخرى",
     "already_logged": "لقد قمت بتسجيل الدخول بالفعل، يرجى محاولة إضافة حساب آخر",
     "invalid_credentials": "بيانات الاعتماد غير صالحة، يرجى التحقق والمحاولة مرة أخرى",
-    "unknow_error": "Unknown error, please write to support@Ecency.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "المكافأة المتوقعة",

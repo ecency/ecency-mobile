@@ -313,7 +313,7 @@
     "same_user": "Ez a felhasználó már szerepel a listán",
     "unknow_error": "Hiba történt",
     "error": "Hiba",
-    "fetch_error": "Connection issue, please try again or write to support@Ecency.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Sikertelen kapcsolat!",
     "connection_success": "A kapcsolat sikerült!",
     "checking": "Ellenőrzés folyamatban...",
@@ -370,7 +370,7 @@
     "invalid_username": "Érvénytelen felhasználónév, kérjük ellenőrizd és próbáld újra",
     "already_logged": "Már be vagy jelentkezve, kérjük próbálj meg hozzáadni egy másik fiókot",
     "invalid_credentials": "Érvénytelen hitelesítő adatok. Kérjük, ellenőrizd és próbáld újra",
-    "unknow_error": "Ismeretlen hiba, kérjük vedd fel velünk a kapcsolatot itt support@Ecency.app"
+    "unknow_error": "Ismeretlen hiba, kérjük vedd fel velünk a kapcsolatot itt support@ecency.com"
   },
   "payout": {
     "potential_payout": "Lehetséges Kifizetés",

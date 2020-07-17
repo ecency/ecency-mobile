@@ -313,7 +313,7 @@
     "same_user": "Este usuário já foi adicionado à lista",
     "unknow_error": "Ocorreu um erro",
     "error": "Erro",
-    "fetch_error": "Connection issue, please try again or write to support@Ecency.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Falha na conexão!",
     "connection_success": "Conectado com sucesso!",
     "checking": "A verificar...",
@@ -370,7 +370,7 @@
     "invalid_username": "Nome de usuário inválido, por favor verifique e tente novamente",
     "already_logged": "Você já está logado, por favor, tente adicionar outra conta",
     "invalid_credentials": "Credenciais inválidas. Por favor, verifique e tente novamente",
-    "unknow_error": "Unknown error, please write to support@Ecency.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Pagamento Potencial",

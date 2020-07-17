@@ -313,7 +313,7 @@
     "same_user": "이 사용자는 목록에 이미 추가되었습니다",
     "unknow_error": "오류가 발생했습니다",
     "error": "오류",
-    "fetch_error": "연결 이슈가 발생하였습니다. 다시 연결을 시도해보거나, support@Ecency.app으로 문의해주세요.",
+    "fetch_error": "연결 이슈가 발생하였습니다. 다시 연결을 시도해보거나, support@ecency.com으로 문의해주세요.",
     "connection_fail": "연결 실패!",
     "connection_success": "성공적으로 연결되었습니다",
     "checking": "확인 중...",
@@ -370,7 +370,7 @@
     "invalid_username": "올바르지 않은 사용자 이름입니다. 확인 후 다시 시도해주세요",
     "already_logged": "이미 로그인되었습니다. 다른 계정을 이용해 시도해주세요",
     "invalid_credentials": "올바르지 않은 비밀번호입니다. 확인 후 다시 시도해주세요",
-    "unknow_error": "알 수 없는 오류가 발생하였습니다. support@Ecency.app로 문의해주세요. "
+    "unknow_error": "알 수 없는 오류가 발생하였습니다. support@ecency.com로 문의해주세요. "
   },
   "payout": {
     "potential_payout": "예상 보상 금액",

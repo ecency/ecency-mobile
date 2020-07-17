@@ -313,7 +313,7 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Connection issue, please try again or write to support@Ecency.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
     "checking": "Checking...",
@@ -370,7 +370,7 @@
     "invalid_username": "Oruko akole yi o ri itewogba, jowo se ayewo ki o tun te",
     "already_logged": "Oti wole, jowo se afikun account miran",
     "invalid_credentials": "Oruko yi o ri itewogba, jowo se ayewo ki o tun se",
-    "unknow_error": "Unknown error, please write to support@Ecency.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Owo ti o n reti",

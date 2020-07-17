@@ -313,7 +313,7 @@
     "same_user": "این کاربر قبلا به لیست اضافه شده است",
     "unknow_error": "An error occurred",
     "error": "Error",
-    "fetch_error": "Connection issue, please try again or write to support@Ecency.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
     "checking": "Checking...",
@@ -370,7 +370,7 @@
     "invalid_username": "نام کاربری نامعتبر، لطفا چک کنید و دوباره امتحان کنید",
     "already_logged": "شما در حال حاظر وارد شده اید، لطفا با یک حساب کاربری دیگر تلاش کنید",
     "invalid_credentials": "اعتبار نامه غیر معتبر، لطفا چک کنید و دوباره تلاش کنید",
-    "unknow_error": "Unknown error, please write to support@Ecency.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "پرداخت های بالقوه",

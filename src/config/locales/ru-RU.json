@@ -313,7 +313,7 @@
     "same_user": "Этот пользователь уже добавлен в список",
     "unknow_error": "Произошла ошибка",
     "error": "Ошибка",
-    "fetch_error": "Connection issue, please try again or write to support@Ecency.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Ошибка подключения!",
     "connection_success": "Успешное подключение!",
     "checking": "Checking...",
@@ -370,7 +370,7 @@
     "invalid_username": "Неверный пин, попробуйте снова",
     "already_logged": "Вы уже вошли, пожалуйста, попробуйте добавить другой аккаунт",
     "invalid_credentials": "Некорректные данные, пожалуйста, проверьте и повторите снова",
-    "unknow_error": "Unknown error, please write to support@Ecency.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Потенциальная выплата",

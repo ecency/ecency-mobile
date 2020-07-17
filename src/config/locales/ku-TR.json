@@ -313,7 +313,7 @@
     "same_user": "Ev bikarhêner berê li lîsteyê hatiye zêdekirin",
     "unknow_error": "Çêwtiyek çêbû",
     "error": "Çewtî",
-    "fetch_error": "Pirsgirêka girêdanê, ji kerema xwe dîsa biceribîne an jî ji support@Ecency.app re binivîse",
+    "fetch_error": "Pirsgirêka girêdanê, ji kerema xwe dîsa biceribîne an jî ji support@ecency.com re binivîse",
     "connection_fail": "Girêdan Biserneket!",
     "connection_success": "Bi serkevtî hate girêdan!",
     "checking": "Tê kontrolkirin...",
@@ -370,7 +370,7 @@
     "invalid_username": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
     "already_logged": "Jixwe tu têketî ye, ji kerema xwe tevlîkirina ajimêreke din biceribîne",
     "invalid_credentials": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
-    "unknow_error": "Çewtiya nenas, ji kerema xwe ji support@Ecency.app re binivîse"
+    "unknow_error": "Çewtiya nenas, ji kerema xwe ji support@ecency.com re binivîse"
   },
   "payout": {
     "potential_payout": "Peredana Texmînî",
