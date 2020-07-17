@@ -213,7 +213,7 @@
   "login": {
     "signin": "अंदर आएं",
     "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "प्रयोक्ता नाम",
     "password": "पासवर्ड या डब्लूएआईएफ",
     "description": "उपयोगकर्ता का प्रमाणिकता लोकल उपकरण में होता है, लॉगआउट होने से प्रमाणिकता हट जाते हैं!",
@@ -298,7 +298,7 @@
     "success_shared": "आपकी पोस्ट सफलतापूर्वक साझा की गई",
     "success_moved": "ड्राफ्ट में ले जाया गया",
     "permission_denied": "अनुमोदन अस्वीकृत हुवा",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "पहले से ही पुनः प्रकाशित है!",
@@ -323,7 +323,7 @@
     "same_user": "इस उपयोगकर्ता को पहले ही सूची में जोड़ दिया",
     "unknow_error": "एक त्रुटि पाई गई",
     "error": "त्रुटि",
-    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "कनेक्ट करना विफल रहा",
     "connection_success": "सफलतापूर्वक जुड़ा हुआ है!",
     "checking": "Checking...",
@@ -383,7 +383,7 @@
     "invalid_username": "प्रयोक्ता नाम गलत है, कृप्या जाँच करें और पुनः प्रयाश करें",
     "already_logged": "आप पहले से ही लॉगिन हैं, कृप्या दूसरी खता जोड़ने की कोशिश करें",
     "invalid_credentials": "प्रमाणपत्र गलत है, कृप्या जाँच करें और पुनः प्रयाश करें",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "संभावित भुगतान",
@@ -457,7 +457,7 @@
     "address_view": "View address"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Get Points",
     "buy": "GET ESTM",
     "next": "NEXT",
     "account": {
