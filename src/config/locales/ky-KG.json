@@ -351,7 +351,7 @@
     "wrong_link": "Туура эмес шилтеме"
   },
   "drafts": {
-    "title": "Drafts",
+    "title": "Черновик",
     "load_error": "Could not load drafts",
     "empty_list": "Nothing here",
     "deleted": "Draft deleted"
