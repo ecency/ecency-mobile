@@ -147,15 +147,15 @@
   "profile": {
     "following": "Подписки",
     "follower": "Подписчики",
-    "post": "Пост",
-    "details": "Подробности",
+    "post": "Посты",
+    "details": "Детализация профиля",
     "comments": "Комментарии",
     "replies": "Ответы",
     "wallet": "Кошелёк",
-    "wallet_details": "Подробности",
+    "wallet_details": "Детализация кошелька",
     "unclaimed_rewards": "Незачисленные награды",
     "full_in": "Восстановится за",
-    "hours": "ч",
+    "hours": "час.",
     "voting_power": "Сила голоса",
     "login_to_see": "Войдите, чтобы увидеть",
     "follow_people": "Подпишитесь на нескольких людей, чтобы заполнить ленту",
@@ -282,7 +282,7 @@
     "limited_lastchar": "Тег должен заканчиваться буквой или цифрой"
   },
   "pincode": {
-    "enter_text": "Введите пинкод",
+    "enter_text": "Чтобы разблокировать введите пин-код",
     "set_new": "Выберите новый пинкод",
     "write_again": "Повторите пинкод",
     "forgot_text": "Запамятовал..."
@@ -309,7 +309,7 @@
     "success_unmute": "Успешно перестали игнорировать!",
     "success_unfollow": "Успешная отписка!",
     "warning": "Внимание",
-    "invalid_pincode": "Неверный пин, попробуйте снова.",
+    "invalid_pincode": "Неверный пин-код. Пожалуйста, проверьте и попробуйте еще раз.",
     "remove_alert": "Вы уверены, что хотите удалить?",
     "clear_alert": "Вы уверены, что хотите очистить?",
     "clear_user_alert": "Вы уверены, что хотите удалить все Ваши данные?",
@@ -317,7 +317,7 @@
     "cancel": "Отмена",
     "delete": "Удалить",
     "copied": "Скопировано!",
-    "no_internet": "No internet connection",
+    "no_internet": "Нет соединения!",
     "confirm": "Подтвердить",
     "removed": "Удалено",
     "same_user": "Этот пользователь уже добавлен в список",
@@ -379,7 +379,7 @@
     "search": "Поиск по избранному"
   },
   "auth": {
-    "invalid_pin": "Неверный пин, попробуйте снова",
+    "invalid_pin": "Неверный пин-код. Пожалуйста, проверьте и попробуйте еще раз",
     "invalid_username": "Неверный пин, попробуйте снова",
     "already_logged": "Вы уже вошли, пожалуйста, попробуйте добавить другой аккаунт",
     "invalid_credentials": "Некорректные данные, пожалуйста, проверьте и повторите снова",
@@ -503,5 +503,33 @@
     "reveal_comment": "Показать комментарий",
     "read_more": "Читать больше комментариев",
     "more_replies": "больше ответов"
+  },
+  "search_result": {
+    "others": "Others",
+    "communities": {
+      "title": "Communities",
+      "subscribe": "Subscribe",
+      "unsubscribe": "Unsubscribe",
+      "subscribers": "Subscribers",
+      "posters": "Posters",
+      "posts": "Посты"
+    },
+    "communities_filter": {
+      "rank": "Rank",
+      "subs": "Subscribers",
+      "new": "New"
+    },
+    "post_result_filter": {
+      "popularity": "Popularity",
+      "newest": "Newest",
+      "relevance": "Relevance"
+    },
+    "other_result_filter": {
+      "user": "Пользователь",
+      "tag": "Tag"
+    }
+  },
+  "community": {
+    "new_post": "New Post"
   }
 }
