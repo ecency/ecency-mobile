@@ -213,7 +213,7 @@
   "login": {
     "signin": "Кирүү",
     "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "Колдонуучу",
     "password": "Сырсөз же ачкыч",
     "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
@@ -298,7 +298,7 @@
     "success_shared": "Your post successfully shared",
     "success_moved": "Moved to draft",
     "permission_denied": "Permission denied",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "You have already reblogged!",
@@ -323,7 +323,7 @@
     "same_user": "This user already added to list",
     "unknow_error": "An error occurred",
     "error": "Ката",
-    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Connection Failed!",
     "connection_success": "Successfully connected!",
     "checking": "Checking...",
@@ -383,7 +383,7 @@
     "invalid_username": "Invalid username, please check and try again",
     "already_logged": "You are already logged in, please try to add another account",
     "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Potential Payout",
@@ -457,7 +457,7 @@
     "address_view": "View address"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Get Points",
     "buy": "GET ESTM",
     "next": "КИЙИНКИ",
     "account": {
