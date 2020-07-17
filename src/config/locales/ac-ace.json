@@ -503,5 +503,33 @@
     "reveal_comment": "Reveal comment",
     "read_more": "Read more comments",
     "more_replies": "more replies"
+  },
+  "search_result": {
+    "others": "Others",
+    "communities": {
+      "title": "Communities",
+      "subscribe": "Subscribe",
+      "unsubscribe": "Unsubscribe",
+      "subscribers": "Subscribers",
+      "posters": "Posters",
+      "posts": "Haba"
+    },
+    "communities_filter": {
+      "rank": "Rank",
+      "subs": "Subscribers",
+      "new": "New"
+    },
+    "post_result_filter": {
+      "popularity": "Popularity",
+      "newest": "Newest",
+      "relevance": "Relevance"
+    },
+    "other_result_filter": {
+      "user": "User",
+      "tag": "Tag"
+    }
+  },
+  "community": {
+    "new_post": "New Post"
   }
 }
