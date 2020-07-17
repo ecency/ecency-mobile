@@ -180,7 +180,7 @@ const CommentBody = ({
   const __handleTagPress = (tag) => {
     if (tag) {
       navigate({
-        routeName: ROUTES.SCREENS.SEARCH_RESULT,
+        routeName: ROUTES.SCREENS.TAG_RESULT,
         params: {
           tag,
         },

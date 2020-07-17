@@ -24,7 +24,7 @@ const VotersScreen = ({ navigation }) => {
   return (
     <AccountListContainer data={activeVotes}>
       {({ data, filterResult, filterIndex, handleOnVotersDropdownSelect, handleSearch }) => (
-        <SafeAreaView style={globalStyles.container}>
+        <>
           <BasicHeader
             title={`${headerTitle} (${data && data.length})`}
             isHasSearch
@@ -44,7 +44,7 @@ const VotersScreen = ({ navigation }) => {
             onDropdownSelect={handleOnVotersDropdownSelect}
           />
           <VotersDisplay votes={filterResult || data} />
-        </SafeAreaView>
+        </>
       )}
     </AccountListContainer>
   );
