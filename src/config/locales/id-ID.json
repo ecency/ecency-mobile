@@ -213,7 +213,7 @@
   "login": {
     "signin": "Masuk",
     "signup": "GABUNG SEKARANG",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "Nama Pengguna",
     "password": "Kata sandi atau WIF",
     "description": "kredensial pengguna disimpan secara lokal pada perangkat. Setelah Keluar kredensial dihapus!",
@@ -298,7 +298,7 @@
     "success_shared": "Postingan anda berhasil dibagikan",
     "success_moved": "Pindah ke konsep",
     "permission_denied": "Izin ditolak",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Periksa izin kunci pribadi!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Anda telah menampilkan kembali blog ini!",
@@ -323,7 +323,7 @@
     "same_user": "Pengguna ini sudah ditambahkan ke daftar",
     "unknow_error": "Terjadi kesalahan",
     "error": "Error",
-    "fetch_error": "Masalah koneksi, silakan coba lagi atau tulis untuk dukungan@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Koneksi gagal!",
     "connection_success": "Berhasil terhubung!",
     "checking": "Mememriksa...",
@@ -383,7 +383,7 @@
     "invalid_username": "Nama pengguna tidak valid, silakan periksa dan coba lagi",
     "already_logged": "Anda sudah masuk, coba tambahkan akun lain",
     "invalid_credentials": "Kredensial tidak valid, silakan periksa dan coba lagi",
-    "unknow_error": "Kesalahan tidak dikenal, silakan menulis ke support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Potensi pembayaran",
@@ -457,7 +457,7 @@
     "address_view": "View address"
   },
   "boost": {
-    "title": "Get Esteem Points",
+    "title": "Get Points",
     "buy": "DAPATKAN ESTM",
     "next": "LANJUT",
     "account": {
