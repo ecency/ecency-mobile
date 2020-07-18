@@ -21,7 +21,7 @@
     "delegation": "Delegación",
     "delegations": "Delegations",
     "delegation_title": "Recompensa por delegación",
-    "delegation_desc": "Earn ESTM everyday for delegation",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "Puntos por publicar",
     "comment_title": "Puntos por comentar",
     "vote_title": "Puntos por votar",
@@ -30,7 +30,7 @@
     "checkin_title": "Puntos por latido",
     "referral": "Referral",
     "referral_title": "Referral rewards",
-    "referral_desc": "Invite friends and earn ESTM",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "Bono de uso",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "Nombre de Usuario",
     "memo_placeholder": "Escribe tus notas aquí",
     "transfer_token": "Transferir",
-    "purchase_estm": "OBTENER ESTM",
-    "points": "Regalar ESTM a alguien",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "To Saving",
     "powerUp": "Hacer Power Up",
     "withdraw_to_saving": "Withdraw Saving",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "ESTM",
-      "buy": "OBTENER ESTM"
+      "title": "Puntos",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "HIVE Savings"
@@ -118,7 +118,7 @@
     "ignore": "te ignoró",
     "reblog": "reblogged",
     "transfer": "transferido",
-    "spin": "Time to earn more ESTM",
+    "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
     "notification": "Notificaciones",
@@ -433,9 +433,9 @@
     "to_placeholder": "Nombre de usuario",
     "memo_placeholder": "Escribe tus notas aquí",
     "transfer_token": "Transferir",
-    "purchase_estm": "Purchase ESTM",
+    "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
-    "points": "Regalar ESTM a alguien",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Transferir a Ahorros",
     "powerUp": "Hacer Power Up",
     "withdraw_to_saving": "Retirar a Ahorros",
@@ -458,7 +458,7 @@
   },
   "boost": {
     "title": "Get Points",
-    "buy": "OBTENER ESTM",
+    "buy": "GET Points",
     "next": "SIGUIENTE",
     "account": {
       "title": "Get Account Boost",
@@ -466,7 +466,7 @@
     }
   },
   "free_estm": {
-    "title": "ESTM Gratuitos",
+    "title": "Free Points",
     "button": "GIRA Y GANA",
     "get_spin": "5 GIROS",
     "spin_right": "Girar a la izquierda",
