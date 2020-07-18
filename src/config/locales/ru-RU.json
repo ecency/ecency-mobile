@@ -21,7 +21,7 @@
     "delegation": "Делегирование",
     "delegations": "Делегирование",
     "delegation_title": "Награда за делегирование",
-    "delegation_desc": "Зарабатывайте ESTM ежедневно за делегирование",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "Баллы за пост",
     "comment_title": "Баллы за комментарий",
     "vote_title": "Баллы за голос",
@@ -30,7 +30,7 @@
     "checkin_title": "Баллы за присутствие",
     "referral": "Реферал",
     "referral_title": "Реферальные вознаграждения",
-    "referral_desc": "Приглашайте друзей и зарабатывайте ESTM",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "Бонус за использование",
     "no_activity": "За последнее время активности нет",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "Пользователь",
     "memo_placeholder": "Введите свою заметку",
     "transfer_token": "Перевод",
-    "purchase_estm": "ПОЛУЧИТЬ ESTM",
-    "points": "Подарить ESTM кому-нибудь",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "В Сейф",
     "powerUp": "Увеличение силы",
     "withdraw_to_saving": "Вывести в Сейф",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "Сбережения сняты",
     "fill_vesting_withdraw": "Понижение Силы выполнено",
     "estm": {
-      "title": "ESTM",
-      "buy": "ПОЛУЧИТЬ ESTM"
+      "title": "Баллы",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "HIVE сбережения"
@@ -118,7 +118,7 @@
     "ignore": "игнорирует",
     "reblog": "сделал репост",
     "transfer": "переведено",
-    "spin": "Время заработать больше ESTM",
+    "spin": "Time to earn more Points",
     "inactive": "Будьте активны! Напишите пост, продолжайте зарабатывать",
     "referral": "присоединился по вашей ссылке. Поприветствуйте его",
     "notification": "Уведомления",
@@ -433,9 +433,9 @@
     "to_placeholder": "Пользователь",
     "memo_placeholder": "Введите свою заметку",
     "transfer_token": "Перевод",
-    "purchase_estm": "Купить ESTM",
+    "purchase_estm": "Purchase Points",
     "convert": "Конвертировать HBD в HIVE",
-    "points": "Подарить ESTM кому-нибудь",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Перевести в сейф",
     "powerUp": "Увеличение силы",
     "withdraw_to_saving": "Перевести в сейф",
@@ -458,7 +458,7 @@
   },
   "boost": {
     "title": "Get Points",
-    "buy": "ПОЛУЧИТЬ ESTM",
+    "buy": "GET Points",
     "next": "ДАЛЕЕ",
     "account": {
       "title": "Получить усиление аккаунта",
@@ -466,7 +466,7 @@
     }
   },
   "free_estm": {
-    "title": "Бесплатные ESTM",
+    "title": "Free Points",
     "button": "ВРАЩАЙ И ПОБЕЖДАЙ",
     "get_spin": "5 ВРАЩЕНИЙ",
     "spin_right": "Вращений осталось",
