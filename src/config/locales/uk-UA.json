@@ -21,7 +21,7 @@
     "delegation": "Делегування",
     "delegations": "Делегації",
     "delegation_title": "Винагорода за делегацію",
-    "delegation_desc": "Заробляйте ESTM кожного дня за ваші делегування",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "Бали за допис",
     "comment_title": "Бали за коментар",
     "vote_title": "Бали за голос",
@@ -30,7 +30,7 @@
     "checkin_title": "Бали за регулярний вхід",
     "referral": "Реферал",
     "referral_title": "Реферальна нагорода",
-    "referral_desc": "Запрошуйте друзів та заробляйте ESTM",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "Бонус за користування",
     "no_activity": "Немає нещодавньої активності",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "Ім'я користувача",
     "memo_placeholder": "Введіть сюди свої примітки",
     "transfer_token": "Переказ",
-    "purchase_estm": "Отримати ESTM",
-    "points": "Подарувати комусь ESTM",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "В заощадження",
     "powerUp": "Збільшення Сили Голосу",
     "withdraw_to_saving": "Вивести заощадження",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "Зняття заощаджень виконано",
     "fill_vesting_withdraw": "Зниження Сили виконано",
     "estm": {
-      "title": "ESTM",
-      "buy": "Отримати ESTM"
+      "title": "Бали",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "HIVE заощадження"
@@ -118,7 +118,7 @@
     "ignore": "ігнорує тебе",
     "reblog": "рестімнуто",
     "transfer": "відправлено",
-    "spin": "Час заробляти більше ESTM",
+    "spin": "Time to earn more Points",
     "inactive": "Будьте активними! Зробіть допис, продовжуйте заробляти",
     "referral": "приєднався за вашим посиланням. Привітайте його",
     "notification": "Сповіщення",
@@ -433,9 +433,9 @@
     "to_placeholder": "Ім'я користувача",
     "memo_placeholder": "Введіть сюди свої примітки",
     "transfer_token": "Переказ",
-    "purchase_estm": "Придбати ESTM",
+    "purchase_estm": "Purchase Points",
     "convert": "Конвертувати HBD у HIVE",
-    "points": "Подарувати комусь ESTM",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Перевести до Заощаджень",
     "powerUp": "Збільшення Сили Голосу",
     "withdraw_to_saving": "Перевести до Заощаджень",
@@ -458,7 +458,7 @@
   },
   "boost": {
     "title": "Get Points",
-    "buy": "Отримати ESTM",
+    "buy": "GET Points",
     "next": "ДАЛІ",
     "account": {
       "title": "Отримати підсилення акаунту",
@@ -466,7 +466,7 @@
     }
   },
   "free_estm": {
-    "title": "Безкоштовні ESTM",
+    "title": "Free Points",
     "button": "Обертай та Вигравай",
     "get_spin": "5 Обертів",
     "spin_right": "Обертів лишилось",
