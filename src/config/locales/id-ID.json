@@ -21,7 +21,7 @@
     "delegation": "Delegasi",
     "delegations": "Delegasi",
     "delegation_title": "Hadiah delegasi",
-    "delegation_desc": "Hasilkan ESTM setiap hari untuk pendelegasian",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "Poin untuk kiriman",
     "comment_title": "Poin untuk komentar",
     "vote_title": "Poin untuk suara",
@@ -30,7 +30,7 @@
     "checkin_title": "Points for heartbeat",
     "referral": "Referensi",
     "referral_title": "Hadiah referensi",
-    "referral_desc": "Undang teman dan dapatkan ESTM",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "Bonus penggunaan",
     "no_activity": "Tidak ada aktifitas terakhir",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "Nama Pengguna",
     "memo_placeholder": "Masukan catatan anda disini",
     "transfer_token": "Transfer",
-    "purchase_estm": "DAPATKAN ESTM",
-    "points": "Hadiah ESTM kepada seseorang",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Untuk Menyimpan",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Menarik Tabungan",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "Tabungan Dieksekusi",
     "fill_vesting_withdraw": "PowerDown dieksekusi",
     "estm": {
-      "title": "ESTM",
-      "buy": "DAPATKAN ESTM"
+      "title": "Poin",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "HIVE Savings"
@@ -118,7 +118,7 @@
     "ignore": "mengabaikan anda",
     "reblog": "reblogged",
     "transfer": "ditransfer",
-    "spin": "Time to earn more ESTM",
+    "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
     "notification": "Pemberitahuan",
@@ -433,9 +433,9 @@
     "to_placeholder": "Nama Pengguna",
     "memo_placeholder": "Masukan catatan anda disini",
     "transfer_token": "Transfer",
-    "purchase_estm": "Purchase ESTM",
+    "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
-    "points": "Hadiah ESTM kepada seseorang",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Transfer untuk menyimpan",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Tarik untuk menyimpan",
@@ -458,7 +458,7 @@
   },
   "boost": {
     "title": "Get Points",
-    "buy": "DAPATKAN ESTM",
+    "buy": "GET Points",
     "next": "LANJUT",
     "account": {
       "title": "Get Account Boost",
@@ -466,7 +466,7 @@
     }
   },
   "free_estm": {
-    "title": "ESTM Gratis",
+    "title": "Free Points",
     "button": "SPIN & WIN",
     "get_spin": "5 SPINS",
     "spin_right": "Spin tersisa",
