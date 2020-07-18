@@ -142,7 +142,7 @@ class BoostPostScreen extends PureComponent {
                   this._renderDropdown(accounts, selectedUser || currentAccountName)
                 }
               />
-              <Text style={styles.balanceText}>{`${balance || _balance} ESTM`}</Text>
+              <Text style={styles.balanceText}>{`${balance || _balance} Points`}</Text>
               <View style={styles.autocompleteLineContainer}>
                 <View style={styles.autocompleteLabelContainer}>
                   <Text style={styles.autocompleteLabelText}>
@@ -189,7 +189,7 @@ class BoostPostScreen extends PureComponent {
                 <Text style={styles.price}>
                   {` $${getESTMPrice(calculatedESTM).toFixed(3)} ~ `}
                 </Text>
-                <Text style={styles.esteem}>{`${calculatedESTM} ESTM`}</Text>
+                <Text style={styles.esteem}>{`${calculatedESTM} Points`}</Text>
               </View>
 
               <View style={styles.quickButtonsWrapper}>

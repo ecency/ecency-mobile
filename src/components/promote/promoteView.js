@@ -139,7 +139,7 @@ class PromoteView extends PureComponent {
                   this._renderDropdown(accounts, selectedUser || currentAccountName)
                 }
               />
-              <Text style={styles.balanceText}>{`${balance || _balance} ESTM`}</Text>
+              <Text style={styles.balanceText}>{`${balance || _balance} Points`}</Text>
               <Fragment>
                 <View style={styles.autocomplateLineContainer}>
                   <View style={styles.autocomplateLabelContainer}>

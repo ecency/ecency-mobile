@@ -42,8 +42,10 @@ const parseAuthorPermlink = (u) => {
 };
 
 export default (url) => {
-  if (url.startsWith('ecency://')) {
-    url = url.replace('ecency://', 'https://ecency.com/');
+  if (url.startsWith('ecency://') || url.startsWith('esteem://')) {
+    url = url
+      .replace('ecency://', 'https://ecency.com/')
+      .replace('esteem://', 'https://ecency.com/');
   }
 
   // eslint-disable-next-line no-useless-escape

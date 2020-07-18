@@ -69,6 +69,7 @@ export const makeOptions = (author, permlink, operationType) => {
     permlink,
     max_accepted_payout: '1000000.000 HBD',
     percent_steem_dollars: 10000,
+    percent_hbd: 10000,
     extensions: [[0, { beneficiaries: [{ account: 'ecency', weight: 100 }] }]],
   };
 
@@ -76,16 +77,19 @@ export const makeOptions = (author, permlink, operationType) => {
     case 'sp':
       a.max_accepted_payout = '1000000.000 HBD';
       a.percent_steem_dollars = 0;
+      a.percent_hbd = 0;
       break;
 
     case 'dp':
       a.max_accepted_payout = '0.000 HBD';
       a.percent_steem_dollars = 10000;
+      a.percent_hbd = 10000;
       break;
 
     default:
       a.max_accepted_payout = '1000000.000 HBD';
       a.percent_steem_dollars = 10000;
+      a.percent_hbd = 10000;
       break;
   }
 

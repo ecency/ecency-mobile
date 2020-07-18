@@ -59,8 +59,8 @@
     "to_placeholder": "Oruko olumulo",
     "memo_placeholder": "Enter your notes here",
     "transfer_token": "Fi ranse",
-    "purchase_estm": "GET ESTM",
-    "points": "Gift ESTM to someone",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "To Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw Saving",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "ESTM",
-      "buy": "GET ESTM"
+      "title": "Points",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "HIVE Savings"
@@ -422,7 +422,7 @@
     "transfer_token": "Transfer",
     "purchase_estm": "Purchase ESTM",
     "convert": "Convert HBD to HIVE",
-    "points": "Gift ESTM to someone",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",

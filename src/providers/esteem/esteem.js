@@ -111,7 +111,7 @@ export const addBookmark = (username, author, permlink) =>
       username,
       author,
       permlink,
-      chain: 'steem',
+      chain: 'hive',
     })
     .then((resp) => resp.data);
 
@@ -312,7 +312,7 @@ export const schedule = (
       post_type: operationType,
       upvote_this: upvote,
       schedule: scheduleDate,
-      chain: 'steem',
+      chain: 'hive',
     })
     .then((resp) => resp.data);
 

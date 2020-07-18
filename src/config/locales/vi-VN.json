@@ -59,8 +59,8 @@
     "to_placeholder": "Tên người dùng",
     "memo_placeholder": "Nhập ghi chú của bạn vào đây",
     "transfer_token": "Chuyển cho",
-    "purchase_estm": "ĐƯỢC ESTM",
-    "points": "Gift ESTM to someone",
+    "purchase_estm": "ĐƯỢC POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "To Saving",
     "powerUp": "Tăng lên",
     "withdraw_to_saving": "Withdraw Saving",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "ESTM",
-      "buy": "ĐƯỢC ESTM"
+      "title": "Points",
+      "buy": "ĐƯỢC POINTS"
     },
     "savingsteem": {
       "title": "HIVE Savings"

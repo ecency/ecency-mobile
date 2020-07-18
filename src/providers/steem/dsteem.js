@@ -2,7 +2,7 @@
 // import '../../../shim';
 // import * as bitcoin from 'bitcoinjs-lib';
 
-import { Client, PrivateKey, cryptoUtils } from '@esteemapp/dhive';
+import { Client, PrivateKey, cryptoUtils } from '@hiveio/dhive';
 import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
@@ -48,6 +48,13 @@ export const checkClient = async () => {
   client = new Client(selectedServer, {
     timeout: 5000,
   });
+  client.database.getVersion().then((res) => {
+    if (res.blockchain_version !== '0.23.0') {
+      // true: eclipse rebranded rpc nodes
+      // false: default old nodes (not necessary to call for old nodes)
+      client.updateOperations(true);
+    }
+  });
 };
 
 checkClient();
@@ -81,10 +88,12 @@ export const fetchGlobalProps = async () => {
   }
 
   const steemPerMVests =
-    (parseToken(get(globalDynamic, 'total_vesting_fund_steem')) /
+    (parseToken(
+      get(globalDynamic, 'total_vesting_fund_steem', globalDynamic.total_vesting_fund_hive),
+    ) /
       parseToken(get(globalDynamic, 'total_vesting_shares'))) *
     1e6;
-  const sbdPrintRate = get(globalDynamic, 'sbd_print_rate');
+  const sbdPrintRate = get(globalDynamic, 'sbd_print_rate', globalDynamic.hbd_print_rate);
   const base = parseToken(get(feedHistory, 'current_median_history.base'));
   const quote = parseToken(get(feedHistory, 'current_median_history.quote'));
   const fundRecentClaims = get(rewardFund, 'recent_claims');
@@ -165,17 +174,17 @@ export const getUser = async (user) => {
     _account.steem_power = await vestToSteem(
       _account.vesting_shares,
       globalProperties.total_vesting_shares,
-      globalProperties.total_vesting_fund_steem,
+      globalProperties.total_vesting_fund_steem || globalProperties.total_vesting_fund_hive,
     );
     _account.received_steem_power = await vestToSteem(
       get(_account, 'received_vesting_shares'),
       get(globalProperties, 'total_vesting_shares'),
-      get(globalProperties, 'total_vesting_fund_steem'),
+      get(globalProperties, 'total_vesting_fund_steem', globalProperties.total_vesting_fund_hive),
     );
     _account.delegated_steem_power = await vestToSteem(
       get(_account, 'delegated_vesting_shares'),
       get(globalProperties, 'total_vesting_shares'),
-      get(globalProperties, 'total_vesting_fund_steem'),
+      get(globalProperties, 'total_vesting_fund_steem', globalProperties.total_vesting_fund_hive),
     );
 
     if (has(_account, 'posting_json_metadata') || has(_account, 'json_metadata')) {
@@ -1287,6 +1296,8 @@ export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rew
         {
           account: account.name,
           reward_steem: rewardSteem,
+          reward_hive: rewardSteem,
+          reward_hbd: rewardSbd,
           reward_sbd: rewardSbd,
           reward_vests: rewardVests,
         },
@@ -1399,7 +1410,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
     {
       account_auths: [
         ...get(currentAccount, 'posting.account_auths'),
-        ['esteemapp', get(currentAccount, 'posting.weight_threshold')],
+        ['ecency.app', get(currentAccount, 'posting.weight_threshold')],
       ],
     },
   );

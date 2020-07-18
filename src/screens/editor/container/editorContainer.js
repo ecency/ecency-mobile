@@ -292,7 +292,7 @@ class EditorContainer extends Component {
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
 
       const jsonMeta = makeJsonMetadata(meta, _tags);
-      // TODO: check if permlink is available github: #314 https://github.com/esteemapp/esteem-mobile/pull/314
+      // TODO: check if permlink is available github: #314 https://github.com/ecency/ecency-mobile/pull/314
       let permlink = generatePermlink(fields.title);
 
       let dublicatePost;
@@ -379,7 +379,7 @@ class EditorContainer extends Component {
 
       const { post } = this.state;
 
-      const jsonMeta = makeJsonMetadataReply(post.json_metadata.tags || ['esteem']);
+      const jsonMeta = makeJsonMetadataReply(post.json_metadata.tags || ['ecency']);
       const permlink = generateReplyPermlink(post.author);
       const author = currentAccount.name;
       const options = makeOptions(author, permlink);
@@ -562,7 +562,7 @@ class EditorContainer extends Component {
 
     if (currentAccount && currentAccount.posting) {
       hasPostingPerm =
-        currentAccount.posting.account_auths.filter((x) => x[0] === 'esteemapp').length > 0;
+        currentAccount.posting.account_auths.filter((x) => x[0] === 'ecency.app').length > 0;
     }
 
     if (hasPostingPerm) {

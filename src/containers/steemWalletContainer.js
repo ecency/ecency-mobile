@@ -160,9 +160,9 @@ const WalletContainer = ({
 
   const _isHasUnclaimedRewards = (account) => {
     return (
-      parseToken(get(account, 'reward_steem_balance')) > 0 ||
-      parseToken(get(account, 'reward_sbd_balance')) > 0 ||
-      parseToken(get(account, 'reward_vesting_steem')) > 0
+      parseToken(get(account, 'reward_steem_balance', account.reward_hive_balance)) > 0 ||
+      parseToken(get(account, 'reward_sbd_balance', account.reward_hbd_balance)) > 0 ||
+      parseToken(get(account, 'reward_vesting_steem', account.reward_vesting_hive)) > 0
     );
   };
 
@@ -180,8 +180,8 @@ const WalletContainer = ({
         isHasUnclaimedRewards = _isHasUnclaimedRewards(account[0]);
         if (isHasUnclaimedRewards) {
           const {
-            reward_steem_balance: steemBal,
-            reward_sbd_balance: sbdBal,
+            reward_steem_balance: steemBal = account[0].reward_hive_balance,
+            reward_sbd_balance: sbdBal = account[0].reward_hbd_balance,
             reward_vesting_balance: vestingBal,
           } = account[0];
           return claimRewardBalance(currentAccount, pinCode, steemBal, sbdBal, vestingBal);
@@ -256,10 +256,16 @@ const WalletContainer = ({
     ) {
       balance = Math.round(walletData.sbdBalance * 1000) / 1000;
     }
-    if (transferType === 'withdraw_steem' && fundType === 'HIVE') {
+    if (
+      (transferType === 'withdraw_steem' || transferType === 'withdraw_hive') &&
+      fundType === 'HIVE'
+    ) {
       balance = Math.round(walletData.savingBalance * 1000) / 1000;
     }
-    if (transferType === 'withdraw_sbd' && fundType === 'HBD') {
+    if (
+      (transferType === 'withdraw_sbd' || transferType === 'withdraw_hbd') &&
+      fundType === 'HBD'
+    ) {
       balance = Math.round(walletData.savingBalanceSbd * 1000) / 1000;
     }
 
