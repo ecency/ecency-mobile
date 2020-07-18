@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Platform } from 'react-native';
 import { connect } from 'react-redux';
-import { Client } from '@esteemapp/dhive';
+import { Client } from '@hvieio/dhive';
 import VersionNumber from 'react-native-version-number';
 import Config from 'react-native-config';
 import { injectIntl } from 'react-intl';
