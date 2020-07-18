@@ -89,7 +89,12 @@ class UpvoteView extends Component {
       );
 
       const weight = sliderValue ? (sliderValue * 100).toFixed(0) * 100 : 0;
-
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        JSON.stringify({ pinCode, author, permlink, weight }),
+      );
       vote(currentAccount, pinCode, author, permlink, weight)
         .then(() => {
           this.setState(
