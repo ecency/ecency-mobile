@@ -1131,6 +1131,20 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
+"@esteemapp/dhive@^0.14.2":
+  version "0.14.2"
+  resolved "https://registry.yarnpkg.com/@esteemapp/dhive/-/dhive-0.14.2.tgz#8368f884f7ba18d267516e34a503a747b2d9bc14"
+  integrity sha512-TMfQDISrHueh0j1/j9SF3krrc4+u5tMC34eL8X8RdMXyDMiZ9UKIf/qkHX9Qph/2Y5eijMsdGZMDRy/UCvwlig==
+  dependencies:
+    bs58 "^4.0.1"
+    bytebuffer "^5.0.1"
+    core-js "^3.6.4"
+    cross-fetch "^3.0.4"
+    node-fetch "^2.6.0"
+    secp256k1 "^3.8.0"
+    verror "^1.10.0"
+    whatwg-fetch "^3.0.0"
+
 "@esteemapp/esteem-render-helpers@^1.3.8":
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/@esteemapp/esteem-render-helpers/-/esteem-render-helpers-1.4.4.tgz#02360a8be20188009e4157d4956a7b74d473933f"
@@ -1247,20 +1261,6 @@
   integrity sha512-tAag0jEcjwH+P2quUfipd7liWCNX2F8NvYjQp2wtInsZxnMlypdw0FtAOLxtvvkO+GSRRbmNi8m/5y42PQJYCQ==
   dependencies:
     "@hapi/hoek" "^8.3.0"
-
-"@hiveio/dhive@^0.14.1":
-  version "0.14.1"
-  resolved "https://registry.yarnpkg.com/@hiveio/dhive/-/dhive-0.14.1.tgz#1a6273d1544bd97bf2a047baa85a6afb4cecae78"
-  integrity sha512-80I1alxQW5Cnt61KvAuSa+dPH6V+JNrE/0vR+DgQGH9y8l3xmn+pr4TXNLtSvx37pI8Zt1UEPsgvren/R02WeQ==
-  dependencies:
-    bs58 "^4.0.1"
-    bytebuffer "^5.0.1"
-    core-js "^3.6.4"
-    cross-fetch "^3.0.4"
-    node-fetch "^2.6.0"
-    secp256k1 "^3.8.0"
-    verror "^1.10.0"
-    whatwg-fetch "^3.0.0"
 
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
