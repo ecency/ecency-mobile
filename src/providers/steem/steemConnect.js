@@ -83,14 +83,15 @@ export const prepareBeneficiaries = (postObj) => {
     allow_curation_rewards: true,
     max_accepted_payout: '1000000.000 HBD',
     percent_steem_dollars: '10000',
+    percent_hbd: '10000',
     extensions: [
       [
         0,
         {
           beneficiaries: [
             {
-              account: 'esteemapp',
-              weight: 300, // 3%
+              account: 'ecency',
+              weight: 100, // 1%
             },
           ],
         },

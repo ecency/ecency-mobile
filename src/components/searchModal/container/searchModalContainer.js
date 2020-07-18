@@ -67,7 +67,11 @@ const SearchModalContainer = ({
 
           setSearchResults({ type: 'tag', data: tags });
         });
-      } else if (text.includes('https://') || text.includes('esteem://')) {
+      } else if (
+        text.includes('https://') ||
+        text.includes('esteem://') ||
+        text.includes('ecency://')
+      ) {
         const postUrl = postUrlParser(text.replace(/\s/g, ''));
 
         if (postUrl) {

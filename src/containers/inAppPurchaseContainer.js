@@ -152,7 +152,7 @@ class InAppPurchaseContainer extends Component {
   render() {
     const { children, isNoSpin } = this.props;
     const { productList, isLoading, isProcessing } = this.state;
-    const FREE_ESTM = { productId: 'freePoints', title: 'free estm' };
+    const FREE_ESTM = { productId: 'freePoints', title: 'free points' };
     const _productList = isNoSpin
       ? productList
       : [...productList.filter((item) => !item.productId.includes('spins')), FREE_ESTM];

@@ -19,8 +19,8 @@ const ITEM_SKUS = Platform.select({
 
 const _getTitle = (title) => {
   let _title = title.toUpperCase();
-  if (_title !== 'FREE ESTM') {
-    _title = _title.replace(/[^0-9]+/g, '') + ' ESTM';
+  if (_title !== 'FREE POINTS') {
+    _title = _title.replace(/[^0-9]+/g, '') + ' POINTS';
   }
 
   return _title;

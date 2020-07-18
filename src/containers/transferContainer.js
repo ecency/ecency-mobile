@@ -159,11 +159,11 @@ class TransferContainer extends Component {
       case 'powerUp':
         func = transferToVesting;
         break;
-      case 'withdraw_steem':
+      case 'withdraw_steem' || 'withdraw_hive':
         func = transferFromSavings;
         data.requestId = new Date().getTime() >>> 0;
         break;
-      case 'withdraw_sbd':
+      case 'withdraw_sbd' || 'withdraw_hbd':
         func = transferFromSavings;
         data.requestId = new Date().getTime() >>> 0;
         break;

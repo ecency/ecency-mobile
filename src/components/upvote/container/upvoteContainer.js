@@ -89,7 +89,8 @@ class UpvoteContainer extends PureComponent {
     const quote = get(globalProps, 'quote', 0);
     const sbdPrintRate = get(globalProps, 'sbdPrintRate', 0);
     const SBD_PRINT_RATE_MAX = 10000;
-    const percent_steem_dollars = get(content, 'percent_steem_dollars') / 20000;
+    const percent_steem_dollars =
+      get(content, 'percent_steem_dollars', content.percent_hbd) / 20000;
     const pending_payout_sbd = pendingPayout * percent_steem_dollars;
     const price_per_steem = base / quote;
 

@@ -36,8 +36,8 @@ export const groomingTransactionData = (transaction, steemPerMVests) => {
     case 'author_reward':
     case 'comment_benefactor_reward':
       let {
-        sbd_payout: sbdPayout,
-        steem_payout: steemPayout,
+        sbd_payout: sbdPayout = opData.hbd_payout,
+        steem_payout: steemPayout = opData.hive_payout,
         vesting_payout: vestingPayout,
       } = opData;
 
@@ -165,9 +165,15 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   const userdata = get(accounts, get(user, 'name'), '');
 
   // TODO: move them to utils these so big for a lifecycle function
-  walletData.rewardSteemBalance = parseToken(userdata.reward_steem_balance);
-  walletData.rewardSbdBalance = parseToken(userdata.reward_sbd_balance);
-  walletData.rewardVestingSteem = parseToken(userdata.reward_vesting_steem);
+  walletData.rewardSteemBalance = parseToken(
+    userdata.reward_hive_balance || userdata.reward_steem_balance,
+  );
+  walletData.rewardSbdBalance = parseToken(
+    userdata.reward_hbd_balance || userdata.reward_sbd_balance,
+  );
+  walletData.rewardVestingSteem = parseToken(
+    userdata.reward_vesting_hive || userdata.reward_vesting_steem,
+  );
   walletData.hasUnclaimedRewards =
     walletData.rewardSteemBalance > 0 ||
     walletData.rewardSbdBalance > 0 ||
@@ -178,9 +184,11 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   walletData.vestingSharesReceived = parseToken(userdata.received_vesting_shares);
   walletData.vestingSharesTotal =
     walletData.vestingShares - walletData.vestingSharesDelegated + walletData.vestingSharesReceived;
-  walletData.sbdBalance = parseToken(userdata.sbd_balance);
+  walletData.sbdBalance = parseToken(userdata.hbd_balance || userdata.sbd_balance);
   walletData.savingBalance = parseToken(userdata.savings_balance);
-  walletData.savingBalanceSbd = parseToken(userdata.savings_sbd_balance);
+  walletData.savingBalanceSbd = parseToken(
+    userdata.savings_hbd_balance || userdata.savings_sbd_balance,
+  );
 
   const feedHistory = await getFeedHistory();
   const base = parseToken(feedHistory.current_median_history.base);
@@ -246,7 +254,7 @@ export const groomingPointsTransactionData = (transaction) => {
     ? `from @${get(transaction, 'sender')}`
     : get(transaction, 'receiver') && `to @${get(transaction, 'receiver')}`;
 
-  result.value = `${get(transaction, 'amount')} ESTM`;
+  result.value = `${get(transaction, 'amount')} Points`;
 
   return result;
 };
