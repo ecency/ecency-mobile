@@ -21,7 +21,7 @@
     "delegation": "Delegare",
     "delegations": "Delegări",
     "delegation_title": "Recompensă delegare",
-    "delegation_desc": "Câștigă ESTM in fiecare zi pentru delegare",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "Puncte pentru postare",
     "comment_title": "Puncte pentru comentariu",
     "vote_title": "Puncte pentru vot",
@@ -30,7 +30,7 @@
     "checkin_title": "Puncte pentru prezență",
     "referral": "Recomandare",
     "referral_title": "Recompensă pentru recomandare",
-    "referral_desc": "Invită-ți prietenii și câștigă ESTM",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "Bonus de utilizare",
     "no_activity": "Nicio activitate recentă",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "Nume utilizator",
     "memo_placeholder": "Introdu comentariul tău aici",
     "transfer_token": "Transfer",
-    "purchase_estm": "OBȚINE ESTM",
-    "points": "Dăruiește ESTM cuiva",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Transferă la economii",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Retrage la economii",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "Transfer de la economii efectuat",
     "fill_vesting_withdraw": "Powed Down executat",
     "estm": {
-      "title": "ESTM",
-      "buy": "OBȚINE ESTM"
+      "title": "Puncte",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "HIVE Savings"
@@ -118,7 +118,7 @@
     "ignore": "te-a ignorat",
     "reblog": "redistribuit",
     "transfer": "transferat",
-    "spin": "Time to earn more ESTM",
+    "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
     "notification": "Notificări",
@@ -433,9 +433,9 @@
     "to_placeholder": "Nume de utilizator",
     "memo_placeholder": "Introdu comentariul tău aici",
     "transfer_token": "Transfer",
-    "purchase_estm": "Purchase ESTM",
+    "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
-    "points": "Dăruiește ESTM cuiva",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Tranferă la economii",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Retrage la economii",
@@ -458,7 +458,7 @@
   },
   "boost": {
     "title": "Get Points",
-    "buy": "OBȚINE ESTM",
+    "buy": "GET Points",
     "next": "URMĂTORUL",
     "account": {
       "title": "Get Account Boost",
@@ -466,7 +466,7 @@
     }
   },
   "free_estm": {
-    "title": "ESTM gratuit",
+    "title": "Free Points",
     "button": "ÎNVÂRTE ȘI CÂȘTIGĂ",
     "get_spin": "5 ROTIRI",
     "spin_right": "Rorări rămase",
