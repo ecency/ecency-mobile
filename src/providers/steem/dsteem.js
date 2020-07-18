@@ -1296,8 +1296,6 @@ export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rew
         {
           account: account.name,
           reward_steem: rewardSteem,
-          reward_hive: rewardSteem,
-          reward_hbd: rewardSbd,
           reward_sbd: rewardSbd,
           reward_vests: rewardVests,
         },

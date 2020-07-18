@@ -59,7 +59,11 @@ export const groomingTransactionData = (transaction, steemPerMVests) => {
       }
       break;
     case 'claim_reward_balance':
-      let { reward_sbd: rewardSdb, reward_steem: rewardSteem, reward_vests: rewardVests } = opData;
+      let {
+        reward_sbd: rewardSdb = opData.reward_hbd,
+        reward_steem: rewardSteem = opData.reward_hive,
+        reward_vests: rewardVests,
+      } = opData;
 
       rewardSdb = parseToken(rewardSdb).toFixed(3).replace(',', '.');
       rewardSteem = parseToken(rewardSteem).toFixed(3).replace(',', '.');
