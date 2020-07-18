@@ -21,7 +21,7 @@
     "delegation": "Delegasyon",
     "delegations": "Mga Delegasyon",
     "delegation_title": "Delegasyon na gantimpala",
-    "delegation_desc": "Kumita ng ESTM araw-araw sa mga delegasyon",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "Puntos para sa post",
     "comment_title": "Puntos para sa komento",
     "vote_title": "Puntos para sa boto",
@@ -30,7 +30,7 @@
     "checkin_title": "Puntos para sa tibok ng puso",
     "referral": "Referral",
     "referral_title": "Gantimpala sa mga Referral",
-    "referral_desc": "Mag-imbita ng mga kaibigan at kumita ng ESTM",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "Bonus sa pag-gamit",
     "no_activity": "Walang aktibidad kamakailan",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "Username",
     "memo_placeholder": "I-enter ang iyong lista dito",
     "transfer_token": "Paglipat",
-    "purchase_estm": "KUNIN ang ESTM",
-    "points": "Magregalo ng ESTM sa iba",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Patungong Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "I-withdraw ang inipon",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "Ang pag-ipon ay naisagawa",
     "fill_vesting_withdraw": "Ang pag-powerdown ay naisagawa",
     "estm": {
-      "title": "ESTM",
-      "buy": "KUNIN ang ESTM"
+      "title": "Puntos",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "Inipong HIVE"
@@ -118,7 +118,7 @@
     "ignore": "ayaw kang makita",
     "reblog": "nireblogged",
     "transfer": "nailipat",
-    "spin": "Oras na para kumita ng mas maraming ESTM",
+    "spin": "Time to earn more Points",
     "inactive": "Maging aktibo! Magsulat ng post, kumita ng tuloy-tuloy",
     "referral": "sumali gamit ang iyong referral, salubungin sila",
     "notification": "Mga Abiso",
@@ -433,9 +433,9 @@
     "to_placeholder": "Username",
     "memo_placeholder": "I-enter ang iyong lista dito",
     "transfer_token": "Paglipat",
-    "purchase_estm": "Bumili ng ESTM",
+    "purchase_estm": "Purchase Points",
     "convert": "I-convert ang HBD bilang HIVE",
-    "points": "Magregalo ng ESTM sa iba",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Ilipat sa Ipon",
     "powerUp": "Power Up",
     "withdraw_to_saving": "I-withdraw sa Inipon",
@@ -458,7 +458,7 @@
   },
   "boost": {
     "title": "Get Points",
-    "buy": "KUNIN ang ESTM",
+    "buy": "GET Points",
     "next": "SUNOD",
     "account": {
       "title": "Kumuha ng Account Boost",
@@ -466,7 +466,7 @@
     }
   },
   "free_estm": {
-    "title": "Libreng ESTM",
+    "title": "Free Points",
     "button": "IKUTIN & MANALO",
     "get_spin": "Limang(5) Ikot",
     "spin_right": "Ikot na natitira",
