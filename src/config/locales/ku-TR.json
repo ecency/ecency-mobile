@@ -21,7 +21,7 @@
     "delegation": "Şande",
     "delegations": "Şande",
     "delegation_title": "Xelata şandeyê",
-    "delegation_desc": "Ji bo şandeyê her roj ESTM qezenc bike",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "Puanên ji şandiyê",
     "comment_title": "Puanên ji şîroveyê",
     "vote_title": "Puanên ji dengdanê",
@@ -30,7 +30,7 @@
     "checkin_title": "Puanên ji ecibandinê",
     "referral": "Referans",
     "referral_title": "Xelatên referansê",
-    "referral_desc": "Hevalên xwe vexwîne û ESTM qezenc bike",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "Bonusa bikaranînê",
     "no_activity": "Çalakiya dawîn tune ye",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "Navê bikarhêner",
     "memo_placeholder": "Notên xwe li vir binivîse",
     "transfer_token": "Transfer",
-    "purchase_estm": "ESTMê BISTÎNE",
-    "points": "ESTMê diyariya hinekan bike",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Bo Berhevkirinan",
     "powerUp": "Bihêz Bike",
     "withdraw_to_saving": "Ji Berhevkirinan Bikişîne",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "Berhevkirin Pek Hat",
     "fill_vesting_withdraw": "Ji hêz hate xistin",
     "estm": {
-      "title": "ESTM",
-      "buy": "ESTMê BISTÎNE"
+      "title": "Puan",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "HIVE Savings"
@@ -118,7 +118,7 @@
     "ignore": "te asteng kir",
     "reblog": "dîsa hate weşandin",
     "transfer": "hate transferkirin",
-    "spin": "Time to earn more ESTM",
+    "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
     "notification": "Danezanên Te",
@@ -433,9 +433,9 @@
     "to_placeholder": "Navê bikarhêner",
     "memo_placeholder": "Notên xwe li vir binivîse",
     "transfer_token": "Transfer",
-    "purchase_estm": "Purchase ESTM",
+    "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
-    "points": "ESTMê diyariya hinekan bike",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Transfera Ji Berhevkirinan",
     "powerUp": "Bihêz Bike",
     "withdraw_to_saving": "Ji Berhevkirinan Bikişîne (pere)",
@@ -458,7 +458,7 @@
   },
   "boost": {
     "title": "Get Points",
-    "buy": "ESTMê BISTÎNE",
+    "buy": "GET Points",
     "next": "PÊŞVE",
     "account": {
       "title": "Get Account Boost",
@@ -466,7 +466,7 @@
     }
   },
   "free_estm": {
-    "title": "ESTM ya Belaş",
+    "title": "Free Points",
     "button": "BIZÎVIRÎNE Û QEZENC BIKE",
     "get_spin": "5 ZÎVIR",
     "spin_right": "Bizîvirîne Çepê",
