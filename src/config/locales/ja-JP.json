@@ -21,7 +21,7 @@
     "delegation": "デリゲーション",
     "delegations": "委託",
     "delegation_title": "デリゲーション報酬",
-    "delegation_desc": "委託してESTMを毎日貰おう",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "投稿によるポイント",
     "comment_title": "コメントによるポイント",
     "vote_title": "ヴォートによるポイント",
@@ -30,7 +30,7 @@
     "checkin_title": "ハートビートによるポイント",
     "referral": "紹介",
     "referral_title": "紹介の報酬",
-    "referral_desc": "友達を紹介してESTMを貰おう",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "使用ボーナス",
     "no_activity": "最近のアクティビティがありません",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "ユーザー名",
     "memo_placeholder": "ここに内容を入力してください",
     "transfer_token": "送金",
-    "purchase_estm": "ESTM を手に入れる",
-    "points": "ESTMを贈る",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "貯蓄口座への送金",
     "powerUp": "パワーアップ",
     "withdraw_to_saving": "貯蓄口座を引出す",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "貯蓄口座への送金が完了",
     "fill_vesting_withdraw": "パワーダウン完了",
     "estm": {
-      "title": "ESTM",
-      "buy": "ESTM を手に入れる"
+      "title": "ポイント",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "HIVE 貯蓄口座"
@@ -118,7 +118,7 @@
     "ignore": "あなたをミュートしました",
     "reblog": "リブログ済み",
     "transfer": "送金済み",
-    "spin": "ESTMを貰いましょう",
+    "spin": "Time to earn more Points",
     "inactive": "まめに投稿！ブログを書くと、もっと稼げる",
     "referral": "あなたに紹介されて参加されました、歓迎しましょう",
     "notification": "通知",
@@ -433,9 +433,9 @@
     "to_placeholder": "ユーザー名",
     "memo_placeholder": "ここに内容を入力してください",
     "transfer_token": "送金",
-    "purchase_estm": "ESTMを購入",
+    "purchase_estm": "Purchase Points",
     "convert": "HBDをHIVEに変換",
-    "points": "ESTMを贈る",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "貯蓄口座に送金",
     "powerUp": "パワーアップ",
     "withdraw_to_saving": "貯蓄口座に引き出す",
@@ -458,7 +458,7 @@
   },
   "boost": {
     "title": "Get Points",
-    "buy": "ESTM を手に入れる",
+    "buy": "GET Points",
     "next": "次へ",
     "account": {
       "title": "アカウントブーストをゲット",
@@ -466,7 +466,7 @@
     }
   },
   "free_estm": {
-    "title": "無料 ESTM",
+    "title": "Free Points",
     "button": "スピン & ウィン",
     "get_spin": "5 スピン",
     "spin_right": "残りのスピン",
