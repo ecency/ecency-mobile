@@ -21,7 +21,7 @@
     "delegation": "Delegation",
     "delegations": "Delegations",
     "delegation_title": "Delegation reward",
-    "delegation_desc": "Earn ESTM everyday for delegation",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "Punktid postitustest",
     "comment_title": "Punktid kommentaaridest",
     "vote_title": "Punktid hääletustest",
@@ -30,7 +30,7 @@
     "checkin_title": "Points for heartbeat",
     "referral": "Referral",
     "referral_title": "Referral rewards",
-    "referral_desc": "Invite friends and earn ESTM",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "Kasutusboonus",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "Kasutajanimi",
     "memo_placeholder": "Enter your notes here",
     "transfer_token": "Ülekanne",
-    "purchase_estm": "GET ESTM",
-    "points": "Kingi kellelegi ESTMi",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "To Saving",
     "powerUp": "Lisa võimsust",
     "withdraw_to_saving": "Withdraw Saving",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "ESTM",
-      "buy": "GET ESTM"
+      "title": "Punktid",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "HIVE Savings"
@@ -118,7 +118,7 @@
     "ignore": "ignoreeris sind",
     "reblog": "reblogged",
     "transfer": "transferred",
-    "spin": "Time to earn more ESTM",
+    "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
     "notification": "Teavitused",
@@ -433,9 +433,9 @@
     "to_placeholder": "Kasutajanimi",
     "memo_placeholder": "Enter your notes here",
     "transfer_token": "Ülekanne",
-    "purchase_estm": "Purchase ESTM",
+    "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
-    "points": "Kingi kellelegi ESTMi",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Kanna säästudesse",
     "powerUp": "Lisa võimsust",
     "withdraw_to_saving": "Withdraw To Saving",
@@ -458,7 +458,7 @@
   },
   "boost": {
     "title": "Get Points",
-    "buy": "GET ESTM",
+    "buy": "GET Points",
     "next": "NEXT",
     "account": {
       "title": "Get Account Boost",
@@ -466,7 +466,7 @@
     }
   },
   "free_estm": {
-    "title": "Free ESTM",
+    "title": "Free Points",
     "button": "SPIN & WIN",
     "get_spin": "5 SPINS",
     "spin_right": "Spin Left",
