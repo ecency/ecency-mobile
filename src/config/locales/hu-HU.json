@@ -21,7 +21,7 @@
     "delegation": "Delegálás",
     "delegations": "Delegálások",
     "delegation_title": "Delegálási jutalom",
-    "delegation_desc": "Nyerj ESTM-t naponta delegálásért",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "Bejegyzés pontok",
     "comment_title": "Hozzászólás pontok",
     "vote_title": "Szavazási pontok",
@@ -30,7 +30,7 @@
     "checkin_title": "Életjel pontok",
     "referral": "Ajánló",
     "referral_title": "Ajánlói jutalom",
-    "referral_desc": "Hívd meg a barátaid és nyerj ESTM-t",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "Használati bónusz",
     "no_activity": "Nincs friss tevékenység",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "Felhasználónév",
     "memo_placeholder": "Megjegyzés ide",
     "transfer_token": "Átutalás",
-    "purchase_estm": "Vásárolj ESTM-t",
-    "points": "Ajándékozz ESTM-t valakinek",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "A megtakarításokhoz",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw Saving",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "ESTM",
-      "buy": "Vásárolj ESTM-t"
+      "title": "Pontok",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "HIVE Savings"
@@ -118,7 +118,7 @@
     "ignore": "mellőzött téged",
     "reblog": "megosztotta",
     "transfer": "átutalva",
-    "spin": "Time to earn more ESTM",
+    "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
     "notification": "Értesítések",
@@ -433,9 +433,9 @@
     "to_placeholder": "Felhasználónév",
     "memo_placeholder": "Megjegyzés ide",
     "transfer_token": "Átutalás",
-    "purchase_estm": "Purchase ESTM",
+    "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
-    "points": "Ajándékozz ESTM-t valakinek",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Átutalás a megtakarításokhoz",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Átutalás A Megtakarításokhoz",
@@ -458,7 +458,7 @@
   },
   "boost": {
     "title": "Get Points",
-    "buy": "Vásárolj ESTM-t",
+    "buy": "GET Points",
     "next": "KÖVETKEZŐ",
     "account": {
       "title": "Get Account Boost",
@@ -466,7 +466,7 @@
     }
   },
   "free_estm": {
-    "title": "Ingyen ESTM",
+    "title": "Free Points",
     "button": "PÖRGESS ÉS NYERJ",
     "get_spin": "5 PÖRGETÉS",
     "spin_right": "Pörgesd balra",
