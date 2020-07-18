@@ -562,7 +562,7 @@ class EditorContainer extends Component {
 
     if (currentAccount && currentAccount.posting) {
       hasPostingPerm =
-        currentAccount.posting.account_auths.filter((x) => x[0] === 'ecency').length > 0;
+        currentAccount.posting.account_auths.filter((x) => x[0] === 'ecency.app').length > 0;
     }
 
     if (hasPostingPerm) {

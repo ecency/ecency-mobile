@@ -1403,7 +1403,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
     {
       account_auths: [
         ...get(currentAccount, 'posting.account_auths'),
-        ['ecency', get(currentAccount, 'posting.weight_threshold')],
+        ['ecency.app', get(currentAccount, 'posting.weight_threshold')],
       ],
     },
   );
