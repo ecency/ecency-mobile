@@ -21,7 +21,7 @@
     "delegation": "委託",
     "delegations": "委託",
     "delegation_title": "委託獎勵",
-    "delegation_desc": "通過委託SP，每天賺取ESTM",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "發文的點數",
     "comment_title": "評論的點數",
     "vote_title": "投票的點數",
@@ -30,7 +30,7 @@
     "checkin_title": "線上的點數",
     "referral": "邀請",
     "referral_title": "邀請獎勵",
-    "referral_desc": "邀請朋友，並賺取ESTM",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "使用的獎金",
     "no_activity": "近期無活動",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "使用者名稱",
     "memo_placeholder": "在此輸入您的備註",
     "transfer_token": "轉賬",
-    "purchase_estm": "獲取 ESTM",
-    "points": "向他人贈送ESTEEM點數（ESTM）",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "轉為儲蓄",
     "powerUp": "轉為Steem Power",
     "withdraw_to_saving": "提現到儲蓄",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "儲蓄已執行",
     "fill_vesting_withdraw": "釋放Steem Power已執行",
     "estm": {
-      "title": "ESTM",
-      "buy": "獲取 ESTM"
+      "title": "點數",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "HIVE Savings"
@@ -118,7 +118,7 @@
     "ignore": "遮罩了您",
     "reblog": "已轉發",
     "transfer": "已轉帳",
-    "spin": "Time to earn more ESTM",
+    "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
     "notification": "通知",
@@ -433,9 +433,9 @@
     "to_placeholder": "用戶名",
     "memo_placeholder": "在此輸入您的備註",
     "transfer_token": "轉帳",
-    "purchase_estm": "Purchase ESTM",
+    "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
-    "points": "向他人贈送ESTEEM點數（ESTM）",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "轉入儲蓄",
     "powerUp": "轉為Steem Power",
     "withdraw_to_saving": "提現到儲蓄",
@@ -458,7 +458,7 @@
   },
   "boost": {
     "title": "Get Points",
-    "buy": "獲取 ESTM",
+    "buy": "GET Points",
     "next": "下一個",
     "account": {
       "title": "Get Account Boost",
@@ -466,7 +466,7 @@
     }
   },
   "free_estm": {
-    "title": "免費的 ESTM",
+    "title": "Free Points",
     "button": "贏取轉盤抽獎",
     "get_spin": "5個轉盤抽獎機會",
     "spin_right": "轉盤抽獎機會還剩",
