@@ -21,7 +21,7 @@
     "delegation": "Delegation",
     "delegations": "Delegations",
     "delegation_title": "Delegation reward",
-    "delegation_desc": "Earn ESTM everyday for delegation",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "Göndəriş üçün xal",
     "comment_title": "Rəy üçün xal",
     "vote_title": "Səsvermə üçün xal",
@@ -30,7 +30,7 @@
     "checkin_title": "Points for heartbeat",
     "referral": "Referral",
     "referral_title": "Referral rewards",
-    "referral_desc": "Invite friends and earn ESTM",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "İstifadə bonusu",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "İstifadəçi adı",
     "memo_placeholder": "Qeydlərinizi buraya daxil edin",
     "transfer_token": "Köçürmə",
-    "purchase_estm": "GET ESTM",
-    "points": "ESTM kiməsə hədiyyə et",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "To Saving",
     "powerUp": "Gücü artır",
     "withdraw_to_saving": "Withdraw Saving",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "ESTM",
-      "buy": "GET ESTM"
+      "title": "Xallar",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "HIVE Savings"
@@ -118,7 +118,7 @@
     "ignore": "səni əngəllədi",
     "reblog": "reblogged",
     "transfer": "transferred",
-    "spin": "Time to earn more ESTM",
+    "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
     "notification": "Bildirişlər",
@@ -433,9 +433,9 @@
     "to_placeholder": "İstifadəçi adı",
     "memo_placeholder": "Qeydlərinizi buraya daxil edin",
     "transfer_token": "Köçürmə",
-    "purchase_estm": "Purchase ESTM",
+    "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
-    "points": "ESTM kiməsə hədiyyə et",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Yığımlara Köçürmə",
     "powerUp": "Gücü artır",
     "withdraw_to_saving": "Withdraw To Saving",
@@ -458,7 +458,7 @@
   },
   "boost": {
     "title": "Get Points",
-    "buy": "GET ESTM",
+    "buy": "GET Points",
     "next": "NÖVBƏTİ",
     "account": {
       "title": "Get Account Boost",
@@ -466,7 +466,7 @@
     }
   },
   "free_estm": {
-    "title": "Free ESTM",
+    "title": "Free Points",
     "button": "SPIN & WIN",
     "get_spin": "5 SPINS",
     "spin_right": "Spin Left",
