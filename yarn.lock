@@ -1131,10 +1131,10 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
-"@esteemapp/dhive@^0.14.2":
-  version "0.14.2"
-  resolved "https://registry.yarnpkg.com/@esteemapp/dhive/-/dhive-0.14.2.tgz#8368f884f7ba18d267516e34a503a747b2d9bc14"
-  integrity sha512-TMfQDISrHueh0j1/j9SF3krrc4+u5tMC34eL8X8RdMXyDMiZ9UKIf/qkHX9Qph/2Y5eijMsdGZMDRy/UCvwlig==
+"@esteemapp/dhive@^0.14.3":
+  version "0.14.3"
+  resolved "https://registry.yarnpkg.com/@esteemapp/dhive/-/dhive-0.14.3.tgz#a378e7894affbf0f030127743be60190e6e809e0"
+  integrity sha512-JG1TSvH1IGqznjO7bDYTgIgtlMV+Ev196gnziKuAVK5SpdCJuZnbHwIMu1zuCAJCVYgz89/63Q/ahMBcj0VZVA==
   dependencies:
     bs58 "^4.0.1"
     bytebuffer "^5.0.1"
