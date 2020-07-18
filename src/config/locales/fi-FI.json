@@ -21,7 +21,7 @@
     "delegation": "Valtuutukset",
     "delegations": "Valtuutukset",
     "delegation_title": "Valtuutuspalkkiot",
-    "delegation_desc": "Saat joka päivä ESTM valtuutuksilla",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "Pisteitä julkaisuista",
     "comment_title": "Pisteitä kommentista",
     "vote_title": "Pisteitä äänistä",
@@ -30,7 +30,7 @@
     "checkin_title": "Pisteitä sydämestä",
     "referral": "Suosittelu",
     "referral_title": "Suosittelupalkkio",
-    "referral_desc": "Kutsu kavereita ja tienaa ESTM",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "Käyttöbonus",
     "no_activity": "Ei viimeaikaista toimintaa",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "Käyttäjänimi",
     "memo_placeholder": "Kirjoita viesti tähän",
     "transfer_token": "Siirto",
-    "purchase_estm": "OTA ESTM",
-    "points": "Lahjoita ESTM",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Säästöihin",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Kotiuta säästöihin",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "Säästöt Toteutettu",
     "fill_vesting_withdraw": "PowerDown toteutettu",
     "estm": {
-      "title": "ESTM",
-      "buy": "OTA ESTM"
+      "title": "Pisteet",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "HIVE säästöt"
@@ -118,7 +118,7 @@
     "ignore": "sivuutti sinut",
     "reblog": "jaettu uudelleen",
     "transfer": "siirretty",
-    "spin": "Aika haalia lisää ESTM",
+    "spin": "Time to earn more Points",
     "inactive": "Ole aktiivinen! Kirjoita ja jatka tienaamista",
     "referral": "liittyi suosituksestasi, toivota heidät tervetulleeksi",
     "notification": "Ilmoitukset",
@@ -433,9 +433,9 @@
     "to_placeholder": "Käyttäjänimi",
     "memo_placeholder": "Kirjoita viesti tähän",
     "transfer_token": "Siirto",
-    "purchase_estm": "Osta ESTM",
+    "purchase_estm": "Purchase Points",
     "convert": "Muunna HBD HIVEksi",
-    "points": "Lahjoita ESTM",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Siirrä säästöihin",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Kotiuta säästöihin",
@@ -458,7 +458,7 @@
   },
   "boost": {
     "title": "Get Points",
-    "buy": "OTA ESTM",
+    "buy": "GET Points",
     "next": "SEURAAVA",
     "account": {
       "title": "Vastaanota Tilitehostus",
@@ -466,7 +466,7 @@
     }
   },
   "free_estm": {
-    "title": "Ilmaiset ESTM",
+    "title": "Free Points",
     "button": "RULLAATI RULLAA",
     "get_spin": "5 Pyöräytystä",
     "spin_right": "Pyörityksiä",
