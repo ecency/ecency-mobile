@@ -131,6 +131,12 @@ class UpvoteView extends Component {
             );*/
           } else {
             //when voting with same percent or other errors
+            Alert.alert(
+              intl.formatMessage({
+                id: 'alert.fail',
+              }),
+              JSON.stringify(err),
+            );
             if (err.jse_shortmsg.indexOf(':') > 0) {
               Alert.alert(
                 intl.formatMessage({
