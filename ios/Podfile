@@ -35,11 +35,6 @@ target 'Ecency' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
   pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
-  # Add the Firebase pod for Google Analytics
-  pod 'Firebase/Analytics'
-
-  # Add the pod for Firebase Cloud Messaging
-  pod 'Firebase/Messaging'
   
   target 'EcencyTests' do
     inherit! :search_paths
