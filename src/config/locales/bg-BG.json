@@ -21,7 +21,7 @@
     "delegation": "Делегация/отдаване",
     "delegations": "Делегация/отдаване",
     "delegation_title": "Награда за отдаден Hive",
-    "delegation_desc": "Earn Points everyday for delegation",
+    "delegation_desc": "Спечели Estm всеки ден за отдаване",
     "post_title": "Точки за публикация",
     "comment_title": "Точки за коментар",
     "vote_title": "Точки за глас",
@@ -30,7 +30,7 @@
     "checkin_title": "Точки за активност",
     "referral": "Партньор",
     "referral_title": "Награда за препоръка",
-    "referral_desc": "Invite friends and earn Points",
+    "referral_desc": "Покани приятел и спечели Estm",
     "checkin_extra_title": "Бонус в употреба",
     "no_activity": "Няма скорошна дейност",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "Потребителско име",
     "memo_placeholder": "Добави бележки тук",
     "transfer_token": "Прехвърляне",
-    "purchase_estm": "GET POINTS",
-    "points": "Gift Points to someone",
+    "purchase_estm": "Вземи точки",
+    "points": "Дарения на Estm на някого",
     "transfer_to_saving": "Към спестявания",
     "powerUp": "Повишаване на енергията",
     "withdraw_to_saving": "Изтегли спестяванията",
@@ -83,7 +83,7 @@
     "fill_vesting_withdraw": "Намаляване на стойността изпълнено",
     "estm": {
       "title": "Точки",
-      "buy": "GET POINTS"
+      "buy": "Вземи точки"
     },
     "savingsteem": {
       "title": "HIVE спестявания"
@@ -118,7 +118,7 @@
     "ignore": "игнорира те",
     "reblog": "споделено от",
     "transfer": "прехвърлено",
-    "spin": "Time to earn more Points",
+    "spin": "Време да спечелите още Estm",
     "inactive": "Бъди активен! Напишете публикация, продължете да печелите",
     "referral": "се присъедини чрез вашата покана, приветствайте го",
     "notification": "Известия",
@@ -433,9 +433,9 @@
     "to_placeholder": "Потребителско име",
     "memo_placeholder": "Добави бележки тук",
     "transfer_token": "Прехвърли",
-    "purchase_estm": "Purchase Points",
+    "purchase_estm": "Купи точки",
     "convert": "Преобразувай HBD към HIVE",
-    "points": "Gift Points to someone",
+    "points": "Дарения на Estm на някого",
     "transfer_to_saving": "Прехвърли към Спестявания",
     "powerUp": "Повишаване на енергията",
     "withdraw_to_saving": "Изтегли към Спестявания",
@@ -458,7 +458,7 @@
   },
   "boost": {
     "title": "Get Points",
-    "buy": "GET Points",
+    "buy": "Вземи точки",
     "next": "Седващ",
     "account": {
       "title": "Промоция на акаунт",
@@ -466,7 +466,7 @@
     }
   },
   "free_estm": {
-    "title": "Free Points",
+    "title": "Безплатни точки",
     "button": "Завърти и спечели",
     "get_spin": "5 Завъртания",
     "spin_right": "Оставащи завъртания",
