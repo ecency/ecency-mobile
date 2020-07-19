@@ -14,6 +14,7 @@ const VotersDisplayView = ({
   handleSubscribeButtonPress,
   allSubscriptions,
   isLoggedIn,
+  noResult,
 }) => {
   const _renderItem = (item, index) => {
     const isSubscribed = allSubscriptions.some((sub) => sub[0] === item.name);
@@ -54,12 +55,14 @@ const VotersDisplayView = ({
 
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        data={votes}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item, index }) => _renderItem(item, index)}
-        ListEmptyComponent={_renderEmptyContent}
-      />
+      {!noResult && (
+        <FlatList
+          data={votes}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item, index }) => _renderItem(item, index)}
+          ListEmptyComponent={_renderEmptyContent}
+        />
+      )}
     </SafeAreaView>
   );
 };

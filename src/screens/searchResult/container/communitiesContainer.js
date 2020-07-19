@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
+import isEmpty from 'lodash/isEmpty';
 
 import ROUTES from '../../../constants/routeNames';
 
@@ -20,12 +21,16 @@ const CommunitiesContainer = ({
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState('rank');
   const [allSubscriptions, setAllSubscriptions] = useState([]);
+  const [noResult, setNoResult] = useState(false);
 
   useEffect(() => {
     setData([]);
     getCommunities('', 100, query, sort).then((res) => {
-      if (res) {
+      if (!isEmpty(res)) {
         setData(res);
+        setNoResult(false);
+      } else {
+        setNoResult(true);
       }
     });
   }, [query, sort]);
@@ -33,6 +38,7 @@ const CommunitiesContainer = ({
   useEffect(() => {
     setData([]);
     setQuery(searchValue);
+    setNoResult(false);
   }, [searchValue]);
 
   useEffect(() => {
@@ -74,6 +80,7 @@ const CommunitiesContainer = ({
       handleOnPress: _handleOnPress,
       handleSubscribeButtonPress: _handleSubscribeButtonPress,
       isLoggedIn,
+      noResult,
     })
   );
 };
