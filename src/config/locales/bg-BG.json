@@ -213,7 +213,7 @@
   "login": {
     "signin": "Вход",
     "signup": "ВКЛЮЧЕТЕ СЕ СЕГА",
-    "signin_title": "To get all the benefits of using Ecency",
+    "signin_title": "За да получите всички предимства от използването на Ecency",
     "username": "Потребителско име",
     "password": "Парола или WIF",
     "description": "Потребителски идентификационни данни се съхраняват локално на устройствата ти. При изход пълномощията се отстраняват!",
@@ -298,7 +298,7 @@
     "success_shared": "Публикацията ви е споделена успешно",
     "success_moved": "Премено в чернови",
     "permission_denied": "Достъпът е отказан",
-    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
+    "permission_text": "Моля, идете на Настройки на телефона и променете разрешенията към Ecency.",
     "key_warning": "Моля, проверете Private key разрешение...",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Вие вече споделихте!",
@@ -323,7 +323,7 @@
     "same_user": "Този потребител вече е добавен в листа.",
     "unknow_error": "Възникна грешка",
     "error": "Грешка",
-    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
+    "fetch_error": "Проблем с връзката, моля опитайте отново или пишете на support@ecency.com",
     "connection_fail": "Връзката е неуспешна",
     "connection_success": "Успешно свързване.",
     "checking": "Проверка...",
@@ -383,7 +383,7 @@
     "invalid_username": "Невалиден потребител,провери и опитай отново",
     "already_logged": "Ти вече си вътре,моля опитай да добавиш друг потребител",
     "invalid_credentials": "Невалиден потребител,провери и опитай отново",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "Незнайна грешка,моля свържете се с нас на support@ecency.com"
   },
   "payout": {
     "potential_payout": "Потенциално изплащане",
@@ -457,7 +457,7 @@
     "address_view": "Преглед на адрес"
   },
   "boost": {
-    "title": "Get Points",
+    "title": "Вземи точки",
     "buy": "Вземи точки",
     "next": "Седващ",
     "account": {
@@ -505,31 +505,31 @@
     "more_replies": "още отговори"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Други",
     "communities": {
-      "title": "Communities",
-      "subscribe": "Subscribe",
-      "unsubscribe": "Unsubscribe",
-      "subscribers": "Subscribers",
-      "posters": "Posters",
+      "title": "Общности",
+      "subscribe": "Абониране",
+      "unsubscribe": "Отписване",
+      "subscribers": "Абонаменти",
+      "posters": "Публикуващи",
       "posts": "Публикации"
     },
     "communities_filter": {
-      "rank": "Rank",
-      "subs": "Subscribers",
-      "new": "New"
+      "rank": "Ранг",
+      "subs": "Абонаменти",
+      "new": "Нови"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "Популярност",
+      "newest": "Най-новите",
+      "relevance": "Съответствие"
     },
     "other_result_filter": {
       "user": "Потребител",
-      "tag": "Tag"
+      "tag": "Таг"
     }
   },
   "community": {
-    "new_post": "New Post"
+    "new_post": "Нова публикация"
   }
 }
