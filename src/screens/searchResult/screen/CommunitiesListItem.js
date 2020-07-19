@@ -21,6 +21,7 @@ const UserListItem = ({
   name,
   handleSubscribeButtonPress,
   isSubscribed,
+  isLoggedIn,
 }) => {
   const [subscribed, setSubscribed] = useState(isSubscribed);
   const intl = useIntl();
@@ -40,22 +41,24 @@ const UserListItem = ({
         <View style={styles.content}>
           <View style={styles.header}>
             <Text style={styles.title}>{title}</Text>
-            <Tag
-              style={styles.subscribeButton}
-              textStyle={!subscribed && styles.subscribeButtonText}
-              value={
-                subscribed
-                  ? intl.formatMessage({
-                      id: 'search_result.communities.subscribe',
-                    })
-                  : intl.formatMessage({
-                      id: 'search_result.communities.unsubscribe',
-                    })
-              }
-              isPin={subscribed}
-              isFilter
-              onPress={_handleSubscribeButtonPress}
-            />
+            {isLoggedIn && (
+              <Tag
+                style={styles.subscribeButton}
+                textStyle={subscribed && styles.subscribeButtonText}
+                value={
+                  !subscribed
+                    ? intl.formatMessage({
+                        id: 'search_result.communities.subscribe',
+                      })
+                    : intl.formatMessage({
+                        id: 'search_result.communities.unsubscribe',
+                      })
+                }
+                isPin={!subscribed}
+                isFilter
+                onPress={_handleSubscribeButtonPress}
+              />
+            )}
           </View>
           {!!about && <Text style={styles.about}>{about}</Text>}
           <View style={styles.separator} />

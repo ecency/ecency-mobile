@@ -13,6 +13,7 @@ const VotersDisplayView = ({
   handleOnPress,
   handleSubscribeButtonPress,
   allSubscriptions,
+  isLoggedIn,
 }) => {
   const _renderItem = (item, index) => {
     const isSubscribed = allSubscriptions.some((sub) => sub[0] === item.name);
@@ -32,6 +33,7 @@ const VotersDisplayView = ({
         handleOnPress={handleOnPress}
         handleSubscribeButtonPress={handleSubscribeButtonPress}
         isSubscribed={isSubscribed}
+        isLoggedIn={isLoggedIn}
       />
     );
   };

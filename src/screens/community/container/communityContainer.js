@@ -8,7 +8,7 @@ import { subscribeCommunity } from '../../../providers/steem/dsteem';
 
 import ROUTES from '../../../constants/routeNames';
 
-const CommunityContainer = ({ children, navigation, currentAccount, pinCode }) => {
+const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isLoggedIn }) => {
   const [data, setData] = useState(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const tag = get(navigation, 'state.params.tag');
@@ -22,8 +22,10 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode }) =
   useEffect(() => {
     if (data) {
       getSubscriptions(currentAccount.username).then((result) => {
-        const _isSubscribed = result.some((item) => item[0] === data.name);
-        setIsSubscribed(_isSubscribed);
+        if (result) {
+          const _isSubscribed = result.some((item) => item[0] === data.name);
+          setIsSubscribed(_isSubscribed);
+        }
       });
     }
   }, [data]);
@@ -54,7 +56,8 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode }) =
       data,
       handleSubscribeButtonPress: _handleSubscribeButtonPress,
       handleNewPostButtonPress: _handleNewPostButtonPress,
-      isSubscribed: isSubscribed,
+      isSubscribed,
+      isLoggedIn,
     })
   );
 };
@@ -62,6 +65,7 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode }) =
 const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,
+  isLoggedIn: state.application.isLoggedIn,
 });
 
 export default connect(mapStateToProps)(withNavigation(CommunityContainer));
