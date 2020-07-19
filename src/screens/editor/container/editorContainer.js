@@ -731,7 +731,7 @@ class EditorContainer extends Component {
       uploadedImage,
     } = this.state;
 
-    const tags = navigation.state.params.tags;
+    const tags = navigation.state.params && navigation.state.params.tags;
 
     return (
       <EditorScreen

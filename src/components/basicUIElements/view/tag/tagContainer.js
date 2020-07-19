@@ -25,6 +25,7 @@ class TagContainer extends PureComponent {
 
     this.state = {
       label: props.value,
+      isCommunity: false,
     };
   }
   // Component Life Cycle Functions
@@ -35,6 +36,7 @@ class TagContainer extends PureComponent {
       .then((r) => {
         this.setState({
           label: r,
+          isCommunity: value !== r,
         });
         return r;
       })
@@ -43,12 +45,13 @@ class TagContainer extends PureComponent {
   // Component Functions
   _handleOnTagPress = () => {
     const { navigation, onPress, value } = this.props;
+    const { isCommunity } = this.state;
 
     if (onPress) {
       onPress();
     } else {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.TAG_RESULT,
+        routeName: isCommunity ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT,
         params: {
           tag: value,
         },

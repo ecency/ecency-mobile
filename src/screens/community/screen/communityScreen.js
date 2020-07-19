@@ -31,11 +31,17 @@ const TagResultScreen = ({ navigation }) => {
 
   return (
     <CommunityContainer>
-      {({ data, handleSubscribeButtonPress, handleNewPostButtonPress, isSubscribed }) => (
+      {({
+        data,
+        handleSubscribeButtonPress,
+        handleNewPostButtonPress,
+        isSubscribed,
+        isLoggedIn,
+      }) => (
         <View style={styles.container}>
           <Header isReverse hideUser />
           {data ? (
-            <CollapsibleCard title={data.title} isTitleCenter defaultTitle="">
+            <CollapsibleCard title={data.title} isTitleCenter defaultTitle="" expanded>
               <View style={styles.collapsibleCard}>
                 <Text style={styles.description}>{data.description}</Text>
                 <View style={styles.separator} />
@@ -50,22 +56,24 @@ const TagResultScreen = ({ navigation }) => {
                 </Text>
                 <View style={styles.separator} />
                 <View style={{ flexDirection: 'row' }}>
-                  <Tag
-                    style={styles.subscribeButton}
-                    textStyle={!isSubscribed && styles.subscribeButtonText}
-                    value={
-                      isSubscribed
-                        ? intl.formatMessage({
-                            id: 'search_result.communities.subscribe',
-                          })
-                        : intl.formatMessage({
-                            id: 'search_result.communities.unsubscribe',
-                          })
-                    }
-                    isPin={isSubscribed}
-                    isFilter
-                    onPress={handleSubscribeButtonPress}
-                  />
+                  {isLoggedIn && (
+                    <Tag
+                      style={styles.subscribeButton}
+                      textStyle={isSubscribed && styles.subscribeButtonText}
+                      value={
+                        !isSubscribed
+                          ? intl.formatMessage({
+                              id: 'search_result.communities.subscribe',
+                            })
+                          : intl.formatMessage({
+                              id: 'search_result.communities.unsubscribe',
+                            })
+                      }
+                      isPin={!isSubscribed}
+                      isFilter
+                      onPress={handleSubscribeButtonPress}
+                    />
+                  )}
                   <Tag
                     style={styles.subscribeButton}
                     value={intl.formatMessage({

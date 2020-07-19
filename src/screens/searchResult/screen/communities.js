@@ -24,6 +24,7 @@ const CommunitiesScreen = ({ navigation, searchValue }) => {
         handleOnVotersDropdownSelect,
         handleOnPress,
         handleSubscribeButtonPress,
+        isLoggedIn,
       }) => (
         <>
           <FilterBar
@@ -44,6 +45,7 @@ const CommunitiesScreen = ({ navigation, searchValue }) => {
             allSubscriptions={allSubscriptions}
             handleOnPress={handleOnPress}
             handleSubscribeButtonPress={handleSubscribeButtonPress}
+            isLoggedIn={isLoggedIn}
           />
         </>
       )}
