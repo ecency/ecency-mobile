@@ -1151,21 +1151,26 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/viewpager/-/viewpager-2.0.2.tgz#622b190294b1310c4825c98daeaee1c8443f7124"
   integrity sha512-CKVhIZdX/Cmb80muog8sKpi5vM8npwFp4tx4Dj1IvTBidZweuO22+VH2rDOj7E0LzdV9IYRJ4FGBwcPBD2qUrQ==
 
+"@react-native-firebase/analytics@^7.3.1":
+  version "7.3.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-7.3.1.tgz#f24509c1f996217e89829147d28d319ed5fbbd0b"
+  integrity sha512-8U70bVSnsH5xlbNDL+LkF0VjgZ3nejSCsrIrxI29aulMPAdAD6ZndH9gVegFK75vLILy3giWRlGR89o08fnpxA==
+
 "@react-native-firebase/app-types@6.7.2":
   version "6.7.2"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/app-types/-/app-types-6.7.2.tgz#d2e1530af5702e00578914b41468898c10d3289c"
   integrity sha512-pIwc6e0ZINw6PJqNVsAxzOVJUDg6au2TdulY+ZOYQ11SPDs5I2n9likoGrElPmJjajT4s9h87uz/6PWP2k9PxQ==
 
-"@react-native-firebase/app@^7.1.0":
-  version "7.3.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-7.3.1.tgz#432a93cae79295df7e881437029a5eeb522a1b79"
-  integrity sha512-pQM4YnPRl1PaXqdFEfJSSCB5ETM303Rwucy015K1YKANtcB4r5VlXYgVHOx7BesXMxOjkzYfXH8WLtnC8PD/Xw==
+"@react-native-firebase/app@^8.2.0":
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-8.2.0.tgz#28db1958c8bd8028503b4d0a68a31a7c4caf61cc"
+  integrity sha512-V3s87BlDIyuhtK/1w+vwKdY5AlOCCBXovlorZU1wiyDH8Q942Cjxcx9tBc59+TLWqMYrYyFGAnAJxnIw3QzmmQ==
   dependencies:
     "@react-native-firebase/app-types" "6.7.2"
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
-"@react-native-firebase/messaging@^7.1.0":
+"@react-native-firebase/messaging@^7.4.2":
   version "7.4.2"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-7.4.2.tgz#736476df3b88b129172dd090df5190f71bcba83a"
   integrity sha512-PuMRvWFFgElFXDp71TmEs+eype8GrrUEibLFpqlzVLheUTtzRG4+ofZiWr8yAO0nXmuPSPgkroQzAMbeEf2J3A==

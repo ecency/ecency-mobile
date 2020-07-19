@@ -34,29 +34,27 @@ PODS:
     - React-Core (= 0.61.5)
     - React-jsi (= 0.61.5)
     - ReactCommon/turbomodule/core (= 0.61.5)
-  - Firebase/Analytics (6.25.0):
+  - Firebase/Analytics (6.27.1):
     - Firebase/Core
-  - Firebase/Core (6.25.0):
+  - Firebase/Core (6.27.1):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 6.5.1)
-  - Firebase/CoreOnly (6.25.0):
-    - FirebaseCore (= 6.7.1)
-  - Firebase/Messaging (6.25.0):
+    - FirebaseAnalytics (= 6.6.2)
+  - Firebase/CoreOnly (6.27.1):
+    - FirebaseCore (= 6.8.1)
+  - Firebase/Messaging (6.27.1):
     - Firebase/CoreOnly
-    - FirebaseMessaging (~> 4.4.1)
-  - FirebaseAnalytics (6.5.1):
-    - FirebaseCore (~> 6.7)
-    - FirebaseInstallations (~> 1.2)
-    - GoogleAppMeasurement (= 6.5.1)
+    - FirebaseMessaging (~> 4.5.0)
+  - FirebaseAnalytics (6.6.2):
+    - FirebaseCore (~> 6.8)
+    - FirebaseInstallations (~> 1.4)
+    - GoogleAppMeasurement (= 6.6.2)
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (~> 1.30905.0)
-  - FirebaseAnalyticsInterop (1.5.0)
-  - FirebaseCore (6.7.1):
+  - FirebaseCore (6.8.1):
     - FirebaseCoreDiagnostics (~> 1.3)
-    - FirebaseCoreDiagnosticsInterop (~> 1.2)
     - GoogleUtilities/Environment (~> 6.5)
     - GoogleUtilities/Logger (~> 6.5)
   - FirebaseCoreDiagnostics (1.5.0):
@@ -64,20 +62,18 @@ PODS:
     - GoogleUtilities/Environment (~> 6.7)
     - GoogleUtilities/Logger (~> 6.7)
     - nanopb (~> 1.30905.0)
-  - FirebaseCoreDiagnosticsInterop (1.2.0)
-  - FirebaseInstallations (1.3.0):
-    - FirebaseCore (~> 6.6)
-    - GoogleUtilities/Environment (~> 6.6)
-    - GoogleUtilities/UserDefaults (~> 6.6)
+  - FirebaseInstallations (1.5.0):
+    - FirebaseCore (~> 6.8)
+    - GoogleUtilities/Environment (~> 6.7)
+    - GoogleUtilities/UserDefaults (~> 6.7)
     - PromisesObjC (~> 1.2)
-  - FirebaseInstanceID (4.3.4):
-    - FirebaseCore (~> 6.6)
+  - FirebaseInstanceID (4.5.0):
+    - FirebaseCore (~> 6.8)
     - FirebaseInstallations (~> 1.0)
-    - GoogleUtilities/Environment (~> 6.5)
-    - GoogleUtilities/UserDefaults (~> 6.5)
-  - FirebaseMessaging (4.4.1):
-    - FirebaseAnalyticsInterop (~> 1.5)
-    - FirebaseCore (~> 6.6)
+    - GoogleUtilities/Environment (~> 6.7)
+    - GoogleUtilities/UserDefaults (~> 6.7)
+  - FirebaseMessaging (4.5.0):
+    - FirebaseCore (~> 6.8)
     - FirebaseInstanceID (~> 4.3)
     - GoogleUtilities/AppDelegateSwizzler (~> 6.5)
     - GoogleUtilities/Environment (~> 6.5)
@@ -95,7 +91,7 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - GoogleAppMeasurement (6.5.1):
+  - GoogleAppMeasurement (6.6.2):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
     - GoogleUtilities/Network (~> 6.0)
@@ -357,12 +353,16 @@ PODS:
     - React
   - RNCPushNotificationIOS (1.3.0):
     - React
-  - RNFBApp (7.3.1):
-    - Firebase/CoreOnly (~> 6.25.0)
+  - RNFBAnalytics (7.3.1):
+    - Firebase/Analytics (~> 6.27.0)
+    - React
+    - RNFBApp
+  - RNFBApp (8.2.0):
+    - Firebase/CoreOnly (~> 6.27.0)
     - React
   - RNFBMessaging (7.4.2):
-    - Firebase/Analytics (~> 6.25.0)
-    - Firebase/Messaging (~> 6.25.0)
+    - Firebase/Analytics (~> 6.27.0)
+    - Firebase/Messaging (~> 6.27.0)
     - React
     - RNFBApp
   - RNGestureHandler (1.6.1):
@@ -400,8 +400,6 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
-  - Firebase/Analytics
-  - Firebase/Messaging
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - lottie-ios (from `../node_modules/lottie-ios`)
@@ -439,6 +437,7 @@ DEPENDENCIES:
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
+  - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -458,10 +457,8 @@ SPEC REPOS:
     - boost-for-react-native
     - Firebase
     - FirebaseAnalytics
-    - FirebaseAnalyticsInterop
     - FirebaseCore
     - FirebaseCoreDiagnostics
-    - FirebaseCoreDiagnosticsInterop
     - FirebaseInstallations
     - FirebaseInstanceID
     - FirebaseMessaging
@@ -561,6 +558,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/async-storage"
   RNCPushNotificationIOS:
     :path: "../node_modules/@react-native-community/push-notification-ios"
+  RNFBAnalytics:
+    :path: "../node_modules/@react-native-firebase/analytics"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBMessaging:
@@ -596,19 +595,17 @@ SPEC CHECKSUMS:
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   FBLazyVector: aaeaf388755e4f29cd74acbc9e3b8da6d807c37f
   FBReactNativeSpec: 118d0d177724c2d67f08a59136eb29ef5943ec75
-  Firebase: 5719b4f965f76643241a1bb8244483ff6117db39
-  FirebaseAnalytics: 93565f3f0f0f50a5d8770850bfe6a82eaba5db27
-  FirebaseAnalyticsInterop: 3f86269c38ae41f47afeb43ebf32a001f58fcdae
-  FirebaseCore: 6023faeada5afa95a349fccafb40900e32e9ac42
+  Firebase: 919186c8e119dd9372a45fd1dd17a8a942bc1892
+  FirebaseAnalytics: 5fa308e1b13f838d0f6dc74719ac2a72e8c5afc4
+  FirebaseCore: 8cd4f8ea22075e0ee582849b1cf79d8816506085
   FirebaseCoreDiagnostics: 7535fe695737f8c5b350584292a70b7f8ff0357b
-  FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
-  FirebaseInstallations: 6f5f680e65dc374397a483c32d1799ba822a395b
-  FirebaseInstanceID: cef67c4967c7cecb56ea65d8acbb4834825c587b
-  FirebaseMessaging: 29543feb343b09546ab3aa04d008ee8595b43c44
+  FirebaseInstallations: 3c520c951305cbf9ca54eb891ff9e6d1fd384881
+  FirebaseInstanceID: 358d5cb393d2750a745569ede06827c35aea530b
+  FirebaseMessaging: ad9e1a80ea64905e01a0ce1b3eb76a2944544151
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
-  GoogleAppMeasurement: 137afe68bfa406c3f4221b9395253d9e5d4654cf
+  GoogleAppMeasurement: 8cd1f289d60e629cf16ab03363b9e89c776b9651
   GoogleDataTransport: 8a40cb194ad242b6f6dfe72c14fe40fc67c4dcd7
   GoogleUtilities: e121a3867449ce16b0e35ddf1797ea7a389ffdf2
   lottie-ios: 496ac5cea1bbf1a7bd1f1f472f3232eb1b8d744b
@@ -647,8 +644,9 @@ SPEC CHECKSUMS:
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNCAsyncStorage: d059c3ee71738c39834a627476322a5a8cd5bf36
   RNCPushNotificationIOS: d5fd66aed4e03c6491ca0c6111a03d4f6455ff6c
-  RNFBApp: cd70a6c061bc485994e28c7d58ab760538850f0e
-  RNFBMessaging: aa49ccb32399c14b1c6ca1bf8133c6571f8097ab
+  RNFBAnalytics: dae6d7b280ba61c96e1bbdd34aca3154388f025e
+  RNFBApp: 6fd8a7e757135d4168bf033a8812c241af7363a0
+  RNFBMessaging: d884c58a92ce90687ae8b5a5772cf5d3d5223dfb
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   RNIap: b4c77c8bc4501203f4b743126a05da23f10f40b4
   RNImageCropPicker: 9d1a7eea4f8368fc479cbd2bf26459bd3c74d9aa
@@ -661,6 +659,6 @@ SPEC CHECKSUMS:
   toolbar-android: 85f3ef4d691469f2d304e7dee4bca013aa1ba1ff
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 1b0bc6f30409bd9b5742a156ced936e2103df5a5
+PODFILE CHECKSUM: 84e32ce5543427579b8c72d77fd175fe29268d92
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.8.4
