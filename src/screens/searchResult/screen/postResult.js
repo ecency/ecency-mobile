@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView, FlatList, View, Text, TouchableOpacity } from 'react-native';
 import get from 'lodash/get';
+import isUndefined from 'lodash/isUndefined';
 import FastImage from 'react-native-fast-image';
 import { useIntl } from 'react-intl';
 
@@ -38,7 +39,9 @@ const PostResult = ({ navigation, searchValue }) => {
           </Text>
         </View>
         <View style={styles.stats}>
-          {item.payout && <Text style={styles.postIconText}>{`$ ${item.payout}`}</Text>}
+          {!isUndefined(item.payout) && (
+            <Text style={styles.postIconText}>{`$ ${item.payout}`}</Text>
+          )}
           <TextWithIcon
             iconName="heart-outline"
             textStyle={styles.postIconText}
