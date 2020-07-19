@@ -115,7 +115,7 @@ class LoginContainer extends PureComponent {
         const data = {
           username,
           token,
-          system: Platform.OS,
+          system: `fcm-${Platform.OS}`,
           allows_notify: Number(notificationSettings),
           notify_types: notifyTypes,
         };

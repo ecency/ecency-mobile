@@ -321,7 +321,7 @@ class SettingsContainer extends Component {
                 const data = {
                   username: item.username,
                   token,
-                  system: Platform.OS,
+                  system: `fcm-${Platform.OS}`,
                   allows_notify: Number(isNotificationSettingsOpen),
                   notify_types: notifyTypes,
                 };
