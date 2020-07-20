@@ -297,7 +297,8 @@ class ApplicationContainer extends Component {
     if (previousAppState !== 'active' && !!notification) {
       const push = get(notification, 'data');
       const type = get(push, 'type', '');
-      const fullPermlink = get(push, 'permlink', '');
+      const fullPermlink =
+        get(push, 'permlink1', '') + get(push, 'permlink2', '') + get(push, 'permlink3', '');
       const username = get(push, 'target', '');
       const activity_id = get(push, 'id', '');
 
@@ -379,25 +380,20 @@ class ApplicationContainer extends Component {
     PushNotification.cancelAllLocalNotifications();
 
     firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
-      console.log('remoteMessage 1 ', remoteMessage);
-      // this._pushNavigate(remoteMessage);
+      this._pushNavigate(remoteMessage);
     });
 
     firebaseOnNotificationOpenedAppListener = messaging().onNotificationOpenedApp(
       (remoteMessage) => {
-        console.log('remoteMessage 2:>> ', remoteMessage);
-        // this._pushNavigate(remoteMessage);
+        this._pushNavigate(remoteMessage);
       },
     );
 
     messaging()
       .getInitialNotification()
       .then((remoteMessage) => {
-        console.log('remoteMessage 3:>> ', remoteMessage);
-        // this._pushNavigate(remoteMessage);
+        this._pushNavigate(remoteMessage);
       });
-
-    // return unsubscribe;
   };
 
   _handleConntectionChange = (status) => {
@@ -623,7 +619,6 @@ class ApplicationContainer extends Component {
     messaging()
       .getToken()
       .then((token) => {
-        console.log('token :>> ', token);
         setPushToken({
           username,
           token,
