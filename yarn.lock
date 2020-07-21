@@ -696,16 +696,16 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
-"@esteemapp/dhive@^0.14.7":
-  version "0.14.7"
-  resolved "https://registry.yarnpkg.com/@esteemapp/dhive/-/dhive-0.14.7.tgz#56dff882e8e8a95e3b9a21ab66932baa4dca20e7"
-  integrity sha512-NMEVyeh0B40qNmTpjuWR5c3vMAhe39GzB/zssIR7S7XVYClGOeAeI1eS+aqAMhXwyL0yGSKpYUEJJhU1oDvvzw==
+"@esteemapp/dhive@0.12.1":
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/@esteemapp/dhive/-/dhive-0.12.1.tgz#44291cb646a46aee7468cac4e2556a8b019e56ee"
+  integrity sha512-VSnYZFuajSINIVOaQqwqBB19QwVzmthB3OcRjFphrSvj7mVGpOTm4JCdZxwvjmwlSLf56huNXKrl+dofVwr+yQ==
   dependencies:
     bs58 "^4.0.1"
     bytebuffer "^5.0.1"
-    core-js "^3.6.4"
-    node-fetch "^2.6.0"
-    secp256k1 "^3.8.0"
+    core-js "^2.5.0"
+    node-fetch "^2.1.2"
+    secp256k1 "^3.3.1"
     verror "^1.10.0"
     whatwg-fetch "^2.0.3"
 
@@ -2624,12 +2624,12 @@ core-js@^1.0.0:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
   integrity sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=
 
-core-js@^2.2.2, core-js@^2.4.0, core-js@^2.4.1, core-js@^2.6.0:
+core-js@^2.2.2, core-js@^2.4.0, core-js@^2.4.1, core-js@^2.5.0, core-js@^2.6.0:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
   integrity sha512-5wjnpaT/3dV+XB4borEsnAYQchn00XSgTAWKDkEqv+K8KevjbzmofK6hfJ9TZIlpj2N0xQpazy7PiRQiWHqzWg==
 
-core-js@^3.1.4, core-js@^3.6.4:
+core-js@^3.1.4:
   version "3.6.5"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.5.tgz#7395dc273af37fb2e50e9bd3d9fe841285231d1a"
   integrity sha512-vZVEEwZoIsI+vPEuoF9Iqf5H7/M3eeQqWlQnYa8FSKKePuYTf5MWnxb5SDAzCa60b3JBRS5g9b+Dq7b1y/RCrA==
@@ -6497,7 +6497,7 @@ node-abi@^2.7.0:
   dependencies:
     semver "^5.4.1"
 
-node-fetch@2.6.0, node-fetch@^2.2.0, node-fetch@^2.5.0, node-fetch@^2.6.0:
+node-fetch@2.6.0, node-fetch@^2.1.2, node-fetch@^2.2.0, node-fetch@^2.5.0, node-fetch@^2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
   integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
@@ -8261,7 +8261,7 @@ scheduler@0.15.0, scheduler@^0.15.0:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
 
-secp256k1@^3.8.0:
+secp256k1@^3.3.1:
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/secp256k1/-/secp256k1-3.8.0.tgz#28f59f4b01dbee9575f56a47034b7d2e3b3b352d"
   integrity sha512-k5ke5avRZbtl9Tqx/SA7CbY3NF6Ro+Sj9cZxezFzuBlLDmyqPiL8hJJ+EmzD8Ig4LUDByHJ3/iPOVoRixs/hmw==
