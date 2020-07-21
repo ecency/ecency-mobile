@@ -542,24 +542,37 @@ export const getPostWithComments = async (user, permlink) => {
 
   return [post, comments];
 };
-
+const b64uLookup = {
+  '/': '_',
+  _: '/',
+  '+': '-',
+  '-': '+',
+  '=': '.',
+  '.': '=',
+};
+export const b64uEnc = (str) =>
+  Buffer.from(str)
+    .toString('base64')
+    .replace(/(\+|\/|=)/g, (m) => b64uLookup[m]);
 export const signImage = async (file, currentAccount, pin) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
-  const data = Buffer.from(`${currentAccount.name}${Config.PIN_KEY}`);
-
-  const prefix = Buffer.from('ImageSigningChallenge');
-  const buf = Buffer.concat([prefix, data]);
-  const bufSha = cryptoUtils.sha256(buf);
 
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
-    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
-    return `hive${token}signer`;
+    return decryptKey(currentAccount.local.accessToken, digitPinCode);
   }
   if (key) {
+    const message = {
+      signed_message: { type: 'posting', app: 'ecency.app' },
+      authors: [currentAccount.name],
+      timestamp: parseInt(new Date().getTime() / 1000, 10),
+    };
+    const hash = cryptoUtils.sha256(JSON.stringify(message));
+
     const privateKey = PrivateKey.fromString(key);
-    const signature = privateKey.sign(bufSha);
-    return `stndt${signature}pupload`;
+    const signature = privateKey.sign(hash).toString();
+    message.signatures = [signature];
+    return b64uEnc(JSON.stringify(message));
   }
 };
 
