@@ -51,16 +51,13 @@ class UserAvatarView extends Component {
       style,
       disableSize,
       noAction,
-      avatarUrl,
       currentUsername: { name, avatar },
     } = this.props;
     const imageSize = 'large';
     let _size;
     const _avatar = username
       ? {
-          uri:
-            avatarUrl ||
-            (name === username && avatar ? avatar : getResizedAvatar(username, imageSize)),
+          uri: getResizedAvatar(username, imageSize),
         }
       : DEFAULT_IMAGE;
 
