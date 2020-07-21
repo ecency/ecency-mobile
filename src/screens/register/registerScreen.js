@@ -36,7 +36,7 @@ const RegisterScreen = ({ navigation }) => {
 
   const _handleUsernameChange = ({ value, getAccountsWithUsername }) => {
     setUsername(value);
-    if (!value || value.length <= 2) {
+    if (!value || value.length <= 2 || value.length >= 16) {
       setIsUsernameValid(false);
       return;
     }

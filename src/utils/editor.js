@@ -96,7 +96,6 @@ export const makeJsonMetadataReply = (tags) => ({
   tags,
   app: `ecency/${VersionNumber.appVersion}-mobile`,
   format: 'markdown+html',
-  community: 'hive-125125',
 });
 
 export const makeJsonMetadata = (meta, tags) =>
@@ -104,7 +103,6 @@ export const makeJsonMetadata = (meta, tags) =>
     tags,
     app: `ecency/${VersionNumber.appVersion}-mobile`,
     format: 'markdown+html',
-    community: 'hive-125125',
   });
 
 export const makeJsonMetadataForUpdate = (oldJson, meta, tags) => {
