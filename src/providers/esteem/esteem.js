@@ -379,7 +379,7 @@ export const getNodes = () =>
 export const getSCAccessToken = (code) =>
   new Promise((resolve, reject) => {
     api
-      .post('/sc-token-refresh', {
+      .post('/hs-token-refresh', {
         code,
       })
       .then((resp) => resolve(resp.data))
