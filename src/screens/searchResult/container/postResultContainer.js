@@ -34,6 +34,7 @@ const PostResultContainer = ({ children, navigation, searchValue, currentAccount
                 true,
               ).then((post) => {
                 post.author_rep = post.author_reputation;
+                post.body = post.summary.substring(0, 130) || '';
                 return post;
               }),
             ),

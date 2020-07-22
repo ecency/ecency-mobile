@@ -34,9 +34,11 @@ const PostResult = ({ navigation, searchValue }) => {
         <FastImage source={item.img_url} style={styles.thumbnail} defaultSource={DEFAULT_IMAGE} />
         <View style={[styles.postDescription]}>
           <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.summary} numberOfLines={2}>
-            {item.body}
-          </Text>
+          {!!item.body && (
+            <Text style={styles.summary} numberOfLines={2}>
+              {item.body}
+            </Text>
+          )}
         </View>
         <View style={styles.stats}>
           {!isUndefined(item.payout) && (
