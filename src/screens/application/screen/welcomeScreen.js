@@ -26,9 +26,10 @@ const WelcomeScreen = ({ handleButtonPress }) => {
             size={60}
           />
           <View>
-            <Text style={styles.sectionTitle}>Lorem ipsum dolor</Text>
+            <Text style={styles.sectionTitle}>Are you looking for community?</Text>
             <Text style={styles.sectionText}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer a tellus eget arcu
+              Are you getting censored by centralized social networks? Your privacy being violated,
+              your data is being sold by cooporations?
             </Text>
           </View>
         </View>
@@ -40,9 +41,10 @@ const WelcomeScreen = ({ handleButtonPress }) => {
             size={60}
           />
           <View>
-            <Text style={styles.sectionTitle}>Lorem ipsum dolor</Text>
+            <Text style={styles.sectionTitle}>We believe, we have a solution!</Text>
             <Text style={styles.sectionText}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer a tellus eget arcu
+              Utilizing blockchain technology, we believe we have found a ways to create censorship
+              free, decentralized and rewarding platform.
             </Text>
           </View>
         </View>
@@ -54,16 +56,17 @@ const WelcomeScreen = ({ handleButtonPress }) => {
             size={60}
           />
           <View>
-            <Text style={styles.sectionTitle}>Lorem ipsum dolor</Text>
+            <Text style={styles.sectionTitle}>Join Ecency communities!</Text>
             <Text style={styles.sectionText}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer a tellus eget arcu
+              Join/build community you own that nobody can shutdown or censor, get rewarded and
+              reward others who contribute and share their experiences with community.
             </Text>
           </View>
         </View>
         <MainButton
           onPress={handleButtonPress}
           style={{ alignSelf: 'center', paddingHorizontal: 30 }}
-          text="Start to Ecency"
+          text="Get started!"
         />
       </View>
     </SafeAreaView>
