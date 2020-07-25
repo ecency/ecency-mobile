@@ -73,6 +73,7 @@
     "react-native-image-zoom-viewer": "^2.2.27",
     "react-native-keyboard-aware-scroll-view": "^0.9.1",
     "react-native-linear-gradient": "^2.4.2",
+    "react-native-modal": "^11.5.6",
     "react-native-modal-dropdown": "esteemapp/react-native-modal-dropdown",
     "react-native-modal-translucent": "^5.0.0",
     "react-native-navigation-bar-color": "^1.0.0",
