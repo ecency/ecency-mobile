@@ -107,7 +107,7 @@ const SideMenuView = ({
 
               <View style={styles.userInfoWrapper}>
                 <IconButton
-                  name={isAddAccountIconActive ? 'ios-arrow-dropup' : 'ios-add-circle-outline'}
+                  name={isAddAccountIconActive ? 'ios-arrow-up' : 'ios-add-circle-outline'}
                   color="white"
                   size={20}
                   onPress={_handleOnPressAddAccountIcon}

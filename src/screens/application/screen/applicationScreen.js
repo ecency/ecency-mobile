@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import { StatusBar, Platform, View, Alert } from 'react-native';
+import { StatusBar, Platform, View, Alert, Text, Modal, TouchableHighlight } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import { createAppContainer } from 'react-navigation';
 import { injectIntl } from 'react-intl';
+import VersionNumber from 'react-native-version-number';
 
 import AppNavitation from '../../../navigation/routes';
 import { setTopLevelNavigator, navigate } from '../../../navigation/service';
@@ -13,6 +14,7 @@ import {
   toastNotification as toastNotificationAction,
   setRcOffer,
 } from '../../../redux/actions/uiAction';
+import { getVersionForWelcomeModal } from '../../../realm/realm';
 
 import ROUTES from '../../../constants/routeNames';
 
@@ -30,7 +32,18 @@ class ApplicationScreen extends Component {
     super(props);
     this.state = {
       isShowToastNotification: false,
+      showWelcomeModal: false,
     };
+  }
+
+  componentDidMount() {
+    const { appVersion } = VersionNumber;
+
+    getVersionForWelcomeModal().then((version) => {
+      if (version < parseFloat(appVersion)) {
+        this.setState({ showWelcomeModal: true });
+      }
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -88,7 +101,7 @@ class ApplicationScreen extends Component {
 
   render() {
     const { isConnected, isDarkTheme, toastNotification, isReady } = this.props;
-    const { isShowToastNotification } = this.state;
+    const { isShowToastNotification, showWelcomeModal } = this.state;
     const barStyle = isDarkTheme ? 'light-content' : 'dark-content';
     const barColor = isDarkTheme ? '#1e2835' : '#fff';
 
@@ -106,6 +119,32 @@ class ApplicationScreen extends Component {
               setTopLevelNavigator(navigatorRef);
             }}
           />
+          <Modal
+            animationType="slide"
+            visible={false}
+            presentationStyle="pageSheet"
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.');
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: 'white',
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Text>Hello World!</Text>
+              <TouchableHighlight
+                onPress={() => {
+                  this.setState({ showWelcomeModal: !showWelcomeModal });
+                }}
+              >
+                <Text>Hide Modal</Text>
+              </TouchableHighlight>
+            </View>
+          </Modal>
         </Fragment>
 
         {isShowToastNotification && (

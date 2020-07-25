@@ -16,6 +16,7 @@ import {
 } from 'react-native-dark-mode';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
+import VersionNumber from 'react-native-version-number';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -34,6 +35,10 @@ import {
   setAuthStatus,
   removeSCAccount,
   setExistUser,
+  getVersionForWelcomeModal,
+  setVersionForWelcomeModal,
+  getAllSCAccounts,
+  removeAllSCAccounts,
 } from '../../../realm/realm';
 import { getUser, getPost } from '../../../providers/steem/dsteem';
 import { switchAccount } from '../../../providers/steem/auth';
@@ -47,6 +52,7 @@ import {
   updateUnreadActivityCount,
   removeOtherAccount,
   fetchGlobalProperties,
+  removeAllOtherAccount,
 } from '../../../redux/actions/accountAction';
 import {
   activeApplication,
@@ -87,6 +93,7 @@ export const setPreviousAppState = () => {
 
 let firebaseOnNotificationOpenedAppListener = null;
 let firebaseOnMessageListener = null;
+let scAccounts = [];
 
 class ApplicationContainer extends Component {
   constructor(props) {
@@ -97,11 +104,14 @@ class ApplicationContainer extends Component {
       isIos: Platform.OS !== 'android',
       isThemeReady: false,
       appState: AppState.currentState,
+      showWelcomeModal: false,
     };
   }
 
   componentDidMount = () => {
     const { isIos } = this.state;
+    const { appVersion } = VersionNumber;
+
     this._setNetworkListener();
 
     Linking.addEventListener('url', this._handleOpenURL);
@@ -123,6 +133,15 @@ class ApplicationContainer extends Component {
     this._createPushListener();
 
     if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
+
+    getVersionForWelcomeModal().then((version) => {
+      if (version < parseFloat(appVersion)) {
+        this.setState({ showWelcomeModal: true });
+        getAllSCAccounts().then((accounts) => {
+          scAccounts = accounts;
+        });
+      }
+    });
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -644,6 +663,41 @@ class ApplicationContainer extends Component {
     dispatch(updateCurrentAccount(_currentAccount));
   };
 
+  _handleWelcomeModalButtonPress = () => {
+    const { dispatch, otherAccounts } = this.props;
+    const { appVersion } = VersionNumber;
+
+    const accountsWithoutSC = otherAccounts.filter(
+      (account) => !scAccounts.some((el) => el.username === account.username),
+    );
+
+    setVersionForWelcomeModal(appVersion);
+
+    if (scAccounts.length > 0) {
+      scAccounts.forEach((el) => {
+        dispatch(removeOtherAccount(el.username));
+      });
+      removeAllSCAccounts().then(() => {
+        if (accountsWithoutSC.length > 0) {
+          this._switchAccount(accountsWithoutSC[0]);
+        } else {
+          dispatch(updateCurrentAccount({}));
+          dispatch(login(false));
+          removePinCode();
+          setAuthStatus({ isLoggedIn: false });
+          setExistUser(false);
+          dispatch(removeAllOtherAccount());
+          dispatch(logoutDone());
+        }
+
+        navigate({ routeName: ROUTES.SCREENS.LOGIN });
+        this.setState({ showWelcomeModal: false });
+      });
+    } else {
+      this.setState({ showWelcomeModal: false });
+    }
+  };
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     const {
       isDarkTheme: _isDarkTheme,
@@ -698,7 +752,7 @@ class ApplicationContainer extends Component {
       isPinCodeRequire,
       rcOffer,
     } = this.props;
-    const { isRenderRequire, isReady, isThemeReady } = this.state;
+    const { isRenderRequire, isReady, isThemeReady, showWelcomeModal } = this.state;
 
     return (
       children &&
@@ -712,6 +766,8 @@ class ApplicationContainer extends Component {
         locale: selectedLanguage,
         rcOffer,
         toastNotification,
+        showWelcomeModal,
+        handleWelcomeModalButtonPress: this._handleWelcomeModalButtonPress,
       })
     );
   }

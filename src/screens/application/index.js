@@ -1,9 +1,11 @@
 import React, { Fragment, useEffect, useState } from 'react';
+import { Text } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import ApplicationScreen from './screen/applicationScreen';
-import ApplicationContainer from './container/applicationContainer';
 
-import Launch from '../launch';
+import ApplicationContainer from './container/applicationContainer';
+import WelcomeScreen from './screen/welcomeScreen';
+import ApplicationScreen from './screen/applicationScreen';
+import LaunchScreen from '../launch';
 import { Modal } from '../../components';
 import { PinCode } from '../pinCode';
 
@@ -31,7 +33,11 @@ const Application = () => {
         locale,
         rcOffer,
         toastNotification,
+        showWelcomeModal,
+        handleWelcomeModalButtonPress,
       }) => {
+        const _isAppReady = !showAnimation && isReady && isRenderRequire && isThemeReady;
+
         return (
           <Fragment>
             <Modal
@@ -41,6 +47,14 @@ const Application = () => {
               backButtonClose={false}
             >
               <PinCode />
+            </Modal>
+            <Modal
+              isOpen={!isPinCodeRequire && showWelcomeModal && _isAppReady}
+              isFullScreen
+              swipeToClose={false}
+              backButtonClose={false}
+            >
+              <WelcomeScreen handleButtonPress={handleWelcomeModalButtonPress} />
             </Modal>
             {isThemeReady && isRenderRequire && (
               <ApplicationScreen
@@ -52,7 +66,7 @@ const Application = () => {
                 rcOffer={rcOffer}
               />
             )}
-            {(showAnimation || !isReady || !isRenderRequire || !isThemeReady) && <Launch />}
+            {!_isAppReady && <LaunchScreen />}
           </Fragment>
         );
       }}

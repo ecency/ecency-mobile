@@ -7,6 +7,7 @@ import {
   UPDATE_CURRENT_ACCOUNT,
   UPDATE_UNREAD_ACTIVITY_COUNT,
   REMOVE_OTHER_ACCOUNT,
+  REMOVE_ALL_OTHER_ACCOUNT,
   LOGOUT_FAIL,
   SET_GLOBAL_PROPS,
 } from '../constants/constants';
@@ -61,6 +62,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         otherAccounts: state.otherAccounts.filter((item) => item.username !== action.payload),
+      };
+
+    case REMOVE_ALL_OTHER_ACCOUNT:
+      return {
+        ...state,
+        otherAccounts: [],
       };
 
     case UPDATE_CURRENT_ACCOUNT:

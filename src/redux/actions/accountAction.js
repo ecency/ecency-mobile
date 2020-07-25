@@ -3,6 +3,7 @@ import {
   ADD_OTHER_ACCOUNT,
   FETCH_ACCOUNT_FAIL,
   REMOVE_OTHER_ACCOUNT,
+  REMOVE_ALL_OTHER_ACCOUNT,
   SET_GLOBAL_PROPS,
   UPDATE_CURRENT_ACCOUNT,
   UPDATE_UNREAD_ACTIVITY_COUNT,
@@ -39,6 +40,10 @@ export const updateUnreadActivityCount = (data) => ({
 export const removeOtherAccount = (data) => ({
   type: REMOVE_OTHER_ACCOUNT,
   payload: data,
+});
+
+export const removeAllOtherAccount = () => ({
+  type: REMOVE_ALL_OTHER_ACCOUNT,
 });
 
 export const setGlobalProps = (data) => ({
