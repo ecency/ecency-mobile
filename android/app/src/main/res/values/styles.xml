@@ -1,5 +1,4 @@
 <resources>
-
     <style name="SplashScreenTheme" parent="SplashScreen_SplashTheme">
         <item name="colorPrimaryDark">@color/splashprimary</item>
     </style>

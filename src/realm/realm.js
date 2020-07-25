@@ -564,7 +564,7 @@ export const setExistUser = async (existUser) => {
 
 export const setSCAccount = async (data) => {
   try {
-    let scAccount = await getItemFromStorage(SC_ACCOUNTS);
+    let scAccount = (await getItemFromStorage(SC_ACCOUNTS)) || [];
     const date = new Date();
     date.setSeconds(date.getSeconds() + data.expires_in);
     if (scAccount.some((e) => e.username === data.username)) {

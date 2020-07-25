@@ -37,7 +37,7 @@ const Application = () => {
         handleWelcomeModalButtonPress,
       }) => {
         const _isAppReady = !showAnimation && isReady && isRenderRequire && isThemeReady;
-        console.log('_isAppReady :>> ', _isAppReady);
+
         return (
           <Fragment>
             <Modal
@@ -53,11 +53,6 @@ const Application = () => {
               isFullScreen
               swipeToClose={false}
               backButtonClose={false}
-              handleOnModalClose={() => console.log('handleOnModalClose :>> ')}
-              onDismiss={() => console.log('onDismiss :>> ')}
-              onRequestClose={() => {
-                console.log('onRequestClose :>> ');
-              }}
             >
               <WelcomeScreen handleButtonPress={handleWelcomeModalButtonPress} />
             </Modal>

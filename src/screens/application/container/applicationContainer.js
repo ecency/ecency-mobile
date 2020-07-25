@@ -668,10 +668,10 @@ class ApplicationContainer extends Component {
     const { appVersion } = VersionNumber;
 
     const accountsWithoutSC = otherAccounts.filter(
-      (account) => !scAccounts.includes(account.username),
+      (account) => !scAccounts.some((el) => el.username === account.username),
     );
 
-    // setVersionForWelcomeModal(appVersion);
+    setVersionForWelcomeModal(appVersion);
 
     if (scAccounts.length > 0) {
       scAccounts.forEach((el) => {
@@ -679,7 +679,7 @@ class ApplicationContainer extends Component {
       });
       removeAllSCAccounts().then(() => {
         if (accountsWithoutSC.length > 0) {
-          this._switchAccount(accountsWithoutSC(0));
+          this._switchAccount(accountsWithoutSC[0]);
         } else {
           dispatch(updateCurrentAccount({}));
           dispatch(login(false));
