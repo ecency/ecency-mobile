@@ -16,6 +16,15 @@ const parseCatAuthorPermlink = (u) => {
       permlink: null,
     };
   }
+  const r = /^https?:\/\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
+  const match = u.match(r);
+
+  if (match && match.length === 4) {
+    return {
+      author: match[2].replace('@', ''),
+      permlink: match[3],
+    };
+  }
   return null;
 };
 
