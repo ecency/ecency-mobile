@@ -107,7 +107,8 @@ const SideMenuView = ({
 
               <View style={styles.userInfoWrapper}>
                 <IconButton
-                  name={isAddAccountIconActive ? 'ios-arrow-up' : 'ios-add-circle-outline'}
+                  iconType="SimpleLineIcons"
+                  name={isAddAccountIconActive ? 'minus' : 'plus'}
                   color="white"
                   size={20}
                   onPress={_handleOnPressAddAccountIcon}
@@ -132,7 +133,7 @@ const SideMenuView = ({
               <View style={styles.itemWrapper}>
                 {item.item.icon && (
                   <Icon
-                    iconType="MaterialCommunityIcons"
+                    iconType="SimpleLineIcons"
                     style={styles.listItemIcon}
                     name={item.item.icon}
                   />
