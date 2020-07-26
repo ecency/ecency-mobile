@@ -136,11 +136,13 @@ class ApplicationContainer extends Component {
       if (version < parseFloat(appVersion)) {
         getUserData().then((accounts) => {
           this.setState({ showWelcomeModal: true });
-          accounts.forEach((account) => {
-            if (get(account, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
-              scAccounts.push(account);
-            }
-          });
+          if (accounts && accounts.length > 0) {
+            accounts.forEach((account) => {
+              if (get(account, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
+                scAccounts.push(account);
+              }
+            });
+          }
         });
       }
     });
