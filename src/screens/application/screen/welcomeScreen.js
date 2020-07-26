@@ -20,46 +20,43 @@ const WelcomeScreen = ({ handleButtonPress }) => {
         </View>
         <View style={styles.sectionRow}>
           <Icon
-            iconType="SimpleLineIcons"
-            name="question"
+            iconType="MaterialCommunityIcons"
+            name="help-circle-outline"
             color={EStyleSheet.value('$primaryBlue')}
             size={60}
           />
           <View>
             <Text style={styles.sectionTitle}>Are you looking for community?</Text>
             <Text style={styles.sectionText}>
-              Are you getting censored by centralized social networks? Your privacy being violated,
-              your data is being sold by cooporations?
+              Uncensored, immutable, rewarding, decentralized, that you own.
             </Text>
           </View>
         </View>
         <View style={styles.sectionRow}>
           <Icon
-            iconType="SimpleLineIcons"
-            name="question"
+            iconType="MaterialCommunityIcons"
+            name="emoticon-excited-outline"
             color={EStyleSheet.value('$primaryBlue')}
             size={60}
           />
           <View>
-            <Text style={styles.sectionTitle}>We believe, we have a solution!</Text>
+            <Text style={styles.sectionTitle}>We have a solution!</Text>
             <Text style={styles.sectionText}>
-              Utilizing blockchain technology, we believe we have found a ways to create censorship
-              free, decentralized and rewarding platform.
+              Utilizing blockchain, censorship-free, decentralized and rewarding.
             </Text>
           </View>
         </View>
         <View style={styles.sectionRow}>
           <Icon
-            iconType="SimpleLineIcons"
-            name="question"
+            iconType="MaterialCommunityIcons"
+            name="account-group"
             color={EStyleSheet.value('$primaryBlue')}
             size={60}
           />
           <View>
             <Text style={styles.sectionTitle}>Join Ecency communities!</Text>
             <Text style={styles.sectionText}>
-              Join/build community you own that nobody can shutdown or censor, get rewarded and
-              reward others who contribute and share their experiences with community.
+              Join/build community you own, get rewarded and reward others.
             </Text>
           </View>
         </View>
