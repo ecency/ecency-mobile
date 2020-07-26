@@ -84,6 +84,15 @@ const SideMenuView = ({
 
   const { buildVersion, appVersion } = VersionNumber;
 
+  if (currentAccount.display_name && currentAccount.display_name.length > 8) {
+    currentAccount.display_name = currentAccount.display_name.slice(0, 8);
+  }
+
+  let _username = currentAccount.name;
+  if (currentAccount.name && currentAccount.name.length > 8) {
+    _username = currentAccount.name.slice(0, 8);
+  }
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -102,7 +111,7 @@ const SideMenuView = ({
                     {currentAccount.display_name}
                   </Text>
                 )}
-                <Text style={styles.usernick}>{`@${currentAccount.name}`}</Text>
+                <Text style={styles.usernick}>{`@${_username}`}</Text>
               </View>
 
               <View style={styles.userInfoWrapper}>
