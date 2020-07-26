@@ -46,7 +46,7 @@ class SideMenuContainer extends Component {
     accounts.push({
       name: 'Add Account',
       route: ROUTES.SCREENS.LOGIN,
-      icon: 'account-plus-outline',
+      icon: 'user-follow',
       id: 'add_account',
     });
     this.setState({ accounts });
