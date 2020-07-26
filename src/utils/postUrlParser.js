@@ -79,6 +79,7 @@ export default (url) => {
       'https://esteem.app',
       'https://hive.blog',
       'https://peakd.com',
+      'https://leofinance.io',
     ].some((x) => url.startsWith(x))
   ) {
     return parseCatAuthorPermlink(url);
