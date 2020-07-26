@@ -28,7 +28,7 @@ const authMenuItems = [
   {
     name: 'Settings',
     route: ROUTES.SCREENS.SETTINGS,
-    icon: 'settings-outline',
+    icon: 'cog-outline',
     id: 'settings',
   },
   {

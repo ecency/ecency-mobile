@@ -23,47 +23,47 @@ const WelcomeScreen = ({ handleButtonPress }) => {
             iconType="SimpleLineIcons"
             name="question"
             color={EStyleSheet.value('$primaryBlue')}
-            size={60}
+            size={30}
           />
           <View>
-            <Text style={styles.sectionTitle}>Lorem ipsum dolor</Text>
+            <Text style={styles.sectionTitle}>Are you looking for community?</Text>
             <Text style={styles.sectionText}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer a tellus eget arcu
+              Uncensored, immutable, rewarding, decentralized, that you own.
             </Text>
           </View>
         </View>
         <View style={styles.sectionRow}>
           <Icon
             iconType="SimpleLineIcons"
-            name="question"
+            name="emotsmile"
             color={EStyleSheet.value('$primaryBlue')}
-            size={60}
+            size={30}
           />
           <View>
-            <Text style={styles.sectionTitle}>Lorem ipsum dolor</Text>
+            <Text style={styles.sectionTitle}>We have a solution!</Text>
             <Text style={styles.sectionText}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer a tellus eget arcu
+              Utilizing blockchain, censorship-free, decentralized and rewarding.
             </Text>
           </View>
         </View>
         <View style={styles.sectionRow}>
           <Icon
             iconType="SimpleLineIcons"
-            name="question"
+            name="people"
             color={EStyleSheet.value('$primaryBlue')}
-            size={60}
+            size={30}
           />
           <View>
-            <Text style={styles.sectionTitle}>Lorem ipsum dolor</Text>
+            <Text style={styles.sectionTitle}>Join Ecency communities!</Text>
             <Text style={styles.sectionText}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer a tellus eget arcu
+              Build community you own, get rewarded and reward others.
             </Text>
           </View>
         </View>
         <MainButton
           onPress={handleButtonPress}
           style={{ alignSelf: 'center', paddingHorizontal: 30 }}
-          text="Start to Ecency"
+          text="Get started!"
         />
       </View>
     </SafeAreaView>
