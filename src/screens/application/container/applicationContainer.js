@@ -691,9 +691,8 @@ class ApplicationContainer extends Component {
         setExistUser(false);
         dispatch(removeAllOtherAccount());
         dispatch(logoutDone());
+        navigate({ routeName: ROUTES.SCREENS.LOGIN });
       }
-
-      navigate({ routeName: ROUTES.SCREENS.LOGIN });
     }
     this.setState({ showWelcomeModal: false });
   };
