@@ -102,7 +102,7 @@ class ApplicationContainer extends Component {
       isIos: Platform.OS !== 'android',
       isThemeReady: false,
       appState: AppState.currentState,
-      showWelcomeModal: true,
+      showWelcomeModal: false,
     };
   }
 
@@ -136,12 +136,11 @@ class ApplicationContainer extends Component {
       if (version < parseFloat(appVersion)) {
         getUserData().then((accounts) => {
           this.setState({ showWelcomeModal: true });
-          accounts &&
-            accounts.forEach((account) => {
-              if (get(account, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
-                scAccounts.push(account);
-              }
-            });
+          accounts.forEach((account) => {
+            if (get(account, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
+              scAccounts.push(account);
+            }
+          });
         });
       }
     });
