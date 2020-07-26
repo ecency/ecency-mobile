@@ -39,11 +39,14 @@
 		05B6C4AF24C306CE00B7FA60 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 34E88D888DD444F8B285363C /* SimpleLineIcons.ttf */; };
 		05B6C4B024C306CE00B7FA60 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 980BC9BC0D3B4AC69645C842 /* Zocial.ttf */; };
 		0A1D279E0D3CD306C889592E /* libPods-Ecency-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7093E51BBC0EE2F41AB19EBA /* libPods-Ecency-tvOS.a */; };
-		2B3CF3607B7CB9B7296FD5EF /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		2B3CF3607B7CB9B7296FD5EF /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* EcencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* EcencyTests.m */; };
+		58C9F4FD24CE017800A026DD /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C9F4FC24CE017800A026DD /* ShareViewController.swift */; };
+		58C9F50024CE017800A026DD /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58C9F4FE24CE017800A026DD /* MainInterface.storyboard */; };
+		58C9F50424CE017800A026DD /* EcencyShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 58C9F4FA24CE017800A026DD /* EcencyShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		58F9BCC624793C61004F0790 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F9BCC224793C61004F0790 /* GoogleService-Info.plist */; };
 		58F9BCC724793C61004F0790 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F9BCC224793C61004F0790 /* GoogleService-Info.plist */; };
 		58F9BCC824793C61004F0790 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F9BCC224793C61004F0790 /* GoogleService-Info.plist */; };
@@ -51,7 +54,7 @@
 		CFAA2A599FD65F360D9B3E1E /* libPods-EcencyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B344CAA24725C973F48BE81E /* libPods-EcencyTests.a */; };
 		D71EB20EDB9B987C0574BAFE /* libPods-EcencyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C97456BE898C00B5EDA21C2E /* libPods-EcencyTests.a */; };
 		DC0E25610BB5F49AFF4514AD /* libPods-Ecency.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 388DF3FF85F08109F722083B /* libPods-Ecency.a */; };
-		F77F6C7E54F3C783A2773E9D /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		F77F6C7E54F3C783A2773E9D /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,7 +79,28 @@
 			remoteGlobalIDString = 3DF7F6AC203AA09B00D0EAB7;
 			remoteInfo = "ReactNativeConfig-tvOS";
 		};
+		58C9F50224CE017800A026DD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 58C9F4F924CE017800A026DD;
+			remoteInfo = EcencyShare;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		58C9F50524CE017800A026DD /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				58C9F50424CE017800A026DD /* EcencyShare.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		000EE3558E824DA88770325D /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
@@ -115,6 +139,12 @@
 		588A5053232A3A4C00FC1361 /* Roboto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Roboto.ttf; path = ../src/assets/Fonts/Roboto.ttf; sourceTree = "<group>"; };
 		588A5054232A3A4C00FC1361 /* Roboto-medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-medium.ttf"; path = "../src/assets/Fonts/Roboto-medium.ttf"; sourceTree = "<group>"; };
 		588A5064232A497100FC1361 /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeConfig.xcodeproj; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; };
+		58C9F4FA24CE017800A026DD /* EcencyShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = EcencyShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		58C9F4FC24CE017800A026DD /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		58C9F4FF24CE017800A026DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		58C9F50124CE017800A026DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		58C9F50B24CE084600A026DD /* EcencyDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = EcencyDebug.entitlements; path = Ecency/EcencyDebug.entitlements; sourceTree = "<group>"; };
+		58C9F50C24CE0B9800A026DD /* EcencyShareDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EcencyShareDebug.entitlements; sourceTree = "<group>"; };
 		58F6300F2350580B0017C953 /* libRealmJS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRealmJS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		58F9BCC224793C61004F0790 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5D41D0DE754DA8627FF2545C /* Pods-Ecency2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency2.release.xcconfig"; path = "Target Support Files/Pods-Ecency2/Pods-Ecency2.release.xcconfig"; sourceTree = "<group>"; };
@@ -165,8 +195,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				05B6C49424C306CE00B7FA60 /* StoreKit.framework in Frameworks */,
-				F77F6C7E54F3C783A2773E9D /* BuildFile in Frameworks */,
-				2B3CF3607B7CB9B7296FD5EF /* BuildFile in Frameworks */,
+				F77F6C7E54F3C783A2773E9D /* (null) in Frameworks */,
+				2B3CF3607B7CB9B7296FD5EF /* (null) in Frameworks */,
 				DC0E25610BB5F49AFF4514AD /* libPods-Ecency.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -184,6 +214,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				643845B37F268570EDF67449 /* libPods-Ecency-tvOSTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		58C9F4F724CE017800A026DD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,6 +247,7 @@
 		13B07FAE1A68108700A75B9A /* Ecency */ = {
 			isa = PBXGroup;
 			children = (
+				58C9F50B24CE084600A026DD /* EcencyDebug.entitlements */,
 				58F9BCC224793C61004F0790 /* GoogleService-Info.plist */,
 				58190B3D23294823000EA0E1 /* Ecency.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -312,6 +350,17 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
+		58C9F4FB24CE017800A026DD /* EcencyShare */ = {
+			isa = PBXGroup;
+			children = (
+				58C9F50C24CE0B9800A026DD /* EcencyShareDebug.entitlements */,
+				58C9F4FC24CE017800A026DD /* ShareViewController.swift */,
+				58C9F4FE24CE017800A026DD /* MainInterface.storyboard */,
+				58C9F50124CE017800A026DD /* Info.plist */,
+			);
+			path = EcencyShare;
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -327,6 +376,7 @@
 				13B07FAE1A68108700A75B9A /* Ecency */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* EcencyTests */,
+				58C9F4FB24CE017800A026DD /* EcencyShare */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				258E34A3BDFFFBF80D598187 /* Pods */,
@@ -345,6 +395,7 @@
 				2D02E47B1E0B4A5D006451C7 /* Ecency-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* Ecency-tvOSTests.xctest */,
 				05B6C4B724C306CE00B7FA60 /* Ecency.app */,
+				58C9F4FA24CE017800A026DD /* EcencyShare.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -382,10 +433,12 @@
 				05B6C4B124C306CE00B7FA60 /* Bundle React Native code and images */,
 				53FB8F8B28F502EE3B240FD6 /* [CP] Copy Pods Resources */,
 				4436D72554B718932B21C9FD /* [CP-User] [RNFB] Core Configuration */,
+				58C9F50524CE017800A026DD /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				58C9F50324CE017800A026DD /* PBXTargetDependency */,
 			);
 			name = Ecency;
 			productName = Ecency;
@@ -432,12 +485,31 @@
 			productReference = 2D02E4901E0B4A5D006451C7 /* Ecency-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		58C9F4F924CE017800A026DD /* EcencyShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 58C9F50A24CE017800A026DD /* Build configuration list for PBXNativeTarget "EcencyShare" */;
+			buildPhases = (
+				58C9F4F624CE017800A026DD /* Sources */,
+				58C9F4F724CE017800A026DD /* Frameworks */,
+				58C9F4F824CE017800A026DD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EcencyShare;
+			productName = EcencyShare;
+			productReference = 58C9F4FA24CE017800A026DD /* EcencyShare.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				DefaultBuildSystemTypeForWorkspace = Original;
+				LastSwiftUpdateCheck = 1150;
 				LastUpgradeCheck = 940;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
@@ -458,6 +530,11 @@
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
+					};
+					58C9F4F924CE017800A026DD = {
+						CreatedOnToolsVersion = 11.5;
+						DevelopmentTeam = N97V3LMBX2;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -485,6 +562,7 @@
 				00E356ED1AD99517003FC87E /* EcencyTests */,
 				2D02E47A1E0B4A5D006451C7 /* Ecency-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* Ecency-tvOSTests */,
+				58C9F4F924CE017800A026DD /* EcencyShare */,
 			);
 		};
 /* End PBXProject section */
@@ -562,6 +640,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				58F9BCC824793C61004F0790 /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		58C9F4F824CE017800A026DD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				58C9F50024CE017800A026DD /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -843,6 +929,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		58C9F4F624CE017800A026DD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				58C9F4FD24CE017800A026DD /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -850,6 +944,11 @@
 			isa = PBXTargetDependency;
 			target = 2D02E47A1E0B4A5D006451C7 /* Ecency-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
+		};
+		58C9F50324CE017800A026DD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 58C9F4F924CE017800A026DD /* EcencyShare */;
+			targetProxy = 58C9F50224CE017800A026DD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -861,6 +960,14 @@
 			);
 			name = LaunchScreen.xib;
 			path = Ecency;
+			sourceTree = "<group>";
+		};
+		58C9F4FE24CE017800A026DD /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				58C9F4FF24CE017800A026DD /* Base */,
+			);
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -921,10 +1028,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B7EDBB6386C14AA3E928B720 /* Pods-Ecency.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Ecency/Ecency.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = Ecency/EcencyDebug.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2523;
@@ -993,6 +1101,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D474B74D640F78620A926D96 /* Pods-Ecency.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Ecency/Ecency.entitlements;
@@ -1170,6 +1279,65 @@
 			};
 			name = Release;
 		};
+		58C9F50624CE017800A026DD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = EcencyShare/EcencyShareDebug.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = N97V3LMBX2;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = EcencyShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios.EcencyShare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		58C9F50724CE017800A026DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 75B6RXTKGT;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = EcencyShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios.EcencyShare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1308,6 +1476,15 @@
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
 				2D02E49A1E0B4A5E006451C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		58C9F50A24CE017800A026DD /* Build configuration list for PBXNativeTarget "EcencyShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				58C9F50624CE017800A026DD /* Debug */,
+				58C9F50724CE017800A026DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

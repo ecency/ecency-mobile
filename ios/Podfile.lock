@@ -307,6 +307,8 @@ PODS:
     - React
   - react-native-netinfo (5.9.5):
     - React
+  - react-native-receive-sharing-intent (1.0.4):
+    - React
   - react-native-splash-screen (3.2.0):
     - React
   - react-native-version-number (0.3.6):
@@ -427,6 +429,7 @@ DEPENDENCIES:
   - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
   - react-native-config (from `../node_modules/react-native-config`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
+  - react-native-receive-sharing-intent (from `../node_modules/react-native-receive-sharing-intent`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-version-number (from `../node_modules/react-native-version-number`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -532,6 +535,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-config"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
+  react-native-receive-sharing-intent:
+    :path: "../node_modules/react-native-receive-sharing-intent"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
   react-native-version-number:
@@ -636,6 +641,7 @@ SPEC CHECKSUMS:
   react-native-cameraroll: e2917a5e62da9f10c3d525e157e25e694d2d6dfa
   react-native-config: 54f023214af396f21ff0a9e0fed22620d676c8a1
   react-native-netinfo: a53b00d949b6456913aaf507d9dba90c4008c611
+  react-native-receive-sharing-intent: feba0a332a07977549a85aa58b496eb44368366a
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
   react-native-webview: 160ac8d6bb974e2933f2de6bb7464a8e934ff31d
@@ -672,4 +678,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 84e32ce5543427579b8c72d77fd175fe29268d92
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.8.4
