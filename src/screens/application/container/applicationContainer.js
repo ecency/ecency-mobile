@@ -37,8 +37,6 @@ import {
   setExistUser,
   getVersionForWelcomeModal,
   setVersionForWelcomeModal,
-  getAllSCAccounts,
-  removeAllSCAccounts,
 } from '../../../realm/realm';
 import { getUser, getPost } from '../../../providers/steem/dsteem';
 import { switchAccount } from '../../../providers/steem/auth';
@@ -136,9 +134,13 @@ class ApplicationContainer extends Component {
 
     getVersionForWelcomeModal().then((version) => {
       if (version < parseFloat(appVersion)) {
-        this.setState({ showWelcomeModal: true });
-        getAllSCAccounts().then((accounts) => {
-          scAccounts = accounts;
+        getUserData().then((accounts) => {
+          this.setState({ showWelcomeModal: true });
+          accounts.forEach((account) => {
+            if (get(account, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
+              scAccounts.push(account);
+            }
+          });
         });
       }
     });
@@ -450,7 +452,7 @@ class ApplicationContainer extends Component {
     if (res) {
       const userData = await getUserData();
 
-      if (userData.length > 0) {
+      if (userData && userData.length > 0) {
         realmData = userData;
         userData.forEach((accountData, index) => {
           if (
@@ -676,26 +678,24 @@ class ApplicationContainer extends Component {
     if (scAccounts.length > 0) {
       scAccounts.forEach((el) => {
         dispatch(removeOtherAccount(el.username));
+        removeUserData(el.username);
       });
-      removeAllSCAccounts().then(() => {
-        if (accountsWithoutSC.length > 0) {
-          this._switchAccount(accountsWithoutSC[0]);
-        } else {
-          dispatch(updateCurrentAccount({}));
-          dispatch(login(false));
-          removePinCode();
-          setAuthStatus({ isLoggedIn: false });
-          setExistUser(false);
-          dispatch(removeAllOtherAccount());
-          dispatch(logoutDone());
-        }
 
-        navigate({ routeName: ROUTES.SCREENS.LOGIN });
-        this.setState({ showWelcomeModal: false });
-      });
-    } else {
-      this.setState({ showWelcomeModal: false });
+      if (accountsWithoutSC.length > 0) {
+        this._switchAccount(accountsWithoutSC[0].username);
+      } else {
+        dispatch(updateCurrentAccount({}));
+        dispatch(login(false));
+        removePinCode();
+        setAuthStatus({ isLoggedIn: false });
+        setExistUser(false);
+        dispatch(removeAllOtherAccount());
+        dispatch(logoutDone());
+      }
+
+      navigate({ routeName: ROUTES.SCREENS.LOGIN });
     }
+    this.setState({ showWelcomeModal: false });
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
