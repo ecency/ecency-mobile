@@ -20,10 +20,10 @@ const WelcomeScreen = ({ handleButtonPress }) => {
         </View>
         <View style={styles.sectionRow}>
           <Icon
-            iconType="MaterialCommunityIcons"
-            name="help-circle-outline"
+            iconType="SimpleLineIcons"
+            name="question"
             color={EStyleSheet.value('$primaryBlue')}
-            size={60}
+            size={30}
           />
           <View>
             <Text style={styles.sectionTitle}>Are you looking for community?</Text>
@@ -34,10 +34,10 @@ const WelcomeScreen = ({ handleButtonPress }) => {
         </View>
         <View style={styles.sectionRow}>
           <Icon
-            iconType="MaterialCommunityIcons"
-            name="emoticon-excited-outline"
+            iconType="SimpleLineIcons"
+            name="emotsmile"
             color={EStyleSheet.value('$primaryBlue')}
-            size={60}
+            size={30}
           />
           <View>
             <Text style={styles.sectionTitle}>We have a solution!</Text>
@@ -48,15 +48,15 @@ const WelcomeScreen = ({ handleButtonPress }) => {
         </View>
         <View style={styles.sectionRow}>
           <Icon
-            iconType="MaterialCommunityIcons"
-            name="account-group"
+            iconType="SimpleLineIcons"
+            name="people"
             color={EStyleSheet.value('$primaryBlue')}
-            size={60}
+            size={30}
           />
           <View>
             <Text style={styles.sectionTitle}>Join Ecency communities!</Text>
             <Text style={styles.sectionText}>
-              Join/build community you own, get rewarded and reward others.
+              Build community you own, get rewarded and reward others.
             </Text>
           </View>
         </View>
