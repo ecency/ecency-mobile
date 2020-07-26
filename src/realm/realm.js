@@ -647,7 +647,7 @@ export const getVersionForWelcomeModal = async () => {
   try {
     const application = await getItemFromStorage(APPLICATION_SCHEMA);
     if (application.versionForWelcomeModal) {
-      return application.versionForWelcomeModal;
+      return parseFloat(application.versionForWelcomeModal);
     }
     return 0;
   } catch (error) {
