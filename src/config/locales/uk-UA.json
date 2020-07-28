@@ -517,10 +517,10 @@
     "communities_filter": {
       "rank": "Рейтинг",
       "subs": "Читачі",
-      "new": "New"
+      "new": "Нові"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
+      "popularity": "Популярність",
       "newest": "Newest",
       "relevance": "Relevance"
     },
