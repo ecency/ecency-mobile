@@ -10,7 +10,7 @@ import MobileCoreServices
 import Photos
 
 class ShareViewController: SLComposeServiceViewController {
-  let hostAppBundleIdentifier = "app.esteem.mobile.ios"
+  let hostAppBundleIdentifier = "com.ecency.eshare"
   let sharedKey = "ShareKey"
   var sharedMedia: [SharedMediaFile] = []
   var sharedText: [String] = []
