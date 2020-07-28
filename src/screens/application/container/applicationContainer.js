@@ -151,6 +151,10 @@ class ApplicationContainer extends Component {
     ReceiveSharingIntent.getReceivedFiles(
       (files) => {
         console.log('files :>> ', files);
+        navigate({
+          routeName: ROUTES.SCREENS.EDITOR,
+          params: { upload: files },
+        });
         // files returns as JSON Array example
         //[{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]
       },
@@ -219,8 +223,8 @@ class ApplicationContainer extends Component {
     this._handleDeepLink(event.url);
   };
 
-  _handleDeepLink = async (url) => {
-    if (!url) return;
+  _handleDeepLink = async (url = '') => {
+    if (!url || url.indexOf('ShareMedia://') >= 0) return;
 
     let routeName;
     let params;

@@ -124,7 +124,7 @@ class EditorScreen extends Component {
 
   _handleIsFormValid = (bodyText) => {
     const { fields } = this.state;
-    const { isReply } = this.props;
+    const { isReply, isLoggedIn } = this.props;
     let isFormValid;
 
     if (isReply) {
@@ -135,7 +135,8 @@ class EditorScreen extends Component {
         get(fields, 'title', '').length < 255 &&
         (get(fields, 'body', '') || (bodyText && bodyText > 0)) &&
         get(fields, 'tags', null) &&
-        get(fields, 'tags', null).length < 10;
+        get(fields, 'tags', null).length < 10 &&
+        isLoggedIn;
     }
 
     this.setState({ isFormValid });

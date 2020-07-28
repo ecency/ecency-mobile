@@ -204,7 +204,7 @@ class BasicHeaderView extends Component {
                 <TextButton
                   textStyle={[
                     styles.textButton,
-                    isFormValid && isLoggedIn ? styles.textButtonEnable : styles.textButtonDisable,
+                    isFormValid ? styles.textButtonEnable : styles.textButtonDisable,
                   ]}
                   onPress={isFormValid && this._handleOnPress}
                   style={styles.textButtonWrapper}
