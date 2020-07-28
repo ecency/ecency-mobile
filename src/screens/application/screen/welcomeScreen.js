@@ -10,11 +10,8 @@ const WelcomeScreen = ({ handleButtonPress }) => {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
-        <Image
-          style={{ width: 205, height: 200, alignSelf: 'center' }}
-          source={require('../../../assets/ecency-logo.png')}
-        />
-        <View>
+        <Image style={styles.mascot} source={require('../../../assets/love_mascot.png')} />
+        <View style={styles.topText}>
           <Text style={styles.welcomeText}>Welcome to</Text>
           <Text style={styles.ecencyText}>Ecency</Text>
         </View>
