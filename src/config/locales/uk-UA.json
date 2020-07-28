@@ -507,16 +507,16 @@
   "search_result": {
     "others": "Others",
     "communities": {
-      "title": "Communities",
-      "subscribe": "Subscribe",
-      "unsubscribe": "Unsubscribe",
-      "subscribers": "Subscribers",
-      "posters": "Posters",
+      "title": "Спільноти",
+      "subscribe": "Підписатися",
+      "unsubscribe": "Відписатися",
+      "subscribers": "Читачі",
+      "posters": "Автори",
       "posts": "Дописи"
     },
     "communities_filter": {
-      "rank": "Rank",
-      "subs": "Subscribers",
+      "rank": "Рейтинг",
+      "subs": "Читачі",
       "new": "New"
     },
     "post_result_filter": {
@@ -530,6 +530,6 @@
     }
   },
   "community": {
-    "new_post": "New Post"
+    "new_post": "Новий допис"
   }
 }
