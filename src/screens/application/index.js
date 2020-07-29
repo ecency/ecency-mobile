@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Text } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 
 import ApplicationContainer from './container/applicationContainer';
@@ -8,6 +7,7 @@ import ApplicationScreen from './screen/applicationScreen';
 import LaunchScreen from '../launch';
 import { Modal } from '../../components';
 import { PinCode } from '../pinCode';
+import ErrorBoundary from './screen/errorBoundary';
 
 const Application = () => {
   const [showAnimation, setShowAnimation] = useState(process.env.NODE_ENV !== 'development');
@@ -39,7 +39,7 @@ const Application = () => {
         const _isAppReady = !showAnimation && isReady && isRenderRequire && isThemeReady;
 
         return (
-          <Fragment>
+          <ErrorBoundary>
             <Modal
               isOpen={isPinCodeRequire}
               isFullScreen
@@ -67,7 +67,7 @@ const Application = () => {
               />
             )}
             {!_isAppReady && <LaunchScreen />}
-          </Fragment>
+          </ErrorBoundary>
         );
       }}
     </ApplicationContainer>
