@@ -6,7 +6,12 @@ import styles from './launchStyles';
 
 const LaunchScreen = () => (
   <View style={nativeThemeInitialMode !== 'dark' ? styles.container : styles.darkContainer}>
-    <LottieView source={require('./animation.json')} autoPlay loop={false} />
+    <LottieView
+      style={{ width: 150, height: 150 }}
+      source={require('./animation.json')}
+      autoPlay
+      loop={false}
+    />
   </View>
 );
 
