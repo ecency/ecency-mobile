@@ -83,7 +83,7 @@
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
       <meta-data
           android:name="com.google.firebase.messaging.default_notification_icon"
-          android:resource="@mipmap/ic_notification" />
+          android:resource="@drawable/ic_notification" />
       <!-- <meta-data
           android:name="com.google.firebase.messaging.default_notification_color"
           android:resource="@color/notification_icon" /> -->
