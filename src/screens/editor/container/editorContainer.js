@@ -136,7 +136,9 @@ class EditorContainer extends Component {
   };
 
   _uploadImage = async (media) => {
-    const { intl, currentAccount, pinCode } = this.props;
+    const { intl, currentAccount, pinCode, isLoggedIn } = this.props;
+
+    if (!isLoggedIn) return;
 
     let sign = await signImage(media, currentAccount, pinCode);
 
@@ -674,6 +676,31 @@ class EditorContainer extends Component {
           isDraft: true,
         });
       }*/
+
+      if (navigationParams.upload) {
+        const { upload } = navigationParams;
+
+        upload.forEach((el) => {
+          if (el.filePath && el.fileName) {
+            this.setState({ isUploading: true });
+            const _media = {
+              path: el.filePath,
+              mime: el.mimeType,
+              filename: el.fileName || `img_${Math.random()}.jpg`,
+            };
+
+            this._uploadImage(_media);
+          } else if (el.text) {
+            this.setState({
+              draftPost: {
+                title: '',
+                body: el.text,
+                tags: [],
+              },
+            });
+          }
+        });
+      }
 
       if (navigationParams.post) {
         ({ post } = navigationParams);

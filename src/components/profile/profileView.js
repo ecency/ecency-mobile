@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { View, ScrollView, SafeAreaView } from 'react-native';
+import { View, ScrollView, SafeAreaView, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
@@ -64,6 +64,13 @@ class ProfileView extends PureComponent {
 
   _handleUIChange = (height) => {
     this.setState({ collapsibleMoreHeight: height });
+  };
+
+  _getTabLabel = (value) => {
+    if (value.length > 10) {
+      return `${value.substring(0, 10)}...`;
+    }
+    return value;
   };
 
   _isCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {
@@ -181,9 +188,7 @@ class ProfileView extends PureComponent {
             }}
           >
             <View
-              tabLabel={intl.formatMessage({
-                id: 'profile.post',
-              })}
+              tabLabel={this._getTabLabel(intl.formatMessage({ id: 'profile.post' }))}
               style={styles.postTabBar}
             >
               <Posts
@@ -199,15 +204,12 @@ class ProfileView extends PureComponent {
                 changeForceLoadPostState={changeForceLoadPostState}
               />
             </View>
+
             <View
               tabLabel={
                 !isOwnProfile
-                  ? intl.formatMessage({
-                      id: 'profile.comments',
-                    })
-                  : intl.formatMessage({
-                      id: 'profile.replies',
-                    })
+                  ? this._getTabLabel(intl.formatMessage({ id: 'profile.comments' }))
+                  : this._getTabLabel(intl.formatMessage({ id: 'profile.replies' }))
               }
               style={styles.commentsTabBar}
             >

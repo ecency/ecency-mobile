@@ -17,6 +17,7 @@ import {
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import VersionNumber from 'react-native-version-number';
+import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -146,6 +147,21 @@ class ApplicationContainer extends Component {
         });
       }
     });
+
+    ReceiveSharingIntent.getReceivedFiles(
+      (files) => {
+        console.log('files :>> ', files);
+        navigate({
+          routeName: ROUTES.SCREENS.EDITOR,
+          params: { upload: files },
+        });
+        // files returns as JSON Array example
+        //[{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]
+      },
+      (error) => {
+        console.log('error :>> ', error);
+      },
+    );
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -207,8 +223,8 @@ class ApplicationContainer extends Component {
     this._handleDeepLink(event.url);
   };
 
-  _handleDeepLink = async (url) => {
-    if (!url) return;
+  _handleDeepLink = async (url = '') => {
+    if (!url || url.indexOf('ShareMedia://') >= 0) return;
 
     let routeName;
     let params;
