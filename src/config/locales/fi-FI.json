@@ -333,7 +333,8 @@
     "rc_down": "Ei tarpeeksi resurssipisteitä toimintoon! \nTehosta tiliäsi nauttiaksesi kokemuksesta enemmän. Haluatko tehostaa heti?",
     "payloadTooLarge": "Tiedostokoko liian suuri, muuta kokoa tai lataa pienempi",
     "qoutaExceeded": "Latausraja ylittyi",
-    "invalidImage": "Vääränlainen kuva, yritä toista"
+    "invalidImage": "Vääränlainen kuva, yritä toista",
+    "something_wrong": "Something went wrong."
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
