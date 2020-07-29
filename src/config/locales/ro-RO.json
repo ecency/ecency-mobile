@@ -333,7 +333,8 @@
     "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
     "payloadTooLarge": "File size too big, please resize or upload smaller image",
     "qoutaExceeded": "Upload quota exceeded",
-    "invalidImage": "Invalid image, try different file"
+    "invalidImage": "Invalid image, try different file",
+    "something_wrong": "Something went wrong."
   },
   "post": {
     "reblog_alert": "Ești sigur că vrei să redistribui?",
