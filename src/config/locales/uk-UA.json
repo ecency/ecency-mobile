@@ -333,7 +333,8 @@
     "rc_down": "Не вистачає ресурс кредитів для виконання дії! \n\nПідсильте свій акаунт, щоб і надалі отримувати задоволення від використання. Бажаєте підсилити свій акаунт зараз?",
     "payloadTooLarge": "Завеликий розмір файлу. Змініть розмір або завантажте зображення меншого розміру",
     "qoutaExceeded": "Перевищено ліміт завантажень",
-    "invalidImage": "Invalid image, try different file"
+    "invalidImage": "Invalid image, try different file",
+    "something_wrong": "Something went wrong."
   },
   "post": {
     "reblog_alert": "Ви дійсно бажаєте зробити репост?",
