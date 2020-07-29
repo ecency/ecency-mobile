@@ -333,7 +333,8 @@
     "rc_down": "Non hai abbastanza crediti di risorse per eseguire un'azione! \n\nPotenzia il tuo account per continuare a godere di questa esperienza. Vuoi farlo ora?",
     "payloadTooLarge": "Dimensione del file troppo grande, ridimensiona o carica immagine più piccola",
     "qoutaExceeded": "Limite di caricamento superato",
-    "invalidImage": "Immagine non valida, prova un file diverso"
+    "invalidImage": "Immagine non valida, prova un file diverso",
+    "something_wrong": "Something went wrong."
   },
   "post": {
     "reblog_alert": "Sei sicuro di voler condividere?",
