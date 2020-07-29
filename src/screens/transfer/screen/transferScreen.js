@@ -232,7 +232,7 @@ class TransferView extends Component {
                     {this._renderDescription(
                       `${intl.formatMessage({
                         id: 'transfer.amount_desc',
-                      })} ${balance} ${fundType}`,
+                      })} ${balance} ${fundType === 'ESTM' ? 'Points' : fundType}`,
                     )}
                   </TouchableOpacity>
                 )}

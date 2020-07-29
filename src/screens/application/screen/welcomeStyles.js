@@ -17,6 +17,16 @@ export default EStyleSheet.create({
     fontSize: 34,
     color: '$primaryBlue',
   },
+  mascot: {
+    position: 'absolute',
+    width: 160,
+    height: 227,
+    marginTop: 40,
+    right: 0,
+  },
+  topText: {
+    marginTop: 150,
+  },
   sectionRow: {
     flexDirection: 'row',
   },

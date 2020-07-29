@@ -212,7 +212,7 @@ class BoostPostScreen extends PureComponent {
 
                 <MainButton
                   style={styles.quickButtons}
-                  isDisable={!((balance || _balance) / 50 > factor + 4)}
+                  isDisable={!((balance || _balance) / 50 > factor + 4) || !(factor + 4 <= 10)}
                   onPress={() =>
                     this.setState({
                       factor: (balance || _balance) / 50 > factor + 4 ? factor + 1 : factor,
