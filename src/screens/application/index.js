@@ -17,7 +17,7 @@ const Application = () => {
     if (showAnimation) {
       setTimeout(() => {
         setShowAnimation(false);
-      }, 2833);
+      }, 3550);
     }
   }, [showAnimation]);
 
