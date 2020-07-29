@@ -25,7 +25,7 @@ export default EStyleSheet.create({
     right: 0,
   },
   topText: {
-    marginTop: 150,
+    marginTop: 80,
   },
   sectionRow: {
     flexDirection: 'row',
