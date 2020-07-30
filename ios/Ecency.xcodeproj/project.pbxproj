@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* EcencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* EcencyTests.m */; };
+		0516470B24D2C513005DE9C5 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0516470A24D2C513005DE9C5 /* ShareViewController.swift */; };
+		0516470E24D2C513005DE9C5 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0516470C24D2C513005DE9C5 /* MainInterface.storyboard */; };
+		0516471224D2C513005DE9C5 /* eshare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0516470824D2C513005DE9C5 /* eshare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		05B6C49024C306CE00B7FA60 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		05B6C49124C306CE00B7FA60 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9487A244235508C60080E6CD /* File.swift */; };
 		05B6C49224C306CE00B7FA60 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -44,9 +47,6 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* EcencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* EcencyTests.m */; };
-		583AEBB524D07BD6003B9F68 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583AEBB424D07BD6003B9F68 /* ShareViewController.swift */; };
-		583AEBB824D07BD6003B9F68 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 583AEBB624D07BD6003B9F68 /* MainInterface.storyboard */; };
-		583AEBBC24D07BD6003B9F68 /* EcencyShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 583AEBB224D07BD6003B9F68 /* EcencyShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		58F9BCC624793C61004F0790 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F9BCC224793C61004F0790 /* GoogleService-Info.plist */; };
 		58F9BCC724793C61004F0790 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F9BCC224793C61004F0790 /* GoogleService-Info.plist */; };
 		58F9BCC824793C61004F0790 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F9BCC224793C61004F0790 /* GoogleService-Info.plist */; };
@@ -58,19 +58,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0516471024D2C513005DE9C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0516470724D2C513005DE9C5;
+			remoteInfo = eshare;
+		};
 		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "Ecency-tvOS";
-		};
-		583AEBBA24D07BD6003B9F68 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 583AEBB124D07BD6003B9F68;
-			remoteInfo = EcencyShare;
 		};
 		588A5069232A497100FC1361 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -95,7 +95,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				583AEBBC24D07BD6003B9F68 /* EcencyShare.appex in Embed App Extensions */,
+				0516471224D2C513005DE9C5 /* eshare.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -108,6 +108,11 @@
 		00E356EE1AD99517003FC87E /* EcencyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EcencyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* EcencyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EcencyTests.m; sourceTree = "<group>"; };
+		0516470824D2C513005DE9C5 /* eshare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = eshare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		0516470A24D2C513005DE9C5 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		0516470D24D2C513005DE9C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		0516470F24D2C513005DE9C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0516471624D2C534005DE9C5 /* eshare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = eshare.entitlements; sourceTree = "<group>"; };
 		05B6C4B724C306CE00B7FA60 /* Ecency.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ecency.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		112758B0BBF9458381CE41FD /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		11CAB2F9B4B7425ABCAB4007 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
@@ -131,11 +136,6 @@
 		58190B3B23294814000EA0E1 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		58190B3D23294823000EA0E1 /* Ecency.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Ecency.entitlements; path = Ecency/Ecency.entitlements; sourceTree = "<group>"; };
 		58190B4723294D1D000EA0E1 /* libreact-native-config.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-config.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		583AEBB224D07BD6003B9F68 /* EcencyShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = EcencyShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		583AEBB424D07BD6003B9F68 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
-		583AEBB724D07BD6003B9F68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		583AEBB924D07BD6003B9F68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		583AEBC024D07CBF003B9F68 /* EcencyShareDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EcencyShareDebug.entitlements; sourceTree = "<group>"; };
 		588019232355C26B008397D1 /* AppCenter-Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AppCenter-Config.plist"; sourceTree = "<group>"; };
 		588A504E232A3A4B00FC1361 /* Sansation_Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Sansation_Bold.ttf; path = ../src/assets/Fonts/Sansation_Bold.ttf; sourceTree = "<group>"; };
 		588A5050232A3A4B00FC1361 /* RobotoMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "RobotoMono-Regular.ttf"; path = "../src/assets/Fonts/RobotoMono-Regular.ttf"; sourceTree = "<group>"; };
@@ -190,6 +190,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		0516470524D2C513005DE9C5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		05B6C49324C306CE00B7FA60 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -217,13 +224,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		583AEBAF24D07BD6003B9F68 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -242,6 +242,17 @@
 				00E356F11AD99517003FC87E /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0516470924D2C513005DE9C5 /* eshare */ = {
+			isa = PBXGroup;
+			children = (
+				0516471624D2C534005DE9C5 /* eshare.entitlements */,
+				0516470A24D2C513005DE9C5 /* ShareViewController.swift */,
+				0516470C24D2C513005DE9C5 /* MainInterface.storyboard */,
+				0516470F24D2C513005DE9C5 /* Info.plist */,
+			);
+			path = eshare;
 			sourceTree = "<group>";
 		};
 		13B07FAE1A68108700A75B9A /* Ecency */ = {
@@ -333,17 +344,6 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		583AEBB324D07BD6003B9F68 /* EcencyShare */ = {
-			isa = PBXGroup;
-			children = (
-				583AEBC024D07CBF003B9F68 /* EcencyShareDebug.entitlements */,
-				583AEBB424D07BD6003B9F68 /* ShareViewController.swift */,
-				583AEBB624D07BD6003B9F68 /* MainInterface.storyboard */,
-				583AEBB924D07BD6003B9F68 /* Info.plist */,
-			);
-			path = EcencyShare;
-			sourceTree = "<group>";
-		};
 		588A5065232A497100FC1361 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -376,7 +376,7 @@
 				13B07FAE1A68108700A75B9A /* Ecency */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* EcencyTests */,
-				583AEBB324D07BD6003B9F68 /* EcencyShare */,
+				0516470924D2C513005DE9C5 /* eshare */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				258E34A3BDFFFBF80D598187 /* Pods */,
@@ -395,7 +395,7 @@
 				2D02E47B1E0B4A5D006451C7 /* Ecency-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* Ecency-tvOSTests.xctest */,
 				05B6C4B724C306CE00B7FA60 /* Ecency.app */,
-				583AEBB224D07BD6003B9F68 /* EcencyShare.appex */,
+				0516470824D2C513005DE9C5 /* eshare.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -421,6 +421,23 @@
 			productReference = 00E356EE1AD99517003FC87E /* EcencyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		0516470724D2C513005DE9C5 /* eshare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0516471324D2C513005DE9C5 /* Build configuration list for PBXNativeTarget "eshare" */;
+			buildPhases = (
+				0516470424D2C513005DE9C5 /* Sources */,
+				0516470524D2C513005DE9C5 /* Frameworks */,
+				0516470624D2C513005DE9C5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = eshare;
+			productName = eshare;
+			productReference = 0516470824D2C513005DE9C5 /* eshare.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		05B6C48C24C306CE00B7FA60 /* Ecency */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 05B6C4B424C306CE00B7FA60 /* Build configuration list for PBXNativeTarget "Ecency" */;
@@ -438,7 +455,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				583AEBBB24D07BD6003B9F68 /* PBXTargetDependency */,
+				0516471124D2C513005DE9C5 /* PBXTargetDependency */,
 			);
 			name = Ecency;
 			productName = Ecency;
@@ -485,23 +502,6 @@
 			productReference = 2D02E4901E0B4A5D006451C7 /* Ecency-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		583AEBB124D07BD6003B9F68 /* EcencyShare */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 583AEBBD24D07BD6003B9F68 /* Build configuration list for PBXNativeTarget "EcencyShare" */;
-			buildPhases = (
-				583AEBAE24D07BD6003B9F68 /* Sources */,
-				583AEBAF24D07BD6003B9F68 /* Frameworks */,
-				583AEBB024D07BD6003B9F68 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = EcencyShare;
-			productName = EcencyShare;
-			productReference = 583AEBB224D07BD6003B9F68 /* EcencyShare.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -509,7 +509,7 @@
 			isa = PBXProject;
 			attributes = {
 				DefaultBuildSystemTypeForWorkspace = Original;
-				LastSwiftUpdateCheck = 1150;
+				LastSwiftUpdateCheck = 1160;
 				LastUpgradeCheck = 940;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
@@ -517,6 +517,11 @@
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = 75B6RXTKGT;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					0516470724D2C513005DE9C5 = {
+						CreatedOnToolsVersion = 11.6;
+						DevelopmentTeam = 75B6RXTKGT;
+						ProvisioningStyle = Manual;
 					};
 					05B6C48C24C306CE00B7FA60 = {
 						DevelopmentTeam = 75B6RXTKGT;
@@ -530,11 +535,6 @@
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
-					};
-					583AEBB124D07BD6003B9F68 = {
-						CreatedOnToolsVersion = 11.5;
-						DevelopmentTeam = 75B6RXTKGT;
-						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -562,7 +562,7 @@
 				00E356ED1AD99517003FC87E /* EcencyTests */,
 				2D02E47A1E0B4A5D006451C7 /* Ecency-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* Ecency-tvOSTests */,
-				583AEBB124D07BD6003B9F68 /* EcencyShare */,
+				0516470724D2C513005DE9C5 /* eshare */,
 			);
 		};
 /* End PBXProject section */
@@ -590,6 +590,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				58F9BCC624793C61004F0790 /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0516470624D2C513005DE9C5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0516470E24D2C513005DE9C5 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -640,14 +648,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				58F9BCC824793C61004F0790 /* GoogleService-Info.plist in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		583AEBB024D07BD6003B9F68 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				583AEBB824D07BD6003B9F68 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -902,6 +902,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		0516470424D2C513005DE9C5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0516470B24D2C513005DE9C5 /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		05B6C48F24C306CE00B7FA60 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -929,30 +937,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		583AEBAE24D07BD6003B9F68 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				583AEBB524D07BD6003B9F68 /* ShareViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0516471124D2C513005DE9C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0516470724D2C513005DE9C5 /* eshare */;
+			targetProxy = 0516471024D2C513005DE9C5 /* PBXContainerItemProxy */;
+		};
 		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 2D02E47A1E0B4A5D006451C7 /* Ecency-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
-		583AEBBB24D07BD6003B9F68 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 583AEBB124D07BD6003B9F68 /* EcencyShare */;
-			targetProxy = 583AEBBA24D07BD6003B9F68 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		0516470C24D2C513005DE9C5 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0516470D24D2C513005DE9C5 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -960,14 +968,6 @@
 			);
 			name = LaunchScreen.xib;
 			path = Ecency;
-			sourceTree = "<group>";
-		};
-		583AEBB624D07BD6003B9F68 /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				583AEBB724D07BD6003B9F68 /* Base */,
-			);
-			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1021,6 +1021,68 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ecency.app/Ecency";
+			};
+			name = Release;
+		};
+		0516471424D2C513005DE9C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = eshare/eshare.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 75B6RXTKGT;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = eshare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios.eshare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = ios_dev_group;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0516471524D2C513005DE9C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = eshare/eshare.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 75B6RXTKGT;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = eshare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios.eshare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "extension-dist";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -1279,65 +1341,6 @@
 			};
 			name = Release;
 		};
-		583AEBBE24D07BD6003B9F68 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = EcencyShare/EcencyShareDebug.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 75B6RXTKGT;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = EcencyShare/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios.EcencyShare;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		583AEBBF24D07BD6003B9F68 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 75B6RXTKGT;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = EcencyShare/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = app.esteem.mobile.ios.EcencyShare;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1453,6 +1456,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		0516471324D2C513005DE9C5 /* Build configuration list for PBXNativeTarget "eshare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0516471424D2C513005DE9C5 /* Debug */,
+				0516471524D2C513005DE9C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		05B6C4B424C306CE00B7FA60 /* Build configuration list for PBXNativeTarget "Ecency" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1476,15 +1488,6 @@
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
 				2D02E49A1E0B4A5E006451C7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		583AEBBD24D07BD6003B9F68 /* Build configuration list for PBXNativeTarget "EcencyShare" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				583AEBBE24D07BD6003B9F68 /* Debug */,
-				583AEBBF24D07BD6003B9F68 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

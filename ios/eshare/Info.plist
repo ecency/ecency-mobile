@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Ecency</string>
+	<string>eshare</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -24,26 +24,24 @@
 	<dict>
 		<key>NSExtensionAttributes</key>
 		<dict>
+			<key>PHSupportedMediaTypes</key>
+				<array>
+						<string>Image</string>
+				</array>
 			<key>NSExtensionActivationRule</key>
-			<string>TRUEPREDICATE</string>
+			<dict>
+					<key>NSExtensionActivationSupportsText</key>
+					<true/>
+				<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
+				<integer>1</integer>
+					<key>NSExtensionActivationSupportsImageWithMaxCount</key>
+					<integer>100</integer>
+			</dict>
 		</dict>
 		<key>NSExtensionMainStoryboard</key>
 		<string>MainInterface</string>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.share-services</string>
 	</dict>
-	<key>NSExtensionActivationRule</key>
-	<dict>
-		<key>NSExtensionActivationSupportsImageWithMaxCount</key>
-		<integer>100</integer>
-		<key>NSExtensionActivationSupportsText</key>
-		<true/>
-		<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
-		<integer>1</integer>
-	</dict>
-	<key>PHSupportedMediaTypes</key>
-	<array>
-		<string>Image</string>
-	</array>
 </dict>
 </plist>
