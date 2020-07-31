@@ -84,14 +84,14 @@ const SideMenuView = ({
 
   const { buildVersion, appVersion } = VersionNumber;
 
-  if (currentAccount.display_name && currentAccount.display_name.length > 8) {
+  let _username = currentAccount.name;
+  /*if (currentAccount.display_name && currentAccount.display_name.length > 8) {
     currentAccount.display_name = currentAccount.display_name.slice(0, 8);
   }
 
-  let _username = currentAccount.name;
   if (currentAccount.name && currentAccount.name.length > 8) {
     _username = currentAccount.name.slice(0, 8);
-  }
+  }*/
 
   return (
     <View style={styles.container}>
@@ -111,10 +111,12 @@ const SideMenuView = ({
                     {currentAccount.display_name}
                   </Text>
                 )}
-                <Text style={styles.usernick}>{`@${_username}`}</Text>
+                <Text numberOfLines={1} ellipsizeMode="tail" style={styles.usernick}>
+                  {`@${_username}`}
+                </Text>
               </View>
 
-              <View style={styles.userInfoWrapper}>
+              <View>
                 <IconButton
                   iconType="SimpleLineIcons"
                   name={isAddAccountIconActive ? 'minus' : 'plus'}

@@ -23,6 +23,7 @@ export default EStyleSheet.create({
     height: 227,
     marginTop: 40,
     right: 0,
+    opacity: 0.5,
   },
   topText: {
     marginTop: 80,
