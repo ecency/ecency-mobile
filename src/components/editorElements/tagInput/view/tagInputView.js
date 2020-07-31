@@ -97,6 +97,7 @@ const TagInput = ({
               id: 'editor.tags',
             })}
             multiline
+            numberOfLines={2}
             autoFocus={autoFocus}
             onChangeText={(textT) => _handleOnChange(textT)}
             onBlur={() => _handleOnBlur()}

@@ -60,8 +60,7 @@ export default class TitleAreaView extends Component {
               placeholder={intl.formatMessage({
                 id: 'editor.title',
               })}
-              multiline
-              numberOfLines={4}
+              numberOfLines={1}
               onContentSizeChange={(event) => {
                 this.setState({ height: event.nativeEvent.contentSize.height });
               }}
