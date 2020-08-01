@@ -22,7 +22,7 @@ export const getVotingPower = (account) => {
     currentMana = maxMana;
   }
 
-  return (currentMana * 100) / maxMana;
+  return (currentMana * 100) / maxMana || 0;
 };
 
 export const getRcPower = (account) => {
@@ -44,5 +44,5 @@ export const getRcPower = (account) => {
     currentMana = maxMana;
   }
 
-  return (currentMana * 100) / maxMana;
+  return (currentMana * 100) / maxMana || 0;
 };
