@@ -180,7 +180,7 @@ const PointsContainer = ({
       .catch((error) => {
         if (error) {
           Alert.alert(
-            `PointsClaim - Connection issue, try again or write to support@esteem.app \n${error.message.substr(
+            `PointsClaim - Connection issue, try again or write to support@ecency.com \n${error.message.substr(
               0,
               20,
             )}`,

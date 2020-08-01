@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Platform } from 'react-native';
 import { connect } from 'react-redux';
-import AppCenter from 'appcenter';
-import Push from 'appcenter-push';
-import { Client } from '@esteemapp/dsteem';
+import { Client } from '@esteemapp/dhive';
 import VersionNumber from 'react-native-version-number';
 import Config from 'react-native-config';
 import { injectIntl } from 'react-intl';
+import messaging from '@react-native-firebase/messaging';
 
 // Realm
 import {
@@ -123,7 +122,7 @@ class SettingsContainer extends Component {
     let isError = false;
     let alertMessage;
     const client = new Client(server, {
-      timeout: 3000,
+      timeout: 5000,
     });
     dispatch(setApi(''));
 
@@ -267,7 +266,6 @@ class SettingsContainer extends Component {
     notifyTypes.sort();
 
     if (actionType === 'notification') {
-      await Push.setEnabled(action);
       this._setPushToken(action ? notifyTypes : []);
     } else {
       this._setPushToken(notifyTypes);
@@ -312,21 +310,23 @@ class SettingsContainer extends Component {
     const { isLoggedIn, otherAccounts = [] } = this.props;
 
     if (isLoggedIn) {
-      const token = await AppCenter.getInstallId();
-
       getExistUser().then((isExistUser) => {
         if (isExistUser) {
           otherAccounts.forEach((item) => {
             const { isNotificationSettingsOpen } = this.props;
 
-            const data = {
-              username: item.username,
-              token,
-              system: Platform.OS,
-              allows_notify: Number(isNotificationSettingsOpen),
-              notify_types: notifyTypes,
-            };
-            setPushToken(data);
+            messaging()
+              .getToken()
+              .then((token) => {
+                const data = {
+                  username: item.username,
+                  token,
+                  system: `fcm-${Platform.OS}`,
+                  allows_notify: Number(isNotificationSettingsOpen),
+                  notify_types: notifyTypes,
+                };
+                setPushToken(data);
+              });
           });
         }
       });
@@ -338,7 +338,7 @@ class SettingsContainer extends Component {
     let message;
 
     await sendEmail(
-      'bug@esteem.app',
+      'bug@ecency.com',
       'Feedback/Bug report',
       `Write your message here!
 

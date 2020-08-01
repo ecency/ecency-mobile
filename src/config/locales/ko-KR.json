@@ -21,7 +21,7 @@
     "delegation": "임대",
     "delegations": "임대",
     "delegation_title": "임대 보상",
-    "delegation_desc": "스팀 파워(STEEM POWER) 임대를 통해 매일 ESTM을 얻으세요!",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "포스팅 포인트",
     "comment_title": "댓글 포인트",
     "vote_title": "투표 포인트",
@@ -30,7 +30,7 @@
     "checkin_title": "체크인 포인트",
     "referral": "추천",
     "referral_title": "추천인 보상",
-    "referral_desc": "친구를 초대하고 ESTM을 획득하세요!",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "체크인 보너스",
     "no_activity": "최근 활동 내역이 없습니다.",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "사용자 이름",
     "memo_placeholder": "메모 내용을 입력하세요",
     "transfer_token": "전송",
-    "purchase_estm": "ESTM 구매",
-    "points": "ESTM 선물하기",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "안전 금고에 보관하기",
     "powerUp": "파워업",
     "withdraw_to_saving": "안전 금고에서 출금하기",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "안전 금고에 보관하였습니다.",
     "fill_vesting_withdraw": "스팀 파워 다운을 하였습니다.",
     "estm": {
-      "title": "ESTM",
-      "buy": "ESTM 구매"
+      "title": "포인트",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "HIVE Savings"
@@ -118,7 +118,7 @@
     "ignore": "님이 당신을 차단했습니다",
     "reblog": "님이 리블로그하였습니다.",
     "transfer": "님이 송금하였습니다.",
-    "spin": "더 많은 ESTM을 획득할 시간입니다.",
+    "spin": "Time to earn more Points",
     "inactive": "포스트를 작성하고 활발하게 활동하여 꾸준하게 수익을 창출하세요.",
     "referral": "귀하의 추천인 링크를 통해 가입한 사용자를 환영해주세요.",
     "notification": "알림",
@@ -213,7 +213,7 @@
   "login": {
     "signin": "로그인",
     "signup": "지금 가입해보세요.",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "사용자 이름",
     "password": "비밀번호 또는 WIF",
     "description": "사용자의 비밀번호는 기기에만 저장됩니다. 로그아웃 시 저장된 비밀번호는 삭제됩니다!",
@@ -221,6 +221,16 @@
     "login": "로그인",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
     "steemconnect_fee_description": "info"
+  },
+  "register": {
+    "button": "Sign Up",
+    "title": "회원 가입",
+    "username": "Pick a username",
+    "mail": "Enter your email address",
+    "ref_user": "Referred user (Optional)",
+    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
+    "title_description": "One account to manage everything",
+    "form_description": "After registeration, you will receive an email with further instructions"
   },
   "home": {
     "feed": "피드",
@@ -288,7 +298,7 @@
     "success_shared": "글을 성공적으로 공유했습니다",
     "success_moved": "임시 보관함으로 이동했습니다",
     "permission_denied": "권한이 없습니다",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "프라이빗 키를 정확히 입력하였는 지 확인하세요.",
     "success_rebloged": "리블로그 완료!",
     "already_rebloged": "이미 리블로그했습니다!",
@@ -313,14 +323,18 @@
     "same_user": "이 사용자는 목록에 이미 추가되었습니다",
     "unknow_error": "오류가 발생했습니다",
     "error": "오류",
-    "fetch_error": "연결 이슈가 발생하였습니다. 다시 연결을 시도해보거나, support@esteem.app으로 문의해주세요.",
+    "fetch_error": "연결 이슈가 발생하였습니다. 다시 연결을 시도해보거나, support@ecency.com으로 문의해주세요.",
     "connection_fail": "연결 실패!",
     "connection_success": "성공적으로 연결되었습니다",
     "checking": "확인 중...",
     "external_link": "브라우저에서 열기",
     "not_existing_post": "글이 존재하지 않습니다! permlink와 저자를 확인해주세요.",
     "google_play_version": "기기에 설치된 앱이 구 버전인 것 같습니다. 구글 플레이에서 업데이트된 앱을 다운로드받은 후 다시 시도해보세요!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
+    "payloadTooLarge": "File size too big, please resize or upload smaller image",
+    "qoutaExceeded": "Upload quota exceeded",
+    "invalidImage": "Invalid image, try different file",
+    "something_wrong": "Something went wrong."
   },
   "post": {
     "reblog_alert": "리블로그 하시겠습니까?",
@@ -370,7 +384,7 @@
     "invalid_username": "올바르지 않은 사용자 이름입니다. 확인 후 다시 시도해주세요",
     "already_logged": "이미 로그인되었습니다. 다른 계정을 이용해 시도해주세요",
     "invalid_credentials": "올바르지 않은 비밀번호입니다. 확인 후 다시 시도해주세요",
-    "unknow_error": "알 수 없는 오류가 발생하였습니다. support@esteem.app로 문의해주세요. "
+    "unknow_error": "알 수 없는 오류가 발생하였습니다. support@ecency.com로 문의해주세요. "
   },
   "payout": {
     "potential_payout": "예상 보상 금액",
@@ -420,9 +434,9 @@
     "to_placeholder": "사용자 이름",
     "memo_placeholder": "메모 내용을 입력하세요",
     "transfer_token": "전송",
-    "purchase_estm": "ESTM 구매하기",
+    "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
-    "points": "ESTM 선물하기",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "안전 금고로 전송",
     "powerUp": "파워업",
     "withdraw_to_saving": "안전 금고로 출금",
@@ -444,12 +458,16 @@
     "address_view": "지갑 주소 보기"
   },
   "boost": {
-    "title": "Get Esteem Points",
-    "buy": "ESTM 구매",
-    "next": "다음"
+    "title": "Get Points",
+    "buy": "GET Points",
+    "next": "다음",
+    "account": {
+      "title": "Get Account Boost",
+      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+    }
   },
   "free_estm": {
-    "title": "무료 ESTM",
+    "title": "Free Points",
     "button": "스핀 & 윈",
     "get_spin": "5 스핀",
     "spin_right": "스핀 남음",
@@ -486,5 +504,33 @@
     "reveal_comment": "명성도가 낮은 사용자의 댓글 보기",
     "read_more": "댓글 더 보기",
     "more_replies": "개의 대댓글"
+  },
+  "search_result": {
+    "others": "Others",
+    "communities": {
+      "title": "Communities",
+      "subscribe": "Subscribe",
+      "unsubscribe": "Unsubscribe",
+      "subscribers": "Subscribers",
+      "posters": "Posters",
+      "posts": "글 목록"
+    },
+    "communities_filter": {
+      "rank": "Rank",
+      "subs": "Subscribers",
+      "new": "New"
+    },
+    "post_result_filter": {
+      "popularity": "Popularity",
+      "newest": "Newest",
+      "relevance": "Relevance"
+    },
+    "other_result_filter": {
+      "user": "사용자",
+      "tag": "Tag"
+    }
+  },
+  "community": {
+    "new_post": "New Post"
   }
 }

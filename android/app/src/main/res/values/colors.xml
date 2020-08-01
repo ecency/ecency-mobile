@@ -2,4 +2,5 @@
 <resources>
     <item name="splashBackground" type="color">#ffffff</item>
     <item name="notification_icon" type="color">#ffffff</item>
+    <color name="primary_dark">#000000</color>
 </resources>

@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js';
-import * as dsteem from '@esteemapp/dsteem';
+import * as dsteem from '@esteemapp/dhive';
 import { Buffer } from 'buffer';
 import { proxifyImageSrc } from '@esteemapp/esteem-render-helpers';
 
@@ -85,7 +85,7 @@ export const getResizedImage = (url, size = 640) => {
     return `${url.replace('img.esteem.app/', `img.esteem.app/${size}/`)}`;
   }
   */
-  return `https://avatars.esteem.app/${size}x0/${url}`;
+  return `https://images.ecency.com/${size}x0/${url}`;
 };
 
 export const getResizedAvatar = (author, sizeString = 'large') => {
@@ -93,5 +93,5 @@ export const getResizedAvatar = (author, sizeString = 'large') => {
     return '';
   }
 
-  return `https://avatars.esteem.app/u/${author}/avatar/${sizeString}`;
+  return `https://images.ecency.com/u/${author}/avatar/${sizeString}`;
 };

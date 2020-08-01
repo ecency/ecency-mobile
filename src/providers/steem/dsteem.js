@@ -2,7 +2,7 @@
 // import '../../../shim';
 // import * as bitcoin from 'bitcoinjs-lib';
 
-import { Client, PrivateKey } from '@esteemapp/dsteem';
+import { Client, PrivateKey, cryptoUtils } from '@esteemapp/dhive';
 import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
@@ -23,19 +23,38 @@ import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
 // Constant
 import AUTH_TYPE from '../../constants/authType';
 
-const DEFAULT_SERVER = 'https://rpc.esteem.app';
-let client = new Client(DEFAULT_SERVER);
+global.Buffer = global.Buffer || require('buffer').Buffer;
+
+const DEFAULT_SERVER = [
+  'https://rpc.esteem.app',
+  'https://anyx.io',
+  'https://api.pharesim.me',
+  'https://api.hive.blog',
+  'https://api.hivekings.com',
+];
+let client = new Client(DEFAULT_SERVER, {
+  timeout: 5000,
+});
 
 export const checkClient = async () => {
   let selectedServer = DEFAULT_SERVER;
 
   await getServer().then((response) => {
     if (response) {
-      selectedServer = response;
+      selectedServer.unshift(response);
     }
   });
 
-  client = new Client(selectedServer);
+  client = new Client(selectedServer, {
+    timeout: 5000,
+  });
+  /*client.database.getVersion().then((res) => {
+    if (res.blockchain_version !== '0.23.0') {
+      // true: eclipse rebranded rpc nodes
+      // false: default old nodes (not necessary to call for old nodes)
+      client.updateOperations(true);
+    }
+  });*/
 };
 
 checkClient();
@@ -69,10 +88,12 @@ export const fetchGlobalProps = async () => {
   }
 
   const steemPerMVests =
-    (parseToken(get(globalDynamic, 'total_vesting_fund_steem')) /
+    (parseToken(
+      get(globalDynamic, 'total_vesting_fund_steem', globalDynamic.total_vesting_fund_hive),
+    ) /
       parseToken(get(globalDynamic, 'total_vesting_shares'))) *
     1e6;
-  const sbdPrintRate = get(globalDynamic, 'sbd_print_rate');
+  const sbdPrintRate = get(globalDynamic, 'sbd_print_rate', globalDynamic.hbd_print_rate);
   const base = parseToken(get(feedHistory, 'current_median_history.base'));
   const quote = parseToken(get(feedHistory, 'current_median_history.quote'));
   const fundRecentClaims = get(rewardFund, 'recent_claims');
@@ -133,9 +154,11 @@ export const getUser = async (user) => {
     }
 
     const globalProperties = await client.database.getDynamicGlobalProperties();
-    const rcPower = await client.call('rc_api', 'find_rc_accounts', {
-      accounts: [user],
-    });
+    const rcPower =
+      user &&
+      (await client.call('rc_api', 'find_rc_accounts', {
+        accounts: [user],
+      }));
     try {
       unreadActivityCount = await getUnreadActivityCount({
         user,
@@ -151,22 +174,24 @@ export const getUser = async (user) => {
     _account.steem_power = await vestToSteem(
       _account.vesting_shares,
       globalProperties.total_vesting_shares,
-      globalProperties.total_vesting_fund_steem,
+      globalProperties.total_vesting_fund_steem || globalProperties.total_vesting_fund_hive,
     );
     _account.received_steem_power = await vestToSteem(
       get(_account, 'received_vesting_shares'),
       get(globalProperties, 'total_vesting_shares'),
-      get(globalProperties, 'total_vesting_fund_steem'),
+      get(globalProperties, 'total_vesting_fund_steem', globalProperties.total_vesting_fund_hive),
     );
     _account.delegated_steem_power = await vestToSteem(
       get(_account, 'delegated_vesting_shares'),
       get(globalProperties, 'total_vesting_shares'),
-      get(globalProperties, 'total_vesting_fund_steem'),
+      get(globalProperties, 'total_vesting_fund_steem', globalProperties.total_vesting_fund_hive),
     );
 
-    if (has(_account, 'json_metadata')) {
+    if (has(_account, 'posting_json_metadata') || has(_account, 'json_metadata')) {
       try {
-        _account.about = JSON.parse(get(_account, 'json_metadata'));
+        _account.about =
+          JSON.parse(get(_account, 'posting_json_metadata')) ||
+          JSON.parse(get(_account, 'json_metadata'));
       } catch (e) {
         //alert(e);
         _account.about = {};
@@ -181,6 +206,53 @@ export const getUser = async (user) => {
     return Promise.reject(error);
   }
 };
+
+const cache = {};
+const patt = /hive-\d\w+/g;
+export const getCommunity = async (tag, observer = '') =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const community = await client.call('bridge', 'get_community', {
+        name: tag,
+        observer: observer,
+      });
+      if (community) {
+        resolve(community);
+      } else {
+        resolve({});
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+export const getCommunityTitle = async (tag) =>
+  new Promise(async (resolve, reject) => {
+    if (cache[tag] !== undefined) {
+      resolve(cache[tag]);
+      return;
+    }
+    const mm = tag.match(patt);
+    if (mm && mm.length > 0) {
+      try {
+        const community = await client.call('bridge', 'get_community', {
+          name: tag,
+          observer: '',
+        });
+        if (community) {
+          const { title } = community;
+          cache[tag] = title;
+          resolve(title);
+        } else {
+          resolve(tag);
+        }
+      } catch (error) {
+        reject(error);
+      }
+    }
+
+    resolve(tag);
+  });
 
 // TODO: Move to utils folder
 export const vestToSteem = async (vestingShares, totalVestingShares, totalVestingFundSteem) =>
@@ -199,34 +271,42 @@ export const getFollowers = (follower, startFollowing, followType = 'blog', limi
 
 export const getIsFollowing = (user, author) =>
   new Promise((resolve, reject) => {
-    client.database
-      .call('get_following', [author, user, 'blog', 1])
-      .then((result) => {
-        if (result[0] && result[0].follower === author && result[0].following === user) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      })
-      .catch((err) => {
-        reject(err);
-      });
+    if (author) {
+      client.database
+        .call('get_following', [author, user, 'blog', 1])
+        .then((result) => {
+          if (result[0] && result[0].follower === author && result[0].following === user) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    } else {
+      resolve(false);
+    }
   });
 
 export const getFollowSearch = (user, targetUser) =>
   new Promise((resolve, reject) => {
-    client.database
-      .call('get_following', [targetUser, user, 'blog', 1])
-      .then((result) => {
-        if (result[0] && result[0].follower === targetUser && result[0].following === user) {
-          resolve(result);
-        } else {
-          resolve(null);
-        }
-      })
-      .catch((err) => {
-        reject(err);
-      });
+    if (targetUser) {
+      client.database
+        .call('get_following', [targetUser, user, 'blog', 1])
+        .then((result) => {
+          if (result[0] && result[0].follower === targetUser && result[0].following === user) {
+            resolve(result);
+          } else {
+            resolve(null);
+          }
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    } else {
+      resolve(null);
+    }
   });
 
 export const getIsMuted = async (targetUsername, username) => {
@@ -289,7 +369,9 @@ export const ignoreUser = async (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private posting key or above.'),
+  );
 };
 
 /**
@@ -460,6 +542,39 @@ export const getPostWithComments = async (user, permlink) => {
 
   return [post, comments];
 };
+const b64uLookup = {
+  '/': '_',
+  _: '/',
+  '+': '-',
+  '-': '+',
+  '=': '.',
+  '.': '=',
+};
+export const b64uEnc = (str) =>
+  Buffer.from(str)
+    .toString('base64')
+    .replace(/(\+|\/|=)/g, (m) => b64uLookup[m]);
+export const signImage = async (file, currentAccount, pin) => {
+  const digitPinCode = getDigitPinCode(pin);
+  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    return decryptKey(currentAccount.local.accessToken, digitPinCode);
+  }
+  if (key) {
+    const message = {
+      signed_message: { type: 'posting', app: 'ecency.app' },
+      authors: [currentAccount.name],
+      timestamp: parseInt(new Date().getTime() / 1000, 10),
+    };
+    const hash = cryptoUtils.sha256(JSON.stringify(message));
+
+    const privateKey = PrivateKey.fromString(key);
+    const signature = privateKey.sign(hash).toString();
+    message.signatures = [signature];
+    return b64uEnc(JSON.stringify(message));
+  }
+};
 
 /**
  * @method upvote upvote a content
@@ -513,7 +628,6 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
           resolve(result);
         })
         .catch((err) => {
-          alert(jsonStringify(err) + jsonStringify(args) + privateKey);
           if (get(err, 'jse_info.code') === 4030100) {
             err.message = getDsteemDateErrorMessage(err);
           }
@@ -522,7 +636,9 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private posting key or above.'),
+  );
 };
 
 /**
@@ -575,7 +691,9 @@ export const transferToken = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const convert = (currentAccount, pin, data) => {
@@ -615,7 +733,9 @@ export const convert = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const transferToSavings = (currentAccount, pin, data) => {
@@ -654,7 +774,9 @@ export const transferToSavings = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const transferFromSavings = (currentAccount, pin, data) => {
@@ -693,7 +815,9 @@ export const transferFromSavings = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const transferToVesting = (currentAccount, pin, data) => {
@@ -730,7 +854,9 @@ export const transferToVesting = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const withdrawVesting = (currentAccount, pin, data) => {
@@ -766,7 +892,9 @@ export const withdrawVesting = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const delegateVestingShares = (currentAccount, pin, data) => {
@@ -803,7 +931,9 @@ export const delegateVestingShares = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
@@ -841,7 +971,9 @@ export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const getWithdrawRoutes = (account) =>
@@ -888,7 +1020,9 @@ export const followUser = async (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private posting key or above.'),
+  );
 };
 
 export const unfollowUser = async (currentAccount, pin, data) => {
@@ -933,7 +1067,9 @@ export const unfollowUser = async (currentAccount, pin, data) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private posting key or above.'),
+  );
 };
 
 export const lookupAccounts = async (username) => {
@@ -1097,7 +1233,9 @@ const _postContent = async (
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private posting key or above.'),
+  );
 };
 
 // Re-blog
@@ -1144,7 +1282,9 @@ const _reblog = async (account, pinCode, author, permlink) => {
     return client.broadcast.json(json, privateKey);
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private posting key or above.'),
+  );
 };
 
 export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rewardVests) => {
@@ -1178,7 +1318,9 @@ export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rew
     return client.broadcast.sendOperations(opArray, privateKey);
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private posting key or above.'),
+  );
 };
 
 export const transferPoint = (currentAccount, pinCode, data) => {
@@ -1206,7 +1348,9 @@ export const transferPoint = (currentAccount, pinCode, data) => {
     return client.broadcast.json(op, privateKey);
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const promote = (currentAccount, pinCode, duration, permlink, author) => {
@@ -1232,7 +1376,9 @@ export const promote = (currentAccount, pinCode, duration, permlink, author) => 
     return client.broadcast.json(json, privateKey);
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const boost = (currentAccount, pinCode, point, permlink, author) => {
@@ -1258,7 +1404,9 @@ export const boost = (currentAccount, pinCode, point, permlink, author) => {
     return client.broadcast.json(json, privateKey);
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const grantPostingPermission = async (json, pin, currentAccount) => {
@@ -1273,7 +1421,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
     {
       account_auths: [
         ...get(currentAccount, 'posting.account_auths'),
-        ['esteemapp', get(currentAccount, 'posting.weight_threshold')],
+        ['ecency.app', get(currentAccount, 'posting.weight_threshold')],
       ],
     },
   );
@@ -1327,12 +1475,14 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const profileUpdate = async (params, pin, currentAccount) => {
   const digitPinCode = getDigitPinCode(pin);
-  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
+  const key = getAnyPrivateKey(get(currentAccount, 'local'), digitPinCode);
 
   if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
@@ -1343,10 +1493,11 @@ export const profileUpdate = async (params, pin, currentAccount) => {
     const _params = {
       account: get(currentAccount, 'name'),
       memo_key: get(currentAccount, 'memo_key'),
-      json_metadata: jsonStringify(params),
+      json_metadata: jsonStringify({ profile: params }),
+      posting_json_metadata: jsonStringify({ profile: params }),
     };
 
-    const opArray = [['account_update', _params]];
+    const opArray = [['account_update2', _params]];
 
     return api
       .broadcast(opArray)
@@ -1357,13 +1508,13 @@ export const profileUpdate = async (params, pin, currentAccount) => {
   if (key) {
     const opArray = [
       [
-        'account_update',
+        'account_update2',
         {
           account: get(currentAccount, 'name'),
           memo_key: get(currentAccount, 'memo_key'),
-          json_metadata: jsonStringify({
-            profile: params,
-          }),
+          json_metadata: jsonStringify({ profile: params }),
+          posting_json_metadata: jsonStringify({ profile: params }),
+          extensions: [],
         },
       ],
     ];
@@ -1385,7 +1536,37 @@ export const profileUpdate = async (params, pin, currentAccount) => {
     });
   }
 
-  return Promise.reject(new Error('Check private key permission!'));
+  return Promise.reject(
+    new Error('Check private key permission! Required private posting key or above.'),
+  );
+};
+
+export const subscribeCommunity = (currentAccount, pinCode, data) => {
+  const pin = getDigitPinCode(pinCode);
+  const key = getActiveKey(get(currentAccount, 'local'), pin);
+  const username = get(currentAccount, 'name');
+
+  const json = JSON.stringify([
+    data.isSubscribed ? 'unsubscribe' : 'subscribe',
+    { community: data.communityId },
+  ]);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+
+    const op = {
+      id: 'community',
+      json,
+      required_auths: [username],
+      required_posting_auths: [],
+    };
+
+    return client.broadcast.json(op, privateKey);
+  }
+
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
 };
 
 export const getBtcAddress = (pin, currentAccount) => {
@@ -1410,12 +1591,12 @@ export const getBtcAddress = (pin, currentAccount) => {
 const getAnyPrivateKey = (local, pin) => {
   const { postingKey, activeKey } = local;
 
-  if (postingKey) {
-    return decryptKey(local.postingKey, pin);
-  }
-
   if (activeKey) {
     return decryptKey(local.activeKey, pin);
+  }
+
+  if (postingKey) {
+    return decryptKey(local.postingKey, pin);
   }
 
   return false;

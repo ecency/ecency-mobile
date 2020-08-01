@@ -2,9 +2,7 @@ import { Component } from 'react';
 import { Platform, BackHandler, Alert, Linking, AppState } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import Config from 'react-native-config';
-import Push from 'appcenter-push';
 import get from 'lodash/get';
-import AppCenter from 'appcenter';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
@@ -16,6 +14,10 @@ import {
   initialMode as nativeThemeInitialMode,
   eventEmitter as nativeThemeEventEmitter,
 } from 'react-native-dark-mode';
+import messaging from '@react-native-firebase/messaging';
+import PushNotification from 'react-native-push-notification';
+import VersionNumber from 'react-native-version-number';
+import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -34,6 +36,8 @@ import {
   setAuthStatus,
   removeSCAccount,
   setExistUser,
+  getVersionForWelcomeModal,
+  setVersionForWelcomeModal,
 } from '../../../realm/realm';
 import { getUser, getPost } from '../../../providers/steem/dsteem';
 import { switchAccount } from '../../../providers/steem/auth';
@@ -47,6 +51,7 @@ import {
   updateUnreadActivityCount,
   removeOtherAccount,
   fetchGlobalProperties,
+  removeAllOtherAccount,
 } from '../../../redux/actions/accountAction';
 import {
   activeApplication,
@@ -85,6 +90,10 @@ export const setPreviousAppState = () => {
   }, 500);
 };
 
+let firebaseOnNotificationOpenedAppListener = null;
+let firebaseOnMessageListener = null;
+let scAccounts = [];
+
 class ApplicationContainer extends Component {
   constructor(props) {
     super(props);
@@ -94,11 +103,14 @@ class ApplicationContainer extends Component {
       isIos: Platform.OS !== 'android',
       isThemeReady: false,
       appState: AppState.currentState,
+      showWelcomeModal: false,
     };
   }
 
   componentDidMount = () => {
     const { isIos } = this.state;
+    const { appVersion } = VersionNumber;
+
     this._setNetworkListener();
 
     Linking.addEventListener('url', this._handleOpenURL);
@@ -120,13 +132,51 @@ class ApplicationContainer extends Component {
     this._createPushListener();
 
     if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
+
+    getVersionForWelcomeModal().then((version) => {
+      if (version < parseFloat(appVersion)) {
+        getUserData().then((accounts) => {
+          this.setState({ showWelcomeModal: true });
+          if (accounts && accounts.length > 0) {
+            accounts.forEach((account) => {
+              if (get(account, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
+                scAccounts.push(account);
+              }
+            });
+          }
+        });
+      }
+    });
+
+    ReceiveSharingIntent.getReceivedFiles(
+      (files) => {
+        console.log('files :>> ', files);
+        navigate({
+          routeName: ROUTES.SCREENS.EDITOR,
+          params: { upload: files },
+        });
+        // files returns as JSON Array example
+        //[{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]
+      },
+      (error) => {
+        console.log('error :>> ', error);
+      },
+    );
   };
 
   componentDidUpdate(prevProps, prevState) {
     const { isGlobalRenderRequired, dispatch } = this.props;
 
     if (isGlobalRenderRequired !== prevProps.isGlobalRenderRequired && isGlobalRenderRequired) {
-      this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
+      this.setState(
+        {
+          isRenderRequire: false,
+        },
+        () =>
+          this.setState({
+            isRenderRequire: true,
+          }),
+      );
       dispatch(isRenderRequired(false));
     }
   }
@@ -147,6 +197,14 @@ class ApplicationContainer extends Component {
       clearTimeout(this._pinCodeTimer);
     }
 
+    if (firebaseOnMessageListener) {
+      firebaseOnMessageListener();
+    }
+
+    if (firebaseOnNotificationOpenedAppListener) {
+      firebaseOnNotificationOpenedAppListener();
+    }
+
     this.netListener();
   }
 
@@ -165,8 +223,8 @@ class ApplicationContainer extends Component {
     this._handleDeepLink(event.url);
   };
 
-  _handleDeepLink = async (url) => {
-    if (!url) return;
+  _handleDeepLink = async (url = '') => {
+    if (!url || url.indexOf('ShareMedia://') >= 0) return;
 
     let routeName;
     let params;
@@ -182,11 +240,16 @@ class ApplicationContainer extends Component {
         if (permlink) {
           content = await getPost(author, permlink, currentAccount.name);
           routeName = ROUTES.SCREENS.POST;
-          params = { content };
+          params = {
+            content,
+          };
         } else {
           profile = await getUser(author);
           routeName = ROUTES.SCREENS.PROFILE;
-          params = { username: get(profile, 'name'), reputation: get(profile, 'reputation') };
+          params = {
+            username: get(profile, 'name'),
+            reputation: get(profile, 'reputation'),
+          };
         }
       }
     } catch (error) {
@@ -206,8 +269,12 @@ class ApplicationContainer extends Component {
     const { intl } = this.props;
 
     Alert.alert(
-      intl.formatMessage({ id: title || 'alert.warning' }),
-      intl.formatMessage({ id: text || 'alert.unknow_error' }),
+      intl.formatMessage({
+        id: title || 'alert.warning',
+      }),
+      intl.formatMessage({
+        id: text || 'alert.unknow_error',
+      }),
     );
   };
 
@@ -231,7 +298,9 @@ class ApplicationContainer extends Component {
       this._refreshGlobalProps();
     }
     setPreviousAppState();
-    this.setState({ appState: nextAppState });
+    this.setState({
+      appState: nextAppState,
+    });
   };
 
   _startPinCodeTimer = () => {
@@ -248,7 +317,9 @@ class ApplicationContainer extends Component {
     await this._getSettings();
     await this._refreshGlobalProps();
     const userRealmObject = await this._getUserDataFromRealm();
-    this.setState({ isReady: true });
+    this.setState({
+      isReady: true,
+    });
 
     const { isConnected } = this.props;
     if (isConnected && userRealmObject) {
@@ -256,99 +327,112 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _createPushListener = () => {
+  _pushNavigate = (notification) => {
     const { dispatch } = this.props;
     let params = null;
     let key = null;
     let routeName = null;
 
-    Push.setListener({
-      onPushNotificationReceived(pushNotification) {
-        if (previousAppState !== 'active') {
-          const push = get(pushNotification, 'customProperties');
-          const type = get(push, 'type', '');
-          const permlink1 = get(push, 'permlink1', '');
-          const permlink2 = get(push, 'permlink2', '');
-          const permlink3 = get(push, 'permlink3', '');
-          //const parentPermlink1 = get(push, 'parent_permlink1', '');
-          //const parentPermlink2 = get(push, 'parent_permlink2', '');
-          //const parentPermlink3 = get(push, 'parent_permlink3', '');
+    if (previousAppState !== 'active' && !!notification) {
+      const push = get(notification, 'data');
+      const type = get(push, 'type', '');
+      const fullPermlink =
+        get(push, 'permlink1', '') + get(push, 'permlink2', '') + get(push, 'permlink3', '');
+      const username = get(push, 'target', '');
+      const activity_id = get(push, 'id', '');
 
-          //const fullParentPermlink = `${parentPermlink1}${parentPermlink2}${parentPermlink3}`;
-          const fullPermlink = `${permlink1}${permlink2}${permlink3}`;
+      switch (type) {
+        case 'vote':
+        case 'unvote':
+          params = {
+            author: get(push, 'target', ''),
+            permlink: fullPermlink,
+          };
+          key = fullPermlink;
+          routeName = ROUTES.SCREENS.POST;
+          break;
+        case 'mention':
+          params = {
+            author: get(push, 'source', ''),
+            permlink: fullPermlink,
+          };
+          key = fullPermlink;
+          routeName = ROUTES.SCREENS.POST;
+          break;
 
-          const username = get(push, 'target', '');
-          const activity_id = get(push, 'id', '');
+        case 'follow':
+        case 'unfollow':
+        case 'ignore':
+          params = {
+            username: get(push, 'source', ''),
+          };
+          key = get(push, 'source', '');
+          routeName = ROUTES.SCREENS.PROFILE;
+          break;
 
-          switch (type) {
-            case 'vote':
-            case 'unvote':
-              params = {
-                author: get(push, 'target', ''),
-                permlink: fullPermlink,
-              };
-              key = fullPermlink;
-              routeName = ROUTES.SCREENS.POST;
-              break;
-            case 'mention':
-              params = {
-                author: get(push, 'source', ''),
-                permlink: fullPermlink,
-              };
-              key = fullPermlink;
-              routeName = ROUTES.SCREENS.POST;
-              break;
+        case 'reblog':
+          params = {
+            author: get(push, 'target', ''),
+            permlink: fullPermlink,
+          };
+          key = fullPermlink;
+          routeName = ROUTES.SCREENS.POST;
+          break;
 
-            case 'follow':
-            case 'unfollow':
-            case 'ignore':
-              params = {
-                username: get(push, 'source', ''),
-              };
-              key = get(push, 'source', '');
-              routeName = ROUTES.SCREENS.PROFILE;
-              break;
+        case 'reply':
+          params = {
+            author: get(push, 'source', ''),
+            permlink: fullPermlink,
+          };
+          key = fullPermlink;
+          routeName = ROUTES.SCREENS.POST;
+          break;
 
-            case 'reblog':
-              params = {
-                author: get(push, 'target', ''),
-                permlink: fullPermlink,
-              };
-              key = fullPermlink;
-              routeName = ROUTES.SCREENS.POST;
-              break;
+        case 'transfer':
+          routeName = ROUTES.TABBAR.PROFILE;
+          params = {
+            activePage: 2,
+          };
+          break;
 
-            case 'reply':
-              params = {
-                author: get(push, 'source', ''),
-                permlink: fullPermlink,
-              };
-              key = fullPermlink;
-              routeName = ROUTES.SCREENS.POST;
-              break;
+        default:
+          break;
+      }
 
-            case 'transfer':
-              routeName = ROUTES.TABBAR.PROFILE;
-              params = { activePage: 2 };
-              break;
+      markActivityAsRead(username, activity_id).then((result) => {
+        dispatch(updateUnreadActivityCount(result.unread));
+      });
+      if (!some(params, isEmpty)) {
+        navigate({
+          routeName,
+          params,
+          key,
+        });
+      }
+    }
+  };
 
-            default:
-              break;
-          }
+  _createPushListener = () => {
+    (async () => await messaging().requestPermission())();
 
-          markActivityAsRead(username, activity_id).then((result) => {
-            dispatch(updateUnreadActivityCount(result.unread));
-          });
-          if (!some(params, isEmpty)) {
-            navigate({
-              routeName,
-              params,
-              key,
-            });
-          }
-        }
-      },
+    PushNotification.setApplicationIconBadgeNumber(0);
+    PushNotification.cancelAllLocalNotifications();
+
+    firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
+      this._pushNavigate(remoteMessage);
     });
+
+    firebaseOnNotificationOpenedAppListener = messaging().onNotificationOpenedApp(
+      (remoteMessage) => {
+        this._pushNavigate(remoteMessage);
+      },
+    );
+
+    messaging()
+      .getInitialNotification()
+      .then((remoteMessage) => {
+        this._pushNavigate(remoteMessage);
+      });
   };
 
   _handleConntectionChange = (status) => {
@@ -386,7 +470,7 @@ class ApplicationContainer extends Component {
     if (res) {
       const userData = await getUserData();
 
-      if (userData.length > 0) {
+      if (userData && userData.length > 0) {
         realmData = userData;
         userData.forEach((accountData, index) => {
           if (
@@ -401,7 +485,9 @@ class ApplicationContainer extends Component {
               dispatch(login(false));
               dispatch(logoutDone());
               removePinCode();
-              setAuthStatus({ isLoggedIn: false });
+              setAuthStatus({
+                isLoggedIn: false,
+              });
               setExistUser(false);
               if (accountData.authType === AUTH_TYPE.STEEM_CONNECT) {
                 removeSCAccount(accountData.username);
@@ -409,7 +495,11 @@ class ApplicationContainer extends Component {
             }
             removeUserData(accountData.username);
           } else {
-            dispatch(addOtherAccount({ username: accountData.username }));
+            dispatch(
+              addOtherAccount({
+                username: accountData.username,
+              }),
+            );
             // TODO: check post v2.2.5+ or remove setexistuser from login
             setExistUser(true);
           }
@@ -479,7 +569,9 @@ class ApplicationContainer extends Component {
           settings.isDarkTheme === null ? nativeThemeInitialMode === 'dark' : settings.isDarkTheme,
         ),
       );
-      this.setState({ isThemeReady: true });
+      this.setState({
+        isThemeReady: true,
+      });
       if (settings.isPinCodeOpen !== '') dispatch(isPinCodeOpen(settings.isPinCodeOpen));
       if (settings.language !== '') dispatch(setLanguage(settings.language));
       if (settings.server !== '') dispatch(setApi(settings.server));
@@ -489,11 +581,12 @@ class ApplicationContainer extends Component {
       if (settings.isDefaultFooter !== '') dispatch(isDefaultFooter(settings.isDefaultFooter));
       if (settings.notification !== '') {
         dispatch(
-          changeNotificationSettings({ type: 'notification', action: settings.notification }),
+          changeNotificationSettings({
+            type: 'notification',
+            action: settings.notification,
+          }),
         );
         dispatch(changeAllNotificationSettings(settings));
-
-        Push.setEnabled(settings.notification);
       }
       if (settings.nsfw !== '') dispatch(setNsfw(settings.nsfw));
 
@@ -542,7 +635,9 @@ class ApplicationContainer extends Component {
           dispatch(updateCurrentAccount({}));
           dispatch(login(false));
           removePinCode();
-          setAuthStatus({ isLoggedIn: false });
+          setAuthStatus({
+            isLoggedIn: false,
+          });
           setExistUser(false);
           if (local === AUTH_TYPE.STEEM_CONNECT) {
             removeSCAccount(name);
@@ -560,15 +655,17 @@ class ApplicationContainer extends Component {
   };
 
   _enableNotification = async (username, isEnable) => {
-    const token = await AppCenter.getInstallId();
-
-    setPushToken({
-      username,
-      token,
-      system: Platform.OS,
-      allows_notify: Number(isEnable),
-      notify_types: [1, 2, 3, 4, 5, 6],
-    });
+    messaging()
+      .getToken()
+      .then((token) => {
+        setPushToken({
+          username,
+          token,
+          system: `fcm-${Platform.OS}`,
+          allows_notify: Number(isEnable),
+          notify_types: [1, 2, 3, 4, 5, 6],
+        });
+      });
   };
 
   _switchAccount = async (targetAccountUsername) => {
@@ -586,6 +683,38 @@ class ApplicationContainer extends Component {
     dispatch(updateCurrentAccount(_currentAccount));
   };
 
+  _handleWelcomeModalButtonPress = () => {
+    const { dispatch, otherAccounts } = this.props;
+    const { appVersion } = VersionNumber;
+
+    const accountsWithoutSC = otherAccounts.filter(
+      (account) => !scAccounts.some((el) => el.username === account.username),
+    );
+
+    setVersionForWelcomeModal(appVersion);
+
+    if (scAccounts.length > 0) {
+      scAccounts.forEach((el) => {
+        dispatch(removeOtherAccount(el.username));
+        removeUserData(el.username);
+      });
+
+      if (accountsWithoutSC.length > 0) {
+        this._switchAccount(accountsWithoutSC[0].username);
+      } else {
+        dispatch(updateCurrentAccount({}));
+        dispatch(login(false));
+        removePinCode();
+        setAuthStatus({ isLoggedIn: false });
+        setExistUser(false);
+        dispatch(removeAllOtherAccount());
+        dispatch(logoutDone());
+        navigate({ routeName: ROUTES.SCREENS.LOGIN });
+      }
+    }
+    this.setState({ showWelcomeModal: false });
+  };
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     const {
       isDarkTheme: _isDarkTheme,
@@ -600,7 +729,15 @@ class ApplicationContainer extends Component {
       selectedLanguage !== nextProps.selectedLanguage ||
       (api !== nextProps.api && nextProps.api)
     ) {
-      this.setState({ isRenderRequire: false }, () => this.setState({ isRenderRequire: true }));
+      this.setState(
+        {
+          isRenderRequire: false,
+        },
+        () =>
+          this.setState({
+            isRenderRequire: true,
+          }),
+      );
       if (nextProps.isDarkTheme) {
         changeNavigationBarColor('#1e2835');
       } else {
@@ -630,20 +767,24 @@ class ApplicationContainer extends Component {
       isDarkTheme: _isDarkTheme,
       children,
       isPinCodeRequire,
+      rcOffer,
     } = this.props;
-    const { isRenderRequire, isReady, isThemeReady } = this.state;
+    const { isRenderRequire, isReady, isThemeReady, showWelcomeModal } = this.state;
 
     return (
       children &&
       children({
         isConnected,
-        toastNotification,
+        isDarkTheme: _isDarkTheme,
+        isPinCodeRequire,
         isReady,
         isRenderRequire,
         isThemeReady,
-        isPinCodeRequire,
-        isDarkTheme: _isDarkTheme,
         locale: selectedLanguage,
+        rcOffer,
+        toastNotification,
+        showWelcomeModal,
+        handleWelcomeModalButtonPress: this._handleWelcomeModalButtonPress,
       })
     );
   }
@@ -674,11 +815,17 @@ export default connect(
     // UI
     toastNotification: state.ui.toastNotification,
     activeBottomTab: state.ui.activeBottomTab,
+    rcOffer: state.ui.rcOffer,
   }),
   (dispatch) => ({
     dispatch,
     actions: {
-      ...bindActionCreators({ fetchGlobalProperties }, dispatch),
+      ...bindActionCreators(
+        {
+          fetchGlobalProperties,
+        },
+        dispatch,
+      ),
     },
   }),
 )(injectIntl(ApplicationContainer));

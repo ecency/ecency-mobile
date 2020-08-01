@@ -1,4 +1,4 @@
-import * as dsteem from '@esteemapp/dsteem';
+import * as dsteem from '@esteemapp/dhive';
 import sha256 from 'crypto-js/sha256';
 import Config from 'react-native-config';
 import get from 'lodash/get';
@@ -64,7 +64,8 @@ export const login = async (username, password, isPinCodeOpen) => {
 
   let jsonMetadata;
   try {
-    jsonMetadata = JSON.parse(account.json_metadata) || '';
+    jsonMetadata =
+      JSON.parse(account.posting_json_metadata) || JSON.parse(account.json_metadata) || '';
   } catch (err) {
     jsonMetadata = '';
   }
@@ -123,7 +124,8 @@ export const loginWithSC2 = async (code, isPinCodeOpen) => {
   return new Promise(async (resolve, reject) => {
     let jsonMetadata;
     try {
-      jsonMetadata = JSON.parse(account.json_metadata) || '';
+      jsonMetadata =
+        JSON.parse(account.posting_json_metadata) || JSON.parse(account.json_metadata) || '';
       if (Object.keys(jsonMetadata).length !== 0) {
         avatar = jsonMetadata.profile.profile_image || '';
       }

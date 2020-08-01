@@ -8,7 +8,7 @@ import HeaderView from '../view/headerView';
 
 import { AccountContainer, ThemeContainer } from '../../../containers';
 
-const HeaderContainer = ({ selectedUser, isReverse, navigation, handleOnBackPress }) => {
+const HeaderContainer = ({ selectedUser, isReverse, navigation, handleOnBackPress, hideUser }) => {
   const _handleOpenDrawer = () => {
     if (has(navigation, 'openDrawer') && typeof get(navigation, 'openDrawer') === 'function') {
       navigation.openDrawer();
@@ -41,6 +41,7 @@ const HeaderContainer = ({ selectedUser, isReverse, navigation, handleOnBackPres
                 isReverse={isReverse}
                 reputation={get(_user, 'reputation')}
                 username={get(_user, 'name')}
+                hideUser={hideUser}
               />
             );
           }}

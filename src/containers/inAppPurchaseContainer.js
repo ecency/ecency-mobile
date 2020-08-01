@@ -119,7 +119,7 @@ class InAppPurchaseContainer extends Component {
     } catch (err) {
       bugsnag.notify(err);
       Alert.alert(
-        `InApp - Connection issue, try again or write to support@esteem.app
+        `InApp - Connection issue, try again or write to support@ecency.com
           ${err.message.substr(0, 20)}`,
       );
     }
@@ -150,17 +150,17 @@ class InAppPurchaseContainer extends Component {
   };
 
   render() {
-    const { children } = this.props;
+    const { children, isNoSpin } = this.props;
     const { productList, isLoading, isProcessing } = this.state;
-    const FREE_ESTM = { productId: 'freePoints', title: 'free estm' };
+    const FREE_ESTM = { productId: 'freePoints', title: 'free points' };
+    const _productList = isNoSpin
+      ? productList
+      : [...productList.filter((item) => !item.productId.includes('spins')), FREE_ESTM];
 
     return (
       children &&
       children({
-        productList: [
-          ...productList.filter((item) => !item.productId.includes('spins')),
-          FREE_ESTM,
-        ],
+        productList: _productList,
         buyItem: this._buyItem,
         isLoading,
         isProcessing,

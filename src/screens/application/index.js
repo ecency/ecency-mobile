@@ -1,11 +1,13 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import SplashScreen from 'react-native-splash-screen';
-import ApplicationScreen from './screen/applicationScreen';
-import ApplicationContainer from './container/applicationContainer';
 
-import Launch from '../launch';
+import ApplicationContainer from './container/applicationContainer';
+import WelcomeScreen from './screen/welcomeScreen';
+import ApplicationScreen from './screen/applicationScreen';
+import LaunchScreen from '../launch';
 import { Modal } from '../../components';
 import { PinCode } from '../pinCode';
+import ErrorBoundary from './screen/errorBoundary';
 
 const Application = () => {
   const [showAnimation, setShowAnimation] = useState(process.env.NODE_ENV !== 'development');
@@ -15,7 +17,7 @@ const Application = () => {
     if (showAnimation) {
       setTimeout(() => {
         setShowAnimation(false);
-      }, 2833);
+      }, 3550);
     }
   }, [showAnimation]);
 
@@ -23,16 +25,21 @@ const Application = () => {
     <ApplicationContainer>
       {({
         isConnected,
-        locale,
-        toastNotification,
-        isReady,
         isDarkTheme,
+        isPinCodeRequire,
+        isReady,
         isRenderRequire,
         isThemeReady,
-        isPinCodeRequire,
+        locale,
+        rcOffer,
+        toastNotification,
+        showWelcomeModal,
+        handleWelcomeModalButtonPress,
       }) => {
+        const _isAppReady = !showAnimation && isReady && isRenderRequire && isThemeReady;
+
         return (
-          <Fragment>
+          <ErrorBoundary>
             <Modal
               isOpen={isPinCodeRequire}
               isFullScreen
@@ -41,6 +48,14 @@ const Application = () => {
             >
               <PinCode />
             </Modal>
+            <Modal
+              isOpen={!isPinCodeRequire && showWelcomeModal && _isAppReady}
+              isFullScreen
+              swipeToClose={false}
+              backButtonClose={false}
+            >
+              <WelcomeScreen handleButtonPress={handleWelcomeModalButtonPress} />
+            </Modal>
             {isThemeReady && isRenderRequire && (
               <ApplicationScreen
                 isConnected={isConnected}
@@ -48,10 +63,11 @@ const Application = () => {
                 toastNotification={toastNotification}
                 isReady={isReady}
                 isDarkTheme={isDarkTheme}
+                rcOffer={rcOffer}
               />
             )}
-            {(showAnimation || !isReady || !isRenderRequire || !isThemeReady) && <Launch />}
-          </Fragment>
+            {!_isAppReady && <LaunchScreen />}
+          </ErrorBoundary>
         );
       }}
     </ApplicationContainer>

@@ -69,7 +69,7 @@ export const makeOptions = (author, permlink, operationType) => {
     permlink,
     max_accepted_payout: '1000000.000 HBD',
     percent_steem_dollars: 10000,
-    extensions: [[0, { beneficiaries: [{ account: 'esteemapp', weight: 300 }] }]],
+    extensions: [[0, { beneficiaries: [{ account: 'ecency', weight: 100 }] }]],
   };
 
   switch (operationType) {
@@ -94,17 +94,15 @@ export const makeOptions = (author, permlink, operationType) => {
 
 export const makeJsonMetadataReply = (tags) => ({
   tags,
-  app: `esteem/${VersionNumber.appVersion}-mobile`,
+  app: `ecency/${VersionNumber.appVersion}-mobile`,
   format: 'markdown+html',
-  community: 'hive-125125',
 });
 
 export const makeJsonMetadata = (meta, tags) =>
   Object.assign({}, meta, {
     tags,
-    app: `esteem/${VersionNumber.appVersion}-mobile`,
+    app: `ecency/${VersionNumber.appVersion}-mobile`,
     format: 'markdown+html',
-    community: 'hive-125125',
   });
 
 export const makeJsonMetadataForUpdate = (oldJson, meta, tags) => {

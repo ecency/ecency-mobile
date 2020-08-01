@@ -20,7 +20,7 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
   return (
     <View style={styles.container}>
       <WalletLineItem
-        text="Steem"
+        text="Hive"
         isBlackText
         iconName="ios-information-circle-outline"
         rightText={`${Math.round(walletData.balance * 1000) / 1000} HIVE`}
@@ -40,7 +40,7 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
           iconName="ios-information-circle-outline"
           rightText={`${
             Math.round(vestsToSp(walletData.vestingShares, walletData.steemPerMVests) * 1000) / 1000
-          } SP`}
+          } HP`}
           isBoldText
           isHasdropdown={isShowDropdowns}
           dropdownOptions={steemPowerDropdown.map((item) =>
@@ -55,7 +55,7 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
               Math.round(
                 vestsToSp(walletData.vestingSharesDelegated, walletData.steemPerMVests) * 1000,
               ) / 1000
-            } SP`}
+            } HP`}
             style={styles.walletLineDetail}
           />
         )}
@@ -65,7 +65,7 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
               Math.round(
                 vestsToSp(walletData.vestingSharesReceived, walletData.steemPerMVests) * 1000,
               ) / 1000
-            } SP`}
+            } HP`}
             style={styles.walletLineDetail}
           />
         )}
@@ -75,7 +75,7 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
               Math.round(
                 vestsToSp(walletData.vestingSharesTotal, walletData.steemPerMVests) * 1000,
               ) / 1000
-            } SP`}
+            } HP`}
             rightTextColor="#357ce6"
             style={styles.walletLineDetail}
           />
@@ -101,7 +101,7 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
           })}
           isBlackText
           iconName="ios-information-circle-outline"
-          rightText={`${Math.round(walletData.savingBalance * 1000) / 1000} STEEM`}
+          rightText={`${Math.round(walletData.savingBalance * 1000) / 1000} HIVE`}
           isBoldText
           isHasdropdown={isShowDropdowns}
           dropdownOptions={savingSteemDropdown.map((item) =>

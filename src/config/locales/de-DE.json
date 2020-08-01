@@ -21,7 +21,7 @@
     "delegation": "Delegation",
     "delegations": "Delegations",
     "delegation_title": "Delegations-Belohnung",
-    "delegation_desc": "Earn ESTM everyday for delegation",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "Punkte für einen Beitrag",
     "comment_title": "Punkte für einen Kommentar",
     "vote_title": "Punkte für einen Vote",
@@ -30,7 +30,7 @@
     "checkin_title": "Punkte für den Herzschlag",
     "referral": "Referral",
     "referral_title": "Referral rewards",
-    "referral_desc": "Invite friends and earn ESTM",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "Nutzungs-Bonus",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "Benutzername",
     "memo_placeholder": "Hier dein Memo eingeben",
     "transfer_token": "Überweisen",
-    "purchase_estm": "ESTM kaufen",
-    "points": "Verschenke ESTM zu jemanden",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "To Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw Saving",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "ESTM",
-      "buy": "ESTM kaufen"
+      "title": "eSteem Punkte",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "HIVE Savings"
@@ -118,12 +118,12 @@
     "ignore": "ignoriert dich",
     "reblog": "reblogged",
     "transfer": "transferred",
-    "spin": "Time to earn more ESTM",
+    "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
     "notification": "Benachrichtigungen",
     "leaderboard": "Rangliste",
-    "epoint": "eSteem Punkte",
+    "epoint": "Ecency Punkte",
     "leaderboard_title": "Top-Benutzer",
     "recent": "Vor kurzem",
     "yesterday": "Gestern",
@@ -213,7 +213,7 @@
   "login": {
     "signin": "Anmelden",
     "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "Benutzername",
     "password": "Passwort oder WIF",
     "description": "Zugangsdaten werden lokal auf dem Gerät gespeichert. Diese werden nach dem Abmelden gelöscht!",
@@ -221,6 +221,16 @@
     "login": "LOGIN",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
     "steemconnect_fee_description": "info"
+  },
+  "register": {
+    "button": "Sign Up",
+    "title": "Registrieren",
+    "username": "Pick a username",
+    "mail": "Enter your email address",
+    "ref_user": "Referred user (Optional)",
+    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
+    "title_description": "One account to manage everything",
+    "form_description": "After registeration, you will receive an email with further instructions"
   },
   "home": {
     "feed": "Feed",
@@ -288,7 +298,7 @@
     "success_shared": "Dein Beitrag wurde erfolgreich geteilt",
     "success_moved": "Erfolgreich in Entwürfe verschoben",
     "permission_denied": "Berechtigung verweigert",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Check private key permission!",
     "success_rebloged": "Geteilt!",
     "already_rebloged": "Du hast bereits geteilt!",
@@ -313,14 +323,18 @@
     "same_user": "Dieser User ist bereits in der Liste eingetragen.",
     "unknow_error": "Es ist ein Fehler aufgetreten",
     "error": "Fehler",
-    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Verbindung fehlgeschlagen!",
     "connection_success": "Erfolgreich verbunden!",
     "checking": "Wird überprüft...",
     "external_link": "Open in Browser",
     "not_existing_post": "Der Beitrag existiert nicht! Bitte überprüfe den Permalink und den Autor.",
     "google_play_version": "Wir haben festgestellt, dass dein Gerät eine alte Version von Google Play hat. Bitte aktualisiere die Google Play-Dienste und versuche es erneut!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
+    "payloadTooLarge": "File size too big, please resize or upload smaller image",
+    "qoutaExceeded": "Upload quota exceeded",
+    "invalidImage": "Invalid image, try different file",
+    "something_wrong": "Something went wrong."
   },
   "post": {
     "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?",
@@ -370,7 +384,7 @@
     "invalid_username": "Ungültiger Username, bitte überprüfen und erneut versuchen",
     "already_logged": "Du bist bereits eingeloggt. Bitte versuche ein anderes Konto hinzuzufügen",
     "invalid_credentials": "Ungültige Zugangsdaten, bitte überprüfen und erneut versuchen",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Potenzielle Auszahlung",
@@ -420,9 +434,9 @@
     "to_placeholder": "Benutzername",
     "memo_placeholder": "Hier dein Memo eingeben",
     "transfer_token": "Überweisen",
-    "purchase_estm": "Purchase ESTM",
+    "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
-    "points": "Verschenke ESTM zu jemanden",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Zum Sparkonto überweisen",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Auszahlung in den Tresor",
@@ -444,12 +458,16 @@
     "address_view": "View address"
   },
   "boost": {
-    "title": "Get Esteem Points",
-    "buy": "ESTM kaufen",
-    "next": "WEITER"
+    "title": "Get Points",
+    "buy": "GET Points",
+    "next": "WEITER",
+    "account": {
+      "title": "Get Account Boost",
+      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+    }
   },
   "free_estm": {
-    "title": "Free ESTM",
+    "title": "Free Points",
     "button": "SPIN & WIN",
     "get_spin": "5 SPINS",
     "spin_right": "Spin Left",
@@ -486,5 +504,33 @@
     "reveal_comment": "Reveal comment",
     "read_more": "Read more comments",
     "more_replies": "more replies"
+  },
+  "search_result": {
+    "others": "Others",
+    "communities": {
+      "title": "Communities",
+      "subscribe": "Subscribe",
+      "unsubscribe": "Unsubscribe",
+      "subscribers": "Subscribers",
+      "posters": "Posters",
+      "posts": "Beiträge"
+    },
+    "communities_filter": {
+      "rank": "Rank",
+      "subs": "Subscribers",
+      "new": "New"
+    },
+    "post_result_filter": {
+      "popularity": "Popularity",
+      "newest": "Newest",
+      "relevance": "Relevance"
+    },
+    "other_result_filter": {
+      "user": "Benutzer",
+      "tag": "Tag"
+    }
+  },
+  "community": {
+    "new_post": "New Post"
   }
 }

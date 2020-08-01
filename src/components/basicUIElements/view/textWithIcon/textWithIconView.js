@@ -37,7 +37,7 @@ const TextWithIcon = ({
           name={iconName}
           iconType={iconType}
         />
-        <Text style={styles.text}>{text}</Text>
+        <Text style={[styles.text, textStyle]}>{text}</Text>
       </View>
     )}
   </View>

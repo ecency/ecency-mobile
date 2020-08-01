@@ -89,8 +89,8 @@ export const prepareBeneficiaries = (postObj) => {
         {
           beneficiaries: [
             {
-              account: 'esteemapp',
-              weight: 300, // 3%
+              account: 'ecency',
+              weight: 100, // 1%
             },
           ],
         },

@@ -3,10 +3,10 @@
     "curation_reward": "Кураторская награда",
     "author_reward": "Авторская награда",
     "comment_benefactor_reward": "Награда бенефициару",
-    "claim_reward_balance": "Claim Reward ",
+    "claim_reward_balance": "Получение Вознаграждений ",
     "transfer": "Перевод",
     "transfer_to_vesting": "В Силу Голоса",
-    "transfer_from_savings": "Из сбережений",
+    "transfer_from_savings": "Из сейфа",
     "withdraw_vesting": "Понижение силы",
     "fill_order": "Заполнить ордер",
     "post": "Пост",
@@ -21,35 +21,35 @@
     "delegation": "Делегирование",
     "delegations": "Делегирование",
     "delegation_title": "Награда за делегирование",
-    "delegation_desc": "Зарабатывайте ESTM ежедневно за делегирование",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "Баллы за пост",
     "comment_title": "Баллы за комментарий",
     "vote_title": "Баллы за голос",
     "reblog_title": "Баллы за репост",
     "login_title": "Баллы за логин",
-    "checkin_title": "Баллы за регулярный вход",
+    "checkin_title": "Баллы за присутствие",
     "referral": "Реферал",
     "referral_title": "Реферальные вознаграждения",
-    "referral_desc": "Приглашайте друзей и зарабатывайте ESTM",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "Бонус за использование",
     "no_activity": "За последнее время активности нет",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
     "post_desc": "Можно зарабатывать баллы, регулярно публикуя сообщения. Постинг даёт до 15 баллов.",
-    "comment_desc": "Каждый сделанный комментарий помогает вам наращивать аудиторию, а также приносит до 5 баллов.",
-    "checkin_desc": "Регулярный вход в приложение дает вам 0,25 баллов.",
+    "comment_desc": "Каждый сделанный комментарий помогает вам наращивать аудиторию, а также приносит по 5 баллов.",
+    "checkin_desc": "Каждый вход в приложение дает вам 0,25 баллов.",
     "vote_desc": "Голосуя, вы вознаграждаете других авторов, а также зарабатываете баллы в количестве 0,01 x вес голоса.",
     "reblog_desc": "Делитесь постами, что вам нравятся, с друзьями и зарабатывайте баллы.",
     "login_desc": "При первой авторизации в приложении вы получите 100 баллов.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
-    "dropdown_transfer": "Gift",
+    "checkin_extra_desc": "Постоянное использование приложения дает шанс заработать дополнительные баллы. Больше активности - больше вознаграждений.",
+    "dropdown_transfer": "Подарить",
     "dropdown_promote": "Продвинуть",
-    "dropdown_boost": "Boost",
+    "dropdown_boost": "Усилить",
     "from": "От",
     "to": "Кому",
-    "estimated_value_desc": "According to purchase value",
-    "estimated_value": "Estimated value",
-    "estimated_amount": "Vote value",
+    "estimated_value_desc": "По стоимости покупки",
+    "estimated_value": "Расчетная стоимость",
+    "estimated_amount": "Стоимость голоса",
     "amount_information": "Потяните ползунок чтобы установить сумму",
     "amount": "Сумма",
     "memo": "Примечание",
@@ -59,53 +59,53 @@
     "to_placeholder": "Пользователь",
     "memo_placeholder": "Введите свою заметку",
     "transfer_token": "Перевод",
-    "purchase_estm": "ПОЛУЧИТЬ ESTM",
-    "points": "Подарить ESTM кому-нибудь",
-    "transfer_to_saving": "To Saving",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
+    "transfer_to_saving": "В Сейф",
     "powerUp": "Увеличение силы",
-    "withdraw_to_saving": "Withdraw Saving",
-    "steemconnect_title": "Hivesigner Transfer",
+    "withdraw_to_saving": "Вывести в Сейф",
+    "steemconnect_title": "Hivesigner транзакция",
     "next": "ДАЛЕЕ",
     "delegate": "Делегировать",
     "power_down": "Понижение силы",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
-    "transfer_to_savings": "To Savings",
+    "withdraw_steem": "Вывести HIVE",
+    "withdraw_sbd": "Вывести SBD",
+    "transfer_to_savings": "В Сейф",
     "convert": "Конвертировать",
-    "escrow_transfer": "Escrow Transfer",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel From Savings",
+    "escrow_transfer": "Передача на депозит",
+    "escrow_dispute": "Спор по депозиту",
+    "escrow_release": "Выпуск депозита",
+    "escrow_approve": "Подтверждение депозита",
+    "cancel_transfer_from_savings": "Отменить вывод из Сейфа",
     "delegate_vesting_shares": "Делегирование",
-    "fill_convert_request": "Convert Executed",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_convert_request": "Конвертация выполнена",
+    "fill_transfer_from_savings": "Сбережения сняты",
+    "fill_vesting_withdraw": "Понижение Силы выполнено",
     "estm": {
-      "title": "ESTM",
-      "buy": "ПОЛУЧИТЬ ESTM"
+      "title": "Баллы",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "HIVE сбережения"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "HBD сбережения"
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "Купить HIVE"
     },
     "sbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "Купить HBD"
     },
     "steem_power": {
-      "title": "HIVE POWER"
+      "title": "HIVE POWER (Сила)"
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "Купить BTC",
+      "address": "ПОЛУЧИТЬ"
     }
   },
   "notification": {
@@ -116,13 +116,13 @@
     "follow": "подписан",
     "unfollow": "отписан",
     "ignore": "игнорирует",
-    "reblog": "reblogged",
-    "transfer": "transferred",
-    "spin": "Time to earn more ESTM",
-    "inactive": "Be active! Write a post, continue earning",
-    "referral": "joined with your referral, welcome them",
+    "reblog": "сделал репост",
+    "transfer": "переведено",
+    "spin": "Time to earn more Points",
+    "inactive": "Будьте активны! Напишите пост, продолжайте зарабатывать",
+    "referral": "присоединился по вашей ссылке. Поприветствуйте его",
     "notification": "Уведомления",
-    "leaderboard": "Лидеры",
+    "leaderboard": "Таблица лидеров",
     "epoint": "Баллы",
     "leaderboard_title": "Топ пользователей",
     "recent": "Недавно",
@@ -137,9 +137,9 @@
     "noactivity": "За последнее время активности нет"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "ЗА ДЕНЬ",
+    "weekly": "ЗА НЕДЕЛЮ",
+    "monthly": "ЗА МЕСЯЦ"
   },
   "messages": {
     "comingsoon": "Здесь будут сообщения!"
@@ -147,28 +147,28 @@
   "profile": {
     "following": "Подписки",
     "follower": "Подписчики",
-    "post": "Пост",
-    "details": "Подробности",
+    "post": "Посты",
+    "details": "Детализация профиля",
     "comments": "Комментарии",
     "replies": "Ответы",
     "wallet": "Кошелёк",
-    "wallet_details": "Подробности",
+    "wallet_details": "Детализация кошелька",
     "unclaimed_rewards": "Незачисленные награды",
     "full_in": "Восстановится за",
-    "hours": "ч",
+    "hours": "час.",
     "voting_power": "Сила голоса",
     "login_to_see": "Войдите, чтобы увидеть",
     "follow_people": "Подпишитесь на нескольких людей, чтобы заполнить ленту",
     "havent_commented": "ещё ничего не комментировал",
     "havent_posted": "ещё ничего не написал",
-    "steem_power": "Hive Power",
+    "steem_power": "Hive Power (Сила)",
     "next_power_text": "Следующее понижение силы",
     "days": "д",
     "day": "д",
-    "steem_dollars": "Hive Dollars",
+    "steem_dollars": "Hive доллары",
     "savings": "Сейф",
     "edit": {
-      "display_name": "Display Name",
+      "display_name": "Отображаемое имя",
       "about": "О себе",
       "location": "Местоположение",
       "website": "Веб-сайт"
@@ -198,12 +198,12 @@
     "send": "Отправить",
     "default_footer": "Подвал по умолчанию",
     "nsfw": {
-      "always_show": "Отображать",
-      "always_hide": "Скрывать",
-      "always_warn": "Предупреждать"
+      "always_show": "Отображать всегда",
+      "always_hide": "Всегда скрывать",
+      "always_warn": "Всегда предупреждать"
     },
     "feedback_success": "Письмо успешно отправлено",
-    "feedback_fail": "Не удалось отправить письмо",
+    "feedback_fail": "Не удалось открыть почтовый клиент",
     "server_fail": "Сервер недоступен"
   },
   "voters": {
@@ -212,15 +212,25 @@
   },
   "login": {
     "signin": "Войти",
-    "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signup": "ПРИСОЕДИНЯЙТЕСЬ СЕЙЧАС",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "Пользователь",
     "password": "Пароль или ключ",
     "description": "Ключи хранятся только на вашем устройстве и удаляются во время разлогина!",
     "cancel": "отмена",
     "login": "Войти",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_description": "Если вы не хотите хранить зашифрованные ключи на своем устройстве, используйте Hivesigner.",
+    "steemconnect_fee_description": "информация"
+  },
+  "register": {
+    "button": "Зарегистрироваться",
+    "title": "Регистрация",
+    "username": "Выберите имя пользователя",
+    "mail": "Введите свой email адрес",
+    "ref_user": "Реферал (необязательно)",
+    "500_error": "Ваш запрос не удалось обработать, скорее всего, очередь регистрации заполнена! Повторите попытку через несколько минут...",
+    "title_description": "Один аккаунт для управления всем",
+    "form_description": "После регистрации вы получите email с дальнейшими инструкциями"
   },
   "home": {
     "feed": "Лента",
@@ -262,17 +272,17 @@
     "reply": "Ответить",
     "open_gallery": "Перейти в галерею",
     "capture_photo": "Сделать фото",
-    "limited_tags": "Only 10 tags allowed, remove some",
-    "limited_length": "Maximum length of each tag should be 24",
-    "limited_dash": "Use one dash in each tag",
-    "limited_space": "Use space to separate tags",
-    "limited_lowercase": "Only use lower letters in tag",
-    "limited_characters": "Use only allowed characters in tag",
-    "limited_firstchar": "Tag must start with a letter",
-    "limited_lastchar": "Tag must end with letter or number"
+    "limited_tags": "Допускается только 10 тегов, удалите несколько",
+    "limited_length": "Максимальная длина каждого тeга - 24 символа",
+    "limited_dash": "Только один дефис в каждом теге",
+    "limited_space": "Используйте пробел для разделения тегов",
+    "limited_lowercase": "Используйте для тегов только нижний регистр",
+    "limited_characters": "Используйте в теге только допустимые символы",
+    "limited_firstchar": "Тег должен начинаться с буквы",
+    "limited_lastchar": "Тег должен заканчиваться буквой или цифрой"
   },
   "pincode": {
-    "enter_text": "Введите пинкод",
+    "enter_text": "Чтобы разблокировать введите пин-код",
     "set_new": "Выберите новый пинкод",
     "write_again": "Повторите пинкод",
     "forgot_text": "Запамятовал..."
@@ -288,18 +298,18 @@
     "success_shared": "Ваш пост успешно опубликован",
     "success_moved": "Перемещён в черновики",
     "permission_denied": "Не достаточно разрешений",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
-    "key_warning": "Check private key permission!",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
+    "key_warning": "Проверьте разрешения для Закрытого ключа!",
     "success_rebloged": "Репостнуто!",
     "already_rebloged": "Вы уже делились этим постом!",
-    "success_favorite": "Favorite added!",
-    "success_unfavorite": "Favorite removed!",
-    "success_follow": "Follow success!",
-    "success_mute": "Mute success!",
-    "success_unmute": "Unmute success!",
-    "success_unfollow": "Unfollow success!",
+    "success_favorite": "Добавлено в Избранное!",
+    "success_unfavorite": "Удалено из Избранного!",
+    "success_follow": "Успешная подписка!",
+    "success_mute": "Успешно игнорируется!",
+    "success_unmute": "Успешно перестали игнорировать!",
+    "success_unfollow": "Успешная отписка!",
     "warning": "Внимание",
-    "invalid_pincode": "Неверный пин, попробуйте снова.",
+    "invalid_pincode": "Неверный пин-код. Пожалуйста, проверьте и попробуйте еще раз.",
     "remove_alert": "Вы уверены, что хотите удалить?",
     "clear_alert": "Вы уверены, что хотите очистить?",
     "clear_user_alert": "Вы уверены, что хотите удалить все Ваши данные?",
@@ -307,35 +317,39 @@
     "cancel": "Отмена",
     "delete": "Удалить",
     "copied": "Скопировано!",
-    "no_internet": "No internet connection",
+    "no_internet": "Нет соединения!",
     "confirm": "Подтвердить",
     "removed": "Удалено",
     "same_user": "Этот пользователь уже добавлен в список",
     "unknow_error": "Произошла ошибка",
     "error": "Ошибка",
-    "fetch_error": "Connection issue, please try again or write to support@esteem.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Ошибка подключения!",
     "connection_success": "Успешное подключение!",
-    "checking": "Checking...",
-    "external_link": "Open in Browser",
-    "not_existing_post": "The post does not exist! Please check permlink and author.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
+    "checking": "Проверка...",
+    "external_link": "Открыть в браузере",
+    "not_existing_post": "Такого поста не существует! Пожалуйста, проверьте ссылку и автора.",
+    "google_play_version": "Мы заметили, что на вашем устройстве старая версия Google Play. Пожалуйста, обновите сервисы Google Play и попробуйте еще раз!",
+    "rc_down": "Недостаточно ресурс кредитов для совершения действия! \n\nУсильте свой аккаунт, чтобы и далее получать удовольствие от использования. Хотите усилить свой аккаунт сейчас?",
+    "payloadTooLarge": "Размер файла слишком большой. Ппожалуйста, измените размер или загрузите изображение меньшего размера",
+    "qoutaExceeded": "Превышен лимит загрузки",
+    "invalidImage": "Изображение не подходит, попробуйте другой файл",
+    "something_wrong": "Something went wrong."
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
     "removed_hint": "Сообщение удалено",
-    "copy_link": "Copy link",
+    "copy_link": "Копировать ссылку",
     "reblogged": "репостнуто",
     "sponsored": "СПОНСИРОВАНО",
-    "open_thread": "Open thread",
-    "image": "Image",
-    "link": "Link",
-    "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image",
-    "wrong_link": "Wrong link"
+    "open_thread": "Открыть обсуждение",
+    "image": "Изображение",
+    "link": "Ссылка",
+    "gallery_mode": "Режим галереи",
+    "save_to_local": "Загрузить на устройство",
+    "image_saved": "Изображение сохранено в фотогалерею",
+    "image_saved_error": "Ошибка при сохранении изображения",
+    "wrong_link": "Неверная ссылка"
   },
   "drafts": {
     "title": "Черновики",
@@ -366,11 +380,11 @@
     "search": "Поиск по избранному"
   },
   "auth": {
-    "invalid_pin": "Неверный пин, попробуйте снова",
+    "invalid_pin": "Неверный пин-код. Пожалуйста, проверьте и попробуйте еще раз",
     "invalid_username": "Неверный пин, попробуйте снова",
     "already_logged": "Вы уже вошли, пожалуйста, попробуйте добавить другой аккаунт",
     "invalid_credentials": "Некорректные данные, пожалуйста, проверьте и повторите снова",
-    "unknow_error": "Unknown error, please write to support@esteem.app"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Потенциальная выплата",
@@ -378,9 +392,9 @@
     "author_payout": "Автору",
     "curation_payout": "Кураторам",
     "payout_date": "Выплата",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
-    "breakdown": "Breakdown"
+    "beneficiaries": "Бенефициары",
+    "warn_zero_payout": "Для получения выплаты сумма должна достичь $0.02",
+    "breakdown": "Разбивка"
   },
   "post_dropdown": {
     "copy": "копировать ссылку",
@@ -389,7 +403,7 @@
     "share": "поделиться",
     "bookmarks": "добавить в закладки",
     "promote": "продвинуть",
-    "boost": "boost"
+    "boost": "усилить"
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
@@ -400,11 +414,11 @@
     "comments": "Комментарии"
   },
   "comment_filter": {
-    "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
-    "top": "TOP",
+    "trending": "ТОП",
+    "reputation": "РЕПУТАЦИЯ",
+    "votes": "ГОЛОСА",
+    "age": "ДАТА",
+    "top": "ТОП",
     "time": "ВРЕМЯ"
   },
   "transfer": {
@@ -416,44 +430,48 @@
     "information": "Вы уверены, что хотите перевести средства?",
     "amount_desc": "Баланс",
     "memo_desc": "Эта заметка публична",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "Конвертация занимает 3,5 дня и НЕ рекомендуется ЕСЛИ цена HBD выше $1",
     "to_placeholder": "Пользователь",
     "memo_placeholder": "Введите свою заметку",
     "transfer_token": "Перевод",
-    "purchase_estm": "Purchase ESTM",
-    "convert": "Convert HBD to HIVE",
-    "points": "Подарить ESTM кому-нибудь",
+    "purchase_estm": "Purchase Points",
+    "convert": "Конвертировать HBD в HIVE",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Перевести в сейф",
     "powerUp": "Увеличение силы",
-    "withdraw_to_saving": "Снять в сейф",
-    "steemconnect_title": "Hivesigner Transfer",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
-    "auto_vests": "Auto Vests",
-    "save": "SAVE",
-    "percent_information": "Percent info",
+    "withdraw_to_saving": "Перевести в сейф",
+    "steemconnect_title": "Hivesigner транзакция",
+    "estimated_weekly": "Примерно в неделю",
+    "destination_accounts": "Аккаунт(ы) получателя",
+    "stop_information": "Вы действительно хотите остановить?",
+    "percent": "Процент",
+    "auto_vests": "Авто Vests",
+    "save": "СОХРАНИТЬ",
+    "percent_information": "Информация о %",
     "next": "ДАЛЕЕ",
     "delegate": "Делегировать",
     "power_down": "Понижение Силы",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
-    "incoming_funds": "Incoming Funds",
-    "stop": "Stop",
-    "address_view": "View address"
+    "withdraw_steem": "Вывести HIVE",
+    "withdraw_sbd": "Вывести HIVE Dollar",
+    "incoming_funds": "Входящие средства",
+    "stop": "Остановить",
+    "address_view": "Посмотреть адрес"
   },
   "boost": {
-    "title": "Get Esteem Points",
-    "buy": "ПОЛУЧИТЬ ESTM",
-    "next": "ДАЛЕЕ"
+    "title": "Get Points",
+    "buy": "GET Points",
+    "next": "ДАЛЕЕ",
+    "account": {
+      "title": "Получить усиление аккаунта",
+      "desc": "30-дневная делегация увеличит ваши голоса и социальную активность, а также даст вам больше действий с использованием Ресурс Кредитов."
+    }
   },
   "free_estm": {
-    "title": "Free ESTM",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "title": "Free Points",
+    "button": "ВРАЩАЙ И ПОБЕЖДАЙ",
+    "get_spin": "5 ВРАЩЕНИЙ",
+    "spin_right": "Вращений осталось",
+    "timer_text": "Следующее бесплатное вращение через"
   },
   "promote": {
     "title": "Продвинуть",
@@ -464,7 +482,7 @@
     "information": "Действительно хотите продвигать пост?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Усилить"
   },
   "voters_dropdown": {
     "rewards": "ВОЗНАГРАЖДЕНИЕ",
@@ -472,19 +490,47 @@
     "time": "ВРЕМЯ"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "Инфо о репостах"
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "Время на вашем устройстве;",
+      "current_time": "Текущее время;",
+      "information": "Мы заметили, что на вашем устройстве неправильная дата или время. Пожалуйста, исправьте дату и время или установите Автоматически, и повторите попытку."
     }
   },
   "comments": {
     "title": "Комментарии",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "Показать комментарий",
+    "read_more": "Читать больше комментариев",
+    "more_replies": "больше ответов"
+  },
+  "search_result": {
+    "others": "Others",
+    "communities": {
+      "title": "Communities",
+      "subscribe": "Subscribe",
+      "unsubscribe": "Unsubscribe",
+      "subscribers": "Subscribers",
+      "posters": "Posters",
+      "posts": "Посты"
+    },
+    "communities_filter": {
+      "rank": "Rank",
+      "subs": "Subscribers",
+      "new": "New"
+    },
+    "post_result_filter": {
+      "popularity": "Popularity",
+      "newest": "Newest",
+      "relevance": "Relevance"
+    },
+    "other_result_filter": {
+      "user": "Пользователь",
+      "tag": "Tag"
+    }
+  },
+  "community": {
+    "new_post": "New Post"
   }
 }

@@ -1,4 +1,4 @@
-import { Dimensions, PixelRatio } from 'react-native';
+import { Dimensions, PixelRatio, Platform } from 'react-native';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -7,6 +7,9 @@ const scale = SCREEN_WIDTH / 414;
 
 export default (size) => {
   const newSize = size * scale;
-
-  return Math.round(PixelRatio.roundToNearestPixel(newSize));
+  if (Platform.OS === 'ios') {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize));
+  } else {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2;
+  }
 };

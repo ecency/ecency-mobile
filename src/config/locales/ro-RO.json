@@ -21,7 +21,7 @@
     "delegation": "Delegare",
     "delegations": "Delegări",
     "delegation_title": "Recompensă delegare",
-    "delegation_desc": "Câștigă ESTM in fiecare zi pentru delegare",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "Puncte pentru postare",
     "comment_title": "Puncte pentru comentariu",
     "vote_title": "Puncte pentru vot",
@@ -30,7 +30,7 @@
     "checkin_title": "Puncte pentru prezență",
     "referral": "Recomandare",
     "referral_title": "Recompensă pentru recomandare",
-    "referral_desc": "Invită-ți prietenii și câștigă ESTM",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "Bonus de utilizare",
     "no_activity": "Nicio activitate recentă",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "Nume utilizator",
     "memo_placeholder": "Introdu comentariul tău aici",
     "transfer_token": "Transfer",
-    "purchase_estm": "OBȚINE ESTM",
-    "points": "Dăruiește ESTM cuiva",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Transferă la economii",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Retrage la economii",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "Transfer de la economii efectuat",
     "fill_vesting_withdraw": "Powed Down executat",
     "estm": {
-      "title": "ESTM",
-      "buy": "OBȚINE ESTM"
+      "title": "Puncte",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "HIVE Savings"
@@ -118,7 +118,7 @@
     "ignore": "te-a ignorat",
     "reblog": "redistribuit",
     "transfer": "transferat",
-    "spin": "Time to earn more ESTM",
+    "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
     "notification": "Notificări",
@@ -213,7 +213,7 @@
   "login": {
     "signin": "Loghează-te",
     "signup": "ALĂTURĂ-TE ACUM",
-    "signin_title": "To get all the benefits of using Esteem",
+    "signin_title": "To get all the benefits of using Ecency",
     "username": "Nume utilizator",
     "password": "Parolă sau WIF",
     "description": "Credentialele utilizatorului sunt salvate local pe dispozitiv. Credentialele sunt șterse după deconectare!",
@@ -221,6 +221,16 @@
     "login": "AUTENTIFICARE",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
     "steemconnect_fee_description": "info"
+  },
+  "register": {
+    "button": "Sign Up",
+    "title": "Înscrie-te",
+    "username": "Pick a username",
+    "mail": "Enter your email address",
+    "ref_user": "Referred user (Optional)",
+    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
+    "title_description": "One account to manage everything",
+    "form_description": "After registeration, you will receive an email with further instructions"
   },
   "home": {
     "feed": "Flux",
@@ -288,7 +298,7 @@
     "success_shared": "Postarea ta a fost distribuită cu succes",
     "success_moved": "Mutat la schițe",
     "permission_denied": "Permisiune respinsă",
-    "permission_text": "Please, go to phone Settings and change Esteem app permissions.",
+    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Verifică permisiunea oferită de cheia privată!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Ai redistribuit postarea deja!",
@@ -313,14 +323,18 @@
     "same_user": "Utilizator adăugat deja la listă",
     "unknow_error": "A intervenit o eroare",
     "error": "Eroare",
-    "fetch_error": "Probleme de conexiune, încearcă din nou sau raportează la support@esteem.app",
+    "fetch_error": "Probleme de conexiune, încearcă din nou sau raportează la support@ecency.com",
     "connection_fail": "Connectare Eșuată!",
     "connection_success": "Conectat cu succes!",
     "checking": "Verificare în curs...",
     "external_link": "Deschidere în browser",
     "not_existing_post": "Postarea nu există! Te rugăm să verifici permlink și autorul.",
     "google_play_version": "Am observat că dispozitivul tău are versiunea veche Google Play. Actualiză serviciile Google Play și încearcă din nou!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
+    "payloadTooLarge": "File size too big, please resize or upload smaller image",
+    "qoutaExceeded": "Upload quota exceeded",
+    "invalidImage": "Invalid image, try different file",
+    "something_wrong": "Something went wrong."
   },
   "post": {
     "reblog_alert": "Ești sigur că vrei să redistribui?",
@@ -370,7 +384,7 @@
     "invalid_username": "Nume utilizator invalid, te rugăm să verifici și să reincerci",
     "already_logged": "Ești deja conectat, te rugăm încearcă să adăugi alt cont",
     "invalid_credentials": "Credențiale invalide, te rugăm să verifici și să reîncerci",
-    "unknow_error": "Eroare necunoscută, te rugăm să ne contactezi la support@esteem.app"
+    "unknow_error": "Eroare necunoscută, te rugăm să ne contactezi la support@ecency.com"
   },
   "payout": {
     "potential_payout": "Plată probabilă",
@@ -420,9 +434,9 @@
     "to_placeholder": "Nume de utilizator",
     "memo_placeholder": "Introdu comentariul tău aici",
     "transfer_token": "Transfer",
-    "purchase_estm": "Purchase ESTM",
+    "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
-    "points": "Dăruiește ESTM cuiva",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Tranferă la economii",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Retrage la economii",
@@ -444,12 +458,16 @@
     "address_view": "View address"
   },
   "boost": {
-    "title": "Get Esteem Points",
-    "buy": "OBȚINE ESTM",
-    "next": "URMĂTORUL"
+    "title": "Get Points",
+    "buy": "GET Points",
+    "next": "URMĂTORUL",
+    "account": {
+      "title": "Get Account Boost",
+      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+    }
   },
   "free_estm": {
-    "title": "ESTM gratuit",
+    "title": "Free Points",
     "button": "ÎNVÂRTE ȘI CÂȘTIGĂ",
     "get_spin": "5 ROTIRI",
     "spin_right": "Rorări rămase",
@@ -486,5 +504,33 @@
     "reveal_comment": "Arată comentariul",
     "read_more": "Vizualizați mai multe comentarii",
     "more_replies": "vezi mai multe răspunsuri"
+  },
+  "search_result": {
+    "others": "Others",
+    "communities": {
+      "title": "Communities",
+      "subscribe": "Subscribe",
+      "unsubscribe": "Unsubscribe",
+      "subscribers": "Subscribers",
+      "posters": "Posters",
+      "posts": "Post"
+    },
+    "communities_filter": {
+      "rank": "Rank",
+      "subs": "Subscribers",
+      "new": "New"
+    },
+    "post_result_filter": {
+      "popularity": "Popularity",
+      "newest": "Newest",
+      "relevance": "Relevance"
+    },
+    "other_result_filter": {
+      "user": "Utilizator",
+      "tag": "Tag"
+    }
+  },
+  "community": {
+    "new_post": "New Post"
   }
 }

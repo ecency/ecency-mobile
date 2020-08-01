@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { withNavigation } from 'react-navigation';
 
 // Services and Actions
-import { getCommunity } from '../../../../providers/esteem/esteem';
+import { getCommunityTitle } from '../../../../providers/steem/dsteem';
 // Middleware
 
 // Constants
@@ -25,30 +25,33 @@ class TagContainer extends PureComponent {
 
     this.state = {
       label: props.value,
+      isCommunity: false,
     };
   }
   // Component Life Cycle Functions
   componentDidMount() {
     const { value } = this.props;
 
-    if (value.startsWith('hive-')) {
-      getCommunity(value)
-        .then((r) => {
-          this.setState({ label: r });
-          return r;
-        })
-        .catch(() => {});
-    }
+    getCommunityTitle(value)
+      .then((r) => {
+        this.setState({
+          label: r,
+          isCommunity: value !== r,
+        });
+        return r;
+      })
+      .catch(() => {});
   }
   // Component Functions
   _handleOnTagPress = () => {
     const { navigation, onPress, value } = this.props;
+    const { isCommunity } = this.state;
 
     if (onPress) {
       onPress();
     } else {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.SEARCH_RESULT,
+        routeName: isCommunity ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT,
         params: {
           tag: value,
         },
@@ -57,7 +60,7 @@ class TagContainer extends PureComponent {
   };
 
   render() {
-    const { isPin, value, isPostCardTag, isFilter } = this.props;
+    const { isPin, value, isPostCardTag, isFilter, style, textStyle } = this.props;
     const { label } = this.state;
 
     return (
@@ -68,6 +71,8 @@ class TagContainer extends PureComponent {
         isPostCardTag={isPostCardTag}
         onPress={this._handleOnTagPress}
         isFilter={isFilter}
+        style={style}
+        textStyle={textStyle}
       />
     );
   }

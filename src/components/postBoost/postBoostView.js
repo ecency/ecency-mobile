@@ -142,7 +142,7 @@ class BoostPostScreen extends PureComponent {
                   this._renderDropdown(accounts, selectedUser || currentAccountName)
                 }
               />
-              <Text style={styles.balanceText}>{`${balance || _balance} ESTM`}</Text>
+              <Text style={styles.balanceText}>{`${balance || _balance} Points`}</Text>
               <View style={styles.autocompleteLineContainer}>
                 <View style={styles.autocompleteLabelContainer}>
                   <Text style={styles.autocompleteLabelText}>
@@ -189,7 +189,7 @@ class BoostPostScreen extends PureComponent {
                 <Text style={styles.price}>
                   {` $${getESTMPrice(calculatedESTM).toFixed(3)} ~ `}
                 </Text>
-                <Text style={styles.esteem}>{`${calculatedESTM} ESTM`}</Text>
+                <Text style={styles.esteem}>{`${calculatedESTM} Points`}</Text>
               </View>
 
               <View style={styles.quickButtonsWrapper}>
@@ -212,7 +212,7 @@ class BoostPostScreen extends PureComponent {
 
                 <MainButton
                   style={styles.quickButtons}
-                  isDisable={!((balance || _balance) / 50 > factor + 4)}
+                  isDisable={!((balance || _balance) / 50 > factor + 4) || !(factor + 4 <= 10)}
                   onPress={() =>
                     this.setState({
                       factor: (balance || _balance) / 50 > factor + 4 ? factor + 1 : factor,

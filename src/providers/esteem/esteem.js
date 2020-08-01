@@ -1,7 +1,7 @@
-import axios from 'axios';
 import api from '../../config/api';
+import ecencyApi from '../../config/ecencyApi';
 import searchApi from '../../config/search';
-import imageApi from '../../config/imageApi';
+import { upload } from '../../config/imageApi';
 import serverList from '../../config/serverListApi';
 import { jsonStringify } from '../../utils/jsonUtils';
 import bugsnag from '../../config/bugsnag';
@@ -111,7 +111,7 @@ export const addBookmark = (username, author, permlink) =>
       username,
       author,
       permlink,
-      chain: 'steem',
+      chain: 'hive',
     })
     .then((resp) => resp.data);
 
@@ -312,7 +312,7 @@ export const schedule = (
       post_type: operationType,
       upvote_this: upvote,
       schedule: scheduleDate,
-      chain: 'steem',
+      chain: 'hive',
     })
     .then((resp) => resp.data);
 
@@ -334,18 +334,18 @@ export const addMyImage = (user, url) =>
     image_url: url,
   });
 
-export const uploadImage = (media) => {
+export const uploadImage = (media, username, sign) => {
   const file = {
     uri: media.path,
     type: media.mime,
-    name: media.filename || `IMG_${Math.random()}.JPG`,
+    name: media.filename || `img_${Math.random()}.jpg`,
     size: media.size,
   };
 
   const fData = new FormData();
   fData.append('file', file);
 
-  return imageApi.post('', fData);
+  return upload(fData, username, sign);
 };
 
 // New image service
@@ -378,8 +378,8 @@ export const getNodes = () =>
 
 export const getSCAccessToken = (code) =>
   new Promise((resolve, reject) => {
-    api
-      .post('/sc-token-refresh', {
+    ecencyApi
+      .post('/hs-token-refresh', {
         code,
       })
       .then((resp) => resolve(resp.data))
@@ -402,36 +402,5 @@ export const getPostReblogs = (data) =>
     .then((resp) => resp.data)
     .catch((error) => bugsnag.notify(error));
 
-const cache = {};
-
-export const getCommunity = (tag) =>
-  new Promise((resolve, reject) => {
-    if (!tag.startsWith('hive-')) {
-      resolve(tag);
-    }
-
-    if (cache[tag] !== undefined) {
-      resolve(cache[tag]);
-      return;
-    }
-
-    axios
-      .post('https://rpc.esteem.app', {
-        jsonrpc: '2.0',
-        method: 'bridge.get_community',
-        params: {
-          name: tag,
-          observer: '',
-        },
-        id: 1,
-      })
-      .then((resp) => {
-        if (resp.data.result) {
-          const { title } = resp.data.result;
-          cache[tag] = title;
-          resolve(title);
-        }
-        return resp;
-      })
-      .catch((e) => reject(e));
-  });
+export const register = (data) =>
+  api.post('/signup/account-create', data).then((resp) => resp.data);

@@ -69,7 +69,7 @@ const SpinGameView = ({
           {!isSpinning && score > 0 && (
             <View style={styles.descriptionWrapper}>
               <Fragment>
-                <Text style={styles.description}>{`${score} ESTM`}</Text>
+                <Text style={styles.description}>{`${score} Points`}</Text>
                 <View style={styles.triangle} />
               </Fragment>
             </View>

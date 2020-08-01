@@ -19,12 +19,12 @@ import {
   getIsMuted,
 } from '../providers/steem/dsteem';
 
-// Esteem providers
+// Ecency providers
 import { getIsFavorite, addFavorite, removeFavorite } from '../providers/esteem/esteem';
 
 // Utilitites
 import { getRcPower, getVotingPower } from '../utils/manaBar';
-import { toastNotification } from '../redux/actions/uiAction';
+import { toastNotification, setRcOffer } from '../redux/actions/uiAction';
 
 // Constants
 import { default as ROUTES } from '../constants/routeNames';
@@ -177,16 +177,16 @@ class ProfileContainer extends Component {
 
   _profileActionDone = (error = null) => {
     const { username } = this.state;
-    const { intl } = this.props;
+    const { intl, dispatch } = this.props;
 
     this.setState({
       isProfileLoading: false,
     });
-    console.log(error);
     if (error) {
-      if (error.jse_shortmsg && error.jse_shortmsg.split(':')[1].includes('wait to transact')) {
+      if (error.jse_shortmsg && error.jse_shortmsg.includes('wait to transact')) {
         //when RC is not enough, offer boosting account
-        Alert.alert(
+        dispatch(setRcOffer(true));
+        /*Alert.alert(
           intl.formatMessage({
             id: 'alert.fail',
           }),
@@ -202,7 +202,7 @@ class ProfileContainer extends Component {
             { text: 'OK', onPress: () => console.log('OK Pressed') },
           ],
           { cancelable: false },
-        );
+        );*/
       } else {
         //when other errors
         this.setState(

@@ -107,6 +107,15 @@ export const removeAllUserData = async () => {
   }
 };
 
+export const removeAllSCAccounts = async () => {
+  try {
+    await setItemToStorage(SC_ACCOUNTS, []);
+    return true;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const setDraftPost = async (fields, username) => {
   try {
     let draft = await getItemFromStorage(DRAFT_SCHEMA);
@@ -555,7 +564,7 @@ export const setExistUser = async (existUser) => {
 
 export const setSCAccount = async (data) => {
   try {
-    let scAccount = await getItemFromStorage(SC_ACCOUNTS);
+    let scAccount = (await getItemFromStorage(SC_ACCOUNTS)) || [];
     const date = new Date();
     date.setSeconds(date.getSeconds() + data.expires_in);
     if (scAccount.some((e) => e.username === data.username)) {
@@ -593,6 +602,18 @@ export const getSCAccount = async (username) => {
   }
 };
 
+export const getAllSCAccounts = async () => {
+  try {
+    const scAccountStr = await getItemFromStorage(SC_ACCOUNTS);
+    if (scAccountStr && scAccountStr.length > 0) {
+      return scAccountStr;
+    }
+    return [];
+  } catch (error) {
+    return error;
+  }
+};
+
 export const removeSCAccount = async (username) => {
   try {
     let scAccount = await getItemFromStorage(SC_ACCOUNTS);
@@ -617,6 +638,36 @@ export const getStorageType = async () => {
       return storageType;
     }
     return 'R';
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getVersionForWelcomeModal = async () => {
+  try {
+    const application = await getItemFromStorage(APPLICATION_SCHEMA);
+    if (application.versionForWelcomeModal) {
+      return parseFloat(application.versionForWelcomeModal);
+    }
+    return 0;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const setVersionForWelcomeModal = async (version) => {
+  try {
+    const application = await getItemFromStorage(APPLICATION_SCHEMA);
+    if (application) {
+      application.versionForWelcomeModal = version;
+      await setItemToStorage(APPLICATION_SCHEMA, application);
+      return application;
+    }
+    const applicationData = {
+      versionForWelcomeModal: version,
+    };
+    await setItemToStorage(APPLICATION_SCHEMA, { ...applicationData });
+    return applicationData;
   } catch (error) {
     return error;
   }

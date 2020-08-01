@@ -17,7 +17,7 @@ const PopoverWrapper = ({ children, text }) => {
             contentStyle={styles.popoverDetails}
             arrowStyle={styles.arrow}
             visible={popoverVisible}
-            onClose={() => closePopover()}
+            onClose={closePopover}
             fromRect={popoverAnchorRect}
             placement="top"
             supportedOrientations={['portrait', 'landscape']}

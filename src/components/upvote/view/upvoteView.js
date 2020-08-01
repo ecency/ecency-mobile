@@ -4,6 +4,7 @@ import { injectIntl } from 'react-intl';
 import { Popover, PopoverController } from '@esteemapp/react-native-modal-popover';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
+import { connect } from 'react-redux';
 
 // Utils
 import parseToken from '../../../utils/parseToken';
@@ -15,6 +16,8 @@ import { Icon } from '../../icon';
 import { PulseAnimation } from '../../animations';
 import { TextButton } from '../../buttons';
 import { FormattedCurrency } from '../../formatedElements';
+// Services
+import { setRcOffer } from '../../../redux/actions/uiAction';
 
 // STEEM
 import { vote } from '../../../providers/steem/dsteem';
@@ -70,6 +73,7 @@ class UpvoteView extends Component {
       permlink,
       pinCode,
       intl,
+      dispatch,
     } = this.props;
     const { sliderValue, downvote } = this.state;
 
@@ -101,14 +105,14 @@ class UpvoteView extends Component {
           );
         })
         .catch((err) => {
-          console.log(err);
-          if (
-            err &&
-            err.jse_shortmsg.split(':')[1] &&
-            err.jse_shortmsg.split(':')[1].includes('wait to transact')
-          ) {
+          if (err && err.jse_shortmsg && err.jse_shortmsg.indexOf('Please wait to transact') > 0) {
             //when RC is not enough, offer boosting account
-            Alert.alert(
+            this.setState({
+              isVoted: false,
+              isVoting: false,
+            });
+            dispatch(setRcOffer(true));
+            /*Alert.alert(
               intl.formatMessage({
                 id: 'alert.fail',
               }),
@@ -121,16 +125,18 @@ class UpvoteView extends Component {
                   onPress: () => console.log('Cancel Pressed'),
                   style: 'cancel',
                 },
-                { text: 'OK', onPress: () => console.log('OK Pressed') },
+                { text: 'OK', onPress: () => },
               ],
               { cancelable: false },
-            );
-            this.setState({
-              isVoted: false,
-              isVoting: false,
-            });
+            );*/
           } else {
             //when voting with same percent or other errors
+            Alert.alert(
+              intl.formatMessage({
+                id: 'alert.fail',
+              }),
+              JSON.stringify(err),
+            );
             if (err.jse_shortmsg.indexOf(':') > 0) {
               Alert.alert(
                 intl.formatMessage({
@@ -439,5 +445,11 @@ class UpvoteView extends Component {
     );
   }
 }
+const mapStateToProps = (state) => ({
+  isLoggedIn: state.application.isLoggedIn,
+  currentAccount: state.account.currentAccount,
+  pinCode: state.application.pin,
+  isPinCodeOpen: state.application.isPinCodeOpen,
+});
 
-export default injectIntl(UpvoteView);
+export default connect(mapStateToProps)(injectIntl(UpvoteView));

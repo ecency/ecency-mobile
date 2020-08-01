@@ -4,19 +4,19 @@ const authMenuItems = [
   {
     name: 'Profile',
     route: ROUTES.TABBAR.PROFILE,
-    icon: 'account-outline',
+    icon: 'user',
     id: 'profile',
   },
   {
     name: 'Bookmarks',
     route: ROUTES.SCREENS.BOOKMARKS,
-    icon: 'star-outline',
+    icon: 'star',
     id: 'bookmarks',
   },
   {
     name: 'Drafts',
     route: ROUTES.SCREENS.DRAFTS,
-    icon: 'file-document-edit-outline',
+    icon: 'docs',
     id: 'drafts',
   },
   // {
@@ -28,13 +28,13 @@ const authMenuItems = [
   {
     name: 'Settings',
     route: ROUTES.SCREENS.SETTINGS,
-    icon: 'settings-outline',
+    icon: 'settings',
     id: 'settings',
   },
   {
     name: 'Logout',
     route: '',
-    icon: 'power-standby',
+    icon: 'power',
     id: 'logout',
   },
 ];
@@ -43,13 +43,13 @@ const noAuthMenuItems = [
   {
     name: 'Add Account',
     route: ROUTES.SCREENS.LOGIN,
-    icon: 'account-plus-outline',
+    icon: 'user-follow',
     id: 'add_account',
   },
   {
     name: 'Settings',
     route: ROUTES.SCREENS.SETTINGS,
-    icon: 'settings-outline',
+    icon: 'settings',
     id: 'settings',
   },
 ];

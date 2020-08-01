@@ -36,7 +36,7 @@ class EditorScreen extends Component {
       fields: {
         title: (props.draftPost && props.draftPost.title) || '',
         body: (props.draftPost && props.draftPost.body) || '',
-        tags: (props.draftPost && props.draftPost.tags) || [],
+        tags: (props.draftPost && props.draftPost.tags) || props.tags || [],
         isValid: false,
       },
     };
@@ -50,6 +50,7 @@ class EditorScreen extends Component {
         fields: {
           ...prevState.fields,
           ...nextProps.draftPost,
+          tags: prevState.fields.tags,
         },
       }));
     }
@@ -123,7 +124,7 @@ class EditorScreen extends Component {
 
   _handleIsFormValid = (bodyText) => {
     const { fields } = this.state;
-    const { isReply } = this.props;
+    const { isReply, isLoggedIn } = this.props;
     let isFormValid;
 
     if (isReply) {
@@ -134,7 +135,8 @@ class EditorScreen extends Component {
         get(fields, 'title', '').length < 255 &&
         (get(fields, 'body', '') || (bodyText && bodyText > 0)) &&
         get(fields, 'tags', null) &&
-        get(fields, 'tags', null).length < 10;
+        get(fields, 'tags', null).length < 10 &&
+        isLoggedIn;
     }
 
     this.setState({ isFormValid });

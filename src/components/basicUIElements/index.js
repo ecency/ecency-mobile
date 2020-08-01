@@ -20,6 +20,7 @@ import WalletUnclaimedPlaceHolder from './view/placeHolder/walletUnclaimedPlaceH
 import ListPlaceHolder from './view/placeHolder/listPlaceHolderView';
 import BoostPlaceHolder from './view/placeHolder/boostPlaceHolderView';
 import CommentPlaceHolder from './view/placeHolder/commentPlaceHolderView';
+import CommunitiesPlaceHolder from './view/placeHolder/communitiesPlaceHolder';
 
 export {
   Card,
@@ -42,4 +43,5 @@ export {
   WalletDetailsPlaceHolder,
   WalletLineItem,
   WalletUnclaimedPlaceHolder,
+  CommunitiesPlaceHolder,
 };
