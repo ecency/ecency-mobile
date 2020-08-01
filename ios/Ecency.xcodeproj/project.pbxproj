@@ -1099,7 +1099,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2548;
+				CURRENT_PROJECT_VERSION = 2549;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
 				HEADER_SEARCH_PATHS = (
@@ -1148,6 +1148,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Ecency/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 3.0.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1171,7 +1172,7 @@
 				CODE_SIGN_ENTITLEMENTS = Ecency/Ecency.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2548;
+				CURRENT_PROJECT_VERSION = 2549;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
 				HEADER_SEARCH_PATHS = (
@@ -1220,6 +1221,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Ecency/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 3.0.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

@@ -2502,10 +2502,10 @@ commander@^2.14.1, commander@^2.19.0, commander@^2.9.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
 
-commander@^3.0.0:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-3.0.2.tgz#6837c3fb677ad9933d1cfba42dd14d5117d6b39e"
-  integrity sha512-Gar0ASD4BDyKC4hl4DwHqDrmvjoxWKZigVnAbn5H1owvm4CxCPdb0HQDehwNYMJpla5+M2tPmPARzhtYuwpHow==
+commander@^4.0.0:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-4.1.1.tgz#9fd602bd936294e9e9ef46a3f4d6964044b18068"
+  integrity sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==
 
 commander@~2.13.0:
   version "2.13.0"
@@ -7654,13 +7654,13 @@ react-native-version-number@^0.3.5:
   resolved "https://registry.yarnpkg.com/react-native-version-number/-/react-native-version-number-0.3.6.tgz#dd8b1435fc217df0a166d7e4a61fdc993f3e7437"
   integrity sha512-TdyXiK90NiwmSbmAUlUBOV6WI1QGoqtvZZzI5zQY4fKl67B3ZrZn/h+Wy/OYIKKFMfePSiyfeIs8LtHGOZ/NgA==
 
-react-native-version@^3.1.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-version/-/react-native-version-3.2.0.tgz#30e5b8ae79b04550a8144da264a78d2cb0d4a8b8"
-  integrity sha512-Hgglpm0XIUOkhYLSFaa+YG9v+0excDgLO4/K2zPv3NFEpNo0q6BAsHf/JspeobMf3ju65al9hf134P5Mvu1C3w==
+react-native-version@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-version/-/react-native-version-4.0.0.tgz#210115fe967daeb5f48303a34eec3a24a2a40ca0"
+  integrity sha512-OMoSbeDcrE5JnmeilkZXYsXnk98/I2hZe/z68NZ+nel3LkixJIOh1AnAxsqW1Cq20Nmyz3bV4PpEYxilKAy9xg==
   dependencies:
-    chalk "^2.4.1"
-    commander "^3.0.0"
+    chalk "^3.0.0"
+    commander "^4.0.0"
     common-tags "^1.4.0"
     detect-indent "^6.0.0"
     dottie "^2.0.0"
@@ -7671,7 +7671,7 @@ react-native-version@^3.1.0:
     pbxproj-dom "^1.0.11"
     plist "^3.0.1"
     resolve-from "^5.0.0"
-    semver "^6.0.0"
+    semver "^7.0.0"
 
 react-native-webview@^8.0.4:
   version "8.2.1"
@@ -8311,6 +8311,11 @@ semver@^6.0.0, semver@^6.1.1, semver@^6.2.0, semver@^6.3.0:
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.0.tgz#ee0a64c8af5e8ceea67687b133761e1becbd1d3d"
   integrity sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==
+
+semver@^7.0.0:
+  version "7.3.2"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.3.2.tgz#604962b052b81ed0786aae84389ffba70ffd3938"
+  integrity sha512-OrOb32TeeambH6UrhtShmF7CRDqhL6/5XpPNp2DuRH6+9QLw/orhp72j87v8Qa1ScDkvrrBNpZcDejAirJmfXQ==
 
 send@0.17.1:
   version "0.17.1"
