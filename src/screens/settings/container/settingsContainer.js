@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Platform } from 'react-native';
 import { connect } from 'react-redux';
-import AppCenter from 'appcenter';
-import Push from 'appcenter-push';
-import { Client } from '@hivechain/dsteem';
+import { Client } from '@esteemapp/dhive';
 import VersionNumber from 'react-native-version-number';
 import Config from 'react-native-config';
 import { injectIntl } from 'react-intl';
+import messaging from '@react-native-firebase/messaging';
 
 // Realm
 import {
@@ -70,8 +69,10 @@ class SettingsContainer extends Component {
   // Component Life Cycle Functions
   componentDidMount() {
     getNodes()
-      .then(resp => {
-        this.setState({ serverList: resp });
+      .then((resp) => {
+        this.setState({
+          serverList: resp,
+        });
       })
       .catch(() =>
         this.setState({
@@ -113,17 +114,21 @@ class SettingsContainer extends Component {
     }
   };
 
-  _changeApi = async action => {
+  _changeApi = async (action) => {
     const { dispatch, selectedApi, intl } = this.props;
     const { serverList } = this.state;
     const server = serverList[action];
     let serverResp;
     let isError = false;
     let alertMessage;
-    const client = new Client(server, { timeout: 3000 });
+    const client = new Client(server, {
+      timeout: 5000,
+    });
     dispatch(setApi(''));
 
-    this.setState({ isLoading: true });
+    this.setState({
+      isLoading: true,
+    });
 
     try {
       serverResp = await client.database.getDynamicGlobalProperties();
@@ -158,11 +163,19 @@ class SettingsContainer extends Component {
       checkClient();
     }
 
-    this.setState({ isLoading: false });
-    dispatch(toastNotification(intl.formatMessage({ id: alertMessage })));
+    this.setState({
+      isLoading: false,
+    });
+    dispatch(
+      toastNotification(
+        intl.formatMessage({
+          id: alertMessage,
+        }),
+      ),
+    );
   };
 
-  _currencyChange = action => {
+  _currencyChange = (action) => {
     const { dispatch } = this.props;
 
     dispatch(setCurrency(CURRENCY_VALUE[action]));
@@ -228,10 +241,18 @@ class SettingsContainer extends Component {
     };
     const notifyTypes = [];
 
-    dispatch(changeNotificationSettings({ action, type: actionType }));
-    setNotificationSettings({ action, type: actionType });
+    dispatch(
+      changeNotificationSettings({
+        action,
+        type: actionType,
+      }),
+    );
+    setNotificationSettings({
+      action,
+      type: actionType,
+    });
 
-    Object.keys(notificationDetails).map(item => {
+    Object.keys(notificationDetails).map((item) => {
       const notificationType = item.replace('Notification', '');
 
       if (notificationType === actionType.replace('notification.', '')) {
@@ -245,18 +266,21 @@ class SettingsContainer extends Component {
     notifyTypes.sort();
 
     if (actionType === 'notification') {
-      await Push.setEnabled(action);
       this._setPushToken(action ? notifyTypes : []);
     } else {
       this._setPushToken(notifyTypes);
     }
   };
 
-  _handleButtonPress = actionType => {
+  _handleButtonPress = (actionType) => {
     const { dispatch } = this.props;
     switch (actionType) {
       case 'reset_pin':
-        dispatch(openPinCodeModal({ isReset: true }));
+        dispatch(
+          openPinCodeModal({
+            isReset: true,
+          }),
+        );
         break;
 
       case 'feedback':
@@ -282,25 +306,27 @@ class SettingsContainer extends Component {
     }
   };
 
-  _setPushToken = async notifyTypes => {
+  _setPushToken = async (notifyTypes) => {
     const { isLoggedIn, otherAccounts = [] } = this.props;
 
     if (isLoggedIn) {
-      const token = await AppCenter.getInstallId();
-
-      getExistUser().then(isExistUser => {
+      getExistUser().then((isExistUser) => {
         if (isExistUser) {
-          otherAccounts.forEach(item => {
+          otherAccounts.forEach((item) => {
             const { isNotificationSettingsOpen } = this.props;
 
-            const data = {
-              username: item.username,
-              token,
-              system: Platform.OS,
-              allows_notify: Number(isNotificationSettingsOpen),
-              notify_types: notifyTypes,
-            };
-            setPushToken(data);
+            messaging()
+              .getToken()
+              .then((token) => {
+                const data = {
+                  username: item.username,
+                  token,
+                  system: `fcm-${Platform.OS}`,
+                  allows_notify: Number(isNotificationSettingsOpen),
+                  notify_types: notifyTypes,
+                };
+                setPushToken(data);
+              });
           });
         }
       });
@@ -312,7 +338,7 @@ class SettingsContainer extends Component {
     let message;
 
     await sendEmail(
-      'bug@esteem.app',
+      'bug@ecency.com',
       'Feedback/Bug report',
       `Write your message here!
 
@@ -337,7 +363,7 @@ class SettingsContainer extends Component {
     }
   };
 
-  _setDefaultPinCode = action => {
+  _setDefaultPinCode = (action) => {
     const { dispatch, username, currentAccount, pinCode } = this.props;
 
     if (!action) {
@@ -347,11 +373,15 @@ class SettingsContainer extends Component {
         username,
         oldPinCode,
       };
-      updatePinCode(pinData).then(response => {
+      updatePinCode(pinData).then((response) => {
         const _currentAccount = currentAccount;
         _currentAccount.local = response;
 
-        dispatch(updateCurrentAccount({ ..._currentAccount }));
+        dispatch(
+          updateCurrentAccount({
+            ..._currentAccount,
+          }),
+        );
 
         const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
         dispatch(savePinCode(encryptedPin));
@@ -381,7 +411,7 @@ class SettingsContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isDarkTheme: state.application.isDarkTheme,
   isPinCodeOpen: state.application.isPinCodeOpen,
   pinCode: state.application.pin,

@@ -27,12 +27,16 @@ import {
   ProfileEdit,
   Reblogs,
   Redeem,
+  Register,
   SearchResult,
   Settings,
   SpinGame,
   Transfer,
   Voters,
   Wallet,
+  AccountBoost,
+  TagResult,
+  Community,
 } from '../screens';
 
 const bottomTabNavigator = createBottomTabNavigator(
@@ -89,7 +93,7 @@ const bottomTabNavigator = createBottomTabNavigator(
     },
   },
   {
-    tabBarComponent: props => <BottomTabBar {...props} />,
+    tabBarComponent: (props) => <BottomTabBar {...props} />,
     tabBarOptions: {
       showLabel: false,
       activeTintColor: '#f6f6f6',
@@ -122,11 +126,14 @@ const stackNavigator = createStackNavigator(
     [ROUTES.SCREENS.DRAFTS]: { screen: Drafts },
     [ROUTES.SCREENS.BOOKMARKS]: { screen: Bookmarks },
     [ROUTES.SCREENS.SEARCH_RESULT]: { screen: SearchResult },
+    [ROUTES.SCREENS.TAG_RESULT]: { screen: TagResult },
     [ROUTES.SCREENS.TRANSFER]: { screen: Transfer },
     [ROUTES.SCREENS.BOOST]: { screen: Boost },
     [ROUTES.SCREENS.REDEEM]: { screen: Redeem },
     [ROUTES.SCREENS.REBLOGS]: { screen: Reblogs },
     [ROUTES.SCREENS.SPIN_GAME]: { screen: SpinGame },
+    [ROUTES.SCREENS.ACCOUNT_BOOST]: { screen: AccountBoost },
+    [ROUTES.SCREENS.COMMUNITY]: { screen: Community },
   },
   {
     headerMode: 'none',
@@ -135,5 +142,6 @@ const stackNavigator = createStackNavigator(
 
 export default createSwitchNavigator({
   stackNavigator,
+  [ROUTES.SCREENS.REGISTER]: { screen: Register },
   [ROUTES.SCREENS.LOGIN]: { screen: Login },
 });

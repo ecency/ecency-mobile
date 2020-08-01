@@ -42,7 +42,7 @@ const CommentsView = ({
   const intl = useIntl();
   const commentMenu = useRef();
 
-  const _openCommentMenu = item => {
+  const _openCommentMenu = (item) => {
     setSelectedComment(item);
     commentMenu.current.show();
   };
@@ -106,14 +106,14 @@ const CommentsView = ({
             handleOnLongPress={() => _openCommentMenu(item)}
           />
         )}
-        keyExtractor={item => get(item, 'permlink')}
+        keyExtractor={(item) => get(item, 'permlink')}
       />
       <ActionSheet
         ref={commentMenu}
         options={menuItems}
         title={get(selectedComment, 'summary')}
         cancelButtonIndex={2}
-        onPress={index => handleOnPressCommentMenu(index, selectedComment)}
+        onPress={(index) => handleOnPressCommentMenu(index, selectedComment)}
       />
     </Fragment>
   );

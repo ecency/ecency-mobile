@@ -31,7 +31,7 @@ class UpvoteContainer extends PureComponent {
 
   // Component Functions
 
-  _setUpvotePercent = value => {
+  _setUpvotePercent = (value) => {
     const { dispatch } = this.props;
 
     if (value) {
@@ -74,7 +74,7 @@ class UpvoteContainer extends PureComponent {
     const beneficiaries = [];
     const beneficiary = get(content, 'beneficiaries');
     if (beneficiaries) {
-      beneficiary.forEach(key => {
+      beneficiary.forEach((key) => {
         beneficiaries.push(
           `\n  ${get(key, 'account')}: ${(parseFloat(get(key, 'weight')) / 100).toFixed(2)}%`,
         );
@@ -85,9 +85,12 @@ class UpvoteContainer extends PureComponent {
     if (pendingPayout > 0 && pendingPayout < minimumAmountForPayout) {
       warnZeroPayout = true;
     }
-    const { base, quote, sbdPrintRate } = globalProps;
+    const base = get(globalProps, 'base', 0);
+    const quote = get(globalProps, 'quote', 0);
+    const sbdPrintRate = get(globalProps, 'sbdPrintRate', 0);
     const SBD_PRINT_RATE_MAX = 10000;
-    const percent_steem_dollars = get(content, 'percent_steem_dollars') / 20000;
+    const percent_steem_dollars =
+      get(content, 'percent_steem_dollars', content.percent_hbd) / 20000;
     const pending_payout_sbd = pendingPayout * percent_steem_dollars;
     const price_per_steem = base / quote;
 
@@ -133,7 +136,7 @@ class UpvoteContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
   upvotePercent: state.application.upvotePercent,
   pinCode: state.application.pin,

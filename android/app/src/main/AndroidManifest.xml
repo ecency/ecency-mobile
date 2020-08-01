@@ -28,38 +28,65 @@
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
-        <intent-filter android:label="Esteem">
+        <intent-filter android:label="Ecency">
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="esteem" />
+            <data android:scheme="ecency" />
         </intent-filter>
-        <intent-filter android:label="Esteem">
+        <intent-filter android:label="Ecency">
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" android:host="ecency.com" />
+        </intent-filter>
+        <intent-filter android:label="Ecency">
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="https" android:host="esteem.app" />
         </intent-filter>
-        <intent-filter android:label="Esteem">
+        <intent-filter android:label="Ecency">
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="https" android:host="hive.blog" />
         </intent-filter>
-        <intent-filter android:label="Esteem">
+        <intent-filter android:label="Ecency">
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="https" android:host="peakd.com" />
         </intent-filter>
+        <intent-filter android:label="Ecency">
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" android:host="leofinance.io" />
+        </intent-filter>
+        <intent-filter>
+            <action android:name="android.intent.action.SEND" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <data android:mimeType="text/*" />
+        </intent-filter>
+        <intent-filter>
+            <action android:name="android.intent.action.SEND" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <data android:mimeType="image/*" />
+        </intent-filter>
+        <intent-filter>
+            <action android:name="android.intent.action.SEND_MULTIPLE" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <data android:mimeType="image/*" />
+        </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
       <meta-data
           android:name="com.google.firebase.messaging.default_notification_icon"
-          android:resource="@mipmap/ic_notification" />
-      <meta-data
+          android:resource="@drawable/ic_notification" />
+      <!-- <meta-data
           android:name="com.google.firebase.messaging.default_notification_color"
-          android:resource="@color/notification_icon" />
+          android:resource="@color/notification_icon" /> -->
       <meta-data
           android:name="com.bugsnag.android.API_KEY"
           android:value="88a8a25738939a80ba49f1d5289dbc80" />

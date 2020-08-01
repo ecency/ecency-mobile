@@ -1,4 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import scalePx from '../../../utils/scalePx';
 
 export default EStyleSheet.create({
   container: {
@@ -35,18 +36,19 @@ export default EStyleSheet.create({
   userInfoWrapper: {
     alignSelf: 'flex-end',
     marginLeft: 15,
+    width: 120,
   },
   username: {
     color: '$pureWhite',
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: scalePx(16),
     marginBottom: 8,
     maxWidth: '$deviceWidth / 3',
   },
   usernick: {
     color: 'rgba(255, 255, 255, 0.7)',
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: scalePx(14),
     marginTop: 2,
   },
   listItem: {

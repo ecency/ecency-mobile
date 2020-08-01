@@ -8,7 +8,7 @@ import { withNavigation } from 'react-navigation';
 
 import { uploadImage } from '../providers/esteem/esteem';
 
-import { profileUpdate } from '../providers/steem/dsteem';
+import { profileUpdate, signImage } from '../providers/steem/dsteem';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
 
 // import ROUTES from '../constants/routeNames';
@@ -67,17 +67,20 @@ class ProfileEditContainer extends Component {
     this.setState({ [item]: val });
   };
 
-  _uploadImage = (media, action) => {
-    const { intl } = this.props;
+  _uploadImage = async (media, action) => {
+    const { intl, currentAccount, pinCode } = this.props;
 
     this.setState({ isLoading: true });
-    uploadImage(media)
-      .then(res => {
+
+    let sign = await signImage(media, currentAccount, pinCode);
+
+    uploadImage(media, currentAccount.name, sign)
+      .then((res) => {
         if (res.data && res.data.url) {
           this.setState({ [action]: res.data.url, isLoading: false });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           Alert.alert(
             intl.formatMessage({
@@ -98,26 +101,26 @@ class ProfileEditContainer extends Component {
     }
   };
 
-  _handleOpenImagePicker = action => {
+  _handleOpenImagePicker = (action) => {
     ImagePicker.openPicker({
       includeBase64: true,
     })
-      .then(image => {
+      .then((image) => {
         this._handleMediaOnSelected(image, action);
       })
-      .catch(e => {
+      .catch((e) => {
         this._handleMediaOnSelectFailure(e);
       });
   };
 
-  _handleOpenCamera = action => {
+  _handleOpenCamera = (action) => {
     ImagePicker.openCamera({
       includeBase64: true,
     })
-      .then(image => {
+      .then((image) => {
         this._handleMediaOnSelected(image, action);
       })
-      .catch(e => {
+      .catch((e) => {
         this._handleMediaOnSelectFailure(e);
       });
   };
@@ -128,7 +131,7 @@ class ProfileEditContainer extends Component {
     });
   };
 
-  _handleMediaOnSelectFailure = error => {
+  _handleMediaOnSelectFailure = (error) => {
     const { intl } = this.props;
 
     if (get(error, 'code') === 'E_PERMISSION_MISSING') {
@@ -157,7 +160,6 @@ class ProfileEditContainer extends Component {
       about,
       location,
     };
-
     await profileUpdate(params, pinCode, currentAccount)
       .then(async () => {
         const _currentAccount = { ...currentAccount, display_name: name, avatar: avatarUrl };
@@ -168,7 +170,7 @@ class ProfileEditContainer extends Component {
         navigation.state.params.fetchUser();
         navigation.goBack();
       })
-      .catch(error => {
+      .catch((error) => {
         Alert.alert(
           intl.formatMessage({
             id: 'alert.fail',
@@ -205,7 +207,7 @@ class ProfileEditContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   isDarkTheme: state.application.isDarkTheme,
   pinCode: state.application.pin,

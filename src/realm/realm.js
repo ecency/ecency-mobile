@@ -10,7 +10,7 @@ const SETTINGS_SCHEMA = 'settings';
 const APPLICATION_SCHEMA = 'application';
 const STORAGE_SCHEMA = 'storage';
 
-export const getItemFromStorage = async key => {
+export const getItemFromStorage = async (key) => {
   const data = await AsyncStorage.getItem(key);
   if (data) {
     return JSON.parse(data);
@@ -37,11 +37,11 @@ export const getUserData = async () => {
   }
 };
 
-export const getUserDataWithUsername = async username => {
+export const getUserDataWithUsername = async (username) => {
   try {
     const user = await getItemFromStorage(USER_SCHEMA);
     if (user) {
-      const userObj = user.filter(u => u.username === username);
+      const userObj = user.filter((u) => u.username === username);
       return userObj;
     }
     return [];
@@ -50,7 +50,7 @@ export const getUserDataWithUsername = async username => {
   }
 };
 
-export const setUserData = async userData => {
+export const setUserData = async (userData) => {
   try {
     const account = await getUserDataWithUsername(userData.username);
     const user = (await getItemFromStorage(USER_SCHEMA)) || [];
@@ -65,12 +65,12 @@ export const setUserData = async userData => {
   }
 };
 
-export const updateUserData = async userData => {
+export const updateUserData = async (userData) => {
   try {
     let account = await getItemFromStorage(USER_SCHEMA);
 
-    if (account.some(e => e.username === userData.username)) {
-      account = account.map(item =>
+    if (account.some((e) => e.username === userData.username)) {
+      account = account.map((item) =>
         item.username === userData.username ? { ...item, ...userData } : item,
       );
       await setItemToStorage(USER_SCHEMA, account);
@@ -82,12 +82,12 @@ export const updateUserData = async userData => {
   }
 };
 
-export const removeUserData = async username => {
+export const removeUserData = async (username) => {
   try {
     let account = await getItemFromStorage(USER_SCHEMA);
 
-    if (account.some(e => e.username === username)) {
-      account = account.filter(item => item.username !== username);
+    if (account.some((e) => e.username === username)) {
+      account = account.filter((item) => item.username !== username);
       await setItemToStorage(USER_SCHEMA, account);
       return true;
     }
@@ -107,6 +107,15 @@ export const removeAllUserData = async () => {
   }
 };
 
+export const removeAllSCAccounts = async () => {
+  try {
+    await setItemToStorage(SC_ACCOUNTS, []);
+    return true;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const setDraftPost = async (fields, username) => {
   try {
     let draft = await getItemFromStorage(DRAFT_SCHEMA);
@@ -118,8 +127,8 @@ export const setDraftPost = async (fields, username) => {
       body: fields.body,
     };
 
-    if (draft && draft.some(e => e.username === username)) {
-      draft = draft.map(item => (item.username === username ? { ...item, ...data } : item));
+    if (draft && draft.some((e) => e.username === username)) {
+      draft = draft.map((item) => (item.username === username ? { ...item, ...data } : item));
     } else {
       draft = [];
       draft.push(data);
@@ -131,10 +140,10 @@ export const setDraftPost = async (fields, username) => {
   }
 };
 
-export const getDraftPost = async username => {
+export const getDraftPost = async (username) => {
   try {
     const draft = await getItemFromStorage(DRAFT_SCHEMA);
-    const draftObj = draft.filter(item => item.username === username);
+    const draftObj = draft.filter((item) => item.username === username);
     return draftObj[0];
   } catch (error) {
     return error;
@@ -153,7 +162,7 @@ export const getAuthStatus = async () => {
   }
 };
 
-export const setAuthStatus = async authStatus => {
+export const setAuthStatus = async (authStatus) => {
   try {
     const auth = await getItemFromStorage(AUTH_SCHEMA);
     if (auth) {
@@ -168,7 +177,7 @@ export const setAuthStatus = async authStatus => {
   }
 };
 
-export const updateCurrentUsername = async username => {
+export const updateCurrentUsername = async (username) => {
   try {
     const auth = await getItemFromStorage(AUTH_SCHEMA);
 
@@ -190,7 +199,7 @@ export const updateCurrentUsername = async username => {
   }
 };
 
-export const setPinCode = async pinCode => {
+export const setPinCode = async (pinCode) => {
   try {
     const auth = await getItemFromStorage(AUTH_SCHEMA);
     const pinHash = sha256(pinCode);
@@ -244,7 +253,7 @@ export const getPinCodeOpen = async () => {
   }
 };
 
-export const setPinCodeOpen = async status => {
+export const setPinCodeOpen = async (status) => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
 
@@ -257,7 +266,7 @@ export const setPinCodeOpen = async status => {
   }
 };
 
-export const setTheme = async isDarkTheme => {
+export const setTheme = async (isDarkTheme) => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
 
@@ -282,7 +291,7 @@ export const getTheme = async () => {
   }
 };
 
-export const setDefaultFooter = async isDefaultFooter => {
+export const setDefaultFooter = async (isDefaultFooter) => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
 
@@ -295,7 +304,7 @@ export const setDefaultFooter = async isDefaultFooter => {
   }
 };
 
-export const setUpvotePercent = async percent => {
+export const setUpvotePercent = async (percent) => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
 
@@ -332,7 +341,7 @@ export const getNsfw = async () => {
   }
 };
 
-export const setNsfw = async nsfw => {
+export const setNsfw = async (nsfw) => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
 
@@ -345,7 +354,7 @@ export const setNsfw = async nsfw => {
   }
 };
 
-export const setLanguage = async selectedLanguage => {
+export const setLanguage = async (selectedLanguage) => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
 
@@ -358,7 +367,7 @@ export const setLanguage = async selectedLanguage => {
   }
 };
 
-export const setServer = async selectedServer => {
+export const setServer = async (selectedServer) => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
 
@@ -408,7 +417,7 @@ export const setNotificationSettings = async ({ type, action }) => {
   }
 };
 
-export const setCurrency = async currencyProps => {
+export const setCurrency = async (currencyProps) => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
     setting.currency = currencyProps;
@@ -501,7 +510,7 @@ export const getPushTokenSaved = async () => {
   }
 };
 
-export const setPushTokenSaved = async pushTokenSaved => {
+export const setPushTokenSaved = async (pushTokenSaved) => {
   try {
     const application = await getItemFromStorage(APPLICATION_SCHEMA);
     if (application) {
@@ -535,7 +544,7 @@ export const getExistUser = async () => {
   }
 };
 
-export const setExistUser = async existUser => {
+export const setExistUser = async (existUser) => {
   try {
     const application = await getItemFromStorage(APPLICATION_SCHEMA);
     if (application) {
@@ -553,13 +562,13 @@ export const setExistUser = async existUser => {
   }
 };
 
-export const setSCAccount = async data => {
+export const setSCAccount = async (data) => {
   try {
-    let scAccount = await getItemFromStorage(SC_ACCOUNTS);
+    let scAccount = (await getItemFromStorage(SC_ACCOUNTS)) || [];
     const date = new Date();
     date.setSeconds(date.getSeconds() + data.expires_in);
-    if (scAccount.some(e => e.username === data.username)) {
-      scAccount = scAccount.map(item =>
+    if (scAccount.some((e) => e.username === data.username)) {
+      scAccount = scAccount.map((item) =>
         item.username === data.username
           ? { ...item, refreshToken: data.refresh_token, expireDate: date.toString() }
           : item,
@@ -580,10 +589,10 @@ export const setSCAccount = async data => {
   }
 };
 
-export const getSCAccount = async username => {
+export const getSCAccount = async (username) => {
   try {
     const scAccountStr = await getItemFromStorage(SC_ACCOUNTS);
-    const scAccount = scAccountStr.filter(u => u.username === username);
+    const scAccount = scAccountStr.filter((u) => u.username === username);
     if (scAccount.length > 0) {
       return scAccount[0];
     }
@@ -593,12 +602,24 @@ export const getSCAccount = async username => {
   }
 };
 
-export const removeSCAccount = async username => {
+export const getAllSCAccounts = async () => {
+  try {
+    const scAccountStr = await getItemFromStorage(SC_ACCOUNTS);
+    if (scAccountStr && scAccountStr.length > 0) {
+      return scAccountStr;
+    }
+    return [];
+  } catch (error) {
+    return error;
+  }
+};
+
+export const removeSCAccount = async (username) => {
   try {
     let scAccount = await getItemFromStorage(SC_ACCOUNTS);
 
-    if (scAccount.some(e => e.username === username)) {
-      scAccount = scAccount.filter(item => item.username !== username);
+    if (scAccount.some((e) => e.username === username)) {
+      scAccount = scAccount.filter((item) => item.username !== username);
 
       await setItemToStorage(SC_ACCOUNTS, scAccount);
 
@@ -617,6 +638,36 @@ export const getStorageType = async () => {
       return storageType;
     }
     return 'R';
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getVersionForWelcomeModal = async () => {
+  try {
+    const application = await getItemFromStorage(APPLICATION_SCHEMA);
+    if (application.versionForWelcomeModal) {
+      return parseFloat(application.versionForWelcomeModal);
+    }
+    return 0;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const setVersionForWelcomeModal = async (version) => {
+  try {
+    const application = await getItemFromStorage(APPLICATION_SCHEMA);
+    if (application) {
+      application.versionForWelcomeModal = version;
+      await setItemToStorage(APPLICATION_SCHEMA, application);
+      return application;
+    }
+    const applicationData = {
+      versionForWelcomeModal: version,
+    };
+    await setItemToStorage(APPLICATION_SCHEMA, { ...applicationData });
+    return applicationData;
   } catch (error) {
     return error;
   }

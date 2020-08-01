@@ -1,4 +1,4 @@
-const parseCatAuthorPermlink = u => {
+const parseCatAuthorPermlink = (u) => {
   const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
   const postMatch = u.match(postRegex);
 
@@ -16,10 +16,19 @@ const parseCatAuthorPermlink = u => {
       permlink: null,
     };
   }
+  const r = /^https?:\/\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
+  const match = u.match(r);
+
+  if (match && match.length === 4) {
+    return {
+      author: match[2].replace('@', ''),
+      permlink: match[3],
+    };
+  }
   return null;
 };
 
-const parseAuthorPermlink = u => {
+const parseAuthorPermlink = (u) => {
   const r = /^https?:\/\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
   const match = u.match(r);
 
@@ -41,9 +50,11 @@ const parseAuthorPermlink = u => {
   return null;
 };
 
-export default url => {
-  if (url.startsWith('esteem://')) {
-    url = url.replace('esteem://', 'https://esteem.app/');
+export default (url) => {
+  if (url.startsWith('ecency://') || url.startsWith('esteem://')) {
+    url = url
+      .replace('ecency://', 'https://ecency.com/')
+      .replace('esteem://', 'https://ecency.com/');
   }
 
   // eslint-disable-next-line no-useless-escape
@@ -62,14 +73,19 @@ export default url => {
   }
 
   if (
-    ['https://estm.to', 'https://esteem.app', 'https://hive.blog', 'https://peakd.com'].some(x =>
-      url.startsWith(x),
-    )
+    [
+      'https://estm.to',
+      'https://ecency.com',
+      'https://esteem.app',
+      'https://hive.blog',
+      'https://peakd.com',
+      'https://leofinance.io',
+    ].some((x) => url.startsWith(x))
   ) {
     return parseCatAuthorPermlink(url);
   }
 
-  if (['https://busy.org', 'https://steemhunt.com'].some(x => url.startsWith(x))) {
+  if (['https://busy.org', 'https://steemhunt.com'].some((x) => url.startsWith(x))) {
     return parseAuthorPermlink(url);
   }
 

@@ -32,7 +32,7 @@ export default EStyleSheet.create({
   backgroundTags: {
     position: 'absolute',
     width: '$deviceWidth',
-    height: 320,
+    height: 360,
     left: 0,
     top: 16,
     right: 0,
@@ -71,7 +71,7 @@ export default EStyleSheet.create({
     left: -22,
   },
   productWrapper: {
-    flex: 0.8,
+    flex: 0.7,
     zIndex: 998,
     alignItems: 'center',
   },

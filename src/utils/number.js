@@ -1,4 +1,4 @@
-export const countDecimals = value => {
+export const countDecimals = (value) => {
   if (!value) {
     return 0;
   }

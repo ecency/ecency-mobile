@@ -71,8 +71,8 @@ class PinCodeContainer extends Component {
   }
 
   _getDataFromStorage = () =>
-    new Promise(resolve => {
-      getExistUser().then(isExistUser => {
+    new Promise((resolve) => {
+      getExistUser().then((isExistUser) => {
         this.setState(
           {
             isExistUser,
@@ -82,7 +82,7 @@ class PinCodeContainer extends Component {
       });
     });
 
-  _resetPinCode = pin =>
+  _resetPinCode = (pin) =>
     new Promise((resolve, reject) => {
       const {
         currentAccount,
@@ -101,7 +101,7 @@ class PinCodeContainer extends Component {
       };
 
       if (isOldPinVerified) {
-        updatePinCode(pinData).then(response => {
+        updatePinCode(pinData).then((response) => {
           const _currentAccount = currentAccount;
           _currentAccount.local = response;
 
@@ -133,7 +133,7 @@ class PinCodeContainer extends Component {
             });
             resolve();
           })
-          .catch(err => {
+          .catch((err) => {
             Alert.alert(
               intl.formatMessage({
                 id: 'alert.warning',
@@ -147,8 +147,8 @@ class PinCodeContainer extends Component {
       }
     });
 
-  _setFirstPinCode = pin =>
-    new Promise(resolve => {
+  _setFirstPinCode = (pin) =>
+    new Promise((resolve) => {
       const {
         currentAccount,
         dispatch,
@@ -162,8 +162,8 @@ class PinCodeContainer extends Component {
         username: currentAccount ? currentAccount.name : '',
         accessToken,
       };
-      setUserDataWithPinCode(pinData).then(response => {
-        getUser(currentAccount.name).then(user => {
+      setUserDataWithPinCode(pinData).then((response) => {
+        getUser(currentAccount.name).then((user) => {
           const _currentAccount = user;
           _currentAccount.local = response;
 
@@ -187,7 +187,7 @@ class PinCodeContainer extends Component {
       });
     });
 
-  _verifyPinCode = pin =>
+  _verifyPinCode = (pin) =>
     new Promise((resolve, reject) => {
       const {
         currentAccount,
@@ -207,7 +207,7 @@ class PinCodeContainer extends Component {
       verifyPinCode(pinData)
         .then(() => {
           this._savePinCode(pin);
-          getUserDataWithUsername(currentAccount.name).then(realmData => {
+          getUserDataWithUsername(currentAccount.name).then((realmData) => {
             const _currentAccount = currentAccount;
             _currentAccount.username = _currentAccount.name;
             [_currentAccount.local] = realmData;
@@ -224,7 +224,7 @@ class PinCodeContainer extends Component {
             }
           });
         })
-        .catch(err => {
+        .catch((err) => {
           Alert.alert(
             intl.formatMessage({
               id: 'alert.warning',
@@ -237,7 +237,7 @@ class PinCodeContainer extends Component {
         });
     });
 
-  _savePinCode = pin => {
+  _savePinCode = (pin) => {
     const { dispatch } = this.props;
     const encryptedPin = encryptKey(pin, Config.PIN_KEY);
     dispatch(savePinCode(encryptedPin));
@@ -348,7 +348,7 @@ class PinCodeContainer extends Component {
         setAuthStatus({ isLoggedIn: false });
         setExistUser(false);
         if (otherAccounts.length > 0) {
-          otherAccounts.map(item => dispatch(removeOtherAccount(item.username)));
+          otherAccounts.map((item) => dispatch(removeOtherAccount(item.username)));
         }
         dispatch(logoutDone());
         dispatch(closePinCodeModal());
@@ -367,7 +367,7 @@ class PinCodeContainer extends Component {
     return (
       <PinCodeScreen
         informationText={informationText}
-        setPinCode={pin => this._setPinCode(pin, isReset)}
+        setPinCode={(pin) => this._setPinCode(pin, isReset)}
         showForgotButton={isExistUser}
         username={currentAccount.name}
         intl={intl}
@@ -378,7 +378,7 @@ class PinCodeContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   applicationPinCode: state.application.pin,
   otherAccounts: state.account.otherAccounts,

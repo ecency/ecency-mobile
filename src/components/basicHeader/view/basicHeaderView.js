@@ -51,7 +51,7 @@ class BasicHeaderView extends Component {
     }
   };
 
-  _handleOnSearch = value => {
+  _handleOnSearch = (value) => {
     const { handleOnSearch } = this.props;
 
     handleOnSearch(value);
@@ -59,7 +59,7 @@ class BasicHeaderView extends Component {
 
   _handleOnInputChange = () => {};
 
-  _handleDatePickerChange = datePickerValue => {
+  _handleDatePickerChange = (datePickerValue) => {
     const { handleDatePickerChange } = this.props;
 
     if (handleDatePickerChange) {
@@ -153,7 +153,7 @@ class BasicHeaderView extends Component {
 
             {isInputVisible && (
               <TextInput
-                onChangeText={value => this._handleOnSearch(value)}
+                onChangeText={(value) => this._handleOnSearch(value)}
                 autoFocus
                 placeholder={intl.formatMessage({
                   id: 'basic_header.search',
@@ -204,7 +204,7 @@ class BasicHeaderView extends Component {
                 <TextButton
                   textStyle={[
                     styles.textButton,
-                    isFormValid && isLoggedIn ? styles.textButtonEnable : styles.textButtonDisable,
+                    isFormValid ? styles.textButtonEnable : styles.textButtonDisable,
                   ]}
                   onPress={isFormValid && this._handleOnPress}
                   style={styles.textButtonWrapper}

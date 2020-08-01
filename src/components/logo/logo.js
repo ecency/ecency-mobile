@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Image } from 'react-native';
 
-import LOGO from '../../assets/esteem_logo_transparent.png';
+import LOGO from '../../assets/ecency_logo_transparent.png';
 
 // Styles
 import styles from './logoStyles';
 import globalStyles from '../../globalStyles';
 
-const Logo = props => (
+const Logo = (props) => (
   <View style={globalStyles.container}>
     <Image
       source={props.source ? props.source : LOGO}

@@ -35,7 +35,7 @@ const BoostIndicatorAnimation = ({ isSpinning }) => {
       />
       <Image
         style={{ width: 80, height: 80 }}
-        source={require('../../../assets/esteem_logo_transparent.png')}
+        source={require('../../../assets/ecency-logo-round.png')}
       />
     </View>
   );

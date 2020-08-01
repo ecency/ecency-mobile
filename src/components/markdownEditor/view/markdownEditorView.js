@@ -94,7 +94,7 @@ const MarkdownEditorView = ({
   }, [text]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const _changeText = useCallback(input => {
+  const _changeText = useCallback((input) => {
     setText(input);
 
     if (onChange) {
@@ -110,7 +110,7 @@ const MarkdownEditorView = ({
     }
   });
 
-  const _handleOnSelectionChange = async event => {
+  const _handleOnSelectionChange = async (event) => {
     setSelection(event.nativeEvent.selection);
   };
 
@@ -202,7 +202,7 @@ const MarkdownEditorView = ({
     </StickyBar>
   );
 
-  const _handleClear = index => {
+  const _handleClear = (index) => {
     if (index === 0) {
       initialFields();
       setText('');
@@ -256,7 +256,7 @@ const MarkdownEditorView = ({
           }),
         ]}
         cancelButtonIndex={2}
-        onPress={index => {
+        onPress={(index) => {
           handleOpenImagePicker(index === 0 ? 'image' : index === 1 && 'camera');
         }}
       />

@@ -35,7 +35,7 @@ const FormInputView = ({
 
   const isIos = Platform.OS === 'ios';
 
-  const _handleOnChange = text => {
+  const _handleOnChange = (text) => {
     setValue(text);
 
     if (onChange) {

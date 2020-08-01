@@ -25,7 +25,7 @@ export default class TitleAreaView extends Component {
   }
 
   // Component Life Cycles
-  UNSAFE_componentWillReceiveProps = nextProps => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     const { text } = this.state;
     if (nextProps.value !== text) {
       this.setState({ text: nextProps.value });
@@ -33,7 +33,7 @@ export default class TitleAreaView extends Component {
   };
 
   // Component Functions
-  _handleOnChange = text => {
+  _handleOnChange = (text) => {
     const { onChange, handleIsValid, componentID } = this.props;
     if (onChange) {
       onChange(text);
@@ -60,13 +60,12 @@ export default class TitleAreaView extends Component {
               placeholder={intl.formatMessage({
                 id: 'editor.title',
               })}
-              multiline
-              numberOfLines={4}
-              onContentSizeChange={event => {
+              numberOfLines={1}
+              onContentSizeChange={(event) => {
                 this.setState({ height: event.nativeEvent.contentSize.height });
               }}
               autoFocus={autoFocus}
-              onChangeText={textT => this._handleOnChange(textT)}
+              onChangeText={(textT) => this._handleOnChange(textT)}
               value={text}
             />
           )}

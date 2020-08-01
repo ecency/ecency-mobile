@@ -91,7 +91,7 @@ const DraftsScreen = ({
     <View style={globalStyles.lightContainer}>
       <FlatList
         data={data}
-        keyExtractor={item => item._id}
+        keyExtractor={(item) => item._id}
         removeClippedSubviews={false}
         renderItem={({ item }) => _renderItem(item, type)}
         ListEmptyComponent={_renderEmptyContent()}
@@ -149,7 +149,7 @@ const DraftsScreen = ({
           }),
         ]}
         cancelButtonIndex={1}
-        onPress={index => {
+        onPress={(index) => {
           index === 0 && moveScheduleToDraft(selectedId);
         }}
       />

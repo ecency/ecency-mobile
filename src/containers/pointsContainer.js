@@ -72,7 +72,7 @@ const PointsContainer = ({
 
   // Component Functions
 
-  const _handleOnDropdownSelected = index => {
+  const _handleOnDropdownSelected = (index) => {
     let navigateTo;
     let navigateParams;
 
@@ -114,8 +114,8 @@ const PointsContainer = ({
     }
   };
 
-  const _groomUserActivities = _userActivities =>
-    _userActivities.map(item =>
+  const _groomUserActivities = (_userActivities) =>
+    _userActivities.map((item) =>
       groomingPointsTransactionData({
         ...item,
         icon: get(POINTS[get(item, 'type')], 'icon'),
@@ -131,23 +131,23 @@ const PointsContainer = ({
     setRefreshing(true);
 
     await getUser(_username)
-      .then(async userPointsP => {
+      .then(async (userPointsP) => {
         const _balance = Math.round(get(userPointsP, 'points') * 1000) / 1000;
         setUserPoints(userPointsP);
         setBalance(_balance);
         setEstimatedEstm(await getPointsEstimate(_balance, currency));
       })
-      .catch(err => {
+      .catch((err) => {
         Alert.alert(get(err, 'message', 'Error'));
       });
 
     await getUserPoints(_username)
-      .then(userActivitiesP => {
+      .then((userActivitiesP) => {
         if (Object.entries(userActivitiesP).length !== 0) {
           setUserActivities(_groomUserActivities(userActivitiesP));
         }
       })
-      .catch(err => {
+      .catch((err) => {
         if (err) {
           Alert.alert(get(err, 'message') || err.toString());
         }
@@ -157,13 +157,13 @@ const PointsContainer = ({
     setIsLoading(false);
   }, []);
 
-  const _getUserBalance = async _username => {
+  const _getUserBalance = async (_username) => {
     await getUser(_username)
-      .then(_userPoints => {
+      .then((_userPoints) => {
         const _balance = Math.round(get(_userPoints, 'points') * 1000) / 1000;
         return _balance;
       })
-      .catch(err => {
+      .catch((err) => {
         if (err) {
           Alert.alert(get(err, 'message') || err.toString());
         }
@@ -177,10 +177,10 @@ const PointsContainer = ({
       .then(() => {
         _fetchUserPointActivities(username);
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           Alert.alert(
-            `PointsClaim - Connection issue, try again or write to support@esteem.app \n${error.message.substr(
+            `PointsClaim - Connection issue, try again or write to support@ecency.com \n${error.message.substr(
               0,
               20,
             )}`,
@@ -200,7 +200,7 @@ const PointsContainer = ({
         navigation.goBack();
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           setIsLoading(false);
           dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
@@ -208,7 +208,7 @@ const PointsContainer = ({
       });
   };
 
-  const _getESTMPrice = points => {
+  const _getESTMPrice = (points) => {
     const { base, quote } = globalProps;
 
     return points * 0.01 * (base / quote);
@@ -243,7 +243,7 @@ const PointsContainer = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.account.currentAccount,
   username: state.account.currentAccount.name,
   activeBottomTab: state.ui.activeBottomTab,

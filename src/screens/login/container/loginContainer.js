@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
-import { Alert, Linking, Platform } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import AppCenter from 'appcenter';
 import Config from 'react-native-config';
+import messaging from '@react-native-firebase/messaging';
 
 // Services and Actions
 import { login } from '../../../providers/steem/auth';
@@ -58,7 +58,7 @@ class LoginContainer extends PureComponent {
     this.setState({ isLoading: true });
 
     login(username, password, isPinCodeOpen)
-      .then(result => {
+      .then((result) => {
         if (result) {
           dispatch(updateCurrentAccount({ ...result }));
           dispatch(addOtherAccount({ username: result.name }));
@@ -77,7 +77,7 @@ class LoginContainer extends PureComponent {
           }
         }
       })
-      .catch(err => {
+      .catch((err) => {
         Alert.alert(
           'Error',
           intl.formatMessage({
@@ -89,7 +89,7 @@ class LoginContainer extends PureComponent {
       });
   };
 
-  _setPushToken = async username => {
+  _setPushToken = async (username) => {
     const { notificationSettings, notificationDetails } = this.props;
     const notifyTypesConst = {
       vote: 1,
@@ -100,9 +100,8 @@ class LoginContainer extends PureComponent {
       transfers: 6,
     };
     const notifyTypes = [];
-    const token = await AppCenter.getInstallId();
 
-    Object.keys(notificationDetails).map(item => {
+    Object.keys(notificationDetails).map((item) => {
       const notificationType = item.replace('Notification', '');
 
       if (notificationDetails[item]) {
@@ -110,19 +109,23 @@ class LoginContainer extends PureComponent {
       }
     });
 
-    const data = {
-      username,
-      token,
-      system: Platform.OS,
-      allows_notify: Number(notificationSettings),
-      notify_types: notifyTypes,
-    };
-    setPushToken(data).then(() => {
-      setPushTokenSaved(true);
-    });
+    messaging()
+      .getToken()
+      .then((token) => {
+        const data = {
+          username,
+          token,
+          system: `fcm-${Platform.OS}`,
+          allows_notify: Number(notificationSettings),
+          notify_types: notifyTypes,
+        };
+        setPushToken(data).then(() => {
+          setPushTokenSaved(true);
+        });
+      });
   };
 
-  _getAccountsWithUsername = async username => {
+  _getAccountsWithUsername = async (username) => {
     const { intl, isConnected } = this.props;
 
     if (!isConnected) {
@@ -142,11 +145,11 @@ class LoginContainer extends PureComponent {
   };
 
   _handleSignUp = () => {
-    const { intl } = this.props;
+    const { navigation } = this.props;
 
-    Linking.openURL('https://esteem.app/signup').catch(err =>
-      Alert.alert(intl.formatMessage({ id: 'alert.error' }), err.message),
-    );
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.REGISTER,
+    });
   };
 
   render() {
@@ -164,7 +167,7 @@ class LoginContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   account: state.accounts,
   notificationDetails: state.application.notificationDetails,
   notificationSettings: state.application.isNotificationOpen,

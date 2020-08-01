@@ -1,6 +1,6 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-export const getCheckBackground = isCheck =>
+export const getCheckBackground = (isCheck) =>
   EStyleSheet.create({
     backgroundColor: isCheck ? '$primaryBlue' : '#FFF',
   });

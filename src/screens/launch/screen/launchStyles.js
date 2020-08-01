@@ -9,6 +9,10 @@ export default EStyleSheet.create({
     right: 0,
     backgroundColor: '$pureWhite',
     zIndex: 999,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    flex: 1,
   },
   darkContainer: {
     position: 'absolute',
@@ -18,5 +22,9 @@ export default EStyleSheet.create({
     right: 0,
     backgroundColor: '#1e2835',
     zIndex: 999,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    flex: 1,
   },
 });

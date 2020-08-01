@@ -18,7 +18,7 @@ const PinCodeScreen = ({
   const [loading, setLoading] = useState(false);
   const intl = useIntl();
 
-  const _handleKeyboardOnPress = async value => {
+  const _handleKeyboardOnPress = async (value) => {
     if (loading) {
       return;
     }

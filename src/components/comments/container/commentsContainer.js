@@ -61,12 +61,12 @@ const CommentsContainer = ({
   const _shortComments = (sortOrder, _comments) => {
     const sortedComments = _comments || lcomments;
 
-    const allPayout = c =>
+    const allPayout = (c) =>
       parseFloat(get(c, 'pending_payout_value').split(' ')[0]) +
       parseFloat(get(c, 'total_payout_value').split(' ')[0]) +
       parseFloat(get(c, 'curator_payout_value').split(' ')[0]);
 
-    const absNegative = a => a.net_rshares < 0;
+    const absNegative = (a) => a.net_rshares < 0;
 
     const sortOrders = {
       trending: (a, b) => {
@@ -145,7 +145,7 @@ const CommentsContainer = ({
       fetchPost();
     } else if (author && permlink) {
       await getComments(author, permlink, name)
-        .then(__comments => {
+        .then((__comments) => {
           if (selectedFilter) {
             const sortComments = _shortComments(selectedFilter, __comments);
             setLComments(sortComments);
@@ -157,7 +157,7 @@ const CommentsContainer = ({
     }
   };
 
-  const _handleOnReplyPress = item => {
+  const _handleOnReplyPress = (item) => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
       params: {
@@ -168,7 +168,7 @@ const CommentsContainer = ({
     });
   };
 
-  const _handleOnVotersPress = activeVotes => {
+  const _handleOnVotersPress = (activeVotes) => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.VOTERS,
       params: {
@@ -178,7 +178,7 @@ const CommentsContainer = ({
     });
   };
 
-  const _handleOnEditPress = item => {
+  const _handleOnEditPress = (item) => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
       params: {
@@ -190,14 +190,14 @@ const CommentsContainer = ({
     });
   };
 
-  const _handleDeleteComment = _permlink => {
+  const _handleDeleteComment = (_permlink) => {
     let filteredComments;
 
     deleteComment(currentAccount, pinCode, _permlink).then(() => {
       if (lcomments.length > 0) {
-        filteredComments = lcomments.filter(item => item.permlink !== _permlink);
+        filteredComments = lcomments.filter((item) => item.permlink !== _permlink);
       } else {
-        filteredComments = comments.filter(item => item.permlink !== _permlink);
+        filteredComments = comments.filter((item) => item.permlink !== _permlink);
       }
       setLComments(filteredComments);
     });
@@ -205,7 +205,7 @@ const CommentsContainer = ({
 
   const _handleOnPressCommentMenu = (index, selectedComment) => {
     if (index === 0) {
-      writeToClipboard(`https://esteem.app${get(selectedComment, 'url')}`).then(() => {
+      writeToClipboard(`https://ecency.com${get(selectedComment, 'url')}`).then(() => {
         dispatch(
           toastNotification(
             intl.formatMessage({
@@ -255,7 +255,7 @@ const CommentsContainer = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,

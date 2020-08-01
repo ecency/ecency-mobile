@@ -9,7 +9,7 @@ import get from 'lodash/get';
 // Services and Actions
 import { reblog } from '../../../providers/steem/dsteem';
 import { addBookmark } from '../../../providers/esteem/esteem';
-import { toastNotification } from '../../../redux/actions/uiAction';
+import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 
 // Constants
@@ -54,8 +54,11 @@ class PostDropdownContainer extends PureComponent {
   };
 
   // Component Functions
-  _handleOnDropdownSelect = async index => {
+  _handleOnDropdownSelect = async (index) => {
     const { content, dispatch, intl } = this.props;
+
+    // JUST FOR TESTING
+    dispatch(setRcOffer(true));
 
     switch (OPTIONS[index]) {
       case 'copy':
@@ -153,8 +156,7 @@ class PostDropdownContainer extends PureComponent {
             ),
           );
         })
-        .catch(error => {
-          console.log(error);
+        .catch((error) => {
           if (String(get(error, 'jse_shortmsg', '')).indexOf('has already reblogged') > -1) {
             dispatch(
               toastNotification(
@@ -164,25 +166,9 @@ class PostDropdownContainer extends PureComponent {
               ),
             );
           } else {
-            if (error && error.error_description.split(':')[1].includes('wait to transact')) {
+            if (error && error.jse_shortmsg.split(':')[1].includes('wait to transact')) {
               //when RC is not enough, offer boosting account
-              Alert.alert(
-                intl.formatMessage({
-                  id: 'alert.fail',
-                }),
-                intl.formatMessage({
-                  id: 'alert.rc_down',
-                }),
-                [
-                  {
-                    text: 'Cancel',
-                    onPress: () => console.log('Cancel Pressed'),
-                    style: 'cancel',
-                  },
-                  { text: 'OK', onPress: () => console.log('OK Pressed') },
-                ],
-                { cancelable: false },
-              );
+              dispatch(setRcOffer(true));
             } else {
               //when other errors
               dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
@@ -245,18 +231,18 @@ class PostDropdownContainer extends PureComponent {
     return (
       <Fragment>
         <PostDropdownView
-          options={_OPTIONS.map(item =>
+          options={_OPTIONS.map((item) =>
             intl.formatMessage({ id: `post_dropdown.${item}` }).toUpperCase(),
           )}
           handleOnDropdownSelect={this._handleOnDropdownSelect}
           {...this.props}
         />
         <ActionSheet
-          ref={o => (this.ActionSheet = o)}
+          ref={(o) => (this.ActionSheet = o)}
           options={['Reblog', intl.formatMessage({ id: 'alert.cancel' })]}
           title={intl.formatMessage({ id: 'post.reblog_alert' })}
           cancelButtonIndex={1}
-          onPress={index => {
+          onPress={(index) => {
             index === 0 ? this._reblog() : null;
           }}
         />
@@ -265,7 +251,7 @@ class PostDropdownContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,

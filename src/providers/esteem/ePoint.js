@@ -1,9 +1,13 @@
 import { Alert } from 'react-native';
 import ePointApi from '../../config/api';
+import { jsonStringify } from '../../utils/jsonUtils';
 
 export const userActivity = (us, ty, bl = '', tx = '') =>
-  new Promise(resolve => {
-    const params = { us, ty };
+  new Promise((resolve) => {
+    const params = {
+      us,
+      ty,
+    };
 
     if (bl) {
       params.bl = bl;
@@ -12,51 +16,50 @@ export const userActivity = (us, ty, bl = '', tx = '') =>
     if (tx) {
       params.tx = tx;
     }
-
     ePointApi
       .post('/usr-activity', params)
-      .then(res => {
+      .then((res) => {
         resolve(res.data);
       })
-      .catch(error => {
+      .catch((error) => {
         Alert.alert('Error', error.message);
       });
   });
 
-export const getUser = username =>
-  new Promise(resolve => {
+export const getUser = (username) =>
+  new Promise((resolve) => {
     ePointApi
       .get(`/users/${username}`)
-      .then(res => {
+      .then((res) => {
         resolve(res.data);
       })
-      .catch(error => {
+      .catch((error) => {
         Alert.alert('Error', error.message);
       });
   });
 
-export const getUserPoints = username =>
-  new Promise(resolve => {
+export const getUserPoints = (username) =>
+  new Promise((resolve) => {
     ePointApi
       .get(`/users/${username}/points`)
-      .then(res => {
+      .then((res) => {
         resolve(res.data);
       })
-      .catch(error => {
+      .catch((error) => {
         Alert.alert('Error', error.message);
       });
   });
 
-export const claim = username =>
+export const claim = (username) =>
   new Promise((resolve, reject) => {
     ePointApi
       .put('/claim', {
         us: `${username}`,
       })
-      .then(res => {
+      .then((res) => {
         resolve(res.data);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
@@ -64,11 +67,15 @@ export const claim = username =>
 export const gameStatusCheck = (username, type) =>
   new Promise((resolve, reject) => {
     ePointApi
-      .get(`/game/${username}`, { params: { type } })
-      .then(res => {
+      .get(`/game/${username}`, {
+        params: {
+          type,
+        },
+      })
+      .then((res) => {
         resolve(res.data);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
@@ -76,11 +83,13 @@ export const gameStatusCheck = (username, type) =>
 export const gameClaim = (username, type, key) =>
   new Promise((resolve, reject) => {
     ePointApi
-      .post(`/game/${username}?type=${type}`, { key })
-      .then(res => {
+      .post(`/game/${username}?type=${type}`, {
+        key,
+      })
+      .then((res) => {
         resolve(res.data);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });

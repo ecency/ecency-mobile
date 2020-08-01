@@ -69,7 +69,7 @@ const SpinGameView = ({
           {!isSpinning && score > 0 && (
             <View style={styles.descriptionWrapper}>
               <Fragment>
-                <Text style={styles.description}>{`${score} ESTM`}</Text>
+                <Text style={styles.description}>{`${score} Points`}</Text>
                 <View style={styles.triangle} />
               </Fragment>
             </View>
@@ -86,13 +86,13 @@ const SpinGameView = ({
                 />
               ) : (
                 <Fragment>
-                  {spinProduct.map(product => (
+                  {spinProduct.map((product) => (
                     <ProductItemLine
                       key={`key-${get(product, 'productId').toString()}`}
                       product={product}
                       title={intl.formatMessage({ id: 'free_estm.get_spin' })}
                       disabled={isProcessing}
-                      handleOnButtonPress={id => buyItem(id)}
+                      handleOnButtonPress={(id) => buyItem(id)}
                     />
                   ))}
                   <Text style={styles.nextDate}>

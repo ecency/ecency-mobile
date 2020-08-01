@@ -28,7 +28,7 @@ class UserAvatarView extends Component {
   }
 
   // Component Functions
-  _handleOnAvatarPress = username => {
+  _handleOnAvatarPress = (username) => {
     const {
       currentUsername: { name },
     } = this.props;
@@ -51,16 +51,13 @@ class UserAvatarView extends Component {
       style,
       disableSize,
       noAction,
-      avatarUrl,
       currentUsername: { name, avatar },
     } = this.props;
     const imageSize = 'large';
     let _size;
     const _avatar = username
       ? {
-          uri:
-            avatarUrl ||
-            (name === username && avatar ? avatar : getResizedAvatar(username, imageSize)),
+          uri: getResizedAvatar(username, imageSize),
         }
       : DEFAULT_IMAGE;
 
@@ -87,7 +84,7 @@ class UserAvatarView extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentUsername: state.account.currentAccount,
 });
 

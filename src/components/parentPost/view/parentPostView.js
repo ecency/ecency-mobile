@@ -6,7 +6,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 import styles from './parentPostStyles';
 
-const ParentPost = props => {
+const ParentPost = (props) => {
   const { navigation, post } = props;
 
   return (

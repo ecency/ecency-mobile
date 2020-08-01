@@ -17,10 +17,10 @@ const ITEM_SKUS = Platform.select({
   android: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
 });
 
-const _getTitle = title => {
+const _getTitle = (title) => {
   let _title = title.toUpperCase();
-  if (_title !== 'FREE ESTM') {
-    _title = _title.replace(/[^0-9]+/g, '') + ' ESTM';
+  if (_title !== 'FREE POINTS') {
+    _title = _title.replace(/[^0-9]+/g, '') + ' POINTS';
   }
 
   return _title;
@@ -44,14 +44,14 @@ const BoostScreen = () => {
             <BoostPlaceHolder />
           ) : (
             <ScrollView>
-              {productList.map(product => (
+              {productList.map((product) => (
                 <ProductItemLine
                   key={get(product, 'title')}
                   isLoading={isLoading}
                   disabled={isProcessing}
                   product={product}
                   title={_getTitle(get(product, 'title'))}
-                  handleOnButtonPress={id => buyItem(id)}
+                  handleOnButtonPress={(id) => buyItem(id)}
                 />
               ))}
             </ScrollView>

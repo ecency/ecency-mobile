@@ -23,7 +23,7 @@ class SteemConnect extends PureComponent {
     };
   }
 
-  _onNavigationStateChange = event => {
+  _onNavigationStateChange = (event) => {
     let code;
     const { dispatch, handleOnModalClose, intl, isPinCodeOpen, navigation } = this.props;
     const { isLoading } = this.state;
@@ -39,7 +39,7 @@ class SteemConnect extends PureComponent {
         this.setState({ isLoading: true });
         handleOnModalClose();
         loginWithSC2(code[1], isPinCodeOpen)
-          .then(result => {
+          .then((result) => {
             if (result) {
               dispatch(updateCurrentAccount({ ...result }));
               dispatch(addOtherAccount({ username: result.name }));
@@ -62,8 +62,7 @@ class SteemConnect extends PureComponent {
               // TODO: Error alert (Toast Message)
             }
           })
-          .catch(error => {
-            console.log(error);
+          .catch((error) => {
             Alert.alert(
               'Error',
               //intl.formatMessage({ id:
@@ -89,7 +88,7 @@ class SteemConnect extends PureComponent {
             )}&response_type=code&scope=${encodeURIComponent(steemConnectOptions.scope)}`,
           }}
           onNavigationStateChange={this._onNavigationStateChange}
-          ref={ref => {
+          ref={(ref) => {
             this.webview = ref;
           }}
         />
@@ -98,7 +97,7 @@ class SteemConnect extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isPinCodeOpen: state.application.isPinCodeOpen,
 });
 

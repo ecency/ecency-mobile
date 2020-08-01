@@ -25,7 +25,7 @@ class ProfileEditScreen extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
-  _showImageUploadActions = async action => {
+  _showImageUploadActions = async (action) => {
     await this.setState({ selectedUploadAction: action });
     this.galleryRef.current.show();
   };
@@ -86,7 +86,7 @@ class ProfileEditScreen extends PureComponent {
                 }),
               ]}
               cancelButtonIndex={2}
-              onPress={index => {
+              onPress={(index) => {
                 handleMediaAction(
                   index === 0 ? 'image' : index === 1 && 'camera',
                   selectedUploadAction,

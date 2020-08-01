@@ -16,7 +16,7 @@ import globalStyles from '../../globalStyles';
 
 const TransactionView = ({ transactions, type, refreshing, setRefreshing, isLoading }) => {
   const intl = useIntl();
-  const transaction_types = ['ESTM', 'HIVE', 'HBD', 'HP'];
+  const transaction_types = ['Points', 'HIVE', 'HBD', 'HP'];
 
   const _renderLoading = () => {
     if (isLoading) {
@@ -30,7 +30,7 @@ const TransactionView = ({ transactions, type, refreshing, setRefreshing, isLoad
 
   const refreshControl = () => (
     <ThemeContainer>
-      {isDarkTheme => (
+      {(isDarkTheme) => (
         <RefreshControl
           refreshing={refreshing}
           onRefresh={() => setRefreshing(true)}

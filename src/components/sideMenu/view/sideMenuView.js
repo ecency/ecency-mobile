@@ -40,7 +40,7 @@ const SideMenuView = ({
   // Component Life Cycles
   useEffect(() => {
     let _isMounted = false;
-    getStorageType().then(item => {
+    getStorageType().then((item) => {
       if (!_isMounted) {
         setStorageT(item);
       }
@@ -62,7 +62,7 @@ const SideMenuView = ({
     setIsAddAccountIconActive(!isAddAccountIconActive);
   };
 
-  const _handleOnMenuItemPress = item => {
+  const _handleOnMenuItemPress = (item) => {
     if (item.id === 'logout') {
       ActionSheetRef.current.show();
       return;
@@ -84,6 +84,15 @@ const SideMenuView = ({
 
   const { buildVersion, appVersion } = VersionNumber;
 
+  let _username = currentAccount.name;
+  /*if (currentAccount.display_name && currentAccount.display_name.length > 8) {
+    currentAccount.display_name = currentAccount.display_name.slice(0, 8);
+  }
+
+  if (currentAccount.name && currentAccount.name.length > 8) {
+    _username = currentAccount.name.slice(0, 8);
+  }*/
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -102,12 +111,15 @@ const SideMenuView = ({
                     {currentAccount.display_name}
                   </Text>
                 )}
-                <Text style={styles.usernick}>{`@${currentAccount.name}`}</Text>
+                <Text numberOfLines={1} ellipsizeMode="tail" style={styles.usernick}>
+                  {`@${_username}`}
+                </Text>
               </View>
 
-              <View style={styles.userInfoWrapper}>
+              <View>
                 <IconButton
-                  name={isAddAccountIconActive ? 'ios-arrow-dropup' : 'ios-add-circle-outline'}
+                  iconType="SimpleLineIcons"
+                  name={isAddAccountIconActive ? 'minus' : 'plus'}
                   color="white"
                   size={20}
                   onPress={_handleOnPressAddAccountIcon}
@@ -121,8 +133,8 @@ const SideMenuView = ({
       <View style={styles.contentView}>
         <FlatList
           data={menuItems}
-          keyExtractor={item => item.id}
-          renderItem={item => (
+          keyExtractor={(item) => item.id}
+          renderItem={(item) => (
             <TouchableOpacity
               style={styles.listItem}
               onPress={() => {
@@ -132,7 +144,7 @@ const SideMenuView = ({
               <View style={styles.itemWrapper}>
                 {item.item.icon && (
                   <Icon
-                    iconType="MaterialCommunityIcons"
+                    iconType="SimpleLineIcons"
                     style={styles.listItemIcon}
                     name={item.item.icon}
                   />
@@ -166,7 +178,7 @@ const SideMenuView = ({
         title={intl.formatMessage({ id: 'side_menu.logout_text' })}
         cancelButtonIndex={1}
         destructiveButtonIndex={0}
-        onPress={index => {
+        onPress={(index) => {
           index === 0 ? handleLogout() : null;
         }}
       />

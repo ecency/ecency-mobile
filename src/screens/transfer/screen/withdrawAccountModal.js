@@ -31,10 +31,10 @@ class WithdrawAccountModal extends Component {
 
   // Component Functions
 
-  _checkValidUsers = username => {
+  _checkValidUsers = (username) => {
     const { getAccountsWithUsername } = this.props;
 
-    getAccountsWithUsername(username).then(res => {
+    getAccountsWithUsername(username).then((res) => {
       const isValid = res.includes(username);
 
       this.setState({ isValidUsername: isValid });
@@ -44,7 +44,7 @@ class WithdrawAccountModal extends Component {
   _renderInput = (placeholder, state, keyboardType, isTextArea) => (
     <TextInput
       style={[isTextArea ? styles.textarea : styles.input]}
-      onChangeText={value => this.setState({ [state]: value }, this._checkValidUsers(value))}
+      onChangeText={(value) => this.setState({ [state]: value }, this._checkValidUsers(value))}
       value={this.state[state]}
       placeholder={placeholder}
       placeholderTextColor="#c1c5c7"
@@ -55,7 +55,7 @@ class WithdrawAccountModal extends Component {
     />
   );
 
-  _renderInformationText = text => <Text style={styles.amountText}>{text}</Text>;
+  _renderInformationText = (text) => <Text style={styles.amountText}>{text}</Text>;
 
   render() {
     const { intl, handleOnSubmit } = this.props;
@@ -89,7 +89,7 @@ class WithdrawAccountModal extends Component {
             thumbTintColor="#007ee5"
             maximumValue={100}
             value={percent}
-            onValueChange={value => {
+            onValueChange={(value) => {
               this.setState({ percent: value });
             }}
           />
