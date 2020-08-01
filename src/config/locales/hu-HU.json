@@ -21,7 +21,7 @@
     "delegation": "Delegálás",
     "delegations": "Delegálások",
     "delegation_title": "Delegálási jutalom",
-    "delegation_desc": "Nyerj ESTM-t naponta delegálásért",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "Bejegyzés pontok",
     "comment_title": "Hozzászólás pontok",
     "vote_title": "Szavazási pontok",
@@ -30,7 +30,7 @@
     "checkin_title": "Életjel pontok",
     "referral": "Ajánló",
     "referral_title": "Ajánlói jutalom",
-    "referral_desc": "Hívd meg a barátaid és nyerj ESTM-t",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "Használati bónusz",
     "no_activity": "Nincs friss tevékenység",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "Felhasználónév",
     "memo_placeholder": "Megjegyzés ide",
     "transfer_token": "Átutalás",
-    "purchase_estm": "Vásárolj ESTM-t",
-    "points": "Ajándékozz ESTM-t valakinek",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "A megtakarításokhoz",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw Saving",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "ESTM",
-      "buy": "Vásárolj ESTM-t"
+      "title": "Pontok",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "HIVE Savings"
@@ -118,7 +118,7 @@
     "ignore": "mellőzött téged",
     "reblog": "megosztotta",
     "transfer": "átutalva",
-    "spin": "Time to earn more ESTM",
+    "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
     "notification": "Értesítések",
@@ -222,6 +222,16 @@
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
     "steemconnect_fee_description": "info"
   },
+  "register": {
+    "button": "Sign Up",
+    "title": "Regisztráció",
+    "username": "Pick a username",
+    "mail": "Enter your email address",
+    "ref_user": "Referred user (Optional)",
+    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
+    "title_description": "One account to manage everything",
+    "form_description": "After registeration, you will receive an email with further instructions"
+  },
   "home": {
     "feed": "Hírfolyam",
     "popular": "Népszerű",
@@ -320,7 +330,11 @@
     "external_link": "Open in Browser",
     "not_existing_post": "A bejegyzés nem létezik! Kérjük ellenőrizd a linket és a szerzőt.",
     "google_play_version": "Észrevettük, hogy a készülékeden a Google Play régi verziója található. Kérjük frissítsd a Google Play szolgáltatásait és próbáld újra!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
+    "payloadTooLarge": "File size too big, please resize or upload smaller image",
+    "qoutaExceeded": "Upload quota exceeded",
+    "invalidImage": "Invalid image, try different file",
+    "something_wrong": "Something went wrong."
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
@@ -420,9 +434,9 @@
     "to_placeholder": "Felhasználónév",
     "memo_placeholder": "Megjegyzés ide",
     "transfer_token": "Átutalás",
-    "purchase_estm": "Purchase ESTM",
+    "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
-    "points": "Ajándékozz ESTM-t valakinek",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Átutalás a megtakarításokhoz",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Átutalás A Megtakarításokhoz",
@@ -445,11 +459,15 @@
   },
   "boost": {
     "title": "Get Points",
-    "buy": "Vásárolj ESTM-t",
-    "next": "KÖVETKEZŐ"
+    "buy": "GET Points",
+    "next": "KÖVETKEZŐ",
+    "account": {
+      "title": "Get Account Boost",
+      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+    }
   },
   "free_estm": {
-    "title": "Ingyen ESTM",
+    "title": "Free Points",
     "button": "PÖRGESS ÉS NYERJ",
     "get_spin": "5 PÖRGETÉS",
     "spin_right": "Pörgesd balra",
@@ -486,5 +504,33 @@
     "reveal_comment": "Hozzászólás megjelenítése",
     "read_more": "Read more comments",
     "more_replies": "további hozzászólások betöltése"
+  },
+  "search_result": {
+    "others": "Others",
+    "communities": {
+      "title": "Communities",
+      "subscribe": "Subscribe",
+      "unsubscribe": "Unsubscribe",
+      "subscribers": "Subscribers",
+      "posters": "Posters",
+      "posts": "Bejegyzések"
+    },
+    "communities_filter": {
+      "rank": "Rank",
+      "subs": "Subscribers",
+      "new": "New"
+    },
+    "post_result_filter": {
+      "popularity": "Popularity",
+      "newest": "Newest",
+      "relevance": "Relevance"
+    },
+    "other_result_filter": {
+      "user": "Felhasználó",
+      "tag": "Tag"
+    }
+  },
+  "community": {
+    "new_post": "New Post"
   }
 }

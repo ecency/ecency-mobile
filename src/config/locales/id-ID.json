@@ -21,7 +21,7 @@
     "delegation": "Delegasi",
     "delegations": "Delegasi",
     "delegation_title": "Hadiah delegasi",
-    "delegation_desc": "Hasilkan ESTM setiap hari untuk pendelegasian",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "Poin untuk kiriman",
     "comment_title": "Poin untuk komentar",
     "vote_title": "Poin untuk suara",
@@ -30,7 +30,7 @@
     "checkin_title": "Points for heartbeat",
     "referral": "Referensi",
     "referral_title": "Hadiah referensi",
-    "referral_desc": "Undang teman dan dapatkan ESTM",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "Bonus penggunaan",
     "no_activity": "Tidak ada aktifitas terakhir",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "Nama Pengguna",
     "memo_placeholder": "Masukan catatan anda disini",
     "transfer_token": "Transfer",
-    "purchase_estm": "DAPATKAN ESTM",
-    "points": "Hadiah ESTM kepada seseorang",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Untuk Menyimpan",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Menarik Tabungan",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "Tabungan Dieksekusi",
     "fill_vesting_withdraw": "PowerDown dieksekusi",
     "estm": {
-      "title": "ESTM",
-      "buy": "DAPATKAN ESTM"
+      "title": "Poin",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "HIVE Savings"
@@ -118,7 +118,7 @@
     "ignore": "mengabaikan anda",
     "reblog": "reblogged",
     "transfer": "ditransfer",
-    "spin": "Time to earn more ESTM",
+    "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
     "notification": "Pemberitahuan",
@@ -222,6 +222,16 @@
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
     "steemconnect_fee_description": "info"
   },
+  "register": {
+    "button": "Sign Up",
+    "title": "Daftar",
+    "username": "Pick a username",
+    "mail": "Enter your email address",
+    "ref_user": "Referred user (Optional)",
+    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
+    "title_description": "One account to manage everything",
+    "form_description": "After registeration, you will receive an email with further instructions"
+  },
   "home": {
     "feed": "Umpan",
     "popular": "Populer",
@@ -320,7 +330,11 @@
     "external_link": "Open in Browser",
     "not_existing_post": "Pos tidak ada! Silakan periksa permlink dan penulis.",
     "google_play_version": "Kami perhatikan bahwa perangkat Anda memiliki Google Play versi lama. Harap perbarui layanan Google Play dan coba lagi!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
+    "payloadTooLarge": "File size too big, please resize or upload smaller image",
+    "qoutaExceeded": "Upload quota exceeded",
+    "invalidImage": "Invalid image, try different file",
+    "something_wrong": "Something went wrong."
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
@@ -420,9 +434,9 @@
     "to_placeholder": "Nama Pengguna",
     "memo_placeholder": "Masukan catatan anda disini",
     "transfer_token": "Transfer",
-    "purchase_estm": "Purchase ESTM",
+    "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
-    "points": "Hadiah ESTM kepada seseorang",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Transfer untuk menyimpan",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Tarik untuk menyimpan",
@@ -445,11 +459,15 @@
   },
   "boost": {
     "title": "Get Points",
-    "buy": "DAPATKAN ESTM",
-    "next": "LANJUT"
+    "buy": "GET Points",
+    "next": "LANJUT",
+    "account": {
+      "title": "Get Account Boost",
+      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+    }
   },
   "free_estm": {
-    "title": "ESTM Gratis",
+    "title": "Free Points",
     "button": "SPIN & WIN",
     "get_spin": "5 SPINS",
     "spin_right": "Spin tersisa",
@@ -486,5 +504,33 @@
     "reveal_comment": "Ungkapkan komentar",
     "read_more": "Baca lebih banyak komentar",
     "more_replies": "lebih banyak balasan"
+  },
+  "search_result": {
+    "others": "Others",
+    "communities": {
+      "title": "Communities",
+      "subscribe": "Subscribe",
+      "unsubscribe": "Unsubscribe",
+      "subscribers": "Subscribers",
+      "posters": "Posters",
+      "posts": "Post"
+    },
+    "communities_filter": {
+      "rank": "Rank",
+      "subs": "Subscribers",
+      "new": "New"
+    },
+    "post_result_filter": {
+      "popularity": "Popularity",
+      "newest": "Newest",
+      "relevance": "Relevance"
+    },
+    "other_result_filter": {
+      "user": "Pengguna",
+      "tag": "Tag"
+    }
+  },
+  "community": {
+    "new_post": "New Post"
   }
 }

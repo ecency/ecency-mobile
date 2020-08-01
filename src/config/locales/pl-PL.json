@@ -21,7 +21,7 @@
     "delegation": "Delegacja",
     "delegations": "Delegations",
     "delegation_title": "Nagroda za delegację",
-    "delegation_desc": "Earn ESTM everyday for delegation",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "Punkty za wpis",
     "comment_title": "Punkty za komentarz",
     "vote_title": "Punkty za głos",
@@ -30,7 +30,7 @@
     "checkin_title": "Punkty za bicie serca",
     "referral": "Referral",
     "referral_title": "Referral rewards",
-    "referral_desc": "Invite friends and earn ESTM",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "Użyj premi",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "Nazwa użytkownika",
     "memo_placeholder": "Wprowadź swoje notatki tutaj",
     "transfer_token": "Przelew",
-    "purchase_estm": "GET ESTM",
-    "points": "Podaruj komuś ESTM",
+    "purchase_estm": "GET POINTS",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "To Saving",
     "powerUp": "Zwiększ moc",
     "withdraw_to_saving": "Withdraw Saving",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "ESTM",
-      "buy": "GET ESTM"
+      "title": "Punkty",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "HIVE Savings"
@@ -118,7 +118,7 @@
     "ignore": "ignoruje cię",
     "reblog": "reblogged",
     "transfer": "transferred",
-    "spin": "Time to earn more ESTM",
+    "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
     "notification": "Powiadomienia",
@@ -222,6 +222,16 @@
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
     "steemconnect_fee_description": "info"
   },
+  "register": {
+    "button": "Sign Up",
+    "title": "Zapisz się",
+    "username": "Pick a username",
+    "mail": "Enter your email address",
+    "ref_user": "Referred user (Optional)",
+    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
+    "title_description": "One account to manage everything",
+    "form_description": "After registeration, you will receive an email with further instructions"
+  },
   "home": {
     "feed": "Strumień",
     "popular": "Popularne",
@@ -320,7 +330,11 @@
     "external_link": "Open in Browser",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
     "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
+    "payloadTooLarge": "File size too big, please resize or upload smaller image",
+    "qoutaExceeded": "Upload quota exceeded",
+    "invalidImage": "Invalid image, try different file",
+    "something_wrong": "Something went wrong."
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
@@ -420,9 +434,9 @@
     "to_placeholder": "Nazwa użytkownika",
     "memo_placeholder": "Wprowadź swoje notatki tutaj",
     "transfer_token": "Przelew",
-    "purchase_estm": "Purchase ESTM",
+    "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
-    "points": "Podaruj komuś ESTM",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Przenieś do oszczędności",
     "powerUp": "Zwiększ moc",
     "withdraw_to_saving": "Wypłać Do Oszczędności",
@@ -445,11 +459,15 @@
   },
   "boost": {
     "title": "Get Points",
-    "buy": "GET ESTM",
-    "next": "NEXT"
+    "buy": "GET Points",
+    "next": "NEXT",
+    "account": {
+      "title": "Get Account Boost",
+      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+    }
   },
   "free_estm": {
-    "title": "Darmowe ESTM",
+    "title": "Free Points",
     "button": "ZAKRĘĆ I WYGRAJ",
     "get_spin": "5 OBROTÓW",
     "spin_right": "Zostało Obrotów",
@@ -486,5 +504,33 @@
     "reveal_comment": "Reveal comment",
     "read_more": "Read more comments",
     "more_replies": "more replies"
+  },
+  "search_result": {
+    "others": "Others",
+    "communities": {
+      "title": "Communities",
+      "subscribe": "Subscribe",
+      "unsubscribe": "Unsubscribe",
+      "subscribers": "Subscribers",
+      "posters": "Posters",
+      "posts": "Post"
+    },
+    "communities_filter": {
+      "rank": "Rank",
+      "subs": "Subscribers",
+      "new": "New"
+    },
+    "post_result_filter": {
+      "popularity": "Popularity",
+      "newest": "Newest",
+      "relevance": "Relevance"
+    },
+    "other_result_filter": {
+      "user": "User",
+      "tag": "Tag"
+    }
+  },
+  "community": {
+    "new_post": "New Post"
   }
 }

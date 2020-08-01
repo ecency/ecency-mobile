@@ -10,9 +10,9 @@
     "withdraw_vesting": "Зменшення Сили Голосу",
     "fill_order": "Заповніть Замовлення",
     "post": "Допис",
-    "comment": "Коментувати",
-    "checkin": "Зареєструвати",
-    "vote": "Проголосувати",
+    "comment": "Коментарі",
+    "checkin": "Вхід",
+    "vote": "Голоси",
     "reblog": "Рестім",
     "login": "Логін",
     "incoming_transfer_title": "Вхідний переказ",
@@ -21,16 +21,16 @@
     "delegation": "Делегування",
     "delegations": "Делегації",
     "delegation_title": "Винагорода за делегацію",
-    "delegation_desc": "Заробляйте ESTM кожного дня за ваші делегування",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "Бали за допис",
     "comment_title": "Бали за коментар",
     "vote_title": "Бали за голос",
-    "reblog_title": "Бали за рестім",
+    "reblog_title": "Бали за репост",
     "login_title": "Бали за авторизацію",
     "checkin_title": "Бали за регулярний вхід",
     "referral": "Реферал",
     "referral_title": "Реферальна нагорода",
-    "referral_desc": "Запрошуйте друзів та заробляйте ESTM",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "Бонус за користування",
     "no_activity": "Немає нещодавньої активності",
     "outgoing_transfer_description": "",
@@ -42,7 +42,7 @@
     "reblog_desc": "Діліться з друзями постами, що вам подобаються, та заробляйте бали.",
     "login_desc": "При першому вході в додаток ви отримуєте 100 балів.",
     "checkin_extra_desc": "Регулярне використання додатку дає вам шанс отримати ще бонусних балів. Більше активності - більше винагород.",
-    "dropdown_transfer": "Подарунок",
+    "dropdown_transfer": "Подарувати",
     "dropdown_promote": "Просувати",
     "dropdown_boost": "Підсилити",
     "from": "Від",
@@ -53,7 +53,7 @@
     "amount_information": "Перетягніть повзунок, щоб відрегулювати суму",
     "amount": "Сума",
     "memo": "Примітка",
-    "information": "Ви впевнені, що хочете перерахувати кошти?",
+    "information": "Ви дійсно бажаєте переказати кошти?",
     "amount_desc": "Баланс",
     "memo_desc": "Ця примітка є публічною",
     "to_placeholder": "Ім'я користувача",
@@ -62,14 +62,14 @@
     "purchase_estm": "Отримати Points",
     "points": "Подарувати комусь Points",
     "transfer_to_saving": "В заощадження",
-    "powerUp": "Збільшення Силу Голосу",
+    "powerUp": "Збільшення Сили Голосу",
     "withdraw_to_saving": "Вивести заощадження",
-    "steemconnect_title": "Hivesigner Transfer",
-    "next": "НАСТУПНА",
+    "steemconnect_title": "Hivesigner транзакція",
+    "next": "ДАЛІ",
     "delegate": "Делегувати",
     "power_down": "Зменшення Сили Голосу",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
+    "withdraw_steem": "Вивести HIVE",
+    "withdraw_sbd": "Вивести HBD",
     "transfer_to_savings": "В заощадження",
     "convert": "Конвертувати",
     "escrow_transfer": "Передача Ескроу",
@@ -82,22 +82,22 @@
     "fill_transfer_from_savings": "Зняття заощаджень виконано",
     "fill_vesting_withdraw": "Зниження Сили виконано",
     "estm": {
-      "title": "ESTM",
-      "buy": "Отримати ESTM"
+      "title": "Бали",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "HIVE заощадження"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "HBD заощадження"
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "Придбати HIVE"
     },
     "sbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "Придбати HBD"
     },
     "steem_power": {
       "title": "HIVE POWER"
@@ -114,13 +114,13 @@
     "reply": "відповів (-ла) вам",
     "mention": "згадав (-ла) вас",
     "follow": "підписався(-лась) на вас",
-    "unfollow": "підписався(-лась) на вас",
-    "ignore": "ігнорував тебе",
+    "unfollow": "відписався(-лась) від вас",
+    "ignore": "ігнорує тебе",
     "reblog": "рестімнуто",
     "transfer": "відправлено",
-    "spin": "Час заробляти більше ESTM",
+    "spin": "Time to earn more Points",
     "inactive": "Будьте активними! Зробіть допис, продовжуйте заробляти",
-    "referral": "joined with your referral, welcome them",
+    "referral": "приєднався за вашим посиланням. Привітайте його",
     "notification": "Сповіщення",
     "leaderboard": "Дошка лідерів",
     "epoint": "Бали",
@@ -147,25 +147,25 @@
   "profile": {
     "following": "Слідкує",
     "follower": "Читачі",
-    "post": "Post",
+    "post": "Дописи",
     "details": "Деталі профілю",
     "comments": "Коментарі",
     "replies": "Відповіді",
     "wallet": "Гаманець",
     "wallet_details": "Деталі гаманця",
     "unclaimed_rewards": "Не отримана винагорода",
-    "full_in": "Повна",
+    "full_in": "Відновиться за",
     "hours": "годин(и)",
     "voting_power": "Сила голосу",
     "login_to_see": "Увійдіть, щоб побачити",
     "follow_people": "Стежте за деякими людьми, щоб заповнити вашу стрічку",
     "havent_commented": "ще нічого не коментував",
     "havent_posted": "ще нічого не опублікував",
-    "steem_power": "Hive Power",
-    "next_power_text": "Наступне вимкнення живлення відбувається через",
+    "steem_power": "Hive Power (Сила)",
+    "next_power_text": "До наступного зниження Сили",
     "days": "днів",
     "day": "день",
-    "steem_dollars": "Hive Dollars",
+    "steem_dollars": "Hive долари",
     "savings": "Заощадження",
     "edit": {
       "display_name": "Відображуване ім'я",
@@ -183,9 +183,9 @@
     "dark_theme": "Темна тема",
     "push_notification": "Push-сповіщення",
     "notification": {
-      "follow": "Слідкувати",
-      "vote": "Проголосувати",
-      "comment": "Коментувати",
+      "follow": "Підписки",
+      "vote": "Голоси",
+      "comment": "Коментарі",
       "mention": "Згадування",
       "reblog": "Рестім",
       "transfers": "Перекази"
@@ -196,7 +196,7 @@
     "nsfw_content": "NSFW",
     "send_feedback": "Надіслати відгук",
     "send": "Надіслати",
-    "default_footer": "Звичайний Підвал",
+    "default_footer": "Типовий футер",
     "nsfw": {
       "always_show": "Завжди показувати",
       "always_hide": "Завжди приховувати",
@@ -207,7 +207,7 @@
     "server_fail": "Сервер недоступний"
   },
   "voters": {
-    "voters_info": "Інформація голосувань",
+    "voters_info": "Деталі голосування",
     "no_user": "Користувач не знайдений."
   },
   "login": {
@@ -219,8 +219,18 @@
     "description": "Дані користувача зберігаються локально на пристрої. Посвідчення видаляється після виходу з системи!",
     "cancel": "скасувати",
     "login": "ЛОГІН",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_description": "Якщо ви не бажаєте тримати пароль у зашифрованому вигляді на вашому пристрої, можете використовувати Hivesigner.",
+    "steemconnect_fee_description": "інформація"
+  },
+  "register": {
+    "button": "Зареєструватися",
+    "title": "Зареєструватися",
+    "username": "Оберіть ім'я користувача",
+    "mail": "Введіть адресу електронної пошти",
+    "ref_user": "Реферальний користувач (необов'язково)",
+    "500_error": "Не вдалося обробити ваш запит, скоріш за все, черга реєстрації переповнена! Спробуйте ще раз через кілька хвилин...",
+    "title_description": "Один рахунок для управління всім",
+    "form_description": "Після реєстрації ви отримаєте електронного листа з подальшими інструкціями"
   },
   "home": {
     "feed": "Стрічка",
@@ -236,7 +246,7 @@
     "favorites": "Улюблені",
     "drafts": "Чернетки",
     "schedules": "Розклади",
-    "gallery": "Світлини",
+    "gallery": "Галерея",
     "settings": "Налаштування",
     "add_account": "Додати обліковий запис",
     "logout": "Вийти",
@@ -272,8 +282,8 @@
     "limited_lastchar": "Тег має закінчуватись літерою або числом"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
-    "set_new": "Set new pin",
+    "enter_text": "Для розблокування введіть пін-код",
+    "set_new": "Встановити новий пін-код",
     "write_again": "Напишіть ще раз",
     "forgot_text": "Ой, я його забув..."
   },
@@ -284,14 +294,14 @@
     "claim_reward_balance_ok": "Винагорода зарахована на баланс",
     "fail": "Невдало!",
     "move": "Перемістити",
-    "move_question": "Ви впевнені що хочете перейти до чернетки?",
+    "move_question": "Ви дійсно хочете перемістити до чернеток?",
     "success_shared": "Ваш допис успішно поширили",
     "success_moved": "Переміщено до чернеток",
     "permission_denied": "У доступі відмовлено",
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Перевірте права доступу до закритого ключа!",
-    "success_rebloged": "Rebloged!",
-    "already_rebloged": "Ви вже повторно рестімнули!",
+    "success_rebloged": "Репост зроблено!",
+    "already_rebloged": "Ви вже зробили репост!",
     "success_favorite": "До улюблених додано!",
     "success_unfavorite": "З улюблених видалено!",
     "success_follow": "Успішно підписалися!",
@@ -299,9 +309,9 @@
     "success_unmute": "Успішно припинили ігнорувати!",
     "success_unfollow": "Успішно відписалися!",
     "warning": "Увага",
-    "invalid_pincode": "Invalid pin code, please check and try again.",
-    "remove_alert": "Are you sure want to remove?",
-    "clear_alert": "Ви впевнені, що бажаєте видалити?",
+    "invalid_pincode": "Невірний пін-код. Будь ласка, перевірте і повторіть спробу.",
+    "remove_alert": "Ви дійсно бажаєте видалити?",
+    "clear_alert": "Ви дійсно бажаєте очистити?",
     "clear_user_alert": "Ви впевнені, що хочете видалили всі ваші дані?",
     "clear": "Очистити",
     "cancel": "Скасувати",
@@ -309,7 +319,7 @@
     "copied": "Скопійовано!",
     "no_internet": "Відсутнє з'єднання!",
     "confirm": "Підтвердити",
-    "removed": "Вилучено",
+    "removed": "Видалено",
     "same_user": "Цього користувача уже додано до списку",
     "unknow_error": "Виникла помилка",
     "error": "Помилка",
@@ -320,22 +330,26 @@
     "external_link": "Відкрити у браузері",
     "not_existing_post": "Допису не існує! Будь ласка, перевірте першоджерело та автора.",
     "google_play_version": "Ми помітили, що на вашому пристрої є стара версія Google Play. Оновіть служби Google Play і повторіть спробу!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
+    "rc_down": "Не вистачає ресурс кредитів для виконання дії! \n\nПідсильте свій акаунт, щоб і надалі отримувати задоволення від використання. Бажаєте підсилити свій акаунт зараз?",
+    "payloadTooLarge": "Завеликий розмір файлу. Змініть розмір або завантажте зображення меншого розміру",
+    "qoutaExceeded": "Перевищено ліміт завантажень",
+    "invalidImage": "Invalid image, try different file",
+    "something_wrong": "Something went wrong."
   },
   "post": {
-    "reblog_alert": "Ви впевнені, що хочете рестімнути?",
+    "reblog_alert": "Ви дійсно бажаєте зробити репост?",
     "removed_hint": "Допис видалено користувачем",
     "copy_link": "Скопіювати посилання",
-    "reblogged": "рестімнуто",
+    "reblogged": "репостнуто",
     "sponsored": "СПОНСОРОВАНО",
-    "open_thread": "Open thread",
+    "open_thread": "Відкрити обговорення",
     "image": "Зображення",
     "link": "Посилання",
     "gallery_mode": "Режим Галереї",
     "save_to_local": "Завантажити на пристрій",
     "image_saved": "Зображення збережено до Галереї",
     "image_saved_error": "Не вдалося зберегти зображення",
-    "wrong_link": "Неправильне посилання"
+    "wrong_link": "Невірне посилання"
   },
   "drafts": {
     "title": "Чернетки",
@@ -344,7 +358,7 @@
     "deleted": "Чернетку видалено"
   },
   "schedules": {
-    "title": "Розклади",
+    "title": "Розклад",
     "empty_list": "Тут поки що нічого немає",
     "deleted": "Запланований допис видалено",
     "move": "Перемістити до чернеток",
@@ -360,13 +374,13 @@
     "add": "Додати до закладок"
   },
   "favorites": {
-    "title": "Улюблені",
-    "load_error": "Не вдалося завантажити в розділі улюблені",
+    "title": "Обране",
+    "load_error": "Не вдалося завантажити обране",
     "empty_list": "Тут поки що нічого немає",
-    "search": "Пошук в улюблених"
+    "search": "Пошук в обраному"
   },
   "auth": {
-    "invalid_pin": "Invalid pin code, please check and try again",
+    "invalid_pin": "Невірний пін-код. Будь ласка, перевірте і повторіть спробу",
     "invalid_username": "Недійсне ім’я користувача. Перевірте та повторіть спробу",
     "already_logged": "Ви вже ввійшли, спробуйте додати інший обліковий запис",
     "invalid_credentials": "Недійсні облікові дані. Перевірте та повторіть спробу",
@@ -378,13 +392,13 @@
     "author_payout": "Авторська винагорода",
     "curation_payout": "Кураторська винагорода",
     "payout_date": "Виплата",
-    "beneficiaries": "Отримувачі",
-    "warn_zero_payout": "Сума повинна досягти 0,02 долара за виплату",
+    "beneficiaries": "Бенефіціари",
+    "warn_zero_payout": "Для отримання виплати сума повинна досягти $0.02",
     "breakdown": "Упс... щось Зламалося"
   },
   "post_dropdown": {
-    "copy": "копіювати джерело",
-    "reblog": "рестім",
+    "copy": "скопіювати посилання",
+    "reblog": "репост",
     "reply": "відповісти",
     "share": "поширити",
     "bookmarks": "додати до закладок",
@@ -402,7 +416,7 @@
   "comment_filter": {
     "trending": "ТОП",
     "reputation": "РЕПУТАЦІЯ",
-    "votes": "ГОЛОСУВАТИ",
+    "votes": "ГОЛОСИ",
     "age": "ВІК",
     "top": "ТОП",
     "time": "ЧАС"
@@ -413,20 +427,20 @@
     "amount_information": "Перетягніть повзунок, щоб відрегулювати суму",
     "amount": "Сума",
     "memo": "Примітка",
-    "information": "Ви впевнені, що хочете перерахувати кошти?",
+    "information": "Ви дійсно бажаєте переказати кошти?",
     "amount_desc": "Баланс",
     "memo_desc": "Ця примітка є публічною",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "Конвертація займає 3,5 дні та НЕ рекомендується при вартості HBD вище $1",
     "to_placeholder": "Ім'я користувача",
     "memo_placeholder": "Введіть сюди свої примітки",
     "transfer_token": "Переказ",
-    "purchase_estm": "Придбати ESTM",
-    "convert": "Convert HBD to HIVE",
-    "points": "Подарувати комусь ESTM",
+    "purchase_estm": "Purchase Points",
+    "convert": "Конвертувати HBD у HIVE",
+    "points": "Gift Points to someone",
     "transfer_to_saving": "Перевести до Заощаджень",
-    "powerUp": "Збільшення Силу Голосу",
-    "withdraw_to_saving": "Вивести на збереження",
-    "steemconnect_title": "Hivesigner Transfer",
+    "powerUp": "Збільшення Сили Голосу",
+    "withdraw_to_saving": "Перевести до Заощаджень",
+    "steemconnect_title": "Hivesigner транзакція",
     "estimated_weekly": "Приблизно на Тиждень",
     "destination_accounts": "Рахунок-одержувач..",
     "stop_information": "Ви впевнені, що хочете зупинитися?",
@@ -434,26 +448,30 @@
     "auto_vests": "Авто Vests",
     "save": "ЗБЕРЕГТИ",
     "percent_information": "Інформація про Відсоток",
-    "next": "НАСТУПНА",
+    "next": "ДАЛІ",
     "delegate": "Делегувати",
     "power_down": "Зменшення Сили голосу",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
+    "withdraw_steem": "Вивести HIVE",
+    "withdraw_sbd": "Вивести HIVE долар",
     "incoming_funds": "Надходження коштів",
     "stop": "Зупинити",
     "address_view": "Переглянути адресу"
   },
   "boost": {
     "title": "Get Points",
-    "buy": "Отримати ESTM",
-    "next": "НАСТУПНА"
+    "buy": "GET Points",
+    "next": "ДАЛІ",
+    "account": {
+      "title": "Отримати підсилення акаунту",
+      "desc": "30-денна делегація збільшить ваші голоси та соціальні взаємодії, і дасть вам більше дій з використанням Ресурс Кредитів."
+    }
   },
   "free_estm": {
-    "title": "Безкоштовні ESTM",
+    "title": "Free Points",
     "button": "Обертай та Вигравай",
     "get_spin": "5 Обертів",
-    "spin_right": "Оберни ліворуч",
-    "timer_text": "Наступне обертання буде безкоштовним"
+    "spin_right": "Обертів лишилось",
+    "timer_text": "До наступного безкоштовного оберту"
   },
   "promote": {
     "title": "Просувати",
@@ -467,12 +485,12 @@
     "title": "Підсилити"
   },
   "voters_dropdown": {
-    "rewards": "НАГОРОДИ",
-    "percent": "ТОЧНО",
+    "rewards": "ВИНАГОРОДИ",
+    "percent": "ВІДСОТОК",
     "time": "ЧАС"
   },
   "reblog": {
-    "title": "Рестім інформація"
+    "title": "Інформація про репости"
   },
   "dsteem": {
     "date_error": {
@@ -486,5 +504,33 @@
     "reveal_comment": "Показати коментар",
     "read_more": "Читати більше коментарів",
     "more_replies": "більше відповідей"
+  },
+  "search_result": {
+    "others": "Others",
+    "communities": {
+      "title": "Спільноти",
+      "subscribe": "Підписатися",
+      "unsubscribe": "Відписатися",
+      "subscribers": "Читачі",
+      "posters": "Автори",
+      "posts": "Дописи"
+    },
+    "communities_filter": {
+      "rank": "Рейтинг",
+      "subs": "Читачі",
+      "new": "Нові"
+    },
+    "post_result_filter": {
+      "popularity": "Популярність",
+      "newest": "Newest",
+      "relevance": "Relevance"
+    },
+    "other_result_filter": {
+      "user": "Користувач",
+      "tag": "Tag"
+    }
+  },
+  "community": {
+    "new_post": "Новий допис"
   }
 }

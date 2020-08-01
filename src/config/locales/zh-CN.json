@@ -21,7 +21,7 @@
     "delegation": "委托",
     "delegations": "委托",
     "delegation_title": "委托奖励",
-    "delegation_desc": "通过委托SP，每天赚取 ESTM",
+    "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "发文的点数",
     "comment_title": "评论的点数",
     "vote_title": "投票的点数",
@@ -30,7 +30,7 @@
     "checkin_title": "在线的点数",
     "referral": "邀请",
     "referral_title": "邀请奖励",
-    "referral_desc": "邀请朋友，并赚取 ESTM",
+    "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "使用的奖金",
     "no_activity": "近期无活动",
     "outgoing_transfer_description": "",
@@ -118,7 +118,7 @@
     "ignore": "屏蔽了您",
     "reblog": "已转发",
     "transfer": "已转账",
-    "spin": "Time to earn more ESTM",
+    "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
     "notification": "通知",
@@ -222,6 +222,16 @@
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
     "steemconnect_fee_description": "info"
   },
+  "register": {
+    "button": "Sign Up",
+    "title": "注册",
+    "username": "Pick a username",
+    "mail": "Enter your email address",
+    "ref_user": "Referred user (Optional)",
+    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
+    "title_description": "One account to manage everything",
+    "form_description": "After registeration, you will receive an email with further instructions"
+  },
   "home": {
     "feed": "朋友圈",
     "popular": "热门",
@@ -320,7 +330,11 @@
     "external_link": "在浏览器中打开",
     "not_existing_post": "文章不存在！请检查链接和作者。",
     "google_play_version": "我们注意到您的设备有旧版本的 Google Play 。请更新 Google Play 服务，然后再试一次！",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?"
+    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
+    "payloadTooLarge": "File size too big, please resize or upload smaller image",
+    "qoutaExceeded": "Upload quota exceeded",
+    "invalidImage": "Invalid image, try different file",
+    "something_wrong": "Something went wrong."
   },
   "post": {
     "reblog_alert": "您确定想要转发？",
@@ -445,11 +459,15 @@
   },
   "boost": {
     "title": "Get Points",
-    "buy": "获取 ESTM",
-    "next": "下一个"
+    "buy": "GET Points",
+    "next": "下一个",
+    "account": {
+      "title": "Get Account Boost",
+      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+    }
   },
   "free_estm": {
-    "title": "免费的 ESTM",
+    "title": "Free Points",
     "button": "赢取转盘抽奖",
     "get_spin": "5 个 转盘抽奖机会",
     "spin_right": "转盘抽奖机会还剩",
@@ -486,5 +504,33 @@
     "reveal_comment": "显示评论",
     "read_more": "查看更多评论",
     "more_replies": "更多回复"
+  },
+  "search_result": {
+    "others": "Others",
+    "communities": {
+      "title": "Communities",
+      "subscribe": "Subscribe",
+      "unsubscribe": "Unsubscribe",
+      "subscribers": "Subscribers",
+      "posters": "Posters",
+      "posts": "文章"
+    },
+    "communities_filter": {
+      "rank": "Rank",
+      "subs": "Subscribers",
+      "new": "New"
+    },
+    "post_result_filter": {
+      "popularity": "Popularity",
+      "newest": "Newest",
+      "relevance": "Relevance"
+    },
+    "other_result_filter": {
+      "user": "用户",
+      "tag": "Tag"
+    }
+  },
+  "community": {
+    "new_post": "New Post"
   }
 }
