@@ -59,7 +59,7 @@
     "to_placeholder": "Ім'я користувача",
     "memo_placeholder": "Введіть сюди свої примітки",
     "transfer_token": "Переказ",
-    "purchase_estm": "GET POINTS",
+    "purchase_estm": "Отримати Бали",
     "points": "Подарувати Бали",
     "transfer_to_saving": "В заощадження",
     "powerUp": "Збільшення Сили Голосу",
@@ -83,7 +83,7 @@
     "fill_vesting_withdraw": "Зниження Сили виконано",
     "estm": {
       "title": "Бали",
-      "buy": "GET POINTS"
+      "buy": "Отримати Бали"
     },
     "savingsteem": {
       "title": "HIVE заощадження"
@@ -333,7 +333,7 @@
     "rc_down": "Не вистачає ресурс кредитів для виконання дії! \n\nПідсильте свій акаунт, щоб і надалі отримувати задоволення від використання. Бажаєте підсилити свій акаунт зараз?",
     "payloadTooLarge": "Завеликий розмір файлу. Змініть розмір або завантажте зображення меншого розміру",
     "qoutaExceeded": "Перевищено ліміт завантажень",
-    "invalidImage": "Invalid image, try different file",
+    "invalidImage": "Недійсне зображення, спробуйте інший файл",
     "something_wrong": "Щось пішло не так."
   },
   "post": {
@@ -458,8 +458,8 @@
     "address_view": "Переглянути адресу"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
+    "title": "Отримати Бали",
+    "buy": "Отримати Бали",
     "next": "ДАЛІ",
     "account": {
       "title": "Отримати підсилення акаунту",
@@ -522,12 +522,12 @@
     },
     "post_result_filter": {
       "popularity": "Популярність",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "newest": "Найновіше",
+      "relevance": "Релевантність"
     },
     "other_result_filter": {
       "user": "Користувач",
-      "tag": "Tag"
+      "tag": "Тег"
     }
   },
   "community": {
