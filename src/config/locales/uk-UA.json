@@ -323,7 +323,7 @@
     "same_user": "Цього користувача уже додано до списку",
     "unknow_error": "Виникла помилка",
     "error": "Помилка",
-    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
+    "fetch_error": "Проблеми з підключенням. Будь ласка, спробуйте ще раз або напишіть на support@ecency.com",
     "connection_fail": "Помилка з’єднання!",
     "connection_success": "Успішне підключення!",
     "checking": "Перевірка...",
