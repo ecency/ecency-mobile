@@ -436,7 +436,7 @@
     "transfer_token": "Перевод",
     "purchase_estm": "Купить Баллы",
     "convert": "Конвертировать HBD в HIVE",
-    "points": "Gift Points to someone",
+    "points": "Подарить Баллы",
     "transfer_to_saving": "Перевести в сейф",
     "powerUp": "Увеличение силы",
     "withdraw_to_saving": "Перевести в сейф",
@@ -458,8 +458,8 @@
     "address_view": "Посмотреть адрес"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
+    "title": "Получить Баллы",
+    "buy": "Получить Баллы",
     "next": "ДАЛЕЕ",
     "account": {
       "title": "Получить усиление аккаунта",
@@ -506,13 +506,13 @@
     "more_replies": "больше ответов"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Другое",
     "communities": {
-      "title": "Communities",
-      "subscribe": "Subscribe",
-      "unsubscribe": "Unsubscribe",
-      "subscribers": "Subscribers",
-      "posters": "Posters",
+      "title": "Сообщества",
+      "subscribe": "Подписаться",
+      "unsubscribe": "Отписаться",
+      "subscribers": "Подписчики",
+      "posters": "Авторы",
       "posts": "Посты"
     },
     "communities_filter": {
@@ -522,7 +522,7 @@
     },
     "post_result_filter": {
       "popularity": "Популярность",
-      "newest": "Newest",
+      "newest": "Свежее",
       "relevance": "Релевантность"
     },
     "other_result_filter": {
