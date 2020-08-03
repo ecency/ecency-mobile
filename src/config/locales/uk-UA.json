@@ -384,7 +384,7 @@
     "invalid_username": "Недійсне ім’я користувача. Перевірте та повторіть спробу",
     "already_logged": "Ви вже ввійшли, спробуйте додати інший обліковий запис",
     "invalid_credentials": "Недійсні облікові дані. Перевірте та повторіть спробу",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "Невідома помилка. Будь ласка, напишіть на support@ecency.com"
   },
   "payout": {
     "potential_payout": "Потенційна виплата",
@@ -434,9 +434,9 @@
     "to_placeholder": "Ім'я користувача",
     "memo_placeholder": "Введіть сюди свої примітки",
     "transfer_token": "Переказ",
-    "purchase_estm": "Purchase Points",
+    "purchase_estm": "Купити Бали",
     "convert": "Конвертувати HBD у HIVE",
-    "points": "Gift Points to someone",
+    "points": "Подарувати Бали",
     "transfer_to_saving": "Перевести до Заощаджень",
     "powerUp": "Збільшення Сили Голосу",
     "withdraw_to_saving": "Перевести до Заощаджень",
@@ -467,7 +467,7 @@
     }
   },
   "free_estm": {
-    "title": "Free Points",
+    "title": "Безкоштовні Бали",
     "button": "Обертай та Вигравай",
     "get_spin": "5 Обертів",
     "spin_right": "Обертів лишилось",
