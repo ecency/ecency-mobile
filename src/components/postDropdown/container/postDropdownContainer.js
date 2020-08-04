@@ -57,9 +57,6 @@ class PostDropdownContainer extends PureComponent {
   _handleOnDropdownSelect = async (index) => {
     const { content, dispatch, intl } = this.props;
 
-    // JUST FOR TESTING
-    dispatch(setRcOffer(true));
-
     switch (OPTIONS[index]) {
       case 'copy':
         await writeToClipboard(getPostUrl(get(content, 'url')));
