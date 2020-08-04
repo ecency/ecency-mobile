@@ -7695,11 +7695,6 @@ react-native-version@^4.0.0:
     resolve-from "^5.0.0"
     semver "^7.0.0"
 
-react-native-webp-format@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/react-native-webp-format/-/react-native-webp-format-1.1.2.tgz#22b14f544191e9a5411c920b9874e532a6ea6c89"
-  integrity sha512-qs0oyLZOjoLdlTM9781Vr8WBwvtdkcwQuSJpCtA5KxspGl+YDDDZrW+tpwRQI0PSlB84O+IoK3bfmgHu1zqejQ==
-
 react-native-webview@^8.0.4:
   version "8.2.1"
   resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-8.2.1.tgz#23f9e156a3361fee316d54b60e64da1a27f9f73b"
