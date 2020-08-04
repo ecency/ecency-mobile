@@ -27,7 +27,7 @@
   "dependencies": {
     "@babel/runtime": "^7.5.5",
     "@esteemapp/dhive": "0.12.1",
-    "@esteemapp/esteem-render-helpers": "^1.4.6",
+    "@esteemapp/esteem-render-helpers": "^1.5.2",
     "@esteemapp/react-native-autocomplete-input": "^4.2.1",
     "@esteemapp/react-native-modal-popover": "^0.0.15",
     "@esteemapp/react-native-multi-slider": "^1.1.0",
@@ -85,6 +85,7 @@
     "react-native-receive-sharing-intent": "ecency/react-native-receive-sharing-intent",
     "react-native-screens": "^2.9.0",
     "react-native-scrollable-tab-view": "ecency/react-native-scrollable-tab-view",
+    "react-native-size-matters": "^0.3.0",
     "react-native-snap-carousel": "^3.8.0",
     "react-native-splash-screen": "^3.2.0",
     "react-native-svg": "^9.5.3",

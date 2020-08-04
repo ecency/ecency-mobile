@@ -709,14 +709,16 @@
     verror "^1.10.0"
     whatwg-fetch "^2.0.3"
 
-"@esteemapp/esteem-render-helpers@^1.4.6":
-  version "1.4.6"
-  resolved "https://registry.yarnpkg.com/@esteemapp/esteem-render-helpers/-/esteem-render-helpers-1.4.6.tgz#efcceb9c73cc65a2c1d5dbb442711136d702eb3f"
-  integrity sha512-zzfVUg7hENu9rJmZ8sYUoL0n+u28z0UUX4R+GC/m9LzZy1Gp9CVilWkIUN9TXrBdC2WFw6kJWb0s9YWJtdn08g==
+"@esteemapp/esteem-render-helpers@^1.5.2":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@esteemapp/esteem-render-helpers/-/esteem-render-helpers-1.5.2.tgz#e9f64423c1961fa92bf792e9beadc99f8b9cbfa9"
+  integrity sha512-AuMBGvUUxDncBgUY/DiWQpvEV3yADL2eG6+HBct8F3ldV+7xQaKT/hFcGAE/BTUvLMEfouZ0jTKpy1iAmMRBGw==
   dependencies:
     he "^1.2.0"
     lru-cache "^5.1.1"
+    multihashes "0.4.13"
     path "^0.12.7"
+    querystring "^0.2.0"
     remarkable "^1.7.3"
     sanitize-html "^1.20.1"
     url "^0.11.0"
@@ -6438,6 +6440,14 @@ ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
+multihashes@0.4.13:
+  version "0.4.13"
+  resolved "https://registry.yarnpkg.com/multihashes/-/multihashes-0.4.13.tgz#d10bd71bd51d24aa894e2a6f1457146bb7bac125"
+  integrity sha512-HwJGEKPCpLlNlgGQA56CYh/Wsqa+c4JAq8+mheIgw7OK5T4QvNJqgp6TH8gZ4q4l1aiWeNat/H/MrFXmTuoFfQ==
+  dependencies:
+    bs58 "^4.0.1"
+    varint "^5.0.0"
+
 mute-stream@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
@@ -7349,7 +7359,7 @@ query-string@^6.11.1:
     split-on-first "^1.0.0"
     strict-uri-encode "^2.0.0"
 
-querystring@0.2.0:
+querystring@0.2.0, querystring@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
   integrity sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
@@ -7606,6 +7616,11 @@ react-native-scrollable-tab-view@ecency/react-native-scrollable-tab-view:
     create-react-class "^15.6.2"
     prop-types "^15.6.0"
     react-timer-mixin "^0.13.3"
+
+react-native-size-matters@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-size-matters/-/react-native-size-matters-0.3.0.tgz#0692e324a189884819b570c4cab24d27ecd4311d"
+  integrity sha512-PuwA07mr3woQPFJXo3FwlFwpe6bb2LCb20sDZ4JWMpGBtmppq4sKH4GLgS6Sw+GkN0sSOEXGZLaOsHZYFY9hJg==
 
 react-native-snap-carousel@^3.8.0:
   version "3.9.1"
@@ -9299,6 +9314,11 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
+
+varint@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/varint/-/varint-5.0.0.tgz#d826b89f7490732fabc0c0ed693ed475dcb29ebf"
+  integrity sha1-2Ca4n3SQcy+rwMDtaT7Uddyynr8=
 
 vary@~1.1.2:
   version "1.1.2"
