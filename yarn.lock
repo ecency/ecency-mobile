@@ -709,10 +709,10 @@
     verror "^1.10.0"
     whatwg-fetch "^2.0.3"
 
-"@esteemapp/esteem-render-helpers@^1.5.2":
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/@esteemapp/esteem-render-helpers/-/esteem-render-helpers-1.5.2.tgz#e9f64423c1961fa92bf792e9beadc99f8b9cbfa9"
-  integrity sha512-AuMBGvUUxDncBgUY/DiWQpvEV3yADL2eG6+HBct8F3ldV+7xQaKT/hFcGAE/BTUvLMEfouZ0jTKpy1iAmMRBGw==
+"@esteemapp/esteem-render-helpers@^1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@esteemapp/esteem-render-helpers/-/esteem-render-helpers-1.5.3.tgz#59fd98710985853c2cfc81b9aad638113be56ff8"
+  integrity sha512-aE6Pykt6Am5WbGsT1ZkATl0haxcw2S88vnnyRHDWveneZP+0W8Yk7XN0n5FP1ciRevZrKNpsI1NroCti6cTplg==
   dependencies:
     he "^1.2.0"
     lru-cache "^5.1.1"
@@ -7439,10 +7439,17 @@ react-native-animatable@1.3.3:
   dependencies:
     prop-types "^15.7.2"
 
-react-native-autoheight-webview@^1.3.4, react-native-autoheight-webview@^1.4.1:
+react-native-autoheight-webview@^1.3.4:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/react-native-autoheight-webview/-/react-native-autoheight-webview-1.5.1.tgz#67cbfb672212d93dedecf723d1914cbc40287545"
   integrity sha512-jm/LGq+lW9MD3jdmbtDqjrBna/nkZqSIi3eajGbLM7SPlDuwDkmiMiBgonglZ6WeGqHyKbRa+f15MxqpVr+kUA==
+  dependencies:
+    prop-types "^15.7.2"
+
+react-native-autoheight-webview@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/react-native-autoheight-webview/-/react-native-autoheight-webview-1.5.2.tgz#ea70cad056a2ce46e9de18cba90624aa49668632"
+  integrity sha512-pgaLQ67wNE0VZOpvtCw7kbxJ4Cx38jgCjIOk3LfMf8uBxz+TP35QWGtSpf0NZ9sJifahU15t0Vd/8y/SGEUTCA==
   dependencies:
     prop-types "^15.7.2"
 
@@ -7687,6 +7694,11 @@ react-native-version@^4.0.0:
     plist "^3.0.1"
     resolve-from "^5.0.0"
     semver "^7.0.0"
+
+react-native-webp-format@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-webp-format/-/react-native-webp-format-1.1.2.tgz#22b14f544191e9a5411c920b9874e532a6ea6c89"
+  integrity sha512-qs0oyLZOjoLdlTM9781Vr8WBwvtdkcwQuSJpCtA5KxspGl+YDDDZrW+tpwRQI0PSlB84O+IoK3bfmgHu1zqejQ==
 
 react-native-webview@^8.0.4:
   version "8.2.1"

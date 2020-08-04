@@ -2,6 +2,7 @@ import CryptoJS from 'crypto-js';
 import * as dsteem from '@esteemapp/dhive';
 import { Buffer } from 'buffer';
 import { proxifyImageSrc } from '@esteemapp/esteem-render-helpers';
+import { Platform } from 'react-native';
 
 export const generateSignature = (media, privateKey) => {
   const STRING = 'ImageSigningChallenge';
@@ -22,6 +23,7 @@ export const generateSignature = (media, privateKey) => {
 export const catchEntryImage = (entry, width = 0, height = 0) => {
   // return from json metadata if exists
   let meta;
+  const format = Platform.OS === 'android' ? 'webp' : 'match';
 
   try {
     meta = JSON.parse(entry.json_metadata);
@@ -31,7 +33,7 @@ export const catchEntryImage = (entry, width = 0, height = 0) => {
 
   if (meta && meta.image && meta.image.length > 0) {
     if (meta.image[0]) {
-      return proxifyImageSrc(meta.image[0], width, height);
+      return proxifyImageSrc(meta.image[0], width, height, format);
     }
   }
 
@@ -39,21 +41,21 @@ export const catchEntryImage = (entry, width = 0, height = 0) => {
   const imgReg2 = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpe?g|gif|png)/gim;
   const m = entry.body.match(imgReg2);
   if (m) {
-    return proxifyImageSrc(m[0], width, height);
+    return proxifyImageSrc(m[0], width, height, format);
   }
 
   // If no image specified in json metadata, try extract first image href from entry body
   let imgReg = /<img.+src=(?:"|')(.+?)(?:"|')(.*)>/;
   let bodyMatch = entry.body.match(imgReg);
   if (bodyMatch) {
-    return proxifyImageSrc(bodyMatch[1], width, height);
+    return proxifyImageSrc(bodyMatch[1], width, height, format);
   }
 
   // If there is no <img> tag, check from markdown img tag ![](image.png)
   imgReg = /(?:!\[(.*?)\]\((.*?)\))/;
   bodyMatch = imgReg.exec(entry.body);
   if (bodyMatch) {
-    return proxifyImageSrc(bodyMatch[2], width, height);
+    return proxifyImageSrc(bodyMatch[2], width, height, format);
   }
 
   return null;
@@ -61,31 +63,23 @@ export const catchEntryImage = (entry, width = 0, height = 0) => {
 
 export const catchDraftImage = (body) => {
   const imgRegex = /(https?:\/\/.*\.(?:tiff?|jpe?g|gif|png|svg|ico|PNG|GIF|JPG))/g;
+  const format = Platform.OS === 'android' ? 'webp' : 'match';
 
   if (body && imgRegex.test(body)) {
     const imageMatch = body.match(imgRegex);
 
-    return proxifyImageSrc(imageMatch[0]);
+    return proxifyImageSrc(imageMatch[0], 0, 0, format);
   }
   return null;
 };
 
 export const getResizedImage = (url, size = 640) => {
-  //TODO: implement fallback onError, for steemitimages is down case
-
+  //TODO: implement fallback onError, for imagehoster is down case
+  const format = Platform.OS === 'android' ? 'webp' : 'match';
   if (!url) {
     return '';
   }
-  /*
-  if (url.includes('img.esteem.ws')) {
-    return `${url.replace('img.esteem.ws/', `img.esteem.ws/${size}/`)}`;
-  }
-
-  if (url.includes('img.esteem.app')) {
-    return `${url.replace('img.esteem.app/', `img.esteem.app/${size}/`)}`;
-  }
-  */
-  return `https://images.ecency.com/${size}x0/${url}`;
+  return proxifyImageSrc(url, size, 0, format);
 };
 
 export const getResizedAvatar = (author, sizeString = 'large') => {
