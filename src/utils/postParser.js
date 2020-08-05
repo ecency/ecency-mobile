@@ -95,7 +95,7 @@ const postImage = (metaData, body) => {
   }
 
   if (imageLink) {
-    return getResizedImage(imageLink, 640);
+    return getResizedImage(imageLink, 600);
   }
   return '';
 };

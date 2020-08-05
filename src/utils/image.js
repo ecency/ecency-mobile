@@ -73,7 +73,7 @@ export const catchDraftImage = (body) => {
   return null;
 };
 
-export const getResizedImage = (url, size = 640) => {
+export const getResizedImage = (url, size = 600) => {
   //TODO: implement fallback onError, for imagehoster is down case
   const format = Platform.OS === 'android' ? 'webp' : 'match';
   if (!url) {
