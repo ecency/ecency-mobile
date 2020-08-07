@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView, View, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import get from 'lodash/get';
 
 // Services and Actions
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
 
 // Constants

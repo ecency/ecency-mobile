@@ -6,9 +6,9 @@ export default EStyleSheet.create({
     flex: 1,
   },
   container: {
-    flex: 1,
+    flex: 0.95,
     justifyContent: 'space-between',
-    paddingVertical: 50,
+    paddingVertical: 40,
     paddingHorizontal: 40,
   },
   welcomeText: {
@@ -27,7 +27,7 @@ export default EStyleSheet.create({
     opacity: 0.5,
   },
   topText: {
-    marginTop: 80,
+    marginTop: 40,
   },
   sectionRow: {
     flexDirection: 'row',
