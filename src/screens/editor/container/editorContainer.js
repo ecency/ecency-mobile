@@ -663,8 +663,8 @@ class EditorContainer extends Component {
     if (navigation.state && navigation.state.params) {
       const navigationParams = navigation.state.params;
 
-      /*if (navigationParams.draft) {
-        _draft = navigationParams.draft;
+      if (navigationParams.draftPost) {
+        _draft = navigationParams.draftPost;
 
         this.setState({
           draftPost: {
@@ -675,7 +675,7 @@ class EditorContainer extends Component {
           draftId: _draft._id,
           isDraft: true,
         });
-      }*/
+      }
 
       if (navigationParams.upload) {
         const { upload } = navigationParams;
