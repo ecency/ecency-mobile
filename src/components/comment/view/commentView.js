@@ -71,7 +71,7 @@ const CommentView = ({
             body={comment.body}
             created={comment.created}
             key={`key-${comment.permlink}`}
-            textSelectable={false}
+            textSelectable={true}
           />
           <View style={styles.footerWrapper}>
             {isLoggedIn && (
@@ -97,6 +97,14 @@ const CommentView = ({
                   style={styles.leftButton}
                   name="comment-outline"
                   onPress={() => handleOnReplyPress && handleOnReplyPress(comment)}
+                  iconType="MaterialCommunityIcons"
+                />
+                <IconButton
+                  size={20}
+                  iconStyle={styles.leftIcon}
+                  style={styles.leftButton}
+                  name="dots-horizontal"
+                  onPress={() => handleOnLongPress && handleOnLongPress()}
                   iconType="MaterialCommunityIcons"
                 />
                 {currentAccountUsername === comment.author && (
