@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import get from 'lodash/get';
 
 // Services and Actions
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
 
 // Constants
@@ -13,7 +14,7 @@ import ROUTES from '../../../constants/routeNames';
 import { ThemeContainer } from '../../../containers';
 
 // Components
-import TabBar from './tabbar';
+// import TabBar from './tabbar';
 
 // Styles
 import styles from './bottomTabBarStyles';
@@ -47,31 +48,17 @@ const BottomTabBarView = ({
     <ThemeContainer>
       {({ isDarkTheme }) => (
         <SafeAreaView style={styles.wrapper}>
-          <TabBar
-            selectedIndex={index}
-            circleBackgroundColor="#357ce6"
-            backgroundColor={isDarkTheme ? '#2e3d51' : '#f6f6f6'}
-            onChange={(i) => _jumpTo(routes[i], index, routes, jumpTo)}
-            activeTintColor={activeTintColor}
-            inactiveTintColor={inactiveTintColor}
-          >
-            {routes.map((route) => (
-              <TabBar.Item
-                icon={renderIcon({
+          {routes.map((route, idx) => (
+            <View key={route.key} style={{ flex: 1, alignItems: 'center' }}>
+              <TouchableOpacity onPress={() => _jumpTo(route, idx, routes, jumpTo)}>
+                {renderIcon({
                   route,
-                  focused: false,
-                  tintColor: inactiveTintColor,
+                  focused: index === idx,
+                  tintColor: index === idx ? activeTintColor : inactiveTintColor,
                 })}
-                selectedIcon={renderIcon({
-                  route,
-                  focused: true,
-                  tintColor: activeTintColor,
-                })}
-                key={route}
-                disabled={route.routeName === ROUTES.TABBAR.POST_BUTTON}
-              />
-            ))}
-          </TabBar>
+              </TouchableOpacity>
+            </View>
+          ))}
         </SafeAreaView>
       )}
     </ThemeContainer>

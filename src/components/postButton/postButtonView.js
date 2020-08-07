@@ -16,7 +16,13 @@ const PostButtonView = ({ navigation }) => (
     }
     activeOpacity={1}
   >
-    <Icon iconType="MaterialCommunityIcons" name="pencil" color="#c1c5c7" size={scalePx(26)} />
+    <Icon
+      iconType="MaterialCommunityIcons"
+      style={{ padding: 15 }}
+      name="pencil"
+      color="#c1c5c7"
+      size={scalePx(26)}
+    />
   </TouchableOpacity>
 );
 

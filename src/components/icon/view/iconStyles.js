@@ -5,7 +5,7 @@ export default EStyleSheet.create({
   badge: {
     color: '$primaryLightGray',
     alignItems: 'center',
-    fontSize: 10,
+    fontSize: scalePx(12),
     fontWeight: '600',
   },
   badgeWrapper: {
@@ -17,8 +17,8 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 99,
-    height: scalePx(20),
-    minWidth: scalePx(20),
-    borderRadius: scalePx(10),
+    height: scalePx(17),
+    minWidth: scalePx(17),
+    borderRadius: scalePx(15),
   },
 });

@@ -45,7 +45,13 @@ const bottomTabNavigator = createBottomTabNavigator(
       screen: Feed,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
-          <Icon iconType="MaterialIcons" name="view-day" color={tintColor} size={scalePx(26)} />
+          <Icon
+            iconType="MaterialIcons"
+            style={{ padding: 15 }}
+            name="view-day"
+            color={tintColor}
+            size={scalePx(26)}
+          />
         ),
       }),
     },
@@ -57,6 +63,7 @@ const bottomTabNavigator = createBottomTabNavigator(
             isBadge
             badgeType="notification"
             iconType="MaterialIcons"
+            style={{ padding: 15 }}
             name="notifications"
             color={tintColor}
             size={scalePx(26)}
@@ -67,7 +74,7 @@ const bottomTabNavigator = createBottomTabNavigator(
     [ROUTES.TABBAR.POST_BUTTON]: {
       screen: () => null,
       navigationOptions: {
-        tabBarIcon: () => <PostButton />,
+        tabBarIcon: <PostButton />,
       },
     },
     [ROUTES.TABBAR.WALLET]: {
@@ -76,6 +83,7 @@ const bottomTabNavigator = createBottomTabNavigator(
         tabBarIcon: ({ tintColor }) => (
           <Icon
             iconType="MaterialIcons"
+            style={{ padding: 15 }}
             name="account-balance-wallet"
             color={tintColor}
             size={scalePx(26)}
@@ -87,7 +95,13 @@ const bottomTabNavigator = createBottomTabNavigator(
       screen: Profile,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
-          <Icon iconType="MaterialIcons" name="person" color={tintColor} size={scalePx(26)} />
+          <Icon
+            iconType="MaterialIcons"
+            style={{ padding: 15 }}
+            name="person"
+            color={tintColor}
+            size={scalePx(26)}
+          />
         ),
       }),
     },
@@ -96,7 +110,7 @@ const bottomTabNavigator = createBottomTabNavigator(
     tabBarComponent: (props) => <BottomTabBar {...props} />,
     tabBarOptions: {
       showLabel: false,
-      activeTintColor: '#f6f6f6',
+      activeTintColor: '#357ce6',
       inactiveTintColor: '#c1c5c7',
     },
   },
