@@ -527,7 +527,7 @@ class EditorContainer extends Component {
   _handleOnBackPress = () => {
     const { navigation } = this.props;
     const { isDraft } = this.state;
-
+    console.log(navigation.state);
     if (isDraft) {
       navigation.state.params.fetchPost();
     }

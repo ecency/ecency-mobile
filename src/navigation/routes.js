@@ -74,7 +74,7 @@ const bottomTabNavigator = createBottomTabNavigator(
     [ROUTES.TABBAR.POST_BUTTON]: {
       screen: () => null,
       navigationOptions: {
-        tabBarIcon: <PostButton />,
+        tabBarIcon: () => <PostButton />,
       },
     },
     [ROUTES.TABBAR.WALLET]: {

@@ -1,12 +1,12 @@
 PODS:
-  - appcenter-analytics (3.1.0):
+  - appcenter-analytics (3.1.1):
     - AppCenter/Analytics
     - AppCenterReactNativeShared
     - React
-  - appcenter-core (3.1.0):
+  - appcenter-core (3.1.1):
     - AppCenterReactNativeShared
     - React
-  - appcenter-crashes (3.1.0):
+  - appcenter-crashes (3.1.1):
     - AppCenter/Crashes
     - AppCenterReactNativeShared
     - React
@@ -34,16 +34,16 @@ PODS:
     - React-Core (= 0.61.5)
     - React-jsi (= 0.61.5)
     - ReactCommon/turbomodule/core (= 0.61.5)
-  - Firebase/Analytics (6.27.1):
+  - Firebase/Analytics (6.28.1):
     - Firebase/Core
-  - Firebase/Core (6.27.1):
+  - Firebase/Core (6.28.1):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 6.6.2)
-  - Firebase/CoreOnly (6.27.1):
-    - FirebaseCore (= 6.8.1)
-  - Firebase/Messaging (6.27.1):
+  - Firebase/CoreOnly (6.28.1):
+    - FirebaseCore (= 6.9.1)
+  - Firebase/Messaging (6.28.1):
     - Firebase/CoreOnly
-    - FirebaseMessaging (~> 4.5.0)
+    - FirebaseMessaging (~> 4.6.0)
   - FirebaseAnalytics (6.6.2):
     - FirebaseCore (~> 6.8)
     - FirebaseInstallations (~> 1.4)
@@ -53,10 +53,10 @@ PODS:
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (~> 1.30905.0)
-  - FirebaseCore (6.8.1):
+  - FirebaseCore (6.9.1):
     - FirebaseCoreDiagnostics (~> 1.3)
-    - GoogleUtilities/Environment (~> 6.5)
-    - GoogleUtilities/Logger (~> 6.5)
+    - GoogleUtilities/Environment (~> 6.7)
+    - GoogleUtilities/Logger (~> 6.7)
   - FirebaseCoreDiagnostics (1.5.0):
     - GoogleDataTransport (~> 7.0)
     - GoogleUtilities/Environment (~> 6.7)
@@ -72,13 +72,13 @@ PODS:
     - FirebaseInstallations (~> 1.0)
     - GoogleUtilities/Environment (~> 6.7)
     - GoogleUtilities/UserDefaults (~> 6.7)
-  - FirebaseMessaging (4.5.0):
+  - FirebaseMessaging (4.6.0):
     - FirebaseCore (~> 6.8)
     - FirebaseInstanceID (~> 4.3)
-    - GoogleUtilities/AppDelegateSwizzler (~> 6.5)
-    - GoogleUtilities/Environment (~> 6.5)
-    - GoogleUtilities/Reachability (~> 6.5)
-    - GoogleUtilities/UserDefaults (~> 6.5)
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.7)
+    - GoogleUtilities/Environment (~> 6.7)
+    - GoogleUtilities/Reachability (~> 6.7)
+    - GoogleUtilities/UserDefaults (~> 6.7)
     - Protobuf (>= 3.9.2, ~> 3.9)
   - Folly (2018.10.22.00):
     - boost-for-react-native
@@ -303,7 +303,9 @@ PODS:
   - React-jsinspector (0.61.5)
   - react-native-cameraroll (1.8.1):
     - React
-  - react-native-config (1.3.1):
+  - react-native-config (1.3.3):
+    - react-native-config/App (= 1.3.3)
+  - react-native-config/App (1.3.3):
     - React
   - react-native-netinfo (5.9.5):
     - React
@@ -352,32 +354,29 @@ PODS:
     - ReactCommon/jscallinvoker (= 0.61.5)
   - ReactNativeDarkMode (0.2.2):
     - React
-  - ReactNativeWebPFormat (1.1.2):
-    - React
-    - SDWebImageWebPCoder
   - rn-fetch-blob (0.12.0):
     - React-Core
   - RNCAsyncStorage (1.11.0):
     - React
-  - RNCPushNotificationIOS (1.3.0):
+  - RNCPushNotificationIOS (1.4.0):
     - React
   - RNFastImage (8.3.2):
     - React
     - SDWebImage (~> 5.8)
     - SDWebImageWebPCoder (~> 0.6.1)
-  - RNFBAnalytics (7.3.1):
-    - Firebase/Analytics (~> 6.27.0)
+  - RNFBAnalytics (7.4.1):
+    - Firebase/Analytics (~> 6.28.1)
     - React
     - RNFBApp
-  - RNFBApp (8.2.0):
-    - Firebase/CoreOnly (~> 6.27.0)
+  - RNFBApp (8.3.0):
+    - Firebase/CoreOnly (~> 6.28.1)
     - React
-  - RNFBMessaging (7.4.2):
-    - Firebase/Analytics (~> 6.27.0)
-    - Firebase/Messaging (~> 6.27.0)
+  - RNFBMessaging (7.6.1):
+    - Firebase/Analytics (~> 6.28.1)
+    - Firebase/Messaging (~> 6.28.1)
     - React
     - RNFBApp
-  - RNGestureHandler (1.6.1):
+  - RNGestureHandler (1.7.0):
     - React
   - RNIap (3.4.15):
     - React
@@ -386,9 +385,9 @@ PODS:
     - React-Core
     - React-RCTImage
     - RSKImageCropper
-  - RNReanimated (1.9.0):
+  - RNReanimated (1.10.2):
     - React
-  - RNScreens (2.9.0):
+  - RNScreens (2.10.1):
     - React
   - RNSVG (9.13.6):
     - React
@@ -448,7 +447,6 @@ DEPENDENCIES:
   - ReactCommon/jscallinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeDarkMode (from `../node_modules/react-native-dark-mode`)
-  - ReactNativeWebPFormat (from `../node_modules/react-native-webp-format`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
@@ -569,8 +567,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   ReactNativeDarkMode:
     :path: "../node_modules/react-native-dark-mode"
-  ReactNativeWebPFormat:
-    :path: "../node_modules/react-native-webp-format"
   rn-fetch-blob:
     :path: "../node_modules/rn-fetch-blob"
   RNCAsyncStorage:
@@ -606,9 +602,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AppCenter: 76ecf7e959a68e36b0fd314e8dc5897660214423
-  appcenter-analytics: cca12b5d07593a309e99db475f6da7f1a61ae694
-  appcenter-core: cd5eaa48cfc6dd87dad2912d6718f21f4955327f
-  appcenter-crashes: 369cc9160392c137b791304ee96957f28ef143d1
+  appcenter-analytics: bce201b504c8138d235e6f42de1f36d30d2cd7f5
+  appcenter-core: 086ab16077baef60368c6a119af6e9e127406286
+  appcenter-crashes: 10790bf670f79150f1654d79f76c10a8b4936688
   AppCenterReactNativeShared: 2ec88a4ac2c52cdbc828a1f9c16244b534c84026
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BugsnagReactNative: 98fb350df4bb0c94cce903023531a1a5cc11fa51
@@ -616,13 +612,13 @@ SPEC CHECKSUMS:
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   FBLazyVector: aaeaf388755e4f29cd74acbc9e3b8da6d807c37f
   FBReactNativeSpec: 118d0d177724c2d67f08a59136eb29ef5943ec75
-  Firebase: 919186c8e119dd9372a45fd1dd17a8a942bc1892
+  Firebase: ed042590caa0029392257529a8003c25ee82bc18
   FirebaseAnalytics: 5fa308e1b13f838d0f6dc74719ac2a72e8c5afc4
-  FirebaseCore: 8cd4f8ea22075e0ee582849b1cf79d8816506085
+  FirebaseCore: 687b8e6a0a4337b898a6326d68254c2f80c143af
   FirebaseCoreDiagnostics: 7535fe695737f8c5b350584292a70b7f8ff0357b
   FirebaseInstallations: 3c520c951305cbf9ca54eb891ff9e6d1fd384881
   FirebaseInstanceID: 358d5cb393d2750a745569ede06827c35aea530b
-  FirebaseMessaging: ad9e1a80ea64905e01a0ce1b3eb76a2944544151
+  FirebaseMessaging: bdd4d573eab37ebee29bad4e7c4b0ef18fa1a952
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
   GoogleAppMeasurement: 8cd1f289d60e629cf16ab03363b9e89c776b9651
@@ -645,7 +641,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-cameraroll: e2917a5e62da9f10c3d525e157e25e694d2d6dfa
-  react-native-config: 54f023214af396f21ff0a9e0fed22620d676c8a1
+  react-native-config: 9a061347e0136fdb32d43a34d60999297d672361
   react-native-netinfo: a53b00d949b6456913aaf507d9dba90c4008c611
   react-native-receive-sharing-intent: feba0a332a07977549a85aa58b496eb44368366a
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
@@ -662,19 +658,18 @@ SPEC CHECKSUMS:
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   ReactNativeDarkMode: 0178ffca3b10f6a7c9f49d6f9810232b328fa949
-  ReactNativeWebPFormat: 4275844b80c2c385a10ab64f50264d720f2d691c
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNCAsyncStorage: d059c3ee71738c39834a627476322a5a8cd5bf36
-  RNCPushNotificationIOS: d5fd66aed4e03c6491ca0c6111a03d4f6455ff6c
+  RNCPushNotificationIOS: dc1c0c6aa18a128df123598149f42e848d26a4ac
   RNFastImage: e19ba191922e7dab9d932a4d59d62d76660aa222
-  RNFBAnalytics: dae6d7b280ba61c96e1bbdd34aca3154388f025e
-  RNFBApp: 6fd8a7e757135d4168bf033a8812c241af7363a0
-  RNFBMessaging: d884c58a92ce90687ae8b5a5772cf5d3d5223dfb
-  RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
+  RNFBAnalytics: 43b6cdfb3f3c8ddd4425260aa246a5f73d7f71c3
+  RNFBApp: d55b3a69d199cff25ecf4f3bf41a86c47aa37d57
+  RNFBMessaging: 3bb7dcf398789ce359a9f6b97b83472a3090f65a
+  RNGestureHandler: b6b359bb800ae399a9c8b27032bdbf7c18f08a08
   RNIap: b4c77c8bc4501203f4b743126a05da23f10f40b4
   RNImageCropPicker: 9d1a7eea4f8368fc479cbd2bf26459bd3c74d9aa
-  RNReanimated: b5ccb50650ba06f6e749c7c329a1bc3ae0c88b43
-  RNScreens: c526239bbe0e957b988dacc8d75ac94ec9cb19da
+  RNReanimated: 7de2dca51deacff78bb880f63c1389a24311b376
+  RNScreens: b748efec66e095134c7166ca333b628cd7e6f3e2
   RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
   RNVectorIcons: 368d6d8b8301224e5ffb6254191f4f8876c2be0d
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a

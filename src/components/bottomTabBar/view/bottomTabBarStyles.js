@@ -2,16 +2,17 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { Dimensions } from 'react-native';
 import scalePx from '../../../utils/scalePx';
 
-const deviceWidth = Dimensions.get('screen').width;
+const deviceWidth = Dimensions.get('window').width;
 
 export default EStyleSheet.create({
   wrapper: {
     width: deviceWidth,
     flexDirection: 'row',
+    flex: 0.09,
     backgroundColor: '$primaryBackgroundColor',
     borderTopWidth: 0.1,
     shadowOpacity: 0.2,
-    height: 50,
+    //height: scalePx(50),
     elevation: 15,
   },
   subContent: {
