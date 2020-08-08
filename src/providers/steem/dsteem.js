@@ -3,6 +3,8 @@
 // import * as bitcoin from 'bitcoinjs-lib';
 
 import { Client, PrivateKey, cryptoUtils } from '@hiveio/dhive';
+import hivejs from '@hiveio/hive-js';
+
 import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
@@ -506,9 +508,9 @@ export const deleteComment = (currentAccount, pin, permlink) => {
       ],
     ];
 
-    const privateKey = PrivateKey.fromString(key);
+    //const privateKey = PrivateKey.fromString(key);
 
-    return client.broadcast.sendOperations(opArray, privateKey);
+    return hivejs.broadcast.sendAsync(opArray, key);
   }
 };
 
@@ -612,7 +614,17 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
   }
 
   if (key) {
-    const privateKey = PrivateKey.fromString(key);
+    //const privateKey = PrivateKey.fromString(key);
+    const { postingKey, activeKey } = currentAccount.local;
+    let privateKey = '';
+    if (activeKey) {
+      privateKey = { active: key };
+    }
+
+    if (postingKey) {
+      privateKey = { posting: key };
+    }
+
     const voter = currentAccount.name;
     const args = {
       voter,
@@ -620,10 +632,11 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
       permlink,
       weight,
     };
+    const op = [['vote', args]];
 
     return new Promise((resolve, reject) => {
-      client.broadcast
-        .vote(args, privateKey)
+      hivejs.broadcast
+        .sendAsync({ op, extensions: [] }, { privateKey })
         .then((result) => {
           resolve(result);
         })
