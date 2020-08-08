@@ -48,13 +48,13 @@ export const checkClient = async () => {
   client = new Client(selectedServer, {
     timeout: 5000,
   });
-  /*client.database.getVersion().then((res) => {
+  client.database.getVersion().then((res) => {
     if (res.blockchain_version !== '0.23.0') {
       // true: eclipse rebranded rpc nodes
       // false: default old nodes (not necessary to call for old nodes)
       client.updateOperations(true);
     }
-  });*/
+  });
 };
 
 checkClient();
