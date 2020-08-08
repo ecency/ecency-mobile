@@ -2,7 +2,13 @@
 // import '../../../shim';
 // import * as bitcoin from 'bitcoinjs-lib';
 
-import { Client, PrivateKey, cryptoUtils } from '@esteemapp/dhive';
+import { Client } from '@hiveio/dhive';
+import {
+  Client as Client2,
+  PrivateKey as PrivateKey2,
+  cryptoUtils as cryptoUtils2,
+} from '@esteemapp/dhive';
+
 import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
@@ -35,6 +41,9 @@ const DEFAULT_SERVER = [
 let client = new Client(DEFAULT_SERVER, {
   timeout: 5000,
 });
+let client2 = new Client2(DEFAULT_SERVER, {
+  timeout: 5000,
+});
 
 export const checkClient = async () => {
   let selectedServer = DEFAULT_SERVER;
@@ -48,13 +57,18 @@ export const checkClient = async () => {
   client = new Client(selectedServer, {
     timeout: 5000,
   });
-  /*client.database.getVersion().then((res) => {
+  client2 = new Client2(selectedServer, {
+    timeout: 5000,
+  });
+  /*
+  client.database.getVersion().then((res) => {
     if (res.blockchain_version !== '0.23.0') {
       // true: eclipse rebranded rpc nodes
       // false: default old nodes (not necessary to call for old nodes)
       client.updateOperations(true);
     }
-  });*/
+  });
+  */
 };
 
 checkClient();
@@ -341,7 +355,7 @@ export const ignoreUser = async (currentAccount, pin, data) => {
   }
 
   if (key) {
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
 
     const json = {
       id: 'follow',
@@ -506,7 +520,7 @@ export const deleteComment = (currentAccount, pin, permlink) => {
       ],
     ];
 
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
 
     return client.broadcast.sendOperations(opArray, privateKey);
   }
@@ -567,9 +581,9 @@ export const signImage = async (file, currentAccount, pin) => {
       authors: [currentAccount.name],
       timestamp: parseInt(new Date().getTime() / 1000, 10),
     };
-    const hash = cryptoUtils.sha256(JSON.stringify(message));
+    const hash = cryptoUtils2.sha256(JSON.stringify(message));
 
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
     const signature = privateKey.sign(hash).toString();
     message.signatures = [signature];
     return b64uEnc(JSON.stringify(message));
@@ -612,7 +626,7 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
   }
 
   if (key) {
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
     const voter = currentAccount.name;
     const args = {
       voter,
@@ -669,7 +683,7 @@ export const transferToken = (currentAccount, pin, data) => {
   );
 
   if (key) {
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
     const args = {
       from: get(data, 'from'),
       to: get(data, 'destination'),
@@ -706,7 +720,7 @@ export const convert = (currentAccount, pin, data) => {
   );
 
   if (key) {
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
 
     const args = [
       [
@@ -748,7 +762,7 @@ export const transferToSavings = (currentAccount, pin, data) => {
   );
 
   if (key) {
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
 
     const args = [
       [
@@ -789,7 +803,7 @@ export const transferFromSavings = (currentAccount, pin, data) => {
   );
 
   if (key) {
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
     const args = [
       [
         'transfer_from_savings',
@@ -830,7 +844,7 @@ export const transferToVesting = (currentAccount, pin, data) => {
   );
 
   if (key) {
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
     const args = [
       [
         'transfer_to_vesting',
@@ -869,7 +883,7 @@ export const withdrawVesting = (currentAccount, pin, data) => {
   );
 
   if (key) {
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
     const args = [
       [
         'withdraw_vesting',
@@ -907,7 +921,7 @@ export const delegateVestingShares = (currentAccount, pin, data) => {
   );
 
   if (key) {
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
     const args = [
       [
         'delegate_vesting_shares',
@@ -946,7 +960,7 @@ export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
   );
 
   if (key) {
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
     const args = [
       [
         'set_withdraw_vesting_route',
@@ -993,7 +1007,7 @@ export const followUser = async (currentAccount, pin, data) => {
   }
 
   if (key) {
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
     const json = {
       id: 'follow',
       json: jsonStringify([
@@ -1039,7 +1053,7 @@ export const unfollowUser = async (currentAccount, pin, data) => {
   }
 
   if (key) {
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
 
     const json = {
       id: 'follow',
@@ -1216,7 +1230,7 @@ const _postContent = async (
       opArray.push(e);
     }
 
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
 
     return new Promise((resolve, reject) => {
       client.broadcast
@@ -1262,7 +1276,7 @@ const _reblog = async (account, pinCode, author, permlink) => {
   }
 
   if (key) {
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
     const follower = account.name;
 
     const json = {
@@ -1301,7 +1315,7 @@ export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rew
   }
 
   if (key) {
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
 
     const opArray = [
       [
@@ -1336,7 +1350,7 @@ export const transferPoint = (currentAccount, pinCode, data) => {
   });
 
   if (key) {
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
 
     const op = {
       id: 'esteem_point_transfer',
@@ -1358,7 +1372,7 @@ export const promote = (currentAccount, pinCode, duration, permlink, author) => 
   const key = getActiveKey(get(currentAccount, 'local'), pin);
 
   if (key) {
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
     const user = get(currentAccount, 'name');
 
     const json = {
@@ -1386,7 +1400,7 @@ export const boost = (currentAccount, pinCode, point, permlink, author) => {
   const key = getActiveKey(get(currentAccount, 'local'), pin);
 
   if (key && point) {
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
     const user = get(currentAccount, 'name');
 
     const json = {
@@ -1458,7 +1472,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
         },
       ],
     ];
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
 
     return new Promise((resolve, reject) => {
       client.broadcast
@@ -1519,7 +1533,7 @@ export const profileUpdate = async (params, pin, currentAccount) => {
       ],
     ];
 
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
 
     return new Promise((resolve, reject) => {
       client.broadcast
@@ -1552,7 +1566,7 @@ export const subscribeCommunity = (currentAccount, pinCode, data) => {
   ]);
 
   if (key) {
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey2.fromString(key);
 
     const op = {
       id: 'community',

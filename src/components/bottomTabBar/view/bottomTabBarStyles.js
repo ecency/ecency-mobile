@@ -7,16 +7,18 @@ const deviceWidth = Dimensions.get('window').width;
 export default EStyleSheet.create({
   wrapper: {
     width: deviceWidth,
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    zIndex: 999,
+    flexDirection: 'row',
+    flex: 0.09,
+    backgroundColor: '$primaryBackgroundColor',
+    borderTopWidth: 0.1,
+    shadowOpacity: 0.2,
+    //height: scalePx(50),
+    elevation: 15,
   },
   subContent: {
     flexDirection: 'row',
     zIndex: 1,
     position: 'absolute',
-    bottom: 0,
     marginHorizontal: scalePx(20),
     justifyContent: 'space-between',
   },

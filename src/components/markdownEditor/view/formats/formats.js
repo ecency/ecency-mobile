@@ -63,7 +63,8 @@ export default [
     key: '>',
     title: '>',
     prefix: '>',
-    icon: 'ios-quote',
+    icon: 'chevron-right',
+    iconType: 'MaterialCommunityIcons',
     onPress: applyListFormat,
   },
   {

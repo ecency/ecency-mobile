@@ -21,7 +21,7 @@
     "delegation": "Делегування",
     "delegations": "Делегації",
     "delegation_title": "Винагорода за делегацію",
-    "delegation_desc": "Earn Points everyday for delegation",
+    "delegation_desc": "Щоденно заробляйте Бали за делегацію",
     "post_title": "Бали за допис",
     "comment_title": "Бали за коментар",
     "vote_title": "Бали за голос",
@@ -30,7 +30,7 @@
     "checkin_title": "Бали за регулярний вхід",
     "referral": "Реферал",
     "referral_title": "Реферальна нагорода",
-    "referral_desc": "Invite friends and earn Points",
+    "referral_desc": "Запрошуйте друзів та заробляйте Бали",
     "checkin_extra_title": "Бонус за користування",
     "no_activity": "Немає нещодавньої активності",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "Ім'я користувача",
     "memo_placeholder": "Введіть сюди свої примітки",
     "transfer_token": "Переказ",
-    "purchase_estm": "Отримати Points",
-    "points": "Подарувати комусь Points",
+    "purchase_estm": "Отримати Бали",
+    "points": "Подарувати Бали",
     "transfer_to_saving": "В заощадження",
     "powerUp": "Збільшення Сили Голосу",
     "withdraw_to_saving": "Вивести заощадження",
@@ -83,7 +83,7 @@
     "fill_vesting_withdraw": "Зниження Сили виконано",
     "estm": {
       "title": "Бали",
-      "buy": "GET POINTS"
+      "buy": "Отримати Бали"
     },
     "savingsteem": {
       "title": "HIVE заощадження"
@@ -118,7 +118,7 @@
     "ignore": "ігнорує тебе",
     "reblog": "рестімнуто",
     "transfer": "відправлено",
-    "spin": "Time to earn more Points",
+    "spin": "Час заробляти більше Балів",
     "inactive": "Будьте активними! Зробіть допис, продовжуйте заробляти",
     "referral": "приєднався за вашим посиланням. Привітайте його",
     "notification": "Сповіщення",
@@ -213,7 +213,7 @@
   "login": {
     "signin": "Увійти",
     "signup": "ПРИЄДНУЙСЯ ЗАРАЗ",
-    "signin_title": "To get all the benefits of using Ecency",
+    "signin_title": "Щоб отримати всі переваги від користування Ecency",
     "username": "Ім'я користувача",
     "password": "Пароль або WIF (приватний ключ)",
     "description": "Дані користувача зберігаються локально на пристрої. Посвідчення видаляється після виходу з системи!",
@@ -298,7 +298,7 @@
     "success_shared": "Ваш допис успішно поширили",
     "success_moved": "Переміщено до чернеток",
     "permission_denied": "У доступі відмовлено",
-    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
+    "permission_text": "Будь ласка, перейдіть до налаштувань телефону та змініть дозволи для додатку Ecency.",
     "key_warning": "Перевірте права доступу до закритого ключа!",
     "success_rebloged": "Репост зроблено!",
     "already_rebloged": "Ви вже зробили репост!",
@@ -323,7 +323,7 @@
     "same_user": "Цього користувача уже додано до списку",
     "unknow_error": "Виникла помилка",
     "error": "Помилка",
-    "fetch_error": "Проблеми з підключенням, спробуйте ще раз або напишіть на support@ecency.com",
+    "fetch_error": "Проблеми з підключенням. Будь ласка, спробуйте ще раз або напишіть на support@ecency.com",
     "connection_fail": "Помилка з’єднання!",
     "connection_success": "Успішне підключення!",
     "checking": "Перевірка...",
@@ -333,8 +333,8 @@
     "rc_down": "Не вистачає ресурс кредитів для виконання дії! \n\nПідсильте свій акаунт, щоб і надалі отримувати задоволення від використання. Бажаєте підсилити свій акаунт зараз?",
     "payloadTooLarge": "Завеликий розмір файлу. Змініть розмір або завантажте зображення меншого розміру",
     "qoutaExceeded": "Перевищено ліміт завантажень",
-    "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong."
+    "invalidImage": "Недійсне зображення, спробуйте інший файл",
+    "something_wrong": "Щось пішло не так."
   },
   "post": {
     "reblog_alert": "Ви дійсно бажаєте зробити репост?",
@@ -384,7 +384,7 @@
     "invalid_username": "Недійсне ім’я користувача. Перевірте та повторіть спробу",
     "already_logged": "Ви вже ввійшли, спробуйте додати інший обліковий запис",
     "invalid_credentials": "Недійсні облікові дані. Перевірте та повторіть спробу",
-    "unknow_error": "Невідома помилка, будь ласка, напишіть на support@ecency.com"
+    "unknow_error": "Невідома помилка. Будь ласка, напишіть на support@ecency.com"
   },
   "payout": {
     "potential_payout": "Потенційна виплата",
@@ -434,9 +434,9 @@
     "to_placeholder": "Ім'я користувача",
     "memo_placeholder": "Введіть сюди свої примітки",
     "transfer_token": "Переказ",
-    "purchase_estm": "Purchase Points",
+    "purchase_estm": "Купити Бали",
     "convert": "Конвертувати HBD у HIVE",
-    "points": "Gift Points to someone",
+    "points": "Подарувати Бали",
     "transfer_to_saving": "Перевести до Заощаджень",
     "powerUp": "Збільшення Сили Голосу",
     "withdraw_to_saving": "Перевести до Заощаджень",
@@ -458,8 +458,8 @@
     "address_view": "Переглянути адресу"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
+    "title": "Отримати Бали",
+    "buy": "Отримати Бали",
     "next": "ДАЛІ",
     "account": {
       "title": "Отримати підсилення акаунту",
@@ -467,7 +467,7 @@
     }
   },
   "free_estm": {
-    "title": "Free Points",
+    "title": "Безкоштовні Бали",
     "button": "Обертай та Вигравай",
     "get_spin": "5 Обертів",
     "spin_right": "Обертів лишилось",
@@ -506,7 +506,7 @@
     "more_replies": "більше відповідей"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Інше",
     "communities": {
       "title": "Спільноти",
       "subscribe": "Підписатися",
@@ -522,12 +522,12 @@
     },
     "post_result_filter": {
       "popularity": "Популярність",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "newest": "Найновіше",
+      "relevance": "Релевантність"
     },
     "other_result_filter": {
       "user": "Користувач",
-      "tag": "Tag"
+      "tag": "Тег"
     }
   },
   "community": {

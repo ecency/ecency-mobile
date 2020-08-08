@@ -50,7 +50,6 @@ class EditorScreen extends Component {
         fields: {
           ...prevState.fields,
           ...nextProps.draftPost,
-          tags: prevState.fields.tags,
         },
       }));
     }

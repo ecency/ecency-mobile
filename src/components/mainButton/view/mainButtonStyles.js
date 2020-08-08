@@ -12,7 +12,7 @@ export default EStyleSheet.create({
       height: 5,
     },
     shadowColor: '#5f5f5fbf',
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.1,
     elevation: 3,
   },
   icon: {
