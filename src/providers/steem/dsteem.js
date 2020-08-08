@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 // import '../../../shim';
 // import * as bitcoin from 'bitcoinjs-lib';
-import hiveTx from 'hive-tx';
+
 import { Client, PrivateKey, cryptoUtils } from '@hiveio/dhive';
 
 import hivesigner from 'hivesigner';
@@ -509,7 +509,7 @@ export const deleteComment = (currentAccount, pin, permlink) => {
 
     const privateKey = PrivateKey.fromString(key);
 
-    return client.broadcast.sendAsync(opArray, privateKey);
+    return client.broadcast.sendOperations(opArray, privateKey);
   }
 };
 
@@ -613,8 +613,7 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
   }
 
   if (key) {
-    //const privateKey = PrivateKey.fromString(key);
-
+    const privateKey = PrivateKey.fromString(key);
     const voter = currentAccount.name;
     const args = {
       voter,
@@ -622,16 +621,10 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
       permlink,
       weight,
     };
-    const op = [['vote', args]];
-
-    const tx = new hiveTx.Transaction();
-    tx.create(op);
-    const privateKey = hiveTx.PrivateKey.from(key);
-
-    tx.sign(privateKey);
 
     return new Promise((resolve, reject) => {
-      tx.broadcast()
+      client.broadcast
+        .vote(args, privateKey)
         .then((result) => {
           resolve(result);
         })
