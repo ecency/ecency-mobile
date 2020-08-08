@@ -2,7 +2,7 @@
 // import '../../../shim';
 // import * as bitcoin from 'bitcoinjs-lib';
 
-import { Client, PrivateKey, cryptoUtils } from '@hiveio/dhive';
+import { Client, PrivateKey, cryptoUtils } from '@esteemapp/dhive';
 
 import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
@@ -49,6 +49,7 @@ export const checkClient = async () => {
   client = new Client(selectedServer, {
     timeout: 5000,
   });
+  /*
   client.database.getVersion().then((res) => {
     if (res.blockchain_version !== '0.23.0') {
       // true: eclipse rebranded rpc nodes
@@ -56,6 +57,7 @@ export const checkClient = async () => {
       client.updateOperations(true);
     }
   });
+  */
 };
 
 checkClient();
