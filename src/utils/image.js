@@ -20,10 +20,10 @@ export const generateSignature = (media, privateKey) => {
   return key.sign(Buffer.from(array)).toString();
 };
 
-export const catchEntryImage = (entry, width = 0, height = 0) => {
+export const catchEntryImage = (entry, width = 0, height = 0, format = 'match') => {
   // return from json metadata if exists
   let meta;
-  const format = Platform.OS === 'android' ? 'webp' : 'match';
+  format = Platform.OS === 'android' ? 'webp' : 'match';
 
   try {
     meta = JSON.parse(entry.json_metadata);
@@ -61,9 +61,9 @@ export const catchEntryImage = (entry, width = 0, height = 0) => {
   return null;
 };
 
-export const catchDraftImage = (body) => {
+export const catchDraftImage = (body, format = 'match') => {
   const imgRegex = /(https?:\/\/.*\.(?:tiff?|jpe?g|gif|png|svg|ico|PNG|GIF|JPG))/g;
-  const format = Platform.OS === 'android' ? 'webp' : 'match';
+  format = Platform.OS === 'android' ? 'webp' : 'match';
 
   if (body && imgRegex.test(body)) {
     const imageMatch = body.match(imgRegex);
@@ -73,9 +73,9 @@ export const catchDraftImage = (body) => {
   return null;
 };
 
-export const getResizedImage = (url, size = 600) => {
+export const getResizedImage = (url, size = 600, format = 'match') => {
   //TODO: implement fallback onError, for imagehoster is down case
-  const format = Platform.OS === 'android' ? 'webp' : 'match';
+  format = Platform.OS === 'android' ? 'webp' : 'match';
   if (!url) {
     return '';
   }

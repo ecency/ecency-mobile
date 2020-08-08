@@ -63,7 +63,7 @@
     "react-intl": "^3.9.2",
     "react-native": "0.61.5",
     "react-native-actionsheet": "ecency/react-native-actionsheet",
-    "react-native-autoheight-webview": "1.4.1",
+    "react-native-autoheight-webview": "^1.5.2",
     "react-native-config": "luggit/react-native-config#master",
     "react-native-dark-mode": "^0.2.2",
     "react-native-datepicker": "ecency/react-native-datepicker",
