@@ -372,7 +372,7 @@ export const ignoreUser = async (currentAccount, pin, data) => {
     };
 
     return new Promise((resolve, reject) => {
-      client2.broadcast
+      client.broadcast
         .json(json, privateKey)
         .then((result) => {
           resolve(result);
@@ -522,7 +522,7 @@ export const deleteComment = (currentAccount, pin, permlink) => {
 
     const privateKey = PrivateKey2.fromString(key);
 
-    return client2.broadcast.sendOperations(opArray, privateKey);
+    return client.broadcast.sendOperations(opArray, privateKey);
   }
 };
 
@@ -636,7 +636,7 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
     };
 
     return new Promise((resolve, reject) => {
-      client2.broadcast
+      client.broadcast
         .vote(args, privateKey)
         .then((result) => {
           resolve(result);
@@ -692,7 +692,7 @@ export const transferToken = (currentAccount, pin, data) => {
     };
 
     return new Promise((resolve, reject) => {
-      client2.broadcast
+      client.broadcast
         .transfer(args, privateKey)
         .then((result) => {
           if (result) {
@@ -734,7 +734,7 @@ export const convert = (currentAccount, pin, data) => {
     ];
 
     return new Promise((resolve, reject) => {
-      client2.broadcast
+      client.broadcast
         .sendOperations(args, privateKey)
         .then((result) => {
           if (result) {
@@ -777,7 +777,7 @@ export const transferToSavings = (currentAccount, pin, data) => {
     ];
 
     return new Promise((resolve, reject) => {
-      client2.broadcast
+      client.broadcast
         .sendOperations(args, privateKey)
         .then((result) => {
           resolve(result);
@@ -818,7 +818,7 @@ export const transferFromSavings = (currentAccount, pin, data) => {
     ];
 
     return new Promise((resolve, reject) => {
-      client2.broadcast
+      client.broadcast
         .sendOperations(args, privateKey)
         .then((result) => {
           resolve(result);
@@ -857,7 +857,7 @@ export const transferToVesting = (currentAccount, pin, data) => {
     ];
 
     return new Promise((resolve, reject) => {
-      client2.broadcast
+      client.broadcast
         .sendOperations(args, privateKey)
         .then((result) => {
           resolve(result);
@@ -895,7 +895,7 @@ export const withdrawVesting = (currentAccount, pin, data) => {
     ];
 
     return new Promise((resolve, reject) => {
-      client2.broadcast
+      client.broadcast
         .sendOperations(args, privateKey)
         .then((result) => {
           resolve(result);
@@ -934,7 +934,7 @@ export const delegateVestingShares = (currentAccount, pin, data) => {
     ];
 
     return new Promise((resolve, reject) => {
-      client2.broadcast
+      client.broadcast
         .sendOperations(args, privateKey)
         .then((result) => {
           resolve(result);
@@ -974,7 +974,7 @@ export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
     ];
 
     return new Promise((resolve, reject) => {
-      client2.broadcast
+      client.broadcast
         .sendOperations(args, privateKey)
         .then((result) => {
           resolve(result);
@@ -1023,7 +1023,7 @@ export const followUser = async (currentAccount, pin, data) => {
     };
 
     return new Promise((resolve, reject) => {
-      client2.broadcast
+      client.broadcast
         .json(json, privateKey)
         .then((result) => {
           resolve(result);
@@ -1070,7 +1070,7 @@ export const unfollowUser = async (currentAccount, pin, data) => {
     };
 
     return new Promise((resolve, reject) => {
-      client2.broadcast
+      client.broadcast
         .json(json, privateKey)
         .then((result) => {
           resolve(result);
@@ -1233,7 +1233,7 @@ const _postContent = async (
     const privateKey = PrivateKey2.fromString(key);
 
     return new Promise((resolve, reject) => {
-      client2.broadcast
+      client.broadcast
         .sendOperations(opArray, privateKey)
         .then((result) => {
           resolve(result);
@@ -1293,7 +1293,7 @@ const _reblog = async (account, pinCode, author, permlink) => {
       required_posting_auths: [follower],
     };
 
-    return client2.broadcast.json(json, privateKey);
+    return client.broadcast.json(json, privateKey);
   }
 
   return Promise.reject(
@@ -1329,7 +1329,7 @@ export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rew
       ],
     ];
 
-    return client2.broadcast.sendOperations(opArray, privateKey);
+    return client.broadcast.sendOperations(opArray, privateKey);
   }
 
   return Promise.reject(
@@ -1359,7 +1359,7 @@ export const transferPoint = (currentAccount, pinCode, data) => {
       required_posting_auths: [],
     };
 
-    return client2.broadcast.json(op, privateKey);
+    return client.broadcast.json(op, privateKey);
   }
 
   return Promise.reject(
@@ -1387,7 +1387,7 @@ export const promote = (currentAccount, pinCode, duration, permlink, author) => 
       required_posting_auths: [],
     };
 
-    return client2.broadcast.json(json, privateKey);
+    return client.broadcast.json(json, privateKey);
   }
 
   return Promise.reject(
@@ -1415,7 +1415,7 @@ export const boost = (currentAccount, pinCode, point, permlink, author) => {
       required_posting_auths: [],
     };
 
-    return client2.broadcast.json(json, privateKey);
+    return client.broadcast.json(json, privateKey);
   }
 
   return Promise.reject(
@@ -1475,7 +1475,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
     const privateKey = PrivateKey2.fromString(key);
 
     return new Promise((resolve, reject) => {
-      client2.broadcast
+      client.broadcast
         .sendOperations(opArray, privateKey)
         .then((result) => {
           resolve(result);
@@ -1536,7 +1536,7 @@ export const profileUpdate = async (params, pin, currentAccount) => {
     const privateKey = PrivateKey2.fromString(key);
 
     return new Promise((resolve, reject) => {
-      client2.broadcast
+      client.broadcast
         .sendOperations(opArray, privateKey)
         .then((result) => {
           resolve(result);
@@ -1575,7 +1575,7 @@ export const subscribeCommunity = (currentAccount, pinCode, data) => {
       required_posting_auths: [],
     };
 
-    return client2.broadcast.json(op, privateKey);
+    return client.broadcast.json(op, privateKey);
   }
 
   return Promise.reject(
