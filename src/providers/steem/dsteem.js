@@ -1,9 +1,8 @@
 /* eslint-disable camelcase */
 // import '../../../shim';
 // import * as bitcoin from 'bitcoinjs-lib';
-
+import hiveTx from 'hive-tx';
 import { Client, PrivateKey, cryptoUtils } from '@hiveio/dhive';
-import hivejs from '@hiveio/hive-js';
 
 import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
@@ -508,9 +507,9 @@ export const deleteComment = (currentAccount, pin, permlink) => {
       ],
     ];
 
-    //const privateKey = PrivateKey.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
 
-    return hivejs.broadcast.sendAsync(opArray, key);
+    return client.broadcast.sendAsync(opArray, privateKey);
   }
 };
 
@@ -615,15 +614,6 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
 
   if (key) {
     //const privateKey = PrivateKey.fromString(key);
-    const { postingKey, activeKey } = currentAccount.local;
-    let privateKey = '';
-    if (activeKey) {
-      privateKey = { active: key };
-    }
-
-    if (postingKey) {
-      privateKey = { posting: key };
-    }
 
     const voter = currentAccount.name;
     const args = {
@@ -634,9 +624,14 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
     };
     const op = [['vote', args]];
 
+    const tx = new hiveTx.Transaction();
+    tx.create(op);
+    const privateKey = hiveTx.PrivateKey.from(key);
+
+    tx.sign(privateKey);
+
     return new Promise((resolve, reject) => {
-      hivejs.broadcast
-        .sendAsync({ op, extensions: [] }, { privateKey })
+      tx.broadcast()
         .then((result) => {
           resolve(result);
         })
