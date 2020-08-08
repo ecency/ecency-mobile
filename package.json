@@ -85,7 +85,6 @@
     "react-native-receive-sharing-intent": "ecency/react-native-receive-sharing-intent",
     "react-native-screens": "^2.9.0",
     "react-native-scrollable-tab-view": "ecency/react-native-scrollable-tab-view",
-    "react-native-size-matters": "^0.3.0",
     "react-native-snap-carousel": "^3.8.0",
     "react-native-splash-screen": "^3.2.0",
     "react-native-svg": "^9.5.3",

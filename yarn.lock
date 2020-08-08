@@ -7639,11 +7639,6 @@ react-native-scrollable-tab-view@ecency/react-native-scrollable-tab-view:
     prop-types "^15.6.0"
     react-timer-mixin "^0.13.3"
 
-react-native-size-matters@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/react-native-size-matters/-/react-native-size-matters-0.3.0.tgz#0692e324a189884819b570c4cab24d27ecd4311d"
-  integrity sha512-PuwA07mr3woQPFJXo3FwlFwpe6bb2LCb20sDZ4JWMpGBtmppq4sKH4GLgS6Sw+GkN0sSOEXGZLaOsHZYFY9hJg==
-
 react-native-snap-carousel@^3.8.0:
   version "3.9.1"
   resolved "https://registry.yarnpkg.com/react-native-snap-carousel/-/react-native-snap-carousel-3.9.1.tgz#6fd9bd8839546c2c6043a41d2035afbc6fe0443e"
