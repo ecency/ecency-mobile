@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
-    "removed_hint": "के द्वारा पोस्ट को हटा दिया गया था",
+    "removed_hint": "The post not available yet, pull down to refresh",
     "copy_link": "Copy link",
     "reblogged": "द्वारा रीब्लॉग",
     "sponsored": "SPONSORED",
