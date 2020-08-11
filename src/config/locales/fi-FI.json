@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
-    "removed_hint": "Julkaisun on poistanut",
+    "removed_hint": "The post not available yet, pull down to refresh",
     "copy_link": "Kopioi linkki",
     "reblogged": "uudelleenjakanut",
     "sponsored": "SPONSOROITU",
