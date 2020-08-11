@@ -63,15 +63,15 @@
     "points": "Regalar puntos a alguien",
     "transfer_to_saving": "A ahorros",
     "powerUp": "Hacer Power Up",
-    "withdraw_to_saving": "Withdraw Saving",
-    "steemconnect_title": "Hivesigner Transfer",
+    "withdraw_to_saving": "Retirar Ahorros",
+    "steemconnect_title": "Transferencia en Hivesigner",
     "next": "SIGUIENTE",
     "delegate": "Delegar",
     "power_down": "Power down",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
-    "transfer_to_savings": "To Savings",
-    "convert": "Convert",
+    "withdraw_steem": "Retirar HIVE",
+    "withdraw_sbd": "Retirar HBD",
+    "transfer_to_savings": "A ahorros",
+    "convert": "Convertir",
     "escrow_transfer": "Escrow Transfer",
     "escrow_dispute": "Escrow Dispute",
     "escrow_release": "Escrow Release",
@@ -454,11 +454,11 @@
     "withdraw_steem": "Withdraw HIVE",
     "withdraw_sbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Incoming Funds",
-    "stop": "Stop",
-    "address_view": "View address"
+    "stop": "Detener",
+    "address_view": "Ver dirección"
   },
   "boost": {
-    "title": "Get Points",
+    "title": "Obtener Puntos",
     "buy": "GET Points",
     "next": "SIGUIENTE",
     "account": {
@@ -467,7 +467,7 @@
     }
   },
   "free_estm": {
-    "title": "Free Points",
+    "title": "Puntos gratis",
     "button": "GIRA Y GANA",
     "get_spin": "5 GIROS",
     "spin_right": "Girar a la izquierda",
@@ -501,36 +501,36 @@
   },
   "comments": {
     "title": "Comentarios",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "Revelar comentario",
+    "read_more": "Cargar más comentarios",
+    "more_replies": "mas comentarios"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Otros",
     "communities": {
-      "title": "Communities",
-      "subscribe": "Subscribe",
+      "title": "Comunidades",
+      "subscribe": "Suscribirse",
       "unsubscribe": "Unsubscribe",
-      "subscribers": "Subscribers",
+      "subscribers": "Suscriptores",
       "posters": "Posters",
       "posts": "Post"
     },
     "communities_filter": {
-      "rank": "Rank",
-      "subs": "Subscribers",
-      "new": "New"
+      "rank": "Clasificación",
+      "subs": "Suscriptores",
+      "new": "Nuevo"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "Popularidad",
+      "newest": "Más reciente",
+      "relevance": "Relevancia"
     },
     "other_result_filter": {
       "user": "Usuario",
-      "tag": "Tag"
+      "tag": "Etiqueta"
     }
   },
   "community": {
-    "new_post": "New Post"
+    "new_post": "Escribir un post"
   }
 }
