@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Oled sa kindel, et soovid seda jagada?",
-    "removed_hint": "Postitus eemaldatud kasutaja %s poolt.",
+    "removed_hint": "The post not available yet, pull down to refresh",
     "copy_link": "Copy link",
     "reblogged": "jagatud %s poolt",
     "sponsored": "SPONSOREERITUD",
