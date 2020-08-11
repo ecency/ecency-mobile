@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Сигорни ли сте,че искате да споделите?",
-    "removed_hint": "Публикацията беше премахнат от",
+    "removed_hint": "The post not available yet, pull down to refresh",
     "copy_link": "Копирай връзката/линка",
     "reblogged": "споделено от",
     "sponsored": "Спонсорирано",
