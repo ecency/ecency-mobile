@@ -59,7 +59,7 @@
     "to_placeholder": "Tên người dùng",
     "memo_placeholder": "Nhập ghi chú của bạn vào đây",
     "transfer_token": "Chuyển cho",
-    "purchase_estm": "ĐƯỢC POINTS",
+    "purchase_estm": "GET POINTS",
     "points": "Gift Points to someone",
     "transfer_to_saving": "To Saving",
     "powerUp": "Tăng lên",
@@ -82,8 +82,8 @@
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
-      "title": "Points",
-      "buy": "ĐƯỢC POINTS"
+      "title": "Các điểm thưởng",
+      "buy": "GET POINTS"
     },
     "savingsteem": {
       "title": "HIVE Savings"
@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
-    "removed_hint": "Bài viết đã bị xóa bởi",
+    "removed_hint": "The post not available yet, pull down to refresh",
     "copy_link": "Copy link",
     "reblogged": "đã được đăng lại bởi",
     "sponsored": "SPONSORED",
