@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Sei sicuro di voler condividere?",
-    "removed_hint": "Il post è stato rimosso da",
+    "removed_hint": "The post not available yet, pull down to refresh",
     "copy_link": "Copia il collegamento",
     "reblogged": "ribloggato da",
     "sponsored": "SPONSORIZZATO",
