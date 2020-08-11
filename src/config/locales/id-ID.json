@@ -323,7 +323,7 @@
     "same_user": "Pengguna ini sudah ditambahkan ke daftar",
     "unknow_error": "Terjadi kesalahan",
     "error": "Error",
-    "fetch_error": "Masalah koneksi, silakan coba lagi atau tulis untuk dukungan@Ecency.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Koneksi gagal!",
     "connection_success": "Berhasil terhubung!",
     "checking": "Mememriksa...",
@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
-    "removed_hint": "Pos dihapus oleh",
+    "removed_hint": "The post not available yet, pull down to refresh",
     "copy_link": "Copy link",
     "reblogged": "direblog Oleh",
     "sponsored": "DISPONSORI",
@@ -384,7 +384,7 @@
     "invalid_username": "Nama pengguna tidak valid, silakan periksa dan coba lagi",
     "already_logged": "Anda sudah masuk, coba tambahkan akun lain",
     "invalid_credentials": "Kredensial tidak valid, silakan periksa dan coba lagi",
-    "unknow_error": "Kesalahan tidak dikenal, silakan menulis ke support@ecency.com"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Potensi pembayaran",
