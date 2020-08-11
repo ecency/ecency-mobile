@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Ви дійсно бажаєте зробити репост?",
-    "removed_hint": "Допис видалено користувачем",
+    "removed_hint": "The post not available yet, pull down to refresh",
     "copy_link": "Скопіювати посилання",
     "reblogged": "репостнуто",
     "sponsored": "СПОНСОРОВАНО",
