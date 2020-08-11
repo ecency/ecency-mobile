@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "¿Estás seguro de querer rebloguear?",
-    "removed_hint": "Esta publicación ha sido removida por",
+    "removed_hint": "The post not available yet, pull down to refresh",
     "copy_link": "Copy link",
     "reblogged": "reblogueado por",
     "sponsored": "PATROCINADO",
