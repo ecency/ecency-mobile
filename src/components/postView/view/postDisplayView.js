@@ -159,7 +159,7 @@ const PostDisplayView = ({
         imageStyle={styles.noPostImage}
         defaultText={`${intl.formatMessage({
           id: 'post.removed_hint',
-        })} ${author}`}
+        })}`}
       />
     );
   }
