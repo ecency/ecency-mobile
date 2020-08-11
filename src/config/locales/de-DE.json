@@ -123,7 +123,7 @@
     "referral": "joined with your referral, welcome them",
     "notification": "Benachrichtigungen",
     "leaderboard": "Rangliste",
-    "epoint": "Ecency Punkte",
+    "epoint": "eSteem Punkte",
     "leaderboard_title": "Top-Benutzer",
     "recent": "Vor kurzem",
     "yesterday": "Gestern",
@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?",
-    "removed_hint": "Der Beitrag wurde entfernt von",
+    "removed_hint": "The post not available yet, pull down to refresh",
     "copy_link": "Copy link",
     "reblogged": "rebloggt von",
     "sponsored": "Gesponsert",
