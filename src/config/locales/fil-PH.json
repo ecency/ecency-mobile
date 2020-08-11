@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Sigurado ka, gusto mong i-reblog?",
-    "removed_hint": "Ang post ay tinanggal ni",
+    "removed_hint": "The post not available yet, pull down to refresh",
     "copy_link": "Kopyahin ang link",
     "reblogged": "ni-reblog ni",
     "sponsored": "SPONSORED",
