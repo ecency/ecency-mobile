@@ -323,7 +323,7 @@
     "same_user": "Utilizator adăugat deja la listă",
     "unknow_error": "A intervenit o eroare",
     "error": "Eroare",
-    "fetch_error": "Probleme de conexiune, încearcă din nou sau raportează la support@ecency.com",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Connectare Eșuată!",
     "connection_success": "Conectat cu succes!",
     "checking": "Verificare în curs...",
@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Ești sigur că vrei să redistribui?",
-    "removed_hint": "Postarea a fost eliminată de către",
+    "removed_hint": "The post not available yet, pull down to refresh",
     "copy_link": "Copiază linkul",
     "reblogged": "redistribuit de",
     "sponsored": "SPONSORIZAT",
@@ -384,7 +384,7 @@
     "invalid_username": "Nume utilizator invalid, te rugăm să verifici și să reincerci",
     "already_logged": "Ești deja conectat, te rugăm încearcă să adăugi alt cont",
     "invalid_credentials": "Credențiale invalide, te rugăm să verifici și să reîncerci",
-    "unknow_error": "Eroare necunoscută, te rugăm să ne contactezi la support@ecency.com"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Plată probabilă",
