@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
-    "removed_hint": "A bejegyzést eltávolította",
+    "removed_hint": "The post not available yet, pull down to refresh",
     "copy_link": "Link másolása",
     "reblogged": "megosztva általa",
     "sponsored": "TÁMOGATOTT",
@@ -384,7 +384,7 @@
     "invalid_username": "Érvénytelen felhasználónév, kérjük ellenőrizd és próbáld újra",
     "already_logged": "Már be vagy jelentkezve, kérjük próbálj meg hozzáadni egy másik fiókot",
     "invalid_credentials": "Érvénytelen hitelesítő adatok. Kérjük, ellenőrizd és próbáld újra",
-    "unknow_error": "Ismeretlen hiba, kérjük vedd fel velünk a kapcsolatot itt support@ecency.com"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Lehetséges Kifizetés",
