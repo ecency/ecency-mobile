@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Təkrar paylaşmaq istədiyinizə əminsiniz?",
-    "removed_hint": "Göndərişi silən:",
+    "removed_hint": "The post not available yet, pull down to refresh",
     "copy_link": "Copy link",
     "reblogged": "təkrar paylaşan:",
     "sponsored": "SPONSORLU",
