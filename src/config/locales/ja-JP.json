@@ -323,7 +323,7 @@
     "same_user": "このユーザーは既にリストに追加されています",
     "unknow_error": "エラーが発生しました",
     "error": "エラー",
-    "fetch_error": "接続に問題があります、再度お試しいただくかsupport@ecency.comに連絡してください",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "接続に失敗しました！",
     "connection_success": "接続に成功しました！",
     "checking": "確認中...",
@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "本当にリブログしますか？",
-    "removed_hint": "投稿は削除されました",
+    "removed_hint": "The post not available yet, pull down to refresh",
     "copy_link": "リンクをコピー",
     "reblogged": "リブログしています",
     "sponsored": "PR",
@@ -384,7 +384,7 @@
     "invalid_username": "ユーザー名が間違っています。もう一度確認してやり直してください",
     "already_logged": "既にログインしています。他のアカウントを追加してください",
     "invalid_credentials": "ログイン情報が間違っています。もう一度確認してやり直してください",
-    "unknow_error": "不明なエラー、support@ecency.comに連絡してください"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "見込み支払額",
