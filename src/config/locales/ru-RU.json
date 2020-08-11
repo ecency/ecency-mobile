@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
-    "removed_hint": "Сообщение удалено",
+    "removed_hint": "The post not available yet, pull down to refresh",
     "copy_link": "Копировать ссылку",
     "reblogged": "репостнуто",
     "sponsored": "СПОНСИРОВАНО",
