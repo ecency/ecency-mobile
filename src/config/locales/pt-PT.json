@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
-    "removed_hint": "The post not available yet, pull down to refresh",
+    "removed_hint": "O post ainda não está disponível, puxe para baixo para atualizar",
     "copy_link": "Copiar link",
     "reblogged": "repostado por",
     "sponsored": "Promovido",
