@@ -188,6 +188,7 @@ export const getUser = async (user) => {
     _account.reputation = getReputation(_account.reputation);
     _account.username = _account.name;
     _account.unread_activity_count = unreadActivityCount;
+    _account.vp_manabar = client.rc.calculateVPMana(_account);
     _account.rc_manabar = client.rc.calculateRCMana(rcPower.rc_accounts[0]);
     _account.steem_power = await vestToSteem(
       _account.vesting_shares,
