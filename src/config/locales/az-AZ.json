@@ -299,7 +299,7 @@
     "success_moved": "Qaralamalara köçürüldü",
     "permission_denied": "İcazə verilmədi",
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Check private key permission!",
+    "key_warning": "Operation requires active key or master password, please relogin!",
     "success_rebloged": "Təkrar paylaşıldı!",
     "already_rebloged": "Artıq təkrar paylaşdınız!",
     "success_favorite": "Favorite added!",
