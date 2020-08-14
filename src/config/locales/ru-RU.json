@@ -299,7 +299,7 @@
     "success_moved": "Перемещён в черновики",
     "permission_denied": "Не достаточно разрешений",
     "permission_text": "Пожалуйста, перейдите в настройки телефона и измените разрешения для приложения Ecency.",
-    "key_warning": "Проверьте разрешения для Закрытого ключа!",
+    "key_warning": "Operation requires active key or master password, please relogin!",
     "success_rebloged": "Репостнуто!",
     "already_rebloged": "Вы уже делились этим постом!",
     "success_favorite": "Добавлено в Избранное!",
