@@ -299,7 +299,7 @@
     "success_moved": "Mutat la schițe",
     "permission_denied": "Permisiune respinsă",
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Verifică permisiunea oferită de cheia privată!",
+    "key_warning": "Operation requires active key or master password, please relogin!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Ai redistribuit postarea deja!",
     "success_favorite": "Adăugat la favorite!",
