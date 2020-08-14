@@ -309,7 +309,7 @@ class EditorContainer extends Component {
       }
 
       const author = currentAccount.name;
-      const options = makeOptions({ author: author, permlink: permlink, operationType: '' });
+      const options = null; // makeOptions({ author: author, permlink: permlink, operationType: '' });
       const parentPermlink = _tags[0] || 'hive-125125';
 
       if (scheduleDate) {
@@ -349,20 +349,20 @@ class EditorContainer extends Component {
                 }),
               ),
             );
-
-            this.setState({
-              isPostSending: false,
-            });
-
-            navigation.navigate({
-              routeName: ROUTES.SCREENS.POST,
-              params: {
-                author: get(currentAccount, 'name'),
-                permlink,
-                isNewPost: true,
-              },
-              key: permlink,
-            });
+            setTimeout(() => {
+              this.setState({
+                isPostSending: false,
+              });
+              navigation.navigate({
+                routeName: ROUTES.SCREENS.POST,
+                params: {
+                  author: get(currentAccount, 'name'),
+                  permlink,
+                  isNewPost: true,
+                },
+                key: permlink,
+              });
+            }, 3000);
           })
           .catch((error) => {
             this._handleSubmitFailure(error);
@@ -384,7 +384,7 @@ class EditorContainer extends Component {
       const jsonMeta = makeJsonMetadataReply(post.json_metadata.tags || ['ecency']);
       const permlink = generateReplyPermlink(post.author);
       const author = currentAccount.name;
-      const options = makeOptions({ author: author, permlink: permlink, operationType: '' });
+      const options = null; // makeOptions({ author: author, permlink: permlink, operationType: '' });
       const parentAuthor = post.author;
       const parentPermlink = post.permlink;
 
