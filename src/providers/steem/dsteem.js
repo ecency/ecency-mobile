@@ -201,11 +201,9 @@ export const getUser = async (user) => {
       get(globalProperties, 'total_vesting_fund_steem', globalProperties.total_vesting_fund_hive),
     );
 
-    if (has(_account, 'posting_json_metadata') || has(_account, 'json_metadata')) {
+    if (has(_account, 'posting_json_metadata')) {
       try {
-        _account.about =
-          JSON.parse(get(_account, 'posting_json_metadata')) ||
-          JSON.parse(get(_account, 'json_metadata'));
+        _account.about = JSON.parse(get(_account, 'posting_json_metadata'));
       } catch (e) {
         //alert(e);
         _account.about = {};

@@ -64,8 +64,7 @@ export const login = async (username, password, isPinCodeOpen) => {
 
   let jsonMetadata;
   try {
-    jsonMetadata =
-      JSON.parse(account.posting_json_metadata) || JSON.parse(account.json_metadata) || '';
+    jsonMetadata = JSON.parse(account.posting_json_metadata) || '';
   } catch (err) {
     jsonMetadata = '';
   }
@@ -124,8 +123,7 @@ export const loginWithSC2 = async (code, isPinCodeOpen) => {
   return new Promise(async (resolve, reject) => {
     let jsonMetadata;
     try {
-      jsonMetadata =
-        JSON.parse(account.posting_json_metadata) || JSON.parse(account.json_metadata) || '';
+      jsonMetadata = JSON.parse(account.posting_json_metadata) || '';
       if (Object.keys(jsonMetadata).length !== 0) {
         avatar = jsonMetadata.profile.profile_image || '';
       }
