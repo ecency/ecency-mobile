@@ -299,7 +299,7 @@
     "success_moved": "Премено в чернови",
     "permission_denied": "Достъпът е отказан",
     "permission_text": "Моля, идете на Настройки на телефона и променете разрешенията към Ecency.",
-    "key_warning": "Моля, проверете Private key разрешение...",
+    "key_warning": "Operation requires active key or master password, please relogin!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Вие вече споделихте!",
     "success_favorite": "Добавено в любими!",
