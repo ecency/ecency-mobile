@@ -12,7 +12,7 @@ import {
 import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
-import { getServer } from '../../realm/realm';
+import { getServer, getCache, setCache } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
 import { userActivity } from '../esteem/ePoint';
 
@@ -167,12 +167,16 @@ export const getUser = async (user) => {
       return null;
     }
 
-    const globalProperties = await client.database.getDynamicGlobalProperties();
+    const globalProperties =
+      (await client.database.getDynamicGlobalProperties()) || getCache('globalProperties');
+    await setCache('globalProperties', globalProperties);
     const rcPower =
-      user &&
-      (await client.call('rc_api', 'find_rc_accounts', {
-        accounts: [user],
-      }));
+      (user &&
+        (await client.call('rc_api', 'find_rc_accounts', {
+          accounts: [user],
+        }))) ||
+      getCache('rcPower');
+    await setCache('rcPower', rcPower);
     try {
       unreadActivityCount = await getUnreadActivityCount({
         user,
@@ -184,7 +188,7 @@ export const getUser = async (user) => {
     _account.reputation = getReputation(_account.reputation);
     _account.username = _account.name;
     _account.unread_activity_count = unreadActivityCount;
-    _account.rc_manabar = rcPower.rc_accounts[0].rc_manabar;
+    _account.rc_manabar = client.rc.calculateRCMana(rcPower.rc_accounts[0]);
     _account.steem_power = await vestToSteem(
       _account.vesting_shares,
       globalProperties.total_vesting_shares,
