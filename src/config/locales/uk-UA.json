@@ -299,7 +299,7 @@
     "success_moved": "Переміщено до чернеток",
     "permission_denied": "У доступі відмовлено",
     "permission_text": "Будь ласка, перейдіть до налаштувань телефону та змініть дозволи для додатку Ecency.",
-    "key_warning": "Перевірте права доступу до закритого ключа!",
+    "key_warning": "Operation requires active key or master password, please relogin!",
     "success_rebloged": "Репост зроблено!",
     "already_rebloged": "Ви вже зробили репост!",
     "success_favorite": "До улюблених додано!",
