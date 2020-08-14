@@ -718,10 +718,10 @@
     verror "^1.10.0"
     whatwg-fetch "^2.0.3"
 
-"@esteemapp/esteem-render-helpers@^1.5.6":
-  version "1.5.6"
-  resolved "https://registry.yarnpkg.com/@esteemapp/esteem-render-helpers/-/esteem-render-helpers-1.5.6.tgz#fda35a6052e99e059ae786c4cb6c6afb0c5b5f24"
-  integrity sha512-uK0Nj1ps8vVBgw39B1lPaRSqXXabwOxIhSbnYyuetOCZVzyKKV//ye3WvblADRyuAUjTve5UZCNTQ1MMBY9f0w==
+"@esteemapp/esteem-render-helpers@^1.5.9":
+  version "1.5.9"
+  resolved "https://registry.yarnpkg.com/@esteemapp/esteem-render-helpers/-/esteem-render-helpers-1.5.9.tgz#c870322d7b1085f89c648061c1b5d241bb056ac9"
+  integrity sha512-0cA6KLoNhjA7UbiwoaUhYz6ZGz6vPSWrZGc4KTa0SB2Vq6TS9Ac37iGyiLtuF0YeWR66xapi8TOzqR++iYqnew==
   dependencies:
     he "^1.2.0"
     lru-cache "^5.1.1"

@@ -1,4 +1,5 @@
 import steemConnect from './steemConnectAPI';
+import { makeOptions } from '../../utils/editor';
 
 /**
  * @method to upvote/unvote a content
@@ -59,7 +60,7 @@ export const post = (postObj) => {
   ];
   operations.push(commentOp);
 
-  const commentOptionsConfig = prepareBeneficiaries(postObj);
+  const commentOptionsConfig = makeOptions(postObj);
 
   operations.push(commentOptionsConfig);
 

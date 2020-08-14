@@ -309,7 +309,7 @@ class EditorContainer extends Component {
       }
 
       const author = currentAccount.name;
-      const options = makeOptions(author, permlink);
+      const options = makeOptions({ author: author, permlink: permlink, operationType: '' });
       const parentPermlink = _tags[0] || 'hive-125125';
 
       if (scheduleDate) {
@@ -384,7 +384,7 @@ class EditorContainer extends Component {
       const jsonMeta = makeJsonMetadataReply(post.json_metadata.tags || ['ecency']);
       const permlink = generateReplyPermlink(post.author);
       const author = currentAccount.name;
-      const options = makeOptions(author, permlink);
+      const options = makeOptions({ author: author, permlink: permlink, operationType: '' });
       const parentAuthor = post.author;
       const parentPermlink = post.permlink;
 

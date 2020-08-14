@@ -140,7 +140,11 @@ const MarkdownEditorView = ({
 
   const _renderPreview = () => (
     <ScrollView style={styles.previewContainer}>
-      {text ? <PostBody body={renderPostBody(text)} /> : <Text>...</Text>}
+      {text ? (
+        <PostBody body={renderPostBody(text, true, Platform.OS === 'ios' ? false : true)} />
+      ) : (
+        <Text>...</Text>
+      )}
     </ScrollView>
   );
 

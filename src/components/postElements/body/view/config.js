@@ -31,6 +31,7 @@ document.addEventListener('click', function(event) {
     return;
   }
   if (el.getAttribute('target') === '_external') {
+    event.preventDefault();
     var href = el.getAttribute('href');
     var result = {
       type: '_external',
@@ -40,6 +41,7 @@ document.addEventListener('click', function(event) {
     return true;
   }
   if (el.classList.contains('markdown-external-link')) {
+    event.preventDefault();
     var href = el.getAttribute('data-href');
     var result = {
       type: 'markdown-external-link',
@@ -168,6 +170,7 @@ document.addEventListener('click', function(event) {
     return;
   }
   if (el.getAttribute('target') === '_external') {
+    event.preventDefault();
     var href = el.getAttribute('href');
     var result = {
       type: '_external',
@@ -177,6 +180,7 @@ document.addEventListener('click', function(event) {
     return true;
   }
   if (el.classList.contains('markdown-external-link')) {
+    event.preventDefault();
     var href = el.getAttribute('data-href');
     var result = {
       type: 'markdown-external-link',

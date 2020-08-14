@@ -1,7 +1,7 @@
 import isEmpty from 'lodash/isEmpty';
 import forEach from 'lodash/forEach';
 import { get, uniqBy } from 'lodash';
-
+import { Platform } from 'react-native';
 import { postBodySummary, renderPostBody } from '@esteemapp/esteem-render-helpers';
 
 // Dsteem
@@ -12,6 +12,8 @@ import { getPostReblogs } from '../providers/esteem/esteem';
 // Utils
 import { getReputation } from './reputation';
 import { getResizedImage, getResizedAvatar } from './image';
+
+const webp = Platform.OS === 'ios' ? false : true;
 
 export const parsePosts = async (posts, currentUserName) => {
   if (posts) {
@@ -43,7 +45,7 @@ export const parsePost = async (post, currentUserName, isPromoted) => {
   post.avatar = getResizedAvatar(get(post, 'author'));
   post.active_votes.sort((a, b) => b.rshares - a.rshares);
 
-  post.body = renderPostBody(post);
+  post.body = renderPostBody(post, true, webp);
   post.summary = postBodySummary(post, 150);
   post.is_declined_payout = Number(parseFloat(post.max_accepted_payout)) === 0;
 
@@ -108,7 +110,7 @@ export const parseComments = async (comments, currentUserName) => {
     comment.author_reputation = getReputation(get(comment, 'author_reputation'));
     comment.avatar = getResizedAvatar(get(comment, 'author'));
     comment.markdownBody = get(comment, 'body');
-    comment.body = renderPostBody(comment);
+    comment.body = renderPostBody(comment, true, webp);
     comment.active_votes = activeVotes;
     comment.vote_count = activeVotes && activeVotes.length;
 
