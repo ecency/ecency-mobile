@@ -295,7 +295,7 @@
     "fail": "Провал!!",
     "move": "Премести",
     "move_question": "Сигурен ли сте да преместите към чернови?",
-    "success_shared": "Публикацията ви е споделена успешно",
+    "success_shared": "Content successfully posted, fetching now",
     "success_moved": "Премено в чернови",
     "permission_denied": "Достъпът е отказан",
     "permission_text": "Моля, идете на Настройки на телефона и променете разрешенията към Ecency.",
@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Сигорни ли сте,че искате да споделите?",
-    "removed_hint": "The post not available yet, pull down to refresh",
+    "removed_hint": "Content is not available",
     "copy_link": "Копирай връзката/линка",
     "reblogged": "споделено от",
     "sponsored": "Спонсорирано",
