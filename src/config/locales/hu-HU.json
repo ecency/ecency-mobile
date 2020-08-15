@@ -295,7 +295,7 @@
     "fail": "Sikertelen!",
     "move": "Áthelyezés",
     "move_question": "Biztos, hogy áthelyezed a piszkozatokhoz?",
-    "success_shared": "A bejegyzésed sikeresen megosztva",
+    "success_shared": "Content successfully posted, fetching now",
     "success_moved": "Áthelyezve a vázlatokhoz",
     "permission_denied": "Engedély megtagadva",
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
-    "removed_hint": "The post not available yet, pull down to refresh",
+    "removed_hint": "Content is not available",
     "copy_link": "Link másolása",
     "reblogged": "megosztva általa",
     "sponsored": "TÁMOGATOTT",
