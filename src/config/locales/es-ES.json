@@ -295,7 +295,7 @@
     "fail": "Falló!",
     "move": "Mover",
     "move_question": "¿Está seguro de moverlo a borradores?",
-    "success_shared": "Tu publicación ha sido compartida éxitosamente",
+    "success_shared": "Content successfully posted, fetching now",
     "success_moved": "Movido a borradores",
     "permission_denied": "Permiso dengado",
     "permission_text": "Por favor, ir a ajustes del teléfono y a cambiar los permisos de la aplicación de eSteem.",
@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "¿Estás seguro de querer rebloguear?",
-    "removed_hint": "The post not available yet, pull down to refresh",
+    "removed_hint": "Content is not available",
     "copy_link": "Copy link",
     "reblogged": "reblogueado por",
     "sponsored": "PATROCINADO",
