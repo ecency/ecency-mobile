@@ -295,7 +295,7 @@
     "fail": "실패!",
     "move": "이동",
     "move_question": "임시 보관함으로 이동하시겠습니까?",
-    "success_shared": "글을 성공적으로 공유했습니다",
+    "success_shared": "Content successfully posted, fetching now",
     "success_moved": "임시 보관함으로 이동했습니다",
     "permission_denied": "권한이 없습니다",
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "리블로그 하시겠습니까?",
-    "removed_hint": "The post not available yet, pull down to refresh",
+    "removed_hint": "Content is not available",
     "copy_link": "링크 복사하기",
     "reblogged": "리블로그됨",
     "sponsored": "투표 후원받음",
