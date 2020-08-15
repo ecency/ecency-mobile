@@ -295,7 +295,7 @@
     "fail": "Biserneket!",
     "move": "Veguhezîne",
     "move_question": "Bi rastî jî tu dixwazî veguhezînî nav reşnivîsan?",
-    "success_shared": "Şandiya te bi serkevtî hate parvekirin",
+    "success_shared": "Content successfully posted, fetching now",
     "success_moved": "Veguhezî reşnivîsê bû",
     "permission_denied": "Destûr hate redkirin",
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Bi rastî jî tu dixwazî dîsa biweşînî?",
-    "removed_hint": "The post not available yet, pull down to refresh",
+    "removed_hint": "Content is not available",
     "copy_link": "Girêdanê kopî bike",
     "reblogged": "dîsweşandin ji aliyê",
     "sponsored": "SPONSORKIRÎ",
