@@ -96,8 +96,10 @@ const TagInput = ({
             placeholder={intl.formatMessage({
               id: 'editor.tags',
             })}
-            multiline
-            numberOfLines={2}
+            //multiline
+            //numberOfLines={2}
+            autoCompleteType="off"
+            autoCorrect={false}
             autoFocus={autoFocus}
             onChangeText={(textT) => _handleOnChange(textT)}
             onBlur={() => _handleOnBlur()}
