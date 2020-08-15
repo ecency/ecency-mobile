@@ -295,7 +295,7 @@
     "fail": "Fehlgeschlagen!",
     "move": "Verschieben",
     "move_question": "Bist du sicher, dass du zu Entwürfen wechseln möchtest?",
-    "success_shared": "Dein Beitrag wurde erfolgreich geteilt",
+    "success_shared": "Content successfully posted, fetching now",
     "success_moved": "Erfolgreich in Entwürfe verschoben",
     "permission_denied": "Berechtigung verweigert",
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?",
-    "removed_hint": "The post not available yet, pull down to refresh",
+    "removed_hint": "Content is not available",
     "copy_link": "Copy link",
     "reblogged": "rebloggt von",
     "sponsored": "Gesponsert",
