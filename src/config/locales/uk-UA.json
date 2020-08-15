@@ -295,7 +295,7 @@
     "fail": "Невдало!",
     "move": "Перемістити",
     "move_question": "Ви дійсно хочете перемістити до чернеток?",
-    "success_shared": "Ваш допис успішно поширили",
+    "success_shared": "Content successfully posted, fetching now",
     "success_moved": "Переміщено до чернеток",
     "permission_denied": "У доступі відмовлено",
     "permission_text": "Будь ласка, перейдіть до налаштувань телефону та змініть дозволи для додатку Ecency.",
@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Ви дійсно бажаєте зробити репост?",
-    "removed_hint": "The post not available yet, pull down to refresh",
+    "removed_hint": "Content is not available",
     "copy_link": "Скопіювати посилання",
     "reblogged": "репостнуто",
     "sponsored": "СПОНСОРОВАНО",
