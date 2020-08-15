@@ -109,9 +109,9 @@
     }
   },
   "notification": {
-    "vote": "voted",
+    "vote": "добуштар",
     "unvote": "unvoted",
-    "reply": "replied to",
+    "reply": "жооп",
     "mention": "mentioned in",
     "follow": "followed you",
     "unfollow": "unfollowed you",
@@ -130,7 +130,7 @@
     "this_week": "Ушул жумада",
     "this_month": "Ушул айда",
     "older_then": "Көптөн бери",
-    "activities": "All",
+    "activities": "Баары",
     "replies": "Жооптор",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
@@ -235,10 +235,10 @@
   "home": {
     "feed": "Түрмөк",
     "popular": "Таанымал",
-    "top": "Top",
+    "top": "Топ",
     "hot": "Hot",
-    "new": "New",
-    "blog": "Blog"
+    "new": "Жаңы",
+    "blog": "Блог"
   },
   "side_menu": {
     "profile": "Колдонуучунун профили",
@@ -506,28 +506,28 @@
     "more_replies": "more replies"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Башка",
     "communities": {
       "title": "Communities",
       "subscribe": "Subscribe",
       "unsubscribe": "Unsubscribe",
       "subscribers": "Subscribers",
-      "posters": "Posters",
+      "posters": "Авторлор",
       "posts": "Post"
     },
     "communities_filter": {
-      "rank": "Rank",
+      "rank": "Рейтинг",
       "subs": "Subscribers",
-      "new": "New"
+      "new": "Жаңы"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
+      "popularity": "Таанымал",
       "newest": "Newest",
       "relevance": "Relevance"
     },
     "other_result_filter": {
       "user": "Колдонуучу",
-      "tag": "Tag"
+      "tag": "Белги"
     }
   },
   "community": {
