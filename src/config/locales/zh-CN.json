@@ -295,7 +295,7 @@
     "fail": "失败！",
     "move": "移动",
     "move_question": "您确定要存为草稿吗？",
-    "success_shared": "已成功分享您的文章",
+    "success_shared": "Content successfully posted, fetching now",
     "success_moved": "存为草稿",
     "permission_denied": "没有权限",
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "您确定想要转发？",
-    "removed_hint": "The post not available yet, pull down to refresh",
+    "removed_hint": "Content is not available",
     "copy_link": "复制链接",
     "reblogged": "已转发，转发者是",
     "sponsored": "赞助者列表",
