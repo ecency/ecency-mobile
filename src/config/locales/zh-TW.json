@@ -277,7 +277,7 @@
     "limited_dash": "在每個標籤中使用一個破折號",
     "limited_space": "使用空格分隔標籤",
     "limited_lowercase": "標籤只用小寫字母",
-    "limited_characters": "標籤只能用字元",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "標籤必須以字母開頭",
     "limited_lastchar": "標籤必須以字母或數位結尾"
   },
