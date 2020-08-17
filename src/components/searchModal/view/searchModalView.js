@@ -23,6 +23,30 @@ class SearchModalView extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
+  _renderItem = ({ item }) => {
+    const { handleOnPressListItem, searchResults } = this.props;
+
+    return (
+      // TODO: Make it quick ui component
+      <TouchableOpacity onPress={() => handleOnPressListItem(get(searchResults, 'type'), item)}>
+        <View style={styles.searchItems}>
+          <View style={styles.searchItemImageWrapper}>
+            {item.image && (
+              <FastImage
+                source={{
+                  uri: item.image,
+                }}
+                style={styles.searchItemImage}
+              />
+            )}
+          </View>
+          <View style={styles.searchItemTextWrapper}>
+            {has(item, 'text') && <Text style={styles.searchItemText}>{item.text}</Text>}
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   render() {
     const {
@@ -64,28 +88,7 @@ class SearchModalView extends PureComponent {
             <FlatList
               data={get(searchResults, 'data', [])}
               showsVerticalScrollIndicator={false}
-              renderItem={({ item }) => (
-                // TODO: Make it quick ui component
-                <TouchableOpacity
-                  onPress={() => handleOnPressListItem(get(searchResults, 'type'), item)}
-                >
-                  <View style={styles.searchItems}>
-                    <View style={styles.searchItemImageWrapper}>
-                      {item.image && (
-                        <FastImage
-                          source={{
-                            uri: item.image,
-                          }}
-                          style={styles.searchItemImage}
-                        />
-                      )}
-                    </View>
-                    <View style={styles.searchItemTextWrapper}>
-                      {has(item, 'text') && <Text style={styles.searchItemText}>{item.text}</Text>}
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              )}
+              renderItem={this._renderItem}
               keyExtractor={(item, index) => get(item, 'id', index).toString()}
               removeClippedSubviews
               onEndThreshold={0}

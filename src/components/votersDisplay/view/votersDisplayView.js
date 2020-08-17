@@ -28,7 +28,7 @@ const VotersDisplayView = ({ votes, navigation }) => {
     });
   };
 
-  const _renderItem = (item, index) => {
+  const _renderItem = ({ item, index }) => {
     const value = `$ ${item.value}`;
     const percent = `${item.percent}%`;
 
@@ -54,7 +54,7 @@ const VotersDisplayView = ({ votes, navigation }) => {
           data={votes}
           keyExtractor={(item) => item.voter}
           removeClippedSubviews={false}
-          renderItem={({ item, index }) => _renderItem(item, index)}
+          renderItem={_renderItem}
         />
       ) : (
         <Text style={styles.text}>

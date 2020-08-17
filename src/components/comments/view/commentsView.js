@@ -74,38 +74,39 @@ const CommentsView = ({
       />
     );
   }
+  const _renderItem = ({ item }) => (
+    <Comment
+      mainAuthor={mainAuthor}
+      avatarSize={avatarSize}
+      hideManyCommentsButton={hideManyCommentsButton}
+      comment={item}
+      commentCount={commentCount || get(item, 'children')}
+      commentNumber={commentNumber}
+      handleDeleteComment={handleDeleteComment}
+      currentAccountUsername={currentAccountUsername}
+      fetchPost={fetchPost}
+      handleOnEditPress={handleOnEditPress}
+      handleOnReplyPress={handleOnReplyPress}
+      handleOnUserPress={handleOnUserPress}
+      handleOnVotersPress={handleOnVotersPress}
+      isHideImage={isHideImage}
+      isLoggedIn={isLoggedIn}
+      isShowMoreButton={commentNumber === 1 && get(item, 'children') > 0}
+      showAllComments={showAllComments}
+      voteCount={get(item, 'vote_count')}
+      isShowSubComments={isShowSubComments}
+      key={get(item, 'permlink')}
+      marginLeft={marginLeft}
+      handleOnLongPress={() => _openCommentMenu(item)}
+    />
+  );
 
   return (
     <Fragment>
       <FlatList
         style={styles.list}
         data={comments}
-        renderItem={({ item }) => (
-          <Comment
-            mainAuthor={mainAuthor}
-            avatarSize={avatarSize}
-            hideManyCommentsButton={hideManyCommentsButton}
-            comment={item}
-            commentCount={commentCount || get(item, 'children')}
-            commentNumber={commentNumber}
-            handleDeleteComment={handleDeleteComment}
-            currentAccountUsername={currentAccountUsername}
-            fetchPost={fetchPost}
-            handleOnEditPress={handleOnEditPress}
-            handleOnReplyPress={handleOnReplyPress}
-            handleOnUserPress={handleOnUserPress}
-            handleOnVotersPress={handleOnVotersPress}
-            isHideImage={isHideImage}
-            isLoggedIn={isLoggedIn}
-            isShowMoreButton={commentNumber === 1 && get(item, 'children') > 0}
-            showAllComments={showAllComments}
-            voteCount={get(item, 'vote_count')}
-            isShowSubComments={isShowSubComments}
-            key={get(item, 'permlink')}
-            marginLeft={marginLeft}
-            handleOnLongPress={() => _openCommentMenu(item)}
-          />
-        )}
+        renderItem={_renderItem}
         keyExtractor={(item) => get(item, 'permlink')}
       />
       <ActionSheet

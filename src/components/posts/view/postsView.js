@@ -328,6 +328,37 @@ const PostsView = ({
     postsList.current.scrollToOffset({ x: 0, y: 0, animated: true });
   };
 
+  const _renderItem = ({ item, index }) => {
+    const e = [];
+    if (index % 3 === 0) {
+      const ix = index / 3 - 1;
+      if (promotedPosts[ix] !== undefined) {
+        const p = promotedPosts[ix];
+        if (get(p, 'author', null) && posts.filter((x) => x.permlink === p.permlink).length <= 0) {
+          e.push(
+            <PostCard
+              key={`${p.author}-${p.permlink}-prom`}
+              isRefresh={refreshing}
+              content={p}
+              isHideImage={isHideImage}
+            />,
+          );
+        }
+      }
+    }
+    if (get(item, 'author', null)) {
+      e.push(
+        <PostCard
+          key={`${item.author}-${item.permlink}`}
+          isRefresh={refreshing}
+          content={item}
+          isHideImage={isHideImage}
+        />,
+      );
+    }
+    return e;
+  };
+
   return (
     <ThemeContainer>
       {({ isDarkTheme }) => (
@@ -351,39 +382,7 @@ const PostsView = ({
             ref={postsList}
             data={posts}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item, index }) => {
-              const e = [];
-              if (index % 3 === 0) {
-                const ix = index / 3 - 1;
-                if (promotedPosts[ix] !== undefined) {
-                  const p = promotedPosts[ix];
-                  if (
-                    get(p, 'author', null) &&
-                    posts.filter((x) => x.permlink === p.permlink).length <= 0
-                  ) {
-                    e.push(
-                      <PostCard
-                        key={`${p.author}-${p.permlink}-prom`}
-                        isRefresh={refreshing}
-                        content={p}
-                        isHideImage={isHideImage}
-                      />,
-                    );
-                  }
-                }
-              }
-              if (get(item, 'author', null)) {
-                e.push(
-                  <PostCard
-                    key={`${item.author}-${item.permlink}`}
-                    isRefresh={refreshing}
-                    content={item}
-                    isHideImage={isHideImage}
-                  />,
-                );
-              }
-              return e;
-            }}
+            renderItem={_renderItem}
             keyExtractor={(content, i) => `key-${i.toString()}`}
             onEndReached={() => _loadPosts()}
             removeClippedSubviews

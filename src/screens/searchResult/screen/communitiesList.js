@@ -16,7 +16,7 @@ const VotersDisplayView = ({
   isLoggedIn,
   noResult,
 }) => {
-  const _renderItem = (item, index) => {
+  const _renderItem = ({ item, index }) => {
     const isSubscribed = allSubscriptions.some((sub) => sub[0] === item.name);
 
     return (
@@ -59,7 +59,7 @@ const VotersDisplayView = ({
         <FlatList
           data={votes}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item, index }) => _renderItem(item, index)}
+          renderItem={_renderItem}
           ListEmptyComponent={_renderEmptyContent}
         />
       )}

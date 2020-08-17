@@ -43,7 +43,7 @@ const TransactionView = ({ transactions, type, refreshing, setRefreshing, isLoad
     </ThemeContainer>
   );
 
-  const _renderItem = (item, index) => {
+  const _renderItem = ({ item, index }) => {
     return (
       Object.keys(item).length > 0 &&
       item.value.indexOf(transaction_types[type]) > -1 && (
@@ -91,7 +91,7 @@ const TransactionView = ({ transactions, type, refreshing, setRefreshing, isLoad
         ListEmptyComponent={_renderLoading()}
         onRefresh={refreshControl}
         refreshing={refreshing}
-        renderItem={({ item, index }) => _renderItem(item, index)}
+        renderItem={_renderItem}
         keyExtractor={(item, index) => index.toString()}
       />
     </View>

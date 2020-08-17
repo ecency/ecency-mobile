@@ -93,6 +93,31 @@ const SideMenuView = ({
     _username = currentAccount.name.slice(0, 8);
   }*/
 
+  const _renderItem = (item) => (
+    <TouchableOpacity
+      style={styles.listItem}
+      onPress={() => {
+        _handleOnMenuItemPress(item.item);
+      }}
+    >
+      <View style={styles.itemWrapper}>
+        {item.item.icon && (
+          <Icon iconType="SimpleLineIcons" style={styles.listItemIcon} name={item.item.icon} />
+        )}
+        {item.item.username && (
+          <UserAvatar noAction username={item.item.username} style={styles.otherUserAvatar} />
+        )}
+        <Text style={styles.listItemText}>
+          {isAddAccountIconActive
+            ? menuItems[menuItems.length - 1].id === item.item.id
+              ? intl.formatMessage({ id: `side_menu.${item.item.id}` })
+              : item.item.name
+            : intl.formatMessage({ id: `side_menu.${item.item.id}` })}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -131,42 +156,7 @@ const SideMenuView = ({
         </ImageBackground>
       </LinearGradient>
       <View style={styles.contentView}>
-        <FlatList
-          data={menuItems}
-          keyExtractor={(item) => item.id}
-          renderItem={(item) => (
-            <TouchableOpacity
-              style={styles.listItem}
-              onPress={() => {
-                _handleOnMenuItemPress(item.item);
-              }}
-            >
-              <View style={styles.itemWrapper}>
-                {item.item.icon && (
-                  <Icon
-                    iconType="SimpleLineIcons"
-                    style={styles.listItemIcon}
-                    name={item.item.icon}
-                  />
-                )}
-                {item.item.username && (
-                  <UserAvatar
-                    noAction
-                    username={item.item.username}
-                    style={styles.otherUserAvatar}
-                  />
-                )}
-                <Text style={styles.listItemText}>
-                  {isAddAccountIconActive
-                    ? menuItems[menuItems.length - 1].id === item.item.id
-                      ? intl.formatMessage({ id: `side_menu.${item.item.id}` })
-                      : item.item.name
-                    : intl.formatMessage({ id: `side_menu.${item.item.id}` })}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )}
-        />
+        <FlatList data={menuItems} keyExtractor={(item) => item.id} renderItem={_renderItem} />
       </View>
       <Text style={styles.versionText}>{`v${appVersion}, ${buildVersion}${storageT}`}</Text>
       <ActionSheet
