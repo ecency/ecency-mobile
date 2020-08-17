@@ -24,7 +24,7 @@ class ToastNotification extends Component {
 
     this.setState({ animatedValue });
 
-    Animated.timing(animatedValue, { toValue: 1, duration: 350, useNativeDriver: true }).start();
+    Animated.timing(animatedValue, { toValue: 1, duration: 350 }).start();
 
     if (duration) {
       this.closeTimer = setTimeout(() => {
@@ -37,13 +37,11 @@ class ToastNotification extends Component {
     const { animatedValue } = this.state;
     const { onHide } = this.props;
 
-    Animated.timing(animatedValue, { toValue: 0.0, duration: 350, useNativeDriver: true }).start(
-      () => {
-        if (onHide) {
-          onHide();
-        }
-      },
-    );
+    Animated.timing(animatedValue, { toValue: 0.0, duration: 350 }).start(() => {
+      if (onHide) {
+        onHide();
+      }
+    });
 
     if (this.closeTimer) {
       clearTimeout(this.closeTimer);
