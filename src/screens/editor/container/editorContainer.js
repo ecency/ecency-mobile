@@ -98,9 +98,10 @@ class EditorContainer extends Component {
   _handleOpenImagePicker = () => {
     ImagePicker.openPicker({
       includeBase64: true,
+      multiple: true,
     })
-      .then((image) => {
-        this._handleMediaOnSelected(image);
+      .then((images) => {
+        this._handleMediaOnSelected(images);
       })
       .catch((e) => {
         this._handleMediaOnSelectFailure(e);
@@ -124,8 +125,15 @@ class EditorContainer extends Component {
       {
         isUploading: true,
       },
-      () => {
-        this._uploadImage(media);
+      async () => {
+        if (media.length > 0) {
+          for (let index = 0; index < media.length; index++) {
+            const element = media[index];
+            await this._uploadImage(element);
+          }
+        } else {
+          await this._uploadImage(media);
+        }
       },
     );
     // For new image api
