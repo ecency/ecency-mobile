@@ -277,7 +277,7 @@
     "limited_dash": "それぞれのタグにハイフンを一つ使用",
     "limited_space": "空白を利用してタグを区切る",
     "limited_lowercase": "タグは小文字だけが使えます",
-    "limited_characters": "タグは文字だけしか使えません",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "タグは文字で始まります",
     "limited_lastchar": "タグの最後は文字か数字のみ"
   },
