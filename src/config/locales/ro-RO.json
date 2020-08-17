@@ -277,7 +277,7 @@
     "limited_dash": "Folosește o liniuță în fiecare etichetă",
     "limited_space": "Foloseste spatii pentru a separa etichetele",
     "limited_lowercase": "Folosește litere mici în etichete",
-    "limited_characters": "În etichetă folosește doar caracterele permise",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Numele trebuie să înceapă cu o literă",
     "limited_lastchar": "Eticheta trebuie să se termine cu o literă sau un număr"
   },
