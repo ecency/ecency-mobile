@@ -277,7 +277,7 @@
     "limited_dash": "각 태그에 대시를 최대 한 개까지 사용할 수 있습니다.",
     "limited_space": "태그를 구분하기 위해 공백을 사용하세요.",
     "limited_lowercase": "소문자만 태그에 사용할 수 있습니다.",
-    "limited_characters": "허용된 문자만 태그에 사용할 수 있습니다.",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "태그는 문자로 시작해야 합니다.",
     "limited_lastchar": "태그는 문자나 숫자로 끝나야 합니다."
   },
