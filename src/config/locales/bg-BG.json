@@ -277,7 +277,7 @@
     "limited_dash": "Само по едно тире на таг",
     "limited_space": "Използвай интервали между таговете",
     "limited_lowercase": "Използвай само малки букви за тагове",
-    "limited_characters": "Използвай само позволени символи за тагове",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Тагът трябва да започва с буква!",
     "limited_lastchar": "Тагът трябва да завършва с буква или число"
   },
