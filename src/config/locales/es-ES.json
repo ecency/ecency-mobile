@@ -277,7 +277,7 @@
     "limited_dash": "Usar un guión en cada etiqueta",
     "limited_space": "Usa espacios para separar las etiquetas",
     "limited_lowercase": "Usa solo letras minusculas en la etiqueta",
-    "limited_characters": "Usa solo caracteres permitidos en la etiqueta",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Debe empezar con una letra",
     "limited_lastchar": "La etiqueta debe terminar con una letra o número"
   },
