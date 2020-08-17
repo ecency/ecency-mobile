@@ -277,7 +277,7 @@
     "limited_dash": "Usa un trattino per ogni tag",
     "limited_space": "Usa uno spazio per separare i tag",
     "limited_lowercase": "Utilizza solo lettere minuscole nel tag",
-    "limited_characters": "Utilizza solo i caratteri consentiti nel tag",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Il tag deve iniziare con una lettera",
     "limited_lastchar": "Il tag deve terminare con una lettera o un numero"
   },
