@@ -8,7 +8,7 @@ export default EStyleSheet.create({
   wrapper: {
     width: deviceWidth,
     flexDirection: 'row',
-    flex: 0.09,
+    flex: 0.085,
     backgroundColor: '$primaryBackgroundColor',
     borderTopWidth: 0.1,
     shadowOpacity: 0.2,
