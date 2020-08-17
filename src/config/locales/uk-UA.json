@@ -277,7 +277,7 @@
     "limited_dash": "Використовуйте лише одне тире у кожному тезі",
     "limited_space": "Використовуйте пробіл для розділення тегів",
     "limited_lowercase": "Для тегів використовуйте лише маленькі літери",
-    "limited_characters": "Використовуйте лише дозволені символи в тезі",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Тег має починатися з літери",
     "limited_lastchar": "Тег має закінчуватись літерою або числом"
   },
