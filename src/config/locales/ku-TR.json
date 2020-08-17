@@ -277,7 +277,7 @@
     "limited_dash": "Di her etîketê de bendikê (-) bi kar bîne",
     "limited_space": "Ji bo veqetandina etîketan valahiyê bi kar bîne",
     "limited_lowercase": "Di etîketan de tenê tîpên biçûk bi kar bîne",
-    "limited_characters": "Di etîketan de tenê karakterên bi destûr bi kar bîne",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Divê etîket bi tîpekê dest pê bike",
     "limited_lastchar": "Divê etîket bi tîp an hejmarê bi dawî bibe"
   },
