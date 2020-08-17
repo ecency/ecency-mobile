@@ -56,7 +56,7 @@ export default EStyleSheet.create({
   clearButtonWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: 50,
+    height: 35,
     width: 56,
     backgroundColor: '$primaryBlue',
   },

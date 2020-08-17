@@ -45,7 +45,7 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isL
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
       params: {
-        tags: [tag],
+        community: [tag],
       },
     });
   };

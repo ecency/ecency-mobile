@@ -57,6 +57,7 @@ class EditorContainer extends Component {
       post: null,
       uploadedImage: null,
       isDraft: false,
+      community: [],
     };
   }
 
@@ -659,24 +660,27 @@ class EditorContainer extends Component {
     let isEdit;
     let post;
     let _draft;
-
     if (navigation.state && navigation.state.params) {
       const navigationParams = navigation.state.params;
 
       if (navigationParams.draft) {
         _draft = navigationParams.draft;
-
+        const _tags = _draft.tags.includes(' ') ? _draft.tags.split(' ') : _draft.tags.split(',');
         this.setState({
           draftPost: {
             title: _draft.title,
             body: _draft.body,
-            tags: _draft.tags.includes(' ') ? _draft.tags.split(' ') : _draft.tags.split(','),
+            tags: _tags,
           },
           draftId: _draft._id,
           isDraft: true,
         });
       }
-
+      if (navigationParams.community) {
+        this.setState({
+          community: navigationParams.community,
+        });
+      }
       if (navigationParams.upload) {
         const { upload } = navigationParams;
 
@@ -756,6 +760,7 @@ class EditorContainer extends Component {
       isUploading,
       post,
       uploadedImage,
+      community,
     } = this.state;
 
     const tags = navigation.state.params && navigation.state.params.tags;
@@ -784,6 +789,7 @@ class EditorContainer extends Component {
         saveDraftToDB={this._saveDraftToDB}
         uploadedImage={uploadedImage}
         tags={tags}
+        community={community}
       />
     );
   }

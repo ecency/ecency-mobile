@@ -101,6 +101,7 @@ const TagInput = ({
             autoCompleteType="off"
             autoCorrect={false}
             autoFocus={autoFocus}
+            autoCapitalize="none"
             onChangeText={(textT) => _handleOnChange(textT)}
             onBlur={() => _handleOnBlur()}
             value={text}
