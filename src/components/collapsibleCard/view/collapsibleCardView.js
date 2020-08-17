@@ -50,6 +50,7 @@ class CollapsibleCardView extends PureComponent {
     Animated.timing(this.anime.height, {
       toValue: this.anime.expanded ? this._getMinValue() : this._getMaxValue() + (moreHeight || 0),
       duration: 200,
+      useNativeDriver: true,
     }).start();
     this.anime.expanded = !this.anime.expanded;
 
