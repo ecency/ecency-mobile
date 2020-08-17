@@ -277,7 +277,7 @@
     "limited_dash": "Gunakan satu tanda hubung di setiap tag",
     "limited_space": "Gunakan spasi untuk memisahkan tag",
     "limited_lowercase": "Hanya menggunakan huruf kecil dalam tag",
-    "limited_characters": "Gunakan hanya karakter yang diizinkan dalam tag",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Tag harus dimulai dengan huruf",
     "limited_lastchar": "Tag harus diakhiri dengan huruf atau angka"
   },
