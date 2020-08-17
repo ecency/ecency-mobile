@@ -277,7 +277,7 @@
     "limited_dash": "Только один дефис в каждом теге",
     "limited_space": "Используйте пробел для разделения тегов",
     "limited_lowercase": "Используйте для тегов только нижний регистр",
-    "limited_characters": "Используйте в теге только допустимые символы",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Тег должен начинаться с буквы",
     "limited_lastchar": "Тег должен заканчиваться буквой или цифрой"
   },
