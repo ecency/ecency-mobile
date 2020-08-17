@@ -84,7 +84,7 @@ export const getResizedImage = (url, size = 600, format = 'match') => {
   return proxifyImageSrc(url, size, 0, format);
 };
 
-export const getResizedAvatar = (author, sizeString = 'large') => {
+export const getResizedAvatar = (author, sizeString = 'small') => {
   if (!author) {
     return '';
   }
