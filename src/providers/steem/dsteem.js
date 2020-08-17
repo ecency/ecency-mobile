@@ -1528,8 +1528,7 @@ export const profileUpdate = async (params, pin, currentAccount) => {
         'account_update2',
         {
           account: get(currentAccount, 'name'),
-          memo_key: get(currentAccount, 'memo_key'),
-          json_metadata: jsonStringify({ profile: params }),
+          json_metadata: '',
           posting_json_metadata: jsonStringify({ profile: params }),
           extensions: [],
         },

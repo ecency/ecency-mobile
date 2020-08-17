@@ -54,7 +54,7 @@ const TagInput = ({
         ? setWarning(intl.formatMessage({ id: 'editor.limited_lastchar' }))
         : setWarning(null);
 
-      // handleTagChanged([...cats]);
+      handleTagChanged([...cats]);
     }
   };
   const _handleOnBlur = () => {

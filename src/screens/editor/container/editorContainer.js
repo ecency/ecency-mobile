@@ -521,7 +521,7 @@ class EditorContainer extends Component {
         isPostSending: false,
       });
       clearTimeout(this.stateTimer);
-    }, 500);
+    }, 3000);
   };
 
   _handleOnBackPress = () => {
