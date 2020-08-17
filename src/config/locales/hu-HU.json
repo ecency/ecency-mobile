@@ -277,7 +277,7 @@
     "limited_dash": "Use one dash in each tag",
     "limited_space": "Use space to separate tags",
     "limited_lowercase": "Csak kisbetüt használj a címkékhez",
-    "limited_characters": "A címkékhez csak megengedett karaktereket használj",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "A címkének betűvel kell kezdődnie",
     "limited_lastchar": "Tag must end with letter or number"
   },
