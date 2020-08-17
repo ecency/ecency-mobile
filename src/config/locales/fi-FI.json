@@ -277,7 +277,7 @@
     "limited_dash": "Käytä yhtä viivaa per tagi",
     "limited_space": "Käytä välilyöntiä erotellaksesi tagit",
     "limited_lowercase": "Käytä tageissa vain pieniä kirjaimia",
-    "limited_characters": "Käytä vain hyväksyttyjä merkkejä tageissa",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Tag alkaa kirjaimella",
     "limited_lastchar": "Tagi päättyy kirjaimeen tai numeroon"
   },
