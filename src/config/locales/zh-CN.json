@@ -277,7 +277,7 @@
     "limited_dash": "在每个标签中使用一个破折号",
     "limited_space": "使用空格分隔标签",
     "limited_lowercase": "标签只用小写字母",
-    "limited_characters": "标签只能用字符",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "标签必须以字母开头",
     "limited_lastchar": "标签必须以字母或数字结尾"
   },
