@@ -277,7 +277,7 @@
     "limited_dash": "Gumamit ng isang gatlang bawat tag",
     "limited_space": "Gumamit ng puwang para mapaghiwalay ang bawat tag",
     "limited_lowercase": "Gumamit lamang ng maliliit na letra sa mga tag",
-    "limited_characters": "Gumamit lamang ng maaaring gamitin na mga karakter sa tag",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Dapat nag-uumpisa sa letra ang bawat tag",
     "limited_lastchar": "Dapat nakatapus sa letra o numero ang tag"
   },
