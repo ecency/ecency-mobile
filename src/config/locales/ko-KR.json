@@ -30,7 +30,7 @@
     "checkin_title": "체크인 포인트",
     "referral": "추천",
     "referral_title": "추천인 보상",
-    "referral_desc": "Invite friends and earn Points",
+    "referral_desc": "친구를 초대하고 포인트를 받으세요!",
     "checkin_extra_title": "체크인 보너스",
     "no_activity": "최근 활동 내역이 없습니다.",
     "outgoing_transfer_description": "",
@@ -59,17 +59,17 @@
     "to_placeholder": "사용자 이름",
     "memo_placeholder": "메모 내용을 입력하세요",
     "transfer_token": "전송",
-    "purchase_estm": "GET POINTS",
-    "points": "Gift Points to someone",
+    "purchase_estm": "포인트 받기",
+    "points": "포인트 선물하기",
     "transfer_to_saving": "안전 금고에 보관하기",
     "powerUp": "파워업",
     "withdraw_to_saving": "안전 금고에서 출금하기",
-    "steemconnect_title": "Hivesigner Transfer",
+    "steemconnect_title": "HiveSigner 이동",
     "next": "다음",
     "delegate": "임대",
     "power_down": "파워 다운",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
+    "withdraw_steem": "HIVE 출금",
+    "withdraw_sbd": "HBD 출금",
     "transfer_to_savings": "안전 금고에 보관하기",
     "convert": "전환하기",
     "escrow_transfer": "에스크로 송금",
@@ -83,7 +83,7 @@
     "fill_vesting_withdraw": "스팀 파워 다운을 하였습니다.",
     "estm": {
       "title": "포인트",
-      "buy": "GET POINTS"
+      "buy": "포인트 받기"
     },
     "savingsteem": {
       "title": "HIVE Savings"
@@ -93,11 +93,11 @@
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "HIVE 받기"
     },
     "sbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "HBD 받기"
     },
     "steem_power": {
       "title": "HIVE POWER"
@@ -161,11 +161,11 @@
     "follow_people": "피드를 채우기 위해 팔로우해보세요.",
     "havent_commented": "아직 댓글을 작성한 적이 없습니다",
     "havent_posted": "아직 게시한 글이 없습니다",
-    "steem_power": "Hive Power",
+    "steem_power": "HIVE Power",
     "next_power_text": "다음 번 파워 다운까지 남은 기간",
     "days": "일",
     "day": "일",
-    "steem_dollars": "Hive Dollars",
+    "steem_dollars": "HIVE Dollar",
     "savings": "안전 금고",
     "edit": {
       "display_name": "이름",
@@ -213,21 +213,21 @@
   "login": {
     "signin": "로그인",
     "signup": "지금 가입해보세요.",
-    "signin_title": "To get all the benefits of using Ecency",
+    "signin_title": "Ecency의 모든 혜택을 즐기세요",
     "username": "사용자 이름",
     "password": "비밀번호 또는 WIF",
     "description": "사용자의 비밀번호는 기기에만 저장됩니다. 로그아웃 시 저장된 비밀번호는 삭제됩니다!",
     "cancel": "취소",
     "login": "로그인",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_description": "암호화된 비밀번호를 기기에 저장하고 싶지 않다면, HiveSigner를 사용하시면 됩니다",
+    "steemconnect_fee_description": "정보"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "가입",
     "title": "회원 가입",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
-    "ref_user": "Referred user (Optional)",
+    "username": "사용자 ID 선택하세요",
+    "mail": "이메일 주소를 입력하세요",
+    "ref_user": "추천인(선택사항)",
     "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
     "title_description": "One account to manage everything",
     "form_description": "After registeration, you will receive an email with further instructions"
@@ -323,7 +323,7 @@
     "same_user": "이 사용자는 목록에 이미 추가되었습니다",
     "unknow_error": "오류가 발생했습니다",
     "error": "오류",
-    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
+    "fetch_error": "연결 이슈가 발생하였습니다. 다시 연결을 시도해보거나, support@ecency.com으로 문의해주세요.",
     "connection_fail": "연결 실패!",
     "connection_success": "성공적으로 연결되었습니다",
     "checking": "확인 중...",
@@ -332,13 +332,13 @@
     "google_play_version": "기기에 설치된 앱이 구 버전인 것 같습니다. 구글 플레이에서 업데이트된 앱을 다운로드받은 후 다시 시도해보세요!",
     "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
     "payloadTooLarge": "File size too big, please resize or upload smaller image",
-    "qoutaExceeded": "Upload quota exceeded",
+    "qoutaExceeded": "업로드 제한을 초과합니다.",
     "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong."
+    "something_wrong": "문제가 발생했습니다."
   },
   "post": {
     "reblog_alert": "리블로그 하시겠습니까?",
-    "removed_hint": "Content is not available",
+    "removed_hint": "콘텐츠 이용 불가",
     "copy_link": "링크 복사하기",
     "reblogged": "리블로그됨",
     "sponsored": "투표 후원받음",
@@ -384,7 +384,7 @@
     "invalid_username": "올바르지 않은 사용자 이름입니다. 확인 후 다시 시도해주세요",
     "already_logged": "이미 로그인되었습니다. 다른 계정을 이용해 시도해주세요",
     "invalid_credentials": "올바르지 않은 비밀번호입니다. 확인 후 다시 시도해주세요",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "알 수 없는 오류가 발생하였습니다. support@ecency.com로 문의해주세요. "
   },
   "payout": {
     "potential_payout": "예상 보상 금액",
@@ -430,17 +430,17 @@
     "information": "자금을 전송하시겠습니까?",
     "amount_desc": "잔액",
     "memo_desc": "이 메모는 누구나 볼 수 있습니다",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "전환은 3.5일이 소요되며, 하이브 달러가 1달러 이상인 경우에 권장하지 않습니다.",
     "to_placeholder": "사용자 이름",
     "memo_placeholder": "메모 내용을 입력하세요",
     "transfer_token": "전송",
-    "purchase_estm": "Purchase Points",
-    "convert": "Convert HBD to HIVE",
-    "points": "Gift Points to someone",
+    "purchase_estm": "포인트 구입",
+    "convert": "하이브달러를 하이브로 전환하기",
+    "points": "포인트 선물하기",
     "transfer_to_saving": "안전 금고로 전송",
     "powerUp": "파워업",
     "withdraw_to_saving": "안전 금고로 출금",
-    "steemconnect_title": "Hivesigner Transfer",
+    "steemconnect_title": "HiveSigner 이동",
     "estimated_weekly": "주간 추정",
     "destination_accounts": "출금 계정",
     "stop_information": "중단하시겠습니까?",
@@ -451,15 +451,15 @@
     "next": "다음",
     "delegate": "임대",
     "power_down": "파워 다운",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
+    "withdraw_steem": "HIVE 출금",
+    "withdraw_sbd": "하이브 달러 출금",
     "incoming_funds": "입금 예정 자산",
     "stop": "중단",
     "address_view": "지갑 주소 보기"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
+    "title": "포인트 받기",
+    "buy": "포인트 받기",
     "next": "다음",
     "account": {
       "title": "Get Account Boost",
