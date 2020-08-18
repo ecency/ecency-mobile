@@ -118,7 +118,7 @@
     "ignore": "님이 당신을 차단했습니다",
     "reblog": "님이 리블로그하였습니다.",
     "transfer": "님이 송금하였습니다.",
-    "spin": "Time to earn more Points",
+    "spin": "더 많은 포이트를 획득할 시간입니다.",
     "inactive": "포스트를 작성하고 활발하게 활동하여 꾸준하게 수익을 창출하세요.",
     "referral": "귀하의 추천인 링크를 통해 가입한 사용자를 환영해주세요.",
     "notification": "알림",
@@ -298,7 +298,7 @@
     "success_shared": "Content successfully posted, fetching now",
     "success_moved": "임시 보관함으로 이동했습니다",
     "permission_denied": "권한이 없습니다",
-    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
+    "permission_text": "휴대폰 설정으로 이동하여 Ecency 앱 권한 설정을 변경해주세요",
     "key_warning": "Operation requires active key or master password, please relogin!",
     "success_rebloged": "리블로그 완료!",
     "already_rebloged": "이미 리블로그했습니다!",
@@ -467,7 +467,7 @@
     }
   },
   "free_estm": {
-    "title": "Free Points",
+    "title": "무료 포인트",
     "button": "스핀 & 윈",
     "get_spin": "5 스핀",
     "spin_right": "스핀 남음",
@@ -506,31 +506,31 @@
     "more_replies": "개의 대댓글"
   },
   "search_result": {
-    "others": "Others",
+    "others": "기타",
     "communities": {
-      "title": "Communities",
-      "subscribe": "Subscribe",
-      "unsubscribe": "Unsubscribe",
-      "subscribers": "Subscribers",
-      "posters": "Posters",
+      "title": "커뮤니티",
+      "subscribe": "구독",
+      "unsubscribe": "구독해지",
+      "subscribers": "구독자",
+      "posters": "포스터",
       "posts": "글 목록"
     },
     "communities_filter": {
-      "rank": "Rank",
-      "subs": "Subscribers",
-      "new": "New"
+      "rank": "랭크",
+      "subs": "구독자",
+      "new": "새 글"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "인기 순",
+      "newest": "최신순",
+      "relevance": "관련순"
     },
     "other_result_filter": {
       "user": "사용자",
-      "tag": "Tag"
+      "tag": "태그"
     }
   },
   "community": {
-    "new_post": "New Post"
+    "new_post": "새 글"
   }
 }
