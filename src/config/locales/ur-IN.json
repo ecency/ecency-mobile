@@ -373,6 +373,9 @@
     "added": "Added to bookmarks",
     "add": "Add to bookmarks"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Favorites",
     "load_error": "Could not load favorites",
@@ -403,7 +406,8 @@
     "share": "share",
     "bookmarks": "add to bookmarks",
     "promote": "promote",
-    "boost": "boost"
+    "boost": "boost",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "No existing user",
