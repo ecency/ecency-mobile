@@ -373,6 +373,9 @@
     "added": "Dodano do zakładek",
     "add": "Dodaj do zakładek"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Ulubione",
     "load_error": "Nie można załadować ulubionych",
@@ -403,7 +406,8 @@
     "share": "udostępnij",
     "bookmarks": "dodaj do zakładek",
     "promote": "promuj",
-    "boost": "podbij"
+    "boost": "podbij",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Brak istniejącego użytkownika",
