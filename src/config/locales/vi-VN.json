@@ -373,6 +373,9 @@
     "added": "Được thêm vào phần đánh dấu trang",
     "add": "Thêm vào dấu trang"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Ưa thích",
     "load_error": "Không thể tải các trang ưa thích",
@@ -403,7 +406,8 @@
     "share": "chia sẻ",
     "bookmarks": "thêm vào dấu trang",
     "promote": "quảng bá",
-    "boost": "boost"
+    "boost": "boost",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Không có người dùng hiện tại",
