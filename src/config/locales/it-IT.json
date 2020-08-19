@@ -373,6 +373,9 @@
     "added": "Aggiunto ai segnalibri",
     "add": "Aggiungi ai segnalibri"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Preferiti",
     "load_error": "Impossibile caricare i preferiti",
@@ -403,7 +406,8 @@
     "share": "condividi",
     "bookmarks": "aggiungi ai preferiti",
     "promote": "promuovi",
-    "boost": "potenzia"
+    "boost": "potenzia",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Utente non esistente",
