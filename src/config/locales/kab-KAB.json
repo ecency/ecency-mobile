@@ -373,6 +373,9 @@
     "added": "Added to bookmarks",
     "add": "Add to bookmarks"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Ismenyifen",
     "load_error": "Ur zmiren ara ad ttwasalin yismenyifen",
@@ -403,7 +406,8 @@
     "share": "bḍu",
     "bookmarks": "add to bookmarks",
     "promote": "promote",
-    "boost": "boost"
+    "boost": "boost",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Ulac amseqdac",
