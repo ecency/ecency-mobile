@@ -373,6 +373,9 @@
     "added": "به صفحات مورد علاقه اضافه شد",
     "add": "اضافه کردن به صفحات مورد علاقه"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "برگزیده‌ها",
     "load_error": "باز کردن علاقه مندی ها مقدور نیست",
@@ -403,7 +406,8 @@
     "share": "درمیان گذاری",
     "bookmarks": "اضافه کردن به صفحات مورد علاقه",
     "promote": "promote",
-    "boost": "boost"
+    "boost": "boost",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "کاربری موجود نیست",
