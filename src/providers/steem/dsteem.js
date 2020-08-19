@@ -1131,12 +1131,9 @@ export const postContent = (
     options,
     voteWeight,
   ).then((resp) => {
-    if (options) {
-      const t = title ? 100 : 110;
-      const { block_num, id } = resp;
-
-      userActivity(account.username, t, block_num, id);
-    }
+    const t = title ? 100 : 110;
+    const { block_num, id } = resp;
+    userActivity(account.username, t, block_num, id);
     return resp;
   });
 
