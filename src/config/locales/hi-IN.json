@@ -373,6 +373,9 @@
     "added": "पृष्ठ स्मृति में जुड़ गया",
     "add": "पृष्ठ स्मृति में जोड़ें"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "पसंदीदा",
     "load_error": "पसंदीदा भर ना सका",
@@ -403,7 +406,8 @@
     "share": "साझा करें",
     "bookmarks": "पृष्ठ स्मृति में जोड़ें",
     "promote": "प्रचार करना",
-    "boost": "प्रोत्साहन"
+    "boost": "प्रोत्साहन",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "कोई विद्यमान उपयोगकर्ता नहीं",
