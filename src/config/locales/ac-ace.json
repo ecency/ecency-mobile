@@ -373,6 +373,9 @@
     "added": "Added to bookmarks",
     "add": "Tamah dalam bookmarks"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Palèng galak",
     "load_error": "Han lëupah pëutamong ata lam galak",
@@ -403,7 +406,8 @@
     "share": "bagi",
     "bookmarks": "tamah dalam bookmarks",
     "promote": "promote",
-    "boost": "boost"
+    "boost": "boost",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Hana uréung pakék",
