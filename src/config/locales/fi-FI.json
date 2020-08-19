@@ -373,6 +373,9 @@
     "added": "Lisätty kirjanmerkkeihin",
     "add": "Lisää kirjanmerkkeihin"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Suosikit",
     "load_error": "Suosikkeja ei voitu ladata",
@@ -403,7 +406,8 @@
     "share": "jaa",
     "bookmarks": "lisää kirjanmerkkeihin",
     "promote": "korosta",
-    "boost": "tehosta"
+    "boost": "tehosta",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Käyttäjää ei ole",
