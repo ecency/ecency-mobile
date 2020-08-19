@@ -373,6 +373,9 @@
     "added": "Nadagdag sa mga bookmark",
     "add": "I-dagdag sa mga bookmark"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Mga Paborito",
     "load_error": "Hindi mai-load ang mga paborito",
@@ -403,7 +406,8 @@
     "share": "ibahagi",
     "bookmarks": "idagdag sa mga bookmark",
     "promote": "i-promote",
-    "boost": "i-boost"
+    "boost": "i-boost",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Walang makita na user",
