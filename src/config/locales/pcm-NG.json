@@ -373,6 +373,9 @@
     "added": "E don add to bookmark",
     "add": "Add am to bookmark"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Favorites",
     "load_error": "Favorites no gree load",
@@ -403,7 +406,8 @@
     "share": "share am",
     "bookmarks": "add am to bookmark",
     "promote": "promote",
-    "boost": "boost"
+    "boost": "boost",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "The person no exist",
