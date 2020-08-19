@@ -373,6 +373,9 @@
     "added": "Hozzáadva a könyvjelzőkhöz",
     "add": "Hozzáadás a könyvjelzőkhöz"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Kedvencek",
     "load_error": "Nem sikerült betölteni a kedvenceket",
@@ -403,7 +406,8 @@
     "share": "megosztás",
     "bookmarks": "hozzáadás a könyvjelzőkhöz",
     "promote": "hirdetés",
-    "boost": "felpörgetés"
+    "boost": "felpörgetés",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Nem létező felhasználó",
