@@ -141,6 +141,7 @@ const RegisterScreen = ({ navigation }) => {
               <InformationArea
                 description={intl.formatMessage({ id: 'register.form_description' })}
                 iconName="ios-information-circle-outline"
+                link="https://ecency.com/terms-of-service"
               />
             </KeyboardAwareScrollView>
 
