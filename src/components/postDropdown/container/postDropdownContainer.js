@@ -8,7 +8,7 @@ import get from 'lodash/get';
 
 // Services and Actions
 import { reblog } from '../../../providers/steem/dsteem';
-import { addBookmark } from '../../../providers/esteem/esteem';
+import { addBookmark, addReport } from '../../../providers/esteem/esteem';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 
@@ -102,6 +102,10 @@ class PostDropdownContainer extends PureComponent {
         this._redirectToPromote(ROUTES.SCREENS.REDEEM, 2, 'boost');
         break;
 
+      case 'report':
+        this._report(get(content, 'url'));
+        break;
+
       default:
         break;
     }
@@ -114,6 +118,30 @@ class PostDropdownContainer extends PureComponent {
     Share.share({
       message: `${get(content, 'title')} ${postUrl}`,
     });
+  };
+
+  _report = (url) => {
+    const { dispatch, intl } = this.props;
+
+    addReport(url)
+      .then(() => {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'report.added',
+            }),
+          ),
+        );
+      })
+      .catch(() => {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'report.added',
+            }),
+          ),
+        );
+      });
   };
 
   _addToBookmarks = () => {

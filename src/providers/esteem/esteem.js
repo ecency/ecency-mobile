@@ -115,6 +115,13 @@ export const addBookmark = (username, author, permlink) =>
     })
     .then((resp) => resp.data);
 
+export const addReport = (url) =>
+  api
+    .post('/report', {
+      url,
+    })
+    .then((resp) => resp.data);
+
 /**
  * @params current username
  */
