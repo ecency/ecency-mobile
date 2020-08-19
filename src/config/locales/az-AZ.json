@@ -373,6 +373,9 @@
     "added": "Əlfəcinlərə əlavə edildi",
     "add": "Əlfəcinlərə əlavə et"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Sevimlilər",
     "load_error": "Sevimlilər yüklənilə bilmədi",
@@ -403,7 +406,8 @@
     "share": "paylaş",
     "bookmarks": "əlfəcinlərə əlavə et",
     "promote": "promote",
-    "boost": "gücləndir"
+    "boost": "gücləndir",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Heç bir istifadəçi yoxdur",
