@@ -373,6 +373,9 @@
     "added": "즐겨찾기에 추가되었습니다",
     "add": "즐겨찾기에 추가"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "좋아하는 저자",
     "load_error": "좋아하는 저자 목록을 불러올 수 없습니다.",
@@ -403,7 +406,8 @@
     "share": "공유",
     "bookmarks": "즐겨찾기에 추가",
     "promote": "홍보",
-    "boost": "후원"
+    "boost": "후원",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "존재하지 않는 사용자입니다",
