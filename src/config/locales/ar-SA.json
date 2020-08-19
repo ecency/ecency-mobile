@@ -373,6 +373,9 @@
     "added": "تمت الإضافة إلى الإشارات المرجعية",
     "add": "إضافة إلى الإشارات المرجعية"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "المفضلات",
     "load_error": "لا يمكن تحميل المفضلات",
@@ -403,7 +406,8 @@
     "share": "شارك",
     "bookmarks": "إضافة إلى الإشارات المرجعية",
     "promote": "promote",
-    "boost": "boost"
+    "boost": "boost",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "لا يوجد أي مستخدم حاليا",
