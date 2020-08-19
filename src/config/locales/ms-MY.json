@@ -373,6 +373,9 @@
     "added": "Tanda halaman ditambah",
     "add": "Ditambah ke tanda halaman"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Kegemaran",
     "load_error": "Tidak dapat cari kegemaran",
@@ -403,7 +406,8 @@
     "share": "kongsi",
     "bookmarks": "tambah ke tanda halaman",
     "promote": "promote",
-    "boost": "boost"
+    "boost": "boost",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Pengguna tidak wujud",
