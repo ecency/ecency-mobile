@@ -139,6 +139,7 @@ class LoginScreen extends PureComponent {
                 description={intl.formatMessage({
                   id: 'login.description',
                 })}
+                link="https://ecency.com/terms-of-service"
                 iconName="ios-information-circle-outline"
               />
             </KeyboardAwareScrollView>
