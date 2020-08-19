@@ -373,6 +373,9 @@
     "added": "Added to bookmarks",
     "add": "Add to bookmarks"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Awon ohun ti o yan ni aayo",
     "load_error": "A kori awon ohun asayan re pese",
@@ -403,7 +406,8 @@
     "share": "pin pelu",
     "bookmarks": "add to bookmarks",
     "promote": "promote",
-    "boost": "boost"
+    "boost": "boost",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "A ko ri oruko yi",
