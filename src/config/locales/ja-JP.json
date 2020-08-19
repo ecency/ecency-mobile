@@ -277,7 +277,7 @@
     "limited_dash": "それぞれのタグにハイフンを一つ使用",
     "limited_space": "空白を利用してタグを区切る",
     "limited_lowercase": "タグは小文字だけが使えます",
-    "limited_characters": "タグは文字だけしか使えません",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "タグは文字で始まります",
     "limited_lastchar": "タグの最後は文字か数字のみ"
   },
@@ -295,11 +295,11 @@
     "fail": "失敗！",
     "move": "移動",
     "move_question": "本当に下書きへ移動しますか？",
-    "success_shared": "投稿の共有に成功しました",
+    "success_shared": "Content successfully posted, fetching now",
     "success_moved": "下書きへ移動",
     "permission_denied": "アクセスが拒否されました",
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "プライベートキーのパーミッションを確認してください！",
+    "key_warning": "Operation requires active key or master password, please relogin!",
     "success_rebloged": "リブログしました！",
     "already_rebloged": "既にリブログしています！",
     "success_favorite": "お気に入りに追加しました！",
@@ -323,7 +323,7 @@
     "same_user": "このユーザーは既にリストに追加されています",
     "unknow_error": "エラーが発生しました",
     "error": "エラー",
-    "fetch_error": "接続に問題があります、再度お試しいただくかsupport@ecency.comに連絡してください",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "接続に失敗しました！",
     "connection_success": "接続に成功しました！",
     "checking": "確認中...",
@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "本当にリブログしますか？",
-    "removed_hint": "投稿は削除されました",
+    "removed_hint": "Content is not available",
     "copy_link": "リンクをコピー",
     "reblogged": "リブログしています",
     "sponsored": "PR",
@@ -384,7 +384,7 @@
     "invalid_username": "ユーザー名が間違っています。もう一度確認してやり直してください",
     "already_logged": "既にログインしています。他のアカウントを追加してください",
     "invalid_credentials": "ログイン情報が間違っています。もう一度確認してやり直してください",
-    "unknow_error": "不明なエラー、support@ecency.comに連絡してください"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "見込み支払額",

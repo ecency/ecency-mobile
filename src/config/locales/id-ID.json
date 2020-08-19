@@ -277,7 +277,7 @@
     "limited_dash": "Gunakan satu tanda hubung di setiap tag",
     "limited_space": "Gunakan spasi untuk memisahkan tag",
     "limited_lowercase": "Hanya menggunakan huruf kecil dalam tag",
-    "limited_characters": "Gunakan hanya karakter yang diizinkan dalam tag",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Tag harus dimulai dengan huruf",
     "limited_lastchar": "Tag harus diakhiri dengan huruf atau angka"
   },
@@ -295,11 +295,11 @@
     "fail": "Gagal!",
     "move": "Pindahkan",
     "move_question": "Apakah Anda yakin untuk pindah ke konsep?",
-    "success_shared": "Postingan anda berhasil dibagikan",
+    "success_shared": "Content successfully posted, fetching now",
     "success_moved": "Pindah ke konsep",
     "permission_denied": "Izin ditolak",
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Periksa izin kunci pribadi!",
+    "key_warning": "Operation requires active key or master password, please relogin!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Anda telah menampilkan kembali blog ini!",
     "success_favorite": "Favorit ditambahkan!",
@@ -323,7 +323,7 @@
     "same_user": "Pengguna ini sudah ditambahkan ke daftar",
     "unknow_error": "Terjadi kesalahan",
     "error": "Error",
-    "fetch_error": "Masalah koneksi, silakan coba lagi atau tulis untuk dukungan@Ecency.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Koneksi gagal!",
     "connection_success": "Berhasil terhubung!",
     "checking": "Mememriksa...",
@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
-    "removed_hint": "Pos dihapus oleh",
+    "removed_hint": "Content is not available",
     "copy_link": "Copy link",
     "reblogged": "direblog Oleh",
     "sponsored": "DISPONSORI",
@@ -384,7 +384,7 @@
     "invalid_username": "Nama pengguna tidak valid, silakan periksa dan coba lagi",
     "already_logged": "Anda sudah masuk, coba tambahkan akun lain",
     "invalid_credentials": "Kredensial tidak valid, silakan periksa dan coba lagi",
-    "unknow_error": "Kesalahan tidak dikenal, silakan menulis ke support@ecency.com"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Potensi pembayaran",

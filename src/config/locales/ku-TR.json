@@ -277,7 +277,7 @@
     "limited_dash": "Di her etîketê de bendikê (-) bi kar bîne",
     "limited_space": "Ji bo veqetandina etîketan valahiyê bi kar bîne",
     "limited_lowercase": "Di etîketan de tenê tîpên biçûk bi kar bîne",
-    "limited_characters": "Di etîketan de tenê karakterên bi destûr bi kar bîne",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Divê etîket bi tîpekê dest pê bike",
     "limited_lastchar": "Divê etîket bi tîp an hejmarê bi dawî bibe"
   },
@@ -295,11 +295,11 @@
     "fail": "Biserneket!",
     "move": "Veguhezîne",
     "move_question": "Bi rastî jî tu dixwazî veguhezînî nav reşnivîsan?",
-    "success_shared": "Şandiya te bi serkevtî hate parvekirin",
+    "success_shared": "Content successfully posted, fetching now",
     "success_moved": "Veguhezî reşnivîsê bû",
     "permission_denied": "Destûr hate redkirin",
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Destûra kilîda taybet kontrol bike!",
+    "key_warning": "Operation requires active key or master password, please relogin!",
     "success_rebloged": "Reblog bû!",
     "already_rebloged": "Jixwe hatiye dîsweşandin!",
     "success_favorite": "Bijarde hate tevlîkirin!",
@@ -323,7 +323,7 @@
     "same_user": "Ev bikarhêner berê li lîsteyê hatiye zêdekirin",
     "unknow_error": "Çêwtiyek çêbû",
     "error": "Çewtî",
-    "fetch_error": "Pirsgirêka girêdanê, ji kerema xwe dîsa biceribîne an jî ji support@ecency.com re binivîse",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Girêdan Biserneket!",
     "connection_success": "Bi serkevtî hate girêdan!",
     "checking": "Tê kontrolkirin...",
@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Bi rastî jî tu dixwazî dîsa biweşînî?",
-    "removed_hint": "Şandî hate rakirin ji aliyê",
+    "removed_hint": "Content is not available",
     "copy_link": "Girêdanê kopî bike",
     "reblogged": "dîsweşandin ji aliyê",
     "sponsored": "SPONSORKIRÎ",
@@ -384,7 +384,7 @@
     "invalid_username": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
     "already_logged": "Jixwe tu têketî ye, ji kerema xwe tevlîkirina ajimêreke din biceribîne",
     "invalid_credentials": "Navê bikarhêner nederbasdar e, kontrol bike û dîsa biceribîne",
-    "unknow_error": "Çewtiya nenas, ji kerema xwe ji support@ecency.com re binivîse"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Peredana Texmînî",

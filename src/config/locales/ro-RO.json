@@ -277,7 +277,7 @@
     "limited_dash": "Folosește o liniuță în fiecare etichetă",
     "limited_space": "Foloseste spatii pentru a separa etichetele",
     "limited_lowercase": "Folosește litere mici în etichete",
-    "limited_characters": "În etichetă folosește doar caracterele permise",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Numele trebuie să înceapă cu o literă",
     "limited_lastchar": "Eticheta trebuie să se termine cu o literă sau un număr"
   },
@@ -295,11 +295,11 @@
     "fail": "Eșuat!",
     "move": "Mută",
     "move_question": "Esti sigur că vrei să muți la schițe?",
-    "success_shared": "Postarea ta a fost distribuită cu succes",
+    "success_shared": "Content successfully posted, fetching now",
     "success_moved": "Mutat la schițe",
     "permission_denied": "Permisiune respinsă",
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Verifică permisiunea oferită de cheia privată!",
+    "key_warning": "Operation requires active key or master password, please relogin!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Ai redistribuit postarea deja!",
     "success_favorite": "Adăugat la favorite!",
@@ -323,7 +323,7 @@
     "same_user": "Utilizator adăugat deja la listă",
     "unknow_error": "A intervenit o eroare",
     "error": "Eroare",
-    "fetch_error": "Probleme de conexiune, încearcă din nou sau raportează la support@ecency.com",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Connectare Eșuată!",
     "connection_success": "Conectat cu succes!",
     "checking": "Verificare în curs...",
@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Ești sigur că vrei să redistribui?",
-    "removed_hint": "Postarea a fost eliminată de către",
+    "removed_hint": "Content is not available",
     "copy_link": "Copiază linkul",
     "reblogged": "redistribuit de",
     "sponsored": "SPONSORIZAT",
@@ -384,7 +384,7 @@
     "invalid_username": "Nume utilizator invalid, te rugăm să verifici și să reincerci",
     "already_logged": "Ești deja conectat, te rugăm încearcă să adăugi alt cont",
     "invalid_credentials": "Credențiale invalide, te rugăm să verifici și să reîncerci",
-    "unknow_error": "Eroare necunoscută, te rugăm să ne contactezi la support@ecency.com"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Plată probabilă",

@@ -277,7 +277,7 @@
     "limited_dash": "Use one dash in each tag",
     "limited_space": "Use space to separate tags",
     "limited_lowercase": "Csak kisbetüt használj a címkékhez",
-    "limited_characters": "A címkékhez csak megengedett karaktereket használj",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "A címkének betűvel kell kezdődnie",
     "limited_lastchar": "Tag must end with letter or number"
   },
@@ -295,11 +295,11 @@
     "fail": "Sikertelen!",
     "move": "Áthelyezés",
     "move_question": "Biztos, hogy áthelyezed a piszkozatokhoz?",
-    "success_shared": "A bejegyzésed sikeresen megosztva",
+    "success_shared": "Content successfully posted, fetching now",
     "success_moved": "Áthelyezve a vázlatokhoz",
     "permission_denied": "Engedély megtagadva",
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Check private key permission!",
+    "key_warning": "Operation requires active key or master password, please relogin!",
     "success_rebloged": "Megosztva!",
     "already_rebloged": "Ezt már megosztottad!",
     "success_favorite": "Kedvencekhez hozzáadva!",
@@ -338,7 +338,7 @@
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
-    "removed_hint": "A bejegyzést eltávolította",
+    "removed_hint": "Content is not available",
     "copy_link": "Link másolása",
     "reblogged": "megosztva általa",
     "sponsored": "TÁMOGATOTT",
@@ -384,7 +384,7 @@
     "invalid_username": "Érvénytelen felhasználónév, kérjük ellenőrizd és próbáld újra",
     "already_logged": "Már be vagy jelentkezve, kérjük próbálj meg hozzáadni egy másik fiókot",
     "invalid_credentials": "Érvénytelen hitelesítő adatok. Kérjük, ellenőrizd és próbáld újra",
-    "unknow_error": "Ismeretlen hiba, kérjük vedd fel velünk a kapcsolatot itt support@ecency.com"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Lehetséges Kifizetés",
