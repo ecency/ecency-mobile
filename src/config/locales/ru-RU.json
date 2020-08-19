@@ -216,7 +216,7 @@
     "signin_title": "Чтобы получить все преимущества от использования Ecency",
     "username": "Пользователь",
     "password": "Пароль или ключ",
-    "description": "Ключи хранятся только на вашем устройстве и удаляются во время разлогина!",
+    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "отмена",
     "login": "Войти",
     "steemconnect_description": "Если вы не хотите хранить зашифрованные ключи на своем устройстве, используйте Hivesigner.",
@@ -230,7 +230,7 @@
     "ref_user": "Реферал (необязательно)",
     "500_error": "Ваш запрос не удалось обработать, скорее всего, очередь регистрации заполнена! Повторите попытку через несколько минут...",
     "title_description": "Один аккаунт для управления всем",
-    "form_description": "После регистрации вы получите email с дальнейшими инструкциями"
+    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
   },
   "home": {
     "feed": "Лента",
