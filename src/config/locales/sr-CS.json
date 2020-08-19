@@ -373,6 +373,9 @@
     "added": "Dodato u obeleživače",
     "add": "Dodaj u obeleživače"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Omiljeno",
     "load_error": "Nije moguće učitati omiljeno",
@@ -403,7 +406,8 @@
     "share": "podeli",
     "bookmarks": "dodaj u obeleživače",
     "promote": "promote",
-    "boost": "boost"
+    "boost": "boost",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Nema postojećih korisnika",
