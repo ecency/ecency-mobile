@@ -373,6 +373,9 @@
     "added": "Zu deinen Lesezeichen hinzugefügt",
     "add": "Neues Lesezeichen"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Favoriten",
     "load_error": "Favoriten können nicht geladen werden",
@@ -403,7 +406,8 @@
     "share": "Teilen",
     "bookmarks": "Lesezeichen hinzufügen",
     "promote": "Promote",
-    "boost": "Boost"
+    "boost": "Boost",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Kein vorhandener Benutzer",
