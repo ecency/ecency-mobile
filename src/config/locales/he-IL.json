@@ -373,6 +373,9 @@
     "added": "הוסף לסימניות",
     "add": "הוסף\\י לסימניות"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "מועדפים",
     "load_error": "לא ניתן לעלות מועדפים",
@@ -403,7 +406,8 @@
     "share": "שתף\\י",
     "bookmarks": "הוסף\\י לסימניות",
     "promote": "promote",
-    "boost": "boost"
+    "boost": "boost",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "המשתמש אינו קיים",
