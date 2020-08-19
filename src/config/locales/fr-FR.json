@@ -373,6 +373,9 @@
     "added": "Ajouté aux signets",
     "add": "Ajouter aux signets"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Favoris",
     "load_error": "Impossible de charger les favoris",
@@ -403,7 +406,8 @@
     "share": "partager",
     "bookmarks": "ajouter aux signets",
     "promote": "promouvoir",
-    "boost": "accélérer"
+    "boost": "accélérer",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Utilisateur inexistant",
