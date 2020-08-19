@@ -216,7 +216,7 @@
     "signin_title": "To get all the benefits of using Ecency",
     "username": "Nome Utente",
     "password": "Password o WIF",
-    "description": "Le tue credenziali sono memorizzate localmente sul dispositivo. Se fai il Logout le credenziali verranno rimosse!",
+    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "cancella",
     "login": "ACCEDI",
     "steemconnect_description": "Se non vuoi mantenere la tua password crittografata e salvata sul tuo dispositivo, puoi usare Hivesigner.",
@@ -230,7 +230,7 @@
     "ref_user": "Utente che ti ha segnalato l'app (facoltativo)",
     "500_error": "La tua richiesta non può essere elaborata, la coda di registrazione è probabilmente piena! Riprova tra pochi minuti...",
     "title_description": "Un account per gestire tutto",
-    "form_description": "Dopo la registrazione, riceverai un'email con ulteriori istruzioni"
+    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
   },
   "home": {
     "feed": "Feed",
