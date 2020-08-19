@@ -373,6 +373,9 @@
     "added": "ブックマークに追加しました",
     "add": "ブックマークに追加"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "お気に入り",
     "load_error": "お気に入りを読み込めませんでした",
@@ -403,7 +406,8 @@
     "share": "共有",
     "bookmarks": "ブックマークに追加",
     "promote": "プロモート",
-    "boost": "ブースト"
+    "boost": "ブースト",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "ユーザーは存在しません",
