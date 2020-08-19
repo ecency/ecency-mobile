@@ -373,6 +373,9 @@
     "added": "закладка добавлена",
     "add": "добавить"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Избранное",
     "load_error": "Невозможно загрузить избранное",
@@ -403,7 +406,8 @@
     "share": "поделиться",
     "bookmarks": "добавить в закладки",
     "promote": "продвинуть",
-    "boost": "усилить"
+    "boost": "усилить",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
