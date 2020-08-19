@@ -373,6 +373,9 @@
     "added": "Додано до закладок",
     "add": "Додати до закладок"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Обране",
     "load_error": "Не вдалося завантажити обране",
@@ -403,7 +406,8 @@
     "share": "поширити",
     "bookmarks": "додати до закладок",
     "promote": "просувати",
-    "boost": "підсилити"
+    "boost": "підсилити",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Неіснуючий користувач",
