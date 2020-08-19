@@ -373,6 +373,9 @@
     "added": "Tevlî cîhnîşanan bû",
     "add": "Tevlî cîhnîşanan bike"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Bijardeyên Min",
     "load_error": "Bijarde bar nebûn",
@@ -403,7 +406,8 @@
     "share": "parve bike",
     "bookmarks": "tevlî cîhnîşanan bike",
     "promote": "reklama şandiyê bike",
-    "boost": "zêde bike"
+    "boost": "zêde bike",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Bikarhêner tune ye",
