@@ -373,6 +373,9 @@
     "added": "已添加到書簽",
     "add": "添加到書簽"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "收藏夹",
     "load_error": "無法載入收藏夹",
@@ -403,7 +406,8 @@
     "share": "分享",
     "bookmarks": "添加到書簽",
     "promote": "推廣",
-    "boost": "推薦"
+    "boost": "推薦",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "用户不存在",
