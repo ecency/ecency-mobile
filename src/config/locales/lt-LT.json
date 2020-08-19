@@ -373,6 +373,9 @@
     "added": "Pridėta į žymes",
     "add": "Pridėti į žymes"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Mėgstamiausi",
     "load_error": "Nepavyko pakrauti mėgstamiausių",
@@ -403,7 +406,8 @@
     "share": "dalintis",
     "bookmarks": "pridėti į žymes",
     "promote": "promote",
-    "boost": "boost"
+    "boost": "boost",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Nėra tokio vartotojo",
