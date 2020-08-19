@@ -373,6 +373,9 @@
     "added": "Adaugat la bookmarks",
     "add": "Adaugă la bookmarks"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Favorite",
     "load_error": "Nu s-au putut încărca favoritele",
@@ -403,7 +406,8 @@
     "share": "distribuire",
     "bookmarks": "adaugă la bookmarks",
     "promote": "promovează",
-    "boost": "boost"
+    "boost": "boost",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Utilizator inexistent",
