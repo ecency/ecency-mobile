@@ -216,7 +216,7 @@
     "signin_title": "To get all the benefits of using Ecency",
     "username": "Username",
     "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
+    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "cancel",
     "login": "LOGIN",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
@@ -230,7 +230,7 @@
     "ref_user": "Referred user (Optional)",
     "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
     "title_description": "One account to manage everything",
-    "form_description": "After registeration, you will receive an email with further instructions"
+    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
   },
   "home": {
     "feed": "Feed",
@@ -373,6 +373,9 @@
     "added": "Added to bookmarks",
     "add": "Add to bookmarks"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Favorites",
     "load_error": "Could not load favorites",
@@ -403,7 +406,8 @@
     "share": "share",
     "bookmarks": "add to bookmarks",
     "promote": "promote",
-    "boost": "boost"
+    "boost": "boost",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "No existing user",

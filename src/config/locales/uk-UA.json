@@ -216,7 +216,7 @@
     "signin_title": "Щоб отримати всі переваги від користування Ecency",
     "username": "Ім'я користувача",
     "password": "Пароль або WIF (приватний ключ)",
-    "description": "Дані користувача зберігаються локально на пристрої. Посвідчення видаляється після виходу з системи!",
+    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "скасувати",
     "login": "ЛОГІН",
     "steemconnect_description": "Якщо ви не бажаєте тримати пароль у зашифрованому вигляді на вашому пристрої, можете використовувати Hivesigner.",
@@ -230,7 +230,7 @@
     "ref_user": "Реферальний користувач (необов'язково)",
     "500_error": "Не вдалося обробити ваш запит, скоріш за все, черга реєстрації переповнена! Спробуйте ще раз через кілька хвилин...",
     "title_description": "Один рахунок для управління всім",
-    "form_description": "Після реєстрації ви отримаєте електронного листа з подальшими інструкціями"
+    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
   },
   "home": {
     "feed": "Стрічка",
@@ -373,6 +373,9 @@
     "added": "Додано до закладок",
     "add": "Додати до закладок"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Обране",
     "load_error": "Не вдалося завантажити обране",
@@ -403,7 +406,8 @@
     "share": "поширити",
     "bookmarks": "додати до закладок",
     "promote": "просувати",
-    "boost": "підсилити"
+    "boost": "підсилити",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Неіснуючий користувач",

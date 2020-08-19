@@ -216,7 +216,7 @@
     "signin_title": "To get all the benefits of using Ecency",
     "username": "Käyttäjänimi",
     "password": "Salasana tai WIF",
-    "description": "Käyttäjätiedot säilytetään laitteella. Oikeudet poistetaan uloskirjautuessa!",
+    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "peruuta",
     "login": "KIRJAUDU SISÄÄN",
     "steemconnect_description": "Jos et halua säilyttää kryptattua salasanaa laitteessasi, voit käyttää Hivesigneriä.",
@@ -230,7 +230,7 @@
     "ref_user": "Suosittelija (valinnainen)",
     "500_error": "Toiminto epäonnistui, rekisteröitymisjono lienee täynnä! Yritä uudelleen parin minuutin päästä...",
     "title_description": "Yhdellä tilillä hallitset kaikkea",
-    "form_description": "Saat sähköpostia rekisteröinnin jälkeen lisätietoineen"
+    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
   },
   "home": {
     "feed": "Syöte",
@@ -373,6 +373,9 @@
     "added": "Lisätty kirjanmerkkeihin",
     "add": "Lisää kirjanmerkkeihin"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Suosikit",
     "load_error": "Suosikkeja ei voitu ladata",
@@ -403,7 +406,8 @@
     "share": "jaa",
     "bookmarks": "lisää kirjanmerkkeihin",
     "promote": "korosta",
-    "boost": "tehosta"
+    "boost": "tehosta",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Käyttäjää ei ole",
