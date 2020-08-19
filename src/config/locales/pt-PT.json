@@ -373,6 +373,9 @@
     "added": "Adicionado aos marcadores",
     "add": "Adicionar aos marcadores"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Favoritos",
     "load_error": "Não foi possível carregar os favoritos",
@@ -403,7 +406,8 @@
     "share": "partilhar",
     "bookmarks": "adicionar aos marcadores",
     "promote": "promover",
-    "boost": "reforço"
+    "boost": "reforço",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Usuário não existe",
