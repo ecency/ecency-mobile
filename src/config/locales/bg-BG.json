@@ -216,7 +216,7 @@
     "signin_title": "За да получите всички предимства от използването на Ecency",
     "username": "Потребителско име",
     "password": "Парола или WIF",
-    "description": "Потребителски идентификационни данни се съхраняват локално на устройствата ти. При изход пълномощията се отстраняват!",
+    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "Отказ",
     "login": "ВХОД",
     "steemconnect_description": "Ако не искате да запазите паролата си криптирана и съхранена на устройството си, можете да използвате Steemconnect.",
@@ -230,7 +230,7 @@
     "ref_user": "Кой ви покани в платформата(Опция)",
     "500_error": "Заявката ви не можа да бъде обработена, опашката за регистрация вероятно е пълна! Опитайте отново след няколко минути ...",
     "title_description": "Един потребител да ръководи всичко",
-    "form_description": "След регистрация ще получите емайл с допълнителни интрукции"
+    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
   },
   "home": {
     "feed": "Постове",
