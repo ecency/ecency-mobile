@@ -216,7 +216,7 @@
     "signin_title": "To get all the benefits of using Ecency",
     "username": "ユーザー名",
     "password": "パスワードまたは WIF",
-    "description": "ユーザーのログイン情報は端末に保存され、ログアウトすると削除されます。",
+    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "キャンセル",
     "login": "ログイン",
     "steemconnect_description": "端末に暗号化したパスワードを保存したくない場合、Hivesignerを利用できます。",
@@ -230,7 +230,7 @@
     "ref_user": "紹介ユーザー (任意)",
     "500_error": "リクエストは処理されませんでした、サインアップのキューが一杯です！時間を置いて再度お試しください。。。",
     "title_description": "一つのアカウント全部管理",
-    "form_description": "登録後は、メールで手順が送られてきます"
+    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
   },
   "home": {
     "feed": "フィード",
@@ -373,6 +373,9 @@
     "added": "ブックマークに追加しました",
     "add": "ブックマークに追加"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "お気に入り",
     "load_error": "お気に入りを読み込めませんでした",
@@ -403,7 +406,8 @@
     "share": "共有",
     "bookmarks": "ブックマークに追加",
     "promote": "プロモート",
-    "boost": "ブースト"
+    "boost": "ブースト",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "ユーザーは存在しません",

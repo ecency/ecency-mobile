@@ -216,7 +216,7 @@
     "signin_title": "To get all the benefits of using Ecency",
     "username": "Nan pengguna",
     "password": "Gunci atawa WIF",
-    "description": "Mandat ureung pake meukubah lam alat droe. Watee neu tubit mandat nyan disampöeh!",
+    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "batëu",
     "login": "TAMOÉNG",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
@@ -230,7 +230,7 @@
     "ref_user": "Referred user (Optional)",
     "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
     "title_description": "One account to manage everything",
-    "form_description": "After registeration, you will receive an email with further instructions"
+    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
   },
   "home": {
     "feed": "Umpëun",
@@ -373,6 +373,9 @@
     "added": "Added to bookmarks",
     "add": "Tamah dalam bookmarks"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Palèng galak",
     "load_error": "Han lëupah pëutamong ata lam galak",
@@ -403,7 +406,8 @@
     "share": "bagi",
     "bookmarks": "tamah dalam bookmarks",
     "promote": "promote",
-    "boost": "boost"
+    "boost": "boost",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Hana uréung pakék",

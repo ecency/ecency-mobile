@@ -216,7 +216,7 @@
     "signin_title": "Ecency의 모든 혜택을 즐기세요",
     "username": "사용자 이름",
     "password": "비밀번호 또는 WIF",
-    "description": "사용자의 비밀번호는 기기에만 저장됩니다. 로그아웃 시 저장된 비밀번호는 삭제됩니다!",
+    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "취소",
     "login": "로그인",
     "steemconnect_description": "암호화된 비밀번호를 기기에 저장하고 싶지 않다면, HiveSigner를 사용하시면 됩니다",
@@ -230,7 +230,7 @@
     "ref_user": "추천인(선택사항)",
     "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
     "title_description": "One account to manage everything",
-    "form_description": "After registeration, you will receive an email with further instructions"
+    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
   },
   "home": {
     "feed": "피드",
@@ -373,6 +373,9 @@
     "added": "즐겨찾기에 추가되었습니다",
     "add": "즐겨찾기에 추가"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "좋아하는 저자",
     "load_error": "좋아하는 저자 목록을 불러올 수 없습니다.",
@@ -403,7 +406,8 @@
     "share": "공유",
     "bookmarks": "즐겨찾기에 추가",
     "promote": "홍보",
-    "boost": "후원"
+    "boost": "후원",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "존재하지 않는 사용자입니다",
