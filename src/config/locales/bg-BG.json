@@ -216,7 +216,7 @@
     "signin_title": "За да получите всички предимства от използването на Ecency",
     "username": "Потребителско име",
     "password": "Парола или WIF",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "С влизането си приемате нашите Общи условия и Политики за поверителност.",
     "cancel": "Отказ",
     "login": "ВХОД",
     "steemconnect_description": "Ако не искате да запазите паролата си криптирана и съхранена на устройството си, можете да използвате Steemconnect.",
@@ -230,7 +230,7 @@
     "ref_user": "Кой ви покани в платформата(Опция)",
     "500_error": "Заявката ви не можа да бъде обработена, опашката за регистрация вероятно е пълна! Опитайте отново след няколко минути ...",
     "title_description": "Един потребител да ръководи всичко",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "form_description": "Като се регистрирате с нас, вие се съгласявате с нашите Общи условия и Политики за поверителност."
   },
   "home": {
     "feed": "Постове",
@@ -277,7 +277,7 @@
     "limited_dash": "Само по едно тире на таг",
     "limited_space": "Използвай интервали между таговете",
     "limited_lowercase": "Използвай само малки букви за тагове",
-    "limited_characters": "Use only lowercase letters, digits and one dash",
+    "limited_characters": "Използвайте само малки букви, цифри и едно тире",
     "limited_firstchar": "Тагът трябва да започва с буква!",
     "limited_lastchar": "Тагът трябва да завършва с буква или число"
   },
