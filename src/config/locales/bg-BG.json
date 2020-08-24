@@ -295,11 +295,11 @@
     "fail": "Провал!!",
     "move": "Премести",
     "move_question": "Сигурен ли сте да преместите към чернови?",
-    "success_shared": "Content successfully posted, fetching now",
+    "success_shared": "Съдържанието е публикувано успешно, получаване сега",
     "success_moved": "Премено в чернови",
     "permission_denied": "Достъпът е отказан",
     "permission_text": "Моля, идете на Настройки на телефона и променете разрешенията към Ecency.",
-    "key_warning": "Operation requires active key or master password, please relogin!",
+    "key_warning": "Операцията изисква активен ключ или главна парола, моля влезте отново!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Вие вече споделихте!",
     "success_favorite": "Добавено в любими!",
@@ -334,11 +334,11 @@
     "payloadTooLarge": "Размерът на файла е твърде голям, моля преоразмерете или качете по-малко изображение",
     "qoutaExceeded": "Превишена квота за качване",
     "invalidImage": "Невалидна снимка,опитайте различен файл",
-    "something_wrong": "Something went wrong."
+    "something_wrong": "Нещо се обърка"
   },
   "post": {
     "reblog_alert": "Сигорни ли сте,че искате да споделите?",
-    "removed_hint": "Content is not available",
+    "removed_hint": "Съдържанието не е достъпно",
     "copy_link": "Копирай връзката/линка",
     "reblogged": "споделено от",
     "sponsored": "Спонсорирано",
@@ -374,7 +374,7 @@
     "add": "Добави в отметки"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "\n30/5000\nСъобщено нежелателно съдържание"
   },
   "favorites": {
     "title": "Любими",
@@ -407,7 +407,7 @@
     "bookmarks": "добави в отметки",
     "promote": "промотирани",
     "boost": "Подсилване",
-    "report": "report"
+    "report": "Докладвай"
   },
   "deep_link": {
     "no_existing_user": "Съществуващ потребител",
