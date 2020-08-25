@@ -645,7 +645,7 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
           resolve(result);
         })
         .catch((err) => {
-          if (get(err, 'jse_info.code') === 4030100) {
+          if (err && get(err, 'jse_info.code') === 4030100) {
             err.message = getDsteemDateErrorMessage(err);
           }
           reject(err);
@@ -1239,7 +1239,7 @@ const _postContent = async (
           resolve(result);
         })
         .catch((error) => {
-          if (get(error, 'jse_info.code') === 4030100) {
+          if (error && get(error, 'jse_info.code') === 4030100) {
             error.message = getDsteemDateErrorMessage(error);
           }
           reject(error);
@@ -1481,7 +1481,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
           resolve(result);
         })
         .catch((error) => {
-          if (get(error, 'jse_info.code') === 4030100) {
+          if (error && get(error, 'jse_info.code') === 4030100) {
             error.message = getDsteemDateErrorMessage(error);
           }
           reject(error);
@@ -1506,9 +1506,9 @@ export const profileUpdate = async (params, pin, currentAccount) => {
 
     const _params = {
       account: get(currentAccount, 'name'),
-      memo_key: get(currentAccount, 'memo_key'),
-      json_metadata: jsonStringify({ profile: params }),
+      json_metadata: '',
       posting_json_metadata: jsonStringify({ profile: params }),
+      extensions: [],
     };
 
     const opArray = [['account_update2', _params]];
@@ -1541,7 +1541,7 @@ export const profileUpdate = async (params, pin, currentAccount) => {
           resolve(result);
         })
         .catch((error) => {
-          if (get(error, 'jse_info.code') === 4030100) {
+          if (error && get(error, 'jse_info.code') === 4030100) {
             error.message = getDsteemDateErrorMessage(error);
           }
           reject(error);
