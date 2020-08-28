@@ -27,7 +27,7 @@
     "vote_title": "Points pour vos votes",
     "reblog_title": "Points pour vos reblog",
     "login_title": "Points pour vos connexions",
-    "checkin_title": "Points for heartbeat",
+    "checkin_title": "Points d'activité",
     "referral": "Referral",
     "referral_title": "Referral rewards",
     "referral_desc": "Invite friends and earn Points",
@@ -490,7 +490,7 @@
   },
   "voters_dropdown": {
     "rewards": "RÉCOMPENSES",
-    "percent": "PERCENT",
+    "percent": "POURCENTAGE",
     "time": "HEURE"
   },
   "reblog": {
