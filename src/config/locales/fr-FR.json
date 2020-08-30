@@ -454,7 +454,7 @@
     "percent_information": "Percent info",
     "next": "SUIVANT",
     "delegate": "Déléguer",
-    "power_down": "Power Down",
+    "power_down": "Diminuer son influence",
     "withdraw_steem": "Withdraw HIVE",
     "withdraw_sbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Incoming Funds",
@@ -482,11 +482,11 @@
     "days": "jours",
     "user": "Utilisateur",
     "permlink": "Publier",
-    "permlinkPlaceholder": "author/permlink",
+    "permlinkPlaceholder": "auteur/lien permanent",
     "information": "Êtes-vous sûr de vouloir promouvoir?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Booster"
   },
   "voters_dropdown": {
     "rewards": "RÉCOMPENSES",
