@@ -188,7 +188,7 @@ const PostsView = ({
         options.start_author = startAuthor;
         options.start_permlink = startPermlink;
       }
-      options.truncate_body = 200;
+      // options.truncate_body = 200;
 
       getPostsSummary(filter, options, currentAccountUsername, nsfw)
         .then((result) => {
