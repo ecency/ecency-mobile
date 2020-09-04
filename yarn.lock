@@ -705,19 +705,19 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
-"@esteemapp/dhive@0.14.11":
-  version "0.14.11"
-  resolved "https://registry.yarnpkg.com/@esteemapp/dhive/-/dhive-0.14.11.tgz#b7464d32f797e3358f315222bbe2d8e7cdcda488"
-  integrity sha512-yldvkuAgPL2WkdDsYn6mX8s59qeVGaHjTr4yNxacxWFcYpVjr6Xb/KYVCASrSJMmU5K29i3KaoukAPNwHq9MVw==
+"@esteemapp/dhive@0.14.12":
+  version "0.14.12"
+  resolved "https://registry.yarnpkg.com/@esteemapp/dhive/-/dhive-0.14.12.tgz#1ba7bca00a647ef00b455c9b9ef90ec30fbe7f40"
+  integrity sha512-2HS9KWVABIL4fH+pt3tbqRCIJ7vssKldEU6nRq3dkp7w6Rc9oPKXn+tWpDHOaKH0UE+PFv5yPZ6wzPJ05RF+iQ==
   dependencies:
     bs58 "^4.0.1"
     bytebuffer "^5.0.1"
     core-js "^3.6.4"
     cross-fetch "^3.0.4"
-    node-fetch "^2.1.2"
-    secp256k1 "^3.3.1"
+    node-fetch "^2.6.0"
+    secp256k1 "^3.8.0"
     verror "^1.10.0"
-    whatwg-fetch "^2.0.3"
+    whatwg-fetch "^3.0.0"
 
 "@esteemapp/esteem-render-helpers@^1.5.9":
   version "1.5.9"
@@ -6544,7 +6544,7 @@ node-abi@^2.7.0:
   dependencies:
     semver "^5.4.1"
 
-node-fetch@2.6.0, node-fetch@^2.1.2, node-fetch@^2.2.0, node-fetch@^2.5.0, node-fetch@^2.6.0:
+node-fetch@2.6.0, node-fetch@^2.2.0, node-fetch@^2.5.0, node-fetch@^2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
   integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
@@ -8330,7 +8330,7 @@ scheduler@0.15.0, scheduler@^0.15.0:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
 
-secp256k1@^3.3.1, secp256k1@^3.8.0:
+secp256k1@^3.8.0:
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/secp256k1/-/secp256k1-3.8.0.tgz#28f59f4b01dbee9575f56a47034b7d2e3b3b352d"
   integrity sha512-k5ke5avRZbtl9Tqx/SA7CbY3NF6Ro+Sj9cZxezFzuBlLDmyqPiL8hJJ+EmzD8Ig4LUDByHJ3/iPOVoRixs/hmw==
@@ -9425,11 +9425,6 @@ whatwg-fetch@>=0.10.0, whatwg-fetch@^3.0.0:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.3.1.tgz#6c1acf37dec176b0fd6bc9a74b616bec2f612935"
   integrity sha512-faXTmGDcLuEPBpJwb5LQfyxvubKiE+RlbmmweFGKjvIPFj4uHTTfdtTIkdTRhC6OSH9S9eyYbx8kZ0UEaQqYTA==
-
-whatwg-fetch@^2.0.3:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.4.tgz#dde6a5df315f9d39991aa17621853d720b85566f"
-  integrity sha512-dcQ1GWpOD/eEQ97k66aiEVpNnapVj90/+R+SXTPYGHpYBBypfKJEQjLrvMZ7YXbKm21gXd4NcuxUTjiv1YtLng==
 
 whatwg-mimetype@^2.1.0, whatwg-mimetype@^2.2.0:
   version "2.3.0"
