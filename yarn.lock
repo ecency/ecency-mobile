@@ -705,10 +705,10 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
-"@esteemapp/dhive@0.14.14":
-  version "0.14.14"
-  resolved "https://registry.yarnpkg.com/@esteemapp/dhive/-/dhive-0.14.14.tgz#0e35acf23d86e2b297f604a8bf931a920cf22f76"
-  integrity sha512-f/+sJV4mz7fgJ367wzSJP6KfUkfh1UqtX89+tgK4UYeqLFdIIefWffGvv7OAP8oJEsojZ0Y88cNTb6dzXHpjMg==
+"@esteemapp/dhive@0.14.15":
+  version "0.14.15"
+  resolved "https://registry.yarnpkg.com/@esteemapp/dhive/-/dhive-0.14.15.tgz#d974f11c00a6cea9be9ade251b51c90e4f6a0674"
+  integrity sha512-xFa8MPM1RAbmo7pxp+3EBMw76/JwslIVelza4jpCGRZj3XpzyJCKdjDhZTqSWJzjsE/IZRMXEz885RB/YMb6hA==
   dependencies:
     bs58 "^4.0.1"
     bytebuffer "^5.0.1"
