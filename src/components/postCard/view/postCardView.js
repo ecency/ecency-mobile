@@ -53,16 +53,16 @@ class PostCardView extends Component {
   };
 
   _handleOnVotersPress = () => {
-    const { handleOnVotersPress, content } = this.props;
+    const { handleOnVotersPress } = this.props;
 
-    handleOnVotersPress(get(content, 'active_votes'));
+    handleOnVotersPress();
   };
 
   _handleOnReblogsPress = () => {
-    const { handleOnReblogsPress, content } = this.props;
+    const { handleOnReblogsPress, reblogs } = this.props;
 
-    if (content.reblogs.length > 0) {
-      handleOnReblogsPress(get(content, 'reblogs'));
+    if (reblogs.length > 0) {
+      handleOnReblogsPress();
     }
   };
 
@@ -88,7 +88,7 @@ class PostCardView extends Component {
   }
 
   render() {
-    const { content, isHideImage, fetchPost, isNsfwPost, intl } = this.props;
+    const { content, isHideImage, fetchPost, isNsfwPost, intl, activeVotes, reblogs } = this.props;
     const { rebloggedBy } = this.state;
     const _image = this._getPostImage(content, isNsfwPost);
 
@@ -131,14 +131,19 @@ class PostCardView extends Component {
         </View>
         <View style={styles.bodyFooter}>
           <View style={styles.leftFooterWrapper}>
-            <Upvote fetchPost={fetchPost} isShowPayoutValue content={content} />
+            <Upvote
+              activeVotes={activeVotes}
+              fetchPost={fetchPost}
+              isShowPayoutValue
+              content={content}
+            />
             <TouchableOpacity style={styles.commentButton} onPress={this._handleOnVotersPress}>
               <TextWithIcon
                 iconName="heart-outline"
                 iconStyle={styles.commentIcon}
                 iconType="MaterialCommunityIcons"
                 isClickable
-                text={get(content, 'vote_count', 0)}
+                text={activeVotes.length}
                 onPress={this._handleOnVotersPress}
               />
             </TouchableOpacity>
@@ -149,7 +154,7 @@ class PostCardView extends Component {
               iconStyle={styles.commentIcon}
               iconType="MaterialIcons"
               isClickable
-              text={get(content, 'reblogCount', 0)}
+              text={reblogs.length}
               onPress={this._handleOnReblogsPress}
             />
             <TextWithIcon

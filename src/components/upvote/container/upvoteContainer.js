@@ -11,6 +11,7 @@ import { setUpvotePercent as upvoteAction } from '../../../redux/actions/applica
 // Utils
 import parseToken from '../../../utils/parseToken';
 import { isEmptyContentDate, getTimeFromNow } from '../../../utils/time';
+import { isVoted as isVotedFunc, isDownVoted as isDownVotedFunc } from '../../../utils/postParser';
 
 // Component
 import UpvoteView from '../view/upvoteView';
@@ -50,14 +51,15 @@ class UpvoteContainer extends PureComponent {
       pinCode,
       upvotePercent,
       globalProps,
+      activeVotes = [],
     } = this.props;
 
+    const _isVoted = isVotedFunc(activeVotes, get(currentAccount, 'name'));
+    const _isDownVoted = isDownVotedFunc(activeVotes, get(currentAccount, 'name'));
+
     const author = get(content, 'author');
-    const isVoted =
-      get(content, 'is_voted', false) && parseInt(get(content, 'is_voted'), 10) / 10000;
-    const isDownVoted =
-      get(content, 'is_down_voted', false) &&
-      (parseInt(get(content, 'is_down_voted'), 10) / 10000) * -1;
+    const isVoted = _isVoted && parseInt(_isVoted, 10) / 10000;
+    const isDownVoted = _isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1;
 
     const totalPayout = get(content, 'total_payout');
     const isDecinedPayout = get(content, 'is_declined_payout');
