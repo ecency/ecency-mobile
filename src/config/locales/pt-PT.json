@@ -118,9 +118,9 @@
     "ignore": "ignorou você",
     "reblog": "repostado",
     "transfer": "transferido",
-    "spin": "Time to earn more Points",
-    "inactive": "Be active! Write a post, continue earning",
-    "referral": "joined with your referral, welcome them",
+    "spin": "Hora de ganhar mais Pontos",
+    "inactive": "Fique ativo! Escreva uma publicação, e continue a ganhar",
+    "referral": "entrou com sua indicação. Dê boas vindas",
     "notification": "Notificações",
     "leaderboard": "Quadro de Liderança",
     "epoint": "Pontos",
@@ -158,7 +158,7 @@
     "hours": "horas",
     "voting_power": "Poder de voto",
     "login_to_see": "Login para ver",
-    "follow_people": "Follow some people to fill your feed",
+    "follow_people": "Siga algumas pessoas para preencher o seu feed",
     "havent_commented": "ainda não comentou nada",
     "havent_posted": "ainda não postou nada",
     "steem_power": "Hive Power",
@@ -212,25 +212,25 @@
   },
   "login": {
     "signin": "Iniciar sessão",
-    "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Ecency",
+    "signup": "JUNTE-SE AGORA",
+    "signin_title": "Para obter todos os benefícios de usar Ecency",
     "username": "Nome de Usuário",
     "password": "Senha ou WIF",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "Ao fazer o login, você concorda com nossos Termos de Serviço e Políticas de Privacidade.",
     "cancel": "cancelar",
     "login": "ENTRAR",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_description": "Se você não quiser manter sua senha criptográfica salva no dispositivo, você pode usar o Hivesigner.",
     "steemconnect_fee_description": "info"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "Cadastre-se",
     "title": "Registar",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
-    "ref_user": "Referred user (Optional)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
+    "username": "Escolha um nome de usuário",
+    "mail": "Digite o seu endereço de email",
+    "ref_user": "Usuário referenciado (Opcional)",
+    "500_error": "A sua solicitação não pôde ser processada, a fila de inscrição provavelmente está cheia! Tente novamente em alguns minutos...",
     "title_description": "One account to manage everything",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "form_description": "Ao se cadastrar conosco, você concorda com nossos Termos de Serviço e Políticas de Privacidade."
   },
   "home": {
     "feed": "Conteúdo de notícias",
@@ -266,8 +266,8 @@
   "editor": {
     "title": "Título",
     "tags": "Tags (separate with space)",
-    "default_placeholder": "Tell us something...",
-    "reply_placeholder": "Add your reply...",
+    "default_placeholder": "Diga-nos alguma coisa...",
+    "reply_placeholder": "Adicione sua resposta...",
     "publish": "Publicar",
     "reply": "Responder",
     "open_gallery": "Galeria Aberta",
@@ -277,7 +277,7 @@
     "limited_dash": "Use um traço em cada tag",
     "limited_space": "Use espaço para separar tags",
     "limited_lowercase": "Use apenas letras minúsculas na tag",
-    "limited_characters": "Use only lowercase letters, digits and one dash",
+    "limited_characters": "Usa apenas letras minúsculas, dígitos e um hífen",
     "limited_firstchar": "Tag deve começar com uma letra",
     "limited_lastchar": "Tag deve terminar com letra ou número"
   },
@@ -298,8 +298,8 @@
     "success_shared": "Conteúdo publicado com sucesso, obtendo agora",
     "success_moved": "Movido para Rascunhos",
     "permission_denied": "Permissão negada",
-    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Operation requires active key or master password, please relogin!",
+    "permission_text": "Por favor, vá às Configurações do telefone e altere as permissões para o aplicativo Ecency.",
+    "key_warning": "Operação requer chave ativa ou senha mestra. Por favor, tente novamente!",
     "success_rebloged": "Reblogado!",
     "already_rebloged": "Já fez reblogue deste post!",
     "success_favorite": "Favorito adicionado!",
@@ -330,11 +330,11 @@
     "external_link": "Abrir no Navegador",
     "not_existing_post": "Este post não existe! Por favor, verifique o permlink e o autor.",
     "google_play_version": "Notamos que seu dispositivo tem versão antiga do Google Play. Por favor, atualize o Google Play Services e tente novamente!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
-    "payloadTooLarge": "File size too big, please resize or upload smaller image",
-    "qoutaExceeded": "Upload quota exceeded",
-    "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong."
+    "rc_down": "Não há créditos de recursos suficientes para executar uma ação! \n\nImpulsione sua conta para continuar a desfrutar da experiência. Você deseja impulsionar sua conta agora?",
+    "payloadTooLarge": "Tamanho de arquivo muito grande, por favor, redimensione ou carregue uma imagem menor",
+    "qoutaExceeded": "Quota de carregamento excedida",
+    "invalidImage": "Imagem inválida, tente um arquivo diferente",
+    "something_wrong": "Algo deu errado."
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
@@ -348,7 +348,7 @@
     "gallery_mode": "Modo galeria",
     "save_to_local": "Baixar para o dispositivo",
     "image_saved": "Imagem salva na Galeria de Fotos",
-    "image_saved_error": "Error Saving Image",
+    "image_saved_error": "Error ao Salvar a Imagem",
     "wrong_link": "Link errado"
   },
   "drafts": {
@@ -374,7 +374,7 @@
     "add": "Adicionar aos marcadores"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Conteúdo questionável reportado"
   },
   "favorites": {
     "title": "Favoritos",
@@ -387,7 +387,7 @@
     "invalid_username": "Nome de usuário inválido, por favor verifique e tente novamente",
     "already_logged": "Você já está logado, por favor, tente adicionar outra conta",
     "invalid_credentials": "Credenciais inválidas. Por favor, verifique e tente novamente",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "Erro desconhecido, por favor escreva para support@ecency.com"
   },
   "payout": {
     "potential_payout": "Pagamento Potencial",
@@ -407,7 +407,7 @@
     "bookmarks": "adicionar aos marcadores",
     "promote": "promover",
     "boost": "reforço",
-    "report": "report"
+    "report": "relatório"
   },
   "deep_link": {
     "no_existing_user": "Usuário não existe",
@@ -434,13 +434,13 @@
     "information": "Tem certeza que deseja transferir fundos?",
     "amount_desc": "Balanço",
     "memo_desc": "Este memo é público",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "A conversão leva 3.5 dias e NÃO é recomendada SE o preço do HBD estiver acima de $1",
     "to_placeholder": "Utilizador",
     "memo_placeholder": "Insira aqui as suas notas",
     "transfer_token": "Transferir",
-    "purchase_estm": "Purchase Points",
-    "convert": "Convert HBD to HIVE",
-    "points": "Gift Points to someone",
+    "purchase_estm": "Comprar Pontos",
+    "convert": "Converter HBD em HIVE",
+    "points": "Dê Pontos a alguém",
     "transfer_to_saving": "Transferir para Poupanças",
     "powerUp": "Carregar Poder",
     "withdraw_to_saving": "Levantar das poupanças",
@@ -456,7 +456,7 @@
     "delegate": "Delegar",
     "power_down": "Decarregar Poder",
     "withdraw_steem": "Sacar HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
+    "withdraw_sbd": "Sacar HIVE Dólar",
     "incoming_funds": "Fundos Recebidos",
     "stop": "Parar",
     "address_view": "Ver endereço"
