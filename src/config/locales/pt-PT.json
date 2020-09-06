@@ -21,7 +21,7 @@
     "delegation": "Delegação",
     "delegations": "Delegações",
     "delegation_title": "Recompensa da Delegação",
-    "delegation_desc": "Earn Points everyday for delegation",
+    "delegation_desc": "Ganhe Pontos todos os dias por delegações",
     "post_title": "Pontos para postar",
     "comment_title": "Pontos para comentário",
     "vote_title": "Pontos para votar",
@@ -30,7 +30,7 @@
     "checkin_title": "Pontos por pulsação",
     "referral": "Recomendação",
     "referral_title": "Recompensa por recomendação",
-    "referral_desc": "Invite friends and earn Points",
+    "referral_desc": "Convide amigos e ganhe Pontos",
     "checkin_extra_title": "Uso do Bonús",
     "no_activity": "Sem actividade recente",
     "outgoing_transfer_description": "",
@@ -59,17 +59,17 @@
     "to_placeholder": "Nome de Usuário",
     "memo_placeholder": "Insira aqui as suas notas",
     "transfer_token": "Transferir",
-    "purchase_estm": "GET POINTS",
-    "points": "Gift Points to someone",
+    "purchase_estm": "GANHE PONTOS",
+    "points": "Dê Pontos a alguém",
     "transfer_to_saving": "Para poupança",
     "powerUp": "Carregar Poder",
     "withdraw_to_saving": "Levantar das poupanças",
-    "steemconnect_title": "Hivesigner Transfer",
+    "steemconnect_title": "Transferência por Hivesigner",
     "next": "SEGUINTE",
     "delegate": "Delegar",
     "power_down": "Descarregar Poder",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
+    "withdraw_steem": "Sacar HIVE",
+    "withdraw_sbd": "Sacar HBD",
     "transfer_to_savings": "Para poupança",
     "convert": "Converter",
     "escrow_transfer": "Transferência do Escrow",
@@ -83,13 +83,13 @@
     "fill_vesting_withdraw": "PowerDown executado",
     "estm": {
       "title": "Pontos",
-      "buy": "GET POINTS"
+      "buy": "OBTER PONTOS"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "Poupança em HIVE"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "Poupança em HBD"
     },
     "steem": {
       "title": "HIVE",
@@ -302,10 +302,10 @@
     "key_warning": "Operation requires active key or master password, please relogin!",
     "success_rebloged": "Reblogado!",
     "already_rebloged": "Já fez reblogue deste post!",
-    "success_favorite": "Favorite added!",
-    "success_unfavorite": "Favorite removed!",
-    "success_follow": "Follow success!",
-    "success_mute": "Mute success!",
+    "success_favorite": "Favorito adicionado!",
+    "success_unfavorite": "Favorito removido!",
+    "success_follow": "Seguido com sucesso!",
+    "success_mute": "Silenciado com sucesso!",
     "success_unmute": "Unmute success!",
     "success_unfollow": "Unfollow success!",
     "warning": "Aviso",
