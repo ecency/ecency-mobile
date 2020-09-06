@@ -1,11 +1,15 @@
-import React, { Fragment, useState, useRef } from 'react';
+import React, { Fragment, useState, useRef, useEffect } from 'react';
 import { View } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 
 import { getTimeFromNow } from '../../../utils/time';
+import { parseActiveVotes } from '../../../utils/postParser';
 // Constants
+
+// Actions
+import { getActiveVotes } from '../../../providers/steem/dsteem';
 
 // Components
 import { CommentBody, PostHeaderDescription } from '../../postElements';
@@ -33,7 +37,6 @@ const CommentView = ({
   isShowComments,
   isShowMoreButton,
   marginLeft,
-  voteCount,
   mainAuthor = { mainAuthor },
   isHideImage,
   showAllComments,
@@ -42,8 +45,20 @@ const CommentView = ({
 }) => {
   const [_isShowSubComments, setIsShowSubComments] = useState(isShowSubComments || false);
   const [isPressedShowButton, setIsPressedShowButton] = useState(false);
+  const [activeVotes, setActiveVotes] = useState([]);
+
   const intl = useIntl();
   const actionSheet = useRef(null);
+
+  useEffect(() => {
+    getActiveVotes(get(comment, 'author'), get(comment, 'permlink')).then((result) => {
+      result.sort((a, b) => b.rshares - a.rshares);
+
+      const _votes = parseActiveVotes({ ...comment, active_votes: result }, currentAccountUsername);
+      setActiveVotes(_votes);
+    });
+  }, [comment]);
+
   const _showSubCommentsToggle = () => {
     setIsShowSubComments(!_isShowSubComments);
     setIsPressedShowButton(true);
@@ -76,7 +91,7 @@ const CommentView = ({
           <View style={styles.footerWrapper}>
             {isLoggedIn && (
               <Fragment>
-                <Upvote isShowPayoutValue content={comment} />
+                <Upvote activeVotes={activeVotes} isShowPayoutValue content={comment} />
                 <TextWithIcon
                   iconName="heart-outline"
                   iconSize={20}
@@ -85,10 +100,10 @@ const CommentView = ({
                   isClickable
                   onPress={() =>
                     handleOnVotersPress &&
-                    voteCount > 0 &&
-                    handleOnVotersPress(get(comment, 'active_votes'))
+                    activeVotes.length > 0 &&
+                    handleOnVotersPress(activeVotes)
                   }
-                  text={voteCount}
+                  text={activeVotes.length}
                   textStyle={styles.voteCountText}
                 />
                 <IconButton
@@ -117,7 +132,7 @@ const CommentView = ({
                       onPress={() => handleOnEditPress && handleOnEditPress(comment)}
                       iconType="MaterialIcons"
                     />
-                    {!comment.children && !voteCount && (
+                    {!comment.children && !activeVotes.length && (
                       <Fragment>
                         <IconButton
                           size={20}
