@@ -229,7 +229,7 @@
     "mail": "Digite o seu endereço de email",
     "ref_user": "Usuário referenciado (Opcional)",
     "500_error": "A sua solicitação não pôde ser processada, a fila de inscrição provavelmente está cheia! Tente novamente em alguns minutos...",
-    "title_description": "One account to manage everything",
+    "title_description": "Uma conta para gerenciar tudo",
     "form_description": "Ao se cadastrar conosco, você concorda com nossos Termos de Serviço e Políticas de Privacidade."
   },
   "home": {
@@ -265,7 +265,7 @@
   },
   "editor": {
     "title": "Título",
-    "tags": "Tags (separate with space)",
+    "tags": "Etiquetas (separadas com espaço)",
     "default_placeholder": "Diga-nos alguma coisa...",
     "reply_placeholder": "Adicione sua resposta...",
     "publish": "Publicar",
