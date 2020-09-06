@@ -93,19 +93,19 @@
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "OBTER HIVE"
     },
     "sbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "Obter HBD"
     },
     "steem_power": {
       "title": "HIVE POWER"
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "OBTER BTC",
+      "address": "RECEBER"
     }
   },
   "notification": {
@@ -134,7 +134,7 @@
     "replies": "Respostas",
     "mentions": "Menções",
     "reblogs": "Reposts",
-    "noactivity": "No recent activity"
+    "noactivity": "Sem atividade recente"
   },
   "leaderboard": {
     "daily": "DIÁRIO",
@@ -165,7 +165,7 @@
     "next_power_text": "Próxima descarga de Poder Steem",
     "days": "dias",
     "day": "dia",
-    "steem_dollars": "Hive Dollars",
+    "steem_dollars": "Dólares Hive",
     "savings": "Poupanças",
     "edit": {
       "display_name": "Nome a Exibir",
@@ -306,8 +306,8 @@
     "success_unfavorite": "Favorito removido!",
     "success_follow": "Seguido com sucesso!",
     "success_mute": "Silenciado com sucesso!",
-    "success_unmute": "Unmute success!",
-    "success_unfollow": "Unfollow success!",
+    "success_unmute": "Mudo desativado com sucesso!",
+    "success_unfollow": "Deixou de seguir com sucesso!",
     "warning": "Aviso",
     "invalid_pincode": "Código PIN inválido, por favor verifique e tente novamente.",
     "remove_alert": "Tem a certeza de que pretende remover?",
@@ -323,7 +323,7 @@
     "same_user": "Este usuário já foi adicionado à lista",
     "unknow_error": "Ocorreu um erro",
     "error": "Erro",
-    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
+    "fetch_error": "Problema na conexão. Por gentileza, tente novamente ou escreva para o suporte técnico, acessando ecency.com",
     "connection_fail": "Falha na conexão!",
     "connection_success": "Conectado com sucesso!",
     "checking": "A verificar...",
@@ -444,7 +444,7 @@
     "transfer_to_saving": "Transferir para Poupanças",
     "powerUp": "Carregar Poder",
     "withdraw_to_saving": "Levantar das poupanças",
-    "steemconnect_title": "Hivesigner Transfer",
+    "steemconnect_title": "Transferência por Hivesigner",
     "estimated_weekly": "Estimativa Semanal",
     "destination_accounts": "Contas de destino",
     "stop_information": "Tem certeza que deseja parar?",
@@ -455,23 +455,23 @@
     "next": "SEGUINTE",
     "delegate": "Delegar",
     "power_down": "Decarregar Poder",
-    "withdraw_steem": "Withdraw HIVE",
+    "withdraw_steem": "Sacar HIVE",
     "withdraw_sbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Fundos Recebidos",
     "stop": "Parar",
-    "address_view": "View address"
+    "address_view": "Ver endereço"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
+    "title": "Obter Pontos",
+    "buy": "OBTER Pontos",
     "next": "SEGUINTE",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "title": "Obter Impulso na Conta",
+      "desc": "30 dias de delegação irão impulsionar seus votos e atividades sociais, permitindo mais ações com o aumento dos Créditos de Recursos disponibilizados."
     }
   },
   "free_estm": {
-    "title": "Free Points",
+    "title": "Pontos Grátis",
     "button": "RODE & GANHE",
     "get_spin": "5 RODADAS",
     "spin_right": "Rodar á Esquerda",
@@ -505,36 +505,36 @@
   },
   "comments": {
     "title": "Comentários",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "Revelar comentário",
+    "read_more": "Ler mais comentários",
+    "more_replies": "mais respostas"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Outros",
     "communities": {
       "title": "Communities",
-      "subscribe": "Subscribe",
-      "unsubscribe": "Unsubscribe",
-      "subscribers": "Subscribers",
-      "posters": "Posters",
+      "subscribe": "Inscrever-se",
+      "unsubscribe": "Cancelar Inscrição",
+      "subscribers": "Inscritos",
+      "posters": "Cartazes",
       "posts": "Posts"
     },
     "communities_filter": {
-      "rank": "Rank",
-      "subs": "Subscribers",
-      "new": "New"
+      "rank": "Classificação",
+      "subs": "Inscritos",
+      "new": "Novo"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "Popularidade",
+      "newest": "Mais recente",
+      "relevance": "Relevância"
     },
     "other_result_filter": {
       "user": "Utilizador",
-      "tag": "Tag"
+      "tag": "Etiqueta"
     }
   },
   "community": {
-    "new_post": "New Post"
+    "new_post": "Nova Postagem"
   }
 }
