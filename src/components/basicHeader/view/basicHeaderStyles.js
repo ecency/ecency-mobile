@@ -20,7 +20,6 @@ export default EStyleSheet.create({
     fontSize: 20,
     color: '$iconColor',
     width: 50,
-    marginRight: 34,
   },
   savedIcon: {
     color: '#a1c982',
@@ -45,7 +44,7 @@ export default EStyleSheet.create({
     alignSelf: 'center',
   },
   iconButton: {
-    marginRight: 34,
+    marginRight: 24,
     justifyContent: 'center',
     alignSelf: 'center',
   },
