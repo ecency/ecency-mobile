@@ -1,18 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
+import get from 'lodash/get';
 
 // Action
 import { toastNotification } from '../../../redux/actions/uiAction';
 
 // Dsteem
-import { deleteComment } from '../../../providers/steem/dsteem';
+import { deleteComment, getActiveVotes } from '../../../providers/steem/dsteem';
+import { getPostReblogs } from '../../../providers/esteem/esteem';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
 
 // Utilities
+import { parseActiveVotes } from '../../../utils/postParser';
 
 // Component
 import PostDisplayView from '../view/postDisplayView';
@@ -32,8 +35,34 @@ const PostDisplayContainer = ({
   isPostUnavailable,
   author,
 }) => {
+  const [activeVotes, setActiveVotes] = useState([]);
+  const [reblogs, setReblogs] = useState([]);
+
+  useEffect(() => {
+    if (post) {
+      getActiveVotes(get(post, 'author'), get(post, 'permlink')).then((result) => {
+        result.sort((a, b) => b.rshares - a.rshares);
+
+        const _votes = parseActiveVotes(
+          { ...post, active_votes: result },
+          get(currentAccount, 'name'),
+        );
+
+        setActiveVotes(_votes);
+      });
+
+      getPostReblogs(post).then((result) => {
+        setReblogs(result);
+      });
+    }
+  }, [post]);
+
+  useEffect(() => {
+    _fetchPost();
+  }, [isFetchPost]);
+
   // Component Functions
-  const _handleOnVotersPress = (activeVotes) => {
+  const _handleOnVotersPress = () => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.VOTERS,
       params: {
@@ -44,7 +73,7 @@ const PostDisplayContainer = ({
     });
   };
 
-  const _handleOnReblogsPress = (reblogs) => {
+  const _handleOnReblogsPress = () => {
     if (reblogs.length > 0) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.REBLOGS,
@@ -102,10 +131,6 @@ const PostDisplayContainer = ({
     }
   };
 
-  useEffect(() => {
-    _fetchPost();
-  }, [isFetchPost]);
-
   return (
     <PostDisplayView
       author={author}
@@ -121,6 +146,8 @@ const PostDisplayContainer = ({
       isPostUnavailable={isPostUnavailable}
       parentPost={parentPost}
       post={post}
+      activeVotes={activeVotes}
+      reblogs={reblogs}
     />
   );
 };

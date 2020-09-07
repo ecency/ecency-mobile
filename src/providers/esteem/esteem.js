@@ -74,7 +74,9 @@ export const addDraft = (data) =>
       .post('/draft', data)
       .then((res) => {
         const { drafts } = res.data;
-        resolve(drafts.pop());
+        if (drafts) {
+          resolve(drafts.pop());
+        }
       })
       .catch((error) => {
         bugsnag.notify(error);

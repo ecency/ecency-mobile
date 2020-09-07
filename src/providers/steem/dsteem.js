@@ -390,7 +390,7 @@ export const getPosts = async (by, query, user) => {
     let posts = await client.database.getDiscussions(by, query);
 
     if (posts) {
-      posts = await parsePosts(posts, user);
+      posts = parsePosts(posts, user);
     }
     return posts;
   } catch (error) {
@@ -415,7 +415,7 @@ export const getPostsSummary = async (by, query, currentUserName, filterNsfw) =>
     let posts = await client.database.getDiscussions(by, query);
 
     if (posts) {
-      posts = await parsePosts(posts, currentUserName, true);
+      posts = parsePosts(posts, currentUserName, true);
 
       if (filterNsfw !== '0') {
         const updatedPosts = filterNsfwPost(posts, filterNsfw);
@@ -431,7 +431,7 @@ export const getPostsSummary = async (by, query, currentUserName, filterNsfw) =>
 export const getUserComments = async (query) => {
   try {
     const comments = await client.database.getDiscussions('comments', query);
-    const groomedComments = await parseComments(comments);
+    const groomedComments = parseComments(comments);
     return groomedComments;
   } catch (error) {
     return error;
@@ -445,7 +445,7 @@ export const getRepliesByLastUpdate = async (query) => {
       query.start_permlink,
       query.limit,
     ]);
-    const groomedComments = await parseComments(replies);
+    const groomedComments = parseComments(replies);
     return groomedComments;
   } catch (error) {
     return error;
@@ -456,7 +456,7 @@ export const getPost = async (author, permlink, currentUserName = null, isPromot
   try {
     const post = await client.database.call('get_content', [author, permlink]);
 
-    return post ? await parsePost(post, currentUserName, isPromoted) : null;
+    return post ? parsePost(post, currentUserName, isPromoted) : null;
   } catch (error) {
     return error;
   }
@@ -522,7 +522,7 @@ export const getComments = async (author, permlink, currentUserName = null) => {
   try {
     const comments = await client.database.call('get_content_replies', [author, permlink]);
 
-    const groomedComments = await parseComments(comments, currentUserName);
+    const groomedComments = parseComments(comments, currentUserName);
 
     return comments ? groomedComments : null;
   } catch (error) {

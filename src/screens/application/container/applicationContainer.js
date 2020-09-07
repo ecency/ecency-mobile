@@ -56,7 +56,6 @@ import {
 import {
   activeApplication,
   isDarkTheme,
-  isLoginDone,
   changeNotificationSettings,
   changeAllNotificationSettings,
   login,
@@ -150,7 +149,6 @@ class ApplicationContainer extends Component {
 
     ReceiveSharingIntent.getReceivedFiles(
       (files) => {
-        console.log('files :>> ', files);
         navigate({
           routeName: ROUTES.SCREENS.EDITOR,
           params: { upload: files },
@@ -213,9 +211,8 @@ class ApplicationContainer extends Component {
       const { isConnected, dispatch } = this.props;
       if (state.isConnected !== isConnected) {
         dispatch(setConnectivityStatus(state.isConnected));
-        //this._fetchApp();
+        this._fetchApp();
       }
-      this._fetchApp();
     });
   };
 
@@ -315,16 +312,11 @@ class ApplicationContainer extends Component {
 
   _fetchApp = async () => {
     await this._getSettings();
-    await this._refreshGlobalProps();
-    const userRealmObject = await this._getUserDataFromRealm();
     this.setState({
       isReady: true,
     });
-
-    const { isConnected } = this.props;
-    if (isConnected && userRealmObject) {
-      await this._fetchUserDataFromDsteem(userRealmObject);
-    }
+    this._refreshGlobalProps();
+    this._getUserDataFromRealm();
   };
 
   _pushNavigate = (notification) => {
@@ -461,13 +453,15 @@ class ApplicationContainer extends Component {
   };
 
   _getUserDataFromRealm = async () => {
-    const { dispatch, pinCode, isPinCodeOpen: _isPinCodeOpen } = this.props;
+    const { dispatch, pinCode, isPinCodeOpen: _isPinCodeOpen, isConnected } = this.props;
     let realmData = [];
 
     const res = await getAuthStatus();
     const { currentUsername } = res;
 
     if (res) {
+      dispatch(activeApplication());
+      dispatch(login(true));
       const userData = await getUserData();
 
       if (userData && userData.length > 0) {
@@ -526,16 +520,15 @@ class ApplicationContainer extends Component {
         dispatch(savePinCode(encryptedPin));
       }
 
-      dispatch(activeApplication());
-      dispatch(isLoginDone());
-      dispatch(login(true));
+      if (isConnected) {
+        this._fetchUserDataFromDsteem(realmObject[0]);
+      }
 
       return realmObject[0];
     }
 
     dispatch(updateCurrentAccount({}));
     dispatch(activeApplication());
-    dispatch(isLoginDone());
 
     return null;
   };
@@ -572,7 +565,7 @@ class ApplicationContainer extends Component {
       this.setState({
         isThemeReady: true,
       });
-      if (settings.isPinCodeOpen !== '') dispatch(isPinCodeOpen(settings.isPinCodeOpen));
+      if (settings.isPinCodeOpen !== '') await dispatch(isPinCodeOpen(settings.isPinCodeOpen));
       if (settings.language !== '') dispatch(setLanguage(settings.language));
       if (settings.server !== '') dispatch(setApi(settings.server));
       if (settings.upvotePercent !== '') {

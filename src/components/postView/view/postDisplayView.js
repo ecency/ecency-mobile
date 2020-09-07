@@ -38,6 +38,8 @@ const PostDisplayView = ({
   isPostUnavailable,
   author,
   handleOnRemovePress,
+  activeVotes,
+  reblogs,
 }) => {
   const [postHeight, setPostHeight] = useState(0);
   const [scrollHeight, setScrollHeight] = useState(0);
@@ -70,19 +72,30 @@ const PostDisplayView = ({
     setPostHeight(height);
   };
 
+  const _handleOnReblogsPress = () => {
+    if (reblogs.length > 0 && handleOnReblogsPress) {
+      handleOnReblogsPress();
+    }
+  };
+
   const _getTabBar = (isFixedFooter = false) => {
     return (
       <SafeAreaView>
         <StickyBar isFixedFooter={isFixedFooter}>
           <View style={styles.stickyWrapper}>
-            <Upvote fetchPost={fetchPost} isShowPayoutValue content={post} />
+            <Upvote
+              activeVotes={activeVotes}
+              fetchPost={fetchPost}
+              isShowPayoutValue
+              content={post}
+            />
             <TextWithIcon
               iconName="heart-outline"
               iconStyle={styles.barIcons}
               iconType="MaterialCommunityIcons"
               isClickable
-              onPress={() => handleOnVotersPress && handleOnVotersPress(get(post, 'active_votes'))}
-              text={get(post, 'vote_count', 0)}
+              onPress={() => handleOnVotersPress && handleOnVotersPress()}
+              text={activeVotes.length}
               textMarginLeft={20}
             />
             <TextWithIcon
@@ -90,8 +103,8 @@ const PostDisplayView = ({
               iconStyle={styles.barIcons}
               iconType="MaterialIcons"
               isClickable
-              onPress={() => handleOnReblogsPress && handleOnReblogsPress(get(post, 'reblogs'))}
-              text={get(post, 'reblogCount', 0)}
+              onPress={_handleOnReblogsPress}
+              text={reblogs.length}
               textMarginLeft={20}
             />
             {isLoggedIn && (
@@ -118,7 +131,7 @@ const PostDisplayView = ({
             <View style={styles.stickyRightWrapper}>
               {get(currentAccount, 'name') === get(post, 'author') && (
                 <Fragment>
-                  {!get(post, 'children') && !get(post, 'vote_count') && (
+                  {!get(post, 'children') && !activeVotes.length && (
                     <IconButton
                       iconStyle={styles.barIconRight}
                       iconType="MaterialIcons"
