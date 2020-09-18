@@ -95,7 +95,7 @@ class ProfileContainer extends Component {
 
     if (!isOwnProfile) {
       repliesAction = getUserComments;
-      if (isAnalytics) {
+      if (isAnalytics && user) {
         Matomo.trackView([`/@${user.name}/comments`]).catch((error) =>
           console.warn('Failed to track screen', error),
         );
@@ -287,9 +287,9 @@ class ProfileContainer extends Component {
 
   _loadProfile = async (username = null) => {
     let user;
-
+    const { isOwnProfile } = this.state;
     try {
-      user = await getUser(username);
+      user = await getUser(username, isOwnProfile);
       this._fetchProfile(username);
     } catch (error) {
       this._profileActionDone(error);

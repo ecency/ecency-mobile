@@ -27,7 +27,7 @@ export const login = async (username, password, isPinCodeOpen) => {
   let loginFlag = false;
   let avatar = '';
   let authType = '';
-  // Get user account data from STEEM Blockchain
+  // Get user account data from HIVE Blockchain
   const account = await getUser(username);
   const isUserLoggedIn = await isLoggedInUser(username);
 

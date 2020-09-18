@@ -96,7 +96,7 @@ const PostResult = ({ navigation, searchValue }) => {
           />
           <FlatList
             data={data}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) => item.id && item.id.toString()}
             renderItem={({ item, index }) => (
               <TouchableOpacity onPress={() => handleOnPress(item)}>
                 {_renderItem(item, index)}

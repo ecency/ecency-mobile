@@ -84,8 +84,11 @@ export const fetchGlobalProps = async () => {
 
   try {
     globalDynamic = await getDynamicGlobalProperties();
+    await setCache('globalDynamic', globalDynamic);
     feedHistory = await getFeedHistory();
+    await setCache('feedHistory', feedHistory);
     rewardFund = await getRewardFund();
+    await setCache('rewardFund', rewardFund);
   } catch (e) {
     return;
   }
@@ -144,21 +147,20 @@ export const getState = async (path) => {
  * @method getUser get account data
  * @param user username
  */
-export const getUser = async (user) => {
+export const getUser = async (user, loggedIn = true) => {
   try {
     const account = await client.database.getAccounts([user]);
     const _account = {
       ...account[0],
     };
-    let unreadActivityCount;
+    let unreadActivityCount = 0;
 
     if (account && account.length < 1) {
       return null;
     }
 
-    const globalProperties =
-      (await client.database.getDynamicGlobalProperties()) || getCache('globalProperties');
-    await setCache('globalProperties', globalProperties);
+    const globalProperties = getCache('globalDynamic');
+
     const rcPower =
       (user &&
         (await client.call('rc_api', 'find_rc_accounts', {
@@ -166,12 +168,15 @@ export const getUser = async (user) => {
         }))) ||
       getCache('rcPower');
     await setCache('rcPower', rcPower);
-    try {
-      unreadActivityCount = await getUnreadActivityCount({
-        user,
-      });
-    } catch (error) {
-      unreadActivityCount = 0;
+
+    if (loggedIn) {
+      try {
+        unreadActivityCount = await getUnreadActivityCount({
+          user,
+        });
+      } catch (error) {
+        unreadActivityCount = 0;
+      }
     }
 
     _account.reputation = getReputation(_account.reputation);

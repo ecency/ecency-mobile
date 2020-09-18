@@ -700,34 +700,10 @@ class ApplicationContainer extends Component {
   };
 
   _handleWelcomeModalButtonPress = () => {
-    const { dispatch, otherAccounts } = this.props;
     const { appVersion } = VersionNumber;
-
-    const accountsWithoutSC = otherAccounts.filter(
-      (account) => !scAccounts.some((el) => el.username === account.username),
-    );
 
     setVersionForWelcomeModal(appVersion);
 
-    if (scAccounts.length > 0) {
-      scAccounts.forEach((el) => {
-        dispatch(removeOtherAccount(el.username));
-        removeUserData(el.username);
-      });
-
-      if (accountsWithoutSC.length > 0) {
-        this._switchAccount(accountsWithoutSC[0].username);
-      } else {
-        dispatch(updateCurrentAccount({}));
-        dispatch(login(false));
-        removePinCode();
-        setAuthStatus({ isLoggedIn: false });
-        setExistUser(false);
-        dispatch(removeAllOtherAccount());
-        dispatch(logoutDone());
-        navigate({ routeName: ROUTES.SCREENS.LOGIN });
-      }
-    }
     this.setState({ showWelcomeModal: false });
   };
 
