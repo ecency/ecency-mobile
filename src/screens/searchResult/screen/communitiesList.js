@@ -58,7 +58,7 @@ const VotersDisplayView = ({
       {!noResult && (
         <FlatList
           data={votes}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item.id && item.id.toString()}
           renderItem={_renderItem}
           ListEmptyComponent={_renderEmptyContent}
         />
