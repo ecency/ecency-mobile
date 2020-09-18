@@ -17,7 +17,7 @@ import {
   getPinCode,
 } from '../../realm/realm';
 import { encryptKey, decryptKey } from '../../utils/crypto';
-import steemConnect from './steemConnectAPI';
+import hsApi from './hivesignerAPI';
 import { getSCAccessToken } from '../esteem/esteem';
 
 // Constants
@@ -115,8 +115,8 @@ export const login = async (username, password, isPinCodeOpen) => {
 
 export const loginWithSC2 = async (code, isPinCodeOpen) => {
   const scTokens = await getSCAccessToken(code);
-  await steemConnect.setAccessToken(get(scTokens, 'access_token', ''));
-  const scAccount = await steemConnect.me();
+  await hsApi.setAccessToken(get(scTokens, 'access_token', ''));
+  const scAccount = await hsApi.me();
   const account = await getUser(scAccount.account.name);
   let avatar = '';
 

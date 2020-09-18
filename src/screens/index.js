@@ -17,7 +17,7 @@ import Profile from './profile/screen/profileScreen';
 import ProfileEdit from './profileEdit/screen/profileEditScreen';
 import Reblogs from './reblogs';
 import Redeem from './redeem/screen/redeemScreen';
-import SteemConnect from './steem-connect/steemConnect';
+import HiveSigner from './steem-connect/hiveSigner';
 import Transfer from './transfer';
 import Voters from './voters';
 import AccountBoost from './accountBoost/screen/accountBoostScreen';
@@ -46,7 +46,7 @@ export {
   SearchResult,
   Settings,
   SpinGame,
-  SteemConnect,
+  HiveSigner,
   Transfer,
   Voters,
   Wallet,

@@ -6,7 +6,7 @@ import get from 'lodash/get';
 import ActionSheet from 'react-native-actionsheet';
 import Autocomplete from '@esteemapp/react-native-autocomplete-input';
 import { Icon, TextInput } from '..';
-import { steemConnectOptions } from '../../constants/steemConnectOptions';
+import { hsOptions } from '../../constants/hsOptions';
 
 // Services and Actions
 import { getUser } from '../../providers/esteem/ePoint';
@@ -265,7 +265,7 @@ class BoostPostScreen extends PureComponent {
           handleOnModalClose={handleOnSCModalClose}
           title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
         >
-          <WebView source={{ uri: `${steemConnectOptions.base_url}${SCPath}` }} />
+          <WebView source={{ uri: `${hsOptions.base_url}${SCPath}` }} />
         </Modal>
       </Fragment>
     );

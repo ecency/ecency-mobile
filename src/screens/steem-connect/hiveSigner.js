@@ -6,7 +6,7 @@ import { injectIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 
 import { loginWithSC2 } from '../../providers/steem/auth';
-import { steemConnectOptions } from '../../constants/steemConnectOptions';
+import { hsOptions } from '../../constants/hsOptions';
 
 // Actions
 import { addOtherAccount, updateCurrentAccount } from '../../redux/actions/accountAction';
@@ -15,7 +15,7 @@ import { login as loginAction, openPinCodeModal } from '../../redux/actions/appl
 // Constants
 import { default as ROUTES } from '../../constants/routeNames';
 
-class SteemConnect extends PureComponent {
+class HiveSigner extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -81,11 +81,11 @@ class SteemConnect extends PureComponent {
         <StatusBar hidden translucent />
         <WebView
           source={{
-            uri: `${steemConnectOptions.base_url}oauth2/authorize?client_id=${
-              steemConnectOptions.client_id
+            uri: `${hsOptions.base_url}oauth2/authorize?client_id=${
+              hsOptions.client_id
             }&redirect_uri=${encodeURIComponent(
-              steemConnectOptions.redirect_uri,
-            )}&response_type=code&scope=${encodeURIComponent(steemConnectOptions.scope)}`,
+              hsOptions.redirect_uri,
+            )}&response_type=code&scope=${encodeURIComponent(hsOptions.scope)}`,
           }}
           onNavigationStateChange={this._onNavigationStateChange}
           ref={(ref) => {
@@ -101,4 +101,4 @@ const mapStateToProps = (state) => ({
   isPinCodeOpen: state.application.isPinCodeOpen,
 });
 
-export default injectIntl(connect(mapStateToProps)(withNavigation(SteemConnect)));
+export default injectIntl(connect(mapStateToProps)(withNavigation(HiveSigner)));

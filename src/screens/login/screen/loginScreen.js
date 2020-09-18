@@ -5,7 +5,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
 
 // Actions
-import SteemConnect from '../../steem-connect/steemConnect';
+import HiveSigner from '../../steem-connect/hiveSigner';
 
 // Internal Components
 import {
@@ -193,7 +193,7 @@ class LoginScreen extends PureComponent {
             id: 'login.signin',
           })}
         >
-          <SteemConnect handleOnModalClose={this._handleOnModalToggle} />
+          <HiveSigner handleOnModalClose={this._handleOnModalToggle} />
         </Modal>
       </View>
     );
