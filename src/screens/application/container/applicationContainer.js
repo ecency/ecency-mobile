@@ -18,6 +18,8 @@ import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
+import Matomo from 'react-native-matomo-sdk';
+import uniqueId from 'react-native-unique-id';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -63,6 +65,7 @@ import {
   openPinCodeModal,
   setApi,
   setConnectivityStatus,
+  setAnalyticsStatus,
   setCurrency,
   setLanguage,
   setUpvotePercent,
@@ -109,6 +112,7 @@ class ApplicationContainer extends Component {
   componentDidMount = () => {
     const { isIos } = this.state;
     const { appVersion } = VersionNumber;
+    const { dispatch, isAnalytics } = this.props;
 
     this._setNetworkListener();
 
@@ -159,6 +163,25 @@ class ApplicationContainer extends Component {
       (error) => {
         console.log('error :>> ', error);
       },
+    );
+
+    // tracking init
+    Matomo.initialize(Config.ANALYTICS_URL, 1)
+      .catch((error) => console.warn('Failed to initialize matomo', error))
+      .then(() => {
+        if (isAnalytics !== true) {
+          dispatch(setAnalyticsStatus(true));
+        }
+      });
+
+    uniqueId()
+      .then(async (id) => {
+        await Matomo.setUserId(id).catch((error) => console.warn('Error setting user id', error));
+      })
+      .catch((error) => console.error(error));
+    // start up event
+    Matomo.trackEvent('Application', 'Startup').catch((error) =>
+      console.warn('Failed to track event', error),
     );
   };
 
@@ -798,6 +821,7 @@ export default connect(
     isActiveApp: state.application.isActive,
     api: state.application.api,
     isGlobalRenderRequired: state.application.isRenderRequired,
+    isAnalytics: state.application.isAnalytics,
 
     // Account
     unreadActivityCount: state.account.currentAccount.unread_activity_count,

@@ -2,8 +2,9 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import get from 'lodash/get';
 import unionBy from 'lodash/unionBy';
+import Matomo from 'react-native-matomo-sdk';
 
-// STEEM
+// HIVE
 import { getPostsSummary, getPost } from '../../../providers/steem/dsteem';
 import { getPromotePosts } from '../../../providers/esteem/esteem';
 
@@ -36,6 +37,7 @@ const PostsContainer = ({
   const isHideImages = useSelector((state) => state.ui.hidePostsThumbnails);
   const username = useSelector((state) => state.account.currentAccount.name);
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
+  const isAnalytics = useSelector((state) => state.application.isAnalytics);
 
   const [isNoPost, setIsNoPost] = useState(false);
   const [startPermlink, setStartPermlink] = useState('');
@@ -208,6 +210,18 @@ const PostsContainer = ({
           setIsLoading(false);
           _isLoadingPost = false;
         });
+      // track filter and tag views
+      if (isAnalytics) {
+        if (tag) {
+          Matomo.trackView([`/${selectedFilterValue}/${tag}`]).catch((error) =>
+            console.warn('Failed to track screen', error),
+          );
+        } else {
+          Matomo.trackView([`/${selectedFilterValue}`]).catch((error) =>
+            console.warn('Failed to track screen', error),
+          );
+        }
+      }
     },
     [
       username,
@@ -215,6 +229,7 @@ const PostsContainer = ({
       isConnected,
       isLoading,
       isLoggedIn,
+      isAnalytics,
       nsfw,
       pageType,
       posts,
@@ -247,6 +262,7 @@ const PostsContainer = ({
       handleOnScroll={handleOnScroll}
       isHideImage={isHideImages}
       isLoggedIn={isLoggedIn}
+      isAnalytics={isAnalytics}
       selectedOptionIndex={selectedOptionIndex}
       tag={tag}
       filterOptionsValue={filterOptionsValue}

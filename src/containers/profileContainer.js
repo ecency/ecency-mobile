@@ -5,6 +5,7 @@ import { withNavigation } from 'react-navigation';
 import { get, has, unionBy } from 'lodash';
 import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
+import Matomo from 'react-native-matomo-sdk';
 
 // Providers
 import {
@@ -56,6 +57,7 @@ class ProfileContainer extends Component {
       navigation,
       isConnected,
       isLoggedIn,
+      isAnalytics,
       currentAccount: { name: currentAccountUsername },
     } = this.props;
     const username = get(navigation, 'state.params.username');
@@ -76,16 +78,35 @@ class ProfileContainer extends Component {
     }
 
     this._loadProfile(targetUsername);
+    if (isAnalytics) {
+      Matomo.trackView([`/@${targetUsername}`]).catch((error) =>
+        console.warn('Failed to track screen', error),
+      );
+    }
   }
 
   _getReplies = async (query) => {
-    const { isOwnProfile, comments } = this.state;
+    const { isOwnProfile, comments, user } = this.state;
+    const {
+      currentAccount: { name: currentAccountUsername },
+      isAnalytics,
+    } = this.props;
     let repliesAction;
 
     if (!isOwnProfile) {
       repliesAction = getUserComments;
+      if (isAnalytics) {
+        Matomo.trackView([`/@${user.name}/comments`]).catch((error) =>
+          console.warn('Failed to track screen', error),
+        );
+      }
     } else {
       repliesAction = getRepliesByLastUpdate;
+      if (isAnalytics) {
+        Matomo.trackView([`/@${currentAccountUsername}/replies`]).catch((error) =>
+          console.warn('Failed to track screen', error),
+        );
+      }
     }
     if (query) {
       await repliesAction({
@@ -459,6 +480,7 @@ const mapStateToProps = (state) => ({
   isDarkTheme: state.application.isDarkTheme,
   isLoggedIn: state.application.isLoggedIn,
   pinCode: state.application.pin,
+  isAnalytics: state.application.isAnalytics,
   activeBottomTab: state.ui.activeBottomTab,
   currentAccount: state.account.currentAccount,
   isHideImage: state.ui.hidePostsThumbnails,

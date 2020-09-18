@@ -4,7 +4,9 @@ import { withNavigation } from 'react-navigation';
 import get from 'lodash/get';
 
 // Services and Actions
+import Matomo from 'react-native-matomo-sdk';
 import { getPost } from '../../../providers/steem/dsteem';
+// import { matomo } from '../../../providers/esteem/analytics';
 
 // Component
 import PostScreen from '../screen/postScreen';
@@ -14,7 +16,7 @@ import PostScreen from '../screen/postScreen';
  *@props -->  content           which is include all post data                  Object
  *
  */
-const PostContainer = ({ navigation, currentAccount, isLoggedIn }) => {
+const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) => {
   const [post, setPost] = useState(null);
   const [error, setError] = useState(null);
   const [isNewPost, setIsNewPost] = useState(false);
@@ -33,9 +35,21 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn }) => {
 
     if (content) {
       setPost(content);
+      // tracking info
+      if (isAnalytics) {
+        Matomo.trackView([`${content.url}`]).catch((error) =>
+          console.warn('Failed to track screen', error),
+        );
+      }
     } else if (_author && permlink) {
       _loadPost(_author, permlink);
       setAuthor(_author);
+      // tracking info
+      if (isAnalytics) {
+        Matomo.trackView([`/post/@${_author}/${permlink}`]).catch((error) =>
+          console.warn('Failed to track screen', error),
+        );
+      }
     }
   }, []);
 
@@ -101,6 +115,7 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn }) => {
 const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   isLoggedIn: state.application.isLoggedIn,
+  isAnalytics: state.application.isAnalytics,
 });
 
 export default connect(mapStateToProps)(withNavigation(PostContainer));
