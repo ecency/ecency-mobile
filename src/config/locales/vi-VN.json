@@ -482,7 +482,7 @@
     "days": "những ngày",
     "user": "Người dùng",
     "permlink": "Bài đăng",
-    "permlinkPlaceholder": "tác giả/đường dẫn về nội dung",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Are you sure to promote?"
   },
   "boostPost": {
