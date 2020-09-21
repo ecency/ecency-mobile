@@ -482,7 +482,7 @@
     "days": "일",
     "user": "사용자",
     "permlink": "글 주소",
-    "permlinkPlaceholder": "저자/permlink",
+    "permlinkPlaceholder": "username/permlink",
     "information": "홍보하시겠습니까?"
   },
   "boostPost": {
