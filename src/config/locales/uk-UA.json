@@ -482,7 +482,7 @@
     "days": "днів",
     "user": "Користувач",
     "permlink": "Допис",
-    "permlinkPlaceholder": "автор/постійне посилання",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Справді бажаєте просувати допис?"
   },
   "boostPost": {
