@@ -482,7 +482,7 @@
     "days": "天",
     "user": "用户",
     "permlink": "文章",
-    "permlinkPlaceholder": "author/permlink",
+    "permlinkPlaceholder": "username/permlink",
     "information": "您确定要推广吗？"
   },
   "boostPost": {
