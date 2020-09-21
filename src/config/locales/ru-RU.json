@@ -482,7 +482,7 @@
     "days": "дня(ей)",
     "user": "Пользователь",
     "permlink": "Пост",
-    "permlinkPlaceholder": "автор/постоянная ссылка",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Действительно хотите продвигать пост?"
   },
   "boostPost": {
