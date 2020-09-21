@@ -482,7 +482,7 @@
     "days": "giorni",
     "user": "Utente",
     "permlink": "Post",
-    "permlinkPlaceholder": "autore/permlink",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Sei sicuro di voler promuovere il post?"
   },
   "boostPost": {
