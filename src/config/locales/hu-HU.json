@@ -482,7 +482,7 @@
     "days": "nap",
     "user": "Felhasználó",
     "permlink": "Bejegyzés",
-    "permlinkPlaceholder": "szerző/permlink",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Bistos hirdeted?"
   },
   "boostPost": {
