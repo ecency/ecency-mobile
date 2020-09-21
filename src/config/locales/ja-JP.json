@@ -482,7 +482,7 @@
     "days": "日間",
     "user": "ユーザー",
     "permlink": "投稿",
-    "permlinkPlaceholder": "投稿者/パーマリンク",
+    "permlinkPlaceholder": "username/permlink",
     "information": "本当にプロモートしますか？"
   },
   "boostPost": {
