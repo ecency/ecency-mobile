@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent, Fragment, useState, useEffect, useRef } from 'react';
 import { injectIntl } from 'react-intl';
 import { Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { WebView } from 'react-native-webview';
@@ -24,58 +24,77 @@ import { PROMOTE_PRICING, PROMOTE_DAYS } from '../../constants/options/points';
 // Styles
 import styles from './promoteStyles';
 
-class PromoteView extends PureComponent {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { type }    name                - Description....
-   */
+const PromoteView = ({
+  intl,
+  handleOnSubmit,
+  redeemType,
+  navigationParams,
+  isLoading,
+  accounts,
+  currentAccountName,
+  balance: _balance,
+  SCPath,
+  isSCModalOpen,
+  handleOnSCModalClose,
+}) => {
+  const [permlink, setPermlink] = useState('');
+  const [selectedUser, setSelectedUser] = useState('');
+  const [balance, setBalance] = useState('');
+  const [day, setDay] = useState(1);
+  const [permlinkSuggestions, setPermlinkSuggestions] = useState([]);
+  const [isValid, setIsValid] = useState(false);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      permlink: '',
-      selectedUser: '',
-      balance: '',
-      day: 1,
-      permlinkSuggestions: [],
-      isValid: false,
-    };
+  const startActionSheet = useRef(null);
+  let timer = null;
 
-    this.startActionSheet = React.createRef();
-  }
+  useEffect(() => {
+    const pr = get(PROMOTE_PRICING[PROMOTE_DAYS.indexOf(day)], 'price');
+    if (pr > _balance || pr > balance) {
+      setIsValid(false);
+    }
+    if (permlink && (pr <= _balance || pr <= _balance)) {
+      setIsValid(true);
+    }
+  }, [day, balance, permlink]);
 
-  // Component Life Cycles
+  useEffect(() => {
+    if (selectedUser) {
+      _getUserBalance(selectedUser);
+    }
+  }, [selectedUser]);
 
   // Component Functions
 
-  _handleOnPermlinkChange = async (text) => {
-    this.setState({ permlink: text, isValid: false });
+  const _handleOnPermlinkChange = async (text) => {
+    setPermlink(text);
+    setIsValid(false);
 
-    if (this.timer) {
-      clearTimeout(this.timer);
+    if (timer) {
+      clearTimeout(timer);
     }
 
     if (text.trim().length < 3) {
-      this.setState({ permlinkSuggestions: [] });
+      setPermlinkSuggestions([]);
       return;
     }
 
     if (text && text.length > 0) {
-      this.timer = setTimeout(
+      timer = setTimeout(
         () =>
           searchPath(text).then((res) => {
-            this.setState({ permlinkSuggestions: res && res.length > 10 ? res.slice(0, 7) : res });
+            setPermlinkSuggestions(res && res.length > 10 ? res.slice(0, 7) : res);
           }),
         500,
       );
     } else {
-      await this.setState({ permlinkSuggestions: [], isValid: false });
+      setPermlinkSuggestions([]);
+      setIsValid(false);
     }
   };
 
-  _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
+  const _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
 
-  _renderDropdown = (accounts, currentAccountName) => (
+  const _renderDropdown = (accounts, currentAccountName) => (
     <DropdownButton
       dropdownButtonStyle={styles.dropdownButtonStyle}
       rowTextStyle={styles.rowTextStyle}
@@ -86,165 +105,141 @@ class PromoteView extends PureComponent {
       defaultText={currentAccountName}
       selectedOptionIndex={accounts.findIndex((item) => item.username === currentAccountName)}
       onSelect={(index, value) => {
-        this.setState({ selectedUser: value }, () => {
-          this._getUserBalance(value);
-        });
+        setSelectedUser(value);
       }}
     />
   );
 
-  _getUserBalance = async (username) => {
+  const _getUserBalance = async (username) => {
     await getUser(username)
       .then((userPoints) => {
         const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
-        this.setState({ balance });
+        setBalance(balance);
       })
       .catch((err) => {
         Alert.alert(err.message || err.toString());
       });
   };
 
-  _handleOnSubmit = async () => {
-    const { handleOnSubmit, redeemType, navigationParams } = this.props;
-    const { day, permlink, selectedUser } = this.state;
+  const _handleOnSubmit = async () => {
     const fullPermlink = permlink || get(navigationParams, 'permlink');
 
     handleOnSubmit(redeemType, day, fullPermlink, selectedUser);
   };
 
-  render() {
-    const { intl } = this.props;
-    const { selectedUser, balance, day, permlinkSuggestions, permlink, isValid } = this.state;
-
-    const {
-      isLoading,
-      accounts,
-      currentAccountName,
-      balance: _balance,
-      navigationParams,
-      SCPath,
-      isSCModalOpen,
-      handleOnSCModalClose,
-    } = this.props;
-
-    return (
-      <Fragment>
-        <BasicHeader title={intl.formatMessage({ id: 'promote.title' })} />
-        <View style={styles.container}>
-          <ScrollView>
-            <View style={styles.middleContent}>
-              <TransferFormItem
-                label={intl.formatMessage({ id: 'promote.user' })}
-                rightComponent={() =>
-                  this._renderDropdown(accounts, selectedUser || currentAccountName)
-                }
-              />
-              <Text style={styles.balanceText}>{`${balance || _balance} Points`}</Text>
-              <Fragment>
-                <View style={styles.autocomplateLineContainer}>
-                  <View style={styles.autocomplateLabelContainer}>
-                    <Text style={styles.autocomplateLabelText}>
-                      {intl.formatMessage({ id: 'promote.permlink' })}
-                    </Text>
-                  </View>
-
-                  <Autocomplete
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    inputContainerStyle={styles.autocomplate}
-                    data={permlinkSuggestions}
-                    listContainerStyle={styles.autocomplateListContainer}
-                    listStyle={styles.autocomplateList}
-                    onChangeText={(text) => this._handleOnPermlinkChange(text)}
-                    renderTextInput={() => (
-                      <TextInput
-                        style={styles.input}
-                        onChangeText={(text) => this._handleOnPermlinkChange(text)}
-                        value={permlink || get(navigationParams, 'permlink', '')}
-                        placeholder={intl.formatMessage({ id: 'promote.permlink' })}
-                        placeholderTextColor="#c1c5c7"
-                        autoCapitalize="none"
-                      />
-                    )}
-                    renderItem={({ item }) => (
-                      <TouchableOpacity
-                        key={item}
-                        onPress={() =>
-                          this.setState({
-                            permlink: item,
-                            isValid: true,
-                            permlinkSuggestions: [],
-                          })
-                        }
-                      >
-                        <Text style={styles.autocomplateItemText}>{item}</Text>
-                      </TouchableOpacity>
-                    )}
-                  />
+  return (
+    <Fragment>
+      <BasicHeader title={intl.formatMessage({ id: 'promote.title' })} />
+      <View style={styles.container}>
+        <ScrollView>
+          <View style={styles.middleContent}>
+            <TransferFormItem
+              label={intl.formatMessage({ id: 'promote.user' })}
+              rightComponent={() => _renderDropdown(accounts, selectedUser || currentAccountName)}
+            />
+            <Text style={styles.balanceText}>{`${balance || _balance} Points`}</Text>
+            <Fragment>
+              <View style={styles.autocomplateLineContainer}>
+                <View style={styles.autocomplateLabelContainer}>
+                  <Text style={styles.autocomplateLabelText}>
+                    {intl.formatMessage({ id: 'promote.permlink' })}
+                  </Text>
                 </View>
-              </Fragment>
 
-              <View style={styles.total}>
-                <Text style={styles.day}>
-                  {`${day} ${intl.formatMessage({
-                    id: 'promote.days',
-                  })} `}
-                </Text>
-                <Text style={styles.price}>
-                  {`${get(PROMOTE_PRICING[PROMOTE_DAYS.indexOf(day)], 'price')} Points`}
-                </Text>
+                <Autocomplete
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  inputContainerStyle={styles.autocomplate}
+                  data={permlinkSuggestions}
+                  listContainerStyle={styles.autocomplateListContainer}
+                  listStyle={styles.autocomplateList}
+                  onChangeText={(text) => _handleOnPermlinkChange(text)}
+                  renderTextInput={() => (
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={(text) => _handleOnPermlinkChange(text)}
+                      value={permlink || get(navigationParams, 'permlink', '')}
+                      placeholder={intl.formatMessage({ id: 'promote.permlinkPlaceholder' })}
+                      placeholderTextColor="#c1c5c7"
+                      autoCapitalize="none"
+                    />
+                  )}
+                  renderItem={({ item }) => (
+                    <TouchableOpacity
+                      key={item}
+                      onPress={() => {
+                        setPermlink(item);
+                        setIsValid(true);
+                        setPermlinkSuggestions([]);
+                      }}
+                    >
+                      <Text style={styles.autocomplateItemText}>{item}</Text>
+                    </TouchableOpacity>
+                  )}
+                />
               </View>
+            </Fragment>
 
-              <ScaleSlider
-                values={[1, 2, 3, 7, 14]}
-                LRpadding={50}
-                activeValue={day}
-                handleOnValueChange={(_day) => this.setState({ day: _day })}
-                single
-              />
+            <View style={styles.total}>
+              <Text style={styles.day}>
+                {`${day} ${intl.formatMessage({
+                  id: 'promote.days',
+                })} `}
+              </Text>
+              <Text style={styles.price}>
+                {`${get(PROMOTE_PRICING[PROMOTE_DAYS.indexOf(day)], 'price')} Points`}
+              </Text>
             </View>
-            <View style={styles.bottomContent}>
-              <MainButton
-                style={styles.button}
-                isDisable={
-                  (!permlink ? !get(navigationParams, 'permlink') : permlink) &&
-                  (isLoading || !isValid)
-                }
-                onPress={() => this.startActionSheet.current.show()}
-                isLoading={isLoading}
-              >
-                <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
-              </MainButton>
-            </View>
-          </ScrollView>
-        </View>
-        <ActionSheet
-          ref={this.startActionSheet}
-          options={[
-            intl.formatMessage({ id: 'alert.confirm' }),
-            intl.formatMessage({ id: 'alert.cancel' }),
-          ]}
-          title={intl.formatMessage({ id: 'promote.information' })}
-          cancelButtonIndex={1}
-          destructiveButtonIndex={0}
-          onPress={(index) => {
-            if (index === 0) {
-              this._handleOnSubmit();
-            }
-          }}
-        />
-        <Modal
-          isOpen={isSCModalOpen}
-          isFullScreen
-          isCloseButton
-          handleOnModalClose={handleOnSCModalClose}
-          title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
-        >
-          <WebView source={{ uri: `${hsOptions.base_url}${SCPath}` }} />
-        </Modal>
-      </Fragment>
-    );
-  }
-}
+
+            <ScaleSlider
+              values={[1, 2, 3, 7, 14]}
+              LRpadding={50}
+              activeValue={day}
+              handleOnValueChange={(_day) => setDay(_day)}
+              single
+            />
+          </View>
+          <View style={styles.bottomContent}>
+            <MainButton
+              style={styles.button}
+              isDisable={
+                (!permlink ? !get(navigationParams, 'permlink') : permlink) &&
+                (isLoading || !isValid)
+              }
+              onPress={() => startActionSheet.current.show()}
+              isLoading={isLoading}
+            >
+              <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
+            </MainButton>
+          </View>
+        </ScrollView>
+      </View>
+      <ActionSheet
+        ref={startActionSheet}
+        options={[
+          intl.formatMessage({ id: 'alert.confirm' }),
+          intl.formatMessage({ id: 'alert.cancel' }),
+        ]}
+        title={intl.formatMessage({ id: 'promote.information' })}
+        cancelButtonIndex={1}
+        destructiveButtonIndex={0}
+        onPress={(index) => {
+          if (index === 0) {
+            _handleOnSubmit();
+          }
+        }}
+      />
+      <Modal
+        isOpen={isSCModalOpen}
+        isFullScreen
+        isCloseButton
+        handleOnModalClose={handleOnSCModalClose}
+        title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
+      >
+        <WebView source={{ uri: `${hsOptions.base_url}${SCPath}` }} />
+      </Modal>
+    </Fragment>
+  );
+};
 
 export default injectIntl(PromoteView);
