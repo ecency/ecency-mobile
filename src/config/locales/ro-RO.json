@@ -482,7 +482,7 @@
     "days": "zile",
     "user": "Utilizator",
     "permlink": "Postare",
-    "permlinkPlaceholder": "autor/permlink",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Sigur vrei să promovezi?"
   },
   "boostPost": {
