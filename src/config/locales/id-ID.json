@@ -482,7 +482,7 @@
     "days": "hari",
     "user": "Pengguna",
     "permlink": "Posting",
-    "permlinkPlaceholder": "penulis/tautkan",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Anda yakin akan promosikan?"
   },
   "boostPost": {
