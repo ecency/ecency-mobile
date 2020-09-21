@@ -166,7 +166,7 @@ class ApplicationContainer extends Component {
     );
 
     // tracking init
-    Matomo.initialize(Config.ANALYTICS_URL, 1)
+    Matomo.initialize(Config.ANALYTICS_URL, 1, 'https://ecency.com')
       .catch((error) => console.warn('Failed to initialize matomo', error))
       .then(() => {
         if (isAnalytics !== true) {
