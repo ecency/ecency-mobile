@@ -482,7 +482,7 @@
     "days": "дни",
     "user": "Потребител",
     "permlink": "Публикация",
-    "permlinkPlaceholder": "атор/разрешителен линк",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Сигурни ли сте, че искате да промотирате?"
   },
   "boostPost": {
