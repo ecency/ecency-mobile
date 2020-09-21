@@ -482,7 +482,7 @@
     "days": "दिनों",
     "user": "उपयोगकर्ता",
     "permlink": "लेख",
-    "permlinkPlaceholder": "author/permlink",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Are you sure to promote?"
   },
   "boostPost": {
