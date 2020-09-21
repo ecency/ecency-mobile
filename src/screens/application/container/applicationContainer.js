@@ -172,17 +172,22 @@ class ApplicationContainer extends Component {
         if (isAnalytics !== true) {
           dispatch(setAnalyticsStatus(true));
         }
-      });
-
-    uniqueId()
-      .then(async (id) => {
-        await Matomo.setUserId(id).catch((error) => console.warn('Error setting user id', error));
       })
-      .catch((error) => console.error(error));
-    // start up event
-    Matomo.trackEvent('Application', 'Startup').catch((error) =>
-      console.warn('Failed to track event', error),
-    );
+      .then(() => {
+        uniqueId()
+          .then(async (id) => {
+            await Matomo.setUserId(id).catch((error) =>
+              console.warn('Error setting user id', error),
+            );
+          })
+          .catch((error) => console.error(error));
+      })
+      .then(() => {
+        // start up event
+        Matomo.trackEvent('Application', 'Startup').catch((error) =>
+          console.warn('Failed to track event', error),
+        );
+      });
   };
 
   componentDidUpdate(prevProps, prevState) {
