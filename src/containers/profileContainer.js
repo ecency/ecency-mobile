@@ -207,23 +207,6 @@ class ProfileContainer extends Component {
       if (error.jse_shortmsg && error.jse_shortmsg.includes('wait to transact')) {
         //when RC is not enough, offer boosting account
         dispatch(setRcOffer(true));
-        /*Alert.alert(
-          intl.formatMessage({
-            id: 'alert.fail',
-          }),
-          intl.formatMessage({
-            id: 'alert.rc_down',
-          }),
-          [
-            {
-              text: 'Cancel',
-              onPress: () => console.log('Cancel Pressed'),
-              style: 'cancel',
-            },
-            { text: 'OK', onPress: () => console.log('OK Pressed') },
-          ],
-          { cancelable: false },
-        );*/
       } else {
         //when other errors
         this.setState(

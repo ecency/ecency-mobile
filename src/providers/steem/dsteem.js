@@ -1589,7 +1589,7 @@ export const getBtcAddress = (pin, currentAccount) => {
     const keyPair = bitcoin.ECPair.fromWIF(key);
     const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey });
 
-    console.log('btc address', address);
+    // console.log('btc address', address);
     return { address: address };
   }
   */

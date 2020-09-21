@@ -162,7 +162,7 @@ class EditorContainer extends Component {
         }
       })
       .catch((error) => {
-        console.log(error, error.message);
+        // console.log(error, error.message);
         if (error.toString().includes('code 413')) {
           Alert.alert(
             intl.formatMessage({
@@ -478,28 +478,6 @@ class EditorContainer extends Component {
     if (error && error.jse_shortmsg.includes('wait to transact')) {
       //when RC is not enough, offer boosting account
       dispatch(setRcOffer(true));
-      /*Alert.alert(
-        intl.formatMessage({
-          id: 'alert.fail',
-        }),
-        intl.formatMessage({
-          id: 'alert.rc_down',
-        }),
-        [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-          {
-            text: 'OK',
-            onPress: () => console.log('OK Pressed'),
-          },
-        ],
-        {
-          cancelable: false,
-        },
-      );*/
     } else {
       //when other errors
       Alert.alert(

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 
 // Services
+import { act } from 'react-test-renderer';
 import { getPost, getActiveVotes } from '../../../providers/steem/dsteem';
 import { getPostReblogs } from '../../../providers/esteem/esteem';
 
@@ -38,15 +39,19 @@ const PostCardContainer = ({
   }, [isRefresh]);
 
   useEffect(() => {
-    getActiveVotes(get(content, 'author'), get(content, 'permlink')).then((result) => {
-      result.sort((a, b) => b.rshares - a.rshares);
+    const actv = get(content, 'active_votes', []);
+    if (actv.length === 0) {
+      getActiveVotes(get(content, 'author'), get(content, 'permlink')).then((result) => {
+        result.sort((a, b) => b.rshares - a.rshares);
 
-      const _votes = parseActiveVotes(
-        { ...content, active_votes: result },
-        get(currentAccount, 'name'),
-      );
+        const _votes = parseActiveVotes({ ...content, active_votes: result });
+        setActiveVotes(_votes);
+      });
+    } else {
+      actv.sort((a, b) => b.rshares - a.rshares);
+      const _votes = parseActiveVotes({ ...content, active_votes: actv });
       setActiveVotes(_votes);
-    });
+    }
 
     getPostReblogs(content).then((result) => {
       setReblogs(result);

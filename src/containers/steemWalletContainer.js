@@ -286,7 +286,7 @@ const WalletContainer = ({
 
   const getTokenAddress = (tokenType) => {
     if (tokenType === 'BTC') {
-      console.log(getBtcAddress(pinCode, currentAccount));
+      // console.log(getBtcAddress(pinCode, currentAccount));
     }
   };
 
