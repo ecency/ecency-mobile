@@ -371,12 +371,14 @@ const PostBody = ({
     width: 100%;
     height: 240px;
   }
-  .pull-right {
-    float: right;
+  .phishy {
+    display: inline;
+    color: red;
   }
-  .pull-left {
-    float: left;
+  .text-justify {
+    text-align: justify;
   }
+
   .pull-left,
   .pull-right {
     max-width: calc(50% - 10px);
@@ -384,15 +386,17 @@ const PostBody = ({
     margin-bottom: 10px;
     box-sizing: border-box;
   }
-  .phishy {
-    display: inline;
-    color: red;
+
+  .pull-left {
+    margin-right: 10px;
+    padding-right: 10px;
+    float: left;
   }
 
-  .text-justify {
-    text-align: justify;
-    text-justify: inter-word;
-    letter-spacing: 0px;
+  .pull-right {
+    margin-left: 10px;
+    padding-right: 10px;
+    float: right;
   }
   `;
   return (
