@@ -8,7 +8,7 @@ import { CommunitiesPlaceHolder } from '../../../components/basicUIElements';
 // Styles
 import styles from './communitiesListStyles';
 
-const VotersDisplayView = ({
+const CommunitiesList = ({
   votes,
   handleOnPress,
   handleSubscribeButtonPress,
@@ -67,4 +67,4 @@ const VotersDisplayView = ({
   );
 };
 
-export default VotersDisplayView;
+export default CommunitiesList;

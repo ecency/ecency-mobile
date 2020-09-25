@@ -37,7 +37,6 @@ export default EStyleSheet.create({
     fontFamily: '$primaryFont',
     marginTop: 5,
     color: '$primaryBlack',
-    textAlign: 'center',
   },
   separator: {
     width: 100,
