@@ -159,7 +159,6 @@ const CommentBody = ({
   const handleLinkPress = (ind) => {
     if (ind === 1) {
       //open link
-      console.log('selectedLink', selectedLink);
       if (selectedLink) {
         Linking.canOpenURL(selectedLink).then((supported) => {
           if (supported) {
