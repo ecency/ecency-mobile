@@ -535,6 +535,8 @@
     }
   },
   "community": {
-    "new_post": "Новий допис"
+    "new_post": "Новий допис",
+    "community": "community",
+    "details": "Details"
   }
 }
