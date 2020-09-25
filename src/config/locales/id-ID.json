@@ -482,7 +482,7 @@
     "days": "hari",
     "user": "Pengguna",
     "permlink": "Posting",
-    "permlinkPlaceholder": "penulis/tautkan",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Anda yakin akan promosikan?"
   },
   "boostPost": {
@@ -535,6 +535,8 @@
     }
   },
   "community": {
-    "new_post": "New Post"
+    "new_post": "New Post",
+    "community": "community",
+    "details": "Details"
   }
 }

@@ -482,7 +482,7 @@
     "days": "roj bi",
     "user": "Bikarhêner",
     "permlink": "Şandî",
-    "permlinkPlaceholder": "nivîskar/girêdana mayînde",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Tu ji danasînê piştrast î?"
   },
   "boostPost": {
@@ -535,6 +535,8 @@
     }
   },
   "community": {
-    "new_post": "New Post"
+    "new_post": "New Post",
+    "community": "community",
+    "details": "Details"
   }
 }

@@ -19,7 +19,7 @@
     "outgoing_transfer_title": "Ausgehende Überweisung",
     "checkin_extra": "Bonus",
     "delegation": "Delegation",
-    "delegations": "Delegations",
+    "delegations": "Delegationen",
     "delegation_title": "Delegations-Belohnung",
     "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "Punkte für einen Beitrag",
@@ -30,9 +30,9 @@
     "checkin_title": "Punkte für den Herzschlag",
     "referral": "Referral",
     "referral_title": "Referral rewards",
-    "referral_desc": "Invite friends and earn Points",
+    "referral_desc": "Freunde einladen und Punkte verdienen",
     "checkin_extra_title": "Nutzungs-Bonus",
-    "no_activity": "No recent activity",
+    "no_activity": "Keine kürzliche Aktivität",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
     "post_desc": "You can earn point by posting regularly. Posting gives you upto 15 points.",
@@ -49,7 +49,7 @@
     "to": "zu",
     "estimated_value_desc": "According to purchase value",
     "estimated_value": "Estimated value",
-    "estimated_amount": "Vote value",
+    "estimated_amount": "Vote Wert",
     "amount_information": "Ziehe den Slider, um den Wert zu definieren",
     "amount": "Betrag",
     "memo": "Memo",
@@ -71,7 +71,7 @@
     "withdraw_steem": "Withdraw HIVE",
     "withdraw_sbd": "Withdraw HBD",
     "transfer_to_savings": "To Savings",
-    "convert": "Convert",
+    "convert": "Umwandeln",
     "escrow_transfer": "Escrow Transfer",
     "escrow_dispute": "Escrow Dispute",
     "escrow_release": "Escrow Release",
@@ -327,7 +327,7 @@
     "connection_fail": "Verbindung fehlgeschlagen!",
     "connection_success": "Erfolgreich verbunden!",
     "checking": "Wird überprüft...",
-    "external_link": "Open in Browser",
+    "external_link": "Im Browser öffnen",
     "not_existing_post": "Der Beitrag existiert nicht! Bitte überprüfe den Permalink und den Autor.",
     "google_play_version": "Wir haben festgestellt, dass dein Gerät eine alte Version von Google Play hat. Bitte aktualisiere die Google Play-Dienste und versuche es erneut!",
     "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
@@ -482,7 +482,7 @@
     "days": "Tage",
     "user": "Benutzer",
     "permlink": "Beitrag",
-    "permlinkPlaceholder": "author/permlink",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Bist du sicher, das du promoten möchtest?"
   },
   "boostPost": {
@@ -535,6 +535,8 @@
     }
   },
   "community": {
-    "new_post": "New Post"
+    "new_post": "New Post",
+    "community": "community",
+    "details": "Details"
   }
 }

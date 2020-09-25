@@ -27,7 +27,7 @@
     "vote_title": "Points pour vos votes",
     "reblog_title": "Points pour vos reblog",
     "login_title": "Points pour vos connexions",
-    "checkin_title": "Points for heartbeat",
+    "checkin_title": "Points d'activité",
     "referral": "Referral",
     "referral_title": "Referral rewards",
     "referral_desc": "Invite friends and earn Points",
@@ -289,7 +289,7 @@
   },
   "alert": {
     "success": "Succés!",
-    "successful": "Successful",
+    "successful": "Succès",
     "allRead": "Marquer toutes les notifications comme lues",
     "claim_reward_balance_ok": "Solde de récompense réclamé",
     "fail": "Échec !",
@@ -454,7 +454,7 @@
     "percent_information": "Percent info",
     "next": "SUIVANT",
     "delegate": "Déléguer",
-    "power_down": "Power Down",
+    "power_down": "Diminuer son influence",
     "withdraw_steem": "Withdraw HIVE",
     "withdraw_sbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Incoming Funds",
@@ -482,15 +482,15 @@
     "days": "jours",
     "user": "Utilisateur",
     "permlink": "Publier",
-    "permlinkPlaceholder": "author/permlink",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Êtes-vous sûr de vouloir promouvoir?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Booster"
   },
   "voters_dropdown": {
     "rewards": "RÉCOMPENSES",
-    "percent": "PERCENT",
+    "percent": "POURCENTAGE",
     "time": "HEURE"
   },
   "reblog": {
@@ -535,6 +535,8 @@
     }
   },
   "community": {
-    "new_post": "New Post"
+    "new_post": "New Post",
+    "community": "community",
+    "details": "Details"
   }
 }

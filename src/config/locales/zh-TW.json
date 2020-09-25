@@ -482,7 +482,7 @@
     "days": "天",
     "user": "用戶",
     "permlink": "文章",
-    "permlinkPlaceholder": "author/permlink",
+    "permlinkPlaceholder": "username/permlink",
     "information": "您確定要推廣嗎？"
   },
   "boostPost": {
@@ -535,6 +535,8 @@
     }
   },
   "community": {
-    "new_post": "New Post"
+    "new_post": "New Post",
+    "community": "community",
+    "details": "Details"
   }
 }

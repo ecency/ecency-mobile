@@ -482,7 +482,7 @@
     "days": "päivää",
     "user": "Käyttäjä",
     "permlink": "Julkaisu",
-    "permlinkPlaceholder": "tekijä/permlink",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Haluatko varmasti korostaa?"
   },
   "boostPost": {
@@ -535,6 +535,8 @@
     }
   },
   "community": {
-    "new_post": "New Post"
+    "new_post": "New Post",
+    "community": "community",
+    "details": "Details"
   }
 }

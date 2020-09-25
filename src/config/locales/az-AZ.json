@@ -482,7 +482,7 @@
     "days": "gün",
     "user": "İstifadəçi",
     "permlink": "Post",
-    "permlinkPlaceholder": "müəllif/daimi bağlantı",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Are you sure to promote?"
   },
   "boostPost": {
@@ -535,6 +535,8 @@
     }
   },
   "community": {
-    "new_post": "New Post"
+    "new_post": "New Post",
+    "community": "community",
+    "details": "Details"
   }
 }
