@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { Dimensions, Linking, Modal, PermissionsAndroid, Platform } from 'react-native';
 import { useIntl } from 'react-intl';
 import CameraRoll from '@react-native-community/cameraroll';
@@ -50,6 +50,12 @@ const CommentBody = ({
   const actionImage = useRef(null);
   const actionLink = useRef(null);
 
+  useEffect(() => {
+    if (selectedLink) {
+      actionLink.current.show();
+    }
+  }, [selectedLink]);
+
   const _showLowComment = () => {
     setRevealComment(true);
   };
@@ -83,7 +89,6 @@ const CommentBody = ({
         case '_external':
         case 'markdown-external-link':
           setSelectedLink(href);
-          actionLink.current.show();
           break;
         case 'longpress':
           handleOnLongPress();
@@ -149,19 +154,22 @@ const CommentBody = ({
   const handleLinkPress = (ind) => {
     if (ind === 1) {
       //open link
-      Linking.canOpenURL(selectedLink).then((supported) => {
-        if (supported) {
-          Linking.openURL(selectedLink);
-        } else {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'alert.failed_to_open',
-              }),
-            ),
-          );
-        }
-      });
+      console.log('selectedLink', selectedLink);
+      if (selectedLink) {
+        Linking.canOpenURL(selectedLink).then((supported) => {
+          if (supported) {
+            Linking.openURL(selectedLink);
+          } else {
+            dispatch(
+              toastNotification(
+                intl.formatMessage({
+                  id: 'alert.failed_to_open',
+                }),
+              ),
+            );
+          }
+        });
+      }
     }
     if (ind === 0) {
       //copy to clipboard

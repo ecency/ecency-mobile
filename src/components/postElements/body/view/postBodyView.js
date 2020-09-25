@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { Dimensions, Linking, Modal, PermissionsAndroid, Platform } from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
 import { withNavigation } from 'react-navigation';
@@ -41,6 +41,12 @@ const PostBody = ({
   const actionImage = useRef(null);
   const actionLink = useRef(null);
 
+  useEffect(() => {
+    if (selectedLink) {
+      actionLink.current.show();
+    }
+  }, [selectedLink]);
+
   const _handleOnLinkPress = (event) => {
     if ((!event && !get(event, 'nativeEvent.data'), false)) {
       return;
@@ -71,7 +77,6 @@ const PostBody = ({
         case '_external':
         case 'markdown-external-link':
           setSelectedLink(href);
-          actionLink.current.show();
           //_handleBrowserLink(href);
           break;
         case 'markdown-author-link':
@@ -135,19 +140,21 @@ const PostBody = ({
   const handleLinkPress = (ind) => {
     if (ind === 1) {
       //open link
-      Linking.canOpenURL(selectedLink).then((supported) => {
-        if (supported) {
-          Linking.openURL(selectedLink);
-        } else {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'alert.failed_to_open',
-              }),
-            ),
-          );
-        }
-      });
+      if (selectedLink) {
+        Linking.canOpenURL(selectedLink).then((supported) => {
+          if (supported) {
+            Linking.openURL(selectedLink);
+          } else {
+            dispatch(
+              toastNotification(
+                intl.formatMessage({
+                  id: 'alert.failed_to_open',
+                }),
+              ),
+            );
+          }
+        });
+      }
     }
     if (ind === 0) {
       //copy to clipboard
