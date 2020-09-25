@@ -21,7 +21,7 @@
     "delegation": "Valtuutukset",
     "delegations": "Valtuutukset",
     "delegation_title": "Valtuutuspalkkiot",
-    "delegation_desc": "Earn Points everyday for delegation",
+    "delegation_desc": "Lunasta päivittäin valtuutuspisteitä",
     "post_title": "Pisteitä julkaisuista",
     "comment_title": "Pisteitä kommentista",
     "vote_title": "Pisteitä äänistä",
@@ -30,7 +30,7 @@
     "checkin_title": "Pisteitä sydämestä",
     "referral": "Suosittelu",
     "referral_title": "Suosittelupalkkio",
-    "referral_desc": "Invite friends and earn Points",
+    "referral_desc": "Kutsu ystäviä ja ansaitse pisteitä",
     "checkin_extra_title": "Käyttöbonus",
     "no_activity": "Ei viimeaikaista toimintaa",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "Käyttäjänimi",
     "memo_placeholder": "Kirjoita viesti tähän",
     "transfer_token": "Siirto",
-    "purchase_estm": "GET POINTS",
-    "points": "Gift Points to someone",
+    "purchase_estm": "Lunasta pisteet",
+    "points": "Lahjoita pisteitä",
     "transfer_to_saving": "Säästöihin",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Kotiuta säästöihin",
@@ -83,7 +83,7 @@
     "fill_vesting_withdraw": "PowerDown toteutettu",
     "estm": {
       "title": "Pisteet",
-      "buy": "GET POINTS"
+      "buy": "Lunasta pisteet"
     },
     "savingsteem": {
       "title": "HIVE säästöt"
@@ -118,7 +118,7 @@
     "ignore": "sivuutti sinut",
     "reblog": "jaettu uudelleen",
     "transfer": "siirretty",
-    "spin": "Time to earn more Points",
+    "spin": "Aika ansaita enemmän pisteitä",
     "inactive": "Ole aktiivinen! Kirjoita ja jatka tienaamista",
     "referral": "liittyi suosituksestasi, toivota heidät tervetulleeksi",
     "notification": "Ilmoitukset",
@@ -213,10 +213,10 @@
   "login": {
     "signin": "Kirjaudu sisään",
     "signup": "LIITY NYT",
-    "signin_title": "To get all the benefits of using Ecency",
+    "signin_title": "Hyötyäksesi Ecencyn käytöstä",
     "username": "Käyttäjänimi",
     "password": "Salasana tai WIF",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "Kirjautumalla sisään hyväksyt käyttöehdomme ja tietosuojamme periaatteet.",
     "cancel": "peruuta",
     "login": "KIRJAUDU SISÄÄN",
     "steemconnect_description": "Jos et halua säilyttää kryptattua salasanaa laitteessasi, voit käyttää Hivesigneriä.",
@@ -230,7 +230,7 @@
     "ref_user": "Suosittelija (valinnainen)",
     "500_error": "Toiminto epäonnistui, rekisteröitymisjono lienee täynnä! Yritä uudelleen parin minuutin päästä...",
     "title_description": "Yhdellä tilillä hallitset kaikkea",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "form_description": "Rekisteröitymällä hyväksyt meidän käyttöehdomme ja tietosuojamme periaatteet."
   },
   "home": {
     "feed": "Syöte",
@@ -277,7 +277,7 @@
     "limited_dash": "Käytä yhtä viivaa per tagi",
     "limited_space": "Käytä välilyöntiä erotellaksesi tagit",
     "limited_lowercase": "Käytä tageissa vain pieniä kirjaimia",
-    "limited_characters": "Use only lowercase letters, digits and one dash",
+    "limited_characters": "Käytä vain pieniä kirjaimia, numeroita ja yhtä viivaa",
     "limited_firstchar": "Tag alkaa kirjaimella",
     "limited_lastchar": "Tagi päättyy kirjaimeen tai numeroon"
   },
@@ -295,11 +295,11 @@
     "fail": "Virhe!",
     "move": "Siirrä",
     "move_question": "Haluatko varmasti siirtää luonnoksiin?",
-    "success_shared": "Content successfully posted, fetching now",
+    "success_shared": "Sisältö lähetetty onnistuneesti, haetaan",
     "success_moved": "Siirretty luonnoksiin",
     "permission_denied": "Käyttö estetty",
-    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Operation requires active key or master password, please relogin!",
+    "permission_text": "Mene puhelinasetuksiin ja muuta Ecencyn oikeuksia.",
+    "key_warning": "Toiminto vaatii aktiivisen avaimen tai pääsalasanan, kirjaudu uudelleen!",
     "success_rebloged": "Jaettu uudelleen!",
     "already_rebloged": "Olet jo jakanut tämän!",
     "success_favorite": "Suosikki lisätty!",
@@ -323,7 +323,7 @@
     "same_user": "Tämä käyttäjä on jo listassa",
     "unknow_error": "Virhe tapahtui",
     "error": "Virhe",
-    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
+    "fetch_error": "Yhteysvirhe, yritä uudelleen tai laita viestiä support@ecency.com",
     "connection_fail": "Yhteys epäonnistui!",
     "connection_success": "Yhdistetty onnistuneesti!",
     "checking": "Tarkistetaan...",
@@ -334,11 +334,11 @@
     "payloadTooLarge": "Tiedostokoko liian suuri, muuta kokoa tai lataa pienempi",
     "qoutaExceeded": "Latausraja ylittyi",
     "invalidImage": "Vääränlainen kuva, yritä toista",
-    "something_wrong": "Something went wrong."
+    "something_wrong": "Jokin meni pieleen."
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
-    "removed_hint": "Content is not available",
+    "removed_hint": "Sisältö ei ole käytettävissä",
     "copy_link": "Kopioi linkki",
     "reblogged": "uudelleenjakanut",
     "sponsored": "SPONSOROITU",
@@ -374,7 +374,7 @@
     "add": "Lisää kirjanmerkkeihin"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Raportoitu kielteinen sisältö"
   },
   "favorites": {
     "title": "Suosikit",
@@ -387,7 +387,7 @@
     "invalid_username": "Väärä käyttäjänimi, tarkasta ja yritä uudelleen",
     "already_logged": "Olet sisäänkirjautuneena, kokeile lisätä toinen tili",
     "invalid_credentials": "Riittämättömät valtuudet, varmista avain ja yritä uudelleen",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "Tuntematon virhe, ota yhteyttä support@ecency.com"
   },
   "payout": {
     "potential_payout": "Mahdollinen tulo",
@@ -407,7 +407,7 @@
     "bookmarks": "lisää kirjanmerkkeihin",
     "promote": "korosta",
     "boost": "tehosta",
-    "report": "report"
+    "report": "raportoi"
   },
   "deep_link": {
     "no_existing_user": "Käyttäjää ei ole",
@@ -438,9 +438,9 @@
     "to_placeholder": "Käyttäjänimi",
     "memo_placeholder": "Kirjoita viesti tähän",
     "transfer_token": "Siirto",
-    "purchase_estm": "Purchase Points",
+    "purchase_estm": "Osta pisteitä",
     "convert": "Muunna HBD HIVEksi",
-    "points": "Gift Points to someone",
+    "points": "Lahjoita pisteitä",
     "transfer_to_saving": "Siirrä säästöihin",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Kotiuta säästöihin",
@@ -462,8 +462,8 @@
     "address_view": "Näytä osoite"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
+    "title": "Hanki pisteitä",
+    "buy": "Hanki Pisteitä",
     "next": "SEURAAVA",
     "account": {
       "title": "Vastaanota Tilitehostus",
@@ -471,7 +471,7 @@
     }
   },
   "free_estm": {
-    "title": "Free Points",
+    "title": "Ilmaiset Pisteet",
     "button": "RULLAATI RULLAA",
     "get_spin": "5 Pyöräytystä",
     "spin_right": "Pyörityksiä",
@@ -482,7 +482,7 @@
     "days": "päivää",
     "user": "Käyttäjä",
     "permlink": "Julkaisu",
-    "permlinkPlaceholder": "username/permlink",
+    "permlinkPlaceholder": "käyttäjä/permlink",
     "information": "Haluatko varmasti korostaa?"
   },
   "boostPost": {
@@ -510,33 +510,33 @@
     "more_replies": "lisää vastauksia"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Muut",
     "communities": {
-      "title": "Communities",
-      "subscribe": "Subscribe",
-      "unsubscribe": "Unsubscribe",
-      "subscribers": "Subscribers",
-      "posters": "Posters",
+      "title": "Yhteisöt",
+      "subscribe": "Tilaa",
+      "unsubscribe": "Peruuta tilaus",
+      "subscribers": "Tilaajat",
+      "posters": "Tekijät",
       "posts": "Julkaisut"
     },
     "communities_filter": {
-      "rank": "Rank",
-      "subs": "Subscribers",
-      "new": "New"
+      "rank": "Sija",
+      "subs": "Tilaajat",
+      "new": "Uudet"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "Suosio",
+      "newest": "Uusimmat",
+      "relevance": "Osuvuus"
     },
     "other_result_filter": {
       "user": "Käyttäjä",
-      "tag": "Tag"
+      "tag": "Tunniste"
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details"
+    "new_post": "Uusi julkaisu",
+    "community": "yhteisö",
+    "details": "Lisätiedot"
   }
 }
