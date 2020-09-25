@@ -36,7 +36,7 @@ export const locales = [
   { id: 'fr-FR', name: 'French' },
   { id: 'hu-HU', name: 'Hungarian' },
   { id: 'bg-BG', name: 'Bulgarian' },
-  { id: 'iT-IT', name: 'Italian' },
+  { id: 'it-IT', name: 'Italian' },
   { id: 'ja-JP', name: 'Japanese' },
   { id: 'ru-RU', name: 'Русский' },
   { id: 'tr-TR', name: 'Türkçe' },
