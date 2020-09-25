@@ -535,6 +535,8 @@
     }
   },
   "community": {
-    "new_post": "Escribir un post"
+    "new_post": "Escribir un post",
+    "community": "community",
+    "details": "Details"
   }
 }
