@@ -56,6 +56,12 @@ const CommentBody = ({
     }
   }, [selectedLink]);
 
+  useEffect(() => {
+    if (postImages.length > 0 || selectedImage) {
+      actionImage.current.show();
+    }
+  }, [postImages, selectedImage]);
+
   const _showLowComment = () => {
     setRevealComment(true);
   };
@@ -119,7 +125,6 @@ const CommentBody = ({
         case 'image':
           setPostImages(images);
           setSelectedImage(image);
-          actionImage.current.show();
           break;
 
         default:

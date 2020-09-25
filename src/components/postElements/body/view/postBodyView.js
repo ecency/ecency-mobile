@@ -47,6 +47,12 @@ const PostBody = ({
     }
   }, [selectedLink]);
 
+  useEffect(() => {
+    if (postImages.length > 0 || selectedImage) {
+      actionImage.current.show();
+    }
+  }, [postImages, selectedImage]);
+
   const _handleOnLinkPress = (event) => {
     if ((!event && !get(event, 'nativeEvent.data'), false)) {
       return;
@@ -105,7 +111,6 @@ const PostBody = ({
         case 'image':
           setPostImages(images);
           setSelectedImage(image);
-          actionImage.current.show();
           break;
 
         default:
