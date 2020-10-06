@@ -78,7 +78,6 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
 
   useEffect(() => {
     const { isFetch: nextIsFetch } = navigation.state.params;
-
     if (nextIsFetch) {
       const { author: _author, permlink } = get(navigation, 'state.params');
 

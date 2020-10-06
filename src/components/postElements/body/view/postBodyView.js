@@ -36,6 +36,7 @@ const PostBody = ({
   const [postImages, setPostImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedLink, setSelectedLink] = useState(null);
+  const [html, setHtml] = useState('');
 
   const intl = useIntl();
   const actionImage = useRef(null);
@@ -46,6 +47,12 @@ const PostBody = ({
       actionLink.current.show();
     }
   }, [selectedLink]);
+
+  useEffect(() => {
+    if (body) {
+      setHtml(body.replace(/<a/g, '<a target="_blank"'));
+    }
+  }, [body]);
 
   useEffect(() => {
     if (postImages.length > 0 || selectedImage) {
@@ -285,7 +292,6 @@ const PostBody = ({
     }
   };
 
-  const html = body.replace(/<a/g, '<a target="_blank"');
   const customStyle = `
   * {
     color: ${EStyleSheet.value('$primaryBlack')};

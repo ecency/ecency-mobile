@@ -526,9 +526,33 @@ class EditorContainer extends Component {
     if (isReply && !isEdit) {
       this._submitReply(form.fields);
     } else if (isEdit) {
-      this._submitEdit(form.fields);
+      Alert.alert(
+        'Publishing edits',
+        'Are you sure?',
+        [
+          {
+            text: 'No',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          { text: 'Yes', onPress: () => this._submitEdit(form.fields) },
+        ],
+        { cancelable: false },
+      );
     } else {
-      this._submitPost(form.fields);
+      Alert.alert(
+        'Publishing new post',
+        'Are you sure?',
+        [
+          {
+            text: 'No',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          { text: 'Yes', onPress: () => this._submitPost(form.fields) },
+        ],
+        { cancelable: false },
+      );
     }
   };
 
