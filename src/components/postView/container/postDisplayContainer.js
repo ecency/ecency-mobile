@@ -25,6 +25,7 @@ const PostDisplayContainer = ({
   post,
   fetchPost,
   isFetchPost,
+  isFetchComments,
   currentAccount,
   pinCode,
   dispatch,
@@ -59,7 +60,7 @@ const PostDisplayContainer = ({
 
   useEffect(() => {
     _fetchPost();
-  }, [isFetchPost]);
+  }, [isFetchPost, isFetchComments]);
 
   // Component Functions
   const _handleOnVotersPress = () => {
