@@ -1,4 +1,4 @@
-import { Component, useState, useEffect } from 'react';
+import { Component } from 'react';
 import { Platform, BackHandler, Alert, Linking, AppState } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import Config from 'react-native-config';
@@ -96,64 +96,50 @@ let firebaseOnNotificationOpenedAppListener = null;
 let firebaseOnMessageListener = null;
 let scAccounts = [];
 
-const ApplicationContainer = ({
-  dispatch,
-  isAnalytics,
-  isGlobalRenderRequired,
-  isPinCodeOpen: _isPinCodeOpen,
-  isDarkTheme: _isDarkTheme,
-  isConnected,
-  isLogingOut,
-  isPinCodeRequire,
-  pinCode,
-  toastNotification,
-  selectedLanguage,
-  children,
-  rcOffer,
-  api,
-  intl,
-  nav,
-  actions,
-  currentAccount,
-  otherAccounts,
-  activeBottomTab,
-  unreadActivityCount,
-}) => {
-  const [isRenderRequire, setIsRenderRequire] = useState(true);
-  const [isReady, setIsReady] = useState(false);
-  const [isIos, setIsIos] = useState(Platform.OS !== 'android');
-  const [isThemeReady, setIsThemeReady] = useState(false);
-  const [appState, setAppState] = useState(AppState.currentState);
-  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-  let _pinCodeTimer = null;
-  const { appVersion } = VersionNumber;
+class ApplicationContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isRenderRequire: true,
+      isReady: false,
+      isIos: Platform.OS !== 'android',
+      isThemeReady: false,
+      appState: AppState.currentState,
+      showWelcomeModal: false,
+    };
+  }
 
-  useEffect(() => {
+  componentDidMount = () => {
+    const { isIos } = this.state;
     const { appVersion } = VersionNumber;
-    _setNetworkListener();
+    const { dispatch, isAnalytics } = this.props;
 
-    Linking.addEventListener('url', _handleOpenURL);
+    this._setNetworkListener();
+
+    Linking.addEventListener('url', this._handleOpenURL);
 
     Linking.getInitialURL().then((url) => {
-      _handleDeepLink(url);
+      this._handleDeepLink(url);
     });
 
-    AppState.addEventListener('change', _handleAppStateChange);
+    AppState.addEventListener('change', this._handleAppStateChange);
     setPreviousAppState();
 
     if (nativeThemeEventEmitter) {
       nativeThemeEventEmitter.on('currentModeChanged', (newMode) => {
+        const { dispatch } = this.props;
+
         dispatch(isDarkTheme(newMode === 'dark'));
       });
     }
-    _createPushListener();
+    this._createPushListener();
 
-    if (!isIos) BackHandler.addEventListener('hardwareBackPress', _onBackPress);
+    if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
 
     getVersionForWelcomeModal().then((version) => {
       if (version < parseFloat(appVersion)) {
         getUserData().then((accounts) => {
-          setShowWelcomeModal(true);
+          this.setState({ showWelcomeModal: true });
           if (accounts && accounts.length > 0) {
             accounts.forEach((account) => {
               if (get(account, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
@@ -202,23 +188,39 @@ const ApplicationContainer = ({
           console.warn('Failed to track event', error),
         );
       });
-  }, []);
+  };
 
-  useEffect(() => {
-    if (isGlobalRenderRequired) {
-      setIsRenderRequire(true);
+  componentDidUpdate(prevProps, prevState) {
+    const { isGlobalRenderRequired, dispatch } = this.props;
+
+    if (isGlobalRenderRequired !== prevProps.isGlobalRenderRequired && isGlobalRenderRequired) {
+      this.setState(
+        {
+          isRenderRequire: false,
+        },
+        () =>
+          this.setState({
+            isRenderRequire: true,
+          }),
+      );
       dispatch(isRenderRequired(false));
     }
-  }, [isGlobalRenderRequired]);
+  }
 
-  useEffect(() => {
-    if (!isIos) BackHandler.removeEventListener('hardwareBackPress', _onBackPress);
-    Linking.removeEventListener('url', _handleOpenURL);
+  componentWillUnmount() {
+    const { isIos } = this.state;
+    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
 
-    AppState.removeEventListener('change', _handleAppStateChange);
+    if (!isIos) BackHandler.removeEventListener('hardwareBackPress', this._onBackPress);
+
+    // NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
+
+    Linking.removeEventListener('url', this._handleOpenURL);
+
+    AppState.removeEventListener('change', this._handleAppStateChange);
 
     if (_isPinCodeOpen) {
-      clearTimeout(_pinCodeTimer);
+      clearTimeout(this._pinCodeTimer);
     }
 
     if (firebaseOnMessageListener) {
@@ -229,56 +231,31 @@ const ApplicationContainer = ({
       firebaseOnNotificationOpenedAppListener();
     }
 
-    netListener();
+    this.netListener();
+  }
 
-    return () => {
-      console.log('componentWillUnmount');
-    };
-  }, [isIos, _isPinCodeOpen]);
-
-  useEffect(() => {
-    if (_isDarkTheme || selectedLanguage || api) {
-      setIsRenderRequire(true);
-    }
-
-    if (_isDarkTheme) {
-      changeNavigationBarColor('#1e2835');
-    } else {
-      changeNavigationBarColor('#FFFFFF', true);
-    }
-
-    if (isLogingOut) {
-      _logout();
-    }
-
-    if (isConnected !== null && isConnected) {
-      _fetchApp();
-    }
-    return () => {
-      EStyleSheet.build(_isDarkTheme ? darkTheme : lightTheme);
-    };
-  }, [_isDarkTheme, selectedLanguage, isLogingOut, isConnected, api]);
-
-  const _setNetworkListener = () => {
-    netListener = NetInfo.addEventListener((state) => {
+  _setNetworkListener = () => {
+    this.netListener = NetInfo.addEventListener((state) => {
+      const { isConnected, dispatch } = this.props;
       if (state.isConnected !== isConnected) {
         dispatch(setConnectivityStatus(state.isConnected));
-        _fetchApp();
+        this._fetchApp();
       }
     });
   };
 
-  const _handleOpenURL = (event) => {
-    _handleDeepLink(event.url);
+  _handleOpenURL = (event) => {
+    this._handleDeepLink(event.url);
   };
 
-  const _handleDeepLink = async (url = '') => {
+  _handleDeepLink = async (url = '') => {
     if (!url || url.indexOf('ShareMedia://') >= 0) return;
 
     let routeName;
     let params;
     let content;
     let profile;
+    const { currentAccount } = this.props;
 
     const postUrl = postUrlParser(url);
     const { author, permlink } = postUrl;
@@ -301,7 +278,7 @@ const ApplicationContainer = ({
         }
       }
     } catch (error) {
-      _handleAlert('deep_link.no_existing_user');
+      this._handleAlert('deep_link.no_existing_user');
     }
 
     if (routeName && (profile || content)) {
@@ -313,7 +290,9 @@ const ApplicationContainer = ({
     }
   };
 
-  const _handleAlert = (text = null, title = null) => {
+  _handleAlert = (text = null, title = null) => {
+    const { intl } = this.props;
+
     Alert.alert(
       intl.formatMessage({
         id: title || 'alert.warning',
@@ -324,43 +303,52 @@ const ApplicationContainer = ({
     );
   };
 
-  const _handleAppStateChange = (nextAppState) => {
+  _handleAppStateChange = (nextAppState) => {
+    const { appState } = this.state;
+    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
     getExistUser().then((isExistUser) => {
       if (isExistUser) {
         if (appState.match(/active|forground/) && nextAppState === 'inactive') {
-          _startPinCodeTimer();
+          this._startPinCodeTimer();
         }
 
         if (appState.match(/inactive|background/) && nextAppState === 'active') {
           if (_isPinCodeOpen) {
-            clearTimeout(_pinCodeTimer);
+            clearTimeout(this._pinCodeTimer);
           }
         }
       }
     });
     if (appState.match(/inactive|background/) && nextAppState === 'active') {
-      _refreshGlobalProps();
+      this._refreshGlobalProps();
     }
     setPreviousAppState();
-    setAppState(nextAppState);
+    this.setState({
+      appState: nextAppState,
+    });
   };
 
-  const _startPinCodeTimer = () => {
+  _startPinCodeTimer = () => {
+    const { dispatch, isPinCodeOpen: _isPinCodeOpen } = this.props;
+
     if (_isPinCodeOpen) {
-      _pinCodeTimer = setTimeout(() => {
+      this._pinCodeTimer = setTimeout(() => {
         dispatch(openPinCodeModal());
       }, 1 * 60 * 1000);
     }
   };
 
-  const _fetchApp = async () => {
-    await _getSettings();
-    setIsReady(true);
-    _refreshGlobalProps();
-    _getUserDataFromRealm();
+  _fetchApp = async () => {
+    await this._getSettings();
+    this.setState({
+      isReady: true,
+    });
+    this._refreshGlobalProps();
+    this._getUserDataFromRealm();
   };
 
-  const _pushNavigate = (notification) => {
+  _pushNavigate = (notification) => {
+    const { dispatch } = this.props;
     let params = null;
     let key = null;
     let routeName = null;
@@ -444,36 +432,40 @@ const ApplicationContainer = ({
     }
   };
 
-  const _createPushListener = () => {
+  _createPushListener = () => {
     (async () => await messaging().requestPermission())();
 
     PushNotification.setApplicationIconBadgeNumber(0);
     PushNotification.cancelAllLocalNotifications();
 
     firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
-      _pushNavigate(remoteMessage);
+      this._pushNavigate(remoteMessage);
     });
 
     firebaseOnNotificationOpenedAppListener = messaging().onNotificationOpenedApp(
       (remoteMessage) => {
-        _pushNavigate(remoteMessage);
+        this._pushNavigate(remoteMessage);
       },
     );
 
     messaging()
       .getInitialNotification()
       .then((remoteMessage) => {
-        _pushNavigate(remoteMessage);
+        this._pushNavigate(remoteMessage);
       });
   };
 
-  const _handleConntectionChange = (status) => {
+  _handleConntectionChange = (status) => {
+    const { dispatch, isConnected } = this.props;
+
     if (isConnected !== status) {
       dispatch(setConnectivityStatus(status));
     }
   };
 
-  const _onBackPress = () => {
+  _onBackPress = () => {
+    const { dispatch, nav } = this.props;
+
     if (nav && nav[0].index !== 0) {
       dispatch(NavigationActions.back());
     } else {
@@ -483,11 +475,13 @@ const ApplicationContainer = ({
     return true;
   };
 
-  const _refreshGlobalProps = () => {
+  _refreshGlobalProps = () => {
+    const { actions } = this.props;
     actions.fetchGlobalProperties();
   };
 
-  const _getUserDataFromRealm = async () => {
+  _getUserDataFromRealm = async () => {
+    const { dispatch, pinCode, isPinCodeOpen: _isPinCodeOpen, isConnected } = this.props;
     let realmData = [];
 
     const res = await getAuthStatus();
@@ -555,7 +549,7 @@ const ApplicationContainer = ({
       }
 
       if (isConnected) {
-        _fetchUserDataFromDsteem(realmObject[0]);
+        this._fetchUserDataFromDsteem(realmObject[0]);
       }
 
       return realmObject[0];
@@ -567,14 +561,16 @@ const ApplicationContainer = ({
     return null;
   };
 
-  const _fetchUserDataFromDsteem = async (realmObject) => {
+  _fetchUserDataFromDsteem = async (realmObject) => {
+    const { dispatch, intl } = this.props;
+
     await getUser(realmObject.username)
       .then((accountData) => {
         accountData.local = realmObject;
 
         dispatch(updateCurrentAccount(accountData));
 
-        _connectNotificationServer(accountData.name);
+        this._connectNotificationServer(accountData.name);
       })
       .catch((err) => {
         Alert.alert(
@@ -583,7 +579,9 @@ const ApplicationContainer = ({
       });
   };
 
-  const _getSettings = async () => {
+  _getSettings = async () => {
+    const { dispatch } = this.props;
+
     const settings = await getSettings();
 
     if (settings) {
@@ -592,7 +590,9 @@ const ApplicationContainer = ({
           settings.isDarkTheme === null ? nativeThemeInitialMode === 'dark' : settings.isDarkTheme,
         ),
       );
-      setIsThemeReady(true);
+      this.setState({
+        isThemeReady: true,
+      });
       if (settings.isPinCodeOpen !== '') await dispatch(isPinCodeOpen(settings.isPinCodeOpen));
       if (settings.language !== '') dispatch(setLanguage(settings.language));
       if (settings.server !== '') dispatch(setApi(settings.server));
@@ -617,11 +617,13 @@ const ApplicationContainer = ({
     }
   };
 
-  const _connectNotificationServer = (username) => {
+  _connectNotificationServer = (username) => {
     /* eslint no-undef: "warn" */
     const ws = new WebSocket(`${Config.ACTIVITY_WEBSOCKET_URL}?user=${username}`);
 
     ws.onmessage = () => {
+      const { activeBottomTab, unreadActivityCount, dispatch } = this.props;
+
       dispatch(updateUnreadActivityCount(unreadActivityCount + 1));
 
       // Workaround
@@ -632,18 +634,24 @@ const ApplicationContainer = ({
     };
   };
 
-  const _logout = () => {
-    const { name, local } = currentAccount;
+  _logout = () => {
+    const {
+      otherAccounts,
+      currentAccount: { name, local },
+      dispatch,
+      intl,
+    } = this.props;
 
     removeUserData(name)
       .then(async () => {
         const _otherAccounts = otherAccounts.filter((user) => user.username !== name);
-        _enableNotification(name, false);
 
-        if (_otherAccounts.length > 0 && _otherAccounts[0].username) {
+        this._enableNotification(name, false);
+
+        if (_otherAccounts.length > 0) {
           const targetAccountUsername = _otherAccounts[0].username;
 
-          await _switchAccount(targetAccountUsername);
+          await this._switchAccount(targetAccountUsername);
         } else {
           dispatch(updateCurrentAccount({}));
           dispatch(login(false));
@@ -667,7 +675,7 @@ const ApplicationContainer = ({
       });
   };
 
-  const _enableNotification = async (username, isEnable) => {
+  _enableNotification = async (username, isEnable) => {
     messaging()
       .getToken()
       .then((token) => {
@@ -681,7 +689,9 @@ const ApplicationContainer = ({
       });
   };
 
-  const _switchAccount = async (targetAccountUsername) => {
+  _switchAccount = async (targetAccountUsername) => {
+    const { dispatch, isConnected } = this.props;
+
     if (!isConnected) return;
 
     const accountData = await switchAccount(targetAccountUsername);
@@ -694,28 +704,88 @@ const ApplicationContainer = ({
     dispatch(updateCurrentAccount(_currentAccount));
   };
 
-  const _handleWelcomeModalButtonPress = () => {
+  _handleWelcomeModalButtonPress = () => {
+    const { appVersion } = VersionNumber;
+
     setVersionForWelcomeModal(appVersion);
-    setShowWelcomeModal(false);
+
+    this.setState({ showWelcomeModal: false });
   };
 
-  return (
-    children &&
-    children({
-      isConnected,
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const {
       isDarkTheme: _isDarkTheme,
-      isPinCodeRequire,
-      isReady,
-      isRenderRequire,
-      isThemeReady,
-      locale: selectedLanguage,
-      rcOffer,
+      selectedLanguage,
+      isLogingOut,
+      isConnected,
+      api,
+    } = this.props;
+
+    if (
+      _isDarkTheme !== nextProps.isDarkTheme ||
+      selectedLanguage !== nextProps.selectedLanguage ||
+      (api !== nextProps.api && nextProps.api)
+    ) {
+      this.setState(
+        {
+          isRenderRequire: false,
+        },
+        () =>
+          this.setState({
+            isRenderRequire: true,
+          }),
+      );
+      if (nextProps.isDarkTheme) {
+        changeNavigationBarColor('#1e2835');
+      } else {
+        changeNavigationBarColor('#FFFFFF', true);
+      }
+    }
+
+    if (isLogingOut !== nextProps.isLogingOut && nextProps.isLogingOut) {
+      this._logout();
+    }
+
+    if (isConnected !== null && isConnected !== nextProps.isConnected && nextProps.isConnected) {
+      this._fetchApp();
+    }
+  }
+
+  UNSAFE_componentWillMount() {
+    const { isDarkTheme: _isDarkTheme } = this.props;
+    EStyleSheet.build(_isDarkTheme ? darkTheme : lightTheme);
+  }
+
+  render() {
+    const {
+      selectedLanguage,
+      isConnected,
       toastNotification,
-      showWelcomeModal,
-      handleWelcomeModalButtonPress: _handleWelcomeModalButtonPress,
-    })
-  );
-};
+      isDarkTheme: _isDarkTheme,
+      children,
+      isPinCodeRequire,
+      rcOffer,
+    } = this.props;
+    const { isRenderRequire, isReady, isThemeReady, showWelcomeModal } = this.state;
+
+    return (
+      children &&
+      children({
+        isConnected,
+        isDarkTheme: _isDarkTheme,
+        isPinCodeRequire,
+        isReady,
+        isRenderRequire,
+        isThemeReady,
+        locale: selectedLanguage,
+        rcOffer,
+        toastNotification,
+        showWelcomeModal,
+        handleWelcomeModalButtonPress: this._handleWelcomeModalButtonPress,
+      })
+    );
+  }
+}
 
 export default connect(
   (state) => ({
