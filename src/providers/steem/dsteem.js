@@ -390,24 +390,6 @@ export const ignoreUser = async (currentAccount, pin, data) => {
   );
 };
 
-/**
- * @method getPosts get posts method
- * @param by get discussions by trending, created, active etc.
- * @param query tag, limit, start_author?, start_permalink?
- */
-export const getPosts = async (by, query, user) => {
-  try {
-    let posts = await client.database.getDiscussions(by, query);
-
-    if (posts) {
-      posts = parsePosts(posts, user);
-    }
-    return posts;
-  } catch (error) {
-    return error;
-  }
-};
-
 export const getActiveVotes = (author, permlink) =>
   new Promise((resolve, reject) => {
     client.database
@@ -420,9 +402,27 @@ export const getActiveVotes = (author, permlink) =>
       });
   });
 
-export const getPostsSummary = async (by, query, currentUserName, filterNsfw) => {
+export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
   try {
-    let posts = await client.database.getDiscussions(by, query);
+    let posts = await client.call('bridge', 'get_ranked_posts', query);
+
+    if (posts) {
+      posts = parsePosts(posts, currentUserName, true);
+
+      if (filterNsfw !== '0') {
+        const updatedPosts = filterNsfwPost(posts, filterNsfw);
+        return updatedPosts;
+      }
+    }
+    return posts;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
+  try {
+    let posts = await client.call('bridge', 'get_account_posts', query);
 
     if (posts) {
       posts = parsePosts(posts, currentUserName, true);
@@ -440,8 +440,10 @@ export const getPostsSummary = async (by, query, currentUserName, filterNsfw) =>
 
 export const getUserComments = async (query) => {
   try {
-    const comments = await client.database.getDiscussions('comments', query);
-    const groomedComments = parseComments(comments);
+    query.sort = 'comments';
+    query.account = query.start_author;
+    const _comments = await client.call('bridge', 'get_account_posts', query);
+    const groomedComments = parseComments(_comments);
     return groomedComments;
   } catch (error) {
     return error;
