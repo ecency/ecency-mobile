@@ -5,7 +5,7 @@ import unionBy from 'lodash/unionBy';
 import Matomo from 'react-native-matomo-sdk';
 
 // HIVE
-import { getPostsSummary, getPost } from '../../../providers/steem/dsteem';
+import { getAccountPosts, getPost, getRankedPosts } from '../../../providers/steem/dsteem';
 import { getPromotePosts } from '../../../providers/esteem/esteem';
 
 // Component
@@ -147,18 +147,27 @@ const PostsContainer = ({
       }
 
       const filter = type || selectedFilterValue;
-      let options;
+      let options = {};
       const limit = 6;
+      let func = null;
 
       if (filter === 'feed' || filter === 'blog' || getFor === 'blog' || filter === 'reblogs') {
+        func = getAccountPosts;
         options = {
-          tag: feedUsername,
+          account: feedUsername,
           limit,
+          sort: filter,
         };
+
+        if (pageType === 'profiles' && filter === 'feed') {
+          options.sort = 'posts';
+        }
       } else {
+        func = getRankedPosts;
         options = {
           tag,
           limit,
+          sort: filter,
         };
       }
 
@@ -166,8 +175,7 @@ const PostsContainer = ({
         options.start_author = startAuthor;
         options.start_permlink = startPermlink;
       }
-      // options.truncate_body = 200;
-      getPostsSummary(filter, options, username, nsfw)
+      func(options, username, nsfw)
         .then((result) => {
           if (result.length > 0) {
             let _posts = result;
