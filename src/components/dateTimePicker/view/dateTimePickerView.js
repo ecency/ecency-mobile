@@ -1,8 +1,9 @@
-/* eslint-disable react/jsx-wrap-multilines */
-import React, { PureComponent } from 'react';
+import React, { useState, useRef, forwardRef } from 'react';
 import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
+
+import useCombinedRefs from '../../../customHooks/useCombinedRefs';
 
 // Component
 import { Icon } from '../../icon';
@@ -10,101 +11,88 @@ import { Icon } from '../../icon';
 // Styles
 import styles from './dateTimePickerStyles';
 
-class DateTimePickerView extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      date: '',
-      time: '',
-    };
+const DateTimePickerView = React.forwardRef(({ type, iconName, disabled, onSubmit }, ref) => {
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+  let _type;
+  let _format;
+  let _minDate;
+
+  const intl = useIntl();
+  const innerRef = useRef(null);
+  const datePickerRef = useCombinedRefs(ref, innerRef);
+
+  if (type === 'date-time') {
+    _type = date ? 'time' : 'date';
+    _format = date ? 'HH:mm' : 'YYYY-MM-DD';
+    _minDate = date ? null : moment().format('YYYY-MM-DD');
+  } else {
+    _type = type;
+    _format = type === 'date' ? 'YYYY-MM-DD' : 'HH:mm';
+    _minDate = type === 'date' ? moment().format('YYYY-MM-DD') : null;
   }
 
-  _initState = () => {
-    this.setState({
-      date: '',
-      time: '',
-    });
+  const _initState = () => {
+    setDate('');
+    setTime('');
   };
 
-  _setValue = (stateName, value) => {
-    const { onSubmit } = this.props;
-    const { date, time } = this.state;
+  const _setValue = (setFunc, value) => {
     const _value = value === 'Invalid date' ? moment().format('HH:mm:ss') : value;
-    this.setState({ [stateName]: _value });
+    setFunc(_value);
+    let timePickerTimeout;
 
     if (!time && !date) {
-      this.timePickerTimeout = setTimeout(() => {
-        this.datePicker.onPressDate();
+      timePickerTimeout = setTimeout(() => {
+        datePickerRef.onPressDate();
       }, 500);
     } else {
-      clearTimeout(this.timePickerTimeout);
+      clearTimeout(timePickerTimeout);
     }
 
     if (date && _value) {
       const formatedDateTime = moment(`${date} ${_value}`, 'YYYY-MM-DD HH:mm').toISOString();
       onSubmit(formatedDateTime);
-      this._initState();
+      _initState();
     }
   };
 
-  render() {
-    const { type, iconName, disabled, intl } = this.props;
-    const { date } = this.state;
-    let _type;
-    let _format;
-    let _minDate;
-
-    if (type === 'date-time') {
-      _type = date ? 'time' : 'date';
-      _format = date ? 'HH:mm' : 'YYYY-MM-DD';
-      _minDate = date ? null : moment().format('YYYY-MM-DD');
-    } else {
-      _type = type;
-      _format = type === 'date' ? 'YYYY-MM-DD' : 'HH:mm';
-      _minDate = type === 'date' ? moment().format('YYYY-MM-DD') : null;
-    }
-
-    return (
-      <DatePicker
-        style={styles.picker}
-        mode={_type}
-        format={_format}
-        minDate={_minDate}
-        confirmBtnText={intl.formatMessage({
-          id: 'alert.confirm',
-        })}
-        cancelBtnText={intl.formatMessage({
-          id: 'alert.cancel',
-        })}
-        onDateChange={(_datePickerValue) =>
-          this._setValue(!date ? 'date' : 'time', _datePickerValue)
-        }
-        hideText
-        is24Hour
-        ref={(picker) => {
-          this.datePicker = picker;
-        }}
-        disabled={disabled}
-        customStyles={{
-          ...styles,
-        }}
-        iconComponent={
-          <Icon
-            style={{ ...styles.iconButton, ...styles.scheduleIcon }}
-            size={20}
-            iconType="MaterialIcons"
-            name={iconName}
-          />
-        }
-      />
-    );
-  }
-}
+  return (
+    <DatePicker
+      style={styles.picker}
+      mode={_type}
+      format={_format}
+      minDate={_minDate}
+      confirmBtnText={intl.formatMessage({
+        id: 'alert.confirm',
+      })}
+      cancelBtnText={intl.formatMessage({
+        id: 'alert.cancel',
+      })}
+      onDateChange={(_datePickerValue) => _setValue(!date ? setDate : setTime, _datePickerValue)}
+      hideText
+      is24Hour
+      ref={datePickerRef}
+      disabled={disabled}
+      customStyles={{
+        ...styles,
+      }}
+      iconComponent={
+        // eslint-disable-next-line react/jsx-wrap-multilines
+        <Icon
+          style={{ ...styles.iconButton, ...styles.scheduleIcon }}
+          size={20}
+          iconType="MaterialIcons"
+          name={iconName}
+        />
+      }
+    />
+  );
+});
 
 DateTimePickerView.defaultProps = {
   iconName: 'timer',
   type: 'date',
 };
 
-export default injectIntl(DateTimePickerView);
-/* eslint-enable */
+export default DateTimePickerView;

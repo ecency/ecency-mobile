@@ -17,7 +17,7 @@ const FormInputView = ({
   placeholder,
   type,
   isFirstImage,
-  isEditable,
+  isEditable = true,
   leftIconName,
   rightIconName,
   secureTextEntry,
@@ -98,7 +98,7 @@ const FormInputView = ({
               secureTextEntry={secureTextEntry}
               height={height}
               placeholder={placeholder}
-              editable={isEditable || true}
+              editable={isEditable}
               textContentType={type}
               onChangeText={_handleOnChange}
               value={_value}

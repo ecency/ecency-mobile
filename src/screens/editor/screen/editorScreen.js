@@ -200,6 +200,7 @@ class EditorScreen extends Component {
       uploadedImage,
       handleOnBackPress,
       handleDatePickerChange,
+      handleRewardChange,
     } = this.props;
     const rightButtonText = intl.formatMessage({
       id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : 'basic_header.publish',
@@ -209,6 +210,7 @@ class EditorScreen extends Component {
       <View style={globalStyles.defaultContainer}>
         <BasicHeader
           handleDatePickerChange={(date) => handleDatePickerChange(date, fields)}
+          handleRewardChange={handleRewardChange}
           handleOnBackPress={handleOnBackPress}
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
           handleOnSaveButtonPress={this._handleOnSaveButtonPress}

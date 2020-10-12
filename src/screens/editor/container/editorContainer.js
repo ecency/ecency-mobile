@@ -58,6 +58,8 @@ class EditorContainer extends Component {
       uploadedImage: null,
       isDraft: false,
       community: [],
+      rewardType: 'default',
+      beneficiaries: [{ account: get(props.currentAccount, 'name'), weight: 10000 }],
     };
   }
 
@@ -293,6 +295,7 @@ class EditorContainer extends Component {
       pinCode,
       // isDefaultFooter,
     } = this.props;
+    const { rewardType, beneficiaries } = this.state;
 
     if (currentAccount) {
       this.setState({
@@ -318,7 +321,12 @@ class EditorContainer extends Component {
       }
 
       const author = currentAccount.name;
-      const options = null; // makeOptions({ author: author, permlink: permlink, operationType: '' });
+      const options = makeOptions({
+        author: author,
+        permlink: permlink,
+        operationType: rewardType,
+        beneficiaries: beneficiaries,
+      });
       const parentPermlink = _tags[0] || 'hive-125125';
 
       if (scheduleDate) {
@@ -382,6 +390,7 @@ class EditorContainer extends Component {
 
   _submitReply = async (fields) => {
     const { currentAccount, pinCode } = this.props;
+    const { rewardType, beneficiaries } = this.state;
 
     if (currentAccount) {
       this.setState({
@@ -393,7 +402,12 @@ class EditorContainer extends Component {
       const jsonMeta = makeJsonMetadataReply(post.json_metadata.tags || ['ecency']);
       const permlink = generateReplyPermlink(post.author);
       const author = currentAccount.name;
-      const options = null; // makeOptions({ author: author, permlink: permlink, operationType: '' });
+      const options = makeOptions({
+        author: author,
+        permlink: permlink,
+        operationType: rewardType,
+        beneficiaries: beneficiaries,
+      });
       const parentAuthor = post.author;
       const parentPermlink = post.permlink;
 
@@ -662,6 +676,10 @@ class EditorContainer extends Component {
     });
   };
 
+  _handleRewardChange = (value) => {
+    this.setState({ rewardType: value });
+  };
+
   // Component Life Cycle Functions
   UNSAFE_componentWillMount() {
     const { currentAccount, navigation } = this.props;
@@ -779,6 +797,7 @@ class EditorContainer extends Component {
       <EditorScreen
         autoFocusText={autoFocusText}
         draftPost={draftPost}
+        handleRewardChange={this._handleRewardChange}
         handleDatePickerChange={this._handleDatePickerChange}
         handleFormChanged={this._handleFormChanged}
         handleOnBackPress={this._handleOnBackPress}

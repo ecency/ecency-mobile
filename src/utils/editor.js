@@ -69,26 +69,26 @@ export const makeOptions = (postObj) => {
     permlink: postObj.permlink,
     max_accepted_payout: '1000000.000 HBD',
     percent_steem_dollars: 10000,
-    extensions: [],
+    beneficiaries: [],
   };
 
   switch (postObj.operationType) {
     case 'sp':
       a.max_accepted_payout = '1000000.000 HBD';
       a.percent_steem_dollars = 0;
-      a.extensions = postObj.beneficiaries || [];
+      a.beneficiaries = postObj.beneficiaries || [];
       break;
 
     case 'dp':
       a.max_accepted_payout = '0.000 HBD';
       a.percent_steem_dollars = 10000;
-      a.extensions = postObj.beneficiaries || [];
+      a.beneficiaries = postObj.beneficiaries || [];
       break;
 
     default:
       a.max_accepted_payout = '1000000.000 HBD';
       a.percent_steem_dollars = 10000;
-      a.extensions = postObj.beneficiaries || [];
+      a.beneficiaries = postObj.beneficiaries || [{ account: postObj.author, weight: 10000 }];
       break;
   }
 
