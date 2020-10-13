@@ -51,12 +51,17 @@ const CommentView = ({
   const actionSheet = useRef(null);
 
   useEffect(() => {
-    getActiveVotes(get(comment, 'author'), get(comment, 'permlink')).then((result) => {
-      result.sort((a, b) => b.rshares - a.rshares);
+    getActiveVotes(get(comment, 'author'), get(comment, 'permlink'))
+      .then((result) => {
+        result.sort((a, b) => b.rshares - a.rshares);
 
-      const _votes = parseActiveVotes({ ...comment, active_votes: result }, currentAccountUsername);
-      setActiveVotes(_votes);
-    });
+        const _votes = parseActiveVotes(
+          { ...comment, active_votes: result },
+          currentAccountUsername,
+        );
+        setActiveVotes(_votes);
+      })
+      .catch(() => {});
   }, [comment]);
 
   const _showSubCommentsToggle = () => {

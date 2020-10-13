@@ -41,16 +41,18 @@ const PostDisplayContainer = ({
 
   useEffect(() => {
     if (post) {
-      getActiveVotes(get(post, 'author'), get(post, 'permlink')).then((result) => {
-        result.sort((a, b) => b.rshares - a.rshares);
+      getActiveVotes(get(post, 'author'), get(post, 'permlink'))
+        .then((result) => {
+          result.sort((a, b) => b.rshares - a.rshares);
 
-        const _votes = parseActiveVotes(
-          { ...post, active_votes: result },
-          get(currentAccount, 'name'),
-        );
+          const _votes = parseActiveVotes(
+            { ...post, active_votes: result },
+            get(currentAccount, 'name'),
+          );
 
-        setActiveVotes(_votes);
-      });
+          setActiveVotes(_votes);
+        })
+        .catch(() => {});
 
       getPostReblogs(post).then((result) => {
         setReblogs(result);

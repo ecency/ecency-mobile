@@ -71,7 +71,7 @@ export const getDigitPinCode = (pin) => decryptKey(pin, Config.PIN_KEY);
 
 export const getDynamicGlobalProperties = () => client.database.getDynamicGlobalProperties();
 
-export const getRewardFund = () => client.database.call('get_reward_fund', ['post']);
+export const getRewardFund = () => client.database.call('get_reward_funds', ['post']);
 
 export const getFeedHistory = async () => {
   try {
@@ -410,14 +410,18 @@ export const getPosts = async (by, query, user) => {
 
 export const getActiveVotes = (author, permlink) =>
   new Promise((resolve, reject) => {
-    client.database
-      .call('get_active_votes', [author, permlink])
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((err) => {
-        reject(err);
-      });
+    try {
+      client
+        .call('condenser_api', 'get_active_votes', [author, permlink])
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    } catch (error) {
+      reject(error);
+    }
   });
 
 export const getPostsSummary = async (by, query, currentUserName, filterNsfw) => {

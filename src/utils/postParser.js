@@ -136,7 +136,7 @@ export const parseActiveVotes = (post) => {
   if (!isEmpty(post.active_votes)) {
     forEach(post.active_votes, (value) => {
       value.value = (value.rshares * ratio).toFixed(3);
-      value.reputation = getReputation(get(value, 'reputation'));
+      //value.reputation = getReputation(get(value, 'reputation'));
       value.percent /= 100;
       value.is_down_vote = Math.sign(value.percent) < 0;
       value.avatar = getResizedAvatar(get(value, 'voter'));

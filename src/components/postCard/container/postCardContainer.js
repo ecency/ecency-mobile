@@ -39,19 +39,14 @@ const PostCardContainer = ({
   }, [isRefresh]);
 
   useEffect(() => {
-    const actv = get(content, 'active_votes', []);
-    if (actv.length === 0) {
-      getActiveVotes(get(content, 'author'), get(content, 'permlink')).then((result) => {
+    getActiveVotes(get(content, 'author'), get(content, 'permlink'))
+      .then((result) => {
         result.sort((a, b) => b.rshares - a.rshares);
 
         const _votes = parseActiveVotes({ ...content, active_votes: result });
         setActiveVotes(_votes);
-      });
-    } else {
-      actv.sort((a, b) => b.rshares - a.rshares);
-      const _votes = parseActiveVotes({ ...content, active_votes: actv });
-      setActiveVotes(_votes);
-    }
+      })
+      .catch(() => {});
 
     getPostReblogs(content).then((result) => {
       setReblogs(result);
