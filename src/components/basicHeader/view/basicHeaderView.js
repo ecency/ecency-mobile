@@ -3,10 +3,9 @@ import { View, Text, ActivityIndicator, SafeAreaView } from 'react-native';
 import { injectIntl } from 'react-intl';
 import ActionSheet from 'react-native-actionsheet';
 import { useSelector } from 'react-redux';
-import isEmpty from 'lodash/isEmpty';
 
 // Components
-import { TextButton, Modal, FormInput, MainButton } from '../..';
+import { TextButton, Modal, BeneficiaryModal } from '../..';
 import { IconButton } from '../../iconButton';
 import { DropdownButton } from '../../dropdownButton';
 import { TextInput } from '../../textInput';
@@ -44,6 +43,7 @@ const BasicHeaderView = ({
   handleOnSearch,
   handleDatePickerChange,
   handleRewardChange,
+  handleBeneficiaries,
 }) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [beneficiaryModal, setBeneficiaryModal] = useState(false);
@@ -75,7 +75,6 @@ const BasicHeaderView = ({
   };
 
   const _handleSettingMenuSelect = (index) => {
-    console.log('index :>> ', index);
     switch (index) {
       case 0:
         scheduleRef.current.onPressDate();
@@ -111,6 +110,17 @@ const BasicHeaderView = ({
     }
   };
 
+  const _handleOnSaveBeneficiaries = (beneficiaries) => {
+    const _beneficiaries = beneficiaries.map((item) => ({
+      account: item.account,
+      weight: item.weight,
+    }));
+    setBeneficiaryModal(false);
+    if (handleBeneficiaries) {
+      handleBeneficiaries(_beneficiaries);
+    }
+  };
+
   const _handleDatePickerChange = (datePickerValue) => {
     if (handleDatePickerChange) {
       handleDatePickerChange(datePickerValue);
@@ -130,6 +140,7 @@ const BasicHeaderView = ({
           />
           {isHasIcons && !isReply && (
             <IconButton
+              style={{ marginHorizontal: 20 }}
               iconStyle={[styles.backIcon, isModalHeader && styles.closeIcon]}
               iconType="MaterialIcons"
               name="settings"
@@ -137,12 +148,6 @@ const BasicHeaderView = ({
               disabled={disabled}
             />
           )}
-          <DateTimePicker
-            type="date-time"
-            onSubmit={_handleDatePickerChange}
-            disabled={!isFormValid}
-            ref={scheduleRef}
-          />
 
           {!isInputVisible && (
             <Text style={[title && styles.title, quickTitle && styles.quickTitle]}>
@@ -248,78 +253,10 @@ const BasicHeaderView = ({
         title={intl.formatMessage({ id: 'editor.beneficiaries' })}
         animationType="slide"
       >
-        <View style={{ flex: 1, justifyContent: 'space-between' }}>
-          <View style={{ flex: 3 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <View style={{ flex: 1 }}>
-                <FormInput
-                  isValid={true}
-                  isEditable={false}
-                  value="100%"
-                  inputStyle={{ textAlign: 'center' }}
-                  wrapperStyle={{ marginTop: 0 }}
-                />
-              </View>
-              <View style={{ flex: 4 }}>
-                <FormInput
-                  rightIconName="at"
-                  iconType="MaterialCommunityIcons"
-                  isValid={true}
-                  // onChange={(value) => this._handleUsernameChange(value)}
-                  placeholder={intl.formatMessage({
-                    id: 'login.username',
-                  })}
-                  isEditable={false}
-                  type="username"
-                  isFirstImage
-                  value={username}
-                  inputStyle={styles.input}
-                  wrapperStyle={{ marginTop: 0, marginLeft: 10 }}
-                />
-              </View>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <View style={{ flex: 1 }}>
-                <FormInput
-                  isValid={true}
-                  isEditable
-                  value="0%"
-                  inputStyle={{ textAlign: 'center' }}
-                  wrapperStyle={{ marginTop: 0 }}
-                />
-              </View>
-              <View style={{ flex: 4 }}>
-                <FormInput
-                  rightIconName="at"
-                  leftIconName="close"
-                  iconType="MaterialCommunityIcons"
-                  isValid={true}
-                  // onChange={(value) => this._handleUsernameChange(value)}
-                  placeholder={intl.formatMessage({
-                    id: 'login.username',
-                  })}
-                  isEditable
-                  type="username"
-                  isFirstImage
-                  wrapperStyle={{ marginTop: 0, marginLeft: 10 }}
-                  inputStyle={styles.input}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={{ flex: 1 }}>
-            <MainButton
-              style={{
-                width: 100,
-                height: 44,
-                alignSelf: 'center',
-                justifyContent: 'center',
-              }}
-              // onPress={handleOnButtonPress}
-              text="Save"
-            />
-          </View>
-        </View>
+        <BeneficiaryModal
+          username={username}
+          handleOnSaveBeneficiaries={_handleOnSaveBeneficiaries}
+        />
       </Modal>
       <ActionSheet
         ref={settingMenuRef}
@@ -344,6 +281,12 @@ const BasicHeaderView = ({
         cancelButtonIndex={3}
         title="test"
         onPress={_handleRewardMenuSelect}
+      />
+      <DateTimePicker
+        type="date-time"
+        onSubmit={_handleDatePickerChange}
+        disabled={!isFormValid}
+        ref={scheduleRef}
       />
     </SafeAreaView>
   );

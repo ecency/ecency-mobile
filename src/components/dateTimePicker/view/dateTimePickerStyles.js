@@ -34,7 +34,7 @@ export default EStyleSheet.create({
     alignSelf: 'center',
   },
   picker: {
-    width: 50,
-    marginLeft: 20,
+    width: 0,
+    // marginLeft: 20,
   },
 });

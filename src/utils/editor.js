@@ -88,7 +88,7 @@ export const makeOptions = (postObj) => {
     default:
       a.max_accepted_payout = '1000000.000 HBD';
       a.percent_steem_dollars = 10000;
-      a.beneficiaries = postObj.beneficiaries || [{ account: postObj.author, weight: 10000 }];
+      a.beneficiaries = postObj.beneficiaries || [];
       break;
   }
 

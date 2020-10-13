@@ -680,6 +680,10 @@ class EditorContainer extends Component {
     this.setState({ rewardType: value });
   };
 
+  _handleBeneficiaries = (value) => {
+    this.setState({ beneficiaries: value });
+  };
+
   // Component Life Cycle Functions
   UNSAFE_componentWillMount() {
     const { currentAccount, navigation } = this.props;
@@ -798,6 +802,7 @@ class EditorContainer extends Component {
         autoFocusText={autoFocusText}
         draftPost={draftPost}
         handleRewardChange={this._handleRewardChange}
+        handleBeneficiaries={this._handleBeneficiaries}
         handleDatePickerChange={this._handleDatePickerChange}
         handleFormChanged={this._handleFormChanged}
         handleOnBackPress={this._handleOnBackPress}

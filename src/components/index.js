@@ -1,6 +1,7 @@
 import { AvatarHeader } from './avatarHeader';
 import { BasicHeader } from './basicHeader';
 import { BoostIndicatorAnimation, PulseAnimation, SpinIndicator } from './animations';
+import BeneficiaryModal from './beneficiaryModal/beneficiaryModal';
 import { BottomTabBar } from './bottomTabBar';
 import { CheckBox } from './checkbox';
 import { CircularButton, TextButton, SquareButton } from './buttons';
@@ -97,6 +98,7 @@ import {
 export {
   AvatarHeader,
   BasicHeader,
+  BeneficiaryModal,
   BoostIndicatorAnimation,
   BoostPlaceHolder,
   BottomTabBar,

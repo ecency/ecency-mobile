@@ -47,6 +47,10 @@ const FormInputView = ({
     setInputBorderColor('#357ce6');
   };
 
+  useEffect(() => {
+    setValue(value);
+  }, [value]);
+
   // TODO: Workaround for android context (copy/paste) menu, check react-navigation library
   useEffect(() => {
     if (!isIos) {

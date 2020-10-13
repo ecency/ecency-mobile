@@ -77,15 +77,15 @@ const DateTimePickerView = React.forwardRef(({ type, iconName, disabled, onSubmi
       customStyles={{
         ...styles,
       }}
-      iconComponent={
-        // eslint-disable-next-line react/jsx-wrap-multilines
-        <Icon
-          style={{ ...styles.iconButton, ...styles.scheduleIcon }}
-          size={20}
-          iconType="MaterialIcons"
-          name={iconName}
-        />
-      }
+      // iconComponent={
+      //   // eslint-disable-next-line react/jsx-wrap-multilines
+      //   <Icon
+      //     style={{ ...styles.iconButton, ...styles.scheduleIcon }}
+      //     size={20}
+      //     iconType="MaterialIcons"
+      //     name={iconName}
+      //   />
+      // }
     />
   );
 });

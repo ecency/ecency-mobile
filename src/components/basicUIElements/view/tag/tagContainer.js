@@ -60,7 +60,7 @@ class TagContainer extends PureComponent {
   };
 
   render() {
-    const { isPin, value, isPostCardTag, isFilter, style, textStyle } = this.props;
+    const { isPin, value, isPostCardTag, isFilter, style, textStyle, disabled } = this.props;
     const { label } = this.state;
 
     return (
@@ -73,6 +73,7 @@ class TagContainer extends PureComponent {
         isFilter={isFilter}
         style={style}
         textStyle={textStyle}
+        disabled={disabled}
       />
     );
   }
