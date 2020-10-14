@@ -71,7 +71,7 @@ export const getDigitPinCode = (pin) => decryptKey(pin, Config.PIN_KEY);
 
 export const getDynamicGlobalProperties = () => client.database.getDynamicGlobalProperties();
 
-export const getRewardFund = () => client.database.call('get_reward_fund', ['post']);
+export const getRewardFund = () => client.database.call('get_reward_funds', ['post']);
 
 export const getFeedHistory = async () => {
   try {
@@ -390,17 +390,33 @@ export const ignoreUser = async (currentAccount, pin, data) => {
   );
 };
 
-/**
- * @method getPosts get posts method
- * @param by get discussions by trending, created, active etc.
- * @param query tag, limit, start_author?, start_permalink?
- */
-export const getPosts = async (by, query, user) => {
+export const getActiveVotes = (author, permlink) =>
+  new Promise((resolve, reject) => {
+    try {
+      client
+        .call('condenser_api', 'get_active_votes', [author, permlink])
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
   try {
-    let posts = await client.database.getDiscussions(by, query);
+    let posts = await client.call('bridge', 'get_ranked_posts', query);
 
     if (posts) {
-      posts = parsePosts(posts, user);
+      posts = parsePosts(posts, currentUserName, true);
+
+      if (filterNsfw !== '0') {
+        const updatedPosts = filterNsfwPost(posts, filterNsfw);
+        return updatedPosts;
+      }
     }
     return posts;
   } catch (error) {
@@ -408,21 +424,9 @@ export const getPosts = async (by, query, user) => {
   }
 };
 
-export const getActiveVotes = (author, permlink) =>
-  new Promise((resolve, reject) => {
-    client.database
-      .call('get_active_votes', [author, permlink])
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
-
-export const getPostsSummary = async (by, query, currentUserName, filterNsfw) => {
+export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
   try {
-    let posts = await client.database.getDiscussions(by, query);
+    let posts = await client.call('bridge', 'get_account_posts', query);
 
     if (posts) {
       posts = parsePosts(posts, currentUserName, true);
@@ -440,8 +444,10 @@ export const getPostsSummary = async (by, query, currentUserName, filterNsfw) =>
 
 export const getUserComments = async (query) => {
   try {
-    const comments = await client.database.getDiscussions('comments', query);
-    const groomedComments = parseComments(comments);
+    query.sort = 'comments';
+    query.account = query.start_author;
+    const _comments = await client.call('bridge', 'get_account_posts', query);
+    const groomedComments = parseComments(_comments);
     return groomedComments;
   } catch (error) {
     return error;
