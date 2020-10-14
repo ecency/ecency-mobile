@@ -21,7 +21,6 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries }) => {
 
   const _onWeightInputChange = (value, index) => {
     let _value = (parseInt(value, 10) || 0) * 100;
-    _value = _value > 10000 ? 10000 : _value;
 
     const _diff = _value - beneficiaries[index].weight;
     beneficiaries[0].weight = beneficiaries[0].weight - _diff;
@@ -36,7 +35,10 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries }) => {
     setBeneficiaries([...beneficiaries]);
 
     lookupAccounts(value).then((res) => {
-      const isValid = res.includes(value) && beneficiaries[index].weight !== 0;
+      const isValid =
+        res.includes(value) &&
+        beneficiaries[index].weight !== 0 &&
+        beneficiaries[index].weight <= 100;
       beneficiaries[index].isValid = isValid;
       setBeneficiaries([...beneficiaries]);
     });
@@ -49,11 +51,12 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries }) => {
   const renderInputs = useCallback(
     ({ item, index }) => {
       const _isCurrentUser = item.account === username;
+
       return (
         <View style={styles.inputWrapper}>
           <View style={styles.weightInput}>
             <FormInput
-              isValid={_isCurrentUser || item.weight !== 0}
+              isValid={_isCurrentUser || (item.weight !== 0 && item.weight <= 10000)}
               isEditable={!_isCurrentUser}
               value={`${item.weight / 100}`}
               inputStyle={styles.weightFormInput}

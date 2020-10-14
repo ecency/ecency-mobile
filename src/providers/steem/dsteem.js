@@ -18,6 +18,7 @@ import { parsePosts, parsePost, parseComments } from '../../utils/postParser';
 import { getName, getAvatar } from '../../utils/user';
 import { getReputation } from '../../utils/reputation';
 import parseToken from '../../utils/parseToken';
+import parseAsset from '../../utils/parseAsset';
 import filterNsfwPost from '../../utils/filterNsfwPost';
 import { jsonStringify } from '../../utils/jsonUtils';
 import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
@@ -59,7 +60,7 @@ export const getDigitPinCode = (pin) => decryptKey(pin, Config.PIN_KEY);
 
 export const getDynamicGlobalProperties = () => client.database.getDynamicGlobalProperties();
 
-export const getRewardFund = () => client.database.call('get_reward_funds', ['post']);
+export const getRewardFund = () => client.database.call('get_reward_fund', ['post']);
 
 export const getFeedHistory = async () => {
   try {
@@ -93,8 +94,8 @@ export const fetchGlobalProps = async () => {
       parseToken(get(globalDynamic, 'total_vesting_shares'))) *
     1e6;
   const sbdPrintRate = get(globalDynamic, 'sbd_print_rate', globalDynamic.hbd_print_rate);
-  const base = parseToken(get(feedHistory, 'current_median_history.base'));
-  const quote = parseToken(get(feedHistory, 'current_median_history.quote'));
+  const base = parseAsset(get(feedHistory, 'current_median_history.base')).amount;
+  const quote = parseAsset(get(feedHistory, 'current_median_history.quote')).amount;
   const fundRecentClaims = get(rewardFund, 'recent_claims');
   const fundRewardBalance = parseToken(get(rewardFund, 'reward_balance'));
   const globalProps = {

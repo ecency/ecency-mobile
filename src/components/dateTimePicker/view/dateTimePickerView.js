@@ -77,6 +77,7 @@ const DateTimePickerView = React.forwardRef(({ type, iconName, disabled, onSubmi
       customStyles={{
         ...styles,
       }}
+      showIcon={false}
       // iconComponent={
       //   // eslint-disable-next-line react/jsx-wrap-multilines
       //   <Icon

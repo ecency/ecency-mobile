@@ -148,7 +148,12 @@ const BasicHeaderView = ({
               disabled={disabled}
             />
           )}
-
+          <DateTimePicker
+            type="date-time"
+            onSubmit={_handleDatePickerChange}
+            disabled={!isFormValid}
+            ref={scheduleRef}
+          />
           {!isInputVisible && (
             <Text style={[title && styles.title, quickTitle && styles.quickTitle]}>
               {quickTitle || title}
@@ -281,12 +286,6 @@ const BasicHeaderView = ({
         cancelButtonIndex={3}
         title="test"
         onPress={_handleRewardMenuSelect}
-      />
-      <DateTimePicker
-        type="date-time"
-        onSubmit={_handleDatePickerChange}
-        disabled={!isFormValid}
-        ref={scheduleRef}
       />
     </SafeAreaView>
   );

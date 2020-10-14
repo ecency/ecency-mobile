@@ -5,6 +5,7 @@ import { Platform } from 'react-native';
 import { postBodySummary, renderPostBody } from '@esteemapp/esteem-render-helpers';
 
 // Utils
+import parseAsset from './parseAsset';
 import { getReputation } from './reputation';
 import { getResizedImage, getResizedAvatar } from './image';
 
@@ -37,14 +38,14 @@ export const parsePost = (post, currentUserName, isPromoted) => {
 
   post.body = renderPostBody(post, true, webp);
   post.summary = postBodySummary(post, 150);
-  post.is_declined_payout = Number(parseFloat(post.max_accepted_payout)) === 0;
+  post.is_declined_payout = parseAsset(post.max_accepted_payout).amount === 0;
 
   const totalPayout =
-    parseFloat(post.pending_payout_value) +
-    parseFloat(post.total_payout_value) +
-    parseFloat(post.curator_payout_value);
+    parseAsset(post.pending_payout_value).amount +
+    parseAsset(post.author_payout_value).amount +
+    parseAsset(post.curator_payout_value).amount;
 
-  post.total_payout = totalPayout.toFixed(3);
+  post.total_payout = totalPayout;
 
   return post;
 };
