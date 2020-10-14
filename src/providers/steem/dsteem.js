@@ -28,7 +28,7 @@ import AUTH_TYPE from '../../constants/authType';
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
 const DEFAULT_SERVER = [
-  'https://rpc.esteem.app',
+  'https://rpc.ecency.com',
   'https://anyx.io',
   'https://api.pharesim.me',
   'https://api.hive.blog',
@@ -49,20 +49,8 @@ export const checkClient = async () => {
 
   client = new Client(selectedServer, {
     timeout: 5000,
+    rebrandedApi: true,
   });
-
-  client.database
-    .getVersion()
-    .then((res) => {
-      if (res.blockchain_version !== '0.23.0') {
-        // true: eclipse rebranded rpc nodes
-        // false: default old nodes (not necessary to call for old nodes)
-        client.updateOperations(true);
-      }
-    })
-    .catch((er) => {
-      console.log('getVersion', er);
-    });
 };
 
 checkClient();
@@ -1327,8 +1315,8 @@ export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rew
         'claim_reward_balance',
         {
           account: account.name,
-          reward_steem: rewardSteem,
-          reward_sbd: rewardSbd,
+          reward_hive: rewardSteem,
+          reward_hbd: rewardSbd,
           reward_vests: rewardVests,
         },
       ],
