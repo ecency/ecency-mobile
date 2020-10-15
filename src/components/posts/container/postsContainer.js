@@ -45,7 +45,7 @@ const PostsContainer = ({
   const [promotedPosts, setPromotedPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const [posts, setPosts] = useState(isConnected ? [] : feedPosts);
+  const [posts, setPosts] = useState(feedPosts || []);
   const [selectedFilterIndex, setSelectedFilterIndex] = useState(selectedOptionIndex || 0);
   const [selectedFilterValue, setSelectedFilterValue] = useState(
     filterOptionsValue && filterOptionsValue[selectedFilterIndex],
