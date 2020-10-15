@@ -29,7 +29,7 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries }) => {
     setBeneficiaries([...beneficiaries]);
   };
 
-  const _onUsernameInputChange = async (value, index) => {
+  const _onUsernameInputChange = (value, index) => {
     beneficiaries[index].account = value;
 
     setBeneficiaries([...beneficiaries]);
@@ -38,7 +38,7 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries }) => {
       const isValid =
         res.includes(value) &&
         beneficiaries[index].weight !== 0 &&
-        beneficiaries[index].weight <= 100;
+        beneficiaries[index].weight <= 10000;
       beneficiaries[index].isValid = isValid;
       setBeneficiaries([...beneficiaries]);
     });
@@ -69,7 +69,7 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries }) => {
               rightIconName="at"
               iconType="MaterialCommunityIcons"
               isValid={_isCurrentUser || item.isValid}
-              isEditable={!_isCurrentUser}
+              //isEditable={!_isCurrentUser}
               onChange={(value) => _onUsernameInputChange(value, index)}
               placeholder={intl.formatMessage({
                 id: 'login.username',

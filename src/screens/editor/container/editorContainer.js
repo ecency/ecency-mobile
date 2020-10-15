@@ -59,7 +59,7 @@ class EditorContainer extends Component {
       isDraft: false,
       community: [],
       rewardType: 'default',
-      beneficiaries: [{ account: get(props.currentAccount, 'name'), weight: 10000 }],
+      beneficiaries: [],
     };
   }
 
