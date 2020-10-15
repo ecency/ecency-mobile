@@ -29,6 +29,7 @@ const PostCardContainer = ({
   nsfw,
 }) => {
   const [activeVotes, setActiveVotes] = useState([]);
+  const [totalVotes, setTotalVotes] = useState(0);
   const [reblogs, setReblogs] = useState([]);
   const [_content, setContent] = useState(null);
 
@@ -40,14 +41,7 @@ const PostCardContainer = ({
 
   useEffect(() => {
     if (content) {
-      getActiveVotes(get(content, 'author'), get(content, 'permlink'))
-        .then((result) => {
-          result.sort((a, b) => b.rshares - a.rshares);
-
-          const _votes = parseActiveVotes({ ...content, active_votes: result });
-          setActiveVotes(_votes);
-        })
-        .catch(() => {});
+      setTotalVotes(get(content, 'stats.total_votes', 0));
 
       getPostReblogs(content).then((result) => {
         setReblogs(result);
@@ -85,6 +79,7 @@ const PostCardContainer = ({
       routeName: ROUTES.SCREENS.VOTERS,
       params: {
         activeVotes,
+        content,
       },
       key: get(content, 'permlink'),
     });
@@ -121,6 +116,7 @@ const PostCardContainer = ({
       isHideImage={isHideImage}
       isNsfwPost={nsfw === '1'}
       activeVotes={activeVotes}
+      totalVotes={totalVotes}
       reblogs={reblogs}
     />
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
@@ -10,16 +10,37 @@ import AccountListContainer from '../../../containers/accountListContainer';
 
 // Utils
 import globalStyles from '../../../globalStyles';
+import { getPost } from '../../../providers/steem/dsteem';
+import { parseActiveVotes } from '../../../utils/postParser';
 
 const filterOptions = ['rewards', 'percent', 'time'];
 
 const VotersScreen = ({ navigation }) => {
   const intl = useIntl();
+  const [activeVotes, setActiveVotes] = useState([]);
+  const [content, setContent] = useState(get(navigation, 'state.params.content'));
+  const [isLoading, setIsLoading] = useState(false);
+
   const headerTitle = intl.formatMessage({
     id: 'voters.voters_info',
   });
 
-  const activeVotes = get(navigation, 'state.params.activeVotes');
+  useEffect(() => {
+    if (content) {
+      getPost(content.author, content.permlink)
+        .then((items) => {
+          items.active_votes.sort((a, b) => b.rshares - a.rshares);
+          const _votes = parseActiveVotes(items);
+          setActiveVotes(_votes);
+        })
+        .catch((err) => {
+          console.error(err.message);
+        });
+    }
+  }, []);
+
+  //const activeVotes = get(navigation, 'state.params.activeVotes');
+  //const content = get(navigation, 'state.params.content');
 
   return (
     <AccountListContainer data={activeVotes}>
