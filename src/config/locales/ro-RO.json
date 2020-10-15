@@ -279,7 +279,14 @@
     "limited_lowercase": "Folosește litere mici în etichete",
     "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Numele trebuie să înceapă cu o literă",
-    "limited_lastchar": "Eticheta trebuie să se termine cu o literă sau un număr"
+    "limited_lastchar": "Eticheta trebuie să se termine cu o literă sau un număr",
+    "setting_schedule": "Scheduling Time",
+    "setting_reward": "Reward",
+    "setting_beneficiary": "Beneficiary",
+    "reward_default": "Default 50% / 50%",
+    "reward_power_up": "Power Up 100%",
+    "reward_decline": "Decline Payout",
+    "beneficiaries": "Beneficiaries"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -295,7 +302,7 @@
     "fail": "Eșuat!",
     "move": "Mută",
     "move_question": "Esti sigur că vrei să muți la schițe?",
-    "success_shared": "Content successfully posted, fetching now",
+    "success_shared": "Success! Content submitted!",
     "success_moved": "Mutat la schițe",
     "permission_denied": "Permisiune respinsă",
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
