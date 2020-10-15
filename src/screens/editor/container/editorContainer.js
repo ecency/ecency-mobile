@@ -371,13 +371,11 @@ class EditorContainer extends Component {
                 isPostSending: false,
               });
               navigation.navigate({
-                routeName: ROUTES.SCREENS.POST,
+                routeName: ROUTES.SCREENS.PROFILE,
                 params: {
-                  author: get(currentAccount, 'name'),
-                  permlink,
-                  isNewPost: true,
+                  username: get(currentAccount, 'name'),
                 },
-                key: permlink,
+                key: get(currentAccount, 'name'),
               });
             }, 3000);
           })
@@ -435,7 +433,7 @@ class EditorContainer extends Component {
 
   _submitEdit = async (fields) => {
     const { currentAccount, pinCode } = this.props;
-    const { post } = this.state;
+    const { post, isEdit } = this.state;
     if (currentAccount) {
       this.setState({
         isPostSending: true,
@@ -476,6 +474,7 @@ class EditorContainer extends Component {
         title,
         newBody,
         jsonMeta,
+        isEdit,
       )
         .then(() => {
           AsyncStorage.setItem('temp-reply', '');

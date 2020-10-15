@@ -45,7 +45,7 @@ const PostsContainer = ({
   const [promotedPosts, setPromotedPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const [posts, setPosts] = useState(feedPosts || []);
+  const [posts, setPosts] = useState(isConnected ? [] : feedPosts);
   const [selectedFilterIndex, setSelectedFilterIndex] = useState(selectedOptionIndex || 0);
   const [selectedFilterValue, setSelectedFilterValue] = useState(
     filterOptionsValue && filterOptionsValue[selectedFilterIndex],
@@ -148,7 +148,7 @@ const PostsContainer = ({
 
       const filter = type || selectedFilterValue;
       let options = {};
-      const limit = 6;
+      const limit = 4;
       let func = null;
 
       if (filter === 'feed' || filter === 'blog' || getFor === 'blog' || filter === 'reblogs') {
@@ -196,7 +196,7 @@ const PostsContainer = ({
                 }
               }
 
-              if (posts.length < 7 && pageType !== 'profiles') {
+              if (posts.length < 4 && pageType !== 'profiles') {
                 _setFeedPosts(_posts);
               }
 

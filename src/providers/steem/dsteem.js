@@ -1110,6 +1110,7 @@ export const postContent = (
   title,
   body,
   jsonMetadata,
+  isEdit = false,
   options = null,
   voteWeight = null,
 ) =>
@@ -1127,7 +1128,9 @@ export const postContent = (
   ).then((resp) => {
     const t = title ? 100 : 110;
     const { block_num, id } = resp;
-    userActivity(account.username, t, block_num, id);
+    if (!isEdit) {
+      userActivity(account.username, t, block_num, id);
+    }
     return resp;
   });
 
@@ -1159,7 +1162,7 @@ const _postContent = async (
 
     const params = {
       parent_author: parentAuthor,
-      parent_permlink: parentPermlink,
+      parent_permlink: parentPermlink || '',
       author,
       permlink,
       title,
