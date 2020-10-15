@@ -285,8 +285,8 @@
     "setting_beneficiary": "Hyötyjä",
     "reward_default": "Oletus 50 % / 50 %",
     "reward_power_up": "Power Up 100%",
-    "reward_decline": "Decline Payout",
-    "beneficiaries": "Beneficiaries"
+    "reward_decline": "Hylkää Palautus",
+    "beneficiaries": "Hyötyjät"
   },
   "pincode": {
     "enter_text": "Poista lukitus antamalla PIN-koodi",
@@ -302,7 +302,7 @@
     "fail": "Virhe!",
     "move": "Siirrä",
     "move_question": "Haluatko varmasti siirtää luonnoksiin?",
-    "success_shared": "Success! Content submitted!",
+    "success_shared": "Onnistui! Sisältö lähetetty!",
     "success_moved": "Siirretty luonnoksiin",
     "permission_denied": "Käyttö estetty",
     "permission_text": "Mene puhelinasetuksiin ja muuta Ecencyn oikeuksia.",
