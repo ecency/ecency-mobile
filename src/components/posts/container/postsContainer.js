@@ -148,7 +148,7 @@ const PostsContainer = ({
 
       const filter = type || selectedFilterValue;
       let options = {};
-      const limit = 6;
+      const limit = 4;
       let func = null;
 
       if (filter === 'feed' || filter === 'blog' || getFor === 'blog' || filter === 'reblogs') {
@@ -196,7 +196,7 @@ const PostsContainer = ({
                 }
               }
 
-              if (posts.length < 7 && pageType !== 'profiles') {
+              if (posts.length < 4 && pageType !== 'profiles') {
                 _setFeedPosts(_posts);
               }
 

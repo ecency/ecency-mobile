@@ -9,9 +9,9 @@ import { setUpvotePercent } from '../../../realm/realm';
 import { setUpvotePercent as upvoteAction } from '../../../redux/actions/applicationActions';
 
 // Utils
-import parseToken from '../../../utils/parseToken';
-import { isEmptyContentDate, getTimeFromNow } from '../../../utils/time';
+import { getTimeFromNow } from '../../../utils/time';
 import { isVoted as isVotedFunc, isDownVoted as isDownVotedFunc } from '../../../utils/postParser';
+import parseAsset from '../../../utils/parseAsset';
 
 // Component
 import UpvoteView from '../view/upvoteView';
@@ -64,15 +64,11 @@ class UpvoteContainer extends PureComponent {
     const totalPayout = get(content, 'total_payout');
     const isDecinedPayout = get(content, 'is_declined_payout');
     const permlink = get(content, 'permlink');
-    const pendingPayout = parseToken(get(content, 'pending_payout_value', 0)).toFixed(3);
-    const promotedPayout = parseToken(get(content, 'promoted', 0)).toFixed(3);
-    const authorPayout = parseToken(get(content, 'total_payout_value', 0)).toFixed(3);
-    const curationPayout = parseToken(get(content, 'curator_payout_value', 0)).toFixed(3);
-    const payoutDate = getTimeFromNow(
-      isEmptyContentDate(get(content, 'last_payout'))
-        ? get(content, 'cashout_time')
-        : get(content, 'last_payout'),
-    );
+    const pendingPayout = parseAsset(content.pending_payout_value).amount;
+    const authorPayout = parseAsset(content.author_payout_value).amount;
+    const curationPayout = parseAsset(content.curator_payout_value).amount;
+    const promotedPayout = parseAsset(content.promoted).amount;
+    const payoutDate = getTimeFromNow(get(content, 'payout_at'));
     const beneficiaries = [];
     const beneficiary = get(content, 'beneficiaries');
     if (beneficiaries) {
@@ -92,7 +88,8 @@ class UpvoteContainer extends PureComponent {
     const sbdPrintRate = get(globalProps, 'sbdPrintRate', 0);
     const SBD_PRINT_RATE_MAX = 10000;
     const percent_steem_dollars =
-      get(content, 'percent_steem_dollars', content.percent_hbd) / 20000;
+      (content.percent_hbd || content.percent_steem_dollars || 10000) / 20000;
+
     const pending_payout_sbd = pendingPayout * percent_steem_dollars;
     const price_per_steem = base / quote;
 

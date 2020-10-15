@@ -17,7 +17,7 @@ const FormInputView = ({
   placeholder,
   type,
   isFirstImage,
-  isEditable,
+  isEditable = true,
   leftIconName,
   rightIconName,
   secureTextEntry,
@@ -46,6 +46,10 @@ const FormInputView = ({
   const _handleOnFocus = () => {
     setInputBorderColor('#357ce6');
   };
+
+  useEffect(() => {
+    setValue(value);
+  }, [value]);
 
   // TODO: Workaround for android context (copy/paste) menu, check react-navigation library
   useEffect(() => {
@@ -98,7 +102,7 @@ const FormInputView = ({
               secureTextEntry={secureTextEntry}
               height={height}
               placeholder={placeholder}
-              editable={isEditable || true}
+              editable={isEditable}
               textContentType={type}
               onChangeText={_handleOnChange}
               value={_value}

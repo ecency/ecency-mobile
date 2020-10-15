@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withNavigation } from 'react-navigation';
 
 // Services and Actions
@@ -18,35 +18,45 @@ import TagView from './tagView';
  *@props -->  props name here   description here                                Value Type Here
  *
  */
+const TagContainer = ({
+  value,
+  navigation,
+  onPress,
+  isPin,
+  isPostCardTag,
+  isFilter,
+  style,
+  textStyle,
+  disabled,
+}) => {
+  const [label, setLabel] = useState(value);
+  const [isCommunity, setIsCommunity] = useState(false);
 
-class TagContainer extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      label: props.value,
-      isCommunity: false,
-    };
-  }
-  // Component Life Cycle Functions
-  componentDidMount() {
-    const { value } = this.props;
-
+  useEffect(() => {
+    let isCancelled = false;
     getCommunityTitle(value)
       .then((r) => {
-        this.setState({
-          label: r,
-          isCommunity: value !== r,
-        });
-        return r;
+        if (!isCancelled) {
+          setLabel(r);
+          setIsCommunity(value !== r);
+          return r;
+        }
       })
-      .catch(() => {});
-  }
-  // Component Functions
-  _handleOnTagPress = () => {
-    const { navigation, onPress, value } = this.props;
-    const { isCommunity } = this.state;
+      .catch((e) => {
+        if (!isCancelled) {
+          setLabel(value);
+          setIsCommunity(/^hive-\d+/.test(value));
+          return value;
+        }
+      });
 
+    return () => {
+      isCancelled = true;
+    };
+  });
+
+  // Component Functions
+  const _handleOnTagPress = () => {
     if (onPress) {
       onPress();
     } else {
@@ -59,23 +69,19 @@ class TagContainer extends PureComponent {
     }
   };
 
-  render() {
-    const { isPin, value, isPostCardTag, isFilter, style, textStyle } = this.props;
-    const { label } = this.state;
-
-    return (
-      <TagView
-        isPin={isPin}
-        value={value}
-        label={label}
-        isPostCardTag={isPostCardTag}
-        onPress={this._handleOnTagPress}
-        isFilter={isFilter}
-        style={style}
-        textStyle={textStyle}
-      />
-    );
-  }
-}
+  return (
+    <TagView
+      isPin={isPin}
+      value={value}
+      label={label}
+      isPostCardTag={isPostCardTag}
+      onPress={_handleOnTagPress}
+      isFilter={isFilter}
+      style={style}
+      textStyle={textStyle}
+      disabled={disabled}
+    />
+  );
+};
 
 export default withNavigation(TagContainer);

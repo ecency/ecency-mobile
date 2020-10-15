@@ -58,6 +58,8 @@ class EditorContainer extends Component {
       uploadedImage: null,
       isDraft: false,
       community: [],
+      rewardType: 'default',
+      beneficiaries: [],
     };
   }
 
@@ -293,6 +295,7 @@ class EditorContainer extends Component {
       pinCode,
       // isDefaultFooter,
     } = this.props;
+    const { rewardType, beneficiaries } = this.state;
 
     if (currentAccount) {
       this.setState({
@@ -318,7 +321,12 @@ class EditorContainer extends Component {
       }
 
       const author = currentAccount.name;
-      const options = null; // makeOptions({ author: author, permlink: permlink, operationType: '' });
+      const options = makeOptions({
+        author: author,
+        permlink: permlink,
+        operationType: rewardType,
+        beneficiaries: beneficiaries,
+      });
       const parentPermlink = _tags[0] || 'hive-125125';
 
       if (scheduleDate) {
@@ -363,13 +371,11 @@ class EditorContainer extends Component {
                 isPostSending: false,
               });
               navigation.navigate({
-                routeName: ROUTES.SCREENS.POST,
+                routeName: ROUTES.SCREENS.PROFILE,
                 params: {
-                  author: get(currentAccount, 'name'),
-                  permlink,
-                  isNewPost: true,
+                  username: get(currentAccount, 'name'),
                 },
-                key: permlink,
+                key: get(currentAccount, 'name'),
               });
             }, 3000);
           })
@@ -382,6 +388,7 @@ class EditorContainer extends Component {
 
   _submitReply = async (fields) => {
     const { currentAccount, pinCode } = this.props;
+    const { rewardType, beneficiaries } = this.state;
 
     if (currentAccount) {
       this.setState({
@@ -393,7 +400,12 @@ class EditorContainer extends Component {
       const jsonMeta = makeJsonMetadataReply(post.json_metadata.tags || ['ecency']);
       const permlink = generateReplyPermlink(post.author);
       const author = currentAccount.name;
-      const options = null; // makeOptions({ author: author, permlink: permlink, operationType: '' });
+      const options = makeOptions({
+        author: author,
+        permlink: permlink,
+        operationType: rewardType,
+        beneficiaries: beneficiaries,
+      });
       const parentAuthor = post.author;
       const parentPermlink = post.permlink;
 
@@ -421,7 +433,7 @@ class EditorContainer extends Component {
 
   _submitEdit = async (fields) => {
     const { currentAccount, pinCode } = this.props;
-    const { post } = this.state;
+    const { post, isEdit } = this.state;
     if (currentAccount) {
       this.setState({
         isPostSending: true,
@@ -462,6 +474,7 @@ class EditorContainer extends Component {
         title,
         newBody,
         jsonMeta,
+        isEdit,
       )
         .then(() => {
           AsyncStorage.setItem('temp-reply', '');
@@ -662,6 +675,14 @@ class EditorContainer extends Component {
     });
   };
 
+  _handleRewardChange = (value) => {
+    this.setState({ rewardType: value });
+  };
+
+  _handleBeneficiaries = (value) => {
+    this.setState({ beneficiaries: value });
+  };
+
   // Component Life Cycle Functions
   UNSAFE_componentWillMount() {
     const { currentAccount, navigation } = this.props;
@@ -779,6 +800,8 @@ class EditorContainer extends Component {
       <EditorScreen
         autoFocusText={autoFocusText}
         draftPost={draftPost}
+        handleRewardChange={this._handleRewardChange}
+        handleBeneficiaries={this._handleBeneficiaries}
         handleDatePickerChange={this._handleDatePickerChange}
         handleFormChanged={this._handleFormChanged}
         handleOnBackPress={this._handleOnBackPress}
