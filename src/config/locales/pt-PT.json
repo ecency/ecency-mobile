@@ -279,7 +279,14 @@
     "limited_lowercase": "Use apenas letras minúsculas na tag",
     "limited_characters": "Usa apenas letras minúsculas, dígitos e um hífen",
     "limited_firstchar": "Tag deve começar com uma letra",
-    "limited_lastchar": "Tag deve terminar com letra ou número"
+    "limited_lastchar": "Tag deve terminar com letra ou número",
+    "setting_schedule": "Scheduling Time",
+    "setting_reward": "Reward",
+    "setting_beneficiary": "Beneficiary",
+    "reward_default": "Default 50% / 50%",
+    "reward_power_up": "Power Up 100%",
+    "reward_decline": "Decline Payout",
+    "beneficiaries": "Beneficiaries"
   },
   "pincode": {
     "enter_text": "Insira PIN para desbloquear",
@@ -295,7 +302,7 @@
     "fail": "Falha!",
     "move": "Mover",
     "move_question": "Tem certeza que deseja mover para rascunhos?",
-    "success_shared": "Conteúdo publicado com sucesso, obtendo agora",
+    "success_shared": "Success! Content submitted!",
     "success_moved": "Movido para Rascunhos",
     "permission_denied": "Permissão negada",
     "permission_text": "Por favor, vá às Configurações do telefone e altere as permissões para o aplicativo Ecency.",
