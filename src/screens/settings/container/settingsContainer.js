@@ -77,10 +77,11 @@ class SettingsContainer extends Component {
       .catch(() =>
         this.setState({
           serverList: [
-            'https://rpc.esteem.app',
+            'https://rpc.ecency.com',
             'https://api.hive.blog',
             'https://anyx.io',
-            'https://api.hivekings.com',
+            'https://rpc.esteem.app',
+            'https://api.openhive.network',
           ],
         }),
       );
