@@ -124,6 +124,16 @@ export const getAccount = (user) =>
     }
   });
 
+export const getAccountHistory = (user) =>
+  new Promise((resolve, reject) => {
+    try {
+      const ah = client.call('condenser_api', 'get_account_history', [user, -1, 1000]);
+      resolve(ah);
+    } catch (error) {
+      reject(error);
+    }
+  });
+
 /**
  * @method getAccount get account data
  * @param user username

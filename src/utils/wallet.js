@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToSp } from './conversions';
-import { getState, getFeedHistory } from '../providers/steem/dsteem';
+import { getState, getFeedHistory, getAccount, getAccountHistory } from '../providers/steem/dsteem';
 import { getCurrencyTokenRate } from '../providers/esteem/esteem';
 
 export const groomingTransactionData = (transaction, steemPerMVests) => {
@@ -161,12 +161,13 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   if (!user) {
     return walletData;
   }
-  const state = await getState(`/@${get(user, 'name')}/transfers`);
-  const { accounts } = state;
-  if (!accounts) {
-    return walletData;
-  }
-  const userdata = get(accounts, get(user, 'name'), '');
+  const state = await getAccount(get(user, 'name'));
+
+  //const { accounts } = state;
+  //if (!accounts) {
+  //  return walletData;
+  //}
+  const [userdata] = state;
 
   // TODO: move them to utils these so big for a lifecycle function
   walletData.rewardSteemBalance = parseToken(
@@ -223,16 +224,22 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   const timeDiff = Math.abs(parseDate(userdata.next_vesting_withdrawal) - new Date());
   walletData.nextVestingWithdrawal = Math.round(timeDiff / (1000 * 3600));
 
-  const { transfer_history: transferHistory, other_history: virtualHistory } = userdata;
+  /*const history = await getAccountHistory(get(user, 'name'));
 
-  const realHistory = transferHistory
-    ? transferHistory.slice(Math.max(transferHistory.length - 50, 0))
-    : [];
-  realHistory.push(...virtualHistory); //concat
-  realHistory.sort(compare); //sort desc
+  const transfers = history.filter((tx) => {
+    return tx[1] && tx[1].op && tx[1].op[0] === 'claim_reward_balance'
+  });
 
-  walletData.transactions = realHistory;
-
+  const actualTransfers = transfers.reduce((arr, tx) => {
+    console.log('tx', tx[1])
+    const transaction = tx[1].op[1];
+    const date = new Date(`${tx[1].timestamp}Z`);
+    transaction.date = date;
+    arr.push(transaction);
+    return arr;
+  }, []);
+  */
+  walletData.transactions = [];
   return walletData;
 };
 
