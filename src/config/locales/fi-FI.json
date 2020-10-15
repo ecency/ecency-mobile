@@ -279,7 +279,14 @@
     "limited_lowercase": "Käytä tageissa vain pieniä kirjaimia",
     "limited_characters": "Käytä vain pieniä kirjaimia, numeroita ja yhtä viivaa",
     "limited_firstchar": "Tag alkaa kirjaimella",
-    "limited_lastchar": "Tagi päättyy kirjaimeen tai numeroon"
+    "limited_lastchar": "Tagi päättyy kirjaimeen tai numeroon",
+    "setting_schedule": "Scheduling Time",
+    "setting_reward": "Reward",
+    "setting_beneficiary": "Beneficiary",
+    "reward_default": "Default 50% / 50%",
+    "reward_power_up": "Power Up 100%",
+    "reward_decline": "Decline Payout",
+    "beneficiaries": "Beneficiaries"
   },
   "pincode": {
     "enter_text": "Poista lukitus antamalla PIN-koodi",
@@ -295,7 +302,7 @@
     "fail": "Virhe!",
     "move": "Siirrä",
     "move_question": "Haluatko varmasti siirtää luonnoksiin?",
-    "success_shared": "Sisältö lähetetty onnistuneesti, haetaan",
+    "success_shared": "Success! Content submitted!",
     "success_moved": "Siirretty luonnoksiin",
     "permission_denied": "Käyttö estetty",
     "permission_text": "Mene puhelinasetuksiin ja muuta Ecencyn oikeuksia.",
