@@ -279,7 +279,14 @@
     "limited_lowercase": "Използвай само малки букви за тагове",
     "limited_characters": "Използвайте само малки букви, цифри и едно тире",
     "limited_firstchar": "Тагът трябва да започва с буква!",
-    "limited_lastchar": "Тагът трябва да завършва с буква или число"
+    "limited_lastchar": "Тагът трябва да завършва с буква или число",
+    "setting_schedule": "Scheduling Time",
+    "setting_reward": "Reward",
+    "setting_beneficiary": "Beneficiary",
+    "reward_default": "Default 50% / 50%",
+    "reward_power_up": "Power Up 100%",
+    "reward_decline": "Decline Payout",
+    "beneficiaries": "Beneficiaries"
   },
   "pincode": {
     "enter_text": "Вкарай Пин-код за отключване",
@@ -295,7 +302,7 @@
     "fail": "Провал!!",
     "move": "Премести",
     "move_question": "Сигурен ли сте да преместите към чернови?",
-    "success_shared": "Съдържанието е публикувано успешно, получаване сега",
+    "success_shared": "Success! Content submitted!",
     "success_moved": "Премено в чернови",
     "permission_denied": "Достъпът е отказан",
     "permission_text": "Моля, идете на Настройки на телефона и променете разрешенията към Ecency.",
