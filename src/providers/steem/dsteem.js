@@ -2,17 +2,13 @@
 // import '../../../shim';
 // import * as bitcoin from 'bitcoinjs-lib';
 
-import { Client } from '@hiveio/dhive';
-import {
-  Client as Client2,
-  PrivateKey as PrivateKey2,
-  cryptoUtils as cryptoUtils2,
-} from '@esteemapp/dhive';
+import { Client, cryptoUtils } from '@hiveio/dhive';
+import { PrivateKey } from '@esteemapp/dhive';
 
 import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
-import { getServer } from '../../realm/realm';
+import { getServer, getCache, setCache } from '../../realm/realm';
 import { getUnreadActivityCount } from '../esteem/esteem';
 import { userActivity } from '../esteem/ePoint';
 
@@ -22,6 +18,7 @@ import { parsePosts, parsePost, parseComments } from '../../utils/postParser';
 import { getName, getAvatar } from '../../utils/user';
 import { getReputation } from '../../utils/reputation';
 import parseToken from '../../utils/parseToken';
+import parseAsset from '../../utils/parseAsset';
 import filterNsfwPost from '../../utils/filterNsfwPost';
 import { jsonStringify } from '../../utils/jsonUtils';
 import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
@@ -32,16 +29,13 @@ import AUTH_TYPE from '../../constants/authType';
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
 const DEFAULT_SERVER = [
-  'https://rpc.esteem.app',
+  'https://rpc.ecency.com',
   'https://anyx.io',
   'https://api.pharesim.me',
   'https://api.hive.blog',
   'https://api.hivekings.com',
 ];
 let client = new Client(DEFAULT_SERVER, {
-  timeout: 5000,
-});
-let client2 = new Client2(DEFAULT_SERVER, {
   timeout: 5000,
 });
 
@@ -56,19 +50,8 @@ export const checkClient = async () => {
 
   client = new Client(selectedServer, {
     timeout: 5000,
+    rebrandedApi: true,
   });
-  client2 = new Client2(selectedServer, {
-    timeout: 5000,
-  });
-  /*
-  client.database.getVersion().then((res) => {
-    if (res.blockchain_version !== '0.23.0') {
-      // true: eclipse rebranded rpc nodes
-      // false: default old nodes (not necessary to call for old nodes)
-      client.updateOperations(true);
-    }
-  });
-  */
 };
 
 checkClient();
@@ -95,8 +78,11 @@ export const fetchGlobalProps = async () => {
 
   try {
     globalDynamic = await getDynamicGlobalProperties();
+    await setCache('globalDynamic', globalDynamic);
     feedHistory = await getFeedHistory();
+    await setCache('feedHistory', feedHistory);
     rewardFund = await getRewardFund();
+    await setCache('rewardFund', rewardFund);
   } catch (e) {
     return;
   }
@@ -108,8 +94,8 @@ export const fetchGlobalProps = async () => {
       parseToken(get(globalDynamic, 'total_vesting_shares'))) *
     1e6;
   const sbdPrintRate = get(globalDynamic, 'sbd_print_rate', globalDynamic.hbd_print_rate);
-  const base = parseToken(get(feedHistory, 'current_median_history.base'));
-  const quote = parseToken(get(feedHistory, 'current_median_history.quote'));
+  const base = parseAsset(get(feedHistory, 'current_median_history.base')).amount;
+  const quote = parseAsset(get(feedHistory, 'current_median_history.quote')).amount;
   const fundRecentClaims = get(rewardFund, 'recent_claims');
   const fundRewardBalance = parseToken(get(rewardFund, 'reward_balance'));
   const globalProps = {
@@ -138,6 +124,16 @@ export const getAccount = (user) =>
     }
   });
 
+export const getAccountHistory = (user) =>
+  new Promise((resolve, reject) => {
+    try {
+      const ah = client.call('condenser_api', 'get_account_history', [user, -1, 1000]);
+      resolve(ah);
+    } catch (error) {
+      reject(error);
+    }
+  });
+
 /**
  * @method getAccount get account data
  * @param user username
@@ -155,36 +151,43 @@ export const getState = async (path) => {
  * @method getUser get account data
  * @param user username
  */
-export const getUser = async (user) => {
+export const getUser = async (user, loggedIn = true) => {
   try {
     const account = await client.database.getAccounts([user]);
     const _account = {
       ...account[0],
     };
-    let unreadActivityCount;
+    let unreadActivityCount = 0;
 
     if (account && account.length < 1) {
       return null;
     }
 
-    const globalProperties = await client.database.getDynamicGlobalProperties();
+    const globalProperties = getCache('globalDynamic');
+
     const rcPower =
-      user &&
-      (await client.call('rc_api', 'find_rc_accounts', {
-        accounts: [user],
-      }));
-    try {
-      unreadActivityCount = await getUnreadActivityCount({
-        user,
-      });
-    } catch (error) {
-      unreadActivityCount = 0;
+      (user &&
+        (await client.call('rc_api', 'find_rc_accounts', {
+          accounts: [user],
+        }))) ||
+      getCache('rcPower');
+    await setCache('rcPower', rcPower);
+
+    if (loggedIn) {
+      try {
+        unreadActivityCount = await getUnreadActivityCount({
+          user,
+        });
+      } catch (error) {
+        unreadActivityCount = 0;
+      }
     }
 
     _account.reputation = getReputation(_account.reputation);
     _account.username = _account.name;
     _account.unread_activity_count = unreadActivityCount;
-    _account.rc_manabar = rcPower.rc_accounts[0].rc_manabar;
+    _account.vp_manabar = client.rc.calculateVPMana(_account);
+    _account.rc_manabar = client.rc.calculateRCMana(rcPower.rc_accounts[0]);
     _account.steem_power = await vestToSteem(
       _account.vesting_shares,
       globalProperties.total_vesting_shares,
@@ -201,11 +204,9 @@ export const getUser = async (user) => {
       get(globalProperties, 'total_vesting_fund_steem', globalProperties.total_vesting_fund_hive),
     );
 
-    if (has(_account, 'posting_json_metadata') || has(_account, 'json_metadata')) {
+    if (has(_account, 'posting_json_metadata')) {
       try {
-        _account.about =
-          JSON.parse(get(_account, 'posting_json_metadata')) ||
-          JSON.parse(get(_account, 'json_metadata'));
+        _account.about = JSON.parse(get(_account, 'posting_json_metadata'));
       } catch (e) {
         //alert(e);
         _account.about = {};
@@ -355,7 +356,7 @@ export const ignoreUser = async (currentAccount, pin, data) => {
   }
 
   if (key) {
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
 
     const json = {
       id: 'follow',
@@ -388,17 +389,33 @@ export const ignoreUser = async (currentAccount, pin, data) => {
   );
 };
 
-/**
- * @method getPosts get posts method
- * @param by get discussions by trending, created, active etc.
- * @param query tag, limit, start_author?, start_permalink?
- */
-export const getPosts = async (by, query, user) => {
+export const getActiveVotes = (author, permlink) =>
+  new Promise((resolve, reject) => {
+    try {
+      client
+        .call('condenser_api', 'get_active_votes', [author, permlink])
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
   try {
-    let posts = await client.database.getDiscussions(by, query);
+    let posts = await client.call('bridge', 'get_ranked_posts', query);
 
     if (posts) {
-      posts = await parsePosts(posts, user);
+      posts = parsePosts(posts, currentUserName, true);
+
+      if (filterNsfw !== '0') {
+        const updatedPosts = filterNsfwPost(posts, filterNsfw);
+        return updatedPosts;
+      }
     }
     return posts;
   } catch (error) {
@@ -406,24 +423,12 @@ export const getPosts = async (by, query, user) => {
   }
 };
 
-export const getActiveVotes = (author, permlink) =>
-  new Promise((resolve, reject) => {
-    client.database
-      .call('get_active_votes', [author, permlink])
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
-
-export const getPostsSummary = async (by, query, currentUserName, filterNsfw) => {
+export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
   try {
-    let posts = await client.database.getDiscussions(by, query);
+    let posts = await client.call('bridge', 'get_account_posts', query);
 
     if (posts) {
-      posts = await parsePosts(posts, currentUserName, true);
+      posts = parsePosts(posts, currentUserName, true);
 
       if (filterNsfw !== '0') {
         const updatedPosts = filterNsfwPost(posts, filterNsfw);
@@ -438,8 +443,10 @@ export const getPostsSummary = async (by, query, currentUserName, filterNsfw) =>
 
 export const getUserComments = async (query) => {
   try {
-    const comments = await client.database.getDiscussions('comments', query);
-    const groomedComments = await parseComments(comments);
+    query.sort = 'comments';
+    query.account = query.start_author;
+    const _comments = await client.call('bridge', 'get_account_posts', query);
+    const groomedComments = parseComments(_comments);
     return groomedComments;
   } catch (error) {
     return error;
@@ -453,7 +460,7 @@ export const getRepliesByLastUpdate = async (query) => {
       query.start_permlink,
       query.limit,
     ]);
-    const groomedComments = await parseComments(replies);
+    const groomedComments = parseComments(replies);
     return groomedComments;
   } catch (error) {
     return error;
@@ -464,7 +471,7 @@ export const getPost = async (author, permlink, currentUserName = null, isPromot
   try {
     const post = await client.database.call('get_content', [author, permlink]);
 
-    return post ? await parsePost(post, currentUserName, isPromoted) : null;
+    return post ? parsePost(post, currentUserName, isPromoted) : null;
   } catch (error) {
     return error;
   }
@@ -520,7 +527,7 @@ export const deleteComment = (currentAccount, pin, permlink) => {
       ],
     ];
 
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
 
     return client.broadcast.sendOperations(opArray, privateKey);
   }
@@ -530,7 +537,7 @@ export const getComments = async (author, permlink, currentUserName = null) => {
   try {
     const comments = await client.database.call('get_content_replies', [author, permlink]);
 
-    const groomedComments = await parseComments(comments, currentUserName);
+    const groomedComments = parseComments(comments, currentUserName);
 
     return comments ? groomedComments : null;
   } catch (error) {
@@ -581,9 +588,9 @@ export const signImage = async (file, currentAccount, pin) => {
       authors: [currentAccount.name],
       timestamp: parseInt(new Date().getTime() / 1000, 10),
     };
-    const hash = cryptoUtils2.sha256(JSON.stringify(message));
+    const hash = cryptoUtils.sha256(JSON.stringify(message));
 
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
     const signature = privateKey.sign(hash).toString();
     message.signatures = [signature];
     return b64uEnc(JSON.stringify(message));
@@ -626,7 +633,7 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
   }
 
   if (key) {
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
     const voter = currentAccount.name;
     const args = {
       voter,
@@ -642,7 +649,7 @@ const _vote = async (currentAccount, pin, author, permlink, weight) => {
           resolve(result);
         })
         .catch((err) => {
-          if (get(err, 'jse_info.code') === 4030100) {
+          if (err && get(err, 'jse_info.code') === 4030100) {
             err.message = getDsteemDateErrorMessage(err);
           }
           reject(err);
@@ -683,7 +690,7 @@ export const transferToken = (currentAccount, pin, data) => {
   );
 
   if (key) {
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
     const args = {
       from: get(data, 'from'),
       to: get(data, 'destination'),
@@ -720,7 +727,7 @@ export const convert = (currentAccount, pin, data) => {
   );
 
   if (key) {
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
 
     const args = [
       [
@@ -762,7 +769,7 @@ export const transferToSavings = (currentAccount, pin, data) => {
   );
 
   if (key) {
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
 
     const args = [
       [
@@ -803,7 +810,7 @@ export const transferFromSavings = (currentAccount, pin, data) => {
   );
 
   if (key) {
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
     const args = [
       [
         'transfer_from_savings',
@@ -844,7 +851,7 @@ export const transferToVesting = (currentAccount, pin, data) => {
   );
 
   if (key) {
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
     const args = [
       [
         'transfer_to_vesting',
@@ -883,7 +890,7 @@ export const withdrawVesting = (currentAccount, pin, data) => {
   );
 
   if (key) {
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
     const args = [
       [
         'withdraw_vesting',
@@ -921,7 +928,7 @@ export const delegateVestingShares = (currentAccount, pin, data) => {
   );
 
   if (key) {
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
     const args = [
       [
         'delegate_vesting_shares',
@@ -960,7 +967,7 @@ export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
   );
 
   if (key) {
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
     const args = [
       [
         'set_withdraw_vesting_route',
@@ -1007,7 +1014,7 @@ export const followUser = async (currentAccount, pin, data) => {
   }
 
   if (key) {
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
     const json = {
       id: 'follow',
       json: jsonStringify([
@@ -1053,7 +1060,7 @@ export const unfollowUser = async (currentAccount, pin, data) => {
   }
 
   if (key) {
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
 
     const json = {
       id: 'follow',
@@ -1113,6 +1120,7 @@ export const postContent = (
   title,
   body,
   jsonMetadata,
+  isEdit = false,
   options = null,
   voteWeight = null,
 ) =>
@@ -1128,10 +1136,9 @@ export const postContent = (
     options,
     voteWeight,
   ).then((resp) => {
-    if (options) {
-      const t = title ? 100 : 110;
-      const { block_num, id } = resp;
-
+    const t = title ? 100 : 110;
+    const { block_num, id } = resp;
+    if (!isEdit) {
       userActivity(account.username, t, block_num, id);
     }
     return resp;
@@ -1165,7 +1172,7 @@ const _postContent = async (
 
     const params = {
       parent_author: parentAuthor,
-      parent_permlink: parentPermlink,
+      parent_permlink: parentPermlink || '',
       author,
       permlink,
       title,
@@ -1230,7 +1237,7 @@ const _postContent = async (
       opArray.push(e);
     }
 
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
 
     return new Promise((resolve, reject) => {
       client.broadcast
@@ -1239,7 +1246,7 @@ const _postContent = async (
           resolve(result);
         })
         .catch((error) => {
-          if (get(error, 'jse_info.code') === 4030100) {
+          if (error && get(error, 'jse_info.code') === 4030100) {
             error.message = getDsteemDateErrorMessage(error);
           }
           reject(error);
@@ -1276,7 +1283,7 @@ const _reblog = async (account, pinCode, author, permlink) => {
   }
 
   if (key) {
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
     const follower = account.name;
 
     const json = {
@@ -1315,15 +1322,15 @@ export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rew
   }
 
   if (key) {
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
 
     const opArray = [
       [
         'claim_reward_balance',
         {
           account: account.name,
-          reward_steem: rewardSteem,
-          reward_sbd: rewardSbd,
+          reward_hive: rewardSteem,
+          reward_hbd: rewardSbd,
           reward_vests: rewardVests,
         },
       ],
@@ -1350,7 +1357,7 @@ export const transferPoint = (currentAccount, pinCode, data) => {
   });
 
   if (key) {
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
 
     const op = {
       id: 'esteem_point_transfer',
@@ -1372,7 +1379,7 @@ export const promote = (currentAccount, pinCode, duration, permlink, author) => 
   const key = getActiveKey(get(currentAccount, 'local'), pin);
 
   if (key) {
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
     const user = get(currentAccount, 'name');
 
     const json = {
@@ -1400,7 +1407,7 @@ export const boost = (currentAccount, pinCode, point, permlink, author) => {
   const key = getActiveKey(get(currentAccount, 'local'), pin);
 
   if (key && point) {
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
     const user = get(currentAccount, 'name');
 
     const json = {
@@ -1472,7 +1479,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
         },
       ],
     ];
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
 
     return new Promise((resolve, reject) => {
       client.broadcast
@@ -1481,7 +1488,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
           resolve(result);
         })
         .catch((error) => {
-          if (get(error, 'jse_info.code') === 4030100) {
+          if (error && get(error, 'jse_info.code') === 4030100) {
             error.message = getDsteemDateErrorMessage(error);
           }
           reject(error);
@@ -1506,9 +1513,9 @@ export const profileUpdate = async (params, pin, currentAccount) => {
 
     const _params = {
       account: get(currentAccount, 'name'),
-      memo_key: get(currentAccount, 'memo_key'),
-      json_metadata: jsonStringify({ profile: params }),
+      json_metadata: '',
       posting_json_metadata: jsonStringify({ profile: params }),
+      extensions: [],
     };
 
     const opArray = [['account_update2', _params]];
@@ -1525,15 +1532,14 @@ export const profileUpdate = async (params, pin, currentAccount) => {
         'account_update2',
         {
           account: get(currentAccount, 'name'),
-          memo_key: get(currentAccount, 'memo_key'),
-          json_metadata: jsonStringify({ profile: params }),
+          json_metadata: '',
           posting_json_metadata: jsonStringify({ profile: params }),
           extensions: [],
         },
       ],
     ];
 
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
 
     return new Promise((resolve, reject) => {
       client.broadcast
@@ -1542,7 +1548,7 @@ export const profileUpdate = async (params, pin, currentAccount) => {
           resolve(result);
         })
         .catch((error) => {
-          if (get(error, 'jse_info.code') === 4030100) {
+          if (error && get(error, 'jse_info.code') === 4030100) {
             error.message = getDsteemDateErrorMessage(error);
           }
           reject(error);
@@ -1566,7 +1572,7 @@ export const subscribeCommunity = (currentAccount, pinCode, data) => {
   ]);
 
   if (key) {
-    const privateKey = PrivateKey2.fromString(key);
+    const privateKey = PrivateKey.fromString(key);
 
     const op = {
       id: 'community',
@@ -1591,7 +1597,7 @@ export const getBtcAddress = (pin, currentAccount) => {
     const keyPair = bitcoin.ECPair.fromWIF(key);
     const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey });
 
-    console.log('btc address', address);
+    // console.log('btc address', address);
     return { address: address };
   }
   */

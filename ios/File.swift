@@ -2,8 +2,8 @@
 //  File.swift
 //  Ecency
 //
-//  Created by Ugur Erdal on 14.10.2019.
-//  Copyright © 2019 Facebook. All rights reserved.
+//  Created by Feruz Muradov on 2020-09-21.
+//  Copyright © 2020 Facebook. All rights reserved.
 //
 
 import Foundation

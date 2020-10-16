@@ -7,6 +7,7 @@ const SC_ACCOUNTS = 'sc_accounts';
 const AUTH_SCHEMA = 'auth';
 const DRAFT_SCHEMA = 'draft';
 const SETTINGS_SCHEMA = 'settings';
+const CACHE_SCHEMA = 'cache';
 const APPLICATION_SCHEMA = 'application';
 const STORAGE_SCHEMA = 'storage';
 
@@ -434,6 +435,27 @@ export const getCurrency = async () => {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
     if (setting) {
       return setting.currency;
+    }
+    return false;
+  } catch (error) {
+    return error;
+  }
+};
+export const setCache = async (params, value) => {
+  try {
+    const cache = await getItemFromStorage(CACHE_SCHEMA);
+    cache[params] = value;
+    await setItemToStorage(CACHE_SCHEMA, cache);
+    return true;
+  } catch (error) {
+    return error;
+  }
+};
+export const getCache = async (params) => {
+  try {
+    const cache = await getItemFromStorage(CACHE_SCHEMA);
+    if (cache && params) {
+      return cache[params];
     }
     return false;
   } catch (error) {

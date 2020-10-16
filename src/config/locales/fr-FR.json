@@ -27,7 +27,7 @@
     "vote_title": "Points pour vos votes",
     "reblog_title": "Points pour vos reblog",
     "login_title": "Points pour vos connexions",
-    "checkin_title": "Points for heartbeat",
+    "checkin_title": "Points d'activité",
     "referral": "Referral",
     "referral_title": "Referral rewards",
     "referral_desc": "Invite friends and earn Points",
@@ -216,7 +216,7 @@
     "signin_title": "To get all the benefits of using Ecency",
     "username": "Nom d'utilisateur",
     "password": "Mot de passe ou WIF",
-    "description": "Vos informations d'identification sont conservées localement sur votre appareil. Elles sont supprimées dès votre déconnexion !",
+    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "annuler",
     "login": "CONNEXION",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
@@ -230,7 +230,7 @@
     "ref_user": "Referred user (Optional)",
     "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
     "title_description": "One account to manage everything",
-    "form_description": "After registeration, you will receive an email with further instructions"
+    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
   },
   "home": {
     "feed": "Fil d'actualités",
@@ -277,9 +277,16 @@
     "limited_dash": "Use one dash in each tag",
     "limited_space": "Use space to separate tags",
     "limited_lowercase": "Only use lower letters in tag",
-    "limited_characters": "Use only allowed characters in tag",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Tag must start with a letter",
-    "limited_lastchar": "Tag must end with letter or number"
+    "limited_lastchar": "Tag must end with letter or number",
+    "setting_schedule": "Scheduling Time",
+    "setting_reward": "Reward",
+    "setting_beneficiary": "Beneficiary",
+    "reward_default": "Default 50% / 50%",
+    "reward_power_up": "Power Up 100%",
+    "reward_decline": "Decline Payout",
+    "beneficiaries": "Beneficiaries"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -289,17 +296,17 @@
   },
   "alert": {
     "success": "Succés!",
-    "successful": "Successful",
+    "successful": "Succès",
     "allRead": "Marquer toutes les notifications comme lues",
     "claim_reward_balance_ok": "Solde de récompense réclamé",
     "fail": "Échec !",
     "move": "Déplacer",
     "move_question": "Êtes-vous sûr de vouloir déplacer vers Broullions ?",
-    "success_shared": "Votre publication à été partagée avec succès",
+    "success_shared": "Success! Content submitted!",
     "success_moved": "Déplacé vers Brouillons",
     "permission_denied": "Autorisation refusée",
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Check private key permission!",
+    "key_warning": "Operation requires active key or master password, please relogin!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Vous avez déjà reblogué !",
     "success_favorite": "Favorite added!",
@@ -338,7 +345,7 @@
   },
   "post": {
     "reblog_alert": "Êtes-vous sûr de vouloir rebloguer ?",
-    "removed_hint": "Ce post à été supprimé par",
+    "removed_hint": "Content is not available",
     "copy_link": "Copy link",
     "reblogged": "reblogué par",
     "sponsored": "SPONSORISÉ",
@@ -373,6 +380,9 @@
     "added": "Ajouté aux signets",
     "add": "Ajouter aux signets"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Favoris",
     "load_error": "Impossible de charger les favoris",
@@ -403,7 +413,8 @@
     "share": "partager",
     "bookmarks": "ajouter aux signets",
     "promote": "promouvoir",
-    "boost": "accélérer"
+    "boost": "accélérer",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Utilisateur inexistant",
@@ -450,7 +461,7 @@
     "percent_information": "Percent info",
     "next": "SUIVANT",
     "delegate": "Déléguer",
-    "power_down": "Power Down",
+    "power_down": "Diminuer son influence",
     "withdraw_steem": "Withdraw HIVE",
     "withdraw_sbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Incoming Funds",
@@ -478,15 +489,15 @@
     "days": "jours",
     "user": "Utilisateur",
     "permlink": "Publier",
-    "permlinkPlaceholder": "author/permlink",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Êtes-vous sûr de vouloir promouvoir?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Booster"
   },
   "voters_dropdown": {
     "rewards": "RÉCOMPENSES",
-    "percent": "PERCENT",
+    "percent": "POURCENTAGE",
     "time": "HEURE"
   },
   "reblog": {
@@ -531,6 +542,8 @@
     }
   },
   "community": {
-    "new_post": "New Post"
+    "new_post": "New Post",
+    "community": "community",
+    "details": "Details"
   }
 }

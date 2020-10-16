@@ -9,6 +9,7 @@ import {
   CHANGE_ALL_NOTIFICATION_SETTINGS,
   CLOSE_PIN_CODE_MODAL,
   IS_CONNECTED,
+  IS_ANALYTICS,
   IS_DARK_THEME,
   IS_DEFAULT_FOOTER,
   IS_LOGIN_DONE,
@@ -39,6 +40,7 @@ const initialState = {
   isDarkTheme: false,
   isDefaultFooter: true,
   isLoggedIn: false, // Has any logged in user.
+  isAnalytics: false,
   isLoginDone: false,
   isLogingOut: false,
   isNotificationOpen: true,
@@ -77,6 +79,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isConnected: action.payload,
+      };
+    case IS_ANALYTICS:
+      return {
+        ...state,
+        isAnalytics: action.payload,
       };
     case LOGOUT:
       return {

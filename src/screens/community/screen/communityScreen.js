@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 
 // Components
-import { Posts, CollapsibleCard, Header } from '../../../components';
+import { Posts, CollapsibleCard, Header, BasicHeader } from '../../../components';
 import { Tag, ProfileSummaryPlaceHolder } from '../../../components/basicUIElements';
 
 import CommunityContainer from '../container/communityContainer';
@@ -39,9 +39,19 @@ const TagResultScreen = ({ navigation }) => {
         isLoggedIn,
       }) => (
         <View style={styles.container}>
-          <Header isReverse hideUser />
+          <BasicHeader
+            title={`${data && data.title ? data.title : ''} ${intl.formatMessage({
+              id: 'community.community',
+            })}`}
+          />
           {data ? (
-            <CollapsibleCard title={data.title} isTitleCenter defaultTitle="" expanded>
+            <CollapsibleCard
+              title={`${intl.formatMessage({
+                id: 'community.details',
+              })}`}
+              isTitleCenter
+              defaultTitle=""
+            >
               <View style={styles.collapsibleCard}>
                 <Text style={styles.description}>{data.description}</Text>
                 <View style={styles.separator} />

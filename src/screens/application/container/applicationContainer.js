@@ -18,6 +18,8 @@ import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
+import Matomo from 'react-native-matomo-sdk';
+import uniqueId from 'react-native-unique-id';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -56,7 +58,6 @@ import {
 import {
   activeApplication,
   isDarkTheme,
-  isLoginDone,
   changeNotificationSettings,
   changeAllNotificationSettings,
   login,
@@ -64,6 +65,7 @@ import {
   openPinCodeModal,
   setApi,
   setConnectivityStatus,
+  setAnalyticsStatus,
   setCurrency,
   setLanguage,
   setUpvotePercent,
@@ -110,6 +112,7 @@ class ApplicationContainer extends Component {
   componentDidMount = () => {
     const { isIos } = this.state;
     const { appVersion } = VersionNumber;
+    const { dispatch, isAnalytics } = this.props;
 
     this._setNetworkListener();
 
@@ -150,7 +153,6 @@ class ApplicationContainer extends Component {
 
     ReceiveSharingIntent.getReceivedFiles(
       (files) => {
-        console.log('files :>> ', files);
         navigate({
           routeName: ROUTES.SCREENS.EDITOR,
           params: { upload: files },
@@ -162,6 +164,30 @@ class ApplicationContainer extends Component {
         console.log('error :>> ', error);
       },
     );
+
+    // tracking init
+    Matomo.initialize(Config.ANALYTICS_URL, 1, 'https://ecency.com')
+      .catch((error) => console.warn('Failed to initialize matomo', error))
+      .then(() => {
+        if (isAnalytics !== true) {
+          dispatch(setAnalyticsStatus(true));
+        }
+      })
+      .then(() => {
+        uniqueId()
+          .then(async (id) => {
+            await Matomo.setUserId(id).catch((error) =>
+              console.warn('Error setting user id', error),
+            );
+          })
+          .catch((error) => console.error(error));
+      })
+      .then(() => {
+        // start up event
+        Matomo.trackEvent('Application', 'Startup').catch((error) =>
+          console.warn('Failed to track event', error),
+        );
+      });
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -213,9 +239,8 @@ class ApplicationContainer extends Component {
       const { isConnected, dispatch } = this.props;
       if (state.isConnected !== isConnected) {
         dispatch(setConnectivityStatus(state.isConnected));
-        //this._fetchApp();
+        this._fetchApp();
       }
-      this._fetchApp();
     });
   };
 
@@ -315,16 +340,11 @@ class ApplicationContainer extends Component {
 
   _fetchApp = async () => {
     await this._getSettings();
-    await this._refreshGlobalProps();
-    const userRealmObject = await this._getUserDataFromRealm();
     this.setState({
       isReady: true,
     });
-
-    const { isConnected } = this.props;
-    if (isConnected && userRealmObject) {
-      await this._fetchUserDataFromDsteem(userRealmObject);
-    }
+    this._refreshGlobalProps();
+    this._getUserDataFromRealm();
   };
 
   _pushNavigate = (notification) => {
@@ -461,13 +481,15 @@ class ApplicationContainer extends Component {
   };
 
   _getUserDataFromRealm = async () => {
-    const { dispatch, pinCode, isPinCodeOpen: _isPinCodeOpen } = this.props;
+    const { dispatch, pinCode, isPinCodeOpen: _isPinCodeOpen, isConnected } = this.props;
     let realmData = [];
 
     const res = await getAuthStatus();
     const { currentUsername } = res;
 
     if (res) {
+      dispatch(activeApplication());
+      dispatch(login(true));
       const userData = await getUserData();
 
       if (userData && userData.length > 0) {
@@ -526,16 +548,15 @@ class ApplicationContainer extends Component {
         dispatch(savePinCode(encryptedPin));
       }
 
-      dispatch(activeApplication());
-      dispatch(isLoginDone());
-      dispatch(login(true));
+      if (isConnected) {
+        this._fetchUserDataFromDsteem(realmObject[0]);
+      }
 
       return realmObject[0];
     }
 
     dispatch(updateCurrentAccount({}));
     dispatch(activeApplication());
-    dispatch(isLoginDone());
 
     return null;
   };
@@ -572,7 +593,7 @@ class ApplicationContainer extends Component {
       this.setState({
         isThemeReady: true,
       });
-      if (settings.isPinCodeOpen !== '') dispatch(isPinCodeOpen(settings.isPinCodeOpen));
+      if (settings.isPinCodeOpen !== '') await dispatch(isPinCodeOpen(settings.isPinCodeOpen));
       if (settings.language !== '') dispatch(setLanguage(settings.language));
       if (settings.server !== '') dispatch(setApi(settings.server));
       if (settings.upvotePercent !== '') {
@@ -684,34 +705,10 @@ class ApplicationContainer extends Component {
   };
 
   _handleWelcomeModalButtonPress = () => {
-    const { dispatch, otherAccounts } = this.props;
     const { appVersion } = VersionNumber;
-
-    const accountsWithoutSC = otherAccounts.filter(
-      (account) => !scAccounts.some((el) => el.username === account.username),
-    );
 
     setVersionForWelcomeModal(appVersion);
 
-    if (scAccounts.length > 0) {
-      scAccounts.forEach((el) => {
-        dispatch(removeOtherAccount(el.username));
-        removeUserData(el.username);
-      });
-
-      if (accountsWithoutSC.length > 0) {
-        this._switchAccount(accountsWithoutSC[0].username);
-      } else {
-        dispatch(updateCurrentAccount({}));
-        dispatch(login(false));
-        removePinCode();
-        setAuthStatus({ isLoggedIn: false });
-        setExistUser(false);
-        dispatch(removeAllOtherAccount());
-        dispatch(logoutDone());
-        navigate({ routeName: ROUTES.SCREENS.LOGIN });
-      }
-    }
     this.setState({ showWelcomeModal: false });
   };
 
@@ -805,6 +802,7 @@ export default connect(
     isActiveApp: state.application.isActive,
     api: state.application.api,
     isGlobalRenderRequired: state.application.isRenderRequired,
+    isAnalytics: state.application.isAnalytics,
 
     // Account
     unreadActivityCount: state.account.currentAccount.unread_activity_count,

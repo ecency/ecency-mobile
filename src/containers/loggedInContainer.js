@@ -18,7 +18,7 @@ const LoggedInContainer = ({ isLoggedIn, isLoginDone, children }) => {
         defaultText={intl.formatMessage({
           id: 'profile.login_to_see',
         })}
-        handleOnButtonPress={() => navigate(ROUTES.SCREENS.LOGIN)}
+        handleOnButtonPress={() => navigate({ routeName: ROUTES.SCREENS.LOGIN })}
       />
     );
   }

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity, Linking } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // Constants
@@ -27,13 +27,15 @@ class FormInputView extends PureComponent {
   // Component Functions
 
   render() {
-    const { description, iconName, bold } = this.props;
+    const { description, iconName, bold, link } = this.props;
 
     return (
-      <View style={styles.container}>
-        <Ionicons color="#c1c5c7" style={styles.infoIcon} name={iconName} />
-        <Text style={[styles.infoText, bold && styles.bold]}>{description}</Text>
-      </View>
+      <TouchableOpacity onPress={() => Linking.openURL(link)}>
+        <View style={styles.container}>
+          <Ionicons color="#c1c5c7" style={styles.infoIcon} name={iconName} />
+          <Text style={[styles.infoText, bold && styles.bold]}>{description}</Text>
+        </View>
+      </TouchableOpacity>
     );
   }
 }

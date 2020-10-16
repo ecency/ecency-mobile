@@ -90,7 +90,7 @@ class ProfileSummaryView extends PureComponent {
     const votingPowerHoursText = hoursVP && `• Full in ${hoursVP} hours`;
     const votingPowerText = `Voting power: ${percentVP}% ${votingPowerHoursText || ''}`;
     const rcPowerHoursText = hoursRC && `• Full in ${hoursRC} hours`;
-    const rcPowerText = `RCs: ${percentRC}% ${rcPowerHoursText || ''}`;
+    const rcPowerText = `Resource Credits: ${percentRC}% ${rcPowerHoursText || ''}`;
     const link = get(about, 'website', '');
     const location = get(about, 'location', '');
 

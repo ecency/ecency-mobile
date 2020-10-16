@@ -1,6 +1,6 @@
 {
   "name": "ecency",
-  "version": "3.0.2",
+  "version": "3.0.5",
   "displayName": "Ecency",
   "private": true,
   "rnpm": {
@@ -9,6 +9,7 @@
     ]
   },
   "scripts": {
+    "version": "./version-ios.sh",
     "postversion": "react-native-version --never-amend --legacy",
     "start": "react-native start",
     "android": "react-native run-android",
@@ -26,8 +27,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.5.5",
-    "@esteemapp/dhive": "^0.15.0",
-    "@esteemapp/esteem-render-helpers": "^1.5.5",
+    "@esteemapp/dhive": "0.15.0",
+    "@esteemapp/esteem-render-helpers": "^1.8.0",
     "@esteemapp/react-native-autocomplete-input": "^4.2.1",
     "@esteemapp/react-native-modal-popover": "^0.0.15",
     "@esteemapp/react-native-multi-slider": "^1.1.0",
@@ -42,6 +43,7 @@
     "@react-native-community/toolbar-android": "^0.1.0-rc.2",
     "@react-native-firebase/analytics": "^7.3.1",
     "@react-native-firebase/app": "^8.2.0",
+    "@react-native-firebase/dynamic-links": "^7.4.2",
     "@react-native-firebase/messaging": "^7.4.2",
     "appcenter": "^3.1.0",
     "appcenter-analytics": "^3.1.0",
@@ -53,7 +55,7 @@
     "crypto-js": "^3.1.9-1",
     "currency-symbol-map": "^4.0.4",
     "diff-match-patch": "^1.0.4",
-    "hivesigner": "^3.1.5",
+    "hivesigner": "^3.2.1",
     "intl": "^1.2.5",
     "jsc-android": "^241213.1.0",
     "lodash": "^4.17.13",
@@ -76,6 +78,7 @@
     "react-native-image-zoom-viewer": "^2.2.27",
     "react-native-keyboard-aware-scroll-view": "^0.9.1",
     "react-native-linear-gradient": "^2.4.2",
+    "react-native-matomo-sdk": "feruzm/react-native-matomo-sdk",
     "react-native-modal": "^11.5.6",
     "react-native-modal-dropdown": "ecency/react-native-modal-dropdown",
     "react-native-modal-translucent": "^5.0.0",
@@ -90,6 +93,7 @@
     "react-native-splash-screen": "^3.2.0",
     "react-native-svg": "^9.5.3",
     "react-native-swiper": "^1.6.0-rc.3",
+    "react-native-unique-id": "^2.0.0",
     "react-native-vector-icons": "^6.6.0",
     "react-native-version": "^4.0.0",
     "react-native-version-number": "^0.3.5",

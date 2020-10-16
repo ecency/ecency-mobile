@@ -17,7 +17,7 @@ import {
   getPinCode,
 } from '../../realm/realm';
 import { encryptKey, decryptKey } from '../../utils/crypto';
-import steemConnect from './steemConnectAPI';
+import hsApi from './hivesignerAPI';
 import { getSCAccessToken } from '../esteem/esteem';
 
 // Constants
@@ -27,7 +27,7 @@ export const login = async (username, password, isPinCodeOpen) => {
   let loginFlag = false;
   let avatar = '';
   let authType = '';
-  // Get user account data from STEEM Blockchain
+  // Get user account data from HIVE Blockchain
   const account = await getUser(username);
   const isUserLoggedIn = await isLoggedInUser(username);
 
@@ -64,8 +64,7 @@ export const login = async (username, password, isPinCodeOpen) => {
 
   let jsonMetadata;
   try {
-    jsonMetadata =
-      JSON.parse(account.posting_json_metadata) || JSON.parse(account.json_metadata) || '';
+    jsonMetadata = JSON.parse(account.posting_json_metadata) || '';
   } catch (err) {
     jsonMetadata = '';
   }
@@ -116,16 +115,15 @@ export const login = async (username, password, isPinCodeOpen) => {
 
 export const loginWithSC2 = async (code, isPinCodeOpen) => {
   const scTokens = await getSCAccessToken(code);
-  await steemConnect.setAccessToken(get(scTokens, 'access_token', ''));
-  const scAccount = await steemConnect.me();
+  await hsApi.setAccessToken(get(scTokens, 'access_token', ''));
+  const scAccount = await hsApi.me();
   const account = await getUser(scAccount.account.name);
   let avatar = '';
 
   return new Promise(async (resolve, reject) => {
     let jsonMetadata;
     try {
-      jsonMetadata =
-        JSON.parse(account.posting_json_metadata) || JSON.parse(account.json_metadata) || '';
+      jsonMetadata = JSON.parse(account.posting_json_metadata) || '';
       if (Object.keys(jsonMetadata).length !== 0) {
         avatar = jsonMetadata.profile.profile_image || '';
       }

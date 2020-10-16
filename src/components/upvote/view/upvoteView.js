@@ -112,23 +112,6 @@ class UpvoteView extends Component {
               isVoting: false,
             });
             dispatch(setRcOffer(true));
-            /*Alert.alert(
-              intl.formatMessage({
-                id: 'alert.fail',
-              }),
-              intl.formatMessage({
-                id: 'alert.rc_down',
-              }),
-              [
-                {
-                  text: 'Cancel',
-                  onPress: () => console.log('Cancel Pressed'),
-                  style: 'cancel',
-                },
-                { text: 'OK', onPress: () => },
-              ],
-              { cancelable: false },
-            );*/
           } else {
             //when voting with same percent or other errors
             Alert.alert(

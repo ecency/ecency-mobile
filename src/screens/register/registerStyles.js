@@ -1,4 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import autoMergeLevel1 from 'redux-persist/es/stateReconciler/autoMergeLevel1';
 
 export default EStyleSheet.create({
   container: {
@@ -48,7 +49,7 @@ export default EStyleSheet.create({
   },
   mascot: {
     width: 160,
-    height: 227,
+    height: 127,
   },
   titleText: {
     alignSelf: 'center',
@@ -57,10 +58,17 @@ export default EStyleSheet.create({
   },
   headerRow: {
     flexDirection: 'row',
+    height: '$deviceHeight / 10',
     justifyContent: 'space-between',
   },
   headerButton: {
     marginRight: 19,
+    alignSelf: 'center',
+  },
+  logo: {
+    width: 32,
+    height: 32,
+    marginLeft: 32,
     alignSelf: 'center',
   },
   mainButton: {

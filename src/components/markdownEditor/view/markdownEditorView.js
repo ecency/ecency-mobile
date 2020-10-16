@@ -35,7 +35,7 @@ const MarkdownEditorView = ({
 }) => {
   const [text, setText] = useState(draftBody || '');
   const [selection, setSelection] = useState({ start: 0, end: 0 });
-  const [editable, setEditable] = useState(null);
+  const [editable, setEditable] = useState(true);
 
   const inputRef = useRef(null);
   const galleryRef = useRef(null);
@@ -128,7 +128,7 @@ const MarkdownEditorView = ({
           selection: _selection,
         });
         setSelection(_selection);
-      }, 200);
+      }, 100);
     } else {
       inputRef.current.setNativeProps({
         selection: _selection,
@@ -140,7 +140,11 @@ const MarkdownEditorView = ({
 
   const _renderPreview = () => (
     <ScrollView style={styles.previewContainer}>
-      {text ? <PostBody body={renderPostBody(text)} /> : <Text>...</Text>}
+      {text ? (
+        <PostBody body={renderPostBody(text, true, Platform.OS === 'ios' ? false : true)} />
+      ) : (
+        <Text>...</Text>
+      )}
     </ScrollView>
   );
 
@@ -222,6 +226,7 @@ const MarkdownEditorView = ({
             <TextInput
               multiline
               autoCorrect={true}
+              autoFocus={true}
               onChangeText={_changeText}
               onSelectionChange={_handleOnSelectionChange}
               placeholder={intl.formatMessage({

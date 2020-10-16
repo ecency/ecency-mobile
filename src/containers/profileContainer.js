@@ -5,6 +5,7 @@ import { withNavigation } from 'react-navigation';
 import { get, has, unionBy } from 'lodash';
 import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
+import Matomo from 'react-native-matomo-sdk';
 
 // Providers
 import {
@@ -56,6 +57,7 @@ class ProfileContainer extends Component {
       navigation,
       isConnected,
       isLoggedIn,
+      isAnalytics,
       currentAccount: { name: currentAccountUsername },
     } = this.props;
     const username = get(navigation, 'state.params.username');
@@ -76,16 +78,35 @@ class ProfileContainer extends Component {
     }
 
     this._loadProfile(targetUsername);
+    if (isAnalytics) {
+      Matomo.trackView([`/@${targetUsername}`]).catch((error) =>
+        console.warn('Failed to track screen', error),
+      );
+    }
   }
 
   _getReplies = async (query) => {
-    const { isOwnProfile, comments } = this.state;
+    const { isOwnProfile, comments, user } = this.state;
+    const {
+      currentAccount: { name: currentAccountUsername },
+      isAnalytics,
+    } = this.props;
     let repliesAction;
 
     if (!isOwnProfile) {
       repliesAction = getUserComments;
+      if (isAnalytics && user) {
+        Matomo.trackView([`/@${user.name}/comments`]).catch((error) =>
+          console.warn('Failed to track screen', error),
+        );
+      }
     } else {
       repliesAction = getRepliesByLastUpdate;
+      if (isAnalytics) {
+        Matomo.trackView([`/@${currentAccountUsername}/replies`]).catch((error) =>
+          console.warn('Failed to track screen', error),
+        );
+      }
     }
     if (query) {
       await repliesAction({
@@ -186,23 +207,6 @@ class ProfileContainer extends Component {
       if (error.jse_shortmsg && error.jse_shortmsg.includes('wait to transact')) {
         //when RC is not enough, offer boosting account
         dispatch(setRcOffer(true));
-        /*Alert.alert(
-          intl.formatMessage({
-            id: 'alert.fail',
-          }),
-          intl.formatMessage({
-            id: 'alert.rc_down',
-          }),
-          [
-            {
-              text: 'Cancel',
-              onPress: () => console.log('Cancel Pressed'),
-              style: 'cancel',
-            },
-            { text: 'OK', onPress: () => console.log('OK Pressed') },
-          ],
-          { cancelable: false },
-        );*/
       } else {
         //when other errors
         this.setState(
@@ -266,9 +270,9 @@ class ProfileContainer extends Component {
 
   _loadProfile = async (username = null) => {
     let user;
-
+    const { isOwnProfile } = this.state;
     try {
-      user = await getUser(username);
+      user = await getUser(username, isOwnProfile);
       this._fetchProfile(username);
     } catch (error) {
       this._profileActionDone(error);
@@ -459,6 +463,7 @@ const mapStateToProps = (state) => ({
   isDarkTheme: state.application.isDarkTheme,
   isLoggedIn: state.application.isLoggedIn,
   pinCode: state.application.pin,
+  isAnalytics: state.application.isAnalytics,
   activeBottomTab: state.ui.activeBottomTab,
   currentAccount: state.account.currentAccount,
   isHideImage: state.ui.hidePostsThumbnails,

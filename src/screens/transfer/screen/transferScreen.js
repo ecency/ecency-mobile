@@ -5,7 +5,7 @@ import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
-import { steemConnectOptions } from '../../../constants/steemConnectOptions';
+import { hsOptions } from '../../../constants/hsOptions';
 import AUTH_TYPE from '../../../constants/authType';
 
 import {
@@ -298,7 +298,7 @@ class TransferView extends Component {
             handleOnModalClose={handleOnModalClose}
             title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
           >
-            <WebView source={{ uri: `${steemConnectOptions.base_url}${path}` }} />
+            <WebView source={{ uri: `${hsOptions.base_url}${path}` }} />
           </Modal>
         )}
       </Fragment>

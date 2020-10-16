@@ -57,6 +57,9 @@ class EditorContainer extends Component {
       post: null,
       uploadedImage: null,
       isDraft: false,
+      community: [],
+      rewardType: 'default',
+      beneficiaries: [],
     };
   }
 
@@ -97,9 +100,10 @@ class EditorContainer extends Component {
   _handleOpenImagePicker = () => {
     ImagePicker.openPicker({
       includeBase64: true,
+      multiple: true,
     })
-      .then((image) => {
-        this._handleMediaOnSelected(image);
+      .then((images) => {
+        this._handleMediaOnSelected(images);
       })
       .catch((e) => {
         this._handleMediaOnSelectFailure(e);
@@ -123,8 +127,15 @@ class EditorContainer extends Component {
       {
         isUploading: true,
       },
-      () => {
-        this._uploadImage(media);
+      async () => {
+        if (media.length > 0) {
+          for (let index = 0; index < media.length; index++) {
+            const element = media[index];
+            await this._uploadImage(element);
+          }
+        } else {
+          await this._uploadImage(media);
+        }
       },
     );
     // For new image api
@@ -153,7 +164,7 @@ class EditorContainer extends Component {
         }
       })
       .catch((error) => {
-        console.log(error, error.message);
+        // console.log(error, error.message);
         if (error.toString().includes('code 413')) {
           Alert.alert(
             intl.formatMessage({
@@ -284,6 +295,7 @@ class EditorContainer extends Component {
       pinCode,
       // isDefaultFooter,
     } = this.props;
+    const { rewardType, beneficiaries } = this.state;
 
     if (currentAccount) {
       this.setState({
@@ -309,7 +321,12 @@ class EditorContainer extends Component {
       }
 
       const author = currentAccount.name;
-      const options = makeOptions(author, permlink);
+      const options = makeOptions({
+        author: author,
+        permlink: permlink,
+        operationType: rewardType,
+        beneficiaries: beneficiaries,
+      });
       const parentPermlink = _tags[0] || 'hive-125125';
 
       if (scheduleDate) {
@@ -349,20 +366,18 @@ class EditorContainer extends Component {
                 }),
               ),
             );
-
-            this.setState({
-              isPostSending: false,
-            });
-
-            navigation.navigate({
-              routeName: ROUTES.SCREENS.POST,
-              params: {
-                author: get(currentAccount, 'name'),
-                permlink,
-                isNewPost: true,
-              },
-              key: permlink,
-            });
+            setTimeout(() => {
+              this.setState({
+                isPostSending: false,
+              });
+              navigation.navigate({
+                routeName: ROUTES.SCREENS.PROFILE,
+                params: {
+                  username: get(currentAccount, 'name'),
+                },
+                key: get(currentAccount, 'name'),
+              });
+            }, 3000);
           })
           .catch((error) => {
             this._handleSubmitFailure(error);
@@ -373,6 +388,7 @@ class EditorContainer extends Component {
 
   _submitReply = async (fields) => {
     const { currentAccount, pinCode } = this.props;
+    const { rewardType, beneficiaries } = this.state;
 
     if (currentAccount) {
       this.setState({
@@ -384,7 +400,12 @@ class EditorContainer extends Component {
       const jsonMeta = makeJsonMetadataReply(post.json_metadata.tags || ['ecency']);
       const permlink = generateReplyPermlink(post.author);
       const author = currentAccount.name;
-      const options = makeOptions(author, permlink);
+      const options = makeOptions({
+        author: author,
+        permlink: permlink,
+        operationType: rewardType,
+        beneficiaries: beneficiaries,
+      });
       const parentAuthor = post.author;
       const parentPermlink = post.permlink;
 
@@ -412,7 +433,7 @@ class EditorContainer extends Component {
 
   _submitEdit = async (fields) => {
     const { currentAccount, pinCode } = this.props;
-    const { post } = this.state;
+    const { post, isEdit } = this.state;
     if (currentAccount) {
       this.setState({
         isPostSending: true,
@@ -453,6 +474,7 @@ class EditorContainer extends Component {
         title,
         newBody,
         jsonMeta,
+        isEdit,
       )
         .then(() => {
           AsyncStorage.setItem('temp-reply', '');
@@ -469,35 +491,13 @@ class EditorContainer extends Component {
     if (error && error.jse_shortmsg.includes('wait to transact')) {
       //when RC is not enough, offer boosting account
       dispatch(setRcOffer(true));
-      /*Alert.alert(
-        intl.formatMessage({
-          id: 'alert.fail',
-        }),
-        intl.formatMessage({
-          id: 'alert.rc_down',
-        }),
-        [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-          {
-            text: 'OK',
-            onPress: () => console.log('OK Pressed'),
-          },
-        ],
-        {
-          cancelable: false,
-        },
-      );*/
     } else {
       //when other errors
       Alert.alert(
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        error.message || error.toString(),
+        error.message.split(':')[1] || error.toString(),
       );
     }
 
@@ -521,7 +521,7 @@ class EditorContainer extends Component {
         isPostSending: false,
       });
       clearTimeout(this.stateTimer);
-    }, 500);
+    }, 3000);
   };
 
   _handleOnBackPress = () => {
@@ -539,9 +539,33 @@ class EditorContainer extends Component {
     if (isReply && !isEdit) {
       this._submitReply(form.fields);
     } else if (isEdit) {
-      this._submitEdit(form.fields);
+      Alert.alert(
+        'Publishing edits',
+        'Are you sure?',
+        [
+          {
+            text: 'No',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          { text: 'Yes', onPress: () => this._submitEdit(form.fields) },
+        ],
+        { cancelable: false },
+      );
     } else {
-      this._submitPost(form.fields);
+      Alert.alert(
+        'Publishing new post',
+        'Are you sure?',
+        [
+          {
+            text: 'No',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          { text: 'Yes', onPress: () => this._submitPost(form.fields) },
+        ],
+        { cancelable: false },
+      );
     }
   };
 
@@ -651,6 +675,14 @@ class EditorContainer extends Component {
     });
   };
 
+  _handleRewardChange = (value) => {
+    this.setState({ rewardType: value });
+  };
+
+  _handleBeneficiaries = (value) => {
+    this.setState({ beneficiaries: value });
+  };
+
   // Component Life Cycle Functions
   UNSAFE_componentWillMount() {
     const { currentAccount, navigation } = this.props;
@@ -659,24 +691,27 @@ class EditorContainer extends Component {
     let isEdit;
     let post;
     let _draft;
-
     if (navigation.state && navigation.state.params) {
       const navigationParams = navigation.state.params;
 
       if (navigationParams.draft) {
         _draft = navigationParams.draft;
-
+        const _tags = _draft.tags.includes(' ') ? _draft.tags.split(' ') : _draft.tags.split(',');
         this.setState({
           draftPost: {
             title: _draft.title,
             body: _draft.body,
-            tags: _draft.tags.includes(' ') ? _draft.tags.split(' ') : _draft.tags.split(','),
+            tags: _tags,
           },
           draftId: _draft._id,
           isDraft: true,
         });
       }
-
+      if (navigationParams.community) {
+        this.setState({
+          community: navigationParams.community,
+        });
+      }
       if (navigationParams.upload) {
         const { upload } = navigationParams;
 
@@ -756,6 +791,7 @@ class EditorContainer extends Component {
       isUploading,
       post,
       uploadedImage,
+      community,
     } = this.state;
 
     const tags = navigation.state.params && navigation.state.params.tags;
@@ -764,6 +800,8 @@ class EditorContainer extends Component {
       <EditorScreen
         autoFocusText={autoFocusText}
         draftPost={draftPost}
+        handleRewardChange={this._handleRewardChange}
+        handleBeneficiaries={this._handleBeneficiaries}
         handleDatePickerChange={this._handleDatePickerChange}
         handleFormChanged={this._handleFormChanged}
         handleOnBackPress={this._handleOnBackPress}
@@ -784,6 +822,7 @@ class EditorContainer extends Component {
         saveDraftToDB={this._saveDraftToDB}
         uploadedImage={uploadedImage}
         tags={tags}
+        community={community}
       />
     );
   }

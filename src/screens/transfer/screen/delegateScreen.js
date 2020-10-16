@@ -8,7 +8,7 @@ import ActionSheet from 'react-native-actionsheet';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
-import { steemConnectOptions } from '../../../constants/steemConnectOptions';
+import { hsOptions } from '../../../constants/hsOptions';
 
 // Components
 import {
@@ -240,7 +240,7 @@ class DelegateScreen extends Component {
           handleOnModalClose={handleOnModalClose}
           title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
         >
-          <WebView source={{ uri: `${steemConnectOptions.base_url}${path}` }} />
+          <WebView source={{ uri: `${hsOptions.base_url}${path}` }} />
         </Modal>
       </Fragment>
     );

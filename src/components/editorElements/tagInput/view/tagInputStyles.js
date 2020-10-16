@@ -2,7 +2,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   container: {
-    height: 60,
+    height: 40,
   },
   textInput: {
     color: '$primaryBlack',

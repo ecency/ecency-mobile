@@ -1,4 +1,4 @@
-export const steemConnectOptions = {
+export const hsOptions = {
   base_url: 'https://hivesigner.com/',
   client_id: 'ecency.app',
   redirect_uri: 'http://127.0.0.1:3000/auth',

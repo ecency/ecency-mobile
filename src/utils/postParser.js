@@ -1,32 +1,28 @@
 import isEmpty from 'lodash/isEmpty';
 import forEach from 'lodash/forEach';
-import { get, uniqBy } from 'lodash';
-
+import { get } from 'lodash';
+import { Platform } from 'react-native';
 import { postBodySummary, renderPostBody } from '@esteemapp/esteem-render-helpers';
 
-// Dsteem
-// eslint-disable-next-line import/no-cycle
-import { getActiveVotes } from '../providers/steem/dsteem';
-import { getPostReblogs } from '../providers/esteem/esteem';
-
 // Utils
+import parseAsset from './parseAsset';
 import { getReputation } from './reputation';
 import { getResizedImage, getResizedAvatar } from './image';
 
-export const parsePosts = async (posts, currentUserName) => {
+const webp = Platform.OS === 'ios' ? false : true;
+
+export const parsePosts = (posts, currentUserName) => {
   if (posts) {
-    const promises = posts.map((post) => parsePost(post, currentUserName));
-    const formattedPosts = await Promise.all(promises);
+    const formattedPosts = posts.map((post) => parsePost(post, currentUserName));
     return formattedPosts;
   }
   return null;
 };
 
-export const parsePost = async (post, currentUserName, isPromoted) => {
+export const parsePost = (post, currentUserName, isPromoted) => {
   if (!post) {
     return null;
   }
-  const activeVotes = await getActiveVotes(get(post, 'author'), get(post, 'permlink'));
   if (currentUserName === post.author) {
     post.markdownBody = post.body;
   }
@@ -37,28 +33,19 @@ export const parsePost = async (post, currentUserName, isPromoted) => {
     post.json_metadata = {};
   }
   post.image = postImage(post.json_metadata, post.body);
-  post.active_votes = activeVotes;
-  post.vote_count = post.active_votes.length;
   post.author_reputation = getReputation(post.author_reputation);
   post.avatar = getResizedAvatar(get(post, 'author'));
-  post.active_votes.sort((a, b) => b.rshares - a.rshares);
 
-  post.body = renderPostBody(post);
+  post.body = renderPostBody(post, true, webp);
   post.summary = postBodySummary(post, 150);
-  post.is_declined_payout = Number(parseFloat(post.max_accepted_payout)) === 0;
+  post.is_declined_payout = parseAsset(post.max_accepted_payout).amount === 0;
 
-  if (currentUserName) {
-    post.is_voted = isVoted(post.active_votes, currentUserName);
-    post.is_down_voted = isDownVoted(post.active_votes, currentUserName);
-  } else {
-    post.is_voted = false;
-    post.is_down_voted = false;
-  }
+  const totalPayout =
+    parseAsset(post.pending_payout_value).amount +
+    parseAsset(post.author_payout_value).amount +
+    parseAsset(post.curator_payout_value).amount;
 
-  post.active_votes = parseActiveVotes(post, currentUserName);
-
-  post.reblogs = await getPostReblogs(post);
-  post.reblogCount = get(post, 'reblogs', []).length;
+  post.total_payout = totalPayout;
 
   return post;
 };
@@ -100,37 +87,22 @@ const postImage = (metaData, body) => {
   return '';
 };
 
-export const parseComments = async (comments, currentUserName) => {
-  const pArray = comments.map(async (comment) => {
-    const activeVotes = await getActiveVotes(get(comment, 'author'), get(comment, 'permlink'));
-
+export const parseComments = async (comments) => {
+  return comments.map((comment) => {
     comment.pending_payout_value = parseFloat(get(comment, 'pending_payout_value', 0)).toFixed(3);
     comment.author_reputation = getReputation(get(comment, 'author_reputation'));
     comment.avatar = getResizedAvatar(get(comment, 'author'));
     comment.markdownBody = get(comment, 'body');
-    comment.body = renderPostBody(comment);
-    comment.active_votes = activeVotes;
-    comment.vote_count = activeVotes && activeVotes.length;
-
-    if (currentUserName && activeVotes && activeVotes.length > 0) {
-      comment.is_voted = isVoted(activeVotes, currentUserName);
-      comment.is_down_voted = isDownVoted(comment.active_votes, currentUserName);
-    } else {
-      comment.is_voted = false;
-      comment.is_down_voted = false;
-    }
-
-    comment.active_votes = parseActiveVotes(comment, currentUserName);
+    comment.body = renderPostBody(comment, true, webp);
 
     return comment;
   });
-
-  const _comments = await Promise.all(pArray);
-
-  return _comments;
 };
 
-const isVoted = (activeVotes, currentUserName) => {
+export const isVoted = (activeVotes, currentUserName) => {
+  if (!currentUserName) {
+    return false;
+  }
   const result = activeVotes.find(
     (element) => get(element, 'voter') === currentUserName && get(element, 'percent', 0) > 0,
   );
@@ -140,7 +112,10 @@ const isVoted = (activeVotes, currentUserName) => {
   return false;
 };
 
-const isDownVoted = (activeVotes, currentUserName) => {
+export const isDownVoted = (activeVotes, currentUserName) => {
+  if (!currentUserName) {
+    return false;
+  }
   const result = activeVotes.find(
     (element) => get(element, 'voter') === currentUserName && get(element, 'percent') < 0,
   );
@@ -150,22 +125,19 @@ const isDownVoted = (activeVotes, currentUserName) => {
   return false;
 };
 
-const parseActiveVotes = (post, currentUserName) => {
+export const parseActiveVotes = (post) => {
   const totalPayout =
     parseFloat(post.pending_payout_value) +
     parseFloat(post.total_payout_value) +
     parseFloat(post.curator_payout_value);
-
-  post.total_payout = totalPayout.toFixed(3);
 
   const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
   const ratio = totalPayout / voteRshares || 0;
 
   if (!isEmpty(post.active_votes)) {
     forEach(post.active_votes, (value) => {
-      post.vote_percent = value.voter === currentUserName ? value.percent : null;
       value.value = (value.rshares * ratio).toFixed(3);
-      value.reputation = getReputation(get(value, 'reputation'));
+      //value.reputation = getReputation(get(value, 'reputation'));
       value.percent /= 100;
       value.is_down_vote = Math.sign(value.percent) < 0;
       value.avatar = getResizedAvatar(get(value, 'voter'));

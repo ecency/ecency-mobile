@@ -216,7 +216,7 @@
     "signin_title": "To get all the benefits of using Ecency",
     "username": "Nume utilizator",
     "password": "Parolă sau WIF",
-    "description": "Credentialele utilizatorului sunt salvate local pe dispozitiv. Credentialele sunt șterse după deconectare!",
+    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "anulează",
     "login": "AUTENTIFICARE",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
@@ -230,7 +230,7 @@
     "ref_user": "Referred user (Optional)",
     "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
     "title_description": "One account to manage everything",
-    "form_description": "After registeration, you will receive an email with further instructions"
+    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
   },
   "home": {
     "feed": "Flux",
@@ -277,9 +277,16 @@
     "limited_dash": "Folosește o liniuță în fiecare etichetă",
     "limited_space": "Foloseste spatii pentru a separa etichetele",
     "limited_lowercase": "Folosește litere mici în etichete",
-    "limited_characters": "În etichetă folosește doar caracterele permise",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Numele trebuie să înceapă cu o literă",
-    "limited_lastchar": "Eticheta trebuie să se termine cu o literă sau un număr"
+    "limited_lastchar": "Eticheta trebuie să se termine cu o literă sau un număr",
+    "setting_schedule": "Scheduling Time",
+    "setting_reward": "Reward",
+    "setting_beneficiary": "Beneficiary",
+    "reward_default": "Default 50% / 50%",
+    "reward_power_up": "Power Up 100%",
+    "reward_decline": "Decline Payout",
+    "beneficiaries": "Beneficiaries"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -295,11 +302,11 @@
     "fail": "Eșuat!",
     "move": "Mută",
     "move_question": "Esti sigur că vrei să muți la schițe?",
-    "success_shared": "Postarea ta a fost distribuită cu succes",
+    "success_shared": "Success! Content submitted!",
     "success_moved": "Mutat la schițe",
     "permission_denied": "Permisiune respinsă",
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Verifică permisiunea oferită de cheia privată!",
+    "key_warning": "Operation requires active key or master password, please relogin!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Ai redistribuit postarea deja!",
     "success_favorite": "Adăugat la favorite!",
@@ -323,7 +330,7 @@
     "same_user": "Utilizator adăugat deja la listă",
     "unknow_error": "A intervenit o eroare",
     "error": "Eroare",
-    "fetch_error": "Probleme de conexiune, încearcă din nou sau raportează la support@ecency.com",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Connectare Eșuată!",
     "connection_success": "Conectat cu succes!",
     "checking": "Verificare în curs...",
@@ -338,7 +345,7 @@
   },
   "post": {
     "reblog_alert": "Ești sigur că vrei să redistribui?",
-    "removed_hint": "Postarea a fost eliminată de către",
+    "removed_hint": "Content is not available",
     "copy_link": "Copiază linkul",
     "reblogged": "redistribuit de",
     "sponsored": "SPONSORIZAT",
@@ -373,6 +380,9 @@
     "added": "Adaugat la bookmarks",
     "add": "Adaugă la bookmarks"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Favorite",
     "load_error": "Nu s-au putut încărca favoritele",
@@ -384,7 +394,7 @@
     "invalid_username": "Nume utilizator invalid, te rugăm să verifici și să reincerci",
     "already_logged": "Ești deja conectat, te rugăm încearcă să adăugi alt cont",
     "invalid_credentials": "Credențiale invalide, te rugăm să verifici și să reîncerci",
-    "unknow_error": "Eroare necunoscută, te rugăm să ne contactezi la support@ecency.com"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Plată probabilă",
@@ -403,7 +413,8 @@
     "share": "distribuire",
     "bookmarks": "adaugă la bookmarks",
     "promote": "promovează",
-    "boost": "boost"
+    "boost": "boost",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Utilizator inexistent",
@@ -478,7 +489,7 @@
     "days": "zile",
     "user": "Utilizator",
     "permlink": "Postare",
-    "permlinkPlaceholder": "autor/permlink",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Sigur vrei să promovezi?"
   },
   "boostPost": {
@@ -531,6 +542,8 @@
     }
   },
   "community": {
-    "new_post": "New Post"
+    "new_post": "New Post",
+    "community": "community",
+    "details": "Details"
   }
 }

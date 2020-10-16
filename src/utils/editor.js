@@ -57,35 +57,47 @@ export const generateReplyPermlink = (toAuthor) => {
   return `re-${toAuthor.replace(/\./g, '')}-${timeFormat}`;
 };
 
-export const makeOptions = (author, permlink, operationType) => {
-  if (!author || !permlink) {
+export const makeOptions = (postObj) => {
+  if (!postObj.author || !postObj.permlink) {
     return {};
   }
 
   const a = {
     allow_curation_rewards: true,
     allow_votes: true,
-    author,
-    permlink,
+    author: postObj.author,
+    permlink: postObj.permlink,
     max_accepted_payout: '1000000.000 HBD',
-    percent_steem_dollars: 10000,
-    extensions: [[0, { beneficiaries: [{ account: 'ecency', weight: 100 }] }]],
+    percent_hbd: 10000,
+    extensions: [[0, { beneficiaries: [] }]],
   };
-
-  switch (operationType) {
+  console.log(postObj);
+  switch (postObj.operationType) {
     case 'sp':
       a.max_accepted_payout = '1000000.000 HBD';
-      a.percent_steem_dollars = 0;
+      a.percent_hbd = 0;
+      if (postObj.beneficiaries.length > 0) {
+        postObj.beneficiaries.sort((a, b) => a.account.localeCompare(b.account));
+        a.extensions[0][1].beneficiaries = postObj.beneficiaries || [];
+      }
       break;
 
     case 'dp':
       a.max_accepted_payout = '0.000 HBD';
-      a.percent_steem_dollars = 10000;
+      a.percent_hbd = 10000;
+      if (postObj.beneficiaries.length > 0) {
+        postObj.beneficiaries.sort((a, b) => a.account.localeCompare(b.account));
+        a.extensions[0][1].beneficiaries = postObj.beneficiaries || [];
+      }
       break;
 
     default:
       a.max_accepted_payout = '1000000.000 HBD';
-      a.percent_steem_dollars = 10000;
+      a.percent_hbd = 10000;
+      if (postObj.beneficiaries.length > 0) {
+        postObj.beneficiaries.sort((a, b) => a.account.localeCompare(b.account));
+        a.extensions[0][1].beneficiaries = postObj.beneficiaries || [];
+      }
       break;
   }
 

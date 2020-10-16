@@ -49,7 +49,6 @@ export default class Indicator extends PureComponent {
     const animation = Animated.timing(progress, {
       duration: animationDuration,
       easing: animationEasing,
-      useNativeDriver: true,
       isInteraction: interaction,
       toValue: 1,
     });

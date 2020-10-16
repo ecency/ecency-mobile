@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import get from 'lodash/get';
 import { TouchableOpacity, Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
@@ -21,52 +21,45 @@ import styles from './postCardStyles';
 import DEFAULT_IMAGE from '../../../assets/no_image.png';
 import NSFW_IMAGE from '../../../assets/nsfw.png';
 
-class PostCardView extends Component {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { string }     description       - Description texts.
-   *   @prop { string }     iconName          - For icon render name.
-   *
-   */
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      rebloggedBy: get(props.content, 'reblogged_by[0]', null),
-    };
-  }
+const PostCardView = ({
+  handleOnUserPress,
+  handleOnContentPress,
+  handleOnVotersPress,
+  handleOnReblogsPress,
+  content,
+  reblogs,
+  isHideImage,
+  fetchPost,
+  isNsfwPost,
+  intl,
+  activeVotes,
+}) => {
+  const [rebloggedBy, setRebloggedBy] = useState(get(content, 'reblogged_by[0]', null));
+  const [activeVot, setActiveVot] = useState(activeVotes);
 
   // Component Functions
 
-  _handleOnUserPress = () => {
-    const { handleOnUserPress } = this.props;
-
+  const _handleOnUserPress = () => {
     if (handleOnUserPress) {
       handleOnUserPress();
     }
   };
 
-  _handleOnContentPress = () => {
-    const { handleOnContentPress, content } = this.props;
-
+  const _handleOnContentPress = () => {
     handleOnContentPress(content);
   };
 
-  _handleOnVotersPress = () => {
-    const { handleOnVotersPress, content } = this.props;
-
-    handleOnVotersPress(get(content, 'active_votes'));
+  const _handleOnVotersPress = () => {
+    handleOnVotersPress();
   };
 
-  _handleOnReblogsPress = () => {
-    const { handleOnReblogsPress, content } = this.props;
-
-    if (content.reblogs.length > 0) {
-      handleOnReblogsPress(get(content, 'reblogs'));
+  const _handleOnReblogsPress = () => {
+    if (reblogs.length > 0) {
+      handleOnReblogsPress();
     }
   };
 
-  _getPostImage = (content, isNsfwPost) => {
+  const _getPostImage = (content, isNsfwPost) => {
     if (content && content.image) {
       if (isNsfwPost && content.nsfw) {
         return NSFW_IMAGE;
@@ -76,94 +69,94 @@ class PostCardView extends Component {
     return DEFAULT_IMAGE;
   };
 
-  // Component Lifecycle Functions
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { content } = this.props;
-    const rebloggedBy = get(content, 'reblogged_by[0]', null);
-    const _rebloggedBy = get(nextProps.content, 'reblogged_by[0]', null);
-
-    if (rebloggedBy !== _rebloggedBy && !_rebloggedBy) {
-      this.setState({ rebloggedBy });
+  useEffect(() => {
+    if (content) {
+      const _rebloggedBy = get(content, 'reblogged_by[0]', null);
+      setRebloggedBy(_rebloggedBy);
     }
-  }
+    if (activeVotes) {
+      setActiveVot(get(content, 'active_votes'));
+    }
+  }, [content]);
 
-  render() {
-    const { content, isHideImage, fetchPost, isNsfwPost, intl } = this.props;
-    const { rebloggedBy } = this.state;
-    const _image = this._getPostImage(content, isNsfwPost);
+  const _image = _getPostImage(content, isNsfwPost);
 
-    return (
-      <View style={styles.post}>
-        <View style={styles.bodyHeader}>
-          <PostHeaderDescription
-            date={getTimeFromNow(get(content, 'created'))}
-            isHideImage={isHideImage}
-            name={get(content, 'author')}
-            profileOnPress={this._handleOnUserPress}
-            reputation={get(content, 'author_reputation')}
-            size={36}
-            tag={content.category}
-            rebloggedBy={rebloggedBy}
-            isPromoted={get(content, 'is_promoted')}
-          />
-          <View style={styles.dropdownWrapper}>
-            <PostDropdown content={content} fetchPost={fetchPost} />
-          </View>
+  return (
+    <View style={styles.post}>
+      <View style={styles.bodyHeader}>
+        <PostHeaderDescription
+          date={getTimeFromNow(get(content, 'created'))}
+          isHideImage={isHideImage}
+          name={get(content, 'author')}
+          profileOnPress={_handleOnUserPress}
+          reputation={get(content, 'author_reputation')}
+          size={36}
+          tag={content.category}
+          rebloggedBy={rebloggedBy}
+          isPromoted={get(content, 'is_promoted')}
+        />
+        <View style={styles.dropdownWrapper}>
+          <PostDropdown content={content} fetchPost={fetchPost} />
         </View>
-        <View style={styles.postBodyWrapper}>
-          <TouchableOpacity style={styles.hiddenImages} onPress={this._handleOnContentPress}>
-            {!isHideImage && (
-              <FastImage source={_image} style={styles.thumbnail} defaultSource={DEFAULT_IMAGE} />
-            )}
-            <View style={[styles.postDescripton]}>
-              <Text style={styles.title}>{content.title}</Text>
-              <Text style={styles.summary}>{content.summary}</Text>
-            </View>
-          </TouchableOpacity>
-
-          {!!rebloggedBy && (
-            <TextWithIcon
-              text={`${intl.formatMessage({ id: 'post.reblogged' })} ${rebloggedBy}`}
-              iconType="MaterialIcons"
-              iconName="repeat"
-            />
+      </View>
+      <View style={styles.postBodyWrapper}>
+        <TouchableOpacity style={styles.hiddenImages} onPress={_handleOnContentPress}>
+          {!isHideImage && (
+            <FastImage source={_image} style={styles.thumbnail} defaultSource={DEFAULT_IMAGE} />
           )}
-        </View>
-        <View style={styles.bodyFooter}>
-          <View style={styles.leftFooterWrapper}>
-            <Upvote fetchPost={fetchPost} isShowPayoutValue content={content} />
-            <TouchableOpacity style={styles.commentButton} onPress={this._handleOnVotersPress}>
-              <TextWithIcon
-                iconName="heart-outline"
-                iconStyle={styles.commentIcon}
-                iconType="MaterialCommunityIcons"
-                isClickable
-                text={get(content, 'vote_count', 0)}
-                onPress={this._handleOnVotersPress}
-              />
-            </TouchableOpacity>
+          <View style={[styles.postDescripton]}>
+            <Text style={styles.title}>{content.title}</Text>
+            <Text style={styles.summary}>{content.summary}</Text>
           </View>
-          <View style={styles.rightFooterWrapper}>
+        </TouchableOpacity>
+
+        {!!rebloggedBy && (
+          <TextWithIcon
+            text={`${intl.formatMessage({ id: 'post.reblogged' })} ${rebloggedBy}`}
+            iconType="MaterialIcons"
+            iconName="repeat"
+          />
+        )}
+      </View>
+      <View style={styles.bodyFooter}>
+        <View style={styles.leftFooterWrapper}>
+          <Upvote
+            activeVotes={activeVot}
+            fetchPost={fetchPost}
+            isShowPayoutValue
+            content={content}
+          />
+          <TouchableOpacity style={styles.commentButton} onPress={_handleOnVotersPress}>
             <TextWithIcon
-              iconName="repeat"
-              iconStyle={styles.commentIcon}
-              iconType="MaterialIcons"
-              isClickable
-              text={get(content, 'reblogCount', 0)}
-              onPress={this._handleOnReblogsPress}
-            />
-            <TextWithIcon
-              iconName="comment-outline"
+              iconName="heart-outline"
               iconStyle={styles.commentIcon}
               iconType="MaterialCommunityIcons"
               isClickable
-              text={get(content, 'children', 0)}
+              text={activeVot.length}
+              onPress={_handleOnVotersPress}
             />
-          </View>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.rightFooterWrapper}>
+          <TextWithIcon
+            iconName="repeat"
+            iconStyle={styles.commentIcon}
+            iconType="MaterialIcons"
+            isClickable
+            text={reblogs.length}
+            onPress={_handleOnReblogsPress}
+          />
+          <TextWithIcon
+            iconName="comment-outline"
+            iconStyle={styles.commentIcon}
+            iconType="MaterialCommunityIcons"
+            isClickable
+            text={get(content, 'children', 0)}
+          />
         </View>
       </View>
-    );
-  }
-}
+    </View>
+  );
+};
 
 export default injectIntl(PostCardView);

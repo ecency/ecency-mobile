@@ -11,6 +11,7 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 			<string>applinks:ecency.com</string>
+			<string>applinks:ecency.page.link</string>
 	</array>
 </dict>
 </plist>

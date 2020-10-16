@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { Dimensions, Linking, Modal, PermissionsAndroid, Platform } from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
 import { withNavigation } from 'react-navigation';
@@ -36,10 +36,29 @@ const PostBody = ({
   const [postImages, setPostImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedLink, setSelectedLink] = useState(null);
+  const [html, setHtml] = useState('');
 
   const intl = useIntl();
   const actionImage = useRef(null);
   const actionLink = useRef(null);
+
+  useEffect(() => {
+    if (selectedLink) {
+      actionLink.current.show();
+    }
+  }, [selectedLink]);
+
+  useEffect(() => {
+    if (body) {
+      setHtml(body.replace(/<a/g, '<a target="_blank"'));
+    }
+  }, [body]);
+
+  useEffect(() => {
+    if (postImages.length > 0 || selectedImage) {
+      actionImage.current.show();
+    }
+  }, [postImages, selectedImage]);
 
   const _handleOnLinkPress = (event) => {
     if ((!event && !get(event, 'nativeEvent.data'), false)) {
@@ -71,7 +90,6 @@ const PostBody = ({
         case '_external':
         case 'markdown-external-link':
           setSelectedLink(href);
-          actionLink.current.show();
           //_handleBrowserLink(href);
           break;
         case 'markdown-author-link':
@@ -100,7 +118,6 @@ const PostBody = ({
         case 'image':
           setPostImages(images);
           setSelectedImage(image);
-          actionImage.current.show();
           break;
 
         default:
@@ -135,19 +152,21 @@ const PostBody = ({
   const handleLinkPress = (ind) => {
     if (ind === 1) {
       //open link
-      Linking.canOpenURL(selectedLink).then((supported) => {
-        if (supported) {
-          Linking.openURL(selectedLink);
-        } else {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'alert.failed_to_open',
-              }),
-            ),
-          );
-        }
-      });
+      if (selectedLink) {
+        Linking.canOpenURL(selectedLink).then((supported) => {
+          if (supported) {
+            Linking.openURL(selectedLink);
+          } else {
+            dispatch(
+              toastNotification(
+                intl.formatMessage({
+                  id: 'alert.failed_to_open',
+                }),
+              ),
+            );
+          }
+        });
+      }
     }
     if (ind === 0) {
       //copy to clipboard
@@ -273,7 +292,6 @@ const PostBody = ({
     }
   };
 
-  const html = body.replace(/<a/g, '<a target="_blank"');
   const customStyle = `
   * {
     color: ${EStyleSheet.value('$primaryBlack')};
@@ -371,12 +389,14 @@ const PostBody = ({
     width: 100%;
     height: 240px;
   }
-  .pull-right {
-    float: right;
+  .phishy {
+    display: inline;
+    color: red;
   }
-  .pull-left {
-    float: left;
+  .text-justify {
+    text-align: justify;
   }
+
   .pull-left,
   .pull-right {
     max-width: calc(50% - 10px);
@@ -384,15 +404,17 @@ const PostBody = ({
     margin-bottom: 10px;
     box-sizing: border-box;
   }
-  .phishy {
-    display: inline;
-    color: red;
+
+  .pull-left {
+    margin-right: 10px;
+    padding-right: 10px;
+    float: left;
   }
 
-  .text-justify {
-    text-align: justify;
-    text-justify: inter-word;
-    letter-spacing: 0px;
+  .pull-right {
+    margin-left: 10px;
+    padding-right: 10px;
+    float: right;
   }
   `;
   return (

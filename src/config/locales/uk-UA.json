@@ -216,7 +216,7 @@
     "signin_title": "Щоб отримати всі переваги від користування Ecency",
     "username": "Ім'я користувача",
     "password": "Пароль або WIF (приватний ключ)",
-    "description": "Дані користувача зберігаються локально на пристрої. Посвідчення видаляється після виходу з системи!",
+    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "скасувати",
     "login": "ЛОГІН",
     "steemconnect_description": "Якщо ви не бажаєте тримати пароль у зашифрованому вигляді на вашому пристрої, можете використовувати Hivesigner.",
@@ -230,7 +230,7 @@
     "ref_user": "Реферальний користувач (необов'язково)",
     "500_error": "Не вдалося обробити ваш запит, скоріш за все, черга реєстрації переповнена! Спробуйте ще раз через кілька хвилин...",
     "title_description": "Один рахунок для управління всім",
-    "form_description": "Після реєстрації ви отримаєте електронного листа з подальшими інструкціями"
+    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
   },
   "home": {
     "feed": "Стрічка",
@@ -277,9 +277,16 @@
     "limited_dash": "Використовуйте лише одне тире у кожному тезі",
     "limited_space": "Використовуйте пробіл для розділення тегів",
     "limited_lowercase": "Для тегів використовуйте лише маленькі літери",
-    "limited_characters": "Використовуйте лише дозволені символи в тезі",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Тег має починатися з літери",
-    "limited_lastchar": "Тег має закінчуватись літерою або числом"
+    "limited_lastchar": "Тег має закінчуватись літерою або числом",
+    "setting_schedule": "Scheduling Time",
+    "setting_reward": "Reward",
+    "setting_beneficiary": "Beneficiary",
+    "reward_default": "Default 50% / 50%",
+    "reward_power_up": "Power Up 100%",
+    "reward_decline": "Decline Payout",
+    "beneficiaries": "Beneficiaries"
   },
   "pincode": {
     "enter_text": "Для розблокування введіть пін-код",
@@ -295,11 +302,11 @@
     "fail": "Невдало!",
     "move": "Перемістити",
     "move_question": "Ви дійсно хочете перемістити до чернеток?",
-    "success_shared": "Ваш допис успішно поширили",
+    "success_shared": "Success! Content submitted!",
     "success_moved": "Переміщено до чернеток",
     "permission_denied": "У доступі відмовлено",
     "permission_text": "Будь ласка, перейдіть до налаштувань телефону та змініть дозволи для додатку Ecency.",
-    "key_warning": "Перевірте права доступу до закритого ключа!",
+    "key_warning": "Operation requires active key or master password, please relogin!",
     "success_rebloged": "Репост зроблено!",
     "already_rebloged": "Ви вже зробили репост!",
     "success_favorite": "До улюблених додано!",
@@ -338,7 +345,7 @@
   },
   "post": {
     "reblog_alert": "Ви дійсно бажаєте зробити репост?",
-    "removed_hint": "Допис видалено користувачем",
+    "removed_hint": "Content is not available",
     "copy_link": "Скопіювати посилання",
     "reblogged": "репостнуто",
     "sponsored": "СПОНСОРОВАНО",
@@ -373,6 +380,9 @@
     "added": "Додано до закладок",
     "add": "Додати до закладок"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Обране",
     "load_error": "Не вдалося завантажити обране",
@@ -403,7 +413,8 @@
     "share": "поширити",
     "bookmarks": "додати до закладок",
     "promote": "просувати",
-    "boost": "підсилити"
+    "boost": "підсилити",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Неіснуючий користувач",
@@ -478,7 +489,7 @@
     "days": "днів",
     "user": "Користувач",
     "permlink": "Допис",
-    "permlinkPlaceholder": "автор/постійне посилання",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Справді бажаєте просувати допис?"
   },
   "boostPost": {
@@ -531,6 +542,8 @@
     }
   },
   "community": {
-    "new_post": "Новий допис"
+    "new_post": "Новий допис",
+    "community": "community",
+    "details": "Details"
   }
 }

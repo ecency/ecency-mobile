@@ -158,6 +158,13 @@ class NotificationView extends PureComponent {
     </View>
   );
 
+  _renderItem = ({ item, index }) => (
+    <Fragment>
+      <ContainerHeader hasSeperator={index !== 0} isBoldTitle title={item.title} key={item.title} />
+      {this._renderList(item.notifications)}
+    </Fragment>
+  );
+
   render() {
     const { readAllNotification, getActivities, isNotificationRefreshing, intl } = this.props;
     const { filters, selectedFilter, selectedIndex } = this.state;
@@ -198,17 +205,7 @@ class NotificationView extends PureComponent {
                     colors={['#fff']}
                   />
                 }
-                renderItem={({ item, index }) => (
-                  <Fragment>
-                    <ContainerHeader
-                      hasSeperator={index !== 0}
-                      isBoldTitle
-                      title={item.title}
-                      key={item.title}
-                    />
-                    {this._renderList(item.notifications)}
-                  </Fragment>
-                )}
+                renderItem={this._renderItem}
               />
             ) : (
               <Text style={globalStyles.hintText}>

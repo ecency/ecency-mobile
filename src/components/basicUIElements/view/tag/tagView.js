@@ -2,10 +2,21 @@ import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import styles from './tagStyles';
 
-const Tag = ({ onPress, isPin, value, label, isPostCardTag, isFilter, style, textStyle }) => (
+const Tag = ({
+  onPress,
+  isPin,
+  value,
+  label,
+  isPostCardTag,
+  isFilter,
+  style,
+  textStyle,
+  disabled,
+}) => (
   <TouchableOpacity
     hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
     onPress={() => onPress && onPress(value)}
+    disabled={disabled}
   >
     <View
       style={[

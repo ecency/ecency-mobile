@@ -1,10 +1,14 @@
-import React, { PureComponent } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 
 // Services
-import { getPost } from '../../../providers/steem/dsteem';
+import { act } from 'react-test-renderer';
+import { getPost, getActiveVotes } from '../../../providers/steem/dsteem';
+import { getPostReblogs } from '../../../providers/esteem/esteem';
+
+import { parseActiveVotes } from '../../../utils/postParser';
 
 import PostCardView from '../view/postCardView';
 
@@ -16,16 +20,42 @@ import { default as ROUTES } from '../../../constants/routeNames';
  *
  */
 
-class PostCardContainer extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      _content: null,
-    };
-  }
+const PostCardContainer = ({
+  isRefresh,
+  navigation,
+  currentAccount,
+  content,
+  isHideImage,
+  nsfw,
+}) => {
+  const [activeVotes, setActiveVotes] = useState([]);
+  const [reblogs, setReblogs] = useState([]);
+  const [_content, setContent] = useState(null);
 
-  _handleOnUserPress = () => {
-    const { navigation, currentAccount, content } = this.props;
+  useEffect(() => {
+    if (isRefresh) {
+      _fetchPost();
+    }
+  }, [isRefresh]);
+
+  useEffect(() => {
+    if (content) {
+      getActiveVotes(get(content, 'author'), get(content, 'permlink'))
+        .then((result) => {
+          result.sort((a, b) => b.rshares - a.rshares);
+
+          const _votes = parseActiveVotes({ ...content, active_votes: result });
+          setActiveVotes(_votes);
+        })
+        .catch(() => {});
+
+      getPostReblogs(content).then((result) => {
+        setReblogs(result);
+      });
+    }
+  }, [content]);
+
+  const _handleOnUserPress = () => {
     if (content && get(currentAccount, 'name') !== get(content, 'author')) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.PROFILE,
@@ -38,23 +68,19 @@ class PostCardContainer extends PureComponent {
     }
   };
 
-  _handleOnContentPress = (content) => {
-    const { navigation } = this.props;
-
-    if (content) {
+  const _handleOnContentPress = (value) => {
+    if (value) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.POST,
         params: {
-          content,
+          content: value,
         },
-        key: get(content, 'permlink'),
+        key: get(value, 'permlink'),
       });
     }
   };
 
-  _handleOnVotersPress = (activeVotes) => {
-    const { navigation, content } = this.props;
-
+  const _handleOnVotersPress = () => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.VOTERS,
       params: {
@@ -64,9 +90,7 @@ class PostCardContainer extends PureComponent {
     });
   };
 
-  _handleOnReblogsPress = (reblogs) => {
-    const { navigation, content } = this.props;
-
+  const _handleOnReblogsPress = () => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.REBLOGS,
       params: {
@@ -76,44 +100,31 @@ class PostCardContainer extends PureComponent {
     });
   };
 
-  _fetchPost = async () => {
-    const { currentAccount, content } = this.props;
-
+  const _fetchPost = async () => {
     await getPost(get(content, 'author'), get(content, 'permlink'), get(currentAccount, 'username'))
       .then((result) => {
         if (result) {
-          this.setState({ _content: result });
+          setContent(result);
         }
       })
       .catch(() => {});
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (get(nextProps, 'isRefresh')) {
-      this._fetchPost();
-    }
-  }
-
-  render() {
-    const { content, isHideImage, nsfw } = this.props;
-    const { _content } = this.state;
-
-    const isNsfwPost = nsfw === '1';
-
-    return (
-      <PostCardView
-        handleOnUserPress={this._handleOnUserPress}
-        handleOnContentPress={this._handleOnContentPress}
-        handleOnVotersPress={this._handleOnVotersPress}
-        handleOnReblogsPress={this._handleOnReblogsPress}
-        fetchPost={this._fetchPost}
-        content={_content || content}
-        isHideImage={isHideImage}
-        isNsfwPost={isNsfwPost}
-      />
-    );
-  }
-}
+  return (
+    <PostCardView
+      handleOnUserPress={_handleOnUserPress}
+      handleOnContentPress={_handleOnContentPress}
+      handleOnVotersPress={_handleOnVotersPress}
+      handleOnReblogsPress={_handleOnReblogsPress}
+      fetchPost={_fetchPost}
+      content={_content || content}
+      isHideImage={isHideImage}
+      isNsfwPost={nsfw === '1'}
+      activeVotes={activeVotes}
+      reblogs={reblogs}
+    />
+  );
+};
 
 const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,

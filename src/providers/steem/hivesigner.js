@@ -1,4 +1,5 @@
-import steemConnect from './steemConnectAPI';
+import hs from './hivesignerAPI';
+import { makeOptions } from '../../utils/editor';
 
 /**
  * @method to upvote/unvote a content
@@ -6,8 +7,7 @@ import steemConnect from './steemConnectAPI';
  */
 export const vote = (voteObj) =>
   new Promise((resolve, reject) => {
-    steemConnect
-      .vote(voteObj.voter, voteObj.author, voteObj.permlink, voteObj.weight)
+    hs.vote(voteObj.voter, voteObj.author, voteObj.permlink, voteObj.weight)
       .then((result) => {
         resolve(result);
       })
@@ -22,16 +22,15 @@ export const vote = (voteObj) =>
  */
 export const comment = (commentObj) =>
   new Promise((resolve, reject) => {
-    steemConnect
-      .comment(
-        commentObj.parentAuthor,
-        commentObj.parentPermlink,
-        commentObj.author,
-        commentObj.permlink,
-        commentObj.title,
-        commentObj.body,
-        commentObj.jsonMetadata,
-      )
+    hs.comment(
+      commentObj.parentAuthor,
+      commentObj.parentPermlink,
+      commentObj.author,
+      commentObj.permlink,
+      commentObj.title,
+      commentObj.body,
+      commentObj.jsonMetadata,
+    )
       .then((result) => {
         resolve(result);
       })
@@ -59,13 +58,12 @@ export const post = (postObj) => {
   ];
   operations.push(commentOp);
 
-  const commentOptionsConfig = prepareBeneficiaries(postObj);
+  const commentOptionsConfig = makeOptions(postObj);
 
   operations.push(commentOptionsConfig);
 
   return new Promise((resolve, reject) => {
-    steemConnect
-      .broadcast(operations)
+    hs.broadcast(operations)
       .then((result) => {
         resolve(result);
       })
@@ -82,7 +80,7 @@ export const prepareBeneficiaries = (postObj) => {
     allow_votes: true,
     allow_curation_rewards: true,
     max_accepted_payout: '1000000.000 HBD',
-    percent_steem_dollars: '10000',
+    percent_hbd: '10000',
     extensions: [
       [
         0,
@@ -103,8 +101,7 @@ export const prepareBeneficiaries = (postObj) => {
 
 export const follow = (data) =>
   new Promise((resolve, reject) => {
-    steemConnect
-      .follow(data.follower, data.following)
+    hs.follow(data.follower, data.following)
       .then((result) => {
         resolve(result);
       })
@@ -115,8 +112,7 @@ export const follow = (data) =>
 
 export const unFollow = (data) =>
   new Promise((resolve, reject) => {
-    steemConnect
-      .unfollow(data.unfollower, data.unfollowing)
+    hs.unfollow(data.unfollower, data.unfollowing)
       .then((result) => {
         resolve(result);
       })
@@ -131,8 +127,7 @@ export const unFollow = (data) =>
  */
 export const claimRewards = (data) =>
   new Promise((resolve, reject) => {
-    steemConnect
-      .claimRewardBalance(data.account, data.rewardSteem, data.rewardSBD, data.VESTS)
+    hs.claimRewardBalance(data.account, data.rewardSteem, data.rewardSBD, data.VESTS)
       .then((result) => {
         resolve(result);
       })
@@ -147,8 +142,7 @@ export const claimRewards = (data) =>
  */
 export const muteUser = (data) =>
   new Promise((resolve, reject) => {
-    steemConnect
-      .ignore(data.follower, data.following)
+    hs.ignore(data.follower, data.following)
       .then((result) => {
         resolve(result);
       })
@@ -159,8 +153,7 @@ export const muteUser = (data) =>
 
 export const reblogPost = (data) =>
   new Promise((resolve, reject) => {
-    steemConnect
-      .reblog(data.account, data.author, data.permlink)
+    hs.reblog(data.account, data.author, data.permlink)
       .then((result) => {
         resolve(result);
       })
@@ -172,7 +165,7 @@ export const reblogPost = (data) =>
 export const removeAccessToken = (data) =>
   new Promise((resolve, reject) => {
     try {
-      steemConnect.removeAccessToken();
+      hs.removeAccessToken();
       resolve();
     } catch (error) {
       reject(error);
@@ -180,12 +173,12 @@ export const removeAccessToken = (data) =>
   });
 
 /**
- * @method to revoke access token (SteemConnect logout function)
+ * @method to revoke access token (Hivesigner logout function)
  */
 export const revokeToken = () =>
   new Promise((resolve, reject) => {
     try {
-      steemConnect.revokeToken();
+      hs.revokeToken();
       resolve();
     } catch (error) {
       reject(error);
@@ -198,8 +191,7 @@ export const revokeToken = () =>
  */
 export const updateUserMetadata = (data) =>
   new Promise((resolve, reject) => {
-    steemConnect
-      .updateUserMetadata(data)
+    hs.updateUserMetadata(data)
       .then((result) => {
         resolve(result);
       })

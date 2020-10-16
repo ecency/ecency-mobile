@@ -74,7 +74,9 @@ export const addDraft = (data) =>
       .post('/draft', data)
       .then((res) => {
         const { drafts } = res.data;
-        resolve(drafts.pop());
+        if (drafts) {
+          resolve(drafts.pop());
+        }
       })
       .catch((error) => {
         bugsnag.notify(error);
@@ -112,6 +114,13 @@ export const addBookmark = (username, author, permlink) =>
       author,
       permlink,
       chain: 'hive',
+    })
+    .then((resp) => resp.data);
+
+export const addReport = (url) =>
+  api
+    .post('/report', {
+      url,
     })
     .then((resp) => resp.data);
 
@@ -369,10 +378,11 @@ export const getNodes = () =>
     .then(
       (resp) =>
         resp.data.hived || [
-          'https://rpc.esteem.app',
+          'https://rpc.ecency.com',
           'https://api.hive.blog',
           'https://anyx.io',
-          'https://api.hivekings.com',
+          'https://rpc.esteem.app',
+          'https://api.openhive.network',
         ],
     );
 

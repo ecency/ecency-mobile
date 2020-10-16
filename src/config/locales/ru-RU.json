@@ -216,7 +216,7 @@
     "signin_title": "Чтобы получить все преимущества от использования Ecency",
     "username": "Пользователь",
     "password": "Пароль или ключ",
-    "description": "Ключи хранятся только на вашем устройстве и удаляются во время разлогина!",
+    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "отмена",
     "login": "Войти",
     "steemconnect_description": "Если вы не хотите хранить зашифрованные ключи на своем устройстве, используйте Hivesigner.",
@@ -230,7 +230,7 @@
     "ref_user": "Реферал (необязательно)",
     "500_error": "Ваш запрос не удалось обработать, скорее всего, очередь регистрации заполнена! Повторите попытку через несколько минут...",
     "title_description": "Один аккаунт для управления всем",
-    "form_description": "После регистрации вы получите email с дальнейшими инструкциями"
+    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
   },
   "home": {
     "feed": "Лента",
@@ -277,9 +277,16 @@
     "limited_dash": "Только один дефис в каждом теге",
     "limited_space": "Используйте пробел для разделения тегов",
     "limited_lowercase": "Используйте для тегов только нижний регистр",
-    "limited_characters": "Используйте в теге только допустимые символы",
+    "limited_characters": "Используйте только строчные буквы, цифры и одно тире",
     "limited_firstchar": "Тег должен начинаться с буквы",
-    "limited_lastchar": "Тег должен заканчиваться буквой или цифрой"
+    "limited_lastchar": "Тег должен заканчиваться буквой или цифрой",
+    "setting_schedule": "Scheduling Time",
+    "setting_reward": "Reward",
+    "setting_beneficiary": "Beneficiary",
+    "reward_default": "Default 50% / 50%",
+    "reward_power_up": "Power Up 100%",
+    "reward_decline": "Decline Payout",
+    "beneficiaries": "Beneficiaries"
   },
   "pincode": {
     "enter_text": "Чтобы разблокировать введите пин-код",
@@ -295,11 +302,11 @@
     "fail": "Не вышло!",
     "move": "Переместить",
     "move_question": "Вы уверены, что хотите переместить в черновики?",
-    "success_shared": "Ваш пост успешно опубликован",
+    "success_shared": "Success! Content submitted!",
     "success_moved": "Перемещён в черновики",
     "permission_denied": "Не достаточно разрешений",
     "permission_text": "Пожалуйста, перейдите в настройки телефона и измените разрешения для приложения Ecency.",
-    "key_warning": "Проверьте разрешения для Закрытого ключа!",
+    "key_warning": "Для данной операции нужен активный ключ или мастер ключ, пожалуйста, перезайдите в систему!",
     "success_rebloged": "Репостнуто!",
     "already_rebloged": "Вы уже делились этим постом!",
     "success_favorite": "Добавлено в Избранное!",
@@ -338,7 +345,7 @@
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
-    "removed_hint": "Сообщение удалено",
+    "removed_hint": "Контент не доступен",
     "copy_link": "Копировать ссылку",
     "reblogged": "репостнуто",
     "sponsored": "СПОНСИРОВАНО",
@@ -373,6 +380,9 @@
     "added": "закладка добавлена",
     "add": "добавить"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Избранное",
     "load_error": "Невозможно загрузить избранное",
@@ -403,7 +413,8 @@
     "share": "поделиться",
     "bookmarks": "добавить в закладки",
     "promote": "продвинуть",
-    "boost": "усилить"
+    "boost": "усилить",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
@@ -478,7 +489,7 @@
     "days": "дня(ей)",
     "user": "Пользователь",
     "permlink": "Пост",
-    "permlinkPlaceholder": "автор/постоянная ссылка",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Действительно хотите продвигать пост?"
   },
   "boostPost": {
@@ -531,6 +542,8 @@
     }
   },
   "community": {
-    "new_post": "Новый пост"
+    "new_post": "Новый пост",
+    "community": "community",
+    "details": "Details"
   }
 }

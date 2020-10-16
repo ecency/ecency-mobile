@@ -7,7 +7,7 @@ import get from 'lodash/get';
 import QRCode from 'react-native-qrcode-svg';
 import { connect, useDispatch } from 'react-redux';
 
-import { steemConnectOptions } from '../../../constants/steemConnectOptions';
+import { hsOptions } from '../../../constants/hsOptions';
 import AUTH_TYPE from '../../../constants/authType';
 import { encryptKey, decryptKey } from '../../../utils/crypto';
 

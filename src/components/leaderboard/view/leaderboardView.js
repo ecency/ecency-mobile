@@ -17,7 +17,7 @@ class LeaderboardView extends PureComponent {
    */
 
   // Component Functions
-  _renderItem = (item, index) => {
+  _renderItem = ({ item, index }) => {
     const { handleOnUserPress } = this.props;
 
     return (
@@ -70,7 +70,7 @@ class LeaderboardView extends PureComponent {
             removeClippedSubviews={false}
             ListEmptyComponent={<ListPlaceHolder />}
             onRefresh={() => fetchLeaderBoard()}
-            renderItem={({ item, index }) => this._renderItem(item, index)}
+            renderItem={this._renderItem}
             contentContainerStyle={styles.listContentContainer}
           />
         </View>

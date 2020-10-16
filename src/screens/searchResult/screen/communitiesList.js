@@ -8,7 +8,7 @@ import { CommunitiesPlaceHolder } from '../../../components/basicUIElements';
 // Styles
 import styles from './communitiesListStyles';
 
-const VotersDisplayView = ({
+const CommunitiesList = ({
   votes,
   handleOnPress,
   handleSubscribeButtonPress,
@@ -16,7 +16,7 @@ const VotersDisplayView = ({
   isLoggedIn,
   noResult,
 }) => {
-  const _renderItem = (item, index) => {
+  const _renderItem = ({ item, index }) => {
     const isSubscribed = allSubscriptions.some((sub) => sub[0] === item.name);
 
     return (
@@ -58,8 +58,8 @@ const VotersDisplayView = ({
       {!noResult && (
         <FlatList
           data={votes}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item, index }) => _renderItem(item, index)}
+          keyExtractor={(item) => item.id && item.id.toString()}
+          renderItem={_renderItem}
           ListEmptyComponent={_renderEmptyContent}
         />
       )}
@@ -67,4 +67,4 @@ const VotersDisplayView = ({
   );
 };
 
-export default VotersDisplayView;
+export default CommunitiesList;

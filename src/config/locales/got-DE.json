@@ -216,7 +216,7 @@
     "signin_title": "To get all the benefits of using Ecency",
     "username": "Username",
     "password": "Password or WIF",
-    "description": "User credentials are kept locally on the device. Credentials are removed upon logout!",
+    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "cancel",
     "login": "LOGIN",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
@@ -230,7 +230,7 @@
     "ref_user": "Referred user (Optional)",
     "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
     "title_description": "One account to manage everything",
-    "form_description": "After registeration, you will receive an email with further instructions"
+    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
   },
   "home": {
     "feed": "Feed",
@@ -277,9 +277,16 @@
     "limited_dash": "Use one dash in each tag",
     "limited_space": "Use space to separate tags",
     "limited_lowercase": "Only use lower letters in tag",
-    "limited_characters": "Use only allowed characters in tag",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Tag must start with a letter",
-    "limited_lastchar": "Tag must end with letter or number"
+    "limited_lastchar": "Tag must end with letter or number",
+    "setting_schedule": "Scheduling Time",
+    "setting_reward": "Reward",
+    "setting_beneficiary": "Beneficiary",
+    "reward_default": "Default 50% / 50%",
+    "reward_power_up": "Power Up 100%",
+    "reward_decline": "Decline Payout",
+    "beneficiaries": "Beneficiaries"
   },
   "pincode": {
     "enter_text": "Melei PIN du uslukan",
@@ -295,11 +302,11 @@
     "fail": "Fail!",
     "move": "Miþsatei",
     "move_question": "Wileis bi sunjai sokeinos miþsatjan?",
-    "success_shared": "Your post successfully shared",
+    "success_shared": "Success! Content submitted!",
     "success_moved": "Moved to draft",
     "permission_denied": "Permission denied",
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Check private key permission!",
+    "key_warning": "Operation requires active key or master password, please relogin!",
     "success_rebloged": "Aftrablaugiþ!",
     "already_rebloged": "You have already reblogged!",
     "success_favorite": "Favorite added!",
@@ -338,7 +345,7 @@
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
-    "removed_hint": "The post was removed by",
+    "removed_hint": "Content is not available",
     "copy_link": "Copy link",
     "reblogged": "reblogged by",
     "sponsored": "SPONSORED",
@@ -373,6 +380,9 @@
     "added": "Added to bookmarks",
     "add": "Add to bookmarks"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Favorites",
     "load_error": "Could not load favorites",
@@ -403,7 +413,8 @@
     "share": "share",
     "bookmarks": "add to bookmarks",
     "promote": "promote",
-    "boost": "boost"
+    "boost": "boost",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "No existing user",
@@ -478,7 +489,7 @@
     "days": "days",
     "user": "User",
     "permlink": "Post",
-    "permlinkPlaceholder": "author/permlink",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Are you sure to promote?"
   },
   "boostPost": {
@@ -531,6 +542,8 @@
     }
   },
   "community": {
-    "new_post": "New Post"
+    "new_post": "New Post",
+    "community": "community",
+    "details": "Details"
   }
 }

@@ -37,6 +37,7 @@ class EditorScreen extends Component {
         title: (props.draftPost && props.draftPost.title) || '',
         body: (props.draftPost && props.draftPost.body) || '',
         tags: (props.draftPost && props.draftPost.tags) || props.tags || [],
+        community: props.community || [],
         isValid: false,
       },
     };
@@ -44,14 +45,19 @@ class EditorScreen extends Component {
 
   // Component Life Cycles
   UNSAFE_componentWillReceiveProps = async (nextProps) => {
-    const { draftPost, isUploading } = this.props;
+    const { draftPost, isUploading, community } = this.props;
     if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
-      await this.setState((prevState) => ({
-        fields: {
-          ...prevState.fields,
-          ...nextProps.draftPost,
-        },
-      }));
+      await this.setState((prevState) => {
+        if (community && community.length > 0) {
+          nextProps.draftPost.tags = [...community, ...nextProps.draftPost.tags];
+        }
+        return {
+          fields: {
+            ...prevState.fields,
+            ...nextProps.draftPost,
+          },
+        };
+      });
     }
 
     if (isUploading !== nextProps) {
@@ -81,7 +87,9 @@ class EditorScreen extends Component {
   _handleOnPressPreviewButton = () => {
     const { isPreviewActive } = this.state;
 
-    this.setState({ isPreviewActive: !isPreviewActive });
+    this.setState({ isPreviewActive: !isPreviewActive }, () => {
+      this._handleIsFormValid();
+    });
   };
 
   _setWordsCount = (content) => {
@@ -137,7 +145,6 @@ class EditorScreen extends Component {
         get(fields, 'tags', null).length < 10 &&
         isLoggedIn;
     }
-
     this.setState({ isFormValid });
   };
 
@@ -163,16 +170,15 @@ class EditorScreen extends Component {
       this._saveCurrentDraft(fields);
     }
 
-    this.setState({ fields });
-
-    this._handleIsFormValid();
+    this.setState({ fields }, () => {
+      this._handleIsFormValid();
+    });
   };
 
   _handleOnTagAdded = async (tags) => {
     const { fields: _fields } = this.state;
-    const _tags = tags; //.filter(tag => tag && tag !== ' ');
-    const __tags = _tags.map((t) => t.toLowerCase());
-    const __fields = { ..._fields, tags: [...__tags] };
+    const __tags = tags; //.map((t) => t.replace(/([^a-z0-9-]+)/gi, '').toLowerCase());
+    const __fields = { ..._fields, tags: __tags };
     this.setState({ fields: __fields, isRemoveTag: false }, () => {
       this._handleFormUpdate('tag-area', __fields.tags);
     });
@@ -194,6 +200,8 @@ class EditorScreen extends Component {
       uploadedImage,
       handleOnBackPress,
       handleDatePickerChange,
+      handleRewardChange,
+      handleBeneficiaries,
     } = this.props;
     const rightButtonText = intl.formatMessage({
       id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : 'basic_header.publish',
@@ -203,6 +211,8 @@ class EditorScreen extends Component {
       <View style={globalStyles.defaultContainer}>
         <BasicHeader
           handleDatePickerChange={(date) => handleDatePickerChange(date, fields)}
+          handleRewardChange={handleRewardChange}
+          handleBeneficiaries={handleBeneficiaries}
           handleOnBackPress={handleOnBackPress}
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
           handleOnSaveButtonPress={this._handleOnSaveButtonPress}
@@ -226,9 +236,7 @@ class EditorScreen extends Component {
           isPreviewActive={isPreviewActive}
         >
           {isReply && !isEdit && <SummaryArea summary={post.summary} />}
-          {!isReply && (
-            <TitleArea value={fields.title} componentID="title" intl={intl} autoFocus={true} />
-          )}
+          {!isReply && <TitleArea value={fields.title} componentID="title" intl={intl} />}
           {!isReply && !isPreviewActive && (
             <TagInput
               value={fields.tags}

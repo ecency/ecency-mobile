@@ -159,6 +159,7 @@ class ProfileEditContainer extends Component {
       website,
       about,
       location,
+      version: 2,
     };
     await profileUpdate(params, pinCode, currentAccount)
       .then(async () => {

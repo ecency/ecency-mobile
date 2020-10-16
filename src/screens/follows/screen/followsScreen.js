@@ -26,7 +26,7 @@ class FollowsScreen extends PureComponent {
 
   // Component Functions
 
-  _renderItem = (item, index) => {
+  _renderItem = ({ item, index }) => {
     const { isFollowing } = this.props;
     const username = isFollowing ? item.following : item.follower;
 
@@ -48,7 +48,7 @@ class FollowsScreen extends PureComponent {
           keyExtractor={(item, index) => index.toString()}
           onEndReached={() => loadMore()}
           removeClippedSubviews={false}
-          renderItem={({ item, index }) => this._renderItem(item, index)}
+          renderItem={this._renderItem}
           ListEmptyComponent={
             isLoading ? (
               <ActivityIndicator />

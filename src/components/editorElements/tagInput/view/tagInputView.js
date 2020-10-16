@@ -54,7 +54,7 @@ const TagInput = ({
         ? setWarning(intl.formatMessage({ id: 'editor.limited_lastchar' }))
         : setWarning(null);
 
-      // handleTagChanged([...cats]);
+      handleTagChanged([...cats]);
     }
   };
   const _handleOnBlur = () => {
@@ -96,9 +96,12 @@ const TagInput = ({
             placeholder={intl.formatMessage({
               id: 'editor.tags',
             })}
-            multiline
-            numberOfLines={2}
+            //multiline
+            //numberOfLines={2}
+            autoCompleteType="off"
+            autoCorrect={false}
             autoFocus={autoFocus}
+            autoCapitalize="none"
             onChangeText={(textT) => _handleOnChange(textT)}
             onBlur={() => _handleOnBlur()}
             value={text}

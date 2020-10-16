@@ -15,7 +15,7 @@ import ROUTES from '../../constants/routeNames';
 // Styles
 import styles from './registerStyles';
 
-import ESTEEM_LOGO from '../../assets/ecency-logo.png';
+import ESTEEM_LOGO from '../../assets/like_new.png';
 import ESTEEM_SMALL_LOGO from '../../assets/ecency_logo_transparent.png';
 
 const RegisterScreen = ({ navigation }) => {
@@ -141,6 +141,7 @@ const RegisterScreen = ({ navigation }) => {
               <InformationArea
                 description={intl.formatMessage({ id: 'register.form_description' })}
                 iconName="ios-information-circle-outline"
+                link="https://ecency.com/terms-of-service"
               />
             </KeyboardAwareScrollView>
 

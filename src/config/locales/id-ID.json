@@ -216,7 +216,7 @@
     "signin_title": "To get all the benefits of using Ecency",
     "username": "Nama Pengguna",
     "password": "Kata sandi atau WIF",
-    "description": "kredensial pengguna disimpan secara lokal pada perangkat. Setelah Keluar kredensial dihapus!",
+    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "batal",
     "login": "MASUK",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
@@ -230,7 +230,7 @@
     "ref_user": "Referred user (Optional)",
     "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
     "title_description": "One account to manage everything",
-    "form_description": "After registeration, you will receive an email with further instructions"
+    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
   },
   "home": {
     "feed": "Umpan",
@@ -277,9 +277,16 @@
     "limited_dash": "Gunakan satu tanda hubung di setiap tag",
     "limited_space": "Gunakan spasi untuk memisahkan tag",
     "limited_lowercase": "Hanya menggunakan huruf kecil dalam tag",
-    "limited_characters": "Gunakan hanya karakter yang diizinkan dalam tag",
+    "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Tag harus dimulai dengan huruf",
-    "limited_lastchar": "Tag harus diakhiri dengan huruf atau angka"
+    "limited_lastchar": "Tag harus diakhiri dengan huruf atau angka",
+    "setting_schedule": "Scheduling Time",
+    "setting_reward": "Reward",
+    "setting_beneficiary": "Beneficiary",
+    "reward_default": "Default 50% / 50%",
+    "reward_power_up": "Power Up 100%",
+    "reward_decline": "Decline Payout",
+    "beneficiaries": "Beneficiaries"
   },
   "pincode": {
     "enter_text": "Masukkan PIN untuk membuka kunci",
@@ -295,11 +302,11 @@
     "fail": "Gagal!",
     "move": "Pindahkan",
     "move_question": "Apakah Anda yakin untuk pindah ke konsep?",
-    "success_shared": "Postingan anda berhasil dibagikan",
+    "success_shared": "Success! Content submitted!",
     "success_moved": "Pindah ke konsep",
     "permission_denied": "Izin ditolak",
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Periksa izin kunci pribadi!",
+    "key_warning": "Operation requires active key or master password, please relogin!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Anda telah menampilkan kembali blog ini!",
     "success_favorite": "Favorit ditambahkan!",
@@ -323,7 +330,7 @@
     "same_user": "Pengguna ini sudah ditambahkan ke daftar",
     "unknow_error": "Terjadi kesalahan",
     "error": "Error",
-    "fetch_error": "Masalah koneksi, silakan coba lagi atau tulis untuk dukungan@Ecency.app",
+    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
     "connection_fail": "Koneksi gagal!",
     "connection_success": "Berhasil terhubung!",
     "checking": "Mememriksa...",
@@ -338,7 +345,7 @@
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
-    "removed_hint": "Pos dihapus oleh",
+    "removed_hint": "Content is not available",
     "copy_link": "Copy link",
     "reblogged": "direblog Oleh",
     "sponsored": "DISPONSORI",
@@ -373,6 +380,9 @@
     "added": "Ditambahkan ke ditandai",
     "add": "Ditambahkan ke bookmark"
   },
+  "report": {
+    "added": "Reported objectionable content"
+  },
   "favorites": {
     "title": "Favorit",
     "load_error": "Tidak dapat menampilkan favorit",
@@ -384,7 +394,7 @@
     "invalid_username": "Nama pengguna tidak valid, silakan periksa dan coba lagi",
     "already_logged": "Anda sudah masuk, coba tambahkan akun lain",
     "invalid_credentials": "Kredensial tidak valid, silakan periksa dan coba lagi",
-    "unknow_error": "Kesalahan tidak dikenal, silakan menulis ke support@ecency.com"
+    "unknow_error": "Unknown error, please write to support@ecency.com"
   },
   "payout": {
     "potential_payout": "Potensi pembayaran",
@@ -403,7 +413,8 @@
     "share": "bagikan",
     "bookmarks": "tambah ke penanda",
     "promote": "promosikan",
-    "boost": "menaikkan"
+    "boost": "menaikkan",
+    "report": "report"
   },
   "deep_link": {
     "no_existing_user": "Tidak ada pengguna yang ada",
@@ -478,7 +489,7 @@
     "days": "hari",
     "user": "Pengguna",
     "permlink": "Posting",
-    "permlinkPlaceholder": "penulis/tautkan",
+    "permlinkPlaceholder": "username/permlink",
     "information": "Anda yakin akan promosikan?"
   },
   "boostPost": {
@@ -531,6 +542,8 @@
     }
   },
   "community": {
-    "new_post": "New Post"
+    "new_post": "New Post",
+    "community": "community",
+    "details": "Details"
   }
 }

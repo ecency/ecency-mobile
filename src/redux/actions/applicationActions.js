@@ -11,6 +11,7 @@ import {
   CHANGE_VOTE_NOTIFICATION,
   CLOSE_PIN_CODE_MODAL,
   IS_CONNECTED,
+  IS_ANALYTICS,
   IS_DARK_THEME,
   IS_DEFAULT_FOOTER,
   IS_LOGIN_DONE,
@@ -142,6 +143,11 @@ export const isPinCodeOpen = (payload) => ({
 export const setConnectivityStatus = (payload) => ({
   payload,
   type: IS_CONNECTED,
+});
+
+export const setAnalyticsStatus = (payload) => ({
+  payload,
+  type: IS_ANALYTICS,
 });
 
 export const setNsfw = (payload) => ({
