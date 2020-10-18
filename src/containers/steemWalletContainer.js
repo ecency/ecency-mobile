@@ -12,7 +12,7 @@ import { getAccount, claimRewardBalance, getBtcAddress } from '../providers/stee
 import { openPinCodeModal } from '../redux/actions/applicationActions';
 
 // Utils
-import { groomingWalletData, groomingTransactionData } from '../utils/wallet';
+import { groomingWalletData, groomingTransactionData, transferTypes } from '../utils/wallet';
 import parseToken from '../utils/parseToken';
 import { vestsToSp } from '../utils/conversions';
 import { navigate } from '../navigation/service';
@@ -73,24 +73,8 @@ const WalletContainer = ({
   }, [_getWalletData, selectedUser]);
 
   useEffect(() => {
-    const _transferHistory = userActivities.filter(
-      (item) =>
-        get(item, 'textKey') === 'transfer' ||
-        get(item, 'textKey') === 'transfer_to_vesting' ||
-        get(item, 'textKey') === 'transfer_to_savings' ||
-        get(item, 'textKey') === 'withdraw_vesting' ||
-        get(item, 'textKey') === 'transfer_from_savings' ||
-        get(item, 'textKey') === 'convert' ||
-        get(item, 'textKey') === 'escrow_transfer' ||
-        get(item, 'textKey') === 'escrow_dispute' ||
-        get(item, 'textKey') === 'escrow_release' ||
-        get(item, 'textKey') === 'escrow_approve' ||
-        get(item, 'textKey') === 'cancel_transfer_from_savings' ||
-        get(item, 'textKey') === 'delegate_vesting_shares' ||
-        get(item, 'textKey') === 'fill_convert_request' ||
-        get(item, 'textKey') === 'fill_transfer_from_savings' ||
-        get(item, 'textKey') === 'fill_vesting_withdraw' ||
-        get(item, 'textKey') === 'fill_order',
+    const _transferHistory = userActivities.filter((item) =>
+      transferTypes.includes(get(item, 'textKey')),
     );
 
     setTransferHistory(_transferHistory);

@@ -2,8 +2,30 @@ import get from 'lodash/get';
 import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToSp } from './conversions';
-import { getState, getFeedHistory, getAccount, getAccountHistory } from '../providers/steem/dsteem';
+import { getFeedHistory, getAccount, getAccountHistory } from '../providers/steem/dsteem';
 import { getCurrencyTokenRate } from '../providers/esteem/esteem';
+
+export const transferTypes = [
+  'curation_reward',
+  'author_reward',
+  'comment_benefactor_reward',
+  'claim_reward_balance',
+  'transfer',
+  'transfer_to_savings',
+  'transfer_from_savings',
+  'transfer_to_vesting',
+  'withdraw_vesting',
+  'fill_order',
+  'escrow_transfer',
+  'escrow_dispute',
+  'escrow_release',
+  'escrow_approve',
+  'delegate_vesting_shares',
+  'cancel_transfer_from_savings',
+  'fill_convert_request',
+  'fill_transfer_from_savings',
+  'fill_vesting_withdraw',
+];
 
 export const groomingTransactionData = (transaction, steemPerMVests) => {
   if (!transaction || !steemPerMVests) {
@@ -224,22 +246,13 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   const timeDiff = Math.abs(parseDate(userdata.next_vesting_withdrawal) - new Date());
   walletData.nextVestingWithdrawal = Math.round(timeDiff / (1000 * 3600));
 
-  /*const history = await getAccountHistory(get(user, 'name'));
+  const history = await getAccountHistory(get(user, 'name'));
 
-  const transfers = history.filter((tx) => {
-    return tx[1] && tx[1].op && tx[1].op[0] === 'claim_reward_balance'
-  });
+  const transfers = history.filter((tx) => transferTypes.includes(get(tx[1], 'op[0]', false)));
 
-  const actualTransfers = transfers.reduce((arr, tx) => {
-    console.log('tx', tx[1])
-    const transaction = tx[1].op[1];
-    const date = new Date(`${tx[1].timestamp}Z`);
-    transaction.date = date;
-    arr.push(transaction);
-    return arr;
-  }, []);
-  */
-  walletData.transactions = [];
+  transfers.sort(compare);
+
+  walletData.transactions = transfers;
   return walletData;
 };
 
