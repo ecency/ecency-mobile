@@ -1,5 +1,4 @@
 import React from 'react';
-import { SafeAreaView } from 'react-native';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 
@@ -7,9 +6,6 @@ import get from 'lodash/get';
 import { BasicHeader, FilterBar, VotersDisplay } from '../../../components';
 
 import AccountListContainer from '../../../containers/accountListContainer';
-
-// Utils
-import globalStyles from '../../../globalStyles';
 
 const filterOptions = ['rewards', 'percent', 'time'];
 
@@ -20,9 +16,30 @@ const VotersScreen = ({ navigation }) => {
   });
 
   const activeVotes = get(navigation, 'state.params.activeVotes');
+  const totalPayout = get(navigation, 'state.params.totalPayout');
+
+  const voteRshares = activeVotes.reduce((a, b) => a + parseFloat(b.rshares), 0);
+  const ratio = totalPayout / voteRshares;
+
+  const _activeVotes = activeVotes
+    .map((a) => {
+      const rew = parseFloat(a.rshares) * ratio;
+
+      return Object.assign({}, a, {
+        reward: rew,
+      });
+    })
+    .sort((a, b) => {
+      const keyA = a.reward;
+      const keyB = b.reward;
+
+      if (keyA > keyB) return -1;
+      if (keyA < keyB) return 1;
+      return 0;
+    });
 
   return (
-    <AccountListContainer data={activeVotes}>
+    <AccountListContainer data={_activeVotes}>
       {({ data, filterResult, filterIndex, handleOnVotersDropdownSelect, handleSearch }) => (
         <>
           <BasicHeader
