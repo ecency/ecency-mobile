@@ -38,7 +38,7 @@ const VotersDisplayView = ({ votes, navigation }) => {
   };
 
   const _renderItem = ({ item, index }) => {
-    const value = `$ ${item.value}`;
+    const value = `$ ${item.reward}`;
     const percent = `${item.percent}%`;
 
     return (

@@ -60,7 +60,6 @@ const PostDisplayContainer = ({
       params: {
         activeVotes,
         content: post,
-        user: currentAccount,
       },
       // TODO: make unic
       key: post.permlink + activeVotes.length,

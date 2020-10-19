@@ -1,32 +1,20 @@
-import { Component } from 'react';
+import { Component, useState, useEffect } from 'react';
 
 import { isBefore } from '../utils/time';
 
 import ROUTES from '../constants/routeNames';
 
-class AccountListContainer extends Component {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { type }    name                - Description....
-   */
+const AccountListContainer = ({ data, navigation, children }) => {
+  const [vdata, setVData] = useState(data);
+  const [filterResult, setFilterResult] = useState(null);
+  const [filterIndex, setFilterIndex] = useState(0);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: props.data,
-      filterResult: null,
-      filterIndex: 0,
-    };
-  }
+  useEffect(() => {
+    setVData(data);
+  }, [data]);
 
-  // Component Life Cycles
-
-  // Component Functions
-
-  _handleSearch = (searchText, key) => {
-    const { data, filterIndex } = this.state;
-
-    const newData = data.filter((item) => {
+  const _handleSearch = (searchText, key) => {
+    const newData = vdata.filter((item) => {
       const itemName = item[key].toUpperCase();
       const _text = searchText.toUpperCase();
 
@@ -34,15 +22,14 @@ class AccountListContainer extends Component {
     });
 
     if (filterIndex !== 0) {
-      this._handleOnVotersDropdownSelect(filterIndex, '', newData);
+      _handleOnVotersDropdownSelect(filterIndex, '', newData);
     } else {
-      this.setState({ filterResult: newData });
+      setFilterResult(newData);
     }
   };
 
-  _handleOnVotersDropdownSelect = (index, text, oldData) => {
-    const { data, filterIndex } = this.state;
-    const _data = Object.assign([], oldData || data);
+  const _handleOnVotersDropdownSelect = (index, text, oldData) => {
+    const _data = Object.assign([], oldData || vdata);
 
     if (filterIndex === index) {
       switch (index) {
@@ -73,13 +60,11 @@ class AccountListContainer extends Component {
           break;
       }
     }
-
-    this.setState({ filterResult: _data, filterIndex: index });
+    setFilterResult(_data);
+    setFilterIndex(index);
   };
 
-  _handleOnUserPress = (username) => {
-    const { navigation } = this.props;
-
+  const _handleOnUserPress = (username) => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.PROFILE,
       params: {
@@ -89,22 +74,17 @@ class AccountListContainer extends Component {
     });
   };
 
-  render() {
-    const { data, filterResult, filterIndex } = this.state;
-    const { children } = this.props;
-
-    return (
-      children &&
-      children({
-        data,
-        filterResult,
-        filterIndex,
-        handleOnVotersDropdownSelect: this._handleOnVotersDropdownSelect,
-        handleSearch: this._handleSearch,
-        handleOnUserPress: this._handleOnUserPress,
-      })
-    );
-  }
-}
+  return (
+    children &&
+    children({
+      data,
+      filterResult,
+      filterIndex,
+      handleOnVotersDropdownSelect: _handleOnVotersDropdownSelect,
+      handleSearch: _handleSearch,
+      handleOnUserPress: _handleOnUserPress,
+    })
+  );
+};
 
 export default AccountListContainer;

@@ -30,7 +30,7 @@ const PostCardContainer = ({
 }) => {
   const [activeVotes, setActiveVotes] = useState([]);
   const [reblogs, setReblogs] = useState([]);
-  const [_content, setContent] = useState(null);
+  const [_content, setContent] = useState(content);
 
   useEffect(() => {
     if (isRefresh) {
@@ -45,6 +45,7 @@ const PostCardContainer = ({
       getPostReblogs(content).then((result) => {
         setReblogs(result);
       });
+      setContent(content);
     }
   }, [content]);
 
@@ -79,7 +80,6 @@ const PostCardContainer = ({
       params: {
         activeVotes,
         content,
-        user: currentAccount,
       },
       key: get(content, 'permlink'),
     });
