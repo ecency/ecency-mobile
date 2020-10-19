@@ -341,7 +341,8 @@
     "payloadTooLarge": "Tiedostokoko liian suuri, muuta kokoa tai lataa pienempi",
     "qoutaExceeded": "Latausraja ylittyi",
     "invalidImage": "Vääränlainen kuva, yritä toista",
-    "something_wrong": "Something went wrong. Try https://ecency.com until we fix the issue!"
+    "something_wrong": "Something went wrong.",
+    "something_wrong_alt": "Try https://ecency.com"
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
