@@ -341,7 +341,8 @@
     "payloadTooLarge": "Завеликий розмір файлу. Змініть розмір або завантажте зображення меншого розміру",
     "qoutaExceeded": "Перевищено ліміт завантажень",
     "invalidImage": "Недійсне зображення, спробуйте інший файл",
-    "something_wrong": "Something went wrong. Try https://ecency.com until we fix the issue!"
+    "something_wrong": "Something went wrong.",
+    "something_wrong_alt": "Try https://ecency.com"
   },
   "post": {
     "reblog_alert": "Ви дійсно бажаєте зробити репост?",
