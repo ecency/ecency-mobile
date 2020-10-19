@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { FlatList, View, ActivityIndicator, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
