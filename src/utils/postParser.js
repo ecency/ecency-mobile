@@ -104,7 +104,7 @@ export const isVoted = (activeVotes, currentUserName) => {
     return false;
   }
   const result = activeVotes.find(
-    (element) => get(element, 'voter') === currentUserName && get(element, 'percent', 0) > 0,
+    (element) => get(element, 'voter') === currentUserName && get(element, 'rshares', 0) > 0,
   );
   if (result) {
     return result.percent;
@@ -117,7 +117,7 @@ export const isDownVoted = (activeVotes, currentUserName) => {
     return false;
   }
   const result = activeVotes.find(
-    (element) => get(element, 'voter') === currentUserName && get(element, 'percent') < 0,
+    (element) => get(element, 'voter') === currentUserName && get(element, 'rshares') < 0,
   );
   if (result) {
     return result.percent;

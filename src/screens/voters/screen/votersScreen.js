@@ -10,7 +10,7 @@ import AccountListContainer from '../../../containers/accountListContainer';
 
 // Utils
 import globalStyles from '../../../globalStyles';
-import { getPost } from '../../../providers/steem/dsteem';
+import { getPost, getActiveVotes } from '../../../providers/steem/dsteem';
 import { parseActiveVotes } from '../../../utils/postParser';
 
 const filterOptions = ['rewards', 'percent', 'time'];
@@ -24,18 +24,23 @@ const VotersScreen = ({ navigation }) => {
   const headerTitle = intl.formatMessage({
     id: 'voters.voters_info',
   });
+  const currentAccount = get(navigation, 'state.params.user');
 
   useEffect(() => {
+    console.log('content', content);
     if (content) {
-      getPost(content.author, content.permlink)
-        .then((items) => {
-          items.active_votes.sort((a, b) => b.rshares - a.rshares);
-          const _votes = parseActiveVotes(items);
+      getActiveVotes(get(content, 'author'), get(content, 'permlink'))
+        .then((result) => {
+          result.sort((a, b) => b.rshares - a.rshares);
+
+          const _votes = parseActiveVotes(
+            { ...content, active_votes: result },
+            get(currentAccount, 'name'),
+          );
+
           setActiveVotes(_votes);
         })
-        .catch((err) => {
-          console.error(err.message);
-        });
+        .catch(() => {});
     }
   }, []);
 

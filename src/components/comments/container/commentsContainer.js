@@ -173,6 +173,8 @@ const CommentsContainer = ({
       routeName: ROUTES.SCREENS.VOTERS,
       params: {
         activeVotes,
+        content,
+        user: currentAccount,
       },
       key: get(content, 'permlink'),
     });

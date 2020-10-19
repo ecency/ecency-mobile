@@ -33,11 +33,9 @@ const PostCardView = ({
   isNsfwPost,
   intl,
   activeVotes,
-  totalVotes,
 }) => {
   const [rebloggedBy, setRebloggedBy] = useState(get(content, 'reblogged_by[0]', null));
   const [activeVot, setActiveVot] = useState(activeVotes);
-  const [netVotes, setNetVotes] = useState(totalVotes);
 
   // Component Functions
 
@@ -78,9 +76,6 @@ const PostCardView = ({
     }
     if (activeVotes) {
       setActiveVot(get(content, 'active_votes'));
-    }
-    if (totalVotes) {
-      setNetVotes(totalVotes);
     }
   }, [content]);
 
@@ -137,7 +132,7 @@ const PostCardView = ({
               iconStyle={styles.commentIcon}
               iconType="MaterialCommunityIcons"
               isClickable
-              text={netVotes}
+              text={activeVot.length}
               onPress={_handleOnVotersPress}
             />
           </TouchableOpacity>
