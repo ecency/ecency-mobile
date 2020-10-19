@@ -341,8 +341,7 @@
     "payloadTooLarge": "File size too big, please resize or upload smaller image",
     "qoutaExceeded": "업로드 제한을 초과합니다.",
     "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com"
+    "something_wrong": "Something went wrong. Try https://ecency.com until we fix the issue!"
   },
   "post": {
     "reblog_alert": "리블로그 하시겠습니까?",

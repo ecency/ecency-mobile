@@ -341,8 +341,7 @@
     "payloadTooLarge": "Размерът на файла е твърде голям, моля преоразмерете или качете по-малко изображение",
     "qoutaExceeded": "Превишена квота за качване",
     "invalidImage": "Невалидна снимка,опитайте различен файл",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com"
+    "something_wrong": "Something went wrong. Try https://ecency.com until we fix the issue!"
   },
   "post": {
     "reblog_alert": "Сигорни ли сте,че искате да споделите?",

@@ -341,8 +341,7 @@
     "payloadTooLarge": "Tamanho de arquivo muito grande, por favor, redimensione ou carregue uma imagem menor",
     "qoutaExceeded": "Quota de carregamento excedida",
     "invalidImage": "Imagem inválida, tente um arquivo diferente",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com"
+    "something_wrong": "Something went wrong. Try https://ecency.com until we fix the issue!"
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
