@@ -104,7 +104,7 @@ export const isVoted = (activeVotes, currentUserName) => {
     return false;
   }
   const result = activeVotes.find(
-    (element) => get(element, 'voter') === currentUserName && get(element, 'percent', 0) > 0,
+    (element) => get(element, 'voter') === currentUserName && get(element, 'rshares', 0) > 0,
   );
   if (result) {
     return result.percent;
@@ -117,7 +117,7 @@ export const isDownVoted = (activeVotes, currentUserName) => {
     return false;
   }
   const result = activeVotes.find(
-    (element) => get(element, 'voter') === currentUserName && get(element, 'percent') < 0,
+    (element) => get(element, 'voter') === currentUserName && get(element, 'rshares') < 0,
   );
   if (result) {
     return result.percent;
@@ -127,16 +127,17 @@ export const isDownVoted = (activeVotes, currentUserName) => {
 
 export const parseActiveVotes = (post) => {
   const totalPayout =
+    post.total_payout ||
     parseFloat(post.pending_payout_value) +
-    parseFloat(post.total_payout_value) +
-    parseFloat(post.curator_payout_value);
+      parseFloat(post.total_payout_value) +
+      parseFloat(post.curator_payout_value);
 
   const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
   const ratio = totalPayout / voteRshares || 0;
 
   if (!isEmpty(post.active_votes)) {
     forEach(post.active_votes, (value) => {
-      value.value = (value.rshares * ratio).toFixed(3);
+      value.reward = (value.rshares * ratio).toFixed(3);
       //value.reputation = getReputation(get(value, 'reputation'));
       value.percent /= 100;
       value.is_down_vote = Math.sign(value.percent) < 0;

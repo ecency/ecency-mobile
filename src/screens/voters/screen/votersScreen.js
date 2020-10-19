@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView } from 'react-native';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 
@@ -7,36 +8,36 @@ import { BasicHeader, FilterBar, VotersDisplay } from '../../../components';
 
 import AccountListContainer from '../../../containers/accountListContainer';
 
+// Utils
+import { getActiveVotes } from '../../../providers/steem/dsteem';
+import { parseActiveVotes } from '../../../utils/postParser';
+
 const filterOptions = ['rewards', 'percent', 'time'];
 
 const VotersScreen = ({ navigation }) => {
   const intl = useIntl();
+  const [content, setContent] = useState(get(navigation, 'state.params.content'));
+  const [activeVotes, setActiveVotes] = useState(get(content, 'active_votes') || []);
+  const [isLoading, setIsLoading] = useState(false);
+
   const headerTitle = intl.formatMessage({
     id: 'voters.voters_info',
   });
 
-  const activeVotes = get(navigation, 'state.params.activeVotes');
-  const totalPayout = get(navigation, 'state.params.totalPayout');
+  useEffect(() => {
+    if (content) {
+      getActiveVotes(get(content, 'author'), get(content, 'permlink'))
+        .then((result) => {
+          result.sort((a, b) => b.rshares - a.rshares);
+          const _votes = parseActiveVotes({ ...content, active_votes: result });
+          setActiveVotes(_votes);
+        })
+        .catch(() => {});
+    }
+  }, [content]);
 
-  const voteRshares = activeVotes.reduce((a, b) => a + parseFloat(b.rshares), 0);
-  const ratio = totalPayout / voteRshares;
-
-  const _activeVotes = activeVotes
-    .map((a) => {
-      const rew = parseFloat(a.rshares) * ratio;
-
-      return Object.assign({}, a, {
-        reward: rew,
-      });
-    })
-    .sort((a, b) => {
-      const keyA = a.reward;
-      const keyB = b.reward;
-
-      if (keyA > keyB) return -1;
-      if (keyA < keyB) return 1;
-      return 0;
-    });
+  //const activeVotes = get(navigation, 'state.params.activeVotes');
+  //const content = get(navigation, 'state.params.content');
 
   return (
     <AccountListContainer data={_activeVotes}>

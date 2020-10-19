@@ -40,14 +40,7 @@ const PostCardContainer = ({
 
   useEffect(() => {
     if (content) {
-      getActiveVotes(get(content, 'author'), get(content, 'permlink'))
-        .then((result) => {
-          result.sort((a, b) => b.rshares - a.rshares);
-
-          const _votes = parseActiveVotes({ ...content, active_votes: result });
-          setActiveVotes(_votes);
-        })
-        .catch(() => {});
+      setActiveVotes(get(content, 'active_votes', []));
 
       getPostReblogs(content).then((result) => {
         setReblogs(result);
@@ -86,7 +79,7 @@ const PostCardContainer = ({
       routeName: ROUTES.SCREENS.VOTERS,
       params: {
         activeVotes,
-        totalPayout: get(_content, 'total_payout'),
+        content,
       },
       key: get(content, 'permlink'),
     });
