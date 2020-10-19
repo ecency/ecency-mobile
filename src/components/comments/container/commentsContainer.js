@@ -168,11 +168,12 @@ const CommentsContainer = ({
     });
   };
 
-  const _handleOnVotersPress = (activeVotes) => {
+  const _handleOnVotersPress = (activeVotes, content) => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.VOTERS,
       params: {
         activeVotes,
+        content,
       },
       key: get(content, 'permlink'),
     });

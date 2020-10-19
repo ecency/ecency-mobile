@@ -33,9 +33,14 @@ class ErrorBoundary extends React.Component {
       return (
         <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
           <Icon iconType="MaterialIcons" name="error-outline" size={56} />
-          <Text style={{ fontSize: 30 }}>
+          <Text style={{ fontSize: 25 }}>
             {intl.formatMessage({
               id: 'alert.something_wrong',
+            })}
+          </Text>
+          <Text style={{ fontSize: 15 }}>
+            {intl.formatMessage({
+              id: 'alert.something_wrong_alt',
             })}
           </Text>
         </View>

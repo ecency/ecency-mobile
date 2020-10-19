@@ -41,18 +41,7 @@ const PostDisplayContainer = ({
 
   useEffect(() => {
     if (post) {
-      getActiveVotes(get(post, 'author'), get(post, 'permlink'))
-        .then((result) => {
-          result.sort((a, b) => b.rshares - a.rshares);
-
-          const _votes = parseActiveVotes(
-            { ...post, active_votes: result },
-            get(currentAccount, 'name'),
-          );
-
-          setActiveVotes(_votes);
-        })
-        .catch(() => {});
+      setActiveVotes(get(post, 'active_votes', []));
 
       getPostReblogs(post).then((result) => {
         setReblogs(result);
@@ -70,6 +59,7 @@ const PostDisplayContainer = ({
       routeName: ROUTES.SCREENS.VOTERS,
       params: {
         activeVotes,
+        content: post,
       },
       // TODO: make unic
       key: post.permlink + activeVotes.length,

@@ -837,10 +837,10 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@hiveio/dhive@^0.14.1":
-  version "0.14.1"
-  resolved "https://registry.yarnpkg.com/@hiveio/dhive/-/dhive-0.14.1.tgz#1a6273d1544bd97bf2a047baa85a6afb4cecae78"
-  integrity sha512-80I1alxQW5Cnt61KvAuSa+dPH6V+JNrE/0vR+DgQGH9y8l3xmn+pr4TXNLtSvx37pI8Zt1UEPsgvren/R02WeQ==
+"@hiveio/dhive@^0.14.8":
+  version "0.14.8"
+  resolved "https://registry.yarnpkg.com/@hiveio/dhive/-/dhive-0.14.8.tgz#7ff2e60c579559d136440e46bd58c55a09d854d9"
+  integrity sha512-TfnzrnVD6OKLYSb8quHeT8hUjPeR1etIGg6EXaH+lbzgNpmlVBwgmM+uDdGNPRifh4CT8sf+/6fsLvKF2ens/Q==
   dependencies:
     bs58 "^4.0.1"
     bytebuffer "^5.0.1"
