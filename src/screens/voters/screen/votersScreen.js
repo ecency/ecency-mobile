@@ -9,8 +9,7 @@ import { BasicHeader, FilterBar, VotersDisplay } from '../../../components';
 import AccountListContainer from '../../../containers/accountListContainer';
 
 // Utils
-import globalStyles from '../../../globalStyles';
-import { getPost, getActiveVotes } from '../../../providers/steem/dsteem';
+import { getActiveVotes } from '../../../providers/steem/dsteem';
 import { parseActiveVotes } from '../../../utils/postParser';
 
 const filterOptions = ['rewards', 'percent', 'time'];
