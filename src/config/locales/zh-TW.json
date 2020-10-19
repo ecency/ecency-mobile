@@ -279,7 +279,14 @@
     "limited_lowercase": "標籤只用小寫字母",
     "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "標籤必須以字母開頭",
-    "limited_lastchar": "標籤必須以字母或數位結尾"
+    "limited_lastchar": "標籤必須以字母或數位結尾",
+    "setting_schedule": "Scheduling Time",
+    "setting_reward": "Reward",
+    "setting_beneficiary": "Beneficiary",
+    "reward_default": "Default 50% / 50%",
+    "reward_power_up": "Power Up 100%",
+    "reward_decline": "Decline Payout",
+    "beneficiaries": "Beneficiaries"
   },
   "pincode": {
     "enter_text": "輸入PIN碼解鎖",
@@ -295,7 +302,7 @@
     "fail": "失敗！",
     "move": "移動",
     "move_question": "您確定要存為草稿嗎？",
-    "success_shared": "Content successfully posted, fetching now",
+    "success_shared": "Success! Content submitted!",
     "success_moved": "存為草稿",
     "permission_denied": "權限不足",
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",

@@ -40,7 +40,7 @@ const VotersScreen = ({ navigation }) => {
   //const content = get(navigation, 'state.params.content');
 
   return (
-    <AccountListContainer data={activeVotes}>
+    <AccountListContainer data={_activeVotes}>
       {({ data, filterResult, filterIndex, handleOnVotersDropdownSelect, handleSearch }) => (
         <>
           <BasicHeader

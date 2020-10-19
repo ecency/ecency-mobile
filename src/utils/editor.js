@@ -71,7 +71,6 @@ export const makeOptions = (postObj) => {
     percent_hbd: 10000,
     extensions: [[0, { beneficiaries: [] }]],
   };
-  console.log(postObj);
   switch (postObj.operationType) {
     case 'sp':
       a.max_accepted_payout = '1000000.000 HBD';
