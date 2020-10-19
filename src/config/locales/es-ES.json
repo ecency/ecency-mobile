@@ -341,7 +341,7 @@
     "payloadTooLarge": "File size too big, please resize or upload smaller image",
     "qoutaExceeded": "Upload quota exceeded",
     "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong."
+    "something_wrong": "Something went wrong. Try https://ecency.com until we fix the issue!"
   },
   "post": {
     "reblog_alert": "¿Estás seguro de querer rebloguear?",

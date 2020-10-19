@@ -341,7 +341,7 @@
     "payloadTooLarge": "Masyadong malaki ang file, maaaring baguhin ang laki nito o mag-upload ng mas maliit na imahe",
     "qoutaExceeded": "Umabot na sa limit sa pag-upload",
     "invalidImage": "Inbalidong imahe, subukan ang ibang file",
-    "something_wrong": "Something went wrong."
+    "something_wrong": "Something went wrong. Try https://ecency.com until we fix the issue!"
   },
   "post": {
     "reblog_alert": "Sigurado ka, gusto mong i-reblog?",
