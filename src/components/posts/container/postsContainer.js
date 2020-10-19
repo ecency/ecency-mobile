@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import get from 'lodash/get';
 import unionBy from 'lodash/unionBy';
@@ -50,6 +50,7 @@ const PostsContainer = ({
   const [selectedFilterValue, setSelectedFilterValue] = useState(
     filterOptionsValue && filterOptionsValue[selectedFilterIndex],
   );
+  const elem = useRef(null);
 
   useEffect(() => {
     if (isConnected) {
@@ -102,6 +103,8 @@ const PostsContainer = ({
   const _handleImagesHide = () => {
     dispatch(hidePostsThumbnails(!isHideImages));
   };
+
+  const checkIfMounted = () => elem.current != null;
 
   const _getPromotePosts = useCallback(async () => {
     if (pageType === 'profiles') {
@@ -195,8 +198,8 @@ const PostsContainer = ({
                   _posts = unionBy(posts, _posts, 'permlink');
                 }
               }
-
-              if (posts.length < 4 && pageType !== 'profiles') {
+              console.log('mounted?', checkIfMounted());
+              if (posts.length <= 4 && pageType !== 'profiles') {
                 _setFeedPosts(_posts);
               }
 
@@ -265,6 +268,7 @@ const PostsContainer = ({
 
   return (
     <PostsView
+      ref={elem}
       filterOptions={filterOptions}
       handleImagesHide={_handleImagesHide}
       handleOnScroll={handleOnScroll}

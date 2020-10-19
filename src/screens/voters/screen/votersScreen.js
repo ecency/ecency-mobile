@@ -9,8 +9,7 @@ import { BasicHeader, FilterBar, VotersDisplay } from '../../../components';
 import AccountListContainer from '../../../containers/accountListContainer';
 
 // Utils
-import globalStyles from '../../../globalStyles';
-import { getPost, getActiveVotes } from '../../../providers/steem/dsteem';
+import { getActiveVotes } from '../../../providers/steem/dsteem';
 import { parseActiveVotes } from '../../../utils/postParser';
 
 const filterOptions = ['rewards', 'percent', 'time'];
@@ -41,7 +40,7 @@ const VotersScreen = ({ navigation }) => {
   //const content = get(navigation, 'state.params.content');
 
   return (
-    <AccountListContainer data={activeVotes}>
+    <AccountListContainer data={_activeVotes}>
       {({ data, filterResult, filterIndex, handleOnVotersDropdownSelect, handleSearch }) => (
         <>
           <BasicHeader
