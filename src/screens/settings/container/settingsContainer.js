@@ -123,7 +123,7 @@ class SettingsContainer extends Component {
     let isError = false;
     let alertMessage;
     const client = new Client(server, {
-      timeout: 3000,
+      timeout: 8000,
       rebrandedApi: true,
     });
     dispatch(setApi(''));

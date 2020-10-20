@@ -36,7 +36,7 @@ const DEFAULT_SERVER = [
   'https://api.hive.blog',
 ];
 let client = new Client(DEFAULT_SERVER, {
-  timeout: 3000,
+  timeout: 8000,
   rebrandedApi: true,
 });
 
@@ -50,7 +50,7 @@ export const checkClient = async () => {
   });
 
   client = new Client(selectedServer, {
-    timeout: 3000,
+    timeout: 8000,
     rebrandedApi: true,
   });
 };
