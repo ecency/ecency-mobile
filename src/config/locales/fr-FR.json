@@ -21,7 +21,7 @@
     "delegation": "Délégation",
     "delegations": "Délégations",
     "delegation_title": "Récompense de délégation",
-    "delegation_desc": "Earn Points everyday for delegation",
+    "delegation_desc": "Gagner des points chaque jour pour delegation",
     "post_title": "Points pour vos publications",
     "comment_title": "Points pour vos commentaires",
     "vote_title": "Points pour vos votes",
@@ -30,7 +30,7 @@
     "checkin_title": "Points d'activité",
     "referral": "Referral",
     "referral_title": "Referral rewards",
-    "referral_desc": "Invite friends and earn Points",
+    "referral_desc": "Invitez des amis et gagnez des points",
     "checkin_extra_title": "Bonus d'utilisation",
     "no_activity": "Aucune activité récente",
     "outgoing_transfer_description": "",
@@ -341,7 +341,7 @@
     "payloadTooLarge": "File size too big, please resize or upload smaller image",
     "qoutaExceeded": "Upload quota exceeded",
     "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong. Try https://ecency.com until we fix the issue!"
+    "something_wrong": "Quelque chose s'est mal passé. Essayez https://ecency.com jusqu'à ce que nous corrigions le problème !"
   },
   "post": {
     "reblog_alert": "Êtes-vous sûr de vouloir rebloguer ?",
