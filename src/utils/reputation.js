@@ -3,6 +3,10 @@ export const getReputation = (reputation) => {
     return reputation;
   }
 
+  if (isFloat(reputation)) {
+    return Math.floor(reputation);
+  }
+
   let _reputation = String(parseInt(reputation, 10));
 
   const neg = _reputation.charAt(0) === '-';
@@ -26,3 +30,7 @@ export const getReputation = (reputation) => {
 
   return out;
 };
+
+function isFloat(n) {
+  return Number(n) === n && n % 1 !== 0;
+}
