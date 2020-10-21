@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import get from 'lodash/get';
 import unionBy from 'lodash/unionBy';
@@ -50,6 +50,7 @@ const PostsContainer = ({
   const [selectedFilterValue, setSelectedFilterValue] = useState(
     filterOptionsValue && filterOptionsValue[selectedFilterIndex],
   );
+  const elem = useRef(null);
 
   useEffect(() => {
     if (isConnected) {
@@ -103,7 +104,7 @@ const PostsContainer = ({
     dispatch(hidePostsThumbnails(!isHideImages));
   };
 
-  const _getPromotePosts = useCallback(async () => {
+  const _getPromotePosts = async () => {
     if (pageType === 'profiles') {
       return;
     }
@@ -122,133 +123,112 @@ const PostsContainer = ({
         }
       })
       .catch(() => {});
-  }, [username]);
+  };
 
-  const _loadPosts = useCallback(
-    (type) => {
-      if (
-        _isLoadingPost ||
-        isLoading ||
-        !isConnected ||
-        (!isLoggedIn && type === 'feed') ||
-        (!isLoggedIn && type === 'blog')
-      ) {
-        return;
+  const _loadPosts = (type) => {
+    if (
+      _isLoadingPost ||
+      isLoading ||
+      !isConnected ||
+      (!isLoggedIn && type === 'feed') ||
+      (!isLoggedIn && type === 'blog')
+    ) {
+      return;
+    }
+    setIsLoading(true);
+    _isLoadingPost = true;
+
+    if (!isConnected && (refreshing || isLoading)) {
+      setRefreshing(false);
+      setIsLoading(false);
+      _isLoadingPost = false;
+      return;
+    }
+
+    const filter = type || selectedFilterValue;
+    let options = {};
+    const limit = 4;
+    let func = null;
+
+    if (filter === 'feed' || filter === 'blog' || getFor === 'blog' || filter === 'reblogs') {
+      func = getAccountPosts;
+      options = {
+        account: feedUsername,
+        limit,
+        sort: filter,
+      };
+
+      if (pageType === 'profiles' && filter === 'feed') {
+        options.sort = 'posts';
       }
+    } else {
+      func = getRankedPosts;
+      options = {
+        tag,
+        limit,
+        sort: filter,
+      };
+    }
 
-      setIsLoading(true);
-      _isLoadingPost = true;
+    if (startAuthor && startPermlink && !refreshing) {
+      options.start_author = startAuthor;
+      options.start_permlink = startPermlink;
+    }
+    func(options, username, nsfw)
+      .then((result) => {
+        if (result.length > 0) {
+          let _posts = result;
 
-      if (!isConnected && (refreshing || isLoading)) {
+          if (filter === 'reblogs') {
+            for (let i = _posts.length - 1; i >= 0; i--) {
+              if (_posts[i].author === username) {
+                _posts.splice(i, 1);
+              }
+            }
+          }
+          if (_posts.length > 0) {
+            if (posts.length > 0) {
+              if (refreshing) {
+                _posts = unionBy(_posts, posts, 'permlink');
+              } else {
+                _posts = unionBy(posts, _posts, 'permlink');
+              }
+            }
+            if (posts.length <= 4 && pageType !== 'profiles') {
+              _setFeedPosts(_posts);
+            }
+
+            if (!refreshing) {
+              setStartAuthor(result[result.length - 1] && result[result.length - 1].author);
+              setStartPermlink(result[result.length - 1] && result[result.length - 1].permlink);
+            }
+            setPosts(_posts);
+          }
+        } else if (result.length === 0) {
+          setIsNoPost(true);
+        }
         setRefreshing(false);
         setIsLoading(false);
         _isLoadingPost = false;
-        return;
-      }
-
-      const filter = type || selectedFilterValue;
-      let options = {};
-      const limit = 4;
-      let func = null;
-
-      if (filter === 'feed' || filter === 'blog' || getFor === 'blog' || filter === 'reblogs') {
-        func = getAccountPosts;
-        options = {
-          account: feedUsername,
-          limit,
-          sort: filter,
-        };
-
-        if (pageType === 'profiles' && filter === 'feed') {
-          options.sort = 'posts';
-        }
+      })
+      .catch(() => {
+        setRefreshing(false);
+        setIsLoading(false);
+        _isLoadingPost = false;
+      });
+    // track filter and tag views
+    if (isAnalytics) {
+      if (tag) {
+        Matomo.trackView([`/${selectedFilterValue}/${tag}`]).catch((error) =>
+          console.warn('Failed to track screen', error),
+        );
       } else {
-        func = getRankedPosts;
-        options = {
-          tag,
-          limit,
-          sort: filter,
-        };
+        Matomo.trackView([`/${selectedFilterValue}`]).catch((error) =>
+          console.warn('Failed to track screen', error),
+        );
       }
-
-      if (startAuthor && startPermlink && !refreshing) {
-        options.start_author = startAuthor;
-        options.start_permlink = startPermlink;
-      }
-      func(options, username, nsfw)
-        .then((result) => {
-          if (result.length > 0) {
-            let _posts = result;
-
-            if (filter === 'reblogs') {
-              for (let i = _posts.length - 1; i >= 0; i--) {
-                if (_posts[i].author === username) {
-                  _posts.splice(i, 1);
-                }
-              }
-            }
-            if (_posts.length > 0) {
-              if (posts.length > 0) {
-                if (refreshing) {
-                  _posts = unionBy(_posts, posts, 'permlink');
-                } else {
-                  _posts = unionBy(posts, _posts, 'permlink');
-                }
-              }
-
-              if (posts.length < 4 && pageType !== 'profiles') {
-                _setFeedPosts(_posts);
-              }
-
-              if (!refreshing) {
-                setStartAuthor(result[result.length - 1] && result[result.length - 1].author);
-                setStartPermlink(result[result.length - 1] && result[result.length - 1].permlink);
-              }
-              setPosts(_posts);
-            }
-          } else if (result.length === 0) {
-            setIsNoPost(true);
-          }
-          setRefreshing(false);
-          setIsLoading(false);
-          _isLoadingPost = false;
-        })
-        .catch(() => {
-          setRefreshing(false);
-          setIsLoading(false);
-          _isLoadingPost = false;
-        });
-      // track filter and tag views
-      if (isAnalytics) {
-        if (tag) {
-          Matomo.trackView([`/${selectedFilterValue}/${tag}`]).catch((error) =>
-            console.warn('Failed to track screen', error),
-          );
-        } else {
-          Matomo.trackView([`/${selectedFilterValue}`]).catch((error) =>
-            console.warn('Failed to track screen', error),
-          );
-        }
-      }
-    },
-    [
-      username,
-      getFor,
-      isConnected,
-      isLoading,
-      isLoggedIn,
-      isAnalytics,
-      nsfw,
-      pageType,
-      posts,
-      refreshing,
-      selectedFilterValue,
-      setFeedPosts,
-      startAuthor,
-      startPermlink,
-      tag,
-    ],
-  );
+    }
+  };
 
   const _handleOnRefreshPosts = () => {
     setRefreshing(true);
@@ -265,6 +245,7 @@ const PostsContainer = ({
 
   return (
     <PostsView
+      ref={elem}
       filterOptions={filterOptions}
       handleImagesHide={_handleImagesHide}
       handleOnScroll={handleOnScroll}

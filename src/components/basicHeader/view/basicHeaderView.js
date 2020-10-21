@@ -273,7 +273,7 @@ const BasicHeaderView = ({
           intl.formatMessage({ id: 'alert.cancel' }),
         ]}
         cancelButtonIndex={3}
-        title={intl.formatMessage({ id: 'alert.delete' })}
+        title={intl.formatMessage({ id: 'editor.options' })}
         onPress={_handleSettingMenuSelect}
       />
       <ActionSheet
@@ -285,7 +285,7 @@ const BasicHeaderView = ({
           intl.formatMessage({ id: 'alert.cancel' }),
         ]}
         cancelButtonIndex={3}
-        title="test"
+        title="Reward"
         onPress={_handleRewardMenuSelect}
       />
     </SafeAreaView>

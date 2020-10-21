@@ -216,7 +216,7 @@
     "signin_title": "Чтобы получить все преимущества от использования Ecency",
     "username": "Пользователь",
     "password": "Пароль или ключ",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "Регистрируясь, вы соглашаетесь с Условиями использования и Политикой конфиденциальности.",
     "cancel": "отмена",
     "login": "Войти",
     "steemconnect_description": "Если вы не хотите хранить зашифрованные ключи на своем устройстве, используйте Hivesigner.",
@@ -281,12 +281,13 @@
     "limited_firstchar": "Тег должен начинаться с буквы",
     "limited_lastchar": "Тег должен заканчиваться буквой или цифрой",
     "setting_schedule": "Scheduling Time",
-    "setting_reward": "Reward",
+    "setting_reward": "Вознаграждение",
     "setting_beneficiary": "Beneficiary",
-    "reward_default": "Default 50% / 50%",
-    "reward_power_up": "Power Up 100%",
-    "reward_decline": "Decline Payout",
-    "beneficiaries": "Beneficiaries"
+    "reward_default": "По умолчанию 50% / 50%",
+    "reward_power_up": "100% в Силу",
+    "reward_decline": "Отказ от выплат",
+    "beneficiaries": "Бенефициары",
+    "options": "Options"
   },
   "pincode": {
     "enter_text": "Чтобы разблокировать введите пин-код",
@@ -341,7 +342,7 @@
     "payloadTooLarge": "Размер файла слишком большой. Ппожалуйста, измените размер или загрузите изображение меньшего размера",
     "qoutaExceeded": "Превышен лимит загрузки",
     "invalidImage": "Изображение не подходит, попробуйте другой файл",
-    "something_wrong": "Что-то пошло не так."
+    "something_wrong": "Что-то пошло не так. Попробуйте https://ecency.com, пока мы не исправим ошибку!"
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
@@ -489,7 +490,7 @@
     "days": "дня(ей)",
     "user": "Пользователь",
     "permlink": "Пост",
-    "permlinkPlaceholder": "username/permlink",
+    "permlinkPlaceholder": "имя пользователя/ссылка",
     "information": "Действительно хотите продвигать пост?"
   },
   "boostPost": {
@@ -543,7 +544,7 @@
   },
   "community": {
     "new_post": "Новый пост",
-    "community": "community",
-    "details": "Details"
+    "community": "сообщество",
+    "details": "Подробности"
   }
 }

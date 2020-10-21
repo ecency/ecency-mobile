@@ -31,12 +31,13 @@ global.Buffer = global.Buffer || require('buffer').Buffer;
 const DEFAULT_SERVER = [
   'https://rpc.ecency.com',
   'https://anyx.io',
-  'https://api.pharesim.me',
+  'https://hive-api.arcange.eu',
+  'https://api.openhive.network',
   'https://api.hive.blog',
-  'https://api.hivekings.com',
 ];
 let client = new Client(DEFAULT_SERVER, {
-  timeout: 5000,
+  timeout: 8000,
+  rebrandedApi: true,
 });
 
 export const checkClient = async () => {
@@ -49,7 +50,7 @@ export const checkClient = async () => {
   });
 
   client = new Client(selectedServer, {
-    timeout: 5000,
+    timeout: 8000,
     rebrandedApi: true,
   });
 };

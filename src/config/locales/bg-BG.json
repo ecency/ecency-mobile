@@ -286,7 +286,8 @@
     "reward_default": "Default 50% / 50%",
     "reward_power_up": "Power Up 100%",
     "reward_decline": "Decline Payout",
-    "beneficiaries": "Beneficiaries"
+    "beneficiaries": "Beneficiaries",
+    "options": "Options"
   },
   "pincode": {
     "enter_text": "Вкарай Пин-код за отключване",
@@ -341,7 +342,7 @@
     "payloadTooLarge": "Размерът на файла е твърде голям, моля преоразмерете или качете по-малко изображение",
     "qoutaExceeded": "Превишена квота за качване",
     "invalidImage": "Невалидна снимка,опитайте различен файл",
-    "something_wrong": "Нещо се обърка"
+    "something_wrong": "Something went wrong. Try https://ecency.com until we fix the issue!"
   },
   "post": {
     "reblog_alert": "Сигорни ли сте,че искате да споделите?",

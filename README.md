@@ -5,9 +5,9 @@ Android ![Android](https://build.appcenter.ms/v0.1/apps/12aace32-b58a-49da-bf85-
 
 ## Open Beta 🔥
 
-[IOS](https://install.appcenter.ms/orgs/esteem.app/apps/esteem-1/distribution_groups/beta_testers)
+[IOS](https://install.appcenter.ms/orgs/ecency/apps/esteem-1/distribution_groups/beta_testers)
 
-[ANDROID](https://install.appcenter.ms/orgs/esteem.app/apps/esteem/distribution_groups/beta_testers)
+[ANDROID](https://install.appcenter.ms/orgs/ecency/apps/esteem/distribution_groups/beta_testers)
 
 ## Download
 

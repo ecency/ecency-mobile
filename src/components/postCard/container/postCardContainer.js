@@ -30,7 +30,7 @@ const PostCardContainer = ({
 }) => {
   const [activeVotes, setActiveVotes] = useState([]);
   const [reblogs, setReblogs] = useState([]);
-  const [_content, setContent] = useState(null);
+  const [_content, setContent] = useState(content);
 
   useEffect(() => {
     if (isRefresh) {
@@ -40,18 +40,12 @@ const PostCardContainer = ({
 
   useEffect(() => {
     if (content) {
-      getActiveVotes(get(content, 'author'), get(content, 'permlink'))
-        .then((result) => {
-          result.sort((a, b) => b.rshares - a.rshares);
-
-          const _votes = parseActiveVotes({ ...content, active_votes: result });
-          setActiveVotes(_votes);
-        })
-        .catch(() => {});
+      setActiveVotes(get(content, 'active_votes', []));
 
       getPostReblogs(content).then((result) => {
         setReblogs(result);
       });
+      setContent(content);
     }
   }, [content]);
 
@@ -85,6 +79,7 @@ const PostCardContainer = ({
       routeName: ROUTES.SCREENS.VOTERS,
       params: {
         activeVotes,
+        content,
       },
       key: get(content, 'permlink'),
     });

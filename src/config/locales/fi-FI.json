@@ -286,7 +286,8 @@
     "reward_default": "Oletus 50 % / 50 %",
     "reward_power_up": "Power Up 100%",
     "reward_decline": "Hylkää Palautus",
-    "beneficiaries": "Hyötyjät"
+    "beneficiaries": "Hyötyjät",
+    "options": "Asetukset"
   },
   "pincode": {
     "enter_text": "Poista lukitus antamalla PIN-koodi",
@@ -341,7 +342,7 @@
     "payloadTooLarge": "Tiedostokoko liian suuri, muuta kokoa tai lataa pienempi",
     "qoutaExceeded": "Latausraja ylittyi",
     "invalidImage": "Vääränlainen kuva, yritä toista",
-    "something_wrong": "Jokin meni pieleen."
+    "something_wrong": "Jokin meni pieleen.Vieraile https://ecency.com kunnes korjaamme ongelman!"
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",

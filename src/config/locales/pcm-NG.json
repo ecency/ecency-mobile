@@ -286,7 +286,8 @@
     "reward_default": "Default 50% / 50%",
     "reward_power_up": "Power Up 100%",
     "reward_decline": "Decline Payout",
-    "beneficiaries": "Beneficiaries"
+    "beneficiaries": "Beneficiaries",
+    "options": "Options"
   },
   "pincode": {
     "enter_text": "Enter your PIN to open am",
@@ -341,7 +342,7 @@
     "payloadTooLarge": "File size too big, please resize or upload smaller image",
     "qoutaExceeded": "Upload quota exceeded",
     "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong."
+    "something_wrong": "Something went wrong. Try https://ecency.com until we fix the issue!"
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",

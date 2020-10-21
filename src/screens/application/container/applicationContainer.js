@@ -173,7 +173,7 @@ class ApplicationContainer extends Component {
           dispatch(setAnalyticsStatus(true));
         }
       })
-      .then(() => {
+      /*.then(() => {
         uniqueId()
           .then(async (id) => {
             await Matomo.setUserId(id).catch((error) =>
@@ -181,7 +181,7 @@ class ApplicationContainer extends Component {
             );
           })
           .catch((error) => console.error(error));
-      })
+      })*/
       .then(() => {
         // start up event
         Matomo.trackEvent('Application', 'Startup').catch((error) =>

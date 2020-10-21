@@ -286,7 +286,8 @@
     "reward_default": "Default 50% / 50%",
     "reward_power_up": "Power Up 100%",
     "reward_decline": "Decline Payout",
-    "beneficiaries": "Beneficiaries"
+    "beneficiaries": "Beneficiaries",
+    "options": "Options"
   },
   "pincode": {
     "enter_text": "Для розблокування введіть пін-код",
@@ -341,7 +342,7 @@
     "payloadTooLarge": "Завеликий розмір файлу. Змініть розмір або завантажте зображення меншого розміру",
     "qoutaExceeded": "Перевищено ліміт завантажень",
     "invalidImage": "Недійсне зображення, спробуйте інший файл",
-    "something_wrong": "Щось пішло не так."
+    "something_wrong": "Something went wrong. Try https://ecency.com until we fix the issue!"
   },
   "post": {
     "reblog_alert": "Ви дійсно бажаєте зробити репост?",
