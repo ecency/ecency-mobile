@@ -19,13 +19,13 @@ const VotersDisplayView = ({ votes, navigation }) => {
   const intl = useIntl();
 
   /*getActiveVotes(get(content, 'author'), get(content, 'permlink'))
-    .then((result) => {
-      result.sort((a, b) => b.rshares - a.rshares);
+        .then((result) => {
+          result.sort((a, b) => b.rshares - a.rshares);
 
-      const _votes = parseActiveVotes({ ...content, active_votes: result });
-      setActiveVotes(_votes);
-    })
-    .catch(() => {});*/
+          const _votes = parseActiveVotes({ ...content, active_votes: result });
+          setActiveVotes(_votes);
+        })
+        .catch(() => {});*/
 
   const _handleOnUserPress = (username) => {
     navigation.navigate({
