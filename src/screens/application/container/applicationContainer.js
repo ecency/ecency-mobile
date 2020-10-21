@@ -166,14 +166,14 @@ class ApplicationContainer extends Component {
     );
 
     // tracking init
-    /*Matomo.initialize(Config.ANALYTICS_URL, 1, 'https://ecency.com')
+    Matomo.initialize(Config.ANALYTICS_URL, 1, 'https://ecency.com')
       .catch((error) => console.warn('Failed to initialize matomo', error))
       .then(() => {
         if (isAnalytics !== true) {
           dispatch(setAnalyticsStatus(true));
         }
       })
-      .then(() => {
+      /*.then(() => {
         uniqueId()
           .then(async (id) => {
             await Matomo.setUserId(id).catch((error) =>
@@ -181,13 +181,13 @@ class ApplicationContainer extends Component {
             );
           })
           .catch((error) => console.error(error));
-      })
+      })*/
       .then(() => {
         // start up event
         Matomo.trackEvent('Application', 'Startup').catch((error) =>
           console.warn('Failed to track event', error),
         );
-      });*/
+      });
   };
 
   componentDidUpdate(prevProps, prevState) {
