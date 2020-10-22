@@ -1109,9 +1109,9 @@ export const postContent = (
   title,
   body,
   jsonMetadata,
-  isEdit = false,
   options = null,
   voteWeight = null,
+  isEdit = false,
 ) =>
   _postContent(
     account,

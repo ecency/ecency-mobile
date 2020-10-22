@@ -328,6 +328,7 @@ class EditorContainer extends Component {
         beneficiaries: beneficiaries,
       });
       const parentPermlink = _tags[0] || 'hive-125125';
+      const voteWeight = null;
 
       if (scheduleDate) {
         await this._setScheduledPost({
@@ -347,7 +348,7 @@ class EditorContainer extends Component {
           fields.body,
           jsonMeta,
           options,
-          0,
+          voteWeight,
         )
           .then(() => {
             setDraftPost(
@@ -408,6 +409,7 @@ class EditorContainer extends Component {
       });
       const parentAuthor = post.author;
       const parentPermlink = post.permlink;
+      const voteWeight = null;
 
       await postContent(
         currentAccount,
@@ -419,7 +421,7 @@ class EditorContainer extends Component {
         fields.body,
         jsonMeta,
         options,
-        0,
+        voteWeight,
       )
         .then(() => {
           AsyncStorage.setItem('temp-reply', '');
