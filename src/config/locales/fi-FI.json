@@ -238,7 +238,8 @@
     "top": "Parhaat",
     "hot": "Kuumat",
     "new": "Uusimmat",
-    "blog": "Blogi"
+    "blog": "Blogi",
+    "posts": "Julkaisut"
   },
   "side_menu": {
     "profile": "Profiili",
