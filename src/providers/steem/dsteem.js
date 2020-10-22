@@ -442,18 +442,6 @@ export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
   }
 };
 
-export const getUserComments = async (query) => {
-  try {
-    query.sort = 'comments';
-    query.account = query.start_author;
-    const _comments = await client.call('bridge', 'get_account_posts', query);
-    const groomedComments = parseComments(_comments);
-    return groomedComments;
-  } catch (error) {
-    return error;
-  }
-};
-
 export const getRepliesByLastUpdate = async (query) => {
   try {
     const replies = await client.database.call('get_replies_by_last_update', [

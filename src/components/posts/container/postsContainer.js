@@ -150,7 +150,13 @@ const PostsContainer = ({
     const limit = 4;
     let func = null;
 
-    if (filter === 'feed' || filter === 'blog' || getFor === 'blog' || filter === 'reblogs') {
+    if (
+      filter === 'feed' ||
+      filter === 'posts' ||
+      filter === 'blog' ||
+      getFor === 'blog' ||
+      filter === 'reblogs'
+    ) {
       func = getAccountPosts;
       options = {
         account: feedUsername,
@@ -158,7 +164,7 @@ const PostsContainer = ({
         sort: filter,
       };
 
-      if (pageType === 'profiles' && filter === 'feed') {
+      if (pageType === 'profiles' && (filter === 'feed' || filter === 'posts')) {
         options.sort = 'posts';
       }
     } else {

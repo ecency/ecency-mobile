@@ -4,8 +4,8 @@ export const POPULAR_FILTERS_VALUE = ['feed', 'trending', 'hot', 'created'];
 export const GLOBAL_POST_FILTERS = ['TOP', 'HOT', 'NEW'];
 export const GLOBAL_POST_FILTERS_VALUE = ['trending', 'hot', 'created'];
 
-export const PROFILE_FILTERS = ['BLOG', 'FEED'];
-export const PROFILE_FILTERS_VALUE = ['blog', 'feed'];
+export const PROFILE_FILTERS = ['BLOG', 'POSTS'];
+export const PROFILE_FILTERS_VALUE = ['blog', 'posts'];
 
 // 'TRENDING',
 // 'HOT',
