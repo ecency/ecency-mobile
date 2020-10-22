@@ -147,10 +147,16 @@ const PostsContainer = ({
 
     const filter = type || selectedFilterValue;
     let options = {};
-    const limit = 4;
+    const limit = 7;
     let func = null;
 
-    if (filter === 'feed' || filter === 'blog' || getFor === 'blog' || filter === 'reblogs') {
+    if (
+      filter === 'feed' ||
+      filter === 'posts' ||
+      filter === 'blog' ||
+      getFor === 'blog' ||
+      filter === 'reblogs'
+    ) {
       func = getAccountPosts;
       options = {
         account: feedUsername,
@@ -158,7 +164,7 @@ const PostsContainer = ({
         sort: filter,
       };
 
-      if (pageType === 'profiles' && filter === 'feed') {
+      if (pageType === 'profiles' && (filter === 'feed' || filter === 'posts')) {
         options.sort = 'posts';
       }
     } else {
@@ -194,14 +200,14 @@ const PostsContainer = ({
                 _posts = unionBy(posts, _posts, 'permlink');
               }
             }
-            if (posts.length <= 4 && pageType !== 'profiles') {
+            if (posts.length <= 7 && pageType !== 'profiles') {
               _setFeedPosts(_posts);
             }
 
-            if (!refreshing) {
-              setStartAuthor(result[result.length - 1] && result[result.length - 1].author);
-              setStartPermlink(result[result.length - 1] && result[result.length - 1].permlink);
-            }
+            //if (!refreshing) {
+            setStartAuthor(result[result.length - 1] && result[result.length - 1].author);
+            setStartPermlink(result[result.length - 1] && result[result.length - 1].permlink);
+            //}
             setPosts(_posts);
           }
         } else if (result.length === 0) {

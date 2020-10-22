@@ -1,12 +1,6 @@
 import axios from 'axios';
 
-const DEFAULT_SERVER = [
-  'https://rpc.esteem.app',
-  'https://anyx.io',
-  'https://api.pharesim.me',
-  'https://api.hive.blog',
-  'https://api.hivekings.com',
-];
+const DEFAULT_SERVER = ['https://rpc.ecency.com', 'https://anyx.io', 'https://api.hive.blog'];
 
 const pickAServer = () => DEFAULT_SERVER.sort(() => 0.5 - Math.random())[0];
 

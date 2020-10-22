@@ -442,18 +442,6 @@ export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
   }
 };
 
-export const getUserComments = async (query) => {
-  try {
-    query.sort = 'comments';
-    query.account = query.start_author;
-    const _comments = await client.call('bridge', 'get_account_posts', query);
-    const groomedComments = parseComments(_comments);
-    return groomedComments;
-  } catch (error) {
-    return error;
-  }
-};
-
 export const getRepliesByLastUpdate = async (query) => {
   try {
     const replies = await client.database.call('get_replies_by_last_update', [
@@ -536,8 +524,8 @@ export const deleteComment = (currentAccount, pin, permlink) => {
 
 export const getComments = async (author, permlink, currentUserName = null) => {
   try {
+    //const comments = await client.call('bridge', 'get_discussion', [author, permlink]);
     const comments = await client.database.call('get_content_replies', [author, permlink]);
-
     const groomedComments = parseComments(comments, currentUserName);
 
     return comments ? groomedComments : null;
@@ -1121,9 +1109,9 @@ export const postContent = (
   title,
   body,
   jsonMetadata,
-  isEdit = false,
   options = null,
   voteWeight = null,
+  isEdit = false,
 ) =>
   _postContent(
     account,

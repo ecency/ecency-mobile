@@ -14,19 +14,27 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isL
   const tag = get(navigation, 'state.params.tag');
 
   useEffect(() => {
-    getCommunity(tag).then((res) => {
-      setData(res);
-    });
+    getCommunity(tag)
+      .then((res) => {
+        setData(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }, [tag]);
 
   useEffect(() => {
     if (data) {
-      getSubscriptions(currentAccount.username).then((result) => {
-        if (result) {
-          const _isSubscribed = result.some((item) => item[0] === data.name);
-          setIsSubscribed(_isSubscribed);
-        }
-      });
+      getSubscriptions(currentAccount.username)
+        .then((result) => {
+          if (result) {
+            const _isSubscribed = result.some((item) => item[0] === data.name);
+            setIsSubscribed(_isSubscribed);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
   }, [data]);
 
@@ -36,9 +44,13 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isL
       communityId: data.name,
     };
 
-    subscribeCommunity(currentAccount, pinCode, _data).then((result) => {
-      setIsSubscribed(!isSubscribed);
-    });
+    subscribeCommunity(currentAccount, pinCode, _data)
+      .then((result) => {
+        setIsSubscribed(!isSubscribed);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   const _handleNewPostButtonPress = () => {

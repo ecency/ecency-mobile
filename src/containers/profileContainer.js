@@ -14,10 +14,10 @@ import {
   ignoreUser,
   getFollows,
   getRepliesByLastUpdate,
-  getUserComments,
   getUser,
   getIsFollowing,
   getIsMuted,
+  getAccountPosts,
 } from '../providers/steem/dsteem';
 
 // Ecency providers
@@ -91,17 +91,39 @@ class ProfileContainer extends Component {
       currentAccount: { name: currentAccountUsername },
       isAnalytics,
     } = this.props;
+    this.setState({ isProfileLoading: true });
     let repliesAction;
-
     if (!isOwnProfile) {
-      repliesAction = getUserComments;
+      repliesAction = getAccountPosts;
+      if (query) {
+        query.account = query.author;
+        if (comments.length > 0) {
+          query.start_author = query.author;
+          query.start_permlink = query.permlink;
+        }
+        query.limit = 5;
+        query.observer = '';
+        query.sort = 'comments';
+      }
+
       if (isAnalytics && user) {
         Matomo.trackView([`/@${user.name}/comments`]).catch((error) =>
           console.warn('Failed to track screen', error),
         );
       }
     } else {
-      repliesAction = getRepliesByLastUpdate;
+      repliesAction = getAccountPosts;
+      if (query) {
+        query.account = query.author;
+        if (comments.length > 0) {
+          query.start_author = query.author;
+          query.start_permlink = query.permlink;
+        }
+        query.limit = 5;
+        query.observer = '';
+        query.sort = 'replies';
+      }
+
       if (isAnalytics) {
         Matomo.trackView([`/@${currentAccountUsername}/replies`]).catch((error) =>
           console.warn('Failed to track screen', error),
@@ -109,14 +131,14 @@ class ProfileContainer extends Component {
       }
     }
     if (query) {
-      await repliesAction({
-        start_author: query.author,
-        start_permlink: query.permlink,
-        limit: 10,
-      }).then((result) => {
+      delete query.author;
+      delete query.permlink;
+      console.log(query);
+      repliesAction(query).then((result) => {
         let _comments = unionBy(comments, result, 'permlink');
         this.setState({
           comments: _comments,
+          isProfileLoading: false,
         });
       });
     }
