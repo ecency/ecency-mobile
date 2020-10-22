@@ -36,7 +36,7 @@ const PostCardView = ({
 }) => {
   const [rebloggedBy, setRebloggedBy] = useState(get(content, 'reblogged_by[0]', null));
   const [activeVot, setActiveVot] = useState(activeVotes);
-
+  //console.log(activeVotes);
   // Component Functions
 
   const _handleOnUserPress = () => {

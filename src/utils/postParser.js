@@ -107,7 +107,7 @@ export const isVoted = (activeVotes, currentUserName) => {
     (element) => get(element, 'voter') === currentUserName && get(element, 'rshares', 0) > 0,
   );
   if (result) {
-    return result.percent;
+    return result.rshares;
   }
   return false;
 };
@@ -120,7 +120,7 @@ export const isDownVoted = (activeVotes, currentUserName) => {
     (element) => get(element, 'voter') === currentUserName && get(element, 'rshares') < 0,
   );
   if (result) {
-    return result.percent;
+    return result.rshares;
   }
   return false;
 };

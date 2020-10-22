@@ -524,8 +524,8 @@ export const deleteComment = (currentAccount, pin, permlink) => {
 
 export const getComments = async (author, permlink, currentUserName = null) => {
   try {
+    //const comments = await client.call('bridge', 'get_discussion', [author, permlink]);
     const comments = await client.database.call('get_content_replies', [author, permlink]);
-
     const groomedComments = parseComments(comments, currentUserName);
 
     return comments ? groomedComments : null;
