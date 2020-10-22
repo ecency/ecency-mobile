@@ -147,7 +147,7 @@ const PostsContainer = ({
 
     const filter = type || selectedFilterValue;
     let options = {};
-    const limit = 4;
+    const limit = 7;
     let func = null;
 
     if (
@@ -200,14 +200,14 @@ const PostsContainer = ({
                 _posts = unionBy(posts, _posts, 'permlink');
               }
             }
-            if (posts.length <= 4 && pageType !== 'profiles') {
+            if (posts.length <= 7 && pageType !== 'profiles') {
               _setFeedPosts(_posts);
             }
 
-            if (!refreshing) {
-              setStartAuthor(result[result.length - 1] && result[result.length - 1].author);
-              setStartPermlink(result[result.length - 1] && result[result.length - 1].permlink);
-            }
+            //if (!refreshing) {
+            setStartAuthor(result[result.length - 1] && result[result.length - 1].author);
+            setStartPermlink(result[result.length - 1] && result[result.length - 1].permlink);
+            //}
             setPosts(_posts);
           }
         } else if (result.length === 0) {
