@@ -69,33 +69,33 @@ export const makeOptions = (postObj) => {
     permlink: postObj.permlink,
     max_accepted_payout: '1000000.000 HBD',
     percent_hbd: 10000,
-    extensions: [[0, { beneficiaries: [] }]],
+    extensions: [],
   };
   switch (postObj.operationType) {
     case 'sp':
       a.max_accepted_payout = '1000000.000 HBD';
       a.percent_hbd = 0;
-      if (postObj.beneficiaries.length > 0) {
+      if (postObj.beneficiaries && postObj.beneficiaries.length > 0) {
         postObj.beneficiaries.sort((a, b) => a.account.localeCompare(b.account));
-        a.extensions[0][1].beneficiaries = postObj.beneficiaries || [];
+        a.extensions = [[0, { beneficiaries: postObj.beneficiaries }]];
       }
       break;
 
     case 'dp':
       a.max_accepted_payout = '0.000 HBD';
       a.percent_hbd = 10000;
-      if (postObj.beneficiaries.length > 0) {
+      if (postObj.beneficiaries && postObj.beneficiaries.length > 0) {
         postObj.beneficiaries.sort((a, b) => a.account.localeCompare(b.account));
-        a.extensions[0][1].beneficiaries = postObj.beneficiaries || [];
+        a.extensions = [[0, { beneficiaries: postObj.beneficiaries }]];
       }
       break;
 
     default:
       a.max_accepted_payout = '1000000.000 HBD';
       a.percent_hbd = 10000;
-      if (postObj.beneficiaries.length > 0) {
+      if (postObj.beneficiaries && postObj.beneficiaries.length > 0) {
         postObj.beneficiaries.sort((a, b) => a.account.localeCompare(b.account));
-        a.extensions[0][1].beneficiaries = postObj.beneficiaries || [];
+        a.extensions = [[0, { beneficiaries: postObj.beneficiaries }]];
       }
       break;
   }

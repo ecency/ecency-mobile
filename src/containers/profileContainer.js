@@ -95,14 +95,16 @@ class ProfileContainer extends Component {
     let repliesAction;
     if (!isOwnProfile) {
       repliesAction = getAccountPosts;
-      query.account = query.author;
-      if (comments.length > 0) {
-        query.start_author = query.author;
-        query.start_permlink = query.permlink;
+      if (query) {
+        query.account = query.author;
+        if (comments.length > 0) {
+          query.start_author = query.author;
+          query.start_permlink = query.permlink;
+        }
+        query.limit = 5;
+        query.observer = '';
+        query.sort = 'comments';
       }
-      query.limit = 5;
-      query.observer = '';
-      query.sort = 'comments';
 
       if (isAnalytics && user) {
         Matomo.trackView([`/@${user.name}/comments`]).catch((error) =>
@@ -111,14 +113,16 @@ class ProfileContainer extends Component {
       }
     } else {
       repliesAction = getAccountPosts;
-      query.account = query.author;
-      if (comments.length > 0) {
-        query.start_author = query.author;
-        query.start_permlink = query.permlink;
+      if (query) {
+        query.account = query.author;
+        if (comments.length > 0) {
+          query.start_author = query.author;
+          query.start_permlink = query.permlink;
+        }
+        query.limit = 5;
+        query.observer = '';
+        query.sort = 'replies';
       }
-      query.limit = 5;
-      query.observer = '';
-      query.sort = 'replies';
 
       if (isAnalytics) {
         Matomo.trackView([`/@${currentAccountUsername}/replies`]).catch((error) =>
