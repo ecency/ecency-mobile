@@ -100,7 +100,7 @@ class ProfileContainer extends Component {
         query.start_author = query.author;
         query.start_permlink = query.permlink;
       }
-      query.limit = 10;
+      query.limit = 5;
       query.observer = '';
       query.sort = 'comments';
 
@@ -116,7 +116,7 @@ class ProfileContainer extends Component {
         query.start_author = query.author;
         query.start_permlink = query.permlink;
       }
-      query.limit = 10;
+      query.limit = 5;
       query.observer = '';
       query.sort = 'replies';
 
