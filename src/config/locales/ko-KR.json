@@ -332,7 +332,7 @@
     "same_user": "이 사용자는 목록에 이미 추가되었습니다",
     "unknow_error": "오류가 발생했습니다",
     "error": "오류",
-    "fetch_error": "연결 이슈가 발생하였습니다. 다시 연결을 시도해보거나, support@ecency.com으로 문의해주세요.",
+    "fetch_error": "Connection issue, change server and restart",
     "connection_fail": "연결 실패!",
     "connection_success": "성공적으로 연결되었습니다",
     "checking": "확인 중...",
