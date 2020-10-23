@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import React, { Fragment } from 'react';
+import { Text, View, NativeModules, TouchableHighlight } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 import { Icon } from '../../../components';
@@ -32,8 +32,8 @@ class ErrorBoundary extends React.Component {
     if (hasError) {
       return (
         <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-          <Icon iconType="MaterialIcons" name="error-outline" size={56} />
-          <Text style={{ fontSize: 25 }}>
+          <Icon iconType="MaterialIcons" name="error-outline" size={45} />
+          <Text style={{ fontSize: 20 }}>
             {intl.formatMessage({
               id: 'alert.something_wrong',
             })}
@@ -43,6 +43,15 @@ class ErrorBoundary extends React.Component {
               id: 'alert.something_wrong_alt',
             })}
           </Text>
+          <TouchableHighlight onPress={() => NativeModules.DevSettings.reload()}>
+            <Fragment>
+              <Text style={{ fontSize: 30, textDecorationLine: 'underline', paddingTop: 20 }}>
+                {intl.formatMessage({
+                  id: 'alert.something_wrong_reload',
+                })}
+              </Text>
+            </Fragment>
+          </TouchableHighlight>
         </View>
       );
     }
