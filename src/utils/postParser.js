@@ -1,15 +1,13 @@
 import isEmpty from 'lodash/isEmpty';
 import forEach from 'lodash/forEach';
 import { get } from 'lodash';
-import { Platform, Dimensions } from 'react-native';
+import { Platform } from 'react-native';
 import { postBodySummary, renderPostBody, catchPostImage } from '@esteemapp/esteem-render-helpers';
 
 // Utils
 import parseAsset from './parseAsset';
 import { getReputation } from './reputation';
 import { getResizedAvatar } from './image';
-
-const WIDTH = Dimensions.get('window').width;
 
 const webp = Platform.OS === 'ios' ? false : true;
 
@@ -34,7 +32,7 @@ export const parsePost = (post, currentUserName, isPromoted) => {
   } catch (error) {
     post.json_metadata = {};
   }
-  post.image = catchPostImage(post.body, WIDTH - 16, 200, webp ? 'webp' : 'match');
+  post.image = catchPostImage(post.body, 600, 500, webp ? 'webp' : 'match');
   post.author_reputation = getReputation(post.author_reputation);
   post.avatar = getResizedAvatar(get(post, 'author'));
 
