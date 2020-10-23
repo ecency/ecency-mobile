@@ -282,13 +282,13 @@
     "limited_firstchar": "Tag deve começar com uma letra",
     "limited_lastchar": "Tag deve terminar com letra ou número",
     "setting_schedule": "Scheduling Time",
-    "setting_reward": "Reward",
-    "setting_beneficiary": "Beneficiary",
-    "reward_default": "Default 50% / 50%",
-    "reward_power_up": "Power Up 100%",
-    "reward_decline": "Decline Payout",
-    "beneficiaries": "Beneficiaries",
-    "options": "Options"
+    "setting_reward": "Recompensa",
+    "setting_beneficiary": "Beneficiário",
+    "reward_default": "Padrão 50% / 50%",
+    "reward_power_up": "Carregar Power a 100 %%",
+    "reward_decline": "Declinar Pagamento",
+    "beneficiaries": "Beneficiários",
+    "options": "Opções"
   },
   "pincode": {
     "enter_text": "Insira PIN para desbloquear",
@@ -304,7 +304,7 @@
     "fail": "Falha!",
     "move": "Mover",
     "move_question": "Tem certeza que deseja mover para rascunhos?",
-    "success_shared": "Success! Content submitted!",
+    "success_shared": "Sucesso! Conteúdo submetido!",
     "success_moved": "Movido para Rascunhos",
     "permission_denied": "Permissão negada",
     "permission_text": "Por favor, vá às Configurações do telefone e altere as permissões para o aplicativo Ecency.",
@@ -332,7 +332,7 @@
     "same_user": "Este usuário já foi adicionado à lista",
     "unknow_error": "Ocorreu um erro",
     "error": "Erro",
-    "fetch_error": "Connection issue, change server and restart",
+    "fetch_error": "Problema de Ligação, altere o servidor e reinicie",
     "connection_fail": "Falha na conexão!",
     "connection_success": "Conectado com sucesso!",
     "checking": "A verificar...",
@@ -343,9 +343,9 @@
     "payloadTooLarge": "Tamanho de arquivo muito grande, por favor, redimensione ou carregue uma imagem menor",
     "qoutaExceeded": "Quota de carregamento excedida",
     "invalidImage": "Imagem inválida, tente um arquivo diferente",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload"
+    "something_wrong": "Algo correu mal.",
+    "something_wrong_alt": "Tente em https://ecency.com",
+    "something_wrong_reload": "Recarregar"
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
