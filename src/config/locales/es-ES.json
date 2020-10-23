@@ -332,7 +332,7 @@
     "same_user": "Este usuario ya ha sido añadido a la lista",
     "unknow_error": "Ocurrió un error",
     "error": "Error",
-    "fetch_error": "Connection issue, please try again or write to support@ecency.com",
+    "fetch_error": "Connection issue, change server and restart",
     "connection_fail": "¡Error de conexión!",
     "connection_success": "¡Conectado con éxito!",
     "checking": "Comprobando...",
