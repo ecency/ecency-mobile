@@ -238,7 +238,8 @@
     "top": "トップ",
     "hot": "人気",
     "new": "新着",
-    "blog": "ブログ"
+    "blog": "ブログ",
+    "posts": "投稿"
   },
   "side_menu": {
     "profile": "プロフィール",
@@ -342,7 +343,9 @@
     "payloadTooLarge": "ファイルのサイズが大きすぎます、リサイズするか小さい画像をアップロードしてください",
     "qoutaExceeded": "アップロードの制限を超えています",
     "invalidImage": "無効な画像です、違うファイルを試してください",
-    "something_wrong": "Something went wrong. Try https://ecency.com until we fix the issue!"
+    "something_wrong": "Something went wrong.",
+    "something_wrong_alt": "Try https://ecency.com",
+    "something_wrong_reload": "Reload"
   },
   "post": {
     "reblog_alert": "本当にリブログしますか？",
