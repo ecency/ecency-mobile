@@ -332,7 +332,7 @@
     "same_user": "Tämä käyttäjä on jo listassa",
     "unknow_error": "Virhe tapahtui",
     "error": "Virhe",
-    "fetch_error": "Yhteysvirhe, yritä uudelleen tai laita viestiä support@ecency.com",
+    "fetch_error": "Connection issue, change server and restart",
     "connection_fail": "Yhteys epäonnistui!",
     "connection_success": "Yhdistetty onnistuneesti!",
     "checking": "Tarkistetaan...",
@@ -343,9 +343,9 @@
     "payloadTooLarge": "Tiedostokoko liian suuri, muuta kokoa tai lataa pienempi",
     "qoutaExceeded": "Latausraja ylittyi",
     "invalidImage": "Vääränlainen kuva, yritä toista",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload"
+    "something_wrong": "Jokin meni pieleen.",
+    "something_wrong_alt": "Kokeile https://ecency.com",
+    "something_wrong_reload": "Päivitä"
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
