@@ -54,3 +54,7 @@ export const RC_OFFER = 'RC_OFFER';
 
 // POSTS
 export const SET_FEED_POSTS = 'SET_FEED_POSTS';
+export const FILTER_SELECTED = 'FILTER_SELECTED';
+export const FETCH_POSTS = 'FETCH_POSTS';
+export const FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS';
+export const RESET = 'RESET';

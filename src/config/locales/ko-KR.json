@@ -238,7 +238,8 @@
     "top": "트렌드순",
     "hot": "인기순",
     "new": "신규순",
-    "blog": "블로그"
+    "blog": "블로그",
+    "posts": "글 목록"
   },
   "side_menu": {
     "profile": "프로필",
@@ -342,7 +343,9 @@
     "payloadTooLarge": "File size too big, please resize or upload smaller image",
     "qoutaExceeded": "업로드 제한을 초과합니다.",
     "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong. Try https://ecency.com until we fix the issue!"
+    "something_wrong": "Something went wrong.",
+    "something_wrong_alt": "Try https://ecency.com",
+    "something_wrong_reload": "Reload"
   },
   "post": {
     "reblog_alert": "리블로그 하시겠습니까?",
