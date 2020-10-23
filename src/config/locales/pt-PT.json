@@ -281,7 +281,7 @@
     "limited_characters": "Usa apenas letras minúsculas, dígitos e um hífen",
     "limited_firstchar": "Tag deve começar com uma letra",
     "limited_lastchar": "Tag deve terminar com letra ou número",
-    "setting_schedule": "Scheduling Time",
+    "setting_schedule": "Hora do Agendamento",
     "setting_reward": "Recompensa",
     "setting_beneficiary": "Beneficiário",
     "reward_default": "Padrão 50% / 50%",
