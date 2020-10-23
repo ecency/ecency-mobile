@@ -1,13 +1,13 @@
 ### Ecency Mobile
 
-iOS ![iOS](https://build.appcenter.ms/v0.1/apps/ef80aa2a-d4e1-4f43-a4f8-be12ea72ba9b/branches/development/badge)
-Android ![Android](https://build.appcenter.ms/v0.1/apps/12aace32-b58a-49da-bf85-5477f89ae16e/branches/development/badge)
+iOS ![iOS](https://build.appcenter.ms/v0.1/apps/ef80aa2a-d4e1-4f43-a4f8-be12ea72ba9b/branches/master/badge)
+Android ![Android](https://build.appcenter.ms/v0.1/apps/12aace32-b58a-49da-bf85-5477f89ae16e/branches/master/badge)
 
 ## Open Beta 🔥
 
-[IOS](https://install.appcenter.ms/orgs/ecency/apps/esteem-1/distribution_groups/beta_testers)
+[IOS](https://install.appcenter.ms/orgs/ecency/apps/ios/distribution_groups/beta_testers)
 
-[ANDROID](https://install.appcenter.ms/orgs/ecency/apps/esteem/distribution_groups/beta_testers)
+[ANDROID](https://install.appcenter.ms/orgs/ecency/apps/android/distribution_groups/beta_testers)
 
 ## Download
 
