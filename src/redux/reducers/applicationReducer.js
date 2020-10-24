@@ -29,7 +29,7 @@ import {
 } from '../constants/constants';
 
 const initialState = {
-  api: 'rpc.esteem.app',
+  api: 'rpc.ecency.com',
   currency: {
     currency: 'usd',
     currencyRate: 1,

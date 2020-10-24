@@ -5,6 +5,7 @@ import { upload } from '../../config/imageApi';
 import serverList from '../../config/serverListApi';
 import { jsonStringify } from '../../utils/jsonUtils';
 import bugsnag from '../../config/bugsnag';
+import { SERVER_LIST } from '../../constants/options/api';
 
 export const getCurrencyRate = (currency) =>
   api
@@ -372,19 +373,7 @@ export const uploadImage = (media, username, sign) => {
 //     });
 // });
 
-export const getNodes = () =>
-  serverList
-    .get()
-    .then(
-      (resp) =>
-        resp.data.hived || [
-          'https://rpc.ecency.com',
-          'https://api.hive.blog',
-          'https://anyx.io',
-          'https://rpc.esteem.app',
-          'https://api.openhive.network',
-        ],
-    );
+export const getNodes = () => serverList.get().then((resp) => resp.data.hived || SERVER_LIST);
 
 export const getSCAccessToken = (code) =>
   new Promise((resolve, reject) => {
