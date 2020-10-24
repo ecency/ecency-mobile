@@ -332,7 +332,7 @@
     "same_user": "Tämä käyttäjä on jo listassa",
     "unknow_error": "Virhe tapahtui",
     "error": "Virhe",
-    "fetch_error": "Connection issue, change server and restart",
+    "fetch_error": "Yhteysongelma, vaihda palvelinta ja käynnistä uudelleen",
     "connection_fail": "Yhteys epäonnistui!",
     "connection_success": "Yhdistetty onnistuneesti!",
     "checking": "Tarkistetaan...",

@@ -179,7 +179,7 @@ const PostsView = ({
             data={posts}
             showsVerticalScrollIndicator={false}
             renderItem={_renderItem}
-            keyExtractor={(content, i) => `key-${i.toString()}`}
+            keyExtractor={(content, i) => content.permlink}
             onEndReached={_onEndReached}
             onMomentumScrollBegin={() => {
               _onEndReachedCalledDuringMomentum = false;

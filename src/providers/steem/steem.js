@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { SERVER_LIST } from '../../constants/options/api';
 
-const DEFAULT_SERVER = ['https://rpc.ecency.com', 'https://anyx.io', 'https://api.hive.blog'];
+const DEFAULT_SERVER = SERVER_LIST;
 
 const pickAServer = () => DEFAULT_SERVER.sort(() => 0.5 - Math.random())[0];
 

@@ -2,12 +2,12 @@ import isEmpty from 'lodash/isEmpty';
 import forEach from 'lodash/forEach';
 import { get } from 'lodash';
 import { Platform } from 'react-native';
-import { postBodySummary, renderPostBody } from '@esteemapp/esteem-render-helpers';
+import { postBodySummary, renderPostBody, catchPostImage } from '@esteemapp/esteem-render-helpers';
 
 // Utils
 import parseAsset from './parseAsset';
 import { getReputation } from './reputation';
-import { getResizedImage, getResizedAvatar } from './image';
+import { getResizedAvatar } from './image';
 
 const webp = Platform.OS === 'ios' ? false : true;
 
@@ -32,7 +32,7 @@ export const parsePost = (post, currentUserName, isPromoted) => {
   } catch (error) {
     post.json_metadata = {};
   }
-  post.image = postImage(post.json_metadata, post.body);
+  post.image = catchPostImage(post.body, 600, 500, webp ? 'webp' : 'match');
   post.author_reputation = getReputation(post.author_reputation);
   post.avatar = getResizedAvatar(get(post, 'author'));
 
@@ -48,43 +48,6 @@ export const parsePost = (post, currentUserName, isPromoted) => {
   post.total_payout = totalPayout;
 
   return post;
-};
-
-const postImage = (metaData, body) => {
-  const imgTagRegex = /(<img[^>]*>)/g;
-  const markdownImageRegex = /!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/g;
-  // eslint-disable-next-line max-len
-  const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/gm;
-  const imageRegex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g;
-  let imageLink;
-  if (metaData && metaData.image && metaData.image[0]) {
-    [imageLink] = metaData.image;
-  } else if (!imageLink && body && markdownImageRegex.test(body)) {
-    const markdownMatch = body.match(markdownImageRegex);
-    if (markdownMatch[0]) {
-      const firstMarkdownMatch = markdownMatch[0];
-      [imageLink] = firstMarkdownMatch.match(urlRegex);
-    }
-  }
-
-  if (!imageLink && imageRegex.test(body)) {
-    const imageMatch = body.match(imageRegex);
-    [imageLink] = imageMatch;
-  }
-
-  if (!imageLink && imgTagRegex.test(body)) {
-    const _imgTag = body.match(imgTagRegex);
-    const match = _imgTag[0].match(urlRegex);
-
-    if (match && match[0]) {
-      [imageLink] = match;
-    }
-  }
-
-  if (imageLink) {
-    return getResizedImage(imageLink, 600);
-  }
-  return '';
 };
 
 export const parseComments = async (comments) => {

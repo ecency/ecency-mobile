@@ -49,6 +49,7 @@ import { encryptKey, decryptKey } from '../../../utils/crypto';
 
 // Component
 import SettingsScreen from '../screen/settingsScreen';
+import { SERVER_LIST } from '../../../constants/options/api';
 
 /*
  *            Props Name        Description                                     Value
@@ -76,13 +77,7 @@ class SettingsContainer extends Component {
       })
       .catch(() =>
         this.setState({
-          serverList: [
-            'https://rpc.ecency.com',
-            'https://api.hive.blog',
-            'https://anyx.io',
-            'https://rpc.esteem.app',
-            'https://api.openhive.network',
-          ],
+          serverList: SERVER_LIST,
         }),
       );
   }
@@ -123,7 +118,7 @@ class SettingsContainer extends Component {
     let isError = false;
     let alertMessage;
     const client = new Client(server, {
-      timeout: 8000,
+      timeout: 3000,
       rebrandedApi: true,
     });
     dispatch(setApi(''));

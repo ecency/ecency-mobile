@@ -25,18 +25,15 @@ import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
 
 // Constant
 import AUTH_TYPE from '../../constants/authType';
+import { SERVER_LIST } from '../../constants/options/api';
 
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
-const DEFAULT_SERVER = [
-  'https://rpc.ecency.com',
-  'https://anyx.io',
-  'https://hive-api.arcange.eu',
-  'https://api.openhive.network',
-  'https://api.hive.blog',
-];
+const DEFAULT_SERVER = SERVER_LIST;
 let client = new Client(DEFAULT_SERVER, {
-  timeout: 8000,
+  timeout: 3000,
+  failoverThreshold: 10,
+  consoleOnFailover: true,
   rebrandedApi: true,
 });
 
@@ -50,7 +47,9 @@ export const checkClient = async () => {
   });
 
   client = new Client(selectedServer, {
-    timeout: 8000,
+    timeout: 3000,
+    failoverThreshold: 10,
+    consoleOnFailover: true,
     rebrandedApi: true,
   });
 };

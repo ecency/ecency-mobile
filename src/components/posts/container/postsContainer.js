@@ -15,7 +15,7 @@ import PostsView from '../view/postsView';
 import { setFeedPosts } from '../../../redux/actions/postsAction';
 import { hidePostsThumbnails } from '../../../redux/actions/uiAction';
 
-let _isLoadingPost = false;
+import useIsMountedRef from '../../../customHooks/useIsMountedRef';
 
 const PostsContainer = ({
   changeForceLoadPostState,
@@ -51,6 +51,7 @@ const PostsContainer = ({
     filterOptionsValue && filterOptionsValue[selectedFilterIndex],
   );
   const elem = useRef(null);
+  const isMountedRef = useIsMountedRef();
 
   useEffect(() => {
     if (isConnected) {
@@ -119,7 +120,9 @@ const PostsContainer = ({
             ),
           );
 
-          setPromotedPosts(_promotedPosts);
+          if (isMountedRef.current) {
+            setPromotedPosts(_promotedPosts);
+          }
         }
       })
       .catch(() => {});
@@ -127,7 +130,6 @@ const PostsContainer = ({
 
   const _loadPosts = (type) => {
     if (
-      _isLoadingPost ||
       isLoading ||
       !isConnected ||
       (!isLoggedIn && type === 'feed') ||
@@ -136,12 +138,10 @@ const PostsContainer = ({
       return;
     }
     setIsLoading(true);
-    _isLoadingPost = true;
 
     if (!isConnected && (refreshing || isLoading)) {
       setRefreshing(false);
       setIsLoading(false);
-      _isLoadingPost = false;
       return;
     }
 
@@ -182,45 +182,45 @@ const PostsContainer = ({
     }
     func(options, username, nsfw)
       .then((result) => {
-        if (result.length > 0) {
-          let _posts = result;
+        if (isMountedRef.current) {
+          if (result.length > 0) {
+            let _posts = result;
 
-          if (filter === 'reblogs') {
-            for (let i = _posts.length - 1; i >= 0; i--) {
-              if (_posts[i].author === username) {
-                _posts.splice(i, 1);
+            if (filter === 'reblogs') {
+              for (let i = _posts.length - 1; i >= 0; i--) {
+                if (_posts[i].author === username) {
+                  _posts.splice(i, 1);
+                }
               }
             }
-          }
-          if (_posts.length > 0) {
-            if (posts.length > 0) {
-              if (refreshing) {
-                _posts = unionBy(_posts, posts, 'permlink');
-              } else {
-                _posts = unionBy(posts, _posts, 'permlink');
+            if (_posts.length > 0) {
+              if (posts.length > 0) {
+                if (refreshing) {
+                  _posts = unionBy(_posts, posts, 'permlink');
+                } else {
+                  _posts = unionBy(posts, _posts, 'permlink');
+                }
               }
-            }
-            if (posts.length <= 7 && pageType !== 'profiles') {
-              _setFeedPosts(_posts);
-            }
+              if (posts.length <= 7 && pageType !== 'profiles') {
+                _setFeedPosts(_posts);
+              }
 
-            //if (!refreshing) {
-            setStartAuthor(result[result.length - 1] && result[result.length - 1].author);
-            setStartPermlink(result[result.length - 1] && result[result.length - 1].permlink);
-            //}
-            setPosts(_posts);
+              //if (!refreshing) {
+              setStartAuthor(result[result.length - 1] && result[result.length - 1].author);
+              setStartPermlink(result[result.length - 1] && result[result.length - 1].permlink);
+              //}
+              setPosts(_posts);
+            }
+          } else if (result.length === 0) {
+            setIsNoPost(true);
           }
-        } else if (result.length === 0) {
-          setIsNoPost(true);
+          setRefreshing(false);
+          setIsLoading(false);
         }
-        setRefreshing(false);
-        setIsLoading(false);
-        _isLoadingPost = false;
       })
       .catch(() => {
         setRefreshing(false);
         setIsLoading(false);
-        _isLoadingPost = false;
       });
     // track filter and tag views
     if (isAnalytics) {
