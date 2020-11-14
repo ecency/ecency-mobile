@@ -526,6 +526,9 @@ class ApplicationContainer extends Component {
             setExistUser(true);
           }
         });
+      } else {
+        dispatch(login(false));
+        dispatch(logoutDone());
       }
     }
 
