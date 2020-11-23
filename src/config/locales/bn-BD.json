@@ -204,14 +204,14 @@
     },
     "feedback_success": "ইমেল সফলভাবে খোলা",
     "feedback_fail": "ইমেল ক্লায়েন্ট খুলতে পারে নি",
-    "server_fail": "Server not available"
+    "server_fail": "সার্ভার এভেইলএবেল নেই"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "User is not found."
+    "voters_info": "ভোটারদের তথ্য",
+    "no_user": "ব্যবহারকারী খুঁজে পাওয়া যায় নি।"
   },
   "login": {
-    "signin": "Sign in",
+    "signin": "সাইন ইন",
     "signup": "JOIN NOW",
     "signin_title": "To get all the benefits of using Ecency",
     "username": "Username",
@@ -224,7 +224,7 @@
   },
   "register": {
     "button": "Sign Up",
-    "title": "Sign up",
+    "title": "সাইন আপ করুন",
     "username": "Pick a username",
     "mail": "Enter your email address",
     "ref_user": "Referred user (Optional)",
