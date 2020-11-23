@@ -131,7 +131,7 @@
     "this_month": "মাস",
     "older_then": "মাস",
     "activities": "All",
-    "replies": "Replies",
+    "replies": "প্রত্যুত্তর",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
     "noactivity": "No recent activity"
@@ -142,29 +142,29 @@
     "monthly": "MONTHLY"
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "বার্তা বৈশিষ্ট্য শীঘ্রই আসছে!"
   },
   "profile": {
-    "following": "Following",
-    "follower": "Follower",
+    "following": "অনুসরণ করছেন",
+    "follower": "অনুসারী",
     "post": "Post",
-    "details": "Profile Details",
-    "comments": "Comments",
-    "replies": "Replies",
-    "wallet": "Wallet",
-    "wallet_details": "Wallet Details",
-    "unclaimed_rewards": "Unclaimed Rewards",
-    "full_in": "Full in",
-    "hours": "hours",
-    "voting_power": "Voting power",
-    "login_to_see": "Login to see",
+    "details": "প্রোফাইল বিশদ",
+    "comments": "মন্তব্য",
+    "replies": "প্রত্যুত্তর",
+    "wallet": "ওয়ালেট",
+    "wallet_details": "ওয়ালেট বিশদ",
+    "unclaimed_rewards": "রিওয়ার্ড দাবি করা হয়নি",
+    "full_in": "পূর্ণ",
+    "hours": "ঘন্টা",
+    "voting_power": "ভোটদানের ক্ষমতা",
+    "login_to_see": "দেখার জন্য লগইন করুন",
     "follow_people": "Follow some people to fill your feed",
-    "havent_commented": "haven't commented anything yet",
+    "havent_commented": "এখনও কিছু মন্তব্য করেন নি",
     "havent_posted": "আপনি এখনো কিছু পোস্ট করেন নি",
     "steem_power": "Hive Power",
-    "next_power_text": "Next power down is in",
-    "days": "days",
-    "day": "day",
+    "next_power_text": "পরবর্তী শক্তি ডাউন হয়",
+    "days": "দিন",
+    "day": "দিন",
     "steem_dollars": "Hive Dollars",
     "savings": "Savings",
     "edit": {
@@ -515,7 +515,7 @@
     }
   },
   "comments": {
-    "title": "Comments",
+    "title": "মন্তব্য",
     "reveal_comment": "Reveal comment",
     "read_more": "Read more comments",
     "more_replies": "more replies"
