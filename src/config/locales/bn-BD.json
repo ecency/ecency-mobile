@@ -110,17 +110,17 @@
   },
   "notification": {
     "vote": "voted",
-    "unvote": "unvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "unvote": "অপরিবর্তিত",
+    "reply": "উত্তরে",
+    "mention": "উল্লেখিত",
     "follow": "আপনাকে অনুসরণ করেছে",
     "unfollow": "আপনাকে অননুসরণ করেছে",
     "ignore": "আপনাকে উপেক্ষা করেছে",
-    "reblog": "reblogged",
-    "transfer": "transferred",
-    "spin": "Time to earn more Points",
-    "inactive": "Be active! Write a post, continue earning",
-    "referral": "joined with your referral, welcome them",
+    "reblog": "রিব্লগড",
+    "transfer": "স্থানান্তর",
+    "spin": "আরও পয়েন্ট অর্জন করার সময়",
+    "inactive": "সক্রিয় থাকুন! একটি পোস্ট লিখুন, উপার্জন চালিয়ে যান",
+    "referral": "আপনার রেফারেলের সাথে যোগদান, তাদের স্বাগত জানাই",
     "notification": "বিজ্ঞপ্তি",
     "leaderboard": "লিডারবোর্ড",
     "epoint": "পয়েন্টস",
@@ -130,16 +130,16 @@
     "this_week": "সপ্তাহ",
     "this_month": "মাস",
     "older_then": "মাস",
-    "activities": "All",
+    "activities": "সকল",
     "replies": "প্রত্যুত্তর",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs",
-    "noactivity": "No recent activity"
+    "mentions": "উল্লেখ",
+    "reblogs": "রিব্লগ",
+    "noactivity": "কোন সাম্প্রতিক কার্যকলাপ নেই"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "প্রতিদিন",
+    "weekly": "সপ্তাহান্তে",
+    "monthly": "মাসিক"
   },
   "messages": {
     "comingsoon": "বার্তা বৈশিষ্ট্য শীঘ্রই আসছে!"
@@ -158,20 +158,20 @@
     "hours": "ঘন্টা",
     "voting_power": "ভোটদানের ক্ষমতা",
     "login_to_see": "দেখার জন্য লগইন করুন",
-    "follow_people": "Follow some people to fill your feed",
+    "follow_people": "আপনার ফিড পূরণ করতে কিছু লোককে অনুসরণ করুন",
     "havent_commented": "এখনও কিছু মন্তব্য করেন নি",
     "havent_posted": "আপনি এখনো কিছু পোস্ট করেন নি",
-    "steem_power": "Hive Power",
+    "steem_power": "হাইভ পাওয়ার",
     "next_power_text": "পরবর্তী শক্তি ডাউন হয়",
     "days": "দিন",
     "day": "দিন",
-    "steem_dollars": "Hive Dollars",
+    "steem_dollars": "হাইভ ডলার",
     "savings": "সঞ্চয়",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
-      "website": "Website"
+      "display_name": "প্রদর্শন নাম",
+      "about": "সম্বন্ধে",
+      "location": "অবস্থান",
+      "website": "ওয়েবসাইট"
     }
   },
   "settings": {
@@ -193,7 +193,7 @@
     "pincode": "Pincode",
     "reset_pin": "পিন কোডটি রিসেট করুন",
     "reset": "রিসেট",
-    "nsfw_content": "NSFW",
+    "nsfw_content": "এনএসএফডাব্লু",
     "send_feedback": "মতামত পাঠানো",
     "send": "প্রেরণ করুন",
     "default_footer": "ডিফল্ট ফুটার",
@@ -212,7 +212,7 @@
   },
   "login": {
     "signin": "সাইন ইন",
-    "signup": "JOIN NOW",
+    "signup": "এখনি যোগদিন",
     "signin_title": "To get all the benefits of using Ecency",
     "username": "ইউজারনেম",
     "password": "পাসওয়ার্ড বা ডাব্লুআইএফ",
