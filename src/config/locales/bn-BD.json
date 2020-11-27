@@ -215,10 +215,10 @@
     "signup": "JOIN NOW",
     "signin_title": "To get all the benefits of using Ecency",
     "username": "ইউজারনেম",
-    "password": "Password or WIF",
+    "password": "পাসওয়ার্ড বা ডাব্লুআইএফ",
     "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
-    "cancel": "cancel",
-    "login": "LOGIN",
+    "cancel": "বাতিল করুন",
+    "login": "প্রবেশ করুন",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
     "steemconnect_fee_description": "info"
   },
@@ -233,8 +233,8 @@
     "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
   },
   "home": {
-    "feed": "Feed",
-    "popular": "Popular",
+    "feed": "ফিড",
+    "popular": "জনপ্রিয়",
     "top": "Top",
     "hot": "Hot",
     "new": "New",
@@ -242,37 +242,37 @@
     "posts": "Post"
   },
   "side_menu": {
-    "profile": "Profile",
-    "bookmarks": "Bookmarks",
-    "favorites": "Favorites",
-    "drafts": "Drafts",
-    "schedules": "Schedules",
-    "gallery": "Gallery",
-    "settings": "Settings",
-    "add_account": "Add Account",
-    "logout": "Logout",
-    "cancel": "Cancel",
-    "logout_text": "Are you sure you want to logout?"
+    "profile": "প্রোফাইল",
+    "bookmarks": "বুকমার্ক",
+    "favorites": "প্রিয়",
+    "drafts": "খসড়া",
+    "schedules": "সময়সূচীসমূহ",
+    "gallery": "গ্যালারি",
+    "settings": "সেটিংস",
+    "add_account": "একাউন্ট যোগ করুন",
+    "logout": "লগআউট",
+    "cancel": "বাতিল করুন",
+    "logout_text": "আপনি কি নিশ্চিতভাবে লগআউট করতে চান?"
   },
   "header": {
-    "title": "Login to customize your feed",
-    "search": "Search..."
+    "title": "আপনার ফিডটি কাস্টমাইজ করতে লগইন করুন",
+    "search": "অনুসন্ধান..."
   },
   "basic_header": {
-    "publish": "Publish",
-    "search": "Search",
-    "update": "Update",
-    "reply": "Reply"
+    "publish": "প্রকাশ",
+    "search": "অনুসন্ধান",
+    "update": "আপডেট",
+    "reply": "উত্তর"
   },
   "editor": {
-    "title": "Title",
+    "title": "শিরোনাম",
     "tags": "Tags (separate with space)",
     "default_placeholder": "Tell us something...",
     "reply_placeholder": "Add your reply...",
-    "publish": "Publish",
-    "reply": "Reply",
-    "open_gallery": "Open Gallery",
-    "capture_photo": "Capture a photo",
+    "publish": "প্রকাশ",
+    "reply": "উত্তর",
+    "open_gallery": "গ্যালারী খুলুন",
+    "capture_photo": "একটি ছবি ক্যাপচার করুন",
     "limited_tags": "Only 10 tags allowed, remove some",
     "limited_length": "Maximum length of each tag should be 24",
     "limited_dash": "Use one dash in each tag",
@@ -293,11 +293,11 @@
   "pincode": {
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
-    "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "write_again": "আবার লেখা",
+    "forgot_text": "ওহ, আমি এটি ভুলে গিয়েছিলাম ..."
   },
   "alert": {
-    "success": "Success!",
+    "success": "সফল!",
     "successful": "Successful",
     "allRead": "Marked all notifications as read",
     "claim_reward_balance_ok": "Reward balance claimed",
