@@ -339,28 +339,28 @@
     "external_link": "ব্রাউজারে খুলুন",
     "not_existing_post": "পোস্টের অস্তিত্ব নেই! অনুগ্রহ করে পারমিলিংক এবং লেখক পরীক্ষা করুন।",
     "google_play_version": "আমরা লক্ষ্য করেছি যে আপনার ডিভাইসে গুগল প্লেটির পুরানো সংস্করণ রয়েছে। গুগল প্লে পরিষেবাগুলি আপডেট করুন এবং আবার চেষ্টা করুন!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
-    "payloadTooLarge": "File size too big, please resize or upload smaller image",
-    "qoutaExceeded": "Upload quota exceeded",
-    "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload"
+    "rc_down": "কোনও ক্রিয়া সম্পাদনের জন্য পর্যাপ্ত সংস্থান ক্রেডিট নেই!\n\nঅভিজ্ঞতা উপভোগ করতে চালিয়ে যেতে আপনার অ্যাকাউন্টকে বুস্ট করুন। আপনি কি এখনই আপনার অ্যাকাউন্টটি বাড়াতে চান?",
+    "payloadTooLarge": "ফাইলের আকার খুব বড়, দয়া করে আকার পরিবর্তন করুন বা ছোট চিত্র আপলোড করুন",
+    "qoutaExceeded": "আপলোড কোটা অতিক্রম করেছে",
+    "invalidImage": "ইনভ্যালিড চিত্র, ভিন্ন ফাইল চেষ্টা করুন",
+    "something_wrong": "কিছু ভুল হয়েছে",
+    "something_wrong_alt": "চেষ্টা করুন https://ecency.com",
+    "something_wrong_reload": "রিলোড"
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
-    "removed_hint": "Content is not available",
-    "copy_link": "Copy link",
+    "removed_hint": "কনটেন্ট এভেইেলএবেল নেই",
+    "copy_link": "লিংক কপি করুন",
     "reblogged": "reblogged by",
     "sponsored": "SPONSORED",
-    "open_thread": "Open thread",
-    "image": "Image",
-    "link": "Link",
-    "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image",
-    "wrong_link": "Wrong link"
+    "open_thread": "থ্রেড খুলুন",
+    "image": "চিত্র",
+    "link": "লিঙ্ক",
+    "gallery_mode": "গ্যালারী মোড",
+    "save_to_local": "ডিভাইসে ডাউনলোড করুন",
+    "image_saved": "চিত্র ফটো গ্যালারিতে সংরক্ষিত হয়েছে",
+    "image_saved_error": "চিত্র সংরক্ষণে ত্রুটি",
+    "wrong_link": "ভুল লিঙ্ক"
   },
   "drafts": {
     "title": "Drafts",
@@ -385,7 +385,7 @@
     "add": "Add to bookmarks"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "আপত্তিজনক কনটেন্ট প্রতিবেদন করা হয়েছে"
   },
   "favorites": {
     "title": "Favorites",
