@@ -1,7 +1,7 @@
 {
   "wallet": {
     "curation_reward": "কিউরেটর পুরস্কার",
-    "author_reward": "Whats up everyone",
+    "author_reward": "লেখক পুরস্কার",
     "comment_benefactor_reward": "Benefactor Reward",
     "claim_reward_balance": "Claim Reward ",
     "transfer": "স্থানান্তর",
@@ -281,8 +281,8 @@
     "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Tag must start with a letter",
     "limited_lastchar": "Tag must end with letter or number",
-    "setting_schedule": "Scheduling Time",
-    "setting_reward": "Reward",
+    "setting_schedule": "নির্ধারিত সময়",
+    "setting_reward": "পুরষ্কার",
     "setting_beneficiary": "Beneficiary",
     "reward_default": "Default 50% / 50%",
     "reward_power_up": "Power Up 100%",
@@ -478,22 +478,22 @@
     "next": "NEXT",
     "account": {
       "title": "অ্যাকাউন্ট বুস্ট করুন",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "desc": "৩০ দিনের ডেলিগেশন আপনার ভোট এবং সামাজিক ক্রিয়াকলাপকে উত্সাহ দেবে এবং আরও সংস্থান ক্রেডিট দিয়ে আপনাকে আরও ক্রিয়া দেবে।"
     }
   },
   "free_estm": {
-    "title": "Free Points",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "title": "ফ্রি পয়েন্ট",
+    "button": "স্পিন করুন এবং জিতুন",
+    "get_spin": "৫ স্পিন",
+    "spin_right": "বাম স্পিন",
+    "timer_text": "পরবর্তী বিনামূল্যে স্পিন ইন"
   },
   "promote": {
     "title": "Promote",
     "days": "days",
     "user": "User",
     "permlink": "Post",
-    "permlinkPlaceholder": "username/permlink",
+    "permlinkPlaceholder": "ব্যবহারকারীর নাম / পারমিলিংক",
     "information": "Are you sure to promote?"
   },
   "boostPost": {
@@ -509,45 +509,45 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "আপনার ডিভাইসের সময়;",
+      "current_time": "বর্তমান সময়:",
+      "information": "আমরা লক্ষ্য করেছি যে আপনার ডিভাইসের সঠিক তারিখ বা সময় রয়েছে। দয়া করে তারিখ ও সময় ঠিক করুন বা স্বয়ংক্রিয়ভাবে সেট করুন এবং আবার চেষ্টা করুন।"
     }
   },
   "comments": {
     "title": "মন্তব্য",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "মন্তব্য প্রকাশ করুন",
+    "read_more": "আরও মন্তব্য পড়ুন",
+    "more_replies": "আরও উত্তর"
   },
   "search_result": {
-    "others": "Others",
+    "others": "অন্যান্য",
     "communities": {
-      "title": "Communities",
-      "subscribe": "Subscribe",
-      "unsubscribe": "Unsubscribe",
-      "subscribers": "Subscribers",
-      "posters": "Posters",
+      "title": "কমিউনিটি",
+      "subscribe": "সাবস্ক্রাইব",
+      "unsubscribe": "আনসাবস্ক্রাইব করুন",
+      "subscribers": "সাবসক্রাইবারস",
+      "posters": "পোস্টার",
       "posts": "Post"
     },
     "communities_filter": {
-      "rank": "Rank",
-      "subs": "Subscribers",
-      "new": "New"
+      "rank": "র‍্যাঙ্ক",
+      "subs": "সাবসক্রাইবারস",
+      "new": "নতুন"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "জনপ্রিয়তা",
+      "newest": "নতুন",
+      "relevance": "প্রাসঙ্গিকতা"
     },
     "other_result_filter": {
       "user": "User",
-      "tag": "Tag"
+      "tag": "ট্যাগ"
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details"
+    "new_post": "নতুন পোস্ট",
+    "community": "কমিউনিটি",
+    "details": "বিস্তারিত"
   }
 }
