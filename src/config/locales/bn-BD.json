@@ -398,7 +398,7 @@
     "invalid_username": "Invalid username, please check and try again",
     "already_logged": "You are already logged in, please try to add another account",
     "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "অজানা ত্রুটি, দয়া করে support@ecency.com এ লিখুন"
   },
   "payout": {
     "potential_payout": "Potential Payout",
@@ -406,9 +406,9 @@
     "author_payout": "Author Payout",
     "curation_payout": "Curation Payout",
     "payout_date": "Payout",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
-    "breakdown": "Breakdown"
+    "beneficiaries": "স্বত্বভোগী",
+    "warn_zero_payout": "পেআউট এর জন্য পরিমাণ অবশ্যই $০.০০২ এ পৌঁছাতে হবে",
+    "breakdown": "ব্রেকডাউন"
   },
   "post_dropdown": {
     "copy": "copy link",
@@ -418,7 +418,7 @@
     "bookmarks": "add to bookmarks",
     "promote": "promote",
     "boost": "boost",
-    "report": "report"
+    "report": "প্রতিবেদন"
   },
   "deep_link": {
     "no_existing_user": "No existing user",
@@ -429,11 +429,11 @@
     "comments": "Comments"
   },
   "comment_filter": {
-    "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
-    "top": "TOP",
+    "trending": "শীর্ষ",
+    "reputation": "রেপুটেশন",
+    "votes": "ভোট",
+    "age": "বয়স",
+    "top": "শীর্ষ",
     "time": "TIME"
   },
   "transfer": {
