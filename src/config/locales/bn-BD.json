@@ -2,8 +2,8 @@
   "wallet": {
     "curation_reward": "কিউরেটর পুরস্কার",
     "author_reward": "লেখক পুরস্কার",
-    "comment_benefactor_reward": "Benefactor Reward",
-    "claim_reward_balance": "Claim Reward ",
+    "comment_benefactor_reward": "উপকারকারীর পুরষ্কার",
+    "claim_reward_balance": "পুরস্কার দাবি",
     "transfer": "স্থানান্তর",
     "transfer_to_vesting": "To Vesting",
     "transfer_from_savings": "From Savings",
@@ -268,19 +268,19 @@
     "title": "শিরোনাম",
     "tags": "ট্যাগস (স্থানের সাথে পৃথক)",
     "default_placeholder": "কিছু বলুন ...",
-    "reply_placeholder": "Add your reply...",
+    "reply_placeholder": "আপনার উত্তর যুক্ত করুন ...",
     "publish": "প্রকাশ",
     "reply": "উত্তর",
     "open_gallery": "গ্যালারী খুলুন",
     "capture_photo": "একটি ছবি ক্যাপচার করুন",
-    "limited_tags": "Only 10 tags allowed, remove some",
-    "limited_length": "Maximum length of each tag should be 24",
-    "limited_dash": "Use one dash in each tag",
-    "limited_space": "Use space to separate tags",
-    "limited_lowercase": "Only use lower letters in tag",
-    "limited_characters": "Use only lowercase letters, digits and one dash",
-    "limited_firstchar": "Tag must start with a letter",
-    "limited_lastchar": "Tag must end with letter or number",
+    "limited_tags": "শুধুমাত্র ১০ টি ট্যাগ অনুমোদিত, কিছু সরান",
+    "limited_length": "প্রতিটি ট্যাগের সর্বোচ্চ দৈর্ঘ্য ২৪ হওয়া উচিত",
+    "limited_dash": "প্রতিটি ট্যাগে একটি ড্যাশ ব্যবহার করুন",
+    "limited_space": "ট্যাগ পৃথক করতে স্পেস ব্যবহার করুন",
+    "limited_lowercase": "কেবল ট্যাগে ছোট হাতের অক্ষর ব্যবহার করুন",
+    "limited_characters": "কেবল ছোট হাতের অক্ষর, অঙ্ক এবং একটি ড্যাশ ব্যবহার করুন",
+    "limited_firstchar": "ট্যাগ অবশ্যই একটি বর্ন দিয়ে শুরু করা উচিত",
+    "limited_lastchar": "ট্যাগটি অবশ্যই বর্ণ বা সংখ্যা দিয়ে শেষ হতে হবে",
     "setting_schedule": "নির্ধারিত সময়",
     "setting_reward": "পুরষ্কার",
     "setting_beneficiary": "স্বত্বভোগী",
@@ -505,7 +505,7 @@
     "time": "TIME"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "রিব্লগ তথ্য"
   },
   "dsteem": {
     "date_error": {
