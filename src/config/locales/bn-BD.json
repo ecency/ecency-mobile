@@ -213,32 +213,32 @@
   "login": {
     "signin": "সাইন ইন",
     "signup": "এখনি যোগদিন",
-    "signin_title": "To get all the benefits of using Ecency",
+    "signin_title": "ইসেন্সি ব্যবহারের সমস্ত সুবিধা পেতে",
     "username": "ইউজারনেম",
     "password": "পাসওয়ার্ড বা ডাব্লুআইএফ",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "সাইন ইন করে আপনি আমাদের পরিষেবার শর্তাদি এবং গোপনীয়তা নীতিগুলিতে সম্মত হন।",
     "cancel": "বাতিল করুন",
     "login": "প্রবেশ করুন",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_description": "আপনি যদি নিজের পাসওয়ার্ডটি এনক্রিপ্ট করা এবং আপনার ডিভাইসে সংরক্ষণ করতে না চান তবে আপনি হাইভসাইনার ব্যবহার করতে পারেন।",
+    "steemconnect_fee_description": "তথ্য"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "সাইন আপ",
     "title": "সাইন আপ করুন",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
-    "ref_user": "Referred user (Optional)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
-    "title_description": "One account to manage everything",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "username": "একটি ব্যাবহারকারী নাম বেছে নাও",
+    "mail": "তোমার ই - মেইল ​​ঠিকানা লেখো",
+    "ref_user": "রেফার্ড ব্যবহারকারী (ঐচ্ছিক)",
+    "500_error": "আপনার অনুরোধটি প্রক্রিয়া করা যায়নি, সাইনআপ সারি সম্ভবত পূর্ণ! কয়েক মিনিটের মধ্যে আবার চেষ্টা করুন ...",
+    "title_description": "সবকিছু পরিচালনা করার জন্য একটি অ্যাকাউন্ট",
+    "form_description": "আমাদের সাথে সাইন আপ করে, আপনি আমাদের পরিষেবার শর্তাদি এবং গোপনীয়তা নীতিগুলিতে সম্মত হন।"
   },
   "home": {
     "feed": "ফিড",
     "popular": "জনপ্রিয়",
-    "top": "Top",
-    "hot": "Hot",
-    "new": "New",
-    "blog": "Blog",
+    "top": "শীর্ষ",
+    "hot": "গরম",
+    "new": "নতুন",
+    "blog": "ব্লগ",
     "posts": "Post"
   },
   "side_menu": {
@@ -266,8 +266,8 @@
   },
   "editor": {
     "title": "শিরোনাম",
-    "tags": "Tags (separate with space)",
-    "default_placeholder": "Tell us something...",
+    "tags": "ট্যাগস (স্থানের সাথে পৃথক)",
+    "default_placeholder": "কিছু বলুন ...",
     "reply_placeholder": "Add your reply...",
     "publish": "প্রকাশ",
     "reply": "উত্তর",
