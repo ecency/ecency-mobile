@@ -71,45 +71,45 @@
     "withdraw_steem": "উইথড্রো হাইভ",
     "withdraw_sbd": "উইথড্রো এইচ বি ডি",
     "transfer_to_savings": "সাশ্রয়",
-    "convert": "Convert",
-    "escrow_transfer": "Escrow Transfer",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel From Savings",
+    "convert": "রূপান্তর করুন",
+    "escrow_transfer": "এসক্রো স্থানান্তর",
+    "escrow_dispute": "এসক্রো বিরোধ",
+    "escrow_release": "এসক্রো মুক্তি",
+    "escrow_approve": "এসক্রো অনুমোদন",
+    "cancel_transfer_from_savings": "সঞ্চয় থেকে বাতিল করুন",
     "delegate_vesting_shares": "প্রতিনিধি",
-    "fill_convert_request": "Convert Executed",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_convert_request": "রূপান্তর কার্যকর",
+    "fill_transfer_from_savings": "সঞ্চয় সম্পাদিত",
+    "fill_vesting_withdraw": "পাওয়ারডাউন কার্যকর করা হয়েছে",
     "estm": {
       "title": "পয়েন্টস",
-      "buy": "GET POINTS"
+      "buy": "পয়েন্টগুলি পান"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "হাইভ সঞ্চয়"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "এইচ বি ডি সঞ্চয়"
     },
     "steem": {
-      "title": "HIVE",
-      "buy": "GET HIVE"
+      "title": "হাইভ",
+      "buy": "হাইভ পান"
     },
     "sbd": {
-      "title": "HBD",
-      "buy": "GET HBD"
+      "title": "এইচ বি ডি",
+      "buy": "হাইভ পান"
     },
     "steem_power": {
-      "title": "HIVE POWER"
+      "title": "হাইভ পাওয়ার"
     },
     "btc": {
-      "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "title": "বিটিসি",
+      "buy": "বিটিসি পাবেন",
+      "address": "গ্রহণ করুন"
     }
   },
   "notification": {
-    "vote": "voted",
+    "vote": "ভোট দিয়েছেন",
     "unvote": "অপরিবর্তিত",
     "reply": "উত্তরে",
     "mention": "উল্লেখিত",
@@ -405,24 +405,24 @@
     "promoted": "Promoted",
     "author_payout": "Author Payout",
     "curation_payout": "Curation Payout",
-    "payout_date": "Payout",
+    "payout_date": "পরিশোধ",
     "beneficiaries": "স্বত্বভোগী",
     "warn_zero_payout": "পেআউট এর জন্য পরিমাণ অবশ্যই $০.০০২ এ পৌঁছাতে হবে",
     "breakdown": "ব্রেকডাউন"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share",
-    "bookmarks": "add to bookmarks",
-    "promote": "promote",
-    "boost": "boost",
+    "copy": "কপি লিংক",
+    "reblog": "রিব্লগ",
+    "reply": "উত্তর",
+    "share": "শেয়ার",
+    "bookmarks": "বুকমার্কে যোগ করুন",
+    "promote": "প্রচার করুন",
+    "boost": "বুস্ট",
     "report": "প্রতিবেদন"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "কোন বিদ্যমান ব্যবহারকারী",
+    "no_existing_post": "কোন বিদ্যমান পোস্ট নেই"
   },
   "search": {
     "posts": "Posts",
