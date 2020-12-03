@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 // Actions
 import { getUserDataWithUsername } from '../../../realm/realm';
-import { switchAccount } from '../../../providers/steem/auth';
+import { switchAccount } from '../../../providers/hive/auth';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 
 import { logout, isRenderRequired } from '../../../redux/actions/applicationActions';

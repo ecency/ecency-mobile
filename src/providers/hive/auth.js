@@ -3,7 +3,7 @@ import sha256 from 'crypto-js/sha256';
 import Config from 'react-native-config';
 import get from 'lodash/get';
 
-import { getUser } from './dsteem';
+import { getUser } from './dhive';
 import {
   setUserData,
   setAuthStatus,

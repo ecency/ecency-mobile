@@ -8,7 +8,7 @@ import { withNavigation } from 'react-navigation';
 // Services and Actions
 import { getUser, getUserPoints, claim } from '../providers/esteem/ePoint';
 import { openPinCodeModal } from '../redux/actions/applicationActions';
-import { getAccount, boost } from '../providers/steem/dsteem';
+import { getAccount, boost } from '../providers/hive/dhive';
 import { getUserDataWithUsername } from '../realm/realm';
 import { toastNotification } from '../redux/actions/uiAction';
 

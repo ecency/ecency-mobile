@@ -8,7 +8,7 @@ import get from 'lodash/get';
 import { toastNotification } from '../../../redux/actions/uiAction';
 
 // Dsteem
-import { deleteComment, getActiveVotes } from '../../../providers/steem/dsteem';
+import { deleteComment, getActiveVotes } from '../../../providers/hive/dhive';
 import { getPostReblogs } from '../../../providers/esteem/esteem';
 
 // Constants

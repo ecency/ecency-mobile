@@ -20,7 +20,7 @@ import { FormattedCurrency } from '../../formatedElements';
 import { setRcOffer } from '../../../redux/actions/uiAction';
 
 // STEEM
-import { vote } from '../../../providers/steem/dsteem';
+import { vote } from '../../../providers/hive/dhive';
 
 // Styles
 import styles from './upvoteStyles';

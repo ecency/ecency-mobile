@@ -5,7 +5,7 @@ import get from 'lodash/get';
 
 // Services and Actions
 import Matomo from 'react-native-matomo-sdk';
-import { getPost } from '../../../providers/steem/dsteem';
+import { getPost } from '../../../providers/hive/dhive';
 // import { matomo } from '../../../providers/esteem/analytics';
 
 // Component

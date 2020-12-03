@@ -6,7 +6,7 @@ import get from 'lodash/get';
 // Utilities
 
 // Services and Actions
-import { getFollowers, getFollowing, getFollowSearch } from '../../../providers/steem/dsteem';
+import { getFollowers, getFollowing, getFollowSearch } from '../../../providers/hive/dhive';
 // Component
 import FollowsScreen from '../screen/followsScreen';
 

@@ -15,10 +15,9 @@ import {
   getFollows,
   getRepliesByLastUpdate,
   getUser,
-  getIsFollowing,
-  getIsMuted,
+  getRelationship,
   getAccountPosts,
-} from '../providers/steem/dsteem';
+} from '../providers/hive/dhive';
 
 // Ecency providers
 import { getIsFavorite, addFavorite, removeFavorite } from '../providers/esteem/esteem';
@@ -260,9 +259,10 @@ class ProfileContainer extends Component {
       let follows;
 
       if (!isOwnProfile) {
-        _isFollowing = await getIsFollowing(username, currentAccount.name);
+        const res = await getRelationship(currentAccount.name, username);
+        _isFollowing = res && res.follows;
 
-        _isMuted = _isFollowing ? false : await getIsMuted(username, currentAccount.name);
+        _isMuted = res && res.ignores;
 
         getIsFavorite(username, currentAccount.name).then((isFav) => {
           isFavorite = isFav;

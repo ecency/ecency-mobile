@@ -7,11 +7,7 @@ import get from 'lodash/get';
 
 // Actions & Services
 import { navigate } from '../../../navigation/service';
-import {
-  setUserDataWithPinCode,
-  verifyPinCode,
-  updatePinCode,
-} from '../../../providers/steem/auth';
+import { setUserDataWithPinCode, verifyPinCode, updatePinCode } from '../../../providers/hive/auth';
 import {
   closePinCodeModal,
   login,
@@ -27,7 +23,7 @@ import {
   setAuthStatus,
 } from '../../../realm/realm';
 import { updateCurrentAccount, removeOtherAccount } from '../../../redux/actions/accountAction';
-import { getUser } from '../../../providers/steem/dsteem';
+import { getUser } from '../../../providers/hive/dhive';
 
 // Utils
 import { encryptKey, decryptKey } from '../../../utils/crypto';

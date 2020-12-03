@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withNavigation } from 'react-navigation';
 
 // Services and Actions
-import { getCommunityTitle } from '../../../../providers/steem/dsteem';
+import { getCommunityTitle } from '../../../../providers/hive/dhive';
 // Middleware
 
 // Constants

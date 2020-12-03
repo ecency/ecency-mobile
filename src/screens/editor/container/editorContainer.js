@@ -15,7 +15,7 @@ import {
   getPurePost,
   grantPostingPermission,
   signImage,
-} from '../../../providers/steem/dsteem';
+} from '../../../providers/hive/dhive';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
 
 // Constants

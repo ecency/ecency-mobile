@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import ROUTES from '../../../constants/routeNames';
 
-import { lookupAccounts, getTrendingTags } from '../../../providers/steem/dsteem';
+import { lookupAccounts, getTrendingTags } from '../../../providers/hive/dhive';
 import { getLeaderboard } from '../../../providers/esteem/esteem';
 
 const OtherResultContainer = (props) => {

@@ -6,8 +6,8 @@ import Config from 'react-native-config';
 import messaging from '@react-native-firebase/messaging';
 
 // Services and Actions
-import { login } from '../../../providers/steem/auth';
-import { lookupAccounts } from '../../../providers/steem/dsteem';
+import { login } from '../../../providers/hive/auth';
+import { lookupAccounts } from '../../../providers/hive/dhive';
 import { userActivity } from '../../../providers/esteem/ePoint';
 import {
   failedAccount,

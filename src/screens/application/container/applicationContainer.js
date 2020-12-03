@@ -41,8 +41,8 @@ import {
   getVersionForWelcomeModal,
   setVersionForWelcomeModal,
 } from '../../../realm/realm';
-import { getUser, getPost } from '../../../providers/steem/dsteem';
-import { switchAccount } from '../../../providers/steem/auth';
+import { getUser, getPost } from '../../../providers/hive/dhive';
+import { switchAccount } from '../../../providers/hive/auth';
 import { setPushToken, markActivityAsRead } from '../../../providers/esteem/esteem';
 import { navigate } from '../../../navigation/service';
 

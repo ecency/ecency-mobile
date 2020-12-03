@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
-import { getComments, deleteComment } from '../../../providers/steem/dsteem';
+import { getComments, deleteComment } from '../../../providers/hive/dhive';
 // Services and Actions
 import { writeToClipboard } from '../../../utils/clipboard';
 import { toastNotification } from '../../../redux/actions/uiAction';

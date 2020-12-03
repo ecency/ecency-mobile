@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import get from 'lodash/get';
 
-import { lookupAccounts } from '../../providers/steem/dsteem';
+import { lookupAccounts } from '../../providers/hive/dhive';
 import { register } from '../../providers/esteem/esteem';
 import ROUTES from '../../constants/routeNames';
 

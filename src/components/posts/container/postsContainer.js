@@ -5,7 +5,7 @@ import unionBy from 'lodash/unionBy';
 import Matomo from 'react-native-matomo-sdk';
 
 // HIVE
-import { getAccountPosts, getPost, getRankedPosts } from '../../../providers/steem/dsteem';
+import { getAccountPosts, getPost, getRankedPosts } from '../../../providers/hive/dhive';
 import { getPromotePosts } from '../../../providers/esteem/esteem';
 
 // Component

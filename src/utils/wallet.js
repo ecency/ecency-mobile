@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToSp } from './conversions';
-import { getFeedHistory, getAccount, getAccountHistory } from '../providers/steem/dsteem';
+import { getFeedHistory, getAccount, getAccountHistory } from '../providers/hive/dhive';
 import { getCurrencyTokenRate } from '../providers/esteem/esteem';
 
 export const transferTypes = [

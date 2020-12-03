@@ -5,7 +5,7 @@ import get from 'lodash/get';
 
 // Services and Actions
 import { search } from '../../../providers/esteem/esteem';
-import { lookupAccounts, getTrendingTags, getPurePost } from '../../../providers/steem/dsteem';
+import { lookupAccounts, getTrendingTags, getPurePost } from '../../../providers/hive/dhive';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';

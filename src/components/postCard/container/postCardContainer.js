@@ -5,7 +5,7 @@ import get from 'lodash/get';
 
 // Services
 import { act } from 'react-test-renderer';
-import { getPost, getActiveVotes } from '../../../providers/steem/dsteem';
+import { getPost, getActiveVotes } from '../../../providers/hive/dhive';
 import { getPostReblogs } from '../../../providers/esteem/esteem';
 
 import { parseActiveVotes } from '../../../utils/postParser';

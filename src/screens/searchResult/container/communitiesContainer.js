@@ -5,8 +5,8 @@ import isEmpty from 'lodash/isEmpty';
 
 import ROUTES from '../../../constants/routeNames';
 
-import { getCommunities, getSubscriptions } from '../../../providers/steem/steem';
-import { subscribeCommunity } from '../../../providers/steem/dsteem';
+import { getCommunities, getSubscriptions } from '../../../providers/hive/hive';
+import { subscribeCommunity } from '../../../providers/hive/dhive';
 
 const CommunitiesContainer = ({
   children,

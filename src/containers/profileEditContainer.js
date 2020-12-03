@@ -8,7 +8,7 @@ import { withNavigation } from 'react-navigation';
 
 import { uploadImage } from '../providers/esteem/esteem';
 
-import { profileUpdate, signImage } from '../providers/steem/dsteem';
+import { profileUpdate, signImage } from '../providers/hive/dhive';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
 
 // import ROUTES from '../constants/routeNames';
