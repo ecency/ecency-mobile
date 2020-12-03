@@ -117,9 +117,10 @@ class SettingsContainer extends Component {
     let serverResp;
     let isError = false;
     let alertMessage;
-    const client = new Client(server, {
-      timeout: 3000,
-      rebrandedApi: true,
+    const client = new Client([server, 'https://rpc.ecency.com'], {
+      timeout: 4000,
+      failoverThreshold: 10,
+      consoleOnFailover: true,
     });
     dispatch(setApi(''));
 

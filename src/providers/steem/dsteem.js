@@ -34,7 +34,6 @@ let client = new Client(DEFAULT_SERVER, {
   timeout: 3000,
   failoverThreshold: 10,
   consoleOnFailover: true,
-  rebrandedApi: true,
 });
 
 export const checkClient = async () => {
@@ -50,7 +49,6 @@ export const checkClient = async () => {
     timeout: 3000,
     failoverThreshold: 10,
     consoleOnFailover: true,
-    rebrandedApi: true,
   });
 };
 
