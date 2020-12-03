@@ -1086,6 +1086,7 @@ export const lookupAccounts = async (username) => {
     const users = await client.database.call('lookup_accounts', [username, 20]);
     return users;
   } catch (error) {
+    console.log('lookup_accounts');
     throw error;
   }
 };
@@ -1095,6 +1096,7 @@ export const getTrendingTags = async (tag) => {
     const users = await client.database.call('get_trending_tags', [tag, 20]);
     return users;
   } catch (error) {
+    console.log('get_trending_tags');
     throw error;
   }
 };

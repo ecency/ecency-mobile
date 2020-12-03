@@ -38,7 +38,7 @@ const SearchModalContainer = ({
   };
 
   const _handleOnChangeSearchInput = (text) => {
-    if (text && text.length < 2) {
+    if (text && text.length < 3) {
       return;
     }
     if (!isConnected) {
@@ -46,27 +46,31 @@ const SearchModalContainer = ({
     }
     if (text && text !== '@' && text !== '#') {
       if (text[0] === '@') {
-        lookupAccounts(text.substr(1).trim()).then((res) => {
-          const users = res
-            ? res.map((item) => ({
-                image: getResizedAvatar(item),
-                text: item,
-                ...item,
-              }))
-            : [];
-          setSearchResults({ type: 'user', data: users });
-        });
+        lookupAccounts(text.substr(1).trim())
+          .then((res) => {
+            const users = res
+              ? res.map((item) => ({
+                  image: getResizedAvatar(item),
+                  text: item,
+                  ...item,
+                }))
+              : [];
+            setSearchResults({ type: 'user', data: users });
+          })
+          .catch((e) => console.log('lookupAccounts', e));
       } else if (text[0] === '#') {
-        getTrendingTags(text.substr(1).trim()).then((res) => {
-          const tags = res
-            ? res.map((item) => ({
-                text: `#${get(item, 'name', '')}`,
-                ...item,
-              }))
-            : [];
+        getTrendingTags(text.substr(1).trim())
+          .then((res) => {
+            const tags = res
+              ? res.map((item) => ({
+                  text: `#${get(item, 'name', '')}`,
+                  ...item,
+                }))
+              : [];
 
-          setSearchResults({ type: 'tag', data: tags });
-        });
+            setSearchResults({ type: 'tag', data: tags });
+          })
+          .catch((e) => console.log('getTrendingTags', e));
       } else if (
         text.includes('https://') ||
         text.includes('esteem://') ||
@@ -79,37 +83,41 @@ const SearchModalContainer = ({
 
           if (author) {
             if (permlink) {
-              getPurePost(author, permlink).then((post) => {
-                if (post.id !== 0) {
-                  const result = {};
-                  let metadata = {};
-                  try {
-                    metadata = JSON.parse(get(post, 'json_metadata', ''));
-                  } catch (error) {
-                    metadata = {};
-                  }
-                  if (get(metadata, 'image', false) && metadata.image.length > 0) {
-                    [result.image] = metadata.image;
+              getPurePost(author, permlink)
+                .then((post) => {
+                  if (post.id !== 0) {
+                    const result = {};
+                    let metadata = {};
+                    try {
+                      metadata = JSON.parse(get(post, 'json_metadata', ''));
+                    } catch (error) {
+                      metadata = {};
+                    }
+                    if (get(metadata, 'image', false) && metadata.image.length > 0) {
+                      [result.image] = metadata.image;
+                    } else {
+                      result.image = getResizedAvatar(author);
+                    }
+                    result.author = author;
+                    result.text = post.title;
+                    result.permlink = permlink;
+                    setSearchResults({ type: 'content', data: [result] });
                   } else {
-                    result.image = getResizedAvatar(author);
+                    setSearchResults({ type: 'content', data: [] });
                   }
-                  result.author = author;
-                  result.text = post.title;
-                  result.permlink = permlink;
-                  setSearchResults({ type: 'content', data: [result] });
-                } else {
-                  setSearchResults({ type: 'content', data: [] });
-                }
-              });
+                })
+                .catch((e) => console.log('getPurePost', e));
             } else {
-              lookupAccounts(author).then((res) => {
-                const users = res.map((item) => ({
-                  image: getResizedAvatar(item),
-                  text: item,
-                  ...item,
-                }));
-                setSearchResults({ type: 'user', data: users });
-              });
+              lookupAccounts(author)
+                .then((res) => {
+                  const users = res.map((item) => ({
+                    image: getResizedAvatar(item),
+                    text: item,
+                    ...item,
+                  }));
+                  setSearchResults({ type: 'user', data: users });
+                })
+                .catch((e) => console.log('lookupAccounts', e));
             }
           } else if (feedType) {
             // handleOnClose();
@@ -141,16 +149,18 @@ const SearchModalContainer = ({
           }
         }
       } else {
-        search({ q: text }).then((res) => {
-          res.results = res.results
-            .filter((item) => item.title !== '')
-            .map((item) => ({
-              image: item.img_url || getResizedAvatar(get(item, 'author')),
-              text: item.title,
-              ...item,
-            }));
-          setSearchResults({ type: 'content', data: get(res, 'results', []) });
-        });
+        search({ q: text })
+          .then((res) => {
+            res.results = res.results
+              .filter((item) => item.title !== '')
+              .map((item) => ({
+                image: item.img_url || getResizedAvatar(get(item, 'author')),
+                text: item.title,
+                ...item,
+              }));
+            setSearchResults({ type: 'content', data: get(res, 'results', []) });
+          })
+          .catch((e) => console.log('search', e));
       }
     }
   };

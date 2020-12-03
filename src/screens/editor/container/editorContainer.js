@@ -492,7 +492,16 @@ class EditorContainer extends Component {
 
   _handleSubmitFailure = (error) => {
     const { intl, dispatch } = this.props;
-    if (error && error.jse_shortmsg.includes('wait to transact')) {
+    console.log(error);
+    if (
+      error &&
+      error.response &&
+      error.response.jse_shortmsg &&
+      error.response.jse_shortmsg.includes('wait to transact')
+    ) {
+      //when RC is not enough, offer boosting account
+      dispatch(setRcOffer(true));
+    } else if (error && error.jse_shortmsg && error.jse_shortmsg.includes('wait to transact')) {
       //when RC is not enough, offer boosting account
       dispatch(setRcOffer(true));
     } else {
@@ -501,7 +510,7 @@ class EditorContainer extends Component {
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        error.message.split(':')[1] || error.toString(),
+        error.error_description.split(': ')[1] || error.toString(),
       );
     }
 

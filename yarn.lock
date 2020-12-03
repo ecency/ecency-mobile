@@ -698,6 +698,21 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@ecency/render-helper@^2.0.11":
+  version "2.0.11"
+  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.0.11.tgz#faa140a318aa6c2a693cfb3d21f3e8b1821cdb8e"
+  integrity sha512-g9lDtdB3yrta3pHQodPQQbFIkg3kCrVvcKhrqUrl2JY0hYreKUlmRzGWobJFphyAoXnUubrTW/l8p4N3hUwteg==
+  dependencies:
+    he "^1.2.0"
+    lru-cache "^5.1.1"
+    multihashes "0.4.13"
+    path "^0.12.7"
+    querystring "^0.2.0"
+    remarkable "^1.7.3"
+    url "^0.11.0"
+    xmldom "^0.1.27"
+    xss "^1.0.8"
+
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
   resolved "https://registry.yarnpkg.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz#5dc02af75a6a06e4c2db0202cae38c9263895124"
@@ -717,21 +732,6 @@
     secp256k1 "^3.3.1"
     verror "^1.10.0"
     whatwg-fetch "^2.0.3"
-
-"@esteemapp/esteem-render-helpers@^1.8.0":
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/@esteemapp/esteem-render-helpers/-/esteem-render-helpers-1.8.0.tgz#3c5d03f401d306f615b191b0142d641260c36eb2"
-  integrity sha512-QZ6kxET6iK+OOI/pa8Q/FnNKHnrJMD2rpQcXkvhCVOhrXPq8FRwGByrpTRQT96ZtflgkaGEHiGfslmw2dFDIoA==
-  dependencies:
-    he "^1.2.0"
-    lru-cache "^5.1.1"
-    multihashes "0.4.13"
-    path "^0.12.7"
-    querystring "^0.2.0"
-    remarkable "^1.7.3"
-    url "^0.11.0"
-    xmldom "^0.1.27"
-    xss "^1.0.8"
 
 "@esteemapp/react-native-autocomplete-input@^4.2.1":
   version "4.2.1"
@@ -837,15 +837,16 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@hiveio/dhive@^0.14.8":
-  version "0.14.8"
-  resolved "https://registry.yarnpkg.com/@hiveio/dhive/-/dhive-0.14.8.tgz#7ff2e60c579559d136440e46bd58c55a09d854d9"
-  integrity sha512-TfnzrnVD6OKLYSb8quHeT8hUjPeR1etIGg6EXaH+lbzgNpmlVBwgmM+uDdGNPRifh4CT8sf+/6fsLvKF2ens/Q==
+"@hiveio/dhive@^0.14.12":
+  version "0.14.12"
+  resolved "https://registry.yarnpkg.com/@hiveio/dhive/-/dhive-0.14.12.tgz#1e0eddc7ad7c0e169fe8349fb302d108683cf251"
+  integrity sha512-jYbLrRX2Citax+IzVrM1f1RoyYEjwCnAPr9ZT+aMjrtYvYOjsxg46eGfO6m/tTB1PkhABRGyAbb1yBodNogjyw==
   dependencies:
     bs58 "^4.0.1"
     bytebuffer "^5.0.1"
     core-js "^3.6.4"
     cross-fetch "^3.0.4"
+    jsbi "^3.1.4"
     node-fetch "^2.6.0"
     secp256k1 "^3.8.0"
     verror "^1.10.0"
@@ -5418,6 +5419,11 @@ js-yaml@^3.13.0, js-yaml@^3.13.1:
     argparse "^1.0.7"
     esprima "^4.0.0"
 
+jsbi@^3.1.4:
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/jsbi/-/jsbi-3.1.4.tgz#9654dd02207a66a4911b4e4bb74265bc2cbc9dd0"
+  integrity sha512-52QRRFSsi9impURE8ZUbzAMCLjPm4THO7H2fcuIvaaeFTbSysvkodbQQXIVsNgq/ypDbq6dJiuGKL0vZ/i9hUg==
+
 jsbn@~0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
@@ -9334,9 +9340,9 @@ validate-npm-package-license@^3.0.1:
     spdx-expression-parse "^3.0.0"
 
 varint@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/varint/-/varint-5.0.0.tgz#d826b89f7490732fabc0c0ed693ed475dcb29ebf"
-  integrity sha1-2Ca4n3SQcy+rwMDtaT7Uddyynr8=
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/varint/-/varint-5.0.2.tgz#5b47f8a947eb668b848e034dcfa87d0ff8a7f7a4"
+  integrity sha512-lKxKYG6H03yCZUpAGOPOsMcGxd1RHCu1iKvEHYDPmTyq2HueGhD73ssNBqqQWfvYs04G9iUFRvmAVLW20Jw6ow==
 
 vary@~1.1.2:
   version "1.1.2"
