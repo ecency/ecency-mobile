@@ -28,7 +28,8 @@ const OtherResultContainer = (props) => {
       });
     } else {
       getLeaderboard().then((result) => {
-        setUsers(result.map((item) => item._id));
+        const sos = result.map((item) => item._id);
+        setUsers(sos);
       });
     }
   }, [searchValue]);

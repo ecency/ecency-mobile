@@ -1099,8 +1099,8 @@ export const lookupAccounts = async (username) => {
 
 export const getTrendingTags = async (tag) => {
   try {
-    const users = await client.database.call('get_trending_tags', [tag, 20]);
-    return users;
+    const tags = await client.database.call('get_trending_tags', [tag, 20]);
+    return tags;
   } catch (error) {
     console.log('get_trending_tags');
     throw error;
