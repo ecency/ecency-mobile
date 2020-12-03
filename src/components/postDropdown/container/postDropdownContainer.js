@@ -8,7 +8,7 @@ import get from 'lodash/get';
 
 // Services and Actions
 import { reblog } from '../../../providers/hive/dhive';
-import { addBookmark, addReport } from '../../../providers/esteem/esteem';
+import { addBookmark, addReport } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 

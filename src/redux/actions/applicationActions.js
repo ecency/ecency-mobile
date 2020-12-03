@@ -1,5 +1,5 @@
 import getSymbolFromCurrency from 'currency-symbol-map';
-import { getCurrencyRate } from '../../providers/esteem/esteem';
+import { getCurrencyRate } from '../../providers/ecency/ecency';
 import {
   ACTIVE_APPLICATION,
   CHANGE_COMMENT_NOTIFICATION,

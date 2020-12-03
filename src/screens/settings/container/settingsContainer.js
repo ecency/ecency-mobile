@@ -33,7 +33,7 @@ import {
   setPinCode as savePinCode,
 } from '../../../redux/actions/applicationActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
-import { setPushToken, getNodes } from '../../../providers/esteem/esteem';
+import { setPushToken, getNodes } from '../../../providers/ecency/ecency';
 import { checkClient } from '../../../providers/hive/dhive';
 import { updatePinCode } from '../../../providers/hive/auth';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';

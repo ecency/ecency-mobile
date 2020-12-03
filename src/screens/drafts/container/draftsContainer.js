@@ -10,7 +10,7 @@ import {
   getSchedules,
   removeSchedule,
   moveSchedule,
-} from '../../../providers/esteem/esteem';
+} from '../../../providers/ecency/ecency';
 import { toastNotification } from '../../../redux/actions/uiAction';
 
 // Middleware

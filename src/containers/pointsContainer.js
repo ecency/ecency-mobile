@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 
 // Services and Actions
-import { getUser, getUserPoints, claim } from '../providers/esteem/ePoint';
+import { getUser, getUserPoints, claim } from '../providers/ecency/ePoint';
 import { openPinCodeModal } from '../redux/actions/applicationActions';
 import { getAccount, boost } from '../providers/hive/dhive';
 import { getUserDataWithUsername } from '../realm/realm';

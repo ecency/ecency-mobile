@@ -18,7 +18,7 @@ import {
 } from '../../realm/realm';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import hsApi from './hivesignerAPI';
-import { getSCAccessToken } from '../esteem/esteem';
+import { getSCAccessToken } from '../ecency/ecency';
 
 // Constants
 import AUTH_TYPE from '../../constants/authType';

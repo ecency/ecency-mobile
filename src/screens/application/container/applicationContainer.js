@@ -43,7 +43,7 @@ import {
 } from '../../../realm/realm';
 import { getUser, getPost } from '../../../providers/hive/dhive';
 import { switchAccount } from '../../../providers/hive/auth';
-import { setPushToken, markActivityAsRead } from '../../../providers/esteem/esteem';
+import { setPushToken, markActivityAsRead } from '../../../providers/ecency/ecency';
 import { navigate } from '../../../navigation/service';
 
 // Actions

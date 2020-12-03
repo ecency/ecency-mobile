@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import ROUTES from '../../../constants/routeNames';
 
-import { search, getPromotePosts } from '../../../providers/esteem/esteem';
+import { search, getPromotePosts } from '../../../providers/ecency/ecency';
 import { getPost } from '../../../providers/hive/dhive';
 
 const PostResultContainer = ({ children, navigation, searchValue, currentAccountUsername }) => {

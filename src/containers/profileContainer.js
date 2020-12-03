@@ -20,7 +20,7 @@ import {
 } from '../providers/hive/dhive';
 
 // Ecency providers
-import { getIsFavorite, addFavorite, removeFavorite } from '../providers/esteem/esteem';
+import { getIsFavorite, addFavorite, removeFavorite } from '../providers/ecency/ecency';
 
 // Utilitites
 import { getRcPower, getVotingPower } from '../utils/manaBar';

@@ -19,7 +19,7 @@ import {
 } from '../providers/hive/dhive';
 import { toastNotification } from '../redux/actions/uiAction';
 import { getUserDataWithUsername } from '../realm/realm';
-import { getUser } from '../providers/esteem/ePoint';
+import { getUser } from '../providers/ecency/ePoint';
 
 // Utils
 import { countDecimals } from '../utils/number';

@@ -8,7 +8,7 @@ import messaging from '@react-native-firebase/messaging';
 // Services and Actions
 import { login } from '../../../providers/hive/auth';
 import { lookupAccounts } from '../../../providers/hive/dhive';
-import { userActivity } from '../../../providers/esteem/ePoint';
+import { userActivity } from '../../../providers/ecency/ePoint';
 import {
   failedAccount,
   addOtherAccount,
@@ -20,7 +20,7 @@ import {
   setPinCode,
 } from '../../../redux/actions/applicationActions';
 import { setPushTokenSaved, setExistUser } from '../../../realm/realm';
-import { setPushToken } from '../../../providers/esteem/esteem';
+import { setPushToken } from '../../../providers/ecency/ecency';
 import { encryptKey } from '../../../utils/crypto';
 
 // Middleware

@@ -3,7 +3,7 @@ import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToSp } from './conversions';
 import { getFeedHistory, getAccount, getAccountHistory } from '../providers/hive/dhive';
-import { getCurrencyTokenRate } from '../providers/esteem/esteem';
+import { getCurrencyTokenRate } from '../providers/ecency/ecency';
 
 export const transferTypes = [
   'curation_reward',

@@ -6,7 +6,7 @@ import Matomo from 'react-native-matomo-sdk';
 
 // HIVE
 import { getAccountPosts, getPost, getRankedPosts } from '../../../providers/hive/dhive';
-import { getPromotePosts } from '../../../providers/esteem/esteem';
+import { getPromotePosts } from '../../../providers/ecency/ecency';
 
 // Component
 import PostsView from '../view/postsView';

@@ -9,7 +9,7 @@ import { toastNotification } from '../../../redux/actions/uiAction';
 
 // Dsteem
 import { deleteComment, getActiveVotes } from '../../../providers/hive/dhive';
-import { getPostReblogs } from '../../../providers/esteem/esteem';
+import { getPostReblogs } from '../../../providers/ecency/ecency';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';

@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 // Services and Actions
 import { Buffer } from 'buffer';
-import { uploadImage, addDraft, updateDraft, schedule } from '../../../providers/esteem/esteem';
+import { uploadImage, addDraft, updateDraft, schedule } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
   postContent,

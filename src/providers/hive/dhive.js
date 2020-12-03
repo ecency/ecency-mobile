@@ -2,15 +2,15 @@
 // import '../../../shim';
 // import * as bitcoin from 'bitcoinjs-lib';
 
-import { Client, cryptoUtils, makeBitMaskFilter, operationOrders } from '@hiveio/dhive';
+import { Client, cryptoUtils, utils } from '@hiveio/dhive';
 import { PrivateKey } from '@esteemapp/dhive';
 
 import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
 import { getServer, getCache, setCache } from '../../realm/realm';
-import { getUnreadActivityCount } from '../esteem/esteem';
-import { userActivity } from '../esteem/ePoint';
+import { getUnreadActivityCount } from '../ecency/ecency';
+import { userActivity } from '../ecency/ePoint';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';
@@ -124,8 +124,8 @@ export const getAccount = (user) =>
 
 export const getAccountHistory = (user) =>
   new Promise((resolve, reject) => {
-    const op = operationOrders;
-    let wallet_operations_bitmask = makeBitMaskFilter([
+    const op = utils.operationOrders;
+    let wallet_operations_bitmask = utils.makeBitMaskFilter([
       op.transfer,
       op.transfer_to_vesting,
       op.withdraw_vesting,
@@ -152,7 +152,6 @@ export const getAccountHistory = (user) =>
         1000,
         ...wallet_operations_bitmask,
       ]);
-      console.log(ah);
       resolve(ah);
     } catch (error) {
       reject(error);
