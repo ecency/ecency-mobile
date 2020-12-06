@@ -511,43 +511,43 @@
     "date_error": {
       "device_time": "आपका डिवाइस समय;",
       "current_time": "वर्तमान समय;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "information": "हमने देखा कि आपके डिवाइस की तिथि या समय गलत है। कृपया दिनांक और समय तय करें या स्वचालित रूप से सेट करें और पुनः प्रयास करें।"
     }
   },
   "comments": {
     "title": "विवेचनाऐं",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "टिप्पणी का खुलासा",
+    "read_more": "अधिक टिप्पणियाँ पढ़ें",
+    "more_replies": "अधिक जवाब"
   },
   "search_result": {
-    "others": "Others",
+    "others": "अन्य",
     "communities": {
-      "title": "Communities",
-      "subscribe": "Subscribe",
-      "unsubscribe": "Unsubscribe",
-      "subscribers": "Subscribers",
-      "posters": "Posters",
+      "title": "समुदाय",
+      "subscribe": "सदस्यता लें",
+      "unsubscribe": "सदस्यता रद्द करें",
+      "subscribers": "सदस्य",
+      "posters": "पोस्टर",
       "posts": "Post"
     },
     "communities_filter": {
-      "rank": "Rank",
-      "subs": "Subscribers",
-      "new": "New"
+      "rank": "स्थान",
+      "subs": "सदस्य",
+      "new": "नया"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "लोकप्रियता",
+      "newest": "नवीनतम",
+      "relevance": "प्रासंगिकता"
     },
     "other_result_filter": {
       "user": "उपयोगकर्ता",
-      "tag": "Tag"
+      "tag": "टैग"
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details"
+    "new_post": "नया पोस्ट",
+    "community": "समुदाय",
+    "details": "विवरण"
   }
 }
