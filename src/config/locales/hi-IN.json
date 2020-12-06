@@ -449,51 +449,51 @@
     "to_placeholder": "प्रयोक्ता नाम",
     "memo_placeholder": "अपनी टिप्पणी यहाँ लिखें",
     "transfer_token": "स्थानांतरण",
-    "purchase_estm": "Purchase Points",
-    "convert": "Convert HBD to HIVE",
-    "points": "Gift Points to someone",
+    "purchase_estm": "पॉइंट्स खरीदे",
+    "convert": "एचबीडी को हाइव में बदलें",
+    "points": "किसी को अंक उपहार दे",
     "transfer_to_saving": "बचत खाते में स्थान्तरण करें",
     "powerUp": "स्टीम क्षमता बढ़ाएं",
     "withdraw_to_saving": "बचत खाते से निकालें",
-    "steemconnect_title": "Hivesigner Transfer",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
-    "auto_vests": "Auto Vests",
-    "save": "SAVE",
-    "percent_information": "Percent info",
+    "steemconnect_title": "हाइवसाईनर स्थानांतरण",
+    "estimated_weekly": "साप्ताहिक रूप से अनुमान लगाया गया",
+    "destination_accounts": "गंतव्य खाते",
+    "stop_information": "क्या आप वाकई रोकना चाहते हैं?",
+    "percent": "प्रतिशत",
+    "auto_vests": "ऑटो वैस्ट",
+    "save": "सहेजें",
+    "percent_information": "प्रतिशत जानकारी",
     "next": "अगला",
     "delegate": "कार्यभार सौंपें",
     "power_down": "क्षमता कम करें",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
-    "incoming_funds": "Incoming Funds",
-    "stop": "Stop",
-    "address_view": "View address"
+    "withdraw_steem": "हाइव को वापस लें",
+    "withdraw_sbd": "हाइव डॉलर वापस लेना",
+    "incoming_funds": "आवक फंड",
+    "stop": "रुको",
+    "address_view": "पता देखें"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
+    "title": "अंक प्राप्त करें",
+    "buy": "अंक प्राप्त करें",
     "next": "अगला",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "title": "खाता बूस्ट प्राप्त करें",
+      "desc": "30 दिनों का प्रतिनिधिमंडल आपके वोटों और सामाजिक गतिविधियों को बढ़ावा देगा और आपको अधिक संसाधन क्रेडिट के साथ अधिक कार्रवाई देगा।"
     }
   },
   "free_estm": {
-    "title": "Free Points",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "title": "नि: शुल्क अंक",
+    "button": "स्पिन और जीत",
+    "get_spin": "5 स्पिन",
+    "spin_right": "स्पिन लेफ्ट",
+    "timer_text": "अगले फ्री स्पिन में"
   },
   "promote": {
     "title": "प्रचार करना",
     "days": "दिनों",
     "user": "उपयोगकर्ता",
     "permlink": "लेख",
-    "permlinkPlaceholder": "username/permlink",
+    "permlinkPlaceholder": "उपयोगकर्ता नाम / स्थायी लिंक",
     "information": "क्या आप प्रचार करना सुनिश्चित करते हैं?"
   },
   "boostPost": {
@@ -509,8 +509,8 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
+      "device_time": "आपका डिवाइस समय;",
+      "current_time": "वर्तमान समय;",
       "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
     }
   },
