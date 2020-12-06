@@ -407,8 +407,8 @@
     "curation_payout": "अध्यक्ष्ता इनाम",
     "payout_date": "भुगतान",
     "beneficiaries": "लाभार्थी",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
-    "breakdown": "Breakdown"
+    "warn_zero_payout": "भुगतान के लिए राशि $ 0.02 तक पहुंचनी चाहिए",
+    "breakdown": "विश्लेषण"
   },
   "post_dropdown": {
     "copy": "लिंक कापी करें",
@@ -418,7 +418,7 @@
     "bookmarks": "पृष्ठ स्मृति में जोड़ें",
     "promote": "प्रचार करना",
     "boost": "प्रोत्साहन",
-    "report": "report"
+    "report": "विवरण"
   },
   "deep_link": {
     "no_existing_user": "कोई विद्यमान उपयोगकर्ता नहीं",
@@ -429,11 +429,11 @@
     "comments": "टिप्पणियाँ"
   },
   "comment_filter": {
-    "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
-    "top": "TOP",
+    "trending": "ऊपर",
+    "reputation": "प्रतिष्ठा",
+    "votes": "वोट",
+    "age": "उम्र",
+    "top": "ऊपर",
     "time": "समय"
   },
   "transfer": {
@@ -445,7 +445,7 @@
     "information": "क्या आप रकम स्थान्तरित करना चाहते हैं?",
     "amount_desc": "शेष रकम",
     "memo_desc": "यह ज्ञापन सार्वजनिक है",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "कन्वर्ट में 3.5 दिन लगते हैं और अनुशंसित नहीं है यदि एचबीडी की कीमत $ 1 से अधिक है",
     "to_placeholder": "प्रयोक्ता नाम",
     "memo_placeholder": "अपनी टिप्पणी यहाँ लिखें",
     "transfer_token": "स्थानांतरण",
