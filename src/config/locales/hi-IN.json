@@ -50,7 +50,7 @@
     "estimated_value_desc": "According to purchase value",
     "estimated_value": "Estimated value",
     "estimated_amount": "Vote value",
-    "amount_information": "Drag the slider to adjust the amount",
+    "amount_information": "राशि समायोजित करने के लिए स्लाइडर को खींचें।",
     "amount": "रकम",
     "memo": "ज्ञापन",
     "information": "क्या आप रकम स्थान्तरित करना चाहते हैं?",
@@ -65,7 +65,7 @@
     "powerUp": "स्टीम क्षमता बढ़ाएं",
     "withdraw_to_saving": "Withdraw Saving",
     "steemconnect_title": "Hivesigner Transfer",
-    "next": "NEXT",
+    "next": "अगला",
     "delegate": "कार्यभार सौंपें",
     "power_down": "शक्तिक्षय करें",
     "withdraw_steem": "Withdraw HIVE",
@@ -434,12 +434,12 @@
     "votes": "VOTE",
     "age": "AGE",
     "top": "TOP",
-    "time": "TIME"
+    "time": "समय"
   },
   "transfer": {
     "from": "से",
     "to": "को",
-    "amount_information": "Drag the slider to adjust the amount",
+    "amount_information": "राशि समायोजित करने के लिए स्लाइडर को खींचें।",
     "amount": "रकम",
     "memo": "ज्ञापन",
     "information": "क्या आप रकम स्थान्तरित करना चाहते हैं?",
@@ -454,7 +454,7 @@
     "points": "Gift Points to someone",
     "transfer_to_saving": "बचत खाते में स्थान्तरण करें",
     "powerUp": "स्टीम क्षमता बढ़ाएं",
-    "withdraw_to_saving": "Withdraw To Saving",
+    "withdraw_to_saving": "बचत खाते से निकालें",
     "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Estimated Weekly",
     "destination_accounts": "Destination Accounts",
@@ -463,7 +463,7 @@
     "auto_vests": "Auto Vests",
     "save": "SAVE",
     "percent_information": "Percent info",
-    "next": "NEXT",
+    "next": "अगला",
     "delegate": "कार्यभार सौंपें",
     "power_down": "क्षमता कम करें",
     "withdraw_steem": "Withdraw HIVE",
@@ -475,7 +475,7 @@
   "boost": {
     "title": "Get Points",
     "buy": "GET Points",
-    "next": "NEXT",
+    "next": "अगला",
     "account": {
       "title": "Get Account Boost",
       "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
@@ -494,18 +494,18 @@
     "user": "उपयोगकर्ता",
     "permlink": "लेख",
     "permlinkPlaceholder": "username/permlink",
-    "information": "Are you sure to promote?"
+    "information": "क्या आप प्रचार करना सुनिश्चित करते हैं?"
   },
   "boostPost": {
     "title": "प्रोत्साहन"
   },
   "voters_dropdown": {
     "rewards": "इनाम",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "percent": "प्रतिशत",
+    "time": "समय"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "रिबॉग जानकारी"
   },
   "dsteem": {
     "date_error": {
