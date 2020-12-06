@@ -313,10 +313,10 @@
     "already_rebloged": "पहले से ही पुनः प्रकाशित है!",
     "success_favorite": "पसंदीदा जोड़ा!",
     "success_unfavorite": "पसंदीदा हटा दिया गया!",
-    "success_follow": "Follow success!",
-    "success_mute": "Mute success!",
-    "success_unmute": "Unmute success!",
-    "success_unfollow": "Unfollow success!",
+    "success_follow": "सफलता का पालन करें!",
+    "success_mute": "सफलता को म्यूट करें!",
+    "success_unmute": "सफलता को बेपर्दा करो!",
+    "success_unfollow": "असफल सफलता!",
     "warning": "चेतावनी",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "क्या आप इसे सच में हटाना चाहते हैं?",
@@ -332,35 +332,35 @@
     "same_user": "इस उपयोगकर्ता को पहले ही सूची में जोड़ दिया",
     "unknow_error": "एक त्रुटि पाई गई",
     "error": "त्रुटि",
-    "fetch_error": "Connection issue, change server and restart",
+    "fetch_error": "कनेक्शन समस्या, सर्वर बदलें और पुनरारंभ करें",
     "connection_fail": "कनेक्ट करना विफल रहा",
     "connection_success": "सफलतापूर्वक जुड़ा हुआ है!",
-    "checking": "Checking...",
-    "external_link": "Open in Browser",
-    "not_existing_post": "The post does not exist! Please check permlink and author.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
-    "payloadTooLarge": "File size too big, please resize or upload smaller image",
-    "qoutaExceeded": "Upload quota exceeded",
-    "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload"
+    "checking": "जाँच हो रही है...",
+    "external_link": "ब्राउज़र में खोलें",
+    "not_existing_post": "पद मौजूद नहीं है! कृपया पर्मलिंक और लेखक की जाँच करें।",
+    "google_play_version": "हमने देखा कि आपके डिवाइस में गूगल प्ले का पुराना संस्करण है। कृपया गूगल प्ले सेवाओं को अपडेट करें और पुनः प्रयास करें!",
+    "rc_down": "कार्रवाई करने के लिए पर्याप्त संसाधन क्रेडिट नहीं! \n\nअनुभव का आनंद लेना जारी रखने के लिए अपने खाते को बढ़ावा दें। क्या आप अब अपना खाता बढ़ाना चाहते हैं?",
+    "payloadTooLarge": "फ़ाइल का आकार बहुत बड़ा है, कृपया आकार बदलें या छोटी छवि अपलोड करें",
+    "qoutaExceeded": "अपलोड कोटा पार हो गया",
+    "invalidImage": "अमान्य छवि, भिन्न फ़ाइल आज़माएं",
+    "something_wrong": "कुछ गलत हो गया।",
+    "something_wrong_alt": "Https://ecency.com आज़माएं",
+    "something_wrong_reload": "पुनः लोड करें"
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
-    "removed_hint": "Content is not available",
-    "copy_link": "Copy link",
+    "removed_hint": "सामग्री उपलब्ध नहीं है",
+    "copy_link": "लिंक कापी करें",
     "reblogged": "द्वारा रीब्लॉग",
     "sponsored": "प्रायोजित",
-    "open_thread": "Open thread",
-    "image": "Image",
-    "link": "Link",
-    "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image",
-    "wrong_link": "Wrong link"
+    "open_thread": "खुले हुए थ्रेड",
+    "image": "छवि",
+    "link": "लिंक",
+    "gallery_mode": "गैलरी मोड",
+    "save_to_local": "डिवाइस पर डाउनलोड करें",
+    "image_saved": "फोटो गैलरी के लिए छवि सहेजी गई",
+    "image_saved_error": "छवि सहेजने में त्रुटि",
+    "wrong_link": "गलत लिंक"
   },
   "drafts": {
     "title": "प्रारूप",
@@ -385,7 +385,7 @@
     "add": "पृष्ठ स्मृति में जोड़ें"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "आपत्तिजनक सामग्री की सूचना दी"
   },
   "favorites": {
     "title": "पसंदीदा",
@@ -398,7 +398,7 @@
     "invalid_username": "प्रयोक्ता नाम गलत है, कृप्या जाँच करें और पुनः प्रयाश करें",
     "already_logged": "आप पहले से ही लॉगिन हैं, कृप्या दूसरी खता जोड़ने की कोशिश करें",
     "invalid_credentials": "प्रमाणपत्र गलत है, कृप्या जाँच करें और पुनः प्रयाश करें",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "अज्ञात त्रुटि, कृपया support@ecency.com पर लिखें"
   },
   "payout": {
     "potential_payout": "संभावित भुगतान",
@@ -406,7 +406,7 @@
     "author_payout": "लेखक भुगतान",
     "curation_payout": "अध्यक्ष्ता इनाम",
     "payout_date": "भुगतान",
-    "beneficiaries": "Beneficiaries",
+    "beneficiaries": "लाभार्थी",
     "warn_zero_payout": "Amount must reach $0.02 for payout",
     "breakdown": "Breakdown"
   },
