@@ -111,8 +111,8 @@
   "notification": {
     "vote": "मतदान किया",
     "unvote": "अनियंत्रित",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "reply": "को उत्तर दिया",
+    "mention": "में वर्णित",
     "follow": "आपके साथ जुड़ा",
     "unfollow": "आपका साथ छोड़ा",
     "ignore": "आपको अनदेखा किया",
