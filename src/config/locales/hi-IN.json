@@ -68,49 +68,49 @@
     "next": "अगला",
     "delegate": "कार्यभार सौंपें",
     "power_down": "शक्तिक्षय करें",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
-    "transfer_to_savings": "To Savings",
-    "convert": "Convert",
-    "escrow_transfer": "Escrow Transfer",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel From Savings",
+    "withdraw_steem": "हाइव को वापस लें",
+    "withdraw_sbd": "एचबीडी को वापस ले लें",
+    "transfer_to_savings": "बचत करने के लिए",
+    "convert": "बदलें",
+    "escrow_transfer": "एस्क्रो ट्रांसफर",
+    "escrow_dispute": "एस्क्रो विवाद",
+    "escrow_release": "एस्क्रो रिलीज",
+    "escrow_approve": "एस्क्रो अनुमोदन",
+    "cancel_transfer_from_savings": "बचत से रद्द करें",
     "delegate_vesting_shares": "प्रतिनिधि मंडल",
-    "fill_convert_request": "Convert Executed",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_convert_request": "परिवर्तित परिवर्तित",
+    "fill_transfer_from_savings": "बचत की गई",
+    "fill_vesting_withdraw": "पॉवरडाउन को अंजाम दिया",
     "estm": {
       "title": "अंक",
-      "buy": "GET POINTS"
+      "buy": "अंक प्राप्त करें"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "हाइव बचत"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "एचबीडी बचत"
     },
     "steem": {
-      "title": "HIVE",
-      "buy": "GET HIVE"
+      "title": "हाइव",
+      "buy": "हाइव प्राप्त करें"
     },
     "sbd": {
-      "title": "HBD",
-      "buy": "GET HBD"
+      "title": "एचबीडी",
+      "buy": "एचबीडी प्राप्त करें"
     },
     "steem_power": {
-      "title": "HIVE POWER"
+      "title": "हाइव पावर"
     },
     "btc": {
-      "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "title": "बीटीसी",
+      "buy": "बीटीसी प्राप्त करें",
+      "address": "प्राप्त करना"
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "unvoted",
+    "vote": "मतदान किया",
+    "unvote": "अनियंत्रित",
     "reply": "replied to",
     "mention": "mentioned in",
     "follow": "आपके साथ जुड़ा",
@@ -282,13 +282,13 @@
     "limited_firstchar": "Tag must start with a letter",
     "limited_lastchar": "Tag must end with letter or number",
     "setting_schedule": "Scheduling Time",
-    "setting_reward": "Reward",
-    "setting_beneficiary": "Beneficiary",
-    "reward_default": "Default 50% / 50%",
-    "reward_power_up": "Power Up 100%",
-    "reward_decline": "Decline Payout",
-    "beneficiaries": "Beneficiaries",
-    "options": "Options"
+    "setting_reward": "इनाम",
+    "setting_beneficiary": "लाभार्थी",
+    "reward_default": "वितथ रूप से ५०%/५०%",
+    "reward_power_up": "१००% शक्तिप्रापक करें",
+    "reward_decline": "भुगतान अस्वीकार करें",
+    "beneficiaries": "लाभार्थी",
+    "options": "विकल्प"
   },
   "pincode": {
     "enter_text": "खोलनें के लिए पिन डालें",
@@ -304,15 +304,15 @@
     "fail": "असफल!",
     "move": "हटाना",
     "move_question": "क्या आप ड्राफ्ट में जाना सुनिश्चित करते हैं?",
-    "success_shared": "Success! Content submitted!",
+    "success_shared": "सफलता! प्रस्तुत सामग्री!",
     "success_moved": "ड्राफ्ट में ले जाया गया",
     "permission_denied": "अनुमोदन अस्वीकृत हुवा",
-    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Operation requires active key or master password, please relogin!",
+    "permission_text": "कृपया, फ़ोन सेटिंग पर जाएं और इसेंसी ऐप अनुमतियां बदलें।",
+    "key_warning": "ऑपरेशन के लिए सक्रिय कुंजी या मास्टर पासवर्ड की आवश्यकता होती है, कृपया पुनः लोड करें!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "पहले से ही पुनः प्रकाशित है!",
-    "success_favorite": "Favorite added!",
-    "success_unfavorite": "Favorite removed!",
+    "success_favorite": "पसंदीदा जोड़ा!",
+    "success_unfavorite": "पसंदीदा हटा दिया गया!",
     "success_follow": "Follow success!",
     "success_mute": "Mute success!",
     "success_unmute": "Unmute success!",
