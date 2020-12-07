@@ -332,7 +332,7 @@
     "same_user": "Cet utilisateur a déjà été ajouté à la liste",
     "unknow_error": "Une erreur est survenue",
     "error": "Erreur",
-    "fetch_error": "Connection issue, change server and restart",
+    "fetch_error": "Problème de connexion, changez de serveur et redémarrez",
     "connection_fail": "Échec de la connexion !",
     "connection_success": "Connexion réussie!",
     "checking": "Vérification...",
@@ -340,27 +340,27 @@
     "not_existing_post": "Le post n'existe pas ! Veuillez vérifier le lien et l'auteur.",
     "google_play_version": "Nous avons remarqué que votre appareil possède une ancienne version de Google Play. Veuillez mettre à jour les services Google Play et réessayez!",
     "rc_down": "Pas assez de crédits ressources pour effectuer une action ! \n\nBoostez votre compte pour continuer à profiter de l’expérience. Voulez-vous booster votre compte, maintenant?",
-    "payloadTooLarge": "File size too big, please resize or upload smaller image",
-    "qoutaExceeded": "Upload quota exceeded",
-    "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload"
+    "payloadTooLarge": "La taille du fichier est trop grande, veuillez redimensionner ou télécharger une image plus petite",
+    "qoutaExceeded": "Limite d'envoi dépassée",
+    "invalidImage": "Image invalide, essayez un autre fichier",
+    "something_wrong": "Une erreur s’est produite.",
+    "something_wrong_alt": "Essayez https://ecency.com",
+    "something_wrong_reload": "Rafraîchir"
   },
   "post": {
     "reblog_alert": "Êtes-vous sûr de vouloir rebloguer ?",
-    "removed_hint": "Content is not available",
-    "copy_link": "Copy link",
+    "removed_hint": "Le contenu est indisponible",
+    "copy_link": "Copier le lien",
     "reblogged": "reblogué par",
     "sponsored": "SPONSORISÉ",
-    "open_thread": "Open thread",
+    "open_thread": "Ouvrir le fil de discussion",
     "image": "Image",
-    "link": "Link",
-    "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
+    "link": "Lien",
+    "gallery_mode": "Mode galerie",
+    "save_to_local": "Télécharger sur l'appareil",
+    "image_saved": "Image sauvegardée dans la Galerie Photo",
     "image_saved_error": "Erreur de sauvegarde de l'image",
-    "wrong_link": "Wrong link"
+    "wrong_link": "Mauvais lien"
   },
   "drafts": {
     "title": "Brouillons",
@@ -385,7 +385,7 @@
     "add": "Ajouter aux signets"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Contenu indésirable signalé"
   },
   "favorites": {
     "title": "Favoris",
@@ -398,7 +398,7 @@
     "invalid_username": "Nom d’utilisateur invalide, s’il vous plaît vérifiez et réessayez",
     "already_logged": "Vous êtes déjà connecté, essayez d’ajouter un autre compte",
     "invalid_credentials": "Informations d'identification invalides, veuillez vérifier et réessayer",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "Erreur inconnue, veuillez écrire à support@ecency.com"
   },
   "payout": {
     "potential_payout": "Gain Potentiel",
@@ -408,7 +408,7 @@
     "payout_date": "Gain",
     "beneficiaries": "Bénéficiaires",
     "warn_zero_payout": "Le montant doit atteindre 0,02 $ pour le retrait",
-    "breakdown": "Breakdown"
+    "breakdown": "Répartition"
   },
   "post_dropdown": {
     "copy": "copier le lien",
@@ -418,7 +418,7 @@
     "bookmarks": "ajouter aux signets",
     "promote": "promouvoir",
     "boost": "accélérer",
-    "report": "report"
+    "report": "signaler"
   },
   "deep_link": {
     "no_existing_user": "Utilisateur inexistant",
@@ -445,13 +445,13 @@
     "information": "Êtes-vous sûr de vouloir transférer les fonds ?",
     "amount_desc": "Solde",
     "memo_desc": "Ce mémo est public",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "Convertir prend 3,5 jours et n'est PAS recommandé SI le prix HBD est supérieur à $1",
     "to_placeholder": "Nom d'utilisateur",
     "memo_placeholder": "Entrez vos notes ici",
     "transfer_token": "Transférer",
-    "purchase_estm": "Purchase Points",
-    "convert": "Convert HBD to HIVE",
-    "points": "Gift Points to someone",
+    "purchase_estm": "Achat de Points",
+    "convert": "Convertir HBD en HIVE",
+    "points": "Offrir des points à quelqu'un",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
@@ -462,7 +462,7 @@
     "percent": "Pourcentage",
     "auto_vests": "Auto Vests",
     "save": "SAUVEGARDER",
-    "percent_information": "Percent info",
+    "percent_information": "Infos sur le pourcentage",
     "next": "SUIVANT",
     "delegate": "Déléguer",
     "power_down": "Diminuer son influence",
