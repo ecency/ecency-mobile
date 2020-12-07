@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Benefactor Reward",
     "claim_reward_balance": "Réclamer la récompense ",
     "transfer": "Transférer",
-    "transfer_to_vesting": "To Vesting",
+    "transfer_to_vesting": "Vers l'économie",
     "transfer_from_savings": "De l'économie",
     "withdraw_vesting": "Diminuer son influence",
     "fill_order": "Remplir l’ordre",
@@ -64,7 +64,7 @@
     "transfer_to_saving": "Vers l'économie",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Récupérer l'économie",
-    "steemconnect_title": "Hivesigner Transfer",
+    "steemconnect_title": "Transfert Hivesigner",
     "next": "SUIVANT",
     "delegate": "Déléguer",
     "power_down": "Diminuer son influence",
@@ -213,17 +213,17 @@
   "login": {
     "signin": "Se connecter",
     "signup": "REJOINDRE",
-    "signin_title": "To get all the benefits of using Ecency",
+    "signin_title": "Pour obtenir tous les avantages à utiliser Ecency",
     "username": "Nom d'utilisateur",
     "password": "Mot de passe ou WIF",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "En vous inscrivant, vous acceptez nos conditions d'utilisation et notre politique de confidentialité.",
     "cancel": "annuler",
     "login": "CONNEXION",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_description": "Si vous ne voulez pas garder votre mot de passe chiffré et enregistré sur votre appareil, vous pouvez utiliser Hivesigner.",
     "steemconnect_fee_description": "info"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "Créer un compte",
     "title": "S’inscrire",
     "username": "Pick a username",
     "mail": "Enter your email address",
@@ -466,23 +466,23 @@
     "next": "SUIVANT",
     "delegate": "Déléguer",
     "power_down": "Diminuer son influence",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
-    "incoming_funds": "Incoming Funds",
+    "withdraw_steem": "Récupérer des HIVE",
+    "withdraw_sbd": "Récupérer des HIVE Dollar",
+    "incoming_funds": "Fonds entrants",
     "stop": "Arrêter",
-    "address_view": "View address"
+    "address_view": "Voir l'adresse"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
+    "title": "Obtenir des points",
+    "buy": "Obtenir des points",
     "next": "SUIVANT",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "title": "Obtenir le Boost de Compte",
+      "desc": "La délégation de 30 jours va booster vos votes et vos activités sociales et vous donnera plus d'actions avec plus de crédits ressources."
     }
   },
   "free_estm": {
-    "title": "Free Points",
+    "title": "Points gratuits",
     "button": "TOURNER & GAGNER",
     "get_spin": "5 TOURS",
     "spin_right": "Spin Left",
@@ -516,15 +516,15 @@
   },
   "comments": {
     "title": "Commentaires",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
+    "reveal_comment": "Révéler le commentaire",
+    "read_more": "Lire plus de commentaires",
     "more_replies": "more replies"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Autres",
     "communities": {
-      "title": "Communities",
-      "subscribe": "Subscribe",
+      "title": "Communautés",
+      "subscribe": "S'abonner",
       "unsubscribe": "Unsubscribe",
       "subscribers": "Subscribers",
       "posters": "Posters",
