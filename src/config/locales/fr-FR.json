@@ -225,19 +225,19 @@
   "register": {
     "button": "Créer un compte",
     "title": "S’inscrire",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
-    "ref_user": "Referred user (Optional)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
-    "title_description": "One account to manage everything",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "username": "Choisissez un nom d’utilisateur",
+    "mail": "Entrez votre adresse mail",
+    "ref_user": "Utilisateur parrain (Facultatif)",
+    "500_error": "Votre demande n’a pas pu être traitée, la file d’inscription est probablement pleine ! Réessayez dans quelques minutes...",
+    "title_description": "Un seul compte pour tout gérer",
+    "form_description": "En vous inscrivant, vous acceptez nos conditions d'utilisation et notre politique de confidentialité."
   },
   "home": {
     "feed": "Fil d'actualités",
     "popular": "Populaires",
-    "top": "Top",
+    "top": "Haut",
     "hot": "Hot",
-    "new": "New",
+    "new": "Nouveau",
     "blog": "Blog",
     "posts": "Post"
   },
@@ -266,28 +266,28 @@
   },
   "editor": {
     "title": "Titre",
-    "tags": "Tags (separate with space)",
-    "default_placeholder": "Tell us something...",
-    "reply_placeholder": "Add your reply...",
+    "tags": "Tags (séparés par un espace)",
+    "default_placeholder": "Dites-nous quelque chose...",
+    "reply_placeholder": "Ajouter votre réponse...",
     "publish": "Publier",
     "reply": "Répondre",
     "open_gallery": "Ouvrir la galerie",
     "capture_photo": "Prendre une photo",
-    "limited_tags": "Only 10 tags allowed, remove some",
-    "limited_length": "Maximum length of each tag should be 24",
-    "limited_dash": "Use one dash in each tag",
-    "limited_space": "Use space to separate tags",
-    "limited_lowercase": "Only use lower letters in tag",
-    "limited_characters": "Use only lowercase letters, digits and one dash",
-    "limited_firstchar": "Tag must start with a letter",
-    "limited_lastchar": "Tag must end with letter or number",
+    "limited_tags": "Seulement 10 mots-clés autorisés, supprimez-en",
+    "limited_length": "La longueur maximale de chaque mot-clé doit être de 24",
+    "limited_dash": "Utilisez un seul tiret pour chaque mot-clé",
+    "limited_space": "Utilisez un espace pour séparer les mots-clés",
+    "limited_lowercase": "Utilisez uniquement des lettres minuscules dans le mot-clé",
+    "limited_characters": "Utilisez uniquement des lettres minuscules, des chiffres et un tiret maximum",
+    "limited_firstchar": "Le mot-clé doit commencer par une lettre",
+    "limited_lastchar": "Le mot-clé doit se terminer par une lettre ou un chiffre",
     "setting_schedule": "Scheduling Time",
-    "setting_reward": "Reward",
-    "setting_beneficiary": "Beneficiary",
-    "reward_default": "Default 50% / 50%",
+    "setting_reward": "Récompense",
+    "setting_beneficiary": "Bénéficiaire",
+    "reward_default": "Par défaut 50% / 50%",
     "reward_power_up": "Power Up 100%",
-    "reward_decline": "Decline Payout",
-    "beneficiaries": "Beneficiaries",
+    "reward_decline": "Refuser le paiement",
+    "beneficiaries": "Bénéficiaires",
     "options": "Options"
   },
   "pincode": {
@@ -304,15 +304,15 @@
     "fail": "Échec !",
     "move": "Déplacer",
     "move_question": "Êtes-vous sûr de vouloir déplacer vers Broullions ?",
-    "success_shared": "Success! Content submitted!",
+    "success_shared": "Succès ! Contenu soumis !",
     "success_moved": "Déplacé vers Brouillons",
     "permission_denied": "Autorisation refusée",
-    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Operation requires active key or master password, please relogin!",
+    "permission_text": "Veuillez vous rendre dans les paramètres du téléphone et modifier les autorisations de l'application Ecency.",
+    "key_warning": "L'opération nécessite une clé active ou un mot de passe principal, veuillez vous reconnecter!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Vous avez déjà reblogué !",
-    "success_favorite": "Favorite added!",
-    "success_unfavorite": "Favorite removed!",
+    "success_favorite": "Favori ajouté !",
+    "success_unfavorite": "Favori supprimé !",
     "success_follow": "Suivi avec succès !",
     "success_mute": "Rendu muet avec succès !",
     "success_unmute": "Rendu non muet avec succès !",
@@ -455,7 +455,7 @@
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
-    "steemconnect_title": "Hivesigner Transfer",
+    "steemconnect_title": "Transfert Hivesigner",
     "estimated_weekly": "Évalué chaque semaine",
     "destination_accounts": "Comptes destinataires",
     "stop_information": "Êtes-vous sûr de vouloir arrêter ?",
@@ -525,29 +525,29 @@
     "communities": {
       "title": "Communautés",
       "subscribe": "S'abonner",
-      "unsubscribe": "Unsubscribe",
-      "subscribers": "Subscribers",
-      "posters": "Posters",
+      "unsubscribe": "Se désabonner",
+      "subscribers": "Abonnés",
+      "posters": "Publieurs",
       "posts": "Post"
     },
     "communities_filter": {
-      "rank": "Rank",
-      "subs": "Subscribers",
-      "new": "New"
+      "rank": "Classement",
+      "subs": "Abonnés",
+      "new": "Nouveau"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "Popularité",
+      "newest": "Plus récent",
+      "relevance": "Pertinence"
     },
     "other_result_filter": {
       "user": "Utilisateur",
-      "tag": "Tag"
+      "tag": "Mot-clé"
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details"
+    "new_post": "Nouvelle Publication",
+    "community": "communauté",
+    "details": "Détails"
   }
 }
