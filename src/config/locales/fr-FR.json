@@ -60,7 +60,7 @@
     "memo_placeholder": "Entrez vos notes ici",
     "transfer_token": "Transférer",
     "purchase_estm": "OBTENIR DES POINTS",
-    "points": "Faire cadeau de points à quelqu'un",
+    "points": "Offrir des points à quelqu'un",
     "transfer_to_saving": "Vers l'économie",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Récupérer l'économie",
@@ -281,7 +281,7 @@
     "limited_characters": "Utilisez uniquement des lettres minuscules, des chiffres et un tiret maximum",
     "limited_firstchar": "Le mot-clé doit commencer par une lettre",
     "limited_lastchar": "Le mot-clé doit se terminer par une lettre ou un chiffre",
-    "setting_schedule": "Scheduling Time",
+    "setting_schedule": "Horaire de planification",
     "setting_reward": "Récompense",
     "setting_beneficiary": "Bénéficiaire",
     "reward_default": "Par défaut 50% / 50%",
@@ -493,7 +493,7 @@
     "days": "jours",
     "user": "Utilisateur",
     "permlink": "Publier",
-    "permlinkPlaceholder": "username/permlink",
+    "permlinkPlaceholder": "nom d'utilisateur/permlink",
     "information": "Êtes-vous sûr de vouloir promouvoir?"
   },
   "boostPost": {
@@ -518,7 +518,7 @@
     "title": "Commentaires",
     "reveal_comment": "Révéler le commentaire",
     "read_more": "Lire plus de commentaires",
-    "more_replies": "more replies"
+    "more_replies": "plus de réponses"
   },
   "search_result": {
     "others": "Autres",
