@@ -3,10 +3,10 @@
     "curation_reward": "Gains de curation",
     "author_reward": "Gain de l'Auteur",
     "comment_benefactor_reward": "Benefactor Reward",
-    "claim_reward_balance": "Claim Reward ",
+    "claim_reward_balance": "Réclamer la récompense ",
     "transfer": "Transférer",
     "transfer_to_vesting": "To Vesting",
-    "transfer_from_savings": "From Savings",
+    "transfer_from_savings": "De l'économie",
     "withdraw_vesting": "Diminuer son influence",
     "fill_order": "Remplir l’ordre",
     "post": "Publier",
@@ -28,8 +28,8 @@
     "reblog_title": "Points pour vos reblog",
     "login_title": "Points pour vos connexions",
     "checkin_title": "Points d'activité",
-    "referral": "Referral",
-    "referral_title": "Referral rewards",
+    "referral": "Parrainage",
+    "referral_title": "Récompenses de parrainage",
     "referral_desc": "Invitez des amis et gagnez des points",
     "checkin_extra_title": "Bonus d'utilisation",
     "no_activity": "Aucune activité récente",
@@ -37,8 +37,8 @@
     "incoming_transfer_description": "",
     "post_desc": "Vous pouvez gagner des points en publiant régulièrement. Publier vous donne jusqu'a 15 points.",
     "comment_desc": "Chaque commentaire que vous faites vous aide à agrandir votre audience et vous donne également 5 points.",
-    "checkin_desc": "Checking in regularly gives you 0.25 points.",
-    "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
+    "checkin_desc": "La connexion régulière vous donne 0,25 points.",
+    "vote_desc": "En votant, vous donnez des récompenses aux créateurs et gagnez en plus jusqu'à 0,01 x le poids de votre vote en points.",
     "reblog_desc": "Partagez les publication que vous aimez avec vos amis et gagnez des points.",
     "login_desc": "Lorsque vous vous connectez à l'application pour la première fois, vous gagnez 100 points.",
     "checkin_extra_desc": "Une utilisation regulière de l'application vous donne des chances supplémentaires de gagner plus de points, soyez plus actif et gagnez plus.",
@@ -59,67 +59,67 @@
     "to_placeholder": "Nom d'utilisateur",
     "memo_placeholder": "Entrez vos notes ici",
     "transfer_token": "Transférer",
-    "purchase_estm": "GET POINTS",
+    "purchase_estm": "OBTENIR DES POINTS",
     "points": "Faire cadeau de points à quelqu'un",
-    "transfer_to_saving": "To Saving",
+    "transfer_to_saving": "Vers l'économie",
     "powerUp": "Power Up",
-    "withdraw_to_saving": "Withdraw Saving",
+    "withdraw_to_saving": "Récupérer l'économie",
     "steemconnect_title": "Hivesigner Transfer",
     "next": "SUIVANT",
     "delegate": "Déléguer",
     "power_down": "Diminuer son influence",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
-    "transfer_to_savings": "To Savings",
+    "withdraw_steem": "Récupérer des HIVE",
+    "withdraw_sbd": "Récupérer des HBD",
+    "transfer_to_savings": "Vers les économies",
     "convert": "Convertir",
     "escrow_transfer": "Escrow Transfer",
     "escrow_dispute": "Escrow Dispute",
     "escrow_release": "Escrow Release",
     "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel From Savings",
+    "cancel_transfer_from_savings": "Annuler le transfert depuis les économies",
     "delegate_vesting_shares": "Délégation",
-    "fill_convert_request": "Convert Executed",
-    "fill_transfer_from_savings": "Savings Executed",
+    "fill_convert_request": "Conversion effectuée",
+    "fill_transfer_from_savings": "Épargne effectuée",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
       "title": "Points",
-      "buy": "GET POINTS"
+      "buy": "OBTENIR DES POINTS"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "Économies HIVE"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "Économies HBD"
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "OBTENIR HIVE"
     },
     "sbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "OBTENIR HBD"
     },
     "steem_power": {
       "title": "HIVE POWER"
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "OBTENIR BTC",
+      "address": "RECEVOIR"
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "unvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "vote": "voté",
+    "unvote": "non voté",
+    "reply": "répondu à",
+    "mention": "mentionné dans",
     "follow": "vous a suivi",
     "unfollow": "ne vous suit plus",
     "ignore": "vous a ignoré",
-    "reblog": "reblogged",
+    "reblog": "reblogué",
     "transfer": "transféré",
-    "spin": "Time to earn more Points",
-    "inactive": "Be active! Write a post, continue earning",
+    "spin": "C'est l'heure de gagner plus de points",
+    "inactive": "Soyez actif ! Écrivez un post, continuez à obtenir des gains",
     "referral": "joined with your referral, welcome them",
     "notification": "Notifications",
     "leaderboard": "Classement",
