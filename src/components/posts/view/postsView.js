@@ -198,7 +198,9 @@ const PostsView = ({
           {isLoggedIn && selectedFilterValue === 'feed' && (
             <FilterBar
               dropdownIconName="arrow-drop-down"
-              options={feedSubfilterOptions.map((item) => item.toUpperCase())}
+              options={feedSubfilterOptions.map((item) =>
+                intl.formatMessage({ id: `home.${item.toLowerCase()}` }).toUpperCase(),
+              )}
               selectedOptionIndex={selectedFeedSubfilterIndex}
               defaultText={feedSubfilterOptions[selectedFeedSubfilterIndex]}
               onDropdownSelect={_handleFeedSubfilterOnDropdownSelect}
