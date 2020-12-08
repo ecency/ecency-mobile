@@ -17,7 +17,7 @@ const CommunitiesContainer = ({
   isLoggedIn,
 }) => {
   const [data, setData] = useState();
-  const [filterIndex, setFilterIndex] = useState(0);
+  const [filterIndex, setFilterIndex] = useState(1);
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState('rank');
   const [allSubscriptions, setAllSubscriptions] = useState([]);
@@ -25,14 +25,18 @@ const CommunitiesContainer = ({
 
   useEffect(() => {
     setData([]);
-    getCommunities('', 100, query, sort).then((res) => {
-      if (!isEmpty(res)) {
-        setData(res);
-        setNoResult(false);
-      } else {
-        setNoResult(true);
-      }
-    });
+    if (sort === 'my') {
+      console.log('my', sort, query, filterIndex);
+    } else {
+      getCommunities('', 100, query, sort).then((res) => {
+        if (!isEmpty(res)) {
+          setData(res);
+          setNoResult(false);
+        } else {
+          setNoResult(true);
+        }
+      });
+    }
   }, [query, sort]);
 
   useEffect(() => {

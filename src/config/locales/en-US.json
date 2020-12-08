@@ -526,13 +526,14 @@
       "title": "Communities",
       "subscribe": "Subscribe",
       "unsubscribe": "Unsubscribe",
-      "subscribers": "Subscribers",
+      "subscribers": "Members",
       "posters": "Posters",
       "posts": "Posts"
     },
     "communities_filter": {
+      "my": "My Communities",
       "rank": "Rank",
-      "subs": "Subscribers",
+      "subs": "Members",
       "new": "New"
     },
     "post_result_filter": {

@@ -8,7 +8,7 @@ import CommunitiesList from './communitiesList';
 
 import CommunitiesContainer from '../container/communitiesContainer';
 
-const filterOptions = ['rank', 'subs', 'new'];
+const filterOptions = ['my', 'rank', 'subs', 'new'];
 
 const CommunitiesScreen = ({ navigation, searchValue }) => {
   const intl = useIntl();
