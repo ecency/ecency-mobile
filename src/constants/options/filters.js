@@ -1,6 +1,9 @@
 export const POPULAR_FILTERS = ['FEED', 'TOP', 'HOT', 'NEW'];
 export const POPULAR_FILTERS_VALUE = ['feed', 'trending', 'hot', 'created'];
 
+export const FEED_SUBFILTERS = ['FRIENDS', 'COMMUNITIES'];
+export const FEED_SUBFILTERS_VALUE = ['friends', 'communities'];
+
 export const GLOBAL_POST_FILTERS = ['TOP', 'HOT', 'NEW'];
 export const GLOBAL_POST_FILTERS_VALUE = ['trending', 'hot', 'created'];
 
