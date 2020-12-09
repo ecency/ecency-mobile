@@ -159,7 +159,7 @@
     "voting_power": "Poder de voto",
     "login_to_see": "Login para ver",
     "follow_people": "Siga algumas pessoas para preencher o seu feed",
-    "follow_communities": "Join some communities to fill your feed",
+    "follow_communities": "Junte-se a algumas comunidades para preencher seu feed",
     "havent_commented": "ainda não comentou nada",
     "havent_posted": "ainda não postou nada",
     "steem_power": "Hive Power",
@@ -241,8 +241,8 @@
     "new": "Novo",
     "blog": "Blogue",
     "posts": "Posts",
-    "friends": "Friends",
-    "communities": "Communities"
+    "friends": "Amigos",
+    "communities": "Comunidades"
   },
   "side_menu": {
     "profile": "Perfil",
@@ -527,14 +527,14 @@
     "others": "Outros",
     "communities": {
       "title": "Communities",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
+      "subscribe": "Aderir",
+      "unsubscribe": "Sair",
+      "subscribers": "Membros",
       "posters": "Cartazes",
       "posts": "Posts"
     },
     "communities_filter": {
-      "my": "My Communities",
+      "my": "Minhas Comunidades",
       "rank": "Classificação",
       "subs": "Members",
       "new": "Novo"
