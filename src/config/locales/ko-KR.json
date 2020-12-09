@@ -527,15 +527,16 @@
     "others": "기타",
     "communities": {
       "title": "커뮤니티",
-      "subscribe": "구독",
-      "unsubscribe": "구독해지",
-      "subscribers": "구독자",
+      "subscribe": "Join",
+      "unsubscribe": "Leave",
+      "subscribers": "Members",
       "posters": "포스터",
       "posts": "글 목록"
     },
     "communities_filter": {
+      "my": "My Communities",
       "rank": "랭크",
-      "subs": "구독자",
+      "subs": "Members",
       "new": "새 글"
     },
     "post_result_filter": {
