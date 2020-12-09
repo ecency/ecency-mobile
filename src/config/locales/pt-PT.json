@@ -527,15 +527,16 @@
     "others": "Outros",
     "communities": {
       "title": "Communities",
-      "subscribe": "Inscrever-se",
-      "unsubscribe": "Cancelar Inscrição",
-      "subscribers": "Inscritos",
+      "subscribe": "Join",
+      "unsubscribe": "Leave",
+      "subscribers": "Members",
       "posters": "Cartazes",
       "posts": "Posts"
     },
     "communities_filter": {
+      "my": "My Communities",
       "rank": "Classificação",
-      "subs": "Inscritos",
+      "subs": "Members",
       "new": "Novo"
     },
     "post_result_filter": {
