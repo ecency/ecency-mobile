@@ -159,6 +159,7 @@
     "voting_power": "Szavazóerő",
     "login_to_see": "A megtekintéshez jelentkezz be",
     "follow_people": "Kövess néhány felhasználót, hogy töltsd meg a hírcsatornád",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "még nem szólt hozzá semmihez",
     "havent_posted": "még nem tett közzé semmit",
     "steem_power": "Hive Power",
@@ -239,7 +240,9 @@
     "hot": "Forró",
     "new": "Új",
     "blog": "Blog",
-    "posts": "Bejegyzések"
+    "posts": "Bejegyzések",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Profil",
