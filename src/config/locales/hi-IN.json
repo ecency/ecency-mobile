@@ -159,7 +159,7 @@
     "voting_power": "मतदान की क्षमता",
     "login_to_see": "देखने के लिए लॉगिन करें",
     "follow_people": "अपना फ़ीड भरने के लिए कुछ लोगों का अनुसरण करें",
-    "follow_communities": "Join some communities to fill your feed",
+    "follow_communities": "अपना फ़ीड भरने के लिए कुछ समुदायों से जुड़ें",
     "havent_commented": "अभी तक कोई टिपण्णी नहीं की है",
     "havent_posted": "अभी तक कोई पोस्ट नहीं की है",
     "steem_power": "हाइव पावर",
@@ -241,8 +241,8 @@
     "new": "नया",
     "blog": "ब्लॉग",
     "posts": "Post",
-    "friends": "Friends",
-    "communities": "Communities"
+    "friends": "दोस्त",
+    "communities": "समुदाय"
   },
   "side_menu": {
     "profile": "रुपरेखा",
@@ -527,16 +527,16 @@
     "others": "अन्य",
     "communities": {
       "title": "समुदाय",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
+      "subscribe": "शामिल हों",
+      "unsubscribe": "छोड़ें",
+      "subscribers": "सदस्य",
       "posters": "पोस्टर",
       "posts": "Post"
     },
     "communities_filter": {
-      "my": "My Communities",
+      "my": "मेरे समुदाय",
       "rank": "स्थान",
-      "subs": "Members",
+      "subs": "सदस्य",
       "new": "नया"
     },
     "post_result_filter": {
