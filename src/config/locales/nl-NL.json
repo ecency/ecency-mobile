@@ -159,6 +159,7 @@
     "voting_power": "Stemkracht",
     "login_to_see": "Inloggen om te tonen",
     "follow_people": "Follow some people to fill your feed",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "heeft nog niets gereageerd",
     "havent_posted": "heeft nog geen artikel geplaatst",
     "steem_power": "Hive Power",
@@ -239,7 +240,9 @@
     "hot": "Hot",
     "new": "New",
     "blog": "Blog",
-    "posts": "Artikelen"
+    "posts": "Artikelen",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Profiel",
