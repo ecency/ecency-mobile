@@ -159,6 +159,7 @@
     "voting_power": "Power to vote",
     "login_to_see": "Login to see wetin dey",
     "follow_people": "Follow some people to fill your feed",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "e never contribute any tori",
     "havent_posted": "e never post anything",
     "steem_power": "Hive Power",
@@ -239,7 +240,9 @@
     "hot": "Hot",
     "new": "New",
     "blog": "Blog",
-    "posts": "Post"
+    "posts": "Post",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Your informate",
