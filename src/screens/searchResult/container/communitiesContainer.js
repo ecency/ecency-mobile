@@ -24,19 +24,25 @@ const CommunitiesContainer = ({
   const [noResult, setNoResult] = useState(false);
 
   useEffect(() => {
+    let isCancelled = false;
     setData([]);
     if (sort === 'my') {
-      console.log('my', sort, query, filterIndex);
+      setNoResult(true);
     } else {
       getCommunities('', 100, query, sort).then((res) => {
-        if (!isEmpty(res)) {
-          setData(res);
-          setNoResult(false);
-        } else {
-          setNoResult(true);
+        if (!isCancelled) {
+          if (!isEmpty(res)) {
+            setData(res);
+            setNoResult(false);
+          } else {
+            setNoResult(true);
+          }
         }
       });
     }
+    return () => {
+      isCancelled = true;
+    };
   }, [query, sort]);
 
   useEffect(() => {
@@ -46,13 +52,17 @@ const CommunitiesContainer = ({
   }, [searchValue]);
 
   useEffect(() => {
-    if (data) {
+    let isCancelled = false;
+    if (data && !isCancelled) {
       getSubscriptions(currentAccount.username).then((result) => {
         if (result) {
           setAllSubscriptions(result);
         }
       });
     }
+    return () => {
+      isCancelled = true;
+    };
   }, [data]);
 
   // Component Functions

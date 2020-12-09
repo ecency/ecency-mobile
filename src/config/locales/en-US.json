@@ -524,8 +524,8 @@
     "others": "Others",
     "communities": {
       "title": "Communities",
-      "subscribe": "Subscribe",
-      "unsubscribe": "Unsubscribe",
+      "subscribe": "Join",
+      "unsubscribe": "Leave",
       "subscribers": "Members",
       "posters": "Posters",
       "posts": "Posts"
