@@ -159,6 +159,7 @@
     "voting_power": "Teunaga Galak",
     "login_to_see": "Tamoëng Untuk Kaloën",
     "follow_people": "Follow some people to fill your feed",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "galöem peurnah komentar",
     "havent_posted": "galöem peurnah tumulèh",
     "steem_power": "Hive Power",
@@ -239,7 +240,9 @@
     "hot": "Hot",
     "new": "New",
     "blog": "Blog",
-    "posts": "Haba"
+    "posts": "Haba",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Profil",
