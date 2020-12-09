@@ -159,6 +159,7 @@
     "voting_power": "Äänivalta",
     "login_to_see": "Kirjaudu sisään nähdäksesi",
     "follow_people": "Seuraa ihmisiä täyttääksesi syötettä",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "ei ole vielä kommentoinut mitään",
     "havent_posted": "ei ole vielä julkaissut mitään",
     "steem_power": "Hive Power",
@@ -239,7 +240,9 @@
     "hot": "Kuumat",
     "new": "Uusimmat",
     "blog": "Blogi",
-    "posts": "Julkaisut"
+    "posts": "Julkaisut",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Profiili",
