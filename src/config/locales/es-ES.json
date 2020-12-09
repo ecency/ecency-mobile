@@ -118,9 +118,9 @@
     "ignore": "te ignoró",
     "reblog": "reblogueado",
     "transfer": "transferido",
-    "spin": "Time to earn more Points",
-    "inactive": "Be active! Write a post, continue earning",
-    "referral": "joined with your referral, welcome them",
+    "spin": "Es hora de ganar más puntos",
+    "inactive": "¡Estate activo! Escribe un mensaje, sigue ganando",
+    "referral": "se unieron con tu enlace de referido, dales la bienvenida!",
     "notification": "Notificaciones",
     "leaderboard": "Tabla de posiciones",
     "epoint": "Puntos",
@@ -214,13 +214,13 @@
   "login": {
     "signin": "Iniciar sesión",
     "signup": "ÚNETE AHORA",
-    "signin_title": "To get all the benefits of using Ecency",
+    "signin_title": "Para obtener todos los beneficios de utilizar Ecency",
     "username": "Nombre de Usuario",
     "password": "Contraseña o WIF",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "Al registrarte, estás de acuerdo con nuestros Términos de servicio &amp; Política de privacidad",
     "cancel": "cancelar",
     "login": "ACCEDER",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_description": "Si no desea mantener su contraseña encriptada y guardada en su dispositivo, puede usar Hivesigner.",
     "steemconnect_fee_description": "info."
   },
   "register": {
@@ -229,9 +229,9 @@
     "username": "Elige un nombre de usuario",
     "mail": "Introduce tu dirección de correo electrónico",
     "ref_user": "Usuario Referido (Opcional)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
+    "500_error": "Su solicitud no pudo ser procesada, ¡la cola de registro probablemente está llena! Inténtelo de nuevo en unos minutos...",
     "title_description": "Una cuenta para administrar todo",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "form_description": "Al registrarte, estás de acuerdo con nuestros Términos de servicio &amp; Política de privacidad"
   },
   "home": {
     "feed": "Inicio",
@@ -281,7 +281,7 @@
     "limited_dash": "Usar un guión en cada etiqueta",
     "limited_space": "Usa espacios para separar las etiquetas",
     "limited_lowercase": "Usa solo letras minusculas en la etiqueta",
-    "limited_characters": "Use only lowercase letters, digits and one dash",
+    "limited_characters": "Usa sólo letras minúsculas, dígitos y un guión",
     "limited_firstchar": "Debe empezar con una letra",
     "limited_lastchar": "La etiqueta debe terminar con una letra o número",
     "setting_schedule": "Hora programada",
@@ -311,7 +311,7 @@
     "success_moved": "Movido a borradores",
     "permission_denied": "Permiso dengado",
     "permission_text": "Por favor, ir a ajustes del teléfono y a cambiar los permisos de la aplicación de eSteem.",
-    "key_warning": "Operation requires active key or master password, please relogin!",
+    "key_warning": "La operación requiere clave activa o contraseña maestra, ¡por favor vuelva a iniciar sesión!",
     "success_rebloged": "¡Reblogueado!",
     "already_rebloged": "Ya has sido reblogueado!",
     "success_favorite": "Añadido a favoritos!",
@@ -335,15 +335,15 @@
     "same_user": "Este usuario ya ha sido añadido a la lista",
     "unknow_error": "Ocurrió un error",
     "error": "Error",
-    "fetch_error": "Connection issue, change server and restart",
+    "fetch_error": "Problema de conexión, cambiar el servidor y reinicia",
     "connection_fail": "¡Error de conexión!",
     "connection_success": "¡Conectado con éxito!",
     "checking": "Comprobando...",
     "external_link": "Abrir en navegador",
     "not_existing_post": "¡La publicación no existe! Por favor comprueba el permalink y el autor.",
     "google_play_version": "Notamos que tu dispositivo tiene una versión antigua de Google Play. ¡Por favor actualiza los servicios de Google Play e inténtalo de nuevo!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
-    "payloadTooLarge": "File size too big, please resize or upload smaller image",
+    "rc_down": "¡No hay suficientes créditos de recursos para realizar una acción! \n\nAumenta tu cuenta para continuar disfrutando de la experiencia. ¿Quieres potenciar tu cuenta ahora?",
+    "payloadTooLarge": "El tamaño del archivo es demasiado grande, por favor cambia el tamaño o suba una imagen más pequeña",
     "qoutaExceeded": "Se ha superado la cuota de subida",
     "invalidImage": "Imagen no válida, prueba un archivo diferente",
     "something_wrong": "Algo ha fallado.",
@@ -388,7 +388,7 @@
     "add": "Añadir a favoritos"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Contenido censurable reportado"
   },
   "favorites": {
     "title": "Favoritos",
@@ -401,7 +401,7 @@
     "invalid_username": "Nombre de usuario inválido, por favor verifique e inténtelo de nuevo",
     "already_logged": "Ya está logueado, por favor intente añadir otra cuenta",
     "invalid_credentials": "Credenciales inválidas, por favor verifique e intente nuevamente",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "Error desconocido, ponte en contacto con nosotros en support@ecency.com"
   },
   "payout": {
     "potential_payout": "Pago Potencial",
@@ -410,7 +410,7 @@
     "curation_payout": "Pago de Curación",
     "payout_date": "Pago",
     "beneficiaries": "Beneficiarios",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "warn_zero_payout": "El importe debe llegar a $0.02 para el pago",
     "breakdown": "Intermedio"
   },
   "post_dropdown": {
@@ -448,7 +448,7 @@
     "information": "¿Está seguro de transferir los fondos?",
     "amount_desc": "Balance",
     "memo_desc": "Este memo es público",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "La conversión toma 3.5 días y el precio NO recomendado SI HBD es mayor que $1",
     "to_placeholder": "Nombre de usuario",
     "memo_placeholder": "Escribe tus notas aquí",
     "transfer_token": "Transferir",
@@ -481,7 +481,7 @@
     "next": "SIGUIENTE",
     "account": {
       "title": "Obtener ayuda de Cuenta",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "desc": "La delegación de 30 días impulsará sus votos y actividades sociales y le dará más acciones con más créditos de Recursos."
     }
   },
   "free_estm": {
@@ -530,7 +530,7 @@
       "subscribe": "Unirse",
       "unsubscribe": "Salir",
       "subscribers": "Participantes",
-      "posters": "Posters",
+      "posters": "Publicadores",
       "posts": "Post"
     },
     "communities_filter": {
