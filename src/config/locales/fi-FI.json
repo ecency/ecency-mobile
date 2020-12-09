@@ -159,7 +159,7 @@
     "voting_power": "Äänivalta",
     "login_to_see": "Kirjaudu sisään nähdäksesi",
     "follow_people": "Seuraa ihmisiä täyttääksesi syötettä",
-    "follow_communities": "Join some communities to fill your feed",
+    "follow_communities": "Liity uusiin yhteisöihin täyttääksesi syötteitäsi",
     "havent_commented": "ei ole vielä kommentoinut mitään",
     "havent_posted": "ei ole vielä julkaissut mitään",
     "steem_power": "Hive Power",
@@ -241,8 +241,8 @@
     "new": "Uusimmat",
     "blog": "Blogi",
     "posts": "Julkaisut",
-    "friends": "Friends",
-    "communities": "Communities"
+    "friends": "Ystävät",
+    "communities": "Yhteisöt"
   },
   "side_menu": {
     "profile": "Profiili",
@@ -311,7 +311,7 @@
     "success_moved": "Siirretty luonnoksiin",
     "permission_denied": "Käyttö estetty",
     "permission_text": "Mene puhelinasetuksiin ja muuta Ecencyn oikeuksia.",
-    "key_warning": "Toiminto vaatii aktiivisen avaimen tai pääsalasanan, kirjaudu uudelleen!",
+    "key_warning": "Toiminto vaatii aktiivisen avaimen tai pää-salasanan, kirjaudu uudelleen!",
     "success_rebloged": "Jaettu uudelleen!",
     "already_rebloged": "Olet jo jakanut tämän!",
     "success_favorite": "Suosikki lisätty!",
