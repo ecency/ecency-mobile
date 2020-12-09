@@ -527,15 +527,16 @@
     "others": "Други",
     "communities": {
       "title": "Общности",
-      "subscribe": "Абониране",
-      "unsubscribe": "Отписване",
-      "subscribers": "Абонаменти",
+      "subscribe": "Join",
+      "unsubscribe": "Leave",
+      "subscribers": "Members",
       "posters": "Публикуващи",
       "posts": "Публикации"
     },
     "communities_filter": {
+      "my": "My Communities",
       "rank": "Ранг",
-      "subs": "Абонаменти",
+      "subs": "Members",
       "new": "Нови"
     },
     "post_result_filter": {
