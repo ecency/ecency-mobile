@@ -159,6 +159,7 @@
     "voting_power": "Hääletusjõud",
     "login_to_see": "Nägemiseks logi sisse",
     "follow_people": "Follow some people to fill your feed",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "ei ole veel midagi kommenteerinud",
     "havent_posted": "ei ole veel midagi postitanud",
     "steem_power": "Hive Power",
@@ -239,7 +240,9 @@
     "hot": "Hot",
     "new": "New",
     "blog": "Blog",
-    "posts": "Post"
+    "posts": "Post",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Profiil",
