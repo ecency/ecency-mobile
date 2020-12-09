@@ -527,15 +527,16 @@
     "others": "Інше",
     "communities": {
       "title": "Спільноти",
-      "subscribe": "Підписатися",
-      "unsubscribe": "Відписатися",
-      "subscribers": "Читачі",
+      "subscribe": "Join",
+      "unsubscribe": "Leave",
+      "subscribers": "Members",
       "posters": "Автори",
       "posts": "Дописи"
     },
     "communities_filter": {
+      "my": "My Communities",
       "rank": "Рейтинг",
-      "subs": "Читачі",
+      "subs": "Members",
       "new": "Нові"
     },
     "post_result_filter": {
