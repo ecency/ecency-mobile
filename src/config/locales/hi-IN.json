@@ -159,6 +159,7 @@
     "voting_power": "मतदान की क्षमता",
     "login_to_see": "देखने के लिए लॉगिन करें",
     "follow_people": "अपना फ़ीड भरने के लिए कुछ लोगों का अनुसरण करें",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "अभी तक कोई टिपण्णी नहीं की है",
     "havent_posted": "अभी तक कोई पोस्ट नहीं की है",
     "steem_power": "हाइव पावर",
@@ -239,7 +240,9 @@
     "hot": "लोकप्रीय",
     "new": "नया",
     "blog": "ब्लॉग",
-    "posts": "Post"
+    "posts": "Post",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "रुपरेखा",
