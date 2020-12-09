@@ -159,6 +159,7 @@
     "voting_power": "Сила голоса",
     "login_to_see": "Войдите, чтобы увидеть",
     "follow_people": "Подпишитесь на нескольких людей, чтобы заполнить ленту",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "ещё ничего не комментировал",
     "havent_posted": "ещё ничего не написал",
     "steem_power": "Hive Power (Сила)",
@@ -239,7 +240,9 @@
     "hot": "Актуальное",
     "new": "Новое",
     "blog": "Блог",
-    "posts": "Посты"
+    "posts": "Посты",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Профиль",
