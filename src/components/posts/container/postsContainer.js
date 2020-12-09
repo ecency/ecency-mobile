@@ -255,6 +255,10 @@ const PostsContainer = ({
         Matomo.trackView([`/${selectedFilterValue}/${tag}`]).catch((error) =>
           console.warn('Failed to track screen', error),
         );
+      } else if (selectedFilterValue === 'feed') {
+        Matomo.trackView([`/${feedUsername}/${selectedFilterValue}`]).catch((error) =>
+          console.warn('Failed to track screen', error),
+        );
       } else {
         Matomo.trackView([`/${selectedFilterValue}`]).catch((error) =>
           console.warn('Failed to track screen', error),
