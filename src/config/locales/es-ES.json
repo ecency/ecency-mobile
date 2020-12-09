@@ -527,15 +527,16 @@
     "others": "Otros",
     "communities": {
       "title": "Comunidades",
-      "subscribe": "Suscribirse",
-      "unsubscribe": "Unsubscribe",
-      "subscribers": "Suscriptores",
+      "subscribe": "Join",
+      "unsubscribe": "Leave",
+      "subscribers": "Members",
       "posters": "Posters",
       "posts": "Post"
     },
     "communities_filter": {
+      "my": "My Communities",
       "rank": "Clasificación",
-      "subs": "Suscriptores",
+      "subs": "Members",
       "new": "Nuevo"
     },
     "post_result_filter": {
