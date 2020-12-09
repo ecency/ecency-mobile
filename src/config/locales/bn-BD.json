@@ -527,15 +527,16 @@
     "others": "অন্যান্য",
     "communities": {
       "title": "কমিউনিটি",
-      "subscribe": "সাবস্ক্রাইব",
-      "unsubscribe": "আনসাবস্ক্রাইব করুন",
-      "subscribers": "সাবসক্রাইবারস",
+      "subscribe": "Join",
+      "unsubscribe": "Leave",
+      "subscribers": "Members",
       "posters": "পোস্টার",
       "posts": "Post"
     },
     "communities_filter": {
+      "my": "My Communities",
       "rank": "র‍্যাঙ্ক",
-      "subs": "সাবসক্রাইবারস",
+      "subs": "Members",
       "new": "নতুন"
     },
     "post_result_filter": {
