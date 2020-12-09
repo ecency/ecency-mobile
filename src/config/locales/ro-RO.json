@@ -159,6 +159,7 @@
     "voting_power": "Putere de votare",
     "login_to_see": "Autentifică-te pentru a vedea",
     "follow_people": "Urmărește câțiva utilizatori pentru a completa feedul",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "încă nu a comentat",
     "havent_posted": "încă nu a postat nimic",
     "steem_power": "Hive Power",
@@ -239,7 +240,9 @@
     "hot": "În tendințe",
     "new": "Nou",
     "blog": "Blog",
-    "posts": "Post"
+    "posts": "Post",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Profil",
