@@ -159,6 +159,7 @@
     "voting_power": "Tazmert n tefrant",
     "login_to_see": "Qqen akken ad teẓreḍ",
     "follow_people": "Follow some people to fill your feed",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "ur twennteḍ kra ar tura",
     "havent_posted": "ur d-tsuffɣeḍ kra ar tura",
     "steem_power": "Hive Power",
@@ -239,7 +240,9 @@
     "hot": "Hot",
     "new": "Amaynut",
     "blog": "Ablug",
-    "posts": "Tisuffɣin"
+    "posts": "Tisuffɣin",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Amaɣnu",
