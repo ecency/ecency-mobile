@@ -527,16 +527,16 @@
     "others": "Muut",
     "communities": {
       "title": "Yhteisöt",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
+      "subscribe": "Liity",
+      "unsubscribe": "Poistu",
+      "subscribers": "Jäsenet",
       "posters": "Tekijät",
       "posts": "Julkaisut"
     },
     "communities_filter": {
-      "my": "My Communities",
+      "my": "Yhteisöni",
       "rank": "Sija",
-      "subs": "Members",
+      "subs": "Jäsenet",
       "new": "Uudet"
     },
     "post_result_filter": {
