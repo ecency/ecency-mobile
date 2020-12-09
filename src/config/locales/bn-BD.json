@@ -159,7 +159,7 @@
     "voting_power": "ভোটদানের ক্ষমতা",
     "login_to_see": "দেখার জন্য লগইন করুন",
     "follow_people": "আপনার ফিড পূরণ করতে কিছু লোককে অনুসরণ করুন",
-    "follow_communities": "Join some communities to fill your feed",
+    "follow_communities": "আপনার ফিডটি পূরণ করতে কিছু সম্প্রদায়গুলিতে যোগদান করুন",
     "havent_commented": "এখনও কিছু মন্তব্য করেন নি",
     "havent_posted": "আপনি এখনো কিছু পোস্ট করেন নি",
     "steem_power": "হাইভ পাওয়ার",
@@ -241,8 +241,8 @@
     "new": "নতুন",
     "blog": "ব্লগ",
     "posts": "Post",
-    "friends": "Friends",
-    "communities": "Communities"
+    "friends": "বন্ধুরা",
+    "communities": "সম্প্রদায়গুলি"
   },
   "side_menu": {
     "profile": "প্রোফাইল",
