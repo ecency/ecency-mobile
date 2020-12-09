@@ -159,6 +159,7 @@
     "voting_power": "Poder de voto",
     "login_to_see": "Login para ver",
     "follow_people": "Siga algumas pessoas para preencher o seu feed",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "ainda não comentou nada",
     "havent_posted": "ainda não postou nada",
     "steem_power": "Hive Power",
@@ -239,7 +240,9 @@
     "hot": "Quente",
     "new": "Novo",
     "blog": "Blogue",
-    "posts": "Posts"
+    "posts": "Posts",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Perfil",
