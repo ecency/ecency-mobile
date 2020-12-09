@@ -159,6 +159,7 @@
     "voting_power": "ヴォート能力",
     "login_to_see": "ログイン",
     "follow_people": "他の人をフォローして自分のフィードに表示しよう",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "まだ何もコメントしていません",
     "havent_posted": "まだ何も投稿していません",
     "steem_power": "Hiveパワー",
@@ -239,7 +240,9 @@
     "hot": "人気",
     "new": "新着",
     "blog": "ブログ",
-    "posts": "投稿"
+    "posts": "投稿",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "プロフィール",
