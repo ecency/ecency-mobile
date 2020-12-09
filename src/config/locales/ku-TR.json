@@ -159,6 +159,7 @@
     "voting_power": "Hêza dengdanê",
     "login_to_see": "Têkevê û bibîne",
     "follow_people": "Ji bo dagirtina herka xwe, hinek kesan bişopîne",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "heta niha şîrove nehatiye kirin",
     "havent_posted": "heta niha ti tişt parve nebûye",
     "steem_power": "Hive Power",
@@ -239,7 +240,9 @@
     "hot": "Germ",
     "new": "Nû",
     "blog": "Blog",
-    "posts": "Şandî"
+    "posts": "Şandî",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Profîl",
