@@ -159,6 +159,7 @@
     "voting_power": "Stibnamahts",
     "login_to_see": "Atgagg du saihwan",
     "follow_people": "Follow some people to fill your feed",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "nauh ni gawaurdida",
     "havent_posted": "waurd nauh ni gatawida",
     "steem_power": "Hive Power",
@@ -239,7 +240,9 @@
     "hot": "Hot",
     "new": "New",
     "blog": "Blog",
-    "posts": "Waurda"
+    "posts": "Waurda",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Profile",
