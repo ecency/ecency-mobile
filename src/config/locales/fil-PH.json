@@ -159,6 +159,7 @@
     "voting_power": "Lakas ng pagboto",
     "login_to_see": "Mag login para makita",
     "follow_people": "Sundan ang ibang tao para punan ang iyong feed",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "wala pang na i-komentong bagay",
     "havent_posted": "wala pang na i-post na kahit anong bagay",
     "steem_power": "Hive Power",
@@ -239,7 +240,9 @@
     "hot": "Mainit",
     "new": "Bago",
     "blog": "Blog",
-    "posts": "Post"
+    "posts": "Post",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Profile",
