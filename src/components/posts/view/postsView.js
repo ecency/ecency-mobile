@@ -35,14 +35,19 @@ const PostsView = ({
   selectedFilterValue,
   setSelectedFilterValue,
   filterOptionsValue,
-  handleOnDropdownSelect,
+  handleFilterOnDropdownSelect,
   handleOnRefreshPosts,
   loadPosts,
+  feedSubfilterOptions,
+  selectedFeedSubfilterIndex,
+  feedSubfilterOptionsValue,
+  handleFeedSubfilterOnDropdownSelect,
+  setSelectedFeedSubfilterValue,
 }) => {
   const intl = useIntl();
   const postsList = useRef(null);
 
-  const _handleOnDropdownSelect = async (index) => {
+  const _handleFilterOnDropdownSelect = async (index) => {
     if (index === selectedFilterIndex) {
       _scrollTop();
     } else {
@@ -50,7 +55,19 @@ const PostsView = ({
         setSelectedFilterValue(filterOptionsValue[index]);
       }
 
-      handleOnDropdownSelect(index);
+      handleFilterOnDropdownSelect(index);
+    }
+  };
+
+  const _handleFeedSubfilterOnDropdownSelect = async (index) => {
+    if (index === selectedFeedSubfilterIndex) {
+      _scrollTop();
+    } else {
+      if (feedSubfilterOptions && feedSubfilterOptions.length > 0) {
+        setSelectedFeedSubfilterValue(feedSubfilterOptionsValue[index]);
+      }
+
+      handleFeedSubfilterOnDropdownSelect(index);
     }
   };
 
@@ -93,7 +110,12 @@ const PostsView = ({
             id: 'profile.havent_posted',
           })}
           defaultText={intl.formatMessage({
-            id: selectedFilterValue === 'feed' ? 'profile.follow_people' : 'profile.havent_posted',
+            id:
+              selectedFilterValue === 'feed'
+                ? setSelectedFeedSubfilterValue === 'friends'
+                  ? 'profile.follow_people'
+                  : 'profile.follow_communities'
+                : 'profile.havent_posted',
           })}
         />
       );
@@ -169,8 +191,19 @@ const PostsView = ({
               defaultText={filterOptions[selectedOptionIndex]}
               rightIconName="view-module"
               rightIconType="MaterialIcons"
-              onDropdownSelect={_handleOnDropdownSelect}
+              onDropdownSelect={_handleFilterOnDropdownSelect}
               onRightIconPress={handleImagesHide}
+            />
+          )}
+          {isLoggedIn && selectedFilterValue === 'feed' && (
+            <FilterBar
+              dropdownIconName="arrow-drop-down"
+              options={feedSubfilterOptions.map((item) =>
+                intl.formatMessage({ id: `home.${item.toLowerCase()}` }).toUpperCase(),
+              )}
+              selectedOptionIndex={selectedFeedSubfilterIndex}
+              defaultText={feedSubfilterOptions[selectedFeedSubfilterIndex]}
+              onDropdownSelect={_handleFeedSubfilterOnDropdownSelect}
             />
           )}
 
