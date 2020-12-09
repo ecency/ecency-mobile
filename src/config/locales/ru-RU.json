@@ -527,15 +527,16 @@
     "others": "Другое",
     "communities": {
       "title": "Сообщества",
-      "subscribe": "Подписаться",
-      "unsubscribe": "Отписаться",
-      "subscribers": "Подписчики",
+      "subscribe": "Join",
+      "unsubscribe": "Leave",
+      "subscribers": "Members",
       "posters": "Авторы",
       "posts": "Посты"
     },
     "communities_filter": {
+      "my": "My Communities",
       "rank": "Рейтинг",
-      "subs": "Подписчики",
+      "subs": "Members",
       "new": "Новое"
     },
     "post_result_filter": {
