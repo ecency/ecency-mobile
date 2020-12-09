@@ -159,6 +159,7 @@
     "voting_power": "Kekuatan Suara",
     "login_to_see": "Masuk untuk melihat",
     "follow_people": "Ikuti beberapa orang untuk mengisi umpan Anda",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "belum berkomentar",
     "havent_posted": "belum pernah mengirimkan sesuatu",
     "steem_power": "Hive Power",
@@ -239,7 +240,9 @@
     "hot": "Hot",
     "new": "Baru",
     "blog": "Blog",
-    "posts": "Post"
+    "posts": "Post",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Profil",
