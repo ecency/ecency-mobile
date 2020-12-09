@@ -159,6 +159,7 @@
     "voting_power": "Сила за гласуване",
     "login_to_see": "Влез в акаунта да видиш",
     "follow_people": "Последвайте хора да ви последват и те",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "Все още няма коментари",
     "havent_posted": "Все още няма публикации",
     "steem_power": "Hive Сила/стойност",
@@ -239,7 +240,9 @@
     "hot": "Актуални",
     "new": "Нови",
     "blog": "Блог",
-    "posts": "Публикации"
+    "posts": "Публикации",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Профил",
