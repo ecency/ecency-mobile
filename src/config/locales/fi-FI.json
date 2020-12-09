@@ -527,15 +527,16 @@
     "others": "Muut",
     "communities": {
       "title": "Yhteisöt",
-      "subscribe": "Tilaa",
-      "unsubscribe": "Peruuta tilaus",
-      "subscribers": "Tilaajat",
+      "subscribe": "Join",
+      "unsubscribe": "Leave",
+      "subscribers": "Members",
       "posters": "Tekijät",
       "posts": "Julkaisut"
     },
     "communities_filter": {
+      "my": "My Communities",
       "rank": "Sija",
-      "subs": "Tilaajat",
+      "subs": "Members",
       "new": "Uudet"
     },
     "post_result_filter": {
