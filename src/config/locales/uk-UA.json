@@ -159,6 +159,7 @@
     "voting_power": "Сила голосу",
     "login_to_see": "Увійдіть, щоб побачити",
     "follow_people": "Стежте за деякими людьми, щоб заповнити вашу стрічку",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "ще нічого не коментував",
     "havent_posted": "ще нічого не опублікував",
     "steem_power": "Hive Power (Сила)",
@@ -239,7 +240,9 @@
     "hot": "Актуальне",
     "new": "Нове",
     "blog": "Блог",
-    "posts": "Дописи"
+    "posts": "Дописи",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Профіль",
