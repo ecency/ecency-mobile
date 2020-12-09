@@ -159,6 +159,7 @@
     "voting_power": "Snaga glasa",
     "login_to_see": "Prijavite se da bi videli",
     "follow_people": "Follow some people to fill your feed",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "još uvek nije komentarisao ništa",
     "havent_posted": "još uvek nije objavio ništa",
     "steem_power": "Hive Power",
@@ -239,7 +240,9 @@
     "hot": "Hot",
     "new": "New",
     "blog": "Blog",
-    "posts": "Postovi"
+    "posts": "Postovi",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Profil",
