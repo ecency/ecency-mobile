@@ -17,22 +17,32 @@ const CommunitiesContainer = ({
   isLoggedIn,
 }) => {
   const [data, setData] = useState();
-  const [filterIndex, setFilterIndex] = useState(0);
+  const [filterIndex, setFilterIndex] = useState(1);
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState('rank');
   const [allSubscriptions, setAllSubscriptions] = useState([]);
   const [noResult, setNoResult] = useState(false);
 
   useEffect(() => {
+    let isCancelled = false;
     setData([]);
-    getCommunities('', 100, query, sort).then((res) => {
-      if (!isEmpty(res)) {
-        setData(res);
-        setNoResult(false);
-      } else {
-        setNoResult(true);
-      }
-    });
+    if (sort === 'my') {
+      setNoResult(true);
+    } else {
+      getCommunities('', 100, query, sort).then((res) => {
+        if (!isCancelled) {
+          if (!isEmpty(res)) {
+            setData(res);
+            setNoResult(false);
+          } else {
+            setNoResult(true);
+          }
+        }
+      });
+    }
+    return () => {
+      isCancelled = true;
+    };
   }, [query, sort]);
 
   useEffect(() => {
@@ -42,13 +52,17 @@ const CommunitiesContainer = ({
   }, [searchValue]);
 
   useEffect(() => {
-    if (data) {
+    let isCancelled = false;
+    if (data && !isCancelled) {
       getSubscriptions(currentAccount.username).then((result) => {
         if (result) {
           setAllSubscriptions(result);
         }
       });
     }
+    return () => {
+      isCancelled = true;
+    };
   }, [data]);
 
   // Component Functions
