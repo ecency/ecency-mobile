@@ -159,6 +159,7 @@
     "voting_power": "Kuasa Undian",
     "login_to_see": "Log masuk untuk melihat",
     "follow_people": "Follow some people to fill your feed",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "tidak mengulas apa-apa lagi",
     "havent_posted": "tidak mencatatkan apa-apa lagi",
     "steem_power": "Hive Power",
@@ -239,7 +240,9 @@
     "hot": "Hot",
     "new": "New",
     "blog": "Blog",
-    "posts": "Post"
+    "posts": "Post",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Profil",
