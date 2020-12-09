@@ -527,15 +527,16 @@
     "others": "Башка",
     "communities": {
       "title": "Communities",
-      "subscribe": "Subscribe",
-      "unsubscribe": "Unsubscribe",
-      "subscribers": "Subscribers",
+      "subscribe": "Join",
+      "unsubscribe": "Leave",
+      "subscribers": "Members",
       "posters": "Авторлор",
       "posts": "Post"
     },
     "communities_filter": {
+      "my": "My Communities",
       "rank": "Рейтинг",
-      "subs": "Subscribers",
+      "subs": "Members",
       "new": "Жаңы"
     },
     "post_result_filter": {
