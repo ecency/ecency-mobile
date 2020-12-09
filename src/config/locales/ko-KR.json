@@ -159,6 +159,7 @@
     "voting_power": "보팅 파워",
     "login_to_see": "로그인해서 확인하기",
     "follow_people": "피드를 채우기 위해 팔로우해보세요.",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "아직 댓글을 작성한 적이 없습니다",
     "havent_posted": "아직 게시한 글이 없습니다",
     "steem_power": "HIVE Power",
@@ -239,7 +240,9 @@
     "hot": "인기순",
     "new": "신규순",
     "blog": "블로그",
-    "posts": "글 목록"
+    "posts": "글 목록",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "프로필",
