@@ -2,7 +2,7 @@
   "wallet": {
     "curation_reward": "Wynagrodzenie Kuratora",
     "author_reward": "Nagroda autora",
-    "comment_benefactor_reward": "Nagroda dobroczyńcy",
+    "comment_benefactor_reward": "Nagroda dobroczynna",
     "claim_reward_balance": "Odbierz nagrodę ",
     "transfer": "Przelew",
     "transfer_to_vesting": "Do stracenia",
@@ -470,22 +470,22 @@
     "delegate": "Deleguj",
     "power_down": "Zmniejsz moc",
     "withdraw_steem": "Wycofaj HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
+    "withdraw_sbd": "Wypłać dolar HIVE",
     "incoming_funds": "Fundusze przychodzące",
     "stop": "Zatrzymaj",
-    "address_view": "View address"
+    "address_view": "Pokaż adres"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
+    "title": "Zdobądź punkty",
+    "buy": "Zdobądź punkty",
     "next": "NASTĘPNY",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "title": "Uzyskaj zwiększenie konta",
+      "desc": "30-dniowa delegacja zwiększy twoje głosy i aktywności społeczne i da Ci więcej działań z większą ilością zasobów kredytowych."
     }
   },
   "free_estm": {
-    "title": "Free Points",
+    "title": "Darmowe Punkty",
     "button": "ZAKRĘĆ I WYGRAJ",
     "get_spin": "5 OBROTÓW",
     "spin_right": "Zostało Obrotów",
@@ -496,7 +496,7 @@
     "days": "dni",
     "user": "Użytkownik",
     "permlink": "Wpis",
-    "permlinkPlaceholder": "username/permlink",
+    "permlinkPlaceholder": "nazwa użytkownika/permlink",
     "information": "Czy na pewno chcesz promować?"
   },
   "boostPost": {
@@ -519,39 +519,39 @@
   },
   "comments": {
     "title": "Komentarze",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "Pokaż komentarz",
+    "read_more": "Przeczytaj więcej komentarzy",
+    "more_replies": "więcej odpowiedzi"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Inne",
     "communities": {
-      "title": "Communities",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
-      "posters": "Posters",
+      "title": "Społeczność",
+      "subscribe": "Przyłącz się",
+      "unsubscribe": "Opuść",
+      "subscribers": "Członkowie",
+      "posters": "Plakaty",
       "posts": "Post"
     },
     "communities_filter": {
-      "my": "My Communities",
-      "rank": "Rank",
-      "subs": "Members",
-      "new": "New"
+      "my": "Moje społeczności",
+      "rank": "Pozycja",
+      "subs": "Członkowie",
+      "new": "Nowe"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "Popularność",
+      "newest": "Najnowsze",
+      "relevance": "Trafność"
     },
     "other_result_filter": {
       "user": "Użytkownik",
-      "tag": "Tag"
+      "tag": "Etykieta"
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details"
+    "new_post": "Nowy wpis",
+    "community": "społeczność",
+    "details": "Szczegóły"
   }
 }
