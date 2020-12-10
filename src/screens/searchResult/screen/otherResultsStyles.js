@@ -23,8 +23,8 @@ export default EStyleSheet.create({
   },
   communityWrapper: {
     paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: 8,
+    paddingTop: 10,
+    paddingBottom: 10,
     borderRadius: 8,
     backgroundColor: '$primaryBackgroundColor',
     flexDirection: 'row',
@@ -39,5 +39,10 @@ export default EStyleSheet.create({
   subscribeButtonText: {
     textAlign: 'center',
     color: '$primaryBlue',
+  },
+  community: {
+    justifyContent: 'center',
+    marginLeft: 15,
+    color: '$primaryBlack',
   },
 });
