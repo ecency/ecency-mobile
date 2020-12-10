@@ -127,6 +127,7 @@ export const getAccountHistory = (user) =>
     const op = utils.operationOrders;
     let wallet_operations_bitmask = utils.makeBitMaskFilter([
       op.transfer,
+      op.author_reward,
       op.transfer_to_vesting,
       op.withdraw_vesting,
       op.interest,
@@ -1573,8 +1574,8 @@ export const subscribeCommunity = (currentAccount, pinCode, data) => {
     const op = {
       id: 'community',
       json,
-      required_auths: [username],
-      required_posting_auths: [],
+      required_auths: [],
+      required_posting_auths: [username],
     };
 
     return client.broadcast.json(op, privateKey);
