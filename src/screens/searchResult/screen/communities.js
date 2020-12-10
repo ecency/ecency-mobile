@@ -72,12 +72,12 @@ const CommunitiesScreen = ({ navigation, searchValue }) => {
               //keyExtractor={(item, ind) => `${item}-${ind}`}
               renderItem={({ item, index }) => (
                 <View style={[styles.communityWrapper, index % 2 !== 0 && styles.itemWrapperGray]}>
-                  <View style={{ flex: 3, flexDirection: 'row' }}>
+                  <View style={{ flex: 3, flexDirection: 'row', alignItems: 'center' }}>
                     <TouchableOpacity onPress={() => handleOnPress(item[0])}>
                       <UserAvatar username={item[0]} defaultSource={DEFAULT_IMAGE} noAction />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => handleOnPress(item[0])}>
-                      <Text style={styles.username}>{item[1]}</Text>
+                      <Text style={styles.community}>{item[1]}</Text>
                     </TouchableOpacity>
                   </View>
                   <View style={{ flex: 1 }}>
