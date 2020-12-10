@@ -362,8 +362,8 @@
     "gallery_mode": "Tryb galerii",
     "save_to_local": "Pobierz na urządzenie",
     "image_saved": "Obraz zapisany w galerii zdjęć",
-    "image_saved_error": "Error Saving Image",
-    "wrong_link": "Wrong link"
+    "image_saved_error": "Wystąpił błąd podczas zapisywania obrazu",
+    "wrong_link": "Nieprawidłowy link"
   },
   "drafts": {
     "title": "Szkice",
@@ -388,7 +388,7 @@
     "add": "Dodaj do zakładek"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Zgłoszone zastrzeżone treści"
   },
   "favorites": {
     "title": "Ulubione",
@@ -401,7 +401,7 @@
     "invalid_username": "Nieprawidłowa nazwa użytkownika, sprawdź i spróbuj ponownie",
     "already_logged": "Jesteś już zalogowany, spróbuj dodać inne konto",
     "invalid_credentials": "Błędne dane. Spróbuj ponownie.",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "Nieznany błąd, skontaktuj się z nami pod adresem support@ecency.com"
   },
   "payout": {
     "potential_payout": "Potencjalna Wypłata",
@@ -409,9 +409,9 @@
     "author_payout": "Przychód autora",
     "curation_payout": "Wypłata Kuratorska",
     "payout_date": "Wypłata",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
-    "breakdown": "Breakdown"
+    "beneficiaries": "Beneficjenci",
+    "warn_zero_payout": "Kwota musi osiągnąć 0,02 Usd za wypłatę",
+    "breakdown": "Awaria"
   },
   "post_dropdown": {
     "copy": "skopiuj link",
@@ -421,7 +421,7 @@
     "bookmarks": "dodaj do zakładek",
     "promote": "promuj",
     "boost": "podbij",
-    "report": "report"
+    "report": "raport"
   },
   "deep_link": {
     "no_existing_user": "Brak istniejącego użytkownika",
@@ -433,8 +433,8 @@
   },
   "comment_filter": {
     "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
+    "reputation": "Reputacja",
+    "votes": "GŁOSOWANIE",
     "age": "AGE",
     "top": "TOP",
     "time": "CZAS"
