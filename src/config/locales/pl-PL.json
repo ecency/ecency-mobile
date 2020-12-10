@@ -3,10 +3,10 @@
     "curation_reward": "Wynagrodzenie Kuratora",
     "author_reward": "Nagroda autora",
     "comment_benefactor_reward": "Benefactor Reward",
-    "claim_reward_balance": "Claim Reward ",
+    "claim_reward_balance": "Odbierz nagrodę ",
     "transfer": "Przelew",
-    "transfer_to_vesting": "To Vesting",
-    "transfer_from_savings": "From Savings",
+    "transfer_to_vesting": "Do stracenia",
+    "transfer_from_savings": "Z oszczędności",
     "withdraw_vesting": "Zmniejsz moc",
     "fill_order": "Wypełnij zamówienie",
     "post": "Wpis",
@@ -19,31 +19,31 @@
     "outgoing_transfer_title": "Przelew wychodzący",
     "checkin_extra": "Premia",
     "delegation": "Delegacja",
-    "delegations": "Delegations",
+    "delegations": "Delegacja",
     "delegation_title": "Nagroda za delegację",
-    "delegation_desc": "Earn Points everyday for delegation",
+    "delegation_desc": "Zdobywaj punkty codziennie za delegację",
     "post_title": "Punkty za wpis",
     "comment_title": "Punkty za komentarz",
     "vote_title": "Punkty za głos",
     "reblog_title": "Punkty za resteem",
     "login_title": "Punkty za logowanie",
     "checkin_title": "Punkty za bicie serca",
-    "referral": "Referral",
-    "referral_title": "Referral rewards",
-    "referral_desc": "Invite friends and earn Points",
+    "referral": "Polecony",
+    "referral_title": "Nagrody za polecenie",
+    "referral_desc": "Zaproś znajomych i zdobądź punkty",
     "checkin_extra_title": "Użyj premi",
-    "no_activity": "No recent activity",
+    "no_activity": "Brak ostatniej aktywności",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
-    "post_desc": "You can earn point by posting regularly. Posting gives you upto 15 points.",
-    "comment_desc": "Each comment you make helps you to grow your audience and also earns you upto 5 points.",
-    "checkin_desc": "Checking in regularly gives you 0.25 points.",
+    "post_desc": "Możesz zdobywać punkt poprzez regularne publikowanie. Posty dają ci 15 punktów.",
+    "comment_desc": "Każdy komentarz, który dodajesz pomaga ci zwiększać listę swoich odbiorców, a także zarabia do 5 punktów.",
+    "checkin_desc": "Sprawdzanie regularnie daje ci 0.25 punktów.",
     "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
     "reblog_desc": "Share what post you like with your friends and earn points.",
     "login_desc": "When you login into app first time you earn 100 points.",
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
     "dropdown_transfer": "Prezent",
-    "dropdown_promote": "Promote",
+    "dropdown_promote": "Promować",
     "dropdown_boost": "Podbij",
     "from": "Od",
     "to": "Do",
@@ -93,7 +93,7 @@
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "ZDOBYJ HIVE"
     },
     "sbd": {
       "title": "HBD",
@@ -313,7 +313,7 @@
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
     "key_warning": "Operation requires active key or master password, please relogin!",
     "success_rebloged": "Rebloged!",
-    "already_rebloged": "You have already reblogged!",
+    "already_rebloged": "Już reblogowałeś!",
     "success_favorite": "Favorite added!",
     "success_unfavorite": "Favorite removed!",
     "success_follow": "Follow success!",
@@ -351,10 +351,10 @@
     "something_wrong_reload": "Reload"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
+    "reblog_alert": "Jesteś pewien, że chcesz reblogować?",
     "removed_hint": "Content is not available",
     "copy_link": "Copy link",
-    "reblogged": "reblogged by",
+    "reblogged": "reblogowany przez",
     "sponsored": "SPONSOROWANE",
     "open_thread": "Open thread",
     "image": "Image",
@@ -367,22 +367,22 @@
   },
   "drafts": {
     "title": "Szkice",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "load_error": "Nie można załadować szkiców",
+    "empty_list": "Nic tu nie ma",
+    "deleted": "Szkic został usunięty"
   },
   "schedules": {
-    "title": "Schedules",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "Harmonogramy",
+    "empty_list": "Nic tu nie ma",
+    "deleted": "Zaplanowany post został usunięty",
+    "move": "Przenieś do szkicy",
+    "moved": "Przenieś do szkicy"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
+    "title": "Zakładki",
+    "load_error": "Nie można załadować zakładek",
+    "empty_list": "Nic tu nie ma",
+    "deleted": "Usunięto zakładkę",
     "search": "Szukaj w zakładkach",
     "added": "Dodano do zakładek",
     "add": "Dodaj do zakładek"
@@ -437,7 +437,7 @@
     "votes": "VOTE",
     "age": "AGE",
     "top": "TOP",
-    "time": "TIME"
+    "time": "CZAS"
   },
   "transfer": {
     "from": "Od",
@@ -478,7 +478,7 @@
   "boost": {
     "title": "Get Points",
     "buy": "GET Points",
-    "next": "NEXT",
+    "next": "NASTĘPNY",
     "account": {
       "title": "Get Account Boost",
       "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
@@ -492,23 +492,23 @@
     "timer_text": "Następny darmowy obrót za"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
-    "user": "User",
+    "title": "Promować",
+    "days": "dni",
+    "user": "Użytkownik",
     "permlink": "Wpis",
     "permlinkPlaceholder": "username/permlink",
-    "information": "Are you sure to promote?"
+    "information": "Czy na pewno chcesz promować?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Wzmocnienie"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "rewards": "NAGRODY",
+    "percent": "Procent",
+    "time": "CZAS"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "Reblog informacja"
   },
   "dsteem": {
     "date_error": {
@@ -545,7 +545,7 @@
       "relevance": "Relevance"
     },
     "other_result_filter": {
-      "user": "User",
+      "user": "Użytkownik",
       "tag": "Tag"
     }
   },
