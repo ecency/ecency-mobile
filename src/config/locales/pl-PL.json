@@ -69,27 +69,27 @@
     "delegate": "Deleguj",
     "power_down": "Zmniejsz moc",
     "withdraw_steem": "Wypłata HIVE",
-    "withdraw_sbd": "Withdraw HBD",
-    "transfer_to_savings": "To Savings",
-    "convert": "Convert",
-    "escrow_transfer": "Escrow Transfer",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel From Savings",
+    "withdraw_sbd": "Wypłata HBD",
+    "transfer_to_savings": "Do oszczędności",
+    "convert": "Konwertuj",
+    "escrow_transfer": "Przelew Escrow",
+    "escrow_dispute": "Spory Escrow",
+    "escrow_release": "Wydanie Escrow",
+    "escrow_approve": "Zatwierdzenie Escrow",
+    "cancel_transfer_from_savings": "Anuluj z oszczędności",
     "delegate_vesting_shares": "Delegacja",
-    "fill_convert_request": "Convert Executed",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_convert_request": "Konwertowanie Wykonane",
+    "fill_transfer_from_savings": "Wykonane oszczędności",
+    "fill_vesting_withdraw": "PowerDown wykonane",
     "estm": {
       "title": "Punkty",
-      "buy": "GET POINTS"
+      "buy": "POBIERZ PUNKTY"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "Oszczędności HIVE"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "Oszczędności HBD"
     },
     "steem": {
       "title": "HIVE",
@@ -97,30 +97,30 @@
     },
     "sbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "ZDOBĄDŹ HBD"
     },
     "steem_power": {
-      "title": "HIVE POWER"
+      "title": "MOC HIVE"
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "ZDOBĄDŹ BTC",
+      "address": "OTRZYMAJ"
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "unvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "vote": "głosuj",
+    "unvote": "usuń głos",
+    "reply": "odpowiedz na",
+    "mention": "wspomniany w",
     "follow": "zaczął(-ęła) Cię śledzić",
     "unfollow": "przestał(-a) Cię obserwować",
     "ignore": "ignoruje cię",
-    "reblog": "reblogged",
-    "transfer": "transferred",
-    "spin": "Time to earn more Points",
-    "inactive": "Be active! Write a post, continue earning",
-    "referral": "joined with your referral, welcome them",
+    "reblog": "rebloged",
+    "transfer": "przeniesiony",
+    "spin": "Czas na zdobycie więcej punktów",
+    "inactive": "Bądź aktywny! Napisz post, kontynuuj zarabianie",
+    "referral": "dołącz do swoich poleconych, przywitaj ich",
     "notification": "Powiadomienia",
     "leaderboard": "Ranking",
     "epoint": "Punkty",
@@ -130,16 +130,16 @@
     "this_week": "W tym tygodniu",
     "this_month": "W tym miesiącu",
     "older_then": "Starsze niż miesiąc",
-    "activities": "All",
+    "activities": "Wszystkie",
     "replies": "Odpowiedzi",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs",
-    "noactivity": "No recent activity"
+    "mentions": "Wzmianka",
+    "reblogs": "Reblogi",
+    "noactivity": "Brak ostatniej aktywności"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "DZIENNIK",
+    "weekly": "TYGODNIOWO",
+    "monthly": "MIESIĘCZNIE"
   },
   "messages": {
     "comingsoon": "Funkcja wiadomości już wkrótce!"
@@ -158,21 +158,21 @@
     "hours": "godziny",
     "voting_power": "Moc Głosu",
     "login_to_see": "Zaloguj się by zobaczyć",
-    "follow_people": "Follow some people to fill your feed",
-    "follow_communities": "Join some communities to fill your feed",
+    "follow_people": "Obserwuj niektórych ludzi, aby wypełnić swój kanał",
+    "follow_communities": "Dołącz do niektórych społeczności, aby wypełnić swój kanał",
     "havent_commented": "nie skomentował jeszcze niczego",
     "havent_posted": "nie skomentował jeszcze niczego",
-    "steem_power": "Hive Power",
+    "steem_power": "Moc Hive",
     "next_power_text": "Następny spadek mocy jest za",
     "days": "dni",
     "day": "dzień",
-    "steem_dollars": "Hive Dollars",
+    "steem_dollars": "Dolary Hive",
     "savings": "Oszczędności",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
-      "website": "Website"
+      "display_name": "Wyświetlana nazwa",
+      "about": "O Nas",
+      "location": "Lokalizacja",
+      "website": "Strona internetowa"
     }
   },
   "settings": {
@@ -213,7 +213,7 @@
   },
   "login": {
     "signin": "Zaloguj się",
-    "signup": "JOIN NOW",
+    "signup": "DOŁĄCZ TERAZ",
     "signin_title": "To get all the benefits of using Ecency",
     "username": "Nazwa użytkownika",
     "password": "Hasło lub WIF",
@@ -318,8 +318,8 @@
     "success_unfavorite": "Favorite removed!",
     "success_follow": "Follow success!",
     "success_mute": "Mute success!",
-    "success_unmute": "Unmute success!",
-    "success_unfollow": "Unfollow success!",
+    "success_unmute": "Wyłącz wyciszenie!",
+    "success_unfollow": "Przestań obserwować pomyślnie!",
     "warning": "Ostrzeżenie",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
@@ -335,18 +335,18 @@
     "same_user": "Użytkownik już dodany do listy",
     "unknow_error": "Wystąpił bląd",
     "error": "Bląd",
-    "fetch_error": "Connection issue, change server and restart",
+    "fetch_error": "Problem z połączeniem, zmień serwer i uruchom ponownie",
     "connection_fail": "Brak połączenia!",
     "connection_success": "Połączono pomyślnie!",
-    "checking": "Checking...",
-    "external_link": "Open in Browser",
-    "not_existing_post": "The post does not exist! Please check permlink and author.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
-    "payloadTooLarge": "File size too big, please resize or upload smaller image",
-    "qoutaExceeded": "Upload quota exceeded",
-    "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong.",
+    "checking": "Sprawdzanie...",
+    "external_link": "Otwórz w przeglądarce",
+    "not_existing_post": "Wpis nie istnieje! Proszę sprawdzić link i autora.",
+    "google_play_version": "Zauważyliśmy, że twoje urządzenie ma starą wersję Google Play. Zaktualizuj usługi Google Play i spróbuj ponownie!",
+    "rc_down": "Za mało środków na zasoby, aby wykonać akcję! \n\nZwiększ swoje konto, aby nadal cieszyć się doświadczeniami. Czy chcesz zwiększyć swoje konto, teraz?",
+    "payloadTooLarge": "Zbyt duży rozmiar pliku, zmień rozmiar lub prześlij mniejszy obraz",
+    "qoutaExceeded": "Przekroczono limit wysyłania",
+    "invalidImage": "Nieprawidłowy obraz, spróbuj innego pliku",
+    "something_wrong": "Coś poszło nie tak.",
     "something_wrong_alt": "Try https://ecency.com",
     "something_wrong_reload": "Reload"
   },
