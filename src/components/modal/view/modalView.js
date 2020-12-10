@@ -31,6 +31,14 @@ export default class Modal extends PureComponent {
     }
   };
 
+  _handleOnDismiss = () => {
+    const { handleOnModalDismiss } = this.props;
+    console.log('_handleOnDismiss Modal');
+    if (handleOnModalDismiss) {
+      handleOnModalDismiss();
+    }
+  };
+
   render() {
     const {
       isFullScreen,
@@ -39,8 +47,9 @@ export default class Modal extends PureComponent {
       isRadius,
       isTransparent,
       title,
-      animationType,
+      animationType = 'fade',
       isCloseButton,
+      presentationStyle = 'fullScreen',
     } = this.props;
     return (
       <ModalBox
@@ -49,10 +58,13 @@ export default class Modal extends PureComponent {
           isFullScreen ? styles.fullModal : styles.centerModal,
         ]}
         transparent={isTransparent}
-        animationType={animationType || 'fade'}
+        animationType={animationType}
         visible={isOpen}
         onRequestClose={() => this._handleOnClose(this)}
         onShow={() => this._handleOnOpen(this)}
+        onModalHide={() => console.log('hide')}
+        onModalDismiss={() => console.log('dismiss')}
+        presentationStyle={presentationStyle}
         {...this.props}
       >
         {title && (

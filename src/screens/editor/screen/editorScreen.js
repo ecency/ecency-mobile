@@ -15,6 +15,9 @@ import {
   SummaryArea,
   PostForm,
   MarkdownEditor,
+  SelectCommunityAreaView,
+  SelectCommunityModalContainer,
+  Modal,
 } from '../../../components';
 
 // Styles
@@ -40,6 +43,7 @@ class EditorScreen extends Component {
         community: props.community || [],
         isValid: false,
       },
+      isCommunitiesListModalOpen: false,
     };
   }
 
@@ -185,7 +189,14 @@ class EditorScreen extends Component {
   };
 
   render() {
-    const { fields, isPreviewActive, wordsCount, isFormValid, isRemoveTag } = this.state;
+    const {
+      fields,
+      isPreviewActive,
+      wordsCount,
+      isFormValid,
+      isRemoveTag,
+      isCommunitiesListModalOpen,
+    } = this.state;
     const {
       handleOnImagePicker,
       intl,
@@ -202,13 +213,22 @@ class EditorScreen extends Component {
       handleDatePickerChange,
       handleRewardChange,
       handleBeneficiaries,
+      currentAccount,
     } = this.props;
     const rightButtonText = intl.formatMessage({
       id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : 'basic_header.publish',
     });
+    //console.log(this.props, this.state, 'currentAccount');
 
     return (
       <View style={globalStyles.defaultContainer}>
+        <Modal
+          isOpen={isCommunitiesListModalOpen}
+          animationType="animationType"
+          presentationStyle="pageSheet"
+        >
+          <SelectCommunityModalContainer />
+        </Modal>
         <BasicHeader
           handleDatePickerChange={(date) => handleDatePickerChange(date, fields)}
           handleRewardChange={handleRewardChange}
@@ -235,6 +255,15 @@ class EditorScreen extends Component {
           isFormValid={isFormValid}
           isPreviewActive={isPreviewActive}
         >
+          {!isReply && !isEdit && (
+            <SelectCommunityAreaView
+              username={currentAccount.name}
+              // because of the bug in react-native-modal
+              // https://github.com/facebook/react-native/issues/26892
+              onPressOut={() => this.setState({ isCommunitiesListModalOpen: true })}
+              onPressIn={() => this.setState({ isCommunitiesListModalOpen: false })}
+            />
+          )}
           {isReply && !isEdit && <SummaryArea summary={post.summary} />}
           {!isReply && <TitleArea value={fields.title} componentID="title" intl={intl} />}
           {!isReply && !isPreviewActive && (
