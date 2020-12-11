@@ -7,8 +7,8 @@ import styles from './communityCardStyles';
 
 const CommunityCardView = ({ community, onPress, style }) => {
   return (
-    <TouchableOpacity style={[styles.communityCard, style]} onPress={onPress}>
-      <UserAvatar username={community.title} />
+    <TouchableOpacity style={[styles.communityCard, style]} onPress={() => onPress(community)}>
+      <UserAvatar username={community.name} noAction />
       <Text style={styles.text}>{community.title}</Text>
     </TouchableOpacity>
   );

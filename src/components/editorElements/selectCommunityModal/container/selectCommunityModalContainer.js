@@ -16,7 +16,7 @@ import {
   fetchSubscribedCommunitiesFail,
 } from '../../../../redux/actions/communitiesAction';
 
-const SelectCommunityModalContainer = () => {
+const SelectCommunityModalContainer = ({ onPressCommunity }) => {
   const dispatch = useDispatch();
 
   const topCommunities = useSelector((state) => state.communities.communities);
@@ -42,16 +42,14 @@ const SelectCommunityModalContainer = () => {
     getSubscriptions('furkankilic')
       .then((subscriptions) => {
         dispatch(fetchSubscribedCommunitiesSuccess(subscriptions));
-        console.log('getSubscriptions', subscriptions);
       })
       .catch((error) => console.log(error));
   };
 
-  console.log('topCommunities', topCommunities);
-
   return (
     <>
       <SelectCommunityModalView
+        onPressCommunity={onPressCommunity}
         topCommunities={topCommunities}
         subscribedCommunities={subscribedCommunities}
       />

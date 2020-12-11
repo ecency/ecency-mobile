@@ -10,6 +10,8 @@ import styles from './tagInputStyles';
 import globalStyles from '../../../../globalStyles';
 import { ThemeContainer } from '../../../../containers';
 
+import { isCommunity } from '../../../../utils/communityValidation';
+
 const TagInput = ({
   value,
   onChange,
@@ -18,6 +20,7 @@ const TagInput = ({
   intl,
   isPreviewActive,
   autoFocus,
+  setCommunity,
 }) => {
   const [text, setText] = useState('');
   const [warning, setWarning] = useState(null);
@@ -28,10 +31,11 @@ const TagInput = ({
     } else {
       setText(value.join(' '));
     }
-  }, [value]);
+  });
 
   // Component Functions
   const _handleOnChange = (_text) => {
+    console.log(_text, 'text');
     setText(_text.replace(/,/g, ' ').replace(/#/g, ''));
 
     let cats = _text.split(' ');
@@ -55,6 +59,12 @@ const TagInput = ({
         : setWarning(null);
 
       handleTagChanged([...cats]);
+    }
+
+    if (cats.length > 0) {
+      if (isCommunity(cats[0])) {
+        setCommunity(cats[0]);
+      }
     }
   };
   const _handleOnBlur = () => {

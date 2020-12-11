@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { injectIntl } from 'react-intl';
-import get from 'lodash/get';
+import { get, isNull } from 'lodash';
 
 // Utils
 import { getWordsCount } from '../../../utils/editor';
@@ -20,8 +20,13 @@ import {
   Modal,
 } from '../../../components';
 
+// dhive
+
+import { getCommunity } from '../../../providers/hive/dhive';
+
 // Styles
 import globalStyles from '../../../globalStyles';
+import { isCommunity } from '../../../utils/communityValidation';
 
 class EditorScreen extends Component {
   /* Props
@@ -44,6 +49,7 @@ class EditorScreen extends Component {
         isValid: false,
       },
       isCommunitiesListModalOpen: false,
+      selectedCommunity: null,
     };
   }
 
@@ -180,12 +186,45 @@ class EditorScreen extends Component {
   };
 
   _handleOnTagAdded = async (tags) => {
+    const { selectedCommunity } = this.state;
+    console.log(tags, selectedCommunity, '_handleOnTagAdded');
+    if (tags.length > 0 && !isNull(selectedCommunity) && !isCommunity(tags[0])) {
+      this.setState({ selectedCommunity: null });
+    }
     const { fields: _fields } = this.state;
     const __tags = tags; //.map((t) => t.replace(/([^a-z0-9-]+)/gi, '').toLowerCase());
     const __fields = { ..._fields, tags: __tags };
     this.setState({ fields: __fields, isRemoveTag: false }, () => {
       this._handleFormUpdate('tag-area', __fields.tags);
     });
+  };
+
+  _handlePressCommunity = (community) => {
+    const { fields, selectedCommunity } = this.state;
+
+    if (community == null) {
+      if (!isNull(selectedCommunity)) {
+        fields.tags.shift();
+      }
+    } else {
+      if (!isNull(selectedCommunity)) {
+        fields.tags.shift();
+      }
+
+      fields.tags.unshift(community.name);
+    }
+
+    this.setState({ fields, isCommunitiesListModalOpen: false, selectedCommunity: community });
+  };
+
+  _getCommunity = (hive) => {
+    getCommunity(hive)
+      .then((community) => {
+        this.setState({ selectedCommunity: community });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   render() {
@@ -196,6 +235,7 @@ class EditorScreen extends Component {
       isFormValid,
       isRemoveTag,
       isCommunitiesListModalOpen,
+      selectedCommunity,
     } = this.state;
     const {
       handleOnImagePicker,
@@ -219,7 +259,7 @@ class EditorScreen extends Component {
       id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : 'basic_header.publish',
     });
     //console.log(this.props, this.state, 'currentAccount');
-
+    console.log('tags', fields.tags);
     return (
       <View style={globalStyles.defaultContainer}>
         <Modal
@@ -227,7 +267,7 @@ class EditorScreen extends Component {
           animationType="animationType"
           presentationStyle="pageSheet"
         >
-          <SelectCommunityModalContainer />
+          <SelectCommunityModalContainer onPressCommunity={this._handlePressCommunity} />
         </Modal>
         <BasicHeader
           handleDatePickerChange={(date) => handleDatePickerChange(date, fields)}
@@ -257,7 +297,9 @@ class EditorScreen extends Component {
         >
           {!isReply && !isEdit && (
             <SelectCommunityAreaView
-              username={currentAccount.name}
+              currentAccount={currentAccount}
+              mode={!isNull(selectedCommunity) ? 'community' : 'user'}
+              community={selectedCommunity}
               // because of the bug in react-native-modal
               // https://github.com/facebook/react-native/issues/26892
               onPressOut={() => this.setState({ isCommunitiesListModalOpen: true })}
@@ -272,6 +314,7 @@ class EditorScreen extends Component {
               componentID="tag-area"
               intl={intl}
               handleTagChanged={this._handleOnTagAdded}
+              setCommunity={(hive) => this._getCommunity(hive)}
             />
           )}
           {!isReply && isPreviewActive && (
