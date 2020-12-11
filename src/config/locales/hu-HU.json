@@ -59,7 +59,7 @@
     "to_placeholder": "Felhasználónév",
     "memo_placeholder": "Megjegyzés ide",
     "transfer_token": "Átutalás",
-    "purchase_estm": "GET POINTS",
+    "purchase_estm": "SZEREZZ PONTOKAT",
     "points": "Gift Points to someone",
     "transfer_to_saving": "A megtakarításokhoz",
     "powerUp": "Power Up",
@@ -166,7 +166,7 @@
     "next_power_text": "A következő Power Down-ig még van",
     "days": "napok",
     "day": "nap",
-    "steem_dollars": "Hive Dollars",
+    "steem_dollars": "Hive Dollár",
     "savings": "Megtakarítások",
     "edit": {
       "display_name": "Megjelenítendő név",
@@ -221,7 +221,7 @@
     "cancel": "visszavonom",
     "login": "BEJELENTKEZÉS",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_fee_description": "infó"
   },
   "register": {
     "button": "Sign Up",
@@ -270,8 +270,8 @@
   "editor": {
     "title": "Cím",
     "tags": "Tags (separate with space)",
-    "default_placeholder": "Tell us something...",
-    "reply_placeholder": "Add your reply...",
+    "default_placeholder": "Mondj valamit...",
+    "reply_placeholder": "A válaszod...",
     "publish": "Közzétesz",
     "reply": "Válasz",
     "open_gallery": "Galéria Megnyitása",
