@@ -89,11 +89,11 @@
       "title": "HIVE štednja"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "HBD štednja"
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "Dobij HIVE"
     },
     "sbd": {
       "title": "HBD",
@@ -158,8 +158,8 @@
     "hours": "sati",
     "voting_power": "Snaga glasa",
     "login_to_see": "Prijavite se da bi videli",
-    "follow_people": "Follow some people to fill your feed",
-    "follow_communities": "Join some communities to fill your feed",
+    "follow_people": "Pratite neke ljude da popunite novosti",
+    "follow_communities": "Pridružite se nekim zajednicama da biste popunili novosti",
     "havent_commented": "još uvek nije komentarisao ništa",
     "havent_posted": "još uvek nije objavio ništa",
     "steem_power": "Hive Snaga",
@@ -214,30 +214,30 @@
   "login": {
     "signin": "Prijavite se",
     "signup": "PRISTUPITE ODMAH",
-    "signin_title": "To get all the benefits of using Ecency",
+    "signin_title": "Da biste iskoristili sve prednosti korišćenja Ecency",
     "username": "Korisničko ime",
     "password": "Lozinka ili WIF",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "Prijavom se slažete sa našim uslovima usluge i politikama privatnosti.",
     "cancel": "otkaži",
     "login": "PRIJAVI SE",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_description": "Ako ne želite da lozinka ostane šifrovana i sačuvana na uređaju, možete koristiti Hivesigner.",
+    "steemconnect_fee_description": "informacije"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "Registrujte se",
     "title": "Registrujte se",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
-    "ref_user": "Referred user (Optional)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
-    "title_description": "One account to manage everything",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "username": "Izaberite korisničko ime",
+    "mail": "Unesite svoju e-mail adresu",
+    "ref_user": "Preporučeni korisnik (opcionalno)",
+    "500_error": "Vaš zahtev nije mogao da se obradi, red za registraciju je verovatno pun! Pokušajte ponovo za nekoliko minuta...",
+    "title_description": "Jedan nalog za upravljanje svim",
+    "form_description": "Prijavom kod nas pristajete na naše uslove korišćenja usluge i politike privatnosti."
   },
   "home": {
     "feed": "Novosti",
     "popular": "Popularno",
-    "top": "Top",
-    "hot": "Hot",
+    "top": "Vrh",
+    "hot": "Aktuelno",
     "new": "Novo",
     "blog": "Blog",
     "posts": "Postovi",
@@ -269,7 +269,7 @@
   },
   "editor": {
     "title": "Naslov",
-    "tags": "Tags (separate with space)",
+    "tags": "Oznake (odvojene razmakom)",
     "default_placeholder": "Recite nam nešto...",
     "reply_placeholder": "Dodaj svoj odgovor...",
     "publish": "Objavi",
@@ -340,29 +340,29 @@
     "connection_success": "Uspešno povezan!",
     "checking": "Provera...",
     "external_link": "Отвори у прегледачу",
-    "not_existing_post": "The post does not exist! Please check permlink and author.",
+    "not_existing_post": "Objava ne postoji! Molimo da proverite trajnu vezu i autora.",
     "google_play_version": "Primetili smo da vaš uređaj ima stariju verziju Google Play. Ažurirajte Google Play i pokušajte ponovo!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
+    "rc_down": "Nema dovoljno resurs kredita za izvođenje radnje! \n\nPojačajte svoj nalog da biste nastavili uživati u iskustvu. Da li želite da pojačate svoj nalog sada?",
     "payloadTooLarge": "Veličina datoteke je prevelika, promenite veličinu ili otpremite manju sliku",
-    "qoutaExceeded": "Upload quota exceeded",
-    "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload"
+    "qoutaExceeded": "Kvota za otpremanje je premašena",
+    "invalidImage": "Neispravna slika, isprobajte drugu datoteku",
+    "something_wrong": "Došlo je do greške.",
+    "something_wrong_alt": "Pokušajte https://ecency.com",
+    "something_wrong_reload": "Ponovo napuni"
   },
   "post": {
     "reblog_alert": "Da li ste sigurni da želite da podelite?",
-    "removed_hint": "Content is not available",
-    "copy_link": "Copy link",
+    "removed_hint": "Sadržaj nije dostupan",
+    "copy_link": "Kopiraj vezu",
     "reblogged": "podeljeno od",
     "sponsored": "SPONZORISANO",
-    "open_thread": "Open thread",
+    "open_thread": "Otvori nit",
     "image": "Slika",
     "link": "Vеza",
-    "gallery_mode": "Gallery mode",
+    "gallery_mode": "Režim galerije",
     "save_to_local": "Preuzmi na uređaj",
-    "image_saved": "Image saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image",
+    "image_saved": "Slika je sačuvana u galeriji fotografija",
+    "image_saved_error": "Greška pri čuvanju slike",
     "wrong_link": "Pogrešna veza"
   },
   "drafts": {
@@ -388,7 +388,7 @@
     "add": "Dodaj u obeleživače"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Prijavljeni neprimereni sadržaj"
   },
   "favorites": {
     "title": "Omiljeno",
@@ -401,7 +401,7 @@
     "invalid_username": "Pogrešno korisničko ime, molimo proverite i pokušajte ponovo",
     "already_logged": "Već ste prijavljeni, molimo pokušajte da dodate drugi nalog",
     "invalid_credentials": "Nevažeća ovlašćenja, molimo proverite i pokušajte ponovo",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "Nepoznata greška, molimo pišite na support@ecency.com"
   },
   "payout": {
     "potential_payout": "Potencijalna isplata",
@@ -410,7 +410,7 @@
     "curation_payout": "Isplata glasačima",
     "payout_date": "Isplata",
     "beneficiaries": "Primaoci",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "warn_zero_payout": "Za isplatu iznos mora dostići $0.02",
     "breakdown": "Presek"
   },
   "post_dropdown": {
@@ -432,11 +432,11 @@
     "comments": "Komentari"
   },
   "comment_filter": {
-    "trending": "TOP",
+    "trending": "VRH",
     "reputation": "Reputacija",
     "votes": "Glas",
     "age": "Starost",
-    "top": "TOP",
+    "top": "VRH",
     "time": "VREME"
   },
   "transfer": {
@@ -448,44 +448,44 @@
     "information": "Da li ste sigurni da želite prebaciti sredstva?",
     "amount_desc": "Stanje",
     "memo_desc": "Ova beleška je javna",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "Pretvaranje traje 3.5 dana i ne preporučuje se ako je cena HBD veća od $1",
     "to_placeholder": "Korisničko ime",
     "memo_placeholder": "Ovde unesite svoje beleške",
     "transfer_token": "Prenos",
-    "purchase_estm": "Purchase Points",
+    "purchase_estm": "Kupite poene",
     "convert": "Pretvori HBD u HIVE",
     "points": "Poklonite poene nekome",
     "transfer_to_saving": "Premestite u ušteđevinu",
     "powerUp": "Uložite u Hive Snagu",
     "withdraw_to_saving": "Povuci na štednju",
-    "steemconnect_title": "Hivesigner Transfer",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
-    "auto_vests": "Auto Vests",
+    "steemconnect_title": "Hivesigner prenos",
+    "estimated_weekly": "Procenjeno na nedeljnom nivou",
+    "destination_accounts": "Odredišni nalozi",
+    "stop_information": "Da li ste sigurni da želite da zaustavite?",
+    "percent": "Procenat",
+    "auto_vests": "Automatsko odobravanje",
     "save": "Sačuvaj",
-    "percent_information": "Percent info",
+    "percent_information": "Informacije o procentu",
     "next": "SLEDEĆI",
     "delegate": "Delegiraj",
     "power_down": "Smanji snagu",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
-    "incoming_funds": "Incoming Funds",
+    "withdraw_steem": "Povucite Hive",
+    "withdraw_sbd": "Povucite Hive dolar",
+    "incoming_funds": "Dolazna sredstva",
     "stop": "Zaustavi",
-    "address_view": "View address"
+    "address_view": "Prikaži adresu"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
+    "title": "Dobijte poene",
+    "buy": "Dobijte poene",
     "next": "SLEDEĆI",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "title": "Dobijte pojačanje naloga",
+      "desc": "30-dnevno delegiranje će povećati vaše glasove i društvene aktivnosti i pružiti vam više akcije sa više resursa."
     }
   },
   "free_estm": {
-    "title": "Free Points",
+    "title": "Besplatni poeni",
     "button": "ZAVRTI & ZARADI",
     "get_spin": "5 ZAVRTAJA",
     "spin_right": "Zavrti levo",
@@ -512,7 +512,7 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
+      "device_time": "Vreme vašeg uređaja;",
       "current_time": "Trenutno vreme;",
       "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
     }
