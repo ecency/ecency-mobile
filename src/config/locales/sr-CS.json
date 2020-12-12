@@ -171,8 +171,8 @@
     "edit": {
       "display_name": "Prikazano ime",
       "about": "O Nama",
-      "location": "Location",
-      "website": "Website"
+      "location": "Lokacija",
+      "website": "Web stranica"
     }
   },
   "settings": {
@@ -213,7 +213,7 @@
   },
   "login": {
     "signin": "Prijavite se",
-    "signup": "JOIN NOW",
+    "signup": "PRISTUPITE ODMAH",
     "signin_title": "To get all the benefits of using Ecency",
     "username": "Korisničko ime",
     "password": "Lozinka ili WIF",
@@ -238,11 +238,11 @@
     "popular": "Popularno",
     "top": "Top",
     "hot": "Hot",
-    "new": "New",
+    "new": "Novo",
     "blog": "Blog",
     "posts": "Postovi",
-    "friends": "Friends",
-    "communities": "Communities"
+    "friends": "Prijatelji",
+    "communities": "Zajednice"
   },
   "side_menu": {
     "profile": "Profil",
@@ -270,16 +270,16 @@
   "editor": {
     "title": "Naslov",
     "tags": "Tags (separate with space)",
-    "default_placeholder": "Tell us something...",
-    "reply_placeholder": "Add your reply...",
+    "default_placeholder": "Recite nam nešto...",
+    "reply_placeholder": "Dodaj svoj odgovor...",
     "publish": "Objavi",
     "reply": "Odgovori",
     "open_gallery": "Otvori galeriju",
     "capture_photo": "Fotografiši",
-    "limited_tags": "Only 10 tags allowed, remove some",
-    "limited_length": "Maximum length of each tag should be 24",
-    "limited_dash": "Use one dash in each tag",
-    "limited_space": "Use space to separate tags",
+    "limited_tags": "Dozvoljeno je samo 10 oznaka, izbrišite neke",
+    "limited_length": "Maksimalna dužina svake oznake treba da bude 24",
+    "limited_dash": "Koristite jednu crticu u svakoj oznaci",
+    "limited_space": "Koristite razmak da odvojite oznake",
     "limited_lowercase": "U oznaci koristite samo mala slova",
     "limited_characters": "Koristite samo mala slova, cifre i jednu crticu",
     "limited_firstchar": "Oznaka mora početi slovom",
@@ -360,7 +360,7 @@
     "image": "Slika",
     "link": "Vеza",
     "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
+    "save_to_local": "Preuzmi na uređaj",
     "image_saved": "Image saved to Photo Gallery",
     "image_saved_error": "Error Saving Image",
     "wrong_link": "Pogrešna veza"
@@ -411,7 +411,7 @@
     "payout_date": "Isplata",
     "beneficiaries": "Primaoci",
     "warn_zero_payout": "Amount must reach $0.02 for payout",
-    "breakdown": "Breakdown"
+    "breakdown": "Presek"
   },
   "post_dropdown": {
     "copy": "kopiraj link",
@@ -421,7 +421,7 @@
     "bookmarks": "dodaj u obeleživače",
     "promote": "promoviši",
     "boost": "pojačaj",
-    "report": "report"
+    "report": "izveštaj"
   },
   "deep_link": {
     "no_existing_user": "Nema postojećih korisnika",
@@ -433,9 +433,9 @@
   },
   "comment_filter": {
     "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
+    "reputation": "Reputacija",
+    "votes": "Glas",
+    "age": "Starost",
     "top": "TOP",
     "time": "VREME"
   },
@@ -453,8 +453,8 @@
     "memo_placeholder": "Ovde unesite svoje beleške",
     "transfer_token": "Prenos",
     "purchase_estm": "Purchase Points",
-    "convert": "Convert HBD to HIVE",
-    "points": "Gift Points to someone",
+    "convert": "Pretvori HBD u HIVE",
+    "points": "Poklonite poene nekome",
     "transfer_to_saving": "Premestite u ušteđevinu",
     "powerUp": "Uložite u Hive Snagu",
     "withdraw_to_saving": "Povuci na štednju",
@@ -464,7 +464,7 @@
     "stop_information": "Are you sure want to stop?",
     "percent": "Percent",
     "auto_vests": "Auto Vests",
-    "save": "SAVE",
+    "save": "Sačuvaj",
     "percent_information": "Percent info",
     "next": "SLEDEĆI",
     "delegate": "Delegiraj",
@@ -472,7 +472,7 @@
     "withdraw_steem": "Withdraw HIVE",
     "withdraw_sbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Incoming Funds",
-    "stop": "Stop",
+    "stop": "Zaustavi",
     "address_view": "View address"
   },
   "boost": {
@@ -486,9 +486,9 @@
   },
   "free_estm": {
     "title": "Free Points",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
+    "button": "ZAVRTI & ZARADI",
+    "get_spin": "5 ZAVRTAJA",
+    "spin_right": "Zavrti levo",
     "timer_text": "Next free spin in"
   },
   "promote": {
@@ -496,7 +496,7 @@
     "days": "dana",
     "user": "Korisnik",
     "permlink": "Objava",
-    "permlinkPlaceholder": "username/permlink",
+    "permlinkPlaceholder": "korisničko ime/permanentna veza",
     "information": "Da li ste sigurni da želite da promovišete?"
   },
   "boostPost": {
@@ -513,7 +513,7 @@
   "dsteem": {
     "date_error": {
       "device_time": "Your device time;",
-      "current_time": "Current time;",
+      "current_time": "Trenutno vreme;",
       "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
     }
   },
