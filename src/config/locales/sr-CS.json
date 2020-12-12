@@ -317,9 +317,9 @@
     "success_favorite": "Favorit je dodat!",
     "success_unfavorite": "Favorit je uklonjen!",
     "success_follow": "Uspešno praćenje!",
-    "success_mute": "Mute success!",
-    "success_unmute": "Unmute success!",
-    "success_unfollow": "Unfollow success!",
+    "success_mute": "Isključivanje notifikacija uspešno!",
+    "success_unmute": "Uključivanje notifikacija uspešno!",
+    "success_unfollow": "Prestanak praćenja uspešan!",
     "warning": "Upozorenje",
     "invalid_pincode": "Nevažeći PIN kod, molimo proverite i pokušajte ponovo.",
     "remove_alert": "Da li ste sigurni da želite da uklonite?",
@@ -489,7 +489,7 @@
     "button": "ZAVRTI & ZARADI",
     "get_spin": "5 ZAVRTAJA",
     "spin_right": "Zavrti levo",
-    "timer_text": "Next free spin in"
+    "timer_text": "Novi besplatni obrtaj u"
   },
   "promote": {
     "title": "Promoviši",
@@ -514,44 +514,44 @@
     "date_error": {
       "device_time": "Vreme vašeg uređaja;",
       "current_time": "Trenutno vreme;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "information": "Primetili smo da vaš uređaj ima netačan datum i vreme. Molimo vas ispravite datum i vreme ili postavite automatsko i pokušajte ponovo."
     }
   },
   "comments": {
     "title": "Komentari",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "Prikaži komentar",
+    "read_more": "Pročitajte još komentara",
+    "more_replies": "još odgovora"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Ostalo",
     "communities": {
-      "title": "Communities",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
-      "posters": "Posters",
+      "title": "Zajednice",
+      "subscribe": "Pridruži se",
+      "unsubscribe": "Napusti",
+      "subscribers": "Članovi",
+      "posters": "Objavljivači",
       "posts": "Postovi"
     },
     "communities_filter": {
-      "my": "My Communities",
-      "rank": "Rank",
-      "subs": "Members",
-      "new": "New"
+      "my": "Moje Zajednice",
+      "rank": "Rang",
+      "subs": "Članovi",
+      "new": "Novo"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "Popularnosti",
+      "newest": "Najnoviji",
+      "relevance": "Relevantnost"
     },
     "other_result_filter": {
       "user": "Korisnik",
-      "tag": "Tag"
+      "tag": "Oznaka"
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details"
+    "new_post": "Nova objava",
+    "community": "zajednica",
+    "details": "Detalji"
   }
 }
