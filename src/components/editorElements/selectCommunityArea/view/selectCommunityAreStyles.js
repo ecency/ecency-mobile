@@ -7,5 +7,6 @@ export default EStyleSheet.create({
   },
   chooseACommunityText: {
     marginHorizontal: 8,
+    color: '$primaryBlack',
   },
 });

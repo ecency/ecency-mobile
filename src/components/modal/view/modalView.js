@@ -33,7 +33,7 @@ export default class Modal extends PureComponent {
 
   _handleOnDismiss = () => {
     const { handleOnModalDismiss } = this.props;
-    console.log('_handleOnDismiss Modal');
+
     if (handleOnModalDismiss) {
       handleOnModalDismiss();
     }

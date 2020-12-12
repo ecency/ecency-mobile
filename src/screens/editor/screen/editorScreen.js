@@ -28,6 +28,8 @@ import { getCommunity } from '../../../providers/hive/dhive';
 import globalStyles from '../../../globalStyles';
 import { isCommunity } from '../../../utils/communityValidation';
 
+import styles from './editorScreenStyles';
+
 class EditorScreen extends Component {
   /* Props
    * ------------------------------------------------
@@ -54,9 +56,21 @@ class EditorScreen extends Component {
   }
 
   // Component Life Cycles
+  componentDidMount() {
+    const { draftPost } = this.props;
+
+    if (draftPost && draftPost.tags?.length > 0 && isCommunity(draftPost.tags[0])) {
+      this._getCommunity(draftPost.tags[0]);
+    }
+  }
+
   UNSAFE_componentWillReceiveProps = async (nextProps) => {
     const { draftPost, isUploading, community } = this.props;
     if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
+      if (nextProps.draftPost.tags?.length > 0 && isCommunity(nextProps.draftPost.tags[0])) {
+        this._getCommunity(nextProps.draftPost.tags[0]);
+      }
+
       await this.setState((prevState) => {
         if (community && community.length > 0) {
           nextProps.draftPost.tags = [...community, ...nextProps.draftPost.tags];
@@ -187,7 +201,7 @@ class EditorScreen extends Component {
 
   _handleOnTagAdded = async (tags) => {
     const { selectedCommunity } = this.state;
-    console.log(tags, selectedCommunity, '_handleOnTagAdded');
+
     if (tags.length > 0 && !isNull(selectedCommunity) && !isCommunity(tags[0])) {
       this.setState({ selectedCommunity: null });
     }
@@ -258,16 +272,18 @@ class EditorScreen extends Component {
     const rightButtonText = intl.formatMessage({
       id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : 'basic_header.publish',
     });
-    //console.log(this.props, this.state, 'currentAccount');
-    console.log('tags', fields.tags);
     return (
       <View style={globalStyles.defaultContainer}>
         <Modal
           isOpen={isCommunitiesListModalOpen}
           animationType="animationType"
           presentationStyle="pageSheet"
+          style={styles.modal}
         >
-          <SelectCommunityModalContainer onPressCommunity={this._handlePressCommunity} />
+          <SelectCommunityModalContainer
+            onPressCommunity={this._handlePressCommunity}
+            onPressCloseForSearch={() => this.setState({ isCommunitiesListModalOpen: false })}
+          />
         </Modal>
         <BasicHeader
           handleDatePickerChange={(date) => handleDatePickerChange(date, fields)}
