@@ -2,11 +2,11 @@
   "wallet": {
     "curation_reward": "Nagrade za glasanje",
     "author_reward": "Nagrada za autora",
-    "comment_benefactor_reward": "Benefactor Reward",
+    "comment_benefactor_reward": "Nagrada dobrotvora",
     "claim_reward_balance": "Potvrdi nagradu ",
     "transfer": "Prenos",
-    "transfer_to_vesting": "To Vesting",
-    "transfer_from_savings": "From Savings",
+    "transfer_to_vesting": "Za dodeljivanje",
+    "transfer_from_savings": "Od štednje",
     "withdraw_vesting": "Power Down",
     "fill_order": "Popunite nalog",
     "post": "Objava",
@@ -61,32 +61,32 @@
     "transfer_token": "Prenos",
     "purchase_estm": "DOBIJTE POENE",
     "points": "Poklonite poene nekome",
-    "transfer_to_saving": "To Saving",
+    "transfer_to_saving": "U štednju",
     "powerUp": "Uložite u Hive Snagu",
     "withdraw_to_saving": "Povuci štednju",
-    "steemconnect_title": "Hivesigner Transfer",
+    "steemconnect_title": "Hivesigner prenos",
     "next": "SLEDEĆI",
     "delegate": "Delegiraj",
     "power_down": "Power Down",
     "withdraw_steem": "Povucite Hive",
     "withdraw_sbd": "Povucite HBD",
-    "transfer_to_savings": "To Savings",
+    "transfer_to_savings": "U štednju",
     "convert": "Pretvori",
-    "escrow_transfer": "Escrow Transfer",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
+    "escrow_transfer": "Prenesi zalog",
+    "escrow_dispute": "Ospori zalog",
+    "escrow_release": "Oslobodi zalog",
+    "escrow_approve": "Odobri zalog",
     "cancel_transfer_from_savings": "Otkaži sa štednje",
     "delegate_vesting_shares": "Delegacija",
     "fill_convert_request": "Pretvaranje izvršeno",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_transfer_from_savings": "Ušteda izvšena",
+    "fill_vesting_withdraw": "Smanjenje snage izvršeno",
     "estm": {
       "title": "Poeni",
-      "buy": "GET POINTS"
+      "buy": "DOBIJTE POENE"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "HIVE štednja"
     },
     "savingsbd": {
       "title": "HBD Savings"
