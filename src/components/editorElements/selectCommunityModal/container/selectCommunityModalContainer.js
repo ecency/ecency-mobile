@@ -11,13 +11,11 @@ import SelectCommunityModalView from '../view/selectCommunityModalView';
 import {
   fetchCommunities,
   fetchCommunitiesSuccess,
-  fetchCommunitiesFail,
   fetchSubscribedCommunities,
   fetchSubscribedCommunitiesSuccess,
-  fetchSubscribedCommunitiesFail,
 } from '../../../../redux/actions/communitiesAction';
 
-const SelectCommunityModalContainer = ({ onPressCommunity, onPressCloseForSearch }) => {
+const SelectCommunityModalContainer = ({ onPressCommunity }) => {
   const dispatch = useDispatch();
 
   const [searchedCommunities, setSearchedCommunities] = useState([]);
@@ -77,7 +75,6 @@ const SelectCommunityModalContainer = ({ onPressCommunity, onPressCloseForSearch
         topCommunities={topCommunities}
         subscribedCommunities={subscribedCommunities}
         onChangeSearch={debounce(handleChangeSearch, 500)}
-        onPressCloseForSearch={handlePressCloseForSearch}
         searchedCommunities={searchedCommunities}
         showSearchedCommunities={showSearchedCommunities}
       />

@@ -280,10 +280,7 @@ class EditorScreen extends Component {
           presentationStyle="pageSheet"
           style={styles.modal}
         >
-          <SelectCommunityModalContainer
-            onPressCommunity={this._handlePressCommunity}
-            onPressCloseForSearch={() => this.setState({ isCommunitiesListModalOpen: false })}
-          />
+          <SelectCommunityModalContainer onPressCommunity={this._handlePressCommunity} />
         </Modal>
         <BasicHeader
           handleDatePickerChange={(date) => handleDatePickerChange(date, fields)}

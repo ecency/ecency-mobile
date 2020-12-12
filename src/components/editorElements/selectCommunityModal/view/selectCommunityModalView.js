@@ -19,12 +19,7 @@ const SelectCommunityModalView = ({
 }) => {
   return (
     <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-      <SearchInput
-        handleOnModalClose={onPressCloseForSearch}
-        onChangeText={onChangeSearch}
-        placeholder="search"
-        autoFocus={false}
-      />
+      <SearchInput onChangeText={onChangeSearch} placeholder="search" autoFocus={false} />
       {showSearchedCommunities ? (
         <FlatList
           ItemSeparatorComponent={() => <Separator />}
