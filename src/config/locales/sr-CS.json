@@ -291,7 +291,10 @@
     "reward_power_up": "Pojačaj 100%",
     "reward_decline": "Odbij isplatu",
     "beneficiaries": "Primalac",
-    "options": "Opcije"
+    "options": "Opcije",
+    "my_blog": "My Blog",
+    "my_communities": "My Communities",
+    "top_communities": "Top Communities"
   },
   "pincode": {
     "enter_text": "Unesite PIN da otključate",
