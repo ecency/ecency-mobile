@@ -103,7 +103,6 @@ const PostsView = ({
     }
 
     if (isNoPost) {
-      console.log(selectedFilterValue, selectedFeedSubfilterValue, 'nopost');
       return (
         <NoPost
           imageStyle={styles.noImage}
