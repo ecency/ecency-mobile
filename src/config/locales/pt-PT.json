@@ -291,7 +291,10 @@
     "reward_power_up": "Carregar Power a 100 %%",
     "reward_decline": "Declinar Pagamento",
     "beneficiaries": "Beneficiários",
-    "options": "Opções"
+    "options": "Opções",
+    "my_blog": "My Blog",
+    "my_communities": "My Communities",
+    "top_communities": "Top Communities"
   },
   "pincode": {
     "enter_text": "Insira PIN para desbloquear",
