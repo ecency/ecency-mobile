@@ -113,8 +113,8 @@
     "unvote": "usuń głos",
     "reply": "odpowiedz na",
     "mention": "wspomniany w",
-    "follow": "zaczął(-ęła) Cię śledzić",
-    "unfollow": "przestał(-a) Cię obserwować",
+    "follow": "zaczął cię śledzić",
+    "unfollow": "przestał Cię obserwować",
     "ignore": "ignoruje cię",
     "reblog": "rebloged",
     "transfer": "przeniesiony",
@@ -291,7 +291,10 @@
     "reward_power_up": "Zasilanie 100%",
     "reward_decline": "Odmów wynagrodzenia",
     "beneficiaries": "Beneficjenci",
-    "options": "Opcje"
+    "options": "Opcje",
+    "my_blog": "My Blog",
+    "my_communities": "My Communities",
+    "top_communities": "Top Communities"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
