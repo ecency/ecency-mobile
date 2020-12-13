@@ -316,6 +316,7 @@ const PostsContainer = ({
       feedSubfilterOptionsValue={feedSubfilterOptionsValue}
       handleFeedSubfilterOnDropdownSelect={_handleFeedSubfilterOnDropdownSelect}
       setSelectedFeedSubfilterValue={setSelectedFeedSubfilterValue}
+      selectedFeedSubfilterValue={selectedFeedSubfilterValue}
     />
   );
 };

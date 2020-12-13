@@ -43,6 +43,7 @@ const PostsView = ({
   feedSubfilterOptionsValue,
   handleFeedSubfilterOnDropdownSelect,
   setSelectedFeedSubfilterValue,
+  selectedFeedSubfilterValue,
 }) => {
   const intl = useIntl();
   const postsList = useRef(null);
@@ -112,7 +113,7 @@ const PostsView = ({
           defaultText={intl.formatMessage({
             id:
               selectedFilterValue === 'feed'
-                ? setSelectedFeedSubfilterValue === 'friends'
+                ? selectedFeedSubfilterValue === 'friends'
                   ? 'profile.follow_people'
                   : 'profile.follow_communities'
                 : 'profile.havent_posted',
