@@ -291,7 +291,10 @@
     "reward_power_up": "१००% शक्तिप्रापक करें",
     "reward_decline": "भुगतान अस्वीकार करें",
     "beneficiaries": "लाभार्थी",
-    "options": "विकल्प"
+    "options": "विकल्प",
+    "my_blog": "My Blog",
+    "my_communities": "My Communities",
+    "top_communities": "Top Communities"
   },
   "pincode": {
     "enter_text": "खोलनें के लिए पिन डालें",
