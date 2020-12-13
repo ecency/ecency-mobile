@@ -19,7 +19,6 @@ const SelectCommunityModalView = ({
   currentAccount,
   intl,
 }) => {
-  console.log(subscribedCommunities, 'subscribedCommunities');
   return (
     <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
       <SearchInput onChangeText={onChangeSearch} placeholder="search" autoFocus={false} />
