@@ -291,7 +291,10 @@
     "reward_power_up": "পাওয়ার আপ ১০০%",
     "reward_decline": "পেআউট বাতিল",
     "beneficiaries": "স্বত্বভোগী",
-    "options": "বিকল্পগুলি"
+    "options": "বিকল্পগুলি",
+    "my_blog": "My Blog",
+    "my_communities": "My Communities",
+    "top_communities": "Top Communities"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
