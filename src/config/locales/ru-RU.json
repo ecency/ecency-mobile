@@ -291,7 +291,10 @@
     "reward_power_up": "100% в Силу",
     "reward_decline": "Отказ от выплат",
     "beneficiaries": "Бенефициары",
-    "options": "Options"
+    "options": "Options",
+    "my_blog": "My Blog",
+    "my_communities": "My Communities",
+    "top_communities": "Top Communities"
   },
   "pincode": {
     "enter_text": "Чтобы разблокировать введите пин-код",
