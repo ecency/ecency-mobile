@@ -15,7 +15,7 @@ import {
   fetchSubscribedCommunitiesSuccess,
 } from '../../../../redux/actions/communitiesAction';
 
-const SelectCommunityModalContainer = ({ onPressCommunity }) => {
+const SelectCommunityModalContainer = ({ onPressCommunity, currentAccount }) => {
   const dispatch = useDispatch();
 
   const [searchedCommunities, setSearchedCommunities] = useState([]);
@@ -32,7 +32,7 @@ const SelectCommunityModalContainer = ({ onPressCommunity }) => {
   const callTopCommunities = () => {
     dispatch(fetchCommunities());
 
-    getCommunities('', 50, '', 'rank')
+    getCommunities('', 15, '', 'rank')
       .then((communities) => {
         dispatch(fetchCommunitiesSuccess(communities));
       })
@@ -43,7 +43,7 @@ const SelectCommunityModalContainer = ({ onPressCommunity }) => {
 
   const callSubscribedCommunities = () => {
     dispatch(fetchSubscribedCommunities());
-    getSubscriptions('furkankilic')
+    getSubscriptions(currentAccount.name)
       .then((subscriptions) => {
         dispatch(fetchSubscribedCommunitiesSuccess(subscriptions));
       })
@@ -53,7 +53,7 @@ const SelectCommunityModalContainer = ({ onPressCommunity }) => {
   const handleChangeSearch = (text) => {
     if (text.length >= 3) {
       setShowSearchedCommunities(true);
-      getCommunities('', 50, text, 'rank')
+      getCommunities('', 15, text, 'rank')
         .then((searcheds) => {
           setSearchedCommunities(searcheds);
           console.log(searcheds, text, 'searcheds');
@@ -66,8 +66,6 @@ const SelectCommunityModalContainer = ({ onPressCommunity }) => {
     }
   };
 
-  const handlePressCloseForSearch = () => {};
-
   return (
     <>
       <SelectCommunityModalView
@@ -77,6 +75,7 @@ const SelectCommunityModalContainer = ({ onPressCommunity }) => {
         onChangeSearch={debounce(handleChangeSearch, 500)}
         searchedCommunities={searchedCommunities}
         showSearchedCommunities={showSearchedCommunities}
+        currentAccount={currentAccount}
       />
     </>
   );

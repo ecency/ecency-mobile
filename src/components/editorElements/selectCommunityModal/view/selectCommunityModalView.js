@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, ScrollView, FlatList } from 'react-native';
-import globalStyles from '../../../../globalStyles';
+import { injectIntl } from 'react-intl';
 
 import CommunityCard from '../../../communityCard';
-
 import { SearchInput } from '../../../searchInput';
 
+import globalStyles from '../../../../globalStyles';
 import styles from './selectCommunityModalStyles';
 
 const SelectCommunityModalView = ({
@@ -16,7 +16,10 @@ const SelectCommunityModalView = ({
   onPressCloseForSearch,
   searchedCommunities,
   showSearchedCommunities,
+  currentAccount,
+  intl,
 }) => {
+  console.log(subscribedCommunities, 'subscribedCommunities');
   return (
     <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
       <SearchInput onChangeText={onChangeSearch} placeholder="search" autoFocus={false} />
@@ -29,7 +32,7 @@ const SelectCommunityModalView = ({
           renderItem={({ item, index, separators }) => (
             <CommunityCard
               community={item}
-              key={item.name}
+              key={index}
               onPress={onPressCommunity}
               separators={separators}
             />
@@ -37,14 +40,47 @@ const SelectCommunityModalView = ({
         />
       ) : (
         <>
-          <Text style={[globalStyles.label, styles.title]}>MY BLOG</Text>
+          <Text style={[globalStyles.label, styles.title]}>
+            {intl.formatMessage({ id: 'editor.my_blog' }).toUpperCase()}
+          </Text>
           <CommunityCard
-            community={{ name: 'furkankilic', title: 'My Blog' }}
+            community={{
+              name: currentAccount.name,
+              title: intl.formatMessage({ id: 'editor.my_blog' }),
+            }}
             onPress={() => onPressCommunity(null)}
           />
+          {!subscribedCommunities.loading &&
+            !subscribedCommunities.error &&
+            subscribedCommunities.data.length > 0 && (
+              <View>
+                <Text style={[globalStyles.label, styles.title]}>
+                  {intl.formatMessage({ id: 'editor.my_communities' }).toUpperCase()}
+                </Text>
+                <FlatList
+                  ItemSeparatorComponent={() => <Separator />}
+                  showsVerticalScrollIndicator={false}
+                  data={subscribedCommunities.data}
+                  renderItem={({ item, index, separators }) => {
+                    const community = { name: item[0], title: item[1] };
+                    return (
+                      <CommunityCard
+                        community={community}
+                        key={community.name}
+                        onPress={onPressCommunity}
+                        separators={separators}
+                      />
+                    );
+                  }}
+                />
+              </View>
+            )}
           {!topCommunities.loading && !topCommunities.error && topCommunities.data.length > 0 && (
             <View>
-              <Text style={[globalStyles.label, styles.title]}>TOP RATED</Text>
+              <Text style={[globalStyles.label, styles.title]}>
+                {' '}
+                {intl.formatMessage({ id: 'editor.top_communities' }).toUpperCase()}
+              </Text>
               <FlatList
                 ItemSeparatorComponent={() => <Separator />}
                 showsVerticalScrollIndicator={false}
@@ -60,32 +96,13 @@ const SelectCommunityModalView = ({
               />
             </View>
           )}
-          {!subscribedCommunities.loading &&
-            !subscribedCommunities.error &&
-            subscribedCommunities.data.length > 0 && (
-              <View>
-                <Text style={[globalStyles.label, styles.title]}>SUBSCRIBED</Text>
-                <FlatList
-                  ItemSeparatorComponent={() => <Separator />}
-                  showsVerticalScrollIndicator={false}
-                  data={subscribedCommunities.data}
-                  renderItem={({ item, index, separators }) => (
-                    <CommunityCard
-                      community={item}
-                      key={item.name}
-                      onPress={onPressCommunity}
-                      separators={separators}
-                    />
-                  )}
-                />
-              </View>
-            )}
         </>
       )}
+      <View style={{ height: 40 }} />
     </ScrollView>
   );
 };
 
 const Separator = () => <View style={styles.separator} />;
 
-export default SelectCommunityModalView;
+export default injectIntl(SelectCommunityModalView);

@@ -280,7 +280,10 @@ class EditorScreen extends Component {
           presentationStyle="pageSheet"
           style={styles.modal}
         >
-          <SelectCommunityModalContainer onPressCommunity={this._handlePressCommunity} />
+          <SelectCommunityModalContainer
+            onPressCommunity={this._handlePressCommunity}
+            currentAccount={currentAccount}
+          />
         </Modal>
         <BasicHeader
           handleDatePickerChange={(date) => handleDatePickerChange(date, fields)}
