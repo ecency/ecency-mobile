@@ -291,7 +291,10 @@
     "reward_power_up": "Power Up 100%",
     "reward_decline": "Hylkää Palautus",
     "beneficiaries": "Hyötyjät",
-    "options": "Asetukset"
+    "options": "Asetukset",
+    "my_blog": "My Blog",
+    "my_communities": "My Communities",
+    "top_communities": "Top Communities"
   },
   "pincode": {
     "enter_text": "Poista lukitus antamalla PIN-koodi",
