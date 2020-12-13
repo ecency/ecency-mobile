@@ -34,13 +34,15 @@ const SearchInputView = ({
       autoFocus={autoFocus}
       editable={editable}
     />
-    <IconButton
-      iconStyle={styles.closeIcon}
-      iconType="Ionicons"
-      style={styles.closeIconButton}
-      name="ios-close-circle-outline"
-      onPress={() => handleOnModalClose()}
-    />
+    {handleOnModalClose && (
+      <IconButton
+        iconStyle={styles.closeIcon}
+        iconType="Ionicons"
+        style={styles.closeIconButton}
+        name="ios-close-circle-outline"
+        onPress={() => handleOnModalClose()}
+      />
+    )}
   </SafeAreaView>
 );
 

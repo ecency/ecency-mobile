@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { injectIntl } from 'react-intl';
-import get from 'lodash/get';
+import { get, isNull } from 'lodash';
 
 // Utils
 import { getWordsCount } from '../../../utils/editor';
@@ -15,10 +15,20 @@ import {
   SummaryArea,
   PostForm,
   MarkdownEditor,
+  SelectCommunityAreaView,
+  SelectCommunityModalContainer,
+  Modal,
 } from '../../../components';
+
+// dhive
+
+import { getCommunity } from '../../../providers/hive/dhive';
 
 // Styles
 import globalStyles from '../../../globalStyles';
+import { isCommunity } from '../../../utils/communityValidation';
+
+import styles from './editorScreenStyles';
 
 class EditorScreen extends Component {
   /* Props
@@ -40,13 +50,27 @@ class EditorScreen extends Component {
         community: props.community || [],
         isValid: false,
       },
+      isCommunitiesListModalOpen: false,
+      selectedCommunity: null,
     };
   }
 
   // Component Life Cycles
+  componentDidMount() {
+    const { draftPost } = this.props;
+
+    if (draftPost && draftPost.tags?.length > 0 && isCommunity(draftPost.tags[0])) {
+      this._getCommunity(draftPost.tags[0]);
+    }
+  }
+
   UNSAFE_componentWillReceiveProps = async (nextProps) => {
     const { draftPost, isUploading, community } = this.props;
     if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
+      if (nextProps.draftPost.tags?.length > 0 && isCommunity(nextProps.draftPost.tags[0])) {
+        this._getCommunity(nextProps.draftPost.tags[0]);
+      }
+
       await this.setState((prevState) => {
         if (community && community.length > 0) {
           nextProps.draftPost.tags = [...community, ...nextProps.draftPost.tags];
@@ -176,6 +200,11 @@ class EditorScreen extends Component {
   };
 
   _handleOnTagAdded = async (tags) => {
+    const { selectedCommunity } = this.state;
+
+    if (tags.length > 0 && !isNull(selectedCommunity) && !isCommunity(tags[0])) {
+      this.setState({ selectedCommunity: null });
+    }
     const { fields: _fields } = this.state;
     const __tags = tags; //.map((t) => t.replace(/([^a-z0-9-]+)/gi, '').toLowerCase());
     const __fields = { ..._fields, tags: __tags };
@@ -184,8 +213,44 @@ class EditorScreen extends Component {
     });
   };
 
+  _handlePressCommunity = (community) => {
+    const { fields, selectedCommunity } = this.state;
+
+    if (community == null) {
+      if (!isNull(selectedCommunity)) {
+        fields.tags.shift();
+      }
+    } else {
+      if (!isNull(selectedCommunity)) {
+        fields.tags.shift();
+      }
+
+      fields.tags.unshift(community.name);
+    }
+
+    this.setState({ fields, isCommunitiesListModalOpen: false, selectedCommunity: community });
+  };
+
+  _getCommunity = (hive) => {
+    getCommunity(hive)
+      .then((community) => {
+        this.setState({ selectedCommunity: community });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   render() {
-    const { fields, isPreviewActive, wordsCount, isFormValid, isRemoveTag } = this.state;
+    const {
+      fields,
+      isPreviewActive,
+      wordsCount,
+      isFormValid,
+      isRemoveTag,
+      isCommunitiesListModalOpen,
+      selectedCommunity,
+    } = this.state;
     const {
       handleOnImagePicker,
       intl,
@@ -202,13 +267,24 @@ class EditorScreen extends Component {
       handleDatePickerChange,
       handleRewardChange,
       handleBeneficiaries,
+      currentAccount,
     } = this.props;
     const rightButtonText = intl.formatMessage({
       id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : 'basic_header.publish',
     });
-
     return (
       <View style={globalStyles.defaultContainer}>
+        <Modal
+          isOpen={isCommunitiesListModalOpen}
+          animationType="animationType"
+          presentationStyle="pageSheet"
+          style={styles.modal}
+        >
+          <SelectCommunityModalContainer
+            onPressCommunity={this._handlePressCommunity}
+            currentAccount={currentAccount}
+          />
+        </Modal>
         <BasicHeader
           handleDatePickerChange={(date) => handleDatePickerChange(date, fields)}
           handleRewardChange={handleRewardChange}
@@ -235,6 +311,17 @@ class EditorScreen extends Component {
           isFormValid={isFormValid}
           isPreviewActive={isPreviewActive}
         >
+          {!isReply && !isEdit && (
+            <SelectCommunityAreaView
+              currentAccount={currentAccount}
+              mode={!isNull(selectedCommunity) ? 'community' : 'user'}
+              community={selectedCommunity}
+              // because of the bug in react-native-modal
+              // https://github.com/facebook/react-native/issues/26892
+              onPressOut={() => this.setState({ isCommunitiesListModalOpen: true })}
+              onPressIn={() => this.setState({ isCommunitiesListModalOpen: false })}
+            />
+          )}
           {isReply && !isEdit && <SummaryArea summary={post.summary} />}
           {!isReply && <TitleArea value={fields.title} componentID="title" intl={intl} />}
           {!isReply && !isPreviewActive && (
@@ -243,6 +330,7 @@ class EditorScreen extends Component {
               componentID="tag-area"
               intl={intl}
               handleTagChanged={this._handleOnTagAdded}
+              setCommunity={(hive) => this._getCommunity(hive)}
             />
           )}
           {!isReply && isPreviewActive && (
