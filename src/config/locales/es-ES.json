@@ -291,7 +291,10 @@
     "reward_power_up": "Power Up 100%",
     "reward_decline": "Rechazar Pago",
     "beneficiaries": "Beneficiarios",
-    "options": "Opciones"
+    "options": "Opciones",
+    "my_blog": "My Blog",
+    "my_communities": "My Communities",
+    "top_communities": "Top Communities"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
