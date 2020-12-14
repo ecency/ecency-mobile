@@ -3,7 +3,7 @@ import { TouchableOpacity, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 import { UserAvatar } from '../../../userAvatar';
-
+import { Icon } from '../../../icon';
 import globalStyles from '../../../../globalStyles';
 
 import styles from './selectCommunityAreStyles';
@@ -26,6 +26,13 @@ const SelectCommunityAreaView = ({
       <Text style={[globalStyles.text, styles.chooseACommunityText]}>
         {mode === 'community' ? community.title : intl.formatMessage({ id: 'editor.my_blog' })}
       </Text>
+      <Icon
+        size={24}
+        iconStyle={styles.leftIcon}
+        style={styles.icon}
+        name="arrow-drop-down"
+        iconType="MaterialIcons"
+      />
     </TouchableOpacity>
   );
 };

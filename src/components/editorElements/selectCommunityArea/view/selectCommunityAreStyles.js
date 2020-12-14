@@ -9,4 +9,7 @@ export default EStyleSheet.create({
     marginHorizontal: 8,
     color: '$primaryBlack',
   },
+  icon: {
+    color: '$iconColor',
+  },
 });
