@@ -80,24 +80,24 @@
     "delegate_vesting_shares": "Delegation",
     "fill_convert_request": "Turn am don dey kampe",
     "fill_transfer_from_savings": "We don keep am kampe",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_vesting_withdraw": "To comot money don start",
     "estm": {
       "title": "Points",
-      "buy": "GET POINTS"
+      "buy": "COLLECT SOME THINGS"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "Wia u keep dem Hive"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "Wia you keep dem Savings"
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "COLLECT HIVE"
     },
     "sbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "COLLECT HBD"
     },
     "steem_power": {
       "title": "HIVE POWER"
