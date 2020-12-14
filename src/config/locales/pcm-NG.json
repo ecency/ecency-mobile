@@ -100,27 +100,27 @@
       "buy": "COLLECT HBD"
     },
     "steem_power": {
-      "title": "HIVE POWER"
+      "title": "POWER OF DEM HIVE"
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "COLLECT BTC",
+      "address": "COLLECT AM"
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "unvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "vote": "sama am love",
+    "unvote": "comot your love",
+    "reply": "follow am yarn",
+    "mention": "talk am for inside",
     "follow": "don dey follow you",
     "unfollow": "no follow you again",
     "ignore": "don dey ignore you",
-    "reblog": "reblogged",
-    "transfer": "transferred",
-    "spin": "Time to earn more Points",
-    "inactive": "Be active! Write a post, continue earning",
-    "referral": "joined with your referral, welcome them",
+    "reblog": "e don reblog",
+    "transfer": "give am",
+    "spin": "Na when you gaz collect plenty some things",
+    "inactive": "Dey online wella! put something dow, make you fit collect",
+    "referral": "enter based on person wey send dem come, greet dem",
     "notification": "Alerts",
     "leaderboard": "Leaderboard",
     "epoint": "Points",
@@ -130,16 +130,16 @@
     "this_week": "This Week",
     "this_month": "This Month",
     "older_then": "E don pass one month",
-    "activities": "All",
+    "activities": "Everything",
     "replies": "Replies",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs",
-    "noactivity": "No recent activity"
+    "mentions": "All holla",
+    "reblogs": "Everything wey you reblog",
+    "noactivity": "Nothing dey for now"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "EVERYDAY",
+    "weekly": "FOR EVERYWEEK",
+    "monthly": "FOR EVERY MONTH"
   },
   "messages": {
     "comingsoon": "Option for messages go soon come!"
@@ -158,21 +158,21 @@
     "hours": "hours",
     "voting_power": "Power to vote",
     "login_to_see": "Login to see wetin dey",
-    "follow_people": "Follow some people to fill your feed",
-    "follow_communities": "Join some communities to fill your feed",
+    "follow_people": "Relate with people dem make dem boku for your area",
+    "follow_communities": "Enter some zone make dem boku your area",
     "havent_commented": "e never contribute any tori",
     "havent_posted": "e never post anything",
-    "steem_power": "Hive Power",
+    "steem_power": "Power of dem Hive",
     "next_power_text": "Next power down na",
     "days": "days",
     "day": "day",
-    "steem_dollars": "Hive Dollars",
+    "steem_dollars": "Dollar of dem Hive",
     "savings": "Savings",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
-      "website": "Website"
+      "display_name": "Your name wey everyone fit see",
+      "about": "Your informate",
+      "location": "Wia you dey",
+      "website": "Your place online"
     }
   },
   "settings": {
