@@ -159,6 +159,7 @@
     "voting_power": "Voting-Power",
     "login_to_see": "Login",
     "follow_people": "Follow some people to fill your feed",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "hat bisher nichts kommentiert",
     "havent_posted": "hat bisher noch keine Beiträge veröffentlicht",
     "steem_power": "Hive Power",
@@ -239,7 +240,9 @@
     "hot": "Hot",
     "new": "New",
     "blog": "Blog",
-    "posts": "Beiträge"
+    "posts": "Beiträge",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Profil",
@@ -288,7 +291,10 @@
     "reward_power_up": "Power Up 100%",
     "reward_decline": "Decline Payout",
     "beneficiaries": "Beneficiaries",
-    "options": "Options"
+    "options": "Options",
+    "my_blog": "My Blog",
+    "my_communities": "My Communities",
+    "top_communities": "Top Communities"
   },
   "pincode": {
     "enter_text": "PIN zum Entsperren eingeben",
@@ -524,15 +530,16 @@
     "others": "Others",
     "communities": {
       "title": "Communities",
-      "subscribe": "Subscribe",
-      "unsubscribe": "Unsubscribe",
-      "subscribers": "Subscribers",
+      "subscribe": "Join",
+      "unsubscribe": "Leave",
+      "subscribers": "Members",
       "posters": "Posters",
       "posts": "Beiträge"
     },
     "communities_filter": {
+      "my": "My Communities",
       "rank": "Rank",
-      "subs": "Subscribers",
+      "subs": "Members",
       "new": "New"
     },
     "post_result_filter": {

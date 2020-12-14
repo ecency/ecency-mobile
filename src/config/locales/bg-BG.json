@@ -159,6 +159,7 @@
     "voting_power": "Сила за гласуване",
     "login_to_see": "Влез в акаунта да видиш",
     "follow_people": "Последвайте хора да ви последват и те",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "Все още няма коментари",
     "havent_posted": "Все още няма публикации",
     "steem_power": "Hive Сила/стойност",
@@ -239,7 +240,9 @@
     "hot": "Актуални",
     "new": "Нови",
     "blog": "Блог",
-    "posts": "Публикации"
+    "posts": "Публикации",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Профил",
@@ -288,7 +291,10 @@
     "reward_power_up": "Power Up 100%",
     "reward_decline": "Decline Payout",
     "beneficiaries": "Beneficiaries",
-    "options": "Options"
+    "options": "Options",
+    "my_blog": "My Blog",
+    "my_communities": "My Communities",
+    "top_communities": "Top Communities"
   },
   "pincode": {
     "enter_text": "Вкарай Пин-код за отключване",
@@ -524,15 +530,16 @@
     "others": "Други",
     "communities": {
       "title": "Общности",
-      "subscribe": "Абониране",
-      "unsubscribe": "Отписване",
-      "subscribers": "Абонаменти",
+      "subscribe": "Join",
+      "unsubscribe": "Leave",
+      "subscribers": "Members",
       "posters": "Публикуващи",
       "posts": "Публикации"
     },
     "communities_filter": {
+      "my": "My Communities",
       "rank": "Ранг",
-      "subs": "Абонаменти",
+      "subs": "Members",
       "new": "Нови"
     },
     "post_result_filter": {
