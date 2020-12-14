@@ -194,7 +194,7 @@
     "pincode": "PIN code",
     "reset_pin": "Reset Pin Code",
     "reset": "Reset",
-    "nsfw_content": "NSFW",
+    "nsfw_content": "E no good to dey watch am outside",
     "send_feedback": "Send as you see am",
     "send": "Send am",
     "default_footer": "Follow come footer",
@@ -213,7 +213,7 @@
   },
   "login": {
     "signin": "Login for here",
-    "signup": "JOIN NOW",
+    "signup": "ENTER NOW",
     "signin_title": "To get all the benefits of using Ecency",
     "username": "Guy-name",
     "password": "Password or WIF",
