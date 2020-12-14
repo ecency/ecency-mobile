@@ -132,7 +132,6 @@ class ProfileContainer extends Component {
     if (query) {
       delete query.author;
       delete query.permlink;
-      console.log(query);
       repliesAction(query).then((result) => {
         let _comments = unionBy(comments, result, 'permlink');
         this.setState({
