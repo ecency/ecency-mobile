@@ -35,7 +35,6 @@ const TagInput = ({
 
   // Component Functions
   const _handleOnChange = (_text) => {
-    console.log(_text, 'text');
     setText(_text.replace(/,/g, ' ').replace(/#/g, ''));
 
     let cats = _text.split(' ');

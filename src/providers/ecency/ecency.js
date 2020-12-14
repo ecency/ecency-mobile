@@ -276,7 +276,6 @@ export const search = (data) =>
         resolve(res.data);
       })
       .catch((error) => {
-        console.log('search', error);
         bugsnag.notify(error);
         reject(error);
       });

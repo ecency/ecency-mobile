@@ -56,7 +56,6 @@ const SelectCommunityModalContainer = ({ onPressCommunity, currentAccount }) => 
       getCommunities('', 15, text, 'rank')
         .then((searcheds) => {
           setSearchedCommunities(searcheds);
-          console.log(searcheds, text, 'searcheds');
         })
         .catch((error) => {
           console.log(error, 'searcheds error');
