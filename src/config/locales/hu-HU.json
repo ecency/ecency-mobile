@@ -63,13 +63,13 @@
     "points": "Ajándékozz Pontokat valakinek",
     "transfer_to_saving": "A megtakarításokhoz",
     "powerUp": "Power Up",
-    "withdraw_to_saving": "Átutalás a Megtakarításokhoz",
+    "withdraw_to_saving": "Megtakarítás visszavonás",
     "steemconnect_title": "Hivesigner átutalás",
     "next": "KÖVETKEZŐ",
     "delegate": "Delegálás",
     "power_down": "Power Down",
-    "withdraw_steem": "Hive Visszavonás",
-    "withdraw_sbd": "HBD Visszavonás",
+    "withdraw_steem": "HIVE visszavonás",
+    "withdraw_sbd": "HBD visszavonás",
     "transfer_to_savings": "A megtakarításokhoz",
     "convert": "Konvertálás",
     "escrow_transfer": "Letéti átutalás",
@@ -78,18 +78,18 @@
     "escrow_approve": "Letéti jóváhagyás",
     "cancel_transfer_from_savings": "A megtakarításoktól való átutalás törlése",
     "delegate_vesting_shares": "Delegálás",
-    "fill_convert_request": "Átváltás végrehajtva",
+    "fill_convert_request": "Konvertálás végrehajtva",
     "fill_transfer_from_savings": "A megtakarításoktól végrehajtva",
     "fill_vesting_withdraw": "PowerDown végrehajtva",
     "estm": {
       "title": "Pontok",
-      "buy": "SZEREZZ PONTOKAT"
+      "buy": "VÁSÁROLJ PONTOKAT"
     },
     "savingsteem": {
-      "title": "HIVE Megtakarítások"
+      "title": "HIVE megtakarítások"
     },
     "savingsbd": {
-      "title": "HBD Megtakarítások"
+      "title": "HBD megtakarítások"
     },
     "steem": {
       "title": "HIVE",
@@ -158,8 +158,8 @@
     "hours": "órák",
     "voting_power": "Szavazóerő",
     "login_to_see": "A megtekintéshez jelentkezz be",
-    "follow_people": "Kövess néhány felhasználót, hogy töltsd meg a hírcsatornád",
-    "follow_communities": "Csatalkozz néhány közösséghez, hogy betöltsd a hírcsatornádat",
+    "follow_people": "Kövess néhány felhasználót, hogy töltsd be a hírcsatornád",
+    "follow_communities": "Csatalkozz néhány közösséghez, hogy betöltsd a hírcsatornád",
     "havent_commented": "még nem szólt hozzá semmihez",
     "havent_posted": "még nem tett közzé semmit",
     "steem_power": "Hive Power",
