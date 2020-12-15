@@ -347,15 +347,15 @@
     "google_play_version": "We see say ur fone dey use Google Play wey don tey. Biko put chacha Google Play services make u check am again!",
     "rc_down": "Dem resource credits no reach to do dis tin!\n\nPut more for ur account make u fit dey gbadun dis flexing. You wan put more for ur account now?",
     "payloadTooLarge": "Dis file na bigibigi, biko make am small or make u put picture wey no too big",
-    "qoutaExceeded": "Upload quota exceeded",
-    "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload"
+    "qoutaExceeded": "Dis tin don pass Upload quota",
+    "invalidImage": "Dis picture no get, look anoda one",
+    "something_wrong": "Something don happen.",
+    "something_wrong_alt": "You fit check https://ecency.com",
+    "something_wrong_reload": "Try am again"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
-    "removed_hint": "Content is not available",
+    "reblog_alert": "You sure say you wan reblog am?",
+    "removed_hint": "Dis tin no dey oo",
     "copy_link": "Copy link",
     "reblogged": "reblogged by",
     "sponsored": "SPONSORED",
