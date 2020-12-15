@@ -391,7 +391,7 @@
     "add": "Hozzáadás a könyvjelzőkhöz"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Jelentett kifogásolható tartalom"
   },
   "favorites": {
     "title": "Kedvencek",
@@ -404,7 +404,7 @@
     "invalid_username": "Érvénytelen felhasználónév, kérjük ellenőrizd és próbáld újra",
     "already_logged": "Már be vagy jelentkezve, kérjük próbálj meg hozzáadni egy másik fiókot",
     "invalid_credentials": "Érvénytelen hitelesítő adatok. Kérjük, ellenőrizd és próbáld újra",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "Ismeretlen hiba, kérlek írj ide support@ecency.com"
   },
   "payout": {
     "potential_payout": "Lehetséges Kifizetés",
