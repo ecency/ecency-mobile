@@ -356,11 +356,11 @@
   "post": {
     "reblog_alert": "You sure say you wan reblog am?",
     "removed_hint": "Dis tin no dey oo",
-    "copy_link": "Copy link",
-    "reblogged": "reblogged by",
-    "sponsored": "SPONSORED",
-    "open_thread": "Open thread",
-    "image": "Image",
+    "copy_link": "Double d link for use",
+    "reblogged": "person wey reblog am na",
+    "sponsored": "NA SPONSOR",
+    "open_thread": "Look d thread",
+    "image": "Picture",
     "link": "Link",
     "gallery_mode": "Gallery mode",
     "save_to_local": "Download to device",
@@ -490,54 +490,54 @@
   "free_estm": {
     "title": "Free Points",
     "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "get_spin": "DEM 5 SPINS",
+    "spin_right": "Spin am for ur left",
+    "timer_text": "D next spin in wey we dash"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
-    "user": "User",
-    "permlink": "Post",
-    "permlinkPlaceholder": "username/permlink",
-    "information": "Are you sure to promote?"
+    "title": "Loud am",
+    "days": "dem days",
+    "user": "Person",
+    "permlink": "Tori",
+    "permlinkPlaceholder": "person name/permlink",
+    "information": "You sure say you wan promote am?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Give am push"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
+    "rewards": "DEM GAINS",
     "percent": "PERCENT",
     "time": "TIME"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "Informate of wetin u reblog"
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "D time wey ur fone dey talk;",
+      "current_time": "D time for now;",
+      "information": "We observe say ur fone date and time no be confam. Biko make d date and time confam or make computer do am for u den try for once."
     }
   },
   "comments": {
     "title": "Comments",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "Show dis comment",
+    "read_more": "Check dem comments",
+    "more_replies": "dem replies wey remain"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Dem odas",
     "communities": {
-      "title": "Communities",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
-      "posters": "Posters",
+      "title": "Una areas",
+      "subscribe": "Enta",
+      "unsubscribe": "Comot",
+      "subscribers": "Dem people wey dey area",
+      "posters": "Dem people wey dey post",
       "posts": "Post"
     },
     "communities_filter": {
-      "my": "My Communities",
+      "my": "My areas dem",
       "rank": "Rank",
       "subs": "Members",
       "new": "New"
