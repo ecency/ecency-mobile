@@ -231,7 +231,7 @@
     "ref_user": "Ajánló felhasználó (opcionális)",
     "500_error": "Kérésedet nem sikerült feldolgozni, a regisztrációs sor valószínűleg megtelt! Próbálkozzon újra néhány perc múlva...",
     "title_description": "One account to manage everything",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "form_description": "Regisztrálással elfogadod a Felhasználói feltételeket és az Adatvédelmi szabályzatot."
   },
   "home": {
     "feed": "Hírfolyam",
@@ -289,12 +289,12 @@
     "setting_beneficiary": "Kedvezményezett",
     "reward_default": "Alapértelmezett 50% / 50%",
     "reward_power_up": "100%-os Power Up",
-    "reward_decline": "Decline Payout",
-    "beneficiaries": "Beneficiaries",
-    "options": "Options",
-    "my_blog": "My Blog",
-    "my_communities": "My Communities",
-    "top_communities": "Top Communities"
+    "reward_decline": "Jutalom elutasítása",
+    "beneficiaries": "Kedvezményezettek",
+    "options": "Opciók",
+    "my_blog": "Saját blog",
+    "my_communities": "Az én közösségeim",
+    "top_communities": "Top közösségek"
   },
   "pincode": {
     "enter_text": "Feloldáshoz írd be a PIN kódot",
