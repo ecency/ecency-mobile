@@ -229,7 +229,7 @@
     "username": "Válassz felhasználónevet",
     "mail": "Add meg az e-mail címed",
     "ref_user": "Ajánló felhasználó (opcionális)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
+    "500_error": "Kérésedet nem sikerült feldolgozni, a regisztrációs sor valószínűleg megtelt! Próbálkozzon újra néhány perc múlva...",
     "title_description": "One account to manage everything",
     "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
   },
@@ -241,8 +241,8 @@
     "new": "Új",
     "blog": "Blog",
     "posts": "Bejegyzések",
-    "friends": "Friends",
-    "communities": "Communities"
+    "friends": "Barátok",
+    "communities": "Közösségek"
   },
   "side_menu": {
     "profile": "Profil",
@@ -269,7 +269,7 @@
   },
   "editor": {
     "title": "Cím",
-    "tags": "Tags (separate with space)",
+    "tags": "Címkék (szóközzel elválasztva)",
     "default_placeholder": "Mondj valamit...",
     "reply_placeholder": "A válaszod...",
     "publish": "Közzétesz",
@@ -277,8 +277,8 @@
     "open_gallery": "Galéria Megnyitása",
     "capture_photo": "Készíts egy fotót",
     "limited_tags": "Csak 10 címke engedélyezett, törölj néhányat",
-    "limited_length": "Maximum length of each tag should be 24",
-    "limited_dash": "Use one dash in each tag",
+    "limited_length": "Címkék maximális hossza 24 lehet",
+    "limited_dash": "Használj egy kötőjelet minden címkében",
     "limited_space": "Use space to separate tags",
     "limited_lowercase": "Csak kisbetüt használj a címkékhez",
     "limited_characters": "Use only lowercase letters, digits and one dash",
