@@ -349,13 +349,13 @@
     "payloadTooLarge": "A fájlméret túl nagy, kérlek méretezzd át, vagy tölts fel kisebb képet",
     "qoutaExceeded": "Tárhely korlát túllépve",
     "invalidImage": "Érvénytelen kép, próbálj egy másik fájlt",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload"
+    "something_wrong": "Valami hiba történt.",
+    "something_wrong_alt": "Próbáld ezt https://ecency.com",
+    "something_wrong_reload": "Frissítsd"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
-    "removed_hint": "Content is not available",
+    "removed_hint": "A tartalom nem elérhető",
     "copy_link": "Link másolása",
     "reblogged": "megosztva általa",
     "sponsored": "TÁMOGATOTT",
@@ -363,8 +363,8 @@
     "image": "Kép",
     "link": "Link",
     "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
+    "save_to_local": "Letöltés a készülékre",
+    "image_saved": "Kép a galériába mentve",
     "image_saved_error": "Hiba a kép mentése közben",
     "wrong_link": "Nem megfelelő link"
   },
