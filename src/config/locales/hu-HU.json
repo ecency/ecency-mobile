@@ -93,18 +93,18 @@
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "HIVE VÁSÁRLÁS"
     },
     "sbd": {
-      "title": "HBD",
-      "buy": "GET HBD"
+      "title": "HDB",
+      "buy": "SBD VÁSÁRLÁS"
     },
     "steem_power": {
       "title": "HIVE POWER"
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
+      "buy": "BTC VÁSÁRLÁS",
       "address": "RECEIVE"
     }
   },
