@@ -279,7 +279,7 @@
     "limited_tags": "Na only ten tags we fit accept, comot d extra wey dey",
     "limited_length": "The tag no gaz pass 24",
     "limited_dash": "Na only one dash u fit use for one tag",
-    "limited_space": "Use space to separate tags",
+    "limited_space": "Let space gap dem tags",
     "limited_lowercase": "Only use lower letters in tag",
     "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Tag must start with a letter",
