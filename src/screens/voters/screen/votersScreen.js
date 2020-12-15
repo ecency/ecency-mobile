@@ -10,7 +10,7 @@ import { BasicHeader, FilterBar, VotersDisplay } from '../../../components';
 import AccountListContainer from '../../../containers/accountListContainer';
 
 // Utils
-import { getActiveVotes } from '../../../providers/steem/dsteem';
+import { getActiveVotes } from '../../../providers/hive/dhive';
 import { parseActiveVotes } from '../../../utils/postParser';
 import { getResizedAvatar } from '../../../utils/image';
 

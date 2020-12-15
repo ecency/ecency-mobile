@@ -6,7 +6,7 @@ import { injectIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
 
-import { getWithdrawRoutes } from '../../../providers/steem/dsteem';
+import { getWithdrawRoutes } from '../../../providers/hive/dhive';
 import AUTH_TYPE from '../../../constants/authType';
 
 import {

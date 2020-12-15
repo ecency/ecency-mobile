@@ -2,11 +2,11 @@
   "wallet": {
     "curation_reward": "अध्यक्षता इनाम",
     "author_reward": "लेखक इनाम",
-    "comment_benefactor_reward": "Benefactor Reward",
-    "claim_reward_balance": "Claim Reward ",
+    "comment_benefactor_reward": "लाभार्थी पुरस्कार",
+    "claim_reward_balance": "इनाम दावा ",
     "transfer": "स्थानांतरण",
-    "transfer_to_vesting": "To Vesting",
-    "transfer_from_savings": "From Savings",
+    "transfer_to_vesting": "वेस्टिंग को",
+    "transfer_from_savings": "बचत से",
     "withdraw_vesting": "शक्तिक्षय करें",
     "fill_order": "क्रम पूरा करें",
     "post": "लेख",
@@ -19,38 +19,38 @@
     "outgoing_transfer_title": "जाने वाली फाइल स्थानांतरण",
     "checkin_extra": "बोनस",
     "delegation": "प्रतिनिधि मंडल",
-    "delegations": "Delegations",
+    "delegations": "प्रतिनिधि मंडल",
     "delegation_title": "प्रतिनिधि मंडल ईनाम",
-    "delegation_desc": "Earn Points everyday for delegation",
+    "delegation_desc": "प्रतिनिधिमंडल के लिए रोज़ अंक अर्जित करें",
     "post_title": "पद के लिए अंक",
     "comment_title": "टिप्पणी के लिए अंक",
     "vote_title": "वोट के लिए अंक",
     "reblog_title": "पुनर्प्रेशण के लिए अंक",
     "login_title": "लॉगिन के लिए अंक",
-    "checkin_title": "Points for heartbeat",
-    "referral": "Referral",
-    "referral_title": "Referral rewards",
-    "referral_desc": "Invite friends and earn Points",
+    "checkin_title": "हार्टबीट के लिए अंक",
+    "referral": "रेफरल",
+    "referral_title": "रेफरल पुरस्कार",
+    "referral_desc": "दोस्तों को आमंत्रित करें और अंक अर्जित करें",
     "checkin_extra_title": "उपयोग बोनस",
-    "no_activity": "No recent activity",
+    "no_activity": "कोई हालिया गतिविधि नहीं",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
-    "post_desc": "You can earn point by posting regularly. Posting gives you upto 15 points.",
-    "comment_desc": "Each comment you make helps you to grow your audience and also earns you upto 5 points.",
-    "checkin_desc": "Checking in regularly gives you 0.25 points.",
-    "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
-    "reblog_desc": "Share what post you like with your friends and earn points.",
-    "login_desc": "When you login into app first time you earn 100 points.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
+    "post_desc": "आप नियमित रूप से पोस्ट करके बिंदु अर्जित कर सकते हैं। पोस्टिंग आपको 15 अंक तक प्रदान करती है।",
+    "comment_desc": "आपके द्वारा की गई प्रत्येक टिप्पणी से आपको अपने दर्शकों को बढ़ने में मदद मिलती है और साथ ही आपको 5 अंकों तक की कमाई भी होती है।",
+    "checkin_desc": "नियमित रूप से जाँच करने पर आपको 0.25 अंक मिलते हैं।",
+    "vote_desc": "मतदान करके आप अन्य रचनाकारों को इनाम देते हैं और 0.01 x वोट वेट पॉइंट तक कमाते हैं।",
+    "reblog_desc": "आप अपने दोस्तों के साथ जो पोस्ट पसंद करते हैं उसे साझा करें और अंक अर्जित करें।",
+    "login_desc": "जब आप पहली बार ऐप में लॉगिन करते हैं तो आप 100 अंक कमाते हैं।",
+    "checkin_extra_desc": "एप्लिकेशन का लगातार उपयोग आपको अधिक अंक अर्जित करने, अधिक सक्रिय होने और अधिक कमाने के लिए अतिरिक्त मौके देता है।",
     "dropdown_transfer": "उपहार",
     "dropdown_promote": "प्रचार करना",
     "dropdown_boost": "बूस्ट",
     "from": "से",
     "to": "को",
-    "estimated_value_desc": "According to purchase value",
-    "estimated_value": "Estimated value",
-    "estimated_amount": "Vote value",
-    "amount_information": "Drag the slider to adjust the amount",
+    "estimated_value_desc": "खरीद मूल्य के अनुसार",
+    "estimated_value": "अनुमानित मूल्य",
+    "estimated_amount": "वोट का मूल्य",
+    "amount_information": "राशि समायोजित करने के लिए स्लाइडर को खींचें।",
     "amount": "रकम",
     "memo": "ज्ञापन",
     "information": "क्या आप रकम स्थान्तरित करना चाहते हैं?",
@@ -59,68 +59,68 @@
     "to_placeholder": "प्रयोक्ता नाम",
     "memo_placeholder": "अपनी टिप्पणी यहाँ लिखें",
     "transfer_token": "स्थानांतरण",
-    "purchase_estm": "GET POINTS",
-    "points": "Gift Points to someone",
-    "transfer_to_saving": "To Saving",
+    "purchase_estm": "अंक प्राप्त करें",
+    "points": "किसी को उपहार दे",
+    "transfer_to_saving": "बचत करने के लिए",
     "powerUp": "स्टीम क्षमता बढ़ाएं",
-    "withdraw_to_saving": "Withdraw Saving",
-    "steemconnect_title": "Hivesigner Transfer",
-    "next": "NEXT",
+    "withdraw_to_saving": "बचत खाते से निकालें",
+    "steemconnect_title": "हाइवसाईनर स्थानांतरण",
+    "next": "अगला",
     "delegate": "कार्यभार सौंपें",
     "power_down": "शक्तिक्षय करें",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
-    "transfer_to_savings": "To Savings",
-    "convert": "Convert",
-    "escrow_transfer": "Escrow Transfer",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel From Savings",
+    "withdraw_steem": "हाइव को वापस लें",
+    "withdraw_sbd": "एचबीडी को वापस ले लें",
+    "transfer_to_savings": "बचत करने के लिए",
+    "convert": "बदलें",
+    "escrow_transfer": "एस्क्रो ट्रांसफर",
+    "escrow_dispute": "एस्क्रो विवाद",
+    "escrow_release": "एस्क्रो रिलीज",
+    "escrow_approve": "एस्क्रो अनुमोदन",
+    "cancel_transfer_from_savings": "बचत से रद्द करें",
     "delegate_vesting_shares": "प्रतिनिधि मंडल",
-    "fill_convert_request": "Convert Executed",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_convert_request": "परिवर्तित परिवर्तित",
+    "fill_transfer_from_savings": "बचत की गई",
+    "fill_vesting_withdraw": "पॉवरडाउन को अंजाम दिया",
     "estm": {
       "title": "अंक",
-      "buy": "GET POINTS"
+      "buy": "अंक प्राप्त करें"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "हाइव बचत"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "एचबीडी बचत"
     },
     "steem": {
-      "title": "HIVE",
-      "buy": "GET HIVE"
+      "title": "हाइव",
+      "buy": "हाइव प्राप्त करें"
     },
     "sbd": {
-      "title": "HBD",
-      "buy": "GET HBD"
+      "title": "एचबीडी",
+      "buy": "एचबीडी प्राप्त करें"
     },
     "steem_power": {
-      "title": "HIVE POWER"
+      "title": "हाइव पावर"
     },
     "btc": {
-      "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "title": "बीटीसी",
+      "buy": "बीटीसी प्राप्त करें",
+      "address": "प्राप्त करना"
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "unvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "vote": "मतदान किया",
+    "unvote": "अनियंत्रित",
+    "reply": "को उत्तर दिया",
+    "mention": "में वर्णित",
     "follow": "आपके साथ जुड़ा",
     "unfollow": "आपका साथ छोड़ा",
     "ignore": "आपको अनदेखा किया",
-    "reblog": "reblogged",
-    "transfer": "transferred",
-    "spin": "Time to earn more Points",
-    "inactive": "Be active! Write a post, continue earning",
-    "referral": "joined with your referral, welcome them",
+    "reblog": "रीब्लॉग हुवा",
+    "transfer": "स्थान्तरण",
+    "spin": "अधिक अंक अर्जित करने का समय",
+    "inactive": "सक्रिय हों! एक पोस्ट लिखो, कमाई जारी रखो",
+    "referral": "अपने रेफरल के साथ शामिल हुए, उनका स्वागत करें",
     "notification": "अधिसूचनाएं",
     "leaderboard": "अधिनायकपटल",
     "epoint": "अंक",
@@ -130,16 +130,16 @@
     "this_week": "इस सप्ताह",
     "this_month": "इस महीने",
     "older_then": "एक महीना से अधिक पुराना",
-    "activities": "All",
+    "activities": "सब",
     "replies": "जबाबें",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs",
-    "noactivity": "No recent activity"
+    "mentions": "का उल्लेख है",
+    "reblogs": "रिब्लॉग्स",
+    "noactivity": "कोई हालिया गतिविधि नहीं"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "रोज",
+    "weekly": "साप्ताहिक",
+    "monthly": "महीने के"
   },
   "messages": {
     "comingsoon": "सन्देश सुविधा जल्द आ रही है!"
@@ -158,20 +158,21 @@
     "hours": "घंटे",
     "voting_power": "मतदान की क्षमता",
     "login_to_see": "देखने के लिए लॉगिन करें",
-    "follow_people": "Follow some people to fill your feed",
+    "follow_people": "अपना फ़ीड भरने के लिए कुछ लोगों का अनुसरण करें",
+    "follow_communities": "अपना फ़ीड भरने के लिए कुछ समुदायों से जुड़ें",
     "havent_commented": "अभी तक कोई टिपण्णी नहीं की है",
     "havent_posted": "अभी तक कोई पोस्ट नहीं की है",
-    "steem_power": "Hive Power",
+    "steem_power": "हाइव पावर",
     "next_power_text": "अगला शक्तिक्षय में है",
     "days": "दिनों",
     "day": "दिन",
-    "steem_dollars": "Hive Dollars",
+    "steem_dollars": "हाइव डॉलर",
     "savings": "बचत",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
-      "website": "Website"
+      "display_name": "प्रदर्शित होने वाला नाम",
+      "about": "के बारे में",
+      "location": "स्थान",
+      "website": "वेबसाइट"
     }
   },
   "settings": {
@@ -193,7 +194,7 @@
     "pincode": "Pincode",
     "reset_pin": "पिन कोड रीसेट करें",
     "reset": "पुनः नियोजन",
-    "nsfw_content": "NSFW",
+    "nsfw_content": "एनडीएफडब्ल्यू",
     "send_feedback": "प्रतिक्रिया भेजें",
     "send": "भेजना",
     "default_footer": "वितथ पृष्ठ पदांत",
@@ -212,34 +213,36 @@
   },
   "login": {
     "signin": "अंदर आएं",
-    "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Ecency",
+    "signup": "अब सम्मिलित हों",
+    "signin_title": "इसेंसी का उपयोग करने के सभी लाभ प्राप्त करने के लिए",
     "username": "प्रयोक्ता नाम",
     "password": "पासवर्ड या डब्लूएआईएफ",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "साइन इन करके, आप हमारी सेवा की शर्तों और गोपनीयता नीतियों से सहमत हैं।",
     "cancel": "रद्द करें",
     "login": "लॉगिन करें",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_description": "यदि आप अपने पासवर्ड को अपने डिवाइस पर एन्क्रिप्ट और सहेज कर नहीं रखना चाहते हैं, तो आप हाइवसाईनरका उपयोग कर सकते हैं।",
+    "steemconnect_fee_description": "जानकारी"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "साइन अप करें",
     "title": "भाग लें",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
-    "ref_user": "Referred user (Optional)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
-    "title_description": "One account to manage everything",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "username": "एक उपयोगकर्ता नाम चुनें",
+    "mail": "अपना ईमेल पता दर्ज करें",
+    "ref_user": "संदर्भित उपयोगकर्ता (वैकल्पिक)",
+    "500_error": "आपके अनुरोध को संसाधित नहीं किया जा सका, साइनअप कतार पूर्ण होने की संभावना है! कुछ मिनटों में पुन: प्रयास करें...",
+    "title_description": "सब कुछ प्रबंधित करने के लिए एक खाता",
+    "form_description": "हमारे साथ साइन अप करके, आप हमारी सेवा की शर्तों और गोपनीयता नीतियों से सहमत हैं।"
   },
   "home": {
     "feed": "संभरण",
     "popular": "लोकप्रिय",
-    "top": "Top",
-    "hot": "Hot",
-    "new": "New",
-    "blog": "Blog",
-    "posts": "Post"
+    "top": "ऊपर",
+    "hot": "लोकप्रीय",
+    "new": "नया",
+    "blog": "ब्लॉग",
+    "posts": "Post",
+    "friends": "दोस्त",
+    "communities": "समुदाय"
   },
   "side_menu": {
     "profile": "रुपरेखा",
@@ -266,29 +269,32 @@
   },
   "editor": {
     "title": "शीर्षक",
-    "tags": "Tags (separate with space)",
-    "default_placeholder": "Tell us something...",
-    "reply_placeholder": "Add your reply...",
+    "tags": "टैग (अंतरिक्ष के साथ अलग)",
+    "default_placeholder": "हमें कुछ बताओ...",
+    "reply_placeholder": "अपना उत्तर जोड़ें...",
     "publish": "प्रकाशित करें",
     "reply": "जबाब दें",
     "open_gallery": "गैलरी खोलें",
     "capture_photo": "फोटो खीचें",
-    "limited_tags": "Only 10 tags allowed, remove some",
-    "limited_length": "Maximum length of each tag should be 24",
-    "limited_dash": "Use one dash in each tag",
-    "limited_space": "Use space to separate tags",
-    "limited_lowercase": "Only use lower letters in tag",
-    "limited_characters": "Use only lowercase letters, digits and one dash",
-    "limited_firstchar": "Tag must start with a letter",
-    "limited_lastchar": "Tag must end with letter or number",
+    "limited_tags": "केवल 10 टैग की अनुमति है, कुछ को हटा दें",
+    "limited_length": "प्रत्येक टैग की अधिकतम लंबाई 24 होनी चाहिए",
+    "limited_dash": "प्रत्येक टैग की अधिकतम लंबाई 24 होनी चाहिए",
+    "limited_space": "अलग-अलग टैग के लिए स्थान का उपयोग करें",
+    "limited_lowercase": "केवल टैग में कम अक्षरों का उपयोग करें",
+    "limited_characters": "केवल निचले अक्षरों, अंकों और एक डैश का उपयोग करें",
+    "limited_firstchar": "टैग को एक पत्र के साथ शुरू करना चाहिए",
+    "limited_lastchar": "टैग को पत्र या संख्या के साथ समाप्त होना चाहिए",
     "setting_schedule": "Scheduling Time",
-    "setting_reward": "Reward",
-    "setting_beneficiary": "Beneficiary",
-    "reward_default": "Default 50% / 50%",
-    "reward_power_up": "Power Up 100%",
-    "reward_decline": "Decline Payout",
-    "beneficiaries": "Beneficiaries",
-    "options": "Options"
+    "setting_reward": "इनाम",
+    "setting_beneficiary": "लाभार्थी",
+    "reward_default": "वितथ रूप से ५०%/५०%",
+    "reward_power_up": "१००% शक्तिप्रापक करें",
+    "reward_decline": "भुगतान अस्वीकार करें",
+    "beneficiaries": "लाभार्थी",
+    "options": "विकल्प",
+    "my_blog": "मेरा ब्लॉग",
+    "my_communities": "मेरे समुदाय",
+    "top_communities": "शीर्ष समुदाय"
   },
   "pincode": {
     "enter_text": "खोलनें के लिए पिन डालें",
@@ -304,19 +310,19 @@
     "fail": "असफल!",
     "move": "हटाना",
     "move_question": "क्या आप ड्राफ्ट में जाना सुनिश्चित करते हैं?",
-    "success_shared": "Success! Content submitted!",
+    "success_shared": "सफलता! प्रस्तुत सामग्री!",
     "success_moved": "ड्राफ्ट में ले जाया गया",
     "permission_denied": "अनुमोदन अस्वीकृत हुवा",
-    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Operation requires active key or master password, please relogin!",
+    "permission_text": "कृपया, फ़ोन सेटिंग पर जाएं और इसेंसी ऐप अनुमतियां बदलें।",
+    "key_warning": "ऑपरेशन के लिए सक्रिय कुंजी या मास्टर पासवर्ड की आवश्यकता होती है, कृपया पुनः लोड करें!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "पहले से ही पुनः प्रकाशित है!",
-    "success_favorite": "Favorite added!",
-    "success_unfavorite": "Favorite removed!",
-    "success_follow": "Follow success!",
-    "success_mute": "Mute success!",
-    "success_unmute": "Unmute success!",
-    "success_unfollow": "Unfollow success!",
+    "success_favorite": "पसंदीदा जोड़ा!",
+    "success_unfavorite": "पसंदीदा हटा दिया गया!",
+    "success_follow": "सफलता का पालन करें!",
+    "success_mute": "सफलता को म्यूट करें!",
+    "success_unmute": "सफलता को बेपर्दा करो!",
+    "success_unfollow": "असफल सफलता!",
     "warning": "चेतावनी",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "क्या आप इसे सच में हटाना चाहते हैं?",
@@ -332,35 +338,35 @@
     "same_user": "इस उपयोगकर्ता को पहले ही सूची में जोड़ दिया",
     "unknow_error": "एक त्रुटि पाई गई",
     "error": "त्रुटि",
-    "fetch_error": "Connection issue, change server and restart",
+    "fetch_error": "कनेक्शन समस्या, सर्वर बदलें और पुनरारंभ करें",
     "connection_fail": "कनेक्ट करना विफल रहा",
     "connection_success": "सफलतापूर्वक जुड़ा हुआ है!",
-    "checking": "Checking...",
-    "external_link": "Open in Browser",
-    "not_existing_post": "The post does not exist! Please check permlink and author.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
-    "payloadTooLarge": "File size too big, please resize or upload smaller image",
-    "qoutaExceeded": "Upload quota exceeded",
-    "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload"
+    "checking": "जाँच हो रही है...",
+    "external_link": "ब्राउज़र में खोलें",
+    "not_existing_post": "पद मौजूद नहीं है! कृपया पर्मलिंक और लेखक की जाँच करें।",
+    "google_play_version": "हमने देखा कि आपके डिवाइस में गूगल प्ले का पुराना संस्करण है। कृपया गूगल प्ले सेवाओं को अपडेट करें और पुनः प्रयास करें!",
+    "rc_down": "कार्रवाई करने के लिए पर्याप्त संसाधन क्रेडिट नहीं! \n\nअनुभव का आनंद लेना जारी रखने के लिए अपने खाते को बढ़ावा दें। क्या आप अब अपना खाता बढ़ाना चाहते हैं?",
+    "payloadTooLarge": "फ़ाइल का आकार बहुत बड़ा है, कृपया आकार बदलें या छोटी छवि अपलोड करें",
+    "qoutaExceeded": "अपलोड कोटा पार हो गया",
+    "invalidImage": "अमान्य छवि, भिन्न फ़ाइल आज़माएं",
+    "something_wrong": "कुछ गलत हो गया।",
+    "something_wrong_alt": "Https://ecency.com आज़माएं",
+    "something_wrong_reload": "पुनः लोड करें"
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
-    "removed_hint": "Content is not available",
-    "copy_link": "Copy link",
+    "removed_hint": "सामग्री उपलब्ध नहीं है",
+    "copy_link": "लिंक कापी करें",
     "reblogged": "द्वारा रीब्लॉग",
-    "sponsored": "SPONSORED",
-    "open_thread": "Open thread",
-    "image": "Image",
-    "link": "Link",
-    "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image",
-    "wrong_link": "Wrong link"
+    "sponsored": "प्रायोजित",
+    "open_thread": "खुले हुए थ्रेड",
+    "image": "छवि",
+    "link": "लिंक",
+    "gallery_mode": "गैलरी मोड",
+    "save_to_local": "डिवाइस पर डाउनलोड करें",
+    "image_saved": "फोटो गैलरी के लिए छवि सहेजी गई",
+    "image_saved_error": "छवि सहेजने में त्रुटि",
+    "wrong_link": "गलत लिंक"
   },
   "drafts": {
     "title": "प्रारूप",
@@ -385,7 +391,7 @@
     "add": "पृष्ठ स्मृति में जोड़ें"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "आपत्तिजनक सामग्री की सूचना दी"
   },
   "favorites": {
     "title": "पसंदीदा",
@@ -398,7 +404,7 @@
     "invalid_username": "प्रयोक्ता नाम गलत है, कृप्या जाँच करें और पुनः प्रयाश करें",
     "already_logged": "आप पहले से ही लॉगिन हैं, कृप्या दूसरी खता जोड़ने की कोशिश करें",
     "invalid_credentials": "प्रमाणपत्र गलत है, कृप्या जाँच करें और पुनः प्रयाश करें",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "अज्ञात त्रुटि, कृपया support@ecency.com पर लिखें"
   },
   "payout": {
     "potential_payout": "संभावित भुगतान",
@@ -406,9 +412,9 @@
     "author_payout": "लेखक भुगतान",
     "curation_payout": "अध्यक्ष्ता इनाम",
     "payout_date": "भुगतान",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
-    "breakdown": "Breakdown"
+    "beneficiaries": "लाभार्थी",
+    "warn_zero_payout": "भुगतान के लिए राशि $ 0.02 तक पहुंचनी चाहिए",
+    "breakdown": "विश्लेषण"
   },
   "post_dropdown": {
     "copy": "लिंक कापी करें",
@@ -418,7 +424,7 @@
     "bookmarks": "पृष्ठ स्मृति में जोड़ें",
     "promote": "प्रचार करना",
     "boost": "प्रोत्साहन",
-    "report": "report"
+    "report": "विवरण"
   },
   "deep_link": {
     "no_existing_user": "कोई विद्यमान उपयोगकर्ता नहीं",
@@ -429,125 +435,126 @@
     "comments": "टिप्पणियाँ"
   },
   "comment_filter": {
-    "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
-    "top": "TOP",
-    "time": "TIME"
+    "trending": "ऊपर",
+    "reputation": "प्रतिष्ठा",
+    "votes": "वोट",
+    "age": "उम्र",
+    "top": "ऊपर",
+    "time": "समय"
   },
   "transfer": {
     "from": "से",
     "to": "को",
-    "amount_information": "Drag the slider to adjust the amount",
+    "amount_information": "राशि समायोजित करने के लिए स्लाइडर को खींचें।",
     "amount": "रकम",
     "memo": "ज्ञापन",
     "information": "क्या आप रकम स्थान्तरित करना चाहते हैं?",
     "amount_desc": "शेष रकम",
     "memo_desc": "यह ज्ञापन सार्वजनिक है",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "कन्वर्ट में 3.5 दिन लगते हैं और अनुशंसित नहीं है यदि एचबीडी की कीमत $ 1 से अधिक है",
     "to_placeholder": "प्रयोक्ता नाम",
     "memo_placeholder": "अपनी टिप्पणी यहाँ लिखें",
     "transfer_token": "स्थानांतरण",
-    "purchase_estm": "Purchase Points",
-    "convert": "Convert HBD to HIVE",
-    "points": "Gift Points to someone",
+    "purchase_estm": "पॉइंट्स खरीदे",
+    "convert": "एचबीडी को हाइव में बदलें",
+    "points": "किसी को अंक उपहार दे",
     "transfer_to_saving": "बचत खाते में स्थान्तरण करें",
     "powerUp": "स्टीम क्षमता बढ़ाएं",
-    "withdraw_to_saving": "Withdraw To Saving",
-    "steemconnect_title": "Hivesigner Transfer",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
-    "auto_vests": "Auto Vests",
-    "save": "SAVE",
-    "percent_information": "Percent info",
-    "next": "NEXT",
+    "withdraw_to_saving": "बचत खाते से निकालें",
+    "steemconnect_title": "हाइवसाईनर स्थानांतरण",
+    "estimated_weekly": "साप्ताहिक रूप से अनुमान लगाया गया",
+    "destination_accounts": "गंतव्य खाते",
+    "stop_information": "क्या आप वाकई रोकना चाहते हैं?",
+    "percent": "प्रतिशत",
+    "auto_vests": "ऑटो वैस्ट",
+    "save": "सहेजें",
+    "percent_information": "प्रतिशत जानकारी",
+    "next": "अगला",
     "delegate": "कार्यभार सौंपें",
     "power_down": "क्षमता कम करें",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
-    "incoming_funds": "Incoming Funds",
-    "stop": "Stop",
-    "address_view": "View address"
+    "withdraw_steem": "हाइव को वापस लें",
+    "withdraw_sbd": "हाइव डॉलर वापस लेना",
+    "incoming_funds": "आवक फंड",
+    "stop": "रुको",
+    "address_view": "पता देखें"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
-    "next": "NEXT",
+    "title": "अंक प्राप्त करें",
+    "buy": "अंक प्राप्त करें",
+    "next": "अगला",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "title": "खाता बूस्ट प्राप्त करें",
+      "desc": "30 दिनों का प्रतिनिधिमंडल आपके वोटों और सामाजिक गतिविधियों को बढ़ावा देगा और आपको अधिक संसाधन क्रेडिट के साथ अधिक कार्रवाई देगा।"
     }
   },
   "free_estm": {
-    "title": "Free Points",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "title": "नि: शुल्क अंक",
+    "button": "स्पिन और जीत",
+    "get_spin": "5 स्पिन",
+    "spin_right": "स्पिन लेफ्ट",
+    "timer_text": "अगले फ्री स्पिन में"
   },
   "promote": {
     "title": "प्रचार करना",
     "days": "दिनों",
     "user": "उपयोगकर्ता",
     "permlink": "लेख",
-    "permlinkPlaceholder": "username/permlink",
-    "information": "Are you sure to promote?"
+    "permlinkPlaceholder": "उपयोगकर्ता नाम / स्थायी लिंक",
+    "information": "क्या आप प्रचार करना सुनिश्चित करते हैं?"
   },
   "boostPost": {
     "title": "प्रोत्साहन"
   },
   "voters_dropdown": {
     "rewards": "इनाम",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "percent": "प्रतिशत",
+    "time": "समय"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "रिबॉग जानकारी"
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "आपका डिवाइस समय;",
+      "current_time": "वर्तमान समय;",
+      "information": "हमने देखा कि आपके डिवाइस की तिथि या समय गलत है। कृपया दिनांक और समय तय करें या स्वचालित रूप से सेट करें और पुनः प्रयास करें।"
     }
   },
   "comments": {
     "title": "विवेचनाऐं",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "टिप्पणी का खुलासा",
+    "read_more": "अधिक टिप्पणियाँ पढ़ें",
+    "more_replies": "अधिक जवाब"
   },
   "search_result": {
-    "others": "Others",
+    "others": "अन्य",
     "communities": {
-      "title": "Communities",
-      "subscribe": "Subscribe",
-      "unsubscribe": "Unsubscribe",
-      "subscribers": "Subscribers",
-      "posters": "Posters",
+      "title": "समुदाय",
+      "subscribe": "शामिल हों",
+      "unsubscribe": "छोड़ें",
+      "subscribers": "सदस्य",
+      "posters": "पोस्टर",
       "posts": "Post"
     },
     "communities_filter": {
-      "rank": "Rank",
-      "subs": "Subscribers",
-      "new": "New"
+      "my": "मेरे समुदाय",
+      "rank": "स्थान",
+      "subs": "सदस्य",
+      "new": "नया"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "लोकप्रियता",
+      "newest": "नवीनतम",
+      "relevance": "प्रासंगिकता"
     },
     "other_result_filter": {
       "user": "उपयोगकर्ता",
-      "tag": "Tag"
+      "tag": "टैग"
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details"
+    "new_post": "नया पोस्ट",
+    "community": "समुदाय",
+    "details": "विवरण"
   }
 }

@@ -9,8 +9,8 @@ import { Icon, TextInput } from '..';
 import { hsOptions } from '../../constants/hsOptions';
 
 // Services and Actions
-import { getUser } from '../../providers/esteem/ePoint';
-import { searchPath } from '../../providers/esteem/esteem';
+import { getUser } from '../../providers/ecency/ePoint';
+import { searchPath } from '../../providers/ecency/ecency';
 
 // Components
 import { BasicHeader } from '../basicHeader';

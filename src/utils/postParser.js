@@ -2,7 +2,7 @@ import isEmpty from 'lodash/isEmpty';
 import forEach from 'lodash/forEach';
 import { get } from 'lodash';
 import { Platform } from 'react-native';
-import { postBodySummary, renderPostBody, catchPostImage } from '@esteemapp/esteem-render-helpers';
+import { postBodySummary, renderPostBody, catchPostImage } from '@ecency/render-helper';
 
 // Utils
 import parseAsset from './parseAsset';

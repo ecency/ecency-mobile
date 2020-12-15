@@ -8,14 +8,14 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 // Services and Actions
 import { Buffer } from 'buffer';
-import { uploadImage, addDraft, updateDraft, schedule } from '../../../providers/esteem/esteem';
+import { uploadImage, addDraft, updateDraft, schedule } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
   postContent,
   getPurePost,
   grantPostingPermission,
   signImage,
-} from '../../../providers/steem/dsteem';
+} from '../../../providers/hive/dhive';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
 
 // Constants
@@ -492,7 +492,16 @@ class EditorContainer extends Component {
 
   _handleSubmitFailure = (error) => {
     const { intl, dispatch } = this.props;
-    if (error && error.jse_shortmsg.includes('wait to transact')) {
+    console.log(error);
+    if (
+      error &&
+      error.response &&
+      error.response.jse_shortmsg &&
+      error.response.jse_shortmsg.includes('wait to transact')
+    ) {
+      //when RC is not enough, offer boosting account
+      dispatch(setRcOffer(true));
+    } else if (error && error.jse_shortmsg && error.jse_shortmsg.includes('wait to transact')) {
       //when RC is not enough, offer boosting account
       dispatch(setRcOffer(true));
     } else {
@@ -501,7 +510,7 @@ class EditorContainer extends Component {
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        error.message.split(':')[1] || error.toString(),
+        error.error_description.split(': ')[1] || error.toString(),
       );
     }
 
@@ -782,7 +791,7 @@ class EditorContainer extends Component {
   }
 
   render() {
-    const { isLoggedIn, isDarkTheme, navigation } = this.props;
+    const { isLoggedIn, isDarkTheme, navigation, currentAccount } = this.props;
     const {
       autoFocusText,
       draftPost,
@@ -827,6 +836,7 @@ class EditorContainer extends Component {
         uploadedImage={uploadedImage}
         tags={tags}
         community={community}
+        currentAccount={currentAccount}
       />
     );
   }

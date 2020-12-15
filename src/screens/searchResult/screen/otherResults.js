@@ -46,32 +46,35 @@ const OtherResult = ({ navigation, searchValue }) => {
   const _renderList = (users, tags, filterIndex, handleOnPress) => {
     switch (filterIndex) {
       case 0:
-        return (
-          <FlatList
-            data={users}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item, index }) => (
-              <TouchableOpacity onPress={() => handleOnPress(item)}>
-                {_renderUserItem(item, index)}
-              </TouchableOpacity>
-            )}
-            ListEmptyComponent={_renderEmptyContent}
-          />
-        );
+        if (users && users.length > 0) {
+          return (
+            <FlatList
+              data={users}
+              keyExtractor={(item, ind) => `${item}-${ind}`}
+              renderItem={({ item, index }) => (
+                <TouchableOpacity onPress={() => handleOnPress(item)}>
+                  {_renderUserItem(item, index)}
+                </TouchableOpacity>
+              )}
+              ListEmptyComponent={_renderEmptyContent}
+            />
+          );
+        }
       case 1:
-        return (
-          <FlatList
-            data={tags}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item, index }) => (
-              <TouchableOpacity onPress={() => handleOnPress(item)}>
-                {_renderTagItem(item, index)}
-              </TouchableOpacity>
-            )}
-            ListEmptyComponent={_renderEmptyContent}
-          />
-        );
-
+        if (tags && tags.length > 0) {
+          return (
+            <FlatList
+              data={tags}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item, index }) => (
+                <TouchableOpacity onPress={() => handleOnPress(item)}>
+                  {_renderTagItem(item, index)}
+                </TouchableOpacity>
+              )}
+              ListEmptyComponent={_renderEmptyContent}
+            />
+          );
+        }
       default:
         break;
     }

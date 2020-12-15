@@ -9,7 +9,7 @@ import { parseActiveVotes } from '../../../utils/postParser';
 // Constants
 
 // Actions
-import { getActiveVotes } from '../../../providers/steem/dsteem';
+import { getActiveVotes } from '../../../providers/hive/dhive';
 
 // Components
 import { CommentBody, PostHeaderDescription } from '../../postElements';

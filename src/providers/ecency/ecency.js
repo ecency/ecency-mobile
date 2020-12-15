@@ -23,9 +23,7 @@ export const getCurrencyTokenRate = (currency, token) =>
     .then((resp) => resp.data)
     .catch((err) => {
       bugsnag.notify(err);
-      return token === 'hbd'
-        ? getCurrencyTokenRate(currency, 'sbd')
-        : getCurrencyTokenRate(currency, 'steem');
+      return 0;
     });
 
 /**

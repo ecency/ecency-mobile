@@ -20,7 +20,7 @@ import { FormattedCurrency } from '../../formatedElements';
 import { setRcOffer } from '../../../redux/actions/uiAction';
 
 // STEEM
-import { vote } from '../../../providers/steem/dsteem';
+import { vote } from '../../../providers/hive/dhive';
 
 // Styles
 import styles from './upvoteStyles';
@@ -105,7 +105,19 @@ class UpvoteView extends Component {
           );
         })
         .catch((err) => {
-          if (err && err.jse_shortmsg && err.jse_shortmsg.indexOf('Please wait to transact') > 0) {
+          if (
+            err &&
+            err.response &&
+            err.response.jse_shortmsg &&
+            err.response.jse_shortmsg.includes('wait to transact')
+          ) {
+            //when RC is not enough, offer boosting account
+            this.setState({
+              isVoted: false,
+              isVoting: false,
+            });
+            dispatch(setRcOffer(true));
+          } else if (err && err.jse_shortmsg && err.jse_shortmsg.includes('wait to transact')) {
             //when RC is not enough, offer boosting account
             this.setState({
               isVoted: false,
@@ -125,14 +137,14 @@ class UpvoteView extends Component {
                 intl.formatMessage({
                   id: 'alert.fail',
                 }),
-                err.jse_shortmsg.split(':')[1],
+                err.error_description.split(': ')[1],
               );
             } else {
               Alert.alert(
                 intl.formatMessage({
                   id: 'alert.fail',
                 }),
-                err.jse_shortmsg,
+                err.jse_shortmsg || err.error_description,
               );
             }
             this.setState({

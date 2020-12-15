@@ -7,6 +7,7 @@ export default {
   $primaryLightBackground: '#2e3d51',
   $primaryGrayBackground: '#1e2835',
   $primaryWhiteLightBackground: '#2e3d51',
+  $modalBackground: '#1e2835',
   $white: '#1e2835',
   $black: '#000000',
   $primaryBlue: '#357ce6',

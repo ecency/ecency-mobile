@@ -9,7 +9,7 @@ import {
   removeFavorite,
   getBookmarks,
   removeBookmark,
-} from '../../../providers/esteem/esteem';
+} from '../../../providers/ecency/ecency';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';

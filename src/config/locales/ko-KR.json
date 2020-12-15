@@ -159,6 +159,7 @@
     "voting_power": "보팅 파워",
     "login_to_see": "로그인해서 확인하기",
     "follow_people": "피드를 채우기 위해 팔로우해보세요.",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "아직 댓글을 작성한 적이 없습니다",
     "havent_posted": "아직 게시한 글이 없습니다",
     "steem_power": "HIVE Power",
@@ -239,7 +240,9 @@
     "hot": "인기순",
     "new": "신규순",
     "blog": "블로그",
-    "posts": "글 목록"
+    "posts": "글 목록",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "프로필",
@@ -288,7 +291,10 @@
     "reward_power_up": "Power Up 100%",
     "reward_decline": "Decline Payout",
     "beneficiaries": "Beneficiaries",
-    "options": "Options"
+    "options": "Options",
+    "my_blog": "My Blog",
+    "my_communities": "My Communities",
+    "top_communities": "Top Communities"
   },
   "pincode": {
     "enter_text": "잠금을 해제하려면 PIN 코드를 입력해주세요",
@@ -524,15 +530,16 @@
     "others": "기타",
     "communities": {
       "title": "커뮤니티",
-      "subscribe": "구독",
-      "unsubscribe": "구독해지",
-      "subscribers": "구독자",
+      "subscribe": "Join",
+      "unsubscribe": "Leave",
+      "subscribers": "Members",
       "posters": "포스터",
       "posts": "글 목록"
     },
     "communities_filter": {
+      "my": "My Communities",
       "rank": "랭크",
-      "subs": "구독자",
+      "subs": "Members",
       "new": "새 글"
     },
     "post_result_filter": {

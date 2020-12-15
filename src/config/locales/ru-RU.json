@@ -159,6 +159,7 @@
     "voting_power": "Сила голоса",
     "login_to_see": "Войдите, чтобы увидеть",
     "follow_people": "Подпишитесь на нескольких людей, чтобы заполнить ленту",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "ещё ничего не комментировал",
     "havent_posted": "ещё ничего не написал",
     "steem_power": "Hive Power (Сила)",
@@ -239,7 +240,9 @@
     "hot": "Актуальное",
     "new": "Новое",
     "blog": "Блог",
-    "posts": "Посты"
+    "posts": "Посты",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Профиль",
@@ -288,7 +291,10 @@
     "reward_power_up": "100% в Силу",
     "reward_decline": "Отказ от выплат",
     "beneficiaries": "Бенефициары",
-    "options": "Options"
+    "options": "Options",
+    "my_blog": "My Blog",
+    "my_communities": "My Communities",
+    "top_communities": "Top Communities"
   },
   "pincode": {
     "enter_text": "Чтобы разблокировать введите пин-код",
@@ -524,15 +530,16 @@
     "others": "Другое",
     "communities": {
       "title": "Сообщества",
-      "subscribe": "Подписаться",
-      "unsubscribe": "Отписаться",
-      "subscribers": "Подписчики",
+      "subscribe": "Join",
+      "unsubscribe": "Leave",
+      "subscribers": "Members",
       "posters": "Авторы",
       "posts": "Посты"
     },
     "communities_filter": {
+      "my": "My Communities",
       "rank": "Рейтинг",
-      "subs": "Подписчики",
+      "subs": "Members",
       "new": "Новое"
     },
     "post_result_filter": {

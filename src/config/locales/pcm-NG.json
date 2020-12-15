@@ -2,11 +2,11 @@
   "wallet": {
     "curation_reward": "Reward For Post Wey You Upvote",
     "author_reward": "Person Wey Write Reward",
-    "comment_benefactor_reward": "Benefactor Reward",
-    "claim_reward_balance": "Claim Reward ",
+    "comment_benefactor_reward": "Ur helper property",
+    "claim_reward_balance": "Collect your property ",
     "transfer": "Transfer",
-    "transfer_to_vesting": "To Vesting",
-    "transfer_from_savings": "From Savings",
+    "transfer_to_vesting": "Put am keep",
+    "transfer_from_savings": "From wia you keep am",
     "withdraw_vesting": "Power Down",
     "fill_order": "Fill Order",
     "post": "Tori",
@@ -19,37 +19,37 @@
     "outgoing_transfer_title": "Outgoing transfer",
     "checkin_extra": "Awoof",
     "delegation": "Delegation",
-    "delegations": "Delegations",
+    "delegations": "Wetin dem dash you",
     "delegation_title": "Delegation reward",
-    "delegation_desc": "Earn Points everyday for delegation",
+    "delegation_desc": "Collect some things ontop wetin you dash everyday",
     "post_title": "Point for post",
     "comment_title": "Point for comment",
     "vote_title": "Point for vote",
     "reblog_title": "Point for reblog",
     "login_title": "Point for login",
     "checkin_title": "Points for heartbeat",
-    "referral": "Referral",
-    "referral_title": "Referral rewards",
-    "referral_desc": "Invite friends and earn Points",
+    "referral": "Send person come",
+    "referral_title": "Money for person wey you send come",
+    "referral_desc": "Send your padi come make you collect some things",
     "checkin_extra_title": "Awoof for using",
-    "no_activity": "No recent activity",
+    "no_activity": "Nothing dey for now",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
-    "post_desc": "You can earn point by posting regularly. Posting gives you upto 15 points.",
-    "comment_desc": "Each comment you make helps you to grow your audience and also earns you upto 5 points.",
-    "checkin_desc": "Checking in regularly gives you 0.25 points.",
-    "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
-    "reblog_desc": "Share what post you like with your friends and earn points.",
-    "login_desc": "When you login into app first time you earn 100 points.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
+    "post_desc": "You fit get some things if you fit dey post everytime. Na 15 some thing posting fit give you.",
+    "comment_desc": "Every comment wey you drop go make people sabi you and you go fit collect reach 5 something.",
+    "checkin_desc": "Say you enter wella go make you collect 0.25 something.",
+    "vote_desc": "You go dey give something to other person if you dey vote and you self fit collect reach 0.01 x vote weight of d things.",
+    "reblog_desc": "You fit tell ur padi d tori wey you enjoy make you collect some things too.",
+    "login_desc": "You go collect 100 somethings when you enta the application as jjc.",
+    "checkin_extra_desc": "You go get chance collect beta some things if you dey use the application wella, and say you dey sha prapra.",
     "dropdown_transfer": "Gift",
     "dropdown_promote": "Promote",
     "dropdown_boost": "Boost",
     "from": "From",
     "to": "To",
-    "estimated_value_desc": "According to purchase value",
-    "estimated_value": "Estimated value",
-    "estimated_amount": "Vote value",
+    "estimated_value_desc": "Based on the money wey u take buy am",
+    "estimated_value": "The value wey we use eye gauge",
+    "estimated_amount": "Wetin your vote dey give",
     "amount_information": "Drag the slider to adjust the amount",
     "amount": "Amount",
     "memo": "Memo",
@@ -59,68 +59,68 @@
     "to_placeholder": "Guy-name",
     "memo_placeholder": "Write your note for here",
     "transfer_token": "Transfer",
-    "purchase_estm": "GET POINTS",
-    "points": "Gift Points to someone",
-    "transfer_to_saving": "To Saving",
+    "purchase_estm": "COLLECT SOME THINGS",
+    "points": "Give ur personal people dem some things",
+    "transfer_to_saving": "To wia you keep am",
     "powerUp": "Power Up",
-    "withdraw_to_saving": "Withdraw Saving",
-    "steemconnect_title": "Hivesigner Transfer",
+    "withdraw_to_saving": "Comot for wia you keep am",
+    "steemconnect_title": "Carry am go Hivesigner",
     "next": "NEXT",
     "delegate": "Delegate",
     "power_down": "Power Down",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
-    "transfer_to_savings": "To Savings",
-    "convert": "Convert",
-    "escrow_transfer": "Escrow Transfer",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel From Savings",
+    "withdraw_steem": "Comot HIVE",
+    "withdraw_sbd": "Comot HBD",
+    "transfer_to_savings": "To wia you keep am",
+    "convert": "Turn am",
+    "escrow_transfer": "Carry am go Escrow",
+    "escrow_dispute": "Wahala for Escrow",
+    "escrow_release": "Escrow don comot hand",
+    "escrow_approve": "Escrow don say na Ogbonge",
+    "cancel_transfer_from_savings": "No do am again for Savings",
     "delegate_vesting_shares": "Delegation",
-    "fill_convert_request": "Convert Executed",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_convert_request": "Turn am don dey kampe",
+    "fill_transfer_from_savings": "We don keep am kampe",
+    "fill_vesting_withdraw": "To comot money don start",
     "estm": {
       "title": "Points",
-      "buy": "GET POINTS"
+      "buy": "COLLECT SOME THINGS"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "Wia u keep dem Hive"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "Wia you keep dem Savings"
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "COLLECT HIVE"
     },
     "sbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "COLLECT HBD"
     },
     "steem_power": {
-      "title": "HIVE POWER"
+      "title": "POWER OF DEM HIVE"
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "COLLECT BTC",
+      "address": "COLLECT AM"
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "unvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "vote": "sama am love",
+    "unvote": "comot your love",
+    "reply": "follow am yarn",
+    "mention": "talk am for inside",
     "follow": "don dey follow you",
     "unfollow": "no follow you again",
     "ignore": "don dey ignore you",
-    "reblog": "reblogged",
-    "transfer": "transferred",
-    "spin": "Time to earn more Points",
-    "inactive": "Be active! Write a post, continue earning",
-    "referral": "joined with your referral, welcome them",
+    "reblog": "e don reblog",
+    "transfer": "give am",
+    "spin": "Na when you gaz collect plenty some things",
+    "inactive": "Dey online wella! put something dow, make you fit collect",
+    "referral": "enter based on person wey send dem come, greet dem",
     "notification": "Alerts",
     "leaderboard": "Leaderboard",
     "epoint": "Points",
@@ -130,16 +130,16 @@
     "this_week": "This Week",
     "this_month": "This Month",
     "older_then": "E don pass one month",
-    "activities": "All",
+    "activities": "Everything",
     "replies": "Replies",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs",
-    "noactivity": "No recent activity"
+    "mentions": "All holla",
+    "reblogs": "Everything wey you reblog",
+    "noactivity": "Nothing dey for now"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "EVERYDAY",
+    "weekly": "FOR EVERYWEEK",
+    "monthly": "FOR EVERY MONTH"
   },
   "messages": {
     "comingsoon": "Option for messages go soon come!"
@@ -158,20 +158,21 @@
     "hours": "hours",
     "voting_power": "Power to vote",
     "login_to_see": "Login to see wetin dey",
-    "follow_people": "Follow some people to fill your feed",
+    "follow_people": "Relate with people dem make dem boku for your area",
+    "follow_communities": "Enter some zone make dem boku your area",
     "havent_commented": "e never contribute any tori",
     "havent_posted": "e never post anything",
-    "steem_power": "Hive Power",
+    "steem_power": "Power of dem Hive",
     "next_power_text": "Next power down na",
     "days": "days",
     "day": "day",
-    "steem_dollars": "Hive Dollars",
+    "steem_dollars": "Dollar of dem Hive",
     "savings": "Savings",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
-      "website": "Website"
+      "display_name": "Your name wey everyone fit see",
+      "about": "Your informate",
+      "location": "Wia you dey",
+      "website": "Your place online"
     }
   },
   "settings": {
@@ -193,7 +194,7 @@
     "pincode": "PIN code",
     "reset_pin": "Reset Pin Code",
     "reset": "Reset",
-    "nsfw_content": "NSFW",
+    "nsfw_content": "E no good to dey watch am outside",
     "send_feedback": "Send as you see am",
     "send": "Send am",
     "default_footer": "Follow come footer",
@@ -212,7 +213,7 @@
   },
   "login": {
     "signin": "Login for here",
-    "signup": "JOIN NOW",
+    "signup": "ENTER NOW",
     "signin_title": "To get all the benefits of using Ecency",
     "username": "Guy-name",
     "password": "Password or WIF",
@@ -239,7 +240,9 @@
     "hot": "Hot",
     "new": "New",
     "blog": "Blog",
-    "posts": "Post"
+    "posts": "Post",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Your informate",
@@ -288,7 +291,10 @@
     "reward_power_up": "Power Up 100%",
     "reward_decline": "Decline Payout",
     "beneficiaries": "Beneficiaries",
-    "options": "Options"
+    "options": "Options",
+    "my_blog": "My Blog",
+    "my_communities": "My Communities",
+    "top_communities": "Top Communities"
   },
   "pincode": {
     "enter_text": "Enter your PIN to open am",
@@ -524,15 +530,16 @@
     "others": "Others",
     "communities": {
       "title": "Communities",
-      "subscribe": "Subscribe",
-      "unsubscribe": "Unsubscribe",
-      "subscribers": "Subscribers",
+      "subscribe": "Join",
+      "unsubscribe": "Leave",
+      "subscribers": "Members",
       "posters": "Posters",
       "posts": "Post"
     },
     "communities_filter": {
+      "my": "My Communities",
       "rank": "Rank",
-      "subs": "Subscribers",
+      "subs": "Members",
       "new": "New"
     },
     "post_result_filter": {

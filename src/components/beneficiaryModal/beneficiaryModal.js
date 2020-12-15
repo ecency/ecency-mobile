@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 
-import { lookupAccounts } from '../../providers/steem/dsteem';
+import { lookupAccounts } from '../../providers/hive/dhive';
 
 import { FormInput, MainButton, Tag } from '..';
 

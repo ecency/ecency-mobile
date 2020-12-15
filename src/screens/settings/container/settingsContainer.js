@@ -33,9 +33,9 @@ import {
   setPinCode as savePinCode,
 } from '../../../redux/actions/applicationActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
-import { setPushToken, getNodes } from '../../../providers/esteem/esteem';
-import { checkClient } from '../../../providers/steem/dsteem';
-import { updatePinCode } from '../../../providers/steem/auth';
+import { setPushToken, getNodes } from '../../../providers/ecency/ecency';
+import { checkClient } from '../../../providers/hive/dhive';
+import { updatePinCode } from '../../../providers/hive/auth';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 // Middleware
 
@@ -117,9 +117,10 @@ class SettingsContainer extends Component {
     let serverResp;
     let isError = false;
     let alertMessage;
-    const client = new Client(server, {
-      timeout: 3000,
-      rebrandedApi: true,
+    const client = new Client([server, 'https://rpc.ecency.com'], {
+      timeout: 4000,
+      failoverThreshold: 10,
+      consoleOnFailover: true,
     });
     dispatch(setApi(''));
 

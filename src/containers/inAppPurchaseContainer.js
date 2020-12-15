@@ -9,7 +9,7 @@ import get from 'lodash/get';
 
 // Services
 import bugsnag from '../config/bugsnag';
-import { purchaseOrder } from '../providers/esteem/esteem';
+import { purchaseOrder } from '../providers/ecency/ecency';
 
 // Utilities
 import { default as ROUTES } from '../constants/routeNames';

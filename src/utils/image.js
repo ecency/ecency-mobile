@@ -1,7 +1,7 @@
 import CryptoJS from 'crypto-js';
 import * as dsteem from '@esteemapp/dhive';
 import { Buffer } from 'buffer';
-import { proxifyImageSrc } from '@esteemapp/esteem-render-helpers';
+import { proxifyImageSrc } from '@ecency/render-helper';
 import { Platform } from 'react-native';
 
 const whatOs = Platform.OS;

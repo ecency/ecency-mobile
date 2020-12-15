@@ -6,7 +6,7 @@ import { injectIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 
 // Providers
-import { gameStatusCheck, gameClaim } from '../providers/esteem/ePoint';
+import { gameStatusCheck, gameClaim } from '../providers/ecency/ePoint';
 
 class RedeemContainer extends Component {
   constructor(props) {

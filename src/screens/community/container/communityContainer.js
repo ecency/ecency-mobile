@@ -3,8 +3,8 @@ import { withNavigation } from 'react-navigation';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
 
-import { getCommunity, getSubscriptions } from '../../../providers/steem/steem';
-import { subscribeCommunity } from '../../../providers/steem/dsteem';
+import { getCommunity, getSubscriptions } from '../../../providers/hive/hive';
+import { subscribeCommunity } from '../../../providers/hive/dhive';
 
 import ROUTES from '../../../constants/routeNames';
 

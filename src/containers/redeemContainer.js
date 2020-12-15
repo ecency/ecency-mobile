@@ -5,7 +5,7 @@ import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 
-import { promote, boost, isPostAvailable } from '../providers/steem/dsteem';
+import { promote, boost, isPostAvailable } from '../providers/hive/dhive';
 import { toastNotification } from '../redux/actions/uiAction';
 import { getUserDataWithUsername } from '../realm/realm';
 

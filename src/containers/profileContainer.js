@@ -15,13 +15,12 @@ import {
   getFollows,
   getRepliesByLastUpdate,
   getUser,
-  getIsFollowing,
-  getIsMuted,
+  getRelationship,
   getAccountPosts,
-} from '../providers/steem/dsteem';
+} from '../providers/hive/dhive';
 
 // Ecency providers
-import { getIsFavorite, addFavorite, removeFavorite } from '../providers/esteem/esteem';
+import { getIsFavorite, addFavorite, removeFavorite } from '../providers/ecency/ecency';
 
 // Utilitites
 import { getRcPower, getVotingPower } from '../utils/manaBar';
@@ -133,7 +132,6 @@ class ProfileContainer extends Component {
     if (query) {
       delete query.author;
       delete query.permlink;
-      console.log(query);
       repliesAction(query).then((result) => {
         let _comments = unionBy(comments, result, 'permlink');
         this.setState({
@@ -260,9 +258,10 @@ class ProfileContainer extends Component {
       let follows;
 
       if (!isOwnProfile) {
-        _isFollowing = await getIsFollowing(username, currentAccount.name);
+        const res = await getRelationship(currentAccount.name, username);
+        _isFollowing = res && res.follows;
 
-        _isMuted = _isFollowing ? false : await getIsMuted(username, currentAccount.name);
+        _isMuted = res && res.ignores;
 
         getIsFavorite(username, currentAccount.name).then((isFav) => {
           isFavorite = isFav;

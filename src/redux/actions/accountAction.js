@@ -1,4 +1,4 @@
-import { fetchGlobalProps } from '../../providers/steem/dsteem';
+import { fetchGlobalProps } from '../../providers/hive/dhive';
 import {
   ADD_OTHER_ACCOUNT,
   FETCH_ACCOUNT_FAIL,

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 
-import { loginWithSC2 } from '../../providers/steem/auth';
+import { loginWithSC2 } from '../../providers/hive/auth';
 import { hsOptions } from '../../constants/hsOptions';
 
 // Actions

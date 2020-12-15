@@ -5,7 +5,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import ActionSheet from 'react-native-actionsheet';
 
 // Utils
-import { postBodySummary } from '@esteemapp/esteem-render-helpers';
+import { postBodySummary } from '@ecency/render-helper';
 import { catchDraftImage } from '../../../utils/image';
 import { getFormatedCreatedDate } from '../../../utils/time';
 

@@ -159,6 +159,7 @@
     "voting_power": "Voting Power(VP)",
     "login_to_see": "登录查看",
     "follow_people": "关注一些人，加到您的朋友圈",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "还没有任何评论",
     "havent_posted": "还没有发布任何内容",
     "steem_power": "Hive Power",
@@ -239,7 +240,9 @@
     "hot": "热门",
     "new": "最新",
     "blog": "博客",
-    "posts": "文章"
+    "posts": "文章",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "个人资料",
@@ -288,7 +291,10 @@
     "reward_power_up": "Power Up 100%",
     "reward_decline": "Decline Payout",
     "beneficiaries": "Beneficiaries",
-    "options": "Options"
+    "options": "Options",
+    "my_blog": "My Blog",
+    "my_communities": "My Communities",
+    "top_communities": "Top Communities"
   },
   "pincode": {
     "enter_text": "输入 PIN 解锁",
@@ -524,15 +530,16 @@
     "others": "Others",
     "communities": {
       "title": "Communities",
-      "subscribe": "Subscribe",
-      "unsubscribe": "Unsubscribe",
-      "subscribers": "Subscribers",
+      "subscribe": "Join",
+      "unsubscribe": "Leave",
+      "subscribers": "Members",
       "posters": "Posters",
       "posts": "文章"
     },
     "communities_filter": {
+      "my": "My Communities",
       "rank": "Rank",
-      "subs": "Subscribers",
+      "subs": "Members",
       "new": "New"
     },
     "post_result_filter": {

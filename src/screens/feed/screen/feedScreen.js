@@ -11,7 +11,12 @@ import { AccountContainer } from '../../../containers';
 // Styles
 import styles from './feedStyles';
 
-import { POPULAR_FILTERS, POPULAR_FILTERS_VALUE } from '../../../constants/options/filters';
+import {
+  POPULAR_FILTERS,
+  POPULAR_FILTERS_VALUE,
+  FEED_SUBFILTERS,
+  FEED_SUBFILTERS_VALUE,
+} from '../../../constants/options/filters';
 
 const FeedScreen = () => {
   return (
@@ -23,9 +28,11 @@ const FeedScreen = () => {
             <Posts
               filterOptions={[...POPULAR_FILTERS]}
               filterOptionsValue={[...POPULAR_FILTERS_VALUE]}
+              feedSubfilterOptions={[...FEED_SUBFILTERS]}
+              feedSubfilterOptionsValue={[...FEED_SUBFILTERS_VALUE]}
               getFor={get(currentAccount, 'name', null) ? 'feed' : 'hot'}
               selectedOptionIndex={get(currentAccount, 'name', null) ? 0 : 2}
-              feedUsername={get(currentAccount, 'name')}
+              feedUsername={get(currentAccount, 'name', null)}
             />
           </SafeAreaView>
         </Fragment>

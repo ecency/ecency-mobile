@@ -6,9 +6,9 @@ import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
 import { withNavigation } from 'react-navigation';
 
-import { uploadImage } from '../providers/esteem/esteem';
+import { uploadImage } from '../providers/ecency/ecency';
 
-import { profileUpdate, signImage } from '../providers/steem/dsteem';
+import { profileUpdate, signImage } from '../providers/hive/dhive';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
 
 // import ROUTES from '../constants/routeNames';

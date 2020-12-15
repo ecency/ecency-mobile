@@ -6,7 +6,7 @@ import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
 
 // Actions and Services
-import { getActivities, markActivityAsRead } from '../../../providers/esteem/esteem';
+import { getActivities, markActivityAsRead } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 
 // Constants

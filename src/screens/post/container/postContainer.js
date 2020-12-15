@@ -5,8 +5,8 @@ import get from 'lodash/get';
 
 // Services and Actions
 import Matomo from 'react-native-matomo-sdk';
-import { getPost } from '../../../providers/steem/dsteem';
-// import { matomo } from '../../../providers/esteem/analytics';
+import { getPost } from '../../../providers/hive/dhive';
+// import { matomo } from '../../../providers/ecency/analytics';
 
 // Component
 import PostScreen from '../screen/postScreen';
@@ -34,7 +34,11 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
     }
 
     if (content) {
-      setPost(content);
+      if (content.author && content.permlink) {
+        _loadPost(content.author, content.permlink);
+      } else {
+        setPost(content);
+      }
       // tracking info
       if (isAnalytics) {
         Matomo.trackView([`${content.url}`]).catch((error) =>

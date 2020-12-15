@@ -159,6 +159,7 @@
     "voting_power": "Putere de votare",
     "login_to_see": "Autentifică-te pentru a vedea",
     "follow_people": "Urmărește câțiva utilizatori pentru a completa feedul",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "încă nu a comentat",
     "havent_posted": "încă nu a postat nimic",
     "steem_power": "Hive Power",
@@ -239,7 +240,9 @@
     "hot": "În tendințe",
     "new": "Nou",
     "blog": "Blog",
-    "posts": "Post"
+    "posts": "Post",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Profil",
@@ -288,7 +291,10 @@
     "reward_power_up": "Power Up 100%",
     "reward_decline": "Decline Payout",
     "beneficiaries": "Beneficiaries",
-    "options": "Options"
+    "options": "Options",
+    "my_blog": "My Blog",
+    "my_communities": "My Communities",
+    "top_communities": "Top Communities"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -524,15 +530,16 @@
     "others": "Others",
     "communities": {
       "title": "Communities",
-      "subscribe": "Subscribe",
-      "unsubscribe": "Unsubscribe",
-      "subscribers": "Subscribers",
+      "subscribe": "Join",
+      "unsubscribe": "Leave",
+      "subscribers": "Members",
       "posters": "Posters",
       "posts": "Post"
     },
     "communities_filter": {
+      "my": "My Communities",
       "rank": "Rank",
-      "subs": "Subscribers",
+      "subs": "Members",
       "new": "New"
     },
     "post_result_filter": {

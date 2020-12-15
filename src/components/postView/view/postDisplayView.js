@@ -5,7 +5,7 @@ import get from 'lodash/get';
 import ActionSheet from 'react-native-actionsheet';
 
 // Providers
-import { userActivity } from '../../../providers/esteem/ePoint';
+import { userActivity } from '../../../providers/ecency/ePoint';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';

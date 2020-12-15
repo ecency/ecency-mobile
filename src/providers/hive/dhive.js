@@ -2,15 +2,15 @@
 // import '../../../shim';
 // import * as bitcoin from 'bitcoinjs-lib';
 
-import { Client, cryptoUtils } from '@hiveio/dhive';
+import { Client, cryptoUtils, utils } from '@hiveio/dhive';
 import { PrivateKey } from '@esteemapp/dhive';
 
 import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
 import { getServer, getCache, setCache } from '../../realm/realm';
-import { getUnreadActivityCount } from '../esteem/esteem';
-import { userActivity } from '../esteem/ePoint';
+import { getUnreadActivityCount } from '../ecency/ecency';
+import { userActivity } from '../ecency/ePoint';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';
@@ -31,10 +31,9 @@ global.Buffer = global.Buffer || require('buffer').Buffer;
 
 const DEFAULT_SERVER = SERVER_LIST;
 let client = new Client(DEFAULT_SERVER, {
-  timeout: 3000,
+  timeout: 4000,
   failoverThreshold: 10,
   consoleOnFailover: true,
-  rebrandedApi: true,
 });
 
 export const checkClient = async () => {
@@ -47,10 +46,9 @@ export const checkClient = async () => {
   });
 
   client = new Client(selectedServer, {
-    timeout: 3000,
+    timeout: 4000,
     failoverThreshold: 10,
     consoleOnFailover: true,
-    rebrandedApi: true,
   });
 };
 
@@ -126,8 +124,35 @@ export const getAccount = (user) =>
 
 export const getAccountHistory = (user) =>
   new Promise((resolve, reject) => {
+    const op = utils.operationOrders;
+    let wallet_operations_bitmask = utils.makeBitMaskFilter([
+      op.transfer,
+      op.author_reward,
+      op.transfer_to_vesting,
+      op.withdraw_vesting,
+      op.interest,
+      op.liquidity_reward,
+      op.transfer_to_savings,
+      op.transfer_from_savings,
+      op.escrow_transfer,
+      op.cancel_transfer_from_savings,
+      op.escrow_approve,
+      op.escrow_dispute,
+      op.escrow_release,
+      op.fill_convert_request,
+      op.fill_order,
+      op.claim_reward_balance,
+      op.sps_fund,
+      op.comment_benefactor_reward,
+      op.return_vesting_delegation,
+    ]);
     try {
-      const ah = client.call('condenser_api', 'get_account_history', [user, -1, 1000]);
+      const ah = client.call('condenser_api', 'get_account_history', [
+        user,
+        -1,
+        1000,
+        ...wallet_operations_bitmask,
+      ]);
       resolve(ah);
     } catch (error) {
       reject(error);
@@ -284,14 +309,14 @@ export const getFollowing = (follower, startFollowing, followType = 'blog', limi
 export const getFollowers = (follower, startFollowing, followType = 'blog', limit = 100) =>
   client.database.call('get_followers', [follower, startFollowing, followType, limit]);
 
-export const getIsFollowing = (user, author) =>
+export const getRelationship = (follower, following) =>
   new Promise((resolve, reject) => {
-    if (author) {
-      client.database
-        .call('get_following', [author, user, 'blog', 1])
+    if (follower) {
+      client
+        .call('bridge', 'get_relationship_between_accounts', [follower, following])
         .then((result) => {
-          if (result[0] && result[0].follower === author && result[0].following === user) {
-            resolve(true);
+          if (result) {
+            resolve(result);
           } else {
             resolve(false);
           }
@@ -323,24 +348,6 @@ export const getFollowSearch = (user, targetUser) =>
       resolve(null);
     }
   });
-
-export const getIsMuted = async (targetUsername, username) => {
-  let resp;
-
-  try {
-    resp = await getFollowing(username, targetUsername, 'ignore', 1);
-  } catch (err) {
-    return false;
-  }
-
-  if (resp && resp.length > 0) {
-    if (resp[0].follower === username && resp[0].following === targetUsername) {
-      return true;
-    }
-  }
-
-  return false;
-};
 
 export const ignoreUser = async (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
@@ -1086,15 +1093,17 @@ export const lookupAccounts = async (username) => {
     const users = await client.database.call('lookup_accounts', [username, 20]);
     return users;
   } catch (error) {
+    console.log('lookup_accounts');
     throw error;
   }
 };
 
 export const getTrendingTags = async (tag) => {
   try {
-    const users = await client.database.call('get_trending_tags', [tag, 20]);
-    return users;
+    const tags = await client.database.call('get_trending_tags', [tag, 20]);
+    return tags;
   } catch (error) {
+    console.log('get_trending_tags');
     throw error;
   }
 };
@@ -1565,8 +1574,8 @@ export const subscribeCommunity = (currentAccount, pinCode, data) => {
     const op = {
       id: 'community',
       json,
-      required_auths: [username],
-      required_posting_auths: [],
+      required_auths: [],
+      required_posting_auths: [username],
     };
 
     return client.broadcast.json(op, privateKey);

@@ -41,9 +41,9 @@ import {
   getVersionForWelcomeModal,
   setVersionForWelcomeModal,
 } from '../../../realm/realm';
-import { getUser, getPost } from '../../../providers/steem/dsteem';
-import { switchAccount } from '../../../providers/steem/auth';
-import { setPushToken, markActivityAsRead } from '../../../providers/esteem/esteem';
+import { getUser, getPost } from '../../../providers/hive/dhive';
+import { switchAccount } from '../../../providers/hive/auth';
+import { setPushToken, markActivityAsRead } from '../../../providers/ecency/ecency';
 import { navigate } from '../../../navigation/service';
 
 // Actions
@@ -526,6 +526,9 @@ class ApplicationContainer extends Component {
             setExistUser(true);
           }
         });
+      } else {
+        dispatch(login(false));
+        dispatch(logoutDone());
       }
     }
 

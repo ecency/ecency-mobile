@@ -18,6 +18,12 @@ export default EStyleSheet.create({
     fontFamily: '$primaryFont',
     letterSpacing: '$primaryLatterSpacing',
   },
+  title: {
+    fontFamily: '$primaryFont',
+    letterSpacing: '$primaryLatterSpacing',
+    fontSize: 18,
+    fontWeight: '600',
+  },
   subTitle: {
     fontFamily: '$primaryFont',
     letterSpacing: '$primaryLatterSpacing',

@@ -6,7 +6,7 @@ import get from 'lodash/get';
 import { toastNotification } from '../redux/actions/uiAction';
 
 // Dsteem
-import { getAccount, claimRewardBalance, getBtcAddress } from '../providers/steem/dsteem';
+import { getAccount, claimRewardBalance, getBtcAddress } from '../providers/hive/dhive';
 
 // Actions
 import { openPinCodeModal } from '../redux/actions/applicationActions';

@@ -7,8 +7,8 @@ import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Services and Actions
-import { reblog } from '../../../providers/steem/dsteem';
-import { addBookmark, addReport } from '../../../providers/esteem/esteem';
+import { reblog } from '../../../providers/hive/dhive';
+import { addBookmark, addReport } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 
@@ -191,7 +191,7 @@ class PostDropdownContainer extends PureComponent {
               ),
             );
           } else {
-            if (error && error.jse_shortmsg.split(':')[1].includes('wait to transact')) {
+            if (error && error.jse_shortmsg.split(': ')[1].includes('wait to transact')) {
               //when RC is not enough, offer boosting account
               dispatch(setRcOffer(true));
             } else {

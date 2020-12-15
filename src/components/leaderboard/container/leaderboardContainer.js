@@ -5,7 +5,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 
 // Services and Actions
-import { getLeaderboard } from '../../../providers/esteem/esteem';
+import { getLeaderboard } from '../../../providers/ecency/ecency';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';

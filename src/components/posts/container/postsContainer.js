@@ -5,8 +5,8 @@ import unionBy from 'lodash/unionBy';
 import Matomo from 'react-native-matomo-sdk';
 
 // HIVE
-import { getAccountPosts, getPost, getRankedPosts } from '../../../providers/steem/dsteem';
-import { getPromotePosts } from '../../../providers/esteem/esteem';
+import { getAccountPosts, getPost, getRankedPosts } from '../../../providers/hive/dhive';
+import { getPromotePosts } from '../../../providers/ecency/ecency';
 
 // Component
 import PostsView from '../view/postsView';
@@ -28,6 +28,8 @@ const PostsContainer = ({
   tag,
   filterOptionsValue,
   feedUsername,
+  feedSubfilterOptions,
+  feedSubfilterOptionsValue,
 }) => {
   const dispatch = useDispatch();
 
@@ -50,6 +52,11 @@ const PostsContainer = ({
   const [selectedFilterValue, setSelectedFilterValue] = useState(
     filterOptionsValue && filterOptionsValue[selectedFilterIndex],
   );
+  const [selectedFeedSubfilterIndex, setSelectedFeedSubfilterIndex] = useState(0);
+  const [selectedFeedSubfilterValue, setSelectedFeedSubfilterValue] = useState(
+    feedSubfilterOptionsValue && feedSubfilterOptions[selectedFeedSubfilterIndex],
+  );
+
   const elem = useRef(null);
   const isMountedRef = useIsMountedRef();
 
@@ -67,6 +74,7 @@ const PostsContainer = ({
     isConnected,
     pageType,
     selectedOptionIndex,
+    selectedFeedSubfilterIndex,
   ]);
 
   useEffect(() => {
@@ -75,6 +83,7 @@ const PostsContainer = ({
       setStartAuthor('');
       setStartPermlink('');
       setSelectedFilterIndex(selectedOptionIndex || 0);
+      isLoggedIn && setSelectedFeedSubfilterIndex(selectedFeedSubfilterIndex || 0);
       setIsNoPost(false);
 
       _loadPosts();
@@ -83,7 +92,14 @@ const PostsContainer = ({
         changeForceLoadPostState(false);
       }
     }
-  }, [_loadPosts, changeForceLoadPostState, username, forceLoadPost, selectedOptionIndex]);
+  }, [
+    _loadPosts,
+    changeForceLoadPostState,
+    username,
+    forceLoadPost,
+    selectedOptionIndex,
+    selectedFeedSubfilterIndex,
+  ]);
 
   useEffect(() => {
     if (!startAuthor && !startPermlink) {
@@ -146,6 +162,7 @@ const PostsContainer = ({
     }
 
     const filter = type || selectedFilterValue;
+    const subfilter = selectedFeedSubfilterValue;
     let options = {};
     const limit = 7;
     let func = null;
@@ -157,15 +174,25 @@ const PostsContainer = ({
       getFor === 'blog' ||
       filter === 'reblogs'
     ) {
-      func = getAccountPosts;
-      options = {
-        account: feedUsername,
-        limit,
-        sort: filter,
-      };
+      if (filter === 'feed' && subfilter === 'communities') {
+        func = getRankedPosts;
+        options = {
+          observer: feedUsername,
+          sort: 'trending',
+          tag: 'my',
+        };
+      } else {
+        func = getAccountPosts;
+        options = {
+          observer: feedUsername || '',
+          account: feedUsername,
+          limit,
+          sort: filter,
+        };
 
-      if (pageType === 'profiles' && (filter === 'feed' || filter === 'posts')) {
-        options.sort = 'posts';
+        if (pageType === 'profiles' && (filter === 'feed' || filter === 'posts')) {
+          options.sort = 'posts';
+        }
       }
     } else {
       func = getRankedPosts;
@@ -228,6 +255,10 @@ const PostsContainer = ({
         Matomo.trackView([`/${selectedFilterValue}/${tag}`]).catch((error) =>
           console.warn('Failed to track screen', error),
         );
+      } else if (selectedFilterValue === 'feed') {
+        Matomo.trackView([`/${feedUsername}/${selectedFilterValue}`]).catch((error) =>
+          console.warn('Failed to track screen', error),
+        );
       } else {
         Matomo.trackView([`/${selectedFilterValue}`]).catch((error) =>
           console.warn('Failed to track screen', error),
@@ -241,8 +272,16 @@ const PostsContainer = ({
     _getPromotePosts();
   };
 
-  const _handleOnDropdownSelect = (index) => {
+  const _handleFilterOnDropdownSelect = (index) => {
     setSelectedFilterIndex(index);
+    setPosts([]);
+    setStartPermlink('');
+    setStartAuthor('');
+    setIsNoPost(false);
+  };
+
+  const _handleFeedSubfilterOnDropdownSelect = (index) => {
+    setSelectedFeedSubfilterIndex(index);
     setPosts([]);
     setStartPermlink('');
     setStartAuthor('');
@@ -269,9 +308,15 @@ const PostsContainer = ({
       promotedPosts={promotedPosts}
       selectedFilterValue={selectedFilterValue}
       setSelectedFilterValue={setSelectedFilterValue}
-      handleOnDropdownSelect={_handleOnDropdownSelect}
+      handleFilterOnDropdownSelect={_handleFilterOnDropdownSelect}
       loadPosts={_loadPosts}
       handleOnRefreshPosts={_handleOnRefreshPosts}
+      feedSubfilterOptions={feedSubfilterOptions}
+      selectedFeedSubfilterIndex={selectedFeedSubfilterIndex}
+      feedSubfilterOptionsValue={feedSubfilterOptionsValue}
+      handleFeedSubfilterOnDropdownSelect={_handleFeedSubfilterOnDropdownSelect}
+      setSelectedFeedSubfilterValue={setSelectedFeedSubfilterValue}
+      selectedFeedSubfilterValue={selectedFeedSubfilterValue}
     />
   );
 };

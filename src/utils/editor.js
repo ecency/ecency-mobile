@@ -16,9 +16,15 @@ export const generatePermlink = (title, random = false) => {
   let perm = slug && slug.toString();
 
   if (title) {
+    // make shorter url if possible
+    let shortp = perm.split('-');
+    if (shortp.length > 5) {
+      perm = shortp.slice(0, 5).join('-');
+    }
+
     if (random) {
-      const rnd = (Math.random() + 1).toString(16).substring(2);
-      perm = `${slug.toString()}${rnd}est`;
+      const rnd = permlinkRnd();
+      perm = `${perm}-${rnd}`;
     }
 
     // STEEMIT_MAX_PERMLINK_LENGTH
