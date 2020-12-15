@@ -284,11 +284,11 @@
     "limited_characters": "Csak kisbetűt, számjegyeket és egy kötőjelet használj",
     "limited_firstchar": "A címkének betűvel kell kezdődnie",
     "limited_lastchar": "A címkéknek betűvel vagy számmal kell végződnie",
-    "setting_schedule": "Scheduling Time",
-    "setting_reward": "Reward",
-    "setting_beneficiary": "Beneficiary",
-    "reward_default": "Default 50% / 50%",
-    "reward_power_up": "Power Up 100%",
+    "setting_schedule": "Beütemezési időpont",
+    "setting_reward": "Jutalom",
+    "setting_beneficiary": "Kedvezményezett",
+    "reward_default": "Alapértelmezett 50% / 50%",
+    "reward_power_up": "100%-os Power Up",
     "reward_decline": "Decline Payout",
     "beneficiaries": "Beneficiaries",
     "options": "Options",
@@ -488,7 +488,7 @@
     }
   },
   "free_estm": {
-    "title": "Free Points",
+    "title": "Ingyenes pontok",
     "button": "PÖRGESS ÉS NYERJ",
     "get_spin": "5 PÖRGETÉS",
     "spin_right": "Pörgesd balra",
@@ -499,7 +499,7 @@
     "days": "nap",
     "user": "Felhasználó",
     "permlink": "Bejegyzés",
-    "permlinkPlaceholder": "username/permlink",
+    "permlinkPlaceholder": "felhasználónév/permlink",
     "information": "Bistos hirdeted?"
   },
   "boostPost": {
@@ -523,16 +523,16 @@
   "comments": {
     "title": "Hozzászólások",
     "reveal_comment": "Hozzászólás megjelenítése",
-    "read_more": "Read more comments",
+    "read_more": "Még több hozzáaszólás",
     "more_replies": "további hozzászólások betöltése"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Egyéb",
     "communities": {
-      "title": "Communities",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
+      "title": "Közösségek",
+      "subscribe": "Csatlakozz",
+      "unsubscribe": "Kilépés",
+      "subscribers": "Tagok",
       "posters": "Posters",
       "posts": "Bejegyzések"
     },
