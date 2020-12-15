@@ -30,7 +30,7 @@
     "checkin_title": "Életjel pontok",
     "referral": "Ajánló",
     "referral_title": "Ajánlói jutalom",
-    "referral_desc": "Invite friends and earn Points",
+    "referral_desc": "Hívd meg a barátaid és nyerj Pontokat",
     "checkin_extra_title": "Használati bónusz",
     "no_activity": "Nincs friss tevékenység",
     "outgoing_transfer_description": "",
@@ -60,36 +60,36 @@
     "memo_placeholder": "Megjegyzés ide",
     "transfer_token": "Átutalás",
     "purchase_estm": "SZEREZZ PONTOKAT",
-    "points": "Gift Points to someone",
+    "points": "Ajándékozz Pontokat valakinek",
     "transfer_to_saving": "A megtakarításokhoz",
     "powerUp": "Power Up",
-    "withdraw_to_saving": "Withdraw Saving",
+    "withdraw_to_saving": "Átutalás a Megtakarításokhoz",
     "steemconnect_title": "Hivesigner Transfer",
     "next": "KÖVETKEZŐ",
     "delegate": "Delegálás",
     "power_down": "Power Down",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
+    "withdraw_steem": "Hive Visszavonás",
+    "withdraw_sbd": "HBD Visszavonás",
     "transfer_to_savings": "A megtakarításokhoz",
     "convert": "Konvertálás",
     "escrow_transfer": "Letéti átutalás",
     "escrow_dispute": "Letéti vita",
     "escrow_release": "Letéti engedély",
     "escrow_approve": "Letéti jóváhagyás",
-    "cancel_transfer_from_savings": "Cancel From Savings",
+    "cancel_transfer_from_savings": "A megtakarításoktól való átutalás törlése",
     "delegate_vesting_shares": "Delegálás",
     "fill_convert_request": "Átváltás végrehajtva",
     "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_vesting_withdraw": "PowerDown végrehajtva",
     "estm": {
       "title": "Pontok",
       "buy": "SZEREZZ PONTOKAT"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "HIVE Megtakarítások"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "HBD Megtakarítások"
     },
     "steem": {
       "title": "HIVE",
