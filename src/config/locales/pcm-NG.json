@@ -538,23 +538,23 @@
     },
     "communities_filter": {
       "my": "My areas dem",
-      "rank": "Rank",
-      "subs": "Members",
-      "new": "New"
+      "rank": "Wia I dey",
+      "subs": "Dem people wey dey area",
+      "new": "Wey new"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "Wey people enjoy pass",
+      "newest": "Wey new pass",
+      "relevance": "As e important reach"
     },
     "other_result_filter": {
-      "user": "User",
+      "user": "Person",
       "tag": "Tag"
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details"
+    "new_post": "Post wey new",
+    "community": "area",
+    "details": "Full informate"
   }
 }
