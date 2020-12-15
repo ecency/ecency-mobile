@@ -3,7 +3,7 @@
     "curation_reward": "Kuráció Jutalom",
     "author_reward": "Szerzői Jutalom",
     "comment_benefactor_reward": "Jótevői jutalom",
-    "claim_reward_balance": "Jutalmak átvevése ",
+    "claim_reward_balance": "Jutalom átvétele ",
     "transfer": "Átutalás",
     "transfer_to_vesting": "A Vesting-be",
     "transfer_from_savings": "A megtakarításoktól",
@@ -483,7 +483,7 @@
     "buy": "VÁSÁROLJ Pontokat",
     "next": "KÖVETKEZŐ",
     "account": {
-      "title": "Get Account Boost",
+      "title": "Fiók felpörgetés",
       "desc": "A 30 napos delegálás növelni fogja a szavazataidat, közösségi tevékenységeidet és több cselekvést engedélyez több erőforrás-jóváírás segítségével."
     }
   },
