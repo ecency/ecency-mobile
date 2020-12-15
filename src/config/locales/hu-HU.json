@@ -2,10 +2,10 @@
   "wallet": {
     "curation_reward": "Kuráció Jutalom",
     "author_reward": "Szerzői Jutalom",
-    "comment_benefactor_reward": "Benefactor Reward",
+    "comment_benefactor_reward": "Jótevői jutalom",
     "claim_reward_balance": "Jutalmak átvevése ",
     "transfer": "Átutalás",
-    "transfer_to_vesting": "To Vesting",
+    "transfer_to_vesting": "A Vesting-be",
     "transfer_from_savings": "A megtakarításoktól",
     "withdraw_vesting": "Power Down",
     "fill_order": "Megrendelés Kitöltése",
@@ -479,7 +479,7 @@
     "address_view": "Cím megtekintése"
   },
   "boost": {
-    "title": "Get Points",
+    "title": "Szerezz Pontokat",
     "buy": "VÁSÁROLJ Pontokat",
     "next": "KÖVETKEZŐ",
     "account": {
