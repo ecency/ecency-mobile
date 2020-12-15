@@ -6,7 +6,7 @@
     "claim_reward_balance": "Jutalmak átvevése ",
     "transfer": "Átutalás",
     "transfer_to_vesting": "To Vesting",
-    "transfer_from_savings": "From Savings",
+    "transfer_from_savings": "A megtakarításoktól",
     "withdraw_vesting": "Power Down",
     "fill_order": "Megrendelés Kitöltése",
     "post": "Bejegyzés",
@@ -21,7 +21,7 @@
     "delegation": "Delegálás",
     "delegations": "Delegálások",
     "delegation_title": "Delegálási jutalom",
-    "delegation_desc": "Earn Points everyday for delegation",
+    "delegation_desc": "Nyerj naponta Pontokat delegálásért",
     "post_title": "Bejegyzés pontok",
     "comment_title": "Hozzászólás pontok",
     "vote_title": "Szavazási pontok",
@@ -480,11 +480,11 @@
   },
   "boost": {
     "title": "Get Points",
-    "buy": "GET Points",
+    "buy": "VÁSÁROLJ Pontokat",
     "next": "KÖVETKEZŐ",
     "account": {
       "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "desc": "A 30 napos delegálás növelni fogja a szavazataidat, közösségi tevékenységeidet és több cselekvést engedélyez több erőforrás-jóváírás segítségével."
     }
   },
   "free_estm": {
