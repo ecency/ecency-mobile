@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 

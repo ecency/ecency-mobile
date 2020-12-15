@@ -6,7 +6,8 @@ import Matomo from 'react-native-matomo-sdk';
 
 // HIVE
 import { getAccountPosts, getPost, getRankedPosts } from '../../../providers/hive/dhive';
-import { getPromotePosts } from '../../../providers/ecency/ecency';
+import { getCommunities } from '../../../providers/hive/hive';
+import { getPromotePosts, getLeaderboard } from '../../../providers/ecency/ecency';
 
 // Component
 import PostsView from '../view/postsView';
@@ -56,6 +57,8 @@ const PostsContainer = ({
   const [selectedFeedSubfilterValue, setSelectedFeedSubfilterValue] = useState(
     feedSubfilterOptionsValue && feedSubfilterOptions[selectedFeedSubfilterIndex],
   );
+  const [recommendedUsers, setRecommendedUsers] = useState([]);
+  const [recommendedCommunities, setRecommendedCommunities] = useState([]);
 
   const elem = useRef(null);
   const isMountedRef = useIsMountedRef();
@@ -288,6 +291,29 @@ const PostsContainer = ({
     setIsNoPost(false);
   };
 
+  const _getRecommendedUsers = () => {
+    getLeaderboard()
+      .then((users) => {
+        const recommendeds = users.slice(0, 10);
+        recommendeds.unshift({ _id: 'good-karma' });
+        recommendeds.unshift({ _id: 'ecency' });
+
+        setRecommendedUsers(recommendeds);
+      })
+      .catch((err) => console.log(err, '_getRecommendedUsers Error'));
+  };
+
+  const _getRecommendedCommunities = () => {
+    getCommunities('', 10)
+      .then((communities) => {
+        const recommendeds = [...communities];
+        recommendeds.unshift({ title: 'Ecency', name: 'hive-125125' });
+
+        setRecommendedCommunities(recommendeds);
+      })
+      .catch((err) => console.log(err, '_getRecommendedUsers Error'));
+  };
+
   return (
     <PostsView
       ref={elem}
@@ -317,6 +343,10 @@ const PostsContainer = ({
       handleFeedSubfilterOnDropdownSelect={_handleFeedSubfilterOnDropdownSelect}
       setSelectedFeedSubfilterValue={setSelectedFeedSubfilterValue}
       selectedFeedSubfilterValue={selectedFeedSubfilterValue}
+      getRecommendedUsers={_getRecommendedUsers}
+      getRecommendedCommunities={_getRecommendedCommunities}
+      recommendedUsers={recommendedUsers}
+      recommendedCommunities={recommendedCommunities}
     />
   );
 };

@@ -35,4 +35,8 @@ export default EStyleSheet.create({
   placeholderWrapper: {
     flex: 1,
   },
+  noPostTitle: {
+    textAlign: 'center',
+    marginVertical: 16,
+  },
 });

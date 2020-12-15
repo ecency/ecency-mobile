@@ -20,6 +20,7 @@ const UserListItem = ({
   text,
   middleText,
   rightTextStyle,
+  onPressRightText,
 }) => (
   <TouchableOpacity
     onLongPress={() => handleOnLongPress && handleOnLongPress()}
@@ -55,6 +56,7 @@ const UserListItem = ({
               isBlackRightColor && styles.valueBlack,
               rightTextStyle,
             ]}
+            onPress={onPressRightText}
           >
             {rightText}
           </Text>
