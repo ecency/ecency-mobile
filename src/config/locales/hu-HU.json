@@ -214,10 +214,10 @@
   "login": {
     "signin": "Bejelentkezés",
     "signup": "CSATLAKOZZ MOST",
-    "signin_title": "Jelentkezz be ahhoz, hogy minden előnyben részesülj",
+    "signin_title": "Ahhoz, hogy az Ecency minden előnyét élvezd",
     "username": "Felhasználónév",
     "password": "Jelszó vagy a WIF",
-    "description": "Regisztrálással elfogadod a Felhasználói feltételeket és az Adatvédelmi szabályzatot.",
+    "description": "Bejelentkezéssel elfogadod a Felhasználói feltételeket és az Adatvédelmi szabályzatot.",
     "cancel": "visszavonom",
     "login": "BEJELENTKEZÉS",
     "steemconnect_description": "Ha nem szeretnéd a jelszavad a készülékeden elmentve tárolni, használhatod a Hivesigner-t.",
