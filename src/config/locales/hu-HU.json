@@ -64,7 +64,7 @@
     "transfer_to_saving": "A megtakarításokhoz",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Átutalás a Megtakarításokhoz",
-    "steemconnect_title": "Hivesigner Transfer",
+    "steemconnect_title": "Hivesigner átutalás",
     "next": "KÖVETKEZŐ",
     "delegate": "Delegálás",
     "power_down": "Power Down",
@@ -79,7 +79,7 @@
     "cancel_transfer_from_savings": "A megtakarításoktól való átutalás törlése",
     "delegate_vesting_shares": "Delegálás",
     "fill_convert_request": "Átváltás végrehajtva",
-    "fill_transfer_from_savings": "Savings Executed",
+    "fill_transfer_from_savings": "A megtakarításoktól végrehajtva",
     "fill_vesting_withdraw": "PowerDown végrehajtva",
     "estm": {
       "title": "Pontok",
@@ -533,28 +533,28 @@
       "subscribe": "Csatlakozz",
       "unsubscribe": "Kilépés",
       "subscribers": "Tagok",
-      "posters": "Posters",
+      "posters": "Bejegyzés írók",
       "posts": "Bejegyzések"
     },
     "communities_filter": {
-      "my": "My Communities",
-      "rank": "Rank",
-      "subs": "Members",
-      "new": "New"
+      "my": "Közösségeim",
+      "rank": "Rang",
+      "subs": "Tagok",
+      "new": "Új"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "Népszerűség",
+      "newest": "Legújabb",
+      "relevance": "Fontosság"
     },
     "other_result_filter": {
       "user": "Felhasználó",
-      "tag": "Tag"
+      "tag": "Címke"
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details"
+    "new_post": "Új bejegyzés",
+    "community": "közösség",
+    "details": "Részletek"
   }
 }
