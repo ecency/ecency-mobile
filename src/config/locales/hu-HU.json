@@ -105,7 +105,7 @@
     "btc": {
       "title": "BTC",
       "buy": "BTC VÁSÁRLÁS",
-      "address": "RECEIVE"
+      "address": "KAP"
     }
   },
   "notification": {
@@ -230,7 +230,7 @@
     "mail": "Add meg az e-mail címed",
     "ref_user": "Ajánló felhasználó (opcionális)",
     "500_error": "Kérésedet nem sikerült feldolgozni, a regisztrációs sor valószínűleg megtelt! Próbálkozzon újra néhány perc múlva...",
-    "title_description": "One account to manage everything",
+    "title_description": "Egy fiók mindenre",
     "form_description": "Regisztrálással elfogadod a Felhasználói feltételeket és az Adatvédelmi szabályzatot."
   },
   "home": {
@@ -310,7 +310,7 @@
     "fail": "Sikertelen!",
     "move": "Áthelyezés",
     "move_question": "Biztos, hogy áthelyezed a piszkozatokhoz?",
-    "success_shared": "Success! Content submitted!",
+    "success_shared": "Siker! Tartalom közzétéve!",
     "success_moved": "Áthelyezve a vázlatokhoz",
     "permission_denied": "Engedély megtagadva",
     "permission_text": "Kérlek módosítsd az Ecency alkalmazás engedélyezéseit a Beállítások-nál a telefonodon.",
@@ -424,7 +424,7 @@
     "bookmarks": "hozzáadás a könyvjelzőkhöz",
     "promote": "hirdetés",
     "boost": "felpörgetés",
-    "report": "report"
+    "report": "jelentés"
   },
   "deep_link": {
     "no_existing_user": "Nem létező felhasználó",
