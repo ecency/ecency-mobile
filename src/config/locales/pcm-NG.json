@@ -362,11 +362,11 @@
     "open_thread": "Look d thread",
     "image": "Picture",
     "link": "Link",
-    "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image",
-    "wrong_link": "Wrong link"
+    "gallery_mode": "Mode of wia picture dey",
+    "save_to_local": "Collect am enta fone",
+    "image_saved": "Keep image put for wia e dey save",
+    "image_saved_error": "Gbege don happen as e dey save picture",
+    "wrong_link": "Dis link no be am"
   },
   "drafts": {
     "title": "Draft",
@@ -391,7 +391,7 @@
     "add": "Add am to bookmark"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Tell Oga dem for dis content wey dey objectionable"
   },
   "favorites": {
     "title": "Favorites",
@@ -404,7 +404,7 @@
     "invalid_username": "Your guy-name no correct, abeg check am and try again ",
     "already_logged": "You don dey inside your account already, abeg try add another account join",
     "invalid_credentials": "Wrong information, abeg check wella and try am again",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "Error don happen, abeg holla us for support@ecency.com"
   },
   "payout": {
     "potential_payout": "Reward wey dey pending",
@@ -412,9 +412,9 @@
     "author_payout": "Payment For Person Wey Write",
     "curation_payout": "Payment For Post Wey You Upvote",
     "payout_date": "Payment",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
-    "breakdown": "Breakdown"
+    "beneficiaries": "Dose people wey go get am",
+    "warn_zero_payout": "Dis money gaz enta $0.02 for cashout",
+    "breakdown": "Evrything selense"
   },
   "post_dropdown": {
     "copy": "copy the link",
@@ -422,9 +422,9 @@
     "reply": "reply am",
     "share": "share am",
     "bookmarks": "add am to bookmark",
-    "promote": "promote",
-    "boost": "boost",
-    "report": "report"
+    "promote": "loud am",
+    "boost": "give am push",
+    "report": "tell Oga"
   },
   "deep_link": {
     "no_existing_user": "The person no exist",
@@ -435,28 +435,28 @@
     "comments": "Comments"
   },
   "comment_filter": {
-    "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
-    "top": "TOP",
+    "trending": "WEY DEY TOP",
+    "reputation": "MOUTH WEY YOU GET",
+    "votes": "VOTE AM",
+    "age": "AW OLD E BE",
+    "top": "WEY DEY TOP",
     "time": "TIME"
   },
   "transfer": {
     "from": "From",
     "to": "To",
-    "amount_information": "Drag the slider to adjust the amount",
+    "amount_information": "Move d slider so you go fit change d amount as u like",
     "amount": "Amount",
     "memo": "Memo",
-    "information": "Are you sure to transfer funds?",
+    "information": "You sure say u wan send d money?",
     "amount_desc": "Balance",
     "memo_desc": "Na everybody go see this memo",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "E go take 3.5 days to change am and we no gree make u do am IF HBD cost pass $1",
     "to_placeholder": "Guy-name",
     "memo_placeholder": "Write your note for here",
-    "transfer_token": "Transfer",
-    "purchase_estm": "Purchase Points",
-    "convert": "Convert HBD to HIVE",
+    "transfer_token": "Transfer am",
+    "purchase_estm": "Buy dem Points",
+    "convert": "Change HBD enta HIVE",
     "points": "Gift Points to someone",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
