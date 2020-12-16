@@ -159,6 +159,7 @@
     "voting_power": "Сила голосу",
     "login_to_see": "Увійдіть, щоб побачити",
     "follow_people": "Стежте за деякими людьми, щоб заповнити вашу стрічку",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "ще нічого не коментував",
     "havent_posted": "ще нічого не опублікував",
     "steem_power": "Hive Power (Сила)",
@@ -239,7 +240,9 @@
     "hot": "Актуальне",
     "new": "Нове",
     "blog": "Блог",
-    "posts": "Дописи"
+    "posts": "Дописи",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Профіль",
@@ -288,7 +291,10 @@
     "reward_power_up": "Power Up 100%",
     "reward_decline": "Decline Payout",
     "beneficiaries": "Beneficiaries",
-    "options": "Options"
+    "options": "Options",
+    "my_blog": "My Blog",
+    "my_communities": "My Communities",
+    "top_communities": "Top Communities"
   },
   "pincode": {
     "enter_text": "Для розблокування введіть пін-код",
@@ -524,15 +530,16 @@
     "others": "Інше",
     "communities": {
       "title": "Спільноти",
-      "subscribe": "Підписатися",
-      "unsubscribe": "Відписатися",
-      "subscribers": "Читачі",
+      "subscribe": "Join",
+      "unsubscribe": "Leave",
+      "subscribers": "Members",
       "posters": "Автори",
       "posts": "Дописи"
     },
     "communities_filter": {
+      "my": "My Communities",
       "rank": "Рейтинг",
-      "subs": "Читачі",
+      "subs": "Members",
       "new": "Нові"
     },
     "post_result_filter": {

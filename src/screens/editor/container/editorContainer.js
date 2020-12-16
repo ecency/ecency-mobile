@@ -791,7 +791,7 @@ class EditorContainer extends Component {
   }
 
   render() {
-    const { isLoggedIn, isDarkTheme, navigation } = this.props;
+    const { isLoggedIn, isDarkTheme, navigation, currentAccount } = this.props;
     const {
       autoFocusText,
       draftPost,
@@ -836,6 +836,7 @@ class EditorContainer extends Component {
         uploadedImage={uploadedImage}
         tags={tags}
         community={community}
+        currentAccount={currentAccount}
       />
     );
   }

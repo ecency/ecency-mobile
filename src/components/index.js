@@ -39,7 +39,16 @@ import { SearchModal } from './searchModal';
 import { SettingsItem } from './settingsItem';
 import { SideMenu } from './sideMenu';
 
-import { SummaryArea, TagArea, TitleArea, TagInput } from './editorElements';
+import CommunityCard from './communityCard';
+
+import {
+  SummaryArea,
+  TagArea,
+  TitleArea,
+  TagInput,
+  SelectCommunityAreaView,
+  SelectCommunityModalContainer,
+} from './editorElements';
 import { TabBar } from './tabBar';
 import { TextInput } from './textInput';
 import { ToastNotification } from './toastNotification';
@@ -173,6 +182,9 @@ export {
   Tag,
   TagArea,
   TagInput,
+  SelectCommunityAreaView,
+  SelectCommunityModalContainer,
+  CommunityCard,
   Tags,
   TextButton,
   TextInput,

@@ -34,7 +34,11 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
     }
 
     if (content) {
-      setPost(content);
+      if (content.author && content.permlink) {
+        _loadPost(content.author, content.permlink);
+      } else {
+        setPost(content);
+      }
       // tracking info
       if (isAnalytics) {
         Matomo.trackView([`${content.url}`]).catch((error) =>

@@ -8,7 +8,7 @@ export default EStyleSheet.create({
     height: 44,
     borderRadius: 8,
     padding: 5,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     marginHorizontal: 16,
   },
   icon: {

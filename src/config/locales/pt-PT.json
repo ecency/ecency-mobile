@@ -159,6 +159,7 @@
     "voting_power": "Poder de voto",
     "login_to_see": "Login para ver",
     "follow_people": "Siga algumas pessoas para preencher o seu feed",
+    "follow_communities": "Junte-se a algumas comunidades para preencher seu feed",
     "havent_commented": "ainda não comentou nada",
     "havent_posted": "ainda não postou nada",
     "steem_power": "Hive Power",
@@ -239,7 +240,9 @@
     "hot": "Quente",
     "new": "Novo",
     "blog": "Blogue",
-    "posts": "Posts"
+    "posts": "Posts",
+    "friends": "Amigos",
+    "communities": "Comunidades"
   },
   "side_menu": {
     "profile": "Perfil",
@@ -288,7 +291,10 @@
     "reward_power_up": "Carregar Power a 100 %%",
     "reward_decline": "Declinar Pagamento",
     "beneficiaries": "Beneficiários",
-    "options": "Opções"
+    "options": "Opções",
+    "my_blog": "My Blog",
+    "my_communities": "My Communities",
+    "top_communities": "Top Communities"
   },
   "pincode": {
     "enter_text": "Insira PIN para desbloquear",
@@ -524,15 +530,16 @@
     "others": "Outros",
     "communities": {
       "title": "Communities",
-      "subscribe": "Inscrever-se",
-      "unsubscribe": "Cancelar Inscrição",
-      "subscribers": "Inscritos",
+      "subscribe": "Aderir",
+      "unsubscribe": "Sair",
+      "subscribers": "Membros",
       "posters": "Cartazes",
       "posts": "Posts"
     },
     "communities_filter": {
+      "my": "Minhas Comunidades",
       "rank": "Classificação",
-      "subs": "Inscritos",
+      "subs": "Membros",
       "new": "Novo"
     },
     "post_result_filter": {

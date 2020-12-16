@@ -3,10 +3,10 @@
     "curation_reward": "Gains de curation",
     "author_reward": "Gain de l'Auteur",
     "comment_benefactor_reward": "Benefactor Reward",
-    "claim_reward_balance": "Claim Reward ",
+    "claim_reward_balance": "Réclamer la récompense ",
     "transfer": "Transférer",
-    "transfer_to_vesting": "To Vesting",
-    "transfer_from_savings": "From Savings",
+    "transfer_to_vesting": "Vers l'économie",
+    "transfer_from_savings": "De l'économie",
     "withdraw_vesting": "Diminuer son influence",
     "fill_order": "Remplir l’ordre",
     "post": "Publier",
@@ -28,8 +28,8 @@
     "reblog_title": "Points pour vos reblog",
     "login_title": "Points pour vos connexions",
     "checkin_title": "Points d'activité",
-    "referral": "Referral",
-    "referral_title": "Referral rewards",
+    "referral": "Parrainage",
+    "referral_title": "Récompenses de parrainage",
     "referral_desc": "Invitez des amis et gagnez des points",
     "checkin_extra_title": "Bonus d'utilisation",
     "no_activity": "Aucune activité récente",
@@ -37,8 +37,8 @@
     "incoming_transfer_description": "",
     "post_desc": "Vous pouvez gagner des points en publiant régulièrement. Publier vous donne jusqu'a 15 points.",
     "comment_desc": "Chaque commentaire que vous faites vous aide à agrandir votre audience et vous donne également 5 points.",
-    "checkin_desc": "Checking in regularly gives you 0.25 points.",
-    "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
+    "checkin_desc": "La connexion régulière vous donne 0,25 points.",
+    "vote_desc": "En votant, vous donnez des récompenses aux créateurs et gagnez en plus jusqu'à 0,01 x le poids de votre vote en points.",
     "reblog_desc": "Partagez les publication que vous aimez avec vos amis et gagnez des points.",
     "login_desc": "Lorsque vous vous connectez à l'application pour la première fois, vous gagnez 100 points.",
     "checkin_extra_desc": "Une utilisation regulière de l'application vous donne des chances supplémentaires de gagner plus de points, soyez plus actif et gagnez plus.",
@@ -59,68 +59,68 @@
     "to_placeholder": "Nom d'utilisateur",
     "memo_placeholder": "Entrez vos notes ici",
     "transfer_token": "Transférer",
-    "purchase_estm": "GET POINTS",
-    "points": "Faire cadeau de points à quelqu'un",
-    "transfer_to_saving": "To Saving",
+    "purchase_estm": "OBTENIR DES POINTS",
+    "points": "Offrir des points à quelqu'un",
+    "transfer_to_saving": "Vers l'économie",
     "powerUp": "Power Up",
-    "withdraw_to_saving": "Withdraw Saving",
-    "steemconnect_title": "Hivesigner Transfer",
+    "withdraw_to_saving": "Récupérer l'économie",
+    "steemconnect_title": "Transfert Hivesigner",
     "next": "SUIVANT",
     "delegate": "Déléguer",
     "power_down": "Diminuer son influence",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
-    "transfer_to_savings": "To Savings",
+    "withdraw_steem": "Récupérer des HIVE",
+    "withdraw_sbd": "Récupérer des HBD",
+    "transfer_to_savings": "Vers les économies",
     "convert": "Convertir",
     "escrow_transfer": "Escrow Transfer",
     "escrow_dispute": "Escrow Dispute",
     "escrow_release": "Escrow Release",
     "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel From Savings",
+    "cancel_transfer_from_savings": "Annuler le transfert depuis les économies",
     "delegate_vesting_shares": "Délégation",
-    "fill_convert_request": "Convert Executed",
-    "fill_transfer_from_savings": "Savings Executed",
+    "fill_convert_request": "Conversion effectuée",
+    "fill_transfer_from_savings": "Épargne effectuée",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
       "title": "Points",
-      "buy": "GET POINTS"
+      "buy": "OBTENIR DES POINTS"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "Économies HIVE"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "Économies HBD"
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "OBTENIR HIVE"
     },
     "sbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "OBTENIR HBD"
     },
     "steem_power": {
       "title": "HIVE POWER"
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "OBTENIR BTC",
+      "address": "RECEVOIR"
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "unvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "vote": "voté",
+    "unvote": "non voté",
+    "reply": "répondu à",
+    "mention": "mentionné dans",
     "follow": "vous a suivi",
     "unfollow": "ne vous suit plus",
     "ignore": "vous a ignoré",
-    "reblog": "reblogged",
+    "reblog": "reblogué",
     "transfer": "transféré",
-    "spin": "Time to earn more Points",
-    "inactive": "Be active! Write a post, continue earning",
-    "referral": "joined with your referral, welcome them",
+    "spin": "C'est l'heure de gagner plus de points",
+    "inactive": "Soyez actif ! Écrivez un post, continuez à obtenir des gains",
+    "referral": "à rejoint avec votre parrainage, acceuillez-le",
     "notification": "Notifications",
     "leaderboard": "Classement",
     "epoint": "Points",
@@ -130,11 +130,11 @@
     "this_week": "Cette semaine",
     "this_month": "Ce mois",
     "older_then": "Vieux de plus de 1 mois",
-    "activities": "All",
+    "activities": "Toutes",
     "replies": "Réponses",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No recent activity"
+    "noactivity": "Aucune activité récente"
   },
   "leaderboard": {
     "daily": "QUOTIDIEN",
@@ -158,7 +158,8 @@
     "hours": "heures",
     "voting_power": "Puissance de vote",
     "login_to_see": "Connectez-vous pour voir",
-    "follow_people": "Follow some people to fill your feed",
+    "follow_people": "Suivez des personnes pour garnir votre flux",
+    "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "n'a encore rien commenté",
     "havent_posted": "n'a encore rien posté",
     "steem_power": "Hive Power",
@@ -212,34 +213,36 @@
   },
   "login": {
     "signin": "Se connecter",
-    "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Ecency",
+    "signup": "REJOINDRE",
+    "signin_title": "Pour obtenir tous les avantages à utiliser Ecency",
     "username": "Nom d'utilisateur",
     "password": "Mot de passe ou WIF",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "En vous inscrivant, vous acceptez nos conditions d'utilisation et notre politique de confidentialité.",
     "cancel": "annuler",
     "login": "CONNEXION",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_description": "Si vous ne voulez pas garder votre mot de passe chiffré et enregistré sur votre appareil, vous pouvez utiliser Hivesigner.",
     "steemconnect_fee_description": "info"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "Créer un compte",
     "title": "S’inscrire",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
-    "ref_user": "Referred user (Optional)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
-    "title_description": "One account to manage everything",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "username": "Choisissez un nom d’utilisateur",
+    "mail": "Entrez votre adresse mail",
+    "ref_user": "Utilisateur parrain (Facultatif)",
+    "500_error": "Votre demande n’a pas pu être traitée, la file d’inscription est probablement pleine ! Réessayez dans quelques minutes...",
+    "title_description": "Un seul compte pour tout gérer",
+    "form_description": "En vous inscrivant, vous acceptez nos conditions d'utilisation et notre politique de confidentialité."
   },
   "home": {
     "feed": "Fil d'actualités",
     "popular": "Populaires",
-    "top": "Top",
+    "top": "Haut",
     "hot": "Hot",
-    "new": "New",
+    "new": "Nouveau",
     "blog": "Blog",
-    "posts": "Post"
+    "posts": "Post",
+    "friends": "Friends",
+    "communities": "Communities"
   },
   "side_menu": {
     "profile": "Profil",
@@ -266,29 +269,32 @@
   },
   "editor": {
     "title": "Titre",
-    "tags": "Tags (separate with space)",
-    "default_placeholder": "Tell us something...",
-    "reply_placeholder": "Add your reply...",
+    "tags": "Tags (séparés par un espace)",
+    "default_placeholder": "Dites-nous quelque chose...",
+    "reply_placeholder": "Ajouter votre réponse...",
     "publish": "Publier",
     "reply": "Répondre",
     "open_gallery": "Ouvrir la galerie",
     "capture_photo": "Prendre une photo",
-    "limited_tags": "Only 10 tags allowed, remove some",
-    "limited_length": "Maximum length of each tag should be 24",
-    "limited_dash": "Use one dash in each tag",
-    "limited_space": "Use space to separate tags",
-    "limited_lowercase": "Only use lower letters in tag",
-    "limited_characters": "Use only lowercase letters, digits and one dash",
-    "limited_firstchar": "Tag must start with a letter",
-    "limited_lastchar": "Tag must end with letter or number",
-    "setting_schedule": "Scheduling Time",
-    "setting_reward": "Reward",
-    "setting_beneficiary": "Beneficiary",
-    "reward_default": "Default 50% / 50%",
+    "limited_tags": "Seulement 10 mots-clés autorisés, supprimez-en",
+    "limited_length": "La longueur maximale de chaque mot-clé doit être de 24",
+    "limited_dash": "Utilisez un seul tiret pour chaque mot-clé",
+    "limited_space": "Utilisez un espace pour séparer les mots-clés",
+    "limited_lowercase": "Utilisez uniquement des lettres minuscules dans le mot-clé",
+    "limited_characters": "Utilisez uniquement des lettres minuscules, des chiffres et un tiret maximum",
+    "limited_firstchar": "Le mot-clé doit commencer par une lettre",
+    "limited_lastchar": "Le mot-clé doit se terminer par une lettre ou un chiffre",
+    "setting_schedule": "Horaire de planification",
+    "setting_reward": "Récompense",
+    "setting_beneficiary": "Bénéficiaire",
+    "reward_default": "Par défaut 50% / 50%",
     "reward_power_up": "Power Up 100%",
-    "reward_decline": "Decline Payout",
-    "beneficiaries": "Beneficiaries",
-    "options": "Options"
+    "reward_decline": "Refuser le paiement",
+    "beneficiaries": "Bénéficiaires",
+    "options": "Options",
+    "my_blog": "My Blog",
+    "my_communities": "My Communities",
+    "top_communities": "Top Communities"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -304,19 +310,19 @@
     "fail": "Échec !",
     "move": "Déplacer",
     "move_question": "Êtes-vous sûr de vouloir déplacer vers Broullions ?",
-    "success_shared": "Success! Content submitted!",
+    "success_shared": "Succès ! Contenu soumis !",
     "success_moved": "Déplacé vers Brouillons",
     "permission_denied": "Autorisation refusée",
-    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Operation requires active key or master password, please relogin!",
+    "permission_text": "Veuillez vous rendre dans les paramètres du téléphone et modifier les autorisations de l'application Ecency.",
+    "key_warning": "L'opération nécessite une clé active ou un mot de passe principal, veuillez vous reconnecter!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Vous avez déjà reblogué !",
-    "success_favorite": "Favorite added!",
-    "success_unfavorite": "Favorite removed!",
-    "success_follow": "Follow success!",
-    "success_mute": "Mute success!",
-    "success_unmute": "Unmute success!",
-    "success_unfollow": "Unfollow success!",
+    "success_favorite": "Favori ajouté !",
+    "success_unfavorite": "Favori supprimé !",
+    "success_follow": "Suivi avec succès !",
+    "success_mute": "Rendu muet avec succès !",
+    "success_unmute": "Rendu non muet avec succès !",
+    "success_unfollow": "Désabonné avec succès !",
     "warning": "Attention",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Êtes-vous sûr de vouloir retirer ?",
@@ -332,35 +338,35 @@
     "same_user": "Cet utilisateur a déjà été ajouté à la liste",
     "unknow_error": "Une erreur est survenue",
     "error": "Erreur",
-    "fetch_error": "Connection issue, change server and restart",
+    "fetch_error": "Problème de connexion, changez de serveur et redémarrez",
     "connection_fail": "Échec de la connexion !",
     "connection_success": "Connexion réussie!",
     "checking": "Vérification...",
-    "external_link": "Open in Browser",
+    "external_link": "Ouvrir dans le navigateur",
     "not_existing_post": "Le post n'existe pas ! Veuillez vérifier le lien et l'auteur.",
     "google_play_version": "Nous avons remarqué que votre appareil possède une ancienne version de Google Play. Veuillez mettre à jour les services Google Play et réessayez!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
-    "payloadTooLarge": "File size too big, please resize or upload smaller image",
-    "qoutaExceeded": "Upload quota exceeded",
-    "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload"
+    "rc_down": "Pas assez de crédits ressources pour effectuer une action ! \n\nBoostez votre compte pour continuer à profiter de l’expérience. Voulez-vous booster votre compte, maintenant?",
+    "payloadTooLarge": "La taille du fichier est trop grande, veuillez redimensionner ou télécharger une image plus petite",
+    "qoutaExceeded": "Limite d'envoi dépassée",
+    "invalidImage": "Image invalide, essayez un autre fichier",
+    "something_wrong": "Une erreur s’est produite.",
+    "something_wrong_alt": "Essayez https://ecency.com",
+    "something_wrong_reload": "Rafraîchir"
   },
   "post": {
     "reblog_alert": "Êtes-vous sûr de vouloir rebloguer ?",
-    "removed_hint": "Content is not available",
-    "copy_link": "Copy link",
+    "removed_hint": "Le contenu est indisponible",
+    "copy_link": "Copier le lien",
     "reblogged": "reblogué par",
     "sponsored": "SPONSORISÉ",
-    "open_thread": "Open thread",
+    "open_thread": "Ouvrir le fil de discussion",
     "image": "Image",
-    "link": "Link",
-    "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
+    "link": "Lien",
+    "gallery_mode": "Mode galerie",
+    "save_to_local": "Télécharger sur l'appareil",
+    "image_saved": "Image sauvegardée dans la Galerie Photo",
     "image_saved_error": "Erreur de sauvegarde de l'image",
-    "wrong_link": "Wrong link"
+    "wrong_link": "Mauvais lien"
   },
   "drafts": {
     "title": "Brouillons",
@@ -385,7 +391,7 @@
     "add": "Ajouter aux signets"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Contenu indésirable signalé"
   },
   "favorites": {
     "title": "Favoris",
@@ -398,7 +404,7 @@
     "invalid_username": "Nom d’utilisateur invalide, s’il vous plaît vérifiez et réessayez",
     "already_logged": "Vous êtes déjà connecté, essayez d’ajouter un autre compte",
     "invalid_credentials": "Informations d'identification invalides, veuillez vérifier et réessayer",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "Erreur inconnue, veuillez écrire à support@ecency.com"
   },
   "payout": {
     "potential_payout": "Gain Potentiel",
@@ -408,7 +414,7 @@
     "payout_date": "Gain",
     "beneficiaries": "Bénéficiaires",
     "warn_zero_payout": "Le montant doit atteindre 0,02 $ pour le retrait",
-    "breakdown": "Breakdown"
+    "breakdown": "Répartition"
   },
   "post_dropdown": {
     "copy": "copier le lien",
@@ -418,7 +424,7 @@
     "bookmarks": "ajouter aux signets",
     "promote": "promouvoir",
     "boost": "accélérer",
-    "report": "report"
+    "report": "signaler"
   },
   "deep_link": {
     "no_existing_user": "Utilisateur inexistant",
@@ -445,44 +451,44 @@
     "information": "Êtes-vous sûr de vouloir transférer les fonds ?",
     "amount_desc": "Solde",
     "memo_desc": "Ce mémo est public",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "Convertir prend 3,5 jours et n'est PAS recommandé SI le prix HBD est supérieur à $1",
     "to_placeholder": "Nom d'utilisateur",
     "memo_placeholder": "Entrez vos notes ici",
     "transfer_token": "Transférer",
-    "purchase_estm": "Purchase Points",
-    "convert": "Convert HBD to HIVE",
-    "points": "Gift Points to someone",
+    "purchase_estm": "Achat de Points",
+    "convert": "Convertir HBD en HIVE",
+    "points": "Offrir des points à quelqu'un",
     "transfer_to_saving": "Transfer To Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
-    "steemconnect_title": "Hivesigner Transfer",
+    "steemconnect_title": "Transfert Hivesigner",
     "estimated_weekly": "Évalué chaque semaine",
     "destination_accounts": "Comptes destinataires",
     "stop_information": "Êtes-vous sûr de vouloir arrêter ?",
     "percent": "Pourcentage",
     "auto_vests": "Auto Vests",
     "save": "SAUVEGARDER",
-    "percent_information": "Percent info",
+    "percent_information": "Infos sur le pourcentage",
     "next": "SUIVANT",
     "delegate": "Déléguer",
     "power_down": "Diminuer son influence",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
-    "incoming_funds": "Incoming Funds",
+    "withdraw_steem": "Récupérer des HIVE",
+    "withdraw_sbd": "Récupérer des HIVE Dollar",
+    "incoming_funds": "Fonds entrants",
     "stop": "Arrêter",
-    "address_view": "View address"
+    "address_view": "Voir l'adresse"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
+    "title": "Obtenir des points",
+    "buy": "Obtenir des points",
     "next": "SUIVANT",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "title": "Obtenir le Boost de Compte",
+      "desc": "La délégation de 30 jours va booster vos votes et vos activités sociales et vous donnera plus d'actions avec plus de crédits ressources."
     }
   },
   "free_estm": {
-    "title": "Free Points",
+    "title": "Points gratuits",
     "button": "TOURNER & GAGNER",
     "get_spin": "5 TOURS",
     "spin_right": "Spin Left",
@@ -493,7 +499,7 @@
     "days": "jours",
     "user": "Utilisateur",
     "permlink": "Publier",
-    "permlinkPlaceholder": "username/permlink",
+    "permlinkPlaceholder": "nom d'utilisateur/permlink",
     "information": "Êtes-vous sûr de vouloir promouvoir?"
   },
   "boostPost": {
@@ -516,38 +522,39 @@
   },
   "comments": {
     "title": "Commentaires",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "Révéler le commentaire",
+    "read_more": "Lire plus de commentaires",
+    "more_replies": "plus de réponses"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Autres",
     "communities": {
-      "title": "Communities",
-      "subscribe": "Subscribe",
-      "unsubscribe": "Unsubscribe",
-      "subscribers": "Subscribers",
-      "posters": "Posters",
+      "title": "Communautés",
+      "subscribe": "Join",
+      "unsubscribe": "Leave",
+      "subscribers": "Members",
+      "posters": "Publieurs",
       "posts": "Post"
     },
     "communities_filter": {
-      "rank": "Rank",
-      "subs": "Subscribers",
-      "new": "New"
+      "my": "My Communities",
+      "rank": "Classement",
+      "subs": "Members",
+      "new": "Nouveau"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "Popularité",
+      "newest": "Plus récent",
+      "relevance": "Pertinence"
     },
     "other_result_filter": {
       "user": "Utilisateur",
-      "tag": "Tag"
+      "tag": "Mot-clé"
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details"
+    "new_post": "Nouvelle Publication",
+    "community": "communauté",
+    "details": "Détails"
   }
 }
