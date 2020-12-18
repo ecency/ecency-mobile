@@ -178,7 +178,7 @@ const PostsContainer = ({
         func = getRankedPosts;
         options = {
           observer: feedUsername,
-          sort: 'trending',
+          sort: 'created',
           tag: 'my',
         };
       } else {
