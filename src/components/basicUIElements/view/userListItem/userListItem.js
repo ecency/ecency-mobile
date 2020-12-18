@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { UserAvatar } from '../../../userAvatar';
 import styles from './userListItemStyles';
@@ -22,17 +22,12 @@ const UserListItem = ({
   rightTextStyle,
   onPressRightText,
   isFollowing,
-  handleFollowUserButtonPress,
 }) => {
-  const [following, setFollowing] = useState(isFollowing);
-
   const _handleSubscribeButtonPress = () => {
     const _data = {};
     _data.following = username;
 
-    handleFollowUserButtonPress({ _data, isFollowing }).then(() => {
-      setFollowing(!following);
-    });
+    onPressRightText(_data, isFollowing);
   };
 
   return (
@@ -70,7 +65,6 @@ const UserListItem = ({
                 isBlackRightColor && styles.valueBlack,
                 rightTextStyle,
               ]}
-              onPress={onPressRightText}
             >
               {rightText}
             </Text>

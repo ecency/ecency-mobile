@@ -7,8 +7,6 @@ import { useIntl } from 'react-intl';
 
 // HIVE
 import {
-  followUser,
-  unfollowUser,
   getAccountPosts,
   getPost,
   getRankedPosts,
@@ -23,6 +21,7 @@ import PostsView from '../view/postsView';
 // Actions
 import { setFeedPosts } from '../../../redux/actions/postsAction';
 import { hidePostsThumbnails, toastNotification } from '../../../redux/actions/uiAction';
+import { followUser, unfollowUser } from '../../../redux/actions/userAction';
 
 import useIsMountedRef from '../../../customHooks/useIsMountedRef';
 
@@ -340,21 +339,23 @@ const PostsContainer = ({
 
     _data.follower = get(currentAccount, 'name', '');
 
-    followAction(currentAccount, pinCode, _data)
-      .then(() => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: isFollowing ? 'alert.success_unfollow' : 'alert.success_follow',
-            }),
-          ),
-        );
+    console.log(_data, isFollowing, '_handleFollowUserButtonPress');
 
-        //changeIsFollowingField();
-      })
-      .catch((err) => {
-        console.log(err, '_handleFollowUserButtonPress Error');
-      });
+    dispatch(followAction(currentAccount, pinCode, _data));
+    // .then(() => {
+    //   dispatch(
+    //     toastNotification(
+    //       intl.formatMessage({
+    //         id: isFollowing ? 'alert.success_unfollow' : 'alert.success_follow',
+    //       }),
+    //     ),
+    //   );
+
+    //   //changeIsFollowingField();
+    // })
+    // .catch((err) => {
+    //   console.log(err, '_handleFollowUserButtonPress Error');
+    // });
   };
 
   const _handleSubscribeCommunityButtonPress = (_data) => {

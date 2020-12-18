@@ -21,6 +21,7 @@ const initialState = {
 };
 
 export default function (state = initialState, action) {
+  console.log(action.type, action.payload);
   switch (action.type) {
     case FOLLOW_USER:
       return {

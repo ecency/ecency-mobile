@@ -401,8 +401,8 @@ PODS:
     - React-Core
     - React-RCTImage
     - RSKImageCropper
-  - RNReanimated (1.10.2):
-    - React
+  - RNReanimated (1.13.2):
+    - React-Core
   - RNScreens (2.10.1):
     - React
   - RNSVG (9.13.6):
@@ -696,7 +696,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: b6b359bb800ae399a9c8b27032bdbf7c18f08a08
   RNIap: b4c77c8bc4501203f4b743126a05da23f10f40b4
   RNImageCropPicker: 9d1a7eea4f8368fc479cbd2bf26459bd3c74d9aa
-  RNReanimated: 7de2dca51deacff78bb880f63c1389a24311b376
+  RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: b748efec66e095134c7166ca333b628cd7e6f3e2
   RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
   RNVectorIcons: 368d6d8b8301224e5ffb6254191f4f8876c2be0d
@@ -708,4 +708,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 1f30c7da5061dbc47185442a6ab4a3c95ac48c04
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.10.0
