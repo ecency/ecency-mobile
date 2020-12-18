@@ -2,47 +2,61 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '$primaryBackgroundColor',
+    padding: 8,
+    flexDirection: 'row',
+  },
+  content: {
+    flexDirection: 'column',
+    marginLeft: 8,
+    width: '100%',
   },
   itemWrapper: {
-    paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: 8,
-    borderRadius: 8,
-    backgroundColor: '$primaryBackgroundColor',
-    flexDirection: 'row',
     alignItems: 'center',
+    padding: 16,
+    borderRadius: 8,
+    flexDirection: 'row',
+    backgroundColor: '$primaryBackgroundColor',
   },
   itemWrapperGray: {
     backgroundColor: '$primaryLightBackground',
   },
-  username: {
-    marginLeft: 10,
+  title: {
+    color: '$primaryBlue',
+    fontSize: 17,
+    fontWeight: 'bold',
+    fontFamily: '$primaryFont',
+  },
+  about: {
+    fontSize: 14,
+    fontFamily: '$primaryFont',
+    marginTop: 5,
+    paddingTop: 10,
     color: '$primaryBlack',
   },
-  communityWrapper: {
-    paddingHorizontal: 16,
-    paddingTop: 10,
+  separator: {
+    width: 100,
+    alignSelf: 'center',
+    backgroundColor: '$primaryDarkGray',
+    height: 1,
+    marginVertical: 10,
+  },
+  stats: {
+    fontSize: 14,
+    fontFamily: '$primaryFont',
+    color: '$primaryDarkGray',
     paddingBottom: 10,
-    borderRadius: 8,
-    backgroundColor: '$primaryBackgroundColor',
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
   },
   subscribeButton: {
-    maxWidth: 75,
     borderWidth: 1,
+    maxWidth: 75,
     borderColor: '$primaryBlue',
   },
   subscribeButtonText: {
     textAlign: 'center',
     color: '$primaryBlue',
   },
-  community: {
-    justifyContent: 'center',
-    marginLeft: 15,
-    color: '$primaryBlack',
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });

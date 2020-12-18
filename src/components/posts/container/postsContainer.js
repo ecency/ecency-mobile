@@ -3,10 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import get from 'lodash/get';
 import unionBy from 'lodash/unionBy';
 import Matomo from 'react-native-matomo-sdk';
+import { useIntl } from 'react-intl';
 
 // HIVE
-import { getAccountPosts, getPost, getRankedPosts } from '../../../providers/hive/dhive';
-import { getCommunities } from '../../../providers/hive/hive';
+import {
+  followUser,
+  unfollowUser,
+  getAccountPosts,
+  getPost,
+  getRankedPosts,
+  subscribeCommunity,
+} from '../../../providers/hive/dhive';
+import { getCommunities, getCommunity } from '../../../providers/hive/hive';
 import { getPromotePosts, getLeaderboard } from '../../../providers/ecency/ecency';
 
 // Component
@@ -14,7 +22,7 @@ import PostsView from '../view/postsView';
 
 // Actions
 import { setFeedPosts } from '../../../redux/actions/postsAction';
-import { hidePostsThumbnails } from '../../../redux/actions/uiAction';
+import { hidePostsThumbnails, toastNotification } from '../../../redux/actions/uiAction';
 
 import useIsMountedRef from '../../../customHooks/useIsMountedRef';
 
@@ -33,6 +41,7 @@ const PostsContainer = ({
   feedSubfilterOptionsValue,
 }) => {
   const dispatch = useDispatch();
+  const intl = useIntl();
 
   const nsfw = useSelector((state) => state.application.nsfw);
   const feedPosts = useSelector((state) => state.posts.feedPosts);
@@ -41,6 +50,8 @@ const PostsContainer = ({
   const username = useSelector((state) => state.account.currentAccount.name);
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
   const isAnalytics = useSelector((state) => state.application.isAnalytics);
+  const currentAccount = useSelector((state) => state.account.currentAccount);
+  const pinCode = useSelector((state) => state.application.pin);
 
   const [isNoPost, setIsNoPost] = useState(false);
   const [startPermlink, setStartPermlink] = useState('');
@@ -291,27 +302,63 @@ const PostsContainer = ({
     setIsNoPost(false);
   };
 
-  const _getRecommendedUsers = () => {
-    getLeaderboard()
-      .then((users) => {
-        const recommendeds = users.slice(0, 10);
-        recommendeds.unshift({ _id: 'good-karma' });
-        recommendeds.unshift({ _id: 'ecency' });
+  const _getRecommendedUsers = async () => {
+    try {
+      const users = await getLeaderboard();
+      const recommendeds = users.slice(0, 10);
+      recommendeds.unshift({ _id: 'good-karma' });
+      recommendeds.unshift({ _id: 'ecency' });
 
-        setRecommendedUsers(recommendeds);
-      })
-      .catch((err) => console.log(err, '_getRecommendedUsers Error'));
+      setRecommendedUsers(recommendeds);
+    } catch (err) {
+      console.log(err, '_getRecommendedUsers Error');
+    }
   };
 
-  const _getRecommendedCommunities = () => {
-    getCommunities('', 10)
-      .then((communities) => {
-        const recommendeds = [...communities];
-        recommendeds.unshift({ title: 'Ecency', name: 'hive-125125' });
+  const _getRecommendedCommunities = async () => {
+    try {
+      const communities = await getCommunities('', 10);
+      const ecency = await getCommunity('hive-125125');
 
-        setRecommendedCommunities(recommendeds);
+      const recommendeds = [ecency, ...communities];
+      recommendeds.forEach((item) => ({ ...item, isFollowing: false }));
+
+      setRecommendedCommunities(recommendeds);
+    } catch (err) {
+      console.log(err, '_getRecommendedUsers Error');
+    }
+  };
+
+  const _handleFollowUserButtonPress = (_data, isFollowing) => {
+    let followAction;
+
+    if (!isFollowing) {
+      followAction = followUser;
+    } else {
+      followAction = unfollowUser;
+    }
+
+    _data.follower = get(currentAccount, 'name', '');
+
+    followAction(currentAccount, pinCode, _data)
+      .then(() => {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: isFollowing ? 'alert.success_unfollow' : 'alert.success_follow',
+            }),
+          ),
+        );
+
+        //changeIsFollowingField();
       })
-      .catch((err) => console.log(err, '_getRecommendedUsers Error'));
+      .catch((err) => {
+        console.log(err, '_handleFollowUserButtonPress Error');
+      });
+  };
+
+  const _handleSubscribeCommunityButtonPress = (_data) => {
+    return subscribeCommunity(currentAccount, pinCode, _data);
   };
 
   return (
@@ -347,6 +394,8 @@ const PostsContainer = ({
       getRecommendedCommunities={_getRecommendedCommunities}
       recommendedUsers={recommendedUsers}
       recommendedCommunities={recommendedCommunities}
+      handleFollowUserButtonPress={_handleFollowUserButtonPress}
+      handleSubscribeCommunityButtonPress={_handleSubscribeCommunityButtonPress}
     />
   );
 };

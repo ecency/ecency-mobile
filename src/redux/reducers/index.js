@@ -5,6 +5,7 @@ import nav from './nav';
 import ui from './uiReducer';
 import postsReducer from './postsReducer';
 import communities from './communitiesReducer';
+import user from './userReducer';
 
 export default combineReducers({
   account: accountReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   nav,
   ui,
   communities,
+  user,
 });

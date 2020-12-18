@@ -8,7 +8,12 @@ import { get } from 'lodash';
 // COMPONENTS
 import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
-import { PostCardPlaceHolder, NoPost, UserListItem } from '../../basicUIElements';
+import {
+  PostCardPlaceHolder,
+  NoPost,
+  UserListItem,
+  CommunityListItem,
+} from '../../basicUIElements';
 import { ThemeContainer } from '../../../containers';
 
 // Styles
@@ -49,6 +54,8 @@ const PostsView = ({
   getRecommendedCommunities,
   recommendedUsers,
   recommendedCommunities,
+  handleFollowUserButtonPress,
+  handleSubscribeCommunityButtonPress,
 }) => {
   const intl = useIntl();
   const postsList = useRef(null);
@@ -58,9 +65,13 @@ const PostsView = ({
     if (isNoPost) {
       if (selectedFilterValue === 'feed') {
         if (selectedFeedSubfilterValue === 'friends') {
-          getRecommendedUsers();
+          if (recommendedUsers.length === 0) {
+            getRecommendedUsers();
+          }
         } else {
-          getRecommendedCommunities();
+          if (recommendedCommunities.length === 0) {
+            getRecommendedCommunities();
+          }
         }
       }
     }
@@ -123,6 +134,7 @@ const PostsView = ({
     if (isNoPost) {
       if (selectedFilterValue === 'feed') {
         if (selectedFeedSubfilterValue === 'friends') {
+          console.log(recommendedUsers, 'recommendedUsers');
           return (
             <>
               <Text style={[globalStyles.subTitle, styles.noPostTitle]}>
@@ -136,16 +148,14 @@ const PostsView = ({
                     username={item._id}
                     isHasRightItem
                     rightText="follow"
-                    onPressRightText={() => {
-                      console.log('users pressed');
-                    }}
+                    isFollowing={false}
+                    onPressRightText={handleFollowUserButtonPress}
                   />
                 )}
               />
             </>
           );
         } else {
-          console.log(recommendedCommunities, 'recommendedCommunities');
           return (
             <>
               <Text style={[globalStyles.subTitle, styles.noPostTitle]}>
@@ -154,15 +164,28 @@ const PostsView = ({
               <FlatList
                 data={recommendedCommunities}
                 renderItem={({ item, index }) => (
-                  <UserListItem
+                  <CommunityListItem
                     index={index}
-                    username={item.name}
-                    text={item.title}
-                    isHasRightItem
-                    rightText="join"
-                    onPressRightText={() => {
-                      console.log('users pressed');
-                    }}
+                    title={item.title}
+                    about={item.about}
+                    admins={item.admins}
+                    id={item.id}
+                    authors={item.num_authors}
+                    posts={item.num_pending}
+                    subscribers={item.subscribers}
+                    isNsfw={item.is_nsfw}
+                    name={item.name}
+                    handleOnPress={(name) =>
+                      navigation.navigate({
+                        routeName: ROUTES.SCREENS.COMMUNITY,
+                        params: {
+                          tag: name,
+                        },
+                      })
+                    }
+                    handleSubscribeButtonPress={handleSubscribeCommunityButtonPress}
+                    isSubscribed={false}
+                    isLoggedIn={isLoggedIn}
                   />
                 )}
               />
@@ -172,21 +195,6 @@ const PostsView = ({
       } else {
         return <Text>{intl.formatMessage({ id: 'profile.havent_posted' })}</Text>;
       }
-      // <NoPost
-      //   imageStyle={styles.noImage}
-      //   name={tag}
-      //   text={intl.formatMessage({
-      //     id: 'profile.havent_posted',
-      //   })}
-      //   defaultText={intl.formatMessage({
-      //     id:
-      //       selectedFilterValue === 'feed'
-      //         ? selectedFeedSubfilterValue === 'friends'
-      //           ? 'profile.follow_people'
-      //           : 'profile.follow_communities'
-      //         : 'profile.havent_posted',
-      //   })}
-      // />
     }
 
     return (

@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 
 // Components
 import { FilterBar, UserAvatar } from '../../../components';
-import { CommunitiesPlaceHolder } from '../../../components/basicUIElements';
+import { CommunitiesPlaceHolder, UserListItem } from '../../../components/basicUIElements';
 import OtherResultContainer from '../container/otherResultContainer';
 
 import styles from './otherResultsStyles';
@@ -15,13 +15,6 @@ const filterOptions = ['user', 'tag'];
 
 const OtherResult = ({ navigation, searchValue }) => {
   const intl = useIntl();
-
-  const _renderUserItem = (item, index) => (
-    <View style={[styles.itemWrapper, index % 2 !== 0 && styles.itemWrapperGray]}>
-      <UserAvatar username={item} defaultSource={DEFAULT_IMAGE} noAction />
-      <Text style={styles.username}>{item}</Text>
-    </View>
-  );
 
   const _renderTagItem = (item, index) => (
     <View style={[styles.itemWrapper, index % 2 !== 0 && styles.itemWrapperGray]}>
@@ -52,9 +45,11 @@ const OtherResult = ({ navigation, searchValue }) => {
               data={users}
               keyExtractor={(item, ind) => `${item}-${ind}`}
               renderItem={({ item, index }) => (
-                <TouchableOpacity onPress={() => handleOnPress(item)}>
-                  {_renderUserItem(item, index)}
-                </TouchableOpacity>
+                <UserListItem
+                  handleOnPress={() => handleOnPress(item)}
+                  index={index}
+                  username={item}
+                />
               )}
               ListEmptyComponent={_renderEmptyContent}
             />

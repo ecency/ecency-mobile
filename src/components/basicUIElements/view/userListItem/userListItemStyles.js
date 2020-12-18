@@ -13,7 +13,8 @@ export default EStyleSheet.create({
   },
   voteItemWrapper: {
     alignItems: 'center',
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     borderRadius: 8,
     flexDirection: 'row',
     backgroundColor: '$primaryBackgroundColor',

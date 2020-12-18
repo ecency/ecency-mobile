@@ -1,39 +1,79 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useIntl } from 'react-intl';
 
-import { UserAvatar } from '../../../userAvatar';
-import { Tag } from '../../index';
-
-import DEFAULT_IMAGE from '../../../../assets/no_image.png';
-
 import styles from './communityListItemStyles';
 
-const CommunityListItem = ({ item, index, handleOnPress, handleSubscribeButtonPress }) => {
+import { Tag } from '../../index';
+
+const CommunityListItem = ({
+  index,
+  handleOnPress,
+  handleOnLongPress,
+  title,
+  about,
+  admins,
+  id,
+  authors,
+  posts,
+  subscribers,
+  isNsfw,
+  name,
+  handleSubscribeButtonPress,
+  isSubscribed,
+  isLoggedIn,
+}) => {
+  const [subscribed, setSubscribed] = useState(isSubscribed);
   const intl = useIntl();
+
+  const _handleSubscribeButtonPress = () => {
+    handleSubscribeButtonPress({ subscribed: !subscribed, communityId: name }).then(() => {
+      setSubscribed(!subscribed);
+    });
+  };
+
   return (
-    <View style={[styles.communityWrapper, index % 2 !== 0 && styles.itemWrapperGray]}>
-      <View style={{ flex: 3, flexDirection: 'row', alignItems: 'center' }}>
-        <TouchableOpacity onPress={() => handleOnPress(item[0])}>
-          <UserAvatar username={item[0]} defaultSource={DEFAULT_IMAGE} noAction />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleOnPress(item[0])}>
-          <Text style={styles.community}>{item[1]}</Text>
-        </TouchableOpacity>
+    <TouchableOpacity
+      onLongPress={() => handleOnLongPress && handleOnLongPress()}
+      onPress={() => handleOnPress && handleOnPress(name)}
+    >
+      <View style={[styles.itemWrapper, index % 2 !== 0 && styles.itemWrapperGray]}>
+        <View style={styles.content}>
+          <View style={styles.header}>
+            <Text style={styles.title}>{title}</Text>
+            {isLoggedIn && (
+              <Tag
+                style={styles.subscribeButton}
+                textStyle={subscribed && styles.subscribeButtonText}
+                value={
+                  !subscribed
+                    ? intl.formatMessage({
+                        id: 'search_result.communities.subscribe',
+                      })
+                    : intl.formatMessage({
+                        id: 'search_result.communities.unsubscribe',
+                      })
+                }
+                isPin={!subscribed}
+                isFilter
+                onPress={_handleSubscribeButtonPress}
+              />
+            )}
+          </View>
+          {!!about && <Text style={styles.about}>{about}</Text>}
+          <View style={styles.separator} />
+          <Text style={styles.stats}>
+            {`${subscribers.toString()} ${intl.formatMessage({
+              id: 'search_result.communities.subscribers',
+            })} • ${authors.toString()} ${intl.formatMessage({
+              id: 'search_result.communities.posters',
+            })} • ${posts} ${intl.formatMessage({
+              id: 'search_result.communities.posts',
+            })}`}
+          </Text>
+        </View>
       </View>
-      <View style={{ flex: 1 }}>
-        <Tag
-          style={styles.subscribeButton}
-          textStyle={styles.subscribeButtonText}
-          value={intl.formatMessage({
-            id: 'search_result.communities.unsubscribe',
-          })}
-          isPin={false}
-          isFilter
-          onPress={() => handleSubscribeButtonPress({ isSubscribed: true, communityId: item[0] })}
-        />
-      </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
