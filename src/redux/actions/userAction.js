@@ -17,6 +17,7 @@ import {
 } from '../../providers/hive/dhive';
 import { getLeaderboard } from '../../providers/ecency/ecency';
 
+// Follow User
 export const followUser = (currentAccount, pin, data, successToastText, failToastText) => {
   return (dispatch) => {
     dispatch({ type: FOLLOW_USER, payload: data });
@@ -52,6 +53,7 @@ export const followUserFail = (error, failToastText) => {
   ];
 };
 
+// Unfollow User
 export const unfollowUser = (currentAccount, pin, data, successToastText, failToastText) => {
   return (dispatch) => {
     dispatch({ type: UNFOLLOW_USER, payload: data });
@@ -87,6 +89,7 @@ export const unfollowUserFail = (error, failToastText) => {
   ];
 };
 
+// Fetch Leaderboard
 export const fetchLeaderboard = (duration) => {
   return (dispatch) => {
     dispatch({ type: FETCH_LEADERBOARD });
