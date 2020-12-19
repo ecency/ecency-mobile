@@ -56,6 +56,8 @@ const PostsView = ({
   recommendedCommunities,
   handleFollowUserButtonPress,
   handleSubscribeCommunityButtonPress,
+  lastFollowedUser,
+  isUnfollowLoading,
 }) => {
   const intl = useIntl();
   const postsList = useRef(null);
@@ -134,7 +136,7 @@ const PostsView = ({
     if (isNoPost) {
       if (selectedFilterValue === 'feed') {
         if (selectedFeedSubfilterValue === 'friends') {
-          console.log(recommendedUsers, 'recommendedUsers');
+          console.log('lastFollowedUser', lastFollowedUser);
           return (
             <>
               <Text style={[globalStyles.subTitle, styles.noPostTitle]}>
@@ -147,9 +149,24 @@ const PostsView = ({
                     index={index}
                     username={item._id}
                     isHasRightItem
-                    rightText="follow"
-                    isFollowing={false}
+                    rightText={
+                      item.isFollowing
+                        ? intl.formatMessage({ id: 'user.unfollow' })
+                        : intl.formatMessage({ id: 'user.follow' })
+                    }
+                    isRightColor={item.isFollowing}
+                    isFollowing={item.isFollowing}
+                    isLoadingRightAction={lastFollowedUser.loading}
                     onPressRightText={handleFollowUserButtonPress}
+                    handleOnPress={(username) =>
+                      navigation.navigate({
+                        routeName: ROUTES.SCREENS.PROFILE,
+                        params: {
+                          username,
+                        },
+                        key: username,
+                      })
+                    }
                   />
                 )}
               />

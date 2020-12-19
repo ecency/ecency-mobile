@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, View, Text, TouchableOpacity } from 'react-native';
+
 import { UserAvatar } from '../../../userAvatar';
 import styles from './userListItemStyles';
 
@@ -13,7 +14,6 @@ const UserListItem = ({
   isHasRightItem,
   isBlackRightColor,
   itemIndex,
-  userCanPress = false,
   handleOnPress,
   handleOnLongPress,
   isClickable = true,
@@ -21,7 +21,8 @@ const UserListItem = ({
   middleText,
   rightTextStyle,
   onPressRightText,
-  isFollowing,
+  isFollowing = false,
+  isLoadingRightAction = false,
 }) => {
   const _handleSubscribeButtonPress = () => {
     const _data = {};
@@ -34,11 +35,11 @@ const UserListItem = ({
     <TouchableOpacity
       onLongPress={() => handleOnLongPress && handleOnLongPress()}
       disabled={!isClickable}
-      onPress={() => handleOnPress && handleOnPress()}
+      onPress={() => handleOnPress && handleOnPress(username)}
     >
       <View style={[styles.voteItemWrapper, index % 2 === 1 && styles.voteItemWrapperGray]}>
         {itemIndex && <Text style={styles.itemIndex}>{itemIndex}</Text>}
-        <UserAvatar noAction={userCanPress} style={styles.avatar} username={username} />
+        <UserAvatar noAction={true} style={styles.avatar} username={username} />
         <View style={styles.userDescription}>
           <Text style={styles.name}>{text || username}</Text>
           {description && <Text style={styles.date}>{description}</Text>}
@@ -56,21 +57,24 @@ const UserListItem = ({
             </Text>
           </View>
         )}
-        {isHasRightItem && (
-          <TouchableOpacity style={styles.rightWrapper} onPress={_handleSubscribeButtonPress}>
-            <Text
-              style={[
-                styles.value,
-                isRightColor && styles.valueGray,
-                isBlackRightColor && styles.valueBlack,
-                rightTextStyle,
-              ]}
-            >
-              {rightText}
-            </Text>
-            {subRightText && <Text style={styles.text}>{subRightText}</Text>}
-          </TouchableOpacity>
-        )}
+        {isHasRightItem &&
+          (isLoadingRightAction ? (
+            <ActivityIndicator style={{ width: 30 }} />
+          ) : (
+            <TouchableOpacity style={styles.rightWrapper} onPress={_handleSubscribeButtonPress}>
+              <Text
+                style={[
+                  styles.value,
+                  isRightColor && styles.valueGray,
+                  isBlackRightColor && styles.valueBlack,
+                  rightTextStyle,
+                ]}
+              >
+                {rightText}
+              </Text>
+              {subRightText && <Text style={styles.text}>{subRightText}</Text>}
+            </TouchableOpacity>
+          ))}
       </View>
     </TouchableOpacity>
   );

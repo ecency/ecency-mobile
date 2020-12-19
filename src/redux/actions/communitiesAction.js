@@ -7,10 +7,16 @@ import {
   FETCH_SUBSCRIBED_COMMUNITIES_FAIL,
 } from '../constants/constants';
 
-export const fetchCommunities = (payload) => ({
-  payload,
-  type: FETCH_COMMUNITIES,
-});
+import { getCommunities, getSubscriptions } from '../../providers/hive/hive';
+
+export const fetchCommunities = (last, limit, query, sort, observer) => {
+  return (dispatch) => {
+    dispatch({ type: FETCH_COMMUNITIES });
+    getCommunities(last, limit, query, sort, observer)
+      .then((res) => dispatch(fetchCommunitiesSuccess(res)))
+      .catch((err) => dispatch(fetchCommunitiesFail(err)));
+  };
+};
 export const fetchCommunitiesSuccess = (payload) => ({
   payload,
   type: FETCH_COMMUNITIES_SUCCESS,
@@ -19,10 +25,15 @@ export const fetchCommunitiesFail = (payload) => ({
   payload,
   type: FETCH_COMMUNITIES_FAIL,
 });
-export const fetchSubscribedCommunities = (payload) => ({
-  payload,
-  type: FETCH_SUBSCRIBED_COMMUNITIES,
-});
+
+export const fetchSubscribedCommunities = (username) => {
+  return (dispatch) => {
+    dispatch({ type: FETCH_SUBSCRIBED_COMMUNITIES });
+    getSubscriptions(username)
+      .then((res) => dispatch(fetchSubscribedCommunitiesSuccess(res)))
+      .catch((err) => dispatch(fetchSubscribedCommunitiesFail(err)));
+  };
+};
 export const fetchSubscribedCommunitiesSuccess = (payload) => ({
   payload,
   type: FETCH_SUBSCRIBED_COMMUNITIES_SUCCESS,

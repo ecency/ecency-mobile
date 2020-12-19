@@ -320,9 +320,11 @@
     "success_favorite": "Favorite added!",
     "success_unfavorite": "Favorite removed!",
     "success_follow": "Follow success!",
+    "fail_follow": "Follow failed!",
     "success_mute": "Mute success!",
     "success_unmute": "Unmute success!",
     "success_unfollow": "Unfollow success!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Warning",
     "invalid_pincode": "Invalid PIN code, please check and try again.",
     "remove_alert": "Are you sure you want to remove?",
@@ -556,5 +558,9 @@
     "new_post": "New Post",
     "community": "community",
     "details": "Details"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }

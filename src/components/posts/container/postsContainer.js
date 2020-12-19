@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import get from 'lodash/get';
+import { get, isEmpty } from 'lodash';
 import unionBy from 'lodash/unionBy';
 import Matomo from 'react-native-matomo-sdk';
 import { useIntl } from 'react-intl';
@@ -11,19 +11,20 @@ import {
   getPost,
   getRankedPosts,
   subscribeCommunity,
+  getCommunity,
 } from '../../../providers/hive/dhive';
-import { getCommunities, getCommunity } from '../../../providers/hive/hive';
-import { getPromotePosts, getLeaderboard } from '../../../providers/ecency/ecency';
+import { getPromotePosts } from '../../../providers/ecency/ecency';
 
 // Component
 import PostsView from '../view/postsView';
 
 // Actions
 import { setFeedPosts } from '../../../redux/actions/postsAction';
-import { hidePostsThumbnails, toastNotification } from '../../../redux/actions/uiAction';
-import { followUser, unfollowUser } from '../../../redux/actions/userAction';
+import { hidePostsThumbnails } from '../../../redux/actions/uiAction';
+import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';
 
 import useIsMountedRef from '../../../customHooks/useIsMountedRef';
+import { fetchCommunities } from '../../../redux/actions/communitiesAction';
 
 const PostsContainer = ({
   changeForceLoadPostState,
@@ -51,6 +52,10 @@ const PostsContainer = ({
   const isAnalytics = useSelector((state) => state.application.isAnalytics);
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const pinCode = useSelector((state) => state.application.pin);
+  const leaderboard = useSelector((state) => state.user.leaderboard);
+  const communities = useSelector((state) => state.communities.communities);
+  const lastFollowedUser = useSelector((state) => state.user.followUser);
+  const lastUnfollowedUser = useSelector((state) => state.user.unfollowUser);
 
   const [isNoPost, setIsNoPost] = useState(false);
   const [startPermlink, setStartPermlink] = useState('');
@@ -69,6 +74,8 @@ const PostsContainer = ({
   );
   const [recommendedUsers, setRecommendedUsers] = useState([]);
   const [recommendedCommunities, setRecommendedCommunities] = useState([]);
+  const [followedUsers, setFollowedUsers] = useState([]);
+  const [subscribedCommunities, setSubscribedCommunities] = useState([]);
 
   const elem = useRef(null);
   const isMountedRef = useIsMountedRef();
@@ -125,6 +132,39 @@ const PostsContainer = ({
       _loadPosts();
     }
   }, [refreshing]);
+
+  useEffect(() => {
+    if (!leaderboard.loading) {
+      if (!leaderboard.error && leaderboard.data.length > 0) {
+        _formatRecommendedUsers(leaderboard.data);
+      }
+    }
+  }, [leaderboard]);
+
+  useEffect(() => {
+    if (!communities.loading) {
+      if (!communities.error && communities.data.length > 0) {
+        _formatRecommendedCommunities(communities.data);
+      }
+    }
+  }, [communities]);
+
+  useEffect(() => {
+    if (!lastFollowedUser.loading) {
+      if (!lastFollowedUser.error && !isEmpty(lastFollowedUser.data)) {
+        const recommendeds = [...recommendedUsers];
+        recommendeds.forEach((item) => {
+          if (item._id === lastFollowedUser.data.following) {
+            item.isFollowing = true;
+          }
+        });
+
+        setRecommendedUsers(recommendeds);
+      }
+    }
+  }, [lastFollowedUser]);
+
+  useEffect(() => {}, [lastUnfollowedUser]);
 
   const _setFeedPosts = (_posts) => {
     dispatch(setFeedPosts(_posts));
@@ -301,26 +341,27 @@ const PostsContainer = ({
     setIsNoPost(false);
   };
 
-  const _getRecommendedUsers = async () => {
-    try {
-      const users = await getLeaderboard();
-      const recommendeds = users.slice(0, 10);
-      recommendeds.unshift({ _id: 'good-karma' });
-      recommendeds.unshift({ _id: 'ecency' });
+  const _getRecommendedUsers = () => dispatch(fetchLeaderboard());
 
-      setRecommendedUsers(recommendeds);
-    } catch (err) {
-      console.log(err, '_getRecommendedUsers Error');
-    }
+  const _formatRecommendedUsers = (usersArray) => {
+    const recommendeds = usersArray.slice(0, 10);
+
+    recommendeds.unshift({ _id: 'good-karma' });
+    recommendeds.unshift({ _id: 'ecency' });
+
+    recommendeds.forEach((item) => ({ ...item, isFollowing: false }));
+
+    setRecommendedUsers(recommendeds);
   };
 
-  const _getRecommendedCommunities = async () => {
+  const _getRecommendedCommunities = () => dispatch(fetchCommunities('', 10));
+
+  const _formatRecommendedCommunities = async (communitiesArray) => {
     try {
-      const communities = await getCommunities('', 10);
       const ecency = await getCommunity('hive-125125');
 
-      const recommendeds = [ecency, ...communities];
-      recommendeds.forEach((item) => ({ ...item, isFollowing: false }));
+      const recommendeds = [ecency, ...communitiesArray];
+      recommendeds.forEach((item) => ({ ...item, isJoined: false }));
 
       setRecommendedCommunities(recommendeds);
     } catch (err) {
@@ -330,32 +371,32 @@ const PostsContainer = ({
 
   const _handleFollowUserButtonPress = (_data, isFollowing) => {
     let followAction;
+    let successToastText = '';
+    let failToastText = '';
 
     if (!isFollowing) {
       followAction = followUser;
+
+      successToastText = intl.formatMessage({
+        id: 'alert.success_follow',
+      });
+      failToastText = intl.formatMessage({
+        id: 'alert.fail_follow',
+      });
     } else {
       followAction = unfollowUser;
+
+      successToastText = intl.formatMessage({
+        id: 'alert.success_unfollow',
+      });
+      failToastText = intl.formatMessage({
+        id: 'alert.fail_unfollow',
+      });
     }
 
     _data.follower = get(currentAccount, 'name', '');
 
-    console.log(_data, isFollowing, '_handleFollowUserButtonPress');
-
-    dispatch(followAction(currentAccount, pinCode, _data));
-    // .then(() => {
-    //   dispatch(
-    //     toastNotification(
-    //       intl.formatMessage({
-    //         id: isFollowing ? 'alert.success_unfollow' : 'alert.success_follow',
-    //       }),
-    //     ),
-    //   );
-
-    //   //changeIsFollowingField();
-    // })
-    // .catch((err) => {
-    //   console.log(err, '_handleFollowUserButtonPress Error');
-    // });
+    dispatch(followAction(currentAccount, pinCode, _data, successToastText, failToastText));
   };
 
   const _handleSubscribeCommunityButtonPress = (_data) => {
@@ -397,6 +438,8 @@ const PostsContainer = ({
       recommendedCommunities={recommendedCommunities}
       handleFollowUserButtonPress={_handleFollowUserButtonPress}
       handleSubscribeCommunityButtonPress={_handleSubscribeCommunityButtonPress}
+      lastFollowedUser={lastFollowedUser}
+      lastUnfollowedUser={lastUnfollowedUser}
     />
   );
 };

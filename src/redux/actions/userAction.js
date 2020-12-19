@@ -6,65 +6,99 @@ import {
   UNFOLLOW_USER_SUCCESS,
   UNFOLLOW_USER_FAIL,
   TOAST_NOTIFICATION,
+  FETCH_LEADERBOARD,
+  FETCH_LEADERBOARD_SUCCESS,
+  FETCH_LEADERBOARD_FAIL,
 } from '../constants/constants';
 
 import { followUser as followUserReq } from '../../providers/hive/dhive';
+import { getLeaderboard } from '../../providers/ecency/ecency';
 
-export const followUser = (currentAccount, pin, data) => {
+export const followUser = (currentAccount, pin, data, successToastText, failToastText) => {
   return (dispatch) => {
-    dispatch({
-      type: FOLLOW_USER,
-    });
-    console.log('followUser', currentAccount, pin, data);
+    dispatch({ type: FOLLOW_USER });
     followUserReq(currentAccount, pin, data)
-      .then((res) =>
-        dispatch({
-          payload: res,
-          type: FOLLOW_USER_SUCCESS,
-        }),
-      )
-      .catch((err) =>
-        dispatch({
-          payload: err,
-          type: FOLLOW_USER_FAIL,
-        }),
-      );
+      .then((res) => dispatch(followUserSuccess(data, successToastText)))
+      .catch((err) => dispatch(followUserFail(err, failToastText)));
   };
 };
 
-export const followUserSuccess = (payload) => {
+export const followUserSuccess = (userData, successToastText) => {
+  return (dispatch) => [
+    dispatch({
+      payload: userData,
+      type: FOLLOW_USER_SUCCESS,
+    }),
+    dispatch({
+      payload: successToastText,
+      type: TOAST_NOTIFICATION,
+    }),
+  ];
+};
+
+export const followUserFail = (error, failToastText) => {
+  return (dispatch) => [
+    dispatch({
+      payload: error,
+      type: FOLLOW_USER_FAIL,
+    }),
+    dispatch({
+      payload: failToastText,
+      type: TOAST_NOTIFICATION,
+    }),
+  ];
+};
+
+export const unfollowUser = (currentAccount, pin, data, successToastText, failToastText) => {
   return (dispatch) => {
-    // dispatch({
-    //   payload,
-    //   type: FOLLOW_USER_SUCCESS,
-    // });
-    // dispatch({
-    //   payload: 'done',
-    //   type: TOAST_NOTIFICATION,
-    // });
-    // toastNotification(
-    //   intl.formatMessage({
-    //     //id: isFollowing ? 'alert.success_unfollow' : 'alert.success_follow',
-    //   }),
-    // ),
+    dispatch({ type: UNFOLLOW_USER });
+    followUserReq(currentAccount, pin, data)
+      .then((res) => dispatch(unfollowUserSuccess(data, successToastText)))
+      .catch((err) => dispatch(unfollowUserFail(err, failToastText)));
   };
 };
 
-export const followUserFail = (payload) => ({
+export const unfollowUserSuccess = (userData, successToastText) => {
+  return (dispatch) => [
+    dispatch({
+      payload: userData,
+      type: UNFOLLOW_USER_SUCCESS,
+    }),
+    dispatch({
+      payload: successToastText,
+      type: TOAST_NOTIFICATION,
+    }),
+  ];
+};
+
+export const unfollowUserFail = (error, failToastText) => {
+  return (dispatch) => [
+    dispatch({
+      payload: error,
+      type: UNFOLLOW_USER_FAIL,
+    }),
+    dispatch({
+      payload: failToastText,
+      type: TOAST_NOTIFICATION,
+    }),
+  ];
+};
+
+export const fetchLeaderboard = (duration) => {
+  return (dispatch) => {
+    dispatch({ type: FETCH_LEADERBOARD });
+    getLeaderboard(duration)
+      .then((res) => dispatch(fetchLeaderboardSuccess(res)))
+      .catch((err) => dispatch(fetchLeaderboardFail(err)));
+  };
+};
+
+export const fetchLeaderboardSuccess = (payload) => ({
   payload,
-  type: FOLLOW_USER_FAIL,
+  type: FETCH_LEADERBOARD_SUCCESS,
 });
 
-export const unfollowUser = ({ currentAccount, pin, data }) => ({
-  type: UNFOLLOW_USER,
-});
-
-export const unfollowUserSuccess = (payload) => ({
+export const fetchLeaderboardFail = (payload) => ({
   payload,
-  type: UNFOLLOW_USER_SUCCESS,
-});
-
-export const funollowUserFail = (payload) => ({
-  payload,
-  type: UNFOLLOW_USER_FAIL,
+  type: FETCH_LEADERBOARD_FAIL,
 });
