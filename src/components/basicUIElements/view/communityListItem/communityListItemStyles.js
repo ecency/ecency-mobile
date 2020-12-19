@@ -59,4 +59,12 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  joinTag: {
+    width: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  activityIndicator: {
+    width: 30,
+  },
 });

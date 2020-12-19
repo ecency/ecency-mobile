@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useIntl } from 'react-intl';
 
 import styles from './communityListItemStyles';
@@ -22,14 +22,12 @@ const CommunityListItem = ({
   handleSubscribeButtonPress,
   isSubscribed,
   isLoggedIn,
+  isLoadingRightAction,
 }) => {
-  const [subscribed, setSubscribed] = useState(isSubscribed);
   const intl = useIntl();
 
   const _handleSubscribeButtonPress = () => {
-    handleSubscribeButtonPress({ subscribed: !subscribed, communityId: name }).then(() => {
-      setSubscribed(!subscribed);
-    });
+    handleSubscribeButtonPress({ isSubscribed, communityId: name });
   };
 
   return (
@@ -41,24 +39,29 @@ const CommunityListItem = ({
         <View style={styles.content}>
           <View style={styles.header}>
             <Text style={styles.title}>{title}</Text>
-            {isLoggedIn && (
-              <Tag
-                style={styles.subscribeButton}
-                textStyle={subscribed && styles.subscribeButtonText}
-                value={
-                  !subscribed
-                    ? intl.formatMessage({
-                        id: 'search_result.communities.subscribe',
-                      })
-                    : intl.formatMessage({
-                        id: 'search_result.communities.unsubscribe',
-                      })
-                }
-                isPin={!subscribed}
-                isFilter
-                onPress={_handleSubscribeButtonPress}
-              />
-            )}
+            {isLoggedIn &&
+              (isLoadingRightAction ? (
+                <View style={styles.joinTag}>
+                  <ActivityIndicator style={styles.activityIndicator} />
+                </View>
+              ) : (
+                <Tag
+                  style={styles.subscribeButton}
+                  textStyle={isSubscribed && styles.subscribeButtonText}
+                  value={
+                    !isSubscribed
+                      ? intl.formatMessage({
+                          id: 'search_result.communities.subscribe',
+                        })
+                      : intl.formatMessage({
+                          id: 'search_result.communities.unsubscribe',
+                        })
+                  }
+                  isPin={!isSubscribed}
+                  isFilter
+                  onPress={_handleSubscribeButtonPress}
+                />
+              ))}
           </View>
           {!!about && <Text style={styles.about}>{about}</Text>}
           <View style={styles.separator} />

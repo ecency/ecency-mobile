@@ -23,6 +23,7 @@ const UserListItem = ({
   onPressRightText,
   isFollowing = false,
   isLoadingRightAction = false,
+  isLoggedIn,
 }) => {
   const _handleSubscribeButtonPress = () => {
     const _data = {};
@@ -58,6 +59,7 @@ const UserListItem = ({
           </View>
         )}
         {isHasRightItem &&
+          isLoggedIn &&
           (isLoadingRightAction ? (
             <View style={styles.rightWrapper}>
               <ActivityIndicator style={{ width: 30 }} />

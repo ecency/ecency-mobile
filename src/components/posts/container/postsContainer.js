@@ -10,7 +10,6 @@ import {
   getAccountPosts,
   getPost,
   getRankedPosts,
-  subscribeCommunity,
   getCommunity,
 } from '../../../providers/hive/dhive';
 import { getPromotePosts } from '../../../providers/ecency/ecency';
@@ -22,9 +21,13 @@ import PostsView from '../view/postsView';
 import { setFeedPosts } from '../../../redux/actions/postsAction';
 import { hidePostsThumbnails } from '../../../redux/actions/uiAction';
 import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';
+import {
+  subscribeCommunity,
+  leaveCommunity,
+  fetchCommunities,
+} from '../../../redux/actions/communitiesAction';
 
 import useIsMountedRef from '../../../customHooks/useIsMountedRef';
-import { fetchCommunities } from '../../../redux/actions/communitiesAction';
 
 const PostsContainer = ({
   changeForceLoadPostState,
@@ -56,6 +59,8 @@ const PostsContainer = ({
   const communities = useSelector((state) => state.communities.communities);
   const lastFollowedUser = useSelector((state) => state.user.followUser);
   const lastUnfollowedUser = useSelector((state) => state.user.unfollowUser);
+  const lastSubscribedCommunity = useSelector((state) => state.communities.subscribeCommunity);
+  const lastLeftCommunity = useSelector((state) => state.communities.leaveCommunity);
 
   const [isNoPost, setIsNoPost] = useState(false);
   const [startPermlink, setStartPermlink] = useState('');
@@ -176,6 +181,36 @@ const PostsContainer = ({
       }
     }
   }, [lastUnfollowedUser]);
+
+  useEffect(() => {
+    if (!lastSubscribedCommunity.loading) {
+      if (!lastSubscribedCommunity.error && !isEmpty(lastSubscribedCommunity.data)) {
+        const recommendeds = [...recommendedCommunities];
+        recommendeds.forEach((item) => {
+          if (item.name === lastSubscribedCommunity.data.communityId) {
+            item.isSubscribed = true;
+          }
+        });
+
+        setRecommendedCommunities(recommendeds);
+      }
+    }
+  }, [lastSubscribedCommunity]);
+
+  useEffect(() => {
+    if (!lastLeftCommunity.loading) {
+      if (!lastLeftCommunity.error && !isEmpty(lastLeftCommunity.data)) {
+        const recommendeds = [...recommendedCommunities];
+        recommendeds.forEach((item) => {
+          if (item.name === lastLeftCommunity.data.communityId) {
+            item.isSubscribed = false;
+          }
+        });
+
+        setRecommendedCommunities(recommendeds);
+      }
+    }
+  }, [lastLeftCommunity]);
 
   const _setFeedPosts = (_posts) => {
     dispatch(setFeedPosts(_posts));
@@ -360,7 +395,7 @@ const PostsContainer = ({
     recommendeds.unshift({ _id: 'good-karma' });
     recommendeds.unshift({ _id: 'ecency' });
 
-    recommendeds.forEach((item) => ({ ...item, isFollowing: false }));
+    recommendeds.forEach((item) => Object.assign(item, { isFollowing: false }));
 
     setRecommendedUsers(recommendeds);
   };
@@ -372,7 +407,7 @@ const PostsContainer = ({
       const ecency = await getCommunity('hive-125125');
 
       const recommendeds = [ecency, ...communitiesArray];
-      recommendeds.forEach((item) => ({ ...item, isJoined: false }));
+      recommendeds.forEach((item) => Object.assign(item, { isSubscribed: false }));
 
       setRecommendedCommunities(recommendeds);
     } catch (err) {
@@ -380,7 +415,7 @@ const PostsContainer = ({
     }
   };
 
-  const _handleFollowUserButtonPress = (_data, isFollowing) => {
+  const _handleFollowUserButtonPress = (data, isFollowing) => {
     let followAction;
     let successToastText = '';
     let failToastText = '';
@@ -405,13 +440,37 @@ const PostsContainer = ({
       });
     }
 
-    _data.follower = get(currentAccount, 'name', '');
+    data.follower = get(currentAccount, 'name', '');
 
-    dispatch(followAction(currentAccount, pinCode, _data, successToastText, failToastText));
+    dispatch(followAction(currentAccount, pinCode, data, successToastText, failToastText));
   };
 
-  const _handleSubscribeCommunityButtonPress = (_data) => {
-    return subscribeCommunity(currentAccount, pinCode, _data);
+  const _handleSubscribeCommunityButtonPress = (data) => {
+    let subscribeAction;
+    let successToastText = '';
+    let failToastText = '';
+
+    if (!data.isSubscribed) {
+      subscribeAction = subscribeCommunity;
+
+      successToastText = intl.formatMessage({
+        id: 'alert.success_subscribe',
+      });
+      failToastText = intl.formatMessage({
+        id: 'alert.fail_subscribe',
+      });
+    } else {
+      subscribeAction = leaveCommunity;
+
+      successToastText = intl.formatMessage({
+        id: 'alert.success_leave',
+      });
+      failToastText = intl.formatMessage({
+        id: 'alert.fail_leave',
+      });
+    }
+
+    dispatch(subscribeAction(currentAccount, pinCode, data, successToastText, failToastText));
   };
 
   return (
@@ -451,6 +510,8 @@ const PostsContainer = ({
       handleSubscribeCommunityButtonPress={_handleSubscribeCommunityButtonPress}
       lastFollowedUser={lastFollowedUser}
       lastUnfollowedUser={lastUnfollowedUser}
+      lastSubscribedCommunity={lastSubscribedCommunity}
+      lastLeftCommunity={lastLeftCommunity}
     />
   );
 };

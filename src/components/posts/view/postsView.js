@@ -58,12 +58,13 @@ const PostsView = ({
   handleSubscribeCommunityButtonPress,
   lastFollowedUser,
   lastUnfollowedUser,
+  lastSubscribedCommunity,
+  lastLeftCommunity,
 }) => {
   const intl = useIntl();
   const postsList = useRef(null);
 
   useEffect(() => {
-    console.log('useEffect', isNoPost, selectedFilterValue, selectedFeedSubfilterValue);
     if (isNoPost) {
       if (selectedFilterValue === 'feed') {
         if (selectedFeedSubfilterValue === 'friends') {
@@ -136,7 +137,6 @@ const PostsView = ({
     if (isNoPost) {
       if (selectedFilterValue === 'feed') {
         if (selectedFeedSubfilterValue === 'friends') {
-          console.log('lastFollowedUser', lastFollowedUser, lastUnfollowedUser, recommendedUsers);
           return (
             <>
               <Text style={[globalStyles.subTitle, styles.noPostTitle]}>
@@ -155,6 +155,7 @@ const PostsView = ({
                         : intl.formatMessage({ id: 'user.follow' })
                     }
                     isRightColor={item.isFollowing}
+                    isLoggedIn={isLoggedIn}
                     isFollowing={item.isFollowing}
                     isLoadingRightAction={
                       (lastFollowedUser.data.following === item._id && lastFollowedUser.loading) ||
@@ -204,7 +205,13 @@ const PostsView = ({
                       })
                     }
                     handleSubscribeButtonPress={handleSubscribeCommunityButtonPress}
-                    isSubscribed={false}
+                    isSubscribed={item.isSubscribed}
+                    isLoadingRightAction={
+                      (lastSubscribedCommunity.data.communityId === item.name &&
+                        lastSubscribedCommunity.loading) ||
+                      (lastLeftCommunity.data.communityId === item.name &&
+                        lastLeftCommunity.loading)
+                    }
                     isLoggedIn={isLoggedIn}
                   />
                 )}
