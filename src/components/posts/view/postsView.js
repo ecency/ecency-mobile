@@ -57,7 +57,7 @@ const PostsView = ({
   handleFollowUserButtonPress,
   handleSubscribeCommunityButtonPress,
   lastFollowedUser,
-  isUnfollowLoading,
+  lastUnfollowedUser,
 }) => {
   const intl = useIntl();
   const postsList = useRef(null);
@@ -136,7 +136,7 @@ const PostsView = ({
     if (isNoPost) {
       if (selectedFilterValue === 'feed') {
         if (selectedFeedSubfilterValue === 'friends') {
-          console.log('lastFollowedUser', lastFollowedUser);
+          console.log('lastFollowedUser', lastFollowedUser, lastUnfollowedUser, recommendedUsers);
           return (
             <>
               <Text style={[globalStyles.subTitle, styles.noPostTitle]}>
@@ -156,7 +156,10 @@ const PostsView = ({
                     }
                     isRightColor={item.isFollowing}
                     isFollowing={item.isFollowing}
-                    isLoadingRightAction={lastFollowedUser.loading}
+                    isLoadingRightAction={
+                      (lastFollowedUser.data.following === item._id && lastFollowedUser.loading) ||
+                      (lastUnfollowedUser.data.following === item._id && lastUnfollowedUser.loading)
+                    }
                     onPressRightText={handleFollowUserButtonPress}
                     handleOnPress={(username) =>
                       navigation.navigate({

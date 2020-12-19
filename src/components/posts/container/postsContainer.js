@@ -74,8 +74,6 @@ const PostsContainer = ({
   );
   const [recommendedUsers, setRecommendedUsers] = useState([]);
   const [recommendedCommunities, setRecommendedCommunities] = useState([]);
-  const [followedUsers, setFollowedUsers] = useState([]);
-  const [subscribedCommunities, setSubscribedCommunities] = useState([]);
 
   const elem = useRef(null);
   const isMountedRef = useIsMountedRef();
@@ -164,7 +162,20 @@ const PostsContainer = ({
     }
   }, [lastFollowedUser]);
 
-  useEffect(() => {}, [lastUnfollowedUser]);
+  useEffect(() => {
+    if (!lastUnfollowedUser.loading) {
+      if (!lastUnfollowedUser.error && !isEmpty(lastUnfollowedUser.data)) {
+        const recommendeds = [...recommendedUsers];
+        recommendeds.forEach((item) => {
+          if (item._id === lastUnfollowedUser.data.following) {
+            item.isFollowing = false;
+          }
+        });
+
+        setRecommendedUsers(recommendeds);
+      }
+    }
+  }, [lastUnfollowedUser]);
 
   const _setFeedPosts = (_posts) => {
     dispatch(setFeedPosts(_posts));

@@ -11,12 +11,15 @@ import {
   FETCH_LEADERBOARD_FAIL,
 } from '../constants/constants';
 
-import { followUser as followUserReq } from '../../providers/hive/dhive';
+import {
+  followUser as followUserReq,
+  unfollowUser as unfollowUserReq,
+} from '../../providers/hive/dhive';
 import { getLeaderboard } from '../../providers/ecency/ecency';
 
 export const followUser = (currentAccount, pin, data, successToastText, failToastText) => {
   return (dispatch) => {
-    dispatch({ type: FOLLOW_USER });
+    dispatch({ type: FOLLOW_USER, payload: data });
     followUserReq(currentAccount, pin, data)
       .then((res) => dispatch(followUserSuccess(data, successToastText)))
       .catch((err) => dispatch(followUserFail(err, failToastText)));
@@ -51,8 +54,8 @@ export const followUserFail = (error, failToastText) => {
 
 export const unfollowUser = (currentAccount, pin, data, successToastText, failToastText) => {
   return (dispatch) => {
-    dispatch({ type: UNFOLLOW_USER });
-    followUserReq(currentAccount, pin, data)
+    dispatch({ type: UNFOLLOW_USER, payload: data });
+    unfollowUserReq(currentAccount, pin, data)
       .then((res) => dispatch(unfollowUserSuccess(data, successToastText)))
       .catch((err) => dispatch(unfollowUserFail(err, failToastText)));
   };

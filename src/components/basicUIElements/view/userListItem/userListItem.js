@@ -59,7 +59,9 @@ const UserListItem = ({
         )}
         {isHasRightItem &&
           (isLoadingRightAction ? (
-            <ActivityIndicator style={{ width: 30 }} />
+            <View style={styles.rightWrapper}>
+              <ActivityIndicator style={{ width: 30 }} />
+            </View>
           ) : (
             <TouchableOpacity style={styles.rightWrapper} onPress={_handleSubscribeButtonPress}>
               <Text

@@ -34,7 +34,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         followUser: {
-          data: {},
+          data: action.payload,
           loading: true,
           error: false,
         },
@@ -61,7 +61,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         unfollowUser: {
-          data: {},
+          data: action.payload,
           loading: true,
           error: false,
         },
