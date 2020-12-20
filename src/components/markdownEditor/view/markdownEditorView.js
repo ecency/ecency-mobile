@@ -32,6 +32,8 @@ const MarkdownEditorView = ({
   handleIsValid,
   componentID,
   uploadedImage,
+  onFocus,
+  onScrollToTop,
 }) => {
   const [text, setText] = useState(draftBody || '');
   const [selection, setSelection] = useState({ start: 0, end: 0 });
@@ -226,7 +228,7 @@ const MarkdownEditorView = ({
             <TextInput
               multiline
               autoCorrect={true}
-              autoFocus={true}
+              autoFocus={false}
               onChangeText={_changeText}
               onSelectionChange={_handleOnSelectionChange}
               placeholder={intl.formatMessage({
@@ -240,6 +242,8 @@ const MarkdownEditorView = ({
               editable={editable}
               contextMenuHidden={false}
               autoGrow={false}
+              onFocus={onFocus}
+              onScrollToTop={onScrollToTop}
             />
           )}
         </ThemeContainer>
