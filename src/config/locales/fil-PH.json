@@ -21,7 +21,7 @@
     "delegation": "Delegasyon",
     "delegations": "Mga Delegasyon",
     "delegation_title": "Delegasyon na gantimpala",
-    "delegation_desc": "Earn Points everyday for delegation",
+    "delegation_desc": "Kumita ng Points araw-araw sa mga delegasyon",
     "post_title": "Puntos para sa post",
     "comment_title": "Puntos para sa komento",
     "vote_title": "Puntos para sa boto",
@@ -30,7 +30,7 @@
     "checkin_title": "Puntos para sa tibok ng puso",
     "referral": "Referral",
     "referral_title": "Gantimpala sa mga Referral",
-    "referral_desc": "Invite friends and earn Points",
+    "referral_desc": "Mag-anyaya ng mga kaibigan at kumita ng Points",
     "checkin_extra_title": "Bonus sa pag-gamit",
     "no_activity": "Walang aktibidad kamakailan",
     "outgoing_transfer_description": "",
@@ -59,8 +59,8 @@
     "to_placeholder": "Username",
     "memo_placeholder": "I-enter ang iyong lista dito",
     "transfer_token": "Paglipat",
-    "purchase_estm": "GET POINTS",
-    "points": "Gift Points to someone",
+    "purchase_estm": "MAGKAROON NG POINTS",
+    "points": "Magregalo ng Points sa iba",
     "transfer_to_saving": "Patungong Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "I-withdraw ang inipon",
@@ -83,7 +83,7 @@
     "fill_vesting_withdraw": "Ang pag-powerdown ay naisagawa",
     "estm": {
       "title": "Puntos",
-      "buy": "GET POINTS"
+      "buy": "MAGKAROON NG POINTS"
     },
     "savingsteem": {
       "title": "Inipong HIVE"
@@ -118,7 +118,7 @@
     "ignore": "ayaw kang makita",
     "reblog": "nireblogged",
     "transfer": "nailipat",
-    "spin": "Time to earn more Points",
+    "spin": "Panahon na para kumita ng mas maraming Points",
     "inactive": "Maging aktibo! Magsulat ng post, kumita ng tuloy-tuloy",
     "referral": "sumali gamit ang iyong referral, salubungin sila",
     "notification": "Mga Abiso",
@@ -159,7 +159,7 @@
     "voting_power": "Lakas ng pagboto",
     "login_to_see": "Mag login para makita",
     "follow_people": "Sundan ang ibang tao para punan ang iyong feed",
-    "follow_communities": "Join some communities to fill your feed",
+    "follow_communities": "Sumali sa ilang komunidad para mapuno ang iyong feed",
     "havent_commented": "wala pang na i-komentong bagay",
     "havent_posted": "wala pang na i-post na kahit anong bagay",
     "steem_power": "Hive Power",
@@ -214,10 +214,10 @@
   "login": {
     "signin": "Mag sign in",
     "signup": "SUMALI NGAYON",
-    "signin_title": "To get all the benefits of using Ecency",
+    "signin_title": "Para makuha ang lahat ng benepisyo ng paggamit ng Ecency",
     "username": "Username",
     "password": "Password or WIF",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "Sa pag-sign in, pumapayag ka sa mga Tuntunin ng Paggamit at Mga Patakaran sa Privacy.",
     "cancel": "kansel",
     "login": "LOGIN",
     "steemconnect_description": "Kung ayaw mong itago ang encrypted password mo sa device mo, gamitin ang Hivesigner.",
