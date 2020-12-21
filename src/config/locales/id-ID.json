@@ -320,9 +320,15 @@
     "success_favorite": "Favorit ditambahkan!",
     "success_unfavorite": "Favorit dihapus!",
     "success_follow": "Ikuti kesuksesan!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "Bisukan kesuksesan!",
     "success_unmute": "Suarakan kesuksesan!",
     "success_unfollow": "Berhenti mengikuti kesuksesan!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Peringatan",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Yakin ingin menghapus?",
@@ -556,5 +562,9 @@
     "new_post": "New Post",
     "community": "community",
     "details": "Details"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
