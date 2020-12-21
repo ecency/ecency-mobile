@@ -320,9 +320,15 @@
     "success_favorite": "Paborito ay nadagdag!",
     "success_unfavorite": "Paborito ay natanggal!",
     "success_follow": "Nagtagumpay sa pagsunod!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "Nagtagumpay sa pag-mute!",
     "success_unmute": "Nagtagumpay sa pag-unmute!",
     "success_unfollow": "Nagtagumpay sa hindi pagsunod!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Babala",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
@@ -556,5 +562,9 @@
     "new_post": "New Post",
     "community": "community",
     "details": "Details"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
