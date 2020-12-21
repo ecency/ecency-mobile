@@ -277,7 +277,7 @@ const PostsContainer = ({
         func = getRankedPosts;
         options = {
           observer: feedUsername,
-          sort: 'trending',
+          sort: 'created',
           tag: 'my',
         };
       } else {
@@ -355,7 +355,7 @@ const PostsContainer = ({
           console.warn('Failed to track screen', error),
         );
       } else if (selectedFilterValue === 'feed') {
-        Matomo.trackView([`/${feedUsername}/${selectedFilterValue}`]).catch((error) =>
+        Matomo.trackView([`/@${feedUsername}/${selectedFilterValue}`]).catch((error) =>
           console.warn('Failed to track screen', error),
         );
       } else {
