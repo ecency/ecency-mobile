@@ -320,9 +320,15 @@
     "success_favorite": "お気に入りに追加しました！",
     "success_unfavorite": "お気に入りから削除しました！",
     "success_follow": "フォロー成功！",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "ミュート成功！",
     "success_unmute": "ミュート解除成功！",
     "success_unfollow": "フォロー解除成功！",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "警告",
     "invalid_pincode": "PINコードが間違っています。もう一度確認してやり直してください。",
     "remove_alert": "本当に削除しますか？",
@@ -556,5 +562,9 @@
     "new_post": "New Post",
     "community": "community",
     "details": "Details"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
