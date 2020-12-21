@@ -57,10 +57,10 @@ const PostsContainer = ({
   const pinCode = useSelector((state) => state.application.pin);
   const leaderboard = useSelector((state) => state.user.leaderboard);
   const communities = useSelector((state) => state.communities.communities);
-  const lastFollowedUser = useSelector((state) => state.user.followUser);
-  const lastUnfollowedUser = useSelector((state) => state.user.unfollowUser);
-  const lastSubscribedCommunity = useSelector((state) => state.communities.subscribeCommunity);
-  const lastLeftCommunity = useSelector((state) => state.communities.leaveCommunity);
+  const followingUsers = useSelector((state) => state.user.followingUsersInFeedScreen);
+  const subscribingCommunities = useSelector(
+    (state) => state.communities.subscribingCommunitiesInFeedScreen,
+  );
 
   const [isNoPost, setIsNoPost] = useState(false);
   const [startPermlink, setStartPermlink] = useState('');
@@ -153,64 +153,56 @@ const PostsContainer = ({
   }, [communities]);
 
   useEffect(() => {
-    if (!lastFollowedUser.loading) {
-      if (!lastFollowedUser.error && !isEmpty(lastFollowedUser.data)) {
-        const recommendeds = [...recommendedUsers];
-        recommendeds.forEach((item) => {
-          if (item._id === lastFollowedUser.data.following) {
-            item.isFollowing = true;
-          }
-        });
+    const recommendeds = [...recommendedUsers];
 
-        setRecommendedUsers(recommendeds);
+    Object.keys(followingUsers).map((following) => {
+      if (!followingUsers[following].loading) {
+        if (!followingUsers[following].error) {
+          if (followingUsers[following].isFollowing) {
+            recommendeds.forEach((item) => {
+              if (item._id === following) {
+                item.isFollowing = true;
+              }
+            });
+          } else {
+            recommendeds.forEach((item) => {
+              if (item._id === following) {
+                item.isFollowing = false;
+              }
+            });
+          }
+        }
       }
-    }
-  }, [lastFollowedUser]);
+    });
+
+    setRecommendedUsers(recommendeds);
+  }, [followingUsers]);
 
   useEffect(() => {
-    if (!lastUnfollowedUser.loading) {
-      if (!lastUnfollowedUser.error && !isEmpty(lastUnfollowedUser.data)) {
-        const recommendeds = [...recommendedUsers];
-        recommendeds.forEach((item) => {
-          if (item._id === lastUnfollowedUser.data.following) {
-            item.isFollowing = false;
+    const recommendeds = [...recommendedCommunities];
+
+    Object.keys(subscribingCommunities).map((communityId) => {
+      if (!subscribingCommunities[communityId].loading) {
+        if (!subscribingCommunities[communityId].error) {
+          if (subscribingCommunities[communityId].isSubscribed) {
+            recommendeds.forEach((item) => {
+              if (item.name === communityId) {
+                item.isSubscribed = true;
+              }
+            });
+          } else {
+            recommendeds.forEach((item) => {
+              if (item.name === communityId) {
+                item.isSubscribed = false;
+              }
+            });
           }
-        });
-
-        setRecommendedUsers(recommendeds);
+        }
       }
-    }
-  }, [lastUnfollowedUser]);
+    });
 
-  useEffect(() => {
-    if (!lastSubscribedCommunity.loading) {
-      if (!lastSubscribedCommunity.error && !isEmpty(lastSubscribedCommunity.data)) {
-        const recommendeds = [...recommendedCommunities];
-        recommendeds.forEach((item) => {
-          if (item.name === lastSubscribedCommunity.data.communityId) {
-            item.isSubscribed = true;
-          }
-        });
-
-        setRecommendedCommunities(recommendeds);
-      }
-    }
-  }, [lastSubscribedCommunity]);
-
-  useEffect(() => {
-    if (!lastLeftCommunity.loading) {
-      if (!lastLeftCommunity.error && !isEmpty(lastLeftCommunity.data)) {
-        const recommendeds = [...recommendedCommunities];
-        recommendeds.forEach((item) => {
-          if (item.name === lastLeftCommunity.data.communityId) {
-            item.isSubscribed = false;
-          }
-        });
-
-        setRecommendedCommunities(recommendeds);
-      }
-    }
-  }, [lastLeftCommunity]);
+    setRecommendedCommunities(recommendeds);
+  }, [subscribingCommunities]);
 
   const _setFeedPosts = (_posts) => {
     dispatch(setFeedPosts(_posts));
@@ -508,10 +500,8 @@ const PostsContainer = ({
       recommendedCommunities={recommendedCommunities}
       handleFollowUserButtonPress={_handleFollowUserButtonPress}
       handleSubscribeCommunityButtonPress={_handleSubscribeCommunityButtonPress}
-      lastFollowedUser={lastFollowedUser}
-      lastUnfollowedUser={lastUnfollowedUser}
-      lastSubscribedCommunity={lastSubscribedCommunity}
-      lastLeftCommunity={lastLeftCommunity}
+      followingUsers={followingUsers}
+      subscribingCommunities={subscribingCommunities}
     />
   );
 };

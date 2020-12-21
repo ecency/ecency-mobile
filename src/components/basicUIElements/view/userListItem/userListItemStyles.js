@@ -49,6 +49,8 @@ export default EStyleSheet.create({
     textAlign: 'center',
     alignItems: 'center',
     width: 80,
+    height: 30,
+    justifyContent: 'center',
   },
   text: {
     color: '$iconColor',

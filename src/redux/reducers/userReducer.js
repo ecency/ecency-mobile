@@ -11,15 +11,12 @@ import {
 } from '../constants/constants';
 
 const initialState = {
-  followUser: {
-    data: {},
-    loading: false,
-    error: false,
-  },
-  unfollowUser: {
-    data: {},
-    loading: false,
-    error: false,
+  followingUsersInFeedScreen: {
+    //['username']: {
+    //  isFollowing: false,
+    //  loading: false,
+    //  error: false
+    //}
   },
   leaderboard: {
     data: [],
@@ -33,55 +30,73 @@ export default function (state = initialState, action) {
     case FOLLOW_USER:
       return {
         ...state,
-        followUser: {
-          data: action.payload,
-          loading: true,
-          error: false,
+        followingUsersInFeedScreen: {
+          ...state.followingUsersInFeedScreen,
+          [action.payload.following]: {
+            isFollowing: false,
+            loading: true,
+            error: false,
+          },
         },
       };
     case FOLLOW_USER_SUCCESS:
       return {
         ...state,
-        followUser: {
-          data: action.payload,
-          loading: false,
-          error: false,
+        followingUsersInFeedScreen: {
+          ...state.followingUsersInFeedScreen,
+          [action.payload.following]: {
+            isFollowing: true,
+            loading: false,
+            error: false,
+          },
         },
       };
     case FOLLOW_USER_FAIL:
       return {
         ...state,
-        followUser: {
-          data: {},
-          loading: false,
-          error: action.payload,
+        followingUsersInFeedScreen: {
+          ...state.followingUsersInFeedScreen,
+          [action.payload.following]: {
+            isFollowing: false,
+            loading: false,
+            error: true,
+          },
         },
       };
     case UNFOLLOW_USER:
       return {
         ...state,
-        unfollowUser: {
-          data: action.payload,
-          loading: true,
-          error: false,
+        followingUsersInFeedScreen: {
+          ...state.followingUsersInFeedScreen,
+          [action.payload.following]: {
+            isFollowing: true,
+            loading: true,
+            error: false,
+          },
         },
       };
     case UNFOLLOW_USER_SUCCESS:
       return {
         ...state,
-        unfollowUser: {
-          data: action.payload,
-          loading: false,
-          error: false,
+        followingUsersInFeedScreen: {
+          ...state.followingUsersInFeedScreen,
+          [action.payload.following]: {
+            isFollowing: false,
+            loading: false,
+            error: false,
+          },
         },
       };
     case UNFOLLOW_USER_FAIL:
       return {
         ...state,
-        unfollowUser: {
-          data: {},
-          loading: false,
-          error: action.payload,
+        followingUsersInFeedScreen: {
+          ...state.followingUsersInFeedScreen,
+          [action.payload.following]: {
+            isFollowing: true,
+            loading: false,
+            error: true,
+          },
         },
       };
     case FETCH_LEADERBOARD:
