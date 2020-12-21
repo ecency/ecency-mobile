@@ -320,9 +320,15 @@
     "success_favorite": "Bijarde hate tevlîkirin!",
     "success_unfavorite": "Bijarde hate rakirin!",
     "success_follow": "Hate şopandin!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "Hate bêdengkirin!",
     "success_unmute": "Ji bêdengbûnê hate derxistin!",
     "success_unfollow": "Ji şopê hate derketin!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Hişyarî",
     "invalid_pincode": "Pînkod nederbasdar e, kontrol bike û dîsa biceribîne.",
     "remove_alert": "Bi rastî jî tu dixwazî rake?",
@@ -556,5 +562,9 @@
     "new_post": "New Post",
     "community": "community",
     "details": "Details"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
