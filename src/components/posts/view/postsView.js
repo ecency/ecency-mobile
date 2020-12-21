@@ -56,10 +56,8 @@ const PostsView = ({
   recommendedCommunities,
   handleFollowUserButtonPress,
   handleSubscribeCommunityButtonPress,
-  lastFollowedUser,
-  lastUnfollowedUser,
-  lastSubscribedCommunity,
-  lastLeftCommunity,
+  followingUsers,
+  subscribingCommunities,
 }) => {
   const intl = useIntl();
   const postsList = useRef(null);
@@ -137,6 +135,7 @@ const PostsView = ({
     if (isNoPost) {
       if (selectedFilterValue === 'feed') {
         if (selectedFeedSubfilterValue === 'friends') {
+          console.log(followingUsers, 'followingUsers');
           return (
             <>
               <Text style={[globalStyles.subTitle, styles.noPostTitle]}>
@@ -144,6 +143,7 @@ const PostsView = ({
               </Text>
               <FlatList
                 data={recommendedUsers}
+                extraData={recommendedUsers}
                 renderItem={({ item, index }) => (
                   <UserListItem
                     index={index}
@@ -154,12 +154,11 @@ const PostsView = ({
                         ? intl.formatMessage({ id: 'user.unfollow' })
                         : intl.formatMessage({ id: 'user.follow' })
                     }
-                    isRightColor={item.isFollowing}
+                    //isRightColor={item.isFollowing}
                     isLoggedIn={isLoggedIn}
                     isFollowing={item.isFollowing}
                     isLoadingRightAction={
-                      (lastFollowedUser.data.following === item._id && lastFollowedUser.loading) ||
-                      (lastUnfollowedUser.data.following === item._id && lastUnfollowedUser.loading)
+                      followingUsers.hasOwnProperty(item._id) && followingUsers[item._id].loading
                     }
                     onPressRightText={handleFollowUserButtonPress}
                     handleOnPress={(username) =>
@@ -177,6 +176,7 @@ const PostsView = ({
             </>
           );
         } else {
+          console.log(recommendedCommunities, 'recommendedCommunities');
           return (
             <>
               <Text style={[globalStyles.subTitle, styles.noPostTitle]}>
@@ -207,10 +207,8 @@ const PostsView = ({
                     handleSubscribeButtonPress={handleSubscribeCommunityButtonPress}
                     isSubscribed={item.isSubscribed}
                     isLoadingRightAction={
-                      (lastSubscribedCommunity.data.communityId === item.name &&
-                        lastSubscribedCommunity.loading) ||
-                      (lastLeftCommunity.data.communityId === item.name &&
-                        lastLeftCommunity.loading)
+                      subscribingCommunities.hasOwnProperty(item.name) &&
+                      subscribingCommunities[item.name].loading
                     }
                     isLoggedIn={isLoggedIn}
                   />

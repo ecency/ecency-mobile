@@ -38,5 +38,6 @@ export default EStyleSheet.create({
   noPostTitle: {
     textAlign: 'center',
     marginVertical: 16,
+    color: '$primaryBlack',
   },
 });

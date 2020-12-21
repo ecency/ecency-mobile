@@ -24,15 +24,12 @@ const initialState = {
     loading: false,
     error: false,
   },
-  subscribeCommunity: {
-    data: {},
-    loading: false,
-    error: false,
-  },
-  leaveCommunity: {
-    data: {},
-    loading: false,
-    error: false,
+  subscribingCommunitiesInFeedScreen: {
+    //['name']: {
+    //  isSubscribed: false,
+    //  loading: false,
+    //  error: false,
+    //}
   },
 };
 
@@ -95,55 +92,73 @@ export default function (state = initialState, action) {
     case SUBSCRIBE_COMMUNITY:
       return {
         ...state,
-        subscribeCommunity: {
-          data: action.payload,
-          loading: true,
-          error: false,
+        subscribingCommunitiesInFeedScreen: {
+          ...state.subscribingCommunitiesInFeedScreen,
+          [action.payload.communityId]: {
+            isSubscribed: false,
+            loading: true,
+            error: false,
+          },
         },
       };
     case SUBSCRIBE_COMMUNITY_SUCCESS:
       return {
         ...state,
-        subscribeCommunity: {
-          data: action.payload,
-          loading: false,
-          error: false,
+        subscribingCommunitiesInFeedScreen: {
+          ...state.subscribingCommunitiesInFeedScreen,
+          [action.payload.communityId]: {
+            isSubscribed: true,
+            loading: false,
+            error: false,
+          },
         },
       };
     case SUBSCRIBE_COMMUNITY_FAIL:
       return {
         ...state,
-        subscribeCommunity: {
-          data: {},
-          loading: false,
-          error: action.payload,
+        subscribingCommunitiesInFeedScreen: {
+          ...state.subscribingCommunitiesInFeedScreen,
+          [action.payload.communityId]: {
+            isSubscribed: false,
+            loading: false,
+            error: true,
+          },
         },
       };
     case LEAVE_COMMUNITY:
       return {
         ...state,
-        leaveCommunity: {
-          data: action.payload,
-          loading: true,
-          error: false,
+        subscribingCommunitiesInFeedScreen: {
+          ...state.subscribingCommunitiesInFeedScreen,
+          [action.payload.communityId]: {
+            isSubscribed: true,
+            loading: true,
+            error: false,
+          },
         },
       };
     case LEAVE_COMMUNITY_SUCCESS:
       return {
         ...state,
-        leaveCommunity: {
-          data: action.payload,
-          loading: false,
-          error: false,
+        subscribingCommunitiesInFeedScreen: {
+          ...state.subscribingCommunitiesInFeedScreen,
+          [action.payload.communityId]: {
+            isSubscribed: false,
+            loading: false,
+            error: false,
+          },
         },
       };
     case LEAVE_COMMUNITY_FAIL:
       return {
         ...state,
-        leaveCommunity: {
-          data: {},
-          loading: false,
-          error: action.payload,
+        subscribingCommunitiesInFeedScreen: {
+          ...state.subscribingCommunitiesInFeedScreen,
+          [action.payload.communityId]: {
+            isSubscribed: true,
+            loading: false,
+            error: true,
+          },
         },
       };
     default:

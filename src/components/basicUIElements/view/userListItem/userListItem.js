@@ -2,6 +2,7 @@ import React from 'react';
 import { ActivityIndicator, View, Text, TouchableOpacity } from 'react-native';
 
 import { UserAvatar } from '../../../userAvatar';
+import Tag from '../tag/tagView';
 import styles from './userListItemStyles';
 
 const UserListItem = ({
@@ -66,17 +67,18 @@ const UserListItem = ({
             </View>
           ) : (
             <TouchableOpacity style={styles.rightWrapper} onPress={_handleSubscribeButtonPress}>
-              <Text
-                style={[
-                  styles.value,
-                  isRightColor && styles.valueGray,
-                  isBlackRightColor && styles.valueBlack,
-                  rightTextStyle,
-                ]}
-              >
-                {rightText}
-              </Text>
-              {subRightText && <Text style={styles.text}>{subRightText}</Text>}
+              {isFollowing ? (
+                <Tag value="Unfollow" isPostCardTag={false} disabled />
+              ) : (
+                <>
+                  <Text
+                    style={[styles.value, isBlackRightColor && styles.valueBlack, rightTextStyle]}
+                  >
+                    {rightText}
+                  </Text>
+                  {subRightText && <Text style={styles.text}>{subRightText}</Text>}
+                </>
+              )}
             </TouchableOpacity>
           ))}
       </View>
