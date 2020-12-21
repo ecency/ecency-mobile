@@ -320,9 +320,15 @@
     "success_favorite": "Adăugat la favorite!",
     "success_unfavorite": "Șters de la favorit!",
     "success_follow": "Urmărește succesul!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "Setează succesul pe silențios!",
     "success_unmute": "Anulează modul silențios al succesului!",
     "success_unfollow": "Nu mai urmări succesul!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Atenționare",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Esti sigur că vrei să ștergi?",
@@ -556,5 +562,9 @@
     "new_post": "New Post",
     "community": "community",
     "details": "Details"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
