@@ -320,9 +320,15 @@
     "success_favorite": "Suosikki lisätty!",
     "success_unfavorite": "Suosikki poistettu!",
     "success_follow": "Seuraaminen onnistui!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "Hiljentäminen onnistui!",
     "success_unmute": "Hiljennyksen poisto onnistui!",
     "success_unfollow": "Seuraamisen lopettaminen onnistui!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Varoitus",
     "invalid_pincode": "Virheellinen PIN-koodi, tarkista koodi ja yritä uudelleen.",
     "remove_alert": "Haluatko varmasti poistaa?",
@@ -556,5 +562,9 @@
     "new_post": "Uusi julkaisu",
     "community": "yhteisö",
     "details": "Lisätiedot"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
