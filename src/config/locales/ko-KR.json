@@ -320,9 +320,15 @@
     "success_favorite": "즐겨찾기가 추가되었습니다.",
     "success_unfavorite": "즐겨찾기가 제거되었습니다.",
     "success_follow": "팔로우하였습니다.",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "차단하였습니다.",
     "success_unmute": "차단을 해제하였습니다.",
     "success_unfollow": "팔로우를 취소하였습니다.",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "경고",
     "invalid_pincode": "올바르지 않은 PIN 코드입니다. 확인 후 다시 시도해주세요.",
     "remove_alert": "정말 삭제하시겠습니까?",
@@ -556,5 +562,9 @@
     "new_post": "새 글",
     "community": "community",
     "details": "Details"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
