@@ -320,9 +320,15 @@
     "success_favorite": "পছন্দ যোগ হয়েছে",
     "success_unfavorite": "পছন্দ সরানো হয়েছে",
     "success_follow": "সাফল্য অনুসরণ করুন!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "নিঃশব্দ সাফল্য !",
     "success_unmute": "সাবলীল সাফল্য!",
     "success_unfollow": "সাফল্য অনুসরণ!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "সতর্কতা",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
@@ -556,5 +562,9 @@
     "new_post": "নতুন পোস্ট",
     "community": "কমিউনিটি",
     "details": "বিস্তারিত"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
