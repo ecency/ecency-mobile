@@ -320,9 +320,15 @@
     "success_favorite": "Kedvencekhez hozzáadva!",
     "success_unfavorite": "Kedvencektől eltávolítva!",
     "success_follow": "Sikeres követés!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "Sikeres némítás!",
     "success_unmute": "Némítás sikeres feloldása!",
     "success_unfollow": "Követés sikeres visszavonása!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Figyelmeztetés",
     "invalid_pincode": "Érvénytelen PIN kód, kérjük ellenőrizd és próbáld újra.",
     "remove_alert": "Biztos, hogy törölni akarod?",
@@ -556,5 +562,9 @@
     "new_post": "Új bejegyzés",
     "community": "közösség",
     "details": "Részletek"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
