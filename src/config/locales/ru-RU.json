@@ -320,9 +320,15 @@
     "success_favorite": "Добавлено в Избранное!",
     "success_unfavorite": "Удалено из Избранного!",
     "success_follow": "Успешная подписка!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "Успешно игнорируется!",
     "success_unmute": "Успешно перестали игнорировать!",
     "success_unfollow": "Успешная отписка!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Внимание",
     "invalid_pincode": "Неверный пин-код. Пожалуйста, проверьте и попробуйте еще раз.",
     "remove_alert": "Вы уверены, что хотите удалить?",
@@ -556,5 +562,9 @@
     "new_post": "Новый пост",
     "community": "сообщество",
     "details": "Подробности"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
