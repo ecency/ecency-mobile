@@ -320,9 +320,15 @@
     "success_favorite": "Favorite added!",
     "success_unfavorite": "Favorite removed!",
     "success_follow": "Follow success!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "Mute success!",
     "success_unmute": "Unmute success!",
     "success_unfollow": "Unfollow success!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Pëuingat",
     "invalid_pincode": "Salah pin, cie neu test loëm.",
     "remove_alert": "Peu yakin neuk sampóh?",
@@ -556,5 +562,9 @@
     "new_post": "New Post",
     "community": "community",
     "details": "Details"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
