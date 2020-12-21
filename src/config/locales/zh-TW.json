@@ -320,9 +320,15 @@
     "success_favorite": "已添加我的最愛",
     "success_unfavorite": "取消收藏",
     "success_follow": "關注成功！",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "遮罩成功！",
     "success_unmute": "遮罩取消成功",
     "success_unfollow": "取消關注成功！",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "警告",
     "invalid_pincode": "無效的PIN碼，請核對後再試一次。",
     "remove_alert": "確定要刪除嗎？",
@@ -556,5 +562,9 @@
     "new_post": "New Post",
     "community": "community",
     "details": "Details"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
