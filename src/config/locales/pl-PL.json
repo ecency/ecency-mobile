@@ -320,9 +320,15 @@
     "success_favorite": "Ulubione dodane!",
     "success_unfavorite": "Usuń z ulubionych!",
     "success_follow": "Podążaj za sukcesem!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "Wyciszono pomyślnie!",
     "success_unmute": "Wyłącz wyciszenie!",
     "success_unfollow": "Przestań obserwować pomyślnie!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Ostrzeżenie",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
@@ -556,5 +562,9 @@
     "new_post": "Nowy wpis",
     "community": "społeczność",
     "details": "Szczegóły"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
