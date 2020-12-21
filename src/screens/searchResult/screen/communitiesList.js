@@ -2,7 +2,7 @@ import React from 'react';
 import { SafeAreaView, FlatList } from 'react-native';
 
 // Components
-import CommunitiesListItem from './CommunitiesListItem';
+import { CommunityListItem } from '../../../components/basicUIElements';
 import { CommunitiesPlaceHolder } from '../../../components/basicUIElements';
 
 // Styles
@@ -20,7 +20,7 @@ const CommunitiesList = ({
     const isSubscribed = allSubscriptions.some((sub) => sub[0] === item.name);
 
     return (
-      <CommunitiesListItem
+      <CommunityListItem
         index={index}
         title={item.title}
         about={item.about}

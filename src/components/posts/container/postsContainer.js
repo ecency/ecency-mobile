@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import get from 'lodash/get';
+import { get, isEmpty } from 'lodash';
 import unionBy from 'lodash/unionBy';
 import Matomo from 'react-native-matomo-sdk';
+import { useIntl } from 'react-intl';
 
 // HIVE
-import { getAccountPosts, getPost, getRankedPosts } from '../../../providers/hive/dhive';
+import {
+  getAccountPosts,
+  getPost,
+  getRankedPosts,
+  getCommunity,
+} from '../../../providers/hive/dhive';
 import { getPromotePosts } from '../../../providers/ecency/ecency';
 
 // Component
@@ -14,6 +20,12 @@ import PostsView from '../view/postsView';
 // Actions
 import { setFeedPosts } from '../../../redux/actions/postsAction';
 import { hidePostsThumbnails } from '../../../redux/actions/uiAction';
+import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';
+import {
+  subscribeCommunity,
+  leaveCommunity,
+  fetchCommunities,
+} from '../../../redux/actions/communitiesAction';
 
 import useIsMountedRef from '../../../customHooks/useIsMountedRef';
 
@@ -32,6 +44,7 @@ const PostsContainer = ({
   feedSubfilterOptionsValue,
 }) => {
   const dispatch = useDispatch();
+  const intl = useIntl();
 
   const nsfw = useSelector((state) => state.application.nsfw);
   const feedPosts = useSelector((state) => state.posts.feedPosts);
@@ -40,6 +53,14 @@ const PostsContainer = ({
   const username = useSelector((state) => state.account.currentAccount.name);
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
   const isAnalytics = useSelector((state) => state.application.isAnalytics);
+  const currentAccount = useSelector((state) => state.account.currentAccount);
+  const pinCode = useSelector((state) => state.application.pin);
+  const leaderboard = useSelector((state) => state.user.leaderboard);
+  const communities = useSelector((state) => state.communities.communities);
+  const lastFollowedUser = useSelector((state) => state.user.followUser);
+  const lastUnfollowedUser = useSelector((state) => state.user.unfollowUser);
+  const lastSubscribedCommunity = useSelector((state) => state.communities.subscribeCommunity);
+  const lastLeftCommunity = useSelector((state) => state.communities.leaveCommunity);
 
   const [isNoPost, setIsNoPost] = useState(false);
   const [startPermlink, setStartPermlink] = useState('');
@@ -56,6 +77,8 @@ const PostsContainer = ({
   const [selectedFeedSubfilterValue, setSelectedFeedSubfilterValue] = useState(
     feedSubfilterOptionsValue && feedSubfilterOptions[selectedFeedSubfilterIndex],
   );
+  const [recommendedUsers, setRecommendedUsers] = useState([]);
+  const [recommendedCommunities, setRecommendedCommunities] = useState([]);
 
   const elem = useRef(null);
   const isMountedRef = useIsMountedRef();
@@ -112,6 +135,82 @@ const PostsContainer = ({
       _loadPosts();
     }
   }, [refreshing]);
+
+  useEffect(() => {
+    if (!leaderboard.loading) {
+      if (!leaderboard.error && leaderboard.data.length > 0) {
+        _formatRecommendedUsers(leaderboard.data);
+      }
+    }
+  }, [leaderboard]);
+
+  useEffect(() => {
+    if (!communities.loading) {
+      if (!communities.error && communities.data.length > 0) {
+        _formatRecommendedCommunities(communities.data);
+      }
+    }
+  }, [communities]);
+
+  useEffect(() => {
+    if (!lastFollowedUser.loading) {
+      if (!lastFollowedUser.error && !isEmpty(lastFollowedUser.data)) {
+        const recommendeds = [...recommendedUsers];
+        recommendeds.forEach((item) => {
+          if (item._id === lastFollowedUser.data.following) {
+            item.isFollowing = true;
+          }
+        });
+
+        setRecommendedUsers(recommendeds);
+      }
+    }
+  }, [lastFollowedUser]);
+
+  useEffect(() => {
+    if (!lastUnfollowedUser.loading) {
+      if (!lastUnfollowedUser.error && !isEmpty(lastUnfollowedUser.data)) {
+        const recommendeds = [...recommendedUsers];
+        recommendeds.forEach((item) => {
+          if (item._id === lastUnfollowedUser.data.following) {
+            item.isFollowing = false;
+          }
+        });
+
+        setRecommendedUsers(recommendeds);
+      }
+    }
+  }, [lastUnfollowedUser]);
+
+  useEffect(() => {
+    if (!lastSubscribedCommunity.loading) {
+      if (!lastSubscribedCommunity.error && !isEmpty(lastSubscribedCommunity.data)) {
+        const recommendeds = [...recommendedCommunities];
+        recommendeds.forEach((item) => {
+          if (item.name === lastSubscribedCommunity.data.communityId) {
+            item.isSubscribed = true;
+          }
+        });
+
+        setRecommendedCommunities(recommendeds);
+      }
+    }
+  }, [lastSubscribedCommunity]);
+
+  useEffect(() => {
+    if (!lastLeftCommunity.loading) {
+      if (!lastLeftCommunity.error && !isEmpty(lastLeftCommunity.data)) {
+        const recommendeds = [...recommendedCommunities];
+        recommendeds.forEach((item) => {
+          if (item.name === lastLeftCommunity.data.communityId) {
+            item.isSubscribed = false;
+          }
+        });
+
+        setRecommendedCommunities(recommendeds);
+      }
+    }
+  }, [lastLeftCommunity]);
 
   const _setFeedPosts = (_posts) => {
     dispatch(setFeedPosts(_posts));
@@ -288,6 +387,92 @@ const PostsContainer = ({
     setIsNoPost(false);
   };
 
+  const _getRecommendedUsers = () => dispatch(fetchLeaderboard());
+
+  const _formatRecommendedUsers = (usersArray) => {
+    const recommendeds = usersArray.slice(0, 10);
+
+    recommendeds.unshift({ _id: 'good-karma' });
+    recommendeds.unshift({ _id: 'ecency' });
+
+    recommendeds.forEach((item) => Object.assign(item, { isFollowing: false }));
+
+    setRecommendedUsers(recommendeds);
+  };
+
+  const _getRecommendedCommunities = () => dispatch(fetchCommunities('', 10));
+
+  const _formatRecommendedCommunities = async (communitiesArray) => {
+    try {
+      const ecency = await getCommunity('hive-125125');
+
+      const recommendeds = [ecency, ...communitiesArray];
+      recommendeds.forEach((item) => Object.assign(item, { isSubscribed: false }));
+
+      setRecommendedCommunities(recommendeds);
+    } catch (err) {
+      console.log(err, '_getRecommendedUsers Error');
+    }
+  };
+
+  const _handleFollowUserButtonPress = (data, isFollowing) => {
+    let followAction;
+    let successToastText = '';
+    let failToastText = '';
+
+    if (!isFollowing) {
+      followAction = followUser;
+
+      successToastText = intl.formatMessage({
+        id: 'alert.success_follow',
+      });
+      failToastText = intl.formatMessage({
+        id: 'alert.fail_follow',
+      });
+    } else {
+      followAction = unfollowUser;
+
+      successToastText = intl.formatMessage({
+        id: 'alert.success_unfollow',
+      });
+      failToastText = intl.formatMessage({
+        id: 'alert.fail_unfollow',
+      });
+    }
+
+    data.follower = get(currentAccount, 'name', '');
+
+    dispatch(followAction(currentAccount, pinCode, data, successToastText, failToastText));
+  };
+
+  const _handleSubscribeCommunityButtonPress = (data) => {
+    let subscribeAction;
+    let successToastText = '';
+    let failToastText = '';
+
+    if (!data.isSubscribed) {
+      subscribeAction = subscribeCommunity;
+
+      successToastText = intl.formatMessage({
+        id: 'alert.success_subscribe',
+      });
+      failToastText = intl.formatMessage({
+        id: 'alert.fail_subscribe',
+      });
+    } else {
+      subscribeAction = leaveCommunity;
+
+      successToastText = intl.formatMessage({
+        id: 'alert.success_leave',
+      });
+      failToastText = intl.formatMessage({
+        id: 'alert.fail_leave',
+      });
+    }
+
+    dispatch(subscribeAction(currentAccount, pinCode, data, successToastText, failToastText));
+  };
+
   return (
     <PostsView
       ref={elem}
@@ -317,6 +502,16 @@ const PostsContainer = ({
       handleFeedSubfilterOnDropdownSelect={_handleFeedSubfilterOnDropdownSelect}
       setSelectedFeedSubfilterValue={setSelectedFeedSubfilterValue}
       selectedFeedSubfilterValue={selectedFeedSubfilterValue}
+      getRecommendedUsers={_getRecommendedUsers}
+      getRecommendedCommunities={_getRecommendedCommunities}
+      recommendedUsers={recommendedUsers}
+      recommendedCommunities={recommendedCommunities}
+      handleFollowUserButtonPress={_handleFollowUserButtonPress}
+      handleSubscribeCommunityButtonPress={_handleSubscribeCommunityButtonPress}
+      lastFollowedUser={lastFollowedUser}
+      lastUnfollowedUser={lastUnfollowedUser}
+      lastSubscribedCommunity={lastSubscribedCommunity}
+      lastLeftCommunity={lastLeftCommunity}
     />
   );
 };

@@ -22,8 +22,9 @@ const SearchInputView = ({
   placeholder,
   editable = true,
   autoFocus = true,
+  style,
 }) => (
-  <SafeAreaView style={styles.inputWrapper}>
+  <SafeAreaView style={[styles.inputWrapper, style]}>
     <Icon style={styles.icon} iconType="FontAwesome" name="search" size={15} />
     <TextInput
       style={styles.input}

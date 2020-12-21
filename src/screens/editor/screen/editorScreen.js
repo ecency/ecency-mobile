@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Animated } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { get, isNull } from 'lodash';
 
@@ -52,6 +52,9 @@ class EditorScreen extends Component {
       },
       isCommunitiesListModalOpen: false,
       selectedCommunity: null,
+      animatedViewHeight: new Animated.Value(150),
+      animatedViewOpacity: new Animated.Value(1),
+      showFields: true,
     };
   }
 
@@ -241,6 +244,40 @@ class EditorScreen extends Component {
       });
   };
 
+  _handleDisappearAnimatedContainer = () => {
+    const { animatedViewHeight, animatedViewOpacity } = this.state;
+
+    Animated.timing(animatedViewHeight, {
+      toValue: 0,
+      duration: 1000, // <-- animation duration
+      useNativeDriver: false, // <-- need to set false to prevent yellow box warning
+    }).start(() => this.setState({ showFields: false }));
+
+    Animated.timing(animatedViewOpacity, {
+      toValue: 0,
+      duration: 1000, // <-- animation duration
+      useNativeDriver: false, // <-- need to set false to prevent yellow box warning
+    }).start();
+  };
+
+  _handleShowAnimatedContainer = () => {
+    const { animatedViewHeight, animatedViewOpacity } = this.state;
+
+    this.setState({ showFields: true });
+
+    Animated.timing(animatedViewHeight, {
+      toValue: 150,
+      duration: 1000, // <-- animation duration
+      useNativeDriver: false, // <-- need to set false to prevent yellow box warning
+    }).start();
+
+    Animated.timing(animatedViewOpacity, {
+      toValue: 1,
+      duration: 1000, // <-- animation duration
+      useNativeDriver: false, // <-- need to set false to prevent yellow box warning
+    }).start();
+  };
+
   render() {
     const {
       fields,
@@ -250,6 +287,9 @@ class EditorScreen extends Component {
       isRemoveTag,
       isCommunitiesListModalOpen,
       selectedCommunity,
+      animatedViewHeight,
+      animatedViewOpacity,
+      showFields,
     } = this.state;
     const {
       handleOnImagePicker,
@@ -311,35 +351,41 @@ class EditorScreen extends Component {
           isFormValid={isFormValid}
           isPreviewActive={isPreviewActive}
         >
-          {!isReply && !isEdit && (
-            <SelectCommunityAreaView
-              currentAccount={currentAccount}
-              mode={!isNull(selectedCommunity) ? 'community' : 'user'}
-              community={selectedCommunity}
-              // because of the bug in react-native-modal
-              // https://github.com/facebook/react-native/issues/26892
-              onPressOut={() => this.setState({ isCommunitiesListModalOpen: true })}
-              onPressIn={() => this.setState({ isCommunitiesListModalOpen: false })}
-            />
-          )}
-          {isReply && !isEdit && <SummaryArea summary={post.summary} />}
-          {!isReply && <TitleArea value={fields.title} componentID="title" intl={intl} />}
-          {!isReply && !isPreviewActive && (
-            <TagInput
-              value={fields.tags}
-              componentID="tag-area"
-              intl={intl}
-              handleTagChanged={this._handleOnTagAdded}
-              setCommunity={(hive) => this._getCommunity(hive)}
-            />
-          )}
-          {!isReply && isPreviewActive && (
-            <TagArea
-              draftChips={fields.tags.length > 0 ? fields.tags : null}
-              componentID="tag-area"
-              intl={intl}
-            />
-          )}
+          <Animated.View style={{ maxHeight: animatedViewHeight, opacity: animatedViewOpacity }}>
+            {showFields && (
+              <>
+                {!isReply && !isEdit && (
+                  <SelectCommunityAreaView
+                    currentAccount={currentAccount}
+                    mode={!isNull(selectedCommunity) ? 'community' : 'user'}
+                    community={selectedCommunity}
+                    // because of the bug in react-native-modal
+                    // https://github.com/facebook/react-native/issues/26892
+                    onPressOut={() => this.setState({ isCommunitiesListModalOpen: true })}
+                    onPressIn={() => this.setState({ isCommunitiesListModalOpen: false })}
+                  />
+                )}
+                {isReply && !isEdit && <SummaryArea summary={post.summary} />}
+                {!isReply && <TitleArea value={fields.title} componentID="title" intl={intl} />}
+                {!isReply && !isPreviewActive && (
+                  <TagInput
+                    value={fields.tags}
+                    componentID="tag-area"
+                    intl={intl}
+                    handleTagChanged={this._handleOnTagAdded}
+                    setCommunity={(hive) => this._getCommunity(hive)}
+                  />
+                )}
+                {!isReply && isPreviewActive && (
+                  <TagArea
+                    draftChips={fields.tags.length > 0 ? fields.tags : null}
+                    componentID="tag-area"
+                    intl={intl}
+                  />
+                )}
+              </>
+            )}
+          </Animated.View>
           <MarkdownEditor
             componentID="body"
             draftBody={fields && fields.body}
@@ -353,6 +399,8 @@ class EditorScreen extends Component {
             initialFields={this._initialFields}
             isReply={isReply}
             isLoading={isPostSending || isUploading}
+            onFocus={this._handleDisappearAnimatedContainer}
+            onScrollToTop={this._handleShowAnimatedContainer}
           />
         </PostForm>
       </View>
