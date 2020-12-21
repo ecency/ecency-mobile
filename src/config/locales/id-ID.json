@@ -21,7 +21,7 @@
     "delegation": "Delegasi",
     "delegations": "Delegasi",
     "delegation_title": "Hadiah delegasi",
-    "delegation_desc": "Earn Points everyday for delegation",
+    "delegation_desc": "Hasilkan poin setiap hari untuk pendelegasian",
     "post_title": "Poin untuk kiriman",
     "comment_title": "Poin untuk komentar",
     "vote_title": "Poin untuk suara",
@@ -30,7 +30,7 @@
     "checkin_title": "Points for heartbeat",
     "referral": "Referensi",
     "referral_title": "Hadiah referensi",
-    "referral_desc": "Invite friends and earn Points",
+    "referral_desc": "Undang teman dan dapatkan poin",
     "checkin_extra_title": "Bonus penggunaan",
     "no_activity": "Tidak ada aktifitas terakhir",
     "outgoing_transfer_description": "",
@@ -59,17 +59,17 @@
     "to_placeholder": "Nama Pengguna",
     "memo_placeholder": "Masukan catatan anda disini",
     "transfer_token": "Transfer",
-    "purchase_estm": "GET POINTS",
-    "points": "Gift Points to someone",
+    "purchase_estm": "DAPATKAN POIN",
+    "points": "Hadiahkan poin kepada seseorang",
     "transfer_to_saving": "Untuk Menyimpan",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Menarik Tabungan",
-    "steemconnect_title": "Hivesigner Transfer",
+    "steemconnect_title": "Transfer Hivesigner",
     "next": "LANJUT",
     "delegate": "Delegasikan",
     "power_down": "Turunkan Daya Kekuatan",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
+    "withdraw_steem": "Penarikan Hive",
+    "withdraw_sbd": "Tarik HBD",
     "transfer_to_savings": "Untuk Tabungan",
     "convert": "Mengkonversi",
     "escrow_transfer": "Transfer Escrow",
@@ -83,29 +83,29 @@
     "fill_vesting_withdraw": "PowerDown dieksekusi",
     "estm": {
       "title": "Poin",
-      "buy": "GET POINTS"
+      "buy": "DAPATKAN POIN"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "Penyimpanan HIVE"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "Tabungan HBD"
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "DAPATKAN HIVE"
     },
     "sbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "DAPATKAN HBD"
     },
     "steem_power": {
       "title": "HIVE POWER"
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "DAPATKAN BTC",
+      "address": "TERIMA"
     }
   },
   "notification": {
@@ -118,9 +118,9 @@
     "ignore": "mengabaikan anda",
     "reblog": "reblogged",
     "transfer": "ditransfer",
-    "spin": "Time to earn more Points",
-    "inactive": "Be active! Write a post, continue earning",
-    "referral": "joined with your referral, welcome them",
+    "spin": "Waktunya untuk mendapatkan lebih banyak poin",
+    "inactive": "Ayo aktif! Tulislah postingan, teruskan mengumpulkan pendapatan",
+    "referral": "bergabunglah dengan referral Anda, sambutlah mereka",
     "notification": "Pemberitahuan",
     "leaderboard": "Papan Peringkat",
     "epoint": "Poin",
@@ -159,7 +159,7 @@
     "voting_power": "Kekuatan Suara",
     "login_to_see": "Masuk untuk melihat",
     "follow_people": "Ikuti beberapa orang untuk mengisi umpan Anda",
-    "follow_communities": "Join some communities to fill your feed",
+    "follow_communities": "Bergabung dengan beberapa komunitas untuk mengisi linimasa anda",
     "havent_commented": "belum berkomentar",
     "havent_posted": "belum pernah mengirimkan sesuatu",
     "steem_power": "Hive Power",
