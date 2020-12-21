@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Animated } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { get, isNull } from 'lodash';
+import { PanGestureHandler } from 'react-native-gesture-handler';
 
 // Utils
 import { getWordsCount } from '../../../utils/editor';
@@ -202,7 +203,7 @@ class EditorScreen extends Component {
     });
   };
 
-  _handleOnTagAdded = async (tags) => {
+  _handleOnTagAdded = (tags) => {
     const { selectedCommunity } = this.state;
 
     if (tags.length > 0 && !isNull(selectedCommunity) && !isCommunity(tags[0])) {
@@ -213,6 +214,16 @@ class EditorScreen extends Component {
     const __fields = { ..._fields, tags: __tags };
     this.setState({ fields: __fields, isRemoveTag: false }, () => {
       this._handleFormUpdate('tag-area', __fields.tags);
+    });
+  };
+
+  _handleChangeTitle = (text) => {
+    const { fields: _fields } = this.state;
+
+    _fields.title = text;
+
+    this.setState({ fields: _fields }, () => {
+      this._handleFormUpdate('title', _fields.title);
     });
   };
 
@@ -313,97 +324,111 @@ class EditorScreen extends Component {
       id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : 'basic_header.publish',
     });
     return (
-      <View style={globalStyles.defaultContainer}>
-        <Modal
-          isOpen={isCommunitiesListModalOpen}
-          animationType="animationType"
-          presentationStyle="pageSheet"
-          style={styles.modal}
-        >
-          <SelectCommunityModalContainer
-            onPressCommunity={this._handlePressCommunity}
-            currentAccount={currentAccount}
-          />
-        </Modal>
-        <BasicHeader
-          handleDatePickerChange={(date) => handleDatePickerChange(date, fields)}
-          handleRewardChange={handleRewardChange}
-          handleBeneficiaries={handleBeneficiaries}
-          handleOnBackPress={handleOnBackPress}
-          handleOnPressPreviewButton={this._handleOnPressPreviewButton}
-          handleOnSaveButtonPress={this._handleOnSaveButtonPress}
-          handleOnSubmit={this._handleOnSubmit}
-          isDraftSaved={isDraftSaved}
-          isDraftSaving={isDraftSaving}
-          isEdit={isEdit}
-          isFormValid={isFormValid}
-          isHasIcons
-          isLoading={isPostSending || isUploading}
-          isLoggedIn={isLoggedIn}
-          isPreviewActive={isPreviewActive}
-          isReply={isReply}
-          quickTitle={wordsCount > 0 && `${wordsCount} words`}
-          rightButtonText={rightButtonText}
-        />
-        <PostForm
-          handleFormUpdate={this._handleFormUpdate}
-          handleOnSubmit={this._handleOnSubmit}
-          isFormValid={isFormValid}
-          isPreviewActive={isPreviewActive}
-        >
-          <Animated.View style={{ maxHeight: animatedViewHeight, opacity: animatedViewOpacity }}>
-            {showFields && (
-              <>
-                {!isReply && !isEdit && (
-                  <SelectCommunityAreaView
-                    currentAccount={currentAccount}
-                    mode={!isNull(selectedCommunity) ? 'community' : 'user'}
-                    community={selectedCommunity}
-                    // because of the bug in react-native-modal
-                    // https://github.com/facebook/react-native/issues/26892
-                    onPressOut={() => this.setState({ isCommunitiesListModalOpen: true })}
-                    onPressIn={() => this.setState({ isCommunitiesListModalOpen: false })}
-                  />
-                )}
-                {isReply && !isEdit && <SummaryArea summary={post.summary} />}
-                {!isReply && <TitleArea value={fields.title} componentID="title" intl={intl} />}
-                {!isReply && !isPreviewActive && (
-                  <TagInput
-                    value={fields.tags}
-                    componentID="tag-area"
-                    intl={intl}
-                    handleTagChanged={this._handleOnTagAdded}
-                    setCommunity={(hive) => this._getCommunity(hive)}
-                  />
-                )}
-                {!isReply && isPreviewActive && (
-                  <TagArea
-                    draftChips={fields.tags.length > 0 ? fields.tags : null}
-                    componentID="tag-area"
-                    intl={intl}
-                  />
-                )}
-              </>
-            )}
-          </Animated.View>
-          <MarkdownEditor
-            componentID="body"
-            draftBody={fields && fields.body}
-            handleOnTextChange={this._setWordsCount}
-            handleFormUpdate={this._handleFormUpdate}
-            handleIsFormValid={this._handleIsFormValid}
+      <PanGestureHandler
+        onGestureEvent={(event) =>
+          event.nativeEvent.translationY >= 25 && this._handleShowAnimatedContainer()
+        }
+        activeOffsetY={[-20, 20]}
+      >
+        <View style={globalStyles.defaultContainer}>
+          <Modal
+            isOpen={isCommunitiesListModalOpen}
+            animationType="animationType"
+            presentationStyle="pageSheet"
+            style={styles.modal}
+          >
+            <SelectCommunityModalContainer
+              onPressCommunity={this._handlePressCommunity}
+              currentAccount={currentAccount}
+            />
+          </Modal>
+          <BasicHeader
+            handleDatePickerChange={(date) => handleDatePickerChange(date, fields)}
+            handleRewardChange={handleRewardChange}
+            handleBeneficiaries={handleBeneficiaries}
+            handleOnBackPress={handleOnBackPress}
+            handleOnPressPreviewButton={this._handleOnPressPreviewButton}
+            handleOnSaveButtonPress={this._handleOnSaveButtonPress}
+            handleOnSubmit={this._handleOnSubmit}
+            isDraftSaved={isDraftSaved}
+            isDraftSaving={isDraftSaving}
+            isEdit={isEdit}
             isFormValid={isFormValid}
-            handleOpenImagePicker={handleOnImagePicker}
-            intl={intl}
-            uploadedImage={uploadedImage}
-            initialFields={this._initialFields}
-            isReply={isReply}
+            isHasIcons
             isLoading={isPostSending || isUploading}
-            onFocus={this._handleDisappearAnimatedContainer}
-            onScrollToTop={this._handleShowAnimatedContainer}
+            isLoggedIn={isLoggedIn}
+            isPreviewActive={isPreviewActive}
+            isReply={isReply}
+            quickTitle={wordsCount > 0 && `${wordsCount} words`}
+            rightButtonText={rightButtonText}
           />
-        </PostForm>
-      </View>
+          <PostForm
+            handleFormUpdate={this._handleFormUpdate}
+            handleOnSubmit={this._handleOnSubmit}
+            isFormValid={isFormValid}
+            isPreviewActive={isPreviewActive}
+          >
+            <Animated.View style={{ maxHeight: animatedViewHeight, opacity: animatedViewOpacity }}>
+              {showFields && (
+                <>
+                  {!isReply && !isEdit && (
+                    <SelectCommunityAreaView
+                      currentAccount={currentAccount}
+                      mode={!isNull(selectedCommunity) ? 'community' : 'user'}
+                      community={selectedCommunity}
+                      // because of the bug in react-native-modal
+                      // https://github.com/facebook/react-native/issues/26892
+                      onPressOut={() => this.setState({ isCommunitiesListModalOpen: true })}
+                      onPressIn={() => this.setState({ isCommunitiesListModalOpen: false })}
+                    />
+                  )}
+                  {isReply && !isEdit && <SummaryArea summary={post.summary} />}
+                  {!isReply && (
+                    <TitleArea
+                      value={fields.title}
+                      componentID="title"
+                      intl={intl}
+                      onChange={this._handleChangeTitle}
+                    />
+                  )}
+                  {!isReply && !isPreviewActive && (
+                    <TagInput
+                      value={fields.tags}
+                      componentID="tag-area"
+                      intl={intl}
+                      handleTagChanged={this._handleOnTagAdded}
+                      setCommunity={this._getCommunity}
+                    />
+                  )}
+                  {!isReply && isPreviewActive && (
+                    <TagArea
+                      draftChips={fields.tags.length > 0 ? fields.tags : null}
+                      componentID="tag-area"
+                      intl={intl}
+                    />
+                  )}
+                </>
+              )}
+            </Animated.View>
+            <MarkdownEditor
+              componentID="body"
+              draftBody={fields && fields.body}
+              handleOnTextChange={this._setWordsCount}
+              handleFormUpdate={this._handleFormUpdate}
+              handleIsFormValid={this._handleIsFormValid}
+              isFormValid={isFormValid}
+              handleOpenImagePicker={handleOnImagePicker}
+              intl={intl}
+              uploadedImage={uploadedImage}
+              initialFields={this._initialFields}
+              isReply={isReply}
+              isLoading={isPostSending || isUploading}
+              onFocus={this._handleDisappearAnimatedContainer}
+              onScrollToTop={this._handleShowAnimatedContainer}
+            />
+          </PostForm>
+        </View>
+      </PanGestureHandler>
     );
   }
 }
