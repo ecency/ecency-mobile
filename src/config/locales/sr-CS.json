@@ -320,9 +320,15 @@
     "success_favorite": "Favorit je dodat!",
     "success_unfavorite": "Favorit je uklonjen!",
     "success_follow": "Uspešno praćenje!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "Isključivanje notifikacija uspešno!",
     "success_unmute": "Uključivanje notifikacija uspešno!",
     "success_unfollow": "Prestanak praćenja uspešan!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Upozorenje",
     "invalid_pincode": "Nevažeći PIN kod, molimo proverite i pokušajte ponovo.",
     "remove_alert": "Da li ste sigurni da želite da uklonite?",
@@ -556,5 +562,9 @@
     "new_post": "Nova objava",
     "community": "zajednica",
     "details": "Detalji"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
