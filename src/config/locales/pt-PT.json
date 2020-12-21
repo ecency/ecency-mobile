@@ -320,9 +320,15 @@
     "success_favorite": "Favorito adicionado!",
     "success_unfavorite": "Favorito removido!",
     "success_follow": "Seguido com sucesso!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "Silenciado com sucesso!",
     "success_unmute": "Mudo desativado com sucesso!",
     "success_unfollow": "Deixou de seguir com sucesso!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Aviso",
     "invalid_pincode": "Código PIN inválido, por favor verifique e tente novamente.",
     "remove_alert": "Tem a certeza de que pretende remover?",
@@ -556,5 +562,9 @@
     "new_post": "Nova Postagem",
     "community": "comunidade",
     "details": "Detalhes"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
