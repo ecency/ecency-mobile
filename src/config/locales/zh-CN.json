@@ -320,9 +320,15 @@
     "success_favorite": "已添加收藏夹",
     "success_unfavorite": "取消收藏",
     "success_follow": "关注成功！",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "屏蔽成功！",
     "success_unmute": "屏蔽取消成功",
     "success_unfollow": "取消关注成功！",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "警告",
     "invalid_pincode": "无效的 PIN 码，请检查并重试。",
     "remove_alert": "您确定想要移除？",
@@ -556,5 +562,9 @@
     "new_post": "New Post",
     "community": "community",
     "details": "Details"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
