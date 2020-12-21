@@ -320,9 +320,15 @@
     "success_favorite": "We don add wetin u like!",
     "success_unfavorite": "We don comot wetin u like!",
     "success_follow": "Ur follow don confam!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "We don confam say u no wan hear from am again!",
     "success_unmute": "You wan dey hear from am don confam!",
     "success_unfollow": "U no follow again don confam!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Warning",
     "invalid_pincode": "Your PIN code no correct, abeg check wella and try am again",
     "remove_alert": "You sure say you wan remove am?",
@@ -556,5 +562,9 @@
     "new_post": "Post wey new",
     "community": "area",
     "details": "Full informate"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
