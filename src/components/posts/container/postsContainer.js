@@ -464,7 +464,6 @@ const PostsContainer = ({
 
     dispatch(subscribeAction(currentAccount, pinCode, data, successToastText, failToastText));
   };
-  console.log(followingUsers, 'followingUsers Container');
 
   return (
     <PostsView
