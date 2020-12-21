@@ -564,7 +564,7 @@
     "details": "Lisätiedot"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow"
+    "follow": "Seuraa",
+    "unfollow": "Älä seuraa"
   }
 }
