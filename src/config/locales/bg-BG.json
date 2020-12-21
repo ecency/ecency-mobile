@@ -320,9 +320,15 @@
     "success_favorite": "Добавено в любими!",
     "success_unfavorite": "Прамахнат от любими!",
     "success_follow": "Последван успешно!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "Заглушаване успешно!",
     "success_unmute": "Заглушаване премахнато успешно!",
     "success_unfollow": "Отказ от следване!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Внимание",
     "invalid_pincode": "Невалиден Пин-код,провери и опитай отново.",
     "remove_alert": "Сигорни ли сте за премахването?",
@@ -556,5 +562,9 @@
     "new_post": "Нова публикация",
     "community": "community",
     "details": "Details"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
