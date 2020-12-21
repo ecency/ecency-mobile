@@ -320,9 +320,15 @@
     "success_favorite": "पसंदीदा जोड़ा!",
     "success_unfavorite": "पसंदीदा हटा दिया गया!",
     "success_follow": "सफलता का पालन करें!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "सफलता को म्यूट करें!",
     "success_unmute": "सफलता को बेपर्दा करो!",
     "success_unfollow": "असफल सफलता!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "चेतावनी",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "क्या आप इसे सच में हटाना चाहते हैं?",
@@ -556,5 +562,9 @@
     "new_post": "नया पोस्ट",
     "community": "समुदाय",
     "details": "विवरण"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
