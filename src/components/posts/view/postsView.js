@@ -135,7 +135,6 @@ const PostsView = ({
     if (isNoPost) {
       if (selectedFilterValue === 'feed') {
         if (selectedFeedSubfilterValue === 'friends') {
-          console.log(followingUsers, 'followingUsers');
           return (
             <>
               <Text style={[globalStyles.subTitle, styles.noPostTitle]}>
@@ -176,7 +175,6 @@ const PostsView = ({
             </>
           );
         } else {
-          console.log(recommendedCommunities, 'recommendedCommunities');
           return (
             <>
               <Text style={[globalStyles.subTitle, styles.noPostTitle]}>
