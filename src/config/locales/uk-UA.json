@@ -320,9 +320,15 @@
     "success_favorite": "До улюблених додано!",
     "success_unfavorite": "З улюблених видалено!",
     "success_follow": "Успішно підписалися!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "Успішно почали ігнорувати!",
     "success_unmute": "Успішно припинили ігнорувати!",
     "success_unfollow": "Успішно відписалися!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Увага",
     "invalid_pincode": "Невірний пін-код. Будь ласка, перевірте і повторіть спробу.",
     "remove_alert": "Ви дійсно бажаєте видалити?",
@@ -556,5 +562,9 @@
     "new_post": "Новий допис",
     "community": "community",
     "details": "Details"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
