@@ -260,13 +260,13 @@ class EditorScreen extends Component {
 
     Animated.timing(animatedViewHeight, {
       toValue: 0,
-      duration: 1000, // <-- animation duration
+      duration: 300, // <-- animation duration
       useNativeDriver: false, // <-- need to set false to prevent yellow box warning
     }).start(() => this.setState({ showFields: false }));
 
     Animated.timing(animatedViewOpacity, {
       toValue: 0,
-      duration: 1000, // <-- animation duration
+      duration: 300, // <-- animation duration
       useNativeDriver: false, // <-- need to set false to prevent yellow box warning
     }).start();
   };
@@ -278,13 +278,13 @@ class EditorScreen extends Component {
 
     Animated.timing(animatedViewHeight, {
       toValue: 150,
-      duration: 1000, // <-- animation duration
+      duration: 300, // <-- animation duration
       useNativeDriver: false, // <-- need to set false to prevent yellow box warning
     }).start();
 
     Animated.timing(animatedViewOpacity, {
       toValue: 1,
-      duration: 1000, // <-- animation duration
+      duration: 300, // <-- animation duration
       useNativeDriver: false, // <-- need to set false to prevent yellow box warning
     }).start();
   };
