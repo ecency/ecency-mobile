@@ -2,7 +2,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   searchInput: {
-    marginTop: 16,
+    marginTop: 32,
   },
   searchedFlatList: {
     marginTop: 16,
