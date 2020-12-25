@@ -4,7 +4,6 @@ export default EStyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'stretch',
     backgroundColor: '$primaryBackgroundColor',
   },
   textWrapper: {
