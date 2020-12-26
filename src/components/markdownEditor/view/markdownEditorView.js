@@ -32,8 +32,6 @@ const MarkdownEditorView = ({
   handleIsValid,
   componentID,
   uploadedImage,
-  onFocus,
-  onScrollToTop,
 }) => {
   const [text, setText] = useState(draftBody || '');
   const [selection, setSelection] = useState({ start: 0, end: 0 });
@@ -219,8 +217,8 @@ const MarkdownEditorView = ({
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      keyboardVerticalOffset={Platform.select({ ios: 0, android: 25 })}
-      behavior="padding"
+      keyboardVerticalOffset={Platform.select({ ios: 0, android: 30 })}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       {!isPreviewActive ? (
         <ThemeContainer>
@@ -228,7 +226,7 @@ const MarkdownEditorView = ({
             <TextInput
               multiline
               autoCorrect={true}
-              autoFocus={false}
+              autoFocus={true}
               onChangeText={_changeText}
               onSelectionChange={_handleOnSelectionChange}
               placeholder={intl.formatMessage({
@@ -242,8 +240,6 @@ const MarkdownEditorView = ({
               editable={editable}
               contextMenuHidden={false}
               autoGrow={false}
-              onFocus={onFocus}
-              onScrollToTop={onScrollToTop}
             />
           )}
         </ThemeContainer>
