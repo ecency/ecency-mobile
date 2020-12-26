@@ -35,11 +35,11 @@ class SideMenuContainer extends Component {
 
     const accounts = [];
     otherAccounts.forEach((element) => {
-      if (element.username !== currentAccount.name) {
+      if (element.name !== currentAccount.name) {
         accounts.push({
-          name: `@${element.username}`,
-          username: element.username,
-          id: element.username,
+          name: `@${element.name}`,
+          username: element.name,
+          id: element.name,
         });
       }
     });
@@ -61,21 +61,26 @@ class SideMenuContainer extends Component {
     }
   };
 
-  _switchAccount = (anchor = null) => {
-    const { dispatch, currentAccount, navigation } = this.props;
+  _switchAccount = async (anchor = null) => {
+    const { dispatch, currentAccount, navigation, otherAccounts } = this.props;
 
     if (anchor !== currentAccount.name) {
-      switchAccount(anchor).then(async (accountData) => {
-        const realmData = await getUserDataWithUsername(anchor);
-        const _currentAccount = accountData;
+      navigation.closeDrawer();
 
-        _currentAccount.username = _currentAccount.name;
-        _currentAccount.local = realmData[0];
+      const accountData = otherAccounts.filter((account) => account.name === anchor)[0];
+      const _currentAccount = accountData;
 
-        dispatch(updateCurrentAccount(_currentAccount));
-        dispatch(isRenderRequired(true));
-        navigation.closeDrawer();
-      });
+      _currentAccount.username = _currentAccount.name;
+
+      dispatch(updateCurrentAccount(_currentAccount));
+      dispatch(isRenderRequired(true));
+
+      const upToDateCurrentAccount = await switchAccount(anchor);
+      const realmData = await getUserDataWithUsername(anchor);
+      upToDateCurrentAccount.userName = upToDateCurrentAccount.name;
+      upToDateCurrentAccount.local = realmData[0];
+
+      dispatch(updateCurrentAccount(upToDateCurrentAccount));
     }
   };
 

@@ -61,7 +61,7 @@ class LoginContainer extends PureComponent {
       .then((result) => {
         if (result) {
           dispatch(updateCurrentAccount({ ...result }));
-          dispatch(addOtherAccount({ username: result.name }));
+          dispatch(addOtherAccount({ ...result }));
           dispatch(loginAction(true));
           userActivity(result.name, 20);
           setExistUser(true);

@@ -6,7 +6,7 @@ import { ThemeContainer } from '../../../containers';
 // Styles
 import styles from './textInputStyles';
 
-const TextInputView = ({ innerRef, height, style, onScrollToTop, ...props }) => (
+const TextInputView = ({ innerRef, height, style, ...props }) => (
   <ThemeContainer>
     {({ isDarkTheme }) => (
       <TextInput
@@ -14,7 +14,6 @@ const TextInputView = ({ innerRef, height, style, onScrollToTop, ...props }) => 
         keyboardAppearance={isDarkTheme ? 'dark' : 'light'}
         {...props}
         style={[styles.input, { minHeight: height }, style]}
-        onScroll={(event) => event.nativeEvent.contentOffset.y === 0 && onScrollToTop()}
       />
     )}
   </ThemeContainer>

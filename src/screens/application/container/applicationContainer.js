@@ -258,7 +258,7 @@ class ApplicationContainer extends Component {
     const { currentAccount } = this.props;
 
     const postUrl = postUrlParser(url);
-    const { author, permlink } = postUrl;
+    const { author, permlink } = postUrl || {};
 
     try {
       if (author) {
@@ -517,11 +517,7 @@ class ApplicationContainer extends Component {
             }
             removeUserData(accountData.username);
           } else {
-            dispatch(
-              addOtherAccount({
-                username: accountData.username,
-              }),
-            );
+            dispatch(addOtherAccount({ ...accountData }));
             // TODO: check post v2.2.5+ or remove setexistuser from login
             setExistUser(true);
           }
@@ -652,9 +648,9 @@ class ApplicationContainer extends Component {
         this._enableNotification(name, false);
 
         if (_otherAccounts.length > 0) {
-          const targetAccountUsername = _otherAccounts[0].username;
+          const targetAccount = _otherAccounts[0];
 
-          await this._switchAccount(targetAccountUsername);
+          await this._switchAccount(targetAccount);
         } else {
           dispatch(updateCurrentAccount({}));
           dispatch(login(false));
@@ -692,14 +688,16 @@ class ApplicationContainer extends Component {
       });
   };
 
-  _switchAccount = async (targetAccountUsername) => {
+  _switchAccount = async (targetAccount) => {
     const { dispatch, isConnected } = this.props;
 
     if (!isConnected) return;
 
-    const accountData = await switchAccount(targetAccountUsername);
+    dispatch(updateCurrentAccount(targetAccount));
 
-    const realmData = await getUserDataWithUsername(targetAccountUsername);
+    const accountData = await switchAccount(targetAccount.username);
+    const realmData = await getUserDataWithUsername(targetAccount.username);
+
     const _currentAccount = accountData;
     _currentAccount.username = accountData.name;
     [_currentAccount.local] = realmData;
