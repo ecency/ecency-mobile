@@ -198,12 +198,10 @@ class ApplicationContainer extends Component {
         {
           isRenderRequire: false,
         },
-        () => {
-          console.log('isRenderRequire');
+        () =>
           this.setState({
             isRenderRequire: true,
-          });
-        },
+          }),
       );
       dispatch(isRenderRequired(false));
     }
