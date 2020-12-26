@@ -258,7 +258,7 @@ class ApplicationContainer extends Component {
     const { currentAccount } = this.props;
 
     const postUrl = postUrlParser(url);
-    const { author, permlink } = postUrl;
+    const { author, permlink } = postUrl || {};
 
     try {
       if (author) {
