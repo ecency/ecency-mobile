@@ -42,7 +42,7 @@ class HiveSigner extends PureComponent {
           .then((result) => {
             if (result) {
               dispatch(updateCurrentAccount({ ...result }));
-              dispatch(addOtherAccount({ username: result.name }));
+              dispatch(addOtherAccount({ ...result }));
               dispatch(loginAction(true));
 
               if (isPinCodeOpen) {
