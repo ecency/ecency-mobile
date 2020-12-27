@@ -255,7 +255,10 @@
     "add_account": "Anaaiauk rahnein",
     "logout": "Afleiþ",
     "cancel": "Fraqiþ",
-    "logout_text": "Wileis bi sunjai afleiþan?"
+    "logout_text": "Wileis bi sunjai afleiþan?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Atgagg du waljan þein feid",
