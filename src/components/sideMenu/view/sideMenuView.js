@@ -62,16 +62,6 @@ const SideMenuView = ({
   }, []);
 
   // Component Functions
-
-  const _handleOnPressAddAccountIcon = () => {
-    // if (!isAddAccountIconActive) {
-    //   setMenuItems(accounts);
-    // } else {
-    //   setMenuItems(isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS);
-    // }
-    // setIsAddAccountIconActive(!isAddAccountIconActive);
-  };
-
   const _handleOnMenuItemPress = (item) => {
     if (item.id === 'logout') {
       ActionSheetRef.current.show();

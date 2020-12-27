@@ -41,12 +41,6 @@ class SideMenuContainer extends Component {
         isCurrentAccount: element.username === currentAccount.name,
       });
     });
-    // accounts.push({
-    //   name: 'Add Account',
-    //   route: ROUTES.SCREENS.LOGIN,
-    //   icon: 'user-follow',
-    //   id: 'add_account',
-    // });
     this.setState({ accounts });
   };
 
