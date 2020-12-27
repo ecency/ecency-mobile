@@ -255,7 +255,10 @@
     "add_account": "Se afikun oruko akọọlẹ",
     "logout": "Jade kuro",
     "cancel": "Fa igi le",
-    "logout_text": "Se o da o loju pe o fe jade kuro?"
+    "logout_text": "Se o da o loju pe o fe jade kuro?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Se atewole lati seto ate igbawole re bi ose fe",
