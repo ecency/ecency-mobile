@@ -255,7 +255,10 @@
     "add_account": "Pridėti paskyrą",
     "logout": "Atsijungti",
     "cancel": "Atšaukti",
-    "logout_text": "Ar tikrai norite atsijungti?"
+    "logout_text": "Ar tikrai norite atsijungti?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Prisijunkite norėdami keisti savo pagrindinį",
