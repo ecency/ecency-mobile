@@ -255,7 +255,10 @@
     "add_account": "Magdagdag ng Account",
     "logout": "Mag-logout",
     "cancel": "Kansel",
-    "logout_text": "Sigurado kang gusto mong mag logout?"
+    "logout_text": "Sigurado kang gusto mong mag logout?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Mag login para i-customize ang iyong feed",
