@@ -255,7 +255,10 @@
     "add_account": "Dodaj konto",
     "logout": "Wyloguj",
     "cancel": "Anuluj",
-    "logout_text": "Czy na pewno chcesz się wylogować?"
+    "logout_text": "Czy na pewno chcesz się wylogować?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Zaloguj się, aby dostosować swój kanał",
