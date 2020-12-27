@@ -255,7 +255,10 @@
     "add_account": "Добавяне на профил",
     "logout": "Изход",
     "cancel": "Отказ",
-    "logout_text": "Сигурни ли сте, че искате да излезете?"
+    "logout_text": "Сигурни ли сте, че искате да излезете?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Влезте, за да персонализирате вашите постове",
