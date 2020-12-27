@@ -255,7 +255,10 @@
     "add_account": "Tambah akaun",
     "logout": "Log Keluar",
     "cancel": "Batal",
-    "logout_text": "Anda pasti mahu log keluar?"
+    "logout_text": "Anda pasti mahu log keluar?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Log masuk untuk menyesuaikan suapan anda",
