@@ -255,7 +255,10 @@
     "add_account": "Lisa konto",
     "logout": "Logi välja",
     "cancel": "Tühista",
-    "logout_text": "Oled kindel, et soovid välja logida?"
+    "logout_text": "Oled kindel, et soovid välja logida?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Logi sisse, et kohandada oma voogu",
