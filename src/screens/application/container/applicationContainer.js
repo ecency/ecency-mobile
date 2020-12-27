@@ -81,6 +81,7 @@ import { encryptKey } from '../../../utils/crypto';
 
 import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
+import persistAccountGenerator from '../../../utils/persistAccountGenerator';
 
 // Workaround
 let previousAppState = 'background';
@@ -517,7 +518,8 @@ class ApplicationContainer extends Component {
             }
             removeUserData(accountData.username);
           } else {
-            dispatch(addOtherAccount({ ...accountData }));
+            const persistAccountData = persistAccountGenerator(accountData);
+            dispatch(addOtherAccount({ ...persistAccountData }));
             // TODO: check post v2.2.5+ or remove setexistuser from login
             setExistUser(true);
           }

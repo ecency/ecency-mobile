@@ -14,6 +14,7 @@ import { login as loginAction, openPinCodeModal } from '../../redux/actions/appl
 
 // Constants
 import { default as ROUTES } from '../../constants/routeNames';
+import persistAccountGenerator from '../../utils/persistAccountGenerator';
 
 class HiveSigner extends PureComponent {
   constructor(props) {
@@ -41,8 +42,10 @@ class HiveSigner extends PureComponent {
         loginWithSC2(code[1], isPinCodeOpen)
           .then((result) => {
             if (result) {
+              const persistAccountData = persistAccountGenerator(result);
+
               dispatch(updateCurrentAccount({ ...result }));
-              dispatch(addOtherAccount({ ...result }));
+              dispatch(addOtherAccount({ ...persistAccountData }));
               dispatch(loginAction(true));
 
               if (isPinCodeOpen) {

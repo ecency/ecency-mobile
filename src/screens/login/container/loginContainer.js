@@ -32,6 +32,7 @@ import ROUTES from '../../../constants/routeNames';
 
 // Component
 import LoginScreen from '../screen/loginScreen';
+import persistAccountGenerator from '../../../utils/persistAccountGenerator';
 
 /*
  *            Props Name        Description                                     Value
@@ -60,9 +61,12 @@ class LoginContainer extends PureComponent {
     login(username, password, isPinCodeOpen)
       .then((result) => {
         if (result) {
+          const persistAccountData = persistAccountGenerator(result);
+
           dispatch(updateCurrentAccount({ ...result }));
-          dispatch(addOtherAccount({ ...result }));
+          dispatch(addOtherAccount({ ...persistAccountData }));
           dispatch(loginAction(true));
+
           userActivity(result.name, 20);
           setExistUser(true);
           this._setPushToken(result.name);
