@@ -255,7 +255,10 @@
     "add_account": "Thêm tài khoản",
     "logout": "Đăng xuất",
     "cancel": "Huỷ",
-    "logout_text": "Bạn có chắc chắn muốn đăng xuất?"
+    "logout_text": "Bạn có chắc chắn muốn đăng xuất?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Đăng nhập để tùy chỉnh nguồn cấp dữ liệu của bạn",
