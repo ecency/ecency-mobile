@@ -255,7 +255,10 @@
     "add_account": "Add Account",
     "logout": "Чыгуу",
     "cancel": "Токтотуу",
-    "logout_text": "Are you sure you want to logout?"
+    "logout_text": "Are you sure you want to logout?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Login to customize your feed",
