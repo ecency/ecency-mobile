@@ -255,7 +255,10 @@
     "add_account": "Konto hinzufügen",
     "logout": "Abmelden",
     "cancel": "Abbrechen",
-    "logout_text": "Bist du sicher, dass du dich ausloggen möchtest?"
+    "logout_text": "Bist du sicher, dass du dich ausloggen möchtest?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Login, um den Feed anzupassen",
