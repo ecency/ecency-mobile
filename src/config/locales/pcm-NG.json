@@ -255,7 +255,10 @@
     "add_account": "Add Account",
     "logout": "Logout",
     "cancel": "Cancel",
-    "logout_text": "You sure say you wan logout?"
+    "logout_text": "You sure say you wan logout?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Login to arrange your tori",
