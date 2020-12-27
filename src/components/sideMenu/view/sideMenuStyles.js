@@ -148,6 +148,5 @@ export default EStyleSheet.create({
   },
   checkIcon: {
     color: '$successColor',
-    paddingHorizontal: 12,
   },
 });
