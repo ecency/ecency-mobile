@@ -255,7 +255,10 @@
     "add_account": "Hesap Ekle",
     "logout": "Çık",
     "cancel": "Vazgeç",
-    "logout_text": "Çıkış yapmak istediginize emin misiniz?"
+    "logout_text": "Çıkış yapmak istediginize emin misiniz?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Giriş yap ve akışını özelleştir.",
