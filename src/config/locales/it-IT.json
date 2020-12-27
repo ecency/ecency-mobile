@@ -255,7 +255,10 @@
     "add_account": "Aggiungi Account",
     "logout": "Disconnettiti",
     "cancel": "Cancella",
-    "logout_text": "Sei sicuro di voler uscire?"
+    "logout_text": "Sei sicuro di voler uscire?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Effettua il Login per personalizzare il tuo feed",
