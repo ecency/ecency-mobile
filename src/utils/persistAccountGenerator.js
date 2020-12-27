@@ -1,4 +1,4 @@
-export default (accountData) => {
+export default (accountData = {}) => {
   const persistData = {};
 
   Object.assign(persistData, {
