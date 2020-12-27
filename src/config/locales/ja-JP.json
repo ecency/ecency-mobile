@@ -255,7 +255,10 @@
     "add_account": "アカウントを追加",
     "logout": "ログアウト",
     "cancel": "キャンセル",
-    "logout_text": "本当にログアウトしますか？"
+    "logout_text": "本当にログアウトしますか？",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "ログインして自分好みのフィードをつくろう",
