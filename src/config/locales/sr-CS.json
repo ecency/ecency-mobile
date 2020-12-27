@@ -255,7 +255,10 @@
     "add_account": "Dodaj Nalog",
     "logout": "Odjavi se",
     "cancel": "Otkaži",
-    "logout_text": "Da li ste sigurni da želite da se odjavite?"
+    "logout_text": "Da li ste sigurni da želite da se odjavite?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Prijavite se kako biste prilagodili vaše novosti",
