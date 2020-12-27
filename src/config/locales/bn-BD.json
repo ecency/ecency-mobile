@@ -255,7 +255,10 @@
     "add_account": "একাউন্ট যোগ করুন",
     "logout": "লগআউট",
     "cancel": "বাতিল করুন",
-    "logout_text": "আপনি কি নিশ্চিতভাবে লগআউট করতে চান?"
+    "logout_text": "আপনি কি নিশ্চিতভাবে লগআউট করতে চান?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "আপনার ফিডটি কাস্টমাইজ করতে লগইন করুন",
