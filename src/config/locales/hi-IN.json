@@ -255,7 +255,10 @@
     "add_account": "खता जोड़ें",
     "logout": "बहार जाएँ",
     "cancel": "रद्द करें",
-    "logout_text": "क्या आप सच में बाहर जाना चाहते हैं?"
+    "logout_text": "क्या आप सच में बाहर जाना चाहते हैं?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "आपकी अपनी संभरण को अपने अनुकूल संयोजित करने के लिए लॉगिन करें",
