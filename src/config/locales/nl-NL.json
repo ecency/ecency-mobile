@@ -255,7 +255,10 @@
     "add_account": "Account toevoegen",
     "logout": "Uitloggen",
     "cancel": "Annuleren",
-    "logout_text": "Weet je zeker dat je wilt uitloggen?"
+    "logout_text": "Weet je zeker dat je wilt uitloggen?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Log in om je feed aan te passen",
