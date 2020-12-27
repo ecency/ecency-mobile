@@ -255,7 +255,10 @@
     "add_account": "Добавить аккаунт",
     "logout": "Выйти",
     "cancel": "Отмена",
-    "logout_text": "Вы уверены, что хотите разлогина?"
+    "logout_text": "Вы уверены, что хотите разлогина?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Войдите, чтобы настроить свою ленту",
