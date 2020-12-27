@@ -60,26 +60,40 @@ class SideMenuContainer extends Component {
     }
   };
 
-  _switchAccount = async (anchor = null) => {
+  _switchAccount = async (switchingAccount = {}) => {
     const { dispatch, currentAccount, navigation, otherAccounts } = this.props;
 
-    if (anchor !== currentAccount.name) {
+    if (switchingAccount.username !== currentAccount.name) {
       navigation.closeDrawer();
 
-      const accountData = otherAccounts.filter((account) => account.name === anchor)[0];
-      const _currentAccount = accountData;
+      const accountData = otherAccounts.filter(
+        (account) => account.username === switchingAccount.username,
+      )[0];
 
-      _currentAccount.username = _currentAccount.name;
+      // control user persist whole data or just username
+      if (accountData.name) {
+        accountData.username = accountData.name;
 
-      dispatch(updateCurrentAccount(_currentAccount));
-      dispatch(isRenderRequired(true));
+        dispatch(updateCurrentAccount(accountData));
+        dispatch(isRenderRequired(true));
 
-      const upToDateCurrentAccount = await switchAccount(anchor);
-      const realmData = await getUserDataWithUsername(anchor);
-      upToDateCurrentAccount.userName = upToDateCurrentAccount.name;
-      upToDateCurrentAccount.local = realmData[0];
+        const upToDateCurrentAccount = await switchAccount(accountData.name);
+        const realmData = await getUserDataWithUsername(accountData.name);
 
-      dispatch(updateCurrentAccount(upToDateCurrentAccount));
+        upToDateCurrentAccount.username = upToDateCurrentAccount.name;
+        upToDateCurrentAccount.local = realmData[0];
+
+        dispatch(updateCurrentAccount(upToDateCurrentAccount));
+      } else {
+        const _currentAccount = await switchAccount(accountData.username);
+        const realmData = await getUserDataWithUsername(accountData.username);
+
+        _currentAccount.username = _currentAccount.name;
+        _currentAccount.local = realmData[0];
+
+        dispatch(updateCurrentAccount(_currentAccount));
+        dispatch(isRenderRequired(true));
+      }
     }
   };
 

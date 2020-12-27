@@ -129,7 +129,7 @@ const SideMenuView = ({
   );
 
   const _renderAccountTile = (item) => (
-    <TouchableOpacity style={styles.accountTile} onPress={() => switchAccount(item.username)}>
+    <TouchableOpacity style={styles.accountTile} onPress={() => switchAccount(item)}>
       <UserAvatar username={item.username} />
       <View style={styles.nameContainer}>
         {item.displayName && <Text style={styles.displayName}>{item.displayName}</Text>}
