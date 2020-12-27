@@ -255,7 +255,10 @@
     "add_account": "إضافة حساب",
     "logout": "تسجيل الخروج",
     "cancel": "إلغاء",
-    "logout_text": "هل أنت متأكد أنك تريد تسجيل الخروج؟"
+    "logout_text": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "تسجيل الدخول لتخصيص خلاصتك",
