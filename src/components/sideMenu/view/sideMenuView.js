@@ -207,7 +207,7 @@ const SideMenuView = ({
             data={accounts}
             ItemSeparatorComponent={() => <Separator style={styles.separator} />}
             renderItem={({ item }) => _renderAccountTile(item)}
-            scrollEnabled={false}
+            scrollEnabled
           />
           <Separator style={styles.separator} />
           <View style={styles.buttonContainer}>
