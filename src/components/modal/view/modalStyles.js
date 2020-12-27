@@ -16,7 +16,7 @@ export default EStyleSheet.create({
   modalHeader: {
     backgroundColor: '$primaryBackgroundColor',
     flexDirection: 'row',
-    height: 40,
+    padding: 16,
     justifyContent: 'center',
   },
   headerTitle: {

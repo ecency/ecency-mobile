@@ -31,16 +31,15 @@ class SideMenuContainer extends Component {
     const { currentAccount } = this.props;
 
     const accounts = [];
-    console.log(otherAccounts, 'otherAccounts');
+
     otherAccounts.forEach((element) => {
-      if (element.username !== currentAccount.name) {
-        accounts.push({
-          name: `@${element.username}`,
-          username: element.username,
-          id: element.username,
-          displayName: element.display_name,
-        });
-      }
+      accounts.unshift({
+        name: `@${element.username}`,
+        username: element.username,
+        id: element.username,
+        displayName: element.display_name,
+        isCurrentAccount: element.username === currentAccount.name,
+      });
     });
     // accounts.push({
     //   name: 'Add Account',

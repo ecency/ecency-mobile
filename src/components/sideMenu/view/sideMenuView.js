@@ -128,17 +128,28 @@ const SideMenuView = ({
     </TouchableOpacity>
   );
 
+  const _handlePressAccountTile = (item) => {
+    if (!item.isCurrentAccount) {
+      switchAccount(item);
+    }
+
+    setIsAccountsModalOpen(false);
+  };
+
   const _renderAccountTile = (item) => (
-    <TouchableOpacity style={styles.accountTile} onPress={() => switchAccount(item)}>
-      <UserAvatar username={item.username} />
-      <View style={styles.nameContainer}>
-        {item.displayName && <Text style={styles.displayName}>{item.displayName}</Text>}
-        <Text style={styles.name}>{item.name}</Text>
+    <TouchableOpacity style={styles.accountTile} onPress={() => _handlePressAccountTile(item)}>
+      <View style={styles.avatarAndNameContainer}>
+        <UserAvatar username={item.username} />
+        <View style={styles.nameContainer}>
+          {item.displayName && <Text style={styles.displayName}>{item.displayName}</Text>}
+          <Text style={styles.name}>{item.name}</Text>
+        </View>
       </View>
+      {item.isCurrentAccount && (
+        <Icon iconType="AntDesign" name="checkcircle" style={styles.checkIcon} size={24} />
+      )}
     </TouchableOpacity>
   );
-
-  console.log(accounts, 'accounts');
 
   return (
     <View style={styles.container}>
@@ -171,10 +182,10 @@ const SideMenuView = ({
               <TouchableOpacity style={styles.iconWrapper} onPress={_toggleAccountsModalOpen}>
                 <Icon
                   iconType="SimpleLineIcons"
+                  style={styles.optionIcon}
                   name="options"
                   color="white"
                   size={16}
-                  style={styles.addAccountIcon}
                 />
               </TouchableOpacity>
             </View>
@@ -201,9 +212,10 @@ const SideMenuView = ({
       <Modal
         isFullScreen={false}
         isOpen={isAccountsModalOpen}
-        isTransparent
         isBottomModal
+        isTransparent
         isRadius
+        coverScreen={false}
         title="Accounts"
         onBackdropPress={_toggleAccountsModalOpen}
       >

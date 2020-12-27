@@ -96,19 +96,25 @@ export default EStyleSheet.create({
     flexDirection: 'row',
   },
   iconWrapper: {
-    width: 30,
-    height: 30,
+    width: 32,
+    height: 32,
     borderRadius: 16,
     borderColor: 'white',
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  optionIcon: {
+    height: 16,
+    width: 16,
+  },
   accountTile: {
     height: 60,
     flexDirection: 'row',
     paddingHorizontal: 16,
     alignItems: 'center',
+    flex: 1,
+    justifyContent: 'space-between',
   },
   nameContainer: {
     marginLeft: 8,
@@ -135,5 +141,13 @@ export default EStyleSheet.create({
   separator: {
     backgroundColor: '$darkIconColor',
     height: 0.5,
+  },
+  avatarAndNameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  checkIcon: {
+    color: '$successColor',
+    paddingHorizontal: 12,
   },
 });
