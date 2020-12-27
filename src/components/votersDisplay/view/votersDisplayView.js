@@ -49,6 +49,7 @@ const VotersDisplayView = ({ votes, navigation }) => {
         isHasRightItem
         isRightColor={item.is_down_vote}
         rightText={value}
+        isLoggedIn
         handleOnPress={() => _handleOnUserPress(item.voter)}
         isClickable
         subRightText={percent}
