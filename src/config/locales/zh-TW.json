@@ -255,7 +255,10 @@
     "add_account": "添加帳號",
     "logout": "登出",
     "cancel": "取消",
-    "logout_text": "您確定要登出嗎？"
+    "logout_text": "您確定要登出嗎？",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "登入後定制您的朋友圈",
