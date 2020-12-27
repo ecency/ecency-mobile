@@ -44,7 +44,6 @@ const SideMenuView = ({
   const [menuItems, setMenuItems] = useState(
     isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
   );
-  const [isAddAccountIconActive, setIsAddAccountIconActive] = useState(false);
   const [storageT, setStorageT] = useState('R');
   const [isAccountsModalOpen, setIsAccountsModalOpen] = useState(false);
 
@@ -76,9 +75,6 @@ const SideMenuView = ({
   };
 
   useEffect(() => {
-    if (isAddAccountIconActive) {
-      setMenuItems(accounts);
-    }
     setMenuItems(isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS);
   }, [isLoggedIn]);
 
@@ -108,11 +104,7 @@ const SideMenuView = ({
           <UserAvatar noAction username={item.item.username} style={styles.otherUserAvatar} />
         )}
         <Text style={styles.listItemText}>
-          {isAddAccountIconActive
-            ? menuItems[menuItems.length - 1].id === item.item.id
-              ? intl.formatMessage({ id: `side_menu.${item.item.id}` })
-              : item.item.name
-            : intl.formatMessage({ id: `side_menu.${item.item.id}` })}
+          {intl.formatMessage({ id: `side_menu.${item.item.id}` })}
         </Text>
       </View>
     </TouchableOpacity>
@@ -206,7 +198,7 @@ const SideMenuView = ({
         isTransparent
         isRadius
         coverScreen={false}
-        title="Accounts"
+        title={intl.formatMessage({ id: 'side_menu.accounts' })}
         onBackdropPress={_toggleAccountsModalOpen}
       >
         <SafeAreaView style={styles.accountModal}>
@@ -220,7 +212,7 @@ const SideMenuView = ({
           <Separator style={styles.separator} />
           <View style={styles.buttonContainer}>
             <TextButton
-              text="Create a new account"
+              text={intl.formatMessage({ id: 'side_menu.create_a_new_account' })}
               textStyle={styles.textButton}
               onPress={() => navigateToRoute(ROUTES.SCREENS.REGISTER)}
             />
@@ -228,7 +220,7 @@ const SideMenuView = ({
           <Separator style={styles.separator} />
           <View style={styles.buttonContainer}>
             <TextButton
-              text="Add an existing account"
+              text={intl.formatMessage({ id: 'side_menu.add_an_existing_account' })}
               textStyle={styles.textButton}
               onPress={() => navigateToRoute(ROUTES.SCREENS.LOGIN)}
             />
