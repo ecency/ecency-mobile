@@ -255,7 +255,10 @@
     "add_account": "اضافه کردن حساب کاربری",
     "logout": "خروج از حساب",
     "cancel": "صرف نظر",
-    "logout_text": "آیا مطمئنید که می‌خواهید خارج شوید؟"
+    "logout_text": "آیا مطمئنید که می‌خواهید خارج شوید؟",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "برای شخصی سازی فید های خود وارد شوید",
