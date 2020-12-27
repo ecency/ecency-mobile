@@ -33,7 +33,7 @@ class SideMenuContainer extends Component {
     const accounts = [];
 
     otherAccounts.forEach((element) => {
-      accounts.unshift({
+      accounts.push({
         name: `@${element.username}`,
         username: element.username,
         id: element.username,
