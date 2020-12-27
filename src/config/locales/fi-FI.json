@@ -256,9 +256,9 @@
     "logout": "Kirjaudu ulos",
     "cancel": "Peruuta",
     "logout_text": "Haluatko varmasti kirjautua ulos?",
-    "create_a_new_account": "Create a new account",
-    "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts"
+    "create_a_new_account": "Luo uusi tili",
+    "add_an_existing_account": "Lisää olemassa oleva tili",
+    "accounts": "Tilit"
   },
   "header": {
     "title": "Kirjaudu mukauttaaksesi syötettäsi",
