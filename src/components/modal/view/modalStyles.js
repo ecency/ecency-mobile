@@ -16,7 +16,7 @@ export default EStyleSheet.create({
   modalHeader: {
     backgroundColor: '$primaryBackgroundColor',
     flexDirection: 'row',
-    height: 40,
+    padding: 16,
     justifyContent: 'center',
   },
   headerTitle: {
@@ -25,8 +25,7 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
     fontSize: 20,
-    marginLeft: 50,
-    fontWeight: '500',
+    fontWeight: '800',
   },
   closeButton: {
     marginRight: 24,
@@ -37,7 +36,9 @@ export default EStyleSheet.create({
     fontSize: 24,
     color: '$primaryBlack',
   },
-  safeArea: {
-    backgroundColor: '$primaryBackgroundColor',
+  bottomModal: {
+    justifyContent: 'flex-end',
+    margin: 0,
+    backgroundColor: 'rgba(0,0,0,0.35)',
   },
 });

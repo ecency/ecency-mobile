@@ -14,9 +14,4 @@ export default EStyleSheet.create({
     marginBottom: 8,
     color: '$primaryBlack',
   },
-  separator: {
-    width: '100%',
-    height: 1,
-    color: '$modalBackground',
-  },
 });

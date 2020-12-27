@@ -30,7 +30,7 @@ export default {
   $darkIconColor: '#526d91',
   $dangerColor: '#fff',
   $warningColor: '#fff',
-  $successColor: '#fff',
+  $successColor: '#4BB543',
   $disableButton: '#fff',
   $shadowColor: '#80000000',
   $disableGray: '#fff',

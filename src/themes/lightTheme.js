@@ -30,7 +30,7 @@ export default {
   $borderTopColor: '#cfcfcf',
   $dangerColor: '#fff',
   $warningColor: '#fff',
-  $successColor: '#fff',
+  $successColor: '#4BB543',
   $disableButton: '#fff',
   $shadowColor: '#b0b0b0',
   $disableGray: '#fff',
