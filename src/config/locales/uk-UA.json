@@ -255,7 +255,10 @@
     "add_account": "Додати обліковий запис",
     "logout": "Вийти",
     "cancel": "Скасувати",
-    "logout_text": "Впевнені, що хочете вийти?"
+    "logout_text": "Впевнені, що хочете вийти?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Увійдіть, щоб налаштувати свій канал",
