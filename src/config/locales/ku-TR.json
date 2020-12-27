@@ -255,7 +255,10 @@
     "add_account": "Ajimêr Tevlî Bike",
     "logout": "Derkeve",
     "cancel": "Betal",
-    "logout_text": "Bi rastî jî tu dixwazî jê derkevî?"
+    "logout_text": "Bi rastî jî tu dixwazî jê derkevî?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Têkevê û herka xwe kesane bike",
