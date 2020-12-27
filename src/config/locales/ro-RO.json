@@ -255,7 +255,10 @@
     "add_account": "Adaugare Cont",
     "logout": "Deconectare",
     "cancel": "Anulează",
-    "logout_text": "Esti sigur că vrei să te deconectezi?"
+    "logout_text": "Esti sigur că vrei să te deconectezi?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Autentifică-te pentru a personaliza feed-ul",
