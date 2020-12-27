@@ -255,7 +255,10 @@
     "add_account": "Ajouter un compte",
     "logout": "Déconnexion",
     "cancel": "Annuler",
-    "logout_text": "Voulez-vous vraiment vous déconnecter?"
+    "logout_text": "Voulez-vous vraiment vous déconnecter?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Connectez-vous pour personnaliser votre flux",
