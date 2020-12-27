@@ -255,7 +255,10 @@
     "add_account": "계정 추가",
     "logout": "로그아웃",
     "cancel": "취소",
-    "logout_text": "로그 아웃 하시겠습니까?"
+    "logout_text": "로그 아웃 하시겠습니까?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "맞춤형 피드를 원하신다면 로그인하세요",
