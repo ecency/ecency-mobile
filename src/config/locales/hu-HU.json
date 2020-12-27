@@ -255,7 +255,10 @@
     "add_account": "Fiók Hozzáadása",
     "logout": "Kijelentkezés",
     "cancel": "Elvet",
-    "logout_text": "Biztos ki szeretnél jelentkezni?"
+    "logout_text": "Biztos ki szeretnél jelentkezni?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Jelentkezz be a hírfolyam testreszabásához",
