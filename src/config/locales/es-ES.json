@@ -256,9 +256,9 @@
     "logout": "Cerrar sesión",
     "cancel": "Cancelar",
     "logout_text": "¿Estás seguro de que quieres salir?",
-    "create_a_new_account": "Create a new account",
-    "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts"
+    "create_a_new_account": "Crea una cuenta nueva",
+    "add_an_existing_account": "Añadir cuenta existente",
+    "accounts": "Cuentas"
   },
   "header": {
     "title": "Inicie sesión para personalizar su inicio",
