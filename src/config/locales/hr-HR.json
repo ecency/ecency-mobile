@@ -255,7 +255,10 @@
     "add_account": "Dodaj Profil",
     "logout": "Odjava",
     "cancel": "Poništi",
-    "logout_text": "Jeste li sigurni da se želite odjaviti?"
+    "logout_text": "Jeste li sigurni da se želite odjaviti?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Ulogirajte se kako bi ste konfigurirali obavijesti",
