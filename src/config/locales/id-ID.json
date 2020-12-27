@@ -255,7 +255,10 @@
     "add_account": "Tambahkan Akun",
     "logout": "Keluar",
     "cancel": "Batal",
-    "logout_text": "Apakah Anda yakin ingin keluar?"
+    "logout_text": "Apakah Anda yakin ingin keluar?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Login untuk menyesuaikan feed Anda",
