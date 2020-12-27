@@ -34,7 +34,7 @@ export default EStyleSheet.create({
     marginRight: 10,
   },
   userInfoWrapper: {
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
     marginLeft: 15,
     width: 120,
   },
@@ -94,5 +94,46 @@ export default EStyleSheet.create({
     width: '100%',
     height: '100%',
     flexDirection: 'row',
+  },
+  iconWrapper: {
+    width: 30,
+    height: 30,
+    borderRadius: 16,
+    borderColor: 'white',
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  accountTile: {
+    height: 60,
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    alignItems: 'center',
+  },
+  nameContainer: {
+    marginLeft: 8,
+  },
+  displayName: {
+    fontWeight: '600',
+    fontSize: 16,
+    color: '$primaryBlack',
+  },
+  name: {
+    color: '$primaryDarkGray',
+  },
+  accountModal: {
+    backgroundColor: '$primaryBackgroundColor',
+  },
+  textButton: {
+    color: '$primaryBlue',
+  },
+  buttonContainer: {
+    height: 50,
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+  },
+  separator: {
+    backgroundColor: '$darkIconColor',
+    height: 0.5,
   },
 });

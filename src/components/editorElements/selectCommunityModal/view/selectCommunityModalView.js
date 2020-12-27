@@ -4,6 +4,7 @@ import { injectIntl } from 'react-intl';
 
 import CommunityCard from '../../../communityCard';
 import { SearchInput } from '../../../searchInput';
+import { Separator } from '../../../basicUIElements';
 
 import globalStyles from '../../../../globalStyles';
 import styles from './selectCommunityModalStyles';
@@ -106,7 +107,5 @@ const SelectCommunityModalView = ({
     </ScrollView>
   );
 };
-
-const Separator = () => <View style={styles.separator} />;
 
 export default injectIntl(SelectCommunityModalView);

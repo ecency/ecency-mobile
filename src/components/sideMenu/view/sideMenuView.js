@@ -1,21 +1,31 @@
 import React, { Component, useEffect, useState, useRef } from 'react';
-import { View, Text, ImageBackground, FlatList, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  ImageBackground,
+  FlatList,
+  TouchableOpacity,
+  SafeAreaView,
+} from 'react-native';
 import { injectIntl, useIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
 import ActionSheet from 'react-native-actionsheet';
 import VersionNumber from 'react-native-version-number';
 import { getStorageType } from '../../../realm/realm';
+import Modal from '../../modal';
 
 // Components
-import { IconButton } from '../../iconButton';
 import { Icon } from '../../icon';
 import { UserAvatar } from '../../userAvatar';
+import Separator from '../../basicUIElements/view/separator/separatorView';
 
 // Constants
 import MENU from '../../../constants/sideMenuItems';
+import { default as ROUTES } from '../../../constants/routeNames';
 
 // Styles
 import styles from './sideMenuStyles';
+import { TextButton } from '../../buttons';
 
 // Images
 const SIDE_MENU_BACKGROUND = require('../../../assets/side_menu_background.png');
@@ -36,6 +46,7 @@ const SideMenuView = ({
   );
   const [isAddAccountIconActive, setIsAddAccountIconActive] = useState(false);
   const [storageT, setStorageT] = useState('R');
+  const [isAccountsModalOpen, setIsAccountsModalOpen] = useState(false);
 
   // Component Life Cycles
   useEffect(() => {
@@ -53,13 +64,12 @@ const SideMenuView = ({
   // Component Functions
 
   const _handleOnPressAddAccountIcon = () => {
-    if (!isAddAccountIconActive) {
-      setMenuItems(accounts);
-    } else {
-      setMenuItems(isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS);
-    }
-
-    setIsAddAccountIconActive(!isAddAccountIconActive);
+    // if (!isAddAccountIconActive) {
+    //   setMenuItems(accounts);
+    // } else {
+    //   setMenuItems(isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS);
+    // }
+    // setIsAddAccountIconActive(!isAddAccountIconActive);
   };
 
   const _handleOnMenuItemPress = (item) => {
@@ -68,11 +78,11 @@ const SideMenuView = ({
       return;
     }
 
-    if (item.route) {
-      navigateToRoute(item.route);
-    } else {
-      switchAccount(item.username);
-    }
+    navigateToRoute(item.route);
+  };
+
+  const _toggleAccountsModalOpen = () => {
+    setIsAccountsModalOpen(!isAccountsModalOpen);
   };
 
   useEffect(() => {
@@ -118,6 +128,18 @@ const SideMenuView = ({
     </TouchableOpacity>
   );
 
+  const _renderAccountTile = (item) => (
+    <TouchableOpacity style={styles.accountTile} onPress={() => switchAccount(item.username)}>
+      <UserAvatar username={item.username} />
+      <View style={styles.nameContainer}>
+        {item.displayName && <Text style={styles.displayName}>{item.displayName}</Text>}
+        <Text style={styles.name}>{item.name}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+
+  console.log(accounts, 'accounts');
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -130,7 +152,12 @@ const SideMenuView = ({
           {isLoggedIn && (
             <View style={styles.headerContentWrapper}>
               <UserAvatar username={currentAccount.name} size="xl" style={styles.userAvatar} />
-              <View style={styles.userInfoWrapper}>
+              <View
+                style={[
+                  styles.userInfoWrapper,
+                  currentAccount.display_name && { alignSelf: 'flex-end' },
+                ]}
+              >
                 {currentAccount.display_name && (
                   <Text numberOfLines={1} ellipsizeMode="tail" style={styles.username}>
                     {currentAccount.display_name}
@@ -141,16 +168,15 @@ const SideMenuView = ({
                 </Text>
               </View>
 
-              <View>
-                <IconButton
+              <TouchableOpacity style={styles.iconWrapper} onPress={_toggleAccountsModalOpen}>
+                <Icon
                   iconType="SimpleLineIcons"
-                  name={isAddAccountIconActive ? 'minus' : 'plus'}
+                  name="options"
                   color="white"
-                  size={20}
-                  onPress={_handleOnPressAddAccountIcon}
+                  size={16}
                   style={styles.addAccountIcon}
                 />
-              </View>
+              </TouchableOpacity>
             </View>
           )}
         </ImageBackground>
@@ -172,6 +198,41 @@ const SideMenuView = ({
           index === 0 ? handleLogout() : null;
         }}
       />
+      <Modal
+        isFullScreen={false}
+        isOpen={isAccountsModalOpen}
+        isTransparent
+        isBottomModal
+        isRadius
+        title="Accounts"
+        onBackdropPress={_toggleAccountsModalOpen}
+      >
+        <SafeAreaView style={styles.accountModal}>
+          <Separator style={styles.separator} />
+          <FlatList
+            data={accounts}
+            ItemSeparatorComponent={() => <Separator style={styles.separator} />}
+            renderItem={({ item }) => _renderAccountTile(item)}
+            scrollEnabled={false}
+          />
+          <Separator style={styles.separator} />
+          <View style={styles.buttonContainer}>
+            <TextButton
+              text="Create a new account"
+              textStyle={styles.textButton}
+              onPress={() => navigateToRoute(ROUTES.SCREENS.REGISTER)}
+            />
+          </View>
+          <Separator style={styles.separator} />
+          <View style={styles.buttonContainer}>
+            <TextButton
+              text="Add an existing account"
+              textStyle={styles.textButton}
+              onPress={() => navigateToRoute(ROUTES.SCREENS.LOGIN)}
+            />
+          </View>
+        </SafeAreaView>
+      </Modal>
     </View>
   );
 };

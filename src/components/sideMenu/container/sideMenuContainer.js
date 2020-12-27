@@ -8,9 +8,6 @@ import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 
 import { logout, isRenderRequired } from '../../../redux/actions/applicationActions';
 
-// Constanst
-import { default as ROUTES } from '../../../constants/routeNames';
-
 // Component
 import SideMenuView from '../view/sideMenuView';
 
@@ -34,21 +31,23 @@ class SideMenuContainer extends Component {
     const { currentAccount } = this.props;
 
     const accounts = [];
+    console.log(otherAccounts, 'otherAccounts');
     otherAccounts.forEach((element) => {
-      if (element.name !== currentAccount.name) {
+      if (element.username !== currentAccount.name) {
         accounts.push({
-          name: `@${element.name}`,
-          username: element.name,
-          id: element.name,
+          name: `@${element.username}`,
+          username: element.username,
+          id: element.username,
+          displayName: element.display_name,
         });
       }
     });
-    accounts.push({
-      name: 'Add Account',
-      route: ROUTES.SCREENS.LOGIN,
-      icon: 'user-follow',
-      id: 'add_account',
-    });
+    // accounts.push({
+    //   name: 'Add Account',
+    //   route: ROUTES.SCREENS.LOGIN,
+    //   icon: 'user-follow',
+    //   id: 'add_account',
+    // });
     this.setState({ accounts });
   };
 

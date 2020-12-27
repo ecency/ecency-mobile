@@ -102,6 +102,7 @@ import {
   WalletDetailsPlaceHolder,
   WalletLineItem,
   WalletUnclaimedPlaceHolder,
+  Separator,
 } from './basicUIElements';
 
 export {
@@ -203,6 +204,7 @@ export {
   WalletDetailsPlaceHolder,
   WalletLineItem,
   WalletUnclaimedPlaceHolder,
+  Separator,
   HorizontalIconList,
   PopoverWrapper,
 };
