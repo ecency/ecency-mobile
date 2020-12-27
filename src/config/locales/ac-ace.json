@@ -255,7 +255,10 @@
     "add_account": "Tamah akun",
     "logout": "Teubit",
     "cancel": "Batëu",
-    "logout_text": "Peu betoi neu teubit?"
+    "logout_text": "Peu betoi neu teubit?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Tamöeng untuk seusuaikan haba deuh bak dröen",
