@@ -255,7 +255,10 @@
     "add_account": "Adicionar conta",
     "logout": "Sair",
     "cancel": "Cancelar",
-    "logout_text": "Tem certeza que deseja sair?"
+    "logout_text": "Tem certeza que deseja sair?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Login para personalizar o seu feed",
