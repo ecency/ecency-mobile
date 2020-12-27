@@ -255,7 +255,10 @@
     "add_account": "Lisää tili",
     "logout": "Kirjaudu ulos",
     "cancel": "Peruuta",
-    "logout_text": "Haluatko varmasti kirjautua ulos?"
+    "logout_text": "Haluatko varmasti kirjautua ulos?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Kirjaudu mukauttaaksesi syötettäsi",
