@@ -255,7 +255,10 @@
     "add_account": "הוסף/י חשבון",
     "logout": "התנתק/י",
     "cancel": "ביטול",
-    "logout_text": "האם את\\ה בטוח\\ה שברצונך להתנתק?"
+    "logout_text": "האם את\\ה בטוח\\ה שברצונך להתנתק?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "התחבר\\י כדי לעצב אישית את הפיד שלך",
