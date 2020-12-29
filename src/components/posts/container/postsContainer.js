@@ -146,7 +146,7 @@ const PostsContainer = ({
 
   useEffect(() => {
     if (!communities.loading) {
-      if (!communities.error && communities.data.length > 0) {
+      if (!communities.error && communities.data?.length > 0) {
         _formatRecommendedCommunities(communities.data);
       }
     }
