@@ -71,7 +71,7 @@
     "withdraw_steem": "Withdraw HIVE",
     "withdraw_sbd": "Withdraw HBD",
     "transfer_to_savings": "To Savings",
-    "convert": "Convert",
+    "convert": "Konverteeri",
     "escrow_transfer": "Escrow Transfer",
     "escrow_dispute": "Escrow Dispute",
     "escrow_release": "Escrow Release",
@@ -86,10 +86,10 @@
       "buy": "GET POINTS"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "HIVE Hoius"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "HBD Hoius"
     },
     "steem": {
       "title": "HIVE",
