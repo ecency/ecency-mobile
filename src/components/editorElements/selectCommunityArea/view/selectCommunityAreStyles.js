@@ -4,7 +4,7 @@ export default EStyleSheet.create({
   selectCommunityAreaViewContainer: {
     alignItems: 'center',
     flexDirection: 'row',
-    paddingVertical: 4,
+    paddingVertical: 8,
   },
   chooseACommunityText: {
     marginHorizontal: 8,

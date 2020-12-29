@@ -7,6 +7,7 @@ import { Icon } from '../../../icon';
 import globalStyles from '../../../../globalStyles';
 
 import styles from './selectCommunityAreStyles';
+import { Separator } from '../../../basicUIElements';
 
 const SelectCommunityAreaView = ({
   community,

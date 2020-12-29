@@ -57,7 +57,7 @@ const SelectCommunityModalView = ({
           />
           {!subscribedCommunities.loading &&
             !subscribedCommunities.error &&
-            subscribedCommunities.data.length > 0 && (
+            subscribedCommunities.data?.length > 0 && (
               <View>
                 <Text style={[globalStyles.label, styles.title]}>
                   {intl.formatMessage({ id: 'editor.my_communities' }).toUpperCase()}
@@ -80,10 +80,9 @@ const SelectCommunityModalView = ({
                 />
               </View>
             )}
-          {!topCommunities.loading && !topCommunities.error && topCommunities.data.length > 0 && (
+          {!topCommunities.loading && !topCommunities.error && topCommunities.data?.length > 0 && (
             <View>
               <Text style={[globalStyles.label, styles.title]}>
-                {' '}
                 {intl.formatMessage({ id: 'editor.top_communities' }).toUpperCase()}
               </Text>
               <FlatList

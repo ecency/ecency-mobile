@@ -12,6 +12,8 @@ import { IconButton } from '../../iconButton';
 import { PostBody } from '../../postElements';
 import { StickyBar } from '../../basicUIElements';
 import { TextInput } from '../../textInput';
+// Components
+import { TitleArea, TagArea, TagInput, SummaryArea } from '../../index';
 
 import { ThemeContainer } from '../../../containers';
 
@@ -32,6 +34,12 @@ const MarkdownEditorView = ({
   handleIsValid,
   componentID,
   uploadedImage,
+  isEdit,
+  post,
+  fields,
+  onTagChanged,
+  onTitleChanged,
+  getCommunity,
 }) => {
   const [text, setText] = useState(draftBody || '');
   const [selection, setSelection] = useState({ start: 0, end: 0 });
@@ -220,32 +228,60 @@ const MarkdownEditorView = ({
       keyboardVerticalOffset={Platform.select({ ios: 0, android: 30 })}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      {!isPreviewActive ? (
-        <ThemeContainer>
-          {({ isDarkTheme }) => (
-            <TextInput
-              multiline
-              autoCorrect={true}
-              autoFocus={true}
-              onChangeText={_changeText}
-              onSelectionChange={_handleOnSelectionChange}
-              placeholder={intl.formatMessage({
-                id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
-              })}
-              placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
-              selectionColor="#357ce6"
-              style={styles.textWrapper}
-              underlineColorAndroid="transparent"
-              innerRef={inputRef}
-              editable={editable}
-              contextMenuHidden={false}
-              autoGrow={false}
-            />
-          )}
-        </ThemeContainer>
-      ) : (
-        _renderPreview()
-      )}
+      <ScrollView>
+        {isReply && !isEdit && <SummaryArea summary={post.summary} />}
+        {!isReply && (
+          <TitleArea
+            value={fields.title}
+            onChange={onTitleChanged}
+            componentID="title"
+            intl={intl}
+          />
+        )}
+        {!isReply && !isPreviewActive && (
+          <TagInput
+            value={fields.tags}
+            componentID="tag-area"
+            intl={intl}
+            handleTagChanged={onTagChanged}
+            setCommunity={getCommunity}
+          />
+        )}
+        {!isReply && isPreviewActive && (
+          <TagArea
+            draftChips={fields.tags.length > 0 ? fields.tags : null}
+            componentID="tag-area"
+            intl={intl}
+          />
+        )}
+        {!isPreviewActive ? (
+          <ThemeContainer>
+            {({ isDarkTheme }) => (
+              <TextInput
+                multiline
+                autoCorrect={true}
+                autoFocus={true}
+                onChangeText={_changeText}
+                onSelectionChange={_handleOnSelectionChange}
+                placeholder={intl.formatMessage({
+                  id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
+                })}
+                placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
+                selectionColor="#357ce6"
+                style={styles.textWrapper}
+                underlineColorAndroid="transparent"
+                innerRef={inputRef}
+                editable={editable}
+                contextMenuHidden={false}
+                autoGrow={false}
+                scrollEnabled={false}
+              />
+            )}
+          </ThemeContainer>
+        ) : (
+          _renderPreview()
+        )}
+      </ScrollView>
       {!isPreviewActive && _renderEditorButtons()}
       <ActionSheet
         ref={galleryRef}
