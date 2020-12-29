@@ -14,8 +14,11 @@ import {
   TOAST_NOTIFICATION,
 } from '../constants/constants';
 
-import { getCommunities, getSubscriptions } from '../../providers/hive/hive';
-import { subscribeCommunity as subscribeCommunityReq } from '../../providers/hive/dhive';
+import {
+  getCommunities,
+  getSubscriptions,
+  subscribeCommunity as subscribeCommunityReq,
+} from '../../providers/hive/dhive';
 
 // Fetch Communities
 export const fetchCommunities = (last, limit, query, sort, observer) => {
