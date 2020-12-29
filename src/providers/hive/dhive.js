@@ -249,7 +249,7 @@ export const getUser = async (user, loggedIn = true) => {
 
 const cache = {};
 const patt = /hive-\d\w+/g;
-export const getCommunity = async (tag, observer = '') =>
+export const getCommunity = (tag, observer = '') =>
   new Promise(async (resolve, reject) => {
     try {
       const community = await client.call('bridge', 'get_community', {
@@ -292,6 +292,42 @@ export const getCommunityTitle = async (tag) =>
     }
 
     resolve(tag);
+  });
+
+export const getCommunities = (last = '', limit = 100, query = '', sort = 'rank', observer = '') =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const data = await client.call('bridge', 'list_communities', {
+        last,
+        limit,
+        query,
+        sort,
+        observer,
+      });
+      if (data) {
+        resolve(data);
+      } else {
+        resolve({});
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+export const getSubscriptions = (account = '') =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const data = await client.call('bridge', 'list_all_subscriptions', {
+        account,
+      });
+      if (data) {
+        resolve(data);
+      } else {
+        resolve({});
+      }
+    } catch (error) {
+      reject(error);
+    }
   });
 
 // TODO: Move to utils folder

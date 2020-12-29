@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { debounce } from 'lodash';
 
 // HIVE
-import { getCommunities, getSubscriptions } from '../../../../providers/hive/hive';
+import { getCommunities, getSubscriptions } from '../../../../providers/hive/dhive';
 
 import SelectCommunityModalView from '../view/selectCommunityModalView';
 
