@@ -420,20 +420,20 @@
     "promoted": "Promoted",
     "author_payout": "Author Payout",
     "curation_payout": "Curation Payout",
-    "payout_date": "Payout",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "payout_date": "Väljamakse",
+    "beneficiaries": "Kasusaajad",
+    "warn_zero_payout": "Kogus peab väljamakseks olema vähemalt $0.02",
     "breakdown": "Breakdown"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share",
-    "bookmarks": "add to bookmarks",
+    "copy": "kopeeri link",
+    "reblog": "jaga",
+    "reply": "vasta",
+    "share": "jaga",
+    "bookmarks": "lisa järjehoidjatesse",
     "promote": "reklaami",
     "boost": "võimenda",
-    "report": "report"
+    "report": "teavita"
   },
   "deep_link": {
     "no_existing_user": "Kasutaja ei eksisteeri",
@@ -446,23 +446,23 @@
   "comment_filter": {
     "trending": "TOP",
     "reputation": "MAINE",
-    "votes": "VOTE",
-    "age": "AGE",
+    "votes": "HÄÄL",
+    "age": "VANUS",
     "top": "TOP",
-    "time": "TIME"
+    "time": "AEG"
   },
   "transfer": {
     "from": "Kellelt",
     "to": "Kellele",
     "amount_information": "Drag the slider to adjust the amount",
-    "amount": "Amount",
+    "amount": "Kogus",
     "memo": "Märge",
     "information": "Oled kindel, et soovid raha üle kanda?",
     "amount_desc": "Saldo",
     "memo_desc": "See märge on avalik",
     "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
     "to_placeholder": "Kasutajanimi",
-    "memo_placeholder": "Enter your notes here",
+    "memo_placeholder": "Jäta oma märkmed siia",
     "transfer_token": "Ülekanne",
     "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
@@ -476,23 +476,23 @@
     "stop_information": "Are you sure want to stop?",
     "percent": "Percent",
     "auto_vests": "Auto Vests",
-    "save": "SAVE",
+    "save": "SALVESTA",
     "percent_information": "Percent info",
-    "next": "NEXT",
+    "next": "EDASI",
     "delegate": "Delegate",
     "power_down": "Power Down",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
-    "incoming_funds": "Incoming Funds",
-    "stop": "Stop",
-    "address_view": "View address"
+    "withdraw_steem": "Võta HIVE välja",
+    "withdraw_sbd": "Võta HIVE Dollar välja",
+    "incoming_funds": "Sissetulevad varad",
+    "stop": "Peata",
+    "address_view": "Näita aadressi"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
-    "next": "NEXT",
+    "title": "Osta Punkte",
+    "buy": "OSTA Punkte",
+    "next": "EDASI",
     "account": {
-      "title": "Get Account Boost",
+      "title": "Võimenda kasutajat",
       "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
     }
   },
@@ -542,22 +542,22 @@
       "subscribe": "Join",
       "unsubscribe": "Leave",
       "subscribers": "Members",
-      "posters": "Posters",
+      "posters": "Postitajad",
       "posts": "Post"
     },
     "communities_filter": {
-      "my": "My Communities",
-      "rank": "Rank",
-      "subs": "Members",
-      "new": "New"
+      "my": "Minu Kogukonnad",
+      "rank": "Tase",
+      "subs": "Liikmed",
+      "new": "Uus"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
+      "popularity": "Populaarsus",
+      "newest": "Uusim",
       "relevance": "Relevance"
     },
     "other_result_filter": {
-      "user": "User",
+      "user": "Kasutaja",
       "tag": "Tag"
     }
   },
