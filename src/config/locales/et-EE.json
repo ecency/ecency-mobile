@@ -93,11 +93,11 @@
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "OSTA HIVE"
     },
     "sbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "OSTA HBD"
     },
     "steem_power": {
       "title": "HIVE POWER"
@@ -554,20 +554,20 @@
     "post_result_filter": {
       "popularity": "Populaarsus",
       "newest": "Uusim",
-      "relevance": "Relevance"
+      "relevance": "Asjakohasus"
     },
     "other_result_filter": {
       "user": "Kasutaja",
-      "tag": "Tag"
+      "tag": "Silt"
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details"
+    "new_post": "Uus postitus",
+    "community": "kogukond",
+    "details": "Üksikasjad"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow"
+    "follow": "Jälgi",
+    "unfollow": "Lõpeta jälgimine"
   }
 }
