@@ -65,7 +65,7 @@
     "powerUp": "Lisa võimsust",
     "withdraw_to_saving": "Withdraw Saving",
     "steemconnect_title": "Hivesigner Transfer",
-    "next": "NEXT",
+    "next": "EDASI",
     "delegate": "Delegate",
     "power_down": "Väljaluülitus",
     "withdraw_steem": "Withdraw HIVE",
@@ -83,7 +83,7 @@
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
       "title": "Punktid",
-      "buy": "GET POINTS"
+      "buy": "OSTA PUNKTE"
     },
     "savingsteem": {
       "title": "HIVE Hoius"
