@@ -6,7 +6,7 @@
     "claim_reward_balance": "Belohnung abholen ",
     "transfer": "Überweisen",
     "transfer_to_vesting": "To Vesting",
-    "transfer_from_savings": "From Savings",
+    "transfer_from_savings": "aus den Ersparnissen",
     "withdraw_vesting": "Power-Down",
     "fill_order": "Order ausgeführt",
     "post": "Beitrag",
@@ -21,7 +21,7 @@
     "delegation": "Delegation",
     "delegations": "Delegationen",
     "delegation_title": "Delegations-Belohnung",
-    "delegation_desc": "Earn Points everyday for delegation",
+    "delegation_desc": "Erhalte jeden Tag Punkte für die Delegation",
     "post_title": "Punkte für einen Beitrag",
     "comment_title": "Punkte für einen Kommentar",
     "vote_title": "Punkte für einen Vote",
@@ -39,9 +39,9 @@
     "comment_desc": "Jedes Kommentar hilft Dir Deine Leserschaft zu erweitern. Außerdem bekommst Du bis zu 5 Punkte je Kommentar.",
     "checkin_desc": "Für regelmäßiges Einchecken erhälst Du 0.25 Punkte.",
     "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
-    "reblog_desc": "Share what post you like with your friends and earn points.",
-    "login_desc": "When you login into app first time you earn 100 points.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
+    "reblog_desc": "Teile einen Beitrag, den du magst mit deinen Freunden und erhalte Punkt.",
+    "login_desc": "Wenn Du Dich das erste Mal in die App einloggst, bekommst Du 100 Punkte.",
+    "checkin_extra_desc": "Die regelmäßige Nutzung der App gibt dir mehr Chancen, weitere Punkte zu bekommen. Sei aktiv und verdiene mehr.",
     "dropdown_transfer": "Geschenk",
     "dropdown_promote": "Bewerben",
     "dropdown_boost": "Boost",
@@ -59,18 +59,18 @@
     "to_placeholder": "Benutzername",
     "memo_placeholder": "Hier dein Memo eingeben",
     "transfer_token": "Überweisen",
-    "purchase_estm": "GET POINTS",
+    "purchase_estm": "POINTS ERHALTEN",
     "points": "Schenke jemanden Punkte",
-    "transfer_to_saving": "To Saving",
+    "transfer_to_saving": "zu den Ersparnissen",
     "powerUp": "Power Up",
-    "withdraw_to_saving": "Withdraw Saving",
-    "steemconnect_title": "Hivesigner Transfer",
+    "withdraw_to_saving": "Ersparnisse lösen",
+    "steemconnect_title": "Hivesigner-Transfer",
     "next": "WEITER",
     "delegate": "Delegieren",
     "power_down": "Power-Down",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
-    "transfer_to_savings": "To Savings",
+    "withdraw_steem": "HIVE auszahlen",
+    "withdraw_sbd": "HBD auszahlen",
+    "transfer_to_savings": "zu den Ersparnissen",
     "convert": "Umwandeln",
     "escrow_transfer": "Escrow Transfer",
     "escrow_dispute": "Escrow Dispute",
@@ -83,44 +83,44 @@
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
       "title": "eSteem Punkte",
-      "buy": "GET POINTS"
+      "buy": "PUNKTE ERHALTEN"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "HIVE Ersparnisse"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "HBD Ersparnisse"
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "HIVE BEKOMMEN"
     },
     "sbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "HBD BEKOMMEN"
     },
     "steem_power": {
       "title": "HIVE POWER"
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "BTC BEKOMMEN",
+      "address": "ERHALTEN"
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "unvoted",
+    "vote": "abgestimmt",
+    "unvote": "nicht abgestimmt",
     "reply": "hat geantwortet auf",
-    "mention": "mentioned in",
+    "mention": "erwähnt in",
     "follow": "folgt dir jetzt",
     "unfollow": "folgt dir nicht mehr",
     "ignore": "ignoriert dich",
     "reblog": "geteilt",
     "transfer": "überwiesen",
     "spin": "Zeit mehr Punkte zu verdienen",
-    "inactive": "Be active! Write a post, continue earning",
-    "referral": "joined with your referral, welcome them",
+    "inactive": "Sei aktiv! Schreibe einen Beitrag, verdiene weiter",
+    "referral": "ist mit Deiner Empfehlung beigetreten. Sende eine Wilkommensnachricht",
     "notification": "Benachrichtigungen",
     "leaderboard": "Rangliste",
     "epoint": "eSteem Punkte",
@@ -130,16 +130,16 @@
     "this_week": "Diese Woche",
     "this_month": "Diesen Monat",
     "older_then": "Älter als ein Monat",
-    "activities": "All",
+    "activities": "Alle",
     "replies": "Antworten",
-    "mentions": "Mentions",
+    "mentions": "Erwähnungen",
     "reblogs": "Reblogs",
-    "noactivity": "No recent activity"
+    "noactivity": "Keine kürzlichen Aktivitäten"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "TÄGLICH",
+    "weekly": "WÖCHENTLICH",
+    "monthly": "MONATLICH"
   },
   "messages": {
     "comingsoon": "Nachrichten-Feature ist bald verfügbar!"
@@ -158,15 +158,15 @@
     "hours": "Stunden",
     "voting_power": "Voting-Power",
     "login_to_see": "Login",
-    "follow_people": "Follow some people to fill your feed",
-    "follow_communities": "Join some communities to fill your feed",
+    "follow_people": "Folge ein paar Leuten, um Deinen Feed mit Leben zu füllen",
+    "follow_communities": "Trete ein paar Communities bei, um Deinen Feed mit Leben zu füllen",
     "havent_commented": "hat bisher nichts kommentiert",
     "havent_posted": "hat bisher noch keine Beiträge veröffentlicht",
-    "steem_power": "Hive Power",
+    "steem_power": "HIVE Power",
     "next_power_text": "Nächster Power Down ist in",
     "days": "Tagen",
     "day": "Tag",
-    "steem_dollars": "Hive Dollars",
+    "steem_dollars": "HIVE Dollars",
     "savings": "Gesichert",
     "edit": {
       "display_name": "Anzeige Name",
@@ -280,23 +280,23 @@
     "open_gallery": "Galerie öffnen",
     "capture_photo": "Ein Foto aufnehmen",
     "limited_tags": "Es sind nur 10 Tags erlaubt. Bitte entferne ein paar",
-    "limited_length": "Maximum length of each tag should be 24",
+    "limited_length": "Tags dürfne nur 24 Zeichen lang sein",
     "limited_dash": "Use one dash in each tag",
     "limited_space": "Use space to separate tags",
     "limited_lowercase": "Only use lower letters in tag",
     "limited_characters": "Use only lowercase letters, digits and one dash",
-    "limited_firstchar": "Tag must start with a letter",
-    "limited_lastchar": "Tag must end with letter or number",
+    "limited_firstchar": "Tags müssen mit einem Buchstaben beginnen",
+    "limited_lastchar": "Tags müssen mit einem Buchstaben oder einer Zahl enden",
     "setting_schedule": "Scheduling Time",
-    "setting_reward": "Reward",
+    "setting_reward": "Belohnung",
     "setting_beneficiary": "Beneficiary",
-    "reward_default": "Default 50% / 50%",
-    "reward_power_up": "Power Up 100%",
-    "reward_decline": "Decline Payout",
+    "reward_default": "Standard 50% / 50%",
+    "reward_power_up": "100% Power-Up",
+    "reward_decline": "Auf die Auszahlung verzichten",
     "beneficiaries": "Beneficiaries",
-    "options": "Options",
-    "my_blog": "My Blog",
-    "my_communities": "My Communities",
+    "options": "Optionen",
+    "my_blog": "Mein Blog",
+    "my_communities": "Meine Communitys",
     "top_communities": "Top Communities"
   },
   "pincode": {
@@ -313,16 +313,16 @@
     "fail": "Fehlgeschlagen!",
     "move": "Verschieben",
     "move_question": "Bist du sicher, dass du zu Entwürfen wechseln möchtest?",
-    "success_shared": "Success! Content submitted!",
+    "success_shared": "Erfolgreich! Beitrag erstellt!",
     "success_moved": "Erfolgreich in Entwürfe verschoben",
     "permission_denied": "Berechtigung verweigert",
-    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Operation requires active key or master password, please relogin!",
+    "permission_text": "Bitte gehe zu den Telefoneinstellungen und ändere die Berechtigungen der Ecency App.",
+    "key_warning": "Operation erfordert den Active Key oder das Master-Passwort, bitte neu anmelden!",
     "success_rebloged": "Geteilt!",
     "already_rebloged": "Du hast bereits geteilt!",
-    "success_favorite": "Favorite added!",
-    "success_unfavorite": "Favorite removed!",
-    "success_follow": "Follow success!",
+    "success_favorite": "Favorit hinzugefügt!",
+    "success_unfavorite": "Favorit entfernt!",
+    "success_follow": "Erfolgreich gefolgt!",
     "fail_follow": "Follow failed!",
     "success_subscribe": "Subscribe success!",
     "fail_subscribe": "Subscribe failed!",
@@ -400,7 +400,7 @@
     "add": "Neues Lesezeichen"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Gemeldeter anstößiger Inhalt"
   },
   "favorites": {
     "title": "Favoriten",
@@ -413,7 +413,7 @@
     "invalid_username": "Ungültiger Username, bitte überprüfen und erneut versuchen",
     "already_logged": "Du bist bereits eingeloggt. Bitte versuche ein anderes Konto hinzuzufügen",
     "invalid_credentials": "Ungültige Zugangsdaten, bitte überprüfen und erneut versuchen",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "Unbekannter Fehler! Bitte kontaktiere uns unter support@ecency.com"
   },
   "payout": {
     "potential_payout": "Potenzielle Auszahlung",
@@ -422,7 +422,7 @@
     "curation_payout": "Kuratoren-Auszahlung",
     "payout_date": "Auszahlung",
     "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "warn_zero_payout": "Betrag muss $0.02 für die Auszahlung erreichen",
     "breakdown": "Breakdown"
   },
   "post_dropdown": {
@@ -447,7 +447,7 @@
     "trending": "TOP",
     "reputation": "REPUTATION",
     "votes": "VOTE",
-    "age": "AGE",
+    "age": "ALTER",
     "top": "TOP",
     "time": "ZEIT"
   },
@@ -464,51 +464,51 @@
     "to_placeholder": "Benutzername",
     "memo_placeholder": "Hier dein Memo eingeben",
     "transfer_token": "Überweisen",
-    "purchase_estm": "Purchase Points",
-    "convert": "Convert HBD to HIVE",
-    "points": "Gift Points to someone",
+    "purchase_estm": "Punkte kaufen",
+    "convert": "HBD in HIVE umwandeln",
+    "points": "Schenke jemandem Punkte",
     "transfer_to_saving": "Zum Sparkonto überweisen",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Auszahlung in den Tresor",
-    "steemconnect_title": "Hivesigner Transfer",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
+    "steemconnect_title": "Hivesigner-Transfer",
+    "estimated_weekly": "Geschätzt wöchentlich",
+    "destination_accounts": "Zielkonten",
+    "stop_information": "Möchtest du wirklich abbrechen?",
+    "percent": "Prozent",
     "auto_vests": "Auto Vests",
-    "save": "SAVE",
-    "percent_information": "Percent info",
+    "save": "SPEICHERN",
+    "percent_information": "Prozent Info",
     "next": "WEITER",
     "delegate": "Delegieren",
     "power_down": "Power-Down",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
-    "incoming_funds": "Incoming Funds",
+    "withdraw_steem": "HIVE auszahlen",
+    "withdraw_sbd": "HIVE Dollar auszahlen",
+    "incoming_funds": "Eingehend",
     "stop": "Stop",
-    "address_view": "View address"
+    "address_view": "Adresse anzeigen"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
+    "title": "Punkte erhalten",
+    "buy": "Punkte erhalten",
     "next": "WEITER",
     "account": {
-      "title": "Get Account Boost",
+      "title": "Konto-Boost erhalten",
       "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
     }
   },
   "free_estm": {
-    "title": "Free Points",
+    "title": "Kostenlose Punkte",
     "button": "SPIN & WIN",
     "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "spin_right": "Links drehen",
+    "timer_text": "Nächster freier Spin in"
   },
   "promote": {
     "title": "Bewerben",
     "days": "Tage",
     "user": "Benutzer",
     "permlink": "Beitrag",
-    "permlinkPlaceholder": "username/permlink",
+    "permlinkPlaceholder": "benutzername/permlink",
     "information": "Bist du sicher, das du promoten möchtest?"
   },
   "boostPost": {
@@ -524,37 +524,37 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "Lokale Gerätezeit;",
+      "current_time": "Aktuelle Zeit;",
+      "information": "Wir haben festgestellt, dass Dein Gerät ein falsches Datum oder eine falsche Zeit hat. Bitte korrigiere Datum & Zeit oder setze sie auf \"automatisch ermitteln\" und versuche es erneut."
     }
   },
   "comments": {
     "title": "Kommentare",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "Kommentar anzeigen",
+    "read_more": "Weitere Kommentare",
+    "more_replies": "weitere Antworten"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Andere",
     "communities": {
       "title": "Communities",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
-      "posters": "Posters",
+      "subscribe": "Beitreten",
+      "unsubscribe": "Austreten",
+      "subscribers": "Mitglieder",
+      "posters": "Autoren",
       "posts": "Beiträge"
     },
     "communities_filter": {
-      "my": "My Communities",
-      "rank": "Rank",
-      "subs": "Members",
-      "new": "New"
+      "my": "Meine Communitys",
+      "rank": "Rang",
+      "subs": "Mitglieder",
+      "new": "Neu"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "Beliebtheit",
+      "newest": "Neueste",
+      "relevance": "Relevanz"
     },
     "other_result_filter": {
       "user": "Benutzer",
@@ -562,12 +562,12 @@
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
+    "new_post": "Neuer Beitrag",
+    "community": "Community",
     "details": "Details"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow"
+    "follow": "Folgen",
+    "unfollow": "Nicht mehr folgen"
   }
 }
