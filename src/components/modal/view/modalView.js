@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import ModalBox from 'react-native-modal';
 import { IconButton } from '../../iconButton';
 import styles from './modalStyles';
@@ -50,6 +50,9 @@ export default class Modal extends PureComponent {
       animationType = 'fade',
       isCloseButton,
       isBottomModal = false,
+      hasRightText = false,
+      rightText,
+      onPressRightText,
     } = this.props;
     return (
       <ModalBox
@@ -68,7 +71,11 @@ export default class Modal extends PureComponent {
       >
         {title && (
           <View style={styles.modalHeader}>
-            <Text style={[styles.headerTitle, isCloseButton && { marginLeft: 50 }]}>{title}</Text>
+            <Text
+              style={[styles.headerTitle, (isCloseButton || hasRightText) && { marginLeft: 50 }]}
+            >
+              {title}
+            </Text>
             {isCloseButton && (
               <IconButton
                 style={styles.closeButton}
@@ -77,6 +84,11 @@ export default class Modal extends PureComponent {
                 name="close"
                 onPress={() => this._handleOnClose()}
               />
+            )}
+            {hasRightText && (
+              <TouchableOpacity onPress={onPressRightText}>
+                <Text style={styles.rightText}>{rightText}</Text>
+              </TouchableOpacity>
             )}
           </View>
         )}
