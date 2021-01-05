@@ -297,7 +297,8 @@
     "options": "Opcije",
     "my_blog": "Moj Blog",
     "my_communities": "Moje Zajednice",
-    "top_communities": "Najpopularnije zajednice"
+    "top_communities": "Najpopularnije zajednice",
+    "schedule_modal_title": "Schedule Post"
   },
   "pincode": {
     "enter_text": "Unesite PIN da otključate",
