@@ -126,18 +126,18 @@ class UpvoteView extends Component {
             dispatch(setRcOffer(true));
           } else {
             //when voting with same percent or other errors
-            Alert.alert(
+            /*Alert.alert(
               intl.formatMessage({
                 id: 'alert.fail',
               }),
               JSON.stringify(err),
-            );
-            if (err.jse_shortmsg.indexOf(':') > 0) {
+            );*/
+            if (err.message && err.message.indexOf(':') > 0) {
               Alert.alert(
                 intl.formatMessage({
                   id: 'alert.fail',
                 }),
-                err.error_description.split(': ')[1],
+                err.message.split(': ')[1],
               );
             } else {
               Alert.alert(
