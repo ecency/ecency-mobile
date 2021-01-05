@@ -297,7 +297,8 @@
     "options": "Options",
     "my_blog": "Bloqum",
     "my_communities": "Cəmiyyətlərim",
-    "top_communities": "Başlıca Cəmiyyətlər"
+    "top_communities": "Başlıca Cəmiyyətlər",
+    "schedule_modal_title": "Schedule Post"
   },
   "pincode": {
     "enter_text": "Kilidi açmaq üçün PIN-i daxil et",
