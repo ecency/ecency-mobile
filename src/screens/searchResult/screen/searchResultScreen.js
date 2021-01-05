@@ -6,8 +6,9 @@ import { useIntl } from 'react-intl';
 // Components
 import { SearchInput, TabBar } from '../../../components';
 import Communities from './tabs/communities/communities';
-import PostResult from './tabs/best/postResult';
-import OtherResult from './tabs/topics/otherResults';
+import PostsResults from './tabs/best/postsResults';
+import TopicsResults from './tabs/topics/topicsResults';
+import PeopleResults from './tabs/people/peopleResults';
 
 // Styles
 import styles from './searchResultStyles';
@@ -58,19 +59,19 @@ const SearchResultScreen = ({ navigation }) => {
           tabLabel={intl.formatMessage({ id: 'search_result.best.title' })}
           style={styles.tabbarItem}
         >
-          <PostResult searchValue={searchValue} />
+          <PostsResults searchValue={searchValue} />
         </View>
         <View
           tabLabel={intl.formatMessage({ id: 'search_result.people.title' })}
           style={styles.tabbarItem}
         >
-          <OtherResult searchValue={searchValue} />
+          <PeopleResults searchValue={searchValue} />
         </View>
         <View
           tabLabel={intl.formatMessage({ id: 'search_result.topics.title' })}
           style={styles.tabbarItem}
         >
-          <OtherResult searchValue={searchValue} />
+          <TopicsResults searchValue={searchValue} />
         </View>
         <View
           tabLabel={intl.formatMessage({ id: 'search_result.communities.title' })}

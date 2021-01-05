@@ -8,9 +8,8 @@ import ROUTES from '../../../constants/routeNames';
 import { search, getPromotePosts } from '../../../providers/ecency/ecency';
 import { getPost } from '../../../providers/hive/dhive';
 
-const PostResultContainer = ({ children, navigation, searchValue, currentAccountUsername }) => {
+const PostsResultsContainer = ({ children, navigation, searchValue, currentAccountUsername }) => {
   const [data, setData] = useState([]);
-  const [filterIndex, setFilterIndex] = useState(0);
   const [sort, setSort] = useState('relevance');
   const [scrollId, setScrollId] = useState('');
 
@@ -59,11 +58,6 @@ const PostResultContainer = ({ children, navigation, searchValue, currentAccount
     });
   };
 
-  const _handleFilterChanged = (index, value) => {
-    setFilterIndex(index);
-    setSort(value);
-  };
-
   const _loadMore = (index, value) => {
     if (scrollId) {
       search({ q: searchValue, sort, scroll_id: scrollId }).then((res) => {
@@ -76,9 +70,7 @@ const PostResultContainer = ({ children, navigation, searchValue, currentAccount
     children &&
     children({
       data,
-      filterIndex,
       handleOnPress: _handleOnPress,
-      handleFilterChanged: _handleFilterChanged,
       loadMore: _loadMore,
     })
   );
@@ -88,4 +80,4 @@ const mapStateToProps = (state) => ({
   currentAccountUsername: state.account.currentAccount.username,
 });
 
-export default connect(mapStateToProps)(withNavigation(PostResultContainer));
+export default connect(mapStateToProps)(withNavigation(PostsResultsContainer));

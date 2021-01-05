@@ -11,6 +11,20 @@ import {
   subscribeCommunity,
 } from '../../../providers/hive/dhive';
 
+const DEFAULT_COMMUNITIES = [
+  'hive-125125',
+  'hive-174301',
+  'hive-140217',
+  'hive-179017',
+  'hive-160545',
+  'hive-194913',
+  'hive-166847',
+  'hive-176853',
+  'hive-183196',
+  'hive-163772',
+  'hive-106444',
+];
+
 const CommunitiesContainer = ({
   children,
   navigation,
@@ -19,61 +33,16 @@ const CommunitiesContainer = ({
   pinCode,
   isLoggedIn,
 }) => {
-  const [data, setData] = useState();
-  const [filterIndex, setFilterIndex] = useState(1);
-  const [query, setQuery] = useState('');
-  const [sort, setSort] = useState('rank');
+  const [data, setData] = useState(DEFAULT_COMMUNITIES);
   const [allSubscriptions, setAllSubscriptions] = useState([]);
-  const [noResult, setNoResult] = useState(false);
 
   useEffect(() => {
-    let isCancelled = false;
-    setData([]);
-    if (sort === 'my') {
-      setNoResult(true);
-    } else {
-      getCommunities('', 100, query, sort).then((res) => {
-        if (!isCancelled) {
-          if (!isEmpty(res)) {
-            setData(res);
-            setNoResult(false);
-          } else {
-            setNoResult(true);
-          }
-        }
-      });
+    if (searchValue !== '') {
+      getCommunities('', 100, searchValue, 'rank').then(setData);
     }
-    return () => {
-      isCancelled = true;
-    };
-  }, [query, sort]);
-
-  useEffect(() => {
-    setData([]);
-    setQuery(searchValue);
-    setNoResult(false);
   }, [searchValue]);
 
-  useEffect(() => {
-    let isCancelled = false;
-    if (data && !isCancelled) {
-      getSubscriptions(currentAccount.username).then((result) => {
-        if (result) {
-          setAllSubscriptions(result);
-        }
-      });
-    }
-    return () => {
-      isCancelled = true;
-    };
-  }, [data]);
-
   // Component Functions
-  const _handleOnVotersDropdownSelect = (index, value) => {
-    setFilterIndex(index);
-    setSort(value);
-  };
-
   const _handleOnPress = (name) => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.COMMUNITY,
@@ -91,13 +60,10 @@ const CommunitiesContainer = ({
     children &&
     children({
       data,
-      filterIndex,
       allSubscriptions,
-      handleOnVotersDropdownSelect: _handleOnVotersDropdownSelect,
       handleOnPress: _handleOnPress,
       handleSubscribeButtonPress: _handleSubscribeButtonPress,
       isLoggedIn,
-      noResult,
     })
   );
 };

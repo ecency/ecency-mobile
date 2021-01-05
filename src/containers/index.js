@@ -1,4 +1,5 @@
 import AccountContainer from './accountContainer';
+import CommunitiesContainer from './communitiesContainer';
 import InAppPurchaseContainer from './inAppPurchaseContainer';
 import LoggedInContainer from './loggedInContainer';
 import PointsContainer from './pointsContainer';
@@ -12,6 +13,7 @@ import TransferContainer from './transferContainer';
 
 export {
   AccountContainer,
+  CommunitiesContainer,
   InAppPurchaseContainer,
   LoggedInContainer,
   PointsContainer,

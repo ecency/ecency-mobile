@@ -8,17 +8,17 @@ import { useIntl } from 'react-intl';
 // Components
 import { PostHeaderDescription, FilterBar } from '../../../../../components';
 import { TextWithIcon, CommunitiesPlaceHolder } from '../../../../../components/basicUIElements';
-import PostResultContainer from '../../../container/postResultContainer';
+import PostsResultsContainer from '../../../container/postsResultsContainer';
 
 import { getTimeFromNow } from '../../../../../utils/time';
 
-import styles from './postResultStyles';
+import styles from './postsResultsStyles';
 
 import DEFAULT_IMAGE from '../../../../../assets/no_image.png';
 
 const filterOptions = ['relevance', 'popularity', 'newest'];
 
-const PostResult = ({ navigation, searchValue }) => {
+const PostsResults = ({ navigation, searchValue }) => {
   const intl = useIntl();
 
   const _renderItem = (item, index) => {
@@ -78,22 +78,9 @@ const PostResult = ({ navigation, searchValue }) => {
   };
 
   return (
-    <PostResultContainer searchValue={searchValue}>
-      {({ data, filterIndex, handleFilterChanged, handleOnPress, loadMore }) => (
+    <PostsResultsContainer searchValue={searchValue}>
+      {({ data, handleOnPress, loadMore }) => (
         <SafeAreaView style={styles.container}>
-          <FilterBar
-            dropdownIconName="arrow-drop-down"
-            options={filterOptions.map((item) =>
-              intl.formatMessage({
-                id: `search_result.post_result_filter.${item}`,
-              }),
-            )}
-            defaultText={intl.formatMessage({
-              id: `search_result.post_result_filter.${filterOptions[filterIndex]}`,
-            })}
-            selectedOptionIndex={filterIndex}
-            onDropdownSelect={(index) => handleFilterChanged(index, filterOptions[index])}
-          />
           <FlatList
             data={data}
             keyExtractor={(item) => item.id && item.id.toString()}
@@ -108,8 +95,8 @@ const PostResult = ({ navigation, searchValue }) => {
           />
         </SafeAreaView>
       )}
-    </PostResultContainer>
+    </PostsResultsContainer>
   );
 };
 
-export default PostResult;
+export default PostsResults;
