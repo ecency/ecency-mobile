@@ -297,7 +297,8 @@
     "options": "Valikud",
     "my_blog": "Minu blogi",
     "my_communities": "Minu kogukonnad",
-    "top_communities": "Top kogukonnad"
+    "top_communities": "Top kogukonnad",
+    "schedule_modal_title": "Schedule Post"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
