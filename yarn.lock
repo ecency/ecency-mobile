@@ -6440,7 +6440,7 @@ mkdirp@~1.0.3:
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
-moment@^2.22.0, moment@^2.22.2:
+moment@^2.22.2:
   version "2.27.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
   integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
@@ -7493,11 +7493,10 @@ react-native-dark-mode@^0.2.2:
     events "^3.0.0"
     toolkit.ts "^0.0.2"
 
-react-native-datepicker@ecency/react-native-datepicker:
-  version "1.7.2"
-  resolved "https://codeload.github.com/ecency/react-native-datepicker/tar.gz/844955f20ede921e6a8b83d95c58167970f9279b"
-  dependencies:
-    moment "^2.22.0"
+react-native-date-picker@^3.2.7:
+  version "3.2.7"
+  resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-3.2.7.tgz#1708c2fc712c09ce6eaca007635a036dba4ca107"
+  integrity sha512-7JXwnEF4TxST6+yKYzscCxx8BWQLBpNVxUmVYbaXkhdLSTO1QlypukVeQMZ9QtuRAhf4zs3NDiYqZDu9JdeGAA==
 
 react-native-extended-stylesheet@^0.10.0:
   version "0.10.0"

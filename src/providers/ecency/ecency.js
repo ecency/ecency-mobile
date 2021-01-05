@@ -307,20 +307,18 @@ export const schedule = (
   operationType,
   upvote,
   scheduleDate,
+  options = null,
 ) =>
   api
     .post('/schedules', {
       username: user,
-      category: tags[0],
       title,
       permlink,
-      json: jsonStringify(json),
-      tags,
+      meta: json,
       body,
-      post_type: operationType,
-      upvote_this: upvote,
       schedule: scheduleDate,
-      chain: 'hive',
+      options,
+      reblog: 0,
     })
     .then((resp) => resp.data);
 

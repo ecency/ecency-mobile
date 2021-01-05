@@ -3,6 +3,7 @@ import { View, Text, ActivityIndicator, SafeAreaView } from 'react-native';
 import { injectIntl } from 'react-intl';
 import ActionSheet from 'react-native-actionsheet';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 // Components
 import { TextButton, Modal, BeneficiaryModal } from '../..';
@@ -48,6 +49,8 @@ const BasicHeaderView = ({
 }) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [beneficiaryModal, setBeneficiaryModal] = useState(false);
+  const [showScheduleModal, setShowScheduleModal] = useState(false);
+  const [scheduledDate, setScheduledDate] = useState('');
 
   const username = useSelector((state) => state.account.currentAccount.name);
 
@@ -78,7 +81,7 @@ const BasicHeaderView = ({
   const _handleSettingMenuSelect = (index) => {
     switch (index) {
       case 0:
-        scheduleRef.current.onPressDate();
+        setShowScheduleModal(true);
         break;
       case 1:
         rewardMenuRef.current.show();
@@ -123,9 +126,19 @@ const BasicHeaderView = ({
   };
 
   const _handleDatePickerChange = (datePickerValue) => {
-    if (handleDatePickerChange) {
-      handleDatePickerChange(datePickerValue);
+    setScheduledDate(datePickerValue);
+  };
+
+  const _onPressDone = () => {
+    let dateString = scheduledDate;
+
+    if (dateString === '') {
+      dateString = moment().format();
     }
+
+    setScheduledDate('');
+    handleDatePickerChange(dateString);
+    setShowScheduleModal(false);
   };
 
   return (
@@ -149,18 +162,11 @@ const BasicHeaderView = ({
               disabled={disabled}
             />
           )}
-          <DateTimePicker
-            type="date-time"
-            onSubmit={_handleDatePickerChange}
-            disabled={!isFormValid}
-            ref={scheduleRef}
-          />
           {!isInputVisible && (
             <Text style={[title && styles.title, quickTitle && styles.quickTitle]}>
               {quickTitle || title}
             </Text>
           )}
-
           {isHasDropdown && (
             <View>
               {dropdownComponent ? (
@@ -263,6 +269,28 @@ const BasicHeaderView = ({
           username={username}
           handleOnSaveBeneficiaries={_handleOnSaveBeneficiaries}
         />
+      </Modal>
+      <Modal
+        isFullScreen={false}
+        isOpen={showScheduleModal}
+        isBottomModal
+        isTransparent
+        isRadius
+        coverScreen={false}
+        title={intl.formatMessage({ id: 'editor.schedule_modal_title' })}
+        hasRightText
+        rightText="Done"
+        onPressRightText={_onPressDone}
+        onBackdropPress={() => setShowScheduleModal(false)}
+      >
+        <SafeAreaView style={styles.dateTimeModal}>
+          <DateTimePicker
+            type="datetime"
+            onChanged={_handleDatePickerChange}
+            disabled={!isFormValid}
+            ref={scheduleRef}
+          />
+        </SafeAreaView>
       </Modal>
       <ActionSheet
         ref={settingMenuRef}

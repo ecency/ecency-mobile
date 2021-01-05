@@ -18,6 +18,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     padding: 16,
     justifyContent: 'center',
+    alignItems: 'center',
   },
   headerTitle: {
     color: '$primaryBlack',
@@ -40,5 +41,9 @@ export default EStyleSheet.create({
     justifyContent: 'flex-end',
     margin: 0,
     backgroundColor: 'rgba(0,0,0,0.35)',
+  },
+  rightText: {
+    color: '$primaryBlack',
+    padding: 10,
   },
 });
