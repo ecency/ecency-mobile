@@ -32,6 +32,8 @@ class TabBar extends PureComponent {
 
   _renderTab = (name, page, isTabActive, onPressHandler) => {
     const { activeColor, inactiveColor } = this.state;
+    const { textStyle } = this.props;
+
     const textColor = isTabActive ? activeColor : inactiveColor;
     const fontWeight = isTabActive ? 'bold' : 'normal';
     const Button = Platform.OS === 'ios' ? ButtonIos : ButtonAndroid;
@@ -47,7 +49,7 @@ class TabBar extends PureComponent {
         onPress={() => onPressHandler(page)}
       >
         <View style={styles.tab}>
-          <Text style={[{ color: textColor, fontWeight }, styles.text]}>{name}</Text>
+          <Text style={[{ color: textColor, fontWeight }, styles.text, textStyle]}>{name}</Text>
         </View>
       </Button>
     );

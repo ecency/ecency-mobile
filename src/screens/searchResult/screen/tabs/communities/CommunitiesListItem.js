@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 
 import styles from './communitiesListItemStyles';
 
-import { Tag } from '../../../components/basicUIElements';
+import { Tag } from '../../../../../components/basicUIElements';
 
 const UserListItem = ({
   index,

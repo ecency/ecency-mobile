@@ -4,14 +4,14 @@ import { FlatList, View, Text, TouchableOpacity } from 'react-native';
 import get from 'lodash/get';
 
 // Components
-import { FilterBar, UserAvatar } from '../../../components';
+import { FilterBar, UserAvatar } from '../../../../../components';
 import CommunitiesList from './communitiesList';
-import { CommunitiesPlaceHolder } from '../../../components/basicUIElements';
+import { CommunitiesPlaceHolder } from '../../../../../components/basicUIElements';
 
-import CommunitiesContainer from '../container/communitiesContainer';
-import styles from './otherResultsStyles';
-import DEFAULT_IMAGE from '../../../assets/no_image.png';
-import Tag from '../../../components/basicUIElements/view/tag/tagView';
+import CommunitiesContainer from '../../../container/communitiesContainer';
+import styles from '../topics/otherResultsStyles';
+import DEFAULT_IMAGE from '../../../../../assets/no_image.png';
+import Tag from '../../../../../components/basicUIElements/view/tag/tagView';
 
 const filterOptions = ['my', 'rank', 'subs', 'new'];
 
