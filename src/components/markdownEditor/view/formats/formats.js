@@ -31,9 +31,11 @@ export default [
   {
     key: 'L',
     title: 'L',
-    icon: 'list',
+    icon: 'table',
     iconType: 'FontAwesome',
-    prefix: '-',
+    prefix: `| Column1 | Column2 |
+| ------------ | ------------ |
+|     Text      |      Text      |`,
     onPress: applyListFormat,
   },
   {
