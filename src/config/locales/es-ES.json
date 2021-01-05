@@ -297,7 +297,8 @@
     "options": "Opciones",
     "my_blog": "Mi blog",
     "my_communities": "Mis comunidades",
-    "top_communities": "Comunidades"
+    "top_communities": "Comunidades",
+    "schedule_modal_title": "Schedule Post"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
