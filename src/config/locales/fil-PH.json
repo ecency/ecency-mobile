@@ -297,7 +297,8 @@
     "options": "Mga Pagpipilian",
     "my_blog": "Aking blog",
     "my_communities": "Aking mga pamayanan",
-    "top_communities": "Top Communities"
+    "top_communities": "Top Communities",
+    "schedule_modal_title": "Schedule Post"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
