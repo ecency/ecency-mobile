@@ -297,7 +297,8 @@
     "options": "Opciók",
     "my_blog": "Saját blog",
     "my_communities": "Közösségeim",
-    "top_communities": "Top közösségek"
+    "top_communities": "Top közösségek",
+    "schedule_modal_title": "Schedule Post"
   },
   "pincode": {
     "enter_text": "Feloldáshoz írd be a PIN kódot",
