@@ -18,14 +18,14 @@ import Modal from '../../modal';
 import { Icon } from '../../icon';
 import { UserAvatar } from '../../userAvatar';
 import Separator from '../../basicUIElements/view/separator/separatorView';
-import { PercentBar } from '../../percentBar';
+import { TextWithIcon } from '../../basicUIElements';
 
 // Constants
 import MENU from '../../../constants/sideMenuItems';
 import { default as ROUTES } from '../../../constants/routeNames';
 
 //Utils
-import { getRcPower, getVotingPower } from '../../../utils/manaBar';
+import { getVotingPower } from '../../../utils/manaBar';
 
 // Styles
 import styles from './sideMenuStyles';
@@ -50,6 +50,7 @@ const SideMenuView = ({
   );
   const [storageT, setStorageT] = useState('R');
   const [isAccountsModalOpen, setIsAccountsModalOpen] = useState(false);
+  const [upower, setUpower] = useState(0);
 
   // Component Life Cycles
   useEffect(() => {
@@ -64,6 +65,12 @@ const SideMenuView = ({
     };
   }, []);
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      setUpower(getVotingPower(currentAccount).toFixed(1));
+    }
+  });
+
   // Component Functions
   const _handleOnMenuItemPress = (item) => {
     if (item.id === 'logout') {
@@ -77,18 +84,9 @@ const SideMenuView = ({
   const _toggleAccountsModalOpen = () => {
     setIsAccountsModalOpen(!isAccountsModalOpen);
   };
-  let votingPowerText = '';
-  let rcPowerText = '';
-  let votingPower = 0;
-  let resourceCredits = 0;
+
   useEffect(() => {
     setMenuItems(isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS);
-    if (isLoggedIn) {
-      votingPower = getVotingPower(currentAccount).toFixed(1);
-      resourceCredits = getRcPower(currentAccount).toFixed(1);
-      votingPowerText = `Voting power: ${votingPower}%`;
-      rcPowerText = `Resource Credits: ${resourceCredits}%`;
-    }
   }, [isLoggedIn]);
 
   const { buildVersion, appVersion } = VersionNumber;
@@ -172,6 +170,13 @@ const SideMenuView = ({
                 <Text numberOfLines={1} ellipsizeMode="tail" style={styles.usernick}>
                   {`@${_username}`}
                 </Text>
+                <TextWithIcon
+                  iconName="expand-less"
+                  iconSize={30}
+                  iconType="MaterialIcons"
+                  text={`${upower}%`}
+                  textStyle={styles.vpText}
+                />
               </View>
 
               <TouchableOpacity style={styles.iconWrapper} onPress={_toggleAccountsModalOpen}>
@@ -188,7 +193,6 @@ const SideMenuView = ({
         </ImageBackground>
       </LinearGradient>
       <View style={styles.contentView}>
-        <Text style={styles.name}>{votingPowerText}</Text>
         <FlatList data={menuItems} keyExtractor={(item) => item.id} renderItem={_renderItem} />
       </View>
       <Text style={styles.versionText}>{`v${appVersion}, ${buildVersion}${storageT}`}</Text>
