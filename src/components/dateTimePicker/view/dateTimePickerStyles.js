@@ -37,4 +37,7 @@ export default EStyleSheet.create({
     width: '$deviceWidth',
     // marginLeft: 20,
   },
+  datePickerText: {
+    color: '$primaryBlack',
+  },
 });
