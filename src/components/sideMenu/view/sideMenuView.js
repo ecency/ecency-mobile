@@ -18,10 +18,14 @@ import Modal from '../../modal';
 import { Icon } from '../../icon';
 import { UserAvatar } from '../../userAvatar';
 import Separator from '../../basicUIElements/view/separator/separatorView';
+import { TextWithIcon } from '../../basicUIElements';
 
 // Constants
 import MENU from '../../../constants/sideMenuItems';
 import { default as ROUTES } from '../../../constants/routeNames';
+
+//Utils
+import { getVotingPower } from '../../../utils/manaBar';
 
 // Styles
 import styles from './sideMenuStyles';
@@ -46,6 +50,7 @@ const SideMenuView = ({
   );
   const [storageT, setStorageT] = useState('R');
   const [isAccountsModalOpen, setIsAccountsModalOpen] = useState(false);
+  const [upower, setUpower] = useState(0);
 
   // Component Life Cycles
   useEffect(() => {
@@ -59,6 +64,12 @@ const SideMenuView = ({
       _isMounted = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setUpower(getVotingPower(currentAccount).toFixed(1));
+    }
+  });
 
   // Component Functions
   const _handleOnMenuItemPress = (item) => {
@@ -159,6 +170,13 @@ const SideMenuView = ({
                 <Text numberOfLines={1} ellipsizeMode="tail" style={styles.usernick}>
                   {`@${_username}`}
                 </Text>
+                <TextWithIcon
+                  iconName="expand-less"
+                  iconSize={30}
+                  iconType="MaterialIcons"
+                  text={`${upower}%`}
+                  textStyle={styles.vpText}
+                />
               </View>
 
               <TouchableOpacity style={styles.iconWrapper} onPress={_toggleAccountsModalOpen}>

@@ -41,14 +41,14 @@ export default EStyleSheet.create({
   username: {
     color: '$pureWhite',
     fontWeight: 'bold',
-    fontSize: scalePx(16),
+    fontSize: scalePx(18),
     marginBottom: 8,
     maxWidth: '$deviceWidth / 3',
   },
   usernick: {
     color: 'rgba(255, 255, 255, 0.7)',
     fontWeight: 'bold',
-    fontSize: scalePx(14),
+    fontSize: scalePx(18),
     marginTop: 2,
   },
   listItem: {
@@ -88,6 +88,11 @@ export default EStyleSheet.create({
   },
   versionText: {
     textAlign: 'center',
+    color: '$iconColor',
+  },
+  vpText: {
+    textAlign: 'center',
+    fontSize: scalePx(16),
     color: '$iconColor',
   },
   imageBackground: {

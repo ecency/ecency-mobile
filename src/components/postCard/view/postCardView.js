@@ -102,7 +102,12 @@ const PostCardView = ({
       <View style={styles.postBodyWrapper}>
         <TouchableOpacity style={styles.hiddenImages} onPress={_handleOnContentPress}>
           {!isHideImage && (
-            <FastImage source={_image} style={styles.thumbnail} defaultSource={DEFAULT_IMAGE} />
+            <FastImage
+              source={_image}
+              resizeMode={FastImage.resizeMode.contain}
+              style={styles.thumbnail}
+              defaultSource={DEFAULT_IMAGE}
+            />
           )}
           <View style={[styles.postDescripton]}>
             <Text style={styles.title}>{content.title}</Text>
