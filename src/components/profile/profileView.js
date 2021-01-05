@@ -119,14 +119,14 @@ class ProfileView extends PureComponent {
     } = this.state;
 
     return (
-      <Fragment>
+      <View style={styles.container}>
         <Header
           key={quickProfile && quickProfile.name}
           selectedUser={quickProfile}
           isReverse={!isOwnProfile}
           handleOnBackPress={handleOnBackPress}
         />
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
           {!isReady ? (
             <ProfileSummaryPlaceHolder />
           ) : (
@@ -268,8 +268,8 @@ class ProfileView extends PureComponent {
               </View>
             )}
           </ScrollableTabView>
-        </SafeAreaView>
-      </Fragment>
+        </View>
+      </View>
     );
   }
 }
