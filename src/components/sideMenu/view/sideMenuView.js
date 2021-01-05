@@ -18,10 +18,14 @@ import Modal from '../../modal';
 import { Icon } from '../../icon';
 import { UserAvatar } from '../../userAvatar';
 import Separator from '../../basicUIElements/view/separator/separatorView';
+import { PercentBar } from '../../percentBar';
 
 // Constants
 import MENU from '../../../constants/sideMenuItems';
 import { default as ROUTES } from '../../../constants/routeNames';
+
+//Utils
+import { getRcPower, getVotingPower } from '../../../utils/manaBar';
 
 // Styles
 import styles from './sideMenuStyles';
@@ -73,9 +77,18 @@ const SideMenuView = ({
   const _toggleAccountsModalOpen = () => {
     setIsAccountsModalOpen(!isAccountsModalOpen);
   };
-
+  let votingPowerText = '';
+  let rcPowerText = '';
+  let votingPower = 0;
+  let resourceCredits = 0;
   useEffect(() => {
     setMenuItems(isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS);
+    if (isLoggedIn) {
+      votingPower = getVotingPower(currentAccount).toFixed(1);
+      resourceCredits = getRcPower(currentAccount).toFixed(1);
+      votingPowerText = `Voting power: ${votingPower}%`;
+      rcPowerText = `Resource Credits: ${resourceCredits}%`;
+    }
   }, [isLoggedIn]);
 
   const { buildVersion, appVersion } = VersionNumber;
@@ -175,6 +188,7 @@ const SideMenuView = ({
         </ImageBackground>
       </LinearGradient>
       <View style={styles.contentView}>
+        <Text style={styles.name}>{votingPowerText}</Text>
         <FlatList data={menuItems} keyExtractor={(item) => item.id} renderItem={_renderItem} />
       </View>
       <Text style={styles.versionText}>{`v${appVersion}, ${buildVersion}${storageT}`}</Text>
