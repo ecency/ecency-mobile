@@ -361,7 +361,8 @@
     "invalidImage": "Inbalidong imahe, subukan ang ibang file",
     "something_wrong": "May nangyaring problema.",
     "something_wrong_alt": "Subukan ang https://ecency.com",
-    "something_wrong_reload": "I-reload"
+    "something_wrong_reload": "I-reload",
+    "can_not_be_empty": "Title and body can not be empty!"
   },
   "post": {
     "reblog_alert": "Sigurado ka, gusto mong i-reblog?",
@@ -537,7 +538,15 @@
     "more_replies": "mas maraming tugon"
   },
   "search_result": {
-    "others": "Iba Pa",
+    "best": {
+      "title": "Best"
+    },
+    "people": {
+      "title": "People"
+    },
+    "topics": {
+      "title": "Topics"
+    },
     "communities": {
       "title": "Mga pamayanan",
       "subscribe": "Sumali",
