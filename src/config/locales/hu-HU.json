@@ -361,7 +361,8 @@
     "invalidImage": "Érvénytelen kép, próbálj egy másik fájlt",
     "something_wrong": "Valami hiba történt.",
     "something_wrong_alt": "Próbáld ezt https://ecency.com",
-    "something_wrong_reload": "Frissítsd"
+    "something_wrong_reload": "Frissítsd",
+    "can_not_be_empty": "Title and body can not be empty!"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
@@ -537,7 +538,15 @@
     "more_replies": "további hozzászólások betöltése"
   },
   "search_result": {
-    "others": "Egyéb",
+    "best": {
+      "title": "Best"
+    },
+    "people": {
+      "title": "People"
+    },
+    "topics": {
+      "title": "Topics"
+    },
     "communities": {
       "title": "Közösségek",
       "subscribe": "Csatlakozz",
