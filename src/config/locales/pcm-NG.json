@@ -361,7 +361,8 @@
     "invalidImage": "Dis picture no get, look anoda one",
     "something_wrong": "Something don happen.",
     "something_wrong_alt": "You fit check https://ecency.com",
-    "something_wrong_reload": "Try am again"
+    "something_wrong_reload": "Try am again",
+    "can_not_be_empty": "Title and body can not be empty!"
   },
   "post": {
     "reblog_alert": "You sure say you wan reblog am?",
@@ -537,7 +538,15 @@
     "more_replies": "dem replies wey remain"
   },
   "search_result": {
-    "others": "Dem odas",
+    "best": {
+      "title": "Best"
+    },
+    "people": {
+      "title": "People"
+    },
+    "topics": {
+      "title": "Topics"
+    },
     "communities": {
       "title": "Una areas",
       "subscribe": "Enta",
