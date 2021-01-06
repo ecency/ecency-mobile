@@ -361,7 +361,8 @@
     "invalidImage": "Ungültiges Bild, versuchen Sie eine andere Datei",
     "something_wrong": "Etwas ist schief gelaufen.",
     "something_wrong_alt": "Probiere https://ecency.com",
-    "something_wrong_reload": "Aktualisieren"
+    "something_wrong_reload": "Aktualisieren",
+    "can_not_be_empty": "Title and body can not be empty!"
   },
   "post": {
     "reblog_alert": "Möchtest du diesen Beitrag wirklich teilen?",
@@ -537,7 +538,15 @@
     "more_replies": "weitere Antworten"
   },
   "search_result": {
-    "others": "Andere",
+    "best": {
+      "title": "Best"
+    },
+    "people": {
+      "title": "People"
+    },
+    "topics": {
+      "title": "Topics"
+    },
     "communities": {
       "title": "Communities",
       "subscribe": "Beitreten",
