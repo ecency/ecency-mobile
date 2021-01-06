@@ -361,7 +361,8 @@
     "invalidImage": "Invalid image, try different file",
     "something_wrong": "Midagi läks valesti.",
     "something_wrong_alt": "Proovi https://ecency.com",
-    "something_wrong_reload": "Reload"
+    "something_wrong_reload": "Reload",
+    "can_not_be_empty": "Title and body can not be empty!"
   },
   "post": {
     "reblog_alert": "Oled sa kindel, et soovid seda jagada?",
@@ -537,7 +538,15 @@
     "more_replies": "more replies"
   },
   "search_result": {
-    "others": "Others",
+    "best": {
+      "title": "Best"
+    },
+    "people": {
+      "title": "People"
+    },
+    "topics": {
+      "title": "Topics"
+    },
     "communities": {
       "title": "Communities",
       "subscribe": "Join",
