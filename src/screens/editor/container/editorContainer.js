@@ -596,13 +596,15 @@ class EditorContainer extends Component {
   _handleDatePickerChange = async (datePickerValue, fields) => {
     const { currentAccount, pinCode, intl } = this.props;
 
-    if (fields.title === '' && fields.body === '') {
+    if (fields.title === '' || fields.body === '') {
       const timer = setTimeout(() => {
         Alert.alert(
           intl.formatMessage({
             id: 'alert.fail',
           }),
-          'Title and body can not be empty',
+          intl.formatMessage({
+            id: 'alert.can_not_be_empty',
+          }),
         );
         clearTimeout(timer);
       }, 100);

@@ -2,8 +2,8 @@ import React from 'react';
 import { SafeAreaView, FlatList } from 'react-native';
 
 // Components
-import { CommunityListItem } from '../../../components/basicUIElements';
-import { CommunitiesPlaceHolder } from '../../../components/basicUIElements';
+import { CommunityListItem } from '../../../../../components/basicUIElements';
+import { CommunitiesPlaceHolder } from '../../../../../components/basicUIElements';
 
 // Styles
 import styles from './communitiesListStyles';

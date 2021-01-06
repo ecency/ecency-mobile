@@ -260,7 +260,7 @@ const MarkdownEditorView = ({
               <TextInput
                 multiline
                 autoCorrect={true}
-                autoFocus={true}
+                autoFocus={false}
                 onChangeText={_changeText}
                 onSelectionChange={_handleOnSelectionChange}
                 placeholder={intl.formatMessage({

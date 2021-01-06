@@ -159,7 +159,7 @@ const SideMenuView = ({
               <View
                 style={[
                   styles.userInfoWrapper,
-                  currentAccount.display_name && { alignSelf: 'flex-end' },
+                  currentAccount.display_name && { alignSelf: 'flex-start' },
                 ]}
               >
                 {currentAccount.display_name && (

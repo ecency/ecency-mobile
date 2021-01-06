@@ -3,13 +3,11 @@ import { SafeAreaView, FlatList, View, Text, TouchableOpacity } from 'react-nati
 import { useIntl } from 'react-intl';
 
 // Components
-import { FilterBar, UserAvatar } from '../../../components';
-import { CommunitiesPlaceHolder, UserListItem } from '../../../components/basicUIElements';
-import OtherResultContainer from '../container/otherResultContainer';
+import { FilterBar, UserAvatar } from '../../../../../components';
+import { CommunitiesPlaceHolder, UserListItem } from '../../../../../components/basicUIElements';
+import OtherResultContainer from '../../../container/otherResultContainer';
 
 import styles from './otherResultsStyles';
-
-import DEFAULT_IMAGE from '../../../assets/no_image.png';
 
 const filterOptions = ['user', 'tag'];
 

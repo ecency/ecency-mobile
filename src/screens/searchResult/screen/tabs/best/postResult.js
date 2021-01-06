@@ -6,15 +6,15 @@ import FastImage from 'react-native-fast-image';
 import { useIntl } from 'react-intl';
 
 // Components
-import { PostHeaderDescription, FilterBar } from '../../../components';
-import { TextWithIcon, CommunitiesPlaceHolder } from '../../../components/basicUIElements';
-import PostResultContainer from '../container/postResultContainer';
+import { PostHeaderDescription, FilterBar } from '../../../../../components';
+import { TextWithIcon, CommunitiesPlaceHolder } from '../../../../../components/basicUIElements';
+import PostResultContainer from '../../../container/postResultContainer';
 
-import { getTimeFromNow } from '../../../utils/time';
+import { getTimeFromNow } from '../../../../../utils/time';
 
 import styles from './postResultStyles';
 
-import DEFAULT_IMAGE from '../../../assets/no_image.png';
+import DEFAULT_IMAGE from '../../../../../assets/no_image.png';
 
 const filterOptions = ['relevance', 'popularity', 'newest'];
 
