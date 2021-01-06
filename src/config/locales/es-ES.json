@@ -361,7 +361,8 @@
     "invalidImage": "Imagen no válida, prueba un archivo diferente",
     "something_wrong": "Algo ha fallado.",
     "something_wrong_alt": "Prueba https://ecency.com",
-    "something_wrong_reload": "Recarga"
+    "something_wrong_reload": "Recarga",
+    "can_not_be_empty": "Title and body can not be empty!"
   },
   "post": {
     "reblog_alert": "¿Estás seguro de querer rebloguear?",
@@ -537,7 +538,15 @@
     "more_replies": "mas comentarios"
   },
   "search_result": {
-    "others": "Otros",
+    "best": {
+      "title": "Best"
+    },
+    "people": {
+      "title": "People"
+    },
+    "topics": {
+      "title": "Topics"
+    },
     "communities": {
       "title": "Comunidades",
       "subscribe": "Unirse",
