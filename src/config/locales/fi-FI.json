@@ -361,7 +361,8 @@
     "invalidImage": "Vääränlainen kuva, yritä toista",
     "something_wrong": "Jokin meni pieleen.",
     "something_wrong_alt": "Kokeile https://ecency.com",
-    "something_wrong_reload": "Päivitä"
+    "something_wrong_reload": "Päivitä",
+    "can_not_be_empty": "Title and body can not be empty!"
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
@@ -537,7 +538,15 @@
     "more_replies": "lisää vastauksia"
   },
   "search_result": {
-    "others": "Muut",
+    "best": {
+      "title": "Best"
+    },
+    "people": {
+      "title": "People"
+    },
+    "topics": {
+      "title": "Topics"
+    },
     "communities": {
       "title": "Yhteisöt",
       "subscribe": "Liity",
