@@ -361,7 +361,8 @@
     "invalidImage": "Neispravna slika, isprobajte drugu datoteku",
     "something_wrong": "Došlo je do greške.",
     "something_wrong_alt": "Pokušajte https://ecency.com",
-    "something_wrong_reload": "Ponovo napuni"
+    "something_wrong_reload": "Ponovo napuni",
+    "can_not_be_empty": "Title and body can not be empty!"
   },
   "post": {
     "reblog_alert": "Da li ste sigurni da želite da podelite?",
@@ -537,7 +538,15 @@
     "more_replies": "još odgovora"
   },
   "search_result": {
-    "others": "Ostalo",
+    "best": {
+      "title": "Best"
+    },
+    "people": {
+      "title": "People"
+    },
+    "topics": {
+      "title": "Topics"
+    },
     "communities": {
       "title": "Zajednice",
       "subscribe": "Pridruži se",
