@@ -362,7 +362,7 @@
     "something_wrong": "कुछ गलत हो गया।",
     "something_wrong_alt": "Https://ecency.com आज़माएं",
     "something_wrong_reload": "पुनः लोड करें",
-    "can_not_be_empty": "Title and body can not be empty!"
+    "can_not_be_empty": "शीर्षक और शरीर खाली नहीं हो सकता!"
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
@@ -539,13 +539,13 @@
   },
   "search_result": {
     "best": {
-      "title": "Best"
+      "title": "सर्वश्रेष्ठ"
     },
     "people": {
-      "title": "People"
+      "title": "लोग"
     },
     "topics": {
-      "title": "Topics"
+      "title": "विषयों"
     },
     "communities": {
       "title": "समुदाय",
