@@ -255,7 +255,10 @@
     "add_account": "खता जोड़ें",
     "logout": "बहार जाएँ",
     "cancel": "रद्द करें",
-    "logout_text": "क्या आप सच में बाहर जाना चाहते हैं?"
+    "logout_text": "क्या आप सच में बाहर जाना चाहते हैं?",
+    "create_a_new_account": "एक नया खाता बनाएं",
+    "add_an_existing_account": "एक मौजूदा खाता जोड़ें",
+    "accounts": "खाते"
   },
   "header": {
     "title": "आपकी अपनी संभरण को अपने अनुकूल संयोजित करने के लिए लॉगिन करें",
@@ -294,7 +297,8 @@
     "options": "विकल्प",
     "my_blog": "मेरा ब्लॉग",
     "my_communities": "मेरे समुदाय",
-    "top_communities": "शीर्ष समुदाय"
+    "top_communities": "शीर्ष समुदाय",
+    "schedule_modal_title": "पोस्ट शेड्यूल करें"
   },
   "pincode": {
     "enter_text": "खोलनें के लिए पिन डालें",
@@ -320,9 +324,15 @@
     "success_favorite": "पसंदीदा जोड़ा!",
     "success_unfavorite": "पसंदीदा हटा दिया गया!",
     "success_follow": "सफलता का पालन करें!",
+    "fail_follow": "फॉलो फेल हो गए!",
+    "success_subscribe": "सदस्यता लें सफलता!",
+    "fail_subscribe": "सदस्यता लें विफल!",
+    "success_leave": "सफलता छोड़ो!",
+    "fail_leave": "छोड़ो असफल!",
     "success_mute": "सफलता को म्यूट करें!",
     "success_unmute": "सफलता को बेपर्दा करो!",
     "success_unfollow": "असफल सफलता!",
+    "fail_unfollow": "उनफॉलो असफल रहा!",
     "warning": "चेतावनी",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "क्या आप इसे सच में हटाना चाहते हैं?",
@@ -351,7 +361,8 @@
     "invalidImage": "अमान्य छवि, भिन्न फ़ाइल आज़माएं",
     "something_wrong": "कुछ गलत हो गया।",
     "something_wrong_alt": "Https://ecency.com आज़माएं",
-    "something_wrong_reload": "पुनः लोड करें"
+    "something_wrong_reload": "पुनः लोड करें",
+    "can_not_be_empty": "शीर्षक और शरीर खाली नहीं हो सकता!"
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
@@ -527,7 +538,16 @@
     "more_replies": "अधिक जवाब"
   },
   "search_result": {
-    "others": "अन्य",
+    "others": "Others",
+    "best": {
+      "title": "सर्वश्रेष्ठ"
+    },
+    "people": {
+      "title": "लोग"
+    },
+    "topics": {
+      "title": "विषयों"
+    },
     "communities": {
       "title": "समुदाय",
       "subscribe": "शामिल हों",
@@ -556,5 +576,9 @@
     "new_post": "नया पोस्ट",
     "community": "समुदाय",
     "details": "विवरण"
+  },
+  "user": {
+    "follow": "फॉलो करें",
+    "unfollow": "अनफॉलो करें"
   }
 }

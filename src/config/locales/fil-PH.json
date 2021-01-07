@@ -21,7 +21,7 @@
     "delegation": "Delegasyon",
     "delegations": "Mga Delegasyon",
     "delegation_title": "Delegasyon na gantimpala",
-    "delegation_desc": "Earn Points everyday for delegation",
+    "delegation_desc": "Kumita ng Points araw-araw sa mga delegasyon",
     "post_title": "Puntos para sa post",
     "comment_title": "Puntos para sa komento",
     "vote_title": "Puntos para sa boto",
@@ -30,13 +30,13 @@
     "checkin_title": "Puntos para sa tibok ng puso",
     "referral": "Referral",
     "referral_title": "Gantimpala sa mga Referral",
-    "referral_desc": "Invite friends and earn Points",
-    "checkin_extra_title": "Bonus sa pag-gamit",
+    "referral_desc": "Mag-anyaya ng mga kaibigan at kumita ng Points",
+    "checkin_extra_title": "Bonus sa paggamit",
     "no_activity": "Walang aktibidad kamakailan",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
-    "post_desc": "Kikita ka ng puntos sa pamamagitan ng regular na pag-post. Ang pag-post ay nagbibigay sa iyo ng hanggang sa 15 na puntos.",
-    "comment_desc": "Ang bawat komento na ginagawa mo ay nakakatulong sa pagpapalago ng iyong madla at kumikita ka ng hanggang 5 na puntos.",
+    "post_desc": "Kikita ka ng puntos sa pamamagitan ng palaging pagpost. Ang pagpost ay magbibigay sa iyo ng hanggang sa 15 puntos.",
+    "comment_desc": "Ang bawat komento na ginagawa mo ay nakakatulong sa pagpaparami ng iyong madla at magbibigay sayo ng hanggang 5 puntos.",
     "checkin_desc": "Ang regular na pagsuri ay nagbibigay sa iyo ng 0.25 na puntos.",
     "vote_desc": "Sa pagboto, nagbibigay ka ng gantimpala sa mga tagalikha at nagbibigay naman sa iyo ng hanggang 0.01 x bigat ng boto na puntos.",
     "reblog_desc": "Ibahagi ang post na gusto mo sa iyong mga kaibigan at kikita ka ng puntos.",
@@ -59,8 +59,8 @@
     "to_placeholder": "Username",
     "memo_placeholder": "I-enter ang iyong lista dito",
     "transfer_token": "Paglipat",
-    "purchase_estm": "GET POINTS",
-    "points": "Gift Points to someone",
+    "purchase_estm": "MAGKAROON NG POINTS",
+    "points": "Magregalo ng Points sa iba",
     "transfer_to_saving": "Patungong Saving",
     "powerUp": "Power Up",
     "withdraw_to_saving": "I-withdraw ang inipon",
@@ -83,7 +83,7 @@
     "fill_vesting_withdraw": "Ang pag-powerdown ay naisagawa",
     "estm": {
       "title": "Puntos",
-      "buy": "GET POINTS"
+      "buy": "MAGKAROON NG POINTS"
     },
     "savingsteem": {
       "title": "Inipong HIVE"
@@ -118,7 +118,7 @@
     "ignore": "ayaw kang makita",
     "reblog": "nireblogged",
     "transfer": "nailipat",
-    "spin": "Time to earn more Points",
+    "spin": "Panahon na para kumita ng mas maraming Points",
     "inactive": "Maging aktibo! Magsulat ng post, kumita ng tuloy-tuloy",
     "referral": "sumali gamit ang iyong referral, salubungin sila",
     "notification": "Mga Abiso",
@@ -159,7 +159,7 @@
     "voting_power": "Lakas ng pagboto",
     "login_to_see": "Mag login para makita",
     "follow_people": "Sundan ang ibang tao para punan ang iyong feed",
-    "follow_communities": "Join some communities to fill your feed",
+    "follow_communities": "Sumali sa ilang komunidad para mapuno ang iyong feed",
     "havent_commented": "wala pang na i-komentong bagay",
     "havent_posted": "wala pang na i-post na kahit anong bagay",
     "steem_power": "Hive Power",
@@ -214,24 +214,24 @@
   "login": {
     "signin": "Mag sign in",
     "signup": "SUMALI NGAYON",
-    "signin_title": "To get all the benefits of using Ecency",
+    "signin_title": "Para makuha ang lahat ng benepisyo ng paggamit ng Ecency",
     "username": "Username",
     "password": "Password or WIF",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "Sa pag-sign in, pumapayag ka sa mga Tuntunin ng Paggamit at Mga Patakaran sa Privacy.",
     "cancel": "kansel",
     "login": "LOGIN",
     "steemconnect_description": "Kung ayaw mong itago ang encrypted password mo sa device mo, gamitin ang Hivesigner.",
     "steemconnect_fee_description": "impormasyon"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "Sumali",
     "title": "Mag sign up",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
-    "ref_user": "Referred user (Optional)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
-    "title_description": "One account to manage everything",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "username": "Pumili ng username",
+    "mail": "Ilagay ang iyong email address",
+    "ref_user": "Napasaling user (opsyunal)",
+    "500_error": "Ang iyong request ay hindi maproseso, ang pila ng pagsali ay maaaring puno na! Subukan ulit nang ilang minuto...",
+    "title_description": "Isang account para asikasuhin ang lahat",
+    "form_description": "Sa pag-sign in, pumapayag ka sa mga Tuntunin ng Paggamit at Mga Patakaran sa Privacy."
   },
   "home": {
     "feed": "Feed",
@@ -241,8 +241,8 @@
     "new": "Bago",
     "blog": "Blog",
     "posts": "Post",
-    "friends": "Friends",
-    "communities": "Communities"
+    "friends": "Mga kaibigan",
+    "communities": "Mga pamayanan"
   },
   "side_menu": {
     "profile": "Profile",
@@ -255,7 +255,10 @@
     "add_account": "Magdagdag ng Account",
     "logout": "Mag-logout",
     "cancel": "Kansel",
-    "logout_text": "Sigurado kang gusto mong mag logout?"
+    "logout_text": "Sigurado kang gusto mong mag logout?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Mag login para i-customize ang iyong feed",
@@ -281,20 +284,21 @@
     "limited_dash": "Gumamit ng isang gatlang bawat tag",
     "limited_space": "Gumamit ng puwang para mapaghiwalay ang bawat tag",
     "limited_lowercase": "Gumamit lamang ng maliliit na letra sa mga tag",
-    "limited_characters": "Use only lowercase letters, digits and one dash",
+    "limited_characters": "Gumamit lamang ng maliliit na mga titik, mga numero, at isang gitling",
     "limited_firstchar": "Dapat nag-uumpisa sa letra ang bawat tag",
     "limited_lastchar": "Dapat nakatapus sa letra o numero ang tag",
-    "setting_schedule": "Scheduling Time",
-    "setting_reward": "Reward",
-    "setting_beneficiary": "Beneficiary",
+    "setting_schedule": "Oras ng Iskedyul",
+    "setting_reward": "Gantimpala",
+    "setting_beneficiary": "Benepisyaryo",
     "reward_default": "Default 50% / 50%",
     "reward_power_up": "Power Up 100%",
-    "reward_decline": "Decline Payout",
-    "beneficiaries": "Beneficiaries",
-    "options": "Options",
-    "my_blog": "My Blog",
-    "my_communities": "My Communities",
-    "top_communities": "Top Communities"
+    "reward_decline": "Tanggihan ang Payout",
+    "beneficiaries": "Mga Benepisyaryo",
+    "options": "Mga Pagpipilian",
+    "my_blog": "Aking blog",
+    "my_communities": "Aking mga pamayanan",
+    "top_communities": "Top Communities",
+    "schedule_modal_title": "Schedule Post"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -310,19 +314,25 @@
     "fail": "Bigo!",
     "move": "Ilipat",
     "move_question": "Sigurado kang ililipat mo sa drafts?",
-    "success_shared": "Success! Content submitted!",
+    "success_shared": "Tagumpay! Ang nilalaman ay naipasa na!",
     "success_moved": "Nailipat sa draft",
     "permission_denied": "Hindi pinahintulutan",
     "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Operation requires active key or master password, please relogin!",
+    "key_warning": "Ang operasyon ay nangangailangan ng active key o master password, palogin ulit!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Naibahagi mo na ito!",
     "success_favorite": "Paborito ay nadagdag!",
     "success_unfavorite": "Paborito ay natanggal!",
     "success_follow": "Nagtagumpay sa pagsunod!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "Nagtagumpay sa pag-mute!",
     "success_unmute": "Nagtagumpay sa pag-unmute!",
     "success_unfollow": "Nagtagumpay sa hindi pagsunod!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Babala",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
@@ -349,13 +359,14 @@
     "payloadTooLarge": "Masyadong malaki ang file, maaaring baguhin ang laki nito o mag-upload ng mas maliit na imahe",
     "qoutaExceeded": "Umabot na sa limit sa pag-upload",
     "invalidImage": "Inbalidong imahe, subukan ang ibang file",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload"
+    "something_wrong": "May nangyaring problema.",
+    "something_wrong_alt": "Subukan ang https://ecency.com",
+    "something_wrong_reload": "I-reload",
+    "can_not_be_empty": "Title and body can not be empty!"
   },
   "post": {
     "reblog_alert": "Sigurado ka, gusto mong i-reblog?",
-    "removed_hint": "Content is not available",
+    "removed_hint": "Ang nilalaman ay hindi makuha",
     "copy_link": "Kopyahin ang link",
     "reblogged": "ni-reblog ni",
     "sponsored": "SPONSORED",
@@ -404,7 +415,7 @@
     "invalid_username": "Maling username, maaaring suriin at subukan ulit",
     "already_logged": "Ikaw ay naka login na, maaaring subukan na magdagdag ng ibang account",
     "invalid_credentials": "Maling credentials, maaaring suriin at subukan ulit",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "Hindi malaman na error, maaaring sumulat sa support@ecency.com"
   },
   "payout": {
     "potential_payout": "Potensyal na Payout",
@@ -424,7 +435,7 @@
     "bookmarks": "idagdag sa mga bookmark",
     "promote": "i-promote",
     "boost": "i-boost",
-    "report": "report"
+    "report": "iulat"
   },
   "deep_link": {
     "no_existing_user": "Walang makita na user",
@@ -457,7 +468,7 @@
     "transfer_token": "Paglipat",
     "purchase_estm": "Purchase Points",
     "convert": "I-convert ang HBD bilang HIVE",
-    "points": "Gift Points to someone",
+    "points": "Iregalo ang Points sa iba",
     "transfer_to_saving": "Ilipat sa Ipon",
     "powerUp": "Power Up",
     "withdraw_to_saving": "I-withdraw sa Inipon",
@@ -479,8 +490,8 @@
     "address_view": "Tignan ang address"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
+    "title": "Magkaroon ng Points",
+    "buy": "KUMUHA ng Points",
     "next": "SUNOD",
     "account": {
       "title": "Kumuha ng Account Boost",
@@ -488,7 +499,7 @@
     }
   },
   "free_estm": {
-    "title": "Free Points",
+    "title": "Libreng Points",
     "button": "IKUTIN & MANALO",
     "get_spin": "Limang(5) Ikot",
     "spin_right": "Ikot na natitira",
@@ -528,9 +539,18 @@
   },
   "search_result": {
     "others": "Others",
+    "best": {
+      "title": "Best"
+    },
+    "people": {
+      "title": "People"
+    },
+    "topics": {
+      "title": "Topics"
+    },
     "communities": {
-      "title": "Communities",
-      "subscribe": "Join",
+      "title": "Mga pamayanan",
+      "subscribe": "Sumali",
       "unsubscribe": "Leave",
       "subscribers": "Members",
       "posters": "Posters",
@@ -556,5 +576,9 @@
     "new_post": "New Post",
     "community": "community",
     "details": "Details"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }

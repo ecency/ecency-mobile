@@ -255,7 +255,10 @@
     "add_account": "Lisää tili",
     "logout": "Kirjaudu ulos",
     "cancel": "Peruuta",
-    "logout_text": "Haluatko varmasti kirjautua ulos?"
+    "logout_text": "Haluatko varmasti kirjautua ulos?",
+    "create_a_new_account": "Luo uusi tili",
+    "add_an_existing_account": "Lisää olemassa oleva tili",
+    "accounts": "Tilit"
   },
   "header": {
     "title": "Kirjaudu mukauttaaksesi syötettäsi",
@@ -294,7 +297,8 @@
     "options": "Asetukset",
     "my_blog": "Oma Blogi",
     "my_communities": "Yhteisöni",
-    "top_communities": "Suosituimmat Yhteisöt"
+    "top_communities": "Suosituimmat Yhteisöt",
+    "schedule_modal_title": "Ajasta julkaisu"
   },
   "pincode": {
     "enter_text": "Poista lukitus antamalla PIN-koodi",
@@ -320,9 +324,15 @@
     "success_favorite": "Suosikki lisätty!",
     "success_unfavorite": "Suosikki poistettu!",
     "success_follow": "Seuraaminen onnistui!",
+    "fail_follow": "Seuraaminen epäonnistui!",
+    "success_subscribe": "Tilaus onnistui!",
+    "fail_subscribe": "Tilaus epäonnistui!",
+    "success_leave": "Poistuminen onnistui!",
+    "fail_leave": "Poistuminen epäonnistui!",
     "success_mute": "Hiljentäminen onnistui!",
     "success_unmute": "Hiljennyksen poisto onnistui!",
     "success_unfollow": "Seuraamisen lopettaminen onnistui!",
+    "fail_unfollow": "Seuraamisen peruminen epäonnistui!",
     "warning": "Varoitus",
     "invalid_pincode": "Virheellinen PIN-koodi, tarkista koodi ja yritä uudelleen.",
     "remove_alert": "Haluatko varmasti poistaa?",
@@ -351,7 +361,8 @@
     "invalidImage": "Vääränlainen kuva, yritä toista",
     "something_wrong": "Jokin meni pieleen.",
     "something_wrong_alt": "Kokeile https://ecency.com",
-    "something_wrong_reload": "Päivitä"
+    "something_wrong_reload": "Päivitä",
+    "can_not_be_empty": "Otsikko ja sisältö eivät voi olla tyhjiä!"
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
@@ -527,7 +538,16 @@
     "more_replies": "lisää vastauksia"
   },
   "search_result": {
-    "others": "Muut",
+    "others": "Others",
+    "best": {
+      "title": "Parhaat"
+    },
+    "people": {
+      "title": "Ihmiset"
+    },
+    "topics": {
+      "title": "Aiheet"
+    },
     "communities": {
       "title": "Yhteisöt",
       "subscribe": "Liity",
@@ -556,5 +576,9 @@
     "new_post": "Uusi julkaisu",
     "community": "yhteisö",
     "details": "Lisätiedot"
+  },
+  "user": {
+    "follow": "Seuraa",
+    "unfollow": "Älä seuraa"
   }
 }

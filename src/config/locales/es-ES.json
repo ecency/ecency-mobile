@@ -255,7 +255,10 @@
     "add_account": "Agregar cuenta",
     "logout": "Cerrar sesión",
     "cancel": "Cancelar",
-    "logout_text": "¿Estás seguro de que quieres salir?"
+    "logout_text": "¿Estás seguro de que quieres salir?",
+    "create_a_new_account": "Crea una cuenta nueva",
+    "add_an_existing_account": "Añadir cuenta existente",
+    "accounts": "Cuentas"
   },
   "header": {
     "title": "Inicie sesión para personalizar su inicio",
@@ -294,7 +297,8 @@
     "options": "Opciones",
     "my_blog": "Mi blog",
     "my_communities": "Mis comunidades",
-    "top_communities": "Comunidades"
+    "top_communities": "Comunidades",
+    "schedule_modal_title": "Programar publicación"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -320,9 +324,15 @@
     "success_favorite": "Añadido a favoritos!",
     "success_unfavorite": "Post removido de favoritos!",
     "success_follow": "Ahora le sigues!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "Muteo exitoso!",
     "success_unmute": "¡Muteo exitoso!",
     "success_unfollow": "¡Dejar de seguir con éxito!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Advertencia",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Está seguro que quiere borrar?",
@@ -351,7 +361,8 @@
     "invalidImage": "Imagen no válida, prueba un archivo diferente",
     "something_wrong": "Algo ha fallado.",
     "something_wrong_alt": "Prueba https://ecency.com",
-    "something_wrong_reload": "Recarga"
+    "something_wrong_reload": "Recarga",
+    "can_not_be_empty": "Título y cuerpo no pueden estar vacíos!"
   },
   "post": {
     "reblog_alert": "¿Estás seguro de querer rebloguear?",
@@ -527,7 +538,16 @@
     "more_replies": "mas comentarios"
   },
   "search_result": {
-    "others": "Otros",
+    "others": "Others",
+    "best": {
+      "title": "Mejor"
+    },
+    "people": {
+      "title": "Personas"
+    },
+    "topics": {
+      "title": "Temas"
+    },
     "communities": {
       "title": "Comunidades",
       "subscribe": "Unirse",
@@ -556,5 +576,9 @@
     "new_post": "Escribir un post",
     "community": "comunidad",
     "details": "Detalles"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }
