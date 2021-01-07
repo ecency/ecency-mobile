@@ -5,9 +5,9 @@ import { useIntl } from 'react-intl';
 
 // Components
 import { SearchInput, TabBar } from '../../../components';
-import Communities from './tabs/communities/communities';
-import PostResult from './tabs/best/postResult';
-import OtherResult from './tabs/topics/otherResults';
+import Communities from './communities';
+import PostResult from './postResult';
+import OtherResult from './otherResults';
 
 // Styles
 import styles from './searchResultStyles';
@@ -36,7 +36,6 @@ const SearchResultScreen = ({ navigation }) => {
       tabUnderlineDefaultWidth={80}
       tabUnderlineScaleX={2}
       tabBarPosition="overlayTop"
-      textStyle={styles.tabBarText}
     />
   );
 
@@ -55,28 +54,19 @@ const SearchResultScreen = ({ navigation }) => {
         prerenderingSiblingsNumber={Infinity}
       >
         <View
-          tabLabel={intl.formatMessage({ id: 'search_result.best.title' })}
-          style={styles.tabbarItem}
-        >
-          <PostResult searchValue={searchValue} />
-        </View>
-        <View
-          tabLabel={intl.formatMessage({ id: 'search_result.people.title' })}
-          style={styles.tabbarItem}
-        >
-          <OtherResult searchValue={searchValue} />
-        </View>
-        <View
-          tabLabel={intl.formatMessage({ id: 'search_result.topics.title' })}
-          style={styles.tabbarItem}
-        >
-          <OtherResult searchValue={searchValue} />
-        </View>
-        <View
           tabLabel={intl.formatMessage({ id: 'search_result.communities.title' })}
           style={styles.tabbarItem}
         >
           <Communities searchValue={searchValue} />
+        </View>
+        <View tabLabel={intl.formatMessage({ id: 'search.posts' })} style={styles.tabbarItem}>
+          <PostResult searchValue={searchValue} />
+        </View>
+        <View
+          tabLabel={intl.formatMessage({ id: 'search_result.others' })}
+          style={styles.tabbarItem}
+        >
+          <OtherResult searchValue={searchValue} />
         </View>
       </ScrollableTabView>
     </View>
