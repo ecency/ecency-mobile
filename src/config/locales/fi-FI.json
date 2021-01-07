@@ -362,7 +362,7 @@
     "something_wrong": "Jokin meni pieleen.",
     "something_wrong_alt": "Kokeile https://ecency.com",
     "something_wrong_reload": "Päivitä",
-    "can_not_be_empty": "Title and body can not be empty!"
+    "can_not_be_empty": "Otsikko ja sisältö eivät voi olla tyhjiä!"
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
@@ -539,13 +539,13 @@
   },
   "search_result": {
     "best": {
-      "title": "Best"
+      "title": "Parhaat"
     },
     "people": {
-      "title": "People"
+      "title": "Ihmiset"
     },
     "topics": {
-      "title": "Topics"
+      "title": "Aiheet"
     },
     "communities": {
       "title": "Yhteisöt",
