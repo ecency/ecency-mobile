@@ -249,7 +249,7 @@ export const getUser = async (user, loggedIn = true) => {
 
 const cache = {};
 const patt = /hive-\d\w+/g;
-export const getCommunity = (tag, observer = '') =>
+export const getCommunity = async (tag, observer = '') =>
   new Promise(async (resolve, reject) => {
     try {
       const community = await client.call('bridge', 'get_community', {
@@ -294,7 +294,13 @@ export const getCommunityTitle = async (tag) =>
     resolve(tag);
   });
 
-export const getCommunities = (last = '', limit = 100, query = '', sort = 'rank', observer = '') =>
+export const getCommunities = async (
+  last = '',
+  limit = 100,
+  query = '',
+  sort = 'rank',
+  observer = '',
+) =>
   new Promise(async (resolve, reject) => {
     try {
       const data = await client.call('bridge', 'list_communities', {
