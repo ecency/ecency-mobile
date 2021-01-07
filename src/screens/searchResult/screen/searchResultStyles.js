@@ -28,4 +28,7 @@ export default EStyleSheet.create({
   tabs: {
     flex: 1,
   },
+  tabBarText: {
+    fontSize: 14,
+  },
 });

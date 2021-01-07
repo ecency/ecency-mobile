@@ -6,9 +6,9 @@ import isEmpty from 'lodash/isEmpty';
 import ROUTES from '../../../constants/routeNames';
 
 import {
-  subscribeCommunity,
   getCommunities,
   getSubscriptions,
+  subscribeCommunity,
 } from '../../../providers/hive/dhive';
 
 const CommunitiesContainer = ({
