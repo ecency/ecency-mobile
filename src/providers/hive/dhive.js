@@ -294,6 +294,48 @@ export const getCommunityTitle = async (tag) =>
     resolve(tag);
   });
 
+export const getCommunities = async (
+  last = '',
+  limit = 100,
+  query = '',
+  sort = 'rank',
+  observer = '',
+) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const data = await client.call('bridge', 'list_communities', {
+        last,
+        limit,
+        query,
+        sort,
+        observer,
+      });
+      if (data) {
+        resolve(data);
+      } else {
+        resolve({});
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+export const getSubscriptions = (account = '') =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const data = await client.call('bridge', 'list_all_subscriptions', {
+        account,
+      });
+      if (data) {
+        resolve(data);
+      } else {
+        resolve({});
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+
 // TODO: Move to utils folder
 export const vestToSteem = async (vestingShares, totalVestingShares, totalVestingFundSteem) =>
   (
@@ -1093,8 +1135,8 @@ export const lookupAccounts = async (username) => {
     const users = await client.database.call('lookup_accounts', [username, 20]);
     return users;
   } catch (error) {
-    console.log('lookup_accounts');
-    throw error;
+    return [];
+    //throw error;
   }
 };
 
@@ -1103,8 +1145,8 @@ export const getTrendingTags = async (tag) => {
     const tags = await client.database.call('get_trending_tags', [tag, 20]);
     return tags;
   } catch (error) {
-    console.log('get_trending_tags');
-    throw error;
+    return [];
+    //throw error;
   }
 };
 

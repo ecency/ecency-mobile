@@ -65,7 +65,7 @@ const OtherResult = ({ navigation, searchValue }) => {
           return (
             <FlatList
               data={tags}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => `${item.name}-${item.comments}`}
               renderItem={({ item, index }) => (
                 <TouchableOpacity onPress={() => handleOnPress(item)}>
                   {_renderTagItem(item, index)}

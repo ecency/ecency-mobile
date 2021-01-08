@@ -31,6 +31,7 @@ class LeaderboardView extends PureComponent {
         isBlackRightColor
         rightText={get(item, 'points')}
         middleText={get(item, 'count')}
+        isLoggedIn
         itemIndex={index + 1}
         handleOnPress={() => handleOnUserPress(get(item, '_id'))}
         rightTextStyle={styles.rewardText}

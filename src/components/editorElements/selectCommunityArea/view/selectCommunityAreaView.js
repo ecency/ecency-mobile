@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 
@@ -7,6 +7,7 @@ import { Icon } from '../../../icon';
 import globalStyles from '../../../../globalStyles';
 
 import styles from './selectCommunityAreStyles';
+import { Separator } from '../../../basicUIElements';
 
 const SelectCommunityAreaView = ({
   community,

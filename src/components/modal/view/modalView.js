@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import ModalBox from 'react-native-modal';
 import { IconButton } from '../../iconButton';
 import styles from './modalStyles';
@@ -45,17 +45,20 @@ export default class Modal extends PureComponent {
       isOpen,
       children,
       isRadius,
-      isTransparent,
+      isTransparent = false,
       title,
       animationType = 'fade',
       isCloseButton,
-      presentationStyle = 'fullScreen',
+      isBottomModal = false,
+      hasRightText = false,
+      rightText,
+      onPressRightText,
     } = this.props;
     return (
       <ModalBox
         style={[
           isRadius && styles.borderTopRadius,
-          isFullScreen ? styles.fullModal : styles.centerModal,
+          isFullScreen ? styles.fullModal : isBottomModal ? styles.bottomModal : styles.centerModal,
         ]}
         transparent={isTransparent}
         animationType={animationType}
@@ -64,24 +67,30 @@ export default class Modal extends PureComponent {
         onShow={() => this._handleOnOpen(this)}
         onModalHide={() => console.log('hide')}
         onModalDismiss={() => console.log('dismiss')}
-        presentationStyle={presentationStyle}
         {...this.props}
       >
         {title && (
-          <SafeAreaView style={styles.safeArea}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.headerTitle}>{title}</Text>
-              {isCloseButton && (
-                <IconButton
-                  style={styles.closeButton}
-                  iconType="FontAwesome"
-                  iconStyle={styles.closeIcon}
-                  name="close"
-                  onPress={() => this._handleOnClose()}
-                />
-              )}
-            </View>
-          </SafeAreaView>
+          <View style={styles.modalHeader}>
+            <Text
+              style={[styles.headerTitle, (isCloseButton || hasRightText) && { marginLeft: 50 }]}
+            >
+              {title}
+            </Text>
+            {isCloseButton && (
+              <IconButton
+                style={styles.closeButton}
+                iconType="FontAwesome"
+                iconStyle={styles.closeIcon}
+                name="close"
+                onPress={() => this._handleOnClose()}
+              />
+            )}
+            {hasRightText && (
+              <TouchableOpacity onPress={onPressRightText}>
+                <Text style={styles.rightText}>{rightText}</Text>
+              </TouchableOpacity>
+            )}
+          </View>
         )}
         {children}
       </ModalBox>

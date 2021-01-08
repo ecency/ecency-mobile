@@ -4,7 +4,7 @@ export default EStyleSheet.create({
   container: {
     flexDirection: 'column',
     backgroundColor: '$primaryBackgroundColor',
-    marginTop: 8,
+    //marginTop: 8,
     overflow: 'hidden',
   },
   containerWithBorder: {

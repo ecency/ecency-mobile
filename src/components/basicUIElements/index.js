@@ -9,6 +9,8 @@ import Tag from './view/tag/tagContainer';
 import TextWithIcon from './view/textWithIcon/textWithIconView';
 import UserListItem from './view/userListItem/userListItem';
 import WalletLineItem from './view/walletLineItem/walletLineItemView';
+import CommunityListItem from './view/communityListItem/communityListItem';
+import Separator from './view/separator/separatorView';
 
 // Placeholders
 import ListItemPlaceHolder from './view/placeHolder/listItemPlaceHolderView';
@@ -40,8 +42,10 @@ export {
   Tag,
   TextWithIcon,
   UserListItem,
+  CommunityListItem,
   WalletDetailsPlaceHolder,
   WalletLineItem,
   WalletUnclaimedPlaceHolder,
   CommunitiesPlaceHolder,
+  Separator,
 };

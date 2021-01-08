@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import React, { useRef } from 'react';
-import { FlatList, View, ActivityIndicator, RefreshControl } from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { FlatList, View, ActivityIndicator, RefreshControl, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 import { get } from 'lodash';
@@ -8,12 +8,18 @@ import { get } from 'lodash';
 // COMPONENTS
 import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
-import { PostCardPlaceHolder, NoPost } from '../../basicUIElements';
+import {
+  PostCardPlaceHolder,
+  NoPost,
+  UserListItem,
+  CommunityListItem,
+} from '../../basicUIElements';
 import { ThemeContainer } from '../../../containers';
 
 // Styles
 import styles from './postsStyles';
 import { default as ROUTES } from '../../../constants/routeNames';
+import globalStyles from '../../../globalStyles';
 
 let _onEndReachedCalledDuringMomentum = true;
 
@@ -44,9 +50,33 @@ const PostsView = ({
   handleFeedSubfilterOnDropdownSelect,
   setSelectedFeedSubfilterValue,
   selectedFeedSubfilterValue,
+  getRecommendedUsers,
+  getRecommendedCommunities,
+  recommendedUsers,
+  recommendedCommunities,
+  handleFollowUserButtonPress,
+  handleSubscribeCommunityButtonPress,
+  followingUsers,
+  subscribingCommunities,
 }) => {
   const intl = useIntl();
   const postsList = useRef(null);
+
+  useEffect(() => {
+    if (isNoPost) {
+      if (selectedFilterValue === 'feed') {
+        if (selectedFeedSubfilterValue === 'friends') {
+          if (recommendedUsers.length === 0) {
+            getRecommendedUsers();
+          }
+        } else {
+          if (recommendedCommunities.length === 0) {
+            getRecommendedCommunities();
+          }
+        }
+      }
+    }
+  }, [isNoPost, selectedFilterValue, selectedFeedSubfilterValue]);
 
   const _handleFilterOnDropdownSelect = async (index) => {
     if (index === selectedFilterIndex) {
@@ -103,23 +133,91 @@ const PostsView = ({
     }
 
     if (isNoPost) {
-      return (
-        <NoPost
-          imageStyle={styles.noImage}
-          name={tag}
-          text={intl.formatMessage({
-            id: 'profile.havent_posted',
-          })}
-          defaultText={intl.formatMessage({
-            id:
-              selectedFilterValue === 'feed'
-                ? selectedFeedSubfilterValue === 'friends'
-                  ? 'profile.follow_people'
-                  : 'profile.follow_communities'
-                : 'profile.havent_posted',
-          })}
-        />
-      );
+      if (selectedFilterValue === 'feed') {
+        if (selectedFeedSubfilterValue === 'friends') {
+          return (
+            <>
+              <Text style={[globalStyles.subTitle, styles.noPostTitle]}>
+                {intl.formatMessage({ id: 'profile.follow_people' })}
+              </Text>
+              <FlatList
+                data={recommendedUsers}
+                extraData={recommendedUsers}
+                renderItem={({ item, index }) => (
+                  <UserListItem
+                    index={index}
+                    username={item._id}
+                    isHasRightItem
+                    rightText={
+                      item.isFollowing
+                        ? intl.formatMessage({ id: 'user.unfollow' })
+                        : intl.formatMessage({ id: 'user.follow' })
+                    }
+                    //isRightColor={item.isFollowing}
+                    isLoggedIn={isLoggedIn}
+                    isFollowing={item.isFollowing}
+                    isLoadingRightAction={
+                      followingUsers.hasOwnProperty(item._id) && followingUsers[item._id].loading
+                    }
+                    onPressRightText={handleFollowUserButtonPress}
+                    handleOnPress={(username) =>
+                      navigation.navigate({
+                        routeName: ROUTES.SCREENS.PROFILE,
+                        params: {
+                          username,
+                        },
+                        key: username,
+                      })
+                    }
+                  />
+                )}
+              />
+            </>
+          );
+        } else {
+          return (
+            <>
+              <Text style={[globalStyles.subTitle, styles.noPostTitle]}>
+                {intl.formatMessage({ id: 'profile.follow_communities' })}
+              </Text>
+              <FlatList
+                data={recommendedCommunities}
+                renderItem={({ item, index }) => (
+                  <CommunityListItem
+                    index={index}
+                    title={item.title}
+                    about={item.about}
+                    admins={item.admins}
+                    id={item.id}
+                    authors={item.num_authors}
+                    posts={item.num_pending}
+                    subscribers={item.subscribers}
+                    isNsfw={item.is_nsfw}
+                    name={item.name}
+                    handleOnPress={(name) =>
+                      navigation.navigate({
+                        routeName: ROUTES.SCREENS.COMMUNITY,
+                        params: {
+                          tag: name,
+                        },
+                      })
+                    }
+                    handleSubscribeButtonPress={handleSubscribeCommunityButtonPress}
+                    isSubscribed={item.isSubscribed}
+                    isLoadingRightAction={
+                      subscribingCommunities.hasOwnProperty(item.name) &&
+                      subscribingCommunities[item.name].loading
+                    }
+                    isLoggedIn={isLoggedIn}
+                  />
+                )}
+              />
+            </>
+          );
+        }
+      } else {
+        return <Text>{intl.formatMessage({ id: 'profile.havent_posted' })}</Text>;
+      }
     }
 
     return (

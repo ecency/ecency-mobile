@@ -1,6 +1,9 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
+  searchInput: {
+    marginTop: 32,
+  },
   searchedFlatList: {
     marginTop: 16,
   },
@@ -10,10 +13,5 @@ export default EStyleSheet.create({
     marginLeft: 16,
     marginBottom: 8,
     color: '$primaryBlack',
-  },
-  separator: {
-    width: '100%',
-    height: 1,
-    color: '$modalBackground',
   },
 });

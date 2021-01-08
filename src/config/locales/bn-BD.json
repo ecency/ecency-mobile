@@ -255,7 +255,10 @@
     "add_account": "একাউন্ট যোগ করুন",
     "logout": "লগআউট",
     "cancel": "বাতিল করুন",
-    "logout_text": "আপনি কি নিশ্চিতভাবে লগআউট করতে চান?"
+    "logout_text": "আপনি কি নিশ্চিতভাবে লগআউট করতে চান?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "আপনার ফিডটি কাস্টমাইজ করতে লগইন করুন",
@@ -294,7 +297,8 @@
     "options": "বিকল্পগুলি",
     "my_blog": "My Blog",
     "my_communities": "My Communities",
-    "top_communities": "Top Communities"
+    "top_communities": "Top Communities",
+    "schedule_modal_title": "Schedule Post"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -320,9 +324,15 @@
     "success_favorite": "পছন্দ যোগ হয়েছে",
     "success_unfavorite": "পছন্দ সরানো হয়েছে",
     "success_follow": "সাফল্য অনুসরণ করুন!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "নিঃশব্দ সাফল্য !",
     "success_unmute": "সাবলীল সাফল্য!",
     "success_unfollow": "সাফল্য অনুসরণ!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "সতর্কতা",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
@@ -351,7 +361,8 @@
     "invalidImage": "ইনভ্যালিড চিত্র, ভিন্ন ফাইল চেষ্টা করুন",
     "something_wrong": "কিছু ভুল হয়েছে",
     "something_wrong_alt": "চেষ্টা করুন https://ecency.com",
-    "something_wrong_reload": "রিলোড"
+    "something_wrong_reload": "রিলোড",
+    "can_not_be_empty": "Title and body can not be empty!"
   },
   "post": {
     "reblog_alert": "আপনি কি নিশ্চিত যে আপনি পুনরায় ব্লগ করতে চান?",
@@ -527,7 +538,16 @@
     "more_replies": "আরও উত্তর"
   },
   "search_result": {
-    "others": "অন্যান্য",
+    "others": "Others",
+    "best": {
+      "title": "Best"
+    },
+    "people": {
+      "title": "People"
+    },
+    "topics": {
+      "title": "Topics"
+    },
     "communities": {
       "title": "কমিউনিটি",
       "subscribe": "Join",
@@ -556,5 +576,9 @@
     "new_post": "নতুন পোস্ট",
     "community": "কমিউনিটি",
     "details": "বিস্তারিত"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }

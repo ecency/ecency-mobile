@@ -4,19 +4,17 @@ export default EStyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'stretch',
     backgroundColor: '$primaryBackgroundColor',
   },
   textWrapper: {
-    flex: 1,
     fontSize: 12,
     paddingTop: 16,
     paddingBottom: 0, // On android side, textinput has default padding
     paddingHorizontal: 16,
     color: '$primaryBlack',
     backgroundColor: '$primaryBackgroundColor',
-    fontFamily: '$editorFont',
-    textAlignVertical: 'top',
+    // fontFamily: '$editorFont',
+    //textAlignVertical: 'top',
   },
   previewContainer: {
     flex: 1,

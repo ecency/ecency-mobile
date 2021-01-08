@@ -5,8 +5,11 @@ import isEmpty from 'lodash/isEmpty';
 
 import ROUTES from '../../../constants/routeNames';
 
-import { getCommunities, getSubscriptions } from '../../../providers/hive/hive';
-import { subscribeCommunity } from '../../../providers/hive/dhive';
+import {
+  subscribeCommunity,
+  getCommunities,
+  getSubscriptions,
+} from '../../../providers/hive/dhive';
 
 const CommunitiesContainer = ({
   children,

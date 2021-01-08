@@ -40,7 +40,7 @@ export default EStyleSheet.create({
     height: 45,
     backgroundColor: '$primaryBackgroundColor',
     borderBottomColor: '#f1f1f1',
-    marginTop: 8,
+    //marginTop: 8,
   },
   tabView: {
     backgroundColor: '$primaryGrayBackground',

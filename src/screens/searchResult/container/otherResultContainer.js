@@ -20,10 +20,10 @@ const OtherResultContainer = (props) => {
     setTags([]);
 
     if (searchValue) {
-      lookupAccounts(searchValue).then((res) => {
+      lookupAccounts(searchValue.replace(/\s+/g, '')).then((res) => {
         setUsers(res);
       });
-      getTrendingTags(searchValue).then((res) => {
+      getTrendingTags(searchValue.replace(/\s+/g, '')).then((res) => {
         setTags(res);
       });
     } else {

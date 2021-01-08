@@ -255,7 +255,10 @@
     "add_account": "Ajimêr Tevlî Bike",
     "logout": "Derkeve",
     "cancel": "Betal",
-    "logout_text": "Bi rastî jî tu dixwazî jê derkevî?"
+    "logout_text": "Bi rastî jî tu dixwazî jê derkevî?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Têkevê û herka xwe kesane bike",
@@ -294,7 +297,8 @@
     "options": "Options",
     "my_blog": "My Blog",
     "my_communities": "My Communities",
-    "top_communities": "Top Communities"
+    "top_communities": "Top Communities",
+    "schedule_modal_title": "Schedule Post"
   },
   "pincode": {
     "enter_text": "Ji bo vekirinê PINê bikevê",
@@ -320,9 +324,15 @@
     "success_favorite": "Bijarde hate tevlîkirin!",
     "success_unfavorite": "Bijarde hate rakirin!",
     "success_follow": "Hate şopandin!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "Hate bêdengkirin!",
     "success_unmute": "Ji bêdengbûnê hate derxistin!",
     "success_unfollow": "Ji şopê hate derketin!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Hişyarî",
     "invalid_pincode": "Pînkod nederbasdar e, kontrol bike û dîsa biceribîne.",
     "remove_alert": "Bi rastî jî tu dixwazî rake?",
@@ -351,7 +361,8 @@
     "invalidImage": "Invalid image, try different file",
     "something_wrong": "Something went wrong.",
     "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload"
+    "something_wrong_reload": "Reload",
+    "can_not_be_empty": "Title and body can not be empty!"
   },
   "post": {
     "reblog_alert": "Bi rastî jî tu dixwazî dîsa biweşînî?",
@@ -528,6 +539,15 @@
   },
   "search_result": {
     "others": "Others",
+    "best": {
+      "title": "Best"
+    },
+    "people": {
+      "title": "People"
+    },
+    "topics": {
+      "title": "Topics"
+    },
     "communities": {
       "title": "Communities",
       "subscribe": "Join",
@@ -556,5 +576,9 @@
     "new_post": "New Post",
     "community": "community",
     "details": "Details"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }

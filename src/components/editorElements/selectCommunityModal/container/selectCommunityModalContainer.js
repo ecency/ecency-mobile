@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { debounce } from 'lodash';
 
 // HIVE
-import { getCommunities, getSubscriptions } from '../../../../providers/hive/hive';
+import { getCommunities, getSubscriptions } from '../../../../providers/hive/dhive';
 
 import SelectCommunityModalView from '../view/selectCommunityModalView';
 
@@ -29,26 +29,9 @@ const SelectCommunityModalContainer = ({ onPressCommunity, currentAccount }) => 
     callSubscribedCommunities();
   }, []);
 
-  const callTopCommunities = () => {
-    dispatch(fetchCommunities());
+  const callTopCommunities = () => dispatch(fetchCommunities('', 15, '', 'rank'));
 
-    getCommunities('', 15, '', 'rank')
-      .then((communities) => {
-        dispatch(fetchCommunitiesSuccess(communities));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const callSubscribedCommunities = () => {
-    dispatch(fetchSubscribedCommunities());
-    getSubscriptions(currentAccount.name)
-      .then((subscriptions) => {
-        dispatch(fetchSubscribedCommunitiesSuccess(subscriptions));
-      })
-      .catch((error) => console.log(error));
-  };
+  const callSubscribedCommunities = () => dispatch(fetchSubscribedCommunities(currentAccount.name));
 
   const handleChangeSearch = (text) => {
     if (text.length >= 3) {

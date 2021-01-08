@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, ScrollView, FlatList } from 'react-native';
+import { View, Text, ScrollView, FlatList, Platform } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 import CommunityCard from '../../../communityCard';
 import { SearchInput } from '../../../searchInput';
+import { Separator } from '../../../basicUIElements';
 
 import globalStyles from '../../../../globalStyles';
 import styles from './selectCommunityModalStyles';
@@ -21,7 +22,12 @@ const SelectCommunityModalView = ({
 }) => {
   return (
     <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-      <SearchInput onChangeText={onChangeSearch} placeholder="search" autoFocus={false} />
+      <SearchInput
+        style={Platform.OS === 'android' && styles.searchInput}
+        onChangeText={onChangeSearch}
+        placeholder="search"
+        autoFocus={false}
+      />
       {showSearchedCommunities ? (
         <FlatList
           ItemSeparatorComponent={() => <Separator />}
@@ -51,7 +57,7 @@ const SelectCommunityModalView = ({
           />
           {!subscribedCommunities.loading &&
             !subscribedCommunities.error &&
-            subscribedCommunities.data.length > 0 && (
+            subscribedCommunities.data?.length > 0 && (
               <View>
                 <Text style={[globalStyles.label, styles.title]}>
                   {intl.formatMessage({ id: 'editor.my_communities' }).toUpperCase()}
@@ -74,10 +80,9 @@ const SelectCommunityModalView = ({
                 />
               </View>
             )}
-          {!topCommunities.loading && !topCommunities.error && topCommunities.data.length > 0 && (
+          {!topCommunities.loading && !topCommunities.error && topCommunities.data?.length > 0 && (
             <View>
               <Text style={[globalStyles.label, styles.title]}>
-                {' '}
                 {intl.formatMessage({ id: 'editor.top_communities' }).toUpperCase()}
               </Text>
               <FlatList
@@ -101,7 +106,5 @@ const SelectCommunityModalView = ({
     </ScrollView>
   );
 };
-
-const Separator = () => <View style={styles.separator} />;
 
 export default injectIntl(SelectCommunityModalView);

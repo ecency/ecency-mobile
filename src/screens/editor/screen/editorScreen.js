@@ -213,6 +213,16 @@ class EditorScreen extends Component {
     });
   };
 
+  _handleChangeTitle = (text) => {
+    const { fields: _fields } = this.state;
+
+    _fields.title = text;
+
+    this.setState({ fields: _fields }, () => {
+      this._handleFormUpdate('title', _fields.title);
+    });
+  };
+
   _handlePressCommunity = (community) => {
     const { fields, selectedCommunity } = this.state;
 
@@ -322,24 +332,6 @@ class EditorScreen extends Component {
               onPressIn={() => this.setState({ isCommunitiesListModalOpen: false })}
             />
           )}
-          {isReply && !isEdit && <SummaryArea summary={post.summary} />}
-          {!isReply && <TitleArea value={fields.title} componentID="title" intl={intl} />}
-          {!isReply && !isPreviewActive && (
-            <TagInput
-              value={fields.tags}
-              componentID="tag-area"
-              intl={intl}
-              handleTagChanged={this._handleOnTagAdded}
-              setCommunity={(hive) => this._getCommunity(hive)}
-            />
-          )}
-          {!isReply && isPreviewActive && (
-            <TagArea
-              draftChips={fields.tags.length > 0 ? fields.tags : null}
-              componentID="tag-area"
-              intl={intl}
-            />
-          )}
           <MarkdownEditor
             componentID="body"
             draftBody={fields && fields.body}
@@ -353,6 +345,12 @@ class EditorScreen extends Component {
             initialFields={this._initialFields}
             isReply={isReply}
             isLoading={isPostSending || isUploading}
+            isEdit={isEdit}
+            post={post}
+            fields={fields}
+            onTagChanged={this._handleOnTagAdded}
+            onTitleChanged={this._handleChangeTitle}
+            getCommunity={this._getCommunity}
           />
         </PostForm>
       </View>

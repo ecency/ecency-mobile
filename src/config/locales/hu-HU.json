@@ -2,11 +2,11 @@
   "wallet": {
     "curation_reward": "Kuráció Jutalom",
     "author_reward": "Szerzői Jutalom",
-    "comment_benefactor_reward": "Benefactor Reward",
-    "claim_reward_balance": "Jutalmak átvevése ",
+    "comment_benefactor_reward": "Jótevői jutalom",
+    "claim_reward_balance": "Jutalom átvétele ",
     "transfer": "Átutalás",
-    "transfer_to_vesting": "To Vesting",
-    "transfer_from_savings": "From Savings",
+    "transfer_to_vesting": "A Vesting-be",
+    "transfer_from_savings": "A megtakarításoktól",
     "withdraw_vesting": "Power Down",
     "fill_order": "Megrendelés Kitöltése",
     "post": "Bejegyzés",
@@ -21,7 +21,7 @@
     "delegation": "Delegálás",
     "delegations": "Delegálások",
     "delegation_title": "Delegálási jutalom",
-    "delegation_desc": "Earn Points everyday for delegation",
+    "delegation_desc": "Nyerj Pontokat naponta delegálásért",
     "post_title": "Bejegyzés pontok",
     "comment_title": "Hozzászólás pontok",
     "vote_title": "Szavazási pontok",
@@ -30,7 +30,7 @@
     "checkin_title": "Életjel pontok",
     "referral": "Ajánló",
     "referral_title": "Ajánlói jutalom",
-    "referral_desc": "Invite friends and earn Points",
+    "referral_desc": "Hívd meg a barátaid és nyerj Pontokat",
     "checkin_extra_title": "Használati bónusz",
     "no_activity": "Nincs friss tevékenység",
     "outgoing_transfer_description": "",
@@ -60,52 +60,52 @@
     "memo_placeholder": "Megjegyzés ide",
     "transfer_token": "Átutalás",
     "purchase_estm": "SZEREZZ PONTOKAT",
-    "points": "Gift Points to someone",
+    "points": "Ajándékozz Pontokat valakinek",
     "transfer_to_saving": "A megtakarításokhoz",
     "powerUp": "Power Up",
-    "withdraw_to_saving": "Withdraw Saving",
-    "steemconnect_title": "Hivesigner Transfer",
+    "withdraw_to_saving": "Megtakarítás visszavonás",
+    "steemconnect_title": "Hivesigner átutalás",
     "next": "KÖVETKEZŐ",
     "delegate": "Delegálás",
     "power_down": "Power Down",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
+    "withdraw_steem": "HIVE visszavonás",
+    "withdraw_sbd": "HBD visszavonás",
     "transfer_to_savings": "A megtakarításokhoz",
     "convert": "Konvertálás",
     "escrow_transfer": "Letéti átutalás",
     "escrow_dispute": "Letéti vita",
     "escrow_release": "Letéti engedély",
     "escrow_approve": "Letéti jóváhagyás",
-    "cancel_transfer_from_savings": "Cancel From Savings",
+    "cancel_transfer_from_savings": "A megtakarításoktól való átutalás törlése",
     "delegate_vesting_shares": "Delegálás",
-    "fill_convert_request": "Átváltás végrehajtva",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_convert_request": "Konvertálás végrehajtva",
+    "fill_transfer_from_savings": "A megtakarításoktól végrehajtva",
+    "fill_vesting_withdraw": "PowerDown végrehajtva",
     "estm": {
       "title": "Pontok",
-      "buy": "GET POINTS"
+      "buy": "VÁSÁROLJ PONTOKAT"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "HIVE megtakarítások"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "HBD megtakarítások"
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "HIVE VÁSÁRLÁS"
     },
     "sbd": {
-      "title": "HBD",
-      "buy": "GET HBD"
+      "title": "HDB",
+      "buy": "SBD VÁSÁRLÁS"
     },
     "steem_power": {
       "title": "HIVE POWER"
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "BTC VÁSÁRLÁS",
+      "address": "KAP"
     }
   },
   "notification": {
@@ -118,9 +118,9 @@
     "ignore": "mellőzött téged",
     "reblog": "megosztotta",
     "transfer": "átutalva",
-    "spin": "Time to earn more Points",
-    "inactive": "Be active! Write a post, continue earning",
-    "referral": "joined with your referral, welcome them",
+    "spin": "Pontszerzés ideje",
+    "inactive": "Légy aktív! Írj egy bejegyzést és folytasd a cryptoszerzést",
+    "referral": "regisztrált a te ajánlásoddal, üdvözöld őt",
     "notification": "Értesítések",
     "leaderboard": "Ranglista",
     "epoint": "Pontok",
@@ -158,8 +158,8 @@
     "hours": "órák",
     "voting_power": "Szavazóerő",
     "login_to_see": "A megtekintéshez jelentkezz be",
-    "follow_people": "Kövess néhány felhasználót, hogy töltsd meg a hírcsatornád",
-    "follow_communities": "Join some communities to fill your feed",
+    "follow_people": "Kövess néhány felhasználót, hogy töltsd be a hírcsatornád",
+    "follow_communities": "Csatalkozz néhány közösséghez, hogy betöltsd a hírcsatornád",
     "havent_commented": "még nem szólt hozzá semmihez",
     "havent_posted": "még nem tett közzé semmit",
     "steem_power": "Hive Power",
@@ -214,24 +214,24 @@
   "login": {
     "signin": "Bejelentkezés",
     "signup": "CSATLAKOZZ MOST",
-    "signin_title": "To get all the benefits of using Ecency",
+    "signin_title": "Ahhoz, hogy az Ecency minden előnyét élvezd",
     "username": "Felhasználónév",
     "password": "Jelszó vagy a WIF",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "Bejelentkezéssel elfogadod a Felhasználói feltételeket és az Adatvédelmi szabályzatot.",
     "cancel": "visszavonom",
     "login": "BEJELENTKEZÉS",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_description": "Ha nem szeretnéd a jelszavad a készülékeden elmentve tárolni, használhatod a Hivesigner-t.",
     "steemconnect_fee_description": "infó"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "Regisztráció",
     "title": "Regisztráció",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
-    "ref_user": "Referred user (Optional)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
-    "title_description": "One account to manage everything",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "username": "Válassz felhasználónevet",
+    "mail": "Add meg az e-mail címed",
+    "ref_user": "Ajánló felhasználó (opcionális)",
+    "500_error": "Kérésedet nem sikerült feldolgozni, a regisztrációs sor valószínűleg megtelt! Próbálkozzon újra néhány perc múlva...",
+    "title_description": "Egy fiók mindenre",
+    "form_description": "Regisztrálással elfogadod a Felhasználói feltételeket és az Adatvédelmi szabályzatot."
   },
   "home": {
     "feed": "Hírfolyam",
@@ -241,8 +241,8 @@
     "new": "Új",
     "blog": "Blog",
     "posts": "Bejegyzések",
-    "friends": "Friends",
-    "communities": "Communities"
+    "friends": "Barátok",
+    "communities": "Közösségek"
   },
   "side_menu": {
     "profile": "Profil",
@@ -255,7 +255,10 @@
     "add_account": "Fiók Hozzáadása",
     "logout": "Kijelentkezés",
     "cancel": "Elvet",
-    "logout_text": "Biztos ki szeretnél jelentkezni?"
+    "logout_text": "Biztos ki szeretnél jelentkezni?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Jelentkezz be a hírfolyam testreszabásához",
@@ -269,7 +272,7 @@
   },
   "editor": {
     "title": "Cím",
-    "tags": "Tags (separate with space)",
+    "tags": "Címkék (szóközzel elválasztva)",
     "default_placeholder": "Mondj valamit...",
     "reply_placeholder": "A válaszod...",
     "publish": "Közzétesz",
@@ -277,24 +280,25 @@
     "open_gallery": "Galéria Megnyitása",
     "capture_photo": "Készíts egy fotót",
     "limited_tags": "Csak 10 címke engedélyezett, törölj néhányat",
-    "limited_length": "Maximum length of each tag should be 24",
-    "limited_dash": "Use one dash in each tag",
-    "limited_space": "Use space to separate tags",
-    "limited_lowercase": "Csak kisbetüt használj a címkékhez",
-    "limited_characters": "Use only lowercase letters, digits and one dash",
+    "limited_length": "Címkék maximális hossza 24 lehet",
+    "limited_dash": "Használj egy kötőjelet minden címkében",
+    "limited_space": "A címkék elválasztásához használj szóközt",
+    "limited_lowercase": "Csak kisbetűt használj a címkéhez",
+    "limited_characters": "Csak kisbetűt, számjegyeket és egy kötőjelet használj",
     "limited_firstchar": "A címkének betűvel kell kezdődnie",
-    "limited_lastchar": "Tag must end with letter or number",
-    "setting_schedule": "Scheduling Time",
-    "setting_reward": "Reward",
-    "setting_beneficiary": "Beneficiary",
-    "reward_default": "Default 50% / 50%",
-    "reward_power_up": "Power Up 100%",
-    "reward_decline": "Decline Payout",
-    "beneficiaries": "Beneficiaries",
-    "options": "Options",
-    "my_blog": "My Blog",
-    "my_communities": "My Communities",
-    "top_communities": "Top Communities"
+    "limited_lastchar": "A címkének betűvel vagy számmal kell végződnie",
+    "setting_schedule": "Beütemezési időpont",
+    "setting_reward": "Jutalom",
+    "setting_beneficiary": "Kedvezményezett",
+    "reward_default": "Alapértelmezett 50% / 50%",
+    "reward_power_up": "100%-os Power Up",
+    "reward_decline": "Jutalom elutasítása",
+    "beneficiaries": "Kedvezményezettek",
+    "options": "Opciók",
+    "my_blog": "Saját blog",
+    "my_communities": "Közösségeim",
+    "top_communities": "Top közösségek",
+    "schedule_modal_title": "Schedule Post"
   },
   "pincode": {
     "enter_text": "Feloldáshoz írd be a PIN kódot",
@@ -310,19 +314,25 @@
     "fail": "Sikertelen!",
     "move": "Áthelyezés",
     "move_question": "Biztos, hogy áthelyezed a piszkozatokhoz?",
-    "success_shared": "Success! Content submitted!",
+    "success_shared": "Siker! Tartalom közzétéve!",
     "success_moved": "Áthelyezve a vázlatokhoz",
     "permission_denied": "Engedély megtagadva",
-    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Operation requires active key or master password, please relogin!",
+    "permission_text": "Kérlek módosítsd az Ecency alkalmazás engedélyezéseit a Beállítások-nál a telefonodon.",
+    "key_warning": "Ez a művelet aktív vagy master kulcsot igényel, kérlek jelentkezz be újra!",
     "success_rebloged": "Megosztva!",
     "already_rebloged": "Ezt már megosztottad!",
     "success_favorite": "Kedvencekhez hozzáadva!",
-    "success_unfavorite": "Eltávolítva a kedvencektől!",
+    "success_unfavorite": "Kedvencektől eltávolítva!",
     "success_follow": "Sikeres követés!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "Sikeres némítás!",
-    "success_unmute": "Unmute success!",
-    "success_unfollow": "Unfollow success!",
+    "success_unmute": "Némítás sikeres feloldása!",
+    "success_unfollow": "Követés sikeres visszavonása!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Figyelmeztetés",
     "invalid_pincode": "Érvénytelen PIN kód, kérjük ellenőrizd és próbáld újra.",
     "remove_alert": "Biztos, hogy törölni akarod?",
@@ -338,33 +348,34 @@
     "same_user": "Ez a felhasználó már szerepel a listán",
     "unknow_error": "Hiba történt",
     "error": "Hiba",
-    "fetch_error": "Connection issue, change server and restart",
+    "fetch_error": "Csatlakozási probléma, válts szervert és indítsd újra",
     "connection_fail": "Sikertelen kapcsolat!",
     "connection_success": "A kapcsolat sikerült!",
     "checking": "Ellenőrzés folyamatban...",
-    "external_link": "Open in Browser",
+    "external_link": "Megnyitás böngészőben",
     "not_existing_post": "A bejegyzés nem létezik! Kérjük ellenőrizd a linket és a szerzőt.",
     "google_play_version": "Észrevettük, hogy a készülékeden a Google Play régi verziója található. Kérjük frissítsd a Google Play szolgáltatásait és próbáld újra!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
-    "payloadTooLarge": "File size too big, please resize or upload smaller image",
-    "qoutaExceeded": "Upload quota exceeded",
-    "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload"
+    "rc_down": "Nincs elegendő erőforrás-jóváírásod ezen művelet végrehajtásához!\n\nPörgesd fel a fiókod, hogy továbbra is élvezhessd az élményt. Most szeretnéd belpörgetni a fiókodat?",
+    "payloadTooLarge": "A fájlméret túl nagy, kérlek méretezd át, vagy tölts fel kisebb képet",
+    "qoutaExceeded": "Tárhely korlát túllépve",
+    "invalidImage": "Érvénytelen kép, próbálj egy másik fájlt",
+    "something_wrong": "Valami hiba történt.",
+    "something_wrong_alt": "Próbáld ezt https://ecency.com",
+    "something_wrong_reload": "Frissítsd",
+    "can_not_be_empty": "Title and body can not be empty!"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
-    "removed_hint": "Content is not available",
+    "removed_hint": "A tartalom nem elérhető",
     "copy_link": "Link másolása",
     "reblogged": "megosztva általa",
     "sponsored": "TÁMOGATOTT",
     "open_thread": "Üzenetsor megnyitása",
     "image": "Kép",
     "link": "Link",
-    "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
+    "gallery_mode": "Galéria mód",
+    "save_to_local": "Letöltés a készülékre",
+    "image_saved": "Kép a galériába mentve",
     "image_saved_error": "Hiba a kép mentése közben",
     "wrong_link": "Nem megfelelő link"
   },
@@ -391,7 +402,7 @@
     "add": "Hozzáadás a könyvjelzőkhöz"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Jelentett kifogásolható tartalom"
   },
   "favorites": {
     "title": "Kedvencek",
@@ -404,7 +415,7 @@
     "invalid_username": "Érvénytelen felhasználónév, kérjük ellenőrizd és próbáld újra",
     "already_logged": "Már be vagy jelentkezve, kérjük próbálj meg hozzáadni egy másik fiókot",
     "invalid_credentials": "Érvénytelen hitelesítő adatok. Kérjük, ellenőrizd és próbáld újra",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "Ismeretlen hiba, kérlek írj ide support@ecency.com"
   },
   "payout": {
     "potential_payout": "Lehetséges Kifizetés",
@@ -424,7 +435,7 @@
     "bookmarks": "hozzáadás a könyvjelzőkhöz",
     "promote": "hirdetés",
     "boost": "felpörgetés",
-    "report": "report"
+    "report": "jelentés"
   },
   "deep_link": {
     "no_existing_user": "Nem létező felhasználó",
@@ -451,17 +462,17 @@
     "information": "Bistoz átutalod?",
     "amount_desc": "Egyenleg",
     "memo_desc": "Ez az üzenet nyilvános",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "A konvertálás 3,5 napig tart és NEM ajánlott, HA a HDB ára nagyobb ming $1",
     "to_placeholder": "Felhasználónév",
     "memo_placeholder": "Megjegyzés ide",
     "transfer_token": "Átutalás",
-    "purchase_estm": "Purchase Points",
-    "convert": "Convert HBD to HIVE",
-    "points": "Gift Points to someone",
+    "purchase_estm": "Pont vásárlás",
+    "convert": "HDB konvertálás HIVE-ra",
+    "points": "Ajándékozz Pontokat valakinek",
     "transfer_to_saving": "Átutalás a megtakarításokhoz",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Átutalás A Megtakarításokhoz",
-    "steemconnect_title": "Hivesigner Transfer",
+    "steemconnect_title": "Hivesigner átutalás",
     "estimated_weekly": "Heti becslés",
     "destination_accounts": "Cél Fiókok",
     "stop_information": "Bistos megállítod?",
@@ -472,23 +483,23 @@
     "next": "KÖVETKEZŐ",
     "delegate": "Delegálás",
     "power_down": "Power Down",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
+    "withdraw_steem": "HIVE visszavonás",
+    "withdraw_sbd": "HIVE Dollár visszavonás",
     "incoming_funds": "Bejövő tőke",
     "stop": "Megállítás",
-    "address_view": "View address"
+    "address_view": "Cím megtekintése"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
+    "title": "Szerezz Pontokat",
+    "buy": "VÁSÁROLJ Pontokat",
     "next": "KÖVETKEZŐ",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "title": "Fiók felpörgetés",
+      "desc": "A 30 napos delegálás növelni fogja a szavazataidat, közösségi tevékenységeidet és több cselekvést engedélyez több erőforrás-jóváírás segítségével."
     }
   },
   "free_estm": {
-    "title": "Free Points",
+    "title": "Ingyenes pontok",
     "button": "PÖRGESS ÉS NYERJ",
     "get_spin": "5 PÖRGETÉS",
     "spin_right": "Pörgesd balra",
@@ -499,7 +510,7 @@
     "days": "nap",
     "user": "Felhasználó",
     "permlink": "Bejegyzés",
-    "permlinkPlaceholder": "username/permlink",
+    "permlinkPlaceholder": "felhasználónév/permlink",
     "information": "Bistos hirdeted?"
   },
   "boostPost": {
@@ -523,38 +534,51 @@
   "comments": {
     "title": "Hozzászólások",
     "reveal_comment": "Hozzászólás megjelenítése",
-    "read_more": "Read more comments",
+    "read_more": "Még több hozzáaszólás",
     "more_replies": "további hozzászólások betöltése"
   },
   "search_result": {
     "others": "Others",
+    "best": {
+      "title": "Best"
+    },
+    "people": {
+      "title": "People"
+    },
+    "topics": {
+      "title": "Topics"
+    },
     "communities": {
-      "title": "Communities",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
-      "posters": "Posters",
+      "title": "Közösségek",
+      "subscribe": "Csatlakozz",
+      "unsubscribe": "Kilépés",
+      "subscribers": "Tagok",
+      "posters": "Bejegyzés írók",
       "posts": "Bejegyzések"
     },
     "communities_filter": {
-      "my": "My Communities",
-      "rank": "Rank",
-      "subs": "Members",
-      "new": "New"
+      "my": "Közösségeim",
+      "rank": "Rang",
+      "subs": "Tagok",
+      "new": "Új"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "Népszerűség",
+      "newest": "Legújabb",
+      "relevance": "Fontosság"
     },
     "other_result_filter": {
       "user": "Felhasználó",
-      "tag": "Tag"
+      "tag": "Címke"
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details"
+    "new_post": "Új bejegyzés",
+    "community": "közösség",
+    "details": "Részletek"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }

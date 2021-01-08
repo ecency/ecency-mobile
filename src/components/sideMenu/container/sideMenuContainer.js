@@ -8,9 +8,6 @@ import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 
 import { logout, isRenderRequired } from '../../../redux/actions/applicationActions';
 
-// Constanst
-import { default as ROUTES } from '../../../constants/routeNames';
-
 // Component
 import SideMenuView from '../view/sideMenuView';
 
@@ -34,20 +31,15 @@ class SideMenuContainer extends Component {
     const { currentAccount } = this.props;
 
     const accounts = [];
+
     otherAccounts.forEach((element) => {
-      if (element.username !== currentAccount.name) {
-        accounts.push({
-          name: `@${element.username}`,
-          username: element.username,
-          id: element.username,
-        });
-      }
-    });
-    accounts.push({
-      name: 'Add Account',
-      route: ROUTES.SCREENS.LOGIN,
-      icon: 'user-follow',
-      id: 'add_account',
+      accounts.push({
+        name: `@${element.username}`,
+        username: element.username,
+        id: element.username,
+        displayName: element.display_name,
+        isCurrentAccount: element.username === currentAccount.name,
+      });
     });
     this.setState({ accounts });
   };
@@ -61,21 +53,40 @@ class SideMenuContainer extends Component {
     }
   };
 
-  _switchAccount = (anchor = null) => {
-    const { dispatch, currentAccount, navigation } = this.props;
+  _switchAccount = async (switchingAccount = {}) => {
+    const { dispatch, currentAccount, navigation, otherAccounts } = this.props;
 
-    if (anchor !== currentAccount.name) {
-      switchAccount(anchor).then(async (accountData) => {
-        const realmData = await getUserDataWithUsername(anchor);
-        const _currentAccount = accountData;
+    if (switchingAccount.username !== currentAccount.name) {
+      navigation.closeDrawer();
+
+      const accountData = otherAccounts.filter(
+        (account) => account.username === switchingAccount.username,
+      )[0];
+
+      // control user persist whole data or just username
+      if (accountData.name) {
+        accountData.username = accountData.name;
+
+        dispatch(updateCurrentAccount(accountData));
+        dispatch(isRenderRequired(true));
+
+        const upToDateCurrentAccount = await switchAccount(accountData.name);
+        const realmData = await getUserDataWithUsername(accountData.name);
+
+        upToDateCurrentAccount.username = upToDateCurrentAccount.name;
+        upToDateCurrentAccount.local = realmData[0];
+
+        dispatch(updateCurrentAccount(upToDateCurrentAccount));
+      } else {
+        const _currentAccount = await switchAccount(accountData.username);
+        const realmData = await getUserDataWithUsername(accountData.username);
 
         _currentAccount.username = _currentAccount.name;
         _currentAccount.local = realmData[0];
 
         dispatch(updateCurrentAccount(_currentAccount));
         dispatch(isRenderRequired(true));
-        navigation.closeDrawer();
-      });
+      }
     }
   };
 

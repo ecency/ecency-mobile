@@ -34,21 +34,21 @@ export default EStyleSheet.create({
     marginRight: 10,
   },
   userInfoWrapper: {
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
     marginLeft: 15,
     width: 120,
   },
   username: {
     color: '$pureWhite',
     fontWeight: 'bold',
-    fontSize: scalePx(16),
+    fontSize: scalePx(18),
     marginBottom: 8,
     maxWidth: '$deviceWidth / 3',
   },
   usernick: {
     color: 'rgba(255, 255, 255, 0.7)',
     fontWeight: 'bold',
-    fontSize: scalePx(14),
+    fontSize: scalePx(18),
     marginTop: 2,
   },
   listItem: {
@@ -90,9 +90,68 @@ export default EStyleSheet.create({
     textAlign: 'center',
     color: '$iconColor',
   },
+  vpText: {
+    textAlign: 'center',
+    fontSize: scalePx(16),
+    color: '$iconColor',
+  },
   imageBackground: {
     width: '100%',
     height: '100%',
     flexDirection: 'row',
+  },
+  iconWrapper: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    borderColor: 'white',
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  optionIcon: {
+    height: 16,
+    width: 16,
+  },
+  accountTile: {
+    height: 60,
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  nameContainer: {
+    marginLeft: 8,
+  },
+  displayName: {
+    fontWeight: '600',
+    fontSize: 16,
+    color: '$primaryBlack',
+  },
+  name: {
+    color: '$primaryDarkGray',
+  },
+  accountModal: {
+    backgroundColor: '$primaryBackgroundColor',
+  },
+  textButton: {
+    color: '$primaryBlue',
+  },
+  buttonContainer: {
+    height: 50,
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+  },
+  separator: {
+    backgroundColor: '$darkIconColor',
+    height: 0.5,
+  },
+  avatarAndNameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  checkIcon: {
+    color: '$successColor',
   },
 });

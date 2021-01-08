@@ -336,6 +336,7 @@ class EditorContainer extends Component {
           permlink,
           fields,
           scheduleDate,
+          jsonMeta,
         });
       } else {
         await postContent(
@@ -595,46 +596,69 @@ class EditorContainer extends Component {
   _handleDatePickerChange = async (datePickerValue, fields) => {
     const { currentAccount, pinCode, intl } = this.props;
 
-    const json = get(currentAccount, 'posting_json_metadata', '');
-
-    let hasPostingPerm = false;
-
-    if (currentAccount && currentAccount.posting) {
-      hasPostingPerm =
-        currentAccount.posting.account_auths.filter((x) => x[0] === 'ecency.app').length > 0;
-    }
-
-    if (hasPostingPerm) {
-      this._submitPost(fields, datePickerValue);
+    if (fields.title === '' || fields.body === '') {
+      const timer = setTimeout(() => {
+        Alert.alert(
+          intl.formatMessage({
+            id: 'alert.fail',
+          }),
+          intl.formatMessage({
+            id: 'alert.can_not_be_empty',
+          }),
+        );
+        clearTimeout(timer);
+      }, 100);
     } else {
-      await grantPostingPermission(json, pinCode, currentAccount)
-        .then(() => {
-          this._submitPost(fields, datePickerValue);
-        })
-        .catch((error) => {
-          Alert.alert(
-            intl.formatMessage({
-              id: 'alert.fail',
-            }),
-            get(error, 'message', error.toString()),
-          );
-        });
+      const json = get(currentAccount, 'posting_json_metadata', '');
+
+      let hasPostingPerm = false;
+
+      if (currentAccount && currentAccount.posting) {
+        hasPostingPerm =
+          currentAccount.posting.account_auths.filter((x) => x[0] === 'ecency.app').length > 0;
+      }
+
+      if (hasPostingPerm) {
+        this._submitPost(fields, datePickerValue);
+      } else {
+        await grantPostingPermission(json, pinCode, currentAccount)
+          .then(() => {
+            this._submitPost(fields, datePickerValue);
+          })
+          .catch((error) => {
+            Alert.alert(
+              intl.formatMessage({
+                id: 'alert.fail',
+              }),
+              get(error, 'message', error.toString()),
+            );
+          });
+      }
     }
   };
 
   _setScheduledPost = (data) => {
     const { dispatch, intl, currentAccount, navigation } = this.props;
+    const { rewardType, beneficiaries } = this.state;
+
+    const options = makeOptions({
+      author: data.author,
+      permlink: data.permlink,
+      operationType: rewardType,
+      beneficiaries: beneficiaries,
+    });
 
     schedule(
       data.author,
       data.fields.title,
       data.permlink,
-      '',
+      data.jsonMeta,
       data.fields.tags,
       data.fields.body,
       '',
       '',
       data.scheduleDate,
+      options,
     )
       .then(() => {
         this.setState({
@@ -662,7 +686,7 @@ class EditorContainer extends Component {
           });
         }, 3000);
       })
-      .catch(() => {
+      .catch((err) => {
         this.setState({
           isPostSending: false,
         });

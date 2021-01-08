@@ -80,4 +80,8 @@ export default EStyleSheet.create({
     fontWeight: '500',
     width: '$deviceWidth / 1.4',
   },
+  dateTimeModal: {
+    backgroundColor: '$primaryBackgroundColor',
+    alignItems: 'center',
+  },
 });

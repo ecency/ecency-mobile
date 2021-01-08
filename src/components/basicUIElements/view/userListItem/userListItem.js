@@ -1,6 +1,8 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, View, Text, TouchableOpacity } from 'react-native';
+
 import { UserAvatar } from '../../../userAvatar';
+import Tag from '../tag/tagView';
 import styles from './userListItemStyles';
 
 const UserListItem = ({
@@ -13,56 +15,75 @@ const UserListItem = ({
   isHasRightItem,
   isBlackRightColor,
   itemIndex,
-  userCanPress,
   handleOnPress,
   handleOnLongPress,
-  isClickable,
+  isClickable = true,
   text,
   middleText,
   rightTextStyle,
-}) => (
-  <TouchableOpacity
-    onLongPress={() => handleOnLongPress && handleOnLongPress()}
-    disabled={!isClickable}
-    onPress={() => handleOnPress && handleOnPress()}
-  >
-    <View style={[styles.voteItemWrapper, index % 2 === 0 && styles.voteItemWrapperGray]}>
-      {itemIndex && <Text style={styles.itemIndex}>{itemIndex}</Text>}
-      <UserAvatar noAction={userCanPress} style={styles.avatar} username={username} />
-      <View style={styles.userDescription}>
-        <Text style={styles.name}>{text || username}</Text>
-        {description && <Text style={styles.date}>{description}</Text>}
+  onPressRightText,
+  isFollowing = false,
+  isLoadingRightAction = false,
+  isLoggedIn,
+}) => {
+  const _handleSubscribeButtonPress = () => {
+    const _data = {};
+    _data.following = username;
+
+    onPressRightText(_data, isFollowing);
+  };
+
+  return (
+    <TouchableOpacity
+      onLongPress={() => handleOnLongPress && handleOnLongPress()}
+      disabled={!isClickable}
+      onPress={() => handleOnPress && handleOnPress(username)}
+    >
+      <View style={[styles.voteItemWrapper, index % 2 === 1 && styles.voteItemWrapperGray]}>
+        {itemIndex && <Text style={styles.itemIndex}>{itemIndex}</Text>}
+        <UserAvatar noAction={true} style={styles.avatar} username={username} />
+        <View style={styles.userDescription}>
+          <Text style={styles.name}>{text || username}</Text>
+          {description && <Text style={styles.date}>{description}</Text>}
+        </View>
+        {middleText && (
+          <View style={styles.middleWrapper}>
+            <Text
+              style={[
+                styles.value,
+                isRightColor && styles.valueGray,
+                isBlackRightColor && styles.valueBlack,
+              ]}
+            >
+              {middleText}
+            </Text>
+          </View>
+        )}
+        {isHasRightItem &&
+          isLoggedIn &&
+          (isLoadingRightAction ? (
+            <View style={styles.rightWrapper}>
+              <ActivityIndicator style={{ width: 30 }} />
+            </View>
+          ) : (
+            <TouchableOpacity style={styles.rightWrapper} onPress={_handleSubscribeButtonPress}>
+              {isFollowing ? (
+                <Tag value="Unfollow" isPostCardTag={false} disabled />
+              ) : (
+                <>
+                  <Text
+                    style={[styles.value, isBlackRightColor && styles.valueBlack, rightTextStyle]}
+                  >
+                    {rightText}
+                  </Text>
+                  {subRightText && <Text style={styles.text}>{subRightText}</Text>}
+                </>
+              )}
+            </TouchableOpacity>
+          ))}
       </View>
-      {middleText && (
-        <View style={styles.middleWrapper}>
-          <Text
-            style={[
-              styles.value,
-              isRightColor && styles.valueGray,
-              isBlackRightColor && styles.valueBlack,
-            ]}
-          >
-            {middleText}
-          </Text>
-        </View>
-      )}
-      {isHasRightItem && (
-        <View style={styles.rightWrapper}>
-          <Text
-            style={[
-              styles.value,
-              isRightColor && styles.valueGray,
-              isBlackRightColor && styles.valueBlack,
-              rightTextStyle,
-            ]}
-          >
-            {rightText}
-          </Text>
-          {subRightText && <Text style={styles.text}>{subRightText}</Text>}
-        </View>
-      )}
-    </View>
-  </TouchableOpacity>
-);
+    </TouchableOpacity>
+  );
+};
 
 export default UserListItem;

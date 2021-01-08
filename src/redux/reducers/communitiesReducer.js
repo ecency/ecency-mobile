@@ -5,6 +5,12 @@ import {
   FETCH_SUBSCRIBED_COMMUNITIES,
   FETCH_SUBSCRIBED_COMMUNITIES_SUCCESS,
   FETCH_SUBSCRIBED_COMMUNITIES_FAIL,
+  SUBSCRIBE_COMMUNITY,
+  SUBSCRIBE_COMMUNITY_SUCCESS,
+  SUBSCRIBE_COMMUNITY_FAIL,
+  LEAVE_COMMUNITY,
+  LEAVE_COMMUNITY_SUCCESS,
+  LEAVE_COMMUNITY_FAIL,
 } from '../constants/constants';
 
 const initialState = {
@@ -17,6 +23,13 @@ const initialState = {
     data: [],
     loading: false,
     error: false,
+  },
+  subscribingCommunitiesInFeedScreen: {
+    //['name']: {
+    //  isSubscribed: false,
+    //  loading: false,
+    //  error: false,
+    //}
   },
 };
 
@@ -74,6 +87,78 @@ export default function (state = initialState, action) {
           data: [],
           loading: false,
           error: action.payload,
+        },
+      };
+    case SUBSCRIBE_COMMUNITY:
+      return {
+        ...state,
+        subscribingCommunitiesInFeedScreen: {
+          ...state.subscribingCommunitiesInFeedScreen,
+          [action.payload.communityId]: {
+            isSubscribed: false,
+            loading: true,
+            error: false,
+          },
+        },
+      };
+    case SUBSCRIBE_COMMUNITY_SUCCESS:
+      return {
+        ...state,
+        subscribingCommunitiesInFeedScreen: {
+          ...state.subscribingCommunitiesInFeedScreen,
+          [action.payload.communityId]: {
+            isSubscribed: true,
+            loading: false,
+            error: false,
+          },
+        },
+      };
+    case SUBSCRIBE_COMMUNITY_FAIL:
+      return {
+        ...state,
+        subscribingCommunitiesInFeedScreen: {
+          ...state.subscribingCommunitiesInFeedScreen,
+          [action.payload.communityId]: {
+            isSubscribed: false,
+            loading: false,
+            error: true,
+          },
+        },
+      };
+    case LEAVE_COMMUNITY:
+      return {
+        ...state,
+        subscribingCommunitiesInFeedScreen: {
+          ...state.subscribingCommunitiesInFeedScreen,
+          [action.payload.communityId]: {
+            isSubscribed: true,
+            loading: true,
+            error: false,
+          },
+        },
+      };
+    case LEAVE_COMMUNITY_SUCCESS:
+      return {
+        ...state,
+        subscribingCommunitiesInFeedScreen: {
+          ...state.subscribingCommunitiesInFeedScreen,
+          [action.payload.communityId]: {
+            isSubscribed: false,
+            loading: false,
+            error: false,
+          },
+        },
+      };
+    case LEAVE_COMMUNITY_FAIL:
+      return {
+        ...state,
+        subscribingCommunitiesInFeedScreen: {
+          ...state.subscribingCommunitiesInFeedScreen,
+          [action.payload.communityId]: {
+            isSubscribed: true,
+            loading: false,
+            error: true,
+          },
         },
       };
     default:
