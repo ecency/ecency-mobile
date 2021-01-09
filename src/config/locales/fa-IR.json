@@ -221,28 +221,28 @@
     "cancel": "انصراف",
     "login": "ورود به سیستم",
     "steemconnect_description": "اگر نمی خواهید رمز عبورتان رمزنگاری و در دستگاهتان ذخیره شود، میتوانید از Hivesigner استفاده کنید.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_fee_description": "اطلاعات"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "ثبت نام",
     "title": "ثبت‌نام کنید",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
-    "ref_user": "Referred user (Optional)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
-    "title_description": "One account to manage everything",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "username": "نام کاربری را انتخاب کنید",
+    "mail": "آدرس ایمیل خود را وارد کنید",
+    "ref_user": "کاربر معدفی شده (اختیاری)",
+    "500_error": "درخواست شما پردازش نشد ، صف ثبت نام احتمالاً پر است! چند دقیقه دیگر دوباره امتحان کنید...",
+    "title_description": "یک حساب برای مدیریت همه چیز",
+    "form_description": "با ثبت نام کردن، شما با شرایط خدمات و قوانین خصوصی ما موافقت می کنید."
   },
   "home": {
     "feed": "خبرنامه",
     "popular": "مورد علاقه",
-    "top": "Top",
-    "hot": "Hot",
-    "new": "New",
-    "blog": "Blog",
+    "top": "بالا",
+    "hot": "داغ",
+    "new": "جدید",
+    "blog": "وبلاگ",
     "posts": "Post",
-    "friends": "Friends",
-    "communities": "Communities"
+    "friends": "دوستان",
+    "communities": "انجمن ها"
   },
   "side_menu": {
     "profile": "نمایه",
@@ -256,9 +256,9 @@
     "logout": "خروج از حساب",
     "cancel": "صرف نظر",
     "logout_text": "آیا مطمئنید که می‌خواهید خارج شوید؟",
-    "create_a_new_account": "Create a new account",
-    "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts"
+    "create_a_new_account": "ایجاد یک حساب جدید",
+    "add_an_existing_account": "یک حساب موجود اضافه کنید",
+    "accounts": "حساب ها"
   },
   "header": {
     "title": "برای شخصی سازی فید های خود وارد شوید",
@@ -272,14 +272,14 @@
   },
   "editor": {
     "title": "تیتر",
-    "tags": "Tags (separate with space)",
-    "default_placeholder": "Tell us something...",
-    "reply_placeholder": "Add your reply...",
+    "tags": "برچسب ها (جدا با فاصله)",
+    "default_placeholder": "چیزی به ما بگویید...",
+    "reply_placeholder": "پاسخ خود را اضافه کنید...",
     "publish": "نشر",
     "reply": "پاسخ دادن",
     "open_gallery": "باز کردن گالری",
     "capture_photo": "گرفتن عکس",
-    "limited_tags": "Only 10 tags allowed, remove some",
+    "limited_tags": "فقط ۱۰ برچسب مجاز است، برخی را بردارید",
     "limited_length": "Maximum length of each tag should be 24",
     "limited_dash": "Use one dash in each tag",
     "limited_space": "Use space to separate tags",
@@ -362,13 +362,13 @@
     "something_wrong": "Something went wrong.",
     "something_wrong_alt": "Try https://ecency.com",
     "something_wrong_reload": "Reload",
-    "can_not_be_empty": "Title and body can not be empty!"
+    "can_not_be_empty": "عنوان و متن نمی تواند خالی باشد!"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
-    "removed_hint": "Content is not available",
-    "copy_link": "Copy link",
-    "reblogged": "reblogged by",
+    "reblog_alert": "آیا مطمئن هستید که می‌خواهید دوباره به اشتراک بگذارید?",
+    "removed_hint": "محتوا در دسترس نیست",
+    "copy_link": "کاپی لنک",
+    "reblogged": "اشتراک مجدد توسط",
     "sponsored": "SPONSORED",
     "open_thread": "Open thread",
     "image": "Image",
