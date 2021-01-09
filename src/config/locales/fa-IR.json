@@ -80,39 +80,39 @@
     "delegate_vesting_shares": "اجاره",
     "fill_convert_request": "تبدیل اجرا شد",
     "fill_transfer_from_savings": "پس انداز اجرا اشد",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_vesting_withdraw": "کاهش انرژی اجرا شد",
     "estm": {
       "title": "امتیازها",
-      "buy": "GET POINTS"
+      "buy": "امتیاز گرفتن"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "پس انداز های HIVE"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "پس اندازهای HBD"
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "گرفتن HIVE"
     },
     "sbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "گرفتن HBD"
     },
     "steem_power": {
-      "title": "HIVE POWER"
+      "title": "توانایی HIVE"
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "گرفتن BTC",
+      "address": "دريافت كردن"
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "unvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "vote": "رای داده شده",
+    "unvote": "رأی داده نشده",
+    "reply": "پاسخ داد به",
+    "mention": "نام برد به",
     "follow": "شما را دنبال میکند",
     "unfollow": "شما را دنبال نمیکند",
     "ignore": "شما را نادیده گرفته",
