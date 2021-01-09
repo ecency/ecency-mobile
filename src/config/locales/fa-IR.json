@@ -120,26 +120,26 @@
     "transfer": "منتقل شد",
     "spin": "وقت کسب امتیاز بیشتر است",
     "inactive": "فعال باشید! یک پست بنویسید، ادامه درامد دهید",
-    "referral": "joined with your referral, welcome them",
+    "referral": "معرف شما پیوست، به آنها خوش آمد بگوید",
     "notification": "اطلاعیه ها",
     "leaderboard": "جدول رده بندی",
     "epoint": "امتیازها",
-    "leaderboard_title": "Top Users",
+    "leaderboard_title": "کاربران برتر",
     "recent": "اخیر",
     "yesterday": "دیروز",
     "this_week": "این هفته",
     "this_month": "این ماه",
     "older_then": "قدیمی تر از 1 ماه",
-    "activities": "All",
+    "activities": "همه",
     "replies": "پاسخ‌ها",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs",
-    "noactivity": "No recent activity"
+    "mentions": "خطاب ها",
+    "reblogs": "اشترک ها",
+    "noactivity": "اخیراً فعالیتی انجام نشده است"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "روزانه",
+    "weekly": "هفتگی",
+    "monthly": "ماهانه"
   },
   "messages": {
     "comingsoon": "قابلیت ارسال پیام به زودی ارائه خواهد شد!"
@@ -158,7 +158,7 @@
     "hours": "ساعت ها",
     "voting_power": "قدرت رأی‌ دهی",
     "login_to_see": "ورود به سیستم برای دیدن",
-    "follow_people": "Follow some people to fill your feed",
+    "follow_people": "برخی افراد را دنبال کنید تا خبرنامه تان پر شود",
     "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "هنوز نظری نداده",
     "havent_posted": "هنوز مطلبی ننوشته اید",
