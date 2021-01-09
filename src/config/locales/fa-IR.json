@@ -522,13 +522,13 @@
     "time": "وقت"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "اطلاعات reblog"
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "زمان دستگاه شما;",
+      "current_time": "زمان کنونی;",
+      "information": "متوجه شدیم که دستگاه شما تاریخ یا ساعت نادرستی دارد. لطفاً تاریخ و زمان را برطرف کنید یا به صورت خودکار تنظیم کنید و دوباره امتحان کنید."
     }
   },
   "comments": {
