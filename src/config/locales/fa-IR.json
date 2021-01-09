@@ -491,26 +491,26 @@
   },
   "boost": {
     "title": "گرفتن امتیاز",
-    "buy": "GET Points",
-    "next": "NEXT",
+    "buy": "گرفتن امتیاز",
+    "next": "بعدی",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "title": "حساب را تقویت دهید",
+      "desc": "تفویض 30 روزه آرا و فعالیتهای اجتماعی شما را افزایش داده و اقدامات بیشتری را با اعتبارات بیشتر به شما می دهد."
     }
   },
   "free_estm": {
-    "title": "Free Points",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "title": "گرفتن امتیاز",
+    "button": "چرخش و برنده شدن",
+    "get_spin": "5 چرخش",
+    "spin_right": "چرخش باقی",
+    "timer_text": "چرخش رایگان بعدی در"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
-    "user": "User",
-    "permlink": "Post",
-    "permlinkPlaceholder": "username/permlink",
+    "title": "تبلیغ",
+    "days": "روزها",
+    "user": "کاربر",
+    "permlink": "پست",
+    "permlinkPlaceholder": "نام کاربری/لینک ثابت",
     "information": "Are you sure to promote?"
   },
   "boostPost": {
