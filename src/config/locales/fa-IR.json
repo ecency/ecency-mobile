@@ -369,15 +369,15 @@
     "removed_hint": "محتوا در دسترس نیست",
     "copy_link": "کاپی لنک",
     "reblogged": "اشتراک مجدد توسط",
-    "sponsored": "SPONSORED",
-    "open_thread": "Open thread",
-    "image": "Image",
-    "link": "Link",
-    "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image",
-    "wrong_link": "Wrong link"
+    "sponsored": "اسپانسر شده",
+    "open_thread": "بازکردن موضوع",
+    "image": "تصویر",
+    "link": "پیوند",
+    "gallery_mode": "حالت گالری",
+    "save_to_local": "بارگیری در دستگاه",
+    "image_saved": "تصویر در گالری عکس ذخیره شد",
+    "image_saved_error": "خطایی در ذخیره عکس بوجود آمد",
+    "wrong_link": "لنک اشتباه"
   },
   "drafts": {
     "title": "پیشنویس ها",
@@ -402,7 +402,7 @@
     "add": "اضافه کردن به صفحات مورد علاقه"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "محتوای قابل اعتراض گزارش شده است"
   },
   "favorites": {
     "title": "برگزیده‌ها",
@@ -415,7 +415,7 @@
     "invalid_username": "نام کاربری نامعتبر، لطفا چک کنید و دوباره امتحان کنید",
     "already_logged": "شما در حال حاظر وارد شده اید، لطفا با یک حساب کاربری دیگر تلاش کنید",
     "invalid_credentials": "اعتبار نامه غیر معتبر، لطفا چک کنید و دوباره تلاش کنید",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "خطای ناشناخته ، لطفا به ادرس support@ecency.com به تماس شوید"
   },
   "payout": {
     "potential_payout": "پرداخت های بالقوه",
@@ -423,9 +423,9 @@
     "author_payout": "پاداش نویسنده",
     "curation_payout": "پاداش مشارکت",
     "payout_date": "پرداخت",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
-    "breakdown": "Breakdown"
+    "beneficiaries": "ذینفعان",
+    "warn_zero_payout": "مبلغ برای پرداخت باید به ۰. ۰۲ دلار برسد",
+    "breakdown": "درهم شکستن"
   },
   "post_dropdown": {
     "copy": "کپی لینک",
@@ -433,9 +433,9 @@
     "reply": "پاسخ دادن",
     "share": "درمیان گذاری",
     "bookmarks": "اضافه کردن به صفحات مورد علاقه",
-    "promote": "promote",
-    "boost": "boost",
-    "report": "report"
+    "promote": "تبلیغ",
+    "boost": "ارتقاء",
+    "report": "گزارش"
   },
   "deep_link": {
     "no_existing_user": "کاربری موجود نیست",
@@ -446,39 +446,39 @@
     "comments": "نظرات"
   },
   "comment_filter": {
-    "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
-    "top": "TOP",
-    "time": "TIME"
+    "trending": "بالا",
+    "reputation": "اعبتار",
+    "votes": "رای",
+    "age": "سن",
+    "top": "بالا",
+    "time": "وقت"
   },
   "transfer": {
     "from": "از",
     "to": "به",
-    "amount_information": "Drag the slider to adjust the amount",
+    "amount_information": "برای تنظیم مقدار ، نوار لغزنده را بکشید",
     "amount": "مقدار",
     "memo": "یادداشت",
-    "information": "Are you sure to transfer funds?",
+    "information": "آیا مطمئن هستید که وجوه را منتقل می کنید?",
     "amount_desc": "موجودی",
     "memo_desc": "این یادداشت عمومی است",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "تبدیل 3.5 روز طول می کشد و توصیه نمی شود اگر قیمت HBD بالاتر از 1 دلار باشد",
     "to_placeholder": "نام کاربری",
     "memo_placeholder": "یادداشت های خود را در اینجا وارد کنید",
     "transfer_token": "انتقال",
-    "purchase_estm": "Purchase Points",
-    "convert": "Convert HBD to HIVE",
-    "points": "Gift Points to someone",
+    "purchase_estm": "خریداری امتیاز",
+    "convert": "تبدیل HBD به HIVE",
+    "points": "به کسی امتیاز هدیه دهید",
     "transfer_to_saving": "انتقال به پس انداز",
     "powerUp": "بالا بردن قدرت",
     "withdraw_to_saving": "برداشت و انتقال به پس انداز",
-    "steemconnect_title": "Hivesigner Transfer",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
+    "steemconnect_title": "انتقال از Hivesigner",
+    "estimated_weekly": "برآورد هفتگی",
+    "destination_accounts": "حسابهای مقصد",
+    "stop_information": "مطمئناً می خواهید متوقف شوید؟",
+    "percent": "درصدی",
     "auto_vests": "Auto Vests",
-    "save": "SAVE",
+    "save": "ذخیره",
     "percent_information": "Percent info",
     "next": "بعدی",
     "delegate": "Delegate",
