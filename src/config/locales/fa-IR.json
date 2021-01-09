@@ -158,21 +158,21 @@
     "hours": "ساعت ها",
     "voting_power": "قدرت رأی‌ دهی",
     "login_to_see": "ورود به سیستم برای دیدن",
-    "follow_people": "برخی افراد را دنبال کنید تا خبرنامه تان پر شود",
-    "follow_communities": "Join some communities to fill your feed",
+    "follow_people": "برخی افراد را دنبال کنید تا فید تان پر شود",
+    "follow_communities": "به برخی از کمیته ها بپیوندید تا فید شما پر شود",
     "havent_commented": "هنوز نظری نداده",
     "havent_posted": "هنوز مطلبی ننوشته اید",
-    "steem_power": "Hive Power",
+    "steem_power": "توانایی HIVE",
     "next_power_text": "روز باقی مانده تا کاهش قدرت،",
     "days": "روزها",
     "day": "روز",
     "steem_dollars": "Hive Dollars",
     "savings": "پس انداز",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
-      "website": "Website"
+      "display_name": "نام نمایشی",
+      "about": "درباره",
+      "location": "موقیعت",
+      "website": "وب سایت"
     }
   },
   "settings": {
@@ -192,7 +192,7 @@
       "transfers": "تراکنش ها"
     },
     "pincode": "Pincode",
-    "reset_pin": "Reset Pin Code",
+    "reset_pin": "تنظیم مجدد پن کد",
     "reset": "راه اندازی مجدد",
     "nsfw_content": "NSFW",
     "send_feedback": "ارسال پیشنهادات و انتقادات",
@@ -205,22 +205,22 @@
     },
     "feedback_success": "ایمیل با موفقیت باز شد",
     "feedback_fail": "سرویس دهنده ایمیل نمی تواند باز شود",
-    "server_fail": "Server not available"
+    "server_fail": "سرور در دسترس نیست"
   },
   "voters": {
     "voters_info": "اطلاعات رأی دهندگان",
-    "no_user": "User is not found."
+    "no_user": "کاربر پیدا نشد."
   },
   "login": {
     "signin": "ورود",
-    "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Ecency",
+    "signup": "حالا پیوستن",
+    "signin_title": "برای دریافت تمام مزایای استفاده از Ecency",
     "username": "نام کاربری",
     "password": "رمز عبور و یا WIF",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "با ثبت نام شما موافق قوانین و سیاست های حفظ حریم خصوصی ما خواهید بود. ",
     "cancel": "انصراف",
     "login": "ورود به سیستم",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_description": "اگر نمی خواهید رمز عبورتان رمزنگاری و در دستگاهتان ذخیره شود، میتوانید از Hivesigner استفاده کنید.",
     "steemconnect_fee_description": "info"
   },
   "register": {
