@@ -256,9 +256,9 @@
     "logout": "Sair",
     "cancel": "Cancelar",
     "logout_text": "Tem certeza que deseja sair?",
-    "create_a_new_account": "Create a new account",
-    "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts"
+    "create_a_new_account": "Criar nova conta",
+    "add_an_existing_account": "Adicionar uma conta existente",
+    "accounts": "Contas"
   },
   "header": {
     "title": "Login para personalizar o seu feed",
@@ -295,10 +295,10 @@
     "reward_decline": "Declinar Pagamento",
     "beneficiaries": "Beneficiários",
     "options": "Opções",
-    "my_blog": "My Blog",
-    "my_communities": "My Communities",
-    "top_communities": "Top Communities",
-    "schedule_modal_title": "Schedule Post"
+    "my_blog": "Meu Blog",
+    "my_communities": "Minhas Comunidades",
+    "top_communities": "Principais Comunidades",
+    "schedule_modal_title": "Agendar Post"
   },
   "pincode": {
     "enter_text": "Insira PIN para desbloquear",
@@ -324,15 +324,15 @@
     "success_favorite": "Favorito adicionado!",
     "success_unfavorite": "Favorito removido!",
     "success_follow": "Seguido com sucesso!",
-    "fail_follow": "Follow failed!",
-    "success_subscribe": "Subscribe success!",
-    "fail_subscribe": "Subscribe failed!",
-    "success_leave": "Leave success!",
-    "fail_leave": "Leave failed!",
+    "fail_follow": "Falha ao seguir!",
+    "success_subscribe": "Inscrito com sucesso!",
+    "fail_subscribe": "Falha na assinatura!",
+    "success_leave": "Sair com sucesso!",
+    "fail_leave": "Sair falhou!",
     "success_mute": "Silenciado com sucesso!",
     "success_unmute": "Mudo desativado com sucesso!",
     "success_unfollow": "Deixou de seguir com sucesso!",
-    "fail_unfollow": "Unfollow failed!",
+    "fail_unfollow": "Falha a deixar de seguir!",
     "warning": "Aviso",
     "invalid_pincode": "Código PIN inválido, por favor verifique e tente novamente.",
     "remove_alert": "Tem a certeza de que pretende remover?",
@@ -578,7 +578,7 @@
     "details": "Detalhes"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow"
+    "follow": "Seguir",
+    "unfollow": "Deixar de seguir"
   }
 }
