@@ -511,15 +511,15 @@
     "user": "کاربر",
     "permlink": "پست",
     "permlinkPlaceholder": "نام کاربری/لینک ثابت",
-    "information": "Are you sure to promote?"
+    "information": "آیا مطمئناً تبلیغ می کنید"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "ارتقاء"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "rewards": "امتیازات",
+    "percent": "درصد",
+    "time": "وقت"
   },
   "reblog": {
     "title": "Reblog Info"
