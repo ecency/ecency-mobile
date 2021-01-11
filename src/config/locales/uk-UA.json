@@ -217,7 +217,7 @@
     "signin_title": "Щоб отримати всі переваги від користування Ecency",
     "username": "Ім'я користувача",
     "password": "Пароль або WIF (приватний ключ)",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "Реєструючись, ви погоджуєтеся з Умовами надання послуг та Політикою конфіденційності.",
     "cancel": "скасувати",
     "login": "ЛОГІН",
     "steemconnect_description": "Якщо ви не бажаєте тримати пароль у зашифрованому вигляді на вашому пристрої, можете використовувати Hivesigner.",
@@ -231,7 +231,7 @@
     "ref_user": "Реферальний користувач (необов'язково)",
     "500_error": "Не вдалося обробити ваш запит, скоріш за все, черга реєстрації переповнена! Спробуйте ще раз через кілька хвилин...",
     "title_description": "Один рахунок для управління всім",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "form_description": "Реєструючись, ви погоджуєтеся з Умовами надання послуг та Політикою конфіденційності."
   },
   "home": {
     "feed": "Стрічка",
@@ -241,8 +241,8 @@
     "new": "Нове",
     "blog": "Блог",
     "posts": "Дописи",
-    "friends": "Friends",
-    "communities": "Communities"
+    "friends": "Друзі",
+    "communities": "Спільноти"
   },
   "side_menu": {
     "profile": "Профіль",
@@ -293,11 +293,11 @@
     "reward_default": "Default 50% / 50%",
     "reward_power_up": "Power Up 100%",
     "reward_decline": "Decline Payout",
-    "beneficiaries": "Beneficiaries",
+    "beneficiaries": "Бенефіціари (отримувачі)",
     "options": "Options",
-    "my_blog": "My Blog",
-    "my_communities": "My Communities",
-    "top_communities": "Top Communities",
+    "my_blog": "Мій блог",
+    "my_communities": "Мої спільноти",
+    "top_communities": "Найкращі спільноти",
     "schedule_modal_title": "Schedule Post"
   },
   "pincode": {
@@ -348,7 +348,7 @@
     "same_user": "Цього користувача уже додано до списку",
     "unknow_error": "Виникла помилка",
     "error": "Помилка",
-    "fetch_error": "Connection issue, change server and restart",
+    "fetch_error": "Проблеми із підключенням, змініть сервер і перезапустіть",
     "connection_fail": "Помилка з’єднання!",
     "connection_success": "Успішне підключення!",
     "checking": "Перевірка...",
@@ -550,7 +550,7 @@
     },
     "communities": {
       "title": "Спільноти",
-      "subscribe": "Join",
+      "subscribe": "Приєднатися",
       "unsubscribe": "Leave",
       "subscribers": "Members",
       "posters": "Автори",
@@ -578,7 +578,7 @@
     "details": "Details"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow"
+    "follow": "Слідкувати",
+    "unfollow": "Не слідкувати"
   }
 }
