@@ -252,6 +252,7 @@
     "schedules": "Schedules",
     "gallery": "Gallery",
     "settings": "Settings",
+    "communities": "Communities",
     "add_account": "Add Account",
     "logout": "Logout",
     "cancel": "Cancel",
@@ -579,5 +580,9 @@
   "user": {
     "follow": "Follow",
     "unfollow": "Unfollow"
+  },
+  "communities": {
+    "joined": "Joined",
+    "discover": "Discover"
   }
 }

@@ -24,6 +24,7 @@ import AccountBoost from './accountBoost/screen/accountBoostScreen';
 import Register from './register/registerScreen';
 import TagResult from './tagResult';
 import { Community } from './community';
+import Communities from './communities';
 
 export {
   Bookmarks,
@@ -52,4 +53,5 @@ export {
   Wallet,
   TagResult,
   Community,
+  Communities,
 };
