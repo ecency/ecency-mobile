@@ -543,23 +543,23 @@
       "title": "Best"
     },
     "people": {
-      "title": "People"
+      "title": "Люди"
     },
     "topics": {
-      "title": "Topics"
+      "title": "Темы"
     },
     "communities": {
       "title": "Сообщества",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
+      "subscribe": "Присоединиться",
+      "unsubscribe": "Покинуть",
+      "subscribers": "Участники",
       "posters": "Авторы",
       "posts": "Посты"
     },
     "communities_filter": {
-      "my": "My Communities",
+      "my": "Мои сообщества",
       "rank": "Рейтинг",
-      "subs": "Members",
+      "subs": "Участники",
       "new": "Новое"
     },
     "post_result_filter": {
@@ -578,7 +578,7 @@
     "details": "Подробности"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow"
+    "follow": "Подписаться",
+    "unfollow": "Отписаться"
   }
 }
