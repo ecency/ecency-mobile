@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getUserDataWithUsername } from '../../../realm/realm';
 import { switchAccount } from '../../../providers/hive/auth';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
+import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
 
 import { logout, isRenderRequired } from '../../../redux/actions/applicationActions';
 
@@ -96,6 +97,14 @@ class SideMenuContainer extends Component {
     dispatch(logout());
   };
 
+  _handlePressOptions = () => {
+    const { navigation, toggleAccountsBottomSheet } = this.props;
+
+    //navigation.closeDrawer();
+
+    toggleAccountsBottomSheet();
+  };
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { isLoggedIn } = this.props;
 
@@ -117,6 +126,7 @@ class SideMenuContainer extends Component {
         currentAccount={currentAccount}
         switchAccount={this._switchAccount}
         handleLogout={this._handleLogout}
+        handlePressOptions={this._handlePressOptions}
       />
     );
   }
@@ -128,4 +138,8 @@ const mapStateToProps = (state) => ({
   otherAccounts: state.account.otherAccounts,
 });
 
-export default connect(mapStateToProps)(SideMenuContainer);
+const mapDispatchToProps = {
+  toggleAccountsBottomSheet,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideMenuContainer);

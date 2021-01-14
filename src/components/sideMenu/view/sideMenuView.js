@@ -12,7 +12,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import ActionSheet from 'react-native-actionsheet';
 import VersionNumber from 'react-native-version-number';
 import { getStorageType } from '../../../realm/realm';
-import Modal from '../../modal';
 
 // Components
 import { Icon } from '../../icon';
@@ -41,6 +40,7 @@ const SideMenuView = ({
   accounts,
   switchAccount,
   navigateToRoute,
+  handlePressOptions,
 }) => {
   const intl = useIntl();
   const ActionSheetRef = useRef(null);
@@ -179,7 +179,7 @@ const SideMenuView = ({
                 />
               </View>
 
-              <TouchableOpacity style={styles.iconWrapper} onPress={_toggleAccountsModalOpen}>
+              <TouchableOpacity style={styles.iconWrapper} onPress={handlePressOptions}>
                 <Icon
                   iconType="SimpleLineIcons"
                   style={styles.optionIcon}
@@ -209,42 +209,6 @@ const SideMenuView = ({
           index === 0 ? handleLogout() : null;
         }}
       />
-      <Modal
-        isFullScreen={false}
-        isOpen={isAccountsModalOpen}
-        isBottomModal
-        isTransparent
-        isRadius
-        coverScreen={false}
-        title={intl.formatMessage({ id: 'side_menu.accounts' })}
-        onBackdropPress={_toggleAccountsModalOpen}
-      >
-        <SafeAreaView style={styles.accountModal}>
-          <Separator style={styles.separator} />
-          <FlatList
-            data={accounts}
-            ItemSeparatorComponent={() => <Separator style={styles.separator} />}
-            renderItem={({ item }) => _renderAccountTile(item)}
-            scrollEnabled
-          />
-          <Separator style={styles.separator} />
-          <View style={styles.buttonContainer}>
-            <TextButton
-              text={intl.formatMessage({ id: 'side_menu.create_a_new_account' })}
-              textStyle={styles.textButton}
-              onPress={() => navigateToRoute(ROUTES.SCREENS.REGISTER)}
-            />
-          </View>
-          <Separator style={styles.separator} />
-          <View style={styles.buttonContainer}>
-            <TextButton
-              text={intl.formatMessage({ id: 'side_menu.add_an_existing_account' })}
-              textStyle={styles.textButton}
-              onPress={() => navigateToRoute(ROUTES.SCREENS.LOGIN)}
-            />
-          </View>
-        </SafeAreaView>
-      </Modal>
     </View>
   );
 };

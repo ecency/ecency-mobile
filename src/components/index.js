@@ -21,6 +21,7 @@ import { LoginHeader } from './loginHeader';
 import { MainButton } from './mainButton';
 import { MarkdownEditor } from './markdownEditor';
 import { Modal } from './modal';
+import AccountsBottomSheet from './accountsBottomSheet';
 import { NotificationLine } from './notificationLine';
 import { NumericKeyboard } from './numericKeyboard';
 import { ParentPost } from './parentPost';
@@ -140,6 +141,7 @@ export {
   Logo,
   MainButton,
   MarkdownEditor,
+  AccountsBottomSheet,
   Modal,
   NoInternetConnection,
   NoPost,

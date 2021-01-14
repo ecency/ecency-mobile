@@ -19,7 +19,7 @@ import { getVersionForWelcomeModal } from '../../../realm/realm';
 import ROUTES from '../../../constants/routeNames';
 
 // Components
-import { ToastNotification, NoInternetConnection } from '../../../components';
+import { ToastNotification, NoInternetConnection, AccountsBottomSheet } from '../../../components';
 
 // Themes (Styles)
 import darkTheme from '../../../themes/darkTheme';
@@ -154,6 +154,7 @@ class ApplicationScreen extends Component {
             onHide={this._handleOnHideToastNotification}
           />
         )}
+        <AccountsBottomSheet />
       </View>
     );
   }
