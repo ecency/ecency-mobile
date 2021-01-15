@@ -129,21 +129,6 @@ const SideMenuView = ({
     setIsAccountsModalOpen(false);
   };
 
-  const _renderAccountTile = (item) => (
-    <TouchableOpacity style={styles.accountTile} onPress={() => _handlePressAccountTile(item)}>
-      <View style={styles.avatarAndNameContainer}>
-        <UserAvatar username={item.username} />
-        <View style={styles.nameContainer}>
-          {item.displayName && <Text style={styles.displayName}>{item.displayName}</Text>}
-          <Text style={styles.name}>{item.name}</Text>
-        </View>
-      </View>
-      {item.isCurrentAccount && (
-        <Icon iconType="AntDesign" name="checkcircle" style={styles.checkIcon} size={24} />
-      )}
-    </TouchableOpacity>
-  );
-
   return (
     <View style={styles.container}>
       <LinearGradient

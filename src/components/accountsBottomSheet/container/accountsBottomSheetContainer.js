@@ -6,24 +6,29 @@ import { AccountContainer } from '../../../containers';
 import AccountsBottomSheet from '../view/accountsBottomSheetView';
 
 const AccountsBottomSheetContainer = () => {
-  const accountsBottomSheetdRef = useRef();
+  const accountsBottomSheetRef = useRef();
 
   const isVisibleAccountsBottomSheet = useSelector(
     (state) => state.ui.isVisibleAccountsBottomSheet,
   );
 
   useEffect(() => {
-    //console.log(isVisibleAccountsBottomSheet, 'isVisibleAccountsBottomSheet');
+    console.log(isVisibleAccountsBottomSheet, 'isVisibleAccountsBottomSheet');
     if (isVisibleAccountsBottomSheet) {
-      console.log(accountsBottomSheetdRef.current);
-      accountsBottomSheetdRef.current?.showAccountsBottomSheet();
+      accountsBottomSheetRef.current?.showAccountsBottomSheet();
+    } else {
+      accountsBottomSheetRef.current?.closeAccountsBottomSheet();
     }
   }, [isVisibleAccountsBottomSheet]);
 
   return (
     <AccountContainer>
       {({ accounts, currentAccount, isLoggedIn, isLoginDone, username }) => (
-        <AccountsBottomSheet ref={accountsBottomSheetdRef} />
+        <AccountsBottomSheet
+          ref={accountsBottomSheetRef}
+          accounts={accounts}
+          currentAccount={currentAccount}
+        />
       )}
     </AccountContainer>
   );
