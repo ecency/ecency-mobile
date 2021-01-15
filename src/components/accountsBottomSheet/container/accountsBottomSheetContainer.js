@@ -16,8 +16,6 @@ const AccountsBottomSheetContainer = () => {
     console.log(isVisibleAccountsBottomSheet, 'isVisibleAccountsBottomSheet');
     if (isVisibleAccountsBottomSheet) {
       accountsBottomSheetRef.current?.showAccountsBottomSheet();
-    } else {
-      accountsBottomSheetRef.current?.closeAccountsBottomSheet();
     }
   }, [isVisibleAccountsBottomSheet]);
 

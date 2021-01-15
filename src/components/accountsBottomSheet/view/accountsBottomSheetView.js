@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useRef, forwardRef, useImperativeHandle } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
+import { useIntl } from 'react-intl';
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
@@ -10,82 +11,18 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
 
-import { UserAvatar, Icon } from '../../index';
+import { UserAvatar, Icon, TextButton, Separator } from '../../index';
 
 import styles from './accountsBottomSheetStyles';
 
 const data = [
   {
-    name: 'deneme',
+    name: 'example',
     username: 'furkankilic',
     isCurrentAccount: true,
   },
   {
-    name: 'deneme',
-    username: 'furkankilic',
-  },
-  {
-    name: 'deneme',
-    username: 'furkankilic',
-  },
-  {
-    name: 'deneme',
-    username: 'furkankilic',
-  },
-  {
-    name: 'deneme',
-    username: 'furkankilic',
-  },
-  {
-    name: 'deneme',
-    username: 'furkankilic',
-  },
-  {
-    name: 'deneme',
-    username: 'furkankilic',
-  },
-  {
-    name: 'deneme',
-    username: 'furkankilic',
-  },
-  {
-    name: 'deneme',
-    username: 'furkankilic',
-  },
-  {
-    name: 'deneme',
-    username: 'furkankilic',
-  },
-  {
-    name: 'deneme',
-    username: 'furkankilic',
-  },
-  {
-    name: 'deneme',
-    username: 'furkankilic',
-  },
-  {
-    name: 'deneme',
-    username: 'furkankilic',
-  },
-  {
-    name: 'deneme',
-    username: 'furkankilic',
-  },
-  {
-    name: 'deneme',
-    username: 'furkankilic',
-  },
-  {
-    name: 'deneme',
-    username: 'furkankilic',
-  },
-  {
-    name: 'deneme',
-    username: 'furkankilic',
-  },
-  {
-    name: 'deneme',
+    name: 'example',
     username: 'furkankilic',
   },
 ];
@@ -94,15 +31,15 @@ const AccountsBottomSheet = forwardRef(({ accounts, currentAccount }, ref) => {
   const dispatch = useDispatch();
   const bottomSheetModalRef = useRef();
   const insets = useSafeAreaInsets();
+  const intl = useIntl();
 
-  const snapPoints = useMemo(() => ['35%'], []);
+  const snapPoints = useMemo(() => [200], []);
+
+  //const calculateHeight = () => data.length * 50 + 160;
 
   useImperativeHandle(ref, () => ({
     showAccountsBottomSheet() {
       bottomSheetModalRef.current?.present();
-    },
-    closeAccountsBottomSheet() {
-      _handleDismissBottomSheet();
     },
   }));
 
@@ -134,13 +71,15 @@ const AccountsBottomSheet = forwardRef(({ accounts, currentAccount }, ref) => {
           <TouchableOpacity
             style={styles.backdrop}
             activeOpacity={1}
-            onPress={_handleDismissBottomSheet}
+            onPress={bottomSheetModalRef.current?.dismiss}
+            // when call the onPress, it calls onDismiss.
           />
         )}
         ref={bottomSheetModalRef}
         index={0}
         snapPoints={snapPoints}
-        onDismiss={() => console.log('dismiss')}
+        onDismiss={_handleDismissBottomSheet}
+        shouldMeasureContentHeight={true}
       >
         <BottomSheetFlatList
           data={data}
@@ -149,7 +88,25 @@ const AccountsBottomSheet = forwardRef(({ accounts, currentAccount }, ref) => {
           renderItem={({ item }) => _renderAccountTile(item)}
           //contentContainerStyle={styles.contentContainer}
         />
-        <View style={{ paddingBottom: insets.bottom }} />
+        <Separator style={styles.separator} />
+        <View style={{ paddingBottom: insets.bottom }}>
+          <View style={styles.buttonContainer}>
+            <TextButton
+              text={intl.formatMessage({ id: 'side_menu.create_a_new_account' })}
+              textStyle={styles.textButton}
+              //onPress={() => navigateToRoute(ROUTES.SCREENS.REGISTER)}
+            />
+          </View>
+          <Separator style={styles.separator} />
+          <View style={styles.buttonContainer}>
+            <TextButton
+              text={intl.formatMessage({ id: 'side_menu.add_an_existing_account' })}
+              textStyle={styles.textButton}
+              //onPress={() => navigateToRoute(ROUTES.SCREENS.LOGIN)}
+            />
+          </View>
+          <Separator style={styles.separator} />
+        </View>
       </BottomSheetModal>
     </BottomSheetModalProvider>
   );
