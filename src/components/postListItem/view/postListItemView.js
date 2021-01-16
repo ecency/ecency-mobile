@@ -1,6 +1,6 @@
-import React, { useRef, Fragment } from 'react';
+import React, { useRef, useState, Fragment } from 'react';
 import ActionSheet from 'react-native-actionsheet';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { injectIntl } from 'react-intl';
 import FastImage from 'react-native-fast-image';
 
@@ -17,6 +17,8 @@ import DEFAULT_IMAGE from '../../../assets/no_image.png';
 // Styles
 import styles from './postListItemStyles';
 
+const { width, height } = Dimensions.get('window');
+
 const PostListItemView = ({
   title,
   summary,
@@ -32,7 +34,7 @@ const PostListItemView = ({
   isFormatedDate,
 }) => {
   const actionSheet = useRef(null);
-
+  const [calcImgHeight, setCalcImgHeight] = useState(0);
   // Component Life Cycles
 
   // Component Functions
@@ -60,7 +62,14 @@ const PostListItemView = ({
         </View>
         <View style={styles.body}>
           <TouchableOpacity onPress={() => handleOnPressItem(id)}>
-            <FastImage source={image} style={styles.image} defaultSource={DEFAULT_IMAGE} />
+            <FastImage
+              source={image}
+              style={[styles.image, { width: width - 16, height: Math.min(calcImgHeight, height) }]}
+              defaultSource={DEFAULT_IMAGE}
+              onLoad={(evt) =>
+                setCalcImgHeight((evt.nativeEvent.height / evt.nativeEvent.width) * width)
+              }
+            />
             <View style={[styles.postDescripton]}>
               <Text style={styles.title}>{title}</Text>
               <Text style={styles.summary}>{summary}</Text>

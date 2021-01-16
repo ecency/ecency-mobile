@@ -21,7 +21,7 @@ import styles from './postCardStyles';
 import DEFAULT_IMAGE from '../../../assets/no_image.png';
 import NSFW_IMAGE from '../../../assets/nsfw.png';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const PostCardView = ({
   handleOnUserPress,
@@ -106,7 +106,10 @@ const PostCardView = ({
         <TouchableOpacity style={styles.hiddenImages} onPress={_handleOnContentPress}>
           {!isHideImage && (
             <FastImage
-              style={[styles.thumbnail, { width: width - 16, height: calcImgHeight }]}
+              style={[
+                styles.thumbnail,
+                { width: width - 16, height: Math.min(calcImgHeight, height) },
+              ]}
               source={_image}
               resizeMode={FastImage.resizeMode.cover}
               defaultSource={DEFAULT_IMAGE}
