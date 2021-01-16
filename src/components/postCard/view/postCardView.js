@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { TouchableOpacity, Text, View } from 'react-native';
+import { TouchableOpacity, Text, View, Dimensions } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { injectIntl } from 'react-intl';
 
@@ -21,6 +21,8 @@ import styles from './postCardStyles';
 import DEFAULT_IMAGE from '../../../assets/no_image.png';
 import NSFW_IMAGE from '../../../assets/nsfw.png';
 
+const { width } = Dimensions.get('window');
+
 const PostCardView = ({
   handleOnUserPress,
   handleOnContentPress,
@@ -36,6 +38,7 @@ const PostCardView = ({
 }) => {
   const [rebloggedBy, setRebloggedBy] = useState(get(content, 'reblogged_by[0]', null));
   const [activeVot, setActiveVot] = useState(activeVotes);
+  const [calcImgHeight, setCalcImgHeight] = useState(0);
   //console.log(activeVotes);
   // Component Functions
 
@@ -103,10 +106,13 @@ const PostCardView = ({
         <TouchableOpacity style={styles.hiddenImages} onPress={_handleOnContentPress}>
           {!isHideImage && (
             <FastImage
+              style={[styles.thumbnail, { width: width - 16, height: calcImgHeight }]}
               source={_image}
-              resizeMode={FastImage.resizeMode.contain}
-              style={styles.thumbnail}
+              resizeMode={FastImage.resizeMode.cover}
               defaultSource={DEFAULT_IMAGE}
+              onLoad={(evt) =>
+                setCalcImgHeight((evt.nativeEvent.height / evt.nativeEvent.width) * width)
+              }
             />
           )}
           <View style={[styles.postDescripton]}>
