@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { AccountContainer } from '../../../containers';
 import AccountsBottomSheet from '../view/accountsBottomSheetView';
 
-const AccountsBottomSheetContainer = () => {
+const AccountsBottomSheetContainer = ({ navigation }) => {
   const accountsBottomSheetRef = useRef();
 
   const isVisibleAccountsBottomSheet = useSelector(
@@ -13,11 +13,16 @@ const AccountsBottomSheetContainer = () => {
   );
 
   useEffect(() => {
-    console.log(isVisibleAccountsBottomSheet, 'isVisibleAccountsBottomSheet');
     if (isVisibleAccountsBottomSheet) {
       accountsBottomSheetRef.current?.showAccountsBottomSheet();
     }
   }, [isVisibleAccountsBottomSheet]);
+
+  const _navigateToRoute = (route = null) => {
+    if (route) {
+      //navigation.navigate(route);
+    }
+  };
 
   return (
     <AccountContainer>
@@ -26,6 +31,7 @@ const AccountsBottomSheetContainer = () => {
           ref={accountsBottomSheetRef}
           accounts={accounts}
           currentAccount={currentAccount}
+          navigateToRoute={_navigateToRoute}
         />
       )}
     </AccountContainer>

@@ -13,6 +13,8 @@ import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
 
 import { UserAvatar, Icon, TextButton, Separator } from '../../index';
 
+import { default as ROUTES } from '../../../constants/routeNames';
+
 import styles from './accountsBottomSheetStyles';
 
 const data = [
@@ -25,17 +27,23 @@ const data = [
     name: 'example',
     username: 'furkankilic',
   },
+  {
+    name: 'example',
+    username: 'furkankilic',
+  },
+  {
+    name: 'example',
+    username: 'furkankilic',
+  },
 ];
 
-const AccountsBottomSheet = forwardRef(({ accounts, currentAccount }, ref) => {
+const AccountsBottomSheet = forwardRef(({ accounts, currentAccount, navigateToRoute }, ref) => {
   const dispatch = useDispatch();
   const bottomSheetModalRef = useRef();
   const insets = useSafeAreaInsets();
   const intl = useIntl();
 
-  const snapPoints = useMemo(() => [200], []);
-
-  //const calculateHeight = () => data.length * 50 + 160;
+  const snapPoints = useMemo(() => [data.length <= 4 ? data.length * 60 + 150 : 405], []);
 
   useImperativeHandle(ref, () => ({
     showAccountsBottomSheet() {
@@ -84,7 +92,7 @@ const AccountsBottomSheet = forwardRef(({ accounts, currentAccount }, ref) => {
         <BottomSheetFlatList
           data={data}
           scrollEnabled
-          keyExtractor={(i) => i}
+          keyExtractor={(item) => item.name}
           renderItem={({ item }) => _renderAccountTile(item)}
           //contentContainerStyle={styles.contentContainer}
         />
@@ -94,7 +102,7 @@ const AccountsBottomSheet = forwardRef(({ accounts, currentAccount }, ref) => {
             <TextButton
               text={intl.formatMessage({ id: 'side_menu.create_a_new_account' })}
               textStyle={styles.textButton}
-              //onPress={() => navigateToRoute(ROUTES.SCREENS.REGISTER)}
+              onPress={() => navigateToRoute(ROUTES.SCREENS.REGISTER)}
             />
           </View>
           <Separator style={styles.separator} />
@@ -102,7 +110,7 @@ const AccountsBottomSheet = forwardRef(({ accounts, currentAccount }, ref) => {
             <TextButton
               text={intl.formatMessage({ id: 'side_menu.add_an_existing_account' })}
               textStyle={styles.textButton}
-              //onPress={() => navigateToRoute(ROUTES.SCREENS.LOGIN)}
+              onPress={() => navigateToRoute(ROUTES.SCREENS.LOGIN)}
             />
           </View>
           <Separator style={styles.separator} />

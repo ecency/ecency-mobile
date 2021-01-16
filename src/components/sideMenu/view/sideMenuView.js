@@ -1,12 +1,5 @@
-import React, { Component, useEffect, useState, useRef } from 'react';
-import {
-  View,
-  Text,
-  ImageBackground,
-  FlatList,
-  TouchableOpacity,
-  SafeAreaView,
-} from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { View, Text, ImageBackground, FlatList, TouchableOpacity } from 'react-native';
 import { injectIntl, useIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
 import ActionSheet from 'react-native-actionsheet';
@@ -16,19 +9,16 @@ import { getStorageType } from '../../../realm/realm';
 // Components
 import { Icon } from '../../icon';
 import { UserAvatar } from '../../userAvatar';
-import Separator from '../../basicUIElements/view/separator/separatorView';
 import { TextWithIcon } from '../../basicUIElements';
 
 // Constants
 import MENU from '../../../constants/sideMenuItems';
-import { default as ROUTES } from '../../../constants/routeNames';
 
 //Utils
 import { getVotingPower } from '../../../utils/manaBar';
 
 // Styles
 import styles from './sideMenuStyles';
-import { TextButton } from '../../buttons';
 
 // Images
 const SIDE_MENU_BACKGROUND = require('../../../assets/side_menu_background.png');
@@ -49,7 +39,6 @@ const SideMenuView = ({
     isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
   );
   const [storageT, setStorageT] = useState('R');
-  const [isAccountsModalOpen, setIsAccountsModalOpen] = useState(false);
   const [upower, setUpower] = useState(0);
 
   // Component Life Cycles
@@ -79,10 +68,6 @@ const SideMenuView = ({
     }
 
     navigateToRoute(item.route);
-  };
-
-  const _toggleAccountsModalOpen = () => {
-    setIsAccountsModalOpen(!isAccountsModalOpen);
   };
 
   useEffect(() => {
@@ -125,8 +110,6 @@ const SideMenuView = ({
     if (!item.isCurrentAccount) {
       switchAccount(item);
     }
-
-    setIsAccountsModalOpen(false);
   };
 
   return (
