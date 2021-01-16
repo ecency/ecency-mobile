@@ -8,7 +8,7 @@ import { FilterBar, UserAvatar } from '../../../../../components';
 import CommunitiesList from './communitiesList';
 import { CommunitiesPlaceHolder } from '../../../../../components/basicUIElements';
 
-import CommunitiesContainer from '../../../container/communitiesContainer';
+//import CommunitiesContainer from '../../../container/communitiesContainer';
 import styles from '../topics/topicsResultsStyles';
 import DEFAULT_IMAGE from '../../../../../assets/no_image.png';
 import Tag from '../../../../../components/basicUIElements/view/tag/tagView';
@@ -31,20 +31,21 @@ const CommunitiesScreen = ({ navigation, searchValue }) => {
   };
 
   return (
-    <CommunitiesContainer data={activeVotes} searchValue={searchValue}>
-      {({ data, allSubscriptions, handleOnPress, handleSubscribeButtonPress, isLoggedIn }) => (
-        <>
-          {/* <CommunitiesList
-            votes={data}
-            allSubscriptions={allSubscriptions}
-            handleOnPress={handleOnPress}
-            handleSubscribeButtonPress={handleSubscribeButtonPress}
-            isLoggedIn={isLoggedIn}
-            noResult={data.length === 0}
-          /> */}
-        </>
-      )}
-    </CommunitiesContainer>
+    // <CommunitiesContainer data={activeVotes} searchValue={searchValue}>
+    //   {({ data, allSubscriptions, handleOnPress, handleSubscribeButtonPress, isLoggedIn }) => (
+    //     <>
+    //       {/* <CommunitiesList
+    //         votes={data}
+    //         allSubscriptions={allSubscriptions}
+    //         handleOnPress={handleOnPress}
+    //         handleSubscribeButtonPress={handleSubscribeButtonPress}
+    //         isLoggedIn={isLoggedIn}
+    //         noResult={data.length === 0}
+    //       /> */}
+    //     </>
+    //   )}
+    // </CommunitiesContainer>
+    <></>
   );
 };
 

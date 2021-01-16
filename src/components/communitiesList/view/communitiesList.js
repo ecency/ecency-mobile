@@ -2,24 +2,22 @@ import React from 'react';
 import { SafeAreaView, FlatList } from 'react-native';
 
 // Components
-import { CommunityListItem, CommunitiesPlaceHolder } from '../../components/basicUIElements';
+import { CommunitiesPlaceHolder } from '../../basicUIElements';
+import CommunitiesListItem from './communitiesListItem';
 
 // Styles
 import styles from './communitiesListStyles';
 
 const CommunitiesList = ({
-  votes,
+  data,
   handleOnPress,
   handleSubscribeButtonPress,
-  allSubscriptions,
   isLoggedIn,
   noResult,
 }) => {
   const _renderItem = ({ item, index }) => {
-    const isSubscribed = allSubscriptions.some((sub) => sub[0] === item.name);
-
     return (
-      <CommunityListItem
+      <CommunitiesListItem
         index={index}
         title={item.title}
         about={item.about}
@@ -32,8 +30,9 @@ const CommunitiesList = ({
         name={item.name}
         handleOnPress={handleOnPress}
         handleSubscribeButtonPress={handleSubscribeButtonPress}
-        isSubscribed={isSubscribed}
+        isSubscribed={item.isSubscribed}
         isLoggedIn={isLoggedIn}
+        loading={item.loading}
       />
     );
   };
@@ -56,7 +55,7 @@ const CommunitiesList = ({
     <SafeAreaView style={styles.container}>
       {!noResult && (
         <FlatList
-          data={votes}
+          data={data}
           keyExtractor={(item) => item.id && item.id.toString()}
           renderItem={_renderItem}
           ListEmptyComponent={_renderEmptyContent}

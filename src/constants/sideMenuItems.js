@@ -28,7 +28,7 @@ const authMenuItems = [
   {
     name: 'Communities',
     route: ROUTES.SCREENS.COMMUNITIES,
-    icon: 'settings',
+    icon: 'people',
     id: 'communities',
   },
   {

@@ -45,4 +45,7 @@ export default EStyleSheet.create({
     marginLeft: 15,
     color: '$primaryBlack',
   },
+  tabbarItem: {
+    flex: 1,
+  },
 });
