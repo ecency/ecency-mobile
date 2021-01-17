@@ -10,6 +10,7 @@ import styles from './communitiesListStyles';
 
 const CommunitiesList = ({
   data,
+  subscribingCommunities,
   handleOnPress,
   handleSubscribeButtonPress,
   isLoggedIn,
@@ -32,7 +33,10 @@ const CommunitiesList = ({
         handleSubscribeButtonPress={handleSubscribeButtonPress}
         isSubscribed={item.isSubscribed}
         isLoggedIn={isLoggedIn}
-        loading={item.loading}
+        loading={
+          subscribingCommunities.hasOwnProperty(item.name) &&
+          subscribingCommunities[item.name].loading
+        }
       />
     );
   };

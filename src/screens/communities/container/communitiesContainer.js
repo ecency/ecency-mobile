@@ -6,13 +6,10 @@ import { useIntl } from 'react-intl';
 
 import ROUTES from '../../../constants/routeNames';
 
-import {
-  getCommunities,
-  getSubscriptions,
-  subscribeCommunity,
-} from '../../../providers/hive/dhive';
+import { getCommunities, getSubscriptions } from '../../../providers/hive/dhive';
 
 import { toastNotification } from '../../../redux/actions/uiAction';
+import { subscribeCommunity, leaveCommunity } from '../../../redux/actions/communitiesAction';
 
 const CommunitiesContainer = ({ children, navigation }) => {
   const dispatch = useDispatch();
@@ -23,16 +20,22 @@ const CommunitiesContainer = ({ children, navigation }) => {
 
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const pinCode = useSelector((state) => state.application.pin);
+  const subscribingCommunitiesInDiscoverTab = useSelector(
+    (state) => state.communities.subscribingCommunitiesInCommunitiesScreenDiscoverTab,
+  );
+  const subscribingCommunitiesInJoinedTab = useSelector(
+    (state) => state.communities.subscribingCommunitiesInCommunitiesScreenJoinedTab,
+  );
 
   useEffect(() => {
     getSubscriptions(currentAccount.username).then((subs) => {
+      subs.forEach((item) => item.push(true));
       getCommunities('', 50, '', 'rank').then((communities) => {
         communities.forEach((community) =>
           Object.assign(community, {
             isSubscribed: subs.some(
               (subscribedCommunity) => subscribedCommunity[0] === community.name,
             ),
-            loading: false,
           }),
         );
 
@@ -41,6 +44,58 @@ const CommunitiesContainer = ({ children, navigation }) => {
       });
     });
   }, []);
+
+  useEffect(() => {
+    const discoversData = [...discovers];
+
+    Object.keys(subscribingCommunitiesInDiscoverTab).map((communityId) => {
+      if (!subscribingCommunitiesInDiscoverTab[communityId].loading) {
+        if (!subscribingCommunitiesInDiscoverTab[communityId].error) {
+          if (subscribingCommunitiesInDiscoverTab[communityId].isSubscribed) {
+            discoversData.forEach((item) => {
+              if (item.name === communityId) {
+                item.isSubscribed = true;
+              }
+            });
+          } else {
+            discoversData.forEach((item) => {
+              if (item.name === communityId) {
+                item.isSubscribed = false;
+              }
+            });
+          }
+        }
+      }
+    });
+
+    setDiscovers(discoversData);
+  }, [subscribingCommunitiesInDiscoverTab]);
+
+  useEffect(() => {
+    const subscribedsData = [...subscriptions];
+
+    Object.keys(subscribingCommunitiesInJoinedTab).map((communityId) => {
+      if (!subscribingCommunitiesInJoinedTab[communityId].loading) {
+        if (!subscribingCommunitiesInJoinedTab[communityId].error) {
+          if (subscribingCommunitiesInJoinedTab[communityId].isSubscribed) {
+            subscribedsData.forEach((item) => {
+              if (item[0] === communityId) {
+                item[4] = true;
+              }
+            });
+          } else {
+            subscribedsData.forEach((item) => {
+              if (item[0] === communityId) {
+                item[4] = false;
+              }
+            });
+          }
+        }
+      }
+    });
+
+    setSubscriptions(subscribedsData);
+  }, [subscribingCommunitiesInJoinedTab]);
 
   // Component Functions
   const _handleOnPress = (name) => {
@@ -52,60 +107,34 @@ const CommunitiesContainer = ({ children, navigation }) => {
     });
   };
 
-  const _handleSubscribeButtonPress = (_data) => {
-    const subscribedCommunityIndex = discovers.findIndex(
-      (community) => community.name === _data.communityId,
-    );
+  const _handleSubscribeButtonPress = (data, screen) => {
+    let subscribeAction;
+    let successToastText = '';
+    let failToastText = '';
 
-    const newDiscovers = [
-      ...discovers.slice(0, subscribedCommunityIndex),
-      Object.assign({}, discovers[subscribedCommunityIndex], { loading: true }),
-      ...discovers.slice(subscribedCommunityIndex + 1),
-    ];
+    if (!data.isSubscribed) {
+      subscribeAction = subscribeCommunity;
 
-    setDiscovers(newDiscovers);
-
-    subscribeCommunity(currentAccount, pinCode, _data)
-      .then(() => {
-        const updatedDiscovers = [
-          ...discovers.slice(0, subscribedCommunityIndex),
-          Object.assign({}, discovers[subscribedCommunityIndex], {
-            loading: false,
-            isSubscribed: _data.isSubscribed,
-          }),
-          ...discovers.slice(subscribedCommunityIndex + 1),
-        ];
-
-        setDiscovers(updatedDiscovers);
-
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'alert.success_subscribe',
-            }),
-          ),
-        );
-      })
-      .catch((error) => {
-        const updatedDiscovers = [
-          ...discovers.slice(0, subscribedCommunityIndex),
-          Object.assign({}, discovers[subscribedCommunityIndex], {
-            loading: false,
-            isSubscribed: !_data.isSubscribed,
-          }),
-          ...discovers.slice(subscribedCommunityIndex + 1),
-        ];
-
-        setDiscovers(updatedDiscovers);
-
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'alert.fail_subscribe',
-            }),
-          ),
-        );
+      successToastText = intl.formatMessage({
+        id: 'alert.success_subscribe',
       });
+      failToastText = intl.formatMessage({
+        id: 'alert.fail_subscribe',
+      });
+    } else {
+      subscribeAction = leaveCommunity;
+
+      successToastText = intl.formatMessage({
+        id: 'alert.success_leave',
+      });
+      failToastText = intl.formatMessage({
+        id: 'alert.fail_leave',
+      });
+    }
+
+    dispatch(
+      subscribeAction(currentAccount, pinCode, data, successToastText, failToastText, screen),
+    );
   };
 
   return (
@@ -113,6 +142,8 @@ const CommunitiesContainer = ({ children, navigation }) => {
     children({
       subscriptions,
       discovers,
+      subscribingCommunitiesInDiscoverTab,
+      subscribingCommunitiesInJoinedTab,
       handleOnPress: _handleOnPress,
       handleSubscribeButtonPress: _handleSubscribeButtonPress,
     })

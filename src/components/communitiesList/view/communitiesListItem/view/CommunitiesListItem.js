@@ -27,7 +27,10 @@ const CommunitiesListItem = ({
   const intl = useIntl();
 
   const _handleSubscribeButtonPress = () => {
-    handleSubscribeButtonPress({ isSubscribed: !isSubscribed, communityId: name });
+    handleSubscribeButtonPress(
+      { isSubscribed: isSubscribed, communityId: name },
+      'communitiesScreenDiscoverTab',
+    );
   };
 
   return (
@@ -41,7 +44,9 @@ const CommunitiesListItem = ({
             <Text style={styles.title}>{title}</Text>
             {isLoggedIn &&
               (loading ? (
-                <ActivityIndicator style={{ flex: 1 }} />
+                <View style={styles.indicatorView}>
+                  <ActivityIndicator />
+                </View>
               ) : (
                 <Tag
                   style={styles.subscribeButton}

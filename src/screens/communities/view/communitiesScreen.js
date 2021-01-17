@@ -6,8 +6,14 @@ import { SafeAreaView } from 'react-navigation';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 // Components
-import { FilterBar, UserAvatar, TabBar, BasicHeader } from '../../../components';
-import CommunitiesList from '../../../components/communitiesList';
+import {
+  FilterBar,
+  UserAvatar,
+  TabBar,
+  BasicHeader,
+  CommunitiesList,
+  SubscribedCommunitiesList,
+} from '../../../components';
 import { CommunitiesPlaceHolder } from '../../../components/basicUIElements';
 
 import CommunitiesContainer from '../container/communitiesContainer';
@@ -42,7 +48,14 @@ const CommunitiesScreen = ({ navigation, searchValue }) => {
 
   return (
     <CommunitiesContainer>
-      {({ subscriptions, discovers, handleOnPress, handleSubscribeButtonPress }) => {
+      {({
+        subscriptions,
+        discovers,
+        handleOnPress,
+        handleSubscribeButtonPress,
+        subscribingCommunitiesInDiscoverTab,
+        subscribingCommunitiesInJoinedTab,
+      }) => {
         console.log(subscriptions, discovers);
         return (
           <View style={styles.container}>
@@ -61,41 +74,11 @@ const CommunitiesScreen = ({ navigation, searchValue }) => {
                   tabLabel={intl.formatMessage({ id: 'communities.joined' })}
                   style={styles.tabbarItem}
                 >
-                  <FlatList
+                  <SubscribedCommunitiesList
                     data={subscriptions}
-                    //keyExtractor={(item, ind) => `${item}-${ind}`}
-                    renderItem={({ item, index }) => (
-                      <View
-                        style={[styles.communityWrapper, index % 2 !== 0 && styles.itemWrapperGray]}
-                      >
-                        <View style={{ flex: 3, flexDirection: 'row', alignItems: 'center' }}>
-                          <TouchableOpacity onPress={() => handleOnPress(item[0])}>
-                            <UserAvatar username={item[0]} defaultSource={DEFAULT_IMAGE} noAction />
-                          </TouchableOpacity>
-                          <TouchableOpacity onPress={() => handleOnPress(item[0])}>
-                            <Text style={styles.community}>{item[1]}</Text>
-                          </TouchableOpacity>
-                        </View>
-                        <View style={{ flex: 1 }}>
-                          <Tag
-                            style={styles.subscribeButton}
-                            textStyle={styles.subscribeButtonText}
-                            value={intl.formatMessage({
-                              id: 'search_result.communities.unsubscribe',
-                            })}
-                            isPin={false}
-                            isFilter
-                            onPress={() =>
-                              handleSubscribeButtonPress({
-                                isSubscribed: true,
-                                communityId: item[0],
-                              })
-                            }
-                          />
-                        </View>
-                      </View>
-                    )}
-                    ListEmptyComponent={_renderEmptyContent}
+                    subscribingCommunities={subscribingCommunitiesInJoinedTab}
+                    handleSubscribeButtonPress={handleSubscribeButtonPress}
+                    handleOnPress={handleOnPress}
                   />
                 </View>
                 <View
@@ -104,6 +87,7 @@ const CommunitiesScreen = ({ navigation, searchValue }) => {
                 >
                   <CommunitiesList
                     data={discovers}
+                    subscribingCommunities={subscribingCommunitiesInDiscoverTab}
                     handleOnPress={handleOnPress}
                     handleSubscribeButtonPress={handleSubscribeButtonPress}
                     isLoggedIn={true}

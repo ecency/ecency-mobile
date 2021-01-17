@@ -63,6 +63,8 @@ import ScaleSlider from './scaleSlider/scaleSliderView';
 import { ProductItemLine } from './productItemLine/productItemLineView';
 import { HorizontalIconList } from './horizontalIconList/horizontalIconListView';
 import { PopoverWrapper } from './popoverWrapper/popoverWrapperView';
+import CommunitiesList from './communitiesList';
+import SubscribedCommunitiesList from './subscribedCommunitiesList';
 
 // View
 import { Comment } from './comment';
@@ -207,4 +209,6 @@ export {
   Separator,
   HorizontalIconList,
   PopoverWrapper,
+  CommunitiesList,
+  SubscribedCommunitiesList,
 };
