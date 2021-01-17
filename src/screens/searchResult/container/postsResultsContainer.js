@@ -17,33 +17,39 @@ const PostsResultsContainer = ({ children, navigation, searchValue, currentAccou
     setData([]);
 
     if (searchValue) {
-      search({ q: searchValue, sort }).then((res) => {
-        setScrollId(res.scroll_id);
-        setData(res.results);
-      });
-    } else {
-      getPromotePosts()
-        .then((result) => {
-          return Promise.all(
-            result.map((item) =>
-              getPost(
-                get(item, 'author'),
-                get(item, 'permlink'),
-                currentAccountUsername,
-                true,
-              ).then((post) => {
-                post.author_rep = post.author_reputation;
-                post.body = (post.summary && post.summary.substring(0, 130)) || '';
-                return post;
-              }),
-            ),
-          );
+      search({ q: searchValue, sort })
+        .then((res) => {
+          setScrollId(res.scroll_id);
+          setData(res.results);
         })
-        .then((result) => {
-          setData(result);
-        });
+        .catch((err) => console.log(err, 'search error'));
+    } else {
+      getInitialPosts().then((res) => {
+        console.log(res, 'res');
+        // setData(res);
+      });
     }
   }, [searchValue, sort]);
+
+  const getInitialPosts = async () => {
+    const promoteds = await getPromotePosts();
+
+    return await Promise.all(
+      promoteds.map(async (item) => {
+        const post = await getPost(
+          get(item, 'author'),
+          get(item, 'permlink'),
+          currentAccountUsername,
+          true,
+        );
+
+        post.author_rep = post.author_reputation;
+        post.body = (post.summary && post.summary.substring(0, 130)) || '';
+        // return await call to your function
+        return post;
+      }),
+    );
+  };
 
   // Component Functions
 

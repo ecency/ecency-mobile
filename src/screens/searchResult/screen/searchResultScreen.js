@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { useIntl } from 'react-intl';
+import { debounce } from 'lodash';
 
 // Components
 import { SearchInput, TabBar } from '../../../components';

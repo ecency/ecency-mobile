@@ -7,6 +7,7 @@ import ROUTES from '../../../constants/routeNames';
 
 import { getTrendingTags } from '../../../providers/hive/dhive';
 import { getLeaderboard } from '../../../providers/ecency/ecency';
+import { isCommunity } from '../../../utils/communityValidation';
 
 const OtherResultContainer = (props) => {
   const [tags, setTags] = useState([]);
@@ -17,7 +18,9 @@ const OtherResultContainer = (props) => {
     setTags([]);
 
     getTrendingTags(searchValue).then((res) => {
-      setTags(res);
+      const data = res.filter((item) => !isCommunity(item.name));
+      console.log(data, 'data');
+      setTags(data);
     });
   }, [searchValue]);
 
