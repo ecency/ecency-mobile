@@ -1,8 +1,8 @@
-import React, { useRef, useState, Fragment } from 'react';
+import React, { useRef, useState, useEffect, Fragment } from 'react';
 import ActionSheet from 'react-native-actionsheet';
 import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { injectIntl } from 'react-intl';
-import FastImage from 'react-native-fast-image';
+import ImageSize from 'react-native-image-size';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
@@ -11,14 +11,16 @@ import scalePx from '../../../utils/scalePx';
 // Components
 import { PostHeaderDescription } from '../../postElements';
 import { IconButton } from '../../iconButton';
-
-// Defaults
-import DEFAULT_IMAGE from '../../../assets/no_image.png';
+import ProgressiveImage from '../../progressiveImage';
 
 // Styles
 import styles from './postListItemStyles';
 
-const { width, height } = Dimensions.get('window');
+// Defaults
+const DEFAULT_IMAGE =
+  'https://images.ecency.com/DQmT8R33geccEjJfzZEdsRHpP3VE8pu3peRCnQa1qukU4KR/no_image_3x.png';
+
+const dim = Dimensions.get('window');
 
 const PostListItemView = ({
   title,
@@ -28,6 +30,7 @@ const PostListItemView = ({
   reputation,
   created,
   image,
+  thumbnail,
   handleOnPressItem,
   handleOnRemoveItem,
   id,
@@ -35,9 +38,15 @@ const PostListItemView = ({
   isFormatedDate,
 }) => {
   const actionSheet = useRef(null);
-  const [calcImgHeight, setCalcImgHeight] = useState(0);
+  const [calcImgHeight, setCalcImgHeight] = useState(300);
   // Component Life Cycles
-
+  useEffect(() => {
+    if (image) {
+      ImageSize.getSize(image.uri).then((size) => {
+        setCalcImgHeight((size.height / size.width) * dim.width);
+      });
+    }
+  }, []);
   // Component Functions
 
   return (
@@ -63,16 +72,13 @@ const PostListItemView = ({
         </View>
         <View style={styles.body}>
           <TouchableOpacity onPress={() => handleOnPressItem(id)}>
-            <FastImage
+            <ProgressiveImage
               source={image}
+              thumbnailSource={thumbnail}
               style={[
-                styles.image,
-                { width: scalePx(width - 16), height: scalePx(Math.min(calcImgHeight, height)) },
+                styles.thumbnail,
+                { width: scalePx(dim.width - 16), height: Math.min(calcImgHeight, dim.height) },
               ]}
-              defaultSource={DEFAULT_IMAGE}
-              onLoad={(evt) =>
-                setCalcImgHeight((evt.nativeEvent.height / evt.nativeEvent.width) * width)
-              }
             />
             <View style={[styles.postDescripton]}>
               <Text style={styles.title}>{title}</Text>

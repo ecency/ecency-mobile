@@ -33,6 +33,7 @@ export const parsePost = (post, currentUserName, isPromoted) => {
     post.json_metadata = {};
   }
   post.image = catchPostImage(post.body, 600, 500, webp ? 'webp' : 'match');
+  post.thumbnail = catchPostImage(post.body, 60, 50, webp ? 'webp' : 'match');
   post.author_reputation = getReputation(post.author_reputation);
   post.avatar = getResizedAvatar(get(post, 'author'));
 
