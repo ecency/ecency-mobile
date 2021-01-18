@@ -252,6 +252,7 @@
     "schedules": "Ajakavad",
     "gallery": "Galerii",
     "settings": "Seaded",
+    "communities": "Communities",
     "add_account": "Lisa konto",
     "logout": "Logi välja",
     "cancel": "Tühista",
@@ -549,7 +550,7 @@
       "title": "Topics"
     },
     "communities": {
-      "title": "Communities",
+      "title": "Groups",
       "subscribe": "Join",
       "unsubscribe": "Leave",
       "subscribers": "Members",
@@ -580,5 +581,9 @@
   "user": {
     "follow": "Jälgi",
     "unfollow": "Lõpeta jälgimine"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
   }
 }
