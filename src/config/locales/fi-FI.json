@@ -252,7 +252,7 @@
     "schedules": "Ajastetut",
     "gallery": "Galleria",
     "settings": "Asetukset",
-    "communities": "Communities",
+    "communities": "Yhteisöt",
     "add_account": "Lisää tili",
     "logout": "Kirjaudu ulos",
     "cancel": "Peruuta",
@@ -550,7 +550,7 @@
       "title": "Aiheet"
     },
     "communities": {
-      "title": "Groups",
+      "title": "Ryhmät",
       "subscribe": "Liity",
       "unsubscribe": "Poistu",
       "subscribers": "Jäsenet",
@@ -583,7 +583,7 @@
     "unfollow": "Älä seuraa"
   },
   "communities": {
-    "joined": "Membership",
-    "discover": "Discover"
+    "joined": "Jäsenyys",
+    "discover": "Löydä uutta"
   }
 }
