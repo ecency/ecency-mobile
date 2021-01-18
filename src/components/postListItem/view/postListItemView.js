@@ -6,6 +6,7 @@ import FastImage from 'react-native-fast-image';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
+import scalePx from '../../../utils/scalePx';
 
 // Components
 import { PostHeaderDescription } from '../../postElements';
@@ -64,7 +65,10 @@ const PostListItemView = ({
           <TouchableOpacity onPress={() => handleOnPressItem(id)}>
             <FastImage
               source={image}
-              style={[styles.image, { width: width - 16, height: Math.min(calcImgHeight, height) }]}
+              style={[
+                styles.image,
+                { width: scalePx(width - 16), height: scalePx(Math.min(calcImgHeight, height)) },
+              ]}
               defaultSource={DEFAULT_IMAGE}
               onLoad={(evt) =>
                 setCalcImgHeight((evt.nativeEvent.height / evt.nativeEvent.width) * width)

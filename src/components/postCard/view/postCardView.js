@@ -6,6 +6,7 @@ import { injectIntl } from 'react-intl';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
+import scalePx from '../../../utils/scalePx';
 
 // Components
 import { PostHeaderDescription } from '../../postElements';
@@ -108,7 +109,7 @@ const PostCardView = ({
             <FastImage
               style={[
                 styles.thumbnail,
-                { width: width - 16, height: Math.min(calcImgHeight, height) },
+                { width: scalePx(width - 16), height: scalePx(Math.min(calcImgHeight, height)) },
               ]}
               source={_image}
               resizeMode={FastImage.resizeMode.cover}
