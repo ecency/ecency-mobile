@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { withNavigation } from 'react-navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
+import { shuffle } from 'lodash';
 
 import ROUTES from '../../../../../../constants/routeNames';
 
@@ -54,7 +55,12 @@ const CommunitiesResultsContainer = ({ children, navigation, searchValue }) => {
           }),
         );
 
-        setData(communities);
+        if (searchValue) {
+          setData(communities);
+        } else {
+          setData(shuffle(communities));
+        }
+
         if (communities.length === 0) {
           setNoResult(true);
         }
