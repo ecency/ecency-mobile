@@ -252,6 +252,7 @@
     "schedules": "Schedules",
     "gallery": "Frisahteis",
     "settings": "Lageinos",
+    "communities": "Communities",
     "add_account": "Anaaiauk rahnein",
     "logout": "Afleiþ",
     "cancel": "Fraqiþ",
@@ -549,7 +550,7 @@
       "title": "Topics"
     },
     "communities": {
-      "title": "Communities",
+      "title": "Groups",
       "subscribe": "Join",
       "unsubscribe": "Leave",
       "subscribers": "Members",
@@ -580,5 +581,9 @@
   "user": {
     "follow": "Follow",
     "unfollow": "Unfollow"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
   }
 }
