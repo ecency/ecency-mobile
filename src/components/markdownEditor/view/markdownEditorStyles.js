@@ -14,7 +14,7 @@ export default EStyleSheet.create({
     color: '$primaryBlack',
     backgroundColor: '$primaryBackgroundColor',
     // fontFamily: '$editorFont',
-    //textAlignVertical: 'top',
+    // textAlignVertical: 'top',
   },
   previewContainer: {
     flex: 1,

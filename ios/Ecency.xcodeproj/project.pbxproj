@@ -43,7 +43,7 @@
 		05B6C4B024C306CE00B7FA60 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 980BC9BC0D3B4AC69645C842 /* Zocial.ttf */; };
 		0A1D279E0D3CD306C889592E /* libPods-Ecency-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7093E51BBC0EE2F41AB19EBA /* libPods-Ecency-tvOS.a */; };
 		1CD0B89E258019B600A7D78E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1CD0B89B258019B600A7D78E /* GoogleService-Info.plist */; };
-		2B3CF3607B7CB9B7296FD5EF /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		2B3CF3607B7CB9B7296FD5EF /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -55,7 +55,7 @@
 		CFAA2A599FD65F360D9B3E1E /* libPods-EcencyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B344CAA24725C973F48BE81E /* libPods-EcencyTests.a */; };
 		D71EB20EDB9B987C0574BAFE /* libPods-EcencyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C97456BE898C00B5EDA21C2E /* libPods-EcencyTests.a */; };
 		DC0E25610BB5F49AFF4514AD /* libPods-Ecency.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 388DF3FF85F08109F722083B /* libPods-Ecency.a */; };
-		F77F6C7E54F3C783A2773E9D /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		F77F6C7E54F3C783A2773E9D /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -204,8 +204,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				05B6C49424C306CE00B7FA60 /* StoreKit.framework in Frameworks */,
-				F77F6C7E54F3C783A2773E9D /* (null) in Frameworks */,
-				2B3CF3607B7CB9B7296FD5EF /* (null) in Frameworks */,
+				F77F6C7E54F3C783A2773E9D /* BuildFile in Frameworks */,
+				2B3CF3607B7CB9B7296FD5EF /* BuildFile in Frameworks */,
 				DC0E25610BB5F49AFF4514AD /* libPods-Ecency.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -752,7 +752,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Ecency/Pods-Ecency-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/QBImagePickerController/QBImagePicker.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker/QBImagePicker.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -769,7 +769,7 @@
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
-				"${PODS_ROOT}/RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -790,7 +790,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RSKImageCropperStrings.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TOCropViewControllerBundle.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

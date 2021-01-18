@@ -6,28 +6,35 @@ import FastImage from 'react-native-fast-image';
 import { useIntl } from 'react-intl';
 
 // Components
-import { PostHeaderDescription, FilterBar } from '../../../components';
-import { TextWithIcon, CommunitiesPlaceHolder } from '../../../components/basicUIElements';
-import PostResultContainer from '../container/postResultContainer';
+import { PostHeaderDescription, FilterBar } from '../../../../../../components';
+import {
+  TextWithIcon,
+  CommunitiesPlaceHolder,
+  EmptyScreen,
+} from '../../../../../../components/basicUIElements';
+import PostsResultsContainer from '../container/postsResultsContainer';
 
-import { getTimeFromNow } from '../../../utils/time';
+import { getTimeFromNow } from '../../../../../../utils/time';
 
-import styles from './postResultStyles';
+import styles from './postsResultsStyles';
 
-import DEFAULT_IMAGE from '../../../assets/no_image.png';
+import DEFAULT_IMAGE from '../../../../../../assets/no_image.png';
 
 const filterOptions = ['relevance', 'popularity', 'newest'];
 
-const PostResult = ({ navigation, searchValue }) => {
+const PostsResults = ({ navigation, searchValue }) => {
   const intl = useIntl();
 
   const _renderItem = (item, index) => {
+    const reputation =
+      get(item, 'author_rep', undefined) || get(item, 'author_reputation', undefined);
+
     return (
       <View style={[styles.itemWrapper, index % 2 !== 0 && styles.itemWrapperGray]}>
         <PostHeaderDescription
           date={getTimeFromNow(get(item, 'created_at'))}
           name={get(item, 'author')}
-          reputation={Math.floor(get(item, 'author_rep'))}
+          reputation={Math.floor(reputation)}
           size={36}
           tag={item.category}
         />
@@ -78,38 +85,29 @@ const PostResult = ({ navigation, searchValue }) => {
   };
 
   return (
-    <PostResultContainer searchValue={searchValue}>
-      {({ data, filterIndex, handleFilterChanged, handleOnPress, loadMore }) => (
+    <PostsResultsContainer searchValue={searchValue}>
+      {({ data, handleOnPress, loadMore, noResult }) => (
         <SafeAreaView style={styles.container}>
-          <FilterBar
-            dropdownIconName="arrow-drop-down"
-            options={filterOptions.map((item) =>
-              intl.formatMessage({
-                id: `search_result.post_result_filter.${item}`,
-              }),
-            )}
-            defaultText={intl.formatMessage({
-              id: `search_result.post_result_filter.${filterOptions[filterIndex]}`,
-            })}
-            selectedOptionIndex={filterIndex}
-            onDropdownSelect={(index) => handleFilterChanged(index, filterOptions[index])}
-          />
-          <FlatList
-            data={data}
-            keyExtractor={(item) => item.id && item.id.toString()}
-            renderItem={({ item, index }) => (
-              <TouchableOpacity onPress={() => handleOnPress(item)}>
-                {_renderItem(item, index)}
-              </TouchableOpacity>
-            )}
-            onEndReached={loadMore}
-            ListEmptyComponent={_renderEmptyContent}
-            ListFooterComponent={<CommunitiesPlaceHolder />}
-          />
+          {noResult ? (
+            <EmptyScreen />
+          ) : (
+            <FlatList
+              data={data}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item, index }) => (
+                <TouchableOpacity onPress={() => handleOnPress(item)}>
+                  {_renderItem(item, index)}
+                </TouchableOpacity>
+              )}
+              onEndReached={loadMore}
+              ListEmptyComponent={_renderEmptyContent}
+              ListFooterComponent={<CommunitiesPlaceHolder />}
+            />
+          )}
         </SafeAreaView>
       )}
-    </PostResultContainer>
+    </PostsResultsContainer>
   );
 };
 
-export default PostResult;
+export default PostsResults;

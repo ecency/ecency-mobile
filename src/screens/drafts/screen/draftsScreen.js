@@ -47,6 +47,7 @@ const DraftsScreen = ({
     const tags = item.tags ? item.tags.split(/[ ,]+/) : [];
     const tag = tags[0] || '';
     const image = catchDraftImage(item.body);
+    const thumbnail = catchDraftImage(item.body, 'match', true);
     const summary = postBodySummary({ item, last_update: item.created }, 100);
     const isSchedules = type === 'schedules';
 
@@ -57,7 +58,8 @@ const DraftsScreen = ({
         title={item.title}
         summary={summary}
         isFormatedDate={isSchedules}
-        image={image ? { uri: catchDraftImage(item.body) } : null}
+        image={image ? { uri: image } : null}
+        thumbnail={thumbnail ? { uri: thumbnail } : null}
         username={currentAccount.name}
         reputation={currentAccount.reputation}
         handleOnPressItem={() => (isSchedules ? setSelectedId(item._id) : editDraft(item._id))}

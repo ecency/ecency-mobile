@@ -1,8 +1,8 @@
 import React, { Component, useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { TouchableOpacity, Text, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { TouchableOpacity, Text, View, Dimensions } from 'react-native';
 import { injectIntl } from 'react-intl';
+import ImageSize from 'react-native-image-size';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
@@ -18,8 +18,13 @@ import { Upvote } from '../../upvote';
 import styles from './postCardStyles';
 
 // Defaults
-import DEFAULT_IMAGE from '../../../assets/no_image.png';
-import NSFW_IMAGE from '../../../assets/nsfw.png';
+import ProgressiveImage from '../../progressiveImage';
+
+const dim = Dimensions.get('window');
+const DEFAULT_IMAGE =
+  'https://images.ecency.com/DQmT8R33geccEjJfzZEdsRHpP3VE8pu3peRCnQa1qukU4KR/no_image_3x.png';
+const NSFW_IMAGE =
+  'https://images.ecency.com/DQmZ1jW4p7o5GyoqWyCib1fSLE2ftbewsMCt2GvbmT9kmoY/nsfw_3x.png';
 
 const PostCardView = ({
   handleOnUserPress,
@@ -36,6 +41,7 @@ const PostCardView = ({
 }) => {
   const [rebloggedBy, setRebloggedBy] = useState(get(content, 'reblogged_by[0]', null));
   const [activeVot, setActiveVot] = useState(activeVotes);
+  const [calcImgHeight, setCalcImgHeight] = useState(300);
   //console.log(activeVotes);
   // Component Functions
 
@@ -62,11 +68,16 @@ const PostCardView = ({
   const _getPostImage = (content, isNsfwPost) => {
     if (content && content.image) {
       if (isNsfwPost && content.nsfw) {
-        return NSFW_IMAGE;
+        return { image: NSFW_IMAGE, thumbnail: NSFW_IMAGE };
       }
-      return { uri: content.image, priority: FastImage.priority.high };
+      //console.log(content)
+      ImageSize.getSize(content.image).then((size) => {
+        setCalcImgHeight((size.height / size.width) * dim.width);
+      });
+      return { image: content.image, thumbnail: content.thumbnail };
+    } else {
+      return { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
     }
-    return DEFAULT_IMAGE;
   };
 
   useEffect(() => {
@@ -102,11 +113,13 @@ const PostCardView = ({
       <View style={styles.postBodyWrapper}>
         <TouchableOpacity style={styles.hiddenImages} onPress={_handleOnContentPress}>
           {!isHideImage && (
-            <FastImage
-              source={_image}
-              resizeMode={FastImage.resizeMode.contain}
-              style={styles.thumbnail}
-              defaultSource={DEFAULT_IMAGE}
+            <ProgressiveImage
+              source={{ uri: _image.image }}
+              thumbnailSource={{ uri: _image.thumbnail }}
+              style={[
+                styles.thumbnail,
+                { width: dim.width - 16, height: Math.min(calcImgHeight, dim.height) },
+              ]}
             />
           )}
           <View style={[styles.postDescripton]}>

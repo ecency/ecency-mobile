@@ -1,8 +1,8 @@
-import React, { useRef, Fragment } from 'react';
+import React, { useRef, useState, useEffect, Fragment } from 'react';
 import ActionSheet from 'react-native-actionsheet';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { injectIntl } from 'react-intl';
-import FastImage from 'react-native-fast-image';
+import ImageSize from 'react-native-image-size';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
@@ -10,12 +10,16 @@ import { getTimeFromNow } from '../../../utils/time';
 // Components
 import { PostHeaderDescription } from '../../postElements';
 import { IconButton } from '../../iconButton';
-
-// Defaults
-import DEFAULT_IMAGE from '../../../assets/no_image.png';
+import ProgressiveImage from '../../progressiveImage';
 
 // Styles
 import styles from './postListItemStyles';
+
+// Defaults
+const DEFAULT_IMAGE =
+  'https://images.ecency.com/DQmT8R33geccEjJfzZEdsRHpP3VE8pu3peRCnQa1qukU4KR/no_image_3x.png';
+
+const dim = Dimensions.get('window');
 
 const PostListItemView = ({
   title,
@@ -25,6 +29,7 @@ const PostListItemView = ({
   reputation,
   created,
   image,
+  thumbnail,
   handleOnPressItem,
   handleOnRemoveItem,
   id,
@@ -32,9 +37,21 @@ const PostListItemView = ({
   isFormatedDate,
 }) => {
   const actionSheet = useRef(null);
-
+  const [calcImgHeight, setCalcImgHeight] = useState(300);
   // Component Life Cycles
-
+  useEffect(() => {
+    let _isMounted = false;
+    if (image) {
+      if (!_isMounted) {
+        ImageSize.getSize(image.uri).then((size) => {
+          setCalcImgHeight((size.height / size.width) * dim.width);
+        });
+      }
+    }
+    return () => {
+      _isMounted = true;
+    };
+  }, []);
   // Component Functions
 
   return (
@@ -60,7 +77,14 @@ const PostListItemView = ({
         </View>
         <View style={styles.body}>
           <TouchableOpacity onPress={() => handleOnPressItem(id)}>
-            <FastImage source={image} style={styles.image} defaultSource={DEFAULT_IMAGE} />
+            <ProgressiveImage
+              source={image}
+              thumbnailSource={thumbnail}
+              style={[
+                styles.thumbnail,
+                { width: dim.width - 16, height: Math.min(calcImgHeight, dim.height) },
+              ]}
+            />
             <View style={[styles.postDescripton]}>
               <Text style={styles.title}>{title}</Text>
               <Text style={styles.summary}>{summary}</Text>
