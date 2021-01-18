@@ -252,6 +252,7 @@
     "schedules": "Розклади",
     "gallery": "Галерея",
     "settings": "Налаштування",
+    "communities": "Communities",
     "add_account": "Додати обліковий запис",
     "logout": "Вийти",
     "cancel": "Скасувати",
@@ -549,7 +550,7 @@
       "title": "Topics"
     },
     "communities": {
-      "title": "Спільноти",
+      "title": "Groups",
       "subscribe": "Приєднатися",
       "unsubscribe": "Leave",
       "subscribers": "Members",
@@ -580,5 +581,9 @@
   "user": {
     "follow": "Слідкувати",
     "unfollow": "Не слідкувати"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
   }
 }
