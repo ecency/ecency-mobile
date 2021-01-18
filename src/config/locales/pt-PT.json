@@ -252,6 +252,7 @@
     "schedules": "Agendar",
     "gallery": "Galeria",
     "settings": "Configurações",
+    "communities": "Communities",
     "add_account": "Adicionar conta",
     "logout": "Sair",
     "cancel": "Cancelar",
@@ -549,7 +550,7 @@
       "title": "Tópicos"
     },
     "communities": {
-      "title": "Communities",
+      "title": "Groups",
       "subscribe": "Aderir",
       "unsubscribe": "Sair",
       "subscribers": "Membros",
@@ -580,5 +581,9 @@
   "user": {
     "follow": "Seguir",
     "unfollow": "Deixar de seguir"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
   }
 }
