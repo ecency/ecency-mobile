@@ -19,7 +19,7 @@ const PostsResultsContainer = ({ children, navigation, searchValue, currentAccou
     setData([]);
 
     if (searchValue) {
-      search({ q: searchValue, sort })
+      search({ q: `${searchValue} type:post`, sort })
         .then((res) => {
           setScrollId(res.scroll_id);
           setData(res.results);
@@ -82,7 +82,7 @@ const PostsResultsContainer = ({ children, navigation, searchValue, currentAccou
 
   const _loadMore = (index, value) => {
     if (scrollId) {
-      search({ q: searchValue, sort, scroll_id: scrollId }).then((res) => {
+      search({ q: `${searchValue} type:post`, sort, scroll_id: scrollId }).then((res) => {
         setData([...data, ...res.results]);
       });
     }
