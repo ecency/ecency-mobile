@@ -29,6 +29,7 @@ export default {
     COMMENTS: `Comments${SCREEN_SUFFIX}`,
     ACCOUNT_BOOST: `AccountBoost${SCREEN_SUFFIX}`,
     COMMUNITY: `Community${SCREEN_SUFFIX}`,
+    COMMUNITIES: `Communities${SCREEN_SUFFIX}`,
   },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,

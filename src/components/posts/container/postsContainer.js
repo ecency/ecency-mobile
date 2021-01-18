@@ -462,7 +462,9 @@ const PostsContainer = ({
       });
     }
 
-    dispatch(subscribeAction(currentAccount, pinCode, data, successToastText, failToastText));
+    dispatch(
+      subscribeAction(currentAccount, pinCode, data, successToastText, failToastText, 'feedScreen'),
+    );
   };
 
   return (

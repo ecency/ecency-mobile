@@ -26,6 +26,12 @@ const authMenuItems = [
   //   id: 'gallery',
   // },
   {
+    name: 'Communities',
+    route: ROUTES.SCREENS.COMMUNITIES,
+    icon: 'people',
+    id: 'communities',
+  },
+  {
     name: 'Settings',
     route: ROUTES.SCREENS.SETTINGS,
     icon: 'settings',

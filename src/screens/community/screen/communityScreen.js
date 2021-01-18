@@ -13,7 +13,7 @@ import styles from './communityStyles';
 
 import { GLOBAL_POST_FILTERS, GLOBAL_POST_FILTERS_VALUE } from '../../../constants/options/filters';
 
-const TagResultScreen = ({ navigation }) => {
+const CommunityScreen = ({ navigation }) => {
   const tag = navigation.getParam('tag', '');
   const filter = navigation.getParam('filter', '');
 
@@ -114,4 +114,4 @@ const TagResultScreen = ({ navigation }) => {
   );
 };
 
-export default TagResultScreen;
+export default CommunityScreen;
