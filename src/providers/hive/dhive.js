@@ -457,7 +457,7 @@ export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
     let posts = await client.call('bridge', 'get_ranked_posts', query);
 
     if (posts) {
-      posts = parsePosts(posts, currentUserName, true);
+      posts = parsePosts(posts, currentUserName);
 
       if (filterNsfw !== '0') {
         const updatedPosts = filterNsfwPost(posts, filterNsfw);
@@ -475,7 +475,7 @@ export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
     let posts = await client.call('bridge', 'get_account_posts', query);
 
     if (posts) {
-      posts = parsePosts(posts, currentUserName, true);
+      posts = parsePosts(posts, currentUserName);
 
       if (filterNsfw !== '0') {
         const updatedPosts = filterNsfwPost(posts, filterNsfw);

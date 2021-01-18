@@ -13,13 +13,13 @@ const webp = Platform.OS === 'ios' ? false : true;
 
 export const parsePosts = (posts, currentUserName) => {
   if (posts) {
-    const formattedPosts = posts.map((post) => parsePost(post, currentUserName));
+    const formattedPosts = posts.map((post) => parsePost(post, currentUserName, false, true));
     return formattedPosts;
   }
   return null;
 };
 
-export const parsePost = (post, currentUserName, isPromoted) => {
+export const parsePost = (post, currentUserName, isPromoted, isList = false) => {
   if (!post) {
     return null;
   }
@@ -36,8 +36,9 @@ export const parsePost = (post, currentUserName, isPromoted) => {
   post.thumbnail = catchPostImage(post.body, 60, 50, webp ? 'webp' : 'match');
   post.author_reputation = getReputation(post.author_reputation);
   post.avatar = getResizedAvatar(get(post, 'author'));
-
-  post.body = renderPostBody(post, true, webp);
+  if (!isList) {
+    post.body = renderPostBody(post, true, webp);
+  }
   post.summary = postBodySummary(post, 150);
   post.is_declined_payout = parseAsset(post.max_accepted_payout).amount === 0;
 
