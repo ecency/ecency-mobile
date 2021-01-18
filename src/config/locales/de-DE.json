@@ -252,6 +252,7 @@
     "schedules": "Zeitpläne",
     "gallery": "Galerie",
     "settings": "Einstellungen",
+    "communities": "Communities",
     "add_account": "Konto hinzufügen",
     "logout": "Abmelden",
     "cancel": "Abbrechen",
@@ -549,7 +550,7 @@
       "title": "Topics"
     },
     "communities": {
-      "title": "Communities",
+      "title": "Groups",
       "subscribe": "Beitreten",
       "unsubscribe": "Austreten",
       "subscribers": "Mitglieder",
@@ -580,5 +581,9 @@
   "user": {
     "follow": "Folgen",
     "unfollow": "Nicht mehr folgen"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
   }
 }
