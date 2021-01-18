@@ -41,11 +41,17 @@ const PostListItemView = ({
   const [calcImgHeight, setCalcImgHeight] = useState(300);
   // Component Life Cycles
   useEffect(() => {
+    let _isMounted = false;
     if (image) {
-      ImageSize.getSize(image.uri).then((size) => {
-        setCalcImgHeight((size.height / size.width) * dim.width);
-      });
+      if (!_isMounted) {
+        ImageSize.getSize(image.uri).then((size) => {
+          setCalcImgHeight((size.height / size.width) * dim.width);
+        });
+      }
     }
+    return () => {
+      _isMounted = true;
+    };
   }, []);
   // Component Functions
 
