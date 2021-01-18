@@ -34,22 +34,26 @@ const TagContainer = ({
 
   useEffect(() => {
     let isCancelled = false;
-    getCommunityTitle(value)
-      .then((r) => {
-        if (!isCancelled) {
-          setLabel(r);
-          setIsCommunity(value !== r);
-          return r;
-        }
-      })
-      .catch((e) => {
-        if (!isCancelled) {
-          setLabel(value);
-          setIsCommunity(/^hive-\d+/.test(value));
-          return value;
-        }
-      });
-
+    if (value && /^hive-\d+/.test(value)) {
+      getCommunityTitle(value)
+        .then((r) => {
+          if (!isCancelled) {
+            setLabel(r);
+            setIsCommunity(value !== r);
+            return r;
+          }
+        })
+        .catch((e) => {
+          if (!isCancelled) {
+            setLabel(value);
+            setIsCommunity(/^hive-\d+/.test(value));
+            return value;
+          }
+        });
+    } else {
+      setLabel(value);
+      setIsCommunity(false);
+    }
     return () => {
       isCancelled = true;
     };

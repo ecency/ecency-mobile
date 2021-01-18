@@ -33,6 +33,7 @@ import { PostForm } from './postForm';
 import { PostHeaderDescription, PostBody, Tags } from './postElements';
 import { PostListItem } from './postListItem';
 import { ProfileSummary } from './profileSummary';
+import { ProgressiveImage } from './progressiveImage';
 
 import { SearchInput } from './searchInput';
 import { SearchModal } from './searchModal';

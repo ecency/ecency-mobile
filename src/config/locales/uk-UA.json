@@ -255,7 +255,10 @@
     "add_account": "Додати обліковий запис",
     "logout": "Вийти",
     "cancel": "Скасувати",
-    "logout_text": "Впевнені, що хочете вийти?"
+    "logout_text": "Впевнені, що хочете вийти?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Увійдіть, щоб налаштувати свій канал",
@@ -294,7 +297,8 @@
     "options": "Options",
     "my_blog": "My Blog",
     "my_communities": "My Communities",
-    "top_communities": "Top Communities"
+    "top_communities": "Top Communities",
+    "schedule_modal_title": "Schedule Post"
   },
   "pincode": {
     "enter_text": "Для розблокування введіть пін-код",
@@ -320,9 +324,15 @@
     "success_favorite": "До улюблених додано!",
     "success_unfavorite": "З улюблених видалено!",
     "success_follow": "Успішно підписалися!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "Успішно почали ігнорувати!",
     "success_unmute": "Успішно припинили ігнорувати!",
     "success_unfollow": "Успішно відписалися!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Увага",
     "invalid_pincode": "Невірний пін-код. Будь ласка, перевірте і повторіть спробу.",
     "remove_alert": "Ви дійсно бажаєте видалити?",
@@ -351,7 +361,8 @@
     "invalidImage": "Недійсне зображення, спробуйте інший файл",
     "something_wrong": "Something went wrong.",
     "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload"
+    "something_wrong_reload": "Reload",
+    "can_not_be_empty": "Title and body can not be empty!"
   },
   "post": {
     "reblog_alert": "Ви дійсно бажаєте зробити репост?",
@@ -527,7 +538,16 @@
     "more_replies": "більше відповідей"
   },
   "search_result": {
-    "others": "Інше",
+    "others": "Others",
+    "best": {
+      "title": "Best"
+    },
+    "people": {
+      "title": "People"
+    },
+    "topics": {
+      "title": "Topics"
+    },
     "communities": {
       "title": "Спільноти",
       "subscribe": "Join",
@@ -556,5 +576,9 @@
     "new_post": "Новий допис",
     "community": "community",
     "details": "Details"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }

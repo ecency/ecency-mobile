@@ -86,12 +86,10 @@ export const fetchGlobalProps = async () => {
   }
 
   const steemPerMVests =
-    (parseToken(
-      get(globalDynamic, 'total_vesting_fund_steem', globalDynamic.total_vesting_fund_hive),
-    ) /
+    (parseToken(get(globalDynamic, 'total_vesting_fund_hive')) /
       parseToken(get(globalDynamic, 'total_vesting_shares'))) *
     1e6;
-  const sbdPrintRate = get(globalDynamic, 'sbd_print_rate', globalDynamic.hbd_print_rate);
+  const sbdPrintRate = get(globalDynamic, 'hbd_print_rate');
   const base = parseAsset(get(feedHistory, 'current_median_history.base')).amount;
   const quote = parseAsset(get(feedHistory, 'current_median_history.quote')).amount;
   const fundRecentClaims = get(rewardFund, 'recent_claims');
@@ -216,17 +214,17 @@ export const getUser = async (user, loggedIn = true) => {
     _account.steem_power = await vestToSteem(
       _account.vesting_shares,
       globalProperties.total_vesting_shares,
-      globalProperties.total_vesting_fund_steem || globalProperties.total_vesting_fund_hive,
+      globalProperties.total_vesting_fund_hive,
     );
     _account.received_steem_power = await vestToSteem(
       get(_account, 'received_vesting_shares'),
       get(globalProperties, 'total_vesting_shares'),
-      get(globalProperties, 'total_vesting_fund_steem', globalProperties.total_vesting_fund_hive),
+      get(globalProperties, 'total_vesting_fund_hive'),
     );
     _account.delegated_steem_power = await vestToSteem(
       get(_account, 'delegated_vesting_shares'),
       get(globalProperties, 'total_vesting_shares'),
-      get(globalProperties, 'total_vesting_fund_steem', globalProperties.total_vesting_fund_hive),
+      get(globalProperties, 'total_vesting_fund_hive'),
     );
 
     if (has(_account, 'posting_json_metadata')) {
@@ -249,7 +247,7 @@ export const getUser = async (user, loggedIn = true) => {
 
 const cache = {};
 const patt = /hive-\d\w+/g;
-export const getCommunity = (tag, observer = '') =>
+export const getCommunity = async (tag, observer = '') =>
   new Promise(async (resolve, reject) => {
     try {
       const community = await client.call('bridge', 'get_community', {
@@ -294,7 +292,13 @@ export const getCommunityTitle = async (tag) =>
     resolve(tag);
   });
 
-export const getCommunities = (last = '', limit = 100, query = '', sort = 'rank', observer = '') =>
+export const getCommunities = async (
+  last = '',
+  limit = 100,
+  query = '',
+  sort = 'rank',
+  observer = '',
+) =>
   new Promise(async (resolve, reject) => {
     try {
       const data = await client.call('bridge', 'list_communities', {
@@ -453,7 +457,7 @@ export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
     let posts = await client.call('bridge', 'get_ranked_posts', query);
 
     if (posts) {
-      posts = parsePosts(posts, currentUserName, true);
+      posts = parsePosts(posts, currentUserName);
 
       if (filterNsfw !== '0') {
         const updatedPosts = filterNsfwPost(posts, filterNsfw);
@@ -471,7 +475,7 @@ export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
     let posts = await client.call('bridge', 'get_account_posts', query);
 
     if (posts) {
-      posts = parsePosts(posts, currentUserName, true);
+      posts = parsePosts(posts, currentUserName);
 
       if (filterNsfw !== '0') {
         const updatedPosts = filterNsfwPost(posts, filterNsfw);
@@ -1129,8 +1133,8 @@ export const lookupAccounts = async (username) => {
     const users = await client.database.call('lookup_accounts', [username, 20]);
     return users;
   } catch (error) {
-    console.log('lookup_accounts');
-    throw error;
+    return [];
+    //throw error;
   }
 };
 
@@ -1139,8 +1143,8 @@ export const getTrendingTags = async (tag) => {
     const tags = await client.database.call('get_trending_tags', [tag, 20]);
     return tags;
   } catch (error) {
-    console.log('get_trending_tags');
-    throw error;
+    return [];
+    //throw error;
   }
 };
 

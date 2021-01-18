@@ -35,7 +35,7 @@ const Tag = ({
           textStyle,
         ]}
       >
-        {isPostCardTag ? label : value}
+        {label}
       </Text>
     </View>
   </TouchableOpacity>

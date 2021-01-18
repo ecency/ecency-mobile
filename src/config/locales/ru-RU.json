@@ -255,7 +255,10 @@
     "add_account": "Добавить аккаунт",
     "logout": "Выйти",
     "cancel": "Отмена",
-    "logout_text": "Вы уверены, что хотите разлогина?"
+    "logout_text": "Вы уверены, что хотите разлогина?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Войдите, чтобы настроить свою ленту",
@@ -294,7 +297,8 @@
     "options": "Options",
     "my_blog": "My Blog",
     "my_communities": "My Communities",
-    "top_communities": "Top Communities"
+    "top_communities": "Top Communities",
+    "schedule_modal_title": "Schedule Post"
   },
   "pincode": {
     "enter_text": "Чтобы разблокировать введите пин-код",
@@ -320,9 +324,15 @@
     "success_favorite": "Добавлено в Избранное!",
     "success_unfavorite": "Удалено из Избранного!",
     "success_follow": "Успешная подписка!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "Успешно игнорируется!",
     "success_unmute": "Успешно перестали игнорировать!",
     "success_unfollow": "Успешная отписка!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Внимание",
     "invalid_pincode": "Неверный пин-код. Пожалуйста, проверьте и попробуйте еще раз.",
     "remove_alert": "Вы уверены, что хотите удалить?",
@@ -351,7 +361,8 @@
     "invalidImage": "Изображение не подходит, попробуйте другой файл",
     "something_wrong": "Something went wrong.",
     "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload"
+    "something_wrong_reload": "Reload",
+    "can_not_be_empty": "Title and body can not be empty!"
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
@@ -527,7 +538,16 @@
     "more_replies": "больше ответов"
   },
   "search_result": {
-    "others": "Другое",
+    "others": "Others",
+    "best": {
+      "title": "Best"
+    },
+    "people": {
+      "title": "People"
+    },
+    "topics": {
+      "title": "Topics"
+    },
     "communities": {
       "title": "Сообщества",
       "subscribe": "Join",
@@ -556,5 +576,9 @@
     "new_post": "Новый пост",
     "community": "сообщество",
     "details": "Подробности"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }

@@ -255,7 +255,10 @@
     "add_account": "Adicionar conta",
     "logout": "Sair",
     "cancel": "Cancelar",
-    "logout_text": "Tem certeza que deseja sair?"
+    "logout_text": "Tem certeza que deseja sair?",
+    "create_a_new_account": "Create a new account",
+    "add_an_existing_account": "Add an existing account",
+    "accounts": "Accounts"
   },
   "header": {
     "title": "Login para personalizar o seu feed",
@@ -294,7 +297,8 @@
     "options": "Opções",
     "my_blog": "My Blog",
     "my_communities": "My Communities",
-    "top_communities": "Top Communities"
+    "top_communities": "Top Communities",
+    "schedule_modal_title": "Schedule Post"
   },
   "pincode": {
     "enter_text": "Insira PIN para desbloquear",
@@ -320,9 +324,15 @@
     "success_favorite": "Favorito adicionado!",
     "success_unfavorite": "Favorito removido!",
     "success_follow": "Seguido com sucesso!",
+    "fail_follow": "Follow failed!",
+    "success_subscribe": "Subscribe success!",
+    "fail_subscribe": "Subscribe failed!",
+    "success_leave": "Leave success!",
+    "fail_leave": "Leave failed!",
     "success_mute": "Silenciado com sucesso!",
     "success_unmute": "Mudo desativado com sucesso!",
     "success_unfollow": "Deixou de seguir com sucesso!",
+    "fail_unfollow": "Unfollow failed!",
     "warning": "Aviso",
     "invalid_pincode": "Código PIN inválido, por favor verifique e tente novamente.",
     "remove_alert": "Tem a certeza de que pretende remover?",
@@ -351,7 +361,8 @@
     "invalidImage": "Imagem inválida, tente um arquivo diferente",
     "something_wrong": "Algo correu mal.",
     "something_wrong_alt": "Tente em https://ecency.com",
-    "something_wrong_reload": "Recarregar"
+    "something_wrong_reload": "Recarregar",
+    "can_not_be_empty": "Título e corpo não podem estar vazios!"
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
@@ -528,6 +539,15 @@
   },
   "search_result": {
     "others": "Outros",
+    "best": {
+      "title": "Melhores"
+    },
+    "people": {
+      "title": "Pessoas"
+    },
+    "topics": {
+      "title": "Tópicos"
+    },
     "communities": {
       "title": "Communities",
       "subscribe": "Aderir",
@@ -556,5 +576,9 @@
     "new_post": "Nova Postagem",
     "community": "comunidade",
     "details": "Detalhes"
+  },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   }
 }

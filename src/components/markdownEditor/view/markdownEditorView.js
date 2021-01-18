@@ -44,6 +44,7 @@ const MarkdownEditorView = ({
   const [text, setText] = useState(draftBody || '');
   const [selection, setSelection] = useState({ start: 0, end: 0 });
   const [editable, setEditable] = useState(true);
+  const [height, setHeight] = useState(0);
 
   const inputRef = useRef(null);
   const galleryRef = useRef(null);
@@ -260,7 +261,7 @@ const MarkdownEditorView = ({
               <TextInput
                 multiline
                 autoCorrect={true}
-                autoFocus={true}
+                autoFocus={isReply ? true : false}
                 onChangeText={_changeText}
                 onSelectionChange={_handleOnSelectionChange}
                 placeholder={intl.formatMessage({
