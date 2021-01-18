@@ -15,6 +15,7 @@ const CommunitiesList = ({
   handleSubscribeButtonPress,
   isLoggedIn,
   noResult,
+  screen,
 }) => {
   const _renderItem = ({ item, index }) => {
     return (
@@ -37,6 +38,7 @@ const CommunitiesList = ({
           subscribingCommunities.hasOwnProperty(item.name) &&
           subscribingCommunities[item.name].loading
         }
+        screen={screen}
       />
     );
   };
@@ -60,7 +62,7 @@ const CommunitiesList = ({
       {!noResult && (
         <FlatList
           data={data}
-          keyExtractor={(item) => item.id && item.id.toString()}
+          keyExtractor={(item, index) => index}
           renderItem={_renderItem}
           ListEmptyComponent={_renderEmptyContent}
         />

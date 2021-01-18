@@ -3,7 +3,7 @@ import { View, FlatList, TouchableOpacity, Text, ActivityIndicator } from 'react
 import { useIntl } from 'react-intl';
 
 import { Tag, UserAvatar } from '../../index';
-import { CommunitiesPlaceHolder } from '../../basicUIElements';
+import { ListPlaceHolder } from '../../basicUIElements';
 
 import DEFAULT_IMAGE from '../../../assets/no_image.png';
 
@@ -20,9 +20,7 @@ const SubscribedCommunitiesListView = ({
   const _renderEmptyContent = () => {
     return (
       <>
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
+        <ListPlaceHolder />
       </>
     );
   };

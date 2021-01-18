@@ -3,9 +3,8 @@ import { SafeAreaView, FlatList, View, Text, TouchableOpacity } from 'react-nati
 import { useIntl } from 'react-intl';
 
 // Components
-import { FilterBar, UserAvatar } from '../../../../../components';
-import { CommunitiesPlaceHolder, UserListItem } from '../../../../../components/basicUIElements';
-import TopicsResultsContainer from '../../../container/topicsResultsContainer';
+import { ListPlaceHolder, EmptyScreen } from '../../../../../../components/basicUIElements';
+import TopicsResultsContainer from '../container/topicsResultsContainer';
 
 import styles from './topicsResultsStyles';
 
@@ -23,25 +22,21 @@ const TopicsResults = ({ navigation, searchValue }) => {
   const _renderEmptyContent = () => {
     return (
       <>
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
+        <ListPlaceHolder />
       </>
     );
   };
 
   return (
     <TopicsResultsContainer searchValue={searchValue}>
-      {({ tags, handleOnPress }) => (
+      {({ tags, handleOnPress, noResult }) => (
         <SafeAreaView style={styles.container}>
-          {tags && (
+          {noResult ? (
+            <EmptyScreen />
+          ) : (
             <FlatList
               data={tags}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item, index) => index}
               renderItem={({ item, index }) => (
                 <TouchableOpacity onPress={() => handleOnPress(item)}>
                   {_renderTagItem(item, index)}

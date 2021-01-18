@@ -56,7 +56,6 @@ const CommunitiesScreen = ({ navigation, searchValue }) => {
         subscribingCommunitiesInDiscoverTab,
         subscribingCommunitiesInJoinedTab,
       }) => {
-        console.log(subscriptions, discovers);
         return (
           <View style={styles.container}>
             <SafeAreaView forceInset={{ bottom: 'never' }} style={{ flex: 1 }}>
@@ -92,6 +91,7 @@ const CommunitiesScreen = ({ navigation, searchValue }) => {
                     handleSubscribeButtonPress={handleSubscribeButtonPress}
                     isLoggedIn={true}
                     noResult={discovers.length === 0}
+                    screen="communitiesScreenDiscoverTab"
                   />
                 </View>
               </ScrollableTabView>

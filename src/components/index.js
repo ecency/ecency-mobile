@@ -105,6 +105,7 @@ import {
   WalletLineItem,
   WalletUnclaimedPlaceHolder,
   Separator,
+  EmptyScreen,
 } from './basicUIElements';
 
 export {
@@ -207,6 +208,7 @@ export {
   WalletLineItem,
   WalletUnclaimedPlaceHolder,
   Separator,
+  EmptyScreen,
   HorizontalIconList,
   PopoverWrapper,
   CommunitiesList,

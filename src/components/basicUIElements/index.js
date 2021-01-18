@@ -11,6 +11,7 @@ import UserListItem from './view/userListItem/userListItem';
 import WalletLineItem from './view/walletLineItem/walletLineItemView';
 import CommunityListItem from './view/communityListItem/communityListItem';
 import Separator from './view/separator/separatorView';
+import EmptyScreen from './view/emptyScreen/emptyScreenView';
 
 // Placeholders
 import ListItemPlaceHolder from './view/placeHolder/listItemPlaceHolderView';
@@ -48,4 +49,5 @@ export {
   WalletUnclaimedPlaceHolder,
   CommunitiesPlaceHolder,
   Separator,
+  EmptyScreen,
 };

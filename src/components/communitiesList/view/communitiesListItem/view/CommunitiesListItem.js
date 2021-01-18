@@ -23,14 +23,12 @@ const CommunitiesListItem = ({
   isSubscribed,
   isLoggedIn,
   loading,
+  screen,
 }) => {
   const intl = useIntl();
 
   const _handleSubscribeButtonPress = () => {
-    handleSubscribeButtonPress(
-      { isSubscribed: isSubscribed, communityId: name },
-      'communitiesScreenDiscoverTab',
-    );
+    handleSubscribeButtonPress({ isSubscribed: isSubscribed, communityId: name }, screen);
   };
 
   return (

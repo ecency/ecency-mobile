@@ -3,17 +3,19 @@ import get from 'lodash/get';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 
-import ROUTES from '../../../constants/routeNames';
+import ROUTES from '../../../../../../constants/routeNames';
 
-import { search, getPromotePosts } from '../../../providers/ecency/ecency';
-import { getPost } from '../../../providers/hive/dhive';
+import { search, getPromotePosts } from '../../../../../../providers/ecency/ecency';
+import { getPost, getAccountPosts } from '../../../../../../providers/hive/dhive';
 
 const PostsResultsContainer = ({ children, navigation, searchValue, currentAccountUsername }) => {
   const [data, setData] = useState([]);
   const [sort, setSort] = useState('relevance');
   const [scrollId, setScrollId] = useState('');
+  const [noResult, setNoResult] = useState(false);
 
   useEffect(() => {
+    setNoResult(false);
     setData([]);
 
     if (searchValue) {
@@ -21,34 +23,48 @@ const PostsResultsContainer = ({ children, navigation, searchValue, currentAccou
         .then((res) => {
           setScrollId(res.scroll_id);
           setData(res.results);
+          if (res.results.length === 0) {
+            setNoResult(true);
+          }
         })
         .catch((err) => console.log(err, 'search error'));
     } else {
-      getInitialPosts().then((res) => {
-        console.log(res, 'res');
-        // setData(res);
-      });
+      getInitialPosts();
     }
-  }, [searchValue, sort]);
+  }, [searchValue]);
 
   const getInitialPosts = async () => {
-    const promoteds = await getPromotePosts();
+    // const promoteds = await getPromotePosts();
+    // return await Promise.all(
+    //   promoteds.map(async (item) => {
+    //     const post = await getPost(
+    //       get(item, 'author'),
+    //       get(item, 'permlink'),
+    //       currentAccountUsername,
+    //       true,
+    //     );
+    //     post.author_rep = post.author_reputation;
+    //     post.body = (post.summary && post.summary.substring(0, 130)) || '';
+    //     // return await call to your function
+    //     return post;
+    //   }),
+    // );
+    try {
+      const options = {
+        observer: currentAccountUsername,
+        account: 'ecency',
+        limit: 7,
+        sort: 'blog',
+      };
+      const _data = await getAccountPosts(options);
 
-    return await Promise.all(
-      promoteds.map(async (item) => {
-        const post = await getPost(
-          get(item, 'author'),
-          get(item, 'permlink'),
-          currentAccountUsername,
-          true,
-        );
-
-        post.author_rep = post.author_reputation;
-        post.body = (post.summary && post.summary.substring(0, 130)) || '';
-        // return await call to your function
-        return post;
-      }),
-    );
+      if (_data.length === 0) {
+        setNoResult(true);
+      }
+      setData(_data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // Component Functions
@@ -78,6 +94,7 @@ const PostsResultsContainer = ({ children, navigation, searchValue, currentAccou
       data,
       handleOnPress: _handleOnPress,
       loadMore: _loadMore,
+      noResult,
     })
   );
 };

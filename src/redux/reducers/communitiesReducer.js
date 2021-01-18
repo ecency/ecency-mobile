@@ -45,6 +45,13 @@ const initialState = {
     //  error: false,
     //}
   },
+  subscribingCommunitiesInSearchResultsScreen: {
+    //['name']: {
+    //  isSubscribed: false,
+    //  loading: false,
+    //  error: false,
+    //}
+  },
 };
 
 export default function (state = initialState, action) {
@@ -141,6 +148,18 @@ export default function (state = initialState, action) {
               },
             },
           };
+        case 'searchResultsScreen':
+          return {
+            ...state,
+            subscribingCommunitiesInSearchResultsScreen: {
+              ...state.subscribingCommunitiesInSearchResultsScreen,
+              [action.payload.communityId]: {
+                isSubscribed: false,
+                loading: true,
+                error: false,
+              },
+            },
+          };
         default:
           return state;
       }
@@ -175,6 +194,18 @@ export default function (state = initialState, action) {
             ...state,
             subscribingCommunitiesInFeedScreen: {
               ...state.subscribingCommunitiesInFeedScreen,
+              [action.payload.communityId]: {
+                isSubscribed: true,
+                loading: false,
+                error: false,
+              },
+            },
+          };
+        case 'searchResultsScreen':
+          return {
+            ...state,
+            subscribingCommunitiesInSearchResultsScreen: {
+              ...state.subscribingCommunitiesInSearchResultsScreen,
               [action.payload.communityId]: {
                 isSubscribed: true,
                 loading: false,
@@ -223,6 +254,18 @@ export default function (state = initialState, action) {
               },
             },
           };
+        case 'searchResultsScreen':
+          return {
+            ...state,
+            subscribingCommunitiesInSearchResultsScreen: {
+              ...state.subscribingCommunitiesInSearchResultsScreen,
+              [action.payload.communityId]: {
+                isSubscribed: false,
+                loading: false,
+                error: true,
+              },
+            },
+          };
         default:
           return state;
       }
@@ -257,6 +300,18 @@ export default function (state = initialState, action) {
             ...state,
             subscribingCommunitiesInFeedScreen: {
               ...state.subscribingCommunitiesInFeedScreen,
+              [action.payload.communityId]: {
+                isSubscribed: true,
+                loading: true,
+                error: false,
+              },
+            },
+          };
+        case 'searchResultsScreen':
+          return {
+            ...state,
+            subscribingCommunitiesInSearchResultsScreen: {
+              ...state.subscribingCommunitiesInSearchResultsScreen,
               [action.payload.communityId]: {
                 isSubscribed: true,
                 loading: true,
@@ -305,6 +360,18 @@ export default function (state = initialState, action) {
               },
             },
           };
+        case 'searchResultsScreen':
+          return {
+            ...state,
+            subscribingCommunitiesInSearchResultsScreen: {
+              ...state.subscribingCommunitiesInSearchResultsScreen,
+              [action.payload.communityId]: {
+                isSubscribed: false,
+                loading: false,
+                error: false,
+              },
+            },
+          };
         default:
           return state;
       }
@@ -339,6 +406,18 @@ export default function (state = initialState, action) {
             ...state,
             subscribingCommunitiesInFeedScreen: {
               ...state.subscribingCommunitiesInFeedScreen,
+              [action.payload.communityId]: {
+                isSubscribed: true,
+                loading: false,
+                error: true,
+              },
+            },
+          };
+        case 'searchResultsScreen':
+          return {
+            ...state,
+            subscribingCommunitiesInSearchResultsScreen: {
+              ...state.subscribingCommunitiesInSearchResultsScreen,
               [action.payload.communityId]: {
                 isSubscribed: true,
                 loading: false,

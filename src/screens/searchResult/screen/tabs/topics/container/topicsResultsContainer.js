@@ -3,25 +3,33 @@ import get from 'lodash/get';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 
-import ROUTES from '../../../constants/routeNames';
+import ROUTES from '../../../../../../constants/routeNames';
 
-import { getTrendingTags } from '../../../providers/hive/dhive';
-import { getLeaderboard } from '../../../providers/ecency/ecency';
-import { isCommunity } from '../../../utils/communityValidation';
+import { getTrendingTags } from '../../../../../../providers/hive/dhive';
+import { getLeaderboard } from '../../../../../../providers/ecency/ecency';
+import { isCommunity } from '../../../../../../utils/communityValidation';
 
 const OtherResultContainer = (props) => {
   const [tags, setTags] = useState([]);
+  const [noResult, setNoResult] = useState(false);
 
   const { children, navigation, searchValue, username } = props;
 
   useEffect(() => {
+    setNoResult(false);
     setTags([]);
 
-    getTrendingTags(searchValue).then((res) => {
-      const data = res.filter((item) => !isCommunity(item.name));
-      console.log(data, 'data');
-      setTags(data);
-    });
+    if (searchValue.length > 10) {
+      setNoResult(true);
+    } else {
+      getTrendingTags(searchValue.trim()).then((res) => {
+        const data = res?.filter((item) => !isCommunity(item.name));
+        if (data.length === 0) {
+          setNoResult(true);
+        }
+        setTags(data);
+      });
+    }
   }, [searchValue]);
 
   // Component Functions
@@ -40,6 +48,7 @@ const OtherResultContainer = (props) => {
     children({
       tags,
       handleOnPress: _handleOnPress,
+      noResult,
     })
   );
 };

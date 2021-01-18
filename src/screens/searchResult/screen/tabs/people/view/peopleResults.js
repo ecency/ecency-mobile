@@ -3,8 +3,12 @@ import { SafeAreaView, FlatList } from 'react-native';
 import { useIntl } from 'react-intl';
 
 // Components
-import { CommunitiesPlaceHolder, UserListItem } from '../../../../../components/basicUIElements';
-import PeopleResultsContainer from '../../../container/peopleResultsContainer';
+import {
+  ListPlaceHolder,
+  EmptyScreen,
+  UserListItem,
+} from '../../../../../../components/basicUIElements';
+import PeopleResultsContainer from '../container/peopleResultsContainer';
 
 import styles from './peopleResultsStyles';
 
@@ -14,25 +18,21 @@ const PeopleResults = ({ navigation, searchValue }) => {
   const _renderEmptyContent = () => {
     return (
       <>
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
+        <ListPlaceHolder />
       </>
     );
   };
 
   return (
     <PeopleResultsContainer searchValue={searchValue}>
-      {({ users, handleOnPress }) => (
+      {({ users, handleOnPress, noResult }) => (
         <SafeAreaView style={styles.container}>
-          {users && (
+          {noResult ? (
+            <EmptyScreen />
+          ) : (
             <FlatList
               data={users}
-              keyExtractor={(item, ind) => `${item}-${ind}`}
+              keyExtractor={(item, index) => index}
               renderItem={({ item, index }) => (
                 <UserListItem
                   handleOnPress={() => handleOnPress(item)}

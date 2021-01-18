@@ -6,15 +6,19 @@ import FastImage from 'react-native-fast-image';
 import { useIntl } from 'react-intl';
 
 // Components
-import { PostHeaderDescription, FilterBar } from '../../../../../components';
-import { TextWithIcon, CommunitiesPlaceHolder } from '../../../../../components/basicUIElements';
-import PostsResultsContainer from '../../../container/postsResultsContainer';
+import { PostHeaderDescription, FilterBar } from '../../../../../../components';
+import {
+  TextWithIcon,
+  CommunitiesPlaceHolder,
+  EmptyScreen,
+} from '../../../../../../components/basicUIElements';
+import PostsResultsContainer from '../container/postsResultsContainer';
 
-import { getTimeFromNow } from '../../../../../utils/time';
+import { getTimeFromNow } from '../../../../../../utils/time';
 
 import styles from './postsResultsStyles';
 
-import DEFAULT_IMAGE from '../../../../../assets/no_image.png';
+import DEFAULT_IMAGE from '../../../../../../assets/no_image.png';
 
 const filterOptions = ['relevance', 'popularity', 'newest'];
 
@@ -79,20 +83,24 @@ const PostsResults = ({ navigation, searchValue }) => {
 
   return (
     <PostsResultsContainer searchValue={searchValue}>
-      {({ data, handleOnPress, loadMore }) => (
+      {({ data, handleOnPress, loadMore, noResult }) => (
         <SafeAreaView style={styles.container}>
-          <FlatList
-            data={data}
-            keyExtractor={(item) => item.id && item.id.toString()}
-            renderItem={({ item, index }) => (
-              <TouchableOpacity onPress={() => handleOnPress(item)}>
-                {_renderItem(item, index)}
-              </TouchableOpacity>
-            )}
-            onEndReached={loadMore}
-            ListEmptyComponent={_renderEmptyContent}
-            ListFooterComponent={<CommunitiesPlaceHolder />}
-          />
+          {noResult ? (
+            <EmptyScreen />
+          ) : (
+            <FlatList
+              data={data}
+              keyExtractor={(item, index) => index}
+              renderItem={({ item, index }) => (
+                <TouchableOpacity onPress={() => handleOnPress(item)}>
+                  {_renderItem(item, index)}
+                </TouchableOpacity>
+              )}
+              onEndReached={loadMore}
+              ListEmptyComponent={_renderEmptyContent}
+              ListFooterComponent={<CommunitiesPlaceHolder />}
+            />
+          )}
         </SafeAreaView>
       )}
     </PostsResultsContainer>
