@@ -46,7 +46,7 @@ const CommunitiesResultsContainer = ({ children, navigation, searchValue }) => {
     setNoResult(false);
 
     getSubscriptions(currentAccount.username).then((subs) => {
-      getCommunities('', searchValue ? 250 : 20, searchValue, 'rank').then((communities) => {
+      getCommunities('', searchValue ? 100 : 20, searchValue, 'rank').then((communities) => {
         communities.forEach((community) =>
           Object.assign(community, {
             isSubscribed: subs.some(
