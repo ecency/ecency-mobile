@@ -252,6 +252,7 @@
     "schedules": "לוחות זמנים",
     "gallery": "גלריה",
     "settings": "הגדרות",
+    "communities": "Communities",
     "add_account": "הוסף/י חשבון",
     "logout": "התנתק/י",
     "cancel": "ביטול",
@@ -549,7 +550,7 @@
       "title": "Topics"
     },
     "communities": {
-      "title": "Communities",
+      "title": "Groups",
       "subscribe": "Join",
       "unsubscribe": "Leave",
       "subscribers": "Members",
@@ -580,5 +581,9 @@
   "user": {
     "follow": "Follow",
     "unfollow": "Unfollow"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
   }
 }
