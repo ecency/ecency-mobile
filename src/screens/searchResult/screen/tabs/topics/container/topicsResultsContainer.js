@@ -13,16 +13,13 @@ const OtherResultContainer = (props) => {
   const [tags, setTags] = useState([]);
   const [noResult, setNoResult] = useState(false);
 
-  const { children, navigation, searchValue, username } = props;
+  const { children, navigation, searchValue } = props;
 
   useEffect(() => {
-    setNoResult(false);
-    setTags([]);
-
-    if (searchValue.length > 10) {
-      setNoResult(true);
-    } else {
-      getTrendingTags(searchValue.trim()).then((res) => {
+    if (searchValue.length <= 10) {
+      setNoResult(false);
+      setTags([]);
+      getTrendingTags(searchValue.trim(), 100).then((res) => {
         const data = res?.filter((item) => !isCommunity(item.name));
         if (data.length === 0) {
           setNoResult(true);

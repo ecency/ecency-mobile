@@ -28,7 +28,7 @@ const SubscribedCommunitiesListView = ({
   return (
     <FlatList
       data={data}
-      keyExtractor={(item, ind) => ind}
+      keyExtractor={(item, index) => index.toString()}
       renderItem={({ item, index }) => (
         <View style={[styles.communityWrapper, index % 2 !== 0 && styles.itemWrapperGray]}>
           <View style={{ flex: 3, flexDirection: 'row', alignItems: 'center' }}>

@@ -10,7 +10,7 @@ import { getPost, getAccountPosts } from '../../../../../../providers/hive/dhive
 
 const PostsResultsContainer = ({ children, navigation, searchValue, currentAccountUsername }) => {
   const [data, setData] = useState([]);
-  const [sort, setSort] = useState('relevance');
+  const [sort, setSort] = useState('newest');
   const [scrollId, setScrollId] = useState('');
   const [noResult, setNoResult] = useState(false);
 

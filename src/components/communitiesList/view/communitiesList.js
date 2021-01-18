@@ -62,7 +62,7 @@ const CommunitiesList = ({
       {!noResult && (
         <FlatList
           data={data}
-          keyExtractor={(item, index) => index}
+          keyExtractor={(item, index) => index.toString()}
           renderItem={_renderItem}
           ListEmptyComponent={_renderEmptyContent}
         />

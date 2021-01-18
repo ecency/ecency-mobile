@@ -36,7 +36,7 @@ const TopicsResults = ({ navigation, searchValue }) => {
           ) : (
             <FlatList
               data={tags}
-              keyExtractor={(item, index) => index}
+              keyExtractor={(item, index) => index.toString()}
               renderItem={({ item, index }) => (
                 <TouchableOpacity onPress={() => handleOnPress(item)}>
                   {_renderTagItem(item, index)}

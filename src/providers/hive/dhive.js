@@ -1138,9 +1138,9 @@ export const lookupAccounts = async (username) => {
   }
 };
 
-export const getTrendingTags = async (tag) => {
+export const getTrendingTags = async (tag, number = 20) => {
   try {
-    const tags = await client.database.call('get_trending_tags', [tag, 20]);
+    const tags = await client.database.call('get_trending_tags', [tag, number]);
     return tags;
   } catch (error) {
     return [];

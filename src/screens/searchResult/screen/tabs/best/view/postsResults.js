@@ -26,12 +26,15 @@ const PostsResults = ({ navigation, searchValue }) => {
   const intl = useIntl();
 
   const _renderItem = (item, index) => {
+    const reputation =
+      get(item, 'author_rep', undefined) || get(item, 'author_reputation', undefined);
+
     return (
       <View style={[styles.itemWrapper, index % 2 !== 0 && styles.itemWrapperGray]}>
         <PostHeaderDescription
           date={getTimeFromNow(get(item, 'created_at'))}
           name={get(item, 'author')}
-          reputation={Math.floor(get(item, 'author_rep'))}
+          reputation={Math.floor(reputation)}
           size={36}
           tag={item.category}
         />
@@ -90,7 +93,7 @@ const PostsResults = ({ navigation, searchValue }) => {
           ) : (
             <FlatList
               data={data}
-              keyExtractor={(item, index) => index}
+              keyExtractor={(item, index) => index.toString()}
               renderItem={({ item, index }) => (
                 <TouchableOpacity onPress={() => handleOnPress(item)}>
                   {_renderItem(item, index)}

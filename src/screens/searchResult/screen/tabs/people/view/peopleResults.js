@@ -32,7 +32,7 @@ const PeopleResults = ({ navigation, searchValue }) => {
           ) : (
             <FlatList
               data={users}
-              keyExtractor={(item, index) => index}
+              keyExtractor={(item, index) => index.toString()}
               renderItem={({ item, index }) => (
                 <UserListItem
                   handleOnPress={() => handleOnPress(item)}
