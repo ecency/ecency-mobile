@@ -252,6 +252,7 @@
     "schedules": "Isɣiwas",
     "gallery": "Gallery",
     "settings": "Iɣewwaṛen",
+    "communities": "Communities",
     "add_account": "Rnu amiḍan",
     "logout": "Tuffɣa",
     "cancel": "Sefsex",
@@ -549,7 +550,7 @@
       "title": "Topics"
     },
     "communities": {
-      "title": "Communities",
+      "title": "Groups",
       "subscribe": "Join",
       "unsubscribe": "Leave",
       "subscribers": "Members",
@@ -580,5 +581,9 @@
   "user": {
     "follow": "Follow",
     "unfollow": "Unfollow"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
   }
 }
