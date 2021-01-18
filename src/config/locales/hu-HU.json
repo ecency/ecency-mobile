@@ -252,6 +252,7 @@
     "schedules": "Időzítések",
     "gallery": "Galéria",
     "settings": "Beállítások",
+    "communities": "Communities",
     "add_account": "Fiók Hozzáadása",
     "logout": "Kijelentkezés",
     "cancel": "Elvet",
@@ -549,7 +550,7 @@
       "title": "Topics"
     },
     "communities": {
-      "title": "Közösségek",
+      "title": "Groups",
       "subscribe": "Csatlakozz",
       "unsubscribe": "Kilépés",
       "subscribers": "Tagok",
@@ -580,5 +581,9 @@
   "user": {
     "follow": "Follow",
     "unfollow": "Unfollow"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
   }
 }
