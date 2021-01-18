@@ -252,6 +252,7 @@
     "schedules": "Lịch trình",
     "gallery": "Bộ sưu tập",
     "settings": "Cài đặt",
+    "communities": "Communities",
     "add_account": "Thêm tài khoản",
     "logout": "Đăng xuất",
     "cancel": "Huỷ",
@@ -549,7 +550,7 @@
       "title": "Topics"
     },
     "communities": {
-      "title": "Communities",
+      "title": "Groups",
       "subscribe": "Join",
       "unsubscribe": "Leave",
       "subscribers": "Members",
@@ -580,5 +581,9 @@
   "user": {
     "follow": "Follow",
     "unfollow": "Unfollow"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
   }
 }
