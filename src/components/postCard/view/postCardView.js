@@ -6,7 +6,6 @@ import ImageSize from 'react-native-image-size';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
-import scalePx from '../../../utils/scalePx';
 
 // Components
 import { PostHeaderDescription } from '../../postElements';
@@ -119,7 +118,7 @@ const PostCardView = ({
               thumbnailSource={{ uri: _image.thumbnail }}
               style={[
                 styles.thumbnail,
-                { width: scalePx(dim.width - 16), height: Math.min(calcImgHeight, dim.height) },
+                { width: dim.width - 16, height: Math.min(calcImgHeight, dim.height) },
               ]}
             />
           )}
