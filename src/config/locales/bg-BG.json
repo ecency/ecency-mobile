@@ -252,6 +252,7 @@
     "schedules": "Графици",
     "gallery": "Галерия",
     "settings": "Настройки",
+    "communities": "Communities",
     "add_account": "Добавяне на профил",
     "logout": "Изход",
     "cancel": "Отказ",
@@ -549,7 +550,7 @@
       "title": "Topics"
     },
     "communities": {
-      "title": "Общности",
+      "title": "Groups",
       "subscribe": "Join",
       "unsubscribe": "Leave",
       "subscribers": "Members",
@@ -580,5 +581,9 @@
   "user": {
     "follow": "Follow",
     "unfollow": "Unfollow"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
   }
 }
