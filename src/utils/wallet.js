@@ -81,11 +81,7 @@ export const groomingTransactionData = (transaction, steemPerMVests) => {
       }
       break;
     case 'claim_reward_balance':
-      let {
-        reward_sbd: rewardSdb = opData.reward_hbd,
-        reward_steem: rewardSteem = opData.reward_hive,
-        reward_vests: rewardVests,
-      } = opData;
+      let { reward_hbd: rewardSdb, reward_hive: rewardSteem, reward_vests: rewardVests } = opData;
 
       rewardSdb = parseToken(rewardSdb).toFixed(3).replace(',', '.');
       rewardSteem = parseToken(rewardSteem).toFixed(3).replace(',', '.');
@@ -192,15 +188,9 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   const [userdata] = state;
 
   // TODO: move them to utils these so big for a lifecycle function
-  walletData.rewardSteemBalance = parseToken(
-    userdata.reward_hive_balance || userdata.reward_steem_balance,
-  );
-  walletData.rewardSbdBalance = parseToken(
-    userdata.reward_hbd_balance || userdata.reward_sbd_balance,
-  );
-  walletData.rewardVestingSteem = parseToken(
-    userdata.reward_vesting_hive || userdata.reward_vesting_steem,
-  );
+  walletData.rewardSteemBalance = parseToken(userdata.reward_hive_balance);
+  walletData.rewardSbdBalance = parseToken(userdata.reward_hbd_balance);
+  walletData.rewardVestingSteem = parseToken(userdata.reward_vesting_hive);
   walletData.hasUnclaimedRewards =
     walletData.rewardSteemBalance > 0 ||
     walletData.rewardSbdBalance > 0 ||
@@ -211,11 +201,9 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   walletData.vestingSharesReceived = parseToken(userdata.received_vesting_shares);
   walletData.vestingSharesTotal =
     walletData.vestingShares - walletData.vestingSharesDelegated + walletData.vestingSharesReceived;
-  walletData.sbdBalance = parseToken(userdata.hbd_balance || userdata.sbd_balance);
+  walletData.sbdBalance = parseToken(userdata.hbd_balance);
   walletData.savingBalance = parseToken(userdata.savings_balance);
-  walletData.savingBalanceSbd = parseToken(
-    userdata.savings_hbd_balance || userdata.savings_sbd_balance,
-  );
+  walletData.savingBalanceSbd = parseToken(userdata.savings_hbd_balance);
 
   const feedHistory = await getFeedHistory();
   const base = parseToken(feedHistory.current_median_history.base);
