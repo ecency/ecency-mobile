@@ -252,6 +252,7 @@
     "schedules": "Mga Iskedyul",
     "gallery": "Gallery",
     "settings": "Settings",
+    "communities": "Communities",
     "add_account": "Magdagdag ng Account",
     "logout": "Mag-logout",
     "cancel": "Kansel",
@@ -549,7 +550,7 @@
       "title": "Topics"
     },
     "communities": {
-      "title": "Mga pamayanan",
+      "title": "Groups",
       "subscribe": "Sumali",
       "unsubscribe": "Leave",
       "subscribers": "Members",
@@ -580,5 +581,9 @@
   "user": {
     "follow": "Follow",
     "unfollow": "Unfollow"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
   }
 }
