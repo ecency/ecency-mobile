@@ -252,6 +252,7 @@
     "schedules": "সময়সূচীসমূহ",
     "gallery": "গ্যালারি",
     "settings": "সেটিংস",
+    "communities": "Communities",
     "add_account": "একাউন্ট যোগ করুন",
     "logout": "লগআউট",
     "cancel": "বাতিল করুন",
@@ -549,7 +550,7 @@
       "title": "Topics"
     },
     "communities": {
-      "title": "কমিউনিটি",
+      "title": "Groups",
       "subscribe": "Join",
       "unsubscribe": "Leave",
       "subscribers": "Members",
@@ -580,5 +581,9 @@
   "user": {
     "follow": "Follow",
     "unfollow": "Unfollow"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
   }
 }
