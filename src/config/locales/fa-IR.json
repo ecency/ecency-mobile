@@ -252,6 +252,7 @@
     "schedules": "جدول زمانی",
     "gallery": "گالری",
     "settings": "تنظیمات",
+    "communities": "Communities",
     "add_account": "اضافه کردن حساب کاربری",
     "logout": "خروج از حساب",
     "cancel": "صرف نظر",
@@ -549,7 +550,7 @@
       "title": "موضوعات"
     },
     "communities": {
-      "title": "انجمن ها",
+      "title": "Groups",
       "subscribe": "\"پیوستن\"",
       "unsubscribe": "ترک کردن",
       "subscribers": "اعضاء",
@@ -580,5 +581,9 @@
   "user": {
     "follow": "دنبال کردن",
     "unfollow": "عدم دنبال کردن"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
   }
 }
