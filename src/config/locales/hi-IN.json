@@ -252,7 +252,7 @@
     "schedules": "निर्धारित",
     "gallery": "चित्रशाला",
     "settings": "समायोजन",
-    "communities": "Communities",
+    "communities": "समुदाय",
     "add_account": "खता जोड़ें",
     "logout": "बहार जाएँ",
     "cancel": "रद्द करें",
@@ -550,7 +550,7 @@
       "title": "विषयों"
     },
     "communities": {
-      "title": "Groups",
+      "title": "समूह",
       "subscribe": "शामिल हों",
       "unsubscribe": "छोड़ें",
       "subscribers": "सदस्य",
@@ -583,7 +583,7 @@
     "unfollow": "अनफॉलो करें"
   },
   "communities": {
-    "joined": "Membership",
-    "discover": "Discover"
+    "joined": "सदस्यता",
+    "discover": "खोजिए"
   }
 }
