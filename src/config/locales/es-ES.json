@@ -252,7 +252,7 @@
     "schedules": "Horarios",
     "gallery": "Galería",
     "settings": "Ajustes",
-    "communities": "Communities",
+    "communities": "Comunidades",
     "add_account": "Agregar cuenta",
     "logout": "Cerrar sesión",
     "cancel": "Cancelar",
@@ -550,7 +550,7 @@
       "title": "Temas"
     },
     "communities": {
-      "title": "Groups",
+      "title": "Grupos",
       "subscribe": "Unirse",
       "unsubscribe": "Salir",
       "subscribers": "Participantes",
@@ -583,7 +583,7 @@
     "unfollow": "Unfollow"
   },
   "communities": {
-    "joined": "Membership",
-    "discover": "Discover"
+    "joined": "Membresía",
+    "discover": "Descubrir"
   }
 }
