@@ -66,12 +66,12 @@ const PostCardView = ({
   };
 
   const _getPostImage = (content, isNsfwPost) => {
-    if (content && content.image) {
+    if (content && content.thumbnail) {
       if (isNsfwPost && content.nsfw) {
         return { image: NSFW_IMAGE, thumbnail: NSFW_IMAGE };
       }
       //console.log(content)
-      ImageSize.getSize(content.image).then((size) => {
+      ImageSize.getSize(content.thumbnail).then((size) => {
         setCalcImgHeight((size.height / size.width) * dim.width);
       });
       return { image: content.image, thumbnail: content.thumbnail };
