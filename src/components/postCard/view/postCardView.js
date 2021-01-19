@@ -102,7 +102,7 @@ const PostCardView = ({
           profileOnPress={_handleOnUserPress}
           reputation={get(content, 'author_reputation')}
           size={36}
-          tag={content.category}
+          content={content}
           rebloggedBy={rebloggedBy}
           isPromoted={get(content, 'is_promoted')}
         />

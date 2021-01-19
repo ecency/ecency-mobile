@@ -255,7 +255,7 @@ const PostsContainer = ({
     const filter = type || selectedFilterValue;
     const subfilter = selectedFeedSubfilterValue;
     let options = {};
-    const limit = 7;
+    const limit = 5;
     let func = null;
 
     if (
@@ -319,7 +319,7 @@ const PostsContainer = ({
                   _posts = unionBy(posts, _posts, 'permlink');
                 }
               }
-              if (posts.length <= 7 && pageType !== 'profiles') {
+              if (posts.length <= 5 && pageType !== 'profiles') {
                 _setFeedPosts(_posts);
               }
 
