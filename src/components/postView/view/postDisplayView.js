@@ -198,7 +198,7 @@ const PostDisplayView = ({
                 name={author || post.author}
                 currentAccountUsername={name}
                 reputation={post.author_reputation}
-                tag={post.category}
+                content={post}
                 size={36}
               />
               <PostBody body={post.body} />

@@ -32,7 +32,7 @@ const TagContainer = ({
 }) => {
   const [label, setLabel] = useState(value);
   const [isCommunity, setIsCommunity] = useState(false);
-  console.log(value, communityTitle);
+
   useEffect(() => {
     if (value && /hive-[1-3]\d{4,6}$/.test(value)) {
       if (communityTitle) {
