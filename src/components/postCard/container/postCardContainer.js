@@ -39,25 +39,25 @@ const PostCardContainer = ({
   }, [isRefresh]);
 
   useEffect(() => {
-    if (content) {
-      setActiveVotes(get(content, 'active_votes', []));
+    if (_content) {
+      setActiveVotes(get(_content, 'active_votes', []));
 
-      getPostReblogs(content).then((result) => {
+      getPostReblogs(_content).then((result) => {
         setReblogs(result);
       });
-      setContent(content);
+      setContent(_content);
     }
-  }, [content]);
+  }, [_content]);
 
   const _handleOnUserPress = () => {
-    if (content && get(currentAccount, 'name') !== get(content, 'author')) {
+    if (_content && get(currentAccount, 'name') !== get(_content, 'author')) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.PROFILE,
         params: {
-          username: get(content, 'author'),
-          reputation: get(content, 'author_reputation'),
+          username: get(_content, 'author'),
+          reputation: get(_content, 'author_reputation'),
         },
-        key: get(content, 'author'),
+        key: get(_content, 'author'),
       });
     }
   };
@@ -79,9 +79,9 @@ const PostCardContainer = ({
       routeName: ROUTES.SCREENS.VOTERS,
       params: {
         activeVotes,
-        content,
+        content: _content,
       },
-      key: get(content, 'permlink'),
+      key: get(_content, 'permlink'),
     });
   };
 
@@ -91,12 +91,16 @@ const PostCardContainer = ({
       params: {
         reblogs,
       },
-      key: get(content, 'permlink', get(content, 'author', '')),
+      key: get(_content, 'permlink', get(_content, 'author', '')),
     });
   };
 
   const _fetchPost = async () => {
-    await getPost(get(content, 'author'), get(content, 'permlink'), get(currentAccount, 'username'))
+    await getPost(
+      get(_content, 'author'),
+      get(_content, 'permlink'),
+      get(currentAccount, 'username'),
+    )
       .then((result) => {
         if (result) {
           setContent(result);
