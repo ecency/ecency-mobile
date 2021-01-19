@@ -456,7 +456,7 @@ export const getActiveVotes = (author, permlink) =>
 export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
   try {
     let posts = await client.call('bridge', 'get_ranked_posts', query);
-    console.log(posts);
+
     if (posts) {
       posts = parsePosts(posts, currentUserName);
 
