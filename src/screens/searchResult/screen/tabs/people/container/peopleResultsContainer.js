@@ -27,7 +27,11 @@ const PeopleResultsContainer = (props) => {
       });
     } else {
       getLeaderboard().then((result) => {
-        const sos = result.map((item) => item._id);
+        const sos = result.map((item) => {
+          item.name = item._id;
+
+          return item;
+        });
         if (sos.length === 0) {
           setNoResult(true);
         }

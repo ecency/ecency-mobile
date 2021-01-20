@@ -25,7 +25,7 @@ const AccountsBottomSheet = forwardRef(
     const insets = useSafeAreaInsets();
     const intl = useIntl();
 
-    const snapPoints = useMemo(() => [accounts.length <= 4 ? accounts.length * 60 + 150 : 405], []);
+    const snapPoints = [accounts.length <= 4 ? accounts.length * 60 + 150 : 405];
 
     useImperativeHandle(ref, () => ({
       showAccountsBottomSheet() {

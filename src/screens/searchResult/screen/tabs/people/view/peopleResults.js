@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, FlatList } from 'react-native';
+import { SafeAreaView, FlatList, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 
 // Components
@@ -37,7 +37,7 @@ const PeopleResults = ({ navigation, searchValue }) => {
                 <UserListItem
                   handleOnPress={() => handleOnPress(item)}
                   index={index}
-                  username={item}
+                  username={item.name}
                 />
               )}
               ListEmptyComponent={_renderEmptyContent}

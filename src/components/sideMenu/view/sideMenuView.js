@@ -4,6 +4,7 @@ import { injectIntl, useIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
 import ActionSheet from 'react-native-actionsheet';
 import VersionNumber from 'react-native-version-number';
+import { isEmpty } from 'lodash';
 import { getStorageType } from '../../../realm/realm';
 
 // Components
@@ -27,8 +28,6 @@ const SideMenuView = ({
   currentAccount,
   isLoggedIn,
   handleLogout,
-  accounts,
-  switchAccount,
   navigateToRoute,
   handlePressOptions,
 }) => {
@@ -55,7 +54,7 @@ const SideMenuView = ({
   }, []);
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && !isEmpty(currentAccount)) {
       setUpower(getVotingPower(currentAccount).toFixed(1));
     }
   });
@@ -105,12 +104,6 @@ const SideMenuView = ({
       </View>
     </TouchableOpacity>
   );
-
-  const _handlePressAccountTile = (item) => {
-    if (!item.isCurrentAccount) {
-      switchAccount(item);
-    }
-  };
 
   return (
     <View style={styles.container}>
