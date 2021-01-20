@@ -1,35 +1,40 @@
 import { useState, useEffect } from 'react';
 import get from 'lodash/get';
 import { withNavigation } from 'react-navigation';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import ROUTES from '../../../../../../constants/routeNames';
 
 import { search, getPromotePosts } from '../../../../../../providers/ecency/ecency';
 import { getPost, getAccountPosts } from '../../../../../../providers/hive/dhive';
 
-const PostsResultsContainer = ({ children, navigation, searchValue, currentAccountUsername }) => {
+const PostsResultsContainer = ({ children, navigation, searchValue }) => {
   const [data, setData] = useState([]);
   const [sort, setSort] = useState('newest');
   const [scrollId, setScrollId] = useState('');
   const [noResult, setNoResult] = useState(false);
+
+  const currentAccountUsername = useSelector((state) => state.account.currentAccount.username);
 
   useEffect(() => {
     setNoResult(false);
     setData([]);
 
     if (searchValue) {
-      search({ q: `${searchValue} type:post`, sort })
-        .then((res) => {
-          setScrollId(res.scroll_id);
-          setData(res.results);
-          if (res.results.length === 0) {
-            setNoResult(true);
-          }
-        })
-        .catch((err) => console.log(err, 'search error'));
+      search({ q: `${searchValue} type:post`, sort }).then((res) => {
+        setScrollId(res.scroll_id);
+        setData(res.results);
+        if (res.results.length === 0) {
+          setNoResult(true);
+        }
+      });
     } else {
-      getInitialPosts();
+      getInitialPosts().then((res) => {
+        if (res.length === 0) {
+          setNoResult(true);
+        }
+        setData(res);
+      });
     }
   }, [searchValue]);
 
@@ -49,22 +54,14 @@ const PostsResultsContainer = ({ children, navigation, searchValue, currentAccou
     //     return post;
     //   }),
     // );
-    try {
-      const options = {
-        observer: currentAccountUsername,
-        account: 'ecency',
-        limit: 7,
-        sort: 'blog',
-      };
-      const _data = await getAccountPosts(options);
+    const options = {
+      observer: currentAccountUsername,
+      account: 'ecency',
+      limit: 7,
+      sort: 'blog',
+    };
 
-      if (_data.length === 0) {
-        setNoResult(true);
-      }
-      setData(_data);
-    } catch (err) {
-      console.log(err);
-    }
+    return await getAccountPosts(options);
   };
 
   // Component Functions
@@ -81,7 +78,7 @@ const PostsResultsContainer = ({ children, navigation, searchValue, currentAccou
   };
 
   const _loadMore = (index, value) => {
-    if (scrollId) {
+    if (scrollId && searchValue) {
       search({ q: `${searchValue} type:post`, sort, scroll_id: scrollId }).then((res) => {
         setData([...data, ...res.results]);
       });
@@ -99,8 +96,4 @@ const PostsResultsContainer = ({ children, navigation, searchValue, currentAccou
   );
 };
 
-const mapStateToProps = (state) => ({
-  currentAccountUsername: state.account.currentAccount.username,
-});
-
-export default connect(mapStateToProps)(withNavigation(PostsResultsContainer));
+export default withNavigation(PostsResultsContainer);
