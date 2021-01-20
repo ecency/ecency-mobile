@@ -118,7 +118,7 @@ const PostCardView = ({
               thumbnailSource={{ uri: _image.thumbnail }}
               style={[
                 styles.thumbnail,
-                { width: dim.width - 16, height: Math.min(calcImgHeight, dim.height) },
+                { width: dim.width - 18, height: Math.min(calcImgHeight, dim.height) },
               ]}
             />
           )}
