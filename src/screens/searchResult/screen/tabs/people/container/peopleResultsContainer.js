@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import ROUTES from '../../../../../../constants/routeNames';
 
 import { lookupAccounts } from '../../../../../../providers/hive/dhive';
-import { getLeaderboard } from '../../../../../../providers/ecency/ecency';
+import { getLeaderboard, searchAccount } from '../../../../../../providers/ecency/ecency';
 
 const PeopleResultsContainer = (props) => {
   const [users, setUsers] = useState([]);
@@ -19,7 +19,7 @@ const PeopleResultsContainer = (props) => {
     setUsers([]);
 
     if (searchValue) {
-      lookupAccounts(searchValue).then((res) => {
+      searchAccount(searchValue).then((res) => {
         if (res.length === 0) {
           setNoResult(true);
         }

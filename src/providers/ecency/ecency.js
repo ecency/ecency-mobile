@@ -296,6 +296,40 @@ export const searchPath = (q) =>
       });
   });
 
+export const searchAccount = (q = '', limit = 20, random = 0) =>
+  new Promise((resolve, reject) => {
+    searchApi
+      .post('/search-account', {
+        q,
+        limit,
+        random,
+      })
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((error) => {
+        bugsnag.notify(error);
+        reject(error);
+      });
+  });
+
+export const searchTag = (q = '', limit = 20, random = 0) =>
+  new Promise((resolve, reject) => {
+    searchApi
+      .post('/search-tag', {
+        q,
+        limit,
+        random,
+      })
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((error) => {
+        bugsnag.notify(error);
+        reject(error);
+      });
+  });
+
 // Schedule
 export const schedule = (
   user,

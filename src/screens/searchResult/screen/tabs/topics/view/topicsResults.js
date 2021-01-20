@@ -15,7 +15,7 @@ const TopicsResults = ({ navigation, searchValue }) => {
 
   const _renderTagItem = (item, index) => (
     <View style={[styles.itemWrapper, index % 2 !== 0 && styles.itemWrapperGray]}>
-      <Text style={styles.username}>{`#${item.name}`}</Text>
+      <Text style={styles.username}>{`#${item.tag}`}</Text>
     </View>
   );
 
