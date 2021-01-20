@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { navigate } from '../../../navigation/service';
@@ -16,6 +16,9 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
   const dispatch = useDispatch();
   const accountsBottomSheetRef = useRef();
 
+  const [pressSwitch, setPressSwitch] = useState(false);
+  const [switchingAccount, setSwitchingAccount] = useState({});
+
   const isVisibleAccountsBottomSheet = useSelector(
     (state) => state.ui.isVisibleAccountsBottomSheet,
   );
@@ -28,6 +31,12 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
     }
   }, [isVisibleAccountsBottomSheet]);
 
+  useEffect(() => {
+    if (pressSwitch && switchingAccount.name && !isVisibleAccountsBottomSheet) {
+      _handleSwitch();
+    }
+  }, [pressSwitch, isVisibleAccountsBottomSheet, switchingAccount]);
+
   const _navigateToRoute = (routeName = null) => {
     if (routeName) {
       accountsBottomSheetRef.current?.closeAccountsBottomSheet();
@@ -35,43 +44,47 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
     }
   };
 
-  const _switchAccount = async (switchingAccount = {}) => {
+  const _switchAccount = async (account = {}) => {
     accountsBottomSheetRef.current?.closeAccountsBottomSheet();
 
-    //TODO: Remove setTimeout
-    const timeout = setTimeout(async () => {
-      if (switchingAccount.username !== currentAccount.name) {
-        const accountData = accounts.filter(
-          (account) => account.username === switchingAccount.username,
-        )[0];
+    setPressSwitch(true);
+    setSwitchingAccount(account);
+  };
 
-        // control user persist whole data or just username
-        if (accountData.name) {
-          accountData.username = accountData.name;
+  const _handleSwitch = async () => {
+    setPressSwitch(false);
+    setSwitchingAccount({});
 
-          dispatch(updateCurrentAccount(accountData));
-          dispatch(isRenderRequired(true));
+    if (switchingAccount.username !== currentAccount.name) {
+      const accountData = accounts.filter(
+        (account) => account.username === switchingAccount.username,
+      )[0];
 
-          const upToDateCurrentAccount = await switchAccount(accountData.name);
-          const realmData = await getUserDataWithUsername(accountData.name);
+      // control user persist whole data or just username
+      if (accountData.name) {
+        accountData.username = accountData.name;
 
-          upToDateCurrentAccount.username = upToDateCurrentAccount.name;
-          upToDateCurrentAccount.local = realmData[0];
+        dispatch(updateCurrentAccount(accountData));
+        dispatch(isRenderRequired(true));
 
-          dispatch(updateCurrentAccount(upToDateCurrentAccount));
-        } else {
-          const _currentAccount = await switchAccount(accountData.username);
-          const realmData = await getUserDataWithUsername(accountData.username);
+        const upToDateCurrentAccount = await switchAccount(accountData.name);
+        const realmData = await getUserDataWithUsername(accountData.name);
 
-          _currentAccount.username = _currentAccount.name;
-          _currentAccount.local = realmData[0];
+        upToDateCurrentAccount.username = upToDateCurrentAccount.name;
+        upToDateCurrentAccount.local = realmData[0];
 
-          dispatch(updateCurrentAccount(_currentAccount));
-          dispatch(isRenderRequired(true));
-        }
+        dispatch(updateCurrentAccount(upToDateCurrentAccount));
+      } else {
+        const _currentAccount = await switchAccount(accountData.username);
+        const realmData = await getUserDataWithUsername(accountData.username);
+
+        _currentAccount.username = _currentAccount.name;
+        _currentAccount.local = realmData[0];
+
+        dispatch(updateCurrentAccount(_currentAccount));
+        dispatch(isRenderRequired(true));
       }
-    }, 750);
-    clearTimeout(timeout);
+    }
   };
 
   return (

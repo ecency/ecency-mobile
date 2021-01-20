@@ -76,6 +76,7 @@ export default EStyleSheet.create({
   tabView: {
     alignSelf: 'center',
     backgroundColor: '$primaryBackgroundColor',
+    width: '100%',
   },
   swipeItemWrapper: {
     flex: 1,

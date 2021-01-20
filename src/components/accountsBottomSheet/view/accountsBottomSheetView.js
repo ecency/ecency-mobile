@@ -32,12 +32,15 @@ const AccountsBottomSheet = forwardRef(
         bottomSheetModalRef.current?.present();
       },
       closeAccountsBottomSheet() {
-        bottomSheetModalRef.current?.dismiss();
+        _handleCloseBottomSheet();
       },
     }));
 
-    const _handleDismissBottomSheet = () => {
+    const _handleCloseBottomSheet = () => {
       bottomSheetModalRef.current?.dismiss();
+    };
+
+    const _handleDispatchDismissBottomSheet = () => {
       dispatch(toggleAccountsBottomSheet());
     };
 
@@ -47,8 +50,7 @@ const AccountsBottomSheet = forwardRef(
         <View style={styles.avatarAndNameContainer}>
           <UserAvatar username={item.username} />
           <View style={styles.nameContainer}>
-            {item.displayName && <Text style={styles.displayName}>{item.displayName}</Text>}
-            <Text style={styles.name}>{`@${item.name}`}</Text>
+            <Text style={styles.name}>{`@${item.username}`}</Text>
           </View>
         </View>
         {currentAccount.name === item.name && (
@@ -64,14 +66,13 @@ const AccountsBottomSheet = forwardRef(
             <TouchableOpacity
               style={styles.backdrop}
               activeOpacity={1}
-              onPress={bottomSheetModalRef.current?.dismiss}
-              // when call the onPress, it calls onDismiss.
+              onPress={_handleCloseBottomSheet}
             />
           )}
           ref={bottomSheetModalRef}
           index={0}
           snapPoints={snapPoints}
-          onDismiss={_handleDismissBottomSheet}
+          onDismiss={_handleDispatchDismissBottomSheet}
           shouldMeasureContentHeight={true}
         >
           <BottomSheetFlatList
