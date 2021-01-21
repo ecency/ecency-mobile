@@ -3,6 +3,7 @@ import {
   TOAST_NOTIFICATION,
   HIDE_POSTS_THUMBNAILS,
   RC_OFFER,
+  TOGGLE_ACCOUNTS_BOTTOM_SHEET,
 } from '../constants/constants';
 
 const initialState = {
@@ -10,6 +11,7 @@ const initialState = {
   toastNotification: '',
   hidePostsThumbnails: false,
   rcOffer: false,
+  isVisibleAccountsBottomSheet: false,
 };
 
 export default function (state = initialState, action) {
@@ -38,6 +40,11 @@ export default function (state = initialState, action) {
         hidePostsThumbnails: action.payload,
       };
 
+    case TOGGLE_ACCOUNTS_BOTTOM_SHEET:
+      return {
+        ...state,
+        isVisibleAccountsBottomSheet: !state.isVisibleAccountsBottomSheet,
+      };
     default:
       return state;
   }

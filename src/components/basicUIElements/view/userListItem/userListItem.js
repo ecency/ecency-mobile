@@ -8,6 +8,7 @@ import styles from './userListItemStyles';
 const UserListItem = ({
   rightText,
   description,
+  descriptionStyle,
   username,
   subRightText,
   index,
@@ -44,7 +45,7 @@ const UserListItem = ({
         <UserAvatar noAction={true} style={styles.avatar} username={username} />
         <View style={styles.userDescription}>
           <Text style={styles.name}>{text || username}</Text>
-          {description && <Text style={styles.date}>{description}</Text>}
+          {description && <Text style={[styles.date, descriptionStyle]}>{description}</Text>}
         </View>
         {middleText && (
           <View style={styles.middleWrapper}>

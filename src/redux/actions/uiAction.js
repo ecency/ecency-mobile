@@ -3,6 +3,7 @@ import {
   UPDATE_ACTIVE_BOTTOM_TAB,
   HIDE_POSTS_THUMBNAILS,
   RC_OFFER,
+  TOGGLE_ACCOUNTS_BOTTOM_SHEET,
 } from '../constants/constants';
 
 export const updateActiveBottomTab = (payload) => ({
@@ -23,4 +24,9 @@ export const setRcOffer = (payload) => ({
 export const hidePostsThumbnails = (payload) => ({
   payload,
   type: HIDE_POSTS_THUMBNAILS,
+});
+
+export const toggleAccountsBottomSheet = (payload) => ({
+  payload,
+  type: TOGGLE_ACCOUNTS_BOTTOM_SHEET,
 });

@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 
 import ROUTES from '../../../../../../constants/routeNames';
 
-import { getTrendingTags } from '../../../../../../providers/hive/dhive';
-import { getLeaderboard } from '../../../../../../providers/ecency/ecency';
+import { searchTag } from '../../../../../../providers/ecency/ecency';
 import { isCommunity } from '../../../../../../utils/communityValidation';
 
 const OtherResultContainer = (props) => {
@@ -19,12 +18,12 @@ const OtherResultContainer = (props) => {
     if (searchValue.length <= 10) {
       setNoResult(false);
       setTags([]);
-      getTrendingTags(searchValue.trim(), 100).then((res) => {
-        const data = res?.filter((item) => !isCommunity(item.name));
-        if (data.length === 0) {
+
+      searchTag(searchValue.trim(), 20).then((res) => {
+        if (res.length === 0) {
           setNoResult(true);
         }
-        setTags(data);
+        setTags(res);
       });
     }
   }, [searchValue]);
@@ -35,7 +34,7 @@ const OtherResultContainer = (props) => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.TAG_RESULT,
       params: {
-        tag: get(item, 'name', ''),
+        tag: get(item, 'tag', ''),
       },
     });
   };

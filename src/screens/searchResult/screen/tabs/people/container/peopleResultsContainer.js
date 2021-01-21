@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
-import get from 'lodash/get';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 
 import ROUTES from '../../../../../../constants/routeNames';
 
-import { lookupAccounts } from '../../../../../../providers/hive/dhive';
-import { getLeaderboard } from '../../../../../../providers/ecency/ecency';
+import { searchAccount } from '../../../../../../providers/ecency/ecency';
 
 const PeopleResultsContainer = (props) => {
   const [users, setUsers] = useState([]);
@@ -18,22 +16,12 @@ const PeopleResultsContainer = (props) => {
     setNoResult(false);
     setUsers([]);
 
-    if (searchValue) {
-      lookupAccounts(searchValue).then((res) => {
-        if (res.length === 0) {
-          setNoResult(true);
-        }
-        setUsers(res);
-      });
-    } else {
-      getLeaderboard().then((result) => {
-        const sos = result.map((item) => item._id);
-        if (sos.length === 0) {
-          setNoResult(true);
-        }
-        setUsers(sos);
-      });
-    }
+    searchAccount(searchValue, 20, searchValue ? 0 : 1).then((res) => {
+      if (res.length === 0) {
+        setNoResult(true);
+      }
+      setUsers(res);
+    });
   }, [searchValue]);
 
   // Component Functions
@@ -48,6 +36,7 @@ const PeopleResultsContainer = (props) => {
     });
   };
 
+  console.log(users, 'users');
   return (
     children &&
     children({

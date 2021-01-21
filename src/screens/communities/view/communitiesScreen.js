@@ -58,44 +58,42 @@ const CommunitiesScreen = ({ navigation, searchValue }) => {
       }) => {
         return (
           <View style={styles.container}>
-            <SafeAreaView forceInset={{ bottom: 'never' }} style={{ flex: 1 }}>
-              <BasicHeader
-                title={intl.formatMessage({
-                  id: 'side_menu.communities',
-                })}
-              />
-              <ScrollableTabView
-                style={globalStyles.tabView}
-                renderTabBar={_renderTabbar}
-                prerenderingSiblingsNumber={Infinity}
+            <BasicHeader
+              title={intl.formatMessage({
+                id: 'side_menu.communities',
+              })}
+            />
+            <ScrollableTabView
+              style={globalStyles.tabView}
+              renderTabBar={_renderTabbar}
+              prerenderingSiblingsNumber={Infinity}
+            >
+              <View
+                tabLabel={intl.formatMessage({ id: 'communities.joined' })}
+                style={styles.tabbarItem}
               >
-                <View
-                  tabLabel={intl.formatMessage({ id: 'communities.joined' })}
-                  style={styles.tabbarItem}
-                >
-                  <SubscribedCommunitiesList
-                    data={subscriptions}
-                    subscribingCommunities={subscribingCommunitiesInJoinedTab}
-                    handleSubscribeButtonPress={handleSubscribeButtonPress}
-                    handleOnPress={handleOnPress}
-                  />
-                </View>
-                <View
-                  tabLabel={intl.formatMessage({ id: 'communities.discover' })}
-                  style={styles.tabbarItem}
-                >
-                  <CommunitiesList
-                    data={discovers}
-                    subscribingCommunities={subscribingCommunitiesInDiscoverTab}
-                    handleOnPress={handleOnPress}
-                    handleSubscribeButtonPress={handleSubscribeButtonPress}
-                    isLoggedIn={true}
-                    noResult={discovers.length === 0}
-                    screen="communitiesScreenDiscoverTab"
-                  />
-                </View>
-              </ScrollableTabView>
-            </SafeAreaView>
+                <SubscribedCommunitiesList
+                  data={subscriptions}
+                  subscribingCommunities={subscribingCommunitiesInJoinedTab}
+                  handleSubscribeButtonPress={handleSubscribeButtonPress}
+                  handleOnPress={handleOnPress}
+                />
+              </View>
+              <View
+                tabLabel={intl.formatMessage({ id: 'communities.discover' })}
+                style={styles.tabbarItem}
+              >
+                <CommunitiesList
+                  data={discovers}
+                  subscribingCommunities={subscribingCommunitiesInDiscoverTab}
+                  handleOnPress={handleOnPress}
+                  handleSubscribeButtonPress={handleSubscribeButtonPress}
+                  isLoggedIn={true}
+                  noResult={discovers.length === 0}
+                  screen="communitiesScreenDiscoverTab"
+                />
+              </View>
+            </ScrollableTabView>
           </View>
         );
       }}

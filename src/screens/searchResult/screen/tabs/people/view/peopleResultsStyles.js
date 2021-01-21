@@ -45,4 +45,9 @@ export default EStyleSheet.create({
     marginLeft: 15,
     color: '$primaryBlack',
   },
+  descriptionStyle: {
+    maxWidth: '$deviceWidth',
+    marginTop: 4,
+    marginRight: 24,
+  },
 });
