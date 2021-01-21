@@ -585,5 +585,8 @@
   "communities": {
     "joined": "Jäsenyys",
     "discover": "Löydä uutta"
+  },
+  "empty_screen": {
+    "nothing_here": "Nothing here"
   }
 }
