@@ -19,7 +19,7 @@ const PeopleResultsContainer = (props) => {
     setUsers([]);
 
     if (searchValue) {
-      searchAccount(searchValue).then((res) => {
+      searchAccount(searchValue, 20, 1).then((res) => {
         if (res.length === 0) {
           setNoResult(true);
         }
@@ -52,6 +52,7 @@ const PeopleResultsContainer = (props) => {
     });
   };
 
+  console.log(users, 'users');
   return (
     children &&
     children({
