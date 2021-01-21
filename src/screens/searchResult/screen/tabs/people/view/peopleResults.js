@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, FlatList, Text } from 'react-native';
+import { SafeAreaView, FlatList } from 'react-native';
 import { useIntl } from 'react-intl';
 
 // Components

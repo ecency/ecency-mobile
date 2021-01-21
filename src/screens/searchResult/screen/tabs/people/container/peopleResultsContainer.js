@@ -1,13 +1,10 @@
 import { useState, useEffect } from 'react';
-import get from 'lodash/get';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
-import { shuffle } from 'lodash';
 
 import ROUTES from '../../../../../../constants/routeNames';
 
-import { lookupAccounts } from '../../../../../../providers/hive/dhive';
-import { getLeaderboard, searchAccount } from '../../../../../../providers/ecency/ecency';
+import { searchAccount } from '../../../../../../providers/ecency/ecency';
 
 const PeopleResultsContainer = (props) => {
   const [users, setUsers] = useState([]);
