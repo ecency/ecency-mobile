@@ -585,5 +585,8 @@
   "communities": {
     "joined": "सदस्यता",
     "discover": "खोजिए"
+  },
+  "empty_screen": {
+    "nothing_here": "Nothing here"
   }
 }
