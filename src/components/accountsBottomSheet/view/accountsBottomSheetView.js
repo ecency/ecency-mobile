@@ -59,6 +59,12 @@ const AccountsBottomSheet = forwardRef(
       </TouchableOpacity>
     );
 
+    const renderHandleComponent = () => (
+      <View style={styles.handleComponent}>
+        <View style={styles.handle} />
+      </View>
+    );
+
     return (
       <BottomSheetModalProvider>
         <BottomSheetModal
@@ -74,32 +80,35 @@ const AccountsBottomSheet = forwardRef(
           snapPoints={snapPoints}
           onDismiss={_handleDispatchDismissBottomSheet}
           shouldMeasureContentHeight={true}
+          handleComponent={renderHandleComponent}
         >
-          <BottomSheetFlatList
-            data={accounts}
-            scrollEnabled
-            keyExtractor={(item) => item.name}
-            renderItem={({ item }) => _renderAccountTile(item)}
-            //contentContainerStyle={styles.contentContainer}
-          />
-          <Separator style={styles.separator} />
-          <View style={{ paddingBottom: insets.bottom }}>
-            <View style={styles.buttonContainer}>
-              <TextButton
-                text={intl.formatMessage({ id: 'side_menu.create_a_new_account' })}
-                textStyle={styles.textButton}
-                onPress={() => navigateToRoute(ROUTES.SCREENS.REGISTER)}
-              />
-            </View>
+          <View style={styles.accountsModal}>
+            <BottomSheetFlatList
+              data={accounts}
+              scrollEnabled
+              keyExtractor={(item) => item.name}
+              renderItem={({ item }) => _renderAccountTile(item)}
+              //contentContainerStyle={styles.contentContainer}
+            />
             <Separator style={styles.separator} />
-            <View style={styles.buttonContainer}>
-              <TextButton
-                text={intl.formatMessage({ id: 'side_menu.add_an_existing_account' })}
-                textStyle={styles.textButton}
-                onPress={() => navigateToRoute(ROUTES.SCREENS.LOGIN)}
-              />
+            <View style={{ paddingBottom: insets.bottom }}>
+              <View style={styles.buttonContainer}>
+                <TextButton
+                  text={intl.formatMessage({ id: 'side_menu.create_a_new_account' })}
+                  textStyle={styles.textButton}
+                  onPress={() => navigateToRoute(ROUTES.SCREENS.REGISTER)}
+                />
+              </View>
+              <Separator style={styles.separator} />
+              <View style={styles.buttonContainer}>
+                <TextButton
+                  text={intl.formatMessage({ id: 'side_menu.add_an_existing_account' })}
+                  textStyle={styles.textButton}
+                  onPress={() => navigateToRoute(ROUTES.SCREENS.LOGIN)}
+                />
+              </View>
+              <Separator style={styles.separator} />
             </View>
-            <Separator style={styles.separator} />
           </View>
         </BottomSheetModal>
       </BottomSheetModalProvider>

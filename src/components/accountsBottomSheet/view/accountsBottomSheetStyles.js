@@ -104,8 +104,23 @@ export default EStyleSheet.create({
   name: {
     color: '$primaryDarkGray',
   },
-  accountModal: {
+  accountsModal: {
     backgroundColor: '$primaryBackgroundColor',
+    flex: 1,
+  },
+  handleComponent: {
+    backgroundColor: '$primaryBackgroundColor',
+    height: 20,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  handle: {
+    height: 3,
+    width: 24,
+    backgroundColor: '$darkIconColor',
+    borderRadius: 12,
   },
   textButton: {
     color: '$primaryBlue',
