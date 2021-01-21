@@ -43,7 +43,7 @@ const PostListItemView = ({
     let _isMounted = false;
     if (image) {
       if (!_isMounted) {
-        ImageSize.getSize(image.uri).then((size) => {
+        ImageSize.getSize(thumbnail.uri).then((size) => {
           setCalcImgHeight((size.height / size.width) * dim.width);
         });
       }

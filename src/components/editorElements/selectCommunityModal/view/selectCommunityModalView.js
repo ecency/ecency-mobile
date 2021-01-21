@@ -37,7 +37,7 @@ const SelectCommunityModalView = ({
           renderItem={({ item, index, separators }) => (
             <CommunityCard
               community={item}
-              key={index}
+              key={index.toString()}
               onPress={onPressCommunity}
               separators={separators}
             />

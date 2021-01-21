@@ -8,9 +8,11 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     top: 0,
+    borderRadius: 8,
   },
   container: {
     backgroundColor: '#f6f6f6',
+    borderRadius: 8,
   },
 });
 

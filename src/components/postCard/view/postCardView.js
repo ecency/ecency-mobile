@@ -66,12 +66,12 @@ const PostCardView = ({
   };
 
   const _getPostImage = (content, isNsfwPost) => {
-    if (content && content.image) {
+    if (content && content.thumbnail) {
       if (isNsfwPost && content.nsfw) {
         return { image: NSFW_IMAGE, thumbnail: NSFW_IMAGE };
       }
       //console.log(content)
-      ImageSize.getSize(content.image).then((size) => {
+      ImageSize.getSize(content.thumbnail).then((size) => {
         setCalcImgHeight((size.height / size.width) * dim.width);
       });
       return { image: content.image, thumbnail: content.thumbnail };
@@ -102,7 +102,7 @@ const PostCardView = ({
           profileOnPress={_handleOnUserPress}
           reputation={get(content, 'author_reputation')}
           size={36}
-          tag={content.category}
+          content={content}
           rebloggedBy={rebloggedBy}
           isPromoted={get(content, 'is_promoted')}
         />
@@ -118,7 +118,7 @@ const PostCardView = ({
               thumbnailSource={{ uri: _image.thumbnail }}
               style={[
                 styles.thumbnail,
-                { width: dim.width - 16, height: Math.min(calcImgHeight, dim.height) },
+                { width: dim.width - 18, height: Math.min(calcImgHeight, dim.height) },
               ]}
             />
           )}

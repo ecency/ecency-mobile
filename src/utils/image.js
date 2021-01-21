@@ -70,7 +70,7 @@ export const catchDraftImage = (body, format = 'match', thumbnail = false) => {
   if (body && imgRegex.test(body)) {
     const imageMatch = body.match(imgRegex);
     if (thumbnail) {
-      return proxifyImageSrc(imageMatch[0], 60, 50, format);
+      return proxifyImageSrc(imageMatch[0], 6, 5, format);
     }
     return proxifyImageSrc(imageMatch[0], 600, 500, format);
   }
