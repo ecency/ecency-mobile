@@ -38,6 +38,12 @@ const PeopleResults = ({ navigation, searchValue }) => {
                   handleOnPress={() => handleOnPress(item)}
                   index={index}
                   username={item.name}
+                  text={`@${item.name} ${item.full_name}`}
+                  description={item.about}
+                  descriptionStyle={styles.descriptionStyle}
+                  isHasRightItem
+                  isLoggedIn
+                  isLoadingRightAction={false}
                 />
               )}
               ListEmptyComponent={_renderEmptyContent}

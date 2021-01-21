@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import get from 'lodash/get';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
+import { shuffle } from 'lodash';
 
 import ROUTES from '../../../../../../constants/routeNames';
 
@@ -18,26 +19,12 @@ const PeopleResultsContainer = (props) => {
     setNoResult(false);
     setUsers([]);
 
-    if (searchValue) {
-      searchAccount(searchValue, 20, 1).then((res) => {
-        if (res.length === 0) {
-          setNoResult(true);
-        }
-        setUsers(res);
-      });
-    } else {
-      getLeaderboard().then((result) => {
-        const sos = result.map((item) => {
-          item.name = item._id;
-
-          return item;
-        });
-        if (sos.length === 0) {
-          setNoResult(true);
-        }
-        setUsers(sos);
-      });
-    }
+    searchAccount(searchValue, 20, searchValue ? 0 : 1).then((res) => {
+      if (res.length === 0) {
+        setNoResult(true);
+      }
+      setUsers(res);
+    });
   }, [searchValue]);
 
   // Component Functions
