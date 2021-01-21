@@ -1,6 +1,5 @@
 import React from 'react';
 import { SafeAreaView, FlatList } from 'react-native';
-import { useIntl } from 'react-intl';
 
 // Components
 import {
@@ -12,9 +11,7 @@ import PeopleResultsContainer from '../container/peopleResultsContainer';
 
 import styles from './peopleResultsStyles';
 
-const PeopleResults = ({ navigation, searchValue }) => {
-  const intl = useIntl();
-
+const PeopleResults = ({ searchValue }) => {
   const _renderEmptyContent = () => {
     return (
       <>
