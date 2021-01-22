@@ -252,7 +252,7 @@
     "schedules": "Agendar",
     "gallery": "Galeria",
     "settings": "Configurações",
-    "communities": "Communities",
+    "communities": "Comunidades",
     "add_account": "Adicionar conta",
     "logout": "Sair",
     "cancel": "Cancelar",
@@ -550,7 +550,7 @@
       "title": "Tópicos"
     },
     "communities": {
-      "title": "Groups",
+      "title": "Grupos",
       "subscribe": "Aderir",
       "unsubscribe": "Sair",
       "subscribers": "Membros",
@@ -583,10 +583,10 @@
     "unfollow": "Deixar de seguir"
   },
   "communities": {
-    "joined": "Membership",
-    "discover": "Discover"
+    "joined": "Membros",
+    "discover": "Descobrir"
   },
   "empty_screen": {
-    "nothing_here": "Nothing here"
+    "nothing_here": "Nada aqui"
   }
 }
