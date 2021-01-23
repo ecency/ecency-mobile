@@ -544,23 +544,23 @@
       "title": "Най-добри"
     },
     "people": {
-      "title": "People"
+      "title": "Хора"
     },
     "topics": {
-      "title": "Topics"
+      "title": "Tеми"
     },
     "communities": {
-      "title": "Groups",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
+      "title": "Групи",
+      "subscribe": "Присъединете се",
+      "unsubscribe": "Напусни",
+      "subscribers": "Членове",
       "posters": "Публикуващи",
       "posts": "Публикации"
     },
     "communities_filter": {
-      "my": "My Communities",
+      "my": "Моите общества",
       "rank": "Ранг",
-      "subs": "Members",
+      "subs": "Членове",
       "new": "Нови"
     },
     "post_result_filter": {
@@ -575,18 +575,18 @@
   },
   "community": {
     "new_post": "Нова публикация",
-    "community": "community",
-    "details": "Details"
+    "community": "oбщество",
+    "details": "Подробности"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow"
+    "follow": "Последвай",
+    "unfollow": "Отследване"
   },
   "communities": {
-    "joined": "Membership",
-    "discover": "Discover"
+    "joined": "Членство",
+    "discover": "Открийте"
   },
   "empty_screen": {
-    "nothing_here": "Nothing here"
+    "nothing_here": "Няма нищо тук"
   }
 }
