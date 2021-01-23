@@ -22,7 +22,8 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
   const [isNewPost, setIsNewPost] = useState(false);
   const [isPostUnavailable, setIsPostUnavailable] = useState(false);
   const [parentPost, setParentPost] = useState(null);
-  const [author, setAuthor] = useState(null);
+
+  let author;
 
   useEffect(() => {
     const { content, permlink, author: _author, isNewPost: _isNewPost } = get(
@@ -47,7 +48,8 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
       }
     } else if (_author && permlink) {
       _loadPost(_author, permlink);
-      setAuthor(_author);
+      author = _author;
+
       // tracking info
       if (isAnalytics) {
         Matomo.trackView([`/post/@${_author}/${permlink}`]).catch((error) =>
