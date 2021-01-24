@@ -331,6 +331,9 @@ class EditorContainer extends Component {
       const voteWeight = null;
 
       if (scheduleDate) {
+        if (fields.tags.length === 0) {
+          fields.tags = ['hive-125125'];
+        }
         await this._setScheduledPost({
           author,
           permlink,
@@ -351,7 +354,7 @@ class EditorContainer extends Component {
           options,
           voteWeight,
         )
-          .then(() => {
+          .then(async () => {
             setDraftPost(
               {
                 title: '',
@@ -360,6 +363,7 @@ class EditorContainer extends Component {
               },
               currentAccount.name,
             );
+            await AsyncStorage.setItem('temp-beneficiaries', '');
 
             dispatch(
               toastNotification(
@@ -716,8 +720,9 @@ class EditorContainer extends Component {
     this.setState({ rewardType: value });
   };
 
-  _handleBeneficiaries = (value) => {
+  _handleBeneficiaries = async (value) => {
     this.setState({ beneficiaries: value });
+    await AsyncStorage.setItem('temp-beneficiaries', JSON.stringify(value));
   };
 
   // Component Life Cycle Functions
@@ -829,6 +834,7 @@ class EditorContainer extends Component {
       post,
       uploadedImage,
       community,
+      isDraft,
     } = this.state;
 
     const tags = navigation.state.params && navigation.state.params.tags;
@@ -861,6 +867,7 @@ class EditorContainer extends Component {
         tags={tags}
         community={community}
         currentAccount={currentAccount}
+        isDraft={isDraft}
       />
     );
   }

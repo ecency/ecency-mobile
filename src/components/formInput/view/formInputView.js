@@ -28,6 +28,7 @@ const FormInputView = ({
   onChange,
   isValid,
   value,
+  onBlur,
 }) => {
   const [_value, setValue] = useState(value || '');
   const [inputBorderColor, setInputBorderColor] = useState('#e7e7e7');
@@ -45,6 +46,14 @@ const FormInputView = ({
 
   const _handleOnFocus = () => {
     setInputBorderColor('#357ce6');
+  };
+
+  const _handleOnBlur = () => {
+    setInputBorderColor('#e7e7e7');
+
+    if (onBlur) {
+      onBlur();
+    }
   };
 
   useEffect(() => {
@@ -97,7 +106,7 @@ const FormInputView = ({
             <TextInput
               style={inputStyle}
               onFocus={_handleOnFocus}
-              onBlur={() => setInputBorderColor('#e7e7e7')}
+              onBlur={_handleOnBlur}
               autoCapitalize="none"
               secureTextEntry={secureTextEntry}
               height={height}
