@@ -36,7 +36,6 @@ const PeopleResultsContainer = (props) => {
     });
   };
 
-  console.log(users, 'users');
   return (
     children &&
     children({

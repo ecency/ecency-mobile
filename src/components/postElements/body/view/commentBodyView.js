@@ -208,7 +208,7 @@ const CommentBody = ({
           author,
           permlink,
         },
-        key: permlink,
+        key: `@${author}/${permlink}`,
       });
     }
   };
