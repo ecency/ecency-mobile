@@ -588,5 +588,11 @@
   },
   "empty_screen": {
     "nothing_here": "कुछ नहीं है यहां"
+  },
+  "beneficiary_modal": {
+    "percent": "Percent",
+    "username": "Username",
+    "addAccount": "Add Account",
+    "save": "Save"
   }
 }
