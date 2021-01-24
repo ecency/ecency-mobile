@@ -590,9 +590,9 @@
     "nothing_here": "Täällä ei ole mitään"
   },
   "beneficiary_modal": {
-    "percent": "Percent",
-    "username": "Username",
-    "addAccount": "Add Account",
-    "save": "Save"
+    "percent": "Prosenttia",
+    "username": "Käyttäjänimi",
+    "addAccount": "Lisää Tili",
+    "save": "Tallenna"
   }
 }
