@@ -14,7 +14,7 @@ export default EStyleSheet.create({
     backgroundColor: '$tagColor',
   },
   textWrapper: {
-    paddingHorizontal: Platform.OS === 'android' ? 20 : 10,
+    paddingHorizontal: Platform.OS === 'android' ? 16 : 8,
     justifyContent: 'center',
     marginRight: 8,
     marginLeft: 8,
