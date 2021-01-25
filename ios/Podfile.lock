@@ -320,6 +320,8 @@ PODS:
     - React
   - react-native-receive-sharing-intent (1.0.4):
     - React
+  - react-native-restart (0.0.17):
+    - React
   - react-native-safe-area-context (3.1.9):
     - React-Core
   - react-native-splash-screen (3.2.0):
@@ -454,6 +456,7 @@ DEPENDENCIES:
   - react-native-matomo-sdk (from `../node_modules/react-native-matomo-sdk`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-receive-sharing-intent (from `../node_modules/react-native-receive-sharing-intent`)
+  - react-native-restart (from `../node_modules/react-native-restart`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-version-number (from `../node_modules/react-native-version-number`)
@@ -568,6 +571,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-receive-sharing-intent:
     :path: "../node_modules/react-native-receive-sharing-intent"
+  react-native-restart:
+    :path: "../node_modules/react-native-restart"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-splash-screen:
@@ -680,6 +685,7 @@ SPEC CHECKSUMS:
   react-native-matomo-sdk: 025c54f92e1e26a4d0acee7c3f28cb0fc7e4729c
   react-native-netinfo: a53b00d949b6456913aaf507d9dba90c4008c611
   react-native-receive-sharing-intent: feba0a332a07977549a85aa58b496eb44368366a
+  react-native-restart: d19a0f8d053d065fe64cd2baebb6487111c77149
   react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f

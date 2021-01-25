@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
-import { Text, View, NativeModules, TouchableHighlight } from 'react-native';
+import { Text, View, TouchableHighlight } from 'react-native';
 import { injectIntl } from 'react-intl';
+import RNRestart from 'react-native-restart';
 
 import { Icon } from '../../../components';
 
@@ -43,7 +44,7 @@ class ErrorBoundary extends React.Component {
               id: 'alert.something_wrong_alt',
             })}
           </Text>
-          <TouchableHighlight onPress={() => NativeModules.DevSettings.reload()}>
+          <TouchableHighlight onPress={() => RNRestart.Restart()}>
             <Fragment>
               <Text style={{ fontSize: 30, textDecorationLine: 'underline', paddingTop: 20 }}>
                 {intl.formatMessage({
