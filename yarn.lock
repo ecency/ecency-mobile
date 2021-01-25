@@ -4439,6 +4439,11 @@ hermes-engine@^0.2.1:
   resolved "https://registry.yarnpkg.com/hermes-engine/-/hermes-engine-0.2.1.tgz#25c0f1ff852512a92cb5c5cc47cf967e1e722ea2"
   integrity sha512-eNHUQHuadDMJARpaqvlCZoK/Nitpj6oywq3vQ3wCwEsww5morX34mW5PmKWQTO7aU0ck0hgulxR+EVDlXygGxQ==
 
+highlight-words-core@^1.0.3:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/highlight-words-core/-/highlight-words-core-1.2.2.tgz#1eff6d7d9f0a22f155042a00791237791b1eeaaa"
+  integrity sha512-BXUKIkUuh6cmmxzi5OIbUJxrG8OAk2MqoL1DtO3Wo9D2faJg2ph5ntyuQeLqaHJmzER6H5tllCDA9ZnNe9BVGg==
+
 hive-uri@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/hive-uri/-/hive-uri-0.2.2.tgz#60d57a77a2c7a6394471f700e436f3f9822c737d"
@@ -7368,7 +7373,7 @@ prop-types@15.6.2:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
-prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -7566,6 +7571,14 @@ react-native-gesture-handler@^1.4.1:
     hoist-non-react-statics "^2.3.1"
     invariant "^2.2.4"
     prop-types "^15.7.2"
+
+react-native-highlight-words@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-highlight-words/-/react-native-highlight-words-1.0.1.tgz#d998f8eb88765820367c6e8a12e1392df7fd58c7"
+  integrity sha512-cza6kbXeX2bWIwog6iatcMoWX6xogWvSKK1esCA7EQnQ/2hmqvdYGdGjvzTwLXyLmcBRySgreARNNKuDrKh7dg==
+  dependencies:
+    highlight-words-core "^1.0.3"
+    prop-types "^15.5.7"
 
 react-native-iap@3.4.15:
   version "3.4.15"
