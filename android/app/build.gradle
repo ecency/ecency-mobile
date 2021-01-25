@@ -224,6 +224,7 @@ dependencies {
     implementation 'com.android.support:multidex:2.0.1'
     implementation project(':@react-native-community_viewpager')
     implementation 'com.google.firebase:firebase-analytics:17.2.3'
+    implementation 'com.bugsnag:bugsnag-android:5.5.0'
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
