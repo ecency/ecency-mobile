@@ -121,6 +121,7 @@
     "@babel/core": "^7.6.2",
     "@babel/runtime": "^7.6.2",
     "@bam.tech/react-native-make": "^2.0.0",
+    "@bugsnag/source-maps": "^2.0.0",
     "@react-native-community/eslint-config": "^0.0.5",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.9.0",
