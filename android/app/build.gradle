@@ -203,9 +203,7 @@ android {
             def name = variant.name.toLowerCase()
             if (name.contains("staging") || name.contains("debug")) {
                 enabled = false
-            
-          uploadReactNativeMappings = true
-}
+            }
             uploadReactNativeMappings = true
         }
     }
