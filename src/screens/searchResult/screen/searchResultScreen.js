@@ -35,7 +35,7 @@ const SearchResultScreen = ({ navigation }) => {
 
   const _handleChangeText = debounce((value) => {
     setSearchValue(value);
-  }, 250);
+  }, 1000);
 
   return (
     <View style={styles.container}>

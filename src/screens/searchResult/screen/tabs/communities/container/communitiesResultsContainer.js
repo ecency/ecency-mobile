@@ -45,16 +45,28 @@ const CommunitiesResultsContainer = ({ children, navigation, searchValue }) => {
     setData([]);
     setNoResult(false);
 
-    getSubscriptions(currentAccount.username).then((subs) => {
-      getCommunities('', searchValue ? 100 : 20, searchValue, 'rank').then((communities) => {
-        communities.forEach((community) =>
-          Object.assign(community, {
-            isSubscribed: subs.some(
-              (subscribedCommunity) => subscribedCommunity[0] === community.name,
-            ),
-          }),
-        );
+    getCommunities('', searchValue ? 100 : 20, searchValue, 'rank').then((communities) => {
+      if (currentAccount && currentAccount.username) {
+        getSubscriptions(currentAccount.username).then((subs) => {
+          communities.forEach((community) =>
+            Object.assign(community, {
+              isSubscribed: subs.some(
+                (subscribedCommunity) => subscribedCommunity[0] === community.name,
+              ),
+            }),
+          );
 
+          if (searchValue) {
+            setData(communities);
+          } else {
+            setData(shuffle(communities));
+          }
+
+          if (communities.length === 0) {
+            setNoResult(true);
+          }
+        });
+      } else {
         if (searchValue) {
           setData(communities);
         } else {
@@ -64,7 +76,7 @@ const CommunitiesResultsContainer = ({ children, navigation, searchValue }) => {
         if (communities.length === 0) {
           setNoResult(true);
         }
-      });
+      }
     });
   }, [searchValue]);
 
