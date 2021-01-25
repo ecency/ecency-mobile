@@ -15,7 +15,7 @@ const OtherResultContainer = (props) => {
   const { children, navigation, searchValue } = props;
 
   useEffect(() => {
-    if (searchValue.length <= 10) {
+    if (searchValue && searchValue.length <= 10) {
       setNoResult(false);
       setTags([]);
 
@@ -25,6 +25,9 @@ const OtherResultContainer = (props) => {
         }
         setTags(res);
       });
+    } else {
+      setNoResult(true);
+      setTags([]);
     }
   }, [searchValue]);
 
