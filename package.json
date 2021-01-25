@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.5.5",
+    "@bugsnag/react-native": "^7.6.0",
     "@ecency/render-helper": "^2.0.15",
     "@esteemapp/dhive": "0.15.0",
     "@esteemapp/react-native-autocomplete-input": "^4.2.1",
@@ -51,7 +52,6 @@
     "appcenter-crashes": "^3.1.0",
     "axios": "^0.18.0",
     "buffer": "^5.4.3",
-    "bugsnag-react-native": "^2.23.10",
     "core-js": "3.6.4",
     "crypto-js": "^3.1.9-1",
     "currency-symbol-map": "^4.0.4",
