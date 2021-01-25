@@ -21,20 +21,40 @@ const PostsResultsContainer = ({ children, navigation, searchValue }) => {
     setData([]);
 
     if (searchValue) {
-      search({ q: `${searchValue} type:post`, sort }).then((res) => {
-        setScrollId(res.scroll_id);
-        setData(res.results);
-        if (res.results.length === 0) {
+      search({ q: `${searchValue} type:post`, sort })
+        .then((res) => {
+          if (res) {
+            setScrollId(res.scroll_id);
+            setData(res.results);
+            if (res.results.length === 0) {
+              setNoResult(true);
+            }
+          } else {
+            setNoResult(true);
+            setData([]);
+          }
+        })
+        .catch((err) => {
           setNoResult(true);
-        }
-      });
+          setData([]);
+        });
     } else {
-      getInitialPosts().then((res) => {
-        if (res.length === 0) {
+      getInitialPosts()
+        .then((res) => {
+          if (res) {
+            if (res.length === 0) {
+              setNoResult(true);
+            }
+            setData(res);
+          } else {
+            setNoResult(true);
+            setData([]);
+          }
+        })
+        .catch((err) => {
           setNoResult(true);
-        }
-        setData(res);
-      });
+          setData([]);
+        });
     }
   }, [searchValue]);
 
