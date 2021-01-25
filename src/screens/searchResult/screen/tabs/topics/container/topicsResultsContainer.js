@@ -19,15 +19,29 @@ const OtherResultContainer = (props) => {
       setNoResult(false);
       setTags([]);
 
-      searchTag(searchValue.trim(), 20).then((res) => {
-        if (res.length === 0) {
+      searchTag(searchValue.trim(), 20)
+        .then((res) => {
+          if (res && res.length === 0) {
+            setNoResult(true);
+          }
+          setTags(res);
+        })
+        .catch((err) => {
           setNoResult(true);
-        }
-        setTags(res);
-      });
+          setTags([]);
+        });
     } else {
-      setNoResult(true);
-      setTags([]);
+      searchTag(searchValue.trim(), 20, 1)
+        .then((res) => {
+          if (res && res.length === 0) {
+            setNoResult(true);
+          }
+          setTags(res);
+        })
+        .catch((err) => {
+          setNoResult(true);
+          setTags([]);
+        });
     }
   }, [searchValue]);
 

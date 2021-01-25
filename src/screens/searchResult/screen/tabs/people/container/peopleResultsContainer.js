@@ -16,12 +16,17 @@ const PeopleResultsContainer = (props) => {
     setNoResult(false);
     setUsers([]);
 
-    searchAccount(searchValue, 20, searchValue ? 0 : 1).then((res) => {
-      if (res.length === 0) {
+    searchAccount(searchValue, 20, searchValue ? 0 : 1)
+      .then((res) => {
+        if (res && res.length === 0) {
+          setNoResult(true);
+        }
+        setUsers(res);
+      })
+      .catch((err) => {
         setNoResult(true);
-      }
-      setUsers(res);
-    });
+        setUsers([]);
+      });
   }, [searchValue]);
 
   // Component Functions
