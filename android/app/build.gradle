@@ -179,6 +179,9 @@ android {
             // Caution! In production, you need to generate your own keystore file.
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
             // signingConfig signingConfigs.release
+            bugsnag {
+                uploadReactNativeMappings = true
+            }
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -195,16 +198,6 @@ android {
                         versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
 
-        }
-    }
-    bugsnag {
-        variantFilter { variant ->
-            // disables plugin for all variants of the 'staging' productFlavor
-            def name = variant.name.toLowerCase()
-            if (name.contains("staging") || name.contains("debug")) {
-                enabled = false
-            }
-            uploadReactNativeMappings = true
         }
     }
 
