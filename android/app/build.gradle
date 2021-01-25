@@ -1,7 +1,7 @@
 apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
-//apply plugin: 'com.bugsnag.android.gradle'
+apply plugin: 'com.bugsnag.android.gradle'
 
 import com.android.build.OutputFile
 
@@ -196,6 +196,16 @@ android {
             }
 
         }
+    }
+    bugsnag {
+        variantFilter { variant ->
+            // disables plugin for all variants of the 'staging' productFlavor
+            def name = variant.name.toLowerCase()
+            if (name.contains("staging") || name.contains("debug")) {
+                enabled = false
+            }
+        }
+        uploadReactNativeMappings = true
     }
 
     packagingOptions {
