@@ -590,9 +590,9 @@
     "nothing_here": "Nada aqui"
   },
   "beneficiary_modal": {
-    "percent": "Percent",
-    "username": "Username",
-    "addAccount": "Add Account",
-    "save": "Save"
+    "percent": "Porcentagem",
+    "username": "Nome de Usuário",
+    "addAccount": "Adicionar Conta",
+    "save": "Salvar"
   }
 }
