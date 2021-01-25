@@ -14,13 +14,13 @@ import {
   EmptyScreen,
 } from '../../../../../../components/basicUIElements';
 import PostsResultsContainer from '../container/postsResultsContainer';
+import ProgressiveImage from '../../../../../../components/progressiveImage';
 
 import { getTimeFromNow } from '../../../../../../utils/time';
-
 import styles from './postsResultsStyles';
 
-import DEFAULT_IMAGE from '../../../../../../assets/no_image.png';
-import ProgressiveImage from '../../../../../../components/progressiveImage';
+const DEFAULT_IMAGE =
+  'https://images.ecency.com/DQmT8R33geccEjJfzZEdsRHpP3VE8pu3peRCnQa1qukU4KR/no_image_3x.png';
 
 const dim = Dimensions.get('window');
 
@@ -34,10 +34,10 @@ const PostsResults = ({ navigation, searchValue }) => {
     const reputation =
       get(item, 'author_rep', undefined) || get(item, 'author_reputation', undefined);
     //console.log(item);
-    const image = get(item, 'img_url', undefined) || get(item, 'image', undefined);
+    const image = get(item, 'img_url', DEFAULT_IMAGE) || get(item, 'image', DEFAULT_IMAGE);
     const thumbnail =
-      get(item, 'thumbnail', undefined) ||
-      `https://images.ecency.com/6x5/${get(item, 'img_url', undefined)}`;
+      get(item, 'thumbnail', DEFAULT_IMAGE) ||
+      `https://images.ecency.com/6x5/${get(item, 'img_url', DEFAULT_IMAGE)}`;
     const votes = get(item, 'up_votes', 0) || get(item, 'stats.total_votes', 0);
     const body = get(item, 'summary', '') || get(item, 'body_marked', '');
 
@@ -50,7 +50,7 @@ const PostsResults = ({ navigation, searchValue }) => {
           size={36}
           content={item}
         />
-        {image && (
+        {image && thumbnail && (
           <ProgressiveImage
             source={{ uri: image }}
             thumbnailSource={{ uri: thumbnail }}
