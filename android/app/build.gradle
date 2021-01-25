@@ -1,7 +1,7 @@
 apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
-//apply plugin: 'com.bugsnag.android.gradle'
+apply plugin: 'com.bugsnag.android.gradle'
 
 import com.android.build.OutputFile
 
@@ -179,9 +179,6 @@ android {
             // Caution! In production, you need to generate your own keystore file.
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
             // signingConfig signingConfigs.release
-            bugsnag {
-                uploadReactNativeMappings = true
-            }
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -197,7 +194,6 @@ android {
                 output.versionCodeOverride =
                         versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
-
         }
     }
 
@@ -238,3 +234,7 @@ task copyDownloadableDepsToLibs(type: Copy) {
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 apply from: "../../node_modules/@bugsnag/react-native/bugsnag-react-native.gradle"
+
+bugsnag {
+    uploadReactNativeMappings = true
+}
