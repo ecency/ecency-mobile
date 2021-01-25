@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { SafeAreaView, FlatList, View, Text, TouchableOpacity } from 'react-native';
 import get from 'lodash/get';
 import isUndefined from 'lodash/isUndefined';
-import { useIntl } from 'react-intl';
 import Highlighter from 'react-native-highlight-words';
 
 // Components
@@ -20,8 +19,6 @@ import styles from './postsResultsStyles';
 const filterOptions = ['relevance', 'popularity', 'newest'];
 
 const PostsResults = ({ navigation, searchValue }) => {
-  const intl = useIntl();
-
   const _renderItem = (item, index) => {
     const reputation =
       get(item, 'author_rep', undefined) || get(item, 'author_reputation', undefined);
