@@ -590,9 +590,9 @@
     "nothing_here": "कुछ नहीं है यहां"
   },
   "beneficiary_modal": {
-    "percent": "Percent",
-    "username": "Username",
-    "addAccount": "Add Account",
-    "save": "Save"
+    "percent": "प्रतिशत",
+    "username": "प्रयोक्ता नाम",
+    "addAccount": "खता जोड़ें",
+    "save": "रक्षित करें"
   }
 }
