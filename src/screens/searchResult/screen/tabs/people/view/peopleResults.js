@@ -40,6 +40,7 @@ const PeopleResults = ({ searchValue }) => {
                   descriptionStyle={styles.descriptionStyle}
                   isHasRightItem
                   isLoggedIn
+                  searchValue={searchValue}
                   isLoadingRightAction={false}
                 />
               )}
