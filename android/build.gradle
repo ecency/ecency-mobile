@@ -63,6 +63,13 @@ subprojects {project ->
             }    
         }
     }
+    if (project.name.contains('bugsnag')) {
+        buildscript {
+            repositories {
+                maven { url 'https://maven.google.com' }
+            }
+        }
+    }
     ext {
         def npmVersion = getNpmVersionArray()
         versionMajor = npmVersion[0]
