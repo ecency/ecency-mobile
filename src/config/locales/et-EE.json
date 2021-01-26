@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Benefactor Reward",
     "claim_reward_balance": "Lunasta tasu ",
     "transfer": "Ülekanne",
-    "transfer_to_vesting": "To Vesting",
+    "transfer_to_vesting": "Teenimisse",
     "transfer_from_savings": "Hoiusest",
     "withdraw_vesting": "Väljaluülitus",
     "fill_order": "Täida Tellimus",
@@ -13,7 +13,7 @@
     "comment": "Kommenteeri",
     "checkin": "Kasutus",
     "vote": "Hääleta",
-    "reblog": "Taaspostita",
+    "reblog": "Jaga",
     "login": "Sisselogimine",
     "incoming_transfer_title": "Saabuv ülekanne",
     "outgoing_transfer_title": "Väljuv ülekanne",
@@ -21,25 +21,25 @@
     "delegation": "Volitus",
     "delegations": "Volitused",
     "delegation_title": "Volitustasu",
-    "delegation_desc": "Earn Points everyday for delegation",
+    "delegation_desc": "Teeni punkte igapäevaselt volitamisega",
     "post_title": "Punktid postitustest",
     "comment_title": "Punktid kommentaaridest",
     "vote_title": "Punktid hääletustest",
-    "reblog_title": "Punktid taaspostitustest",
+    "reblog_title": "Punktid jagamise eest",
     "login_title": "Punktid sisselogimisest",
     "checkin_title": "Punktid sisse logimise eest",
     "referral": "Soovitaja",
-    "referral_title": "Referral rewards",
-    "referral_desc": "Invite friends and earn Points",
+    "referral_title": "Soovitaja tasu",
+    "referral_desc": "Kutsu sõbrad ja kogu punkte",
     "checkin_extra_title": "Kasutusboonus",
-    "no_activity": "No recent activity",
+    "no_activity": "Hiljutised tegevused puuduvad",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
     "post_desc": "You can earn point by posting regularly. Posting gives you upto 15 points.",
     "comment_desc": "Each comment you make helps you to grow your audience and also earns you upto 5 points.",
     "checkin_desc": "Checking in regularly gives you 0.25 points.",
     "vote_desc": "Hääletades tasustate teisi loojaid ja teenite ka ise kuni 0,01 x hääle kaalupunkti.",
-    "reblog_desc": "Share what post you like with your friends and earn points.",
+    "reblog_desc": "Jaga meeldivat postitust enda sõpradega ning teeni punkte.",
     "login_desc": "When you login into app first time you earn 100 points.",
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
     "dropdown_transfer": "Kingi",
@@ -66,21 +66,21 @@
     "withdraw_to_saving": "Võta hoius välja",
     "steemconnect_title": "Hivesigner Transfer",
     "next": "EDASI",
-    "delegate": "Delegate",
+    "delegate": "Volita",
     "power_down": "Väljaluülitus",
     "withdraw_steem": "Võta välja HIVE",
     "withdraw_sbd": "Võta välja HBD",
     "transfer_to_savings": "Hoiusesse",
     "convert": "Konverteeri",
-    "escrow_transfer": "Escrow Transfer",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel From Savings",
+    "escrow_transfer": "Deposiidi ülekanne",
+    "escrow_dispute": "Deposiidi Vaidlustamine",
+    "escrow_release": "Deposiidi Vabastamine",
+    "escrow_approve": "Deposiidi Kinnitamine",
+    "cancel_transfer_from_savings": "Tühista ülekanne Hoiusest",
     "delegate_vesting_shares": "Volitus",
-    "fill_convert_request": "Convert Executed",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_convert_request": "Vahetamine alustatud",
+    "fill_transfer_from_savings": "Hoius alustatud",
+    "fill_vesting_withdraw": "PowerDown alustatud",
     "estm": {
       "title": "Punktid",
       "buy": "OSTA PUNKTE"
@@ -133,7 +133,7 @@
     "activities": "Kõik",
     "replies": "Vastused",
     "mentions": "Mainimised",
-    "reblogs": "Reblogs",
+    "reblogs": "Jagatud",
     "noactivity": "Hiljutised tegevused puuduvad"
   },
   "leaderboard": {
@@ -188,7 +188,7 @@
       "vote": "Hääleta",
       "comment": "Kommenteeri",
       "mention": "Maini",
-      "reblog": "Taaspostita",
+      "reblog": "Jaha",
       "transfers": "Ülekanded"
     },
     "pincode": "Pincode",
@@ -415,18 +415,18 @@
     "invalid_pin": "Invalid pin code, please check and try again",
     "invalid_username": "Invalid username, please check and try again",
     "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "invalid_credentials": "Vigased andmed, palun kontrolli ja proovi uuesti",
+    "unknow_error": "Tundmatu viga, palun kirjuta meile support@ecency.com"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
+    "potential_payout": "Potentsiaalne Väljamakse",
+    "promoted": "Sponsitud",
+    "author_payout": "Autoritasu",
+    "curation_payout": "Hääletajate tasu",
     "payout_date": "Väljamakse",
     "beneficiaries": "Kasusaajad",
     "warn_zero_payout": "Kogus peab väljamakseks olema vähemalt $0.02",
-    "breakdown": "Breakdown"
+    "breakdown": "Analüüs"
   },
   "post_dropdown": {
     "copy": "kopeeri link",
@@ -457,28 +457,28 @@
   "transfer": {
     "from": "Kellelt",
     "to": "Kellele",
-    "amount_information": "Drag the slider to adjust the amount",
+    "amount_information": "Koguse muutmiseks liiguta liugurit",
     "amount": "Kogus",
     "memo": "Märge",
     "information": "Oled kindel, et soovid raha üle kanda?",
     "amount_desc": "Saldo",
     "memo_desc": "See märge on avalik",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "Vahetamine võtab 3,5 päeva ja pole soovitatav kui HBD hind on kõrgem kui $1",
     "to_placeholder": "Kasutajanimi",
     "memo_placeholder": "Jäta oma märkmed siia",
     "transfer_token": "Ülekanne",
     "purchase_estm": "Osta punkte",
     "convert": "Vaheta HBD HIVEks",
-    "points": "Gift Points to someone",
+    "points": "Kingi kellelegi punkte",
     "transfer_to_saving": "Kanna säästudesse",
     "powerUp": "Lisa võimsust",
     "withdraw_to_saving": "Liiguta hoiusesse",
-    "steemconnect_title": "Hivesigner Transfer",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
+    "steemconnect_title": "Hivesigneri ülekanne",
+    "estimated_weekly": "Prognoositud nädalane",
+    "destination_accounts": "Saaja Kontod",
     "stop_information": "Oled kindel, et soovid peatada?",
     "percent": "Protsent",
-    "auto_vests": "Auto Vests",
+    "auto_vests": "Automaatne Tulu",
     "save": "SALVESTA",
     "percent_information": "Protsendi info",
     "next": "EDASI",
@@ -507,15 +507,15 @@
     "timer_text": "Järgmine tasuta keerutus"
   },
   "promote": {
-    "title": "Promote",
+    "title": "Reklaami",
     "days": "päeva",
     "user": "Kasutaja",
     "permlink": "Postita",
-    "permlinkPlaceholder": "username/permlink",
-    "information": "Are you sure to promote?"
+    "permlinkPlaceholder": "kasutajanimi/permlink",
+    "information": "Olete kindel, et soovite reklaamida?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Võimenda"
   },
   "voters_dropdown": {
     "rewards": "TASUD",
@@ -523,37 +523,37 @@
     "time": "AEG"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "Jaga infot"
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "Seadme kellaaeg;",
+      "current_time": "Praegune kellaaeg;",
+      "information": "Märkasime, et teie seadme kellaaeg ja kuupäev on vale. Muuda kellaaeg ja kuupäev või säti automaatseks ning proovi siis uuesti."
     }
   },
   "comments": {
     "title": "Kommentaarid",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "Näita kommentaari",
+    "read_more": "Näita rohkem kommentaare",
+    "more_replies": "rohkem vastuseid"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Muud",
     "best": {
-      "title": "Best"
+      "title": "Parimad"
     },
     "people": {
-      "title": "People"
+      "title": "Inimesed"
     },
     "topics": {
-      "title": "Topics"
+      "title": "Teemad"
     },
     "communities": {
-      "title": "Groups",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
+      "title": "Grupid",
+      "subscribe": "Liitu",
+      "unsubscribe": "Lahku",
+      "subscribers": "Liikmed",
       "posters": "Postitajad",
       "posts": "Post"
     },
@@ -583,16 +583,16 @@
     "unfollow": "Lõpeta jälgimine"
   },
   "communities": {
-    "joined": "Membership",
-    "discover": "Discover"
+    "joined": "Liikmelisus",
+    "discover": "Avasta"
   },
   "empty_screen": {
-    "nothing_here": "Nothing here"
+    "nothing_here": "Siin pole midagi"
   },
   "beneficiary_modal": {
-    "percent": "Percent",
-    "username": "Username",
-    "addAccount": "Add Account",
-    "save": "Save"
+    "percent": "Protsent",
+    "username": "Kasutajanimi",
+    "addAccount": "Lisa konto",
+    "save": "Salvesta"
   }
 }
