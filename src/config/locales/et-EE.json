@@ -105,7 +105,7 @@
     "btc": {
       "title": "BTC",
       "buy": "OSTA BTC",
-      "address": "RECEIVE"
+      "address": "VÕTA VASTU"
     }
   },
   "notification": {
@@ -158,18 +158,18 @@
     "hours": "tundi",
     "voting_power": "Hääletusjõud",
     "login_to_see": "Nägemiseks logi sisse",
-    "follow_people": "Follow some people to fill your feed",
-    "follow_communities": "Join some communities to fill your feed",
+    "follow_people": "Jälgi inimesi, et täita oma voog",
+    "follow_communities": "Liitu kogukondadega, et täita oma voogu",
     "havent_commented": "ei ole veel midagi kommenteerinud",
     "havent_posted": "ei ole veel midagi postitanud",
     "steem_power": "Hive Power",
     "next_power_text": "Järgmise väljaluülitus on",
     "days": "päeva",
     "day": "päev",
-    "steem_dollars": "Hive Dollars",
+    "steem_dollars": "Hive Dollarid",
     "savings": "Säästud",
     "edit": {
-      "display_name": "Display Name",
+      "display_name": "Kuvatav Nimi",
       "about": "Teave",
       "location": "Asukoht",
       "website": "Koduleht"
@@ -217,7 +217,7 @@
     "signin_title": "Et saada osa kõikidest Ecency funktsioonidest",
     "username": "Kasutajanimi",
     "password": "Parool või WIF",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "Logides sisse, nõustute meie kasutustingimuste ja privaatsuseeskirjadega.",
     "cancel": "tühista",
     "login": "LOGI SISSE",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
@@ -252,7 +252,7 @@
     "schedules": "Ajakavad",
     "gallery": "Galerii",
     "settings": "Seaded",
-    "communities": "Communities",
+    "communities": "Kogukonnad",
     "add_account": "Lisa konto",
     "logout": "Logi välja",
     "cancel": "Tühista",
@@ -362,19 +362,19 @@
     "invalidImage": "Invalid image, try different file",
     "something_wrong": "Midagi läks valesti.",
     "something_wrong_alt": "Proovi https://ecency.com",
-    "something_wrong_reload": "Reload",
-    "can_not_be_empty": "Title and body can not be empty!"
+    "something_wrong_reload": "Värskenda",
+    "can_not_be_empty": "Pealkiri ja sisu ei tohi olla tühjad!"
   },
   "post": {
     "reblog_alert": "Oled sa kindel, et soovid seda jagada?",
-    "removed_hint": "Content is not available",
-    "copy_link": "Copy link",
+    "removed_hint": "Sisu pole kättesaadav",
+    "copy_link": "Kopeeri link",
     "reblogged": "jagatud %s poolt",
     "sponsored": "SPONSOREERITUD",
-    "open_thread": "Open thread",
-    "image": "Image",
+    "open_thread": "Ava lõim",
+    "image": "Pilt",
     "link": "Link",
-    "gallery_mode": "Gallery mode",
+    "gallery_mode": "Galerii",
     "save_to_local": "Download to device",
     "image_saved": "Image saved to Photo Gallery",
     "image_saved_error": "Error Saving Image",
@@ -387,17 +387,17 @@
     "deleted": "Draft deleted"
   },
   "schedules": {
-    "title": "Schedules",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "Planeeritud",
+    "empty_list": "Siin pole midagi",
+    "deleted": "Ajastatud postitus kustutatud",
+    "move": "Teisalda mustanditesse",
+    "moved": "Teisaldatud mustanditesse"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
+    "title": "Järjehoidjad",
+    "load_error": "Järjehoidjad ei saanud laadida",
+    "empty_list": "Siin pole midagi",
+    "deleted": "Järjehoidja eemaldatud",
     "search": "Search in bookmarks",
     "added": "Added to bookmarks",
     "add": "Add to bookmarks"
@@ -476,8 +476,8 @@
     "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Estimated Weekly",
     "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
+    "stop_information": "Oled kindel, et soovid peatada?",
+    "percent": "Protsent",
     "auto_vests": "Auto Vests",
     "save": "SALVESTA",
     "percent_information": "Percent info",
