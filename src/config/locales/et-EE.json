@@ -3,7 +3,7 @@
     "curation_reward": "Kuraatori tasu",
     "author_reward": "Autoritasu",
     "comment_benefactor_reward": "Benefactor Reward",
-    "claim_reward_balance": "Claim Reward ",
+    "claim_reward_balance": "Lunasta tasu ",
     "transfer": "Ülekanne",
     "transfer_to_vesting": "To Vesting",
     "transfer_from_savings": "Hoiusest",
@@ -375,16 +375,16 @@
     "image": "Pilt",
     "link": "Link",
     "gallery_mode": "Galerii",
-    "save_to_local": "Download to device",
+    "save_to_local": "Lae enda seadmesse",
     "image_saved": "Image saved to Photo Gallery",
     "image_saved_error": "Error Saving Image",
-    "wrong_link": "Wrong link"
+    "wrong_link": "Vale link"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "Mustandid",
+    "load_error": "Mustandite laadimine ei õnnestunud",
+    "empty_list": "Siin pole midagi",
+    "deleted": "Mustand kustutatud"
   },
   "schedules": {
     "title": "Planeeritud",
@@ -406,10 +406,10 @@
     "added": "Reported objectionable content"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
+    "title": "Lemmikud",
+    "load_error": "Lemmikute laadimine ebaõnnestus",
     "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "search": "Otsi lemmikute hulgast"
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
@@ -467,12 +467,12 @@
     "to_placeholder": "Kasutajanimi",
     "memo_placeholder": "Jäta oma märkmed siia",
     "transfer_token": "Ülekanne",
-    "purchase_estm": "Purchase Points",
-    "convert": "Convert HBD to HIVE",
+    "purchase_estm": "Osta punkte",
+    "convert": "Vaheta HBD HIVEks",
     "points": "Gift Points to someone",
     "transfer_to_saving": "Kanna säästudesse",
     "powerUp": "Lisa võimsust",
-    "withdraw_to_saving": "Withdraw To Saving",
+    "withdraw_to_saving": "Liiguta hoiusesse",
     "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Estimated Weekly",
     "destination_accounts": "Destination Accounts",
@@ -480,9 +480,9 @@
     "percent": "Protsent",
     "auto_vests": "Auto Vests",
     "save": "SALVESTA",
-    "percent_information": "Percent info",
+    "percent_information": "Protsendi info",
     "next": "EDASI",
-    "delegate": "Delegate",
+    "delegate": "Volita",
     "power_down": "Power Down",
     "withdraw_steem": "Võta HIVE välja",
     "withdraw_sbd": "Võta HIVE Dollar välja",
@@ -500,17 +500,17 @@
     }
   },
   "free_estm": {
-    "title": "Free Points",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "title": "Tasuta punktid",
+    "button": "KEERUTA & VÕIDA",
+    "get_spin": "5 KEERUTUST",
+    "spin_right": "Keerutust järgi",
+    "timer_text": "Järgmine tasuta keerutus"
   },
   "promote": {
     "title": "Promote",
-    "days": "days",
-    "user": "User",
-    "permlink": "Post",
+    "days": "päeva",
+    "user": "Kasutaja",
+    "permlink": "Postita",
     "permlinkPlaceholder": "username/permlink",
     "information": "Are you sure to promote?"
   },
