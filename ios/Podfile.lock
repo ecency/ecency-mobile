@@ -18,7 +18,10 @@ PODS:
   - AppCenterReactNativeShared (3.1.0):
     - AppCenter/Core (= 3.3.1)
   - boost-for-react-native (1.63.0)
-  - BugsnagReactNative (7.6.0):
+  - BugsnagReactNative (2.23.10):
+    - BugsnagReactNative/Core (= 2.23.10)
+    - React
+  - BugsnagReactNative/Core (2.23.10):
     - React
   - BVLinearGradient (2.5.6):
     - React
@@ -430,7 +433,7 @@ DEPENDENCIES:
   - appcenter-analytics (from `../node_modules/appcenter-analytics/ios`)
   - appcenter-core (from `../node_modules/appcenter/ios`)
   - appcenter-crashes (from `../node_modules/appcenter-crashes/ios`)
-  - "BugsnagReactNative (from `../node_modules/@bugsnag/react-native`)"
+  - BugsnagReactNative (from `../node_modules/bugsnag-react-native`)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
@@ -524,7 +527,7 @@ EXTERNAL SOURCES:
   appcenter-crashes:
     :path: "../node_modules/appcenter-crashes/ios"
   BugsnagReactNative:
-    :path: "../node_modules/@bugsnag/react-native"
+    :path: "../node_modules/bugsnag-react-native"
   BVLinearGradient:
     :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
@@ -645,7 +648,7 @@ SPEC CHECKSUMS:
   appcenter-crashes: 10790bf670f79150f1654d79f76c10a8b4936688
   AppCenterReactNativeShared: 2ec88a4ac2c52cdbc828a1f9c16244b534c84026
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  BugsnagReactNative: 0750207f412264f772997ceac9bbad36e100b828
+  BugsnagReactNative: 98fb350df4bb0c94cce903023531a1a5cc11fa51
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   FBLazyVector: aaeaf388755e4f29cd74acbc9e3b8da6d807c37f

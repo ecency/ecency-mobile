@@ -9,7 +9,6 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import androidx.multidex.MultiDexApplication;
-import com.bugsnag.android.Bugsnag;
 
 //See below, Webview debugging
 //import android.webkit.WebView; 
@@ -55,7 +54,6 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     SoLoader.init(this, /* native exopackage */ false);
     // Uncomment below line to Debug Webview
     // WebView.setWebContentsDebuggingEnabled(true);
-    Bugsnag.start(this);
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
   }
 
