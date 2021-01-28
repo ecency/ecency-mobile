@@ -72,7 +72,7 @@ const PostCardView = ({
       }
       //console.log(content)
       ImageSize.getSize(content.thumbnail).then((size) => {
-        setCalcImgHeight((size.height / size.width) * dim.width);
+        setCalcImgHeight(Math.floor((size.height / size.width) * dim.width));
       });
       return { image: content.image, thumbnail: content.thumbnail };
     } else {

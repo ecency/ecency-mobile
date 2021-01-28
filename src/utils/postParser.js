@@ -33,7 +33,7 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
     post.json_metadata = {};
   }
   post.image = catchPostImage(post.body, 600, 500, webp ? 'webp' : 'match');
-  post.thumbnail = catchPostImage(post.body, 6, 5, webp ? 'webp' : 'match');
+  post.thumbnail = catchPostImage(post.body, 10, 7, webp ? 'webp' : 'match');
   post.author_reputation = getReputation(post.author_reputation);
   post.avatar = getResizedAvatar(get(post, 'author'));
   if (!isList) {
