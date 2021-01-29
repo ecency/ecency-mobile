@@ -87,23 +87,22 @@ class UpvoteContainer extends PureComponent {
     const quote = get(globalProps, 'quote', 0);
     const sbdPrintRate = get(globalProps, 'sbdPrintRate', 0);
     const SBD_PRINT_RATE_MAX = 10000;
-    const percent_steem_dollars =
-      (content.percent_hbd || content.percent_steem_dollars || 10000) / 20000;
+    const percent_steem_dollars = (content.percent_hbd || 10000) / 20000;
 
-    const pending_payout_sbd = pendingPayout * percent_steem_dollars;
+    const pending_payout_hbd = pendingPayout * percent_steem_dollars;
     const price_per_steem = base / quote;
 
-    const pending_payout_sp = (pendingPayout - pending_payout_sbd) / price_per_steem;
-    const pending_payout_printed_sbd = pending_payout_sbd * (sbdPrintRate / SBD_PRINT_RATE_MAX);
-    const pending_payout_printed_steem =
-      (pending_payout_sbd - pending_payout_printed_sbd) / price_per_steem;
+    const pending_payout_hp = (pendingPayout - pending_payout_hbd) / price_per_steem;
+    const pending_payout_printed_hbd = pending_payout_hbd * (sbdPrintRate / SBD_PRINT_RATE_MAX);
+    const pending_payout_printed_hive =
+      (pending_payout_hbd - pending_payout_printed_hbd) / price_per_steem;
 
     const breakdownPayout =
-      pending_payout_printed_sbd.toFixed(3) +
+      pending_payout_printed_hbd.toFixed(3) +
       ' HBD, ' +
-      pending_payout_printed_steem.toFixed(3) +
+      pending_payout_printed_hive.toFixed(3) +
       ' HIVE, ' +
-      pending_payout_sp.toFixed(3) +
+      pending_payout_hp.toFixed(3) +
       ' HP';
 
     return (

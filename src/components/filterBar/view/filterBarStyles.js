@@ -23,6 +23,7 @@ export default EStyleSheet.create({
     flex: 6,
   },
   filterBarWrapper: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

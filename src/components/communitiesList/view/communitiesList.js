@@ -2,23 +2,22 @@ import React from 'react';
 import { SafeAreaView, FlatList } from 'react-native';
 
 // Components
-import CommunitiesListItem from './CommunitiesListItem';
-import { CommunitiesPlaceHolder } from '../../../components/basicUIElements';
+import { CommunitiesPlaceHolder } from '../../basicUIElements';
+import CommunitiesListItem from './communitiesListItem';
 
 // Styles
 import styles from './communitiesListStyles';
 
 const CommunitiesList = ({
-  votes,
+  data,
+  subscribingCommunities,
   handleOnPress,
   handleSubscribeButtonPress,
-  allSubscriptions,
   isLoggedIn,
   noResult,
+  screen,
 }) => {
   const _renderItem = ({ item, index }) => {
-    const isSubscribed = allSubscriptions.some((sub) => sub[0] === item.name);
-
     return (
       <CommunitiesListItem
         index={index}
@@ -33,8 +32,13 @@ const CommunitiesList = ({
         name={item.name}
         handleOnPress={handleOnPress}
         handleSubscribeButtonPress={handleSubscribeButtonPress}
-        isSubscribed={isSubscribed}
+        isSubscribed={item.isSubscribed}
         isLoggedIn={isLoggedIn}
+        loading={
+          subscribingCommunities.hasOwnProperty(item.name) &&
+          subscribingCommunities[item.name].loading
+        }
+        screen={screen}
       />
     );
   };
@@ -57,8 +61,8 @@ const CommunitiesList = ({
     <SafeAreaView style={styles.container}>
       {!noResult && (
         <FlatList
-          data={votes}
-          keyExtractor={(item) => item.id && item.id.toString()}
+          data={data}
+          keyExtractor={(item, index) => index.toString()}
           renderItem={_renderItem}
           ListEmptyComponent={_renderEmptyContent}
         />

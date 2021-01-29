@@ -159,7 +159,7 @@
     "voting_power": "Сила голоса",
     "login_to_see": "Войдите, чтобы увидеть",
     "follow_people": "Подпишитесь на нескольких людей, чтобы заполнить ленту",
-    "follow_communities": "Join some communities to fill your feed",
+    "follow_communities": "Присоединяйтесь к сообществам, чтобы заполнить ленту новостей",
     "havent_commented": "ещё ничего не комментировал",
     "havent_posted": "ещё ничего не написал",
     "steem_power": "Hive Power (Сила)",
@@ -231,7 +231,7 @@
     "ref_user": "Реферал (необязательно)",
     "500_error": "Ваш запрос не удалось обработать, скорее всего, очередь регистрации заполнена! Повторите попытку через несколько минут...",
     "title_description": "Один аккаунт для управления всем",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "form_description": "Регистрируясь, вы соглашаетесь с Условиями использования и Политикой конфиденциальности."
   },
   "home": {
     "feed": "Лента",
@@ -241,8 +241,8 @@
     "new": "Новое",
     "blog": "Блог",
     "posts": "Посты",
-    "friends": "Friends",
-    "communities": "Communities"
+    "friends": "Друзья",
+    "communities": "Сообщества"
   },
   "side_menu": {
     "profile": "Профиль",
@@ -252,13 +252,14 @@
     "schedules": "Отложенное",
     "gallery": "Галлерея",
     "settings": "Настройки",
+    "communities": "Communities",
     "add_account": "Добавить аккаунт",
     "logout": "Выйти",
     "cancel": "Отмена",
     "logout_text": "Вы уверены, что хотите разлогина?",
-    "create_a_new_account": "Create a new account",
-    "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts"
+    "create_a_new_account": "Создать новый аккаунт",
+    "add_an_existing_account": "Добавить существующий аккаунт",
+    "accounts": "Аккаунты"
   },
   "header": {
     "title": "Войдите, чтобы настроить свою ленту",
@@ -289,16 +290,16 @@
     "limited_lastchar": "Тег должен заканчиваться буквой или цифрой",
     "setting_schedule": "Scheduling Time",
     "setting_reward": "Вознаграждение",
-    "setting_beneficiary": "Beneficiary",
+    "setting_beneficiary": "Бенефициар",
     "reward_default": "По умолчанию 50% / 50%",
     "reward_power_up": "100% в Силу",
     "reward_decline": "Отказ от выплат",
     "beneficiaries": "Бенефициары",
     "options": "Options",
-    "my_blog": "My Blog",
-    "my_communities": "My Communities",
-    "top_communities": "Top Communities",
-    "schedule_modal_title": "Schedule Post"
+    "my_blog": "Мой блог",
+    "my_communities": "Мои сообщества",
+    "top_communities": "Топовые сообщества",
+    "schedule_modal_title": "Отложить пост"
   },
   "pincode": {
     "enter_text": "Чтобы разблокировать введите пин-код",
@@ -324,15 +325,15 @@
     "success_favorite": "Добавлено в Избранное!",
     "success_unfavorite": "Удалено из Избранного!",
     "success_follow": "Успешная подписка!",
-    "fail_follow": "Follow failed!",
-    "success_subscribe": "Subscribe success!",
-    "fail_subscribe": "Subscribe failed!",
-    "success_leave": "Leave success!",
-    "fail_leave": "Leave failed!",
+    "fail_follow": "Не удалось подписаться!",
+    "success_subscribe": "Успешная подписка!",
+    "fail_subscribe": "Подписаться не удалось!",
+    "success_leave": "Успешный выход!",
+    "fail_leave": "Не удалось выйти!",
     "success_mute": "Успешно игнорируется!",
     "success_unmute": "Успешно перестали игнорировать!",
     "success_unfollow": "Успешная отписка!",
-    "fail_unfollow": "Unfollow failed!",
+    "fail_unfollow": "Не удалось отписаться!",
     "warning": "Внимание",
     "invalid_pincode": "Неверный пин-код. Пожалуйста, проверьте и попробуйте еще раз.",
     "remove_alert": "Вы уверены, что хотите удалить?",
@@ -348,7 +349,7 @@
     "same_user": "Этот пользователь уже добавлен в список",
     "unknow_error": "Произошла ошибка",
     "error": "Ошибка",
-    "fetch_error": "Connection issue, change server and restart",
+    "fetch_error": "Проблема с соединением, смените сервер и перезапустите",
     "connection_fail": "Ошибка подключения!",
     "connection_success": "Успешное подключение!",
     "checking": "Проверка...",
@@ -359,9 +360,9 @@
     "payloadTooLarge": "Размер файла слишком большой. Ппожалуйста, измените размер или загрузите изображение меньшего размера",
     "qoutaExceeded": "Превышен лимит загрузки",
     "invalidImage": "Изображение не подходит, попробуйте другой файл",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload",
+    "something_wrong": "Что-то пошло не так.",
+    "something_wrong_alt": "Попробуйте https://ecency.com",
+    "something_wrong_reload": "Перезагрузить",
     "can_not_be_empty": "Title and body can not be empty!"
   },
   "post": {
@@ -543,23 +544,23 @@
       "title": "Best"
     },
     "people": {
-      "title": "People"
+      "title": "Люди"
     },
     "topics": {
-      "title": "Topics"
+      "title": "Темы"
     },
     "communities": {
-      "title": "Сообщества",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
+      "title": "Groups",
+      "subscribe": "Присоединиться",
+      "unsubscribe": "Покинуть",
+      "subscribers": "Участники",
       "posters": "Авторы",
       "posts": "Посты"
     },
     "communities_filter": {
-      "my": "My Communities",
+      "my": "Мои сообщества",
       "rank": "Рейтинг",
-      "subs": "Members",
+      "subs": "Участники",
       "new": "Новое"
     },
     "post_result_filter": {
@@ -578,7 +579,20 @@
     "details": "Подробности"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow"
+    "follow": "Подписаться",
+    "unfollow": "Отписаться"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
+  },
+  "empty_screen": {
+    "nothing_here": "Nothing here"
+  },
+  "beneficiary_modal": {
+    "percent": "Percent",
+    "username": "Username",
+    "addAccount": "Add Account",
+    "save": "Save"
   }
 }

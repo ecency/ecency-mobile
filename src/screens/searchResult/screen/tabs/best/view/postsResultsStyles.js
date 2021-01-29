@@ -16,10 +16,10 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
   },
   itemWrapper: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 9,
+    //marginHorizontal: 9,
     paddingTop: 16,
-    paddingBottom: 8,
-    borderRadius: 8,
+    paddingBottom: 16,
     backgroundColor: '$primaryBackgroundColor',
   },
   itemWrapperGray: {
@@ -40,5 +40,14 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     fontSize: 13,
     alignSelf: 'center',
+  },
+  thumbnail: {
+    margin: 0,
+    alignItems: 'center',
+    alignSelf: 'center',
+    //height: 200,
+    //width: '$deviceWidth - 16',
+    borderRadius: 8,
+    backgroundColor: '$primaryLightGray',
   },
 });

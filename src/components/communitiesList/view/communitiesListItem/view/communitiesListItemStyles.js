@@ -59,4 +59,9 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  indicatorView: {
+    width: 65,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });

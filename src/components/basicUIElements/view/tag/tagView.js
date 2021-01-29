@@ -35,7 +35,7 @@ const Tag = ({
           textStyle,
         ]}
       >
-        {label}
+        {` ${label} `}
       </Text>
     </View>
   </TouchableOpacity>

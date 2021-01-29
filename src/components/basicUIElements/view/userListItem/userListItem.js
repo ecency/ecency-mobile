@@ -1,5 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, View, Text, TouchableOpacity } from 'react-native';
+import Highlighter from 'react-native-highlight-words';
 
 import { UserAvatar } from '../../../userAvatar';
 import Tag from '../tag/tagView';
@@ -8,6 +9,7 @@ import styles from './userListItemStyles';
 const UserListItem = ({
   rightText,
   description,
+  descriptionStyle,
   username,
   subRightText,
   index,
@@ -25,6 +27,7 @@ const UserListItem = ({
   isFollowing = false,
   isLoadingRightAction = false,
   isLoggedIn,
+  searchValue,
 }) => {
   const _handleSubscribeButtonPress = () => {
     const _data = {};
@@ -43,8 +46,27 @@ const UserListItem = ({
         {itemIndex && <Text style={styles.itemIndex}>{itemIndex}</Text>}
         <UserAvatar noAction={true} style={styles.avatar} username={username} />
         <View style={styles.userDescription}>
-          <Text style={styles.name}>{text || username}</Text>
-          {description && <Text style={styles.date}>{description}</Text>}
+          {!searchValue && <Text style={styles.name}>{text || username}</Text>}
+          {!!searchValue && (
+            <Highlighter
+              highlightStyle={{ backgroundColor: 'yellow' }}
+              searchWords={[searchValue]}
+              textToHighlight={text || username}
+              style={styles.name}
+            />
+          )}
+          {!!searchValue && (
+            <Highlighter
+              highlightStyle={{ backgroundColor: 'yellow' }}
+              searchWords={[searchValue]}
+              textToHighlight={description}
+              style={styles.summary}
+              numberOfLines={3}
+            />
+          )}
+          {description && !searchValue && (
+            <Text style={[styles.date, descriptionStyle]}>{description}</Text>
+          )}
         </View>
         {middleText && (
           <View style={styles.middleWrapper}>

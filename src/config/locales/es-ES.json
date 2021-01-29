@@ -252,6 +252,7 @@
     "schedules": "Horarios",
     "gallery": "Galería",
     "settings": "Ajustes",
+    "communities": "Comunidades",
     "add_account": "Agregar cuenta",
     "logout": "Cerrar sesión",
     "cancel": "Cancelar",
@@ -538,7 +539,7 @@
     "more_replies": "mas comentarios"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Otros",
     "best": {
       "title": "Mejor"
     },
@@ -549,7 +550,7 @@
       "title": "Temas"
     },
     "communities": {
-      "title": "Comunidades",
+      "title": "Grupos",
       "subscribe": "Unirse",
       "unsubscribe": "Salir",
       "subscribers": "Participantes",
@@ -580,5 +581,18 @@
   "user": {
     "follow": "Follow",
     "unfollow": "Unfollow"
+  },
+  "communities": {
+    "joined": "Membresía",
+    "discover": "Descubrir"
+  },
+  "empty_screen": {
+    "nothing_here": "Nada aquí"
+  },
+  "beneficiary_modal": {
+    "percent": "Porcentaje",
+    "username": "Nombre de Usuario",
+    "addAccount": "Agregar cuenta",
+    "save": "Guardar"
   }
 }

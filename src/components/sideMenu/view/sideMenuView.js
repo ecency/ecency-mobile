@@ -1,35 +1,25 @@
-import React, { Component, useEffect, useState, useRef } from 'react';
-import {
-  View,
-  Text,
-  ImageBackground,
-  FlatList,
-  TouchableOpacity,
-  SafeAreaView,
-} from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { View, Text, ImageBackground, FlatList, TouchableOpacity } from 'react-native';
 import { injectIntl, useIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
 import ActionSheet from 'react-native-actionsheet';
 import VersionNumber from 'react-native-version-number';
+import { isEmpty } from 'lodash';
 import { getStorageType } from '../../../realm/realm';
-import Modal from '../../modal';
 
 // Components
 import { Icon } from '../../icon';
 import { UserAvatar } from '../../userAvatar';
-import Separator from '../../basicUIElements/view/separator/separatorView';
 import { TextWithIcon } from '../../basicUIElements';
 
 // Constants
 import MENU from '../../../constants/sideMenuItems';
-import { default as ROUTES } from '../../../constants/routeNames';
 
 //Utils
 import { getVotingPower } from '../../../utils/manaBar';
 
 // Styles
 import styles from './sideMenuStyles';
-import { TextButton } from '../../buttons';
 
 // Images
 const SIDE_MENU_BACKGROUND = require('../../../assets/side_menu_background.png');
@@ -38,9 +28,8 @@ const SideMenuView = ({
   currentAccount,
   isLoggedIn,
   handleLogout,
-  accounts,
-  switchAccount,
   navigateToRoute,
+  handlePressOptions,
 }) => {
   const intl = useIntl();
   const ActionSheetRef = useRef(null);
@@ -49,7 +38,6 @@ const SideMenuView = ({
     isLoggedIn ? MENU.AUTH_MENU_ITEMS : MENU.NO_AUTH_MENU_ITEMS,
   );
   const [storageT, setStorageT] = useState('R');
-  const [isAccountsModalOpen, setIsAccountsModalOpen] = useState(false);
   const [upower, setUpower] = useState(0);
 
   // Component Life Cycles
@@ -66,7 +54,7 @@ const SideMenuView = ({
   }, []);
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && !isEmpty(currentAccount)) {
       setUpower(getVotingPower(currentAccount).toFixed(1));
     }
   });
@@ -79,10 +67,6 @@ const SideMenuView = ({
     }
 
     navigateToRoute(item.route);
-  };
-
-  const _toggleAccountsModalOpen = () => {
-    setIsAccountsModalOpen(!isAccountsModalOpen);
   };
 
   useEffect(() => {
@@ -121,29 +105,6 @@ const SideMenuView = ({
     </TouchableOpacity>
   );
 
-  const _handlePressAccountTile = (item) => {
-    if (!item.isCurrentAccount) {
-      switchAccount(item);
-    }
-
-    setIsAccountsModalOpen(false);
-  };
-
-  const _renderAccountTile = (item) => (
-    <TouchableOpacity style={styles.accountTile} onPress={() => _handlePressAccountTile(item)}>
-      <View style={styles.avatarAndNameContainer}>
-        <UserAvatar username={item.username} />
-        <View style={styles.nameContainer}>
-          {item.displayName && <Text style={styles.displayName}>{item.displayName}</Text>}
-          <Text style={styles.name}>{item.name}</Text>
-        </View>
-      </View>
-      {item.isCurrentAccount && (
-        <Icon iconType="AntDesign" name="checkcircle" style={styles.checkIcon} size={24} />
-      )}
-    </TouchableOpacity>
-  );
-
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -179,7 +140,7 @@ const SideMenuView = ({
                 />
               </View>
 
-              <TouchableOpacity style={styles.iconWrapper} onPress={_toggleAccountsModalOpen}>
+              <TouchableOpacity style={styles.iconWrapper} onPress={handlePressOptions}>
                 <Icon
                   iconType="SimpleLineIcons"
                   style={styles.optionIcon}
@@ -209,42 +170,6 @@ const SideMenuView = ({
           index === 0 ? handleLogout() : null;
         }}
       />
-      <Modal
-        isFullScreen={false}
-        isOpen={isAccountsModalOpen}
-        isBottomModal
-        isTransparent
-        isRadius
-        coverScreen={false}
-        title={intl.formatMessage({ id: 'side_menu.accounts' })}
-        onBackdropPress={_toggleAccountsModalOpen}
-      >
-        <SafeAreaView style={styles.accountModal}>
-          <Separator style={styles.separator} />
-          <FlatList
-            data={accounts}
-            ItemSeparatorComponent={() => <Separator style={styles.separator} />}
-            renderItem={({ item }) => _renderAccountTile(item)}
-            scrollEnabled
-          />
-          <Separator style={styles.separator} />
-          <View style={styles.buttonContainer}>
-            <TextButton
-              text={intl.formatMessage({ id: 'side_menu.create_a_new_account' })}
-              textStyle={styles.textButton}
-              onPress={() => navigateToRoute(ROUTES.SCREENS.REGISTER)}
-            />
-          </View>
-          <Separator style={styles.separator} />
-          <View style={styles.buttonContainer}>
-            <TextButton
-              text={intl.formatMessage({ id: 'side_menu.add_an_existing_account' })}
-              textStyle={styles.textButton}
-              onPress={() => navigateToRoute(ROUTES.SCREENS.LOGIN)}
-            />
-          </View>
-        </SafeAreaView>
-      </Modal>
     </View>
   );
 };

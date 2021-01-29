@@ -4,6 +4,7 @@ import { Provider, connect } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { IntlProvider } from 'react-intl';
 import firebase from '@react-native-firebase/app';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { flattenMessages } from './utils/flattenMessages';
 import messages from './config/locales';
 
@@ -13,7 +14,9 @@ import { store, persistor } from './redux/store/store';
 const _renderApp = ({ locale }) => (
   <PersistGate loading={null} persistor={persistor}>
     <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
-      <Application />
+      <SafeAreaProvider>
+        <Application />
+      </SafeAreaProvider>
     </IntlProvider>
   </PersistGate>
 );

@@ -27,6 +27,7 @@ const BasicHeaderView = ({
   intl,
   isDraftSaved,
   isDraftSaving,
+  isDraft,
   isFormValid,
   isHasDropdown,
   isHasIcons,
@@ -264,10 +265,12 @@ const BasicHeaderView = ({
         handleOnModalClose={() => setBeneficiaryModal(false)}
         title={intl.formatMessage({ id: 'editor.beneficiaries' })}
         animationType="slide"
+        style={styles.beneficiaryModal}
       >
         <BeneficiaryModal
           username={username}
           handleOnSaveBeneficiaries={_handleOnSaveBeneficiaries}
+          isDraft={isDraft}
         />
       </Modal>
       <Modal

@@ -252,6 +252,7 @@
     "schedules": "일정",
     "gallery": "갤러리",
     "settings": "설정",
+    "communities": "Communities",
     "add_account": "계정 추가",
     "logout": "로그아웃",
     "cancel": "취소",
@@ -549,7 +550,7 @@
       "title": "Topics"
     },
     "communities": {
-      "title": "커뮤니티",
+      "title": "Groups",
       "subscribe": "Join",
       "unsubscribe": "Leave",
       "subscribers": "Members",
@@ -580,5 +581,18 @@
   "user": {
     "follow": "Follow",
     "unfollow": "Unfollow"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
+  },
+  "empty_screen": {
+    "nothing_here": "Nothing here"
+  },
+  "beneficiary_modal": {
+    "percent": "Percent",
+    "username": "Username",
+    "addAccount": "Add Account",
+    "save": "Save"
   }
 }

@@ -5,6 +5,11 @@ export default EStyleSheet.create({
     flex: 1,
     backgroundColor: '$primaryBackgroundColor',
   },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 12,
+  },
   buttonContainer: {
     width: '50%',
     alignItems: 'center',
@@ -27,5 +32,13 @@ export default EStyleSheet.create({
   },
   tabs: {
     flex: 1,
+  },
+  tabBarText: {
+    fontSize: 14,
+  },
+  backIcon: {
+    fontSize: 24,
+    color: '$iconColor',
+    justifyContent: 'center',
   },
 });

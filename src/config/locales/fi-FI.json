@@ -252,6 +252,7 @@
     "schedules": "Ajastetut",
     "gallery": "Galleria",
     "settings": "Asetukset",
+    "communities": "Yhteisöt",
     "add_account": "Lisää tili",
     "logout": "Kirjaudu ulos",
     "cancel": "Peruuta",
@@ -538,7 +539,7 @@
     "more_replies": "lisää vastauksia"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Muut",
     "best": {
       "title": "Parhaat"
     },
@@ -549,7 +550,7 @@
       "title": "Aiheet"
     },
     "communities": {
-      "title": "Yhteisöt",
+      "title": "Ryhmät",
       "subscribe": "Liity",
       "unsubscribe": "Poistu",
       "subscribers": "Jäsenet",
@@ -580,5 +581,18 @@
   "user": {
     "follow": "Seuraa",
     "unfollow": "Älä seuraa"
+  },
+  "communities": {
+    "joined": "Jäsenyys",
+    "discover": "Löydä uutta"
+  },
+  "empty_screen": {
+    "nothing_here": "Täällä ei ole mitään"
+  },
+  "beneficiary_modal": {
+    "percent": "Prosenttia",
+    "username": "Käyttäjänimi",
+    "addAccount": "Lisää Tili",
+    "save": "Tallenna"
   }
 }

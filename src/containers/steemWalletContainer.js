@@ -144,9 +144,9 @@ const WalletContainer = ({
 
   const _isHasUnclaimedRewards = (account) => {
     return (
-      parseToken(get(account, 'reward_steem_balance', account.reward_hive_balance)) > 0 ||
-      parseToken(get(account, 'reward_sbd_balance', account.reward_hbd_balance)) > 0 ||
-      parseToken(get(account, 'reward_vesting_steem', account.reward_vesting_hive)) > 0
+      parseToken(get(account, 'reward_hive_balance')) > 0 ||
+      parseToken(get(account, 'reward_hbd_balance')) > 0 ||
+      parseToken(get(account, 'reward_vesting_hive')) > 0
     );
   };
 

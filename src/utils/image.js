@@ -63,14 +63,16 @@ export const catchEntryImage = (entry, width = 0, height = 0, format = 'match') 
   return null;
 };
 
-export const catchDraftImage = (body, format = 'match') => {
+export const catchDraftImage = (body, format = 'match', thumbnail = false) => {
   const imgRegex = /(https?:\/\/.*\.(?:tiff?|jpe?g|gif|png|svg|ico|PNG|GIF|JPG))/g;
   format = whatOs === 'android' ? 'webp' : 'match';
 
   if (body && imgRegex.test(body)) {
     const imageMatch = body.match(imgRegex);
-
-    return proxifyImageSrc(imageMatch[0], 0, 0, format);
+    if (thumbnail) {
+      return proxifyImageSrc(imageMatch[0], 6, 5, format);
+    }
+    return proxifyImageSrc(imageMatch[0], 600, 500, format);
   }
   return null;
 };

@@ -84,4 +84,9 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
     alignItems: 'center',
   },
+  beneficiaryModal: {
+    flex: 1,
+    backgroundColor: '$modalBackground',
+    margin: 0,
+  },
 });

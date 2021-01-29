@@ -37,6 +37,7 @@ import {
   AccountBoost,
   TagResult,
   Community,
+  Communities,
 } from '../screens';
 
 const bottomTabNavigator = createBottomTabNavigator(
@@ -148,6 +149,7 @@ const stackNavigator = createStackNavigator(
     [ROUTES.SCREENS.SPIN_GAME]: { screen: SpinGame },
     [ROUTES.SCREENS.ACCOUNT_BOOST]: { screen: AccountBoost },
     [ROUTES.SCREENS.COMMUNITY]: { screen: Community },
+    [ROUTES.SCREENS.COMMUNITIES]: { screen: Communities },
   },
   {
     headerMode: 'none',

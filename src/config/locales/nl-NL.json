@@ -252,6 +252,7 @@
     "schedules": "Schema’s",
     "gallery": "Gallerij",
     "settings": "Instellingen",
+    "communities": "Communities",
     "add_account": "Account toevoegen",
     "logout": "Uitloggen",
     "cancel": "Annuleren",
@@ -549,7 +550,7 @@
       "title": "Topics"
     },
     "communities": {
-      "title": "Communities",
+      "title": "Groups",
       "subscribe": "Join",
       "unsubscribe": "Leave",
       "subscribers": "Members",
@@ -580,5 +581,18 @@
   "user": {
     "follow": "Follow",
     "unfollow": "Unfollow"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
+  },
+  "empty_screen": {
+    "nothing_here": "Nothing here"
+  },
+  "beneficiary_modal": {
+    "percent": "Percent",
+    "username": "Username",
+    "addAccount": "Add Account",
+    "save": "Save"
   }
 }
