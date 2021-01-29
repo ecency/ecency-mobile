@@ -252,6 +252,7 @@
     "schedules": "定时发布",
     "gallery": "图库",
     "settings": "设置",
+    "communities": "Communities",
     "add_account": "添加帐户",
     "logout": "退出",
     "cancel": "取消",
@@ -549,7 +550,7 @@
       "title": "Topics"
     },
     "communities": {
-      "title": "Communities",
+      "title": "Groups",
       "subscribe": "Join",
       "unsubscribe": "Leave",
       "subscribers": "Members",
@@ -580,5 +581,18 @@
   "user": {
     "follow": "Follow",
     "unfollow": "Unfollow"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
+  },
+  "empty_screen": {
+    "nothing_here": "Nothing here"
+  },
+  "beneficiary_modal": {
+    "percent": "Percent",
+    "username": "Username",
+    "addAccount": "Add Account",
+    "save": "Save"
   }
 }

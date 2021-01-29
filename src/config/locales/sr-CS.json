@@ -252,6 +252,7 @@
     "schedules": "Rasporedi",
     "gallery": "Galerija",
     "settings": "Podešavanja",
+    "communities": "Communities",
     "add_account": "Dodaj Nalog",
     "logout": "Odjavi se",
     "cancel": "Otkaži",
@@ -549,7 +550,7 @@
       "title": "Topics"
     },
     "communities": {
-      "title": "Zajednice",
+      "title": "Groups",
       "subscribe": "Pridruži se",
       "unsubscribe": "Napusti",
       "subscribers": "Članovi",
@@ -580,5 +581,18 @@
   "user": {
     "follow": "Prati",
     "unfollow": "Prestani da pratiš"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
+  },
+  "empty_screen": {
+    "nothing_here": "Nothing here"
+  },
+  "beneficiary_modal": {
+    "percent": "Percent",
+    "username": "Username",
+    "addAccount": "Add Account",
+    "save": "Save"
   }
 }

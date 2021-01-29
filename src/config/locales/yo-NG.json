@@ -252,6 +252,7 @@
     "schedules": "Awon Iṣeto",
     "gallery": "Ibi isafihan aworan",
     "settings": "Eto",
+    "communities": "Communities",
     "add_account": "Se afikun oruko akọọlẹ",
     "logout": "Jade kuro",
     "cancel": "Fa igi le",
@@ -549,7 +550,7 @@
       "title": "Topics"
     },
     "communities": {
-      "title": "Communities",
+      "title": "Groups",
       "subscribe": "Join",
       "unsubscribe": "Leave",
       "subscribers": "Members",
@@ -580,5 +581,18 @@
   "user": {
     "follow": "Follow",
     "unfollow": "Unfollow"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
+  },
+  "empty_screen": {
+    "nothing_here": "Nothing here"
+  },
+  "beneficiary_modal": {
+    "percent": "Percent",
+    "username": "Username",
+    "addAccount": "Add Account",
+    "save": "Save"
   }
 }

@@ -252,6 +252,7 @@
     "schedules": "निर्धारित",
     "gallery": "चित्रशाला",
     "settings": "समायोजन",
+    "communities": "समुदाय",
     "add_account": "खता जोड़ें",
     "logout": "बहार जाएँ",
     "cancel": "रद्द करें",
@@ -538,7 +539,7 @@
     "more_replies": "अधिक जवाब"
   },
   "search_result": {
-    "others": "Others",
+    "others": "अन्यों",
     "best": {
       "title": "सर्वश्रेष्ठ"
     },
@@ -549,7 +550,7 @@
       "title": "विषयों"
     },
     "communities": {
-      "title": "समुदाय",
+      "title": "समूह",
       "subscribe": "शामिल हों",
       "unsubscribe": "छोड़ें",
       "subscribers": "सदस्य",
@@ -580,5 +581,18 @@
   "user": {
     "follow": "फॉलो करें",
     "unfollow": "अनफॉलो करें"
+  },
+  "communities": {
+    "joined": "सदस्यता",
+    "discover": "खोजिए"
+  },
+  "empty_screen": {
+    "nothing_here": "कुछ नहीं है यहां"
+  },
+  "beneficiary_modal": {
+    "percent": "प्रतिशत",
+    "username": "प्रयोक्ता नाम",
+    "addAccount": "खता जोड़ें",
+    "save": "रक्षित करें"
   }
 }

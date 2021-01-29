@@ -252,6 +252,7 @@
     "schedules": "Tori Wey You Time",
     "gallery": "Picture",
     "settings": "Settings",
+    "communities": "Communities",
     "add_account": "Add Account",
     "logout": "Logout",
     "cancel": "Cancel",
@@ -549,7 +550,7 @@
       "title": "Topics"
     },
     "communities": {
-      "title": "Una areas",
+      "title": "Groups",
       "subscribe": "Enta",
       "unsubscribe": "Comot",
       "subscribers": "Dem people wey dey area",
@@ -580,5 +581,18 @@
   "user": {
     "follow": "Follow",
     "unfollow": "Unfollow"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
+  },
+  "empty_screen": {
+    "nothing_here": "Nothing here"
+  },
+  "beneficiary_modal": {
+    "percent": "Percent",
+    "username": "Username",
+    "addAccount": "Add Account",
+    "save": "Save"
   }
 }

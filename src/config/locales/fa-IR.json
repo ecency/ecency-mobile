@@ -2,11 +2,11 @@
   "wallet": {
     "curation_reward": "پاداش مشارکت",
     "author_reward": "پاداش نویسنده",
-    "comment_benefactor_reward": "Benefactor Reward",
-    "claim_reward_balance": "Claim Reward ",
-    "transfer": "انتقال دادن",
-    "transfer_to_vesting": "To Vesting",
-    "transfer_from_savings": "From Savings",
+    "comment_benefactor_reward": "پاداش حامی",
+    "claim_reward_balance": "دریافت پاداش",
+    "transfer": "انتقال",
+    "transfer_to_vesting": "واگذاری",
+    "transfer_from_savings": "از پس انداز",
     "withdraw_vesting": "کم کردن قدرت",
     "fill_order": "سفارش",
     "post": "پست",
@@ -15,131 +15,131 @@
     "vote": "رأی",
     "reblog": "اشتراک گذاری",
     "login": "ورود",
-    "incoming_transfer_title": "تراکنش ورودی",
-    "outgoing_transfer_title": "تراکنش خروجی",
+    "incoming_transfer_title": "Incoming transfer",
+    "outgoing_transfer_title": "انتقال خروجی",
     "checkin_extra": "پاداش",
     "delegation": "اجاره",
-    "delegations": "Delegations",
+    "delegations": "اجاره ها",
     "delegation_title": "پاداش اجاره دادن",
-    "delegation_desc": "Earn Points everyday for delegation",
+    "delegation_desc": "کسب امیتاز برای اجاره",
     "post_title": "امتیاز برای ایجاد پست",
     "comment_title": "امتیاز برای نظر دادن",
     "vote_title": "امتیاز برای رای دادن",
     "reblog_title": "امتیاز برای اشتراک گذاری",
     "login_title": "امتیاز برای ورود به حساب کاربری",
-    "checkin_title": "Points for heartbeat",
-    "referral": "Referral",
-    "referral_title": "Referral rewards",
-    "referral_desc": "Invite friends and earn Points",
-    "checkin_extra_title": "استفاده از پاداش",
-    "no_activity": "No recent activity",
+    "checkin_title": "امتیاز برای تپش قلب",
+    "referral": "معرف",
+    "referral_title": "پاداش های معرفی",
+    "referral_desc": "دوست ها را دعوت کنید و امیتاز کسب کنید",
+    "checkin_extra_title": "پاداش استفاده",
+    "no_activity": "اخیراً فعالیتی انجام نشده است",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
-    "post_desc": "You can earn point by posting regularly. Posting gives you upto 15 points.",
-    "comment_desc": "Each comment you make helps you to grow your audience and also earns you upto 5 points.",
-    "checkin_desc": "Checking in regularly gives you 0.25 points.",
-    "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
-    "reblog_desc": "Share what post you like with your friends and earn points.",
-    "login_desc": "When you login into app first time you earn 100 points.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
-    "dropdown_transfer": "Gift",
-    "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost",
+    "post_desc": "شما میتوانید با ایجاد پست بطور منظم، الا ۱۵ امتیاز بدست بیارید.",
+    "comment_desc": "هر نظری که ثبت میکنید باعث میشود مخاطبان و دوستان خود را افزایش دهید و همچنین ۵ امتیاز را به همراه دارد.",
+    "checkin_desc": "ورود به سیستم، بطور منظم ۰.۲۳ امیتاز بشما میدهد.",
+    "vote_desc": "شما با رای دادن به آثار دیگران قدردانی خود را نشان میدهید و علاوه بر آن به میزان (0.01 ×میزان رای شما ) امتیاز دریافت می کنید.",
+    "reblog_desc": "پست های مورد علاقه خود را با دوستانتان به اشتراک بگذارید و امتیاز دریافت کنید.",
+    "login_desc": "وقتی که برای اولین باز به برنامه وارد شوید  ۱۰۰ امیتاز کسب میکنید.",
+    "checkin_extra_desc": "استفاده مداوم از برنامه به شما شانس کسب امتیاز بیشتر را میدهد، بیشتر فعال باشید و بیشتر امتیاز کسب کنید.",
+    "dropdown_transfer": "هدیه",
+    "dropdown_promote": "تبلیغ",
+    "dropdown_boost": "ارتقاء",
     "from": "از",
     "to": "به",
-    "estimated_value_desc": "According to purchase value",
-    "estimated_value": "Estimated value",
-    "estimated_amount": "Vote value",
-    "amount_information": "Drag the slider to adjust the amount",
+    "estimated_value_desc": "با توجه به ارزش خرید",
+    "estimated_value": "ارزش برآورد شده",
+    "estimated_amount": "ارزش رای",
+    "amount_information": "کشیدن لغزنده برای تنظیم مقدار",
     "amount": "مقدار",
     "memo": "یادداشت",
-    "information": "Are you sure to transfer funds?",
+    "information": "آیا مطمئن هستید که وجوه را منتقل می کنید؟",
     "amount_desc": "موجودی",
     "memo_desc": "این یادداشت عمومی است",
     "to_placeholder": "نام کاربری",
     "memo_placeholder": "یادداشت های خود را در اینجا وارد کنید",
     "transfer_token": "انتقال دادن",
-    "purchase_estm": "GET POINTS",
-    "points": "Gift Points to someone",
-    "transfer_to_saving": "To Saving",
+    "purchase_estm": "گرفتن امتیاز",
+    "points": "هدیه دادن امیتازات به کسی دیگر",
+    "transfer_to_saving": "به پس انداز",
     "powerUp": "بالا بردن قدرت",
-    "withdraw_to_saving": "Withdraw Saving",
-    "steemconnect_title": "Hivesigner Transfer",
+    "withdraw_to_saving": "برداشت از پس انداز",
+    "steemconnect_title": "انتقال از Hivesigner",
     "next": "بعدی",
-    "delegate": "Delegate",
+    "delegate": "اجاره",
     "power_down": "کم کردن قدرت",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
-    "transfer_to_savings": "To Savings",
-    "convert": "Convert",
-    "escrow_transfer": "Escrow Transfer",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel From Savings",
+    "withdraw_steem": "برداشت HIVE",
+    "withdraw_sbd": "برداشتHBD",
+    "transfer_to_savings": "به پس انداز",
+    "convert": "تبدیل",
+    "escrow_transfer": "انتقال اسکرو",
+    "escrow_dispute": "اختلاف سپرده",
+    "escrow_release": "رها کردن سپرده",
+    "escrow_approve": "تایید سپرده",
+    "cancel_transfer_from_savings": "لغو پس انداز",
     "delegate_vesting_shares": "اجاره",
-    "fill_convert_request": "Convert Executed",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_convert_request": "تبدیل اجرا شد",
+    "fill_transfer_from_savings": "پس انداز اجرا اشد",
+    "fill_vesting_withdraw": "کاهش انرژی اجرا شد",
     "estm": {
       "title": "امتیازها",
-      "buy": "GET POINTS"
+      "buy": "امتیاز گرفتن"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "پس انداز های HIVE"
     },
     "savingsbd": {
-      "title": "HBD Savings"
+      "title": "پس اندازهای HBD"
     },
     "steem": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "گرفتن HIVE"
     },
     "sbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "گرفتن HBD"
     },
     "steem_power": {
-      "title": "HIVE POWER"
+      "title": "توانایی HIVE"
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "گرفتن BTC",
+      "address": "دريافت كردن"
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "unvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "vote": "رای داده شده",
+    "unvote": "رأی داده نشده",
+    "reply": "پاسخ داد به",
+    "mention": "نام برد به",
     "follow": "شما را دنبال میکند",
     "unfollow": "شما را دنبال نمیکند",
     "ignore": "شما را نادیده گرفته",
-    "reblog": "reblogged",
-    "transfer": "transferred",
-    "spin": "Time to earn more Points",
-    "inactive": "Be active! Write a post, continue earning",
-    "referral": "joined with your referral, welcome them",
+    "reblog": "اشتراک شد",
+    "transfer": "منتقل شد",
+    "spin": "وقت کسب امتیاز بیشتر است",
+    "inactive": "فعال باشید! یک پست بنویسید، ادامه درامد دهید",
+    "referral": "معرف شما پیوست، به آنها خوش آمد بگوید",
     "notification": "اطلاعیه ها",
     "leaderboard": "جدول رده بندی",
     "epoint": "امتیازها",
-    "leaderboard_title": "Top Users",
+    "leaderboard_title": "کاربران برتر",
     "recent": "اخیر",
     "yesterday": "دیروز",
     "this_week": "این هفته",
     "this_month": "این ماه",
     "older_then": "قدیمی تر از 1 ماه",
-    "activities": "All",
+    "activities": "همه",
     "replies": "پاسخ‌ها",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs",
-    "noactivity": "No recent activity"
+    "mentions": "خطاب ها",
+    "reblogs": "اشترک ها",
+    "noactivity": "اخیراً فعالیتی انجام نشده است"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "روزانه",
+    "weekly": "هفتگی",
+    "monthly": "ماهانه"
   },
   "messages": {
     "comingsoon": "قابلیت ارسال پیام به زودی ارائه خواهد شد!"
@@ -158,21 +158,21 @@
     "hours": "ساعت ها",
     "voting_power": "قدرت رأی‌ دهی",
     "login_to_see": "ورود به سیستم برای دیدن",
-    "follow_people": "Follow some people to fill your feed",
-    "follow_communities": "Join some communities to fill your feed",
+    "follow_people": "برخی افراد را دنبال کنید تا فید تان پر شود",
+    "follow_communities": "به برخی از کمیته ها بپیوندید تا فید شما پر شود",
     "havent_commented": "هنوز نظری نداده",
     "havent_posted": "هنوز مطلبی ننوشته اید",
-    "steem_power": "Hive Power",
+    "steem_power": "توانایی HIVE",
     "next_power_text": "روز باقی مانده تا کاهش قدرت،",
     "days": "روزها",
     "day": "روز",
     "steem_dollars": "Hive Dollars",
     "savings": "پس انداز",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
-      "website": "Website"
+      "display_name": "نام نمایشی",
+      "about": "درباره",
+      "location": "موقیعت",
+      "website": "وب سایت"
     }
   },
   "settings": {
@@ -192,7 +192,7 @@
       "transfers": "تراکنش ها"
     },
     "pincode": "Pincode",
-    "reset_pin": "Reset Pin Code",
+    "reset_pin": "تنظیم مجدد پن کد",
     "reset": "راه اندازی مجدد",
     "nsfw_content": "NSFW",
     "send_feedback": "ارسال پیشنهادات و انتقادات",
@@ -205,44 +205,44 @@
     },
     "feedback_success": "ایمیل با موفقیت باز شد",
     "feedback_fail": "سرویس دهنده ایمیل نمی تواند باز شود",
-    "server_fail": "Server not available"
+    "server_fail": "سرور در دسترس نیست"
   },
   "voters": {
     "voters_info": "اطلاعات رأی دهندگان",
-    "no_user": "User is not found."
+    "no_user": "کاربر پیدا نشد."
   },
   "login": {
     "signin": "ورود",
-    "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Ecency",
+    "signup": "حالا پیوستن",
+    "signin_title": "برای دریافت تمام مزایای استفاده از Ecency",
     "username": "نام کاربری",
     "password": "رمز عبور و یا WIF",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "با ثبت نام شما موافق قوانین و سیاست های حفظ حریم خصوصی ما خواهید بود. ",
     "cancel": "انصراف",
     "login": "ورود به سیستم",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_description": "اگر نمی خواهید رمز عبورتان رمزنگاری و در دستگاهتان ذخیره شود، میتوانید از Hivesigner استفاده کنید.",
+    "steemconnect_fee_description": "اطلاعات"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "ثبت نام",
     "title": "ثبت‌نام کنید",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
-    "ref_user": "Referred user (Optional)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
-    "title_description": "One account to manage everything",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "username": "نام کاربری را انتخاب کنید",
+    "mail": "آدرس ایمیل خود را وارد کنید",
+    "ref_user": "کاربر معدفی شده (اختیاری)",
+    "500_error": "درخواست شما پردازش نشد ، صف ثبت نام احتمالاً پر است! چند دقیقه دیگر دوباره امتحان کنید...",
+    "title_description": "یک حساب برای مدیریت همه چیز",
+    "form_description": "با ثبت نام کردن، شما با شرایط خدمات و قوانین خصوصی ما موافقت می کنید."
   },
   "home": {
     "feed": "خبرنامه",
     "popular": "مورد علاقه",
-    "top": "Top",
-    "hot": "Hot",
-    "new": "New",
-    "blog": "Blog",
+    "top": "بالا",
+    "hot": "داغ",
+    "new": "جدید",
+    "blog": "وبلاگ",
     "posts": "Post",
-    "friends": "Friends",
-    "communities": "Communities"
+    "friends": "دوستان",
+    "communities": "انجمن ها"
   },
   "side_menu": {
     "profile": "نمایه",
@@ -252,13 +252,14 @@
     "schedules": "جدول زمانی",
     "gallery": "گالری",
     "settings": "تنظیمات",
+    "communities": "Communities",
     "add_account": "اضافه کردن حساب کاربری",
     "logout": "خروج از حساب",
     "cancel": "صرف نظر",
     "logout_text": "آیا مطمئنید که می‌خواهید خارج شوید؟",
-    "create_a_new_account": "Create a new account",
-    "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts"
+    "create_a_new_account": "ایجاد یک حساب جدید",
+    "add_an_existing_account": "یک حساب موجود اضافه کنید",
+    "accounts": "حساب ها"
   },
   "header": {
     "title": "برای شخصی سازی فید های خود وارد شوید",
@@ -272,33 +273,33 @@
   },
   "editor": {
     "title": "تیتر",
-    "tags": "Tags (separate with space)",
-    "default_placeholder": "Tell us something...",
-    "reply_placeholder": "Add your reply...",
+    "tags": "برچسب ها (جدا با فاصله)",
+    "default_placeholder": "چیزی به ما بگویید...",
+    "reply_placeholder": "پاسخ خود را اضافه کنید...",
     "publish": "نشر",
     "reply": "پاسخ دادن",
     "open_gallery": "باز کردن گالری",
     "capture_photo": "گرفتن عکس",
-    "limited_tags": "Only 10 tags allowed, remove some",
-    "limited_length": "Maximum length of each tag should be 24",
-    "limited_dash": "Use one dash in each tag",
-    "limited_space": "Use space to separate tags",
-    "limited_lowercase": "Only use lower letters in tag",
-    "limited_characters": "Use only lowercase letters, digits and one dash",
-    "limited_firstchar": "Tag must start with a letter",
-    "limited_lastchar": "Tag must end with letter or number",
-    "setting_schedule": "Scheduling Time",
-    "setting_reward": "Reward",
-    "setting_beneficiary": "Beneficiary",
-    "reward_default": "Default 50% / 50%",
-    "reward_power_up": "Power Up 100%",
-    "reward_decline": "Decline Payout",
-    "beneficiaries": "Beneficiaries",
-    "options": "Options",
-    "my_blog": "My Blog",
-    "my_communities": "My Communities",
-    "top_communities": "Top Communities",
-    "schedule_modal_title": "Schedule Post"
+    "limited_tags": "فقط ۱۰ برچسب مجاز است، برخی را بردارید",
+    "limited_length": "حداکثر طول هر برچسب باید ۲۴ باشد",
+    "limited_dash": "در هر برچسب از یک خط تیره استفاده کنید",
+    "limited_space": "برای جدا کردن برچسب ها از فاصله استفاده کنید",
+    "limited_lowercase": "فقط از حروف کوچک در برچسب استفاده کنید",
+    "limited_characters": "فقط از حروف کوچک ، رقم و یک خط تیره استفاده کنید",
+    "limited_firstchar": "برچسب باید با یک حرف شروع شود",
+    "limited_lastchar": "برچسب باید با یک حرف یا عدد پایان یابد",
+    "setting_schedule": "زمان برنامه‌ریزی",
+    "setting_reward": "پاداش",
+    "setting_beneficiary": "ذینفعان",
+    "reward_default": "پیش‌فرض ۵۰٪ / ۵۰٪",
+    "reward_power_up": "۱۰۰٪ بالا بردن قدرت",
+    "reward_decline": "امتناع از پرداخت",
+    "beneficiaries": "ذینفعان",
+    "options": "گزینه‌ها",
+    "my_blog": "وبلاگ من",
+    "my_communities": "انجمن ها",
+    "top_communities": "جوامع برتر",
+    "schedule_modal_title": "برنامه ریزی پست"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -314,25 +315,25 @@
     "fail": "ناموفق!",
     "move": "انتقال",
     "move_question": "آیا مطمئن هستید که می خواهید به پیشنویس ها منتقل کنید؟",
-    "success_shared": "Success! Content submitted!",
+    "success_shared": "موفق باشید! محتوا ارسال شد!",
     "success_moved": "به پیشنویس ها منتقل شد",
     "permission_denied": "خطای دسترسی",
-    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Operation requires active key or master password, please relogin!",
+    "permission_text": "لطفا به تنظیمات تلفن خود رفته و دسترسی Ecency را تغییر دهید.",
+    "key_warning": "این عملیات به کلید فعال یا گذرواژه اصلی نیاز دارد ، لطفاً دوباره وارد سیستم شوید!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "شما قبلا به اشتراک گذاشته اید!",
-    "success_favorite": "Favorite added!",
-    "success_unfavorite": "Favorite removed!",
-    "success_follow": "Follow success!",
-    "fail_follow": "Follow failed!",
-    "success_subscribe": "Subscribe success!",
-    "fail_subscribe": "Subscribe failed!",
-    "success_leave": "Leave success!",
-    "fail_leave": "Leave failed!",
-    "success_mute": "Mute success!",
+    "success_favorite": "مورد دلخواه اضافه شد",
+    "success_unfavorite": "مورد دلخواه پاک شد!",
+    "success_follow": "دنبال، موفق شد!",
+    "fail_follow": "دنبال، ناکام شد!",
+    "success_subscribe": "اشتراک، موفق شد!",
+    "fail_subscribe": "اشتراک، ناکام شد!",
+    "success_leave": "ترک، موفق شد!",
+    "fail_leave": "ترک، ناکام شد!",
+    "success_mute": "بی صدا، موفق شد!",
     "success_unmute": "Unmute success!",
-    "success_unfollow": "Unfollow success!",
-    "fail_unfollow": "Unfollow failed!",
+    "success_unfollow": "دنبال کردن لغو شد!",
+    "fail_unfollow": "لغو دنبال، ناکام شد!",
     "warning": "اخطار",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
@@ -346,38 +347,38 @@
     "confirm": "تأیید",
     "removed": "حذف شد",
     "same_user": "این کاربر قبلا به لیست اضافه شده است",
-    "unknow_error": "An error occurred",
-    "error": "Error",
-    "fetch_error": "Connection issue, change server and restart",
-    "connection_fail": "Connection Failed!",
-    "connection_success": "Successfully connected!",
-    "checking": "Checking...",
-    "external_link": "Open in Browser",
-    "not_existing_post": "The post does not exist! Please check permlink and author.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
-    "payloadTooLarge": "File size too big, please resize or upload smaller image",
-    "qoutaExceeded": "Upload quota exceeded",
-    "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload",
-    "can_not_be_empty": "Title and body can not be empty!"
+    "unknow_error": "يک خطا رخ داده است",
+    "error": "خطا",
+    "fetch_error": "مشکل اتصال ، تغییر سرور و راه اندازی مجدد",
+    "connection_fail": "اتصال انجام نشد!",
+    "connection_success": "اتصال با موفقیت انجام شد!",
+    "checking": "در حال بررسی...",
+    "external_link": "باز کردن در مرورگر",
+    "not_existing_post": "پست موجود نیست! لطفاً لینک ثابت و نویسنده را بررسی کنید.",
+    "google_play_version": "متوجه شدیم که دستگاه شما دارای نسخه قدیمی Google Play است. لطفاً خدمات Google Play را به روز کنید و دوباره امتحان کنید!",
+    "rc_down": "اعتبار منابع کافی برای انجام عملی نیست!\n\nبرای لذت بردن از تجربه ، حساب خود را تقویت کنید. آیا می خواهید حساب خود را تقویت کنید?",
+    "payloadTooLarge": "اندازه فایل خیلی بزرگ است ، لطفاً اندازه کوچکتر را تغییر دهید یا تصویر کوچکتر را بارگذاری کنید",
+    "qoutaExceeded": "از سهمیه بارگذاری بیشتر شد",
+    "invalidImage": "تصویر نامعتبر است ، فایل دیگری را امتحان کنید",
+    "something_wrong": "مشکلی پیش آمد.",
+    "something_wrong_alt": "Https://ecency.com را امتحان کنید",
+    "something_wrong_reload": "ﻧﻮﺳﺎﺯﯼ",
+    "can_not_be_empty": "عنوان و متن نمی تواند خالی باشد!"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
-    "removed_hint": "Content is not available",
-    "copy_link": "Copy link",
-    "reblogged": "reblogged by",
-    "sponsored": "SPONSORED",
-    "open_thread": "Open thread",
-    "image": "Image",
-    "link": "Link",
-    "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image",
-    "wrong_link": "Wrong link"
+    "reblog_alert": "آیا مطمئن هستید که می‌خواهید دوباره به اشتراک بگذارید?",
+    "removed_hint": "محتوا در دسترس نیست",
+    "copy_link": "کاپی لنک",
+    "reblogged": "اشتراک مجدد توسط",
+    "sponsored": "اسپانسر شده",
+    "open_thread": "بازکردن موضوع",
+    "image": "تصویر",
+    "link": "پیوند",
+    "gallery_mode": "حالت گالری",
+    "save_to_local": "بارگیری در دستگاه",
+    "image_saved": "تصویر در گالری عکس ذخیره شد",
+    "image_saved_error": "خطایی در ذخیره عکس بوجود آمد",
+    "wrong_link": "لنک اشتباه"
   },
   "drafts": {
     "title": "پیشنویس ها",
@@ -402,7 +403,7 @@
     "add": "اضافه کردن به صفحات مورد علاقه"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "محتوای قابل اعتراض گزارش شده است"
   },
   "favorites": {
     "title": "برگزیده‌ها",
@@ -415,7 +416,7 @@
     "invalid_username": "نام کاربری نامعتبر، لطفا چک کنید و دوباره امتحان کنید",
     "already_logged": "شما در حال حاظر وارد شده اید، لطفا با یک حساب کاربری دیگر تلاش کنید",
     "invalid_credentials": "اعتبار نامه غیر معتبر، لطفا چک کنید و دوباره تلاش کنید",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "خطای ناشناخته ، لطفا به ادرس support@ecency.com به تماس شوید"
   },
   "payout": {
     "potential_payout": "پرداخت های بالقوه",
@@ -423,9 +424,9 @@
     "author_payout": "پاداش نویسنده",
     "curation_payout": "پاداش مشارکت",
     "payout_date": "پرداخت",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
-    "breakdown": "Breakdown"
+    "beneficiaries": "ذینفعان",
+    "warn_zero_payout": "مبلغ برای پرداخت باید به ۰. ۰۲ دلار برسد",
+    "breakdown": "درهم شکستن"
   },
   "post_dropdown": {
     "copy": "کپی لینک",
@@ -433,9 +434,9 @@
     "reply": "پاسخ دادن",
     "share": "درمیان گذاری",
     "bookmarks": "اضافه کردن به صفحات مورد علاقه",
-    "promote": "promote",
-    "boost": "boost",
-    "report": "report"
+    "promote": "تبلیغ",
+    "boost": "ارتقاء",
+    "report": "گزارش"
   },
   "deep_link": {
     "no_existing_user": "کاربری موجود نیست",
@@ -446,139 +447,152 @@
     "comments": "نظرات"
   },
   "comment_filter": {
-    "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
-    "top": "TOP",
-    "time": "TIME"
+    "trending": "بالا",
+    "reputation": "اعبتار",
+    "votes": "رای",
+    "age": "سن",
+    "top": "بالا",
+    "time": "وقت"
   },
   "transfer": {
     "from": "از",
     "to": "به",
-    "amount_information": "Drag the slider to adjust the amount",
+    "amount_information": "برای تنظیم مقدار ، نوار لغزنده را بکشید",
     "amount": "مقدار",
     "memo": "یادداشت",
-    "information": "Are you sure to transfer funds?",
+    "information": "آیا مطمئن هستید که وجوه را منتقل می کنید?",
     "amount_desc": "موجودی",
     "memo_desc": "این یادداشت عمومی است",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "تبدیل 3.5 روز طول می کشد و توصیه نمی شود اگر قیمت HBD بالاتر از 1 دلار باشد",
     "to_placeholder": "نام کاربری",
     "memo_placeholder": "یادداشت های خود را در اینجا وارد کنید",
     "transfer_token": "انتقال",
-    "purchase_estm": "Purchase Points",
-    "convert": "Convert HBD to HIVE",
-    "points": "Gift Points to someone",
+    "purchase_estm": "خریداری امتیاز",
+    "convert": "تبدیل HBD به HIVE",
+    "points": "به کسی امتیاز هدیه دهید",
     "transfer_to_saving": "انتقال به پس انداز",
     "powerUp": "بالا بردن قدرت",
     "withdraw_to_saving": "برداشت و انتقال به پس انداز",
-    "steemconnect_title": "Hivesigner Transfer",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
+    "steemconnect_title": "انتقال از Hivesigner",
+    "estimated_weekly": "برآورد هفتگی",
+    "destination_accounts": "حسابهای مقصد",
+    "stop_information": "مطمئناً می خواهید متوقف شوید؟",
+    "percent": "درصدی",
     "auto_vests": "Auto Vests",
-    "save": "SAVE",
-    "percent_information": "Percent info",
+    "save": "ذخیره",
+    "percent_information": "اطلاعات درصد",
     "next": "بعدی",
-    "delegate": "Delegate",
-    "power_down": "Power Down",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
-    "incoming_funds": "Incoming Funds",
-    "stop": "Stop",
-    "address_view": "View address"
+    "delegate": "اجاره",
+    "power_down": "کم کردن قدرت",
+    "withdraw_steem": "برداشت HIVE",
+    "withdraw_sbd": "برداشت دلار HIVE",
+    "incoming_funds": "وجوه دریافتی",
+    "stop": "توقف",
+    "address_view": "مشاهده آدرس"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
-    "next": "NEXT",
+    "title": "گرفتن امتیاز",
+    "buy": "گرفتن امتیاز",
+    "next": "بعدی",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "title": "حساب را تقویت دهید",
+      "desc": "تفویض 30 روزه آرا و فعالیتهای اجتماعی شما را افزایش داده و اقدامات بیشتری را با اعتبارات بیشتر به شما می دهد."
     }
   },
   "free_estm": {
-    "title": "Free Points",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "title": "گرفتن امتیاز",
+    "button": "چرخش و برنده شدن",
+    "get_spin": "5 چرخش",
+    "spin_right": "چرخش باقی",
+    "timer_text": "چرخش رایگان بعدی در"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
-    "user": "User",
-    "permlink": "Post",
-    "permlinkPlaceholder": "username/permlink",
-    "information": "Are you sure to promote?"
+    "title": "تبلیغ",
+    "days": "روزها",
+    "user": "کاربر",
+    "permlink": "پست",
+    "permlinkPlaceholder": "نام کاربری/لینک ثابت",
+    "information": "آیا مطمئناً تبلیغ می کنید"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "ارتقاء"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "rewards": "امتیازات",
+    "percent": "درصد",
+    "time": "وقت"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "اطلاعات reblog"
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "زمان دستگاه شما;",
+      "current_time": "زمان کنونی;",
+      "information": "متوجه شدیم که دستگاه شما تاریخ یا ساعت نادرستی دارد. لطفاً تاریخ و زمان را برطرف کنید یا به صورت خودکار تنظیم کنید و دوباره امتحان کنید."
     }
   },
   "comments": {
     "title": "نظرات",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "نشان دادن نظریه",
+    "read_more": "نظرات بیشتر را بخوانید",
+    "more_replies": "پاسخ های بیشتر"
   },
   "search_result": {
-    "others": "Others",
+    "others": "دیگر",
     "best": {
-      "title": "Best"
+      "title": "بهترین"
     },
     "people": {
-      "title": "People"
+      "title": "مردم"
     },
     "topics": {
-      "title": "Topics"
+      "title": "موضوعات"
     },
     "communities": {
-      "title": "Communities",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
-      "posters": "Posters",
+      "title": "Groups",
+      "subscribe": "\"پیوستن\"",
+      "unsubscribe": "ترک کردن",
+      "subscribers": "اعضاء",
+      "posters": "پوسترها",
       "posts": "Post"
     },
     "communities_filter": {
-      "my": "My Communities",
-      "rank": "Rank",
-      "subs": "Members",
-      "new": "New"
+      "my": "انجمن(های) من",
+      "rank": "رتبه",
+      "subs": "اعضاء",
+      "new": "جدید"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "محبوبیت",
+      "newest": "جدیدترین",
+      "relevance": "ارتباط"
     },
     "other_result_filter": {
-      "user": "User",
-      "tag": "Tag"
+      "user": "کاربر",
+      "tag": "برچسب"
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details"
+    "new_post": "پست جدید",
+    "community": "انجمن",
+    "details": "جزئیات"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow"
+    "follow": "دنبال کردن",
+    "unfollow": "عدم دنبال کردن"
+  },
+  "communities": {
+    "joined": "Membership",
+    "discover": "Discover"
+  },
+  "empty_screen": {
+    "nothing_here": "Nothing here"
+  },
+  "beneficiary_modal": {
+    "percent": "Percent",
+    "username": "Username",
+    "addAccount": "Add Account",
+    "save": "Save"
   }
 }

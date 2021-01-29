@@ -2,10 +2,10 @@
   "wallet": {
     "curation_reward": "Kuraatori tasu",
     "author_reward": "Autoritasu",
-    "comment_benefactor_reward": "Benefactor Reward",
-    "claim_reward_balance": "Claim Reward ",
+    "comment_benefactor_reward": "Kasusaaja tasu",
+    "claim_reward_balance": "Lunasta tasu ",
     "transfer": "Ülekanne",
-    "transfer_to_vesting": "To Vesting",
+    "transfer_to_vesting": "Teenimisse",
     "transfer_from_savings": "Hoiusest",
     "withdraw_vesting": "Väljaluülitus",
     "fill_order": "Täida Tellimus",
@@ -13,7 +13,7 @@
     "comment": "Kommenteeri",
     "checkin": "Kasutus",
     "vote": "Hääleta",
-    "reblog": "Taaspostita",
+    "reblog": "Jaga",
     "login": "Sisselogimine",
     "incoming_transfer_title": "Saabuv ülekanne",
     "outgoing_transfer_title": "Väljuv ülekanne",
@@ -21,36 +21,36 @@
     "delegation": "Volitus",
     "delegations": "Volitused",
     "delegation_title": "Volitustasu",
-    "delegation_desc": "Earn Points everyday for delegation",
+    "delegation_desc": "Teeni punkte igapäevaselt volitamisega",
     "post_title": "Punktid postitustest",
     "comment_title": "Punktid kommentaaridest",
     "vote_title": "Punktid hääletustest",
-    "reblog_title": "Punktid taaspostitustest",
+    "reblog_title": "Punktid jagamise eest",
     "login_title": "Punktid sisselogimisest",
     "checkin_title": "Punktid sisse logimise eest",
     "referral": "Soovitaja",
-    "referral_title": "Referral rewards",
-    "referral_desc": "Invite friends and earn Points",
+    "referral_title": "Soovitaja tasu",
+    "referral_desc": "Kutsu sõbrad ja kogu punkte",
     "checkin_extra_title": "Kasutusboonus",
-    "no_activity": "No recent activity",
+    "no_activity": "Hiljutised tegevused puuduvad",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
-    "post_desc": "You can earn point by posting regularly. Posting gives you upto 15 points.",
-    "comment_desc": "Each comment you make helps you to grow your audience and also earns you upto 5 points.",
-    "checkin_desc": "Checking in regularly gives you 0.25 points.",
-    "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
-    "reblog_desc": "Share what post you like with your friends and earn points.",
-    "login_desc": "When you login into app first time you earn 100 points.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
+    "post_desc": "Teeni punkte regulaarselt postitamisega. Postitamine annab kuni 15 punkti.",
+    "comment_desc": "Iga kirjutatud kommentaar aitab kasvatada sinu kogukonda ning teenid 5 punkti.",
+    "checkin_desc": "Regulaarselt sisse logides saad 0,25 punkti.",
+    "vote_desc": "Hääletades tasustate teisi loojaid ja teenite ka ise kuni 0,01 x hääle kaalupunkti.",
+    "reblog_desc": "Jaga meeldivat postitust enda sõpradega ning teeni punkte.",
+    "login_desc": "Esimest korda rakendusse sisse logides teenid 100 punkti.",
+    "checkin_extra_desc": "Regulaarne rakenduse kasutamine annab lisavõimaluse teenida rohkem punkte, ole aktiivne ning teeni rohkem.",
     "dropdown_transfer": "Kingi",
     "dropdown_promote": "Reklaami",
     "dropdown_boost": "Võimenda",
     "from": "Kellelt",
     "to": "Kellele",
-    "estimated_value_desc": "According to purchase value",
-    "estimated_value": "Estimated value",
-    "estimated_amount": "Vote value",
-    "amount_information": "Drag the slider to adjust the amount",
+    "estimated_value_desc": "Vastavalt ostu väärtusele",
+    "estimated_value": "Hinnanguline väärtus",
+    "estimated_amount": "Hääle väärtus",
+    "amount_information": "Koguse muutmiseks liiguta liugurit",
     "amount": "Kogus",
     "memo": "Märge",
     "information": "Oled kindel, et soovid raha üle kanda?",
@@ -61,26 +61,26 @@
     "transfer_token": "Ülekanne",
     "purchase_estm": "OSTA PUNKTE",
     "points": "Kingi kellelegi punkte",
-    "transfer_to_saving": "To Saving",
+    "transfer_to_saving": "Hoiusesse",
     "powerUp": "Lisa võimsust",
-    "withdraw_to_saving": "Withdraw Saving",
-    "steemconnect_title": "Hivesigner Transfer",
+    "withdraw_to_saving": "Võta hoius välja",
+    "steemconnect_title": "Hivesigneri ülekanne",
     "next": "EDASI",
-    "delegate": "Delegate",
+    "delegate": "Volita",
     "power_down": "Väljaluülitus",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
-    "transfer_to_savings": "To Savings",
+    "withdraw_steem": "Võta välja HIVE",
+    "withdraw_sbd": "Võta välja HBD",
+    "transfer_to_savings": "Hoiusesse",
     "convert": "Konverteeri",
-    "escrow_transfer": "Escrow Transfer",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel From Savings",
+    "escrow_transfer": "Deposiidi ülekanne",
+    "escrow_dispute": "Deposiidi Vaidlustamine",
+    "escrow_release": "Deposiidi Vabastamine",
+    "escrow_approve": "Deposiidi Kinnitamine",
+    "cancel_transfer_from_savings": "Tühista ülekanne Hoiusest",
     "delegate_vesting_shares": "Volitus",
-    "fill_convert_request": "Convert Executed",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_convert_request": "Vahetamine alustatud",
+    "fill_transfer_from_savings": "Hoius alustatud",
+    "fill_vesting_withdraw": "PowerDown alustatud",
     "estm": {
       "title": "Punktid",
       "buy": "OSTA PUNKTE"
@@ -105,13 +105,13 @@
     "btc": {
       "title": "BTC",
       "buy": "OSTA BTC",
-      "address": "RECEIVE"
+      "address": "VÕTA VASTU"
     }
   },
   "notification": {
     "vote": "hääletatud",
     "unvote": "hääl eemaldatud",
-    "reply": "replied to",
+    "reply": "vastas",
     "mention": "mainis",
     "follow": "hakkas sind jälgima",
     "unfollow": "enam ei jälgi sind",
@@ -130,16 +130,16 @@
     "this_week": "Sel nädalal",
     "this_month": "Sel kuul",
     "older_then": "Vanem kui kuu",
-    "activities": "All",
+    "activities": "Kõik",
     "replies": "Vastused",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs",
-    "noactivity": "No recent activity"
+    "mentions": "Mainimised",
+    "reblogs": "Jagatud",
+    "noactivity": "Hiljutised tegevused puuduvad"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "PÄEV",
+    "weekly": "NÄDAL",
+    "monthly": "KUU"
   },
   "messages": {
     "comingsoon": "Sõnumite funktsionaalus ei ole veel valimis!"
@@ -158,18 +158,18 @@
     "hours": "tundi",
     "voting_power": "Hääletusjõud",
     "login_to_see": "Nägemiseks logi sisse",
-    "follow_people": "Follow some people to fill your feed",
-    "follow_communities": "Join some communities to fill your feed",
+    "follow_people": "Jälgi inimesi, et täita oma voog",
+    "follow_communities": "Liitu kogukondadega, et täita oma voogu",
     "havent_commented": "ei ole veel midagi kommenteerinud",
     "havent_posted": "ei ole veel midagi postitanud",
     "steem_power": "Hive Power",
     "next_power_text": "Järgmise väljaluülitus on",
     "days": "päeva",
     "day": "päev",
-    "steem_dollars": "Hive Dollars",
+    "steem_dollars": "Hive Dollarid",
     "savings": "Säästud",
     "edit": {
-      "display_name": "Display Name",
+      "display_name": "Kuvatav Nimi",
       "about": "Teave",
       "location": "Asukoht",
       "website": "Koduleht"
@@ -188,7 +188,7 @@
       "vote": "Hääleta",
       "comment": "Kommenteeri",
       "mention": "Maini",
-      "reblog": "Taaspostita",
+      "reblog": "Jaha",
       "transfers": "Ülekanded"
     },
     "pincode": "Pincode",
@@ -217,10 +217,10 @@
     "signin_title": "Et saada osa kõikidest Ecency funktsioonidest",
     "username": "Kasutajanimi",
     "password": "Parool või WIF",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "Logides sisse, nõustute meie kasutustingimuste ja privaatsuseeskirjadega.",
     "cancel": "tühista",
     "login": "LOGI SISSE",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_description": "Kui sa ei soovi hoida oma parooli krüpteerituna ja salvestatuna oma seadmes, kasuta Hivesigner'it.",
     "steemconnect_fee_description": "info"
   },
   "register": {
@@ -229,9 +229,9 @@
     "username": "Vali kasutajanimi",
     "mail": "Kirjuta oma e-posti aadress",
     "ref_user": "Kutsutud kasutaja (Vabatahtlik)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
+    "500_error": "Toiming ebaõnnestus, registreerumise järjekord on täis! Proovi uuesti mõne minuti pärast...",
     "title_description": "Üks kasutaja kõige haldamiseks",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "form_description": "Registreerudes nõustute meie kasutustingimuste ja privaatsuseeskirjadega."
   },
   "home": {
     "feed": "Sein",
@@ -252,6 +252,7 @@
     "schedules": "Ajakavad",
     "gallery": "Galerii",
     "settings": "Seaded",
+    "communities": "Kogukonnad",
     "add_account": "Lisa konto",
     "logout": "Logi välja",
     "cancel": "Tühista",
@@ -282,7 +283,7 @@
     "limited_tags": "10 silti lubatud, eemalda mõned",
     "limited_length": "Sildi maksimum pikkus võib olla 24",
     "limited_dash": "Kasuta ühte kriipsu igas sildis",
-    "limited_space": "Use space to separate tags",
+    "limited_space": "Kasuta tühikut, et eraldada silte",
     "limited_lowercase": "Kasuta siltides ainult väiketähti",
     "limited_characters": "Kasuta ainult väiketähti, numbreid ja ühte kriipsu",
     "limited_firstchar": "Silt peab algama tähega",
@@ -298,7 +299,7 @@
     "my_blog": "Minu blogi",
     "my_communities": "Minu kogukonnad",
     "top_communities": "Top kogukonnad",
-    "schedule_modal_title": "Schedule Post"
+    "schedule_modal_title": "Ajasta postitus"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -317,8 +318,8 @@
     "success_shared": "Valmis! Sisu esitatud!",
     "success_moved": "Teisaldatud mustanditesse",
     "permission_denied": "Juurdepääs keelatud",
-    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Operation requires active key or master password, please relogin!",
+    "permission_text": "Palun mine telefoniSeadetesse ning muuda Ecency rakenduse õiguseid.",
+    "key_warning": "Tegevus nõuab aktiivset võtit või master parooli, palun sisene uuesti!",
     "success_rebloged": "Rebloged!",
     "already_rebloged": "Sa oled seda juba jaganud!",
     "success_favorite": "Lisatud lemmikuks!",
@@ -336,8 +337,8 @@
     "warning": "Hoiatus",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Are you sure want to remove?",
-    "clear_alert": "Are you sure you want to clear?",
-    "clear_user_alert": "Are you sure you want to clear all user data?",
+    "clear_alert": "Kas soovid tõesti selle tühjendada?",
+    "clear_user_alert": "Oled kindel, et soovid puhastada kõik kasutajaandmed?",
     "clear": "Tühjenda",
     "cancel": "Tühista",
     "delete": "Kustuta",
@@ -348,84 +349,84 @@
     "same_user": "See konto on juba nimekirja lisatud",
     "unknow_error": "Ilmnes tõrge",
     "error": "Tõrge",
-    "fetch_error": "Connection issue, change server and restart",
+    "fetch_error": "Ühenduse viga, muuda serverit ja taaskäivita rakendus",
     "connection_fail": "Ühendus nurjus!",
     "connection_success": "Edukalt ühendatud!",
     "checking": "Kontrollin...",
     "external_link": "Ava veebilehitsejas",
-    "not_existing_post": "The post does not exist! Please check permlink and author.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
-    "payloadTooLarge": "File size too big, please resize or upload smaller image",
-    "qoutaExceeded": "Upload quota exceeded",
-    "invalidImage": "Invalid image, try different file",
+    "not_existing_post": "Seda postitust ei eksisteeri! Palun kontrolli linki ja autorit.",
+    "google_play_version": "Märkasime, et teie seadmes on Google Play vanem versioon. Palun uuenda Google Play services ja proovi uuesti!",
+    "rc_down": "Toimingu jaoks pole piisavalt ressursipunkte!\n\nVõimendage oma kontot, et jätkata nautimisega. Kas soovite kohe võimendada oma kontot?",
+    "payloadTooLarge": "Fail liiga suur, palun vähenda suurust või lae üles väiksem pilt",
+    "qoutaExceeded": "Üleslaadimise limiit ületatud",
+    "invalidImage": "Pilt ei sobi, proovi teist faili",
     "something_wrong": "Midagi läks valesti.",
     "something_wrong_alt": "Proovi https://ecency.com",
-    "something_wrong_reload": "Reload",
-    "can_not_be_empty": "Title and body can not be empty!"
+    "something_wrong_reload": "Värskenda",
+    "can_not_be_empty": "Pealkiri ja sisu ei tohi olla tühjad!"
   },
   "post": {
     "reblog_alert": "Oled sa kindel, et soovid seda jagada?",
-    "removed_hint": "Content is not available",
-    "copy_link": "Copy link",
+    "removed_hint": "Sisu pole kättesaadav",
+    "copy_link": "Kopeeri link",
     "reblogged": "jagatud %s poolt",
     "sponsored": "SPONSOREERITUD",
-    "open_thread": "Open thread",
-    "image": "Image",
+    "open_thread": "Ava lõim",
+    "image": "Pilt",
     "link": "Link",
-    "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image",
-    "wrong_link": "Wrong link"
+    "gallery_mode": "Galerii",
+    "save_to_local": "Lae enda seadmesse",
+    "image_saved": "Pilt salvestatud Galeriisse",
+    "image_saved_error": "Pildi salvestamine ebaõnnestus",
+    "wrong_link": "Vale link"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "Mustandid",
+    "load_error": "Mustandite laadimine ei õnnestunud",
+    "empty_list": "Siin pole midagi",
+    "deleted": "Mustand kustutatud"
   },
   "schedules": {
-    "title": "Schedules",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "Planeeritud",
+    "empty_list": "Siin pole midagi",
+    "deleted": "Ajastatud postitus kustutatud",
+    "move": "Teisalda mustanditesse",
+    "moved": "Teisaldatud mustanditesse"
   },
   "bookmarks": {
-    "title": "Bookmarks",
-    "load_error": "Could not load bookmarks",
-    "empty_list": "Nothing here",
-    "deleted": "Bookmark removed",
-    "search": "Search in bookmarks",
-    "added": "Added to bookmarks",
-    "add": "Add to bookmarks"
+    "title": "Järjehoidjad",
+    "load_error": "Järjehoidjad ei saanud laadida",
+    "empty_list": "Siin pole midagi",
+    "deleted": "Järjehoidja eemaldatud",
+    "search": "Otsi järjehoidjatest",
+    "added": "Lisatud järjehoidjatesse",
+    "add": "Lisa järjehoidjatesse"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Teavitatud ebasobivast sisust"
   },
   "favorites": {
-    "title": "Favorites",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "title": "Lemmikud",
+    "load_error": "Lemmikute laadimine ebaõnnestus",
+    "empty_list": "Siin pole midagi",
+    "search": "Otsi lemmikute hulgast"
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "invalid_username": "Vigane kasutajanimi, palun kontrolli üle ja proovi uuesti",
+    "already_logged": "Oled juba sisse logitud, palun proovi lisada teine kasutaja",
+    "invalid_credentials": "Vigased andmed, palun kontrolli ja proovi uuesti",
+    "unknow_error": "Tundmatu viga, palun kirjuta meile support@ecency.com"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
+    "potential_payout": "Potentsiaalne Väljamakse",
+    "promoted": "Sponsitud",
+    "author_payout": "Autoritasu",
+    "curation_payout": "Hääletajate tasu",
     "payout_date": "Väljamakse",
     "beneficiaries": "Kasusaajad",
     "warn_zero_payout": "Kogus peab väljamakseks olema vähemalt $0.02",
-    "breakdown": "Breakdown"
+    "breakdown": "Analüüs"
   },
   "post_dropdown": {
     "copy": "kopeeri link",
@@ -456,32 +457,32 @@
   "transfer": {
     "from": "Kellelt",
     "to": "Kellele",
-    "amount_information": "Drag the slider to adjust the amount",
+    "amount_information": "Koguse muutmiseks liiguta liugurit",
     "amount": "Kogus",
     "memo": "Märge",
     "information": "Oled kindel, et soovid raha üle kanda?",
     "amount_desc": "Saldo",
     "memo_desc": "See märge on avalik",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "Vahetamine võtab 3,5 päeva ja pole soovitatav kui HBD hind on kõrgem kui $1",
     "to_placeholder": "Kasutajanimi",
     "memo_placeholder": "Jäta oma märkmed siia",
     "transfer_token": "Ülekanne",
-    "purchase_estm": "Purchase Points",
-    "convert": "Convert HBD to HIVE",
-    "points": "Gift Points to someone",
+    "purchase_estm": "Osta punkte",
+    "convert": "Vaheta HBD HIVEks",
+    "points": "Kingi kellelegi punkte",
     "transfer_to_saving": "Kanna säästudesse",
     "powerUp": "Lisa võimsust",
-    "withdraw_to_saving": "Withdraw To Saving",
-    "steemconnect_title": "Hivesigner Transfer",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
-    "auto_vests": "Auto Vests",
+    "withdraw_to_saving": "Liiguta hoiusesse",
+    "steemconnect_title": "Hivesigneri ülekanne",
+    "estimated_weekly": "Prognoositud nädalane",
+    "destination_accounts": "Saaja Kontod",
+    "stop_information": "Oled kindel, et soovid peatada?",
+    "percent": "Protsent",
+    "auto_vests": "Automaatne Tulu",
     "save": "SALVESTA",
-    "percent_information": "Percent info",
+    "percent_information": "Protsendi info",
     "next": "EDASI",
-    "delegate": "Delegate",
+    "delegate": "Volita",
     "power_down": "Power Down",
     "withdraw_steem": "Võta HIVE välja",
     "withdraw_sbd": "Võta HIVE Dollar välja",
@@ -495,64 +496,64 @@
     "next": "EDASI",
     "account": {
       "title": "Võimenda kasutajat",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "desc": "30-päevane volitus suurendab teie häält ja sotsiaalset tegevusi ning annab teile rohkem tegevusi koos rohkemate ressursipunktidega."
     }
   },
   "free_estm": {
-    "title": "Free Points",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "title": "Tasuta punktid",
+    "button": "KEERUTA & VÕIDA",
+    "get_spin": "5 KEERUTUST",
+    "spin_right": "Keerutust järgi",
+    "timer_text": "Järgmine tasuta keerutus"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
-    "user": "User",
-    "permlink": "Post",
-    "permlinkPlaceholder": "username/permlink",
-    "information": "Are you sure to promote?"
+    "title": "Reklaami",
+    "days": "päeva",
+    "user": "Kasutaja",
+    "permlink": "Postita",
+    "permlinkPlaceholder": "kasutajanimi/permlink",
+    "information": "Olete kindel, et soovite reklaamida?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Võimenda"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "rewards": "TASUD",
+    "percent": "PROTSENT",
+    "time": "AEG"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "Jaga infot"
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "Seadme kellaaeg;",
+      "current_time": "Praegune kellaaeg;",
+      "information": "Märkasime, et teie seadme kellaaeg ja kuupäev on vale. Muuda kellaaeg ja kuupäev või säti automaatseks ning proovi siis uuesti."
     }
   },
   "comments": {
     "title": "Kommentaarid",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "Näita kommentaari",
+    "read_more": "Näita rohkem kommentaare",
+    "more_replies": "rohkem vastuseid"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Muud",
     "best": {
-      "title": "Best"
+      "title": "Parimad"
     },
     "people": {
-      "title": "People"
+      "title": "Inimesed"
     },
     "topics": {
-      "title": "Topics"
+      "title": "Teemad"
     },
     "communities": {
-      "title": "Communities",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
+      "title": "Grupid",
+      "subscribe": "Liitu",
+      "unsubscribe": "Lahku",
+      "subscribers": "Liikmed",
       "posters": "Postitajad",
       "posts": "Post"
     },
@@ -580,5 +581,18 @@
   "user": {
     "follow": "Jälgi",
     "unfollow": "Lõpeta jälgimine"
+  },
+  "communities": {
+    "joined": "Liikmelisus",
+    "discover": "Avasta"
+  },
+  "empty_screen": {
+    "nothing_here": "Siin pole midagi"
+  },
+  "beneficiary_modal": {
+    "percent": "Protsent",
+    "username": "Kasutajanimi",
+    "addAccount": "Lisa konto",
+    "save": "Salvesta"
   }
 }

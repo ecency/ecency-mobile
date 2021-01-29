@@ -159,7 +159,7 @@
     "voting_power": "Сила за гласуване",
     "login_to_see": "Влез в акаунта да видиш",
     "follow_people": "Последвайте хора да ви последват и те",
-    "follow_communities": "Join some communities to fill your feed",
+    "follow_communities": "Влез в някой общества за да изпълниш потока си",
     "havent_commented": "Все още няма коментари",
     "havent_posted": "Все още няма публикации",
     "steem_power": "Hive Сила/стойност",
@@ -241,8 +241,8 @@
     "new": "Нови",
     "blog": "Блог",
     "posts": "Публикации",
-    "friends": "Friends",
-    "communities": "Communities"
+    "friends": "Приятели",
+    "communities": "Общности"
   },
   "side_menu": {
     "profile": "Профил",
@@ -252,13 +252,14 @@
     "schedules": "Графици",
     "gallery": "Галерия",
     "settings": "Настройки",
+    "communities": "Общности",
     "add_account": "Добавяне на профил",
     "logout": "Изход",
     "cancel": "Отказ",
     "logout_text": "Сигурни ли сте, че искате да излезете?",
-    "create_a_new_account": "Create a new account",
-    "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts"
+    "create_a_new_account": "Създаване на нов акаунт",
+    "add_an_existing_account": "Добави съществуващ акаунт",
+    "accounts": "Акаунти"
   },
   "header": {
     "title": "Влезте, за да персонализирате вашите постове",
@@ -287,18 +288,18 @@
     "limited_characters": "Използвайте само малки букви, цифри и едно тире",
     "limited_firstchar": "Тагът трябва да започва с буква!",
     "limited_lastchar": "Тагът трябва да завършва с буква или число",
-    "setting_schedule": "Scheduling Time",
-    "setting_reward": "Reward",
-    "setting_beneficiary": "Beneficiary",
-    "reward_default": "Default 50% / 50%",
-    "reward_power_up": "Power Up 100%",
-    "reward_decline": "Decline Payout",
-    "beneficiaries": "Beneficiaries",
-    "options": "Options",
-    "my_blog": "My Blog",
-    "my_communities": "My Communities",
-    "top_communities": "Top Communities",
-    "schedule_modal_title": "Schedule Post"
+    "setting_schedule": "Насрочване за време",
+    "setting_reward": "Награда",
+    "setting_beneficiary": "Бенефициент",
+    "reward_default": "По подразбиране 50% / 50%",
+    "reward_power_up": "Намаляне на силата 100%",
+    "reward_decline": "Откажи плащането",
+    "beneficiaries": "Бенефициенти",
+    "options": "Опции",
+    "my_blog": "Моят блог",
+    "my_communities": "Моите общества",
+    "top_communities": "Топ Общности",
+    "schedule_modal_title": "Насрочи пост"
   },
   "pincode": {
     "enter_text": "Вкарай Пин-код за отключване",
@@ -314,7 +315,7 @@
     "fail": "Провал!!",
     "move": "Премести",
     "move_question": "Сигурен ли сте да преместите към чернови?",
-    "success_shared": "Success! Content submitted!",
+    "success_shared": "Успех! Съдържанието е изпратено!",
     "success_moved": "Премено в чернови",
     "permission_denied": "Достъпът е отказан",
     "permission_text": "Моля, идете на Настройки на телефона и променете разрешенията към Ecency.",
@@ -324,15 +325,15 @@
     "success_favorite": "Добавено в любими!",
     "success_unfavorite": "Прамахнат от любими!",
     "success_follow": "Последван успешно!",
-    "fail_follow": "Follow failed!",
-    "success_subscribe": "Subscribe success!",
-    "fail_subscribe": "Subscribe failed!",
-    "success_leave": "Leave success!",
-    "fail_leave": "Leave failed!",
+    "fail_follow": "Последването се провали!",
+    "success_subscribe": "Абонирането е успешно!",
+    "fail_subscribe": "Абонирането се провали!",
+    "success_leave": "Излизането е успешно!",
+    "fail_leave": "Излизането се провали!",
     "success_mute": "Заглушаване успешно!",
     "success_unmute": "Заглушаване премахнато успешно!",
     "success_unfollow": "Отказ от следване!",
-    "fail_unfollow": "Unfollow failed!",
+    "fail_unfollow": "Отследването се провали!",
     "warning": "Внимание",
     "invalid_pincode": "Невалиден Пин-код,провери и опитай отново.",
     "remove_alert": "Сигорни ли сте за премахването?",
@@ -348,7 +349,7 @@
     "same_user": "Този потребител вече е добавен в листа.",
     "unknow_error": "Възникна грешка",
     "error": "Грешка",
-    "fetch_error": "Connection issue, change server and restart",
+    "fetch_error": "Проблем с връзката, сменете сървъра и рестартирайте",
     "connection_fail": "Връзката е неуспешна",
     "connection_success": "Успешно свързване.",
     "checking": "Проверка...",
@@ -359,10 +360,10 @@
     "payloadTooLarge": "Размерът на файла е твърде голям, моля преоразмерете или качете по-малко изображение",
     "qoutaExceeded": "Превишена квота за качване",
     "invalidImage": "Невалидна снимка,опитайте различен файл",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload",
-    "can_not_be_empty": "Title and body can not be empty!"
+    "something_wrong": "Нещо се обърка.",
+    "something_wrong_alt": "Опитай https://ecency.com",
+    "something_wrong_reload": "Презареди",
+    "can_not_be_empty": "Заглавитето и основата немогат да бъдат празни!"
   },
   "post": {
     "reblog_alert": "Сигорни ли сте,че искате да споделите?",
@@ -510,7 +511,7 @@
     "days": "дни",
     "user": "Потребител",
     "permlink": "Публикация",
-    "permlinkPlaceholder": "username/permlink",
+    "permlinkPlaceholder": "потребителско име/permlink",
     "information": "Сигурни ли сте, че искате да промотирате?"
   },
   "boostPost": {
@@ -538,28 +539,28 @@
     "more_replies": "още отговори"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Други",
     "best": {
-      "title": "Best"
+      "title": "Най-добри"
     },
     "people": {
-      "title": "People"
+      "title": "Хора"
     },
     "topics": {
-      "title": "Topics"
+      "title": "Tеми"
     },
     "communities": {
-      "title": "Общности",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
+      "title": "Групи",
+      "subscribe": "Присъединете се",
+      "unsubscribe": "Напусни",
+      "subscribers": "Членове",
       "posters": "Публикуващи",
       "posts": "Публикации"
     },
     "communities_filter": {
-      "my": "My Communities",
+      "my": "Моите общества",
       "rank": "Ранг",
-      "subs": "Members",
+      "subs": "Членове",
       "new": "Нови"
     },
     "post_result_filter": {
@@ -574,11 +575,24 @@
   },
   "community": {
     "new_post": "Нова публикация",
-    "community": "community",
-    "details": "Details"
+    "community": "oбщество",
+    "details": "Подробности"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow"
+    "follow": "Последвай",
+    "unfollow": "Отследване"
+  },
+  "communities": {
+    "joined": "Членство",
+    "discover": "Открийте"
+  },
+  "empty_screen": {
+    "nothing_here": "Няма нищо тук"
+  },
+  "beneficiary_modal": {
+    "percent": "Percent",
+    "username": "Username",
+    "addAccount": "Add Account",
+    "save": "Save"
   }
 }
