@@ -590,9 +590,9 @@
     "nothing_here": "Няма нищо тук"
   },
   "beneficiary_modal": {
-    "percent": "Percent",
-    "username": "Username",
-    "addAccount": "Add Account",
-    "save": "Save"
+    "percent": "Процент",
+    "username": "Потребителско име",
+    "addAccount": "Добави акаунт",
+    "save": "Запази"
   }
 }
