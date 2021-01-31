@@ -47,12 +47,14 @@ class ProgressiveImage extends React.Component {
           style={[style, { opacity: this.thumbnailAnimated }]}
           onLoad={this.handleThumbnailLoad}
           blurRadius={1}
+          resizeMode={FastImage.resizeMode.cover}
         />
         <AnimatedFastImage
           {...props}
           source={source}
           style={[styles.imageOverlay, { opacity: this.imageAnimated }, style]}
           onLoad={this.onImageLoad}
+          resizeMode={FastImage.resizeMode.cover}
         />
       </View>
     );

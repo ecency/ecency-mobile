@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { TouchableOpacity, Text, View, Dimensions } from 'react-native';
+import { TouchableOpacity, Text, View, Dimensions, PixelRatio } from 'react-native';
 import { injectIntl } from 'react-intl';
 import ImageSize from 'react-native-image-size';
 

@@ -1,9 +1,10 @@
 import React, { useCallback, useMemo, useRef, forwardRef, useImperativeHandle } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import {
   BottomSheetModal,
+  TouchableOpacity,
   BottomSheetModalProvider,
   BottomSheetFlatList,
 } from '@gorhom/bottom-sheet';
@@ -53,7 +54,7 @@ const AccountsBottomSheet = forwardRef(
             <Text style={styles.name}>{`@${item.username}`}</Text>
           </View>
         </View>
-        {currentAccount.name === item.name && (
+        {currentAccount.name === item.username && (
           <Icon iconType="AntDesign" name="checkcircle" style={styles.checkIcon} size={24} />
         )}
       </TouchableOpacity>
