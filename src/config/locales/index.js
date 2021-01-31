@@ -28,6 +28,7 @@ export default {
   'vi-VN': require('./vi-VN.json'),
   'zh-CN': require('./zh-CN.json'),
   'zh-TW': require('./zh-TW.json'),
+  'et-EE': require('./et-EE.json'),
 };
 
 export const locales = [
@@ -50,6 +51,7 @@ export const locales = [
   { id: 'fi-FI', name: 'Finnish' },
   { id: 'fil-PH', name: 'Filipino' },
   { id: 'pt-PT', name: 'Porteguese' },
+  { id: 'et-EE', name: 'Estonian' },
   { id: 'pl-PL', name: 'Polish' },
   { id: 'sr-CS', name: 'Serbian' },
   { id: 'fa-IR', name: 'Persian' },

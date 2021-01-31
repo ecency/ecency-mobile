@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { TouchableWithoutFeedback, Text, View } from 'react-native';
+import { Text, View, TouchableWithoutFeedback } from 'react-native';
 
 import styles from './textButtonStyles';
 

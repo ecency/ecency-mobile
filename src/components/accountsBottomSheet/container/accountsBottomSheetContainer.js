@@ -31,7 +31,9 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
   const _navigateToRoute = (routeName = null) => {
     if (routeName) {
       accountsBottomSheetViewRef.current?.closeAccountsBottomSheet();
-      navigate({ routeName });
+      setTimeout(() => {
+        navigate({ routeName });
+      }, 500);
     }
   };
 
