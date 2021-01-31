@@ -125,6 +125,8 @@ export default EStyleSheet.create({
   textButton: {
     color: '$primaryBlue',
     fontSize: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
   },
   separator: {
     backgroundColor: '$darkIconColor',
@@ -139,7 +141,6 @@ export default EStyleSheet.create({
   },
   button: {
     justifyContent: 'center',
-    paddingHorizontal: 16,
     backgroundColor: 'transparent',
     height: 50,
   },
