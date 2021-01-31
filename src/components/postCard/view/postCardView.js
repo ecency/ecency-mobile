@@ -1,6 +1,6 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { TouchableOpacity, Text, View, Dimensions, PixelRatio } from 'react-native';
+import { TouchableOpacity, Text, View, Dimensions } from 'react-native';
 import { injectIntl } from 'react-intl';
 import ImageSize from 'react-native-image-size';
 
@@ -150,7 +150,7 @@ const PostCardView = ({
               iconStyle={styles.commentIcon}
               iconType="MaterialCommunityIcons"
               isClickable
-              text={activeVot.length}
+              text={get(activeVot, 'length', 0)}
               onPress={_handleOnVotersPress}
             />
           </TouchableOpacity>
@@ -161,7 +161,7 @@ const PostCardView = ({
             iconStyle={styles.commentIcon}
             iconType="MaterialIcons"
             isClickable
-            text={reblogs.length}
+            text={get(reblogs, 'length', 0)}
             onPress={_handleOnReblogsPress}
           />
           <TextWithIcon
