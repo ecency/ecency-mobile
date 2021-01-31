@@ -33,7 +33,7 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
       accountsBottomSheetViewRef.current?.closeAccountsBottomSheet();
       setTimeout(() => {
         navigate({ routeName });
-      }, 200);
+      }, 500);
     }
   };
 
