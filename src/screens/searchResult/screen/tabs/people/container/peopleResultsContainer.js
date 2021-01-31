@@ -33,9 +33,9 @@ const PeopleResultsContainer = (props) => {
 
   const _handleOnPress = (item) => {
     navigation.navigate({
-      routeName: item === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE,
+      routeName: item.name === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE,
       params: {
-        username: item,
+        username: item.name,
       },
       key: item.text,
     });
