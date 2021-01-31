@@ -86,7 +86,7 @@ const AccountsBottomSheet = forwardRef(
             <BottomSheetFlatList
               data={accounts}
               scrollEnabled
-              keyExtractor={(item) => item.name}
+              keyExtractor={(item, index) => `${item.name}${item.username}${index}`}
               renderItem={({ item }) => _renderAccountTile(item)}
               //contentContainerStyle={styles.contentContainer}
             />
