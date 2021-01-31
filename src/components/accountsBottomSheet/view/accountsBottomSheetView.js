@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 import {
   BottomSheetModal,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   BottomSheetModalProvider,
   BottomSheetFlatList,
 } from '@gorhom/bottom-sheet';
@@ -93,21 +94,27 @@ const AccountsBottomSheet = forwardRef(
             />
             <Separator style={styles.separator} />
             <View style={{ paddingBottom: insets.bottom }}>
-              <View style={styles.buttonContainer}>
-                <TextButton
-                  text={intl.formatMessage({ id: 'side_menu.create_a_new_account' })}
-                  textStyle={styles.textButton}
-                  onPress={() => navigateToRoute(ROUTES.SCREENS.REGISTER)}
-                />
-              </View>
+              <TouchableWithoutFeedback
+                style={styles.button}
+                onPress={() => navigateToRoute(ROUTES.SCREENS.REGISTER)}
+              >
+                <View>
+                  <Text style={styles.textButton}>
+                    {intl.formatMessage({ id: 'side_menu.create_a_new_account' })}
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
               <Separator style={styles.separator} />
-              <View style={styles.buttonContainer}>
-                <TextButton
-                  text={intl.formatMessage({ id: 'side_menu.add_an_existing_account' })}
-                  textStyle={styles.textButton}
-                  onPress={() => navigateToRoute(ROUTES.SCREENS.LOGIN)}
-                />
-              </View>
+              <TouchableWithoutFeedback
+                style={styles.button}
+                onPress={() => navigateToRoute(ROUTES.SCREENS.LOGIN)}
+              >
+                <View>
+                  <Text style={styles.textButton}>
+                    {intl.formatMessage({ id: 'side_menu.add_an_existing_account' })}
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
               <Separator style={styles.separator} />
             </View>
           </View>
