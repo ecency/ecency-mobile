@@ -147,7 +147,7 @@
   "profile": {
     "following": "Jälgid",
     "follower": "Jälgija",
-    "post": "Post",
+    "post": "Postitused",
     "details": "Profiili Detailid",
     "comments": "Kommentaarid",
     "replies": "Vastused",
@@ -188,7 +188,7 @@
       "vote": "Hääleta",
       "comment": "Kommenteeri",
       "mention": "Maini",
-      "reblog": "Jaha",
+      "reblog": "Jaga",
       "transfers": "Ülekanded"
     },
     "pincode": "Pincode",
@@ -240,7 +240,7 @@
     "hot": "Kuum",
     "new": "Uus",
     "blog": "Blogi",
-    "posts": "Post",
+    "posts": "Postitused",
     "friends": "Sõbrad",
     "communities": "Kogukonnad"
   },
@@ -555,13 +555,13 @@
       "unsubscribe": "Lahku",
       "subscribers": "Liikmed",
       "posters": "Postitajad",
-      "posts": "Post"
+      "posts": "Postitused"
     },
     "communities_filter": {
       "my": "Minu Kogukonnad",
       "rank": "Tase",
       "subs": "Liikmed",
-      "new": "Uus"
+      "new": "Värske"
     },
     "post_result_filter": {
       "popularity": "Populaarsus",
