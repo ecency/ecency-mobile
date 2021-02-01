@@ -80,7 +80,7 @@
     "delegate_vesting_shares": "Volitus",
     "fill_convert_request": "Vahetamine alustatud",
     "fill_transfer_from_savings": "Hoius alustatud",
-    "fill_vesting_withdraw": "PowerDown alustatud",
+    "fill_vesting_withdraw": "Hive Poweri vähendamist alustatud",
     "estm": {
       "title": "Punktid",
       "buy": "OSTA PUNKTE"
@@ -483,7 +483,7 @@
     "percent_information": "Protsendi info",
     "next": "EDASI",
     "delegate": "Volita",
-    "power_down": "Power Down",
+    "power_down": "Vähenda Hive Powerit",
     "withdraw_steem": "HIVE väljakanne",
     "withdraw_sbd": "HIVE Dollari väljakanne",
     "incoming_funds": "Sissetulevad varad",
