@@ -49,7 +49,7 @@
     "appcenter": "^3.1.0",
     "appcenter-analytics": "^3.1.0",
     "appcenter-crashes": "^3.1.0",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "buffer": "^5.4.3",
     "bugsnag-react-native": "^2.23.10",
     "core-js": "3.6.4",
