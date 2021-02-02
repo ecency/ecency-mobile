@@ -101,6 +101,14 @@ export default (url) => {
   // For non urls with category like esteem/@good-karma/esteem-london-presentation-e3105ba6637ed
   match = url.match(/([\w.\d-]+)\/(@[\w.\d-]+)\/(.*)/);
   if (match && match.length === 4) {
+    if (match[3].indexOf('#') > -1) {
+      const commentPart = match[3].split('@')[1];
+      return {
+        category: match[1],
+        author: commentPart.split('/')[0],
+        permlink: commentPart.split('/')[1],
+      };
+    }
     return {
       category: match[1],
       author: match[2].replace('@', ''),
