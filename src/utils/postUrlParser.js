@@ -103,10 +103,11 @@ export default (url) => {
   if (match && match.length === 4) {
     if (match[3].indexOf('#') > -1) {
       const commentPart = match[3].split('@')[1];
+      const splits = commentPart.split('/');
       return {
         category: match[1],
-        author: commentPart.split('/')[0],
-        permlink: commentPart.split('/')[1],
+        author: splits[0],
+        permlink: splits[1],
       };
     }
     return {
