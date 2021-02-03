@@ -256,10 +256,11 @@ class ApplicationContainer extends Component {
     let params;
     let content;
     let profile;
+    let keey;
     const { currentAccount } = this.props;
 
     const postUrl = postUrlParser(url);
-    const { author, permlink } = postUrl || {};
+    const { author, permlink, feedType, tag } = postUrl || {};
 
     try {
       if (author) {
@@ -269,6 +270,7 @@ class ApplicationContainer extends Component {
           params = {
             content,
           };
+          keey = `${author}/${permlink}`;
         } else {
           profile = await getUser(author);
           routeName = ROUTES.SCREENS.PROFILE;
@@ -276,17 +278,34 @@ class ApplicationContainer extends Component {
             username: get(profile, 'name'),
             reputation: get(profile, 'reputation'),
           };
+          keey = get(profile, 'name');
         }
+      }
+      if (feedType) {
+        routeName = ROUTES.SCREENS.SEARCH_RESULT;
+        keey = 'search';
+      }
+      if (feedType && tag) {
+        if (/hive-[1-3]\d{4,6}$/.test(tag)) {
+          routeName = ROUTES.SCREENS.COMMUNITY;
+        } else {
+          routeName = ROUTES.SCREENS.TAG_RESULT;
+        }
+        params = {
+          tag,
+          filter: feedType,
+        };
+        keey = `${feedType}/${tag}`;
       }
     } catch (error) {
       this._handleAlert('deep_link.no_existing_user');
     }
 
-    if (routeName && (profile || content)) {
+    if (routeName && keey) {
       navigate({
         routeName,
         params,
-        key: permlink || author,
+        key: keey,
       });
     }
   };

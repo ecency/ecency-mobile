@@ -72,23 +72,6 @@ export default (url) => {
     };
   }
 
-  if (
-    [
-      'https://estm.to',
-      'https://ecency.com',
-      'https://esteem.app',
-      'https://hive.blog',
-      'https://peakd.com',
-      'https://leofinance.io',
-    ].some((x) => url.startsWith(x))
-  ) {
-    return parseCatAuthorPermlink(url);
-  }
-
-  if (['https://busy.org', 'https://steemhunt.com'].some((x) => url.startsWith(x))) {
-    return parseAuthorPermlink(url);
-  }
-
   // For non urls like @good-karma/esteem-london-presentation-e3105ba6637ed
   let match = url.match(/^[/]?(@[\w.\d-]+)\/(.*)/);
   if (match && match.length === 3) {
@@ -117,5 +100,38 @@ export default (url) => {
     };
   }
 
+  let profile = url.match(/^https?:\/\/(.*)\/(@[\w.\d-]+)$/);
+  if (profile) {
+    if (profile && profile.length === 3) {
+      return {
+        author: profile[2].replace('@', ''),
+        permlink: null,
+      };
+    }
+  }
+
+  if (
+    [
+      'https://estm.to',
+      'https://ecency.com',
+      'https://esteem.app',
+      'https://hive.blog',
+      'https://peakd.com',
+      'https://leofinance.io',
+    ].some((x) => url.startsWith(x))
+  ) {
+    return parseCatAuthorPermlink(url);
+  }
+
+  if (
+    [
+      'https://ecency.com',
+      'https://hive.blog',
+      'https://peakd.com',
+      'https://leofinance.io',
+    ].some((x) => url.startsWith(x))
+  ) {
+    return parseAuthorPermlink(url);
+  }
   return null;
 };

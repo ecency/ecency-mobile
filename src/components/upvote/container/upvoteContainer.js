@@ -71,7 +71,7 @@ class UpvoteContainer extends PureComponent {
     const payoutDate = getTimeFromNow(get(content, 'payout_at'));
     const beneficiaries = [];
     const beneficiary = get(content, 'beneficiaries');
-    if (beneficiaries) {
+    if (beneficiary) {
       beneficiary.forEach((key) => {
         beneficiaries.push(
           `\n  ${get(key, 'account')}: ${(parseFloat(get(key, 'weight')) / 100).toFixed(2)}%`,
