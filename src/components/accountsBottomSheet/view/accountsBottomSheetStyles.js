@@ -8,8 +8,9 @@ export default EStyleSheet.create({
     backgroundColor: 'grey',
   },
   contentContainer: {
-    flex: 1,
-    alignItems: 'center',
+    //flex: 1,
+    //alignItems: 'center',
+    paddingVertical: 10,
   },
   backdrop: {
     position: 'absolute',
@@ -90,7 +91,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 16,
     alignItems: 'center',
-    flex: 1,
+    //flex: 1,
     justifyContent: 'space-between',
   },
   nameContainer: {
@@ -106,7 +107,6 @@ export default EStyleSheet.create({
   },
   accountsModal: {
     backgroundColor: '$primaryBackgroundColor',
-    flex: 1,
   },
   handleComponent: {
     backgroundColor: '$primaryBackgroundColor',

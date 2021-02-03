@@ -43,7 +43,7 @@ export default function (state = initialState, action) {
     case TOGGLE_ACCOUNTS_BOTTOM_SHEET:
       return {
         ...state,
-        isVisibleAccountsBottomSheet: !state.isVisibleAccountsBottomSheet,
+        isVisibleAccountsBottomSheet: action.payload,
       };
     default:
       return state;

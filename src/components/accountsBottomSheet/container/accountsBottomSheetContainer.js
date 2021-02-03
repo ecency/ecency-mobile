@@ -29,29 +29,26 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
   }, [isVisibleAccountsBottomSheet]);
 
   const _navigateToRoute = (routeName = null) => {
+    dispatch(toggleAccountsBottomSheet(false));
+    accountsBottomSheetViewRef.current?.closeAccountsBottomSheet();
     if (routeName) {
-      accountsBottomSheetViewRef.current?.closeAccountsBottomSheet();
-      setTimeout(() => {
-        navigate({ routeName });
-      }, 500);
+      navigate({ routeName });
     }
   };
 
+  const _onClose = () => {
+    dispatch(toggleAccountsBottomSheet(false));
+  };
+
   const _switchAccount = async (account = {}) => {
-    if (account.username !== currentAccount.name) {
+    dispatch(toggleAccountsBottomSheet(false));
+    accountsBottomSheetViewRef.current?.closeAccountsBottomSheet();
+    if (currentAccount && account && account.username !== currentAccount.name) {
       _handleSwitch(account);
-    } else {
-      accountsBottomSheetViewRef.current?.closeAccountsBottomSheet();
     }
   };
 
   const _handleSwitch = async (switchingAccount = {}) => {
-    // Call this dispatch because when we make request, onDismiss is not working
-    // =========================================================================
-    accountsBottomSheetViewRef.current?.closeAccountsBottomSheet();
-    dispatch(toggleAccountsBottomSheet());
-    // =========================================================================
-
     const accountData = accounts.filter(
       (account) => account.username === switchingAccount.username,
     )[0];
@@ -89,6 +86,7 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
       currentAccount={currentAccount}
       navigateToRoute={_navigateToRoute}
       switchAccount={_switchAccount}
+      onClose={_onClose}
     />
   );
 };

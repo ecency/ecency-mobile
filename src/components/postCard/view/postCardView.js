@@ -6,6 +6,7 @@ import ImageSize from 'react-native-image-size';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
+import bugsnag from '../../../config/bugsnag';
 
 // Components
 import { PostHeaderDescription } from '../../postElements';
@@ -71,9 +72,18 @@ const PostCardView = ({
         return { image: NSFW_IMAGE, thumbnail: NSFW_IMAGE };
       }
       //console.log(content)
-      ImageSize.getSize(content.thumbnail).then((size) => {
-        setCalcImgHeight(Math.floor((size.height / size.width) * dim.width));
-      });
+      ImageSize.getSize(content.thumbnail)
+        .then((size) => {
+          setCalcImgHeight(Math.floor((size.height / size.width) * dim.width));
+        })
+        .catch((er) => {
+          setCalcImgHeight(Math.floor((10 / 7) * dim.width));
+          bugsnag.notify(er, (report) => {
+            report.metadata = {
+              content,
+            };
+          });
+        });
       return { image: content.image, thumbnail: content.thumbnail };
     } else {
       return { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
