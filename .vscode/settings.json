@@ -9,5 +9,8 @@
     "**/.project": true,
     "**/.settings": true,
     "**/.factorypath": true
+  },
+  "workbench.colorCustomizations": {
+    "editorUnnecessaryCode.border": "#dd7aab"
   }
 }

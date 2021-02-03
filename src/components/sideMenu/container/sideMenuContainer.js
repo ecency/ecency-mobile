@@ -1,68 +1,48 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 // Actions
 import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
-
 import { logout } from '../../../redux/actions/applicationActions';
 
 // Component
 import SideMenuView from '../view/sideMenuView';
 
-/*
- *               Props Name                              Description
- *@props -->     props name navigation                   coming from react-navigation
- *
- */
+const SideMenuContainer = ({ navigation }) => {
+  const dispatch = useDispatch();
 
-class SideMenuContainer extends Component {
-  // Component Functions
+  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
+  const currentAccount = useSelector((state) => state.account.currentAccount);
+  const otherAccounts = useSelector((state) => state.account.otherAccounts);
+  const isVisibleAccountsBottomSheet = useSelector(
+    (state) => state.ui.isVisibleAccountsBottomSheet,
+  );
 
-  _navigateToRoute = (route = null) => {
-    const { navigation } = this.props;
+  const _navigateToRoute = (route = null) => {
     if (route) {
       navigation.navigate(route);
     }
   };
 
-  _handleLogout = () => {
-    const { logout, navigation } = this.props;
-
+  const _handleLogout = () => {
     navigation.closeDrawer();
-    logout();
+    dispatch(logout());
   };
 
-  _handlePressOptions = () => {
-    const { toggleAccountsBottomSheet } = this.props;
-
-    toggleAccountsBottomSheet();
+  const _handlePressOptions = () => {
+    dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
   };
 
-  render() {
-    const { currentAccount, isLoggedIn } = this.props;
-
-    return (
-      <SideMenuView
-        navigateToRoute={this._navigateToRoute}
-        isLoggedIn={isLoggedIn}
-        userAvatar={null}
-        currentAccount={currentAccount}
-        handleLogout={this._handleLogout}
-        handlePressOptions={this._handlePressOptions}
-      />
-    );
-  }
-}
-
-const mapStateToProps = (state) => ({
-  isLoggedIn: state.application.isLoggedIn,
-  currentAccount: state.account.currentAccount,
-  otherAccounts: state.account.otherAccounts,
-});
-
-const mapDispatchToProps = {
-  toggleAccountsBottomSheet,
-  logout,
+  return (
+    <SideMenuView
+      navigateToRoute={_navigateToRoute}
+      isLoggedIn={isLoggedIn}
+      userAvatar={null}
+      currentAccount={currentAccount}
+      handleLogout={_handleLogout}
+      handlePressOptions={_handlePressOptions}
+    />
+  );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SideMenuContainer);
+export default SideMenuContainer;

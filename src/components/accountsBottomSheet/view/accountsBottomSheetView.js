@@ -1,16 +1,12 @@
 import React, { useCallback, useMemo, useRef, forwardRef, useImperativeHandle } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
-import {
-  BottomSheetModal,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  BottomSheetModalProvider,
-  BottomSheetFlatList,
-} from '@gorhom/bottom-sheet';
+import ActionSheet from 'react-native-actions-sheet';
+
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { FlatList } from 'react-native-gesture-handler';
 import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
 
 import { UserAvatar, Icon, TextButton, Separator } from '../../index';
@@ -21,33 +17,24 @@ import styles from './accountsBottomSheetStyles';
 import { switchAccount } from '../../../providers/hive/auth';
 
 const AccountsBottomSheet = forwardRef(
-  ({ accounts, currentAccount, navigateToRoute, switchAccount }, ref) => {
+  ({ accounts, currentAccount, navigateToRoute, switchAccount, onClose }, ref) => {
     const dispatch = useDispatch();
     const bottomSheetModalRef = useRef();
+    const userList = useRef();
     const insets = useSafeAreaInsets();
     const intl = useIntl();
 
-    const snapPoints = [accounts.length <= 4 ? accounts.length * 60 + 150 : 405];
-
     useImperativeHandle(ref, () => ({
       showAccountsBottomSheet() {
-        bottomSheetModalRef.current?.present();
+        bottomSheetModalRef.current?.setModalVisible(true);
       },
       closeAccountsBottomSheet() {
-        _handleCloseBottomSheet();
+        bottomSheetModalRef.current?.setModalVisible(false);
       },
     }));
 
-    const _handleCloseBottomSheet = () => {
-      bottomSheetModalRef.current?.dismiss();
-    };
-
-    const _handleDispatchDismissBottomSheet = () => {
-      dispatch(toggleAccountsBottomSheet());
-    };
-
     //_handlePressAccountTile(item)
-    const _renderAccountTile = (item) => (
+    const _renderAccountTile = ({ item }) => (
       <TouchableOpacity style={styles.accountTile} onPress={() => switchAccount(item)}>
         <View style={styles.avatarAndNameContainer}>
           <UserAvatar username={item.username} />
@@ -61,65 +48,48 @@ const AccountsBottomSheet = forwardRef(
       </TouchableOpacity>
     );
 
-    const renderHandleComponent = () => (
-      <View style={styles.handleComponent}>
-        <View style={styles.handle} />
-      </View>
-    );
-
     return (
-      <BottomSheetModalProvider>
-        <BottomSheetModal
-          backdropComponent={() => (
-            <TouchableOpacity
-              style={styles.backdrop}
-              activeOpacity={1}
-              onPress={_handleCloseBottomSheet}
-            />
-          )}
-          ref={bottomSheetModalRef}
-          index={0}
-          snapPoints={snapPoints}
-          onDismiss={_handleDispatchDismissBottomSheet}
-          shouldMeasureContentHeight={true}
-          handleComponent={renderHandleComponent}
-        >
-          <View style={styles.accountsModal}>
-            <BottomSheetFlatList
-              data={accounts}
-              scrollEnabled
-              keyExtractor={(item, index) => `${item.name}${item.username}${index}`}
-              renderItem={({ item }) => _renderAccountTile(item)}
-              //contentContainerStyle={styles.contentContainer}
-            />
+      <View style={[styles.accountsModal]}>
+        <ActionSheet ref={bottomSheetModalRef} gestureEnabled={true} hideUnderlay onClose={onClose}>
+          <FlatList
+            data={accounts}
+            ref={userList}
+            scrollEnabled
+            keyExtractor={(item, index) => `${item.name || item.username}${index}`}
+            renderItem={_renderAccountTile}
+            contentContainerStyle={styles.contentContainer}
+            nestedScrollEnabled={true}
+            onScrollEndDrag={() => bottomSheetModalRef.current?.handleChildScrollEnd()}
+            onScrollAnimationEnd={() => bottomSheetModalRef.current?.handleChildScrollEnd()}
+            onMomentumScrollEnd={() => bottomSheetModalRef.current?.handleChildScrollEnd()}
+          />
+          <Separator style={styles.separator} />
+          <View style={{ paddingBottom: insets.bottom }}>
+            <TouchableWithoutFeedback
+              style={styles.button}
+              onPress={() => navigateToRoute(ROUTES.SCREENS.REGISTER)}
+            >
+              <View>
+                <Text style={styles.textButton}>
+                  {intl.formatMessage({ id: 'side_menu.create_a_new_account' })}
+                </Text>
+              </View>
+            </TouchableWithoutFeedback>
             <Separator style={styles.separator} />
-            <View style={{ paddingBottom: insets.bottom }}>
-              <TouchableWithoutFeedback
-                style={styles.button}
-                onPress={() => navigateToRoute(ROUTES.SCREENS.REGISTER)}
-              >
-                <View>
-                  <Text style={styles.textButton}>
-                    {intl.formatMessage({ id: 'side_menu.create_a_new_account' })}
-                  </Text>
-                </View>
-              </TouchableWithoutFeedback>
-              <Separator style={styles.separator} />
-              <TouchableWithoutFeedback
-                style={styles.button}
-                onPress={() => navigateToRoute(ROUTES.SCREENS.LOGIN)}
-              >
-                <View>
-                  <Text style={styles.textButton}>
-                    {intl.formatMessage({ id: 'side_menu.add_an_existing_account' })}
-                  </Text>
-                </View>
-              </TouchableWithoutFeedback>
-              <Separator style={styles.separator} />
-            </View>
+            <TouchableWithoutFeedback
+              style={styles.button}
+              onPress={() => navigateToRoute(ROUTES.SCREENS.LOGIN)}
+            >
+              <View>
+                <Text style={styles.textButton}>
+                  {intl.formatMessage({ id: 'side_menu.add_an_existing_account' })}
+                </Text>
+              </View>
+            </TouchableWithoutFeedback>
+            <Separator style={styles.separator} />
           </View>
-        </BottomSheetModal>
-      </BottomSheetModalProvider>
+        </ActionSheet>
+      </View>
     );
   },
 );

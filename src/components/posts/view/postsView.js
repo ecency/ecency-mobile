@@ -143,6 +143,7 @@ const PostsView = ({
               <FlatList
                 data={recommendedUsers}
                 extraData={recommendedUsers}
+                keyExtractor={(item, index) => `${item._id || item.id}${index}`}
                 renderItem={({ item, index }) => (
                   <UserListItem
                     index={index}
@@ -182,6 +183,7 @@ const PostsView = ({
               </Text>
               <FlatList
                 data={recommendedCommunities}
+                keyExtractor={(item, index) => `${item.id || item.title}${index}`}
                 renderItem={({ item, index }) => (
                   <CommunityListItem
                     index={index}
