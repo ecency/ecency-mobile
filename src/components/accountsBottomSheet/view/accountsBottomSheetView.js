@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef, forwardRef, useImperativeHandle } from 'react';
-import { View, Text, Dimensions, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import ActionSheet from 'react-native-actions-sheet';
@@ -15,8 +15,6 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 import styles from './accountsBottomSheetStyles';
 import { switchAccount } from '../../../providers/hive/auth';
-
-const windowHeight = Dimensions.get('window').height;
 
 const AccountsBottomSheet = forwardRef(
   ({ accounts, currentAccount, navigateToRoute, switchAccount, onClose }, ref) => {
@@ -51,7 +49,7 @@ const AccountsBottomSheet = forwardRef(
     );
 
     return (
-      <View style={[styles.accountsModal, { maxHeight: windowHeight / 2 }]}>
+      <View style={[styles.accountsModal]}>
         <ActionSheet ref={bottomSheetModalRef} gestureEnabled={true} hideUnderlay onClose={onClose}>
           <FlatList
             data={accounts}
