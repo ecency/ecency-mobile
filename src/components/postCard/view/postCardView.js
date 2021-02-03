@@ -73,12 +73,14 @@ const PostCardView = ({
         return { image: NSFW_IMAGE, thumbnail: NSFW_IMAGE };
       }
       //console.log(content)
+      let ratio = 10 / 7;
       ImageSize.getSize(content.thumbnail)
         .then((size) => {
-          setCalcImgHeight(Math.floor((size.height / size.width) * dim.width));
+          ratio = size.height / size.width;
+          setCalcImgHeight(Math.floor(ratio * (dim.width - 18)));
         })
         .catch((er) => {
-          setCalcImgHeight(Math.floor((10 / 7) * dim.width));
+          setCalcImgHeight(Math.floor(ratio * (dim.width - 18)));
           bugsnag.notify(er, (report) => {
             report.metadata = {
               content,
@@ -131,6 +133,7 @@ const PostCardView = ({
                 styles.thumbnail,
                 { width: dim.width - 18, height: Math.min(calcImgHeight, dim.height) },
               ]}
+              resizeMode={FastImage.resizeMode.cover}
             />
           )}
           <View style={[styles.postDescripton]}>
