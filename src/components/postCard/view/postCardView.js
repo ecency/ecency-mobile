@@ -5,6 +5,7 @@ import { injectIntl } from 'react-intl';
 import ImageSize from 'react-native-image-size';
 
 // Utils
+import FastImage from 'react-native-fast-image';
 import { getTimeFromNow } from '../../../utils/time';
 import bugsnag from '../../../config/bugsnag';
 
@@ -123,9 +124,9 @@ const PostCardView = ({
       <View style={styles.postBodyWrapper}>
         <TouchableOpacity style={styles.hiddenImages} onPress={_handleOnContentPress}>
           {!isHideImage && (
-            <ProgressiveImage
+            <FastImage
               source={{ uri: _image.image }}
-              thumbnailSource={{ uri: _image.thumbnail }}
+              //thumbnailSource={{ uri: _image.thumbnail }}
               style={[
                 styles.thumbnail,
                 { width: dim.width - 18, height: Math.min(calcImgHeight, dim.height) },

@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, StyleSheet, Animated } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, Animated, Dimensions } from 'react-native';
 import FastImage from 'react-native-fast-image';
-
+//const dim = Dimensions.get('window');
 const styles = StyleSheet.create({
   imageOverlay: {
     position: 'absolute',
@@ -19,46 +19,46 @@ const styles = StyleSheet.create({
 
 const AnimatedFastImage = Animated.createAnimatedComponent(FastImage);
 
-class ProgressiveImage extends React.Component {
-  thumbnailAnimated = new Animated.Value(0);
+const ProgressiveImage = ({ thumbnailSource, source, style, ...props }) => {
+  //const [calcImgHeight, setCalcImgHeight] = useState(300);
+  const thumbnailAnimated = new Animated.Value(0);
+  const imageAnimated = new Animated.Value(0);
 
-  imageAnimated = new Animated.Value(0);
-
-  handleThumbnailLoad = () => {
-    Animated.timing(this.thumbnailAnimated, {
+  const handleThumbnailLoad = (e) => {
+    /*if (e) {
+      setCalcImgHeight(Math.floor((e.nativeEvent.height / e.nativeEvent.width) * dim.width));
+      console.log(e.nativeEvent.width, e.nativeEvent.height);
+    }*/
+    Animated.timing(thumbnailAnimated, {
       toValue: 1,
     }).start();
   };
 
-  onImageLoad = () => {
-    Animated.timing(this.imageAnimated, {
+  const onImageLoad = () => {
+    Animated.timing(imageAnimated, {
       toValue: 1,
     }).start();
   };
 
-  render() {
-    const { thumbnailSource, source, style, ...props } = this.props;
-
-    return (
-      <View style={styles.container}>
-        <AnimatedFastImage
-          {...props}
-          source={thumbnailSource}
-          style={[style, { opacity: this.thumbnailAnimated }]}
-          onLoad={this.handleThumbnailLoad}
-          blurRadius={1}
-          resizeMode={FastImage.resizeMode.cover}
-        />
-        <AnimatedFastImage
-          {...props}
-          source={source}
-          style={[styles.imageOverlay, { opacity: this.imageAnimated }, style]}
-          onLoad={this.onImageLoad}
-          resizeMode={FastImage.resizeMode.cover}
-        />
-      </View>
-    );
-  }
-}
+  return (
+    <View style={styles.container}>
+      <AnimatedFastImage
+        {...props}
+        source={thumbnailSource}
+        style={[style, { opacity: thumbnailAnimated }]}
+        onLoad={handleThumbnailLoad}
+        blurRadius={1}
+        resizeMode={FastImage.resizeMode.cover}
+      />
+      <AnimatedFastImage
+        {...props}
+        source={source}
+        style={[styles.imageOverlay, { opacity: imageAnimated }, style]}
+        onLoad={onImageLoad}
+        resizeMode={FastImage.resizeMode.cover}
+      />
+    </View>
+  );
+};
 
 export default ProgressiveImage;
