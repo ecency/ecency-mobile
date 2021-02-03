@@ -486,8 +486,8 @@
     "power_down": "Намаляване на енергията",
     "withdraw_steem": "Изтегли Hive",
     "withdraw_sbd": "Изтегли Hive Долари",
-    "incoming_funds": "Идващи пари",
-    "stop": "Стоп",
+    "incoming_funds": "Идващи средства",
+    "stop": "спри",
     "address_view": "Преглед на адрес"
   },
   "boost": {
