@@ -128,6 +128,9 @@ const MarkdownEditorView = ({
 
   const changeUser = async () => {
     dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
+    if (inputRef && inputRef.current) {
+      inputRef.current.focus();
+    }
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
