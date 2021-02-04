@@ -85,8 +85,8 @@ const PostsContainer = ({
 
   useEffect(() => {
     if (isConnected) {
-      _getPromotePosts();
       _loadPosts();
+      _getPromotePosts();
     }
   }, [
     _getPromotePosts,

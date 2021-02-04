@@ -7,7 +7,7 @@ import { postBodySummary, renderPostBody, catchPostImage } from '@ecency/render-
 // Utils
 import parseAsset from './parseAsset';
 import { getReputation } from './reputation';
-import { getResizedAvatar } from './image';
+import { getResizedAvatar, getResizedImage } from './image';
 
 const webp = Platform.OS === 'ios' ? false : true;
 
@@ -27,13 +27,21 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
     post.markdownBody = post.body;
   }
   post.is_promoted = isPromoted;
-  try {
-    post.json_metadata = JSON.parse(post.json_metadata);
-  } catch (error) {
-    post.json_metadata = {};
+  if (typeof post.json_metadata === 'string' || post.json_metadata instanceof String) {
+    try {
+      post.json_metadata = JSON.parse(post.json_metadata);
+    } catch (error) {
+      post.json_metadata = {};
+    }
   }
-  post.image = catchPostImage(post.body, 600, 500, webp ? 'webp' : 'match');
-  post.thumbnail = catchPostImage(post.body, 10, 7, webp ? 'webp' : 'match');
+  if (post.json_metadata && post.json_metadata.image) {
+    const [imageLink] = post.json_metadata.image;
+    post.thumbnail = getResizedImage(imageLink, 10);
+    post.image = getResizedImage(imageLink, 600);
+  } else {
+    post.image = catchPostImage(post.body, 600, 500, webp ? 'webp' : 'match');
+    post.thumbnail = catchPostImage(post.body, 10, 7, webp ? 'webp' : 'match');
+  }
   post.author_reputation = getReputation(post.author_reputation);
   post.avatar = getResizedAvatar(get(post, 'author'));
   if (!isList) {
