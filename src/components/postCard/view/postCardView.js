@@ -5,7 +5,9 @@ import { injectIntl } from 'react-intl';
 import ImageSize from 'react-native-image-size';
 
 // Utils
+import FastImage from 'react-native-fast-image';
 import { getTimeFromNow } from '../../../utils/time';
+import bugsnag from '../../../config/bugsnag';
 
 // Components
 import { PostHeaderDescription } from '../../postElements';
@@ -16,9 +18,6 @@ import { TextWithIcon } from '../../basicUIElements';
 import { Upvote } from '../../upvote';
 // Styles
 import styles from './postCardStyles';
-
-// Defaults
-import ProgressiveImage from '../../progressiveImage';
 
 const dim = Dimensions.get('window');
 const DEFAULT_IMAGE =
@@ -42,6 +41,7 @@ const PostCardView = ({
   const [rebloggedBy, setRebloggedBy] = useState(get(content, 'reblogged_by[0]', null));
   const [activeVot, setActiveVot] = useState(activeVotes);
   const [calcImgHeight, setCalcImgHeight] = useState(300);
+  const [images, setImages] = useState({});
   //console.log(activeVotes);
   // Component Functions
 
@@ -65,32 +65,44 @@ const PostCardView = ({
     }
   };
 
-  const _getPostImage = (content, isNsfwPost) => {
-    if (content && content.thumbnail) {
-      if (isNsfwPost && content.nsfw) {
-        return { image: NSFW_IMAGE, thumbnail: NSFW_IMAGE };
-      }
-      //console.log(content)
-      ImageSize.getSize(content.thumbnail).then((size) => {
-        setCalcImgHeight(Math.floor((size.height / size.width) * dim.width));
-      });
-      return { image: content.image, thumbnail: content.thumbnail };
-    } else {
-      return { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
-    }
-  };
-
   useEffect(() => {
     if (content) {
       const _rebloggedBy = get(content, 'reblogged_by[0]', null);
       setRebloggedBy(_rebloggedBy);
+
+      if (content.thumbnail) {
+        if (isNsfwPost && content.nsfw) {
+          setImages({ image: NSFW_IMAGE, thumbnail: NSFW_IMAGE });
+        }
+        //console.log(content)
+        let ratio = 10 / 7;
+        ImageSize.getSize(content.thumbnail)
+          .then((size) => {
+            ratio = size.height / size.width;
+            setCalcImgHeight(Math.floor(ratio * (dim.width - 18)));
+          })
+          .catch((er) => {
+            setCalcImgHeight(Math.floor(ratio * (dim.width - 18)));
+            bugsnag.notify(er, (report) => {
+              report.metadata = {
+                content,
+              };
+            });
+          });
+        setImages({ image: content.image, thumbnail: content.thumbnail });
+      } else {
+        setImages({ image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE });
+      }
     }
     if (activeVotes) {
       setActiveVot(get(content, 'active_votes'));
     }
+    return () => {
+      setImages({ image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE });
+      setCalcImgHeight(300);
+      setActiveVot([]);
+    };
   }, [content]);
-
-  const _image = _getPostImage(content, isNsfwPost);
 
   return (
     <View style={styles.post}>
@@ -113,13 +125,14 @@ const PostCardView = ({
       <View style={styles.postBodyWrapper}>
         <TouchableOpacity style={styles.hiddenImages} onPress={_handleOnContentPress}>
           {!isHideImage && (
-            <ProgressiveImage
-              source={{ uri: _image.image }}
-              thumbnailSource={{ uri: _image.thumbnail }}
+            <FastImage
+              source={{ uri: images.image }}
+              //thumbnailSource={{ uri: _image.thumbnail }}
               style={[
                 styles.thumbnail,
                 { width: dim.width - 18, height: Math.min(calcImgHeight, dim.height) },
               ]}
+              resizeMode={FastImage.resizeMode.cover}
             />
           )}
           <View style={[styles.postDescripton]}>

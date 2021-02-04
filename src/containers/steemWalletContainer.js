@@ -164,8 +164,8 @@ const WalletContainer = ({
         isHasUnclaimedRewards = _isHasUnclaimedRewards(account[0]);
         if (isHasUnclaimedRewards) {
           const {
-            reward_steem_balance: steemBal = account[0].reward_hive_balance,
-            reward_sbd_balance: sbdBal = account[0].reward_hbd_balance,
+            reward_hive_balance: steemBal,
+            reward_hbd_balance: sbdBal,
             reward_vesting_balance: vestingBal,
           } = account[0];
           return claimRewardBalance(currentAccount, pinCode, steemBal, sbdBal, vestingBal);

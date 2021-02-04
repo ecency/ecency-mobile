@@ -39,14 +39,31 @@ const PostCardContainer = ({
   }, [isRefresh]);
 
   useEffect(() => {
+    let isCancelled = false;
+    const fetchData = async (val) => {
+      try {
+        const dd = await getPostReblogs(val);
+        if (!isCancelled) {
+          setReblogs(dd);
+          return dd;
+        }
+      } catch (e) {
+        if (!isCancelled) {
+          setReblogs([]);
+          return val;
+        }
+      }
+    };
+
     if (_content) {
       setActiveVotes(get(_content, 'active_votes', []));
-
-      getPostReblogs(_content).then((result) => {
-        setReblogs(result);
-      });
       setContent(_content);
+      fetchData(_content);
     }
+
+    return () => {
+      isCancelled = true;
+    };
   }, [_content]);
 
   const _handleOnUserPress = () => {

@@ -41,6 +41,11 @@ target 'Ecency' do
     # Pods for testing
   end
 
+  post_install do |installer|
+    find_and_replace("../node_modules/react-native/Libraries/Image/RCTUIImageViewAnimated.m",
+    "_currentFrame.CGImage;","_currentFrame.CGImage ;} else { [super displayLayer:layer];")
+  end
+
   use_native_modules!
 end
 
@@ -52,4 +57,17 @@ target 'Ecency-tvOS' do
     # Pods for testing
   end
 
+end
+
+def find_and_replace(dir, findstr, replacestr)
+  Dir[dir].each do |name|
+      text = File.read(name)
+      replace = text.gsub(findstr,replacestr)
+      if text != replace
+          puts "Fix: " + name
+          File.open(name, "w") { |file| file.puts replace }
+          STDOUT.flush
+      end
+  end
+  Dir[dir + '*/'].each(&method(:find_and_replace))
 end

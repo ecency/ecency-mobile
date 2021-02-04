@@ -143,6 +143,7 @@ const PostsView = ({
               <FlatList
                 data={recommendedUsers}
                 extraData={recommendedUsers}
+                keyExtractor={(item, index) => `${item._id || item.id}${index}`}
                 renderItem={({ item, index }) => (
                   <UserListItem
                     index={index}
@@ -182,6 +183,7 @@ const PostsView = ({
               </Text>
               <FlatList
                 data={recommendedCommunities}
+                keyExtractor={(item, index) => `${item.id || item.title}${index}`}
                 renderItem={({ item, index }) => (
                   <CommunityListItem
                     index={index}
@@ -222,6 +224,9 @@ const PostsView = ({
 
     return (
       <View style={styles.placeholderWrapper}>
+        <PostCardPlaceHolder />
+        <PostCardPlaceHolder />
+        <PostCardPlaceHolder />
         <PostCardPlaceHolder />
         <PostCardPlaceHolder />
       </View>
@@ -319,7 +324,7 @@ const PostsView = ({
             removeClippedSubviews
             refreshing={refreshing}
             onRefresh={handleOnRefreshPosts}
-            onEndReachedThreshold={0.5}
+            onEndReachedThreshold={1}
             ListFooterComponent={_renderFooter}
             onScrollEndDrag={_handleOnScroll}
             ListEmptyComponent={_renderEmptyContent}

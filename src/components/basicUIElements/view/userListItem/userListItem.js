@@ -90,7 +90,7 @@ const UserListItem = ({
           ) : (
             <TouchableOpacity style={styles.rightWrapper} onPress={_handleSubscribeButtonPress}>
               {isFollowing ? (
-                <Tag value="Unfollow" isPostCardTag={false} disabled />
+                <Tag value="Unfollow" label={rightText} isPostCardTag={false} disabled />
               ) : (
                 <>
                   <Text

@@ -85,8 +85,8 @@ const PostsContainer = ({
 
   useEffect(() => {
     if (isConnected) {
-      _getPromotePosts();
       _loadPosts();
+      _getPromotePosts();
     }
   }, [
     _getPromotePosts,
@@ -119,6 +119,7 @@ const PostsContainer = ({
     _loadPosts,
     changeForceLoadPostState,
     username,
+    feedUsername,
     forceLoadPost,
     selectedOptionIndex,
     selectedFeedSubfilterIndex,

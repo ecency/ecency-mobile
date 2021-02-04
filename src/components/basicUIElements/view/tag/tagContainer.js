@@ -34,27 +34,37 @@ const TagContainer = ({
   const [isCommunity, setIsCommunity] = useState(false);
 
   useEffect(() => {
+    let isCancelled = false;
+    const fetchData = async (val) => {
+      try {
+        const dd = await getCommunityTitle(val);
+        if (!isCancelled) {
+          setLabel(dd);
+          setIsCommunity(value !== dd);
+          return dd;
+        }
+      } catch (e) {
+        if (!isCancelled) {
+          setLabel(val);
+          setIsCommunity(/hive-[1-3]\d{4,6}$/.test(val));
+          return val;
+        }
+      }
+    };
     if (value && /hive-[1-3]\d{4,6}$/.test(value)) {
       if (communityTitle) {
         setLabel(communityTitle);
         setIsCommunity(true);
       } else {
-        getCommunityTitle(value)
-          .then((r) => {
-            setLabel(r);
-            setIsCommunity(value !== r);
-            return r;
-          })
-          .catch((e) => {
-            setLabel(value);
-            setIsCommunity(/hive-[1-3]\d{4,6}$/.test(value));
-            return value;
-          });
+        fetchData(value);
       }
     } else {
       setLabel(value);
       setIsCommunity(false);
     }
+    return () => {
+      isCancelled = true;
+    };
   });
 
   // Component Functions

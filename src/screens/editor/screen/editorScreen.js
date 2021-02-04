@@ -18,6 +18,7 @@ import {
   SelectCommunityAreaView,
   SelectCommunityModalContainer,
   Modal,
+  UserAvatar,
 } from '../../../components';
 
 // dhive
@@ -350,6 +351,7 @@ class EditorScreen extends Component {
             isEdit={isEdit}
             post={post}
             fields={fields}
+            currentAccount={currentAccount}
             onTagChanged={this._handleOnTagAdded}
             onTitleChanged={this._handleChangeTitle}
             getCommunity={this._getCommunity}

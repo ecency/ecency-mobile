@@ -31,10 +31,10 @@ const ReblogScreen = ({ navigation }) => {
     id: 'reblog.title',
   });
 
-  const activeVotes = get(navigation, 'state.params.reblogs');
+  const reblogs = get(navigation, 'state.params.reblogs');
 
   return (
-    <AccountListContainer data={activeVotes} navigation={navigation}>
+    <AccountListContainer data={reblogs} navigation={navigation}>
       {({ data, filterResult, handleSearch, handleOnUserPress }) => (
         <SafeAreaView style={[globalStyles.container, { paddingBottom: 40 }]}>
           <BasicHeader

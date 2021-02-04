@@ -61,4 +61,25 @@ export default EStyleSheet.create({
   clearIcon: {
     color: '$primaryLightGray',
   },
+  replySection: {
+    paddingTop: 10,
+    paddingBottom: 0,
+  },
+  accountTile: {
+    height: 60,
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  avatarAndNameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  nameContainer: {
+    marginLeft: 2,
+  },
+  name: {
+    color: '$primaryDarkGray',
+  },
 });

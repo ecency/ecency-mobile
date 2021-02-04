@@ -72,6 +72,44 @@ export default (url) => {
     };
   }
 
+  // For non urls like @good-karma/esteem-london-presentation-e3105ba6637ed
+  let match = url.match(/^[/]?(@[\w.\d-]+)\/(.*)/);
+  if (match && match.length === 3) {
+    return {
+      author: match[1].replace('@', ''),
+      permlink: match[2],
+    };
+  }
+
+  // For non urls with category like esteem/@good-karma/esteem-london-presentation-e3105ba6637ed
+  match = url.match(/([\w.\d-]+)\/(@[\w.\d-]+)\/(.*)/);
+  if (match && match.length === 4) {
+    if (match[3].indexOf('#') > -1) {
+      const commentPart = match[3].split('@')[1];
+      const splits = commentPart.split('/');
+      return {
+        category: match[1],
+        author: splits[0],
+        permlink: splits[1],
+      };
+    }
+    return {
+      category: match[1],
+      author: match[2].replace('@', ''),
+      permlink: match[3],
+    };
+  }
+
+  let profile = url.match(/^https?:\/\/(.*)\/(@[\w.\d-]+)$/);
+  if (profile) {
+    if (profile && profile.length === 3) {
+      return {
+        author: profile[2].replace('@', ''),
+        permlink: null,
+      };
+    }
+  }
+
   if (
     [
       'https://estm.to',
@@ -85,28 +123,15 @@ export default (url) => {
     return parseCatAuthorPermlink(url);
   }
 
-  if (['https://busy.org', 'https://steemhunt.com'].some((x) => url.startsWith(x))) {
+  if (
+    [
+      'https://ecency.com',
+      'https://hive.blog',
+      'https://peakd.com',
+      'https://leofinance.io',
+    ].some((x) => url.startsWith(x))
+  ) {
     return parseAuthorPermlink(url);
   }
-
-  // For non urls like @good-karma/esteem-london-presentation-e3105ba6637ed
-  let match = url.match(/^[/]?(@[\w.\d-]+)\/(.*)/);
-  if (match && match.length === 3) {
-    return {
-      author: match[1].replace('@', ''),
-      permlink: match[2],
-    };
-  }
-
-  // For non urls with category like esteem/@good-karma/esteem-london-presentation-e3105ba6637ed
-  match = url.match(/([\w.\d-]+)\/(@[\w.\d-]+)\/(.*)/);
-  if (match && match.length === 4) {
-    return {
-      category: match[1],
-      author: match[2].replace('@', ''),
-      permlink: match[3],
-    };
-  }
-
   return null;
 };
