@@ -55,6 +55,10 @@ const TagContainer = ({
       setLabel(value);
       setIsCommunity(false);
     }
+    return () => {
+      setLabel(value);
+      setIsCommunity(false);
+    };
   });
 
   // Component Functions
