@@ -226,6 +226,9 @@ const PostsView = ({
       <View style={styles.placeholderWrapper}>
         <PostCardPlaceHolder />
         <PostCardPlaceHolder />
+        <PostCardPlaceHolder />
+        <PostCardPlaceHolder />
+        <PostCardPlaceHolder />
       </View>
     );
   };
