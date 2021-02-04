@@ -100,6 +100,7 @@ const PostCardView = ({
     return () => {
       setImages({ image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE });
       setCalcImgHeight(300);
+      setActiveVot([]);
     };
   }, [content]);
 

@@ -1,5 +1,5 @@
-import AccountsBottomSheetContainer from './container/accountsBottomSheetContainer';
-import AccountsBottomSheet from './view/accountsBottomSheetView';
+import AccountsBottomSheet from './container/accountsBottomSheetContainer';
+import AccountsBottomSheetView from './view/accountsBottomSheetView';
 
-export { AccountsBottomSheet, AccountsBottomSheetContainer };
-export default AccountsBottomSheetContainer;
+export { AccountsBottomSheetView, AccountsBottomSheet };
+export default AccountsBottomSheet;

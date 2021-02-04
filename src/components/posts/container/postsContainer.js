@@ -119,6 +119,7 @@ const PostsContainer = ({
     _loadPosts,
     changeForceLoadPostState,
     username,
+    feedUsername,
     forceLoadPost,
     selectedOptionIndex,
     selectedFeedSubfilterIndex,

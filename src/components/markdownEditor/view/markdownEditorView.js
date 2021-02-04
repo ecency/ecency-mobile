@@ -1,19 +1,37 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { View, KeyboardAvoidingView, FlatList, Text, Platform, ScrollView } from 'react-native';
+import {
+  View,
+  KeyboardAvoidingView,
+  FlatList,
+  Text,
+  Platform,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { renderPostBody } from '@ecency/render-helper';
+import { useDispatch, useSelector } from 'react-redux';
 
 // Utils
 import Formats from './formats/formats';
 import applyImageLink from './formats/applyWebLinkFormat';
 
+// Actions
+import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
+
 // Components
-import { IconButton } from '../../iconButton';
-import { PostBody } from '../../postElements';
-import { StickyBar } from '../../basicUIElements';
-import { TextInput } from '../../textInput';
-// Components
-import { TitleArea, TagArea, TagInput, SummaryArea } from '../../index';
+import {
+  IconButton,
+  PostBody,
+  Separator,
+  StickyBar,
+  TextInput,
+  UserAvatar,
+  TitleArea,
+  TagArea,
+  TagInput,
+  SummaryArea,
+} from '../../index';
 
 import { ThemeContainer } from '../../../containers';
 
@@ -40,6 +58,7 @@ const MarkdownEditorView = ({
   onTagChanged,
   onTitleChanged,
   getCommunity,
+  currentAccount,
 }) => {
   const [text, setText] = useState(draftBody || '');
   const [selection, setSelection] = useState({ start: 0, end: 0 });
@@ -49,6 +68,11 @@ const MarkdownEditorView = ({
   const inputRef = useRef(null);
   const galleryRef = useRef(null);
   const clearRef = useRef(null);
+
+  const dispatch = useDispatch();
+  const isVisibleAccountsBottomSheet = useSelector(
+    (state) => state.ui.isVisibleAccountsBottomSheet,
+  );
 
   useEffect(() => {
     if (!isPreviewActive) {
@@ -101,6 +125,13 @@ const MarkdownEditorView = ({
       }
     }
   }, [text]);
+
+  const changeUser = async () => {
+    dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
+    if (inputRef && inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const _changeText = useCallback((input) => {
@@ -254,6 +285,18 @@ const MarkdownEditorView = ({
             componentID="tag-area"
             intl={intl}
           />
+        )}
+        {isReply && (
+          <View style={styles.replySection}>
+            <TouchableOpacity style={styles.accountTile} onPress={() => changeUser()}>
+              <View style={styles.avatarAndNameContainer}>
+                <UserAvatar noAction username={currentAccount.username} />
+                <View style={styles.nameContainer}>
+                  <Text style={styles.name}>{`@${currentAccount.username}`}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
         )}
         {!isPreviewActive ? (
           <ThemeContainer>

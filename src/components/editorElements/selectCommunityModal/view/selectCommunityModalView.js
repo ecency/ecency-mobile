@@ -34,6 +34,7 @@ const SelectCommunityModalView = ({
           showsVerticalScrollIndicator={false}
           style={styles.searchedFlatList}
           data={searchedCommunities}
+          keyExtractor={(item, index) => index.toString()}
           renderItem={({ item, index, separators }) => (
             <CommunityCard
               community={item}
@@ -66,6 +67,7 @@ const SelectCommunityModalView = ({
                   ItemSeparatorComponent={() => <Separator />}
                   showsVerticalScrollIndicator={false}
                   data={subscribedCommunities.data}
+                  keyExtractor={(item, index) => index.toString()}
                   renderItem={({ item, index, separators }) => {
                     const community = { name: item[0], title: item[1] };
                     return (
@@ -89,6 +91,7 @@ const SelectCommunityModalView = ({
                 ItemSeparatorComponent={() => <Separator />}
                 showsVerticalScrollIndicator={false}
                 data={topCommunities.data}
+                keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item, index, separators }) => (
                   <CommunityCard
                     community={item}

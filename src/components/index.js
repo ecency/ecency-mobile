@@ -1,4 +1,5 @@
 import { AvatarHeader } from './avatarHeader';
+import { AccountsBottomSheet } from './accountsBottomSheet';
 import { BasicHeader } from './basicHeader';
 import { BoostIndicatorAnimation, PulseAnimation, SpinIndicator } from './animations';
 import BeneficiaryModal from './beneficiaryModal/beneficiaryModal';
@@ -21,7 +22,6 @@ import { LoginHeader } from './loginHeader';
 import { MainButton } from './mainButton';
 import { MarkdownEditor } from './markdownEditor';
 import { Modal } from './modal';
-import AccountsBottomSheet from './accountsBottomSheet';
 import { NotificationLine } from './notificationLine';
 import { NumericKeyboard } from './numericKeyboard';
 import { ParentPost } from './parentPost';
@@ -112,6 +112,7 @@ import {
 
 export {
   AvatarHeader,
+  AccountsBottomSheet,
   BasicHeader,
   BeneficiaryModal,
   BoostIndicatorAnimation,
@@ -145,7 +146,6 @@ export {
   Logo,
   MainButton,
   MarkdownEditor,
-  AccountsBottomSheet,
   Modal,
   NoInternetConnection,
   NoPost,

@@ -515,7 +515,7 @@ class EditorContainer extends Component {
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        error.error_description.split(': ')[1] || error.toString(),
+        error.toString(),
       );
     }
 
