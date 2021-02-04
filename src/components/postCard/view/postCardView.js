@@ -19,9 +19,6 @@ import { Upvote } from '../../upvote';
 // Styles
 import styles from './postCardStyles';
 
-// Defaults
-import ProgressiveImage from '../../progressiveImage';
-
 const dim = Dimensions.get('window');
 const DEFAULT_IMAGE =
   'https://images.ecency.com/DQmT8R33geccEjJfzZEdsRHpP3VE8pu3peRCnQa1qukU4KR/no_image_3x.png';
@@ -44,6 +41,7 @@ const PostCardView = ({
   const [rebloggedBy, setRebloggedBy] = useState(get(content, 'reblogged_by[0]', null));
   const [activeVot, setActiveVot] = useState(activeVotes);
   const [calcImgHeight, setCalcImgHeight] = useState(300);
+  const [images, setImages] = useState({});
   //console.log(activeVotes);
   // Component Functions
 
@@ -67,43 +65,43 @@ const PostCardView = ({
     }
   };
 
-  const _getPostImage = (content, isNsfwPost) => {
-    if (content && content.thumbnail) {
-      if (isNsfwPost && content.nsfw) {
-        return { image: NSFW_IMAGE, thumbnail: NSFW_IMAGE };
-      }
-      //console.log(content)
-      let ratio = 10 / 7;
-      ImageSize.getSize(content.thumbnail)
-        .then((size) => {
-          ratio = size.height / size.width;
-          setCalcImgHeight(Math.floor(ratio * (dim.width - 18)));
-        })
-        .catch((er) => {
-          setCalcImgHeight(Math.floor(ratio * (dim.width - 18)));
-          bugsnag.notify(er, (report) => {
-            report.metadata = {
-              content,
-            };
-          });
-        });
-      return { image: content.image, thumbnail: content.thumbnail };
-    } else {
-      return { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
-    }
-  };
-
   useEffect(() => {
     if (content) {
       const _rebloggedBy = get(content, 'reblogged_by[0]', null);
       setRebloggedBy(_rebloggedBy);
+
+      if (content.thumbnail) {
+        if (isNsfwPost && content.nsfw) {
+          setImages({ image: NSFW_IMAGE, thumbnail: NSFW_IMAGE });
+        }
+        //console.log(content)
+        let ratio = 10 / 7;
+        ImageSize.getSize(content.thumbnail)
+          .then((size) => {
+            ratio = size.height / size.width;
+            setCalcImgHeight(Math.floor(ratio * (dim.width - 18)));
+          })
+          .catch((er) => {
+            setCalcImgHeight(Math.floor(ratio * (dim.width - 18)));
+            bugsnag.notify(er, (report) => {
+              report.metadata = {
+                content,
+              };
+            });
+          });
+        setImages({ image: content.image, thumbnail: content.thumbnail });
+      } else {
+        setImages({ image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE });
+      }
     }
     if (activeVotes) {
       setActiveVot(get(content, 'active_votes'));
     }
+    return () => {
+      setImages({ image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE });
+      setCalcImgHeight(300);
+    };
   }, [content]);
-
-  const _image = _getPostImage(content, isNsfwPost);
 
   return (
     <View style={styles.post}>
@@ -127,7 +125,7 @@ const PostCardView = ({
         <TouchableOpacity style={styles.hiddenImages} onPress={_handleOnContentPress}>
           {!isHideImage && (
             <FastImage
-              source={{ uri: _image.image }}
+              source={{ uri: images.image }}
               //thumbnailSource={{ uri: _image.thumbnail }}
               style={[
                 styles.thumbnail,

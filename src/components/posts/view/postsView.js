@@ -321,7 +321,7 @@ const PostsView = ({
             removeClippedSubviews
             refreshing={refreshing}
             onRefresh={handleOnRefreshPosts}
-            onEndReachedThreshold={0.5}
+            onEndReachedThreshold={1}
             ListFooterComponent={_renderFooter}
             onScrollEndDrag={_handleOnScroll}
             ListEmptyComponent={_renderEmptyContent}
