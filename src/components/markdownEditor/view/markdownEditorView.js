@@ -115,6 +115,12 @@ const MarkdownEditorView = ({
   }, [draftBody]);
 
   useEffect(() => {
+    if (inputRef && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [currentAccount]);
+
+  useEffect(() => {
     const nextText = text.replace(text, '');
 
     if (nextText && nextText.length > 0) {
@@ -128,9 +134,6 @@ const MarkdownEditorView = ({
 
   const changeUser = async () => {
     dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
-    if (inputRef && inputRef.current) {
-      inputRef.current.focus();
-    }
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
