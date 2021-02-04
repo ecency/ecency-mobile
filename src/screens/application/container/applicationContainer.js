@@ -20,7 +20,6 @@ import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 import Matomo from 'react-native-matomo-sdk';
 import uniqueId from 'react-native-unique-id';
-import AsyncStorage from '@react-native-community/async-storage';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -205,15 +204,6 @@ class ApplicationContainer extends Component {
             isRenderRequire: true,
           }),
       );
-      AsyncStorage.getItem('temp-url')
-        .then((res) => {
-          if (res) {
-            this._handleDeepLink(res);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
       dispatch(isRenderRequired(false));
     }
   }
@@ -262,7 +252,6 @@ class ApplicationContainer extends Component {
   _handleDeepLink = async (url = '') => {
     if (!url || url.indexOf('ShareMedia://') >= 0) return;
 
-    await AsyncStorage.setItem('temp-url', '');
     let routeName;
     let params;
     let content;

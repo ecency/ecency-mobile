@@ -93,6 +93,7 @@ const PostsContainer = ({
     _loadPosts,
     changeForceLoadPostState,
     username,
+    feedUsername,
     forceLoadPost,
     isConnected,
     pageType,

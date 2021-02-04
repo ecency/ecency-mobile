@@ -11,7 +11,6 @@ import {
 import ActionSheet from 'react-native-actionsheet';
 import { renderPostBody } from '@ecency/render-helper';
 import { useDispatch, useSelector } from 'react-redux';
-import AsyncStorage from '@react-native-community/async-storage';
 
 // Utils
 import Formats from './formats/formats';
@@ -129,10 +128,6 @@ const MarkdownEditorView = ({
 
   const changeUser = async () => {
     dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
-    await AsyncStorage.setItem(
-      'temp-url',
-      `https://ecency.com/post/@${post.author}/${post.permlink}`,
-    );
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps

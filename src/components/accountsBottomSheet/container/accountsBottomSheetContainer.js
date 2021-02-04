@@ -58,7 +58,7 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
       accountData.username = accountData.name;
 
       dispatch(updateCurrentAccount(accountData));
-      dispatch(isRenderRequired(true));
+      //dispatch(isRenderRequired(true));
 
       const upToDateCurrentAccount = await switchAccount(accountData.name);
       const realmData = await getUserDataWithUsername(accountData.name);
@@ -75,7 +75,7 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
       _currentAccount.local = realmData[0];
 
       dispatch(updateCurrentAccount(_currentAccount));
-      dispatch(isRenderRequired(true));
+      //dispatch(isRenderRequired(true));
     }
   };
 
