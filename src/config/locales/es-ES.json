@@ -258,7 +258,7 @@
     "cancel": "Cancelar",
     "logout_text": "¿Estás seguro de que quieres salir?",
     "create_a_new_account": "Crea una cuenta nueva",
-    "add_an_existing_account": "Añadir cuenta existente",
+    "add_an_existing_account": "Añadir una cuenta existente",
     "accounts": "Cuentas"
   },
   "header": {
@@ -328,7 +328,7 @@
     "fail_follow": "¡Error al seguir!",
     "success_subscribe": "¡Suscrito con éxito!",
     "fail_subscribe": "¡Error al suscribir!",
-    "success_leave": "Leave success!",
+    "success_leave": "¡Saliste con éxito!",
     "fail_leave": "¡Error al salir!",
     "success_mute": "Muteo exitoso!",
     "success_unmute": "¡Muteo exitoso!",
@@ -591,7 +591,7 @@
   },
   "beneficiary_modal": {
     "percent": "Porcentaje",
-    "username": "Nombre de Usuario",
+    "username": "Nombre de usuario",
     "addAccount": "Agregar cuenta",
     "save": "Guardar"
   }
