@@ -21,7 +21,7 @@
     "delegation": "Delegación",
     "delegations": "Delegaciones",
     "delegation_title": "Recompensa por delegación",
-    "delegation_desc": "Gana puntos diarios con tu delegacion",
+    "delegation_desc": "Gana puntos cada día por tu delegación",
     "post_title": "Puntos por publicar",
     "comment_title": "Puntos por comentar",
     "vote_title": "Puntos por votar",
@@ -56,7 +56,7 @@
     "information": "¿Está seguro de transferir los fondos?",
     "amount_desc": "Balance",
     "memo_desc": "Este memo es público",
-    "to_placeholder": "Nombre de Usuario",
+    "to_placeholder": "Nombre de usuario",
     "memo_placeholder": "Escribe tus notas aquí",
     "transfer_token": "Transferir",
     "purchase_estm": "OBTENER PUNTOS",
@@ -142,7 +142,7 @@
     "monthly": "MENSUAL"
   },
   "messages": {
-    "comingsoon": "Pronto mensajería instantánea!"
+    "comingsoon": "¡Pronto mensajería instantánea!"
   },
   "profile": {
     "following": "Siguiendo",
@@ -158,7 +158,7 @@
     "hours": "horas",
     "voting_power": "Poder de voto",
     "login_to_see": "Inciar sesión para ver",
-    "follow_people": "Sigue a algunas personas para llenar tu feed",
+    "follow_people": "Sigue a algunas personas para llenar tu inicio",
     "follow_communities": "Únete a algunas comunidades para llenar tus actualizaciones",
     "havent_commented": "no has comentado nada aún",
     "havent_posted": "no has publicado nada aún",
@@ -215,9 +215,9 @@
     "signin": "Iniciar sesión",
     "signup": "ÚNETE AHORA",
     "signin_title": "Para obtener todos los beneficios de utilizar Ecency",
-    "username": "Nombre de Usuario",
+    "username": "Nombre de usuario",
     "password": "Contraseña o WIF",
-    "description": "Al registrarte, estás de acuerdo con nuestros Términos de servicio &amp; Política de privacidad",
+    "description": "Al iniciar sesión, estás de acuerdo con nuestros Términos de Servicio y Políticas de privacidad.",
     "cancel": "cancelar",
     "login": "ACCEDER",
     "steemconnect_description": "Si no desea mantener su contraseña encriptada y guardada en su dispositivo, puede usar Hivesigner.",
