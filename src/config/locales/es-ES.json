@@ -236,7 +236,7 @@
   "home": {
     "feed": "Inicio",
     "popular": "Popular",
-    "top": "Arriba",
+    "top": "Tendencia",
     "hot": "Caliente",
     "new": "Nuevo",
     "blog": "Blog",
@@ -298,7 +298,7 @@
     "options": "Opciones",
     "my_blog": "Mi blog",
     "my_communities": "Mis comunidades",
-    "top_communities": "Comunidades",
+    "top_communities": "Comunidades populares",
     "schedule_modal_title": "Programar publicación"
   },
   "pincode": {
@@ -331,7 +331,7 @@
     "success_leave": "¡Saliste con éxito!",
     "fail_leave": "¡Error al salir!",
     "success_mute": "¡Silenciado exitosamente!",
-    "success_unmute": "¡Muteo exitoso!",
+    "success_unmute": "¡Silencio removido exitosamente!",
     "success_unfollow": "¡Dejar de seguir con éxito!",
     "fail_unfollow": "¡Error al dejar de seguir!",
     "warning": "Advertencia",
@@ -342,28 +342,28 @@
     "clear": "Limpiar",
     "cancel": "Cancelar",
     "delete": "Borrar",
-    "copied": "Copiado!",
-    "no_internet": "Sin conexión!",
+    "copied": "¡Copiado!",
+    "no_internet": "¡Sin conexión!",
     "confirm": "Confirmar",
     "removed": "Eliminado",
     "same_user": "Este usuario ya ha sido añadido a la lista",
     "unknow_error": "Ocurrió un error",
     "error": "Error",
-    "fetch_error": "Problema de conexión, cambiar el servidor y reinicia",
+    "fetch_error": "Problema de conexión, cambia de servidor y reinicia",
     "connection_fail": "¡Error de conexión!",
     "connection_success": "¡Conectado con éxito!",
     "checking": "Comprobando...",
     "external_link": "Abrir en navegador",
-    "not_existing_post": "¡La publicación no existe! Por favor comprueba el permalink y el autor.",
+    "not_existing_post": "¡La publicación no existe! Por favor comprueba el enlace permanente y el autor.",
     "google_play_version": "Notamos que tu dispositivo tiene una versión antigua de Google Play. ¡Por favor actualiza los servicios de Google Play e inténtalo de nuevo!",
-    "rc_down": "¡No hay suficientes créditos de recursos para realizar una acción! \n\nAumenta tu cuenta para continuar disfrutando de la experiencia. ¿Quieres potenciar tu cuenta ahora?",
+    "rc_down": "¡No hay suficientes créditos de recursos para realizar una acción! \n\nPotencia tu cuenta para continuar disfrutando de la experiencia. ¿Quieres potenciar tu cuenta ahora?",
     "payloadTooLarge": "El tamaño del archivo es demasiado grande, por favor cambia el tamaño o suba una imagen más pequeña",
     "qoutaExceeded": "Se ha superado la cuota de subida",
     "invalidImage": "Imagen no válida, prueba un archivo diferente",
     "something_wrong": "Algo ha fallado.",
     "something_wrong_alt": "Prueba https://ecency.com",
     "something_wrong_reload": "Recarga",
-    "can_not_be_empty": "Título y cuerpo no pueden estar vacíos!"
+    "can_not_be_empty": "¡Título y cuerpo no pueden estar vacíos!"
   },
   "post": {
     "reblog_alert": "¿Estás seguro de querer rebloguear?",
@@ -377,7 +377,7 @@
     "gallery_mode": "Modo galería",
     "save_to_local": "Descargar al dispositivo",
     "image_saved": "Imagen guardada en la galería de fotos",
-    "image_saved_error": "Error salvando imagen",
+    "image_saved_error": "Error guardando imagen",
     "wrong_link": "Enlace incorrecto"
   },
   "drafts": {
@@ -395,7 +395,7 @@
   },
   "bookmarks": {
     "title": "Marcadores",
-    "load_error": "No pudo cargar marcadores",
+    "load_error": "No se pudo cargar marcadores",
     "empty_list": "Nada aquí",
     "deleted": "Marcador removido",
     "search": "Buscar en marcadores",
@@ -474,7 +474,7 @@
     "powerUp": "Hacer Power Up",
     "withdraw_to_saving": "Retirar a Ahorros",
     "steemconnect_title": "Transferencia en Hivesigner",
-    "estimated_weekly": "Estimado Semana",
+    "estimated_weekly": "Estimado Semanal",
     "destination_accounts": "Cuentas destino",
     "stop_information": "¿Estás seguro de detener?",
     "percent": "Porcentaje",
@@ -495,7 +495,7 @@
     "buy": "Obtener Puntos",
     "next": "SIGUIENTE",
     "account": {
-      "title": "Obtener ayuda de Cuenta",
+      "title": "Obtener impulso de cuenta",
       "desc": "La delegación de 30 días impulsará sus votos y actividades sociales y le dará más acciones con más créditos de Recursos."
     }
   },
@@ -511,7 +511,7 @@
     "days": "días",
     "user": "Usuario",
     "permlink": "Publicación",
-    "permlinkPlaceholder": "usuario/permlink",
+    "permlinkPlaceholder": "usuario/enlacepermanente",
     "information": "¿Seguro de que desea promocionar?"
   },
   "boostPost": {
@@ -523,7 +523,7 @@
     "time": "TIEMPO"
   },
   "reblog": {
-    "title": "Rebloguear información"
+    "title": "Información de reblogueo"
   },
   "dsteem": {
     "date_error": {
@@ -536,7 +536,7 @@
     "title": "Comentarios",
     "reveal_comment": "Revelar comentario",
     "read_more": "Cargar más comentarios",
-    "more_replies": "mas comentarios"
+    "more_replies": "más respuestas"
   },
   "search_result": {
     "others": "Otros",
