@@ -38,11 +38,13 @@ const PostCardView = ({
   intl,
   activeVotes,
 }) => {
-  const [rebloggedBy, setRebloggedBy] = useState(get(content, 'reblogged_by[0]', null));
-  const [activeVot, setActiveVot] = useState(activeVotes);
-  const [calcImgHeight, setCalcImgHeight] = useState(300);
-  const [images, setImages] = useState({});
-  //console.log(activeVotes);
+  // const [rebloggedBy, setRebloggedBy] = useState(get(content, 'reblogged_by[0]', null));
+  // const [activeVot, setActiveVot] = useState(activeVotes);
+  // const [images, setImages] = useState({});
+  // const [calcImgHeight, setCalcImgHeight] = useState(300);
+  const calcImgHeight = 300;
+
+
   // Component Functions
 
   const _handleOnUserPress = () => {
@@ -65,44 +67,59 @@ const PostCardView = ({
     }
   };
 
-  useEffect(() => {
-    if (content) {
-      const _rebloggedBy = get(content, 'reblogged_by[0]', null);
-      setRebloggedBy(_rebloggedBy);
+  // useEffect(() => {
+  //   if (content) {
+  //     const _rebloggedBy = get(content, 'reblogged_by[0]', null);
+  //     setRebloggedBy(_rebloggedBy);
 
-      if (content.thumbnail) {
-        if (isNsfwPost && content.nsfw) {
-          setImages({ image: NSFW_IMAGE, thumbnail: NSFW_IMAGE });
-        }
-        //console.log(content)
-        let ratio = 10 / 7;
-        ImageSize.getSize(content.thumbnail)
-          .then((size) => {
-            ratio = size.height / size.width;
-            setCalcImgHeight(Math.floor(ratio * (dim.width - 18)));
-          })
-          .catch((er) => {
-            setCalcImgHeight(Math.floor(ratio * (dim.width - 18)));
-            bugsnag.notify(er, (report) => {
-              report.metadata = {
-                content,
-              };
-            });
-          });
-        setImages({ image: content.image, thumbnail: content.thumbnail });
-      } else {
-        setImages({ image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE });
-      }
+  //     if (content.thumbnail) {
+  //       if (isNsfwPost && content.nsfw) {
+  //         setImages({ image: NSFW_IMAGE, thumbnail: NSFW_IMAGE });
+  //       }
+  //        console.log(content)
+  //       let ratio = 10 / 7;
+  //       ImageSize.getSize(content.thumbnail)
+  //         .then((size) => {
+  //           ratio = size.height / size.width;
+  //           setCalcImgHeight(Math.floor(ratio * (dim.width - 18)));
+  //         })
+  //         .catch((er) => {
+  //           setCalcImgHeight(Math.floor(ratio * (dim.width - 18)));
+  //           bugsnag.notify(er, (report) => {
+  //             report.metadata = {
+  //               content,
+  //             };
+  //           });
+  //         });
+  //         setImages({ image: content.image, thumbnail: content.thumbnail });
+  //       }
+  //       else {
+  //         setImages({ image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE });
+  //       }
+
+  //     if (activeVotes) {
+  //       setActiveVot(get(content, 'active_votes'));
+  //     }
+  //   }
+  //   return () => {
+  //     setImages({ image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE });
+  //     setCalcImgHeight(300);
+  //     setActiveVot([]);
+  //   };
+  // }, []);
+
+  const activeVot = get(content, 'active_votes', []);
+  const rebloggedBy = get(content, 'reblogged_by[0]', null);
+  var images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
+  if (content.thumbnail) {
+    if (isNsfwPost && content.nsfw) {
+      images = { image: NSFW_IMAGE, thumbnail: NSFW_IMAGE };
     }
-    if (activeVotes) {
-      setActiveVot(get(content, 'active_votes'));
-    }
-    return () => {
-      setImages({ image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE });
-      setCalcImgHeight(300);
-      setActiveVot([]);
-    };
-  }, [content]);
+
+    images = { image: content.image, thumbnail: content.thumbnail };
+  } else {
+    images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
+  }
 
   return (
     <View style={styles.post}>
