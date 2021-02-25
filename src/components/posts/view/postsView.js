@@ -224,11 +224,13 @@ const PostsView = ({
 
     return (
       <View style={styles.placeholderWrapper}>
+        {/* TOOD: improve empty list holder*/}
+
+        {/* <PostCardPlaceHolder />
         <PostCardPlaceHolder />
         <PostCardPlaceHolder />
         <PostCardPlaceHolder />
-        <PostCardPlaceHolder />
-        <PostCardPlaceHolder />
+        <PostCardPlaceHolder />  */}
       </View>
     );
   };

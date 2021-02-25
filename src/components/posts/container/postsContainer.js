@@ -236,7 +236,7 @@ const PostsContainer = ({
       .catch(() => {});
   };
 
-  const _loadPosts = (type) => {
+  const _loadPosts = async (type) => {
     if (
       isLoading ||
       !isConnected ||
@@ -299,48 +299,50 @@ const PostsContainer = ({
       options.start_author = startAuthor;
       options.start_permlink = startPermlink;
     }
-    func(options, username, nsfw)
-      .then((result) => {
-        if (isMountedRef.current) {
-          if (result.length > 0) {
-            let _posts = result;
 
-            if (filter === 'reblogs') {
-              for (let i = _posts.length - 1; i >= 0; i--) {
-                if (_posts[i].author === username) {
-                  _posts.splice(i, 1);
-                }
+    try {
+      const result = await func(options, username, nsfw);
+
+      if (isMountedRef.current) {
+        if (result.length > 0) {
+          let _posts = result;
+
+          if (filter === 'reblogs') {
+            for (let i = _posts.length - 1; i >= 0; i--) {
+              if (_posts[i].author === username) {
+                _posts.splice(i, 1);
               }
             }
-            if (_posts.length > 0) {
-              if (posts.length > 0) {
-                if (refreshing) {
-                  _posts = unionBy(_posts, posts, 'permlink');
-                } else {
-                  _posts = unionBy(posts, _posts, 'permlink');
-                }
-              }
-              if (posts.length <= 5 && pageType !== 'profiles') {
-                _setFeedPosts(_posts);
-              }
-
-              //if (!refreshing) {
-              setStartAuthor(result[result.length - 1] && result[result.length - 1].author);
-              setStartPermlink(result[result.length - 1] && result[result.length - 1].permlink);
-              //}
-              setPosts(_posts);
-            }
-          } else if (result.length === 0) {
-            setIsNoPost(true);
           }
-          setRefreshing(false);
-          setIsLoading(false);
+          if (_posts.length > 0) {
+            if (posts.length > 0) {
+              if (refreshing) {
+                _posts = unionBy(_posts, posts, 'permlink');
+              } else {
+                _posts = unionBy(posts, _posts, 'permlink');
+              }
+            }
+            if (posts.length <= 5 && pageType !== 'profiles') {
+              _setFeedPosts(_posts);
+            }
+
+            //if (!refreshing) {
+            setStartAuthor(result[result.length - 1] && result[result.length - 1].author);
+            setStartPermlink(result[result.length - 1] && result[result.length - 1].permlink);
+            //}
+            setPosts(_posts);
+          }
+        } else if (result.length === 0) {
+          setIsNoPost(true);
         }
-      })
-      .catch(() => {
         setRefreshing(false);
         setIsLoading(false);
-      });
+      }
+    } catch (err) {
+      setRefreshing(false);
+      setIsLoading(false);
+    }
+
     // track filter and tag views
     if (isAnalytics) {
       if (tag) {
