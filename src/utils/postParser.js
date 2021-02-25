@@ -72,7 +72,8 @@ export const parseComments = async (comments) => {
   });
 };
 
-export const isVoted = (activeVotes, currentUserName) => {
+
+export const isVoted = async (activeVotes, currentUserName) => {
   if (!currentUserName) {
     return false;
   }
@@ -85,7 +86,7 @@ export const isVoted = (activeVotes, currentUserName) => {
   return false;
 };
 
-export const isDownVoted = (activeVotes, currentUserName) => {
+export const isDownVoted = async (activeVotes, currentUserName) => {
   if (!currentUserName) {
     return false;
   }

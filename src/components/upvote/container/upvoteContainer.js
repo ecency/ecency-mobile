@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 
@@ -22,17 +22,35 @@ import UpvoteView from '../view/upvoteView';
  *
  */
 
-class UpvoteContainer extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {};
+const UpvoteContainer = (props) => {
+  const {
+    content,
+    currentAccount,
+    fetchPost,
+    isLoggedIn,
+    isShowPayoutValue,
+    pinCode,
+    upvotePercent,
+    globalProps,
+    activeVotes = [],
+  } = props;
+
+  const [isVoted, setIsVoted] = useState(null);
+  const [isDownVoted, setIsDownVoted] = useState(null);
+
+  useEffect(() => {
+    _calculateVoteStatus()
+  }, [activeVotes])
+
+  const _calculateVoteStatus = async () => {
+    const _isVoted = await isVotedFunc(activeVotes, get(currentAccount, 'name'));
+    const _isDownVoted = await isDownVotedFunc(activeVotes, get(currentAccount, 'name'));
+
+    setIsVoted(_isVoted && parseInt(_isVoted, 10) / 10000)
+    setIsDownVoted(_isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1)
   }
 
-  // Component Life Cycle Functions
-
-  // Component Functions
-
-  _setUpvotePercent = (value) => {
+  const _setUpvotePercent = (value) => {
     const { dispatch } = this.props;
 
     if (value) {
@@ -41,26 +59,8 @@ class UpvoteContainer extends PureComponent {
     }
   };
 
-  render() {
-    const {
-      content,
-      currentAccount,
-      fetchPost,
-      isLoggedIn,
-      isShowPayoutValue,
-      pinCode,
-      upvotePercent,
-      globalProps,
-      activeVotes = [],
-    } = this.props;
-
-    const _isVoted = isVotedFunc(activeVotes, get(currentAccount, 'name'));
-    const _isDownVoted = isDownVotedFunc(activeVotes, get(currentAccount, 'name'));
 
     const author = get(content, 'author');
-    const isVoted = _isVoted && parseInt(_isVoted, 10) / 10000;
-    const isDownVoted = _isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1;
-
     const totalPayout = get(content, 'total_payout');
     const isDecinedPayout = get(content, 'is_declined_payout');
     const permlink = get(content, 'permlink');
@@ -113,7 +113,7 @@ class UpvoteContainer extends PureComponent {
         currentAccount={currentAccount}
         fetchPost={fetchPost}
         globalProps={globalProps}
-        handleSetUpvotePercent={this._setUpvotePercent}
+        handleSetUpvotePercent={_setUpvotePercent}
         isDecinedPayout={isDecinedPayout}
         isLoggedIn={isLoggedIn}
         isShowPayoutValue={isShowPayoutValue}
@@ -131,8 +131,13 @@ class UpvoteContainer extends PureComponent {
         breakdownPayout={breakdownPayout}
       />
     );
-  }
+
 }
+
+
+  // Component Life Cycle Functions
+
+  // Component Functions
 
 const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
