@@ -301,7 +301,7 @@ export const getCommunities = async (
 ) =>
   new Promise(async (resolve, reject) => {
     try {
-      console.log("Getting communities", query)
+      console.log('Getting communities', query);
       const data = await client.call('bridge', 'list_communities', {
         last,
         limit,
@@ -441,7 +441,7 @@ export const ignoreUser = async (currentAccount, pin, data) => {
 export const getActiveVotes = (author, permlink) =>
   new Promise((resolve, reject) => {
     try {
-      console.log("Getting active votes", author, permlink)
+      console.log('Getting active votes', author, permlink);
       client
         .call('condenser_api', 'get_active_votes', [author, permlink])
         .then((result) => {
@@ -457,7 +457,7 @@ export const getActiveVotes = (author, permlink) =>
 
 export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
   try {
-    console.log("Getting ranked posts:", query)
+    console.log('Getting ranked posts:', query);
     let posts = await client.call('bridge', 'get_ranked_posts', query);
 
     if (posts) {
@@ -468,7 +468,7 @@ export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
         return updatedPosts;
       }
     }
-    console.log("Returning fetched posts: " + posts?posts.length:null)
+    console.log('Returning fetched posts: ' + posts ? posts.length : null);
     return posts;
   } catch (error) {
     return error;
@@ -477,7 +477,7 @@ export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
 
 export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
   try {
-    console.log("Getting account posts: ", query)
+    console.log('Getting account posts: ', query);
     let posts = await client.call('bridge', 'get_account_posts', query);
 
     if (posts) {
@@ -488,7 +488,7 @@ export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
         return updatedPosts;
       }
     }
-    console.log("Returning fetched posts: " + posts?posts.length:null)
+    console.log('Returning fetched posts: ' + posts ? posts.length : null);
     return posts;
   } catch (error) {
     return error;
@@ -497,7 +497,7 @@ export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
 
 export const getRepliesByLastUpdate = async (query) => {
   try {
-    console.log("Getting replies: ", query)
+    console.log('Getting replies: ', query);
     const replies = await client.database.call('get_replies_by_last_update', [
       query.start_author,
       query.start_permlink,
@@ -511,9 +511,8 @@ export const getRepliesByLastUpdate = async (query) => {
 };
 
 export const getPost = async (author, permlink, currentUserName = null, isPromoted = false) => {
-  
   try {
-    console.log("Getting post: ", author, permlink)
+    console.log('Getting post: ', author, permlink);
     const post = await client.database.call('get_content', [author, permlink]);
 
     return post ? parsePost(post, currentUserName, isPromoted) : null;

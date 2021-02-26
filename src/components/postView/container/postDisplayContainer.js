@@ -41,10 +41,10 @@ const PostDisplayContainer = ({
 
   useEffect(() => {
     if (post) {
+      console.log('Gettting reblogs inside postDisplayContainer');
       setActiveVotes(get(post, 'active_votes', []));
-
       getPostReblogs(post).then((result) => {
-        setReblogs(result);
+        setReblogs(result || []);
       });
     }
   }, [post]);
