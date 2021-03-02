@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.5.5",
-    "@ecency/render-helper": "^2.0.16",
+    "@ecency/render-helper": "^2.1.0",
     "@esteemapp/dhive": "0.15.0",
     "@esteemapp/react-native-autocomplete-input": "^4.2.1",
     "@esteemapp/react-native-modal-popover": "^0.0.15",
