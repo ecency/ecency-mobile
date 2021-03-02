@@ -36,14 +36,12 @@ const PostCardView = ({
   fetchPost,
   isNsfwPost,
   intl,
-  activeVotes,
 }) => {
   // const [rebloggedBy, setRebloggedBy] = useState(get(content, 'reblogged_by[0]', null));
   // const [activeVot, setActiveVot] = useState(activeVotes);
   // const [images, setImages] = useState({});
   // const [calcImgHeight, setCalcImgHeight] = useState(300);
   const calcImgHeight = 300;
-
 
   // Component Functions
 
