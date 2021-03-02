@@ -21,7 +21,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
  */
 
 const PostCardContainer = ({
-  isRefresh,
+  // isRefresh,
   navigation,
   currentAccount,
   content,
@@ -32,14 +32,15 @@ const PostCardContainer = ({
   const [reblogs, setReblogs] = useState([]);
   const [_content, setContent] = useState(content);
 
-  useEffect(() => {
-    if (isRefresh) {
-      _fetchPost();
-    }
-  }, [isRefresh]);
+  // useEffect(() => {
+  // if (isRefresh) {
+  // _fetchPost();
+  // }
+  // }, [isRefresh]);
 
   useEffect(() => {
     let isCancelled = false;
+
     const fetchData = async (val) => {
       try {
         const dd = await getPostReblogs(val);
