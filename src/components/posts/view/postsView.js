@@ -20,6 +20,7 @@ import { ThemeContainer } from '../../../containers';
 import styles from './postsStyles';
 import { default as ROUTES } from '../../../constants/routeNames';
 import globalStyles from '../../../globalStyles';
+import PostsList from '../../postsList';
 
 let _onEndReachedCalledDuringMomentum = true;
 
@@ -313,7 +314,34 @@ const PostsView = ({
             />
           )}
 
-          <FlatList
+          <PostsList
+            ref={postsList}
+            promotedPosts={promotedPosts}
+            showsVerticalScrollIndicator={false}
+            onEndReached={_onEndReached}
+            onMomentumScrollBegin={() => {
+              _onEndReachedCalledDuringMomentum = false;
+            }}
+            removeClippedSubviews
+            refreshing={refreshing}
+            onRefresh={handleOnRefreshPosts}
+            onEndReachedThreshold={1}
+            ListFooterComponent={_renderFooter}
+            onScrollEndDrag={_handleOnScroll}
+            ListEmptyComponent={_renderEmptyContent}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={handleOnRefreshPosts}
+                progressBackgroundColor="#357CE6"
+                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                titleColor="#fff"
+                colors={['#fff']}
+              />
+            }
+          />
+
+          {/* <FlatList
             ref={postsList}
             data={posts}
             showsVerticalScrollIndicator={false}
@@ -340,7 +368,7 @@ const PostsView = ({
                 colors={['#fff']}
               />
             }
-          />
+          /> */}
         </View>
       )}
     </ThemeContainer>
