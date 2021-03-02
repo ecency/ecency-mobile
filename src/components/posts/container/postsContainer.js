@@ -61,14 +61,13 @@ const PostsContainer = ({
   const subscribingCommunities = useSelector(
     (state) => state.communities.subscribingCommunitiesInFeedScreen,
   );
-
+  const [posts, setPosts] = useState(isConnected ? [] : feedPosts);
   const [isNoPost, setIsNoPost] = useState(false);
   const [startPermlink, setStartPermlink] = useState('');
   const [startAuthor, setStartAuthor] = useState('');
   const [promotedPosts, setPromotedPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const [posts, setPosts] = useState(isConnected ? [] : feedPosts);
   const [selectedFilterIndex, setSelectedFilterIndex] = useState(selectedOptionIndex || 0);
   const [selectedFilterValue, setSelectedFilterValue] = useState(
     filterOptionsValue && filterOptionsValue[selectedFilterIndex],
@@ -102,7 +101,7 @@ const PostsContainer = ({
 
   useEffect(() => {
     if (forceLoadPost) {
-      setPosts([]);
+      _setFeedPosts([])
       setStartAuthor('');
       setStartPermlink('');
       setSelectedFilterIndex(selectedOptionIndex || 0);
@@ -206,6 +205,7 @@ const PostsContainer = ({
   }, [subscribingCommunities]);
 
   const _setFeedPosts = (_posts) => {
+    setPosts(_posts)
     dispatch(setFeedPosts(_posts));
   };
 
@@ -322,15 +322,15 @@ const PostsContainer = ({
                 _posts = unionBy(posts, _posts, 'permlink');
               }
             }
-            if (posts.length <= 5 && pageType !== 'profiles') {
+            // if (posts.length <= 5 && pageType !== 'profiles') {
               _setFeedPosts(_posts);
-            }
+            // }
 
             //if (!refreshing) {
             setStartAuthor(result[result.length - 1] && result[result.length - 1].author);
             setStartPermlink(result[result.length - 1] && result[result.length - 1].permlink);
             //}
-            setPosts(_posts);
+            // setPosts(_posts);
           }
         } else if (result.length === 0) {
           setIsNoPost(true);
@@ -368,7 +368,7 @@ const PostsContainer = ({
 
   const _handleFilterOnDropdownSelect = (index) => {
     setSelectedFilterIndex(index);
-    setPosts([]);
+    _setFeedPosts([])
     setStartPermlink('');
     setStartAuthor('');
     setIsNoPost(false);
@@ -376,7 +376,7 @@ const PostsContainer = ({
 
   const _handleFeedSubfilterOnDropdownSelect = (index) => {
     setSelectedFeedSubfilterIndex(index);
-    setPosts([]);
+    _setFeedPosts([])
     setStartPermlink('');
     setStartAuthor('');
     setIsNoPost(false);
@@ -482,7 +482,6 @@ const PostsContainer = ({
       selectedOptionIndex={selectedOptionIndex}
       tag={tag}
       filterOptionsValue={filterOptionsValue}
-      posts={posts}
       isLoading={isLoading}
       refreshing={refreshing}
       selectedFilterIndex={selectedFilterIndex}
