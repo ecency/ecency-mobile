@@ -101,7 +101,7 @@ const PostsContainer = ({
 
   useEffect(() => {
     if (forceLoadPost) {
-      _setFeedPosts([])
+      _setFeedPosts([]);
       setStartAuthor('');
       setStartPermlink('');
       setSelectedFilterIndex(selectedOptionIndex || 0);
@@ -205,7 +205,7 @@ const PostsContainer = ({
   }, [subscribingCommunities]);
 
   const _setFeedPosts = (_posts) => {
-    setPosts(_posts)
+    setPosts(_posts);
     dispatch(setFeedPosts(_posts));
   };
 
@@ -323,7 +323,7 @@ const PostsContainer = ({
               }
             }
             // if (posts.length <= 5 && pageType !== 'profiles') {
-              _setFeedPosts(_posts);
+            _setFeedPosts(_posts);
             // }
 
             //if (!refreshing) {
@@ -368,7 +368,7 @@ const PostsContainer = ({
 
   const _handleFilterOnDropdownSelect = (index) => {
     setSelectedFilterIndex(index);
-    _setFeedPosts([])
+    _setFeedPosts([]);
     setStartPermlink('');
     setStartAuthor('');
     setIsNoPost(false);
@@ -376,7 +376,7 @@ const PostsContainer = ({
 
   const _handleFeedSubfilterOnDropdownSelect = (index) => {
     setSelectedFeedSubfilterIndex(index);
-    _setFeedPosts([])
+    _setFeedPosts([]);
     setStartPermlink('');
     setStartAuthor('');
     setIsNoPost(false);

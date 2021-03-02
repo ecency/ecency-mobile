@@ -1,4 +1,4 @@
-import React, {memo, useRef} from 'react'
+import React, {forwardRef, memo, useRef, useImperativeHandle} from 'react'
 import PostCard from '../../postCard';
 import { get } from 'lodash';
 import { FlatListProps, FlatList } from 'react-native';
@@ -12,13 +12,19 @@ interface postsListContainerProps extends FlatListProps<any> {
 const postsListContainer = ({
     promotedPosts,
     ...props
-}:postsListContainerProps) => {
+}:postsListContainerProps, ref) => {
+    const flatListRef = useRef(null);
 
     const isHideImages = useSelector((state) => state.ui.hidePostsThumbnails);
     const posts = useSelector((state) => state.posts.feedPosts);
 
+    useImperativeHandle(ref, () => ({
+        scrollToTop() {
+            flatListRef.current?.scrollToOffset({ x: 0, y: 0, animated: true });
+        },
+      }));
 
-    const _renderItem = ({ item, index }) => {
+    const _renderItem = ({ item, index }:{item:any, index:number}) => {
         const e = [];
         if (index % 3 === 0) {
           const ix = index / 3 - 1;
@@ -28,7 +34,6 @@ const postsListContainer = ({
               e.push(
                 <PostCard
                   key={`${p.author}-${p.permlink}-prom`}
-                  isRefresh={false}
                   content={p}
                   isHideImage={isHideImages}
                 />,
@@ -40,7 +45,6 @@ const postsListContainer = ({
           e.push(
             <PostCard
               key={`${item.author}-${item.permlink}`}
-              isRefresh={false}
               content={item}
               isHideImage={isHideImages}
             />,
@@ -49,8 +53,12 @@ const postsListContainer = ({
         return e;
       };
 
+
+    
+
     return (
         <FlatList
+            ref={flatListRef}
             data={posts}
             showsVerticalScrollIndicator={false}
             renderItem={_renderItem}
@@ -65,23 +73,5 @@ const postsListContainer = ({
     )
 }
 
-//render only is posts list item are different;
-// const _checkEquality = (prevProps:postsListContainerProps, nextProps:postsListContainerProps) => {
-//     console.log("equality check: ", prevProps, nextProps)
 
-//     if(prevProps.posts.length == nextProps.posts.length){
-//         let samePosts = true;
-//         for(var i = 0; i < nextProps.posts.length; i++){
-            
-//             if(nextProps.posts[i].post_id !== prevProps.posts[i].post_id){
-//                 samePosts = false;
-//                 break;
-//             }
-//         }
-//         return samePosts;
-//     }
-
-//     return false;
-// }
-
-export default memo(postsListContainer);
+export default memo(forwardRef(postsListContainer));
