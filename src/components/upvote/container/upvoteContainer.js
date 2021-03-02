@@ -32,6 +32,7 @@ const UpvoteContainer = (props) => {
     pinCode,
     upvotePercent,
     globalProps,
+    dispatch,
     activeVotes = [],
   } = props;
 
@@ -51,8 +52,6 @@ const UpvoteContainer = (props) => {
   };
 
   const _setUpvotePercent = (value) => {
-    const { dispatch } = this.props;
-
     if (value) {
       setUpvotePercent(String(value));
       dispatch(upvoteAction(value));
