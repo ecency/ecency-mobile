@@ -514,7 +514,6 @@ export const getPost = async (author, permlink, currentUserName = null, isPromot
   try {
     console.log('Getting post: ', author, permlink);
     const post = await client.database.call('get_content', [author, permlink]);
-
     return post ? parsePost(post, currentUserName, isPromoted) : null;
   } catch (error) {
     return error;

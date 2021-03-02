@@ -323,6 +323,7 @@ const PostsView = ({
               _onEndReachedCalledDuringMomentum = false;
             }}
             removeClippedSubviews
+            //TODO: we can avoid 2 more rerenders by carefully moving these call to postsListContainer
             refreshing={refreshing}
             onRefresh={handleOnRefreshPosts}
             onEndReachedThreshold={1}
