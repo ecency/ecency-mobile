@@ -28,11 +28,12 @@ const PostCardContainer = ({
   isHideImage,
   nsfw,
 }) => {
-  const [activeVotes, setActiveVotes] = useState(get(_content, 'active_votes', []));
-  const [reblogs, setReblogs] = useState([]);
-  const [_content, setContent] = useState(content);
 
-  //NOTE: potentially unnessacry fetch 
+  const [_content, setContent] = useState(content);
+  const [reblogs, setReblogs] = useState([]);
+  const [activeVotes, setActiveVotes] = useState(get(_content, 'active_votes', []));
+
+  //NOTE: potentially unnessacry fetch
   // useEffect(() => {
   // if (isRefresh) {
   //   _fetchPost();
@@ -57,9 +58,7 @@ const PostCardContainer = ({
       }
     };
 
-    if (_content) {
-      //no need to reset content here, it is already set
-      // setContent(_content);
+    if (_content) {     
       fetchData(_content);
     }
 
@@ -123,7 +122,7 @@ const PostCardContainer = ({
       .then((result) => {
         if (result) {
           setContent(result);
-          setActiveVotes(get(result, 'active_votes', []))
+          setActiveVotes(get(result, 'active_votes', []));
         }
       })
       .catch(() => {});
@@ -140,6 +139,7 @@ const PostCardContainer = ({
       isHideImage={isHideImage}
       isNsfwPost={nsfw || '1'}
       reblogs={reblogs}
+      activeVotes={activeVotes}
     />
   );
 };

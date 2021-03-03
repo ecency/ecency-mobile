@@ -36,9 +36,10 @@ const PostCardView = ({
   fetchPost,
   isNsfwPost,
   intl,
+  activeVotes,
 }) => {
   // const [rebloggedBy, setRebloggedBy] = useState(get(content, 'reblogged_by[0]', null));
-  // const [activeVot, setActiveVot] = useState(activeVotes);
+  const [activeVotesCount, setActiveVotesCount] = useState(activeVotes.length || 0);
   // const [images, setImages] = useState({});
   // const [calcImgHeight, setCalcImgHeight] = useState(300);
   const calcImgHeight = 300;
@@ -64,6 +65,11 @@ const PostCardView = ({
       handleOnReblogsPress();
     }
   };
+
+  const _handleIncrementVoteCount = () => {
+    setActiveVotesCount(activeVotesCount + 1)
+  }
+
 
   // useEffect(() => {
   //   if (content) {
@@ -106,7 +112,6 @@ const PostCardView = ({
   //   };
   // }, []);
 
-  const activeVot = get(content, 'active_votes', []);
   const rebloggedBy = get(content, 'reblogged_by[0]', null);
   var images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
   if (content.thumbnail) {
@@ -167,10 +172,10 @@ const PostCardView = ({
       <View style={styles.bodyFooter}>
         <View style={styles.leftFooterWrapper}>
           <Upvote
-            activeVotes={activeVot}
-            fetchPost={fetchPost}
+            activeVotes={activeVotes}
             isShowPayoutValue
             content={content}
+            incrementVoteCount={_handleIncrementVoteCount}
           />
           <TouchableOpacity style={styles.commentButton} onPress={_handleOnVotersPress}>
             <TextWithIcon
@@ -178,7 +183,7 @@ const PostCardView = ({
               iconStyle={styles.commentIcon}
               iconType="MaterialCommunityIcons"
               isClickable
-              text={get(activeVot, 'length', 0)}
+              text={activeVotesCount}
               onPress={_handleOnVotersPress}
             />
           </TouchableOpacity>

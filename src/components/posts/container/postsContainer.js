@@ -82,21 +82,21 @@ const PostsContainer = ({
 
   const elem = useRef(null);
   const isMountedRef = useIsMountedRef();
-  
-  useEffect(() => {
-    if(isFeedScreen){
-      dispatch(filterSelected(selectedFilterValue !== 'feed' 
-      ? selectedFilterValue
-      : selectedFeedSubfilterValue))
-    }else{
-      _setFeedPosts([])
-    }
 
-  }, [])
+  useEffect(() => {
+    if (isFeedScreen) {
+      dispatch(
+        filterSelected(
+          selectedFilterValue !== 'feed' ? selectedFilterValue : selectedFeedSubfilterValue,
+        ),
+      );
+    } else {
+      _setFeedPosts([]);
+    }
+  }, []);
 
   useEffect(() => {
     if (isConnected) {
-      
       _loadPosts();
       _getPromotePosts();
     }
@@ -219,12 +219,11 @@ const PostsContainer = ({
 
   const _setFeedPosts = (_posts) => {
     setPosts(_posts);
-    if(isFeedScreen){
+    if (isFeedScreen) {
       dispatch(setFeedPosts(_posts));
-    }else{
+    } else {
       dispatch(setOtherPosts(_posts));
     }
-   
   };
 
   const _handleImagesHide = () => {
@@ -401,14 +400,14 @@ const PostsContainer = ({
   };
 
   const _setSelectedFilterValue = (val) => {
-    dispatch(filterSelected(val))
-    setSelectedFilterValue(val)
-  }
+    dispatch(filterSelected(val));
+    setSelectedFilterValue(val);
+  };
 
   const _setSelectedFeedSubfilterValue = (val) => {
-    dispatch(filterSelected(val))
-    setSelectedFeedSubfilterValue(val)
-  }
+    dispatch(filterSelected(val));
+    setSelectedFeedSubfilterValue(val);
+  };
 
   const _getRecommendedUsers = () => dispatch(fetchLeaderboard());
 
