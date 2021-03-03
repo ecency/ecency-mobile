@@ -30,7 +30,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
   useEffect(() => {
     getSubscriptions(currentAccount.username).then((subs) => {
       subs.forEach((item) => item.push(true));
-      getCommunities('', 50, '', 'rank').then((communities) => {
+      getCommunities('', 50, null, 'rank').then((communities) => {
         communities.forEach((community) =>
           Object.assign(community, {
             isSubscribed: subs.some(
