@@ -39,7 +39,7 @@ const UpvoteContainer = (props) => {
 
   const [isVoted, setIsVoted] = useState(null);
   const [isDownVoted, setIsDownVoted] = useState(null);
-  const [totalPayout, setTotalPayout] = useState(get(content, 'total_payout'))
+  const [totalPayout, setTotalPayout] = useState(get(content, 'total_payout'));
 
   useEffect(() => {
     _calculateVoteStatus();
@@ -64,19 +64,18 @@ const UpvoteContainer = (props) => {
     //do all relevant processing here to show local upvote
     const amountNum = parseFloat(amount);
 
-    setTotalPayout(totalPayout + amountNum)
+    setTotalPayout(totalPayout + amountNum);
 
-    if(!isVoted && !isDownVoted && incrementVoteCount){
-      incrementVoteCount()
+    if (!isVoted && !isDownVoted && incrementVoteCount) {
+      incrementVoteCount();
     }
 
-    if(isDownvote){
+    if (isDownvote) {
       setIsDownVoted(true);
-    }else{
+    } else {
       setIsVoted(true);
     }
-
-  }
+  };
 
   const author = get(content, 'author');
   const isDecinedPayout = get(content, 'is_declined_payout');

@@ -28,7 +28,6 @@ const PostCardContainer = ({
   isHideImage,
   nsfw,
 }) => {
-
   const [_content, setContent] = useState(content);
   const [reblogs, setReblogs] = useState([]);
   const [activeVotes, setActiveVotes] = useState(get(_content, 'active_votes', []));
@@ -58,7 +57,7 @@ const PostCardContainer = ({
       }
     };
 
-    if (_content) {     
+    if (_content) {
       fetchData(_content);
     }
 
