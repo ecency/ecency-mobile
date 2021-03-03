@@ -59,6 +59,7 @@ const PostsView = ({
   handleSubscribeCommunityButtonPress,
   followingUsers,
   subscribingCommunities,
+  isFeedScreen,
 }) => {
   const intl = useIntl();
   const postsList = useRef(null);
@@ -340,6 +341,7 @@ const PostsView = ({
                 colors={['#fff']}
               />
             }
+            isFeedScreen={isFeedScreen}
           />
 
           {/* <FlatList

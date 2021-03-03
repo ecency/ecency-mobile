@@ -1,4 +1,4 @@
-import React, {forwardRef, memo, useRef, useImperativeHandle} from 'react'
+import React, {forwardRef, memo, useRef, useImperativeHandle, useState, useEffect} from 'react'
 import PostCard from '../../postCard';
 import { get } from 'lodash';
 import { FlatListProps, FlatList } from 'react-native';
@@ -7,16 +7,22 @@ import { useSelector } from 'react-redux';
 
 interface postsListContainerProps extends FlatListProps<any> {
     promotedPosts:Array<any>;
+    isFeedScreen:boolean;
 }
 
 const postsListContainer = ({
     promotedPosts,
+    isFeedScreen,
     ...props
 }:postsListContainerProps, ref) => {
     const flatListRef = useRef(null);
 
     const isHideImages = useSelector((state) => state.ui.hidePostsThumbnails);
-    const posts = useSelector((state) => state.posts.feedPosts);
+    const posts = useSelector((state) => {
+      return isFeedScreen
+       ? state.posts.feedPosts
+       : state.posts.otherPosts
+    });
 
     useImperativeHandle(ref, () => ({
         scrollToTop() {

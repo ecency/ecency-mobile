@@ -1,5 +1,6 @@
 import {
   SET_FEED_POSTS,
+  SET_OTHER_POSTS,
   FETCH_POSTS,
   FETCH_POSTS_SUCCESS,
   RESET,
@@ -9,6 +10,10 @@ import {
 export const setFeedPosts = (payload) => ({
   payload,
   type: SET_FEED_POSTS,
+});
+export const setOtherPosts = (payload) => ({
+  payload,
+  type: SET_OTHER_POSTS,
 });
 export const fetchPosts = (payload) => ({
   payload,

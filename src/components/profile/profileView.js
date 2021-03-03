@@ -202,6 +202,7 @@ class ProfileView extends PureComponent {
                 handleOnScroll={isSummaryOpen ? this._handleOnScroll : null}
                 forceLoadPost={forceLoadPost}
                 changeForceLoadPostState={changeForceLoadPostState}
+                isFeedScreen={false}
               />
             </View>
 
