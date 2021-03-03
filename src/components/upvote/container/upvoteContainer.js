@@ -26,7 +26,6 @@ const UpvoteContainer = (props) => {
   const {
     content,
     currentAccount,
-    fetchPost,
     isLoggedIn,
     isShowPayoutValue,
     pinCode,
@@ -34,10 +33,13 @@ const UpvoteContainer = (props) => {
     globalProps,
     dispatch,
     activeVotes = [],
+    incrementVoteCount,
+    fetchPost,
   } = props;
 
   const [isVoted, setIsVoted] = useState(null);
   const [isDownVoted, setIsDownVoted] = useState(null);
+  const [totalPayout, setTotalPayout] = useState(get(content, 'total_payout'))
 
   useEffect(() => {
     _calculateVoteStatus();
@@ -58,8 +60,25 @@ const UpvoteContainer = (props) => {
     }
   };
 
+  const _onVote = (amount, isDownvote) => {
+    //do all relevant processing here to show local upvote
+    const amountNum = parseFloat(amount);
+
+    setTotalPayout(totalPayout + amountNum)
+
+    if(!isVoted && !isDownVoted && incrementVoteCount){
+      incrementVoteCount()
+    }
+
+    if(isDownvote){
+      setIsDownVoted(true);
+    }else{
+      setIsVoted(true);
+    }
+
+  }
+
   const author = get(content, 'author');
-  const totalPayout = get(content, 'total_payout');
   const isDecinedPayout = get(content, 'is_declined_payout');
   const permlink = get(content, 'permlink');
   const pendingPayout = parseAsset(content.pending_payout_value).amount;
@@ -109,7 +128,6 @@ const UpvoteContainer = (props) => {
       authorPayout={authorPayout}
       curationPayout={curationPayout}
       currentAccount={currentAccount}
-      fetchPost={fetchPost}
       globalProps={globalProps}
       handleSetUpvotePercent={_setUpvotePercent}
       isDecinedPayout={isDecinedPayout}
@@ -127,6 +145,8 @@ const UpvoteContainer = (props) => {
       beneficiaries={beneficiaries}
       warnZeroPayout={warnZeroPayout}
       breakdownPayout={breakdownPayout}
+      fetchPost={fetchPost}
+      onVote={_onVote}
     />
   );
 };

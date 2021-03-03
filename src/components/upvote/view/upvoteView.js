@@ -68,14 +68,15 @@ class UpvoteView extends Component {
     const {
       author,
       currentAccount,
-      fetchPost,
       handleSetUpvotePercent,
       permlink,
       pinCode,
       intl,
       dispatch,
+      fetchPost,
+      onVote,
     } = this.props;
-    const { sliderValue, downvote } = this.state;
+    const { sliderValue, downvote, amount} = this.state;
 
     if (!downvote) {
       closePopover();
@@ -90,6 +91,7 @@ class UpvoteView extends Component {
 
       const weight = sliderValue ? (sliderValue * 100).toFixed(0) * 100 : 0;
 
+      console.log("casting up vote: " + weight);
       vote(currentAccount, pinCode, author, permlink, weight)
         .then(() => {
           this.setState(
@@ -98,7 +100,12 @@ class UpvoteView extends Component {
               isVoting: false,
             },
             () => {
+              //add snippet to update amount and active vote count
+              
+              onVote(amount, false)
+              
               if (fetchPost) {
+                console.log("fetching post")
                 fetchPost();
               }
             },
@@ -161,12 +168,13 @@ class UpvoteView extends Component {
     const {
       author,
       currentAccount,
-      fetchPost,
       handleSetUpvotePercent,
       permlink,
       pinCode,
+      fetchPost,
+      onVote,
     } = this.props;
-    const { sliderValue, downvote } = this.state;
+    const { sliderValue, downvote, amount } = this.state;
 
     if (downvote) {
       closePopover();
@@ -180,7 +188,8 @@ class UpvoteView extends Component {
       );
 
       const weight = sliderValue ? (sliderValue * 100).toFixed(0) * 100 * -1 : 0;
-
+      
+      console.log("casting down vote: " + weight);
       vote(currentAccount, pinCode, author, permlink, weight)
         .then(() => {
           this.setState(
@@ -189,7 +198,11 @@ class UpvoteView extends Component {
               isVoting: false,
             },
             () => {
+
+              onVote(amount, true)
+
               if (fetchPost) {
+                console.log("Fetching post")
                 fetchPost();
               }
             },

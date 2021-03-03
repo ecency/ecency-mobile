@@ -19,7 +19,6 @@ import {
 } from '../../../constants/options/filters';
 
 const FeedScreen = () => {
-  
   return (
     <AccountContainer>
       {({ currentAccount }) => (
