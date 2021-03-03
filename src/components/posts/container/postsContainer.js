@@ -18,7 +18,7 @@ import { getPromotePosts } from '../../../providers/ecency/ecency';
 import PostsView from '../view/postsView';
 
 // Actions
-import { setFeedPosts } from '../../../redux/actions/postsAction';
+import { setFeedPosts, filterSelected, setOtherPosts } from '../../../redux/actions/postsAction';
 import { hidePostsThumbnails } from '../../../redux/actions/uiAction';
 import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';
 import {
@@ -42,6 +42,7 @@ const PostsContainer = ({
   feedUsername,
   feedSubfilterOptions,
   feedSubfilterOptionsValue,
+  isFeedScreen = false,
 }) => {
   const dispatch = useDispatch();
   const intl = useIntl();
@@ -81,9 +82,21 @@ const PostsContainer = ({
 
   const elem = useRef(null);
   const isMountedRef = useIsMountedRef();
+  
+  useEffect(() => {
+    if(isFeedScreen){
+      dispatch(filterSelected(selectedFilterValue !== 'feed' 
+      ? selectedFilterValue
+      : selectedFeedSubfilterValue))
+    }else{
+      _setFeedPosts([])
+    }
+
+  }, [])
 
   useEffect(() => {
     if (isConnected) {
+      
       _loadPosts();
       _getPromotePosts();
     }
@@ -206,7 +219,12 @@ const PostsContainer = ({
 
   const _setFeedPosts = (_posts) => {
     setPosts(_posts);
-    dispatch(setFeedPosts(_posts));
+    if(isFeedScreen){
+      dispatch(setFeedPosts(_posts));
+    }else{
+      dispatch(setOtherPosts(_posts));
+    }
+   
   };
 
   const _handleImagesHide = () => {
@@ -382,6 +400,16 @@ const PostsContainer = ({
     setIsNoPost(false);
   };
 
+  const _setSelectedFilterValue = (val) => {
+    dispatch(filterSelected(val))
+    setSelectedFilterValue(val)
+  }
+
+  const _setSelectedFeedSubfilterValue = (val) => {
+    dispatch(filterSelected(val))
+    setSelectedFeedSubfilterValue(val)
+  }
+
   const _getRecommendedUsers = () => dispatch(fetchLeaderboard());
 
   const _formatRecommendedUsers = (usersArray) => {
@@ -488,7 +516,7 @@ const PostsContainer = ({
       isNoPost={isNoPost}
       promotedPosts={promotedPosts}
       selectedFilterValue={selectedFilterValue}
-      setSelectedFilterValue={setSelectedFilterValue}
+      setSelectedFilterValue={_setSelectedFilterValue}
       handleFilterOnDropdownSelect={_handleFilterOnDropdownSelect}
       loadPosts={_loadPosts}
       handleOnRefreshPosts={_handleOnRefreshPosts}
@@ -496,7 +524,7 @@ const PostsContainer = ({
       selectedFeedSubfilterIndex={selectedFeedSubfilterIndex}
       feedSubfilterOptionsValue={feedSubfilterOptionsValue}
       handleFeedSubfilterOnDropdownSelect={_handleFeedSubfilterOnDropdownSelect}
-      setSelectedFeedSubfilterValue={setSelectedFeedSubfilterValue}
+      setSelectedFeedSubfilterValue={_setSelectedFeedSubfilterValue}
       selectedFeedSubfilterValue={selectedFeedSubfilterValue}
       getRecommendedUsers={_getRecommendedUsers}
       getRecommendedCommunities={_getRecommendedCommunities}
@@ -506,6 +534,7 @@ const PostsContainer = ({
       handleSubscribeCommunityButtonPress={_handleSubscribeCommunityButtonPress}
       followingUsers={followingUsers}
       subscribingCommunities={subscribingCommunities}
+      isFeedScreen={isFeedScreen}
     />
   );
 };
