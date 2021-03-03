@@ -45,6 +45,7 @@ class NotificationContainer extends Component {
       this.setState({ isNotificationRefreshing: true });
       getActivities({ user: user || username, type, since })
         .then((res) => {
+          console.log(res);
           const lastId = res.length > 0 ? [...res].pop().id : null;
           if (lastId === lastNotificationId || res.length === 0) {
             this.setState({
@@ -92,6 +93,8 @@ class NotificationContainer extends Component {
       routeName = ROUTES.TABBAR.WALLET;
     } else if (type === 'spin') {
       routeName = ROUTES.SCREENS.BOOST;
+    } else if (type === 'inactive') {
+      routeName = ROUTES.SCREENS.EDITOR;
     }
 
     if (routeName) {
