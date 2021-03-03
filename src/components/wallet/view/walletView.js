@@ -9,7 +9,7 @@ import { MainButton } from '../../mainButton';
 import { CollapsibleCard } from '../../collapsibleCard';
 import { WalletDetails } from '../../walletDetails';
 import { WalletDetailsPlaceHolder } from '../../basicUIElements';
-import { ThemeContainer, SteemWalletContainer } from '../../../containers';
+import { ThemeContainer, WalletContainer } from '../../../containers';
 
 // Styles
 import styles from './walletStyles';
@@ -32,7 +32,7 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
   );
 
   return (
-    <SteemWalletContainer
+    <WalletContainer
       setEstimatedWalletValue={setEstimatedWalletValue}
       selectedUser={selectedUser}
       handleOnScroll={handleOnScroll}
@@ -115,7 +115,7 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
           )}
         </ThemeContainer>
       )}
-    </SteemWalletContainer>
+    </WalletContainer>
   );
 };
 

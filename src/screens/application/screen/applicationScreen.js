@@ -150,7 +150,7 @@ class ApplicationScreen extends Component {
         {isShowToastNotification && (
           <ToastNotification
             text={toastNotification}
-            duration={3000}
+            duration={4000}
             onHide={this._handleOnHideToastNotification}
           />
         )}

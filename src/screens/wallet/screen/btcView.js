@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 
 import { WalletHeader, FormattedCurrency } from '../../../components';
-import { SteemWalletContainer, AccountContainer } from '../../../containers';
+import { WalletContainer, AccountContainer } from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
 
@@ -10,7 +10,7 @@ const BtcView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) 
   <View style={globalStyles.swipeItemWrapper}>
     <AccountContainer>
       {({ currentAccount }) => (
-        <SteemWalletContainer selectedUser={currentAccount}>
+        <WalletContainer selectedUser={currentAccount}>
           {({
             isClaiming,
             claimRewardBalance,
@@ -50,7 +50,7 @@ const BtcView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) 
               ]}
             />
           )}
-        </SteemWalletContainer>
+        </WalletContainer>
       )}
     </AccountContainer>
   </View>

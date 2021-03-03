@@ -7,4 +7,7 @@ export default EStyleSheet.create({
   header: {
     backgroundColor: '$primaryBackgroundColor',
   },
+  dotStyle: {
+    backgroundColor: '$primaryDarkText',
+  },
 });

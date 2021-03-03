@@ -21,12 +21,12 @@ import { getEstimatedAmount } from '../utils/vote';
 // Constants
 import ROUTES from '../constants/routeNames';
 
-const STEEM_DROPDOWN = ['purchase_estm', 'transfer_token', 'transfer_to_saving', 'powerUp'];
+const HIVE_DROPDOWN = ['purchase_estm', 'transfer_token', 'transfer_to_saving', 'powerUp'];
 const BTC_DROPDOWN = ['transfer_token'];
-const SBD_DROPDOWN = ['purchase_estm', 'transfer_token', 'transfer_to_saving', 'convert'];
-const SAVING_STEEM_DROPDOWN = ['withdraw_steem'];
-const SAVING_SBD_DROPDOWN = ['withdraw_sbd'];
-const STEEM_POWER_DROPDOWN = ['delegate', 'power_down'];
+const HBD_DROPDOWN = ['purchase_estm', 'transfer_token', 'transfer_to_saving', 'convert'];
+const SAVING_HIVE_DROPDOWN = ['withdraw_steem'];
+const SAVING_HBD_DROPDOWN = ['withdraw_sbd'];
+const HIVE_POWER_DROPDOWN = ['delegate', 'power_down'];
 
 const WalletContainer = ({
   children,
@@ -302,12 +302,12 @@ const WalletContainer = ({
       estimatedSpValue,
       delegationsAmount,
       navigate: _navigate,
-      steemDropdown: STEEM_DROPDOWN,
-      sbdDropdown: SBD_DROPDOWN,
+      steemDropdown: HIVE_DROPDOWN,
+      sbdDropdown: HBD_DROPDOWN,
       btcDropdown: BTC_DROPDOWN,
-      savingSteemDropdown: SAVING_STEEM_DROPDOWN,
-      savingSbdDropdown: SAVING_SBD_DROPDOWN,
-      steemPowerDropdown: STEEM_POWER_DROPDOWN,
+      savingSteemDropdown: SAVING_HIVE_DROPDOWN,
+      savingSbdDropdown: SAVING_HBD_DROPDOWN,
+      steemPowerDropdown: HIVE_POWER_DROPDOWN,
       unclaimedBalance: unclaimedBalance && unclaimedBalance.trim(),
       estimatedAmount,
     })
