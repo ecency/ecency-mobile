@@ -67,9 +67,8 @@ const PostCardView = ({
   };
 
   const _handleIncrementVoteCount = () => {
-    setActiveVotesCount(activeVotesCount + 1)
-  }
-
+    setActiveVotesCount(activeVotesCount + 1);
+  };
 
   // useEffect(() => {
   //   if (content) {

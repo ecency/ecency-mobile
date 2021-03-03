@@ -76,7 +76,7 @@ class UpvoteView extends Component {
       fetchPost,
       onVote,
     } = this.props;
-    const { sliderValue, downvote, amount} = this.state;
+    const { sliderValue, downvote, amount } = this.state;
 
     if (!downvote) {
       closePopover();
@@ -91,7 +91,7 @@ class UpvoteView extends Component {
 
       const weight = sliderValue ? (sliderValue * 100).toFixed(0) * 100 : 0;
 
-      console.log("casting up vote: " + weight);
+      console.log('casting up vote: ' + weight);
       vote(currentAccount, pinCode, author, permlink, weight)
         .then(() => {
           this.setState(
@@ -101,11 +101,11 @@ class UpvoteView extends Component {
             },
             () => {
               //add snippet to update amount and active vote count
-              
-              onVote(amount, false)
-              
+
+              onVote(amount, false);
+
               if (fetchPost) {
-                console.log("fetching post")
+                console.log('fetching post');
                 fetchPost();
               }
             },
@@ -188,8 +188,8 @@ class UpvoteView extends Component {
       );
 
       const weight = sliderValue ? (sliderValue * 100).toFixed(0) * 100 * -1 : 0;
-      
-      console.log("casting down vote: " + weight);
+
+      console.log('casting down vote: ' + weight);
       vote(currentAccount, pinCode, author, permlink, weight)
         .then(() => {
           this.setState(
@@ -198,11 +198,10 @@ class UpvoteView extends Component {
               isVoting: false,
             },
             () => {
-
-              onVote(amount, true)
+              onVote(amount, true);
 
               if (fetchPost) {
-                console.log("Fetching post")
+                console.log('Fetching post');
                 fetchPost();
               }
             },

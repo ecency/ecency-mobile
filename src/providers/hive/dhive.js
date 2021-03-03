@@ -649,7 +649,7 @@ export const signImage = async (file, currentAccount, pin) => {
 export const vote = (account, pin, author, permlink, weight) =>
   _vote(account, pin, author, permlink, weight).then((resp) => {
     userActivity(account.username, 120, resp.block_num, resp.id);
-    console.log("Returning vote response");
+    console.log('Returning vote response');
     return resp;
   });
 
