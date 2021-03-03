@@ -23,6 +23,7 @@ import { getUser } from '../providers/ecency/ePoint';
 
 // Utils
 import { countDecimals } from '../utils/number';
+import bugsnag from '../config/bugsnag';
 
 /*
  *            Props Name        Description                                     Value
@@ -195,7 +196,8 @@ class TransferContainer extends Component {
       })
       .catch((err) => {
         navigation.goBack();
-        dispatch(toastNotification(err.message));
+        bugsnag.notify(err);
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.key_warning' })));
       });
   };
 

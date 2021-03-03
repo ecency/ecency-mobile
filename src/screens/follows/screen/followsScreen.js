@@ -2,8 +2,10 @@
 import React, { PureComponent } from 'react';
 import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { injectIntl } from 'react-intl';
+import { withNavigation } from 'react-navigation';
 
 // Constants
+import ROUTES from '../../../constants/routeNames';
 
 // Components
 import { BasicHeader, UserListItem } from '../../../components';
@@ -25,12 +27,29 @@ class FollowsScreen extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
+  _handleOnUserPress = (username) => {
+    const { navigation } = this.props;
+
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.PROFILE,
+      params: {
+        username,
+      },
+      key: username,
+    });
+  };
 
   _renderItem = ({ item, index }) => {
     const { isFollowing } = this.props;
     const username = isFollowing ? item.following : item.follower;
 
-    return <UserListItem index={index} username={username} />;
+    return (
+      <UserListItem
+        index={index}
+        username={username}
+        handleOnPress={() => this._handleOnUserPress(username)}
+      />
+    );
   };
 
   render() {
@@ -66,5 +85,5 @@ class FollowsScreen extends PureComponent {
   }
 }
 
-export default injectIntl(FollowsScreen);
+export default withNavigation(injectIntl(FollowsScreen));
 /* eslint-enable */

@@ -50,9 +50,10 @@ const WalletScreen = () => {
             <>
               <Animated.View style={[styles.header, { height: headerHeight }]}>
                 <Swiper
-                  loop={false}
+                  loop={true}
                   showsPagination={true}
                   index={0}
+                  dotStyle={styles.dotStyle}
                   onIndexChanged={(index) => setCurrentIndex(index)}
                 >
                   <EstmView

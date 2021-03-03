@@ -295,7 +295,7 @@ export const getCommunityTitle = async (tag) =>
 export const getCommunities = async (
   last = '',
   limit = 100,
-  query = '',
+  query = null,
   sort = 'rank',
   observer = '',
 ) =>
