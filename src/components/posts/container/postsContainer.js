@@ -400,12 +400,12 @@ const PostsContainer = ({
   };
 
   const _setSelectedFilterValue = (val) => {
-    dispatch(filterSelected(val));
+    // dispatch(filterSelected(val));
     setSelectedFilterValue(val);
   };
 
   const _setSelectedFeedSubfilterValue = (val) => {
-    dispatch(filterSelected(val));
+    // dispatch(filterSelected(val));
     setSelectedFeedSubfilterValue(val);
   };
 
