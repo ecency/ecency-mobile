@@ -68,3 +68,4 @@ package-lock.json
 my-release-key.keystore
 gradle.properties
 ios/Ecency.xcworkspace/xcuserdata/f.xcuserdatad/UserInterfaceState.xcuserstate
+yarn.lock
