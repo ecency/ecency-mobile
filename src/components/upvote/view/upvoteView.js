@@ -73,7 +73,6 @@ class UpvoteView extends Component {
       pinCode,
       intl,
       dispatch,
-      fetchPost,
       onVote,
     } = this.props;
     const { sliderValue, downvote, amount } = this.state;
@@ -100,14 +99,7 @@ class UpvoteView extends Component {
               isVoting: false,
             },
             () => {
-              //add snippet to update amount and active vote count
-
               onVote(amount, false);
-
-              if (fetchPost) {
-                console.log('fetching post');
-                fetchPost();
-              }
             },
           );
         })
@@ -171,7 +163,6 @@ class UpvoteView extends Component {
       handleSetUpvotePercent,
       permlink,
       pinCode,
-      fetchPost,
       onVote,
     } = this.props;
     const { sliderValue, downvote, amount } = this.state;
@@ -199,11 +190,6 @@ class UpvoteView extends Component {
             },
             () => {
               onVote(amount, true);
-
-              if (fetchPost) {
-                console.log('Fetching post');
-                fetchPost();
-              }
             },
           );
         })

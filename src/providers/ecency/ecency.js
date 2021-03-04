@@ -417,7 +417,7 @@ export const getSCAccessToken = (code) =>
 
 export const getPromotePosts = () => {
   try {
-    console.log("Fetching promoted posts")
+    console.log('Fetching promoted posts');
     return api.get('/promoted-posts?limit=10').then((resp) => resp.data);
   } catch (error) {
     return error;

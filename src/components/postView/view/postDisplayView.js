@@ -46,7 +46,7 @@ const PostDisplayView = ({
   const [isLoadedComments, setIsLoadedComments] = useState(false);
   const actionSheet = useRef(null);
   const [refreshing, setRefreshing] = useState(false);
-  const [activeVotesCount, setActiveVotesCount] = useState(activeVotes.length || 0)
+  const [activeVotesCount, setActiveVotesCount] = useState(activeVotes.length || 0);
 
   // Component Life Cycles
   useEffect(() => {
@@ -79,9 +79,9 @@ const PostDisplayView = ({
     }
   };
 
-  const _handleIncrementActiveVotesCount = () =>{
+  const _handleIncrementActiveVotesCount = () => {
     setActiveVotesCount(activeVotesCount + 1);
-  }
+  };
 
   const _getTabBar = (isFixedFooter = false) => {
     return (
