@@ -3,6 +3,7 @@ import forEach from 'lodash/forEach';
 import { get } from 'lodash';
 import { Platform } from 'react-native';
 import { postBodySummary, renderPostBody, catchPostImage } from '@ecency/render-helper';
+import FastImage from 'react-native-fast-image';
 
 // Utils
 import parseAsset from './parseAsset';
@@ -56,6 +57,12 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
     parseAsset(post.curator_payout_value).amount;
 
   post.total_payout = totalPayout;
+
+  //cache image
+  if(post.image){
+    FastImage.preload([{uri:post.image}])
+  }
+  
 
   return post;
 };

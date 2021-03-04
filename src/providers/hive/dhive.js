@@ -26,6 +26,7 @@ import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
 // Constant
 import AUTH_TYPE from '../../constants/authType';
 import { SERVER_LIST } from '../../constants/options/api';
+import FastImage from 'react-native-fast-image';
 
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
@@ -460,8 +461,12 @@ export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
     console.log('Getting ranked posts:', query);
     let posts = await client.call('bridge', 'get_ranked_posts', query);
 
+
+
     if (posts) {
       posts = parsePosts(posts, currentUserName);
+
+      // FastImage.preload(posts.map(post=>({uri:post.image})))
 
       if (filterNsfw !== '0') {
         const updatedPosts = filterNsfwPost(posts, filterNsfw);
@@ -482,6 +487,8 @@ export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
 
     if (posts) {
       posts = parsePosts(posts, currentUserName);
+
+      // FastImage.preload(posts.map(post=>({uri:post.image})))
 
       if (filterNsfw !== '0') {
         const updatedPosts = filterNsfwPost(posts, filterNsfw);
