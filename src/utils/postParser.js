@@ -59,10 +59,9 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
   post.total_payout = totalPayout;
 
   //cache image
-  if(post.image){
-    FastImage.preload([{uri:post.image}])
+  if (post.image) {
+    FastImage.preload([{ uri: post.image }]);
   }
-  
 
   return post;
 };

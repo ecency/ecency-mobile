@@ -8,6 +8,7 @@ import { PrivateKey } from '@esteemapp/dhive';
 import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
+import FastImage from 'react-native-fast-image';
 import { getServer, getCache, setCache } from '../../realm/realm';
 import { getUnreadActivityCount } from '../ecency/ecency';
 import { userActivity } from '../ecency/ePoint';
@@ -26,7 +27,6 @@ import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
 // Constant
 import AUTH_TYPE from '../../constants/authType';
 import { SERVER_LIST } from '../../constants/options/api';
-import FastImage from 'react-native-fast-image';
 
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
@@ -460,8 +460,6 @@ export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
   try {
     console.log('Getting ranked posts:', query);
     let posts = await client.call('bridge', 'get_ranked_posts', query);
-
-
 
     if (posts) {
       posts = parsePosts(posts, currentUserName);
