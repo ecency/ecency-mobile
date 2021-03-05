@@ -1,6 +1,7 @@
 import {
   SET_FEED_POSTS,
   SET_OTHER_POSTS,
+  SET_INIT_POSTS,
   FILTER_SELECTED,
   FETCH_POSTS,
   FETCH_POSTS_SUCCESS,
@@ -10,6 +11,7 @@ import {
 const initialState = {
   feedPosts: [],
   otherPosts: [],
+  initPosts: [],
   posts: [],
   loading: false,
   selectedFilterValue: '',
@@ -22,6 +24,11 @@ export default function (state = initialState, action) {
         ...state,
         feedPosts: action.payload,
         posts: action.payload,
+      };
+    case SET_INIT_POSTS:
+      return {
+        ...state,
+        initPosts: action.payload,
       };
     case SET_OTHER_POSTS:
       return {

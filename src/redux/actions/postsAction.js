@@ -5,11 +5,16 @@ import {
   FETCH_POSTS_SUCCESS,
   RESET,
   FILTER_SELECTED,
+  SET_INIT_POSTS,
 } from '../constants/constants';
 
 export const setFeedPosts = (payload) => ({
   payload,
   type: SET_FEED_POSTS,
+});
+export const setInitPosts = (payload) => ({
+  payload,
+  type: SET_INIT_POSTS,
 });
 export const setOtherPosts = (payload) => ({
   payload,

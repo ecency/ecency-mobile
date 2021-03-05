@@ -19,9 +19,9 @@ const postsListContainer = ({
 
     const isHideImages = useSelector((state) => state.ui.hidePostsThumbnails);
     const posts = useSelector((state) => {
-      return isFeedScreen
-       ? state.posts.feedPosts
-       : state.posts.otherPosts
+        return isFeedScreen
+        ? state.posts.feedPosts
+        : state.posts.otherPosts
     });
 
     useImperativeHandle(ref, () => ({
