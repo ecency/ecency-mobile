@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { get, isEmpty } from 'lodash';
 import unionBy from 'lodash/unionBy';
 import Matomo from 'react-native-matomo-sdk';
 import { useIntl } from 'react-intl';
+import {Alert} from 'react-native';
+
 
 // HIVE
 import {
@@ -62,7 +64,7 @@ const PostsContainer = ({
   const subscribingCommunities = useSelector(
     (state) => state.communities.subscribingCommunitiesInFeedScreen,
   );
-  const [posts, setPosts] = useState(isConnected ? [] : feedPosts);
+  // const [posts, setPosts] = useState(isConnected ? [] : feedPosts);
   const [isNoPost, setIsNoPost] = useState(false);
   const [startPermlink, setStartPermlink] = useState('');
   const [startAuthor, setStartAuthor] = useState('');
@@ -80,6 +82,116 @@ const PostsContainer = ({
   const [recommendedUsers, setRecommendedUsers] = useState([]);
   const [recommendedCommunities, setRecommendedCommunities] = useState([]);
 
+  const cachedData = {};
+  
+  filterOptionsValue.forEach((option)=>{
+    cachedData[option] = {
+      posts:[],
+      startAuthor:'',
+      startPermlink:'',
+      isLoading:false,
+    }
+  })
+
+  const initialCache = {
+    isFeedScreen,
+    currentFilter:selectedFilterValue,
+    cachedData,
+  }
+
+  const _setFeedPosts = (_posts) => {
+    if (isFeedScreen) {
+      dispatch(setFeedPosts(_posts));
+    } else {
+      dispatch(setOtherPosts(_posts));
+    }
+  };
+
+  const cacheReducer = (state, action) => {
+    console.log("reducer action:", state, action);
+
+    switch (action.type) {
+      case 'is-filter-loading':{
+        const filter = action.payload.filter;
+        const loading = action.payload.isLoading;
+        state.cachedData[filter].isLoading = loading;
+        console.log("New state:", state)
+        return state;
+      }
+
+      case 'update-filter-cache':{
+        const filter = action.payload.filter;
+        const nextPosts = action.payload.posts;
+        let _posts = nextPosts;
+
+        const cachedEntry = state.cachedData[filter];
+        if(!cachedEntry){
+          throw new Error("No cached entry available");
+        }
+
+        const prevPosts = cachedEntry.posts;
+
+        if (prevPosts.length > 0) {
+          if (refreshing) {
+            _posts = unionBy(_posts, prevPosts, 'permlink');
+          } else {
+            _posts = unionBy(prevPosts, _posts, 'permlink');
+          }
+        }
+
+        //if (!refreshing) {
+        cachedEntry.startAuthor = _posts[_posts.length - 1] && _posts[_posts.length - 1].author;
+        cachedEntry.startPermlink = _posts[_posts.length - 1] && _posts[_posts.length - 1].permlink;
+        cachedEntry.posts = _posts
+
+        
+        state.cachedData[filter] = cachedEntry;
+        console.log("New state:", state)
+
+        //dispatch to redux
+        if(filter === state.currentFilter){
+          _setFeedPosts(_posts)
+        }
+        return state;
+      }
+
+      case 'reset-cur-filter-cache':{
+        const filter = state.currentFilter;
+        const cachedEntry = state.cachedData[filter];
+        if(!cachedEntry){
+          throw new Error("No cached entry available");
+        }
+        cachedEntry.starAuthor = '';
+        cachedEntry.startPermlink = '';
+        cachedEntry.posts = []
+
+        state.cachedData[filter] = cachedEntry;
+        console.log("New state:", state)
+
+        //dispatch to redux
+        _setFeedPosts([]);
+
+        return state;
+      }
+      
+      case 'change-filter':{
+        const filter = action.payload.currentFilter;
+        state.currentFilter = filter;
+        console.log("New state:", state)
+        //dispatch to redux;
+        _setFeedPosts(state.cachedData[filter].posts);
+        return state;
+      }
+    
+      default:
+        return state;
+    }
+
+  }
+
+  const [cache, cacheDispatch] = useReducer(cacheReducer, initialCache)
+
+
   const elem = useRef(null);
   const isMountedRef = useIsMountedRef();
 
@@ -92,6 +204,11 @@ const PostsContainer = ({
       );
     } else {
       _setFeedPosts([]);
+    }
+    return ()=>{
+      if(isFeedScreen){
+        _setFeedPosts([])
+      }
     }
   }, []);
 
@@ -138,13 +255,20 @@ const PostsContainer = ({
   ]);
 
   useEffect(() => {
-    if (!startAuthor && !startPermlink) {
+
+    const sAuthor = cache.cachedData[selectedFilterValue].startAuthor;
+    const sPermlink = cache.cachedData[selectedFilterValue].startPermlink
+
+    if (!sAuthor && !sPermlink) {
       _loadPosts(selectedFilterValue);
     }
   }, [_loadPosts, selectedFilterValue]);
 
   useEffect(() => {
     if (refreshing) {
+      cacheDispatch({
+        type:'reset-cur-filter-cache'
+      })
       _loadPosts();
     }
   }, [refreshing]);
@@ -217,14 +341,7 @@ const PostsContainer = ({
     setRecommendedCommunities(recommendeds);
   }, [subscribingCommunities]);
 
-  const _setFeedPosts = (_posts) => {
-    setPosts(_posts);
-    if (isFeedScreen) {
-      dispatch(setFeedPosts(_posts));
-    } else {
-      dispatch(setOtherPosts(_posts));
-    }
-  };
+
 
   const _handleImagesHide = () => {
     dispatch(hidePostsThumbnails(!isHideImages));
@@ -254,15 +371,20 @@ const PostsContainer = ({
   };
 
   const _loadPosts = async (type) => {
+    const filter = type || selectedFilterValue;
+
+    const isFilterLoading = cache.cachedData[filter].isLoading;
     if (
-      isLoading ||
+      isFilterLoading ||
+      // isLoading ||
       !isConnected ||
       (!isLoggedIn && type === 'feed') ||
       (!isLoggedIn && type === 'blog')
     ) {
       return;
     }
-    setIsLoading(true);
+
+    // setIsLoading(true);
 
     if (!isConnected && (refreshing || isLoading)) {
       setRefreshing(false);
@@ -270,7 +392,15 @@ const PostsContainer = ({
       return;
     }
 
-    const filter = type || selectedFilterValue;
+    cacheDispatch({
+      type:'is-filter-loading',
+      payload:{
+        filter,
+        isLoading:true,
+      }
+    })
+
+    
     const subfilter = selectedFeedSubfilterValue;
     let options = {};
     const limit = 5;
@@ -312,9 +442,11 @@ const PostsContainer = ({
       };
     }
 
-    if (startAuthor && startPermlink && !refreshing) {
-      options.start_author = startAuthor;
-      options.start_permlink = startPermlink;
+    sAuthor = cache.cachedData[filter].startAuthor;
+    sPermlink = cache.cachedData[filter].startPermlink;
+    if (sAuthor && sPermlink && !refreshing) {
+      options.start_author = sAuthor;
+      options.start_permlink = sPermlink;
     }
 
     try {
@@ -332,20 +464,27 @@ const PostsContainer = ({
             }
           }
           if (_posts.length > 0) {
-            if (posts.length > 0) {
-              if (refreshing) {
-                _posts = unionBy(_posts, posts, 'permlink');
-              } else {
-                _posts = unionBy(posts, _posts, 'permlink');
+            cacheDispatch({
+              type:'update-filter-cache',
+              payload:{
+                filter,
+                posts:_posts
               }
-            }
-            // if (posts.length <= 5 && pageType !== 'profiles') {
-            _setFeedPosts(_posts);
+            })
+            // if (posts.length > 0) {
+            //   if (refreshing) {
+            //     _posts = unionBy(_posts, posts, 'permlink');
+            //   } else {
+            //     _posts = unionBy(posts, _posts, 'permlink');
+            //   }
             // }
+            // // if (posts.length <= 5 && pageType !== 'profiles') {
+            // _setFeedPosts(_posts);
+            // // }
 
-            //if (!refreshing) {
-            setStartAuthor(result[result.length - 1] && result[result.length - 1].author);
-            setStartPermlink(result[result.length - 1] && result[result.length - 1].permlink);
+            // //if (!refreshing) {
+            // setStartAuthor(result[result.length - 1] && result[result.length - 1].author);
+            // setStartPermlink(result[result.length - 1] && result[result.length - 1].permlink);
             //}
             // setPosts(_posts);
           }
@@ -354,10 +493,24 @@ const PostsContainer = ({
         }
         setRefreshing(false);
         setIsLoading(false);
+        cacheDispatch({
+          type:'is-filter-loading',
+          payload:{
+            filter,
+            isLoading:false
+          }
+        })
       }
     } catch (err) {
       setRefreshing(false);
       setIsLoading(false);
+      cacheDispatch({
+        type:'is-filter-loading',
+        payload:{
+          filter,
+          isLoading:false
+        }
+      })
     }
 
     // track filter and tag views
@@ -385,23 +538,29 @@ const PostsContainer = ({
 
   const _handleFilterOnDropdownSelect = (index) => {
     setSelectedFilterIndex(index);
-    _setFeedPosts([]);
-    setStartPermlink('');
-    setStartAuthor('');
+    // _setFeedPosts([]);
+    // setStartPermlink('');
+    // setStartAuthor('');
     setIsNoPost(false);
+
   };
 
   const _handleFeedSubfilterOnDropdownSelect = (index) => {
     setSelectedFeedSubfilterIndex(index);
-    _setFeedPosts([]);
-    setStartPermlink('');
-    setStartAuthor('');
+    // _setFeedPosts([]);
+    // setStartPermlink('');
+    // setStartAuthor('');
     setIsNoPost(false);
   };
 
   const _setSelectedFilterValue = (val) => {
-    // dispatch(filterSelected(val));
     setSelectedFilterValue(val);
+    cacheDispatch({
+      type:'change-filter',
+      payload:{
+        currentFilter:val
+      }
+    })
   };
 
   const _setSelectedFeedSubfilterValue = (val) => {
