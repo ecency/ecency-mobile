@@ -40,13 +40,14 @@ const PostDisplayView = ({
   handleOnRemovePress,
   activeVotes,
   reblogs,
+  activeVotesCount,
+  setActiveVotesCount,
 }) => {
   const [postHeight, setPostHeight] = useState(0);
   const [scrollHeight, setScrollHeight] = useState(0);
   const [isLoadedComments, setIsLoadedComments] = useState(false);
   const actionSheet = useRef(null);
   const [refreshing, setRefreshing] = useState(false);
-  const [activeVotesCount, setActiveVotesCount] = useState(activeVotes.length || 0);
 
   // Component Life Cycles
   useEffect(() => {
@@ -54,6 +55,7 @@ const PostDisplayView = ({
       userActivity(currentAccount.name, 10);
     }
   }, []);
+
 
   // Component Functions
   const onRefresh = useCallback(() => {
@@ -80,7 +82,7 @@ const PostDisplayView = ({
   };
 
   const _handleIncrementActiveVotesCount = () => {
-    setActiveVotesCount(activeVotesCount + 1);
+    setActiveVotesCount(activeVotes + 1);
   };
 
   const _getTabBar = (isFixedFooter = false) => {

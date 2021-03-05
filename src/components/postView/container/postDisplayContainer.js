@@ -37,12 +37,15 @@ const PostDisplayContainer = ({
   author,
 }) => {
   const [activeVotes, setActiveVotes] = useState([]);
+  const [activeVotesCount, setActiveVotesCount] = useState(0);
   const [reblogs, setReblogs] = useState([]);
 
   useEffect(() => {
     if (post) {
       console.log('Gettting reblogs inside postDisplayContainer');
-      setActiveVotes(get(post, 'active_votes', []));
+      const votes = get(post, 'active_votes', []);
+      setActiveVotes(votes)
+      setActiveVotesCount(votes.length)
       getPostReblogs(post).then((result) => {
         setReblogs(result || []);
       });
@@ -140,6 +143,8 @@ const PostDisplayContainer = ({
       parentPost={parentPost}
       post={post}
       activeVotes={activeVotes}
+      activeVotesCount={activeVotesCount}
+      setActiveVotesCount={setActiveVotesCount}
       reblogs={reblogs}
     />
   );
