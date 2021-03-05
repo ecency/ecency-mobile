@@ -16,7 +16,6 @@ import {
 } from '../../basicUIElements';
 import { ThemeContainer } from '../../../containers';
 
-
 // Styles
 import styles from './postsStyles';
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -235,7 +234,6 @@ const PostsView = ({
         {/* <PostCardPlaceHolder /> */}
         {/* <PostCardPlaceHolder /> */}
         {/* <PostCardPlaceHolder />  */}
-
       </View>
     );
   };

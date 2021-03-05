@@ -2,17 +2,15 @@ import React from 'react';
 import { View, Dimensions } from 'react-native';
 import Placeholder from 'rn-placeholder';
 
-import { ThemeContainer } from '../../../../containers';
 import LottieView from 'lottie-react-native';
+import { ThemeContainer } from '../../../../containers';
 
 import styles from './postCardPlaceHolderStyles';
 // TODO: make container for place holder wrapper after alpha
 const PostCardPlaceHolder = () => {
-  
   const animationStyle = {
-    width:Dimensions.get('screen').width - 32
-  }
-
+    width: Dimensions.get('screen').width - 32,
+  };
 
   return (
     <ThemeContainer>
@@ -20,21 +18,20 @@ const PostCardPlaceHolder = () => {
         const color = isDarkTheme ? '#2e3d51' : '#f5f5f5';
         return (
           <View style={styles.container}>
-          <LottieView
-            style={animationStyle}
-            source={require('../../../../assets/animations/postList.json')}
-            autoPlay
-            loop={true}
-            autoSize={true}
-            resizeMode='cover'
-            colorFilters={[
-              {
-                keypath:'postList',
-                color:color
-              }
-            ]
-            }
-          />
+            <LottieView
+              style={animationStyle}
+              source={require('../../../../assets/animations/postList.json')}
+              autoPlay
+              loop={true}
+              autoSize={true}
+              resizeMode="cover"
+              colorFilters={[
+                {
+                  keypath: 'postList',
+                  color: color,
+                },
+              ]}
+            />
 
             {/* <View style={styles.textWrapper}>
               <Placeholder.Media size={35} hasRadius animate="fade" color={color} />

@@ -2,8 +2,8 @@ import React from 'react';
 import { View, Dimensions } from 'react-native';
 import Placeholder from 'rn-placeholder';
 
-import { ThemeContainer } from '../../../../containers';
 import LottieView from 'lottie-react-native';
+import { ThemeContainer } from '../../../../containers';
 
 import styles from './postCardPlaceHolderStyles';
 
@@ -15,24 +15,21 @@ const PostPlaceHolder = () => {
 
         return (
           <View>
-    
             <LottieView
-              style={{width:Dimensions.get('screen').width - 24}}
+              style={{ width: Dimensions.get('screen').width - 24 }}
               source={require('../../../../assets/animations/postBody.json')}
               autoPlay
               loop={true}
               autoSize={true}
-              resizeMode='cover'
+              resizeMode="cover"
               colorFilters={[
                 {
-                  keypath:'layer1',
-                  color:color
-                }
-              ]
-
-              }
+                  keypath: 'layer1',
+                  color: color,
+                },
+              ]}
             />
-  
+
             {/* <View style={styles.paragraphWrapper}>
               <Placeholder.Paragraph
                 color={color}
