@@ -15,7 +15,7 @@ import {
   CommunityListItem,
 } from '../../basicUIElements';
 import { ThemeContainer } from '../../../containers';
-// import LottieView from 'lottie-react-native';
+
 
 // Styles
 import styles from './postsStyles';
@@ -235,12 +235,7 @@ const PostsView = ({
         {/* <PostCardPlaceHolder /> */}
         {/* <PostCardPlaceHolder /> */}
         {/* <PostCardPlaceHolder />  */}
-        {/* <LottieView
-          style={{ width: 150, height: 150 }}
-          source={require('./animation.json')}
-          autoPlay
-          loop={false}
-        /> */}
+
       </View>
     );
   };
