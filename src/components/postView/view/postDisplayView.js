@@ -56,7 +56,6 @@ const PostDisplayView = ({
     }
   }, []);
 
-
   // Component Functions
   const onRefresh = useCallback(() => {
     setRefreshing(true);
