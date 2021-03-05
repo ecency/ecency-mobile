@@ -15,7 +15,7 @@ import {
   CommunityListItem,
 } from '../../basicUIElements';
 import { ThemeContainer } from '../../../containers';
-import LottieView from 'lottie-react-native';
+
 
 // Styles
 import styles from './postsStyles';
@@ -23,7 +23,6 @@ import { default as ROUTES } from '../../../constants/routeNames';
 import globalStyles from '../../../globalStyles';
 import PostsList from '../../postsList';
 import { isDarkTheme } from '../../../redux/actions/applicationActions';
-import { Dimensions } from 'react-native';
 
 let _onEndReachedCalledDuringMomentum = true;
 
@@ -229,14 +228,14 @@ const PostsView = ({
 
     return (
       <View style={styles.placeholderWrapper}>
-        <LottieView
-          style={{width:Dimensions.get('screen').width}}
-          source={require('../../../assets/animations/postList.json')}
-          autoPlay
-          loop={true}
-          autoSize={true}
-          resizeMode='cover'
-        />
+        {/* TOOD: improve empty list holder*/}
+
+        <PostCardPlaceHolder />
+        {/* <PostCardPlaceHolder /> */}
+        {/* <PostCardPlaceHolder /> */}
+        {/* <PostCardPlaceHolder /> */}
+        {/* <PostCardPlaceHolder />  */}
+
       </View>
     );
   };
