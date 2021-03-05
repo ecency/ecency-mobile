@@ -50,7 +50,7 @@ const WalletScreen = () => {
             <>
               <Animated.View style={[styles.header, { height: headerHeight }]}>
                 <Swiper
-                  loop={true}
+                  loop={false}
                   showsPagination={true}
                   index={0}
                   dotStyle={styles.dotStyle}
