@@ -28,13 +28,10 @@ let _onEndReachedCalledDuringMomentum = true;
 const PostsView = ({
   filterOptions,
   selectedOptionIndex,
-  isHideImage,
   handleImagesHide,
-  tag,
   isLoggedIn,
   handleOnScroll,
   navigation,
-  posts,
   isLoading,
   refreshing,
   selectedFilterIndex,
@@ -227,13 +224,7 @@ const PostsView = ({
 
     return (
       <View style={styles.placeholderWrapper}>
-        {/* TOOD: improve empty list holder*/}
-
         <PostCardPlaceHolder />
-        {/* <PostCardPlaceHolder /> */}
-        {/* <PostCardPlaceHolder /> */}
-        {/* <PostCardPlaceHolder /> */}
-        {/* <PostCardPlaceHolder />  */}
       </View>
     );
   };
@@ -241,38 +232,6 @@ const PostsView = ({
   const _scrollTop = () => {
     postsList.current.scrollToTop();
   };
-
-  // const _renderItem = ({ item, index }) => {
-  //   const e = [];
-  //   if (index % 3 === 0) {
-  //     const ix = index / 3 - 1;
-  //     if (promotedPosts[ix] !== undefined) {
-  //       const p = promotedPosts[ix];
-  //       if (get(p, 'author', null) && posts.filter((x) => x.permlink === p.permlink).length <= 0) {
-  //         e.push(
-  //           <PostCard
-  //             key={`${p.author}-${p.permlink}-prom`}
-  //             isRefresh={refreshing}
-  //             content={p}
-  //             isHideImage={isHideImage}
-  //           />,
-  //         );
-  //       }
-  //     }
-  //   }
-  //   if (get(item, 'author', null)) {
-  //     e.push(
-  //       <PostCard
-  //         key={`${item.author}-${item.permlink}`}
-  //         isRefresh={refreshing}
-  //         content={item}
-  //         isHideImage={isHideImage}
-  //       />,
-  //     );
-  //   }
-  //   return e;
-  // };
-
   const _onEndReached = ({ distanceFromEnd }) => {
     if (!_onEndReachedCalledDuringMomentum) {
       loadPosts();
