@@ -81,7 +81,7 @@ const PostDisplayView = ({
   };
 
   const _handleIncrementActiveVotesCount = () => {
-    setActiveVotesCount(activeVotes + 1);
+    setActiveVotesCount(activeVotesCount + 1);
   };
 
   const _getTabBar = (isFixedFooter = false) => {
