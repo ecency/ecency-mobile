@@ -24,6 +24,7 @@ import {
   filterSelected,
   setOtherPosts,
   setInitPosts,
+  resetLocalVoteMap,
 } from '../../../redux/actions/postsAction';
 import { hidePostsThumbnails } from '../../../redux/actions/uiAction';
 import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';
@@ -85,6 +86,10 @@ const PostsContainer = ({
   );
   const [recommendedUsers, setRecommendedUsers] = useState([]);
   const [recommendedCommunities, setRecommendedCommunities] = useState([]);
+
+  const _resetLocalVoteMap = () => {
+    dispatch(resetLocalVoteMap());
+  };
 
   const _setFeedPosts = (_posts, scrollPos = 0) => {
     if (isFeedScreen) {
@@ -254,11 +259,7 @@ const PostsContainer = ({
   useEffect(() => {
     if (isFeedScreen) {
       _setFeedPosts(initPosts);
-      // dispatch(
-      //   filterSelected(
-      //     selectedFilterValue !== 'feed' ? selectedFilterValue : selectedFeedSubfilterValue,
-      //   ),
-      // );
+      _resetLocalVoteMap();
     } else {
       _setFeedPosts([]);
     }

@@ -58,6 +58,9 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
 
   post.total_payout = totalPayout;
 
+  //stamp posts with fetched time;
+  post.post_fetched_at = new Date().getTime();
+
   //cache image
   if (post.image) {
     FastImage.preload([{ uri: post.image }]);

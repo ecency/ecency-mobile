@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import get from 'lodash/get';
 
 // Realm
@@ -7,6 +7,7 @@ import { setUpvotePercent } from '../../../realm/realm';
 
 // Services and Actions
 import { setUpvotePercent as upvoteAction } from '../../../redux/actions/applicationActions';
+import { updateLocalVoteMap } from '../../../redux/actions/postsAction';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
@@ -40,10 +41,17 @@ const UpvoteContainer = (props) => {
   const [isVoted, setIsVoted] = useState(null);
   const [isDownVoted, setIsDownVoted] = useState(null);
   const [totalPayout, setTotalPayout] = useState(get(content, 'total_payout'));
+  const localVoteMap = useSelector((state) => state.posts.localVoteMap);
 
   useEffect(() => {
     _calculateVoteStatus();
   }, [activeVotes]);
+
+  useEffect(() => {
+    if (localVoteMap) {
+      _handleLocalVote();
+    }
+  }, []);
 
   const _calculateVoteStatus = async () => {
     const _isVoted = await isVotedFunc(activeVotes, get(currentAccount, 'name'));
@@ -60,13 +68,37 @@ const UpvoteContainer = (props) => {
     }
   };
 
+  const _handleLocalVote = () => {
+    const postId = get(content, 'post_id');
+    const postFetchedAt = get(content, 'post_fetched_at', 0);
+    const localVote = localVoteMap[postId] || null;
+    if (localVote) {
+      const { votedAt, amount, isDownvote, incrementStep } = localVote;
+
+      if (postFetchedAt > votedAt) {
+        return;
+      }
+
+      setTotalPayout(totalPayout + amount);
+      if (incrementStep > 0) {
+        incrementVoteCount();
+      }
+
+      if (isDownvote) {
+        setIsDownVoted(true);
+      } else {
+        setIsVoted(true);
+      }
+    }
+  };
+
   const _onVote = (amount, isDownvote) => {
     //do all relevant processing here to show local upvote
     const amountNum = parseFloat(amount);
 
-    setTotalPayout(totalPayout + amountNum);
-
+    let incrementStep = 0;
     if (!isVoted && !isDownVoted && incrementVoteCount) {
+      incrementStep = 1;
       incrementVoteCount();
     }
 
@@ -75,6 +107,16 @@ const UpvoteContainer = (props) => {
     } else {
       setIsVoted(true);
     }
+
+    //update redux
+    const postId = get(content, 'post_id');
+    const vote = {
+      votedAt: new Date().getTime(),
+      amount: amountNum,
+      isDownvote,
+      incrementStep,
+    };
+    dispatch(updateLocalVoteMap(postId, vote));
   };
 
   const author = get(content, 'author');
