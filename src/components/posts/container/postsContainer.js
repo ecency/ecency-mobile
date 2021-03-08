@@ -718,9 +718,6 @@ const PostsContainer = ({
 
     //memorize filter position
     const scrollPosition = event.nativeEvent.contentOffset.y;
-    if (scrollPosition == 0) {
-      Alert.alert('Scroll positionsing failed', JSON.stringify(event));
-    }
     cacheDispatch({
       type: 'scroll-position-change',
       payload: {
