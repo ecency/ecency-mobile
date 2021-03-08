@@ -181,7 +181,9 @@ const PostsContainer = ({
         console.log('New state:', state);
 
         //dispatch to redux
-        if (filter === state.currentFilter) {
+        if (
+          filter === (state.currentFilter !== 'feed' ? state.currentFilter : state.currentSubFilter)
+        ) {
           _setFeedPosts(_posts);
         }
         return state;
