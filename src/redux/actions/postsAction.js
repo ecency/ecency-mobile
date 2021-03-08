@@ -8,16 +8,22 @@ import {
   SET_INIT_POSTS,
 } from '../constants/constants';
 
-export const setFeedPosts = (payload) => ({
-  payload,
+export const setFeedPosts = (posts, scrollPosition = 0) => ({
+  payload: {
+    posts,
+    scrollPosition,
+  },
   type: SET_FEED_POSTS,
 });
 export const setInitPosts = (payload) => ({
   payload,
   type: SET_INIT_POSTS,
 });
-export const setOtherPosts = (payload) => ({
-  payload,
+export const setOtherPosts = (posts, scrollPosition = 0) => ({
+  payload: {
+    posts,
+    scrollPosition,
+  },
   type: SET_OTHER_POSTS,
 });
 export const fetchPosts = (payload) => ({

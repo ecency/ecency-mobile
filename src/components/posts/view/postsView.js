@@ -238,12 +238,6 @@ const PostsView = ({
     );
   };
 
-  const _handleOnScroll = () => {
-    if (handleOnScroll) {
-      handleOnScroll();
-    }
-  };
-
   const _scrollTop = () => {
     postsList.current.scrollToTop();
   };
@@ -330,7 +324,7 @@ const PostsView = ({
             onRefresh={handleOnRefreshPosts}
             onEndReachedThreshold={1}
             ListFooterComponent={_renderFooter}
-            onScrollEndDrag={_handleOnScroll}
+            onScrollEndDrag={handleOnScroll}
             ListEmptyComponent={_renderEmptyContent}
             refreshControl={
               <RefreshControl

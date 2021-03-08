@@ -22,7 +22,8 @@ export default function (state = initialState, action) {
     case SET_FEED_POSTS:
       return {
         ...state,
-        feedPosts: action.payload,
+        feedPosts: action.payload.posts,
+        feedScrollPosition: action.payload.scrollPosition,
         posts: action.payload,
       };
     case SET_INIT_POSTS:
@@ -33,7 +34,8 @@ export default function (state = initialState, action) {
     case SET_OTHER_POSTS:
       return {
         ...state,
-        otherPosts: action.payload,
+        otherPosts: action.payload.posts,
+        otherScrollPosition: action.payload.scrollPosition,
         posts: action.payload,
       };
     case FILTER_SELECTED: {

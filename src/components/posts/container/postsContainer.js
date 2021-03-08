@@ -86,11 +86,11 @@ const PostsContainer = ({
   const [recommendedUsers, setRecommendedUsers] = useState([]);
   const [recommendedCommunities, setRecommendedCommunities] = useState([]);
 
-  const _setFeedPosts = (_posts) => {
+  const _setFeedPosts = (_posts, scrollPos = 0) => {
     if (isFeedScreen) {
-      dispatch(setFeedPosts(_posts));
+      dispatch(setFeedPosts(_posts, scrollPos));
     } else {
-      dispatch(setOtherPosts(_posts));
+      dispatch(setOtherPosts(_posts, scrollPos));
     }
   };
 
@@ -110,6 +110,7 @@ const PostsContainer = ({
           startAuthor: '',
           startPermlink: '',
           isLoading: false,
+          scrollPosition: 0,
         };
       }
     });
@@ -213,7 +214,8 @@ const PostsContainer = ({
         state.currentFilter = filter;
         console.log('New state:', state);
 
-        _setFeedPosts(state.cachedData[filter !== 'feed' ? filter : state.currentSubFilter].posts);
+        const data = state.cachedData[filter !== 'feed' ? filter : state.currentSubFilter];
+        _setFeedPosts(data.posts, data.scrollPosition);
 
         return state;
       }
@@ -223,7 +225,19 @@ const PostsContainer = ({
         state.currentSubFilter = filter;
         console.log('New state:', state);
         //dispatch to redux;
-        _setFeedPosts(state.cachedData[filter].posts);
+        const data = state.cachedData[filter];
+        _setFeedPosts(data.posts, data.scrollPosition);
+        return state;
+      }
+
+      case 'scroll-position-change': {
+        const scrollPosition = action.payload.scrollPosition || 0;
+        const filter = state.currentFilter;
+        const subFilter = state.currentSubFilter;
+
+        const cacheFilter = filter !== 'feed' ? filter : subFilter;
+
+        state.cachedData[cacheFilter].scrollPosition = scrollPosition;
         return state;
       }
 
@@ -697,12 +711,30 @@ const PostsContainer = ({
     );
   };
 
+  const _handleOnScroll = (event) => {
+    if (handleOnScroll) {
+      handleOnScroll();
+    }
+
+    //memorize filter position
+    const scrollPosition = event.nativeEvent.contentOffset.y;
+    if (scrollPosition == 0) {
+      Alert.alert('Scroll positionsing failed', JSON.stringify(event));
+    }
+    cacheDispatch({
+      type: 'scroll-position-change',
+      payload: {
+        scrollPosition,
+      },
+    });
+  };
+
   return (
     <PostsView
       ref={elem}
       filterOptions={filterOptions}
       handleImagesHide={_handleImagesHide}
-      handleOnScroll={handleOnScroll}
+      handleOnScroll={_handleOnScroll}
       isHideImage={isHideImages}
       isLoggedIn={isLoggedIn}
       isAnalytics={isAnalytics}
