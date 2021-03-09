@@ -24,6 +24,7 @@ import {
   filterSelected,
   setOtherPosts,
   setInitPosts,
+  resetLocalVoteMap,
 } from '../../../redux/actions/postsAction';
 import { hidePostsThumbnails } from '../../../redux/actions/uiAction';
 import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';
@@ -70,8 +71,7 @@ const PostsContainer = ({
   );
   // const [posts, setPosts] = useState(isConnected ? [] : feedPosts);
   const [isNoPost, setIsNoPost] = useState(false);
-  const [startPermlink, setStartPermlink] = useState('');
-  const [startAuthor, setStartAuthor] = useState('');
+  const [sessionUser, setSessionUser] = useState(username);
   const [promotedPosts, setPromotedPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -86,11 +86,15 @@ const PostsContainer = ({
   const [recommendedUsers, setRecommendedUsers] = useState([]);
   const [recommendedCommunities, setRecommendedCommunities] = useState([]);
 
-  const _setFeedPosts = (_posts) => {
+  const _resetLocalVoteMap = () => {
+    dispatch(resetLocalVoteMap());
+  };
+
+  const _setFeedPosts = (_posts, scrollPos = 0) => {
     if (isFeedScreen) {
-      dispatch(setFeedPosts(_posts));
+      dispatch(setFeedPosts(_posts, scrollPos));
     } else {
-      dispatch(setOtherPosts(_posts));
+      dispatch(setOtherPosts(_posts, scrollPos));
     }
   };
 
@@ -110,6 +114,7 @@ const PostsContainer = ({
           startAuthor: '',
           startPermlink: '',
           isLoading: false,
+          scrollPosition: 0,
         };
       }
     });
@@ -181,7 +186,9 @@ const PostsContainer = ({
         console.log('New state:', state);
 
         //dispatch to redux
-        if (filter === state.currentFilter) {
+        if (
+          filter === (state.currentFilter !== 'feed' ? state.currentFilter : state.currentSubFilter)
+        ) {
           _setFeedPosts(_posts);
         }
         return state;
@@ -193,7 +200,7 @@ const PostsContainer = ({
         if (!cachedEntry) {
           throw new Error('No cached entry available');
         }
-        cachedEntry.starAuthor = '';
+        cachedEntry.startAuthor = '';
         cachedEntry.startPermlink = '';
         cachedEntry.posts = [];
 
@@ -211,7 +218,8 @@ const PostsContainer = ({
         state.currentFilter = filter;
         console.log('New state:', state);
 
-        _setFeedPosts(state.cachedData[filter !== 'feed' ? filter : state.currentSubFilter].posts);
+        const data = state.cachedData[filter !== 'feed' ? filter : state.currentSubFilter];
+        _setFeedPosts(data.posts, data.scrollPosition);
 
         return state;
       }
@@ -221,8 +229,28 @@ const PostsContainer = ({
         state.currentSubFilter = filter;
         console.log('New state:', state);
         //dispatch to redux;
-        _setFeedPosts(state.cachedData[filter].posts);
+        const data = state.cachedData[filter];
+        _setFeedPosts(data.posts, data.scrollPosition);
         return state;
+      }
+
+      case 'scroll-position-change': {
+        const scrollPosition = action.payload.scrollPosition || 0;
+        const filter = state.currentFilter;
+        const subFilter = state.currentSubFilter;
+
+        const cacheFilter = filter !== 'feed' ? filter : subFilter;
+
+        state.cachedData[cacheFilter].scrollPosition = scrollPosition;
+        return state;
+      }
+
+      case 'reset-cache': {
+        //dispatch to redux
+        _setFeedPosts([]);
+        _setInitPosts([]);
+
+        return initCacheState();
       }
 
       default:
@@ -238,11 +266,7 @@ const PostsContainer = ({
   useEffect(() => {
     if (isFeedScreen) {
       _setFeedPosts(initPosts);
-      // dispatch(
-      //   filterSelected(
-      //     selectedFilterValue !== 'feed' ? selectedFilterValue : selectedFeedSubfilterValue,
-      //   ),
-      // );
+      _resetLocalVoteMap();
     } else {
       _setFeedPosts([]);
     }
@@ -250,6 +274,13 @@ const PostsContainer = ({
 
   useEffect(() => {
     if (isConnected) {
+      if (username !== sessionUser) {
+        cacheDispatch({
+          type: 'reset-cache',
+        });
+        setSessionUser(username);
+      }
+
       _loadPosts();
       _getPromotePosts();
     }
@@ -267,9 +298,10 @@ const PostsContainer = ({
 
   useEffect(() => {
     if (forceLoadPost) {
-      _setFeedPosts([]);
-      setStartAuthor('');
-      setStartPermlink('');
+      cacheDispatch({
+        type: 'reset-cur-filter-cache',
+      });
+
       setSelectedFilterIndex(selectedOptionIndex || 0);
       isLoggedIn && setSelectedFeedSubfilterIndex(selectedFeedSubfilterIndex || 0);
       setIsNoPost(false);
@@ -497,6 +529,7 @@ const PostsContainer = ({
               }
             }
           }
+
           if (_posts.length > 0) {
             cacheDispatch({
               type: 'update-filter-cache',
@@ -505,26 +538,11 @@ const PostsContainer = ({
                 posts: _posts,
               },
             });
-            // if (posts.length > 0) {
-            //   if (refreshing) {
-            //     _posts = unionBy(_posts, posts, 'permlink');
-            //   } else {
-            //     _posts = unionBy(posts, _posts, 'permlink');
-            //   }
-            // }
-            // // if (posts.length <= 5 && pageType !== 'profiles') {
-            // _setFeedPosts(_posts);
-            // // }
-
-            // //if (!refreshing) {
-            // setStartAuthor(result[result.length - 1] && result[result.length - 1].author);
-            // setStartPermlink(result[result.length - 1] && result[result.length - 1].permlink);
-            //}
-            // setPosts(_posts);
           }
         } else if (result.length === 0) {
           setIsNoPost(true);
         }
+
         setRefreshing(false);
         setIsLoading(false);
         cacheDispatch({
@@ -572,17 +590,11 @@ const PostsContainer = ({
 
   const _handleFilterOnDropdownSelect = (index) => {
     setSelectedFilterIndex(index);
-    // _setFeedPosts([]);
-    // setStartPermlink('');
-    // setStartAuthor('');
     setIsNoPost(false);
   };
 
   const _handleFeedSubfilterOnDropdownSelect = (index) => {
     setSelectedFeedSubfilterIndex(index);
-    // _setFeedPosts([]);
-    // setStartPermlink('');
-    // setStartAuthor('');
     setIsNoPost(false);
   };
 
@@ -597,7 +609,6 @@ const PostsContainer = ({
   };
 
   const _setSelectedFeedSubfilterValue = (val) => {
-    // dispatch(filterSelected(val));
     setSelectedFeedSubfilterValue(val);
     cacheDispatch({
       type: 'change-sub-filter',
@@ -695,12 +706,27 @@ const PostsContainer = ({
     );
   };
 
+  const _handleOnScroll = (event) => {
+    if (handleOnScroll) {
+      handleOnScroll();
+    }
+
+    //memorize filter position
+    const scrollPosition = event.nativeEvent.contentOffset.y;
+    cacheDispatch({
+      type: 'scroll-position-change',
+      payload: {
+        scrollPosition,
+      },
+    });
+  };
+
   return (
     <PostsView
       ref={elem}
       filterOptions={filterOptions}
       handleImagesHide={_handleImagesHide}
-      handleOnScroll={handleOnScroll}
+      handleOnScroll={_handleOnScroll}
       isHideImage={isHideImages}
       isLoggedIn={isLoggedIn}
       isAnalytics={isAnalytics}

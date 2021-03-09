@@ -19,6 +19,7 @@ import {
   openPinCodeModal,
   setPinCode,
 } from '../../../redux/actions/applicationActions';
+import { setInitPosts, setFeedPosts } from '../../../redux/actions/postsAction';
 import { setPushTokenSaved, setExistUser } from '../../../realm/realm';
 import { setPushToken } from '../../../providers/ecency/ecency';
 import { encryptKey } from '../../../utils/crypto';
@@ -66,6 +67,8 @@ class LoginContainer extends PureComponent {
           dispatch(updateCurrentAccount({ ...result }));
           dispatch(addOtherAccount({ ...persistAccountData }));
           dispatch(loginAction(true));
+          dispatch(setInitPosts([]));
+          dispatch(setFeedPosts([]));
 
           userActivity(result.name, 20);
           setExistUser(true);

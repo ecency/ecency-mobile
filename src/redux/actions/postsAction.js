@@ -6,19 +6,41 @@ import {
   RESET,
   FILTER_SELECTED,
   SET_INIT_POSTS,
+  UPDATE_LOCAL_VOTE_MAP,
+  RESET_LOCAL_VOTE_MAP,
 } from '../constants/constants';
 
-export const setFeedPosts = (payload) => ({
-  payload,
+export const setFeedPosts = (posts, scrollPosition = 0) => ({
+  payload: {
+    posts,
+    scrollPosition,
+  },
   type: SET_FEED_POSTS,
 });
 export const setInitPosts = (payload) => ({
   payload,
   type: SET_INIT_POSTS,
 });
-export const setOtherPosts = (payload) => ({
-  payload,
+export const setOtherPosts = (posts, scrollPosition = 0) => ({
+  payload: {
+    posts,
+    scrollPosition,
+  },
   type: SET_OTHER_POSTS,
+});
+export const updateLocalVoteMap = (postId, localVote) => ({
+  payload: {
+    postId,
+    localVote,
+  },
+  type: UPDATE_LOCAL_VOTE_MAP,
+});
+export const resetLocalVoteMap = (postId, localVote) => ({
+  payload: {
+    postId,
+    localVote,
+  },
+  type: RESET_LOCAL_VOTE_MAP,
 });
 export const fetchPosts = (payload) => ({
   payload,

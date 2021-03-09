@@ -6,6 +6,8 @@ import {
   FETCH_POSTS,
   FETCH_POSTS_SUCCESS,
   RESET,
+  UPDATE_LOCAL_VOTE_MAP,
+  RESET_LOCAL_VOTE_MAP,
 } from '../constants/constants';
 
 const initialState = {
@@ -15,6 +17,7 @@ const initialState = {
   posts: [],
   loading: false,
   selectedFilterValue: '',
+  localVoteMap: new Map(),
 };
 
 export default function (state = initialState, action) {
@@ -22,7 +25,8 @@ export default function (state = initialState, action) {
     case SET_FEED_POSTS:
       return {
         ...state,
-        feedPosts: action.payload,
+        feedPosts: action.payload.posts,
+        feedScrollPosition: action.payload.scrollPosition,
         posts: action.payload,
       };
     case SET_INIT_POSTS:
@@ -33,9 +37,25 @@ export default function (state = initialState, action) {
     case SET_OTHER_POSTS:
       return {
         ...state,
-        otherPosts: action.payload,
+        otherPosts: action.payload.posts,
+        otherScrollPosition: action.payload.scrollPosition,
         posts: action.payload,
       };
+    case UPDATE_LOCAL_VOTE_MAP:
+      const { postId, localVote } = action.payload;
+      const voteMap = state.localVoteMap || new Map();
+      voteMap[postId] = localVote;
+      return {
+        ...state,
+        localVoteMap: voteMap,
+      };
+
+    case RESET_LOCAL_VOTE_MAP:
+      return {
+        ...state,
+        localVoteMap: new Map(),
+      };
+
     case FILTER_SELECTED: {
       return {
         ...state,

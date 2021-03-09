@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // Actions
 import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
+import { setInitPosts, setFeedPosts } from '../../../redux/actions/postsAction';
 import { logout } from '../../../redux/actions/applicationActions';
 
 // Component
@@ -26,6 +27,8 @@ const SideMenuContainer = ({ navigation }) => {
 
   const _handleLogout = () => {
     navigation.closeDrawer();
+    dispatch(setFeedPosts([]));
+    dispatch(setInitPosts([]));
     dispatch(logout());
   };
 

@@ -24,11 +24,37 @@ const postsListContainer = ({
         : state.posts.otherPosts
     });
 
+    const scrollPosition = useSelector((state) => {
+      return isFeedScreen
+      ? state.posts.feedScrollPosition
+      : state.posts.otherScrollPosition
+  });
+
     useImperativeHandle(ref, () => ({
         scrollToTop() {
             flatListRef.current?.scrollToOffset({ x: 0, y: 0, animated: true });
         },
       }));
+
+    useEffect(() => {
+      console.log("Scroll Position: ", scrollPosition)
+      if(posts.length == 0){
+        flatListRef.current?.scrollToOffset({
+          offset: 0, 
+          animated: false 
+        });
+      }
+      
+    }, [posts])
+
+    useEffect(() => {
+      console.log("Scroll Position: ", scrollPosition)
+      flatListRef.current?.scrollToOffset({
+        offset: posts.length == 0?0:scrollPosition, 
+        animated: false 
+      });
+      
+    }, [scrollPosition])
 
     const _renderItem = ({ item, index }:{item:any, index:number}) => {
         const e = [];
