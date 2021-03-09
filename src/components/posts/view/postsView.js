@@ -14,6 +14,7 @@ import { withNavigation } from 'react-navigation';
 import { get } from 'lodash';
 
 // COMPONENTS
+import FastImage from 'react-native-fast-image';
 import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
 import {
@@ -68,8 +69,8 @@ const PostsView = ({
   followingUsers,
   subscribingCommunities,
   isFeedScreen,
-  showNewPostsPopup,
-  setShowNewPostsPopup,
+  newPostsPopupPictures,
+  setNewPostsPopupPictures,
 }) => {
   const intl = useIntl();
   const postsList = useRef(null);
@@ -310,28 +311,47 @@ const PostsView = ({
             isFeedScreen={isFeedScreen}
           />
 
-          {showNewPostsPopup && (
+          {newPostsPopupPictures !== null && (
             <View style={styles.popupContainer}>
-              <TouchableOpacity
-                onPress={() => {
-                  handleOnRefreshPosts();
-                  setShowNewPostsPopup(false);
-                }}
-              >
-                <View style={styles.popupContentContainer}>
-                  <Text style={styles.popupText}>NEW CONTENT AVAILABLE</Text>
+              <View style={styles.popupContentContainer}>
+                <TouchableOpacity
+                  onPress={() => {
+                    handleOnRefreshPosts();
+                    setNewPostsPopupPictures(null);
+                  }}
+                >
+                  <View style={styles.popupContentContainer}>
+                    <IconButton
+                      iconStyle={styles.arrowUpIcon}
+                      iconType="MaterialCommunityIcons"
+                      name="arrow-up"
+                      onPress={() => {
+                        setNewPostsPopupPictures(null);
+                      }}
+                      size={12}
+                    />
 
-                  <IconButton
-                    iconStyle={styles.closeIcon}
-                    iconType="MaterialCommunityIcons"
-                    name="close"
-                    onPress={() => {
-                      setShowNewPostsPopup(false);
-                    }}
-                    size={20}
-                  />
-                </View>
-              </TouchableOpacity>
+                    {newPostsPopupPictures.map((url, index) => (
+                      <FastImage
+                        source={{ uri: url }}
+                        style={[styles.popupImage, { zIndex: 10 - index }]}
+                      />
+                    ))}
+
+                    <Text style={styles.popupText}>Posted</Text>
+                  </View>
+                </TouchableOpacity>
+
+                <IconButton
+                  iconStyle={styles.closeIcon}
+                  iconType="MaterialCommunityIcons"
+                  name="close"
+                  onPress={() => {
+                    setNewPostsPopupPictures(null);
+                  }}
+                  size={12}
+                />
+              </View>
             </View>
           )}
 

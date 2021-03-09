@@ -86,7 +86,7 @@ const PostsContainer = ({
   );
   const [recommendedUsers, setRecommendedUsers] = useState([]);
   const [recommendedCommunities, setRecommendedCommunities] = useState([]);
-  const [showNewPostsPopup, setShowNewPostsPopup] = useState(false);
+  const [newPostsPopupPictures, setNewPostsPopupPictures] = useState(null);
 
   const _resetLocalVoteMap = () => {
     dispatch(resetLocalVoteMap());
@@ -479,11 +479,20 @@ const PostsContainer = ({
   const _matchFreshPosts = (posts, reducerFilter) => {
     const cachedPosts = cache.cachedData[reducerFilter].posts;
 
-    const cachedPostId = get(cachedPosts[0], 'post_id');
-    const newPostId = get(posts[0], 'post_id');
+    const newPosts = [];
+    posts.forEach((post, index) => {
+      const cachedPostId = get(cachedPosts[index], 'post_id');
+      const newPostId = get(post, 'post_id');
 
-    if (cachedPostId !== newPostId) {
-      setShowNewPostsPopup(true);
+      if (cachedPostId !== newPostId) {
+        newPosts.push(post);
+      }
+    });
+
+    if (newPosts.length > 0) {
+      setNewPostsPopupPictures(newPosts.map((post) => get(post, 'avatar', '')));
+    } else {
+      _scheduleLatestPostsCheck(posts[0]);
     }
   };
 
@@ -776,6 +785,16 @@ const PostsContainer = ({
     });
   };
 
+  const _handleSetNewPostsPopupPictures = (data) => {
+    setNewPostsPopupPictures(data);
+    const cacheFilter =
+      cache.currentFilter !== 'feed' ? cache.currentFilter : cache.currentSubFilter;
+    const posts = cache.cachedData[cacheFilter].posts;
+    if (posts.length > 0) {
+      _scheduleLatestPostsCheck(posts[0]);
+    }
+  };
+
   return (
     <PostsView
       ref={elem}
@@ -813,8 +832,8 @@ const PostsContainer = ({
       followingUsers={followingUsers}
       subscribingCommunities={subscribingCommunities}
       isFeedScreen={isFeedScreen}
-      showNewPostsPopup={showNewPostsPopup}
-      setShowNewPostsPopup={setShowNewPostsPopup}
+      newPostsPopupPictures={newPostsPopupPictures}
+      setNewPostsPopupPictures={_handleSetNewPostsPopupPictures}
     />
   );
 };
