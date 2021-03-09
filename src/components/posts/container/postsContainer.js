@@ -53,6 +53,7 @@ const PostsContainer = ({
 }) => {
   const dispatch = useDispatch();
   const intl = useIntl();
+  let _postFetchTimer = null;
 
   const nsfw = useSelector((state) => state.application.nsfw);
   const initPosts = useSelector((state) => state.posts.initPosts);
@@ -85,6 +86,7 @@ const PostsContainer = ({
   );
   const [recommendedUsers, setRecommendedUsers] = useState([]);
   const [recommendedCommunities, setRecommendedCommunities] = useState([]);
+  const [showNewPostsPopup, setShowNewPostsPopup] = useState(false);
 
   const _resetLocalVoteMap = () => {
     dispatch(resetLocalVoteMap());
@@ -102,6 +104,30 @@ const PostsContainer = ({
     if (isFeedScreen) {
       dispatch(setInitPosts(_posts));
     }
+  };
+
+  const _scheduleLatestPostsCheck = (firstPost) => {
+    if (_postFetchTimer) {
+      clearTimeout(_postFetchTimer);
+    }
+    if (!firstPost) {
+      return;
+    }
+
+    const currentTime = new Date().getTime();
+    const createdAt = new Date(get(firstPost, 'created')).getTime();
+
+    const timeSpent = currentTime - createdAt;
+    // let timeLeft = 3600000 - timeSpent;
+    let timeLeft = 30000 - timeSpent;
+    if (timeLeft < 0) {
+      timeLeft = 30000;
+    }
+
+    _postFetchTimer = setTimeout(() => {
+      const isLatestPostsCheck = true;
+      _loadPosts(null, isLatestPostsCheck);
+    }, timeLeft);
   };
 
   const initCacheState = () => {
@@ -170,14 +196,15 @@ const PostsContainer = ({
           }
         }
         //cache latest posts for main tab for returning user
-        else if (
-          isFeedScreen &&
-          filter == (get(currentAccount, 'name', null) == null ? 'hot' : 'friends')
-        ) {
-          _setInitPosts(nextPosts);
+        else if (isFeedScreen) {
+          //schedule refetch of new posts by checking time of current post
+          _scheduleLatestPostsCheck(nextPosts[0]);
+
+          if (filter == (get(currentAccount, 'name', null) == null ? 'hot' : 'friends')) {
+            _setInitPosts(nextPosts);
+          }
         }
 
-        //if (!refreshing) {
         cachedEntry.startAuthor = _posts[_posts.length - 1] && _posts[_posts.length - 1].author;
         cachedEntry.startPermlink = _posts[_posts.length - 1] && _posts[_posts.length - 1].permlink;
         cachedEntry.posts = _posts;
@@ -221,6 +248,10 @@ const PostsContainer = ({
         const data = state.cachedData[filter !== 'feed' ? filter : state.currentSubFilter];
         _setFeedPosts(data.posts, data.scrollPosition);
 
+        if (filter !== 'feed' && isFeedScreen) {
+          _scheduleLatestPostsCheck(data.posts[0]);
+        }
+
         return state;
       }
 
@@ -231,6 +262,9 @@ const PostsContainer = ({
         //dispatch to redux;
         const data = state.cachedData[filter];
         _setFeedPosts(data.posts, data.scrollPosition);
+        if (isFeedScreen) {
+          _scheduleLatestPostsCheck(data.posts[0]);
+        }
         return state;
       }
 
@@ -270,6 +304,12 @@ const PostsContainer = ({
     } else {
       _setFeedPosts([]);
     }
+
+    return () => {
+      if (_postFetchTimer) {
+        clearTimeout(_postFetchTimer);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -436,7 +476,18 @@ const PostsContainer = ({
       .catch(() => {});
   };
 
-  const _loadPosts = async (type) => {
+  const _matchFreshPosts = (posts, reducerFilter) => {
+    const cachedPosts = cache.cachedData[reducerFilter].posts;
+
+    const cachedPostId = get(cachedPosts[0], 'post_id');
+    const newPostId = get(posts[0], 'post_id');
+
+    if (cachedPostId !== newPostId) {
+      setShowNewPostsPopup(true);
+    }
+  };
+
+  const _loadPosts = async (type, isLatestPostCheck = false) => {
     const filter = type || selectedFilterValue;
     const reducerFilter = filter !== 'feed' ? filter : selectedFeedSubfilterValue;
 
@@ -510,7 +561,7 @@ const PostsContainer = ({
 
     const sAuthor = cache.cachedData[reducerFilter].startAuthor;
     const sPermlink = cache.cachedData[reducerFilter].startPermlink;
-    if (sAuthor && sPermlink && !refreshing) {
+    if (sAuthor && sPermlink && !refreshing && !isLatestPostCheck) {
       options.start_author = sAuthor;
       options.start_permlink = sPermlink;
     }
@@ -531,13 +582,17 @@ const PostsContainer = ({
           }
 
           if (_posts.length > 0) {
-            cacheDispatch({
-              type: 'update-filter-cache',
-              payload: {
-                filter: reducerFilter,
-                posts: _posts,
-              },
-            });
+            if (isLatestPostCheck) {
+              _matchFreshPosts(_posts, reducerFilter);
+            } else {
+              cacheDispatch({
+                type: 'update-filter-cache',
+                payload: {
+                  filter: reducerFilter,
+                  posts: _posts,
+                },
+              });
+            }
           }
         } else if (result.length === 0) {
           setIsNoPost(true);
@@ -758,6 +813,8 @@ const PostsContainer = ({
       followingUsers={followingUsers}
       subscribingCommunities={subscribingCommunities}
       isFeedScreen={isFeedScreen}
+      showNewPostsPopup={showNewPostsPopup}
+      setShowNewPostsPopup={setShowNewPostsPopup}
     />
   );
 };

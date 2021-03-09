@@ -40,4 +40,28 @@ export default EStyleSheet.create({
     marginVertical: 16,
     color: '$primaryBlack',
   },
+  popupContainer: {
+    position: 'absolute',
+    top: 80,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+  },
+  popupContentContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '$primaryBlue',
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    borderRadius: 32,
+  },
+  popupText: {
+    fontWeight: '700',
+    color: '$white',
+  },
+  closeIcon: {
+    color: '$white',
+    margin: 0,
+    marginLeft: 8,
+  },
 });

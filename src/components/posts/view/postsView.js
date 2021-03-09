@@ -1,6 +1,14 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { useRef, useEffect } from 'react';
-import { FlatList, View, ActivityIndicator, RefreshControl, Text } from 'react-native';
+import {
+  FlatList,
+  View,
+  ActivityIndicator,
+  RefreshControl,
+  Text,
+  TouchableOpacity,
+  Button,
+} from 'react-native';
 import { useIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 import { get } from 'lodash';
@@ -13,8 +21,10 @@ import {
   NoPost,
   UserListItem,
   CommunityListItem,
+  TextWithIcon,
 } from '../../basicUIElements';
 import { ThemeContainer } from '../../../containers';
+import { IconButton } from '../../iconButton';
 
 // Styles
 import styles from './postsStyles';
@@ -58,6 +68,8 @@ const PostsView = ({
   followingUsers,
   subscribingCommunities,
   isFeedScreen,
+  showNewPostsPopup,
+  setShowNewPostsPopup,
 }) => {
   const intl = useIntl();
   const postsList = useRef(null);
@@ -297,6 +309,31 @@ const PostsView = ({
             }
             isFeedScreen={isFeedScreen}
           />
+
+          {showNewPostsPopup && (
+            <View style={styles.popupContainer}>
+              <TouchableOpacity
+                onPress={() => {
+                  handleOnRefreshPosts();
+                  setShowNewPostsPopup(false);
+                }}
+              >
+                <View style={styles.popupContentContainer}>
+                  <Text style={styles.popupText}>NEW CONTENT AVAILABLE</Text>
+
+                  <IconButton
+                    iconStyle={styles.closeIcon}
+                    iconType="MaterialCommunityIcons"
+                    name="close"
+                    onPress={() => {
+                      setShowNewPostsPopup(false);
+                    }}
+                    size={20}
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
+          )}
 
           {/* <FlatList
             ref={postsList}
