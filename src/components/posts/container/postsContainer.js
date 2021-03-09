@@ -71,8 +71,7 @@ const PostsContainer = ({
   );
   // const [posts, setPosts] = useState(isConnected ? [] : feedPosts);
   const [isNoPost, setIsNoPost] = useState(false);
-  const [startPermlink, setStartPermlink] = useState('');
-  const [startAuthor, setStartAuthor] = useState('');
+  const [sessionUser, setSessionUser] = useState(username);
   const [promotedPosts, setPromotedPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -201,7 +200,7 @@ const PostsContainer = ({
         if (!cachedEntry) {
           throw new Error('No cached entry available');
         }
-        cachedEntry.starAuthor = '';
+        cachedEntry.startAuthor = '';
         cachedEntry.startPermlink = '';
         cachedEntry.posts = [];
 
@@ -246,6 +245,14 @@ const PostsContainer = ({
         return state;
       }
 
+      case 'reset-cache': {
+        //dispatch to redux
+        _setFeedPosts([]);
+        _setInitPosts([]);
+
+        return initCacheState();
+      }
+
       default:
         return state;
     }
@@ -267,6 +274,13 @@ const PostsContainer = ({
 
   useEffect(() => {
     if (isConnected) {
+      if (username !== sessionUser) {
+        cacheDispatch({
+          type: 'reset-cache',
+        });
+        setSessionUser(username);
+      }
+
       _loadPosts();
       _getPromotePosts();
     }
@@ -284,9 +298,10 @@ const PostsContainer = ({
 
   useEffect(() => {
     if (forceLoadPost) {
-      _setFeedPosts([]);
-      setStartAuthor('');
-      setStartPermlink('');
+      cacheDispatch({
+        type: 'reset-cur-filter-cache',
+      });
+
       setSelectedFilterIndex(selectedOptionIndex || 0);
       isLoggedIn && setSelectedFeedSubfilterIndex(selectedFeedSubfilterIndex || 0);
       setIsNoPost(false);
@@ -514,6 +529,7 @@ const PostsContainer = ({
               }
             }
           }
+
           if (_posts.length > 0) {
             cacheDispatch({
               type: 'update-filter-cache',
@@ -522,26 +538,11 @@ const PostsContainer = ({
                 posts: _posts,
               },
             });
-            // if (posts.length > 0) {
-            //   if (refreshing) {
-            //     _posts = unionBy(_posts, posts, 'permlink');
-            //   } else {
-            //     _posts = unionBy(posts, _posts, 'permlink');
-            //   }
-            // }
-            // // if (posts.length <= 5 && pageType !== 'profiles') {
-            // _setFeedPosts(_posts);
-            // // }
-
-            // //if (!refreshing) {
-            // setStartAuthor(result[result.length - 1] && result[result.length - 1].author);
-            // setStartPermlink(result[result.length - 1] && result[result.length - 1].permlink);
-            //}
-            // setPosts(_posts);
           }
         } else if (result.length === 0) {
           setIsNoPost(true);
         }
+
         setRefreshing(false);
         setIsLoading(false);
         cacheDispatch({
@@ -589,17 +590,11 @@ const PostsContainer = ({
 
   const _handleFilterOnDropdownSelect = (index) => {
     setSelectedFilterIndex(index);
-    // _setFeedPosts([]);
-    // setStartPermlink('');
-    // setStartAuthor('');
     setIsNoPost(false);
   };
 
   const _handleFeedSubfilterOnDropdownSelect = (index) => {
     setSelectedFeedSubfilterIndex(index);
-    // _setFeedPosts([]);
-    // setStartPermlink('');
-    // setStartAuthor('');
     setIsNoPost(false);
   };
 
@@ -614,7 +609,6 @@ const PostsContainer = ({
   };
 
   const _setSelectedFeedSubfilterValue = (val) => {
-    // dispatch(filterSelected(val));
     setSelectedFeedSubfilterValue(val);
     cacheDispatch({
       type: 'change-sub-filter',
