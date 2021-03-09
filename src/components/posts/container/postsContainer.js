@@ -299,7 +299,7 @@ const PostsContainer = ({
 
   useEffect(() => {
     if (isFeedScreen) {
-      _setFeedPosts(initPosts);
+      _setFeedPosts(initPosts || []);
       _resetLocalVoteMap();
     } else {
       _setFeedPosts([]);

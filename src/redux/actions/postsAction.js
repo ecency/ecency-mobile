@@ -35,11 +35,7 @@ export const updateLocalVoteMap = (postId, localVote) => ({
   },
   type: UPDATE_LOCAL_VOTE_MAP,
 });
-export const resetLocalVoteMap = (postId, localVote) => ({
-  payload: {
-    postId,
-    localVote,
-  },
+export const resetLocalVoteMap = () => ({
   type: RESET_LOCAL_VOTE_MAP,
 });
 export const fetchPosts = (payload) => ({
