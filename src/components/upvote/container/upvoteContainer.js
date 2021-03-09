@@ -47,18 +47,16 @@ const UpvoteContainer = (props) => {
     _calculateVoteStatus();
   }, [activeVotes]);
 
-  useEffect(() => {
-    if (localVoteMap) {
-      _handleLocalVote();
-    }
-  }, []);
-
   const _calculateVoteStatus = async () => {
     const _isVoted = await isVotedFunc(activeVotes, get(currentAccount, 'name'));
     const _isDownVoted = await isDownVotedFunc(activeVotes, get(currentAccount, 'name'));
 
     setIsVoted(_isVoted && parseInt(_isVoted, 10) / 10000);
     setIsDownVoted(_isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1);
+
+    if (localVoteMap) {
+      _handleLocalVote();
+    }
   };
 
   const _setUpvotePercent = (value) => {
@@ -79,7 +77,7 @@ const UpvoteContainer = (props) => {
         return;
       }
 
-      setTotalPayout(totalPayout + amount);
+      setTotalPayout(get(content, 'total_payout') + amount);
       if (incrementStep > 0) {
         incrementVoteCount();
       }
