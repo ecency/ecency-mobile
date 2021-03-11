@@ -106,10 +106,14 @@ const PostCardView = ({
                 styles.thumbnail,
                 {
                   width: dim.width - 18,
-                  height: calcImgHeight,
+                  height: Math.min(calcImgHeight, dim.height),
                 },
               ]}
-              resizeMode={FastImage.resizeMode.contain}
+              resizeMode={
+                calcImgHeight < dim.height
+                  ? FastImage.resizeMode.contain
+                  : FastImage.resizeMode.cover
+              }
               onLoad={(evt) => {
                 setCalcImgHeight((evt.nativeEvent.height / evt.nativeEvent.width) * dim.width - 18);
               }}
