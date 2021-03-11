@@ -115,7 +115,9 @@ const PostCardView = ({
                   : FastImage.resizeMode.cover
               }
               onLoad={(evt) => {
-                setCalcImgHeight((evt.nativeEvent.height / evt.nativeEvent.width) * dim.width - 18);
+                setCalcImgHeight(
+                  (evt.nativeEvent.height / evt.nativeEvent.width) * (dim.width - 18),
+                );
               }}
             />
           )}
