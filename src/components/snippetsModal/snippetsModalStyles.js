@@ -11,14 +11,16 @@ export default EStyleSheet.create({
     paddingTop: 20,
   },
   itemWrapper: {
-    alignItems: 'center',
     padding: 16,
     borderRadius: 8,
-    flexDirection: 'row',
     backgroundColor: '$primaryBackgroundColor',
   },
   itemWrapperGray: {
     backgroundColor: '$primaryLightBackground',
   },
-  username: {},
+  title: {
+    fontWeight: '600',
+    paddingBottom: 10,
+  },
+  body: {},
 });

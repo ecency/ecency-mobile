@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text, TouchableOpacity } from 'react-native';
+import { View, FlatList, Text, TouchableOpacity, Alert } from 'react-native';
 import { useIntl } from 'react-intl';
 
 import { getSnippets } from '../../providers/ecency/ecency';
 
-import { ListPlaceHolder } from '..';
+import { MainButton } from '..';
 
 import styles from './snippetsModalStyles';
 
@@ -23,15 +23,23 @@ const SnippetsModal = ({ username, handleOnSelect }) => {
   }, []);
   const _renderItem = (item, index) => (
     <View style={[styles.itemWrapper, index % 2 !== 0 && styles.itemWrapperGray]}>
-      <Text style={styles.username}>{`${item.title}`}</Text>
-      <Text style={styles.username}>{`${item.body}`}</Text>
+      <Text style={styles.title}>{`${item.title}`}</Text>
+      <Text style={styles.body} numberOfLines={2} ellipsizeMode="tail">{`${item.body}`}</Text>
     </View>
   );
 
   const _renderEmptyContent = () => {
     return (
       <>
-        <ListPlaceHolder />
+        <Text style={styles.title}>Nothing here</Text>
+        <MainButton
+          style={{ width: 150 }}
+          onPress={() => Alert.alert('create new snippet')}
+          iconName="plus"
+          iconType="MaterialCommunityIcons"
+          iconColor="white"
+          text="Snippet"
+        />
       </>
     );
   };
