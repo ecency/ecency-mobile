@@ -4,7 +4,7 @@ import { get, isEmpty } from 'lodash';
 import unionBy from 'lodash/unionBy';
 import Matomo from 'react-native-matomo-sdk';
 import { useIntl } from 'react-intl';
-import { Alert } from 'react-native';
+import { Alert, AppState } from 'react-native';
 
 // HIVE
 import {
@@ -51,6 +51,7 @@ const PostsContainer = ({
   feedSubfilterOptionsValue,
   isFeedScreen = false,
 }) => {
+  const appState = useRef(AppState.currentState);
   const dispatch = useDispatch();
   const intl = useIntl();
   let _postFetchTimer = null;
@@ -119,9 +120,9 @@ const PostsContainer = ({
     const createdAt = new Date(get(firstPost, 'created')).getTime();
 
     const timeSpent = currentTime - createdAt;
-    let timeLeft = 1800000 - timeSpent;
+    let timeLeft = 600000 - timeSpent;
     if (timeLeft < 0) {
-      timeLeft = 1800000;
+      timeLeft = 600000;
     }
 
     _postFetchTimer = setTimeout(() => {
@@ -299,6 +300,7 @@ const PostsContainer = ({
 
   useEffect(() => {
     if (isFeedScreen) {
+      AppState.addEventListener('change', _handleAppStateChange);
       _setFeedPosts(initPosts || []);
       _resetLocalVoteMap();
     } else {
@@ -308,6 +310,9 @@ const PostsContainer = ({
     return () => {
       if (_postFetchTimer) {
         clearTimeout(_postFetchTimer);
+      }
+      if (isFeedScreen) {
+        AppState.removeEventListener('change', _handleAppStateChange);
       }
     };
   }, []);
@@ -448,6 +453,16 @@ const PostsContainer = ({
 
     setRecommendedCommunities(recommendeds);
   }, [subscribingCommunities]);
+
+  const _handleAppStateChange = (nextAppState) => {
+    if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+      const isLatestPostsCheck = true;
+      _loadPosts(null, isLatestPostsCheck);
+    }
+
+    appState.current = nextAppState;
+    console.log('AppState', appState.current);
+  };
 
   const _handleImagesHide = () => {
     dispatch(hidePostsThumbnails(!isHideImages));
