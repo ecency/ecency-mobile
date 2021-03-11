@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 
 import { getSnippets } from '../../providers/ecency/ecency';
 
-import { FormInput, MainButton, Tag, ListPlaceHolder } from '..';
+import { ListPlaceHolder } from '..';
 
 import styles from './snippetsModalStyles';
 

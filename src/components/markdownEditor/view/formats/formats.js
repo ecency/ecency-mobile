@@ -2,7 +2,6 @@ import applyWrapFormat from './applyWrapFormat';
 import applyWrapFormatNewLines from './applyWrapFormatNewLines';
 import applyListFormat from './applyListFormat';
 import applyWebLinkFormat from './applyWebLinkFormat';
-import applySnippetFormat from './applySnippetFormat';
 
 export default [
   {
@@ -35,10 +34,5 @@ export default [
     key: 'link',
     title: 'WEB',
     onPress: applyWebLinkFormat,
-  },
-  {
-    key: 'snippet',
-    title: 'SNIPPET',
-    onPress: applySnippetFormat,
   },
 ];
