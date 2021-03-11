@@ -114,14 +114,14 @@ const PostsContainer = ({
       return;
     }
 
+    //schedules refresh 30 minutes after last post creation time
     const currentTime = new Date().getTime();
     const createdAt = new Date(get(firstPost, 'created')).getTime();
 
     const timeSpent = currentTime - createdAt;
-    // let timeLeft = 3600000 - timeSpent;
-    let timeLeft = 30000 - timeSpent;
+    let timeLeft = 1800000 - timeSpent;
     if (timeLeft < 0) {
-      timeLeft = 30000;
+      timeLeft = 1800000;
     }
 
     _postFetchTimer = setTimeout(() => {
