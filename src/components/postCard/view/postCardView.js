@@ -38,11 +38,8 @@ const PostCardView = ({
   intl,
   activeVotes,
 }) => {
-  // const [rebloggedBy, setRebloggedBy] = useState(get(content, 'reblogged_by[0]', null));
   const [activeVotesCount, setActiveVotesCount] = useState(activeVotes.length || 0);
-  // const [images, setImages] = useState({});
-  // const [calcImgHeight, setCalcImgHeight] = useState(300);
-  const calcImgHeight = 300;
+  const [calcImgHeight, setCalcImgHeight] = useState(300);
 
   // Component Functions
 
@@ -69,47 +66,6 @@ const PostCardView = ({
   const _handleIncrementVoteCount = () => {
     setActiveVotesCount(activeVotesCount + 1);
   };
-
-  // useEffect(() => {
-  //   if (content) {
-  //     const _rebloggedBy = get(content, 'reblogged_by[0]', null);
-  //     setRebloggedBy(_rebloggedBy);
-
-  //     if (content.thumbnail) {
-  //       if (isNsfwPost && content.nsfw) {
-  //         setImages({ image: NSFW_IMAGE, thumbnail: NSFW_IMAGE });
-  //       }
-  //        console.log(content)
-  //       let ratio = 10 / 7;
-  //       ImageSize.getSize(content.thumbnail)
-  //         .then((size) => {
-  //           ratio = size.height / size.width;
-  //           setCalcImgHeight(Math.floor(ratio * (dim.width - 18)));
-  //         })
-  //         .catch((er) => {
-  //           setCalcImgHeight(Math.floor(ratio * (dim.width - 18)));
-  //           bugsnag.notify(er, (report) => {
-  //             report.metadata = {
-  //               content,
-  //             };
-  //           });
-  //         });
-  //         setImages({ image: content.image, thumbnail: content.thumbnail });
-  //       }
-  //       else {
-  //         setImages({ image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE });
-  //       }
-
-  //     if (activeVotes) {
-  //       setActiveVot(get(content, 'active_votes'));
-  //     }
-  //   }
-  //   return () => {
-  //     setImages({ image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE });
-  //     setCalcImgHeight(300);
-  //     setActiveVot([]);
-  //   };
-  // }, []);
 
   const rebloggedBy = get(content, 'reblogged_by[0]', null);
   var images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
@@ -146,12 +102,18 @@ const PostCardView = ({
           {!isHideImage && (
             <FastImage
               source={{ uri: images.image }}
-              //thumbnailSource={{ uri: _image.thumbnail }}
               style={[
                 styles.thumbnail,
-                { width: dim.width - 18, height: Math.min(calcImgHeight, dim.height) },
+                {
+                  width: dim.width - 18,
+                  height: calcImgHeight, //Math.min(calcImgHeight, dim.height),
+                  // transform: [{ translateY: 26 }]
+                }, //height: Math.min(calcImgHeight, dim.height) },
               ]}
-              resizeMode={FastImage.resizeMode.cover}
+              resizeMode={FastImage.resizeMode.contain}
+              onLoad={(evt) => {
+                setCalcImgHeight((evt.nativeEvent.height / evt.nativeEvent.width) * dim.width - 18);
+              }}
             />
           )}
           <View style={[styles.postDescripton]}>
