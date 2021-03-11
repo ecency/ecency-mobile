@@ -299,7 +299,8 @@
     "my_blog": "My Blog",
     "my_communities": "My Communities",
     "top_communities": "Top Communities",
-    "schedule_modal_title": "Schedule Post"
+    "schedule_modal_title": "Schedule Post",
+    "snippets": "Snippets"
   },
   "pincode": {
     "enter_text": "Enter PIN to unlock",

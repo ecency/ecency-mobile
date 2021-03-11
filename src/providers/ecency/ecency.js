@@ -167,6 +167,65 @@ export const addFavorite = (currentUsername, targetUsername) =>
 export const removeFavorite = (currentUsername, targetUsername) =>
   api.delete(`/favoriteUser/${currentUsername}/${targetUsername}`);
 
+/**
+ * @params current username
+ */
+export const getSnippets = (username) =>
+  api.get(`/fragments/${username}`).then((resp) => resp.data);
+
+/**
+ * @params current username
+ * @params title title
+ * @params body body
+ */
+export const addSnippet = (currentUsername, title, body) =>
+  api
+    .post('/fragment', {
+      username: currentUsername,
+      title,
+      body,
+    })
+    .then((resp) => resp.data);
+
+/**
+ * @params current username
+ * @params fragmentid id
+ * @params title title
+ * @params body body
+ */
+export const updateSnippet = (username, id, title, body) =>
+  new Promise((resolve, reject) => {
+    api
+      .put(`/fragments/${username}/${id}`, {
+        title,
+        body,
+      })
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((error) => {
+        bugsnag.notify(error);
+        reject(error);
+      });
+  });
+
+/**
+ * @params current username
+ * @params fragmentid id
+ */
+export const removeSnippet = (username, id) =>
+  new Promise((resolve, reject) => {
+    api
+      .delete(`/fragments/${username}/${id}`)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((error) => {
+        bugsnag.notify(error);
+        reject(error);
+      });
+  });
+
 export const getLeaderboard = (duration) =>
   api
     .get('/leaderboard', {
