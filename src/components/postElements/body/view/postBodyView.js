@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { Dimensions, Linking, Modal, PermissionsAndroid, Platform } from 'react-native';
+import { Dimensions, Linking, Modal, PermissionsAndroid, Platform, View } from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
 import { withNavigation } from 'react-navigation';
 import { useIntl, injectIntl } from 'react-intl';
@@ -41,6 +41,7 @@ const PostBody = ({
   const intl = useIntl();
   const actionImage = useRef(null);
   const actionLink = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (selectedLink) {
@@ -292,6 +293,12 @@ const PostBody = ({
     }
   };
 
+  const _handleLoadEnd = () => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 200);
+  };
+
   const customStyle = `
   * {
     color: ${EStyleSheet.value('$primaryBlack')};
@@ -454,6 +461,7 @@ const PostBody = ({
           handleLinkPress(index);
         }}
       />
+      {isLoading && (isComment ? <CommentPlaceHolder /> : <PostPlaceHolder />)}
       <AutoHeightWebView
         source={{ html }}
         allowsFullscreenVideo={true}
@@ -461,12 +469,12 @@ const PostBody = ({
         customStyle={customStyle}
         onMessage={_handleOnLinkPress}
         customScript={customBodyScript}
-        renderLoading={() => (isComment ? <CommentPlaceHolder /> : <PostPlaceHolder />)}
         startInLoadingState={true}
         onShouldStartLoadWithRequest={false}
         scrollEnabled={false}
         scalesPageToFit={false}
         zoomable={false}
+        onLoadEnd={_handleLoadEnd}
       />
     </Fragment>
   );
