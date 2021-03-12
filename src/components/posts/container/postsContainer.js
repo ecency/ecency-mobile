@@ -108,7 +108,7 @@ const PostsContainer = ({
     }
   };
 
-  const _scheduleLatestPostsCheck = (firstPost, filter = selectedFilterValue) => {
+  const _scheduleLatestPostsCheck = (firstPost) => {
     const refetchTime = __DEV__ ? 5000 : 600000;
     if (_postFetchTimer) {
       clearTimeout(_postFetchTimer);
@@ -129,7 +129,7 @@ const PostsContainer = ({
 
     _postFetchTimer = setTimeout(() => {
       const isLatestPostsCheck = true;
-      _loadPosts(filter, isLatestPostsCheck);
+      _loadPosts(null, isLatestPostsCheck);
     }, timeLeft);
   };
 
@@ -202,7 +202,7 @@ const PostsContainer = ({
         //cache latest posts for main tab for returning user
         else if (isFeedScreen) {
           //schedule refetch of new posts by checking time of current post
-          _scheduleLatestPostsCheck(nextPosts[0], state.currentFilter);
+          _scheduleLatestPostsCheck(nextPosts[0]);
 
           if (filter == (get(currentAccount, 'name', null) == null ? 'hot' : 'friends')) {
             _setInitPosts(nextPosts);
@@ -254,7 +254,7 @@ const PostsContainer = ({
         _setFeedPosts(data.posts, data.scrollPosition);
 
         if (filter !== 'feed' && isFeedScreen) {
-          _scheduleLatestPostsCheck(data.posts[0], filter);
+          _scheduleLatestPostsCheck(data.posts[0]);
           setNewPostsPopupPictures(null);
         }
 
@@ -269,7 +269,7 @@ const PostsContainer = ({
         const data = state.cachedData[filter];
         _setFeedPosts(data.posts, data.scrollPosition);
         if (isFeedScreen) {
-          _scheduleLatestPostsCheck(data.posts[0], 'feed');
+          _scheduleLatestPostsCheck(data.posts[0]);
           setNewPostsPopupPictures(null);
         }
         return state;
@@ -523,13 +523,13 @@ const PostsContainer = ({
     if (newPosts.length > 0 && isRightFilter) {
       setNewPostsPopupPictures(newPosts.map((post) => get(post, 'avatar', '')));
     } else {
-      _scheduleLatestPostsCheck(posts[0], cache.currentFilter);
+      _scheduleLatestPostsCheck(posts[0]);
     }
   };
 
   const _loadPosts = async (type, isLatestPostCheck = false) => {
-    const filter = type || selectedFilterValue;
-    const reducerFilter = filter !== 'feed' ? filter : selectedFeedSubfilterValue;
+    const filter = type || cache.currentFilter;
+    const reducerFilter = filter !== 'feed' ? filter : cache.currentSubFilter;
 
     const isFilterLoading = cache.cachedData[reducerFilter].isLoading;
     if (
@@ -695,23 +695,23 @@ const PostsContainer = ({
   };
 
   const _setSelectedFilterValue = (val) => {
-    setSelectedFilterValue(val);
     cacheDispatch({
       type: 'change-filter',
       payload: {
         currentFilter: val,
       },
     });
+    setSelectedFilterValue(val);
   };
 
   const _setSelectedFeedSubfilterValue = (val) => {
-    setSelectedFeedSubfilterValue(val);
     cacheDispatch({
       type: 'change-sub-filter',
       payload: {
         currentSubFilter: val,
       },
     });
+    setSelectedFeedSubfilterValue(val);
   };
 
   const _getRecommendedUsers = () => dispatch(fetchLeaderboard());
@@ -823,7 +823,7 @@ const PostsContainer = ({
       cache.currentFilter !== 'feed' ? cache.currentFilter : cache.currentSubFilter;
     const posts = cache.cachedData[cacheFilter].posts;
     if (posts.length > 0) {
-      _scheduleLatestPostsCheck(posts[0], cache.currentFilter);
+      _scheduleLatestPostsCheck(posts[0]);
     }
   };
 
