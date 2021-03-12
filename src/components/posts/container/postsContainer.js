@@ -182,6 +182,7 @@ const PostsContainer = ({
       case 'update-filter-cache': {
         const filter = action.payload.filter;
         const nextPosts = action.payload.posts;
+        const shouldReset = action.payload.shouldReset;
         let _posts = nextPosts;
 
         const cachedEntry = state.cachedData[filter];
@@ -191,7 +192,7 @@ const PostsContainer = ({
 
         const prevPosts = cachedEntry.posts;
 
-        if (prevPosts.length > 0) {
+        if (prevPosts.length > 0 && !shouldReset) {
           if (refreshing) {
             _posts = unionBy(_posts, prevPosts, 'permlink');
           } else {
@@ -386,7 +387,10 @@ const PostsContainer = ({
   useEffect(() => {
     if (refreshing) {
       cacheDispatch({
-        type: 'reset-cur-filter-cache',
+        type: 'scroll-position-change',
+        payload: {
+          scrollPosition: 0,
+        },
       });
       setNewPostsPopupPictures(null);
       _loadPosts();
@@ -626,6 +630,7 @@ const PostsContainer = ({
                 payload: {
                   filter: reducerFilter,
                   posts: _posts,
+                  shouldReset: refreshing,
                 },
               });
             }

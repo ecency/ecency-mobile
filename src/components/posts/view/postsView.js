@@ -316,6 +316,7 @@ const PostsView = ({
               <View style={styles.popupContentContainer}>
                 <TouchableOpacity
                   onPress={() => {
+                    _scrollTop();
                     handleOnRefreshPosts();
                     setNewPostsPopupPictures(null);
                   }}
