@@ -108,6 +108,7 @@ const PostsContainer = ({
   };
 
   const _scheduleLatestPostsCheck = (firstPost) => {
+    const refetchTime = __DEV__ ? 5000 : 600000;
     if (_postFetchTimer) {
       clearTimeout(_postFetchTimer);
     }
@@ -120,9 +121,9 @@ const PostsContainer = ({
     const createdAt = new Date(get(firstPost, 'created')).getTime();
 
     const timeSpent = currentTime - createdAt;
-    let timeLeft = 600000 - timeSpent;
+    let timeLeft = refetchTime - timeSpent;
     if (timeLeft < 0) {
-      timeLeft = 600000;
+      timeLeft = refetchTime;
     }
 
     _postFetchTimer = setTimeout(() => {
@@ -251,6 +252,7 @@ const PostsContainer = ({
 
         if (filter !== 'feed' && isFeedScreen) {
           _scheduleLatestPostsCheck(data.posts[0]);
+          setNewPostsPopupPictures(null);
         }
 
         return state;
@@ -265,6 +267,7 @@ const PostsContainer = ({
         _setFeedPosts(data.posts, data.scrollPosition);
         if (isFeedScreen) {
           _scheduleLatestPostsCheck(data.posts[0]);
+          setNewPostsPopupPictures(null);
         }
         return state;
       }
@@ -491,15 +494,15 @@ const PostsContainer = ({
       .catch(() => {});
   };
 
-  const _matchFreshPosts = (posts, reducerFilter) => {
-    const cachedPosts = cache.cachedData[reducerFilter].posts;
+  const _matchFreshPosts = async (posts, reducerFilter) => {
+    const cachedPosts = cache.cachedData[reducerFilter].posts.slice(0, 5);
 
     const newPosts = [];
     posts.forEach((post, index) => {
-      const cachedPostId = get(cachedPosts[index], 'post_id');
       const newPostId = get(post, 'post_id');
+      const postExist = cachedPosts.find((cPost) => get(cPost, 'post_id', 0) === newPostId);
 
-      if (cachedPostId !== newPostId) {
+      if (!postExist) {
         newPosts.push(post);
       }
     });
