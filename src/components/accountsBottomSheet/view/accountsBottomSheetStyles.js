@@ -4,6 +4,9 @@ export default EStyleSheet.create({
   contentContainer: {
     paddingVertical: 10,
   },
+  sheetContent: {
+    backgroundColor: '$modalBackground',
+  },
   accountTile: {
     height: 60,
     flexDirection: 'row',
@@ -18,10 +21,10 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
   },
   accountsModal: {
-    backgroundColor: '$primaryBackgroundColor',
+    backgroundColor: 'yellow',
   },
   textButton: {
-    color: '$primaryBlue',
+    color: '$primaryDarkBlue',
     fontSize: 16,
     paddingVertical: 16,
     paddingHorizontal: 16,
