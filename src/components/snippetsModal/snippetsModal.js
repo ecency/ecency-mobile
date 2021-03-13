@@ -32,6 +32,13 @@ const SnippetsModal = ({ username, handleOnSelect }) => {
     return (
       <>
         <Text style={styles.title}>Nothing here</Text>
+      </>
+    );
+  };
+
+  const _renderListFooter = () => {
+    return (
+      <>
         <MainButton
           style={{ width: 150 }}
           onPress={() => Alert.alert('create new snippet')}
@@ -58,6 +65,7 @@ const SnippetsModal = ({ username, handleOnSelect }) => {
             </TouchableOpacity>
           )}
           ListEmptyComponent={_renderEmptyContent}
+          ListFooterComponent={_renderListFooter}
         />
       </View>
     </View>
