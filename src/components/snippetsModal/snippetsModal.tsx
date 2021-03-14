@@ -9,9 +9,12 @@ import SnippetEditorModal, { SnippetEditorModalRef } from '../snippetEditorModal
 import SnippetItem from './snippetItem';
 import { Snippet } from '../../models';
 
+interface SnippetsModalProps {
+  username:string,
+  handleOnSelect:(snippetText:string)=>void,
+}
 
-
-const SnippetsModal = ({ username, handleOnSelect }) => {
+const SnippetsModal = ({ username, handleOnSelect }:SnippetsModalProps) => {
   const editorRef = useRef<SnippetEditorModalRef>(null);
   const intl = useIntl();
   console.log('username', username);
@@ -61,7 +64,7 @@ const SnippetsModal = ({ username, handleOnSelect }) => {
   //render list item for snippet and handle actions;
   const _renderItem = ({ item, index }:{item:Snippet, index:number}) => {
 
-    const _onPress = () => handleOnSelect({ text: item.body, selection: { start: 0, end: 0 } })
+    const _onPress = () => handleOnSelect(item.body)
 
     const _onRemovePress = () => {
       _removeSnippet(item.id);

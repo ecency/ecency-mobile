@@ -39,6 +39,7 @@ import { ThemeContainer } from '../../../containers';
 
 // Styles
 import styles from './markdownEditorStyles';
+import applySnippet from './formats/applySnippet';
 
 const MarkdownEditorView = ({
   draftBody,
@@ -194,6 +195,15 @@ const MarkdownEditorView = ({
       )}
     </ScrollView>
   );
+
+  const _handleOnSnippetSelect = (snippetText) => {
+    applySnippet({
+      text,
+      selection,
+      setTextAndSelection: _setTextAndSelection,
+      snippetText,
+    });
+  };
 
   const _renderMarkupButton = ({ item }) => (
     <View style={styles.buttonWrapper}>
@@ -353,7 +363,7 @@ const MarkdownEditorView = ({
         animationType="slide"
         style={styles.modalStyle}
       >
-        <SnippetsModal username={currentAccount.username} handleOnSelect={_setTextAndSelection} />
+        <SnippetsModal username={currentAccount.username} handleOnSelect={_handleOnSnippetSelect} />
       </Modal>
       <ActionSheet
         ref={galleryRef}
