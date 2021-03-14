@@ -2,25 +2,29 @@ import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react'
 import { Alert, Button, Text, View } from 'react-native';
 import { TextInput } from '..';
 import { ThemeContainer } from '../../containers';
+import { Snippet } from '../../models';
+import { addSnippet, updateSnippet } from '../../providers/ecency/ecency';
 import Modal from '../modal';
 import styles from './snippetEditorModalStyles';
 
 
 export interface SnippetEditorModalRef {
     showNewModal:()=>void;
-    showEditModal:(snippetId:number, title:string, body:string)=>void;
+    showEditModal:(snippet:Snippet)=>void;
 }
 
 interface SnippetEditorModalProps {
-
+    username:string;
+    onSnippetsUpdated:(snips:Array<Snippet>)=>void;
 }
 
-const SnippetEditorModal = (props: SnippetEditorModalProps, ref) => {
+const SnippetEditorModal = ({username, onSnippetsUpdated}: SnippetEditorModalProps, ref) => {
     const titleInputRef = useRef(null);
     const bodyInputRef = useRef(null);
 
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
+    const [snippetId, setSnippetId] = useState<string|null>(null);
     const [isNewSnippet, setIsNewSnippet] = useState(true);
     const [showModal, setShowModal] = useState(false);   
     const [titleHeight, setTitleHeight] = useState(0)
@@ -32,19 +36,42 @@ const SnippetEditorModal = (props: SnippetEditorModalProps, ref) => {
           setIsNewSnippet(true);
           setShowModal(true);
         },
-        showEditModal:()=>{
-
+        showEditModal:(snippet:Snippet)=>{
+            setSnippetId(snippet.id);
+            setTitle(snippet.title);
+            setBody(snippet.body);
+            setIsNewSnippet(false);
+            setShowModal(true);
         }
       }));
 
-      
+
     //save snippet based on editor type
-    const _saveSnippet = () => {
-        if(!isNewSnippet){
-            Alert.alert("Updating snippet:")
-        }else{
-            Alert.alert("Saving snippet")
+    const _saveSnippet = async () => {
+        try{
+            if(!title || !body){
+                Alert.alert("Please add both title and body for snippet");
+                return;
+            }
+
+            let response = [];
+            if(!isNewSnippet){
+                console.log("Updating snippet:", username, snippetId, title, body)
+                response = await updateSnippet(username, snippetId, title, body)
+                console.log("Response from add snippet: ", response)
+            }else{
+                console.log("Saving snippet:", username, title, body)
+                response = await addSnippet(username, title, body)
+                console.log("Response from add snippet: ", response)
+            }
+            setShowModal(false);
+            onSnippetsUpdated(response);
+
+        }catch(err){
+            Alert.alert("Failed to save snippet")
+            console.warn("Failed to save snippet", err)
         }
+       
     }
 
 

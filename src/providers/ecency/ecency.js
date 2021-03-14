@@ -180,7 +180,7 @@ export const getSnippets = (username) =>
  */
 export const addSnippet = (currentUsername, title, body) =>
   api
-    .post('/fragment', {
+    .post(`/fragment`, {
       username: currentUsername,
       title,
       body,

@@ -1,18 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, FlatList, Text, TouchableOpacity, Alert } from 'react-native';
 import { useIntl } from 'react-intl';
-import { getSnippets } from '../../providers/ecency/ecency';
+import { getSnippets, removeSnippet } from '../../providers/ecency/ecency';
 import { MainButton } from '..';
 import styles from './snippetsModalStyles';
 import { RefreshControl } from 'react-native';
 import SnippetEditorModal, { SnippetEditorModalRef } from '../snippetEditorModal/snippetEditorModal';
 import SnippetItem from './snippetItem';
+import { Snippet } from '../../models';
 
-interface Snippet {
-  id:number;
-  title:string;
-  body:string;
-}
+
 
 const SnippetsModal = ({ username, handleOnSelect }) => {
   const editorRef = useRef<SnippetEditorModalRef>(null);
@@ -34,6 +31,22 @@ const SnippetsModal = ({ username, handleOnSelect }) => {
       if (username) {
         setIsLoading(true);
         const snips = await getSnippets(username)
+        console.log("snips received", snips)
+        setSnippets(snips);
+        setIsLoading(false);
+      }
+    }catch(err){
+      console.warn("Failed to get snippets")
+      setIsLoading(false);
+    }
+  }
+
+  //removes snippet from users snippet collection
+  const _removeSnippet = async (id:string) => {
+    try{
+      if (username) {
+        setIsLoading(true);
+        const snips = await removeSnippet(username, id)
         setSnippets(snips);
         setIsLoading(false);
       }
@@ -50,9 +63,13 @@ const SnippetsModal = ({ username, handleOnSelect }) => {
 
     const _onPress = () => handleOnSelect({ text: item.body, selection: { start: 0, end: 0 } })
 
+    const _onRemovePress = () => {
+      _removeSnippet(item.id);
+    }
+
     const _onEditPress = () => {
       if(editorRef.current){
-        editorRef.current.showEditModal(item.id, item.title, item.body);
+        editorRef.current.showEditModal(item);
       }
     }
 
@@ -63,6 +80,7 @@ const SnippetsModal = ({ username, handleOnSelect }) => {
             body={item.body} 
             index={index}
             onEditPress={_onEditPress}
+            onRemovePress={_onRemovePress}
           />
       </TouchableOpacity>
     )
@@ -125,6 +143,8 @@ const SnippetsModal = ({ username, handleOnSelect }) => {
 
       <SnippetEditorModal 
           ref={editorRef}
+          username={username}
+          onSnippetsUpdated={setSnippets}
       />
     </View>
   );
