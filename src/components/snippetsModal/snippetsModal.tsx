@@ -92,7 +92,7 @@ const SnippetsModal = ({ username, handleOnSelect }) => {
   const _renderEmptyContent = () => {
     return (
       <>
-        <Text style={styles.title}>Nothing here</Text>
+        <Text style={styles.title}>No snippets found</Text>
       </>
     );
   };
@@ -110,7 +110,7 @@ const SnippetsModal = ({ username, handleOnSelect }) => {
     return (
       <>
         <MainButton
-          style={{ width: 150 }}
+          style={{ width: 150, marginTop:16, }}
           onPress={_onPress}
           iconName="plus"
           iconType="MaterialCommunityIcons"

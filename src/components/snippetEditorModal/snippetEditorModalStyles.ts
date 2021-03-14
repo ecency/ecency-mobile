@@ -1,8 +1,18 @@
+import { TextStyle, StyleSheet, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
+    modalStyle: {
+        flex: 1,
+        backgroundColor: '$primaryBackgroundColor',
+        margin:0,
+        paddingTop:32,
+        paddingBottom:24
+      },
     container:{
-        flex:1
+        flex:1,
+        marginTop:24,
+        paddingHorizontal:24,
     },
     titleInput:{
         color: '$primaryBlack',
@@ -11,7 +21,9 @@ export default EStyleSheet.create({
         textAlignVertical: 'top',
         paddingVertical: 0,
         backgroundColor:'$primaryBackgroundColor',
-    },
+        borderBottomWidth:StyleSheet.hairlineWidth,
+        borderBottomColor:'$primaryDarkGray'
+    } as TextStyle,
     bodyWrapper: {
         fontSize: 16,
         paddingTop: 16,
@@ -20,4 +32,23 @@ export default EStyleSheet.create({
         textAlignVertical: 'top',
         backgroundColor: '$primaryBackgroundColor',
       },
+    btnText:{
+        color:'$pureWhite'
+    } as TextStyle,
+    saveButton:{
+
+        backgroundColor:'$primaryBlue',
+        width:150,
+        paddingVertical:16,
+        borderRadius:32,
+        justifyContent:'center',
+        alignItems:'center'
+    } as ViewStyle,
+    closeButton:{
+        marginRight:16,
+        paddingVertical:8,
+        borderRadius:16,
+        justifyContent:'center',
+        alignItems:'center'
+    } as ViewStyle 
 })

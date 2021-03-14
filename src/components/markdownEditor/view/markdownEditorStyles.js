@@ -82,4 +82,11 @@ export default EStyleSheet.create({
   name: {
     color: '$primaryDarkGray',
   },
+  modalStyle: {
+    flex: 1,
+    backgroundColor: '$primaryBackgroundColor',
+    margin:0,
+    paddingTop:32,
+    paddingBottom:16
+  },
 });

@@ -4,6 +4,7 @@ import { TextInput } from '..';
 import { ThemeContainer } from '../../containers';
 import { Snippet } from '../../models';
 import { addSnippet, updateSnippet } from '../../providers/ecency/ecency';
+import { TextButton } from '../buttons';
 import Modal from '../modal';
 import styles from './snippetEditorModalStyles';
 
@@ -77,46 +78,59 @@ const SnippetEditorModal = ({username, onSnippetsUpdated}: SnippetEditorModalPro
 
     const _renderContent = (
         <ThemeContainer>
-            {(isDarkTheme)=>(
-            <View style={styles.container}>
-                <View style={{height:Math.max(35, titleHeight)}}>
+            {({isDarkTheme})=>(
+                <View style={styles.container}>
+                    <View style={{height:Math.max(35, titleHeight)}}>
+                        <TextInput
+                            autoFocus={true}
+                            innerRef={titleInputRef}
+                            style={styles.titleInput}
+                            height={Math.max(35, titleHeight)}
+                            placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
+                            maxLength={250}
+                            placeholder={"Snippet Title"}
+                            multiline
+                            numberOfLines={2}
+                            onContentSizeChange={(event) => {
+                            setTitleHeight(event.nativeEvent.contentSize.height);
+                            }}
+                            onChangeText={setTitle}
+                            value={title}
+                        />
+                    </View>
+                
                     <TextInput
-                        innerRef={titleInputRef}
-                        style={styles.titleInput}
-                        height={Math.max(35, titleHeight)}
-                        placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
-                        maxLength={250}
-                        placeholder={"Snippet Title"}
                         multiline
-                        numberOfLines={2}
-                        onContentSizeChange={(event) => {
-                        setTitleHeight(event.nativeEvent.contentSize.height);
-                        }}
-                        onChangeText={setTitle}
-                        value={title}
+                        autoCorrect={true}
+                        value={body}
+                        onChangeText={setBody}
+                        placeholder={"Add snippet body here...."}
+                        placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
+                        selectionColor="#357ce6"
+                        style={styles.bodyWrapper}
+                        underlineColorAndroid="transparent"
+                        innerRef={bodyInputRef}
+                        autoGrow={false}
+                        scrollEnabled={false}
+                        height={100}
                     />
+
+                    <View style={{flexDirection:'row', justifyContent:'flex-end', alignItems:'center'}}>
+                    
+                        <TextButton 
+                            text={"CLOSE"}
+                            onPress={()=>setShowModal(false)}
+                            style={styles.closeButton}
+                        />
+                        <TextButton 
+                            text={"SAVE"}
+                            onPress={_saveSnippet}
+                            textStyle={styles.btnText}
+                            style={styles.saveButton}
+                        />
+                    </View>
+                
                 </View>
-              
-                <TextInput
-                    multiline
-                    autoCorrect={true}
-                    value={body}
-                    onChangeText={setBody}
-                    placeholder={"Add snippet body here...."}
-                    placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
-                    selectionColor="#357ce6"
-                    style={styles.bodyWrapper}
-                    underlineColorAndroid="transparent"
-                    innerRef={bodyInputRef}
-                    autoGrow={false}
-                    scrollEnabled={false}
-                    height={100}
-                />
-                <Button 
-                    title={"SAVE"}
-                    onPress={_saveSnippet}
-                />
-            </View>
             )}
             </ThemeContainer>
         )
@@ -125,12 +139,10 @@ const SnippetEditorModal = ({username, onSnippetsUpdated}: SnippetEditorModalPro
       <Modal 
         isOpen={showModal}
         handleOnModalClose={()=>{setShowModal(false)}}
-        isFullScreen
-        isCloseButton
         presentationStyle="formSheet"
         title={isNewSnippet?"Add Snippet":"Edit Snippet"}
         animationType="slide"
-        style={styles.beneficiaryModal}
+        style={styles.modalStyle}
       >
         {_renderContent}
       </Modal>

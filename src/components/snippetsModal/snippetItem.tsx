@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Text, View, Button } from 'react-native';
+import IconButton from '../iconButton';
 import styles from './snippetsModalStyles';
 
 interface SnippetItemProps {
@@ -13,16 +14,28 @@ interface SnippetItemProps {
 const SnippetItem = ({title, body, index, onEditPress, onRemovePress}: SnippetItemProps) => {
   return (
     <View style={[styles.itemWrapper, index % 2 !== 0 && styles.itemWrapperGray]}>
-      <Text style={styles.title}>{`${title}`}</Text>
+      <View style={styles.itemHeader}>
+        <Text style={styles.title} numberOfLines={1} >{`${title}`}</Text>
+        <IconButton
+          iconStyle={styles.itemIcon}
+          style={styles.itemIconWrapper}
+          iconType="MaterialCommunityIcons"
+          name="pencil"
+          onPress={onEditPress}
+          size={20}
+        />
+        <IconButton
+          iconStyle={styles.itemIcon}
+          style={styles.itemIconWrapper}
+          iconType="MaterialCommunityIcons"
+          name="delete"
+          onPress={onRemovePress}
+          size={20}
+        />
+      </View>
+      
       <Text style={styles.body} numberOfLines={2} ellipsizeMode="tail">{`${body}`}</Text>
-      <Button 
-        title='Edit'
-        onPress={onEditPress}
-      />
-      <Button
-        title={'Remote'}
-        onPress={onRemovePress}
-      />
+  
     </View>
   )
 };

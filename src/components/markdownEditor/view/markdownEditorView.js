@@ -351,7 +351,7 @@ const MarkdownEditorView = ({
         //handleOnModalClose={() => setBeneficiaryModal(false)}
         title={intl.formatMessage({ id: 'editor.snippets' })}
         animationType="slide"
-        style={styles.beneficiaryModal}
+        style={styles.modalStyle}
       >
         <SnippetsModal username={currentAccount.username} handleOnSelect={_setTextAndSelection} />
       </Modal>
