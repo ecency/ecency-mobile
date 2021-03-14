@@ -62,7 +62,8 @@ const SnippetEditorModal = ({username, onSnippetsUpdated}: SnippetEditorModalPro
                 console.log("Response from add snippet: ", response)
             }else{
                 console.log("Saving snippet:", username, title, body)
-                response = await addSnippet(username, title, body)
+                const res = await addSnippet(username, title, body)
+                response = res && res.fragments
                 console.log("Response from add snippet: ", response)
             }
             setShowModal(false);
