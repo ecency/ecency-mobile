@@ -21,25 +21,27 @@ import { default as ROUTES } from '../../../constants/routeNames';
  */
 
 const PostCardContainer = ({
-  isRefresh,
+  // isRefresh,
   navigation,
   currentAccount,
   content,
   isHideImage,
   nsfw,
 }) => {
-  const [activeVotes, setActiveVotes] = useState([]);
-  const [reblogs, setReblogs] = useState([]);
   const [_content, setContent] = useState(content);
+  const [reblogs, setReblogs] = useState([]);
+  const [activeVotes, setActiveVotes] = useState(get(_content, 'active_votes', []));
 
-  useEffect(() => {
-    if (isRefresh) {
-      _fetchPost();
-    }
-  }, [isRefresh]);
+  //NOTE: potentially unnessacry fetch
+  // useEffect(() => {
+  // if (isRefresh) {
+  //   _fetchPost();
+  // }
+  // }, [isRefresh]);
 
   useEffect(() => {
     let isCancelled = false;
+
     const fetchData = async (val) => {
       try {
         const dd = await getPostReblogs(val);
@@ -56,8 +58,6 @@ const PostCardContainer = ({
     };
 
     if (_content) {
-      setActiveVotes(get(_content, 'active_votes', []));
-      setContent(_content);
       fetchData(_content);
     }
 
@@ -121,6 +121,7 @@ const PostCardContainer = ({
       .then((result) => {
         if (result) {
           setContent(result);
+          setActiveVotes(get(result, 'active_votes', []));
         }
       })
       .catch(() => {});
@@ -135,9 +136,9 @@ const PostCardContainer = ({
       fetchPost={_fetchPost}
       content={_content || content}
       isHideImage={isHideImage}
-      isNsfwPost={nsfw === '1'}
-      activeVotes={activeVotes}
+      isNsfwPost={nsfw || '1'}
       reblogs={reblogs}
+      activeVotes={activeVotes}
     />
   );
 };

@@ -33,6 +33,7 @@ const FeedScreen = () => {
               getFor={get(currentAccount, 'name', null) ? 'feed' : 'hot'}
               selectedOptionIndex={get(currentAccount, 'name', null) ? 0 : 2}
               feedUsername={get(currentAccount, 'name', null)}
+              isFeedScreen={true}
             />
           </SafeAreaView>
         </Fragment>

@@ -40,6 +40,8 @@ const PostDisplayView = ({
   handleOnRemovePress,
   activeVotes,
   reblogs,
+  activeVotesCount,
+  setActiveVotesCount,
 }) => {
   const [postHeight, setPostHeight] = useState(0);
   const [scrollHeight, setScrollHeight] = useState(0);
@@ -78,6 +80,10 @@ const PostDisplayView = ({
     }
   };
 
+  const _handleIncrementActiveVotesCount = () => {
+    setActiveVotesCount(activeVotesCount + 1);
+  };
+
   const _getTabBar = (isFixedFooter = false) => {
     return (
       <SafeAreaView>
@@ -85,9 +91,9 @@ const PostDisplayView = ({
           <View style={styles.stickyWrapper}>
             <Upvote
               activeVotes={activeVotes}
-              fetchPost={fetchPost}
               isShowPayoutValue
               content={post}
+              incrementVoteCount={_handleIncrementActiveVotesCount}
             />
             <TextWithIcon
               iconName="heart-outline"
@@ -95,7 +101,7 @@ const PostDisplayView = ({
               iconType="MaterialCommunityIcons"
               isClickable
               onPress={() => handleOnVotersPress && handleOnVotersPress()}
-              text={activeVotes.length}
+              text={activeVotesCount}
               textMarginLeft={20}
             />
             <TextWithIcon

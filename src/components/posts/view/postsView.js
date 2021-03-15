@@ -1,11 +1,20 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { useRef, useEffect } from 'react';
-import { FlatList, View, ActivityIndicator, RefreshControl, Text } from 'react-native';
+import {
+  FlatList,
+  View,
+  ActivityIndicator,
+  RefreshControl,
+  Text,
+  TouchableOpacity,
+  Button,
+} from 'react-native';
 import { useIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 import { get } from 'lodash';
 
 // COMPONENTS
+import FastImage from 'react-native-fast-image';
 import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
 import {
@@ -13,26 +22,27 @@ import {
   NoPost,
   UserListItem,
   CommunityListItem,
+  TextWithIcon,
 } from '../../basicUIElements';
 import { ThemeContainer } from '../../../containers';
+import { IconButton } from '../../iconButton';
 
 // Styles
 import styles from './postsStyles';
 import { default as ROUTES } from '../../../constants/routeNames';
 import globalStyles from '../../../globalStyles';
+import PostsList from '../../postsList';
+import { isDarkTheme } from '../../../redux/actions/applicationActions';
 
 let _onEndReachedCalledDuringMomentum = true;
 
 const PostsView = ({
   filterOptions,
   selectedOptionIndex,
-  isHideImage,
   handleImagesHide,
-  tag,
   isLoggedIn,
   handleOnScroll,
   navigation,
-  posts,
   isLoading,
   refreshing,
   selectedFilterIndex,
@@ -58,6 +68,9 @@ const PostsView = ({
   handleSubscribeCommunityButtonPress,
   followingUsers,
   subscribingCommunities,
+  isFeedScreen,
+  newPostsPopupPictures,
+  setNewPostsPopupPictures,
 }) => {
   const intl = useIntl();
   const postsList = useRef(null);
@@ -106,7 +119,7 @@ const PostsView = ({
     if (isLoading) {
       return (
         <View style={styles.flatlistFooter}>
-          <ActivityIndicator animating size="large" />
+          <ActivityIndicator animating size="large" color={isDarkTheme ? '#2e3d51' : '#f5f5f5'} />
         </View>
       );
     }
@@ -225,55 +238,13 @@ const PostsView = ({
     return (
       <View style={styles.placeholderWrapper}>
         <PostCardPlaceHolder />
-        <PostCardPlaceHolder />
-        <PostCardPlaceHolder />
-        <PostCardPlaceHolder />
-        <PostCardPlaceHolder />
       </View>
     );
   };
 
-  const _handleOnScroll = () => {
-    if (handleOnScroll) {
-      handleOnScroll();
-    }
-  };
-
   const _scrollTop = () => {
-    postsList.current.scrollToOffset({ x: 0, y: 0, animated: true });
+    postsList.current.scrollToTop();
   };
-
-  const _renderItem = ({ item, index }) => {
-    const e = [];
-    if (index % 3 === 0) {
-      const ix = index / 3 - 1;
-      if (promotedPosts[ix] !== undefined) {
-        const p = promotedPosts[ix];
-        if (get(p, 'author', null) && posts.filter((x) => x.permlink === p.permlink).length <= 0) {
-          e.push(
-            <PostCard
-              key={`${p.author}-${p.permlink}-prom`}
-              isRefresh={refreshing}
-              content={p}
-              isHideImage={isHideImage}
-            />,
-          );
-        }
-      }
-    }
-    if (get(item, 'author', null)) {
-      e.push(
-        <PostCard
-          key={`${item.author}-${item.permlink}`}
-          isRefresh={refreshing}
-          content={item}
-          isHideImage={isHideImage}
-        />,
-      );
-    }
-    return e;
-  };
-
   const _onEndReached = ({ distanceFromEnd }) => {
     if (!_onEndReachedCalledDuringMomentum) {
       loadPosts();
@@ -311,7 +282,83 @@ const PostsView = ({
             />
           )}
 
-          <FlatList
+          <PostsList
+            ref={postsList}
+            promotedPosts={promotedPosts}
+            showsVerticalScrollIndicator={false}
+            onEndReached={_onEndReached}
+            onMomentumScrollBegin={() => {
+              _onEndReachedCalledDuringMomentum = false;
+            }}
+            removeClippedSubviews
+            //TODO: we can avoid 2 more rerenders by carefully moving these call to postsListContainer
+            refreshing={refreshing}
+            onRefresh={handleOnRefreshPosts}
+            onEndReachedThreshold={1}
+            ListFooterComponent={_renderFooter}
+            onScrollEndDrag={handleOnScroll}
+            ListEmptyComponent={_renderEmptyContent}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={handleOnRefreshPosts}
+                progressBackgroundColor="#357CE6"
+                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                titleColor="#fff"
+                colors={['#fff']}
+              />
+            }
+            isFeedScreen={isFeedScreen}
+          />
+
+          {newPostsPopupPictures !== null && (
+            <View style={styles.popupContainer}>
+              <View style={styles.popupContentContainer}>
+                <TouchableOpacity
+                  onPress={() => {
+                    _scrollTop();
+                    handleOnRefreshPosts();
+                    setNewPostsPopupPictures(null);
+                  }}
+                >
+                  <View style={styles.popupContentContainer}>
+                    <IconButton
+                      iconStyle={styles.arrowUpIcon}
+                      iconType="MaterialCommunityIcons"
+                      name="arrow-up"
+                      onPress={() => {
+                        setNewPostsPopupPictures(null);
+                      }}
+                      size={12}
+                    />
+
+                    {newPostsPopupPictures.map((url, index) => (
+                      <FastImage
+                        source={{ uri: url }}
+                        style={[styles.popupImage, { zIndex: 10 - index }]}
+                      />
+                    ))}
+
+                    <Text style={styles.popupText}>
+                      {intl.formatMessage({ id: 'home.popup_postfix' })}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+
+                <IconButton
+                  iconStyle={styles.closeIcon}
+                  iconType="MaterialCommunityIcons"
+                  name="close"
+                  onPress={() => {
+                    setNewPostsPopupPictures(null);
+                  }}
+                  size={12}
+                />
+              </View>
+            </View>
+          )}
+
+          {/* <FlatList
             ref={postsList}
             data={posts}
             showsVerticalScrollIndicator={false}
@@ -338,7 +385,7 @@ const PostsView = ({
                 colors={['#fff']}
               />
             }
-          />
+          /> */}
         </View>
       )}
     </ThemeContainer>

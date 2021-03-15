@@ -1,30 +1,37 @@
 import React from 'react';
 import { View } from 'react-native';
-import Placeholder from 'rn-placeholder';
 
+import LottieView from 'lottie-react-native';
 import { ThemeContainer } from '../../../../containers';
 
 import styles from './listItemPlaceHolderStyles';
 
 const CommentPlaceHolderView = () => {
+  const animationStyle = {
+    width: 300,
+    height: 72,
+  };
+
   return (
     <ThemeContainer>
       {({ isDarkTheme }) => {
         const color = isDarkTheme ? '#2e3d51' : '#f5f5f5';
         return (
           <View style={styles.container}>
-            <View style={styles.paragraphWithoutMargin}>
-              <Placeholder.Paragraph
-                color={color}
-                lineNumber={3}
-                textSize={12}
-                lineSpacing={8}
-                width="100%"
-                lastLineWidth="70%"
-                firstLineWidth="50%"
-                animate="fade"
-              />
-            </View>
+            <LottieView
+              style={animationStyle}
+              source={require('../../../../assets/animations/commentBody.json')}
+              autoPlay
+              loop={true}
+              autoSize={true}
+              resizeMode="cover"
+              colorFilters={[
+                {
+                  keypath: 'comments',
+                  color: color,
+                },
+              ]}
+            />
           </View>
         );
       }}

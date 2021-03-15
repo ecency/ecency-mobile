@@ -8,6 +8,7 @@ import { PrivateKey } from '@esteemapp/dhive';
 import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
+import FastImage from 'react-native-fast-image';
 import { getServer, getCache, setCache } from '../../realm/realm';
 import { getUnreadActivityCount } from '../ecency/ecency';
 import { userActivity } from '../ecency/ePoint';
@@ -301,6 +302,7 @@ export const getCommunities = async (
 ) =>
   new Promise(async (resolve, reject) => {
     try {
+      console.log('Getting communities', query);
       const data = await client.call('bridge', 'list_communities', {
         last,
         limit,
@@ -440,6 +442,7 @@ export const ignoreUser = async (currentAccount, pin, data) => {
 export const getActiveVotes = (author, permlink) =>
   new Promise((resolve, reject) => {
     try {
+      console.log('Getting active votes', author, permlink);
       client
         .call('condenser_api', 'get_active_votes', [author, permlink])
         .then((result) => {
@@ -455,16 +458,20 @@ export const getActiveVotes = (author, permlink) =>
 
 export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
   try {
+    console.log('Getting ranked posts:', query);
     let posts = await client.call('bridge', 'get_ranked_posts', query);
 
     if (posts) {
       posts = parsePosts(posts, currentUserName);
+
+      // FastImage.preload(posts.map(post=>({uri:post.image})))
 
       if (filterNsfw !== '0') {
         const updatedPosts = filterNsfwPost(posts, filterNsfw);
         return updatedPosts;
       }
     }
+    console.log('Returning fetched posts: ' + posts ? posts.length : null);
     return posts;
   } catch (error) {
     return error;
@@ -473,16 +480,20 @@ export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
 
 export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
   try {
+    console.log('Getting account posts: ', query);
     let posts = await client.call('bridge', 'get_account_posts', query);
 
     if (posts) {
       posts = parsePosts(posts, currentUserName);
+
+      // FastImage.preload(posts.map(post=>({uri:post.image})))
 
       if (filterNsfw !== '0') {
         const updatedPosts = filterNsfwPost(posts, filterNsfw);
         return updatedPosts;
       }
     }
+    console.log('Returning fetched posts: ' + posts ? posts.length : null);
     return posts;
   } catch (error) {
     return error;
@@ -491,6 +502,7 @@ export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
 
 export const getRepliesByLastUpdate = async (query) => {
   try {
+    console.log('Getting replies: ', query);
     const replies = await client.database.call('get_replies_by_last_update', [
       query.start_author,
       query.start_permlink,
@@ -505,8 +517,8 @@ export const getRepliesByLastUpdate = async (query) => {
 
 export const getPost = async (author, permlink, currentUserName = null, isPromoted = false) => {
   try {
+    console.log('Getting post: ', author, permlink);
     const post = await client.database.call('get_content', [author, permlink]);
-
     return post ? parsePost(post, currentUserName, isPromoted) : null;
   } catch (error) {
     return error;
@@ -642,6 +654,7 @@ export const signImage = async (file, currentAccount, pin) => {
 export const vote = (account, pin, author, permlink, weight) =>
   _vote(account, pin, author, permlink, weight).then((resp) => {
     userActivity(account.username, 120, resp.block_num, resp.id);
+    console.log('Returning vote response');
     return resp;
   });
 
