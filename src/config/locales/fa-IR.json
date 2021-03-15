@@ -242,7 +242,8 @@
     "blog": "وبلاگ",
     "posts": "Post",
     "friends": "دوستان",
-    "communities": "انجمن ها"
+    "communities": "انجمن ها",
+    "popup_postfix": "Posted"
   },
   "side_menu": {
     "profile": "نمایه",
