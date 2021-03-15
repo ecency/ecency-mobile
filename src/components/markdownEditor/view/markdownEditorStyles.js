@@ -28,7 +28,7 @@ export default EStyleSheet.create({
     marginLeft: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    maxWidth: '$deviceWidth / 2',
+    maxWidth: '$deviceWidth / 3',
   },
   rightButtonsWrapper: {
     flexDirection: 'row',
