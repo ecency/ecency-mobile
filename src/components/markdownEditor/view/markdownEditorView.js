@@ -31,12 +31,15 @@ import {
   TagArea,
   TagInput,
   SummaryArea,
+  Modal,
+  SnippetsModal,
 } from '../../index';
 
 import { ThemeContainer } from '../../../containers';
 
 // Styles
 import styles from './markdownEditorStyles';
+import applySnippet from './formats/applySnippet';
 
 const MarkdownEditorView = ({
   draftBody,
@@ -64,6 +67,7 @@ const MarkdownEditorView = ({
   const [selection, setSelection] = useState({ start: 0, end: 0 });
   const [editable, setEditable] = useState(true);
   const [height, setHeight] = useState(0);
+  const [isSnippetsOpen, setIsSnippetsOpen] = useState(false);
 
   const inputRef = useRef(null);
   const galleryRef = useRef(null);
@@ -178,6 +182,7 @@ const MarkdownEditorView = ({
       });
       setSelection(_selection);
     }
+    setIsSnippetsOpen(false);
     _changeText(_text);
   });
 
@@ -190,6 +195,15 @@ const MarkdownEditorView = ({
       )}
     </ScrollView>
   );
+
+  const _handleOnSnippetSelect = (snippetText) => {
+    applySnippet({
+      text,
+      selection,
+      setTextAndSelection: _setTextAndSelection,
+      snippetText,
+    });
+  };
 
   const _renderMarkupButton = ({ item }) => (
     <View style={styles.buttonWrapper}>
@@ -212,7 +226,7 @@ const MarkdownEditorView = ({
         <FlatList
           data={Formats}
           keyboardShouldPersistTaps="always"
-          renderItem={({ item, index }) => index !== 9 && _renderMarkupButton({ item })}
+          renderItem={({ item, index }) => index < 3 && _renderMarkupButton({ item })}
           horizontal
         />
       </View>
@@ -224,8 +238,16 @@ const MarkdownEditorView = ({
           iconType="FontAwesome"
           name="link"
           onPress={() =>
-            Formats[9].onPress({ text, selection, setTextAndSelection: _setTextAndSelection })
+            Formats[3].onPress({ text, selection, setTextAndSelection: _setTextAndSelection })
           }
+        />
+        <IconButton
+          onPress={() => setIsSnippetsOpen(true)}
+          style={styles.rightIcons}
+          size={20}
+          iconStyle={styles.icon}
+          iconType="MaterialCommunityIcons"
+          name="text-short"
         />
         <IconButton
           onPress={() => galleryRef.current.show()}
@@ -330,6 +352,19 @@ const MarkdownEditorView = ({
         )}
       </ScrollView>
       {!isPreviewActive && _renderEditorButtons()}
+      <Modal
+        isOpen={isSnippetsOpen}
+        handleOnModalClose={() => setIsSnippetsOpen(false)}
+        isFullScreen
+        isCloseButton
+        presentationStyle="formSheet"
+        //handleOnModalClose={() => setBeneficiaryModal(false)}
+        title={intl.formatMessage({ id: 'editor.snippets' })}
+        animationType="slide"
+        style={styles.modalStyle}
+      >
+        <SnippetsModal username={currentAccount.username} handleOnSelect={_handleOnSnippetSelect} />
+      </Modal>
       <ActionSheet
         ref={galleryRef}
         options={[

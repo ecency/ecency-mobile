@@ -3,6 +3,7 @@ import { AccountsBottomSheet } from './accountsBottomSheet';
 import { BasicHeader } from './basicHeader';
 import { BoostIndicatorAnimation, PulseAnimation, SpinIndicator } from './animations';
 import BeneficiaryModal from './beneficiaryModal/beneficiaryModal';
+import SnippetsModal from './snippetsModal/snippetsModal';
 import { BottomTabBar } from './bottomTabBar';
 import { CheckBox } from './checkbox';
 import { CircularButton, TextButton, SquareButton } from './buttons';
@@ -180,6 +181,7 @@ export {
   SearchModal,
   SettingsItem,
   SideMenu,
+  SnippetsModal,
   SpinGame,
   SpinIndicator,
   SquareButton,
