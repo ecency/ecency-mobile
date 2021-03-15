@@ -242,7 +242,8 @@
     "blog": "Blog",
     "posts": "Postovi",
     "friends": "Prijatelji",
-    "communities": "Zajednice"
+    "communities": "Zajednice",
+    "popup_postfix": "Posted"
   },
   "side_menu": {
     "profile": "Profil",
