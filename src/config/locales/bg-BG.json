@@ -242,7 +242,8 @@
     "blog": "Блог",
     "posts": "Публикации",
     "friends": "Приятели",
-    "communities": "Общности"
+    "communities": "Общности",
+    "popup_postfix": "Posted"
   },
   "side_menu": {
     "profile": "Профил",
