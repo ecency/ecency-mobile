@@ -521,7 +521,7 @@ const PostsContainer = ({
         : cache.currentFilter === reducerFilter;
 
     if (newPosts.length > 0 && isRightFilter) {
-      setNewPostsPopupPictures(newPosts.map((post) => get(post, 'avatar', '')));
+      setNewPostsPopupPictures(newPosts.slice(0, 5).map((post) => get(post, 'avatar', '')));
     } else {
       _scheduleLatestPostsCheck(posts[0]);
     }
