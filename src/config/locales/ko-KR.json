@@ -242,7 +242,8 @@
     "blog": "블로그",
     "posts": "글 목록",
     "friends": "Friends",
-    "communities": "Communities"
+    "communities": "Communities",
+    "popup_postfix": "Posted"
   },
   "side_menu": {
     "profile": "프로필",
