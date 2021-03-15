@@ -1,4 +1,5 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import { useIntl } from 'react-intl';
 import { Alert, Button, Text, View } from 'react-native';
 import { TextInput } from '..';
 import { ThemeContainer } from '../../containers';
@@ -20,6 +21,7 @@ interface SnippetEditorModalProps {
 }
 
 const SnippetEditorModal = ({username, onSnippetsUpdated}: SnippetEditorModalProps, ref) => {
+    const intl = useIntl();
     const titleInputRef = useRef(null);
     const bodyInputRef = useRef(null);
 
@@ -51,7 +53,7 @@ const SnippetEditorModal = ({username, onSnippetsUpdated}: SnippetEditorModalPro
     const _saveSnippet = async () => {
         try{
             if(!title || !body){
-                Alert.alert("Please add both title and body for snippet");
+                Alert.alert(intl.formatMessage({id:'snippets.message_incomplete'}));
                 return;
             }
 
@@ -70,7 +72,7 @@ const SnippetEditorModal = ({username, onSnippetsUpdated}: SnippetEditorModalPro
             onSnippetsUpdated(response);
 
         }catch(err){
-            Alert.alert("Failed to save snippet")
+            Alert.alert(intl.formatMessage({id:'snippets.message_failed'}))
             console.warn("Failed to save snippet", err)
         }
        
@@ -89,7 +91,7 @@ const SnippetEditorModal = ({username, onSnippetsUpdated}: SnippetEditorModalPro
                             height={Math.max(35, titleHeight)}
                             placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
                             maxLength={250}
-                            placeholder={"Snippet Title"}
+                            placeholder={intl.formatMessage({id:'snippets.placeholder_title'})}
                             multiline
                             numberOfLines={2}
                             onContentSizeChange={(event) => {
@@ -105,7 +107,7 @@ const SnippetEditorModal = ({username, onSnippetsUpdated}: SnippetEditorModalPro
                         autoCorrect={true}
                         value={body}
                         onChangeText={setBody}
-                        placeholder={"Add snippet body here...."}
+                        placeholder={intl.formatMessage({id:'snippets.placeholder_body'})}
                         placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
                         selectionColor="#357ce6"
                         style={styles.bodyWrapper}
@@ -119,12 +121,12 @@ const SnippetEditorModal = ({username, onSnippetsUpdated}: SnippetEditorModalPro
                     <View style={{flexDirection:'row', justifyContent:'flex-end', alignItems:'center'}}>
                     
                         <TextButton 
-                            text={"CLOSE"}
+                            text={intl.formatMessage({id:'snippets.btn_close'})}
                             onPress={()=>setShowModal(false)}
                             style={styles.closeButton}
                         />
                         <TextButton 
-                            text={"SAVE"}
+                            text={intl.formatMessage({id:'snippets.btn_save'})}
                             onPress={_saveSnippet}
                             textStyle={styles.btnText}
                             style={styles.saveButton}
@@ -141,7 +143,11 @@ const SnippetEditorModal = ({username, onSnippetsUpdated}: SnippetEditorModalPro
         isOpen={showModal}
         handleOnModalClose={()=>{setShowModal(false)}}
         presentationStyle="formSheet"
-        title={isNewSnippet?"Add Snippet":"Edit Snippet"}
+        title={intl.formatMessage({
+            id:isNewSnippet
+                ? 'snippets.title_add_snippet'
+                : 'snippets.title_edit_snippet'
+        })}
         animationType="slide"
         style={styles.modalStyle}
       >

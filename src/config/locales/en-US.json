@@ -302,6 +302,22 @@
     "schedule_modal_title": "Schedule Post",
     "snippets": "Snippets"
   },
+  "snippets":{
+    "label_no_snippets":"No Snippets Found",
+    "title_add_snippet":"Add Snippet",
+    "title_edit_snippet":"Edit Snippet",
+    "title_remove_confirmation":"Confirm Remove!",
+    "placeholder_title":"Snippet Title",
+    "placeholder_body":"Add snippet body here...",
+    "btn_save":"SAVE",
+    "btn_close":"CLOSE",
+    "btn_add":"Snippet",
+    "message_incomplete":"Please add title and body for snippet",
+    "message_failed":"Failed to save snippet",
+    "message_remove_confirmation":"Are you sure you want to remove this snippet?",
+    "btn_confirm":"Confirm",
+    "btn_cancel":"Cancel"
+  },
   "pincode": {
     "enter_text": "Enter PIN to unlock",
     "set_new": "Set new PIN",

@@ -44,7 +44,7 @@ const SnippetsModal = ({ username, handleOnSelect }:SnippetsModalProps) => {
     }
   }
 
-  //removes snippet from users snippet collection
+  //removes snippet from users snippet collection on user confirmation
   const _removeSnippet = async (id:string) => {
     try{
       if (username) {
@@ -66,8 +66,22 @@ const SnippetsModal = ({ username, handleOnSelect }:SnippetsModalProps) => {
 
     const _onPress = () => handleOnSelect(item.body)
 
+    //asks for remvoe confirmation and run remove routing upon confirming
     const _onRemovePress = () => {
-      _removeSnippet(item.id);
+      Alert.alert(
+        intl.formatMessage({id:'snippets.title_remove_confirmation'}),
+        intl.formatMessage({id:'snippets.message_remove_confirmation'}),
+        [
+          {
+            text:intl.formatMessage({id:'snippets.btn_cancel'}),
+            style:'cancel'
+          },
+          {
+            text:intl.formatMessage({id:'snippets.btn_confirm'}),
+            onPress:()=>_removeSnippet(item.id)
+          }
+        ]
+      )
     }
 
     const _onEditPress = () => {
@@ -95,7 +109,7 @@ const SnippetsModal = ({ username, handleOnSelect }:SnippetsModalProps) => {
   const _renderEmptyContent = () => {
     return (
       <>
-        <Text style={styles.title}>No snippets found</Text>
+        <Text style={styles.title}>{intl.formatMessage({id:'snippets.label_no_snippets'})}</Text>
       </>
     );
   };
@@ -118,7 +132,7 @@ const SnippetsModal = ({ username, handleOnSelect }:SnippetsModalProps) => {
           iconName="plus"
           iconType="MaterialCommunityIcons"
           iconColor="white"
-          text="Snippet"
+          text={intl.formatMessage({id:'snippets.btn_add'})}
         />
       </>
     );
