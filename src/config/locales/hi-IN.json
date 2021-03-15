@@ -242,7 +242,8 @@
     "blog": "ब्लॉग",
     "posts": "Post",
     "friends": "दोस्त",
-    "communities": "समुदाय"
+    "communities": "समुदाय",
+    "popup_postfix": "Posted"
   },
   "side_menu": {
     "profile": "रुपरेखा",
