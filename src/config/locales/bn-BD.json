@@ -242,7 +242,8 @@
     "blog": "ব্লগ",
     "posts": "Post",
     "friends": "বন্ধুরা",
-    "communities": "সম্প্রদায়গুলি"
+    "communities": "সম্প্রদায়গুলি",
+    "popup_postfix": "Posted"
   },
   "side_menu": {
     "profile": "প্রোফাইল",
