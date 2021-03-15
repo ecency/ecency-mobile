@@ -116,25 +116,24 @@ const SnippetsModal = ({ username, handleOnSelect }:SnippetsModalProps) => {
 
 
 
-
   //renders footer with add snipept button and shows new snippet modal
-  const _renderListFooter = () => {
+  const _renderFloatingButton = () => {
     const _onPress = () => {
       if(editorRef.current){
         editorRef.current.showNewModal();
       }
     }
     return (
-      <>
+      <View style={styles.floatingContainer}>
         <MainButton
-          style={{ width: 150, marginTop:16, }}
+          style={{ width: 150}}
           onPress={_onPress}
           iconName="plus"
           iconType="MaterialCommunityIcons"
           iconColor="white"
           text={intl.formatMessage({id:'snippets.btn_add'})}
         />
-      </>
+      </View>
     );
   };
 
@@ -148,7 +147,6 @@ const SnippetsModal = ({ username, handleOnSelect }:SnippetsModalProps) => {
           keyExtractor={(item, index) => index.toString()}
           renderItem={_renderItem}
           ListEmptyComponent={_renderEmptyContent}
-          ListFooterComponent={_renderListFooter}
           refreshControl={
             <RefreshControl 
               refreshing={isLoading}
@@ -156,6 +154,8 @@ const SnippetsModal = ({ username, handleOnSelect }:SnippetsModalProps) => {
             />
           }
         />
+        {_renderFloatingButton()}
+
       </View>
 
       <SnippetEditorModal 
