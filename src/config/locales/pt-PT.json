@@ -242,7 +242,8 @@
     "blog": "Blogue",
     "posts": "Posts",
     "friends": "Amigos",
-    "communities": "Comunidades"
+    "communities": "Comunidades",
+    "popup_postfix": "Posted"
   },
   "side_menu": {
     "profile": "Perfil",
