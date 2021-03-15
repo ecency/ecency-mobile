@@ -242,7 +242,8 @@
     "blog": "Blog",
     "posts": "Post",
     "friends": "Ur padis",
-    "communities": "Una areas"
+    "communities": "Una areas",
+    "popup_postfix": "Posted"
   },
   "side_menu": {
     "profile": "Your informate",
