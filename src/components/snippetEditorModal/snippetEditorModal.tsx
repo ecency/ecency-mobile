@@ -1,6 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Alert, Button, Text, View } from 'react-native';
+import { Alert, View } from 'react-native';
 import { TextInput } from '..';
 import { ThemeContainer } from '../../containers';
 import { Snippet } from '../../models';
