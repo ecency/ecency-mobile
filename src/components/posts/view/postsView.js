@@ -339,7 +339,9 @@ const PostsView = ({
                       />
                     ))}
 
-                    <Text style={styles.popupText}>Posted</Text>
+                    <Text style={styles.popupText}>
+                      {intl.formatMessage({ id: 'home.popup_postfix' })}
+                    </Text>
                   </View>
                 </TouchableOpacity>
 
