@@ -242,7 +242,8 @@
     "blog": "Блог",
     "posts": "Post",
     "friends": "Friends",
-    "communities": "Communities"
+    "communities": "Communities",
+    "popup_postfix": "Posted"
   },
   "side_menu": {
     "profile": "Колдонуучунун профили",
