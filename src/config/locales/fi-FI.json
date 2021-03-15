@@ -242,7 +242,8 @@
     "blog": "Blogi",
     "posts": "Julkaisut",
     "friends": "Ystävät",
-    "communities": "Yhteisöt"
+    "communities": "Yhteisöt",
+    "popup_postfix": "Posted"
   },
   "side_menu": {
     "profile": "Profiili",
