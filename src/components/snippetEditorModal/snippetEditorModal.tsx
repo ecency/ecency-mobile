@@ -8,6 +8,7 @@ import { addSnippet, updateSnippet } from '../../providers/ecency/ecency';
 import { TextButton } from '../buttons';
 import Modal from '../modal';
 import styles from './snippetEditorModalStyles';
+import { KeyboardAwareView } from 'react-native-keyboard-aware-view'
 
 
 export interface SnippetEditorModalRef {
@@ -82,7 +83,7 @@ const SnippetEditorModal = ({username, onSnippetsUpdated}: SnippetEditorModalPro
     const _renderContent = (
         <ThemeContainer>
             {({isDarkTheme})=>(
-                <View style={styles.container}>
+                <KeyboardAwareView style={styles.container}>
                     <View style={{height:Math.max(35, titleHeight)}}>
                         <TextInput
                             autoFocus={true}
@@ -118,8 +119,7 @@ const SnippetEditorModal = ({username, onSnippetsUpdated}: SnippetEditorModalPro
                         height={100}
                     />
 
-                    <View style={{flexDirection:'row', justifyContent:'flex-end', alignItems:'center'}}>
-                    
+                    <View style={styles.actionPanel}>
                         <TextButton 
                             text={intl.formatMessage({id:'snippets.btn_close'})}
                             onPress={()=>setShowModal(false)}
@@ -133,7 +133,7 @@ const SnippetEditorModal = ({username, onSnippetsUpdated}: SnippetEditorModalPro
                         />
                     </View>
                 
-                </View>
+                </KeyboardAwareView>
             )}
             </ThemeContainer>
         )
