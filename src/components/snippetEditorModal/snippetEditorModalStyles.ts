@@ -10,7 +10,7 @@ export default EStyleSheet.create({
         paddingBottom:8
       },
     container:{
-        flex:1,
+        flexGrow:1,
         marginTop:24,
         paddingHorizontal:24,
     },

@@ -1,6 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Alert, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, View } from 'react-native';
 import { TextInput } from '..';
 import { ThemeContainer } from '../../containers';
 import { Snippet } from '../../models';
@@ -8,7 +8,6 @@ import { addSnippet, updateSnippet } from '../../providers/ecency/ecency';
 import { TextButton } from '../buttons';
 import Modal from '../modal';
 import styles from './snippetEditorModalStyles';
-import { KeyboardAwareView } from 'react-native-keyboard-aware-view'
 
 
 export interface SnippetEditorModalRef {
@@ -83,57 +82,66 @@ const SnippetEditorModal = ({username, onSnippetsUpdated}: SnippetEditorModalPro
     const _renderContent = (
         <ThemeContainer>
             {({isDarkTheme})=>(
-                <KeyboardAwareView style={styles.container}>
-                    <View style={{height:Math.max(35, titleHeight)}}>
-                        <TextInput
-                            autoFocus={true}
-                            innerRef={titleInputRef}
-                            style={styles.titleInput}
-                            height={Math.max(35, titleHeight)}
-                            placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
-                            maxLength={250}
-                            placeholder={intl.formatMessage({id:'snippets.placeholder_title'})}
-                            multiline
-                            numberOfLines={2}
-                            onContentSizeChange={(event) => {
-                            setTitleHeight(event.nativeEvent.contentSize.height);
-                            }}
-                            onChangeText={setTitle}
-                            value={title}
-                        />
-                    </View>
-                
-                    <TextInput
-                        multiline
-                        autoCorrect={true}
-                        value={body}
-                        onChangeText={setBody}
-                        placeholder={intl.formatMessage({id:'snippets.placeholder_body'})}
-                        placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
-                        selectionColor="#357ce6"
-                        style={styles.bodyWrapper}
-                        underlineColorAndroid="transparent"
-                        innerRef={bodyInputRef}
-                        autoGrow={false}
-                        scrollEnabled={false}
-                        height={100}
-                    />
+                 <KeyboardAvoidingView
+                    style={styles.container}
+                    keyboardVerticalOffset={Platform.OS == 'ios' ? 64 : null}
+                    behavior={Platform.OS === 'ios' ? 'padding' : null}
+                >
+                    <View style={{flex:1}}>
 
-                    <View style={styles.actionPanel}>
-                        <TextButton 
-                            text={intl.formatMessage({id:'snippets.btn_close'})}
-                            onPress={()=>setShowModal(false)}
-                            style={styles.closeButton}
-                        />
-                        <TextButton 
-                            text={intl.formatMessage({id:'snippets.btn_save'})}
-                            onPress={_saveSnippet}
-                            textStyle={styles.btnText}
-                            style={styles.saveButton}
+                    
+                        <View style={{height:Math.max(35, titleHeight)}}>
+                            <TextInput
+                                autoFocus={true}
+                                innerRef={titleInputRef}
+                                style={styles.titleInput}
+                                height={Math.max(35, titleHeight)}
+                                placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
+                                maxLength={250}
+                                placeholder={intl.formatMessage({id:'snippets.placeholder_title'})}
+                                multiline
+                                numberOfLines={2}
+                                onContentSizeChange={(event) => {
+                                setTitleHeight(event.nativeEvent.contentSize.height);
+                                }}
+                                onChangeText={setTitle}
+                                value={title}
+                            />
+                        </View>
+                    
+                        <TextInput
+                            multiline
+                            autoCorrect={true}
+                            value={body}
+                            onChangeText={setBody}
+                            placeholder={intl.formatMessage({id:'snippets.placeholder_body'})}
+                            placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
+                            selectionColor="#357ce6"
+                            style={styles.bodyWrapper}
+                            underlineColorAndroid="transparent"
+                            innerRef={bodyInputRef}
+                            autoGrow={false}
+                            scrollEnabled={false}
+                            height={100}
                         />
                     </View>
-                
-                </KeyboardAwareView>
+
+                   
+                        <View style={styles.actionPanel}>
+                            <TextButton 
+                                text={intl.formatMessage({id:'snippets.btn_close'})}
+                                onPress={()=>setShowModal(false)}
+                                style={styles.closeButton}
+                            />
+                            <TextButton 
+                                text={intl.formatMessage({id:'snippets.btn_save'})}
+                                onPress={_saveSnippet}
+                                textStyle={styles.btnText}
+                                style={styles.saveButton}
+                            />
+                        </View>
+                    
+                </KeyboardAvoidingView>
             )}
             </ThemeContainer>
         )
