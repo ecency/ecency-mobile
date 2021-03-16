@@ -87,7 +87,7 @@ const SnippetEditorModal = ({username, onSnippetsUpdated}: SnippetEditorModalPro
                     keyboardVerticalOffset={Platform.OS == 'ios' ? 64 : null}
                     behavior={Platform.OS === 'ios' ? 'padding' : null}
                 >
-                    <View style={{flex:1}}>
+                    <View style={styles.inputContainer}>
 
                     
                         <View style={{height:Math.max(35, titleHeight)}}>

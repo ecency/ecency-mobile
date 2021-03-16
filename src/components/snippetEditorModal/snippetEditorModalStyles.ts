@@ -14,6 +14,9 @@ export default EStyleSheet.create({
         marginTop:24,
         paddingHorizontal:24,
     },
+    inputContainer:{
+        flex:1
+    } as ViewStyle,
     titleInput:{
         color: '$primaryBlack',
         fontWeight: 'bold',
@@ -57,4 +60,5 @@ export default EStyleSheet.create({
         alignItems:'center', 
         marginBottom:16
     } as ViewStyle,
+
 })
