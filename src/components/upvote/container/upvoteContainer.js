@@ -44,20 +44,25 @@ const UpvoteContainer = (props) => {
   const localVoteMap = useSelector((state) => state.posts.localVoteMap);
 
   useEffect(() => {
+    let _isMounted = true;
+
+    const _calculateVoteStatus = async () => {
+      const _isVoted = await isVotedFunc(activeVotes, get(currentAccount, 'name'));
+      const _isDownVoted = await isDownVotedFunc(activeVotes, get(currentAccount, 'name'));
+
+      if (_isMounted) {
+        setIsVoted(_isVoted && parseInt(_isVoted, 10) / 10000);
+        setIsDownVoted(_isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1);
+
+        if (localVoteMap) {
+          _handleLocalVote();
+        }
+      }
+    };
+
     _calculateVoteStatus();
+    return () => (_isMounted = false);
   }, [activeVotes]);
-
-  const _calculateVoteStatus = async () => {
-    const _isVoted = await isVotedFunc(activeVotes, get(currentAccount, 'name'));
-    const _isDownVoted = await isDownVotedFunc(activeVotes, get(currentAccount, 'name'));
-
-    setIsVoted(_isVoted && parseInt(_isVoted, 10) / 10000);
-    setIsDownVoted(_isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1);
-
-    if (localVoteMap) {
-      _handleLocalVote();
-    }
-  };
 
   const _setUpvotePercent = (value) => {
     if (value) {

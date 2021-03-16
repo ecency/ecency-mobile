@@ -7,10 +7,10 @@ export default EStyleSheet.create({
         backgroundColor: '$primaryBackgroundColor',
         margin:0,
         paddingTop:32,
-        paddingBottom:24
+        paddingBottom:8
       },
     container:{
-        flex:1,
+        flexGrow:1,
         marginTop:24,
         paddingHorizontal:24,
     },
@@ -50,5 +50,11 @@ export default EStyleSheet.create({
         borderRadius:16,
         justifyContent:'center',
         alignItems:'center'
-    } as ViewStyle 
+    } as ViewStyle,
+    actionPanel:{
+        flexDirection:'row', 
+        justifyContent:'flex-end', 
+        alignItems:'center', 
+        marginBottom:16
+    } as ViewStyle,
 })
