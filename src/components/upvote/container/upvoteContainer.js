@@ -46,21 +46,21 @@ const UpvoteContainer = (props) => {
   useEffect(() => {
     let _isMounted = true;
 
-    // const _calculateVoteStatus = async () => {
-    //   const _isVoted = await isVotedFunc(activeVotes, get(currentAccount, 'name'));
-    //   const _isDownVoted = await isDownVotedFunc(activeVotes, get(currentAccount, 'name'));
+    const _calculateVoteStatus = async () => {
+      const _isVoted = await isVotedFunc(activeVotes, get(currentAccount, 'name'));
+      const _isDownVoted = await isDownVotedFunc(activeVotes, get(currentAccount, 'name'));
 
-    //   if (_isMounted) {
-    //     setIsVoted(_isVoted && parseInt(_isVoted, 10) / 10000);
-    //     setIsDownVoted(_isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1);
+      if (_isMounted) {
+        setIsVoted(_isVoted && parseInt(_isVoted, 10) / 10000);
+        setIsDownVoted(_isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1);
 
-    //     if (localVoteMap) {
-    //       _handleLocalVote();
-    //     }
-    //   }
-    // };
+        if (localVoteMap) {
+          _handleLocalVote();
+        }
+      }
+    };
 
-    // _calculateVoteStatus();
+    _calculateVoteStatus();
     return () => (_isMounted = false);
   }, [activeVotes]);
 
