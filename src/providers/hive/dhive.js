@@ -458,7 +458,7 @@ export const getActiveVotes = (author, permlink) =>
 
 export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
   try {
-    console.log('Getting ranked posts:', query);
+    // console.log('Getting ranked posts:', query);
     let posts = await client.call('bridge', 'get_ranked_posts', query);
 
     if (posts) {
@@ -471,7 +471,7 @@ export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
         return updatedPosts;
       }
     }
-    console.log('Returning fetched posts: ' + posts ? posts.length : null);
+    // console.log('Returning fetched posts: ' + posts ? posts.length : null);
     return posts;
   } catch (error) {
     return error;
@@ -480,7 +480,7 @@ export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
 
 export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
   try {
-    console.log('Getting account posts: ', query);
+    // console.log('Getting account posts: ', query);
     let posts = await client.call('bridge', 'get_account_posts', query);
 
     if (posts) {
@@ -493,7 +493,7 @@ export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
         return updatedPosts;
       }
     }
-    console.log('Returning fetched posts: ' + posts ? posts.length : null);
+    // console.log('Returning fetched posts: ' + posts ? posts.length : null);
     return posts;
   } catch (error) {
     return error;
@@ -502,7 +502,7 @@ export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
 
 export const getRepliesByLastUpdate = async (query) => {
   try {
-    console.log('Getting replies: ', query);
+    // console.log('Getting replies: ', query);
     const replies = await client.database.call('get_replies_by_last_update', [
       query.start_author,
       query.start_permlink,
@@ -517,7 +517,7 @@ export const getRepliesByLastUpdate = async (query) => {
 
 export const getPost = async (author, permlink, currentUserName = null, isPromoted = false) => {
   try {
-    console.log('Getting post: ', author, permlink);
+    // console.log('Getting post: ', author, permlink);
     const post = await client.database.call('get_content', [author, permlink]);
     return post ? parsePost(post, currentUserName, isPromoted) : null;
   } catch (error) {
@@ -654,7 +654,7 @@ export const signImage = async (file, currentAccount, pin) => {
 export const vote = (account, pin, author, permlink, weight) =>
   _vote(account, pin, author, permlink, weight).then((resp) => {
     userActivity(account.username, 120, resp.block_num, resp.id);
-    console.log('Returning vote response');
+    // console.log('Returning vote response');
     return resp;
   });
 
