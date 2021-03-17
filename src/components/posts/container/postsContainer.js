@@ -503,9 +503,13 @@ const PostsContainer = ({
   };
 
   const _matchFreshPosts = async (posts, reducerFilter) => {
-    const cachedPosts = cache.cachedData[reducerFilter].posts.slice(0, 5);
+    let cachedPosts = cache.cachedData[reducerFilter].posts;
 
-    const newPosts = [];
+    if (cachedPosts.length > 5) {
+      cachedPosts = cachedPosts.slice(0, 5);
+    }
+
+    let newPosts = [];
     posts.forEach((post, index) => {
       const newPostId = get(post, 'post_id');
       const postExist = cachedPosts.find((cPost) => get(cPost, 'post_id', 0) === newPostId);
@@ -521,7 +525,10 @@ const PostsContainer = ({
         : cache.currentFilter === reducerFilter;
 
     if (newPosts.length > 0 && isRightFilter) {
-      setNewPostsPopupPictures(newPosts.slice(0, 5).map((post) => get(post, 'avatar', '')));
+      if (newPosts.length > 5) {
+        newPosts = newPosts.slice(0, 5);
+      }
+      setNewPostsPopupPictures(newPosts.map((post) => get(post, 'avatar', '')));
     } else {
       _scheduleLatestPostsCheck(posts[0]);
     }
