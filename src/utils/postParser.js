@@ -47,6 +47,8 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
   post.avatar = getResizedAvatar(get(post, 'author'));
   if (!isList) {
     post.body = renderPostBody(post, true, webp);
+  } else {
+    post.body = '';
   }
   post.summary = postBodySummary(post, 150);
   post.is_declined_payout = parseAsset(post.max_accepted_payout).amount === 0;
