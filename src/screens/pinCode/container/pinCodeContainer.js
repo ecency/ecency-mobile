@@ -118,8 +118,18 @@ class PinCodeContainer extends Component {
             }
             resolve();
           });
-        } else {
+        } else if (newPinCode) {
           // If the user is logging in for the first time, the user should set to pin
+          Alert.alert(
+            intl.formatMessage({
+              id: 'alert.warning',
+            }),
+            intl.formatMessage({
+              id: 'pincode.pin_not_matched',
+            }),
+          );
+          resolve();
+        } else {
           this.setState({
             informationText: intl.formatMessage({
               id: 'pincode.write_again',
@@ -287,9 +297,9 @@ class PinCodeContainer extends Component {
       let infoMessage = intl.formatMessage({
         id: 'pincode.enter_text',
       });
-      infoMessage += `, ${totalAttempts} ${'failed attempt(s)'}`;
+      infoMessage += `, ${totalAttempts} ${intl.formatMessage({ id: 'pincode.attempts_postfix' })}`;
       if (totalAttempts > 1) {
-        infoMessage += `\n${'User data will be wiped on next failed attempt'}`;
+        infoMessage += `\n${intl.formatMessage({ id: 'pincode.message_reset_warning' })}`;
       }
       this.setState({
         failedAttempts: totalAttempts,
