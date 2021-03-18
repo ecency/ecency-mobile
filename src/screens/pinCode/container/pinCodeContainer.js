@@ -40,6 +40,7 @@ class PinCodeContainer extends Component {
       pinCode: null,
       isOldPinVerified: get(props.pinCodeParams, 'isOldPinVerified', false),
       oldPinCode: get(props.pinCodeParams, 'oldPinCode', null),
+      failedAttempts: 0,
     };
   }
 
@@ -190,7 +191,6 @@ class PinCodeContainer extends Component {
         currentAccount,
         dispatch,
         pinCodeParams: { navigateTo, navigateParams, accessToken, callback },
-        intl,
       } = this.props;
       const { oldPinCode } = this.state;
 
@@ -219,18 +219,11 @@ class PinCodeContainer extends Component {
                 params: navigateParams,
               });
             }
+            resolve();
           });
         })
         .catch((err) => {
-          console.warn('Failed to verify pin: ', err);
-          Alert.alert(
-            intl.formatMessage({
-              id: 'alert.warning',
-            }),
-            intl.formatMessage({
-              id: err.message,
-            }),
-          );
+          console.warn('code verification for login failed: ', err);
           reject(err);
         });
     });
@@ -239,6 +232,65 @@ class PinCodeContainer extends Component {
     const { dispatch } = this.props;
     const encryptedPin = encryptKey(pin, Config.PIN_KEY);
     dispatch(savePinCode(encryptedPin));
+  };
+
+  _forgotPinCode = async () => {
+    const { otherAccounts, dispatch } = this.props;
+
+    await removeAllUserData()
+      .then(async () => {
+        dispatch(updateCurrentAccount({}));
+        dispatch(login(false));
+        removePinCode();
+        setAuthStatus({ isLoggedIn: false });
+        setExistUser(false);
+        if (otherAccounts.length > 0) {
+          otherAccounts.map((item) => dispatch(removeOtherAccount(item.username)));
+        }
+        dispatch(logoutDone());
+        dispatch(closePinCodeModal());
+      })
+      .catch((err) => {
+        console.warn('Failed to remove user data', err);
+      });
+  };
+
+  _handleFailedAttempt = (error) => {
+    console.warn('Failed to set pin: ', error);
+    const { intl } = this.props;
+    const { failedAttempts } = this.state;
+    //increment failed attempt
+    const totalAttempts = failedAttempts + 1;
+
+    if (totalAttempts < 3) {
+      //shwo failure alert box
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.warning',
+        }),
+        intl.formatMessage({
+          id: error.message,
+        }),
+      );
+
+      let infoMessage = intl.formatMessage({
+        id: 'pincode.enter_text',
+      });
+      infoMessage += `, ${totalAttempts} ${'failed attempt(s)'}`;
+      if (totalAttempts > 1) {
+        infoMessage += `\n${'User data will be wiped on next failed attempt'}`;
+      }
+      this.setState({
+        failedAttempts: totalAttempts,
+        informationText: infoMessage,
+      });
+
+      return false;
+    } else {
+      //wipe user data
+      this._forgotPinCode();
+      return true;
+    }
   };
 
   _setPinCode = async (pin, isReset) => {
@@ -254,6 +306,7 @@ class PinCodeContainer extends Component {
         await this._resetPinCode(pin);
         return true;
       }
+
       if (isExistUser) {
         if (!userData.accessToken && !userData.masterKey && applicationPinCode) {
           const verifiedPin = decryptKey(applicationPinCode, Config.PIN_KEY);
@@ -281,20 +334,12 @@ class PinCodeContainer extends Component {
         return true;
       }
     } catch (error) {
-      console.warn('Failed to set pin: ', error);
-      Alert.alert(
-        intl.formatMessage({
-          id: 'alert.warning',
-        }),
-        intl.formatMessage({
-          id: error.message,
-        }),
-      );
+      return this._handleFailedAttempt(error);
     }
 
     if (!pinCode) {
       // If the user is logging in for the first time, the user should set to pin
-      await this.setState({
+      this.setState({
         informationText: intl.formatMessage({
           id: 'pincode.write_again',
         }),
@@ -303,12 +348,13 @@ class PinCodeContainer extends Component {
       return Promise.resolve();
     }
 
-    await this.setState({
+    this.setState({
       informationText: intl.formatMessage({
         id: 'pincode.write_again',
       }),
     });
-    await setTimeout(() => {
+
+    setTimeout(() => {
       this.setState({
         informationText: intl.formatMessage({
           id: 'pincode.set_new',
@@ -334,27 +380,6 @@ class PinCodeContainer extends Component {
         { text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' },
       ],
     );
-  };
-
-  _forgotPinCode = async () => {
-    const { otherAccounts, dispatch } = this.props;
-
-    await removeAllUserData()
-      .then(async () => {
-        dispatch(updateCurrentAccount({}));
-        dispatch(login(false));
-        removePinCode();
-        setAuthStatus({ isLoggedIn: false });
-        setExistUser(false);
-        if (otherAccounts.length > 0) {
-          otherAccounts.map((item) => dispatch(removeOtherAccount(item.username)));
-        }
-        dispatch(logoutDone());
-        dispatch(closePinCodeModal());
-      })
-      .catch((err) => {
-        console.warn('Failed to remove user data', err);
-      });
   };
 
   render() {

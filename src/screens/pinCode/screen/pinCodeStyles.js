@@ -26,6 +26,7 @@ export default EStyleSheet.create({
   },
   informationText: {
     color: '$editorButtonColor',
+    textAlign: 'center',
   },
   informationView: {
     flex: 1,
