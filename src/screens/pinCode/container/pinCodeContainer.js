@@ -130,6 +130,7 @@ class PinCodeContainer extends Component {
             resolve();
           })
           .catch((err) => {
+            console.warn('Failed to verify pin code', err);
             Alert.alert(
               intl.formatMessage({
                 id: 'alert.warning',
@@ -221,6 +222,7 @@ class PinCodeContainer extends Component {
           });
         })
         .catch((err) => {
+          console.warn('Failed to verify pin: ', err);
           Alert.alert(
             intl.formatMessage({
               id: 'alert.warning',
@@ -279,6 +281,7 @@ class PinCodeContainer extends Component {
         return true;
       }
     } catch (error) {
+      console.warn('Failed to set pin: ', error);
       Alert.alert(
         intl.formatMessage({
           id: 'alert.warning',
@@ -349,7 +352,9 @@ class PinCodeContainer extends Component {
         dispatch(logoutDone());
         dispatch(closePinCodeModal());
       })
-      .catch(() => {});
+      .catch((err) => {
+        console.warn('Failed to remove user data', err);
+      });
   };
 
   render() {

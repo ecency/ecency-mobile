@@ -203,6 +203,7 @@ export const setUserDataWithPinCode = async (data) => {
 
     return updatedUserData;
   } catch (error) {
+    console.warn('Failed to set user data with pin: ', data, error);
     return Promise.reject(new Error('auth.unknow_error'));
   }
 };
@@ -249,35 +250,40 @@ export const updatePinCode = (data) =>
   });
 
 export const verifyPinCode = async (data) => {
-  const pinHash = await getPinCode();
+  try {
+    const pinHash = await getPinCode();
 
-  const result = await getUserDataWithUsername(data.username);
-  const userData = result[0];
+    const result = await getUserDataWithUsername(data.username);
+    const userData = result[0];
 
-  // This is migration for new pin structure, it will remove v2.2
-  if (!pinHash) {
-    try {
-      if (get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
-        decryptKey(get(userData, 'accessToken'), get(data, 'pinCode'));
-      } else {
-        decryptKey(userData.masterKey, get(data, 'pinCode'));
+    // This is migration for new pin structure, it will remove v2.2
+    if (!pinHash) {
+      try {
+        if (get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
+          decryptKey(get(userData, 'accessToken'), get(data, 'pinCode'));
+        } else {
+          decryptKey(userData.masterKey, get(data, 'pinCode'));
+        }
+        await setPinCode(get(data, 'pinCode'));
+      } catch (error) {
+        return Promise.reject(new Error('Invalid pin code, please check and try again'));
       }
-      await setPinCode(get(data, 'pinCode'));
-    } catch (error) {
-      return Promise.reject(new Error('Invalid pin code, please check and try again'));
     }
-  }
 
-  if (sha256(get(data, 'pinCode')).toString() !== pinHash) {
-    return Promise.reject(new Error('auth.invalid_pin'));
-  }
-
-  if (result.length > 0) {
-    if (get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
-      await refreshSCToken(userData, get(data, 'pinCode'));
+    if (sha256(get(data, 'pinCode')).toString() !== pinHash) {
+      return Promise.reject(new Error('auth.invalid_pin'));
     }
+
+    if (result.length > 0) {
+      if (get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
+        await refreshSCToken(userData, get(data, 'pinCode'));
+      }
+    }
+    return true;
+  } catch (err) {
+    console.warn('Failed to verify pin in auth: ', data, err);
+    return Promise.reject(err);
   }
-  return true;
 };
 
 export const refreshSCToken = async (userData, pinCode) => {

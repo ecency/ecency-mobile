@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 
 import { Text, TouchableOpacity, View } from 'react-native';
@@ -18,28 +18,37 @@ const PinCodeScreen = ({
   const [loading, setLoading] = useState(false);
   const intl = useIntl();
 
-  const _handleKeyboardOnPress = async (value) => {
-    if (loading) {
-      return;
-    }
-    if (value === 'clear') {
-      setPin('');
-      return;
-    }
-    const newPin = `${pin}${value}`;
+  useEffect(() => {
+    _handlePinComplete();
+  }, [pin]);
 
-    if (pin.length < 3) {
-      setPin(newPin);
-    } else if (pin.length === 3) {
-      await setPin(newPin);
-      await setLoading(true);
-
-      await setPinCode(`${pin}${value}`);
-
+  const _handlePinComplete = async () => {
+    if (pin.length === 4) {
+      setLoading(true);
+      await setPinCode(pin);
       setPin('');
       setLoading(false);
-    } else if (pin.length > 3) {
-      setPin(`${value}`);
+    }
+  };
+
+  const _handleKeyboardOnPress = async (value) => {
+    try {
+      if (loading) {
+        return;
+      }
+      if (value === 'clear') {
+        setPin('');
+        return;
+      }
+      const newPin = `${pin}${value}`;
+
+      if (pin.length < 4) {
+        setPin(newPin);
+      } else if (pin.length >= 4) {
+        setPin(`${value}`);
+      }
+    } catch (err) {
+      console.warn('Failed to handle keyboard press as expected', err);
     }
   };
 
