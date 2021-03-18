@@ -37,7 +37,7 @@ class PinCodeContainer extends Component {
     this.state = {
       isExistUser: null,
       informationText: '',
-      pinCode: null,
+      newPinCode: null,
       isOldPinVerified: get(props.pinCodeParams, 'isOldPinVerified', false),
       oldPinCode: get(props.pinCodeParams, 'oldPinCode', null),
       failedAttempts: 0,
@@ -49,9 +49,9 @@ class PinCodeContainer extends Component {
   componentDidMount() {
     this._getDataFromStorage().then(() => {
       const { intl } = this.props;
-      const { isExistUser } = this.state;
+      const { isOldPinVerified } = this.state;
 
-      if (isExistUser) {
+      if (!isOldPinVerified) {
         this.setState({
           informationText: intl.formatMessage({
             id: 'pincode.enter_text',
@@ -87,7 +87,7 @@ class PinCodeContainer extends Component {
         pinCodeParams: { navigateTo, navigateParams, accessToken, callback },
         intl,
       } = this.props;
-      const { isOldPinVerified, oldPinCode } = this.state;
+      const { isOldPinVerified, oldPinCode, newPinCode } = this.state;
 
       const pinData = {
         pinCode: pin,
@@ -98,25 +98,36 @@ class PinCodeContainer extends Component {
       };
 
       if (isOldPinVerified) {
-        updatePinCode(pinData).then((response) => {
-          const _currentAccount = currentAccount;
-          _currentAccount.local = response;
+        if (pin === newPinCode) {
+          updatePinCode(pinData).then((response) => {
+            const _currentAccount = currentAccount;
+            _currentAccount.local = response;
 
-          dispatch(updateCurrentAccount({ ..._currentAccount }));
-          this._savePinCode(pin);
+            dispatch(updateCurrentAccount({ ..._currentAccount }));
+            this._savePinCode(pin);
 
-          if (callback) {
-            callback(pin, oldPinCode);
-          }
-          dispatch(closePinCodeModal());
-          if (navigateTo) {
-            navigate({
-              routeName: navigateTo,
-              params: navigateParams,
-            });
-          }
+            if (callback) {
+              callback(pin, oldPinCode);
+            }
+            dispatch(closePinCodeModal());
+            if (navigateTo) {
+              navigate({
+                routeName: navigateTo,
+                params: navigateParams,
+              });
+            }
+            resolve();
+          });
+        } else {
+          // If the user is logging in for the first time, the user should set to pin
+          this.setState({
+            informationText: intl.formatMessage({
+              id: 'pincode.write_again',
+            }),
+            newPinCode: pin,
+          });
           resolve();
-        });
+        }
       } else {
         verifyPinCode(pinData)
           .then(() => {
@@ -125,7 +136,7 @@ class PinCodeContainer extends Component {
               informationText: intl.formatMessage({
                 id: 'pincode.set_new',
               }),
-              pinCode: null,
+              newPinCode: null,
               oldPinCode: pin,
             });
             resolve();
@@ -295,7 +306,7 @@ class PinCodeContainer extends Component {
 
   _setPinCode = async (pin, isReset) => {
     const { intl, currentAccount, applicationPinCode } = this.props;
-    const { isExistUser, pinCode } = this.state;
+    const { isExistUser, newPinCode } = this.state;
 
     try {
       const realmData = await getUserDataWithUsername(currentAccount.name);
@@ -329,7 +340,7 @@ class PinCodeContainer extends Component {
       }
 
       // For new users
-      if (pinCode === pin) {
+      if (newPinCode === pin) {
         await this._setFirstPinCode(pin);
         return true;
       }
@@ -337,32 +348,32 @@ class PinCodeContainer extends Component {
       return this._handleFailedAttempt(error);
     }
 
-    if (!pinCode) {
-      // If the user is logging in for the first time, the user should set to pin
-      this.setState({
-        informationText: intl.formatMessage({
-          id: 'pincode.write_again',
-        }),
-        pinCode: pin,
-      });
-      return Promise.resolve();
-    }
+    //   if (!newPinCode) {
+    //     // If the user is logging in for the first time, the user should set to pin
+    //     this.setState({
+    //       informationText: intl.formatMessage({
+    //         id: 'pincode.write_again',
+    //       }),
+    //       newPinCode: pin,
+    //     });
+    //     return true
+    //   }
 
-    this.setState({
-      informationText: intl.formatMessage({
-        id: 'pincode.write_again',
-      }),
-    });
+    //   this.setState({
+    //     informationText: intl.formatMessage({
+    //       id: 'pincode.write_again',
+    //     }),
+    //   });
 
-    setTimeout(() => {
-      this.setState({
-        informationText: intl.formatMessage({
-          id: 'pincode.set_new',
-        }),
-        pinCode: null,
-      });
-      return Promise.resolve();
-    }, 1000);
+    //   setTimeout(() => {
+    //     this.setState({
+    //       informationText: intl.formatMessage({
+    //         id: 'pincode.set_new',
+    //       }),
+    //       newPinCode: null,
+    //     });
+    //     return Promise.resolve();
+    //   }, 1000);
   };
 
   _handleForgotButton = () => {
@@ -388,13 +399,13 @@ class PinCodeContainer extends Component {
       intl,
       pinCodeParams: { isReset },
     } = this.props;
-    const { informationText, isExistUser } = this.state;
+    const { informationText, isOldPinVerified } = this.state;
 
     return (
       <PinCodeScreen
         informationText={informationText}
         setPinCode={(pin) => this._setPinCode(pin, isReset)}
-        showForgotButton={isExistUser}
+        showForgotButton={!isOldPinVerified}
         username={currentAccount.name}
         intl={intl}
         handleForgotButton={() => this._handleForgotButton()}
