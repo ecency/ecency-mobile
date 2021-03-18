@@ -168,14 +168,14 @@ const PostsContainer = ({
   };
 
   const cacheReducer = (state, action) => {
-    // console.log('reducer action:', state, action);
+    console.log('reducer action:', action);
 
     switch (action.type) {
       case 'is-filter-loading': {
         const filter = action.payload.filter;
         const loading = action.payload.isLoading;
         state.cachedData[filter].isLoading = loading;
-        // console.log('New state:', state);
+
         return state;
       }
 
@@ -215,7 +215,6 @@ const PostsContainer = ({
         cachedEntry.posts = _posts;
 
         state.cachedData[filter] = cachedEntry;
-        // console.log('New state:', state);
 
         //dispatch to redux
         if (
@@ -237,7 +236,6 @@ const PostsContainer = ({
         cachedEntry.posts = [];
 
         state.cachedData[filter] = cachedEntry;
-        // console.log('New state:', state);
 
         //dispatch to redux
         _setFeedPosts([]);
@@ -248,7 +246,6 @@ const PostsContainer = ({
       case 'change-filter': {
         const filter = action.payload.currentFilter;
         state.currentFilter = filter;
-        // console.log('New state:', state);
 
         const data = state.cachedData[filter !== 'feed' ? filter : state.currentSubFilter];
         _setFeedPosts(data.posts, data.scrollPosition);
@@ -264,7 +261,7 @@ const PostsContainer = ({
       case 'change-sub-filter': {
         const filter = action.payload.currentSubFilter;
         state.currentSubFilter = filter;
-        // console.log('New state:', state);
+
         //dispatch to redux;
         const data = state.cachedData[filter];
         _setFeedPosts(data.posts, data.scrollPosition);

@@ -101,7 +101,7 @@ class TransferContainer extends Component {
       }
       if (transferType === 'address_view' && fundType === 'BTC') {
         //TODO implement transfer of custom tokens
-        // console.log(tokenAddress);
+        console.log(tokenAddress);
       }
 
       const local = await getUserDataWithUsername(username);
