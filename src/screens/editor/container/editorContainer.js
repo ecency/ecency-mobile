@@ -164,7 +164,7 @@ class EditorContainer extends Component {
         }
       })
       .catch((error) => {
-        // console.log(error, error.message);
+        console.log(error, error.message);
         if (error.toString().includes('code 413')) {
           Alert.alert(
             intl.formatMessage({

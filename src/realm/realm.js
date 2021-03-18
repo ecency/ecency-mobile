@@ -501,7 +501,7 @@ export const getSettings = async () => {
       notification: true,
       server: '',
       upvotePercent: '1',
-      nsfw: '0',
+      nsfw: '1',
       followNotification: true,
       voteNotification: true,
       commentNotification: true,
@@ -668,8 +668,8 @@ export const getStorageType = async () => {
 export const getVersionForWelcomeModal = async () => {
   try {
     const application = await getItemFromStorage(APPLICATION_SCHEMA);
-    if (application.versionForWelcomeModal) {
-      return parseFloat(application.versionForWelcomeModal);
+    if (application && application.versionForWelcomeModal) {
+      return parseFloat(application.versionForWelcomeModal) || 0;
     }
     return 0;
   } catch (error) {
