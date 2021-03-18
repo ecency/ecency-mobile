@@ -324,7 +324,7 @@
     "set_new": "Set new PIN",
     "write_again": "Write again",
     "forgot_text": "Oh, I forgot it...",
-    "pin_not_matched":"Pins do not match, Please try again.",
+    "pin_not_matched":"PIN do not match, Please try again.",
     "attempts_postfix":"failed attempt(s)",
     "message_reset_warning":"User data will be wiped on next failed attempt"
   },
