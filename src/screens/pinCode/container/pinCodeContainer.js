@@ -347,33 +347,6 @@ class PinCodeContainer extends Component {
     } catch (error) {
       return this._handleFailedAttempt(error);
     }
-
-    //   if (!newPinCode) {
-    //     // If the user is logging in for the first time, the user should set to pin
-    //     this.setState({
-    //       informationText: intl.formatMessage({
-    //         id: 'pincode.write_again',
-    //       }),
-    //       newPinCode: pin,
-    //     });
-    //     return true
-    //   }
-
-    //   this.setState({
-    //     informationText: intl.formatMessage({
-    //       id: 'pincode.write_again',
-    //     }),
-    //   });
-
-    //   setTimeout(() => {
-    //     this.setState({
-    //       informationText: intl.formatMessage({
-    //         id: 'pincode.set_new',
-    //       }),
-    //       newPinCode: null,
-    //     });
-    //     return Promise.resolve();
-    //   }, 1000);
   };
 
   _handleForgotButton = () => {
