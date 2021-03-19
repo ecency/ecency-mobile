@@ -360,6 +360,7 @@
     "remove_alert": "Are you sure you want to remove?",
     "clear_alert": "Are you sure you want to clear?",
     "clear_user_alert": "Are you sure you want to clear all user data?",
+    "decrypt_fail_alert":"Bad previous app data, you will have relogin to reset app data",
     "clear": "Clear",
     "cancel": "Cancel",
     "delete": "Delete",

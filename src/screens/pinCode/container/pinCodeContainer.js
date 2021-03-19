@@ -85,12 +85,19 @@ class PinCodeContainer extends Component {
   //this function is important: must run while chaning pin
   //and even logging in with existing pin code
   _updatePinCodeRealm = async (pinData) => {
-    const { currentAccount, dispatch } = this.props;
-    const response = await updatePinCode(pinData);
-    const _currentAccount = currentAccount;
-    _currentAccount.local = response;
-    dispatch(updateCurrentAccount({ ..._currentAccount }));
-    return true;
+    try {
+      const { currentAccount, dispatch } = this.props;
+      const response = await updatePinCode(pinData, this._onDecryptFail);
+      if (!response) {
+        return false;
+      }
+      const _currentAccount = currentAccount;
+      _currentAccount.local = response;
+      dispatch(updateCurrentAccount({ ..._currentAccount }));
+      return true;
+    } catch (err) {
+      return false;
+    }
   };
 
   _resetPinCode = (pin) =>
@@ -115,7 +122,11 @@ class PinCodeContainer extends Component {
       if (isOldPinVerified) {
         //if newPin already exist and pin is a valid pin, compare and set new pin
         if (pin !== undefined && pin === newPinCode) {
-          this._updatePinCodeRealm(pinData).then(() => {
+          this._updatePinCodeRealm(pinData).then((status) => {
+            if (!status) {
+              resolve();
+              return;
+            }
             this._savePinCode(pin);
             if (callback) {
               callback(pin, oldPinCode);
@@ -345,6 +356,22 @@ class PinCodeContainer extends Component {
     }
   };
 
+  _onDecryptFail = () => {
+    const { intl } = this.props;
+    Alert.alert(
+      intl.formatMessage({
+        id: 'alert.warning',
+      }),
+      intl.formatMessage({
+        id: 'alert.decrypt_fail_alert',
+      }),
+      [
+        { text: intl.formatMessage({ id: 'alert.clear' }), onPress: () => this._forgotPinCode() },
+        { text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' },
+      ],
+    );
+  };
+
   _setPinCode = async (pin, isReset) => {
     const { intl, currentAccount, applicationPinCode } = this.props;
     const { isExistUser } = this.state;
@@ -362,7 +389,7 @@ class PinCodeContainer extends Component {
       //user is logged in and is not reset routine...
       if (isExistUser) {
         if (!userData.accessToken && !userData.masterKey && applicationPinCode) {
-          const verifiedPin = decryptKey(applicationPinCode, Config.PIN_KEY);
+          const verifiedPin = decryptKey(applicationPinCode, Config.PIN_KEY, this._onDecryptFail);
           if (verifiedPin === pin) {
             await this._setFirstPinCode(pin);
           } else {

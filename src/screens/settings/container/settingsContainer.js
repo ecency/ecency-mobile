@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform } from 'react-native';
+import { Platform, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { Client } from '@hiveio/dhive';
 import VersionNumber from 'react-native-version-number';
@@ -17,6 +17,11 @@ import {
   setNsfw as setNsfw2DB,
   setTheme,
   setPinCodeOpen,
+  removeUserData,
+  removePinCode,
+  setAuthStatus,
+  setExistUser,
+  removeAllUserData,
 } from '../../../realm/realm';
 
 // Services and Actions
@@ -31,12 +36,15 @@ import {
   setNsfw,
   isPinCodeOpen,
   setPinCode as savePinCode,
+  login,
+  logoutDone,
+  closePinCodeModal,
 } from '../../../redux/actions/applicationActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { setPushToken, getNodes } from '../../../providers/ecency/ecency';
 import { checkClient } from '../../../providers/hive/dhive';
 import { updatePinCode } from '../../../providers/hive/auth';
-import { updateCurrentAccount } from '../../../redux/actions/accountAction';
+import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
 // Middleware
 
 // Constants
@@ -361,11 +369,56 @@ class SettingsContainer extends Component {
     }
   };
 
+  _clearUserData = async () => {
+    const { otherAccounts, dispatch } = this.props;
+
+    await removeAllUserData()
+      .then(async () => {
+        dispatch(updateCurrentAccount({}));
+        dispatch(login(false));
+        removePinCode();
+        setAuthStatus({ isLoggedIn: false });
+        setExistUser(false);
+        if (otherAccounts.length > 0) {
+          otherAccounts.map((item) => dispatch(removeOtherAccount(item.username)));
+        }
+        dispatch(logoutDone());
+        dispatch(isPinCodeOpen(false));
+        setPinCodeOpen(false);
+      })
+      .catch((err) => {
+        console.warn('Failed to remove user data', err);
+      });
+  };
+
+  _onDecryptFail = () => {
+    const { intl } = this.props;
+    setTimeout(() => {
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.warning',
+        }),
+        intl.formatMessage({
+          id: 'alert.decrypt_fail_alert',
+        }),
+        [
+          { text: intl.formatMessage({ id: 'alert.clear' }), onPress: () => this._clearUserData() },
+          { text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' },
+        ],
+      );
+    }, 500);
+  };
+
   _setDefaultPinCode = (action) => {
     const { dispatch, username, currentAccount, pinCode } = this.props;
 
     if (!action) {
-      const oldPinCode = decryptKey(pinCode, Config.PIN_KEY);
+      const oldPinCode = decryptKey(pinCode, Config.PIN_KEY, this._onDecryptFail);
+
+      if (!oldPinCode) {
+        return;
+      }
+
       const pinData = {
         pinCode: Config.DEFAULT_PIN,
         username,
@@ -427,7 +480,6 @@ const mapStateToProps = (state) => ({
   selectedApi: state.application.api,
   selectedCurrency: state.application.currency,
   selectedLanguage: state.application.language,
-
   username: state.account.currentAccount && state.account.currentAccount.name,
   currentAccount: state.account.currentAccount,
   otherAccounts: state.account.otherAccounts,

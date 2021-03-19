@@ -208,7 +208,7 @@ export const setUserDataWithPinCode = async (data) => {
   }
 };
 
-export const updatePinCode = (data) =>
+export const updatePinCode = (data, onError) =>
   new Promise((resolve, reject) => {
     let currentUser = null;
     try {
@@ -228,12 +228,23 @@ export const updatePinCode = (data) =>
                 get(userData, 'memoKey') ||
                 get(userData, 'postingKey');
 
-              data.password = decryptKey(publicKey, get(data, 'oldPinCode', ''));
+              const password = decryptKey(publicKey, get(data, 'oldPinCode', ''), onError);
+              if (!password) {
+                reject(new Error('Failed to get password from decryption'));
+                return;
+              }
+              data.password = password;
             } else if (get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
-              data.accessToken = decryptKey(
+              const accessToken = decryptKey(
                 get(userData, 'accessToken'),
                 get(data, 'oldPinCode', ''),
+                onError,
               );
+              if (!accessToken) {
+                reject(new Error('failed to decrupt access token'));
+                return;
+              }
+              data.accessToken = accessToken;
             }
             const updatedUserData = getUpdatedUserData(userData, data);
             updateUserData(updatedUserData);
