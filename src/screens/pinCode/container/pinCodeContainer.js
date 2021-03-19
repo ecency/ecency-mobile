@@ -99,8 +99,10 @@ class PinCodeContainer extends Component {
         oldPinCode,
       };
 
+      //if old pin already verified, check new pin setup conditions.
       if (isOldPinVerified) {
-        if (pin === newPinCode) {
+        //if newPin already exist and pin is a valid pin, compare and set new pin
+        if (pin !== undefined && pin === newPinCode) {
           updatePinCode(pinData).then((response) => {
             const _currentAccount = currentAccount;
             _currentAccount.local = response;
@@ -120,8 +122,11 @@ class PinCodeContainer extends Component {
             }
             resolve();
           });
-        } else if (newPinCode) {
-          // If the user is logging in for the first time, the user should set to pin
+        }
+
+        // if newPin code exists and above case failed, that means pins did not match
+        // warn user about it and do nothing
+        else if (newPinCode) {
           Alert.alert(
             intl.formatMessage({
               id: 'alert.warning',
@@ -131,7 +136,10 @@ class PinCodeContainer extends Component {
             }),
           );
           resolve();
-        } else {
+        }
+
+        //if newPinCode do yet exist, save it in state and prompt user to reneter pin.
+        else {
           this.setState({
             informationText: intl.formatMessage({
               id: 'pincode.write_again',
@@ -140,7 +148,10 @@ class PinCodeContainer extends Component {
           });
           resolve();
         }
-      } else {
+      }
+
+      // if old pin code is not yet verified attempt to verify code
+      else {
         verifyPinCode(pinData)
           .then(() => {
             this.setState({ isOldPinVerified: true });
@@ -233,6 +244,8 @@ class PinCodeContainer extends Component {
             [_currentAccount.local] = realmData;
             dispatch(updateCurrentAccount({ ..._currentAccount }));
             dispatch(closePinCodeModal());
+
+            //on successful code verification run requested operation passed as props
             if (callback) {
               callback(pin, oldPinCode);
             }
@@ -319,18 +332,19 @@ class PinCodeContainer extends Component {
 
   _setPinCode = async (pin, isReset) => {
     const { intl, currentAccount, applicationPinCode } = this.props;
-    const { isExistUser, newPinCode } = this.state;
+    const { isExistUser } = this.state;
 
     try {
       const realmData = await getUserDataWithUsername(currentAccount.name);
       const userData = realmData[0];
 
-      // For exist users
+      // check if reset routine is triggered by user, reroute code to reset hanlder
       if (isReset) {
         await this._resetPinCode(pin);
         return true;
       }
 
+      //user is logged in and is not reset routine...
       if (isExistUser) {
         if (!userData.accessToken && !userData.masterKey && applicationPinCode) {
           const verifiedPin = decryptKey(applicationPinCode, Config.PIN_KEY);
@@ -352,9 +366,11 @@ class PinCodeContainer extends Component {
         return true;
       }
 
-      // For new users
-      if (newPinCode === pin) {
-        await this._setFirstPinCode(pin);
+      //means this is not reset routine and user do not exist
+      //only possible option left is user logging int,
+      //verifyPinCode then
+      else {
+        await this._verifyPinCode(pin);
         return true;
       }
     } catch (error) {
