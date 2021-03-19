@@ -51,9 +51,9 @@ class PinCodeContainer extends Component {
   componentDidMount() {
     this._getDataFromStorage().then(() => {
       const { intl } = this.props;
-      const { isOldPinVerified, isExistUser } = this.state;
+      const { isOldPinVerified } = this.state;
 
-      if (!isOldPinVerified && isExistUser) {
+      if (!isOldPinVerified) {
         this.setState({
           informationText: intl.formatMessage({
             id: 'pincode.enter_text',
@@ -391,7 +391,7 @@ class PinCodeContainer extends Component {
       <PinCodeScreen
         informationText={informationText}
         setPinCode={(pin) => this._setPinCode(pin, isReset)}
-        showForgotButton={!isOldPinVerified && isExistUser}
+        showForgotButton={!isOldPinVerified}
         username={currentAccount.name}
         intl={intl}
         handleForgotButton={() => this._handleForgotButton()}
