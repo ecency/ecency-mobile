@@ -81,6 +81,18 @@ class PinCodeContainer extends Component {
       });
     });
 
+  //this function updates realm with appropriate master key required for encyrption
+  //this function is important: must run while chaning pin
+  //and even logging in with existing pin code
+  _updatePinCodeRealm = async (pinData) => {
+    const { currentAccount, dispatch } = this.props;
+    const response = await updatePinCode(pinData);
+    const _currentAccount = currentAccount;
+    _currentAccount.local = response;
+    dispatch(updateCurrentAccount({ ..._currentAccount }));
+    return true;
+  };
+
   _resetPinCode = (pin) =>
     new Promise((resolve, reject) => {
       const {
@@ -103,13 +115,8 @@ class PinCodeContainer extends Component {
       if (isOldPinVerified) {
         //if newPin already exist and pin is a valid pin, compare and set new pin
         if (pin !== undefined && pin === newPinCode) {
-          updatePinCode(pinData).then((response) => {
-            const _currentAccount = currentAccount;
-            _currentAccount.local = response;
-
-            dispatch(updateCurrentAccount({ ..._currentAccount }));
+          this._updatePinCodeRealm(pinData).then(() => {
             this._savePinCode(pin);
-
             if (callback) {
               callback(pin, oldPinCode);
             }
@@ -219,7 +226,7 @@ class PinCodeContainer extends Component {
       });
     });
 
-  _verifyPinCode = (pin) =>
+  _verifyPinCode = (pin, { shouldUpdateRealm } = {}) =>
     new Promise((resolve, reject) => {
       const {
         currentAccount,
@@ -239,11 +246,18 @@ class PinCodeContainer extends Component {
         .then(() => {
           this._savePinCode(pin);
           getUserDataWithUsername(currentAccount.name).then((realmData) => {
-            const _currentAccount = currentAccount;
-            _currentAccount.username = _currentAccount.name;
-            [_currentAccount.local] = realmData;
-            dispatch(updateCurrentAccount({ ..._currentAccount }));
-            dispatch(closePinCodeModal());
+            if (shouldUpdateRealm) {
+              this._updatePinCodeRealm(pinData).then(() => {
+                dispatch(closePinCodeModal());
+              });
+            } else {
+              const _currentAccount = currentAccount;
+              _currentAccount.username = _currentAccount.name;
+              [_currentAccount.local] = realmData;
+
+              dispatch(updateCurrentAccount({ ..._currentAccount }));
+              dispatch(closePinCodeModal());
+            }
 
             //on successful code verification run requested operation passed as props
             if (callback) {
@@ -369,9 +383,9 @@ class PinCodeContainer extends Component {
 
       //means this is not reset routine and user do not exist
       //only possible option left is user logging int,
-      //verifyPinCode then
+      //verifyPinCode then and update realm as well.
       else {
-        await this._verifyPinCode(pin);
+        await this._verifyPinCode(pin, { shouldUpdateRealm: true });
         return true;
       }
     } catch (error) {
