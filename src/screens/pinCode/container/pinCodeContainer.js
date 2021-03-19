@@ -286,6 +286,7 @@ class PinCodeContainer extends Component {
         dispatch(logoutDone());
         dispatch(closePinCodeModal());
         dispatch(isPinCodeOpen(false));
+        setPinCodeOpen(false);
       })
       .catch((err) => {
         console.warn('Failed to remove user data', err);

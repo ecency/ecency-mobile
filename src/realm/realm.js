@@ -510,6 +510,7 @@ export const getSettings = async () => {
       mentionNotification: true,
       reblogNotification: true,
       transfersNotification: true,
+      isPinCodeOpen: false,
     };
     await setItemToStorage(SETTINGS_SCHEMA, settingData);
     return settingData;
