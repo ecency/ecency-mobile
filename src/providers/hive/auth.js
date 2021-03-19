@@ -213,48 +213,51 @@ export const updatePinCode = (data, onError) =>
     let currentUser = null;
     try {
       setPinCode(get(data, 'pinCode'));
-      getUserData().then(async (users) => {
-        if (users && users.length > 0) {
-          await users.forEach((userData) => {
-            if (
-              get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-              get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY ||
-              get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY ||
-              get(userData, 'authType', '') === AUTH_TYPE.POSTING_KEY
-            ) {
-              const publicKey =
-                get(userData, 'masterKey') ||
-                get(userData, 'activeKey') ||
-                get(userData, 'memoKey') ||
-                get(userData, 'postingKey');
+      getUserData()
+        .then(async (users) => {
+          if (users && users.length > 0) {
+            users.forEach((userData) => {
+              if (
+                get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
+                get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY ||
+                get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY ||
+                get(userData, 'authType', '') === AUTH_TYPE.POSTING_KEY
+              ) {
+                const publicKey =
+                  get(userData, 'masterKey') ||
+                  get(userData, 'activeKey') ||
+                  get(userData, 'memoKey') ||
+                  get(userData, 'postingKey');
 
-              const password = decryptKey(publicKey, get(data, 'oldPinCode', ''), onError);
-              if (!password) {
-                reject(new Error('Failed to get password from decryption'));
-                return;
+                const password = decryptKey(publicKey, get(data, 'oldPinCode', ''), onError);
+                if (password === undefined) {
+                  throw new Error('Failed to get password from decryption');
+                }
+
+                data.password = password;
+              } else if (get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
+                const accessToken = decryptKey(
+                  get(userData, 'accessToken'),
+                  get(data, 'oldPinCode', ''),
+                  onError,
+                );
+                if (accessToken === undefined) {
+                  throw new Error('failed to decrupt access token');
+                }
+                data.accessToken = accessToken;
               }
-              data.password = password;
-            } else if (get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
-              const accessToken = decryptKey(
-                get(userData, 'accessToken'),
-                get(data, 'oldPinCode', ''),
-                onError,
-              );
-              if (!accessToken) {
-                reject(new Error('failed to decrupt access token'));
-                return;
+              const updatedUserData = getUpdatedUserData(userData, data);
+              updateUserData(updatedUserData);
+              if (userData.username === data.username) {
+                currentUser = updatedUserData;
               }
-              data.accessToken = accessToken;
-            }
-            const updatedUserData = getUpdatedUserData(userData, data);
-            updateUserData(updatedUserData);
-            if (userData.username === data.username) {
-              currentUser = updatedUserData;
-            }
-          });
-          resolve(currentUser);
-        }
-      });
+            });
+            resolve(currentUser);
+          }
+        })
+        .catch((err) => {
+          reject(err);
+        });
     } catch (error) {
       reject(error.message);
     }

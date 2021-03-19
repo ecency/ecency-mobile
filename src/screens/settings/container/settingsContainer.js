@@ -415,7 +415,7 @@ class SettingsContainer extends Component {
     if (!action) {
       const oldPinCode = decryptKey(pinCode, Config.PIN_KEY, this._onDecryptFail);
 
-      if (!oldPinCode) {
+      if (oldPinCode === undefined) {
         return;
       }
 

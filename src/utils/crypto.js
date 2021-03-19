@@ -13,7 +13,7 @@ export const decryptKey = (data, key, onError) => {
 
   try {
     const response = decryptKeyNew(data, key);
-    return response !== '' ? response : legacyDecrypt();
+    return response;
   } catch (err) {
     console.warn('decryption with new method failed, trying legacy', err);
     return legacyDecrypt();
@@ -33,9 +33,6 @@ const decryptKeyLegacy = (data, key, onError) => {
   try {
     console.log('decrypting legacy ', data, key);
     const ret = CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
-    if (ret == '' && onError) {
-      onError(new Error('invalid decryption'));
-    }
     console.log('returning: ', ret);
     return ret;
   } catch (err) {

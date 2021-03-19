@@ -390,6 +390,9 @@ class PinCodeContainer extends Component {
       if (isExistUser) {
         if (!userData.accessToken && !userData.masterKey && applicationPinCode) {
           const verifiedPin = decryptKey(applicationPinCode, Config.PIN_KEY, this._onDecryptFail);
+          if (verifiedPin === undefined) {
+            return true;
+          }
           if (verifiedPin === pin) {
             await this._setFirstPinCode(pin);
           } else {
