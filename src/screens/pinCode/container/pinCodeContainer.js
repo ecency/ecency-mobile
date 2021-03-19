@@ -10,6 +10,7 @@ import { navigate } from '../../../navigation/service';
 import { setUserDataWithPinCode, verifyPinCode, updatePinCode } from '../../../providers/hive/auth';
 import {
   closePinCodeModal,
+  isPinCodeOpen,
   login,
   logoutDone,
   setPinCode as savePinCode,
@@ -21,6 +22,7 @@ import {
   removeAllUserData,
   removePinCode,
   setAuthStatus,
+  setPinCodeOpen,
 } from '../../../realm/realm';
 import { updateCurrentAccount, removeOtherAccount } from '../../../redux/actions/accountAction';
 import { getUser } from '../../../providers/hive/dhive';
@@ -49,9 +51,9 @@ class PinCodeContainer extends Component {
   componentDidMount() {
     this._getDataFromStorage().then(() => {
       const { intl } = this.props;
-      const { isOldPinVerified } = this.state;
+      const { isOldPinVerified, isExistUser } = this.state;
 
-      if (!isOldPinVerified) {
+      if (!isOldPinVerified && isExistUser) {
         this.setState({
           informationText: intl.formatMessage({
             id: 'pincode.enter_text',
@@ -270,6 +272,7 @@ class PinCodeContainer extends Component {
         }
         dispatch(logoutDone());
         dispatch(closePinCodeModal());
+        dispatch(isPinCodeOpen(false));
       })
       .catch((err) => {
         console.warn('Failed to remove user data', err);
@@ -382,13 +385,13 @@ class PinCodeContainer extends Component {
       intl,
       pinCodeParams: { isReset },
     } = this.props;
-    const { informationText, isOldPinVerified } = this.state;
+    const { informationText, isOldPinVerified, isExistUser } = this.state;
 
     return (
       <PinCodeScreen
         informationText={informationText}
         setPinCode={(pin) => this._setPinCode(pin, isReset)}
-        showForgotButton={!isOldPinVerified}
+        showForgotButton={!isOldPinVerified && isExistUser}
         username={currentAccount.name}
         intl={intl}
         handleForgotButton={() => this._handleForgotButton()}
