@@ -323,7 +323,10 @@
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
     "write_again": "Napisz ponownie",
-    "forgot_text": "Och, zapomniałem..."
+    "forgot_text": "Och, zapomniałem...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Udało się!",
@@ -357,6 +360,7 @@
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "Czy na pewno chcesz wyczyścić?",
     "clear_user_alert": "Czy na pewno chcesz usunąć wszystkie dane użytkownika?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Opróżnij",
     "cancel": "Anuluj",
     "delete": "Usuń",
