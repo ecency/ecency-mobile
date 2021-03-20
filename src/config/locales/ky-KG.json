@@ -323,7 +323,10 @@
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
     "write_again": "Write again",
-    "forgot_text": "Oh, I forgot it..."
+    "forgot_text": "Oh, I forgot it...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Success!",
@@ -357,6 +360,7 @@
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "Are you sure you want to clear?",
     "clear_user_alert": "Are you sure you want to clear all user data?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Тазалоо",
     "cancel": "Токтотуу",
     "delete": "Өчүрүү",
