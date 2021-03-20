@@ -1,8 +1,11 @@
 import CryptoJS from 'crypto-js';
 
+const STAMP = '995a06d5-ee54-407f-bb8e-e4af2ab2fe01';
+
 export const encryptKey = (data, key) => {
   console.log('encrypting: ', data, key);
-  const encJson = CryptoJS.AES.encrypt(JSON.stringify(data), key).toString();
+  const stampedData = getStampedData(data);
+  const encJson = CryptoJS.AES.encrypt(JSON.stringify(stampedData), key).toString();
   let encData = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(encJson));
   console.log('returning: ', encData);
   return encData;
@@ -24,7 +27,8 @@ const decryptKeyNew = (data, key) => {
   console.log('decrypting new: ', data, key);
   let decData = CryptoJS.enc.Base64.parse(data).toString(CryptoJS.enc.Utf8);
   let bytes = CryptoJS.AES.decrypt(decData, key).toString(CryptoJS.enc.Utf8);
-  const ret = JSON.parse(bytes);
+  const stampedData = JSON.parse(bytes);
+  const ret = processStampedData(stampedData);
   console.log('returning: ', ret);
   return ret;
 };
@@ -41,4 +45,20 @@ const decryptKeyLegacy = (data, key, onError) => {
       onError(err);
     }
   }
+};
+
+// stamping mechanism will help distinguish old legacy data and new encrypted data
+// second purpose is to avoid necrypting empty strings
+const getStampedData = (data) => {
+  return {
+    data,
+    stamp: STAMP,
+  };
+};
+
+const processStampedData = (stampedData) => {
+  if (stampedData.hasOwnProperty('stamp') && stampedData.stamp == STAMP) {
+    return stampedData.data;
+  }
+  throw new Error('Possibly un-stamped legacy data');
 };
