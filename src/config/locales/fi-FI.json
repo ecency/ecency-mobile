@@ -323,7 +323,10 @@
     "enter_text": "Poista lukitus antamalla PIN-koodi",
     "set_new": "Aseta PIN-koodi",
     "write_again": "Kirjoita uudelleen",
-    "forgot_text": "Unohdin sen..."
+    "forgot_text": "Unohdin sen...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Onnistui!",
@@ -357,6 +360,7 @@
     "remove_alert": "Haluatko varmasti poistaa?",
     "clear_alert": "Haluatko varmasti poistaa?",
     "clear_user_alert": "Haluatko varmasti tyhjentää kaikki historiatiedot?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Tyhjennä",
     "cancel": "Peruuta",
     "delete": "Poista",
