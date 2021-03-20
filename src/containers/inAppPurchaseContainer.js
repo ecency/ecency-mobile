@@ -97,6 +97,7 @@ class InAppPurchaseContainer extends Component {
           }),
         );
       } else if (get(error, 'responseCode') !== '2') {
+        console.warn('failed puchase:', error);
         Alert.alert(
           intl.formatMessage({
             id: 'alert.warning',

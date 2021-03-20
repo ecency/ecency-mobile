@@ -47,6 +47,7 @@ export const getUserDataWithUsername = async (username) => {
     }
     return [];
   } catch (error) {
+    console.warn('Failed to get user data: ', error);
     return error;
   }
 };
@@ -236,6 +237,7 @@ export const getPinCode = async () => {
     }
     return '';
   } catch (error) {
+    console.warn('Failed get auth from storage: ', error);
     return error;
   }
 };
@@ -508,6 +510,7 @@ export const getSettings = async () => {
       mentionNotification: true,
       reblogNotification: true,
       transfersNotification: true,
+      isPinCodeOpen: false,
     };
     await setItemToStorage(SETTINGS_SCHEMA, settingData);
     return settingData;
