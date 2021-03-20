@@ -323,7 +323,10 @@
     "enter_text": "Чтобы разблокировать введите пин-код",
     "set_new": "Выберите новый пинкод",
     "write_again": "Повторите пинкод",
-    "forgot_text": "Запамятовал..."
+    "forgot_text": "Запамятовал...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Успех!",
@@ -357,6 +360,7 @@
     "remove_alert": "Вы уверены, что хотите удалить?",
     "clear_alert": "Вы уверены, что хотите очистить?",
     "clear_user_alert": "Вы уверены, что хотите удалить все Ваши данные?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Очистить",
     "cancel": "Отмена",
     "delete": "Удалить",
