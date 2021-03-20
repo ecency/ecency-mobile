@@ -323,7 +323,10 @@
     "enter_text": "खोलनें के लिए पिन डालें",
     "set_new": "Set new pin",
     "write_again": "दुबारा लिखें",
-    "forgot_text": "ओह! मैं इसे भूल गया..."
+    "forgot_text": "ओह! मैं इसे भूल गया...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "सफल!",
@@ -357,6 +360,7 @@
     "remove_alert": "क्या आप इसे सच में हटाना चाहते हैं?",
     "clear_alert": "क्या आप सचमुच में मिटाना चाहते हैं?",
     "clear_user_alert": "क्या आप वाकई सभी उपयोगकर्ता डेटा को साफ़ करना चाहते हैं?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "मिटायें",
     "cancel": "रद्द करें",
     "delete": "मिटा दें",
