@@ -323,7 +323,10 @@
     "enter_text": "Sekcem tangalt PIN i tildin",
     "set_new": "PIN amaynut",
     "write_again": "Aru-tt i tikelt-nniḍen",
-    "forgot_text": "Uh, ttuɣ-tt..."
+    "forgot_text": "Uh, ttuɣ-tt...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Success!",
@@ -357,6 +360,7 @@
     "remove_alert": "Tebɣiḍ s tidet tukksa?",
     "clear_alert": "Tebɣiḍ s tidet ad t-tsefḍeḍ?",
     "clear_user_alert": "Tebɣiḍ s tidet ad tsefḍeḍ akk isefka n umseqdac?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Sfeḍ",
     "cancel": "Sefsex",
     "delete": "Kkes",
