@@ -323,7 +323,10 @@
     "enter_text": "잠금을 해제하려면 PIN 코드를 입력해주세요",
     "set_new": "새로운 PIN 코드 설정하기",
     "write_again": "다시 한 번 입력해주세요",
-    "forgot_text": "PIN 코드가 기억나지 않습니다..."
+    "forgot_text": "PIN 코드가 기억나지 않습니다...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "성공!",
@@ -357,6 +360,7 @@
     "remove_alert": "정말 삭제하시겠습니까?",
     "clear_alert": "정말 삭제하시겠습니까?",
     "clear_user_alert": "정말 모든 사용자 데이터를 삭제하시겠습니까?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "삭제",
     "cancel": "취소",
     "delete": "삭제",
