@@ -208,13 +208,16 @@ export const setUserDataWithPinCode = async (data) => {
   }
 };
 
-export const updatePinCode = (data, onError) =>
+export const updatePinCode = (data) =>
   new Promise((resolve, reject) => {
     let currentUser = null;
     try {
       setPinCode(get(data, 'pinCode'));
       getUserData()
         .then(async (users) => {
+          const _onDecryptError = () => {
+            throw new Error('Decryption failed');
+          };
           if (users && users.length > 0) {
             users.forEach((userData) => {
               if (
@@ -229,9 +232,13 @@ export const updatePinCode = (data, onError) =>
                   get(userData, 'memoKey') ||
                   get(userData, 'postingKey');
 
-                const password = decryptKey(publicKey, get(data, 'oldPinCode', ''), onError);
+                const password = decryptKey(
+                  publicKey,
+                  get(data, 'oldPinCode', ''),
+                  _onDecryptError,
+                );
                 if (password === undefined) {
-                  throw new Error('Failed to get password from decryption');
+                  return;
                 }
 
                 data.password = password;
@@ -239,10 +246,10 @@ export const updatePinCode = (data, onError) =>
                 const accessToken = decryptKey(
                   get(userData, 'accessToken'),
                   get(data, 'oldPinCode', ''),
-                  onError,
+                  _onDecryptError,
                 );
                 if (accessToken === undefined) {
-                  throw new Error('failed to decrupt access token');
+                  return;
                 }
                 data.accessToken = accessToken;
               }

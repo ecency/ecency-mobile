@@ -87,7 +87,7 @@ class PinCodeContainer extends Component {
   _updatePinCodeRealm = async (pinData) => {
     try {
       const { currentAccount, dispatch } = this.props;
-      const response = await updatePinCode(pinData, this._onDecryptFail);
+      const response = await updatePinCode(pinData);
       if (!response) {
         return false;
       }
@@ -96,6 +96,7 @@ class PinCodeContainer extends Component {
       dispatch(updateCurrentAccount({ ..._currentAccount }));
       return true;
     } catch (err) {
+      this._onDecryptFail();
       return false;
     }
   };

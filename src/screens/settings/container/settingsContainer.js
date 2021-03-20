@@ -424,22 +424,27 @@ class SettingsContainer extends Component {
         username,
         oldPinCode,
       };
-      updatePinCode(pinData).then((response) => {
-        const _currentAccount = currentAccount;
-        _currentAccount.local = response;
+      updatePinCode(pinData)
+        .then((response) => {
+          const _currentAccount = currentAccount;
+          _currentAccount.local = response;
 
-        dispatch(
-          updateCurrentAccount({
-            ..._currentAccount,
-          }),
-        );
+          dispatch(
+            updateCurrentAccount({
+              ..._currentAccount,
+            }),
+          );
 
-        const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
-        dispatch(savePinCode(encryptedPin));
+          const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
+          dispatch(savePinCode(encryptedPin));
 
-        setPinCodeOpen(action);
-        dispatch(isPinCodeOpen(action));
-      });
+          setPinCodeOpen(action);
+          dispatch(isPinCodeOpen(action));
+        })
+        .catch((err) => {
+          console.warn('pin update failure: ', err);
+          this._onDecryptFail();
+        });
     } else {
       setPinCodeOpen(action);
       dispatch(isPinCodeOpen(action));
