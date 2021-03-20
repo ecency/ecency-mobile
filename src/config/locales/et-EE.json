@@ -323,7 +323,10 @@
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
     "write_again": "Sisesta uuesti",
-    "forgot_text": "Ups, ma unustasin..."
+    "forgot_text": "Ups, ma unustasin...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Edukas!",
@@ -357,6 +360,7 @@
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "Kas soovid tõesti selle tühjendada?",
     "clear_user_alert": "Oled kindel, et soovid puhastada kõik kasutajaandmed?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Tühjenda",
     "cancel": "Tühista",
     "delete": "Kustuta",
