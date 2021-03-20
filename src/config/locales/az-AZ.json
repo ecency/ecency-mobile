@@ -323,7 +323,10 @@
     "enter_text": "Kilidi açmaq üçün PIN-i daxil et",
     "set_new": "Yeni PIN tənzimlə",
     "write_again": "Təkrar yaz",
-    "forgot_text": "Unutmuşam..."
+    "forgot_text": "Unutmuşam...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Uğurlu!",
@@ -357,6 +360,7 @@
     "remove_alert": "Çıxarmaq istədiyinizə əminsiniz?",
     "clear_alert": "Təmizləmək istədiyinizə əminsiniz?",
     "clear_user_alert": "Bütün istifadəçi verilənlərini təmizləmək istədiyinizə əminsiniz?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Təmizlə",
     "cancel": "İmtina",
     "delete": "Sil",
