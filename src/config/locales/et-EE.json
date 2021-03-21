@@ -324,8 +324,8 @@
     "set_new": "Set new pin",
     "write_again": "Sisesta uuesti",
     "forgot_text": "Ups, ma unustasin...",
-    "pin_not_matched": "PIN do not match, Please try again.",
-    "attempts_postfix": "failed attempt(s)",
+    "pin_not_matched": "Vale PIN, palun proovi uuesti.",
+    "attempts_postfix": "ebaõnnestunud katse(d)",
     "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
