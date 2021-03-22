@@ -9,6 +9,7 @@ import FastImage from 'react-native-fast-image';
 import parseAsset from './parseAsset';
 import { getReputation } from './reputation';
 import { getResizedAvatar, getResizedImage } from './image';
+import generateUuid from './generateUuid';
 
 const webp = Platform.OS === 'ios' ? false : true;
 
@@ -24,6 +25,9 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
   if (!post) {
     return null;
   }
+
+  post.local_id = generateUuid({ short: true });
+
   if (currentUserName === post.author) {
     post.markdownBody = post.body;
   }

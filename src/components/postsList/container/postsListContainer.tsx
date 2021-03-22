@@ -17,6 +17,8 @@ const postsListContainer = ({
 }:postsListContainerProps, ref) => {
     const flatListRef = useRef(null);
 
+    const [imageHeights, setImageHeights] = useState(new Map<number, number>());
+
     const isHideImages = useSelector((state) => state.ui.hidePostsThumbnails);
     const posts = useSelector((state) => {
         return isFeedScreen
@@ -56,29 +58,50 @@ const postsListContainer = ({
       
     }, [scrollPosition])
 
+
+    const _setImageHeightInMap = (postId:number, height:number) => {
+      if(postId && height){
+        setImageHeights(imageHeights.set(postId, height));
+      }
+    }
+
     const _renderItem = ({ item, index }:{item:any, index:number}) => {
         const e = [];
+    
         if (index % 3 === 0) {
           const ix = index / 3 - 1;
           if (promotedPosts[ix] !== undefined) {
             const p = promotedPosts[ix];
             if (get(p, 'author', null) && posts.filter((x) => x.permlink === p.permlink).length <= 0) {
+              
+              //get image height from cache if available
+              const localId =  p.local_id;
+              const imgHeight = imageHeights.get(localId)
+
               e.push(
                 <PostCard
                   key={`${p.author}-${p.permlink}-prom`}
                   content={p}
                   isHideImage={isHideImages}
+                  imageHeight={imgHeight}
+                  setImageHeight = {_setImageHeightInMap}
                 />,
               );
             }
           }
         }
         if (get(item, 'author', null)) {
+          //get image height from cache if available
+          const localId = item.local_id 
+          const imgHeight = imageHeights.get(localId)
+
           e.push(
             <PostCard
               key={`${item.author}-${item.permlink}`}
               content={item}
               isHideImage={isHideImages}
+              imageHeight={imgHeight}
+              setImageHeight = {_setImageHeightInMap}
             />,
           );
         }
@@ -100,6 +123,7 @@ const postsListContainer = ({
             maxToRenderPerBatch={3}
             initialNumToRender={3}
             windowSize={5}
+            extraData={imageHeights}
             {...props}
         />
     )
