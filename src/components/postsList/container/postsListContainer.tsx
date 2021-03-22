@@ -17,7 +17,7 @@ const postsListContainer = ({
 }:postsListContainerProps, ref) => {
     const flatListRef = useRef(null);
 
-    const [imageHeights, setImageHeights] = useState(new Map<number, number>());
+    const [imageHeights, setImageHeights] = useState(new Map<string, number>());
 
     const isHideImages = useSelector((state) => state.ui.hidePostsThumbnails);
     const posts = useSelector((state) => {
@@ -59,9 +59,9 @@ const postsListContainer = ({
     }, [scrollPosition])
 
 
-    const _setImageHeightInMap = (postId:number, height:number) => {
-      if(postId && height){
-        setImageHeights(imageHeights.set(postId, height));
+    const _setImageHeightInMap = (mapKey:string, height:number) => {
+      if(mapKey && height){
+        setImageHeights(imageHeights.set(mapKey, height));
       }
     }
 
