@@ -1,16 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
-import {
-  View,
-  Image,
-  Text,
-  TouchableOpacity,
-  Dimensions,
-  ActivityIndicator,
-  Linking,
-} from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions, ActivityIndicator, Linking } from 'react-native';
 import get from 'lodash/get';
 
 // Constants
+import FastImage from 'react-native-fast-image';
 import LIGHT_COVER_IMAGE from '../../../assets/default_cover_image.png';
 import DARK_COVER_IMAGE from '../../../assets/dark_cover_image.png';
 
@@ -134,9 +127,10 @@ class ProfileSummaryView extends PureComponent {
             ) : null,
           )}
         </View>
-        <Image
+        <FastImage
           style={styles.longImage}
           source={coverImageUrl}
+          resizeMode="cover"
           defaultSource={isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE}
         />
         <TouchableOpacity

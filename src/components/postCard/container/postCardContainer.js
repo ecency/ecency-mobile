@@ -27,6 +27,8 @@ const PostCardContainer = ({
   content,
   isHideImage,
   nsfw,
+  imageHeight,
+  setImageHeight,
 }) => {
   const [_content, setContent] = useState(content);
   const [reblogs, setReblogs] = useState([]);
@@ -139,6 +141,8 @@ const PostCardContainer = ({
       isNsfwPost={nsfw || '1'}
       reblogs={reblogs}
       activeVotes={activeVotes}
+      imageHeight={imageHeight}
+      setImageHeight={setImageHeight}
     />
   );
 };
