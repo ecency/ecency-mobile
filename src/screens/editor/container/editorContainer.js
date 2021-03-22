@@ -101,6 +101,7 @@ class EditorContainer extends Component {
     ImagePicker.openPicker({
       includeBase64: true,
       multiple: true,
+      smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Videos', 'Bursts'],
     })
       .then((images) => {
         this._handleMediaOnSelected(images);
