@@ -334,6 +334,7 @@ const PostsView = ({
 
                     {newPostsPopupPictures.map((url, index) => (
                       <FastImage
+                        key={`image_bubble_${url}`}
                         source={{ uri: url }}
                         style={[styles.popupImage, { zIndex: 10 - index }]}
                       />
