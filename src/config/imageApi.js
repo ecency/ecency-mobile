@@ -9,6 +9,17 @@ function upload(fd, username, signature) {
       'Content-Type': 'multipart/form-data',
     },
   });
+
+  image.interceptors.request.use((request) => {
+    console.log('Starting image Request', request);
+    return request;
+  });
+
+  image.interceptors.response.use((response) => {
+    console.log('Response:', response);
+    return response;
+  });
+
   return image.post('', fd);
 }
 

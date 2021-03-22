@@ -9,4 +9,14 @@ const image = axios.create({
   },
 });
 
+image.interceptors.request.use((request) => {
+  console.log('Starting server list Request', request);
+  return request;
+});
+
+image.interceptors.response.use((response) => {
+  console.log('Response:', response);
+  return response;
+});
+
 export default image;
