@@ -75,7 +75,7 @@ const postsListContainer = ({
             if (get(p, 'author', null) && posts.filter((x) => x.permlink === p.permlink).length <= 0) {
               
               //get image height from cache if available
-              const localId =  p.local_id;
+              const localId =  p.author + p.permlink;
               const imgHeight = imageHeights.get(localId)
 
               e.push(
@@ -92,7 +92,7 @@ const postsListContainer = ({
         }
         if (get(item, 'author', null)) {
           //get image height from cache if available
-          const localId = item.local_id 
+          const localId = item.author + item.permlink;
           const imgHeight = imageHeights.get(localId)
 
           e.push(

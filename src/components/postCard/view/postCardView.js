@@ -121,7 +121,7 @@ const PostCardView = ({
                   const height =
                     (evt.nativeEvent.height / evt.nativeEvent.width) * (dim.width - 18);
                   setCalcImgHeight(height);
-                  setImageHeight(content.local_id, height);
+                  setImageHeight(content.author + content.permlink, height);
                 }
               }}
             />
