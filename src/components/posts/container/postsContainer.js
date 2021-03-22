@@ -500,11 +500,7 @@ const PostsContainer = ({
   };
 
   const _matchFreshPosts = async (posts, reducerFilter) => {
-    let cachedPosts = cache.cachedData[reducerFilter].posts;
-
-    if (cachedPosts.length > 5) {
-      cachedPosts = cachedPosts.slice(0, 5);
-    }
+    let cachedPosts = cache.cachedData[reducerFilter].posts.slice(0, 5);
 
     let newPosts = [];
     posts.forEach((post, index) => {
@@ -522,9 +518,8 @@ const PostsContainer = ({
         : cache.currentFilter === reducerFilter;
 
     if (newPosts.length > 0 && isRightFilter) {
-      if (newPosts.length > 5) {
-        newPosts = newPosts.slice(0, 5);
-      }
+      newPosts = newPosts.slice(0, 5);
+
       setNewPostsPopupPictures(newPosts.map((post) => get(post, 'avatar', '')));
     } else {
       _scheduleLatestPostsCheck(posts[0]);
@@ -564,7 +559,7 @@ const PostsContainer = ({
 
     const subfilter = selectedFeedSubfilterValue;
     let options = {};
-    const limit = 5;
+    const limit = isLatestPostCheck ? 5 : 20;
     let func = null;
 
     if (

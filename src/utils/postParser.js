@@ -24,6 +24,7 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
   if (!post) {
     return null;
   }
+
   if (currentUserName === post.author) {
     post.markdownBody = post.body;
   }

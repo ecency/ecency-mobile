@@ -37,9 +37,11 @@ const PostCardView = ({
   isNsfwPost,
   intl,
   activeVotes,
+  imageHeight,
+  setImageHeight,
 }) => {
   const [activeVotesCount, setActiveVotesCount] = useState(activeVotes.length || 0);
-  const [calcImgHeight, setCalcImgHeight] = useState(300);
+  const [calcImgHeight, setCalcImgHeight] = useState(imageHeight || 300);
 
   // Component Functions
 
@@ -98,7 +100,11 @@ const PostCardView = ({
         </View>
       </View>
       <View style={styles.postBodyWrapper}>
-        <TouchableOpacity style={styles.hiddenImages} onPress={_handleOnContentPress}>
+        <TouchableOpacity
+          activeOpacity={1}
+          style={styles.hiddenImages}
+          onPress={_handleOnContentPress}
+        >
           {!isHideImage && (
             <FastImage
               source={{ uri: images.image }}
@@ -115,9 +121,12 @@ const PostCardView = ({
                   : FastImage.resizeMode.cover
               }
               onLoad={(evt) => {
-                setCalcImgHeight(
-                  (evt.nativeEvent.height / evt.nativeEvent.width) * (dim.width - 18),
-                );
+                if (!imageHeight) {
+                  const height =
+                    (evt.nativeEvent.height / evt.nativeEvent.width) * (dim.width - 18);
+                  setCalcImgHeight(height);
+                  setImageHeight(content.author + content.permlink, height);
+                }
               }}
             />
           )}
