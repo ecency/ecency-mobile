@@ -109,7 +109,7 @@ const PostsContainer = ({
   };
 
   const _scheduleLatestPostsCheck = (firstPost) => {
-    const refetchTime = __DEV__ ? 5000 : 600000;
+    const refetchTime = __DEV__ ? 50000 : 600000;
     if (_postFetchTimer) {
       clearTimeout(_postFetchTimer);
     }
@@ -168,14 +168,14 @@ const PostsContainer = ({
   };
 
   const cacheReducer = (state, action) => {
-    console.log('reducer action:', state, action);
+    console.log('reducer action:', action);
 
     switch (action.type) {
       case 'is-filter-loading': {
         const filter = action.payload.filter;
         const loading = action.payload.isLoading;
         state.cachedData[filter].isLoading = loading;
-        console.log('New state:', state);
+
         return state;
       }
 
@@ -215,7 +215,6 @@ const PostsContainer = ({
         cachedEntry.posts = _posts;
 
         state.cachedData[filter] = cachedEntry;
-        console.log('New state:', state);
 
         //dispatch to redux
         if (
@@ -237,7 +236,6 @@ const PostsContainer = ({
         cachedEntry.posts = [];
 
         state.cachedData[filter] = cachedEntry;
-        console.log('New state:', state);
 
         //dispatch to redux
         _setFeedPosts([]);
@@ -248,7 +246,6 @@ const PostsContainer = ({
       case 'change-filter': {
         const filter = action.payload.currentFilter;
         state.currentFilter = filter;
-        console.log('New state:', state);
 
         const data = state.cachedData[filter !== 'feed' ? filter : state.currentSubFilter];
         _setFeedPosts(data.posts, data.scrollPosition);
@@ -264,7 +261,7 @@ const PostsContainer = ({
       case 'change-sub-filter': {
         const filter = action.payload.currentSubFilter;
         state.currentSubFilter = filter;
-        console.log('New state:', state);
+
         //dispatch to redux;
         const data = state.cachedData[filter];
         _setFeedPosts(data.posts, data.scrollPosition);
@@ -503,9 +500,13 @@ const PostsContainer = ({
   };
 
   const _matchFreshPosts = async (posts, reducerFilter) => {
-    const cachedPosts = cache.cachedData[reducerFilter].posts.slice(0, 5);
+    let cachedPosts = cache.cachedData[reducerFilter].posts;
 
-    const newPosts = [];
+    if (cachedPosts.length > 5) {
+      cachedPosts = cachedPosts.slice(0, 5);
+    }
+
+    let newPosts = [];
     posts.forEach((post, index) => {
       const newPostId = get(post, 'post_id');
       const postExist = cachedPosts.find((cPost) => get(cPost, 'post_id', 0) === newPostId);
@@ -521,7 +522,10 @@ const PostsContainer = ({
         : cache.currentFilter === reducerFilter;
 
     if (newPosts.length > 0 && isRightFilter) {
-      setNewPostsPopupPictures(newPosts.slice(0, 5).map((post) => get(post, 'avatar', '')));
+      if (newPosts.length > 5) {
+        newPosts = newPosts.slice(0, 5);
+      }
+      setNewPostsPopupPictures(newPosts.map((post) => get(post, 'avatar', '')));
     } else {
       _scheduleLatestPostsCheck(posts[0]);
     }

@@ -1583,24 +1583,24 @@ anymatch@^2.0.0:
     micromatch "^3.1.4"
     normalize-path "^2.1.1"
 
-appcenter-analytics@^3.1.0:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/appcenter-analytics/-/appcenter-analytics-3.1.3.tgz#f7a63b1be7f212c0b70d0964c162efb365de7b85"
-  integrity sha512-bnddHcV3qrkFRREfuNyZ0lYswqS5tS6TOrgSvDscGddeM2e9Piii5DVB7oDpkbnExwQT3G4oE4iGRmgPwBtLPA==
+appcenter-analytics@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/appcenter-analytics/-/appcenter-analytics-3.1.0.tgz#ec51c79f43c58a6e6d6d5ce4c8bdb0ada3bda539"
+  integrity sha512-zGJRBe39IigyT127/alNzNeOpDYSyRo8RX2RYq2AtL01LnCreOy/fpzoF4yOVPMedFMiinEN+OOqR9e7WydAwg==
   dependencies:
-    appcenter "3.1.3"
+    appcenter "3.1.0"
 
-appcenter-crashes@^3.1.0:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/appcenter-crashes/-/appcenter-crashes-3.1.3.tgz#a02b433c916753bdd9aee55c417b77abbfd581eb"
-  integrity sha512-j2DV8npELuG99m0xzqRLhrZACSsO1bxxsVrw3M65iBVCMn6VvdJ9raZA8pedhYEbbhCwI2zQwG3G0gQ/DCHX/A==
+appcenter-crashes@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/appcenter-crashes/-/appcenter-crashes-3.1.0.tgz#6b0fb592bc5e69cbd83106b47f55c97bc33a3fa3"
+  integrity sha512-2dwy7aqhSKifWg5yZVPuZdNRiHMO/XTsaQSHvvHNDA47BJ2y/cwCsK516KNgoYvp97B3Pr3Xyim7ee/n/xxO4g==
   dependencies:
-    appcenter "3.1.3"
+    appcenter "3.1.0"
 
-appcenter-link-scripts@3.1.3:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/appcenter-link-scripts/-/appcenter-link-scripts-3.1.3.tgz#d5d0337a17d384facdd21459f88bc470fb412e6d"
-  integrity sha512-33wlfRYs6FBjCsCjC6oFfTOWeoDU3X6bHVaEPAfjR985s+Du+cviGO7qlp8Jsl4JI4ZUm6TWj50+7a8Kz/A5qQ==
+appcenter-link-scripts@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/appcenter-link-scripts/-/appcenter-link-scripts-3.1.0.tgz#5cc9d0303f9f16b7170d56a403fa3e69379cfd36"
+  integrity sha512-0ECoQLjfIJhAO8EkvRQ4fO5gZELhzwD3eRhsCD4d27k7TDPXYt32/p5ylHXUWotR7pduTE1rZ8gtETTr4oZf9g==
   dependencies:
     debug "4.1.1"
     glob "5.0.15"
@@ -1610,12 +1610,12 @@ appcenter-link-scripts@3.1.3:
     which "1.2.11"
     xcode "2.0.0"
 
-appcenter@3.1.3, appcenter@^3.1.0:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/appcenter/-/appcenter-3.1.3.tgz#0662852556e0d8cd748dd66abef453a666cbcb4d"
-  integrity sha512-2WPdoiJ/u0e1an7y9KVVqtEHSFIjlsQJ+EwtWeIXGltdx1LUvdlpSJUuy4EPVKV3jGoxIRUtt9DCAi6ZQG7qPw==
+appcenter@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/appcenter/-/appcenter-3.1.0.tgz#55fb01bfedc92e732e52ab97c8b344e062ba61a7"
+  integrity sha512-SvEdrqeEqK5BJizdrRmWdp/NFwwb3FJ08U5LQkRdqPoFWXQZ7d+AC2cVnemORXsiYPcpwK9xqiNxyofzEzddFA==
   dependencies:
-    appcenter-link-scripts "3.1.3"
+    appcenter-link-scripts "3.1.0"
 
 aproba@^1.0.3:
   version "1.2.0"

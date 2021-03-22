@@ -47,6 +47,7 @@ export const getUserDataWithUsername = async (username) => {
     }
     return [];
   } catch (error) {
+    console.warn('Failed to get user data: ', error);
     return error;
   }
 };
@@ -236,6 +237,7 @@ export const getPinCode = async () => {
     }
     return '';
   } catch (error) {
+    console.warn('Failed get auth from storage: ', error);
     return error;
   }
 };
@@ -501,13 +503,14 @@ export const getSettings = async () => {
       notification: true,
       server: '',
       upvotePercent: '1',
-      nsfw: '0',
+      nsfw: '1',
       followNotification: true,
       voteNotification: true,
       commentNotification: true,
       mentionNotification: true,
       reblogNotification: true,
       transfersNotification: true,
+      isPinCodeOpen: false,
     };
     await setItemToStorage(SETTINGS_SCHEMA, settingData);
     return settingData;
@@ -668,8 +671,8 @@ export const getStorageType = async () => {
 export const getVersionForWelcomeModal = async () => {
   try {
     const application = await getItemFromStorage(APPLICATION_SCHEMA);
-    if (application.versionForWelcomeModal) {
-      return parseFloat(application.versionForWelcomeModal);
+    if (application && application.versionForWelcomeModal) {
+      return parseFloat(application.versionForWelcomeModal) || 0;
     }
     return 0;
   } catch (error) {

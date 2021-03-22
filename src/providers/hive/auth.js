@@ -203,6 +203,7 @@ export const setUserDataWithPinCode = async (data) => {
 
     return updatedUserData;
   } catch (error) {
+    console.warn('Failed to set user data with pin: ', data, error);
     return Promise.reject(new Error('auth.unknow_error'));
   }
 };
@@ -212,72 +213,98 @@ export const updatePinCode = (data) =>
     let currentUser = null;
     try {
       setPinCode(get(data, 'pinCode'));
-      getUserData().then(async (users) => {
-        if (users && users.length > 0) {
-          await users.forEach((userData) => {
-            if (
-              get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
-              get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY ||
-              get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY ||
-              get(userData, 'authType', '') === AUTH_TYPE.POSTING_KEY
-            ) {
-              const publicKey =
-                get(userData, 'masterKey') ||
-                get(userData, 'activeKey') ||
-                get(userData, 'memoKey') ||
-                get(userData, 'postingKey');
+      getUserData()
+        .then(async (users) => {
+          const _onDecryptError = () => {
+            throw new Error('Decryption failed');
+          };
+          if (users && users.length > 0) {
+            users.forEach((userData) => {
+              if (
+                get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY ||
+                get(userData, 'authType', '') === AUTH_TYPE.ACTIVE_KEY ||
+                get(userData, 'authType', '') === AUTH_TYPE.MEMO_KEY ||
+                get(userData, 'authType', '') === AUTH_TYPE.POSTING_KEY
+              ) {
+                const publicKey =
+                  get(userData, 'masterKey') ||
+                  get(userData, 'activeKey') ||
+                  get(userData, 'memoKey') ||
+                  get(userData, 'postingKey');
 
-              data.password = decryptKey(publicKey, get(data, 'oldPinCode', ''));
-            } else if (get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
-              data.accessToken = decryptKey(
-                get(userData, 'accessToken'),
-                get(data, 'oldPinCode', ''),
-              );
-            }
-            const updatedUserData = getUpdatedUserData(userData, data);
-            updateUserData(updatedUserData);
-            if (userData.username === data.username) {
-              currentUser = updatedUserData;
-            }
-          });
-          resolve(currentUser);
-        }
-      });
+                const password = decryptKey(
+                  publicKey,
+                  get(data, 'oldPinCode', ''),
+                  _onDecryptError,
+                );
+                if (password === undefined) {
+                  return;
+                }
+
+                data.password = password;
+              } else if (get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
+                const accessToken = decryptKey(
+                  get(userData, 'accessToken'),
+                  get(data, 'oldPinCode', ''),
+                  _onDecryptError,
+                );
+                if (accessToken === undefined) {
+                  return;
+                }
+                data.accessToken = accessToken;
+              }
+              const updatedUserData = getUpdatedUserData(userData, data);
+              updateUserData(updatedUserData);
+              if (userData.username === data.username) {
+                currentUser = updatedUserData;
+              }
+            });
+            resolve(currentUser);
+          }
+        })
+        .catch((err) => {
+          reject(err);
+        });
     } catch (error) {
       reject(error.message);
     }
   });
 
 export const verifyPinCode = async (data) => {
-  const pinHash = await getPinCode();
+  try {
+    const pinHash = await getPinCode();
 
-  const result = await getUserDataWithUsername(data.username);
-  const userData = result[0];
+    const result = await getUserDataWithUsername(data.username);
+    const userData = result[0];
 
-  // This is migration for new pin structure, it will remove v2.2
-  if (!pinHash) {
-    try {
-      if (get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
-        decryptKey(get(userData, 'accessToken'), get(data, 'pinCode'));
-      } else {
-        decryptKey(userData.masterKey, get(data, 'pinCode'));
+    // This is migration for new pin structure, it will remove v2.2
+    if (!pinHash) {
+      try {
+        if (get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
+          decryptKey(get(userData, 'accessToken'), get(data, 'pinCode'));
+        } else {
+          decryptKey(userData.masterKey, get(data, 'pinCode'));
+        }
+        await setPinCode(get(data, 'pinCode'));
+      } catch (error) {
+        return Promise.reject(new Error('Invalid pin code, please check and try again'));
       }
-      await setPinCode(get(data, 'pinCode'));
-    } catch (error) {
-      return Promise.reject(new Error('Invalid pin code, please check and try again'));
     }
-  }
 
-  if (sha256(get(data, 'pinCode')).toString() !== pinHash) {
-    return Promise.reject(new Error('auth.invalid_pin'));
-  }
-
-  if (result.length > 0) {
-    if (get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
-      await refreshSCToken(userData, get(data, 'pinCode'));
+    if (sha256(get(data, 'pinCode')).toString() !== pinHash) {
+      return Promise.reject(new Error('auth.invalid_pin'));
     }
+
+    if (result.length > 0) {
+      if (get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
+        await refreshSCToken(userData, get(data, 'pinCode'));
+      }
+    }
+    return true;
+  } catch (err) {
+    console.warn('Failed to verify pin in auth: ', data, err);
+    return Promise.reject(err);
   }
-  return true;
 };
 
 export const refreshSCToken = async (userData, pinCode) => {

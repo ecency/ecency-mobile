@@ -57,7 +57,7 @@ const initialState = {
     voteNotification: true,
   },
   upvotePercent: 1,
-  nsfw: 'Always show',
+  nsfw: '1',
   pin: null,
   isPinCodeOpen: true,
   isRenderRequired: false,

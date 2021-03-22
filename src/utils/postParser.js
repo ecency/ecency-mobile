@@ -61,6 +61,11 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
   //stamp posts with fetched time;
   post.post_fetched_at = new Date().getTime();
 
+  //discard post body if list
+  if (isList) {
+    post.body = '';
+  }
+
   //cache image
   if (post.image) {
     FastImage.preload([{ uri: post.image }]);
