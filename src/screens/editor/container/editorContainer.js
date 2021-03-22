@@ -101,7 +101,7 @@ class EditorContainer extends Component {
     ImagePicker.openPicker({
       includeBase64: true,
       multiple: true,
-      mediaType: 'image',
+      mediaType: 'photo',
       smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
     })
       .then((images) => {
@@ -115,6 +115,7 @@ class EditorContainer extends Component {
   _handleOpenCamera = () => {
     ImagePicker.openCamera({
       includeBase64: true,
+      mediaType: 'photo',
     })
       .then((image) => {
         this._handleMediaOnSelected(image);

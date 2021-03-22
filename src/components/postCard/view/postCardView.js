@@ -100,7 +100,11 @@ const PostCardView = ({
         </View>
       </View>
       <View style={styles.postBodyWrapper}>
-        <TouchableOpacity style={styles.hiddenImages} onPress={_handleOnContentPress}>
+        <TouchableOpacity
+          activeOpacity={1}
+          style={styles.hiddenImages}
+          onPress={_handleOnContentPress}
+        >
           {!isHideImage && (
             <FastImage
               source={{ uri: images.image }}
