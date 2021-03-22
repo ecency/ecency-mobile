@@ -8,7 +8,6 @@ import { PrivateKey } from '@esteemapp/dhive';
 import hivesigner from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
-import FastImage from 'react-native-fast-image';
 import { getServer, getCache, setCache } from '../../realm/realm';
 import { getUnreadActivityCount } from '../ecency/ecency';
 import { userActivity } from '../ecency/ePoint';
@@ -459,6 +458,7 @@ export const getActiveVotes = (author, permlink) =>
 export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
   try {
     console.log('Getting ranked posts:', query);
+
     let posts = await client.call('bridge', 'get_ranked_posts', query);
 
     if (posts) {

@@ -10,4 +10,14 @@ const search = axios.create({
   // timeout: 500,
 });
 
+search.interceptors.request.use((request) => {
+  console.log('Starting search Request', request);
+  return request;
+});
+
+search.interceptors.response.use((response) => {
+  console.log('Response:', response);
+  return response;
+});
+
 export default search;
