@@ -12,15 +12,17 @@ import { getResizedAvatar, getResizedImage } from './image';
 
 const webp = Platform.OS === 'ios' ? false : true;
 
-export const parsePosts = (posts, currentUserName) => {
+export const parsePosts = (posts, currentUserName, areComments) => {
   if (posts) {
-    const formattedPosts = posts.map((post) => parsePost(post, currentUserName, false, true));
+    const formattedPosts = posts.map((post) =>
+      parsePost(post, currentUserName, false, true, areComments),
+    );
     return formattedPosts;
   }
   return null;
 };
 
-export const parsePost = (post, currentUserName, isPromoted, isList = false) => {
+export const parsePost = (post, currentUserName, isPromoted, isList = false, isComment = false) => {
   if (!post) {
     return null;
   }
@@ -63,7 +65,7 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
   post.post_fetched_at = new Date().getTime();
 
   //discard post body if list
-  if (isList) {
+  if (isList && !isComment) {
     post.body = '';
   }
 
