@@ -52,7 +52,7 @@ const postsListContainer = ({
     useEffect(() => {
       console.log("Scroll Position: ", scrollPosition)
       flatListRef.current?.scrollToOffset({
-        offset: posts.length == 0?0:scrollPosition, 
+        offset: (posts && posts.length == 0) ? 0 : scrollPosition, 
         animated: false 
       });
       
@@ -72,7 +72,7 @@ const postsListContainer = ({
           const ix = index / 3 - 1;
           if (promotedPosts[ix] !== undefined) {
             const p = promotedPosts[ix];
-            if (get(p, 'author', null) && posts.filter((x) => x.permlink === p.permlink).length <= 0) {
+            if (get(p, 'author', null) && posts && posts.filter((x) => x.permlink === p.permlink).length <= 0) {
               
               //get image height from cache if available
               const localId =  p.author + p.permlink;
