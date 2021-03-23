@@ -323,7 +323,10 @@
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
     "write_again": "আবার লেখা",
-    "forgot_text": "ওহ, আমি এটি ভুলে গিয়েছিলাম ..."
+    "forgot_text": "ওহ, আমি এটি ভুলে গিয়েছিলাম ...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "সফল!",
@@ -357,6 +360,7 @@
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "আপনি কি পরিষ্কার করতে চান?",
     "clear_user_alert": "আপনি কি নিশ্চিত যে আপনি সমস্ত ব্যবহারকারীর ডেটা সাফ করতে চান?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "পরিষ্কার",
     "cancel": "বাতিল করুন",
     "delete": "মুছে ফেলুন",

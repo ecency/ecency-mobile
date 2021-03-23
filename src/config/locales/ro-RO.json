@@ -323,7 +323,10 @@
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
     "write_again": "Scrie din nou",
-    "forgot_text": "Oh, am uitat..."
+    "forgot_text": "Oh, am uitat...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Succes!",
@@ -357,6 +360,7 @@
     "remove_alert": "Esti sigur că vrei să ștergi?",
     "clear_alert": "Ești sigur că vrei să ștergi?",
     "clear_user_alert": "Esti sigur că vrei să ștergi toate datele?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Șterge",
     "cancel": "Anulează",
     "delete": "Șterge",

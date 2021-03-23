@@ -323,7 +323,10 @@
     "enter_text": "Masukkan PIN untuk membuka kunci",
     "set_new": "Atur pin baru",
     "write_again": "Menulis lagi",
-    "forgot_text": "Oh, saya lupa..."
+    "forgot_text": "Oh, saya lupa...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Sukses!",
@@ -357,6 +360,7 @@
     "remove_alert": "Yakin ingin menghapus?",
     "clear_alert": "Anda yakin ingin menghapus?",
     "clear_user_alert": "Anda yakin anda ingin menghapus semua data pengguna?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Bersihkan",
     "cancel": "Batal",
     "delete": "Hapus",

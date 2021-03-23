@@ -323,7 +323,10 @@
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
     "write_again": "Menulis semula",
-    "forgot_text": "Aduh! Terlupa lah..."
+    "forgot_text": "Aduh! Terlupa lah...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Berjaya!",
@@ -357,6 +360,7 @@
     "remove_alert": "Adakah anda pasti ingin memadam?",
     "clear_alert": "Pasti kamu ingin padamkan semua?",
     "clear_user_alert": "Adakah anda pasti memadamkan semua data pengguna?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Padamkan",
     "cancel": "Batal",
     "delete": "Padam",

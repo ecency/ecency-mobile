@@ -323,7 +323,10 @@
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
     "write_again": "دوباره بنویسید",
-    "forgot_text": "آه، فراموشش کردم..."
+    "forgot_text": "آه، فراموشش کردم...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "با موفقیت!",
@@ -357,6 +360,7 @@
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "آیا مطمئن هستید که می‌خواهید پاک کنید؟",
     "clear_user_alert": "آیا مطمئن هستید که میخواهید تمام اطلاعات را پاک کنید؟",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "حذف کردن",
     "cancel": "لغو",
     "delete": "پاک کردن",

@@ -323,7 +323,10 @@
     "enter_text": "תקליד\\י PIN כדי לבטל נעילה",
     "set_new": "הגדר PIN חדש",
     "write_again": "כתוב שוב",
-    "forgot_text": "אוי, אני שכחתי את זה..."
+    "forgot_text": "אוי, אני שכחתי את זה...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "הצלחה!",
@@ -357,6 +360,7 @@
     "remove_alert": "האם בוודאות ברצונך להסיר?",
     "clear_alert": "האם את\\ה בטוח\\ה שברצונך למחוק?",
     "clear_user_alert": "האם את/ה בטוח/ה שברצונך למחוק את כל נתוני המשתמש?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "ריק",
     "cancel": "בטל\\י",
     "delete": "מחק\\י",

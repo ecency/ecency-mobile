@@ -323,7 +323,10 @@
     "enter_text": "Enter your PIN to open am",
     "set_new": "Put new PIN",
     "write_again": "Write am again",
-    "forgot_text": "Chai, I don forget am..."
+    "forgot_text": "Chai, I don forget am...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "E don Successful!",
@@ -357,6 +360,7 @@
     "remove_alert": "You sure say you wan remove am?",
     "clear_alert": "You sure say you won komot am?",
     "clear_user_alert": "You sure say you won clear all the user data?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Komot",
     "cancel": "Cancel",
     "delete": "Delete",

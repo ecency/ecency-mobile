@@ -323,7 +323,10 @@
     "enter_text": "Pasöe gunci untuk buka",
     "set_new": "Pasöe pin barô",
     "write_again": "Tulèh loem",
-    "forgot_text": "Oh, lôn tuwoe nyan..."
+    "forgot_text": "Oh, lôn tuwoe nyan...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Meuhasè!",
@@ -357,6 +360,7 @@
     "remove_alert": "Peu yakin neuk sampóh?",
     "clear_alert": "Peu yakin neuk sampöh?",
     "clear_user_alert": "Pëu yakin nëuk sampöh mandum data pöe?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Sampöh",
     "cancel": "Batai",
     "delete": "Sampóh",

@@ -323,7 +323,10 @@
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
     "write_again": "Rašyti vėl",
-    "forgot_text": "Oi, pamiršau..."
+    "forgot_text": "Oi, pamiršau...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Sėkminga!",
@@ -357,6 +360,7 @@
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "Ar tikrai norite panaikinti?",
     "clear_user_alert": "Ar tikrai norite panaikinti visą naudotojo informaciją?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Panaikinti",
     "cancel": "Atšaukti",
     "delete": "Ištrinti",

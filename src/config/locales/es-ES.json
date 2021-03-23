@@ -323,7 +323,10 @@
     "enter_text": "Ingresa un pin para desbloquear",
     "set_new": "Set new pin",
     "write_again": "Escribir de nuevo",
-    "forgot_text": "Oh, me olvidé..."
+    "forgot_text": "Oh, me olvidé...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Conseguido!",
@@ -357,6 +360,7 @@
     "remove_alert": "Está seguro que quiere borrar?",
     "clear_alert": "¿Está seguro de que desea eliminar?",
     "clear_user_alert": "¿Estás seguro de querer borrar toda la información del usuario?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Limpiar",
     "cancel": "Cancelar",
     "delete": "Borrar",

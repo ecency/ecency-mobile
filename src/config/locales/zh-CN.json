@@ -323,7 +323,10 @@
     "enter_text": "输入 PIN 解锁",
     "set_new": "设置新的 PIN",
     "write_again": "重写",
-    "forgot_text": "哦，我忘记了......"
+    "forgot_text": "哦，我忘记了......",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "成功!",
@@ -357,6 +360,7 @@
     "remove_alert": "您确定想要移除？",
     "clear_alert": "您确定要清除吗？",
     "clear_user_alert": "您确定要清除所有用户数据吗？",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "清除",
     "cancel": "取消",
     "delete": "删除",

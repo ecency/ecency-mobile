@@ -323,7 +323,10 @@
     "enter_text": "Açmak için pin kodunu giriniz",
     "set_new": "Yeni pin kodu",
     "write_again": "Tekrar giriniz",
-    "forgot_text": "Of! unuttum..."
+    "forgot_text": "Of! unuttum...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Başarılı!",
@@ -357,6 +360,7 @@
     "remove_alert": "Kaldırmak istediğine emin misin ?",
     "clear_alert": "Silmek istediğinizden emin misiniz?",
     "clear_user_alert": "Tüm kullanıcı verilerini silmek istediğinize emin misiniz?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Temizle",
     "cancel": "Vazgeç",
     "delete": "Temizle",
