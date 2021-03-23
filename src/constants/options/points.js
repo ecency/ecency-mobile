@@ -29,7 +29,7 @@ export default {
     nameKey: 'wallet.delegation',
     descriptionKey: 'wallet.delegation_desc',
     iconType: 'MaterialCommunityIcons',
-    point: 5,
+    point: 10,
   },
   100: {
     icon: 'pencil-outline',
@@ -77,7 +77,7 @@ export default {
     nameKey: 'wallet.login',
     descriptionKey: 'wallet.login_desc',
     iconType: 'MaterialIcons',
-    point: 100,
+    point: 10,
   },
   30: {
     icon: 'check-all',

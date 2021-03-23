@@ -242,7 +242,8 @@
     "blog": "Blogi",
     "posts": "Julkaisut",
     "friends": "Ystävät",
-    "communities": "Yhteisöt"
+    "communities": "Yhteisöt",
+    "popup_postfix": "Posted"
   },
   "side_menu": {
     "profile": "Profiili",
@@ -299,13 +300,33 @@
     "my_blog": "Oma Blogi",
     "my_communities": "Yhteisöni",
     "top_communities": "Suosituimmat Yhteisöt",
-    "schedule_modal_title": "Ajasta julkaisu"
+    "schedule_modal_title": "Ajasta julkaisu",
+    "snippets": "Katkelmat"
+  },
+  "snippets": {
+    "label_no_snippets": "Katkelmia ei löytynyt",
+    "title_add_snippet": "Lisää Katkelma",
+    "title_edit_snippet": "Muokkaa Katkelmaa",
+    "title_remove_confirmation": "Poista katkelma",
+    "placeholder_title": "Katkelman nimi",
+    "placeholder_body": "Lisää tähän runko...",
+    "btn_save": "TALLENNA",
+    "btn_close": "SULJE",
+    "btn_add": "Katkelma",
+    "message_incomplete": "Lisää nimi ja runko katkelmaa varten",
+    "message_failed": "Katkelman tallennus epäonnistui",
+    "message_remove_confirmation": "Haluatko varmasti poistaa tämän katkelman?",
+    "btn_confirm": "Vahvista",
+    "btn_cancel": "Peruuta"
   },
   "pincode": {
     "enter_text": "Poista lukitus antamalla PIN-koodi",
     "set_new": "Aseta PIN-koodi",
     "write_again": "Kirjoita uudelleen",
-    "forgot_text": "Unohdin sen..."
+    "forgot_text": "Unohdin sen...",
+    "pin_not_matched": "PIN-koodi ei täsmää, yritä uudelleen.",
+    "attempts_postfix": "epäonnistuneet yritykset",
+    "message_reset_warning": "Käyttäjätiedot poistetaan seuraavan epäonnistuneen yrityksen yhteydessä"
   },
   "alert": {
     "success": "Onnistui!",
@@ -339,6 +360,7 @@
     "remove_alert": "Haluatko varmasti poistaa?",
     "clear_alert": "Haluatko varmasti poistaa?",
     "clear_user_alert": "Haluatko varmasti tyhjentää kaikki historiatiedot?",
+    "decrypt_fail_alert": "Sovelluksen tila on virheellinen, ole hyvä ja kirjaudu uudelleen nollataksesi tilan.",
     "clear": "Tyhjennä",
     "cancel": "Peruuta",
     "delete": "Poista",

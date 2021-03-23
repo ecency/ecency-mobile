@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 import { WalletHeader, FormattedCurrency } from '../../../components';
-import { SteemWalletContainer, AccountContainer } from '../../../containers';
+import { WalletContainer, AccountContainer } from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
 
@@ -10,7 +10,7 @@ const SpView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) =
   <View style={globalStyles.swipeItemWrapper}>
     <AccountContainer>
       {({ currentAccount }) => (
-        <SteemWalletContainer selectedUser={currentAccount}>
+        <WalletContainer selectedUser={currentAccount}>
           {({
             isClaiming,
             claimRewardBalance,
@@ -66,7 +66,7 @@ const SpView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) =
               ]}
             />
           )}
-        </SteemWalletContainer>
+        </WalletContainer>
       )}
     </AccountContainer>
   </View>

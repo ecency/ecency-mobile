@@ -68,14 +68,14 @@ class UpvoteView extends Component {
     const {
       author,
       currentAccount,
-      fetchPost,
       handleSetUpvotePercent,
       permlink,
       pinCode,
       intl,
       dispatch,
+      onVote,
     } = this.props;
-    const { sliderValue, downvote } = this.state;
+    const { sliderValue, downvote, amount } = this.state;
 
     if (!downvote) {
       closePopover();
@@ -90,6 +90,7 @@ class UpvoteView extends Component {
 
       const weight = sliderValue ? (sliderValue * 100).toFixed(0) * 100 : 0;
 
+      console.log('casting up vote: ' + weight);
       vote(currentAccount, pinCode, author, permlink, weight)
         .then(() => {
           this.setState(
@@ -98,9 +99,7 @@ class UpvoteView extends Component {
               isVoting: false,
             },
             () => {
-              if (fetchPost) {
-                fetchPost();
-              }
+              onVote(amount, false);
             },
           );
         })
@@ -161,12 +160,12 @@ class UpvoteView extends Component {
     const {
       author,
       currentAccount,
-      fetchPost,
       handleSetUpvotePercent,
       permlink,
       pinCode,
+      onVote,
     } = this.props;
-    const { sliderValue, downvote } = this.state;
+    const { sliderValue, downvote, amount } = this.state;
 
     if (downvote) {
       closePopover();
@@ -181,6 +180,7 @@ class UpvoteView extends Component {
 
       const weight = sliderValue ? (sliderValue * 100).toFixed(0) * 100 * -1 : 0;
 
+      console.log('casting down vote: ' + weight);
       vote(currentAccount, pinCode, author, permlink, weight)
         .then(() => {
           this.setState(
@@ -189,9 +189,7 @@ class UpvoteView extends Component {
               isVoting: false,
             },
             () => {
-              if (fetchPost) {
-                fetchPost();
-              }
+              onVote(amount, true);
             },
           );
         })

@@ -75,4 +75,7 @@ export default EStyleSheet.create({
   middleWrapper: {
     marginRight: 30,
   },
+  summary: {
+    color: '$primaryDarkGray',
+  },
 });

@@ -242,7 +242,8 @@
     "blog": "Blog",
     "posts": "Post",
     "friends": "Znajomi",
-    "communities": "Społeczności"
+    "communities": "Społeczności",
+    "popup_postfix": "Posted"
   },
   "side_menu": {
     "profile": "Profil",
@@ -299,13 +300,33 @@
     "my_blog": "Mój blog",
     "my_communities": "Moje społeczności",
     "top_communities": "Najlepsze społeczności",
-    "schedule_modal_title": "Schedule Post"
+    "schedule_modal_title": "Schedule Post",
+    "snippets": "Snippets"
+  },
+  "snippets": {
+    "label_no_snippets": "No Snippets Found",
+    "title_add_snippet": "Add Snippet",
+    "title_edit_snippet": "Edit Snippet",
+    "title_remove_confirmation": "Delete snippet",
+    "placeholder_title": "Snippet title",
+    "placeholder_body": "Add snippet body here...",
+    "btn_save": "SAVE",
+    "btn_close": "CLOSE",
+    "btn_add": "Snippet",
+    "message_incomplete": "Please add title and body for snippet",
+    "message_failed": "Failed to save snippet",
+    "message_remove_confirmation": "Are you sure you want to delete this snippet?",
+    "btn_confirm": "Confirm",
+    "btn_cancel": "Cancel"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
     "write_again": "Napisz ponownie",
-    "forgot_text": "Och, zapomniałem..."
+    "forgot_text": "Och, zapomniałem...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Udało się!",
@@ -339,6 +360,7 @@
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "Czy na pewno chcesz wyczyścić?",
     "clear_user_alert": "Czy na pewno chcesz usunąć wszystkie dane użytkownika?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Opróżnij",
     "cancel": "Anuluj",
     "delete": "Usuń",

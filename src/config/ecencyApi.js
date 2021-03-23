@@ -10,4 +10,14 @@ const api = axios.create({
   },
 });
 
+api.interceptors.request.use((request) => {
+  console.log('Starting ecency Request', request);
+  return request;
+});
+
+api.interceptors.response.use((response) => {
+  console.log('Response:', response);
+  return response;
+});
+
 export default api;

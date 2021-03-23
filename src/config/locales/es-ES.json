@@ -21,7 +21,7 @@
     "delegation": "Delegación",
     "delegations": "Delegaciones",
     "delegation_title": "Recompensa por delegación",
-    "delegation_desc": "Gana puntos diarios con tu delegacion",
+    "delegation_desc": "Gana puntos cada día por tu delegación",
     "post_title": "Puntos por publicar",
     "comment_title": "Puntos por comentar",
     "vote_title": "Puntos por votar",
@@ -29,14 +29,14 @@
     "login_title": "Puntos por iniciar sesión",
     "checkin_title": "Puntos por latido",
     "referral": "Referido",
-    "referral_title": "Recompensas de Referido",
+    "referral_title": "Recompensas de referido",
     "referral_desc": "Invita a tus amigos y consigue puntos",
     "checkin_extra_title": "Bono de uso",
     "no_activity": "Sin actividad reciente",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
     "post_desc": "Puedes ganar puntos publicando regularmente. Hacer una publicación te da hasta 15 puntos.",
-    "comment_desc": "Cada comentario que hagas ayuda a hacer crecer tu audiencia y a hacer amigos, pero ademas te da hasta 5 puntos.",
+    "comment_desc": "Cada comentario que hagas ayuda a hacer crecer tu audiencia y a hacer amigos, pero además te da hasta 5 puntos.",
     "checkin_desc": "Estar al tanto regularmente te da 0,25 puntos.",
     "vote_desc": "Al votar das recompensas a otros creadores y muestras tu aprecio, pero también generas de vuelta hasta 0.01 puntos acorde al peso de tu voto.",
     "reblog_desc": "Comparte una publicación que te guste con tus amigos y gana puntos.",
@@ -56,7 +56,7 @@
     "information": "¿Está seguro de transferir los fondos?",
     "amount_desc": "Balance",
     "memo_desc": "Este memo es público",
-    "to_placeholder": "Nombre de Usuario",
+    "to_placeholder": "Nombre de usuario",
     "memo_placeholder": "Escribe tus notas aquí",
     "transfer_token": "Transferir",
     "purchase_estm": "OBTENER PUNTOS",
@@ -142,7 +142,7 @@
     "monthly": "MENSUAL"
   },
   "messages": {
-    "comingsoon": "Pronto mensajería instantánea!"
+    "comingsoon": "¡Pronto mensajería instantánea!"
   },
   "profile": {
     "following": "Siguiendo",
@@ -158,7 +158,7 @@
     "hours": "horas",
     "voting_power": "Poder de voto",
     "login_to_see": "Inciar sesión para ver",
-    "follow_people": "Sigue a algunas personas para llenar tu feed",
+    "follow_people": "Sigue a algunas personas para llenar tu inicio",
     "follow_communities": "Únete a algunas comunidades para llenar tus actualizaciones",
     "havent_commented": "no has comentado nada aún",
     "havent_posted": "no has publicado nada aún",
@@ -215,9 +215,9 @@
     "signin": "Iniciar sesión",
     "signup": "ÚNETE AHORA",
     "signin_title": "Para obtener todos los beneficios de utilizar Ecency",
-    "username": "Nombre de Usuario",
+    "username": "Nombre de usuario",
     "password": "Contraseña o WIF",
-    "description": "Al registrarte, estás de acuerdo con nuestros Términos de servicio &amp; Política de privacidad",
+    "description": "Al iniciar sesión, estás de acuerdo con nuestros Términos de Servicio y Políticas de privacidad.",
     "cancel": "cancelar",
     "login": "ACCEDER",
     "steemconnect_description": "Si no desea mantener su contraseña encriptada y guardada en su dispositivo, puede usar Hivesigner.",
@@ -236,13 +236,14 @@
   "home": {
     "feed": "Inicio",
     "popular": "Popular",
-    "top": "Arriba",
+    "top": "Tendencia",
     "hot": "Caliente",
     "new": "Nuevo",
     "blog": "Blog",
     "posts": "Post",
     "friends": "Amigos",
-    "communities": "Comunidades"
+    "communities": "Comunidades",
+    "popup_postfix": "Posted"
   },
   "side_menu": {
     "profile": "Perfil",
@@ -258,7 +259,7 @@
     "cancel": "Cancelar",
     "logout_text": "¿Estás seguro de que quieres salir?",
     "create_a_new_account": "Crea una cuenta nueva",
-    "add_an_existing_account": "Añadir cuenta existente",
+    "add_an_existing_account": "Añadir una cuenta existente",
     "accounts": "Cuentas"
   },
   "header": {
@@ -298,14 +299,34 @@
     "options": "Opciones",
     "my_blog": "Mi blog",
     "my_communities": "Mis comunidades",
-    "top_communities": "Comunidades",
-    "schedule_modal_title": "Programar publicación"
+    "top_communities": "Comunidades populares",
+    "schedule_modal_title": "Programar publicación",
+    "snippets": "Snippets"
+  },
+  "snippets": {
+    "label_no_snippets": "No Snippets Found",
+    "title_add_snippet": "Add Snippet",
+    "title_edit_snippet": "Edit Snippet",
+    "title_remove_confirmation": "Delete snippet",
+    "placeholder_title": "Snippet title",
+    "placeholder_body": "Add snippet body here...",
+    "btn_save": "SAVE",
+    "btn_close": "CLOSE",
+    "btn_add": "Snippet",
+    "message_incomplete": "Please add title and body for snippet",
+    "message_failed": "Failed to save snippet",
+    "message_remove_confirmation": "Are you sure you want to delete this snippet?",
+    "btn_confirm": "Confirm",
+    "btn_cancel": "Cancel"
   },
   "pincode": {
-    "enter_text": "Enter pin to unlock",
+    "enter_text": "Ingresa un pin para desbloquear",
     "set_new": "Set new pin",
     "write_again": "Escribir de nuevo",
-    "forgot_text": "Oh, me olvidé..."
+    "forgot_text": "Oh, me olvidé...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Conseguido!",
@@ -317,53 +338,54 @@
     "move_question": "¿Está seguro de moverlo a borradores?",
     "success_shared": "¡Éxito! ¡Contenido enviado!",
     "success_moved": "Movido a borradores",
-    "permission_denied": "Permiso dengado",
+    "permission_denied": "Permiso denegado",
     "permission_text": "Por favor, ir a ajustes del teléfono y a cambiar los permisos de la aplicación de eSteem.",
     "key_warning": "La operación requiere clave activa o contraseña maestra, ¡por favor vuelva a iniciar sesión!",
     "success_rebloged": "¡Reblogueado!",
     "already_rebloged": "Ya has sido reblogueado!",
     "success_favorite": "Añadido a favoritos!",
-    "success_unfavorite": "Post removido de favoritos!",
-    "success_follow": "Ahora le sigues!",
-    "fail_follow": "Follow failed!",
-    "success_subscribe": "Subscribe success!",
-    "fail_subscribe": "Subscribe failed!",
-    "success_leave": "Leave success!",
-    "fail_leave": "Leave failed!",
-    "success_mute": "Muteo exitoso!",
-    "success_unmute": "¡Muteo exitoso!",
+    "success_unfavorite": "¡Favorito removido!",
+    "success_follow": "¡Seguido éxitosamente!",
+    "fail_follow": "¡Error al seguir!",
+    "success_subscribe": "¡Suscrito con éxito!",
+    "fail_subscribe": "¡Error al suscribir!",
+    "success_leave": "¡Saliste con éxito!",
+    "fail_leave": "¡Error al salir!",
+    "success_mute": "¡Silenciado exitosamente!",
+    "success_unmute": "¡Silencio removido exitosamente!",
     "success_unfollow": "¡Dejar de seguir con éxito!",
-    "fail_unfollow": "Unfollow failed!",
+    "fail_unfollow": "¡Error al dejar de seguir!",
     "warning": "Advertencia",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Está seguro que quiere borrar?",
     "clear_alert": "¿Está seguro de que desea eliminar?",
     "clear_user_alert": "¿Estás seguro de querer borrar toda la información del usuario?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Limpiar",
     "cancel": "Cancelar",
     "delete": "Borrar",
-    "copied": "Copiado!",
-    "no_internet": "Sin conexión!",
+    "copied": "¡Copiado!",
+    "no_internet": "¡Sin conexión!",
     "confirm": "Confirmar",
     "removed": "Eliminado",
     "same_user": "Este usuario ya ha sido añadido a la lista",
     "unknow_error": "Ocurrió un error",
     "error": "Error",
-    "fetch_error": "Problema de conexión, cambiar el servidor y reinicia",
+    "fetch_error": "Problema de conexión, cambia de servidor y reinicia",
     "connection_fail": "¡Error de conexión!",
     "connection_success": "¡Conectado con éxito!",
     "checking": "Comprobando...",
     "external_link": "Abrir en navegador",
-    "not_existing_post": "¡La publicación no existe! Por favor comprueba el permalink y el autor.",
+    "not_existing_post": "¡La publicación no existe! Por favor comprueba el enlace permanente y el autor.",
     "google_play_version": "Notamos que tu dispositivo tiene una versión antigua de Google Play. ¡Por favor actualiza los servicios de Google Play e inténtalo de nuevo!",
-    "rc_down": "¡No hay suficientes créditos de recursos para realizar una acción! \n\nAumenta tu cuenta para continuar disfrutando de la experiencia. ¿Quieres potenciar tu cuenta ahora?",
+    "rc_down": "¡No hay suficientes créditos de recursos para realizar una acción! \n\nPotencia tu cuenta para continuar disfrutando de la experiencia. ¿Quieres potenciar tu cuenta ahora?",
     "payloadTooLarge": "El tamaño del archivo es demasiado grande, por favor cambia el tamaño o suba una imagen más pequeña",
     "qoutaExceeded": "Se ha superado la cuota de subida",
     "invalidImage": "Imagen no válida, prueba un archivo diferente",
     "something_wrong": "Algo ha fallado.",
     "something_wrong_alt": "Prueba https://ecency.com",
     "something_wrong_reload": "Recarga",
-    "can_not_be_empty": "Título y cuerpo no pueden estar vacíos!"
+    "can_not_be_empty": "¡Título y cuerpo no pueden estar vacíos!"
   },
   "post": {
     "reblog_alert": "¿Estás seguro de querer rebloguear?",
@@ -377,7 +399,7 @@
     "gallery_mode": "Modo galería",
     "save_to_local": "Descargar al dispositivo",
     "image_saved": "Imagen guardada en la galería de fotos",
-    "image_saved_error": "Error salvando imagen",
+    "image_saved_error": "Error guardando imagen",
     "wrong_link": "Enlace incorrecto"
   },
   "drafts": {
@@ -395,7 +417,7 @@
   },
   "bookmarks": {
     "title": "Marcadores",
-    "load_error": "No pudo cargar marcadores",
+    "load_error": "No se pudo cargar marcadores",
     "empty_list": "Nada aquí",
     "deleted": "Marcador removido",
     "search": "Buscar en marcadores",
@@ -474,7 +496,7 @@
     "powerUp": "Hacer Power Up",
     "withdraw_to_saving": "Retirar a Ahorros",
     "steemconnect_title": "Transferencia en Hivesigner",
-    "estimated_weekly": "Estimado Semana",
+    "estimated_weekly": "Estimado Semanal",
     "destination_accounts": "Cuentas destino",
     "stop_information": "¿Estás seguro de detener?",
     "percent": "Porcentaje",
@@ -495,7 +517,7 @@
     "buy": "Obtener Puntos",
     "next": "SIGUIENTE",
     "account": {
-      "title": "Obtener ayuda de Cuenta",
+      "title": "Obtener impulso de cuenta",
       "desc": "La delegación de 30 días impulsará sus votos y actividades sociales y le dará más acciones con más créditos de Recursos."
     }
   },
@@ -511,7 +533,7 @@
     "days": "días",
     "user": "Usuario",
     "permlink": "Publicación",
-    "permlinkPlaceholder": "usuario/permlink",
+    "permlinkPlaceholder": "usuario/enlacepermanente",
     "information": "¿Seguro de que desea promocionar?"
   },
   "boostPost": {
@@ -523,7 +545,7 @@
     "time": "TIEMPO"
   },
   "reblog": {
-    "title": "Rebloguear información"
+    "title": "Información de reblogueo"
   },
   "dsteem": {
     "date_error": {
@@ -536,7 +558,7 @@
     "title": "Comentarios",
     "reveal_comment": "Revelar comentario",
     "read_more": "Cargar más comentarios",
-    "more_replies": "mas comentarios"
+    "more_replies": "más respuestas"
   },
   "search_result": {
     "others": "Otros",
@@ -579,8 +601,8 @@
     "details": "Detalles"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow"
+    "follow": "Seguir",
+    "unfollow": "Dejar de seguir"
   },
   "communities": {
     "joined": "Membresía",
@@ -591,7 +613,7 @@
   },
   "beneficiary_modal": {
     "percent": "Porcentaje",
-    "username": "Nombre de Usuario",
+    "username": "Nombre de usuario",
     "addAccount": "Agregar cuenta",
     "save": "Guardar"
   }

@@ -435,6 +435,11 @@ class ApplicationContainer extends Component {
           };
           break;
 
+        case 'inactive':
+          routeName = ROUTES.SCREENS.EDITOR;
+          key = push.source || 'inactive';
+          break;
+
         default:
           break;
       }

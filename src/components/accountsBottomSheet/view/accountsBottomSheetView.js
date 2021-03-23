@@ -3,6 +3,7 @@ import { View, Text, TouchableWithoutFeedback, TouchableOpacity } from 'react-na
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import ActionSheet from 'react-native-actions-sheet';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -50,7 +51,14 @@ const AccountsBottomSheet = forwardRef(
 
     return (
       <View style={[styles.accountsModal]}>
-        <ActionSheet ref={bottomSheetModalRef} gestureEnabled={true} hideUnderlay onClose={onClose}>
+        <ActionSheet
+          ref={bottomSheetModalRef}
+          gestureEnabled={true}
+          hideUnderlay
+          containerStyle={styles.sheetContent}
+          indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+          onClose={onClose}
+        >
           <FlatList
             data={accounts}
             ref={userList}

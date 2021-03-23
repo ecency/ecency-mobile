@@ -37,12 +37,12 @@ const PostCardView = ({
   isNsfwPost,
   intl,
   activeVotes,
+  imageHeight,
+  setImageHeight,
 }) => {
-  const [rebloggedBy, setRebloggedBy] = useState(get(content, 'reblogged_by[0]', null));
-  const [activeVot, setActiveVot] = useState(activeVotes);
-  const [calcImgHeight, setCalcImgHeight] = useState(300);
-  const [images, setImages] = useState({});
-  //console.log(activeVotes);
+  const [activeVotesCount, setActiveVotesCount] = useState(activeVotes.length || 0);
+  const [calcImgHeight, setCalcImgHeight] = useState(imageHeight || 300);
+
   // Component Functions
 
   const _handleOnUserPress = () => {
@@ -65,44 +65,21 @@ const PostCardView = ({
     }
   };
 
-  useEffect(() => {
-    if (content) {
-      const _rebloggedBy = get(content, 'reblogged_by[0]', null);
-      setRebloggedBy(_rebloggedBy);
+  const _handleIncrementVoteCount = () => {
+    setActiveVotesCount(activeVotesCount + 1);
+  };
 
-      if (content.thumbnail) {
-        if (isNsfwPost && content.nsfw) {
-          setImages({ image: NSFW_IMAGE, thumbnail: NSFW_IMAGE });
-        }
-        //console.log(content)
-        let ratio = 10 / 7;
-        ImageSize.getSize(content.thumbnail)
-          .then((size) => {
-            ratio = size.height / size.width;
-            setCalcImgHeight(Math.floor(ratio * (dim.width - 18)));
-          })
-          .catch((er) => {
-            setCalcImgHeight(Math.floor(ratio * (dim.width - 18)));
-            bugsnag.notify(er, (report) => {
-              report.metadata = {
-                content,
-              };
-            });
-          });
-        setImages({ image: content.image, thumbnail: content.thumbnail });
-      } else {
-        setImages({ image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE });
-      }
+  const rebloggedBy = get(content, 'reblogged_by[0]', null);
+  var images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
+  if (content.thumbnail) {
+    if (isNsfwPost && content.nsfw) {
+      images = { image: NSFW_IMAGE, thumbnail: NSFW_IMAGE };
     }
-    if (activeVotes) {
-      setActiveVot(get(content, 'active_votes'));
-    }
-    return () => {
-      setImages({ image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE });
-      setCalcImgHeight(300);
-      setActiveVot([]);
-    };
-  }, [content]);
+
+    images = { image: content.image, thumbnail: content.thumbnail };
+  } else {
+    images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
+  }
 
   return (
     <View style={styles.post}>
@@ -123,16 +100,34 @@ const PostCardView = ({
         </View>
       </View>
       <View style={styles.postBodyWrapper}>
-        <TouchableOpacity style={styles.hiddenImages} onPress={_handleOnContentPress}>
+        <TouchableOpacity
+          activeOpacity={1}
+          style={styles.hiddenImages}
+          onPress={_handleOnContentPress}
+        >
           {!isHideImage && (
             <FastImage
               source={{ uri: images.image }}
-              //thumbnailSource={{ uri: _image.thumbnail }}
               style={[
                 styles.thumbnail,
-                { width: dim.width - 18, height: Math.min(calcImgHeight, dim.height) },
+                {
+                  width: dim.width - 18,
+                  height: Math.min(calcImgHeight, dim.height),
+                },
               ]}
-              resizeMode={FastImage.resizeMode.cover}
+              resizeMode={
+                calcImgHeight < dim.height
+                  ? FastImage.resizeMode.contain
+                  : FastImage.resizeMode.cover
+              }
+              onLoad={(evt) => {
+                if (!imageHeight) {
+                  const height =
+                    (evt.nativeEvent.height / evt.nativeEvent.width) * (dim.width - 18);
+                  setCalcImgHeight(height);
+                  setImageHeight(content.author + content.permlink, height);
+                }
+              }}
             />
           )}
           <View style={[styles.postDescripton]}>
@@ -152,10 +147,10 @@ const PostCardView = ({
       <View style={styles.bodyFooter}>
         <View style={styles.leftFooterWrapper}>
           <Upvote
-            activeVotes={activeVot}
-            fetchPost={fetchPost}
+            activeVotes={activeVotes}
             isShowPayoutValue
             content={content}
+            incrementVoteCount={_handleIncrementVoteCount}
           />
           <TouchableOpacity style={styles.commentButton} onPress={_handleOnVotersPress}>
             <TextWithIcon
@@ -163,7 +158,7 @@ const PostCardView = ({
               iconStyle={styles.commentIcon}
               iconType="MaterialCommunityIcons"
               isClickable
-              text={get(activeVot, 'length', 0)}
+              text={activeVotesCount}
               onPress={_handleOnVotersPress}
             />
           </TouchableOpacity>

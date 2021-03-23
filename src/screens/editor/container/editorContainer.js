@@ -101,6 +101,8 @@ class EditorContainer extends Component {
     ImagePicker.openPicker({
       includeBase64: true,
       multiple: true,
+      mediaType: 'photo',
+      smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
     })
       .then((images) => {
         this._handleMediaOnSelected(images);
@@ -113,6 +115,7 @@ class EditorContainer extends Component {
   _handleOpenCamera = () => {
     ImagePicker.openCamera({
       includeBase64: true,
+      mediaType: 'photo',
     })
       .then((image) => {
         this._handleMediaOnSelected(image);
@@ -164,7 +167,7 @@ class EditorContainer extends Component {
         }
       })
       .catch((error) => {
-        // console.log(error, error.message);
+        console.log(error, error.message);
         if (error.toString().includes('code 413')) {
           Alert.alert(
             intl.formatMessage({

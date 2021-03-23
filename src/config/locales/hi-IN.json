@@ -242,7 +242,8 @@
     "blog": "ब्लॉग",
     "posts": "Post",
     "friends": "दोस्त",
-    "communities": "समुदाय"
+    "communities": "समुदाय",
+    "popup_postfix": "Posted"
   },
   "side_menu": {
     "profile": "रुपरेखा",
@@ -299,13 +300,33 @@
     "my_blog": "मेरा ब्लॉग",
     "my_communities": "मेरे समुदाय",
     "top_communities": "शीर्ष समुदाय",
-    "schedule_modal_title": "पोस्ट शेड्यूल करें"
+    "schedule_modal_title": "पोस्ट शेड्यूल करें",
+    "snippets": "Snippets"
+  },
+  "snippets": {
+    "label_no_snippets": "No Snippets Found",
+    "title_add_snippet": "Add Snippet",
+    "title_edit_snippet": "Edit Snippet",
+    "title_remove_confirmation": "Delete snippet",
+    "placeholder_title": "Snippet title",
+    "placeholder_body": "Add snippet body here...",
+    "btn_save": "SAVE",
+    "btn_close": "CLOSE",
+    "btn_add": "Snippet",
+    "message_incomplete": "Please add title and body for snippet",
+    "message_failed": "Failed to save snippet",
+    "message_remove_confirmation": "Are you sure you want to delete this snippet?",
+    "btn_confirm": "Confirm",
+    "btn_cancel": "Cancel"
   },
   "pincode": {
     "enter_text": "खोलनें के लिए पिन डालें",
     "set_new": "Set new pin",
     "write_again": "दुबारा लिखें",
-    "forgot_text": "ओह! मैं इसे भूल गया..."
+    "forgot_text": "ओह! मैं इसे भूल गया...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "सफल!",
@@ -339,6 +360,7 @@
     "remove_alert": "क्या आप इसे सच में हटाना चाहते हैं?",
     "clear_alert": "क्या आप सचमुच में मिटाना चाहते हैं?",
     "clear_user_alert": "क्या आप वाकई सभी उपयोगकर्ता डेटा को साफ़ करना चाहते हैं?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "मिटायें",
     "cancel": "रद्द करें",
     "delete": "मिटा दें",

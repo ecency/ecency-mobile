@@ -242,7 +242,8 @@
     "blog": "Blogi",
     "posts": "Postitused",
     "friends": "Sõbrad",
-    "communities": "Kogukonnad"
+    "communities": "Kogukonnad",
+    "popup_postfix": "Postitatud"
   },
   "side_menu": {
     "profile": "Profiil",
@@ -299,13 +300,33 @@
     "my_blog": "Minu blogi",
     "my_communities": "Minu kogukonnad",
     "top_communities": "Top kogukonnad",
-    "schedule_modal_title": "Ajasta postitus"
+    "schedule_modal_title": "Ajasta postitus",
+    "snippets": "Katked"
+  },
+  "snippets": {
+    "label_no_snippets": "Katkeid ei leitud",
+    "title_add_snippet": "Lisa katke",
+    "title_edit_snippet": "Muuda katket",
+    "title_remove_confirmation": "Kustuta katke",
+    "placeholder_title": "Katke pealkiri",
+    "placeholder_body": "Add snippet body here...",
+    "btn_save": "SALVESTA",
+    "btn_close": "SULGE",
+    "btn_add": "Katke",
+    "message_incomplete": "Please add title and body for snippet",
+    "message_failed": "Failed to save snippet",
+    "message_remove_confirmation": "Are you sure you want to delete this snippet?",
+    "btn_confirm": "Kinnita",
+    "btn_cancel": "Tühista"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
     "write_again": "Sisesta uuesti",
-    "forgot_text": "Ups, ma unustasin..."
+    "forgot_text": "Ups, ma unustasin...",
+    "pin_not_matched": "Vale PIN, palun proovi uuesti.",
+    "attempts_postfix": "ebaõnnestunud katse(d)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Edukas!",
@@ -339,6 +360,7 @@
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "Kas soovid tõesti selle tühjendada?",
     "clear_user_alert": "Oled kindel, et soovid puhastada kõik kasutajaandmed?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Tühjenda",
     "cancel": "Tühista",
     "delete": "Kustuta",
@@ -535,8 +557,8 @@
   "comments": {
     "title": "Kommentaarid",
     "reveal_comment": "Näita kommentaari",
-    "read_more": "Näita rohkem kommentaare",
-    "more_replies": "rohkem vastuseid"
+    "read_more": "Näita veel kommentaare",
+    "more_replies": "kommentaar veel"
   },
   "search_result": {
     "others": "Muud",

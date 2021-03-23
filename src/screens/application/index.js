@@ -45,6 +45,7 @@ const Application = () => {
               isFullScreen
               swipeToClose={false}
               backButtonClose={false}
+              style={{ margin: 0 }}
             >
               <PinCode />
             </Modal>
@@ -53,6 +54,7 @@ const Application = () => {
               isFullScreen
               swipeToClose={false}
               backButtonClose={false}
+              style={{ margin: 0 }}
             >
               <WelcomeScreen handleButtonPress={handleWelcomeModalButtonPress} />
             </Modal>

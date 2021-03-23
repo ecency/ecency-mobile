@@ -3,6 +3,7 @@ import forEach from 'lodash/forEach';
 import { get } from 'lodash';
 import { Platform } from 'react-native';
 import { postBodySummary, renderPostBody, catchPostImage } from '@ecency/render-helper';
+import FastImage from 'react-native-fast-image';
 
 // Utils
 import parseAsset from './parseAsset';
@@ -11,18 +12,21 @@ import { getResizedAvatar, getResizedImage } from './image';
 
 const webp = Platform.OS === 'ios' ? false : true;
 
-export const parsePosts = (posts, currentUserName) => {
+export const parsePosts = (posts, currentUserName, areComments) => {
   if (posts) {
-    const formattedPosts = posts.map((post) => parsePost(post, currentUserName, false, true));
+    const formattedPosts = posts.map((post) =>
+      parsePost(post, currentUserName, false, true, areComments),
+    );
     return formattedPosts;
   }
   return null;
 };
 
-export const parsePost = (post, currentUserName, isPromoted, isList = false) => {
+export const parsePost = (post, currentUserName, isPromoted, isList = false, isComment = false) => {
   if (!post) {
     return null;
   }
+
   if (currentUserName === post.author) {
     post.markdownBody = post.body;
   }
@@ -57,6 +61,19 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
 
   post.total_payout = totalPayout;
 
+  //stamp posts with fetched time;
+  post.post_fetched_at = new Date().getTime();
+
+  //discard post body if list
+  if (isList && !isComment) {
+    post.body = '';
+  }
+
+  //cache image
+  if (post.image) {
+    FastImage.preload([{ uri: post.image }]);
+  }
+
   return post;
 };
 
@@ -72,7 +89,7 @@ export const parseComments = async (comments) => {
   });
 };
 
-export const isVoted = (activeVotes, currentUserName) => {
+export const isVoted = async (activeVotes, currentUserName) => {
   if (!currentUserName) {
     return false;
   }
@@ -85,7 +102,7 @@ export const isVoted = (activeVotes, currentUserName) => {
   return false;
 };
 
-export const isDownVoted = (activeVotes, currentUserName) => {
+export const isDownVoted = async (activeVotes, currentUserName) => {
   if (!currentUserName) {
     return false;
   }

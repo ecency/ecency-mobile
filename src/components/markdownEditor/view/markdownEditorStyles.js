@@ -28,7 +28,7 @@ export default EStyleSheet.create({
     marginLeft: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    maxWidth: '$deviceWidth / 2',
+    maxWidth: '$deviceWidth / 3',
   },
   rightButtonsWrapper: {
     flexDirection: 'row',
@@ -81,5 +81,12 @@ export default EStyleSheet.create({
   },
   name: {
     color: '$primaryDarkGray',
+  },
+  modalStyle: {
+    flex: 1,
+    backgroundColor: '$primaryBackgroundColor',
+    margin: 0,
+    paddingTop: 32,
+    paddingBottom: 16,
   },
 });

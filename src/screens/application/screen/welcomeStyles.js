@@ -4,6 +4,7 @@ import scalePx from '../../../utils/scalePx';
 export default EStyleSheet.create({
   safeAreaView: {
     flex: 1,
+    backgroundColor: '$primaryBackgroundColor',
   },
   container: {
     flex: 0.95,

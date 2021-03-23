@@ -45,7 +45,7 @@ const CommunitiesResultsContainer = ({ children, navigation, searchValue }) => {
     setData([]);
     setNoResult(false);
 
-    getCommunities('', searchValue ? 100 : 20, searchValue, 'rank')
+    getCommunities('', searchValue ? 100 : 20, searchValue || null, 'rank')
       .then((communities) => {
         if (currentAccount && currentAccount.username) {
           getSubscriptions(currentAccount.username).then((subs) => {

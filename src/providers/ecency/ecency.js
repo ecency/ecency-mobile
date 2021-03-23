@@ -29,7 +29,11 @@ export const getCurrencyTokenRate = (currency, token) =>
 /**
  * @params username
  */
-export const getDrafts = (username) => api.get(`/drafts/${username}`).then((resp) => resp.data);
+export const getDrafts = (username) =>
+  api
+    .get(`/drafts/${username}`)
+    .then((resp) => resp.data)
+    .catch((error) => bugsnag.notify(error));
 
 /*export const getDrafts = data =>
   new Promise((resolve, reject) => {
@@ -114,7 +118,8 @@ export const addBookmark = (username, author, permlink) =>
       permlink,
       chain: 'hive',
     })
-    .then((resp) => resp.data);
+    .then((resp) => resp.data)
+    .catch((error) => bugsnag.notify(error));
 
 export const addReport = (url) =>
   api
@@ -127,7 +132,10 @@ export const addReport = (url) =>
  * @params current username
  */
 export const getBookmarks = (username) =>
-  api.get(`/bookmarks/${username}`).then((resp) => resp.data);
+  api
+    .get(`/bookmarks/${username}`)
+    .then((resp) => resp.data)
+    .catch((error) => bugsnag.notify(error));
 
 /**
  * @params id
@@ -139,14 +147,20 @@ export const removeBookmark = (username, id) => api.delete(`/bookmarks/${usernam
  * @params current username
  */
 export const getFavorites = (username) =>
-  api.get(`/favorites/${username}`).then((resp) => resp.data);
+  api
+    .get(`/favorites/${username}`)
+    .then((resp) => resp.data)
+    .catch((error) => bugsnag.notify(error));
 
 /**
  * @params current username
  * @params target username
  */
 export const getIsFavorite = (targetUsername, currentUsername) =>
-  api.get(`/isfavorite/${currentUsername}/${targetUsername}`).then((resp) => resp.data);
+  api
+    .get(`/isfavorite/${currentUsername}/${targetUsername}`)
+    .then((resp) => resp.data)
+    .catch((error) => bugsnag.notify(error));
 
 /**
  * @params current username
@@ -158,7 +172,8 @@ export const addFavorite = (currentUsername, targetUsername) =>
       username: currentUsername,
       account: targetUsername,
     })
-    .then((resp) => resp.data);
+    .then((resp) => resp.data)
+    .catch((error) => bugsnag.notify(error));
 
 /**
  * @params current username
@@ -166,6 +181,69 @@ export const addFavorite = (currentUsername, targetUsername) =>
  */
 export const removeFavorite = (currentUsername, targetUsername) =>
   api.delete(`/favoriteUser/${currentUsername}/${targetUsername}`);
+
+/**
+ * @params current username
+ */
+export const getSnippets = (username) =>
+  api
+    .get(`/fragments/${username}`)
+    .then((resp) => resp.data)
+    .catch((error) => bugsnag.notify(error));
+
+/**
+ * @params current username
+ * @params title title
+ * @params body body
+ */
+export const addSnippet = (currentUsername, title, body) =>
+  api
+    .post('/fragment', {
+      username: currentUsername,
+      title,
+      body,
+    })
+    .then((resp) => resp.data)
+    .catch((error) => bugsnag.notify(error));
+
+/**
+ * @params current username
+ * @params fragmentid id
+ * @params title title
+ * @params body body
+ */
+export const updateSnippet = (username, id, title, body) =>
+  new Promise((resolve, reject) => {
+    api
+      .put(`/fragments/${username}/${id}`, {
+        title,
+        body,
+      })
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((error) => {
+        bugsnag.notify(error);
+        reject(error);
+      });
+  });
+
+/**
+ * @params current username
+ * @params fragmentid id
+ */
+export const removeSnippet = (username, id) =>
+  new Promise((resolve, reject) => {
+    api
+      .delete(`/fragments/${username}/${id}`)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((error) => {
+        bugsnag.notify(error);
+        reject(error);
+      });
+  });
 
 export const getLeaderboard = (duration) =>
   api
@@ -354,10 +432,14 @@ export const schedule = (
       options,
       reblog: 0,
     })
-    .then((resp) => resp.data);
+    .then((resp) => resp.data)
+    .catch((error) => bugsnag.notify(error));
 
 export const getSchedules = (username) =>
-  api.get(`/schedules/${username}`).then((resp) => resp.data);
+  api
+    .get(`/schedules/${username}`)
+    .then((resp) => resp.data)
+    .catch((error) => bugsnag.notify(error));
 
 export const removeSchedule = (username, id) => api.delete(`/schedules/${username}/${id}`);
 
@@ -366,7 +448,11 @@ export const moveSchedule = (id, username) => api.put(`/schedules/${username}/${
 // Old image service
 // Images
 
-export const getImages = (username) => api.get(`api/images/${username}`).then((resp) => resp.data);
+export const getImages = (username) =>
+  api
+    .get(`api/images/${username}`)
+    .then((resp) => resp.data)
+    .catch((error) => bugsnag.notify(error));
 
 export const addMyImage = (user, url) =>
   api.post('/image', {
@@ -408,22 +494,31 @@ export const getNodes = () => serverList.get().then((resp) => resp.data.hived ||
 export const getSCAccessToken = (code) =>
   new Promise((resolve, reject) => {
     ecencyApi
-      .post('/hs-token-refresh', {
+      .post('/auth-api/hs-token-refresh', {
         code,
       })
       .then((resp) => resolve(resp.data))
-      .catch((e) => reject(e));
+      .catch((e) => {
+        bugsnag.notify(e);
+        reject(e);
+      });
   });
 
 export const getPromotePosts = () => {
   try {
+    console.log('Fetching promoted posts');
     return api.get('/promoted-posts?limit=10').then((resp) => resp.data);
   } catch (error) {
+    bugsnag.notify(error);
     return error;
   }
 };
 
-export const purchaseOrder = (data) => api.post('/purchase-order', data).then((resp) => resp.data);
+export const purchaseOrder = (data) =>
+  api
+    .post('/purchase-order', data)
+    .then((resp) => resp.data)
+    .catch((error) => bugsnag.notify(error));
 
 export const getPostReblogs = (data) =>
   api
@@ -432,4 +527,7 @@ export const getPostReblogs = (data) =>
     .catch((error) => bugsnag.notify(error));
 
 export const register = (data) =>
-  api.post('/signup/account-create', data).then((resp) => resp.data);
+  api
+    .post('/signup/account-create', data)
+    .then((resp) => resp.data)
+    .catch((error) => bugsnag.notify(error));
