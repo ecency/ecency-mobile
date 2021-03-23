@@ -462,7 +462,7 @@ export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
     let posts = await client.call('bridge', 'get_ranked_posts', query);
 
     if (posts) {
-      const areComments = query.sort === 'comments';
+      const areComments = query.sort === 'comments' || query.sort === 'replies';
       posts = parsePosts(posts, currentUserName, areComments);
 
       if (filterNsfw !== '0') {
@@ -483,7 +483,7 @@ export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
     let posts = await client.call('bridge', 'get_account_posts', query);
 
     if (posts) {
-      const areComments = query.sort === 'comments';
+      const areComments = query.sort === 'comments' || query.sort === 'replies';
       posts = parsePosts(posts, currentUserName, areComments);
 
       if (filterNsfw !== '0') {
