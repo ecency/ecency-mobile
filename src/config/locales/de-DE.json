@@ -323,7 +323,10 @@
     "enter_text": "PIN zum Entsperren eingeben",
     "set_new": "Neuen PIN festlegen",
     "write_again": "Nochmal schreiben",
-    "forgot_text": "Oh, ich habe ihn vergessen..."
+    "forgot_text": "Oh, ich habe ihn vergessen...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Erfolgreich!",
@@ -357,6 +360,7 @@
     "remove_alert": "Bist du sicher, dass du es entfernen möchtest?",
     "clear_alert": "Sind sie sicher, das sie alles löschen wollen?",
     "clear_user_alert": "Wollen sie wirklich alle Benutzerdaten löschen?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Löschen",
     "cancel": "Abbrechen",
     "delete": "Entfernen",

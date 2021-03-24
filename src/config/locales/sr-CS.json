@@ -323,7 +323,10 @@
     "enter_text": "Unesite PIN da otključate",
     "set_new": "Postavi novi PIN",
     "write_again": "Probaj ponovo",
-    "forgot_text": "Jao, zaboravio sam..."
+    "forgot_text": "Jao, zaboravio sam...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Uspešno!",
@@ -357,6 +360,7 @@
     "remove_alert": "Da li ste sigurni da želite da uklonite?",
     "clear_alert": "Da li ste sigurni da želite da izbrišete?",
     "clear_user_alert": "Da li stе sigurni da žеlitе da izbrišеtе svе korisničke podatkе?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Izbriši",
     "cancel": "Otkaži",
     "delete": "Izbriši",

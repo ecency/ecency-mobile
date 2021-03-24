@@ -323,7 +323,10 @@
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
     "write_again": "Sumulat ulit",
-    "forgot_text": "Naku, nakalimutan ko..."
+    "forgot_text": "Naku, nakalimutan ko...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Tagumpay!",
@@ -357,6 +360,7 @@
     "remove_alert": "Are you sure want to remove?",
     "clear_alert": "Sigurado kang nais mong burahin?",
     "clear_user_alert": "Sigurado kang buburahin ang lahat ng user data?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Clear",
     "cancel": "Kaselahin",
     "delete": "Tangalin",

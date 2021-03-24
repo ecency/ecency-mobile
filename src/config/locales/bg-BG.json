@@ -323,7 +323,10 @@
     "enter_text": "Вкарай Пин-код за отключване",
     "set_new": "Задай нов Пин-код",
     "write_again": "Напиши отново",
-    "forgot_text": "О, забравих го ..."
+    "forgot_text": "О, забравих го ...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Успех",
@@ -357,6 +360,7 @@
     "remove_alert": "Сигорни ли сте за премахването?",
     "clear_alert": "Сигурни ли сте, че искате да изтриете?",
     "clear_user_alert": "Сигурни ли сте, че искате да изтриете всички ваши данни?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Изчисти",
     "cancel": "Отказ",
     "delete": "Изтрий",

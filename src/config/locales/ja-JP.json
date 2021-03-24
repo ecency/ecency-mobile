@@ -323,7 +323,10 @@
     "enter_text": "PIN を入力してロックを解除",
     "set_new": "新しい PIN を設定",
     "write_again": "もう一度入力",
-    "forgot_text": "忘れてしまった場合"
+    "forgot_text": "忘れてしまった場合",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "成功しました！",
@@ -357,6 +360,7 @@
     "remove_alert": "本当に削除しますか？",
     "clear_alert": "本当に消去しますか？",
     "clear_user_alert": "本当に全てのユーザーデータを消去しますか？",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "消去",
     "cancel": "キャンセル",
     "delete": "削除",

@@ -323,7 +323,10 @@
     "enter_text": "Ji bo vekirinê PINê bikevê",
     "set_new": "PînKoda nû saz bike",
     "write_again": "Dîsa binivîse",
-    "forgot_text": "Wey, Min ji bîr kiriye..."
+    "forgot_text": "Wey, Min ji bîr kiriye...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Serkevtî!",
@@ -357,6 +360,7 @@
     "remove_alert": "Bi rastî jî tu dixwazî rake?",
     "clear_alert": "Bi rastî jî tu dixwazî paqij bikî?",
     "clear_user_alert": "Bi rastî jî tu dixwazî hemû daneyên bikarhêner paqij bikî?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Paqij bike",
     "cancel": "Betal",
     "delete": "Jê bibe",

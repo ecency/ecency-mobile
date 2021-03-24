@@ -323,7 +323,10 @@
     "enter_text": "Enter PIN om te ontgrendelen",
     "set_new": "Stel nieuwe PIN in",
     "write_again": "Schrijf opnieuw",
-    "forgot_text": "Oh, ik ben het vergeten..."
+    "forgot_text": "Oh, ik ben het vergeten...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Gelukt!",
@@ -357,6 +360,7 @@
     "remove_alert": "Weet je zeker dat je wilt verwijderen?",
     "clear_alert": "Are you sure you want to clear?",
     "clear_user_alert": "Are you sure you want to clear all user data?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Clear",
     "cancel": "Annuleren",
     "delete": "Verwijderen",

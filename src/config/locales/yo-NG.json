@@ -323,7 +323,10 @@
     "enter_text": "Te PIN re lati si",
     "set_new": "Pese PIN tuntun",
     "write_again": "Se akole miran",
-    "forgot_text": "Ah! Motigbgbe re o..."
+    "forgot_text": "Ah! Motigbgbe re o...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "Aseyori!",
@@ -357,6 +360,7 @@
     "remove_alert": "Se o da o loju pe ofe yo kuro?",
     "clear_alert": "Are you sure you want to clear?",
     "clear_user_alert": "Are you sure you want to clear all user data?",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "Clear",
     "cancel": "Fa igi le",
     "delete": "Pa re",

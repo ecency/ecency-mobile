@@ -323,7 +323,10 @@
     "enter_text": "أدخل الرقم السري للفتح",
     "set_new": "تعيين رقم سري جديد",
     "write_again": "أكتب مرة أخرى",
-    "forgot_text": "أوه، لقد نسيت ذلك..."
+    "forgot_text": "أوه، لقد نسيت ذلك...",
+    "pin_not_matched": "PIN do not match, Please try again.",
+    "attempts_postfix": "failed attempt(s)",
+    "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
     "success": "تم بنجاح!",
@@ -357,6 +360,7 @@
     "remove_alert": "هل أنت متأكد تريد الإزالة؟",
     "clear_alert": "هل أنت متأكد من أنك تريد المسح؟",
     "clear_user_alert": "هل أنت متأكد أنك تريد مسح جميع بيانات المستخدم؟",
+    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
     "clear": "مسح",
     "cancel": "إلغاء",
     "delete": "حذف",
