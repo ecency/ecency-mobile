@@ -63,7 +63,7 @@ class EditorContainer extends Component {
     };
   }
 
-  _getDraft = async (username, isReply) => {
+  _getDraft = async (username, isReply, draftId) => {
     if (isReply) {
       const draftReply = await AsyncStorage.getItem('temp-reply');
 
@@ -75,7 +75,7 @@ class EditorContainer extends Component {
         });
       }
     } else {
-      await getDraftPost(username).then((result) => {
+      await getDraftPost(username, draftId).then((result) => {
         if (result) {
           this.setState({
             draftPost: {
@@ -271,20 +271,27 @@ class EditorContainer extends Component {
   _saveCurrentDraft = async (fields) => {
     const { draftId, isReply, isEdit, isPostSending } = this.state;
 
-    if (!draftId && !isEdit) {
-      const { currentAccount } = this.props;
-      const username = currentAccount && currentAccount.name ? currentAccount.name : '';
+    const { currentAccount } = this.props;
+    const username = currentAccount && currentAccount.name ? currentAccount.name : '';
 
-      const draftField = {
-        ...fields,
-        tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
-      };
-      if (!isPostSending) {
-        if (isReply && draftField.body) {
-          await AsyncStorage.setItem('temp-reply', draftField.body);
-        } else {
-          setDraftPost(draftField, username);
-        }
+    const draftField = {
+      ...fields,
+      tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
+    };
+
+    if (!isPostSending) {
+      //save reply data
+      if (isReply && draftField.body !== null) {
+        await AsyncStorage.setItem('temp-reply', draftField.body);
+
+        //save existing draft data locally
+      } else if (draftId) {
+        setDraftPost(draftField, username, draftId);
+      }
+
+      //update editor data locally
+      else if (!isReply) {
+        setDraftPost(draftField, username);
       }
     }
   };
@@ -817,9 +824,9 @@ class EditorContainer extends Component {
       });
     }
 
-    if (!isEdit && !_draft) {
-      this._getDraft(username, isReply);
-    }
+    // if (!isEdit && !_draft) {
+    this._getDraft(username, isReply, _draft && _draft._id);
+    // }
   }
 
   render() {

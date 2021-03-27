@@ -118,19 +118,29 @@ export const removeAllSCAccounts = async () => {
   }
 };
 
-export const setDraftPost = async (fields, username) => {
+export const setDraftPost = async (fields, username, draftId) => {
   try {
     let draft = await getItemFromStorage(DRAFT_SCHEMA);
 
     const data = {
       username,
+      draftId,
       title: fields.title,
       tags: fields.tags,
       body: fields.body,
     };
 
     if (draft && draft.some((e) => e.username === username)) {
-      draft = draft.map((item) => (item.username === username ? { ...item, ...data } : item));
+      //check if entry esist
+      const draftIndex = draft.findIndex(
+        (item) => draftId === undefined || item.draftId === draftId,
+      );
+
+      if (draftIndex < 0) {
+        draft.push(data);
+      } else {
+        draft[draftIndex] = data;
+      }
     } else {
       draft = [];
       draft.push(data);
@@ -142,10 +152,13 @@ export const setDraftPost = async (fields, username) => {
   }
 };
 
-export const getDraftPost = async (username) => {
+export const getDraftPost = async (username, draftId) => {
   try {
     const draft = await getItemFromStorage(DRAFT_SCHEMA);
-    const draftObj = draft.filter((item) => item.username === username);
+    const draftObj = draft.filter(
+      (item) => item.username === username && (draftId === undefined || item.draftId === draftId),
+    );
+
     return draftObj[0];
   } catch (error) {
     return error;
