@@ -121,10 +121,12 @@ export const removeAllSCAccounts = async () => {
 export const setDraftPost = async (fields, username, draftId) => {
   try {
     let draft = await getItemFromStorage(DRAFT_SCHEMA);
+    let timestamp = new Date().getTime();
 
     const data = {
       username,
       draftId,
+      timestamp,
       title: fields.title,
       tags: fields.tags,
       body: fields.body,

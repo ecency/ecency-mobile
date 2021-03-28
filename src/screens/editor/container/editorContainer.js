@@ -63,7 +63,7 @@ class EditorContainer extends Component {
     };
   }
 
-  _getDraft = async (username, isReply, draftId) => {
+  _getStorageDraft = async (username, isReply, paramDraft) => {
     if (isReply) {
       const draftReply = await AsyncStorage.getItem('temp-reply');
 
@@ -75,13 +75,30 @@ class EditorContainer extends Component {
         });
       }
     } else {
-      await getDraftPost(username, draftId).then((result) => {
-        if (result) {
+      await getDraftPost(username, paramDraft && paramDraft._id).then((result) => {
+        //if result is return and param draft available, compare timestamp, use latest
+        //if no draft, use result anayways
+        if (result && (!paramDraft || paramDraft.timestamp < result.timestamp)) {
           this.setState({
             draftPost: {
               body: get(result, 'body', ''),
               title: get(result, 'title', ''),
               tags: get(result, 'tags', '').split(','),
+            },
+          });
+        }
+
+        //if above fails with either no result returned or timestamp is old,
+        // and use draft form nav param if available.
+        else if (paramDraft) {
+          const _tags = paramDraft.tags.includes(' ')
+            ? paramDraft.tags.split(' ')
+            : paramDraft.tags.split(',');
+          this.setState({
+            draftPost: {
+              title: paramDraft.title,
+              body: paramDraft.body,
+              tags: _tags,
             },
           });
         }
@@ -747,17 +764,12 @@ class EditorContainer extends Component {
       const navigationParams = navigation.state.params;
 
       if (navigationParams.draft) {
-        _draft = navigationParams.draft;
-        const _tags = _draft.tags.includes(' ') ? _draft.tags.split(' ') : _draft.tags.split(',');
+        const _draft = navigationParams.draft;
         this.setState({
-          draftPost: {
-            title: _draft.title,
-            body: _draft.body,
-            tags: _tags,
-          },
           draftId: _draft._id,
           isDraft: true,
         });
+        this._getStorageDraft(username, isReply, _draft);
       }
       if (navigationParams.community) {
         this.setState({
@@ -824,9 +836,9 @@ class EditorContainer extends Component {
       });
     }
 
-    // if (!isEdit && !_draft) {
-    this._getDraft(username, isReply, _draft && _draft._id);
-    // }
+    if (!isEdit && !_draft) {
+      this._getStorageDraft(username, isReply);
+    }
   }
 
   render() {
