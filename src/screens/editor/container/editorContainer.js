@@ -280,7 +280,7 @@ class EditorContainer extends Component {
         tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
       };
       if (!isPostSending) {
-        if (isReply && draftField.body) {
+        if (isReply && draftField.body !== null) {
           await AsyncStorage.setItem('temp-reply', draftField.body);
         } else {
           setDraftPost(draftField, username);
@@ -729,7 +729,7 @@ class EditorContainer extends Component {
   };
 
   // Component Life Cycle Functions
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     const { currentAccount, navigation } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
     let isReply;
