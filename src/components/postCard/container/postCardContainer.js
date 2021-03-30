@@ -30,21 +30,8 @@ const PostCardContainer = ({
   imageHeight,
   setImageHeight,
 }) => {
-  const [_content, setContent] = useState(content);
   const [reblogs, setReblogs] = useState([]);
-  const [activeVotes, setActiveVotes] = useState(get(content, 'active_votes', []));
-
-  //NOTE: potentially unnessacry fetch
-  // useEffect(() => {
-  // if (isRefresh) {
-  //   _fetchPost();
-  // }
-  // }, [isRefresh]);
-
-  useEffect(() => {
-    setContent(content);
-    setActiveVotes(get(content, 'active_votes', []));
-  }, [content]);
+  const activeVotes = get(content, 'active_votes', []);
 
   useEffect(() => {
     let isCancelled = false;
@@ -64,24 +51,24 @@ const PostCardContainer = ({
       }
     };
 
-    if (_content) {
-      fetchData(_content);
+    if (content) {
+      fetchData(content);
     }
 
     return () => {
       isCancelled = true;
     };
-  }, [_content]);
+  }, [content]);
 
   const _handleOnUserPress = () => {
-    if (_content && get(currentAccount, 'name') !== get(_content, 'author')) {
+    if (content && get(currentAccount, 'name') !== get(content, 'author')) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.PROFILE,
         params: {
-          username: get(_content, 'author'),
-          reputation: get(_content, 'author_reputation'),
+          username: get(content, 'author'),
+          reputation: get(content, 'author_reputation'),
         },
-        key: get(_content, 'author'),
+        key: get(content, 'author'),
       });
     }
   };
@@ -103,9 +90,9 @@ const PostCardContainer = ({
       routeName: ROUTES.SCREENS.VOTERS,
       params: {
         activeVotes,
-        content: _content,
+        content: content,
       },
-      key: get(_content, 'permlink'),
+      key: get(content, 'permlink'),
     });
   };
 
@@ -115,23 +102,8 @@ const PostCardContainer = ({
       params: {
         reblogs,
       },
-      key: get(_content, 'permlink', get(_content, 'author', '')),
+      key: get(content, 'permlink', get(content, 'author', '')),
     });
-  };
-
-  const _fetchPost = async () => {
-    await getPost(
-      get(_content, 'author'),
-      get(_content, 'permlink'),
-      get(currentAccount, 'username'),
-    )
-      .then((result) => {
-        if (result) {
-          setContent(result);
-          setActiveVotes(get(result, 'active_votes', []));
-        }
-      })
-      .catch(() => {});
   };
 
   return (
@@ -140,8 +112,7 @@ const PostCardContainer = ({
       handleOnContentPress={_handleOnContentPress}
       handleOnVotersPress={_handleOnVotersPress}
       handleOnReblogsPress={_handleOnReblogsPress}
-      fetchPost={_fetchPost}
-      content={_content || content}
+      content={content}
       isHideImage={isHideImage}
       isNsfwPost={nsfw || '1'}
       reblogs={reblogs}
