@@ -32,7 +32,7 @@ const PostCardContainer = ({
 }) => {
   const [_content, setContent] = useState(content);
   const [reblogs, setReblogs] = useState([]);
-  const [activeVotes, setActiveVotes] = useState(get(_content, 'active_votes', []));
+  const [activeVotes, setActiveVotes] = useState(get(content, 'active_votes', []));
 
   //NOTE: potentially unnessacry fetch
   // useEffect(() => {
@@ -40,6 +40,11 @@ const PostCardContainer = ({
   //   _fetchPost();
   // }
   // }, [isRefresh]);
+
+  useEffect(() => {
+    setContent(content);
+    setActiveVotes(get(content, 'active_votes', []));
+  }, [content]);
 
   useEffect(() => {
     let isCancelled = false;

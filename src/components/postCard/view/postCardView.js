@@ -43,6 +43,10 @@ const PostCardView = ({
   const [activeVotesCount, setActiveVotesCount] = useState(activeVotes.length || 0);
   const [calcImgHeight, setCalcImgHeight] = useState(imageHeight || 300);
 
+  useEffect(() => {
+    setActiveVotesCount(activeVotes.length);
+  }, [activeVotes]);
+
   // Component Functions
 
   const _handleOnUserPress = () => {
