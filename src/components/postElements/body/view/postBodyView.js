@@ -31,6 +31,7 @@ const PostBody = ({
   handleOnUserPress,
   handleOnPostPress,
   dispatch,
+  onLoadEnd,
 }) => {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [postImages, setPostImages] = useState([]);
@@ -41,7 +42,7 @@ const PostBody = ({
   const intl = useIntl();
   const actionImage = useRef(null);
   const actionLink = useRef(null);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (selectedLink) {
@@ -294,9 +295,9 @@ const PostBody = ({
   };
 
   const _handleLoadEnd = () => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 200);
+    if (onLoadEnd) {
+      onLoadEnd();
+    }
   };
 
   const customStyle = `
@@ -461,7 +462,7 @@ const PostBody = ({
           handleLinkPress(index);
         }}
       />
-      {isLoading && (isComment ? <CommentPlaceHolder /> : <PostPlaceHolder />)}
+      {/* {isLoading && (isComment ? <CommentPlaceHolder /> : <PostPlaceHolder />)} */}
       <AutoHeightWebView
         source={{ html }}
         allowsFullscreenVideo={true}
@@ -470,6 +471,7 @@ const PostBody = ({
         onMessage={_handleOnLinkPress}
         customScript={customBodyScript}
         startInLoadingState={true}
+        renderLoading={() => (isComment ? <CommentPlaceHolder /> : <PostPlaceHolder />)}
         onShouldStartLoadWithRequest={false}
         scrollEnabled={false}
         scalesPageToFit={false}
