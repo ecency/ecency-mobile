@@ -40,11 +40,15 @@ const PostCardView = ({
   imageHeight,
   setImageHeight,
 }) => {
-  const [activeVotesCount, setActiveVotesCount] = useState(activeVotes.length || 0);
+  //local state to manage fake upvote if available
+  const [activeVotesCount, setActiveVotesCount] = useState(0);
   const [calcImgHeight, setCalcImgHeight] = useState(imageHeight || 300);
 
-  // Component Functions
+  useEffect(() => {
+    setActiveVotesCount(activeVotes ? activeVotes.length : 0);
+  }, [activeVotes]);
 
+  // Component Functions
   const _handleOnUserPress = () => {
     if (handleOnUserPress) {
       handleOnUserPress();
@@ -66,6 +70,7 @@ const PostCardView = ({
   };
 
   const _handleIncrementVoteCount = () => {
+    //fake increment vote using based on local change
     setActiveVotesCount(activeVotesCount + 1);
   };
 
