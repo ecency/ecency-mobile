@@ -13,6 +13,7 @@ export default EStyleSheet.create({
     paddingHorizontal: 16,
     color: '$primaryBlack',
     backgroundColor: '$primaryBackgroundColor',
+    minHeight: 200,
     // fontFamily: '$editorFont',
     // textAlignVertical: 'top',
   },
