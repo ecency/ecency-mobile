@@ -423,11 +423,11 @@ class EditorContainer extends Component {
   };
 
   _saveDraftToDB = async (fields) => {
-    try {
-      const { isDraftSaved, draftId } = this.state;
+    const { isDraftSaved, draftId } = this.state;
+    const { currentAccount, dispatch } = this.props;
 
+    try {
       if (!isDraftSaved) {
-        const { currentAccount } = this.props;
         const username = get(currentAccount, 'name', '');
         let draftField;
 
@@ -483,6 +483,8 @@ class EditorContainer extends Component {
             username,
           );
         }
+
+        dispatch(toastNotification('Draft Saved'));
       }
     } catch (err) {
       console.warn('Failed to save draft to DB: ', err);
@@ -492,6 +494,8 @@ class EditorContainer extends Component {
           isDraftSaved: false,
         });
       }
+
+      dispatch(toastNotification('Failed to save draft'));
     }
   };
 
