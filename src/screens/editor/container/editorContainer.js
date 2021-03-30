@@ -222,7 +222,7 @@ class EditorContainer extends Component {
    **/
   _fetchDraftsForComparison = async (isReply) => {
     const { currentAccount, isLoggedIn } = this.props;
-    const username = get(currentAccount, 'name');
+    const username = get(currentAccount, 'name', '');
 
     //initilizes editor with reply or non remote id less draft
     const _getStorageDraftGeneral = () => {
@@ -243,7 +243,7 @@ class EditorContainer extends Component {
       }
 
       const drafts = await getDrafts(username);
-      const unsavedLocalDraft = await getDraftPost(username);
+      const idLessDraft = await getDraftPost(username);
 
       const loadRecentDraft = () => {
         //if no draft available means local draft is recent
@@ -258,7 +258,7 @@ class EditorContainer extends Component {
 
         //if unsaved local draft is more latest then remote draft, use that instead
         //if editor was opened from draft screens, this code will be skipped anyways.
-        if (_draft.timestamp < unsavedLocalDraft.timestamp) {
+        if (idLessDraft && _draft.timestamp < idLessDraft.timestamp) {
           _getStorageDraftGeneral();
           return;
         }
@@ -275,7 +275,7 @@ class EditorContainer extends Component {
         console.log('Leaving editor empty');
       };
 
-      if (drafts.length > 0 || unsavedLocalDraft.timestamp > 0) {
+      if (drafts.length > 0 || (idLessDraft && idLessDraft.timestamp > 0)) {
         Alert.alert('Initialize', 'Load recent draft or create new post', [
           { text: 'Load Draft', onPress: loadRecentDraft },
           { text: 'New Post', onPress: leaveEmpty },
