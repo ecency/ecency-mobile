@@ -221,7 +221,7 @@ class EditorContainer extends Component {
    * @param isReply
    **/
   _fetchDraftsForComparison = async (isReply) => {
-    const { currentAccount, isLoggedIn } = this.props;
+    const { currentAccount, isLoggedIn, intl } = this.props;
     const username = get(currentAccount, 'name', '');
 
     //initilizes editor with reply or non remote id less draft
@@ -276,10 +276,21 @@ class EditorContainer extends Component {
       };
 
       if (drafts.length > 0 || (idLessDraft && idLessDraft.timestamp > 0)) {
-        Alert.alert('Initialize', 'Load recent draft or create new post', [
-          { text: 'Load Draft', onPress: loadRecentDraft },
-          { text: 'New Post', onPress: leaveEmpty },
-        ]);
+        Alert.alert(
+          intl.formatMessage({
+            id: 'editor.alert_init_title',
+          }),
+          intl.formatMessage({
+            id: 'editor.alert_init_body',
+          }),
+          [
+            {
+              text: intl.formatMessage({ id: 'editor.alert_btn_draft' }),
+              onPress: loadRecentDraft,
+            },
+            { text: intl.formatMessage({ id: 'editor.alert_btn_new' }), onPress: leaveEmpty },
+          ],
+        );
       }
     } catch (err) {
       console.warn('Failed to compare drafts, load general', err);
@@ -424,7 +435,7 @@ class EditorContainer extends Component {
 
   _saveDraftToDB = async (fields) => {
     const { isDraftSaved, draftId } = this.state;
-    const { currentAccount, dispatch } = this.props;
+    const { currentAccount, dispatch, intl } = this.props;
 
     try {
       if (!isDraftSaved) {
@@ -484,7 +495,13 @@ class EditorContainer extends Component {
           );
         }
 
-        dispatch(toastNotification('Draft Saved'));
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'editor.draft_save_success',
+            }),
+          ),
+        );
       }
     } catch (err) {
       console.warn('Failed to save draft to DB: ', err);
@@ -495,7 +512,13 @@ class EditorContainer extends Component {
         });
       }
 
-      dispatch(toastNotification('Failed to save draft'));
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: 'editor.draft_save_fail',
+          }),
+        ),
+      );
     }
   };
 
@@ -790,34 +813,57 @@ class EditorContainer extends Component {
 
   _handleSubmit = (form) => {
     const { isReply, isEdit } = this.state;
+    const { intl } = this.props;
 
     if (isReply && !isEdit) {
       this._submitReply(form.fields);
     } else if (isEdit) {
       Alert.alert(
-        'Publishing edits',
-        'Are you sure?',
+        intl.formatMessage({
+          id: 'editor.alert_pub_edit_title',
+        }),
+        intl.formatMessage({
+          id: 'editor.alert_pub_body',
+        }),
         [
           {
-            text: 'No',
+            text: intl.formatMessage({
+              id: 'editor.alert_btn_no',
+            }),
             onPress: () => console.log('Cancel Pressed'),
             style: 'cancel',
           },
-          { text: 'Yes', onPress: () => this._submitEdit(form.fields) },
+          {
+            text: intl.formatMessage({
+              id: 'editor.alert_btn_yes',
+            }),
+            onPress: () => this._submitEdit(form.fields),
+          },
         ],
         { cancelable: false },
       );
     } else {
       Alert.alert(
-        'Publishing new post',
-        'Are you sure?',
+        intl.formatMessage({
+          id: 'editor.alert_pub_new_title',
+        }),
+        intl.formatMessage({
+          id: 'editor.alert_pub_body',
+        }),
         [
           {
-            text: 'No',
+            text: intl.formatMessage({
+              id: 'editor.alert_btn_no',
+            }),
             onPress: () => console.log('Cancel Pressed'),
             style: 'cancel',
           },
-          { text: 'Yes', onPress: () => this._submitPost(form.fields) },
+          {
+            text: intl.formatMessage({
+              id: 'editor.alert_btn_yes',
+            }),
+            onPress: () => this._submitPost(form.fields),
+          },
         ],
         { cancelable: false },
       );
