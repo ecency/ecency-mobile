@@ -8,7 +8,13 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 // Services and Actions
 import { Buffer } from 'buffer';
-import { uploadImage, addDraft, updateDraft, schedule } from '../../../providers/ecency/ecency';
+import {
+  uploadImage,
+  addDraft,
+  updateDraft,
+  schedule,
+  getDrafts,
+} from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
   postContent,
@@ -42,6 +48,8 @@ import EditorScreen from '../screen/editorScreen';
  */
 
 class EditorContainer extends Component {
+  _isMounted = false;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -63,6 +71,101 @@ class EditorContainer extends Component {
     };
   }
 
+  // Component Life Cycle Functions
+  componentDidMount() {
+    this._isMounted = true;
+    const { currentAccount, navigation } = this.props;
+    const username = currentAccount && currentAccount.name ? currentAccount.name : '';
+    let isReply;
+    let isEdit;
+    let post;
+    let _draft;
+
+    if (navigation.state && navigation.state.params) {
+      const navigationParams = navigation.state.params;
+
+      if (navigationParams.draft) {
+        _draft = navigationParams.draft;
+        this.setState({
+          draftId: _draft._id,
+          isDraft: true,
+        });
+        this._getStorageDraft(username, isReply, _draft);
+      }
+      if (navigationParams.community) {
+        this.setState({
+          community: navigationParams.community,
+        });
+      }
+      if (navigationParams.upload) {
+        const { upload } = navigationParams;
+
+        upload.forEach((el) => {
+          if (el.filePath && el.fileName) {
+            this.setState({ isUploading: true });
+            const _media = {
+              path: el.filePath,
+              mime: el.mimeType,
+              filename: el.fileName || `img_${Math.random()}.jpg`,
+            };
+
+            this._uploadImage(_media);
+          } else if (el.text) {
+            this.setState({
+              draftPost: {
+                title: '',
+                body: el.text,
+                tags: [],
+              },
+            });
+          }
+        });
+      }
+
+      if (navigationParams.post) {
+        ({ post } = navigationParams);
+        this.setState({
+          post,
+        });
+      }
+
+      if (navigationParams.isReply) {
+        ({ isReply } = navigationParams);
+        this.setState({
+          isReply,
+        });
+      }
+
+      if (navigationParams.isEdit) {
+        ({ isEdit } = navigationParams);
+        this.setState({
+          isEdit,
+          draftPost: {
+            title: get(post, 'title', ''),
+            body: get(post, 'markdownBody', ''),
+            tags: get(post, 'json_metadata.tags', []),
+          },
+        });
+      }
+
+      if (navigationParams.action) {
+        this._handleRoutingAction(navigationParams.action);
+      }
+    } else {
+      this.setState({
+        autoFocusText: true,
+      });
+    }
+
+    if (!isEdit && !_draft) {
+      this._fetchDraftsForComparison(isReply);
+    }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   _getStorageDraft = async (username, isReply, paramDraft) => {
     if (isReply) {
       const draftReply = await AsyncStorage.getItem('temp-reply');
@@ -75,7 +178,7 @@ class EditorContainer extends Component {
         });
       }
     } else {
-      await getDraftPost(username, paramDraft && paramDraft._id).then((result) => {
+      getDraftPost(username, paramDraft && paramDraft._id).then((result) => {
         //if result is return and param draft available, compare timestamp, use latest
         //if no draft, use result anayways
         if (result && (!paramDraft || paramDraft.timestamp < result.timestamp)) {
@@ -84,6 +187,8 @@ class EditorContainer extends Component {
               body: get(result, 'body', ''),
               title: get(result, 'title', ''),
               tags: get(result, 'tags', '').split(','),
+              isDraft: paramDraft ? true : false,
+              draftId: paramDraft ? paramDraft._id : null,
             },
           });
         }
@@ -100,9 +205,85 @@ class EditorContainer extends Component {
               body: paramDraft.body,
               tags: _tags,
             },
+            isDraft: true,
+            draftId: paramDraft._id,
           });
         }
       });
+    }
+  };
+
+  /**
+   * this fucntion is run if editor is access used mid tab or reply section
+   * it fetches fresh drafts and run some comparions to load one of following
+   * empty editor, load non-remote draft or most recent remote draft based on timestamps
+   * prompts user as well
+   * @param isReply
+   **/
+  _fetchDraftsForComparison = async (isReply) => {
+    const { currentAccount, isLoggedIn } = this.props;
+    const username = get(currentAccount, 'name');
+
+    //initilizes editor with reply or non remote id less draft
+    const _getStorageDraftGeneral = () => {
+      this._getStorageDraft(username, isReply);
+    };
+
+    //skip comparison if its a reply and run general function
+    if (isReply) {
+      _getStorageDraftGeneral();
+      return;
+    }
+
+    try {
+      //if not logged in use non remote draft
+      if (!isLoggedIn) {
+        _getStorageDraftGeneral();
+        return;
+      }
+
+      const drafts = await getDrafts(username);
+      const unsavedLocalDraft = await getDraftPost(username);
+
+      const loadRecentDraft = () => {
+        //if no draft available means local draft is recent
+        if (drafts.length == 0) {
+          _getStorageDraftGeneral();
+          return;
+        }
+
+        //sort darts based on timestamps
+        drafts.sort((d1, d2) => (d1.timestamp < d2.timestamp ? 1 : -1));
+        const _draft = drafts[0];
+
+        //if unsaved local draft is more latest then remote draft, use that instead
+        //if editor was opened from draft screens, this code will be skipped anyways.
+        if (_draft.timestamp < unsavedLocalDraft.timestamp) {
+          _getStorageDraftGeneral();
+          return;
+        }
+
+        //initilize editor as draft
+        this.setState({
+          draftId: _draft._id,
+          isDraft: true,
+        });
+        this._getStorageDraft(username, isReply, _draft);
+      };
+
+      const leaveEmpty = () => {
+        console.log('Leaving editor empty');
+      };
+
+      if (drafts.length > 0 || unsavedLocalDraft.timestamp > 0) {
+        Alert.alert('Initialize', 'Load recent draft or create new post', [
+          { text: 'Load Draft', onPress: loadRecentDraft },
+          { text: 'New Post', onPress: leaveEmpty },
+        ]);
+      }
+    } catch (err) {
+      console.warn('Failed to compare drafts, load general', err);
+      _getStorageDraftGeneral();
     }
   };
 
@@ -241,47 +422,76 @@ class EditorContainer extends Component {
     }
   };
 
-  _saveDraftToDB = (fields) => {
-    const { isDraftSaved, draftId } = this.state;
+  _saveDraftToDB = async (fields) => {
+    try {
+      const { isDraftSaved, draftId } = this.state;
 
-    if (!isDraftSaved) {
-      const { currentAccount } = this.props;
-      const username = get(currentAccount, 'name', '');
-      let draftField;
+      if (!isDraftSaved) {
+        const { currentAccount } = this.props;
+        const username = get(currentAccount, 'name', '');
+        let draftField;
 
-      this.setState({
-        isDraftSaving: true,
-      });
-      if (fields) {
-        draftField = {
-          ...fields,
-          tags: fields.tags.join(' '),
-          username,
-        };
-      }
-
-      if (draftId && draftField) {
-        updateDraft({
-          ...draftField,
-          draftId,
-        }).then(() => {
+        if (this._isMounted) {
           this.setState({
-            isDraftSaved: true,
+            isDraftSaving: true,
           });
-        });
-      } else if (draftField) {
-        addDraft(draftField).then((response) => {
-          this.setState({
-            isDraftSaved: true,
-            draftId: response._id,
+        }
+
+        if (fields) {
+          draftField = {
+            ...fields,
+            tags: fields.tags.join(' '),
+            username,
+          };
+        }
+
+        //update draft is draftId is present
+        if (draftId && draftField) {
+          await updateDraft({
+            ...draftField,
+            draftId,
           });
+
+          if (this._isMounted) {
+            this.setState({
+              isDraftSaved: true,
+              isDraftSaving: false,
+            });
+          }
+        }
+
+        //create new darft otherwise
+        else if (draftField) {
+          const response = await addDraft(draftField);
+
+          if (this._isMounted) {
+            this.setState({
+              isDraftSaved: true,
+              isDraftSaving: false,
+              draftId: response._id,
+            });
+          }
+
+          //clear local copy is darft save is successful
+          setDraftPost(
+            {
+              title: '',
+              body: '',
+              tags: '',
+              timestamp: 0,
+            },
+            username,
+          );
+        }
+      }
+    } catch (err) {
+      console.warn('Failed to save draft to DB: ', err);
+      if (this._isMounted) {
+        this.setState({
+          isDraftSaving: false,
+          isDraftSaved: false,
         });
       }
-
-      this.setState({
-        isDraftSaving: false,
-        isDraftSaved,
-      });
     }
   };
 
@@ -387,6 +597,7 @@ class EditorContainer extends Component {
                 title: '',
                 body: '',
                 tags: '',
+                timestamp: 0,
               },
               currentAccount.name,
             );
@@ -434,12 +645,7 @@ class EditorContainer extends Component {
       const permlink = generateReplyPermlink(post.author);
       const author = currentAccount.name;
       const options = null;
-      /*makeOptions({
-        author: author,
-        permlink: permlink,
-        operationType: rewardType,
-        beneficiaries: beneficiaries,
-      });*/
+
       const parentAuthor = post.author;
       const parentPermlink = post.permlink;
       const voteWeight = null;
@@ -707,6 +913,7 @@ class EditorContainer extends Component {
             title: '',
             body: '',
             tags: '',
+            timestamp: 0,
           },
           currentAccount.name,
         );
@@ -734,6 +941,7 @@ class EditorContainer extends Component {
         title: '',
         body: '',
         tags: '',
+        timestamp: 0,
       },
       name,
     );
@@ -751,95 +959,6 @@ class EditorContainer extends Component {
     this.setState({ beneficiaries: value });
     await AsyncStorage.setItem('temp-beneficiaries', JSON.stringify(value));
   };
-
-  // Component Life Cycle Functions
-  UNSAFE_componentWillMount() {
-    const { currentAccount, navigation } = this.props;
-    const username = currentAccount && currentAccount.name ? currentAccount.name : '';
-    let isReply;
-    let isEdit;
-    let post;
-    let _draft;
-    if (navigation.state && navigation.state.params) {
-      const navigationParams = navigation.state.params;
-
-      if (navigationParams.draft) {
-        const _draft = navigationParams.draft;
-        this.setState({
-          draftId: _draft._id,
-          isDraft: true,
-        });
-        this._getStorageDraft(username, isReply, _draft);
-      }
-      if (navigationParams.community) {
-        this.setState({
-          community: navigationParams.community,
-        });
-      }
-      if (navigationParams.upload) {
-        const { upload } = navigationParams;
-
-        upload.forEach((el) => {
-          if (el.filePath && el.fileName) {
-            this.setState({ isUploading: true });
-            const _media = {
-              path: el.filePath,
-              mime: el.mimeType,
-              filename: el.fileName || `img_${Math.random()}.jpg`,
-            };
-
-            this._uploadImage(_media);
-          } else if (el.text) {
-            this.setState({
-              draftPost: {
-                title: '',
-                body: el.text,
-                tags: [],
-              },
-            });
-          }
-        });
-      }
-
-      if (navigationParams.post) {
-        ({ post } = navigationParams);
-        this.setState({
-          post,
-        });
-      }
-
-      if (navigationParams.isReply) {
-        ({ isReply } = navigationParams);
-        this.setState({
-          isReply,
-        });
-      }
-
-      if (navigationParams.isEdit) {
-        ({ isEdit } = navigationParams);
-        this.setState({
-          isEdit,
-          draftPost: {
-            title: get(post, 'title', ''),
-            body: get(post, 'markdownBody', ''),
-            tags: get(post, 'json_metadata.tags', []),
-          },
-        });
-      }
-
-      if (navigationParams.action) {
-        this._handleRoutingAction(navigationParams.action);
-      }
-    } else {
-      this.setState({
-        autoFocusText: true,
-      });
-    }
-
-    if (!isEdit && !_draft) {
-      this._getStorageDraft(username, isReply);
-    }
-  }
 
   render() {
     const { isLoggedIn, isDarkTheme, navigation, currentAccount } = this.props;

@@ -65,6 +65,10 @@ class EditorScreen extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this._saveDraftToDB();
+  }
+
   UNSAFE_componentWillReceiveProps = async (nextProps) => {
     const { draftPost, isUploading, community } = this.props;
     if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
@@ -127,10 +131,7 @@ class EditorScreen extends Component {
   };
 
   _handleOnSaveButtonPress = () => {
-    const { saveDraftToDB } = this.props;
-    const { fields } = this.state;
-
-    saveDraftToDB(fields);
+    this._saveDraftToDB();
   };
 
   _saveCurrentDraft = (fields) => {
@@ -251,6 +252,13 @@ class EditorScreen extends Component {
         console.log(error);
       });
   };
+
+  _saveDraftToDB() {
+    const { saveDraftToDB } = this.props;
+    const { fields } = this.state;
+
+    saveDraftToDB(fields);
+  }
 
   render() {
     const {
