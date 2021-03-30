@@ -48,6 +48,7 @@ const PostDisplayView = ({
   const [isLoadedComments, setIsLoadedComments] = useState(false);
   const actionSheet = useRef(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [postBodyLoading, setPostBodyLoading] = useState(false);
 
   // Component Life Cycles
   useEffect(() => {
@@ -59,6 +60,7 @@ const PostDisplayView = ({
   // Component Functions
   const onRefresh = useCallback(() => {
     setRefreshing(true);
+    setPostBodyLoading(true);
     fetchPost().then(() => setRefreshing(false));
   }, [refreshing]);
 
@@ -183,6 +185,10 @@ const PostDisplayView = ({
     );
   }
 
+  const _handleOnPostBodyLoad = () => {
+    setPostBodyLoading(false);
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView
@@ -207,20 +213,22 @@ const PostDisplayView = ({
                 content={post}
                 size={36}
               />
-              <PostBody body={post.body} />
-              <View style={styles.footer}>
-                <Tags tags={post.json_metadata && post.json_metadata.tags} />
-                <Text style={styles.footerText}>
-                  Posted by
-                  <Text style={styles.footerName}>{` ${author || post.author} `}</Text>
-                  {formatedTime}
-                </Text>
-                {/* {isPostEnd && this._getTabBar()} */}
-              </View>
+              <PostBody body={post.body} onLoadEnd={_handleOnPostBodyLoad} />
+              {!postBodyLoading && (
+                <View style={styles.footer}>
+                  <Tags tags={post.json_metadata && post.json_metadata.tags} />
+                  <Text style={styles.footerText}>
+                    Posted by
+                    <Text style={styles.footerName}>{` ${author || post.author} `}</Text>
+                    {formatedTime}
+                  </Text>
+                  {/* {isPostEnd && this._getTabBar()} */}
+                </View>
+              )}
             </View>
           )}
         </View>
-        {post && (isGetComment || isLoadedComments) && (
+        {post && !postBodyLoading && (isGetComment || isLoadedComments) && (
           <CommentsDisplay
             author={author || post.author}
             mainAuthor={author || post.author}
