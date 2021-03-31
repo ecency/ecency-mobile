@@ -79,6 +79,8 @@ export const addDraft = (data) =>
         const { drafts } = res.data;
         if (drafts) {
           resolve(drafts.pop());
+        } else {
+          reject(new Error('No drafts returned in response'));
         }
       })
       .catch((error) => {
@@ -102,7 +104,11 @@ export const updateDraft = (data) =>
         tags: data.tags,
       })
       .then((res) => {
-        resolve(res.data);
+        if (res.data) {
+          resolve(res.data);
+        } else {
+          reject(new Error('No data retuend in update response'));
+        }
       })
       .catch((error) => {
         bugsnag.notify(error);

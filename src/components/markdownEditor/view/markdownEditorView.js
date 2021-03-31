@@ -41,6 +41,8 @@ import { ThemeContainer } from '../../../containers';
 import styles from './markdownEditorStyles';
 import applySnippet from './formats/applySnippet';
 
+const MIN_BODY_INPUT_HEIGHT = 200;
+
 const MarkdownEditorView = ({
   draftBody,
   handleIsFormValid,
@@ -66,7 +68,7 @@ const MarkdownEditorView = ({
   const [text, setText] = useState(draftBody || '');
   const [selection, setSelection] = useState({ start: 0, end: 0 });
   const [editable, setEditable] = useState(true);
-  const [height, setHeight] = useState(0);
+  const [bodyInputHeight, setBodyInputHeight] = useState(MIN_BODY_INPUT_HEIGHT);
   const [isSnippetsOpen, setIsSnippetsOpen] = useState(false);
 
   const inputRef = useRef(null);
@@ -159,6 +161,11 @@ const MarkdownEditorView = ({
 
   const _handleOnSelectionChange = async (event) => {
     setSelection(event.nativeEvent.selection);
+  };
+
+  const _handleOnContentSizeChange = async (event) => {
+    const height = Math.max(MIN_BODY_INPUT_HEIGHT, event.nativeEvent.contentSize.height + 30);
+    setBodyInputHeight(height);
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -337,13 +344,14 @@ const MarkdownEditorView = ({
                 })}
                 placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
                 selectionColor="#357ce6"
-                style={styles.textWrapper}
+                style={{ ...styles.textWrapper, height: bodyInputHeight }}
                 underlineColorAndroid="transparent"
                 innerRef={inputRef}
                 editable={editable}
                 contextMenuHidden={false}
                 autoGrow={false}
                 scrollEnabled={false}
+                onContentSizeChange={_handleOnContentSizeChange}
               />
             )}
           </ThemeContainer>
