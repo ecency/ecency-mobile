@@ -257,7 +257,10 @@ class EditorScreen extends Component {
     const { saveDraftToDB } = this.props;
     const { fields } = this.state;
 
-    saveDraftToDB(fields);
+    //save draft only if any of field is valid
+    if (fields.body || fields.title) {
+      saveDraftToDB(fields);
+    }
   }
 
   render() {
