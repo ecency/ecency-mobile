@@ -1,81 +1,60 @@
 import React, { useState } from 'react';
-// import { Animated, View, TouchableOpacity, StyleSheet } from 'react-native';
-// import { TabView, SceneMap } from 'react-native-tab-view';
+import { useIntl } from 'react-intl';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
+import { useSelector } from 'react-redux';
+import { FilterBar } from '../..';
+import PostsList from '../../postsList';
+import { StackedTabBar } from '../view/stackedTabBar';
+import { TabbedPostsProps } from './tabbedPostsProps';
 
-// const FirstRoute = () => (
-//   <View style={[styles.container, { backgroundColor: '#ff4081' }]} />
-// );
-// const SecondRoute = () => (
-//   <View style={[styles.container, { backgroundColor: '#673ab7' }]} />
-// );
 
-export const TabbedPosts = () => {
-  return null;
-  //   const [state, setState] = useState({
-  //       index: 0,
-  //       routes: [
-  //         { key: 'first', title: 'First' },
-  //         { key: 'second', title: 'Second' },
-  //       ],
-  //     })
+export const TabbedPosts = ({
+  filterOptions,
+  filterOptionsValue,
+  initialFilterIndex,
+  feedSubfilterOptions,
+  feedSubfilterOptionsValue,
+  isFeedScreen
+}:TabbedPostsProps) => {
 
-  // const _handleIndexChange = (index) => setState({...state, index });
+  const intl = useIntl();
+  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
 
-  // const _renderTabBar = (props) => {
-  //   const inputRange = props.navigationState.routes.map((x, i) => i);
+  const [initialPageIndex] = useState(initialFilterIndex == 0 && isFeedScreen && isLoggedIn ? filterOptions.length : initialFilterIndex)
 
-  //   return (
-  //     <View style={styles.tabBar}>
-  //       {props.navigationState.routes.map((route, i) => {
-  //         const opacity = props.position.interpolate({
-  //           inputRange,
-  //           outputRange: inputRange.map((inputIndex) =>
-  //             inputIndex === i ? 1 : 0.5
-  //           ),
-  //         });
 
-  //         return (
-  //           <TouchableOpacity
-  //             style={styles.tabItem}
-  //             onPress={() => setState({...state, index: i })}>
-  //             <Animated.Text style={{ opacity }}>{route.title}</Animated.Text>
-  //           </TouchableOpacity>
-  //         );
-  //       })}
-  //     </View>
-  //   );
-  // };
+  const pages = [
+    ...filterOptions,
+    ...feedSubfilterOptions,
+  ].map((filter)=>(
+    <PostsList 
+      tabLabel={filter}
+      isFeedScreen={isFeedScreen}
+      promotedPosts={[]}
+    />
+  ))
 
-  // //routes will be build dynamically
-  // const _renderScene = SceneMap({
-  //   first: FirstRoute,
-  //   second: SecondRoute,
-  // });
 
- 
-  // //tab view will be the parent component 
-  //   return (
-  //     <TabView
-  //       lazy={true}
-  //       navigationState={state}
-  //       renderScene={_renderScene}
-  //       renderTabBar={_renderTabBar}
-  //       onIndexChange={_handleIndexChange}
-  //     />
-  //   );
-  // 
+  const _renderTabBar = (props) => {
+    return (
+      <StackedTabBar 
+        {...props}
+        shouldStack={isFeedScreen && isLoggedIn}
+        filterOptions={filterOptions}
+        subFilterOptions={feedSubfilterOptions}
+        initialFilterIndex={initialFilterIndex}
+      />
+    )
+  }
+
+
+  return (
+    <ScrollableTabView
+      scrollWithoutAnimation={true}
+      initialPage={initialPageIndex}
+      renderTabBar={_renderTabBar}>
+      {pages}
+    </ScrollableTabView>
+  );
+
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//   },
-//   tabBar: {
-//     flexDirection: 'row',
-//   },
-//   tabItem: {
-//     flex: 1,
-//     alignItems: 'center',
-//     padding: 16,
-//   },
-// });
