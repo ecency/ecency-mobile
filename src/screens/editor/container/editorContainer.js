@@ -253,12 +253,14 @@ class EditorContainer extends Component {
         }
 
         //sort darts based on timestamps
-        drafts.sort((d1, d2) => (d1.timestamp < d2.timestamp ? 1 : -1));
+        drafts.sort((d1, d2) =>
+          new Date(d1.modified).getTime() < new Date(d2.modified).getTime() ? 1 : -1,
+        );
         const _draft = drafts[0];
 
         //if unsaved local draft is more latest then remote draft, use that instead
         //if editor was opened from draft screens, this code will be skipped anyways.
-        if (idLessDraft && _draft.timestamp < idLessDraft.timestamp) {
+        if (idLessDraft && new Date(_draft.modified).getTime() < idLessDraft.timestamp) {
           _getStorageDraftGeneral();
           return;
         }
@@ -502,6 +504,9 @@ class EditorContainer extends Component {
             }),
           ),
         );
+
+        //call fetch post to drafts screen
+        this._navigationBackFetchDrafts();
       }
     } catch (err) {
       console.warn('Failed to save draft to DB: ', err);
@@ -802,11 +807,11 @@ class EditorContainer extends Component {
     }, 3000);
   };
 
-  _handleOnBackPress = () => {
+  _navigationBackFetchDrafts = () => {
     const { navigation } = this.props;
     const { isDraft } = this.state;
 
-    if (isDraft) {
+    if (isDraft && navigation.state.params) {
       navigation.state.params.fetchPost();
     }
   };
@@ -1038,7 +1043,7 @@ class EditorContainer extends Component {
         handleBeneficiaries={this._handleBeneficiaries}
         handleDatePickerChange={this._handleDatePickerChange}
         handleFormChanged={this._handleFormChanged}
-        handleOnBackPress={this._handleOnBackPress}
+        handleOnBackPress={() => {}}
         handleOnImagePicker={this._handleRoutingAction}
         handleOnSubmit={this._handleSubmit}
         initialEditor={this._initialEditor}
