@@ -10,6 +10,7 @@ export default EStyleSheet.create({
       },
 
       sheetContent: {
+        height:400,
         backgroundColor: '$modalBackground',
       },
 

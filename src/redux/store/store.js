@@ -22,7 +22,7 @@ const persistedReducer = persistReducer(persistConfig, reducer);
 
 const middleware = [thunk];
 if (process.env.NODE_ENV === 'development') {
-  // middleware.push(logger);
+  middleware.push(logger);
 }
 
 const store = createStore(persistedReducer, applyMiddleware(...middleware));
