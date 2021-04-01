@@ -10,26 +10,44 @@ export default EStyleSheet.create({
       },
 
       sheetContent: {
-        height:400,
-        backgroundColor: '$modalBackground',
+        backgroundColor: '$primaryBackgroundColor',
       },
 
     container:{
-        flex:1,
-        marginTop:24,
+        marginTop:16,
+        marginBottom:44,
         paddingHorizontal:24,
-    },
-
-    contentContainer:{
-        flex:1,
         alignItems:'center',
+        justifyContent:'space-between',
     } as ViewStyle,
 
-
     imageStyle:{
+        marginTop:8,
         height:150,
         width:150,
     } as ImageStyle,
+
+    textContainer:{
+        marginTop:32,
+        marginBottom:44,
+    } as ViewStyle,
+
+    title: {
+        color: '$primaryBlack',
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontSize: 20,
+        fontWeight: '800',
+    } as TextStyle,
+
+    bodyText: {
+        color: '$primaryBlack',
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: '600',
+        marginTop:4,
+    } as TextStyle,
 
     btnText:{
         color:'$pureWhite'
@@ -47,10 +65,10 @@ export default EStyleSheet.create({
 
 
     actionPanel:{
+        width:'100%',
         flexDirection:'row', 
         justifyContent:'space-around', 
         alignItems:'center', 
-        marginBottom:64
     } as ViewStyle,
 
 })

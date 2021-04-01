@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import {View, Text} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { TextButton } from '../../buttons';
@@ -48,22 +48,22 @@ const ActionModalView = ({onClose, data}: ActionModalViewProps, ref) => {
 
     const _renderContent = (
         <View style={styles.container}>
+            {
+                headerImage && (
+                    <FastImage 
+                        source={headerImage}
+                        style={styles.imageStyle}
+                        resizeMode='contain'
+                    />
+                )
+            }
 
-            <View style={styles.contentContainer}>
+            <View style={styles.textContainer}>
+                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.bodyText}>{body}</Text>
                 
-                {
-                    headerImage && (
-                        <FastImage 
-                            source={headerImage}
-                            style={styles.imageStyle}
-                            resizeMode='contain'
-                        />
-                    )
-                }
-                <Text>{title}</Text>
-                <Text>{body}</Text>
             </View>
-
+                
             
             <View style={styles.actionPanel}>
                 {
@@ -73,7 +73,6 @@ const ActionModalView = ({onClose, data}: ActionModalViewProps, ref) => {
                             text={props.text}
                             onPress={(evn)=>{
                                 sheetModalRef.current?.setModalVisible(false);
-                                onClose();
                                 props.onPress(evn);
                             }}
                             style={styles.button}
@@ -82,23 +81,21 @@ const ActionModalView = ({onClose, data}: ActionModalViewProps, ref) => {
                     ))
                 }
             </View>
-            
         </View>
     )
 
   return (
-
-    <View > 
+ 
          <ActionSheet 
            ref={sheetModalRef}
-            gestureEnabled={true}
+            gestureEnabled={false}
             hideUnderlay
             containerStyle={styles.sheetContent}
             indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
-            onClose={onClose}> 
+            onClose={onClose}
+            > 
             {_renderContent}
         </ActionSheet> 
-     </View> 
 
   );
 };
