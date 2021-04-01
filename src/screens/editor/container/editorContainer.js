@@ -15,7 +15,7 @@ import {
   schedule,
   getDrafts,
 } from '../../../providers/ecency/ecency';
-import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
+import { toastNotification, setRcOffer, showActionModal } from '../../../redux/actions/uiAction';
 import {
   postContent,
   getPurePost,
@@ -40,6 +40,7 @@ import {
 // import { generateSignature } from '../../../utils/image';
 // Component
 import EditorScreen from '../screen/editorScreen';
+import ImageAssets from '../../../assets/ImageAssets';
 
 /*
  *            Props Name        Description                                     Value
@@ -221,7 +222,7 @@ class EditorContainer extends Component {
    * @param isReply
    **/
   _fetchDraftsForComparison = async (isReply) => {
-    const { currentAccount, isLoggedIn, intl } = this.props;
+    const { currentAccount, isLoggedIn, intl, dispatch } = this.props;
     const username = get(currentAccount, 'name', '');
 
     //initilizes editor with reply or non remote id less draft
@@ -278,20 +279,24 @@ class EditorContainer extends Component {
       };
 
       if (drafts.length > 0 || (idLessDraft && idLessDraft.timestamp > 0)) {
-        Alert.alert(
-          intl.formatMessage({
-            id: 'editor.alert_init_title',
-          }),
-          intl.formatMessage({
-            id: 'editor.alert_init_body',
-          }),
-          [
-            {
-              text: intl.formatMessage({ id: 'editor.alert_btn_draft' }),
-              onPress: loadRecentDraft,
-            },
-            { text: intl.formatMessage({ id: 'editor.alert_btn_new' }), onPress: leaveEmpty },
-          ],
+        //dispatch action modal
+        dispatch(
+          showActionModal(
+            intl.formatMessage({
+              id: 'editor.alert_init_title',
+            }),
+            intl.formatMessage({
+              id: 'editor.alert_init_body',
+            }),
+            [
+              {
+                text: intl.formatMessage({ id: 'editor.alert_btn_draft' }),
+                onPress: loadRecentDraft,
+              },
+              { text: intl.formatMessage({ id: 'editor.alert_btn_new' }), onPress: leaveEmpty },
+            ],
+            ImageAssets.writerMascot,
+          ),
         );
       }
     } catch (err) {

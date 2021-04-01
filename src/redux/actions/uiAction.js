@@ -4,6 +4,8 @@ import {
   HIDE_POSTS_THUMBNAILS,
   RC_OFFER,
   TOGGLE_ACCOUNTS_BOTTOM_SHEET,
+  SHOW_ACTION_MODAL,
+  HIDE_ACTION_MODAL,
 } from '../constants/constants';
 
 export const updateActiveBottomTab = (payload) => ({
@@ -14,6 +16,23 @@ export const updateActiveBottomTab = (payload) => ({
 export const toastNotification = (payload) => ({
   payload,
   type: TOAST_NOTIFICATION,
+});
+
+export const showActionModal = (title, body, buttons, headerImage) => ({
+  payload: {
+    actionModalVisible: true,
+    actionModalData: {
+      title,
+      body,
+      buttons,
+      headerImage,
+    },
+  },
+  type: SHOW_ACTION_MODAL,
+});
+
+export const hideActionModal = () => ({
+  type: HIDE_ACTION_MODAL,
 });
 
 export const setRcOffer = (payload) => ({
