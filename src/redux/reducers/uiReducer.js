@@ -4,6 +4,8 @@ import {
   HIDE_POSTS_THUMBNAILS,
   RC_OFFER,
   TOGGLE_ACCOUNTS_BOTTOM_SHEET,
+  SHOW_ACTION_MODAL,
+  HIDE_ACTION_MODAL,
 } from '../constants/constants';
 
 const initialState = {
@@ -12,6 +14,8 @@ const initialState = {
   hidePostsThumbnails: false,
   rcOffer: false,
   isVisibleAccountsBottomSheet: false,
+  actionModalVisible: false,
+  actionModalData: null,
 };
 
 export default function (state = initialState, action) {
@@ -27,6 +31,22 @@ export default function (state = initialState, action) {
         ...state,
         toastNotification: action.payload,
       };
+
+    case SHOW_ACTION_MODAL: {
+      return {
+        ...state,
+        actionModalVisible: action.payload.actionModalVisible,
+        actionModalData: action.payload.actionModalData,
+      };
+    }
+
+    case HIDE_ACTION_MODAL: {
+      return {
+        ...state,
+        actionModalVisible: false,
+        actionModalData: null,
+      };
+    }
 
     case RC_OFFER:
       return {

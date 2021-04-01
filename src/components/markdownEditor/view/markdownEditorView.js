@@ -64,6 +64,7 @@ const MarkdownEditorView = ({
   onTitleChanged,
   getCommunity,
   currentAccount,
+  autoFocusText,
 }) => {
   const [text, setText] = useState(draftBody || '');
   const [selection, setSelection] = useState({ start: 0, end: 0 });
@@ -121,10 +122,10 @@ const MarkdownEditorView = ({
   }, [draftBody]);
 
   useEffect(() => {
-    if (inputRef && inputRef.current) {
+    if (autoFocusText && inputRef && inputRef.current) {
       inputRef.current.focus();
     }
-  }, [currentAccount]);
+  }, [autoFocusText]);
 
   useEffect(() => {
     const nextText = text.replace(text, '');

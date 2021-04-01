@@ -75,7 +75,7 @@ import {
   setPinCode as savePinCode,
   isRenderRequired,
 } from '../../../redux/actions/applicationActions';
-import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
+import { hideActionModal, updateActiveBottomTab } from '../../../redux/actions/uiAction';
 
 import { encryptKey } from '../../../utils/crypto';
 
@@ -607,6 +607,7 @@ class ApplicationContainer extends Component {
   _getSettings = async () => {
     const { dispatch } = this.props;
 
+    dispatch(hideActionModal());
     const settings = await getSettings();
 
     if (settings) {

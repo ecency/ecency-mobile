@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Alert } from 'react-native';
+import { Alert, Keyboard } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -15,7 +15,7 @@ import {
   schedule,
   getDrafts,
 } from '../../../providers/ecency/ecency';
-import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
+import { toastNotification, setRcOffer, showActionModal } from '../../../redux/actions/uiAction';
 import {
   postContent,
   getPurePost,
@@ -40,6 +40,7 @@ import {
 // import { generateSignature } from '../../../utils/image';
 // Component
 import EditorScreen from '../screen/editorScreen';
+import ImageAssets from '../../../assets/ImageAssets';
 
 /*
  *            Props Name        Description                                     Value
@@ -151,14 +152,12 @@ class EditorContainer extends Component {
       if (navigationParams.action) {
         this._handleRoutingAction(navigationParams.action);
       }
-    } else {
-      this.setState({
-        autoFocusText: true,
-      });
     }
 
     if (!isEdit && !_draft) {
       this._fetchDraftsForComparison(isReply);
+    } else {
+      this._requestKeyboardFocus();
     }
   }
 
@@ -213,6 +212,16 @@ class EditorContainer extends Component {
     }
   };
 
+  _requestKeyboardFocus = () => {
+    //50 ms timeout is added to avoid keyboard not showing up on android
+    setTimeout(() => {
+      //request keyboard focus
+      this.setState({
+        autoFocusText: true,
+      });
+    }, 50);
+  };
+
   /**
    * this fucntion is run if editor is access used mid tab or reply section
    * it fetches fresh drafts and run some comparions to load one of following
@@ -221,12 +230,15 @@ class EditorContainer extends Component {
    * @param isReply
    **/
   _fetchDraftsForComparison = async (isReply) => {
-    const { currentAccount, isLoggedIn, intl } = this.props;
+    const { currentAccount, isLoggedIn, intl, dispatch } = this.props;
     const username = get(currentAccount, 'name', '');
 
     //initilizes editor with reply or non remote id less draft
-    const _getStorageDraftGeneral = () => {
-      this._getStorageDraft(username, isReply);
+    const _getStorageDraftGeneral = async (requestFocus = true) => {
+      await this._getStorageDraft(username, isReply);
+      if (requestFocus) {
+        this._requestKeyboardFocus();
+      }
     };
 
     //skip comparison if its a reply and run general function
@@ -248,7 +260,7 @@ class EditorContainer extends Component {
       const loadRecentDraft = () => {
         //if no draft available means local draft is recent
         if (drafts.length == 0) {
-          _getStorageDraftGeneral();
+          _getStorageDraftGeneral(false);
           return;
         }
 
@@ -261,7 +273,7 @@ class EditorContainer extends Component {
         //if unsaved local draft is more latest then remote draft, use that instead
         //if editor was opened from draft screens, this code will be skipped anyways.
         if (idLessDraft && new Date(_draft.modified).getTime() < idLessDraft.timestamp) {
-          _getStorageDraftGeneral();
+          _getStorageDraftGeneral(false);
           return;
         }
 
@@ -278,20 +290,24 @@ class EditorContainer extends Component {
       };
 
       if (drafts.length > 0 || (idLessDraft && idLessDraft.timestamp > 0)) {
-        Alert.alert(
-          intl.formatMessage({
-            id: 'editor.alert_init_title',
-          }),
-          intl.formatMessage({
-            id: 'editor.alert_init_body',
-          }),
-          [
-            {
-              text: intl.formatMessage({ id: 'editor.alert_btn_draft' }),
-              onPress: loadRecentDraft,
-            },
-            { text: intl.formatMessage({ id: 'editor.alert_btn_new' }), onPress: leaveEmpty },
-          ],
+        dispatch(
+          showActionModal(
+            intl.formatMessage({
+              id: 'editor.alert_init_title',
+            }),
+            intl.formatMessage({
+              id: 'editor.alert_init_body',
+            }),
+            [
+              {
+                text: intl.formatMessage({ id: 'editor.alert_btn_draft' }),
+                onPress: loadRecentDraft,
+              },
+              { text: intl.formatMessage({ id: 'editor.alert_btn_new' }), onPress: leaveEmpty },
+            ],
+            ImageAssets.writerMascot,
+            this._requestKeyboardFocus,
+          ),
         );
       }
     } catch (err) {
