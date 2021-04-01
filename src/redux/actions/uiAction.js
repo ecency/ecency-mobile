@@ -18,7 +18,7 @@ export const toastNotification = (payload) => ({
   type: TOAST_NOTIFICATION,
 });
 
-export const showActionModal = (title, body, buttons, headerImage) => ({
+export const showActionModal = (title, body, buttons, headerImage, onClosed) => ({
   payload: {
     actionModalVisible: true,
     actionModalData: {
@@ -26,6 +26,7 @@ export const showActionModal = (title, body, buttons, headerImage) => ({
       body,
       buttons,
       headerImage,
+      onClosed,
     },
   },
   type: SHOW_ACTION_MODAL,

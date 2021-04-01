@@ -66,7 +66,10 @@ class EditorScreen extends Component {
   }
 
   componentWillUnmount() {
-    this._saveDraftToDB();
+    const { isReply } = this.props;
+    if (!isReply) {
+      this._saveDraftToDB();
+    }
   }
 
   UNSAFE_componentWillReceiveProps = async (nextProps) => {
@@ -291,6 +294,7 @@ class EditorScreen extends Component {
       handleRewardChange,
       handleBeneficiaries,
       currentAccount,
+      autoFocusText,
     } = this.props;
     const rightButtonText = intl.formatMessage({
       id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : 'basic_header.publish',
@@ -366,6 +370,7 @@ class EditorScreen extends Component {
             onTagChanged={this._handleOnTagAdded}
             onTitleChanged={this._handleChangeTitle}
             getCommunity={this._getCommunity}
+            autoFocusText={autoFocusText}
           />
         </PostForm>
       </View>

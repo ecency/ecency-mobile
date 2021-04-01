@@ -10,7 +10,8 @@ export interface ActionModalData {
   title:string, 
   body:string, 
   buttons:AlertButton[], 
-  headerImage?:Source
+  headerImage?:Source,
+  onClosed:()=>void,
 }
 
 
@@ -33,6 +34,7 @@ const ActionModalContainer = ({ navigation }) => {
 
 
   const _onClose = () => {
+    actionModalData.onClosed();
     dispatch(hideActionModal());
   };
 
