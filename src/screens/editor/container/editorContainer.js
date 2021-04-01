@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Alert } from 'react-native';
+import { Alert, Keyboard } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -280,6 +280,7 @@ class EditorContainer extends Component {
 
       if (drafts.length > 0 || (idLessDraft && idLessDraft.timestamp > 0)) {
         //dispatch action modal
+        Keyboard.dismiss();
         dispatch(
           showActionModal(
             intl.formatMessage({
