@@ -28,9 +28,10 @@ export default async ({ text, selection, setTextAndSelection, item, isImage = nu
   } else {
     newText = replaceBetween(text, selection, `\n${imagePrefix}[${itemText}](${itemUrl})\n`);
     if (isImage) {
+      const newIndex = newText && newText.indexOf(itemUrl) + 2 + itemUrl.length;
       newSelection = {
-        start: newText && newText.length,
-        end: newText && newText.length,
+        start: newIndex,
+        end: newIndex,
       };
     } else {
       newSelection = {

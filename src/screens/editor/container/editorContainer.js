@@ -352,22 +352,16 @@ class EditorContainer extends Component {
       });
   };
 
-  _handleMediaOnSelected = (media) => {
-    this.setState(
-      {
-        isUploading: true,
-      },
-      async () => {
-        if (media.length > 0) {
-          for (let index = 0; index < media.length; index++) {
-            const element = media[index];
-            await this._uploadImage(element);
-          }
-        } else {
-          await this._uploadImage(media);
-        }
-      },
-    );
+  _handleMediaOnSelected = async (media) => {
+    if (media.length > 0) {
+      for (let index = 0; index < media.length; index++) {
+        const element = media[index];
+        await this._uploadImage(element);
+      }
+    } else {
+      await this._uploadImage(media);
+    }
+
     // For new image api
     // const { currentAccount } = this.props;
     // const digitPinCode = await getPinCode();
@@ -381,59 +375,113 @@ class EditorContainer extends Component {
 
     if (!isLoggedIn) return;
 
+    this.setState({
+      isUploading: true,
+    });
+
     let sign = await signImage(media, currentAccount, pinCode);
 
-    uploadImage(media, currentAccount.name, sign)
-      .then((res) => {
-        if (res.data && res.data.url) {
-          res.data.hash = res.data.url.split('/').pop();
-          this.setState({
-            uploadedImage: res.data,
-            isUploading: false,
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error, error.message);
-        if (error.toString().includes('code 413')) {
-          Alert.alert(
-            intl.formatMessage({
-              id: 'alert.fail',
-            }),
-            intl.formatMessage({
-              id: 'alert.payloadTooLarge',
-            }),
-          );
-        } else if (error.toString().includes('code 429')) {
-          Alert.alert(
-            intl.formatMessage({
-              id: 'alert.fail',
-            }),
-            intl.formatMessage({
-              id: 'alert.quotaExceeded',
-            }),
-          );
-        } else if (error.toString().includes('code 400')) {
-          Alert.alert(
-            intl.formatMessage({
-              id: 'alert.fail',
-            }),
-            intl.formatMessage({
-              id: 'alert.invalidImage',
-            }),
-          );
-        } else {
-          Alert.alert(
-            intl.formatMessage({
-              id: 'alert.fail',
-            }),
-            error.message || error.toString(),
-          );
-        }
+    try {
+      const res = await uploadImage(media, currentAccount.name, sign);
+      if (res.data && res.data.url) {
+        res.data.hash = res.data.url.split('/').pop();
         this.setState({
+          uploadedImage: res.data,
           isUploading: false,
         });
+      }
+    } catch (error) {
+      console.log(error, error.message);
+      if (error.toString().includes('code 413')) {
+        Alert.alert(
+          intl.formatMessage({
+            id: 'alert.fail',
+          }),
+          intl.formatMessage({
+            id: 'alert.payloadTooLarge',
+          }),
+        );
+      } else if (error.toString().includes('code 429')) {
+        Alert.alert(
+          intl.formatMessage({
+            id: 'alert.fail',
+          }),
+          intl.formatMessage({
+            id: 'alert.quotaExceeded',
+          }),
+        );
+      } else if (error.toString().includes('code 400')) {
+        Alert.alert(
+          intl.formatMessage({
+            id: 'alert.fail',
+          }),
+          intl.formatMessage({
+            id: 'alert.invalidImage',
+          }),
+        );
+      } else {
+        Alert.alert(
+          intl.formatMessage({
+            id: 'alert.fail',
+          }),
+          error.message || error.toString(),
+        );
+      }
+      this.setState({
+        isUploading: false,
       });
+    }
+
+    // uploadImage(media, currentAccount.name, sign).then((res) => {
+    //     if (res.data && res.data.url) {
+    //       res.data.hash = res.data.url.split('/').pop();
+    //       this.setState({
+    //         uploadedImage: res.data,
+    //         isUploading: false,
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log(error, error.message);
+    //     if (error.toString().includes('code 413')) {
+    //       Alert.alert(
+    //         intl.formatMessage({
+    //           id: 'alert.fail',
+    //         }),
+    //         intl.formatMessage({
+    //           id: 'alert.payloadTooLarge',
+    //         }),
+    //       );
+    //     } else if (error.toString().includes('code 429')) {
+    //       Alert.alert(
+    //         intl.formatMessage({
+    //           id: 'alert.fail',
+    //         }),
+    //         intl.formatMessage({
+    //           id: 'alert.quotaExceeded',
+    //         }),
+    //       );
+    //     } else if (error.toString().includes('code 400')) {
+    //       Alert.alert(
+    //         intl.formatMessage({
+    //           id: 'alert.fail',
+    //         }),
+    //         intl.formatMessage({
+    //           id: 'alert.invalidImage',
+    //         }),
+    //       );
+    //     } else {
+    //       Alert.alert(
+    //         intl.formatMessage({
+    //           id: 'alert.fail',
+    //         }),
+    //         error.message || error.toString(),
+    //       );
+    //     }
+    //     this.setState({
+    //       isUploading: false,
+    //     });
+    // });
   };
 
   _handleMediaOnSelectFailure = (error) => {
