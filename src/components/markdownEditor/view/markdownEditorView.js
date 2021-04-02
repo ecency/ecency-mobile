@@ -41,7 +41,7 @@ import { ThemeContainer } from '../../../containers';
 import styles from './markdownEditorStyles';
 import applySnippet from './formats/applySnippet';
 
-const MIN_BODY_INPUT_HEIGHT = 200;
+const MIN_BODY_INPUT_HEIGHT = 300;
 
 const MarkdownEditorView = ({
   draftBody,
@@ -165,7 +165,7 @@ const MarkdownEditorView = ({
   };
 
   const _handleOnContentSizeChange = async (event) => {
-    const height = Math.max(MIN_BODY_INPUT_HEIGHT, event.nativeEvent.contentSize.height + 30);
+    const height = Math.max(MIN_BODY_INPUT_HEIGHT, event.nativeEvent.contentSize.height + 100);
     setBodyInputHeight(height);
   };
 
