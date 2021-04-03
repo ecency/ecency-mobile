@@ -335,8 +335,6 @@
     "label_no_images":"No Images Found",
     "title":"Uploaded Images",
     "title_remove_confirmation":"Delete image",
-    "btn_save":"SAVE",
-    "btn_close":"CLOSE",
     "btn_add":"Image",
     "message_failed":"Failed to upload image",
     "message_remove_confirmation":"Are you sure you want to delete this image?",
