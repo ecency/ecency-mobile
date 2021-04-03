@@ -1,7 +1,7 @@
 import { TextStyle, StyleSheet, ViewStyle, Dimensions, ImageStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-const gridItemWidth = ((Dimensions.get('window').width/3) - 28);
+const gridItemWidth = ((Dimensions.get('window').width/2) - 32);
 const gridItemHeight = (gridItemWidth * 500)/600
 
 export default EStyleSheet.create({
@@ -85,19 +85,19 @@ export default EStyleSheet.create({
     } as ViewStyle,
 
     itemIcon:{
-      borderRadius:8,
-      overflow:'hidden',
       color:'$white',
-      backgroundColor:'$primaryRed'
     } as ViewStyle,
 
     itemIconWrapper:{
-      marginLeft:8,
+      justifyContent:'center',
+      alignItems:'center',
+      backgroundColor:'$primaryRed',
+
     } as ViewStyle,
 
     removeItemContainer:{
       position:'absolute', 
-      top:8, 
-      right:8
+      top:16, 
+      right:16
     } as ViewStyle
 })

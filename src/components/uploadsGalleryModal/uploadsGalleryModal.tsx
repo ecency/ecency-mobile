@@ -134,7 +134,7 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, handl
                 iconType="MaterialCommunityIcons"
                 name="delete"
                 onPress={_onRemovePress}
-                size={16}
+                size={20}
             />
         </View>
         
@@ -185,7 +185,7 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, handl
                 keyExtractor={(item) => `item_${item.url}`}
                 renderItem={_renderItem}
                 ListEmptyComponent={_renderEmptyContent}
-                numColumns={3}
+                numColumns={2}
                 refreshControl={
                     <RefreshControl 
                         refreshing={isLoading}
