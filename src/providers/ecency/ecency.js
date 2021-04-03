@@ -456,9 +456,16 @@ export const moveSchedule = (id, username) => api.put(`/schedules/${username}/${
 
 export const getImages = (username) =>
   api
-    .get(`api/images/${username}`)
-    .then((resp) => resp.data)
-    .catch((error) => bugsnag.notify(error));
+    .get(`/images/${username}`)
+    .then((resp) => {
+      const res = resp.data;
+      console.log('res: ', res);
+      return resp.data;
+    })
+    .catch((error) => {
+      console.warn('Failed to get images', error);
+      bugsnag.notify(error);
+    });
 
 export const addMyImage = (user, url) =>
   api.post('/image', {

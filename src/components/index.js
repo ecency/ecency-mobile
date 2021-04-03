@@ -4,6 +4,7 @@ import { BasicHeader } from './basicHeader';
 import { BoostIndicatorAnimation, PulseAnimation, SpinIndicator } from './animations';
 import BeneficiaryModal from './beneficiaryModal/beneficiaryModal';
 import SnippetsModal from './snippetsModal/snippetsModal';
+import { UploadsGalleryModal } from './uploadsGalleryModal/uploadsGalleryModal';
 import { BottomTabBar } from './bottomTabBar';
 import { CheckBox } from './checkbox';
 import { CircularButton, TextButton, SquareButton } from './buttons';
@@ -183,6 +184,7 @@ export {
   SettingsItem,
   SideMenu,
   SnippetsModal,
+  UploadsGalleryModal,
   SpinGame,
   SpinIndicator,
   SquareButton,
