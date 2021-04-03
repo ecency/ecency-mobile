@@ -473,6 +473,8 @@ export const addMyImage = (user, url) =>
     image_url: url,
   });
 
+export const deleteMyImage = (user, id) => api.delete(`/images/${user}/${id}`);
+
 export const uploadImage = (media, username, sign) => {
   const file = {
     uri: media.path,

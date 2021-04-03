@@ -84,4 +84,20 @@ export default EStyleSheet.create({
         marginBottom:16
     } as ViewStyle,
 
+    itemIcon:{
+      borderRadius:8,
+      overflow:'hidden',
+      color:'$white',
+      backgroundColor:'$primaryRed'
+    } as ViewStyle,
+
+    itemIconWrapper:{
+      marginLeft:8,
+    } as ViewStyle,
+
+    removeItemContainer:{
+      position:'absolute', 
+      top:8, 
+      right:8
+    } as ViewStyle
 })

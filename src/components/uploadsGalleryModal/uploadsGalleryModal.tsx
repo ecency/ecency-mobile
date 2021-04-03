@@ -2,9 +2,9 @@ import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } f
 import { useIntl } from 'react-intl';
 import {Text, View, FlatList, RefreshControl, TouchableOpacity, Alert, Platform } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { MainButton } from '..';
+import { IconButton, MainButton } from '..';
 import { UploadedMedia } from '../../models';
-import { addMyImage, getImages } from '../../providers/ecency/ecency';
+import { addMyImage, deleteMyImage, getImages } from '../../providers/ecency/ecency';
 import Modal from '../modal';
 import styles from './uploadsGalleryModalStyles';
 import { proxifyImageSrc } from '@ecency/render-helper';
@@ -53,21 +53,36 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, handl
     }, [uploadedImage])
 
 
+    //save image to user gallery
     const _addUploadedImageToGallery = async () => {
         try{
             console.log("adding image to gallery",username, uploadedImage )
             setIsLoading(true);
             await addMyImage(username, uploadedImage.url);
-            _getMediaUploads();
+            await _getMediaUploads();
             setIsLoading(false);
         }catch(err){
-            console.warn("Failed to get snippets", err)
+            console.warn("Failed to add image to gallery, could possibly a duplicate image", err)
             setIsLoading(false);
         }
     }
 
 
-    //fetch snippets from server
+    // remove image data from user's gallery
+    const _deleteMediaItem = async (id:string) => {
+        try{
+            setIsLoading(true);
+            await deleteMyImage(username, id)
+            await _getMediaUploads();
+            setIsLoading(false);
+        } catch(err){
+            console.warn("failed to remove image from gallery", err)
+            setIsLoading(false);
+        }
+    }
+   
+
+    //fetch images from server
     const _getMediaUploads = async () => {
         try{
             if (username) {
@@ -100,6 +115,10 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, handl
         setShowModal(false);
     }
 
+    const _onRemovePress = async () => {
+       _deleteMediaItem(item._id)
+    }
+
     const thumbUrl = proxifyImageSrc(item.url, 600, 500, Platform.OS === 'ios' ? 'match' : 'webp');
 
     return (
@@ -108,6 +127,17 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, handl
             source={{uri:thumbUrl}}
             style={styles.mediaItem}
         />
+        <View style={styles.removeItemContainer}>
+            <IconButton
+                iconStyle={styles.itemIcon}
+                style={styles.itemIconWrapper}
+                iconType="MaterialCommunityIcons"
+                name="delete"
+                onPress={_onRemovePress}
+                size={16}
+            />
+        </View>
+        
       </TouchableOpacity>
     )
   };
