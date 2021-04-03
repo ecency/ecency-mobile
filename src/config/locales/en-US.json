@@ -335,8 +335,6 @@
     "label_no_images":"No Images Found",
     "title":"Uploaded Images",
     "title_remove_confirmation":"Delete image",
-    "placeholder_title":"Snippet title",
-    "placeholder_body":"Add snippet body here...",
     "btn_save":"SAVE",
     "btn_close":"CLOSE",
     "btn_add":"Image",
