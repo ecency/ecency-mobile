@@ -33,6 +33,7 @@ import {
   SummaryArea,
   Modal,
   SnippetsModal,
+  UploadsGalleryModal,
 } from '../../index';
 
 import { ThemeContainer } from '../../../containers';
@@ -51,6 +52,7 @@ const MarkdownEditorView = ({
   isPreviewActive,
   isReply,
   isLoading,
+  isUploading,
   initialFields,
   onChange,
   handleOnTextChange,
@@ -75,6 +77,7 @@ const MarkdownEditorView = ({
   const inputRef = useRef(null);
   const galleryRef = useRef(null);
   const clearRef = useRef(null);
+  const uploadsGalleryModalRef = useRef(null);
 
   const dispatch = useDispatch();
   const isVisibleAccountsBottomSheet = useSelector(
@@ -105,17 +108,17 @@ const MarkdownEditorView = ({
     }
   }, [isLoading]);
 
-  useEffect(() => {
-    if (uploadedImage && uploadedImage.url) {
-      applyImageLink({
-        text,
-        selection,
-        setTextAndSelection: _setTextAndSelection,
-        item: { url: uploadedImage.url, text: uploadedImage.hash },
-        isImage: !!uploadedImage,
-      });
-    }
-  }, [uploadedImage]);
+  // useEffect(() => {
+  //   if (uploadedImage && uploadedImage.url) {
+  //     applyImageLink({
+  //       text,
+  //       selection,
+  //       setTextAndSelection: _setTextAndSelection,
+  //       item: { url: uploadedImage.url, text: uploadedImage.hash },
+  //       isImage: !!uploadedImage,
+  //     });
+  //   }
+  // }, [uploadedImage]);
 
   useEffect(() => {
     setText(draftBody);
@@ -213,6 +216,18 @@ const MarkdownEditorView = ({
     });
   };
 
+  const _handleOnMediaSelect = (mediaInsert) => {
+    if (mediaInsert && mediaInsert.url) {
+      applyImageLink({
+        text,
+        selection,
+        setTextAndSelection: _setTextAndSelection,
+        item: { url: mediaInsert.url, text: mediaInsert.hash },
+        isImage: !!mediaInsert,
+      });
+    }
+  };
+
   const _renderMarkupButton = ({ item }) => (
     <View style={styles.buttonWrapper}>
       <IconButton
@@ -258,7 +273,10 @@ const MarkdownEditorView = ({
           name="text-short"
         />
         <IconButton
-          onPress={() => galleryRef.current.show()}
+          onPress={() => {
+            //  galleryRef.current.show()}
+            uploadsGalleryModalRef.current.showModal();
+          }}
           style={styles.rightIcons}
           size={20}
           iconStyle={styles.icon}
@@ -374,6 +392,18 @@ const MarkdownEditorView = ({
       >
         <SnippetsModal username={currentAccount.username} handleOnSelect={_handleOnSnippetSelect} />
       </Modal>
+
+      <UploadsGalleryModal
+        ref={uploadsGalleryModalRef}
+        username={currentAccount.username}
+        handleOnSelect={_handleOnMediaSelect}
+        handleOnUploadPress={() => {
+          galleryRef.current.show();
+        }}
+        isUploading={isUploading}
+        uploadedImage={uploadedImage}
+      />
+
       <ActionSheet
         ref={galleryRef}
         options={[

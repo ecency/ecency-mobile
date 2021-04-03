@@ -331,6 +331,14 @@
     "btn_confirm":"Confirm",
     "btn_cancel":"Cancel"
   },
+  "uploads_modal":{
+    "label_no_images":"No Images Found",
+    "title":"Uploaded Images",
+    "title_remove_confirmation":"Delete image",
+    "btn_add":"Image",
+    "message_failed":"Failed to upload image",
+    "message_remove_confirmation":"Are you sure you want to delete this image?"
+  },
   "pincode": {
     "enter_text": "Enter PIN to unlock",
     "set_new": "Set new PIN",
