@@ -52,6 +52,7 @@ const MarkdownEditorView = ({
   isPreviewActive,
   isReply,
   isLoading,
+  isUploading,
   initialFields,
   onChange,
   handleOnTextChange,
@@ -399,7 +400,7 @@ const MarkdownEditorView = ({
         handleOnUploadPress={() => {
           galleryRef.current.show();
         }}
-        isUploading={isLoading}
+        isUploading={isUploading}
         uploadedImage={uploadedImage}
       />
 

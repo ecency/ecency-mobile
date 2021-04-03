@@ -362,7 +362,8 @@ class EditorScreen extends Component {
             uploadedImage={uploadedImage}
             initialFields={this._initialFields}
             isReply={isReply}
-            isLoading={isPostSending || isUploading}
+            isLoading={isPostSending}
+            isUploading={isUploading}
             isEdit={isEdit}
             post={post}
             fields={fields}
