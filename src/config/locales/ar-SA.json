@@ -78,7 +78,7 @@
     "escrow_approve": "Escrow Approve",
     "cancel_transfer_from_savings": "Cancel From Savings",
     "delegate_vesting_shares": "Delegation",
-    "fill_convert_request": "Convert Executed",
+    "fill_convert_request": "تم التحويل بنجاح",
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
