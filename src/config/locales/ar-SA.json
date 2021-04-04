@@ -77,16 +77,16 @@
     "escrow_release": "Escrow Release",
     "escrow_approve": "Escrow Approve",
     "cancel_transfer_from_savings": "Cancel From Savings",
-    "delegate_vesting_shares": "Delegation",
+    "delegate_vesting_shares": "تفويض",
     "fill_convert_request": "تم التحويل بنجاح",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_transfer_from_savings": "تم الإدخار بنجاح",
+    "fill_vesting_withdraw": "تم تنفيذ إنقاص نفوذك",
     "estm": {
       "title": "نقاط",
-      "buy": "GET POINTS"
+      "buy": "احصل على نقاط"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "مدخرات HIVE"
     },
     "savingsbd": {
       "title": "HBD Savings"
@@ -120,26 +120,26 @@
     "transfer": "transferred",
     "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
-    "referral": "joined with your referral, welcome them",
+    "referral": "انضمو برابط إحالتك ، رحب بهم",
     "notification": "الإشعارات",
     "leaderboard": "المتصدرين",
     "epoint": "نقاط",
-    "leaderboard_title": "Top Users",
+    "leaderboard_title": "أفضل المستخدمين",
     "recent": "الأخيرة",
     "yesterday": "يوم أمس",
     "this_week": "هذا الأسبوع",
     "this_month": "هذا الشهر",
     "older_then": "أقدم من شهر",
-    "activities": "All",
+    "activities": "الكل",
     "replies": "الردود",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs",
-    "noactivity": "No recent activity"
+    "mentions": "الإشارات",
+    "reblogs": "إعادة النشر",
+    "noactivity": "لا يوجد اي نشاط جديد"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "يومي",
+    "weekly": "أسبوعي",
+    "monthly": "شهري"
   },
   "messages": {
     "comingsoon": "ميزة الرسائل سوف تأتي قريباً!"
@@ -209,11 +209,11 @@
   },
   "voters": {
     "voters_info": "معلومات عن المصوتين",
-    "no_user": "User is not found."
+    "no_user": "لم يتم العثور على المستخدم."
   },
   "login": {
     "signin": "تسجيل الدخول",
-    "signup": "JOIN NOW",
+    "signup": "انضم الآن",
     "signin_title": "To get all the benefits of using Ecency",
     "username": "إسم المستخدم",
     "password": "أدخل دكلمة المرور أو WIF",
