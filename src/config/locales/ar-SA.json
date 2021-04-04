@@ -194,7 +194,7 @@
     "pincode": "رمز PIN",
     "reset_pin": "Reset Pin Code",
     "reset": "إعادة",
-    "nsfw_content": "NSFW",
+    "nsfw_content": "ليس آمنًا للمشاهدة",
     "send_feedback": "إرسال الملاحظات",
     "send": "إرسال",
     "default_footer": "تذييل إفتراضي",
@@ -205,7 +205,7 @@
     },
     "feedback_success": "تم فتح البريد الإلكتروني بنجاح",
     "feedback_fail": "لا يمكن فتح عميل البريد الإلكتروني",
-    "server_fail": "Server not available"
+    "server_fail": "الخادم غير متوفر"
   },
   "voters": {
     "voters_info": "معلومات عن المصوتين",
@@ -214,21 +214,21 @@
   "login": {
     "signin": "تسجيل الدخول",
     "signup": "انضم الآن",
-    "signin_title": "To get all the benefits of using Ecency",
+    "signin_title": "للحصول على جميع فوائد إستخدم Ecency",
     "username": "إسم المستخدم",
     "password": "أدخل دكلمة المرور أو WIF",
     "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "إلغاء",
     "login": "تسجيل الدخول",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_fee_description": "معلومات"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "إنشاء حساب",
     "title": "إنشاء حساب",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
-    "ref_user": "Referred user (Optional)",
+    "username": "اختر اسم المستخدم",
+    "mail": "أدخل عنوان بريدك الإلكتروني",
+    "ref_user": "المستخدم المحال (اختياري)",
     "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
     "title_description": "One account to manage everything",
     "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
@@ -236,14 +236,14 @@
   "home": {
     "feed": "المستجدات",
     "popular": "الأكثر شعبية",
-    "top": "Top",
-    "hot": "Hot",
-    "new": "New",
-    "blog": "Blog",
+    "top": "الأعلى",
+    "hot": "ذات شعبية",
+    "new": "الجديد",
+    "blog": "المدونة",
     "posts": "منشورات",
-    "friends": "Friends",
+    "friends": "الأصدقاء",
     "communities": "Communities",
-    "popup_postfix": "Posted"
+    "popup_postfix": "تم النشر"
   },
   "side_menu": {
     "profile": "الملف الشّخصي",
@@ -258,9 +258,9 @@
     "logout": "تسجيل الخروج",
     "cancel": "إلغاء",
     "logout_text": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
-    "create_a_new_account": "Create a new account",
-    "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts"
+    "create_a_new_account": "إنشاء حساب جديد",
+    "add_an_existing_account": "إضافة حساب آخر",
+    "accounts": "الحسابات"
   },
   "header": {
     "title": "تسجيل الدخول لتخصيص خلاصتك",
@@ -276,7 +276,7 @@
     "title": "عنوان",
     "tags": "Tags (separate with space)",
     "default_placeholder": "Tell us something...",
-    "reply_placeholder": "Add your reply...",
+    "reply_placeholder": "أضف ردك...",
     "publish": "نشر",
     "reply": "الرد",
     "open_gallery": "فتح معرض الصور",
