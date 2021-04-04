@@ -281,9 +281,9 @@
     "reply": "الرد",
     "open_gallery": "فتح معرض الصور",
     "capture_photo": "إلتقط صورة",
-    "limited_tags": "Only 10 tags allowed, remove some",
-    "limited_length": "Maximum length of each tag should be 24",
-    "limited_dash": "Use one dash in each tag",
+    "limited_tags": "فقط مسموح ب 10 علامات، إزالة بعضها",
+    "limited_length": "24 حرف هو أقصى طول لكل علامة",
+    "limited_dash": "استخدم وصلة واحدة في كل علامة",
     "limited_space": "Use space to separate tags",
     "limited_lowercase": "Only use lower letters in tag",
     "limited_characters": "Use only lowercase letters, digits and one dash",
@@ -390,17 +390,17 @@
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "Content is not available",
-    "copy_link": "Copy link",
-    "reblogged": "reblogged by",
+    "copy_link": "نسخ الرابط",
+    "reblogged": "تمت إعادة النشر من طرف",
     "sponsored": "SPONSORED",
     "open_thread": "Open thread",
     "image": "Image",
-    "link": "Link",
+    "link": "الرابط",
     "gallery_mode": "Gallery mode",
     "save_to_local": "Download to device",
     "image_saved": "Image saved to Photo Gallery",
     "image_saved_error": "Error Saving Image",
-    "wrong_link": "Wrong link"
+    "wrong_link": "رابط خاطئ"
   },
   "drafts": {
     "title": "المسودات",
@@ -531,10 +531,10 @@
   "promote": {
     "title": "Promote",
     "days": "days",
-    "user": "User",
-    "permlink": "Post",
-    "permlinkPlaceholder": "username/permlink",
-    "information": "Are you sure to promote?"
+    "user": "المستخدم",
+    "permlink": "المنشور",
+    "permlinkPlaceholder": "اسم المستخدم/الرابط",
+    "information": "هل أنت متأكد من الترويج؟"
   },
   "boostPost": {
     "title": "Boost"
@@ -563,19 +563,19 @@
   "search_result": {
     "others": "Others",
     "best": {
-      "title": "Best"
+      "title": "الأفضل"
     },
     "people": {
-      "title": "People"
+      "title": "الأشخاص"
     },
     "topics": {
-      "title": "Topics"
+      "title": "المواضيع"
     },
     "communities": {
-      "title": "Groups",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
+      "title": "المجموعات",
+      "subscribe": "الانضمام",
+      "unsubscribe": "المغادرة",
+      "subscribers": "الأعضاء",
       "posters": "Posters",
       "posts": "منشورات"
     },
