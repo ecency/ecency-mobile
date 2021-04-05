@@ -643,6 +643,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.13.9":
+  version "7.13.10"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.10.tgz#47d42a57b6095f4468da440388fdbad8bebf0d7d"
+  integrity sha512-4QPkjJq6Ns3V/RgpEahRk+AGfL0eO6RHHtTWoNNr5mO49G6B5+X6d6THgWEAvTrznU5xYpbAlVKRYcsCgh/Akw==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.0.0", "@babel/template@^7.12.13", "@babel/template@^7.4.0":
   version "7.12.13"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.12.13.tgz#530265be8a2589dbb37523844c5bcb55947fb327"
@@ -4352,11 +4359,12 @@ hive-uri@^0.2.3:
   resolved "https://registry.yarnpkg.com/hive-uri/-/hive-uri-0.2.3.tgz#a0d9bc69d44423e660c84dd57fdadb6994481b8d"
   integrity sha512-q6zp2sh5fjs6cf4T2oHvXt4IFNMmGBTRT5uKuxK/y//5XXCSbOGY/B/DKfK+7hwT8arMhcnbtKdlKarZu2SsXA==
 
-hivesigner@^3.2.1:
-  version "3.2.4"
-  resolved "https://registry.yarnpkg.com/hivesigner/-/hivesigner-3.2.4.tgz#b08254e609f1aa270765c2e3e6821d961035e5dd"
-  integrity sha512-iGlFB8Ruse5KeyJrHMgzxhkp1vkP/ykcfPp0pNZIItyfn0y2bR1US7QF3UYCDXrdSIHRhKMVkgdp5SIG4Sp84g==
+hivesigner@^3.2.7:
+  version "3.2.7"
+  resolved "https://registry.yarnpkg.com/hivesigner/-/hivesigner-3.2.7.tgz#a11ebb08b704e12422b36fda301a8c2cc78571ea"
+  integrity sha512-jzohlNW0bDakLDP7eNqMtzw/5LU1GxYpZM8+H5XZ+Sp1c4eQIR6H076GpH/scgcmTeYdoWJ08vly/fwBOEZcbA==
   dependencies:
+    "@babel/runtime" "^7.13.9"
     cross-fetch "^3.0.6"
     hive-uri "^0.2.3"
 
