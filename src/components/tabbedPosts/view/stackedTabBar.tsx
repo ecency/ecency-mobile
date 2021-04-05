@@ -2,14 +2,20 @@ import React, { useState } from "react";
 import { useIntl } from "react-intl";
 import { FilterBar } from "../..";
 
+export interface TabItem {
+  filterKey:string;
+  label:string;
+}
+
 interface StackedTabBarProps {
-    activeTab:boolean, 
-    goToPage:(pageIndex)=>void, 
-    tabs:string[],
-    shouldStack:boolean,
-    filterOptions:string[],
-    subFilterOptions:string[],
-    initialFilterIndex:number
+    activeTab:boolean;
+    goToPage:(pageIndex)=>void;
+    tabs:string[];
+    shouldStack:boolean;
+    firstStack:TabItem[];
+    secondStack:TabItem[];
+    initialFirstStackIndex:number;
+    onFilterSelect:(filterKey:string)=>void;
 }
 
 export const StackedTabBar = ({
@@ -17,33 +23,38 @@ export const StackedTabBar = ({
     goToPage, 
     tabs,
     shouldStack,
-    filterOptions,
-    subFilterOptions,
-    initialFilterIndex
+    firstStack,
+    secondStack,
+    initialFirstStackIndex,
+    onFilterSelect
 
 }:StackedTabBarProps) => {
 
     const intl = useIntl();
-    const [selectedFilterIndex, setSelectedFilterIndex] = useState(initialFilterIndex);
-    const [selectedFeedSubfilterIndex, setSelectedFeedSubfilterIndex] = useState(0);
+    const [selectedFilterIndex, setSelectedFilterIndex] = useState(initialFirstStackIndex);
+    const [selectedSecondStackIndex, setSelectedSecondStackIndex] = useState(0);
 
     return (
       <>
       <FilterBar
-        options={filterOptions.map((item) =>
-          intl.formatMessage({ id: `home.${item.toLowerCase()}` }).toUpperCase(),
+        options={firstStack.map((item) =>
+          intl.formatMessage({ id: `home.${item.label.toLowerCase()}` }).toUpperCase(),
         )}
         selectedOptionIndex={selectedFilterIndex}
         rightIconName="view-module"
         rightIconType="MaterialIcons"
         onDropdownSelect={(index)=>{
           setSelectedFilterIndex(index);
+
           if(index == 0 && shouldStack){
-            goToPage(filterOptions.length + selectedFeedSubfilterIndex)
+            const tabIndex = firstStack.length + selectedSecondStackIndex;
+            onFilterSelect(secondStack[selectedSecondStackIndex].filterKey);
+            goToPage(tabIndex)
           }else{
+            onFilterSelect(firstStack[index].filterKey);
             goToPage(index);
           }
-          
+
         }}
         onRightIconPress={()=>{}}
       />
@@ -51,13 +62,14 @@ export const StackedTabBar = ({
       {
         selectedFilterIndex == 0 && shouldStack && (
           <FilterBar
-            options={subFilterOptions.map((item) =>
-              intl.formatMessage({ id: `home.${item.toLowerCase()}` }).toUpperCase(),
+            options={secondStack.map((item) =>
+              intl.formatMessage({ id: `home.${item.label.toLowerCase()}` }).toUpperCase(),
             )}
-            selectedOptionIndex={selectedFeedSubfilterIndex}
+            selectedOptionIndex={selectedSecondStackIndex}
             onDropdownSelect={(index)=>{
-              setSelectedFeedSubfilterIndex(index)
-              goToPage(filterOptions.length + index);
+              setSelectedSecondStackIndex(index)
+              onFilterSelect(secondStack[index].filterKey);
+              goToPage(firstStack.length + index);
             }}
           />
         )
