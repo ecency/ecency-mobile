@@ -1,4 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { Platform } from 'react-native';
 
 export default EStyleSheet.create({
   container: {
@@ -9,12 +10,11 @@ export default EStyleSheet.create({
   textWrapper: {
     fontSize: 12,
     paddingTop: 16,
-    paddingBottom: 0, // On android side, textinput has default padding
+    paddingBottom: Platform.OS === 'ios' ? 32 : 0, // On android side, textinput has default padding
     paddingHorizontal: 16,
     color: '$primaryBlack',
     backgroundColor: '$primaryBackgroundColor',
-    // fontFamily: '$editorFont',
-    // textAlignVertical: 'top',
+    textAlignVertical: 'top',
   },
   previewContainer: {
     flex: 1,

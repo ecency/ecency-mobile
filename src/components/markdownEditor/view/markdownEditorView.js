@@ -33,6 +33,7 @@ import {
   SummaryArea,
   Modal,
   SnippetsModal,
+  UploadsGalleryModal,
 } from '../../index';
 
 import { ThemeContainer } from '../../../containers';
@@ -40,6 +41,8 @@ import { ThemeContainer } from '../../../containers';
 // Styles
 import styles from './markdownEditorStyles';
 import applySnippet from './formats/applySnippet';
+
+const MIN_BODY_INPUT_HEIGHT = 300;
 
 const MarkdownEditorView = ({
   draftBody,
@@ -49,6 +52,7 @@ const MarkdownEditorView = ({
   isPreviewActive,
   isReply,
   isLoading,
+  isUploading,
   initialFields,
   onChange,
   handleOnTextChange,
@@ -62,16 +66,18 @@ const MarkdownEditorView = ({
   onTitleChanged,
   getCommunity,
   currentAccount,
+  autoFocusText,
 }) => {
   const [text, setText] = useState(draftBody || '');
   const [selection, setSelection] = useState({ start: 0, end: 0 });
   const [editable, setEditable] = useState(true);
-  const [height, setHeight] = useState(0);
+  const [bodyInputHeight, setBodyInputHeight] = useState(MIN_BODY_INPUT_HEIGHT);
   const [isSnippetsOpen, setIsSnippetsOpen] = useState(false);
 
   const inputRef = useRef(null);
   const galleryRef = useRef(null);
   const clearRef = useRef(null);
+  const uploadsGalleryModalRef = useRef(null);
 
   const dispatch = useDispatch();
   const isVisibleAccountsBottomSheet = useSelector(
@@ -102,27 +108,27 @@ const MarkdownEditorView = ({
     }
   }, [isLoading]);
 
-  useEffect(() => {
-    if (uploadedImage && uploadedImage.url) {
-      applyImageLink({
-        text,
-        selection,
-        setTextAndSelection: _setTextAndSelection,
-        item: { url: uploadedImage.url, text: uploadedImage.hash },
-        isImage: !!uploadedImage,
-      });
-    }
-  }, [uploadedImage]);
+  // useEffect(() => {
+  //   if (uploadedImage && uploadedImage.url) {
+  //     applyImageLink({
+  //       text,
+  //       selection,
+  //       setTextAndSelection: _setTextAndSelection,
+  //       item: { url: uploadedImage.url, text: uploadedImage.hash },
+  //       isImage: !!uploadedImage,
+  //     });
+  //   }
+  // }, [uploadedImage]);
 
   useEffect(() => {
     setText(draftBody);
   }, [draftBody]);
 
   useEffect(() => {
-    if (inputRef && inputRef.current) {
+    if (autoFocusText && inputRef && inputRef.current) {
       inputRef.current.focus();
     }
-  }, [currentAccount]);
+  }, [autoFocusText]);
 
   useEffect(() => {
     const nextText = text.replace(text, '');
@@ -159,6 +165,11 @@ const MarkdownEditorView = ({
 
   const _handleOnSelectionChange = async (event) => {
     setSelection(event.nativeEvent.selection);
+  };
+
+  const _handleOnContentSizeChange = async (event) => {
+    const height = Math.max(MIN_BODY_INPUT_HEIGHT, event.nativeEvent.contentSize.height + 100);
+    setBodyInputHeight(height);
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -203,6 +214,18 @@ const MarkdownEditorView = ({
       setTextAndSelection: _setTextAndSelection,
       snippetText,
     });
+  };
+
+  const _handleOnMediaSelect = (mediaInsert) => {
+    if (mediaInsert && mediaInsert.url) {
+      applyImageLink({
+        text,
+        selection,
+        setTextAndSelection: _setTextAndSelection,
+        item: { url: mediaInsert.url, text: mediaInsert.hash },
+        isImage: !!mediaInsert,
+      });
+    }
   };
 
   const _renderMarkupButton = ({ item }) => (
@@ -250,7 +273,10 @@ const MarkdownEditorView = ({
           name="text-short"
         />
         <IconButton
-          onPress={() => galleryRef.current.show()}
+          onPress={() => {
+            //  galleryRef.current.show()}
+            uploadsGalleryModalRef.current.showModal();
+          }}
           style={styles.rightIcons}
           size={20}
           iconStyle={styles.icon}
@@ -337,13 +363,14 @@ const MarkdownEditorView = ({
                 })}
                 placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
                 selectionColor="#357ce6"
-                style={styles.textWrapper}
+                style={{ ...styles.textWrapper, height: bodyInputHeight }}
                 underlineColorAndroid="transparent"
                 innerRef={inputRef}
                 editable={editable}
                 contextMenuHidden={false}
                 autoGrow={false}
                 scrollEnabled={false}
+                onContentSizeChange={_handleOnContentSizeChange}
               />
             )}
           </ThemeContainer>
@@ -365,6 +392,18 @@ const MarkdownEditorView = ({
       >
         <SnippetsModal username={currentAccount.username} handleOnSelect={_handleOnSnippetSelect} />
       </Modal>
+
+      <UploadsGalleryModal
+        ref={uploadsGalleryModalRef}
+        username={currentAccount.username}
+        handleOnSelect={_handleOnMediaSelect}
+        handleOnUploadPress={() => {
+          galleryRef.current.show();
+        }}
+        isUploading={isUploading}
+        uploadedImage={uploadedImage}
+      />
+
       <ActionSheet
         ref={galleryRef}
         options={[

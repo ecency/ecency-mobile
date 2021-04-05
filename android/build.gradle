@@ -15,7 +15,7 @@ def getNpmVersionArray() { // major [0], minor [1], patch [2]
 buildscript {
     ext {
         buildToolsVersion = "29.0.3"
-        minSdkVersion = 16
+        minSdkVersion = 21
         compileSdkVersion = 29
         targetSdkVersion = 29
         googlePlayServicesVisionVersion = "17.0.2"

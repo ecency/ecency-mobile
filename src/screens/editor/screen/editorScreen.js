@@ -65,6 +65,13 @@ class EditorScreen extends Component {
     }
   }
 
+  componentWillUnmount() {
+    const { isReply } = this.props;
+    if (!isReply) {
+      this._saveDraftToDB();
+    }
+  }
+
   UNSAFE_componentWillReceiveProps = async (nextProps) => {
     const { draftPost, isUploading, community } = this.props;
     if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
@@ -127,10 +134,7 @@ class EditorScreen extends Component {
   };
 
   _handleOnSaveButtonPress = () => {
-    const { saveDraftToDB } = this.props;
-    const { fields } = this.state;
-
-    saveDraftToDB(fields);
+    this._saveDraftToDB();
   };
 
   _saveCurrentDraft = (fields) => {
@@ -252,6 +256,16 @@ class EditorScreen extends Component {
       });
   };
 
+  _saveDraftToDB() {
+    const { saveDraftToDB } = this.props;
+    const { fields } = this.state;
+
+    //save draft only if any of field is valid
+    if (fields.body || fields.title) {
+      saveDraftToDB(fields);
+    }
+  }
+
   render() {
     const {
       fields,
@@ -280,6 +294,7 @@ class EditorScreen extends Component {
       handleRewardChange,
       handleBeneficiaries,
       currentAccount,
+      autoFocusText,
     } = this.props;
     const rightButtonText = intl.formatMessage({
       id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : 'basic_header.publish',
@@ -347,7 +362,8 @@ class EditorScreen extends Component {
             uploadedImage={uploadedImage}
             initialFields={this._initialFields}
             isReply={isReply}
-            isLoading={isPostSending || isUploading}
+            isLoading={isPostSending}
+            isUploading={isUploading}
             isEdit={isEdit}
             post={post}
             fields={fields}
@@ -355,6 +371,7 @@ class EditorScreen extends Component {
             onTagChanged={this._handleOnTagAdded}
             onTitleChanged={this._handleChangeTitle}
             getCommunity={this._getCommunity}
+            autoFocusText={autoFocusText}
           />
         </PostForm>
       </View>

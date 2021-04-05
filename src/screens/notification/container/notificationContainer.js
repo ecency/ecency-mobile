@@ -41,13 +41,14 @@ class NotificationContainer extends Component {
     const since = loadMore ? lastNotificationId : null;
     const { username } = this.props;
 
-    if (!endOfNotification) {
+    if (!endOfNotification || !loadMore) {
       this.setState({ isNotificationRefreshing: true });
       getActivities({ user: user || username, type, since })
         .then((res) => {
           console.log(res);
           const lastId = res.length > 0 ? [...res].pop().id : null;
-          if (lastId === lastNotificationId || res.length === 0) {
+
+          if (loadMore && (lastId === lastNotificationId || res.length === 0)) {
             this.setState({
               endOfNotification: true,
               isNotificationRefreshing: false,

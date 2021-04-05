@@ -643,6 +643,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.13.9":
+  version "7.13.10"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.10.tgz#47d42a57b6095f4468da440388fdbad8bebf0d7d"
+  integrity sha512-4QPkjJq6Ns3V/RgpEahRk+AGfL0eO6RHHtTWoNNr5mO49G6B5+X6d6THgWEAvTrznU5xYpbAlVKRYcsCgh/Akw==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.0.0", "@babel/template@^7.12.13", "@babel/template@^7.4.0":
   version "7.12.13"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.12.13.tgz#530265be8a2589dbb37523844c5bcb55947fb327"
@@ -1583,24 +1590,24 @@ anymatch@^2.0.0:
     micromatch "^3.1.4"
     normalize-path "^2.1.1"
 
-appcenter-analytics@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/appcenter-analytics/-/appcenter-analytics-3.1.0.tgz#ec51c79f43c58a6e6d6d5ce4c8bdb0ada3bda539"
-  integrity sha512-zGJRBe39IigyT127/alNzNeOpDYSyRo8RX2RYq2AtL01LnCreOy/fpzoF4yOVPMedFMiinEN+OOqR9e7WydAwg==
+appcenter-analytics@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/appcenter-analytics/-/appcenter-analytics-4.1.0.tgz#eb3270a6894bcf3d14e1772c4ccf21d7fb88fa85"
+  integrity sha512-pEsz08wer7J3+zjNV78eSB0FY1bjMxmFHukV6PimAoMpIm8E+X7saGP0QQw2cQTUFiexMujHRvZfM259ksg6hg==
   dependencies:
-    appcenter "3.1.0"
+    appcenter "4.1.0"
 
-appcenter-crashes@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/appcenter-crashes/-/appcenter-crashes-3.1.0.tgz#6b0fb592bc5e69cbd83106b47f55c97bc33a3fa3"
-  integrity sha512-2dwy7aqhSKifWg5yZVPuZdNRiHMO/XTsaQSHvvHNDA47BJ2y/cwCsK516KNgoYvp97B3Pr3Xyim7ee/n/xxO4g==
+appcenter-crashes@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/appcenter-crashes/-/appcenter-crashes-4.1.0.tgz#1d7a1a27c61f6a37d904f3d435de2f30ee0454e5"
+  integrity sha512-erl7387yAPRKa7d8L7KxNd82OAZ+EQwThpsu7tZLQYn3iuIT4P98dNFCnJKO6y64li4dn4B9rCF3s0PN7tPb1A==
   dependencies:
-    appcenter "3.1.0"
+    appcenter "4.1.0"
 
-appcenter-link-scripts@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/appcenter-link-scripts/-/appcenter-link-scripts-3.1.0.tgz#5cc9d0303f9f16b7170d56a403fa3e69379cfd36"
-  integrity sha512-0ECoQLjfIJhAO8EkvRQ4fO5gZELhzwD3eRhsCD4d27k7TDPXYt32/p5ylHXUWotR7pduTE1rZ8gtETTr4oZf9g==
+appcenter-link-scripts@4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/appcenter-link-scripts/-/appcenter-link-scripts-4.1.0.tgz#ff9d337fb7841c2cbf86cd5f34bd7310e945d0f5"
+  integrity sha512-sTd8H4H9wNwBkUKHasvDGNBln34+dHEFlaT/P6O0gvs6TWU3JxlY8uXpB/IqAi2lSWPs3TMgQ7NGXTjvC6oZig==
   dependencies:
     debug "4.1.1"
     glob "5.0.15"
@@ -1610,12 +1617,12 @@ appcenter-link-scripts@3.1.0:
     which "1.2.11"
     xcode "2.0.0"
 
-appcenter@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/appcenter/-/appcenter-3.1.0.tgz#55fb01bfedc92e732e52ab97c8b344e062ba61a7"
-  integrity sha512-SvEdrqeEqK5BJizdrRmWdp/NFwwb3FJ08U5LQkRdqPoFWXQZ7d+AC2cVnemORXsiYPcpwK9xqiNxyofzEzddFA==
+appcenter@4.1.0, appcenter@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/appcenter/-/appcenter-4.1.0.tgz#d4c9b43adcaac32a328dc8e9f9f0607e0a7d5691"
+  integrity sha512-JUwb/4sMw68CN2AlJEp1G5iVl/Rzv8fg8t9CzeRaEcnOku42h6+vlYbYe3P5YW18kAIA/hCH0uoDaa0kc9qfDA==
   dependencies:
-    appcenter-link-scripts "3.1.0"
+    appcenter-link-scripts "4.1.0"
 
 aproba@^1.0.3:
   version "1.2.0"
@@ -4352,11 +4359,12 @@ hive-uri@^0.2.3:
   resolved "https://registry.yarnpkg.com/hive-uri/-/hive-uri-0.2.3.tgz#a0d9bc69d44423e660c84dd57fdadb6994481b8d"
   integrity sha512-q6zp2sh5fjs6cf4T2oHvXt4IFNMmGBTRT5uKuxK/y//5XXCSbOGY/B/DKfK+7hwT8arMhcnbtKdlKarZu2SsXA==
 
-hivesigner@^3.2.1:
-  version "3.2.4"
-  resolved "https://registry.yarnpkg.com/hivesigner/-/hivesigner-3.2.4.tgz#b08254e609f1aa270765c2e3e6821d961035e5dd"
-  integrity sha512-iGlFB8Ruse5KeyJrHMgzxhkp1vkP/ykcfPp0pNZIItyfn0y2bR1US7QF3UYCDXrdSIHRhKMVkgdp5SIG4Sp84g==
+hivesigner@^3.2.7:
+  version "3.2.7"
+  resolved "https://registry.yarnpkg.com/hivesigner/-/hivesigner-3.2.7.tgz#a11ebb08b704e12422b36fda301a8c2cc78571ea"
+  integrity sha512-jzohlNW0bDakLDP7eNqMtzw/5LU1GxYpZM8+H5XZ+Sp1c4eQIR6H076GpH/scgcmTeYdoWJ08vly/fwBOEZcbA==
   dependencies:
+    "@babel/runtime" "^7.13.9"
     cross-fetch "^3.0.6"
     hive-uri "^0.2.3"
 

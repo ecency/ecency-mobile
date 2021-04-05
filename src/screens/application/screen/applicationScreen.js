@@ -19,7 +19,12 @@ import { getVersionForWelcomeModal } from '../../../realm/realm';
 import ROUTES from '../../../constants/routeNames';
 
 // Components
-import { ToastNotification, NoInternetConnection, AccountsBottomSheet } from '../../../components';
+import {
+  ToastNotification,
+  NoInternetConnection,
+  AccountsBottomSheet,
+  ActionModal,
+} from '../../../components';
 
 // Themes (Styles)
 import darkTheme from '../../../themes/darkTheme';
@@ -155,6 +160,7 @@ class ApplicationScreen extends Component {
           />
         )}
         <AccountsBottomSheet />
+        <ActionModal />
       </View>
     );
   }

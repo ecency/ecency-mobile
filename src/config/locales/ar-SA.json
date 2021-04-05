@@ -28,7 +28,7 @@
     "reblog_title": "نقاط لإعادة النشر",
     "login_title": "نقاط لتسجيل الدخول",
     "checkin_title": "Points for heartbeat",
-    "referral": "Referral",
+    "referral": "الإحالة",
     "referral_title": "Referral rewards",
     "referral_desc": "Invite friends and earn Points",
     "checkin_extra_title": "مكافأة الاستخدام",
@@ -42,51 +42,51 @@
     "reblog_desc": "Share what post you like with your friends and earn points.",
     "login_desc": "When you login into app first time you earn 100 points.",
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
-    "dropdown_transfer": "Gift",
-    "dropdown_promote": "Promote",
-    "dropdown_boost": "Boost",
+    "dropdown_transfer": "هدية",
+    "dropdown_promote": "حملة اعلانية لمنشورك",
+    "dropdown_boost": "تعزيز منشورك",
     "from": "من",
     "to": "إلى",
     "estimated_value_desc": "According to purchase value",
     "estimated_value": "Estimated value",
-    "estimated_amount": "Vote value",
+    "estimated_amount": "قيمة التصويت",
     "amount_information": "Drag the slider to adjust the amount",
     "amount": "كمية",
     "memo": "مذكرة",
-    "information": "Are you sure to transfer funds?",
+    "information": "هل أنت متأكد من تحويل الأموال؟",
     "amount_desc": "الرصيد",
     "memo_desc": "هذه المذكرة عامة",
     "to_placeholder": "إسم المستخدم",
     "memo_placeholder": "أدخل ملاحظاتك هنا",
     "transfer_token": "تحويل",
     "purchase_estm": "GET POINTS",
-    "points": "Gift Points to someone",
-    "transfer_to_saving": "To Saving",
+    "points": "إهداء نقاطك لشخص آخر",
+    "transfer_to_saving": "إلى المدخرات",
     "powerUp": "رفع الطاقة",
-    "withdraw_to_saving": "Withdraw Saving",
-    "steemconnect_title": "Hivesigner Transfer",
+    "withdraw_to_saving": "سحب المدخرات",
+    "steemconnect_title": "تحويل بواسطة Hivesigner",
     "next": "التالي",
     "delegate": "Delegate",
     "power_down": "سحب الطاقة",
     "withdraw_steem": "Withdraw HIVE",
     "withdraw_sbd": "Withdraw HBD",
-    "transfer_to_savings": "To Savings",
-    "convert": "Convert",
+    "transfer_to_savings": "إلى المدخرات",
+    "convert": "تحويل",
     "escrow_transfer": "Escrow Transfer",
     "escrow_dispute": "Escrow Dispute",
     "escrow_release": "Escrow Release",
     "escrow_approve": "Escrow Approve",
     "cancel_transfer_from_savings": "Cancel From Savings",
-    "delegate_vesting_shares": "Delegation",
-    "fill_convert_request": "Convert Executed",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "delegate_vesting_shares": "تفويض",
+    "fill_convert_request": "تم التحويل بنجاح",
+    "fill_transfer_from_savings": "تم الإدخار بنجاح",
+    "fill_vesting_withdraw": "تم تنفيذ إنقاص نفوذك",
     "estm": {
       "title": "نقاط",
-      "buy": "GET POINTS"
+      "buy": "احصل على نقاط"
     },
     "savingsteem": {
-      "title": "HIVE Savings"
+      "title": "مدخرات HIVE"
     },
     "savingsbd": {
       "title": "HBD Savings"
@@ -120,26 +120,26 @@
     "transfer": "transferred",
     "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
-    "referral": "joined with your referral, welcome them",
+    "referral": "انضمو برابط إحالتك ، رحب بهم",
     "notification": "الإشعارات",
     "leaderboard": "المتصدرين",
     "epoint": "نقاط",
-    "leaderboard_title": "Top Users",
+    "leaderboard_title": "أفضل المستخدمين",
     "recent": "الأخيرة",
     "yesterday": "يوم أمس",
     "this_week": "هذا الأسبوع",
     "this_month": "هذا الشهر",
     "older_then": "أقدم من شهر",
-    "activities": "All",
+    "activities": "الكل",
     "replies": "الردود",
-    "mentions": "Mentions",
-    "reblogs": "Reblogs",
-    "noactivity": "No recent activity"
+    "mentions": "الإشارات",
+    "reblogs": "إعادة النشر",
+    "noactivity": "لا يوجد اي نشاط جديد"
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "يومي",
+    "weekly": "أسبوعي",
+    "monthly": "شهري"
   },
   "messages": {
     "comingsoon": "ميزة الرسائل سوف تأتي قريباً!"
@@ -194,7 +194,7 @@
     "pincode": "رمز PIN",
     "reset_pin": "Reset Pin Code",
     "reset": "إعادة",
-    "nsfw_content": "NSFW",
+    "nsfw_content": "ليس آمنًا للمشاهدة",
     "send_feedback": "إرسال الملاحظات",
     "send": "إرسال",
     "default_footer": "تذييل إفتراضي",
@@ -205,30 +205,30 @@
     },
     "feedback_success": "تم فتح البريد الإلكتروني بنجاح",
     "feedback_fail": "لا يمكن فتح عميل البريد الإلكتروني",
-    "server_fail": "Server not available"
+    "server_fail": "الخادم غير متوفر"
   },
   "voters": {
     "voters_info": "معلومات عن المصوتين",
-    "no_user": "User is not found."
+    "no_user": "لم يتم العثور على المستخدم."
   },
   "login": {
     "signin": "تسجيل الدخول",
-    "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Ecency",
+    "signup": "انضم الآن",
+    "signin_title": "للحصول على جميع فوائد إستخدم Ecency",
     "username": "إسم المستخدم",
     "password": "أدخل دكلمة المرور أو WIF",
     "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
     "cancel": "إلغاء",
     "login": "تسجيل الدخول",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_fee_description": "معلومات"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "إنشاء حساب",
     "title": "إنشاء حساب",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
-    "ref_user": "Referred user (Optional)",
+    "username": "اختر اسم المستخدم",
+    "mail": "أدخل عنوان بريدك الإلكتروني",
+    "ref_user": "المستخدم المحال (اختياري)",
     "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
     "title_description": "One account to manage everything",
     "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
@@ -236,14 +236,14 @@
   "home": {
     "feed": "المستجدات",
     "popular": "الأكثر شعبية",
-    "top": "Top",
-    "hot": "Hot",
-    "new": "New",
-    "blog": "Blog",
+    "top": "الأعلى",
+    "hot": "ذات شعبية",
+    "new": "الجديد",
+    "blog": "المدونة",
     "posts": "منشورات",
-    "friends": "Friends",
+    "friends": "الأصدقاء",
     "communities": "Communities",
-    "popup_postfix": "Posted"
+    "popup_postfix": "تم النشر"
   },
   "side_menu": {
     "profile": "الملف الشّخصي",
@@ -258,9 +258,9 @@
     "logout": "تسجيل الخروج",
     "cancel": "إلغاء",
     "logout_text": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
-    "create_a_new_account": "Create a new account",
-    "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts"
+    "create_a_new_account": "إنشاء حساب جديد",
+    "add_an_existing_account": "إضافة حساب آخر",
+    "accounts": "الحسابات"
   },
   "header": {
     "title": "تسجيل الدخول لتخصيص خلاصتك",
@@ -276,14 +276,14 @@
     "title": "عنوان",
     "tags": "Tags (separate with space)",
     "default_placeholder": "Tell us something...",
-    "reply_placeholder": "Add your reply...",
+    "reply_placeholder": "أضف ردك...",
     "publish": "نشر",
     "reply": "الرد",
     "open_gallery": "فتح معرض الصور",
     "capture_photo": "إلتقط صورة",
-    "limited_tags": "Only 10 tags allowed, remove some",
-    "limited_length": "Maximum length of each tag should be 24",
-    "limited_dash": "Use one dash in each tag",
+    "limited_tags": "فقط مسموح ب 10 علامات، إزالة بعضها",
+    "limited_length": "24 حرف هو أقصى طول لكل علامة",
+    "limited_dash": "استخدم وصلة واحدة في كل علامة",
     "limited_space": "Use space to separate tags",
     "limited_lowercase": "Only use lower letters in tag",
     "limited_characters": "Use only lowercase letters, digits and one dash",
@@ -390,17 +390,17 @@
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
     "removed_hint": "Content is not available",
-    "copy_link": "Copy link",
-    "reblogged": "reblogged by",
+    "copy_link": "نسخ الرابط",
+    "reblogged": "تمت إعادة النشر من طرف",
     "sponsored": "SPONSORED",
     "open_thread": "Open thread",
     "image": "Image",
-    "link": "Link",
+    "link": "الرابط",
     "gallery_mode": "Gallery mode",
     "save_to_local": "Download to device",
     "image_saved": "Image saved to Photo Gallery",
     "image_saved_error": "Error Saving Image",
-    "wrong_link": "Wrong link"
+    "wrong_link": "رابط خاطئ"
   },
   "drafts": {
     "title": "المسودات",
@@ -531,10 +531,10 @@
   "promote": {
     "title": "Promote",
     "days": "days",
-    "user": "User",
-    "permlink": "Post",
-    "permlinkPlaceholder": "username/permlink",
-    "information": "Are you sure to promote?"
+    "user": "المستخدم",
+    "permlink": "المنشور",
+    "permlinkPlaceholder": "اسم المستخدم/الرابط",
+    "information": "هل أنت متأكد من الترويج؟"
   },
   "boostPost": {
     "title": "Boost"
@@ -563,19 +563,19 @@
   "search_result": {
     "others": "Others",
     "best": {
-      "title": "Best"
+      "title": "الأفضل"
     },
     "people": {
-      "title": "People"
+      "title": "الأشخاص"
     },
     "topics": {
-      "title": "Topics"
+      "title": "المواضيع"
     },
     "communities": {
-      "title": "Groups",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
+      "title": "المجموعات",
+      "subscribe": "الانضمام",
+      "unsubscribe": "المغادرة",
+      "subscribers": "الأعضاء",
       "posters": "Posters",
       "posts": "منشورات"
     },
