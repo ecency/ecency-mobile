@@ -157,12 +157,20 @@ export const cacheReducer = (state:PostsCache, action) => {
         }
 
         //update stat
-        cachedEntry.startAuthor = _posts[_posts.length - 1] && _posts[_posts.length - 1].author;
-        cachedEntry.startPermlink = _posts[_posts.length - 1] && _posts[_posts.length - 1].permlink;
-        cachedEntry.posts = _posts;
+        const data  = Object.create(state.cachedData);
+        data[filter] = {
+            ...cachedEntry,
+            startAuthor : _posts[_posts.length - 1] && _posts[_posts.length - 1].author,
+            startPermlink : _posts[_posts.length - 1] && _posts[_posts.length - 1].permlink,
+            posts : _posts,
+        }
+        // cachedEntry.startAuthor = _posts[_posts.length - 1] && _posts[_posts.length - 1].author;
+        // cachedEntry.startPermlink = _posts[_posts.length - 1] && _posts[_posts.length - 1].permlink;
+        // cachedEntry.posts = _posts;
 
-        state.cachedData[filter] = cachedEntry;
+        // state.cachedData[filter] = cachedEntry;
 
+        state.cachedData = data
         //dispatch to redux
         // if (
         //   filter === (state.selectedFilter !== 'feed' ? state.selectedFilter : state.currentSubFilter)

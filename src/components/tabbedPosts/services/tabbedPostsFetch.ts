@@ -4,24 +4,24 @@ import { CachedDataEntry, onLoadComplete, PostsCache, setFilterLoading, updateFi
 import Matomo from 'react-native-matomo-sdk';
 
 
-interface LoadPostsOptions {
-    type:string; 
+export interface LoadPostsOptions {
     cache:PostsCache, 
-    cacheDispatch:Dispatch<ReducerAction<any>>, 
-    isLatestPostCheck:boolean,
+    cacheDispatch:Dispatch<ReducerAction<any>>,
     getFor:string,
     isConnected:boolean,
     isLoggedIn:boolean,
-    refreshing:boolean,
-    username:string,
+    feedUsername:string,
     pageType:string,
     tag:string,
     nsfw:string,
-    isAnalytics:boolean
+    isAnalytics:boolean,
+    isLatestPostCheck?:boolean,
+    refreshing?:boolean,
+    passedFilter?:string; 
 }
 
 export const loadPosts = async ({
-    type, 
+    passedFilter, 
     cache, 
     cacheDispatch, 
     isLatestPostCheck = false,
@@ -29,22 +29,27 @@ export const loadPosts = async ({
     isConnected,
     isLoggedIn,
     refreshing,
-    username,
+    feedUsername,
     pageType,
     tag,
     nsfw,
     isAnalytics
 
 }:LoadPostsOptions) => {
-    const filter = type || cache.selectedFilter;
+    let filter = passedFilter || cache.selectedFilter;
+    
+    //match filter with api if is friends
+    if(filter === 'friends'){
+        filter = 'feed';
+    }
 
     const {isLoading, startPermlink, startAuthor}:CachedDataEntry = cache.cachedData[filter];
     
     if (
         isLoading ||
       !isConnected ||
-      (!isLoggedIn && filter === 'feed') ||
-      (!isLoggedIn && filter === 'blog')
+      (!isLoggedIn && passedFilter === 'feed') ||
+      (!isLoggedIn && passedFilter === 'blog')
     ) {
       return;
     }
@@ -70,15 +75,15 @@ export const loadPosts = async ({
       if (filter === 'communities') {
         func = getRankedPosts;
         options = {
-          observer: username,
+          observer: feedUsername,
           sort: 'created',
           tag: 'my',
         };
       } else {
         func = getAccountPosts;
         options = {
-          observer: username || '',
-          account: username,
+          observer: feedUsername || '',
+          account: feedUsername,
           limit,
           sort: filter,
         };
@@ -103,16 +108,20 @@ export const loadPosts = async ({
     }
 
     try {
-      const result = await func(options, username, nsfw);
+      const result:any[] = await func(options, feedUsername, nsfw);
 
-      if(result.lenght > 0 && filter === 'reblogs'){
+      if(result.length > 0 && filter === 'reblogs'){
         for (let i = result.length - 1; i >= 0; i--) {
-            if (result[i].author === username) {
+            if (result[i].author === feedUsername) {
                 result.splice(i, 1);
             }
           }
       }
 
+      //if filter is feed convert back to reducer filter
+      if(filter === 'feed'){
+          filter = 'friends'
+      }
       cacheDispatch(updateFilterCache(filter, result, refreshing))
       cacheDispatch(onLoadComplete(filter));
 
@@ -128,7 +137,7 @@ export const loadPosts = async ({
           console.warn('Failed to track screen', error),
         );
       } else if (filter === 'friends' || filter === 'communities') {
-        Matomo.trackView([`/@${username}/${filter}`]).catch((error) =>
+        Matomo.trackView([`/@${feedUsername}/${filter}`]).catch((error) =>
           console.warn('Failed to track screen', error),
         );
       } else {

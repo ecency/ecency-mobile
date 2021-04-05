@@ -6,4 +6,7 @@ export interface TabbedPostsProps {
     initialFilterIndex:number,
     feedSubfilterOptions:string[],
     feedSubfilterOptionsValue:string[],
+    getFor:string,
+    pageType:string,
+    tag:string,
 }

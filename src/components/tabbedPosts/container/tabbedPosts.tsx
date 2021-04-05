@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { useIntl } from 'react-intl';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { useDispatch, useSelector } from 'react-redux';
 import PostsList from '../../postsList';
+import { loadPosts, LoadPostsOptions } from '../services/tabbedPostsFetch';
+import { cacheReducer, initCacheState, setSelectedFilter, PostsCache } from '../services/tabbedPostsReducer';
 import { StackedTabBar, TabItem } from '../view/stackedTabBar';
 import { TabbedPostsProps } from './tabbedPostsProps';
 
@@ -15,10 +17,17 @@ export const TabbedPosts = ({
   feedSubfilterOptionsValue,
   isFeedScreen,
   feedUsername,
+  ...props
 }:TabbedPostsProps) => {
 
   const intl = useIntl();
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
+
+  //redux properties
+  const isAnalytics = useSelector((state) => state.application.isAnalytics);
+  const nsfw = useSelector((state) => state.application.nsfw);
+  const isConnected = useSelector((state) => state.application.isConnected);
+
 
   //initialize state
   const [initialTabIndex] = useState(initialFilterIndex == 0 && isFeedScreen ? filterOptions.length : initialFilterIndex)
@@ -38,17 +47,59 @@ export const TabbedPosts = ({
   )
 
   const [combinedFilters] = useState([...mainFilters, ...subFilters]);
-  const [selectedFilter, setSelectedFilter] = useState<string>(combinedFilters[initialTabIndex].filterKey);
+
+
+  //declaring cache
+  const _initCacheState = () => {
+    const selectedFilter = combinedFilters[initialTabIndex].filterKey
+    return initCacheState(combinedFilters, selectedFilter, isFeedScreen);
+  }
+  const [cache, cacheDispatch] = useReducer(cacheReducer, {} as PostsCache , _initCacheState)
 
   
   //initialize first set of pages
   const pages = combinedFilters.map((filter)=>(
     <PostsList
+      data={cache.cachedData[filter.filterKey].posts}
       tabLabel={filter.label}
       isFeedScreen={isFeedScreen}
       promotedPosts={[]}
     />
   ))
+
+  //side effects
+  useEffect(() => {
+    _loadPosts()
+  }, [])
+
+
+
+  //load posts implementation
+  const _loadPosts = (filter?:string) => {
+    const options = {
+      passedFilter:filter,
+      cache,
+      cacheDispatch,
+      isLoggedIn,
+      isAnalytics,
+      nsfw,
+      isConnected,
+      feedUsername,
+      isFeedScreen,
+      ...props
+    } as LoadPostsOptions
+    loadPosts(options)
+  }
+
+
+  //actions
+  
+  const _onFilterSelect = (filter:string) => {
+    cacheDispatch(setSelectedFilter(filter))
+    if(cache.cachedData[filter].posts.length === 0){
+      _loadPosts(filter);
+    }
+  }
 
 
   //render tab bar
@@ -60,7 +111,7 @@ export const TabbedPosts = ({
         firstStack={mainFilters}
         secondStack={subFilters}
         initialFirstStackIndex={initialFilterIndex}
-        onFilterSelect={setSelectedFilter}
+        onFilterSelect={_onFilterSelect}
       />
     )
   }
