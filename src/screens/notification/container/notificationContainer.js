@@ -47,7 +47,8 @@ class NotificationContainer extends Component {
         .then((res) => {
           console.log(res);
           const lastId = res.length > 0 ? [...res].pop().id : null;
-          if (lastId === lastNotificationId || res.length === 0) {
+
+          if (loadMore && (lastId === lastNotificationId || res.length === 0)) {
             this.setState({
               endOfNotification: true,
               isNotificationRefreshing: false,
