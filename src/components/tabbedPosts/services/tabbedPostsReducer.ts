@@ -7,7 +7,8 @@ export const CacheActions = {
     UPDATE_FILTER_CACHE:'UPDATE_FILTER_CACHE',
     RESET_CURRENT_FILTER_CACHE:'RESET_CURRENT_FILTER_CACHE',
     SET_SELECTED_FILTER:'SET_SELECTED_FILTER',
-    RESET_CACHE:'RESET_CACHE'
+    RESET_CACHE:'RESET_CACHE',
+    ON_LOAD_COMPLETE:'ON_LOAD_COMPLETE'
 }
 
 export interface CachedDataEntry {
@@ -15,12 +16,16 @@ export interface CachedDataEntry {
     startAuthor: string;
     startPermlink: string;
     isLoading: boolean;
+    isRefreshing: boolean;
+    isNoPost:boolean;
+
 }
 
 export interface PostsCache {
     isFeedScreen: boolean,
     selectedFilter: string,
     isLoggedIn:boolean,
+    isMounted:boolean
     cachedData: Map<string, CachedDataEntry>,
 }
 
@@ -30,7 +35,7 @@ export const setSelectedFilter = (filter:string) => ({
     payload:{
         selectedFilter:filter
     },
-    action:CacheActions.SET_SELECTED_FILTER
+    type:CacheActions.SET_SELECTED_FILTER
 })
 
 export const setFilterLoading = (filter:string, isLoading:boolean) => ({
@@ -38,7 +43,23 @@ export const setFilterLoading = (filter:string, isLoading:boolean) => ({
         filter,
         isLoading
     },
-    action:CacheActions.SET_FILTER_LOADING
+    type:CacheActions.SET_FILTER_LOADING
+})
+
+export const onLoadComplete = (filter:string) => ({
+    payload:{
+        filter,
+    },
+    type:CacheActions.ON_LOAD_COMPLETE
+})
+
+export const updateFilterCache = (filter:string, posts:any[], refreshing:boolean) => ({
+    payload: {
+        filter,
+        posts,
+        shouldReset: refreshing,
+    },
+    type: CacheActions.UPDATE_FILTER_CACHE,
 })
 
 
@@ -51,6 +72,7 @@ export const initCacheState = (filters:TabItem[], selectedFilter:string, isFeedS
           startAuthor: '',
           startPermlink: '',
           isLoading: false,
+          isNoPost:false,
         } as CachedDataEntry;
     });
 
@@ -58,10 +80,14 @@ export const initCacheState = (filters:TabItem[], selectedFilter:string, isFeedS
       isFeedScreen,
       selectedFilter: selectedFilter,
       cachedData,
+      isMounted:true,
     } as PostsCache;
   };
 
 
+
+
+  //Reducer
 export const cacheReducer = (state:PostsCache, action) => {
     console.log('reducer action:', action);
 
@@ -82,20 +108,34 @@ export const cacheReducer = (state:PostsCache, action) => {
       }
 
 
+      //update filter cache
       case CacheActions.UPDATE_FILTER_CACHE: {
+
         const filter = action.payload.filter;
         const nextPosts = action.payload.posts;
         const shouldReset = action.payload.shouldReset;
 
+        //return state as is if component is unmounter
+        if(!state.isMounted){
+            return state;
+        }
+
         let _posts = nextPosts;
+        
 
         const isFeedScreen = state.isFeedScreen
-        const cachedEntry = state.cachedData[filter];
+        const cachedEntry:CachedDataEntry = state.cachedData[filter];
         if (!cachedEntry) {
           throw new Error('No cached entry available');
         }
 
-        const refreshing = cachedEntry.refreshing;
+        if(nextPosts.length === 0){
+            cachedEntry.isNoPost = true;
+            state.cachedData[filter] = cachedEntry;
+            return state;
+        }
+
+        const refreshing = cachedEntry.isRefreshing;
         const prevPosts = cachedEntry.posts;
     
 
@@ -165,30 +205,21 @@ export const cacheReducer = (state:PostsCache, action) => {
         return state;
       }
 
-    //   case 'change-sub-filter': {
-    //     const filter = action.payload.currentSubFilter;
-    //     state.currentSubFilter = filter;
 
-    //     //dispatch to redux;
-    //     const data = state.cachedData[filter];
-    //     _setFeedPosts(data.posts, data.scrollPosition);
-    //     if (isFeedScreen) {
-    //     //   _scheduleLatestPostsCheck(data.posts[0]);
-    //     //   setNewPostsPopupPictures(null);
-    //     }
-    //     return state;
-    //   }
+      case CacheActions.ON_LOAD_COMPLETE: {
+        const filter = action.payload.filter;
 
-    //   case 'scroll-position-change': {
-    //     const scrollPosition = action.payload.scrollPosition || 0;
-    //     const filter = state.selectedFilter;
-    //     const subFilter = state.currentSubFilter;
+        const cachedEntry:CachedDataEntry = state.cachedData[filter];
+        if (!cachedEntry) {
+          throw new Error('No cached entry available');
+        }
+        cachedEntry.isLoading = false;
+        cachedEntry.isRefreshing = false;
 
-    //     const cacheFilter = filter !== 'feed' ? filter : subFilter;
+        state.cachedData[filter] = cachedEntry;
 
-    //     state.cachedData[cacheFilter].scrollPosition = scrollPosition;
-    //     return state;
-    //   }
+        return state;
+      }
 
       case CacheActions.RESET_CACHE: {
          for(const key in state.cachedData){
