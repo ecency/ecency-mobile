@@ -31,36 +31,37 @@ export interface PostsCache {
 
 
 //actions
-export const setSelectedFilter = (filter:string) => ({
+export const setSelectedFilter = (state:PostsCache, filter:string) => (cacheReducer(state, {
     payload:{
         selectedFilter:filter
     },
     type:CacheActions.SET_SELECTED_FILTER
-})
+}))
 
-export const setFilterLoading = (filter:string, isLoading:boolean) => ({
+export const setFilterLoading  = (state:PostsCache, filter:string, isLoading:boolean) => (cacheReducer(state, {
     payload:{
         filter,
         isLoading
     },
     type:CacheActions.SET_FILTER_LOADING
-})
+}))
 
-export const onLoadComplete = (filter:string) => ({
+export const onLoadComplete = (state:PostsCache, filter:string) => (cacheReducer(state, {
     payload:{
         filter,
     },
     type:CacheActions.ON_LOAD_COMPLETE
-})
+}))
 
-export const updateFilterCache = (filter:string, posts:any[], refreshing:boolean) => ({
+export const updateFilterCache = (state:PostsCache, filter:string, posts:any[], refreshing:boolean) => (cacheReducer(state, {
     payload: {
         filter,
         posts,
         shouldReset: refreshing,
     },
     type: CacheActions.UPDATE_FILTER_CACHE,
-})
+}))
+
 
 
 export const initCacheState = (filters:TabItem[], selectedFilter:string, isFeedScreen:boolean) => {
@@ -97,14 +98,14 @@ export const cacheReducer = (state:PostsCache, action) => {
         const loading = action.payload.isLoading;
         state.cachedData[filter].isLoading = loading;
 
-        return state;
+        return Object.create(state);;
       }
 
       case CacheActions.SET_FILTER_REFRESHING: {
         const filter = action.payload.filter;
         const refreshing = action.payload.isRefreshing;
         state.cachedData[filter].isRefreshing = refreshing;
-        return state;
+        return Object.create(state);;
       }
 
 
@@ -117,7 +118,7 @@ export const cacheReducer = (state:PostsCache, action) => {
 
         //return state as is if component is unmounter
         if(!state.isMounted){
-            return state;
+            return Object.create(state);;
         }
 
         let _posts = nextPosts;
@@ -132,7 +133,7 @@ export const cacheReducer = (state:PostsCache, action) => {
         if(nextPosts.length === 0){
             cachedEntry.isNoPost = true;
             state.cachedData[filter] = cachedEntry;
-            return state;
+            return Object.create(state);;
         }
 
         const refreshing = cachedEntry.isRefreshing;
@@ -177,7 +178,7 @@ export const cacheReducer = (state:PostsCache, action) => {
         // ) {
         //   _setFeedPosts(_posts);
         // }
-        return state;
+        return Object.create(state);
       }
 
       case CacheActions.RESET_CURRENT_FILTER_CACHE: {
@@ -195,7 +196,7 @@ export const cacheReducer = (state:PostsCache, action) => {
         //dispatch to redux
         // _setFeedPosts([]);
 
-        return state;
+        return Object.create(state);;
       }
 
       case CacheActions.SET_SELECTED_FILTER: {
@@ -210,7 +211,7 @@ export const cacheReducer = (state:PostsCache, action) => {
         //   setNewPostsPopupPictures(null);
         // }
 
-        return state;
+        return Object.create(state);;
       }
 
 
@@ -226,7 +227,7 @@ export const cacheReducer = (state:PostsCache, action) => {
 
         state.cachedData[filter] = cachedEntry;
 
-        return state;
+        return Object.create(state);;
       }
 
       case CacheActions.RESET_CACHE: {
@@ -241,11 +242,11 @@ export const cacheReducer = (state:PostsCache, action) => {
             }
         }
  
-        return state;
+        return Object.create(state);;
       }
 
       default:
-        return state;
+        return Object.create(state);;
     }
   };
 
