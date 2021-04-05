@@ -337,7 +337,11 @@
     "title_remove_confirmation":"Delete image",
     "btn_add":"Image",
     "message_failed":"Failed to upload image",
-    "message_remove_confirmation":"Are you sure you want to delete this image?"
+    "message_remove_confirmation":"Are you sure you want to delete this image?",
+    "alert_remove_title":"Confirm Delete",
+    "alert_remove_body":"Are you sure you wish to delete this image?",
+    "alert_btn_yes":"Yes",
+    "alert_btn_no":"No"
   },
   "pincode": {
     "enter_text": "Enter PIN to unlock",
