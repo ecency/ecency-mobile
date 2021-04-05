@@ -55,11 +55,11 @@ export const loadPosts = async ({
     }
 
     if (!isConnected && (refreshing || isLoading)) {
-      cacheDispatch(onLoadComplete(cache,filter))
+      cacheDispatch(onLoadComplete(filter))
       return;
     }
 
-    cacheDispatch(setFilterLoading(cache,filter, true));
+    cacheDispatch(setFilterLoading(filter, true));
         
     let options = {} as any;
     const limit = isLatestPostCheck ? 5 : 20;
@@ -122,12 +122,12 @@ export const loadPosts = async ({
       if(filter === 'feed'){
           filter = 'friends'
       }
-      cacheDispatch(updateFilterCache(cache, filter, result, refreshing))
-      cacheDispatch(onLoadComplete(cache,filter));
+      cacheDispatch(updateFilterCache(filter, result, refreshing))
+      cacheDispatch(onLoadComplete(filter));
 
     } catch (err) {
       
-      cacheDispatch(onLoadComplete(cache,filter));
+      cacheDispatch(onLoadComplete(filter));
     }
 
     // track filter and tag views

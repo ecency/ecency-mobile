@@ -54,13 +54,12 @@ export const TabbedPosts = ({
     const selectedFilter = combinedFilters[initialTabIndex].filterKey
     return initCacheState(combinedFilters, selectedFilter, isFeedScreen);
   }
-  const [cache, cacheDispatch] = useState<PostsCache>(_initCacheState())
+  const [cache, cacheDispatch] = useReducer(cacheReducer, {} as PostsCache , _initCacheState)
 
   
   //initialize first set of pages
   const pages = combinedFilters.map((filter)=>(
     <PostsList
-      key={filter.filterKey}
       data={cache.cachedData[filter.filterKey].posts}
       tabLabel={filter.label}
       isFeedScreen={isFeedScreen}
@@ -96,7 +95,7 @@ export const TabbedPosts = ({
   //actions
   
   const _onFilterSelect = (filter:string) => {
-    cacheDispatch(setSelectedFilter(cache, filter))
+    cacheDispatch(setSelectedFilter(filter))
     if(cache.cachedData[filter].posts.length === 0){
       _loadPosts(filter);
     }
