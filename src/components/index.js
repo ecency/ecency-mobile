@@ -4,6 +4,7 @@ import { BasicHeader } from './basicHeader';
 import { BoostIndicatorAnimation, PulseAnimation, SpinIndicator } from './animations';
 import BeneficiaryModal from './beneficiaryModal/beneficiaryModal';
 import SnippetsModal from './snippetsModal/snippetsModal';
+import { UploadsGalleryModal } from './uploadsGalleryModal/uploadsGalleryModal';
 import { BottomTabBar } from './bottomTabBar';
 import { CheckBox } from './checkbox';
 import { CircularButton, TextButton, SquareButton } from './buttons';
@@ -85,7 +86,8 @@ import PostBoost from './postBoost/postBoostView';
 import Profile from './profile/profileView';
 import Promote from './promote/promoteView';
 import { SpinGame } from './spinGame/spinGameView';
-import {TabbedPosts} from './tabbedPosts';
+import { ActionModal } from './actionModal';
+import { TabbedPosts } from './tabbedPosts';
 
 // Basic UI Elements
 import {
@@ -183,6 +185,7 @@ export {
   SettingsItem,
   SideMenu,
   SnippetsModal,
+  UploadsGalleryModal,
   SpinGame,
   SpinIndicator,
   SquareButton,
@@ -219,5 +222,6 @@ export {
   PopoverWrapper,
   CommunitiesList,
   SubscribedCommunitiesList,
+  ActionModal,
   TabbedPosts,
 };

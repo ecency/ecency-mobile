@@ -189,8 +189,6 @@ class NotificationView extends PureComponent {
             _notifications && _notifications.length > 0 ? (
               <FlatList
                 data={_notifications}
-                refreshing={isNotificationRefreshing}
-                onRefresh={() => getActivities()}
                 keyExtractor={(item) => item.title}
                 onEndReached={() => getActivities(null, selectedFilter, true)}
                 ListFooterComponent={this._renderFooterLoading}
@@ -199,6 +197,7 @@ class NotificationView extends PureComponent {
                 refreshControl={
                   <RefreshControl
                     refreshing={isNotificationRefreshing}
+                    onRefresh={() => getActivities()}
                     progressBackgroundColor="#357CE6"
                     tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
                     titleColor="#fff"

@@ -75,7 +75,11 @@ import {
   setPinCode as savePinCode,
   isRenderRequired,
 } from '../../../redux/actions/applicationActions';
-import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
+import {
+  hideActionModal,
+  toastNotification,
+  updateActiveBottomTab,
+} from '../../../redux/actions/uiAction';
 
 import { encryptKey } from '../../../utils/crypto';
 
@@ -457,6 +461,15 @@ class ApplicationContainer extends Component {
     }
   };
 
+  _showNotificationToast = (remoteMessage) => {
+    const { dispatch } = this.props;
+
+    if (remoteMessage && remoteMessage.notification) {
+      const { title } = remoteMessage.notification;
+      dispatch(toastNotification(title));
+    }
+  };
+
   _createPushListener = () => {
     (async () => await messaging().requestPermission())();
 
@@ -464,6 +477,7 @@ class ApplicationContainer extends Component {
     PushNotification.cancelAllLocalNotifications();
 
     firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
+      this._showNotificationToast(remoteMessage);
       this._pushNavigate(remoteMessage);
     });
 
@@ -607,6 +621,7 @@ class ApplicationContainer extends Component {
   _getSettings = async () => {
     const { dispatch } = this.props;
 
+    dispatch(hideActionModal());
     const settings = await getSettings();
 
     if (settings) {

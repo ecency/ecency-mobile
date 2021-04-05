@@ -79,6 +79,8 @@ export const addDraft = (data) =>
         const { drafts } = res.data;
         if (drafts) {
           resolve(drafts.pop());
+        } else {
+          reject(new Error('No drafts returned in response'));
         }
       })
       .catch((error) => {
@@ -102,7 +104,11 @@ export const updateDraft = (data) =>
         tags: data.tags,
       })
       .then((res) => {
-        resolve(res.data);
+        if (res.data) {
+          resolve(res.data);
+        } else {
+          reject(new Error('No data retuend in update response'));
+        }
       })
       .catch((error) => {
         bugsnag.notify(error);
@@ -450,15 +456,24 @@ export const moveSchedule = (id, username) => api.put(`/schedules/${username}/${
 
 export const getImages = (username) =>
   api
-    .get(`api/images/${username}`)
-    .then((resp) => resp.data)
-    .catch((error) => bugsnag.notify(error));
+    .get(`/images/${username}`)
+    .then((resp) => {
+      const res = resp.data;
+      console.log('res: ', res);
+      return resp.data;
+    })
+    .catch((error) => {
+      console.warn('Failed to get images', error);
+      bugsnag.notify(error);
+    });
 
 export const addMyImage = (user, url) =>
   api.post('/image', {
     username: user,
     image_url: url,
   });
+
+export const deleteMyImage = (user, id) => api.delete(`/images/${user}/${id}`);
 
 export const uploadImage = (media, username, sign) => {
   const file = {
