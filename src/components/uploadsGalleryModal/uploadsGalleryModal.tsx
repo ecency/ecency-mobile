@@ -116,7 +116,21 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, handl
     }
 
     const _onRemovePress = async () => {
-       _deleteMediaItem(item._id)
+        const _onConfirm = () => {
+            _deleteMediaItem(item._id)
+        }
+        Alert.alert(
+            intl.formatMessage({id:'alert.delete'}),
+            intl.formatMessage({id:'alert.remove_alert'}),
+            [{
+                text:intl.formatMessage({id:'alert.cancel'}),
+                style:'cancel'
+            },{
+                text:intl.formatMessage({id:'alert.confirm'}),
+                onPress:_onConfirm
+            }]
+        )
+       
     }
 
     const thumbUrl = proxifyImageSrc(item.url, 600, 500, Platform.OS === 'ios' ? 'match' : 'webp');

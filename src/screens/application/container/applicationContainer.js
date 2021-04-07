@@ -621,7 +621,10 @@ class ApplicationContainer extends Component {
   _getSettings = async () => {
     const { dispatch } = this.props;
 
+    //reset certain properties
     dispatch(hideActionModal());
+    dispatch(toastNotification(''));
+
     const settings = await getSettings();
 
     if (settings) {
