@@ -1,29 +1,15 @@
-import { Dispatch, ReducerAction } from "react";
 import { getAccountPosts, getRankedPosts } from "../../../providers/hive/dhive";
-import { CachedDataEntry, onLoadComplete, PostsCache, setFilterLoading, updateFilterCache } from "./tabbedPostsReducer";
+import { getUpdatedPosts } from "./tabbedPostsReducer";
 import Matomo from 'react-native-matomo-sdk';
+import { LoadPostsOptions } from "./tabbedPostsModels";
 
-
-export interface LoadPostsOptions {
-    cache:PostsCache, 
-    cacheDispatch:Dispatch<ReducerAction<any>>,
-    getFor:string,
-    isConnected:boolean,
-    isLoggedIn:boolean,
-    feedUsername:string,
-    pageType:string,
-    tag:string,
-    nsfw:string,
-    isAnalytics:boolean,
-    isLatestPostCheck?:boolean,
-    refreshing?:boolean,
-    passedFilter?:string; 
-}
+const POSTS_FETCH_COUNT = 20;
 
 export const loadPosts = async ({
-    passedFilter, 
-    cache, 
-    cacheDispatch, 
+    filterKey, 
+    prevPosts,
+    tabMeta, 
+    setTabMeta, 
     isLatestPostCheck = false,
     getFor,
     isConnected,
@@ -36,33 +22,41 @@ export const loadPosts = async ({
     isAnalytics
 
 }:LoadPostsOptions) => {
-    let filter = passedFilter || cache.selectedFilter;
+    let filter = filterKey;
     
     //match filter with api if is friends
     if(filter === 'friends'){
         filter = 'feed';
     }
 
-    const {isLoading, startPermlink, startAuthor}:CachedDataEntry = cache.cachedData[filter];
+    const {isLoading, startPermlink, startAuthor} = tabMeta;
     
     if (
         isLoading ||
       !isConnected ||
-      (!isLoggedIn && passedFilter === 'feed') ||
-      (!isLoggedIn && passedFilter === 'blog')
+      (!isLoggedIn && filterKey === 'feed') ||
+      (!isLoggedIn && filterKey === 'blog')
     ) {
       return;
     }
 
     if (!isConnected && (refreshing || isLoading)) {
-      cacheDispatch(onLoadComplete(filter))
+      setTabMeta({
+        ...tabMeta,
+        isLoading:false,
+        isRefreshing:false,
+      })
       return;
     }
 
-    cacheDispatch(setFilterLoading(filter, true));
+    setTabMeta({
+      ...tabMeta,
+      isLoading:true,
+      isRefreshing:refreshing,
+    })
         
     let options = {} as any;
-    const limit = isLatestPostCheck ? 5 : 20;
+    const limit = isLatestPostCheck ? 5 : POSTS_FETCH_COUNT;
     let func = null;
 
     if (
@@ -122,12 +116,30 @@ export const loadPosts = async ({
       if(filter === 'feed'){
           filter = 'friends'
       }
-      cacheDispatch(updateFilterCache(filter, result, refreshing))
-      cacheDispatch(onLoadComplete(filter));
+
+      // cacheDispatch(updateFilterCache(filter, result, refreshing))
+
+
+      setTabMeta({
+        ...tabMeta,
+        isLoading:false,
+        isRefreshing:false,
+      })
+
+      return getUpdatedPosts(
+        prevPosts,
+        result,
+        refreshing,
+        tabMeta,
+        setTabMeta
+      )
 
     } catch (err) {
-      
-      cacheDispatch(onLoadComplete(filter));
+      setTabMeta({
+        ...tabMeta,
+        isLoading:false,
+        isRefreshing:false,
+      })
     }
 
     // track filter and tag views

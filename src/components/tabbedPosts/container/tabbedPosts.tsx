@@ -3,10 +3,11 @@ import { useIntl } from 'react-intl';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { useDispatch, useSelector } from 'react-redux';
 import PostsList from '../../postsList';
-import { loadPosts, LoadPostsOptions } from '../services/tabbedPostsFetch';
+import { loadPosts } from '../services/tabbedPostsFetch';
+import { TabbedPostsProps } from '../services/tabbedPostsModels';
 import { cacheReducer, initCacheState, setSelectedFilter, PostsCache } from '../services/tabbedPostsReducer';
 import { StackedTabBar, TabItem } from '../view/stackedTabBar';
-import { TabbedPostsProps } from './tabbedPostsProps';
+import TabContent from '../view/tabContent';
 
 
 export const TabbedPosts = ({
@@ -20,13 +21,6 @@ export const TabbedPosts = ({
   ...props
 }:TabbedPostsProps) => {
 
-  const intl = useIntl();
-  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
-
-  //redux properties
-  const isAnalytics = useSelector((state) => state.application.isAnalytics);
-  const nsfw = useSelector((state) => state.application.nsfw);
-  const isConnected = useSelector((state) => state.application.isConnected);
 
 
   //initialize state
@@ -59,45 +53,22 @@ export const TabbedPosts = ({
   
   //initialize first set of pages
   const pages = combinedFilters.map((filter)=>(
-    <PostsList
-      data={cache.cachedData[filter.filterKey].posts}
+    <TabContent
+      filterKey={filter.filterKey}
       tabLabel={filter.label}
       isFeedScreen={isFeedScreen}
       promotedPosts={[]}
+      feedUsername={feedUsername}
+      {...props}
     />
   ))
-
-  //side effects
-  useEffect(() => {
-    _loadPosts()
-  }, [])
-
-
-
-  //load posts implementation
-  const _loadPosts = (filter?:string) => {
-    const options = {
-      passedFilter:filter,
-      cache,
-      cacheDispatch,
-      isLoggedIn,
-      isAnalytics,
-      nsfw,
-      isConnected,
-      feedUsername,
-      isFeedScreen,
-      ...props
-    } as LoadPostsOptions
-    loadPosts(options)
-  }
-
 
   //actions
   
   const _onFilterSelect = (filter:string) => {
     cacheDispatch(setSelectedFilter(filter))
     if(cache.cachedData[filter].posts.length === 0){
-      _loadPosts(filter);
+      // _loadPosts(filter);
     }
   }
 

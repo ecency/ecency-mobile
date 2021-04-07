@@ -1,5 +1,7 @@
 import { TabItem } from "../view/stackedTabBar";
 import unionBy from 'lodash/unionBy';
+import { TabMeta } from "./tabbedPostsModels";
+import TabBarTop from "react-navigation-tabs/lib/typescript/src/views/MaterialTopTabBar";
 
 export const CacheActions = {
     SET_FILTER_LOADING:'SET_FILTER_LOADING',
@@ -53,14 +55,64 @@ export const onLoadComplete = (filter:string) => ({
     type:CacheActions.ON_LOAD_COMPLETE
 })
 
-export const updateFilterCache = (filter:string, posts:any[], refreshing:boolean) => ({
-    payload: {
-        filter,
-        posts,
-        shouldReset: refreshing,
-    },
-    type: CacheActions.UPDATE_FILTER_CACHE,
-})
+
+export const getUpdatedPosts = (prevPosts:any[], nextPosts:any[], shouldReset:boolean, tabMeta:TabMeta, setTabMeta:(meta:TabMeta)=>void) => {
+        //return state as is if component is unmounter
+        let _posts = nextPosts;
+        
+
+        // const isFeedScreen = state.isFeedScreen
+        // const cachedEntry:CachedDataEntry = state.cachedData[filter];
+        // if (!cachedEntry) {
+        //   throw new Error('No cached entry available');
+        // }
+
+        if(nextPosts.length === 0){
+          setTabMeta({
+            ...tabMeta,
+            isNoPost:true
+          });
+          return prevPosts;
+        }
+
+
+        const refreshing = tabMeta.isRefreshing;
+    
+
+        if (prevPosts.length > 0 && !shouldReset) {
+          if (refreshing) {
+            _posts = unionBy(_posts, prevPosts, 'permlink');
+          } else {
+            _posts = unionBy(prevPosts, _posts, 'permlink');
+          }
+        }
+        //cache latest posts for main tab for returning user
+        // else if (isFeedScreen) {
+        //   //schedule refetch of new posts by checking time of current post
+        //   _scheduleLatestPostsCheck(nextPosts[0]);
+
+        //   if (filter == (get(currentAccount, 'name', null) == null ? 'hot' : 'friends')) {
+        //     _setInitPosts(nextPosts);
+        //   }
+        // }
+
+        //update stat
+
+        setTabMeta({
+          ...tabMeta,
+          startAuthor:_posts[_posts.length - 1] && _posts[_posts.length - 1].author,
+          startPermlink: _posts[_posts.length - 1] && _posts[_posts.length - 1].permlink,
+        })
+ 
+
+        //dispatch to redux
+        // if (
+        //   filter === (state.selectedFilter !== 'feed' ? state.selectedFilter : state.currentSubFilter)
+        // ) {
+        //   _setFeedPosts(_posts);
+        // }
+        return _posts
+}
 
 
 export const initCacheState = (filters:TabItem[], selectedFilter:string, isFeedScreen:boolean) => {
