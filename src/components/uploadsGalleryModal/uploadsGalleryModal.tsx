@@ -120,13 +120,13 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, handl
             _deleteMediaItem(item._id)
         }
         Alert.alert(
-            intl.formatMessage({id:'uploads_modal.alert_remove_title'}),
-            intl.formatMessage({id:'uploads_modal.alert_remove_body'}),
+            intl.formatMessage({id:'alert.delete'}),
+            intl.formatMessage({id:'alert.remove_alert'}),
             [{
-                text:intl.formatMessage({id:'uploads_modal.alert_btn_no'}),
+                text:intl.formatMessage({id:'alert.cancel'}),
                 style:'cancel'
             },{
-                text:intl.formatMessage({id:'uploads_modal.alert_btn_yes'}),
+                text:intl.formatMessage({id:'alert.confirm'}),
                 onPress:_onConfirm
             }]
         )
