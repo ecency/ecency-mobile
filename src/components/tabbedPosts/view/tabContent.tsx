@@ -53,8 +53,11 @@ const TabContent = ({
       isRefreshing:false,
     } as TabMeta)
     setSessionUser(username);
-    _loadPosts();
-    _getPromotedPosts();
+
+    if(username || (filterKey !== 'friends' && filterKey !== 'communities')){
+      _loadPosts(true);
+      _getPromotedPosts();
+    }
   }
 
 

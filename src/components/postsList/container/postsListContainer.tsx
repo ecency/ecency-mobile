@@ -16,6 +16,8 @@ interface postsListContainerProps extends FlatListProps<any> {
     isRefreshing:boolean;
 }
 
+let _onEndReachedCalledDuringMomentum = true;
+
 const postsListContainer = ({
     promotedPosts,
     isFeedScreen,
@@ -24,6 +26,7 @@ const postsListContainer = ({
     isLoading,
     ...props
 }:postsListContainerProps, ref) => {
+   
     const flatListRef = useRef(null);
 
     const [imageHeights, setImageHeights] = useState(new Map<string, number>());
@@ -88,7 +91,12 @@ const postsListContainer = ({
     return null;
   };
 
-
+  const _onEndReached = () => {
+    if (onLoadPosts && !_onEndReachedCalledDuringMomentum) {
+      onLoadPosts(false);
+      _onEndReachedCalledDuringMomentum = true;
+    }
+  };
 
 
     const _renderItem = ({ item, index }:{item:any, index:number}) => {
@@ -150,7 +158,10 @@ const postsListContainer = ({
               initialNumToRender={3}
               windowSize={5}
               extraData={imageHeights}
-              onEndReached={()=>{if(onLoadPosts){onLoadPosts(false)}}}
+              onEndReached={_onEndReached}
+              onMomentumScrollBegin={() => {
+                _onEndReachedCalledDuringMomentum = false;
+              }}
               ListFooterComponent={_renderFooter}
               refreshControl={ 
                 <RefreshControl

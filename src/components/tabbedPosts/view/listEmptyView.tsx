@@ -228,7 +228,7 @@ const TabEmptyView = ({
 
 
 //render related operations
-  if ((filterKey === 'feed' || filterKey === 'blog') && !isLoggedIn) {
+  if ((filterKey === 'feed' || filterKey === 'blog' || filterKey === 'friends' || filterKey === 'communities') && !isLoggedIn) {
     return (
       <NoPost
         imageStyle={styles.noImage}
