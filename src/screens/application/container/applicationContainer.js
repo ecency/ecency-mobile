@@ -80,6 +80,7 @@ import {
   toastNotification,
   updateActiveBottomTab,
 } from '../../../redux/actions/uiAction';
+import { resetLocalVoteMap } from '../../../redux/actions/postsAction';
 
 import { encryptKey } from '../../../utils/crypto';
 
@@ -624,6 +625,7 @@ class ApplicationContainer extends Component {
     //reset certain properties
     dispatch(hideActionModal());
     dispatch(toastNotification(''));
+    dispatch(resetLocalVoteMap());
 
     const settings = await getSettings();
 
