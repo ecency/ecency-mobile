@@ -63,6 +63,7 @@ export const loadPosts = async ({
 
     if (
       filter === 'feed' ||
+      filter === 'communities' ||
       filter === 'posts' ||
       filter === 'blog' ||
       getFor === 'blog' ||

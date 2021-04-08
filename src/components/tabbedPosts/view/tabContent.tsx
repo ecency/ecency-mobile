@@ -75,8 +75,10 @@ const TabContent = ({
     } as LoadPostsOptions
 
     const updatedPosts = await loadPosts(options)
-    if(updatedPosts){
+    if(updatedPosts && Array.isArray(updatedPosts)){
       setPosts(updatedPosts);
+    }else{
+      console.warn("Wrong data returned", updatedPosts)
     }
   }
 
