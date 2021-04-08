@@ -37,7 +37,7 @@ const TagInput = ({
   const _handleOnChange = (_text) => {
     setText(_text.replace(/,/g, ' ').replace(/#/g, ''));
 
-    let cats = _text.split(' ');
+    let cats = _text.trim().split(' ');
     if (handleTagChanged && cats.length > 0) {
       cats.length > 10
         ? setWarning(intl.formatMessage({ id: 'editor.limited_tags' }))
