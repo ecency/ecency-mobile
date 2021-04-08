@@ -4,9 +4,8 @@ import { get } from 'lodash';
 import { FlatListProps, FlatList, RefreshControl, ActivityIndicator, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ThemeContainer } from '../../../containers';
-import { PostCardPlaceHolder } from '../..';
 import styles from '../view/postsListStyles';
-import { isDarkTheme } from '../../../redux/actions/applicationActions';
+
 
 
 interface postsListContainerProps extends FlatListProps<any> {

@@ -1,7 +1,9 @@
-import { getAccountPosts, getRankedPosts } from "../../../providers/hive/dhive";
+import { getAccountPosts, getPost, getRankedPosts } from "../../../providers/hive/dhive";
 import { getUpdatedPosts } from "./tabbedPostsReducer";
 import Matomo from 'react-native-matomo-sdk';
 import { LoadPostsOptions } from "./tabbedPostsModels";
+import { getPromotePosts } from "../../../providers/ecency/ecency";
+import { get, isEmpty } from 'lodash';
 
 const POSTS_FETCH_COUNT = 20;
 
@@ -159,3 +161,28 @@ export const loadPosts = async ({
       }
     }
   };
+
+
+
+  export const getPromotedPosts = async (username:string) => {
+    try {
+      const res = await getPromotePosts();
+      if (res && res.length) {
+        const _promotedPosts = await Promise.all(
+          res.map((item) =>
+            getPost(get(item, 'author'), get(item, 'permlink'), username, true).then(
+              (post) => post,
+            ),
+          ),
+        );
+  
+        // if (isMountedRef.current) {
+          return _promotedPosts;
+        // }
+      } else {
+        return [];
+      }
+    } catch(err){
+      console.warn("Failed to get promoted posts, ", err)
+    }
+  }

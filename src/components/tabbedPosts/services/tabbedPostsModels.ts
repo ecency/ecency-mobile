@@ -10,6 +10,7 @@ export interface TabbedPostsProps {
     getFor:string,
     pageType:string,
     tag:string,
+    forceLoadPosts:boolean,
 }
 
 export interface TabMeta {
@@ -37,4 +38,17 @@ export interface TabMeta {
       isLatestPostCheck?:boolean,
       refreshing?:boolean,
 
+  }
+
+
+  export interface TabContentProps {
+    filterKey:string,
+    tabLabel:string,
+    isFeedScreen:boolean,
+    getFor:string,
+    pageType:string,
+    feedUsername:string,
+    tag:string,
+    forceLoadPosts:boolean,
+    // promotedPosts:any[],
   }
