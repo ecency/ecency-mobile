@@ -30,7 +30,7 @@ const TagInput = ({
     } else {
       setText(value.join(' '));
     }
-  }, [value]);
+  });
 
   // Component Functions
   const _handleOnChange = (_text) => {
