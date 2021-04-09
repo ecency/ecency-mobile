@@ -313,7 +313,6 @@
     "alert_btn_no":"No",
     "draft_save_success":"Draft Saved",
     "draft_save_fail":"Failed to save draft"
-
   },
   "snippets":{
     "label_no_snippets":"No Snippets Found",
@@ -425,8 +424,7 @@
     "title": "Drafts",
     "load_error": "Could not load drafts",
     "empty_list": "Nothing here",
-    "deleted": "Draft deleted",
-
+    "deleted": "Draft deleted"
   },
   "schedules": {
     "title": "Schedules",
