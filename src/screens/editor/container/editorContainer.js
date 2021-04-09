@@ -594,6 +594,11 @@ class EditorContainer extends Component {
   _saveCurrentDraft = async (fields) => {
     const { draftId, isReply, isEdit, isPostSending } = this.state;
 
+    //skip draft save in case post is sending or is post beign edited
+    if (isPostSending || isEdit) {
+      return;
+    }
+
     const { currentAccount } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
 
@@ -602,20 +607,18 @@ class EditorContainer extends Component {
       tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
     };
 
-    if (!isPostSending) {
-      //save reply data
-      if (isReply && draftField.body !== null) {
-        await AsyncStorage.setItem('temp-reply', draftField.body);
+    //save reply data
+    if (isReply && draftField.body !== null) {
+      await AsyncStorage.setItem('temp-reply', draftField.body);
 
-        //save existing draft data locally
-      } else if (draftId) {
-        setDraftPost(draftField, username, draftId);
-      }
+      //save existing draft data locally
+    } else if (draftId) {
+      setDraftPost(draftField, username, draftId);
+    }
 
-      //update editor data locally
-      else if (!isReply) {
-        setDraftPost(draftField, username);
-      }
+    //update editor data locally
+    else if (!isReply) {
+      setDraftPost(draftField, username);
     }
   };
 
