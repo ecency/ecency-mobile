@@ -51,6 +51,10 @@ export default EStyleSheet.create({
   icon: {
     color: '$editorButtonColor',
   },
+  iconArrow: {
+    marginLeft:4,
+    color: '$iconColor',
+  },
   clearButtonWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
