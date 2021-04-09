@@ -51,7 +51,7 @@ export const TabbedPosts = ({
   const [combinedFilters] = useState([...mainFilters, ...subFilters]);
   // const [sessionUser, setSessionUser] = useState(username);
   const [selectedFilter, setSelectedFilter] = useState(combinedFilters[initialTabIndex].filterKey)
-
+  const [filterScrollRequest, setFilterScrollRequest] = useState<string|null>(null)
 
   // //sideEffects
   // useEffect(() => {
@@ -68,16 +68,21 @@ export const TabbedPosts = ({
 
     //components actions
     const _onFilterSelect = (filter:string) => {
-      if(filter !== selectedFilter){
-        // _getPromotedPosts()
-      } else {
-        //scroll tab to top
+      if(filter === selectedFilter){
+        //scroll filter to top
+        setFilterScrollRequest(selectedFilter) 
+      }else{
+        setSelectedFilter(filter)
       }
-      setSelectedFilter(filter)
+     
     }
 
     const _toggleHideImagesFlag = () => {
       dispatch(hidePostsThumbnails(!isHideImages));
+    }
+
+    const _onScrollRequestProcessed = () => {
+      setFilterScrollRequest(null);
     }
 
     // const _getPromotedPosts = async () => {
@@ -101,6 +106,8 @@ export const TabbedPosts = ({
       isFeedScreen={isFeedScreen}
       feedUsername={feedUsername}
       pageType={pageType}
+      filterScrollRequest={filterScrollRequest}
+      onScrollRequestProcessed={_onScrollRequestProcessed}
       {...props}
     />
   ))

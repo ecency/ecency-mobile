@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useImperativeHandle, forwardRef} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import PostsList from '../../postsList';
 import { getPromotedPosts, loadPosts } from '../services/tabbedPostsFetch';
 import { LoadPostsOptions, TabContentProps, TabMeta } from '../services/tabbedPostsModels';
@@ -8,7 +8,6 @@ import { setInitPosts } from '../../../redux/actions/postsAction';
 import NewPostsPopup from './newPostsPopup';
 import { calculateTimeLeftForPostCheck } from '../services/tabbedPostsReducer';
 import { AppState } from 'react-native';
-import { filter } from 'core-js/core/array';
 
 
 const TabContent = ({
@@ -16,9 +15,10 @@ const TabContent = ({
   isFeedScreen,
   pageType,
   forceLoadPosts,
-
+  filterScrollRequest,
+  onScrollRequestProcessed,
   ...props
-}: TabContentProps, ref) => {
+}: TabContentProps) => {
   let _postFetchTimer = null;
   let _isMounted = true;
 
@@ -55,12 +55,6 @@ const TabContent = ({
   const postsRef = useRef(posts);
   postsRef.current = posts;
 
-  useImperativeHandle(ref ,() => ({
-      scrollToTop:()=>{
-        _scrollToTop();
-      }
-    }));
-
   //side effects
   useEffect(() => {
     
@@ -82,6 +76,15 @@ const TabContent = ({
       }
     }
   }, [username, forceLoadPosts])
+
+  useEffect(() => {
+    if(filterScrollRequest && filterScrollRequest === filterKey){
+      _scrollToTop();
+      if(onScrollRequestProcessed){
+        onScrollRequestProcessed();
+      }
+    }
+  }, [filterScrollRequest])
 
 
   const _cleanup = () => {
@@ -260,6 +263,6 @@ const TabContent = ({
   );
 };
 
-export default forwardRef(TabContent);
+export default TabContent;
 
 

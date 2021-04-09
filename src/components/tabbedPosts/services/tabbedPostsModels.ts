@@ -50,5 +50,6 @@ export interface TabMeta {
     feedUsername:string,
     tag:string,
     forceLoadPosts:boolean,
-    // promotedPosts:any[],
+    filterScrollRequest:string,
+    onScrollRequestProcessed:()=>void
   }
