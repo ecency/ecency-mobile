@@ -55,7 +55,7 @@ export const onLoadComplete = (filter:string) => ({
     type:CacheActions.ON_LOAD_COMPLETE
 })
 
-export const calculateTimeLeftForPostCheck = (firstPost) => {
+export const calculateTimeLeftForPostCheck = (firstPost:any) => {
     const refetchTime = 600000;
 
       //schedules refresh 30 minutes after last post creation time

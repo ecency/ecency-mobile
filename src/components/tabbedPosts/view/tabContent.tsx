@@ -7,6 +7,7 @@ import TabEmptyView from './listEmptyView';
 import { setInitPosts } from '../../../redux/actions/postsAction';
 import NewPostsPopup from './newPostsPopup';
 import { calculateTimeLeftForPostCheck } from '../services/tabbedPostsReducer';
+import { AppState } from 'react-native';
 
 
 const TabContent = ({
@@ -49,16 +50,22 @@ const TabContent = ({
 
   //refs
   let postsListRef = useRef<PostsListRef>()
+  const appState = useRef(AppState.currentState);
   const postsRef = useRef(posts);
   postsRef.current = posts;
 
+
   //side effects
   useEffect(() => {
-    _initContent(initPosts);
-    return () => {
-      _isMounted = false;
+    
+    if (isFeedScreen) {
+      AppState.addEventListener('change', _handleAppStateChange);
+      _initContent(true);
     }
+
+    return _cleanup;
   }, [])
+
 
   useEffect(()=>{
     if(isConnected && (username !== sessionUser || forceLoadPosts)){
@@ -68,14 +75,34 @@ const TabContent = ({
         setPosts([])
       }
     }
-  },[username, forceLoadPosts])
+  }, [username, forceLoadPosts])
 
+
+  const _cleanup = () => {
+    _isMounted = false;
+    if(_postFetchTimer){
+      clearTimeout(_postFetchTimer);
+    }
+    if (isFeedScreen) {
+      AppState.removeEventListener('change', _handleAppStateChange);
+    }
+  }
 
 
 
   //actions
-  const _initContent = (_initPosts:any[] = []) => {
-    setPosts(_initPosts);
+  const _handleAppStateChange = (nextAppState) => {
+    if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+      const isLatestPostsCheck = true;
+      _loadPosts(false, isLatestPostsCheck);
+    }
+
+    appState.current = nextAppState;
+  };
+
+
+  const _initContent = (isFirstCall = false) => {
+    setPosts(initPosts || []);
     setTabMeta({
       startAuthor:'',
       startPermlink:'',
@@ -85,7 +112,7 @@ const TabContent = ({
     setSessionUser(username);
 
     if(username || (filterKey !== 'friends' && filterKey !== 'communities')){
-      _loadPosts(true);
+      _loadPosts(!isFirstCall);
       _getPromotedPosts();
     }
   }
@@ -133,12 +160,12 @@ const TabContent = ({
 
   //schedules post fetch
   const _scheduleLatestPostsCheck = (firstPost:any) => {
-    if (_postFetchTimer) {
-      clearTimeout(_postFetchTimer);
-    }
-
-    const timeLeft = calculateTimeLeftForPostCheck(firstPost)
     if (firstPost) {
+      if (_postFetchTimer) {
+        clearTimeout(_postFetchTimer);
+      }
+
+      const timeLeft = calculateTimeLeftForPostCheck(firstPost)
       _postFetchTimer = setTimeout(() => {
           const isLatestPostsCheck = true;
           _loadPosts(false, isLatestPostsCheck);
