@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useImperativeHandle, forwardRef} from 'react';
 import PostsList from '../../postsList';
 import { getPromotedPosts, loadPosts } from '../services/tabbedPostsFetch';
 import { LoadPostsOptions, TabContentProps, TabMeta } from '../services/tabbedPostsModels';
@@ -8,6 +8,7 @@ import { setInitPosts } from '../../../redux/actions/postsAction';
 import NewPostsPopup from './newPostsPopup';
 import { calculateTimeLeftForPostCheck } from '../services/tabbedPostsReducer';
 import { AppState } from 'react-native';
+import { filter } from 'core-js/core/array';
 
 
 const TabContent = ({
@@ -17,7 +18,7 @@ const TabContent = ({
   forceLoadPosts,
 
   ...props
-}: TabContentProps) => {
+}: TabContentProps, ref) => {
   let _postFetchTimer = null;
   let _isMounted = true;
 
@@ -54,6 +55,11 @@ const TabContent = ({
   const postsRef = useRef(posts);
   postsRef.current = posts;
 
+  useImperativeHandle(ref ,() => ({
+      scrollToTop:()=>{
+        _scrollToTop();
+      }
+    }));
 
   //side effects
   useEffect(() => {
@@ -254,6 +260,6 @@ const TabContent = ({
   );
 };
 
-export default TabContent;
+export default forwardRef(TabContent);
 
 
