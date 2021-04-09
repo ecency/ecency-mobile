@@ -59,10 +59,16 @@ class EditorScreen extends Component {
 
   // Component Life Cycles
   componentDidMount() {
-    const { draftPost } = this.props;
+    const { draftPost, currentAccount } = this.props;
 
-    if (draftPost && draftPost.tags?.length > 0 && isCommunity(draftPost.tags[0])) {
-      this._getCommunity(draftPost.tags[0]);
+    if (draftPost) {
+      if (draftPost.tags?.length > 0 && isCommunity(draftPost.tags[0])) {
+        this._getCommunity(draftPost.tags[0]);
+      } else {
+        this.setState({
+          selectedAccount: currentAccount,
+        });
+      }
     }
   }
 
@@ -74,10 +80,14 @@ class EditorScreen extends Component {
   }
 
   UNSAFE_componentWillReceiveProps = async (nextProps) => {
-    const { draftPost, isUploading, community } = this.props;
+    const { draftPost, isUploading, community, currentAccount } = this.props;
     if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
       if (nextProps.draftPost.tags?.length > 0 && isCommunity(nextProps.draftPost.tags[0])) {
         this._getCommunity(nextProps.draftPost.tags[0]);
+      } else {
+        this.setState({
+          selectedAccount: currentAccount,
+        });
       }
 
       await this.setState((prevState) => {

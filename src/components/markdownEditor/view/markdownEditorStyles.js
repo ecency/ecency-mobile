@@ -52,7 +52,7 @@ export default EStyleSheet.create({
     color: '$editorButtonColor',
   },
   iconArrow: {
-    marginLeft:4,
+    marginLeft: 4,
     color: '$iconColor',
   },
   clearButtonWrapper: {
@@ -84,6 +84,7 @@ export default EStyleSheet.create({
     marginLeft: 2,
   },
   name: {
+    marginLeft: 4,
     color: '$primaryDarkGray',
   },
   modalStyle: {
