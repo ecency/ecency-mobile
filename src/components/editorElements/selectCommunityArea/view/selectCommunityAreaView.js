@@ -7,26 +7,33 @@ import { Icon } from '../../../icon';
 import globalStyles from '../../../../globalStyles';
 
 import styles from './selectCommunityAreStyles';
-import { Separator } from '../../../basicUIElements';
 
 const SelectCommunityAreaView = ({
-  community,
-  mode,
-  currentAccount,
+  selectedCommunity,
+  selectedAccount,
   onPressIn,
   onPressOut,
   intl,
 }) => {
+  let username = null;
+  let title = intl.formatMessage({ id: 'editor.select_community' });
+
+  if (selectedCommunity) {
+    username = selectedCommunity.name;
+    title = selectedCommunity.title;
+  } else if (selectedAccount) {
+    username = selectedAccount.name;
+    title = intl.formatMessage({ id: 'editor.my_blog' });
+  }
+
   return (
     <TouchableOpacity
       style={[globalStyles.containerHorizontal16, styles.selectCommunityAreaViewContainer]}
       onPressIn={onPressIn}
       onPressOut={onPressOut}
     >
-      <UserAvatar username={mode === 'community' ? community.name : currentAccount.name} noAction />
-      <Text style={[globalStyles.text, styles.chooseACommunityText]}>
-        {mode === 'community' ? community.title : intl.formatMessage({ id: 'editor.my_blog' })}
-      </Text>
+      <UserAvatar username={username} noAction />
+      <Text style={[globalStyles.text, styles.chooseACommunityText]}>{title}</Text>
       <Icon
         size={24}
         iconStyle={styles.leftIcon}
