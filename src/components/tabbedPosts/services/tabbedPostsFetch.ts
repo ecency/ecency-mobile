@@ -1,5 +1,5 @@
 import { getAccountPosts, getPost, getRankedPosts } from "../../../providers/hive/dhive";
-import { getUpdatedPosts } from "./tabbedPostsReducer";
+import { filterLatestPosts, getUpdatedPosts } from "./tabbedPostsReducer";
 import Matomo from 'react-native-matomo-sdk';
 import { LoadPostsOptions } from "./tabbedPostsModels";
 import { getPromotePosts } from "../../../providers/ecency/ecency";
@@ -12,7 +12,7 @@ export const loadPosts = async ({
     prevPosts,
     tabMeta, 
     setTabMeta, 
-    isLatestPostCheck = false,
+    isLatestPostsCheck = false,
     getFor,
     isConnected,
     isLoggedIn,
@@ -58,7 +58,7 @@ export const loadPosts = async ({
     })
         
     let options = {} as any;
-    const limit = isLatestPostCheck ? 5 : POSTS_FETCH_COUNT;
+    const limit = isLatestPostsCheck ? 5 : POSTS_FETCH_COUNT;
     let func = null;
 
     if (
@@ -99,7 +99,7 @@ export const loadPosts = async ({
     }
 
 
-    if (startAuthor && startPermlink && !refreshing && !isLatestPostCheck) {
+    if (startAuthor && startPermlink && !refreshing && !isLatestPostsCheck) {
       options.start_author = startAuthor;
       options.start_permlink = startPermlink;
     }
@@ -109,10 +109,10 @@ export const loadPosts = async ({
 
       if(result.length > 0 && filter === 'reblogs'){
         for (let i = result.length - 1; i >= 0; i--) {
-            if (result[i].author === feedUsername) {
-                result.splice(i, 1);
-            }
+          if (result[i].author === feedUsername) {
+              result.splice(i, 1);
           }
+        }
       }
 
       //if filter is feed convert back to reducer filter
@@ -121,21 +121,26 @@ export const loadPosts = async ({
       }
 
       // cacheDispatch(updateFilterCache(filter, result, refreshing))
-
-
       setTabMeta({
         ...tabMeta,
         isLoading:false,
         isRefreshing:false,
       })
 
-      return getUpdatedPosts(
-        prevPosts,
-        result,
-        refreshing,
-        tabMeta,
-        setTabMeta
-      )
+      if(isLatestPostsCheck){
+        const latestPosts = filterLatestPosts(result, prevPosts.slice(0, 5));
+        return {latestPosts}
+      }else{
+        const updatedPosts = getUpdatedPosts(
+          prevPosts,
+          result,
+          refreshing,
+          tabMeta,
+          setTabMeta
+        )
+        return {updatedPosts}
+      }
+      
 
     } catch (err) {
       setTabMeta({

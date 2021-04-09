@@ -55,6 +55,46 @@ export const onLoadComplete = (filter:string) => ({
     type:CacheActions.ON_LOAD_COMPLETE
 })
 
+export const calculateTimeLeftForPostCheck = (firstPost) => {
+    const refetchTime = 600000;
+
+      //schedules refresh 30 minutes after last post creation time
+      const currentTime = new Date().getTime();
+      const createdAt = new Date(firstPost.created).getTime();
+  
+      const timeSpent = currentTime - createdAt;
+      let timeLeft = refetchTime - timeSpent;
+      if (timeLeft < 0) {
+        timeLeft = refetchTime;
+      }
+      return timeLeft;
+}
+
+
+
+export const filterLatestPosts = (fetchedPosts:any[], cachedPosts:any[]) => {
+
+  console.log("Comparing: ", fetchedPosts, cachedPosts);
+
+  let latestPosts = [];
+  fetchedPosts.forEach((post) => {
+    const newPostId = post.post_id;
+    const postExist = cachedPosts.find((cPost) => (cPost.post_id || 0) === newPostId);
+
+    if (!postExist) {
+      latestPosts.push(post);
+    }
+  });
+
+
+  if (latestPosts.length > 0) {
+    return latestPosts.slice(0, 5);
+
+  } else {
+    return [];
+  }
+};
+
 
 export const getUpdatedPosts = (prevPosts:any[], nextPosts:any[], shouldReset:boolean, tabMeta:TabMeta, setTabMeta:(meta:TabMeta)=>void) => {
         //return state as is if component is unmounter

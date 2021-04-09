@@ -1,11 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import PostsList from '../../postsList';
 import { getPromotedPosts, loadPosts } from '../services/tabbedPostsFetch';
 import { LoadPostsOptions, TabContentProps, TabMeta } from '../services/tabbedPostsModels';
 import {useSelector, useDispatch } from 'react-redux';
 import TabEmptyView from './listEmptyView';
-import { filter } from 'core-js/core/array';
 import { setInitPosts } from '../../../redux/actions/postsAction';
+import NewPostsPopup from './newPostsPopup';
+import { calculateTimeLeftForPostCheck } from '../services/tabbedPostsReducer';
 
 
 const TabContent = ({
@@ -16,6 +17,9 @@ const TabContent = ({
 
   ...props
 }: TabContentProps) => {
+  let _postFetchTimer = null;
+  let _isMounted = true;
+
 
   //redux properties
   const dispatch = useDispatch();
@@ -39,13 +43,21 @@ const TabContent = ({
   const [posts, setPosts] = useState([]);
   const [promotedPosts, setPromotedPosts] = useState([]);
   const [sessionUser, setSessionUser] = useState(username);
-  const [tabMeta, setTabMeta] = useState({} as TabMeta)
+  const [tabMeta, setTabMeta] = useState({} as TabMeta);
+  const [latestPosts, setLatestPosts] = useState<any[]>([]);
 
 
+  //refs
+  let postsListRef = useRef<PostsListRef>()
+  const postsRef = useRef(posts);
+  postsRef.current = posts;
 
   //side effects
   useEffect(() => {
     _initContent(initPosts);
+    return () => {
+      _isMounted = false;
+    }
   }, [])
 
   useEffect(()=>{
@@ -57,6 +69,8 @@ const TabContent = ({
       }
     }
   },[username, forceLoadPosts])
+
+
 
 
   //actions
@@ -76,13 +90,17 @@ const TabContent = ({
     }
   }
 
-
-  const _loadPosts = async (shouldReset:boolean = false) => {
+  //fetch posts from server
+  const _loadPosts = async (shouldReset:boolean = false, isLatestPostsCheck:boolean = false) => {
     const options = {
+      setTabMeta:(meta:TabMeta) => {
+        if(_isMounted){
+          setTabMeta(meta)
+        }
+      },
       filterKey,
-      prevPosts:posts,
+      prevPosts:postsRef.current,
       tabMeta,
-      setTabMeta,
       isLoggedIn,
       isAnalytics,
       nsfw,
@@ -90,24 +108,16 @@ const TabContent = ({
       isFeedScreen,
       refreshing:shouldReset,
       pageType,
+      isLatestPostsCheck,
       ...props
     } as LoadPostsOptions
 
-    const updatedPosts = await loadPosts(options)
-    if(updatedPosts && Array.isArray(updatedPosts)){
-      if (isFeedScreen && shouldReset) {
-        //   //schedule refetch of new posts by checking time of current post
-        //   _scheduleLatestPostsCheck(nextPosts[0]);
-
-          if (filterKey == username ? 'friends' : 'hot') {
-            dispatch(setInitPosts(updatedPosts));
-          }
-      }
-      setPosts(updatedPosts);
-    }else{
-      console.warn("Wrong data returned", updatedPosts)
+    const result = await loadPosts(options)
+    if(_isMounted && result){
+      _postProcessLoadResult(result, shouldReset)
     }
   }
+
 
   const _getPromotedPosts = async () => {
     if(pageType === 'profiles'){
@@ -120,6 +130,69 @@ const TabContent = ({
   }
 
 
+
+  //schedules post fetch
+  const _scheduleLatestPostsCheck = (firstPost:any) => {
+    if (_postFetchTimer) {
+      clearTimeout(_postFetchTimer);
+    }
+
+    const timeLeft = calculateTimeLeftForPostCheck(firstPost)
+    if (firstPost) {
+      _postFetchTimer = setTimeout(() => {
+          const isLatestPostsCheck = true;
+          _loadPosts(false, isLatestPostsCheck);
+        }, 
+        timeLeft
+      );
+    }
+  };
+
+
+  //processes response from loadPost
+  const _postProcessLoadResult = ({updatedPosts, latestPosts}:any, shouldReset:boolean) => {
+    //process new posts avatart
+    if(latestPosts && Array.isArray(latestPosts)){
+      if(latestPosts.length > 0){
+        setLatestPosts(latestPosts)
+      }else{
+        _scheduleLatestPostsCheck(posts[0])
+      }
+    }
+
+    //process returned data
+    if(updatedPosts && Array.isArray(updatedPosts)){
+      if (isFeedScreen && shouldReset) {
+        //   //schedule refetch of new posts by checking time of current post
+          _scheduleLatestPostsCheck(updatedPosts[0]);
+
+          if (filterKey == username ? 'friends' : 'hot') {
+            dispatch(setInitPosts(updatedPosts));
+          }
+      }
+      setPosts(updatedPosts);
+    }
+  }
+
+
+  
+
+  //view related routines
+  const _onPostsPopupPress = () => {
+      _scrollToTop();
+      _getPromotedPosts()
+      setPosts([...latestPosts, ...posts])
+      _scheduleLatestPostsCheck(latestPosts[0]);
+      setLatestPosts([]);
+  }
+
+  const _scrollToTop = () => {
+    postsListRef.current.scrollToTop();
+  };
+
+  
+
+  //view rendereres
   const _renderEmptyContent = () => {
     return <TabEmptyView filterKey={filterKey} isNoPost={tabMeta.isNoPost}/>
   }
@@ -127,7 +200,9 @@ const TabContent = ({
 
   return (
 
+    <>
     <PostsList 
+      ref={postsListRef}
       data={posts}
       isFeedScreen={isFeedScreen}
       promotedPosts={promotedPosts}
@@ -141,7 +216,14 @@ const TabContent = ({
       isLoading={tabMeta.isLoading}
       ListEmptyComponent={_renderEmptyContent}
     />
-
+    <NewPostsPopup 
+      popupAvatars={latestPosts.map(post=>post.avatar || '')}
+      onPress={_onPostsPopupPress}
+      onClose={()=>{
+        setLatestPosts([])
+      }}
+    />
+  </>
   );
 };
 

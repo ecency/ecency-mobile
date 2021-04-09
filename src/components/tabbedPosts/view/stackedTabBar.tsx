@@ -16,6 +16,7 @@ interface StackedTabBarProps {
     secondStack:TabItem[];
     initialFirstStackIndex:number;
     onFilterSelect:(filterKey:string)=>void;
+    toggleHideImagesFlag:()=>void;
 }
 
 export const StackedTabBar = ({
@@ -26,7 +27,8 @@ export const StackedTabBar = ({
     firstStack,
     secondStack,
     initialFirstStackIndex,
-    onFilterSelect
+    onFilterSelect,
+    toggleHideImagesFlag
 
 }:StackedTabBarProps) => {
 
@@ -56,7 +58,7 @@ export const StackedTabBar = ({
           }
 
         }}
-        onRightIconPress={()=>{}}
+        onRightIconPress={toggleHideImagesFlag}
       />
 
       {

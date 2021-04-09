@@ -42,7 +42,7 @@ export default EStyleSheet.create({
   },
   popupContainer: {
     position: 'absolute',
-    top: 80,
+    top: 24,
     left: 0,
     right: 0,
     alignItems: 'center',

@@ -2,6 +2,7 @@ import React, { useEffect, useReducer, useState } from 'react';
 import { useIntl } from 'react-intl';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { useDispatch, useSelector } from 'react-redux';
+import { hidePostsThumbnails } from '../../../redux/actions/uiAction';
 import PostsList from '../../postsList';
 import { getPromotedPosts, loadPosts } from '../services/tabbedPostsFetch';
 import { TabbedPostsProps } from '../services/tabbedPostsModels';
@@ -21,11 +22,12 @@ export const TabbedPosts = ({
   ...props
 }:TabbedPostsProps) => {
 
-
+  const dispatch = useDispatch();
   //redux properties
   // const isConnected = useSelector((state) => state.application.isConnected);
   // const username = useSelector((state) => state.account.currentAccount.name); 
   // const isConnected = useSelector((state) => state.application.isConnected);
+  const isHideImages = useSelector((state) => state.ui.hidePostsThumbnails);
 
   //initialize state
 
@@ -74,6 +76,9 @@ export const TabbedPosts = ({
       setSelectedFilter(filter)
     }
 
+    const _toggleHideImagesFlag = () => {
+      dispatch(hidePostsThumbnails(!isHideImages));
+    }
 
     // const _getPromotedPosts = async () => {
     //   if(pageType === 'profiles'){
@@ -90,6 +95,7 @@ export const TabbedPosts = ({
   //initialize first set of pages
   const pages = combinedFilters.map((filter)=>(
     <TabContent
+      key={filter.filterKey}
       filterKey={filter.filterKey}
       tabLabel={filter.label}
       isFeedScreen={isFeedScreen}
@@ -110,6 +116,7 @@ export const TabbedPosts = ({
         secondStack={subFilters}
         initialFirstStackIndex={initialFilterIndex}
         onFilterSelect={_onFilterSelect}
+        toggleHideImagesFlag={_toggleHideImagesFlag}
       />
     )
   }

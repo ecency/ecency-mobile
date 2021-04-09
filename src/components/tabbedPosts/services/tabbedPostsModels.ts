@@ -35,7 +35,7 @@ export interface TabMeta {
       tag:string,
       nsfw:string,
       isAnalytics:boolean,
-      isLatestPostCheck?:boolean,
+      isLatestPostsCheck?:boolean,
       refreshing?:boolean,
 
   }
