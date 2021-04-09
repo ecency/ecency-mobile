@@ -33,39 +33,39 @@ const TagInput = ({
   }, [value]);
 
   // Component Functions
-  // const _handleOnChange = (_text) => {
-  //   setText(_text.replace(/,/g, ' ').replace(/#/g, ''));
+  const _handleOnChange = (_text) => {
+    setText(_text.replace(/,/g, ' ').replace(/#/g, ''));
 
-  //   let cats = _text.split(' ');
+    let cats = _text.split(' ');
 
-  //   if (handleTagChanged && cats.length > 0) {
-  //     cats.length > 10
-  //       ? setWarning(intl.formatMessage({ id: 'editor.limited_tags' }))
-  //       : cats.find((c) => c.length > 24)
-  //       ? setWarning(intl.formatMessage({ id: 'editor.limited_length' }))
-  //       : cats.find((c) => c.split('-').length > 2)
-  //       ? setWarning(intl.formatMessage({ id: 'editor.limited_dash' }))
-  //       : cats.find((c) => c.indexOf(',') >= 0)
-  //       ? setWarning(intl.formatMessage({ id: 'editor.limited_space' }))
-  //       : cats.find((c) => /[A-Z]/.test(c))
-  //       ? setWarning(intl.formatMessage({ id: 'editor.limited_lowercase' }))
-  //       : cats.find((c) => !/^[a-z0-9-#]+$/.test(c))
-  //       ? setWarning(intl.formatMessage({ id: 'editor.limited_characters' }))
-  //       : cats.find((c) => !/^[a-z-#]/.test(c))
-  //       ? setWarning(intl.formatMessage({ id: 'editor.limited_firstchar' }))
-  //       : cats.find((c) => !/[a-z0-9]$/.test(c))
-  //       ? setWarning(intl.formatMessage({ id: 'editor.limited_lastchar' }))
-  //       : setWarning(null);
+    if (handleTagChanged && cats.length > 0) {
+      cats.length > 10
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_tags' }))
+        : cats.find((c) => c.length > 24)
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_length' }))
+        : cats.find((c) => c.split('-').length > 2)
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_dash' }))
+        : cats.find((c) => c.indexOf(',') >= 0)
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_space' }))
+        : cats.find((c) => /[A-Z]/.test(c))
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_lowercase' }))
+        : cats.find((c) => !/^[a-z0-9-#]+$/.test(c))
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_characters' }))
+        : cats.find((c) => !/^[a-z-#]/.test(c))
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_firstchar' }))
+        : cats.find((c) => !/[a-z0-9]$/.test(c))
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_lastchar' }))
+        : setWarning(null);
 
-  //     handleTagChanged([...cats]);
-  //   }
+      handleTagChanged([...cats]);
+    }
 
-  //   if (cats.length > 0) {
-  //     if (isCommunity(cats[0])) {
-  //       setCommunity(cats[0]);
-  //     }
-  //   }
-  // };
+    if (cats.length > 0) {
+      if (isCommunity(cats[0])) {
+        setCommunity(cats[0]);
+      }
+    }
+  };
 
   const _handleOnEnd = () => {
     let cats = [];
@@ -91,6 +91,7 @@ const TagInput = ({
       handleTagChanged([...cats]);
     }
   };
+
   return (
     <View style={[globalStyles.containerHorizontal16, styles.container]}>
       <ThemeContainer>
@@ -109,7 +110,7 @@ const TagInput = ({
             autoCorrect={false}
             autoFocus={autoFocus}
             autoCapitalize="none"
-            onChangeText={setText}
+            onChangeText={_handleOnChange}
             onEndEditing={_handleOnEnd}
             value={text}
           />

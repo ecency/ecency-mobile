@@ -17,12 +17,13 @@ const SelectCommunityAreaView = ({
 }) => {
   let username = null;
   let title = intl.formatMessage({ id: 'editor.select_community' });
-  if (selectedAccount) {
-    username = selectedAccount.name;
-    title = intl.formatMessage({ id: 'editor.my_blog' });
-  } else if (selectedCommunity) {
+
+  if (selectedCommunity) {
     username = selectedCommunity.name;
     title = selectedCommunity.title;
+  } else if (selectedAccount) {
+    username = selectedAccount.name;
+    title = intl.formatMessage({ id: 'editor.my_blog' });
   }
 
   return (
