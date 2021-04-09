@@ -298,21 +298,22 @@
     "beneficiaries": "Beneficiarios",
     "options": "Opciones",
     "my_blog": "Mi blog",
+    "select_community": "Choose a community",
     "my_communities": "Mis comunidades",
     "top_communities": "Comunidades populares",
     "schedule_modal_title": "Programar publicación",
     "snippets": "Snippets",
-    "alert_init_title": "New Content",
-    "alert_init_body": "Open recent draft or Create new post",
-    "alert_btn_draft": "Recent Draft",
-    "alert_btn_new": "New Post",
-    "alert_pub_edit_title": "Publishing edits",
-    "alert_pub_new_title": "Publishing new post",
-    "alert_pub_body": "Are you sure?",
-    "alert_btn_yes": "Yes",
+    "alert_init_title": "Nuevo contenido",
+    "alert_init_body": "Abrir borrador reciente o Crear nueva publicación",
+    "alert_btn_draft": "Últimos borradores",
+    "alert_btn_new": "Nueva publicación",
+    "alert_pub_edit_title": "Publicando ediciones",
+    "alert_pub_new_title": "Publicando nueva publicación",
+    "alert_pub_body": "¿Estás seguro?",
+    "alert_btn_yes": "Si",
     "alert_btn_no": "No",
-    "draft_save_success": "Draft Saved",
-    "draft_save_fail": "Failed to save draft"
+    "draft_save_success": "Borrador guardado",
+    "draft_save_fail": "No es posible guardar el borrador."
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -331,11 +332,11 @@
     "btn_cancel": "Cancel"
   },
   "uploads_modal": {
-    "label_no_images": "No Images Found",
-    "title": "Uploaded Images",
-    "title_remove_confirmation": "Delete image",
-    "btn_add": "Image",
-    "message_failed": "Failed to upload image"
+    "label_no_images": "No se encontraron imágenes",
+    "title": "Imágenes subidas",
+    "title_remove_confirmation": "Eliminar imagen",
+    "btn_add": "Imágen",
+    "message_failed": "Error al subir la imagen"
   },
   "pincode": {
     "enter_text": "Ingresa un pin para desbloquear",
