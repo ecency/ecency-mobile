@@ -216,11 +216,17 @@ class EditorScreen extends Component {
   };
 
   _handleOnTagAdded = async (tags) => {
-    const { selectedCommunity } = this.state;
+    const { currentAccount } = this.props;
 
-    if (tags.length > 0 && !isNull(selectedCommunity) && !isCommunity(tags[0])) {
-      this.setState({ selectedCommunity: null });
+    if (tags.length > 0) {
+      if (!isCommunity(tags[0])) {
+        this.setState({
+          selectedCommunity: null,
+          selectedAccount: currentAccount,
+        });
+      }
     }
+
     const { fields: _fields } = this.state;
     const __tags = tags; //.map((t) => t.replace(/([^a-z0-9-]+)/gi, '').toLowerCase());
     const __fields = { ..._fields, tags: __tags };
