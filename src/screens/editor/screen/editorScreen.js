@@ -53,6 +53,7 @@ class EditorScreen extends Component {
       },
       isCommunitiesListModalOpen: false,
       selectedCommunity: null,
+      selectedAccount: null,
     };
   }
 
@@ -230,6 +231,7 @@ class EditorScreen extends Component {
 
   _handlePressCommunity = (community) => {
     const { fields, selectedCommunity } = this.state;
+    const { currentAccount } = this.props;
 
     if (community == null) {
       if (!isNull(selectedCommunity)) {
@@ -243,7 +245,12 @@ class EditorScreen extends Component {
       fields.tags.unshift(community.name);
     }
 
-    this.setState({ fields, isCommunitiesListModalOpen: false, selectedCommunity: community });
+    this.setState({
+      fields,
+      isCommunitiesListModalOpen: false,
+      selectedCommunity: community,
+      selectedAccount: community ? null : currentAccount,
+    });
   };
 
   _getCommunity = (hive) => {
@@ -275,6 +282,7 @@ class EditorScreen extends Component {
       isRemoveTag,
       isCommunitiesListModalOpen,
       selectedCommunity,
+      selectedAccount,
     } = this.state;
     const {
       handleOnImagePicker,
@@ -341,9 +349,8 @@ class EditorScreen extends Component {
         >
           {!isReply && !isEdit && (
             <SelectCommunityAreaView
-              currentAccount={currentAccount}
-              mode={!isNull(selectedCommunity) ? 'community' : 'user'}
-              community={selectedCommunity}
+              selectedAccount={selectedAccount}
+              selectedCommunity={selectedCommunity}
               // because of the bug in react-native-modal
               // https://github.com/facebook/react-native/issues/26892
               onPressOut={() => this.setState({ isCommunitiesListModalOpen: true })}
