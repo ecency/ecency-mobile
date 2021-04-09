@@ -298,10 +298,22 @@
     "beneficiaries": "Hyötyjät",
     "options": "Asetukset",
     "my_blog": "Oma Blogi",
+    "select_community": "Choose a community",
     "my_communities": "Yhteisöni",
     "top_communities": "Suosituimmat Yhteisöt",
     "schedule_modal_title": "Ajasta julkaisu",
-    "snippets": "Katkelmat"
+    "snippets": "Katkelmat",
+    "alert_init_title": "New Content",
+    "alert_init_body": "Open recent draft or Create new post",
+    "alert_btn_draft": "Recent Draft",
+    "alert_btn_new": "New Post",
+    "alert_pub_edit_title": "Publishing edits",
+    "alert_pub_new_title": "Publishing new post",
+    "alert_pub_body": "Are you sure?",
+    "alert_btn_yes": "Yes",
+    "alert_btn_no": "No",
+    "draft_save_success": "Draft Saved",
+    "draft_save_fail": "Failed to save draft"
   },
   "snippets": {
     "label_no_snippets": "Katkelmia ei löytynyt",
@@ -318,6 +330,13 @@
     "message_remove_confirmation": "Haluatko varmasti poistaa tämän katkelman?",
     "btn_confirm": "Vahvista",
     "btn_cancel": "Peruuta"
+  },
+  "uploads_modal": {
+    "label_no_images": "No Images Found",
+    "title": "Uploaded Images",
+    "title_remove_confirmation": "Delete image",
+    "btn_add": "Image",
+    "message_failed": "Failed to upload image"
   },
   "pincode": {
     "enter_text": "Poista lukitus antamalla PIN-koodi",

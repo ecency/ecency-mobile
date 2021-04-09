@@ -51,6 +51,10 @@ export default EStyleSheet.create({
   icon: {
     color: '$editorButtonColor',
   },
+  iconArrow: {
+    marginLeft: 4,
+    color: '$iconColor',
+  },
   clearButtonWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -80,6 +84,7 @@ export default EStyleSheet.create({
     marginLeft: 2,
   },
   name: {
+    marginLeft: 4,
     color: '$primaryDarkGray',
   },
   modalStyle: {

@@ -298,10 +298,22 @@
     "beneficiaries": "लाभार्थी",
     "options": "विकल्प",
     "my_blog": "मेरा ब्लॉग",
+    "select_community": "Choose a community",
     "my_communities": "मेरे समुदाय",
     "top_communities": "शीर्ष समुदाय",
     "schedule_modal_title": "पोस्ट शेड्यूल करें",
-    "snippets": "स्निपेट्स"
+    "snippets": "स्निपेट्स",
+    "alert_init_title": "New Content",
+    "alert_init_body": "Open recent draft or Create new post",
+    "alert_btn_draft": "Recent Draft",
+    "alert_btn_new": "New Post",
+    "alert_pub_edit_title": "Publishing edits",
+    "alert_pub_new_title": "Publishing new post",
+    "alert_pub_body": "Are you sure?",
+    "alert_btn_yes": "Yes",
+    "alert_btn_no": "No",
+    "draft_save_success": "Draft Saved",
+    "draft_save_fail": "Failed to save draft"
   },
   "snippets": {
     "label_no_snippets": "कोई स्निपेट नहीं मिला",
@@ -318,6 +330,13 @@
     "message_remove_confirmation": "क्या आप वाकई इस स्निपेट को हटाना चाहते हैं?",
     "btn_confirm": "पुष्टी करें",
     "btn_cancel": "रद्द करें"
+  },
+  "uploads_modal": {
+    "label_no_images": "No Images Found",
+    "title": "Uploaded Images",
+    "title_remove_confirmation": "Delete image",
+    "btn_add": "Image",
+    "message_failed": "Failed to upload image"
   },
   "pincode": {
     "enter_text": "खोलनें के लिए पिन डालें",

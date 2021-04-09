@@ -14,7 +14,6 @@ import { isCommunity } from '../../../../utils/communityValidation';
 
 const TagInput = ({
   value,
-  onChange,
   componentID,
   handleTagChanged,
   intl,
@@ -38,6 +37,7 @@ const TagInput = ({
     setText(_text.replace(/,/g, ' ').replace(/#/g, ''));
 
     let cats = _text.split(' ');
+
     if (handleTagChanged && cats.length > 0) {
       cats.length > 10
         ? setWarning(intl.formatMessage({ id: 'editor.limited_tags' }))
@@ -66,33 +66,32 @@ const TagInput = ({
       }
     }
   };
-  const _handleOnBlur = () => {
+
+  const _handleOnEnd = () => {
     let cats = [];
-    if (onChange) {
-      cats = text.trim().split(' ');
-      if (handleTagChanged && cats.length > 0) {
-        cats.length > 10
-          ? setWarning(intl.formatMessage({ id: 'editor.limited_tags' }))
-          : cats.find((c) => c.length > 24)
-          ? setWarning(intl.formatMessage({ id: 'editor.limited_length' }))
-          : cats.find((c) => c.split('-').length > 2)
-          ? setWarning(intl.formatMessage({ id: 'editor.limited_dash' }))
-          : cats.find((c) => c.indexOf(',') >= 0)
-          ? setWarning(intl.formatMessage({ id: 'editor.limited_space' }))
-          : cats.find((c) => /[A-Z]/.test(c))
-          ? setWarning(intl.formatMessage({ id: 'editor.limited_lowercase' }))
-          : cats.find((c) => !/^[a-z0-9-#]+$/.test(c))
-          ? setWarning(intl.formatMessage({ id: 'editor.limited_characters' }))
-          : cats.find((c) => !/^[a-z-#]/.test(c))
-          ? setWarning(intl.formatMessage({ id: 'editor.limited_firstchar' }))
-          : cats.find((c) => !/[a-z0-9]$/.test(c))
-          ? setWarning(intl.formatMessage({ id: 'editor.limited_lastchar' }))
-          : setWarning(null);
-        handleTagChanged([...cats]);
-      }
-      onChange(text);
+    cats = text.trim().split(' ');
+    if (handleTagChanged && cats.length > 0) {
+      cats.length > 10
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_tags' }))
+        : cats.find((c) => c.length > 24)
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_length' }))
+        : cats.find((c) => c.split('-').length > 2)
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_dash' }))
+        : cats.find((c) => c.indexOf(',') >= 0)
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_space' }))
+        : cats.find((c) => /[A-Z]/.test(c))
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_lowercase' }))
+        : cats.find((c) => !/^[a-z0-9-#]+$/.test(c))
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_characters' }))
+        : cats.find((c) => !/^[a-z-#]/.test(c))
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_firstchar' }))
+        : cats.find((c) => !/[a-z0-9]$/.test(c))
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_lastchar' }))
+        : setWarning(null);
+      handleTagChanged([...cats]);
     }
   };
+
   return (
     <View style={[globalStyles.containerHorizontal16, styles.container]}>
       <ThemeContainer>
@@ -111,8 +110,8 @@ const TagInput = ({
             autoCorrect={false}
             autoFocus={autoFocus}
             autoCapitalize="none"
-            onChangeText={(textT) => _handleOnChange(textT)}
-            onBlur={() => _handleOnBlur()}
+            onChangeText={_handleOnChange}
+            onEndEditing={_handleOnEnd}
             value={text}
           />
         )}

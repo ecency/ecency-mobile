@@ -799,7 +799,7 @@ class EditorContainer extends Component {
       let jsonMeta = {};
 
       try {
-        const oldJson = JSON.parse(jsonMetadata);
+        const oldJson = jsonMetadata; //already parsed in postParser.js
         jsonMeta = makeJsonMetadataForUpdate(oldJson, meta, tags);
       } catch (e) {
         jsonMeta = makeJsonMetadata(meta, tags);

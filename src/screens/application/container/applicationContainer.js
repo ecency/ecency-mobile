@@ -726,7 +726,7 @@ class ApplicationContainer extends Component {
       .then((token) => {
         setPushToken({
           username,
-          token,
+          token: isEnable ? token : '',
           system: `fcm-${Platform.OS}`,
           allows_notify: Number(isEnable),
           notify_types: [1, 2, 3, 4, 5, 6],
