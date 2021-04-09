@@ -53,30 +53,41 @@ class EditorScreen extends Component {
       },
       isCommunitiesListModalOpen: false,
       selectedCommunity: null,
+      selectedAccount: null,
     };
   }
 
   // Component Life Cycles
   componentDidMount() {
-    const { draftPost } = this.props;
+    const { draftPost, currentAccount } = this.props;
 
-    if (draftPost && draftPost.tags?.length > 0 && isCommunity(draftPost.tags[0])) {
-      this._getCommunity(draftPost.tags[0]);
+    if (draftPost) {
+      if (draftPost.tags?.length > 0 && isCommunity(draftPost.tags[0])) {
+        this._getCommunity(draftPost.tags[0]);
+      } else {
+        this.setState({
+          selectedAccount: currentAccount,
+        });
+      }
     }
   }
 
   componentWillUnmount() {
-    const { isReply } = this.props;
-    if (!isReply) {
+    const { isReply, isEdit } = this.props;
+    if (!isReply && !isEdit) {
       this._saveDraftToDB();
     }
   }
 
   UNSAFE_componentWillReceiveProps = async (nextProps) => {
-    const { draftPost, isUploading, community } = this.props;
+    const { draftPost, isUploading, community, currentAccount } = this.props;
     if (nextProps.draftPost && draftPost !== nextProps.draftPost) {
       if (nextProps.draftPost.tags?.length > 0 && isCommunity(nextProps.draftPost.tags[0])) {
         this._getCommunity(nextProps.draftPost.tags[0]);
+      } else {
+        this.setState({
+          selectedAccount: currentAccount,
+        });
       }
 
       await this.setState((prevState) => {
@@ -205,11 +216,17 @@ class EditorScreen extends Component {
   };
 
   _handleOnTagAdded = async (tags) => {
-    const { selectedCommunity } = this.state;
+    const { currentAccount } = this.props;
 
-    if (tags.length > 0 && !isNull(selectedCommunity) && !isCommunity(tags[0])) {
-      this.setState({ selectedCommunity: null });
+    if (tags.length > 0) {
+      if (!isCommunity(tags[0])) {
+        this.setState({
+          selectedCommunity: null,
+          selectedAccount: currentAccount,
+        });
+      }
     }
+
     const { fields: _fields } = this.state;
     const __tags = tags; //.map((t) => t.replace(/([^a-z0-9-]+)/gi, '').toLowerCase());
     const __fields = { ..._fields, tags: __tags };
@@ -230,6 +247,7 @@ class EditorScreen extends Component {
 
   _handlePressCommunity = (community) => {
     const { fields, selectedCommunity } = this.state;
+    const { currentAccount } = this.props;
 
     if (community == null) {
       if (!isNull(selectedCommunity)) {
@@ -243,7 +261,12 @@ class EditorScreen extends Component {
       fields.tags.unshift(community.name);
     }
 
-    this.setState({ fields, isCommunitiesListModalOpen: false, selectedCommunity: community });
+    this.setState({
+      fields,
+      isCommunitiesListModalOpen: false,
+      selectedCommunity: community,
+      selectedAccount: community ? null : currentAccount,
+    });
   };
 
   _getCommunity = (hive) => {
@@ -275,6 +298,7 @@ class EditorScreen extends Component {
       isRemoveTag,
       isCommunitiesListModalOpen,
       selectedCommunity,
+      selectedAccount,
     } = this.state;
     const {
       handleOnImagePicker,
@@ -341,9 +365,8 @@ class EditorScreen extends Component {
         >
           {!isReply && !isEdit && (
             <SelectCommunityAreaView
-              currentAccount={currentAccount}
-              mode={!isNull(selectedCommunity) ? 'community' : 'user'}
-              community={selectedCommunity}
+              selectedAccount={selectedAccount}
+              selectedCommunity={selectedCommunity}
               // because of the bug in react-native-modal
               // https://github.com/facebook/react-native/issues/26892
               onPressOut={() => this.setState({ isCommunitiesListModalOpen: true })}

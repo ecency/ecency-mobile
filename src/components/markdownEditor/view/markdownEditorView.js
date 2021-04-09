@@ -11,6 +11,7 @@ import {
 import ActionSheet from 'react-native-actionsheet';
 import { renderPostBody } from '@ecency/render-helper';
 import { useDispatch, useSelector } from 'react-redux';
+import { Icon } from '../../icon';
 
 // Utils
 import Formats from './formats/formats';
@@ -345,6 +346,13 @@ const MarkdownEditorView = ({
                 <View style={styles.nameContainer}>
                   <Text style={styles.name}>{`@${currentAccount.username}`}</Text>
                 </View>
+                <Icon
+                  size={24}
+                  iconStyle={styles.leftIcon}
+                  style={styles.iconArrow}
+                  name="arrow-drop-down"
+                  iconType="MaterialIcons"
+                />
               </View>
             </TouchableOpacity>
           </View>
