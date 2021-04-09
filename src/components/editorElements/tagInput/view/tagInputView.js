@@ -14,7 +14,6 @@ import { isCommunity } from '../../../../utils/communityValidation';
 
 const TagInput = ({
   value,
-  onChange,
   componentID,
   handleTagChanged,
   intl,
@@ -31,13 +30,46 @@ const TagInput = ({
     } else {
       setText(value.join(' '));
     }
-  });
+  }, [value]);
 
   // Component Functions
-  const _handleOnChange = (_text) => {
-    setText(_text.replace(/,/g, ' ').replace(/#/g, ''));
+  // const _handleOnChange = (_text) => {
+  //   setText(_text.replace(/,/g, ' ').replace(/#/g, ''));
 
-    let cats = _text.trim().split(' ');
+  //   let cats = _text.split(' ');
+
+  //   if (handleTagChanged && cats.length > 0) {
+  //     cats.length > 10
+  //       ? setWarning(intl.formatMessage({ id: 'editor.limited_tags' }))
+  //       : cats.find((c) => c.length > 24)
+  //       ? setWarning(intl.formatMessage({ id: 'editor.limited_length' }))
+  //       : cats.find((c) => c.split('-').length > 2)
+  //       ? setWarning(intl.formatMessage({ id: 'editor.limited_dash' }))
+  //       : cats.find((c) => c.indexOf(',') >= 0)
+  //       ? setWarning(intl.formatMessage({ id: 'editor.limited_space' }))
+  //       : cats.find((c) => /[A-Z]/.test(c))
+  //       ? setWarning(intl.formatMessage({ id: 'editor.limited_lowercase' }))
+  //       : cats.find((c) => !/^[a-z0-9-#]+$/.test(c))
+  //       ? setWarning(intl.formatMessage({ id: 'editor.limited_characters' }))
+  //       : cats.find((c) => !/^[a-z-#]/.test(c))
+  //       ? setWarning(intl.formatMessage({ id: 'editor.limited_firstchar' }))
+  //       : cats.find((c) => !/[a-z0-9]$/.test(c))
+  //       ? setWarning(intl.formatMessage({ id: 'editor.limited_lastchar' }))
+  //       : setWarning(null);
+
+  //     handleTagChanged([...cats]);
+  //   }
+
+  //   if (cats.length > 0) {
+  //     if (isCommunity(cats[0])) {
+  //       setCommunity(cats[0]);
+  //     }
+  //   }
+  // };
+
+  const _handleOnEnd = () => {
+    let cats = [];
+    cats = text.trim().split(' ');
     if (handleTagChanged && cats.length > 0) {
       cats.length > 10
         ? setWarning(intl.formatMessage({ id: 'editor.limited_tags' }))
@@ -56,41 +88,7 @@ const TagInput = ({
         : cats.find((c) => !/[a-z0-9]$/.test(c))
         ? setWarning(intl.formatMessage({ id: 'editor.limited_lastchar' }))
         : setWarning(null);
-
       handleTagChanged([...cats]);
-    }
-
-    if (cats.length > 0) {
-      if (isCommunity(cats[0])) {
-        setCommunity(cats[0]);
-      }
-    }
-  };
-  const _handleOnBlur = () => {
-    let cats = [];
-    if (onChange) {
-      cats = text.trim().split(' ');
-      if (handleTagChanged && cats.length > 0) {
-        cats.length > 10
-          ? setWarning(intl.formatMessage({ id: 'editor.limited_tags' }))
-          : cats.find((c) => c.length > 24)
-          ? setWarning(intl.formatMessage({ id: 'editor.limited_length' }))
-          : cats.find((c) => c.split('-').length > 2)
-          ? setWarning(intl.formatMessage({ id: 'editor.limited_dash' }))
-          : cats.find((c) => c.indexOf(',') >= 0)
-          ? setWarning(intl.formatMessage({ id: 'editor.limited_space' }))
-          : cats.find((c) => /[A-Z]/.test(c))
-          ? setWarning(intl.formatMessage({ id: 'editor.limited_lowercase' }))
-          : cats.find((c) => !/^[a-z0-9-#]+$/.test(c))
-          ? setWarning(intl.formatMessage({ id: 'editor.limited_characters' }))
-          : cats.find((c) => !/^[a-z-#]/.test(c))
-          ? setWarning(intl.formatMessage({ id: 'editor.limited_firstchar' }))
-          : cats.find((c) => !/[a-z0-9]$/.test(c))
-          ? setWarning(intl.formatMessage({ id: 'editor.limited_lastchar' }))
-          : setWarning(null);
-        handleTagChanged([...cats]);
-      }
-      onChange(text);
     }
   };
   return (
@@ -111,8 +109,8 @@ const TagInput = ({
             autoCorrect={false}
             autoFocus={autoFocus}
             autoCapitalize="none"
-            onChangeText={(textT) => _handleOnChange(textT)}
-            onBlur={() => _handleOnBlur()}
+            onChangeText={setText}
+            onEndEditing={_handleOnEnd}
             value={text}
           />
         )}
