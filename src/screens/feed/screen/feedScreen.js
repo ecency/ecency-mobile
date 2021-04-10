@@ -31,7 +31,7 @@ const FeedScreen = () => {
               feedSubfilterOptions={[...FEED_SUBFILTERS]}
               feedSubfilterOptionsValue={[...FEED_SUBFILTERS_VALUE]}
               getFor={get(currentAccount, 'name', null) ? 'feed' : 'hot'}
-              initialFilterIndex={get(currentAccount, 'name', null) ? 0 : 2}
+              selectedOptionIndex={get(currentAccount, 'name', null) ? 0 : 2}
               feedUsername={get(currentAccount, 'name', null)}
               isFeedScreen={true}
             />

@@ -60,8 +60,9 @@ const TabContent = ({
     
     if (isFeedScreen) {
       AppState.addEventListener('change', _handleAppStateChange);
-      _initContent(true);
     }
+
+    _initContent(true);
 
     return _cleanup;
   }, [])

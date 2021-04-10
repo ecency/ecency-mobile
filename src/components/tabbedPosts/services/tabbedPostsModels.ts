@@ -4,7 +4,7 @@ export interface TabbedPostsProps {
     filterOptionsValue:string[],
     isFeedScreen:boolean,
     feedUsername:string,
-    initialFilterIndex:number,
+    selectedOptionIndex:number,
     feedSubfilterOptions:string[],
     feedSubfilterOptionsValue:string[],
     getFor:string,

@@ -151,7 +151,7 @@ const postsListContainer = ({
               data={posts}
               showsVerticalScrollIndicator={false}
               renderItem={_renderItem}
-              keyExtractor={(content) => content.permlink}
+              keyExtractor={(content) => `${content.author}/${content.permlink}`}
               removeClippedSubviews
               onEndReachedThreshold={1}
               maxToRenderPerBatch={3}

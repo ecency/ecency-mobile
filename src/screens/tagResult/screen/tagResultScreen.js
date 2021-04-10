@@ -4,7 +4,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { useIntl } from 'react-intl';
 
 // Components
-import { SearchInput, Posts, TabBar } from '../../../components';
+import { SearchInput, Posts, TabBar, TabbedPosts } from '../../../components';
 
 // Styles
 import styles from './tagResultStyles';
@@ -52,7 +52,7 @@ const TagResultScreen = ({ navigation }) => {
       </SafeAreaView>
       <ScrollableTabView style={globalStyles.tabView} renderTabBar={_renderTabbar}>
         <View tabLabel={intl.formatMessage({ id: 'search.posts' })} style={styles.tabbarItem}>
-          <Posts
+          <TabbedPosts
             key={tag}
             filterOptions={GLOBAL_POST_FILTERS}
             filterOptionsValue={GLOBAL_POST_FILTERS_VALUE}

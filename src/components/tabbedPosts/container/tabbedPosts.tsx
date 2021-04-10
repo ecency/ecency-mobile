@@ -13,7 +13,7 @@ import TabContent from '../view/tabContent';
 export const TabbedPosts = ({
   filterOptions,
   filterOptionsValue,
-  initialFilterIndex,
+  selectedOptionIndex,
   feedSubfilterOptions,
   feedSubfilterOptionsValue,
   isFeedScreen,
@@ -31,7 +31,7 @@ export const TabbedPosts = ({
 
   //initialize state
 
-  const [initialTabIndex] = useState(initialFilterIndex == 0 && isFeedScreen ? filterOptions.length : initialFilterIndex)
+  const [initialTabIndex] = useState(selectedOptionIndex == 0 && isFeedScreen ? filterOptions.length : selectedOptionIndex)
   // const [promotedPosts, setPromotedPosts] = useState([]);
 
   const [mainFilters] = useState<TabItem[]>(
@@ -42,10 +42,12 @@ export const TabbedPosts = ({
   )
 
   const [subFilters] = useState<TabItem[]>(
-    feedSubfilterOptions.map((label, index)=>({
+    feedSubfilterOptions
+    ? feedSubfilterOptions.map((label, index)=>({
       filterKey:feedSubfilterOptionsValue[index], 
       label
     } as TabItem))
+    : []
   )
 
   const [combinedFilters] = useState([...mainFilters, ...subFilters]);
@@ -121,7 +123,7 @@ export const TabbedPosts = ({
         shouldStack={isFeedScreen && feedUsername}
         firstStack={mainFilters}
         secondStack={subFilters}
-        initialFirstStackIndex={initialFilterIndex}
+        initialFirstStackIndex={selectedOptionIndex}
         onFilterSelect={_onFilterSelect}
         toggleHideImagesFlag={_toggleHideImagesFlag}
       />
@@ -132,6 +134,7 @@ export const TabbedPosts = ({
   return (
     <ScrollableTabView
       scrollWithoutAnimation={true}
+      locked={true}
       initialPage={initialTabIndex}
       renderTabBar={_renderTabBar}>
       {pages}

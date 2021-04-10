@@ -23,6 +23,7 @@ import { getFormatedCreatedDate } from '../../utils/time';
 // Styles
 import styles from './profileStyles';
 import globalStyles from '../../globalStyles';
+import { TabbedPosts } from '../tabbedPosts';
 
 class ProfileView extends PureComponent {
   constructor(props) {
@@ -191,7 +192,7 @@ class ProfileView extends PureComponent {
               tabLabel={this._getTabLabel(intl.formatMessage({ id: 'profile.post' }))}
               style={styles.postTabBar}
             >
-              <Posts
+              <TabbedPosts
                 filterOptions={PROFILE_FILTERS}
                 filterOptionsValue={PROFILE_FILTERS_VALUE}
                 selectedOptionIndex={0}
