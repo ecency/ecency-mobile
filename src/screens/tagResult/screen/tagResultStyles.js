@@ -22,6 +22,7 @@ export default EStyleSheet.create({
   },
   tabbarItem: {
     flex: 1,
+    marginTop: 16,
     backgroundColor: '$primaryBackgroundColor',
     minWidth: '$deviceWidth',
   },

@@ -50,17 +50,17 @@ const TagResultScreen = ({ navigation }) => {
           editable={false}
         />
       </SafeAreaView>
-      <ScrollableTabView style={globalStyles.tabView} renderTabBar={_renderTabbar}>
-        <View tabLabel={intl.formatMessage({ id: 'search.posts' })} style={styles.tabbarItem}>
-          <TabbedPosts
-            key={tag}
-            filterOptions={GLOBAL_POST_FILTERS}
-            filterOptionsValue={GLOBAL_POST_FILTERS_VALUE}
-            selectedOptionIndex={_getSelectedIndex()}
-            tag={tag}
-          />
-        </View>
-      </ScrollableTabView>
+      {/* <ScrollableTabView style={globalStyles.tabView} renderTabBar={_renderTabbar}> */}
+      <View style={styles.tabbarItem}>
+        <TabbedPosts
+          key={tag}
+          filterOptions={GLOBAL_POST_FILTERS}
+          filterOptionsValue={GLOBAL_POST_FILTERS_VALUE}
+          selectedOptionIndex={_getSelectedIndex()}
+          tag={tag}
+        />
+      </View>
+      {/* </View></ScrollableTabView> */}
     </View>
   );
 };
