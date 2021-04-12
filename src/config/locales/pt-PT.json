@@ -307,7 +307,7 @@
     "alert_init_body": "Abrir rascunho recente ou criar uma nova postagem",
     "alert_btn_draft": "Rascunho Recente",
     "alert_btn_new": "Nova Postagem",
-    "alert_pub_edit_title": "Publishing edits",
+    "alert_pub_edit_title": "Publicando edições",
     "alert_pub_new_title": "Publicando novo post",
     "alert_pub_body": "Tem certeza?",
     "alert_btn_yes": "Sim",
@@ -333,7 +333,7 @@
   },
   "uploads_modal": {
     "label_no_images": "Nenhuma Imagem Encontrada",
-    "title": "Uploaded Images",
+    "title": "Imagens Enviadas",
     "title_remove_confirmation": "Deletar imagem",
     "btn_add": "Imagem",
     "message_failed": "Falha ao carregar imagem"
