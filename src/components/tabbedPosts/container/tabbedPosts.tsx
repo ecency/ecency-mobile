@@ -1,10 +1,7 @@
-import React, { useEffect, useReducer, useState } from 'react';
-import { useIntl } from 'react-intl';
+import React, { useState } from 'react';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { useDispatch, useSelector } from 'react-redux';
 import { hidePostsThumbnails } from '../../../redux/actions/uiAction';
-import PostsList from '../../postsList';
-import { getPromotedPosts, loadPosts } from '../services/tabbedPostsFetch';
 import { TabbedPostsProps } from '../services/tabbedPostsModels';
 import { StackedTabBar, TabItem } from '../view/stackedTabBar';
 import TabContent from '../view/tabContent';
@@ -23,16 +20,12 @@ export const TabbedPosts = ({
 }:TabbedPostsProps) => {
 
   const dispatch = useDispatch();
+
   //redux properties
-  // const isConnected = useSelector((state) => state.application.isConnected);
-  // const username = useSelector((state) => state.account.currentAccount.name); 
-  // const isConnected = useSelector((state) => state.application.isConnected);
   const isHideImages = useSelector((state) => state.ui.hidePostsThumbnails);
 
   //initialize state
-
   const [initialTabIndex] = useState(selectedOptionIndex == 0 && isFeedScreen ? filterOptions.length : selectedOptionIndex)
-  // const [promotedPosts, setPromotedPosts] = useState([]);
 
   const [mainFilters] = useState<TabItem[]>(
     filterOptions.map((label, index)=>({
@@ -51,17 +44,15 @@ export const TabbedPosts = ({
   )
 
   const [combinedFilters] = useState([...mainFilters, ...subFilters]);
-  // const [sessionUser, setSessionUser] = useState(username);
   const [selectedFilter, setSelectedFilter] = useState(combinedFilters[initialTabIndex].filterKey)
-  const [filterScrollRequest, setFilterScrollRequest] = useState<string|null>(null)
+  const [filterScrollRequest, createFilterScrollRequest] = useState<string|null>(null)
 
 
 
     //components actions
     const _onFilterSelect = (filter:string) => {
       if(filter === selectedFilter){
-        //scroll filter to top
-        setFilterScrollRequest(selectedFilter) 
+        createFilterScrollRequest(selectedFilter) 
       }else{
         setSelectedFilter(filter)
       }
@@ -73,7 +64,7 @@ export const TabbedPosts = ({
     }
 
     const _onScrollRequestProcessed = () => {
-      setFilterScrollRequest(null);
+      createFilterScrollRequest(null);
     }
 
 
