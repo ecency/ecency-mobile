@@ -303,17 +303,17 @@
     "top_communities": "Principais Comunidades",
     "schedule_modal_title": "Agendar Post",
     "snippets": "Snippets",
-    "alert_init_title": "New Content",
-    "alert_init_body": "Open recent draft or Create new post",
-    "alert_btn_draft": "Recent Draft",
-    "alert_btn_new": "New Post",
+    "alert_init_title": "Novo Conteúdo",
+    "alert_init_body": "Abrir rascunho recente ou criar uma nova postagem",
+    "alert_btn_draft": "Rascunho Recente",
+    "alert_btn_new": "Nova Postagem",
     "alert_pub_edit_title": "Publishing edits",
-    "alert_pub_new_title": "Publishing new post",
-    "alert_pub_body": "Are you sure?",
-    "alert_btn_yes": "Yes",
-    "alert_btn_no": "No",
-    "draft_save_success": "Draft Saved",
-    "draft_save_fail": "Failed to save draft"
+    "alert_pub_new_title": "Publicando novo post",
+    "alert_pub_body": "Tem certeza?",
+    "alert_btn_yes": "Sim",
+    "alert_btn_no": "Não",
+    "draft_save_success": "Rascunho Salvo",
+    "draft_save_fail": "Falha ao salvar rascunho"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -332,11 +332,11 @@
     "btn_cancel": "Cancel"
   },
   "uploads_modal": {
-    "label_no_images": "No Images Found",
+    "label_no_images": "Nenhuma Imagem Encontrada",
     "title": "Uploaded Images",
-    "title_remove_confirmation": "Delete image",
-    "btn_add": "Image",
-    "message_failed": "Failed to upload image"
+    "title_remove_confirmation": "Deletar imagem",
+    "btn_add": "Imagem",
+    "message_failed": "Falha ao carregar imagem"
   },
   "pincode": {
     "enter_text": "Insira PIN para desbloquear",
