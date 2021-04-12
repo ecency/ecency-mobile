@@ -17,6 +17,7 @@ const TabContent = ({
   forceLoadPosts,
   filterScrollRequest,
   onScrollRequestProcessed,
+  handleOnScroll,
   ...props
 }: TabContentProps) => {
   let _postFetchTimer = null;
@@ -226,8 +227,12 @@ const TabContent = ({
   const _scrollToTop = () => {
     postsListRef.current.scrollToTop();
   };
-
   
+  const _handleOnScroll = () => {
+    if(handleOnScroll){
+      handleOnScroll()
+    }
+  }
 
   //view rendereres
   const _renderEmptyContent = () => {
@@ -249,6 +254,7 @@ const TabContent = ({
           _getPromotedPosts()
         }
       }}
+      onScrollEndDrag={_handleOnScroll}
       isRefreshing={tabMeta.isRefreshing}
       isLoading={tabMeta.isLoading}
       ListEmptyComponent={_renderEmptyContent}

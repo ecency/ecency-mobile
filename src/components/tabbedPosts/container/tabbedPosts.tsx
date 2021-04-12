@@ -55,17 +55,6 @@ export const TabbedPosts = ({
   const [selectedFilter, setSelectedFilter] = useState(combinedFilters[initialTabIndex].filterKey)
   const [filterScrollRequest, setFilterScrollRequest] = useState<string|null>(null)
 
-  // //sideEffects
-  // useEffect(() => {
-  //   _getPromotedPosts();
-  // }, [])
-
-  // useEffect(()=>{
-  //   if(isConnected && (username !== sessionUser || forceLoadPosts)){
-  //     setSessionUser(username);
-  //     // _getPromotedPosts();
-  //   }
-  // },[username, forceLoadPosts])
 
 
     //components actions
@@ -86,16 +75,6 @@ export const TabbedPosts = ({
     const _onScrollRequestProcessed = () => {
       setFilterScrollRequest(null);
     }
-
-    // const _getPromotedPosts = async () => {
-    //   if(pageType === 'profiles'){
-    //     return;
-    //   }
-    //   const pPosts = await getPromotedPosts(username)
-    //   if(pPosts){
-    //     // setPromotedPosts(pPosts)
-    //   }
-    // }
 
 
 

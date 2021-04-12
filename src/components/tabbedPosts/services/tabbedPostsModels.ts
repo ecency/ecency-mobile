@@ -11,6 +11,7 @@ export interface TabbedPostsProps {
     pageType:string,
     tag:string,
     forceLoadPosts:boolean,
+    handleOnScroll:()=>void,
 }
 
 export interface TabMeta {
@@ -52,4 +53,5 @@ export interface TabMeta {
     forceLoadPosts:boolean,
     filterScrollRequest:string,
     onScrollRequestProcessed:()=>void
+    handleOnScroll:()=>void;
   }
