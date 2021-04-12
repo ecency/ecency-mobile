@@ -93,19 +93,19 @@
     },
     "steem": {
       "title": "目錄",
-      "buy": "購買"
+      "buy": "購買STEEM"
     },
     "sbd": {
       "title": "目錄",
-      "buy": "購買"
+      "buy": "購買HBD"
     },
     "steem_power": {
-      "title": "HIVE POWER"
+      "title": "目錄"
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "購買BTC",
+      "address": "接收"
     }
   },
   "notification": {
@@ -118,7 +118,7 @@
     "ignore": "遮罩了您",
     "reblog": "已轉發",
     "transfer": "已轉帳",
-    "spin": "Time to earn more Points",
+    "spin": "旋轉",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
     "notification": "通知",
