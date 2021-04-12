@@ -226,11 +226,11 @@
   "register": {
     "button": "Daftar",
     "title": "Daftar",
-    "username": "Pick a username",
+    "username": "Pilih nama pengguna",
     "mail": "Masukkan alamat email anda",
-    "ref_user": "Referred user (Optional)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
-    "title_description": "One account to manage everything",
+    "ref_user": "Rujukan pengguna (Opsional)",
+    "500_error": "Permintaan Anda tidak dapat diproses, antrian pendaftaran sepertinya penuh! Silakan ulangi kembali dalam beberapa menit...",
+    "title_description": "Satu akun untuk mengelola semuanya",
     "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
   },
   "home": {
@@ -260,7 +260,7 @@
     "logout_text": "Apakah Anda yakin ingin keluar?",
     "create_a_new_account": "Buat akun baru",
     "add_an_existing_account": "Tambahkan akun yang ada",
-    "accounts": "Accounts"
+    "accounts": "Akun"
   },
   "header": {
     "title": "Login untuk menyesuaikan feed Anda",
@@ -286,7 +286,7 @@
     "limited_dash": "Gunakan satu tanda hubung di setiap tag",
     "limited_space": "Gunakan spasi untuk memisahkan tag",
     "limited_lowercase": "Hanya menggunakan huruf kecil dalam tag",
-    "limited_characters": "Use only lowercase letters, digits and one dash",
+    "limited_characters": "Gunakan huruf kecil, angka dan satu garis",
     "limited_firstchar": "Tag harus dimulai dengan huruf",
     "limited_lastchar": "Tag harus diakhiri dengan huruf atau angka",
     "setting_schedule": "Scheduling Time",
@@ -294,7 +294,7 @@
     "setting_beneficiary": "Beneficiary",
     "reward_default": "Default 50% / 50%",
     "reward_power_up": "Power Up 100%",
-    "reward_decline": "Decline Payout",
+    "reward_decline": "Menolak Pembayaran",
     "beneficiaries": "Beneficiaries",
     "options": "Options",
     "my_blog": "My Blog",
@@ -404,7 +404,7 @@
     "something_wrong": "Something went wrong.",
     "something_wrong_alt": "Try https://ecency.com",
     "something_wrong_reload": "Reload",
-    "can_not_be_empty": "Title and body can not be empty!"
+    "can_not_be_empty": "Judul dan isi tidak boleh kosong!"
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
@@ -417,7 +417,7 @@
     "link": "Link",
     "gallery_mode": "Gallery mode",
     "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
+    "image_saved": "Gambar disimpan ke Galeri Foto",
     "image_saved_error": "Kesalahan menyimpan gambar",
     "wrong_link": "Link salah"
   },
@@ -580,7 +580,7 @@
     "more_replies": "lebih banyak balasan"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Lainnya",
     "best": {
       "title": "Best"
     },
@@ -615,25 +615,25 @@
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details"
+    "new_post": "Postingan Baru",
+    "community": "komunitas",
+    "details": "Rincian"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow"
+    "follow": "Ikuti",
+    "unfollow": "Berhenti mengikuti"
   },
   "communities": {
-    "joined": "Membership",
-    "discover": "Discover"
+    "joined": "Keanggotaan",
+    "discover": "Jelajahi"
   },
   "empty_screen": {
-    "nothing_here": "Nothing here"
+    "nothing_here": "Tidak ada apa-apa di sini"
   },
   "beneficiary_modal": {
-    "percent": "Percent",
-    "username": "Username",
-    "addAccount": "Add Account",
-    "save": "Save"
+    "percent": "Persen",
+    "username": "Nama Pengguna",
+    "addAccount": "Tambah Akun",
+    "save": "Simpan"
   }
 }
