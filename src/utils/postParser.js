@@ -38,7 +38,7 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false, isC
       post.json_metadata = {};
     }
   }
-  if (post.json_metadata && post.json_metadata.image) {
+  if (post.json_metadata && post.json_metadata.image && Array.isArray(post.json_metadata.image)) {
     const [imageLink] = post.json_metadata.image;
     post.thumbnail = getResizedImage(imageLink, 10);
     post.image = getResizedImage(imageLink, 600);
