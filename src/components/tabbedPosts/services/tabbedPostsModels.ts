@@ -12,6 +12,7 @@ export interface TabbedPostsProps {
     tag:string,
     forceLoadPosts:boolean,
     tabContentOverrides:Map<number, any>,
+    imagesToggleEnabled?:boolean,
     stackedTabs:boolean,
     onTabChange:(index:number)=>void
     handleOnScroll:()=>void,

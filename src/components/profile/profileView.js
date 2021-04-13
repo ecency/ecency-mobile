@@ -233,9 +233,9 @@ class ProfileView extends PureComponent {
 
     //compile content overrides
     const tabContentOverrides = new Map();
-    tabContentOverrides.set(1, this._contentComentsTab());
+    tabContentOverrides.set(2, this._contentComentsTab());
     if (!isOwnProfile) {
-      tabContentOverrides.set(2, this._contentWalletTab());
+      tabContentOverrides.set(3, this._contentWalletTab());
     }
 
     return (
@@ -243,8 +243,6 @@ class ProfileView extends PureComponent {
         <TabbedPosts
           filterOptions={filterOptions}
           filterOptionsValue={PROFILE_FILTERS_VALUE}
-          feedSubfilterOptions={PROFILE_SUBFILTERS}
-          feedSubfilterOptionsValue={PROFILE_SUBFILTERS_VALUE}
           selectedOptionIndex={0}
           pageType="profiles"
           getFor="blog"
@@ -256,7 +254,7 @@ class ProfileView extends PureComponent {
           isFeedScreen={false}
           tabContentOverrides={tabContentOverrides}
           onChangeTab={this._onTabChange}
-          stackedTabs={true}
+          imagesToggleEnabled={false}
         />
       </View>
     );

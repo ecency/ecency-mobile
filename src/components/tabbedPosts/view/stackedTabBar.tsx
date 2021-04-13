@@ -46,8 +46,8 @@ export const StackedTabBar = ({
         }
          
         selectedOptionIndex={selectedFilterIndex}
-        rightIconName="view-module"
-        rightIconType="MaterialIcons"
+        rightIconName={toggleHideImagesFlag && "view-module"}
+        rightIconType={toggleHideImagesFlag && "MaterialIcons"}
         onDropdownSelect={(index)=>{
           setSelectedFilterIndex(index);
 

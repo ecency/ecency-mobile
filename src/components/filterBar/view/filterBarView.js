@@ -38,7 +38,7 @@ const FilterBarView = ({
               />
             ))}
           </View>
-          {rightIconName && (
+          {rightIconName ? (
             <TouchableOpacity
               onPress={() => onRightIconPress && onRightIconPress()}
               style={styles.rightIconWrapper}
@@ -50,6 +50,8 @@ const FilterBarView = ({
                 name={rightIconName}
               />
             </TouchableOpacity>
+          ) : (
+            <View style={styles.rightIconPlaceholder} />
           )}
         </View>
       </LineBreak>

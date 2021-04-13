@@ -37,4 +37,7 @@ export default EStyleSheet.create({
     color: '$darkIconColor',
     textAlign: 'center',
   },
+  rightIconPlaceholder: {
+    marginRight: 8,
+  },
 });

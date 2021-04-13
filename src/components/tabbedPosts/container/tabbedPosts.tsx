@@ -17,6 +17,7 @@ export const TabbedPosts = ({
   feedUsername,
   pageType,
   tabContentOverrides,
+  imagesToggleEnabled = true,
   stackedTabs,
   onTabChange,
   ...props
@@ -101,7 +102,7 @@ export const TabbedPosts = ({
         secondStack={subFilters}
         initialFirstStackIndex={selectedOptionIndex}
         onFilterSelect={_onFilterSelect}
-        toggleHideImagesFlag={_toggleHideImagesFlag}
+        toggleHideImagesFlag={imagesToggleEnabled && _toggleHideImagesFlag}
       />
     )
   }
