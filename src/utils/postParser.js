@@ -38,14 +38,11 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false, isC
       post.json_metadata = {};
     }
   }
-  if (post.json_metadata && post.json_metadata.image && Array.isArray(post.json_metadata.image)) {
-    const [imageLink] = post.json_metadata.image;
-    post.thumbnail = getResizedImage(imageLink, 10);
-    post.image = getResizedImage(imageLink, 600);
-  } else {
-    post.image = catchPostImage(post.body, 600, 500, webp ? 'webp' : 'match');
-    post.thumbnail = catchPostImage(post.body, 10, 7, webp ? 'webp' : 'match');
-  }
+
+  //extract cover image and thumbnail from post body
+  post.image = catchPostImage(post.body, 600, 500, webp ? 'webp' : 'match');
+  post.thumbnail = catchPostImage(post.body, 10, 7, webp ? 'webp' : 'match');
+
   post.author_reputation = getReputation(post.author_reputation);
   post.avatar = getResizedAvatar(get(post, 'author'));
   if (!isList) {
