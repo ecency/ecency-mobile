@@ -40,8 +40,8 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false, isC
   }
 
   //extract cover image and thumbnail from post body
-  post.image = catchPostImage(post.body, 600, 500, webp ? 'webp' : 'match');
-  post.thumbnail = catchPostImage(post.body, 10, 7, webp ? 'webp' : 'match');
+  post.image = catchPostImage(post, 600, 500, webp ? 'webp' : 'match');
+  post.thumbnail = catchPostImage(post, 10, 7, webp ? 'webp' : 'match');
 
   post.author_reputation = getReputation(post.author_reputation);
   post.avatar = getResizedAvatar(get(post, 'author'));
