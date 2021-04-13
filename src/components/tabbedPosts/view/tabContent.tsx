@@ -17,6 +17,7 @@ const TabContent = ({
   pageType,
   forceLoadPosts,
   filterScrollRequest,
+  feedUsername,
   onScrollRequestProcessed,
   handleOnScroll,
   ...props
@@ -64,7 +65,7 @@ const TabContent = ({
       AppState.addEventListener('change', _handleAppStateChange);
     }
 
-    _initContent(true);
+    _initContent(true, feedUsername);
 
     return _cleanup;
   }, [])
@@ -72,11 +73,7 @@ const TabContent = ({
 
   useEffect(()=>{
     if(isConnected && (username !== sessionUser || forceLoadPosts)){
-      if(filterKey !== 'friends'){
-        _initContent();
-      }else{
-        setPosts([])
-      }
+      _initContent(false, username);
     }
   }, [username, forceLoadPosts])
 
@@ -113,8 +110,9 @@ const TabContent = ({
   };
 
 
-  const _initContent = (isFirstCall = false) => {
-    setPosts(initPosts || []);
+  const _initContent = (isFirstCall = false, feedUsername:string) => {
+    _scrollToTop();
+    setPosts(isFirstCall ? initPosts : []);
     setTabMeta({
       startAuthor:'',
       startPermlink:'',
@@ -124,13 +122,13 @@ const TabContent = ({
     setSessionUser(username);
 
     if(username || (filterKey !== 'friends' && filterKey !== 'communities')){
-      _loadPosts(!isFirstCall);
+      _loadPosts(!isFirstCall, false, feedUsername);
       _getPromotedPosts();
     }
   }
 
   //fetch posts from server
-  const _loadPosts = async (shouldReset:boolean = false, isLatestPostsCheck:boolean = false) => {
+  const _loadPosts = async (shouldReset:boolean = false, isLatestPostsCheck:boolean = false, _feedUsername:string = feedUsername) => {
     const options = {
       setTabMeta:(meta:TabMeta) => {
         if(_isMounted){
@@ -148,6 +146,7 @@ const TabContent = ({
       refreshing:shouldReset,
       pageType,
       isLatestPostsCheck,
+      feedUsername:_feedUsername,
       ...props
     } as LoadPostsOptions
 
