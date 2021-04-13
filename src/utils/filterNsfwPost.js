@@ -11,6 +11,7 @@ export default (posts, option) => {
     return posts;
   }
 
+  //removes nsfw post from array ... filter value '2'
   if (posts) {
     posts.map((post) => {
       if (
