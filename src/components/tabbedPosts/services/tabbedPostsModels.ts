@@ -11,6 +11,9 @@ export interface TabbedPostsProps {
     pageType:string,
     tag:string,
     forceLoadPosts:boolean,
+    tabContentOverrides:Map<number, any>,
+    stackedTabs:boolean,
+    onTabChange:(index:number)=>void
     handleOnScroll:()=>void,
 }
 
@@ -44,7 +47,6 @@ export interface TabMeta {
 
   export interface TabContentProps {
     filterKey:string,
-    tabLabel:string,
     isFeedScreen:boolean,
     getFor:string,
     pageType:string,

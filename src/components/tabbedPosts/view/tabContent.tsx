@@ -8,6 +8,7 @@ import { setInitPosts } from '../../../redux/actions/postsAction';
 import NewPostsPopup from './newPostsPopup';
 import { calculateTimeLeftForPostCheck } from '../services/tabbedPostsReducer';
 import { AppState } from 'react-native';
+import { PostsListRef } from '../../postsList/container/postsListContainer';
 
 
 const TabContent = ({

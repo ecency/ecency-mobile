@@ -20,7 +20,6 @@ interface StackedTabBarProps {
 }
 
 export const StackedTabBar = ({
-    activeTab, 
     goToPage, 
     tabs,
     shouldStack,
@@ -39,9 +38,13 @@ export const StackedTabBar = ({
     return (
       <>
       <FilterBar
-        options={firstStack.map((item) =>
-          intl.formatMessage({ id: `home.${item.label.toLowerCase()}` }).toUpperCase(),
-        )}
+        options={firstStack.map((item, index) => {
+          return tabs[index] 
+            ? tabs[index] 
+            : intl.formatMessage({ id: item.label.toLowerCase() }).toUpperCase()
+          })
+        }
+         
         selectedOptionIndex={selectedFilterIndex}
         rightIconName="view-module"
         rightIconType="MaterialIcons"
@@ -65,7 +68,7 @@ export const StackedTabBar = ({
         selectedFilterIndex == 0 && shouldStack && (
           <FilterBar
             options={secondStack.map((item) =>
-              intl.formatMessage({ id: `home.${item.label.toLowerCase()}` }).toUpperCase(),
+              intl.formatMessage({ id: item.label.toLowerCase() }).toUpperCase(),
             )}
             selectedOptionIndex={selectedSecondStackIndex}
             onDropdownSelect={(index)=>{

@@ -16,6 +16,9 @@ export const TabbedPosts = ({
   isFeedScreen,
   feedUsername,
   pageType,
+  tabContentOverrides,
+  stackedTabs,
+  onTabChange,
   ...props
 }:TabbedPostsProps) => {
 
@@ -25,7 +28,7 @@ export const TabbedPosts = ({
   const isHideImages = useSelector((state) => state.ui.hidePostsThumbnails);
 
   //initialize state
-  const [initialTabIndex] = useState(selectedOptionIndex == 0 && isFeedScreen ? filterOptions.length : selectedOptionIndex)
+  const [initialTabIndex] = useState(selectedOptionIndex == 0 && stackedTabs ? filterOptions.length : selectedOptionIndex)
 
   const [mainFilters] = useState<TabItem[]>(
     filterOptions.map((label, index)=>({
@@ -56,7 +59,6 @@ export const TabbedPosts = ({
       }else{
         setSelectedFilter(filter)
       }
-     
     }
 
     const _toggleHideImagesFlag = () => {
@@ -70,19 +72,23 @@ export const TabbedPosts = ({
 
 
   //initialize first set of pages
-  const pages = combinedFilters.map((filter)=>(
-    <TabContent
-      key={filter.filterKey}
-      filterKey={filter.filterKey}
-      tabLabel={filter.label}
-      isFeedScreen={isFeedScreen}
-      feedUsername={feedUsername}
-      pageType={pageType}
-      filterScrollRequest={filterScrollRequest}
-      onScrollRequestProcessed={_onScrollRequestProcessed}
-      {...props}
-    />
-  ))
+  const pages = combinedFilters.map((filter, index)=>{
+    if(tabContentOverrides && tabContentOverrides.has(index)){
+      return tabContentOverrides.get(index);
+    }
+    return  (
+      <TabContent
+        key={filter.filterKey}
+        filterKey={filter.filterKey}
+        isFeedScreen={isFeedScreen}
+        feedUsername={feedUsername}
+        pageType={pageType}
+        filterScrollRequest={filterScrollRequest}
+        onScrollRequestProcessed={_onScrollRequestProcessed}
+        {...props}
+      />
+    )
+  });
 
 
   //render tab bar
@@ -90,7 +96,7 @@ export const TabbedPosts = ({
     return (
       <StackedTabBar 
         {...props}
-        shouldStack={isFeedScreen && feedUsername}
+        shouldStack={stackedTabs}
         firstStack={mainFilters}
         secondStack={subFilters}
         initialFirstStackIndex={selectedOptionIndex}
@@ -106,7 +112,9 @@ export const TabbedPosts = ({
       scrollWithoutAnimation={true}
       locked={true}
       initialPage={initialTabIndex}
-      renderTabBar={_renderTabBar}>
+      renderTabBar={_renderTabBar}
+      onTabChange={onTabChange}
+      >
       {pages}
     </ScrollableTabView>
   );

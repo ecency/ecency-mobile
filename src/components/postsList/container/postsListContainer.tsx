@@ -6,7 +6,9 @@ import { useSelector } from 'react-redux';
 import { ThemeContainer } from '../../../containers';
 import styles from '../view/postsListStyles';
 
-
+export interface PostsListRef {
+  scrollToTop:()=>void
+}
 
 interface postsListContainerProps extends FlatListProps<any> {
     promotedPosts:Array<any>;

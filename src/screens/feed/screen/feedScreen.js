@@ -34,17 +34,8 @@ const FeedScreen = () => {
               selectedOptionIndex={get(currentAccount, 'name', null) ? 0 : 2}
               feedUsername={get(currentAccount, 'name', null)}
               isFeedScreen={true}
+              stackedTabs={get(currentAccount, 'name', null)}
             />
-            {/* <Posts
-              filterOptions={[...POPULAR_FILTERS]}
-              filterOptionsValue={[...POPULAR_FILTERS_VALUE]}
-              feedSubfilterOptions={[...FEED_SUBFILTERS]}
-              feedSubfilterOptionsValue={[...FEED_SUBFILTERS_VALUE]}
-              getFor={get(currentAccount, 'name', null) ? 'feed' : 'hot'}
-              selectedOptionIndex={get(currentAccount, 'name', null) ? 0 : 2}
-              feedUsername={get(currentAccount, 'name', null)}
-              isFeedScreen={true}
-            /> */}
           </SafeAreaView>
         </Fragment>
       )}
