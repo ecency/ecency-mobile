@@ -1,6 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Text, Image, View, SafeAreaView } from 'react-native';
+
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import { Icon, MainButton } from '../../../components';
@@ -26,28 +27,30 @@ const WelcomeScreen = ({ handleButtonPress }) => {
   );
 
   return (
-    <View style={styles.container}>
-      <Image
-        style={styles.mascot}
-        resizeMode="contain"
-        source={require('../../../assets/love_mascot.png')}
-      />
-      <View style={styles.topText}>
-        <Text style={styles.welcomeText}>{intl.formatMessage({ id: 'welcome.label' })}</Text>
-        <Text style={styles.ecencyText}>{intl.formatMessage({ id: 'welcome.title' })}</Text>
-      </View>
-      <View>
-        {_renderInfo('question', 'welcome.line1_heading', 'welcome.line1_body')}
-        {_renderInfo('emotsmile', 'welcome.line2_heading', 'welcome.line2_body')}
-        {_renderInfo('people', 'welcome.line3_heading', 'welcome.line3_body')}
-      </View>
+    <SafeAreaView style={styles.root}>
+      <View style={styles.container}>
+        <Image
+          style={styles.mascot}
+          resizeMode="contain"
+          source={require('../../../assets/love_mascot.png')}
+        />
+        <View style={styles.topText}>
+          <Text style={styles.welcomeText}>{intl.formatMessage({ id: 'welcome.label' })}</Text>
+          <Text style={styles.ecencyText}>{intl.formatMessage({ id: 'welcome.title' })}</Text>
+        </View>
+        <View>
+          {_renderInfo('question', 'welcome.line1_heading', 'welcome.line1_body')}
+          {_renderInfo('emotsmile', 'welcome.line2_heading', 'welcome.line2_body')}
+          {_renderInfo('people', 'welcome.line3_heading', 'welcome.line3_body')}
+        </View>
 
-      <MainButton
-        onPress={handleButtonPress}
-        style={{ alignSelf: 'center', paddingHorizontal: 30 }}
-        text="Get started!"
-      />
-    </View>
+        <MainButton
+          onPress={handleButtonPress}
+          style={{ alignSelf: 'center', paddingHorizontal: 30 }}
+          text="Get started!"
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 
