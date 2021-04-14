@@ -333,19 +333,19 @@
   },
   "uploads_modal": {
     "label_no_images": "找不到圖片",
-    "title": "Uploaded Images",
-    "title_remove_confirmation": "Delete image",
-    "btn_add": "Image",
-    "message_failed": "Failed to upload image"
+    "title": "已上傳的圖片",
+    "title_remove_confirmation": "刪除圖片",
+    "btn_add": "圖片",
+    "message_failed": "圖片上傳失效"
   },
   "pincode": {
     "enter_text": "輸入PIN碼解鎖",
     "set_new": "設置新的PIN碼",
     "write_again": "重寫",
     "forgot_text": "哦，我忘記了......",
-    "pin_not_matched": "PIN do not match, Please try again.",
-    "attempts_postfix": "failed attempt(s)",
-    "message_reset_warning": "User data will be wiped on next failed attempt"
+    "pin_not_matched": "PIN 不相符。請重試。",
+    "attempts_postfix": "失敗嘗試",
+    "message_reset_warning": "下一輪重試失敗，用戶資料將會被刪除"
   },
   "alert": {
     "success": "成功！",
@@ -355,10 +355,10 @@
     "fail": "失敗！",
     "move": "移動",
     "move_question": "您確定要存為草稿嗎？",
-    "success_shared": "Success! Content submitted!",
+    "success_shared": "成功遞交！內容已經上載成功。",
     "success_moved": "存為草稿",
     "permission_denied": "權限不足",
-    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
+    "permission_text": "請用手機設置將Ecency的權限設定進行調整。",
     "key_warning": "Operation requires active key or master password, please relogin!",
     "success_rebloged": "已轉發！",
     "already_rebloged": "您已經轉發！",
