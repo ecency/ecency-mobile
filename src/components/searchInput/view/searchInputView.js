@@ -20,12 +20,12 @@ const SearchInputView = ({
   onChangeText,
   handleOnModalClose,
   placeholder,
+  value,
   editable = true,
   autoFocus = true,
   style,
 }) => (
   <SafeAreaView style={[styles.inputWrapper, style]}>
-    <Icon style={styles.icon} iconType="FontAwesome" name="search" size={15} />
     <TextInput
       style={styles.input}
       onChangeText={(text) => onChangeText && onChangeText(text)}
@@ -34,6 +34,7 @@ const SearchInputView = ({
       autoCapitalize="none"
       autoFocus={autoFocus}
       editable={editable}
+      value={value}
     />
     {handleOnModalClose && (
       <IconButton

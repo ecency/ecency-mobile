@@ -18,6 +18,7 @@ const TabContent = ({
   forceLoadPosts,
   filterScrollRequest,
   feedUsername,
+  tag,
   onScrollRequestProcessed,
   handleOnScroll,
   ...props
@@ -68,7 +69,7 @@ const TabContent = ({
     _initContent(true, feedUsername);
 
     return _cleanup;
-  }, [])
+  }, [tag])
 
 
   useEffect(()=>{
@@ -147,6 +148,7 @@ const TabContent = ({
       pageType,
       isLatestPostsCheck,
       feedUsername:_feedUsername,
+      tag,
       ...props
     } as LoadPostsOptions
 
