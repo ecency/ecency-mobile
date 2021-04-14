@@ -405,14 +405,6 @@ const PostBody = ({
     text-align: justify;
   }
 
-  .pull-left,
-  .pull-right {
-    max-width: calc(50% - 10px);
-    padding-left: 10px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
-  }
-
   .pull-left {
     margin-right: 10px;
     padding-right: 10px;
@@ -420,7 +412,7 @@ const PostBody = ({
   }
 
   .pull-right {
-    margin-left: 10px;
+    margin-right: 10px;
     padding-right: 10px;
     float: right;
   }
