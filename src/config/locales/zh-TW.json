@@ -100,11 +100,11 @@
       "buy": "購買HBD"
     },
     "steem_power": {
-      "title": "目錄"
+      "title": "HIVE POWER（已鎖倉）"
     },
     "btc": {
-      "title": "BTC",
-      "buy": "購買BTC",
+      "title": "大餅",
+      "buy": "購買大餅",
       "address": "接收"
     }
   },
