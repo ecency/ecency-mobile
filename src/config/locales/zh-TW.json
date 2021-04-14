@@ -92,11 +92,11 @@
       "title": "HBD存款"
     },
     "steem": {
-      "title": "目錄",
-      "buy": "購買STEEM"
+      "title": "HIVE",
+      "buy": "購買HIVE"
     },
     "sbd": {
-      "title": "目錄",
+      "title": "HBD",
       "buy": "購買HBD"
     },
     "steem_power": {
@@ -397,18 +397,18 @@
     "external_link": "在瀏覽器中打開",
     "not_existing_post": "文章不存在！請檢查連結和作者。",
     "google_play_version": "我們注意到您的設備有舊版本的Google Play。請更新Google Play服務，然後再試一次！",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
-    "payloadTooLarge": "File size too big, please resize or upload smaller image",
-    "qoutaExceeded": "Upload quota exceeded",
-    "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload",
-    "can_not_be_empty": "Title and body can not be empty!"
+    "rc_down": "信用資源不夠，未能執行該指令。\n\n增加您的資源以繼續體驗平台。需要立刻增加資源嗎？",
+    "payloadTooLarge": "文件太大，請縮小或者用比較低像素的檔案上傳",
+    "qoutaExceeded": "超過上傳限制",
+    "invalidImage": "圖片格式不適合，請用其他圖片",
+    "something_wrong": "發生一些錯誤。",
+    "something_wrong_alt": "請嘗試 https://ecency.com",
+    "something_wrong_reload": "重新載入",
+    "can_not_be_empty": "題目跟文章不能空置"
   },
   "post": {
     "reblog_alert": "您確定想要轉發？",
-    "removed_hint": "Content is not available",
+    "removed_hint": "內容不存在",
     "copy_link": "複製連結",
     "reblogged": "已轉發，轉發者是",
     "sponsored": "贊助者清單",
@@ -444,7 +444,7 @@
     "add": "添加到書簽"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "內容已經被投報或投訴"
   },
   "favorites": {
     "title": "收藏夹",
@@ -457,7 +457,7 @@
     "invalid_username": "無效的使用者名稱，請核對後再試一次。",
     "already_logged": "您已經登錄, 請嘗試添加另一個帳戶",
     "invalid_credentials": "憑證無效，請核對後再試一次。",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "未知錯誤，請通過support@ecency.com與我們聯系。"
   },
   "payout": {
     "potential_payout": "潛在收益",
@@ -477,7 +477,7 @@
     "bookmarks": "添加到書簽",
     "promote": "推廣",
     "boost": "推薦",
-    "report": "report"
+    "report": "舉報"
   },
   "deep_link": {
     "no_existing_user": "用户不存在",
