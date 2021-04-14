@@ -221,17 +221,17 @@
     "cancel": "取消",
     "login": "登錄",
     "steemconnect_description": "假如您不想將您的密碼保存在手機，您可以使用Hivesigner。",
-    "steemconnect_fee_description": "info"
+    "steemconnect_fee_description": "資訊"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "註冊",
     "title": "註冊",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
-    "ref_user": "Referred user (Optional)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
-    "title_description": "One account to manage everything",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "username": "選擇用戶名",
+    "mail": "輸入您的電子郵件地址",
+    "ref_user": "邀請者的賬號暱稱 （可選）",
+    "500_error": "您的申請暫時未能通過，很可能是滿了。請稍候重試…",
+    "title_description": "一個賬號掌管所有權限",
+    "form_description": "註冊即表示您同意我們的服務條款和隱私政策"
   },
   "home": {
     "feed": "朋友圈",
@@ -241,9 +241,9 @@
     "new": "最新",
     "blog": "部落格",
     "posts": "文章",
-    "friends": "Friends",
-    "communities": "Communities",
-    "popup_postfix": "Posted"
+    "friends": "朋友",
+    "communities": "社區",
+    "popup_postfix": "已發佈"
   },
   "side_menu": {
     "profile": "個人檔案",
@@ -253,14 +253,14 @@
     "schedules": "定時發佈",
     "gallery": "圖庫",
     "settings": "設定",
-    "communities": "Communities",
+    "communities": "更多社區",
     "add_account": "添加帳號",
     "logout": "登出",
     "cancel": "取消",
     "logout_text": "您確定要登出嗎？",
-    "create_a_new_account": "Create a new account",
-    "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts"
+    "create_a_new_account": "建立一個新帳戶",
+    "add_an_existing_account": "綁定現有帳號",
+    "accounts": "帳號"
   },
   "header": {
     "title": "登入後定制您的朋友圈",
@@ -286,7 +286,7 @@
     "limited_dash": "在每個標籤中使用一個破折號",
     "limited_space": "使用空格分隔標籤",
     "limited_lowercase": "標籤只用小寫字母",
-    "limited_characters": "Use only lowercase letters, digits and one dash",
+    "limited_characters": "只能使用小寫字母，數字和一個短劃線",
     "limited_firstchar": "標籤必須以字母開頭",
     "limited_lastchar": "標籤必須以字母或數位結尾",
     "setting_schedule": "Scheduling Time",
