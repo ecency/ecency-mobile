@@ -220,7 +220,7 @@
     "description": "登錄並同意服務條款和隱私政策",
     "cancel": "取消",
     "login": "登錄",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_description": "假如您不想將您的密碼保存在手機，您可以使用Hivesigner。",
     "steemconnect_fee_description": "info"
   },
   "register": {
