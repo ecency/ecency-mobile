@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native';
 import get from 'lodash/get';
 
 // Components
-import { Posts, Header } from '../../../components';
+import { Posts, Header, TabbedPosts } from '../../../components';
 
 // Container
 import { AccountContainer } from '../../../containers';
@@ -25,7 +25,7 @@ const FeedScreen = () => {
         <Fragment>
           <Header />
           <SafeAreaView style={styles.container}>
-            <Posts
+            <TabbedPosts
               filterOptions={[...POPULAR_FILTERS]}
               filterOptionsValue={[...POPULAR_FILTERS_VALUE]}
               feedSubfilterOptions={[...FEED_SUBFILTERS]}
@@ -34,6 +34,7 @@ const FeedScreen = () => {
               selectedOptionIndex={get(currentAccount, 'name', null) ? 0 : 2}
               feedUsername={get(currentAccount, 'name', null)}
               isFeedScreen={true}
+              stackedTabs={get(currentAccount, 'name', null)}
             />
           </SafeAreaView>
         </Fragment>

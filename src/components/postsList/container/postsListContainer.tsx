@@ -1,20 +1,34 @@
 import React, {forwardRef, memo, useRef, useImperativeHandle, useState, useEffect} from 'react'
 import PostCard from '../../postCard';
 import { get } from 'lodash';
-import { FlatListProps, FlatList } from 'react-native';
+import { FlatListProps, FlatList, RefreshControl, ActivityIndicator, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import { ThemeContainer } from '../../../containers';
+import styles from '../view/postsListStyles';
 
+export interface PostsListRef {
+  scrollToTop:()=>void
+}
 
 interface postsListContainerProps extends FlatListProps<any> {
     promotedPosts:Array<any>;
     isFeedScreen:boolean;
+    onLoadPosts?:(shouldReset:boolean)=>void;
+    isLoading:boolean;
+    isRefreshing:boolean;
 }
+
+let _onEndReachedCalledDuringMomentum = true;
 
 const postsListContainer = ({
     promotedPosts,
     isFeedScreen,
+    onLoadPosts,
+    isRefreshing,
+    isLoading,
     ...props
 }:postsListContainerProps, ref) => {
+   
     const flatListRef = useRef(null);
 
     const [imageHeights, setImageHeights] = useState(new Map<string, number>());
@@ -65,6 +79,28 @@ const postsListContainer = ({
       }
     }
 
+
+
+  const _renderFooter = () => {
+    if (isLoading) {
+      return (
+        <View style={styles.flatlistFooter}>
+          <ActivityIndicator animating size="large" color={'#2e3d51'} />
+        </View>
+      );
+    }
+
+    return null;
+  };
+
+  const _onEndReached = () => {
+    if (onLoadPosts && !_onEndReachedCalledDuringMomentum) {
+      onLoadPosts(false);
+      _onEndReachedCalledDuringMomentum = true;
+    }
+  };
+
+
     const _renderItem = ({ item, index }:{item:any, index:number}) => {
         const e = [];
     
@@ -109,25 +145,42 @@ const postsListContainer = ({
       };
 
 
-    
-
     return (
-        <FlatList
-            ref={flatListRef}
-            data={posts}
-            showsVerticalScrollIndicator={false}
-            renderItem={_renderItem}
-            keyExtractor={(content) => content.permlink}
-            removeClippedSubviews
-            onEndReachedThreshold={1}
-            maxToRenderPerBatch={3}
-            initialNumToRender={3}
-            windowSize={5}
-            extraData={imageHeights}
-            {...props}
-        />
+      <ThemeContainer>
+        {({ isDarkTheme }) => (
+          <FlatList
+              ref={flatListRef}
+              data={posts}
+              showsVerticalScrollIndicator={false}
+              renderItem={_renderItem}
+              keyExtractor={(content) => `${content.author}/${content.permlink}`}
+              removeClippedSubviews
+              onEndReachedThreshold={1}
+              maxToRenderPerBatch={3}
+              initialNumToRender={3}
+              windowSize={5}
+              extraData={imageHeights}
+              onEndReached={_onEndReached}
+              onMomentumScrollBegin={() => {
+                _onEndReachedCalledDuringMomentum = false;
+              }}
+              ListFooterComponent={_renderFooter}
+              refreshControl={ 
+                <RefreshControl
+                  refreshing={isRefreshing}
+                  onRefresh={()=>{if(onLoadPosts){onLoadPosts(true)}}}
+                  progressBackgroundColor="#357CE6"
+                  tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                  titleColor="#fff"
+                  colors={['#fff']}
+                />
+              }
+              {...props}
+          />
+          )}
+        </ThemeContainer>
     )
 }
 
 
-export default memo(forwardRef(postsListContainer));
+export default forwardRef(postsListContainer);

@@ -5,6 +5,15 @@ export default EStyleSheet.create({
     flex: 1,
     backgroundColor: '$primaryBackgroundColor',
   },
+  backIcon: {
+    fontSize: 24,
+    color: '$iconColor',
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 12,
+  },
   buttonContainer: {
     width: '50%',
     alignItems: 'center',
@@ -22,6 +31,7 @@ export default EStyleSheet.create({
   },
   tabbarItem: {
     flex: 1,
+    marginTop: 16,
     backgroundColor: '$primaryBackgroundColor',
     minWidth: '$deviceWidth',
   },
