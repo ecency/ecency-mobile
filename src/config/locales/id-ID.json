@@ -100,7 +100,7 @@
       "buy": "DAPATKAN HBD"
     },
     "steem_power": {
-      "title": "HIVE POWER"
+      "title": "KEKUATAN HIVE"
     },
     "btc": {
       "title": "BTC",
@@ -162,11 +162,11 @@
     "follow_communities": "Bergabung dengan beberapa komunitas untuk mengisi linimasa anda",
     "havent_commented": "belum berkomentar",
     "havent_posted": "belum pernah mengirimkan sesuatu",
-    "steem_power": "Hive Power",
+    "steem_power": "Kekuatan Hive",
     "next_power_text": "Menurunkan daya berikutnya di",
     "days": "hari",
     "day": "hari",
-    "steem_dollars": "Hive Dollars",
+    "steem_dollars": "Hive Dollar",
     "savings": "Tabungan",
     "edit": {
       "display_name": "Nama Tampilan",
@@ -220,7 +220,7 @@
     "description": "Dengan mandaftar, anda setuju dengan Ketentuan Layanan dan Kebijakan Privasi kami.",
     "cancel": "batal",
     "login": "MASUK",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
+    "steemconnect_description": "Jika Anda tidak ingin menyimpan kata sandi Anda dienkripsi dan disimpan di perangkat Anda, Anda dapat menggunakan Hivesigner.",
     "steemconnect_fee_description": "info"
   },
   "register": {
@@ -289,13 +289,13 @@
     "limited_characters": "Gunakan huruf kecil, angka dan satu garis",
     "limited_firstchar": "Tag harus dimulai dengan huruf",
     "limited_lastchar": "Tag harus diakhiri dengan huruf atau angka",
-    "setting_schedule": "Scheduling Time",
+    "setting_schedule": "Waktu Penjadwalan",
     "setting_reward": "Hadiah",
-    "setting_beneficiary": "Beneficiary",
+    "setting_beneficiary": "Penerima manfaat",
     "reward_default": "Default 50% / 50%",
     "reward_power_up": "Kekuatan 100%",
     "reward_decline": "Menolak Pembayaran",
-    "beneficiaries": "Beneficiaries",
+    "beneficiaries": "Para penerima manfaat",
     "options": "Pilihan",
     "my_blog": "Blog saya",
     "select_community": "Pilih komunitas",
