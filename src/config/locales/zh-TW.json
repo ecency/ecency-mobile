@@ -21,7 +21,7 @@
     "delegation": "委託",
     "delegations": "委託",
     "delegation_title": "委託獎勵",
-    "delegation_desc": "通過代理SP，每天賺取ESTM積分",
+    "delegation_desc": "通過代理SP，每天賺取ESTM",
     "post_title": "發文的點數",
     "comment_title": "評論的點數",
     "vote_title": "投票的點數",
@@ -644,6 +644,6 @@
     "line2_heading": "我們有解決方法",
     "line2_body": "利用區塊鏈技術，不屏蔽，去中心化，還給予獎勵",
     "line3_heading": "加入我們Ecency社群吧",
-    "line3_body": "Build community you own, get rewarded and reward others."
+    "line3_body": "建立您自己的社區，賺取獎賞，獎勵他人"
   }
 }
