@@ -18,24 +18,14 @@ const TagResultScreen = ({ navigation }) => {
   const filter = navigation.getParam('filter', '');
 
   const [tag, setTag] = useState(initTag);
-  const [searchValue, setSearchValue] = useState(initTag);
 
   const _navigationGoBack = () => {
     navigation.goBack();
   };
 
-  const _clearSearch = () => {
-    setSearchValue('');
-  };
-
   const _setTag = debounce((tag) => {
     setTag(tag);
   }, 1000);
-
-  const _onChangeText = (text) => {
-    setSearchValue(text.substring(1));
-    _setTag(text.substring(1));
-  };
 
   const _getSelectedIndex = () => {
     if (filter) {
@@ -61,11 +51,12 @@ const TagResultScreen = ({ navigation }) => {
           </View>
           <View style={{ flex: 16 }}>
             <SearchInput
-              handleOnModalClose={_clearSearch}
+              showClearButton={true}
               onBackPress={_navigationGoBack}
               editable={true}
-              onChangeText={_onChangeText}
-              value={`#${searchValue}`}
+              onChangeText={_setTag}
+              value={tag}
+              prefix="#"
             />
           </View>
         </View>
