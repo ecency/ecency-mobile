@@ -541,7 +541,7 @@
     }
   },
   "free_estm": {
-    "title": "Free Points",
+    "title": "免費領取積分",
     "button": "贏取轉盤抽獎",
     "get_spin": "5個轉盤抽獎機會",
     "spin_right": "轉盤抽獎機會還剩",
@@ -552,7 +552,7 @@
     "days": "天",
     "user": "用戶",
     "permlink": "文章",
-    "permlinkPlaceholder": "username/permlink",
+    "permlinkPlaceholder": "用戶名稱/鏈接地址",
     "information": "您確定要推廣嗎？"
   },
   "boostPost": {
@@ -580,66 +580,66 @@
     "more_replies": "更多回復"
   },
   "search_result": {
-    "others": "Others",
+    "others": "其他選項",
     "best": {
-      "title": "Best"
+      "title": "最佳"
     },
     "people": {
-      "title": "People"
+      "title": "會員"
     },
     "topics": {
-      "title": "Topics"
+      "title": "主題"
     },
     "communities": {
-      "title": "Groups",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
-      "posters": "Posters",
+      "title": "群組",
+      "subscribe": "加入 ",
+      "unsubscribe": "退出",
+      "subscribers": "成员",
+      "posters": "發佈者",
       "posts": "文章"
     },
     "communities_filter": {
-      "my": "My Communities",
-      "rank": "Rank",
-      "subs": "Members",
-      "new": "New"
+      "my": "我的社區",
+      "rank": "排名",
+      "subs": "成员",
+      "new": "最新"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "人氣",
+      "newest": "最新",
+      "relevance": "相關"
     },
     "other_result_filter": {
       "user": "用戶",
-      "tag": "Tag"
+      "tag": "標籤"
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details"
+    "new_post": "新增文章",
+    "community": "社區",
+    "details": "詳細資訊"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow"
+    "follow": "關注",
+    "unfollow": "取消關注"
   },
   "communities": {
-    "joined": "Membership",
-    "discover": "Discover"
+    "joined": "會員身份",
+    "discover": "發現"
   },
   "empty_screen": {
-    "nothing_here": "Nothing here"
+    "nothing_here": "暫無内容"
   },
   "beneficiary_modal": {
-    "percent": "Percent",
-    "username": "Username",
-    "addAccount": "Add Account",
-    "save": "Save"
+    "percent": "百分比",
+    "username": "用戶名稱",
+    "addAccount": "添加帳號",
+    "save": "保存"
   },
   "welcome": {
-    "label": "Welcome to",
+    "label": "歡迎使用",
     "title": "Ecency",
-    "line1_heading": "Are you looking for community?",
+    "line1_heading": "尋找適合的社區嗎？",
     "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
     "line2_heading": "We have a solution!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
