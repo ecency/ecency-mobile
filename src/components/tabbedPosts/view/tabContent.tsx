@@ -10,6 +10,12 @@ import { calculateTimeLeftForPostCheck } from '../services/tabbedPostsReducer';
 import { AppState } from 'react-native';
 import { PostsListRef } from '../../postsList/container/postsListContainer';
 
+const DEFAULT_TAB_META = {
+    startAuthor:'',
+    startPermlink:'',
+    isLoading:false,
+    isRefreshing:false,
+  } as TabMeta;
 
 const TabContent = ({
   filterKey, 
@@ -49,7 +55,7 @@ const TabContent = ({
   const [posts, setPosts] = useState([]);
   const [promotedPosts, setPromotedPosts] = useState([]);
   const [sessionUser, setSessionUser] = useState(username);
-  const [tabMeta, setTabMeta] = useState({} as TabMeta);
+  const [tabMeta, setTabMeta] = useState(DEFAULT_TAB_META);
   const [latestPosts, setLatestPosts] = useState<any[]>([]);
 
 
@@ -102,7 +108,7 @@ const TabContent = ({
 
   //actions
   const _handleAppStateChange = (nextAppState) => {
-    if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+    if (appState.current.match(/inactive|background/) && nextAppState === 'active' && posts.length > 0) {
       const isLatestPostsCheck = true;
       _loadPosts(false, isLatestPostsCheck);
     }
@@ -114,12 +120,7 @@ const TabContent = ({
   const _initContent = (isFirstCall = false, feedUsername:string) => {
     _scrollToTop();
     setPosts(isFirstCall ? initPosts : []);
-    setTabMeta({
-      startAuthor:'',
-      startPermlink:'',
-      isLoading:false,
-      isRefreshing:false,
-    } as TabMeta)
+    setTabMeta(DEFAULT_TAB_META)
     setSessionUser(username);
 
     if(username || (filterKey !== 'friends' && filterKey !== 'communities')){

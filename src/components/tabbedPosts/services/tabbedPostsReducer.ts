@@ -13,7 +13,7 @@ export const calculateTimeLeftForPostCheck = (firstPost:any) => {
   
       const timeSpent = currentTime - createdAt;
       let timeLeft = refetchTime - timeSpent;
-      if (timeLeft < 0) {
+      if (timeLeft < 30000) {
         timeLeft = refetchTime;
       }
       return timeLeft;
