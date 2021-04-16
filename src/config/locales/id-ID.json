@@ -329,23 +329,23 @@
     "message_failed": "Gagal menyimpan cuplikan",
     "message_remove_confirmation": "Apakah Anda yakin ingin menghapus cuplikan ini?",
     "btn_confirm": "Konfirmasi",
-    "btn_cancel": "Cancel"
+    "btn_cancel": "Batalkan"
   },
   "uploads_modal": {
-    "label_no_images": "No Images Found",
-    "title": "Uploaded Images",
-    "title_remove_confirmation": "Delete image",
-    "btn_add": "Image",
-    "message_failed": "Failed to upload image"
+    "label_no_images": "Tidak Ada Gambar Ditemukan",
+    "title": "Gambar Diunggah",
+    "title_remove_confirmation": "Hapus gambar",
+    "btn_add": "Gambar",
+    "message_failed": "Gagal mengunggah gambar"
   },
   "pincode": {
     "enter_text": "Masukkan PIN untuk membuka kunci",
     "set_new": "Atur pin baru",
     "write_again": "Menulis lagi",
     "forgot_text": "Oh, saya lupa...",
-    "pin_not_matched": "PIN do not match, Please try again.",
-    "attempts_postfix": "failed attempt(s)",
-    "message_reset_warning": "User data will be wiped on next failed attempt"
+    "pin_not_matched": "PIN tidak cocok, Tolong coba lagi.",
+    "attempts_postfix": "percobaan gagal",
+    "message_reset_warning": "Data pengguna akan dihapus pada percobaan berikutnya"
   },
   "alert": {
     "success": "Sukses!",
@@ -379,7 +379,7 @@
     "remove_alert": "Yakin ingin menghapus?",
     "clear_alert": "Anda yakin ingin menghapus?",
     "clear_user_alert": "Anda yakin anda ingin menghapus semua data pengguna?",
-    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
+    "decrypt_fail_alert": "Status aplikasi rusak, harap masuk kembali untuk menyetel ulang status.",
     "clear": "Bersihkan",
     "cancel": "Batal",
     "delete": "Hapus",
@@ -390,33 +390,33 @@
     "same_user": "Pengguna ini sudah ditambahkan ke daftar",
     "unknow_error": "Terjadi kesalahan",
     "error": "Error",
-    "fetch_error": "Connection issue, change server and restart",
+    "fetch_error": "Masalah koneksi, ubah server dan restart",
     "connection_fail": "Koneksi gagal!",
     "connection_success": "Berhasil terhubung!",
     "checking": "Mememriksa...",
     "external_link": "Buka di Browser",
     "not_existing_post": "Pos tidak ada! Silakan periksa permlink dan penulis.",
     "google_play_version": "Kami perhatikan bahwa perangkat Anda memiliki Google Play versi lama. Harap perbarui layanan Google Play dan coba lagi!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
-    "payloadTooLarge": "File size too big, please resize or upload smaller image",
-    "qoutaExceeded": "Upload quota exceeded",
-    "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload",
+    "rc_down": "Kredit sumber daya tidak cukup untuk melakukan tindakan!",
+    "payloadTooLarge": "Ukuran file terlalu besar, harap ubah ukurannya atau unggah gambar yang lebih kecil",
+    "qoutaExceeded": "Melebihi kuota unggahan",
+    "invalidImage": "Gambar tidak valid, coba file lain",
+    "something_wrong": "Ada yang salah.",
+    "something_wrong_alt": "Cobalah https://ecency.com",
+    "something_wrong_reload": "Muat ulang",
     "can_not_be_empty": "Judul dan isi tidak boleh kosong!"
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
-    "removed_hint": "Content is not available",
-    "copy_link": "Copy link",
+    "removed_hint": "Konten tidak tersedia",
+    "copy_link": "Salin tautan",
     "reblogged": "direblog Oleh",
     "sponsored": "DISPONSORI",
-    "open_thread": "Open thread",
-    "image": "Image",
-    "link": "Link",
-    "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
+    "open_thread": "Buka urutan",
+    "image": "Gambar",
+    "link": "Tautan",
+    "gallery_mode": "Mode galeri",
+    "save_to_local": "Unduh ke perangkat",
     "image_saved": "Gambar disimpan ke Galeri Foto",
     "image_saved_error": "Kesalahan menyimpan gambar",
     "wrong_link": "Link salah"
@@ -444,7 +444,7 @@
     "add": "Ditambahkan ke bookmark"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Konten yang tidak pantas dilaporkan"
   },
   "favorites": {
     "title": "Favorit",
@@ -457,7 +457,7 @@
     "invalid_username": "Nama pengguna tidak valid, silakan periksa dan coba lagi",
     "already_logged": "Anda sudah masuk, coba tambahkan akun lain",
     "invalid_credentials": "Kredensial tidak valid, silakan periksa dan coba lagi",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "Kesalahan tidak diketahui, harap tulis ke support@ecency.com"
   },
   "payout": {
     "potential_payout": "Potensi pembayaran",
@@ -477,7 +477,7 @@
     "bookmarks": "tambah ke penanda",
     "promote": "promosikan",
     "boost": "menaikkan",
-    "report": "report"
+    "report": "laporan"
   },
   "deep_link": {
     "no_existing_user": "Tidak ada pengguna yang ada",
@@ -504,17 +504,17 @@
     "information": "Anda yakin mentransfer dana?",
     "amount_desc": "Keseimbangan",
     "memo_desc": "Memo ini bersifat publik",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "Konversi membutuhkan waktu 3,5 hari dan TIDAK disarankan JIKA harga HBD lebih tinggi dari $1",
     "to_placeholder": "Nama Pengguna",
     "memo_placeholder": "Masukan catatan anda disini",
     "transfer_token": "Transfer",
-    "purchase_estm": "Purchase Points",
-    "convert": "Convert HBD to HIVE",
-    "points": "Gift Points to someone",
+    "purchase_estm": "Beli Poin",
+    "convert": "Konversi ke HIVE",
+    "points": "Hadiahkan Poin kepda seseorang",
     "transfer_to_saving": "Transfer untuk menyimpan",
     "powerUp": "Power Up",
     "withdraw_to_saving": "Tarik untuk menyimpan",
-    "steemconnect_title": "Hivesigner Transfer",
+    "steemconnect_title": "Transfer Hivesigner",
     "estimated_weekly": "Estimasi Mingguan",
     "destination_accounts": "Akun Tujuan",
     "stop_information": "Anda yakin ingin berhenti?",
@@ -525,23 +525,23 @@
     "next": "LANJUT",
     "delegate": "Delegasikan",
     "power_down": "Menurunkan daya",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
+    "withdraw_steem": "Tarik HIVE",
+    "withdraw_sbd": "Tarik Hive Dolalr",
     "incoming_funds": "Dana masuk",
     "stop": "Berhenti",
-    "address_view": "View address"
+    "address_view": "Lihat alamat"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
+    "title": "Dapatkan Poin",
+    "buy": "DAPATKAN Poin",
     "next": "LANJUT",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "title": "Lakukan Peningkatan Akun",
+      "desc": "Delegasi 30 hari akan meningkatkan suara dan aktivitas sosial Anda dan memberi Anda lebih banyak tindakan dengan lebih banyak Kredit Sumber Daya."
     }
   },
   "free_estm": {
-    "title": "Free Points",
+    "title": "Poin Gratis",
     "button": "SPIN & WIN",
     "get_spin": "5 SPINS",
     "spin_right": "Spin tersisa",
