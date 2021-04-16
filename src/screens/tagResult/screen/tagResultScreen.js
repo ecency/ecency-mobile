@@ -53,7 +53,7 @@ const TagResultScreen = ({ navigation }) => {
             <SearchInput
               showClearButton={true}
               onBackPress={_navigationGoBack}
-              editable={true}
+              autoFocus={false}
               onChangeText={_setTag}
               value={tag}
               prefix="#"
