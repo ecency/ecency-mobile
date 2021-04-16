@@ -599,19 +599,19 @@
       "posts": "Post"
     },
     "communities_filter": {
-      "my": "My Communities",
-      "rank": "Rank",
-      "subs": "Members",
-      "new": "New"
+      "my": "Komunitas Saya",
+      "rank": "Peringkat",
+      "subs": "Anggota",
+      "new": "Baru"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "Popularitas",
+      "newest": "Terbaru",
+      "relevance": "Relevan"
     },
     "other_result_filter": {
       "user": "Pengguna",
-      "tag": "Tag"
+      "tag": "Tagar"
     }
   },
   "community": {
@@ -637,13 +637,13 @@
     "save": "Simpan"
   },
   "welcome": {
-    "label": "Welcome to",
+    "label": "Selamat Datang di",
     "title": "Ecency",
-    "line1_heading": "Are you looking for community?",
-    "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
-    "line2_heading": "We have a solution!",
-    "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
-    "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others."
+    "line1_heading": "Apakah Anda sedang mencari komunitas?",
+    "line1_body": "Tidak disensor, tidak dapat diubah, bermanfaat, terdesentralisasi, yang Anda miliki.",
+    "line2_heading": "Kami mempunyai sebuah solusi!",
+    "line2_body": "Memanfaatkan blockchain, bebas sensor, terdesentralisasi, dan bermanfaat.",
+    "line3_heading": "Bergabunglah dengan Komunitas Ecency!",
+    "line3_body": "Bangun komunitas yang Anda miliki, dapatkan imbalan, dan beri penghargaan kepada orang lain."
   }
 }
