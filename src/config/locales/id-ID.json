@@ -552,7 +552,7 @@
     "days": "hari",
     "user": "Pengguna",
     "permlink": "Posting",
-    "permlinkPlaceholder": "username/permlink",
+    "permlinkPlaceholder": "nama pengguna/tautan permanen",
     "information": "Anda yakin akan promosikan?"
   },
   "boostPost": {
@@ -582,20 +582,20 @@
   "search_result": {
     "others": "Lainnya",
     "best": {
-      "title": "Best"
+      "title": "Terbaik"
     },
     "people": {
-      "title": "People"
+      "title": "Orang"
     },
     "topics": {
-      "title": "Topics"
+      "title": "Topik"
     },
     "communities": {
-      "title": "Groups",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
-      "posters": "Posters",
+      "title": "Grup",
+      "subscribe": "Bergabunglah",
+      "unsubscribe": "Keluar",
+      "subscribers": "Anggota",
+      "posters": "Poster",
       "posts": "Post"
     },
     "communities_filter": {
