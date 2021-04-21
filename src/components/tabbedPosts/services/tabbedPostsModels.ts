@@ -49,6 +49,7 @@ export interface TabMeta {
   export interface TabContentProps {
     filterKey:string,
     isFeedScreen:boolean,
+    isFirstTab:boolean,
     getFor:string,
     pageType:string,
     feedUsername:string,

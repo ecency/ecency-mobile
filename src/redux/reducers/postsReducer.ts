@@ -8,6 +8,7 @@ import {
   RESET,
   UPDATE_LOCAL_VOTE_MAP,
   RESET_LOCAL_VOTE_MAP,
+  SET_FEED_SCREEN_FILTERS,
 } from '../constants/constants';
 
 const initialState = {
@@ -18,6 +19,11 @@ const initialState = {
   loading: false,
   selectedFilterValue: '',
   localVoteMap: new Map(),
+  feedScreenFilters:[
+    'friends',
+    'communities',
+    'hot'
+  ]
 };
 
 export default function (state = initialState, action) {
@@ -81,6 +87,11 @@ export default function (state = initialState, action) {
     case RESET: {
       return initialState;
     }
+    case SET_FEED_SCREEN_FILTERS:
+      return {
+        ...state,
+        feedScreenFilters:action.payload
+      }
     default:
       return state;
   }

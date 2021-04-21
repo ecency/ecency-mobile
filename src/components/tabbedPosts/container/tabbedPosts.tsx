@@ -82,6 +82,7 @@ export const TabbedPosts = ({
         key={filter.filterKey}
         filterKey={filter.filterKey}
         isFeedScreen={isFeedScreen}
+        isFirstTab={index == 0}
         feedUsername={feedUsername}
         pageType={pageType}
         filterScrollRequest={filterScrollRequest}

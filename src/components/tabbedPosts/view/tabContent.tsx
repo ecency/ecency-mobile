@@ -20,6 +20,7 @@ const DEFAULT_TAB_META = {
 const TabContent = ({
   filterKey, 
   isFeedScreen,
+  isFirstTab,
   pageType,
   forceLoadPosts,
   filterScrollRequest,
@@ -41,12 +42,8 @@ const TabContent = ({
   const isConnected = useSelector((state) => state.application.isConnected);
   const username = useSelector((state) => state.account.currentAccount.name);
   const initPosts = useSelector((state) => {
-    if(isFeedScreen){
-      if(username && filterKey === 'friends'){
+    if(isFeedScreen && isFirstTab){
         return state.posts.initPosts
-      }else if (!username && filterKey === 'hot'){
-        return state.posts.initPosts
-      }
     }
     return []
   });
@@ -207,7 +204,7 @@ const TabContent = ({
         //   //schedule refetch of new posts by checking time of current post
           _scheduleLatestPostsCheck(updatedPosts[0]);
 
-          if (filterKey == username ? 'friends' : 'hot') {
+          if (isFirstTab) {
             dispatch(setInitPosts(updatedPosts));
           }
       }

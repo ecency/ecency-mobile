@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { SafeAreaView } from 'react-native';
+import { useSelector } from 'react-redux';
 import get from 'lodash/get';
 
 // Components
@@ -16,9 +17,18 @@ import {
   POPULAR_FILTERS_VALUE,
   FEED_SUBFILTERS,
   FEED_SUBFILTERS_VALUE,
+  FEED_SCREEN_FILTERS,
+  FEED_SCREEN_FILTER_MAP,
+  DEFAULT_FEED_FILTERS,
+  DEFAULT_FEED_FILTERS_LOGGED_IN,
 } from '../../../constants/options/filters';
 
 const FeedScreen = () => {
+  const feedScreenFilters = useSelector(
+    (state) => state.posts.feedScreenFilters || DEFAULT_FEED_FILTERS_LOGGED_IN,
+  );
+  const filterOptions = feedScreenFilters.map((key) => FEED_SCREEN_FILTER_MAP[key]);
+
   return (
     <AccountContainer>
       {({ currentAccount }) => (
@@ -26,15 +36,12 @@ const FeedScreen = () => {
           <Header />
           <SafeAreaView style={styles.container}>
             <TabbedPosts
-              filterOptions={[...POPULAR_FILTERS]}
-              filterOptionsValue={[...POPULAR_FILTERS_VALUE]}
-              feedSubfilterOptions={[...FEED_SUBFILTERS]}
-              feedSubfilterOptionsValue={[...FEED_SUBFILTERS_VALUE]}
+              filterOptions={filterOptions}
+              filterOptionsValue={feedScreenFilters}
               getFor={get(currentAccount, 'name', null) ? 'feed' : 'hot'}
               selectedOptionIndex={get(currentAccount, 'name', null) ? 0 : 2}
               feedUsername={get(currentAccount, 'name', null)}
               isFeedScreen={true}
-              stackedTabs={get(currentAccount, 'name', null)}
             />
           </SafeAreaView>
         </Fragment>

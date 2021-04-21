@@ -28,7 +28,6 @@ import {
   SET_PIN_CODE,
   IS_PIN_CODE_OPEN,
   IS_RENDER_REQUIRED,
-  SET_FEED_SCREEN_FILTERS,
 } from '../constants/constants';
 
 export const login = (payload) => ({
@@ -185,7 +184,3 @@ export const isRenderRequired = (payload) => ({
   type: IS_RENDER_REQUIRED,
 });
 
-export const setFeedScreenFilters = (payload:string[]) => ({
-  payload,
-  type: SET_FEED_SCREEN_FILTERS
-})

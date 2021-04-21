@@ -3,8 +3,10 @@ import { useIntl } from 'react-intl';
 import { KeyboardAvoidingView, Platform, View, Text } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import {useDispatch} from 'react-redux';
 
 import { ThemeContainer } from '../../containers';
+import { setFeedScreenFilters } from '../../redux/actions/postsAction';
 import { TextButton } from '../buttons';
 import styles from './customiseFiltersModalStyles';
 
@@ -16,6 +18,13 @@ export interface CustomiseFiltersModalRef {
 
 const CustomiseFiltersModal = (props:any, ref:Ref<CustomiseFiltersModalRef>) => {
     const sheetModalRef = useRef<ActionSheet>();
+    const dispatch = useDispatch()
+
+    const [selectedFilters, setSelectedFilters] = useState([
+        'friends',
+        'hot',
+        'created',
+    ]);
 
     const intl = useIntl(); 
  
@@ -29,6 +38,7 @@ const CustomiseFiltersModal = (props:any, ref:Ref<CustomiseFiltersModalRef>) => 
 
     //save snippet based on editor type
     const _onDone = async () => {
+       dispatch(setFeedScreenFilters(selectedFilters))
        sheetModalRef.current?.setModalVisible(false);
     }
 
