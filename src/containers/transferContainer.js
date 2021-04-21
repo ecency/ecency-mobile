@@ -85,18 +85,18 @@ class TransferContainer extends Component {
           transferType === 'transfer_token') &&
         fundType === 'HBD'
       ) {
-        balance = account[0].sbd_balance.replace(fundType, '');
+        balance = account[0].hbd_balance.replace(fundType, '');
       }
       if (transferType === 'points' && fundType === 'ESTM') {
         this._getUserPointsBalance(username);
       }
-      if (transferType === 'transfer_to_saving' && fundType === 'HIVE') {
+      if (transferType === 'transfer_to_savings' && fundType === 'HIVE') {
         balance = account[0].balance.replace(fundType, '');
       }
-      if (transferType === 'transfer_to_saving' && fundType === 'HBD') {
-        balance = account[0].sbd_balance.replace(fundType, '');
+      if (transferType === 'transfer_to_savings' && fundType === 'HBD') {
+        balance = account[0].hbd_balance.replace(fundType, '');
       }
-      if (transferType === 'powerUp' && fundType === 'HIVE') {
+      if (transferType === 'transfer_to_vesting' && fundType === 'HIVE') {
         balance = account[0].balance.replace(fundType, '');
       }
       if (transferType === 'address_view' && fundType === 'BTC') {
@@ -142,7 +142,6 @@ class TransferContainer extends Component {
     }
 
     data.amount = `${data.amount} ${fundType}`;
-
     switch (transferType) {
       case 'transfer_token':
         func = transferToken;
@@ -154,17 +153,17 @@ class TransferContainer extends Component {
         func = convert;
         data.requestId = new Date().getTime() >>> 0;
         break;
-      case 'transfer_to_saving':
+      case 'transfer_to_savings':
         func = transferToSavings;
         break;
-      case 'powerUp':
+      case 'transfer_to_vesting':
         func = transferToVesting;
         break;
-      case 'withdraw_steem' || 'withdraw_hive':
+      case 'withdraw_hive':
         func = transferFromSavings;
         data.requestId = new Date().getTime() >>> 0;
         break;
-      case 'withdraw_sbd' || 'withdraw_hbd':
+      case 'withdraw_hbd':
         func = transferFromSavings;
         data.requestId = new Date().getTime() >>> 0;
         break;
@@ -222,7 +221,7 @@ class TransferContainer extends Component {
   };
 
   render() {
-    const { accounts, navigation, children, steemPerMVests, currentAccount } = this.props;
+    const { accounts, navigation, children, hivePerMVests, currentAccount } = this.props;
     const { balance, fundType, selectedAccount, tokenAddress } = this.state;
 
     const transferType = navigation.getParam('transferType', '');
@@ -236,7 +235,7 @@ class TransferContainer extends Component {
         fundType,
         transferType,
         selectedAccount,
-        steemPerMVests,
+        hivePerMVests,
         fetchBalance: this.fetchBalance,
         getAccountsWithUsername: this._getAccountsWithUsername,
         transferToAccount: this._transferToAccount,
@@ -253,7 +252,7 @@ const mapStateToProps = (state) => ({
   accounts: state.account.otherAccounts,
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,
-  steemPerMVests: state.account.globalProps.steemPerMVests,
+  hivePerMVests: state.account.globalProps.hivePerMVests,
 });
 
 export default connect(mapStateToProps)(injectIntl(TransferContainer));

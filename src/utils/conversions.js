@@ -1,9 +1,9 @@
-export const vestsToSp = (vests, steemPerMVests) => {
-  if (!vests || !steemPerMVests) {
+export const vestsToHp = (vests, hivePerMVests) => {
+  if (!vests || !hivePerMVests) {
     return 0;
   }
 
-  return (vests / 1e6) * steemPerMVests;
+  return (vests / 1e6) * hivePerMVests;
 };
 
 export const vestsToRshares = (vests, votingPower, votePerc) => {

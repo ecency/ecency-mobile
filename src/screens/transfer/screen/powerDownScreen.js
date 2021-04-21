@@ -24,7 +24,7 @@ import WithdrawAccountModal from './withdrawAccountModal';
 
 import parseToken from '../../../utils/parseToken';
 import parseDate from '../../../utils/parseDate';
-import { vestsToSp } from '../../../utils/conversions';
+import { vestsToHp } from '../../../utils/conversions';
 import { isEmptyDate } from '../../../utils/time';
 
 import styles from './transferStyles';
@@ -80,6 +80,7 @@ class PowerDownView extends Component {
         intl.formatMessage({ id: 'alert.warning' }),
         intl.formatMessage({ id: 'transfer.sc_power_down_error' }),
       );
+      this.setState({ steemConnectTransfer: true, isTransfering: false });
     } else {
       transferToAccount(from, destinationAccounts, amount, '');
     }
@@ -198,7 +199,7 @@ class PowerDownView extends Component {
       getAccountsWithUsername,
       transferType,
       currentAccountName,
-      steemPerMVests,
+      hivePerMVests,
     } = this.props;
     const { amount, isTransfering, isOpenWithdrawAccount } = this.state;
     let poweringDownVests = 0;
@@ -210,7 +211,7 @@ class PowerDownView extends Component {
 
     if (poweringDown) {
       poweringDownVests = parseToken(get(selectedAccount, 'vesting_withdraw_rate'));
-      poweringDownFund = vestsToSp(poweringDownVests, steemPerMVests).toFixed(3);
+      poweringDownFund = vestsToHp(poweringDownVests, hivePerMVests).toFixed(3);
     } else {
       availableVestingShares =
         parseToken(get(selectedAccount, 'vesting_shares')) -
@@ -219,7 +220,7 @@ class PowerDownView extends Component {
         parseToken(get(selectedAccount, 'delegated_vesting_shares'));
     }
 
-    const spCalculated = vestsToSp(amount, steemPerMVests);
+    const spCalculated = vestsToHp(amount, hivePerMVests);
     const fundPerWeek = Math.round((spCalculated / 13) * 1000) / 1000;
 
     return (

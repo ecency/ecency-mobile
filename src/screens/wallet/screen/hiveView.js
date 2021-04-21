@@ -6,7 +6,7 @@ import { WalletContainer, AccountContainer } from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
 
-const SbdView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) => (
+const HiveView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) => (
   <View style={globalStyles.swipeItemWrapper}>
     <AccountContainer>
       {({ currentAccount }) => (
@@ -17,36 +17,40 @@ const SbdView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) 
             handleOnWalletRefresh,
             refreshing,
             transferHistory,
-            sbdBalance,
+            hiveBalance,
             isLoading,
-            sbdSavingBalance,
-            estimatedSbdValue,
-            sbdDropdown,
-            savingSbdDropdown,
+            hiveSavingBalance,
+            estimatedHiveValue,
+            hiveDropdown,
+            savingHiveDropdown,
             navigate,
           }) => (
             <WalletHeader
               componentDidUpdate={() => handleOnSelected(transferHistory, isLoading)}
               index={index}
               claim={claimRewardBalance}
-              reload={reload}
               fetchUserActivity={handleOnWalletRefresh}
+              reload={reload}
               isClaiming={isClaiming}
               isLoading={isLoading}
               refreshing={refreshing}
               unclaimedBalance={0}
               userBalance={[
-                { balance: sbdBalance, nameKey: 'sbd', options: sbdDropdown },
-                { balance: sbdSavingBalance, nameKey: 'savingsbd', options: savingSbdDropdown },
+                { balance: hiveBalance, nameKey: 'hive', options: hiveDropdown },
+                {
+                  balance: hiveSavingBalance,
+                  nameKey: 'savinghive',
+                  options: savingHiveDropdown,
+                },
               ]}
-              handleOnDropdownSelected={(option) => navigate(option, 'HBD')}
-              type="sbd"
+              handleOnDropdownSelected={(option) => navigate(option, 'HIVE')}
+              type="hive"
               currentIndex={currentIndex}
               showIconList={false}
               valueDescriptions={[
                 {
                   textKey: 'estimated_value',
-                  value: <FormattedCurrency isApproximate isToken value={estimatedSbdValue} />,
+                  value: <FormattedCurrency isApproximate isToken value={estimatedHiveValue} />,
                   subTextKey: 'estimated_value_desc',
                 },
               ]}
@@ -58,4 +62,4 @@ const SbdView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) 
   </View>
 );
 
-export default SbdView;
+export default HiveView;

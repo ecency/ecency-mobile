@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 import { toastNotification } from '../redux/actions/uiAction';
 
-// Dsteem
+// dhive
 import { getAccount, claimRewardBalance, getBtcAddress } from '../providers/hive/dhive';
 
 // Actions
@@ -14,18 +14,23 @@ import { openPinCodeModal } from '../redux/actions/applicationActions';
 // Utils
 import { groomingWalletData, groomingTransactionData, transferTypes } from '../utils/wallet';
 import parseToken from '../utils/parseToken';
-import { vestsToSp } from '../utils/conversions';
+import { vestsToHp } from '../utils/conversions';
 import { navigate } from '../navigation/service';
 import { getEstimatedAmount } from '../utils/vote';
 
 // Constants
 import ROUTES from '../constants/routeNames';
 
-const HIVE_DROPDOWN = ['purchase_estm', 'transfer_token', 'transfer_to_saving', 'powerUp'];
+const HIVE_DROPDOWN = [
+  'purchase_estm',
+  'transfer_token',
+  'transfer_to_savings',
+  'transfer_to_vesting',
+];
 const BTC_DROPDOWN = ['transfer_token'];
-const HBD_DROPDOWN = ['purchase_estm', 'transfer_token', 'transfer_to_saving', 'convert'];
-const SAVING_HIVE_DROPDOWN = ['withdraw_steem'];
-const SAVING_HBD_DROPDOWN = ['withdraw_sbd'];
+const HBD_DROPDOWN = ['purchase_estm', 'transfer_token', 'transfer_to_savings', 'convert'];
+const SAVING_HIVE_DROPDOWN = ['withdraw_hive'];
+const SAVING_HBD_DROPDOWN = ['withdraw_hbd'];
 const HIVE_POWER_DROPDOWN = ['delegate', 'power_down'];
 
 const WalletContainer = ({
@@ -36,7 +41,7 @@ const WalletContainer = ({
   pinCode,
   selectedUser,
   setEstimatedWalletValue,
-  steemPerMVests,
+  hivePerMVests,
   isPinCodeOpen,
   currency,
 }) => {
@@ -45,18 +50,18 @@ const WalletContainer = ({
   const [refreshing, setRefreshing] = useState(false);
   const [walletData, setWalletData] = useState(null);
   const [userActivities, setUserActivities] = useState([]);
-  const [sbdBalance, setSbdBalance] = useState(0);
+  const [hbdBalance, setHbdBalance] = useState(0);
   const [tokenBalance, setTokenBalance] = useState(0);
   const [tokenAddress, setTokenAddress] = useState('');
-  const [steemBalance, setSteemBalance] = useState(0);
-  const [spBalance, setSpBalance] = useState(0);
-  const [steemSavingBalance, setSteemSavingBalance] = useState(0);
-  const [sbdSavingBalance, setSbdSavingBalance] = useState(0);
+  const [hiveBalance, setHiveBalance] = useState(0);
+  const [hpBalance, setHpBalance] = useState(0);
+  const [hiveSavingBalance, setHiveSavingBalance] = useState(0);
+  const [hbdSavingBalance, setHbdSavingBalance] = useState(0);
   const [estimatedValue, setEstimatedValue] = useState(0);
-  const [estimatedSteemValue, setEstimatedSteemValue] = useState(0);
-  const [estimatedSbdValue, setEstimatedSbdValue] = useState(0);
+  const [estimatedHiveValue, setEstimatedHiveValue] = useState(0);
+  const [estimatedHbdValue, setEstimatedHbdValue] = useState(0);
   const [estimatedTokenValue, setEstimatedTokenValue] = useState(0);
-  const [estimatedSpValue, setEstimatedSpValue] = useState(0);
+  const [estimatedHpValue, setEstimatedHpValue] = useState(0);
   const [unclaimedBalance, setUnclaimedBalance] = useState('');
   const [estimatedAmount, setEstimatedAmount] = useState(0);
   const [delegationsAmount, setDelegationsAmount] = useState(0);
@@ -78,41 +83,41 @@ const WalletContainer = ({
     );
 
     setTransferHistory(_transferHistory);
-    setSbdBalance(Math.round(get(walletData, 'sbdBalance', 0) * 1000) / 1000);
+    setHbdBalance(Math.round(get(walletData, 'hbdBalance', 0) * 1000) / 1000);
     setTokenBalance(Math.round(get(walletData, 'tokenBalance', 0) * 1000) / 1000);
     setTokenAddress(get(walletData, 'tokenAddress', ''));
-    setSteemBalance(Math.round(get(walletData, 'balance', 0) * 1000) / 1000);
-    setSteemSavingBalance(Math.round(get(walletData, 'savingBalance', 0) * 1000) / 1000);
-    setSbdSavingBalance(Math.round(get(walletData, 'savingBalanceSbd', 0) * 1000) / 1000);
-    setSpBalance(
+    setHiveBalance(Math.round(get(walletData, 'balance', 0) * 1000) / 1000);
+    setHiveSavingBalance(Math.round(get(walletData, 'savingBalance', 0) * 1000) / 1000);
+    setHbdSavingBalance(Math.round(get(walletData, 'savingBalanceHbd', 0) * 1000) / 1000);
+    setHpBalance(
       Math.round(
-        vestsToSp(get(walletData, 'vestingShares', 0), get(walletData, 'steemPerMVests', 0)) * 1000,
+        vestsToHp(get(walletData, 'vestingShares', 0), get(walletData, 'hivePerMVests', 0)) * 1000,
       ) / 1000,
     );
     setEstimatedValue(get(walletData, 'estimatedValue', 0));
-    setEstimatedSteemValue(get(walletData, 'estimatedSteemValue', 0));
-    setEstimatedSbdValue(get(walletData, 'estimatedSbdValue', 0));
+    setEstimatedHiveValue(get(walletData, 'estimatedHiveValue', 0));
+    setEstimatedHbdValue(get(walletData, 'estimatedHbdValue', 0));
     setEstimatedTokenValue(get(walletData, 'estimatedTokenValue', 0));
-    setEstimatedSpValue(get(walletData, 'estimatedSpValue', 0));
+    setEstimatedHpValue(get(walletData, 'estimatedHpValue', 0));
     setDelegationsAmount(
-      vestsToSp(
+      vestsToHp(
         get(walletData, 'vestingSharesReceived', 0) - get(walletData, 'vestingSharesDelegated', 0),
-        get(walletData, 'steemPerMVests', 0),
+        get(walletData, 'hivePerMVests', 0),
       ).toFixed(3),
     );
 
     if (
-      get(walletData, 'rewardSteemBalance', 0) ||
-      get(walletData, 'rewardSbdBalance', 0) ||
-      get(walletData, 'rewardVestingSteem', 0)
+      get(walletData, 'rewardHiveBalance', 0) ||
+      get(walletData, 'rewardHbdBalance', 0) ||
+      get(walletData, 'rewardVestingHive', 0)
     ) {
       const getBalance = (val, cur) => (val ? Math.round(val * 1000) / 1000 + cur : '');
 
       setUnclaimedBalance(
-        `${getBalance(get(walletData, 'rewardSteemBalance', 0), ' HIVE')} ${getBalance(
-          get(walletData, 'rewardSbdBalance', 0),
+        `${getBalance(get(walletData, 'rewardHiveBalance', 0), ' HIVE')} ${getBalance(
+          get(walletData, 'rewardHbdBalance', 0),
           ' HBD',
-        )} ${getBalance(get(walletData, 'rewardVestingSteem', 0), ' HP')}`,
+        )} ${getBalance(get(walletData, 'rewardVestingHive', 0), ' HP')}`,
       );
     }
   }, [userActivities, walletData]);
@@ -127,19 +132,19 @@ const WalletContainer = ({
       setIsLoading(false);
       setUserActivities(
         get(_walletData, 'transactions', []).map((item) =>
-          groomingTransactionData(item, steemPerMVests),
+          groomingTransactionData(item, hivePerMVests),
         ),
       );
       setEstimatedWalletValue && setEstimatedWalletValue(_walletData.estimatedValue);
       const getBalance = (val, cur) => (val ? Math.round(val * 1000) / 1000 + cur : '');
       setUnclaimedBalance(
-        `${getBalance(get(_walletData, 'rewardSteemBalance', 0), ' HIVE')} ${getBalance(
-          get(_walletData, 'rewardSbdBalance', 0),
+        `${getBalance(get(_walletData, 'rewardHiveBalance', 0), ' HIVE')} ${getBalance(
+          get(_walletData, 'rewardHbdBalance', 0),
           ' HBD',
-        )} ${getBalance(get(_walletData, 'rewardVestingSteem', 0), ' HP')}`,
+        )} ${getBalance(get(_walletData, 'rewardVestingHive', 0), ' HP')}`,
       );
     },
-    [globalProps, setEstimatedWalletValue, steemPerMVests],
+    [globalProps, setEstimatedWalletValue, hivePerMVests],
   );
 
   const _isHasUnclaimedRewards = (account) => {
@@ -164,11 +169,11 @@ const WalletContainer = ({
         isHasUnclaimedRewards = _isHasUnclaimedRewards(account[0]);
         if (isHasUnclaimedRewards) {
           const {
-            reward_hive_balance: steemBal,
-            reward_hbd_balance: sbdBal,
+            reward_hive_balance: hiveBal,
+            reward_hbd_balance: hbdBal,
             reward_vesting_balance: vestingBal,
           } = account[0];
-          return claimRewardBalance(currentAccount, pinCode, steemBal, sbdBal, vestingBal);
+          return claimRewardBalance(currentAccount, pinCode, hiveBal, hbdBal, vestingBal);
         }
         setIsClaiming(false);
       })
@@ -238,19 +243,13 @@ const WalletContainer = ({
         transferType === 'purchase_estm') &&
       fundType === 'HBD'
     ) {
-      balance = Math.round(walletData.sbdBalance * 1000) / 1000;
+      balance = Math.round(walletData.hbdBalance * 1000) / 1000;
     }
-    if (
-      (transferType === 'withdraw_steem' || transferType === 'withdraw_hive') &&
-      fundType === 'HIVE'
-    ) {
+    if (transferType === 'withdraw_hive' && fundType === 'HIVE') {
       balance = Math.round(walletData.savingBalance * 1000) / 1000;
     }
-    if (
-      (transferType === 'withdraw_sbd' || transferType === 'withdraw_hbd') &&
-      fundType === 'HBD'
-    ) {
-      balance = Math.round(walletData.savingBalanceSbd * 1000) / 1000;
+    if (transferType === 'withdraw_hbd' && fundType === 'HBD') {
+      balance = Math.round(walletData.savingBalanceHbd * 1000) / 1000;
     }
 
     if (isPinCodeOpen) {
@@ -285,29 +284,29 @@ const WalletContainer = ({
       selectedUsername: get(selectedUser, 'name', ''),
       isLoading,
       walletData,
-      steemPerMVests,
+      hivePerMVests,
       userActivities,
       transferHistory,
-      steemBalance,
-      spBalance,
-      sbdBalance,
+      hiveBalance,
+      hpBalance,
+      hbdBalance,
       tokenBalance,
       getTokenAddress,
-      steemSavingBalance,
-      sbdSavingBalance,
+      hiveSavingBalance,
+      hbdSavingBalance,
       estimatedValue,
-      estimatedSteemValue,
-      estimatedSbdValue,
+      estimatedHiveValue,
+      estimatedHbdValue,
       estimatedTokenValue,
-      estimatedSpValue,
+      estimatedHpValue,
       delegationsAmount,
       navigate: _navigate,
-      steemDropdown: HIVE_DROPDOWN,
-      sbdDropdown: HBD_DROPDOWN,
+      hiveDropdown: HIVE_DROPDOWN,
+      hbdDropdown: HBD_DROPDOWN,
       btcDropdown: BTC_DROPDOWN,
-      savingSteemDropdown: SAVING_HIVE_DROPDOWN,
-      savingSbdDropdown: SAVING_HBD_DROPDOWN,
-      steemPowerDropdown: HIVE_POWER_DROPDOWN,
+      savingHiveDropdown: SAVING_HIVE_DROPDOWN,
+      savingHbdDropdown: SAVING_HBD_DROPDOWN,
+      hivePowerDropdown: HIVE_POWER_DROPDOWN,
       unclaimedBalance: unclaimedBalance && unclaimedBalance.trim(),
       estimatedAmount,
     })
@@ -319,7 +318,7 @@ const mapStateToProps = (state) => ({
   pinCode: state.application.pin,
   globalProps: state.account.globalProps,
   currency: state.application.currency.currency,
-  steemPerMVests: state.account.globalProps.steemPerMVests,
+  hivePerMVests: state.account.globalProps.hivePerMVests,
   isPinCodeOpen: state.application.isPinCodeOpen,
 });
 
