@@ -97,7 +97,7 @@ export const TabbedPosts = ({
     return (
       <StackedTabBar 
         {...props}
-        shouldStack={stackedTabs}
+        enableCustomiseButton={isFeedScreen}
         firstStack={mainFilters}
         secondStack={subFilters}
         initialFirstStackIndex={selectedOptionIndex}
