@@ -26,6 +26,7 @@ import {
   SET_PIN_CODE,
   IS_PIN_CODE_OPEN,
   IS_RENDER_REQUIRED,
+  SET_FEED_SCREEN_FILTERS,
 } from '../constants/constants';
 
 const initialState = {
@@ -61,6 +62,11 @@ const initialState = {
   pin: null,
   isPinCodeOpen: true,
   isRenderRequired: false,
+  feedScreenfilters:[
+    'friends',
+    'communities',
+    'hot'
+  ]
 };
 
 export default function (state = initialState, action) {
@@ -211,6 +217,11 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, {
         isRenderRequired: action.payload,
       });
+    case SET_FEED_SCREEN_FILTERS:
+      return {
+        ...state,
+        feedScreenFilters:action.payload
+      }
     default:
       return state;
   }
