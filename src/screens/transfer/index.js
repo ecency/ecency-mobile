@@ -21,18 +21,18 @@ const Transfer = ({ navigation }) => (
       handleOnModalClose,
       accountType,
       currentAccountName,
-      steemPerMVests,
+      hivePerMVests,
       setWithdrawVestingRoute,
     }) => {
       switch (transferType) {
         case 'transfer_token':
         case 'purchase_estm':
         case 'convert':
-        case 'transfer_to_saving':
-        case 'powerUp':
+        case 'transfer_to_savings':
+        case 'transfer_to_vesting':
         case 'points':
-        case 'withdraw_steem':
-        case 'withdraw_sbd':
+        case 'withdraw_hive':
+        case 'withdraw_hbd':
           return (
             <TransferView
               accounts={accounts}
@@ -60,7 +60,7 @@ const Transfer = ({ navigation }) => (
               transferToAccount={transferToAccount}
               accountType={accountType}
               handleOnModalClose={handleOnModalClose}
-              steemPerMVests={steemPerMVests}
+              hivePerMVests={hivePerMVests}
             />
           );
         case 'power_down':
@@ -77,7 +77,7 @@ const Transfer = ({ navigation }) => (
               accountType={accountType}
               currentAccountName={currentAccountName}
               selectedAccount={selectedAccount}
-              steemPerMVests={steemPerMVests}
+              hivePerMVests={hivePerMVests}
               setWithdrawVestingRoute={setWithdrawVestingRoute}
             />
           );

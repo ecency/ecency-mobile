@@ -9,9 +9,9 @@ import { LoggedInContainer } from '../../../containers';
 // Components
 import { Header, Transaction, HorizontalIconList } from '../../../components';
 import EstmView from './estmView';
-import SteemView from './steemView';
-import SpView from './spView';
-import SbdView from './sbdView';
+import HiveView from './hiveView';
+import HpView from './hpView';
+import HbdView from './hbdView';
 
 // Styles
 import globalStyles from '../../../globalStyles';
@@ -62,19 +62,19 @@ const WalletScreen = () => {
                     refreshing={refreshing}
                     currentIndex={currentIndex}
                   />
-                  <SteemView
+                  <HiveView
                     index={1}
                     handleOnSelected={_handleSwipeItemChange}
                     refreshing={refreshing}
                     currentIndex={currentIndex}
                   />
-                  <SbdView
+                  <HbdView
                     index={2}
                     handleOnSelected={_handleSwipeItemChange}
                     refreshing={refreshing}
                     currentIndex={currentIndex}
                   />
-                  <SpView
+                  <HpView
                     index={3}
                     refreshing={refreshing}
                     handleOnSelected={_handleSwipeItemChange}
