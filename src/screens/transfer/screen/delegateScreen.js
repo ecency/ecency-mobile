@@ -143,7 +143,6 @@ class DelegateScreen extends Component {
     } = this.props;
     const { amount, isTransfering, from, destination, steemConnectTransfer } = this.state;
     let availableVestingShares = 0;
-    console.log(accountType);
     if (!isEmptyDate(get(selectedAccount, 'next_vesting_withdrawal'))) {
       // powering down
       availableVestingShares =

@@ -76,6 +76,7 @@ export const fetchGlobalProps = async () => {
 
   try {
     globalDynamic = await getDynamicGlobalProperties();
+    await setCache('globalDynamic', globalDynamic);
     feedHistory = await getFeedHistory();
     rewardFund = await getRewardFund();
   } catch (e) {
@@ -183,7 +184,12 @@ export const getUser = async (user, loggedIn = true) => {
       return null;
     }
 
-    const globalProperties = getCache('globalDynamic');
+    let globalProperties;
+    try {
+      globalProperties = await getDynamicGlobalProperties();
+    } catch (error) {
+      globalProperties = getCache('globalDynamic');
+    }
 
     const rcPower =
       (user &&
