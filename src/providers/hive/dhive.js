@@ -76,31 +76,28 @@ export const fetchGlobalProps = async () => {
 
   try {
     globalDynamic = await getDynamicGlobalProperties();
-    await setCache('globalDynamic', globalDynamic);
     feedHistory = await getFeedHistory();
-    await setCache('feedHistory', feedHistory);
     rewardFund = await getRewardFund();
-    await setCache('rewardFund', rewardFund);
   } catch (e) {
     return;
   }
 
-  const steemPerMVests =
+  const hivePerMVests =
     (parseToken(get(globalDynamic, 'total_vesting_fund_hive')) /
       parseToken(get(globalDynamic, 'total_vesting_shares'))) *
     1e6;
-  const sbdPrintRate = get(globalDynamic, 'hbd_print_rate');
+  const hbdPrintRate = get(globalDynamic, 'hbd_print_rate');
   const base = parseAsset(get(feedHistory, 'current_median_history.base')).amount;
   const quote = parseAsset(get(feedHistory, 'current_median_history.quote')).amount;
   const fundRecentClaims = get(rewardFund, 'recent_claims');
   const fundRewardBalance = parseToken(get(rewardFund, 'reward_balance'));
   const globalProps = {
-    steemPerMVests,
+    hivePerMVests,
     base,
     quote,
     fundRecentClaims,
     fundRewardBalance,
-    sbdPrintRate,
+    hbdPrintRate,
   };
 
   return globalProps;
@@ -1357,7 +1354,7 @@ const _reblog = async (account, pinCode, author, permlink) => {
   );
 };
 
-export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rewardVests) => {
+export const claimRewardBalance = (account, pinCode, rewardHive, rewardHbd, rewardVests) => {
   const pin = getDigitPinCode(pinCode);
   const key = getAnyPrivateKey(get(account, 'local'), pin);
 
@@ -1367,7 +1364,7 @@ export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rew
       accessToken: token,
     });
 
-    return api.claimRewardBalance(get(account, 'name'), rewardSteem, rewardSbd, rewardVests);
+    return api.claimRewardBalance(get(account, 'name'), rewardHive, rewardHbd, rewardVests);
   }
 
   if (key) {
@@ -1378,8 +1375,8 @@ export const claimRewardBalance = (account, pinCode, rewardSteem, rewardSbd, rew
         'claim_reward_balance',
         {
           account: account.name,
-          reward_hive: rewardSteem,
-          reward_hbd: rewardSbd,
+          reward_hive: rewardHive,
+          reward_hbd: rewardHbd,
           reward_vests: rewardVests,
         },
       ],

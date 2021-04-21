@@ -5,13 +5,13 @@ const PERIOD = 432000;
 
 export const getVotingPower = (account) => {
   const { vp_manabar } = account;
-  const { percentage } = vp_manabar;
+  const { percentage } = vp_manabar || 0;
   return percentage / 100 || 0;
 };
 
 export const getRcPower = (account) => {
   const { rc_manabar } = account;
-  const { percentage } = rc_manabar;
+  const { percentage } = rc_manabar || 0;
   return percentage / 100 || 0;
 };
 

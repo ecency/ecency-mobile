@@ -6,7 +6,7 @@ import { WalletContainer, AccountContainer } from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
 
-const SteemView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) => (
+const HbdView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) => (
   <View style={globalStyles.swipeItemWrapper}>
     <AccountContainer>
       {({ currentAccount }) => (
@@ -17,40 +17,36 @@ const SteemView = ({ handleOnSelected, index, currentIndex, refreshing: reload }
             handleOnWalletRefresh,
             refreshing,
             transferHistory,
-            steemBalance,
+            hbdBalance,
             isLoading,
-            steemSavingBalance,
-            estimatedSteemValue,
-            steemDropdown,
-            savingSteemDropdown,
+            hbdSavingBalance,
+            estimatedHbdValue,
+            hbdDropdown,
+            savingHbdDropdown,
             navigate,
           }) => (
             <WalletHeader
               componentDidUpdate={() => handleOnSelected(transferHistory, isLoading)}
               index={index}
               claim={claimRewardBalance}
-              fetchUserActivity={handleOnWalletRefresh}
               reload={reload}
+              fetchUserActivity={handleOnWalletRefresh}
               isClaiming={isClaiming}
               isLoading={isLoading}
               refreshing={refreshing}
               unclaimedBalance={0}
               userBalance={[
-                { balance: steemBalance, nameKey: 'steem', options: steemDropdown },
-                {
-                  balance: steemSavingBalance,
-                  nameKey: 'savingsteem',
-                  options: savingSteemDropdown,
-                },
+                { balance: hbdBalance, nameKey: 'hbd', options: hbdDropdown },
+                { balance: hbdSavingBalance, nameKey: 'savinghbd', options: savingHbdDropdown },
               ]}
-              handleOnDropdownSelected={(option) => navigate(option, 'HIVE')}
-              type="steem"
+              handleOnDropdownSelected={(option) => navigate(option, 'HBD')}
+              type="hbd"
               currentIndex={currentIndex}
               showIconList={false}
               valueDescriptions={[
                 {
                   textKey: 'estimated_value',
-                  value: <FormattedCurrency isApproximate isToken value={estimatedSteemValue} />,
+                  value: <FormattedCurrency isApproximate isToken value={estimatedHbdValue} />,
                   subTextKey: 'estimated_value_desc',
                 },
               ]}
@@ -62,4 +58,4 @@ const SteemView = ({ handleOnSelected, index, currentIndex, refreshing: reload }
   </View>
 );
 
-export default SteemView;
+export default HbdView;

@@ -24,7 +24,7 @@ import {
 
 import parseToken from '../../../utils/parseToken';
 import { isEmptyDate } from '../../../utils/time';
-import { vestsToSp } from '../../../utils/conversions';
+import { vestsToHp } from '../../../utils/conversions';
 
 // Styles
 import styles from './transferStyles';
@@ -138,11 +138,12 @@ class DelegateScreen extends Component {
       currentAccountName,
       selectedAccount,
       handleOnModalClose,
-      steemPerMVests,
+      hivePerMVests,
+      accountType,
     } = this.props;
     const { amount, isTransfering, from, destination, steemConnectTransfer } = this.state;
     let availableVestingShares = 0;
-
+    console.log(accountType);
     if (!isEmptyDate(get(selectedAccount, 'next_vesting_withdrawal'))) {
       // powering down
       availableVestingShares =
@@ -162,7 +163,7 @@ class DelegateScreen extends Component {
       fixedAmount,
     )}`;
 
-    const spCalculated = vestsToSp(amount, steemPerMVests);
+    const spCalculated = vestsToHp(amount, hivePerMVests);
 
     return (
       <Fragment>

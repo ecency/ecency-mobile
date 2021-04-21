@@ -6,7 +6,7 @@ import { WalletContainer, AccountContainer } from '../../../containers';
 
 import globalStyles from '../../../globalStyles';
 
-const SpView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) => (
+const HpView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) => (
   <View style={globalStyles.swipeItemWrapper}>
     <AccountContainer>
       {({ currentAccount }) => (
@@ -17,11 +17,11 @@ const SpView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) =
             handleOnWalletRefresh,
             refreshing,
             userActivities,
-            spBalance,
+            hpBalance,
             isLoading,
-            estimatedSpValue,
+            estimatedHpValue,
             delegationsAmount,
-            steemPowerDropdown,
+            hivePowerDropdown,
             unclaimedBalance,
             navigate,
             estimatedAmount,
@@ -39,10 +39,10 @@ const SpView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) =
               unclaimedBalance={unclaimedBalance}
               showBuyButton={unclaimedBalance.length > 0}
               userBalance={[
-                { balance: spBalance, nameKey: 'steem_power', options: steemPowerDropdown },
+                { balance: hpBalance, nameKey: 'hive_power', options: hivePowerDropdown },
               ]}
               handleOnDropdownSelected={(option) => navigate(option, 'HIVE_POWER')}
-              type="steem_power"
+              type="hive_power"
               currentIndex={currentIndex}
               showIconList={false}
               valueDescriptions={[
@@ -57,7 +57,7 @@ const SpView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) =
                 },
                 {
                   textKey: 'estimated_value',
-                  value: <FormattedCurrency isApproximate isToken value={estimatedSpValue} />,
+                  value: <FormattedCurrency isApproximate isToken value={estimatedHpValue} />,
                 },
                 {
                   textKey: 'estimated_amount',
@@ -72,4 +72,4 @@ const SpView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) =
   </View>
 );
 
-export default SpView;
+export default HpView;
