@@ -88,6 +88,7 @@ import Promote from './promote/promoteView';
 import { SpinGame } from './spinGame/spinGameView';
 import { TabbedPosts } from './tabbedPosts';
 import { ActionModal } from './actionModal';
+import { CustomiseFiltersModal } from './customiseFiltersModal';
 
 // Basic UI Elements
 import {
@@ -224,4 +225,5 @@ export {
   SubscribedCommunitiesList,
   TabbedPosts,
   ActionModal,
+  CustomiseFiltersModal,
 };
