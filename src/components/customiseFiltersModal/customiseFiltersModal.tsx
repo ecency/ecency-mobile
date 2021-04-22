@@ -74,7 +74,7 @@ const CustomiseFiltersModal = (props:any, ref:Ref<CustomiseFiltersModalRef>) => 
                 }
 
                 options.push((
-                    <TouchableOpacity onPress={_onPress}>
+                    <TouchableOpacity key={key} onPress={_onPress}>
                         <View style={styles.checkView}>
                             <Text style={styles.informationText}>
                                 {intl.formatMessage({
