@@ -28,33 +28,31 @@ const WelcomeScreen = ({ handleButtonPress }) => {
 
   return (
     <SafeAreaView style={styles.root}>
-      <View style={styles.container}>
-        <TouchableOpacity onPress={handleButtonPress}>
-          <Image
-            style={styles.mascot}
-            resizeMode="contain"
-            source={require('../../../assets/love_mascot.png')}
+      <TouchableOpacity onPress={handleButtonPress} style={styles.container}>
+        <Image
+          style={styles.mascot}
+          resizeMode="contain"
+          source={require('../../../assets/love_mascot.png')}
+        />
+        <View style={styles.topText}>
+          <Text style={styles.welcomeText}>{intl.formatMessage({ id: 'welcome.label' })}</Text>
+          <Text style={styles.ecencyText}>{intl.formatMessage({ id: 'welcome.title' })}</Text>
+        </View>
+        <View>
+          {_renderInfo('question', 'welcome.line1_heading', 'welcome.line1_body')}
+          {_renderInfo('emotsmile', 'welcome.line2_heading', 'welcome.line2_body')}
+          {_renderInfo('people', 'welcome.line3_heading', 'welcome.line3_body')}
+        </View>
+        <View style={styles.bottomButton}>
+          <MainButton
+            onPress={handleButtonPress}
+            isDisable={false}
+            isLoading={false}
+            style={{ alignSelf: 'center', paddingHorizontal: 30 }}
+            text={intl.formatMessage({ id: 'welcome.get_started' })}
           />
-          <View style={styles.topText}>
-            <Text style={styles.welcomeText}>{intl.formatMessage({ id: 'welcome.label' })}</Text>
-            <Text style={styles.ecencyText}>{intl.formatMessage({ id: 'welcome.title' })}</Text>
-          </View>
-          <View>
-            {_renderInfo('question', 'welcome.line1_heading', 'welcome.line1_body')}
-            {_renderInfo('emotsmile', 'welcome.line2_heading', 'welcome.line2_body')}
-            {_renderInfo('people', 'welcome.line3_heading', 'welcome.line3_body')}
-          </View>
-          <View style={styles.bottomButton}>
-            <MainButton
-              onPress={handleButtonPress}
-              isDisable={false}
-              isLoading={false}
-              style={{ alignSelf: 'center', paddingHorizontal: 30 }}
-              text={intl.formatMessage({ id: 'welcome.get_started' })}
-            />
-          </View>
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
