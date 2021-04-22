@@ -112,18 +112,27 @@ const TabContent = ({
 
   const _initContent = (isFirstCall = false, feedUsername:string) => {
     _scrollToTop();
-    setPosts(isFirstCall && isFeedScreen && isInitialTab ? initPosts : []);
+
+    const initialPosts = isFirstCall && isFeedScreen && isInitialTab ? initPosts : [];
+
+    setPosts(initialPosts);
     setTabMeta(DEFAULT_TAB_META)
     setSessionUser(username);
 
     if(username || (filterKey !== 'friends' && filterKey !== 'communities')){
-      _loadPosts(!isFirstCall, false, feedUsername);
+      _loadPosts(!isFirstCall, false, feedUsername, initialPosts, DEFAULT_TAB_META );
       _getPromotedPosts();
     }
   }
 
   //fetch posts from server
-  const _loadPosts = async (shouldReset:boolean = false, isLatestPostsCheck:boolean = false, _feedUsername:string = feedUsername) => {
+  const _loadPosts = async (
+      shouldReset:boolean = false, 
+      isLatestPostsCheck:boolean = false, 
+      _feedUsername:string = feedUsername,
+      _posts:any[] = postsRef.current,
+      _tabMeta:TabMeta = tabMeta
+    ) => {
     const options = {
       setTabMeta:(meta:TabMeta) => {
         if(_isMounted){
@@ -131,8 +140,8 @@ const TabContent = ({
         }
       },
       filterKey,
-      prevPosts:postsRef.current,
-      tabMeta,
+      prevPosts:_posts,
+      tabMeta:_tabMeta,
       isLoggedIn,
       isAnalytics,
       nsfw,
@@ -196,15 +205,20 @@ const TabContent = ({
 
     //process returned data
     if(Array.isArray(updatedPosts)){
-      //match new and old first post
-      const firstPostChanged = posts.length == 0 || (posts[0].permlink !== updatedPosts[0].permlink);
-      if (isFeedScreen && firstPostChanged) {
-          //schedule refetch of new posts by checking time of current post
-          _scheduleLatestPostsCheck(updatedPosts[0]);
+      if(updatedPosts.length){
+        //match new and old first post
+        const firstPostChanged = posts.length == 0 || (posts[0].permlink !== updatedPosts[0].permlink);
+        if (isFeedScreen && firstPostChanged) {
+            //schedule refetch of new posts by checking time of current post
+            _scheduleLatestPostsCheck(updatedPosts[0]);
 
-          if (isInitialTab) {
-            dispatch(setInitPosts(updatedPosts));
-          }
+            if (isInitialTab) {
+              dispatch(setInitPosts(updatedPosts));
+            }
+        }
+      } else if (isFeedScreen && isInitialTab){
+        //clear posts cache if no first tab posts available, precautionary measure for accoutn change
+        dispatch(setInitPosts([]))
       }
       setPosts(updatedPosts);
     }
