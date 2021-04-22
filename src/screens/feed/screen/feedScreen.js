@@ -32,7 +32,7 @@ const FeedScreen = () => {
     <AccountContainer>
       {({ currentAccount }) => (
         <Fragment>
-          <Header />
+          <Header enableViewModeToggle={true} />
           <SafeAreaView style={styles.container}>
             <TabbedPosts
               filterOptions={filterOptions}

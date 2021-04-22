@@ -70,8 +70,9 @@ export default EStyleSheet.create({
     justifyContent: 'center',
   },
   backButtonWrapper: {
-    alignItems: 'flex-end',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    flexDirection: 'row',
     flex: 1,
     marginRight: 16,
   },

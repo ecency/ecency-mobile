@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import { useDispatch, useSelector } from 'react-redux';
-import { hidePostsThumbnails } from '../../../redux/actions/uiAction';
 import { TabbedPostsProps } from '../services/tabbedPostsModels';
 import { StackedTabBar, TabItem } from '../view/stackedTabBar';
 import TabContent from '../view/tabContent';
@@ -22,11 +20,6 @@ export const TabbedPosts = ({
   onTabChange,
   ...props
 }:TabbedPostsProps) => {
-
-  const dispatch = useDispatch();
-
-  //redux properties
-  const isHideImages = useSelector((state) => state.ui.hidePostsThumbnails);
 
   //initialize state
   const [initialTabIndex] = useState(selectedOptionIndex == 0 && stackedTabs ? filterOptions.length : selectedOptionIndex)
@@ -57,10 +50,6 @@ export const TabbedPosts = ({
       }else{
         setSelectedFilter(filter)
       }
-    }
-
-    const _toggleHideImagesFlag = () => {
-      dispatch(hidePostsThumbnails(!isHideImages));
     }
 
     const _onScrollRequestProcessed = () => {
@@ -100,7 +89,6 @@ export const TabbedPosts = ({
         secondStack={subFilters}
         initialFirstStackIndex={selectedOptionIndex}
         onFilterSelect={_onFilterSelect}
-        toggleHideImagesFlag={imagesToggleEnabled && _toggleHideImagesFlag}
       />
     )
   }

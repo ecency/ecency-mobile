@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useIntl } from "react-intl";
 import { CustomiseFiltersModal, FilterBar } from "../..";
-import customiseFiltersModal, { CustomiseFiltersModalRef } from "../../customiseFiltersModal/customiseFiltersModal";
+import { CustomiseFiltersModalRef } from "../../customiseFiltersModal/customiseFiltersModal";
 
 export interface TabItem {
   filterKey:string;
@@ -18,7 +18,6 @@ interface StackedTabBarProps {
     secondStack:TabItem[];
     initialFirstStackIndex:number;
     onFilterSelect:(filterKey:string)=>void;
-    toggleHideImagesFlag:()=>void;
 }
 
 export const StackedTabBar = ({
@@ -30,7 +29,6 @@ export const StackedTabBar = ({
     secondStack,
     initialFirstStackIndex,
     onFilterSelect,
-    toggleHideImagesFlag
 
 }:StackedTabBarProps) => {
 
@@ -57,8 +55,6 @@ export const StackedTabBar = ({
         }
          
         selectedOptionIndex={selectedFilterIndex}
-        rightIconName={toggleHideImagesFlag && "view-module"}
-        rightIconType={toggleHideImagesFlag && "MaterialIcons"}
         enableCustomiseButton={enableCustomiseButton}
         onCustomisePress={_onCustomisePress}
         onDropdownSelect={(index)=>{
@@ -74,7 +70,6 @@ export const StackedTabBar = ({
           }
 
         }}
-        onRightIconPress={toggleHideImagesFlag}
       />
 
       {
