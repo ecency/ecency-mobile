@@ -10,7 +10,7 @@ export default EStyleSheet.create({
     height: 20,
     width: 20,
     borderWidth: 1,
-    borderColor: '$primaryBlue',
+    borderColor: '$primaryDarkGray',
     alignItems: 'center',
     justifyContent: 'center',
   },
