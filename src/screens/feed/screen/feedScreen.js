@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
 import { useSelector } from 'react-redux';
 import get from 'lodash/get';
@@ -24,10 +24,10 @@ import {
 } from '../../../constants/options/filters';
 
 const FeedScreen = () => {
-  const feedScreenFilters = useSelector(
-    (state) => state.posts.feedScreenFilters || DEFAULT_FEED_FILTERS_LOGGED_IN,
-  );
+  const feedScreenFilters = useSelector((state) => state.posts.feedScreenFilters);
   const filterOptions = feedScreenFilters.map((key) => FEED_SCREEN_FILTER_MAP[key]);
+
+  useEffect(() => {}, [feedScreenFilters]);
 
   return (
     <AccountContainer>

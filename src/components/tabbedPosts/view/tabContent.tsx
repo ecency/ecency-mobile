@@ -4,7 +4,7 @@ import { getPromotedPosts, loadPosts } from '../services/tabbedPostsFetch';
 import { LoadPostsOptions, TabContentProps, TabMeta } from '../services/tabbedPostsModels';
 import {useSelector, useDispatch } from 'react-redux';
 import TabEmptyView from './listEmptyView';
-import { setInitPosts } from '../../../redux/actions/postsAction';
+import { setInitPosts } from '../../../redux/actions/postsAction.ts';
 import NewPostsPopup from './newPostsPopup';
 import { calculateTimeLeftForPostCheck } from '../services/tabbedPostsReducer';
 import { AppState } from 'react-native';

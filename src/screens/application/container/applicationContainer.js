@@ -80,7 +80,7 @@ import {
   toastNotification,
   updateActiveBottomTab,
 } from '../../../redux/actions/uiAction';
-import { resetLocalVoteMap } from '../../../redux/actions/postsAction.ts';
+import { resetLocalVoteMap, setFeedScreenFilters } from '../../../redux/actions/postsAction';
 
 import { encryptKey } from '../../../utils/crypto';
 

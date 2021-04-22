@@ -1,4 +1,4 @@
-import { TextStyle, StyleSheet, ViewStyle, ImageStyle } from 'react-native';
+import { TextStyle, StyleSheet, ViewStyle, ImageStyle, Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
@@ -70,5 +70,23 @@ export default EStyleSheet.create({
         justifyContent:'space-around', 
         alignItems:'center', 
     } as ViewStyle,
+
+    checkView: {
+        width:Dimensions.get('screen').width - 80,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems:'center',
+        marginHorizontal: 20,
+        marginVertical:4,
+      } as ViewStyle,
+
+
+      informationText: {
+        color: '$primaryBlack',
+        margin: 10,
+        fontSize:18,
+      } as TextStyle,
+
+
 
 })

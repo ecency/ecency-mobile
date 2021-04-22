@@ -6,11 +6,11 @@ export const DEFAULT_FEED_FILTERS_LOGGED_IN = ['friends', 'communities', 'hot'];
 
 
 export const FEED_SCREEN_FILTER_MAP  = {
+    friends:'home.friends',
+    communities:'home.communities',
     trending:'home.top',
     hot:'home.hot',
     created:'home.new',
-    friends:'home.friends',
-    communities:'home.communities'
 }
 
 export const GLOBAL_POST_FILTERS = ['home.TOP', 'home.HOT', 'home.NEW'];
