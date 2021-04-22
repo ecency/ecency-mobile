@@ -61,6 +61,14 @@ export default EStyleSheet.create({
     color: '$iconColor',
     justifyContent: 'center',
   },
+  viewIconContainer: {
+    marginRight: 8,
+  },
+  viewIcon: {
+    fontSize: 24,
+    color: '$iconColor',
+    justifyContent: 'center',
+  },
   backButton: {
     marginLeft: 24,
   },

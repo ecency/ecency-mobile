@@ -113,7 +113,8 @@ const HeaderView = ({
         <View style={styles.backButtonWrapper}>
           {enableViewModeToggle && (
             <IconButton
-              iconStyle={styles.backIcon}
+              style={styles.viewIconContainer}
+              iconStyle={styles.viewIcon}
               name="view-module"
               iconType="MaterialIcons"
               onPress={handleOnViewModePress}
