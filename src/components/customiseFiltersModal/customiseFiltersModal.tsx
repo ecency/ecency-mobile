@@ -52,7 +52,7 @@ const CustomiseFiltersModal = (props:any, ref:Ref<CustomiseFiltersModalRef>) => 
     //save snippet based on editor type
     const _onApply = () => {
         if(selectedFilters.size !== 3){
-            alert("Please select exactly three filters");
+            alert(intl.formatMessage({id:'alert.wrong_filter_count'}));
             return;
         }
         const entries = Array.from(selectedFilters.entries());
