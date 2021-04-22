@@ -41,12 +41,8 @@ const TabContent = ({
   const nsfw = useSelector((state) => state.application.nsfw);
   const isConnected = useSelector((state) => state.application.isConnected);
   const username = useSelector((state) => state.account.currentAccount.name);
-  const initPosts = useSelector((state) => {
-    if(isFeedScreen && isInitialTab){
-        return state.posts.initPosts
-    }
-    return []
-  });
+  const initPosts = useSelector((state) => state.posts.initPosts)
+
 
   //state
   const [posts, setPosts] = useState([]);
@@ -116,7 +112,7 @@ const TabContent = ({
 
   const _initContent = (isFirstCall = false, feedUsername:string) => {
     _scrollToTop();
-    setPosts(isFirstCall ? initPosts : []);
+    setPosts(isFirstCall && isFeedScreen && isInitialTab ? initPosts : []);
     setTabMeta(DEFAULT_TAB_META)
     setSessionUser(username);
 
@@ -199,11 +195,11 @@ const TabContent = ({
     }
 
     //process returned data
-    if(updatedPosts && Array.isArray(updatedPosts)){
+    if(Array.isArray(updatedPosts)){
       //match new and old first post
       const firstPostChanged = posts.length == 0 || (posts[0].permlink !== updatedPosts[0].permlink);
       if (isFeedScreen && firstPostChanged) {
-        //   //schedule refetch of new posts by checking time of current post
+          //schedule refetch of new posts by checking time of current post
           _scheduleLatestPostsCheck(updatedPosts[0]);
 
           if (isInitialTab) {
@@ -216,7 +212,6 @@ const TabContent = ({
 
 
   
-
   //view related routines
   const _onPostsPopupPress = () => {
       _scrollToTop();
