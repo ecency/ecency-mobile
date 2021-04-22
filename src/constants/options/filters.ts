@@ -1,9 +1,5 @@
-export const POPULAR_FILTERS = ['home.FEED', 'home.TOP', 'home.HOT', 'home.NEW'];
-export const DEFAULT_FEED_FILTERS = ['trending', 'hot', 'created'];
 
-export const FEED_SUBFILTERS = ['home.friends', 'home.communities'];
-export const DEFAULT_FEED_FILTERS_LOGGED_IN = ['friends', 'communities', 'hot'];
-
+export const DEFAULT_FEED_FILTERS = ['friends', 'communities', 'hot'];
 
 export const FEED_SCREEN_FILTER_MAP  = {
     friends:'home.friends',

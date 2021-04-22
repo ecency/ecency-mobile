@@ -13,18 +13,17 @@ import { AccountContainer } from '../../../containers';
 import styles from './feedStyles';
 
 import {
-  POPULAR_FILTERS,
-  POPULAR_FILTERS_VALUE,
   FEED_SUBFILTERS,
   FEED_SUBFILTERS_VALUE,
   FEED_SCREEN_FILTERS,
   FEED_SCREEN_FILTER_MAP,
   DEFAULT_FEED_FILTERS,
-  DEFAULT_FEED_FILTERS_LOGGED_IN,
 } from '../../../constants/options/filters';
 
 const FeedScreen = () => {
-  const feedScreenFilters = useSelector((state) => state.posts.feedScreenFilters);
+  const feedScreenFilters = useSelector(
+    (state) => state.posts.feedScreenFilters || DEFAULT_FEED_FILTERS,
+  );
   const filterOptions = feedScreenFilters.map((key) => FEED_SCREEN_FILTER_MAP[key]);
 
   useEffect(() => {}, [feedScreenFilters]);

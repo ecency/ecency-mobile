@@ -31,29 +31,20 @@ export const TabbedPosts = ({
   //initialize state
   const [initialTabIndex] = useState(selectedOptionIndex == 0 && stackedTabs ? filterOptions.length : selectedOptionIndex)
 
-  // const [mainFilters] = useState<TabItem[]>(
-  //   filterOptions.map((label, index)=>({
-  //     filterKey:filterOptionsValue[index], 
-  //     label
-  //   } as TabItem))
-  // )
-
   const mainFilters = filterOptions.map((label, index)=>({
         filterKey:filterOptionsValue[index], 
         label
       } as TabItem));
 
-  const [subFilters] = useState<TabItem[]>(
-    feedSubfilterOptions
+  const subFilters = feedSubfilterOptions
     ? feedSubfilterOptions.map((label, index)=>({
       filterKey:feedSubfilterOptionsValue[index], 
       label
     } as TabItem))
-    : []
-  )
+    : [];
 
   const combinedFilters = [...mainFilters, ...subFilters]
-  // const [combinedFilters] = useState([...mainFilters, ...subFilters]);
+  
   const [selectedFilter, setSelectedFilter] = useState(combinedFilters[initialTabIndex].filterKey)
   const [filterScrollRequest, createFilterScrollRequest] = useState<string|null>(null)
 
@@ -88,7 +79,7 @@ export const TabbedPosts = ({
         key={filter.filterKey}
         filterKey={filter.filterKey}
         isFeedScreen={isFeedScreen}
-        isFirstTab={index == 0}
+        isFirstTab={ index == 0}
         feedUsername={feedUsername}
         pageType={pageType}
         filterScrollRequest={filterScrollRequest}

@@ -6,7 +6,7 @@ import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {useDispatch, useSelector} from 'react-redux';
 import { CheckBox } from '..';
-import { DEFAULT_FEED_FILTERS_LOGGED_IN, FEED_SCREEN_FILTER_MAP } from '../../constants/options/filters';
+import { DEFAULT_FEED_FILTERS, FEED_SCREEN_FILTER_MAP } from '../../constants/options/filters';
 
 import { ThemeContainer } from '../../containers';
 import { setFeedScreenFilters } from '../../redux/actions/postsAction';
@@ -23,7 +23,7 @@ const CustomiseFiltersModal = (props:any, ref:Ref<CustomiseFiltersModalRef>) => 
     const sheetModalRef = useRef<ActionSheet>();
     const dispatch = useDispatch();
 
-    const feedScreenFilters = useSelector(state => state.posts.feedScreenFilters);
+    const feedScreenFilters = useSelector(state => state.posts.feedScreenFilters || DEFAULT_FEED_FILTERS);
 
     const [selectedFilters, setSelectedFilters] = useState<Map<string, number>>(
         new Map(feedScreenFilters.map((key:string, index:number)=>[key, index]))   

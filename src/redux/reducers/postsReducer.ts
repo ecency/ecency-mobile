@@ -1,3 +1,4 @@
+import { DEFAULT_FEED_FILTERS } from '../../constants/options/filters';
 import {
   SET_FEED_POSTS,
   SET_OTHER_POSTS,
@@ -19,11 +20,7 @@ const initialState = {
   loading: false,
   selectedFilterValue: '',
   localVoteMap: new Map(),
-  feedScreenFilters:[
-    'friends',
-    'communities',
-    'hot'
-  ]
+  feedScreenFilters:DEFAULT_FEED_FILTERS
 };
 
 export default function (state = initialState, action) {
