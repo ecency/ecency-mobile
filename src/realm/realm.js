@@ -687,7 +687,7 @@ export const getVersionForWelcomeModal = async () => {
   try {
     const application = await getItemFromStorage(APPLICATION_SCHEMA);
     if (application && application.versionForWelcomeModal) {
-      return parseFloat(application.versionForWelcomeModal) || 0;
+      return parseFloat(application.versionForWelcomeModal.replace(/\./, '')) || 0;
     }
     return 0;
   } catch (error) {
