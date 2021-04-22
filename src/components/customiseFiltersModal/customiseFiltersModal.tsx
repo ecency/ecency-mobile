@@ -19,6 +19,9 @@ export interface CustomiseFiltersModalRef {
 }
 
 
+const getFeedScreenFilterIndex = (key:string) => Object.keys(FEED_SCREEN_FILTER_MAP).indexOf(key)
+
+
 const CustomiseFiltersModal = (props:any, ref:Ref<CustomiseFiltersModalRef>) => {
     const sheetModalRef = useRef<ActionSheet>();
     const dispatch = useDispatch();
@@ -26,7 +29,10 @@ const CustomiseFiltersModal = (props:any, ref:Ref<CustomiseFiltersModalRef>) => 
     const feedScreenFilters = useSelector(state => state.posts.feedScreenFilters || DEFAULT_FEED_FILTERS);
 
     const [selectedFilters, setSelectedFilters] = useState<Map<string, number>>(
-        new Map(feedScreenFilters.map((key:string, index:number)=>[key, index]))   
+        new Map(feedScreenFilters.map((key:string)=>[
+            key,
+            getFeedScreenFilterIndex(key)
+        ]))   
     );
 
     const intl = useIntl(); 
@@ -67,7 +73,7 @@ const CustomiseFiltersModal = (props:any, ref:Ref<CustomiseFiltersModalRef>) => 
                     if(isSelected){
                         selectedFilters.delete(key);
                     }else{
-                        var index = Object.keys(FEED_SCREEN_FILTER_MAP).indexOf(key);
+                        var index = getFeedScreenFilterIndex(key);
                         selectedFilters.set(key, index);
                     }
                     setSelectedFilters(new Map([...selectedFilters]));

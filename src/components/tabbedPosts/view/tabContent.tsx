@@ -20,7 +20,7 @@ const DEFAULT_TAB_META = {
 const TabContent = ({
   filterKey, 
   isFeedScreen,
-  isFirstTab,
+  isInitialTab,
   pageType,
   forceLoadPosts,
   filterScrollRequest,
@@ -42,7 +42,7 @@ const TabContent = ({
   const isConnected = useSelector((state) => state.application.isConnected);
   const username = useSelector((state) => state.account.currentAccount.name);
   const initPosts = useSelector((state) => {
-    if(isFeedScreen && isFirstTab){
+    if(isFeedScreen && isInitialTab){
         return state.posts.initPosts
     }
     return []
@@ -152,7 +152,7 @@ const TabContent = ({
 
     const result = await loadPosts(options)
     if(_isMounted && result){
-      _postProcessLoadResult(result, shouldReset)
+      _postProcessLoadResult(result)
     }
   }
 
@@ -188,7 +188,7 @@ const TabContent = ({
 
 
   //processes response from loadPost
-  const _postProcessLoadResult = ({updatedPosts, latestPosts}:any, shouldReset:boolean) => {
+  const _postProcessLoadResult = ({updatedPosts, latestPosts}:any) => {
     //process new posts avatart
     if(latestPosts && Array.isArray(latestPosts)){
       if(latestPosts.length > 0){
@@ -200,11 +200,13 @@ const TabContent = ({
 
     //process returned data
     if(updatedPosts && Array.isArray(updatedPosts)){
-      if (isFeedScreen && shouldReset) {
+      //match new and old first post
+      const firstPostChanged = posts.length == 0 || (posts[0].permlink !== updatedPosts[0].permlink);
+      if (isFeedScreen && firstPostChanged) {
         //   //schedule refetch of new posts by checking time of current post
           _scheduleLatestPostsCheck(updatedPosts[0]);
 
-          if (isFirstTab) {
+          if (isInitialTab) {
             dispatch(setInitPosts(updatedPosts));
           }
       }
