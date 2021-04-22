@@ -9,7 +9,7 @@ export default EStyleSheet.create({
   bigSquare: {
     height: 20,
     width: 20,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: '$primaryBlue',
     alignItems: 'center',
     justifyContent: 'center',
