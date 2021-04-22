@@ -46,6 +46,9 @@ export default EStyleSheet.create({
   topText: {
     marginTop: 40,
   },
+  bottomButton: {
+    paddingTop: 10,
+  },
   sectionRow: {
     flexDirection: 'row',
     marginTop: 52,
