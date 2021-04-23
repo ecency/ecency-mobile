@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Винагорода бенефіціару",
     "claim_reward_balance": "Отримати винагороду ",
     "transfer": "Переказ",
-    "transfer_to_vesting": "В Силу Голосу",
+    "power_up": "To Vesting",
     "transfer_from_savings": "Із заощаджень",
     "withdraw_vesting": "Зменшення Сили Голосу",
     "fill_order": "Заповніть Замовлення",
@@ -62,14 +62,14 @@
     "purchase_estm": "Отримати Бали",
     "points": "Подарувати Бали",
     "transfer_to_saving": "В заощадження",
-    "powerUp": "Збільшення Сили Голосу",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Вивести заощадження",
     "steemconnect_title": "Hivesigner транзакція",
     "next": "ДАЛІ",
     "delegate": "Делегувати",
     "power_down": "Зменшення Сили Голосу",
-    "withdraw_steem": "Вивести HIVE",
-    "withdraw_sbd": "Вивести HBD",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HBD",
     "transfer_to_savings": "В заощадження",
     "convert": "Конвертувати",
     "escrow_transfer": "Передача Ескроу",
@@ -85,21 +85,21 @@
       "title": "Бали",
       "buy": "Отримати Бали"
     },
-    "savingsteem": {
-      "title": "HIVE заощадження"
+    "savinghive": {
+      "title": "HIVE Savings"
     },
-    "savingsbd": {
-      "title": "HBD заощадження"
+    "savinghbd": {
+      "title": "HBD Savings"
     },
-    "steem": {
+    "hive": {
       "title": "HIVE",
-      "buy": "Придбати HIVE"
+      "buy": "GET HIVE"
     },
-    "sbd": {
+    "hbd": {
       "title": "HBD",
-      "buy": "Придбати HBD"
+      "buy": "GET HBD"
     },
-    "steem_power": {
+    "hive_power": {
       "title": "HIVE POWER"
     },
     "btc": {
@@ -162,11 +162,11 @@
     "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "ще нічого не коментував",
     "havent_posted": "ще нічого не опублікував",
-    "steem_power": "Hive Power (Сила)",
+    "hive_power": "Hive Power",
     "next_power_text": "До наступного зниження Сили",
     "days": "днів",
     "day": "день",
-    "steem_dollars": "Hive долари",
+    "hive_dollars": "Hive Dollars",
     "savings": "Заощадження",
     "edit": {
       "display_name": "Відображуване ім'я",
@@ -404,7 +404,8 @@
     "something_wrong": "Something went wrong.",
     "something_wrong_alt": "Try https://ecency.com",
     "something_wrong_reload": "Reload",
-    "can_not_be_empty": "Title and body can not be empty!"
+    "can_not_be_empty": "Title and body can not be empty!",
+    "wrong_filter_count": "Please select 3 filters"
   },
   "post": {
     "reblog_alert": "Ви дійсно бажаєте зробити репост?",
@@ -511,8 +512,8 @@
     "purchase_estm": "Купити Бали",
     "convert": "Конвертувати HBD у HIVE",
     "points": "Подарувати Бали",
-    "transfer_to_saving": "Перевести до Заощаджень",
-    "powerUp": "Збільшення Сили Голосу",
+    "transfer_to_savings": "Transfer To Saving",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Перевести до Заощаджень",
     "steemconnect_title": "Hivesigner транзакція",
     "estimated_weekly": "Приблизно на Тиждень",
@@ -525,10 +526,11 @@
     "next": "ДАЛІ",
     "delegate": "Делегувати",
     "power_down": "Зменшення Сили голосу",
-    "withdraw_steem": "Вивести HIVE",
-    "withdraw_sbd": "Вивести HIVE долар",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Надходження коштів",
     "stop": "Зупинити",
+    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
     "address_view": "Переглянути адресу"
   },
   "boost": {
@@ -644,6 +646,7 @@
     "line2_heading": "We have a solution!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others."
+    "line3_body": "Build community you own, get rewarded and reward others.",
+    "get_started": "Get started!"
   }
 }
