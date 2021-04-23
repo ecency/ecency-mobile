@@ -6,6 +6,7 @@ import serverList from '../../config/serverListApi';
 import { jsonStringify } from '../../utils/jsonUtils';
 import bugsnag from '../../config/bugsnag';
 import { SERVER_LIST } from '../../constants/options/api';
+import { parsePost } from '../../utils/postParser';
 
 export const getCurrencyRate = (currency) =>
   api
@@ -519,10 +520,14 @@ export const getSCAccessToken = (code) =>
       });
   });
 
-export const getPromotePosts = () => {
+export const getPromotePosts = (username) => {
   try {
     console.log('Fetching promoted posts');
-    return api.get('/promoted-posts?limit=10').then((resp) => resp.data);
+    return api.get('/promoted-posts?limit=10').then((resp) => {
+      return resp.data.map(({ post_data }) =>
+        post_data ? parsePost(post_data, username, true) : null,
+      );
+    });
   } catch (error) {
     bugsnag.notify(error);
     return error;

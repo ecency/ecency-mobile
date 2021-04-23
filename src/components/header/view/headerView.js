@@ -18,6 +18,7 @@ import styles from './headerStyles';
 const HeaderView = ({
   displayName,
   handleOnPressBackButton,
+  handleOnViewModePress,
   handleOpenDrawer,
   isDarkTheme,
   isLoggedIn,
@@ -27,6 +28,7 @@ const HeaderView = ({
   username,
   navigation,
   hideUser,
+  enableViewModeToggle,
 }) => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const intl = useIntl();
@@ -109,6 +111,15 @@ const HeaderView = ({
         </View>
       ) : (
         <View style={styles.backButtonWrapper}>
+          {enableViewModeToggle && (
+            <IconButton
+              style={styles.viewIconContainer}
+              iconStyle={styles.viewIcon}
+              name="view-module"
+              iconType="MaterialIcons"
+              onPress={handleOnViewModePress}
+            />
+          )}
           <IconButton iconStyle={styles.backIcon} name="md-search" onPress={_onPressSearchButton} />
         </View>
       )}

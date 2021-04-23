@@ -172,22 +172,9 @@ export const loadPosts = async ({
 
   export const getPromotedPosts = async (username:string) => {
     try {
-      const res = await getPromotePosts();
-      if (res && res.length) {
-        const _promotedPosts = await Promise.all(
-          res.map((item) =>
-            getPost(get(item, 'author'), get(item, 'permlink'), username, true).then(
-              (post) => post,
-            ),
-          ),
-        );
-  
-        // if (isMountedRef.current) {
-          return _promotedPosts;
-        // }
-      } else {
-        return [];
-      }
+      const posts = await getPromotePosts(username);
+      return Array.isArray(posts) ? posts : [];
+
     } catch(err){
       console.warn("Failed to get promoted posts, ", err)
     }

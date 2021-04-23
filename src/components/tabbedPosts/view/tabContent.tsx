@@ -4,7 +4,7 @@ import { getPromotedPosts, loadPosts } from '../services/tabbedPostsFetch';
 import { LoadPostsOptions, TabContentProps, TabMeta } from '../services/tabbedPostsModels';
 import {useSelector, useDispatch } from 'react-redux';
 import TabEmptyView from './listEmptyView';
-import { setInitPosts } from '../../../redux/actions/postsAction';
+import { setInitPosts } from '../../../redux/actions/postsAction.ts';
 import NewPostsPopup from './newPostsPopup';
 import { calculateTimeLeftForPostCheck } from '../services/tabbedPostsReducer';
 import { AppState } from 'react-native';
@@ -20,6 +20,7 @@ const DEFAULT_TAB_META = {
 const TabContent = ({
   filterKey, 
   isFeedScreen,
+  isInitialTab,
   pageType,
   forceLoadPosts,
   filterScrollRequest,
@@ -40,16 +41,8 @@ const TabContent = ({
   const nsfw = useSelector((state) => state.application.nsfw);
   const isConnected = useSelector((state) => state.application.isConnected);
   const username = useSelector((state) => state.account.currentAccount.name);
-  const initPosts = useSelector((state) => {
-    if(isFeedScreen){
-      if(username && filterKey === 'friends'){
-        return state.posts.initPosts
-      }else if (!username && filterKey === 'hot'){
-        return state.posts.initPosts
-      }
-    }
-    return []
-  });
+  const initPosts = useSelector((state) => state.posts.initPosts)
+
 
   //state
   const [posts, setPosts] = useState([]);
@@ -119,18 +112,27 @@ const TabContent = ({
 
   const _initContent = (isFirstCall = false, feedUsername:string) => {
     _scrollToTop();
-    setPosts(isFirstCall ? initPosts : []);
+
+    const initialPosts = isFirstCall && isFeedScreen && isInitialTab ? initPosts : [];
+
+    setPosts(initialPosts);
     setTabMeta(DEFAULT_TAB_META)
     setSessionUser(username);
 
     if(username || (filterKey !== 'friends' && filterKey !== 'communities')){
-      _loadPosts(!isFirstCall, false, feedUsername);
+      _loadPosts(!isFirstCall, false, feedUsername, initialPosts, DEFAULT_TAB_META );
       _getPromotedPosts();
     }
   }
 
   //fetch posts from server
-  const _loadPosts = async (shouldReset:boolean = false, isLatestPostsCheck:boolean = false, _feedUsername:string = feedUsername) => {
+  const _loadPosts = async (
+      shouldReset:boolean = false, 
+      isLatestPostsCheck:boolean = false, 
+      _feedUsername:string = feedUsername,
+      _posts:any[] = postsRef.current,
+      _tabMeta:TabMeta = tabMeta
+    ) => {
     const options = {
       setTabMeta:(meta:TabMeta) => {
         if(_isMounted){
@@ -138,8 +140,8 @@ const TabContent = ({
         }
       },
       filterKey,
-      prevPosts:postsRef.current,
-      tabMeta,
+      prevPosts:_posts,
+      tabMeta:_tabMeta,
       isLoggedIn,
       isAnalytics,
       nsfw,
@@ -155,7 +157,7 @@ const TabContent = ({
 
     const result = await loadPosts(options)
     if(_isMounted && result){
-      _postProcessLoadResult(result, shouldReset)
+      _postProcessLoadResult(result)
     }
   }
 
@@ -191,7 +193,7 @@ const TabContent = ({
 
 
   //processes response from loadPost
-  const _postProcessLoadResult = ({updatedPosts, latestPosts}:any, shouldReset:boolean) => {
+  const _postProcessLoadResult = ({updatedPosts, latestPosts}:any) => {
     //process new posts avatart
     if(latestPosts && Array.isArray(latestPosts)){
       if(latestPosts.length > 0){
@@ -202,14 +204,21 @@ const TabContent = ({
     }
 
     //process returned data
-    if(updatedPosts && Array.isArray(updatedPosts)){
-      if (isFeedScreen && shouldReset) {
-        //   //schedule refetch of new posts by checking time of current post
-          _scheduleLatestPostsCheck(updatedPosts[0]);
+    if(Array.isArray(updatedPosts)){
+      if(updatedPosts.length){
+        //match new and old first post
+        const firstPostChanged = posts.length == 0 || (posts[0].permlink !== updatedPosts[0].permlink);
+        if (isFeedScreen && firstPostChanged) {
+            //schedule refetch of new posts by checking time of current post
+            _scheduleLatestPostsCheck(updatedPosts[0]);
 
-          if (filterKey == username ? 'friends' : 'hot') {
-            dispatch(setInitPosts(updatedPosts));
-          }
+            if (isInitialTab) {
+              dispatch(setInitPosts(updatedPosts));
+            }
+        }
+      } else if (isFeedScreen && isInitialTab){
+        //clear posts cache if no first tab posts available, precautionary measure for accoutn change
+        dispatch(setInitPosts([]))
       }
       setPosts(updatedPosts);
     }
@@ -217,7 +226,6 @@ const TabContent = ({
 
 
   
-
   //view related routines
   const _onPostsPopupPress = () => {
       _scrollToTop();

@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import { useDispatch, useSelector } from 'react-redux';
-import { hidePostsThumbnails } from '../../../redux/actions/uiAction';
 import { TabbedPostsProps } from '../services/tabbedPostsModels';
 import { StackedTabBar, TabItem } from '../view/stackedTabBar';
 import TabContent from '../view/tabContent';
@@ -23,31 +21,23 @@ export const TabbedPosts = ({
   ...props
 }:TabbedPostsProps) => {
 
-  const dispatch = useDispatch();
-
-  //redux properties
-  const isHideImages = useSelector((state) => state.ui.hidePostsThumbnails);
-
   //initialize state
   const [initialTabIndex] = useState(selectedOptionIndex == 0 && stackedTabs ? filterOptions.length : selectedOptionIndex)
 
-  const [mainFilters] = useState<TabItem[]>(
-    filterOptions.map((label, index)=>({
-      filterKey:filterOptionsValue[index], 
-      label
-    } as TabItem))
-  )
+  const mainFilters = filterOptions.map((label, index)=>({
+        filterKey:filterOptionsValue[index], 
+        label
+      } as TabItem));
 
-  const [subFilters] = useState<TabItem[]>(
-    feedSubfilterOptions
+  const subFilters = feedSubfilterOptions
     ? feedSubfilterOptions.map((label, index)=>({
       filterKey:feedSubfilterOptionsValue[index], 
       label
     } as TabItem))
-    : []
-  )
+    : [];
 
-  const [combinedFilters] = useState([...mainFilters, ...subFilters]);
+  const combinedFilters = [...mainFilters, ...subFilters]
+  
   const [selectedFilter, setSelectedFilter] = useState(combinedFilters[initialTabIndex].filterKey)
   const [filterScrollRequest, createFilterScrollRequest] = useState<string|null>(null)
 
@@ -60,10 +50,6 @@ export const TabbedPosts = ({
       }else{
         setSelectedFilter(filter)
       }
-    }
-
-    const _toggleHideImagesFlag = () => {
-      dispatch(hidePostsThumbnails(!isHideImages));
     }
 
     const _onScrollRequestProcessed = () => {
@@ -82,6 +68,7 @@ export const TabbedPosts = ({
         key={filter.filterKey}
         filterKey={filter.filterKey}
         isFeedScreen={isFeedScreen}
+        isInitialTab={ initialTabIndex == index }
         feedUsername={feedUsername}
         pageType={pageType}
         filterScrollRequest={filterScrollRequest}
@@ -97,12 +84,11 @@ export const TabbedPosts = ({
     return (
       <StackedTabBar 
         {...props}
-        shouldStack={stackedTabs}
+        enableCustomiseButton={isFeedScreen}
         firstStack={mainFilters}
         secondStack={subFilters}
         initialFirstStackIndex={selectedOptionIndex}
         onFilterSelect={_onFilterSelect}
-        toggleHideImagesFlag={imagesToggleEnabled && _toggleHideImagesFlag}
       />
     )
   }

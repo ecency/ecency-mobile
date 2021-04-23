@@ -1,8 +1,13 @@
-export const POPULAR_FILTERS = ['home.FEED', 'home.TOP', 'home.HOT', 'home.NEW'];
-export const POPULAR_FILTERS_VALUE = ['feed', 'trending', 'hot', 'created'];
 
-export const FEED_SUBFILTERS = ['home.friends', 'home.communities'];
-export const FEED_SUBFILTERS_VALUE = ['friends', 'communities'];
+export const DEFAULT_FEED_FILTERS = ['friends', 'communities', 'hot'];
+
+export const FEED_SCREEN_FILTER_MAP  = {
+    friends:'home.friends',
+    communities:'home.communities',
+    trending:'home.top',
+    hot:'home.hot',
+    created:'home.new',
+}
 
 export const GLOBAL_POST_FILTERS = ['home.TOP', 'home.HOT', 'home.NEW'];
 export const GLOBAL_POST_FILTERS_VALUE = ['trending', 'hot', 'created'];

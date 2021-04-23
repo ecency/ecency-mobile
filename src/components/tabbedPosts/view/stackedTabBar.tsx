@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useIntl } from "react-intl";
-import { FilterBar } from "../..";
+import { CustomiseFiltersModal, FilterBar } from "../..";
+import { CustomiseFiltersModalRef } from "../../customiseFiltersModal/customiseFiltersModal";
 
 export interface TabItem {
   filterKey:string;
@@ -11,29 +12,37 @@ interface StackedTabBarProps {
     activeTab:boolean;
     goToPage:(pageIndex)=>void;
     tabs:string[];
+    enableCustomiseButton:boolean;
     shouldStack:boolean;
     firstStack:TabItem[];
     secondStack:TabItem[];
     initialFirstStackIndex:number;
     onFilterSelect:(filterKey:string)=>void;
-    toggleHideImagesFlag:()=>void;
 }
 
 export const StackedTabBar = ({
     goToPage, 
     tabs,
+    enableCustomiseButton,
     shouldStack,
     firstStack,
     secondStack,
     initialFirstStackIndex,
     onFilterSelect,
-    toggleHideImagesFlag
 
 }:StackedTabBarProps) => {
+
+    const customiseModalRef = useRef<CustomiseFiltersModalRef>();
 
     const intl = useIntl();
     const [selectedFilterIndex, setSelectedFilterIndex] = useState(initialFirstStackIndex);
     const [selectedSecondStackIndex, setSelectedSecondStackIndex] = useState(0);
+
+    const _onCustomisePress = () => {
+      if(customiseModalRef.current){
+        customiseModalRef.current.show();
+      }
+    }
 
     return (
       <>
@@ -46,8 +55,8 @@ export const StackedTabBar = ({
         }
          
         selectedOptionIndex={selectedFilterIndex}
-        rightIconName={toggleHideImagesFlag && "view-module"}
-        rightIconType={toggleHideImagesFlag && "MaterialIcons"}
+        enableCustomiseButton={enableCustomiseButton}
+        onCustomisePress={_onCustomisePress}
         onDropdownSelect={(index)=>{
           setSelectedFilterIndex(index);
 
@@ -61,7 +70,6 @@ export const StackedTabBar = ({
           }
 
         }}
-        onRightIconPress={toggleHideImagesFlag}
       />
 
       {
@@ -79,6 +87,10 @@ export const StackedTabBar = ({
           />
         )
       }
+
+      <CustomiseFiltersModal 
+        ref={customiseModalRef}
+      />
       
       </>
     )
