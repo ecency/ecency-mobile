@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "受益者獎勵",
     "claim_reward_balance": "領取獎勵",
     "transfer": "轉賬",
-    "transfer_to_vesting": "轉為 Hive Power",
+    "power_up": "To Vesting",
     "transfer_from_savings": "儲蓄轉出",
     "withdraw_vesting": "釋放 Steem Power",
     "fill_order": "成交訂單",
@@ -62,14 +62,14 @@
     "purchase_estm": "購買ESTM積分",
     "points": "送ESTM積分給別人",
     "transfer_to_saving": "轉為儲蓄",
-    "powerUp": "轉為Steem Power",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "提現到儲蓄",
     "steemconnect_title": "Hiveconnect登錄",
     "next": "下一个",
     "delegate": "委託",
     "power_down": "釋放 Steem Power",
-    "withdraw_steem": "Hive提款",
-    "withdraw_sbd": "HBD提款",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HBD",
     "transfer_to_savings": "轉為儲蓄",
     "convert": "轉換",
     "escrow_transfer": "託管轉帳",
@@ -85,22 +85,22 @@
       "title": "點數",
       "buy": "購買ESTM積分"
     },
-    "savingsteem": {
-      "title": "HIVE存款"
+    "savinghive": {
+      "title": "HIVE Savings"
     },
-    "savingsbd": {
-      "title": "HBD存款"
+    "savinghbd": {
+      "title": "HBD Savings"
     },
-    "steem": {
+    "hive": {
       "title": "HIVE",
-      "buy": "購買HIVE"
+      "buy": "GET HIVE"
     },
-    "sbd": {
+    "hbd": {
       "title": "HBD",
-      "buy": "購買HBD"
+      "buy": "GET HBD"
     },
-    "steem_power": {
-      "title": "HIVE POWER（已鎖倉）"
+    "hive_power": {
+      "title": "HIVE POWER"
     },
     "btc": {
       "title": "大餅",
@@ -162,11 +162,11 @@
     "follow_communities": "加入社區可以為你的動態增添色彩",
     "havent_commented": "還沒有任何評論",
     "havent_posted": "還沒發佈任何內容",
-    "steem_power": "Hive Power（鎖倉）",
+    "hive_power": "Hive Power",
     "next_power_text": "下一次釋放Steem Power是在",
     "days": "天",
     "day": "天",
-    "steem_dollars": "Hive Dollar",
+    "hive_dollars": "Hive Dollars",
     "savings": "儲蓄",
     "edit": {
       "display_name": "顯示名",
@@ -404,7 +404,8 @@
     "something_wrong": "發生一些錯誤。",
     "something_wrong_alt": "請嘗試 https://ecency.com",
     "something_wrong_reload": "重新載入",
-    "can_not_be_empty": "題目跟文章不能空置"
+    "can_not_be_empty": "題目跟文章不能空置",
+    "wrong_filter_count": "Please select 3 filters"
   },
   "post": {
     "reblog_alert": "您確定想要轉發？",
@@ -511,8 +512,8 @@
     "purchase_estm": "購買點數",
     "convert": "HBD 兌換 Hive",
     "points": "送ESTM積分給別人",
-    "transfer_to_saving": "轉入儲蓄",
-    "powerUp": "轉為Steem Power",
+    "transfer_to_savings": "Transfer To Saving",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "提現到儲蓄",
     "steemconnect_title": "使用Hivesigner轉賬",
     "estimated_weekly": "每週估計",
@@ -525,10 +526,11 @@
     "next": "下一个",
     "delegate": "委託",
     "power_down": "釋放Steem Power",
-    "withdraw_steem": "Hive提款",
-    "withdraw_sbd": "HBD 提款",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "轉入資金",
     "stop": "停止",
+    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
     "address_view": "檢視地址"
   },
   "boost": {
@@ -644,6 +646,7 @@
     "line2_heading": "我們有解決方法",
     "line2_body": "利用區塊鏈技術，不屏蔽，去中心化，還給予獎勵",
     "line3_heading": "加入我們Ecency社群吧",
-    "line3_body": "建立您自己的社區，賺取獎賞，獎勵他人"
+    "line3_body": "建立您自己的社區，賺取獎賞，獎勵他人",
+    "get_started": "Get started!"
   }
 }
