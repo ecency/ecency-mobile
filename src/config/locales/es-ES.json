@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Recompensa de Benefactor del comentario",
     "claim_reward_balance": "Reclamar recompensa ",
     "transfer": "Transferir",
-    "transfer_to_vesting": "A invertir",
+    "power_up": "To Vesting",
     "transfer_from_savings": "Desde Ahorros",
     "withdraw_vesting": "Power down",
     "fill_order": "Completar orden",
@@ -62,14 +62,14 @@
     "purchase_estm": "OBTENER PUNTOS",
     "points": "Regalar puntos a alguien",
     "transfer_to_saving": "A ahorros",
-    "powerUp": "Hacer Power Up",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Retirar Ahorros",
     "steemconnect_title": "Transferencia en Hivesigner",
     "next": "SIGUIENTE",
     "delegate": "Delegar",
     "power_down": "Power down",
-    "withdraw_steem": "Retirar HIVE",
-    "withdraw_sbd": "Retirar HBD",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HBD",
     "transfer_to_savings": "A ahorros",
     "convert": "Convertir",
     "escrow_transfer": "Transferencia de fideicomiso",
@@ -85,21 +85,21 @@
       "title": "Puntos",
       "buy": "OBTENER PUNTOS"
     },
-    "savingsteem": {
-      "title": "Ahorros HIVE"
+    "savinghive": {
+      "title": "HIVE Savings"
     },
-    "savingsbd": {
-      "title": "Ahorros HBD"
+    "savinghbd": {
+      "title": "HBD Savings"
     },
-    "steem": {
+    "hive": {
       "title": "HIVE",
-      "buy": "OBTEN HIVE"
+      "buy": "GET HIVE"
     },
-    "sbd": {
+    "hbd": {
       "title": "HBD",
-      "buy": "OBTENER HBD"
+      "buy": "GET HBD"
     },
-    "steem_power": {
+    "hive_power": {
       "title": "HIVE POWER"
     },
     "btc": {
@@ -162,11 +162,11 @@
     "follow_communities": "Únete a algunas comunidades para llenar tus actualizaciones",
     "havent_commented": "no has comentado nada aún",
     "havent_posted": "no has publicado nada aún",
-    "steem_power": "Potencia de Hive",
+    "hive_power": "Hive Power",
     "next_power_text": "El próximo power down será en",
     "days": "días",
     "day": "día",
-    "steem_dollars": "Dolares HIVE",
+    "hive_dollars": "Hive Dollars",
     "savings": "Ahorros",
     "edit": {
       "display_name": "Nombre para mostrar",
@@ -404,7 +404,8 @@
     "something_wrong": "Algo ha fallado.",
     "something_wrong_alt": "Prueba https://ecency.com",
     "something_wrong_reload": "Recarga",
-    "can_not_be_empty": "¡Título y cuerpo no pueden estar vacíos!"
+    "can_not_be_empty": "¡Título y cuerpo no pueden estar vacíos!",
+    "wrong_filter_count": "Please select 3 filters"
   },
   "post": {
     "reblog_alert": "¿Estás seguro de querer rebloguear?",
@@ -511,8 +512,8 @@
     "purchase_estm": "Puntos de compra",
     "convert": "Convertir HBD a HIVE",
     "points": "Regalar puntos a alguien",
-    "transfer_to_saving": "Transferir a Ahorros",
-    "powerUp": "Hacer Power Up",
+    "transfer_to_savings": "Transfer To Saving",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Retirar a Ahorros",
     "steemconnect_title": "Transferencia en Hivesigner",
     "estimated_weekly": "Estimado Semanal",
@@ -525,10 +526,11 @@
     "next": "SIGUIENTE",
     "delegate": "Delegar",
     "power_down": "Hacer Power Down",
-    "withdraw_steem": "Retirar HIVE",
-    "withdraw_sbd": "Retirar Hive Dollar (HBD)",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Fondos entrantes",
     "stop": "Detener",
+    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
     "address_view": "Ver dirección"
   },
   "boost": {
@@ -644,6 +646,7 @@
     "line2_heading": "We have a solution!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others."
+    "line3_body": "Build community you own, get rewarded and reward others.",
+    "get_started": "Get started!"
   }
 }
