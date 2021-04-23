@@ -12,15 +12,7 @@ import { ThemeContainer } from '../../../../containers';
 
 import { isCommunity } from '../../../../utils/communityValidation';
 
-const TagInput = ({
-  value,
-  componentID,
-  handleTagChanged,
-  intl,
-  isPreviewActive,
-  autoFocus,
-  setCommunity,
-}) => {
+const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, setCommunity }) => {
   const [text, setText] = useState('');
   const [warning, setWarning] = useState(null);
 
@@ -30,7 +22,7 @@ const TagInput = ({
     } else {
       setText(value.join(' '));
     }
-  });
+  }, [value]);
 
   // Component Functions
   const _handleOnChange = (_text) => {
