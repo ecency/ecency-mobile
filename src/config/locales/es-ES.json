@@ -93,11 +93,11 @@
     },
     "hive": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "OBTEN HIVE"
     },
     "hbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "OBTENER HBD"
     },
     "hive_power": {
       "title": "HIVE POWER"
@@ -162,11 +162,11 @@
     "follow_communities": "Únete a algunas comunidades para llenar tus actualizaciones",
     "havent_commented": "no has comentado nada aún",
     "havent_posted": "no has publicado nada aún",
-    "hive_power": "Hive Power",
+    "hive_power": "Potencia de Hive",
     "next_power_text": "El próximo power down será en",
     "days": "días",
     "day": "día",
-    "hive_dollars": "Hive Dollars",
+    "hive_dollars": "Dolares HIVE",
     "savings": "Ahorros",
     "edit": {
       "display_name": "Nombre para mostrar",
