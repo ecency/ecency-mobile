@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Kasusaaja tasu",
     "claim_reward_balance": "Tasu lunastatud ",
     "transfer": "Ülekanne",
-    "transfer_to_vesting": "Teenimisse",
+    "power_up": "To Vesting",
     "transfer_from_savings": "Hoiusest",
     "withdraw_vesting": "Vähenda Hive Powerit",
     "fill_order": "Täida Tellimus",
@@ -62,14 +62,14 @@
     "purchase_estm": "OSTA PUNKTE",
     "points": "Kingi kellelegi punkte",
     "transfer_to_saving": "Hoiusesse",
-    "powerUp": "Suurenda Hive Powerit",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Hoiuse väljakanne",
     "steemconnect_title": "Hivesigneri ülekanne",
     "next": "EDASI",
     "delegate": "Volita",
     "power_down": "Vähenda Hive Powerit",
-    "withdraw_steem": "HIVE väljakanne",
-    "withdraw_sbd": "HBD väljakanne",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HBD",
     "transfer_to_savings": "Hoiusesse",
     "convert": "Konverteeri",
     "escrow_transfer": "Deposiidi ülekanne",
@@ -85,21 +85,21 @@
       "title": "Punktid",
       "buy": "OSTA PUNKTE"
     },
-    "savingsteem": {
-      "title": "HIVE Hoius"
+    "savinghive": {
+      "title": "HIVE Savings"
     },
-    "savingsbd": {
-      "title": "HBD Hoius"
+    "savinghbd": {
+      "title": "HBD Savings"
     },
-    "steem": {
+    "hive": {
       "title": "HIVE",
-      "buy": "OSTA HIVE"
+      "buy": "GET HIVE"
     },
-    "sbd": {
+    "hbd": {
       "title": "HBD",
-      "buy": "OSTA HBD"
+      "buy": "GET HBD"
     },
-    "steem_power": {
+    "hive_power": {
       "title": "HIVE POWER"
     },
     "btc": {
@@ -162,11 +162,11 @@
     "follow_communities": "Liitu kogukondadega, et täita oma voogu",
     "havent_commented": "ei ole veel midagi kommenteerinud",
     "havent_posted": "ei ole veel midagi postitanud",
-    "steem_power": "Hive Power",
+    "hive_power": "Hive Power",
     "next_power_text": "Järgmine Hive Poweri vähendamine toimub",
     "days": "päeva",
     "day": "päev",
-    "steem_dollars": "Hive Dollarid",
+    "hive_dollars": "Hive Dollars",
     "savings": "Säästud",
     "edit": {
       "display_name": "Kuvatav Nimi",
@@ -404,7 +404,8 @@
     "something_wrong": "Midagi läks valesti.",
     "something_wrong_alt": "Proovi https://ecency.com",
     "something_wrong_reload": "Värskenda",
-    "can_not_be_empty": "Pealkiri ja sisu ei tohi olla tühjad!"
+    "can_not_be_empty": "Pealkiri ja sisu ei tohi olla tühjad!",
+    "wrong_filter_count": "Please select 3 filters"
   },
   "post": {
     "reblog_alert": "Oled sa kindel, et soovid seda jagada?",
@@ -511,8 +512,8 @@
     "purchase_estm": "Osta punkte",
     "convert": "Vaheta HBD HIVEks",
     "points": "Kingi kellelegi punkte",
-    "transfer_to_saving": "Kanna säästudesse",
-    "powerUp": "Lisa võimsust",
+    "transfer_to_savings": "Transfer To Saving",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Liiguta hoiusesse",
     "steemconnect_title": "Hivesigneri ülekanne",
     "estimated_weekly": "Prognoositud nädalane",
@@ -525,10 +526,11 @@
     "next": "EDASI",
     "delegate": "Volita",
     "power_down": "Vähenda Hive Powerit",
-    "withdraw_steem": "HIVE väljakanne",
-    "withdraw_sbd": "HIVE Dollari väljakanne",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Sissetulevad varad",
     "stop": "Peata",
+    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
     "address_view": "Näita aadressi"
   },
   "boost": {
@@ -644,6 +646,7 @@
     "line2_heading": "We have a solution!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others."
+    "line3_body": "Build community you own, get rewarded and reward others.",
+    "get_started": "Get started!"
   }
 }
