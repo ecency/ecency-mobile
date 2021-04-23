@@ -103,14 +103,14 @@ class EditorContainer extends Component {
 
         upload.forEach((el) => {
           if (el.filePath && el.fileName) {
-            this.setState({ isUploading: true });
+            // this.setState({ isUploading: true });
             const _media = {
               path: el.filePath,
               mime: el.mimeType,
               filename: el.fileName || `img_${Math.random()}.jpg`,
             };
 
-            this._uploadImage(_media);
+            this._uploadImage(_media, { shouldInsert: true });
           } else if (el.text) {
             this.setState({
               draftPost: {
@@ -370,7 +370,7 @@ class EditorContainer extends Component {
     // const data = new Buffer(media.data, 'base64');
   };
 
-  _uploadImage = async (media) => {
+  _uploadImage = async (media, { shouldInsert } = { shouldInsert: false }) => {
     const { intl, currentAccount, pinCode, isLoggedIn } = this.props;
 
     if (!isLoggedIn) return;
@@ -385,9 +385,11 @@ class EditorContainer extends Component {
       const res = await uploadImage(media, currentAccount.name, sign);
       if (res.data && res.data.url) {
         res.data.hash = res.data.url.split('/').pop();
+        res.data.shouldInsert = shouldInsert;
+
         this.setState({
-          uploadedImage: res.data,
           isUploading: false,
+          uploadedImage: res.data,
         });
       }
     } catch (error) {
