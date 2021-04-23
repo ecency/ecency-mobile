@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "উপকারকারীর পুরষ্কার",
     "claim_reward_balance": "পুরস্কার দাবি",
     "transfer": "স্থানান্তর",
-    "transfer_to_vesting": "টু ভেষ্টিং",
+    "power_up": "To Vesting",
     "transfer_from_savings": "সঞ্চয় থেকে",
     "withdraw_vesting": "ক্ষমতা হ্রাস করুন",
     "fill_order": "অর্ডার পূরণ করুন",
@@ -62,14 +62,14 @@
     "purchase_estm": "পয়েন্টগুলি পান",
     "points": "কারও কাছে উপহার পয়েন্টস",
     "transfer_to_saving": "সংরক্ষণ করার জন্য",
-    "powerUp": "পাওয়ার আপ",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "সঞ্চয় উইথড্রো",
     "steemconnect_title": "হাইভসাইনার স্থানান্তর",
     "next": "পরবর্তী",
     "delegate": "ডেলিগেট",
     "power_down": "ক্ষমতা হ্রাস করুন",
-    "withdraw_steem": "উইথড্রো হাইভ",
-    "withdraw_sbd": "উইথড্রো এইচ বি ডি",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HBD",
     "transfer_to_savings": "সাশ্রয়",
     "convert": "রূপান্তর করুন",
     "escrow_transfer": "এসক্রো স্থানান্তর",
@@ -85,22 +85,22 @@
       "title": "পয়েন্টস",
       "buy": "পয়েন্টগুলি পান"
     },
-    "savingsteem": {
-      "title": "হাইভ সঞ্চয়"
+    "savinghive": {
+      "title": "HIVE Savings"
     },
-    "savingsbd": {
-      "title": "এইচ বি ডি সঞ্চয়"
+    "savinghbd": {
+      "title": "HBD Savings"
     },
-    "steem": {
-      "title": "হাইভ",
-      "buy": "হাইভ পান"
+    "hive": {
+      "title": "HIVE",
+      "buy": "GET HIVE"
     },
-    "sbd": {
-      "title": "এইচ বি ডি",
-      "buy": "হাইভ পান"
+    "hbd": {
+      "title": "HBD",
+      "buy": "GET HBD"
     },
-    "steem_power": {
-      "title": "হাইভ পাওয়ার"
+    "hive_power": {
+      "title": "HIVE POWER"
     },
     "btc": {
       "title": "বিটিসি",
@@ -162,11 +162,11 @@
     "follow_communities": "আপনার ফিডটি পূরণ করতে কিছু সম্প্রদায়গুলিতে যোগদান করুন",
     "havent_commented": "এখনও কিছু মন্তব্য করেন নি",
     "havent_posted": "আপনি এখনো কিছু পোস্ট করেন নি",
-    "steem_power": "হাইভ পাওয়ার",
+    "hive_power": "Hive Power",
     "next_power_text": "পরবর্তী শক্তি ডাউন হয়",
     "days": "দিন",
     "day": "দিন",
-    "steem_dollars": "হাইভ ডলার",
+    "hive_dollars": "Hive Dollars",
     "savings": "সঞ্চয়",
     "edit": {
       "display_name": "প্রদর্শন নাম",
@@ -404,7 +404,8 @@
     "something_wrong": "কিছু ভুল হয়েছে",
     "something_wrong_alt": "চেষ্টা করুন https://ecency.com",
     "something_wrong_reload": "রিলোড",
-    "can_not_be_empty": "Title and body can not be empty!"
+    "can_not_be_empty": "Title and body can not be empty!",
+    "wrong_filter_count": "Please select 3 filters"
   },
   "post": {
     "reblog_alert": "আপনি কি নিশ্চিত যে আপনি পুনরায় ব্লগ করতে চান?",
@@ -511,8 +512,8 @@
     "purchase_estm": "পয়েন্ট ক্রয় করুন\n",
     "convert": "HBD থেকে HIVE এ কনভার্ট করুন",
     "points": "কারও কাছে উপহার পয়েন্টস",
-    "transfer_to_saving": "সংরক্ষণে স্থানান্তর করুন",
-    "powerUp": "পাওয়ার আপ",
+    "transfer_to_savings": "Transfer To Saving",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "সঞ্চয় উইথড্রো",
     "steemconnect_title": "হাইভসাইনার স্থানান্তর",
     "estimated_weekly": "আনুমানিক সাপ্তাহিক",
@@ -525,10 +526,11 @@
     "next": "পরবর্তী",
     "delegate": "ডেলিগেট",
     "power_down": "পাওয়ার ডাউন",
-    "withdraw_steem": "উইথড্রো হাইভ",
-    "withdraw_sbd": "উইথড্রো হাইভ ডলার",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "আগত তহবিল",
     "stop": "থামুন",
+    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
     "address_view": "এডড্রেস দেখুন"
   },
   "boost": {
@@ -644,6 +646,7 @@
     "line2_heading": "We have a solution!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others."
+    "line3_body": "Build community you own, get rewarded and reward others.",
+    "get_started": "Get started!"
   }
 }
