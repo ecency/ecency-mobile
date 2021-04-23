@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Xelata Xêrxwaz",
     "claim_reward_balance": "Xelata Daxwazê ",
     "transfer": "Transfer",
-    "transfer_to_vesting": "Bo Wekaletê",
+    "power_up": "To Vesting",
     "transfer_from_savings": "Ji Berhevkirinan",
     "withdraw_vesting": "Ji Hêz Bixe",
     "fill_order": "Fermana Transferê Bide",
@@ -62,14 +62,14 @@
     "purchase_estm": "GET POINTS",
     "points": "Gift Points to someone",
     "transfer_to_saving": "Bo Berhevkirinan",
-    "powerUp": "Bihêz Bike",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Ji Berhevkirinan Bikişîne",
     "steemconnect_title": "Hivesigner Transfer",
     "next": "PÊŞVE",
     "delegate": "Şande",
     "power_down": "Ji Hêz Bixe",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HBD",
     "transfer_to_savings": "Bo Berhevkirinan",
     "convert": "Veguherîne",
     "escrow_transfer": "Transfera Emanetî",
@@ -85,21 +85,21 @@
       "title": "Puan",
       "buy": "GET POINTS"
     },
-    "savingsteem": {
+    "savinghive": {
       "title": "HIVE Savings"
     },
-    "savingsbd": {
+    "savinghbd": {
       "title": "HBD Savings"
     },
-    "steem": {
+    "hive": {
       "title": "HIVE",
       "buy": "GET HIVE"
     },
-    "sbd": {
+    "hbd": {
       "title": "HBD",
       "buy": "GET HBD"
     },
-    "steem_power": {
+    "hive_power": {
       "title": "HIVE POWER"
     },
     "btc": {
@@ -162,11 +162,11 @@
     "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "heta niha şîrove nehatiye kirin",
     "havent_posted": "heta niha ti tişt parve nebûye",
-    "steem_power": "Hive Power",
+    "hive_power": "Hive Power",
     "next_power_text": "Hêza pêşve kêm dibe",
     "days": "rojan",
     "day": "roj",
-    "steem_dollars": "Hive Dollars",
+    "hive_dollars": "Hive Dollars",
     "savings": "Berhev bike",
     "edit": {
       "display_name": "Navê Xuyangê",
@@ -404,7 +404,8 @@
     "something_wrong": "Something went wrong.",
     "something_wrong_alt": "Try https://ecency.com",
     "something_wrong_reload": "Reload",
-    "can_not_be_empty": "Title and body can not be empty!"
+    "can_not_be_empty": "Title and body can not be empty!",
+    "wrong_filter_count": "Please select 3 filters"
   },
   "post": {
     "reblog_alert": "Bi rastî jî tu dixwazî dîsa biweşînî?",
@@ -511,8 +512,8 @@
     "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
     "points": "Gift Points to someone",
-    "transfer_to_saving": "Transfera Ji Berhevkirinan",
-    "powerUp": "Bihêz Bike",
+    "transfer_to_savings": "Transfer To Saving",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Ji Berhevkirinan Bikişîne (pere)",
     "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Texmîna Heftane",
@@ -525,10 +526,11 @@
     "next": "PÊŞVE",
     "delegate": "Şande",
     "power_down": "Ji Hêz Bixe",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Fonên Tên",
     "stop": "Rawestîne",
+    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
     "address_view": "View address"
   },
   "boost": {
@@ -644,6 +646,7 @@
     "line2_heading": "We have a solution!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others."
+    "line3_body": "Build community you own, get rewarded and reward others.",
+    "get_started": "Get started!"
   }
 }
