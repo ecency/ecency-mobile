@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Benefactor 報酬",
     "claim_reward_balance": "報酬を請求 ",
     "transfer": "送金",
-    "transfer_to_vesting": "Vestingに送金",
+    "power_up": "To Vesting",
     "transfer_from_savings": "貯蓄口座からの送金",
     "withdraw_vesting": "パワーダウン",
     "fill_order": "注文の入力",
@@ -62,14 +62,14 @@
     "purchase_estm": "GET POINTS",
     "points": "Gift Points to someone",
     "transfer_to_saving": "貯蓄口座への送金",
-    "powerUp": "パワーアップ",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "貯蓄口座を引出す",
     "steemconnect_title": "Hivesigner 転送",
     "next": "次へ",
     "delegate": "デリゲーション",
     "power_down": "パワーダウン",
-    "withdraw_steem": "HIVEを引き出す",
-    "withdraw_sbd": "HIVEドルを引き出す",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HBD",
     "transfer_to_savings": "貯蓄口座への送金",
     "convert": "変換",
     "escrow_transfer": "エスクロー送金",
@@ -85,22 +85,22 @@
       "title": "ポイント",
       "buy": "GET POINTS"
     },
-    "savingsteem": {
-      "title": "HIVE 貯蓄口座"
+    "savinghive": {
+      "title": "HIVE Savings"
     },
-    "savingsbd": {
-      "title": "HBD 貯蓄口座"
+    "savinghbd": {
+      "title": "HBD Savings"
     },
-    "steem": {
+    "hive": {
       "title": "HIVE",
-      "buy": "HIVEを購入"
+      "buy": "GET HIVE"
     },
-    "sbd": {
-      "title": "HIVEドル",
-      "buy": "HIVEドルを購入"
+    "hbd": {
+      "title": "HBD",
+      "buy": "GET HBD"
     },
-    "steem_power": {
-      "title": "HIVEパワー"
+    "hive_power": {
+      "title": "HIVE POWER"
     },
     "btc": {
       "title": "BTC",
@@ -162,11 +162,11 @@
     "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "まだ何もコメントしていません",
     "havent_posted": "まだ何も投稿していません",
-    "steem_power": "Hiveパワー",
+    "hive_power": "Hive Power",
     "next_power_text": "次のパワーダウンまで",
     "days": "日",
     "day": "日",
-    "steem_dollars": "Hiveドル",
+    "hive_dollars": "Hive Dollars",
     "savings": "貯蓄口座",
     "edit": {
       "display_name": "表示名",
@@ -404,7 +404,8 @@
     "something_wrong": "Something went wrong.",
     "something_wrong_alt": "Try https://ecency.com",
     "something_wrong_reload": "Reload",
-    "can_not_be_empty": "Title and body can not be empty!"
+    "can_not_be_empty": "Title and body can not be empty!",
+    "wrong_filter_count": "Please select 3 filters"
   },
   "post": {
     "reblog_alert": "本当にリブログしますか？",
@@ -511,8 +512,8 @@
     "purchase_estm": "Purchase Points",
     "convert": "HBDをHIVEに変換",
     "points": "Gift Points to someone",
-    "transfer_to_saving": "貯蓄口座に送金",
-    "powerUp": "パワーアップ",
+    "transfer_to_savings": "Transfer To Saving",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "貯蓄口座に引き出す",
     "steemconnect_title": "Hivesigner 転送",
     "estimated_weekly": "毎週推定される",
@@ -525,10 +526,11 @@
     "next": "次へ",
     "delegate": "デリゲーション",
     "power_down": "パワーダウン",
-    "withdraw_steem": "HIVEを引き出す",
-    "withdraw_sbd": "HIVEドルを引き出す",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "入ってくる資金",
     "stop": "中止",
+    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
     "address_view": "アドレスを表示"
   },
   "boost": {
@@ -644,6 +646,7 @@
     "line2_heading": "We have a solution!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others."
+    "line3_body": "Build community you own, get rewarded and reward others.",
+    "get_started": "Get started!"
   }
 }
