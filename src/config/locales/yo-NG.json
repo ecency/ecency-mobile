@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Benefactor Reward",
     "claim_reward_balance": "Claim Reward ",
     "transfer": "Fi ranse",
-    "transfer_to_vesting": "To Vesting",
+    "power_up": "To Vesting",
     "transfer_from_savings": "From Savings",
     "withdraw_vesting": "Din agbara ku",
     "fill_order": "Gba latira",
@@ -62,14 +62,14 @@
     "purchase_estm": "GET POINTS",
     "points": "Gift Points to someone",
     "transfer_to_saving": "To Saving",
-    "powerUp": "Power Up",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Withdraw Saving",
     "steemconnect_title": "Hivesigner Transfer",
     "next": "NEXT",
     "delegate": "Delegate",
     "power_down": "Din agbara ku",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HBD",
     "transfer_to_savings": "To Savings",
     "convert": "Convert",
     "escrow_transfer": "Escrow Transfer",
@@ -85,21 +85,21 @@
       "title": "Points",
       "buy": "GET POINTS"
     },
-    "savingsteem": {
+    "savinghive": {
       "title": "HIVE Savings"
     },
-    "savingsbd": {
+    "savinghbd": {
       "title": "HBD Savings"
     },
-    "steem": {
+    "hive": {
       "title": "HIVE",
       "buy": "GET HIVE"
     },
-    "sbd": {
+    "hbd": {
       "title": "HBD",
       "buy": "GET HBD"
     },
-    "steem_power": {
+    "hive_power": {
       "title": "HIVE POWER"
     },
     "btc": {
@@ -162,11 +162,11 @@
     "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "koti si oro iwoye kankan bayi",
     "havent_posted": "oti gbe oro kankan kale",
-    "steem_power": "Hive Power",
+    "hive_power": "Hive Power",
     "next_power_text": "Idin agbaraku to kan ku",
     "days": "awon ojo",
     "day": "ojo",
-    "steem_dollars": "Hive Dollars",
+    "hive_dollars": "Hive Dollars",
     "savings": "Ipamo",
     "edit": {
       "display_name": "Display Name",
@@ -404,7 +404,8 @@
     "something_wrong": "Something went wrong.",
     "something_wrong_alt": "Try https://ecency.com",
     "something_wrong_reload": "Reload",
-    "can_not_be_empty": "Title and body can not be empty!"
+    "can_not_be_empty": "Title and body can not be empty!",
+    "wrong_filter_count": "Please select 3 filters"
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
@@ -511,8 +512,8 @@
     "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
     "points": "Gift Points to someone",
-    "transfer_to_saving": "Transfer To Saving",
-    "powerUp": "Power Up",
+    "transfer_to_savings": "Transfer To Saving",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Estimated Weekly",
@@ -525,10 +526,11 @@
     "next": "NEXT",
     "delegate": "Delegate",
     "power_down": "Power Down",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Incoming Funds",
     "stop": "Stop",
+    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
     "address_view": "View address"
   },
   "boost": {
@@ -644,6 +646,7 @@
     "line2_heading": "We have a solution!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others."
+    "line3_body": "Build community you own, get rewarded and reward others.",
+    "get_started": "Get started!"
   }
 }
