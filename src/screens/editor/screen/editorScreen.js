@@ -249,20 +249,21 @@ class EditorScreen extends Component {
     const { fields, selectedCommunity } = this.state;
     const { currentAccount } = this.props;
 
+    const tags = [...fields.tags];
     if (community == null) {
       if (!isNull(selectedCommunity)) {
-        fields.tags.shift();
+        tags.shift();
       }
     } else {
       if (!isNull(selectedCommunity)) {
-        fields.tags.shift();
+        tags.shift();
       }
 
-      fields.tags.unshift(community.name);
+      tags.unshift(community.name);
     }
 
     this.setState({
-      fields,
+      fields: { ...fields, tags },
       isCommunitiesListModalOpen: false,
       selectedCommunity: community,
       selectedAccount: community ? null : currentAccount,
