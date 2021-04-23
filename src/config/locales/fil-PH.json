@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Makaka-benepisyo sa Gantimpala",
     "claim_reward_balance": "Kunin ang Gantimpala ",
     "transfer": "Paglipat",
-    "transfer_to_vesting": "Patungong Vesting",
+    "power_up": "To Vesting",
     "transfer_from_savings": "Galing sa Inipon",
     "withdraw_vesting": "Power Down",
     "fill_order": "Punan ang Order",
@@ -62,14 +62,14 @@
     "purchase_estm": "MAGKAROON NG POINTS",
     "points": "Magregalo ng Points sa iba",
     "transfer_to_saving": "Patungong Saving",
-    "powerUp": "Power Up",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "I-withdraw ang inipon",
     "steemconnect_title": "Hivesigner Transfer",
     "next": "SUNOD",
     "delegate": "Mag-delegate",
     "power_down": "Power Down",
-    "withdraw_steem": "I-withdraw ang HIVE",
-    "withdraw_sbd": "I-withdraw ang HBD",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HBD",
     "transfer_to_savings": "Patungo sa Inipon",
     "convert": "I-convert",
     "escrow_transfer": "Paglipat ng Escrow",
@@ -85,21 +85,21 @@
       "title": "Puntos",
       "buy": "MAGKAROON NG POINTS"
     },
-    "savingsteem": {
-      "title": "Inipong HIVE"
+    "savinghive": {
+      "title": "HIVE Savings"
     },
-    "savingsbd": {
-      "title": "Inipong HBD"
+    "savinghbd": {
+      "title": "HBD Savings"
     },
-    "steem": {
+    "hive": {
       "title": "HIVE",
-      "buy": "KUMUHA ng HIVE"
+      "buy": "GET HIVE"
     },
-    "sbd": {
+    "hbd": {
       "title": "HBD",
-      "buy": "KUMUHA ng HBD"
+      "buy": "GET HBD"
     },
-    "steem_power": {
+    "hive_power": {
       "title": "HIVE POWER"
     },
     "btc": {
@@ -162,11 +162,11 @@
     "follow_communities": "Sumali sa ilang komunidad para mapuno ang iyong feed",
     "havent_commented": "wala pang na i-komentong bagay",
     "havent_posted": "wala pang na i-post na kahit anong bagay",
-    "steem_power": "Hive Power",
+    "hive_power": "Hive Power",
     "next_power_text": "Ang sunod na power down ay",
     "days": "mga araw",
     "day": "araw",
-    "steem_dollars": "Hive Dollars",
+    "hive_dollars": "Hive Dollars",
     "savings": "Ipon",
     "edit": {
       "display_name": "Ngalan na Ipapakita",
@@ -404,7 +404,8 @@
     "something_wrong": "May nangyaring problema.",
     "something_wrong_alt": "Subukan ang https://ecency.com",
     "something_wrong_reload": "I-reload",
-    "can_not_be_empty": "Title and body can not be empty!"
+    "can_not_be_empty": "Title and body can not be empty!",
+    "wrong_filter_count": "Please select 3 filters"
   },
   "post": {
     "reblog_alert": "Sigurado ka, gusto mong i-reblog?",
@@ -511,8 +512,8 @@
     "purchase_estm": "Purchase Points",
     "convert": "I-convert ang HBD bilang HIVE",
     "points": "Iregalo ang Points sa iba",
-    "transfer_to_saving": "Ilipat sa Ipon",
-    "powerUp": "Power Up",
+    "transfer_to_savings": "Transfer To Saving",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "I-withdraw sa Inipon",
     "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Tinataya bawat linggo",
@@ -525,10 +526,11 @@
     "next": "SUNOD",
     "delegate": "Mag-delegate",
     "power_down": "Power Down",
-    "withdraw_steem": "I-withdraw ang HIVE",
-    "withdraw_sbd": "I-withdraw ang HIVE Dollar",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Pondong papasok",
     "stop": "Tigil",
+    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
     "address_view": "Tignan ang address"
   },
   "boost": {
@@ -644,6 +646,7 @@
     "line2_heading": "We have a solution!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others."
+    "line3_body": "Build community you own, get rewarded and reward others.",
+    "get_started": "Get started!"
   }
 }
