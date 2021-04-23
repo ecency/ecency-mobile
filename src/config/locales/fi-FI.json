@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Hyötyjäpalkkio",
     "claim_reward_balance": "Lunasta palkkio ",
     "transfer": "Siirto",
-    "transfer_to_vesting": "Ansaintaan",
+    "power_up": "To Vesting",
     "transfer_from_savings": "Säästöistä",
     "withdraw_vesting": "Power Down",
     "fill_order": "Täytä hakemus",
@@ -62,14 +62,14 @@
     "purchase_estm": "Lunasta pisteet",
     "points": "Lahjoita pisteitä",
     "transfer_to_saving": "Säästöihin",
-    "powerUp": "Power Up",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Kotiuta säästöihin",
     "steemconnect_title": "Hivesigner-siirto",
     "next": "SEURAAVA",
     "delegate": "Valtuuta",
     "power_down": "Power Down",
-    "withdraw_steem": "Kotiuta HIVE",
-    "withdraw_sbd": "Kotiuta HBD",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HBD",
     "transfer_to_savings": "Säästöihin",
     "convert": "Muunna",
     "escrow_transfer": "Escrow-siirto",
@@ -85,21 +85,21 @@
       "title": "Pisteet",
       "buy": "Lunasta pisteet"
     },
-    "savingsteem": {
-      "title": "HIVE säästöt"
+    "savinghive": {
+      "title": "HIVE Savings"
     },
-    "savingsbd": {
-      "title": "HBD säästöt"
+    "savinghbd": {
+      "title": "HBD Savings"
     },
-    "steem": {
+    "hive": {
       "title": "HIVE",
-      "buy": "OTA HIVE"
+      "buy": "GET HIVE"
     },
-    "sbd": {
+    "hbd": {
       "title": "HBD",
-      "buy": "OTA HBD"
+      "buy": "GET HBD"
     },
-    "steem_power": {
+    "hive_power": {
       "title": "HIVE POWER"
     },
     "btc": {
@@ -162,11 +162,11 @@
     "follow_communities": "Liity uusiin yhteisöihin täyttääksesi syötteitäsi",
     "havent_commented": "ei ole vielä kommentoinut mitään",
     "havent_posted": "ei ole vielä julkaissut mitään",
-    "steem_power": "Hive Power",
+    "hive_power": "Hive Power",
     "next_power_text": "Seuraava power down tulee",
     "days": "päivää",
     "day": "päivä",
-    "steem_dollars": "Hive Dollarit",
+    "hive_dollars": "Hive Dollars",
     "savings": "Säästöt",
     "edit": {
       "display_name": "Näyttönimi",
@@ -404,7 +404,8 @@
     "something_wrong": "Jokin meni pieleen.",
     "something_wrong_alt": "Kokeile https://ecency.com",
     "something_wrong_reload": "Päivitä",
-    "can_not_be_empty": "Otsikko ja sisältö eivät voi olla tyhjiä!"
+    "can_not_be_empty": "Otsikko ja sisältö eivät voi olla tyhjiä!",
+    "wrong_filter_count": "Please select 3 filters"
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
@@ -511,8 +512,8 @@
     "purchase_estm": "Osta pisteitä",
     "convert": "Muunna HBD HIVEksi",
     "points": "Lahjoita pisteitä",
-    "transfer_to_saving": "Siirrä säästöihin",
-    "powerUp": "Power Up",
+    "transfer_to_savings": "Transfer To Saving",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Kotiuta säästöihin",
     "steemconnect_title": "Hivesigner-siirto",
     "estimated_weekly": "Viikottainen arvio",
@@ -525,10 +526,11 @@
     "next": "SEURAAVA",
     "delegate": "Valtuuta",
     "power_down": "Power Down",
-    "withdraw_steem": "Kotiuta HIVE",
-    "withdraw_sbd": "Kotiuta Hive Dollari",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Saapuvat varat",
     "stop": "Lopeta",
+    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
     "address_view": "Näytä osoite"
   },
   "boost": {
@@ -644,6 +646,7 @@
     "line2_heading": "We have a solution!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others."
+    "line3_body": "Build community you own, get rewarded and reward others.",
+    "get_started": "Get started!"
   }
 }
