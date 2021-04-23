@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Recompensa Binefăcătorului",
     "claim_reward_balance": "Colectează recompensa ",
     "transfer": "Transfer",
-    "transfer_to_vesting": "În investiții",
+    "power_up": "To Vesting",
     "transfer_from_savings": "De la economii",
     "withdraw_vesting": "Power Down",
     "fill_order": "Completează ordinul",
@@ -62,14 +62,14 @@
     "purchase_estm": "GET POINTS",
     "points": "Gift Points to someone",
     "transfer_to_saving": "Transferă la economii",
-    "powerUp": "Power Up",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Retrage la economii",
     "steemconnect_title": "Hivesigner Transfer",
     "next": "URMĂTORUL",
     "delegate": "Delegare",
     "power_down": "Power Down",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HBD",
     "transfer_to_savings": "Transferă la economii",
     "convert": "Converteşte",
     "escrow_transfer": "Transfer Escrow",
@@ -85,21 +85,21 @@
       "title": "Puncte",
       "buy": "GET POINTS"
     },
-    "savingsteem": {
+    "savinghive": {
       "title": "HIVE Savings"
     },
-    "savingsbd": {
+    "savinghbd": {
       "title": "HBD Savings"
     },
-    "steem": {
+    "hive": {
       "title": "HIVE",
       "buy": "GET HIVE"
     },
-    "sbd": {
+    "hbd": {
       "title": "HBD",
       "buy": "GET HBD"
     },
-    "steem_power": {
+    "hive_power": {
       "title": "HIVE POWER"
     },
     "btc": {
@@ -162,11 +162,11 @@
     "follow_communities": "Join some communities to fill your feed",
     "havent_commented": "încă nu a comentat",
     "havent_posted": "încă nu a postat nimic",
-    "steem_power": "Hive Power",
+    "hive_power": "Hive Power",
     "next_power_text": "Următoarul power down în",
     "days": "zile",
     "day": "zi",
-    "steem_dollars": "Hive Dollars",
+    "hive_dollars": "Hive Dollars",
     "savings": "Economii",
     "edit": {
       "display_name": "Numele afișat",
@@ -404,7 +404,8 @@
     "something_wrong": "Something went wrong.",
     "something_wrong_alt": "Try https://ecency.com",
     "something_wrong_reload": "Reload",
-    "can_not_be_empty": "Title and body can not be empty!"
+    "can_not_be_empty": "Title and body can not be empty!",
+    "wrong_filter_count": "Please select 3 filters"
   },
   "post": {
     "reblog_alert": "Ești sigur că vrei să redistribui?",
@@ -511,8 +512,8 @@
     "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
     "points": "Gift Points to someone",
-    "transfer_to_saving": "Tranferă la economii",
-    "powerUp": "Power Up",
+    "transfer_to_savings": "Transfer To Saving",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Retrage la economii",
     "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Estimare Săptămânală",
@@ -525,10 +526,11 @@
     "next": "URMĂTORUL",
     "delegate": "Delegare",
     "power_down": "Power Down",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Fonduri Primite",
     "stop": "Oprește",
+    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
     "address_view": "View address"
   },
   "boost": {
@@ -644,6 +646,7 @@
     "line2_heading": "We have a solution!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others."
+    "line3_body": "Build community you own, get rewarded and reward others.",
+    "get_started": "Get started!"
   }
 }
