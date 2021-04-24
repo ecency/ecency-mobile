@@ -95,11 +95,13 @@ export default EStyleSheet.create({
     paddingBottom: 16,
   },
   floatingContainer: Platform.select({
+    //absolute positioning makes button hide behind keyboard on ios
     ios: {
       alignItems: 'flex-end',
       margin: 16,
       marginBottom: 24,
     },
+    //on android the appearing of button was causing momentary glitch with ios variant style
     android: {
       position: 'absolute',
       right: 16,
