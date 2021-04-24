@@ -207,7 +207,6 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, handl
                     />
                 }
             />
-            {_renderFloatingButton()}
             </View>
         </View>
     )

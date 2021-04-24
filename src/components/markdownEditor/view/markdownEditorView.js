@@ -117,14 +117,18 @@ const MarkdownEditorView = ({
   }, [isLoading]);
 
   useEffect(() => {
-    if (uploadedImage && uploadedImage.url && uploadedImage.shouldInsert) {
-      applyImageLink({
-        text,
-        selection,
-        setTextAndSelection: _setTextAndSelection,
-        item: { url: uploadedImage.url, text: uploadedImage.hash },
-        isImage: !!uploadedImage,
-      });
+    if (uploadedImage && uploadedImage.url) {
+      if (uploadedImage.shouldInsert) {
+        applyImageLink({
+          text,
+          selection,
+          setTextAndSelection: _setTextAndSelection,
+          item: { url: uploadedImage.url, text: uploadedImage.hash },
+          isImage: !!uploadedImage,
+        });
+      } else {
+        uploadsGalleryModalRef.current.showModal();
+      }
     }
   }, [uploadedImage]);
 
@@ -282,8 +286,7 @@ const MarkdownEditorView = ({
         />
         <IconButton
           onPress={() => {
-            //  galleryRef.current.show()}
-            uploadsGalleryModalRef.current.showModal();
+            galleryRef.current.show();
           }}
           style={styles.rightIcons}
           size={20}
@@ -432,12 +435,20 @@ const MarkdownEditorView = ({
             id: 'editor.capture_photo',
           }),
           intl.formatMessage({
+            id: 'editor.uploaded_images',
+          }),
+
+          intl.formatMessage({
             id: 'alert.cancel',
           }),
         ]}
-        cancelButtonIndex={2}
+        cancelButtonIndex={3}
         onPress={(index) => {
-          handleOpenImagePicker(index === 0 ? 'image' : index === 1 && 'camera');
+          if (index == 2) {
+            uploadsGalleryModalRef.current.showModal();
+          } else {
+            handleOpenImagePicker(index === 0 ? 'image' : index === 1 && 'camera');
+          }
         }}
       />
       <ActionSheet
