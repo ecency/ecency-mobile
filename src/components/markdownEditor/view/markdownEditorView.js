@@ -287,7 +287,7 @@ const MarkdownEditorView = ({
         onLoadDraftPress();
       };
       return (
-        <AnimatedView style={styles.floatingDraftContainer} animation="bounceInRight">
+        <AnimatedView style={styles.floatingContainer} animation="bounceInRight">
           <MainButton
             style={{ width: isLoading ? null : 120 }}
             onPress={_onPress}
