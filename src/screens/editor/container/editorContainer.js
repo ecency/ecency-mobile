@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 // Services and Actions
 import { Buffer } from 'buffer';
+import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 import {
   uploadImage,
   addDraft,
@@ -69,6 +70,7 @@ class EditorContainer extends Component {
       community: [],
       rewardType: 'default',
       beneficiaries: [],
+      sharedSnippetText: null,
     };
   }
 
@@ -81,9 +83,11 @@ class EditorContainer extends Component {
     let isEdit;
     let post;
     let _draft;
+    let hasSharedIntent = false;
 
     if (navigation.state && navigation.state.params) {
       const navigationParams = navigation.state.params;
+      hasSharedIntent = navigationParams.hasSharedIntent;
 
       if (navigationParams.draft) {
         _draft = navigationParams.draft;
@@ -96,30 +100,6 @@ class EditorContainer extends Component {
       if (navigationParams.community) {
         this.setState({
           community: navigationParams.community,
-        });
-      }
-      if (navigationParams.upload) {
-        const { upload } = navigationParams;
-
-        upload.forEach((el) => {
-          if (el.filePath && el.fileName) {
-            // this.setState({ isUploading: true });
-            const _media = {
-              path: el.filePath,
-              mime: el.mimeType,
-              filename: el.fileName || `img_${Math.random()}.jpg`,
-            };
-
-            this._uploadImage(_media, { shouldInsert: true });
-          } else if (el.text) {
-            this.setState({
-              draftPost: {
-                title: '',
-                body: el.text,
-                tags: [],
-              },
-            });
-          }
         });
       }
 
@@ -154,11 +134,36 @@ class EditorContainer extends Component {
       }
     }
 
-    if (!isEdit && !_draft) {
+    if (!isEdit && !_draft && !hasSharedIntent) {
       this._fetchDraftsForComparison(isReply);
     } else {
       this._requestKeyboardFocus();
     }
+
+    ReceiveSharingIntent.getReceivedFiles(
+      (files) => {
+        files.forEach((el) => {
+          if (el.filePath && el.fileName) {
+            const _media = {
+              path: el.filePath,
+              mime: el.mimeType,
+              filename: el.fileName || `img_${Math.random()}.jpg`,
+            };
+
+            this._uploadImage(_media, { shouldInsert: true });
+          } else if (el.text) {
+            this.setState({
+              sharedSnippetText: el.text,
+            });
+          }
+        });
+        // To clear Intents
+        ReceiveSharingIntent.clearReceivedFiles();
+      },
+      (error) => {
+        console.log('error :>> ', error);
+      },
+    );
   }
 
   componentWillUnmount() {
@@ -433,57 +438,6 @@ class EditorContainer extends Component {
         isUploading: false,
       });
     }
-
-    // uploadImage(media, currentAccount.name, sign).then((res) => {
-    //     if (res.data && res.data.url) {
-    //       res.data.hash = res.data.url.split('/').pop();
-    //       this.setState({
-    //         uploadedImage: res.data,
-    //         isUploading: false,
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error, error.message);
-    //     if (error.toString().includes('code 413')) {
-    //       Alert.alert(
-    //         intl.formatMessage({
-    //           id: 'alert.fail',
-    //         }),
-    //         intl.formatMessage({
-    //           id: 'alert.payloadTooLarge',
-    //         }),
-    //       );
-    //     } else if (error.toString().includes('code 429')) {
-    //       Alert.alert(
-    //         intl.formatMessage({
-    //           id: 'alert.fail',
-    //         }),
-    //         intl.formatMessage({
-    //           id: 'alert.quotaExceeded',
-    //         }),
-    //       );
-    //     } else if (error.toString().includes('code 400')) {
-    //       Alert.alert(
-    //         intl.formatMessage({
-    //           id: 'alert.fail',
-    //         }),
-    //         intl.formatMessage({
-    //           id: 'alert.invalidImage',
-    //         }),
-    //       );
-    //     } else {
-    //       Alert.alert(
-    //         intl.formatMessage({
-    //           id: 'alert.fail',
-    //         }),
-    //         error.message || error.toString(),
-    //       );
-    //     }
-    //     this.setState({
-    //       isUploading: false,
-    //     });
-    // });
   };
 
   _handleMediaOnSelectFailure = (error) => {
@@ -1100,6 +1054,7 @@ class EditorContainer extends Component {
       uploadedImage,
       community,
       isDraft,
+      sharedSnippetText,
     } = this.state;
 
     const tags = navigation.state.params && navigation.state.params.tags;
@@ -1133,6 +1088,7 @@ class EditorContainer extends Component {
         community={community}
         currentAccount={currentAccount}
         isDraft={isDraft}
+        sharedSnippetText={sharedSnippetText}
       />
     );
   }

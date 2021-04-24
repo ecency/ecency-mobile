@@ -68,6 +68,7 @@ const MarkdownEditorView = ({
   getCommunity,
   currentAccount,
   autoFocusText,
+  sharedSnippetText,
 }) => {
   const [text, setText] = useState(draftBody || '');
   const [selection, setSelection] = useState({ start: 0, end: 0 });
@@ -96,6 +97,12 @@ const MarkdownEditorView = ({
       _setTextAndSelection({ selection: { start: 0, end: 0 }, text: draftBody });
     }
   }, [draftBody]);
+
+  useEffect(() => {
+    if (sharedSnippetText) {
+      _handleOnSnippetReceived(sharedSnippetText);
+    }
+  }, [sharedSnippetText]);
 
   useEffect(() => {
     if (editable === null) {
@@ -208,7 +215,7 @@ const MarkdownEditorView = ({
     </ScrollView>
   );
 
-  const _handleOnSnippetSelect = (snippetText) => {
+  const _handleOnSnippetReceived = (snippetText) => {
     applySnippet({
       text,
       selection,
@@ -398,7 +405,10 @@ const MarkdownEditorView = ({
         animationType="slide"
         style={styles.modalStyle}
       >
-        <SnippetsModal username={currentAccount.username} handleOnSelect={_handleOnSnippetSelect} />
+        <SnippetsModal
+          username={currentAccount.username}
+          handleOnSelect={_handleOnSnippetReceived}
+        />
       </Modal>
 
       <UploadsGalleryModal

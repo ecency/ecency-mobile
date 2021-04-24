@@ -320,6 +320,7 @@ class EditorScreen extends Component {
       handleBeneficiaries,
       currentAccount,
       autoFocusText,
+      sharedSnippetText,
     } = this.props;
     const rightButtonText = intl.formatMessage({
       id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : 'basic_header.publish',
@@ -396,6 +397,7 @@ class EditorScreen extends Component {
             onTitleChanged={this._handleChangeTitle}
             getCommunity={this._getCommunity}
             autoFocusText={autoFocusText}
+            sharedSnippetText={sharedSnippetText}
           />
         </PostForm>
       </View>
