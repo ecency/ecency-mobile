@@ -94,4 +94,9 @@ export default EStyleSheet.create({
     paddingTop: 32,
     paddingBottom: 16,
   },
+  floatingDraftContainer: {
+    alignItems: 'flex-end',
+    margin: 16,
+    marginBottom: 24,
+  },
 });

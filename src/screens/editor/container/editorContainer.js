@@ -16,7 +16,7 @@ import {
   schedule,
   getDrafts,
 } from '../../../providers/ecency/ecency';
-import { toastNotification, setRcOffer, showActionModal } from '../../../redux/actions/uiAction';
+import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
   postContent,
   getPurePost,
@@ -41,7 +41,6 @@ import {
 // import { generateSignature } from '../../../utils/image';
 // Component
 import EditorScreen from '../screen/editorScreen';
-import ImageAssets from '../../../assets/ImageAssets';
 
 /*
  *            Props Name        Description                                     Value
@@ -71,6 +70,7 @@ class EditorContainer extends Component {
       rewardType: 'default',
       beneficiaries: [],
       sharedSnippetText: null,
+      onLoadDraftPress: false,
     };
   }
 
@@ -136,9 +136,8 @@ class EditorContainer extends Component {
 
     if (!isEdit && !_draft && !hasSharedIntent) {
       this._fetchDraftsForComparison(isReply);
-    } else {
-      this._requestKeyboardFocus();
     }
+    this._requestKeyboardFocus();
 
     ReceiveSharingIntent.getReceivedFiles(
       (files) => {
@@ -290,30 +289,10 @@ class EditorContainer extends Component {
         this._getStorageDraft(username, isReply, _draft);
       };
 
-      const leaveEmpty = () => {
-        console.log('Leaving editor empty');
-      };
-
       if (drafts.length > 0 || (idLessDraft && idLessDraft.timestamp > 0)) {
-        dispatch(
-          showActionModal(
-            intl.formatMessage({
-              id: 'editor.alert_init_title',
-            }),
-            intl.formatMessage({
-              id: 'editor.alert_init_body',
-            }),
-            [
-              {
-                text: intl.formatMessage({ id: 'editor.alert_btn_draft' }),
-                onPress: loadRecentDraft,
-              },
-              { text: intl.formatMessage({ id: 'editor.alert_btn_new' }), onPress: leaveEmpty },
-            ],
-            ImageAssets.writerMascot,
-            this._requestKeyboardFocus,
-          ),
-        );
+        this.setState({
+          onLoadDraftPress: loadRecentDraft,
+        });
       }
     } catch (err) {
       console.warn('Failed to compare drafts, load general', err);
@@ -1055,6 +1034,7 @@ class EditorContainer extends Component {
       community,
       isDraft,
       sharedSnippetText,
+      onLoadDraftPress,
     } = this.state;
 
     const tags = navigation.state.params && navigation.state.params.tags;
@@ -1089,6 +1069,7 @@ class EditorContainer extends Component {
         currentAccount={currentAccount}
         isDraft={isDraft}
         sharedSnippetText={sharedSnippetText}
+        onLoadDraftPress={onLoadDraftPress}
       />
     );
   }

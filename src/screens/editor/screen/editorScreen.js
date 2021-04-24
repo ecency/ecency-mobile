@@ -19,6 +19,7 @@ import {
   SelectCommunityModalContainer,
   Modal,
   UserAvatar,
+  MainButton,
 } from '../../../components';
 
 // dhive
@@ -321,6 +322,7 @@ class EditorScreen extends Component {
       currentAccount,
       autoFocusText,
       sharedSnippetText,
+      onLoadDraftPress,
     } = this.props;
     const rightButtonText = intl.formatMessage({
       id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : 'basic_header.publish',
@@ -398,6 +400,7 @@ class EditorScreen extends Component {
             getCommunity={this._getCommunity}
             autoFocusText={autoFocusText}
             sharedSnippetText={sharedSnippetText}
+            onLoadDraftPress={onLoadDraftPress}
           />
         </PostForm>
       </View>
