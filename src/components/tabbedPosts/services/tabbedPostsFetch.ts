@@ -132,7 +132,7 @@ export const loadPosts = async ({
         return {latestPosts}
       }else{
         const updatedPosts = getUpdatedPosts(
-          prevPosts,
+          startAuthor && startPermlink ? prevPosts:[],
           result,
           refreshing,
           tabMeta,
