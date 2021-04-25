@@ -254,7 +254,7 @@ class ProfileView extends PureComponent {
           isFeedScreen={false}
           tabContentOverrides={tabContentOverrides}
           onChangeTab={this._onTabChange}
-          imagesToggleEnabled={false}
+          imagesToggleEnabled={true}
         />
       </View>
     );
