@@ -281,6 +281,7 @@
     "reply": "返信",
     "open_gallery": "ギャラリーを開く",
     "capture_photo": "写真を撮る",
+    "uploaded_images": "Uploaded Images",
     "limited_tags": "タグは10個まで許容、それ以上は削除して下さい",
     "limited_length": "それぞれのタグの長さは最大で24",
     "limited_dash": "それぞれのタグにハイフンを一つ使用",
