@@ -281,6 +281,7 @@
     "reply": "回覆",
     "open_gallery": "打開圖庫",
     "capture_photo": "拍照",
+    "uploaded_images": "Uploaded Images",
     "limited_tags": "僅允許10個標籤，移除一些",
     "limited_length": "每個標籤的最大長度應為24",
     "limited_dash": "在每個標籤中使用一個破折號",
