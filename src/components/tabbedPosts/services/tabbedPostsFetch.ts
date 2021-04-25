@@ -75,6 +75,7 @@ export const loadPosts = async ({
           observer: feedUsername,
           sort: 'created',
           tag: 'my',
+          limit,
         };
       } else {
         func = getAccountPosts;

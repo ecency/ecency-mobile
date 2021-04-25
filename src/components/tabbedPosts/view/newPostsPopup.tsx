@@ -39,7 +39,7 @@ const NewPostsPopup = ({
 
                     {popupAvatars.map((url, index) => (
                     <FastImage
-                        key={`image_bubble_${url}`}
+                        key={`image_bubble_${url}-${index}`}
                         source={{ uri: url }}
                         style={[styles.popupImage, { zIndex: 10 - index }]}
                     />
