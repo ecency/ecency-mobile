@@ -281,6 +281,7 @@
     "reply": "回复",
     "open_gallery": "打开图库",
     "capture_photo": "拍照",
+    "uploaded_images": "Uploaded Images",
     "limited_tags": "仅允许10个标签，移除一些",
     "limited_length": "每个标签的最大长度应为24",
     "limited_dash": "在每个标签中使用一个破折号",
