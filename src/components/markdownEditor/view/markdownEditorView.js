@@ -11,6 +11,8 @@ import {
 import ActionSheet from 'react-native-actionsheet';
 import { renderPostBody } from '@ecency/render-helper';
 import { useDispatch, useSelector } from 'react-redux';
+import { View as AnimatedView } from 'react-native-animatable';
+import { get } from 'lodash';
 import { Icon } from '../../icon';
 
 // Utils
@@ -42,6 +44,7 @@ import { ThemeContainer } from '../../../containers';
 // Styles
 import styles from './markdownEditorStyles';
 import applySnippet from './formats/applySnippet';
+import { MainButton } from '../../mainButton';
 
 const MIN_BODY_INPUT_HEIGHT = 300;
 
@@ -68,12 +71,15 @@ const MarkdownEditorView = ({
   getCommunity,
   currentAccount,
   autoFocusText,
+  sharedSnippetText,
+  onLoadDraftPress,
 }) => {
   const [text, setText] = useState(draftBody || '');
   const [selection, setSelection] = useState({ start: 0, end: 0 });
   const [editable, setEditable] = useState(true);
   const [bodyInputHeight, setBodyInputHeight] = useState(MIN_BODY_INPUT_HEIGHT);
   const [isSnippetsOpen, setIsSnippetsOpen] = useState(false);
+  const [showDraftLoadButton, setShowDraftLoadButton] = useState(false);
 
   const inputRef = useRef(null);
   const galleryRef = useRef(null);
@@ -92,10 +98,36 @@ const MarkdownEditorView = ({
   }, [isPreviewActive]);
 
   useEffect(() => {
+    if (onLoadDraftPress) {
+      setShowDraftLoadButton(true);
+    }
+  }, [onLoadDraftPress]);
+
+  useEffect(() => {
     if (text === '' && draftBody !== '') {
       _setTextAndSelection({ selection: { start: 0, end: 0 }, text: draftBody });
     }
   }, [draftBody]);
+
+  useEffect(() => {
+    //hide draft button if fields changes and button was visible
+    if (showDraftLoadButton) {
+      let isCreating =
+        get(fields, 'title', '') !== '' ||
+        get(fields, 'body', '') !== '' ||
+        get(fields, 'tags', []) !== [];
+
+      if (isCreating) {
+        setShowDraftLoadButton(false);
+      }
+    }
+  }, [fields]);
+
+  useEffect(() => {
+    if (sharedSnippetText) {
+      _handleOnSnippetReceived(sharedSnippetText);
+    }
+  }, [sharedSnippetText]);
 
   useEffect(() => {
     if (editable === null) {
@@ -110,14 +142,18 @@ const MarkdownEditorView = ({
   }, [isLoading]);
 
   useEffect(() => {
-    if (uploadedImage && uploadedImage.url && uploadedImage.shouldInsert) {
-      applyImageLink({
-        text,
-        selection,
-        setTextAndSelection: _setTextAndSelection,
-        item: { url: uploadedImage.url, text: uploadedImage.hash },
-        isImage: !!uploadedImage,
-      });
+    if (uploadedImage && uploadedImage.url) {
+      if (uploadedImage.shouldInsert) {
+        applyImageLink({
+          text,
+          selection,
+          setTextAndSelection: _setTextAndSelection,
+          item: { url: uploadedImage.url, text: uploadedImage.hash },
+          isImage: !!uploadedImage,
+        });
+      } else {
+        uploadsGalleryModalRef.current.showModal();
+      }
     }
   }, [uploadedImage]);
 
@@ -208,7 +244,7 @@ const MarkdownEditorView = ({
     </ScrollView>
   );
 
-  const _handleOnSnippetSelect = (snippetText) => {
+  const _handleOnSnippetReceived = (snippetText) => {
     applySnippet({
       text,
       selection,
@@ -244,6 +280,28 @@ const MarkdownEditorView = ({
     </View>
   );
 
+  const _renderFloatingDraftButton = () => {
+    if (showDraftLoadButton) {
+      const _onPress = () => {
+        setShowDraftLoadButton(false);
+        onLoadDraftPress();
+      };
+      return (
+        <AnimatedView style={styles.floatingContainer} animation="bounceInRight">
+          <MainButton
+            style={{ width: isLoading ? null : 120 }}
+            onPress={_onPress}
+            iconName="square-edit-outline"
+            iconType="MaterialCommunityIcons"
+            iconColor="white"
+            text="DRAFT"
+            isLoading={isLoading}
+          />
+        </AnimatedView>
+      );
+    }
+  };
+
   const _renderEditorButtons = () => (
     <StickyBar>
       <View style={styles.leftButtonsWrapper}>
@@ -275,8 +333,7 @@ const MarkdownEditorView = ({
         />
         <IconButton
           onPress={() => {
-            //  galleryRef.current.show()}
-            uploadsGalleryModalRef.current.showModal();
+            galleryRef.current.show();
           }}
           style={styles.rightIcons}
           size={20}
@@ -386,7 +443,10 @@ const MarkdownEditorView = ({
           _renderPreview()
         )}
       </ScrollView>
+
+      {_renderFloatingDraftButton()}
       {!isPreviewActive && _renderEditorButtons()}
+
       <Modal
         isOpen={isSnippetsOpen}
         handleOnModalClose={() => setIsSnippetsOpen(false)}
@@ -398,17 +458,16 @@ const MarkdownEditorView = ({
         animationType="slide"
         style={styles.modalStyle}
       >
-        <SnippetsModal username={currentAccount.username} handleOnSelect={_handleOnSnippetSelect} />
+        <SnippetsModal
+          username={currentAccount.username}
+          handleOnSelect={_handleOnSnippetReceived}
+        />
       </Modal>
 
       <UploadsGalleryModal
         ref={uploadsGalleryModalRef}
         username={currentAccount.username}
         handleOnSelect={_handleOnMediaSelect}
-        handleOnUploadPress={() => {
-          galleryRef.current.show();
-        }}
-        isUploading={isUploading}
         uploadedImage={uploadedImage}
       />
 
@@ -422,12 +481,20 @@ const MarkdownEditorView = ({
             id: 'editor.capture_photo',
           }),
           intl.formatMessage({
+            id: 'editor.uploaded_images',
+          }),
+
+          intl.formatMessage({
             id: 'alert.cancel',
           }),
         ]}
-        cancelButtonIndex={2}
+        cancelButtonIndex={3}
         onPress={(index) => {
-          handleOpenImagePicker(index === 0 ? 'image' : index === 1 && 'camera');
+          if (index == 2) {
+            uploadsGalleryModalRef.current.showModal();
+          } else {
+            handleOpenImagePicker(index === 0 ? 'image' : index === 1 && 'camera');
+          }
         }}
       />
       <ActionSheet
