@@ -281,6 +281,7 @@
     "reply": "Responder",
     "open_gallery": "Galeria Aberta",
     "capture_photo": "Capturar uma foto",
+    "uploaded_images": "Uploaded Images",
     "limited_tags": "Apenas 10 tags permitidas, remova algumas",
     "limited_length": "Tamanho máximo de cada tag deve ser 24",
     "limited_dash": "Use um traço em cada tag",
