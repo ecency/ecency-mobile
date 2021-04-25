@@ -281,6 +281,7 @@
     "reply": "Responder",
     "open_gallery": "Abrir galería",
     "capture_photo": "Capturar foto",
+    "uploaded_images": "Uploaded Images",
     "limited_tags": "Sólo 10 etiquetas permitidas, remueve algunas",
     "limited_length": "La longitud máxima de cada etiqueta debe ser de 24 caracteres",
     "limited_dash": "Usar un guión en cada etiqueta",
