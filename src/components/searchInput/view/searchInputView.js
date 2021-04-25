@@ -20,7 +20,7 @@ const SearchInputView = ({
   onChangeText,
   handleOnModalClose,
   placeholder,
-  value,
+  value = '',
   editable = true,
   autoFocus = true,
   showClearButton = false,
