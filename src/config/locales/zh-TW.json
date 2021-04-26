@@ -628,7 +628,9 @@
   },
   "communities": {
     "joined": "會員身份",
-    "discover": "發現"
+    "discover": "發現",
+    "discover_communities": "Discover Communities",
+    "no_communities": "Connect with people who share your interests by joining Communities."
   },
   "empty_screen": {
     "nothing_here": "暫無内容"
