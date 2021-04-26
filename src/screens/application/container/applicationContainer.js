@@ -158,10 +158,10 @@ class ApplicationContainer extends Component {
     });
 
     ReceiveSharingIntent.getReceivedFiles(
-      (files) => {
+      () => {
         navigate({
           routeName: ROUTES.SCREENS.EDITOR,
-          params: { upload: files },
+          params: { hasSharedIntent: true },
         });
         // files returns as JSON Array example
         //[{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]

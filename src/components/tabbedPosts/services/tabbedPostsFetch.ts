@@ -75,6 +75,7 @@ export const loadPosts = async ({
           observer: feedUsername,
           sort: 'created',
           tag: 'my',
+          limit,
         };
       } else {
         func = getAccountPosts;
@@ -132,7 +133,7 @@ export const loadPosts = async ({
         return {latestPosts}
       }else{
         const updatedPosts = getUpdatedPosts(
-          prevPosts,
+          startAuthor && startPermlink ? prevPosts:[],
           result,
           refreshing,
           tabMeta,

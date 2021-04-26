@@ -111,6 +111,7 @@ const UpvoteContainer = (props) => {
       setIsVoted(true);
     }
 
+    setTotalPayout(totalPayout + amountNum);
     //update redux
     const postId = get(content, 'post_id');
     const vote = {

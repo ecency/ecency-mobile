@@ -69,6 +69,7 @@ const TagResultScreen = ({ navigation }) => {
           filterOptionsValue={GLOBAL_POST_FILTERS_VALUE}
           selectedOptionIndex={_getSelectedIndex()}
           tag={tag}
+          imagesToggleEnabled={true}
         />
       </View>
     </View>
