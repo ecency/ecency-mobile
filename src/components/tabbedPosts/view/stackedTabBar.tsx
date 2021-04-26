@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
 import { useIntl } from "react-intl";
+import { useDispatch, useSelector } from "react-redux";
 import { CustomiseFiltersModal, FilterBar } from "../..";
+import { hidePostsThumbnails } from "../../../redux/actions/uiAction";
 import { CustomiseFiltersModalRef } from "../../customiseFiltersModal/customiseFiltersModal";
 
 export interface TabItem {
@@ -18,6 +20,7 @@ interface StackedTabBarProps {
     secondStack:TabItem[];
     initialFirstStackIndex:number;
     onFilterSelect:(filterKey:string)=>void;
+    toggleHideImagesFlag:boolean;
 }
 
 export const StackedTabBar = ({
@@ -29,12 +32,18 @@ export const StackedTabBar = ({
     secondStack,
     initialFirstStackIndex,
     onFilterSelect,
+    toggleHideImagesFlag
 
 }:StackedTabBarProps) => {
 
-    const customiseModalRef = useRef<CustomiseFiltersModalRef>();
-
+    const dispatch = useDispatch();
     const intl = useIntl();
+
+    const customiseModalRef = useRef<CustomiseFiltersModalRef>();
+    
+    //redux properties
+    const isHideImages = useSelector((state) => state.ui.hidePostsThumbnails);
+
     const [selectedFilterIndex, setSelectedFilterIndex] = useState(initialFirstStackIndex);
     const [selectedSecondStackIndex, setSelectedSecondStackIndex] = useState(0);
 
@@ -42,6 +51,10 @@ export const StackedTabBar = ({
       if(customiseModalRef.current){
         customiseModalRef.current.show();
       }
+    }
+
+    const _onToggleImagesPress = () => {
+      dispatch(hidePostsThumbnails(!isHideImages))
     }
 
     return (
@@ -55,6 +68,8 @@ export const StackedTabBar = ({
         }
          
         selectedOptionIndex={selectedFilterIndex}
+        rightIconName={toggleHideImagesFlag && "view-module"}
+        rightIconType={toggleHideImagesFlag && "MaterialIcons"}
         enableCustomiseButton={enableCustomiseButton}
         onCustomisePress={_onCustomisePress}
         onDropdownSelect={(index)=>{
@@ -70,6 +85,7 @@ export const StackedTabBar = ({
           }
 
         }}
+        onRightIconPress={_onToggleImagesPress}
       />
 
       {

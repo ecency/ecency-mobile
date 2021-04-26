@@ -30,7 +30,6 @@ const TabContent = ({
   handleOnScroll,
   ...props
 }: TabContentProps) => {
-  let _postFetchTimer = null;
   let _isMounted = true;
 
 
@@ -50,13 +49,18 @@ const TabContent = ({
   const [sessionUser, setSessionUser] = useState(username);
   const [tabMeta, setTabMeta] = useState(DEFAULT_TAB_META);
   const [latestPosts, setLatestPosts] = useState<any[]>([]);
-
+  const [postFetchTimer, setPostFetchTimer] = useState(0)
 
   //refs
   let postsListRef = useRef<PostsListRef>()
   const appState = useRef(AppState.currentState);
   const postsRef = useRef(posts);
+  const sessionUserRef = useRef(sessionUser);
+
+  //init state refs;
   postsRef.current = posts;
+  sessionUserRef.current = sessionUser;
+
 
   //side effects
   useEffect(() => {
@@ -89,8 +93,8 @@ const TabContent = ({
 
   const _cleanup = () => {
     _isMounted = false;
-    if(_postFetchTimer){
-      clearTimeout(_postFetchTimer);
+    if(postFetchTimer){
+      clearTimeout(postFetchTimer);
     }
     if (isFeedScreen) {
       AppState.removeEventListener('change', _handleAppStateChange);
@@ -110,17 +114,22 @@ const TabContent = ({
   };
 
 
-  const _initContent = (isFirstCall = false, feedUsername:string) => {
+  const _initContent = (isFirstCall = false, _feedUsername:string) => {
     _scrollToTop();
 
     const initialPosts = isFirstCall && isFeedScreen && isInitialTab ? initPosts : [];
 
     setPosts(initialPosts);
     setTabMeta(DEFAULT_TAB_META)
-    setSessionUser(username);
+    setSessionUser(_feedUsername);
+    setLatestPosts([]);
+
+    if(postFetchTimer){
+      clearTimeout(postFetchTimer);
+    }
 
     if(username || (filterKey !== 'friends' && filterKey !== 'communities')){
-      _loadPosts(!isFirstCall, false, feedUsername, initialPosts, DEFAULT_TAB_META );
+      _loadPosts(!isFirstCall, false, _feedUsername, initialPosts, DEFAULT_TAB_META );
       _getPromotedPosts();
     }
   }
@@ -129,7 +138,7 @@ const TabContent = ({
   const _loadPosts = async (
       shouldReset:boolean = false, 
       isLatestPostsCheck:boolean = false, 
-      _feedUsername:string = feedUsername,
+      _feedUsername:string = isFeedScreen? sessionUserRef.current:feedUsername,
       _posts:any[] = postsRef.current,
       _tabMeta:TabMeta = tabMeta
     ) => {
@@ -177,17 +186,18 @@ const TabContent = ({
   //schedules post fetch
   const _scheduleLatestPostsCheck = (firstPost:any) => {
     if (firstPost) {
-      if (_postFetchTimer) {
-        clearTimeout(_postFetchTimer);
+      if (postFetchTimer) {
+        clearTimeout(postFetchTimer);
       }
 
       const timeLeft = calculateTimeLeftForPostCheck(firstPost)
-      _postFetchTimer = setTimeout(() => {
+      const _postFetchTimer = setTimeout(() => {
           const isLatestPostsCheck = true;
           _loadPosts(false, isLatestPostsCheck);
         }, 
         timeLeft
       );
+      setPostFetchTimer(_postFetchTimer)
     }
   };
 
@@ -210,7 +220,9 @@ const TabContent = ({
         const firstPostChanged = posts.length == 0 || (posts[0].permlink !== updatedPosts[0].permlink);
         if (isFeedScreen && firstPostChanged) {
             //schedule refetch of new posts by checking time of current post
+            
             _scheduleLatestPostsCheck(updatedPosts[0]);
+            
 
             if (isInitialTab) {
               dispatch(setInitPosts(updatedPosts));
