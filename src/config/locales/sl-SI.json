@@ -628,7 +628,9 @@
   },
   "communities": {
     "joined": "Membership",
-    "discover": "Discover"
+    "discover": "Discover",
+    "discover_communities": "Discover Communities",
+    "no_communities": "Connect with people who share your interests by joining Communities."
   },
   "empty_screen": {
     "nothing_here": "Tu ni ničesar"
