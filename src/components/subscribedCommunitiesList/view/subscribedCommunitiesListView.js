@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { useIntl } from 'react-intl';
 
-import { Tag, UserAvatar } from '../../index';
+import { MainButton, Tag, TextButton, UserAvatar } from '../../index';
 import { ListPlaceHolder } from '../../basicUIElements';
 
 import DEFAULT_IMAGE from '../../../assets/no_image.png';
@@ -19,23 +19,29 @@ import globalStyles from '../../../globalStyles';
 
 const SubscribedCommunitiesListView = ({
   data,
+  isLoading,
   subscribingCommunities,
   handleOnPress,
   handleSubscribeButtonPress,
   handleGetSubscriptions,
-  isLoading,
+  handleDiscoverPress,
 }) => {
   const intl = useIntl();
 
   const _renderEmptyContent = () => {
-    return isLoading ? (
-      <>
-        <ListPlaceHolder />
-      </>
-    ) : (
-      <Text style={[globalStyles.subTitle, styles.noContentText]}>
-        {intl.formatMessage({ id: 'empty_screen.nothing_here' })}
-      </Text>
+    return (
+      !isLoading && (
+        <>
+          <Text style={[globalStyles.subTitle, styles.noContentText]}>
+            {intl.formatMessage({ id: 'communities.no_communities' })}
+          </Text>
+          <TextButton
+            text={intl.formatMessage({ id: 'communities.discover_communities' })}
+            textStyle={[globalStyles.subTitle, styles.discoverTextButton]}
+            onPress={handleDiscoverPress}
+          />
+        </>
+      )
     );
   };
 
@@ -91,6 +97,7 @@ const SubscribedCommunitiesListView = ({
       keyExtractor={(item, index) => index.toString()}
       renderItem={_renderListItem}
       ListEmptyComponent={_renderEmptyContent}
+      ListFooterComponent={isLoading && <ListPlaceHolder />}
       refreshControl={<RefreshControl refreshing={isLoading} onRefresh={handleGetSubscriptions} />}
     />
   );

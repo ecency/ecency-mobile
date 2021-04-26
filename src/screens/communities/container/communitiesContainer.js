@@ -17,7 +17,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
 
   const [discovers, setDiscovers] = useState([]);
   const [subscriptions, setSubscriptions] = useState([]);
-  const [isSubscriptionsLoading, setIsSubscriptionsLoading] = useState(false);
+  const [isSubscriptionsLoading, setIsSubscriptionsLoading] = useState(true);
 
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const pinCode = useSelector((state) => state.application.pin);
@@ -156,10 +156,10 @@ const CommunitiesContainer = ({ children, navigation }) => {
       discovers,
       subscribingCommunitiesInDiscoverTab,
       subscribingCommunitiesInJoinedTab,
+      isSubscriptionsLoading,
       handleOnPress: _handleOnPress,
       handleSubscribeButtonPress: _handleSubscribeButtonPress,
       handleGetSubscriptions: _getSubscriptions,
-      isSubscriptionsLoading,
     })
   );
 };

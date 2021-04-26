@@ -1,39 +1,29 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useIntl } from 'react-intl';
-import { FlatList, View, Text, TouchableOpacity } from 'react-native';
-import get from 'lodash/get';
-import { SafeAreaView } from 'react-navigation';
+import { View } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 // Components
 import {
-  FilterBar,
-  UserAvatar,
   TabBar,
   BasicHeader,
   CommunitiesList,
   SubscribedCommunitiesList,
 } from '../../../components';
-import { CommunitiesPlaceHolder } from '../../../components/basicUIElements';
 
 import CommunitiesContainer from '../container/communitiesContainer';
-import DEFAULT_IMAGE from '../../../assets/no_image.png';
-import Tag from '../../../components/basicUIElements/view/tag/tagView';
 
 import styles from './communitiesScreenStyles';
 import globalStyles from '../../../globalStyles';
 
-const CommunitiesScreen = ({ navigation, searchValue }) => {
+const CommunitiesScreen = () => {
   const intl = useIntl();
+  const tabViewRef = useRef(null);
 
-  const _renderEmptyContent = () => {
-    return (
-      <>
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
-      </>
-    );
+  const _handleDiscoverPress = () => {
+    if (tabViewRef.current) {
+      tabViewRef.current.goToPage(1);
+    }
   };
 
   const _renderTabbar = () => (
@@ -66,6 +56,7 @@ const CommunitiesScreen = ({ navigation, searchValue }) => {
               })}
             />
             <ScrollableTabView
+              ref={tabViewRef}
               style={globalStyles.tabView}
               renderTabBar={_renderTabbar}
               prerenderingSiblingsNumber={Infinity}
@@ -80,6 +71,7 @@ const CommunitiesScreen = ({ navigation, searchValue }) => {
                   handleSubscribeButtonPress={handleSubscribeButtonPress}
                   handleOnPress={handleOnPress}
                   handleGetSubscriptions={handleGetSubscriptions}
+                  handleDiscoverPress={_handleDiscoverPress}
                   isLoading={isSubscriptionsLoading}
                 />
               </View>

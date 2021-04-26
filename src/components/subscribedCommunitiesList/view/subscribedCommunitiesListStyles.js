@@ -50,7 +50,14 @@ export default EStyleSheet.create({
   },
   noContentText: {
     textAlign: 'center',
-    marginVertical: 32,
+    marginTop: 52,
+    marginHorizontal: 32,
     color: '$primaryBlack',
+  },
+  discoverTextButton: {
+    textAlign: 'center',
+    marginTop: 24,
+    marginHorizontal: 32,
+    color: '$primaryBlue',
   },
 });
