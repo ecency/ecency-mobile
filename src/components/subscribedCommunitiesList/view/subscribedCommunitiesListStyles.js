@@ -48,4 +48,16 @@ export default EStyleSheet.create({
   tabbarItem: {
     flex: 1,
   },
+  noContentText: {
+    textAlign: 'center',
+    marginTop: 52,
+    marginHorizontal: 32,
+    color: '$primaryBlack',
+  },
+  discoverTextButton: {
+    textAlign: 'center',
+    marginTop: 24,
+    marginHorizontal: 32,
+    color: '$primaryBlue',
+  },
 });

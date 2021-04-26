@@ -56,7 +56,7 @@ export const getUpdatedPosts = (prevPosts:any[], nextPosts:any[], shouldReset:bo
             ...tabMeta,
             isNoPost:true
           });
-          return prevPosts;
+          return shouldReset? [] : prevPosts;
         }
 
 

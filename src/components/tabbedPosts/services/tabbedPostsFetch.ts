@@ -1,9 +1,8 @@
-import { getAccountPosts, getPost, getRankedPosts } from "../../../providers/hive/dhive";
-import { filterLatestPosts, getUpdatedPosts } from "./tabbedPostsReducer";
+import { getAccountPosts, getRankedPosts } from "../../../providers/hive/dhive";
+import { filterLatestPosts, getUpdatedPosts } from "./tabbedPostsHelpers";
 import Matomo from 'react-native-matomo-sdk';
 import { LoadPostsOptions } from "./tabbedPostsModels";
 import { getPromotePosts } from "../../../providers/ecency/ecency";
-import { get, isEmpty } from 'lodash';
 
 const POSTS_FETCH_COUNT = 20;
 
