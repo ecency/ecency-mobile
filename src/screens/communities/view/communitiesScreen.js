@@ -55,6 +55,8 @@ const CommunitiesScreen = ({ navigation, searchValue }) => {
         handleSubscribeButtonPress,
         subscribingCommunitiesInDiscoverTab,
         subscribingCommunitiesInJoinedTab,
+        handleGetSubscriptions,
+        isSubscriptionsLoading,
       }) => {
         return (
           <View style={styles.container}>
@@ -77,6 +79,8 @@ const CommunitiesScreen = ({ navigation, searchValue }) => {
                   subscribingCommunities={subscribingCommunitiesInJoinedTab}
                   handleSubscribeButtonPress={handleSubscribeButtonPress}
                   handleOnPress={handleOnPress}
+                  handleGetSubscriptions={handleGetSubscriptions}
+                  isLoading={isSubscriptionsLoading}
                 />
               </View>
               <View

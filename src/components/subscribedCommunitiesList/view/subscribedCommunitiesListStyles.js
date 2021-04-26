@@ -48,4 +48,9 @@ export default EStyleSheet.create({
   tabbarItem: {
     flex: 1,
   },
+  noContentText: {
+    textAlign: 'center',
+    marginVertical: 32,
+    color: '$primaryBlack',
+  },
 });
