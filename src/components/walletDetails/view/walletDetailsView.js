@@ -37,7 +37,7 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
       <GrayWrapper isGray>
         <WalletLineItem
           text={intl.formatMessage({
-            id: 'profile.steem_power',
+            id: 'profile.hive_power',
           })}
           isBlackText
           iconName="ios-information-circle-outline"
@@ -87,7 +87,7 @@ const WalletDetailsView = ({ walletData, intl, navigate, isShowDropdowns }) => {
 
       <WalletLineItem
         text={intl.formatMessage({
-          id: 'profile.steem_dollars',
+          id: 'profile.hive_dollars',
         })}
         isBlackText
         iconName="ios-information-circle-outline"
