@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "लाभार्थी पुरस्कार",
     "claim_reward_balance": "इनाम दावा ",
     "transfer": "स्थानांतरण",
-    "transfer_to_vesting": "वेस्टिंग को",
+    "power_up": "To Vesting",
     "transfer_from_savings": "बचत से",
     "withdraw_vesting": "शक्तिक्षय करें",
     "fill_order": "क्रम पूरा करें",
@@ -62,14 +62,14 @@
     "purchase_estm": "अंक प्राप्त करें",
     "points": "किसी को उपहार दे",
     "transfer_to_saving": "बचत करने के लिए",
-    "powerUp": "स्टीम क्षमता बढ़ाएं",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "बचत खाते से निकालें",
     "steemconnect_title": "हाइवसाईनर स्थानांतरण",
     "next": "अगला",
     "delegate": "कार्यभार सौंपें",
     "power_down": "शक्तिक्षय करें",
-    "withdraw_steem": "हाइव को वापस लें",
-    "withdraw_sbd": "एचबीडी को वापस ले लें",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HBD",
     "transfer_to_savings": "बचत करने के लिए",
     "convert": "बदलें",
     "escrow_transfer": "एस्क्रो ट्रांसफर",
@@ -85,22 +85,22 @@
       "title": "अंक",
       "buy": "अंक प्राप्त करें"
     },
-    "savingsteem": {
-      "title": "हाइव बचत"
+    "savinghive": {
+      "title": "HIVE Savings"
     },
-    "savingsbd": {
-      "title": "एचबीडी बचत"
+    "savinghbd": {
+      "title": "HBD Savings"
     },
-    "steem": {
-      "title": "हाइव",
-      "buy": "हाइव प्राप्त करें"
+    "hive": {
+      "title": "HIVE",
+      "buy": "GET HIVE"
     },
-    "sbd": {
-      "title": "एचबीडी",
-      "buy": "एचबीडी प्राप्त करें"
+    "hbd": {
+      "title": "HBD",
+      "buy": "GET HBD"
     },
-    "steem_power": {
-      "title": "हाइव पावर"
+    "hive_power": {
+      "title": "HIVE POWER"
     },
     "btc": {
       "title": "बीटीसी",
@@ -158,15 +158,15 @@
     "hours": "घंटे",
     "voting_power": "मतदान की क्षमता",
     "login_to_see": "देखने के लिए लॉगिन करें",
-    "follow_people": "अपना फ़ीड भरने के लिए कुछ लोगों का अनुसरण करें",
-    "follow_communities": "अपना फ़ीड भरने के लिए कुछ समुदायों से जुड़ें",
+    "follow_people": "When you follow people, you'll see their post here.",
+    "follow_communities": "When you join communities you'll see posts from communities here.",
     "havent_commented": "अभी तक कोई टिपण्णी नहीं की है",
     "havent_posted": "अभी तक कोई पोस्ट नहीं की है",
-    "steem_power": "हाइव पावर",
+    "hive_power": "Hive Power",
     "next_power_text": "अगला शक्तिक्षय में है",
     "days": "दिनों",
     "day": "दिन",
-    "steem_dollars": "हाइव डॉलर",
+    "hive_dollars": "Hive Dollars",
     "savings": "बचत",
     "edit": {
       "display_name": "प्रदर्शित होने वाला नाम",
@@ -281,6 +281,7 @@
     "reply": "जबाब दें",
     "open_gallery": "गैलरी खोलें",
     "capture_photo": "फोटो खीचें",
+    "uploaded_images": "Uploaded Images",
     "limited_tags": "केवल 10 टैग की अनुमति है, कुछ को हटा दें",
     "limited_length": "प्रत्येक टैग की अधिकतम लंबाई 24 होनी चाहिए",
     "limited_dash": "प्रत्येक टैग की अधिकतम लंबाई 24 होनी चाहिए",
@@ -298,22 +299,22 @@
     "beneficiaries": "लाभार्थी",
     "options": "विकल्प",
     "my_blog": "मेरा ब्लॉग",
-    "select_community": "Choose a community",
+    "select_community": "एक समुदाय चुनें",
     "my_communities": "मेरे समुदाय",
     "top_communities": "शीर्ष समुदाय",
     "schedule_modal_title": "पोस्ट शेड्यूल करें",
     "snippets": "स्निपेट्स",
-    "alert_init_title": "New Content",
-    "alert_init_body": "Open recent draft or Create new post",
-    "alert_btn_draft": "Recent Draft",
-    "alert_btn_new": "New Post",
-    "alert_pub_edit_title": "Publishing edits",
-    "alert_pub_new_title": "Publishing new post",
-    "alert_pub_body": "Are you sure?",
-    "alert_btn_yes": "Yes",
-    "alert_btn_no": "No",
-    "draft_save_success": "Draft Saved",
-    "draft_save_fail": "Failed to save draft"
+    "alert_init_title": "नई सामग्री",
+    "alert_init_body": "हाल का मसौदा खोलें या नई पोस्ट बनाएँ",
+    "alert_btn_draft": "हालिया ड्राफ्ट",
+    "alert_btn_new": "नया पोस्ट",
+    "alert_pub_edit_title": "प्रकाशन संपादन",
+    "alert_pub_new_title": "नई पोस्ट प्रकाशित करना",
+    "alert_pub_body": "क्या आपको यकीन है?",
+    "alert_btn_yes": "हाँ",
+    "alert_btn_no": "नहीं",
+    "draft_save_success": "ड्राफ्ट सहेजा गया",
+    "draft_save_fail": "ड्राफ्ट को सहेजने में विफल"
   },
   "snippets": {
     "label_no_snippets": "कोई स्निपेट नहीं मिला",
@@ -332,11 +333,11 @@
     "btn_cancel": "रद्द करें"
   },
   "uploads_modal": {
-    "label_no_images": "No Images Found",
-    "title": "Uploaded Images",
-    "title_remove_confirmation": "Delete image",
-    "btn_add": "Image",
-    "message_failed": "Failed to upload image"
+    "label_no_images": "कोई चित्र नहीं मिला",
+    "title": "छवियाँ अपलोड की गईं",
+    "title_remove_confirmation": "छवि हटाएं",
+    "btn_add": "छवि",
+    "message_failed": "छवि अपलोड करने में विफल"
   },
   "pincode": {
     "enter_text": "खोलनें के लिए पिन डालें",
@@ -404,7 +405,8 @@
     "something_wrong": "कुछ गलत हो गया।",
     "something_wrong_alt": "Https://ecency.com आज़माएं",
     "something_wrong_reload": "पुनः लोड करें",
-    "can_not_be_empty": "शीर्षक और शरीर खाली नहीं हो सकता!"
+    "can_not_be_empty": "शीर्षक और शरीर खाली नहीं हो सकता!",
+    "wrong_filter_count": "Please select 3 filters"
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
@@ -511,8 +513,8 @@
     "purchase_estm": "पॉइंट्स खरीदे",
     "convert": "एचबीडी को हाइव में बदलें",
     "points": "किसी को अंक उपहार दे",
-    "transfer_to_saving": "बचत खाते में स्थान्तरण करें",
-    "powerUp": "स्टीम क्षमता बढ़ाएं",
+    "transfer_to_savings": "Transfer To Saving",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "बचत खाते से निकालें",
     "steemconnect_title": "हाइवसाईनर स्थानांतरण",
     "estimated_weekly": "साप्ताहिक रूप से अनुमान लगाया गया",
@@ -525,10 +527,11 @@
     "next": "अगला",
     "delegate": "कार्यभार सौंपें",
     "power_down": "क्षमता कम करें",
-    "withdraw_steem": "हाइव को वापस लें",
-    "withdraw_sbd": "हाइव डॉलर वापस लेना",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "आवक फंड",
     "stop": "रुको",
+    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
     "address_view": "पता देखें"
   },
   "boost": {
@@ -635,5 +638,16 @@
     "username": "प्रयोक्ता नाम",
     "addAccount": "खता जोड़ें",
     "save": "रक्षित करें"
+  },
+  "welcome": {
+    "label": "आपका स्वागत है",
+    "title": "इसेंसी",
+    "line1_heading": "क्या आप समुदाय की तलाश कर रहे हैं?",
+    "line1_body": "बिना सेंसर किया हुआ, अपरिवर्तनीय, पुरस्कृत, विकेंद्रीकृत, कि आप स्वयं।",
+    "line2_heading": "हमारे पास एक उपाय है!",
+    "line2_body": "ब्लॉकचैन, सेंसरशिप-मुक्त, विकेन्द्रीकृत और पुरस्कृत का उपयोग करना।",
+    "line3_heading": "इसेंसी समुदायों में शामिल हों!",
+    "line3_body": "अपने समुदाय का निर्माण करें, पुरस्कृत हों और दूसरों को पुरस्कृत करें।",
+    "get_started": "Get started!"
   }
 }

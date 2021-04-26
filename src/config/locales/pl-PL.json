@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Nagroda dobroczynna",
     "claim_reward_balance": "Odbierz nagrodę ",
     "transfer": "Przelew",
-    "transfer_to_vesting": "Do stracenia",
+    "power_up": "To Vesting",
     "transfer_from_savings": "Z oszczędności",
     "withdraw_vesting": "Zmniejsz moc",
     "fill_order": "Wypełnij zamówienie",
@@ -62,14 +62,14 @@
     "purchase_estm": "POBIERZ PUNKTY",
     "points": "Punkty podarunkowe dla kogoś",
     "transfer_to_saving": "Do oszczędności",
-    "powerUp": "Zwiększ moc",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Wypłać Oszczędności",
     "steemconnect_title": "Przeniesienie Hivesigner",
     "next": "NASTĘPNY",
     "delegate": "Deleguj",
     "power_down": "Zmniejsz moc",
-    "withdraw_steem": "Wypłata HIVE",
-    "withdraw_sbd": "Wypłata HBD",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HBD",
     "transfer_to_savings": "Do oszczędności",
     "convert": "Konwertuj",
     "escrow_transfer": "Przelew Escrow",
@@ -85,22 +85,22 @@
       "title": "Punkty",
       "buy": "POBIERZ PUNKTY"
     },
-    "savingsteem": {
-      "title": "Oszczędności HIVE"
+    "savinghive": {
+      "title": "HIVE Savings"
     },
-    "savingsbd": {
-      "title": "Oszczędności HBD"
+    "savinghbd": {
+      "title": "HBD Savings"
     },
-    "steem": {
+    "hive": {
       "title": "HIVE",
-      "buy": "ZDOBYJ HIVE"
+      "buy": "GET HIVE"
     },
-    "sbd": {
+    "hbd": {
       "title": "HBD",
-      "buy": "ZDOBĄDŹ HBD"
+      "buy": "GET HBD"
     },
-    "steem_power": {
-      "title": "MOC HIVE"
+    "hive_power": {
+      "title": "HIVE POWER"
     },
     "btc": {
       "title": "BTC",
@@ -158,15 +158,15 @@
     "hours": "godziny",
     "voting_power": "Moc Głosu",
     "login_to_see": "Zaloguj się by zobaczyć",
-    "follow_people": "Obserwuj niektórych ludzi, aby wypełnić swój kanał",
-    "follow_communities": "Dołącz do niektórych społeczności, aby wypełnić swój kanał",
+    "follow_people": "When you follow people, you'll see their post here.",
+    "follow_communities": "When you join communities you'll see posts from communities here.",
     "havent_commented": "nie skomentował jeszcze niczego",
     "havent_posted": "nie skomentował jeszcze niczego",
-    "steem_power": "Moc Hive",
+    "hive_power": "Hive Power",
     "next_power_text": "Następny spadek mocy jest za",
     "days": "dni",
     "day": "dzień",
-    "steem_dollars": "Dolary Hive",
+    "hive_dollars": "Hive Dollars",
     "savings": "Oszczędności",
     "edit": {
       "display_name": "Wyświetlana nazwa",
@@ -281,6 +281,7 @@
     "reply": "Odpowiedz",
     "open_gallery": "Otwórz galerię",
     "capture_photo": "Zrób zdjęcie",
+    "uploaded_images": "Uploaded Images",
     "limited_tags": "Tylko 10 tagów dozwolonych, usuń niektóre",
     "limited_length": "Maksymalna długość każdego tagu powinna wynosić 24",
     "limited_dash": "Użyj jednego myślnika w każdym tagu",
@@ -404,7 +405,8 @@
     "something_wrong": "Coś poszło nie tak.",
     "something_wrong_alt": "Wypróbuj https://ecency.com",
     "something_wrong_reload": "Przeładowanie",
-    "can_not_be_empty": "Title and body can not be empty!"
+    "can_not_be_empty": "Title and body can not be empty!",
+    "wrong_filter_count": "Please select 3 filters"
   },
   "post": {
     "reblog_alert": "Jesteś pewien, że chcesz reblogować?",
@@ -511,8 +513,8 @@
     "purchase_estm": "Miejsce zakupu",
     "convert": "Zmień HBD na HIVE",
     "points": "Punkty podarunkowe dla kogoś",
-    "transfer_to_saving": "Przenieś do oszczędności",
-    "powerUp": "Zwiększ moc",
+    "transfer_to_savings": "Transfer To Saving",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Wypłać Do Oszczędności",
     "steemconnect_title": "Przeniesienie Hivesigner",
     "estimated_weekly": "Szacowany tygodniowo",
@@ -525,10 +527,11 @@
     "next": "NASTĘPNY",
     "delegate": "Deleguj",
     "power_down": "Zmniejsz moc",
-    "withdraw_steem": "Wycofaj HIVE",
-    "withdraw_sbd": "Wypłać dolar HIVE",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Fundusze przychodzące",
     "stop": "Zatrzymaj",
+    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
     "address_view": "Pokaż adres"
   },
   "boost": {
@@ -635,5 +638,16 @@
     "username": "Username",
     "addAccount": "Add Account",
     "save": "Save"
+  },
+  "welcome": {
+    "label": "Welcome to",
+    "title": "Ecency",
+    "line1_heading": "Are you looking for community?",
+    "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
+    "line2_heading": "We have a solution!",
+    "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
+    "line3_heading": "Join Ecency communities!",
+    "line3_body": "Build community you own, get rewarded and reward others.",
+    "get_started": "Get started!"
   }
 }
