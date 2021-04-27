@@ -628,7 +628,9 @@
   },
   "communities": {
     "joined": "Членство",
-    "discover": "Открийте"
+    "discover": "Открийте",
+    "discover_communities": "Discover Communities",
+    "no_communities": "Connect with people who share your interests by joining Communities."
   },
   "empty_screen": {
     "nothing_here": "Няма нищо тук"

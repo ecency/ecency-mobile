@@ -628,7 +628,9 @@
   },
   "communities": {
     "joined": "Jäsenyys",
-    "discover": "Löydä uutta"
+    "discover": "Löydä uutta",
+    "discover_communities": "Discover Communities",
+    "no_communities": "Connect with people who share your interests by joining Communities."
   },
   "empty_screen": {
     "nothing_here": "Täällä ei ole mitään"

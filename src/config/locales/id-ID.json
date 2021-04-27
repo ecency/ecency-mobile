@@ -628,7 +628,9 @@
   },
   "communities": {
     "joined": "Keanggotaan",
-    "discover": "Jelajahi"
+    "discover": "Jelajahi",
+    "discover_communities": "Discover Communities",
+    "no_communities": "Connect with people who share your interests by joining Communities."
   },
   "empty_screen": {
     "nothing_here": "Tidak ada apa-apa di sini"
