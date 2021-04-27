@@ -701,10 +701,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@ecency/render-helper@^2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.1.3.tgz#ac9bf4debbc0f39c17c582f2c4f48584af263b18"
-  integrity sha512-u1kTWkdNKH3EP6QNwW7C5A//RfW0sp9huBs03iTl5jiW+o8X0aytJGJ8LT6XQgJujuj7RssQytrdraY7xV7xhQ==
+"@ecency/render-helper@^2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.1.4.tgz#f57e3a06d762c0f9074a18596e7851f4a2f3ac81"
+  integrity sha512-wfVNwE6wX0k3eckOzyLbof1RyklHbCs0e3y7HQrv4WAyxGLQ9aZGc28ernU9DE/dLZZykIoHFFfDLj+CDsq/rw==
   dependencies:
     he "^1.2.0"
     lru-cache "^5.1.1"
@@ -7405,7 +7405,7 @@ react-native-animatable@1.3.3, react-native-animatable@^1.3.3:
   dependencies:
     prop-types "^15.7.2"
 
-react-native-autoheight-webview@^1.3.4, react-native-autoheight-webview@^1.5.7:
+react-native-autoheight-webview@^1.3.4, react-native-autoheight-webview@^1.5.8:
   version "1.5.8"
   resolved "https://registry.yarnpkg.com/react-native-autoheight-webview/-/react-native-autoheight-webview-1.5.8.tgz#afcbe65dfefcce4e2088c9aff9fee23dcd18aadf"
   integrity sha512-6+LY0a47AsnfnGgqMP2JzNVgX0/sGnkgq7UV39OKgUf2Im/glFjUOggYm8EiyzmA93gb9tYVB1mRTORElWAiGQ==
