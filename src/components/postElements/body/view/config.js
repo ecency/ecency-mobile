@@ -97,6 +97,21 @@ document.addEventListener('click', function(event) {
     window.ReactNativeWebView.postMessage(JSON.stringify(result));
     return false;
   }
+
+  if (el.classList.contains('markdown-video-link-youtube')) {
+    var embedUrl = el.getAttribute('data-embed-src');
+
+    if (embedUrl) {
+  
+      var result = {
+        type: 'markdown-video-link-youtube',
+        tag: embedUrl
+      };
+      window.ReactNativeWebView.postMessage(JSON.stringify(result));
+      return false;
+    }
+  }
+
   if (el.classList.contains('markdown-video-link')) {
     var embedSrc = '<iframe frameborder="0" allowfullscreen src="' + el.getAttribute('data-embed-src') + '"></iframe>';
     if (embedSrc) {
@@ -113,6 +128,8 @@ document.addEventListener('click', function(event) {
       return false;
     }
   }
+  
+
   var author = el.getAttribute('data-author').toString();
   window.ReactNativeWebView.postMessage(JSON.stringify(author));
 });
@@ -236,8 +253,25 @@ document.addEventListener('click', function(event) {
     window.ReactNativeWebView.postMessage(JSON.stringify(result));
     return false;
   }
+
+  if (el.classList.contains('markdown-video-link-youtube')) {
+    var embedUrl = el.getAttribute('data-embed-src');
+
+    if (embedUrl) {
+
+
+      var result = {
+        type: 'markdown-video-link-youtube',
+        tag: embedUrl
+      };
+      window.ReactNativeWebView.postMessage(JSON.stringify(result));
+      return false;
+    }
+  }
+
+
   if (el.classList.contains('markdown-video-link')) {
-    var embedSrc = '<iframe frameborder="0" allowfullscreen referrerpolicy="origin" src="https://www.youtube.com/embed/SCgX4ixCRcQ?autoplay=1"></iframe>';
+    var embedSrc = '<iframe frameborder="0" allowfullscreen src="' + el.getAttribute('data-embed-src') + '"></iframe>';
     if (embedSrc) {
       el.innerHTML = embedSrc;
       return;
@@ -252,6 +286,7 @@ document.addEventListener('click', function(event) {
       return false;
     }
   }
+
 });
 true;
 `;
