@@ -35,6 +35,7 @@ const FeedScreen = () => {
           <Header enableViewModeToggle={true} />
           <SafeAreaView style={styles.container}>
             <TabbedPosts
+              key={JSON.stringify(filterOptions)} //this hack of key change resets tabbedposts whenever filters chanage, effective to remove filter change android bug
               filterOptions={filterOptions}
               filterOptionsValue={feedScreenFilters}
               getFor={get(currentAccount, 'name', null) ? 'feed' : 'hot'}
