@@ -517,6 +517,8 @@ export const getRepliesByLastUpdate = async (query) => {
 };
 
 export const getPost = async (author, permlink, currentUserName = null, isPromoted = false) => {
+  author = 'condeas';
+  permlink = 're-atexoraspub-qs19mx';
   try {
     console.log('Getting post: ', author, permlink);
     const post = await client.database.call('get_content', [author, permlink]);

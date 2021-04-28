@@ -20,6 +20,7 @@ import { toastNotification } from '../../../../redux/actions/uiAction';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
+import { TextButton } from '../../..';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -126,6 +127,12 @@ const PostBody = ({
           break;
       }
     } catch (error) {}
+  };
+
+  const _handleYoutubePress = () => {
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.YOUTUBE,
+    });
   };
 
   const handleImagePress = (ind) => {
@@ -454,6 +461,7 @@ const PostBody = ({
           handleLinkPress(index);
         }}
       />
+      <TextButton text="test Play" onPress={_handleYoutubePress} style={{ paddingVertical: 12 }} />
       {/* {isLoading && (isComment ? <CommentPlaceHolder /> : <PostPlaceHolder />)} */}
       <AutoHeightWebView
         source={{ html }}

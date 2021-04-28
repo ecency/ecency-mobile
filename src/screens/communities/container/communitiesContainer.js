@@ -8,7 +8,6 @@ import ROUTES from '../../../constants/routeNames';
 
 import { getCommunities, getSubscriptions } from '../../../providers/hive/dhive';
 
-import { toastNotification } from '../../../redux/actions/uiAction';
 import { subscribeCommunity, leaveCommunity } from '../../../redux/actions/communitiesAction';
 
 const CommunitiesContainer = ({ children, navigation }) => {

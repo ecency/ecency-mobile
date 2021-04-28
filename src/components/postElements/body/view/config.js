@@ -237,7 +237,7 @@ document.addEventListener('click', function(event) {
     return false;
   }
   if (el.classList.contains('markdown-video-link')) {
-    var embedSrc = '<iframe frameborder="0" allowfullscreen src="' + el.getAttribute('data-embed-src') + '"></iframe>';
+    var embedSrc = '<iframe frameborder="0" allowfullscreen referrerpolicy="origin" src="https://www.youtube.com/embed/SCgX4ixCRcQ?autoplay=1"></iframe>';
     if (embedSrc) {
       el.innerHTML = embedSrc;
       return;
