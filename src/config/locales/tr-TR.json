@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Benefactor Reward",
     "claim_reward_balance": "Claim Reward ",
     "transfer": "Transfer",
-    "transfer_to_vesting": "To Vesting",
+    "power_up": "To Vesting",
     "transfer_from_savings": "From Savings",
     "withdraw_vesting": "Güç Düşürme",
     "fill_order": "Gerçekleşen emir",
@@ -62,14 +62,14 @@
     "purchase_estm": "GET POINTS",
     "points": "Gift Points to someone",
     "transfer_to_saving": "To Saving",
-    "powerUp": "Güç yükselt",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Withdraw Saving",
     "steemconnect_title": "Hivesigner Transfer",
     "next": "NEXT",
     "delegate": "Delegate",
     "power_down": "Güç Düşürme",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HBD",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HBD",
     "transfer_to_savings": "To Savings",
     "convert": "Convert",
     "escrow_transfer": "Escrow Transfer",
@@ -85,21 +85,21 @@
       "title": "Puanlar",
       "buy": "GET POINTS"
     },
-    "savingsteem": {
+    "savinghive": {
       "title": "HIVE Savings"
     },
-    "savingsbd": {
+    "savinghbd": {
       "title": "HBD Savings"
     },
-    "steem": {
+    "hive": {
       "title": "HIVE",
       "buy": "GET HIVE"
     },
-    "sbd": {
+    "hbd": {
       "title": "HBD",
       "buy": "GET HBD"
     },
-    "steem_power": {
+    "hive_power": {
       "title": "HIVE POWER"
     },
     "btc": {
@@ -158,15 +158,15 @@
     "hours": "saat",
     "voting_power": "Oylama güçü",
     "login_to_see": "Giriş yap ve gör!",
-    "follow_people": "Follow some people to fill your feed",
-    "follow_communities": "Join some communities to fill your feed",
+    "follow_people": "When you follow people, you'll see their post here.",
+    "follow_communities": "When you join communities you'll see posts from communities here.",
     "havent_commented": "henüz yorum yapmadı",
     "havent_posted": "henüz post paylasmadi",
-    "steem_power": "Hive Power",
+    "hive_power": "Hive Power",
     "next_power_text": "İleriki güç",
     "days": "gün içinde düşecek",
     "day": "gün içinde düşecek",
-    "steem_dollars": "Hive Dollars",
+    "hive_dollars": "Hive Dollars",
     "savings": "Biriktir",
     "edit": {
       "display_name": "Display Name",
@@ -281,6 +281,7 @@
     "reply": "Cevapla",
     "open_gallery": "Open Gallery",
     "capture_photo": "Bir fotoğraf çekin",
+    "uploaded_images": "Uploaded Images",
     "limited_tags": "Only 10 tags allowed, remove some",
     "limited_length": "Maximum length of each tag should be 24",
     "limited_dash": "Use one dash in each tag",
@@ -404,7 +405,8 @@
     "something_wrong": "Something went wrong.",
     "something_wrong_alt": "Try https://ecency.com",
     "something_wrong_reload": "Reload",
-    "can_not_be_empty": "Title and body can not be empty!"
+    "can_not_be_empty": "Title and body can not be empty!",
+    "wrong_filter_count": "Please select 3 filters"
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
@@ -511,8 +513,8 @@
     "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
     "points": "Gift Points to someone",
-    "transfer_to_saving": "Transfer To Saving",
-    "powerUp": "Güç yükselt",
+    "transfer_to_savings": "Transfer To Saving",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Withdraw To Saving",
     "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Estimated Weekly",
@@ -525,10 +527,11 @@
     "next": "NEXT",
     "delegate": "Delegate",
     "power_down": "Power Down",
-    "withdraw_steem": "Withdraw HIVE",
-    "withdraw_sbd": "Withdraw HIVE Dollar",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Incoming Funds",
     "stop": "Stop",
+    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
     "address_view": "View address"
   },
   "boost": {
@@ -625,7 +628,9 @@
   },
   "communities": {
     "joined": "Membership",
-    "discover": "Discover"
+    "discover": "Discover",
+    "discover_communities": "Discover Communities",
+    "no_communities": "Connect with people who share your interests by joining Communities."
   },
   "empty_screen": {
     "nothing_here": "Nothing here"
@@ -635,5 +640,16 @@
     "username": "Username",
     "addAccount": "Add Account",
     "save": "Save"
+  },
+  "welcome": {
+    "label": "Welcome to",
+    "title": "Ecency",
+    "line1_heading": "Are you looking for community?",
+    "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
+    "line2_heading": "We have a solution!",
+    "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
+    "line3_heading": "Join Ecency communities!",
+    "line3_body": "Build community you own, get rewarded and reward others.",
+    "get_started": "Get started!"
   }
 }
