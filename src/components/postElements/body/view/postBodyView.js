@@ -23,6 +23,7 @@ import { toastNotification } from '../../../../redux/actions/uiAction';
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
 import getYoutubeId from '../../../../utils/getYoutubeId';
+import isAndroidOreo from '../../../../utils/isAndroidOreo';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -143,6 +144,10 @@ const PostBody = ({
       navigation.navigate(ROUTES.SCREENS.YOUTUBE, {
         videoId,
       });
+    } else if (isAndroidOreo()) {
+      //if android oreo, open youtube app instead to avoid app reload on back press.
+      const interappLink = `vnd.youtube://${videoId}`;
+      Linking.canOpenURL(interappLink) && Linking.openURL(interappLink);
     } else {
       YouTubeStandaloneAndroid.playVideo({
         apiKey: Config.YOUTUBE_API_KEY,
