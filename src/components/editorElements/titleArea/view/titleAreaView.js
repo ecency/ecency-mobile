@@ -9,6 +9,7 @@ import { ThemeContainer } from '../../../../containers';
 // Styles
 import styles from './titleAreaStyles';
 import globalStyles from '../../../../globalStyles';
+import isAndroidOreo from '../../../../utils/isAndroidOreo';
 
 export default class TitleAreaView extends Component {
   /* Props
@@ -48,12 +49,14 @@ export default class TitleAreaView extends Component {
     const { intl, isPreviewActive, autoFocus } = this.props;
     const { text, height } = this.state;
 
+    const maxHeight = isAndroidOreo() ? 24 : 35;
+
     return (
-      <View style={[globalStyles.containerHorizontal16, { height: Math.max(35, height) }]}>
+      <View style={[globalStyles.containerHorizontal16, { height: Math.max(maxHeight, height) }]}>
         <ThemeContainer>
           {({ isDarkTheme }) => (
             <TextInput
-              style={[styles.textInput, { height: Math.max(35, height) }]}
+              style={[styles.textInput, { height: Math.max(maxHeight, height) }]}
               placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
               editable={!isPreviewActive}
               maxLength={250}

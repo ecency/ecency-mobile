@@ -45,6 +45,7 @@ import { ThemeContainer } from '../../../containers';
 import styles from './markdownEditorStyles';
 import applySnippet from './formats/applySnippet';
 import { MainButton } from '../../mainButton';
+import isAndroidOreo from '../../../utils/isAndroidOreo';
 
 const MIN_BODY_INPUT_HEIGHT = 300;
 
@@ -363,86 +364,91 @@ const MarkdownEditorView = ({
     }
   };
 
+  const _renderEditor = () => (
+    <>
+      {isReply && !isEdit && <SummaryArea summary={post.summary} />}
+      {!isReply && (
+        <TitleArea value={fields.title} onChange={onTitleChanged} componentID="title" intl={intl} />
+      )}
+      {!isReply && !isPreviewActive && (
+        <TagInput
+          value={fields.tags}
+          componentID="tag-area"
+          intl={intl}
+          handleTagChanged={onTagChanged}
+          setCommunity={getCommunity}
+        />
+      )}
+      {!isReply && isPreviewActive && (
+        <TagArea
+          draftChips={fields.tags.length > 0 ? fields.tags : null}
+          componentID="tag-area"
+          intl={intl}
+        />
+      )}
+      {isReply && (
+        <View style={styles.replySection}>
+          <TouchableOpacity style={styles.accountTile} onPress={() => changeUser()}>
+            <View style={styles.avatarAndNameContainer}>
+              <UserAvatar noAction username={currentAccount.username} />
+              <View style={styles.nameContainer}>
+                <Text style={styles.name}>{`@${currentAccount.username}`}</Text>
+              </View>
+              <Icon
+                size={24}
+                iconStyle={styles.leftIcon}
+                style={styles.iconArrow}
+                name="arrow-drop-down"
+                iconType="MaterialIcons"
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+      )}
+      {!isPreviewActive ? (
+        <ThemeContainer>
+          {({ isDarkTheme }) => (
+            <TextInput
+              multiline
+              autoCorrect={true}
+              autoFocus={isReply ? true : false}
+              onChangeText={_changeText}
+              onSelectionChange={_handleOnSelectionChange}
+              placeholder={intl.formatMessage({
+                id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
+              })}
+              placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
+              selectionColor="#357ce6"
+              style={{ ...styles.textWrapper, height: bodyInputHeight }}
+              underlineColorAndroid="transparent"
+              innerRef={inputRef}
+              editable={editable}
+              contextMenuHidden={false}
+              autoGrow={false}
+              scrollEnabled={false}
+              onContentSizeChange={_handleOnContentSizeChange}
+            />
+          )}
+        </ThemeContainer>
+      ) : (
+        _renderPreview()
+      )}
+    </>
+  );
+
+  const _renderEditorWithScroll = () => (
+    <ScrollView style={styles.container}>{_renderEditor()}</ScrollView>
+  );
+
+  const _renderEditorWithoutScroll = () => <View style={styles.container}>{_renderEditor()}</View>;
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
       keyboardVerticalOffset={Platform.select({ ios: 0, android: 30 })}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <ScrollView>
-        {isReply && !isEdit && <SummaryArea summary={post.summary} />}
-        {!isReply && (
-          <TitleArea
-            value={fields.title}
-            onChange={onTitleChanged}
-            componentID="title"
-            intl={intl}
-          />
-        )}
-        {!isReply && !isPreviewActive && (
-          <TagInput
-            value={fields.tags}
-            componentID="tag-area"
-            intl={intl}
-            handleTagChanged={onTagChanged}
-            setCommunity={getCommunity}
-          />
-        )}
-        {!isReply && isPreviewActive && (
-          <TagArea
-            draftChips={fields.tags.length > 0 ? fields.tags : null}
-            componentID="tag-area"
-            intl={intl}
-          />
-        )}
-        {isReply && (
-          <View style={styles.replySection}>
-            <TouchableOpacity style={styles.accountTile} onPress={() => changeUser()}>
-              <View style={styles.avatarAndNameContainer}>
-                <UserAvatar noAction username={currentAccount.username} />
-                <View style={styles.nameContainer}>
-                  <Text style={styles.name}>{`@${currentAccount.username}`}</Text>
-                </View>
-                <Icon
-                  size={24}
-                  iconStyle={styles.leftIcon}
-                  style={styles.iconArrow}
-                  name="arrow-drop-down"
-                  iconType="MaterialIcons"
-                />
-              </View>
-            </TouchableOpacity>
-          </View>
-        )}
-        {!isPreviewActive ? (
-          <ThemeContainer>
-            {({ isDarkTheme }) => (
-              <TextInput
-                multiline
-                autoCorrect={true}
-                autoFocus={isReply ? true : false}
-                onChangeText={_changeText}
-                onSelectionChange={_handleOnSelectionChange}
-                placeholder={intl.formatMessage({
-                  id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
-                })}
-                placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
-                selectionColor="#357ce6"
-                style={{ ...styles.textWrapper, height: bodyInputHeight }}
-                underlineColorAndroid="transparent"
-                innerRef={inputRef}
-                editable={editable}
-                contextMenuHidden={false}
-                autoGrow={false}
-                scrollEnabled={false}
-                onContentSizeChange={_handleOnContentSizeChange}
-              />
-            )}
-          </ThemeContainer>
-        ) : (
-          _renderPreview()
-        )}
-      </ScrollView>
+      {isAndroidOreo() ? _renderEditorWithoutScroll() : _renderEditorWithScroll()}
 
       {_renderFloatingDraftButton()}
       {!isPreviewActive && _renderEditorButtons()}
