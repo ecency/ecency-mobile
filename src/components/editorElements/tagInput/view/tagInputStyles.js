@@ -1,8 +1,9 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import isAndroidOreo from '../../../../utils/isAndroidOreo';
 
 export default EStyleSheet.create({
   container: {
-    height: 40,
+    height: isAndroidOreo() ? 28 : 40,
   },
   textInput: {
     color: '$primaryBlack',
