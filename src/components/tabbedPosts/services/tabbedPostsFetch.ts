@@ -36,7 +36,7 @@ export const loadPosts = async ({
         isLoading ||
       !isConnected ||
       (!isLoggedIn && filterKey === 'feed') ||
-      (!isLoggedIn && filterKey === 'blog')
+      (!isLoggedIn && filterKey === 'communities')
     ) {
       return;
     }
