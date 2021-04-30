@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 // Services and Actions
 import { Buffer } from 'buffer';
+import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 import {
   uploadImage,
   addDraft,
@@ -15,7 +16,7 @@ import {
   schedule,
   getDrafts,
 } from '../../../providers/ecency/ecency';
-import { toastNotification, setRcOffer, showActionModal } from '../../../redux/actions/uiAction';
+import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
   postContent,
   getPurePost,
@@ -40,7 +41,6 @@ import {
 // import { generateSignature } from '../../../utils/image';
 // Component
 import EditorScreen from '../screen/editorScreen';
-import ImageAssets from '../../../assets/ImageAssets';
 
 /*
  *            Props Name        Description                                     Value
@@ -69,6 +69,8 @@ class EditorContainer extends Component {
       community: [],
       rewardType: 'default',
       beneficiaries: [],
+      sharedSnippetText: null,
+      onLoadDraftPress: false,
     };
   }
 
@@ -81,9 +83,11 @@ class EditorContainer extends Component {
     let isEdit;
     let post;
     let _draft;
+    let hasSharedIntent = false;
 
     if (navigation.state && navigation.state.params) {
       const navigationParams = navigation.state.params;
+      hasSharedIntent = navigationParams.hasSharedIntent;
 
       if (navigationParams.draft) {
         _draft = navigationParams.draft;
@@ -96,30 +100,6 @@ class EditorContainer extends Component {
       if (navigationParams.community) {
         this.setState({
           community: navigationParams.community,
-        });
-      }
-      if (navigationParams.upload) {
-        const { upload } = navigationParams;
-
-        upload.forEach((el) => {
-          if (el.filePath && el.fileName) {
-            this.setState({ isUploading: true });
-            const _media = {
-              path: el.filePath,
-              mime: el.mimeType,
-              filename: el.fileName || `img_${Math.random()}.jpg`,
-            };
-
-            this._uploadImage(_media);
-          } else if (el.text) {
-            this.setState({
-              draftPost: {
-                title: '',
-                body: el.text,
-                tags: [],
-              },
-            });
-          }
         });
       }
 
@@ -154,11 +134,35 @@ class EditorContainer extends Component {
       }
     }
 
-    if (!isEdit && !_draft) {
+    if (!isEdit && !_draft && !hasSharedIntent) {
       this._fetchDraftsForComparison(isReply);
-    } else {
-      this._requestKeyboardFocus();
     }
+    this._requestKeyboardFocus();
+
+    ReceiveSharingIntent.getReceivedFiles(
+      (files) => {
+        files.forEach((el) => {
+          if (el.filePath && el.fileName) {
+            const _media = {
+              path: el.filePath,
+              mime: el.mimeType,
+              filename: el.fileName || `img_${Math.random()}.jpg`,
+            };
+
+            this._uploadImage(_media, { shouldInsert: true });
+          } else if (el.text) {
+            this.setState({
+              sharedSnippetText: el.text,
+            });
+          }
+        });
+        // To clear Intents
+        ReceiveSharingIntent.clearReceivedFiles();
+      },
+      (error) => {
+        console.log('error :>> ', error);
+      },
+    );
   }
 
   componentWillUnmount() {
@@ -285,30 +289,10 @@ class EditorContainer extends Component {
         this._getStorageDraft(username, isReply, _draft);
       };
 
-      const leaveEmpty = () => {
-        console.log('Leaving editor empty');
-      };
-
       if (drafts.length > 0 || (idLessDraft && idLessDraft.timestamp > 0)) {
-        dispatch(
-          showActionModal(
-            intl.formatMessage({
-              id: 'editor.alert_init_title',
-            }),
-            intl.formatMessage({
-              id: 'editor.alert_init_body',
-            }),
-            [
-              {
-                text: intl.formatMessage({ id: 'editor.alert_btn_draft' }),
-                onPress: loadRecentDraft,
-              },
-              { text: intl.formatMessage({ id: 'editor.alert_btn_new' }), onPress: leaveEmpty },
-            ],
-            ImageAssets.writerMascot,
-            this._requestKeyboardFocus,
-          ),
-        );
+        this.setState({
+          onLoadDraftPress: loadRecentDraft,
+        });
       }
     } catch (err) {
       console.warn('Failed to compare drafts, load general', err);
@@ -370,7 +354,7 @@ class EditorContainer extends Component {
     // const data = new Buffer(media.data, 'base64');
   };
 
-  _uploadImage = async (media) => {
+  _uploadImage = async (media, { shouldInsert } = { shouldInsert: false }) => {
     const { intl, currentAccount, pinCode, isLoggedIn } = this.props;
 
     if (!isLoggedIn) return;
@@ -385,9 +369,11 @@ class EditorContainer extends Component {
       const res = await uploadImage(media, currentAccount.name, sign);
       if (res.data && res.data.url) {
         res.data.hash = res.data.url.split('/').pop();
+        res.data.shouldInsert = shouldInsert;
+
         this.setState({
-          uploadedImage: res.data,
           isUploading: false,
+          uploadedImage: res.data,
         });
       }
     } catch (error) {
@@ -431,57 +417,6 @@ class EditorContainer extends Component {
         isUploading: false,
       });
     }
-
-    // uploadImage(media, currentAccount.name, sign).then((res) => {
-    //     if (res.data && res.data.url) {
-    //       res.data.hash = res.data.url.split('/').pop();
-    //       this.setState({
-    //         uploadedImage: res.data,
-    //         isUploading: false,
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error, error.message);
-    //     if (error.toString().includes('code 413')) {
-    //       Alert.alert(
-    //         intl.formatMessage({
-    //           id: 'alert.fail',
-    //         }),
-    //         intl.formatMessage({
-    //           id: 'alert.payloadTooLarge',
-    //         }),
-    //       );
-    //     } else if (error.toString().includes('code 429')) {
-    //       Alert.alert(
-    //         intl.formatMessage({
-    //           id: 'alert.fail',
-    //         }),
-    //         intl.formatMessage({
-    //           id: 'alert.quotaExceeded',
-    //         }),
-    //       );
-    //     } else if (error.toString().includes('code 400')) {
-    //       Alert.alert(
-    //         intl.formatMessage({
-    //           id: 'alert.fail',
-    //         }),
-    //         intl.formatMessage({
-    //           id: 'alert.invalidImage',
-    //         }),
-    //       );
-    //     } else {
-    //       Alert.alert(
-    //         intl.formatMessage({
-    //           id: 'alert.fail',
-    //         }),
-    //         error.message || error.toString(),
-    //       );
-    //     }
-    //     this.setState({
-    //       isUploading: false,
-    //     });
-    // });
   };
 
   _handleMediaOnSelectFailure = (error) => {
@@ -1098,6 +1033,8 @@ class EditorContainer extends Component {
       uploadedImage,
       community,
       isDraft,
+      sharedSnippetText,
+      onLoadDraftPress,
     } = this.state;
 
     const tags = navigation.state.params && navigation.state.params.tags;
@@ -1131,6 +1068,8 @@ class EditorContainer extends Component {
         community={community}
         currentAccount={currentAccount}
         isDraft={isDraft}
+        sharedSnippetText={sharedSnippetText}
+        onLoadDraftPress={onLoadDraftPress}
       />
     );
   }

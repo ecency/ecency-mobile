@@ -34,7 +34,7 @@ const PostCardView = ({
   reblogs,
   isHideImage,
   fetchPost,
-  isNsfwPost,
+  nsfw,
   intl,
   activeVotes,
   imageHeight,
@@ -77,11 +77,11 @@ const PostCardView = ({
   const rebloggedBy = get(content, 'reblogged_by[0]', null);
   var images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
   if (content.thumbnail) {
-    if (isNsfwPost && content.nsfw) {
+    if (nsfw !== '0' && content.nsfw) {
       images = { image: NSFW_IMAGE, thumbnail: NSFW_IMAGE };
+    } else {
+      images = { image: content.image, thumbnail: content.thumbnail };
     }
-
-    images = { image: content.image, thumbnail: content.thumbnail };
   } else {
     images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
   }

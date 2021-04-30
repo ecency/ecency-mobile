@@ -61,6 +61,7 @@ const initialState = {
   pin: null,
   isPinCodeOpen: true,
   isRenderRequired: false,
+
 };
 
 export default function (state = initialState, action) {
@@ -211,6 +212,7 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, {
         isRenderRequired: action.payload,
       });
+
     default:
       return state;
   }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
 
 // Components
@@ -20,31 +20,55 @@ const SearchInputView = ({
   onChangeText,
   handleOnModalClose,
   placeholder,
+  value = '',
   editable = true,
   autoFocus = true,
+  showClearButton = false,
+  prefix = '',
   style,
-}) => (
-  <SafeAreaView style={[styles.inputWrapper, style]}>
-    <Icon style={styles.icon} iconType="FontAwesome" name="search" size={15} />
-    <TextInput
-      style={styles.input}
-      onChangeText={(text) => onChangeText && onChangeText(text)}
-      placeholder={placeholder}
-      placeholderTextColor="#c1c5c7"
-      autoCapitalize="none"
-      autoFocus={autoFocus}
-      editable={editable}
+}) => {
+  const [inputValue, setInputValue] = useState(value || '');
+
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
+
+  const _onChangeText = (text) => {
+    if (prefix !== '') {
+      text = text.replace(prefix, '');
+    }
+    setInputValue(text);
+    if (onChangeText) {
+      onChangeText(text);
+    }
+  };
+
+  const _renderCrossButton = (onPress) => (
+    <IconButton
+      iconStyle={styles.closeIcon}
+      iconType="Ionicons"
+      style={styles.closeIconButton}
+      name="ios-close-circle-outline"
+      onPress={onPress}
     />
-    {handleOnModalClose && (
-      <IconButton
-        iconStyle={styles.closeIcon}
-        iconType="Ionicons"
-        style={styles.closeIconButton}
-        name="ios-close-circle-outline"
-        onPress={() => handleOnModalClose()}
+  );
+
+  return (
+    <SafeAreaView style={[styles.inputWrapper, style]}>
+      <TextInput
+        style={styles.input}
+        onChangeText={_onChangeText}
+        placeholder={placeholder}
+        placeholderTextColor="#c1c5c7"
+        autoCapitalize="none"
+        autoFocus={autoFocus}
+        editable={editable}
+        value={`${prefix}${inputValue}`}
       />
-    )}
-  </SafeAreaView>
-);
+      {handleOnModalClose && _renderCrossButton(() => handleOnModalClose())}
+      {showClearButton && _renderCrossButton(() => setInputValue(''))}
+    </SafeAreaView>
+  );
+};
 
 export default SearchInputView;

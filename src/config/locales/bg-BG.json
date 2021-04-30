@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Награда за благодетели",
     "claim_reward_balance": "Получи награда",
     "transfer": "Прехвърляне",
-    "transfer_to_vesting": "Към Вестинг",
+    "power_up": "To Vesting",
     "transfer_from_savings": "От спестявания",
     "withdraw_vesting": "Намаляване на енергията",
     "fill_order": "Попълнете поръчка",
@@ -62,14 +62,14 @@
     "purchase_estm": "Вземи точки",
     "points": "Дарения на Estm на някого",
     "transfer_to_saving": "Към спестявания",
-    "powerUp": "Повишаване на енергията",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Изтегли спестяванията",
     "steemconnect_title": "Hivesigner транзакция",
     "next": "СЛЕДВАЩ",
     "delegate": "Делегирай",
     "power_down": "Намаляване на енергията",
-    "withdraw_steem": "Изтегли Hive",
-    "withdraw_sbd": "Изтегли HBD",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HBD",
     "transfer_to_savings": "Към спестявания",
     "convert": "Конвертиране",
     "escrow_transfer": "Escrow прехвърляне",
@@ -85,22 +85,22 @@
       "title": "Точки",
       "buy": "Вземи точки"
     },
-    "savingsteem": {
-      "title": "HIVE спестявания"
+    "savinghive": {
+      "title": "HIVE Savings"
     },
-    "savingsbd": {
-      "title": "HBD спестявания"
+    "savinghbd": {
+      "title": "HBD Savings"
     },
-    "steem": {
+    "hive": {
       "title": "HIVE",
-      "buy": "Вземи HIVE"
+      "buy": "GET HIVE"
     },
-    "sbd": {
+    "hbd": {
       "title": "HBD",
-      "buy": "Вземи HBD"
+      "buy": "GET HBD"
     },
-    "steem_power": {
-      "title": "HIVE сила на гласа"
+    "hive_power": {
+      "title": "HIVE POWER"
     },
     "btc": {
       "title": "Биткойн",
@@ -158,15 +158,15 @@
     "hours": "часове",
     "voting_power": "Сила за гласуване",
     "login_to_see": "Влез в акаунта да видиш",
-    "follow_people": "Последвайте хора да ви последват и те",
-    "follow_communities": "Влез в някой общества за да изпълниш потока си",
+    "follow_people": "When you follow people, you'll see their post here.",
+    "follow_communities": "When you join communities you'll see posts from communities here.",
     "havent_commented": "Все още няма коментари",
     "havent_posted": "Все още няма публикации",
-    "steem_power": "Hive Сила/стойност",
+    "hive_power": "Hive Power",
     "next_power_text": "Следващо намаляване на енергията след",
     "days": "дни",
     "day": "Ден",
-    "steem_dollars": "Hive Долари",
+    "hive_dollars": "Hive Dollars",
     "savings": "Спестявания",
     "edit": {
       "display_name": "Име за показване",
@@ -281,6 +281,7 @@
     "reply": "Отговор",
     "open_gallery": "Отвори Галерия",
     "capture_photo": "Направи снимка",
+    "uploaded_images": "Uploaded Images",
     "limited_tags": "Само 10 тага се допускат, премахнете някои",
     "limited_length": "Максималната дължина на всеки таг трябва да бъде 24",
     "limited_dash": "Само по едно тире на таг",
@@ -404,7 +405,8 @@
     "something_wrong": "Нещо се обърка.",
     "something_wrong_alt": "Опитай https://ecency.com",
     "something_wrong_reload": "Презареди",
-    "can_not_be_empty": "Заглавитето и основата немогат да бъдат празни!"
+    "can_not_be_empty": "Заглавитето и основата немогат да бъдат празни!",
+    "wrong_filter_count": "Please select 3 filters"
   },
   "post": {
     "reblog_alert": "Сигорни ли сте,че искате да споделите?",
@@ -511,8 +513,8 @@
     "purchase_estm": "Купи точки",
     "convert": "Преобразувай HBD към HIVE",
     "points": "Дарения на Estm на някого",
-    "transfer_to_saving": "Прехвърли към Спестявания",
-    "powerUp": "Повишаване на енергията",
+    "transfer_to_savings": "Transfer To Saving",
+    "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Изтегли към Спестявания",
     "steemconnect_title": "Hivesigner транзакция",
     "estimated_weekly": "ориентировочно на седмица",
@@ -525,10 +527,11 @@
     "next": "следващ",
     "delegate": "Делегация/отдаване",
     "power_down": "Намаляване на енергията",
-    "withdraw_steem": "Изтегли Hive",
-    "withdraw_sbd": "Изтегли Hive Долари",
+    "withdraw_hive": "Withdraw HIVE",
+    "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Идващи средства",
     "stop": "спри",
+    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
     "address_view": "Преглед на адрес"
   },
   "boost": {
@@ -625,7 +628,9 @@
   },
   "communities": {
     "joined": "Членство",
-    "discover": "Открийте"
+    "discover": "Открийте",
+    "discover_communities": "Discover Communities",
+    "no_communities": "Connect with people who share your interests by joining Communities."
   },
   "empty_screen": {
     "nothing_here": "Няма нищо тук"
@@ -635,5 +640,16 @@
     "username": "Потребителско име",
     "addAccount": "Добави акаунт",
     "save": "Запази"
+  },
+  "welcome": {
+    "label": "Welcome to",
+    "title": "Ecency",
+    "line1_heading": "Are you looking for community?",
+    "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
+    "line2_heading": "We have a solution!",
+    "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
+    "line3_heading": "Join Ecency communities!",
+    "line3_body": "Build community you own, get rewarded and reward others.",
+    "get_started": "Get started!"
   }
 }

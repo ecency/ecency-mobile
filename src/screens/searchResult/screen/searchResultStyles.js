@@ -8,7 +8,7 @@ export default EStyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingRight: 12,
+    paddingLeft: 12,
   },
   buttonContainer: {
     width: '50%',

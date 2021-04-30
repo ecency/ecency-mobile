@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 
 // Components
-import { Posts, CollapsibleCard, Header, BasicHeader } from '../../../components';
+import { Posts, CollapsibleCard, Header, BasicHeader, TabbedPosts } from '../../../components';
 import { Tag, ProfileSummaryPlaceHolder } from '../../../components/basicUIElements';
 
 import CommunityContainer from '../container/communityContainer';
@@ -100,12 +100,13 @@ const CommunityScreen = ({ navigation }) => {
             <ProfileSummaryPlaceHolder />
           )}
           <View tabLabel={intl.formatMessage({ id: 'search.posts' })} style={styles.tabbarItem}>
-            <Posts
+            <TabbedPosts
               key={tag}
               filterOptions={GLOBAL_POST_FILTERS}
               filterOptionsValue={GLOBAL_POST_FILTERS_VALUE}
               selectedOptionIndex={_getSelectedIndex()}
               tag={tag}
+              imagesToggleEnabled={true}
             />
           </View>
         </View>

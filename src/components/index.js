@@ -86,7 +86,9 @@ import PostBoost from './postBoost/postBoostView';
 import Profile from './profile/profileView';
 import Promote from './promote/promoteView';
 import { SpinGame } from './spinGame/spinGameView';
+import { TabbedPosts } from './tabbedPosts';
 import { ActionModal } from './actionModal';
+import { CustomiseFiltersModal } from './customiseFiltersModal';
 
 // Basic UI Elements
 import {
@@ -221,5 +223,7 @@ export {
   PopoverWrapper,
   CommunitiesList,
   SubscribedCommunitiesList,
+  TabbedPosts,
   ActionModal,
+  CustomiseFiltersModal,
 };

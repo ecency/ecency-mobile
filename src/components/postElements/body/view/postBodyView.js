@@ -11,6 +11,8 @@ import RNFetchBlob from 'rn-fetch-blob';
 import ActionSheet from 'react-native-actionsheet';
 import { connect } from 'react-redux';
 
+import { YouTubeStandaloneAndroid } from 'react-native-youtube';
+import Config from 'react-native-config';
 import { customBodyScript } from './config';
 import { PostPlaceHolder, CommentPlaceHolder } from '../../../basicUIElements';
 
@@ -20,6 +22,8 @@ import { toastNotification } from '../../../../redux/actions/uiAction';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
+import getYoutubeId from '../../../../utils/getYoutubeId';
+import isAndroidOreo from '../../../../utils/isAndroidOreo';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -115,6 +119,9 @@ const PostBody = ({
           break;
         case 'markdown-proposal-link':
           break;
+        case 'markdown-video-link-youtube':
+          _handleYoutubePress(tag);
+          break;
         case 'markdown-video-link':
           break;
         case 'image':
@@ -126,6 +133,31 @@ const PostBody = ({
           break;
       }
     } catch (error) {}
+  };
+
+  const _handleYoutubePress = (embedUrl) => {
+    const videoId = getYoutubeId(embedUrl);
+
+    if (Platform.OS === 'ios') {
+      //standalone play for ios goes against youtube policies,
+      //that is why using it as component in separate screen
+      navigation.navigate(ROUTES.SCREENS.YOUTUBE, {
+        videoId,
+      });
+    } else if (isAndroidOreo()) {
+      //if android oreo, open youtube app instead to avoid app reload on back press.
+      const interappLink = `vnd.youtube://${videoId}`;
+      Linking.canOpenURL(interappLink) && Linking.openURL(interappLink);
+    } else {
+      YouTubeStandaloneAndroid.playVideo({
+        apiKey: Config.YOUTUBE_API_KEY,
+        videoId: videoId, // The YouTube video ID,
+        lightboxMode: true,
+        autoplay: true,
+      })
+        .then(() => console.log('Standalone Player Exited'))
+        .catch((errorMessage) => console.error(errorMessage));
+    }
   };
 
   const handleImagePress = (ind) => {
@@ -405,14 +437,6 @@ const PostBody = ({
     text-align: justify;
   }
 
-  .pull-left,
-  .pull-right {
-    max-width: calc(50% - 10px);
-    padding-left: 10px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
-  }
-
   .pull-left {
     margin-right: 10px;
     padding-right: 10px;
@@ -420,7 +444,7 @@ const PostBody = ({
   }
 
   .pull-right {
-    margin-left: 10px;
+    margin-right: 10px;
     padding-right: 10px;
     float: right;
   }
@@ -462,6 +486,7 @@ const PostBody = ({
           handleLinkPress(index);
         }}
       />
+
       {/* {isLoading && (isComment ? <CommentPlaceHolder /> : <PostPlaceHolder />)} */}
       <AutoHeightWebView
         source={{ html }}

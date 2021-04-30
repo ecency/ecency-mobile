@@ -80,6 +80,7 @@ import {
   toastNotification,
   updateActiveBottomTab,
 } from '../../../redux/actions/uiAction';
+import { resetLocalVoteMap, setFeedScreenFilters } from '../../../redux/actions/postsAction';
 
 import { encryptKey } from '../../../utils/crypto';
 
@@ -157,10 +158,10 @@ class ApplicationContainer extends Component {
     });
 
     ReceiveSharingIntent.getReceivedFiles(
-      (files) => {
+      () => {
         navigate({
           routeName: ROUTES.SCREENS.EDITOR,
-          params: { upload: files },
+          params: { hasSharedIntent: true },
         });
         // files returns as JSON Array example
         //[{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]
@@ -624,6 +625,7 @@ class ApplicationContainer extends Component {
     //reset certain properties
     dispatch(hideActionModal());
     dispatch(toastNotification(''));
+    dispatch(resetLocalVoteMap());
 
     const settings = await getSettings();
 

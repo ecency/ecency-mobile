@@ -151,6 +151,9 @@ PODS:
     - Folly (= 2018.10.22.00)
     - RCTRequired (= 0.61.5)
     - React-Core (= 0.61.5)
+  - RCTYouTube (2.0.1):
+    - React
+    - YoutubePlayer-in-WKWebView (~> 0.3.1)
   - React (0.61.5):
     - React-Core (= 0.61.5)
     - React-Core/DevSupport (= 0.61.5)
@@ -427,6 +430,7 @@ PODS:
   - toolbar-android (0.1.0-rc.2):
     - React
   - Yoga (1.14.0)
+  - YoutubePlayer-in-WKWebView (0.3.5)
 
 DEPENDENCIES:
   - appcenter-analytics (from `../node_modules/appcenter-analytics/ios`)
@@ -443,6 +447,7 @@ DEPENDENCIES:
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
+  - RCTYouTube (from `../node_modules/react-native-youtube`)
   - React (from `../node_modules/react-native/`)
   - React-Core (from `../node_modules/react-native/`)
   - React-Core/DevSupport (from `../node_modules/react-native/`)
@@ -517,6 +522,7 @@ SPEC REPOS:
     - SDWebImage
     - SDWebImageWebPCoder
     - TOCropViewController
+    - YoutubePlayer-in-WKWebView
 
 EXTERNAL SOURCES:
   appcenter-analytics:
@@ -547,6 +553,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
   RCTTypeSafety:
     :path: "../node_modules/react-native/Libraries/TypeSafety"
+  RCTYouTube:
+    :path: "../node_modules/react-native-youtube"
   React:
     :path: "../node_modules/react-native/"
   React-Core:
@@ -674,6 +682,7 @@ SPEC CHECKSUMS:
   Protobuf: 0cde852566359049847168e51bd1c690e0f70056
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
   RCTTypeSafety: 9aa1b91d7f9310fc6eadc3cf95126ffe818af320
+  RCTYouTube: 4509d59a7de050dd0c7c6cb1f427d37678d63b5c
   React: b6a59ef847b2b40bb6e0180a97d0ca716969ac78
   React-Core: 688b451f7d616cc1134ac95295b593d1b5158a04
   React-CoreModules: d04f8494c1a328b69ec11db9d1137d667f916dcb
@@ -723,7 +732,8 @@ SPEC CHECKSUMS:
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   toolbar-android: 85f3ef4d691469f2d304e7dee4bca013aa1ba1ff
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
+  YoutubePlayer-in-WKWebView: cfbf46da51d7370662a695a8f351e5fa1d3e1008
 
 PODFILE CHECKSUM: fe3729fa5bd9034637b0c0653446c2895b1c839d
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.1

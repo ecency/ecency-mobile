@@ -41,19 +41,20 @@ const SearchResultScreen = ({ navigation }) => {
     <View style={styles.container}>
       <SafeAreaView>
         <View style={styles.headerContainer}>
-          <View style={{ flex: 11 }}>
-            <SearchInput
-              //handleOnModalClose={_navigationGoBack}
-              placeholder={intl.formatMessage({ id: 'header.search' })}
-              onChangeText={_handleChangeText}
-            />
-          </View>
           <View style={{ flex: 1, marginTop: 20 }}>
             <IconButton
-              iconType="Ionicons"
-              name="ios-close-circle-outline"
+              iconType="MaterialIcons"
+              name="arrow-back"
               iconStyle={styles.backIcon}
               onPress={_navigationGoBack}
+            />
+          </View>
+          <View style={{ flex: 16 }}>
+            <SearchInput
+              showClearButton={true}
+              placeholder={intl.formatMessage({ id: 'header.search' })}
+              onChangeText={_handleChangeText}
+              value={searchValue}
             />
           </View>
         </View>

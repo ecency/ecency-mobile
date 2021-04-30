@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import parseDate from './parseDate';
 import parseToken from './parseToken';
-import { vestsToSp } from './conversions';
+import { vestsToHp } from './conversions';
 import { getFeedHistory, getAccount, getAccountHistory } from '../providers/hive/dhive';
 import { getCurrencyTokenRate } from '../providers/ecency/ecency';
 
@@ -27,8 +27,8 @@ export const transferTypes = [
   'fill_vesting_withdraw',
 ];
 
-export const groomingTransactionData = (transaction, steemPerMVests) => {
-  if (!transaction || !steemPerMVests) {
+export const groomingTransactionData = (transaction, hivePerMVests) => {
+  if (!transaction || !hivePerMVests) {
     return [];
   }
 
@@ -50,7 +50,7 @@ export const groomingTransactionData = (transaction, steemPerMVests) => {
       const { reward } = opData;
       const { comment_author: commentAuthor, comment_permlink: commentPermlink } = opData;
 
-      result.value = `${vestsToSp(parseToken(reward), steemPerMVests)
+      result.value = `${vestsToHp(parseToken(reward), hivePerMVests)
         .toFixed(3)
         .replace(',', '.')} HP`;
       result.details = commentAuthor ? `@${commentAuthor}/${commentPermlink}` : null;
@@ -58,21 +58,21 @@ export const groomingTransactionData = (transaction, steemPerMVests) => {
     case 'author_reward':
     case 'comment_benefactor_reward':
       let {
-        sbd_payout: sbdPayout = opData.hbd_payout,
-        steem_payout: steemPayout = opData.hive_payout,
+        hbd_payout: hbdPayout,
+        hive_payout: hivePayout,
         vesting_payout: vestingPayout,
       } = opData;
 
       const { author, permlink } = opData;
 
-      sbdPayout = parseToken(sbdPayout).toFixed(3).replace(',', '.');
-      steemPayout = parseToken(steemPayout).toFixed(3).replace(',', '.');
-      vestingPayout = vestsToSp(parseToken(vestingPayout), steemPerMVests)
+      hbdPayout = parseToken(hbdPayout).toFixed(3).replace(',', '.');
+      hivePayout = parseToken(hivePayout).toFixed(3).replace(',', '.');
+      vestingPayout = vestsToHp(parseToken(vestingPayout), hivePerMVests)
         .toFixed(3)
         .replace(',', '.');
 
-      result.value = `${sbdPayout > 0 ? `${sbdPayout} HBD` : ''} ${
-        steemPayout > 0 ? `${steemPayout} HIVE` : ''
+      result.value = `${hbdPayout > 0 ? `${hbdPayout} HBD` : ''} ${
+        hivePayout > 0 ? `${hivePayout} HIVE` : ''
       } ${vestingPayout > 0 ? `${vestingPayout} HP` : ''}`;
 
       result.details = author && permlink ? `@${author}/${permlink}` : null;
@@ -81,14 +81,14 @@ export const groomingTransactionData = (transaction, steemPerMVests) => {
       }
       break;
     case 'claim_reward_balance':
-      let { reward_hbd: rewardSdb, reward_hive: rewardSteem, reward_vests: rewardVests } = opData;
+      let { reward_hbd: rewardHdb, reward_hive: rewardHive, reward_vests: rewardVests } = opData;
 
-      rewardSdb = parseToken(rewardSdb).toFixed(3).replace(',', '.');
-      rewardSteem = parseToken(rewardSteem).toFixed(3).replace(',', '.');
-      rewardVests = vestsToSp(parseToken(rewardVests), steemPerMVests).toFixed(3).replace(',', '.');
+      rewardHdb = parseToken(rewardHdb).toFixed(3).replace(',', '.');
+      rewardHive = parseToken(rewardHive).toFixed(3).replace(',', '.');
+      rewardVests = vestsToHp(parseToken(rewardVests), hivePerMVests).toFixed(3).replace(',', '.');
 
-      result.value = `${rewardSdb > 0 ? `${rewardSdb} HBD` : ''} ${
-        rewardSteem > 0 ? `${rewardSteem} HIVE` : ''
+      result.value = `${rewardHdb > 0 ? `${rewardHdb} HBD` : ''} ${
+        rewardHive > 0 ? `${rewardHive} HIVE` : ''
       } ${rewardVests > 0 ? `${rewardVests} HP` : ''}`;
       break;
     case 'transfer':
@@ -107,9 +107,7 @@ export const groomingTransactionData = (transaction, steemPerMVests) => {
       let { vesting_shares: opVestingShares } = opData;
 
       opVestingShares = parseToken(opVestingShares);
-      result.value = `${vestsToSp(opVestingShares, steemPerMVests)
-        .toFixed(3)
-        .replace(',', '.')} HP`;
+      result.value = `${vestsToHp(opVestingShares, hivePerMVests).toFixed(3).replace(',', '.')} HP`;
       result.icon = 'attach-money';
       result.details = acc ? `@${acc}` : null;
       break;
@@ -188,47 +186,47 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   const [userdata] = state;
 
   // TODO: move them to utils these so big for a lifecycle function
-  walletData.rewardSteemBalance = parseToken(userdata.reward_hive_balance);
-  walletData.rewardSbdBalance = parseToken(userdata.reward_hbd_balance);
-  walletData.rewardVestingSteem = parseToken(userdata.reward_vesting_hive);
+  walletData.rewardHiveBalance = parseToken(userdata.reward_hive_balance);
+  walletData.rewardHbdBalance = parseToken(userdata.reward_hbd_balance);
+  walletData.rewardVestingHive = parseToken(userdata.reward_vesting_hive);
   walletData.hasUnclaimedRewards =
-    walletData.rewardSteemBalance > 0 ||
-    walletData.rewardSbdBalance > 0 ||
-    walletData.rewardVestingSteem > 0;
+    walletData.rewardHiveBalance > 0 ||
+    walletData.rewardHbdBalance > 0 ||
+    walletData.rewardVestingHive > 0;
   walletData.balance = parseToken(userdata.balance);
   walletData.vestingShares = parseToken(userdata.vesting_shares);
   walletData.vestingSharesDelegated = parseToken(userdata.delegated_vesting_shares);
   walletData.vestingSharesReceived = parseToken(userdata.received_vesting_shares);
   walletData.vestingSharesTotal =
     walletData.vestingShares - walletData.vestingSharesDelegated + walletData.vestingSharesReceived;
-  walletData.sbdBalance = parseToken(userdata.hbd_balance);
+  walletData.hbdBalance = parseToken(userdata.hbd_balance);
   walletData.savingBalance = parseToken(userdata.savings_balance);
-  walletData.savingBalanceSbd = parseToken(userdata.savings_hbd_balance);
+  walletData.savingBalanceHbd = parseToken(userdata.savings_hbd_balance);
 
   const feedHistory = await getFeedHistory();
   const base = parseToken(feedHistory.current_median_history.base);
   const quote = parseToken(feedHistory.current_median_history.quote);
 
-  walletData.steemPerMVests = globalProps.steemPerMVests;
+  walletData.hivePerMVests = globalProps.hivePerMVests;
 
-  const pricePerSteem = base / quote;
+  const pricePerHive = base / quote;
 
-  const totalSteem =
-    vestsToSp(walletData.vestingShares, walletData.steemPerMVests) +
+  const totalHive =
+    vestsToHp(walletData.vestingShares, walletData.hivePerMVests) +
     walletData.balance +
     walletData.savingBalance;
 
-  const totalSbd = walletData.sbdBalance + walletData.savingBalanceSbd;
+  const totalHbd = walletData.hbdBalance + walletData.savingBalanceHbd;
 
-  walletData.estimatedValue = totalSteem * pricePerSteem + totalSbd;
+  walletData.estimatedValue = totalHive * pricePerHive + totalHbd;
 
-  const ppSbd = await getCurrencyTokenRate(userCurrency, 'hbd');
-  const ppSteem = await getCurrencyTokenRate(userCurrency, 'hive');
+  const ppHbd = await getCurrencyTokenRate(userCurrency, 'hbd');
+  const ppHive = await getCurrencyTokenRate(userCurrency, 'hive');
 
-  walletData.estimatedSteemValue = (walletData.balance + walletData.savingBalance) * ppSteem;
-  walletData.estimatedSbdValue = totalSbd * ppSbd;
-  walletData.estimatedSpValue =
-    vestsToSp(walletData.vestingShares, walletData.steemPerMVests) * ppSteem;
+  walletData.estimatedHiveValue = (walletData.balance + walletData.savingBalance) * ppHive;
+  walletData.estimatedHbdValue = totalHbd * ppHbd;
+  walletData.estimatedHpValue =
+    vestsToHp(walletData.vestingShares, walletData.hivePerMVests) * ppHive;
 
   walletData.showPowerDown = userdata.next_vesting_withdrawal !== '1969-12-31T23:59:59';
   const timeDiff = Math.abs(parseDate(userdata.next_vesting_withdrawal) - new Date());

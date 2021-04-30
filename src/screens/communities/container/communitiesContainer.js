@@ -8,7 +8,6 @@ import ROUTES from '../../../constants/routeNames';
 
 import { getCommunities, getSubscriptions } from '../../../providers/hive/dhive';
 
-import { toastNotification } from '../../../redux/actions/uiAction';
 import { subscribeCommunity, leaveCommunity } from '../../../redux/actions/communitiesAction';
 
 const CommunitiesContainer = ({ children, navigation }) => {
@@ -17,6 +16,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
 
   const [discovers, setDiscovers] = useState([]);
   const [subscriptions, setSubscriptions] = useState([]);
+  const [isSubscriptionsLoading, setIsSubscriptionsLoading] = useState(true);
 
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const pinCode = useSelector((state) => state.application.pin);
@@ -28,21 +28,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
   );
 
   useEffect(() => {
-    getSubscriptions(currentAccount.username).then((subs) => {
-      subs.forEach((item) => item.push(true));
-      getCommunities('', 50, null, 'rank').then((communities) => {
-        communities.forEach((community) =>
-          Object.assign(community, {
-            isSubscribed: subs.some(
-              (subscribedCommunity) => subscribedCommunity[0] === community.name,
-            ),
-          }),
-        );
-
-        setSubscriptions(subs);
-        setDiscovers(shuffle(communities));
-      });
-    });
+    _getSubscriptions();
   }, []);
 
   useEffect(() => {
@@ -97,6 +83,31 @@ const CommunitiesContainer = ({ children, navigation }) => {
     setSubscriptions(subscribedsData);
   }, [subscribingCommunitiesInJoinedTab]);
 
+  const _getSubscriptions = () => {
+    setIsSubscriptionsLoading(true);
+    getSubscriptions(currentAccount.username)
+      .then((subs) => {
+        setIsSubscriptionsLoading(false);
+        subs.forEach((item) => item.push(true));
+        getCommunities('', 50, null, 'rank').then((communities) => {
+          communities.forEach((community) =>
+            Object.assign(community, {
+              isSubscribed: subs.some(
+                (subscribedCommunity) => subscribedCommunity[0] === community.name,
+              ),
+            }),
+          );
+
+          setSubscriptions(subs);
+          setDiscovers(shuffle(communities));
+        });
+      })
+      .catch((err) => {
+        console.warn('Failed to get subscriptions', err);
+        setIsSubscriptionsLoading(false);
+      });
+  };
+
   // Component Functions
   const _handleOnPress = (name) => {
     navigation.navigate({
@@ -144,8 +155,10 @@ const CommunitiesContainer = ({ children, navigation }) => {
       discovers,
       subscribingCommunitiesInDiscoverTab,
       subscribingCommunitiesInJoinedTab,
+      isSubscriptionsLoading,
       handleOnPress: _handleOnPress,
       handleSubscribeButtonPress: _handleSubscribeButtonPress,
+      handleGetSubscriptions: _getSubscriptions,
     })
   );
 };

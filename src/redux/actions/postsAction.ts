@@ -8,6 +8,7 @@ import {
   SET_INIT_POSTS,
   UPDATE_LOCAL_VOTE_MAP,
   RESET_LOCAL_VOTE_MAP,
+  SET_FEED_SCREEN_FILTERS,
 } from '../constants/constants';
 
 export const setFeedPosts = (posts, scrollPosition = 0) => ({
@@ -54,3 +55,9 @@ export const filterSelected = (payload) => ({
   payload,
   type: FILTER_SELECTED,
 });
+
+export const setFeedScreenFilters = (payload:string[]) => ({
+  payload,
+  type: SET_FEED_SCREEN_FILTERS
+})
+

@@ -21,13 +21,11 @@ interface MediaInsertData {
 
 interface UploadsGalleryModalProps {
     username:string;
-    isUploading:boolean;
     handleOnSelect:(data:MediaInsertData)=>void;
-    handleOnUploadPress:()=>void;
     uploadedImage:MediaInsertData;
 }
 
-export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, handleOnUploadPress, isUploading, uploadedImage}: UploadsGalleryModalProps, ref) => {
+export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploadedImage}: UploadsGalleryModalProps, ref) => {
     const intl = useIntl();
 
     const [mediaUploads, setMediaUploads] = useState([]);
@@ -167,28 +165,7 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, handl
     };
 
 
-    //renders footer with add snipept button and shows new snippet modal
-    const _renderFloatingButton = () => {
-        const _onPress = () => {
-            if(handleOnUploadPress){
-                handleOnUploadPress();
-            }
-            
-        }
-        return (
-        <View style={styles.floatingContainer}>
-            <MainButton
-                style={{ width: isUploading?null:130}}
-                onPress={_onPress}
-                iconName="plus"
-                iconType="MaterialCommunityIcons"
-                iconColor="white"
-                text={intl.formatMessage({id:'uploads_modal.btn_add'})}
-                isLoading={isUploading}
-            />
-        </View>
-        );
-    };
+
 
 
     const _renderContent = (
@@ -207,7 +184,6 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, handl
                     />
                 }
             />
-            {_renderFloatingButton()}
             </View>
         </View>
     )

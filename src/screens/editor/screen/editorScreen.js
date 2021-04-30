@@ -19,6 +19,7 @@ import {
   SelectCommunityModalContainer,
   Modal,
   UserAvatar,
+  MainButton,
 } from '../../../components';
 
 // dhive
@@ -249,20 +250,21 @@ class EditorScreen extends Component {
     const { fields, selectedCommunity } = this.state;
     const { currentAccount } = this.props;
 
+    const tags = [...fields.tags];
     if (community == null) {
       if (!isNull(selectedCommunity)) {
-        fields.tags.shift();
+        tags.shift();
       }
     } else {
       if (!isNull(selectedCommunity)) {
-        fields.tags.shift();
+        tags.shift();
       }
 
-      fields.tags.unshift(community.name);
+      tags.unshift(community.name);
     }
 
     this.setState({
-      fields,
+      fields: { ...fields, tags },
       isCommunitiesListModalOpen: false,
       selectedCommunity: community,
       selectedAccount: community ? null : currentAccount,
@@ -319,6 +321,8 @@ class EditorScreen extends Component {
       handleBeneficiaries,
       currentAccount,
       autoFocusText,
+      sharedSnippetText,
+      onLoadDraftPress,
     } = this.props;
     const rightButtonText = intl.formatMessage({
       id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : 'basic_header.publish',
@@ -395,6 +399,8 @@ class EditorScreen extends Component {
             onTitleChanged={this._handleChangeTitle}
             getCommunity={this._getCommunity}
             autoFocusText={autoFocusText}
+            sharedSnippetText={sharedSnippetText}
+            onLoadDraftPress={onLoadDraftPress}
           />
         </PostForm>
       </View>

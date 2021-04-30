@@ -29,12 +29,14 @@ export default EStyleSheet.create({
     justifyContent: 'space-between',
   },
   rightIconWrapper: {
-    flex: 1,
-    marginRight: 5,
+    marginRight: 8,
     alignSelf: 'center',
   },
   rightIcon: {
     color: '$darkIconColor',
     textAlign: 'center',
+  },
+  rightIconPlaceholder: {
+    marginRight: 8,
   },
 });

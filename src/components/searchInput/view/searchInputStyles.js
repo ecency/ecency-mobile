@@ -11,17 +11,13 @@ export default EStyleSheet.create({
     justifyContent: 'flex-start',
     marginHorizontal: 16,
   },
-  icon: {
-    alignSelf: 'center',
-    color: '$iconColor',
-    marginLeft: 16,
-  },
   input: {
     color: '$primaryDarkGray',
     fontSize: 14,
     flexGrow: 1,
     padding: 7,
     maxWidth: '$deviceWidth - 100',
+    marginLeft: 8,
   },
   closeIconButton: {
     width: 20,
