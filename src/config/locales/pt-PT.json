@@ -158,8 +158,8 @@
     "hours": "horas",
     "voting_power": "Poder de voto",
     "login_to_see": "Login para ver",
-    "follow_people": "When you follow people, you'll see their post here.",
-    "follow_communities": "When you join communities you'll see posts from communities here.",
+    "follow_people": "Ao seguir as pessoas, você verá as publicações delas aqui.",
+    "follow_communities": "Quando você ingressar em comunidades, verá os posts delas aqui.",
     "havent_commented": "ainda não comentou nada",
     "havent_posted": "ainda não postou nada",
     "hive_power": "Hive Power",
@@ -281,7 +281,7 @@
     "reply": "Responder",
     "open_gallery": "Galeria Aberta",
     "capture_photo": "Capturar uma foto",
-    "uploaded_images": "Uploaded Images",
+    "uploaded_images": "Imagens Enviadas",
     "limited_tags": "Apenas 10 tags permitidas, remova algumas",
     "limited_length": "Tamanho máximo de cada tag deve ser 24",
     "limited_dash": "Use um traço em cada tag",
@@ -629,8 +629,8 @@
   "communities": {
     "joined": "Membros",
     "discover": "Descobrir",
-    "discover_communities": "Discover Communities",
-    "no_communities": "Connect with people who share your interests by joining Communities."
+    "discover_communities": "Descobrir Comunidades",
+    "no_communities": "Ingresse numa Comunidade e conecte-se com pessoas que compartilham dos mesmos interesses."
   },
   "empty_screen": {
     "nothing_here": "Nada aqui"
