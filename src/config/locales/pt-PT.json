@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Recompensa de Benefício",
     "claim_reward_balance": "Solicitar recompensa ",
     "transfer": "Transferir",
-    "power_up": "To Vesting",
+    "power_up": "Power Up",
     "transfer_from_savings": "Das poupanças",
     "withdraw_vesting": "Descarregar Poder",
     "fill_order": "Preencher pedido",
@@ -62,14 +62,14 @@
     "purchase_estm": "GANHE PONTOS",
     "points": "Dê Pontos a alguém",
     "transfer_to_saving": "Para poupança",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_vesting": "Transferência para Hive Power",
     "withdraw_to_saving": "Levantar das poupanças",
     "steemconnect_title": "Transferência por Hivesigner",
     "next": "SEGUINTE",
     "delegate": "Delegar",
     "power_down": "Descarregar Poder",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HBD",
+    "withdraw_hive": "Sacar HIVE",
+    "withdraw_hbd": "Sacar HBD",
     "transfer_to_savings": "Para poupança",
     "convert": "Converter",
     "escrow_transfer": "Transferência do Escrow",
@@ -86,14 +86,14 @@
       "buy": "OBTER PONTOS"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "Poupança de HIVE"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "Poupança de HBD"
     },
     "hive": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "OBTER HIVE"
     },
     "hbd": {
       "title": "HBD",
@@ -644,12 +644,12 @@
   "welcome": {
     "label": "Welcome to",
     "title": "Ecency",
-    "line1_heading": "Are you looking for community?",
+    "line1_heading": "Você está procurando por uma comunidade?",
     "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
     "line2_heading": "We have a solution!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "Join Ecency communities!",
     "line3_body": "Build community you own, get rewarded and reward others.",
-    "get_started": "Get started!"
+    "get_started": "Comece agora!"
   }
 }
