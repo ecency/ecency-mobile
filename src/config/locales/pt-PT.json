@@ -97,7 +97,7 @@
     },
     "hbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "OBTER HBD"
     },
     "hive_power": {
       "title": "HIVE POWER"
@@ -162,7 +162,7 @@
     "follow_communities": "Quando você ingressar em comunidades, verá os posts delas aqui.",
     "havent_commented": "ainda não comentou nada",
     "havent_posted": "ainda não postou nada",
-    "hive_power": "Hive Power",
+    "hive_power": "Poder Hive",
     "next_power_text": "Próxima descarga de Poder Steem",
     "days": "dias",
     "day": "dia",
