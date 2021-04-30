@@ -166,7 +166,7 @@
     "next_power_text": "Próxima descarga de Poder Steem",
     "days": "dias",
     "day": "dia",
-    "hive_dollars": "Hive Dollars",
+    "hive_dollars": "Dólares Hive",
     "savings": "Poupanças",
     "edit": {
       "display_name": "Nome a Exibir",
@@ -303,7 +303,7 @@
     "my_communities": "Minhas Comunidades",
     "top_communities": "Principais Comunidades",
     "schedule_modal_title": "Agendar Post",
-    "snippets": "Snippets",
+    "snippets": "Trechos",
     "alert_init_title": "Novo Conteúdo",
     "alert_init_body": "Abrir rascunho recente ou criar uma nova postagem",
     "alert_btn_draft": "Rascunho Recente",
@@ -317,14 +317,14 @@
     "draft_save_fail": "Falha ao salvar rascunho"
   },
   "snippets": {
-    "label_no_snippets": "No Snippets Found",
-    "title_add_snippet": "Add Snippet",
-    "title_edit_snippet": "Edit Snippet",
-    "title_remove_confirmation": "Delete snippet",
-    "placeholder_title": "Snippet title",
-    "placeholder_body": "Add snippet body here...",
+    "label_no_snippets": "Nenhum Snippet Encontrado",
+    "title_add_snippet": "Adicionar Snippet",
+    "title_edit_snippet": "Editar Snippet",
+    "title_remove_confirmation": "Excluir snippet",
+    "placeholder_title": "Título do Snippet",
+    "placeholder_body": "Adicionar corpo do snippet aqui...",
     "btn_save": "SALVAR",
-    "btn_close": "CLOSE",
+    "btn_close": "FECHAR",
     "btn_add": "Snippet",
     "message_incomplete": "Please add title and body for snippet",
     "message_failed": "Failed to save snippet",
@@ -527,11 +527,11 @@
     "next": "SEGUINTE",
     "delegate": "Delegar",
     "power_down": "Decarregar Poder",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HIVE Dollar",
+    "withdraw_hive": "Sacar HIVE",
+    "withdraw_hbd": "Sacar HIVE Dólar",
     "incoming_funds": "Fundos Recebidos",
     "stop": "Parar",
-    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
+    "sc_power_down_error": "Esse recurso ainda não está implementado para fazer login através do Hivesigner, por enquanto",
     "address_view": "Ver endereço"
   },
   "boost": {
@@ -642,13 +642,13 @@
     "save": "Salvar"
   },
   "welcome": {
-    "label": "Welcome to",
+    "label": "Bem-vindo à",
     "title": "Ecency",
     "line1_heading": "Você está procurando por uma comunidade?",
-    "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
-    "line2_heading": "We have a solution!",
+    "line1_body": "Incensurável, imutável, recompensante, descentralizado, que você possui.",
+    "line2_heading": "Nós temos a solução!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
-    "line3_heading": "Join Ecency communities!",
+    "line3_heading": "Junte-se às comunidades da Ecency!",
     "line3_body": "Build community you own, get rewarded and reward others.",
     "get_started": "Comece agora!"
   }
