@@ -62,14 +62,14 @@
     "purchase_estm": "DAPATKAN POIN",
     "points": "Hadiahkan poin kepada seseorang",
     "transfer_to_saving": "Untuk Menyimpan",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_vesting": "Tingkatkan Kekuatan",
     "withdraw_to_saving": "Menarik Tabungan",
     "steemconnect_title": "Transfer Hivesigner",
     "next": "LANJUT",
     "delegate": "Delegasikan",
     "power_down": "Turunkan Daya Kekuatan",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HBD",
+    "withdraw_hive": "Tarik HIVE",
+    "withdraw_hbd": "Tarik HBD",
     "transfer_to_savings": "Untuk Tabungan",
     "convert": "Mengkonversi",
     "escrow_transfer": "Transfer Escrow",
@@ -86,21 +86,21 @@
       "buy": "DAPATKAN POIN"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "Penyimpanan HIVE"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "Penyimpanan HBD"
     },
     "hive": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "DAPATKAN HIVE"
     },
     "hbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "DAPATKAN HBD"
     },
     "hive_power": {
-      "title": "HIVE POWER"
+      "title": "KEKUATAN HIVE"
     },
     "btc": {
       "title": "BTC",
@@ -158,7 +158,7 @@
     "hours": "jam",
     "voting_power": "Kekuatan Suara",
     "login_to_see": "Masuk untuk melihat",
-    "follow_people": "When you follow people, you'll see their post here.",
+    "follow_people": "Ketika Anda mengikuti orang lain, Anda akan melihat postingan mereka di sini.",
     "follow_communities": "When you join communities you'll see posts from communities here.",
     "havent_commented": "belum berkomentar",
     "havent_posted": "belum pernah mengirimkan sesuatu",
