@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Hadiah Benefactor",
     "claim_reward_balance": "Klaim Hadiah ",
     "transfer": "Transfer",
-    "power_up": "To Vesting",
+    "power_up": "Untuk Menjamin",
     "transfer_from_savings": "Dari Tabungan",
     "withdraw_vesting": "Turunkan Daya Kekuatan",
     "fill_order": "Isi pesanan",
@@ -159,14 +159,14 @@
     "voting_power": "Kekuatan Suara",
     "login_to_see": "Masuk untuk melihat",
     "follow_people": "Ketika Anda mengikuti orang lain, Anda akan melihat postingan mereka di sini.",
-    "follow_communities": "When you join communities you'll see posts from communities here.",
+    "follow_communities": "Saat Anda bergabung dengan komunitas, Anda akan melihat postingan dari komunitas di sini.",
     "havent_commented": "belum berkomentar",
     "havent_posted": "belum pernah mengirimkan sesuatu",
-    "hive_power": "Hive Power",
+    "hive_power": "Kekuatan Hive",
     "next_power_text": "Menurunkan daya berikutnya di",
     "days": "hari",
     "day": "hari",
-    "hive_dollars": "Hive Dollars",
+    "hive_dollars": "Hive Dolar",
     "savings": "Tabungan",
     "edit": {
       "display_name": "Nama Tampilan",
@@ -281,7 +281,7 @@
     "reply": "Balas",
     "open_gallery": "Buka Album",
     "capture_photo": "Ambil Foto",
-    "uploaded_images": "Uploaded Images",
+    "uploaded_images": "Gambar yang diunggah",
     "limited_tags": "Hanya 10 tag yang diizinkan, hapus beberapa",
     "limited_length": "Panjang maksimum setiap tag harus 24",
     "limited_dash": "Gunakan satu tanda hubung di setiap tag",
@@ -406,7 +406,7 @@
     "something_wrong_alt": "Cobalah https://ecency.com",
     "something_wrong_reload": "Muat ulang",
     "can_not_be_empty": "Judul dan isi tidak boleh kosong!",
-    "wrong_filter_count": "Please select 3 filters"
+    "wrong_filter_count": "Silahkan pilih 3 penyaringan"
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
@@ -513,8 +513,8 @@
     "purchase_estm": "Beli Poin",
     "convert": "Konversi ke HIVE",
     "points": "Hadiahkan Poin kepda seseorang",
-    "transfer_to_savings": "Transfer To Saving",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_savings": "Transfer untuk Penyimpanan",
+    "transfer_to_vesting": "Tingkatkan Kekuatan",
     "withdraw_to_saving": "Tarik untuk menyimpan",
     "steemconnect_title": "Transfer Hivesigner",
     "estimated_weekly": "Estimasi Mingguan",
@@ -527,11 +527,11 @@
     "next": "LANJUT",
     "delegate": "Delegasikan",
     "power_down": "Menurunkan daya",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HIVE Dollar",
+    "withdraw_hive": "Tarik HIVE",
+    "withdraw_hbd": "Tarik Hive Dolar",
     "incoming_funds": "Dana masuk",
     "stop": "Berhenti",
-    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
+    "sc_power_down_error": "Fitur ini belum diimplementasikan untuk login dengan Hivesigner",
     "address_view": "Lihat alamat"
   },
   "boost": {
@@ -629,8 +629,8 @@
   "communities": {
     "joined": "Keanggotaan",
     "discover": "Jelajahi",
-    "discover_communities": "Discover Communities",
-    "no_communities": "Connect with people who share your interests by joining Communities."
+    "discover_communities": "Temukan Komunitas",
+    "no_communities": "Terhubung dengan orang-orang yang memiliki minat yang sama dengan bergabung dalam Komunitas."
   },
   "empty_screen": {
     "nothing_here": "Tidak ada apa-apa di sini"
@@ -650,6 +650,6 @@
     "line2_body": "Memanfaatkan blockchain, bebas sensor, terdesentralisasi, dan bermanfaat.",
     "line3_heading": "Bergabunglah dengan Komunitas Ecency!",
     "line3_body": "Bangun komunitas yang Anda miliki, dapatkan imbalan, dan beri penghargaan kepada orang lain.",
-    "get_started": "Get started!"
+    "get_started": "Mulai!"
   }
 }
