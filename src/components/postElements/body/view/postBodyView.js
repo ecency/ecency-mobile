@@ -9,10 +9,12 @@ import get from 'lodash/get';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import RNFetchBlob from 'rn-fetch-blob';
 import ActionSheet from 'react-native-actionsheet';
+import ActionSheetView from 'react-native-actions-sheet';
 import { connect } from 'react-redux';
 
 import { YouTubeStandaloneAndroid } from 'react-native-youtube';
 import Config from 'react-native-config';
+import Youtube from 'react-native-youtube-iframe';
 import { customBodyScript } from './config';
 import { PostPlaceHolder, CommentPlaceHolder } from '../../../basicUIElements';
 
@@ -24,6 +26,7 @@ import { toastNotification } from '../../../../redux/actions/uiAction';
 import { default as ROUTES } from '../../../../constants/routeNames';
 import getYoutubeId from '../../../../utils/getYoutubeId';
 import isAndroidOreo from '../../../../utils/isAndroidOreo';
+import YoutubePlayer from './youtubePlayer';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -38,14 +41,17 @@ const PostBody = ({
   onLoadEnd,
 }) => {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+
   const [postImages, setPostImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedLink, setSelectedLink] = useState(null);
   const [html, setHtml] = useState('');
+  const [youtubeVideoId, setYoutubeVideoId] = useState(null);
 
   const intl = useIntl();
   const actionImage = useRef(null);
   const actionLink = useRef(null);
+  const youtubePlayerRef = useRef(null);
   // const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -137,26 +143,9 @@ const PostBody = ({
 
   const _handleYoutubePress = (embedUrl) => {
     const videoId = getYoutubeId(embedUrl);
-
-    if (Platform.OS === 'ios') {
-      //standalone play for ios goes against youtube policies,
-      //that is why using it as component in separate screen
-      navigation.navigate(ROUTES.SCREENS.YOUTUBE, {
-        videoId,
-      });
-    } else if (isAndroidOreo()) {
-      //if android oreo, open youtube app instead to avoid app reload on back press.
-      const interappLink = `vnd.youtube://${videoId}`;
-      Linking.canOpenURL(interappLink) && Linking.openURL(interappLink);
-    } else {
-      YouTubeStandaloneAndroid.playVideo({
-        apiKey: Config.YOUTUBE_API_KEY,
-        videoId: videoId, // The YouTube video ID,
-        lightboxMode: true,
-        autoplay: true,
-      })
-        .then(() => console.log('Standalone Player Exited'))
-        .catch((errorMessage) => console.error(errorMessage));
+    if (videoId && youtubePlayerRef.current) {
+      setYoutubeVideoId(videoId);
+      youtubePlayerRef.current.setModalVisible(true);
     }
   };
 
@@ -459,6 +448,20 @@ const PostBody = ({
           onClick={() => setIsImageModalOpen(false)}
         />
       </Modal>
+
+      <ActionSheetView
+        ref={youtubePlayerRef}
+        gestureEnabled={true}
+        hideUnderlay
+        containerStyle={{ backgroundColor: 'black' }}
+        indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+        onClose={() => {
+          setYoutubeVideoId(null);
+        }}
+      >
+        <YoutubePlayer videoId={youtubeVideoId} />
+      </ActionSheetView>
+
       <ActionSheet
         ref={actionImage}
         options={[
