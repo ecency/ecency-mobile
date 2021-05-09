@@ -29,6 +29,7 @@ import {
 // Themes (Styles)
 import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
+import parseVersionNumber from '../../../utils/parseVersionNumber';
 
 const Navigation = createAppContainer(AppNavitation);
 
@@ -45,7 +46,7 @@ class ApplicationScreen extends Component {
     const { appVersion } = VersionNumber;
 
     getVersionForWelcomeModal().then((version) => {
-      if (version < parseFloat(appVersion)) {
+      if (version < parseVersionNumber(appVersion)) {
         this.setState({ showWelcomeModal: true });
       }
     });
