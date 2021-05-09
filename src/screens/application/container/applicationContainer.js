@@ -87,6 +87,7 @@ import { encryptKey } from '../../../utils/crypto';
 import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
 import persistAccountGenerator from '../../../utils/persistAccountGenerator';
+import parseVersionNumber from '../../../utils/parseVersionNumber';
 
 // Workaround
 let previousAppState = 'background';
@@ -143,7 +144,7 @@ class ApplicationContainer extends Component {
     if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
 
     getVersionForWelcomeModal().then((version) => {
-      if (version < parseFloat(appVersion)) {
+      if (version < parseVersionNumber(appVersion)) {
         getUserData().then((accounts) => {
           this.setState({ showWelcomeModal: true });
           if (accounts && accounts.length > 0) {

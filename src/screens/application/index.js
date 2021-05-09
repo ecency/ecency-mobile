@@ -41,16 +41,7 @@ const Application = () => {
         return (
           <ErrorBoundary>
             <Modal
-              isOpen={isPinCodeRequire}
-              isFullScreen
-              swipeToClose={false}
-              backButtonClose={false}
-              style={{ margin: 0 }}
-            >
-              <PinCode />
-            </Modal>
-            <Modal
-              isOpen={!isPinCodeRequire && showWelcomeModal && _isAppReady}
+              isOpen={showWelcomeModal && _isAppReady}
               isFullScreen
               swipeToClose={false}
               backButtonClose={false}
@@ -58,6 +49,17 @@ const Application = () => {
             >
               <WelcomeScreen handleButtonPress={handleWelcomeModalButtonPress} />
             </Modal>
+
+            <Modal
+              isOpen={isPinCodeRequire && !showWelcomeModal}
+              isFullScreen
+              swipeToClose={false}
+              backButtonClose={false}
+              style={{ margin: 0 }}
+            >
+              <PinCode />
+            </Modal>
+
             {isThemeReady && isRenderRequire && (
               <ApplicationScreen
                 isConnected={isConnected}
