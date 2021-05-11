@@ -54,6 +54,7 @@ export default EStyleSheet.create({
   summary: {
     fontSize: 13,
     color: '$primaryDarkGray',
+    lineHeight: 18,
   },
   bodyFooter: {
     backgroundColor: '$primaryBackgroundColor',
