@@ -39,28 +39,15 @@ const TagResultScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <SafeAreaView>
-        <View style={styles.headerContainer}>
-          <View style={{ flex: 1, marginTop: 20 }}>
-            <IconButton
-              iconType="MaterialIcons"
-              name="arrow-back"
-              iconStyle={styles.backIcon}
-              onPress={_navigationGoBack}
-            />
-          </View>
-          <View style={{ flex: 16 }}>
-            <SearchInput
-              showClearButton={true}
-              onBackPress={_navigationGoBack}
-              autoFocus={false}
-              onChangeText={_setTag}
-              value={tag}
-              prefix="#"
-            />
-          </View>
-        </View>
-      </SafeAreaView>
+      <SearchInput
+        showClearButton={true}
+        autoFocus={false}
+        onChangeText={_setTag}
+        value={tag}
+        prefix="#"
+        backEnabled={true}
+        onBackPress={_navigationGoBack}
+      />
 
       <View style={styles.tabbarItem}>
         <TabbedPosts
