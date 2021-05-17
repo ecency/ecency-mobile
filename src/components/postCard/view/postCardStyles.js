@@ -2,6 +2,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   post: {
+    paddingTop: 10,
     marginBottom: 10,
     backgroundColor: '$primaryBackgroundColor',
     shadowOpacity: 0.2,
@@ -64,7 +65,7 @@ export default EStyleSheet.create({
   bodyHeader: {
     backgroundColor: '$primaryBackgroundColor',
     flexDirection: 'row',
-    marginTop: 16,
+    marginTop: 4,
     marginHorizontal: 12,
     marginBottom: 12,
   },
@@ -81,5 +82,13 @@ export default EStyleSheet.create({
   dropdownWrapper: {
     position: 'absolute',
     right: -10,
+  },
+  reblogWrapper: {
+    marginLeft: 6,
+  },
+  reblogText: {
+    fontWeight: 'bold',
+    color: '$primaryDarkGray',
+    marginLeft: 2,
   },
 });

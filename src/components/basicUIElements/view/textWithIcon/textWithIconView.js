@@ -20,31 +20,21 @@ const TextWithIcon = ({
   }, [text]);
   return (
     <View style={styles.container}>
-      {isClickable || onPress ? (
-        <TouchableHighlight
-          style={[styles.wrapper, wrapperStyle]}
-          underlayColor="transparent"
-          onPress={() => onPress && onPress()}
-        >
-          <Fragment>
-            <Icon
-              style={[styles.icon, iconStyle, iconSize && { fontSize: iconSize }]}
-              name={iconName}
-              iconType={iconType}
-            />
-            <Text style={[styles.text, textStyle]}>{ltext}</Text>
-          </Fragment>
-        </TouchableHighlight>
-      ) : (
-        <View style={styles.wrapper}>
+      <TouchableHighlight
+        style={[styles.wrapper, wrapperStyle]}
+        underlayColor="transparent"
+        disabled={!isClickable || !onPress}
+        onPress={() => onPress && onPress()}
+      >
+        <Fragment>
           <Icon
             style={[styles.icon, iconStyle, iconSize && { fontSize: iconSize }]}
             name={iconName}
             iconType={iconType}
           />
           <Text style={[styles.text, textStyle]}>{ltext}</Text>
-        </View>
-      )}
+        </Fragment>
+      </TouchableHighlight>
     </View>
   );
 };
