@@ -50,7 +50,7 @@ const FilterBarView = ({
           enableCustomiseButton && (
             <IconButton 
               iconStyle={styles.rightIcon}
-              style={styles.rightIconWrapper}
+              style={styles.customiseIconWrapper}
               iconType={'MaterialIcon'}
               size={iconSize || 28}
               name={'add'}
