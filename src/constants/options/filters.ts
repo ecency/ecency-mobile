@@ -1,4 +1,3 @@
-
 export const DEFAULT_FEED_FILTERS = ['friends', 'communities', 'hot'];
 
 export const FEED_SCREEN_FILTER_MAP  = {
@@ -8,6 +7,16 @@ export const FEED_SCREEN_FILTER_MAP  = {
     hot:'home.hot',
     created:'home.new',
 }
+
+export const DEFAULT_COMMUNITY_FILTERS = ['trending', 'hot', 'created'];
+export const COMMUNIT_SCREEN_FILTER_MAP = {
+    trending:'home.top',
+    hot: 'home.hot', 
+    created: 'home.new',
+    muted: 'community.muted',
+    payout: 'community.payout'
+}
+
 
 export const GLOBAL_POST_FILTERS = ['home.TOP', 'home.HOT', 'home.NEW'];
 export const GLOBAL_POST_FILTERS_VALUE = ['trending', 'hot', 'created'];
