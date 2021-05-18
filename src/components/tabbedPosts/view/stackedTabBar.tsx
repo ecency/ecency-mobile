@@ -109,7 +109,7 @@ export const StackedTabBar = ({
 
       {enableCustomTabs && (
         <CustomiseFiltersModal 
-          pageType={pageType}
+          pageType={'ownProfile'}
           ref={customiseModalRef}
         />
       )}

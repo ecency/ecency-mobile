@@ -10,7 +10,7 @@ import { getDefaultFilters, getFilterMap } from '../../constants/options/filters
 
 import { ThemeContainer } from '../../containers';
 import { useAppSelector } from '../../hooks';
-import { setCommunityTabs, setMainTabs } from '../../redux/actions/customTabsAction';
+import { setCommunityTabs, setMainTabs, setOwnProfileTabs, setProfileTabs } from '../../redux/actions/customTabsAction';
 import { TextButton } from '../buttons';
 import styles from './customiseFiltersModalStyles';
 
@@ -20,7 +20,7 @@ export interface CustomiseFiltersModalRef {
 }
 
 interface Props {
-    pageType:'main'|'community'
+    pageType:'main'|'community'|'profile'|'ownProfile'
 }
 
 
@@ -44,6 +44,8 @@ const CustomiseFiltersModal = ({pageType}:Props, ref:Ref<CustomiseFiltersModalRe
         switch (pageType){
             case 'community': return state.customTabs.communityTabs || defaultFilters;
             case 'main': return state.customTabs.mainTabs || defaultFilters;
+            case 'profile': return state.customTabs.profileTabs || defaultFilters;
+            case 'ownProfile': return state.customTabs.ownProfileTabs || defaultFilters;
             default: return state.customTabs.mainTabs || defaultFilters;
         }
     });
@@ -95,6 +97,12 @@ const CustomiseFiltersModal = ({pageType}:Props, ref:Ref<CustomiseFiltersModalRe
                 break;
             case 'community':
                 dispatch(setCommunityTabs(entries));
+                break;
+            case 'profile':
+                dispatch(setProfileTabs(entries));
+                break;
+            case 'ownProfile':
+                dispatch(setOwnProfileTabs(entries));
                 break;
         }
        _onClose();

@@ -92,6 +92,7 @@ class ProfileContainer extends Component {
     } = this.props;
     this.setState({ isProfileLoading: true });
     let repliesAction;
+
     if (!isOwnProfile) {
       repliesAction = getAccountPosts;
       if (query) {
@@ -129,6 +130,8 @@ class ProfileContainer extends Component {
         );
       }
     }
+
+    
     if (query) {
       delete query.author;
       delete query.permlink;
