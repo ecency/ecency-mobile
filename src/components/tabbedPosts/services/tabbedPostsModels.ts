@@ -8,7 +8,7 @@ export interface TabbedPostsProps {
     feedSubfilterOptions:string[],
     feedSubfilterOptionsValue:string[],
     getFor:string,
-    pageType:'main'|'community'|'profiles',
+    pageType:'main'|'community'|'profile'|'ownProfile',
     tag:string,
     forceLoadPosts:boolean,
     tabContentOverrides:Map<number, any>,

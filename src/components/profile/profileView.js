@@ -1,8 +1,7 @@
-import React, { PureComponent, Fragment } from 'react';
-import { View, ScrollView, SafeAreaView, Text } from 'react-native';
+import React, { PureComponent } from 'react';
+import { View, ScrollView } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 // Components
 import { CollapsibleCard } from '../collapsibleCard';
@@ -10,7 +9,6 @@ import { Comments } from '../comments';
 import { Header } from '../header';
 import { NoPost, ProfileSummaryPlaceHolder, WalletDetailsPlaceHolder } from '../basicUIElements';
 import { ProfileSummary } from '../profileSummary';
-import { TabBar } from '../tabBar';
 import { Wallet } from '../wallet';
 
 // Constants
@@ -18,8 +16,6 @@ import {
   PROFILE_FILTERS,
   PROFILE_FILTERS_OWN,
   PROFILE_FILTERS_VALUE,
-  PROFILE_SUBFILTERS,
-  PROFILE_SUBFILTERS_VALUE,
 } from '../../constants/options/filters';
 
 // Utils
@@ -27,7 +23,7 @@ import { getFormatedCreatedDate } from '../../utils/time';
 
 // Styles
 import styles from './profileStyles';
-import globalStyles from '../../globalStyles';
+
 import { TabbedPosts } from '../tabbedPosts';
 
 class ProfileView extends PureComponent {
@@ -244,7 +240,7 @@ class ProfileView extends PureComponent {
           filterOptions={filterOptions}
           filterOptionsValue={PROFILE_FILTERS_VALUE}
           selectedOptionIndex={0}
-          pageType="profiles"
+          pageType={isOwnProfile ? 'ownProfile' : 'profile'}
           getFor="blog"
           feedUsername={username}
           key={username}

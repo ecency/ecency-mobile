@@ -477,7 +477,7 @@ const PostsContainer = ({
   };
 
   const _getPromotePosts = async () => {
-    if (pageType === 'profiles') {
+    if (pageType === 'profile' || pageType === 'ownProfile') {
       return;
     }
     await getPromotePosts()
@@ -585,7 +585,10 @@ const PostsContainer = ({
           sort: filter,
         };
 
-        if (pageType === 'profiles' && (filter === 'feed' || filter === 'posts')) {
+        if (
+          (pageType === 'profile' || pageType === 'ownProfile') &&
+          (filter === 'feed' || filter === 'posts')
+        ) {
           options.sort = 'posts';
         }
       }

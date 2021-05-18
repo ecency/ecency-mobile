@@ -14,7 +14,7 @@ interface StackedTabBarProps {
     activeTab:boolean;
     goToPage:(pageIndex)=>void;
     tabs:string[];
-    pageType?:'main'|'community'
+    pageType?:'main'|'community'|'profile'|'ownProfile'
     shouldStack:boolean;
     firstStack:TabItem[];
     secondStack:TabItem[];
@@ -47,7 +47,7 @@ export const StackedTabBar = ({
     const [selectedFilterIndex, setSelectedFilterIndex] = useState(initialFirstStackIndex);
     const [selectedSecondStackIndex, setSelectedSecondStackIndex] = useState(0);
 
-    const enableCustomTabs = pageType === 'main' || pageType === 'community';
+    const enableCustomTabs = pageType !== undefined;
 
 
     const _onCustomisePress = () => {
@@ -109,7 +109,7 @@ export const StackedTabBar = ({
 
       {enableCustomTabs && (
         <CustomiseFiltersModal 
-          pageType={'ownProfile'}
+          pageType={pageType}
           ref={customiseModalRef}
         />
       )}
