@@ -4,11 +4,13 @@ import { TouchableOpacity } from 'react-native';
 import { KeyboardAvoidingView, Platform, View, Text } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import { CheckBox } from '..';
 import { DEFAULT_FEED_FILTERS, FEED_SCREEN_FILTER_MAP } from '../../constants/options/filters';
 
 import { ThemeContainer } from '../../containers';
+import { useAppSelector } from '../../hooks';
+import { setMainTabs } from '../../redux/actions/customTabsAction';
 import { setFeedScreenFilters } from '../../redux/actions/postsAction';
 import { TextButton } from '../buttons';
 import styles from './customiseFiltersModalStyles';
@@ -23,21 +25,24 @@ const getFeedScreenFilterIndex = (key:string) => Object.keys(FEED_SCREEN_FILTER_
 
 
 const CustomiseFiltersModal = (props:any, ref:Ref<CustomiseFiltersModalRef>) => {
-    const sheetModalRef = useRef<ActionSheet>();
     const dispatch = useDispatch();
+    const intl = useIntl(); 
 
-    const feedScreenFilters = useSelector(state => state.posts.feedScreenFilters || DEFAULT_FEED_FILTERS);
+    //refs
+    const sheetModalRef = useRef<ActionSheet>();
 
+    //redux
+    const mainTabs = useAppSelector(state => state.customTabs.mainTabs || DEFAULT_FEED_FILTERS);
+
+    //state
     const [selectedFilters, setSelectedFilters] = useState<Map<string, number>>(
-        new Map(feedScreenFilters.map((key:string)=>[
+        new Map(mainTabs.map((key:string)=>[
             key,
             getFeedScreenFilterIndex(key)
         ]))   
     );
 
-    const intl = useIntl(); 
- 
-
+    //external calls
     useImperativeHandle(ref, () => ({
         show: () => {
           sheetModalRef.current?.setModalVisible(true);
@@ -45,6 +50,7 @@ const CustomiseFiltersModal = (props:any, ref:Ref<CustomiseFiltersModalRef>) => 
       }));
 
 
+    //actions
     const _onClose = () => {
         sheetModalRef.current?.setModalVisible(false);
     }
@@ -58,10 +64,14 @@ const CustomiseFiltersModal = (props:any, ref:Ref<CustomiseFiltersModalRef>) => 
         const entries = Array.from(selectedFilters.entries());
         entries.sort((a, b)=>a[1]<b[1]?-1:1);
 
-       dispatch(setFeedScreenFilters(entries.map((e)=>e[0])));
+       dispatch(setMainTabs(entries.map((e)=>e[0])));
        _onClose();
     }
 
+
+    /**
+     * UI RENDERERS
+     */
 
     const _renderOptions = () => {
         const options = [];

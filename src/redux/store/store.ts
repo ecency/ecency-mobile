@@ -22,13 +22,18 @@ const persistedReducer = persistReducer(persistConfig, reducer);
 
 const middleware = [thunk];
 
-const enhancers = __DEV__ 
-? compose(applyMiddleware(...middleware), Reactotron.createEnhancer())
-: applyMiddleware(...middleware)
-
+const enhancers = __DEV__
+  ? compose(applyMiddleware(...middleware), Reactotron.createEnhancer())
+  : applyMiddleware(...middleware);
 
 const store = createStore(persistedReducer, enhancers);
 
 const persistor = persistStore(store);
 
 export { store, persistor };
+
+
+// Infer the `RootState` and `AppDispatch` types from the store itself
+export type RootState = ReturnType<typeof store.getState>
+// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+export type AppDispatch = typeof store.dispatch
