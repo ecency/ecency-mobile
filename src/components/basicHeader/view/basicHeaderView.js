@@ -24,6 +24,7 @@ const BasicHeaderView = ({
   handleOnPressPreviewButton,
   handleOnSaveButtonPress,
   handleRightIconPress,
+  handleViewModeToggle,
   intl,
   isDraftSaved,
   isDraftSaving,
@@ -47,6 +48,7 @@ const BasicHeaderView = ({
   handleDatePickerChange,
   handleRewardChange,
   handleBeneficiaries,
+  enableViewModeToggle,
 }) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [beneficiaryModal, setBeneficiaryModal] = useState(false);
@@ -58,6 +60,12 @@ const BasicHeaderView = ({
   const settingMenuRef = useRef(null);
   const rewardMenuRef = useRef(null);
   const scheduleRef = useRef(null);
+
+  /**
+   *
+   * ACTION HANDLERS
+   *
+   */
 
   const _handleOnPress = () => {
     if (handleOnSubmit) {
@@ -142,6 +150,12 @@ const BasicHeaderView = ({
     setShowScheduleModal(false);
   };
 
+  /**
+   *
+   * UI RENDERER
+   *
+   */
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -189,6 +203,16 @@ const BasicHeaderView = ({
               onPress={() => handleRightIconPress()}
               iconStyle={styles.rightIcon}
               name={rightIconName}
+            />
+          )}
+
+          {enableViewModeToggle && (
+            <IconButton
+              size={24}
+              iconStyle={styles.rightIcon}
+              name="view-module"
+              iconType="MaterialIcons"
+              onPress={handleViewModeToggle}
             />
           )}
 
