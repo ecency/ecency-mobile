@@ -13,15 +13,15 @@ import { AccountContainer } from '../../../containers';
 import styles from './feedStyles';
 
 import {
-  FEED_SCREEN_FILTER_MAP,
-  DEFAULT_FEED_FILTERS,
+  getDefaultFilters, getFilterMap,
 } from '../../../constants/options/filters';
+
 import { useAppSelector } from '../../../hooks';
 
 const FeedScreen = () => {
 
-  const mainTabs = useAppSelector((state) => state.customTabs.mainTabs || DEFAULT_FEED_FILTERS);
-  const filterOptions = mainTabs.map((key) => FEED_SCREEN_FILTER_MAP[key]);
+  const mainTabs = useAppSelector((state) => state.customTabs.mainTabs || getDefaultFilters('main'));
+  const filterOptions = mainTabs.map((key) => getFilterMap('main')[key]);
 
   return (
     <AccountContainer>

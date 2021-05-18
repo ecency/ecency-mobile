@@ -11,7 +11,7 @@ import CommunityContainer from '../container/communityContainer';
 // Styles
 import styles from './communityStyles';
 
-import { COMMUNITY_SCREEN_FILTER_MAP } from '../../../constants/options/filters';
+import { getDefaultFilters, getFilterMap } from '../../../constants/options/filters';
 import { useAppSelector } from '../../../hooks';
 
 const CommunityScreen = ({ navigation }) => {
@@ -20,8 +20,8 @@ const CommunityScreen = ({ navigation }) => {
 
   const intl = useIntl();
 
-  const communityTabs = useAppSelector((state) => state.customTabs.communityTabs);
-  const filterOptions = communityTabs.map((key) => COMMUNITY_SCREEN_FILTER_MAP[key]);
+  const communityTabs = useAppSelector((state) => state.customTabs.communityTabs || getDefaultFilters('community'));
+  const filterOptions = communityTabs.map((key) => getFilterMap('community')[key]);
 
   const _getSelectedIndex = () => {
     if (filter) {
