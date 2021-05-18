@@ -37,6 +37,7 @@ const FeedScreen = () => {
               selectedOptionIndex={get(currentAccount, 'name', null) ? 0 : 2}
               feedUsername={get(currentAccount, 'name', null)}
               isFeedScreen={true}
+              pageType='main'
             />
           </SafeAreaView>
         </Fragment>

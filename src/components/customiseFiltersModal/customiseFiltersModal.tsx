@@ -20,14 +20,19 @@ export interface CustomiseFiltersModalRef {
 }
 
 interface Props {
-    type:'main'|'community'
+    pageType:'main'|'community'
 }
 
 
 const getFilterIndex = (filterMap:any, key:string) => Object.keys(filterMap).indexOf(key)
 
 
-const CustomiseFiltersModal = ({type}:Props, ref:Ref<CustomiseFiltersModalRef>) => {
+const CustomiseFiltersModal = ({pageType}:Props, ref:Ref<CustomiseFiltersModalRef>) => {
+
+    if(!pageType){
+        throw new Error("pageType must not be empty")
+    }
+
     const dispatch = useDispatch();
     const intl = useIntl(); 
 
@@ -35,8 +40,8 @@ const CustomiseFiltersModal = ({type}:Props, ref:Ref<CustomiseFiltersModalRef>) 
 
     //redux
     const savedFilters = useAppSelector((state) => {
-        const defaultFilters = getDefaultFilters(type)
-        switch (type){
+        const defaultFilters = getDefaultFilters(pageType)
+        switch (pageType){
             case 'community': return state.customTabs.communityTabs || defaultFilters;
             case 'main': return state.customTabs.mainTabs || defaultFilters;
             default: return state.customTabs.mainTabs || defaultFilters;
@@ -46,7 +51,7 @@ const CustomiseFiltersModal = ({type}:Props, ref:Ref<CustomiseFiltersModalRef>) 
 
 
     //state
-    const [filterMap] = useState(getFilterMap(type))
+    const [filterMap] = useState(getFilterMap(pageType))
     const [selectedFilters, setSelectedFilters] = useState<Map<string, number>>(
         new Map(savedFilters.map((key:string)=>[
             key,
@@ -74,7 +79,7 @@ const CustomiseFiltersModal = ({type}:Props, ref:Ref<CustomiseFiltersModalRef>) 
         sheetModalRef.current?.setModalVisible(false);
     }
 
-    //save snippet based on editor type
+    //save snippet based on editor pageType
     const _onApply = () => {
         if(selectedFilters.size !== 3){
             alert(intl.formatMessage({id:'alert.wrong_filter_count'}));
@@ -84,7 +89,7 @@ const CustomiseFiltersModal = ({type}:Props, ref:Ref<CustomiseFiltersModalRef>) 
             .sort((a, b)=>a[1]<b[1]?-1:1)
             .map((e)=>e[0]);
 
-        switch(type){
+        switch(pageType){
             case 'main':
                 dispatch(setMainTabs(entries));
                 break;
