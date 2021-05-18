@@ -1,8 +1,9 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import { persistStore, persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
+import Reactotron from '../../../reactotron-config';
 
 import reducer from '../reducers';
 
@@ -25,7 +26,10 @@ if (process.env.NODE_ENV === 'development') {
   // middleware.push(logger);
 }
 
-const store = createStore(persistedReducer, applyMiddleware(...middleware));
+const store = createStore(
+  persistedReducer,
+  compose(applyMiddleware(...middleware), Reactotron.createEnhancer()),
+);
 
 const persistor = persistStore(store);
 
