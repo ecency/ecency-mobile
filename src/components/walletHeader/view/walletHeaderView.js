@@ -61,16 +61,15 @@ const WalletHeaderView = ({
       <View style={styles.balanceWrapper} key={balance + _key}>
         <Text style={styles.balanceText}>{balance}</Text>
         <DropdownButton
-          dropdownRowWrapper={styles.dropdownRowStyle}
           dropdownRef={dropdownRef}
           isHasChildIcon
           iconName="arrow-drop-down"
-          options={options.map((itemKey) => intl.formatMessage({ id: `wallet.${itemKey}` }))}
+          options={options.map((itemKey) =>
+            intl.formatMessage({ id: `wallet.${itemKey}` }).toUpperCase(),
+          )}
           noHighlight
           dropdownButtonStyle={styles.dropdownButtonStyle}
           onSelect={(selectedIndex) => handleOnDropdownSelected(options[selectedIndex])}
-          rowTextStyle={styles.dropdownRowText}
-          dropdownStyle={styles.dropdownStyle}
           iconStyle={styles.dropdownIconStyle}
         />
         <Text style={styles.subText}>{intl.formatMessage({ id: `wallet.${_key}.title` })}</Text>

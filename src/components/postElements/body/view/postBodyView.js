@@ -326,7 +326,7 @@ const PostBody = ({
     color: ${EStyleSheet.value('$primaryBlack')};
     font-family: Roboto, sans-serif;
     max-width: 100%;
-
+    line-height: 140%;
     overflow-wrap: break-word;
     word-wrap: break-word;
 

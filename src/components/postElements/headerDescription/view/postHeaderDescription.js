@@ -91,16 +91,6 @@ class PostHeaderDescription extends PureComponent {
             </View>
           </View>
           <View style={styles.rightContainer}>
-            {!!content && (
-              <TouchableOpacity onPress={() => tagOnPress && tagOnPress()}>
-                <Tag
-                  isPostCardTag={!isPromoted}
-                  isPin
-                  value={content.category}
-                  communityTitle={content.community_title}
-                />
-              </TouchableOpacity>
-            )}
             {!!tag && (
               <TouchableOpacity onPress={() => tagOnPress && tagOnPress()}>
                 <Tag isPostCardTag={!isPromoted} isPin value={tag} />

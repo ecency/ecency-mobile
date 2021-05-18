@@ -18,6 +18,7 @@ const SelectCommunityModalView = ({
   searchedCommunities,
   showSearchedCommunities,
   currentAccount,
+  onCloseModal,
   intl,
 }) => {
   return (
@@ -27,7 +28,10 @@ const SelectCommunityModalView = ({
         onChangeText={onChangeSearch}
         placeholder="search"
         autoFocus={false}
+        backEnabled={true}
+        onBackPress={onCloseModal}
       />
+
       {showSearchedCommunities ? (
         <FlatList
           ItemSeparatorComponent={() => <Separator />}

@@ -14,14 +14,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
   },
-  dropdownRowText: {
-    fontSize: 14,
-    color: '$primaryDarkGray',
-    textAlign: 'center',
-  },
-  dropdownRowStyle: {
-    marginLeft: 0,
-  },
+
   dropdownButtonStyle: {
     justifyContent: 'center',
     alignSelf: 'center',
