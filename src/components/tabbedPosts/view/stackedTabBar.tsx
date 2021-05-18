@@ -105,6 +105,7 @@ export const StackedTabBar = ({
       }
 
       <CustomiseFiltersModal 
+        type='main'
         ref={customiseModalRef}
       />
       
