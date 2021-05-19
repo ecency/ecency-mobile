@@ -13,20 +13,15 @@ import { AccountContainer } from '../../../containers';
 import styles from './feedStyles';
 
 import {
-  FEED_SUBFILTERS,
-  FEED_SUBFILTERS_VALUE,
-  FEED_SCREEN_FILTERS,
-  FEED_SCREEN_FILTER_MAP,
-  DEFAULT_FEED_FILTERS,
+  getDefaultFilters, getFilterMap,
 } from '../../../constants/options/filters';
 
-const FeedScreen = () => {
-  const feedScreenFilters = useSelector(
-    (state) => state.posts.feedScreenFilters || DEFAULT_FEED_FILTERS,
-  );
-  const filterOptions = feedScreenFilters.map((key) => FEED_SCREEN_FILTER_MAP[key]);
+import { useAppSelector } from '../../../hooks';
 
-  useEffect(() => {}, [feedScreenFilters]);
+const FeedScreen = () => {
+
+  const mainTabs = useAppSelector((state) => state.customTabs.mainTabs || getDefaultFilters('main'));
+  const filterOptions = mainTabs.map((key) => getFilterMap('main')[key]);
 
   return (
     <AccountContainer>
@@ -37,11 +32,12 @@ const FeedScreen = () => {
             <TabbedPosts
               key={JSON.stringify(filterOptions)} //this hack of key change resets tabbedposts whenever filters chanage, effective to remove filter change android bug
               filterOptions={filterOptions}
-              filterOptionsValue={feedScreenFilters}
+              filterOptionsValue={mainTabs}
               getFor={get(currentAccount, 'name', null) ? 'feed' : 'hot'}
               selectedOptionIndex={get(currentAccount, 'name', null) ? 0 : 2}
               feedUsername={get(currentAccount, 'name', null)}
               isFeedScreen={true}
+              pageType='main'
             />
           </SafeAreaView>
         </Fragment>

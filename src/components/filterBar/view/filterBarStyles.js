@@ -32,6 +32,10 @@ export default EStyleSheet.create({
     marginRight: 8,
     alignSelf: 'center',
   },
+  customiseIconWrapper: {
+    paddingRight: 8,
+    alignSelf: 'center',
+  },
   rightIcon: {
     color: '$darkIconColor',
     textAlign: 'center',

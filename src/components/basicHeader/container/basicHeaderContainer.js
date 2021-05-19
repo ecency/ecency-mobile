@@ -1,28 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { withNavigation } from 'react-navigation';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { hidePostsThumbnails } from '../../../redux/actions/uiAction';
 
 // Components
 import BasicHeaderView from '../view/basicHeaderView';
 
-class BasicHeaderContainer extends Component {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { funtion }    handleOnPressPreviewButton                - Preview button active handler....
-   */
+const BasicHeaderContainer = (props) => {
+  const dispatch = useAppDispatch();
+  const isHideImages = useAppSelector((state) => state.ui.hidePostsThumbnails);
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  // Component Life Cycles
-
-  // Component Functions
-  _handleOnPressBackButton = () => {
-    const { navigation, isNewPost, handleOnBackPress } = this.props;
+  const _handleOnPressBackButton = () => {
+    const { navigation, isNewPost, handleOnBackPress } = props;
 
     if (isNewPost) {
       navigation.navigate({
@@ -37,11 +29,17 @@ class BasicHeaderContainer extends Component {
     }
   };
 
-  render() {
-    return (
-      <BasicHeaderView handleOnPressBackButton={this._handleOnPressBackButton} {...this.props} />
-    );
-  }
-}
+  const _handleViewModeToggle = () => {
+    dispatch(hidePostsThumbnails(!isHideImages));
+  };
+
+  return (
+    <BasicHeaderView
+      handleOnPressBackButton={_handleOnPressBackButton}
+      handleViewModeToggle={_handleViewModeToggle}
+      {...props}
+    />
+  );
+};
 
 export default withNavigation(BasicHeaderContainer);

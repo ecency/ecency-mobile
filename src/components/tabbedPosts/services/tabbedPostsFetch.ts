@@ -85,7 +85,7 @@ export const loadPosts = async ({
           sort: filter,
         };
 
-        if (pageType === 'profiles' && (filter === 'feed' || filter === 'posts')) {
+        if ((pageType === 'profile' || pageType === 'ownProfile') && (filter === 'feed' || filter === 'posts')) {
           options.sort = 'posts';
         }
       }
