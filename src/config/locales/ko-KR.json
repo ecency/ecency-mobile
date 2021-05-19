@@ -620,7 +620,9 @@
   "community": {
     "new_post": "새 글",
     "community": "community",
-    "details": "Details"
+    "details": "Details",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Follow",
