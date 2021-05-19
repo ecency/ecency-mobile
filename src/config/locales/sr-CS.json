@@ -620,7 +620,9 @@
   "community": {
     "new_post": "Nova objava",
     "community": "zajednica",
-    "details": "Detalji"
+    "details": "Detalji",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Prati",
