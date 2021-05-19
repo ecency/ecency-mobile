@@ -620,7 +620,9 @@
   "community": {
     "new_post": "Új bejegyzés",
     "community": "közösség",
-    "details": "Részletek"
+    "details": "Részletek",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Follow",
