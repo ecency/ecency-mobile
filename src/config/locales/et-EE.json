@@ -620,7 +620,9 @@
   "community": {
     "new_post": "Uus postitus",
     "community": "kogukond",
-    "details": "Üksikasjad"
+    "details": "Üksikasjad",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Jälgi",
