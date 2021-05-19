@@ -620,7 +620,9 @@
   "community": {
     "new_post": "پست جدید",
     "community": "انجمن",
-    "details": "جزئیات"
+    "details": "جزئیات",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "دنبال کردن",
