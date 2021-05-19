@@ -620,7 +620,9 @@
   "community": {
     "new_post": "Uusi julkaisu",
     "community": "yhteisö",
-    "details": "Lisätiedot"
+    "details": "Lisätiedot",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Seuraa",
