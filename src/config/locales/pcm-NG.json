@@ -620,7 +620,9 @@
   "community": {
     "new_post": "Post wey new",
     "community": "area",
-    "details": "Full informate"
+    "details": "Full informate",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Follow",
