@@ -620,7 +620,9 @@
   "community": {
     "new_post": "Nowy wpis",
     "community": "społeczność",
-    "details": "Szczegóły"
+    "details": "Szczegóły",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Follow",
