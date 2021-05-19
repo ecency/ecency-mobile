@@ -620,7 +620,9 @@
   "community": {
     "new_post": "नया पोस्ट",
     "community": "समुदाय",
-    "details": "विवरण"
+    "details": "विवरण",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "फॉलो करें",
