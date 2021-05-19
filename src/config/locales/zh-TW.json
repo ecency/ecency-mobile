@@ -620,7 +620,9 @@
   "community": {
     "new_post": "新增文章",
     "community": "社區",
-    "details": "詳細資訊"
+    "details": "詳細資訊",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "關注",
