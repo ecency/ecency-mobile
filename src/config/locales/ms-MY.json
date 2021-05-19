@@ -620,7 +620,9 @@
   "community": {
     "new_post": "New Post",
     "community": "komuniti",
-    "details": "Butir-butir"
+    "details": "Butir-butir",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Follow",
