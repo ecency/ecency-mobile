@@ -620,7 +620,9 @@
   "community": {
     "new_post": "Нова публикация",
     "community": "Група",
-    "details": "Подробности"
+    "details": "Подробности",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Последвай",
