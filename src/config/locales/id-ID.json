@@ -620,7 +620,9 @@
   "community": {
     "new_post": "Postingan Baru",
     "community": "komunitas",
-    "details": "Rincian"
+    "details": "Rincian",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Ikuti",
