@@ -620,7 +620,9 @@
   "community": {
     "new_post": "Новий допис",
     "community": "community",
-    "details": "Details"
+    "details": "Details",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Слідкувати",
