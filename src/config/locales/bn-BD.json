@@ -620,7 +620,9 @@
   "community": {
     "new_post": "নতুন পোস্ট",
     "community": "কমিউনিটি",
-    "details": "বিস্তারিত"
+    "details": "বিস্তারিত",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Follow",
