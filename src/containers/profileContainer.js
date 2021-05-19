@@ -131,7 +131,6 @@ class ProfileContainer extends Component {
       }
     }
 
-    
     if (query) {
       delete query.author;
       delete query.permlink;

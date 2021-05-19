@@ -20,7 +20,9 @@ const CommunityScreen = ({ navigation }) => {
 
   const intl = useIntl();
 
-  const communityTabs = useAppSelector((state) => state.customTabs.communityTabs || getDefaultFilters('community'));
+  const communityTabs = useAppSelector(
+    (state) => state.customTabs.communityTabs || getDefaultFilters('community'),
+  );
   const filterOptions = communityTabs.map((key) => getFilterMap('community')[key]);
 
   const _getSelectedIndex = () => {
