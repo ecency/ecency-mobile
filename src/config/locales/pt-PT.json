@@ -621,8 +621,8 @@
     "new_post": "Nova Postagem",
     "community": "comunidade",
     "details": "Detalhes",
-    "muted": "Muted",
-    "payout": "Payout"
+    "muted": "Silenciado",
+    "payout": "Pagamento"
   },
   "user": {
     "follow": "Seguir",
