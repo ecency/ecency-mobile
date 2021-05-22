@@ -242,14 +242,14 @@ class ProfileView extends PureComponent {
   }
 
   render() {
-    const { handleOnBackPress, isOwnProfile, quickProfile } = this.props;
+    const { handleOnBackPress, isOwnProfile, quickProfile, reverseHeader } = this.props;
 
     return (
       <View style={styles.container}>
         <Header
           key={quickProfile && quickProfile.name}
           selectedUser={quickProfile}
-          isReverse={!isOwnProfile}
+          isReverse={reverseHeader}
           handleOnBackPress={handleOnBackPress}
         />
         <View style={styles.container}>

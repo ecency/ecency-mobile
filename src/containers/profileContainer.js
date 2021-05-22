@@ -33,6 +33,13 @@ class ProfileContainer extends Component {
   constructor(props) {
     super(props);
 
+    //check if is signed in user profile
+    const username = props.navigation.getParam('username');
+    const {
+      currentAccount: { name: currentAccountUsername },
+    } = props;
+    const isOwnProfile = !username || currentAccountUsername === username;
+
     this.state = {
       comments: [],
       follows: {},
@@ -42,12 +49,13 @@ class ProfileContainer extends Component {
       isMuted: false,
       isProfileLoading: false,
       isReady: false,
-      isOwnProfile: !has(props, 'navigation.state.params.username'),
+      isOwnProfile,
       user: null,
       quickProfile: {
         reputation: get(props, 'navigation.state.params.reputation', ''),
         name: get(props, 'navigation.state.params.username', ''),
       },
+      reverseHeader: !!username,
     };
   }
 
@@ -427,6 +435,7 @@ class ProfileContainer extends Component {
       quickProfile,
       user,
       username,
+      reverseHeader,
     } = this.state;
     const { currency, isDarkTheme, isLoggedIn, navigation, children, isHideImage } = this.props;
     const activePage = get(navigation.state.params, 'state', 0);
@@ -476,6 +485,7 @@ class ProfileContainer extends Component {
         quickProfile,
         selectedUser: user,
         username,
+        reverseHeader,
       })
     );
   }
