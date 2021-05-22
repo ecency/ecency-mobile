@@ -219,13 +219,13 @@ class ProfileView extends PureComponent {
     return (
       <View style={styles.postTabBar}>
         <TabbedPosts
+          key={username + JSON.stringify(filterOptions)}
           filterOptions={filterOptions}
           filterOptionsValue={tabs}
           selectedOptionIndex={0}
           pageType={pageType}
           getFor="blog"
           feedUsername={username}
-          key={username}
           handleOnScroll={isSummaryOpen ? this._handleOnScroll : null}
           forceLoadPost={forceLoadPost}
           changeForceLoadPostState={changeForceLoadPostState}
