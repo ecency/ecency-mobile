@@ -39,6 +39,7 @@ const ProfileScreen = () => (
       setEstimatedWalletValue,
       username,
       votingPower,
+      reverseHeader,
     }) => (
       <Profile
         about={about}
@@ -74,6 +75,7 @@ const ProfileScreen = () => (
         username={username}
         votingPower={votingPower}
         isHideImage={isHideImage}
+        reverseHeader={reverseHeader}
       />
     )}
   </ProfileContainer>
