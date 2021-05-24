@@ -19,8 +19,8 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    left: 5,
-    flex: 6,
+    marginRight: 8,
+    flex: 1,
   },
   filterBarWrapper: {
     flex: 1,
@@ -29,11 +29,8 @@ export default EStyleSheet.create({
     justifyContent: 'space-between',
   },
   rightIconWrapper: {
-    marginRight: 8,
-    alignSelf: 'center',
-  },
-  customiseIconWrapper: {
-    paddingRight: 8,
+    paddingRight: 12,
+    width: 40,
     alignSelf: 'center',
   },
   rightIcon: {
