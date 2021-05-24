@@ -29,11 +29,8 @@ export default EStyleSheet.create({
     justifyContent: 'space-between',
   },
   rightIconWrapper: {
-    marginRight: 8,
-    alignSelf: 'center',
-  },
-  customiseIconWrapper: {
-    paddingRight: 8,
+    paddingRight: 12,
+    width: 40,
     alignSelf: 'center',
   },
   rightIcon: {
