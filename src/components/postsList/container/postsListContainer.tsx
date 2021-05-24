@@ -82,7 +82,7 @@ const postsListContainer = ({
 
 
   const _renderFooter = () => {
-    if (isLoading) {
+    if (isLoading && !isRefreshing) {
       return (
         <View style={styles.flatlistFooter}>
           <ActivityIndicator animating size="large" color={'#2e3d51'} />
