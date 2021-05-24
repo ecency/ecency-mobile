@@ -281,6 +281,7 @@ const TabContent = ({
       isRefreshing={tabMeta.isRefreshing}
       isLoading={tabMeta.isLoading}
       ListEmptyComponent={_renderEmptyContent}
+      pageType={pageType}
     />
     <NewPostsPopup 
       popupAvatars={latestPosts.map(post=>post.avatar || '')}

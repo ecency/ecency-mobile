@@ -51,7 +51,7 @@ export interface TabMeta {
     isFeedScreen:boolean,
     isInitialTab:boolean,
     getFor:string,
-    pageType:string,
+    pageType:'main'|'profile'|'ownProfile'|'community',
     feedUsername:string,
     tag:string,
     forceLoadPosts:boolean,

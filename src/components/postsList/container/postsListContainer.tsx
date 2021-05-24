@@ -16,6 +16,7 @@ interface postsListContainerProps extends FlatListProps<any> {
     onLoadPosts?:(shouldReset:boolean)=>void;
     isLoading:boolean;
     isRefreshing:boolean;
+    pageType:'main'|'profile'|'ownProfile'|'community';
 }
 
 let _onEndReachedCalledDuringMomentum = true;
@@ -26,6 +27,7 @@ const postsListContainer = ({
     onLoadPosts,
     isRefreshing,
     isLoading,
+    pageType,
     ...props
 }:postsListContainerProps, ref) => {
    
@@ -121,6 +123,7 @@ const postsListContainer = ({
                   isHideImage={isHideImages}
                   imageHeight={imgHeight}
                   setImageHeight = {_setImageHeightInMap}
+                  pageType={pageType}
                 />,
               );
             }
@@ -138,6 +141,7 @@ const postsListContainer = ({
               isHideImage={isHideImages}
               imageHeight={imgHeight}
               setImageHeight = {_setImageHeightInMap}
+              pageType={pageType}
             />,
           );
         }
