@@ -19,8 +19,8 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    left: 5,
-    flex: 6,
+    marginRight: 8,
+    flex: 1,
   },
   filterBarWrapper: {
     flex: 1,
