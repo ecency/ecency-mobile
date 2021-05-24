@@ -76,7 +76,7 @@ const PostCardContainer = ({
   };
 
   const _handleOnUserPress = () => {
-    if (_content && get(currentAccount, 'name') !== get(_content, 'author')) {
+    if (_content) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.PROFILE,
         params: {
