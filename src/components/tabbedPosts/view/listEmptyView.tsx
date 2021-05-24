@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import { Text, View, FlatList } from 'react-native';
 import { NoPost, PostCardPlaceHolder, UserListItem } from '../..';
 import globalStyles from '../../../globalStyles';
-import { CommunityListItem } from '../../basicUIElements';
+import { CommunityListItem, EmptyScreen } from '../../basicUIElements';
 import styles from './tabbedPostsStyles';
 import { default as ROUTES } from '../../../constants/routeNames';
 import { withNavigation } from 'react-navigation';
@@ -22,7 +22,7 @@ interface TabEmptyViewProps {
 const TabEmptyView = ({
   filterKey,
   isNoPost,
-  navigation
+  navigation,
 }: TabEmptyViewProps) => {
 
   const intl = useIntl();
@@ -326,7 +326,9 @@ const TabEmptyView = ({
           </>
         );
     } else {
-      return <Text style={[globalStyles.subTitle, styles.noPostTitle]}>{intl.formatMessage({ id: 'profile.havent_posted' })}</Text>;
+      return (
+        <EmptyScreen style={styles.emptyAnimationContainer} />
+      )
     }
   }
 

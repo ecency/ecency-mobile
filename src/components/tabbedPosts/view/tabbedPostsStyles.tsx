@@ -78,4 +78,7 @@ export default EStyleSheet.create({
     marginLeft: -8,
     borderColor: '$primaryBlue',
   },
+  emptyAnimationContainer:{
+    marginTop:56
+  }
 });
