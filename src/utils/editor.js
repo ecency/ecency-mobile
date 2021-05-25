@@ -132,7 +132,7 @@ export const makeJsonMetadataForUpdate = (oldJson, meta, tags) => {
 export const extractMetadata = (body) => {
   const urlReg = /(\b(https?|ftp):\/\/[A-Z0-9+&@#/%?=~_|!:,.;-]*[-A-Z0-9+&@#/%=~_|])/gim;
   const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
-  const imgReg = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/gim;
+  const imgReg = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|heic))/gim;
 
   const out = {};
 
