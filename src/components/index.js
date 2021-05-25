@@ -34,7 +34,7 @@ import { PostDisplay } from './postView';
 import { PostDropdown } from './postDropdown';
 import { PostForm } from './postForm';
 import { PostHeaderDescription, PostBody, Tags } from './postElements';
-import { PostListItem } from './postListItem';
+import { DraftListItem } from './draftListItem';
 import { ProfileSummary } from './profileSummary';
 import { ProgressiveImage } from './progressiveImage';
 
@@ -89,6 +89,7 @@ import { SpinGame } from './spinGame/spinGameView';
 import { TabbedPosts } from './tabbedPosts';
 import { ActionModal } from './actionModal';
 import { CustomiseFiltersModal } from './customiseFiltersModal';
+import { ForegroundNotification } from './foregroundNotification';
 
 // Basic UI Elements
 import {
@@ -170,7 +171,7 @@ export {
   PostDropdown,
   PostForm,
   PostHeaderDescription,
-  PostListItem,
+  DraftListItem,
   PostPlaceHolder,
   Posts,
   ProductItemLine,
@@ -226,4 +227,5 @@ export {
   TabbedPosts,
   ActionModal,
   CustomiseFiltersModal,
+  ForegroundNotification,
 };
