@@ -708,10 +708,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@ecency/render-helper@^2.1.4":
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.1.4.tgz#f57e3a06d762c0f9074a18596e7851f4a2f3ac81"
-  integrity sha512-wfVNwE6wX0k3eckOzyLbof1RyklHbCs0e3y7HQrv4WAyxGLQ9aZGc28ernU9DE/dLZZykIoHFFfDLj+CDsq/rw==
+"@ecency/render-helper@^2.1.7":
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.1.7.tgz#73ed075d7ee3f1c71cb669b463167bd6ed3028aa"
+  integrity sha512-IvGBXLr9C1Kd5p8h/lTOK+rbLA543Ol+NU7z2jC69KE6xFqozLxWm7JJGa8kIjJT4821zp4hyBk3Y3pFGY0yZA==
   dependencies:
     he "^1.2.0"
     lru-cache "^5.1.1"
@@ -9645,9 +9645,9 @@ xpipe@^1.0.5:
   integrity sha1-jdi/Rfw/f1Xw4FS4ePQ6YmFNr98=
 
 xss@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/xss/-/xss-1.0.8.tgz#32feb87feb74b3dcd3d404b7a68ababf10700535"
-  integrity sha512-3MgPdaXV8rfQ/pNn16Eio6VXYPTkqwa0vc7GkiymmY/DqR1SE/7VPAAVZz1GJsJFrllMYO3RHfEaiUGjab6TNw==
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/xss/-/xss-1.0.9.tgz#3ffd565571ff60d2e40db7f3b80b4677bec770d2"
+  integrity sha512-2t7FahYnGJys6DpHLhajusId7R0Pm2yTmuL0GV9+mV0ZlaLSnb2toBmppATfg5sWIhZQGlsTLoecSzya+l4EAQ==
   dependencies:
     commander "^2.20.3"
     cssfilter "0.0.10"
