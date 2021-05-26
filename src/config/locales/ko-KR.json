@@ -134,7 +134,10 @@
     "replies": "받은 댓글",
     "mentions": "언급",
     "reblogs": "리블로그",
-    "noactivity": "최근 활동 내역이 없습니다."
+    "noactivity": "최근 활동 내역이 없습니다.",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "일간",
