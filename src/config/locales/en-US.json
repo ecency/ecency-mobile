@@ -134,7 +134,11 @@
     "replies": "Replies",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No recent activity"
+    "noactivity": "No recent activity",
+    "post_on":"Post on",
+    "reply_on":"New reply on",
+    "reblog_body":"Yay! tap to check all post reblogs...",
+    "reply_body":"Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "DAILY",

@@ -1,3 +1,4 @@
+import { Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export const CONTAINER_HEIGHT = 108;
@@ -10,7 +11,7 @@ export default EStyleSheet.create({
     maxWidth: '$deviceWidth',
     minWidth: '$deviceWidth / 1.9',
     height: CONTAINER_HEIGHT,
-    width:'100%',
+    width:Dimensions.get('screen').width,
     backgroundColor: '$primaryDarkText',
     shadowOffset: {
       height: 5,
@@ -21,10 +22,10 @@ export default EStyleSheet.create({
     top:0,
   },
   text: {
+    flex:1,
     color: 'white',
     fontWeight: 'bold',
     fontSize: 14,
-    paddingRight: 10,
     paddingLeft:16,
   },
 });

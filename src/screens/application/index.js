@@ -35,6 +35,7 @@ const Application = () => {
         toastNotification,
         showWelcomeModal,
         handleWelcomeModalButtonPress,
+        foregroundNotificationData,
       }) => {
         const _isAppReady = !showAnimation && isReady && isRenderRequire && isThemeReady;
 
@@ -68,6 +69,7 @@ const Application = () => {
                 isReady={isReady}
                 isDarkTheme={isDarkTheme}
                 rcOffer={rcOffer}
+                foregroundNotificationData={foregroundNotificationData}
               />
             )}
             {!_isAppReady && <LaunchScreen />}
