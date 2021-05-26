@@ -134,7 +134,10 @@
     "replies": "जबाबें",
     "mentions": "का उल्लेख है",
     "reblogs": "रिब्लॉग्स",
-    "noactivity": "कोई हालिया गतिविधि नहीं"
+    "noactivity": "कोई हालिया गतिविधि नहीं",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "रोज",
