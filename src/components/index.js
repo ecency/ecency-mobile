@@ -34,7 +34,7 @@ import { PostDisplay } from './postView';
 import { PostDropdown } from './postDropdown';
 import { PostForm } from './postForm';
 import { PostHeaderDescription, PostBody, Tags } from './postElements';
-import { PostListItem } from './postListItem';
+import { DraftListItem } from './draftListItem';
 import { ProfileSummary } from './profileSummary';
 import { ProgressiveImage } from './progressiveImage';
 
@@ -171,7 +171,7 @@ export {
   PostDropdown,
   PostForm,
   PostHeaderDescription,
-  PostListItem,
+  DraftListItem,
   PostPlaceHolder,
   Posts,
   ProductItemLine,

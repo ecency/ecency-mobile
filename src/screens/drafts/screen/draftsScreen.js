@@ -10,7 +10,7 @@ import { catchDraftImage } from '../../../utils/image';
 import { getFormatedCreatedDate } from '../../../utils/time';
 
 // Components
-import { BasicHeader, TabBar, PostListItem, PostCardPlaceHolder } from '../../../components';
+import { BasicHeader, TabBar, DraftListItem, PostCardPlaceHolder } from '../../../components';
 
 // Styles
 import globalStyles from '../../../globalStyles';
@@ -48,11 +48,11 @@ const DraftsScreen = ({
     const tag = tags[0] || '';
     const image = catchDraftImage(item.body);
     const thumbnail = catchDraftImage(item.body, 'match', true);
-    const summary = postBodySummary({ item, last_update: item.created }, 100);
+    const summary = postBodySummary({ ...item, last_update: item.created }, 100);
     const isSchedules = type === 'schedules';
 
     return (
-      <PostListItem
+      <DraftListItem
         created={isSchedules ? getFormatedCreatedDate(item.schedule) : item.created}
         mainTag={tag}
         title={item.title}

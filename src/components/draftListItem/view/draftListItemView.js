@@ -13,7 +13,7 @@ import { IconButton } from '../../iconButton';
 import ProgressiveImage from '../../progressiveImage';
 
 // Styles
-import styles from './postListItemStyles';
+import styles from './draftListItemStyles';
 
 // Defaults
 const DEFAULT_IMAGE =
@@ -21,7 +21,7 @@ const DEFAULT_IMAGE =
 
 const dim = Dimensions.get('window');
 
-const PostListItemView = ({
+const DraftListItemView = ({
   title,
   summary,
   mainTag,
@@ -77,17 +77,19 @@ const PostListItemView = ({
         </View>
         <View style={styles.body}>
           <TouchableOpacity onPress={() => handleOnPressItem(id)}>
-            <ProgressiveImage
-              source={image}
-              thumbnailSource={thumbnail}
-              style={[
-                styles.thumbnail,
-                { width: dim.width - 16, height: Math.min(calcImgHeight, dim.height) },
-              ]}
-            />
+            {image !== null && (
+              <ProgressiveImage
+                source={image}
+                thumbnailSource={thumbnail}
+                style={[
+                  styles.thumbnail,
+                  { width: dim.width - 16, height: Math.min(calcImgHeight, dim.height) },
+                ]}
+              />
+            )}
             <View style={[styles.postDescripton]}>
-              <Text style={styles.title}>{title}</Text>
-              <Text style={styles.summary}>{summary}</Text>
+              {title !== '' && <Text style={styles.title}>{title}</Text>}
+              {summary !== '' && <Text style={styles.summary}>{summary}</Text>}
             </View>
           </TouchableOpacity>
         </View>
@@ -112,4 +114,4 @@ const PostListItemView = ({
   );
 };
 
-export default injectIntl(PostListItemView);
+export default injectIntl(DraftListItemView);
