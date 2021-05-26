@@ -134,7 +134,10 @@
     "replies": "Отговори",
     "mentions": "Споменавания",
     "reblogs": "Споделяния",
-    "noactivity": "Няма скорошна дейност"
+    "noactivity": "Няма скорошна дейност",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "Дневно",
