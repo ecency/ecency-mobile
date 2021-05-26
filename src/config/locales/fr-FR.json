@@ -134,7 +134,10 @@
     "replies": "Réponses",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "Aucune activité récente"
+    "noactivity": "Aucune activité récente",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "QUOTIDIEN",
