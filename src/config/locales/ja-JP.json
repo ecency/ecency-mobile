@@ -134,7 +134,10 @@
     "replies": "返信",
     "mentions": "メンション",
     "reblogs": "リブログ",
-    "noactivity": "最近のアクティビティがありません"
+    "noactivity": "最近のアクティビティがありません",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "日間",
