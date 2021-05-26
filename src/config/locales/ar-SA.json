@@ -134,7 +134,10 @@
     "replies": "الردود",
     "mentions": "الإشارات",
     "reblogs": "إعادة النشر",
-    "noactivity": "لا يوجد اي نشاط جديد"
+    "noactivity": "لا يوجد اي نشاط جديد",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "يومي",
