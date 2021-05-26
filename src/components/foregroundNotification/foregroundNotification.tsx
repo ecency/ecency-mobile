@@ -40,7 +40,7 @@ const ForegroundNotification = ({remoteMessage}:Props) => {
     const dispatch = useDispatch();
     const intl = useIntl();
 
-    const [duration] = useState(5000);
+    const [duration] = useState(50000);
     const [activeId, setActiveId] = useState('');
     const [isVisible, setIsVisible] = useState(false);
     const [username, setUsername] = useState('');
@@ -157,21 +157,20 @@ const ForegroundNotification = ({remoteMessage}:Props) => {
   return (
     <Animated.View
       style={{
-        ...containerStyle,
+        ...styles.container,
         transform: [{ translateY: animatedValue }],
       }}
     >
-      <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center', paddingBottom:16, paddingHorizontal:16}}>
+      <View style={styles.contentContainer}>
         
-        <TouchableOpacity onPress={_onPress}>
-          <View style={{flexDirection:'row', alignItems:'center', flex:1, marginRight:24}}>
+        <TouchableOpacity onPress={_onPress} style={{flexShrink:1}}>
+          <View style={{flexDirection:'row', alignItems:'center', marginRight:24}}>
             <UserAvatar username={username}/>
 
-            <View>
+            <View style={{flexShrink:1}}>
               <Text style={styles.text} numberOfLines={1}>{title}</Text>
               <Text style={styles.text} numberOfLines={1}>{body}</Text>
             </View>
-
           </View>
         </TouchableOpacity>
 
