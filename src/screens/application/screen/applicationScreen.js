@@ -24,6 +24,7 @@ import {
   NoInternetConnection,
   AccountsBottomSheet,
   ActionModal,
+  ForegroundNotification,
 } from '../../../components';
 
 // Themes (Styles)
@@ -160,6 +161,8 @@ class ApplicationScreen extends Component {
             onHide={this._handleOnHideToastNotification}
           />
         )}
+
+        <ForegroundNotification title="New Apvote" text="" username="demo.com" />
         <AccountsBottomSheet />
         <ActionModal />
       </View>

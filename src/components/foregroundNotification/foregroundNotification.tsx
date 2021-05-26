@@ -1,120 +1,108 @@
-import React, { Component } from 'react';
-import { Animated, TouchableOpacity, Text, View } from 'react-native';
+import React, { useEffect, useRef, useState} from 'react';
+import { Animated, Text, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { IconButton } from '..';
+import { toastNotification } from '../../redux/actions/uiAction';
 import UserAvatar from '../userAvatar';
 
 // Styles
-import styles from './styles';
+import styles, { CONTAINER_HEIGHT } from './styles';
 
 interface Props {
+  title:string;
   text:string;
+  usename:string;
 }
 
-const ForegroundNotification = ({text}:Props) => {
-  const position = {top:0};
+
+const ForegroundNotification = ({text, title, username }:Props) => {
+    let hideTimeout = null;
+    const dispatch = useDispatch();
+
+    const [duration] = useState(4000);
+    const [curText, setCurText] = useState(text);
+    const [isVisible, setIsVisible] = useState(false);
+    
+
+    const animatedValue = useRef(new Animated.Value(-CONTAINER_HEIGHT)).current;
+
+
+
+    useEffect(() => {
+      if(text !== curText && text !== ''){
+        setCurText(text);
+        show();
+      }
+      return ()=>{
+        if(hideTimeout){
+          clearTimeout(hideTimeout);
+        }
+      }
+    }, [text]);
+
+    const show = () => {
+      // Will change fadeAnim value to 1 in 5 seconds
+      Animated.timing(animatedValue, {
+        toValue: 0,
+        duration: 350
+      }).start();
+
+      setIsVisible(true);
+
+      hideTimeout = setTimeout(()=>{
+        hide();
+      }, duration)
+
+    };
+  
+    const hide = () => {
+      if(hideTimeout || isVisible){
+        // Will change fadeAnim value to 0 in 3 seconds
+        Animated.timing(animatedValue, {
+          toValue: -CONTAINER_HEIGHT,
+          duration: 200
+        }).start(()=>{
+          dispatch(toastNotification(''))
+        });
+
+        setIsVisible(false);
+        clearTimeout(hideTimeout);
+      }
+    };
+
+
+
   return (
-    <View
+    <Animated.View
       style={{
         ...styles.container,
-        ...position,
-        // transform: [{ translateY: 0 }],
+        transform: [{ translateY: animatedValue }],
       }}
     >
       <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center', paddingBottom:16, paddingHorizontal:16}}>
         
-        <UserAvatar username="demo.com"/>
+        <View style={{flexDirection:'row'}}>
+          <UserAvatar username={username}/>
 
-        <View>
-          <Text style={styles.text}>New Upvote</Text>
-          <Text style={styles.text}>{text}</Text>
+          <View>
+            <Text style={styles.text}>{title}</Text>
+            <Text style={styles.text}>{text}</Text>
+          </View>
+
         </View>
+       
      
         <IconButton 
           name='close'
           color="white"
           size={28}
+          onPress={hide}
         />
       </View>
       
-    </View>
+    </Animated.View>
   )
 }
 
-// class ToastNotification extends Component {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { type }    name                - Description....
-   */
-
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     animatedValue: new Animated.Value(0),
-  //   };
-  // }
-
-  // Component Functions
-  // _showToast() {
-  //   const { duration } = this.props;
-  //   const animatedValue = new Animated.Value(0);
-
-  //   this.setState({ animatedValue });
-
-  //   Animated.timing(animatedValue, { toValue: 1, duration: 350 }).start();
-
-  //   if (duration) {
-  //     this.closeTimer = setTimeout(() => {
-  //       this._hideToast();
-  //     }, duration);
-  //   }
-  // }
-
-  // _hideToast() {
-  //   const { animatedValue } = this.state;
-  //   const { onHide } = this.props;
-
-  //   Animated.timing(animatedValue, { toValue: 0.0, duration: 350 }).start(() => {
-  //     if (onHide) {
-  //       onHide();
-  //     }
-  //   });
-
-  //   if (this.closeTimer) {
-  //     clearTimeout(this.closeTimer);
-  //   }
-  // }
-
-  // Component Life Cycles
-  // UNSAFE_componentWillMount() {
-  //   this._showToast();
-  // }
-
-//   render() {
-//     const { text, textStyle, style, onPress, isTop } = this.props;
-//     const { animatedValue } = this.state;
-//     const outputRange = isTop ? [-50, 0] : [50, 0];
-//     const y = animatedValue.interpolate({
-//       inputRange: [0, 1],
-//       outputRange,
-//     });
-//     const position = isTop ? { top: 100 } : { bottom: 100 };
-
-//     return (
-//       <TouchableOpacity disabled={!onPress} onPress={() => onPress && onPress()}>
-//         <Animated.View
-//           style={{
-//             ...styles.container,
-//             ...style,
-//             ...position,
-//             opacity: animatedValue,
-//             transform: [{ translateY: y }],
-//           }}
-//         >
-//           <Text style={[styles.text, textStyle]}>{text}</Text>
-//         </Animated.View>
-//       </TouchableOpacity>
-//     );
-//   }
-// }
 
 export default ForegroundNotification;
