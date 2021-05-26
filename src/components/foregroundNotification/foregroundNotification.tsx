@@ -40,7 +40,7 @@ const ForegroundNotification = ({remoteMessage}:Props) => {
     const dispatch = useDispatch();
     const intl = useIntl();
 
-    const [duration] = useState(50000);
+    const [duration] = useState(5000);
     const [activeId, setActiveId] = useState('');
     const [isVisible, setIsVisible] = useState(false);
     const [username, setUsername] = useState('');
