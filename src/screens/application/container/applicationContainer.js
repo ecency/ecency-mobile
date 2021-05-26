@@ -479,12 +479,14 @@ class ApplicationContainer extends Component {
     PushNotification.cancelAllLocalNotifications();
 
     firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
+      console.log('Notification Received: foreground', remoteMessage);
       this._showNotificationToast(remoteMessage);
       this._pushNavigate(remoteMessage);
     });
 
     firebaseOnNotificationOpenedAppListener = messaging().onNotificationOpenedApp(
       (remoteMessage) => {
+        console.log('Notification Received, notification oped app:', remoteMessage);
         this._pushNavigate(remoteMessage);
       },
     );
