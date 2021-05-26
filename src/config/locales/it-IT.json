@@ -134,7 +134,10 @@
     "replies": "Risposte",
     "mentions": "Menzioni",
     "reblogs": "Ribloggati",
-    "noactivity": "Nessuna attività recente"
+    "noactivity": "Nessuna attività recente",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "GIORNALIERO",
