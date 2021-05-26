@@ -134,7 +134,10 @@
     "replies": "Odgovori",
     "mentions": "Pominjanja",
     "reblogs": "Podele",
-    "noactivity": "Nema nedavnih aktivnosti"
+    "noactivity": "Nema nedavnih aktivnosti",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "DNEVNO",
