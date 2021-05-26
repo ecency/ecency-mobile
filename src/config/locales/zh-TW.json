@@ -134,7 +134,10 @@
     "replies": "回覆",
     "mentions": "提及",
     "reblogs": "轉發",
-    "noactivity": "近期無活動"
+    "noactivity": "近期無活動",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "日",
