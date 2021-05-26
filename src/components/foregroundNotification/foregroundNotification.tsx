@@ -11,7 +11,6 @@ import ROUTES from '../../constants/routeNames';
 import styles, { CONTAINER_HEIGHT } from './styles';
 import { navigate } from '../../navigation/service';
 import { useIntl } from 'react-intl';
-import { Platform } from 'react-native';
 
 interface RemoteMessage {
   data:{
@@ -21,7 +20,7 @@ interface RemoteMessage {
     permlink1:string;
     permlink2:string;
     permlink3:string;
-    type:'reblog'|'reply';
+    type:'mention'|'reply';
   };
   notification:{
     body:string;
@@ -55,21 +54,22 @@ const ForegroundNotification = ({remoteMessage}:Props) => {
 
       if(remoteMessage){
         const {source, target, type, id} = remoteMessage.data;
-
-        if(activeId !== id){
+        if(activeId !== id && (type === 'reply' || type === 'mention')){
+          
+          let titlePrefixId = '';
           switch(type){
             case 'reply':
-              setTitle(`${intl.formatMessage({id:'notification.reply_on'})} @${target}`);
-              setBody(intl.formatMessage({id:'notification.reply_body'}));
+              titlePrefixId = 'notification.reply_on'
               break;
-            case 'reblog':
-              setTitle(`@${target}${intl.formatMessage({id:'notification.reblog_on'})}`);
-              setBody(intl.formatMessage({id:'notification.reblog_body'}));
+            case 'mention':
+              titlePrefixId = 'notification.mention_on'
               break;
           }
           
           setActiveId(id);
           setUsername(source);
+          setTitle(`${intl.formatMessage({id:titlePrefixId})} @${target}`)
+          setBody(intl.formatMessage({id:'notification.reply_body'}));
           show();
         }
       }
@@ -117,42 +117,21 @@ const ForegroundNotification = ({remoteMessage}:Props) => {
       const fullPermlink =
         get(data, 'permlink1', '') + get(data, 'permlink2', '') + get(data, 'permlink3', '');
 
-      let params:any = {};
-      let key = '';
-      let routeName = '';
-      switch(data.type){
-        case 'reblog':
-          params = {
-            author: get(remoteMessage, 'target', ''),
-            permlink: fullPermlink,
-          };
-          key = fullPermlink;
-          routeName =  ROUTES.SCREENS.POST;
-          break;
-        case 'reply':
-          params = {
-            author: get(remoteMessage, 'source', ''),
-            permlink: fullPermlink,
-          };
-          key = fullPermlink;
-          routeName = ROUTES.SCREENS.POST;
-          break;
-        }
+      let params = {
+        author: get(remoteMessage, 'source', ''),
+        permlink: fullPermlink,
+      };
+      let key = fullPermlink
+      let routeName = ROUTES.SCREENS.POST;
 
-        if (!some(params, isEmpty)) {
-          navigate({
-            routeName,
-            params,
-            key,
-          });
-        }
+      navigate({
+        routeName,
+        params,
+        key,
+      });
+     
     }
 
-
-    const containerStyle = Platform.select({
-      ios:styles.containerIOS,
-      android:styles.containerAndroid
-    })
 
   return (
     <Animated.View
