@@ -134,7 +134,10 @@
     "replies": "Mga Tugon",
     "mentions": "Mga banggit",
     "reblogs": "Mga Reblog",
-    "noactivity": "Walang aktibidad kamakailan"
+    "noactivity": "Walang aktibidad kamakailan",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "Araw-araw",
