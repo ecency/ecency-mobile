@@ -89,6 +89,7 @@ import { SpinGame } from './spinGame/spinGameView';
 import { TabbedPosts } from './tabbedPosts';
 import { ActionModal } from './actionModal';
 import { CustomiseFiltersModal } from './customiseFiltersModal';
+import { ForegroundNotification } from './foregroundNotification';
 
 // Basic UI Elements
 import {
@@ -226,4 +227,5 @@ export {
   TabbedPosts,
   ActionModal,
   CustomiseFiltersModal,
+  ForegroundNotification,
 };

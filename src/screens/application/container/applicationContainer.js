@@ -113,6 +113,7 @@ class ApplicationContainer extends Component {
       isThemeReady: false,
       appState: AppState.currentState,
       showWelcomeModal: false,
+      foregroundNotificationData: null,
     };
   }
 
@@ -453,6 +454,7 @@ class ApplicationContainer extends Component {
       markActivityAsRead(username, activity_id).then((result) => {
         dispatch(updateUnreadActivityCount(result.unread));
       });
+
       if (!some(params, isEmpty)) {
         navigate({
           routeName,
@@ -479,12 +481,17 @@ class ApplicationContainer extends Component {
     PushNotification.cancelAllLocalNotifications();
 
     firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
-      this._showNotificationToast(remoteMessage);
+      console.log('Notification Received: foreground', remoteMessage);
+      // this._showNotificationToast(remoteMessage);
+      this.setState({
+        foregroundNotificationData: remoteMessage,
+      });
       this._pushNavigate(remoteMessage);
     });
 
     firebaseOnNotificationOpenedAppListener = messaging().onNotificationOpenedApp(
       (remoteMessage) => {
+        console.log('Notification Received, notification oped app:', remoteMessage);
         this._pushNavigate(remoteMessage);
       },
     );
@@ -814,7 +821,13 @@ class ApplicationContainer extends Component {
       isPinCodeRequire,
       rcOffer,
     } = this.props;
-    const { isRenderRequire, isReady, isThemeReady, showWelcomeModal } = this.state;
+    const {
+      isRenderRequire,
+      isReady,
+      isThemeReady,
+      showWelcomeModal,
+      foregroundNotificationData,
+    } = this.state;
 
     return (
       children &&
@@ -829,6 +842,7 @@ class ApplicationContainer extends Component {
         rcOffer,
         toastNotification,
         showWelcomeModal,
+        foregroundNotificationData,
         handleWelcomeModalButtonPress: this._handleWelcomeModalButtonPress,
       })
     );
