@@ -134,7 +134,10 @@
     "replies": "Bersiv",
     "mentions": "Behskirin",
     "reblogs": "Dîsweşandin",
-    "noactivity": "Çalakiya dawîn tune ye"
+    "noactivity": "Çalakiya dawîn tune ye",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "ROJANE",
