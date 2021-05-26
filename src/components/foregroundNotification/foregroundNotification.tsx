@@ -11,6 +11,7 @@ import ROUTES from '../../constants/routeNames';
 import styles, { CONTAINER_HEIGHT } from './styles';
 import { navigate } from '../../navigation/service';
 import { useIntl } from 'react-intl';
+import { Platform } from 'react-native';
 
 interface RemoteMessage {
   data:{
@@ -62,7 +63,7 @@ const ForegroundNotification = ({remoteMessage}:Props) => {
               setBody(intl.formatMessage({id:'notification.reply_body'}));
               break;
             case 'reblog':
-              setTitle(`${intl.formatMessage({id:'notification.post_on'})} @${target} ${intl.formatMessage({id:'notification.reblog'})}`);
+              setTitle(`@${target}${intl.formatMessage({id:'notification.reblog_on'})}`);
               setBody(intl.formatMessage({id:'notification.reblog_body'}));
               break;
           }
@@ -148,18 +149,22 @@ const ForegroundNotification = ({remoteMessage}:Props) => {
     }
 
 
+    const containerStyle = Platform.select({
+      ios:styles.containerIOS,
+      android:styles.containerAndroid
+    })
 
   return (
     <Animated.View
       style={{
-        ...styles.container,
+        ...containerStyle,
         transform: [{ translateY: animatedValue }],
       }}
     >
       <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center', paddingBottom:16, paddingHorizontal:16}}>
         
         <TouchableOpacity onPress={_onPress}>
-          <View style={{flexDirection:'row', flex:1, marginRight:24}}>
+          <View style={{flexDirection:'row', alignItems:'center', flex:1, marginRight:24}}>
             <UserAvatar username={username}/>
 
             <View>
