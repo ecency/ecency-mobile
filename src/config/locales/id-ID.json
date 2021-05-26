@@ -134,7 +134,10 @@
     "replies": "Balasan",
     "mentions": "Menyebutkan",
     "reblogs": "Menampilkan kembali",
-    "noactivity": "Tidak ada aktivitas terbaru"
+    "noactivity": "Tidak ada aktivitas terbaru",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "HARIAN",
