@@ -111,6 +111,7 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, isDraft }) => {
             wrapperStyle={styles.weightFormInputWrapper}
             onChange={(value) => _onWeightInputChange(value, index)}
             onBlur={() => _onBlur(item)}
+            keyboardType='numeric'
           />
         </View>
         <View style={styles.usernameInput}>
