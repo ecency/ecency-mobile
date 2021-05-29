@@ -78,7 +78,7 @@ class ApplicationScreen extends Component {
                 navigate({
                   routeName: ROUTES.SCREENS.ACCOUNT_BOOST,
                 });
-                dispatch(setRcOffer(true));
+                dispatch(setRcOffer(false));
               },
             },
           ],
