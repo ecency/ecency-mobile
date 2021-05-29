@@ -653,7 +653,8 @@ class ApplicationContainer extends Component {
         dispatch(setUpvotePercent(Number(settings.upvotePercent)));
       }
       if (settings.isDefaultFooter !== '') dispatch(isDefaultFooter(settings.isDefaultFooter));
-      if (settings.notification) {
+
+      if (settings.notification !== '') {
         console.log('Notification Settings', settings.notification, otherAccounts);
         dispatch(
           changeNotificationSettings({
@@ -665,7 +666,7 @@ class ApplicationContainer extends Component {
 
         //updateing fcm token with settings;
         otherAccounts.forEach((account) => {
-          this._enableNotification(account.name, true, settings);
+          this._enableNotification(account.name, settings.notification, settings);
         });
       }
       if (settings.nsfw !== '') dispatch(setNsfw(settings.nsfw));
