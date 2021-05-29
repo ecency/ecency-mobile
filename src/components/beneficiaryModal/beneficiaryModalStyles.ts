@@ -12,9 +12,9 @@ export default EStyleSheet.create({
   text: { color: '$primaryBlack', marginBottom: 8 },
   weightInput: { flex: 1 },
   weightFormInput: { textAlign: 'center', color: '$primaryBlack' },
-  weightFormInputWrapper: { marginTop: 8, borderRadius:12  },
+  weightFormInputWrapper: { marginTop: 8  },
   usernameInput: { flex: 3, color: '$primaryBlack', marginLeft: 16 },
-  usernameFormInputWrapper: { marginTop: 8, marginLeft: 10, borderRadius:12 },
+  usernameFormInputWrapper: { marginTop: 8, marginLeft: 10 },
   footerWrapper: { paddingTop:16, paddingBottom:16 },
   saveButton: {
     width: 140,
