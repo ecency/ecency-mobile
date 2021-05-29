@@ -628,7 +628,7 @@ class ApplicationContainer extends Component {
   };
 
   _getSettings = async () => {
-    const { dispatch } = this.props;
+    const { dispatch, otherAccounts } = this.props;
 
     //reset certain properties
     dispatch(hideActionModal());
@@ -653,7 +653,8 @@ class ApplicationContainer extends Component {
         dispatch(setUpvotePercent(Number(settings.upvotePercent)));
       }
       if (settings.isDefaultFooter !== '') dispatch(isDefaultFooter(settings.isDefaultFooter));
-      if (settings.notification !== '') {
+      if (settings.notification) {
+        console.log('Notification Settings', settings.notification, otherAccounts);
         dispatch(
           changeNotificationSettings({
             type: 'notification',
@@ -661,6 +662,11 @@ class ApplicationContainer extends Component {
           }),
         );
         dispatch(changeAllNotificationSettings(settings));
+
+        //updateing fcm token with settings;
+        otherAccounts.forEach((account) => {
+          this._enableNotification(account.name, true, settings);
+        });
       }
       if (settings.nsfw !== '') dispatch(setNsfw(settings.nsfw));
 
@@ -728,7 +734,28 @@ class ApplicationContainer extends Component {
       });
   };
 
-  _enableNotification = async (username, isEnable) => {
+  _enableNotification = async (username, isEnable, settings) => {
+    //compile notify_types
+    let notify_types = [];
+    if (settings) {
+      const notifyTypesConst = {
+        voteNotification: 1,
+        mentionNotification: 2,
+        followNotification: 3,
+        commentNotification: 4,
+        reblogNotification: 5,
+        transfersNotification: 6,
+      };
+
+      Object.keys(settings).map((item) => {
+        if (notifyTypesConst[item] && settings[item]) {
+          notify_types.push(notifyTypesConst[item]);
+        }
+      });
+    } else {
+      notify_types = [1, 2, 3, 4, 5, 6];
+    }
+
     messaging()
       .getToken()
       .then((token) => {
@@ -737,7 +764,7 @@ class ApplicationContainer extends Component {
           token: isEnable ? token : '',
           system: `fcm-${Platform.OS}`,
           allows_notify: Number(isEnable),
-          notify_types: [1, 2, 3, 4, 5, 6],
+          notify_types,
         });
       });
   };
@@ -854,7 +881,6 @@ export default connect(
     // Application
     isDarkTheme: state.application.isDarkTheme,
     selectedLanguage: state.application.language,
-    notificationSettings: state.application.isNotificationOpen,
     isPinCodeOpen: state.application.isPinCodeOpen,
     isLogingOut: state.application.isLogingOut,
     isLoggedIn: state.application.isLoggedIn,
