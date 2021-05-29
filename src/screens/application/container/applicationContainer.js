@@ -77,6 +77,7 @@ import {
 } from '../../../redux/actions/applicationActions';
 import {
   hideActionModal,
+  setRcOffer,
   toastNotification,
   updateActiveBottomTab,
 } from '../../../redux/actions/uiAction';
@@ -634,6 +635,7 @@ class ApplicationContainer extends Component {
     dispatch(hideActionModal());
     dispatch(toastNotification(''));
     dispatch(resetLocalVoteMap());
+    dispatch(setRcOffer(false));
 
     const settings = await getSettings();
 
