@@ -1,21 +1,26 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 import AsyncStorage from '@react-native-community/async-storage';
-import { isArray, remove } from 'lodash';
+import { isArray, debounce } from 'lodash';
 
 import { lookupAccounts } from '../../providers/hive/dhive';
 
-import { FormInput, MainButton, Tag } from '..';
+import { FormInput, MainButton, Tag, TextButton } from '..';
 
 import styles from './beneficiaryModalStyles';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, isDraft }) => {
   const intl = useIntl();
 
   const [beneficiaries, setBeneficiaries] = useState([
-    { account: username, weight: 10000, isValid: true },
+    { account: username, weight: 10000},
   ]);
+  const [validity, setValidity] = useState([{
+    weightValid:true,
+    usernameValid:true
+  }])
 
   useEffect(() => {
     if (!isDraft) {
@@ -37,7 +42,8 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, isDraft }) => {
   };
 
   const _addAccount = () => {
-    setBeneficiaries([...beneficiaries, { account: '', weight: 0, isValid: false }]);
+    setBeneficiaries([...beneficiaries, { account: '', weight: 0}]);
+    setValidity([...validity, {weightValid:false, usernameValid:false}])
   };
 
   const _onWeightInputChange = (value, index) => {
@@ -47,60 +53,71 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, isDraft }) => {
     beneficiaries[0].weight = beneficiaries[0].weight - _diff;
     beneficiaries[index].weight = _value;
 
-    setBeneficiaries([...beneficiaries]);
+    validity[index].weightValid = _value > 0 && _value <= 10000;
+
+    setBeneficiaries(beneficiaries);
+    setValidity([...validity])
   };
 
-  const _onUsernameInputChange = (value, index) => {
-    beneficiaries[index].account = value;
-
-    setBeneficiaries([...beneficiaries]);
-
-    lookupAccounts(value).then((res) => {
-      const isValid =
-        res.includes(value) &&
-        beneficiaries[index].weight !== 0 &&
-        beneficiaries[index].weight <= 10000;
-      beneficiaries[index].isValid = isValid;
-      setBeneficiaries([...beneficiaries]);
+  const _lookupAccounts = debounce((username, index)=>{
+    lookupAccounts(username).then((res) => {
+      const isValid = 
+        res.includes(username) 
+      validity[index].usernameValid = isValid;
+      setValidity([...validity]);
     });
+  }, 500) 
+
+  const _onUsernameInputChange = (value, index) => {
+    _lookupAccounts(value, index);
+
+    beneficiaries[index].account = value;
+    setBeneficiaries(beneficiaries);
   };
 
   const _isValid = () => {
-    return beneficiaries.every((item) => item.isValid);
+    return validity.every((item) => (item.usernameValid && item.weightValid));
   };
 
-  const _onBlur = (item, index) => {
+  const _onBlur = (item) => {
     if (item.weight === 0) {
       const newBeneficiaries = [...beneficiaries];
-      remove(newBeneficiaries, (current) => {
-        return current.account === item.account;
-      });
+      const newValidity = [...validity];
+
+      const index = newBeneficiaries.findIndex((current)=>current.account === item.account);
+      if(index >= 0){
+        newBeneficiaries.splice(index, 1);
+        newValidity.splice(index, 1);
+      }
 
       setBeneficiaries(newBeneficiaries);
+      setValidity(newValidity);
     }
   };
 
-  const renderInputs = ({ item, index }) => {
+
+  const renderInput = ({ item, index }) => {
     const _isCurrentUser = item.account === username;
+    const {weightValid, usernameValid}  = validity[index];
 
     return (
       <View style={styles.inputWrapper}>
         <View style={styles.weightInput}>
           <FormInput
-            isValid={_isCurrentUser || (item.weight !== 0 && item.weight <= 10000)}
+            isValid={_isCurrentUser || weightValid}
             isEditable={!_isCurrentUser}
             value={`${item.weight / 100}`}
             inputStyle={styles.weightFormInput}
             wrapperStyle={styles.weightFormInputWrapper}
             onChange={(value) => _onWeightInputChange(value, index)}
-            onBlur={() => _onBlur(item, index)}
+            onBlur={() => _onBlur(item)}
           />
         </View>
         <View style={styles.usernameInput}>
           <FormInput
             rightIconName="at"
             iconType="MaterialCommunityIcons"
-            isValid={_isCurrentUser || item.isValid}
+            isValid={_isCurrentUser || usernameValid}
             //isEditable={!_isCurrentUser}
             onChange={(value) => _onUsernameInputChange(value, index)}
             placeholder={intl.formatMessage({
@@ -117,12 +134,16 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, isDraft }) => {
     );
   };
 
+
+  const isAllValid = _isValid();
+
   return (
     <View style={styles.container}>
       <View style={styles.bodyWrapper}>
         <FlatList
           data={beneficiaries}
-          renderItem={renderInputs}
+          renderItem={renderInput}
+          extraData={validity}
           ListHeaderComponent={() => (
             <View style={styles.inputWrapper}>
               <View style={[styles.weightInput, { alignItems: 'center' }]}>
@@ -142,15 +163,17 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, isDraft }) => {
             </View>
           )}
           ListFooterComponent={() => (
-            <View style={{ alignItems: 'flex-end', marginTop: 20 }}>
-              <Tag
-                value={intl.formatMessage({
+            <View style={{marginTop: 20 }}>
+              <TextButton 
+                text={intl.formatMessage({
                   id: 'beneficiary_modal.addAccount',
                 })}
-                isFilter
-                disabled={!_isValid()}
-                isPin={_isValid()}
+                disabled={!isAllValid}
                 onPress={_addAccount}
+                textStyle={{
+                  color:EStyleSheet.value(isAllValid?'$primaryBlue':"$iconColor"),
+                  fontWeight:'bold'
+                }}
               />
             </View>
           )}
