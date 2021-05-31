@@ -20,7 +20,7 @@
     "checkin_extra": "ربح",
     "delegation": "Delegation",
     "delegations": "Delegations",
-    "delegation_title": "Delegation reward",
+    "delegation_title": "مكافأة التفويض",
     "delegation_desc": "Earn Points everyday for delegation",
     "post_title": "نقاط للمنشور",
     "comment_title": "نقاط للتعليق",
@@ -48,9 +48,9 @@
     "from": "من",
     "to": "إلى",
     "estimated_value_desc": "According to purchase value",
-    "estimated_value": "Estimated value",
+    "estimated_value": "القيمه المتوقعه",
     "estimated_amount": "قيمة التصويت",
-    "amount_information": "Drag the slider to adjust the amount",
+    "amount_information": "اسحب شريط التمرير لضبط المبلغ",
     "amount": "كمية",
     "memo": "مذكرة",
     "information": "هل أنت متأكد من تحويل الأموال؟",
@@ -59,17 +59,17 @@
     "to_placeholder": "إسم المستخدم",
     "memo_placeholder": "أدخل ملاحظاتك هنا",
     "transfer_token": "تحويل",
-    "purchase_estm": "GET POINTS",
+    "purchase_estm": "احصل على نقاط",
     "points": "إهداء نقاطك لشخص آخر",
     "transfer_to_saving": "إلى المدخرات",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_vesting": "رفع الطاقة",
     "withdraw_to_saving": "سحب المدخرات",
     "steemconnect_title": "تحويل بواسطة Hivesigner",
     "next": "التالي",
-    "delegate": "Delegate",
+    "delegate": "تفويض",
     "power_down": "سحب الطاقة",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HBD",
+    "withdraw_hive": "سحب HIVE",
+    "withdraw_hbd": "سحب HBD",
     "transfer_to_savings": "إلى المدخرات",
     "convert": "تحويل",
     "escrow_transfer": "Escrow Transfer",
@@ -93,7 +93,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "احصل على HIVE"
     },
     "hbd": {
       "title": "HBD",
@@ -104,7 +104,7 @@
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
+      "buy": "احصل على BTC",
       "address": "إستلام"
     }
   },
@@ -112,13 +112,13 @@
     "vote": "تم التصويت",
     "unvote": "إلغاء التصويت",
     "reply": "الرد على",
-    "mention": "mentioned in",
+    "mention": "أشارك إليك في",
     "follow": "قام بمتابعتك",
     "unfollow": "قام بإلغاء متابعتك",
     "ignore": "قام بتجاهلك",
     "reblog": "تمت إعادة النشر",
-    "transfer": "transferred",
-    "spin": "Time to earn more Points",
+    "transfer": "تم التحويل",
+    "spin": "حان وقت كسب المزيد من النقاط",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "انضمو برابط إحالتك ، رحب بهم",
     "notification": "الإشعارات",
@@ -135,7 +135,7 @@
     "mentions": "الإشارات",
     "reblogs": "إعادة النشر",
     "noactivity": "لا يوجد اي نشاط جديد",
-    "mention_on": "New mention on",
+    "mention_on": "إشارة جديدة لك في",
     "reply_on": "New reply on",
     "reply_body": "Tap to continue conversation..."
   },
@@ -574,19 +574,19 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
+      "device_time": "وقت جهازك؛;",
+      "current_time": "الوقت الحالي;",
       "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
     }
   },
   "comments": {
     "title": "التعليقات",
     "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "read_more": "المزيد من التعليقات",
+    "more_replies": "المزيد من الردود"
   },
   "search_result": {
-    "others": "Others",
+    "others": "أخرى",
     "best": {
       "title": "الأفضل"
     },
@@ -601,7 +601,7 @@
       "subscribe": "الانضمام",
       "unsubscribe": "المغادرة",
       "subscribers": "الأعضاء",
-      "posters": "Posters",
+      "posters": "ملصقات",
       "posts": "منشورات"
     },
     "communities_filter": {
