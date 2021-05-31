@@ -3,7 +3,7 @@
     "curation_reward": "مكافأة المصوت",
     "author_reward": "مكافأة صاحب المنشور",
     "comment_benefactor_reward": "Benefactor Reward",
-    "claim_reward_balance": "Claim Reward ",
+    "claim_reward_balance": "الحصول على المكافأة ",
     "transfer": "تحويل",
     "power_up": "To Vesting",
     "transfer_from_savings": "From Savings",
@@ -15,8 +15,8 @@
     "vote": "تصويت",
     "reblog": "إعادة النشر",
     "login": "تسجيل الدخول",
-    "incoming_transfer_title": "Incoming transfer",
-    "outgoing_transfer_title": "Outgoing transfer",
+    "incoming_transfer_title": "التحويل الوارد",
+    "outgoing_transfer_title": "التحويل الصادر",
     "checkin_extra": "ربح",
     "delegation": "Delegation",
     "delegations": "Delegations",
@@ -29,8 +29,8 @@
     "login_title": "نقاط لتسجيل الدخول",
     "checkin_title": "Points for heartbeat",
     "referral": "الإحالة",
-    "referral_title": "Referral rewards",
-    "referral_desc": "Invite friends and earn Points",
+    "referral_title": "مكافآت الإحالة",
+    "referral_desc": "ادعُ الأصدقاء واحصل على النقاط",
     "checkin_extra_title": "مكافأة الاستخدام",
     "no_activity": "No recent activity",
     "outgoing_transfer_description": "",
@@ -105,11 +105,11 @@
     "btc": {
       "title": "BTC",
       "buy": "GET BTC",
-      "address": "RECEIVE"
+      "address": "إستلام"
     }
   },
   "notification": {
-    "vote": "voted",
+    "vote": "تم التصويت",
     "unvote": "unvoted",
     "reply": "replied to",
     "mention": "mentioned in",
