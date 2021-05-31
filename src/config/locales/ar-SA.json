@@ -407,13 +407,13 @@
     "invalidImage": "Invalid image, try different file",
     "something_wrong": "Something went wrong.",
     "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload",
+    "something_wrong_reload": "إعادة التحميل",
     "can_not_be_empty": "Title and body can not be empty!",
-    "wrong_filter_count": "Please select 3 filters"
+    "wrong_filter_count": "الرجاء اختيار 3 فلاتر"
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
-    "removed_hint": "Content is not available",
+    "removed_hint": "المحتوى غير متوفر",
     "copy_link": "نسخ الرابط",
     "reblogged": "تمت إعادة النشر من طرف",
     "sponsored": "SPONSORED",
@@ -523,26 +523,26 @@
     "estimated_weekly": "Estimated Weekly",
     "destination_accounts": "Destination Accounts",
     "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
+    "percent": "النسبة المئوية",
     "auto_vests": "Auto Vests",
     "save": "SAVE",
     "percent_information": "Percent info",
     "next": "التالي",
     "delegate": "Delegate",
-    "power_down": "Power Down",
+    "power_down": "سحب الطاقة",
     "withdraw_hive": "Withdraw HIVE",
     "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Incoming Funds",
-    "stop": "Stop",
+    "stop": "إيقاف",
     "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
-    "address_view": "View address"
+    "address_view": "عرض العنواين"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
-    "next": "NEXT",
+    "title": "احصل على نقاط",
+    "buy": "احصل على نقاط",
+    "next": "التالي",
     "account": {
-      "title": "Get Account Boost",
+      "title": "الحصول على تعزيز الحساب",
       "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
     }
   },
@@ -554,15 +554,15 @@
     "timer_text": "Next free spin in"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
+    "title": "حملة اعلانية لمنشورك",
+    "days": "أيام",
     "user": "المستخدم",
     "permlink": "المنشور",
     "permlinkPlaceholder": "اسم المستخدم/الرابط",
     "information": "هل أنت متأكد من الترويج؟"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "تعزيز منشورك"
   },
   "voters_dropdown": {
     "rewards": "REWARDS",
@@ -605,51 +605,51 @@
       "posts": "منشورات"
     },
     "communities_filter": {
-      "my": "My Communities",
-      "rank": "Rank",
-      "subs": "Members",
-      "new": "New"
+      "my": "مجتمعاتي",
+      "rank": "الرتبة",
+      "subs": "الأعضاء",
+      "new": "الجديد"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
+      "popularity": "الأكثر شعبية",
+      "newest": "الأحدث",
       "relevance": "Relevance"
     },
     "other_result_filter": {
-      "user": "User",
-      "tag": "Tag"
+      "user": "المستخدم",
+      "tag": "كلمة دلالية"
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details",
+    "new_post": "منشور جديد",
+    "community": "المجتمع",
+    "details": "التفاصيل",
     "muted": "Muted",
-    "payout": "Payout"
+    "payout": "المكافأة"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow"
+    "follow": "تابع",
+    "unfollow": "الغاء المتابعة"
   },
   "communities": {
-    "joined": "Membership",
-    "discover": "Discover",
-    "discover_communities": "Discover Communities",
+    "joined": "العضوية",
+    "discover": "إكتشف",
+    "discover_communities": "اكتشاف المجتمعات",
     "no_communities": "Connect with people who share your interests by joining Communities."
   },
   "empty_screen": {
-    "nothing_here": "Nothing here"
+    "nothing_here": "لاشيء هنا"
   },
   "beneficiary_modal": {
-    "percent": "Percent",
-    "username": "Username",
-    "addAccount": "Add Account",
-    "save": "Save"
+    "percent": "النسبة المئوية",
+    "username": "اسم المستخدم",
+    "addAccount": "إضافة حساب",
+    "save": "حفظ"
   },
   "welcome": {
-    "label": "Welcome to",
+    "label": "مرحبا بك في",
     "title": "Ecency",
-    "line1_heading": "Are you looking for community?",
+    "line1_heading": "هل تبحث عن مجتمع؟",
     "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
     "line2_heading": "لدينا الحل!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
