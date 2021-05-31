@@ -110,13 +110,13 @@
   },
   "notification": {
     "vote": "تم التصويت",
-    "unvote": "unvoted",
-    "reply": "replied to",
+    "unvote": "إلغاء التصويت",
+    "reply": "الرد على",
     "mention": "mentioned in",
     "follow": "قام بمتابعتك",
     "unfollow": "قام بإلغاء متابعتك",
     "ignore": "قام بتجاهلك",
-    "reblog": "reblogged",
+    "reblog": "تمت إعادة النشر",
     "transfer": "transferred",
     "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
@@ -422,8 +422,8 @@
     "link": "الرابط",
     "gallery_mode": "Gallery mode",
     "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image",
+    "image_saved": "تم حفظ الصورة في معرض الصور",
+    "image_saved_error": "حدث خطأ أثناء حفظ الصورة",
     "wrong_link": "رابط خاطئ"
   },
   "drafts": {
@@ -481,8 +481,8 @@
     "share": "شارك",
     "bookmarks": "إضافة إلى الإشارات المرجعية",
     "promote": "promote",
-    "boost": "boost",
-    "report": "report"
+    "boost": "تعزيز منشورك",
+    "report": "الإبلاغ"
   },
   "deep_link": {
     "no_existing_user": "لا يوجد أي مستخدم حاليا",
@@ -495,7 +495,7 @@
   "comment_filter": {
     "trending": "TOP",
     "reputation": "REPUTATION",
-    "votes": "VOTE",
+    "votes": "الاصوات",
     "age": "AGE",
     "top": "TOP",
     "time": "TIME"
@@ -651,10 +651,10 @@
     "title": "Ecency",
     "line1_heading": "Are you looking for community?",
     "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
-    "line2_heading": "We have a solution!",
+    "line2_heading": "لدينا الحل!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
-    "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others.",
-    "get_started": "Get started!"
+    "line3_heading": "انضم إلى مجتمع Ecency!",
+    "line3_body": "قم ببناء مجتمع خاص بك، احصل على مكافأت وكافئ الآخرين.",
+    "get_started": "ابدأ هنا!"
   }
 }
