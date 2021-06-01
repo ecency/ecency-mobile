@@ -135,9 +135,9 @@
     "mentions": "का उल्लेख है",
     "reblogs": "रिब्लॉग्स",
     "noactivity": "कोई हालिया गतिविधि नहीं",
-    "mention_on": "New mention on",
-    "reply_on": "New reply on",
-    "reply_body": "Tap to continue conversation..."
+    "mention_on": "नया उल्लेख चालू",
+    "reply_on": "नया उत्तर चालू",
+    "reply_body": "बातचीत जारी रखने के लिए टैप करें..."
   },
   "leaderboard": {
     "daily": "रोज",
