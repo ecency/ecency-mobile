@@ -135,9 +135,9 @@
     "mentions": "Menyebutkan",
     "reblogs": "Menampilkan kembali",
     "noactivity": "Tidak ada aktivitas terbaru",
-    "mention_on": "New mention on",
-    "reply_on": "New reply on",
-    "reply_body": "Tap to continue conversation..."
+    "mention_on": "Sebutan baru di",
+    "reply_on": "Balasan baru di",
+    "reply_body": "Ketuk untuk melanjutkan percakapan..."
   },
   "leaderboard": {
     "daily": "HARIAN",
@@ -624,8 +624,8 @@
     "new_post": "Postingan Baru",
     "community": "komunitas",
     "details": "Rincian",
-    "muted": "Muted",
-    "payout": "Payout"
+    "muted": "Dibisukan",
+    "payout": "Pembayaran"
   },
   "user": {
     "follow": "Ikuti",
