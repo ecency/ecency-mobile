@@ -15,16 +15,17 @@ import styles from './formInputStyles';
 
 
 interface Props extends TextInputProps {
-  type:string,
-  isFirstImage:boolean,
-  isEditable?:boolean,
-  leftIconName?:string,
-  rightIconName?:string,
-  iconType?:string,
-  wrapperStyle:ViewStyle,
-  height:number,
-  inputStyle:TextStyle,
-  isValid:boolean
+  type:string;
+  isFirstImage:boolean;
+  isEditable?:boolean;
+  leftIconName?:string;
+  rightIconName?:string;
+  iconType?:string;
+  wrapperStyle:ViewStyle;
+  height:number;
+  inputStyle:TextStyle;
+  isValid:boolean;
+  onChange?:(value:string)=>void;
 }
 
 const FormInputView = ({
