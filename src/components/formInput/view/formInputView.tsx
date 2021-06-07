@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Platform } from 'react-native';
+import { View, Platform, TextInputProps, ViewStyle, TextStyle } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 // Components
@@ -12,6 +12,21 @@ import { getResizedAvatar } from '../../../utils/image';
 
 // Styles
 import styles from './formInputStyles';
+
+
+interface Props extends TextInputProps {
+  type:string;
+  isFirstImage:boolean;
+  isEditable?:boolean;
+  leftIconName?:string;
+  rightIconName?:string;
+  iconType?:string;
+  wrapperStyle:ViewStyle;
+  height:number;
+  inputStyle:TextStyle;
+  isValid:boolean;
+  onChange?:(value:string)=>void;
+}
 
 const FormInputView = ({
   placeholder,
@@ -29,7 +44,8 @@ const FormInputView = ({
   isValid,
   value,
   onBlur,
-}) => {
+  ...props
+}:Props) => {
   const [_value, setValue] = useState(value || '');
   const [inputBorderColor, setInputBorderColor] = useState('#e7e7e7');
   const [_isValid, setIsValid] = useState(true);
@@ -118,6 +134,7 @@ const FormInputView = ({
               placeholderTextColor={isDarkTheme ? '#526d91' : '#788187'}
               autoCorrect={false}
               contextMenuHidden={false}
+              {...props}
             />
           )}
         </ThemeContainer>

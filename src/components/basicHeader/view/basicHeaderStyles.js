@@ -86,7 +86,9 @@ export default EStyleSheet.create({
   },
   beneficiaryModal: {
     flex: 1,
-    backgroundColor: '$modalBackground',
+    backgroundColor: '$primaryBackgroundColor',
     margin: 0,
+    paddingTop: 32,
+    paddingBottom: 16,
   },
 });
