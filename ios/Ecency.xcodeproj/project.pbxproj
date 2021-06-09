@@ -1119,6 +1119,7 @@
 					"\"${PODS_ROOT}/Headers/Public/react-native-version-number\"",
 					"\"${PODS_ROOT}/Headers/Public/react-native-webview\"",
 					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
+					"\"${PODS_ROOT}/../node_modules/react-native/Libraries/LinkingIOS\"",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Ecency/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -1195,6 +1196,7 @@
 					"\"${PODS_ROOT}/Headers/Public/react-native-version-number\"",
 					"\"${PODS_ROOT}/Headers/Public/react-native-webview\"",
 					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
+					"\"${PODS_ROOT}/../node_modules/react-native/Libraries/LinkingIOS\"",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Ecency/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
