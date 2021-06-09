@@ -1,5 +1,5 @@
 const parseCatAuthorPermlink = (u) => {
-  const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
+  const postRegex = /^https?:\/\/(.*)\/(.*)\/(@[\w.\d-]+)\/(.*?)\?/i;
   const postMatch = u.match(postRegex);
 
   if (postMatch && postMatch.length === 5) {
@@ -16,7 +16,7 @@ const parseCatAuthorPermlink = (u) => {
       permlink: null,
     };
   }
-  const r = /^https?:\/\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
+  const r = /^https?:\/\/(.*)\/(@[\w.\d-]+)\/(.*?)\?/i;
   const match = u.match(r);
 
   if (match && match.length === 4) {
@@ -29,7 +29,7 @@ const parseCatAuthorPermlink = (u) => {
 };
 
 const parseAuthorPermlink = (u) => {
-  const r = /^https?:\/\/(.*)\/(@[\w.\d-]+)\/(.*)/i;
+  const r = /^https?:\/\/(.*)\/(@[\w.\d-]+)\/(.*?)\?/i;
   const match = u.match(r);
 
   if (match && match.length === 4) {
@@ -73,7 +73,7 @@ export default (url) => {
   }
 
   // For non urls like @good-karma/esteem-london-presentation-e3105ba6637ed
-  let match = url.match(/^[/]?(@[\w.\d-]+)\/(.*)/);
+  let match = url.match(/^[/]?(@[\w.\d-]+)\/(.*?)\?/);
   if (match && match.length === 3) {
     return {
       author: match[1].replace('@', ''),
@@ -82,7 +82,7 @@ export default (url) => {
   }
 
   // For non urls with category like esteem/@good-karma/esteem-london-presentation-e3105ba6637ed
-  match = url.match(/([\w.\d-]+)\/(@[\w.\d-]+)\/(.*)/);
+  match = url.match(/([\w.\d-]+)\/(@[\w.\d-]+)\/(.*?)\?/);
   if (match && match.length === 4) {
     if (match[3].indexOf('#') > -1) {
       const commentPart = match[3].split('@')[1];
