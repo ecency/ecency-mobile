@@ -147,7 +147,7 @@ const UpvoteContainer = (props) => {
   }
   const base = get(globalProps, 'base', 0);
   const quote = get(globalProps, 'quote', 0);
-  const sbdPrintRate = get(globalProps, 'sbdPrintRate', 0);
+  const hbdPrintRate = get(globalProps, 'hbdPrintRate', 0);
   const SBD_PRINT_RATE_MAX = 10000;
   const percent_steem_dollars = (content.percent_hbd || 10000) / 20000;
 
@@ -155,7 +155,7 @@ const UpvoteContainer = (props) => {
   const price_per_steem = base / quote;
 
   const pending_payout_hp = (pendingPayout - pending_payout_hbd) / price_per_steem;
-  const pending_payout_printed_hbd = pending_payout_hbd * (sbdPrintRate / SBD_PRINT_RATE_MAX);
+  const pending_payout_printed_hbd = pending_payout_hbd * (hbdPrintRate / SBD_PRINT_RATE_MAX);
   const pending_payout_printed_hive =
     (pending_payout_hbd - pending_payout_printed_hbd) / price_per_steem;
 
