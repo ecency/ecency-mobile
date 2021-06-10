@@ -136,7 +136,9 @@ const UpvoteContainer = (props) => {
   if (beneficiary) {
     beneficiary.forEach((key, index) => {
       beneficiaries.push(
-        `${index !== 0?'\n':''}${get(key, 'account')}: ${(parseFloat(get(key, 'weight')) / 100).toFixed(2)}%`,
+        `${index !== 0 ? '\n' : ''}${get(key, 'account')}: ${(
+          parseFloat(get(key, 'weight')) / 100
+        ).toFixed(2)}%`,
       );
     });
   }

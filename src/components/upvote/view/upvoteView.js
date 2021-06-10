@@ -266,16 +266,14 @@ class UpvoteView extends Component {
     const _totalPayout = totalPayout || '0.000';
     const sliderColor = downvote ? '#ec8b88' : '#357ce6';
 
-
     const _payoutPopupItem = (label, value) => {
-        return (
-          <View style={styles.popoverItemContent} >
-            <Text style={styles.detailsLabel}>{label}</Text>
-            <Text style={styles.detailsText}>{value}</Text>
-          </View>
-        )
-    }
-
+      return (
+        <View style={styles.popoverItemContent}>
+          <Text style={styles.detailsLabel}>{label}</Text>
+          <Text style={styles.detailsText}>{value}</Text>
+        </View>
+      );
+    };
 
     return (
       <PopoverController>
@@ -341,46 +339,50 @@ class UpvoteView extends Component {
               <View style={styles.popoverWrapper}>
                 {isShowDetails ? (
                   <View style={styles.popoverContent}>
-                    {promotedPayout > 0 && _payoutPopupItem(
-                      intl.formatMessage({id: 'payout.promoted'}),
-                      `${'~'}$${promotedPayout}`
+                    {promotedPayout > 0 &&
+                      _payoutPopupItem(
+                        intl.formatMessage({ id: 'payout.promoted' }),
+                        `${'~'}$${promotedPayout}`,
+                      )}
+
+                    {pendingPayout > 0 &&
+                      _payoutPopupItem(
+                        intl.formatMessage({ id: 'payout.potential_payout' }),
+                        `${'~'}$${pendingPayout}`,
+                      )}
+
+                    {authorPayout > 0 &&
+                      _payoutPopupItem(
+                        intl.formatMessage({ id: 'payout.author_payout' }),
+                        `${'~'}$${authorPayout}`,
+                      )}
+
+                    {_payoutPopupItem(
+                      intl.formatMessage({ id: 'payout.curation_payout' }),
+                      `${'~'}$${curationPayout}`,
                     )}
 
-                    {pendingPayout > 0 && _payoutPopupItem(
-                      intl.formatMessage({id: 'payout.potential_payout'}),
-                      `${'~'}$${pendingPayout}`
-                    )}
+                    {breakdownPayout &&
+                      pendingPayout > 0 &&
+                      _payoutPopupItem(
+                        intl.formatMessage({ id: 'payout.breakdown' }),
+                        breakdownPayout,
+                      )}
 
+                    {beneficiaries.length > 0 &&
+                      _payoutPopupItem(
+                        intl.formatMessage({ id: 'payout.beneficiaries' }),
+                        beneficiaries,
+                      )}
 
-                    {authorPayout > 0 && _payoutPopupItem(
-                      intl.formatMessage({id: 'payout.author_payout'}),
-                      `${'~'}$${authorPayout}`
-                    )}
-                    
-                    {curationPayout > 0 && _payoutPopupItem(
-                      intl.formatMessage({id: 'payout.curation_payout'}),
-                      `${'~'}$${curationPayout}`
-                    )}
+                    {!!payoutDate &&
+                      _payoutPopupItem(
+                        intl.formatMessage({ id: 'payout.payout_date' }),
+                        payoutDate,
+                      )}
 
-                    {breakdownPayout && pendingPayout > 0 && _payoutPopupItem(
-                      intl.formatMessage({id: 'payout.breakdown'}),
-                      breakdownPayout
-                    )} 
-
-                    {beneficiaries.length > 0 &&  _payoutPopupItem(
-                      intl.formatMessage({id: 'payout.beneficiaries'}),
-                      beneficiaries
-                    )}
-
-                    {!!payoutDate && _payoutPopupItem(
-                      intl.formatMessage({id: 'payout.payout_date'}),
-                      payoutDate
-                    )}
-
-                    {warnZeroPayout && _payoutPopupItem(
-                      intl.formatMessage({id: 'payout.warn_zero_payout'}),
-                      ''
-                    )}
+                    {warnZeroPayout &&
+                      _payoutPopupItem(intl.formatMessage({ id: 'payout.warn_zero_payout' }), '')}
                   </View>
                 ) : (
                   <Fragment>

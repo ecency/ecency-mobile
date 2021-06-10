@@ -88,17 +88,17 @@ export default EStyleSheet.create({
     fontSize: 12,
   },
   popoverItemContent: {
-    flexDirection:'row', 
-    marginTop:4
+    flexDirection: 'row',
+    marginTop: 4,
   },
-  popoverContent:{
-    marginTop:4, 
-    marginBottom:8
+  popoverContent: {
+    marginTop: 4,
+    marginBottom: 8,
   },
   detailsLabel: {
-    width:120,
+    width: 120,
     color: '$primaryDarkGray',
     fontSize: 12,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
 });
