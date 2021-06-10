@@ -357,12 +357,13 @@ class UpvoteView extends Component {
                         `${'~'}$${authorPayout}`,
                       )}
 
-                    {_payoutPopupItem(
-                      intl.formatMessage({ id: 'payout.curation_payout' }),
-                      `${'~'}$${curationPayout}`,
-                    )}
+                    {curationPayout > 0 &&
+                      _payoutPopupItem(
+                        intl.formatMessage({ id: 'payout.curation_payout' }),
+                        `${'~'}$${curationPayout}`,
+                      )}
 
-                    {breakdownPayout &&
+                    {!!breakdownPayout &&
                       pendingPayout > 0 &&
                       _payoutPopupItem(
                         intl.formatMessage({ id: 'payout.breakdown' }),
