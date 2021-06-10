@@ -134,9 +134,9 @@ const UpvoteContainer = (props) => {
   const beneficiaries = [];
   const beneficiary = get(content, 'beneficiaries');
   if (beneficiary) {
-    beneficiary.forEach((key) => {
+    beneficiary.forEach((key, index) => {
       beneficiaries.push(
-        `\n  ${get(key, 'account')}: ${(parseFloat(get(key, 'weight')) / 100).toFixed(2)}%`,
+        `${index !== 0?'\n':''}${get(key, 'account')}: ${(parseFloat(get(key, 'weight')) / 100).toFixed(2)}%`,
       );
     });
   }
@@ -160,12 +160,9 @@ const UpvoteContainer = (props) => {
     (pending_payout_hbd - pending_payout_printed_hbd) / price_per_steem;
 
   const breakdownPayout =
-    pending_payout_printed_hbd.toFixed(3) +
-    ' HBD, ' +
-    pending_payout_printed_hive.toFixed(3) +
-    ' HIVE, ' +
-    pending_payout_hp.toFixed(3) +
-    ' HP';
+    (pending_payout_printed_hbd > 0 ? `${pending_payout_printed_hbd.toFixed(3)} HBD\n` : '') +
+    (pending_payout_printed_hive > 0 ? `${pending_payout_printed_hive.toFixed(3)} HIVE\n` : '') +
+    (pending_payout_hp > 0 ? `${pending_payout_hp.toFixed(3)} HP` : '');
 
   return (
     <UpvoteView

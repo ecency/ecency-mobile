@@ -266,6 +266,17 @@ class UpvoteView extends Component {
     const _totalPayout = totalPayout || '0.000';
     const sliderColor = downvote ? '#ec8b88' : '#357ce6';
 
+
+    const _payoutPopupItem = (label, value) => {
+        return (
+          <View style={styles.popoverItemContent} >
+            <Text style={styles.detailsLabel}>{label}</Text>
+            <Text style={styles.detailsText}>{value}</Text>
+          </View>
+        )
+    }
+
+
     return (
       <PopoverController>
         {({ openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect }) => (
@@ -329,60 +340,46 @@ class UpvoteView extends Component {
             >
               <View style={styles.popoverWrapper}>
                 {isShowDetails ? (
-                  <View>
-                    {promotedPayout > 0 && (
-                      <Text style={styles.detailsText}>
-                        {`${intl.formatMessage({
-                          id: 'payout.promoted',
-                        })} ${'~'}$${promotedPayout}`}
-                      </Text>
+                  <View style={styles.popoverContent}>
+                    {promotedPayout > 0 && _payoutPopupItem(
+                      intl.formatMessage({id: 'payout.promoted'}),
+                      `${'~'}$${promotedPayout}`
                     )}
-                    {pendingPayout > 0 && (
-                      <Text style={styles.detailsText}>
-                        {`${intl.formatMessage({
-                          id: 'payout.potential_payout',
-                        })} ${'~'}$${pendingPayout}`}
-                      </Text>
+
+                    {pendingPayout > 0 && _payoutPopupItem(
+                      intl.formatMessage({id: 'payout.potential_payout'}),
+                      `${'~'}$${pendingPayout}`
                     )}
-                    {authorPayout > 0 && (
-                      <Text style={styles.detailsText}>
-                        {`${intl.formatMessage({
-                          id: 'payout.author_payout',
-                        })} ${'~'}$${authorPayout}`}
-                      </Text>
+
+
+                    {authorPayout > 0 && _payoutPopupItem(
+                      intl.formatMessage({id: 'payout.author_payout'}),
+                      `${'~'}$${authorPayout}`
                     )}
-                    {curationPayout > 0 && (
-                      <Text style={styles.detailsText}>
-                        {`${intl.formatMessage({
-                          id: 'payout.curation_payout',
-                        })} ${'~'}$${curationPayout}`}
-                      </Text>
+                    
+                    {curationPayout > 0 && _payoutPopupItem(
+                      intl.formatMessage({id: 'payout.curation_payout'}),
+                      `${'~'}$${curationPayout}`
                     )}
-                    {breakdownPayout && pendingPayout > 0 && (
-                      <Text style={styles.detailsText}>
-                        {`${intl.formatMessage({
-                          id: 'payout.breakdown',
-                        })} ${breakdownPayout}`}
-                      </Text>
+
+                    {breakdownPayout && pendingPayout > 0 && _payoutPopupItem(
+                      intl.formatMessage({id: 'payout.breakdown'}),
+                      breakdownPayout
+                    )} 
+
+                    {beneficiaries.length > 0 &&  _payoutPopupItem(
+                      intl.formatMessage({id: 'payout.beneficiaries'}),
+                      beneficiaries
                     )}
-                    {beneficiaries.length > 0 && (
-                      <Text style={styles.detailsText}>
-                        {`${intl.formatMessage({
-                          id: 'payout.beneficiaries',
-                        })} ${beneficiaries}`}
-                      </Text>
+
+                    {!!payoutDate && _payoutPopupItem(
+                      intl.formatMessage({id: 'payout.payout_date'}),
+                      payoutDate
                     )}
-                    <Text style={styles.detailsText}>
-                      {`${intl.formatMessage({
-                        id: 'payout.payout_date',
-                      })} ${payoutDate}`}
-                    </Text>
-                    {warnZeroPayout && (
-                      <Text style={styles.detailsText}>
-                        {`${intl.formatMessage({
-                          id: 'payout.warn_zero_payout',
-                        })}`}
-                      </Text>
+
+                    {warnZeroPayout && _payoutPopupItem(
+                      intl.formatMessage({id: 'payout.warn_zero_payout'}),
+                      ''
                     )}
                   </View>
                 ) : (
