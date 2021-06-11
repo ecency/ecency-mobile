@@ -125,6 +125,24 @@ class ApplicationContainer extends Component {
 
     this._setNetworkListener();
 
+    // this._handleOpenURL({url:"https://ecency.com/@good-karma"})
+    // this._handleOpenURL({url:"https://ecency.com/@demo.com"})
+    // this._handleOpenURL({url:"https://ecency.com/hive-125125/@ecency/vision-landing-page-curators-leaderboard"})
+    // this._handleOpenURL({url:"https://ecency.com/tags/@ecency/vision-landing-page-curators-leaderboard"})
+    // this._handleOpenURL({url:"https://ecency.com/hot/book"})
+    // this._handleOpenURL({url:"https://ecency.com/trending/book"})
+    // this._handleOpenURL({url:"https://ecency.com/created/book"})
+
+    // this._handleOpenURL({url:"https://ecency.com/hot/"})
+    // this._handleOpenURL({url:"https://ecency.com/trending/"})
+    // this._handleOpenURL({url:"https://ecency.com/created/"})
+
+    // this._handleOpenURL({url:"https://ecency.com/@demo.com/points"}) //TOOD
+    // this._handleOpenURL({url:"https://ecency.com/@demo.com/wallet"}) //TODO
+    // this._handleOpenURL({url:"https://ecency.com/@demo.com/comments"}) //TODO
+    // this._handleOpenURL({url:"https://ecency.com/@demo.com/posts"}) //TODO
+    // this._handleOpenURL({url:"https://ecency.com/@demo.com/replies"}) //TODO
+
     Linking.addEventListener('url', this._handleOpenURL);
 
     Linking.getInitialURL().then((url) => {
@@ -289,12 +307,11 @@ class ApplicationContainer extends Component {
           keey = get(profile, 'name');
         }
       }
+
       if (feedType) {
-        routeName = ROUTES.SCREENS.SEARCH_RESULT;
-        keey = 'search';
-      }
-      if (feedType && tag) {
-        if (/hive-[1-3]\d{4,6}$/.test(tag)) {
+        if (!tag) {
+          routeName = ROUTES.SCREENS.TAG_RESULT;
+        } else if (/hive-[1-3]\d{4,6}$/.test(tag)) {
           routeName = ROUTES.SCREENS.COMMUNITY;
         } else {
           routeName = ROUTES.SCREENS.TAG_RESULT;
@@ -303,7 +320,7 @@ class ApplicationContainer extends Component {
           tag,
           filter: feedType,
         };
-        keey = `${feedType}/${tag}`;
+        keey = `${feedType}/${tag || ''}`;
       }
     } catch (error) {
       this._handleAlert('deep_link.no_existing_user');
