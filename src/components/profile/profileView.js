@@ -170,6 +170,7 @@ class ProfileView extends PureComponent {
     const { currencyRate, currencySymbol, selectedUser } = this.props;
 
     const { isSummaryOpen, estimatedWalletValue } = this.state;
+
     return (
       <View
         key="profile.wallet"
@@ -200,12 +201,24 @@ class ProfileView extends PureComponent {
       isOwnProfile,
       profileTabs,
       ownProfileTabs,
+      deepLinkFilter,
     } = this.props;
 
     const { isSummaryOpen } = this.state;
 
     const pageType = isOwnProfile ? 'ownProfile' : 'profile';
     const tabs = (isOwnProfile ? ownProfileTabs : profileTabs) || getDefaultFilters(pageType);
+
+    //set initial tab based on deep link filter if available
+    let selectedIndex = 0;
+    if (deepLinkFilter) {
+      selectedIndex = tabs.indexOf((val) => val === deepLinkFilter);
+      if (selectedIndex < 0) {
+        tabs.pop();
+        tabs.push(deepLinkFilter);
+        selectedIndex = 2;
+      }
+    }
 
     const filterOptions = tabs.map((key) => getFilterMap(pageType)[key]);
 
@@ -222,7 +235,7 @@ class ProfileView extends PureComponent {
           key={username + JSON.stringify(filterOptions)}
           filterOptions={filterOptions}
           filterOptionsValue={tabs}
-          selectedOptionIndex={0}
+          selectedOptionIndex={selectedIndex}
           pageType={pageType}
           getFor="blog"
           feedUsername={username}
