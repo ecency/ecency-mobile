@@ -142,7 +142,8 @@
   "leaderboard": {
     "daily": "NAPI",
     "weekly": "HETI",
-    "monthly": "HAVI"
+    "monthly": "HAVI",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Üzenetek funkció hamarosan érkezik!"
