@@ -142,7 +142,8 @@
   "leaderboard": {
     "daily": "PÄEV",
     "weekly": "NÄDAL",
-    "monthly": "KUU"
+    "monthly": "KUU",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Sõnumite funktsionaalus ei ole veel valimis!"
