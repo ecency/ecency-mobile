@@ -142,7 +142,8 @@
   "leaderboard": {
     "daily": "ROJANE",
     "weekly": "HEFTANE",
-    "monthly": "MEHANE"
+    "monthly": "MEHANE",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Di nêz de taybetiya peyaman li vir e!"
