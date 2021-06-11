@@ -142,7 +142,8 @@
   "leaderboard": {
     "daily": "ЗА ДЕНЬ",
     "weekly": "ЗА НЕДЕЛЮ",
-    "monthly": "ЗА МЕСЯЦ"
+    "monthly": "ЗА МЕСЯЦ",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Здесь будут сообщения!"
