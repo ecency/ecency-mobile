@@ -142,7 +142,8 @@
   "leaderboard": {
     "daily": "DIARIO",
     "weekly": "SEMANAL",
-    "monthly": "MENSUAL"
+    "monthly": "MENSUAL",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "¡Pronto mensajería instantánea!"
