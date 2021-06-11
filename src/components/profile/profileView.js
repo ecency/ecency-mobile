@@ -212,7 +212,7 @@ class ProfileView extends PureComponent {
     //set initial tab based on deep link filter if available
     let selectedIndex = 0;
     if (deepLinkFilter) {
-      selectedIndex = tabs.indexOf((val) => val === deepLinkFilter);
+      selectedIndex = tabs.indexOf(deepLinkFilter);
       if (selectedIndex < 0) {
         tabs.pop();
         tabs.push(deepLinkFilter);
