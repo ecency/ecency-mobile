@@ -128,7 +128,7 @@ class ApplicationContainer extends Component {
     // this._handleOpenURL({url:"https://ecency.com/@good-karma"})
     // this._handleOpenURL({url:"https://ecency.com/@demo.com"})
     // this._handleOpenURL({url:"https://ecency.com/hive-125125/@ecency/vision-landing-page-curators-leaderboard"})
-    // this._handleOpenURL({url:"https://ecency.com/tags/@ecency/vision-landing-page-curators-leaderboard"})
+    // this._handleOpenURL({url:"https://ecency.com/@ecency/vision-landing-page-curators-leaderboard"})
     // this._handleOpenURL({url:"https://ecency.com/hot/book"})
     // this._handleOpenURL({url:"https://ecency.com/trending/book"})
     // this._handleOpenURL({url:"https://ecency.com/created/book"})
@@ -137,11 +137,11 @@ class ApplicationContainer extends Component {
     // this._handleOpenURL({url:"https://ecency.com/trending/"})
     // this._handleOpenURL({url:"https://ecency.com/created/"})
 
-    // this._handleOpenURL({url:"https://ecency.com/@demo.com/points"}) //TOOD
-    // this._handleOpenURL({url:"https://ecency.com/@demo.com/wallet"}) //TODO
-    // this._handleOpenURL({url:"https://ecency.com/@demo.com/comments"}) //TODO
-    // this._handleOpenURL({url:"https://ecency.com/@demo.com/posts"}) //TODO
-    // this._handleOpenURL({url:"https://ecency.com/@demo.com/replies"}) //TODO
+    // this._handleOpenURL({url:"https://ecency.com/@noumantahir/points"})
+    // this._handleOpenURL({url:"https://ecency.com/@demo.com/wallet"})
+    // this._handleOpenURL({url:"https://ecency.com/@noumantahir/comments"})
+    // this._handleOpenURL({url:"https://ecency.com/@good-karma/posts"})
+    // this._handleOpenURL({url:"https://ecency.com/@demo.com/replies"})
 
     Linking.addEventListener('url', this._handleOpenURL);
 
@@ -290,21 +290,34 @@ class ApplicationContainer extends Component {
 
     try {
       if (author) {
-        if (permlink) {
+        if (
+          !permlink ||
+          permlink === 'wallet' ||
+          permlink === 'points' ||
+          permlink === 'comments' ||
+          permlink === 'replies' ||
+          permlink === 'posts'
+        ) {
+          let deepLinkFilter;
+          if (permlink) {
+            deepLinkFilter = permlink === 'points' ? 'wallet' : permlink;
+          }
+
+          profile = await getUser(author);
+          routeName = ROUTES.SCREENS.PROFILE;
+          params = {
+            username: get(profile, 'name'),
+            reputation: get(profile, 'reputation'),
+            deepLinkFilter, //TODO: process this in profile screen
+          };
+          keey = get(profile, 'name');
+        } else if (permlink) {
           content = await getPost(author, permlink, currentAccount.name);
           routeName = ROUTES.SCREENS.POST;
           params = {
             content,
           };
           keey = `${author}/${permlink}`;
-        } else {
-          profile = await getUser(author);
-          routeName = ROUTES.SCREENS.PROFILE;
-          params = {
-            username: get(profile, 'name'),
-            reputation: get(profile, 'reputation'),
-          };
-          keey = get(profile, 'name');
         }
       }
 

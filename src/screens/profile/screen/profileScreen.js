@@ -40,6 +40,7 @@ const ProfileScreen = () => (
       username,
       votingPower,
       reverseHeader,
+      deepLinkFilter,
     }) => (
       <Profile
         about={about}
@@ -76,6 +77,7 @@ const ProfileScreen = () => (
         votingPower={votingPower}
         isHideImage={isHideImage}
         reverseHeader={reverseHeader}
+        deepLinkFilter={deepLinkFilter}
       />
     )}
   </ProfileContainer>

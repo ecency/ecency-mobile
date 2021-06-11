@@ -56,6 +56,7 @@ class ProfileContainer extends Component {
         name: get(props, 'navigation.state.params.username', ''),
       },
       reverseHeader: !!username,
+      deepLinkFilter: get(props, 'navigation.state.params.deepLinkFilter'),
     };
   }
 
@@ -68,6 +69,7 @@ class ProfileContainer extends Component {
       currentAccount: { name: currentAccountUsername },
     } = this.props;
     const username = get(navigation, 'state.params.username');
+
     const { isOwnProfile } = this.state;
     let targetUsername = currentAccountUsername;
 
@@ -436,6 +438,7 @@ class ProfileContainer extends Component {
       user,
       username,
       reverseHeader,
+      deepLinkFilter,
     } = this.state;
     const { currency, isDarkTheme, isLoggedIn, navigation, children, isHideImage } = this.props;
     const activePage = get(navigation.state.params, 'state', 0);
@@ -486,6 +489,7 @@ class ProfileContainer extends Component {
         selectedUser: user,
         username,
         reverseHeader,
+        deepLinkFilter,
       })
     );
   }
