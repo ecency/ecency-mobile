@@ -142,7 +142,8 @@
   "leaderboard": {
     "daily": "ZILNIC",
     "weekly": "SĂPTĂMÂNAL",
-    "monthly": "LUNAR"
+    "monthly": "LUNAR",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Funcția mesaje va fi disponibilă in curând!"
