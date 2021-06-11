@@ -142,7 +142,8 @@
   "leaderboard": {
     "daily": "TÄGLICH",
     "weekly": "WÖCHENTLICH",
-    "monthly": "MONATLICH"
+    "monthly": "MONATLICH",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Nachrichten-Feature ist bald verfügbar!"
