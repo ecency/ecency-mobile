@@ -125,25 +125,6 @@ class ApplicationContainer extends Component {
 
     this._setNetworkListener();
 
-    // this._handleOpenURL({url:"https://ecency.com/@good-karma"})
-    // this._handleOpenURL({url:"https://ecency.com/@demo.com"})
-    // this._handleOpenURL({url:"https://ecency.com/hive-125125/@ecency/vision-landing-page-curators-leaderboard"})
-    // this._handleOpenURL({url:"https://ecency.com/@ecency/vision-landing-page-curators-leaderboard"})
-    // this._handleOpenURL({url:"https://ecency.com/hot/book"})
-    // this._handleOpenURL({url:"https://ecency.com/trending/book"})
-    // this._handleOpenURL({url:"https://ecency.com/created/book"})
-
-    // this._handleOpenURL({url:"https://ecency.com/hot/"})
-    // this._handleOpenURL({url:"https://ecency.com/trending/"})
-    // this._handleOpenURL({url:"https://ecency.com/created/"})
-
-    // this._handleOpenURL({url:"https://ecency.com/@noumantahir/points"})
-    // this._handleOpenURL({url:"https://ecency.com/@demo.com/wallet"})
-    // this._handleOpenURL({url:"https://ecency.com/@noumantahir/comments"})
-    // this._handleOpenURL({url:"https://ecency.com/@good-karma/posts"})
-    // this._handleOpenURL({url:"https://ecency.com/@demo.com/replies"})
-    this._handleOpenURL({ url: 'https://ecency.com/@good-karma/communities' });
-
     Linking.addEventListener('url', this._handleOpenURL);
 
     Linking.getInitialURL().then((url) => {
