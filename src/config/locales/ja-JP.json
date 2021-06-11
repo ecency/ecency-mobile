@@ -142,7 +142,8 @@
   "leaderboard": {
     "daily": "日間",
     "weekly": "週間",
-    "monthly": "月間"
+    "monthly": "月間",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "メッセージ機能は近日公開予定です！"
