@@ -142,7 +142,8 @@
   "leaderboard": {
     "daily": "Araw-araw",
     "weekly": "Linggo-linggo",
-    "monthly": "Buwan-buwan"
+    "monthly": "Buwan-buwan",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Paparating na mga mensaheng tampok!"
