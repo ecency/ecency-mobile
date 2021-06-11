@@ -142,7 +142,8 @@
   "leaderboard": {
     "daily": "EVERYDAY",
     "weekly": "FOR EVERYWEEK",
-    "monthly": "FOR EVERY MONTH"
+    "monthly": "FOR EVERY MONTH",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Option for messages go soon come!"
