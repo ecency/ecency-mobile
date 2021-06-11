@@ -67,7 +67,7 @@
     "steemconnect_title": "Transferência por Hivesigner",
     "next": "SEGUINTE",
     "delegate": "Delegar",
-    "power_down": "Descarregar Poder",
+    "power_down": "Descarregar Hive Power",
     "withdraw_hive": "Sacar HIVE",
     "withdraw_hbd": "Sacar HBD",
     "transfer_to_savings": "Para poupança",
@@ -135,15 +135,15 @@
     "mentions": "Menções",
     "reblogs": "Reposts",
     "noactivity": "Sem atividade recente",
-    "mention_on": "New mention on",
-    "reply_on": "New reply on",
-    "reply_body": "Tap to continue conversation..."
+    "mention_on": "Nova menção pessoal",
+    "reply_on": "Nova resposta",
+    "reply_body": "Toque na tela para continuar a conversa..."
   },
   "leaderboard": {
     "daily": "DIÁRIO",
     "weekly": "SEMANAL",
     "monthly": "MENSAL",
-    "tooltip_earn": "Earn points by actively participating in Ecency."
+    "tooltip_earn": "Ganhe pontos participando ativamente da Ecency."
   },
   "messages": {
     "comingsoon": "Recurso de mensagens chega em breve!"
