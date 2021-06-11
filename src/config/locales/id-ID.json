@@ -142,7 +142,8 @@
   "leaderboard": {
     "daily": "HARIAN",
     "weekly": "MINGGUAN",
-    "monthly": "BULANAN"
+    "monthly": "BULANAN",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Fungsi pesan akan segera hadir!"
