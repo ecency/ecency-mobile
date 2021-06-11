@@ -142,7 +142,8 @@
   "leaderboard": {
     "daily": "প্রতিদিন",
     "weekly": "সপ্তাহান্তে",
-    "monthly": "মাসিক"
+    "monthly": "মাসিক",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "বার্তা বৈশিষ্ট্য শীঘ্রই আসছে!"
