@@ -142,7 +142,8 @@
   "leaderboard": {
     "daily": "روزانه",
     "weekly": "هفتگی",
-    "monthly": "ماهانه"
+    "monthly": "ماهانه",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "قابلیت ارسال پیام به زودی ارائه خواهد شد!"
