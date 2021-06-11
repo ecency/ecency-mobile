@@ -142,6 +142,7 @@ class ApplicationContainer extends Component {
     // this._handleOpenURL({url:"https://ecency.com/@noumantahir/comments"})
     // this._handleOpenURL({url:"https://ecency.com/@good-karma/posts"})
     // this._handleOpenURL({url:"https://ecency.com/@demo.com/replies"})
+    this._handleOpenURL({ url: 'https://ecency.com/@good-karma/communities' });
 
     Linking.addEventListener('url', this._handleOpenURL);
 
@@ -311,6 +312,12 @@ class ApplicationContainer extends Component {
             deepLinkFilter, //TODO: process this in profile screen
           };
           keey = get(profile, 'name');
+        } else if (permlink === 'communities') {
+          routeName = ROUTES.SCREENS.WEB_BROWSER;
+          params = {
+            url: url,
+          };
+          keey = 'WebBrowser';
         } else if (permlink) {
           content = await getPost(author, permlink, currentAccount.name);
           routeName = ROUTES.SCREENS.POST;
