@@ -142,7 +142,8 @@
   "leaderboard": {
     "daily": "日",
     "weekly": "每週",
-    "monthly": "每月"
+    "monthly": "每月",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "消息功能即將推出"
