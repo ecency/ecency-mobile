@@ -142,7 +142,8 @@
   "leaderboard": {
     "daily": "N YAL ASS",
     "weekly": "N YAL IMURAS",
-    "monthly": "N YAL AYYUR"
+    "monthly": "N YAL AYYUR",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Tawuri n yiznan ur tettɛeṭṭil ara ad d-tili!"
