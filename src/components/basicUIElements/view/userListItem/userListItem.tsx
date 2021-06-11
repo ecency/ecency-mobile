@@ -1,5 +1,6 @@
-import React from 'react';
-import { ActivityIndicator, View, Text, TouchableOpacity } from 'react-native';
+import Popover, { PopoverController } from '@esteemapp/react-native-modal-popover';
+import React, { Fragment } from 'react';
+import { ActivityIndicator, View, Text, TouchableOpacity, Alert } from 'react-native';
 import Highlighter from 'react-native-highlight-words';
 
 import { UserAvatar } from '../../../userAvatar';
@@ -28,12 +29,16 @@ const UserListItem = ({
   isLoadingRightAction = false,
   isLoggedIn,
   searchValue,
+  rightTooltipText,
 }) => {
-  const _handleSubscribeButtonPress = () => {
-    const _data = {};
-    _data.following = username;
+  const _handleRightButtonPress = () => {
+    if(onPressRightText){
+      const _data = {};
+      _data.following = username;
+  
+      onPressRightText(_data, isFollowing);
+    }
 
-    onPressRightText(_data, isFollowing);
   };
 
   return (
@@ -81,6 +86,8 @@ const UserListItem = ({
             </Text>
           </View>
         )}
+
+
         {isHasRightItem &&
           isLoggedIn &&
           (isLoadingRightAction ? (
@@ -88,20 +95,55 @@ const UserListItem = ({
               <ActivityIndicator style={{ width: 30 }} />
             </View>
           ) : (
-            <TouchableOpacity style={styles.rightWrapper} onPress={_handleSubscribeButtonPress}>
-              {isFollowing ? (
-                <Tag value="Unfollow" label={rightText} isPostCardTag={false} disabled />
-              ) : (
-                <>
-                  <Text
-                    style={[styles.value, isBlackRightColor && styles.valueBlack, rightTextStyle]}
-                  >
-                    {rightText}
-                  </Text>
-                  {subRightText && <Text style={styles.text}>{subRightText}</Text>}
-                </>
-              )}
-            </TouchableOpacity>
+
+            <PopoverController>
+                {({
+                  openPopover,
+                  closePopover,
+                  popoverVisible,
+                  setPopoverAnchor,
+                  popoverAnchorRect,
+                }) => (
+                <Fragment>
+                  <TouchableOpacity 
+                    ref={setPopoverAnchor}
+                    style={styles.rightWrapper} 
+                    onPress={() => {
+                      if(rightTooltipText){
+                        openPopover();
+                      }
+                      _handleRightButtonPress()
+                      
+                      }}>
+                    {isFollowing ? (
+                      <Tag value="Unfollow" label={rightText} isPostCardTag={false} disabled />
+                    ) : (
+                    <>
+                      <Text
+                        style={[styles.value, isBlackRightColor && styles.valueBlack, rightTextStyle]}
+                      >
+                        {rightText}
+                      </Text>
+                      {subRightText && <Text style={styles.text}>{subRightText}</Text>}
+                    </>
+                  )}
+                  </TouchableOpacity>
+                  <Popover
+                    contentStyle={styles.popoverDetails}
+                    arrowStyle={styles.arrow}
+                    backgroundStyle={styles.overlay}
+                    visible={popoverVisible}
+                    onClose={closePopover}
+                    fromRect={popoverAnchorRect}
+                    
+                    supportedOrientations={['portrait', 'landscape']}>
+                    <Text>{rightTooltipText}</Text>
+                  </Popover>
+                </Fragment>
+                )}
+            </PopoverController>
+            
+
           ))}
       </View>
     </TouchableOpacity>
