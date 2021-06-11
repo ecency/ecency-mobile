@@ -142,7 +142,8 @@
   "leaderboard": {
     "daily": "ЩОДЕННО",
     "weekly": "ЩОТИЖНЯ",
-    "monthly": "ЩОМІСЯЦЯ"
+    "monthly": "ЩОМІСЯЦЯ",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Функція повідомлень незабаром стане доступною!"
