@@ -142,7 +142,8 @@
   "leaderboard": {
     "daily": "Дневно",
     "weekly": "Седмично",
-    "monthly": "Месечно"
+    "monthly": "Месечно",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Функцията за съобщения идва скоро!"
