@@ -142,7 +142,8 @@
   "leaderboard": {
     "daily": "PÄIVITTÄIN",
     "weekly": "VIIKOITTAIN",
-    "monthly": "KUUKAUSITTAIN"
+    "monthly": "KUUKAUSITTAIN",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Viestiominaisuus on tulossa pian!"
