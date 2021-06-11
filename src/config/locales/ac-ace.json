@@ -142,7 +142,8 @@
   "leaderboard": {
     "daily": "DAILY",
     "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "monthly": "MONTHLY",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Fitur peusan seugeura lheuh!"
