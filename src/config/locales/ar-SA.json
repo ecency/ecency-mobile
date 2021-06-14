@@ -76,7 +76,7 @@
     "escrow_dispute": "Escrow Dispute",
     "escrow_release": "Escrow Release",
     "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel From Savings",
+    "cancel_transfer_from_savings": "إلغاء من المدخرات",
     "delegate_vesting_shares": "تفويض",
     "fill_convert_request": "تم التحويل بنجاح",
     "fill_transfer_from_savings": "تم الإدخار بنجاح",
@@ -86,10 +86,10 @@
       "buy": "احصل على نقاط"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "مدخرات HIVE"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "مدخرات HBD"
     },
     "hive": {
       "title": "HIVE",
@@ -418,7 +418,7 @@
     "copy_link": "نسخ الرابط",
     "reblogged": "تمت إعادة النشر من طرف",
     "sponsored": "مدعوم",
-    "open_thread": "Open thread",
+    "open_thread": "فتح الموضوع",
     "image": "الصورة",
     "link": "الرابط",
     "gallery_mode": "وضع معرض الصور",
@@ -494,12 +494,12 @@
     "comments": "التعليقات"
   },
   "comment_filter": {
-    "trending": "TOP",
-    "reputation": "REPUTATION",
+    "trending": "توب",
+    "reputation": "سمعة",
     "votes": "الاصوات",
     "age": "AGE",
-    "top": "TOP",
-    "time": "TIME"
+    "top": "توب",
+    "time": "الوقت"
   },
   "transfer": {
     "from": "من",
@@ -510,20 +510,20 @@
     "information": "هل أنت متأكد من تحويل الأموال؟",
     "amount_desc": "الرصيد",
     "memo_desc": "هذه المذكرة عامة",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "يستغرق التحويل 3.5 يومًا ولا يوصى به إذا كان سعر HBD أعلى من 1 دولار",
     "to_placeholder": "إسم المستخدم",
     "memo_placeholder": "أدخل ملاحظاتك هنا",
     "transfer_token": "تحويل",
     "purchase_estm": "شراء النقاط",
     "convert": "تحويل HBD إلى HIVE",
     "points": "إهداء نقاطك لشخص آخر",
-    "transfer_to_savings": "Transfer To Saving",
+    "transfer_to_savings": "النقل إلى المدخرات",
     "transfer_to_vesting": "رفع الطاقة",
-    "withdraw_to_saving": "Withdraw To Saving",
+    "withdraw_to_saving": "سحب إلى الادخار",
     "steemconnect_title": "تحويل بواسطة Hivesigner",
     "estimated_weekly": "المقدرة الأسبوعيا",
-    "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
+    "destination_accounts": "حسابات الوجهة",
+    "stop_information": "هل أنت متأكد من أنك تريد التوقف؟",
     "percent": "النسبة المئوية",
     "auto_vests": "Auto Vests",
     "save": "حفظ",
@@ -544,14 +544,14 @@
     "next": "التالي",
     "account": {
       "title": "الحصول على تعزيز الحساب",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "desc": "30 يومًا من التفويض سيعزز أصواتك وأنشطتك الاجتماعية ويمنحك المزيد من الإجراءات مع المزيد من رصيد الموارد."
     }
   },
   "free_estm": {
     "title": "النقاط المجانية",
     "button": "دور & فوز",
     "get_spin": "5 دورات",
-    "spin_right": "Spin Left",
+    "spin_right": "التدويرات التبقية",
     "timer_text": "الدوران المجاني التالي"
   },
   "promote": {
@@ -567,11 +567,11 @@
   },
   "voters_dropdown": {
     "rewards": "المكافآت",
-    "percent": "PERCENT",
+    "percent": "نسبه مئويه",
     "time": "الوقت"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "معلومات إعادة النشر"
   },
   "dsteem": {
     "date_error": {
