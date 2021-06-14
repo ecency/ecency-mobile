@@ -2,11 +2,11 @@
   "wallet": {
     "curation_reward": "مكافأة المصوت",
     "author_reward": "مكافأة صاحب المنشور",
-    "comment_benefactor_reward": "Benefactor Reward",
+    "comment_benefactor_reward": "مكافأة المستفيد",
     "claim_reward_balance": "الحصول على المكافأة ",
     "transfer": "تحويل",
     "power_up": "To Vesting",
-    "transfer_from_savings": "From Savings",
+    "transfer_from_savings": "من المدخرات",
     "withdraw_vesting": "سحب الطاقة",
     "fill_order": "ملئ الطلب",
     "post": "منشور",
@@ -497,7 +497,7 @@
     "trending": "توب",
     "reputation": "سمعة",
     "votes": "الاصوات",
-    "age": "AGE",
+    "age": "العمر",
     "top": "توب",
     "time": "الوقت"
   },
