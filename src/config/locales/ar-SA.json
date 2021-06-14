@@ -329,10 +329,10 @@
     "placeholder_body": "أضف جسم المقتطف هنا...",
     "btn_save": "حفظ",
     "btn_close": "إغلاق",
-    "btn_add": "مقتطفا",
+    "btn_add": "مقتطف",
     "message_incomplete": "الرجاء إضافة العنوان والجسم للمقتطف",
-    "message_failed": "Failed to save snippet",
-    "message_remove_confirmation": "Are you sure you want to delete this snippet?",
+    "message_failed": "خطآ في حفظ المقتطف",
+    "message_remove_confirmation": "هل أنت متأكد من أنك تريد حذف هذا المقتطف؟",
     "btn_confirm": "تأكيد",
     "btn_cancel": "إلغاء"
   },
@@ -350,7 +350,7 @@
     "forgot_text": "أوه، لقد نسيت ذلك...",
     "pin_not_matched": "كلمة المرور ليست متطابقة. الرجاء المحاولة مرة أخرى.",
     "attempts_postfix": "المحاولات الفاشلة",
-    "message_reset_warning": "User data will be wiped on next failed attempt"
+    "message_reset_warning": "سيتم مسح بيانات المستخدم في المحاولة الفاشلة التالية"
   },
   "alert": {
     "success": "تم بنجاح!",
@@ -363,8 +363,8 @@
     "success_shared": "تم إرسال المحتوى!",
     "success_moved": "تم النقل إلى المسودات",
     "permission_denied": "طلب الإذن مرفوض",
-    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Operation requires active key or master password, please relogin!",
+    "permission_text": "يرجى الانتقال إلى إعدادات الهاتف وتغيير أذونات تطبيق Ecency.",
+    "key_warning": "العملية تتطلب مفتاح نشط أو كلمة مرور رئيسية، يرجى إعادة تسجيل الدخول!",
     "success_rebloged": "أعيد تدوينه!",
     "already_rebloged": "لقد قمت بالفعل بإعادة نشره!",
     "success_favorite": "تمت الاضافة إلي المفضلة!",
@@ -392,7 +392,7 @@
     "no_internet": "لا يوجد اتصال!",
     "confirm": "تأكيد",
     "removed": "محذوف",
-    "same_user": "This user already added to list",
+    "same_user": "تمت إضافة هذا المستخدم بالفعل إلى القائمة",
     "unknow_error": "حدث خطأ ما",
     "error": "خطأ",
     "fetch_error": "مشكلة الاتصال، تغيير الخادم وإعادة التشغيل",
@@ -400,24 +400,24 @@
     "connection_success": "تم الاتصال بنجاح!",
     "checking": "جارٍ التحقق...",
     "external_link": "افتح في المتصفح",
-    "not_existing_post": "The post does not exist! Please check permlink and author.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
-    "payloadTooLarge": "File size too big, please resize or upload smaller image",
-    "qoutaExceeded": "Upload quota exceeded",
+    "not_existing_post": "المشاركة غير موجودة! الرجاء التحقق من رابط التصريح والمؤلف.",
+    "google_play_version": "لاحظنا أن جهازك لديه إصدار قديم من Google Play. الرجاء تحديث خدمات Google Play وحاول مرة أخرى!",
+    "rc_down": "لا توجد أرصدة كافية من الموارد للقيام بإجراءات! \n\nقم بتعزيز حسابك للاستمرار في الاستمتاع بالتجربة. هل تريد تعزيز حسابك، الآن؟",
+    "payloadTooLarge": "حجم الملف كبير جداً، يرجى تغيير الحجم أو تحميل صورة أصغر",
+    "qoutaExceeded": "تم تجاوز حصة الرفع",
     "invalidImage": "صورة غير صالحة، جرب ملف مختلف",
     "something_wrong": "حدث خطأ ما.",
     "something_wrong_alt": "جرب https://ecency.com",
     "something_wrong_reload": "إعادة التحميل",
-    "can_not_be_empty": "Title and body can not be empty!",
+    "can_not_be_empty": "العنوان والجسم لا يمكن أن يكونا فارغين!",
     "wrong_filter_count": "الرجاء اختيار 3 فلاتر"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
+    "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟",
     "removed_hint": "المحتوى غير متوفر",
     "copy_link": "نسخ الرابط",
     "reblogged": "تمت إعادة النشر من طرف",
-    "sponsored": "SPONSORED",
+    "sponsored": "مدعوم",
     "open_thread": "Open thread",
     "image": "الصورة",
     "link": "الرابط",
@@ -450,7 +450,7 @@
     "add": "إضافة إلى الإشارات المرجعية"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "المحتوى المرفوض المبلغ عنه"
   },
   "favorites": {
     "title": "المفضلات",
@@ -463,7 +463,7 @@
     "invalid_username": "اسم المستخدم غير صالح، يرجى التحقق والمحاولة مرة أخرى",
     "already_logged": "لقد قمت بتسجيل الدخول بالفعل، يرجى محاولة إضافة حساب آخر",
     "invalid_credentials": "بيانات الاعتماد غير صالحة، يرجى التحقق والمحاولة مرة أخرى",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "خطأ غير معروف، يرجى الاتصال بنا على support@ecency.com"
   },
   "payout": {
     "potential_payout": "المكافأة المتوقعة",
@@ -472,7 +472,7 @@
     "curation_payout": "مكافأة المقيّمين",
     "payout_date": "المكافأة",
     "beneficiaries": "المستفيدون",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "warn_zero_payout": "يجب أن يصل المبلغ إلى 0.02 دولار للدفع",
     "breakdown": "Breakdown"
   },
   "post_dropdown": {
