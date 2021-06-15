@@ -145,9 +145,8 @@ class ApplicationContainer extends Component {
 
     if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
 
-
     //set avatar cache stamp to invalidate previous session avatars
-    dispatch(setAvatarCacheStamp(new Date().getTime()))
+    dispatch(setAvatarCacheStamp(new Date().getTime()));
 
     getVersionForWelcomeModal().then((version) => {
       if (version < parseVersionNumber(appVersion)) {

@@ -9,7 +9,18 @@ import {
   SET_AVATAR_CACHE_STAMP,
 } from '../constants/constants';
 
-const initialState = {
+interface UiState {
+  activeBottomTab:string;
+  toastNotification:string;
+  hidePostsThumbnails:boolean;
+  rcOffer:boolean;
+  isVisibleAccountsBottomSheet:boolean;
+  actionModalVisible:boolean;
+  actionModalData:any;
+  avatarCacheStamp:number
+}
+
+const initialState:UiState = {
   activeBottomTab: 'HomeTabbar',
   toastNotification: '',
   hidePostsThumbnails: false,

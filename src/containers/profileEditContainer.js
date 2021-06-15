@@ -163,19 +163,18 @@ class ProfileEditContainer extends Component {
       version: 2,
     };
 
-    try{
-      await profileUpdate(params, pinCode, currentAccount)
+    try {
+      await profileUpdate(params, pinCode, currentAccount);
 
       const _currentAccount = { ...currentAccount, display_name: name, avatar: avatarUrl };
       _currentAccount.about.profile = { ...params };
 
       dispatch(updateCurrentAccount(_currentAccount));
-      dispatch(setAvatarCacheStamp(new Date().getTime()))
+      dispatch(setAvatarCacheStamp(new Date().getTime()));
       this.setState({ isLoading: false });
       navigation.state.params.fetchUser();
       navigation.goBack();
-    
-    }catch(err){
+    } catch (err) {
       Alert.alert(
         intl.formatMessage({
           id: 'alert.fail',
@@ -184,9 +183,6 @@ class ProfileEditContainer extends Component {
       );
       this.setState({ isLoading: false });
     }
-    
-
-    
   };
 
   render() {
