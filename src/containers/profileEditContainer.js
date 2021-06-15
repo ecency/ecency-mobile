@@ -10,6 +10,7 @@ import { uploadImage } from '../providers/ecency/ecency';
 
 import { profileUpdate, signImage } from '../providers/hive/dhive';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
+import { setAvatarCacheStamp } from '../redux/actions/uiAction';
 
 // import ROUTES from '../constants/routeNames';
 
@@ -150,7 +151,7 @@ class ProfileEditContainer extends Component {
     const { currentAccount, pinCode, dispatch, navigation, intl } = this.props;
     const { name, location, website, about, coverUrl, avatarUrl } = this.state;
 
-    await this.setState({ isLoading: true });
+    this.setState({ isLoading: true });
 
     const params = {
       profile_image: avatarUrl,
@@ -161,26 +162,31 @@ class ProfileEditContainer extends Component {
       location,
       version: 2,
     };
-    await profileUpdate(params, pinCode, currentAccount)
-      .then(async () => {
-        const _currentAccount = { ...currentAccount, display_name: name, avatar: avatarUrl };
-        _currentAccount.about.profile = { ...params };
 
-        dispatch(updateCurrentAccount(_currentAccount));
+    try{
+      await profileUpdate(params, pinCode, currentAccount)
 
-        navigation.state.params.fetchUser();
-        navigation.goBack();
-      })
-      .catch((error) => {
-        Alert.alert(
-          intl.formatMessage({
-            id: 'alert.fail',
-          }),
-          get(error, 'message', error.toString()),
-        );
-      });
+      const _currentAccount = { ...currentAccount, display_name: name, avatar: avatarUrl };
+      _currentAccount.about.profile = { ...params };
 
-    this.setState({ isLoading: false });
+      dispatch(updateCurrentAccount(_currentAccount));
+      dispatch(setAvatarCacheStamp(new Date().getTime()))
+      this.setState({ isLoading: false });
+      navigation.state.params.fetchUser();
+      navigation.goBack();
+    
+    }catch(err){
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        get(error, 'message', error.toString()),
+      );
+      this.setState({ isLoading: false });
+    }
+    
+
+    
   };
 
   render() {

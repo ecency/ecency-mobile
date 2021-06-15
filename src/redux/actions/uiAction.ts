@@ -1,3 +1,4 @@
+import { ButtonProps } from 'react-native';
 import {
   TOAST_NOTIFICATION,
   UPDATE_ACTIVE_BOTTOM_TAB,
@@ -6,19 +7,20 @@ import {
   TOGGLE_ACCOUNTS_BOTTOM_SHEET,
   SHOW_ACTION_MODAL,
   HIDE_ACTION_MODAL,
+  SET_AVATAR_CACHE_STAMP,
 } from '../constants/constants';
 
-export const updateActiveBottomTab = (payload) => ({
+export const updateActiveBottomTab = (payload:string) => ({
   payload,
   type: UPDATE_ACTIVE_BOTTOM_TAB,
 });
 
-export const toastNotification = (payload) => ({
+export const toastNotification = (payload:string) => ({
   payload,
   type: TOAST_NOTIFICATION,
 });
 
-export const showActionModal = (title, body, buttons, headerImage, onClosed) => ({
+export const showActionModal = (title:string, body:string, buttons:ButtonProps[], headerImage:any, onClosed:()=>void) => ({
   payload: {
     actionModalVisible: true,
     actionModalData: {
@@ -36,17 +38,22 @@ export const hideActionModal = () => ({
   type: HIDE_ACTION_MODAL,
 });
 
-export const setRcOffer = (payload) => ({
+export const setRcOffer = (payload:boolean) => ({
   payload,
   type: RC_OFFER,
 });
 
-export const hidePostsThumbnails = (payload) => ({
+export const hidePostsThumbnails = (payload:boolean) => ({
   payload,
   type: HIDE_POSTS_THUMBNAILS,
 });
 
-export const toggleAccountsBottomSheet = (payload) => ({
+export const toggleAccountsBottomSheet = (payload:boolean) => ({
   payload,
   type: TOGGLE_ACCOUNTS_BOTTOM_SHEET,
 });
+
+export const setAvatarCacheStamp = (payload:number) => ({
+  payload,
+  type:SET_AVATAR_CACHE_STAMP
+})

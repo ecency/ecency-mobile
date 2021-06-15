@@ -26,7 +26,7 @@ class ProfileEditScreen extends PureComponent {
 
   // Component Functions
   _showImageUploadActions = async (action) => {
-    await this.setState({ selectedUploadAction: action });
+    this.setState({ selectedUploadAction: action });
     this.galleryRef.current.show();
   };
 
