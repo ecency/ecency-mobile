@@ -21,7 +21,7 @@
     "delegation": "委託",
     "delegations": "委託",
     "delegation_title": "委託獎勵",
-    "delegation_desc": "通過代理SP，每天賺取ESTM",
+    "delegation_desc": "通過代理HP，每天賺取ESTM積分",
     "post_title": "發文的點數",
     "comment_title": "評論的點數",
     "vote_title": "投票的點數",
@@ -103,8 +103,8 @@
       "title": "HIVE POWER（已鎖倉）"
     },
     "btc": {
-      "title": "大餅",
-      "buy": "購買大餅",
+      "title": "BTC大餅",
+      "buy": "購買BTC大餅",
       "address": "接收"
     }
   },
@@ -262,7 +262,7 @@
     "logout": "登出",
     "cancel": "取消",
     "logout_text": "您確定要登出嗎？",
-    "create_a_new_account": "建立一個新帳戶",
+    "create_a_new_account": "創建一個新帳戶",
     "add_an_existing_account": "綁定現有帳號",
     "accounts": "帳號"
   },
