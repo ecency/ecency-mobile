@@ -1,6 +1,7 @@
 import React from 'react';
 import { withNavigation } from 'react-navigation';
-import { View, TouchableOpacity, Image, Text, Platform, ActivityIndicator } from 'react-native';
+import { View, TouchableOpacity, Text, Platform, ActivityIndicator } from 'react-native';
+import { View as AnimatedView } from 'react-native-animatable';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { injectIntl } from 'react-intl';
 
@@ -32,6 +33,7 @@ interface ProfileEditFormProps {
   isLoading:boolean,
   isUploading:boolean,
   showImageUploadActions:boolean,
+  saveEnabled:boolean,
 }
 
 const ProfileEditFormView = ({
@@ -44,6 +46,7 @@ const ProfileEditFormView = ({
   isLoading,
   isUploading,
   showImageUploadActions,
+  saveEnabled,
   ...props
 }:ProfileEditFormProps) => (
 
@@ -109,15 +112,20 @@ const ProfileEditFormView = ({
       ))}
     </KeyboardAwareScrollView>
   
-    <MainButton
-      style={{ width: isLoading ? null : 120, marginBottom:24, alignSelf:'flex-end' }}
-      onPress={handleOnSubmit}
-      iconName="save"
-      iconType="MaterialIcons"
-      iconColor="white"
-      text="SAVE"
-      isLoading={isLoading}
-    />
+    {saveEnabled && (
+      <AnimatedView style={styles.floatingContainer} animation="bounceInRight">
+        <MainButton
+          style={{ width: isLoading ? null : 120, marginBottom:24, alignSelf:'flex-end' }}
+          onPress={handleOnSubmit}
+          iconName="save"
+          iconType="MaterialIcons"
+          iconColor="white"
+          text="SAVE"
+          isLoading={isLoading}
+        />
+      </AnimatedView>
+    )}
+    
         
   </View>
 );

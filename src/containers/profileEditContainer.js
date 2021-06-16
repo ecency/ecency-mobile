@@ -11,7 +11,6 @@ import { uploadImage } from '../providers/ecency/ecency';
 import { profileUpdate, signImage } from '../providers/hive/dhive';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
 import { setAvatarCacheStamp } from '../redux/actions/uiAction';
-import { transferTypes } from '../utils/wallet';
 
 // import ROUTES from '../constants/routeNames';
 
@@ -53,6 +52,7 @@ class ProfileEditContainer extends Component {
     this.state = {
       isLoading: false,
       isUploading: false,
+      saveEnabled: false,
       about: get(props.currentAccount, 'about.profile.about'),
       name: get(props.currentAccount, 'about.profile.name'),
       location: get(props.currentAccount, 'about.profile.location'),
@@ -67,7 +67,7 @@ class ProfileEditContainer extends Component {
   // Component Functions
 
   _handleOnItemChange = (val, item) => {
-    this.setState({ [item]: val });
+    this.setState({ [item]: val, saveEnabled:true });
   };
 
   _uploadImage = async (media, action) => {
@@ -80,7 +80,7 @@ class ProfileEditContainer extends Component {
     uploadImage(media, currentAccount.name, sign)
       .then((res) => {
         if (res.data && res.data.url) {
-          this.setState({ [action]: res.data.url, isUploading: false });
+          this.setState({ [action]: res.data.url, isUploading: false, saveEnabled:true });
         }
       })
       .catch((error) => {
@@ -105,7 +105,9 @@ class ProfileEditContainer extends Component {
   };
 
   _handleOpenImagePicker = (action) => {
-    ImagePicker.openPicker(action == 'avatarUrl' ? IMAGE_PICKER_AVATAR_OPTIONS : IMAGE_PICKER_COVER_OPTIONS)
+    ImagePicker.openPicker(
+      action == 'avatarUrl' ? IMAGE_PICKER_AVATAR_OPTIONS : IMAGE_PICKER_COVER_OPTIONS,
+    )
       .then((media) => {
         this._uploadImage(media, action);
       })
@@ -115,7 +117,9 @@ class ProfileEditContainer extends Component {
   };
 
   _handleOpenCamera = (action) => {
-    ImagePicker.openCamera(action == 'avatarUrl' ? IMAGE_PICKER_AVATAR_OPTIONS : IMAGE_PICKER_COVER_OPTIONS)
+    ImagePicker.openCamera(
+      action == 'avatarUrl' ? IMAGE_PICKER_AVATAR_OPTIONS : IMAGE_PICKER_COVER_OPTIONS,
+    )
       .then((media) => {
         this._uploadImage(media, action);
       })
@@ -188,6 +192,7 @@ class ProfileEditContainer extends Component {
       about,
       coverUrl,
       avatarUrl,
+      saveEnabled
     } = this.state;
 
     return (
@@ -207,6 +212,7 @@ class ProfileEditContainer extends Component {
         location,
         name,
         website,
+        saveEnabled
       })
     );
   }
@@ -222,12 +228,11 @@ export default connect(mapStateToProps)(injectIntl(withNavigation(ProfileEditCon
 
 const IMAGE_PICKER_AVATAR_OPTIONS = {
   includeBase64: true,
+  cropping:true,
   width: 512,
   height: 512,
 };
 
 const IMAGE_PICKER_COVER_OPTIONS = {
   includeBase64: true,
-  width: 1440,
-  height: 1440,
 };

@@ -51,6 +51,7 @@ class ProfileEditScreen extends PureComponent {
           coverUrl,
           isLoading,
           isUploading,
+          saveEnabled,
           handleOnSubmit,
         }) => (
           <Fragment>
@@ -74,6 +75,7 @@ class ProfileEditScreen extends PureComponent {
               handleOnItemChange={handleOnItemChange}
               isLoading={isLoading}
               isUploading={isUploading && selectedUploadAction === 'coverUrl'}
+              saveEnabled={saveEnabled}
               handleOnSubmit={handleOnSubmit}
             />
 
