@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import {StatusBar} from 'react-native';
+import { StatusBar } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 import ActionSheet from 'react-native-actionsheet';
@@ -56,7 +56,7 @@ class ProfileEditScreen extends PureComponent {
           handleOnSubmit,
         }) => (
           <Fragment>
-            <StatusBar barStyle='light-content'  />
+            <StatusBar barStyle="light-content" />
             <AvatarHeader
               username={get(currentAccount, 'name')}
               name={name}

@@ -5,8 +5,8 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     paddingTop: 8,
     paddingHorizontal: 24,
-    paddingBottom:24,
-    alignItems:'center'
+    paddingBottom: 24,
+    alignItems: 'center',
   },
   backIcon: {
     color: '$white',

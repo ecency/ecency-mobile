@@ -1,6 +1,6 @@
 import React from 'react';
 import { withNavigation } from 'react-navigation';
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { UserAvatar } from '../userAvatar';
@@ -8,7 +8,6 @@ import { IconButton } from '../iconButton';
 
 // Styles
 import styles from './avatarHeaderStyles';
-import { TouchableOpacity } from 'react-native';
 
 const AvatarHeader = ({
   username,
@@ -53,7 +52,7 @@ const AvatarHeader = ({
               size={15}
             />
           </TouchableOpacity>
-          
+
           <View style={styles.textWrapper}>
             {!!name && <Text style={styles.name}>{name}</Text>}
             <Text style={styles.username}>{`@${username} (${reputation})`}</Text>
