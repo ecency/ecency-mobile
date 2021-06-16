@@ -33,7 +33,12 @@ const AvatarHeader = ({
           size={25}
         />
         <View style={styles.wrapper}>
-          <UserAvatar key={`${avatarUrl}-${username}`} noAction size="xl" username={username} />
+          <UserAvatar 
+            key={`${avatarUrl}-${username}`} 
+            noAction size="xl" 
+            username={username} 
+            avatarUrl={avatarUrl}
+          />
           <IconButton
             iconStyle={styles.addIcon}
             style={styles.addButton}

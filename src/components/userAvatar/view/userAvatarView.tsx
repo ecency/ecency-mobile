@@ -22,6 +22,7 @@ const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
 
 interface UserAvatarProps {
   username:string;
+  avatarUrl?:string;
   size?:'xl';
   style?:ViewStyle;
   disableSize?:boolean;
@@ -30,6 +31,7 @@ interface UserAvatarProps {
 
 const UserAvatarView = ({
   username,
+  avatarUrl,
   size,
   style,
   disableSize,
@@ -52,7 +54,7 @@ const UserAvatarView = ({
     };
 
 
-    const uri = getResizedAvatar(username, 'large');
+    const uri = avatarUrl ? avatarUrl : getResizedAvatar(username, 'large');
 
     const _avatar = username
       ? { uri : `${uri}?stamp=${avatarCacheStamp}` }
