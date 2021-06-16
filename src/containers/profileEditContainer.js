@@ -105,7 +105,7 @@ class ProfileEditContainer extends Component {
   };
 
   _handleOpenImagePicker = (action) => {
-    ImagePicker.openPicker(IMAGE_PICKER_OPTIONS)
+    ImagePicker.openPicker(action == 'avatarUrl' ? IMAGE_PICKER_AVATAR_OPTIONS : IMAGE_PICKER_COVER_OPTIONS)
       .then((media) => {
         this._uploadImage(media, action);
       })
@@ -115,7 +115,7 @@ class ProfileEditContainer extends Component {
   };
 
   _handleOpenCamera = (action) => {
-    ImagePicker.openCamera(IMAGE_PICKER_OPTIONS)
+    ImagePicker.openCamera(action == 'avatarUrl' ? IMAGE_PICKER_AVATAR_OPTIONS : IMAGE_PICKER_COVER_OPTIONS)
       .then((media) => {
         this._uploadImage(media, action);
       })
@@ -123,7 +123,6 @@ class ProfileEditContainer extends Component {
         this._handleMediaOnSelectFailure(e);
       });
   };
-
 
   _handleMediaOnSelectFailure = (error) => {
     const { intl } = this.props;
@@ -180,7 +179,16 @@ class ProfileEditContainer extends Component {
 
   render() {
     const { children, currentAccount, isDarkTheme } = this.props;
-    const { isLoading, isUploading, name, location, website, about, coverUrl, avatarUrl } = this.state;
+    const {
+      isLoading,
+      isUploading,
+      name,
+      location,
+      website,
+      about,
+      coverUrl,
+      avatarUrl,
+    } = this.state;
 
     return (
       children &&
@@ -212,9 +220,14 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps)(injectIntl(withNavigation(ProfileEditContainer)));
 
-
-const IMAGE_PICKER_OPTIONS = {
+const IMAGE_PICKER_AVATAR_OPTIONS = {
   includeBase64: true,
   width: 512,
   height: 512,
-}
+};
+
+const IMAGE_PICKER_COVER_OPTIONS = {
+  includeBase64: true,
+  width: 1440,
+  height: 1440,
+};

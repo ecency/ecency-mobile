@@ -26,7 +26,7 @@ class ProfileEditScreen extends PureComponent {
 
   // Component Functions
   _showImageUploadActions = (action) => {
-    this.setState({ selectedUploadAction: action }, ()=>{
+    this.setState({ selectedUploadAction: action }, () => {
       this.galleryRef.current.show();
     });
   };
@@ -76,6 +76,7 @@ class ProfileEditScreen extends PureComponent {
               isUploading={isUploading && selectedUploadAction === 'coverUrl'}
               handleOnSubmit={handleOnSubmit}
             />
+
             <ActionSheet
               ref={this.galleryRef}
               options={[
