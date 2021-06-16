@@ -1,6 +1,7 @@
 import React from 'react';
 import { withNavigation } from 'react-navigation';
-import { View, TouchableOpacity, Image, Text, Platform } from 'react-native';
+import { View, TouchableOpacity, Text, Platform, ActivityIndicator } from 'react-native';
+import { View as AnimatedView } from 'react-native-animatable';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { injectIntl } from 'react-intl';
 
@@ -17,9 +18,25 @@ import { getResizedImage } from '../../utils/image';
 
 // Styles
 import styles from './profileEditFormStyles';
+import FastImage from 'react-native-fast-image';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { MainButton } from '../mainButton';
+
+
+interface ProfileEditFormProps {
+  coverUrl:string;
+  formData:any;
+  handleOnItemChange:()=>void;
+  handleOnSubmit:()=>void;
+  intl:any,
+  isDarkTheme:boolean,
+  isLoading:boolean,
+  isUploading:boolean,
+  showImageUploadActions:boolean,
+  saveEnabled:boolean,
+}
 
 const ProfileEditFormView = ({
-  avatarUrl,
   coverUrl,
   formData,
   handleOnItemChange,
@@ -27,30 +44,41 @@ const ProfileEditFormView = ({
   intl,
   isDarkTheme,
   isLoading,
+  isUploading,
   showImageUploadActions,
+  saveEnabled,
   ...props
-}) => (
+}:ProfileEditFormProps) => (
+
   <View style={styles.container}>
-    <IconButton
-      iconStyle={styles.saveIcon}
-      style={styles.saveButton}
-      iconType="MaterialIcons"
-      name="save"
-      onPress={handleOnSubmit}
-      size={30}
-      isLoading={isLoading}
-    />
+
     <KeyboardAwareScrollView
       enableAutoAutomaticScroll={Platform.OS === 'ios'}
       contentContainerStyle={styles.contentContainer}
       enableOnAndroid={true}
     >
       <TouchableOpacity style={styles.coverImgWrapper} onPress={showImageUploadActions}>
-        <Image
-          style={styles.coverImg}
-          source={{ uri: getResizedImage(coverUrl, 600) }}
-          defaultSource={isDarkTheme ? DARK_COVER_IMAGE : LIGHT_COVER_IMAGE}
-        />
+     
+          <FastImage
+            style={styles.coverImg}
+            source={
+              coverUrl 
+                ? { uri: getResizedImage(coverUrl, 600) } 
+                : isDarkTheme 
+                  ? DARK_COVER_IMAGE 
+                  : LIGHT_COVER_IMAGE
+            }
+          />
+          {
+            isUploading && (
+              <ActivityIndicator 
+                style={styles.activityIndicator}
+                color={EStyleSheet.value('$white')}
+                size='large'
+              />
+            )
+          }
+          
 
         <IconButton
           iconStyle={styles.addIcon}
@@ -83,6 +111,22 @@ const ProfileEditFormView = ({
         </View>
       ))}
     </KeyboardAwareScrollView>
+  
+    {saveEnabled && (
+      <AnimatedView style={styles.floatingContainer} animation="bounceInRight">
+        <MainButton
+          style={{ width: isLoading ? null : 120, marginBottom:24, alignSelf:'flex-end' }}
+          onPress={handleOnSubmit}
+          iconName="save"
+          iconType="MaterialIcons"
+          iconColor="white"
+          text="SAVE"
+          isLoading={isLoading}
+        />
+      </AnimatedView>
+    )}
+    
+        
   </View>
 );
 

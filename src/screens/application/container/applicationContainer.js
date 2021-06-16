@@ -77,6 +77,7 @@ import {
 } from '../../../redux/actions/applicationActions';
 import {
   hideActionModal,
+  setAvatarCacheStamp,
   setRcOffer,
   toastNotification,
   updateActiveBottomTab,
@@ -126,7 +127,6 @@ class ApplicationContainer extends Component {
     this._setNetworkListener();
 
     Linking.addEventListener('url', this._handleOpenURL);
-
     Linking.getInitialURL().then((url) => {
       this._handleDeepLink(url);
     });
@@ -144,6 +144,9 @@ class ApplicationContainer extends Component {
     this._createPushListener();
 
     if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
+
+    //set avatar cache stamp to invalidate previous session avatars
+    dispatch(setAvatarCacheStamp(new Date().getTime()));
 
     getVersionForWelcomeModal().then((version) => {
       if (version < parseVersionNumber(appVersion)) {

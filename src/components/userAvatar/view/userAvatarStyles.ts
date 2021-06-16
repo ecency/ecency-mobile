@@ -6,4 +6,10 @@ export default EStyleSheet.create({
     borderColor: '$borderColor',
     backgroundColor: '$pureWhite',
   },
+  activityIndicator: {
+    position:'absolute', 
+    alignSelf:'center', 
+    top:0, 
+    bottom:0
+  }
 });

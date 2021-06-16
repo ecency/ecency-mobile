@@ -6,9 +6,21 @@ import {
   TOGGLE_ACCOUNTS_BOTTOM_SHEET,
   SHOW_ACTION_MODAL,
   HIDE_ACTION_MODAL,
+  SET_AVATAR_CACHE_STAMP,
 } from '../constants/constants';
 
-const initialState = {
+interface UiState {
+  activeBottomTab:string;
+  toastNotification:string;
+  hidePostsThumbnails:boolean;
+  rcOffer:boolean;
+  isVisibleAccountsBottomSheet:boolean;
+  actionModalVisible:boolean;
+  actionModalData:any;
+  avatarCacheStamp:number
+}
+
+const initialState:UiState = {
   activeBottomTab: 'HomeTabbar',
   toastNotification: '',
   hidePostsThumbnails: false,
@@ -16,6 +28,7 @@ const initialState = {
   isVisibleAccountsBottomSheet: false,
   actionModalVisible: false,
   actionModalData: null,
+  avatarCacheStamp: 0
 };
 
 export default function (state = initialState, action) {
@@ -65,6 +78,11 @@ export default function (state = initialState, action) {
         ...state,
         isVisibleAccountsBottomSheet: action.payload,
       };
+    case SET_AVATAR_CACHE_STAMP:
+      return {
+        ...state,
+        avatarCacheStamp: action.payload
+      }
     default:
       return state;
   }
