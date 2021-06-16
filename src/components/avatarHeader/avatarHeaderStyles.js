@@ -2,9 +2,11 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   headerContainer: {
-    height: 100,
     flexDirection: 'row',
-    padding: 21,
+    paddingTop: 8,
+    paddingHorizontal: 24,
+    paddingBottom:24,
+    alignItems:'center'
   },
   backIcon: {
     color: '$white',
@@ -16,7 +18,7 @@ export default EStyleSheet.create({
     alignItems: 'center',
   },
   textWrapper: {
-    marginLeft: 16,
+    marginLeft: 24,
   },
   name: {
     color: '$white',
