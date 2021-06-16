@@ -67,7 +67,7 @@ class ProfileEditContainer extends Component {
   // Component Functions
 
   _handleOnItemChange = (val, item) => {
-    this.setState({ [item]: val, saveEnabled:true });
+    this.setState({ [item]: val, saveEnabled: true });
   };
 
   _uploadImage = async (media, action) => {
@@ -80,7 +80,7 @@ class ProfileEditContainer extends Component {
     uploadImage(media, currentAccount.name, sign)
       .then((res) => {
         if (res.data && res.data.url) {
-          this.setState({ [action]: res.data.url, isUploading: false, saveEnabled:true });
+          this.setState({ [action]: res.data.url, isUploading: false, saveEnabled: true });
         }
       })
       .catch((error) => {
@@ -192,7 +192,7 @@ class ProfileEditContainer extends Component {
       about,
       coverUrl,
       avatarUrl,
-      saveEnabled
+      saveEnabled,
     } = this.state;
 
     return (
@@ -212,7 +212,7 @@ class ProfileEditContainer extends Component {
         location,
         name,
         website,
-        saveEnabled
+        saveEnabled,
       })
     );
   }
@@ -228,7 +228,7 @@ export default connect(mapStateToProps)(injectIntl(withNavigation(ProfileEditCon
 
 const IMAGE_PICKER_AVATAR_OPTIONS = {
   includeBase64: true,
-  cropping:true,
+  cropping: true,
   width: 512,
   height: 512,
 };
