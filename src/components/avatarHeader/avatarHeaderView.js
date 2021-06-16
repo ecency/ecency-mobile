@@ -16,6 +16,7 @@ const AvatarHeader = ({
   navigation,
   avatarUrl,
   showImageUploadActions,
+  isUploading,
 }) => (
   <LinearGradient
     start={{ x: 0, y: 0 }}
@@ -38,6 +39,7 @@ const AvatarHeader = ({
             noAction size="xl" 
             username={username} 
             avatarUrl={avatarUrl}
+            isLoading={isUploading}
           />
           <IconButton
             iconStyle={styles.addIcon}

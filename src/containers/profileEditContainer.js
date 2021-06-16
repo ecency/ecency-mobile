@@ -11,6 +11,7 @@ import { uploadImage } from '../providers/ecency/ecency';
 import { profileUpdate, signImage } from '../providers/hive/dhive';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
 import { setAvatarCacheStamp } from '../redux/actions/uiAction';
+import { transferTypes } from '../utils/wallet';
 
 // import ROUTES from '../constants/routeNames';
 
@@ -51,6 +52,7 @@ class ProfileEditContainer extends Component {
     super(props);
     this.state = {
       isLoading: false,
+      isUploading: false,
       about: get(props.currentAccount, 'about.profile.about'),
       name: get(props.currentAccount, 'about.profile.name'),
       location: get(props.currentAccount, 'about.profile.location'),
@@ -71,14 +73,14 @@ class ProfileEditContainer extends Component {
   _uploadImage = async (media, action) => {
     const { intl, currentAccount, pinCode } = this.props;
 
-    this.setState({ isLoading: true });
+    this.setState({ isUploading: true });
 
     let sign = await signImage(media, currentAccount, pinCode);
 
     uploadImage(media, currentAccount.name, sign)
       .then((res) => {
         if (res.data && res.data.url) {
-          this.setState({ [action]: res.data.url, isLoading: false });
+          this.setState({ [action]: res.data.url, isUploading: false });
         }
       })
       .catch((error) => {
@@ -90,7 +92,7 @@ class ProfileEditContainer extends Component {
             error.message || error.toString(),
           );
         }
-        this.setState({ isLoading: false });
+        this.setState({ isUploading: false });
       });
   };
 
@@ -103,11 +105,9 @@ class ProfileEditContainer extends Component {
   };
 
   _handleOpenImagePicker = (action) => {
-    ImagePicker.openPicker({
-      includeBase64: true,
-    })
-      .then((image) => {
-        this._handleMediaOnSelected(image, action);
+    ImagePicker.openPicker(IMAGE_PICKER_OPTIONS)
+      .then((media) => {
+        this._uploadImage(media, action);
       })
       .catch((e) => {
         this._handleMediaOnSelectFailure(e);
@@ -115,22 +115,15 @@ class ProfileEditContainer extends Component {
   };
 
   _handleOpenCamera = (action) => {
-    ImagePicker.openCamera({
-      includeBase64: true,
-    })
-      .then((image) => {
-        this._handleMediaOnSelected(image, action);
+    ImagePicker.openCamera(IMAGE_PICKER_OPTIONS)
+      .then((media) => {
+        this._uploadImage(media, action);
       })
       .catch((e) => {
         this._handleMediaOnSelectFailure(e);
       });
   };
 
-  _handleMediaOnSelected = (media, action) => {
-    this.setState({ isLoading: true }, () => {
-      this._uploadImage(media, action);
-    });
-  };
 
   _handleMediaOnSelectFailure = (error) => {
     const { intl } = this.props;
@@ -187,7 +180,7 @@ class ProfileEditContainer extends Component {
 
   render() {
     const { children, currentAccount, isDarkTheme } = this.props;
-    const { isLoading, name, location, website, about, coverUrl, avatarUrl } = this.state;
+    const { isLoading, isUploading, name, location, website, about, coverUrl, avatarUrl } = this.state;
 
     return (
       children &&
@@ -202,6 +195,7 @@ class ProfileEditContainer extends Component {
         handleOnSubmit: this._handleOnSubmit,
         isDarkTheme,
         isLoading,
+        isUploading,
         location,
         name,
         website,
@@ -217,3 +211,10 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(injectIntl(withNavigation(ProfileEditContainer)));
+
+
+const IMAGE_PICKER_OPTIONS = {
+  includeBase64: true,
+  width: 512,
+  height: 512,
+}

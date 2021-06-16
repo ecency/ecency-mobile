@@ -18,8 +18,20 @@ import { getResizedImage } from '../../utils/image';
 // Styles
 import styles from './profileEditFormStyles';
 
+
+interface ProfileEditFormProps {
+  coverUrl:string;
+  formData:any;
+  handleOnItemChange:()=>void;
+  handleOnSubmit:()=>void;
+  intl:any,
+  isDarkTheme:boolean,
+  isLoading:boolean,
+  isUploading:boolean,
+  showImageUploadActions:boolean,
+}
+
 const ProfileEditFormView = ({
-  avatarUrl,
   coverUrl,
   formData,
   handleOnItemChange,
@@ -29,7 +41,7 @@ const ProfileEditFormView = ({
   isLoading,
   showImageUploadActions,
   ...props
-}) => (
+}:ProfileEditFormProps) => (
   <View style={styles.container}>
     <IconButton
       iconStyle={styles.saveIcon}

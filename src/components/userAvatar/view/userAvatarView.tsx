@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, ViewStyle } from 'react-native';
+import { ActivityIndicator, TouchableOpacity, ViewStyle } from 'react-native';
 import { connect } from 'react-redux';
 
 import FastImage from 'react-native-fast-image';
@@ -12,6 +12,7 @@ import ROUTES from '../../../constants/routeNames';
 // Utils
 import { getResizedAvatar } from '../../../utils/image';
 import { useAppSelector } from '../../../hooks';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
 
@@ -27,6 +28,7 @@ interface UserAvatarProps {
   style?:ViewStyle;
   disableSize?:boolean;
   noAction?:boolean;
+  isLoading?:boolean;
 }
 
 const UserAvatarView = ({
@@ -35,7 +37,8 @@ const UserAvatarView = ({
   size,
   style,
   disableSize,
-  noAction
+  noAction,
+  isLoading
 }:UserAvatarProps) => {
 
     const curUsername = useAppSelector(state=>state.account.currentAccount.name);
@@ -79,6 +82,15 @@ const UserAvatarView = ({
           ]}
           source={_avatar}
         />
+        {
+          isLoading && (
+            <ActivityIndicator 
+              style={styles.activityIndicator} 
+              size='large' 
+              color={EStyleSheet.value('$white')} 
+            />
+          )
+        }
       </TouchableOpacity>
     );
 }

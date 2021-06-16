@@ -50,6 +50,7 @@ class ProfileEditScreen extends PureComponent {
           avatarUrl,
           coverUrl,
           isLoading,
+          isUploading,
           handleOnSubmit,
         }) => (
           <Fragment>
@@ -59,6 +60,7 @@ class ProfileEditScreen extends PureComponent {
               reputation={get(currentAccount, 'reputation')}
               avatarUrl={avatarUrl}
               showImageUploadActions={() => this._showImageUploadActions('avatarUrl')}
+              isUploading={isUploading && selectedUploadAction === 'avatarUrl'}
             />
             <ProfileEditForm
               formData={formData}
@@ -71,6 +73,7 @@ class ProfileEditScreen extends PureComponent {
               showImageUploadActions={() => this._showImageUploadActions('coverUrl')}
               handleOnItemChange={handleOnItemChange}
               isLoading={isLoading}
+              isUploading={isUploading && selectedUploadAction === 'coverUrl'}
               handleOnSubmit={handleOnSubmit}
             />
             <ActionSheet
