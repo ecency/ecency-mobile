@@ -60,7 +60,11 @@ const UserAvatarView = ({
     const uri = avatarUrl ? avatarUrl : getResizedAvatar(username, 'large');
 
     const _avatar = username
-      ? { uri : `${uri}?stamp=${avatarCacheStamp}` }
+      ? { 
+          uri : `${uri}${username === curUsername && avatarCacheStamp 
+            ? ('?stamp=' + avatarCacheStamp) : '' }`,
+          cache : FastImage.cacheControl.web
+        }
       : DEFAULT_IMAGE;
 
     let _size:number;
