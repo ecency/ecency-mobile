@@ -175,7 +175,7 @@ class ProfileEditContainer extends Component {
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        get(error, 'message', error.toString()),
+        get(err, 'message', err.toString()),
       );
       this.setState({ isLoading: false });
     }
