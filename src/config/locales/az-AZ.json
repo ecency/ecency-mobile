@@ -30,7 +30,7 @@
     "checkin_title": "Ürək döyüntüsü üçün xal",
     "referral": "Yönləndirmə",
     "referral_title": "Yönləndirmə mükafatları",
-    "referral_desc": "Dostları dəvət et və xal qazan",
+    "referral_desc": "Dostları dəvət edin və xal qazanın",
     "checkin_extra_title": "İstifadə bonusu",
     "no_activity": "Heç bir son fəalliyət yoxdur",
     "outgoing_transfer_description": "",
@@ -39,7 +39,7 @@
     "comment_desc": "Bildirdiyiniz hər bir rəy əhatənizi genişləndirməyə kömək edər və həmçinin 5 xala qədər qazandırar.",
     "checkin_desc": "Müntəzəm yoxlama 0.25 xal verər.",
     "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
-    "reblog_desc": "Share what post you like with your friends and earn points.",
+    "reblog_desc": "Bəyəndiyiniz göndərişləri dostlarınızla paylaşın və xal qazanın.",
     "login_desc": "When you login into app first time you earn 100 points.",
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
     "dropdown_transfer": "Hədiyyə",
@@ -140,8 +140,8 @@
     "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
+    "daily": "GÜNDƏLİK",
+    "weekly": "HƏFTƏLİK",
     "monthly": "MONTHLY",
     "tooltip_earn": "Earn points by actively participating in Ecency."
   },
@@ -245,8 +245,8 @@
     "new": "New",
     "blog": "Blog",
     "posts": "Göndərişlər",
-    "friends": "Friends",
-    "communities": "Communities",
+    "friends": "Dostlar",
+    "communities": "Cəmiyyətlər",
     "popup_postfix": "Posted"
   },
   "side_menu": {
@@ -257,7 +257,7 @@
     "schedules": "Cədvəllər",
     "gallery": "Qalereya",
     "settings": "Tənzimləmələr",
-    "communities": "Communities",
+    "communities": "Cəmiyyətlər",
     "add_account": "Hesab əlavə et",
     "logout": "Çıxış",
     "cancel": "İmtina",
@@ -303,7 +303,7 @@
     "beneficiaries": "Beneficiaries",
     "options": "Options",
     "my_blog": "Bloqum",
-    "select_community": "Choose a community",
+    "select_community": "Bir cəmiyyət seçin",
     "my_communities": "Cəmiyyətlərim",
     "top_communities": "Başlıca Cəmiyyətlər",
     "schedule_modal_title": "Schedule Post",
@@ -450,7 +450,7 @@
     "add": "Əlfəcinlərə əlavə et"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Mübahisəli məzmun şikayət edildi"
   },
   "favorites": {
     "title": "Sevimlilər",
@@ -483,7 +483,7 @@
     "bookmarks": "əlfəcinlərə əlavə et",
     "promote": "tanıt",
     "boost": "gücləndir",
-    "report": "report"
+    "report": "şikayət et"
   },
   "deep_link": {
     "no_existing_user": "Heç bir istifadəçi yoxdur",
@@ -598,18 +598,18 @@
       "title": "Topics"
     },
     "communities": {
-      "title": "Groups",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
-      "posters": "Posters",
+      "title": "Qruplar",
+      "subscribe": "Qoşul",
+      "unsubscribe": "Tərk et",
+      "subscribers": "Üzvlər",
+      "posters": "Posterlər",
       "posts": "Göndərişlər"
     },
     "communities_filter": {
-      "my": "My Communities",
+      "my": "Cəmiyyətlərim",
       "rank": "Rank",
-      "subs": "Members",
-      "new": "New"
+      "subs": "Üzvlər",
+      "new": "Yeni"
     },
     "post_result_filter": {
       "popularity": "Popularity",
@@ -622,21 +622,21 @@
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details",
-    "muted": "Muted",
-    "payout": "Payout"
+    "new_post": "Yeni Göndəriş",
+    "community": "cəmiyyət",
+    "details": "Təfsilatlar",
+    "muted": "Səssizdə",
+    "payout": "Ödəmə"
   },
   "user": {
     "follow": "Follow",
     "unfollow": "Unfollow"
   },
   "communities": {
-    "joined": "Membership",
-    "discover": "Discover",
-    "discover_communities": "Discover Communities",
-    "no_communities": "Connect with people who share your interests by joining Communities."
+    "joined": "Üzvlük",
+    "discover": "Kəşf et",
+    "discover_communities": "Cəmiyyətləri Kəşf Edin",
+    "no_communities": "Cəmiyyətlərə qoşularaq maraqlarınızı paylaşan insanlarla bağlantı qurun."
   },
   "empty_screen": {
     "nothing_here": "Nothing here"
@@ -650,12 +650,12 @@
   "welcome": {
     "label": "Welcome to",
     "title": "Ecency",
-    "line1_heading": "Are you looking for community?",
+    "line1_heading": "Cəmiyyət axtarırsınız?",
     "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
     "line2_heading": "We have a solution!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
-    "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others.",
+    "line3_heading": "Ecency cəmiyyətinə qoşulun!",
+    "line3_body": "Öz cəmiyyətinizi qurun, mükafat alın və başqalarını mükafatlandırın.",
     "get_started": "Get started!"
   }
 }
