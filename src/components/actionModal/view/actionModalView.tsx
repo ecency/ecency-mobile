@@ -66,7 +66,7 @@ const ActionModalView = ({onClose, data}: ActionModalViewProps, ref) => {
                 
             
             <View style={styles.actionPanel}>
-                {
+                {buttons ? (
                     buttons.map((props)=>(
                         <TextButton 
                             key={props.text}
@@ -79,6 +79,17 @@ const ActionModalView = ({onClose, data}: ActionModalViewProps, ref) => {
                             textStyle={styles.btnText}
                         />
                     ))
+                ):(
+                    <TextButton
+                        key='default'
+                        text='OK'
+                        onPress={()=>{
+                            sheetModalRef.current?.setModalVisible(false);
+                        }}   
+                        style={styles.button}
+                        textStyle={styles.btnText}               
+                    />
+                )
                 }
             </View>
         </View>

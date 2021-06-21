@@ -9,9 +9,14 @@ export default EStyleSheet.create({
         paddingBottom:8,
       },
 
-      sheetContent: {
+    sheetContent: {
         backgroundColor: '$primaryBackgroundColor',
-      },
+        position:'absolute',
+        bottom:0,
+        left:0, 
+        right:0,
+        zIndex:999
+    },
 
     container:{
         marginTop:16,
