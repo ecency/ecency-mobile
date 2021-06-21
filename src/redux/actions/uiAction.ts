@@ -1,4 +1,5 @@
-import { ButtonProps } from 'react-native';
+
+import { AlertButton } from 'react-native';
 import {
   TOAST_NOTIFICATION,
   UPDATE_ACTIVE_BOTTOM_TAB,
@@ -20,9 +21,9 @@ export const toastNotification = (payload:string) => ({
   type: TOAST_NOTIFICATION,
 });
 
-export const showActionModal = (title:string, body:string, buttons:ButtonProps[], headerImage:any, onClosed:()=>void) => ({
+export const showActionModal = (title:string, body?:string, buttons?:AlertButton[], headerImage?:any, onClosed?:()=>void) => ({
   payload: {
-    actionModalVisible: true,
+    actionModalVisible: new Date().getTime(),
     actionModalData: {
       title,
       body,
