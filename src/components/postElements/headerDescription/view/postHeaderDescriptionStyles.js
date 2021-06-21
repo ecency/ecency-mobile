@@ -27,7 +27,7 @@ export default EStyleSheet.create({
   },
   name: {
     marginHorizontal: 3,
-    fontSize: 12,
+    fontSize: 16,
     color: '$primaryBlack',
     fontFamily: '$primaryFont',
     fontWeight: 'bold',

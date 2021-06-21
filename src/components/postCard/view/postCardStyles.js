@@ -47,15 +47,15 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
   },
   title: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
     marginVertical: 12,
     color: '$primaryBlack',
   },
   summary: {
-    fontSize: 13,
+    fontSize: 16,
     color: '$primaryDarkGray',
-    lineHeight: 18,
+    lineHeight: 22,
   },
   bodyFooter: {
     backgroundColor: '$primaryBackgroundColor',
