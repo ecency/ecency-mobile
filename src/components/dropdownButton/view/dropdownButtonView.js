@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableHighlight, ActivityIndicator } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 // External components
 import ModalDropdown from 'react-native-modal-dropdown';
@@ -25,7 +26,10 @@ const renderDropdownRow = (
   noHighlight,
   dropdownRowWrapper,
 ) => (
-  <TouchableHighlight style={styles.rowWrapper} underlayColor="#E9F2FC">
+  <TouchableHighlight
+    style={styles.rowWrapper}
+    underlayColor={EStyleSheet.value('$modalBackground')}
+  >
     <View
       style={[
         styles.dropdownRow,
