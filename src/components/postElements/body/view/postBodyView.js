@@ -341,6 +341,10 @@ const PostBody = ({
   }
   body {
     color: ${EStyleSheet.value('$primaryBlack')};
+    font-size: 18;
+  }
+  h1 {
+    font-size: 22;
   }
   a {
     color: ${EStyleSheet.value('$primaryBlue')};
