@@ -82,12 +82,12 @@ export default EStyleSheet.create({
     marginTop:56
   },
   followText:{
-    color: '$primaryBlue',
+    color: '$borderedButtonBlue',
     fontSize: 12,
     fontFamily: '$primaryFont',
     fontWeight: 'bold',
 
-    borderColor: '$primaryBlue',
+    borderColor: '$borderedButtonBlue',
     borderWidth: 1,
     borderRadius: 10,
     paddingVertical:2,
