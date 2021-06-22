@@ -631,10 +631,10 @@
   "user": {
     "follow": "Ikuti",
     "unfollow": "Berhenti mengikuti",
-    "add_to_favourites": "ADD TO FAVOURITES",
-    "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE",
-    "unmute": "UNMUTE"
+    "add_to_favourites": "MASUKKAN KE FAVORIT",
+    "remove_from_favourites": "HAPUS DARI FAVORIT",
+    "mute": "BISUKAN",
+    "unmute": "HIDUPKAN"
   },
   "communities": {
     "joined": "Keanggotaan",
