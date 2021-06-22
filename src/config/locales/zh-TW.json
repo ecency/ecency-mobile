@@ -630,7 +630,11 @@
   },
   "user": {
     "follow": "關注",
-    "unfollow": "取消關注"
+    "unfollow": "取消關注",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "會員身份",
