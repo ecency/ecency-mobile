@@ -630,7 +630,11 @@
   },
   "user": {
     "follow": "Подписаться",
-    "unfollow": "Отписаться"
+    "unfollow": "Отписаться",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Membership",
