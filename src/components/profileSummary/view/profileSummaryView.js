@@ -19,6 +19,7 @@ import { getResizedImage } from '../../../utils/image';
 
 // Styles
 import styles from './profileSummaryStyles';
+import { TextButton } from '../../buttons';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
@@ -45,12 +46,19 @@ class ProfileSummaryView extends PureComponent {
   };
 
   _handleOnDropdownSelect = (index) => {
-    const { isMuted, handleMuteUnmuteUser } = this.props;
+    const { isMuted, isFavorite, handleMuteUnmuteUser, handleOnFavoritePress } = this.props;
 
-    // This funciton should have switch case but now only has one option therefor
-    // temporarily I created with if statments
-    if (index === 0 && handleMuteUnmuteUser) {
-      handleMuteUnmuteUser(!isMuted);
+    switch (index) {
+      case 0:
+        if (handleMuteUnmuteUser) {
+          handleMuteUnmuteUser(!isMuted);
+        }
+        break;
+      case 1:
+        if (handleOnFavoritePress) {
+          handleOnFavoritePress(isFavorite);
+        }
+        break;
     }
   };
 
@@ -62,7 +70,6 @@ class ProfileSummaryView extends PureComponent {
       followerCount,
       followingCount,
       handleFollowUnfollowUser,
-      handleOnFavoritePress,
       handleOnFollowsPress,
       handleOnPressProfileEdit,
       handleUIChange,
@@ -97,7 +104,7 @@ class ProfileSummaryView extends PureComponent {
       (location ? location.length : 0) + (link ? link.length : 0) + (date ? date.length : 0);
     const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 7.3;
 
-    const followButtonIcon = !isFollowing ? 'account-plus' : 'account-minus';
+    const followButtonText = !isFollowing ? 'Follow' : 'Unfollow';
     let coverImageUrl = getResizedImage(get(about, 'cover_image'), 600);
 
     if (!coverImageUrl) {
@@ -109,6 +116,7 @@ class ProfileSummaryView extends PureComponent {
     }
 
     dropdownOptions.push(!isMuted ? 'MUTE' : 'UNMUTE');
+    dropdownOptions.push(isFavorite ? 'REMOVE FROM FAVOURITES' : 'ADD TO FAVOURITES');
 
     return (
       <Fragment>
@@ -186,28 +194,18 @@ class ProfileSummaryView extends PureComponent {
           </View>
           {isLoggedIn && !isOwnProfile ? (
             <View style={styles.rightIcons}>
-              <IconButton
-                backgroundColor="transparent"
-                color={isFavorite ? '#e63535' : '#c1c5c7'}
-                iconType="MaterialIcons"
-                name={isFavorite ? 'favorite' : 'favorite-border'}
-                size={20}
-                style={[styles.insetIconStyle]}
-                onPress={() => handleOnFavoritePress(isFavorite)}
-              />
-              <IconButton
-                backgroundColor="transparent"
-                color="#c1c5c7"
-                iconType="MaterialCommunityIcons"
-                name={followButtonIcon}
+              <TouchableOpacity
+                style={styles.followActionWrapper}
                 onPress={() => handleFollowUnfollowUser(!isFollowing)}
-                size={20}
-              />
+              >
+                <Text style={styles.followActionText}>{followButtonText}</Text>
+              </TouchableOpacity>
+
               {isProfileLoading ? (
                 <ActivityIndicator style={styles.activityIndicator} />
               ) : (
                 <DropdownButton
-                  dropdownStyle={styles.dropdownStyle}
+                  style={styles.dropdownStyle}
                   iconName="more-vert"
                   iconStyle={styles.dropdownIconStyle}
                   isHasChildIcon

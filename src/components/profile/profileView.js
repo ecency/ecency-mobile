@@ -168,7 +168,6 @@ class ProfileView extends PureComponent {
 
   _contentWalletTab = () => {
     const { currencyRate, currencySymbol, selectedUser } = this.props;
-
     const { isSummaryOpen, estimatedWalletValue } = this.state;
 
     return (
@@ -205,7 +204,6 @@ class ProfileView extends PureComponent {
     } = this.props;
 
     const { isSummaryOpen } = this.state;
-
     const pageType = isOwnProfile ? 'ownProfile' : 'profile';
     const tabs = (isOwnProfile ? ownProfileTabs : profileTabs) || getDefaultFilters(pageType);
 
