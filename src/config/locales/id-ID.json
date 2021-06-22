@@ -630,7 +630,11 @@
   },
   "user": {
     "follow": "Ikuti",
-    "unfollow": "Berhenti mengikuti"
+    "unfollow": "Berhenti mengikuti",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Keanggotaan",
