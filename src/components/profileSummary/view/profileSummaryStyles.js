@@ -19,7 +19,7 @@ export default EStyleSheet.create({
     backgroundColor: '#296CC0',
   },
   footer: {
-    width: '$deviceWidth - 24',
+    width: '$deviceWidth - 14',
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 10,
@@ -33,6 +33,7 @@ export default EStyleSheet.create({
   rightIcons: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   insetIconStyle: {
     marginRight: 20,
@@ -57,15 +58,24 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     fontSize: 9,
   },
-  // TODO: look at here
   dropdownIconStyle: {
     width: 25,
     height: 25,
-    left: -5,
-    marginBottom: 3,
-    color: '#c1c5c7',
+    color: '$primaryDarkGray',
   },
   dropdownStyle: {
-    maxWidth: 150,
+    marginLeft: 12,
+  },
+  followActionText: {
+    alignSelf: 'center',
+    fontWeight: 'bold',
+    color: '$primaryDarkGray',
+  },
+  followActionWrapper: {
+    borderColor: '$primaryDarkGray',
+    borderWidth: 1,
+    borderRadius: 16,
+    padding: 4,
+    paddingHorizontal: 12,
   },
 });
