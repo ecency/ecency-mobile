@@ -630,7 +630,11 @@
   },
   "user": {
     "follow": "تابع",
-    "unfollow": "الغاء المتابعة"
+    "unfollow": "الغاء المتابعة",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "العضوية",
