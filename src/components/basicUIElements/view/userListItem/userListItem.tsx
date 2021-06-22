@@ -115,18 +115,19 @@ const UserListItem = ({
                       _handleRightButtonPress()
                       
                       }}>
-                    {isFollowing ? (
-                      <Tag value="Unfollow" label={rightText} isPostCardTag={false} disabled />
-                    ) : (
                     <>
                       <Text
-                        style={[styles.value, isBlackRightColor && styles.valueBlack, rightTextStyle]}
+                        style={[
+                          styles.value, 
+                          isBlackRightColor && styles.valueBlack, 
+                          rightTextStyle,
+                          isFollowing && styles.unfollowText
+                        ]}
                       >
                         {rightText}
                       </Text>
                       {subRightText && <Text style={styles.text}>{subRightText}</Text>}
                     </>
-                  )}
                   </TouchableOpacity>
                   <Popover
                     contentStyle={styles.popoverDetails}
