@@ -1,5 +1,13 @@
 import React, { PureComponent, Fragment } from 'react';
-import { View, Text, TouchableOpacity, Dimensions, ActivityIndicator, Linking } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+  ActivityIndicator,
+  Linking,
+  Alert,
+} from 'react-native';
 import get from 'lodash/get';
 
 // Constants
@@ -50,14 +58,17 @@ class ProfileSummaryView extends PureComponent {
 
     switch (index) {
       case 0:
+        if (handleOnFavoritePress) {
+          handleOnFavoritePress(isFavorite);
+        }
+        break;
+      case 1:
         if (handleMuteUnmuteUser) {
           handleMuteUnmuteUser(!isMuted);
         }
         break;
-      case 1:
-        if (handleOnFavoritePress) {
-          handleOnFavoritePress(isFavorite);
-        }
+      default:
+        Alert.alert('Action not implemented');
         break;
     }
   };
@@ -104,7 +115,9 @@ class ProfileSummaryView extends PureComponent {
       (location ? location.length : 0) + (link ? link.length : 0) + (date ? date.length : 0);
     const isColumn = rowLength && DEVICE_WIDTH / rowLength <= 7.3;
 
-    const followButtonText = !isFollowing ? 'Follow' : 'Unfollow';
+    const followButtonText = intl.formatMessage({
+      id: !isFollowing ? 'user.follow' : 'user.unfollow',
+    });
     let coverImageUrl = getResizedImage(get(about, 'cover_image'), 600);
 
     if (!coverImageUrl) {
@@ -115,8 +128,17 @@ class ProfileSummaryView extends PureComponent {
       coverImageUrl = { uri: coverImageUrl };
     }
 
-    dropdownOptions.push(!isMuted ? 'MUTE' : 'UNMUTE');
-    dropdownOptions.push(isFavorite ? 'REMOVE FROM FAVOURITES' : 'ADD TO FAVOURITES');
+    //compile dropdown options
+    dropdownOptions.push(
+      intl.formatMessage({
+        id: isFavorite ? 'user.remove_from_favourites' : 'user.add_to_favourites',
+      }),
+    );
+    dropdownOptions.push(
+      intl.formatMessage({
+        id: !isMuted ? 'user.mute' : 'user.unmute',
+      }),
+    );
 
     return (
       <Fragment>
