@@ -630,7 +630,11 @@
   },
   "user": {
     "follow": "İzlə",
-    "unfollow": "İzləmədən imtina"
+    "unfollow": "İzləmədən imtina",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Üzvlük",
