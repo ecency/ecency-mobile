@@ -55,6 +55,15 @@ export default EStyleSheet.create({
     textAlign: 'center',
     color: '$primaryBlue',
   },
+  unsubscribeButton: {
+    borderWidth: 1,
+    maxWidth: 75,
+    borderColor: '$primaryDarkGray',
+  },
+  unsubscribeButtonText: {
+    textAlign: 'center',
+    color: '$primaryDarkGray',
+  },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
