@@ -263,7 +263,7 @@ const TabEmptyView = ({
                       ? intl.formatMessage({ id: 'user.unfollow' })
                       : intl.formatMessage({ id: 'user.follow' })
                   }
-                  //isRightColor={item.isFollowing}
+                  rightTextStyle={[styles.followText, item.isFollowing && styles.unfollowText]}
                   isLoggedIn={isLoggedIn}
                   isFollowing={item.isFollowing}
                   isLoadingRightAction={
