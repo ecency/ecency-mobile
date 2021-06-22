@@ -546,8 +546,12 @@ export const getPostReblogs = (data) =>
     .then((resp) => resp.data)
     .catch((error) => bugsnag.notify(error));
 
-export const register = (data) =>
-  api
-    .post('/signup/account-create', data)
-    .then((resp) => resp.data)
-    .catch((error) => bugsnag.notify(error));
+export const register = async (data) => {
+  try {
+    const res = await api.post('/signup/account-create', data);
+    return res.data;
+  } catch (error) {
+    bugsnag.notify(error);
+    throw error;
+  }
+};
