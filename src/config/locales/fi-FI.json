@@ -630,7 +630,11 @@
   },
   "user": {
     "follow": "Seuraa",
-    "unfollow": "Älä seuraa"
+    "unfollow": "Älä seuraa",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Jäsenyys",
