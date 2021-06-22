@@ -630,7 +630,11 @@
   },
   "user": {
     "follow": "Seguir",
-    "unfollow": "Dejar de seguir"
+    "unfollow": "Dejar de seguir",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Membresía",
