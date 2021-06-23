@@ -3,6 +3,7 @@ import sha256 from 'crypto-js/sha256';
 import Config from 'react-native-config';
 import get from 'lodash/get';
 
+import { cryptoUtils } from '@hiveio/dhive';
 import { getUser } from './dhive';
 import {
   setUserData,
@@ -22,7 +23,6 @@ import { getSCAccessToken } from '../ecency/ecency';
 
 // Constants
 import AUTH_TYPE from '../../constants/authType';
-import { cryptoUtils } from '@hiveio/dhive';
 import { makeHsCode } from '../../utils/hive-signer-helper';
 
 export const login = async (username, password, isPinCodeOpen) => {
@@ -64,19 +64,16 @@ export const login = async (username, password, isPinCodeOpen) => {
     }
   });
 
-
   // Prepare hivesigner code
   const signer = (message) => {
-    const hash = cryptoUtils.sha256(message)
-    return new Promise(
-      (resolve) => {
-        const key = privateKeys['activeKey']
-        const signedKey = key.sign(hash)
-        const signedStr = signedKey.toString();
-        resolve(signedStr)
-      }
-    );
-  }
+    const hash = cryptoUtils.sha256(message);
+    return new Promise((resolve) => {
+      const key = privateKeys.activeKey;
+      const signedKey = key.sign(hash);
+      const signedStr = signedKey.toString();
+      resolve(signedStr);
+    });
+  };
   const code = await makeHsCode(account.name, signer);
   const scTokens = await getSCAccessToken(code);
 
@@ -127,7 +124,7 @@ export const login = async (username, password, isPinCodeOpen) => {
     return {
       ...account,
       password,
-      accessToken:get(scTokens, 'access_token', '')
+      accessToken: get(scTokens, 'access_token', ''),
     };
   }
   return Promise.reject(new Error('auth.invalid_credentials'));
