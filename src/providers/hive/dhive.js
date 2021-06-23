@@ -26,6 +26,7 @@ import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
 // Constant
 import AUTH_TYPE from '../../constants/authType';
 import { SERVER_LIST } from '../../constants/options/api';
+import { b64uEnc } from '../../utils/b64';
 
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
@@ -612,18 +613,7 @@ export const getPostWithComments = async (user, permlink) => {
 
   return [post, comments];
 };
-const b64uLookup = {
-  '/': '_',
-  _: '/',
-  '+': '-',
-  '-': '+',
-  '=': '.',
-  '.': '=',
-};
-export const b64uEnc = (str) =>
-  Buffer.from(str)
-    .toString('base64')
-    .replace(/(\+|\/|=)/g, (m) => b64uLookup[m]);
+
 export const signImage = async (file, currentAccount, pin) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
