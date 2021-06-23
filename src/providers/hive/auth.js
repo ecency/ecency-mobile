@@ -22,6 +22,8 @@ import { getSCAccessToken } from '../ecency/ecency';
 
 // Constants
 import AUTH_TYPE from '../../constants/authType';
+import { cryptoUtils } from '@hiveio/dhive';
+import { makeHsCode } from '../../utils/hive-signer-helper';
 
 export const login = async (username, password, isPinCodeOpen) => {
   let loginFlag = false;
@@ -62,6 +64,22 @@ export const login = async (username, password, isPinCodeOpen) => {
     }
   });
 
+
+  // Prepare hivesigner code
+  const signer = (message) => {
+    const hash = cryptoUtils.sha256(message)
+    return new Promise(
+      (resolve) => {
+        const key = privateKeys['activeKey']
+        const signedKey = key.sign(hash)
+        const signedStr = signedKey.toString();
+        resolve(signedStr)
+      }
+    );
+  }
+  const code = await makeHsCode(account.name, signer);
+  const scTokens = await getSCAccessToken(code);
+
   let jsonMetadata;
   try {
     jsonMetadata = JSON.parse(account.posting_json_metadata) || '';
@@ -101,6 +119,7 @@ export const login = async (username, password, isPinCodeOpen) => {
       currentUsername: username,
     };
     await setAuthStatus(authData);
+    await setSCAccount(scTokens);
 
     // Save user data to Realm DB
     await setUserData(account.local);
@@ -108,6 +127,7 @@ export const login = async (username, password, isPinCodeOpen) => {
     return {
       ...account,
       password,
+      accessToken:get(scTokens, 'access_token', '')
     };
   }
   return Promise.reject(new Error('auth.invalid_credentials'));
