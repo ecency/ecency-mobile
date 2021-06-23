@@ -3,7 +3,6 @@ import ecencyApi from '../../config/ecencyApi';
 import searchApi from '../../config/search';
 import { upload } from '../../config/imageApi';
 import serverList from '../../config/serverListApi';
-import { jsonStringify } from '../../utils/jsonUtils';
 import bugsnag from '../../config/bugsnag';
 import { SERVER_LIST } from '../../constants/options/api';
 import { parsePost } from '../../utils/postParser';
@@ -31,10 +30,13 @@ export const getCurrencyTokenRate = (currency, token) =>
  * @params username
  */
 export const getDrafts = (username) =>
-  api
-    .get(`/drafts/${username}`)
+  ecencyApi
+    .post('/private-api/drafts')
     .then((resp) => resp.data)
-    .catch((error) => bugsnag.notify(error));
+    .catch((error) => {
+      bugsnag.notify(error);
+      reject(error);
+    });
 
 /*export const getDrafts = data =>
   new Promise((resolve, reject) => {
