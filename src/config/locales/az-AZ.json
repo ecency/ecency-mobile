@@ -403,11 +403,11 @@
     "not_existing_post": "The post does not exist! Please check permlink and author.",
     "google_play_version": "Cihazınızdakı Google Play versiyası köhnəlib. Google Play xidmətlərini yeniləyib təkrar sınayın!",
     "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
-    "payloadTooLarge": "File size too big, please resize or upload smaller image",
-    "qoutaExceeded": "Upload quota exceeded",
-    "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com",
+    "payloadTooLarge": "Fayl həcmi çox böyükdür, yenidən ölçüləndirin və ya kiçik təsvir yükləyin",
+    "qoutaExceeded": "Yükləmə kvotası keçildi",
+    "invalidImage": "Etibarsız təsvir, fərqli fayl sınayın",
+    "something_wrong": "Nəsə səhv getdi.",
+    "something_wrong_alt": "https://ecency.com sınayın",
     "something_wrong_reload": "Yenidən yükləyin",
     "can_not_be_empty": "Başlıq və gövdə boş ola bilməz!",
     "wrong_filter_count": "Zəhmət olmasa 3 filtr seçin"
@@ -434,7 +434,7 @@
     "deleted": "Qaralama silindi"
   },
   "schedules": {
-    "title": "Schedules",
+    "title": "Cədvəllər",
     "empty_list": "Burada heç nə yoxdur",
     "deleted": "Planlaşdırılmış göndəriş silindi",
     "move": "Qaralamalara köçür",
@@ -534,12 +534,12 @@
     "withdraw_hive": "Withdraw HIVE",
     "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Incoming Funds",
-    "stop": "Stop",
-    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
-    "address_view": "View address"
+    "stop": "Dayandır",
+    "sc_power_down_error": "Bu özəllik hələ ki, Hivesigner girişi üçün tətbiq edilmədi",
+    "address_view": "Ünvana bax"
   },
   "boost": {
-    "title": "Get Points",
+    "title": "Xalları al",
     "buy": "GET Points",
     "next": "NÖVBƏTİ",
     "account": {
@@ -575,16 +575,16 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
+      "device_time": "Cihaz vaxtınız;",
+      "current_time": "Hazırkı vaxt;",
       "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
     }
   },
   "comments": {
     "title": "Rəylər",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "Rəyi açın",
+    "read_more": "Daha çox rəy oxuyun",
+    "more_replies": "daha çox cavab"
   },
   "search_result": {
     "others": "Digərləri",
@@ -614,7 +614,7 @@
     "post_result_filter": {
       "popularity": "Məşhurluq",
       "newest": "Ən yeni",
-      "relevance": "Relevance"
+      "relevance": "Uyğunluq"
     },
     "other_result_filter": {
       "user": "İstifadəçi",
@@ -631,10 +631,10 @@
   "user": {
     "follow": "İzlə",
     "unfollow": "İzləmədən imtina",
-    "add_to_favourites": "ADD TO FAVOURITES",
-    "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE",
-    "unmute": "UNMUTE"
+    "add_to_favourites": "SEVİMLİLƏRƏ ƏLAVƏ ET",
+    "remove_from_favourites": "SEVİMLİLƏRDƏN ÇIXART",
+    "mute": "SƏSİ KƏS",
+    "unmute": "SƏSİ AÇ"
   },
   "communities": {
     "joined": "Üzvlük",
@@ -656,10 +656,10 @@
     "title": "Ecency",
     "line1_heading": "Cəmiyyət axtarırsınız?",
     "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
-    "line2_heading": "We have a solution!",
+    "line2_heading": "Bir həll üsulumuz var!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "Ecency cəmiyyətinə qoşulun!",
     "line3_body": "Öz cəmiyyətinizi qurun, mükafat alın və başqalarını mükafatlandırın.",
-    "get_started": "Get started!"
+    "get_started": "Başlayaq!"
   }
 }
