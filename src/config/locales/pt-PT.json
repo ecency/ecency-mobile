@@ -631,9 +631,9 @@
   "user": {
     "follow": "Seguir",
     "unfollow": "Deixar de seguir",
-    "add_to_favourites": "ADD TO FAVOURITES",
-    "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE",
+    "add_to_favourites": "ADICIONAR OS FAVORITOS",
+    "remove_from_favourites": "REMOVER DOS FAVORITOS",
+    "mute": "SILENCIAR",
     "unmute": "UNMUTE"
   },
   "communities": {
