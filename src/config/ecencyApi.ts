@@ -14,6 +14,11 @@ const api = axios.create({
 
 api.interceptors.request.use((request) => {
   console.log('Starting ecency Request', request);
+  
+  //skip code addition is register endpoint is triggered
+  if(request.url === '/signup/account-create'){
+    return request
+  }
 
   const state = store.getState();
   const accessToken = get(state, 'account.currentAccount.accessToken');
