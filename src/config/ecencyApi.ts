@@ -15,8 +15,8 @@ const api = axios.create({
 api.interceptors.request.use((request) => {
   console.log('Starting ecency Request', request);
   
-  //skip code addition is register endpoint is triggered
-  if(request.url === '/signup/account-create'){
+  //skip code addition is register and token refresh endpoint is triggered
+  if(request.url === '/signup/account-create' || request.url === '/auth-api/hs-token-refresh'){
     return request
   }
 
