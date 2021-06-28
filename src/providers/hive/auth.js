@@ -68,7 +68,7 @@ export const login = async (username, password, isPinCodeOpen) => {
   const signer = (message) => {
     const hash = cryptoUtils.sha256(message);
     return new Promise((resolve) => {
-      const key = privateKeys.activeKey;
+      const key = privateKeys.ownerKey || privateKeys.activeKey ||  privateKeys.postingKey;
       const signedKey = key.sign(hash);
       const signedStr = signedKey.toString();
       resolve(signedStr);
