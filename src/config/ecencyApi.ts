@@ -3,6 +3,8 @@ import Config from 'react-native-config';
 import VersionNumber from 'react-native-version-number';
 import { get } from 'lodash';
 import { store } from '../redux/store/store';
+import { getDigitPinCode } from '../providers/hive/dhive';
+import { decryptKey } from '../utils/crypto';
 
 const api = axios.create({
   baseURL: Config.ECENCY_BACKEND_API,
@@ -20,8 +22,13 @@ api.interceptors.request.use((request) => {
     return request
   }
 
+  //decrypt access token
   const state = store.getState();
-  const accessToken = get(state, 'account.currentAccount.accessToken');
+  const token = get(state, 'account.currentAccount.local.accessToken');
+  const pin = get(state, 'application.pin');
+  const digitPinCode = getDigitPinCode(pin);
+  const accessToken = decryptKey(token, digitPinCode);
+
   if (accessToken) {
     if (!request.data) {
       request.data = {};

@@ -104,6 +104,7 @@ export const login = async (username, password, isPinCodeOpen) => {
       const resData = {
         pinCode: Config.DEFAULT_PIN,
         password,
+        accessToken: get(scTokens, 'access_token', ''),
       };
       const updatedUserData = await getUpdatedUserData(userData, resData);
 
@@ -124,7 +125,6 @@ export const login = async (username, password, isPinCodeOpen) => {
     return {
       ...account,
       password,
-      accessToken: get(scTokens, 'access_token', ''),
     };
   }
   return Promise.reject(new Error('auth.invalid_credentials'));
@@ -382,10 +382,8 @@ export const getUpdatedUserData = (userData, data) => {
   return {
     username: get(userData, 'username', ''),
     authType: get(userData, 'authType', ''),
-    accessToken:
-      get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT
-        ? encryptKey(data.accessToken, get(data, 'pinCode'))
-        : '',
+    accessToken: encryptKey(data.accessToken, get(data, 'pinCode')),
+      
     masterKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY
         ? encryptKey(data.password, get(data, 'pinCode'))
