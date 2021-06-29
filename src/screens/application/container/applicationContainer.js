@@ -634,25 +634,23 @@ class ApplicationContainer extends Component {
   _fetchUserDataFromDsteem = async (realmObject) => {
     const { dispatch, intl, pinCode } = this.props;
 
-    try{
-      let accountData = await getUser(realmObject.username)
+    try {
+      let accountData = await getUser(realmObject.username);
       accountData.local = realmObject;
 
       //migration script for previously mast key based logged in user not having access token
-      if(realmObject.authType === AUTH_TYPE.MASTER_KEY && realmObject.accessToken === ''){
-        accountData = await migrateToMasterKeyWithAccessToken(accountData, pinCode)
+      if (realmObject.authType === AUTH_TYPE.MASTER_KEY && realmObject.accessToken === '') {
+        accountData = await migrateToMasterKeyWithAccessToken(accountData, pinCode);
       }
 
       dispatch(updateCurrentAccount(accountData));
 
       this._connectNotificationServer(accountData.name);
-
-    }catch(err){
+    } catch (err) {
       Alert.alert(
         `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
       );
     }
-
   };
 
   _getSettings = async () => {
@@ -814,8 +812,8 @@ class ApplicationContainer extends Component {
     [_currentAccount.local] = realmData;
 
     //migreate account to use access token for master key auth type
-    if(realmData[0].authType === AUTH_TYPE.MASTER_KEY && realmData[0].accessToken){
-      _currentAccount = await migrateToMasterKeyWithAccessToken(_currentAccount, pinCode)
+    if (realmData[0].authType === AUTH_TYPE.MASTER_KEY && realmData[0].accessToken) {
+      _currentAccount = await migrateToMasterKeyWithAccessToken(_currentAccount, pinCode);
     }
 
     dispatch(updateCurrentAccount(_currentAccount));
