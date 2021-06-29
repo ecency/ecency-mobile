@@ -313,9 +313,7 @@ export const verifyPinCode = async (data) => {
     }
 
     if (result.length > 0) {
-      if (get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
         await refreshSCToken(userData, get(data, 'pinCode'));
-      }
     }
     return true;
   } catch (err) {
