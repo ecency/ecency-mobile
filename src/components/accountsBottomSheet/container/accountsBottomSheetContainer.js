@@ -24,8 +24,7 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
   );
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const accounts = useSelector((state) => state.account.otherAccounts);
-  const pinHash = useSelector((state)=>state.application.pin);
-
+  const pinHash = useSelector((state) => state.application.pin);
 
   useEffect(() => {
     if (isVisibleAccountsBottomSheet) {
@@ -58,7 +57,7 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
       (account) => account.username === switchingAccount.username,
     )[0];
 
-    // if account data has persistet content use that first 
+    // if account data has persistet content use that first
     //to avoid lag
     if (accountData.name) {
       accountData.username = accountData.name;
@@ -73,12 +72,11 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
     _currentAccount.local = realmData[0];
 
     //migreate account to use access token for master key auth type
-    if (realmData[0].authType === AUTH_TYPE.MASTER_KEY && realmData[0].accessToken === "") {
+    if (realmData[0].authType === AUTH_TYPE.MASTER_KEY && realmData[0].accessToken === '') {
       _currentAccount = await migrateToMasterKeyWithAccessToken(_currentAccount, pinHash);
     }
 
     dispatch(updateCurrentAccount(_currentAccount));
-
   };
 
   return (
