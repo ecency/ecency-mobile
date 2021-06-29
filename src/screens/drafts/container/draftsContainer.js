@@ -52,7 +52,7 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
   const _getDrafts = () => {
     setIsLoading(true);
 
-    getDrafts(currentAccount.name)
+    getDrafts()
       .then((data) => {
         setDrafts(_sortData(data));
         setIsLoading(false);
@@ -64,7 +64,7 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
   };
 
   const _removeDraft = (id) => {
-    removeDraft(currentAccount.name, id)
+    removeDraft(id)
       .then(() => {
         const newDrafts = [...drafts].filter((draft) => draft._id !== id);
         setDrafts(_sortData(newDrafts));

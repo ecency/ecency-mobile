@@ -26,98 +26,82 @@ export const getCurrencyTokenRate = (currency, token) =>
       return 0;
     });
 
-/**
- * @params username
- */
-export const getDrafts = (username) =>
-  ecencyApi
-    .post('/private-api/drafts')
-    .then((resp) => resp.data)
-    .catch((error) => {
-      bugsnag.notify(error);
-      reject(error);
-    });
 
-/*export const getDrafts = data =>
-  new Promise((resolve, reject) => {
-    api
-      .get(`/drafts/${data}`)
-      .then(res => {
-        resolve(res.data);
-      })
-      .catch(error => {
-        bugsnag.notify(error);
-        reject(error);
-      });
-  });
-*/
-/**
- * @params username
- * @params draftID
- */
-export const removeDraft = (username, id) =>
-  new Promise((resolve, reject) => {
-    api
-      .delete(`/drafts/${username}/${id}`)
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((error) => {
-        bugsnag.notify(error);
-        reject(error);
-      });
-  });
 
 /**
- * @params username
- * @params body
+ * returns list of saved drafts on ecency server
+ */
+export const getDrafts = async () => {
+  try{
+    const res = await ecencyApi.post('/private-api/drafts');
+    return res.data;
+  }catch(error){
+    bugsnag.notify(error);
+    throw error;
+  }
+}
+  
+
+
+/**
+ * @params draftId
+ */
+export const removeDraft = async (draftId:string) => {
+  try{
+    const data = { id:draftId }
+    const res = await ecencyApi.post(`/private-api/drafts-delete`, data);
+    return res.data
+  }catch(error){
+    bugsnag.notify(error);
+    throw error;
+  }
+}
+
+
+/**
  * @params title
+ * @params body
  * @params tags
  */
-export const addDraft = (data) =>
-  new Promise((resolve, reject) => {
-    api
-      .post('/draft', data)
-      .then((res) => {
-        const { drafts } = res.data;
-        if (drafts) {
-          resolve(drafts.pop());
-        } else {
-          reject(new Error('No drafts returned in response'));
-        }
-      })
-      .catch((error) => {
-        bugsnag.notify(error);
-        reject(error);
-      });
-  });
+export const addDraft = async (title:string, body:string, tags:string) => {
+  try {
+    const data = { title, body, tags }
+    const res = await ecencyApi.post('/private-api/drafts-add', data)
+    const { drafts } = res.data;
+    if (drafts) {
+      return drafts.pop(); //return recently saved last draft in the list
+    } else {
+      throw new Error('No drafts returned in response');
+    }
+  } catch(error){
+    bugsnag.notify(error);
+    throw error;
+  }
+}
+
 
 /**
- * @params username
- * @params body
+ * @params draftId
  * @params title
+ * @params body
  * @params tags
  */
-export const updateDraft = (data) =>
-  new Promise((resolve, reject) => {
-    api
-      .put(`/drafts/${data.username}/${data.draftId}`, {
-        title: data.title,
-        body: data.body,
-        tags: data.tags,
-      })
-      .then((res) => {
-        if (res.data) {
-          resolve(res.data);
-        } else {
-          reject(new Error('No data retuend in update response'));
-        }
-      })
-      .catch((error) => {
-        bugsnag.notify(error);
-        reject(error);
-      });
-  });
+export const updateDraft = async (draftId:string, title:string, body:string, tags:string) => {
+  try {
+    const data = {id:draftId, title, body, tags }
+    const res = await ecencyApi.post(`/private-api/drafts-update`, data)
+    if(res.data){
+      return res.data
+    } else {
+      throw new Error("No data returned in response")
+    }
+  } catch(error){
+    bugsnag.notify(error);
+    throw error;
+  }
+};
+
+
 
 export const addBookmark = (username, author, permlink) =>
   api
