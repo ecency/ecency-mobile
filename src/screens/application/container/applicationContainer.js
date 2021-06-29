@@ -814,7 +814,7 @@ class ApplicationContainer extends Component {
     [_currentAccount.local] = realmData;
 
     //migreate account to use access token for master key auth type
-    if(realmData.authType === AUTH_TYPE.MASTER_KEY && realmData.accessToken){
+    if(realmData[0].authType === AUTH_TYPE.MASTER_KEY && realmData[0].accessToken){
       _currentAccount = await migrateToMasterKeyWithAccessToken(_currentAccount, pinCode)
     }
 
