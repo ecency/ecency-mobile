@@ -7,10 +7,13 @@ import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { isRenderRequired } from '../../../redux/actions/applicationActions';
 
 import { getUserDataWithUsername } from '../../../realm/realm';
-import { switchAccount } from '../../../providers/hive/auth';
+import { migrateToMasterKeyWithAccessToken, switchAccount } from '../../../providers/hive/auth';
 
 import AccountsBottomSheet from '../view/accountsBottomSheetView';
 import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
+
+//Constants
+import AUTH_TYPE from '../../../constants/authType';
 
 const AccountsBottomSheetContainer = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -21,6 +24,8 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
   );
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const accounts = useSelector((state) => state.account.otherAccounts);
+  const pinHash = useSelector((state)=>state.application.pin);
+
 
   useEffect(() => {
     if (isVisibleAccountsBottomSheet) {
@@ -61,11 +66,16 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
     }
 
     //fetch upto data account data nd update current account;
-    const _currentAccount = await switchAccount(accountData.username);
+    let _currentAccount = await switchAccount(accountData.username);
     const realmData = await getUserDataWithUsername(accountData.username);
 
     _currentAccount.username = _currentAccount.name;
     _currentAccount.local = realmData[0];
+
+    //migreate account to use access token for master key auth type
+    if (realmData[0].authType === AUTH_TYPE.MASTER_KEY && realmData[0].accessToken === "") {
+      _currentAccount = await migrateToMasterKeyWithAccessToken(_currentAccount, pinHash);
+    }
 
     dispatch(updateCurrentAccount(_currentAccount));
 
