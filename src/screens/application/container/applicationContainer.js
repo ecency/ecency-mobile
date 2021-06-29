@@ -42,7 +42,7 @@ import {
   setVersionForWelcomeModal,
 } from '../../../realm/realm';
 import { getUser, getPost } from '../../../providers/hive/dhive';
-import { switchAccount } from '../../../providers/hive/auth';
+import { migrateToMasterKeyWithAccessToken, switchAccount } from '../../../providers/hive/auth';
 import { setPushToken, markActivityAsRead } from '../../../providers/ecency/ecency';
 import { navigate } from '../../../navigation/service';
 
@@ -632,21 +632,27 @@ class ApplicationContainer extends Component {
   };
 
   _fetchUserDataFromDsteem = async (realmObject) => {
-    const { dispatch, intl } = this.props;
+    const { dispatch, intl, pinCode } = this.props;
 
-    await getUser(realmObject.username)
-      .then((accountData) => {
-        accountData.local = realmObject;
+    try{
+      let accountData = await getUser(realmObject.username)
+      accountData.local = realmObject;
 
-        dispatch(updateCurrentAccount(accountData));
+      //migration script for previously mast key based logged in user not having access token
+      if(realmObject.authType === AUTH_TYPE.MASTER_KEY && realmObject.accessToken === ''){
+        accountData = await migrateToMasterKeyWithAccessToken(accountData, pinCode)
+      }
 
-        this._connectNotificationServer(accountData.name);
-      })
-      .catch((err) => {
-        Alert.alert(
-          `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
-        );
-      });
+      dispatch(updateCurrentAccount(accountData));
+
+      this._connectNotificationServer(accountData.name);
+
+    }catch(err){
+      Alert.alert(
+        `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
+      );
+    }
+
   };
 
   _getSettings = async () => {
@@ -803,9 +809,14 @@ class ApplicationContainer extends Component {
     const accountData = await switchAccount(targetAccount.username);
     const realmData = await getUserDataWithUsername(targetAccount.username);
 
-    const _currentAccount = accountData;
+    let _currentAccount = accountData;
     _currentAccount.username = accountData.name;
     [_currentAccount.local] = realmData;
+
+    //migreate account to use access token for master key auth type
+    if(realmData.authType === AUTH_TYPE.MASTER_KEY && realmData.accessToken){
+      _currentAccount = await migrateToMasterKeyWithAccessToken(_currentAccount, pinCode)
+    }
 
     dispatch(updateCurrentAccount(_currentAccount));
   };

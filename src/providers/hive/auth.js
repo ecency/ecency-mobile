@@ -3,8 +3,8 @@ import sha256 from 'crypto-js/sha256';
 import Config from 'react-native-config';
 import get from 'lodash/get';
 
-import { cryptoUtils } from '@hiveio/dhive';
-import { getUser } from './dhive';
+
+import { getDigitPinCode, getUser } from './dhive';
 import {
   setUserData,
   setAuthStatus,
@@ -64,17 +64,9 @@ export const login = async (username, password, isPinCodeOpen) => {
     }
   });
 
-  // Prepare hivesigner code
-  const signer = (message) => {
-    const hash = cryptoUtils.sha256(message);
-    return new Promise((resolve) => {
-      const key = privateKeys.ownerKey || privateKeys.activeKey ||  privateKeys.postingKey;
-      const signedKey = key.sign(hash);
-      const signedStr = signedKey.toString();
-      resolve(signedStr);
-    });
-  };
-  const code = await makeHsCode(account.name, signer);
+
+  const signerPrivateKey = privateKeys.ownerKey || privateKeys.activeKey ||  privateKeys.postingKey
+  const code = await makeHsCode(account.name, signerPrivateKey);
   const scTokens = await getSCAccessToken(code);
 
   let jsonMetadata;
@@ -411,3 +403,45 @@ const isLoggedInUser = async (username) => {
   }
   return false;
 };
+
+/**
+ * This migration snippet is used to update access token for users logged in using masterKey
+ * accessToken is required for all ecency api calls even for non hivesigner users.
+ */
+export const migrateToMasterKeyWithAccessToken = async (account, pinHash) => {
+
+  //get username, user local data from account;
+  const username = account.name;
+  const userData = account.local;
+
+  if(userData.accessToken){
+    //skipping migration as access token already preset;
+    return account;
+  }
+
+  //decrypt password from local data
+  const pinCode = getDigitPinCode(pinHash);
+  const password = decryptKey(userData.masterKey, pinCode)
+  
+  // Set private keys of user
+  const privateKeys = getPrivateKeys(username, password);
+
+  const signerPrivateKey = privateKeys.ownerKey || privateKeys.activeKey ||  privateKeys.postingKey
+  const code = await makeHsCode(account.name, signerPrivateKey);
+  const scTokens = await getSCAccessToken(code);
+
+  await setSCAccount(scTokens);
+  const accessToken = scTokens.access_token;
+  
+  //update data
+  const localData = {
+    ...userData,
+    accessToken: encryptKey(accessToken, pinCode),
+  }
+  //update realm
+  await updateUserData(localData);
+
+  //return account with update local data
+  account.local = localData
+  return account;
+}
