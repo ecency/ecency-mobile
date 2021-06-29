@@ -53,30 +53,22 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
       (account) => account.username === switchingAccount.username,
     )[0];
 
-    // control user persist whole data or just username
+    // if account data has persistet content use that first 
+    //to avoid lag
     if (accountData.name) {
       accountData.username = accountData.name;
-
       dispatch(updateCurrentAccount(accountData));
-      //dispatch(isRenderRequired(true));
-
-      const upToDateCurrentAccount = await switchAccount(accountData.name);
-      const realmData = await getUserDataWithUsername(accountData.name);
-
-      upToDateCurrentAccount.username = upToDateCurrentAccount.name;
-      upToDateCurrentAccount.local = realmData[0];
-
-      dispatch(updateCurrentAccount(upToDateCurrentAccount));
-    } else {
-      const _currentAccount = await switchAccount(accountData.username);
-      const realmData = await getUserDataWithUsername(accountData.username);
-
-      _currentAccount.username = _currentAccount.name;
-      _currentAccount.local = realmData[0];
-
-      dispatch(updateCurrentAccount(_currentAccount));
-      //dispatch(isRenderRequired(true));
     }
+
+    //fetch upto data account data nd update current account;
+    const _currentAccount = await switchAccount(accountData.username);
+    const realmData = await getUserDataWithUsername(accountData.username);
+
+    _currentAccount.username = _currentAccount.name;
+    _currentAccount.local = realmData[0];
+
+    dispatch(updateCurrentAccount(_currentAccount));
+
   };
 
   return (
