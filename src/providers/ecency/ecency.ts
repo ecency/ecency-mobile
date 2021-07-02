@@ -396,45 +396,107 @@ export const searchTag = (q = '', limit = 20, random = 0) =>
       });
   });
 
-// Schedule
-export const schedule = (
-  user,
-  title,
-  permlink,
-  json,
-  tags,
-  body,
-  operationType,
-  upvote,
-  scheduleDate,
-  options = null,
-) =>
-  api
-    .post('/schedules', {
-      username: user,
+
+
+/** 
+ * ************************************
+ * SCHEDULES ECENCY APIS IMPLEMENTATION 
+ * ************************************
+ */
+
+/**
+ * Adds new post to scheduled posts
+ * @param permlink 
+ * @param title 
+ * @param body 
+ * @param meta 
+ * @param options 
+ * @param scheduleDate 
+ * @returns All scheduled posts
+ */
+export const addSchedule = async (
+  permlink:string,
+  title:string,
+  body:string,
+  meta:any,
+  options:any,
+  scheduleDate:string
+) => {
+  try {
+    const data = {
       title,
       permlink,
-      meta: json,
+      meta,
       body,
       schedule: scheduleDate,
       options,
       reblog: 0,
-    })
-    .then((resp) => resp.data)
-    .catch((error) => bugsnag.notify(error));
+    }
+    const response = await ecencyApi
+    .post('/private-api/schedules-add', data)
+    return response.data;
+  } catch(error) {
+    console.warn("Failed to add post to schedule", error)
+    bugsnag.notify(error);
+    throw error;
+  }
+}
 
-export const getSchedules = (username) =>
-  api
-    .get(`/schedules/${username}`)
-    .then((resp) => resp.data)
-    .catch((error) => bugsnag.notify(error));
+/**
+ * Fetches all scheduled posts against current user
+ * @returns array of app scheduled posts
+ */
+export const getSchedules = async () => {
+  try {
+    const response = await ecencyApi.post(`/private-api/schedules`)
+    return response.data;
+  } catch(error){
+    console.warn("Failed to get schedules")
+    bugsnag.notify(error)
+    throw error;
+  }
+}
 
-export const removeSchedule = (username, id) => api.delete(`/schedules/${username}/${id}`);
+/**
+ * Removes post from scheduled posts using post id;
+ * @param id 
+ * @returns array of scheduled posts
+ */
+export const deleteScheduledPost = async (id:string) => {
+  try {
+    const data = { id };
+    const response = await ecencyApi.post(`/private-api/schedules-delete`, data);
+    return response;
+  }catch(error){
+    console.warn("Failed to delete scheduled post")
+    bugsnag.notify(error)
+    throw error;
+  }
+} 
 
-export const moveSchedule = (id, username) => api.put(`/schedules/${username}/${id}`);
+/**
+ * Moves scheduled post to draft using schedule id
+ * @param id 
+ * @returns Array of scheduled posts
+ */
+export const moveScheduledToDraft = async (id:string) => {
+  try {
+    const data = { id }
+    const response = await ecencyApi.post(`/private-api/schedules-move`, data);
+    return response.data;
+  } catch(error) {
+    console.warn("Failed to move scheduled post to drafts")
+    bugsnag.notify(error)
+    throw error;
+  }
+}
 
 // Old image service
-// Images
+/** 
+ * ************************************
+ * IMAGES ECENCY APIS IMPLEMENTATION 
+ * ************************************
+ */
 
 
 export const getImages = async () => {

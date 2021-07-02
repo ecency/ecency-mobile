@@ -13,8 +13,8 @@ import {
   uploadImage,
   addDraft,
   updateDraft,
-  schedule,
   getDrafts,
+  addSchedule,
 } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
@@ -938,19 +938,14 @@ class EditorContainer extends Component {
       beneficiaries: beneficiaries,
     });
 
-    schedule(
-      data.author,
-      data.fields.title,
+    addSchedule(
       data.permlink,
-      data.jsonMeta,
-      data.fields.tags,
+      data.fields.title,
       data.fields.body,
-      '',
-      '',
-      data.scheduleDate,
+      data.jsonMeta,
       options,
-    )
-      .then(() => {
+      data.scheduleDate,
+    ) .then(() => {
         this.setState({
           isPostSending: false,
         });
@@ -977,7 +972,8 @@ class EditorContainer extends Component {
           });
         }, 3000);
       })
-      .catch((err) => {
+      .catch((error) => {
+        console.warn("Failed to schedule post", error);
         this.setState({
           isPostSending: false,
         });
