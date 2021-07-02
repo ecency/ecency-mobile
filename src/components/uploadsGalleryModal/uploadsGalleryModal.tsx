@@ -1,10 +1,10 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { useIntl } from 'react-intl';
 import {Text, View, FlatList, RefreshControl, TouchableOpacity, Alert, Platform } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { IconButton, MainButton } from '..';
+import { IconButton } from '..';
 import { UploadedMedia } from '../../models';
-import { addMyImage, deleteMyImage, getImages } from '../../providers/ecency/ecency';
+import { addImage, deleteImage, getImages } from '../../providers/ecency/ecency';
 import Modal from '../modal';
 import styles from './uploadsGalleryModalStyles';
 import { proxifyImageSrc } from '@ecency/render-helper';
@@ -56,7 +56,7 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploa
         try{
             console.log("adding image to gallery",username, uploadedImage )
             setIsLoading(true);
-            await addMyImage(username, uploadedImage.url);
+            await addImage(uploadedImage.url);
             await _getMediaUploads();
             setIsLoading(false);
         }catch(err){
@@ -70,7 +70,7 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploa
     const _deleteMediaItem = async (id:string) => {
         try{
             setIsLoading(true);
-            await deleteMyImage(username, id)
+            await deleteImage(id)
             await _getMediaUploads();
             setIsLoading(false);
         } catch(err){
@@ -86,7 +86,7 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploa
             if (username) {
                 setIsLoading(true);
                 console.log("getting images for: " + username )
-                const images = await getImages(username)
+                const images = await getImages()
                 console.log("images received", images)
                 setMediaUploads(images);
                 setIsLoading(false);
@@ -100,7 +100,7 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploa
 
 
   //render list item for snippet and handle actions;
-  const _renderItem = ({ item, index }:{item:UploadedMedia, index:number}) => {
+  const _renderItem = ({ item }:{item:UploadedMedia, index:number}) => {
 
     const _onPress = () => {
         

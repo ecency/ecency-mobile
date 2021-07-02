@@ -436,26 +436,40 @@ export const moveSchedule = (id, username) => api.put(`/schedules/${username}/${
 // Old image service
 // Images
 
-export const getImages = (username) =>
-  api
-    .get(`/images/${username}`)
-    .then((resp) => {
-      const res = resp.data;
-      console.log('res: ', res);
-      return resp.data;
-    })
-    .catch((error) => {
-      console.warn('Failed to get images', error);
-      bugsnag.notify(error);
-    });
 
-export const addMyImage = (user, url) =>
-  api.post('/image', {
-    username: user,
-    image_url: url,
-  });
+export const getImages = async () => {
+  try {
+    const response = await ecencyApi.post('/private-api/images')
+    return response.data;
+  } catch(error){
+    console.warn('Failed to get images', error);
+    bugsnag.notify(error);
+  }
+}
 
-export const deleteMyImage = (user, id) => api.delete(`/images/${user}/${id}`);
+export const addImage = async (url:string) => {
+  try {
+    const data = { url };
+    const response = await ecencyApi.post(`/private-api/images-add`, data);
+    return response.data;
+  } catch(error) {
+    console.warn('Failed to add image', error);
+    bugsnag.notify(error);
+    throw error;
+  }
+}
+
+export const deleteImage = async (id:string) => {
+  try {
+    const data = { id };
+    const response = await ecencyApi.post(`/private-api/images-delete`, data);
+    return response.data;
+  } catch(error) {
+    console.warn('Failed to delete image', error);
+    bugsnag.notify(error);
+    throw error;
+  }
+}
 
 export const uploadImage = (media, username, sign) => {
   const file = {
