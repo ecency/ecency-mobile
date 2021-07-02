@@ -175,6 +175,13 @@ export const addFavorite = (currentUsername, targetUsername) =>
 export const removeFavorite = (currentUsername, targetUsername) =>
   api.delete(`/favoriteUser/${currentUsername}/${targetUsername}`);
 
+
+/** 
+ * ************************************
+ * SNIPPETS ECENCY APIS IMPLEMENTATION 
+ * ************************************
+ */
+
 /**
  * @params current username
  */
@@ -237,6 +244,14 @@ export const removeSnippet = (username, id) =>
         reject(error);
       });
   });
+
+
+
+  /** 
+ * ************************************
+ * ACTIVITES ECENCY APIS IMPLEMENTATION 
+ * ************************************
+ */
 
 export const getLeaderboard = (duration) =>
   api
@@ -332,7 +347,11 @@ export const setPushToken = (data) =>
       });
   });
 
-// SEARCH API
+/** 
+ * ************************************
+ * SEARCH ECENCY APIS IMPLEMENTATION 
+ * ************************************
+ */
 
 export const search = (data) =>
   new Promise((resolve, reject) => {
@@ -548,19 +567,6 @@ export const uploadImage = (media, username, sign) => {
 };
 
 // New image service
-
-// export const uploadImage = (username, signature, data) => new Promise((resolve, reject) => {
-//   const fData = new FormData();
-//   fData.append('postimage', data);
-//   imageApi
-//     .post(`${username}/${signature}`, data)
-//     .then((res) => {
-//       resolve(res.data);
-//     })
-//     .catch((error) => {
-//       reject(error);
-//     });
-// });
 
 export const getNodes = () => serverList.get().then((resp) => resp.data.hived || SERVER_LIST);
 
