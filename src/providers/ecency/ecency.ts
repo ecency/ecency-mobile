@@ -103,16 +103,63 @@ export const updateDraft = async (draftId:string, title:string, body:string, tag
 
 
 
-export const addBookmark = (username, author, permlink) =>
-  api
-    .post('/bookmark', {
-      username,
-      author,
-      permlink,
-      chain: 'hive',
-    })
-    .then((resp) => resp.data)
-    .catch((error) => bugsnag.notify(error));
+/** 
+ * ************************************
+ * BOOKMARKS ECENCY APIS IMPLEMENTATION 
+ * ************************************
+ */
+
+/**
+ * Adds post to user's bookmarks
+ * @param author 
+ * @param permlink 
+ * @returns array of saved bookmarks
+ */
+export const addBookmark = async (author:string, permlink:string) => {
+  try {
+    const data = { author, permlink };
+    const response = await ecencyApi.post(`/private-api/bookmarks-add`, data);
+    return response.data;
+  } catch(error) {
+    console.warn("Failed to add bookmark", error)
+    bugsnag.notify(error)
+    throw error
+  }
+}
+
+/**
+ * fetches saved bookmarks of user
+ * @returns array of saved bookmarks
+ */
+export const getBookmarks = async () => {
+  try {
+    const response = await ecencyApi.post(`/private-api/bookmarks`);
+    return response.data;
+  } catch(error) {
+    console.warn("Failed to get saved bookmarks", error)
+    bugsnag.notify(error)
+    throw error
+  }
+}
+
+
+/**
+ * Deletes bookmark from user's saved bookmarks
+ * @params bookmarkId
+ * @returns array of saved bookmarks
+ */
+export const deleteBookmark = async (bookmarkId:string) => {
+  try {
+    const data = { id:bookmarkId}
+    const response = await ecencyApi.post(`/private-api/bookmarks-delete`, data);
+    return response.data;
+  } catch(error) {
+    console.warn("Failed to delete bookmark", error)
+    bugsnag.notify(error)
+    throw error
+  }
+}
+
 
 export const addReport = (url) =>
   api
@@ -121,20 +168,12 @@ export const addReport = (url) =>
     })
     .then((resp) => resp.data);
 
-/**
- * @params current username
- */
-export const getBookmarks = (username) =>
-  api
-    .get(`/bookmarks/${username}`)
-    .then((resp) => resp.data)
-    .catch((error) => bugsnag.notify(error));
 
-/**
- * @params id
- * @params current username
+  /** 
+ * ************************************
+ * FAVOURITES ECENCY APIS IMPLEMENTATION 
+ * ************************************
  */
-export const removeBookmark = (username, id) => api.delete(`/bookmarks/${username}/${id}`);
 
 /**
  * @params current username
@@ -603,11 +642,15 @@ export const purchaseOrder = (data) =>
     .then((resp) => resp.data)
     .catch((error) => bugsnag.notify(error));
 
+
+
 export const getPostReblogs = (data) =>
   api
     .get(`/post-reblogs/${data.author}/${data.permlink}`)
     .then((resp) => resp.data)
     .catch((error) => bugsnag.notify(error));
+
+
 
 export const register = async (data) => {
   try {

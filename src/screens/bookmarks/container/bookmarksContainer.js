@@ -9,6 +9,7 @@ import {
   removeFavorite,
   getBookmarks,
   removeBookmark,
+  deleteBookmark,
 } from '../../../providers/ecency/ecency';
 
 // Constants
@@ -52,7 +53,7 @@ const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
   const _getBookmarks = () => {
     setIsLoading(true);
 
-    getBookmarks(currentAccount.name)
+    getBookmarks()
       .then((data) => {
         setBookmarks(_sortData(data));
         setIsLoading(false);
@@ -76,10 +77,9 @@ const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
   };
 
   const _removeBoomark = (id) => {
-    removeBookmark(currentAccount.name, id)
+    deleteBookmark(id)
       .then(() => {
         const newBookmarks = [...bookmarks].filter((bookmark) => bookmark._id !== id);
-
         setBookmarks(_sortData(newBookmarks));
       })
       .catch(() => {
