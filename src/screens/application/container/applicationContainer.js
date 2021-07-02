@@ -43,7 +43,7 @@ import {
 } from '../../../realm/realm';
 import { getUser, getPost } from '../../../providers/hive/dhive';
 import { migrateToMasterKeyWithAccessToken, switchAccount } from '../../../providers/hive/auth';
-import { setPushToken, markActivityAsRead } from '../../../providers/ecency/ecency';
+import { setPushToken, markActivityAsRead, markNotifications } from '../../../providers/ecency/ecency';
 import { navigate } from '../../../navigation/service';
 
 // Actions
@@ -473,7 +473,7 @@ class ApplicationContainer extends Component {
           break;
       }
 
-      markActivityAsRead(username, activity_id).then((result) => {
+      markNotifications(activity_id).then((result) => {
         dispatch(updateUnreadActivityCount(result.unread));
       });
 

@@ -6,7 +6,7 @@ import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
 
 // Actions and Services
-import { getActivities, markActivityAsRead } from '../../../providers/ecency/ecency';
+import { getActivities, markActivityAsRead, markNotifications } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 
 // Constants
@@ -66,15 +66,16 @@ class NotificationContainer extends Component {
   };
 
   _navigateToNotificationRoute = (data) => {
-    const { navigation, username, dispatch } = this.props;
+    const { navigation, dispatch } = this.props;
     const type = get(data, 'type');
     const permlink = get(data, 'permlink');
     const author = get(data, 'author');
     let routeName;
     let params;
     let key;
-    markActivityAsRead(username, data.id).then((result) => {
-      dispatch(updateUnreadActivityCount(result.unread));
+    markNotifications(data.id).then((result) => {
+      const {unread} = result;
+      dispatch(updateUnreadActivityCount(unread));
     });
 
     if (permlink && author) {
@@ -117,7 +118,7 @@ class NotificationContainer extends Component {
 
     this.setState({ isNotificationRefreshing: true });
 
-    markActivityAsRead(username)
+    markNotifications(username)
       .then(() => {
         const updatedNotifications = notifications.map((item) => ({ ...item, read: 1 }));
         dispatch(updateUnreadActivityCount(0));

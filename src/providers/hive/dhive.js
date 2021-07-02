@@ -9,7 +9,7 @@ import { Client as hsClient } from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
 import { getServer, getCache, setCache } from '../../realm/realm';
-import { getUnreadActivityCount } from '../ecency/ecency';
+import { getUnreadNotificationCount } from '../ecency/ecency';
 import { userActivity } from '../ecency/ePoint';
 
 // Utils
@@ -202,9 +202,7 @@ export const getUser = async (user, loggedIn = true) => {
 
     if (loggedIn) {
       try {
-        unreadActivityCount = await getUnreadActivityCount({
-          user,
-        });
+        unreadActivityCount = await getUnreadNotificationCount();
       } catch (error) {
         unreadActivityCount = 0;
       }

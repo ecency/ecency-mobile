@@ -296,33 +296,28 @@ export const getActivities = (data) =>
       });
   });
 
-export const getUnreadActivityCount = (data) =>
-  new Promise((resolve, reject) => {
-    api
-      .get(`/activities/${data.user}/unread-count`)
-      .then((res) => {
-        resolve(res.data ? res.data.count : 0);
-      })
-      .catch((error) => {
-        bugsnag.notify(error);
-        reject(error);
-      });
-  });
 
-export const markActivityAsRead = (user, id = null) =>
-  new Promise((resolve, reject) => {
-    api
-      .put(`/activities/${user}`, {
-        id,
-      })
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((error) => {
-        bugsnag.notify(error);
-        reject(error);
-      });
-  });
+  export const getUnreadNotificationCount = async () => {
+    try {
+      const response = await ecencyApi.post(`/private-api/notifications/unread`)
+      return response.data ? response.data.count : 0;
+    } catch(error) {
+      bugsnag.notify(error);
+      throw error;
+    }
+  }
+
+  export const markNotifications = async (id: string | null = null) => {
+    try{
+      const data = id ? { id } : {};
+      const response = await ecencyApi.post((`/private-api/notifications/mark`), data);
+      return response.data
+    }catch(error) {
+      bugsnag.notify(error);
+      throw error
+    }
+  };
+
 
 export const setPushToken = (data) =>
   new Promise((resolve, reject) => {
