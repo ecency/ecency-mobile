@@ -636,6 +636,13 @@ export const uploadImage = (media, username, sign) => {
 
 export const getNodes = () => serverList.get().then((resp) => resp.data.hived || SERVER_LIST);
 
+
+
+/**
+ * refreshes access token using refresh token
+ * @param code refresh token
+ * @returns scToken (includes accessToken as property)
+ */
 export const getSCAccessToken = (code) =>
   new Promise((resolve, reject) => {
     ecencyApi
@@ -649,19 +656,28 @@ export const getSCAccessToken = (code) =>
       });
   });
 
-export const getPromotePosts = (username) => {
-  try {
-    console.log('Fetching promoted posts');
-    return api.get('/promoted-posts?limit=10').then((resp) => {
-      return resp.data.map(({ post_data }) =>
-        post_data ? parsePost(post_data, username, true) : null,
-      );
-    });
-  } catch (error) {
-    bugsnag.notify(error);
-    return error;
-  }
-};
+
+  /**
+   * fetches promoted posts for tab content
+   * @param username for parsing post data
+   * @returns array of promoted posts
+   */
+  export const getPromotedEntries = async (username:string) => {
+    try {
+      console.log('Fetching promoted entries');
+      return ecencyApi.get('/private-api/promoted-entries').then((resp) => {
+        return resp.data.map((post_data:any) =>
+          post_data ? parsePost(post_data, username, true) : null,
+        );
+      });
+    } catch (error) {
+      console.warn("Failed to get promoted enties")
+      bugsnag.notify(error);
+      return error;
+    }
+  };
+
+
 
 export const purchaseOrder = (data) =>
   api
@@ -678,7 +694,14 @@ export const getPostReblogs = (data) =>
     .catch((error) => bugsnag.notify(error));
 
 
-
+/**
+ * Registers new user with ecency and hive, on confirmation sends 
+ * details to user email
+ * @param username for new user
+ * @param email of new user
+ * @param referral username
+ * @returns boolean success flag
+ */
 export const signUp = async (username:string, email:string, referral?:string) => {
   try {
     const data = {

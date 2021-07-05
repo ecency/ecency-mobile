@@ -20,8 +20,8 @@ api.interceptors.request.use((request) => {
   //skip code addition is register and token refresh endpoint is triggered
   if(request.url === '/signup/account-create' 
     || request.url === '/auth-api/hs-token-refresh' 
+    || request.url === '/private-api/promoted-entries'
     || request.url.startsWith('private-api/leaderboard')
-    
   ){
     return request
   }
