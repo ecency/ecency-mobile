@@ -398,67 +398,88 @@ export const setPushToken = (data) =>
  * ************************************
  */
 
-export const search = (data) =>
-  new Promise((resolve, reject) => {
-    searchApi
-      .post('/search', data)
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((error) => {
-        bugsnag.notify(error);
-        reject(error);
-      });
-  });
+export const search = async (data:{
+  q: string, 
+  sort: string, 
+  hideLow: string, 
+  since?: string, 
+  scroll_id?: string
+}) => {
+  try {
+    const response = await ecencyApi.post('/search-api/search', data);
+    return response.data;
+  } catch(error) {
+    console.warn("Search failed", error);
+    bugsnag.notify(error);
+    throw error;
+  }
+}
 
-export const searchPath = (q) =>
-  new Promise((resolve, reject) => {
-    searchApi
-      .post('/search-path', {
-        q,
-      })
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((error) => {
-        bugsnag.notify(error);
-        reject(error);
-      });
-  });
 
-export const searchAccount = (q = '', limit = 20, random = 0) =>
-  new Promise((resolve, reject) => {
-    searchApi
-      .post('/search-account', {
-        q,
-        limit,
-        random,
-      })
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((error) => {
-        bugsnag.notify(error);
-        reject(error);
-      });
-  });
+  /**
+   * 
+   * @param q query
+   * @returns array of path strings
+   */
+  export const searchPath = async (q:string) => {
+    try {
+      const data = { q };
+      const response = await ecencyApi.post('/search-api/search-path', data);
+      return response.data; 
+    } catch(error){
+      console.warn("path search failed", error)
+      bugsnag.notify(error);
+      throw error
+    }
+  }
 
-export const searchTag = (q = '', limit = 20, random = 0) =>
-  new Promise((resolve, reject) => {
-    searchApi
-      .post('/search-tag', {
+
+  /**
+   * 
+   * @param q query
+   * @param limit number of posts to fetch
+   * @param random random
+   * @returns array of accounts
+   */
+  export const searchAccount = async (q:string = '', limit:number = 20, random:number = 0) => {
+    try {
+      const data = {
         q,
         limit,
         random,
-      })
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((error) => {
-        bugsnag.notify(error);
-        reject(error);
-      });
-  });
+      }
+      const response = await ecencyApi.post(`/search-api/search-account`, data)
+      return response.data;
+    } catch(error) {
+      console.warn("account search failed", error)
+      bugsnag.notify(error);
+      throw error;
+    }
+  }
+
+
+  /**
+   * 
+   * @param q query
+   * @param limit number of posts to fetch
+   * @param random random
+   * @returns array of accounts
+   */
+  export const searchTag = async (q:string = '', limit:number = 20, random:number = 0) => {
+    try {
+      const data = {
+        q,
+        limit,
+        random,
+      }
+      const response = await ecencyApi.post(`/search-api/search-tag`, data);
+      return response.data;
+    } catch(error) {
+      console.warn("tag search failed", error)
+      bugsnag.notify(error);
+      throw error
+    }
+  }
 
 
 
