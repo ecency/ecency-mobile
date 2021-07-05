@@ -514,8 +514,8 @@
     "to_placeholder": "用户名",
     "memo_placeholder": "在此输入您的备注",
     "transfer_token": "转账",
-    "purchase_estm": "Purchase Points",
-    "convert": "Convert HBD to HIVE",
+    "purchase_estm": "购买积分",
+    "convert": "将HBD转换为HIVE",
     "points": "Gift Points to someone",
     "transfer_to_savings": "Transfer To Saving",
     "transfer_to_vesting": "Power Up",
@@ -548,7 +548,7 @@
     }
   },
   "free_estm": {
-    "title": "Free Points",
+    "title": "免费积分",
     "button": "赢取转盘抽奖",
     "get_spin": "5 个 转盘抽奖机会",
     "spin_right": "转盘抽奖机会还剩",
@@ -587,7 +587,7 @@
     "more_replies": "更多回复"
   },
   "search_result": {
-    "others": "Others",
+    "others": "其它",
     "best": {
       "title": "Best"
     },
@@ -595,18 +595,18 @@
       "title": "People"
     },
     "topics": {
-      "title": "Topics"
+      "title": "主题"
     },
     "communities": {
       "title": "Groups",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
+      "subscribe": "加入",
+      "unsubscribe": "退出",
+      "subscribers": "成员",
       "posters": "Posters",
       "posts": "文章"
     },
     "communities_filter": {
-      "my": "My Communities",
+      "my": "我的社区",
       "rank": "Rank",
       "subs": "Members",
       "new": "New"
@@ -622,15 +622,15 @@
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details",
+    "new_post": "新的文章",
+    "community": "社区",
+    "details": "详细信息",
     "muted": "Muted",
-    "payout": "Payout"
+    "payout": "收益"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow",
+    "follow": "关注",
+    "unfollow": "取消关注",
     "add_to_favourites": "ADD TO FAVOURITES",
     "remove_from_favourites": "REMOVE FROM FAVOURITES",
     "mute": "MUTE",
