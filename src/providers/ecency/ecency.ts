@@ -221,68 +221,77 @@ export const removeFavorite = (currentUsername, targetUsername) =>
  * ************************************
  */
 
-/**
- * @params current username
- */
-export const getSnippets = (username) =>
-  api
-    .get(`/fragments/${username}`)
-    .then((resp) => resp.data)
-    .catch((error) => bugsnag.notify(error));
 
 /**
- * @params current username
+ * Fetches all saved user fragments/snippets from ecency
+ * @returns array of fragments
+ */
+export const getFragments = async () => {
+  try {
+    const response = await ecencyApi.post(`/private-api/fragments`);
+    return response.data;
+  } catch(error) {
+    console.warn("Failed to get fragments", error);
+    bugsnag.notify(error)
+    throw error;
+  }
+}
+
+
+/**
+ * Adds new fragment/snippets to user's saved fragments/snippets
  * @params title title
  * @params body body
+ * @returns array of fragments
  */
-export const addSnippet = (currentUsername, title, body) =>
-  api
-    .post('/fragment', {
-      username: currentUsername,
-      title,
-      body,
-    })
-    .then((resp) => resp.data)
-    .catch((error) => bugsnag.notify(error));
+
+  export const addFragment = async (title: string, body: string) => {
+    try{
+      const data = { title, body };
+      const response = await ecencyApi.post(`/private-api/fragments-add`, data);
+      return response.data;
+    } catch(error) {
+      console.warn("Failed to add fragment", error);
+      bugsnag.notify(error)
+      throw error;
+    }
+  }
 
 /**
- * @params current username
- * @params fragmentid id
- * @params title title
- * @params body body
+ * Updates a fragment content using fragment id
+ * @params fragmentId
+ * @params title
+ * @params body
+ * @returns array of fragments
  */
-export const updateSnippet = (username, id, title, body) =>
-  new Promise((resolve, reject) => {
-    api
-      .put(`/fragments/${username}/${id}`, {
-        title,
-        body,
-      })
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((error) => {
-        bugsnag.notify(error);
-        reject(error);
-      });
-  });
+ export const updateFragment = async (fragmentId:string, title: string, body: string) => {
+  try{
+    const data = { id:fragmentId, title, body };
+    const response = await ecencyApi.post(`/private-api/fragments-update`, data);
+    return response.data;
+  } catch(error) {
+    console.warn("Failed to update fragment", error);
+    bugsnag.notify(error)
+    throw error;
+  }
+}
 
 /**
- * @params current username
- * @params fragmentid id
+ * Deletes user saved fragment using specified fragment id
+ * @params fragmentId
+ * @returns array of fragments
  */
-export const removeSnippet = (username, id) =>
-  new Promise((resolve, reject) => {
-    api
-      .delete(`/fragments/${username}/${id}`)
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((error) => {
-        bugsnag.notify(error);
-        reject(error);
-      });
-  });
+ export const deleteFragment = async (fragmentId:string) => {
+  try{
+    const data = { id:fragmentId };
+    const response = await ecencyApi.post(`/private-api/fragments-delete`, data);
+    return response.data;
+  } catch(error) {
+    console.warn("Failed to delete fragment", error);
+    bugsnag.notify(error)
+    throw error;
+  }
+}
 
 
 

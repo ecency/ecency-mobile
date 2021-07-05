@@ -465,7 +465,6 @@ const MarkdownEditorView = ({
         style={styles.modalStyle}
       >
         <SnippetsModal
-          username={currentAccount.username}
           handleOnSelect={_handleOnSnippetReceived}
         />
       </Modal>
