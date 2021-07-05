@@ -6,7 +6,7 @@ import { withNavigation } from 'react-navigation';
 import get from 'lodash/get';
 
 import { lookupAccounts } from '../../providers/hive/dhive';
-import { register } from '../../providers/ecency/ecency';
+import { signUp } from '../../providers/ecency/ecency';
 import ROUTES from '../../constants/routeNames';
 
 const RegisterContainer = ({ children, navigation }) => {
@@ -32,14 +32,9 @@ const RegisterContainer = ({ children, navigation }) => {
   };
 
   const _handleOnPressRegister = ({ username, email, refUsername }) => {
-    const data = {
-      username,
-      email,
-      referral: refUsername,
-    };
     setIsLoading(true);
 
-    register(data)
+    signUp(username, email, refUsername)
       .then((result) => {
         if (result) {
           navigation.navigate({
@@ -53,10 +48,20 @@ const RegisterContainer = ({ children, navigation }) => {
         setIsLoading(false);
       })
       .catch((err) => {
-        if (get(err, 'response.status', false)) {
-          Alert.alert('Error', intl.formatMessage({ id: 'register.500_error' }));
-        } else {
-          Alert.alert('Error', intl.formatMessage({ id: 'alert.unknow_error' }));
+        if (get(err, 'response.status') === 500) {
+          Alert.alert(intl.formatMessage(
+            { id: 'alert.fail'}), 
+            intl.formatMessage({ id: 'register.500_error' }));
+        }
+        else if (get(err, 'response.data.message')) {
+          Alert.alert(intl.formatMessage(
+            { id: 'alert.fail'}), 
+            err.response.data.message);
+        }
+        else {
+          Alert.alert(intl.formatMessage(
+            { id: 'alert.fail'}), 
+            intl.formatMessage({ id: 'alert.unknow_error' }));
         }
         setIsLoading(false);
       });

@@ -658,10 +658,15 @@ export const getPostReblogs = (data) =>
 
 
 
-export const register = async (data) => {
+export const signUp = async (username:string, email:string, referral?:string) => {
   try {
-    const res = await api.post('/signup/account-create', data);
-    return res.data;
+    const data = {
+      username,
+      email,
+      referral
+    }
+    const response = await ecencyApi.post('/private-api/account-create', data);
+    return response.status === 202;
   } catch (error) {
     bugsnag.notify(error);
     throw error;
