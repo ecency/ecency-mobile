@@ -18,7 +18,11 @@ api.interceptors.request.use((request) => {
   console.log('Starting ecency Request', request);
   
   //skip code addition is register and token refresh endpoint is triggered
-  if(request.url === '/signup/account-create' || request.url === '/auth-api/hs-token-refresh'){
+  if(request.url === '/signup/account-create' 
+    || request.url === '/auth-api/hs-token-refresh' 
+    || request.url.startsWith('private-api/leaderboard')
+    
+  ){
     return request
   }
 
@@ -35,8 +39,6 @@ api.interceptors.request.use((request) => {
     }
     request.data.code = accessToken;
     console.log('Added access token:', accessToken);
-  } else {
-    console.warn('No access token available');
   }
 
   return request;

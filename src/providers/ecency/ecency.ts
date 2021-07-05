@@ -301,19 +301,14 @@ export const getFragments = async () => {
  * ************************************
  */
 
-export const getLeaderboard = (duration) =>
-  api
-    .get('/leaderboard', {
-      params: {
-        duration,
-      },
-    })
-    .then((resp) => {
-      return resp.data;
-    })
-    .catch((error) => {
-      bugsnag.notify(error);
-    });
+export const getLeaderboard = async (duration:'day'|'week'|'month') => {
+  try{
+    const response = await ecencyApi.get(`private-api/leaderboard/${duration}`)
+    return response.data;
+  } catch(error) {
+    bugsnag.notify(error)
+  }
+}
 
 export const getActivities = (data) =>
   new Promise((resolve, reject) => {
