@@ -6,7 +6,7 @@ import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
 
 // Actions and Services
-import { getActivities, markActivityAsRead, markNotifications } from '../../../providers/ecency/ecency';
+import { getNotifications, markNotifications } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 
 // Constants
@@ -29,21 +29,20 @@ class NotificationContainer extends Component {
   }
 
   componentDidMount() {
-    const { username, isConnected } = this.props;
+    const { isConnected } = this.props;
 
-    if (username && isConnected) {
-      this._getAvtivities(username);
+    if (isConnected) {
+      this._getAvtivities();
     }
   }
 
-  _getAvtivities = (user, type = null, loadMore = false) => {
+  _getAvtivities = (type = null, loadMore = false) => {
     const { lastNotificationId, notifications, endOfNotification } = this.state;
     const since = loadMore ? lastNotificationId : null;
-    const { username } = this.props;
 
     if (!endOfNotification || !loadMore) {
       this.setState({ isNotificationRefreshing: true });
-      getActivities({ user: user || username, type, since })
+      getNotifications({ filter:type, since:since })
         .then((res) => {
           console.log(res);
           const lastId = res.length > 0 ? [...res].pop().id : null;
@@ -152,7 +151,7 @@ class NotificationContainer extends Component {
       (nextProps.username !== username && nextProps.username)
     ) {
       this.setState({ endOfNotification: false }, () =>
-        this._getAvtivities(nextProps.username, selectedFilter),
+        this._getAvtivities(selectedFilter),
       );
     }
   }

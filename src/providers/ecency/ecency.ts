@@ -337,49 +337,24 @@ export const getLeaderboard = async (duration:'day'|'week'|'month') => {
   }
 }
 
-export const getActivities = (data) =>
-  new Promise((resolve, reject) => {
-    let url = null;
-    switch (data.type) {
-      case 'activities':
-        url = `/activities/${data.user}`;
-        break;
-      case 'votes':
-        url = `/rvotes/${data.user}`;
-        break;
-      case 'replies':
-        url = `/replies/${data.user}`;
-        break;
-      case 'mentions':
-        url = `/mentions/${data.user}`;
-        break;
-      case 'follows':
-        url = `/follows/${data.user}`;
-        break;
-      case 'reblogs':
-        url = `/reblogs/${data.user}`;
-        break;
-      case 'transfers':
-        url = `/transfers/${data.user}`;
-        break;
-      default:
-        url = `/activities/${data.user}`;
-        break;
+/**
+ * fetches notifications from ecency server using filter and since props
+ * @param data optional filter and since props;
+ * @returns array of notifications
+ */
+export const getNotifications = async (data:{
+    filter?: "rvotes"|"mentions"|"follows"|"replies"|"reblogs"|"transfers", 
+    since?:string
+  }) => {
+    try{
+      const response = await ecencyApi.post(`/private-api/notifications`, data);
+      return response.data;
+    }catch(error){
+      console.warn("Failed to get notifications", error)
+      bugsnag.notify(error)
+      throw error;
     }
-    api
-      .get(url, {
-        params: {
-          since: data.since,
-        },
-      })
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((error) => {
-        bugsnag.notify(error);
-        reject(error);
-      });
-  });
+  }
 
 
   export const getUnreadNotificationCount = async () => {
