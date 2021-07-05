@@ -20,7 +20,7 @@ import {
 } from '../providers/hive/dhive';
 
 // Ecency providers
-import { getIsFavorite, addFavorite, removeFavorite } from '../providers/ecency/ecency';
+import { checkFavorite, addFavorite, deleteFavorite } from '../providers/ecency/ecency';
 
 // Utilitites
 import { getRcPower, getVotingPower } from '../utils/manaBar';
@@ -260,44 +260,48 @@ class ProfileContainer extends Component {
   };
 
   _fetchProfile = async (username = null, isProfileAction = false) => {
-    const { username: _username, isFollowing, isMuted, isOwnProfile } = this.state;
+    try {
+      const { username: _username, isFollowing, isMuted, isOwnProfile } = this.state;
 
-    if (username) {
-      const { currentAccount } = this.props;
-      let _isFollowing;
-      let _isMuted;
-      let isFavorite;
-      let follows;
+      if (username) {
+        const { currentAccount } = this.props;
+        let _isFollowing;
+        let _isMuted;
+        let isFavorite;
+        let follows;
 
-      if (!isOwnProfile) {
-        const res = await getRelationship(currentAccount.name, username);
-        _isFollowing = res && res.follows;
+        if (!isOwnProfile) {
+          const res = await getRelationship(currentAccount.name, username);
+          _isFollowing = res && res.follows;
+          _isMuted = res && res.ignores;
+          isFavorite = await checkFavorite(username)
+        }
 
-        _isMuted = res && res.ignores;
+        try {
+          follows = await getFollows(username);
+        } catch (err) {
+          follows = null;
+        }
 
-        getIsFavorite(username, currentAccount.name).then((isFav) => {
-          isFavorite = isFav;
-        });
+        if (isProfileAction && isFollowing === _isFollowing && isMuted === _isMuted) {
+          this._fetchProfile(_username, true);
+        } else {
+          this.setState({
+            follows,
+            isFollowing: _isFollowing,
+            isMuted: _isMuted,
+            isFavorite,
+            isReady: true,
+            isProfileLoading: false,
+          });
+        }
       }
-
-      try {
-        follows = await getFollows(username);
-      } catch (err) {
-        follows = null;
-      }
-
-      if (isProfileAction && isFollowing === _isFollowing && isMuted === _isMuted) {
-        this._fetchProfile(_username, true);
-      } else {
-        this.setState({
-          follows,
-          isFollowing: _isFollowing,
-          isMuted: _isMuted,
-          isFavorite,
-          isReady: true,
-          isProfileLoading: false,
-        });
-      }
+    }
+    catch(error){
+      console.warn("Failed to fetch complete profile data", error);
+      Alert.alert(intl.formatMessage({
+          id: 'alert.fail',
+        }), error.message || error.toString())
     }
   };
 
@@ -341,7 +345,7 @@ class ProfileContainer extends Component {
   };
 
   _handleOnFavoritePress = (isFavorite = false) => {
-    const { currentAccount, dispatch, intl } = this.props;
+    const { dispatch, intl } = this.props;
     const { username } = this.state;
     let favoriteAction;
 
@@ -350,12 +354,12 @@ class ProfileContainer extends Component {
     });
 
     if (isFavorite) {
-      favoriteAction = removeFavorite;
+      favoriteAction = deleteFavorite;
     } else {
       favoriteAction = addFavorite;
     }
 
-    favoriteAction(currentAccount.name, username).then(() => {
+    favoriteAction(username).then(() => {
       dispatch(
         toastNotification(
           intl.formatMessage({
@@ -364,6 +368,15 @@ class ProfileContainer extends Component {
         ),
       );
       this.setState({ isFavorite: !isFavorite, isProfileLoading: false });
+    })
+    .catch((error)=>{
+      console.warn("Failed to perform favorite action")
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        error.message || error.toString()
+      )
     });
   };
 

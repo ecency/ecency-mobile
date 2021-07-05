@@ -6,9 +6,8 @@ import { injectIntl } from 'react-intl';
 // Services and Actions
 import {
   getFavorites,
-  removeFavorite,
+  deleteFavorite,
   getBookmarks,
-  removeBookmark,
   deleteBookmark,
 } from '../../../providers/ecency/ecency';
 
@@ -39,7 +38,7 @@ const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
   const _getFavorites = () => {
     setIsLoading(true);
 
-    getFavorites(currentAccount.name)
+    getFavorites()
       .then((data) => {
         setFavorites(_sortData(data));
         setIsLoading(false);
@@ -65,7 +64,7 @@ const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
   };
 
   const _removeFavorite = (selectedUsername) => {
-    removeFavorite(currentAccount.name, selectedUsername)
+    deleteFavorite(selectedUsername)
       .then(() => {
         const newFavorites = [...favorites].filter((fav) => fav.account !== selectedUsername);
 

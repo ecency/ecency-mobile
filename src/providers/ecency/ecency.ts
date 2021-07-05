@@ -176,43 +176,70 @@ export const addReport = (url) =>
  */
 
 /**
- * @params current username
+ * Fetches user favourites
+ * @returns array of favourite accounts
  */
-export const getFavorites = (username) =>
-  api
-    .get(`/favorites/${username}`)
-    .then((resp) => resp.data)
-    .catch((error) => bugsnag.notify(error));
+export const getFavorites = async () => {
+  try{
+    const response = await ecencyApi.post(`/private-api/favorites`)
+    return response.data;
+  } catch(error) {
+    console.warn("Failed to get favorites", error);
+    bugsnag.notify(error);
+    throw error
+  }
+}
 
 /**
- * @params current username
- * @params target username
+ * Checks if user is precent in current user's favourites
+ * @params targetUsername username
+ * @returns boolean
  */
-export const getIsFavorite = (targetUsername, currentUsername) =>
-  api
-    .get(`/isfavorite/${currentUsername}/${targetUsername}`)
-    .then((resp) => resp.data)
-    .catch((error) => bugsnag.notify(error));
+export const checkFavorite = async (targetUsername:string) => {
+  try {
+    const data = { account: targetUsername };
+    const response = await ecencyApi.post(`/private-api/favorites-check`, data);
+    return response.data || false;
+  } catch(error) {
+    console.warn("Failed to check favorite", error);
+    bugsnag.notify(error);
+  }
+}
 
 /**
- * @params current username
+ * Adds taget user to current user's favourites
  * @params target username
+ * @returns array of user favourites
  */
-export const addFavorite = (currentUsername, targetUsername) =>
-  api
-    .post('/favorite', {
-      username: currentUsername,
-      account: targetUsername,
-    })
-    .then((resp) => resp.data)
-    .catch((error) => bugsnag.notify(error));
+export const addFavorite = async (targetUsername:string) => {
+  try {
+    const data = { account: targetUsername };
+    const response = await ecencyApi.post(`/private-api/favorites-add`, data);
+    return response.data;
+  } catch(error) {
+    console.warn("Failed to add user favorites", error);
+    bugsnag.notify(error);
+    throw error
+  }
+}
+
 
 /**
- * @params current username
+ * Removes taget user to current user's favourites
  * @params target username
+ * @returns array of user favourites
  */
-export const removeFavorite = (currentUsername, targetUsername) =>
-  api.delete(`/favoriteUser/${currentUsername}/${targetUsername}`);
+export const deleteFavorite = async (targetUsername:string) => {
+  try {
+    const data = { account: targetUsername };
+    const response = await ecencyApi.post(`/private-api/favorites-delete`, data);
+    return response.data;
+  } catch(error) {
+    console.warn("Failed to add user favorites", error);
+    bugsnag.notify(error);
+    throw error;
+  }
+}
 
 
 /** 
