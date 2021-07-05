@@ -29,13 +29,22 @@ export const setOtherPosts = (posts, scrollPosition = 0) => ({
   },
   type: SET_OTHER_POSTS,
 });
-export const updateLocalVoteMap = (postId, localVote) => ({
+
+
+export const updateLocalVoteMap = (postId:string, localVote:{
+  votedAt: number,
+  amount: number,
+  isDownvote: boolean,
+  incrementStep: number
+}) => ({
   payload: {
     postId,
     localVote,
   },
   type: UPDATE_LOCAL_VOTE_MAP,
 });
+
+
 export const resetLocalVoteMap = () => ({
   type: RESET_LOCAL_VOTE_MAP,
 });

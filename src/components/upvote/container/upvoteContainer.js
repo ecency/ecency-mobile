@@ -72,7 +72,7 @@ const UpvoteContainer = (props) => {
   };
 
   const _handleLocalVote = () => {
-    const postId = get(content, 'post_id');
+    const postId = `${content.author || ''}-${content.permlink || ''}`;
     const postFetchedAt = get(content, 'post_fetched_at', 0);
     const localVote = localVoteMap[postId] || null;
     if (localVote) {
@@ -113,7 +113,7 @@ const UpvoteContainer = (props) => {
 
     setTotalPayout(totalPayout + amountNum);
     //update redux
-    const postId = get(content, 'post_id');
+    const postId = `${content.author || ''}-${content.permlink || ''}`;
     const vote = {
       votedAt: new Date().getTime(),
       amount: amountNum,
