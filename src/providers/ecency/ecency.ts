@@ -1,6 +1,5 @@
 import api from '../../config/api';
 import ecencyApi from '../../config/ecencyApi';
-import searchApi from '../../config/search';
 import { upload } from '../../config/imageApi';
 import serverList from '../../config/serverListApi';
 import bugsnag from '../../config/bugsnag';
