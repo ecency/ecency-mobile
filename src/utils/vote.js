@@ -12,5 +12,8 @@ export const getEstimatedAmount = (account, globalProps, value = 1) => {
   const votePct = value * 10000;
   const rShares = vestsToRshares(totalVests, votingPower, votePct);
 
-  return ((rShares / fundRecentClaims) * fundRewardBalance * (base / quote)).toFixed(5);
+  const estimatedAmount = (rShares / fundRecentClaims) * fundRewardBalance * (base / quote)
+  return (!Number.isFinite(estimatedAmount) || Number.isNaN(estimatedAmount)) 
+    ? '0.00000' 
+    : estimatedAmount.toFixed(5);
 };
