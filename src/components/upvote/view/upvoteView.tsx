@@ -1,14 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { View, TouchableOpacity, Text, Alert } from 'react-native';
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { Popover, PopoverController } from '@esteemapp/react-native-modal-popover';
 import Slider from '@esteemapp/react-native-slider';
-import get from 'lodash/get';
-import { connect } from 'react-redux';
 
 // Utils
-import parseToken from '../../../utils/parseToken';
-import { vestsToRshares } from '../../../utils/conversions';
 import { getEstimatedAmount } from '../../../utils/vote';
 
 // Components
@@ -24,84 +20,112 @@ import { vote } from '../../../providers/hive/dhive';
 
 // Styles
 import styles from './upvoteStyles';
+import { useAppSelector } from '../../../hooks';
 
-class UpvoteView extends Component {
-  /* Props
-   * ------------------------------------------------
-   *   @prop { type }    name                - Description....
-   */
+interface UpvoteViewProps {
+  isDecinedPayout:boolean;
+  isShowPayoutValue:boolean;
+  totalPayout:string;
+  pendingPayout:number;
+  promotedPayout:number;
+  authorPayout:number;
+  curationPayout:number;
+  payoutDate:string;
+  isDownVoted:boolean;
+  beneficiaries:string[];
+  warnZeroPayout:boolean;
+  breakdownPayout:string;
+  globalProps:any;
+  author:string;
+  handleSetUpvotePercent:(value:number)=>void;
+  permlink:string;
+  dispatch:any
+  onVote:(amount:string, downvote:boolean)=>void;
+  isVoted:boolean;
+  upvotePercent:number;
+}
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      sliderValue:
-        get(props, 'isVoted', false) ||
-        get(props, 'isDownVoted', 1) ||
-        get(props, 'upvotePercent', 1),
-      isVoting: false,
-      isVoted: get(props, 'isVoted', false),
-      amount: '0.00000',
-      isShowDetails: false,
-      downvote: get(props, 'isDownVoted', false),
-    };
-  }
+const UpvoteView = ({
+  isDecinedPayout,
+  isShowPayoutValue,
+  totalPayout,
+  pendingPayout,
+  promotedPayout,
+  authorPayout,
+  curationPayout,
+  payoutDate,
+  isDownVoted,
+  beneficiaries,
+  warnZeroPayout,
+  breakdownPayout,
+  globalProps,
+  author,
+  handleSetUpvotePercent,
+  permlink,
+  dispatch,
+  onVote,
+  isVoted,
+  upvotePercent
+}:UpvoteViewProps) => {
+  const intl = useIntl();
 
-  // Component Life Cycles
-  componentDidMount() {
-    this._calculateEstimatedAmount();
-  }
+  const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const pinCode = useAppSelector(state => state.application.pin);
+
+
+  const [sliderValue, setSliderValue] = useState(1);
+  const [amount, setAmount] = useState('0.00000');
+  const [isVoting, setIsVoting] = useState(false);
+  const [upvote, setUpvote] = useState(isVoted || false);
+  const [downvote, setDownvote] = useState(isDownVoted || false);
+  const [isShowDetails, setIsShowDetails] = useState(false);
+
+  useEffect(() => {
+    _calculateEstimatedAmount();
+  }, [])
+
+  
+  useEffect(() => {
+    setSliderValue(
+      (isVoted || isDownVoted) 
+      ? 1 
+      : upvotePercent <= 1
+        ? upvotePercent 
+        : 1
+    )
+  }, [upvotePercent])
+
+
+  useEffect(() => {
+    if(isVoted !== null && isVoted !== upvote){
+      setUpvote(isVoted || false);
+    }
+  }, [isVoted])
+
 
   // Component Functions
-  _calculateEstimatedAmount = async () => {
-    const { currentAccount, globalProps } = this.props;
-
+  const _calculateEstimatedAmount = async (value:number = sliderValue) => {
     if (currentAccount && Object.entries(currentAccount).length !== 0) {
-      const { sliderValue } = this.state;
-
-      this.setState({
-        amount: getEstimatedAmount(currentAccount, globalProps, sliderValue),
-      });
+      setAmount(getEstimatedAmount(currentAccount, globalProps, value))
     }
   };
 
-  _upvoteContent = (closePopover) => {
-    const {
-      author,
-      currentAccount,
-      handleSetUpvotePercent,
-      permlink,
-      pinCode,
-      intl,
-      dispatch,
-      onVote,
-    } = this.props;
-    const { sliderValue, downvote, amount } = this.state;
 
+  const _upvoteContent = (closePopover) => {
     if (!downvote) {
       closePopover();
-      this.setState(
-        {
-          isVoting: true,
-        },
-        () => {
-          handleSetUpvotePercent(sliderValue);
-        },
-      );
+      setIsVoting(true);
+      handleSetUpvotePercent(sliderValue);
 
-      const weight = sliderValue ? (sliderValue * 100).toFixed(0) * 100 : 0;
+      const weight = sliderValue ? Math.trunc(sliderValue * 100) * 100 : 0;
 
       console.log('casting up vote: ' + weight);
       vote(currentAccount, pinCode, author, permlink, weight)
         .then(() => {
-          this.setState(
-            {
-              isVoted: !!sliderValue,
-              isVoting: false,
-            },
-            () => {
-              onVote(amount, false);
-            },
-          );
+          setUpvote(!!sliderValue);
+          setIsVoting(false);
+          onVote(amount, false);
         })
         .catch((err) => {
           if (
@@ -111,26 +135,16 @@ class UpvoteView extends Component {
             err.response.jse_shortmsg.includes('wait to transact')
           ) {
             //when RC is not enough, offer boosting account
-            this.setState({
-              isVoted: false,
-              isVoting: false,
-            });
+            setUpvote(false);
+            setIsVoting(false);
             dispatch(setRcOffer(true));
           } else if (err && err.jse_shortmsg && err.jse_shortmsg.includes('wait to transact')) {
             //when RC is not enough, offer boosting account
-            this.setState({
-              isVoted: false,
-              isVoting: false,
-            });
+            setUpvote(false);
+            setIsVoting(false);
             dispatch(setRcOffer(true));
           } else {
             //when voting with same percent or other errors
-            /*Alert.alert(
-              intl.formatMessage({
-                id: 'alert.fail',
-              }),
-              JSON.stringify(err),
-            );*/
             if (err.message && err.message.indexOf(':') > 0) {
               Alert.alert(
                 intl.formatMessage({
@@ -146,137 +160,82 @@ class UpvoteView extends Component {
                 err.jse_shortmsg || err.error_description,
               );
             }
-            this.setState({
-              isVoting: false,
-            });
+            setIsVoting(false);
           }
         });
     } else {
-      this.setState({ sliderValue: 1, downvote: false });
+      setSliderValue(1);
+      setDownvote(false);
     }
   };
 
-  _downvoteContent = (closePopover) => {
-    const {
-      author,
-      currentAccount,
-      handleSetUpvotePercent,
-      permlink,
-      pinCode,
-      onVote,
-    } = this.props;
-    const { sliderValue, downvote, amount } = this.state;
 
+
+  const _downvoteContent = (closePopover) => {
     if (downvote) {
       closePopover();
-      this.setState(
-        {
-          isVoting: true,
-        },
-        () => {
-          handleSetUpvotePercent(sliderValue);
-        },
-      );
+      setIsVoting(true);
+      handleSetUpvotePercent(sliderValue);
+      
 
-      const weight = sliderValue ? (sliderValue * 100).toFixed(0) * 100 * -1 : 0;
+      const weight = sliderValue ? Math.trunc(sliderValue * 100) * -100 : 0;
 
       console.log('casting down vote: ' + weight);
       vote(currentAccount, pinCode, author, permlink, weight)
         .then(() => {
-          this.setState(
-            {
-              isVoted: !!sliderValue,
-              isVoting: false,
-            },
-            () => {
-              onVote(amount, true);
-            },
-          );
+          setUpvote(!!sliderValue);
+          setIsVoting(false);
+          onVote(amount, true);
         })
         .catch((err) => {
           Alert.alert('Failed!', err.message);
-          this.setState({
-            isVoted: false,
-            isVoting: false,
-          });
+          setUpvote(false);
+          setIsVoting(false);
         });
     } else {
-      this.setState({ sliderValue: 1, downvote: true });
+      setSliderValue(1);
+      setDownvote(true);
     }
   };
 
-  _handleOnPopoverClose = () => {
-    this.popoverOnClose = setTimeout(() => {
-      this.setState({ isShowDetails: false }, () => {
-        clearTimeout(this.popoverOnClose);
-      });
+
+
+  const _handleOnPopoverClose = () => {
+    setTimeout(() => {
+      setIsShowDetails(false);
     }, 300);
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { isVoted, upvotePercent } = this.props;
-    const { isVoted: localIsVoted } = this.state;
+  
 
-    if (isVoted !== get(nextProps, 'isVoted') && localIsVoted !== get(nextProps, 'isVoted')) {
-      this.setState({ isVoted: get(nextProps, 'isVoted') });
-    }
+  let iconName = 'upcircleo';
+  const iconType = 'AntDesign';
+  let downVoteIconName = 'downcircleo';
 
-    if (upvotePercent !== get(nextProps, 'upvotePercent')) {
-      this.setState({
-        sliderValue:
-          get(nextProps, 'isVoted', false) ||
-          get(nextProps, 'isDownVoted', 1) ||
-          get(nextProps, 'upvotePercent', 1),
-      });
-    }
+  if (upvote) {
+    iconName = 'upcircle';
   }
 
-  render() {
-    const {
-      isDecinedPayout,
-      isLoggedIn,
-      isShowPayoutValue,
-      totalPayout,
-      pendingPayout,
-      promotedPayout,
-      authorPayout,
-      curationPayout,
-      payoutDate,
-      intl,
-      isDownVoted,
-      beneficiaries,
-      warnZeroPayout,
-      breakdownPayout,
-    } = this.props;
-    const { isVoting, amount, sliderValue, isVoted, isShowDetails, downvote } = this.state;
-    let iconName = 'upcircleo';
-    const iconType = 'AntDesign';
-    let downVoteIconName = 'downcircleo';
+  if (isDownVoted) {
+    downVoteIconName = 'downcircle';
+  }
 
-    if (isVoted) {
-      iconName = 'upcircle';
-    }
+  const _percent = `${downvote ? '-' : ''}${(sliderValue * 100).toFixed(0)}%`;
+  const _amount = `$${amount}`;
+  const _totalPayout = totalPayout || '0.000';
+  const sliderColor = downvote ? '#ec8b88' : '#357ce6';
 
-    if (isDownVoted) {
-      downVoteIconName = 'downcircle';
-    }
-
-    const _percent = `${downvote ? '-' : ''}${(sliderValue * 100).toFixed(0)}%`;
-    const _amount = `$${amount}`;
-    const _totalPayout = totalPayout || '0.000';
-    const sliderColor = downvote ? '#ec8b88' : '#357ce6';
-
-    const _payoutPopupItem = (label, value) => {
-      return (
-        <View style={styles.popoverItemContent}>
-          <Text style={styles.detailsLabel}>{label}</Text>
-          <Text style={styles.detailsText}>{value}</Text>
-        </View>
-      );
-    };
-
+  const _payoutPopupItem = (label, value) => {
     return (
-      <PopoverController>
+      <View style={styles.popoverItemContent}>
+        <Text style={styles.detailsLabel}>{label}</Text>
+        <Text style={styles.detailsText}>{value}</Text>
+      </View>
+    );
+  };
+
+  return (
+    <PopoverController>
         {({ openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect }) => (
           <Fragment>
             <TouchableOpacity
@@ -317,7 +276,7 @@ class UpvoteView extends Component {
                   text={<FormattedCurrency value={_totalPayout} />}
                   onPress={() => {
                     openPopover();
-                    this.setState({ isShowDetails: true });
+                    setIsShowDetails(true);
                   }}
                 />
               )}
@@ -330,7 +289,7 @@ class UpvoteView extends Component {
               visible={popoverVisible}
               onClose={() => {
                 closePopover();
-                this._handleOnPopoverClose();
+                _handleOnPopoverClose();
               }}
               fromRect={popoverAnchorRect}
               placement="top"
@@ -389,7 +348,7 @@ class UpvoteView extends Component {
                   <Fragment>
                     <TouchableOpacity
                       onPress={() => {
-                        this._upvoteContent(closePopover);
+                        _upvoteContent(closePopover);
                       }}
                       style={styles.upvoteButton}
                     >
@@ -410,14 +369,13 @@ class UpvoteView extends Component {
                       thumbTintColor="#007ee5"
                       value={sliderValue}
                       onValueChange={(value) => {
-                        this.setState({ sliderValue: value }, () => {
-                          this._calculateEstimatedAmount();
-                        });
+                        setSliderValue(value);
+                        _calculateEstimatedAmount(value);
                       }}
                     />
                     <Text style={styles.percent}>{_percent}</Text>
                     <TouchableOpacity
-                      onPress={() => this._downvoteContent(closePopover)}
+                      onPress={() => _downvoteContent(closePopover)}
                       style={styles.upvoteButton}
                     >
                       <Icon
@@ -435,14 +393,9 @@ class UpvoteView extends Component {
           </Fragment>
         )}
       </PopoverController>
-    );
-  }
+  )
 }
-const mapStateToProps = (state) => ({
-  isLoggedIn: state.application.isLoggedIn,
-  currentAccount: state.account.currentAccount,
-  pinCode: state.application.pin,
-  isPinCodeOpen: state.application.isPinCodeOpen,
-});
 
-export default connect(mapStateToProps)(injectIntl(UpvoteView));
+
+
+export default UpvoteView;
