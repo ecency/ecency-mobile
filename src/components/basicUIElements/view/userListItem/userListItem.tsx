@@ -1,10 +1,9 @@
-import Popover, { PopoverController } from '@esteemapp/react-native-modal-popover';
+import Popover, { PopoverController } from 'react-native-modal-popover';
 import React, { Fragment } from 'react';
-import { ActivityIndicator, View, Text, TouchableOpacity, Alert } from 'react-native';
+import { ActivityIndicator, View, Text, TouchableOpacity } from 'react-native';
 import Highlighter from 'react-native-highlight-words';
 
 import { UserAvatar } from '../../../userAvatar';
-import Tag from '../tag/tagView';
 import styles from './userListItemStyles';
 
 const UserListItem = ({
