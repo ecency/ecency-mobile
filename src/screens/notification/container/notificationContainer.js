@@ -32,11 +32,11 @@ class NotificationContainer extends Component {
     const { isConnected } = this.props;
 
     if (isConnected) {
-      this._getAvtivities();
+      this._getActivities();
     }
   }
 
-  _getAvtivities = (type = null, loadMore = false) => {
+  _getActivities = (type = null, loadMore = false) => {
     const { lastNotificationId, notifications, endOfNotification } = this.state;
     const since = loadMore ? lastNotificationId : null;
 
@@ -151,7 +151,7 @@ class NotificationContainer extends Component {
       (nextProps.username !== username && nextProps.username)
     ) {
       this.setState({ endOfNotification: false }, () =>
-        this._getAvtivities(selectedFilter),
+        this._getActivities(selectedFilter),
       );
     }
   }
@@ -162,7 +162,7 @@ class NotificationContainer extends Component {
 
     return (
       <NotificationScreen
-        getActivities={this._getAvtivities}
+        getActivities={this._getActivities}
         notifications={notifications}
         navigateToNotificationRoute={this._navigateToNotificationRoute}
         readAllNotification={this._readAllNotification}

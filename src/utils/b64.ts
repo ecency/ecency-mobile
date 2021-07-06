@@ -11,3 +11,4 @@ const b64uLookup = {
     Buffer.from(str)
       .toString('base64')
       .replace(/(\+|\/|=)/g, (m) => b64uLookup[m]);
+      
