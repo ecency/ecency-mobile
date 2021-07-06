@@ -9,7 +9,7 @@ import { Client as hsClient } from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
 import { getServer, getCache, setCache } from '../../realm/realm';
-import { getUnreadActivityCount } from '../ecency/ecency';
+import { getUnreadNotificationCount } from '../ecency/ecency';
 import { userActivity } from '../ecency/ePoint';
 
 // Utils
@@ -26,6 +26,7 @@ import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
 // Constant
 import AUTH_TYPE from '../../constants/authType';
 import { SERVER_LIST } from '../../constants/options/api';
+import { b64uEnc } from '../../utils/b64';
 
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
@@ -201,9 +202,7 @@ export const getUser = async (user, loggedIn = true) => {
 
     if (loggedIn) {
       try {
-        unreadActivityCount = await getUnreadActivityCount({
-          user,
-        });
+        unreadActivityCount = await getUnreadNotificationCount();
       } catch (error) {
         unreadActivityCount = 0;
       }
@@ -612,18 +611,7 @@ export const getPostWithComments = async (user, permlink) => {
 
   return [post, comments];
 };
-const b64uLookup = {
-  '/': '_',
-  _: '/',
-  '+': '-',
-  '-': '+',
-  '=': '.',
-  '.': '=',
-};
-export const b64uEnc = (str) =>
-  Buffer.from(str)
-    .toString('base64')
-    .replace(/(\+|\/|=)/g, (m) => b64uLookup[m]);
+
 export const signImage = async (file, currentAccount, pin) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);

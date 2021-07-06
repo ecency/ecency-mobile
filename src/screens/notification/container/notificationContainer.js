@@ -6,7 +6,7 @@ import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
 
 // Actions and Services
-import { getActivities, markActivityAsRead } from '../../../providers/ecency/ecency';
+import { getNotifications, markNotifications } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 
 // Constants
@@ -29,21 +29,20 @@ class NotificationContainer extends Component {
   }
 
   componentDidMount() {
-    const { username, isConnected } = this.props;
+    const { isConnected } = this.props;
 
-    if (username && isConnected) {
-      this._getAvtivities(username);
+    if (isConnected) {
+      this._getActivities();
     }
   }
 
-  _getAvtivities = (user, type = null, loadMore = false) => {
+  _getActivities = (type = null, loadMore = false) => {
     const { lastNotificationId, notifications, endOfNotification } = this.state;
     const since = loadMore ? lastNotificationId : null;
-    const { username } = this.props;
 
     if (!endOfNotification || !loadMore) {
       this.setState({ isNotificationRefreshing: true });
-      getActivities({ user: user || username, type, since })
+      getNotifications({ filter: type, since: since })
         .then((res) => {
           console.log(res);
           const lastId = res.length > 0 ? [...res].pop().id : null;
@@ -66,15 +65,16 @@ class NotificationContainer extends Component {
   };
 
   _navigateToNotificationRoute = (data) => {
-    const { navigation, username, dispatch } = this.props;
+    const { navigation, dispatch } = this.props;
     const type = get(data, 'type');
     const permlink = get(data, 'permlink');
     const author = get(data, 'author');
     let routeName;
     let params;
     let key;
-    markActivityAsRead(username, data.id).then((result) => {
-      dispatch(updateUnreadActivityCount(result.unread));
+    markNotifications(data.id).then((result) => {
+      const { unread } = result;
+      dispatch(updateUnreadActivityCount(unread));
     });
 
     if (permlink && author) {
@@ -117,7 +117,7 @@ class NotificationContainer extends Component {
 
     this.setState({ isNotificationRefreshing: true });
 
-    markActivityAsRead(username)
+    markNotifications(username)
       .then(() => {
         const updatedNotifications = notifications.map((item) => ({ ...item, read: 1 }));
         dispatch(updateUnreadActivityCount(0));
@@ -150,9 +150,7 @@ class NotificationContainer extends Component {
       (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION && nextProps.username) ||
       (nextProps.username !== username && nextProps.username)
     ) {
-      this.setState({ endOfNotification: false }, () =>
-        this._getAvtivities(nextProps.username, selectedFilter),
-      );
+      this.setState({ endOfNotification: false }, () => this._getActivities(selectedFilter));
     }
   }
 
@@ -162,7 +160,7 @@ class NotificationContainer extends Component {
 
     return (
       <NotificationScreen
-        getActivities={this._getAvtivities}
+        getActivities={this._getActivities}
         notifications={notifications}
         navigateToNotificationRoute={this._navigateToNotificationRoute}
         readAllNotification={this._readAllNotification}

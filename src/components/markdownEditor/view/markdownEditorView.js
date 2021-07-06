@@ -464,10 +464,7 @@ const MarkdownEditorView = ({
         animationType="slide"
         style={styles.modalStyle}
       >
-        <SnippetsModal
-          username={currentAccount.username}
-          handleOnSelect={_handleOnSnippetReceived}
-        />
+        <SnippetsModal handleOnSelect={_handleOnSnippetReceived} />
       </Modal>
 
       <UploadsGalleryModal

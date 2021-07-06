@@ -1,28 +1,29 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, FlatList, Text, TouchableOpacity, Alert } from 'react-native';
 import { useIntl } from 'react-intl';
-import { getSnippets, removeSnippet } from '../../providers/ecency/ecency';
+import { getFragments, deleteFragment } from '../../providers/ecency/ecency';
 import { MainButton } from '..';
 import styles from './snippetsModalStyles';
 import { RefreshControl } from 'react-native';
 import SnippetEditorModal, { SnippetEditorModalRef } from '../snippetEditorModal/snippetEditorModal';
 import SnippetItem from './snippetItem';
 import { Snippet } from '../../models';
+import { useAppSelector } from '../../hooks';
 
 interface SnippetsModalProps {
-  username:string,
   handleOnSelect:(snippetText:string)=>void,
 }
 
-const SnippetsModal = ({ username, handleOnSelect }:SnippetsModalProps) => {
+const SnippetsModal = ({ handleOnSelect }:SnippetsModalProps) => {
   const editorRef = useRef<SnippetEditorModalRef>(null);
   const intl = useIntl();
-  console.log('username', username);
+
+  const isLoggedIn = useAppSelector(state => state.application.isLoggedIn)
+
   const [snippets, setSnippets] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    console.log(username);
     _getSnippets();
   }, []);
 
@@ -31,13 +32,13 @@ const SnippetsModal = ({ username, handleOnSelect }:SnippetsModalProps) => {
   //fetch snippets from server
   const _getSnippets = async () => {
     try{
-      if (username) {
+
         setIsLoading(true);
-        const snips = await getSnippets(username)
+        const snips = await getFragments()
         console.log("snips received", snips)
         setSnippets(snips);
         setIsLoading(false);
-      }
+      
     }catch(err){
       console.warn("Failed to get snippets")
       setIsLoading(false);
@@ -47,12 +48,12 @@ const SnippetsModal = ({ username, handleOnSelect }:SnippetsModalProps) => {
   //removes snippet from users snippet collection on user confirmation
   const _removeSnippet = async (id:string) => {
     try{
-      if (username) {
+
         setIsLoading(true);
-        const snips = await removeSnippet(username, id)
+        const snips = await deleteFragment(id)
         setSnippets(snips);
         setIsLoading(false);
-      }
+      
     }catch(err){
       console.warn("Failed to get snippets")
       setIsLoading(false);
@@ -118,6 +119,10 @@ const SnippetsModal = ({ username, handleOnSelect }:SnippetsModalProps) => {
 
   //renders footer with add snipept button and shows new snippet modal
   const _renderFloatingButton = () => {
+    if(!isLoggedIn){
+      return null;
+    }
+    
     const _onPress = () => {
       if(editorRef.current){
         editorRef.current.showNewModal();
@@ -160,7 +165,6 @@ const SnippetsModal = ({ username, handleOnSelect }:SnippetsModalProps) => {
 
       <SnippetEditorModal 
           ref={editorRef}
-          username={username}
           onSnippetsUpdated={setSnippets}
       />
     </View>

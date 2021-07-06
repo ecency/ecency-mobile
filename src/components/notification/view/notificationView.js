@@ -49,7 +49,7 @@ class NotificationView extends PureComponent {
 
     this.setState({ selectedFilter: filters[index].key, selectedIndex: index });
     await changeSelectedFilter(filters[index].key, index);
-    getActivities(null, filters[index].key, false);
+    getActivities(filters[index].key, false);
   };
 
   _renderList = (data) => {

@@ -4,7 +4,7 @@ import { Alert, KeyboardAvoidingView, Platform, View } from 'react-native';
 import { TextInput } from '..';
 import { ThemeContainer } from '../../containers';
 import { Snippet } from '../../models';
-import { addSnippet, updateSnippet } from '../../providers/ecency/ecency';
+import { addFragment, updateFragment} from '../../providers/ecency/ecency';
 import { TextButton } from '../buttons';
 import Modal from '../modal';
 import styles from './snippetEditorModalStyles';
@@ -16,11 +16,10 @@ export interface SnippetEditorModalRef {
 }
 
 interface SnippetEditorModalProps {
-    username:string;
     onSnippetsUpdated:(snips:Array<Snippet>)=>void;
 }
 
-const SnippetEditorModal = ({username, onSnippetsUpdated}: SnippetEditorModalProps, ref) => {
+const SnippetEditorModal = ({onSnippetsUpdated}: SnippetEditorModalProps, ref) => {
     const intl = useIntl();
     const titleInputRef = useRef(null);
     const bodyInputRef = useRef(null);
@@ -59,12 +58,12 @@ const SnippetEditorModal = ({username, onSnippetsUpdated}: SnippetEditorModalPro
 
             let response = [];
             if(!isNewSnippet){
-                console.log("Updating snippet:", username, snippetId, title, body)
-                response = await updateSnippet(username, snippetId, title, body)
+                console.log("Updating snippet:", snippetId, title, body)
+                response = await updateFragment(snippetId, title, body);
                 console.log("Response from add snippet: ", response)
             }else{
-                console.log("Saving snippet:", username, title, body)
-                const res = await addSnippet(username, title, body)
+                console.log("Saving snippet:", title, body)
+                const res = await addFragment(title, body)
                 response = res && res.fragments
                 console.log("Response from add snippet: ", response)
             }

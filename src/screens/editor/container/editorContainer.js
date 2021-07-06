@@ -13,8 +13,8 @@ import {
   uploadImage,
   addDraft,
   updateDraft,
-  schedule,
   getDrafts,
+  addSchedule,
 } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
@@ -440,7 +440,6 @@ class EditorContainer extends Component {
 
     try {
       if (!isDraftSaved) {
-        const username = get(currentAccount, 'name', '');
         let draftField;
 
         if (this._isMounted) {
@@ -453,16 +452,12 @@ class EditorContainer extends Component {
           draftField = {
             ...fields,
             tags: fields.tags.join(' '),
-            username,
           };
         }
 
         //update draft is draftId is present
         if (draftId && draftField) {
-          await updateDraft({
-            ...draftField,
-            draftId,
-          });
+          await updateDraft(draftId, draftField.title, draftField.body, draftField.tags);
 
           if (this._isMounted) {
             this.setState({
@@ -474,7 +469,7 @@ class EditorContainer extends Component {
 
         //create new darft otherwise
         else if (draftField) {
-          const response = await addDraft(draftField);
+          const response = await addDraft(draftField.title, draftField.body, draftField.tags);
 
           if (this._isMounted) {
             this.setState({
@@ -485,6 +480,7 @@ class EditorContainer extends Component {
           }
 
           //clear local copy is darft save is successful
+          const username = get(currentAccount, 'name', '');
           setDraftPost(
             {
               title: '',
@@ -942,17 +938,13 @@ class EditorContainer extends Component {
       beneficiaries: beneficiaries,
     });
 
-    schedule(
-      data.author,
-      data.fields.title,
+    addSchedule(
       data.permlink,
-      data.jsonMeta,
-      data.fields.tags,
+      data.fields.title,
       data.fields.body,
-      '',
-      '',
-      data.scheduleDate,
+      data.jsonMeta,
       options,
+      data.scheduleDate,
     )
       .then(() => {
         this.setState({
@@ -981,7 +973,8 @@ class EditorContainer extends Component {
           });
         }, 3000);
       })
-      .catch((err) => {
+      .catch((error) => {
+        console.warn('Failed to schedule post', error);
         this.setState({
           isPostSending: false,
         });
