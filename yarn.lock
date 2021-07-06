@@ -748,15 +748,6 @@
   resolved "https://registry.yarnpkg.com/@esteemapp/react-native-autocomplete-input/-/react-native-autocomplete-input-4.2.1.tgz#a883db553dcc152cf6ac5e6a39bc7e35682286ce"
   integrity sha512-lZFIRoAmFhON69BuoWDbXXBSmjLRM4GDyIbaVwcRPD4y9l9wVgYIpN7MdtgRj66XYhS1ffJZhhMhqlzRC5sFAQ==
 
-"@esteemapp/react-native-modal-popover@^0.0.15":
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/@esteemapp/react-native-modal-popover/-/react-native-modal-popover-0.0.15.tgz#0b3970b2caba935e30066490e11a04b50a7a40a4"
-  integrity sha512-xp5KwI3dhNaWBOqcyFYT9Pao1tFHM2hBGRFPnmu0GnXBKW83rnZ0ZNCNvbu1ndyCiawSiAVP+yAeHoAplp9Jtg==
-  dependencies:
-    "@types/prop-types" "^15.5.5"
-    lodash.debounce "^4.0.8"
-    prop-types "^15.6.2"
-
 "@esteemapp/react-native-multi-slider@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@esteemapp/react-native-multi-slider/-/react-native-multi-slider-1.1.0.tgz#16ac1df8518147daa4977cec2503caba1fbd96b5"
@@ -1336,7 +1327,7 @@
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
   integrity sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA==
 
-"@types/prop-types@*", "@types/prop-types@^15.5.5":
+"@types/prop-types@*":
   version "15.7.3"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
   integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
@@ -5818,7 +5809,7 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0:
+lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -7558,6 +7549,14 @@ react-native-modal-dropdown@ecency/react-native-modal-dropdown:
   dependencies:
     deprecated-react-native-listview "0.0.5"
     prop-types "^15.6.0"
+
+react-native-modal-popover@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-modal-popover/-/react-native-modal-popover-2.0.1.tgz#119fb04606a205ffff41fc56666ea4c0cc833aa6"
+  integrity sha512-4aqjeNf3TNSUH4tK0t9ADNGqNQmY/xb0XKGtdNGhhdSZDp0oME36dj92AKxoFeU3AzfQdmd0ehOXvYUu7aaj8g==
+  dependencies:
+    lodash "^4.17.20"
+    prop-types "^15.7.2"
 
 react-native-modal-translucent@^5.0.0:
   version "5.0.0"
