@@ -100,12 +100,12 @@ const PostsResultsContainer = ({ children, navigation, searchValue }) => {
   const _loadMore = (index, value) => {
     if (scrollId && searchValue) {
       search({ q: `${searchValue} type:post`, sort, scroll_id: scrollId })
-      .then((res) => {
-        setData([...data, ...res.results]);
-      })
-      .catch(()=>{
-        console.warn("Search Failed");
-      })
+        .then((res) => {
+          setData([...data, ...res.results]);
+        })
+        .catch(() => {
+          console.warn('Search Failed');
+        });
     }
   };
 

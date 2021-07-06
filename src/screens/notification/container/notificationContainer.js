@@ -42,7 +42,7 @@ class NotificationContainer extends Component {
 
     if (!endOfNotification || !loadMore) {
       this.setState({ isNotificationRefreshing: true });
-      getNotifications({ filter:type, since:since })
+      getNotifications({ filter: type, since: since })
         .then((res) => {
           console.log(res);
           const lastId = res.length > 0 ? [...res].pop().id : null;
@@ -73,7 +73,7 @@ class NotificationContainer extends Component {
     let params;
     let key;
     markNotifications(data.id).then((result) => {
-      const {unread} = result;
+      const { unread } = result;
       dispatch(updateUnreadActivityCount(unread));
     });
 
@@ -150,9 +150,7 @@ class NotificationContainer extends Component {
       (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION && nextProps.username) ||
       (nextProps.username !== username && nextProps.username)
     ) {
-      this.setState({ endOfNotification: false }, () =>
-        this._getActivities(selectedFilter),
-      );
+      this.setState({ endOfNotification: false }, () => this._getActivities(selectedFilter));
     }
   }
 

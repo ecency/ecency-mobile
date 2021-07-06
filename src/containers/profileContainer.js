@@ -274,7 +274,7 @@ class ProfileContainer extends Component {
           const res = await getRelationship(currentAccount.name, username);
           _isFollowing = res && res.follows;
           _isMuted = res && res.ignores;
-          isFavorite = await checkFavorite(username)
+          isFavorite = await checkFavorite(username);
         }
 
         try {
@@ -296,12 +296,14 @@ class ProfileContainer extends Component {
           });
         }
       }
-    }
-    catch(error){
-      console.warn("Failed to fetch complete profile data", error);
-      Alert.alert(intl.formatMessage({
+    } catch (error) {
+      console.warn('Failed to fetch complete profile data', error);
+      Alert.alert(
+        intl.formatMessage({
           id: 'alert.fail',
-        }), error.message || error.toString())
+        }),
+        error.message || error.toString(),
+      );
     }
   };
 
@@ -359,25 +361,26 @@ class ProfileContainer extends Component {
       favoriteAction = addFavorite;
     }
 
-    favoriteAction(username).then(() => {
-      dispatch(
-        toastNotification(
+    favoriteAction(username)
+      .then(() => {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: isFavorite ? 'alert.success_unfavorite' : 'alert.success_favorite',
+            }),
+          ),
+        );
+        this.setState({ isFavorite: !isFavorite, isProfileLoading: false });
+      })
+      .catch((error) => {
+        console.warn('Failed to perform favorite action');
+        Alert.alert(
           intl.formatMessage({
-            id: isFavorite ? 'alert.success_unfavorite' : 'alert.success_favorite',
+            id: 'alert.fail',
           }),
-        ),
-      );
-      this.setState({ isFavorite: !isFavorite, isProfileLoading: false });
-    })
-    .catch((error)=>{
-      console.warn("Failed to perform favorite action")
-      Alert.alert(
-        intl.formatMessage({
-          id: 'alert.fail',
-        }),
-        error.message || error.toString()
-      )
-    });
+          error.message || error.toString(),
+        );
+      });
   };
 
   _handleOnBackPress = () => {

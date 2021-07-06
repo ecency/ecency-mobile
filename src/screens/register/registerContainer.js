@@ -49,19 +49,17 @@ const RegisterContainer = ({ children, navigation }) => {
       })
       .catch((err) => {
         if (get(err, 'response.status') === 500) {
-          Alert.alert(intl.formatMessage(
-            { id: 'alert.fail'}), 
-            intl.formatMessage({ id: 'register.500_error' }));
-        }
-        else if (get(err, 'response.data.message')) {
-          Alert.alert(intl.formatMessage(
-            { id: 'alert.fail'}), 
-            err.response.data.message);
-        }
-        else {
-          Alert.alert(intl.formatMessage(
-            { id: 'alert.fail'}), 
-            intl.formatMessage({ id: 'alert.unknow_error' }));
+          Alert.alert(
+            intl.formatMessage({ id: 'alert.fail' }),
+            intl.formatMessage({ id: 'register.500_error' }),
+          );
+        } else if (get(err, 'response.data.message')) {
+          Alert.alert(intl.formatMessage({ id: 'alert.fail' }), err.response.data.message);
+        } else {
+          Alert.alert(
+            intl.formatMessage({ id: 'alert.fail' }),
+            intl.formatMessage({ id: 'alert.unknow_error' }),
+          );
         }
         setIsLoading(false);
       });

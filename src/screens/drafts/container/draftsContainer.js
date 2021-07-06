@@ -101,7 +101,7 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
         _getSchedules();
       })
       .catch((error) => {
-        console.warn("Failed to move scheduled post to drafts")
+        console.warn('Failed to move scheduled post to drafts');
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
       });
   };

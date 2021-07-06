@@ -43,7 +43,11 @@ import {
 } from '../../../realm/realm';
 import { getUser, getPost } from '../../../providers/hive/dhive';
 import { migrateToMasterKeyWithAccessToken, switchAccount } from '../../../providers/hive/auth';
-import { setPushToken, markActivityAsRead, markNotifications } from '../../../providers/ecency/ecency';
+import {
+  setPushToken,
+  markActivityAsRead,
+  markNotifications,
+} from '../../../providers/ecency/ecency';
 import { navigate } from '../../../navigation/service';
 
 // Actions

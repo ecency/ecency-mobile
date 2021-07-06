@@ -945,7 +945,8 @@ class EditorContainer extends Component {
       data.jsonMeta,
       options,
       data.scheduleDate,
-    ) .then(() => {
+    )
+      .then(() => {
         this.setState({
           isPostSending: false,
         });
@@ -973,7 +974,7 @@ class EditorContainer extends Component {
         }, 3000);
       })
       .catch((error) => {
-        console.warn("Failed to schedule post", error);
+        console.warn('Failed to schedule post', error);
         this.setState({
           isPostSending: false,
         });
