@@ -571,7 +571,7 @@ class EditorContainer extends Component {
     } = this.props;
     const { rewardType, beneficiaries, isPostSending, draftId } = this.state;
 
-    if(isPostSending){
+    if (isPostSending) {
       return;
     }
 
@@ -682,7 +682,7 @@ class EditorContainer extends Component {
     const { currentAccount, pinCode } = this.props;
     const { rewardType, beneficiaries } = this.state;
 
-    if(isPostSending){
+    if (isPostSending) {
       return;
     }
 
@@ -728,7 +728,7 @@ class EditorContainer extends Component {
     const { currentAccount, pinCode } = this.props;
     const { post, isEdit } = this.state;
 
-    if(isPostSending){
+    if (isPostSending) {
       return;
     }
 
