@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "binoto",
-    "unvote": "hindi binoto",
+    "unvote": "downvoted",
     "reply": "tumugon sa",
     "mention": "binanggit sa",
     "follow": "sinundan ka",
