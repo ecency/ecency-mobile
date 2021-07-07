@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "добуштар",
-    "unvote": "downvoted",
+    "unvote": "unvoted",
     "reply": "жооп",
     "mention": "mentioned in",
     "follow": "followed you",
