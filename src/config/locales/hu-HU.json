@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "szavazott",
-    "unvote": "szavazat visszavonva",
+    "unvote": "downvoted",
     "reply": "válaszolt neked",
     "mention": "megemlített",
     "follow": "követ téged",
