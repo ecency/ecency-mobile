@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Alert, Keyboard } from 'react-native';
+import { Alert } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -14,7 +14,7 @@ import {
   addDraft,
   updateDraft,
   getDrafts,
-  addSchedule,
+  addSchedule
 } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
@@ -276,7 +276,11 @@ class EditorContainer extends Component {
 
         //if unsaved local draft is more latest then remote draft, use that instead
         //if editor was opened from draft screens, this code will be skipped anyways.
-        if (idLessDraft && new Date(_draft.modified).getTime() < idLessDraft.timestamp) {
+        if (
+          idLessDraft &&
+          (idLessDraft.title !== '' || idLessDraft.tags !== '' || idLessDraft.body !== '') &&
+          new Date(_draft.modified).getTime() < idLessDraft.timestamp
+        ) {
           _getStorageDraftGeneral(false);
           return;
         }
@@ -434,7 +438,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _saveDraftToDB = async (fields) => {
+  _saveDraftToDB = async (fields, silent = false) => {
     const { isDraftSaved, draftId } = this.state;
     const { currentAccount, dispatch, intl } = this.props;
 
@@ -442,7 +446,7 @@ class EditorContainer extends Component {
       if (!isDraftSaved) {
         let draftField;
 
-        if (this._isMounted) {
+        if (this._isMounted && !silent) {
           this.setState({
             isDraftSaving: true,
           });
@@ -492,13 +496,15 @@ class EditorContainer extends Component {
           );
         }
 
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'editor.draft_save_success',
-            }),
-          ),
-        );
+        if (!silent) {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'editor.draft_save_success',
+              }),
+            ),
+          );
+        }
 
         //call fetch post to drafts screen
         this._navigationBackFetchDrafts();
@@ -562,7 +568,11 @@ class EditorContainer extends Component {
       pinCode,
       // isDefaultFooter,
     } = this.props;
-    const { rewardType, beneficiaries } = this.state;
+    const { rewardType, beneficiaries, isPostSending } = this.state;
+
+    if (isPostSending) {
+      return;
+    }
 
     if (currentAccount) {
       this.setState({
@@ -601,7 +611,7 @@ class EditorContainer extends Component {
         if (fields.tags.length === 0) {
           fields.tags = ['hive-125125'];
         }
-        await this._setScheduledPost({
+        this._setScheduledPost({
           author,
           permlink,
           fields,
@@ -622,6 +632,7 @@ class EditorContainer extends Component {
           voteWeight,
         )
           .then(async () => {
+            //post publish updates
             setDraftPost(
               {
                 title: '',
@@ -631,6 +642,7 @@ class EditorContainer extends Component {
               },
               currentAccount.name,
             );
+
             await AsyncStorage.setItem('temp-beneficiaries', '');
 
             dispatch(
@@ -663,6 +675,10 @@ class EditorContainer extends Component {
   _submitReply = async (fields) => {
     const { currentAccount, pinCode } = this.props;
     const { rewardType, beneficiaries } = this.state;
+
+    if (isPostSending) {
+      return;
+    }
 
     if (currentAccount) {
       this.setState({
@@ -705,6 +721,11 @@ class EditorContainer extends Component {
   _submitEdit = async (fields) => {
     const { currentAccount, pinCode } = this.props;
     const { post, isEdit } = this.state;
+
+    if (isPostSending) {
+      return;
+    }
+
     if (currentAccount) {
       this.setState({
         isPostSending: true,
@@ -966,6 +987,7 @@ class EditorContainer extends Component {
           },
           currentAccount.name,
         );
+
         setTimeout(() => {
           navigation.navigate({
             routeName: ROUTES.SCREENS.DRAFTS,
