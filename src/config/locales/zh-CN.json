@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "已投票",
-    "unvote": "已取消投票",
+    "unvote": "downvoted",
     "reply": "回复给",
     "mention": "被提及，在",
     "follow": "关注了您",
