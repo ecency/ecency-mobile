@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Alert, Keyboard } from 'react-native';
+import { Alert } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -14,8 +14,7 @@ import {
   addDraft,
   updateDraft,
   getDrafts,
-  addSchedule,
-  deleteDraft,
+  addSchedule
 } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
@@ -569,7 +568,7 @@ class EditorContainer extends Component {
       pinCode,
       // isDefaultFooter,
     } = this.props;
-    const { rewardType, beneficiaries, isPostSending, draftId } = this.state;
+    const { rewardType, beneficiaries, isPostSending } = this.state;
 
     if (isPostSending) {
       return;
@@ -643,11 +642,6 @@ class EditorContainer extends Component {
               },
               currentAccount.name,
             );
-
-            if (draftId) {
-              //remove draft from backend
-              await deleteDraft(draftId);
-            }
 
             await AsyncStorage.setItem('temp-beneficiaries', '');
 
@@ -956,7 +950,7 @@ class EditorContainer extends Component {
 
   _setScheduledPost = (data) => {
     const { dispatch, intl, currentAccount, navigation } = this.props;
-    const { rewardType, beneficiaries, draftId } = this.state;
+    const { rewardType, beneficiaries } = this.state;
 
     const options = makeOptions({
       author: data.author,
@@ -993,10 +987,6 @@ class EditorContainer extends Component {
           },
           currentAccount.name,
         );
-        //delete draft from server
-        if (draftId) {
-          deleteDraft(draftId);
-        }
 
         setTimeout(() => {
           navigation.navigate({
