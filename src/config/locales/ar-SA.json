@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "تم التصويت",
-    "unvote": "إلغاء التصويت",
+    "unvote": "downvoted",
     "reply": "الرد على",
     "mention": "أشارك إليك في",
     "follow": "قام بمتابعتك",
