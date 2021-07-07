@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "ভোট দিয়েছেন",
-    "unvote": "অপরিবর্তিত",
+    "unvote": "downvoted",
     "reply": "উত্তরে",
     "mention": "উল্লেখিত",
     "follow": "আপনাকে অনুসরণ করেছে",
