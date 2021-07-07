@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "voted",
-    "unvote": "unvoted",
+    "unvote": "downvoted",
     "reply": "replied to",
     "mention": "mentioned in",
     "follow": "te prati",
