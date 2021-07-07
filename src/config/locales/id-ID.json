@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "voted",
-    "unvote": "unvoted",
+    "unvote": "downvoted",
     "reply": "balas untuk",
     "mention": "diasebutkan dalam",
     "follow": "mengikuti anda",
