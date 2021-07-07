@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "رای داده شده",
-    "unvote": "رأی داده نشده",
+    "unvote": "downvoted",
     "reply": "پاسخ داد به",
     "mention": "نام برد به",
     "follow": "شما را دنبال میکند",
