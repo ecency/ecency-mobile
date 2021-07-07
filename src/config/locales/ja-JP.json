@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "投票済み",
-    "unvote": "未投票",
+    "unvote": "downvoted",
     "reply": "返信",
     "mention": "話題にされました",
     "follow": "あなたをフォローしました",
