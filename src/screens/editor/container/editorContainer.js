@@ -262,7 +262,6 @@ class EditorContainer extends Component {
       const drafts = await getDrafts(username);
       const idLessDraft = await getDraftPost(username);
 
-
       const loadRecentDraft = () => {
         //if no draft available means local draft is recent
         if (drafts.length == 0) {
@@ -278,10 +277,11 @@ class EditorContainer extends Component {
 
         //if unsaved local draft is more latest then remote draft, use that instead
         //if editor was opened from draft screens, this code will be skipped anyways.
-        if ( idLessDraft
-          && (idLessDraft.title !== '' || idLessDraft.tags !== '' || idLessDraft.body !== '')
-          && new Date(_draft.modified).getTime() < idLessDraft.timestamp
-          ) {
+        if (
+          idLessDraft &&
+          (idLessDraft.title !== '' || idLessDraft.tags !== '' || idLessDraft.body !== '') &&
+          new Date(_draft.modified).getTime() < idLessDraft.timestamp
+        ) {
           _getStorageDraftGeneral(false);
           return;
         }
@@ -293,8 +293,6 @@ class EditorContainer extends Component {
         });
         this._getStorageDraft(username, isReply, _draft);
       };
-
-
 
       if (drafts.length > 0 || (idLessDraft && idLessDraft.timestamp > 0)) {
         this.setState({
