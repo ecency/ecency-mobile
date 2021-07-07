@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "Гласуван",
-    "unvote": "Отмяна на гласа",
+    "unvote": "downvoted",
     "reply": "отговорено на",
     "mention": "споменато в",
     "follow": "те последва",
