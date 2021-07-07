@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "glasano",
-    "unvote": "nie glasano",
+    "unvote": "downvoted",
     "reply": "odgovoreno",
     "mention": "spomenuto u",
     "follow": "vas je zapratio",
