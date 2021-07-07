@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "votou",
-    "unvote": "voto anulado",
+    "unvote": "downvoted",
     "reply": "respondeu a",
     "mention": "mencionado em",
     "follow": "seguiu você",
