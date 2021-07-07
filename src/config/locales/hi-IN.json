@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "मतदान किया",
-    "unvote": "अनियंत्रित",
+    "unvote": "downvoted",
     "reply": "को उत्तर दिया",
     "mention": "में वर्णित",
     "follow": "आपके साथ जुड़ा",
