@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "проголосовал",
-    "unvote": "отозвал голос",
+    "unvote": "downvoted",
     "reply": "ответил",
     "mention": "упомянул вас в",
     "follow": "подписан",
