@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "votat",
-    "unvote": "nevotat",
+    "unvote": "downvoted",
     "reply": "a răspuns la",
     "mention": "te-a menționat in",
     "follow": "te urmărește",
