@@ -569,15 +569,16 @@ class EditorContainer extends Component {
       pinCode,
       // isDefaultFooter,
     } = this.props;
-    const { rewardType, beneficiaries } = this.state;
+    const { rewardType, beneficiaries, isPostSending, draftId } = this.state;
+
+    if(isPostSending){
+      return;
+    }
 
     if (currentAccount) {
       this.setState({
         isPostSending: true,
       });
-
-      //save as draft before submitting post...
-      await this._saveDraftToDB(fields, true);
 
       const meta = extractMetadata(fields.body);
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
@@ -643,8 +644,6 @@ class EditorContainer extends Component {
               currentAccount.name,
             );
 
-            //important access draftId here as it can change within routine
-            const { draftId } = this.state;
             if (draftId) {
               //remove draft from backend
               await deleteDraft(draftId);
