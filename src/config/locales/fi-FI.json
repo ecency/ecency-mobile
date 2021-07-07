@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "äänesti",
-    "unvote": "ääni peruttu",
+    "unvote": "downvoted",
     "reply": "vastasi",
     "mention": "mainittu",
     "follow": "seurasi sinua",
