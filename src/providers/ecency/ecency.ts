@@ -45,7 +45,7 @@ export const getDrafts = async () => {
 /**
  * @params draftId
  */
-export const removeDraft = async (draftId:string) => {
+export const deleteDraft = async (draftId:string) => {
   try{
     const data = { id:draftId }
     const res = await ecencyApi.post(`/private-api/drafts-delete`, data);

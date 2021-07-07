@@ -6,7 +6,7 @@ import { injectIntl } from 'react-intl';
 // Services and Actions
 import {
   getDrafts,
-  removeDraft,
+  deleteDraft,
   getSchedules,
   moveScheduledToDraft,
   deleteScheduledPost,
@@ -64,7 +64,7 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
   };
 
   const _removeDraft = (id) => {
-    removeDraft(id)
+    deleteDraft(id)
       .then(() => {
         const newDrafts = [...drafts].filter((draft) => draft._id !== id);
         setDrafts(_sortData(newDrafts));

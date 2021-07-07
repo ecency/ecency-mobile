@@ -15,6 +15,7 @@ import {
   updateDraft,
   getDrafts,
   addSchedule,
+  deleteDraft,
 } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
@@ -434,7 +435,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _saveDraftToDB = async (fields) => {
+  _saveDraftToDB = async (fields, silent = false) => {
     const { isDraftSaved, draftId } = this.state;
     const { currentAccount, dispatch, intl } = this.props;
 
@@ -442,7 +443,7 @@ class EditorContainer extends Component {
       if (!isDraftSaved) {
         let draftField;
 
-        if (this._isMounted) {
+        if (this._isMounted && !silent) {
           this.setState({
             isDraftSaving: true,
           });
@@ -492,13 +493,16 @@ class EditorContainer extends Component {
           );
         }
 
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'editor.draft_save_success',
-            }),
-          ),
-        );
+        if(!silent){
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'editor.draft_save_success',
+              }),
+            ),
+          );
+        }
+        
 
         //call fetch post to drafts screen
         this._navigationBackFetchDrafts();
@@ -553,6 +557,8 @@ class EditorContainer extends Component {
     }
   };
 
+
+
   _submitPost = async (fields, scheduleDate) => {
     const {
       currentAccount,
@@ -568,6 +574,9 @@ class EditorContainer extends Component {
       this.setState({
         isPostSending: true,
       });
+
+      //save as draft before submitting post...
+      await this._saveDraftToDB(fields, true);
 
       const meta = extractMetadata(fields.body);
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
@@ -601,7 +610,7 @@ class EditorContainer extends Component {
         if (fields.tags.length === 0) {
           fields.tags = ['hive-125125'];
         }
-        await this._setScheduledPost({
+        this._setScheduledPost({
           author,
           permlink,
           fields,
@@ -609,6 +618,7 @@ class EditorContainer extends Component {
           jsonMeta,
         });
       } else {
+
         await postContent(
           currentAccount,
           pinCode,
@@ -622,6 +632,7 @@ class EditorContainer extends Component {
           voteWeight,
         )
           .then(async () => {
+            //post publish updates
             setDraftPost(
               {
                 title: '',
@@ -631,6 +642,15 @@ class EditorContainer extends Component {
               },
               currentAccount.name,
             );
+
+            
+            //important access draftId here as it can change within routine
+            const { draftId } = this.state;
+            if(draftId){
+              //remove draft from backend
+              await deleteDraft(draftId);
+            }
+            
             await AsyncStorage.setItem('temp-beneficiaries', '');
 
             dispatch(
@@ -659,6 +679,9 @@ class EditorContainer extends Component {
       }
     }
   };
+
+
+
 
   _submitReply = async (fields) => {
     const { currentAccount, pinCode } = this.props;
@@ -929,7 +952,7 @@ class EditorContainer extends Component {
 
   _setScheduledPost = (data) => {
     const { dispatch, intl, currentAccount, navigation } = this.props;
-    const { rewardType, beneficiaries } = this.state;
+    const { rewardType, beneficiaries, draftId } = this.state;
 
     const options = makeOptions({
       author: data.author,
@@ -966,6 +989,11 @@ class EditorContainer extends Component {
           },
           currentAccount.name,
         );
+        //delete draft from server
+        if(draftId){
+          deleteDraft(draftId)
+        }
+        
         setTimeout(() => {
           navigation.navigate({
             routeName: ROUTES.SCREENS.DRAFTS,
