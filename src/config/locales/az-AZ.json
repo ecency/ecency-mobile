@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "səs verildi",
-    "unvote": "səs götürüldü",
+    "unvote": "downvoted",
     "reply": "cavablandı",
     "mention": "adı çəkildi",
     "follow": "səni izlədi",
