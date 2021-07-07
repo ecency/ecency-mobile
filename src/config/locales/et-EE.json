@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "hääletatud",
-    "unvote": "hääl eemaldatud",
+    "unvote": "downvoted",
     "reply": "vastas",
     "mention": "mainis",
     "follow": "hakkas sind jälgima",
