@@ -682,6 +682,10 @@ class EditorContainer extends Component {
     const { currentAccount, pinCode } = this.props;
     const { rewardType, beneficiaries } = this.state;
 
+    if(isPostSending){
+      return;
+    }
+
     if (currentAccount) {
       this.setState({
         isPostSending: true,
@@ -723,6 +727,11 @@ class EditorContainer extends Component {
   _submitEdit = async (fields) => {
     const { currentAccount, pinCode } = this.props;
     const { post, isEdit } = this.state;
+
+    if(isPostSending){
+      return;
+    }
+
     if (currentAccount) {
       this.setState({
         isPostSending: true,
