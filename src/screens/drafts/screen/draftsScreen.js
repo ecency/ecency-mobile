@@ -34,14 +34,13 @@ const DraftsScreen = ({
 
   useEffect(() => {
     selectedIdRef.current = selectedId;
-  }, [selectedId])
-
+  }, [selectedId]);
 
   const _onActionPress = (index) => {
-    if(index === 0){
-      moveScheduleToDraft(selectedIdRef.current)
+    if (index === 0) {
+      moveScheduleToDraft(selectedIdRef.current);
     }
-  }
+  };
 
   // Component Functions
   const _renderItem = (item, type) => {
@@ -53,16 +52,15 @@ const DraftsScreen = ({
     const isSchedules = type === 'schedules';
 
     const _onItemPress = () => {
-      if(isSchedules){
-        setSelectedId(item._id)
-        if(ActionSheetRef.current){
+      if (isSchedules) {
+        setSelectedId(item._id);
+        if (ActionSheetRef.current) {
           ActionSheetRef.current.show();
         }
-      }else {
-        editDraft(item._id)
+      } else {
+        editDraft(item._id);
       }
-    }
-
+    };
 
     return (
       <DraftListItem
