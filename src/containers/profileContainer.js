@@ -260,6 +260,7 @@ class ProfileContainer extends Component {
   };
 
   _fetchProfile = async (username = null, isProfileAction = false) => {
+    const { intl } = this.props;
     try {
       const { username: _username, isFollowing, isMuted, isOwnProfile } = this.state;
 
