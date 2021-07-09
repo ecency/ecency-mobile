@@ -48,7 +48,7 @@ const DraftsScreen = ({
     const tag = tags[0] || '';
     const image = catchDraftImage(item.body);
     const thumbnail = catchDraftImage(item.body, 'match', true);
-    const summary = postBodySummary({ ...item, last_update: item.created }, 100);
+    const summary = postBodySummary({ ...item, last_update: item.modified }, 100);
     const isSchedules = type === 'schedules';
 
     return (
