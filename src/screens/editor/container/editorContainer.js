@@ -14,7 +14,7 @@ import {
   addDraft,
   updateDraft,
   getDrafts,
-  addSchedule
+  addSchedule,
 } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
@@ -725,7 +725,6 @@ class EditorContainer extends Component {
     if (isPostSending) {
       return;
     }
-
 
     if (currentAccount) {
       this.setState({
