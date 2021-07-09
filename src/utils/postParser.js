@@ -82,6 +82,9 @@ export const parseComments = async (comments) => {
     comment.markdownBody = get(comment, 'body');
     comment.body = renderPostBody(comment, true, webp);
 
+    //stamp comments with fetched time;
+    comment.post_fetched_at = new Date().getTime();
+
     return comment;
   });
 };

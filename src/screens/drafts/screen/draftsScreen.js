@@ -30,26 +30,37 @@ const DraftsScreen = ({
   const [selectedId, setSelectedId] = useState(null);
   const ActionSheetRef = useRef(null);
   const firstMount = useRef(true);
+  const selectedIdRef = useRef();
 
   useEffect(() => {
-    if (firstMount.current) {
-      firstMount.current = false;
-      return;
-    }
-    if (ActionSheetRef.current) {
-      ActionSheetRef.current.show();
-    }
+    selectedIdRef.current = selectedId;
   }, [selectedId]);
 
-  // Component Functions
+  const _onActionPress = (index) => {
+    if (index === 0) {
+      moveScheduleToDraft(selectedIdRef.current);
+    }
+  };
 
+  // Component Functions
   const _renderItem = (item, type) => {
     const tags = item.tags ? item.tags.split(/[ ,]+/) : [];
     const tag = tags[0] || '';
     const image = catchDraftImage(item.body);
     const thumbnail = catchDraftImage(item.body, 'match', true);
-    const summary = postBodySummary({ ...item, last_update: item.created }, 100);
+    const summary = postBodySummary({ ...item, last_update: item.modified }, 100);
     const isSchedules = type === 'schedules';
+
+    const _onItemPress = () => {
+      if (isSchedules) {
+        setSelectedId(item._id);
+        if (ActionSheetRef.current) {
+          ActionSheetRef.current.show();
+        }
+      } else {
+        editDraft(item._id);
+      }
+    };
 
     return (
       <DraftListItem
@@ -62,7 +73,7 @@ const DraftsScreen = ({
         thumbnail={thumbnail ? { uri: thumbnail } : null}
         username={currentAccount.name}
         reputation={currentAccount.reputation}
-        handleOnPressItem={() => (isSchedules ? setSelectedId(item._id) : editDraft(item._id))}
+        handleOnPressItem={_onItemPress}
         handleOnRemoveItem={isSchedules ? removeSchedule : removeDraft}
         id={item._id}
         key={item._id}
@@ -151,9 +162,7 @@ const DraftsScreen = ({
           }),
         ]}
         cancelButtonIndex={1}
-        onPress={(index) => {
-          index === 0 && moveScheduleToDraft(selectedId);
-        }}
+        onPress={_onActionPress}
       />
     </View>
   );

@@ -14,7 +14,7 @@ import {
   addDraft,
   updateDraft,
   getDrafts,
-  addSchedule
+  addSchedule,
 } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
@@ -674,7 +674,7 @@ class EditorContainer extends Component {
 
   _submitReply = async (fields) => {
     const { currentAccount, pinCode } = this.props;
-    const { rewardType, beneficiaries } = this.state;
+    const { rewardType, beneficiaries, isPostSending } = this.state;
 
     if (isPostSending) {
       return;
@@ -720,7 +720,7 @@ class EditorContainer extends Component {
 
   _submitEdit = async (fields) => {
     const { currentAccount, pinCode } = this.props;
-    const { post, isEdit } = this.state;
+    const { post, isEdit, isPostSending } = this.state;
 
     if (isPostSending) {
       return;

@@ -72,7 +72,6 @@ const PostDisplayView = ({
   // Component Functions
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    setPostBodyLoading(true);
     fetchPost().then(() => setRefreshing(false));
   }, [refreshing]);
 
