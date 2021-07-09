@@ -87,11 +87,8 @@ const UpvoteContainer = (props) => {
         incrementVoteCount();
       }
 
-      if (isDownvote) {
-        setIsDownVoted(true);
-      } else {
-        setIsVoted(true);
-      }
+      setIsDownVoted(isDownvote ? true : false);
+      setIsVoted(isDownvote ? false : true);
     }
   };
 
@@ -105,11 +102,8 @@ const UpvoteContainer = (props) => {
       incrementVoteCount();
     }
 
-    if (isDownvote) {
-      setIsDownVoted(true);
-    } else {
-      setIsVoted(true);
-    }
+    setIsDownVoted(isDownvote ? true : false);
+    setIsVoted(isDownvote ? false : true);
 
     setTotalPayout(totalPayout + amountNum);
     //update redux

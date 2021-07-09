@@ -435,6 +435,13 @@ class EditorContainer extends Component {
           id: 'alert.permission_text',
         }),
       );
+    }else{
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        error.message,
+      );
     }
   };
 
