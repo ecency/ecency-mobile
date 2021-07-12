@@ -151,6 +151,7 @@
   "profile": {
     "following": "Following",
     "follower": "Follower",
+    "edit_label": "Edit",
     "post": "Post",
     "details": "Person informate",
     "comments": "Comments",
