@@ -642,18 +642,19 @@ export const getNodes = () => serverList.get().then((resp) => resp.data.hived ||
  * @param code refresh token
  * @returns scToken (includes accessToken as property)
  */
-export const getSCAccessToken = (code) =>
-  new Promise((resolve, reject) => {
-    ecencyApi
-      .post('/auth-api/hs-token-refresh', {
-        code,
-      })
-      .then((resp) => resolve(resp.data))
-      .catch((e) => {
-        bugsnag.notify(e);
-        reject(e);
-      });
-  });
+export const getSCAccessToken = async (code:string) => {
+  try{
+    const response = await ecencyApi.post('/auth-api/hs-token-refresh', {
+      code,
+    })
+    return response.data;
+  }catch(error){
+    console.warn("failed to refresh token")
+    bugsnag.notify(error);
+    throw error
+  }
+}
+
 
 
   /**
