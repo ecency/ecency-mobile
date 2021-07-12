@@ -64,7 +64,7 @@ export const catchEntryImage = (entry, width = 0, height = 0, format = 'match') 
 };
 
 export const catchDraftImage = (body, format = 'match', thumbnail = false) => {
-  const imgRegex = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|heic))/gim;
+  const imgRegex = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|heic|webp))/gim;
   format = whatOs === 'android' ? 'webp' : 'match';
 
   if (body && imgRegex.test(body)) {
