@@ -151,6 +151,7 @@
   "profile": {
     "following": "Mengikuti",
     "follower": "Pengikut",
+    "edit_label": "Edit",
     "post": "Post",
     "details": "Rincian Profil",
     "comments": "Komentar",
