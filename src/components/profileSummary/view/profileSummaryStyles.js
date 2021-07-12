@@ -66,7 +66,7 @@ export default EStyleSheet.create({
   dropdownStyle: {
     marginLeft: 12,
   },
-  followActionText: {
+  actionText: {
     alignSelf: 'center',
     fontWeight: 'bold',
     color: '$primaryDarkGray',
@@ -77,5 +77,13 @@ export default EStyleSheet.create({
     borderRadius: 16,
     padding: 4,
     paddingHorizontal: 12,
+  },
+  editActionWrapper: {
+    borderColor: '$primaryDarkGray',
+    borderWidth: 1,
+    borderRadius: 16,
+    padding: 4,
+    paddingHorizontal: 12,
+    marginRight: 12,
   },
 });
