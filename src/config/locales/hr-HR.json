@@ -151,6 +151,7 @@
   "profile": {
     "following": "Pratim",
     "follower": "Pratitelj",
+    "edit_label": "Edit",
     "post": "Objave",
     "details": "Detalji o profilu",
     "comments": "Komentari",
