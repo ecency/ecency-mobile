@@ -151,6 +151,7 @@
   "profile": {
     "following": "Seurataan",
     "follower": "Seuraaja",
+    "edit_label": "Edit",
     "post": "Julkaisut",
     "details": "Profiilitiedot",
     "comments": "Kommentit",
