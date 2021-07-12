@@ -316,15 +316,17 @@ export const refreshSCToken = async (userData, pinCode) => {
   const scAccount = await getSCAccount(userData.username);
   const now = new Date();
   const expireDate = new Date(scAccount.expireDate);
-  if (now >= expireDate) {
-    const newSCAccountData = await getSCAccessToken(scAccount.refreshToken);
-    await setSCAccount(newSCAccountData);
-    const accessToken = newSCAccountData.access_token;
-    await updateUserData({
-      ...userData,
-      accessToken: encryptKey(accessToken, pinCode),
-    });
-  }
+
+  const newSCAccountData = await getSCAccessToken(scAccount.refreshToken);
+
+  await setSCAccount(newSCAccountData);
+  const accessToken = newSCAccountData.access_token;
+  const encryptedAccessToken = encryptKey(accessToken, pinCode);
+  await updateUserData({
+    ...userData,
+    accessToken: encryptedAccessToken,
+  });
+  return encryptedAccessToken;
 };
 
 export const switchAccount = (username) =>

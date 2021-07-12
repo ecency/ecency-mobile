@@ -7,13 +7,18 @@ import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { isRenderRequired } from '../../../redux/actions/applicationActions';
 
 import { getUserDataWithUsername } from '../../../realm/realm';
-import { migrateToMasterKeyWithAccessToken, switchAccount } from '../../../providers/hive/auth';
+import {
+  migrateToMasterKeyWithAccessToken,
+  refreshSCToken,
+  switchAccount,
+} from '../../../providers/hive/auth';
 
 import AccountsBottomSheet from '../view/accountsBottomSheetView';
 import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
 
 //Constants
 import AUTH_TYPE from '../../../constants/authType';
+import { getDigitPinCode } from '../../../providers/hive/dhive';
 
 const AccountsBottomSheetContainer = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -75,6 +80,13 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
     if (realmData[0].authType === AUTH_TYPE.MASTER_KEY && realmData[0].accessToken === '') {
       _currentAccount = await migrateToMasterKeyWithAccessToken(_currentAccount, pinHash);
     }
+
+    //refresh access token
+    const encryptedAccessToken = await refreshSCToken(
+      _currentAccount.local,
+      getDigitPinCode(pinHash),
+    );
+    _currentAccount.local.accessToken = encryptedAccessToken;
 
     dispatch(updateCurrentAccount(_currentAccount));
   };

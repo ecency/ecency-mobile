@@ -41,8 +41,12 @@ import {
   getVersionForWelcomeModal,
   setVersionForWelcomeModal,
 } from '../../../realm/realm';
-import { getUser, getPost } from '../../../providers/hive/dhive';
-import { migrateToMasterKeyWithAccessToken, switchAccount } from '../../../providers/hive/auth';
+import { getUser, getPost, getDigitPinCode } from '../../../providers/hive/dhive';
+import {
+  migrateToMasterKeyWithAccessToken,
+  refreshSCToken,
+  switchAccount,
+} from '../../../providers/hive/auth';
 import {
   setPushToken,
   markActivityAsRead,
@@ -635,6 +639,30 @@ class ApplicationContainer extends Component {
     return null;
   };
 
+  _refreshAccessToken = async (currentAccount) => {
+    const { pinCode, isPinCodeOpen, dispatch } = this.props;
+
+    if (isPinCodeOpen) {
+      return currentAccount;
+    }
+
+    try {
+      const userData = currentAccount.local;
+      const encryptedAccessToken = await refreshSCToken(userData, getDigitPinCode(pinCode));
+
+      return {
+        ...currentAccount,
+        local: {
+          ...userData,
+          accessToken: encryptedAccessToken,
+        },
+      };
+    } catch (error) {
+      console.warn('Failed to refresh access token', error);
+      return currentAccount;
+    }
+  };
+
   _fetchUserDataFromDsteem = async (realmObject) => {
     const { dispatch, intl, pinCode } = this.props;
 
@@ -646,6 +674,9 @@ class ApplicationContainer extends Component {
       if (realmObject.authType === AUTH_TYPE.MASTER_KEY && realmObject.accessToken === '') {
         accountData = await migrateToMasterKeyWithAccessToken(accountData, pinCode);
       }
+
+      //refresh access token
+      accountData = await this._refreshAccessToken(accountData);
 
       dispatch(updateCurrentAccount(accountData));
 
@@ -819,6 +850,9 @@ class ApplicationContainer extends Component {
     if (realmData[0].authType === AUTH_TYPE.MASTER_KEY && realmData[0].accessToken === '') {
       _currentAccount = await migrateToMasterKeyWithAccessToken(_currentAccount, pinCode);
     }
+
+    //update refresh token
+    _currentAccount = await this._refreshAccessToken(_currentAccount);
 
     dispatch(updateCurrentAccount(_currentAccount));
   };
