@@ -151,6 +151,7 @@
   "profile": {
     "following": "إتباع",
     "follower": "متابع",
+    "edit_label": "Edit",
     "post": "منشورات",
     "details": "تفاصيل الملف الشخصي",
     "comments": "التعليقات",
