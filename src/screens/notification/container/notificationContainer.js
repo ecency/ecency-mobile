@@ -36,9 +36,18 @@ class NotificationContainer extends Component {
     }
   }
 
-  _getActivities = (type = null, loadMore = false) => {
-    const { lastNotificationId, notifications, endOfNotification } = this.state;
+  _getActivities = (type = 'activities', loadMore = false) => {
+    const {
+      lastNotificationId,
+      notifications,
+      endOfNotification,
+      isNotificationRefreshing,
+    } = this.state;
     const since = loadMore ? lastNotificationId : null;
+
+    if (isNotificationRefreshing) {
+      return null;
+    }
 
     if (!endOfNotification || !loadMore) {
       this.setState({ isNotificationRefreshing: true });

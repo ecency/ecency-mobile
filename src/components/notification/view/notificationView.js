@@ -34,7 +34,7 @@ class NotificationView extends PureComponent {
         { key: 'mentions', value: 'MENTIONS' },
         //{ key: 'reblogs', value: 'REBLOGS' },
       ],
-      selectedFilter: null,
+      selectedFilter: 'activities',
       selectedIndex: 0,
     };
   }
@@ -190,7 +190,7 @@ class NotificationView extends PureComponent {
               <FlatList
                 data={_notifications}
                 keyExtractor={(item) => item.title}
-                onEndReached={() => getActivities(null, selectedFilter, true)}
+                onEndReached={() => getActivities(selectedFilter, true)}
                 ListFooterComponent={this._renderFooterLoading}
                 ListEmptyComponent={<ListPlaceHolder />}
                 contentContainerStyle={styles.listContentContainer}
