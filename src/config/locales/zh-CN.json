@@ -151,6 +151,7 @@
   "profile": {
     "following": "关注",
     "follower": "粉丝",
+    "edit_label": "Edit",
     "post": "文章",
     "details": "个人资料详情",
     "comments": "评论",
