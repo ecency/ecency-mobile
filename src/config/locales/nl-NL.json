@@ -151,6 +151,7 @@
   "profile": {
     "following": "Aan het volgen",
     "follower": "Volger",
+    "edit_label": "Edit",
     "post": "Artikelen",
     "details": "Profieldetails",
     "comments": "Reacties",
