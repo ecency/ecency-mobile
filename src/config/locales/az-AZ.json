@@ -151,6 +151,7 @@
   "profile": {
     "following": "İzlənilir",
     "follower": "İzləyici",
+    "edit_label": "Edit",
     "post": "Göndərişlər",
     "details": "Profil Təfsilatları",
     "comments": "Rəylər",
