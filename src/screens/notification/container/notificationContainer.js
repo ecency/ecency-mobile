@@ -108,7 +108,7 @@ class NotificationContainer extends Component {
   };
 
   _readAllNotification = () => {
-    const { username, dispatch, intl, isConnected } = this.props;
+    const { dispatch, intl, isConnected } = this.props;
     const { notifications } = this.state;
 
     if (!isConnected) {
@@ -117,7 +117,7 @@ class NotificationContainer extends Component {
 
     this.setState({ isNotificationRefreshing: true });
 
-    markNotifications(username)
+    markNotifications()
       .then(() => {
         const updatedNotifications = notifications.map((item) => ({ ...item, read: 1 }));
         dispatch(updateUnreadActivityCount(0));
