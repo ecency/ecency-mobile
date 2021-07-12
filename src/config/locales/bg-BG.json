@@ -151,6 +151,7 @@
   "profile": {
     "following": "Следва: ",
     "follower": "Последователи",
+    "edit_label": "Edit",
     "post": "Публикации",
     "details": "Детайли на профила",
     "comments": "Коментари",
