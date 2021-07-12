@@ -151,6 +151,7 @@
   "profile": {
     "following": "Galaistjans",
     "follower": "Galaistja",
+    "edit_label": "Edit",
     "post": "Waurda",
     "details": "Profile Details",
     "comments": "Waurda",
