@@ -151,6 +151,7 @@
   "profile": {
     "following": "Követés",
     "follower": "Követő",
+    "edit_label": "Edit",
     "post": "Bejegyzések",
     "details": "Profil Adatok",
     "comments": "Hozzászólások",
