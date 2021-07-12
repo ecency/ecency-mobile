@@ -6,6 +6,7 @@ import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
 
 // Actions and Services
+import { unionBy } from 'lodash';
 import { getNotifications, markNotifications } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 
@@ -21,7 +22,8 @@ class NotificationContainer extends Component {
     this.state = {
       notifications: [],
       lastNotificationId: null,
-      isNotificationRefreshing: false,
+      isRefreshing: false,
+      isLoading: false,
       selectedFilter: 'activities',
       endOfNotification: false,
       selectedIndex: 0,
@@ -36,12 +38,19 @@ class NotificationContainer extends Component {
     }
   }
 
-  _getActivities = (type = null, loadMore = false) => {
-    const { lastNotificationId, notifications, endOfNotification } = this.state;
+  _getActivities = (type = 'activities', loadMore = false) => {
+    const { lastNotificationId, notifications, endOfNotification, isLoading } = this.state;
     const since = loadMore ? lastNotificationId : null;
 
+    if (isLoading) {
+      return;
+    }
+
     if (!endOfNotification || !loadMore) {
-      this.setState({ isNotificationRefreshing: true });
+      this.setState({
+        isRefreshing: !loadMore,
+        isLoading: true,
+      });
       getNotifications({ filter: type, since: since })
         .then((res) => {
           console.log(res);
@@ -50,17 +59,19 @@ class NotificationContainer extends Component {
           if (loadMore && (lastId === lastNotificationId || res.length === 0)) {
             this.setState({
               endOfNotification: true,
-              isNotificationRefreshing: false,
+              isRefreshing: false,
+              isLoading: false,
             });
           } else {
             this.setState({
-              notifications: loadMore ? [...notifications, ...res] : res,
+              notifications: loadMore ? unionBy(notifications, res, 'id') : res,
               lastNotificationId: lastId,
-              isNotificationRefreshing: false,
+              isRefreshing: false,
+              isLoading: false,
             });
           }
         })
-        .catch(() => this.setState({ isNotificationRefreshing: false }));
+        .catch(() => this.setState({ isRefreshing: false, isLoading: false }));
     }
   };
 
@@ -108,27 +119,27 @@ class NotificationContainer extends Component {
   };
 
   _readAllNotification = () => {
-    const { username, dispatch, intl, isConnected } = this.props;
+    const { dispatch, intl, isConnected } = this.props;
     const { notifications } = this.state;
 
     if (!isConnected) {
       return;
     }
 
-    this.setState({ isNotificationRefreshing: true });
+    this.setState({ isRefreshing: true });
 
-    markNotifications(username)
+    markNotifications()
       .then(() => {
         const updatedNotifications = notifications.map((item) => ({ ...item, read: 1 }));
         dispatch(updateUnreadActivityCount(0));
-        this.setState({ notifications: updatedNotifications, isNotificationRefreshing: false });
+        this.setState({ notifications: updatedNotifications, isRefreshing: false });
       })
       .catch(() => {
         Alert.alert(
           intl.formatMessage({ id: 'alert.error' }),
           intl.formatMessage({ d: 'alert.unknow_error' }),
         );
-        this.setState({ isNotificationRefreshing: false });
+        this.setState({ isRefreshing: false });
       });
   };
 
@@ -156,7 +167,7 @@ class NotificationContainer extends Component {
 
   render() {
     const { isLoggedIn } = this.props;
-    const { notifications, isNotificationRefreshing } = this.state;
+    const { notifications, isRefreshing } = this.state;
 
     return (
       <NotificationScreen
@@ -165,7 +176,7 @@ class NotificationContainer extends Component {
         navigateToNotificationRoute={this._navigateToNotificationRoute}
         readAllNotification={this._readAllNotification}
         handleLoginPress={this._handleOnPressLogin}
-        isNotificationRefreshing={isNotificationRefreshing}
+        isNotificationRefreshing={isRefreshing}
         isLoggedIn={isLoggedIn}
         changeSelectedFilter={this._changeSelectedFilter}
       />

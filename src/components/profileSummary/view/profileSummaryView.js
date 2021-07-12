@@ -214,13 +214,14 @@ class ProfileSummaryView extends PureComponent {
               </TouchableOpacity>
             </Fragment>
           </View>
+
           {isLoggedIn && !isOwnProfile ? (
             <View style={styles.rightIcons}>
               <TouchableOpacity
                 style={styles.followActionWrapper}
                 onPress={() => handleFollowUnfollowUser(!isFollowing)}
               >
-                <Text style={styles.followActionText}>{followButtonText}</Text>
+                <Text style={styles.actionText}>{followButtonText}</Text>
               </TouchableOpacity>
 
               {isProfileLoading ? (
@@ -239,16 +240,16 @@ class ProfileSummaryView extends PureComponent {
             </View>
           ) : (
             isOwnProfile && (
-              <Fragment>
-                <IconButton
-                  backgroundColor="transparent"
-                  color="#c1c5c7"
-                  iconType="MaterialCommunityIcons"
-                  name="pencil"
+              <View style={styles.rightIcons}>
+                <TouchableOpacity
+                  style={styles.editActionWrapper}
                   onPress={handleOnPressProfileEdit}
-                  size={20}
-                />
-              </Fragment>
+                >
+                  <Text style={styles.actionText}>
+                    {intl.formatMessage({ id: 'profile.edit_label' })}
+                  </Text>
+                </TouchableOpacity>
+              </View>
             )
           )}
         </View>
