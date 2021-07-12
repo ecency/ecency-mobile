@@ -151,6 +151,7 @@
   "profile": {
     "following": "팔로잉",
     "follower": "팔로워",
+    "edit_label": "Edit",
     "post": "글 목록",
     "details": "프로필 상세정보",
     "comments": "작성한 댓글",
