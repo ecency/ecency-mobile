@@ -7,10 +7,18 @@ import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { isRenderRequired } from '../../../redux/actions/applicationActions';
 
 import { getUserDataWithUsername } from '../../../realm/realm';
-import { switchAccount } from '../../../providers/hive/auth';
+import {
+  migrateToMasterKeyWithAccessToken,
+  refreshSCToken,
+  switchAccount,
+} from '../../../providers/hive/auth';
 
 import AccountsBottomSheet from '../view/accountsBottomSheetView';
 import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
+
+//Constants
+import AUTH_TYPE from '../../../constants/authType';
+import { getDigitPinCode } from '../../../providers/hive/dhive';
 
 const AccountsBottomSheetContainer = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -21,6 +29,7 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
   );
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const accounts = useSelector((state) => state.account.otherAccounts);
+  const pinHash = useSelector((state) => state.application.pin);
 
   useEffect(() => {
     if (isVisibleAccountsBottomSheet) {
@@ -53,30 +62,33 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
       (account) => account.username === switchingAccount.username,
     )[0];
 
-    // control user persist whole data or just username
+    // if account data has persistet content use that first
+    //to avoid lag
     if (accountData.name) {
       accountData.username = accountData.name;
-
       dispatch(updateCurrentAccount(accountData));
-      //dispatch(isRenderRequired(true));
-
-      const upToDateCurrentAccount = await switchAccount(accountData.name);
-      const realmData = await getUserDataWithUsername(accountData.name);
-
-      upToDateCurrentAccount.username = upToDateCurrentAccount.name;
-      upToDateCurrentAccount.local = realmData[0];
-
-      dispatch(updateCurrentAccount(upToDateCurrentAccount));
-    } else {
-      const _currentAccount = await switchAccount(accountData.username);
-      const realmData = await getUserDataWithUsername(accountData.username);
-
-      _currentAccount.username = _currentAccount.name;
-      _currentAccount.local = realmData[0];
-
-      dispatch(updateCurrentAccount(_currentAccount));
-      //dispatch(isRenderRequired(true));
     }
+
+    //fetch upto data account data nd update current account;
+    let _currentAccount = await switchAccount(accountData.username);
+    const realmData = await getUserDataWithUsername(accountData.username);
+
+    _currentAccount.username = _currentAccount.name;
+    _currentAccount.local = realmData[0];
+
+    //migreate account to use access token for master key auth type
+    if (realmData[0].authType === AUTH_TYPE.MASTER_KEY && realmData[0].accessToken === '') {
+      _currentAccount = await migrateToMasterKeyWithAccessToken(_currentAccount, pinHash);
+    }
+
+    //refresh access token
+    const encryptedAccessToken = await refreshSCToken(
+      _currentAccount.local,
+      getDigitPinCode(pinHash),
+    );
+    _currentAccount.local.accessToken = encryptedAccessToken;
+
+    dispatch(updateCurrentAccount(_currentAccount));
   };
 
   return (

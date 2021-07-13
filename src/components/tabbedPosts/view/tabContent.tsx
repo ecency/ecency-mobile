@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import PostsList from '../../postsList';
-import { getPromotedPosts, loadPosts } from '../services/tabbedPostsFetch';
+import { fetchPromotedEntries, loadPosts } from '../services/tabbedPostsFetch';
 import { LoadPostsOptions, TabContentProps, TabMeta } from '../services/tabbedPostsModels';
 import {useSelector, useDispatch } from 'react-redux';
 import TabEmptyView from './listEmptyView';
@@ -9,6 +9,7 @@ import NewPostsPopup from './newPostsPopup';
 import { calculateTimeLeftForPostCheck } from '../services/tabbedPostsHelpers';
 import { AppState } from 'react-native';
 import { PostsListRef } from '../../postsList/container/postsListContainer';
+
 
 const DEFAULT_TAB_META = {
     startAuthor:'',
@@ -172,10 +173,10 @@ const TabContent = ({
 
 
   const _getPromotedPosts = async () => {
-    if(pageType === 'profiles'){
+    if(pageType === 'profile' || pageType === 'ownProfile'){
       return;
     }
-    const pPosts = await getPromotedPosts(username)
+    const pPosts = await fetchPromotedEntries(username)
     if(pPosts){
       setPromotedPosts(pPosts)
     }
@@ -281,6 +282,7 @@ const TabContent = ({
       isRefreshing={tabMeta.isRefreshing}
       isLoading={tabMeta.isLoading}
       ListEmptyComponent={_renderEmptyContent}
+      pageType={pageType}
     />
     <NewPostsPopup 
       popupAvatars={latestPosts.map(post=>post.avatar || '')}

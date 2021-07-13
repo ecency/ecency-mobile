@@ -37,6 +37,9 @@ const CommentsView = ({
   isShowMoreButton,
   showAllComments,
   hideManyCommentsButton,
+  onScroll,
+  onEndReached,
+  flatListProps,
 }) => {
   const [selectedComment, setSelectedComment] = useState(null);
   const intl = useIntl();
@@ -107,6 +110,7 @@ const CommentsView = ({
         data={comments}
         renderItem={_renderItem}
         keyExtractor={(item) => get(item, 'permlink')}
+        {...flatListProps}
       />
       <ActionSheet
         ref={commentMenu}

@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { Alert, AlertButton, ButtonProps } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import {AlertButton, ButtonProps } from 'react-native';
 import { Source } from 'react-native-fast-image';
 import { useSelector, useDispatch } from 'react-redux';
 import { ActionModalView } from '..';
@@ -19,22 +19,23 @@ const ActionModalContainer = ({ navigation }) => {
   const dispatch = useDispatch();
   const actionModalRef = useRef<ActionModalRef>();
 
-  const actionModalVisible = useSelector(
-    (state) => state.ui.actionModalVisible,
-  );
-
-    const actionModalData:ActionModalData = useSelector(state => state.ui.actionModalData)
-
+  const actionModalVisible = useSelector((state) => state.ui.actionModalVisible);
+  const actionModalData:ActionModalData = useSelector(state => state.ui.actionModalData)
+  
+  const [modalToken, setModalToken] = useState(0);
 
   useEffect(() => {
-    if (actionModalVisible) {
+    if (actionModalVisible && actionModalVisible !== modalToken) {
         actionModalRef.current?.showModal();
+        setModalToken(actionModalVisible);
     }
   }, [actionModalVisible]);
 
 
   const _onClose = () => {
-    actionModalData.onClosed();
+    if(actionModalData.onClosed){
+      actionModalData.onClosed();
+    }
     dispatch(hideActionModal());
   };
 

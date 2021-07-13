@@ -1,8 +1,8 @@
-import React, { PureComponent, Fragment } from 'react';
-import { View, ScrollView, SafeAreaView, Text } from 'react-native';
+import React, { PureComponent } from 'react';
+import { View, ScrollView } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+import { connect } from 'react-redux';
 
 // Components
 import { CollapsibleCard } from '../collapsibleCard';
@@ -10,25 +10,19 @@ import { Comments } from '../comments';
 import { Header } from '../header';
 import { NoPost, ProfileSummaryPlaceHolder, WalletDetailsPlaceHolder } from '../basicUIElements';
 import { ProfileSummary } from '../profileSummary';
-import { TabBar } from '../tabBar';
 import { Wallet } from '../wallet';
 
 // Constants
-import {
-  PROFILE_FILTERS,
-  PROFILE_FILTERS_OWN,
-  PROFILE_FILTERS_VALUE,
-  PROFILE_SUBFILTERS,
-  PROFILE_SUBFILTERS_VALUE,
-} from '../../constants/options/filters';
+import { getDefaultFilters, getFilterMap } from '../../constants/options/filters';
 
 // Utils
 import { getFormatedCreatedDate } from '../../utils/time';
 
 // Styles
 import styles from './profileStyles';
-import globalStyles from '../../globalStyles';
+
 import { TabbedPosts } from '../tabbedPosts';
+import CommentsTabContent from './children/commentsTabContent';
 
 class ProfileView extends PureComponent {
   constructor(props) {
@@ -159,49 +153,23 @@ class ProfileView extends PureComponent {
     );
   };
 
-  _contentComentsTab = () => {
-    const { comments, getReplies, intl, isOwnProfile, username, isHideImage } = this.props;
-
+  _contentComentsTab = (type) => {
+    const { username, isOwnProfile, selectedUser } = this.props;
     return (
-      <View key="profile.comments" style={styles.commentsTabBar}>
-        {comments && comments.length > 0 ? (
-          <ScrollView
-            onScroll={({ nativeEvent }) => {
-              this._handleOnScroll();
-              if (this._isCloseToBottom(nativeEvent)) {
-                this._loadMoreComments();
-              }
-            }}
-            contentContainerStyle={styles.scrollContentContainer}
-            //scrollEventThrottle={16}
-          >
-            <Comments
-              isProfilePreview
-              comments={comments}
-              fetchPost={getReplies}
-              isOwnProfile={isOwnProfile}
-              isHideImage={isHideImage}
-            />
-          </ScrollView>
-        ) : (
-          <NoPost
-            name={username}
-            text={intl.formatMessage({
-              id: 'profile.havent_commented',
-            })}
-            defaultText={intl.formatMessage({
-              id: 'profile.login_to_see',
-            })}
-          />
-        )}
-      </View>
+      <CommentsTabContent
+        username={username}
+        selectedUser={selectedUser}
+        isOwnProfile={isOwnProfile}
+        type={type}
+        onScroll={this._handleOnScroll}
+      />
     );
   };
 
   _contentWalletTab = () => {
     const { currencyRate, currencySymbol, selectedUser } = this.props;
-
     const { isSummaryOpen, estimatedWalletValue } = this.state;
+
     return (
       <View
         key="profile.wallet"
@@ -225,36 +193,56 @@ class ProfileView extends PureComponent {
   };
 
   _renderTabs = () => {
-    const { changeForceLoadPostState, forceLoadPost, username, isOwnProfile } = this.props;
+    const {
+      changeForceLoadPostState,
+      forceLoadPost,
+      username,
+      isOwnProfile,
+      profileTabs,
+      ownProfileTabs,
+      deepLinkFilter,
+    } = this.props;
 
     const { isSummaryOpen } = this.state;
+    const pageType = isOwnProfile ? 'ownProfile' : 'profile';
+    const tabs = (isOwnProfile ? ownProfileTabs : profileTabs) || getDefaultFilters(pageType);
 
-    const filterOptions = isOwnProfile ? PROFILE_FILTERS_OWN : PROFILE_FILTERS;
+    //set initial tab based on deep link filter if available
+    let selectedIndex = 0;
+    if (deepLinkFilter) {
+      selectedIndex = tabs.indexOf(deepLinkFilter);
+      if (selectedIndex < 0) {
+        tabs.pop();
+        tabs.push(deepLinkFilter);
+        selectedIndex = 2;
+      }
+    }
+
+    const filterOptions = tabs.map((key) => getFilterMap(pageType)[key]);
 
     //compile content overrides
     const tabContentOverrides = new Map();
-    tabContentOverrides.set(2, this._contentComentsTab());
-    if (!isOwnProfile) {
-      tabContentOverrides.set(3, this._contentWalletTab());
-    }
+
+    tabContentOverrides.set(tabs.indexOf('replies'), this._contentComentsTab('replies'));
+    tabContentOverrides.set(tabs.indexOf('comments'), this._contentComentsTab('comments'));
+    tabContentOverrides.set(tabs.indexOf('wallet'), this._contentWalletTab());
 
     return (
       <View style={styles.postTabBar}>
         <TabbedPosts
+          key={username + JSON.stringify(filterOptions)}
           filterOptions={filterOptions}
-          filterOptionsValue={PROFILE_FILTERS_VALUE}
-          selectedOptionIndex={0}
-          pageType="profiles"
+          filterOptionsValue={tabs}
+          selectedOptionIndex={selectedIndex}
+          pageType={pageType}
           getFor="blog"
           feedUsername={username}
-          key={username}
           handleOnScroll={isSummaryOpen ? this._handleOnScroll : null}
           forceLoadPost={forceLoadPost}
           changeForceLoadPostState={changeForceLoadPostState}
           isFeedScreen={false}
           tabContentOverrides={tabContentOverrides}
           onChangeTab={this._onTabChange}
-          imagesToggleEnabled={true}
         />
       </View>
     );
@@ -265,14 +253,14 @@ class ProfileView extends PureComponent {
   }
 
   render() {
-    const { handleOnBackPress, isOwnProfile, quickProfile } = this.props;
+    const { handleOnBackPress, isOwnProfile, quickProfile, reverseHeader } = this.props;
 
     return (
       <View style={styles.container}>
         <Header
           key={quickProfile && quickProfile.name}
           selectedUser={quickProfile}
-          isReverse={!isOwnProfile}
+          isReverse={reverseHeader}
           handleOnBackPress={handleOnBackPress}
         />
         <View style={styles.container}>
@@ -284,4 +272,9 @@ class ProfileView extends PureComponent {
   }
 }
 
-export default injectIntl(ProfileView);
+const mapStateToProps = (state) => ({
+  profileTabs: state.customTabs.profileTabs,
+  ownProfileTabs: state.customTabs.ownProfileTabs,
+});
+
+export default injectIntl(connect(mapStateToProps)(ProfileView));

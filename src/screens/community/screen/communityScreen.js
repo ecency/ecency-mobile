@@ -11,7 +11,8 @@ import CommunityContainer from '../container/communityContainer';
 // Styles
 import styles from './communityStyles';
 
-import { GLOBAL_POST_FILTERS, GLOBAL_POST_FILTERS_VALUE } from '../../../constants/options/filters';
+import { getDefaultFilters, getFilterMap } from '../../../constants/options/filters';
+import { useAppSelector } from '../../../hooks';
 
 const CommunityScreen = ({ navigation }) => {
   const tag = navigation.getParam('tag', '');
@@ -19,9 +20,14 @@ const CommunityScreen = ({ navigation }) => {
 
   const intl = useIntl();
 
+  const communityTabs = useAppSelector(
+    (state) => state.customTabs.communityTabs || getDefaultFilters('community'),
+  );
+  const filterOptions = communityTabs.map((key) => getFilterMap('community')[key]);
+
   const _getSelectedIndex = () => {
     if (filter) {
-      const selectedIndex = GLOBAL_POST_FILTERS_VALUE.indexOf(filter);
+      const selectedIndex = communityTabs.indexOf(filter);
       if (selectedIndex > 0) {
         return selectedIndex;
       }
@@ -43,6 +49,7 @@ const CommunityScreen = ({ navigation }) => {
             title={`${data && data.title ? data.title : ''} ${intl.formatMessage({
               id: 'community.community',
             })}`}
+            enableViewModeToggle={true}
           />
           {data ? (
             <CollapsibleCard
@@ -101,12 +108,12 @@ const CommunityScreen = ({ navigation }) => {
           )}
           <View tabLabel={intl.formatMessage({ id: 'search.posts' })} style={styles.tabbarItem}>
             <TabbedPosts
-              key={tag}
-              filterOptions={GLOBAL_POST_FILTERS}
-              filterOptionsValue={GLOBAL_POST_FILTERS_VALUE}
+              key={tag + JSON.stringify(filterOptions)}
+              filterOptions={filterOptions}
+              filterOptionsValue={communityTabs}
               selectedOptionIndex={_getSelectedIndex()}
               tag={tag}
-              imagesToggleEnabled={true}
+              pageType="community"
             />
           </View>
         </View>

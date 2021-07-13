@@ -41,9 +41,17 @@ import {
   getVersionForWelcomeModal,
   setVersionForWelcomeModal,
 } from '../../../realm/realm';
-import { getUser, getPost } from '../../../providers/hive/dhive';
-import { switchAccount } from '../../../providers/hive/auth';
-import { setPushToken, markActivityAsRead } from '../../../providers/ecency/ecency';
+import { getUser, getPost, getDigitPinCode } from '../../../providers/hive/dhive';
+import {
+  migrateToMasterKeyWithAccessToken,
+  refreshSCToken,
+  switchAccount,
+} from '../../../providers/hive/auth';
+import {
+  setPushToken,
+  markActivityAsRead,
+  markNotifications,
+} from '../../../providers/ecency/ecency';
 import { navigate } from '../../../navigation/service';
 
 // Actions
@@ -77,6 +85,8 @@ import {
 } from '../../../redux/actions/applicationActions';
 import {
   hideActionModal,
+  setAvatarCacheStamp,
+  setRcOffer,
   toastNotification,
   updateActiveBottomTab,
 } from '../../../redux/actions/uiAction';
@@ -87,6 +97,7 @@ import { encryptKey } from '../../../utils/crypto';
 import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
 import persistAccountGenerator from '../../../utils/persistAccountGenerator';
+import parseVersionNumber from '../../../utils/parseVersionNumber';
 
 // Workaround
 let previousAppState = 'background';
@@ -112,6 +123,7 @@ class ApplicationContainer extends Component {
       isThemeReady: false,
       appState: AppState.currentState,
       showWelcomeModal: false,
+      foregroundNotificationData: null,
     };
   }
 
@@ -123,7 +135,6 @@ class ApplicationContainer extends Component {
     this._setNetworkListener();
 
     Linking.addEventListener('url', this._handleOpenURL);
-
     Linking.getInitialURL().then((url) => {
       this._handleDeepLink(url);
     });
@@ -142,8 +153,11 @@ class ApplicationContainer extends Component {
 
     if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
 
+    //set avatar cache stamp to invalidate previous session avatars
+    dispatch(setAvatarCacheStamp(new Date().getTime()));
+
     getVersionForWelcomeModal().then((version) => {
-      if (version < parseFloat(appVersion)) {
+      if (version < parseVersionNumber(appVersion)) {
         getUserData().then((accounts) => {
           this.setState({ showWelcomeModal: true });
           if (accounts && accounts.length > 0) {
@@ -269,29 +283,47 @@ class ApplicationContainer extends Component {
 
     try {
       if (author) {
-        if (permlink) {
+        if (
+          !permlink ||
+          permlink === 'wallet' ||
+          permlink === 'points' ||
+          permlink === 'comments' ||
+          permlink === 'replies' ||
+          permlink === 'posts'
+        ) {
+          let deepLinkFilter;
+          if (permlink) {
+            deepLinkFilter = permlink === 'points' ? 'wallet' : permlink;
+          }
+
+          profile = await getUser(author);
+          routeName = ROUTES.SCREENS.PROFILE;
+          params = {
+            username: get(profile, 'name'),
+            reputation: get(profile, 'reputation'),
+            deepLinkFilter, //TODO: process this in profile screen
+          };
+          keey = get(profile, 'name');
+        } else if (permlink === 'communities') {
+          routeName = ROUTES.SCREENS.WEB_BROWSER;
+          params = {
+            url: url,
+          };
+          keey = 'WebBrowser';
+        } else if (permlink) {
           content = await getPost(author, permlink, currentAccount.name);
           routeName = ROUTES.SCREENS.POST;
           params = {
             content,
           };
           keey = `${author}/${permlink}`;
-        } else {
-          profile = await getUser(author);
-          routeName = ROUTES.SCREENS.PROFILE;
-          params = {
-            username: get(profile, 'name'),
-            reputation: get(profile, 'reputation'),
-          };
-          keey = get(profile, 'name');
         }
       }
+
       if (feedType) {
-        routeName = ROUTES.SCREENS.SEARCH_RESULT;
-        keey = 'search';
-      }
-      if (feedType && tag) {
-        if (/hive-[1-3]\d{4,6}$/.test(tag)) {
+        if (!tag) {
+          routeName = ROUTES.SCREENS.TAG_RESULT;
+        } else if (/hive-[1-3]\d{4,6}$/.test(tag)) {
           routeName = ROUTES.SCREENS.COMMUNITY;
         } else {
           routeName = ROUTES.SCREENS.TAG_RESULT;
@@ -300,7 +332,7 @@ class ApplicationContainer extends Component {
           tag,
           filter: feedType,
         };
-        keey = `${feedType}/${tag}`;
+        keey = `${feedType}/${tag || ''}`;
       }
     } catch (error) {
       this._handleAlert('deep_link.no_existing_user');
@@ -449,9 +481,10 @@ class ApplicationContainer extends Component {
           break;
       }
 
-      markActivityAsRead(username, activity_id).then((result) => {
+      markNotifications(activity_id).then((result) => {
         dispatch(updateUnreadActivityCount(result.unread));
       });
+
       if (!some(params, isEmpty)) {
         navigate({
           routeName,
@@ -478,12 +511,17 @@ class ApplicationContainer extends Component {
     PushNotification.cancelAllLocalNotifications();
 
     firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
-      this._showNotificationToast(remoteMessage);
+      console.log('Notification Received: foreground', remoteMessage);
+      // this._showNotificationToast(remoteMessage);
+      this.setState({
+        foregroundNotificationData: remoteMessage,
+      });
       this._pushNavigate(remoteMessage);
     });
 
     firebaseOnNotificationOpenedAppListener = messaging().onNotificationOpenedApp(
       (remoteMessage) => {
+        console.log('Notification Received, notification oped app:', remoteMessage);
         this._pushNavigate(remoteMessage);
       },
     );
@@ -601,31 +639,63 @@ class ApplicationContainer extends Component {
     return null;
   };
 
+  _refreshAccessToken = async (currentAccount) => {
+    const { pinCode, isPinCodeOpen, dispatch } = this.props;
+
+    if (isPinCodeOpen) {
+      return currentAccount;
+    }
+
+    try {
+      const userData = currentAccount.local;
+      const encryptedAccessToken = await refreshSCToken(userData, getDigitPinCode(pinCode));
+
+      return {
+        ...currentAccount,
+        local: {
+          ...userData,
+          accessToken: encryptedAccessToken,
+        },
+      };
+    } catch (error) {
+      console.warn('Failed to refresh access token', error);
+      return currentAccount;
+    }
+  };
+
   _fetchUserDataFromDsteem = async (realmObject) => {
-    const { dispatch, intl } = this.props;
+    const { dispatch, intl, pinCode } = this.props;
 
-    await getUser(realmObject.username)
-      .then((accountData) => {
-        accountData.local = realmObject;
+    try {
+      let accountData = await getUser(realmObject.username);
+      accountData.local = realmObject;
 
-        dispatch(updateCurrentAccount(accountData));
+      //migration script for previously mast key based logged in user not having access token
+      if (realmObject.authType === AUTH_TYPE.MASTER_KEY && realmObject.accessToken === '') {
+        accountData = await migrateToMasterKeyWithAccessToken(accountData, pinCode);
+      }
 
-        this._connectNotificationServer(accountData.name);
-      })
-      .catch((err) => {
-        Alert.alert(
-          `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
-        );
-      });
+      //refresh access token
+      accountData = await this._refreshAccessToken(accountData);
+
+      dispatch(updateCurrentAccount(accountData));
+
+      this._connectNotificationServer(accountData.name);
+    } catch (err) {
+      Alert.alert(
+        `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
+      );
+    }
   };
 
   _getSettings = async () => {
-    const { dispatch } = this.props;
+    const { dispatch, otherAccounts } = this.props;
 
     //reset certain properties
     dispatch(hideActionModal());
     dispatch(toastNotification(''));
     dispatch(resetLocalVoteMap());
+    dispatch(setRcOffer(false));
 
     const settings = await getSettings();
 
@@ -645,7 +715,9 @@ class ApplicationContainer extends Component {
         dispatch(setUpvotePercent(Number(settings.upvotePercent)));
       }
       if (settings.isDefaultFooter !== '') dispatch(isDefaultFooter(settings.isDefaultFooter));
+
       if (settings.notification !== '') {
+        console.log('Notification Settings', settings.notification, otherAccounts);
         dispatch(
           changeNotificationSettings({
             type: 'notification',
@@ -653,6 +725,11 @@ class ApplicationContainer extends Component {
           }),
         );
         dispatch(changeAllNotificationSettings(settings));
+
+        //updateing fcm token with settings;
+        otherAccounts.forEach((account) => {
+          this._enableNotification(account.name, settings.notification, settings);
+        });
       }
       if (settings.nsfw !== '') dispatch(setNsfw(settings.nsfw));
 
@@ -720,7 +797,28 @@ class ApplicationContainer extends Component {
       });
   };
 
-  _enableNotification = async (username, isEnable) => {
+  _enableNotification = async (username, isEnable, settings) => {
+    //compile notify_types
+    let notify_types = [];
+    if (settings) {
+      const notifyTypesConst = {
+        voteNotification: 1,
+        mentionNotification: 2,
+        followNotification: 3,
+        commentNotification: 4,
+        reblogNotification: 5,
+        transfersNotification: 6,
+      };
+
+      Object.keys(settings).map((item) => {
+        if (notifyTypesConst[item] && settings[item]) {
+          notify_types.push(notifyTypesConst[item]);
+        }
+      });
+    } else {
+      notify_types = [1, 2, 3, 4, 5, 6];
+    }
+
     messaging()
       .getToken()
       .then((token) => {
@@ -729,7 +827,7 @@ class ApplicationContainer extends Component {
           token: isEnable ? token : '',
           system: `fcm-${Platform.OS}`,
           allows_notify: Number(isEnable),
-          notify_types: [1, 2, 3, 4, 5, 6],
+          notify_types,
         });
       });
   };
@@ -744,9 +842,17 @@ class ApplicationContainer extends Component {
     const accountData = await switchAccount(targetAccount.username);
     const realmData = await getUserDataWithUsername(targetAccount.username);
 
-    const _currentAccount = accountData;
+    let _currentAccount = accountData;
     _currentAccount.username = accountData.name;
     [_currentAccount.local] = realmData;
+
+    //migreate account to use access token for master key auth type
+    if (realmData[0].authType === AUTH_TYPE.MASTER_KEY && realmData[0].accessToken === '') {
+      _currentAccount = await migrateToMasterKeyWithAccessToken(_currentAccount, pinCode);
+    }
+
+    //update refresh token
+    _currentAccount = await this._refreshAccessToken(_currentAccount);
 
     dispatch(updateCurrentAccount(_currentAccount));
   };
@@ -813,7 +919,13 @@ class ApplicationContainer extends Component {
       isPinCodeRequire,
       rcOffer,
     } = this.props;
-    const { isRenderRequire, isReady, isThemeReady, showWelcomeModal } = this.state;
+    const {
+      isRenderRequire,
+      isReady,
+      isThemeReady,
+      showWelcomeModal,
+      foregroundNotificationData,
+    } = this.state;
 
     return (
       children &&
@@ -828,6 +940,7 @@ class ApplicationContainer extends Component {
         rcOffer,
         toastNotification,
         showWelcomeModal,
+        foregroundNotificationData,
         handleWelcomeModalButtonPress: this._handleWelcomeModalButtonPress,
       })
     );
@@ -839,7 +952,6 @@ export default connect(
     // Application
     isDarkTheme: state.application.isDarkTheme,
     selectedLanguage: state.application.language,
-    notificationSettings: state.application.isNotificationOpen,
     isPinCodeOpen: state.application.isPinCodeOpen,
     isLogingOut: state.application.isLogingOut,
     isLoggedIn: state.application.isLoggedIn,

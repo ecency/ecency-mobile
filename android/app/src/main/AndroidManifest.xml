@@ -28,17 +28,52 @@
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
-        <intent-filter android:label="Ecency">
+        
+        <intent-filter android:label="Ecency" android:autoVerify="true">
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data 
+                android:scheme="https" 
+                android:host="ecency.com"
+                android:pathPattern="/@.*"
+            />
+            <data 
+                android:scheme="https" 
+                android:host="ecency.com"
+                android:pathPattern="/.*/@.*/.*"
+            />
+            <data 
+                android:scheme="https" 
+                android:host="ecency.com"
+                android:pathPattern="/hot/.*"
+            />
+            <data 
+                android:scheme="https" 
+                android:host="ecency.com"
+                android:pathPattern="/trending/.*"
+            />
+            <data 
+                android:scheme="https" 
+                android:host="ecency.com"
+                android:pathPattern="/created/.*"
+            />
+            <data 
+                android:scheme="https" 
+                android:host="ecency.com"
+                android:path="/trending"
+            />
+            <data 
+                android:scheme="https" 
+                android:host="ecency.com"
+                android:path="/hot"
+            />
+        </intent-filter>
+        <intent-filter android:label="Ecency" >
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="ecency" />
-        </intent-filter>
-        <intent-filter android:label="Ecency">
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="https" android:host="ecency.com" />
         </intent-filter>
         <intent-filter android:label="Ecency">
             <action android:name="android.intent.action.VIEW" />

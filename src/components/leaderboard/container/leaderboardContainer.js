@@ -34,7 +34,7 @@ class LeaderboardContainer extends PureComponent {
     const { isConnected } = this.props;
 
     if (isConnected) {
-      this._fetchLeaderBoard();
+      this._fetchLeaderBoard('day');
     }
   }
 

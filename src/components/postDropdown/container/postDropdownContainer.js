@@ -145,9 +145,9 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _addToBookmarks = () => {
-    const { content, currentAccount, dispatch, intl } = this.props;
+    const { content, dispatch, intl } = this.props;
 
-    addBookmark(get(currentAccount, 'name'), get(content, 'author'), get(content, 'permlink'))
+    addBookmark(get(content, 'author'), get(content, 'permlink'))
       .then(() => {
         dispatch(
           toastNotification(

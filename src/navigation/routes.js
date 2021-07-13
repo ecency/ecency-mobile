@@ -38,7 +38,9 @@ import {
   TagResult,
   Community,
   Communities,
+  WebBrowser,
 } from '../screens';
+import YoutubePlayer from '../screens/youtube/youtubePlayer';
 
 const bottomTabNavigator = createBottomTabNavigator(
   {
@@ -150,6 +152,8 @@ const stackNavigator = createStackNavigator(
     [ROUTES.SCREENS.ACCOUNT_BOOST]: { screen: AccountBoost },
     [ROUTES.SCREENS.COMMUNITY]: { screen: Community },
     [ROUTES.SCREENS.COMMUNITIES]: { screen: Communities },
+    [ROUTES.SCREENS.YOUTUBE]: { screen: YoutubePlayer },
+    [ROUTES.SCREENS.WEB_BROWSER]: { screen: WebBrowser },
   },
   {
     headerMode: 'none',

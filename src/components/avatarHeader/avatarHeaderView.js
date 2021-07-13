@@ -1,6 +1,6 @@
 import React from 'react';
 import { withNavigation } from 'react-navigation';
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { UserAvatar } from '../userAvatar';
@@ -16,6 +16,7 @@ const AvatarHeader = ({
   navigation,
   avatarUrl,
   showImageUploadActions,
+  isUploading,
 }) => (
   <LinearGradient
     start={{ x: 0, y: 0 }}
@@ -33,15 +34,25 @@ const AvatarHeader = ({
           size={25}
         />
         <View style={styles.wrapper}>
-          <UserAvatar key={avatarUrl || username} noAction size="xl" username={username} />
-          <IconButton
-            iconStyle={styles.addIcon}
-            style={styles.addButton}
-            iconType="MaterialCommunityIcons"
-            name="plus"
-            onPress={showImageUploadActions}
-            size={15}
-          />
+          <TouchableOpacity onPress={showImageUploadActions}>
+            <UserAvatar
+              key={`${avatarUrl}-${username}`}
+              noAction
+              size="xl"
+              username={username}
+              avatarUrl={avatarUrl}
+              isLoading={isUploading}
+            />
+            <IconButton
+              iconStyle={styles.addIcon}
+              style={styles.addButton}
+              iconType="MaterialCommunityIcons"
+              name="plus"
+              onPress={showImageUploadActions}
+              size={15}
+            />
+          </TouchableOpacity>
+
           <View style={styles.textWrapper}>
             {!!name && <Text style={styles.name}>{name}</Text>}
             <Text style={styles.username}>{`@${username} (${reputation})`}</Text>

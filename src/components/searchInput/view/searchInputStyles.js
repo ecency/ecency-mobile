@@ -1,6 +1,11 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 12,
+  },
   inputWrapper: {
     marginTop: 20,
     backgroundColor: '$primaryLightBackground',
@@ -30,5 +35,16 @@ export default EStyleSheet.create({
   closeIcon: {
     color: '$iconColor',
     fontSize: 22,
+  },
+  backIcon: {
+    fontSize: 24,
+    color: '$iconColor',
+    justifyContent: 'center',
+  },
+  backButtonContainer: {
+    flex: 1,
+    marginTop: 20,
+    marginLeft: 12,
+    marginRight: 4,
   },
 });

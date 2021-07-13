@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 
 // Components
 import { Icon } from '../../icon';
@@ -26,6 +26,8 @@ const SearchInputView = ({
   showClearButton = false,
   prefix = '',
   style,
+  backEnabled = false,
+  onBackPress,
 }) => {
   const [inputValue, setInputValue] = useState(value || '');
 
@@ -53,20 +55,35 @@ const SearchInputView = ({
     />
   );
 
+  const inputWrapperFlex = { flex: backEnabled ? 16 : 1 };
+
   return (
-    <SafeAreaView style={[styles.inputWrapper, style]}>
-      <TextInput
-        style={styles.input}
-        onChangeText={_onChangeText}
-        placeholder={placeholder}
-        placeholderTextColor="#c1c5c7"
-        autoCapitalize="none"
-        autoFocus={autoFocus}
-        editable={editable}
-        value={`${prefix}${inputValue}`}
-      />
-      {handleOnModalClose && _renderCrossButton(() => handleOnModalClose())}
-      {showClearButton && _renderCrossButton(() => setInputValue(''))}
+    <SafeAreaView style={styles.container}>
+      {backEnabled && (
+        <View style={styles.backButtonContainer}>
+          <IconButton
+            iconType="MaterialIcons"
+            name="arrow-back"
+            iconStyle={styles.backIcon}
+            onPress={onBackPress}
+          />
+        </View>
+      )}
+
+      <View style={[styles.inputWrapper, inputWrapperFlex, style]}>
+        <TextInput
+          style={styles.input}
+          onChangeText={_onChangeText}
+          placeholder={placeholder}
+          placeholderTextColor="#c1c5c7"
+          autoCapitalize="none"
+          autoFocus={autoFocus}
+          editable={editable}
+          value={`${prefix}${inputValue}`}
+        />
+        {handleOnModalClose && _renderCrossButton(() => handleOnModalClose())}
+        {showClearButton && _renderCrossButton(() => setInputValue(''))}
+      </View>
     </SafeAreaView>
   );
 };

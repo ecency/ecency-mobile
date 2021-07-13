@@ -40,6 +40,7 @@ export default {
   $tableTrColor: '#f5f5f5',
   $tableBorderColor: '#FFFFFF',
   $noConnectionColor: '#788187',
+  $borderedButtonBlue: '#357ce6',
 
   // Devices Sizes
   $deviceHeight:

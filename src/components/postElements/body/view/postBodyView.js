@@ -9,8 +9,12 @@ import get from 'lodash/get';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import RNFetchBlob from 'rn-fetch-blob';
 import ActionSheet from 'react-native-actionsheet';
+import ActionSheetView from 'react-native-actions-sheet';
 import { connect } from 'react-redux';
 
+import { YouTubeStandaloneAndroid } from 'react-native-youtube';
+import Config from 'react-native-config';
+import Youtube from 'react-native-youtube-iframe';
 import { customBodyScript } from './config';
 import { PostPlaceHolder, CommentPlaceHolder } from '../../../basicUIElements';
 
@@ -20,6 +24,9 @@ import { toastNotification } from '../../../../redux/actions/uiAction';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
+import getYoutubeId from '../../../../utils/getYoutubeId';
+import isAndroidOreo from '../../../../utils/isAndroidOreo';
+import YoutubePlayer from './youtubePlayer';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -34,14 +41,17 @@ const PostBody = ({
   onLoadEnd,
 }) => {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+
   const [postImages, setPostImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedLink, setSelectedLink] = useState(null);
   const [html, setHtml] = useState('');
+  const [youtubeVideoId, setYoutubeVideoId] = useState(null);
 
   const intl = useIntl();
   const actionImage = useRef(null);
   const actionLink = useRef(null);
+  const youtubePlayerRef = useRef(null);
   // const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -115,6 +125,9 @@ const PostBody = ({
           break;
         case 'markdown-proposal-link':
           break;
+        case 'markdown-video-link-youtube':
+          _handleYoutubePress(tag);
+          break;
         case 'markdown-video-link':
           break;
         case 'image':
@@ -126,6 +139,14 @@ const PostBody = ({
           break;
       }
     } catch (error) {}
+  };
+
+  const _handleYoutubePress = (embedUrl) => {
+    const videoId = getYoutubeId(embedUrl);
+    if (videoId && youtubePlayerRef.current) {
+      setYoutubeVideoId(videoId);
+      youtubePlayerRef.current.setModalVisible(true);
+    }
   };
 
   const handleImagePress = (ind) => {
@@ -305,7 +326,7 @@ const PostBody = ({
     color: ${EStyleSheet.value('$primaryBlack')};
     font-family: Roboto, sans-serif;
     max-width: 100%;
-
+    line-height: 140%;
     overflow-wrap: break-word;
     word-wrap: break-word;
 
@@ -320,6 +341,10 @@ const PostBody = ({
   }
   body {
     color: ${EStyleSheet.value('$primaryBlack')};
+    font-size: 18;
+  }
+  h1 {
+    font-size: 22;
   }
   a {
     color: ${EStyleSheet.value('$primaryBlue')};
@@ -427,6 +452,20 @@ const PostBody = ({
           onClick={() => setIsImageModalOpen(false)}
         />
       </Modal>
+
+      <ActionSheetView
+        ref={youtubePlayerRef}
+        gestureEnabled={true}
+        hideUnderlay
+        containerStyle={{ backgroundColor: 'black' }}
+        indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+        onClose={() => {
+          setYoutubeVideoId(null);
+        }}
+      >
+        <YoutubePlayer videoId={youtubeVideoId} />
+      </ActionSheetView>
+
       <ActionSheet
         ref={actionImage}
         options={[
@@ -454,6 +493,7 @@ const PostBody = ({
           handleLinkPress(index);
         }}
       />
+
       {/* {isLoading && (isComment ? <CommentPlaceHolder /> : <PostPlaceHolder />)} */}
       <AutoHeightWebView
         source={{ html }}

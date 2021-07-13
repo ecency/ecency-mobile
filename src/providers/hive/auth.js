@@ -3,7 +3,7 @@ import sha256 from 'crypto-js/sha256';
 import Config from 'react-native-config';
 import get from 'lodash/get';
 
-import { getUser } from './dhive';
+import { getDigitPinCode, getUser } from './dhive';
 import {
   setUserData,
   setAuthStatus,
@@ -22,6 +22,7 @@ import { getSCAccessToken } from '../ecency/ecency';
 
 // Constants
 import AUTH_TYPE from '../../constants/authType';
+import { makeHsCode } from '../../utils/hive-signer-helper';
 
 export const login = async (username, password, isPinCodeOpen) => {
   let loginFlag = false;
@@ -62,6 +63,10 @@ export const login = async (username, password, isPinCodeOpen) => {
     }
   });
 
+  const signerPrivateKey = privateKeys.ownerKey || privateKeys.activeKey || privateKeys.postingKey;
+  const code = await makeHsCode(account.name, signerPrivateKey);
+  const scTokens = await getSCAccessToken(code);
+
   let jsonMetadata;
   try {
     jsonMetadata = JSON.parse(account.posting_json_metadata) || '';
@@ -89,6 +94,7 @@ export const login = async (username, password, isPinCodeOpen) => {
       const resData = {
         pinCode: Config.DEFAULT_PIN,
         password,
+        accessToken: get(scTokens, 'access_token', ''),
       };
       const updatedUserData = await getUpdatedUserData(userData, resData);
 
@@ -101,6 +107,7 @@ export const login = async (username, password, isPinCodeOpen) => {
       currentUsername: username,
     };
     await setAuthStatus(authData);
+    await setSCAccount(scTokens);
 
     // Save user data to Realm DB
     await setUserData(account.local);
@@ -296,9 +303,7 @@ export const verifyPinCode = async (data) => {
     }
 
     if (result.length > 0) {
-      if (get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
-        await refreshSCToken(userData, get(data, 'pinCode'));
-      }
+      await refreshSCToken(userData, get(data, 'pinCode'));
     }
     return true;
   } catch (err) {
@@ -311,15 +316,17 @@ export const refreshSCToken = async (userData, pinCode) => {
   const scAccount = await getSCAccount(userData.username);
   const now = new Date();
   const expireDate = new Date(scAccount.expireDate);
-  if (now >= expireDate) {
-    const newSCAccountData = await getSCAccessToken(scAccount.refreshToken);
-    await setSCAccount(newSCAccountData);
-    const accessToken = newSCAccountData.access_token;
-    await updateUserData({
-      ...userData,
-      accessToken: encryptKey(accessToken, pinCode),
-    });
-  }
+
+  const newSCAccountData = await getSCAccessToken(scAccount.refreshToken);
+
+  await setSCAccount(newSCAccountData);
+  const accessToken = newSCAccountData.access_token;
+  const encryptedAccessToken = encryptKey(accessToken, pinCode);
+  await updateUserData({
+    ...userData,
+    accessToken: encryptedAccessToken,
+  });
+  return encryptedAccessToken;
 };
 
 export const switchAccount = (username) =>
@@ -365,10 +372,8 @@ export const getUpdatedUserData = (userData, data) => {
   return {
     username: get(userData, 'username', ''),
     authType: get(userData, 'authType', ''),
-    accessToken:
-      get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT
-        ? encryptKey(data.accessToken, get(data, 'pinCode'))
-        : '',
+    accessToken: encryptKey(data.accessToken, get(data, 'pinCode')),
+
     masterKey:
       get(userData, 'authType', '') === AUTH_TYPE.MASTER_KEY
         ? encryptKey(data.password, get(data, 'pinCode'))
@@ -397,4 +402,45 @@ const isLoggedInUser = async (username) => {
     return true;
   }
   return false;
+};
+
+/**
+ * This migration snippet is used to update access token for users logged in using masterKey
+ * accessToken is required for all ecency api calls even for non hivesigner users.
+ */
+export const migrateToMasterKeyWithAccessToken = async (account, pinHash) => {
+  //get username, user local data from account;
+  const username = account.name;
+  const userData = account.local;
+
+  if (userData.accessToken) {
+    //skipping migration as access token already preset;
+    return account;
+  }
+
+  //decrypt password from local data
+  const pinCode = getDigitPinCode(pinHash);
+  const password = decryptKey(userData.masterKey, pinCode);
+
+  // Set private keys of user
+  const privateKeys = getPrivateKeys(username, password);
+
+  const signerPrivateKey = privateKeys.ownerKey || privateKeys.activeKey || privateKeys.postingKey;
+  const code = await makeHsCode(account.name, signerPrivateKey);
+  const scTokens = await getSCAccessToken(code);
+
+  await setSCAccount(scTokens);
+  const accessToken = scTokens.access_token;
+
+  //update data
+  const localData = {
+    ...userData,
+    accessToken: encryptKey(accessToken, pinCode),
+  };
+  //update realm
+  await updateUserData(localData);
+
+  //return account with update local data
+  account.local = localData;
+  return account;
 };

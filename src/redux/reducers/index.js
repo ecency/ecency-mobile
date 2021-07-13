@@ -6,11 +6,13 @@ import ui from './uiReducer';
 import postsReducer from './postsReducer';
 import communities from './communitiesReducer';
 import user from './userReducer';
+import customTabsReducer from './customTabsReducer';
 
 export default combineReducers({
   account: accountReducer,
   application: applicationReducer,
   posts: postsReducer,
+  customTabs: customTabsReducer,
   nav,
   ui,
   communities,

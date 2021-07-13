@@ -22,19 +22,17 @@ class PostHeaderDescription extends PureComponent {
   _handleOnUserPress = (username) => {
     const { navigation, profileOnPress, reputation, currentAccountUsername } = this.props;
 
-    if (currentAccountUsername !== username) {
-      if (profileOnPress) {
-        profileOnPress(username);
-      } else {
-        navigation.navigate({
-          routeName: ROUTES.SCREENS.PROFILE,
-          params: {
-            username,
-            reputation,
-          },
-          key: username,
-        });
-      }
+    if (profileOnPress) {
+      profileOnPress(username);
+    } else {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.PROFILE,
+        params: {
+          username,
+          reputation,
+        },
+        key: username,
+      });
     }
   };
 
@@ -91,16 +89,6 @@ class PostHeaderDescription extends PureComponent {
             </View>
           </View>
           <View style={styles.rightContainer}>
-            {!!content && (
-              <TouchableOpacity onPress={() => tagOnPress && tagOnPress()}>
-                <Tag
-                  isPostCardTag={!isPromoted}
-                  isPin
-                  value={content.category}
-                  communityTitle={content.community_title}
-                />
-              </TouchableOpacity>
-            )}
             {!!tag && (
               <TouchableOpacity onPress={() => tagOnPress && tagOnPress()}>
                 <Tag isPostCardTag={!isPromoted} isPin value={tag} />

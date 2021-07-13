@@ -88,6 +88,17 @@ const PostCardView = ({
 
   return (
     <View style={styles.post}>
+      {!!rebloggedBy && (
+        <TextWithIcon
+          wrapperStyle={styles.reblogWrapper}
+          text={`${intl.formatMessage({ id: 'post.reblogged' })} ${rebloggedBy}`}
+          iconType="MaterialIcons"
+          iconName="repeat"
+          iconSize={16}
+          textStyle={styles.reblogText}
+        />
+      )}
+
       <View style={styles.bodyHeader}>
         <PostHeaderDescription
           date={getTimeFromNow(get(content, 'created'))}
@@ -140,14 +151,6 @@ const PostCardView = ({
             <Text style={styles.summary}>{content.summary}</Text>
           </View>
         </TouchableOpacity>
-
-        {!!rebloggedBy && (
-          <TextWithIcon
-            text={`${intl.formatMessage({ id: 'post.reblogged' })} ${rebloggedBy}`}
-            iconType="MaterialIcons"
-            iconName="repeat"
-          />
-        )}
       </View>
       <View style={styles.bodyFooter}>
         <View style={styles.leftFooterWrapper}>

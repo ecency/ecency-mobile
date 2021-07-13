@@ -6,10 +6,10 @@ import { injectIntl } from 'react-intl';
 // Services and Actions
 import {
   getDrafts,
-  removeDraft,
+  deleteDraft,
   getSchedules,
-  removeSchedule,
-  moveSchedule,
+  moveScheduledToDraft,
+  deleteScheduledPost,
 } from '../../../providers/ecency/ecency';
 import { toastNotification } from '../../../redux/actions/uiAction';
 
@@ -38,7 +38,7 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
   const _getSchedules = () => {
     setIsLoading(true);
 
-    getSchedules(currentAccount.name)
+    getSchedules()
       .then((data) => {
         setSchedules(_sortDataS(data));
         setIsLoading(false);
@@ -52,7 +52,7 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
   const _getDrafts = () => {
     setIsLoading(true);
 
-    getDrafts(currentAccount.name)
+    getDrafts()
       .then((data) => {
         setDrafts(_sortData(data));
         setIsLoading(false);
@@ -64,7 +64,7 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
   };
 
   const _removeDraft = (id) => {
-    removeDraft(currentAccount.name, id)
+    deleteDraft(id)
       .then(() => {
         const newDrafts = [...drafts].filter((draft) => draft._id !== id);
         setDrafts(_sortData(newDrafts));
@@ -75,7 +75,7 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
   };
 
   const _removeSchedule = (id) => {
-    removeSchedule(currentAccount.name, id)
+    deleteScheduledPost(id)
       .then((res) => {
         const newSchedules = [...schedules].filter((schedule) => schedule._id !== id);
 
@@ -87,7 +87,7 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
   };
 
   const _moveScheduleToDraft = (id) => {
-    moveSchedule(id, currentAccount.name)
+    moveScheduledToDraft(id)
       .then((res) => {
         dispatch(
           toastNotification(
@@ -100,7 +100,8 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
         _getDrafts();
         _getSchedules();
       })
-      .catch(() => {
+      .catch((error) => {
+        console.warn('Failed to move scheduled post to drafts');
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
       });
   };
