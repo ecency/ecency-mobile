@@ -12,13 +12,35 @@ import {
   SET_GLOBAL_PROPS,
 } from '../constants/constants';
 
-const initialState = {
+
+export interface GlobalProps {
+  hivePerMVests:number;
+  base:number;
+  quote:number;
+  fundRecentClaims:number;
+  fundRewardBalance:number;
+  hbdPrintRate:number;
+}
+
+
+interface AccountState {
+  isFetching:boolean;
+  currentAccount: any;
+  otherAccounts: any[];
+  hasError: boolean;
+  errorMessage: string;
+  isLogingOut: boolean;
+  globalProps:GlobalProps|null;
+}
+
+const initialState: AccountState = {
   isFetching: null,
   otherAccounts: [],
   currentAccount: {},
   hasError: false,
   errorMessage: null,
   isLogingOut: false,
+  globalProps: null
 };
 
 export default function (state = initialState, action) {
