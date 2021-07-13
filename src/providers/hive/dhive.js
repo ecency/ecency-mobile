@@ -70,15 +70,24 @@ export const getFeedHistory = async () => {
   }
 };
 
+export const getCurrentMedianHistoryPrice = async () => {
+  try {
+    const feedHistory = await client.database.call('get_current_median_history_price');
+    return feedHistory;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const fetchGlobalProps = async () => {
   let globalDynamic;
-  let feedHistory;
+  let medianHistory;
   let rewardFund;
 
   try {
     globalDynamic = await getDynamicGlobalProperties();
     await setCache('globalDynamic', globalDynamic);
-    feedHistory = await getFeedHistory();
+    medianHistory = await getCurrentMedianHistoryPrice();
     rewardFund = await getRewardFund();
   } catch (e) {
     return;
@@ -89,8 +98,8 @@ export const fetchGlobalProps = async () => {
       parseToken(get(globalDynamic, 'total_vesting_shares'))) *
     1e6;
   const hbdPrintRate = get(globalDynamic, 'hbd_print_rate');
-  const base = parseAsset(get(feedHistory, 'current_median_history.base')).amount;
-  const quote = parseAsset(get(feedHistory, 'current_median_history.quote')).amount;
+  const base = parseAsset(medianHistory.base).amount;
+  const quote = parseAsset(medianHistory.quote).amount;
   const fundRecentClaims = get(rewardFund, 'recent_claims');
   const fundRewardBalance = parseToken(get(rewardFund, 'reward_balance'));
   const globalProps = {
