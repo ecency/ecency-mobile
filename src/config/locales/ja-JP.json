@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "投票済み",
-    "unvote": "未投票",
+    "unvote": "downvoted",
     "reply": "返信",
     "mention": "話題にされました",
     "follow": "あなたをフォローしました",
@@ -134,12 +134,16 @@
     "replies": "返信",
     "mentions": "メンション",
     "reblogs": "リブログ",
-    "noactivity": "最近のアクティビティがありません"
+    "noactivity": "最近のアクティビティがありません",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "日間",
     "weekly": "週間",
-    "monthly": "月間"
+    "monthly": "月間",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "メッセージ機能は近日公開予定です！"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "フォロー",
     "follower": "フォロワー",
+    "edit_label": "Edit",
     "post": "投稿",
     "details": "プロフィールの詳細",
     "comments": "コメント",
@@ -620,11 +625,17 @@
   "community": {
     "new_post": "New Post",
     "community": "community",
-    "details": "Details"
+    "details": "Details",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Follow",
-    "unfollow": "Unfollow"
+    "unfollow": "Unfollow",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Membership",

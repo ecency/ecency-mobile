@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "glasano",
-    "unvote": "nie glasano",
+    "unvote": "downvoted",
     "reply": "odgovoreno",
     "mention": "spomenuto u",
     "follow": "vas je zapratio",
@@ -134,12 +134,16 @@
     "replies": "Odgovori",
     "mentions": "Pominjanja",
     "reblogs": "Podele",
-    "noactivity": "Nema nedavnih aktivnosti"
+    "noactivity": "Nema nedavnih aktivnosti",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "DNEVNO",
     "weekly": "NEDELJNO",
-    "monthly": "MESEČNO"
+    "monthly": "MESEČNO",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Slanje poruka će uskoro biti u funkciji!"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "Pratim",
     "follower": "Pratilac",
+    "edit_label": "Edit",
     "post": "Postovi",
     "details": "Detalji profila",
     "comments": "Komentari",
@@ -620,11 +625,17 @@
   "community": {
     "new_post": "Nova objava",
     "community": "zajednica",
-    "details": "Detalji"
+    "details": "Detalji",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Prati",
-    "unfollow": "Prestani da pratiš"
+    "unfollow": "Prestani da pratiš",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Membership",

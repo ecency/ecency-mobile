@@ -30,7 +30,7 @@
     "checkin_title": "Ürək döyüntüsü üçün xal",
     "referral": "Yönləndirmə",
     "referral_title": "Yönləndirmə mükafatları",
-    "referral_desc": "Dostları dəvət et və xal qazan",
+    "referral_desc": "Dostları dəvət edin və xal qazanın",
     "checkin_extra_title": "İstifadə bonusu",
     "no_activity": "Heç bir son fəalliyət yoxdur",
     "outgoing_transfer_description": "",
@@ -39,7 +39,7 @@
     "comment_desc": "Bildirdiyiniz hər bir rəy əhatənizi genişləndirməyə kömək edər və həmçinin 5 xala qədər qazandırar.",
     "checkin_desc": "Müntəzəm yoxlama 0.25 xal verər.",
     "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
-    "reblog_desc": "Share what post you like with your friends and earn points.",
+    "reblog_desc": "Bəyəndiyiniz göndərişləri dostlarınızla paylaşın və xal qazanın.",
     "login_desc": "When you login into app first time you earn 100 points.",
     "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
     "dropdown_transfer": "Hədiyyə",
@@ -47,9 +47,9 @@
     "dropdown_boost": "Gücləndir",
     "from": "Buradan",
     "to": "Buraya",
-    "estimated_value_desc": "According to purchase value",
-    "estimated_value": "Estimated value",
-    "estimated_amount": "Vote value",
+    "estimated_value_desc": "Satın alma dəyərinə görə",
+    "estimated_value": "Təxmini dəyər",
+    "estimated_amount": "Səsvermə dəyəri",
     "amount_information": "Miqdarı nizamlamaq üçün diyircəyi sürüşdürün",
     "amount": "Məbləğ",
     "memo": "Qeyd",
@@ -59,10 +59,10 @@
     "to_placeholder": "İstifadəçi adı",
     "memo_placeholder": "Qeydlərinizi buraya daxil edin",
     "transfer_token": "Köçürmə",
-    "purchase_estm": "GET POINTS",
-    "points": "Gift Points to someone",
-    "transfer_to_saving": "To Saving",
-    "transfer_to_vesting": "Power Up",
+    "purchase_estm": "XAL ALIN",
+    "points": "Xalları hədiyyə edin",
+    "transfer_to_saving": "Yığıma",
+    "transfer_to_vesting": "Gücləndir",
     "withdraw_to_saving": "Withdraw Saving",
     "steemconnect_title": "Hivesigner Transfer",
     "next": "NÖVBƏTİ",
@@ -71,11 +71,11 @@
     "withdraw_hive": "Withdraw HIVE",
     "withdraw_hbd": "Withdraw HBD",
     "transfer_to_savings": "To Savings",
-    "convert": "Convert",
-    "escrow_transfer": "Escrow Transfer",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
+    "convert": "Çevir",
+    "escrow_transfer": "Escrow Köçürmə",
+    "escrow_dispute": "Escrow Mübahisə",
+    "escrow_release": "Escrow Buraxılış",
+    "escrow_approve": "Escrow Təsdiqləmə",
     "cancel_transfer_from_savings": "Cancel From Savings",
     "delegate_vesting_shares": "Heyət",
     "fill_convert_request": "Convert Executed",
@@ -83,7 +83,7 @@
     "fill_vesting_withdraw": "PowerDown executed",
     "estm": {
       "title": "Xallar",
-      "buy": "GET POINTS"
+      "buy": "XALLAR ALIN"
     },
     "savinghive": {
       "title": "HIVE Savings"
@@ -104,22 +104,22 @@
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "BTC ALIN",
+      "address": "AL"
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "unvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "vote": "səs verildi",
+    "unvote": "downvoted",
+    "reply": "cavablandı",
+    "mention": "adı çəkildi",
     "follow": "səni izlədi",
     "unfollow": "səni izləməkdən imtina etdi",
     "ignore": "səni əngəllədi",
     "reblog": "reblogged",
     "transfer": "transferred",
-    "spin": "Time to earn more Points",
-    "inactive": "Be active! Write a post, continue earning",
+    "spin": "Daha çox Xal qazanma vaxtıdır",
+    "inactive": "Aktiv olun! Göndəriş yazın, qazanmağa davam edin",
     "referral": "joined with your referral, welcome them",
     "notification": "Bildirişlər",
     "leaderboard": "Liderlər cədvəli",
@@ -130,16 +130,20 @@
     "this_week": "Bu Həftə",
     "this_month": "Bu Ay",
     "older_then": "Bir Aydan Köhnə",
-    "activities": "All",
+    "activities": "Hamısı",
     "replies": "Cavablar",
-    "mentions": "Mentions",
+    "mentions": "Ad çəkmələr",
     "reblogs": "Reblogs",
-    "noactivity": "No recent activity"
+    "noactivity": "Son fəaliyyət yoxdur",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "daily": "GÜNDƏLİK",
+    "weekly": "HƏFTƏLİK",
+    "monthly": "AYLIQ",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Mesajlar tezliklə gəlir!"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "İzlənilir",
     "follower": "İzləyici",
+    "edit_label": "Edit",
     "post": "Göndərişlər",
     "details": "Profil Təfsilatları",
     "comments": "Rəylər",
@@ -169,10 +174,10 @@
     "hive_dollars": "Hive Dollars",
     "savings": "Yığımlar",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
-      "website": "Website"
+      "display_name": "Görünən Ad",
+      "about": "Haqqında",
+      "location": "Yerləşmə",
+      "website": "Veb sayt"
     }
   },
   "settings": {
@@ -213,37 +218,37 @@
   },
   "login": {
     "signin": "Daxil ol",
-    "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Ecency",
+    "signup": "İNDİ QOŞULUN",
+    "signin_title": "Ecency-nin bütün üstünlüklərindən faydalanın",
     "username": "İstifadəçi adı",
     "password": "Şifrə və ya WIF",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "Daxil olaraq, Xidmət Şərtləri və Gizlilik Siyasətimiz ilə razılaşırsınız.",
     "cancel": "imtina",
     "login": "GİRİŞ",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_fee_description": "məlumat"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "Qeydiyyatdan keç",
     "title": "Qeydiyyatdan keç",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
+    "username": "Bir istifadəçi adı götür",
+    "mail": "E-poçt ünvanını daxil et",
     "ref_user": "Referred user (Optional)",
     "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
     "title_description": "One account to manage everything",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "form_description": "Qeydiyyatdan keçərək, Xidmət Şərtləri və Gizlilik Siyasətimiz ilə razılaşırsınız."
   },
   "home": {
     "feed": "Axın",
     "popular": "Məşhur",
-    "top": "Top",
-    "hot": "Hot",
-    "new": "New",
-    "blog": "Blog",
+    "top": "Başlıca",
+    "hot": "İsti",
+    "new": "Yeni",
+    "blog": "Bloq",
     "posts": "Göndərişlər",
-    "friends": "Friends",
-    "communities": "Communities",
-    "popup_postfix": "Posted"
+    "friends": "Dostlar",
+    "communities": "Cəmiyyətlər",
+    "popup_postfix": "Paylaşıldı"
   },
   "side_menu": {
     "profile": "Profil",
@@ -253,14 +258,14 @@
     "schedules": "Cədvəllər",
     "gallery": "Qalereya",
     "settings": "Tənzimləmələr",
-    "communities": "Communities",
-    "add_account": "Hesab Əlavə et",
+    "communities": "Cəmiyyətlər",
+    "add_account": "Hesab əlavə et",
     "logout": "Çıxış",
     "cancel": "İmtina",
     "logout_text": "Çıxış etmək istədiyinə əminsən?",
-    "create_a_new_account": "Create a new account",
-    "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts"
+    "create_a_new_account": "Yeni bir hesab yaradın",
+    "add_an_existing_account": "Mövcud bir hesab əlavə edin",
+    "accounts": "Hesablar"
   },
   "header": {
     "title": "Axınını özəlləşdirmək üçün giriş et",
@@ -274,15 +279,15 @@
   },
   "editor": {
     "title": "Başlıq",
-    "tags": "Tags (separate with space)",
-    "default_placeholder": "Tell us something...",
-    "reply_placeholder": "Add your reply...",
+    "tags": "Etiketlər (boşluqla ayırın)",
+    "default_placeholder": "Bizə nəsə deyin...",
+    "reply_placeholder": "Cavabınızı əlavə edin...",
     "publish": "Dərc et",
     "reply": "Cavabla",
     "open_gallery": "Qalereyanı Aç",
     "capture_photo": "Foto çək",
-    "uploaded_images": "Uploaded Images",
-    "limited_tags": "Only 10 tags allowed, remove some",
+    "uploaded_images": "Yüklənilən təsvirlər",
+    "limited_tags": "Yalnız 10 etiketə icazə verilir, bəzilərini çıxarın",
     "limited_length": "Maximum length of each tag should be 24",
     "limited_dash": "Use one dash in each tag",
     "limited_space": "Use space to separate tags",
@@ -291,30 +296,30 @@
     "limited_firstchar": "Tag must start with a letter",
     "limited_lastchar": "Tag must end with letter or number",
     "setting_schedule": "Scheduling Time",
-    "setting_reward": "Reward",
+    "setting_reward": "Mükafat",
     "setting_beneficiary": "Beneficiary",
     "reward_default": "Default 50% / 50%",
     "reward_power_up": "Power Up 100%",
     "reward_decline": "Decline Payout",
     "beneficiaries": "Beneficiaries",
-    "options": "Options",
+    "options": "Seçimlər",
     "my_blog": "Bloqum",
-    "select_community": "Choose a community",
+    "select_community": "Bir cəmiyyət seçin",
     "my_communities": "Cəmiyyətlərim",
     "top_communities": "Başlıca Cəmiyyətlər",
-    "schedule_modal_title": "Schedule Post",
+    "schedule_modal_title": "Planlaşdırılan Göndəriş",
     "snippets": "Snippets",
-    "alert_init_title": "New Content",
-    "alert_init_body": "Open recent draft or Create new post",
-    "alert_btn_draft": "Recent Draft",
-    "alert_btn_new": "New Post",
-    "alert_pub_edit_title": "Publishing edits",
-    "alert_pub_new_title": "Publishing new post",
-    "alert_pub_body": "Are you sure?",
-    "alert_btn_yes": "Yes",
-    "alert_btn_no": "No",
-    "draft_save_success": "Draft Saved",
-    "draft_save_fail": "Failed to save draft"
+    "alert_init_title": "Yeni Məzmun",
+    "alert_init_body": "Son qaralamanı açın və ya yeni göndəriş yaradın",
+    "alert_btn_draft": "Son qaralama",
+    "alert_btn_new": "Yeni göndəriş",
+    "alert_pub_edit_title": "Düzəlişlər dərc olunur",
+    "alert_pub_new_title": "Yeni göndəriş dərc olunur",
+    "alert_pub_body": "Əminsiniz?",
+    "alert_btn_yes": "Bəli",
+    "alert_btn_no": "Xeyr",
+    "draft_save_success": "Qaralama saxlanıldı",
+    "draft_save_fail": "Qaralama saxlanılmadı"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -323,30 +328,30 @@
     "title_remove_confirmation": "Delete snippet",
     "placeholder_title": "Snippet title",
     "placeholder_body": "Add snippet body here...",
-    "btn_save": "SAVE",
-    "btn_close": "CLOSE",
+    "btn_save": "SAXLA",
+    "btn_close": "BAĞLA",
     "btn_add": "Snippet",
     "message_incomplete": "Please add title and body for snippet",
     "message_failed": "Failed to save snippet",
     "message_remove_confirmation": "Are you sure you want to delete this snippet?",
-    "btn_confirm": "Confirm",
-    "btn_cancel": "Cancel"
+    "btn_confirm": "Təsdiqlə",
+    "btn_cancel": "İmtina"
   },
   "uploads_modal": {
-    "label_no_images": "No Images Found",
-    "title": "Uploaded Images",
-    "title_remove_confirmation": "Delete image",
-    "btn_add": "Image",
-    "message_failed": "Failed to upload image"
+    "label_no_images": "Təsvir tapılmadı",
+    "title": "Yüklənilən təsvirlər",
+    "title_remove_confirmation": "Təsviri sil",
+    "btn_add": "Təsvir",
+    "message_failed": "Təsvir yüklənmədi"
   },
   "pincode": {
     "enter_text": "Kilidi açmaq üçün PIN-i daxil et",
     "set_new": "Yeni PIN tənzimlə",
     "write_again": "Təkrar yaz",
     "forgot_text": "Unutmuşam...",
-    "pin_not_matched": "PIN do not match, Please try again.",
-    "attempts_postfix": "failed attempt(s)",
-    "message_reset_warning": "User data will be wiped on next failed attempt"
+    "pin_not_matched": "PIN uyğun gəlmir, zəhmət olmasa yenidən sınayın.",
+    "attempts_postfix": "uğursuz cəhd(lər)",
+    "message_reset_warning": "Növbəti uğursuz cəhddə istifadəçi verilənləri silənəcək"
   },
   "alert": {
     "success": "Uğurlu!",
@@ -356,31 +361,31 @@
     "fail": "Uğursuz!",
     "move": "Köçürt",
     "move_question": "Qaralamalara köçürtmək istədiyinizə əminsiniz?",
-    "success_shared": "Success! Content submitted!",
+    "success_shared": "Uğurlu! Məzmun göndərildi!",
     "success_moved": "Qaralamalara köçürüldü",
     "permission_denied": "İcazə verilmədi",
-    "permission_text": "Please, go to phone Settings and change Ecency app permissions.",
-    "key_warning": "Operation requires active key or master password, please relogin!",
+    "permission_text": "Zəhmət olmasa telefon tənzimləmələrinə gedərək Ecency tətbiq icazələrini dəyişdirin.",
+    "key_warning": "Əməliyyat, aktiv açar və ya usta şifrə tələb edir, zəhmət olmasa təkrar giriş edin!",
     "success_rebloged": "Təkrar paylaşıldı!",
     "already_rebloged": "Artıq təkrar paylaşdınız!",
-    "success_favorite": "Favorite added!",
-    "success_unfavorite": "Favorite removed!",
-    "success_follow": "Follow success!",
-    "fail_follow": "Follow failed!",
-    "success_subscribe": "Subscribe success!",
-    "fail_subscribe": "Subscribe failed!",
-    "success_leave": "Leave success!",
-    "fail_leave": "Leave failed!",
-    "success_mute": "Mute success!",
-    "success_unmute": "Unmute success!",
-    "success_unfollow": "Unfollow success!",
-    "fail_unfollow": "Unfollow failed!",
+    "success_favorite": "Sevimli əlavə edildi!",
+    "success_unfavorite": "Sevimli çıxarıldı!",
+    "success_follow": "Uğurla izlənilir!",
+    "fail_follow": "İzləmə uğursuz oldu!",
+    "success_subscribe": "Uğurla abunə olundu!",
+    "fail_subscribe": "Abunə olma uğursuz oldu!",
+    "success_leave": "Uğurla tərk edildi!",
+    "fail_leave": "Tərk etmə uğursuz oldu!",
+    "success_mute": "Uğurla səssizə alındı!",
+    "success_unmute": "Uğurla səssizdən çıxarıldı!",
+    "success_unfollow": "Uğurla izləmədən çıxarıldı!",
+    "fail_unfollow": "İzləmədən çıxarma uğursuz oldu!",
     "warning": "Xəbərdarlıq",
     "invalid_pincode": "Etibarsız PIN kod, zəhmət olmasa yoxlayıb yenidən sınayın.",
     "remove_alert": "Çıxarmaq istədiyinizə əminsiniz?",
     "clear_alert": "Təmizləmək istədiyinizə əminsiniz?",
     "clear_user_alert": "Bütün istifadəçi verilənlərini təmizləmək istədiyinizə əminsiniz?",
-    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
+    "decrypt_fail_alert": "Zədəli tətbiq vəziyyəti, vəziyyəti sıfırlamaq üçün təkrar giriş edin.",
     "clear": "Təmizlə",
     "cancel": "İmtina",
     "delete": "Sil",
@@ -391,37 +396,37 @@
     "same_user": "Bu istifadəçi artıq siyahıya əlavə edildi",
     "unknow_error": "Bir xəta baş verdi",
     "error": "Xəta",
-    "fetch_error": "Connection issue, change server and restart",
+    "fetch_error": "Bağlantı problemi, serveri dəyişdirin və ya yenidən başladın",
     "connection_fail": "Bağlantı Uğursuz Oldu!",
     "connection_success": "Bağlantı uğurla quruldu!",
-    "checking": "Checking...",
-    "external_link": "Open in Browser",
+    "checking": "Yoxlanılır...",
+    "external_link": "Səyyahda açın",
     "not_existing_post": "The post does not exist! Please check permlink and author.",
-    "google_play_version": "We noticed that your device has old version of Google Play. Please update Google Play services and try again!",
+    "google_play_version": "Cihazınızdakı Google Play versiyası köhnəlib. Google Play xidmətlərini yeniləyib təkrar sınayın!",
     "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
-    "payloadTooLarge": "File size too big, please resize or upload smaller image",
-    "qoutaExceeded": "Upload quota exceeded",
-    "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong.",
-    "something_wrong_alt": "Try https://ecency.com",
-    "something_wrong_reload": "Reload",
-    "can_not_be_empty": "Title and body can not be empty!",
-    "wrong_filter_count": "Please select 3 filters"
+    "payloadTooLarge": "Fayl həcmi çox böyükdür, yenidən ölçüləndirin və ya kiçik təsvir yükləyin",
+    "qoutaExceeded": "Yükləmə kvotası keçildi",
+    "invalidImage": "Etibarsız təsvir, fərqli fayl sınayın",
+    "something_wrong": "Nəsə səhv getdi.",
+    "something_wrong_alt": "https://ecency.com sınayın",
+    "something_wrong_reload": "Yenidən yükləyin",
+    "can_not_be_empty": "Başlıq və gövdə boş ola bilməz!",
+    "wrong_filter_count": "Zəhmət olmasa 3 filtr seçin"
   },
   "post": {
     "reblog_alert": "Təkrar paylaşmaq istədiyinizə əminsiniz?",
-    "removed_hint": "Content is not available",
-    "copy_link": "Copy link",
+    "removed_hint": "Məzmun əlçatan deyil",
+    "copy_link": "Bağlantını kopyala",
     "reblogged": "təkrar paylaşan:",
     "sponsored": "SPONSORLU",
-    "open_thread": "Open thread",
-    "image": "Image",
-    "link": "Link",
-    "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image",
-    "wrong_link": "Wrong link"
+    "open_thread": "Mövzunu aç",
+    "image": "Təsvir",
+    "link": "Bağlantı",
+    "gallery_mode": "Qalereya rejimi",
+    "save_to_local": "Cihaza endir",
+    "image_saved": "Təsvir Foto Qalereya saxlanıldı",
+    "image_saved_error": "Təsvir Saxlanmadı",
+    "wrong_link": "Yanlış bağlantı"
   },
   "drafts": {
     "title": "Qaralamalar",
@@ -430,7 +435,7 @@
     "deleted": "Qaralama silindi"
   },
   "schedules": {
-    "title": "Schedules",
+    "title": "Cədvəllər",
     "empty_list": "Burada heç nə yoxdur",
     "deleted": "Planlaşdırılmış göndəriş silindi",
     "move": "Qaralamalara köçür",
@@ -446,7 +451,7 @@
     "add": "Əlfəcinlərə əlavə et"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Mübahisəli məzmun şikayət edildi"
   },
   "favorites": {
     "title": "Sevimlilər",
@@ -459,7 +464,7 @@
     "invalid_username": "Etibarsız istifadəçi adı, zəhmət olmasa yoxlayıb yenidən sınayın",
     "already_logged": "Artıq giriş etdiniz, zəhmət olmasa başqa bir hesab əlavə edin",
     "invalid_credentials": "Etibarsız kimlik məlumatları, zəhmət olmasa yoxlayıb yenidən sınayın",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "Bilinməyən xəta, zəhmət olmasa support@ecency.com ünvanına yazın"
   },
   "payout": {
     "potential_payout": "Mümkün Ola Biləcək Ödəniş",
@@ -479,7 +484,7 @@
     "bookmarks": "əlfəcinlərə əlavə et",
     "promote": "tanıt",
     "boost": "gücləndir",
-    "report": "report"
+    "report": "şikayət et"
   },
   "deep_link": {
     "no_existing_user": "Heç bir istifadəçi yoxdur",
@@ -490,11 +495,11 @@
     "comments": "Rəylər"
   },
   "comment_filter": {
-    "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
-    "top": "TOP",
+    "trending": "BAŞLICA",
+    "reputation": "NÜFUZ",
+    "votes": "SƏSVERMƏ",
+    "age": "YAŞ",
+    "top": "BAŞLICA",
     "time": "VAXT"
   },
   "transfer": {
@@ -506,45 +511,45 @@
     "information": "Fonda köçürmə edildiyinə əminsiniz?",
     "amount_desc": "Balans",
     "memo_desc": "Bu qeyd ictimaidir",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
+    "convert_desc": "Çevrilmə 3.5 gün çəkir və HBD qiyməti $1-dən çoxdursa tövsiyə EDİLMİR",
     "to_placeholder": "İstifadəçi adı",
     "memo_placeholder": "Qeydlərinizi buraya daxil edin",
     "transfer_token": "Köçürmə",
-    "purchase_estm": "Purchase Points",
-    "convert": "Convert HBD to HIVE",
-    "points": "Gift Points to someone",
-    "transfer_to_savings": "Transfer To Saving",
-    "transfer_to_vesting": "Power Up",
+    "purchase_estm": "Satın alma xalları",
+    "convert": "HBD-nı HIVE-ə çevir",
+    "points": "Xal hədiyyə edin",
+    "transfer_to_savings": "Yığımlara köçür",
+    "transfer_to_vesting": "Gücü artır",
     "withdraw_to_saving": "Withdraw To Saving",
-    "steemconnect_title": "Hivesigner Transfer",
-    "estimated_weekly": "Estimated Weekly",
-    "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
+    "steemconnect_title": "Hivesigner Köçürməsi",
+    "estimated_weekly": "Həftəlik Təxmini",
+    "destination_accounts": "Hədəf Hesablar",
+    "stop_information": "Dayandırmaq istədiyinizə əminsiniz?",
+    "percent": "Faiz",
     "auto_vests": "Auto Vests",
-    "save": "SAVE",
-    "percent_information": "Percent info",
+    "save": "SAXLA",
+    "percent_information": "Faiz məlumatı",
     "next": "NÖVBƏTİ",
     "delegate": "Nümayəndə",
     "power_down": "Gücün Enməsi",
     "withdraw_hive": "Withdraw HIVE",
     "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Incoming Funds",
-    "stop": "Stop",
-    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
-    "address_view": "View address"
+    "stop": "Dayandır",
+    "sc_power_down_error": "Bu özəllik hələ ki, Hivesigner girişi üçün tətbiq edilmədi",
+    "address_view": "Ünvana bax"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
+    "title": "Xalları al",
+    "buy": "Xalları al",
     "next": "NÖVBƏTİ",
     "account": {
-      "title": "Get Account Boost",
+      "title": "Hesabı gücləndir",
       "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
     }
   },
   "free_estm": {
-    "title": "Free Points",
+    "title": "Ödənişsiz xallar",
     "button": "SPIN & WIN",
     "get_spin": "5 SPINS",
     "spin_right": "Spin Left",
@@ -555,7 +560,7 @@
     "days": "gün",
     "user": "İstifadəçi",
     "permlink": "Dərc et",
-    "permlinkPlaceholder": "username/permlink",
+    "permlinkPlaceholder": "istifadəçi adı/daimi bağlantı",
     "information": "Tanıtmaq istədiyinizə əminsiniz?"
   },
   "boostPost": {
@@ -571,85 +576,91 @@
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
+      "device_time": "Cihaz vaxtınız;",
+      "current_time": "Hazırkı vaxt;",
       "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
     }
   },
   "comments": {
     "title": "Rəylər",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "more replies"
+    "reveal_comment": "Rəyi açın",
+    "read_more": "Daha çox rəy oxuyun",
+    "more_replies": "daha çox cavab"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Digərləri",
     "best": {
-      "title": "Best"
+      "title": "Ən yaxşı"
     },
     "people": {
-      "title": "People"
+      "title": "İnsanlar"
     },
     "topics": {
-      "title": "Topics"
+      "title": "Mövzular"
     },
     "communities": {
-      "title": "Groups",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
-      "posters": "Posters",
+      "title": "Qruplar",
+      "subscribe": "Qoşul",
+      "unsubscribe": "Tərk et",
+      "subscribers": "Üzvlər",
+      "posters": "Posterlər",
       "posts": "Göndərişlər"
     },
     "communities_filter": {
-      "my": "My Communities",
-      "rank": "Rank",
-      "subs": "Members",
-      "new": "New"
+      "my": "Cəmiyyətlərim",
+      "rank": "Sıra",
+      "subs": "Üzvlər",
+      "new": "Yeni"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "Məşhurluq",
+      "newest": "Ən yeni",
+      "relevance": "Uyğunluq"
     },
     "other_result_filter": {
       "user": "İstifadəçi",
-      "tag": "Tag"
+      "tag": "Etiket"
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details"
+    "new_post": "Yeni Göndəriş",
+    "community": "cəmiyyət",
+    "details": "Təfsilatlar",
+    "muted": "Səssizdə",
+    "payout": "Ödəmə"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow"
+    "follow": "İzlə",
+    "unfollow": "İzləmədən imtina",
+    "add_to_favourites": "SEVİMLİLƏRƏ ƏLAVƏ ET",
+    "remove_from_favourites": "SEVİMLİLƏRDƏN ÇIXART",
+    "mute": "SƏSİ KƏS",
+    "unmute": "SƏSİ AÇ"
   },
   "communities": {
-    "joined": "Membership",
-    "discover": "Discover",
-    "discover_communities": "Discover Communities",
-    "no_communities": "Connect with people who share your interests by joining Communities."
+    "joined": "Üzvlük",
+    "discover": "Kəşf et",
+    "discover_communities": "Cəmiyyətləri Kəşf Edin",
+    "no_communities": "Cəmiyyətlərə qoşularaq maraqlarınızı paylaşan insanlarla bağlantı qurun."
   },
   "empty_screen": {
-    "nothing_here": "Nothing here"
+    "nothing_here": "Burada heç nə yoxdur"
   },
   "beneficiary_modal": {
-    "percent": "Percent",
-    "username": "Username",
-    "addAccount": "Add Account",
-    "save": "Save"
+    "percent": "Faiz",
+    "username": "İstifadəçi adı",
+    "addAccount": "Hesab əlavə et",
+    "save": "Saxla"
   },
   "welcome": {
-    "label": "Welcome to",
+    "label": "Xoş Gəldiniz",
     "title": "Ecency",
-    "line1_heading": "Are you looking for community?",
+    "line1_heading": "Cəmiyyət axtarırsınız?",
     "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
-    "line2_heading": "We have a solution!",
+    "line2_heading": "Bir həll üsulumuz var!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
-    "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others.",
-    "get_started": "Get started!"
+    "line3_heading": "Ecency cəmiyyətinə qoşulun!",
+    "line3_body": "Öz cəmiyyətinizi qurun, mükafat alın və başqalarını mükafatlandırın.",
+    "get_started": "Başlayaq!"
   }
 }

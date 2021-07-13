@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Hadiah Benefactor",
     "claim_reward_balance": "Klaim Hadiah ",
     "transfer": "Transfer",
-    "power_up": "To Vesting",
+    "power_up": "Untuk Menjamin",
     "transfer_from_savings": "Dari Tabungan",
     "withdraw_vesting": "Turunkan Daya Kekuatan",
     "fill_order": "Isi pesanan",
@@ -62,14 +62,14 @@
     "purchase_estm": "DAPATKAN POIN",
     "points": "Hadiahkan poin kepada seseorang",
     "transfer_to_saving": "Untuk Menyimpan",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_vesting": "Tingkatkan Kekuatan",
     "withdraw_to_saving": "Menarik Tabungan",
     "steemconnect_title": "Transfer Hivesigner",
     "next": "LANJUT",
     "delegate": "Delegasikan",
     "power_down": "Turunkan Daya Kekuatan",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HBD",
+    "withdraw_hive": "Tarik HIVE",
+    "withdraw_hbd": "Tarik HBD",
     "transfer_to_savings": "Untuk Tabungan",
     "convert": "Mengkonversi",
     "escrow_transfer": "Transfer Escrow",
@@ -86,21 +86,21 @@
       "buy": "DAPATKAN POIN"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "Penyimpanan HIVE"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "Penyimpanan HBD"
     },
     "hive": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "DAPATKAN HIVE"
     },
     "hbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "DAPATKAN HBD"
     },
     "hive_power": {
-      "title": "HIVE POWER"
+      "title": "KEKUATAN HIVE"
     },
     "btc": {
       "title": "BTC",
@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "voted",
-    "unvote": "unvoted",
+    "unvote": "vote dibatalkan",
     "reply": "balas untuk",
     "mention": "diasebutkan dalam",
     "follow": "mengikuti anda",
@@ -134,12 +134,16 @@
     "replies": "Balasan",
     "mentions": "Menyebutkan",
     "reblogs": "Menampilkan kembali",
-    "noactivity": "Tidak ada aktivitas terbaru"
+    "noactivity": "Tidak ada aktivitas terbaru",
+    "mention_on": "Sebutan baru di",
+    "reply_on": "Balasan baru di",
+    "reply_body": "Ketuk untuk melanjutkan percakapan..."
   },
   "leaderboard": {
     "daily": "HARIAN",
     "weekly": "MINGGUAN",
-    "monthly": "BULANAN"
+    "monthly": "BULANAN",
+    "tooltip_earn": "Dapatkan poin dengan partisipasi secara aktif di Ecency."
   },
   "messages": {
     "comingsoon": "Fungsi pesan akan segera hadir!"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "Mengikuti",
     "follower": "Pengikut",
+    "edit_label": "Edit",
     "post": "Post",
     "details": "Rincian Profil",
     "comments": "Komentar",
@@ -158,15 +163,15 @@
     "hours": "jam",
     "voting_power": "Kekuatan Suara",
     "login_to_see": "Masuk untuk melihat",
-    "follow_people": "When you follow people, you'll see their post here.",
-    "follow_communities": "When you join communities you'll see posts from communities here.",
+    "follow_people": "Ketika Anda mengikuti orang lain, Anda akan melihat postingan mereka di sini.",
+    "follow_communities": "Saat Anda bergabung dengan komunitas, Anda akan melihat postingan dari komunitas di sini.",
     "havent_commented": "belum berkomentar",
     "havent_posted": "belum pernah mengirimkan sesuatu",
-    "hive_power": "Hive Power",
+    "hive_power": "Kekuatan Hive",
     "next_power_text": "Menurunkan daya berikutnya di",
     "days": "hari",
     "day": "hari",
-    "hive_dollars": "Hive Dollars",
+    "hive_dollars": "Hive Dolar",
     "savings": "Tabungan",
     "edit": {
       "display_name": "Nama Tampilan",
@@ -281,7 +286,7 @@
     "reply": "Balas",
     "open_gallery": "Buka Album",
     "capture_photo": "Ambil Foto",
-    "uploaded_images": "Uploaded Images",
+    "uploaded_images": "Gambar yang diunggah",
     "limited_tags": "Hanya 10 tag yang diizinkan, hapus beberapa",
     "limited_length": "Panjang maksimum setiap tag harus 24",
     "limited_dash": "Gunakan satu tanda hubung di setiap tag",
@@ -406,7 +411,7 @@
     "something_wrong_alt": "Cobalah https://ecency.com",
     "something_wrong_reload": "Muat ulang",
     "can_not_be_empty": "Judul dan isi tidak boleh kosong!",
-    "wrong_filter_count": "Please select 3 filters"
+    "wrong_filter_count": "Silahkan pilih 3 penyaringan"
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
@@ -513,8 +518,8 @@
     "purchase_estm": "Beli Poin",
     "convert": "Konversi ke HIVE",
     "points": "Hadiahkan Poin kepda seseorang",
-    "transfer_to_savings": "Transfer To Saving",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_savings": "Transfer untuk Penyimpanan",
+    "transfer_to_vesting": "Tingkatkan Kekuatan",
     "withdraw_to_saving": "Tarik untuk menyimpan",
     "steemconnect_title": "Transfer Hivesigner",
     "estimated_weekly": "Estimasi Mingguan",
@@ -527,11 +532,11 @@
     "next": "LANJUT",
     "delegate": "Delegasikan",
     "power_down": "Menurunkan daya",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HIVE Dollar",
+    "withdraw_hive": "Tarik HIVE",
+    "withdraw_hbd": "Tarik Hive Dolar",
     "incoming_funds": "Dana masuk",
     "stop": "Berhenti",
-    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
+    "sc_power_down_error": "Fitur ini belum diimplementasikan untuk login dengan Hivesigner",
     "address_view": "Lihat alamat"
   },
   "boost": {
@@ -620,17 +625,23 @@
   "community": {
     "new_post": "Postingan Baru",
     "community": "komunitas",
-    "details": "Rincian"
+    "details": "Rincian",
+    "muted": "Dibisukan",
+    "payout": "Pembayaran"
   },
   "user": {
     "follow": "Ikuti",
-    "unfollow": "Berhenti mengikuti"
+    "unfollow": "Berhenti mengikuti",
+    "add_to_favourites": "MASUKKAN KE FAVORIT",
+    "remove_from_favourites": "HAPUS DARI FAVORIT",
+    "mute": "BISUKAN",
+    "unmute": "HIDUPKAN"
   },
   "communities": {
     "joined": "Keanggotaan",
     "discover": "Jelajahi",
-    "discover_communities": "Discover Communities",
-    "no_communities": "Connect with people who share your interests by joining Communities."
+    "discover_communities": "Temukan Komunitas",
+    "no_communities": "Terhubung dengan orang-orang yang memiliki minat yang sama dengan bergabung dalam Komunitas."
   },
   "empty_screen": {
     "nothing_here": "Tidak ada apa-apa di sini"
@@ -650,6 +661,6 @@
     "line2_body": "Memanfaatkan blockchain, bebas sensor, terdesentralisasi, dan bermanfaat.",
     "line3_heading": "Bergabunglah dengan Komunitas Ecency!",
     "line3_body": "Bangun komunitas yang Anda miliki, dapatkan imbalan, dan beri penghargaan kepada orang lain.",
-    "get_started": "Get started!"
+    "get_started": "Mulai!"
   }
 }

@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "голоси",
-    "unvote": "відкликав голос",
+    "unvote": "downvoted",
     "reply": "відповів (-ла) вам",
     "mention": "згадав (-ла) вас",
     "follow": "підписався(-лась) на вас",
@@ -134,12 +134,16 @@
     "replies": "Відповіді",
     "mentions": "Згадування",
     "reblogs": "Рестіми",
-    "noactivity": "Жодної активності"
+    "noactivity": "Жодної активності",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "ЩОДЕННО",
     "weekly": "ЩОТИЖНЯ",
-    "monthly": "ЩОМІСЯЦЯ"
+    "monthly": "ЩОМІСЯЦЯ",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Функція повідомлень незабаром стане доступною!"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "Слідкує",
     "follower": "Читачі",
+    "edit_label": "Edit",
     "post": "Дописи",
     "details": "Деталі профілю",
     "comments": "Коментарі",
@@ -620,11 +625,17 @@
   "community": {
     "new_post": "Новий допис",
     "community": "community",
-    "details": "Details"
+    "details": "Details",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Слідкувати",
-    "unfollow": "Не слідкувати"
+    "unfollow": "Не слідкувати",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Membership",

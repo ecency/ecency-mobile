@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "님이 보팅하였습니다.",
-    "unvote": "님이 다운 보팅하였습니다.",
+    "unvote": "downvoted",
     "reply": " 님이 댓글을 남겼습니다.",
     "mention": "님이 언급하였습니다.",
     "follow": "님이 팔로우를 시작했습니다",
@@ -134,12 +134,16 @@
     "replies": "받은 댓글",
     "mentions": "언급",
     "reblogs": "리블로그",
-    "noactivity": "최근 활동 내역이 없습니다."
+    "noactivity": "최근 활동 내역이 없습니다.",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "일간",
     "weekly": "주간",
-    "monthly": "월간"
+    "monthly": "월간",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "메시지 기능은 곧 출시될 예정입니다!"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "팔로잉",
     "follower": "팔로워",
+    "edit_label": "Edit",
     "post": "글 목록",
     "details": "프로필 상세정보",
     "comments": "작성한 댓글",
@@ -620,11 +625,17 @@
   "community": {
     "new_post": "새 글",
     "community": "community",
-    "details": "Details"
+    "details": "Details",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Follow",
-    "unfollow": "Unfollow"
+    "unfollow": "Unfollow",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Membership",
