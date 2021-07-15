@@ -302,10 +302,6 @@ export const verifyPinCode = async (data) => {
       return Promise.reject(new Error('auth.invalid_pin'));
     }
 
-    if (result.length > 0) {
-      //TOOD: handle refresh token failure
-      await refreshSCToken(userData, get(data, 'pinCode'));
-    }
     return true;
   } catch (err) {
     console.warn('Failed to verify pin in auth: ', data, err);

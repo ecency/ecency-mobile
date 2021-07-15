@@ -683,19 +683,22 @@ class ApplicationContainer extends Component {
   };
 
   _fetchUserDataFromDsteem = async (realmObject) => {
-    const { dispatch, intl, pinCode } = this.props;
+    const { dispatch, intl, pinCode, isPinCodeOpen } = this.props;
 
     try {
       let accountData = await getUser(realmObject.username);
       accountData.local = realmObject;
 
-      //migration script for previously mast key based logged in user not having access token
-      if (realmObject.authType === AUTH_TYPE.MASTER_KEY && realmObject.accessToken === '') {
-        accountData = await migrateToMasterKeyWithAccessToken(accountData, pinCode);
-      }
+      //cannot migrate or refresh token since pin would null while pin code modal is open
+      if (!isPinCodeOpen) {
+        //migration script for previously mast key based logged in user not having access token
+        if (realmObject.authType === AUTH_TYPE.MASTER_KEY && realmObject.accessToken === '') {
+          accountData = await migrateToMasterKeyWithAccessToken(accountData, pinCode);
+        }
 
-      //refresh access token
-      accountData = await this._refreshAccessToken(accountData);
+        //refresh access token
+        accountData = await this._refreshAccessToken(accountData);
+      }
 
       dispatch(updateCurrentAccount(accountData));
 
