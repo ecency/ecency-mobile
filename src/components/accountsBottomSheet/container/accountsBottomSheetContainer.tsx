@@ -23,6 +23,8 @@ import { setFeedPosts, setInitPosts } from '../../../redux/actions/postsAction';
 import { Alert } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useAppSelector } from '../../../hooks';
+import { getUnreadNotificationCount } from '../../../providers/ecency/ecency';
+import { decryptKey } from '../../../utils/crypto';
 
 const AccountsBottomSheetContainer = ({ navigation }) => {
   const intl = useIntl();
@@ -99,6 +101,9 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
       );
       _currentAccount.local.accessToken = encryptedAccessToken;
 
+      _currentAccount.unread_activity_count = await getUnreadNotificationCount(
+        decryptKey(encryptedAccessToken, getDigitPinCode(pinHash))
+      );
       dispatch(updateCurrentAccount(_currentAccount));
     }
 

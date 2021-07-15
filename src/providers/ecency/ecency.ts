@@ -356,13 +356,14 @@ export const getNotifications = async (data:{
   }
 
 
-  export const getUnreadNotificationCount = async () => {
+  export const getUnreadNotificationCount = async (accessToken?:string) => {
     try {
-      const response = await ecencyApi.post(`/private-api/notifications/unread`)
+      const data = accessToken ? {code:accessToken}:{}
+      const response = await ecencyApi.post(`/private-api/notifications/unread`, data)
       return response.data ? response.data.count : 0;
     } catch(error) {
       bugsnag.notify(error);
-      throw error;
+      return 0;
     }
   }
 

@@ -18,7 +18,7 @@ import {
 } from '../../realm/realm';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import hsApi from './hivesignerAPI';
-import { getSCAccessToken } from '../ecency/ecency';
+import { getSCAccessToken, getUnreadNotificationCount } from '../ecency/ecency';
 
 // Constants
 import AUTH_TYPE from '../../constants/authType';
@@ -66,6 +66,9 @@ export const login = async (username, password, isPinCodeOpen) => {
   const signerPrivateKey = privateKeys.ownerKey || privateKeys.activeKey || privateKeys.postingKey;
   const code = await makeHsCode(account.name, signerPrivateKey);
   const scTokens = await getSCAccessToken(code);
+  account.unread_activity_count = await getUnreadNotificationCount(
+    scTokens ? scTokens.access_token : '',
+  );
 
   let jsonMetadata;
   try {
@@ -128,6 +131,10 @@ export const loginWithSC2 = async (code, isPinCodeOpen) => {
   let avatar = '';
 
   return new Promise(async (resolve, reject) => {
+    account.unread_activity_count = await getUnreadNotificationCount(
+      scTokens ? scTokens.access_token : '',
+    );
+
     let jsonMetadata;
     try {
       jsonMetadata = JSON.parse(account.posting_json_metadata) || '';

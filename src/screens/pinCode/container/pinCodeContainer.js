@@ -42,6 +42,7 @@ import { encryptKey, decryptKey } from '../../../utils/crypto';
 
 // Component
 import PinCodeScreen from '../screen/pinCodeScreen';
+import { getUnreadNotificationCount } from '../../../providers/ecency/ecency';
 
 class PinCodeContainer extends Component {
   constructor(props) {
@@ -308,13 +309,14 @@ class PinCodeContainer extends Component {
                 }
 
                 //refresh access token
-
                 const encryptedAccessToken = await refreshSCToken(_currentAccount.local, pin);
                 _currentAccount.local.accessToken = encryptedAccessToken;
               } catch (error) {
                 this._onRefreshTokenFailed(error);
               }
 
+              //get unread notifications
+              _currentAccount.unread_activity_count = await getUnreadNotificationCount();
               dispatch(updateCurrentAccount({ ..._currentAccount }));
               dispatch(closePinCodeModal());
             }

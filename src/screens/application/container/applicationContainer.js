@@ -51,6 +51,7 @@ import {
   setPushToken,
   markActivityAsRead,
   markNotifications,
+  getUnreadNotificationCount,
 } from '../../../providers/ecency/ecency';
 import { navigate } from '../../../navigation/service';
 
@@ -700,6 +701,7 @@ class ApplicationContainer extends Component {
         accountData = await this._refreshAccessToken(accountData);
       }
 
+      accountData.unread_activity_count = await getUnreadNotificationCount();
       dispatch(updateCurrentAccount(accountData));
 
       this._connectNotificationServer(accountData.name);
@@ -878,6 +880,7 @@ class ApplicationContainer extends Component {
     //update refresh token
     _currentAccount = await this._refreshAccessToken(_currentAccount);
 
+    _currentAccount.unread_activity_count = await getUnreadNotificationCount();
     dispatch(updateCurrentAccount(_currentAccount));
   };
 
