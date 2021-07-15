@@ -82,6 +82,7 @@ import {
   isPinCodeOpen,
   setPinCode as savePinCode,
   isRenderRequired,
+  logout,
 } from '../../../redux/actions/applicationActions';
 import {
   hideActionModal,
@@ -90,7 +91,12 @@ import {
   toastNotification,
   updateActiveBottomTab,
 } from '../../../redux/actions/uiAction';
-import { resetLocalVoteMap, setFeedScreenFilters } from '../../../redux/actions/postsAction';
+import {
+  resetLocalVoteMap,
+  setFeedPosts,
+  setFeedScreenFilters,
+  setInitPosts,
+} from '../../../redux/actions/postsAction';
 
 import { encryptKey } from '../../../utils/crypto';
 
@@ -640,7 +646,7 @@ class ApplicationContainer extends Component {
   };
 
   _refreshAccessToken = async (currentAccount) => {
-    const { pinCode, isPinCodeOpen, dispatch } = this.props;
+    const { pinCode, isPinCodeOpen, dispatch, intl } = this.props;
 
     if (isPinCodeOpen) {
       return currentAccount;
@@ -659,6 +665,19 @@ class ApplicationContainer extends Component {
       };
     } catch (error) {
       console.warn('Failed to refresh access token', error);
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        error.message,
+        [
+          {
+            text: intl.formatMessage({ id: 'side_menu.logout' }),
+            onPress: () => dispatch(logout()),
+          },
+          { text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' },
+        ],
+      );
       return currentAccount;
     }
   };
@@ -782,11 +801,13 @@ class ApplicationContainer extends Component {
             isLoggedIn: false,
           });
           setExistUser(false);
-          if (local === AUTH_TYPE.STEEM_CONNECT) {
+          if (local.authType === AUTH_TYPE.STEEM_CONNECT) {
             removeSCAccount(name);
           }
         }
 
+        dispatch(setFeedPosts([]));
+        dispatch(setInitPosts([]));
         dispatch(removeOtherAccount(name));
         dispatch(logoutDone());
       })
