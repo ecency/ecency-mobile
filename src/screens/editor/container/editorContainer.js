@@ -440,7 +440,7 @@ class EditorContainer extends Component {
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        error.message,
+        error.message || JSON.stringify(error),
       );
     }
   };
@@ -806,7 +806,7 @@ class EditorContainer extends Component {
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        error.toString(),
+        error.message || JSON.stringify(error),
       );
     }
 
