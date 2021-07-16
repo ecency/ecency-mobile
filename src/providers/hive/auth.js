@@ -3,6 +3,7 @@ import sha256 from 'crypto-js/sha256';
 import Config from 'react-native-config';
 import get from 'lodash/get';
 
+import { Alert } from 'react-native';
 import { getDigitPinCode, getUser } from './dhive';
 import {
   setUserData,
@@ -333,7 +334,7 @@ export const refreshSCToken = async (userData, pinCode) => {
     });
     return encryptedAccessToken;
   } catch (error) {
-    Alert.alert("Access token refresh failed", JSON.stringify(error));
+    Alert.alert('Access token refresh failed', JSON.stringify(error));
     if (now > expireDate) {
       throw error;
     } else {
@@ -421,25 +422,22 @@ const isLoggedInUser = async (username) => {
  * This migration snippet is used to update access token for users logged in using masterKey
  * accessToken is required for all ecency api calls even for non hivesigner users.
  */
-export const migrateToMasterKeyWithAccessToken = async (account, pinHash) => {
+export const migrateToMasterKeyWithAccessToken = async (account, userData, pinHash) => {
   //get username, user local data from account;
   const username = account.name;
-  const userData = account.local;
-
-  if (userData.accessToken) {
-    //skipping migration as access token already preset;
-    Alert.alert("Already have access token: " + JSON.stringify(userData));
-    return account;
-  }
 
   //decrypt password from local data
   const pinCode = getDigitPinCode(pinHash);
-  const password = decryptKey(userData.masterKey, pinCode);
+  const password = decryptKey(
+    userData.masterKey || userData.activeKey || userData.postingKey || userData.memoKey,
+    pinCode,
+  );
 
   // Set private keys of user
   const privateKeys = getPrivateKeys(username, password);
 
-  const signerPrivateKey = privateKeys.ownerKey || privateKeys.activeKey || privateKeys.postingKey;
+  const signerPrivateKey =
+    privateKeys.ownerKey || privateKeys.activeKey || privateKeys.postingKey || privateKeys.memoKey;
   const code = await makeHsCode(account.name, signerPrivateKey);
   const scTokens = await getSCAccessToken(code);
 
