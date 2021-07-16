@@ -299,11 +299,12 @@ class PinCodeContainer extends Component {
                 const pinHash = encryptKey(pin, Config.PIN_KEY);
                 //migration script for previously mast key based logged in user not having access token
                 if (
-                  realmData[0].authType === AUTH_TYPE.MASTER_KEY &&
+                  realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT &&
                   realmData[0].accessToken === ''
                 ) {
                   _currentAccount = await migrateToMasterKeyWithAccessToken(
                     _currentAccount,
+                    realmData[0],
                     pinHash,
                   );
                 }
