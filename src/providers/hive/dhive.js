@@ -97,8 +97,8 @@ export const fetchGlobalProps = async () => {
       parseToken(get(globalDynamic, 'total_vesting_shares'))) *
     1e6;
   const hbdPrintRate = get(globalDynamic, 'hbd_print_rate');
-  const base = parseAsset(medianHistory.base).amount;
-  const quote = parseAsset(medianHistory.quote).amount;
+  const base = parseAsset(get(medianHistory, 'current_median_history.quote')).amount;
+  const quote = parseAsset(get(medianHistory, 'current_median_history.quote')).amount;
   const fundRecentClaims = get(rewardFund, 'recent_claims');
   const fundRewardBalance = parseToken(get(rewardFund, 'reward_balance'));
   const globalProps = {
