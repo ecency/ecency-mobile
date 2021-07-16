@@ -9,7 +9,6 @@ import { Client as hsClient } from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
 import { getServer, getCache, setCache } from '../../realm/realm';
-import { getUnreadNotificationCount } from '../ecency/ecency';
 import { userActivity } from '../ecency/ePoint';
 
 // Utils
@@ -208,14 +207,6 @@ export const getUser = async (user, loggedIn = true) => {
         }))) ||
       getCache('rcPower');
     await setCache('rcPower', rcPower);
-
-    if (loggedIn) {
-      try {
-        unreadActivityCount = await getUnreadNotificationCount();
-      } catch (error) {
-        unreadActivityCount = 0;
-      }
-    }
 
     _account.reputation = getReputation(_account.reputation);
     _account.username = _account.name;

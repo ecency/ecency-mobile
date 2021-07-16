@@ -51,6 +51,7 @@ import {
   setPushToken,
   markActivityAsRead,
   markNotifications,
+  getUnreadNotificationCount,
 } from '../../../providers/ecency/ecency';
 import { navigate } from '../../../navigation/service';
 
@@ -82,6 +83,7 @@ import {
   isPinCodeOpen,
   setPinCode as savePinCode,
   isRenderRequired,
+  logout,
 } from '../../../redux/actions/applicationActions';
 import {
   hideActionModal,
@@ -90,7 +92,12 @@ import {
   toastNotification,
   updateActiveBottomTab,
 } from '../../../redux/actions/uiAction';
-import { resetLocalVoteMap, setFeedScreenFilters } from '../../../redux/actions/postsAction';
+import {
+  resetLocalVoteMap,
+  setFeedPosts,
+  setFeedScreenFilters,
+  setInitPosts,
+} from '../../../redux/actions/postsAction';
 
 import { encryptKey } from '../../../utils/crypto';
 
@@ -640,7 +647,7 @@ class ApplicationContainer extends Component {
   };
 
   _refreshAccessToken = async (currentAccount) => {
-    const { pinCode, isPinCodeOpen, dispatch } = this.props;
+    const { pinCode, isPinCodeOpen, dispatch, intl } = this.props;
 
     if (isPinCodeOpen) {
       return currentAccount;
@@ -659,25 +666,42 @@ class ApplicationContainer extends Component {
       };
     } catch (error) {
       console.warn('Failed to refresh access token', error);
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        error.message,
+        [
+          {
+            text: intl.formatMessage({ id: 'side_menu.logout' }),
+            onPress: () => dispatch(logout()),
+          },
+          { text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' },
+        ],
+      );
       return currentAccount;
     }
   };
 
   _fetchUserDataFromDsteem = async (realmObject) => {
-    const { dispatch, intl, pinCode } = this.props;
+    const { dispatch, intl, pinCode, isPinCodeOpen } = this.props;
 
     try {
       let accountData = await getUser(realmObject.username);
       accountData.local = realmObject;
 
-      //migration script for previously mast key based logged in user not having access token
-      if (realmObject.authType === AUTH_TYPE.MASTER_KEY && realmObject.accessToken === '') {
-        accountData = await migrateToMasterKeyWithAccessToken(accountData, pinCode);
+      //cannot migrate or refresh token since pin would null while pin code modal is open
+      if (!isPinCodeOpen) {
+        //migration script for previously mast key based logged in user not having access token
+        if (realmObject.authType === AUTH_TYPE.MASTER_KEY && realmObject.accessToken === '') {
+          accountData = await migrateToMasterKeyWithAccessToken(accountData, pinCode);
+        }
+
+        //refresh access token
+        accountData = await this._refreshAccessToken(accountData);
       }
 
-      //refresh access token
-      accountData = await this._refreshAccessToken(accountData);
-
+      accountData.unread_activity_count = await getUnreadNotificationCount();
       dispatch(updateCurrentAccount(accountData));
 
       this._connectNotificationServer(accountData.name);
@@ -782,11 +806,13 @@ class ApplicationContainer extends Component {
             isLoggedIn: false,
           });
           setExistUser(false);
-          if (local === AUTH_TYPE.STEEM_CONNECT) {
+          if (local.authType === AUTH_TYPE.STEEM_CONNECT) {
             removeSCAccount(name);
           }
         }
 
+        dispatch(setFeedPosts([]));
+        dispatch(setInitPosts([]));
         dispatch(removeOtherAccount(name));
         dispatch(logoutDone());
       })
@@ -854,6 +880,7 @@ class ApplicationContainer extends Component {
     //update refresh token
     _currentAccount = await this._refreshAccessToken(_currentAccount);
 
+    _currentAccount.unread_activity_count = await getUnreadNotificationCount();
     dispatch(updateCurrentAccount(_currentAccount));
   };
 

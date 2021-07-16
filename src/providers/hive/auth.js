@@ -18,7 +18,7 @@ import {
 } from '../../realm/realm';
 import { encryptKey, decryptKey } from '../../utils/crypto';
 import hsApi from './hivesignerAPI';
-import { getSCAccessToken } from '../ecency/ecency';
+import { getSCAccessToken, getUnreadNotificationCount } from '../ecency/ecency';
 
 // Constants
 import AUTH_TYPE from '../../constants/authType';
@@ -66,6 +66,9 @@ export const login = async (username, password, isPinCodeOpen) => {
   const signerPrivateKey = privateKeys.ownerKey || privateKeys.activeKey || privateKeys.postingKey;
   const code = await makeHsCode(account.name, signerPrivateKey);
   const scTokens = await getSCAccessToken(code);
+  account.unread_activity_count = await getUnreadNotificationCount(
+    scTokens ? scTokens.access_token : '',
+  );
 
   let jsonMetadata;
   try {
@@ -128,6 +131,10 @@ export const loginWithSC2 = async (code, isPinCodeOpen) => {
   let avatar = '';
 
   return new Promise(async (resolve, reject) => {
+    account.unread_activity_count = await getUnreadNotificationCount(
+      scTokens ? scTokens.access_token : '',
+    );
+
     let jsonMetadata;
     try {
       jsonMetadata = JSON.parse(account.posting_json_metadata) || '';
@@ -302,9 +309,6 @@ export const verifyPinCode = async (data) => {
       return Promise.reject(new Error('auth.invalid_pin'));
     }
 
-    if (result.length > 0) {
-      await refreshSCToken(userData, get(data, 'pinCode'));
-    }
     return true;
   } catch (err) {
     console.warn('Failed to verify pin in auth: ', data, err);
@@ -314,19 +318,27 @@ export const verifyPinCode = async (data) => {
 
 export const refreshSCToken = async (userData, pinCode) => {
   const scAccount = await getSCAccount(userData.username);
-  const now = new Date();
-  const expireDate = new Date(scAccount.expireDate);
+  const now = new Date().getTime();
+  const expireDate = new Date(scAccount.expireDate).getTime();
 
-  const newSCAccountData = await getSCAccessToken(scAccount.refreshToken);
+  try {
+    const newSCAccountData = await getSCAccessToken(scAccount.refreshToken);
 
-  await setSCAccount(newSCAccountData);
-  const accessToken = newSCAccountData.access_token;
-  const encryptedAccessToken = encryptKey(accessToken, pinCode);
-  await updateUserData({
-    ...userData,
-    accessToken: encryptedAccessToken,
-  });
-  return encryptedAccessToken;
+    await setSCAccount(newSCAccountData);
+    const accessToken = newSCAccountData.access_token;
+    const encryptedAccessToken = encryptKey(accessToken, pinCode);
+    await updateUserData({
+      ...userData,
+      accessToken: encryptedAccessToken,
+    });
+    return encryptedAccessToken;
+  } catch (error) {
+    if (now > expireDate) {
+      throw error;
+    } else {
+      console.warn('token failed to refresh but current token is still valid');
+    }
+  }
 };
 
 export const switchAccount = (username) =>
