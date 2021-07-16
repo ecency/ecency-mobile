@@ -86,7 +86,7 @@ export const fetchGlobalProps = async () => {
   try {
     globalDynamic = await getDynamicGlobalProperties();
     await setCache('globalDynamic', globalDynamic);
-    medianHistory = await getCurrentMedianHistoryPrice();
+    medianHistory = await getFeedHistory();
     rewardFund = await getRewardFund();
   } catch (e) {
     return;
