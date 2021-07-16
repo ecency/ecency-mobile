@@ -334,7 +334,6 @@ export const refreshSCToken = async (userData, pinCode) => {
     });
     return encryptedAccessToken;
   } catch (error) {
-    Alert.alert('Access token refresh failed', JSON.stringify(error));
     if (now > expireDate) {
       throw error;
     } else {

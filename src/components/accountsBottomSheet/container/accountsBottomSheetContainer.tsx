@@ -90,13 +90,9 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
       _currentAccount.local = realmData[0];
 
       //migreate account to use access token for master key auth type
-      let logs = "Realm data: " + JSON.stringify(realmData) + "\n\n"
-      Alert.alert("Realm data: " + JSON.stringify(realmData) + "\n\nWith PinHash: " + pinHash + "\n\n" )
       if (realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT && realmData[0].accessToken === '') {
         _currentAccount = await migrateToMasterKeyWithAccessToken(_currentAccount, realmData[0], pinHash);
-        logs +=  "Migrated Data: " + JSON.stringify(_currentAccount.local);
-        Alert.alert("Migrated Data: " + JSON.stringify(_currentAccount.local))
-      }
+       }
 
       //refresh access token
       const encryptedAccessToken = await refreshSCToken(
@@ -104,10 +100,7 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
         getDigitPinCode(pinHash),
       );
 
-      Alert.alert(`Final Logs: ${logs}\n\nRefreshed Token: ${encryptedAccessToken}`)
       _currentAccount.local.accessToken = encryptedAccessToken;
-
-      
 
       _currentAccount.unread_activity_count = await getUnreadNotificationCount(
         decryptKey(encryptedAccessToken, getDigitPinCode(pinHash))
