@@ -333,6 +333,7 @@ export const refreshSCToken = async (userData, pinCode) => {
     });
     return encryptedAccessToken;
   } catch (error) {
+    Alert.alert("Access token refresh failed", JSON.stringify(error));
     if (now > expireDate) {
       throw error;
     } else {
@@ -427,6 +428,7 @@ export const migrateToMasterKeyWithAccessToken = async (account, pinHash) => {
 
   if (userData.accessToken) {
     //skipping migration as access token already preset;
+    Alert.alert("Already have access token: " + JSON.stringify(userData));
     return account;
   }
 
