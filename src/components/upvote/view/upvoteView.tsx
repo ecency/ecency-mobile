@@ -87,13 +87,14 @@ const UpvoteView = ({
 
   
   useEffect(() => {
-    setSliderValue(
-      (isVoted || isDownVoted) 
-      ? 1 
-      : upvotePercent <= 1
-        ? upvotePercent 
-        : 1
-    )
+    const value = (isVoted || isDownVoted) 
+    ? 1 
+    : upvotePercent <= 1
+      ? upvotePercent 
+      : 1;
+
+    setSliderValue(value);
+    _calculateEstimatedAmount(value);
   }, [upvotePercent])
 
 
