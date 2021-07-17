@@ -15,10 +15,9 @@ export const getEstimatedAmount = (account, globalProps:GlobalProps, sliderValue
   const hbdMedian = base / quote;
   const voteEffectiveShares = calculateVoteRshares(totalVests, _votingPower, weight)
   const voteValue = (voteEffectiveShares / fundRecentClaims) * fundRewardBalance * hbdMedian;
-  const estimatedAmount = weight < 0 ? Math.min(voteValue * -1, 0) : Math.max(voteValue, 0)
+  const estimatedAmount = weight < 0 ? Math.min(voteValue * -1, 0) : Math.max(voteValue, 0);
 
   return Number.isNaN(estimatedAmount) ? '0.00000' : estimatedAmount.toFixed(5);
-
 };
 
 
@@ -32,8 +31,7 @@ export const getEstimatedAmount = (account, globalProps:GlobalProps, sliderValue
  */
 export const calculateVoteRshares = (userEffectiveVests:number, vp = 10000, weight = 10000) => {
   const userVestingShares = userEffectiveVests * 1e6;
-  const userVotingPower = vp * (Math.abs(weight) / 10000)
-  const voteRshares = userVestingShares * (userVotingPower / 10000) * 0.02
-  return voteRshares
+  const userVotingPower = vp * (Math.abs(weight) / 10000);
+  const voteRshares = userVestingShares * (userVotingPower / 10000) * 0.02;
+  return voteRshares;
 }
-
