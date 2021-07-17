@@ -1,19 +1,23 @@
 import parseToken from './parseToken';
 import { GlobalProps } from '../redux/reducers/accountReducer';
+import { votingPower } from '../providers/hive/dhive';
 
 export const getEstimatedAmount = (account, globalProps:GlobalProps, sliderValue:number = 1) => {
 
   const { fundRecentClaims, fundRewardBalance, base, quote } = globalProps;
-  const votingPower:number = account.voting_power;
+  const _votingPower:number = Number((100 * votingPower(account)).toFixed(0));
+  /*
   const vestingShares = parseToken(account.vesting_shares);
   const receievedVestingShares = parseToken(account.received_vesting_shares);
   const delegatedVestingShared = parseToken(account.delegated_vesting_shares);
+  const totalVests = vestingShares + receievedVestingShares - delegatedVestingShared;
+  */
+  const vestingShares = parseToken(account.post_voting_power);
+  const totalVests = vestingShares;
   const weight = sliderValue * 10000;
   const hbdMedian = base / quote;
-
-  const totalVests = vestingShares + receievedVestingShares - delegatedVestingShared;
-
-  const voteEffectiveShares = calculateVoteRshares(totalVests, votingPower, weight)
+  console.log(_votingPower);
+  const voteEffectiveShares = calculateVoteRshares(totalVests, _votingPower, weight)
   const voteValue = (voteEffectiveShares / fundRecentClaims) * fundRewardBalance * hbdMedian;
   const estimatedAmount = weight < 0 ? Math.min(voteValue * -1, 0) : Math.max(voteValue, 0)
 

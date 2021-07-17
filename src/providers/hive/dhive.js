@@ -1671,4 +1671,12 @@ const getActiveKey = (local, pin) => {
 
   return false;
 };
+
+export const votingPower = (account) => {
+  // @ts-ignore "Account" is compatible with dhive's "ExtendedAccount"
+  const calc = client.rc.calculateVPMana(account);
+  const { percentage } = calc;
+
+  return percentage / 100;
+};
 /* eslint-enable */
