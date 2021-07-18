@@ -39,26 +39,15 @@ const SearchResultScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <SafeAreaView>
-        <View style={styles.headerContainer}>
-          <View style={{ flex: 1, marginTop: 20 }}>
-            <IconButton
-              iconType="MaterialIcons"
-              name="arrow-back"
-              iconStyle={styles.backIcon}
-              onPress={_navigationGoBack}
-            />
-          </View>
-          <View style={{ flex: 16 }}>
-            <SearchInput
-              showClearButton={true}
-              placeholder={intl.formatMessage({ id: 'header.search' })}
-              onChangeText={_handleChangeText}
-              value={searchValue}
-            />
-          </View>
-        </View>
-      </SafeAreaView>
+      <SearchInput
+        showClearButton={true}
+        placeholder={intl.formatMessage({ id: 'header.search' })}
+        onChangeText={_handleChangeText}
+        value={searchValue}
+        backEnabled={true}
+        onBackPress={_navigationGoBack}
+      />
+
       <ScrollableTabView
         style={globalStyles.tabView}
         renderTabBar={_renderTabbar}

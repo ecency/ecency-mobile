@@ -9,7 +9,6 @@ import { Client as hsClient } from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
 import { getServer, getCache, setCache } from '../../realm/realm';
-import { getUnreadActivityCount } from '../ecency/ecency';
 import { userActivity } from '../ecency/ePoint';
 
 // Utils
@@ -26,6 +25,7 @@ import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
 // Constant
 import AUTH_TYPE from '../../constants/authType';
 import { SERVER_LIST } from '../../constants/options/api';
+import { b64uEnc } from '../../utils/b64';
 
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
@@ -69,15 +69,24 @@ export const getFeedHistory = async () => {
   }
 };
 
+export const getCurrentMedianHistoryPrice = async () => {
+  try {
+    const feedHistory = await client.database.call('get_current_median_history_price');
+    return feedHistory;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const fetchGlobalProps = async () => {
   let globalDynamic;
-  let feedHistory;
+  let medianHistory;
   let rewardFund;
 
   try {
     globalDynamic = await getDynamicGlobalProperties();
     await setCache('globalDynamic', globalDynamic);
-    feedHistory = await getFeedHistory();
+    medianHistory = await getFeedHistory();
     rewardFund = await getRewardFund();
   } catch (e) {
     return;
@@ -88,8 +97,8 @@ export const fetchGlobalProps = async () => {
       parseToken(get(globalDynamic, 'total_vesting_shares'))) *
     1e6;
   const hbdPrintRate = get(globalDynamic, 'hbd_print_rate');
-  const base = parseAsset(get(feedHistory, 'current_median_history.base')).amount;
-  const quote = parseAsset(get(feedHistory, 'current_median_history.quote')).amount;
+  const base = parseAsset(get(medianHistory, 'current_median_history.base')).amount;
+  const quote = parseAsset(get(medianHistory, 'current_median_history.quote')).amount;
   const fundRecentClaims = get(rewardFund, 'recent_claims');
   const fundRewardBalance = parseToken(get(rewardFund, 'reward_balance'));
   const globalProps = {
@@ -198,16 +207,6 @@ export const getUser = async (user, loggedIn = true) => {
         }))) ||
       getCache('rcPower');
     await setCache('rcPower', rcPower);
-
-    if (loggedIn) {
-      try {
-        unreadActivityCount = await getUnreadActivityCount({
-          user,
-        });
-      } catch (error) {
-        unreadActivityCount = 0;
-      }
-    }
 
     _account.reputation = getReputation(_account.reputation);
     _account.username = _account.name;
@@ -612,18 +611,7 @@ export const getPostWithComments = async (user, permlink) => {
 
   return [post, comments];
 };
-const b64uLookup = {
-  '/': '_',
-  _: '/',
-  '+': '-',
-  '-': '+',
-  '=': '.',
-  '.': '=',
-};
-export const b64uEnc = (str) =>
-  Buffer.from(str)
-    .toString('base64')
-    .replace(/(\+|\/|=)/g, (m) => b64uLookup[m]);
+
 export const signImage = async (file, currentAccount, pin) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
@@ -1682,5 +1670,13 @@ const getActiveKey = (local, pin) => {
   }
 
   return false;
+};
+
+export const votingPower = (account) => {
+  // @ts-ignore "Account" is compatible with dhive's "ExtendedAccount"
+  const calc = client.rc.calculateVPMana(account);
+  const { percentage } = calc;
+
+  return percentage / 100;
 };
 /* eslint-enable */

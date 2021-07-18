@@ -4,12 +4,13 @@ import { TouchableOpacity } from 'react-native';
 import { KeyboardAvoidingView, Platform, View, Text } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import { CheckBox } from '..';
-import { DEFAULT_FEED_FILTERS, FEED_SCREEN_FILTER_MAP } from '../../constants/options/filters';
+import { getDefaultFilters, getFilterMap } from '../../constants/options/filters';
 
 import { ThemeContainer } from '../../containers';
-import { setFeedScreenFilters } from '../../redux/actions/postsAction';
+import { useAppSelector } from '../../hooks';
+import { setCommunityTabs, setMainTabs, setOwnProfileTabs, setProfileTabs } from '../../redux/actions/customTabsAction';
 import { TextButton } from '../buttons';
 import styles from './customiseFiltersModalStyles';
 
@@ -18,25 +19,55 @@ export interface CustomiseFiltersModalRef {
     show:()=>void;
 }
 
+interface Props {
+    pageType:'main'|'community'|'profile'|'ownProfile'
+}
 
-const getFeedScreenFilterIndex = (key:string) => Object.keys(FEED_SCREEN_FILTER_MAP).indexOf(key)
+
+const getFilterIndex = (filterMap:any, key:string) => Object.keys(filterMap).indexOf(key)
 
 
-const CustomiseFiltersModal = (props:any, ref:Ref<CustomiseFiltersModalRef>) => {
-    const sheetModalRef = useRef<ActionSheet>();
+const CustomiseFiltersModal = ({pageType}:Props, ref:Ref<CustomiseFiltersModalRef>) => {
+
+    if(!pageType){
+        throw new Error("pageType must not be empty")
+    }
+
     const dispatch = useDispatch();
+    const intl = useIntl(); 
 
-    const feedScreenFilters = useSelector(state => state.posts.feedScreenFilters || DEFAULT_FEED_FILTERS);
+    const sheetModalRef = useRef<ActionSheet>();
 
+    //redux
+    const savedFilters = useAppSelector((state) => {
+        const defaultFilters = getDefaultFilters(pageType)
+        switch (pageType){
+            case 'community': return state.customTabs.communityTabs || defaultFilters;
+            case 'main': return state.customTabs.mainTabs || defaultFilters;
+            case 'profile': return state.customTabs.profileTabs || defaultFilters;
+            case 'ownProfile': return state.customTabs.ownProfileTabs || defaultFilters;
+            default: return state.customTabs.mainTabs || defaultFilters;
+        }
+    });
+
+
+
+    //state
+    const [filterMap] = useState(getFilterMap(pageType))
     const [selectedFilters, setSelectedFilters] = useState<Map<string, number>>(
-        new Map(feedScreenFilters.map((key:string)=>[
+        new Map(savedFilters.map((key:string)=>[
             key,
-            getFeedScreenFilterIndex(key)
+            getFilterIndex(filterMap, key)
         ]))   
     );
 
-    const intl = useIntl(); 
- 
+
+
+
+    /**
+     * HANDLERS FUNCTIONS
+     */
+
 
     useImperativeHandle(ref, () => ({
         show: () => {
@@ -45,35 +76,56 @@ const CustomiseFiltersModal = (props:any, ref:Ref<CustomiseFiltersModalRef>) => 
       }));
 
 
+    //actions
     const _onClose = () => {
         sheetModalRef.current?.setModalVisible(false);
     }
 
-    //save snippet based on editor type
+    //save snippet based on editor pageType
     const _onApply = () => {
         if(selectedFilters.size !== 3){
             alert(intl.formatMessage({id:'alert.wrong_filter_count'}));
             return;
         }
-        const entries = Array.from(selectedFilters.entries());
-        entries.sort((a, b)=>a[1]<b[1]?-1:1);
+        const entries = Array.from(selectedFilters.entries())
+            .sort((a, b)=>a[1]<b[1]?-1:1)
+            .map((e)=>e[0]);
 
-       dispatch(setFeedScreenFilters(entries.map((e)=>e[0])));
+        switch(pageType){
+            case 'main':
+                dispatch(setMainTabs(entries));
+                break;
+            case 'community':
+                dispatch(setCommunityTabs(entries));
+                break;
+            case 'profile':
+                dispatch(setProfileTabs(entries));
+                break;
+            case 'ownProfile':
+                dispatch(setOwnProfileTabs(entries));
+                break;
+        }
        _onClose();
     }
 
 
+
+
+    /**
+     * UI RENDERERS
+     */
+
     const _renderOptions = () => {
         const options = [];
-        for(const key in FEED_SCREEN_FILTER_MAP){
-            if(FEED_SCREEN_FILTER_MAP.hasOwnProperty(key)){
+        for(const key in filterMap){
+            if(filterMap.hasOwnProperty(key)){
                 const isSelected = selectedFilters.has(key);
             
                 const _onPress = () => {
                     if(isSelected){
                         selectedFilters.delete(key);
                     }else{
-                        var index = getFeedScreenFilterIndex(key);
+                        var index = getFilterIndex(filterMap, key);
                         selectedFilters.set(key, index);
                     }
                     setSelectedFilters(new Map([...selectedFilters]));
@@ -84,7 +136,7 @@ const CustomiseFiltersModal = (props:any, ref:Ref<CustomiseFiltersModalRef>) => 
                         <View style={styles.checkView}>
                             <Text style={styles.informationText}>
                                 {intl.formatMessage({
-                                    id:FEED_SCREEN_FILTER_MAP[key]
+                                    id:filterMap[key]
                                 })}
                             </Text>
                             <CheckBox locked isChecked={isSelected} />

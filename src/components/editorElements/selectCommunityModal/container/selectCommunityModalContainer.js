@@ -15,7 +15,7 @@ import {
   fetchSubscribedCommunitiesSuccess,
 } from '../../../../redux/actions/communitiesAction';
 
-const SelectCommunityModalContainer = ({ onPressCommunity, currentAccount }) => {
+const SelectCommunityModalContainer = ({ onPressCommunity, currentAccount, onCloseModal }) => {
   const dispatch = useDispatch();
 
   const [searchedCommunities, setSearchedCommunities] = useState([]);
@@ -58,6 +58,7 @@ const SelectCommunityModalContainer = ({ onPressCommunity, currentAccount }) => 
         searchedCommunities={searchedCommunities}
         showSearchedCommunities={showSearchedCommunities}
         currentAccount={currentAccount}
+        onCloseModal={onCloseModal}
       />
     </>
   );

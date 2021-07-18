@@ -3,10 +3,10 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   popoverDetails: {
     flexDirection: 'row',
-    height: 130,
     width: '$deviceWidth / 2',
     borderRadius: 20,
-    paddingHorizontal: 26,
+    padding: 16,
+
     backgroundColor: '$primaryBackgroundColor',
   },
   arrow: {
@@ -21,5 +21,6 @@ export default EStyleSheet.create({
   overlay: {},
   popoverText: {
     color: '$primaryDarkText',
+    textAlign: 'center',
   },
 });

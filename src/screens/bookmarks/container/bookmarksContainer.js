@@ -6,9 +6,9 @@ import { injectIntl } from 'react-intl';
 // Services and Actions
 import {
   getFavorites,
-  removeFavorite,
+  deleteFavorite,
   getBookmarks,
-  removeBookmark,
+  deleteBookmark,
 } from '../../../providers/ecency/ecency';
 
 // Constants
@@ -38,7 +38,7 @@ const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
   const _getFavorites = () => {
     setIsLoading(true);
 
-    getFavorites(currentAccount.name)
+    getFavorites()
       .then((data) => {
         setFavorites(_sortData(data));
         setIsLoading(false);
@@ -52,7 +52,7 @@ const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
   const _getBookmarks = () => {
     setIsLoading(true);
 
-    getBookmarks(currentAccount.name)
+    getBookmarks()
       .then((data) => {
         setBookmarks(_sortData(data));
         setIsLoading(false);
@@ -64,7 +64,7 @@ const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
   };
 
   const _removeFavorite = (selectedUsername) => {
-    removeFavorite(currentAccount.name, selectedUsername)
+    deleteFavorite(selectedUsername)
       .then(() => {
         const newFavorites = [...favorites].filter((fav) => fav.account !== selectedUsername);
 
@@ -76,10 +76,9 @@ const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
   };
 
   const _removeBoomark = (id) => {
-    removeBookmark(currentAccount.name, id)
+    deleteBookmark(id)
       .then(() => {
         const newBookmarks = [...bookmarks].filter((bookmark) => bookmark._id !== id);
-
         setBookmarks(_sortData(newBookmarks));
       })
       .catch(() => {

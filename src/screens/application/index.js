@@ -35,22 +35,14 @@ const Application = () => {
         toastNotification,
         showWelcomeModal,
         handleWelcomeModalButtonPress,
+        foregroundNotificationData,
       }) => {
         const _isAppReady = !showAnimation && isReady && isRenderRequire && isThemeReady;
 
         return (
           <ErrorBoundary>
             <Modal
-              isOpen={isPinCodeRequire}
-              isFullScreen
-              swipeToClose={false}
-              backButtonClose={false}
-              style={{ margin: 0 }}
-            >
-              <PinCode />
-            </Modal>
-            <Modal
-              isOpen={!isPinCodeRequire && showWelcomeModal && _isAppReady}
+              isOpen={showWelcomeModal && _isAppReady}
               isFullScreen
               swipeToClose={false}
               backButtonClose={false}
@@ -58,6 +50,17 @@ const Application = () => {
             >
               <WelcomeScreen handleButtonPress={handleWelcomeModalButtonPress} />
             </Modal>
+
+            <Modal
+              isOpen={isPinCodeRequire && !showWelcomeModal}
+              isFullScreen
+              swipeToClose={false}
+              backButtonClose={false}
+              style={{ margin: 0 }}
+            >
+              <PinCode />
+            </Modal>
+
             {isThemeReady && isRenderRequire && (
               <ApplicationScreen
                 isConnected={isConnected}
@@ -66,6 +69,7 @@ const Application = () => {
                 isReady={isReady}
                 isDarkTheme={isDarkTheme}
                 rcOffer={rcOffer}
+                foregroundNotificationData={foregroundNotificationData}
               />
             )}
             {!_isAppReady && <LaunchScreen />}

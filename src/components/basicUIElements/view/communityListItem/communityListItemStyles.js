@@ -49,11 +49,20 @@ export default EStyleSheet.create({
   subscribeButton: {
     borderWidth: 1,
     maxWidth: 75,
-    borderColor: '$primaryBlue',
+    borderColor: '$borderedButtonBlue',
   },
   subscribeButtonText: {
     textAlign: 'center',
-    color: '$primaryBlue',
+    color: '$borderedButtonBlue',
+  },
+  unsubscribeButton: {
+    borderWidth: 1,
+    maxWidth: 75,
+    borderColor: '$primaryDarkGray',
+  },
+  unsubscribeButtonText: {
+    textAlign: 'center',
+    color: '$primaryDarkGray',
   },
   header: {
     flexDirection: 'row',

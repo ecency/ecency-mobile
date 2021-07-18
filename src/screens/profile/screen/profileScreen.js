@@ -39,6 +39,8 @@ const ProfileScreen = () => (
       setEstimatedWalletValue,
       username,
       votingPower,
+      reverseHeader,
+      deepLinkFilter,
     }) => (
       <Profile
         about={about}
@@ -74,6 +76,8 @@ const ProfileScreen = () => (
         username={username}
         votingPower={votingPower}
         isHideImage={isHideImage}
+        reverseHeader={reverseHeader}
+        deepLinkFilter={deepLinkFilter}
       />
     )}
   </ProfileContainer>

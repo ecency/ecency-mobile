@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "deng hate dayîn",
-    "unvote": "deng hate rakirin",
+    "unvote": "downvoted",
     "reply": "hate bersivandin",
     "mention": "hate behskirin",
     "follow": "te şopand",
@@ -134,12 +134,16 @@
     "replies": "Bersiv",
     "mentions": "Behskirin",
     "reblogs": "Dîsweşandin",
-    "noactivity": "Çalakiya dawîn tune ye"
+    "noactivity": "Çalakiya dawîn tune ye",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "ROJANE",
     "weekly": "HEFTANE",
-    "monthly": "MEHANE"
+    "monthly": "MEHANE",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Di nêz de taybetiya peyaman li vir e!"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "Şopandin",
     "follower": "Şopîner",
+    "edit_label": "Edit",
     "post": "Şandî",
     "details": "Hûrgiliyên Profîlê",
     "comments": "Şîrove",
@@ -620,11 +625,17 @@
   "community": {
     "new_post": "New Post",
     "community": "community",
-    "details": "Details"
+    "details": "Details",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Follow",
-    "unfollow": "Unfollow"
+    "unfollow": "Unfollow",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Membership",

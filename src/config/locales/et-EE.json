@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "hääletatud",
-    "unvote": "hääl eemaldatud",
+    "unvote": "downvoted",
     "reply": "vastas",
     "mention": "mainis",
     "follow": "hakkas sind jälgima",
@@ -134,12 +134,16 @@
     "replies": "Kommentaarid",
     "mentions": "Mainimised",
     "reblogs": "Jagatud",
-    "noactivity": "Hiljutised tegevused puuduvad"
+    "noactivity": "Hiljutised tegevused puuduvad",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "PÄEV",
     "weekly": "NÄDAL",
-    "monthly": "KUU"
+    "monthly": "KUU",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Sõnumite funktsionaalus ei ole veel valimis!"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "Jälgitavat",
     "follower": "Jälgijat",
+    "edit_label": "Edit",
     "post": "Postitused",
     "details": "Profiili Detailid",
     "comments": "Kommentaarid",
@@ -620,11 +625,17 @@
   "community": {
     "new_post": "Uus postitus",
     "community": "kogukond",
-    "details": "Üksikasjad"
+    "details": "Üksikasjad",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Jälgi",
-    "unfollow": "Lõpeta jälgimine"
+    "unfollow": "Lõpeta jälgimine",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Liikmelisus",

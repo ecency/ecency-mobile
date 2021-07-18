@@ -78,4 +78,22 @@ export default EStyleSheet.create({
   summary: {
     color: '$primaryDarkGray',
   },
+  popoverDetails: {
+    flexDirection: 'row',
+    height: 'auto',
+    borderRadius: 20,
+    paddingHorizontal: 26,
+    width: 200,
+    backgroundColor: '$primaryBackgroundColor',
+  },
+  arrow: {
+    borderTopColor: '$primaryBackgroundColor',
+    marginLeft: 0,
+  },
+  popoverWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
 });

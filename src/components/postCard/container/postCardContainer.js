@@ -29,6 +29,7 @@ const PostCardContainer = ({
   nsfw,
   imageHeight,
   setImageHeight,
+  pageType,
 }) => {
   const [_content, setContent] = useState(content);
   const [reblogs, setReblogs] = useState([]);
@@ -76,15 +77,22 @@ const PostCardContainer = ({
   };
 
   const _handleOnUserPress = () => {
-    if (_content && get(currentAccount, 'name') !== get(_content, 'author')) {
-      navigation.navigate({
-        routeName: ROUTES.SCREENS.PROFILE,
-        params: {
-          username: get(_content, 'author'),
-          reputation: get(_content, 'author_reputation'),
-        },
-        key: get(_content, 'author'),
-      });
+    if (_content) {
+      if (
+        get(currentAccount, 'name') === get(_content, 'author') &&
+        (pageType === 'main' || pageType === 'ownProfile')
+      ) {
+        navigation.navigate(ROUTES.TABBAR.PROFILE);
+      } else {
+        navigation.navigate({
+          routeName: ROUTES.SCREENS.PROFILE,
+          params: {
+            username: get(_content, 'author'),
+            reputation: get(_content, 'author_reputation'),
+          },
+          key: get(_content, 'author'),
+        });
+      }
     }
   };
 

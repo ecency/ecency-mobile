@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "Гласуван",
-    "unvote": "Отмяна на гласа",
+    "unvote": "downvoted",
     "reply": "отговорено на",
     "mention": "споменато в",
     "follow": "те последва",
@@ -134,12 +134,16 @@
     "replies": "Отговори",
     "mentions": "Споменавания",
     "reblogs": "Споделяния",
-    "noactivity": "Няма скорошна дейност"
+    "noactivity": "Няма скорошна дейност",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "Дневно",
     "weekly": "Седмично",
-    "monthly": "Месечно"
+    "monthly": "Месечно",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Функцията за съобщения идва скоро!"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "Следва: ",
     "follower": "Последователи",
+    "edit_label": "Edit",
     "post": "Публикации",
     "details": "Детайли на профила",
     "comments": "Коментари",
@@ -620,11 +625,17 @@
   "community": {
     "new_post": "Нова публикация",
     "community": "Група",
-    "details": "Подробности"
+    "details": "Подробности",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Последвай",
-    "unfollow": "Отследване"
+    "unfollow": "Отследване",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Членство",

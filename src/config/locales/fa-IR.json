@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "رای داده شده",
-    "unvote": "رأی داده نشده",
+    "unvote": "downvoted",
     "reply": "پاسخ داد به",
     "mention": "نام برد به",
     "follow": "شما را دنبال میکند",
@@ -134,12 +134,16 @@
     "replies": "پاسخ‌ها",
     "mentions": "خطاب ها",
     "reblogs": "اشترک ها",
-    "noactivity": "اخیراً فعالیتی انجام نشده است"
+    "noactivity": "اخیراً فعالیتی انجام نشده است",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "روزانه",
     "weekly": "هفتگی",
-    "monthly": "ماهانه"
+    "monthly": "ماهانه",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "قابلیت ارسال پیام به زودی ارائه خواهد شد!"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "دنبال میکنید",
     "follower": "دنبال کنندگان",
+    "edit_label": "Edit",
     "post": "Post",
     "details": "جزئیات نمایه",
     "comments": "نظرات",
@@ -620,11 +625,17 @@
   "community": {
     "new_post": "پست جدید",
     "community": "انجمن",
-    "details": "جزئیات"
+    "details": "جزئیات",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "دنبال کردن",
-    "unfollow": "عدم دنبال کردن"
+    "unfollow": "عدم دنبال کردن",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Membership",

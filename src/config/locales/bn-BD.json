@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "ভোট দিয়েছেন",
-    "unvote": "অপরিবর্তিত",
+    "unvote": "downvoted",
     "reply": "উত্তরে",
     "mention": "উল্লেখিত",
     "follow": "আপনাকে অনুসরণ করেছে",
@@ -134,12 +134,16 @@
     "replies": "প্রত্যুত্তর",
     "mentions": "উল্লেখ",
     "reblogs": "রিব্লগ",
-    "noactivity": "কোন সাম্প্রতিক কার্যকলাপ নেই"
+    "noactivity": "কোন সাম্প্রতিক কার্যকলাপ নেই",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "প্রতিদিন",
     "weekly": "সপ্তাহান্তে",
-    "monthly": "মাসিক"
+    "monthly": "মাসিক",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "বার্তা বৈশিষ্ট্য শীঘ্রই আসছে!"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "অনুসরণ করছেন",
     "follower": "অনুসারী",
+    "edit_label": "Edit",
     "post": "Post",
     "details": "প্রোফাইল বিশদ",
     "comments": "মন্তব্য",
@@ -620,11 +625,17 @@
   "community": {
     "new_post": "নতুন পোস্ট",
     "community": "কমিউনিটি",
-    "details": "বিস্তারিত"
+    "details": "বিস্তারিত",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Follow",
-    "unfollow": "Unfollow"
+    "unfollow": "Unfollow",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Membership",

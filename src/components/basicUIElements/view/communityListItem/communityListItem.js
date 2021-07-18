@@ -46,8 +46,10 @@ const CommunityListItem = ({
                 </View>
               ) : (
                 <Tag
-                  style={styles.subscribeButton}
-                  textStyle={isSubscribed && styles.subscribeButtonText}
+                  style={isSubscribed ? styles.unsubscribeButton : styles.subscribeButton}
+                  textStyle={
+                    isSubscribed ? styles.unsubscribeButtonText : styles.subscribeButtonText
+                  }
                   value={
                     !isSubscribed
                       ? intl.formatMessage({
@@ -57,7 +59,7 @@ const CommunityListItem = ({
                           id: 'search_result.communities.unsubscribe',
                         })
                   }
-                  isPin={!isSubscribed}
+                  isPin={false}
                   isFilter
                   onPress={_handleSubscribeButtonPress}
                 />

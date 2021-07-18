@@ -10,6 +10,7 @@ export default EStyleSheet.create({
   },
   textWrapper: {
     fontSize: 12,
+    lineHeight: 18,
     paddingTop: isAndroidOreo() ? 6 : 16,
     paddingBottom: Platform.OS === 'ios' ? 32 : 0, // On android side, textinput has default padding
     paddingHorizontal: 16,

@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "votado",
-    "unvote": "sin votar",
+    "unvote": "downvoted",
     "reply": "respondido a",
     "mention": "te mencionó en",
     "follow": "te siguió",
@@ -134,12 +134,16 @@
     "replies": "Respuestas",
     "mentions": "Menciones",
     "reblogs": "Reblogueos",
-    "noactivity": "Sin actividad reciente"
+    "noactivity": "Sin actividad reciente",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "DIARIO",
     "weekly": "SEMANAL",
-    "monthly": "MENSUAL"
+    "monthly": "MENSUAL",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "¡Pronto mensajería instantánea!"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "Siguiendo",
     "follower": "Seguidor",
+    "edit_label": "Edit",
     "post": "Post",
     "details": "Datos de perfil",
     "comments": "Comentarios",
@@ -620,11 +625,17 @@
   "community": {
     "new_post": "Escribir un post",
     "community": "comunidad",
-    "details": "Detalles"
+    "details": "Detalles",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Seguir",
-    "unfollow": "Dejar de seguir"
+    "unfollow": "Dejar de seguir",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Membresía",

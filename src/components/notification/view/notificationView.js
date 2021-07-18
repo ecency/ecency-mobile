@@ -34,7 +34,7 @@ class NotificationView extends PureComponent {
         { key: 'mentions', value: 'MENTIONS' },
         //{ key: 'reblogs', value: 'REBLOGS' },
       ],
-      selectedFilter: null,
+      selectedFilter: 'activities',
       selectedIndex: 0,
     };
   }
@@ -49,7 +49,7 @@ class NotificationView extends PureComponent {
 
     this.setState({ selectedFilter: filters[index].key, selectedIndex: index });
     await changeSelectedFilter(filters[index].key, index);
-    getActivities(null, filters[index].key, false);
+    getActivities(filters[index].key, false);
   };
 
   _renderList = (data) => {
@@ -190,7 +190,7 @@ class NotificationView extends PureComponent {
               <FlatList
                 data={_notifications}
                 keyExtractor={(item) => item.title}
-                onEndReached={() => getActivities(null, selectedFilter, true)}
+                onEndReached={() => getActivities(selectedFilter, true)}
                 ListFooterComponent={this._renderFooterLoading}
                 ListEmptyComponent={<ListPlaceHolder />}
                 contentContainerStyle={styles.listContentContainer}

@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "voted",
-    "unvote": "unvoted",
+    "unvote": "downvoted",
     "reply": "replied to",
     "mention": "mentioned in",
     "follow": "mengikuti anda",
@@ -134,12 +134,16 @@
     "replies": "Balasan",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No recent activity"
+    "noactivity": "No recent activity",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "DAILY",
     "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "monthly": "MONTHLY",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Ciri-ciri mesej yang akan datang tidak lama lagi!"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "Mengikut",
     "follower": "Follower",
+    "edit_label": "Edit",
     "post": "Post",
     "details": "Maklumat profil",
     "comments": "Komen-komen",
@@ -620,11 +625,17 @@
   "community": {
     "new_post": "New Post",
     "community": "komuniti",
-    "details": "Butir-butir"
+    "details": "Butir-butir",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Follow",
-    "unfollow": "Unfollow"
+    "unfollow": "Unfollow",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Membership",

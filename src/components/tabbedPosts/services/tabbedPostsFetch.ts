@@ -2,7 +2,7 @@ import { getAccountPosts, getRankedPosts } from "../../../providers/hive/dhive";
 import { filterLatestPosts, getUpdatedPosts } from "./tabbedPostsHelpers";
 import Matomo from 'react-native-matomo-sdk';
 import { LoadPostsOptions } from "./tabbedPostsModels";
-import { getPromotePosts } from "../../../providers/ecency/ecency";
+import { getPromotedEntries } from "../../../providers/ecency/ecency";
 
 const POSTS_FETCH_COUNT = 20;
 
@@ -85,7 +85,7 @@ export const loadPosts = async ({
           sort: filter,
         };
 
-        if (pageType === 'profiles' && (filter === 'feed' || filter === 'posts')) {
+        if ((pageType === 'profile' || pageType === 'ownProfile') && (filter === 'feed' || filter === 'posts')) {
           options.sort = 'posts';
         }
       }
@@ -170,9 +170,9 @@ export const loadPosts = async ({
 
 
 
-  export const getPromotedPosts = async (username:string) => {
+  export const fetchPromotedEntries = async (username:string) => {
     try {
-      const posts = await getPromotePosts(username);
+      const posts = await getPromotedEntries(username);
       return Array.isArray(posts) ? posts : [];
 
     } catch(err){

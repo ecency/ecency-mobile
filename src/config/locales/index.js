@@ -60,6 +60,6 @@ export const locales = [
   { id: 'ms-MY', name: 'Malay' },
   { id: 'ku-TR', name: 'Kurdish' },
   { id: 'vi-VN', name: 'Vietnamese' },
-  { id: 'zh-CN', name: '汉语' },
-  { id: 'zh-TW', name: '漢語' },
+  { id: 'zh-CN', name: 'Chinese-Simplified' },
+  { id: 'zh-TW', name: 'Chinese-Traditional' },
 ];

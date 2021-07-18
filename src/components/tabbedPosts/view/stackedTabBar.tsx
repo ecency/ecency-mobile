@@ -14,7 +14,7 @@ interface StackedTabBarProps {
     activeTab:boolean;
     goToPage:(pageIndex)=>void;
     tabs:string[];
-    enableCustomiseButton:boolean;
+    pageType?:'main'|'community'|'profile'|'ownProfile'
     shouldStack:boolean;
     firstStack:TabItem[];
     secondStack:TabItem[];
@@ -26,13 +26,13 @@ interface StackedTabBarProps {
 export const StackedTabBar = ({
     goToPage, 
     tabs,
-    enableCustomiseButton,
     shouldStack,
     firstStack,
     secondStack,
     initialFirstStackIndex,
     onFilterSelect,
-    toggleHideImagesFlag
+    toggleHideImagesFlag,
+    pageType
 
 }:StackedTabBarProps) => {
 
@@ -46,6 +46,9 @@ export const StackedTabBar = ({
 
     const [selectedFilterIndex, setSelectedFilterIndex] = useState(initialFirstStackIndex);
     const [selectedSecondStackIndex, setSelectedSecondStackIndex] = useState(0);
+
+    const enableCustomTabs = pageType !== undefined;
+
 
     const _onCustomisePress = () => {
       if(customiseModalRef.current){
@@ -70,7 +73,7 @@ export const StackedTabBar = ({
         selectedOptionIndex={selectedFilterIndex}
         rightIconName={toggleHideImagesFlag && "view-module"}
         rightIconType={toggleHideImagesFlag && "MaterialIcons"}
-        enableCustomiseButton={enableCustomiseButton}
+        enableCustomiseButton={enableCustomTabs}
         onCustomisePress={_onCustomisePress}
         onDropdownSelect={(index)=>{
           setSelectedFilterIndex(index);
@@ -104,9 +107,12 @@ export const StackedTabBar = ({
         )
       }
 
-      <CustomiseFiltersModal 
-        ref={customiseModalRef}
-      />
+      {enableCustomTabs && (
+        <CustomiseFiltersModal 
+          pageType={pageType}
+          ref={customiseModalRef}
+        />
+      )}
       
       </>
     )

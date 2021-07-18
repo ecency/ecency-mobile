@@ -1074,7 +1074,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2797;
+				CURRENT_PROJECT_VERSION = 2798;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
 				HEADER_SEARCH_PATHS = (
@@ -1119,6 +1119,7 @@
 					"\"${PODS_ROOT}/Headers/Public/react-native-version-number\"",
 					"\"${PODS_ROOT}/Headers/Public/react-native-webview\"",
 					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
+					"\"${PODS_ROOT}/../node_modules/react-native/Libraries/LinkingIOS\"",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Ecency/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -1150,7 +1151,7 @@
 				CODE_SIGN_ENTITLEMENTS = Ecency/Ecency.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2797;
+				CURRENT_PROJECT_VERSION = 2798;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
 				HEADER_SEARCH_PATHS = (
@@ -1195,6 +1196,7 @@
 					"\"${PODS_ROOT}/Headers/Public/react-native-version-number\"",
 					"\"${PODS_ROOT}/Headers/Public/react-native-webview\"",
 					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
+					"\"${PODS_ROOT}/../node_modules/react-native/Libraries/LinkingIOS\"",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Ecency/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;

@@ -18,7 +18,7 @@ class LeaderboardView extends PureComponent {
 
   // Component Functions
   _renderItem = ({ item, index }) => {
-    const { handleOnUserPress } = this.props;
+    const { handleOnUserPress, intl } = this.props;
 
     return (
       <UserListItem
@@ -35,6 +35,7 @@ class LeaderboardView extends PureComponent {
         itemIndex={index + 1}
         handleOnPress={() => handleOnUserPress(get(item, '_id'))}
         rightTextStyle={styles.rewardText}
+        rightTooltipText={intl.formatMessage({ id: 'leaderboard.tooltip_earn' })}
       />
     );
   };

@@ -18,6 +18,7 @@ import ProfileEdit from './profileEdit/screen/profileEditScreen';
 import Reblogs from './reblogs';
 import Redeem from './redeem/screen/redeemScreen';
 import HiveSigner from './steem-connect/hiveSigner';
+import { WebBrowser } from './webBrowser';
 import Transfer from './transfer';
 import Voters from './voters';
 import AccountBoost from './accountBoost/screen/accountBoostScreen';
@@ -54,4 +55,5 @@ export {
   TagResult,
   Community,
   Communities,
+  WebBrowser,
 };

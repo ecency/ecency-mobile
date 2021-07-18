@@ -24,11 +24,13 @@ import {
   NoInternetConnection,
   AccountsBottomSheet,
   ActionModal,
+  ForegroundNotification,
 } from '../../../components';
 
 // Themes (Styles)
 import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
+import parseVersionNumber from '../../../utils/parseVersionNumber';
 
 const Navigation = createAppContainer(AppNavitation);
 
@@ -45,7 +47,7 @@ class ApplicationScreen extends Component {
     const { appVersion } = VersionNumber;
 
     getVersionForWelcomeModal().then((version) => {
-      if (version < parseFloat(appVersion)) {
+      if (version < parseVersionNumber(appVersion)) {
         this.setState({ showWelcomeModal: true });
       }
     });
@@ -76,7 +78,7 @@ class ApplicationScreen extends Component {
                 navigate({
                   routeName: ROUTES.SCREENS.ACCOUNT_BOOST,
                 });
-                dispatch(setRcOffer(true));
+                dispatch(setRcOffer(false));
               },
             },
           ],
@@ -105,7 +107,13 @@ class ApplicationScreen extends Component {
   }
 
   render() {
-    const { isConnected, isDarkTheme, toastNotification, isReady } = this.props;
+    const {
+      isConnected,
+      isDarkTheme,
+      toastNotification,
+      isReady,
+      foregroundNotificationData,
+    } = this.props;
     const { isShowToastNotification, showWelcomeModal } = this.state;
     const barStyle = isDarkTheme ? 'light-content' : 'dark-content';
     const barColor = isDarkTheme ? '#1e2835' : '#fff';
@@ -159,6 +167,8 @@ class ApplicationScreen extends Component {
             onHide={this._handleOnHideToastNotification}
           />
         )}
+
+        <ForegroundNotification remoteMessage={foregroundNotificationData} />
         <AccountsBottomSheet />
         <ActionModal />
       </View>

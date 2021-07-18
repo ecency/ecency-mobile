@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "yefren",
-    "unvote": "unvoted",
+    "unvote": "downvoted",
     "reply": "yerra i",
     "mention": "yettwabder-d deg",
     "follow": "yeṭṭafaṛ-ik",
@@ -134,12 +134,16 @@
     "replies": "Tiririyin",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No recent activity"
+    "noactivity": "No recent activity",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "N YAL ASS",
     "weekly": "N YAL IMURAS",
-    "monthly": "N YAL AYYUR"
+    "monthly": "N YAL AYYUR",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Tawuri n yiznan ur tettɛeṭṭil ara ad d-tili!"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "Aḍfaṛ",
     "follower": "Ameḍfaṛ",
+    "edit_label": "Edit",
     "post": "Tisuffɣin",
     "details": "Ẓer ugar ɣef umaɣnu",
     "comments": "Iwenniten",
@@ -620,11 +625,17 @@
   "community": {
     "new_post": "New Post",
     "community": "community",
-    "details": "Details"
+    "details": "Details",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Follow",
-    "unfollow": "Unfollow"
+    "unfollow": "Unfollow",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Membership",

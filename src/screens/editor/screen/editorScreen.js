@@ -338,6 +338,9 @@ class EditorScreen extends Component {
           <SelectCommunityModalContainer
             onPressCommunity={this._handlePressCommunity}
             currentAccount={currentAccount}
+            onCloseModal={() => {
+              this.setState({ isCommunitiesListModalOpen: false });
+            }}
           />
         </Modal>
         <BasicHeader

@@ -1,4 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
+import { StatusBar } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 import ActionSheet from 'react-native-actionsheet';
@@ -25,9 +26,10 @@ class ProfileEditScreen extends PureComponent {
   // Component Life Cycles
 
   // Component Functions
-  _showImageUploadActions = async (action) => {
-    await this.setState({ selectedUploadAction: action });
-    this.galleryRef.current.show();
+  _showImageUploadActions = (action) => {
+    this.setState({ selectedUploadAction: action }, () => {
+      this.galleryRef.current.show();
+    });
   };
 
   render() {
@@ -49,15 +51,19 @@ class ProfileEditScreen extends PureComponent {
           avatarUrl,
           coverUrl,
           isLoading,
+          isUploading,
+          saveEnabled,
           handleOnSubmit,
         }) => (
           <Fragment>
+            <StatusBar barStyle="light-content" />
             <AvatarHeader
               username={get(currentAccount, 'name')}
               name={name}
               reputation={get(currentAccount, 'reputation')}
               avatarUrl={avatarUrl}
               showImageUploadActions={() => this._showImageUploadActions('avatarUrl')}
+              isUploading={isUploading && selectedUploadAction === 'avatarUrl'}
             />
             <ProfileEditForm
               formData={formData}
@@ -70,8 +76,11 @@ class ProfileEditScreen extends PureComponent {
               showImageUploadActions={() => this._showImageUploadActions('coverUrl')}
               handleOnItemChange={handleOnItemChange}
               isLoading={isLoading}
+              isUploading={isUploading && selectedUploadAction === 'coverUrl'}
+              saveEnabled={saveEnabled}
               handleOnSubmit={handleOnSubmit}
             />
+
             <ActionSheet
               ref={this.galleryRef}
               options={[

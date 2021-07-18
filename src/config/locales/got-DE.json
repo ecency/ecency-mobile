@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "voted",
-    "unvote": "unvoted",
+    "unvote": "downvoted",
     "reply": "replied to",
     "mention": "mentioned in",
     "follow": "afarlaistida þuk",
@@ -134,12 +134,16 @@
     "replies": "Andahafteis",
     "mentions": "Mentions",
     "reblogs": "Reblogs",
-    "noactivity": "No recent activity"
+    "noactivity": "No recent activity",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "DAILY",
     "weekly": "WEEKLY",
-    "monthly": "MONTHLY"
+    "monthly": "MONTHLY",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Waurdamahts sprauto qimiþ!"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "Galaistjans",
     "follower": "Galaistja",
+    "edit_label": "Edit",
     "post": "Waurda",
     "details": "Profile Details",
     "comments": "Waurda",
@@ -620,11 +625,17 @@
   "community": {
     "new_post": "New Post",
     "community": "community",
-    "details": "Details"
+    "details": "Details",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Follow",
-    "unfollow": "Unfollow"
+    "unfollow": "Unfollow",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Membership",

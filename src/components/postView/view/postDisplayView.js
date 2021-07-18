@@ -50,6 +50,8 @@ const PostDisplayView = ({
   const [refreshing, setRefreshing] = useState(false);
   const [postBodyLoading, setPostBodyLoading] = useState(false);
 
+  const [tags, setTags] = useState([]);
+
   // Component Life Cycles
   useEffect(() => {
     if (isLoggedIn && get(currentAccount, 'name') && !isNewPost) {
@@ -57,10 +59,19 @@ const PostDisplayView = ({
     }
   }, []);
 
+  useEffect(() => {
+    if (post) {
+      const _tags = get(post.json_metadata, 'tags', []);
+      if (post.category && _tags[0] !== post.category) {
+        _tags.splice(0, 0, post.category);
+      }
+      setTags(_tags);
+    }
+  }, [post]);
+
   // Component Functions
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    setPostBodyLoading(true);
     fetchPost().then(() => setRefreshing(false));
   }, [refreshing]);
 
@@ -216,7 +227,7 @@ const PostDisplayView = ({
               <PostBody body={post.body} onLoadEnd={_handleOnPostBodyLoad} />
               {!postBodyLoading && (
                 <View style={styles.footer}>
-                  <Tags tags={post.json_metadata && post.json_metadata.tags} />
+                  <Tags tags={tags} />
                   <Text style={styles.footerText}>
                     Posted by
                     <Text style={styles.footerName}>{` ${author || post.author} `}</Text>

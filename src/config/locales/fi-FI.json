@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "äänesti",
-    "unvote": "ääni peruttu",
+    "unvote": "downvoted",
     "reply": "vastasi",
     "mention": "mainittu",
     "follow": "seurasi sinua",
@@ -134,12 +134,16 @@
     "replies": "Vastaukset",
     "mentions": "Maininnat",
     "reblogs": "Jaot",
-    "noactivity": "Ei viimeaikaista toimintaa"
+    "noactivity": "Ei viimeaikaista toimintaa",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "PÄIVITTÄIN",
     "weekly": "VIIKOITTAIN",
-    "monthly": "KUUKAUSITTAIN"
+    "monthly": "KUUKAUSITTAIN",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Viestiominaisuus on tulossa pian!"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "Seurataan",
     "follower": "Seuraaja",
+    "edit_label": "Edit",
     "post": "Julkaisut",
     "details": "Profiilitiedot",
     "comments": "Kommentit",
@@ -620,11 +625,17 @@
   "community": {
     "new_post": "Uusi julkaisu",
     "community": "yhteisö",
-    "details": "Lisätiedot"
+    "details": "Lisätiedot",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Seuraa",
-    "unfollow": "Älä seuraa"
+    "unfollow": "Älä seuraa",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Jäsenyys",

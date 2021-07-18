@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Alert, Keyboard } from 'react-native';
+import { Alert } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -13,8 +13,8 @@ import {
   uploadImage,
   addDraft,
   updateDraft,
-  schedule,
   getDrafts,
+  addSchedule,
 } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
@@ -276,7 +276,11 @@ class EditorContainer extends Component {
 
         //if unsaved local draft is more latest then remote draft, use that instead
         //if editor was opened from draft screens, this code will be skipped anyways.
-        if (idLessDraft && new Date(_draft.modified).getTime() < idLessDraft.timestamp) {
+        if (
+          idLessDraft &&
+          (idLessDraft.title !== '' || idLessDraft.tags !== '' || idLessDraft.body !== '') &&
+          new Date(_draft.modified).getTime() < idLessDraft.timestamp
+        ) {
           _getStorageDraftGeneral(false);
           return;
         }
@@ -431,19 +435,25 @@ class EditorContainer extends Component {
           id: 'alert.permission_text',
         }),
       );
+    } else {
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        error.message || JSON.stringify(error),
+      );
     }
   };
 
-  _saveDraftToDB = async (fields) => {
+  _saveDraftToDB = async (fields, silent = false) => {
     const { isDraftSaved, draftId } = this.state;
     const { currentAccount, dispatch, intl } = this.props;
 
     try {
       if (!isDraftSaved) {
-        const username = get(currentAccount, 'name', '');
         let draftField;
 
-        if (this._isMounted) {
+        if (this._isMounted && !silent) {
           this.setState({
             isDraftSaving: true,
           });
@@ -453,16 +463,12 @@ class EditorContainer extends Component {
           draftField = {
             ...fields,
             tags: fields.tags.join(' '),
-            username,
           };
         }
 
         //update draft is draftId is present
         if (draftId && draftField) {
-          await updateDraft({
-            ...draftField,
-            draftId,
-          });
+          await updateDraft(draftId, draftField.title, draftField.body, draftField.tags);
 
           if (this._isMounted) {
             this.setState({
@@ -474,7 +480,7 @@ class EditorContainer extends Component {
 
         //create new darft otherwise
         else if (draftField) {
-          const response = await addDraft(draftField);
+          const response = await addDraft(draftField.title, draftField.body, draftField.tags);
 
           if (this._isMounted) {
             this.setState({
@@ -485,6 +491,7 @@ class EditorContainer extends Component {
           }
 
           //clear local copy is darft save is successful
+          const username = get(currentAccount, 'name', '');
           setDraftPost(
             {
               title: '',
@@ -496,13 +503,15 @@ class EditorContainer extends Component {
           );
         }
 
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'editor.draft_save_success',
-            }),
-          ),
-        );
+        if (!silent) {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'editor.draft_save_success',
+              }),
+            ),
+          );
+        }
 
         //call fetch post to drafts screen
         this._navigationBackFetchDrafts();
@@ -566,7 +575,11 @@ class EditorContainer extends Component {
       pinCode,
       // isDefaultFooter,
     } = this.props;
-    const { rewardType, beneficiaries } = this.state;
+    const { rewardType, beneficiaries, isPostSending } = this.state;
+
+    if (isPostSending) {
+      return;
+    }
 
     if (currentAccount) {
       this.setState({
@@ -605,7 +618,7 @@ class EditorContainer extends Component {
         if (fields.tags.length === 0) {
           fields.tags = ['hive-125125'];
         }
-        await this._setScheduledPost({
+        this._setScheduledPost({
           author,
           permlink,
           fields,
@@ -626,6 +639,7 @@ class EditorContainer extends Component {
           voteWeight,
         )
           .then(async () => {
+            //post publish updates
             setDraftPost(
               {
                 title: '',
@@ -635,6 +649,7 @@ class EditorContainer extends Component {
               },
               currentAccount.name,
             );
+
             await AsyncStorage.setItem('temp-beneficiaries', '');
 
             dispatch(
@@ -666,7 +681,11 @@ class EditorContainer extends Component {
 
   _submitReply = async (fields) => {
     const { currentAccount, pinCode } = this.props;
-    const { rewardType, beneficiaries } = this.state;
+    const { rewardType, beneficiaries, isPostSending } = this.state;
+
+    if (isPostSending) {
+      return;
+    }
 
     if (currentAccount) {
       this.setState({
@@ -708,7 +727,12 @@ class EditorContainer extends Component {
 
   _submitEdit = async (fields) => {
     const { currentAccount, pinCode } = this.props;
-    const { post, isEdit } = this.state;
+    const { post, isEdit, isPostSending } = this.state;
+
+    if (isPostSending) {
+      return;
+    }
+
     if (currentAccount) {
       this.setState({
         isPostSending: true,
@@ -782,7 +806,7 @@ class EditorContainer extends Component {
         intl.formatMessage({
           id: 'alert.fail',
         }),
-        error.toString(),
+        error.message || JSON.stringify(error),
       );
     }
 
@@ -942,17 +966,13 @@ class EditorContainer extends Component {
       beneficiaries: beneficiaries,
     });
 
-    schedule(
-      data.author,
-      data.fields.title,
+    addSchedule(
       data.permlink,
-      data.jsonMeta,
-      data.fields.tags,
+      data.fields.title,
       data.fields.body,
-      '',
-      '',
-      data.scheduleDate,
+      data.jsonMeta,
       options,
+      data.scheduleDate,
     )
       .then(() => {
         this.setState({
@@ -974,6 +994,7 @@ class EditorContainer extends Component {
           },
           currentAccount.name,
         );
+
         setTimeout(() => {
           navigation.navigate({
             routeName: ROUTES.SCREENS.DRAFTS,
@@ -981,7 +1002,8 @@ class EditorContainer extends Component {
           });
         }, 3000);
       })
-      .catch((err) => {
+      .catch((error) => {
+        console.warn('Failed to schedule post', error);
         this.setState({
           isPostSending: false,
         });

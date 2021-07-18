@@ -78,4 +78,24 @@ export default EStyleSheet.create({
     marginLeft: -8,
     borderColor: '$primaryBlue',
   },
+  emptyAnimationContainer:{
+    marginTop:56
+  },
+  followText:{
+    color: '$borderedButtonBlue',
+    fontSize: 12,
+    fontFamily: '$primaryFont',
+    fontWeight: 'bold',
+
+    borderColor: '$borderedButtonBlue',
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingVertical:2,
+    paddingHorizontal:12,
+    overflow:'hidden'
+  },
+  unfollowText: {
+    color:'$primaryDarkGray',
+    borderColor:'$primaryDarkGray'
+  }
 });

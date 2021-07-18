@@ -20,7 +20,7 @@ import {
 } from '../providers/hive/dhive';
 
 // Ecency providers
-import { getIsFavorite, addFavorite, removeFavorite } from '../providers/ecency/ecency';
+import { checkFavorite, addFavorite, deleteFavorite } from '../providers/ecency/ecency';
 
 // Utilitites
 import { getRcPower, getVotingPower } from '../utils/manaBar';
@@ -33,6 +33,13 @@ class ProfileContainer extends Component {
   constructor(props) {
     super(props);
 
+    //check if is signed in user profile
+    const username = props.navigation.getParam('username');
+    const {
+      currentAccount: { name: currentAccountUsername },
+    } = props;
+    const isOwnProfile = !username || currentAccountUsername === username;
+
     this.state = {
       comments: [],
       follows: {},
@@ -42,12 +49,14 @@ class ProfileContainer extends Component {
       isMuted: false,
       isProfileLoading: false,
       isReady: false,
-      isOwnProfile: !has(props, 'navigation.state.params.username'),
+      isOwnProfile,
       user: null,
       quickProfile: {
         reputation: get(props, 'navigation.state.params.reputation', ''),
         name: get(props, 'navigation.state.params.username', ''),
       },
+      reverseHeader: !!username,
+      deepLinkFilter: get(props, 'navigation.state.params.deepLinkFilter'),
     };
   }
 
@@ -60,6 +69,7 @@ class ProfileContainer extends Component {
       currentAccount: { name: currentAccountUsername },
     } = this.props;
     const username = get(navigation, 'state.params.username');
+
     const { isOwnProfile } = this.state;
     let targetUsername = currentAccountUsername;
 
@@ -92,6 +102,7 @@ class ProfileContainer extends Component {
     } = this.props;
     this.setState({ isProfileLoading: true });
     let repliesAction;
+
     if (!isOwnProfile) {
       repliesAction = getAccountPosts;
       if (query) {
@@ -129,6 +140,7 @@ class ProfileContainer extends Component {
         );
       }
     }
+
     if (query) {
       delete query.author;
       delete query.permlink;
@@ -248,44 +260,51 @@ class ProfileContainer extends Component {
   };
 
   _fetchProfile = async (username = null, isProfileAction = false) => {
-    const { username: _username, isFollowing, isMuted, isOwnProfile } = this.state;
+    const { intl } = this.props;
+    try {
+      const { username: _username, isFollowing, isMuted, isOwnProfile } = this.state;
 
-    if (username) {
-      const { currentAccount } = this.props;
-      let _isFollowing;
-      let _isMuted;
-      let isFavorite;
-      let follows;
+      if (username) {
+        const { currentAccount } = this.props;
+        let _isFollowing;
+        let _isMuted;
+        let isFavorite;
+        let follows;
 
-      if (!isOwnProfile) {
-        const res = await getRelationship(currentAccount.name, username);
-        _isFollowing = res && res.follows;
+        if (!isOwnProfile) {
+          const res = await getRelationship(currentAccount.name, username);
+          _isFollowing = res && res.follows;
+          _isMuted = res && res.ignores;
+          isFavorite = await checkFavorite(username);
+        }
 
-        _isMuted = res && res.ignores;
+        try {
+          follows = await getFollows(username);
+        } catch (err) {
+          follows = null;
+        }
 
-        getIsFavorite(username, currentAccount.name).then((isFav) => {
-          isFavorite = isFav;
-        });
+        if (isProfileAction && isFollowing === _isFollowing && isMuted === _isMuted) {
+          this._fetchProfile(_username, true);
+        } else {
+          this.setState({
+            follows,
+            isFollowing: _isFollowing,
+            isMuted: _isMuted,
+            isFavorite,
+            isReady: true,
+            isProfileLoading: false,
+          });
+        }
       }
-
-      try {
-        follows = await getFollows(username);
-      } catch (err) {
-        follows = null;
-      }
-
-      if (isProfileAction && isFollowing === _isFollowing && isMuted === _isMuted) {
-        this._fetchProfile(_username, true);
-      } else {
-        this.setState({
-          follows,
-          isFollowing: _isFollowing,
-          isMuted: _isMuted,
-          isFavorite,
-          isReady: true,
-          isProfileLoading: false,
-        });
-      }
+    } catch (error) {
+      console.warn('Failed to fetch complete profile data', error);
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        error.message || error.toString(),
+      );
     }
   };
 
@@ -329,7 +348,7 @@ class ProfileContainer extends Component {
   };
 
   _handleOnFavoritePress = (isFavorite = false) => {
-    const { currentAccount, dispatch, intl } = this.props;
+    const { dispatch, intl } = this.props;
     const { username } = this.state;
     let favoriteAction;
 
@@ -338,21 +357,31 @@ class ProfileContainer extends Component {
     });
 
     if (isFavorite) {
-      favoriteAction = removeFavorite;
+      favoriteAction = deleteFavorite;
     } else {
       favoriteAction = addFavorite;
     }
 
-    favoriteAction(currentAccount.name, username).then(() => {
-      dispatch(
-        toastNotification(
+    favoriteAction(username)
+      .then(() => {
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: isFavorite ? 'alert.success_unfavorite' : 'alert.success_favorite',
+            }),
+          ),
+        );
+        this.setState({ isFavorite: !isFavorite, isProfileLoading: false });
+      })
+      .catch((error) => {
+        console.warn('Failed to perform favorite action');
+        Alert.alert(
           intl.formatMessage({
-            id: isFavorite ? 'alert.success_unfavorite' : 'alert.success_favorite',
+            id: 'alert.fail',
           }),
-        ),
-      );
-      this.setState({ isFavorite: !isFavorite, isProfileLoading: false });
-    });
+          error.message || error.toString(),
+        );
+      });
   };
 
   _handleOnBackPress = () => {
@@ -425,6 +454,8 @@ class ProfileContainer extends Component {
       quickProfile,
       user,
       username,
+      reverseHeader,
+      deepLinkFilter,
     } = this.state;
     const { currency, isDarkTheme, isLoggedIn, navigation, children, isHideImage } = this.props;
     const activePage = get(navigation.state.params, 'state', 0);
@@ -474,6 +505,8 @@ class ProfileContainer extends Component {
         quickProfile,
         selectedUser: user,
         username,
+        reverseHeader,
+        deepLinkFilter,
       })
     );
   }

@@ -84,12 +84,12 @@ export const TabbedPosts = ({
     return (
       <StackedTabBar 
         {...props}
-        enableCustomiseButton={isFeedScreen}
         firstStack={mainFilters}
         secondStack={subFilters}
         initialFirstStackIndex={selectedOptionIndex}
         onFilterSelect={_onFilterSelect}
         toggleHideImagesFlag={imagesToggleEnabled}
+        pageType={pageType}
       />
     )
   }

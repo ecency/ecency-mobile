@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "लाभार्थी पुरस्कार",
     "claim_reward_balance": "इनाम दावा ",
     "transfer": "स्थानांतरण",
-    "power_up": "To Vesting",
+    "power_up": "वेस्टिंग को",
     "transfer_from_savings": "बचत से",
     "withdraw_vesting": "शक्तिक्षय करें",
     "fill_order": "क्रम पूरा करें",
@@ -62,14 +62,14 @@
     "purchase_estm": "अंक प्राप्त करें",
     "points": "किसी को उपहार दे",
     "transfer_to_saving": "बचत करने के लिए",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_vesting": "पावर उप करे",
     "withdraw_to_saving": "बचत खाते से निकालें",
     "steemconnect_title": "हाइवसाईनर स्थानांतरण",
     "next": "अगला",
     "delegate": "कार्यभार सौंपें",
     "power_down": "शक्तिक्षय करें",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HBD",
+    "withdraw_hive": "हाइव वापस लें",
+    "withdraw_hbd": "एचबीडी को वापस ले",
     "transfer_to_savings": "बचत करने के लिए",
     "convert": "बदलें",
     "escrow_transfer": "एस्क्रो ट्रांसफर",
@@ -86,21 +86,21 @@
       "buy": "अंक प्राप्त करें"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "हाइव बचत"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "एचबीडी बचत"
     },
     "hive": {
-      "title": "HIVE",
-      "buy": "GET HIVE"
+      "title": "हाइव",
+      "buy": "हाइव प्राप्त करें"
     },
     "hbd": {
-      "title": "HBD",
-      "buy": "GET HBD"
+      "title": "एचबीडी",
+      "buy": "एचबीडी प्राप्त करें"
     },
     "hive_power": {
-      "title": "HIVE POWER"
+      "title": "हाइव पावर"
     },
     "btc": {
       "title": "बीटीसी",
@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "मतदान किया",
-    "unvote": "अनियंत्रित",
+    "unvote": "downvoted",
     "reply": "को उत्तर दिया",
     "mention": "में वर्णित",
     "follow": "आपके साथ जुड़ा",
@@ -134,12 +134,16 @@
     "replies": "जबाबें",
     "mentions": "का उल्लेख है",
     "reblogs": "रिब्लॉग्स",
-    "noactivity": "कोई हालिया गतिविधि नहीं"
+    "noactivity": "कोई हालिया गतिविधि नहीं",
+    "mention_on": "नया उल्लेख चालू",
+    "reply_on": "नया उत्तर चालू",
+    "reply_body": "बातचीत जारी रखने के लिए टैप करें..."
   },
   "leaderboard": {
     "daily": "रोज",
     "weekly": "साप्ताहिक",
-    "monthly": "महीने के"
+    "monthly": "महीने के",
+    "tooltip_earn": "इसेंसी में सक्रिय रूप से भाग लेकर अंक अर्जित करें।"
   },
   "messages": {
     "comingsoon": "सन्देश सुविधा जल्द आ रही है!"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "अनुगामी",
     "follower": "अनुयायी",
+    "edit_label": "Edit",
     "post": "Post",
     "details": "प्रलेख विवरण",
     "comments": "विवेचनाऐं",
@@ -158,15 +163,15 @@
     "hours": "घंटे",
     "voting_power": "मतदान की क्षमता",
     "login_to_see": "देखने के लिए लॉगिन करें",
-    "follow_people": "When you follow people, you'll see their post here.",
-    "follow_communities": "When you join communities you'll see posts from communities here.",
+    "follow_people": "जब आप लोगों को फ़ॉलो करते हैं, तो आपको उनकी पोस्ट यहां दिखाई देगी.",
+    "follow_communities": "जब आप समुदायों में शामिल होते हैं तो आपको यहां समुदायों की पोस्ट दिखाई देंगी.",
     "havent_commented": "अभी तक कोई टिपण्णी नहीं की है",
     "havent_posted": "अभी तक कोई पोस्ट नहीं की है",
-    "hive_power": "Hive Power",
+    "hive_power": "हाइव पावर",
     "next_power_text": "अगला शक्तिक्षय में है",
     "days": "दिनों",
     "day": "दिन",
-    "hive_dollars": "Hive Dollars",
+    "hive_dollars": "हाइव डॉलर",
     "savings": "बचत",
     "edit": {
       "display_name": "प्रदर्शित होने वाला नाम",
@@ -281,7 +286,7 @@
     "reply": "जबाब दें",
     "open_gallery": "गैलरी खोलें",
     "capture_photo": "फोटो खीचें",
-    "uploaded_images": "Uploaded Images",
+    "uploaded_images": "छवियाँ अपलोड की गईं",
     "limited_tags": "केवल 10 टैग की अनुमति है, कुछ को हटा दें",
     "limited_length": "प्रत्येक टैग की अधिकतम लंबाई 24 होनी चाहिए",
     "limited_dash": "प्रत्येक टैग की अधिकतम लंबाई 24 होनी चाहिए",
@@ -406,7 +411,7 @@
     "something_wrong_alt": "Https://ecency.com आज़माएं",
     "something_wrong_reload": "पुनः लोड करें",
     "can_not_be_empty": "शीर्षक और शरीर खाली नहीं हो सकता!",
-    "wrong_filter_count": "Please select 3 filters"
+    "wrong_filter_count": "कृपया 3 फ़िल्टर चुनें"
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
@@ -513,8 +518,8 @@
     "purchase_estm": "पॉइंट्स खरीदे",
     "convert": "एचबीडी को हाइव में बदलें",
     "points": "किसी को अंक उपहार दे",
-    "transfer_to_savings": "Transfer To Saving",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_savings": "बचत खाते में स्थान्तरण करें",
+    "transfer_to_vesting": "पावर उप करे",
     "withdraw_to_saving": "बचत खाते से निकालें",
     "steemconnect_title": "हाइवसाईनर स्थानांतरण",
     "estimated_weekly": "साप्ताहिक रूप से अनुमान लगाया गया",
@@ -527,11 +532,11 @@
     "next": "अगला",
     "delegate": "कार्यभार सौंपें",
     "power_down": "क्षमता कम करें",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HIVE Dollar",
+    "withdraw_hive": "हाइव को वापस लें",
+    "withdraw_hbd": "हाइव डॉलर वापस ले",
     "incoming_funds": "आवक फंड",
     "stop": "रुको",
-    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
+    "sc_power_down_error": "यह सुविधा अभी तक Hivesigner लॉगिन के लिए लागू नहीं की गई है",
     "address_view": "पता देखें"
   },
   "boost": {
@@ -620,17 +625,23 @@
   "community": {
     "new_post": "नया पोस्ट",
     "community": "समुदाय",
-    "details": "विवरण"
+    "details": "विवरण",
+    "muted": "म्यूट हो गए",
+    "payout": "भुगतान"
   },
   "user": {
     "follow": "फॉलो करें",
-    "unfollow": "अनफॉलो करें"
+    "unfollow": "अनफॉलो करें",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "सदस्यता",
     "discover": "खोजिए",
-    "discover_communities": "Discover Communities",
-    "no_communities": "Connect with people who share your interests by joining Communities."
+    "discover_communities": "समुदायों की खोज करें",
+    "no_communities": "समुदायों में शामिल होकर उन लोगों से जुड़ें जो आपकी रुचियों को साझा करते हैं।"
   },
   "empty_screen": {
     "nothing_here": "कुछ नहीं है यहां"
@@ -650,6 +661,6 @@
     "line2_body": "ब्लॉकचैन, सेंसरशिप-मुक्त, विकेन्द्रीकृत और पुरस्कृत का उपयोग करना।",
     "line3_heading": "इसेंसी समुदायों में शामिल हों!",
     "line3_body": "अपने समुदाय का निर्माण करें, पुरस्कृत हों और दूसरों को पुरस्कृत करें।",
-    "get_started": "Get started!"
+    "get_started": "शुरू हो जाओ!"
   }
 }

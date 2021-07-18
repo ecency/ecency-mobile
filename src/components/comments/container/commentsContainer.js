@@ -25,7 +25,6 @@ const CommentsContainer = ({
   isOwnProfile,
   fetchPost,
   navigation,
-  content,
   currentAccount,
   pinCode,
   comments,
@@ -42,6 +41,7 @@ const CommentsContainer = ({
   hasManyComments,
   showAllComments,
   hideManyCommentsButton,
+  flatListProps,
 }) => {
   const [lcomments, setLComments] = useState([]);
   const [selectedPermlink, setSelectedPermlink] = useState('');
@@ -252,6 +252,7 @@ const CommentsContainer = ({
       handleOnVotersPress={_handleOnVotersPress}
       isShowSubComments={isShowSubComments}
       showAllComments={showAllComments}
+      flatListProps={flatListProps}
     />
   );
 };

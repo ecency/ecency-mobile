@@ -5,13 +5,23 @@ import { injectIntl } from 'react-intl';
 import Config from 'react-native-config';
 import get from 'lodash/get';
 
+//Contstants
+import AUTH_TYPE from '../../../constants/authType';
+
 // Actions & Services
 import { navigate } from '../../../navigation/service';
-import { setUserDataWithPinCode, verifyPinCode, updatePinCode } from '../../../providers/hive/auth';
+import {
+  setUserDataWithPinCode,
+  verifyPinCode,
+  updatePinCode,
+  migrateToMasterKeyWithAccessToken,
+  refreshSCToken,
+} from '../../../providers/hive/auth';
 import {
   closePinCodeModal,
   isPinCodeOpen,
   login,
+  logout,
   logoutDone,
   setPinCode as savePinCode,
 } from '../../../redux/actions/applicationActions';
@@ -25,13 +35,14 @@ import {
   setPinCodeOpen,
 } from '../../../realm/realm';
 import { updateCurrentAccount, removeOtherAccount } from '../../../redux/actions/accountAction';
-import { getUser } from '../../../providers/hive/dhive';
+import { getDigitPinCode, getUser } from '../../../providers/hive/dhive';
 
 // Utils
 import { encryptKey, decryptKey } from '../../../utils/crypto';
 
 // Component
 import PinCodeScreen from '../screen/pinCodeScreen';
+import { getUnreadNotificationCount } from '../../../providers/ecency/ecency';
 
 class PinCodeContainer extends Component {
   constructor(props) {
@@ -238,6 +249,23 @@ class PinCodeContainer extends Component {
       });
     });
 
+  _onRefreshTokenFailed = (error) => {
+    setTimeout(() => {
+      const { dispatch, intl } = this.props;
+      const _logout = () => dispatch(logout());
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        error.message,
+        [
+          { text: intl.formatMessage({ id: 'side_menu.logout' }), onPress: _logout },
+          { text: intl.formatMessage({ id: 'alert.cancel' }), style: 'destructive' },
+        ],
+      );
+    }, 300);
+  };
+
   _verifyPinCode = (pin, { shouldUpdateRealm } = {}) =>
     new Promise((resolve, reject) => {
       const {
@@ -257,16 +285,39 @@ class PinCodeContainer extends Component {
       verifyPinCode(pinData)
         .then(() => {
           this._savePinCode(pin);
-          getUserDataWithUsername(currentAccount.name).then((realmData) => {
+          getUserDataWithUsername(currentAccount.name).then(async (realmData) => {
             if (shouldUpdateRealm) {
               this._updatePinCodeRealm(pinData).then(() => {
                 dispatch(closePinCodeModal());
               });
             } else {
-              const _currentAccount = currentAccount;
+              let _currentAccount = currentAccount;
               _currentAccount.username = _currentAccount.name;
               [_currentAccount.local] = realmData;
 
+              try {
+                const pinHash = encryptKey(pin, Config.PIN_KEY);
+                //migration script for previously mast key based logged in user not having access token
+                if (
+                  realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT &&
+                  realmData[0].accessToken === ''
+                ) {
+                  _currentAccount = await migrateToMasterKeyWithAccessToken(
+                    _currentAccount,
+                    realmData[0],
+                    pinHash,
+                  );
+                }
+
+                //refresh access token
+                const encryptedAccessToken = await refreshSCToken(_currentAccount.local, pin);
+                _currentAccount.local.accessToken = encryptedAccessToken;
+              } catch (error) {
+                this._onRefreshTokenFailed(error);
+              }
+
+              //get unread notifications
+              _currentAccount.unread_activity_count = await getUnreadNotificationCount();
               dispatch(updateCurrentAccount({ ..._currentAccount }));
               dispatch(closePinCodeModal());
             }

@@ -82,6 +82,17 @@ export const parseComments = async (comments) => {
     comment.markdownBody = get(comment, 'body');
     comment.body = renderPostBody(comment, true, webp);
 
+    //calculate and set total_payout to show to user.
+    const totalPayout =
+      parseAsset(comment.pending_payout_value).amount +
+      parseAsset(comment.author_payout_value).amount +
+      parseAsset(comment.curator_payout_value).amount;
+
+    comment.total_payout = totalPayout;
+
+    //stamp comments with fetched time;
+    comment.post_fetched_at = new Date().getTime();
+
     return comment;
   });
 };

@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "binoto",
-    "unvote": "hindi binoto",
+    "unvote": "downvoted",
     "reply": "tumugon sa",
     "mention": "binanggit sa",
     "follow": "sinundan ka",
@@ -134,12 +134,16 @@
     "replies": "Mga Tugon",
     "mentions": "Mga banggit",
     "reblogs": "Mga Reblog",
-    "noactivity": "Walang aktibidad kamakailan"
+    "noactivity": "Walang aktibidad kamakailan",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "Araw-araw",
     "weekly": "Linggo-linggo",
-    "monthly": "Buwan-buwan"
+    "monthly": "Buwan-buwan",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Paparating na mga mensaheng tampok!"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "Sunisundan",
     "follower": "Sumusunod",
+    "edit_label": "Edit",
     "post": "Post",
     "details": "Detalye ng Profile",
     "comments": "Mga komento",
@@ -620,11 +625,17 @@
   "community": {
     "new_post": "New Post",
     "community": "community",
-    "details": "Details"
+    "details": "Details",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Follow",
-    "unfollow": "Unfollow"
+    "unfollow": "Unfollow",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Membership",

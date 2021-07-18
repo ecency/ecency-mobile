@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "abgestimmt",
-    "unvote": "nicht abgestimmt",
+    "unvote": "downvoted",
     "reply": "hat geantwortet auf",
     "mention": "erwähnt in",
     "follow": "folgt dir jetzt",
@@ -134,12 +134,16 @@
     "replies": "Antworten",
     "mentions": "Erwähnungen",
     "reblogs": "Reblogs",
-    "noactivity": "Keine kürzlichen Aktivitäten"
+    "noactivity": "Keine kürzlichen Aktivitäten",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "TÄGLICH",
     "weekly": "WÖCHENTLICH",
-    "monthly": "MONATLICH"
+    "monthly": "MONATLICH",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Nachrichten-Feature ist bald verfügbar!"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "Following",
     "follower": "Follower",
+    "edit_label": "Edit",
     "post": "Beiträge",
     "details": "Profil-Details",
     "comments": "Kommentare",
@@ -620,11 +625,17 @@
   "community": {
     "new_post": "Neuer Beitrag",
     "community": "Community",
-    "details": "Details"
+    "details": "Details",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Folgen",
-    "unfollow": "Nicht mehr folgen"
+    "unfollow": "Nicht mehr folgen",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Membership",

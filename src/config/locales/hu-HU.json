@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "szavazott",
-    "unvote": "szavazat visszavonva",
+    "unvote": "downvoted",
     "reply": "válaszolt neked",
     "mention": "megemlített",
     "follow": "követ téged",
@@ -134,12 +134,16 @@
     "replies": "Válaszok",
     "mentions": "Említések",
     "reblogs": "Megosztások",
-    "noactivity": "Nincs friss tevékenység"
+    "noactivity": "Nincs friss tevékenység",
+    "mention_on": "New mention on",
+    "reply_on": "New reply on",
+    "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
     "daily": "NAPI",
     "weekly": "HETI",
-    "monthly": "HAVI"
+    "monthly": "HAVI",
+    "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
     "comingsoon": "Üzenetek funkció hamarosan érkezik!"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "Követés",
     "follower": "Követő",
+    "edit_label": "Edit",
     "post": "Bejegyzések",
     "details": "Profil Adatok",
     "comments": "Hozzászólások",
@@ -620,11 +625,17 @@
   "community": {
     "new_post": "Új bejegyzés",
     "community": "közösség",
-    "details": "Részletek"
+    "details": "Részletek",
+    "muted": "Muted",
+    "payout": "Payout"
   },
   "user": {
     "follow": "Follow",
-    "unfollow": "Unfollow"
+    "unfollow": "Unfollow",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "Membership",

@@ -5,9 +5,9 @@
     "comment_benefactor_reward": "受益者獎勵",
     "claim_reward_balance": "領取獎勵",
     "transfer": "轉賬",
-    "power_up": "To Vesting",
+    "power_up": "轉為 Hive Power",
     "transfer_from_savings": "儲蓄轉出",
-    "withdraw_vesting": "釋放 Steem Power",
+    "withdraw_vesting": "釋放 Hive Power",
     "fill_order": "成交訂單",
     "post": "文章",
     "comment": "評論",
@@ -21,7 +21,7 @@
     "delegation": "委託",
     "delegations": "委託",
     "delegation_title": "委託獎勵",
-    "delegation_desc": "通過代理SP，每天賺取ESTM",
+    "delegation_desc": "通過代理HP，每天賺取ESTM積分",
     "post_title": "發文的點數",
     "comment_title": "評論的點數",
     "vote_title": "投票的點數",
@@ -35,8 +35,8 @@
     "no_activity": "近期無活動",
     "outgoing_transfer_description": "",
     "incoming_transfer_description": "",
-    "post_desc": "您可以通過定期發佈來賺取點數。p期發佈，獎勵您多達15個Ecency點數。",
-    "comment_desc": "您的每一條評論，都有助於你新增受眾和建立友誼，也能幫您賺取多達5個Ecency點數。",
+    "post_desc": "您可以通過定期發佈來賺取點數。發佈文章的獎勵多達15個Ecency點數。",
+    "comment_desc": "您的每一條評論，都有可能助於提高知名度，也能幫您獲得多達5個Ecency點數。",
     "checkin_desc": "定時簽到獎勵您0.25個ecency點數。",
     "vote_desc": "通過投票，您給其他創作者帶來獎勵的同時，您能賺取多達投票權重0.01倍的ecency點數。",
     "reblog_desc": "分享您喜歡的帖子給您的朋友，並賺取ecency點數。",
@@ -62,12 +62,12 @@
     "purchase_estm": "購買ESTM積分",
     "points": "送ESTM積分給別人",
     "transfer_to_saving": "轉為儲蓄",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_vesting": "轉為Hive Power",
     "withdraw_to_saving": "提現到儲蓄",
     "steemconnect_title": "Hiveconnect登錄",
     "next": "下一个",
     "delegate": "委託",
-    "power_down": "釋放 Steem Power",
+    "power_down": "釋放 Hive Power",
     "withdraw_hive": "Withdraw HIVE",
     "withdraw_hbd": "Withdraw HBD",
     "transfer_to_savings": "轉為儲蓄",
@@ -80,37 +80,37 @@
     "delegate_vesting_shares": "委託",
     "fill_convert_request": "轉換已執行",
     "fill_transfer_from_savings": "儲蓄已執行",
-    "fill_vesting_withdraw": "釋放Steem Power已執行",
+    "fill_vesting_withdraw": "釋放Hive Power已執行",
     "estm": {
       "title": "點數",
       "buy": "購買ESTM積分"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "HIVE存款"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "HBD存款"
     },
     "hive": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "購買HIVE"
     },
     "hbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "購買HBD"
     },
     "hive_power": {
-      "title": "HIVE POWER"
+      "title": "HIVE POWER（已鎖倉）"
     },
     "btc": {
-      "title": "大餅",
-      "buy": "購買大餅",
+      "title": "BTC大餅",
+      "buy": "購買BTC大餅",
       "address": "接收"
     }
   },
   "notification": {
     "vote": "已投票",
-    "unvote": "已取消投票",
+    "unvote": "downvoted",
     "reply": "回復給",
     "mention": "被提及，在",
     "follow": "關注了您",
@@ -134,12 +134,16 @@
     "replies": "回覆",
     "mentions": "提及",
     "reblogs": "轉發",
-    "noactivity": "近期無活動"
+    "noactivity": "近期無活動",
+    "mention_on": "有人提及你",
+    "reply_on": "新回覆",
+    "reply_body": "點擊回覆…"
   },
   "leaderboard": {
     "daily": "日",
     "weekly": "每週",
-    "monthly": "每月"
+    "monthly": "每月",
+    "tooltip_earn": "活躍使用Ecency可以賺取更多點數"
   },
   "messages": {
     "comingsoon": "消息功能即將推出"
@@ -147,6 +151,7 @@
   "profile": {
     "following": "關注",
     "follower": "粉絲",
+    "edit_label": "Edit",
     "post": "文章",
     "details": "個人資料詳情",
     "comments": "評論",
@@ -158,15 +163,15 @@
     "hours": "小時",
     "voting_power": "Voting Power(VP)",
     "login_to_see": "登錄查看",
-    "follow_people": "When you follow people, you'll see their post here.",
-    "follow_communities": "When you join communities you'll see posts from communities here.",
+    "follow_people": "當您關注別人，您還可以在這看到他的動態",
+    "follow_communities": "當您加入社區，社區發出的帖子就會出現在社區動態",
     "havent_commented": "還沒有任何評論",
     "havent_posted": "還沒發佈任何內容",
     "hive_power": "Hive Power",
-    "next_power_text": "下一次釋放Steem Power是在",
+    "next_power_text": "下一次釋放Hive Power是在",
     "days": "天",
     "day": "天",
-    "hive_dollars": "Hive Dollars",
+    "hive_dollars": "Hive Dollar",
     "savings": "儲蓄",
     "edit": {
       "display_name": "顯示名",
@@ -258,7 +263,7 @@
     "logout": "登出",
     "cancel": "取消",
     "logout_text": "您確定要登出嗎？",
-    "create_a_new_account": "建立一個新帳戶",
+    "create_a_new_account": "創建一個新帳戶",
     "add_an_existing_account": "綁定現有帳號",
     "accounts": "帳號"
   },
@@ -281,7 +286,7 @@
     "reply": "回覆",
     "open_gallery": "打開圖庫",
     "capture_photo": "拍照",
-    "uploaded_images": "Uploaded Images",
+    "uploaded_images": "已上傳的圖片",
     "limited_tags": "僅允許10個標籤，移除一些",
     "limited_length": "每個標籤的最大長度應為24",
     "limited_dash": "在每個標籤中使用一個破折號",
@@ -406,7 +411,7 @@
     "something_wrong_alt": "請嘗試 https://ecency.com",
     "something_wrong_reload": "重新載入",
     "can_not_be_empty": "題目跟文章不能空置",
-    "wrong_filter_count": "Please select 3 filters"
+    "wrong_filter_count": "請選擇三個篩選器"
   },
   "post": {
     "reblog_alert": "您確定想要轉發？",
@@ -513,8 +518,8 @@
     "purchase_estm": "購買點數",
     "convert": "HBD 兌換 Hive",
     "points": "送ESTM積分給別人",
-    "transfer_to_savings": "Transfer To Saving",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_savings": "轉入儲蓄",
+    "transfer_to_vesting": "轉為Hive Power",
     "withdraw_to_saving": "提現到儲蓄",
     "steemconnect_title": "使用Hivesigner轉賬",
     "estimated_weekly": "每週估計",
@@ -526,12 +531,12 @@
     "percent_information": "百分比資訊",
     "next": "下一个",
     "delegate": "委託",
-    "power_down": "釋放Steem Power",
+    "power_down": "釋放Hive Power",
     "withdraw_hive": "Withdraw HIVE",
     "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "轉入資金",
     "stop": "停止",
-    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
+    "sc_power_down_error": "Hivesigner暫時不支持斷電操作",
     "address_view": "檢視地址"
   },
   "boost": {
@@ -620,17 +625,23 @@
   "community": {
     "new_post": "新增文章",
     "community": "社區",
-    "details": "詳細資訊"
+    "details": "詳細資訊",
+    "muted": "已拉黑",
+    "payout": "收益"
   },
   "user": {
     "follow": "關注",
-    "unfollow": "取消關注"
+    "unfollow": "取消關注",
+    "add_to_favourites": "ADD TO FAVOURITES",
+    "remove_from_favourites": "REMOVE FROM FAVOURITES",
+    "mute": "MUTE",
+    "unmute": "UNMUTE"
   },
   "communities": {
     "joined": "會員身份",
     "discover": "發現",
-    "discover_communities": "Discover Communities",
-    "no_communities": "Connect with people who share your interests by joining Communities."
+    "discover_communities": "探索更多社區",
+    "no_communities": "加入社區，尋找與你志趣相投的朋友"
   },
   "empty_screen": {
     "nothing_here": "暫無内容"
@@ -650,6 +661,6 @@
     "line2_body": "利用區塊鏈技術，不屏蔽，去中心化，還給予獎勵",
     "line3_heading": "加入我們Ecency社群吧",
     "line3_body": "建立您自己的社區，賺取獎賞，獎勵他人",
-    "get_started": "Get started!"
+    "get_started": "開始吧"
   }
 }

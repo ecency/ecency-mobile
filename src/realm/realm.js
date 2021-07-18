@@ -1,5 +1,6 @@
 import sha256 from 'crypto-js/sha256';
 import AsyncStorage from '@react-native-community/async-storage';
+import parseVersionNumber from '../utils/parseVersionNumber';
 
 // CONSTANTS
 const USER_SCHEMA = 'user';
@@ -687,7 +688,7 @@ export const getVersionForWelcomeModal = async () => {
   try {
     const application = await getItemFromStorage(APPLICATION_SCHEMA);
     if (application && application.versionForWelcomeModal) {
-      return parseFloat(application.versionForWelcomeModal.replace(/\./, '')) || 0;
+      return parseVersionNumber(application.versionForWelcomeModal);
     }
     return 0;
   } catch (error) {
