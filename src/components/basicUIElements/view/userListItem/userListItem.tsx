@@ -51,7 +51,7 @@ const UserListItem = ({
         <UserAvatar noAction={true} style={styles.avatar} username={username} />
         <View style={styles.userDescription}>
           {!searchValue && <Text style={styles.name}>{text || username}</Text>}
-          {!!searchValue && (
+          {!!searchValue && text && (
             <Highlighter
               highlightStyle={{ backgroundColor: 'yellow' }}
               searchWords={[searchValue]}
@@ -59,7 +59,7 @@ const UserListItem = ({
               style={styles.name}
             />
           )}
-          {!!searchValue && (
+          {!!searchValue && description && (
             <Highlighter
               highlightStyle={{ backgroundColor: 'yellow' }}
               searchWords={[searchValue]}
