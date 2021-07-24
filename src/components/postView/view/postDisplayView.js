@@ -221,7 +221,6 @@ const PostDisplayView = ({
                 name={author || post.author}
                 currentAccountUsername={name}
                 reputation={post.author_reputation}
-                content={post}
                 size={36}
               />
               <PostBody body={post.body} onLoadEnd={_handleOnPostBodyLoad} />
