@@ -86,7 +86,6 @@ export const parseComments = async (comments) => {
     if (typeof comment.json_metadata === 'string' || comment.json_metadata instanceof String) {
       try {
         comment.json_metadata = JSON.parse(comment.json_metadata);
-        comment.json_metadata.tags = ['hive-123123'];
       } catch (error) {
         comment.json_metadata = {};
       }
