@@ -74,7 +74,7 @@ const VotersScreen = ({ navigation }) => {
             selectedOptionIndex={filterIndex}
             onDropdownSelect={handleOnVotersDropdownSelect}
           />
-          <VotersDisplay votes={filterResult || data} />
+          <VotersDisplay votes={filterResult || data} createdAt={content.created} />
         </>
       )}
     </AccountListContainer>

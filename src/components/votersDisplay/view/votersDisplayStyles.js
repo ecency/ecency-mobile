@@ -14,4 +14,8 @@ export default EStyleSheet.create({
     fontSize: 12,
     fontFamily: '$primaryFont',
   },
+  emptyContainer: {
+    justifyContent: 'flex-start',
+    marginTop: 72,
+  },
 });
