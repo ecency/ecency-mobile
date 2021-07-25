@@ -15,7 +15,7 @@ import ROUTES from '../../../constants/routeNames';
 // Styles
 import styles from './votersDisplayStyles';
 
-const VotersDisplayView = ({ votes, navigation }) => {
+const VotersDisplayView = ({ votes, navigation, createdAt = '2010-01-01T00:00:00' }) => {
   const intl = useIntl();
 
   /*getActiveVotes(get(content, 'author'), get(content, 'permlink'))
@@ -41,11 +41,16 @@ const VotersDisplayView = ({ votes, navigation }) => {
     const value = `$ ${item.reward}`;
     const percent = `${item.percent}%`;
 
+    //snippet to avoid rendering time form long past
+    const minTimestamp = new Date(createdAt).getTime();
+    const voteTimestamp = new Date(item.time).getTime();
+    const timeString = item.time && minTimestamp < voteTimestamp ? getTimeFromNow(item.time) : null;
+
     return (
       <UserListItem
         index={index}
         username={item.voter}
-        description={getTimeFromNow(item.time)}
+        description={timeString}
         isHasRightItem
         isRightColor={item.is_down_vote}
         rightText={value}
