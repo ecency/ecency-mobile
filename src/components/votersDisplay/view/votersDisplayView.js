@@ -7,7 +7,7 @@ import { useIntl } from 'react-intl';
 import { getTimeFromNow } from '../../../utils/time';
 
 // Components
-import { UserListItem } from '../../basicUIElements';
+import { EmptyScreen, UserListItem } from '../../basicUIElements';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -67,11 +67,7 @@ const VotersDisplayView = ({ votes, navigation }) => {
           renderItem={_renderItem}
         />
       ) : (
-        <Text style={styles.text}>
-          {intl.formatMessage({
-            id: 'voters.no_user',
-          })}
-        </Text>
+        <EmptyScreen style={styles.emptyContainer} />
       )}
     </SafeAreaView>
   );
