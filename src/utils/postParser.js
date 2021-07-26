@@ -82,6 +82,14 @@ export const parseComments = async (comments) => {
     comment.markdownBody = get(comment, 'body');
     comment.body = renderPostBody(comment, true, webp);
 
+    //parse json meta;
+    if (typeof comment.json_metadata === 'string' || comment.json_metadata instanceof String) {
+      try {
+        comment.json_metadata = JSON.parse(comment.json_metadata);
+      } catch (error) {
+        comment.json_metadata = {};
+      }
+    }
     //calculate and set total_payout to show to user.
     const totalPayout =
       parseAsset(comment.pending_payout_value).amount +
