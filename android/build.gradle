@@ -56,13 +56,6 @@ allprojects {
 }
 
 subprojects {project ->
-    if (project.name.contains('react-native-fast-image')|| project.name.contains('realm')) {
-            buildscript {
-                repositories {
-                maven { url "https://dl.bintray.com/android/android-tools/"  }
-            }    
-        }
-    }
     ext {
         def npmVersion = getNpmVersionArray()
         versionMajor = npmVersion[0]

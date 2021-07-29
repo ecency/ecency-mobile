@@ -215,6 +215,7 @@ dependencies {
     implementation 'com.android.support:multidex:2.0.1'
     implementation project(':@react-native-community_viewpager')
     implementation 'com.google.firebase:firebase-analytics:17.2.3'
+
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
     }
@@ -247,4 +248,5 @@ apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 bugsnag {
   uploadReactNativeMappings = true
+  overwrite = true
 }
