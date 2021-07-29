@@ -1,7 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
-apply plugin: "com.bugsnag.android.gradle"
 
 import com.android.build.OutputFile
 
@@ -215,6 +214,7 @@ dependencies {
     implementation 'com.android.support:multidex:2.0.1'
     implementation project(':@react-native-community_viewpager')
     implementation 'com.google.firebase:firebase-analytics:17.2.3'
+    implementation 'com.bugsnag:bugsnag-android:5.4.0'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
@@ -245,6 +245,7 @@ task copyDownloadableDepsToLibs(type: Copy) {
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
+apply plugin: "com.bugsnag.android.gradle"
 
 bugsnag {
   uploadReactNativeMappings = true
