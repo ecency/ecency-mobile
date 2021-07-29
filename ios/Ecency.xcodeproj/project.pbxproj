@@ -12,7 +12,8 @@
 		0516470B24D2C513005DE9C5 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0516470A24D2C513005DE9C5 /* ShareViewController.swift */; };
 		0516470E24D2C513005DE9C5 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0516470C24D2C513005DE9C5 /* MainInterface.storyboard */; };
 		0516471224D2C513005DE9C5 /* eshare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0516470824D2C513005DE9C5 /* eshare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		05A14D182518B03100EB7509 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A14D172518B03100EB7509 /* File.swift */; };
+		053EA30026B2B9920082FEB9 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053EA2FF26B2B9920082FEB9 /* File.swift */; };
+		053EA30326B2BA150082FEB9 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053EA30226B2BA150082FEB9 /* File.swift */; };
 		05B6C49024C306CE00B7FA60 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		05B6C49224C306CE00B7FA60 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		05B6C49424C306CE00B7FA60 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58190B3B23294814000EA0E1 /* StoreKit.framework */; };
@@ -36,7 +37,6 @@
 		05B6C4A824C306CE00B7FA60 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6D935B44FB5A4CF3BF4D01DF /* Ionicons.ttf */; };
 		05B6C4A924C306CE00B7FA60 /* Sansation_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 588A5052232A3A4C00FC1361 /* Sansation_Regular.ttf */; };
 		05B6C4AA24C306CE00B7FA60 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 22F5F05A06E142C2B41A4D38 /* MaterialCommunityIcons.ttf */; };
-		05B6C4AB24C306CE00B7FA60 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F9BCC224793C61004F0790 /* GoogleService-Info.plist */; };
 		05B6C4AC24C306CE00B7FA60 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 263FA8C0EF21473FAAAD3EDD /* MaterialIcons.ttf */; };
 		05B6C4AD24C306CE00B7FA60 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 000EE3558E824DA88770325D /* Octicons.ttf */; };
 		05B6C4AE24C306CE00B7FA60 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 588A5053232A3A4C00FC1361 /* Roboto.ttf */; };
@@ -51,8 +51,8 @@
 		58F9BCC724793C61004F0790 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F9BCC224793C61004F0790 /* GoogleService-Info.plist */; };
 		58F9BCC824793C61004F0790 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58F9BCC224793C61004F0790 /* GoogleService-Info.plist */; };
 		70C4CED48BD7D1CEE1C6FC23 /* libPods-Ecency-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0812265E2569EA0A02398A1D /* libPods-Ecency-tvOS.a */; };
-		BE63BFBC424A07C57BC1DD64 /* libPods-EcencyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 198DC9AB05DBAB3D1D357023 /* libPods-EcencyTests.a */; };
 		E40C857285AFAC0735036DBD /* libPods-Ecency-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99C402EF50B52B0D2AC8630A /* libPods-Ecency-tvOSTests.a */; };
+		F0B955BF2DB2D2AED627639F /* libPods-Ecency-EcencyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A0E6F5122D061376C146F3A5 /* libPods-Ecency-EcencyTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,8 +111,10 @@
 		0516470D24D2C513005DE9C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		0516470F24D2C513005DE9C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0516471624D2C534005DE9C5 /* eshare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = eshare.entitlements; sourceTree = "<group>"; };
+		053EA2FF26B2B9920082FEB9 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		053EA30126B2BA140082FEB9 /* EcencyTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EcencyTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		053EA30226B2BA150082FEB9 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		05A14D162518B03000EB7509 /* Ecency-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ecency-Bridging-Header.h"; sourceTree = "<group>"; };
-		05A14D172518B03100EB7509 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		05B6C4B724C306CE00B7FA60 /* Ecency.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ecency.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0812265E2569EA0A02398A1D /* libPods-Ecency-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Ecency-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		112758B0BBF9458381CE41FD /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
@@ -124,7 +126,6 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Ecency/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Ecency/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Ecency/main.m; sourceTree = "<group>"; };
-		198DC9AB05DBAB3D1D357023 /* libPods-EcencyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EcencyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CD0B89B258019B600A7D78E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		22F5F05A06E142C2B41A4D38 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		263FA8C0EF21473FAAAD3EDD /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
@@ -149,6 +150,7 @@
 		58F9BCC224793C61004F0790 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		649161D9967ADE1724FFEB6B /* Pods-Ecency-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-Ecency-tvOSTests/Pods-Ecency-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		6D935B44FB5A4CF3BF4D01DF /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		6ED52150CCE41EC3EC211BD1 /* Pods-Ecency-EcencyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency-EcencyTests.debug.xcconfig"; path = "Target Support Files/Pods-Ecency-EcencyTests/Pods-Ecency-EcencyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		73714DEB6020DC29F1FB8D1E /* Pods-Ecency-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Ecency-tvOSTests/Pods-Ecency-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7F05E5D687C82C5FC2BF37CB /* Pods-EcencyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EcencyTests.release.xcconfig"; path = "Target Support Files/Pods-EcencyTests/Pods-EcencyTests.release.xcconfig"; sourceTree = "<group>"; };
 		8C38659A3F465807B8A0BF51 /* Pods-Ecency.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency.release.xcconfig"; path = "Target Support Files/Pods-Ecency/Pods-Ecency.release.xcconfig"; sourceTree = "<group>"; };
@@ -158,9 +160,11 @@
 		98D3D7C3AF354BF0987A2BFA /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
 		99C402EF50B52B0D2AC8630A /* libPods-Ecency-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Ecency-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BC08A790166415B9BB3F5CF /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
+		A0E6F5122D061376C146F3A5 /* libPods-Ecency-EcencyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Ecency-EcencyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A239FC84622A4A9CA7950ED9 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		A2E36008621542A47CD67103 /* libPods-Ecency.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Ecency.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A93BAD39A20B874CCD4F31D8 /* Pods-Ecency-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Ecency-tvOS/Pods-Ecency-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		B0B133DCD28AD2284B4B5EC0 /* Pods-Ecency-EcencyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency-EcencyTests.release.xcconfig"; path = "Target Support Files/Pods-Ecency-EcencyTests/Pods-Ecency-EcencyTests.release.xcconfig"; sourceTree = "<group>"; };
 		B68A673C5BD3600C1275BBA5 /* Pods-Ecency-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-Ecency-tvOS/Pods-Ecency-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		BB1093ACCD904E2883413214 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		D60CFB4DC2C036659ACE448D /* Pods-Ecency.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ecency.debug.xcconfig"; path = "Target Support Files/Pods-Ecency/Pods-Ecency.debug.xcconfig"; sourceTree = "<group>"; };
@@ -173,7 +177,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE63BFBC424A07C57BC1DD64 /* libPods-EcencyTests.a in Frameworks */,
+				F0B955BF2DB2D2AED627639F /* libPods-Ecency-EcencyTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,7 +220,9 @@
 			isa = PBXGroup;
 			children = (
 				00E356F21AD99517003FC87E /* EcencyTests.m */,
+				053EA30226B2BA150082FEB9 /* File.swift */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
+				053EA30126B2BA140082FEB9 /* EcencyTests-Bridging-Header.h */,
 			);
 			path = EcencyTests;
 			sourceTree = "<group>";
@@ -243,13 +249,13 @@
 		13B07FAE1A68108700A75B9A /* Ecency */ = {
 			isa = PBXGroup;
 			children = (
-				05A14D172518B03100EB7509 /* File.swift */,
 				58C9F50B24CE084600A026DD /* EcencyDebug.entitlements */,
 				58F9BCC224793C61004F0790 /* GoogleService-Info.plist */,
 				58190B3D23294823000EA0E1 /* Ecency.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
+				053EA2FF26B2B9920082FEB9 /* File.swift */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
@@ -270,6 +276,8 @@
 				649161D9967ADE1724FFEB6B /* Pods-Ecency-tvOSTests.release.xcconfig */,
 				126807F3BB0DA276AAED09DC /* Pods-EcencyTests.debug.xcconfig */,
 				7F05E5D687C82C5FC2BF37CB /* Pods-EcencyTests.release.xcconfig */,
+				6ED52150CCE41EC3EC211BD1 /* Pods-Ecency-EcencyTests.debug.xcconfig */,
+				B0B133DCD28AD2284B4B5EC0 /* Pods-Ecency-EcencyTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -285,7 +293,7 @@
 				A2E36008621542A47CD67103 /* libPods-Ecency.a */,
 				0812265E2569EA0A02398A1D /* libPods-Ecency-tvOS.a */,
 				99C402EF50B52B0D2AC8630A /* libPods-Ecency-tvOSTests.a */,
-				198DC9AB05DBAB3D1D357023 /* libPods-EcencyTests.a */,
+				A0E6F5122D061376C146F3A5 /* libPods-Ecency-EcencyTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -386,6 +394,8 @@
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
+				F666DC83CF2E926F9BE80FD4 /* [CP] Embed Pods Frameworks */,
+				895AF0C05CD73FE07F3D97E1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -427,6 +437,7 @@
 				05BAAAEE25BF43F80072EA01 /* ShellScript */,
 				5CA1CDA47AC1DEC079CAE96C /* [CP] Copy Pods Resources */,
 				C2170598D6B9B95E421E3ADF /* [CP-User] [RNFB] Core Configuration */,
+				A9DADF7C6AA39AE41006A461 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -485,12 +496,13 @@
 			attributes = {
 				DefaultBuildSystemTypeForWorkspace = Original;
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 940;
-				ORGANIZATIONNAME = Facebook;
+				LastUpgradeCheck = 1230;
+				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = 75B6RXTKGT;
+						LastSwiftMigration = 1230;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					0516470724D2C513005DE9C5 = {
@@ -602,7 +614,6 @@
 				05B6C4A824C306CE00B7FA60 /* Ionicons.ttf in Resources */,
 				05B6C4A924C306CE00B7FA60 /* Sansation_Regular.ttf in Resources */,
 				05B6C4AA24C306CE00B7FA60 /* MaterialCommunityIcons.ttf in Resources */,
-				05B6C4AB24C306CE00B7FA60 /* GoogleService-Info.plist in Resources */,
 				05B6C4AC24C306CE00B7FA60 /* MaterialIcons.ttf in Resources */,
 				05B6C4AD24C306CE00B7FA60 /* Octicons.ttf in Resources */,
 				05B6C4AE24C306CE00B7FA60 /* Roboto.ttf in Resources */,
@@ -793,6 +804,60 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		895AF0C05CD73FE07F3D97E1 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Ecency-EcencyTests/Pods-Ecency-EcencyTests-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker/QBImagePicker.bundle",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+				"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle",
+				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/QBImagePicker.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TOCropViewControllerBundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WKYTPlayerView.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ecency-EcencyTests/Pods-Ecency-EcencyTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		9B18DEC2BBB21FD97A5CF114 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -808,11 +873,29 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-EcencyTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Ecency-EcencyTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A9DADF7C6AA39AE41006A461 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Ecency/Pods-Ecency-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ecency/Pods-Ecency-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C2170598D6B9B95E421E3ADF /* [CP-User] [RNFB] Core Configuration */ = {
@@ -847,6 +930,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		F666DC83CF2E926F9BE80FD4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Ecency-EcencyTests/Pods-Ecency-EcencyTests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ecency-EcencyTests/Pods-Ecency-EcencyTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		FD10A7F122414F3F0027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -874,6 +975,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00E356F31AD99517003FC87E /* EcencyTests.m in Sources */,
+				053EA30326B2BA150082FEB9 /* File.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -890,7 +992,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				05B6C49024C306CE00B7FA60 /* AppDelegate.m in Sources */,
-				05A14D182518B03100EB7509 /* File.swift in Sources */,
+				053EA30026B2B9920082FEB9 /* File.swift in Sources */,
 				05B6C49224C306CE00B7FA60 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -950,10 +1052,11 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 126807F3BB0DA276AAED09DC /* Pods-EcencyTests.debug.xcconfig */;
+			baseConfigurationReference = 6ED52150CCE41EC3EC211BD1 /* Pods-Ecency-EcencyTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -961,7 +1064,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = EcencyTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -970,6 +1073,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "EcencyTests/EcencyTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ecency.app/Ecency";
 			};
@@ -977,15 +1083,16 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7F05E5D687C82C5FC2BF37CB /* Pods-EcencyTests.release.xcconfig */;
+			baseConfigurationReference = B0B133DCD28AD2284B4B5EC0 /* Pods-Ecency-EcencyTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
 				INFOPLIST_FILE = EcencyTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -994,6 +1101,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "EcencyTests/EcencyTests-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ecency.app/Ecency";
 			};
@@ -1016,7 +1125,7 @@
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = eshare/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MARKETING_VERSION = 3.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -1049,7 +1158,7 @@
 				DEVELOPMENT_TEAM = 75B6RXTKGT;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = eshare/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MARKETING_VERSION = 3.0.0;
 				MTL_FAST_MATH = YES;
@@ -1122,7 +1231,7 @@
 					"\"${PODS_ROOT}/../node_modules/react-native/Libraries/LinkingIOS\"",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Ecency/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 3.0.2;
 				OTHER_LDFLAGS = (
@@ -1199,7 +1308,7 @@
 					"\"${PODS_ROOT}/../node_modules/react-native/Libraries/LinkingIOS\"",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Ecency/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 3.0.2;
 				OTHER_LDFLAGS = (
@@ -1241,7 +1350,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Debug;
 		};
@@ -1269,7 +1378,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Release;
 		};
@@ -1296,7 +1405,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ecency-tvOS.app/Ecency-tvOS";
-				TVOS_DEPLOYMENT_TARGET = 10.1;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Debug;
 		};
@@ -1323,7 +1432,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ecency-tvOS.app/Ecency-tvOS";
-				TVOS_DEPLOYMENT_TARGET = 10.1;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Release;
 		};
@@ -1331,6 +1440,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1349,6 +1459,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1374,7 +1485,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1386,6 +1497,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1404,6 +1516,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1422,9 +1535,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_VERSION = 4.0;
 				VALIDATE_PRODUCT = YES;
 			};

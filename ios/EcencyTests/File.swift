@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  Ecency
+//  EcencyTests
 //
 //  Created by Feruz Muradov on 2021-07-29.
 //
