@@ -407,9 +407,9 @@
     "payloadTooLarge": "El tamaño del archivo es demasiado grande, por favor cambia el tamaño o suba una imagen más pequeña",
     "qoutaExceeded": "Se ha superado la cuota de subida",
     "invalidImage": "Imagen no válida, prueba un archivo diferente",
-    "something_wrong": "Algo ha fallado.",
-    "something_wrong_alt": "Prueba https://ecency.com",
-    "something_wrong_reload": "Recarga",
+    "something_wrong": "Something went wrong",
+    "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
+    "something_wrong_reload": "Try again?",
     "can_not_be_empty": "¡Título y cuerpo no pueden estar vacíos!",
     "wrong_filter_count": "Please select 3 filters"
   },
