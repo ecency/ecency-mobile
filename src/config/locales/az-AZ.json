@@ -407,9 +407,9 @@
     "payloadTooLarge": "Fayl həcmi çox böyükdür, yenidən ölçüləndirin və ya kiçik təsvir yükləyin",
     "qoutaExceeded": "Yükləmə kvotası keçildi",
     "invalidImage": "Etibarsız təsvir, fərqli fayl sınayın",
-    "something_wrong": "Nəsə səhv getdi.",
-    "something_wrong_alt": "https://ecency.com sınayın",
-    "something_wrong_reload": "Yenidən yükləyin",
+    "something_wrong": "Something went wrong",
+    "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
+    "something_wrong_reload": "Try again?",
     "can_not_be_empty": "Başlıq və gövdə boş ola bilməz!",
     "wrong_filter_count": "Zəhmət olmasa 3 filtr seçin"
   },
