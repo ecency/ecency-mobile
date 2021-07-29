@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {AlertButton, ButtonProps } from 'react-native';
+import {AlertButton } from 'react-native';
 import { Source } from 'react-native-fast-image';
 import { useSelector, useDispatch } from 'react-redux';
 import { hideActionModal } from '../../../redux/actions/uiAction';
