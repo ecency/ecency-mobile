@@ -19,10 +19,7 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     bugsnag.notify(error, (report) => {
-      report.metadata = {
-        errorBoundary: true,
-        errorInfo,
-      };
+      report.addMetadata('errorBoundary', errorInfo);
     });
   }
 
@@ -39,14 +36,14 @@ class ErrorBoundary extends React.Component {
               id: 'alert.something_wrong',
             })}
           </Text>
-          <Text style={{ fontSize: 15 }}>
+          <Text style={{ fontSize: 15, padding: 15 }}>
             {intl.formatMessage({
               id: 'alert.something_wrong_alt',
             })}
           </Text>
           <TouchableHighlight onPress={() => RNRestart.Restart()}>
             <Fragment>
-              <Text style={{ fontSize: 30, textDecorationLine: 'underline', paddingTop: 20 }}>
+              <Text style={{ fontSize: 15, textDecorationLine: 'underline', paddingTop: 20 }}>
                 {intl.formatMessage({
                   id: 'alert.something_wrong_reload',
                 })}

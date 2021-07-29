@@ -1,4 +1,5 @@
 platform :ios, '10.0'
+require_relative '../node_modules/react-native/scripts/autolink-ios'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
 target 'Ecency' do
@@ -27,9 +28,9 @@ target 'Ecency' do
   pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi'
   pod 'React-jsiexecutor', :path => '../node_modules/react-native/ReactCommon/jsiexecutor'
   pod 'React-jsinspector', :path => '../node_modules/react-native/ReactCommon/jsinspector'
-  pod 'ReactCommon/jscallinvoker', :path => "../node_modules/react-native/ReactCommon"
+  pod 'ReactCommon/callinvoker', :path => "../node_modules/react-native/ReactCommon"
   pod 'ReactCommon/turbomodule/core', :path => "../node_modules/react-native/ReactCommon"
-  pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+  pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga', :modular_headers => true
 
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
@@ -37,13 +38,19 @@ target 'Ecency' do
   pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
   
   target 'EcencyTests' do
-    inherit! :search_paths
+    inherit! :complete
     # Pods for testing
   end
-
+  
+  # Enables Flipper.
+  #
+  # Note that if you have use_frameworks! enabled, Flipper will not work and
+  # you should disable these next few lines.
+  add_flipper_pods!
   post_install do |installer|
     find_and_replace("../node_modules/react-native/Libraries/Image/RCTUIImageViewAnimated.m",
     "_currentFrame.CGImage;","_currentFrame.CGImage ;} else { [super displayLayer:layer];")
+    flipper_post_install(installer)
   end
 
   use_native_modules!
