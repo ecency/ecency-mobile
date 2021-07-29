@@ -438,6 +438,7 @@
 				5CA1CDA47AC1DEC079CAE96C /* [CP] Copy Pods Resources */,
 				C2170598D6B9B95E421E3ADF /* [CP-User] [RNFB] Core Configuration */,
 				A9DADF7C6AA39AE41006A461 /* [CP] Embed Pods Frameworks */,
+				3D1F6693773C4541A695BB3C /* Upload source maps to Bugsnag */,
 			);
 			buildRules = (
 			);
@@ -695,7 +696,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+			shellScript = "export EXTRA_PACKAGER_ARGS=\"--sourcemap-output $TMPDIR/$(md5 -qs \"$CONFIGURATION_BUILD_DIR\")-main.jsbundle.map\"\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		05BAAAEE25BF43F80072EA01 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -726,7 +727,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export EXTRA_PACKAGER_ARGS=\"--sourcemap-output $CONFIGURATION_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/main.jsbundle.map\"\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export EXTRA_PACKAGER_ARGS=\"--sourcemap-output $TMPDIR/$(md5 -qs \"$CONFIGURATION_BUILD_DIR\")-main.jsbundle.map\"\nexport EXTRA_PACKAGER_ARGS=\"--sourcemap-output $CONFIGURATION_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/main.jsbundle.map\"\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
 		5CA1CDA47AC1DEC079CAE96C /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -966,6 +967,20 @@
 			shellPath = /bin/sh;
 			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		3D1F6693773C4541A695BB3C /* Upload source maps to Bugsnag */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Upload source maps to Bugsnag";
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			shellPath = /bin/sh;
+			shellScript = "SOURCE_MAP=\"$TMPDIR/$(md5 -qs \"$CONFIGURATION_BUILD_DIR\")-main.jsbundle.map\" ../node_modules/@bugsnag/react-native/bugsnag-react-native-xcode.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 
