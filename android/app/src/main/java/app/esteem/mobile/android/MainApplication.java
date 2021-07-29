@@ -10,6 +10,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import androidx.multidex.MultiDexApplication;
+import com.bugsnag.android.Bugsnag;
 
 //See below, Webview debugging
 //import android.webkit.WebView; 

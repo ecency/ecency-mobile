@@ -4,7 +4,7 @@
 #import <AppCenterReactNative.h>
 #import <AppCenterReactNativeAnalytics.h>
 #import <AppCenterReactNativeCrashes.h>
-#import <BugsnagReactNative/BugsnagReactNative.h>
+#import <Bugsnag/Bugsnag.h>
 #import <Firebase.h>
 
 #import <React/RCTBridge.h>
@@ -59,7 +59,7 @@ static void InitializeFlipper(UIApplication *application) {
   [AppCenterReactNative register];
   [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];
   [AppCenterReactNativeCrashes registerWithAutomaticProcessing];
-  [BugsnagReactNative start];
+  [Bugsnag start];
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"Ecency"
