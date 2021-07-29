@@ -10,10 +10,7 @@ import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { isEmpty, some } from 'lodash';
-import {
-  initialMode as nativeThemeInitialMode,
-  eventEmitter as nativeThemeEventEmitter,
-} from 'react-native-dark-mode';
+import { useDarkMode } from 'react-native-dynamic';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import VersionNumber from 'react-native-version-number';
@@ -149,13 +146,13 @@ class ApplicationContainer extends Component {
     AppState.addEventListener('change', this._handleAppStateChange);
     setPreviousAppState();
 
-    if (nativeThemeEventEmitter) {
+    /*if (nativeThemeEventEmitter) {
       nativeThemeEventEmitter.on('currentModeChanged', (newMode) => {
         const { dispatch } = this.props;
 
         dispatch(isDarkTheme(newMode === 'dark'));
       });
-    }
+    }*/
     this._createPushListener();
 
     if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
@@ -724,11 +721,8 @@ class ApplicationContainer extends Component {
     const settings = await getSettings();
 
     if (settings) {
-      dispatch(
-        isDarkTheme(
-          settings.isDarkTheme === null ? nativeThemeInitialMode === 'dark' : settings.isDarkTheme,
-        ),
-      );
+      const isDarkMode = false; //useDarkMode();
+      dispatch(isDarkTheme(settings.isDarkTheme === null ? settings.isDarkTheme : isDarkMode));
       this.setState({
         isThemeReady: true,
       });
