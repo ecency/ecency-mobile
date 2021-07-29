@@ -407,9 +407,9 @@
     "payloadTooLarge": "A fájlméret túl nagy, kérlek méretezd át, vagy tölts fel kisebb képet",
     "qoutaExceeded": "Tárhely korlát túllépve",
     "invalidImage": "Érvénytelen kép, próbálj egy másik fájlt",
-    "something_wrong": "Valami hiba történt.",
-    "something_wrong_alt": "Próbáld ezt https://ecency.com",
-    "something_wrong_reload": "Frissítsd",
+    "something_wrong": "Something went wrong",
+    "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
+    "something_wrong_reload": "Try again?",
     "can_not_be_empty": "Title and body can not be empty!",
     "wrong_filter_count": "Please select 3 filters"
   },
