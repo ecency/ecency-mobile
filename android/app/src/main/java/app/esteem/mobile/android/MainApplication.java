@@ -53,6 +53,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
   @Override
   public void onCreate() {
     super.onCreate();
+    Bugsnag.start(this /* app context */);
     SoLoader.init(this, /* native exopackage */ false);
     // Uncomment below line to Debug Webview
     // WebView.setWebContentsDebuggingEnabled(true);
