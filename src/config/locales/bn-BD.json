@@ -407,9 +407,9 @@
     "payloadTooLarge": "ফাইলের আকার খুব বড়, দয়া করে আকার পরিবর্তন করুন বা ছোট চিত্র আপলোড করুন",
     "qoutaExceeded": "আপলোড কোটা অতিক্রম করেছে",
     "invalidImage": "ইনভ্যালিড চিত্র, ভিন্ন ফাইল চেষ্টা করুন",
-    "something_wrong": "কিছু ভুল হয়েছে",
-    "something_wrong_alt": "চেষ্টা করুন https://ecency.com",
-    "something_wrong_reload": "রিলোড",
+    "something_wrong": "Something went wrong",
+    "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
+    "something_wrong_reload": "Try again?",
     "can_not_be_empty": "Title and body can not be empty!",
     "wrong_filter_count": "Please select 3 filters"
   },

@@ -407,9 +407,9 @@
     "payloadTooLarge": "Masyadong malaki ang file, maaaring baguhin ang laki nito o mag-upload ng mas maliit na imahe",
     "qoutaExceeded": "Umabot na sa limit sa pag-upload",
     "invalidImage": "Inbalidong imahe, subukan ang ibang file",
-    "something_wrong": "May nangyaring problema.",
-    "something_wrong_alt": "Subukan ang https://ecency.com",
-    "something_wrong_reload": "I-reload",
+    "something_wrong": "Something went wrong",
+    "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
+    "something_wrong_reload": "Try again?",
     "can_not_be_empty": "Title and body can not be empty!",
     "wrong_filter_count": "Please select 3 filters"
   },
