@@ -407,9 +407,9 @@
     "payloadTooLarge": "Zbyt duży rozmiar pliku, zmień rozmiar lub prześlij mniejszy obraz",
     "qoutaExceeded": "Przekroczono limit wysyłania",
     "invalidImage": "Nieprawidłowy obraz, spróbuj innego pliku",
-    "something_wrong": "Coś poszło nie tak.",
-    "something_wrong_alt": "Wypróbuj https://ecency.com",
-    "something_wrong_reload": "Przeładowanie",
+    "something_wrong": "Something went wrong",
+    "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
+    "something_wrong_reload": "Try again?",
     "can_not_be_empty": "Title and body can not be empty!",
     "wrong_filter_count": "Please select 3 filters"
   },
