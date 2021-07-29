@@ -1,4 +1,3 @@
-import { Client, Configuration } from 'bugsnag-react-native';
 import Bugsnag from '@bugsnag/react-native';
 import Config from 'react-native-config';
 

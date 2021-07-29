@@ -19,10 +19,7 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     bugsnag.notify(error, (report) => {
-      report.metadata = {
-        errorBoundary: true,
-        errorInfo,
-      };
+      report.addMetadata('errorBoundary', errorInfo);
     });
   }
 

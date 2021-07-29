@@ -78,9 +78,7 @@ class InAppPurchaseContainer extends Component {
           })
           .catch((err) =>
             bugsnag.notify(err, (report) => {
-              report.metadata = {
-                data,
-              };
+              report.addMetadata('data', data);
             }),
           );
       }
@@ -138,9 +136,7 @@ class InAppPurchaseContainer extends Component {
         RNIap.requestPurchase(sku, false);
       } catch (err) {
         bugsnag.notify(err, (report) => {
-          report.metadata = {
-            sku,
-          };
+          report.addMetadata('sku', sku);
         });
       }
     } else {
