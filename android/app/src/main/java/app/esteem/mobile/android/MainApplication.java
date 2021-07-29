@@ -53,11 +53,11 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
   @Override
   public void onCreate() {
     super.onCreate();
-    Bugsnag.start(this /* app context */);
     SoLoader.init(this, /* native exopackage */ false);
     // Uncomment below line to Debug Webview
     // WebView.setWebContentsDebuggingEnabled(true);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    Bugsnag.start(this /* app context */);
   }
 
   /**
@@ -74,7 +74,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
          * We use reflection here to pick up the class that initializes Flipper, since
          * Flipper library is not available in release mode
          */
-        Class<?> aClass = Class.forName("com.rndiffapp.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("app.esteem.mobile.android.ReactNativeFlipper");
         aClass.getMethod("initializeFlipper", Context.class, ReactInstanceManager.class).invoke(null, context, reactInstanceManager);
       } catch (ClassNotFoundException e) {
         e.printStackTrace();
