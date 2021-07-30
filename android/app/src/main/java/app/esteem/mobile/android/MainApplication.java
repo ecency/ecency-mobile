@@ -57,7 +57,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     // Uncomment below line to Debug Webview
     // WebView.setWebContentsDebuggingEnabled(true);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
-    Bugsnag.start(this /* app context */);
+    // Bugsnag.start(this /* app context */);
   }
 
   /**
