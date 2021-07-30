@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import bugsnag from './src/config/bugsnag';
+import bugsnagInstance from './src/config/bugsnag';
 import App from './src/index';
 
 if (__DEV__) {

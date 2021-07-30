@@ -170,6 +170,7 @@ class ApplicationScreen extends Component {
 
         <ForegroundNotification remoteMessage={foregroundNotificationData} />
         <AccountsBottomSheet />
+        <ActionModal />
       </View>
     );
   }
