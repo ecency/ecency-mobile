@@ -832,10 +832,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@ecency/render-helper@^2.1.19":
-  version "2.1.19"
-  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.1.19.tgz#63a6438e1abce5f6ee1b4e964cacb1d96dac203a"
-  integrity sha512-t4DLI8DQqzpqlMPMPPwrtvaVqsBDQA9OmX8+4kTrz6F3DStDsKWpjSZxGR21Gic7YbwiwD2WfNRLJb28dee3XA==
+"@ecency/render-helper@^2.1.20":
+  version "2.1.20"
+  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.1.20.tgz#1dff67753d20837beb6cf054b52f39a1ce14b027"
+  integrity sha512-1qPY37vhpzwojTlyn2cLHh0iLKwLeu08l29X8SU40RXIqq3TEaLyNlIbVvet8ubZyAqXlWz+oPu+ELgd5MAnrg==
   dependencies:
     he "^1.2.0"
     lru-cache "^5.1.1"
