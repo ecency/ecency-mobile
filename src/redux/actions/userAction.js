@@ -90,7 +90,7 @@ export const unfollowUserFail = (error, data, failToastText) => {
 };
 
 // Fetch Leaderboard
-export const fetchLeaderboard = (duration) => {
+export const fetchLeaderboard = (duration = 'day') => {
   return (dispatch) => {
     dispatch({ type: FETCH_LEADERBOARD });
     getLeaderboard(duration)
