@@ -38,18 +38,19 @@ target 'Ecency' do
   # pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   # pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
   # pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
+  use_react_native!(:path => config["reactNativePath"])
   
   target 'EcencyTests' do
     inherit! :complete
     # Pods for testing
   end
 
-  post_install do |installer|
-    find_and_replace("../node_modules/react-native/Libraries/Image/RCTUIImageViewAnimated.m",
-    "_currentFrame.CGImage;","_currentFrame.CGImage ;} else { [super displayLayer:layer];")
-  end
+  #post_install do |installer|
+  #  find_and_replace("../node_modules/react-native/Libraries/Image/RCTUIImageViewAnimated.m",
+  #  "_currentFrame.CGImage;","_currentFrame.CGImage ;} else { [super displayLayer:layer];")
+  #end
 
-  use_react_native!(:path => config["reactNativePath"])
+  
 end
 
 target 'Ecency-tvOS' do
