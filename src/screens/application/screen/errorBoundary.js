@@ -5,7 +5,7 @@ import RNRestart from 'react-native-restart';
 
 import { Icon } from '../../../components';
 
-import bugsnag from '../../../config/bugsnag';
+import bugsnagInstance from '../../../config/bugsnag';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    bugsnag.notify(error, (report) => {
+    bugsnagInstance.notify(error, (report) => {
       report.addMetadata('errorBoundary', errorInfo);
     });
   }

@@ -7,7 +7,7 @@ import ImageSize from 'react-native-image-size';
 // Utils
 import FastImage from 'react-native-fast-image';
 import { getTimeFromNow } from '../../../utils/time';
-import bugsnag from '../../../config/bugsnag';
+//import bugsnagInstance from '../../../config/bugsnag';
 
 // Components
 import { PostHeaderDescription } from '../../postElements';
