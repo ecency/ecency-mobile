@@ -55,7 +55,7 @@ const PostDisplayView = ({
   // Component Life Cycles
   useEffect(() => {
     if (isLoggedIn && get(currentAccount, 'name') && !isNewPost) {
-      userActivity(currentAccount.name, 10);
+      userActivity(10);
     }
   }, []);
 

@@ -70,7 +70,7 @@ class LoginContainer extends PureComponent {
           dispatch(setInitPosts([]));
           dispatch(setFeedPosts([]));
 
-          userActivity(result.name, 20);
+          userActivity(20);
           setExistUser(true);
           this._setPushToken(result.name);
           if (isPinCodeOpen) {
