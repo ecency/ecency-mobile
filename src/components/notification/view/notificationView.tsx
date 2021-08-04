@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import React, { PureComponent, Fragment } from 'react';
-import { View, FlatList, ActivityIndicator, RefreshControl, Text } from 'react-native';
+import React, { PureComponent } from 'react';
+import { View, FlatList, ActivityIndicator, RefreshControl, Text, SectionList } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Constants
@@ -95,41 +95,40 @@ class NotificationView extends PureComponent {
         title: intl.formatMessage({
           id: 'notification.recent',
         }),
-        notifications: [],
+        data: [],
       },
       {
         title: intl.formatMessage({
           id: 'notification.yesterday',
         }),
-        notifications: [],
+        data: [],
       },
       {
         title: intl.formatMessage({
           id: 'notification.this_week',
         }),
-        notifications: [],
+        data: [],
       },
       {
         title: intl.formatMessage({
           id: 'notification.this_month',
         }),
-        notifications: [],
+        data: [],
       },
       {
         title: intl.formatMessage({
           id: 'notification.older_then',
         }),
-        notifications: [],
+        data: [],
       },
     ];
 
     notifications.forEach((item) => {
       const listIndex = this._getTimeListIndex(item.timestamp);
-
-      notificationArray[listIndex].notifications.push(item);
+      notificationArray[listIndex].data.push(item);
     });
 
-    return notificationArray.filter((item) => item.notifications.length > 0);
+    return notificationArray.filter((item) => item.data.length > 0).map((item, index)=>{item.index = index; return item});
   };
 
   _getTimeListIndex = (timestamp) => {
@@ -152,18 +151,26 @@ class NotificationView extends PureComponent {
     return 4;
   };
 
+  
   _getActivityIndicator = () => (
     <View style={styles.loading}>
       <ActivityIndicator animating size="large" />
     </View>
   );
 
-  _renderItem = ({ item, index }) => (
-    <Fragment>
-      <ContainerHeader hasSeperator={index !== 0} isBoldTitle title={item.title} key={item.title} />
-      {this._renderList(item.notifications)}
-    </Fragment>
-  );
+
+  _renderSectionHeader = ({ section: { title, index} }) => (
+    <ContainerHeader hasSeperator={index !== 0} isBoldTitle title={title} key={title} />
+  )
+
+
+  _renderItem = ({ item }) => (
+    <NotificationLine
+      notification={item}
+      handleOnPressNotification={this.props.navigateToNotificationRoute}
+    />
+  )
+
 
   render() {
     const { readAllNotification, getActivities, isNotificationRefreshing, intl } = this.props;
@@ -187,13 +194,14 @@ class NotificationView extends PureComponent {
         <ThemeContainer>
           {({ isDarkTheme }) =>
             _notifications && _notifications.length > 0 ? (
-              <FlatList
-                data={_notifications}
-                keyExtractor={(item) => item.title}
+              <SectionList
+                sections={_notifications}
+                keyExtractor={(item, index) => item.title + index}
                 onEndReached={() => getActivities(selectedFilter, true)}
                 ListFooterComponent={this._renderFooterLoading}
                 ListEmptyComponent={<ListPlaceHolder />}
                 contentContainerStyle={styles.listContentContainer}
+                stickySectionHeadersEnabled={false}
                 refreshControl={
                   <RefreshControl
                     refreshing={isNotificationRefreshing}
@@ -205,6 +213,7 @@ class NotificationView extends PureComponent {
                   />
                 }
                 renderItem={this._renderItem}
+                renderSectionHeader={this._renderSectionHeader}
               />
             ) : (
               <Text style={globalStyles.hintText}>
