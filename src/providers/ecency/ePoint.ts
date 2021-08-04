@@ -11,7 +11,7 @@ import bugsnagInstance from '../../config/bugsnag';
  * @param tx transaction id
  * @returns 
  */
-export const userActivity = async (ty:number, bl:string|number = '', tx:string = '') => {
+export const userActivity = async (ty:number, tx:string = '', bl:string|number = '') => {
   try{
     const data: {
 

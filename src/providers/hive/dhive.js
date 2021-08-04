@@ -634,13 +634,6 @@ export const signImage = async (file, currentAccount, pin) => {
   }
 };
 
-const _recordUserActivityDelayed = (points, trx_id) => {
-  setTimeout(async () => {
-    const blockNum = await getBlockNum(trx_id);
-    userActivity(points, blockNum, trx_id);
-  }, 5000);
-};
-
 /**
  * @method getBlockNum return block num based on transaction id
  * @param trx_id transactionId
@@ -667,7 +660,7 @@ const getBlockNum = async (trx_id) => {
 export const vote = async (account, pin, author, permlink, weight) => {
   try {
     const resp = await _vote(account, pin, author, permlink, weight);
-    _recordUserActivityDelayed(120, resp.id);
+    userActivity(120, resp.id);
     console.log('Returning vote response');
     return resp;
   } catch (err) {
@@ -1207,7 +1200,7 @@ export const postContent = (
     const t = title ? 100 : 110;
     const { id } = resp;
     if (!isEdit) {
-      _recordUserActivityDelayed(t, id);
+      userActivity(t, id);
     }
     return resp;
   });
@@ -1331,7 +1324,7 @@ const _postContent = async (
 // TODO: remove pinCode
 export const reblog = (account, pinCode, author, permlink) =>
   _reblog(account, pinCode, author, permlink).then((resp) => {
-    _recordUserActivityDelayed(130, resp.id);
+    userActivity(130, resp.id);
     return resp;
   });
 
