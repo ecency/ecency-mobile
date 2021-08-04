@@ -722,7 +722,7 @@ class ApplicationContainer extends Component {
 
     if (settings) {
       const isDarkMode = false; //useDarkMode();
-      dispatch(isDarkTheme(settings.isDarkTheme === null ? settings.isDarkTheme : isDarkMode));
+      dispatch(isDarkTheme(settings.isDarkTheme === null ? isDarkMode : settings.isDarkTheme));
       this.setState({
         isThemeReady: true,
       });
