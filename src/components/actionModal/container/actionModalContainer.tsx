@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {AlertButton, ButtonProps } from 'react-native';
+import {AlertButton } from 'react-native';
 import { Source } from 'react-native-fast-image';
 import { useSelector, useDispatch } from 'react-redux';
-import { ActionModalView } from '..';
 import { hideActionModal } from '../../../redux/actions/uiAction';
-import { ActionModalRef } from '../view/actionModalView';
+import ActionModalView, { ActionModalRef } from '../view/actionModalView';
 
 export interface ActionModalData {
   title:string, 

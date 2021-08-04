@@ -5,7 +5,7 @@ import RNRestart from 'react-native-restart';
 
 import { Icon } from '../../../components';
 
-import bugsnag from '../../../config/bugsnag';
+import bugsnagInstance from '../../../config/bugsnag';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -18,11 +18,8 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    bugsnag.notify(error, (report) => {
-      report.metadata = {
-        errorBoundary: true,
-        errorInfo,
-      };
+    bugsnagInstance.notify(error, (report) => {
+      report.addMetadata('errorBoundary', errorInfo);
     });
   }
 
@@ -39,14 +36,14 @@ class ErrorBoundary extends React.Component {
               id: 'alert.something_wrong',
             })}
           </Text>
-          <Text style={{ fontSize: 15 }}>
+          <Text style={{ fontSize: 15, padding: 15 }}>
             {intl.formatMessage({
               id: 'alert.something_wrong_alt',
             })}
           </Text>
           <TouchableHighlight onPress={() => RNRestart.Restart()}>
             <Fragment>
-              <Text style={{ fontSize: 30, textDecorationLine: 'underline', paddingTop: 20 }}>
+              <Text style={{ fontSize: 15, textDecorationLine: 'underline', paddingTop: 20 }}>
                 {intl.formatMessage({
                   id: 'alert.something_wrong_reload',
                 })}

@@ -5,10 +5,12 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import androidx.multidex.MultiDexApplication;
+import com.bugsnag.android.Bugsnag;
 
 //See below, Webview debugging
 //import android.webkit.WebView; 
@@ -51,35 +53,9 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
   @Override
   public void onCreate() {
     super.onCreate();
+    Bugsnag.start(this /* app context */);
     SoLoader.init(this, /* native exopackage */ false);
     // Uncomment below line to Debug Webview
     // WebView.setWebContentsDebuggingEnabled(true);
-    initializeFlipper(this); // Remove this line if you don't want Flipper enabled
-  }
-
-  /**
-   * Loads Flipper in React Native templates.
-   *
-   * @param context
-   */
-  private static void initializeFlipper(Context context) {
-    if (BuildConfig.DEBUG) {
-      try {
-        /*
-         * We use reflection here to pick up the class that initializes Flipper, since
-         * Flipper library is not available in release mode
-         */
-        Class<?> aClass = Class.forName("com.facebook.flipper.ReactNativeFlipper");
-        aClass.getMethod("initializeFlipper", Context.class).invoke(null, context);
-      } catch (ClassNotFoundException e) {
-        e.printStackTrace();
-      } catch (NoSuchMethodException e) {
-        e.printStackTrace();
-      } catch (IllegalAccessException e) {
-        e.printStackTrace();
-      } catch (InvocationTargetException e) {
-        e.printStackTrace();
-      }
-    }
   }
 }

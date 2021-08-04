@@ -8,7 +8,7 @@ import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Services
-import bugsnag from '../config/bugsnag';
+import bugsnagInstance from '../config/bugsnag';
 import { purchaseOrder } from '../providers/ecency/ecency';
 
 // Utilities
@@ -77,10 +77,8 @@ class InAppPurchaseContainer extends Component {
             }
           })
           .catch((err) =>
-            bugsnag.notify(err, (report) => {
-              report.metadata = {
-                data,
-              };
+            bugsnagInstance.notify(err, (report) => {
+              report.addMetadata('data', data);
             }),
           );
       }
@@ -118,7 +116,7 @@ class InAppPurchaseContainer extends Component {
       products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)).reverse();
       await this.setState({ productList: products });
     } catch (err) {
-      bugsnag.notify(err);
+      bugsnagInstance.notify(err);
       Alert.alert(
         `InApp - Connection issue, try again or write to support@ecency.com
           ${err.message.substr(0, 20)}`,
@@ -137,10 +135,8 @@ class InAppPurchaseContainer extends Component {
       try {
         RNIap.requestPurchase(sku, false);
       } catch (err) {
-        bugsnag.notify(err, (report) => {
-          report.metadata = {
-            sku,
-          };
+        bugsnagInstance.notify(err, (report) => {
+          report.addMetadata('sku', sku);
         });
       }
     } else {

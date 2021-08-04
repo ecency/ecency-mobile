@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableHighlight, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator, TouchableHighlight} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-
 // External components
 import ModalDropdown from 'react-native-modal-dropdown';
 import { Icon } from '../../icon';
@@ -26,10 +25,6 @@ const renderDropdownRow = (
   noHighlight,
   dropdownRowWrapper,
 ) => (
-  <TouchableHighlight
-    style={styles.rowWrapper}
-    underlayColor={EStyleSheet.value('$modalBackground')}
-  >
     <View
       style={[
         styles.dropdownRow,
@@ -46,7 +41,6 @@ const renderDropdownRow = (
         {rowData}
       </Text>
     </View>
-  </TouchableHighlight>
 );
 
 const DropdownButtonView = ({
@@ -73,6 +67,8 @@ const DropdownButtonView = ({
   <View style={[styles.container, dropdownButtonStyle]}>
     <ModalDropdown
       ref={dropdownRef}
+      renderRowComponent={TouchableHighlight}
+      renderRowProps={{ underlayColor: EStyleSheet.value('$modalBackground'), style:styles.rowWrapper}}
       style={[!style ? styles.button : style]}
       textStyle={[textStyle || styles.buttonText]}
       dropdownStyle={[styles.dropdown, dropdownStyle, { height: 35 * (options.length + 1) }]}
@@ -83,6 +79,7 @@ const DropdownButtonView = ({
       defaultIndex={selectedOptionIndex}
       defaultValue={defaultText}
       renderSeparator={() => null}
+  
       renderRow={(rowData, rowID, highlighted) =>
         renderDropdownRow(
           rowData,
