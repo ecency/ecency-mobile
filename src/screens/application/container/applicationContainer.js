@@ -50,6 +50,7 @@ import {
   markNotifications,
   getUnreadNotificationCount,
 } from '../../../providers/ecency/ecency';
+import { fetchLatestAppVersion } from '../../../providers/github/github';
 import { navigate } from '../../../navigation/service';
 
 // Actions
@@ -174,6 +175,8 @@ class ApplicationContainer extends Component {
         });
       }
     });
+
+    this._compareRemoteVersion();
 
     ReceiveSharingIntent.getReceivedFiles(
       () => {
@@ -348,6 +351,14 @@ class ApplicationContainer extends Component {
         params,
         key: keey,
       });
+    }
+  };
+
+  _compareRemoteVersion = async () => {
+    const remoteVersion = await fetchLatestAppVersion();
+
+    if (remoteVersion !== VersionNumber.appVersion) {
+      Alert.alert('Update app version: ' + remoteVersion + '-----' + VersionNumber.appVersion);
     }
   };
 
