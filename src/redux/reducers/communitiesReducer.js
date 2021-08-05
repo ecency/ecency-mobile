@@ -69,7 +69,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         communities: {
-          data: action.payload,
+          data: action.payload || [],
           loading: false,
           error: false,
         },
@@ -96,7 +96,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         subscribedCommunities: {
-          data: action.payload,
+          data: action.payload || [],
           loading: false,
           error: false,
         },
