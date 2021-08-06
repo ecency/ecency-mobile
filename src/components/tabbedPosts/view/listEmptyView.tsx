@@ -59,17 +59,19 @@ const TabEmptyView = ({
 
 
   useEffect(() => {
-    if (!leaderboard.loading) {
-      if (!leaderboard.error && leaderboard.data.length > 0) {
-        _formatRecommendedUsers(leaderboard.data);
+    const {loading, error, data} = leaderboard;
+    if (!loading) {
+      if (!error && data && data.length > 0) {
+        _formatRecommendedUsers(data);
       }
     }
   }, [leaderboard]);
 
   useEffect(() => {
-    if (!communities.loading) {
-      if (!communities.error && communities.data?.length > 0) {
-        _formatRecommendedCommunities(communities.data);
+    const {loading, error, data} = communities;
+    if (!loading) {
+      if (!error && data && data?.length > 0) {
+        _formatRecommendedCommunities(data);
       }
     }
   }, [communities]);
