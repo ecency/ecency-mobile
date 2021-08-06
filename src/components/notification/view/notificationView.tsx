@@ -196,7 +196,7 @@ class NotificationView extends PureComponent {
             _notifications && _notifications.length > 0 ? (
               <SectionList
                 sections={_notifications}
-                keyExtractor={(item, index) => item.title + index}
+                keyExtractor={(item, index) => `${item.id}-${index}`}
                 onEndReached={() => getActivities(selectedFilter, true)}
                 ListFooterComponent={this._renderFooterLoading}
                 ListEmptyComponent={<ListPlaceHolder />}
