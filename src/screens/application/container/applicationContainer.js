@@ -87,6 +87,7 @@ import {
   hideActionModal,
   setAvatarCacheStamp,
   setRcOffer,
+  showActionModal,
   toastNotification,
   updateActiveBottomTab,
 } from '../../../redux/actions/uiAction';
@@ -175,8 +176,6 @@ class ApplicationContainer extends Component {
         });
       }
     });
-
-    this._compareRemoteVersion();
 
     ReceiveSharingIntent.getReceivedFiles(
       () => {
@@ -354,11 +353,28 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _compareRemoteVersion = async () => {
+  _compareAndPromptForUpdate = async () => {
+    const { dispatch, intl } = this.props;
     const remoteVersion = await fetchLatestAppVersion();
 
     if (remoteVersion !== VersionNumber.appVersion) {
-      Alert.alert('Update app version: ' + remoteVersion + '-----' + VersionNumber.appVersion);
+      dispatch(
+        showActionModal(
+          intl.formatMessage({ id: 'alert.update_available_title' }, { version: remoteVersion }),
+          intl.formatMessage({ id: 'alert.update_available_body' }),
+          [
+            {
+              text: intl.formatMessage({ id: 'alert.remind_later' }),
+              onPress: () => {},
+            },
+            {
+              text: intl.formatMessage({ id: 'alert.update' }),
+              onPress: () => {},
+            },
+          ],
+          require('../../../assets/phone-holding.png'),
+        ),
+      );
     }
   };
 
@@ -416,7 +432,8 @@ class ApplicationContainer extends Component {
       isReady: true,
     });
     this._refreshGlobalProps();
-    this._getUserDataFromRealm();
+    await this._getUserDataFromRealm();
+    this._compareAndPromptForUpdate();
   };
 
   _pushNavigate = (notification) => {

@@ -60,7 +60,10 @@ const ActionModalView = ({onClose, data}: ActionModalViewProps, ref) => {
 
             <View style={styles.textContainer}>
                 <Text style={styles.title}>{title}</Text>
-                <Text style={styles.bodyText}>{body}</Text>
+                {!!body && (
+                    <Text style={styles.bodyText}>{body}</Text>
+                )}
+            
                 
             </View>
                 
