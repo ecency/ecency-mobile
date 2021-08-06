@@ -64,12 +64,14 @@ class InAppPurchaseContainer extends Component {
         };
 
         purchaseOrder(data)
-          .then(() => {
-            if (Platform.OS === 'ios') {
-              RNIap.finishTransactionIOS(get(purchase, 'transactionId'));
-            } else if (Platform.OS === 'android') {
-              RNIap.consumePurchaseAndroid(token);
+          .then(async () => {
+            try {
+              const ackResult = await RNIap.finishTransaction(purchase);
+              console.info('ackResult', ackResult);
+            } catch (ackErr) {
+              console.warn('ackErr', ackErr);
             }
+
             this.setState({ isProcessing: false });
 
             if (fetchData) {

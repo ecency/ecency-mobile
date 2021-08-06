@@ -424,8 +424,8 @@ PODS:
     - RNFBApp
   - RNGestureHandler (1.10.3):
     - React-Core
-  - RNIap (3.4.15):
-    - React
+  - RNIap (7.2.0):
+    - React-Core
   - RNImageCropPicker (0.35.3):
     - React-Core
     - React-RCTImage
@@ -743,7 +743,7 @@ SPEC CHECKSUMS:
   RNFBDynamicLinks: f12ce456e83fffb1d8a4bcc77b89be804179cde0
   RNFBMessaging: 9287cbf850ed3524c9f915f5b3daaf1cfaabbf06
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
-  RNIap: b4c77c8bc4501203f4b743126a05da23f10f40b4
+  RNIap: e43328b0cd250334c55125f744a84b75bbd7a788
   RNImageCropPicker: 08ba3a2e2f4f8833d606f01906c371e382c4dea9
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
