@@ -411,7 +411,11 @@
     "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
     "something_wrong_reload": "Try again?",
     "can_not_be_empty": "題目跟文章不能空置",
-    "wrong_filter_count": "請選擇三個篩選器"
+    "wrong_filter_count": "請選擇三個篩選器",
+    "update_available_title": "Update available v{version}",
+    "update_available_body": "Using latest version of Ecency gives you the best experience",
+    "update": "Update Now",
+    "remind_later": "Remind Later"
   },
   "post": {
     "reblog_alert": "您確定想要轉發？",
