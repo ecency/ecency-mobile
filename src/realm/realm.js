@@ -310,6 +310,31 @@ export const getTheme = async () => {
   }
 };
 
+export const getLastUpdateCheck = async (lastUpdateCheck) => {
+  try {
+    const setting = await getItemFromStorage(SETTINGS_SCHEMA);
+    if (setting) {
+      return setting.lastUpdateCheck - 48 * 3600 * 1000;
+    }
+    return false;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const setLastUpdateCheck = async (lastUpdateCheck) => {
+  try {
+    const setting = await getItemFromStorage(SETTINGS_SCHEMA);
+
+    setting.lastUpdateCheck = lastUpdateCheck;
+    await setItemToStorage(SETTINGS_SCHEMA, setting);
+
+    return true;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const setDefaultFooter = async (isDefaultFooter) => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
@@ -527,6 +552,7 @@ export const getSettings = async () => {
       reblogNotification: true,
       transfersNotification: true,
       isPinCodeOpen: false,
+      lastUpdateCheck: null,
     };
     await setItemToStorage(SETTINGS_SCHEMA, settingData);
     return settingData;

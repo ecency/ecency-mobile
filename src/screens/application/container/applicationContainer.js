@@ -37,6 +37,8 @@ import {
   setExistUser,
   getVersionForWelcomeModal,
   setVersionForWelcomeModal,
+  getLastUpdateCheck,
+  setLastUpdateCheck,
 } from '../../../realm/realm';
 import { getUser, getPost, getDigitPinCode } from '../../../providers/hive/dhive';
 import {
@@ -50,6 +52,7 @@ import {
   markNotifications,
   getUnreadNotificationCount,
 } from '../../../providers/ecency/ecency';
+import { fetchLatestAppVersion } from '../../../providers/github/github';
 import { navigate } from '../../../navigation/service';
 
 // Actions
@@ -86,6 +89,7 @@ import {
   hideActionModal,
   setAvatarCacheStamp,
   setRcOffer,
+  showActionModal,
   toastNotification,
   updateActiveBottomTab,
 } from '../../../redux/actions/uiAction';
@@ -102,6 +106,7 @@ import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
 import persistAccountGenerator from '../../../utils/persistAccountGenerator';
 import parseVersionNumber from '../../../utils/parseVersionNumber';
+import { getTimeFromNow } from '../../../utils/time';
 
 // Workaround
 let previousAppState = 'background';
@@ -351,6 +356,52 @@ class ApplicationContainer extends Component {
     }
   };
 
+  _compareAndPromptForUpdate = async () => {
+    const recheckInterval = 48 * 3600 * 1000; //2 days
+    const { dispatch, intl } = this.props;
+
+    const lastUpdateCheck = await getLastUpdateCheck();
+
+    if (lastUpdateCheck) {
+      const timeDiff = new Date().getTime() - lastUpdateCheck;
+      if (timeDiff < recheckInterval) {
+        return;
+      }
+    }
+
+    const remoteVersion = await fetchLatestAppVersion();
+
+    if (remoteVersion !== VersionNumber.appVersion) {
+      dispatch(
+        showActionModal(
+          intl.formatMessage({ id: 'alert.update_available_title' }, { version: remoteVersion }),
+          intl.formatMessage({ id: 'alert.update_available_body' }),
+          [
+            {
+              text: intl.formatMessage({ id: 'alert.remind_later' }),
+              onPress: () => {
+                setLastUpdateCheck(new Date().getTime());
+              },
+            },
+            {
+              text: intl.formatMessage({ id: 'alert.update' }),
+              onPress: () => {
+                setLastUpdateCheck(null);
+                Linking.openURL(
+                  Platform.select({
+                    ios: 'itms-apps://itunes.apple.com/us/app/apple-store/id1451896376?mt=8',
+                    android: 'market://details?id=app.esteem.mobile.android',
+                  }),
+                );
+              },
+            },
+          ],
+          require('../../../assets/phone-holding.png'),
+        ),
+      );
+    }
+  };
+
   _handleAlert = (text = null, title = null) => {
     const { intl } = this.props;
 
@@ -405,7 +456,8 @@ class ApplicationContainer extends Component {
       isReady: true,
     });
     this._refreshGlobalProps();
-    this._getUserDataFromRealm();
+    await this._getUserDataFromRealm();
+    this._compareAndPromptForUpdate();
   };
 
   _pushNavigate = (notification) => {
@@ -987,6 +1039,7 @@ export default connect(
     api: state.application.api,
     isGlobalRenderRequired: state.application.isRenderRequired,
     isAnalytics: state.application.isAnalytics,
+    lastUpdateCheck: state.application.lastUpdateCheck,
 
     // Account
     unreadActivityCount: state.account.currentAccount.unread_activity_count,

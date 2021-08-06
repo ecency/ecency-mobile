@@ -29,7 +29,7 @@ export default EStyleSheet.create({
     imageStyle:{
         marginTop:8,
         height:150,
-        width:150,
+        width:'100%',
     } as ImageStyle,
 
     textContainer:{
