@@ -411,7 +411,11 @@
     "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
     "something_wrong_reload": "Try again?",
     "can_not_be_empty": "शीर्षक और शरीर खाली नहीं हो सकता!",
-    "wrong_filter_count": "कृपया 3 फ़िल्टर चुनें"
+    "wrong_filter_count": "कृपया 3 फ़िल्टर चुनें",
+    "update_available_title": "Update available v{version}",
+    "update_available_body": "Using latest version of Ecency gives you the best experience",
+    "update": "Update Now",
+    "remind_later": "Remind Later"
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
