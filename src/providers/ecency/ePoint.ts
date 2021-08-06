@@ -44,7 +44,7 @@ export const getUser = (username) =>
       });
   });
 
-export const getUserPoints = (username) =>
+export const getUserPoints = (username) => 
   new Promise((resolve) => {
     ePointApi
       .get(`/users/${username}/points`)
@@ -56,19 +56,16 @@ export const getUserPoints = (username) =>
       });
   });
 
-export const claim = (username) =>
-  new Promise((resolve, reject) => {
-    ePointApi
-      .put('/claim', {
-        us: `${username}`,
-      })
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+export const claimPoints = async () => {
+  try{
+    const response = await ecencyApi.post('/private-api/points-claim')
+    return response.data;
+  }catch(error){
+    console.warn("Failed to calim points", error);
+    bugsnagInstance.notify(error)
+  }
+}
+
 
 export const gameStatusCheck = (username, type) =>
   new Promise((resolve, reject) => {
