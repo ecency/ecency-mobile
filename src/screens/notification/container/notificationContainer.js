@@ -51,7 +51,7 @@ class NotificationContainer extends Component {
         isRefreshing: !loadMore,
         isLoading: true,
       });
-      getNotifications({ filter: type, since: since })
+      getNotifications({ filter: type, since: since, limit: 20 })
         .then((res) => {
           console.log(res);
           const lastId = res.length > 0 ? [...res].pop().id : null;
