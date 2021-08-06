@@ -314,7 +314,7 @@ export const getLastUpdateCheck = async (lastUpdateCheck) => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
     if (setting) {
-      return setting.lastUpdateCheck - 48 * 3600 * 1000;
+      return setting.lastUpdateCheck;
     }
     return false;
   } catch (error) {
