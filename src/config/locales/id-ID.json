@@ -411,7 +411,11 @@
     "something_wrong_alt": "Untuk sementara, gunakan Ecency.com dari Browser Anda",
     "something_wrong_reload": "Coba kembali?",
     "can_not_be_empty": "Judul dan isi tidak boleh kosong!",
-    "wrong_filter_count": "Silahkan pilih 3 penyaringan"
+    "wrong_filter_count": "Silahkan pilih 3 penyaringan",
+    "update_available_title": "Update available v{version}",
+    "update_available_body": "Using latest version of Ecency gives you the best experience",
+    "update": "Update Now",
+    "remind_later": "Remind Later"
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
