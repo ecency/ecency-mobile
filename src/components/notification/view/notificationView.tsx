@@ -123,13 +123,21 @@ class NotificationView extends PureComponent {
       },
     ];
 
-    notifications.forEach((item) => {
-      const listIndex = this._getTimeListIndex(item.timestamp);
-      notificationArray[listIndex].data.push(item);
+    let sectionIndex = -1;
+    return notifications.map((item) => {
+      const timeIndex = this._getTimeListIndex(item.timestamp);
+      if(timeIndex !== sectionIndex && timeIndex > sectionIndex){
+        if(sectionIndex === -1){
+          item.firstSection = true;
+        }
+        item.sectionTitle = notificationArray[timeIndex].title;
+        sectionIndex = timeIndex;
+      }
+      return item;
     });
 
-    return notificationArray.filter((item) => item.data.length > 0).map((item, index)=>{item.index = index; return item});
-  };
+    // return notificationArray.filter((item) => item.data.length > 0).map((item, index)=>{item.index = index; return item});
+   };
 
   _getTimeListIndex = (timestamp) => {
     if (isToday(timestamp)) {
@@ -165,10 +173,13 @@ class NotificationView extends PureComponent {
 
 
   _renderItem = ({ item }) => (
+    <>
+    {item.sectionTitle && <ContainerHeader hasSeperator={!item.firstSection} isBoldTitle title={item.sectionTitle}/>}
     <NotificationLine
       notification={item}
       handleOnPressNotification={this.props.navigateToNotificationRoute}
     />
+  </>
   )
 
 
@@ -194,14 +205,13 @@ class NotificationView extends PureComponent {
         <ThemeContainer>
           {({ isDarkTheme }) =>
             _notifications && _notifications.length > 0 ? (
-              <SectionList
-                sections={_notifications}
+              <FlatList
+                data={_notifications}
                 keyExtractor={(item, index) => `${item.id}-${index}`}
                 onEndReached={() => getActivities(selectedFilter, true)}
                 ListFooterComponent={this._renderFooterLoading}
                 ListEmptyComponent={<ListPlaceHolder />}
                 contentContainerStyle={styles.listContentContainer}
-                stickySectionHeadersEnabled={false}
                 refreshControl={
                   <RefreshControl
                     refreshing={isNotificationRefreshing}
@@ -213,7 +223,6 @@ class NotificationView extends PureComponent {
                   />
                 }
                 renderItem={this._renderItem}
-                renderSectionHeader={this._renderSectionHeader}
               />
             ) : (
               <Text style={globalStyles.hintText}>
