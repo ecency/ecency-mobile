@@ -411,7 +411,11 @@
     "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
     "something_wrong_reload": "Try again?",
     "can_not_be_empty": "Título e corpo não podem estar vazios!",
-    "wrong_filter_count": "Selecione 3 filtros"
+    "wrong_filter_count": "Selecione 3 filtros",
+    "update_available_title": "Update available v{version}",
+    "update_available_body": "Using latest version of Ecency gives you the best experience",
+    "update": "Update Now",
+    "remind_later": "Remind Later"
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
