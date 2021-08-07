@@ -635,19 +635,40 @@ export const signImage = async (file, currentAccount, pin) => {
 };
 
 /**
+ * @method getBlockNum return block num based on transaction id
+ * @param trx_id transactionId
+ */
+const getBlockNum = async (trx_id) => {
+  try {
+    console.log('Getting transaction data', trx_id);
+    const transData = await client.call('condenser_api', 'get_transaction', [trx_id]);
+    const blockNum = transData.block_num;
+    console.log('Block number', blockNum);
+    return blockNum;
+  } catch (err) {
+    console.warn('Failed to get transaction data: ', err);
+    return undefined;
+  }
+};
+
+/**
  * @method upvote upvote a content
  * @param vote vote object(author, permlink, voter, weight)
  * @param postingKey private posting key
  */
 
-export const vote = (account, pin, author, permlink, weight) =>
-  _vote(account, pin, author, permlink, weight).then((resp) => {
-    userActivity(account.username, 120, resp.block_num, resp.id);
+export const vote = async (account, pin, author, permlink, weight) => {
+  try {
+    const resp = await _vote(account, pin, author, permlink, weight);
+    userActivity(120, resp.id);
     console.log('Returning vote response');
     return resp;
-  });
+  } catch (err) {
+    console.warn('Failed to complete vote');
+  }
+};
 
-const _vote = async (currentAccount, pin, author, permlink, weight) => {
+const _vote = (currentAccount, pin, author, permlink, weight) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
   if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
@@ -1177,9 +1198,9 @@ export const postContent = (
     voteWeight,
   ).then((resp) => {
     const t = title ? 100 : 110;
-    const { block_num, id } = resp;
+    const { id } = resp;
     if (!isEdit) {
-      userActivity(account.username, t, block_num, id);
+      userActivity(t, id);
     }
     return resp;
   });
@@ -1303,7 +1324,7 @@ const _postContent = async (
 // TODO: remove pinCode
 export const reblog = (account, pinCode, author, permlink) =>
   _reblog(account, pinCode, author, permlink).then((resp) => {
-    userActivity(account.name, 130, resp.block_num, resp.id);
+    userActivity(130, resp.id);
     return resp;
   });
 

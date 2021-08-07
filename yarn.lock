@@ -1171,10 +1171,10 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@hiveio/dhive@^0.14.16":
-  version "0.14.16"
-  resolved "https://registry.yarnpkg.com/@hiveio/dhive/-/dhive-0.14.16.tgz#03602cda2960e511b328fbea7f82aa3e99ce35b7"
-  integrity sha512-HTNwzfJHGLaAEXsLP82OG7U2s57wXwRgfL6QXhgGpLfkBKIEwgsDchB088X4vS0GfmL5RrMyLDXGrWyzwgSCNw==
+"@hiveio/dhive@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@hiveio/dhive/-/dhive-1.0.1.tgz#76bb9e9dbd4cc9efadafd8a40b7025c997a56aba"
+  integrity sha512-j6PEAhLwhSWzMjQiPS0Qsy3jZ+6pAirlnPkgkkb+3q7CGG0eNA7w5VYaFv4OFGecOQfESj7MViYhpzC+5qiq0Q==
   dependencies:
     bs58 "^4.0.1"
     bytebuffer "^5.0.1"

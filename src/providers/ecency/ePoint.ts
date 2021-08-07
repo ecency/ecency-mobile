@@ -1,30 +1,36 @@
 import { Alert } from 'react-native';
 import ePointApi from '../../config/api';
-import { jsonStringify } from '../../utils/jsonUtils';
+import ecencyApi from '../../config/ecencyApi';
+import bugsnagInstance from '../../config/bugsnag';
 
-export const userActivity = (us, ty, bl = '', tx = '') =>
-  new Promise((resolve) => {
-    const params = {
-      us,
-      ty,
-    };
 
-    if (bl) {
-      params.bl = bl;
-    }
+/**
+ * Records user activty and reward poinsts
+ * @param ty points
+ * @param bl block number
+ * @param tx transaction id
+ * @returns 
+ */
+export const userActivity = async (ty:number, tx:string = '', bl:string|number = '') => {
+  try{
+    const data: {
 
-    if (tx) {
-      params.tx = tx;
-    }
-    ePointApi
-      .post('/usr-activity', params)
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((error) => {
-        Alert.alert('Error', error.message);
-      });
-  });
+      ty: number;
+      bl?: string | number;
+      tx?: string | number;
+    } = {ty};
+
+    if (bl) data.bl = bl;
+    if (tx) data.tx = tx;
+
+    const response = await ecencyApi.post('/private-api/usr-activity', data)
+    return response.data;
+  }catch(error){
+    console.warn("Failed to push user activity point", error);
+    bugsnagInstance.notify(error)
+  }
+}
+
 
 export const getUser = (username) =>
   new Promise((resolve) => {
@@ -38,7 +44,7 @@ export const getUser = (username) =>
       });
   });
 
-export const getUserPoints = (username) =>
+export const getUserPoints = (username) => 
   new Promise((resolve) => {
     ePointApi
       .get(`/users/${username}/points`)
@@ -50,19 +56,16 @@ export const getUserPoints = (username) =>
       });
   });
 
-export const claim = (username) =>
-  new Promise((resolve, reject) => {
-    ePointApi
-      .put('/claim', {
-        us: `${username}`,
-      })
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+export const claimPoints = async () => {
+  try{
+    const response = await ecencyApi.post('/private-api/points-claim')
+    return response.data;
+  }catch(error){
+    console.warn("Failed to calim points", error);
+    bugsnagInstance.notify(error)
+  }
+}
+
 
 export const gameStatusCheck = (username, type) =>
   new Promise((resolve, reject) => {
