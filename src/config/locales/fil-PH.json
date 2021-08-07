@@ -431,7 +431,8 @@
     "save_to_local": "I-download sa device",
     "image_saved": "Ang imahe ang na i-save sa Gallery ng mga Imahe",
     "image_saved_error": "Error sa Pag-save ng Imahe",
-    "wrong_link": "Maling link"
+    "wrong_link": "Maling link",
+    "in": "in"
   },
   "drafts": {
     "title": "Mga Draft",
