@@ -97,6 +97,7 @@ class InAppPurchaseContainer extends Component {
     });
 
     this.purchaseErrorSubscription = purchaseErrorListener((error) => {
+      bugsnagInstance.notify(error);
       if (get(error, 'responseCode') === '3' && Platform.OS === 'android') {
         Alert.alert(
           intl.formatMessage({
@@ -112,7 +113,7 @@ class InAppPurchaseContainer extends Component {
           intl.formatMessage({
             id: 'alert.warning',
           }),
-          error.debugMessage,
+          JSON.stringify(error),
         );
       }
       this.setState({ isProcessing: false });
