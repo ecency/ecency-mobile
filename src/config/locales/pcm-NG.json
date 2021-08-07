@@ -431,7 +431,8 @@
     "save_to_local": "Collect am enta fone",
     "image_saved": "Keep image put for wia e dey save",
     "image_saved_error": "Gbege don happen as e dey save picture",
-    "wrong_link": "Dis link no be am"
+    "wrong_link": "Dis link no be am",
+    "in": "in"
   },
   "drafts": {
     "title": "Draft",
