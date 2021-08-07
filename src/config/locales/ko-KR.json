@@ -431,7 +431,8 @@
     "save_to_local": "기기로 다운로드하기",
     "image_saved": "이미지가 갤러리에 저장되었습니다.",
     "image_saved_error": "이미지 저장 오류",
-    "wrong_link": "잘못된 링크"
+    "wrong_link": "잘못된 링크",
+    "in": "in"
   },
   "drafts": {
     "title": "임시 보관함",
