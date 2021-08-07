@@ -128,7 +128,7 @@
     "recent": "Baru digunakan",
     "yesterday": "Kemarin",
     "this_week": "Minggu ini",
-    "last_week": "Last Week",
+    "last_week": "Minggu lalu",
     "this_month": "Bulan ini",
     "older_then": "Lebih Lama Dari Sebulan",
     "activities": "Semua",
@@ -415,8 +415,8 @@
     "wrong_filter_count": "Silahkan pilih 3 penyaringan",
     "update_available_title": "Pembaharuan tersedia v{version}",
     "update_available_body": "Menggunakan versi terbaru dari Ecency memberikan Anda pengalaman terbaik",
-    "update": "Update Now",
-    "remind_later": "Remind Later"
+    "update": "Perbaharui sekarang",
+    "remind_later": "Ingatkan nanti"
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
