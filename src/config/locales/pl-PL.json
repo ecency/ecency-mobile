@@ -431,7 +431,8 @@
     "save_to_local": "Pobierz na urządzenie",
     "image_saved": "Obraz zapisany w galerii zdjęć",
     "image_saved_error": "Wystąpił błąd podczas zapisywania obrazu",
-    "wrong_link": "Nieprawidłowy link"
+    "wrong_link": "Nieprawidłowy link",
+    "in": "in"
   },
   "drafts": {
     "title": "Szkice",
