@@ -128,8 +128,8 @@ class ProfileView extends PureComponent {
         <ProfileSummary
           date={getFormatedCreatedDate(get(selectedUser, 'created'))}
           about={about}
-          followerCount={follows.follower_count}
-          followingCount={follows.following_count}
+          followerCount={follows ? follows.follower_count : 0}
+          followingCount={follows ? follows.following_count : 0}
           handleFollowUnfollowUser={handleFollowUnfollowUser}
           handleMuteUnmuteUser={handleMuteUnmuteUser}
           handleOnFavoritePress={handleOnFavoritePress}
