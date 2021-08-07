@@ -431,7 +431,8 @@
     "save_to_local": "Lae enda seadmesse",
     "image_saved": "Pilt salvestatud Galeriisse",
     "image_saved_error": "Pildi salvestamine ebaõnnestus",
-    "wrong_link": "Vale link"
+    "wrong_link": "Vale link",
+    "in": "in"
   },
   "drafts": {
     "title": "Mustandid",
