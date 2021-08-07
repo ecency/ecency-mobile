@@ -431,7 +431,8 @@
     "save_to_local": "التحميل إلى الجهاز",
     "image_saved": "تم حفظ الصورة في معرض الصور",
     "image_saved_error": "حدث خطأ أثناء حفظ الصورة",
-    "wrong_link": "رابط خاطئ"
+    "wrong_link": "رابط خاطئ",
+    "in": "in"
   },
   "drafts": {
     "title": "المسودات",
