@@ -25,7 +25,14 @@ class InAppPurchaseContainer extends Component {
   }
 
   // Component Life Cycle Functions
-  componentDidMount() {
+  async componentDidMount() {
+    try {
+      await RNIap.initConnection();
+      await RNIap.flushFailedPurchasesCachedAsPendingAndroid();
+    } catch (err) {
+      bugsnagInstance.notify(err);
+      console.warn(err.code, err.message);
+    }
     this._getItems();
     this._purchaseUpdatedListener();
   }
@@ -40,6 +47,7 @@ class InAppPurchaseContainer extends Component {
       this.purchaseErrorSubscription.remove();
       this.purchaseErrorSubscription = null;
     }
+    RNIap.endConnection();
   }
 
   // Component Functions
@@ -111,16 +119,15 @@ class InAppPurchaseContainer extends Component {
 
   _getItems = async () => {
     const { skus } = this.props;
-
     try {
       const products = await RNIap.getProducts(skus);
-
+      console.log(products);
       products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)).reverse();
       await this.setState({ productList: products });
     } catch (err) {
       bugsnagInstance.notify(err);
       Alert.alert(
-        `InApp - Connection issue, try again or write to support@ecency.com
+        `InApp - Connection issue
           ${err.message.substr(0, 20)}`,
       );
     }
