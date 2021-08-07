@@ -431,7 +431,8 @@
     "save_to_local": "Descargar al dispositivo",
     "image_saved": "Imagen guardada en la galería de fotos",
     "image_saved_error": "Error guardando imagen",
-    "wrong_link": "Enlace incorrecto"
+    "wrong_link": "Enlace incorrecto",
+    "in": "in"
   },
   "drafts": {
     "title": "Borradores",
