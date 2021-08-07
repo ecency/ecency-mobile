@@ -431,7 +431,8 @@
     "save_to_local": "Scarica sul dispositivo",
     "image_saved": "Immagine salvata in Galleria Foto",
     "image_saved_error": "Errore nel salvataggio dell'immagine",
-    "wrong_link": "Collegamento errato"
+    "wrong_link": "Collegamento errato",
+    "in": "in"
   },
   "drafts": {
     "title": "Bozze",
