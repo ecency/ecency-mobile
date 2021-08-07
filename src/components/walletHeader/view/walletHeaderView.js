@@ -14,6 +14,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 // Styles
 import styles from './walletHeaderStyles';
+import { claimPoints } from '../../../providers/ecency/ePoint';
 
 const WalletHeaderView = ({
   claim,
@@ -93,7 +94,9 @@ const WalletHeaderView = ({
             isDisable={isClaiming}
             style={styles.mainButton}
             height={50}
-            onPress={() => (unclaimedBalance ? claim() : navigation.navigate(ROUTES.SCREENS.BOOST))}
+            onPress={() =>
+              unclaimedBalance ? claimPoints() : navigation.navigate(ROUTES.SCREENS.BOOST)
+            }
           >
             <View style={styles.mainButtonWrapper}>
               <Text style={styles.unclaimedText}>
