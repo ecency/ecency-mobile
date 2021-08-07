@@ -431,7 +431,8 @@
     "save_to_local": "Cihaza endir",
     "image_saved": "Təsvir Foto Qalereya saxlanıldı",
     "image_saved_error": "Təsvir Saxlanmadı",
-    "wrong_link": "Yanlış bağlantı"
+    "wrong_link": "Yanlış bağlantı",
+    "in": "in"
   },
   "drafts": {
     "title": "Qaralamalar",
