@@ -431,7 +431,8 @@
     "save_to_local": "Auf Gerät herunterladen",
     "image_saved": "Bild in Galerie gespeichert",
     "image_saved_error": "Fehler beim Speichern des Bildes",
-    "wrong_link": "Falscher Link"
+    "wrong_link": "Falscher Link",
+    "in": "in"
   },
   "drafts": {
     "title": "Entwürfe",
