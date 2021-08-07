@@ -431,7 +431,8 @@
     "save_to_local": "Descarcă pe dispozitiv",
     "image_saved": "Imagine salvată în Galerie Foto",
     "image_saved_error": "Eroare la salvarea imaginii",
-    "wrong_link": "Legătura este greșită"
+    "wrong_link": "Legătura este greșită",
+    "in": "in"
   },
   "drafts": {
     "title": "Schițe",
