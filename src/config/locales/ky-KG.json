@@ -431,7 +431,8 @@
     "save_to_local": "Download to device",
     "image_saved": "Image saved to Photo Gallery",
     "image_saved_error": "Error Saving Image",
-    "wrong_link": "Туура эмес шилтеме"
+    "wrong_link": "Туура эмес шилтеме",
+    "in": "in"
   },
   "drafts": {
     "title": "Черновик",
