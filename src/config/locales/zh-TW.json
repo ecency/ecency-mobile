@@ -431,7 +431,8 @@
     "save_to_local": "下載到設備",
     "image_saved": "圖片已存到圖庫",
     "image_saved_error": "保存圖片出錯",
-    "wrong_link": "連結錯誤"
+    "wrong_link": "連結錯誤",
+    "in": "in"
   },
   "drafts": {
     "title": "草稿",
