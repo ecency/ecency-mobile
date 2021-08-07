@@ -431,7 +431,8 @@
     "save_to_local": "Lataa laitteelle",
     "image_saved": "Tallennettu kuvagalleriaan",
     "image_saved_error": "Virhe tallentaessa kuvaa",
-    "wrong_link": "Väärä linkki"
+    "wrong_link": "Väärä linkki",
+    "in": "in"
   },
   "drafts": {
     "title": "Luonnokset",
