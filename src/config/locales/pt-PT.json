@@ -431,7 +431,8 @@
     "save_to_local": "Baixar para o dispositivo",
     "image_saved": "Imagem salva na Galeria de Fotos",
     "image_saved_error": "Error ao Salvar a Imagem",
-    "wrong_link": "Link errado"
+    "wrong_link": "Link errado",
+    "in": "in"
   },
   "drafts": {
     "title": "Rascunhos",
