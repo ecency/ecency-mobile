@@ -93,6 +93,11 @@ export const isThisWeek = (value) => {
   return day < TODAY.getTime() && day > SEVEN_DAY.getTime();
 };
 
+export const isLastWeek = (value) => {
+  const day = new Date(value).getTime();
+  return day < SEVEN_DAY.getTime() && day > 2 * SEVEN_DAY.getTime();
+};
+
 export const isThisMonth = (value) => {
   const day = new Date(value);
   return TODAY.getMonth() === day.getMonth() && TODAY.getFullYear() === day.getFullYear() ? 1 : 0;

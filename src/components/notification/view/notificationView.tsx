@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { PureComponent } from 'react';
-import { View, FlatList, ActivityIndicator, RefreshControl, Text, SectionList } from 'react-native';
+import { View, FlatList, ActivityIndicator, RefreshControl, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Constants
@@ -13,7 +13,7 @@ import { ListPlaceHolder } from '../../basicUIElements';
 import { ThemeContainer } from '../../../containers';
 
 // Utils
-import { isToday, isYesterday, isThisWeek, isThisMonth } from '../../../utils/time';
+import { isToday, isYesterday, isThisWeek, isLastWeek, isThisMonth } from '../../../utils/time';
 
 // Styles
 import styles from './notificationStyles';
@@ -111,6 +111,12 @@ class NotificationView extends PureComponent {
       },
       {
         title: intl.formatMessage({
+          id: 'notification.last_week',
+        }),
+        data: [],
+      },
+      {
+        title: intl.formatMessage({
           id: 'notification.this_month',
         }),
         data: [],
@@ -152,11 +158,15 @@ class NotificationView extends PureComponent {
       return 2;
     }
 
-    if (isThisMonth(timestamp)) {
+    if (isLastWeek(timestamp)) {
       return 3;
     }
 
-    return 4;
+    if (isThisMonth(timestamp)) {
+      return 4;
+    }
+
+    return 5;
   };
 
   
