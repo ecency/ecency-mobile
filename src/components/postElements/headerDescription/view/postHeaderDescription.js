@@ -122,26 +122,30 @@ class PostHeaderDescription extends PureComponent {
             <View style={styles.secondaryDetails}>
               {content && (
                 <TouchableOpacity onPress={() => this._handleOnTagPress(content)}>
-                  <Tag
-                    style={styles.topic}
-                    textStyle={styles.topicText}
-                    prefix={intl.formatMessage({ id: 'post.in' })}
-                    value={content.category}
-                    communityTitle={content.community_title}
-                  />
-                  <Text style={styles.date}>
-                    {isPromoted ? intl.formatMessage({ id: 'post.sponsored' }) : date}
-                  </Text>
+                  <View style={styles.tagDetails}>
+                    <Tag
+                      style={styles.topic}
+                      textStyle={styles.topicText}
+                      prefix={intl.formatMessage({ id: 'post.in' })}
+                      value={content.category}
+                      communityTitle={content.community_title}
+                    />
+                    <Text style={styles.date}>
+                      {isPromoted ? intl.formatMessage({ id: 'post.sponsored' }) : date}
+                    </Text>
+                  </View>
                 </TouchableOpacity>
               )}
               {!!tag && (
                 <TouchableOpacity
                   onPress={() => (tagOnPress && tagOnPress()) || this._handleOnTagPress(tag)}
                 >
-                  <Tag isPostCardTag={!isPromoted} isPin value={tag} />
-                  <Text style={styles.date}>
-                    {isPromoted ? intl.formatMessage({ id: 'post.sponsored' }) : date}
-                  </Text>
+                  <View style={styles.tagDetails}>
+                    <Tag isPostCardTag={!isPromoted} isPin value={tag} />
+                    <Text style={[styles.date, { marginVertical: 3 }]}>
+                      {isPromoted ? intl.formatMessage({ id: 'post.sponsored' }) : date}
+                    </Text>
+                  </View>
                 </TouchableOpacity>
               )}
             </View>

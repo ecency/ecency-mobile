@@ -82,7 +82,6 @@ export default EStyleSheet.create({
   dropdownWrapper: {
     position: 'absolute',
     right: -5,
-    top: 12,
   },
   reblogWrapper: {
     marginLeft: 6,

@@ -15,6 +15,9 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     marginHorizontal: 3,
   },
+  tagDetails: {
+    flexDirection: 'row',
+  },
   rightContainer: {
     flexDirection: 'column',
     marginLeft: 'auto',
@@ -42,6 +45,8 @@ export default EStyleSheet.create({
   },
   date: {
     fontSize: 14,
+    fontWeight: '300',
+    marginVertical: 5,
     color: '$primaryDarkGray',
   },
   topic: {
@@ -54,7 +59,7 @@ export default EStyleSheet.create({
   },
   topicText: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: '600',
     color: '$primaryDarkGray',
   },
   avatarNameWrapper: {
