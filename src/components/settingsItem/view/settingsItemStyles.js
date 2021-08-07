@@ -39,6 +39,7 @@ export default EStyleSheet.create({
   },
   dropdown: {
     flexGrow: 1,
+    height: 'auto',
     width: 150,
   },
   textStyle: {
