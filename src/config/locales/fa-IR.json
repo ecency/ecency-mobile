@@ -431,7 +431,8 @@
     "save_to_local": "بارگیری در دستگاه",
     "image_saved": "تصویر در گالری عکس ذخیره شد",
     "image_saved_error": "خطایی در ذخیره عکس بوجود آمد",
-    "wrong_link": "لنک اشتباه"
+    "wrong_link": "لنک اشتباه",
+    "in": "in"
   },
   "drafts": {
     "title": "پیشنویس ها",
