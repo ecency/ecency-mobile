@@ -29,6 +29,7 @@ const TagContainer = ({
   textStyle,
   disabled,
   communityTitle,
+  prefix,
 }) => {
   const [label, setLabel] = useState(value);
   const [isCommunity, setIsCommunity] = useState(false);
@@ -45,7 +46,7 @@ const TagContainer = ({
         }
       } catch (e) {
         if (!isCancelled) {
-          setLabel(val);
+          setLabel(isFilter ? val : `#${val}`);
           setIsCommunity(/hive-[1-3]\d{4,6}$/.test(val));
           return val;
         }
@@ -59,7 +60,7 @@ const TagContainer = ({
         fetchData(value);
       }
     } else {
-      setLabel(value);
+      setLabel(isFilter ? value : `#${value}`);
       setIsCommunity(false);
     }
     return () => {
@@ -92,6 +93,7 @@ const TagContainer = ({
       style={style}
       textStyle={textStyle}
       disabled={disabled}
+      prefix={prefix}
     />
   );
 };

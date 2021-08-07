@@ -36,6 +36,43 @@ class PostHeaderDescription extends PureComponent {
     }
   };
 
+  _handleOnTagPress = (content) => {
+    const { navigation } = this.props;
+
+    if (content && content.category && /hive-[1-3]\d{4,6}$/.test(content.category)) {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.COMMUNITY,
+        params: {
+          tag: content.category,
+        },
+      });
+    }
+    if (content && content.category && !/hive-[1-3]\d{4,6}$/.test(content.category)) {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.TAG_RESULT,
+        params: {
+          tag: content.category,
+        },
+      });
+    }
+    if (content && typeof content === 'string' && /hive-[1-3]\d{4,6}$/.test(content)) {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.COMMUNITY,
+        params: {
+          tag: content,
+        },
+      });
+    }
+    if (content && typeof content === 'string' && !/hive-[1-3]\d{4,6}$/.test(content)) {
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.TAG_RESULT,
+        params: {
+          tag: content,
+        },
+      });
+    }
+  };
+
   render() {
     const {
       date,
@@ -83,27 +120,31 @@ class PostHeaderDescription extends PureComponent {
               )}
             </View>
             <View style={styles.secondaryDetails}>
-              <Text style={styles.date}>
-                {isPromoted ? intl.formatMessage({ id: 'post.sponsored' }) : date}
-              </Text>
+              {content && (
+                <TouchableOpacity onPress={() => this._handleOnTagPress(content)}>
+                  <Tag
+                    style={styles.topic}
+                    textStyle={styles.topicText}
+                    prefix={intl.formatMessage({ id: 'post.in' })}
+                    value={content.category}
+                    communityTitle={content.community_title}
+                  />
+                  <Text style={styles.date}>
+                    {isPromoted ? intl.formatMessage({ id: 'post.sponsored' }) : date}
+                  </Text>
+                </TouchableOpacity>
+              )}
+              {!!tag && (
+                <TouchableOpacity
+                  onPress={() => (tagOnPress && tagOnPress()) || this._handleOnTagPress(tag)}
+                >
+                  <Tag isPostCardTag={!isPromoted} isPin value={tag} />
+                  <Text style={styles.date}>
+                    {isPromoted ? intl.formatMessage({ id: 'post.sponsored' }) : date}
+                  </Text>
+                </TouchableOpacity>
+              )}
             </View>
-          </View>
-          <View style={styles.rightContainer}>
-            {content && (
-              <TouchableOpacity>
-                <Tag
-                  isPostCardTag={!isPromoted}
-                  isPin
-                  value={content.category}
-                  communityTitle={content.community_title}
-                />
-              </TouchableOpacity>
-            )}
-            {!!tag && (
-              <TouchableOpacity onPress={() => tagOnPress && tagOnPress()}>
-                <Tag isPostCardTag={!isPromoted} isPin value={tag} />
-              </TouchableOpacity>
-            )}
           </View>
         </View>
       </View>

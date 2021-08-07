@@ -18,6 +18,7 @@ export default EStyleSheet.create({
   rightContainer: {
     flexDirection: 'column',
     marginLeft: 'auto',
+    marginRight: 10,
     paddingLeft: 10,
   },
   avatar: {
@@ -40,7 +41,20 @@ export default EStyleSheet.create({
     alignSelf: 'center',
   },
   date: {
-    fontSize: 10,
+    fontSize: 14,
+    color: '$primaryDarkGray',
+  },
+  topic: {
+    marginVertical: 3,
+    marginRight: 0,
+    marginLeft: 0,
+    paddingLeft: 0,
+    borderRadius: 0,
+    backgroundColor: 'transparent',
+  },
+  topicText: {
+    fontSize: 14,
+    fontWeight: '500',
     color: '$primaryDarkGray',
   },
   avatarNameWrapper: {
