@@ -28,7 +28,9 @@ class InAppPurchaseContainer extends Component {
   async componentDidMount() {
     try {
       await RNIap.initConnection();
-      await RNIap.flushFailedPurchasesCachedAsPendingAndroid();
+      if (Platform.OS === 'android') {
+        await RNIap.flushFailedPurchasesCachedAsPendingAndroid();
+      }
     } catch (err) {
       bugsnagInstance.notify(err);
       console.warn(err.code, err.message);
