@@ -431,7 +431,8 @@
     "save_to_local": "Preuzmi na uređaj",
     "image_saved": "Slika je sačuvana u galeriji fotografija",
     "image_saved_error": "Greška pri čuvanju slike",
-    "wrong_link": "Pogrešna veza"
+    "wrong_link": "Pogrešna veza",
+    "in": "in"
   },
   "drafts": {
     "title": "Radne verzije",
