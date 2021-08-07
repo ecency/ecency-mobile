@@ -10,6 +10,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import androidx.multidex.MultiDexApplication;
+import com.getkeepsafe.relinker.ReLinker;
 import com.bugsnag.android.Bugsnag;
 
 //See below, Webview debugging
@@ -53,6 +54,10 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
   @Override
   public void onCreate() {
     super.onCreate();
+    // Relink bugsnag for ndk and anr cases
+    ReLinker.loadLibrary(this, "bugsnag-ndk");
+    ReLinker.loadLibrary(this, "bugsnag-plugin-android-anr");
+    // Start bugsnag
     Bugsnag.start(this /* app context */);
     SoLoader.init(this, /* native exopackage */ false);
     // Uncomment below line to Debug Webview
