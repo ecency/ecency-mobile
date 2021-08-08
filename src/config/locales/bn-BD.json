@@ -128,6 +128,7 @@
     "recent": "সাম্প্রতিক",
     "yesterday": "গতকাল",
     "this_week": "সপ্তাহ",
+    "last_week": "Last Week",
     "this_month": "মাস",
     "older_then": "মাস",
     "activities": "সকল",
@@ -411,7 +412,12 @@
     "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
     "something_wrong_reload": "Try again?",
     "can_not_be_empty": "Title and body can not be empty!",
-    "wrong_filter_count": "Please select 3 filters"
+    "wrong_filter_count": "Please select 3 filters",
+    "update_available_title": "Update available v{version}",
+    "update_available_body": "Using latest version of Ecency gives you the best experience",
+    "update": "Update Now",
+    "remind_later": "Remind Later",
+    "failed_to_open": "Failed to open a link"
   },
   "post": {
     "reblog_alert": "আপনি কি নিশ্চিত যে আপনি পুনরায় ব্লগ করতে চান?",
@@ -426,7 +432,8 @@
     "save_to_local": "ডিভাইসে ডাউনলোড করুন",
     "image_saved": "চিত্র ফটো গ্যালারিতে সংরক্ষিত হয়েছে",
     "image_saved_error": "চিত্র সংরক্ষণে ত্রুটি",
-    "wrong_link": "ভুল লিঙ্ক"
+    "wrong_link": "ভুল লিঙ্ক",
+    "in": "in"
   },
   "drafts": {
     "title": "খসড়া",

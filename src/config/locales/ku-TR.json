@@ -128,6 +128,7 @@
     "recent": "Dawîn",
     "yesterday": "Doh",
     "this_week": "Ev Hefteya",
+    "last_week": "Last Week",
     "this_month": "Ev Meha",
     "older_then": "Zêdetirî Berî Mehekê",
     "activities": "Hemû",
@@ -411,7 +412,12 @@
     "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
     "something_wrong_reload": "Try again?",
     "can_not_be_empty": "Title and body can not be empty!",
-    "wrong_filter_count": "Please select 3 filters"
+    "wrong_filter_count": "Please select 3 filters",
+    "update_available_title": "Update available v{version}",
+    "update_available_body": "Using latest version of Ecency gives you the best experience",
+    "update": "Update Now",
+    "remind_later": "Remind Later",
+    "failed_to_open": "Failed to open a link"
   },
   "post": {
     "reblog_alert": "Bi rastî jî tu dixwazî dîsa biweşînî?",
@@ -426,7 +432,8 @@
     "save_to_local": "Daxîne amûrê",
     "image_saved": "Wêne li Pêşangeha Wêneyan Hate Tomarkirin",
     "image_saved_error": "Wêne tomar nebû",
-    "wrong_link": "Girêdana çewt"
+    "wrong_link": "Girêdana çewt",
+    "in": "in"
   },
   "drafts": {
     "title": "Reşnivîs",

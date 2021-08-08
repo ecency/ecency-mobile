@@ -128,6 +128,7 @@
     "recent": "最近",
     "yesterday": "昨天",
     "this_week": "本周",
+    "last_week": "Last Week",
     "this_month": "本月",
     "older_then": "一个月前",
     "activities": "全部",
@@ -411,7 +412,12 @@
     "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
     "something_wrong_reload": "Try again?",
     "can_not_be_empty": "Title and body can not be empty!",
-    "wrong_filter_count": "Please select 3 filters"
+    "wrong_filter_count": "Please select 3 filters",
+    "update_available_title": "Update available v{version}",
+    "update_available_body": "Using latest version of Ecency gives you the best experience",
+    "update": "Update Now",
+    "remind_later": "Remind Later",
+    "failed_to_open": "Failed to open a link"
   },
   "post": {
     "reblog_alert": "您确定想要转发？",
@@ -426,7 +432,8 @@
     "save_to_local": "下载到设备",
     "image_saved": "图片已存到图库",
     "image_saved_error": "保存图片出错",
-    "wrong_link": "链接错误"
+    "wrong_link": "链接错误",
+    "in": "in"
   },
   "drafts": {
     "title": "草稿",

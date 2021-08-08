@@ -128,6 +128,7 @@
     "recent": "Friss",
     "yesterday": "Tegnap",
     "this_week": "Ezen a héten",
+    "last_week": "Last Week",
     "this_month": "Ebben a hónapban",
     "older_then": "Egy Hónapnál Régebbi",
     "activities": "Összes",
@@ -411,7 +412,12 @@
     "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
     "something_wrong_reload": "Try again?",
     "can_not_be_empty": "Title and body can not be empty!",
-    "wrong_filter_count": "Please select 3 filters"
+    "wrong_filter_count": "Please select 3 filters",
+    "update_available_title": "Update available v{version}",
+    "update_available_body": "Using latest version of Ecency gives you the best experience",
+    "update": "Update Now",
+    "remind_later": "Remind Later",
+    "failed_to_open": "Failed to open a link"
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
@@ -426,7 +432,8 @@
     "save_to_local": "Letöltés a készülékre",
     "image_saved": "Kép a galériába mentve",
     "image_saved_error": "Hiba a kép mentése közben",
-    "wrong_link": "Nem megfelelő link"
+    "wrong_link": "Nem megfelelő link",
+    "in": "in"
   },
   "drafts": {
     "title": "Piszkozatok",

@@ -128,6 +128,7 @@
     "recent": "Baru digunakan",
     "yesterday": "Kemarin",
     "this_week": "Minggu ini",
+    "last_week": "Minggu lalu",
     "this_month": "Bulan ini",
     "older_then": "Lebih Lama Dari Sebulan",
     "activities": "Semua",
@@ -407,11 +408,16 @@
     "payloadTooLarge": "Ukuran file terlalu besar, harap ubah ukurannya atau unggah gambar yang lebih kecil",
     "qoutaExceeded": "Melebihi kuota unggahan",
     "invalidImage": "Gambar tidak valid, coba file lain",
-    "something_wrong": "Something went wrong",
-    "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
-    "something_wrong_reload": "Try again?",
+    "something_wrong": "Ada yang salah",
+    "something_wrong_alt": "Untuk sementara, gunakan Ecency.com dari Browser Anda",
+    "something_wrong_reload": "Coba kembali?",
     "can_not_be_empty": "Judul dan isi tidak boleh kosong!",
-    "wrong_filter_count": "Silahkan pilih 3 penyaringan"
+    "wrong_filter_count": "Silahkan pilih 3 penyaringan",
+    "update_available_title": "Pembaharuan tersedia v{version}",
+    "update_available_body": "Menggunakan versi terbaru dari Ecency memberikan Anda pengalaman terbaik",
+    "update": "Perbaharui sekarang",
+    "remind_later": "Ingatkan nanti",
+    "failed_to_open": "Failed to open a link"
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
@@ -426,7 +432,8 @@
     "save_to_local": "Unduh ke perangkat",
     "image_saved": "Gambar disimpan ke Galeri Foto",
     "image_saved_error": "Kesalahan menyimpan gambar",
-    "wrong_link": "Link salah"
+    "wrong_link": "Link salah",
+    "in": "in"
   },
   "drafts": {
     "title": "Konsep",

@@ -128,6 +128,7 @@
     "recent": "Gần đây",
     "yesterday": "Hôm qua",
     "this_week": "Tuần này",
+    "last_week": "Last Week",
     "this_month": "Tháng này",
     "older_then": "Cách đây hơn 1 tháng",
     "activities": "All",
@@ -411,7 +412,12 @@
     "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
     "something_wrong_reload": "Try again?",
     "can_not_be_empty": "Title and body can not be empty!",
-    "wrong_filter_count": "Please select 3 filters"
+    "wrong_filter_count": "Please select 3 filters",
+    "update_available_title": "Update available v{version}",
+    "update_available_body": "Using latest version of Ecency gives you the best experience",
+    "update": "Update Now",
+    "remind_later": "Remind Later",
+    "failed_to_open": "Failed to open a link"
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
@@ -426,7 +432,8 @@
     "save_to_local": "Download to device",
     "image_saved": "Image saved to Photo Gallery",
     "image_saved_error": "Error Saving Image",
-    "wrong_link": "Wrong link"
+    "wrong_link": "Wrong link",
+    "in": "in"
   },
   "drafts": {
     "title": "Bản nháp",

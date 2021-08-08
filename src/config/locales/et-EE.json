@@ -128,6 +128,7 @@
     "recent": "Hiljutised",
     "yesterday": "Eile",
     "this_week": "Sel nädalal",
+    "last_week": "Last Week",
     "this_month": "Sel kuul",
     "older_then": "Vanem kui kuu",
     "activities": "Kõik",
@@ -411,7 +412,12 @@
     "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
     "something_wrong_reload": "Try again?",
     "can_not_be_empty": "Pealkiri ja sisu ei tohi olla tühjad!",
-    "wrong_filter_count": "Please select 3 filters"
+    "wrong_filter_count": "Please select 3 filters",
+    "update_available_title": "Update available v{version}",
+    "update_available_body": "Using latest version of Ecency gives you the best experience",
+    "update": "Update Now",
+    "remind_later": "Remind Later",
+    "failed_to_open": "Failed to open a link"
   },
   "post": {
     "reblog_alert": "Oled sa kindel, et soovid seda jagada?",
@@ -426,7 +432,8 @@
     "save_to_local": "Lae enda seadmesse",
     "image_saved": "Pilt salvestatud Galeriisse",
     "image_saved_error": "Pildi salvestamine ebaõnnestus",
-    "wrong_link": "Vale link"
+    "wrong_link": "Vale link",
+    "in": "in"
   },
   "drafts": {
     "title": "Mustandid",

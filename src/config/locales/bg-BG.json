@@ -128,6 +128,7 @@
     "recent": "Скорошен",
     "yesterday": "Вчера",
     "this_week": "Тази седмица",
+    "last_week": "Last Week",
     "this_month": "Този месец",
     "older_then": "По-стар от месец",
     "activities": "Всички",
@@ -411,7 +412,12 @@
     "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
     "something_wrong_reload": "Try again?",
     "can_not_be_empty": "Заглавитето и основата немогат да бъдат празни!",
-    "wrong_filter_count": "Please select 3 filters"
+    "wrong_filter_count": "Please select 3 filters",
+    "update_available_title": "Update available v{version}",
+    "update_available_body": "Using latest version of Ecency gives you the best experience",
+    "update": "Update Now",
+    "remind_later": "Remind Later",
+    "failed_to_open": "Failed to open a link"
   },
   "post": {
     "reblog_alert": "Сигорни ли сте,че искате да споделите?",
@@ -426,7 +432,8 @@
     "save_to_local": "Свали на устройството",
     "image_saved": "Изображението е запазено в галерията",
     "image_saved_error": "Грешка при запазвана не снимката",
-    "wrong_link": "Грешен линк/връзка"
+    "wrong_link": "Грешен линк/връзка",
+    "in": "in"
   },
   "drafts": {
     "title": "Чернови",

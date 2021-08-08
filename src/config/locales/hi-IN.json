@@ -128,6 +128,7 @@
     "recent": "ताजा",
     "yesterday": "बीता कल",
     "this_week": "इस सप्ताह",
+    "last_week": "Last Week",
     "this_month": "इस महीने",
     "older_then": "एक महीना से अधिक पुराना",
     "activities": "सब",
@@ -411,7 +412,12 @@
     "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
     "something_wrong_reload": "Try again?",
     "can_not_be_empty": "शीर्षक और शरीर खाली नहीं हो सकता!",
-    "wrong_filter_count": "कृपया 3 फ़िल्टर चुनें"
+    "wrong_filter_count": "कृपया 3 फ़िल्टर चुनें",
+    "update_available_title": "Update available v{version}",
+    "update_available_body": "Using latest version of Ecency gives you the best experience",
+    "update": "Update Now",
+    "remind_later": "Remind Later",
+    "failed_to_open": "Failed to open a link"
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
@@ -426,7 +432,8 @@
     "save_to_local": "डिवाइस पर डाउनलोड करें",
     "image_saved": "फोटो गैलरी के लिए छवि सहेजी गई",
     "image_saved_error": "छवि सहेजने में त्रुटि",
-    "wrong_link": "गलत लिंक"
+    "wrong_link": "गलत लिंक",
+    "in": "in"
   },
   "drafts": {
     "title": "प्रारूप",

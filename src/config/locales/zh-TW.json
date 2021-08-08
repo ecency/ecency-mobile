@@ -128,6 +128,7 @@
     "recent": "最新",
     "yesterday": "昨天",
     "this_week": "本週",
+    "last_week": "Last Week",
     "this_month": "本月",
     "older_then": "一個月前",
     "activities": "全部",
@@ -411,7 +412,12 @@
     "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
     "something_wrong_reload": "Try again?",
     "can_not_be_empty": "題目跟文章不能空置",
-    "wrong_filter_count": "請選擇三個篩選器"
+    "wrong_filter_count": "請選擇三個篩選器",
+    "update_available_title": "Update available v{version}",
+    "update_available_body": "Using latest version of Ecency gives you the best experience",
+    "update": "Update Now",
+    "remind_later": "Remind Later",
+    "failed_to_open": "Failed to open a link"
   },
   "post": {
     "reblog_alert": "您確定想要轉發？",
@@ -426,7 +432,8 @@
     "save_to_local": "下載到設備",
     "image_saved": "圖片已存到圖庫",
     "image_saved_error": "保存圖片出錯",
-    "wrong_link": "連結錯誤"
+    "wrong_link": "連結錯誤",
+    "in": "in"
   },
   "drafts": {
     "title": "草稿",
