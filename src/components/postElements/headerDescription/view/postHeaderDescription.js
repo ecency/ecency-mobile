@@ -86,8 +86,8 @@ class PostHeaderDescription extends PureComponent {
       isShowOwnerIndicator,
       isPromoted,
       intl,
+      inlineTime,
     } = this.props;
-    const _reputationText = `(${reputation})`;
 
     return (
       <View>
@@ -97,13 +97,18 @@ class PostHeaderDescription extends PureComponent {
             onPress={() => this._handleOnUserPress(name)}
           >
             {!isHideImage && (
-              <UserAvatar
-                style={[styles.avatar, { width: size, height: size, borderRadius: size / 2 }]}
-                disableSize
-                username={name}
-                defaultSource={DEFAULT_IMAGE}
-                noAction
-              />
+              <>
+                <UserAvatar
+                  style={[styles.avatar, { width: size, height: size, borderRadius: size / 2 }]}
+                  disableSize
+                  username={name}
+                  defaultSource={DEFAULT_IMAGE}
+                  noAction
+                />
+                <View style={styles.reputationWrapper}>
+                  <Text style={styles.reputation}>{reputation}</Text>
+                </View>
+              </>
             )}
           </TouchableOpacity>
           <View style={styles.leftContainer}>
@@ -113,40 +118,45 @@ class PostHeaderDescription extends PureComponent {
                 onPress={() => this._handleOnUserPress(name)}
               >
                 <Text style={styles.name}>{name}</Text>
-                <Text style={styles.reputation}>{_reputationText}</Text>
               </TouchableOpacity>
+
+              {inlineTime && (
+                <Text style={styles.date}>
+                  {isPromoted ? intl.formatMessage({ id: 'post.sponsored' }) : date}
+                </Text>
+              )}
+
               {isShowOwnerIndicator && (
                 <Icon style={styles.ownerIndicator} name="stars" iconType="MaterialIcons" />
               )}
             </View>
+
             <View style={styles.secondaryDetails}>
               {content && (
                 <TouchableOpacity onPress={() => this._handleOnTagPress(content)}>
-                  <View style={styles.tagDetails}>
-                    <Tag
-                      style={styles.topic}
-                      textStyle={styles.topicText}
-                      prefix={intl.formatMessage({ id: 'post.in' })}
-                      value={content.category}
-                      communityTitle={content.community_title}
-                    />
-                    <Text style={styles.date}>
-                      {isPromoted ? intl.formatMessage({ id: 'post.sponsored' }) : date}
-                    </Text>
-                  </View>
+                  <Tag
+                    style={styles.topic}
+                    textStyle={styles.topicText}
+                    prefix={intl.formatMessage({ id: 'post.in' })}
+                    suffix={' '}
+                    value={content.category}
+                    communityTitle={content.community_title}
+                  />
                 </TouchableOpacity>
               )}
+
               {!!tag && (
                 <TouchableOpacity
                   onPress={() => (tagOnPress && tagOnPress()) || this._handleOnTagPress(tag)}
                 >
-                  <View style={styles.tagDetails}>
-                    <Tag isPostCardTag={!isPromoted} isPin value={tag} />
-                    <Text style={[styles.date, { marginVertical: 3 }]}>
-                      {isPromoted ? intl.formatMessage({ id: 'post.sponsored' }) : date}
-                    </Text>
-                  </View>
+                  <Tag isPostCardTag={!isPromoted} isPin value={tag} suffix={' '} />
                 </TouchableOpacity>
+              )}
+
+              {!inlineTime && (
+                <Text style={styles.date}>
+                  {isPromoted ? intl.formatMessage({ id: 'post.sponsored' }) : date}
+                </Text>
               )}
             </View>
           </View>

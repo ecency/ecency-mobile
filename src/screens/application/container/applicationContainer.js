@@ -106,7 +106,7 @@ import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
 import persistAccountGenerator from '../../../utils/persistAccountGenerator';
 import parseVersionNumber from '../../../utils/parseVersionNumber';
-import { getTimeFromNow } from '../../../utils/time';
+import { getTimeFromNow, setMomentLocale } from '../../../utils/time';
 
 // Workaround
 let previousAppState = 'background';
@@ -179,6 +179,8 @@ class ApplicationContainer extends Component {
         });
       }
     });
+
+    setMomentLocale();
 
     ReceiveSharingIntent.getReceivedFiles(
       () => {

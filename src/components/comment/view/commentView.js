@@ -69,10 +69,11 @@ const CommentView = ({
           date={getTimeFromNow(comment.created)}
           name={comment.author}
           reputation={comment.author_reputation}
-          size={avatarSize || 36}
+          size={avatarSize || 40}
           currentAccountUsername={currentAccountUsername}
           isShowOwnerIndicator={mainAuthor === comment.author}
           isHideImage={isHideImage}
+          inlineTime={true}
         />
         <View style={[{ marginLeft: 34 }, styles.bodyWrapper]}>
           <CommentBody

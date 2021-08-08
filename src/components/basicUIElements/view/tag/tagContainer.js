@@ -30,6 +30,7 @@ const TagContainer = ({
   disabled,
   communityTitle,
   prefix,
+  suffix,
 }) => {
   const [label, setLabel] = useState(value);
   const [isCommunity, setIsCommunity] = useState(false);
@@ -94,6 +95,7 @@ const TagContainer = ({
       textStyle={textStyle}
       disabled={disabled}
       prefix={prefix}
+      suffix={suffix}
     />
   );
 };
