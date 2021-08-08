@@ -13,6 +13,7 @@ const Tag = ({
   textStyle,
   disabled,
   prefix,
+  suffix,
 }) => (
   <TouchableOpacity
     hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
@@ -36,7 +37,7 @@ const Tag = ({
           textStyle,
         ]}
       >
-        {`${prefix ? prefix : ''} ${label} `}
+        {`${prefix ? prefix : ''} ${label}${suffix ? suffix : ''}`}
       </Text>
     </View>
   </TouchableOpacity>
