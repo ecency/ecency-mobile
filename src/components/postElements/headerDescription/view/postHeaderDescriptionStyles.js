@@ -44,8 +44,10 @@ export default EStyleSheet.create({
     position: 'absolute',
     bottom: -2,
     left: -2,
-    backgroundColor: '$iconColor',
+    backgroundColor: '$white',
     borderRadius: 20,
+    borderWidth: EStyleSheet.hairlineWidth,
+    borderColor: '$primaryDarkGray',
   },
   reputation: {
     fontSize: 10,
