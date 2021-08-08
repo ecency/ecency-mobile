@@ -416,7 +416,8 @@
     "update_available_title": "Pembaharuan tersedia v{version}",
     "update_available_body": "Menggunakan versi terbaru dari Ecency memberikan Anda pengalaman terbaik",
     "update": "Perbaharui sekarang",
-    "remind_later": "Ingatkan nanti"
+    "remind_later": "Ingatkan nanti",
+    "failed_to_open": "Failed to open a link"
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
