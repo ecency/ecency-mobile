@@ -416,7 +416,8 @@
     "update_available_title": "Update available v{version}",
     "update_available_body": "Using latest version of Ecency gives you the best experience",
     "update": "Update Now",
-    "remind_later": "Remind Later"
+    "remind_later": "Remind Later",
+    "failed_to_open": "Failed to open a link"
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
