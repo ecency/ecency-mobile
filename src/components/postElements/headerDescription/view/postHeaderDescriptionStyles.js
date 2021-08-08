@@ -10,13 +10,16 @@ export default EStyleSheet.create({
   },
   primaryDetails: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   secondaryDetails: {
     flexDirection: 'row',
+    alignItems: 'center',
     marginHorizontal: 3,
   },
   tagDetails: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   rightContainer: {
     flexDirection: 'column',
@@ -37,21 +40,29 @@ export default EStyleSheet.create({
     fontWeight: 'bold',
     alignSelf: 'center',
   },
+  reputationWrapper: {
+    position: 'absolute',
+    bottom: -2,
+    left: -2,
+    backgroundColor: '$iconColor',
+    borderRadius: 20,
+  },
   reputation: {
-    fontSize: 12,
+    fontSize: 10,
     color: '$primaryDarkGray',
-    marginRight: 8,
     alignSelf: 'center',
+    fontWeight: 'bold',
+    padding: 4,
   },
   date: {
     fontSize: 14,
     fontWeight: '300',
-    marginVertical: 5,
     color: '$primaryDarkGray',
   },
   topic: {
     marginVertical: 3,
     marginRight: 0,
+    paddingRight: 0,
     marginLeft: 0,
     paddingLeft: 0,
     borderRadius: 0,

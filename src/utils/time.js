@@ -52,6 +52,28 @@ export const getTimeFromNowNative = (d) => {
   }
   return { unit: 'day', value: future ? Math.round(diff / DAY) : -Math.round(diff / DAY) };
 };
+
+export const setMomentLocale = () => {
+  moment.locale('en', {
+    relativeTime: {
+      future: 'in %s',
+      past: '%s',
+      s: '1s',
+      ss: '%ss',
+      m: '1m',
+      mm: '%dm',
+      h: '1h',
+      hh: '%dh',
+      d: '1d',
+      dd: '%dd',
+      M: '1M',
+      MM: '%dM',
+      y: '1Y',
+      yy: '%dY',
+    },
+  });
+};
+
 export const getTimeFromNow = (value, isWithoutUtc) => {
   if (!value) {
     return null;
