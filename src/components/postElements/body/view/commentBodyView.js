@@ -57,7 +57,7 @@ const CommentBody = ({
   }, [selectedLink]);
 
   useEffect(() => {
-    if (postImages.length > 0 || selectedImage) {
+    if (postImages.length > 0 && selectedImage) {
       actionImage.current.show();
     }
   }, [postImages, selectedImage]);
@@ -154,6 +154,10 @@ const CommentBody = ({
       //save to local
       _saveImage(selectedImage);
     }
+    if (ind === 3) {
+      setPostImages([]);
+      setSelectedImage(null);
+    }
   };
 
   const handleLinkPress = (ind) => {
@@ -186,6 +190,9 @@ const CommentBody = ({
           ),
         );
       });
+    }
+    if (ind === 2) {
+      setSelectedLink(null);
     }
   };
 

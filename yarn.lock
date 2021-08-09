@@ -1041,10 +1041,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@ecency/render-helper@^2.1.20":
-  version "2.1.20"
-  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.1.20.tgz#1dff67753d20837beb6cf054b52f39a1ce14b027"
-  integrity sha512-1qPY37vhpzwojTlyn2cLHh0iLKwLeu08l29X8SU40RXIqq3TEaLyNlIbVvet8ubZyAqXlWz+oPu+ELgd5MAnrg==
+"@ecency/render-helper@^2.1.24":
+  version "2.1.24"
+  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.1.24.tgz#ade7511d715c11bc26faac07b7de8974f3ad8701"
+  integrity sha512-X12CheyClvaidAs95hU3qqWlIhRghXtmqVtPXTqbokBer5CdT0nTKxKzsUeFpuu3L6WPGJg7onNYoUhK0UrCKg==
   dependencies:
     he "^1.2.0"
     lru-cache "^5.1.1"
