@@ -87,11 +87,12 @@ class PostHeaderDescription extends PureComponent {
       isPromoted,
       intl,
       inlineTime,
+      customStyle,
     } = this.props;
 
     return (
       <View>
-        <View style={styles.container}>
+        <View style={[styles.container, customStyle]}>
           <TouchableOpacity
             style={styles.avatarNameWrapper}
             onPress={() => this._handleOnUserPress(name)}

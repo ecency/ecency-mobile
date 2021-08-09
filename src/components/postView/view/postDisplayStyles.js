@@ -8,6 +8,9 @@ export default EStyleSheet.create({
   header: {
     marginHorizontal: 16,
   },
+  headerLine: {
+    bottom: 10,
+  },
   title: {
     fontSize: 24,
     color: '$primaryBlack',

@@ -223,6 +223,7 @@ const PostDisplayView = ({
                 reputation={post.author_reputation}
                 size={40}
                 inlineTime={true}
+                customStyle={styles.headerLine}
               />
               <PostBody body={post.body} onLoadEnd={_handleOnPostBodyLoad} />
               {!postBodyLoading && (
