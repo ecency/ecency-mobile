@@ -8,6 +8,7 @@ import { PrivateKey } from '@esteemapp/dhive';
 import { Client as hsClient } from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
+import { Alert } from 'react-native';
 import { getServer, getCache, setCache } from '../../realm/realm';
 import { userActivity } from '../ecency/ePoint';
 
@@ -683,6 +684,7 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
       api
         .vote(voter, author, permlink, weight)
         .then((result) => {
+          Alert.alert('hs transaction id: ' + result.result.id);
           resolve(result.result);
         })
         .catch((err) => {
@@ -694,17 +696,23 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
   if (key) {
     const privateKey = PrivateKey.fromString(key);
     const voter = currentAccount.name;
-    const args = {
-      voter,
-      author,
-      permlink,
-      weight,
-    };
+    const args = [
+      [
+        'vote',
+        {
+          voter,
+          author,
+          permlink,
+          weight,
+        },
+      ],
+    ];
 
     return new Promise((resolve, reject) => {
       client.broadcast
         .vote(args, privateKey)
         .then((result) => {
+          Alert.alert('dhive transaction id: ' + result.id);
           resolve(result);
         })
         .catch((err) => {
