@@ -174,6 +174,7 @@ class LoginScreen extends PureComponent {
                 id: 'login.steemconnect_description',
               })}
               iconName="ios-information-circle-outline"
+              link="https://hivesigner.com"
             />
             <MainButton
               wrapperStyle={styles.mainButtonWrapper}
