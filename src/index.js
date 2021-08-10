@@ -1,3 +1,4 @@
+import '../shim';
 import React from 'react';
 import 'react-native-gesture-handler';
 import { Provider, connect } from 'react-redux';
