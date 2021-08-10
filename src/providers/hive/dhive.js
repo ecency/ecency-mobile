@@ -710,7 +710,7 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
 
     return new Promise((resolve, reject) => {
       client.broadcast
-        .vote(args, privateKey)
+        .sendOperations(args, privateKey)
         .then((result) => {
           Alert.alert('dhive transaction id: ' + result.id);
           resolve(result);
