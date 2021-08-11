@@ -18,7 +18,6 @@ import { createHash } from 'react-native-crypto';
 import { Client as hsClient } from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
-import { Alert } from 'react-native';
 import { getServer, getCache, setCache } from '../../realm/realm';
 import { userActivity } from '../ecency/ePoint';
 
@@ -742,7 +741,6 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
       api
         .vote(voter, author, permlink, weight)
         .then((result) => {
-          Alert.alert('hs transaction id: ' + result.result.id);
           resolve(result.result);
         })
         .catch((err) => {
@@ -1369,6 +1367,10 @@ const _postContent = async (
       client.broadcast
         .sendOperations(opArray, privateKey)
         .then((result) => {
+          //TODO: remove code snippet once dhive id generation is fixed
+          result.id = generateTrxId(result.tx);
+          console.log('localGenTrx:' + result.id);
+
           resolve(result);
         })
         .catch((error) => {
@@ -1426,7 +1428,20 @@ const _reblog = async (account, pinCode, author, permlink) => {
       required_posting_auths: [follower],
     };
 
-    return client.broadcast.json(json, privateKey);
+    return new Promise((resolve, reject) => {
+      client.broadcast
+        .json(json, privateKey)
+        .then((result) => {
+          //TODO: remove code snippet once dhive id generation is fixed
+          result.id = generateTrxId(result.tx);
+          console.log('localGenTrx:' + result.id);
+
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
   }
 
   return Promise.reject(
