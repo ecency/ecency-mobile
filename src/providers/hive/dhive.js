@@ -10,8 +10,9 @@ import {
   Transaction,
   Operation,
   TransactionConfirmation,
+  PrivateKey,
 } from '@hiveio/dhive';
-import { PrivateKey } from '@esteemapp/dhive';
+//import { PrivateKey } from '@esteemapp/dhive';
 import bytebuffer from 'bytebuffer';
 import { createHash } from 'react-native-crypto';
 
@@ -1360,10 +1361,6 @@ const _postContent = async (
     return new Promise((resolve, reject) => {
       sendHiveOperations(opArray, privateKey)
         .then((result) => {
-          //TODO: remove code snippet once dhive id generation is fixed
-          result.id = generateTrxId(result.tx);
-          console.log('localGenTrx:' + result.id);
-
           resolve(result);
         })
         .catch((error) => {
@@ -1426,10 +1423,6 @@ const _reblog = async (account, pinCode, author, permlink) => {
     return new Promise((resolve, reject) => {
       sendHiveOperations(opArray, privateKey)
         .then((result) => {
-          //TODO: remove code snippet once dhive id generation is fixed
-          result.id = generateTrxId(result.tx);
-          console.log('localGenTrx:' + result.id);
-
           resolve(result);
         })
         .catch((err) => {
