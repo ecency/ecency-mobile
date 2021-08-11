@@ -12,7 +12,7 @@ import {
   TransactionConfirmation,
   PrivateKey,
 } from '@hiveio/dhive';
-//import { PrivateKey } from '@esteemapp/dhive';
+// import { PrivateKey as EsteemPrivateKey } from '@esteemapp/dhive';
 import bytebuffer from 'bytebuffer';
 import { createHash } from 'react-native-crypto';
 
@@ -20,6 +20,7 @@ import { Client as hsClient } from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
 import { Alert } from 'react-native';
+import * as bs58 from 'bs58';
 import { getServer, getCache, setCache } from '../../realm/realm';
 import { userActivity } from '../ecency/ePoint';
 
@@ -68,6 +69,35 @@ checkClient();
 
 const sha256 = (input: Buffer | string): Buffer => {
   return createHash('sha256').update(input).digest();
+};
+
+/**
+ * Return 2-round sha256 hash of input.
+ */
+function doubleSha256(input: Buffer | string): Buffer {
+  return sha256(sha256(input));
+}
+
+/**
+ * Decode bs58+doubleSha256-checksum encoded private key.
+ */
+function decodePrivate(encodedKey: string): Buffer {
+  const buffer: Buffer = bs58.decode(encodedKey);
+
+  // assert.deepEqual(
+  //   buffer.slice(0, 1),
+  //   NETWORK_ID,
+  //   'private key network id mismatch'
+  // )
+  const checksum = buffer.slice(-4);
+  const key = buffer.slice(0, -4);
+  const checksumVerify = doubleSha256(key).slice(0, 4);
+  // assert.deepEqual(checksumVerify, checksum, 'private key checksum mismatch')
+  return key;
+}
+
+const getPrivateKeyFromString = (wif) => {
+  return new PrivateKey(decodePrivate(wif).slice(1));
 };
 
 export const generateTrxId = (transaction) => {
@@ -752,7 +782,9 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
   }
 
   if (key) {
-    const privateKey = PrivateKey.fromString(key);
+    const privateKey = getPrivateKeyFromString(key);
+
+    Alert.alert(privateKey);
     const voter = currentAccount.name;
     const args = [
       [
@@ -774,6 +806,8 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
           resolve(result);
         })
         .catch((err) => {
+          Alert.alert('vote failed: ' + err.message);
+
           if (err && get(err, 'jse_info.code') === 4030100) {
             err.message = getDsteemDateErrorMessage(err);
           }
@@ -1364,6 +1398,7 @@ const _postContent = async (
           resolve(result);
         })
         .catch((error) => {
+          Alert.alert('post content failed: ' + error.message);
           if (error && get(error, 'jse_info.code') === 4030100) {
             error.message = getDsteemDateErrorMessage(error);
           }
@@ -1426,6 +1461,7 @@ const _reblog = async (account, pinCode, author, permlink) => {
           resolve(result);
         })
         .catch((err) => {
+          Alert.alert('reblog failed: ' + err.message);
           reject(err);
         });
     });
