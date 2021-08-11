@@ -1173,7 +1173,7 @@
 
 "@hiveio/dhive@ecency/dhive-test":
   version "1.0.1"
-  resolved "https://codeload.github.com/ecency/dhive-test/tar.gz/8ecafed50308c562a40300cc081c96fa59c4e38a"
+  resolved "https://codeload.github.com/ecency/dhive-test/tar.gz/7bcf3d51ed889d47e2a0ed747debc37099c03c6b"
   dependencies:
     bs58 "^4.0.1"
     bytebuffer "^5.0.1"

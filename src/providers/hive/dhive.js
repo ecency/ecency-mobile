@@ -2,8 +2,10 @@
 // import '../../../shim';
 // import * as bitcoin from 'bitcoinjs-lib';
 
-import { Client, cryptoUtils, utils } from '@hiveio/dhive';
+import { Client, cryptoUtils, utils, Types, Transaction } from '@hiveio/dhive';
 import { PrivateKey } from '@esteemapp/dhive';
+import bytebuffer from 'bytebuffer';
+import { createHash } from 'react-native-crypto';
 
 import { Client as hsClient } from 'hivesigner';
 import Config from 'react-native-config';
@@ -54,6 +56,22 @@ export const checkClient = async () => {
 };
 
 checkClient();
+
+const sha256 = (input: Buffer | string): Buffer => {
+  return createHash('sha256').update(input).digest();
+};
+
+export const generateTrxId = (transaction) => {
+  const buffer = new bytebuffer(bytebuffer.DEFAULT_CAPACITY, bytebuffer.LITTLE_ENDIAN);
+  try {
+    Types.Transaction(buffer, transaction);
+  } catch (cause) {
+    console.warn('SerializationError', cause);
+  }
+  buffer.flip();
+  const transactionData = Buffer.from(buffer.toBuffer());
+  return sha256(transactionData).toString('hex').slice(0, 40); //CryptoJS.enc.Hex
+};
 
 export const getDigitPinCode = (pin) => decryptKey(pin, Config.PIN_KEY);
 
@@ -665,7 +683,7 @@ export const vote = async (account, pin, author, permlink, weight) => {
     console.log('Returning vote response');
     return resp;
   } catch (err) {
-    console.warn('Failed to complete vote');
+    console.warn('Failed to complete vote', err);
   }
 };
 
@@ -712,7 +730,14 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
       client.broadcast
         .sendOperations(args, privateKey)
         .then((result) => {
-          Alert.alert('dhive transaction id: ' + JSON.stringify(result));
+          console.log(result);
+          console.log(generateTrxId(result.tx));
+          Alert.alert(
+            'dhive transaction id: ' +
+              JSON.stringify(result) +
+              'localGen:' +
+              generateTrxId(result.tx),
+          );
           resolve(result);
         })
         .catch((err) => {
