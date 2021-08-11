@@ -18,6 +18,7 @@ import { createHash } from 'react-native-crypto';
 import { Client as hsClient } from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
+import { Alert } from 'react-native';
 import { getServer, getCache, setCache } from '../../realm/realm';
 import { userActivity } from '../ecency/ePoint';
 
@@ -768,6 +769,7 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
       sendHiveOperations(args, privateKey)
         .then((result) => {
           console.log('vote result', result);
+          Alert.alert('dhive transaction id: ' + result.id);
           resolve(result);
         })
         .catch((err) => {
