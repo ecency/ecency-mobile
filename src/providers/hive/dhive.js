@@ -10,9 +10,8 @@ import {
   Transaction,
   Operation,
   TransactionConfirmation,
-  PrivateKey,
 } from '@hiveio/dhive';
-// import { PrivateKey } from '@esteemapp/dhive';
+import { PrivateKey } from '@esteemapp/dhive';
 import bytebuffer from 'bytebuffer';
 import { createHash } from 'react-native-crypto';
 
@@ -766,22 +765,19 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
       ],
     ];
 
-    Alert.alert(JSON.stringify(privateKey));
-
     return new Promise((resolve, reject) => {
-      reject(new Error('err'));
-      // sendHiveOperations(args, privateKey)
-      //   .then((result) => {
-      //     console.log('vote result', result);
-      //     Alert.alert('dhive transaction id: ' + result.id);
-      //     resolve(result);
-      //   })
-      //   .catch((err) => {
-      //     if (err && get(err, 'jse_info.code') === 4030100) {
-      //       err.message = getDsteemDateErrorMessage(err);
-      //     }
-      //     reject(err);
-      //   });
+      sendHiveOperations(args, privateKey)
+        .then((result) => {
+          console.log('vote result', result);
+          Alert.alert('dhive transaction id: ' + result.id);
+          resolve(result);
+        })
+        .catch((err) => {
+          if (err && get(err, 'jse_info.code') === 4030100) {
+            err.message = getDsteemDateErrorMessage(err);
+          }
+          reject(err);
+        });
     });
   }
 
@@ -1364,6 +1360,10 @@ const _postContent = async (
     return new Promise((resolve, reject) => {
       sendHiveOperations(opArray, privateKey)
         .then((result) => {
+          //TODO: remove code snippet once dhive id generation is fixed
+          result.id = generateTrxId(result.tx);
+          console.log('localGenTrx:' + result.id);
+
           resolve(result);
         })
         .catch((error) => {
@@ -1426,6 +1426,10 @@ const _reblog = async (account, pinCode, author, permlink) => {
     return new Promise((resolve, reject) => {
       sendHiveOperations(opArray, privateKey)
         .then((result) => {
+          //TODO: remove code snippet once dhive id generation is fixed
+          result.id = generateTrxId(result.tx);
+          console.log('localGenTrx:' + result.id);
+
           resolve(result);
         })
         .catch((err) => {
