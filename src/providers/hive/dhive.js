@@ -2,13 +2,22 @@
 // import '../../../shim';
 // import * as bitcoin from 'bitcoinjs-lib';
 
-import { Client, cryptoUtils, utils } from '@hiveio/dhive';
+import {
+  Client,
+  cryptoUtils,
+  utils,
+  Types,
+  Transaction,
+  Operation,
+  TransactionConfirmation,
+} from '@hiveio/dhive';
 import { PrivateKey } from '@esteemapp/dhive';
+import bytebuffer from 'bytebuffer';
+import { createHash } from 'react-native-crypto';
 
 import { Client as hsClient } from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
-import { Alert } from 'react-native';
 import { getServer, getCache, setCache } from '../../realm/realm';
 import { userActivity } from '../ecency/ePoint';
 
@@ -54,6 +63,54 @@ export const checkClient = async () => {
 };
 
 checkClient();
+
+const sha256 = (input: Buffer | string): Buffer => {
+  return createHash('sha256').update(input).digest();
+};
+
+export const generateTrxId = (transaction) => {
+  const buffer = new bytebuffer(bytebuffer.DEFAULT_CAPACITY, bytebuffer.LITTLE_ENDIAN);
+  try {
+    Types.Transaction(buffer, transaction);
+  } catch (cause) {
+    console.warn('SerializationError', cause);
+  }
+  buffer.flip();
+  const transactionData = Buffer.from(buffer.toBuffer());
+  return sha256(transactionData).toString('hex').slice(0, 40); //CryptoJS.enc.Hex
+};
+
+export const sendHiveOperations = async (
+  operations: Operation[],
+  key: PrivateKey | PrivateKey[],
+): Promise<TransactionConfirmation> => {
+  const { head_block_number, head_block_id, time } = await getDynamicGlobalProperties();
+  const ref_block_num = head_block_number & 0xffff;
+  const ref_block_prefix = Buffer.from(head_block_id, 'hex').readUInt32LE(4);
+  const expireTime = 60 * 1000;
+  const chainId = Buffer.from(
+    'beeab0de00000000000000000000000000000000000000000000000000000000',
+    'hex',
+  );
+  const expiration = new Date(new Date(time + 'Z').getTime() + expireTime)
+    .toISOString()
+    .slice(0, -5);
+  const extensions = [];
+
+  const tx: Transaction = {
+    expiration: expiration,
+    extensions: extensions,
+    operations: operations,
+    ref_block_num: ref_block_num,
+    ref_block_prefix: ref_block_prefix,
+  };
+
+  const transaction = await cryptoUtils.signTransaction(tx, key, chainId);
+  const trxId = generateTrxId(transaction);
+  const resultHive = await client.broadcast.call('broadcast_transaction', [transaction]);
+  const result = Object.assign({ id: trxId }, resultHive);
+  return result;
+};
 
 export const getDigitPinCode = (pin) => decryptKey(pin, Config.PIN_KEY);
 
@@ -234,7 +291,6 @@ export const getUser = async (user, loggedIn = true) => {
       try {
         _account.about = JSON.parse(get(_account, 'posting_json_metadata'));
       } catch (e) {
-        //alert(e);
         _account.about = {};
       }
     }
@@ -423,10 +479,10 @@ export const ignoreUser = async (currentAccount, pin, data) => {
       required_auths: [],
       required_posting_auths: [`${data.follower}`],
     };
+    const opArray = [['custom_json', json]];
 
     return new Promise((resolve, reject) => {
-      client.broadcast
-        .json(json, privateKey)
+      sendHiveOperations(opArray, privateKey)
         .then((result) => {
           resolve(result);
         })
@@ -578,7 +634,7 @@ export const deleteComment = (currentAccount, pin, permlink) => {
 
     const privateKey = PrivateKey.fromString(key);
 
-    return client.broadcast.sendOperations(opArray, privateKey);
+    return sendHiveOperations(opArray, privateKey);
   }
 };
 
@@ -665,7 +721,7 @@ export const vote = async (account, pin, author, permlink, weight) => {
     console.log('Returning vote response');
     return resp;
   } catch (err) {
-    console.warn('Failed to complete vote');
+    console.warn('Failed to complete vote', err);
   }
 };
 
@@ -684,7 +740,6 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
       api
         .vote(voter, author, permlink, weight)
         .then((result) => {
-          Alert.alert('hs transaction id: ' + result.result.id);
           resolve(result.result);
         })
         .catch((err) => {
@@ -709,10 +764,9 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
     ];
 
     return new Promise((resolve, reject) => {
-      client.broadcast
-        .vote(args, privateKey)
+      sendHiveOperations(args, privateKey)
         .then((result) => {
-          Alert.alert('dhive transaction id: ' + result.id);
+          console.log('vote result', result);
           resolve(result);
         })
         .catch((err) => {
@@ -764,10 +818,10 @@ export const transferToken = (currentAccount, pin, data) => {
       amount: get(data, 'amount'),
       memo: get(data, 'memo'),
     };
+    const opArray = [['transfer', args]];
 
     return new Promise((resolve, reject) => {
-      client.broadcast
-        .transfer(args, privateKey)
+      sendHiveOperations(opArray, privateKey)
         .then((result) => {
           if (result) {
             resolve(result);
@@ -808,8 +862,7 @@ export const convert = (currentAccount, pin, data) => {
     ];
 
     return new Promise((resolve, reject) => {
-      client.broadcast
-        .sendOperations(args, privateKey)
+      sendHiveOperations(args, privateKey)
         .then((result) => {
           if (result) {
             resolve(result);
@@ -851,8 +904,7 @@ export const transferToSavings = (currentAccount, pin, data) => {
     ];
 
     return new Promise((resolve, reject) => {
-      client.broadcast
-        .sendOperations(args, privateKey)
+      sendHiveOperations(args, privateKey)
         .then((result) => {
           resolve(result);
         })
@@ -892,8 +944,7 @@ export const transferFromSavings = (currentAccount, pin, data) => {
     ];
 
     return new Promise((resolve, reject) => {
-      client.broadcast
-        .sendOperations(args, privateKey)
+      sendHiveOperations(args, privateKey)
         .then((result) => {
           resolve(result);
         })
@@ -931,8 +982,7 @@ export const transferToVesting = (currentAccount, pin, data) => {
     ];
 
     return new Promise((resolve, reject) => {
-      client.broadcast
-        .sendOperations(args, privateKey)
+      sendHiveOperations(args, privateKey)
         .then((result) => {
           resolve(result);
         })
@@ -969,8 +1019,7 @@ export const withdrawVesting = (currentAccount, pin, data) => {
     ];
 
     return new Promise((resolve, reject) => {
-      client.broadcast
-        .sendOperations(args, privateKey)
+      sendHiveOperations(args, privateKey)
         .then((result) => {
           resolve(result);
         })
@@ -1008,8 +1057,7 @@ export const delegateVestingShares = (currentAccount, pin, data) => {
     ];
 
     return new Promise((resolve, reject) => {
-      client.broadcast
-        .sendOperations(args, privateKey)
+      sendHiveOperations(args, privateKey)
         .then((result) => {
           resolve(result);
         })
@@ -1048,8 +1096,7 @@ export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
     ];
 
     return new Promise((resolve, reject) => {
-      client.broadcast
-        .sendOperations(args, privateKey)
+      sendHiveOperations(args, privateKey)
         .then((result) => {
           resolve(result);
         })
@@ -1095,10 +1142,10 @@ export const followUser = async (currentAccount, pin, data) => {
       required_auths: [],
       required_posting_auths: [`${data.follower}`],
     };
+    const opArray = [['custom_json', json]];
 
     return new Promise((resolve, reject) => {
-      client.broadcast
-        .json(json, privateKey)
+      sendHiveOperations(opArray, privateKey)
         .then((result) => {
           resolve(result);
         })
@@ -1142,10 +1189,9 @@ export const unfollowUser = async (currentAccount, pin, data) => {
       required_auths: [],
       required_posting_auths: [`${data.follower}`],
     };
-
+    const opArray = [['custom_json', json]];
     return new Promise((resolve, reject) => {
-      client.broadcast
-        .json(json, privateKey)
+      sendHiveOperations(opArray, privateKey)
         .then((result) => {
           resolve(result);
         })
@@ -1309,8 +1355,7 @@ const _postContent = async (
     const privateKey = PrivateKey.fromString(key);
 
     return new Promise((resolve, reject) => {
-      client.broadcast
-        .sendOperations(opArray, privateKey)
+      sendHiveOperations(opArray, privateKey)
         .then((result) => {
           resolve(result);
         })
@@ -1369,7 +1414,17 @@ const _reblog = async (account, pinCode, author, permlink) => {
       required_posting_auths: [follower],
     };
 
-    return client.broadcast.json(json, privateKey);
+    const opArray = [['custom_json', json]];
+
+    return new Promise((resolve, reject) => {
+      sendHiveOperations(opArray, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
   }
 
   return Promise.reject(
@@ -1405,7 +1460,7 @@ export const claimRewardBalance = (account, pinCode, rewardHive, rewardHbd, rewa
       ],
     ];
 
-    return client.broadcast.sendOperations(opArray, privateKey);
+    return sendHiveOperations(opArray, privateKey);
   }
 
   return Promise.reject(
@@ -1434,8 +1489,8 @@ export const transferPoint = (currentAccount, pinCode, data) => {
       required_auths: [username],
       required_posting_auths: [],
     };
-
-    return client.broadcast.json(op, privateKey);
+    const opArray = [['custom_json', op]];
+    return sendHiveOperations(opArray, privateKey);
   }
 
   return Promise.reject(
@@ -1462,8 +1517,9 @@ export const promote = (currentAccount, pinCode, duration, permlink, author) => 
       required_auths: [user],
       required_posting_auths: [],
     };
+    const opArray = [['custom_json', json]];
 
-    return client.broadcast.json(json, privateKey);
+    return sendHiveOperations(opArray, privateKey);
   }
 
   return Promise.reject(
@@ -1490,8 +1546,9 @@ export const boost = (currentAccount, pinCode, point, permlink, author) => {
       required_auths: [user],
       required_posting_auths: [],
     };
+    const opArray = [['custom_json', json]];
 
-    return client.broadcast.json(json, privateKey);
+    return sendHiveOperations(opArray, privateKey);
   }
 
   return Promise.reject(
@@ -1551,8 +1608,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
     const privateKey = PrivateKey.fromString(key);
 
     return new Promise((resolve, reject) => {
-      client.broadcast
-        .sendOperations(opArray, privateKey)
+      sendHiveOperations(opArray, privateKey)
         .then((result) => {
           resolve(result);
         })
@@ -1611,8 +1667,7 @@ export const profileUpdate = async (params, pin, currentAccount) => {
     const privateKey = PrivateKey.fromString(key);
 
     return new Promise((resolve, reject) => {
-      client.broadcast
-        .sendOperations(opArray, privateKey)
+      sendHiveOperations(opArray, privateKey)
         .then((result) => {
           resolve(result);
         })
@@ -1649,8 +1704,8 @@ export const subscribeCommunity = (currentAccount, pinCode, data) => {
       required_auths: [],
       required_posting_auths: [username],
     };
-
-    return client.broadcast.json(op, privateKey);
+    const opArray = [['custom_json', op]];
+    return sendHiveOperations(opArray, privateKey);
   }
 
   return Promise.reject(
