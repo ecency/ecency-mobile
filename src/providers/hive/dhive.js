@@ -10,16 +10,14 @@ import {
   Transaction,
   Operation,
   TransactionConfirmation,
-  PrivateKey,
 } from '@hiveio/dhive';
-// import { PrivateKey } from '@esteemapp/dhive';
+import { PrivateKey } from '@esteemapp/dhive';
 import bytebuffer from 'bytebuffer';
 import { createHash } from 'react-native-crypto';
 
 import { Client as hsClient } from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
-import { Alert } from 'react-native';
 import { getServer, getCache, setCache } from '../../realm/realm';
 import { userActivity } from '../ecency/ePoint';
 
@@ -293,7 +291,6 @@ export const getUser = async (user, loggedIn = true) => {
       try {
         _account.about = JSON.parse(get(_account, 'posting_json_metadata'));
       } catch (e) {
-        //alert(e);
         _account.about = {};
       }
     }
@@ -766,22 +763,18 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
       ],
     ];
 
-    Alert.alert(JSON.stringify(privateKey));
-
     return new Promise((resolve, reject) => {
-      reject(new Error('err'));
-      // sendHiveOperations(args, privateKey)
-      //   .then((result) => {
-      //     console.log('vote result', result);
-      //     Alert.alert('dhive transaction id: ' + result.id);
-      //     resolve(result);
-      //   })
-      //   .catch((err) => {
-      //     if (err && get(err, 'jse_info.code') === 4030100) {
-      //       err.message = getDsteemDateErrorMessage(err);
-      //     }
-      //     reject(err);
-      //   });
+      sendHiveOperations(args, privateKey)
+        .then((result) => {
+          console.log('vote result', result);
+          resolve(result);
+        })
+        .catch((err) => {
+          if (err && get(err, 'jse_info.code') === 4030100) {
+            err.message = getDsteemDateErrorMessage(err);
+          }
+          reject(err);
+        });
     });
   }
 
