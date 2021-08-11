@@ -12,7 +12,6 @@ import ActionSheet from 'react-native-actionsheet';
 import ActionSheetView from 'react-native-actions-sheet';
 import { connect } from 'react-redux';
 
-import { YouTubeStandaloneAndroid } from 'react-native-youtube';
 import Config from 'react-native-config';
 import Youtube from 'react-native-youtube-iframe';
 import { customBodyScript } from './config';
