@@ -712,7 +712,7 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
       client.broadcast
         .sendOperations(args, privateKey)
         .then((result) => {
-          Alert.alert('dhive transaction id: ' + result.id);
+          Alert.alert('dhive transaction id: ' + JSON.stringify(result));
           resolve(result);
         })
         .catch((err) => {
