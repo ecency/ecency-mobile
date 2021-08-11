@@ -2,7 +2,15 @@
 // import '../../../shim';
 // import * as bitcoin from 'bitcoinjs-lib';
 
-import { Client, cryptoUtils, utils, Types, Transaction } from '@hiveio/dhive';
+import {
+  Client,
+  cryptoUtils,
+  utils,
+  Types,
+  Transaction,
+  Operation,
+  TransactionConfirmation,
+} from '@hiveio/dhive';
 import { PrivateKey } from '@esteemapp/dhive';
 import bytebuffer from 'bytebuffer';
 import { createHash } from 'react-native-crypto';
@@ -71,6 +79,38 @@ export const generateTrxId = (transaction) => {
   buffer.flip();
   const transactionData = Buffer.from(buffer.toBuffer());
   return sha256(transactionData).toString('hex').slice(0, 40); //CryptoJS.enc.Hex
+};
+
+export const sendHiveOperations = async (
+  operations: Operation[],
+  key: PrivateKey | PrivateKey[],
+): Promise<TransactionConfirmation> => {
+  const { head_block_number, head_block_id, time } = await getDynamicGlobalProperties();
+  const ref_block_num = head_block_number & 0xffff;
+  const ref_block_prefix = Buffer.from(head_block_id, 'hex').readUInt32LE(4);
+  const expireTime = 60 * 1000;
+  const chainId = Buffer.from(
+    'beeab0de00000000000000000000000000000000000000000000000000000000',
+    'hex',
+  );
+  const expiration = new Date(new Date(time + 'Z').getTime() + expireTime)
+    .toISOString()
+    .slice(0, -5);
+  const extensions = [];
+
+  const tx: Transaction = {
+    expiration: expiration,
+    extensions: extensions,
+    operations: operations,
+    ref_block_num: ref_block_num,
+    ref_block_prefix: ref_block_prefix,
+  };
+
+  const transaction = await cryptoUtils.signTransaction(tx, key, chainId);
+  const trxId = generateTrxId(transaction);
+  const resultHive = await client.broadcast.call('broadcast_transaction', [transaction]);
+  const result = Object.assign({ id: trxId }, resultHive);
+  return result;
 };
 
 export const getDigitPinCode = (pin) => decryptKey(pin, Config.PIN_KEY);
@@ -727,17 +767,9 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
     ];
 
     return new Promise((resolve, reject) => {
-      client.broadcast
-        .sendOperations(args, privateKey)
+      sendHiveOperations(args, privateKey)
         .then((result) => {
-          console.log(result);
-          console.log(generateTrxId(result.tx));
-          Alert.alert(
-            'dhive transaction id: ' +
-              JSON.stringify(result) +
-              'localGen:' +
-              generateTrxId(result.tx),
-          );
+          console.log('vote result', result);
           resolve(result);
         })
         .catch((err) => {
