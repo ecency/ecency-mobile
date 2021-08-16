@@ -54,7 +54,7 @@ export const getTimeFromNowNative = (d) => {
 };
 
 export const setMomentLocale = () => {
-  moment.locale('en', {
+  moment.updateLocale('en', {
     relativeTime: {
       future: 'in %s',
       past: '%s',
