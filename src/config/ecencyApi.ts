@@ -5,6 +5,7 @@ import { get } from 'lodash';
 import { store } from '../redux/store/store';
 import { getDigitPinCode } from '../providers/hive/dhive';
 import { decryptKey } from '../utils/crypto';
+import bugsnagInstance from '../config/bugsnag';
 
 const api = axios.create({
   baseURL: Config.ECENCY_BACKEND_API,
@@ -39,6 +40,9 @@ api.interceptors.request.use((request) => {
     }
     request.data.code = accessToken;
     console.log('Added access token:', accessToken);
+  } else {
+    console.warn("Failed to inject accessToken")
+    bugsnagInstance.notify(new Error(`Failed to inject accessToken in api call`))
   }
 
   return request;
