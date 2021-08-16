@@ -379,18 +379,21 @@ export const getNotifications = async (data:{
   };
 
 
-export const setPushToken = (data) =>
-  new Promise((resolve, reject) => {
-    api
-      .post('/rgstrmbldvc/', data)
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((error) => {
-        bugsnagInstance.notify(error);
-        reject(error);
-      });
-  });
+export const setPushToken = async (data) => {
+  try {
+    if(!data.username){
+      console.log("skipping push token setting, as no user is provided")
+      return;
+    }
+
+    const res = await api.post('/rgstrmbldvc/', data);
+    return res.data;
+
+  } catch(error){
+    console.warn("Failed to set push token on server")
+    bugsnagInstance.notify(error);
+  }
+}
 
 /** 
  * ************************************
