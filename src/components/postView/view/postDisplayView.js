@@ -204,6 +204,7 @@ const PostDisplayView = ({
     <View style={styles.container}>
       <ScrollView
         style={styles.scroll}
+        contentContainerStyle={styles.scrollContent}
         onScroll={(event) => _handleOnScroll(event)}
         scrollEventThrottle={16}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
