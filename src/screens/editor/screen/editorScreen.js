@@ -31,12 +31,14 @@ import globalStyles from '../../../globalStyles';
 import { isCommunity } from '../../../utils/communityValidation';
 
 import styles from './editorScreenStyles';
+import ThumbSelectionModal from '../children/thumbSelectionModal';
 
 class EditorScreen extends Component {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
    */
+  thumbSelectionModalRef = null;
 
   constructor(props) {
     super(props);
@@ -161,13 +163,24 @@ class EditorScreen extends Component {
     }, 300);
   };
 
-  _handleOnSubmit = () => {
+  _handlePreSubmit = () => {
+    const { fields } = this.state;
+    if (this.thumbSelectionModalRef) {
+      this.thumbSelectionModalRef.show(fields.body);
+    }
+  };
+
+  _handleOnSubmit = (thumbIndex) => {
     const { handleOnSubmit } = this.props;
     const { fields } = this.state;
 
     if (handleOnSubmit) {
-      handleOnSubmit({ fields });
+      handleOnSubmit({ fields, thumbIndex });
     }
+  };
+
+  _handleOnThumbSelection = (index) => {
+    this._handleOnSubmit(index);
   };
 
   _handleIsFormValid = (bodyText) => {
@@ -327,8 +340,9 @@ class EditorScreen extends Component {
     const rightButtonText = intl.formatMessage({
       id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : 'basic_header.publish',
     });
-    return (
-      <View style={globalStyles.defaultContainer}>
+
+    const _renderCommunityModal = () => {
+      return (
         <Modal
           isOpen={isCommunitiesListModalOpen}
           animationType="animationType"
@@ -343,6 +357,11 @@ class EditorScreen extends Component {
             }}
           />
         </Modal>
+      );
+    };
+
+    return (
+      <View style={globalStyles.defaultContainer}>
         <BasicHeader
           handleDatePickerChange={(date) => handleDatePickerChange(date, fields)}
           handleRewardChange={handleRewardChange}
@@ -350,7 +369,7 @@ class EditorScreen extends Component {
           handleOnBackPress={handleOnBackPress}
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
           handleOnSaveButtonPress={this._handleOnSaveButtonPress}
-          handleOnSubmit={this._handleOnSubmit}
+          handleOnSubmit={this._handlePreSubmit}
           isDraftSaved={isDraftSaved}
           isDraftSaving={isDraftSaving}
           isDraft={isDraft}
@@ -366,7 +385,7 @@ class EditorScreen extends Component {
         />
         <PostForm
           handleFormUpdate={this._handleFormUpdate}
-          handleOnSubmit={this._handleOnSubmit}
+          handleOnSubmit={this._handlePreSubmit}
           isFormValid={isFormValid}
           isPreviewActive={isPreviewActive}
         >
@@ -406,6 +425,11 @@ class EditorScreen extends Component {
             onLoadDraftPress={onLoadDraftPress}
           />
         </PostForm>
+        {_renderCommunityModal()}
+        <ThumbSelectionModal
+          ref={(componentRef) => (this.thumbSelectionModalRef = componentRef)}
+          onThumbSelection={this._handleOnThumbSelection}
+        />
       </View>
     );
   }

@@ -566,7 +566,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _submitPost = async (fields, scheduleDate) => {
+  _submitPost = async ({fields, scheduleDate, thumbIndex}:{fields:any, scheduleDate?:string, thumbIndex?:number}) => {
     const {
       currentAccount,
       dispatch,
@@ -586,7 +586,7 @@ class EditorContainer extends Component {
         isPostSending: true,
       });
 
-      const meta = extractMetadata(fields.body);
+      const meta = extractMetadata(fields.body, thumbIndex);
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
 
       const jsonMeta = makeJsonMetadata(meta, _tags);
@@ -842,7 +842,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _handleSubmit = (form) => {
+  _handleSubmit = (form:any) => {
     const { isReply, isEdit } = this.state;
     const { intl } = this.props;
 
@@ -893,13 +893,15 @@ class EditorContainer extends Component {
             text: intl.formatMessage({
               id: 'editor.alert_btn_yes',
             }),
-            onPress: () => this._submitPost(form.fields),
+            onPress: () => this._submitPost({fields:form.fields, thumbIndex:form.thumbIndex}),
           },
         ],
         { cancelable: false },
       );
     }
   };
+
+
 
   _handleFormChanged = () => {
     const { isDraftSaved } = this.state;
@@ -937,11 +939,11 @@ class EditorContainer extends Component {
       }
 
       if (hasPostingPerm) {
-        this._submitPost(fields, datePickerValue);
+        this._submitPost({fields, scheduleDate:datePickerValue});
       } else {
         await grantPostingPermission(json, pinCode, currentAccount)
           .then(() => {
-            this._submitPost(fields, datePickerValue);
+            this._submitPost({fields, scheduleDate:datePickerValue});
           })
           .catch((error) => {
             Alert.alert(
