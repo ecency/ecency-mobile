@@ -76,20 +76,22 @@ const PostCardContainer = ({
       .catch(() => {});
   };
 
-  const _handleOnUserPress = () => {
+  const _handleOnUserPress = (username) => {
     if (_content) {
+      let params = {
+        username: username || get(_content, 'author'),
+        reputation: !username && get(_content, 'author_reputation'),
+      };
+
       if (
-        get(currentAccount, 'name') === get(_content, 'author') &&
+        get(currentAccount, 'name') === params.username &&
         (pageType === 'main' || pageType === 'ownProfile')
       ) {
         navigation.navigate(ROUTES.TABBAR.PROFILE);
       } else {
         navigation.navigate({
           routeName: ROUTES.SCREENS.PROFILE,
-          params: {
-            username: get(_content, 'author'),
-            reputation: get(_content, 'author_reputation'),
-          },
+          params,
           key: get(_content, 'author'),
         });
       }
