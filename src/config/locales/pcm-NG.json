@@ -299,6 +299,7 @@
     "setting_schedule": "D tym wey u tell am make e run",
     "setting_reward": "Ur gain",
     "setting_beneficiary": "Who go get am",
+    "setting_thumb": "Set Thumbnail",
     "reward_default": "As e be 50% / 50%",
     "reward_power_up": "Carry everything stake 100%",
     "reward_decline": "No collect ur gain",
@@ -320,7 +321,9 @@
     "alert_btn_yes": "Yes",
     "alert_btn_no": "No",
     "draft_save_success": "Draft Saved",
-    "draft_save_fail": "Failed to save draft"
+    "draft_save_fail": "Failed to save draft",
+    "select_thumb": "Select Post Thumbnail",
+    "two_thumbs_required": "Add more images in your post before setting thumbnail"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
