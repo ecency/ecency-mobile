@@ -299,6 +299,7 @@
     "setting_schedule": "預訂發布時間",
     "setting_reward": "獎勵",
     "setting_beneficiary": "受益人",
+    "setting_thumb": "Set Thumbnail",
     "reward_default": "預設 50% / 50%",
     "reward_power_up": "全額100%充電",
     "reward_decline": "謝絕奬金",
@@ -320,7 +321,9 @@
     "alert_btn_yes": "确认",
     "alert_btn_no": "取消",
     "draft_save_success": "草稿已儲存",
-    "draft_save_fail": "儲存失敗"
+    "draft_save_fail": "儲存失敗",
+    "select_thumb": "Select Post Thumbnail",
+    "two_thumbs_required": "Add more images in your post before setting thumbnail"
   },
   "snippets": {
     "label_no_snippets": "沒找到片段",
