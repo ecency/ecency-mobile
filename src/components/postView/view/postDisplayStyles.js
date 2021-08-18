@@ -1,3 +1,4 @@
+import { Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
@@ -25,6 +26,9 @@ export default EStyleSheet.create({
     height: '$deviceHeight',
     backgroundColor: '$primaryBackgroundColor',
     marginBottom: 40,
+  },
+  scrollContent: {
+    minHeight: Dimensions.get('window').height,
   },
   footer: {
     flexDirection: 'column',

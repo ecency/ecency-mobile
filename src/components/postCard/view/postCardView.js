@@ -49,9 +49,9 @@ const PostCardView = ({
   }, [activeVotes]);
 
   // Component Functions
-  const _handleOnUserPress = () => {
+  const _handleOnUserPress = (username) => {
     if (handleOnUserPress) {
-      handleOnUserPress();
+      handleOnUserPress(username);
     }
   };
 
@@ -75,6 +75,7 @@ const PostCardView = ({
   };
 
   const rebloggedBy = get(content, 'reblogged_by[0]', null);
+
   var images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
   if (content.thumbnail) {
     if (nsfw !== '0' && content.nsfw) {
@@ -96,6 +97,8 @@ const PostCardView = ({
           iconName="repeat"
           iconSize={16}
           textStyle={styles.reblogText}
+          isClickable={true}
+          onPress={() => _handleOnUserPress(rebloggedBy)}
         />
       )}
 
