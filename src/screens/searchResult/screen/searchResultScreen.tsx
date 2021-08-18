@@ -37,6 +37,10 @@ const SearchResultScreen = ({ navigation }) => {
     setSearchValue(value);
   }, 1000);
 
+  let clippedSearchValue = searchValue.startsWith('#') || searchValue.startsWith('@') 
+    ? searchValue.substring(1) 
+    : searchValue
+
   return (
     <View style={styles.container}>
       <SearchInput
@@ -57,25 +61,25 @@ const SearchResultScreen = ({ navigation }) => {
           tabLabel={intl.formatMessage({ id: 'search_result.best.title' })}
           style={styles.tabbarItem}
         >
-          <PostsResults searchValue={searchValue} />
+          <PostsResults searchValue={clippedSearchValue} />
         </View>
         <View
           tabLabel={intl.formatMessage({ id: 'search_result.people.title' })}
           style={styles.tabbarItem}
         >
-          <PeopleResults searchValue={searchValue} />
+          <PeopleResults searchValue={clippedSearchValue} />
         </View>
         <View
           tabLabel={intl.formatMessage({ id: 'search_result.topics.title' })}
           style={styles.tabbarItem}
         >
-          <TopicsResults searchValue={searchValue} />
+          <TopicsResults searchValue={clippedSearchValue} />
         </View>
         <View
           tabLabel={intl.formatMessage({ id: 'search_result.communities.title' })}
           style={styles.tabbarItem}
         >
-          <Communities searchValue={searchValue} />
+          <Communities searchValue={clippedSearchValue} />
         </View>
       </ScrollableTabView>
     </View>
