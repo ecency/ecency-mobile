@@ -299,6 +299,7 @@
     "setting_schedule": "الجدول الزمني",
     "setting_reward": "المكافأة",
     "setting_beneficiary": "المستفيدون",
+    "setting_thumb": "Set Thumbnail",
     "reward_default": "الافتراضي 50%/50%",
     "reward_power_up": "رفع الطاقة 100%",
     "reward_decline": "رفض دفع التعويضات",
@@ -320,7 +321,9 @@
     "alert_btn_yes": "نعم",
     "alert_btn_no": "لا",
     "draft_save_success": "تم حفظ المسودة",
-    "draft_save_fail": "فشل في حفظ المسودة"
+    "draft_save_fail": "فشل في حفظ المسودة",
+    "select_thumb": "Select Post Thumbnail",
+    "two_thumbs_required": "Add more images in your post before setting thumbnail"
   },
   "snippets": {
     "label_no_snippets": "لم يتم العثور على مقتطفات",
