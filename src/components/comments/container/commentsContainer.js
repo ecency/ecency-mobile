@@ -61,11 +61,6 @@ const CommentsContainer = ({
   const _shortComments = (sortOrder, _comments) => {
     const sortedComments = _comments || lcomments;
 
-    const allPayout = (c) =>
-      parseFloat(get(c, 'pending_payout_value').split(' ')[0]) +
-      parseFloat(get(c, 'total_payout_value').split(' ')[0]) +
-      parseFloat(get(c, 'curator_payout_value').split(' ')[0]);
-
     const absNegative = (a) => a.net_rshares < 0;
 
     const sortOrders = {
@@ -78,8 +73,9 @@ const CommentsContainer = ({
           return -1;
         }
 
-        const apayout = allPayout(a);
-        const bpayout = allPayout(b);
+        const apayout = a.total_payout;
+        const bpayout = b.total_payout;
+
         if (apayout !== bpayout) {
           return bpayout - apayout;
         }

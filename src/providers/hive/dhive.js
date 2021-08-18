@@ -639,11 +639,15 @@ export const deleteComment = (currentAccount, pin, permlink) => {
 
 export const getComments = async (author, permlink, currentUserName = null) => {
   try {
-    //const comments = await client.call('bridge', 'get_discussion', [author, permlink]);
-    const comments = await client.database.call('get_content_replies', [author, permlink]);
-    const groomedComments = parseComments(comments, currentUserName);
+    const commentsMap = await client.call('bridge', 'get_discussion', { author, permlink });
 
-    return comments ? groomedComments : null;
+    //it appear the get_discussion fetches the parent post as an intry in thread
+    //may be later we can make use of this to save post fetch call in post display
+    //for now, deleting to keep the change footprint small for PR
+    delete commentsMap[`${author}/${permlink}`];
+
+    const groomedComments = parseComments(commentsMap, currentUserName);
+    return groomedComments;
   } catch (error) {
     return error;
   }
