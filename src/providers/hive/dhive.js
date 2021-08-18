@@ -575,7 +575,7 @@ export const getRepliesByLastUpdate = async (query) => {
 export const getPost = async (author, permlink, currentUserName = null, isPromoted = false) => {
   try {
     console.log('Getting post: ', author, permlink);
-    const post = await client.database.call('get_content', [author, permlink]);
+    const post = await client.call('bridge', 'get_post', { author, permlink });
     return post ? parsePost(post, currentUserName, isPromoted) : null;
   } catch (error) {
     return error;
@@ -584,9 +584,8 @@ export const getPost = async (author, permlink, currentUserName = null, isPromot
 
 export const isPostAvailable = async (author, permlink) => {
   try {
-    const post = await client.database.call('get_content', [author, permlink]);
-
-    return get(post, 'id', 0) !== 0;
+    const post = await client.call('bridge', 'get_post', { author, permlink });
+    return get(post, 'post_id', 0) !== 0;
   } catch (error) {
     return false;
   }
@@ -594,7 +593,7 @@ export const isPostAvailable = async (author, permlink) => {
 
 export const getPurePost = async (author, permlink) => {
   try {
-    return await client.database.call('get_content', [author, permlink]);
+    return await client.call('bridge', 'get_post', { author, permlink });
   } catch (error) {
     return error;
   }
