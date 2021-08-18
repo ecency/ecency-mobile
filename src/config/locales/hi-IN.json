@@ -299,6 +299,7 @@
     "setting_schedule": "Scheduling Time",
     "setting_reward": "इनाम",
     "setting_beneficiary": "लाभार्थी",
+    "setting_thumb": "Set Thumbnail",
     "reward_default": "वितथ रूप से ५०%/५०%",
     "reward_power_up": "१००% शक्तिप्रापक करें",
     "reward_decline": "भुगतान अस्वीकार करें",
@@ -320,7 +321,9 @@
     "alert_btn_yes": "हाँ",
     "alert_btn_no": "नहीं",
     "draft_save_success": "ड्राफ्ट सहेजा गया",
-    "draft_save_fail": "ड्राफ्ट को सहेजने में विफल"
+    "draft_save_fail": "ड्राफ्ट को सहेजने में विफल",
+    "select_thumb": "Select Post Thumbnail",
+    "two_thumbs_required": "Add more images in your post before setting thumbnail"
   },
   "snippets": {
     "label_no_snippets": "कोई स्निपेट नहीं मिला",
