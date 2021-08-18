@@ -299,6 +299,7 @@
     "setting_schedule": "Hora do Agendamento",
     "setting_reward": "Recompensa",
     "setting_beneficiary": "Beneficiário",
+    "setting_thumb": "Set Thumbnail",
     "reward_default": "Padrão 50% / 50%",
     "reward_power_up": "Carregar Power a 100 %%",
     "reward_decline": "Declinar Pagamento",
@@ -320,7 +321,9 @@
     "alert_btn_yes": "Sim",
     "alert_btn_no": "Não",
     "draft_save_success": "Rascunho Salvo",
-    "draft_save_fail": "Falha ao salvar rascunho"
+    "draft_save_fail": "Falha ao salvar rascunho",
+    "select_thumb": "Select Post Thumbnail",
+    "two_thumbs_required": "Add more images in your post before setting thumbnail"
   },
   "snippets": {
     "label_no_snippets": "Nenhum Snippet Encontrado",
