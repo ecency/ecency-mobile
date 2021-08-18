@@ -299,6 +299,7 @@
     "setting_schedule": "Vreme zakazivanja",
     "setting_reward": "Nagrada",
     "setting_beneficiary": "Primalac (Beneficiary)",
+    "setting_thumb": "Set Thumbnail",
     "reward_default": "Standardno 50% / 50%",
     "reward_power_up": "Pojačaj 100%",
     "reward_decline": "Odbij isplatu",
@@ -320,7 +321,9 @@
     "alert_btn_yes": "Yes",
     "alert_btn_no": "No",
     "draft_save_success": "Draft Saved",
-    "draft_save_fail": "Failed to save draft"
+    "draft_save_fail": "Failed to save draft",
+    "select_thumb": "Select Post Thumbnail",
+    "two_thumbs_required": "Add more images in your post before setting thumbnail"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
