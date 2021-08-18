@@ -299,6 +299,7 @@
     "setting_schedule": "Waktu Penjadwalan",
     "setting_reward": "Hadiah",
     "setting_beneficiary": "Penerima manfaat",
+    "setting_thumb": "Set Thumbnail",
     "reward_default": "Default 50% / 50%",
     "reward_power_up": "Kekuatan 100%",
     "reward_decline": "Menolak Pembayaran",
@@ -320,7 +321,9 @@
     "alert_btn_yes": "Ya",
     "alert_btn_no": "Tidak",
     "draft_save_success": "Draf Disimpan",
-    "draft_save_fail": "Gagal menyimpan draf"
+    "draft_save_fail": "Gagal menyimpan draf",
+    "select_thumb": "Select Post Thumbnail",
+    "two_thumbs_required": "Add more images in your post before setting thumbnail"
   },
   "snippets": {
     "label_no_snippets": "Cuplikan Tidak Ditemukan",
