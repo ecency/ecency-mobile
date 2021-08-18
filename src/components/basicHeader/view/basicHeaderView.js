@@ -49,6 +49,7 @@ const BasicHeaderView = ({
   handleRewardChange,
   handleBeneficiaries,
   enableViewModeToggle,
+  showThumbSelectionModal,
 }) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [beneficiaryModal, setBeneficiaryModal] = useState(false);
@@ -93,9 +94,14 @@ const BasicHeaderView = ({
         setShowScheduleModal(true);
         break;
       case 1:
-        rewardMenuRef.current.show();
+        if (showThumbSelectionModal) {
+          showThumbSelectionModal();
+        }
         break;
       case 2:
+        rewardMenuRef.current.show();
+        break;
+      case 3:
         setBeneficiaryModal(true);
         break;
 
@@ -323,11 +329,12 @@ const BasicHeaderView = ({
         ref={settingMenuRef}
         options={[
           intl.formatMessage({ id: 'editor.setting_schedule' }),
+          intl.formatMessage({ id: 'editor.setting_thumb' }),
           intl.formatMessage({ id: 'editor.setting_reward' }),
           intl.formatMessage({ id: 'editor.setting_beneficiary' }),
           intl.formatMessage({ id: 'alert.cancel' }),
         ]}
-        cancelButtonIndex={3}
+        cancelButtonIndex={4}
         title={intl.formatMessage({ id: 'editor.options' })}
         onPress={_handleSettingMenuSelect}
       />
