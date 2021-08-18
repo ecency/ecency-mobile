@@ -163,24 +163,27 @@ class EditorScreen extends Component {
     }, 300);
   };
 
-  _handlePreSubmit = () => {
-    const { fields } = this.state;
-    if (this.thumbSelectionModalRef) {
-      this.thumbSelectionModalRef.show(fields.body);
-    }
-  };
-
-  _handleOnSubmit = (thumbIndex) => {
+  _handleOnSubmit = () => {
     const { handleOnSubmit } = this.props;
     const { fields } = this.state;
 
     if (handleOnSubmit) {
-      handleOnSubmit({ fields, thumbIndex });
+      handleOnSubmit({ fields });
     }
   };
 
   _handleOnThumbSelection = (index) => {
-    this._handleOnSubmit(index);
+    const { setThumbIndex } = this.props;
+    if (setThumbIndex) {
+      setThumbIndex(index);
+    }
+  };
+
+  _showThumbSelectionModal = () => {
+    const { fields } = this.state;
+    if (this.thumbSelectionModalRef) {
+      this.thumbSelectionModalRef.show(fields.body);
+    }
   };
 
   _handleIsFormValid = (bodyText) => {
@@ -336,6 +339,7 @@ class EditorScreen extends Component {
       autoFocusText,
       sharedSnippetText,
       onLoadDraftPress,
+      thumbIndex,
     } = this.props;
     const rightButtonText = intl.formatMessage({
       id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : 'basic_header.publish',
@@ -369,7 +373,7 @@ class EditorScreen extends Component {
           handleOnBackPress={handleOnBackPress}
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
           handleOnSaveButtonPress={this._handleOnSaveButtonPress}
-          handleOnSubmit={this._handlePreSubmit}
+          handleOnSubmit={this._handleOnSubmit}
           isDraftSaved={isDraftSaved}
           isDraftSaving={isDraftSaving}
           isDraft={isDraft}
@@ -382,10 +386,11 @@ class EditorScreen extends Component {
           isReply={isReply}
           quickTitle={wordsCount > 0 && `${wordsCount} words`}
           rightButtonText={rightButtonText}
+          showThumbSelectionModal={this._showThumbSelectionModal}
         />
         <PostForm
           handleFormUpdate={this._handleFormUpdate}
-          handleOnSubmit={this._handlePreSubmit}
+          handleOnSubmit={this._handleOnSubmit}
           isFormValid={isFormValid}
           isPreviewActive={isPreviewActive}
         >
@@ -428,6 +433,7 @@ class EditorScreen extends Component {
         {_renderCommunityModal()}
         <ThumbSelectionModal
           ref={(componentRef) => (this.thumbSelectionModalRef = componentRef)}
+          thumbIndex={thumbIndex}
           onThumbSelection={this._handleOnThumbSelection}
         />
       </View>

@@ -71,6 +71,7 @@ class EditorContainer extends Component {
       beneficiaries: [],
       sharedSnippetText: null,
       onLoadDraftPress: false,
+      thumbIndex:0,
     };
   }
 
@@ -566,7 +567,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _submitPost = async ({fields, scheduleDate, thumbIndex}:{fields:any, scheduleDate?:string, thumbIndex?:number}) => {
+  _submitPost = async ({fields, scheduleDate}:{fields:any, scheduleDate?:string}) => {
     const {
       currentAccount,
       dispatch,
@@ -575,7 +576,7 @@ class EditorContainer extends Component {
       pinCode,
       // isDefaultFooter,
     } = this.props;
-    const { rewardType, beneficiaries, isPostSending } = this.state;
+    const { rewardType, beneficiaries, isPostSending, thumbIndex } = this.state;
 
     if (isPostSending) {
       return;
@@ -893,7 +894,7 @@ class EditorContainer extends Component {
             text: intl.formatMessage({
               id: 'editor.alert_btn_yes',
             }),
-            onPress: () => this._submitPost({fields:form.fields, thumbIndex:form.thumbIndex}),
+            onPress: () => this._submitPost({fields:form.fields}),
           },
         ],
         { cancelable: false },
@@ -1041,6 +1042,12 @@ class EditorContainer extends Component {
     await AsyncStorage.setItem('temp-beneficiaries', JSON.stringify(value));
   };
 
+  _handleSetThumbIndex = (index:number) => {
+    this.setState({
+      thumbIndex:index
+    })
+  }
+
   render() {
     const { isLoggedIn, isDarkTheme, navigation, currentAccount } = this.props;
     const {
@@ -1059,6 +1066,7 @@ class EditorContainer extends Component {
       isDraft,
       sharedSnippetText,
       onLoadDraftPress,
+      thumbIndex
     } = this.state;
 
     const tags = navigation.state.params && navigation.state.params.tags;
@@ -1094,6 +1102,8 @@ class EditorContainer extends Component {
         isDraft={isDraft}
         sharedSnippetText={sharedSnippetText}
         onLoadDraftPress={onLoadDraftPress}
+        thumbIndex={thumbIndex}
+        setThumbIndex={this._handleSetThumbIndex}
       />
     );
   }

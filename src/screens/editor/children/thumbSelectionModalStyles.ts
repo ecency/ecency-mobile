@@ -18,6 +18,10 @@ export default EStyleSheet.create({
       borderRadius:12,
       backgroundColor:'$primaryLightGray'
     },
+    selectedStyle:{
+      borderWidth:4,
+      borderColor:'$primaryBlack'
+    },
     title:{
       color: '$primaryBlack',
       fontWeight: 'bold',

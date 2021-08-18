@@ -6,15 +6,16 @@ import styles from './thumbSelectionModalStyles';
 import { extractImageUrls } from '../../../utils/editor';
 import FastImage from 'react-native-fast-image';
 import { forwardRef } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 import { useIntl } from 'react-intl';
 
 export interface ThumbSelectionModalProps {
-  onThumbSelection:(index:number)=>void,
+  thumbIndex:number;
+  onThumbSelection:(index:number)=>void;
 }
 
 
-const ThumbSelectionModal = ({ onThumbSelection }:ThumbSelectionModalProps, ref) => {
+const ThumbSelectionModal = ({ onThumbSelection, thumbIndex }:ThumbSelectionModalProps, ref) => {
   const intl = useIntl();
 
   const [imageUrls, setImageUrls] = useState<string[]>([]);
@@ -29,6 +30,9 @@ const ThumbSelectionModal = ({ onThumbSelection }:ThumbSelectionModalProps, ref)
 
           if(urls.length < 2){
               console.log("Skipping modal show as post images are less than 2");
+              Alert.alert(
+                intl.formatMessage({id:'editor.two_thumbs_required'})
+              )
               onThumbSelection(0);
               return;
           }
@@ -52,11 +56,14 @@ const ThumbSelectionModal = ({ onThumbSelection }:ThumbSelectionModalProps, ref)
           _onSelection(index);
       }
 
+      const selectedStyle = index === thumbIndex ? styles.selectedStyle : null
+    
+
     return (
         <TouchableOpacity onPress={_onPress} >
             <FastImage 
                 source={{uri:item}}
-                style={styles.thumbStyle}
+                style={{...styles.thumbStyle, ...selectedStyle}}
                 resizeMode='cover'
             />
         </TouchableOpacity>
