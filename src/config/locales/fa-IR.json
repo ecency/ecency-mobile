@@ -299,6 +299,7 @@
     "setting_schedule": "زمان برنامه‌ریزی",
     "setting_reward": "پاداش",
     "setting_beneficiary": "ذینفعان",
+    "setting_thumb": "Set Thumbnail",
     "reward_default": "پیش‌فرض ۵۰٪ / ۵۰٪",
     "reward_power_up": "۱۰۰٪ بالا بردن قدرت",
     "reward_decline": "امتناع از پرداخت",
@@ -320,7 +321,9 @@
     "alert_btn_yes": "Yes",
     "alert_btn_no": "No",
     "draft_save_success": "Draft Saved",
-    "draft_save_fail": "Failed to save draft"
+    "draft_save_fail": "Failed to save draft",
+    "select_thumb": "Select Post Thumbnail",
+    "two_thumbs_required": "Add more images in your post before setting thumbnail"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
