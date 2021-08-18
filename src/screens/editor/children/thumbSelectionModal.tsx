@@ -78,7 +78,7 @@ const ThumbSelectionModal = ({ onThumbSelection, thumbIndex }:ThumbSelectionModa
             <FlatList
               data={imageUrls}
               renderItem={_renderImageItem}
-              keyExtractor={(item, index)=>item.url + index}
+              keyExtractor={(item, index)=>`${item}-${index}`}
               horizontal={true}
               contentContainerStyle={styles.listContainer}
               showsHorizontalScrollIndicator={false}
