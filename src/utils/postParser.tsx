@@ -74,46 +74,64 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false, isC
   return post;
 };
 
-export const parseComments = async (commentsMap) => {
+
+export const parseCommentThreads = async (commentsMap:any, author:string, permlink:string) => {
   if(!commentsMap){
     return null;
   }
   
   const comments = [];
+
   for(const key in commentsMap){
     if(commentsMap.hasOwnProperty(key)){
+
       const comment = commentsMap[key];
-      comment.pending_payout_value = parseFloat(get(comment, 'pending_payout_value', 0)).toFixed(3);
-      comment.author_reputation = getReputation(get(comment, 'author_reputation'));
-      comment.avatar = getResizedAvatar(get(comment, 'author'));
-      comment.markdownBody = get(comment, 'body');
-      comment.body = renderPostBody(comment, true, webp);
 
-      //parse json meta;
-      if (typeof comment.json_metadata === 'string' || comment.json_metadata instanceof String) {
-        try {
-          comment.json_metadata = JSON.parse(comment.json_metadata);
-        } catch (error) {
-          comment.json_metadata = {};
-        }
+      if(comment.parent_author === author && comment.parent_permlink === permlink){
+        comments.push(comment);
       }
-      //calculate and set total_payout to show to user.
-      const totalPayout =
-        parseAsset(comment.pending_payout_value).amount +
-        parseAsset(comment.author_payout_value).amount +
-        parseAsset(comment.curator_payout_value).amount;
-
-      comment.total_payout = totalPayout;
-
-      //stamp comments with fetched time;
-      comment.post_fetched_at = new Date().getTime();
-      comments.push(comment);
-
+      
     }
   }
 
   return comments;
+};
 
+export const parseComments = async (comments:any[]) => {
+  if(!comments){
+    return null;
+  }
+
+  return comments.map((comment)=>parseComment(comment));
+};
+
+export const parseComment = async (comment:any) => {
+  comment.pending_payout_value = parseFloat(get(comment, 'pending_payout_value', 0)).toFixed(3);
+  comment.author_reputation = getReputation(get(comment, 'author_reputation'));
+  comment.avatar = getResizedAvatar(get(comment, 'author'));
+  comment.markdownBody = get(comment, 'body');
+  comment.body = renderPostBody(comment, true, webp);
+
+  //parse json meta;
+  if (typeof comment.json_metadata === 'string' || comment.json_metadata instanceof String) {
+    try {
+      comment.json_metadata = JSON.parse(comment.json_metadata);
+    } catch (error) {
+      comment.json_metadata = {};
+    }
+  }
+  //calculate and set total_payout to show to user.
+  const totalPayout =
+    parseAsset(comment.pending_payout_value).amount +
+    parseAsset(comment.author_payout_value).amount +
+    parseAsset(comment.curator_payout_value).amount;
+
+  comment.total_payout = totalPayout;
+
+  //stamp comments with fetched time;
+  comment.post_fetched_at = new Date().getTime();
+
+  return comment;
 };
 
 export const isVoted = async (activeVotes, currentUserName) => {

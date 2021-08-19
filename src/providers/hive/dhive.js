@@ -23,7 +23,7 @@ import { userActivity } from '../ecency/ePoint';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';
-import { parsePosts, parsePost, parseComments } from '../../utils/postParser';
+import { parsePosts, parsePost, parseComments, parseCommentThreads } from '../../utils/postParser';
 import { getName, getAvatar } from '../../utils/user';
 import { getReputation } from '../../utils/reputation';
 import parseToken from '../../utils/parseToken';
@@ -646,7 +646,7 @@ export const getComments = async (author, permlink, currentUserName = null) => {
     //for now, deleting to keep the change footprint small for PR
     delete commentsMap[`${author}/${permlink}`];
 
-    const groomedComments = parseComments(commentsMap, currentUserName);
+    const groomedComments = parseCommentThreads(commentsMap, author, permlink);
     return groomedComments;
   } catch (error) {
     return error;
