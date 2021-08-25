@@ -24,8 +24,7 @@ import { userActivity } from '../ecency/ePoint';
 // Utils
 import { decryptKey } from '../../utils/crypto';
 import { parsePosts, parsePost, parseComments, parseCommentThreads } from '../../utils/postParser';
-import { getName, getAvatar } from '../../utils/user';
-import { getReputation } from '../../utils/reputation';
+import { getName, getAvatar, parseReputation } from '../../utils/user';
 import parseToken from '../../utils/parseToken';
 import parseAsset from '../../utils/parseAsset';
 import filterNsfwPost from '../../utils/filterNsfwPost';
@@ -266,7 +265,7 @@ export const getUser = async (user, loggedIn = true) => {
       getCache('rcPower');
     await setCache('rcPower', rcPower);
 
-    _account.reputation = getReputation(_account.reputation);
+    _account.reputation = parseReputation(_account.reputation);
     _account.username = _account.name;
     _account.unread_activity_count = unreadActivityCount;
     _account.vp_manabar = client.rc.calculateVPMana(_account);

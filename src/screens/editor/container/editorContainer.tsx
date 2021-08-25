@@ -71,6 +71,7 @@ class EditorContainer extends Component {
       beneficiaries: [],
       sharedSnippetText: null,
       onLoadDraftPress: false,
+      thumbIndex:0,
     };
   }
 
@@ -566,7 +567,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _submitPost = async (fields, scheduleDate) => {
+  _submitPost = async ({fields, scheduleDate}:{fields:any, scheduleDate?:string}) => {
     const {
       currentAccount,
       dispatch,
@@ -575,7 +576,7 @@ class EditorContainer extends Component {
       pinCode,
       // isDefaultFooter,
     } = this.props;
-    const { rewardType, beneficiaries, isPostSending } = this.state;
+    const { rewardType, beneficiaries, isPostSending, thumbIndex } = this.state;
 
     if (isPostSending) {
       return;
@@ -586,7 +587,7 @@ class EditorContainer extends Component {
         isPostSending: true,
       });
 
-      const meta = extractMetadata(fields.body);
+      const meta = extractMetadata(fields.body, thumbIndex);
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
 
       const jsonMeta = makeJsonMetadata(meta, _tags);
@@ -842,7 +843,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _handleSubmit = (form) => {
+  _handleSubmit = (form:any) => {
     const { isReply, isEdit } = this.state;
     const { intl } = this.props;
 
@@ -893,13 +894,15 @@ class EditorContainer extends Component {
             text: intl.formatMessage({
               id: 'editor.alert_btn_yes',
             }),
-            onPress: () => this._submitPost(form.fields),
+            onPress: () => this._submitPost({fields:form.fields}),
           },
         ],
         { cancelable: false },
       );
     }
   };
+
+
 
   _handleFormChanged = () => {
     const { isDraftSaved } = this.state;
@@ -937,11 +940,11 @@ class EditorContainer extends Component {
       }
 
       if (hasPostingPerm) {
-        this._submitPost(fields, datePickerValue);
+        this._submitPost({fields, scheduleDate:datePickerValue});
       } else {
         await grantPostingPermission(json, pinCode, currentAccount)
           .then(() => {
-            this._submitPost(fields, datePickerValue);
+            this._submitPost({fields, scheduleDate:datePickerValue});
           })
           .catch((error) => {
             Alert.alert(
@@ -1039,6 +1042,12 @@ class EditorContainer extends Component {
     await AsyncStorage.setItem('temp-beneficiaries', JSON.stringify(value));
   };
 
+  _handleSetThumbIndex = (index:number) => {
+    this.setState({
+      thumbIndex:index
+    })
+  }
+
   render() {
     const { isLoggedIn, isDarkTheme, navigation, currentAccount } = this.props;
     const {
@@ -1057,6 +1066,7 @@ class EditorContainer extends Component {
       isDraft,
       sharedSnippetText,
       onLoadDraftPress,
+      thumbIndex
     } = this.state;
 
     const tags = navigation.state.params && navigation.state.params.tags;
@@ -1092,6 +1102,8 @@ class EditorContainer extends Component {
         isDraft={isDraft}
         sharedSnippetText={sharedSnippetText}
         onLoadDraftPress={onLoadDraftPress}
+        thumbIndex={thumbIndex}
+        setThumbIndex={this._handleSetThumbIndex}
       />
     );
   }

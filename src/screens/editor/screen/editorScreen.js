@@ -31,12 +31,14 @@ import globalStyles from '../../../globalStyles';
 import { isCommunity } from '../../../utils/communityValidation';
 
 import styles from './editorScreenStyles';
+import ThumbSelectionModal from '../children/thumbSelectionModal';
 
 class EditorScreen extends Component {
   /* Props
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
    */
+  thumbSelectionModalRef = null;
 
   constructor(props) {
     super(props);
@@ -167,6 +169,20 @@ class EditorScreen extends Component {
 
     if (handleOnSubmit) {
       handleOnSubmit({ fields });
+    }
+  };
+
+  _handleOnThumbSelection = (index) => {
+    const { setThumbIndex } = this.props;
+    if (setThumbIndex) {
+      setThumbIndex(index);
+    }
+  };
+
+  _showThumbSelectionModal = () => {
+    const { fields } = this.state;
+    if (this.thumbSelectionModalRef) {
+      this.thumbSelectionModalRef.show(fields.body);
     }
   };
 
@@ -323,12 +339,14 @@ class EditorScreen extends Component {
       autoFocusText,
       sharedSnippetText,
       onLoadDraftPress,
+      thumbIndex,
     } = this.props;
     const rightButtonText = intl.formatMessage({
       id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : 'basic_header.publish',
     });
-    return (
-      <View style={globalStyles.defaultContainer}>
+
+    const _renderCommunityModal = () => {
+      return (
         <Modal
           isOpen={isCommunitiesListModalOpen}
           animationType="animationType"
@@ -343,6 +361,11 @@ class EditorScreen extends Component {
             }}
           />
         </Modal>
+      );
+    };
+
+    return (
+      <View style={globalStyles.defaultContainer}>
         <BasicHeader
           handleDatePickerChange={(date) => handleDatePickerChange(date, fields)}
           handleRewardChange={handleRewardChange}
@@ -363,6 +386,7 @@ class EditorScreen extends Component {
           isReply={isReply}
           quickTitle={wordsCount > 0 && `${wordsCount} words`}
           rightButtonText={rightButtonText}
+          showThumbSelectionModal={this._showThumbSelectionModal}
         />
         <PostForm
           handleFormUpdate={this._handleFormUpdate}
@@ -406,6 +430,12 @@ class EditorScreen extends Component {
             onLoadDraftPress={onLoadDraftPress}
           />
         </PostForm>
+        {_renderCommunityModal()}
+        <ThumbSelectionModal
+          ref={(componentRef) => (this.thumbSelectionModalRef = componentRef)}
+          thumbIndex={thumbIndex}
+          onThumbSelection={this._handleOnThumbSelection}
+        />
       </View>
     );
   }

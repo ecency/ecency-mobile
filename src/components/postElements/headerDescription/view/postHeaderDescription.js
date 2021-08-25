@@ -20,7 +20,7 @@ class PostHeaderDescription extends PureComponent {
 
   // Component Functions
   _handleOnUserPress = (username) => {
-    const { navigation, profileOnPress, reputation, currentAccountUsername } = this.props;
+    const { navigation, profileOnPress, reputation } = this.props;
 
     if (profileOnPress) {
       profileOnPress(username);
@@ -78,7 +78,6 @@ class PostHeaderDescription extends PureComponent {
       date,
       isHideImage,
       name,
-      reputation,
       size,
       tag,
       content,
@@ -98,18 +97,13 @@ class PostHeaderDescription extends PureComponent {
             onPress={() => this._handleOnUserPress(name)}
           >
             {!isHideImage && (
-              <>
-                <UserAvatar
-                  style={[styles.avatar, { width: size, height: size, borderRadius: size / 2 }]}
-                  disableSize
-                  username={name}
-                  defaultSource={DEFAULT_IMAGE}
-                  noAction
-                />
-                <View style={styles.reputationWrapper}>
-                  <Text style={styles.reputation}>{reputation}</Text>
-                </View>
-              </>
+              <UserAvatar
+                style={[styles.avatar, { width: size, height: size, borderRadius: size / 2 }]}
+                disableSize
+                username={name}
+                defaultSource={DEFAULT_IMAGE}
+                noAction
+              />
             )}
           </TouchableOpacity>
           <View style={styles.leftContainer}>

@@ -129,35 +129,59 @@ export const makeJsonMetadataForUpdate = (oldJson, meta, tags) => {
   return Object.assign({}, oldJson, mergedMeta, { tags });
 };
 
-export const extractMetadata = (body) => {
+
+const extractUrls = (body:string) => {
   const urlReg = /(\b(https?|ftp):\/\/[A-Z0-9+&@#/%?=~_|!:,.;-]*[-A-Z0-9+&@#/%=~_|])/gim;
-  const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
+  const mUrls = body && body.match(urlReg);
+  return mUrls || [];
+}
+
+
+export const extractImageUrls = ({body, urls}:{body?:string, urls?:string[]}) => {
   const imgReg = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|heic|webp))/gim;
+
+  let imgUrls = [];
+  const mUrls = urls || extractUrls(body);
+
+  mUrls.forEach((url)=>{
+    const isImage = url.match(imgReg);
+    if (isImage) {
+      imgUrls.push(url);
+    }
+  })
+
+  return imgUrls;
+}
+
+export const extractMetadata = (body:string, thumbIndex?:number) => {
+  const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
 
   const out = {};
 
-  const mUrls = body && body.match(urlReg);
+  const mUrls = extractUrls(body);
   const mUsers = body && body.match(userReg);
 
-  const matchedImages = [];
+  const matchedImages = extractImageUrls({urls:mUrls});
   const matchedLinks = [];
   const matchedUsers = [];
 
   if (mUrls) {
-    for (let i = 0; i < mUrls.length; i++) {
-      const ind = mUrls[i].match(imgReg);
-      if (ind) {
-        matchedImages.push(mUrls[i]);
-      } else {
-        matchedLinks.push(mUrls[i]);
+    mUrls.forEach((url)=>{
+      if(matchedImages.indexOf(url) < 0){
+        matchedLinks.push(url);
       }
-    }
+    })
   }
 
   if (matchedLinks.length) {
     out.links = matchedLinks;
   }
+
   if (matchedImages.length) {
+    if(thumbIndex){
+      matchedImages.splice(0, 0, matchedImages.splice(thumbIndex, 1)[0]);
+    }
+    
     out.image = matchedImages;
   }
 
