@@ -19,6 +19,11 @@ export default EStyleSheet.create({
     borderRadius: 20,
     minWidth: 40,
   },
+  moreButton: {
+    backgroundColor: '$iconColor',
+    height: 18,
+    borderRadius: 20,
+  },
   moreText: {
     color: '$white',
     fontSize: 10,

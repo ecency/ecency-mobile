@@ -636,7 +636,7 @@ export const deleteComment = (currentAccount, pin, permlink) => {
   }
 };
 
-export const getComments = async (author, permlink, currentUserName = null) => {
+export const getComments = async (author, permlink) => {
   try {
     const commentsMap = await client.call('bridge', 'get_discussion', { author, permlink });
 

@@ -36,12 +36,12 @@ const CommentView = ({
   isLoggedIn,
   isShowComments,
   isShowMoreButton,
-  marginLeft,
   mainAuthor = { mainAuthor },
   isHideImage,
   showAllComments,
   isShowSubComments,
   hideManyCommentsButton,
+  openReplyThread,
 }) => {
   const [_isShowSubComments, setIsShowSubComments] = useState(isShowSubComments || false);
   const [isPressedShowButton, setIsPressedShowButton] = useState(false);
@@ -60,6 +60,46 @@ const CommentView = ({
     setIsShowSubComments(!_isShowSubComments);
     setIsPressedShowButton(true);
   };
+
+
+  const _renderReadMoreButton = () => (
+    <TextWithIcon
+      wrapperStyle={styles.rightButton}
+      textStyle={!isPressedShowButton && styles.moreText}
+      iconType="MaterialIcons"
+      isClickable
+      iconStyle={styles.iconStyle}
+      iconSize={16}
+      onPress={() => openReplyThread && openReplyThread()}
+      text={
+        !isPressedShowButton
+          ? intl.formatMessage({ id: 'comments.read_more' })
+          : ''
+      }
+    />
+
+ )
+
+  const _renderReplies = () => {
+    return (
+      <Comments
+        isShowComments={isShowComments}
+        commentNumber={commentNumber + 1}
+        marginLeft={20}
+        isShowSubComments={true}
+        avatarSize={avatarSize || 24}
+        author={comment.author}
+        permlink={comment.permlink}
+        commentCount={comment.children}
+        comments={comment.replies}
+        isShowMoreButton={false}
+        hasManyComments={commentNumber === 5 && get(comment, 'children') > 0}
+        fetchPost={fetchPost}
+        hideManyCommentsButton={hideManyCommentsButton}
+        mainAuthor={mainAuthor}
+      />
+    )
+  }
 
   return (
     <Fragment>
@@ -159,7 +199,8 @@ const CommentView = ({
                 )}
               </Fragment>
             )}
-            {!showAllComments && isShowMoreButton && (
+            
+            {isShowMoreButton && (
               <View style={styles.rightButtonWrapper}>
                 <TextWithIcon
                   wrapperStyle={styles.rightButton}
@@ -178,24 +219,30 @@ const CommentView = ({
                 />
               </View>
             )}
+
+            {/* { comment.children > 0 && !comment.replies?.length && (
+              <View style={styles.rightButtonWrapper}>
+                <TextWithIcon
+                  wrapperStyle={styles.rightButton}
+                  textStyle={!isPressedShowButton && styles.moreText}
+                  iconType="MaterialIcons"
+                  isClickable
+                  iconStyle={styles.iconStyle}
+                  iconSize={16}
+                  onPress={() => openReplyThread && openReplyThread()}
+                  text={
+                    !isPressedShowButton
+                      ? intl.formatMessage({ id: 'post.open_thread' })
+                      : ''
+                  }
+                />
+             </View>
+             )
+            } */}
           </View>
-          {_isShowSubComments && commentNumber > 0 && (
-            <Comments
-              isShowComments={isShowComments}
-              commentNumber={commentNumber + 1}
-              marginLeft={20}
-              isShowSubComments={true}
-              avatarSize={avatarSize || 24}
-              author={comment.author}
-              permlink={comment.permlink}
-              commentCount={comment.children}
-              isShowMoreButton={false}
-              hasManyComments={commentNumber === 5 && get(comment, 'children') > 0}
-              fetchPost={fetchPost}
-              hideManyCommentsButton={hideManyCommentsButton}
-              mainAuthor={mainAuthor}
-            />
-          )}
+            { comment.children > 0 && !comment.replies?.length && _renderReadMoreButton() }
+
+          {_isShowSubComments && commentNumber > 0 && _renderReplies()}
         </View>
       </View>
     </Fragment>

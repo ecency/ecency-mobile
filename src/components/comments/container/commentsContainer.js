@@ -139,7 +139,7 @@ const CommentsContainer = ({
   const _getComments = async () => {
     if (isOwnProfile) {
       fetchPost();
-    } else if (author && permlink) {
+    } else if (author && permlink && !comments) {
       await getComments(author, permlink, name)
         .then((__comments) => {
           if (selectedFilter) {
@@ -200,6 +200,17 @@ const CommentsContainer = ({
     });
   };
 
+  const _openReplyThread = (comment) => {
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.POST,
+      key: comment.permlink,
+      params: {
+        author: comment.author,
+        permlink: comment.permlink,
+      },
+    });
+  };
+
   const _handleOnPressCommentMenu = (index, selectedComment) => {
     if (index === 0) {
       writeToClipboard(`https://ecency.com${get(selectedComment, 'url')}`).then(() => {
@@ -212,14 +223,7 @@ const CommentsContainer = ({
         );
       });
     } else if (index === 1) {
-      navigation.navigate({
-        routeName: ROUTES.SCREENS.POST,
-        key: get(selectedComment, 'permlink'),
-        params: {
-          author: get(selectedComment, 'author'),
-          permlink: get(selectedComment, 'permlink'),
-        },
-      });
+      _openReplyThread(selectedComment);
     }
   };
 
@@ -249,6 +253,7 @@ const CommentsContainer = ({
       isShowSubComments={isShowSubComments}
       showAllComments={showAllComments}
       flatListProps={flatListProps}
+      openReplyThread={_openReplyThread}
     />
   );
 };
