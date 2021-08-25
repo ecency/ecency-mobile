@@ -506,7 +506,9 @@ const PostBody = ({
       <AutoHeightWebView
         source={{ html }}
         allowsFullscreenVideo={true}
-        style={{ width: isComment ? WIDTH - (32 + 34 * (commentDepth % 6)) : WIDTH - 32 }}
+        style={{
+          width: isComment ? WIDTH - (32 + 34 * (commentDepth % 6)) : WIDTH - 32,
+        }}
         customStyle={customStyle}
         onMessage={_handleOnLinkPress}
         customScript={customBodyScript}

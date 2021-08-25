@@ -41,6 +41,7 @@ const CommentsView = ({
   onScroll,
   onEndReached,
   flatListProps,
+  openReplyThread,
 }) => {
   const [selectedComment, setSelectedComment] = useState(null);
   const intl = useIntl();
@@ -56,15 +57,17 @@ const CommentsView = ({
     setSelectedComment(item);
   };
 
+  const _openReplyThread = (item) => {
+    if(item && openReplyThread){
+      openReplyThread(item)
+    }
+    
+  }
+
   const _readMoreComments = () => {
-    navigate({
-      routeName: ROUTES.SCREENS.POST,
-      key: comments[0].permlink,
-      params: {
-        author: comments[0].author,
-        permlink: comments[0].permlink,
-      },
-    });
+    if(comments[0] && openReplyThread){
+      openReplyThread(comments[0])
+    }
   };
 
   const _onMenuItemPress = (index) => {
@@ -78,6 +81,7 @@ const CommentsView = ({
     intl.formatMessage({ id: 'alert.cancel' }),
   ];
 
+
   if (!hideManyCommentsButton && hasManyComments) {
     return (
       <TextButton
@@ -90,31 +94,34 @@ const CommentsView = ({
   }
 
 
-  const _renderItem = ({ item }) => (
-    <Comment
-      mainAuthor={mainAuthor}
-      avatarSize={avatarSize}
-      hideManyCommentsButton={hideManyCommentsButton}
-      comment={item}
-      commentCount={commentCount || get(item, 'children')}
-      commentNumber={commentNumber}
-      handleDeleteComment={handleDeleteComment}
-      currentAccountUsername={currentAccountUsername}
-      fetchPost={fetchPost}
-      handleOnEditPress={handleOnEditPress}
-      handleOnReplyPress={handleOnReplyPress}
-      handleOnUserPress={handleOnUserPress}
-      handleOnVotersPress={handleOnVotersPress}
-      isHideImage={isHideImage}
-      isLoggedIn={isLoggedIn}
-      isShowMoreButton={commentNumber === 1 && get(item, 'children') > 0}
-      showAllComments={showAllComments}
-      isShowSubComments={isShowSubComments}
-      key={get(item, 'permlink')}
-      marginLeft={marginLeft}
-      handleOnLongPress={() => _openCommentMenu(item)}
-    />
-  );
+  const _renderItem = ({ item }) => {
+    return (
+      <Comment
+        mainAuthor={mainAuthor}
+        avatarSize={avatarSize}
+        hideManyCommentsButton={hideManyCommentsButton}
+        comment={item}
+        commentCount={commentCount || get(item, 'children')}
+        commentNumber={commentNumber}
+        handleDeleteComment={handleDeleteComment}
+        currentAccountUsername={currentAccountUsername}
+        fetchPost={fetchPost}
+        handleOnEditPress={handleOnEditPress}
+        handleOnReplyPress={handleOnReplyPress}
+        handleOnUserPress={handleOnUserPress}
+        handleOnVotersPress={handleOnVotersPress}
+        isHideImage={isHideImage}
+        isLoggedIn={isLoggedIn}
+        isShowMoreButton={isShowMoreButton || (commentNumber === 1 && get(item, 'children') > 0)}
+        showAllComments={showAllComments}
+        isShowSubComments={isShowSubComments}
+        key={get(item, 'permlink')}
+        marginLeft={marginLeft}
+        handleOnLongPress={() => _openCommentMenu(item)}
+        openReplyThread={()=> _openReplyThread(item)}
+      />
+    )
+  };
 
 
 

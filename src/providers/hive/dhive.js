@@ -23,7 +23,7 @@ import { userActivity } from '../ecency/ePoint';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';
-import { parsePosts, parsePost, parseComments } from '../../utils/postParser';
+import { parsePosts, parsePost, parseComments, parseCommentThreads } from '../../utils/postParser';
 import { getName, getAvatar, parseReputation } from '../../utils/user';
 import parseToken from '../../utils/parseToken';
 import parseAsset from '../../utils/parseAsset';
@@ -574,7 +574,7 @@ export const getRepliesByLastUpdate = async (query) => {
 export const getPost = async (author, permlink, currentUserName = null, isPromoted = false) => {
   try {
     console.log('Getting post: ', author, permlink);
-    const post = await client.database.call('get_content', [author, permlink]);
+    const post = await client.call('bridge', 'get_post', { author, permlink });
     return post ? parsePost(post, currentUserName, isPromoted) : null;
   } catch (error) {
     return error;
@@ -583,9 +583,8 @@ export const getPost = async (author, permlink, currentUserName = null, isPromot
 
 export const isPostAvailable = async (author, permlink) => {
   try {
-    const post = await client.database.call('get_content', [author, permlink]);
-
-    return get(post, 'id', 0) !== 0;
+    const post = await client.call('bridge', 'get_post', { author, permlink });
+    return get(post, 'post_id', 0) !== 0;
   } catch (error) {
     return false;
   }
@@ -593,7 +592,7 @@ export const isPostAvailable = async (author, permlink) => {
 
 export const getPurePost = async (author, permlink) => {
   try {
-    return await client.database.call('get_content', [author, permlink]);
+    return await client.call('bridge', 'get_post', { author, permlink });
   } catch (error) {
     return error;
   }
@@ -637,13 +636,17 @@ export const deleteComment = (currentAccount, pin, permlink) => {
   }
 };
 
-export const getComments = async (author, permlink, currentUserName = null) => {
+export const getComments = async (author, permlink) => {
   try {
-    //const comments = await client.call('bridge', 'get_discussion', [author, permlink]);
-    const comments = await client.database.call('get_content_replies', [author, permlink]);
-    const groomedComments = parseComments(comments, currentUserName);
+    const commentsMap = await client.call('bridge', 'get_discussion', { author, permlink });
 
-    return comments ? groomedComments : null;
+    //it appear the get_discussion fetches the parent post as an intry in thread
+    //may be later we can make use of this to save post fetch call in post display
+    //for now, deleting to keep the change footprint small for PR
+    delete commentsMap[`${author}/${permlink}`];
+
+    const groomedComments = parseCommentThreads(commentsMap, author, permlink);
+    return groomedComments;
   } catch (error) {
     return error;
   }

@@ -61,11 +61,6 @@ const CommentsContainer = ({
   const _shortComments = (sortOrder, _comments) => {
     const sortedComments = _comments || lcomments;
 
-    const allPayout = (c) =>
-      parseFloat(get(c, 'pending_payout_value').split(' ')[0]) +
-      parseFloat(get(c, 'total_payout_value').split(' ')[0]) +
-      parseFloat(get(c, 'curator_payout_value').split(' ')[0]);
-
     const absNegative = (a) => a.net_rshares < 0;
 
     const sortOrders = {
@@ -78,8 +73,9 @@ const CommentsContainer = ({
           return -1;
         }
 
-        const apayout = allPayout(a);
-        const bpayout = allPayout(b);
+        const apayout = a.total_payout;
+        const bpayout = b.total_payout;
+
         if (apayout !== bpayout) {
           return bpayout - apayout;
         }
@@ -143,7 +139,7 @@ const CommentsContainer = ({
   const _getComments = async () => {
     if (isOwnProfile) {
       fetchPost();
-    } else if (author && permlink) {
+    } else if (author && permlink && !comments) {
       await getComments(author, permlink, name)
         .then((__comments) => {
           if (selectedFilter) {
@@ -204,6 +200,17 @@ const CommentsContainer = ({
     });
   };
 
+  const _openReplyThread = (comment) => {
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.POST,
+      key: comment.permlink,
+      params: {
+        author: comment.author,
+        permlink: comment.permlink,
+      },
+    });
+  };
+
   const _handleOnPressCommentMenu = (index, selectedComment) => {
     if (index === 0) {
       writeToClipboard(`https://ecency.com${get(selectedComment, 'url')}`).then(() => {
@@ -216,14 +223,7 @@ const CommentsContainer = ({
         );
       });
     } else if (index === 1) {
-      navigation.navigate({
-        routeName: ROUTES.SCREENS.POST,
-        key: get(selectedComment, 'permlink'),
-        params: {
-          author: get(selectedComment, 'author'),
-          permlink: get(selectedComment, 'permlink'),
-        },
-      });
+      _openReplyThread(selectedComment);
     }
   };
 
@@ -253,6 +253,7 @@ const CommentsContainer = ({
       isShowSubComments={isShowSubComments}
       showAllComments={showAllComments}
       flatListProps={flatListProps}
+      openReplyThread={_openReplyThread}
     />
   );
 };

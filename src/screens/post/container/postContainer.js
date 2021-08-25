@@ -67,7 +67,7 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
 
     await getPost(_author, _permlink, isLoggedIn && get(currentAccount, 'username'))
       .then((result) => {
-        if (get(result, 'id', 0) > 0) {
+        if (get(result, 'post_id', 0) > 0) {
           if (isParentPost) {
             setParentPost(result);
           } else {
