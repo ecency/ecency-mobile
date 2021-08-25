@@ -9,6 +9,7 @@ import HeaderView from '../view/headerView';
 
 import { AccountContainer, ThemeContainer } from '../../../containers';
 import { hidePostsThumbnails } from '../../../redux/actions/uiAction';
+import { parseReputation } from '../../../utils/user';
 
 const HeaderContainer = ({
   selectedUser,
@@ -48,6 +49,7 @@ const HeaderContainer = ({
           {({ currentAccount, isLoggedIn, isLoginDone }) => {
             const _user = isReverse && selectedUser ? selectedUser : currentAccount;
 
+            const reputation = parseReputation(get(_user, 'reputation'));
             return (
               <HeaderView
                 displayName={get(_user, 'display_name')}
@@ -58,7 +60,7 @@ const HeaderContainer = ({
                 isLoggedIn={isLoggedIn}
                 isLoginDone={isLoginDone}
                 isReverse={isReverse}
-                reputation={get(_user, 'reputation')}
+                reputation={reputation}
                 username={get(_user, 'name')}
                 hideUser={hideUser}
                 enableViewModeToggle={enableViewModeToggle}
