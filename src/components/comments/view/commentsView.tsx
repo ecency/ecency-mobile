@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useRef } from 'react';
+import React, { useState, Fragment, useRef, useEffect } from 'react';
 import { FlatList } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import get from 'lodash/get';
@@ -13,6 +13,7 @@ import ROUTES from '../../../constants/routeNames';
 
 // Styles
 import styles from './commentStyles';
+
 
 const CommentsView = ({
   avatarSize,
@@ -45,9 +46,14 @@ const CommentsView = ({
   const intl = useIntl();
   const commentMenu = useRef();
 
+  useEffect(() => {
+    if(selectedComment && commentMenu.current){
+      commentMenu.current.show();
+    }
+  }, [selectedComment])
+
   const _openCommentMenu = (item) => {
     setSelectedComment(item);
-    commentMenu.current.show();
   };
 
   const _readMoreComments = () => {
@@ -60,6 +66,11 @@ const CommentsView = ({
       },
     });
   };
+
+  const _onMenuItemPress = (index) => {
+    handleOnPressCommentMenu(index, selectedComment)
+    setSelectedComment(null);
+  }
 
   const menuItems = [
     intl.formatMessage({ id: 'post.copy_link' }),
@@ -77,6 +88,8 @@ const CommentsView = ({
       />
     );
   }
+
+
   const _renderItem = ({ item }) => (
     <Comment
       mainAuthor={mainAuthor}
@@ -103,6 +116,8 @@ const CommentsView = ({
     />
   );
 
+
+
   return (
     <Fragment>
       <FlatList
@@ -117,7 +132,7 @@ const CommentsView = ({
         options={menuItems}
         title={get(selectedComment, 'summary')}
         cancelButtonIndex={2}
-        onPress={(index) => handleOnPressCommentMenu(index, selectedComment)}
+        onPress={_onMenuItemPress}
       />
     </Fragment>
   );
