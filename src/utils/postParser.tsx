@@ -76,18 +76,39 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false, isC
 
 
 export const parseCommentThreads = async (commentsMap:any, author:string, permlink:string) => {
+  const MAX_THREAD_LEVEL = 3;
+  const comments = [];
+  
   if(!commentsMap){
     return null;
   }
-  
-  const comments = [];
+
+
+  //traverse map to curate threads
+  const parseReplies = (commentsMap:any, replies:any[], level:number) => {
+    if(replies && replies.length > 0 && MAX_THREAD_LEVEL > level){
+      return replies.map((pathKey)=>{
+        const comment = commentsMap[pathKey];
+        if(comment){
+          const parsedComment = parseComment(comment);
+          parsedComment.replies = parseReplies(commentsMap, parsedComment.replies, level + 1)
+          return parsedComment;
+        }else{
+          return null;
+        }
+      });
+    }
+    return [];
+  }
 
   for(const key in commentsMap){
     if(commentsMap.hasOwnProperty(key)){
 
-      const comment = commentsMap[key];
+      const comment = parseComment(commentsMap[key]);
 
-      if(comment.parent_author === author && comment.parent_permlink === permlink){
+      if(comment && comment.parent_author === author && comment.parent_permlink === permlink){
+        //extract replies
+        comment.replies = parseReplies(commentsMap, comment.replies, 1)
         comments.push(comment);
       }
       
@@ -97,6 +118,8 @@ export const parseCommentThreads = async (commentsMap:any, author:string, permli
   return comments;
 };
 
+
+
 export const parseComments = async (comments:any[]) => {
   if(!comments){
     return null;
@@ -105,9 +128,9 @@ export const parseComments = async (comments:any[]) => {
   return comments.map((comment)=>parseComment(comment));
 };
 
-export const parseComment = async (comment:any) => {
+export const parseComment = (comment:any) => {
   comment.pending_payout_value = parseFloat(get(comment, 'pending_payout_value', 0)).toFixed(3);
-  comment.author_reputation = getReputation(get(comment, 'author_reputation'));
+  comment.author_reputation = parseReputation(get(comment, 'author_reputation'));
   comment.avatar = getResizedAvatar(get(comment, 'author'));
   comment.markdownBody = get(comment, 'body');
   comment.body = renderPostBody(comment, true, webp);
