@@ -508,7 +508,6 @@ const PostBody = ({
         allowsFullscreenVideo={true}
         style={{
           width: isComment ? WIDTH - (32 + 34 * (commentDepth % 6)) : WIDTH - 32,
-          height: 100,
         }}
         customStyle={customStyle}
         onMessage={_handleOnLinkPress}
