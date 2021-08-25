@@ -7,8 +7,8 @@ import FastImage from 'react-native-fast-image';
 
 // Utils
 import parseAsset from './parseAsset';
-import { getReputation } from './reputation';
-import { getResizedAvatar, getResizedImage } from './image';
+import { getResizedAvatar } from './image';
+import { parseReputation } from './user';
 
 const webp = Platform.OS === 'ios' ? false : true;
 
@@ -43,7 +43,7 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false, isC
   post.image = catchPostImage(post, 600, 500, webp ? 'webp' : 'match');
   post.thumbnail = catchPostImage(post, 10, 7, webp ? 'webp' : 'match');
 
-  post.author_reputation = getReputation(post.author_reputation);
+  post.author_reputation = parseReputation(post.author_reputation);
   post.avatar = getResizedAvatar(get(post, 'author'));
   if (!isList) {
     post.body = renderPostBody(post, true, webp);
@@ -77,7 +77,7 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false, isC
 export const parseComments = async (comments) => {
   return comments.map((comment) => {
     comment.pending_payout_value = parseFloat(get(comment, 'pending_payout_value', 0)).toFixed(3);
-    comment.author_reputation = getReputation(get(comment, 'author_reputation'));
+    comment.author_reputation = parseReputation(get(comment, 'author_reputation'));
     comment.avatar = getResizedAvatar(get(comment, 'author'));
     comment.markdownBody = get(comment, 'body');
     comment.body = renderPostBody(comment, true, webp);
@@ -144,7 +144,6 @@ export const parseActiveVotes = (post) => {
   if (!isEmpty(post.active_votes)) {
     forEach(post.active_votes, (value) => {
       value.reward = (value.rshares * ratio).toFixed(3);
-      //value.reputation = getReputation(get(value, 'reputation'));
       value.percent /= 100;
       value.is_down_vote = Math.sign(value.percent) < 0;
       value.avatar = getResizedAvatar(get(value, 'voter'));
