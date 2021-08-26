@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Hyötyjäpalkkio",
     "claim_reward_balance": "Lunasta palkkio ",
     "transfer": "Siirto",
-    "power_up": "To Vesting",
+    "power_up": "Ansaintaan",
     "transfer_from_savings": "Säästöistä",
     "withdraw_vesting": "Power Down",
     "fill_order": "Täytä hakemus",
@@ -68,8 +68,8 @@
     "next": "SEURAAVA",
     "delegate": "Valtuuta",
     "power_down": "Power Down",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HBD",
+    "withdraw_hive": "Kotiuta HIVE",
+    "withdraw_hbd": "Kotiuta HBD",
     "transfer_to_savings": "Säästöihin",
     "convert": "Muunna",
     "escrow_transfer": "Escrow-siirto",
@@ -86,18 +86,18 @@
       "buy": "Lunasta pisteet"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "HIVE säästöt"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "HBD säästöt"
     },
     "hive": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "HANKI HIVE"
     },
     "hbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "HANKI HBD"
     },
     "hive_power": {
       "title": "HIVE POWER"
@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "äänesti",
-    "unvote": "downvoted",
+    "unvote": "äänestetty alas",
     "reply": "vastasi",
     "mention": "mainittu",
     "follow": "seurasi sinua",
@@ -128,7 +128,7 @@
     "recent": "Viimeisimmät",
     "yesterday": "Eiliset",
     "this_week": "Tällä Viikolla",
-    "last_week": "Last Week",
+    "last_week": "Viime viikolla",
     "this_month": "Tässä kuussa",
     "older_then": "Kuukautta vanhempi",
     "activities": "Kaikki",
@@ -136,15 +136,15 @@
     "mentions": "Maininnat",
     "reblogs": "Jaot",
     "noactivity": "Ei viimeaikaista toimintaa",
-    "mention_on": "New mention on",
-    "reply_on": "New reply on",
-    "reply_body": "Tap to continue conversation..."
+    "mention_on": "Uusi maininta",
+    "reply_on": "Uusi vastaus",
+    "reply_body": "Napauta jatkaaksesi keskustelua..."
   },
   "leaderboard": {
     "daily": "PÄIVITTÄIN",
     "weekly": "VIIKOITTAIN",
     "monthly": "KUUKAUSITTAIN",
-    "tooltip_earn": "Earn points by actively participating in Ecency."
+    "tooltip_earn": "Ansaitse pisteitä osallistumalla aktiivisesti Ecencyssä."
   },
   "messages": {
     "comingsoon": "Viestiominaisuus on tulossa pian!"
@@ -152,7 +152,7 @@
   "profile": {
     "following": "Seurataan",
     "follower": "Seuraaja",
-    "edit_label": "Edit",
+    "edit_label": "Muokkaa",
     "post": "Julkaisut",
     "details": "Profiilitiedot",
     "comments": "Kommentit",
@@ -164,15 +164,15 @@
     "hours": "tuntia",
     "voting_power": "Äänivalta",
     "login_to_see": "Kirjaudu sisään nähdäksesi",
-    "follow_people": "When you follow people, you'll see their post here.",
-    "follow_communities": "When you join communities you'll see posts from communities here.",
+    "follow_people": "Kun seuraat ihmisiä, näet heidän julkaisunsa täällä.",
+    "follow_communities": "Kun liityt yhteisöihin, näet viestejä yhteisöistä täällä.",
     "havent_commented": "ei ole vielä kommentoinut mitään",
     "havent_posted": "ei ole vielä julkaissut mitään",
     "hive_power": "Hive Power",
     "next_power_text": "Seuraava power down tulee",
     "days": "päivää",
     "day": "päivä",
-    "hive_dollars": "Hive Dollars",
+    "hive_dollars": "Hive Dollarit",
     "savings": "Säästöt",
     "edit": {
       "display_name": "Näyttönimi",
@@ -249,7 +249,7 @@
     "posts": "Julkaisut",
     "friends": "Ystävät",
     "communities": "Yhteisöt",
-    "popup_postfix": "Posted"
+    "popup_postfix": "Julkaistu"
   },
   "side_menu": {
     "profile": "Profiili",
@@ -287,7 +287,7 @@
     "reply": "Vastaa",
     "open_gallery": "Avaa Galleria",
     "capture_photo": "Ota kuva",
-    "uploaded_images": "Uploaded Images",
+    "uploaded_images": "Ladatut kuvat",
     "limited_tags": "10 tagia enintään, poista muutama",
     "limited_length": "Tagin maksimipituus on 24",
     "limited_dash": "Käytä yhtä viivaa per tagi",
