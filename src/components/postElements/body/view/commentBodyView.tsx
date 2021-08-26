@@ -7,21 +7,19 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import ActionSheet from 'react-native-actionsheet';
 import { connect } from 'react-redux';
 
-import AutoHeightWebView from 'react-native-autoheight-webview';
+// import AutoHeightWebView from 'react-native-autoheight-webview';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import get from 'lodash/get';
 import { navigate } from '../../../../navigation/service';
+import RenderHTML from 'react-native-render-html';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
 
-import { CommentPlaceHolder } from '../../../basicUIElements';
-import { customCommentScript } from './config';
-
 import { TextButton } from '../../..';
 
 // Styles
-import styles from './postBodyStyles';
+import styles from './commentBodyStyles';
 
 // Services and Actions
 import { writeToClipboard } from '../../../../utils/clipboard';
@@ -307,6 +305,7 @@ const CommentBody = ({
   };
 
   const html = body.replace(/<a/g, '<a target="_blank"');
+
   const customStyle = `
   * {
     color: ${EStyleSheet.value('$primaryBlack')};
@@ -430,6 +429,7 @@ const CommentBody = ({
     letter-spacing: 0px;
   }
   `;
+
   return (
     <Fragment>
       <Modal key={`mkey-${created.toString()}`} visible={isImageModalOpen} transparent={true}>
@@ -468,21 +468,38 @@ const CommentBody = ({
         }}
       />
       {revealComment ? (
-        <AutoHeightWebView
-          key={`akey-${created.toString()}`}
+        <RenderHTML 
+          contentWidth={WIDTH - (32 + 34 * (commentDepth % 6))}
           source={{ html }}
-          allowsFullscreenVideo={true}
-          style={{ width: WIDTH - (32 + 34 * (commentDepth % 6)) }}
-          customStyle={customStyle}
-          onMessage={__handleOnLinkPress}
-          customScript={customCommentScript}
-          renderLoading={() => <CommentPlaceHolder />}
-          startInLoadingState={true}
-          onShouldStartLoadWithRequest={false}
-          scrollEnabled={false}
-          scalesPageToFit={false}
-          zoomable={false}
+          baseStyle={styles.baseStyle}
+          tagsStyles={{
+            body:styles.body,
+            a:styles.a,
+            img:styles.img,
+            th:styles.th,
+            tr:styles.tr,
+            td:styles.td,
+            blockquote:styles.blockquote,
+            code:styles.code,
+            center:styles.code
+          }}
+
         />
+        // <AutoHeightWebView
+        //   key={`akey-${created.toString()}`}
+        //   source={{ html }}
+        //   allowsFullscreenVideo={true}
+        //   style={{ width: WIDTH - (32 + 34 * (commentDepth % 6)) }}
+        //   customStyle={customStyle}
+        //   onMessage={__handleOnLinkPress}
+        //   customScript={customCommentScript}
+        //   renderLoading={() => <CommentPlaceHolder />}
+        //   startInLoadingState={true}
+        //   onShouldStartLoadWithRequest={false}
+        //   scrollEnabled={false}
+        //   scalesPageToFit={false}
+        //   zoomable={false}
+        // />
       ) : (
         <TextButton
           style={styles.revealButton}
