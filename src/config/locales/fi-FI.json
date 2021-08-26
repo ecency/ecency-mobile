@@ -299,31 +299,31 @@
     "setting_schedule": "Aikataulutus",
     "setting_reward": "Palkkio",
     "setting_beneficiary": "Hyötyjä",
-    "setting_thumb": "Set Thumbnail",
+    "setting_thumb": "Aseta pikkukuva",
     "reward_default": "Oletus 50 % / 50 %",
     "reward_power_up": "Power Up 100%",
     "reward_decline": "Hylkää Palautus",
     "beneficiaries": "Hyötyjät",
     "options": "Asetukset",
     "my_blog": "Oma Blogi",
-    "select_community": "Choose a community",
+    "select_community": "Valitse yhteisö",
     "my_communities": "Yhteisöni",
     "top_communities": "Suosituimmat Yhteisöt",
     "schedule_modal_title": "Ajasta julkaisu",
     "snippets": "Katkelmat",
-    "alert_init_title": "New Content",
-    "alert_init_body": "Open recent draft or Create new post",
-    "alert_btn_draft": "Recent Draft",
-    "alert_btn_new": "New Post",
-    "alert_pub_edit_title": "Publishing edits",
-    "alert_pub_new_title": "Publishing new post",
-    "alert_pub_body": "Are you sure?",
-    "alert_btn_yes": "Yes",
-    "alert_btn_no": "No",
-    "draft_save_success": "Draft Saved",
-    "draft_save_fail": "Failed to save draft",
-    "select_thumb": "Select Post Thumbnail",
-    "two_thumbs_required": "Add more images in your post before setting thumbnail"
+    "alert_init_title": "Uusi Sisältö",
+    "alert_init_body": "Avaa viimeaikainen luonnos tai luo uusi julkaisu",
+    "alert_btn_draft": "Viimeisin Luonnos",
+    "alert_btn_new": "Uusi julkaisu",
+    "alert_pub_edit_title": "Julkaistaan muokkauksia",
+    "alert_pub_new_title": "Uuden sisällön julkaiseminen",
+    "alert_pub_body": "Oletko varma?",
+    "alert_btn_yes": "Kyllä",
+    "alert_btn_no": "Ei",
+    "draft_save_success": "Luonnos tallennettu",
+    "draft_save_fail": "Luonnosta ei kyetty tallentamaan",
+    "select_thumb": "Valitse esikatselukuva",
+    "two_thumbs_required": "Lisää kuvia julkaisuun, ennen kuin asetat pikkukuvan"
   },
   "snippets": {
     "label_no_snippets": "Katkelmia ei löytynyt",
@@ -342,11 +342,11 @@
     "btn_cancel": "Peruuta"
   },
   "uploads_modal": {
-    "label_no_images": "No Images Found",
-    "title": "Uploaded Images",
-    "title_remove_confirmation": "Delete image",
-    "btn_add": "Image",
-    "message_failed": "Failed to upload image"
+    "label_no_images": "Kuvia ei löytynyt",
+    "title": "Ladatut kuvat",
+    "title_remove_confirmation": "Poista kuva",
+    "btn_add": "Kuva",
+    "message_failed": "Kuvan lataaminen epäonnistui"
   },
   "pincode": {
     "enter_text": "Poista lukitus antamalla PIN-koodi",
@@ -411,16 +411,16 @@
     "payloadTooLarge": "Tiedostokoko liian suuri, muuta kokoa tai lataa pienempi",
     "qoutaExceeded": "Latausraja ylittyi",
     "invalidImage": "Vääränlainen kuva, yritä toista",
-    "something_wrong": "Something went wrong",
-    "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
-    "something_wrong_reload": "Try again?",
+    "something_wrong": "Jokin meni pieleen",
+    "something_wrong_alt": "Odottaessasi kokeile Ecency.com selaimella",
+    "something_wrong_reload": "Yritä uudelleen?",
     "can_not_be_empty": "Otsikko ja sisältö eivät voi olla tyhjiä!",
-    "wrong_filter_count": "Please select 3 filters",
-    "update_available_title": "Update available v{version}",
-    "update_available_body": "Using latest version of Ecency gives you the best experience",
-    "update": "Update Now",
-    "remind_later": "Remind Later",
-    "failed_to_open": "Failed to open a link"
+    "wrong_filter_count": "Valitse 3 suodatinta",
+    "update_available_title": "Päivitys saatavilla v{version}",
+    "update_available_body": "Käyttämällä uusinta versiota Ecencystä antaa sinulle parhaan kokemuksen",
+    "update": "Päivitä nyt",
+    "remind_later": "Muistuta myöhemmin",
+    "failed_to_open": "Linkin avaaminen epäonnistui"
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
@@ -436,7 +436,7 @@
     "image_saved": "Tallennettu kuvagalleriaan",
     "image_saved_error": "Virhe tallentaessa kuvaa",
     "wrong_link": "Väärä linkki",
-    "in": "in"
+    "in": "ssä"
   },
   "drafts": {
     "title": "Luonnokset",
@@ -528,7 +528,7 @@
     "purchase_estm": "Osta pisteitä",
     "convert": "Muunna HBD HIVEksi",
     "points": "Lahjoita pisteitä",
-    "transfer_to_savings": "Transfer To Saving",
+    "transfer_to_savings": "Siirrä säästöihin",
     "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Kotiuta säästöihin",
     "steemconnect_title": "Hivesigner-siirto",
@@ -542,11 +542,11 @@
     "next": "SEURAAVA",
     "delegate": "Valtuuta",
     "power_down": "Power Down",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HIVE Dollar",
+    "withdraw_hive": "Kotiuta HIVE",
+    "withdraw_hbd": "Kotiuta Hive Dollari",
     "incoming_funds": "Saapuvat varat",
     "stop": "Lopeta",
-    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
+    "sc_power_down_error": "Tätä ominaisuutta ei ole vielä toteutettu Hivesignerin kirjautumisessa",
     "address_view": "Näytä osoite"
   },
   "boost": {
@@ -636,22 +636,22 @@
     "new_post": "Uusi julkaisu",
     "community": "yhteisö",
     "details": "Lisätiedot",
-    "muted": "Muted",
-    "payout": "Payout"
+    "muted": "Mykistetty",
+    "payout": "Palkkio"
   },
   "user": {
     "follow": "Seuraa",
     "unfollow": "Älä seuraa",
-    "add_to_favourites": "ADD TO FAVOURITES",
-    "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE",
-    "unmute": "UNMUTE"
+    "add_to_favourites": "LISÄÄ SUOSIKKEIHIN",
+    "remove_from_favourites": "POISTA SUOSIKEISTA",
+    "mute": "MYKISTÄ",
+    "unmute": "POISTA MYKISTYS"
   },
   "communities": {
     "joined": "Jäsenyys",
     "discover": "Löydä uutta",
-    "discover_communities": "Discover Communities",
-    "no_communities": "Connect with people who share your interests by joining Communities."
+    "discover_communities": "Löydä Yhteisöjä",
+    "no_communities": "Pidä yhteyttä ihmisiin, jotka jakavat samat mielenkiinnon kohteet liittymällä yhteisöihin."
   },
   "empty_screen": {
     "nothing_here": "Täällä ei ole mitään"
@@ -663,14 +663,14 @@
     "save": "Tallenna"
   },
   "welcome": {
-    "label": "Welcome to",
-    "title": "Ecency",
-    "line1_heading": "Are you looking for community?",
-    "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
-    "line2_heading": "We have a solution!",
-    "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
-    "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others.",
-    "get_started": "Get started!"
+    "label": "Tervetuloa",
+    "title": "Ecencyyn",
+    "line1_heading": "Etsitkö yhteisöä?",
+    "line1_body": "Sensuroimaton, muuttumaton, palkitseva, hajautettu, omistamasi.",
+    "line2_heading": "Meillä on ratkaisu!",
+    "line2_body": "Hyödynnetään lohkoketjuja, sensuurivapaa, hajautettu ja palkitseva.",
+    "line3_heading": "Liity Ecencyn yhteisöihin!",
+    "line3_body": "Rakenna omistamaasi yhteisöä, saa palkkioita ja palkitse muita.",
+    "get_started": "Aloitetaan!"
   }
 }
