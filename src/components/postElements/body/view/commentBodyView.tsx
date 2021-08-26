@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { Dimensions, Linking, Modal, PermissionsAndroid, Platform } from 'react-native';
+import { Alert, Dimensions, Linking, Modal, PermissionsAndroid, Platform } from 'react-native';
 import { useIntl } from 'react-intl';
 import CameraRoll from '@react-native-community/cameraroll';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -24,6 +24,7 @@ import styles from './commentBodyStyles';
 // Services and Actions
 import { writeToClipboard } from '../../../../utils/clipboard';
 import { toastNotification } from '../../../../redux/actions/uiAction';
+import { customCommentScript } from './config';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -63,18 +64,28 @@ const CommentBody = ({
   const _showLowComment = () => {
     setRevealComment(true);
   };
+
+  const _onPress = (event, href, htmlArrts) => {
+    console.log("a is pressed: ", event, href, htmlArrts);
+    __handleOnLinkPress({
+      type:htmlArrts.class,
+      href:htmlArrts.href
+    })
+  }
+
+
   //new renderer functions
-  const __handleOnLinkPress = (event) => {
-    if ((!event && !get(event, 'nativeEvent.data'), false)) {
-      return;
-    }
+  const __handleOnLinkPress = (data) => {
+    // if ((!event && !get(event, 'nativeEvent.data'), false)) {
+    //   return;
+    // }
     try {
-      let data = {};
-      try {
-        data = JSON.parse(get(event, 'nativeEvent.data'));
-      } catch (error) {
-        data = {};
-      }
+      // let data = {};
+      // try {
+      //   data = JSON.parse(get(event, 'nativeEvent.data'));
+      // } catch (error) {
+      //   data = {};
+      // }
 
       const {
         type,
@@ -304,7 +315,7 @@ const CommentBody = ({
     }
   };
 
-  const html = body.replace(/<a/g, '<a target="_blank"');
+  const html = body.replace(/data-href/g, 'href');
 
   const customStyle = `
   * {
@@ -482,6 +493,11 @@ const CommentBody = ({
             blockquote:styles.blockquote,
             code:styles.code,
             center:styles.code
+          }}
+          renderersProps={{
+            a:{
+              onPress:_onPress,
+            }
           }}
 
         />

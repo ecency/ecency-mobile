@@ -7,6 +7,7 @@ export default EStyleSheet.create({
     color: '$primaryBlack',
     fontFamily: '$primaryFont',
     maxWidth: '100%',
+    fontSize: 16,
   } as TextStyle,
   body: {
     color: '$primaryBlack',
@@ -23,7 +24,7 @@ export default EStyleSheet.create({
     fontWeight: 'bold',
     color: '$primaryBlack',
     fontSize: 14,
-    padding: 5,
+    padding: 10,
   } as TextStyle,
   tr:{
     backgroundColor:'$darkIconColor',
