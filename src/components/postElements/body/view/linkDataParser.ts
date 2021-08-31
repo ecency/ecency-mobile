@@ -28,8 +28,8 @@ export const parseLinkData = (tnode:TNode):LinkData => {
     if (tnode.classes.includes('markdown-author-link')) {
         var author = tnode.attributes['data-author'];
         return {
-        type: 'markdown-author-link',
-        author: author
+            type: 'markdown-author-link',
+            author: author
         };
     }
 
@@ -84,14 +84,7 @@ export const parseLinkData = (tnode:TNode):LinkData => {
 
 
   if (tnode.classes.includes('markdown-video-link')) {
-    var embedSrc = '<iframe frameborder="0" allowfullscreen src="' + tnode.attributes['data-embed-src'] + '"></iframe>';
-    
-    if (embedSrc) {
-    //   tnode. innerHTML = embedSrc;
-       return null;
-    }
-
-    var videoHref = tnode.attributes['data-video-href'];
+    var videoHref = tnode.attributes['data-embed-src'] || tnode.attributes['data-video-href'];
     if (videoHref) {
       return {
         type: 'markdown-video-link',

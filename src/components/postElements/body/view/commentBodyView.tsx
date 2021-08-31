@@ -6,6 +6,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import ActionSheet from 'react-native-actionsheet';
 import { connect } from 'react-redux';
+import ActionsSheetView from 'react-native-actions-sheet';
 
 // import AutoHeightWebView from 'react-native-autoheight-webview';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -25,6 +26,8 @@ import { writeToClipboard } from '../../../../utils/clipboard';
 import { toastNotification } from '../../../../redux/actions/uiAction';
 import { LinkData, parseLinkData } from './linkDataParser';
 import IconButton from '../../../iconButton';
+import getYoutubeId from '../../../../utils/getYoutubeId';
+import VideoPlayerSheet from './videoPlayerSheet';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -46,11 +49,14 @@ const CommentBody = ({
   const [postImages, setPostImages] = useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedLink, setSelectedLink] = useState(null);
-
   const [revealComment, setRevealComment] = useState(reputation > 0);
+  const [videoUrl, setVideoUrl] = useState(null);
+  const [youtubeVideoId, setYoutubeVideoId] = useState(null)
+
   const intl = useIntl();
   const actionImage = useRef(null);
   const actionLink = useRef(null);
+  const youtubePlayerRef = useRef(null);
 
   useEffect(() => {
     if (selectedLink) {
@@ -242,6 +248,21 @@ const CommentBody = ({
     }
   };
 
+  const _handleYoutubePress = (embedUrl) => {
+    const videoId = getYoutubeId(embedUrl);
+    if (videoId && youtubePlayerRef.current) {
+      setYoutubeVideoId(videoId);
+      youtubePlayerRef.current.setModalVisible(true);
+    }
+  };
+
+  const _handleVideoPress = (embedUrl) => {
+    if (embedUrl && youtubePlayerRef.current) {
+      setVideoUrl(embedUrl);
+      youtubePlayerRef.current.setModalVisible(true);
+    }
+  };
+
 
   //new renderer functions
   const __handleOnLinkPress = (data:LinkData) => {
@@ -294,8 +315,10 @@ const CommentBody = ({
         case 'markdown-proposal-link':
           break;
         case 'markdown-video-link':
+          _handleVideoPress(videoHref)
           break;
         case 'markdown-video-link-youtube':
+          _handleYoutubePress(tag)
           break;
         case 'image':
           setPostImages(images);
@@ -449,7 +472,6 @@ const CommentBody = ({
             img:_imageRenderer,
             a:_anchorRenderer,
           }}
-
         />
       ) : (
         <TextButton
@@ -459,6 +481,19 @@ const CommentBody = ({
           text={intl.formatMessage({ id: 'comments.reveal_comment' })}
         />
       )}
+      <ActionsSheetView
+        ref={youtubePlayerRef}
+        gestureEnabled={true}
+        hideUnderlay
+        containerStyle={{ backgroundColor: 'black' }}
+        indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+        onClose={() => {
+          setYoutubeVideoId(null);
+          setVideoUrl(null);
+        }}
+      >
+        <VideoPlayerSheet youtubeVideoId={youtubeVideoId} videoUrl={videoUrl} />
+      </ActionsSheetView>
     </Fragment>
   );
 };

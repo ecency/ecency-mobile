@@ -25,7 +25,7 @@ import { toastNotification } from '../../../../redux/actions/uiAction';
 import { default as ROUTES } from '../../../../constants/routeNames';
 import getYoutubeId from '../../../../utils/getYoutubeId';
 import isAndroidOreo from '../../../../utils/isAndroidOreo';
-import YoutubePlayer from './youtubePlayer';
+import VideoPlayerSheet from './videoPlayerSheet';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -51,7 +51,6 @@ const PostBody = ({
   const actionImage = useRef(null);
   const actionLink = useRef(null);
   const youtubePlayerRef = useRef(null);
-  // const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (selectedLink) {
@@ -471,7 +470,7 @@ const PostBody = ({
           setYoutubeVideoId(null);
         }}
       >
-        <YoutubePlayer videoId={youtubeVideoId} />
+        <VideoPlayerSheet youtubeVideoId={youtubeVideoId} />
       </ActionSheetView>
 
       <ActionSheet
@@ -508,6 +507,7 @@ const PostBody = ({
         allowsFullscreenVideo={true}
         style={{
           width: isComment ? WIDTH - (32 + 34 * (commentDepth % 6)) : WIDTH - 32,
+          height: 100,
         }}
         customStyle={customStyle}
         onMessage={_handleOnLinkPress}
