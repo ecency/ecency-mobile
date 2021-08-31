@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { Alert, Dimensions, Linking, Modal, PermissionsAndroid, Platform, Image } from 'react-native';
+import { Dimensions, Linking, Modal, PermissionsAndroid, Platform, View, ImageBackground } from 'react-native';
 import { useIntl } from 'react-intl';
 import CameraRoll from '@react-native-community/cameraroll';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 
 // import AutoHeightWebView from 'react-native-autoheight-webview';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import get from 'lodash/get';
 import { navigate } from '../../../../navigation/service';
 import RenderHTML, { CustomRendererProps, Element, TNode } from 'react-native-render-html';
 
@@ -24,8 +23,8 @@ import styles from './commentBodyStyles';
 // Services and Actions
 import { writeToClipboard } from '../../../../utils/clipboard';
 import { toastNotification } from '../../../../redux/actions/uiAction';
-import { customCommentScript } from './config';
 import { LinkData, parseLinkData } from './linkDataParser';
+import IconButton from '../../../iconButton';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -40,6 +39,9 @@ const CommentBody = ({
   reputation,
   dispatch,
 }) => {
+
+  const _contentWidth = WIDTH - (32 + 34 * (commentDepth % 6))
+
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [postImages, setPostImages] = useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -336,23 +338,42 @@ const CommentBody = ({
       ...props
     }:CustomRendererProps<TNode>) => {
 
-      const onPress = () => {
+      const _onPress = () => {
         const imgUrl = tnode.attributes.src;
         console.log("Image Pressed:", imgUrl)
         setSelectedImage(imgUrl);
       };
 
-      const registerEventListener = !(
-        tnode.parent?.classes?.indexOf('markdown-external-link') >= 0 ||
-        tnode.classes?.indexOf('video-thumbnail') >= 0 )
+      const isVideoThumb = tnode.classes?.indexOf('video-thumbnail') >= 0;
+      const isAnchored = !(tnode.parent?.classes?.indexOf('markdown-external-link') >= 0)
 
-      return (
-        <InternalRenderer
-          tnode={tnode}
-          onPress={registerEventListener && onPress}
-          {...props}
-        />
-      );
+      if(isVideoThumb){
+        return (
+          <View pointerEvents={'none'}>
+            <ImageBackground
+              source={{uri:tnode.attributes.src}}
+              style={{...styles.videoThumb, height:_contentWidth * 9/16 }}
+              resizeMode={'cover'}> 
+              <IconButton
+                style={styles.playButton}
+                size={44}
+                name='play-arrow'
+                color={EStyleSheet.value('$white')}
+                iconType='MaterialIcons'
+              />
+            </ImageBackground>
+        </View>
+        )
+      }
+      else {
+        return (
+          <InternalRenderer
+            tnode={tnode}
+            onPress={isAnchored && _onPress}
+            {...props}/>
+        );
+      }
+    
     }
 
 
@@ -407,7 +428,7 @@ const CommentBody = ({
       />
       {revealComment ? (
         <RenderHTML 
-          contentWidth={WIDTH - (32 + 34 * (commentDepth % 6))}
+          contentWidth={_contentWidth}
           source={{ html:body }}
           baseStyle={styles.baseStyle}
           tagsStyles={{
