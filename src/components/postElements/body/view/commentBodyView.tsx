@@ -1,17 +1,15 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { Dimensions, Linking, Modal, PermissionsAndroid, Platform, View, ImageBackground } from 'react-native';
+import { Alert, Dimensions, Linking, Modal, PermissionsAndroid, Platform, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import CameraRoll from '@react-native-community/cameraroll';
 import RNFetchBlob from 'rn-fetch-blob';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import ActionSheet from 'react-native-actionsheet';
-import { connect } from 'react-redux';
 import ActionsSheetView from 'react-native-actions-sheet';
 
 // import AutoHeightWebView from 'react-native-autoheight-webview';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { navigate } from '../../../../navigation/service';
-import RenderHTML, { CustomRendererProps, Element, TNode } from 'react-native-render-html';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
@@ -24,11 +22,12 @@ import styles from './commentBodyStyles';
 // Services and Actions
 import { writeToClipboard } from '../../../../utils/clipboard';
 import { toastNotification } from '../../../../redux/actions/uiAction';
-import { LinkData, parseLinkData } from './linkDataParser';
-import IconButton from '../../../iconButton';
+import { LinkData } from './linkDataParser';
 import getYoutubeId from '../../../../utils/getYoutubeId';
 import VideoPlayerSheet from './videoPlayerSheet';
 import { LongPressGestureHandler, State } from 'react-native-gesture-handler';
+import { useCallback } from 'react';
+import HtmlRenderer from './htmlRederer';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -105,7 +104,6 @@ const CommentBody = ({
       _saveImage(selectedImage);
     }
     if (ind === 3) {
-      setPostImages([]);
       setSelectedImage(null);
     }
   };
@@ -146,7 +144,7 @@ const CommentBody = ({
     }
   };
 
-  const __handleTagPress = (tag) => {
+  const _handleTagPress = (tag) => {
     if (tag) {
       navigate({
         routeName: ROUTES.SCREENS.TAG_RESULT,
@@ -157,7 +155,11 @@ const CommentBody = ({
     }
   };
 
-  const __handleOnPostPress = (permlink, author) => {
+  const _handleOnPostPress = (permlink, author) => {
+    if(handleOnPostPress){
+      handleOnUserPress(permlink, author);
+      return;
+    }
     if (permlink) {
       navigate({
         routeName: ROUTES.SCREENS.POST,
@@ -170,7 +172,11 @@ const CommentBody = ({
     }
   };
 
-  const __handleOnUserPress = (username) => {
+  const _handleOnUserPress = (username) => {
+    if(handleOnUserPress){
+      handleOnUserPress(username);
+      return;
+    }
     if (username) {
       navigate({
         routeName: ROUTES.SCREENS.PROFILE,
@@ -272,152 +278,15 @@ const CommentBody = ({
   };
 
 
-  //new renderer functions
-  const __handleOnLinkPress = (data:LinkData) => {
-
-    if(!data){
-      return;
-    }
-
-    const {
-      type,
-      href,
-      images,
-      image,
-      author,
-      permlink,
-      tag,
-      proposal,
-      videoHref,
-    } = data;
-
-    try {
-
-      switch (type) {
-        case '_external':
-        case 'markdown-external-link':
-          setSelectedLink(href);
-          break;
-        case 'longpress':
-          handleOnLongPress();
-          break;
-        case 'markdown-author-link':
-          if (!handleOnUserPress) {
-            __handleOnUserPress(author);
-          } else {
-            handleOnUserPress(author);
-          }
-          break;
-        case 'markdown-post-link':
-          if (!handleOnPostPress) {
-            __handleOnPostPress(permlink, author);
-          } else {
-            handleOnPostPress(permlink, author);
-          }
-          break;
-        case 'markdown-tag-link':
-          __handleTagPress(tag);
-          break;
-        case 'markdown-witnesses-link':
-          break;
-        case 'markdown-proposal-link':
-          break;
-        case 'markdown-video-link':
-          _handleVideoPress(videoHref)
-          break;
-        case 'markdown-video-link-youtube':
-          _handleYoutubePress(tag)
-          break;
-        case 'image':
-          setPostImages(images);
-          setSelectedImage(image);
-          break;
-
-        default:
-          break;
-      }
-    } catch (error) {}
-  };
-  
+ 
 
 
-  const _anchorRenderer = ({
-    InternalRenderer,
-    tnode,
-    ...props
-  }:CustomRendererProps<TNode>) => {
-
-    const _onPress = () => {
-      console.log("Link Pressed:", tnode)
-      const data = parseLinkData(tnode);
-      __handleOnLinkPress(data);
-    };
-
-    return (
-      <InternalRenderer
-        tnode={tnode}
-        onPress={_onPress}
-        {...props}
-      />
-    );
-  }
-
-
-  const _imageRenderer = ({
-      InternalRenderer,
-      tnode,
-      ...props
-    }:CustomRendererProps<TNode>) => {
-
-      const _onPress = () => {
-        const imgUrl = tnode.attributes.src;
-        console.log("Image Pressed:", imgUrl)
-        setSelectedImage(imgUrl);
-      };
-
-      const isVideoThumb = tnode.classes?.indexOf('video-thumbnail') >= 0;
-      const isAnchored = !(tnode.parent?.classes?.indexOf('markdown-external-link') >= 0)
-
-      if(isVideoThumb){
-        return (
-          <View pointerEvents={'none'}>
-            <ImageBackground
-              source={{uri:tnode.attributes.src}}
-              style={{...styles.videoThumb, height:_contentWidth * 9/16 }}
-              resizeMode={'cover'}> 
-              <IconButton
-                style={styles.playButton}
-                size={44}
-                name='play-arrow'
-                color={EStyleSheet.value('$white')}
-                iconType='MaterialIcons'
-              />
-            </ImageBackground>
-        </View>
-        )
-      }
-      else {
-        return (
-          <InternalRenderer
-            tnode={tnode}
-            onPress={isAnchored && _onPress}
-            {...props}/>
-        );
-      }
-    
-    }
-
-
-  const _onElement = (element:Element) => {
-    if(element.tagName === 'img' && element.attribs.src){
-      const imgUrl = element.attribs.src;
-      console.log("img element detected",  imgUrl);
-      if(postImages.indexOf(imgUrl) == -1){
+  const _onElementIsImage = useCallback((imgUrl) =>{
+    if(postImages.indexOf(imgUrl) == -1){
         postImages.push(imgUrl);
         setPostImages(postImages);
       }
-    }
-  }
+  },[postImages])
 
 
   return (
@@ -458,30 +327,19 @@ const CommentBody = ({
         }}
       />
       {revealComment ? (
-        <LongPressGestureHandler onHandlerStateChange={_onLongPressStateChange}>
+        <LongPressGestureHandler onHandlersStateChange={_onLongPressStateChange}>
           <View>
-            <RenderHTML 
+            <HtmlRenderer 
               contentWidth={_contentWidth}
-              source={{ html:body }}
-              baseStyle={styles.baseStyle}
-              tagsStyles={{
-                body:styles.body,
-                a:styles.a,
-                img:styles.img,
-                th:styles.th,
-                tr:styles.tr,
-                td:styles.td,
-                blockquote:styles.blockquote,
-                code:styles.code,
-                center:styles.code
-              }}
-              domVisitors={{
-                onElement:_onElement
-              }}
-              renderers={{
-                img:_imageRenderer,
-                a:_anchorRenderer,
-              }}
+              body={body}
+              onElementIsImage={_onElementIsImage}
+              setSelectedImage={setSelectedImage}
+              setSelectedLink={setSelectedLink}
+              handleOnPostPress={_handleOnPostPress}
+              handleOnUserPress={_handleOnUserPress}
+              handleTagPress={_handleTagPress}
+              handleVideoPress={_handleVideoPress}
+              handleYoutubePress={_handleYoutubePress}
             />
           </View>
         </LongPressGestureHandler>
@@ -511,8 +369,5 @@ const CommentBody = ({
   );
 };
 
-const areEqual = (prevProps, nextProps) => prevProps.body !== nextProps.body;
+export default CommentBody;
 
-const mapStateToProps = (state) => ({});
-
-export default connect(mapStateToProps)(React.memo(CommentBody, areEqual));

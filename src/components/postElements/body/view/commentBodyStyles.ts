@@ -46,7 +46,7 @@ export default EStyleSheet.create({
   } as ViewStyle,
   code:{
     backgroundColor:'$darkIconColor',
-    fontFamily:'$editorFont'
+    fontFamily:'$editorFont',
   } as TextStyle,
   center: {
     textAlign: 'center',

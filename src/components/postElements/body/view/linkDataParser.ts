@@ -3,8 +3,6 @@ import { TNode } from "react-native-render-html";
 export interface LinkData {
         type:string,
         href?:string,
-        images?:string[],
-        image?:string,
         author?:string,
         permlink?:string,
         tag?:string,
