@@ -28,7 +28,6 @@ import { LinkData, parseLinkData } from './linkDataParser';
 import IconButton from '../../../iconButton';
 import getYoutubeId from '../../../../utils/getYoutubeId';
 import VideoPlayerSheet from './videoPlayerSheet';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -451,32 +450,29 @@ const CommentBody = ({
         }}
       />
       {revealComment ? (
-        <TouchableWithoutFeedback onLongPress={handleOnLongPress}>
-          <RenderHTML 
-            contentWidth={_contentWidth}
-            source={{ html:body }}
-            baseStyle={styles.baseStyle}
-            tagsStyles={{
-              body:styles.body,
-              a:styles.a,
-              img:styles.img,
-              th:styles.th,
-              tr:styles.tr,
-              td:styles.td,
-              blockquote:styles.blockquote,
-              code:styles.code,
-              center:styles.code
-            }}
-            domVisitors={{
-              onElement:_onElement
-            }}
-            renderers={{
-              img:_imageRenderer,
-              a:_anchorRenderer,
-            }}
-          />
-        </TouchableWithoutFeedback>
-       
+        <RenderHTML 
+          contentWidth={_contentWidth}
+          source={{ html:body }}
+          baseStyle={styles.baseStyle}
+          tagsStyles={{
+            body:styles.body,
+            a:styles.a,
+            img:styles.img,
+            th:styles.th,
+            tr:styles.tr,
+            td:styles.td,
+            blockquote:styles.blockquote,
+            code:styles.code,
+            center:styles.code
+          }}
+          domVisitors={{
+            onElement:_onElement
+          }}
+          renderers={{
+            img:_imageRenderer,
+            a:_anchorRenderer,
+          }}
+        />
       ) : (
         <TextButton
           style={styles.revealButton}
