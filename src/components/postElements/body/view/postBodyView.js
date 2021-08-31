@@ -429,10 +429,12 @@ const PostBody = ({
     width: 100%;
     height: 240px;
   }
+
   .phishy {
     display: inline;
     color: red;
   }
+
   .text-justify {
     text-align: justify;
   }
@@ -507,7 +509,6 @@ const PostBody = ({
         allowsFullscreenVideo={true}
         style={{
           width: isComment ? WIDTH - (32 + 34 * (commentDepth % 6)) : WIDTH - 32,
-          height: 100,
         }}
         customStyle={customStyle}
         onMessage={_handleOnLinkPress}
