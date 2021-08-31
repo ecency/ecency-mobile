@@ -53,6 +53,15 @@ export default EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   } as ViewStyle,
+  phishy:{
+    color:'red',
+    flexDirection:'row', 
+    flexWrap:'wrap'
+  } as TextStyle,
+  textJustify:{
+    textAlign:'justify',
+    letterSpacing:0
+  } as TextStyle,
   revealButton: {
     backgroundColor: '$iconColor',
     height: 22,
