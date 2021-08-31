@@ -144,7 +144,7 @@
     "daily": "GÜNLÜK",
     "weekly": "HAFTALIK",
     "monthly": "AYLIK",
-    "tooltip_earn": "Earn points by actively participating in Ecency."
+    "tooltip_earn": "Aktif olarak daha çok Ecency Puanı kazanın."
   },
   "messages": {
     "comingsoon": "Mesajlar yakinda burada!"
@@ -152,7 +152,7 @@
   "profile": {
     "following": "Takip edilen",
     "follower": "Takipçi",
-    "edit_label": "Edit",
+    "edit_label": "Düzenle",
     "post": "Gönderi",
     "details": "Profil Detayları",
     "comments": "Yorumlar",
@@ -164,7 +164,7 @@
     "hours": "saat",
     "voting_power": "Oylama güçü",
     "login_to_see": "Giriş yap ve gör!",
-    "follow_people": "When you follow people, you'll see their post here.",
+    "follow_people": "İnsanları takip ettiğinizde, gönderilerini burada göreceksiniz.",
     "follow_communities": "When you join communities you'll see posts from communities here.",
     "havent_commented": "henüz yorum yapmadı",
     "havent_posted": "henüz post paylasmadi",
@@ -211,29 +211,29 @@
     },
     "feedback_success": "E-posta başarıyla açıldı",
     "feedback_fail": "E-posta istemcisi açılamadı",
-    "server_fail": "Server not available"
+    "server_fail": "Sunucu kullanılamıyor"
   },
   "voters": {
     "voters_info": "Oy Verenler",
-    "no_user": "User is not found."
+    "no_user": "Kullanıcı bulunamadı."
   },
   "login": {
     "signin": "Giriş",
-    "signup": "JOIN NOW",
-    "signin_title": "To get all the benefits of using Ecency",
+    "signup": "ŞİMDİ KATIL",
+    "signin_title": "Ecency kullanmanın tüm avantajlarından yararlanmak için",
     "username": "Kullanıcı Adı",
     "password": "Şifre yada WIF",
-    "description": "By signing in, you agree to our Terms of Services and Privacy Policies.",
+    "description": "Kayıt olarak Hizmet Şartları ve Gizlilik Politikası'nı kabul edersiniz.",
     "cancel": "geç",
     "login": "GİRİŞ",
-    "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_description": "Eğer kullanıcı şifrelerinizi şifreli olarak tutulmasını istemiyorsanız şifreleri cihazınıza indirebilir ya da Hivesigner kullanabilirsiniz.",
+    "steemconnect_fee_description": "bilgi"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "Kaydol",
     "title": "Kayıt",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
+    "username": "Kullanıcı adı seçin",
+    "mail": "E-posta adresinizi girin",
     "ref_user": "Referred user (Optional)",
     "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
     "title_description": "One account to manage everything",
