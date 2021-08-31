@@ -28,6 +28,7 @@ import { LinkData, parseLinkData } from './linkDataParser';
 import IconButton from '../../../iconButton';
 import getYoutubeId from '../../../../utils/getYoutubeId';
 import VideoPlayerSheet from './videoPlayerSheet';
+import { LongPressGestureHandler, State } from 'react-native-gesture-handler';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -69,6 +70,13 @@ const CommentBody = ({
       actionImage.current.show();
     }
   }, [selectedImage]);
+
+
+  const _onLongPressStateChange = ({nativeEvent}) => {
+    if(nativeEvent.state === State.ACTIVE){
+      handleOnLongPress();
+    }
+  }
 
   const _showLowComment = () => {
     setRevealComment(true);
@@ -450,29 +458,34 @@ const CommentBody = ({
         }}
       />
       {revealComment ? (
-        <RenderHTML 
-          contentWidth={_contentWidth}
-          source={{ html:body }}
-          baseStyle={styles.baseStyle}
-          tagsStyles={{
-            body:styles.body,
-            a:styles.a,
-            img:styles.img,
-            th:styles.th,
-            tr:styles.tr,
-            td:styles.td,
-            blockquote:styles.blockquote,
-            code:styles.code,
-            center:styles.code
-          }}
-          domVisitors={{
-            onElement:_onElement
-          }}
-          renderers={{
-            img:_imageRenderer,
-            a:_anchorRenderer,
-          }}
-        />
+        <LongPressGestureHandler onHandlerStateChange={_onLongPressStateChange}>
+          <View>
+            <RenderHTML 
+              contentWidth={_contentWidth}
+              source={{ html:body }}
+              baseStyle={styles.baseStyle}
+              tagsStyles={{
+                body:styles.body,
+                a:styles.a,
+                img:styles.img,
+                th:styles.th,
+                tr:styles.tr,
+                td:styles.td,
+                blockquote:styles.blockquote,
+                code:styles.code,
+                center:styles.code
+              }}
+              domVisitors={{
+                onElement:_onElement
+              }}
+              renderers={{
+                img:_imageRenderer,
+                a:_anchorRenderer,
+              }}
+            />
+          </View>
+        </LongPressGestureHandler>
+        
       ) : (
         <TextButton
           style={styles.revealButton}
