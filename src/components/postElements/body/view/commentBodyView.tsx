@@ -25,6 +25,7 @@ import styles from './commentBodyStyles';
 import { writeToClipboard } from '../../../../utils/clipboard';
 import { toastNotification } from '../../../../redux/actions/uiAction';
 import { customCommentScript } from './config';
+import { LinkData, parseLinkData } from './linkDataParser';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -65,82 +66,6 @@ const CommentBody = ({
     setRevealComment(true);
   };
 
-  const _onPress = (event, href, htmlArrts) => {
-    console.log("a is pressed: ", event, href, htmlArrts);
-    __handleOnLinkPress({
-      type:htmlArrts.class,
-      href:htmlArrts.href
-    })
-  }
-
-
-  //new renderer functions
-  const __handleOnLinkPress = (data) => {
-    // if ((!event && !get(event, 'nativeEvent.data'), false)) {
-    //   return;
-    // }
-    try {
-      // let data = {};
-      // try {
-      //   data = JSON.parse(get(event, 'nativeEvent.data'));
-      // } catch (error) {
-      //   data = {};
-      // }
-
-      const {
-        type,
-        href,
-        images,
-        image,
-        author,
-        category,
-        permlink,
-        tag,
-        proposal,
-        videoHref,
-      } = data;
-
-      switch (type) {
-        case '_external':
-        case 'markdown-external-link':
-          setSelectedLink(href);
-          break;
-        case 'longpress':
-          handleOnLongPress();
-          break;
-        case 'markdown-author-link':
-          if (!handleOnUserPress) {
-            __handleOnUserPress(author);
-          } else {
-            handleOnUserPress(author);
-          }
-          break;
-        case 'markdown-post-link':
-          if (!handleOnPostPress) {
-            __handleOnPostPress(permlink, author);
-          } else {
-            handleOnPostPress(permlink, author);
-          }
-          break;
-        case 'markdown-tag-link':
-          __handleTagPress(tag);
-          break;
-        case 'markdown-witnesses-link':
-          break;
-        case 'markdown-proposal-link':
-          break;
-        case 'markdown-video-link':
-          break;
-        case 'image':
-          setPostImages(images);
-          setSelectedImage(image);
-          break;
-
-        default:
-          break;
-      }
-    } catch (error) {}
-  };
 
   const handleImagePress = (ind) => {
     if (ind === 1) {
@@ -315,9 +240,94 @@ const CommentBody = ({
     }
   };
 
-  const html = body.replace(/data-href/g, 'href');
 
+  //new renderer functions
+  const __handleOnLinkPress = (data:LinkData) => {
+
+    if(!data){
+      return;
+    }
+
+    const {
+      type,
+      href,
+      images,
+      image,
+      author,
+      permlink,
+      tag,
+      proposal,
+      videoHref,
+    } = data;
+
+    try {
+
+      switch (type) {
+        case '_external':
+        case 'markdown-external-link':
+          setSelectedLink(href);
+          break;
+        case 'longpress':
+          handleOnLongPress();
+          break;
+        case 'markdown-author-link':
+          if (!handleOnUserPress) {
+            __handleOnUserPress(author);
+          } else {
+            handleOnUserPress(author);
+          }
+          break;
+        case 'markdown-post-link':
+          if (!handleOnPostPress) {
+            __handleOnPostPress(permlink, author);
+          } else {
+            handleOnPostPress(permlink, author);
+          }
+          break;
+        case 'markdown-tag-link':
+          __handleTagPress(tag);
+          break;
+        case 'markdown-witnesses-link':
+          break;
+        case 'markdown-proposal-link':
+          break;
+        case 'markdown-video-link':
+          break;
+        case 'markdown-video-link-youtube':
+          break;
+        case 'image':
+          setPostImages(images);
+          setSelectedImage(image);
+          break;
+
+        default:
+          break;
+      }
+    } catch (error) {}
+  };
   
+
+
+  const _anchorRenderer = ({
+    InternalRenderer,
+    tnode,
+    ...props
+  }:CustomRendererProps<TNode>) => {
+
+    const _onPress = () => {
+      console.log("Link Pressed:", tnode)
+      const data = parseLinkData(tnode);
+      __handleOnLinkPress(data);
+    };
+
+    return (
+      <InternalRenderer
+        tnode={tnode}
+        onPress={_onPress}
+        {...props}
+      />
+    );
+  }
 
 
   const _imageRenderer = ({
@@ -332,12 +342,14 @@ const CommentBody = ({
         setSelectedImage(imgUrl);
       };
 
-      const isAnchorChild = (tnode.parent?.classes?.indexOf('markdown-external-link') >= 0)
+      const registerEventListener = !(
+        tnode.parent?.classes?.indexOf('markdown-external-link') >= 0 ||
+        tnode.classes?.indexOf('video-thumbnail') >= 0 )
 
       return (
         <InternalRenderer
           tnode={tnode}
-          onPress={!isAnchorChild && onPress}
+          onPress={registerEventListener && onPress}
           {...props}
         />
       );
@@ -396,7 +408,7 @@ const CommentBody = ({
       {revealComment ? (
         <RenderHTML 
           contentWidth={WIDTH - (32 + 34 * (commentDepth % 6))}
-          source={{ html }}
+          source={{ html:body }}
           baseStyle={styles.baseStyle}
           tagsStyles={{
             body:styles.body,
@@ -409,34 +421,15 @@ const CommentBody = ({
             code:styles.code,
             center:styles.code
           }}
-          renderersProps={{
-            a:{
-              onPress:_onPress,
-            }
-          }}
           domVisitors={{
             onElement:_onElement
           }}
           renderers={{
-            img:_imageRenderer
+            img:_imageRenderer,
+            a:_anchorRenderer,
           }}
 
         />
-        // <AutoHeightWebView
-        //   key={`akey-${created.toString()}`}
-        //   source={{ html }}
-        //   allowsFullscreenVideo={true}
-        //   style={{ width: WIDTH - (32 + 34 * (commentDepth % 6)) }}
-        //   customStyle={customStyle}
-        //   onMessage={__handleOnLinkPress}
-        //   customScript={customCommentScript}
-        //   renderLoading={() => <CommentPlaceHolder />}
-        //   startInLoadingState={true}
-        //   onShouldStartLoadWithRequest={false}
-        //   scrollEnabled={false}
-        //   scalesPageToFit={false}
-        //   zoomable={false}
-        // />
       ) : (
         <TextButton
           style={styles.revealButton}
