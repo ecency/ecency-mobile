@@ -325,15 +325,19 @@ const CommentBody = ({
       tnode,
       ...props
     }:CustomRendererProps<TNode>) => {
+
       const onPress = () => {
         const imgUrl = tnode.attributes.src;
         console.log("Image Pressed:", imgUrl)
         setSelectedImage(imgUrl);
       };
+
+      const isAnchorChild = (tnode.parent?.classes?.indexOf('markdown-external-link') >= 0)
+
       return (
         <InternalRenderer
           tnode={tnode}
-          onPress={onPress}
+          onPress={!isAnchorChild && onPress}
           {...props}
         />
       );
