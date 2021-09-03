@@ -22,12 +22,11 @@ import styles from './commentBodyStyles';
 // Services and Actions
 import { writeToClipboard } from '../../../../utils/clipboard';
 import { toastNotification } from '../../../../redux/actions/uiAction';
-import { LinkData } from './linkDataParser';
 import getYoutubeId from '../../../../utils/getYoutubeId';
 import VideoPlayerSheet from './videoPlayerSheet';
 import { LongPressGestureHandler, State } from 'react-native-gesture-handler';
 import { useCallback } from 'react';
-import HtmlRenderer from './htmlRederer';
+import HtmlRenderer from './htmlRenderer';
 
 const WIDTH = Dimensions.get('window').width;
 
