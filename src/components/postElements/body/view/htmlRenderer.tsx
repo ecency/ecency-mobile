@@ -34,7 +34,7 @@ const HtmlRenderer = ({
   }:HtmlRendererProps) => {
 
      //new renderer functions
-  body = body.replace('<center>', '<div class="center">').replace('</center>','</div>');
+  body = body.replace('<center>', '<div class="text-center">').replace('</center>','</div>');
 
   const _handleOnLinkPress = (data:LinkData) => {
 
@@ -181,7 +181,7 @@ const HtmlRenderer = ({
       classesStyles={{
         phishy:styles.phishy,
         'text-justify':styles.textJustify,
-        center:styles.center
+        'text-center':styles.textCenter
       }}
       tagsStyles={{
         body:styles.body,
