@@ -35,6 +35,14 @@ export const parseLinkData = (tnode:TNode):LinkData => {
   if (tnode.classes.includes('markdown-post-link')) {
     var author = tnode.attributes['data-author'];
     var permlink = tnode.attributes['data-permlink'];
+
+    const childAnchorIndex = permlink.indexOf('#@');
+    if(childAnchorIndex > 0){
+      const childLink = permlink.substring(childAnchorIndex + 2);
+      const separatorIndex = childLink.indexOf('/');
+      author = childLink.substring(0, separatorIndex);
+      permlink = childLink.substring(separatorIndex + 1);
+    }
     return {
       type: 'markdown-post-link',
       author: author,
