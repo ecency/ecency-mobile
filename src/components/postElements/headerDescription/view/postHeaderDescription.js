@@ -87,6 +87,7 @@ class PostHeaderDescription extends PureComponent {
       intl,
       inlineTime,
       customStyle,
+      customContentComponent,
     } = this.props;
 
     return (
@@ -106,6 +107,7 @@ class PostHeaderDescription extends PureComponent {
               />
             )}
           </TouchableOpacity>
+
           <View style={styles.leftContainer}>
             <View style={styles.primaryDetails}>
               <TouchableOpacity
@@ -125,6 +127,8 @@ class PostHeaderDescription extends PureComponent {
                 <Icon style={styles.ownerIndicator} name="stars" iconType="MaterialIcons" />
               )}
             </View>
+
+            {customContentComponent}
 
             <View style={styles.secondaryDetails}>
               {content && (

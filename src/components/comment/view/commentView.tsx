@@ -109,23 +109,29 @@ const CommentView = ({
           date={getTimeFromNow(comment.created)}
           name={comment.author}
           reputation={comment.author_reputation}
-          size={avatarSize || 40}
+          size={avatarSize || 36}
           currentAccountUsername={currentAccountUsername}
           isShowOwnerIndicator={mainAuthor === comment.author}
           isHideImage={isHideImage}
           inlineTime={true}
+          customStyle={{alignItems:'flex-start'}}
+          customContentComponent={(
+            <View style={[{ marginLeft: 2, marginTop: -10 }]}>
+            <CommentBody
+              commentDepth={comment.depth}
+              reputation={comment.author_reputation}
+              handleOnUserPress={handleOnUserPress}
+              handleOnLongPress={handleOnLongPress}
+              body={comment.body}
+              created={comment.created}
+              key={`key-${comment.permlink}`}
+              textSelectable={true}
+            />
+            </View>
+          )}
         />
-        <View style={[{ marginLeft: 34 }, styles.bodyWrapper]}>
-          <CommentBody
-            commentDepth={comment.depth}
-            reputation={comment.author_reputation}
-            handleOnUserPress={handleOnUserPress}
-            handleOnLongPress={handleOnLongPress}
-            body={comment.body}
-            created={comment.created}
-            key={`key-${comment.permlink}`}
-            textSelectable={true}
-          />
+        <View style={[{ marginLeft: 72, marginTop: -4 }]}>
+
           <View style={styles.footerWrapper}>
             {isLoggedIn && (
               <Fragment>
