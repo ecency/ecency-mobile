@@ -34,15 +34,16 @@ export const parseLinkData = (tnode:TNode):LinkData => {
 
   if (tnode.classes.includes('markdown-post-link')) {
     var author = tnode.attributes['data-author'];
-    var permlink = tnode.attributes['data-permlink'];
+    var permlink = tnode.attributes['data-permlink']; 
 
-    const childAnchorIndex = permlink.indexOf('#@');
-    if(childAnchorIndex > 0){
-      const childLink = permlink.substring(childAnchorIndex + 2);
-      const separatorIndex = childLink.indexOf('/');
-      author = childLink.substring(0, separatorIndex);
-      permlink = childLink.substring(separatorIndex + 1);
+    //snippets checks if there is anchored post inside permlink and use that instead
+    const anchoredPostRegex = /(.*?\#\@)(.*)\/(.*)/;
+    const matchedLink = permlink.match(anchoredPostRegex);
+    if(matchedLink){
+      author = matchedLink[2];
+      permlink = matchedLink[3];
     }
+
     return {
       type: 'markdown-post-link',
       author: author,
