@@ -34,6 +34,8 @@ const HtmlRenderer = ({
   }:HtmlRendererProps) => {
 
      //new renderer functions
+  body = body.replace('<center>', '<div class="center">').replace('</center>','</div>');
+
   const _handleOnLinkPress = (data:LinkData) => {
 
     if(!data){
@@ -179,6 +181,7 @@ const HtmlRenderer = ({
       classesStyles={{
         phishy:styles.phishy,
         'text-justify':styles.textJustify,
+        center:styles.center
       }}
       tagsStyles={{
         body:styles.body,
@@ -189,7 +192,6 @@ const HtmlRenderer = ({
         td:styles.td,
         blockquote:styles.blockquote,
         code:styles.code,
-        center:styles.code
       }}
       domVisitors={{
         onElement:_onElement
@@ -198,6 +200,7 @@ const HtmlRenderer = ({
         img:_imageRenderer,
         a:_anchorRenderer,
       }}
+      
     />
    )
   }

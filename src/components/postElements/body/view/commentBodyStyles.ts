@@ -52,7 +52,7 @@ export default EStyleSheet.create({
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-  } as ViewStyle,
+  } as TextStyle,
   phishy:{
     color:'red',
     flexDirection:'row', 
