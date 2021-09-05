@@ -105,7 +105,7 @@ const CommentView = ({
 
   const _renderCommentBody = () => {
     return ((
-      <View style={[{ marginLeft: 2, marginTop: -8 }]}>
+      <View style={[{ marginLeft: 2, marginTop: -6 }]}>
         <CommentBody
           commentDepth={comment.depth}
           reputation={comment.author_reputation}
@@ -149,14 +149,7 @@ const CommentView = ({
             onPress={() => handleOnReplyPress && handleOnReplyPress(comment)}
             iconType="MaterialCommunityIcons"
           />
-          <IconButton
-            size={20}
-            iconStyle={styles.leftIcon}
-            style={styles.leftButton}
-            name="dots-horizontal"
-            onPress={() => handleOnLongPress && handleOnLongPress()}
-            iconType="MaterialCommunityIcons"
-          />
+         
           {currentAccountUsername === comment.author && (
             <Fragment>
               <IconButton
@@ -236,6 +229,8 @@ const CommentView = ({
           inlineTime={true}
           customStyle={{alignItems:'flex-start', paddingLeft: 12}}
           customContentComponent={_renderCommentBody()}
+          showDotMenuButton={true}
+          handleOnDotPress={handleOnLongPress}
         />
         
         <View style={[{ marginLeft: 88, marginTop: -4 }]}>

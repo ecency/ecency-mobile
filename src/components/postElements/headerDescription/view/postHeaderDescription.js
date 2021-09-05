@@ -11,6 +11,7 @@ import { UserAvatar } from '../../../userAvatar';
 import styles from './postHeaderDescriptionStyles';
 
 import { default as ROUTES } from '../../../../constants/routeNames';
+import { IconButton } from '../../..';
 
 // Constants
 const DEFAULT_IMAGE = require('../../../../assets/ecency.png');
@@ -88,6 +89,8 @@ class PostHeaderDescription extends PureComponent {
       inlineTime,
       customStyle,
       customContentComponent,
+      showDotMenuButton,
+      handleOnDotPress,
     } = this.props;
 
     return (
@@ -125,6 +128,19 @@ class PostHeaderDescription extends PureComponent {
 
               {isShowOwnerIndicator && (
                 <Icon style={styles.ownerIndicator} name="stars" iconType="MaterialIcons" />
+              )}
+
+              {showDotMenuButton && (
+                <View style={{ flexGrow: 1, alignItems: 'flex-end' }}>
+                  <IconButton
+                    size={20}
+                    iconStyle={styles.rightIcon}
+                    style={styles.rightButton}
+                    name="dots-horizontal"
+                    onPress={() => handleOnDotPress && handleOnDotPress()}
+                    iconType="MaterialCommunityIcons"
+                  />
+                </View>
               )}
             </View>
 
