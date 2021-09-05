@@ -11,9 +11,6 @@ import RNFetchBlob from 'rn-fetch-blob';
 import ActionSheet from 'react-native-actionsheet';
 import ActionSheetView from 'react-native-actions-sheet';
 import { connect } from 'react-redux';
-
-import Config from 'react-native-config';
-import Youtube from 'react-native-youtube-iframe';
 import { customBodyScript } from './config';
 import { PostPlaceHolder, CommentPlaceHolder } from '../../../basicUIElements';
 
@@ -24,7 +21,6 @@ import { toastNotification } from '../../../../redux/actions/uiAction';
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
 import getYoutubeId from '../../../../utils/getYoutubeId';
-import isAndroidOreo from '../../../../utils/isAndroidOreo';
 import VideoPlayerSheet from './videoPlayerSheet';
 
 const WIDTH = Dimensions.get('window').width;
