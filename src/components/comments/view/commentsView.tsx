@@ -13,6 +13,7 @@ import ROUTES from '../../../constants/routeNames';
 
 // Styles
 import styles from './commentStyles';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 
 const CommentsView = ({
@@ -124,11 +125,17 @@ const CommentsView = ({
   };
 
 
+  const styleOerride = commentNumber > 1 ? {
+    backgroundColor:EStyleSheet.value('$primaryLightBackground'),
+    marginTop:8,
+  }:null
+
 
   return (
     <Fragment>
       <FlatList
-        style={styles.list}
+        style={{...styles.list, ...styleOerride  }}
+        contentContainerStyle={{padding:0}}
         data={comments}
         renderItem={_renderItem}
         keyExtractor={(item) => get(item, 'permlink')}
