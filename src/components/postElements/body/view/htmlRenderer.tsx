@@ -175,9 +175,9 @@ const HtmlRenderer = ({
   
    return (
     <RenderHTML 
-      contentWidth={contentWidth}
       source={{ html:body }}
-      baseStyle={styles.baseStyle}
+      contentWidth={contentWidth}
+      baseStyle={{...styles.baseStyle, width:contentWidth}}
       classesStyles={{
         phishy:styles.phishy,
         'text-justify':styles.textJustify,
@@ -192,6 +192,7 @@ const HtmlRenderer = ({
         td:styles.td,
         blockquote:styles.blockquote,
         code:styles.code,
+        p:styles.p
       }}
       domVisitors={{
         onElement:_onElement

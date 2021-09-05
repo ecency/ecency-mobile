@@ -32,7 +32,6 @@ const WIDTH = Dimensions.get('window').width;
 
 const CommentBody = ({
   body,
-  textSelectable = true,
   handleOnUserPress,
   handleOnPostPress,
   handleOnLongPress,
@@ -42,7 +41,7 @@ const CommentBody = ({
   dispatch,
 }) => {
 
-  const _contentWidth = WIDTH - (32 + 34 * (commentDepth % 6))
+  const _contentWidth = WIDTH - (40 + 28 + (commentDepth > 2 ? 44 : 0))
 
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [postImages, setPostImages] = useState<string[]>([]);

@@ -6,17 +6,24 @@ export default EStyleSheet.create({
   baseStyle: {
     color: '$primaryBlack',
     fontFamily: '$primaryFont',
-    maxWidth: '100%',
     fontSize: 16,
+    marginBottom: 4,
   } as TextStyle,
   body: {
     color: '$primaryBlack',
+  } as TextStyle,
+  p:{
+    marginTop:6,
+    marginBottom:6
   } as TextStyle,
   a:{
     color: '$primaryBlue'
   } as TextStyle,
   img:{
+    width: '100%',
     alignSelf:'center',
+    marginTop:4,
+    marginBottom:4
   } as ImageStyle,
   th:{
     flex: 1,
@@ -25,17 +32,19 @@ export default EStyleSheet.create({
     color: '$primaryBlack',
     fontSize: 14,
     padding: 10,
+
   } as TextStyle,
   tr:{
     backgroundColor:'$darkIconColor',
     flexDirection:'row',
+ 
   } as ViewStyle,
   td:{
     flex:1,
     borderWidth: 0.5,
     padding:10,
     borderColor: '$tableBorderColor',
-    backgroundColor: '$tableTrColor'
+    backgroundColor: '$tableTrColor',
   } as ViewStyle,
   blockquote: {
     borderLeftWidth: 5,
