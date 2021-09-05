@@ -116,6 +116,13 @@ const CommentView = ({
           key={`key-${comment.permlink}`}
           textSelectable={true}
         />
+        
+        <Fragment>
+          <View style={styles.footerWrapper}>
+            {_renderActionPanel()}
+          </View>
+          { comment.children > 0 && !comment.replies?.length && _renderReadMoreButton() }
+        </Fragment>
       </View>
     ))
   }
@@ -124,8 +131,7 @@ const CommentView = ({
   const _renderActionPanel = () => {
     return (
       <>
-      {isLoggedIn && (
-        <Fragment>
+
           <Upvote activeVotes={activeVotes} isShowPayoutValue content={comment} />
           <TextWithIcon
             iconName="heart-outline"
@@ -141,14 +147,18 @@ const CommentView = ({
             text={activeVotes.length}
             textStyle={styles.voteCountText}
           />
-          <IconButton
-            size={20}
-            iconStyle={styles.leftIcon}
-            style={styles.leftButton}
-            name="comment-outline"
-            onPress={() => handleOnReplyPress && handleOnReplyPress(comment)}
-            iconType="MaterialCommunityIcons"
-          />
+
+          {isLoggedIn && (
+            <IconButton
+              size={20}
+              iconStyle={styles.leftIcon}
+              style={styles.leftButton}
+              name="comment-outline"
+              onPress={() => handleOnReplyPress && handleOnReplyPress(comment)}
+              iconType="MaterialCommunityIcons"
+            />
+          )}
+       
          
           {currentAccountUsername === comment.author && (
             <Fragment>
@@ -187,27 +197,24 @@ const CommentView = ({
               )}
             </Fragment>
           )}
-        </Fragment>
-      )}
-            {isShowMoreButton && (
-                <View style={styles.rightButtonWrapper}>
-                  <TextWithIcon
-                    wrapperStyle={styles.rightButton}
-                    iconName={_isShowSubComments ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
-                    textStyle={!isPressedShowButton && styles.moreText}
-                    iconType="MaterialIcons"
-                    isClickable
-                    iconStyle={styles.iconStyle}
-                    iconSize={16}
-                    onPress={() => _showSubCommentsToggle()}
-                    text={
-                      !isPressedShowButton
-                        ? `${comment.children} ${intl.formatMessage({ id: 'comments.more_replies' })}`
-                        : ''
-                    }
-                  />
-                </View>
-              )}
+
+        
+        {isShowMoreButton && (
+          <View style={styles.rightButtonWrapper}>
+            <TextWithIcon
+              wrapperStyle={styles.rightButton}
+              iconName={_isShowSubComments ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
+              textStyle={styles.moreText}
+              iconType="MaterialIcons"
+              isClickable
+              iconStyle={styles.iconStyle}
+              iconSize={16}
+              onPress={() => _showSubCommentsToggle()}
+              text={`${comment.children} ${intl.formatMessage({ id: 'comments.more_replies' })}`}
+            />
+          </View>
+        )}
+
       </>
     )
   }
@@ -232,17 +239,7 @@ const CommentView = ({
           showDotMenuButton={true}
           handleOnDotPress={handleOnLongPress}
         />
-        
-        <View style={[{ marginLeft: 88, marginTop: -4 }]}>
 
-          <View style={styles.footerWrapper}>
-            {_renderActionPanel()}
-
-          </View>
-            { comment.children > 0 && !comment.replies?.length && _renderReadMoreButton() }
-
-          
-        </View>
         {_isShowSubComments && commentNumber > 0 && _renderReplies()}
       </View>
     </Fragment>
