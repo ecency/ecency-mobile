@@ -90,6 +90,7 @@ import { TabbedPosts } from './tabbedPosts';
 import { ActionModal } from './actionModal';
 import { CustomiseFiltersModal } from './customiseFiltersModal';
 import { ForegroundNotification } from './foregroundNotification';
+import { PostHtmlRenderer } from './postHtmlRenderer';
 
 // Basic UI Elements
 import {
@@ -228,4 +229,5 @@ export {
   ActionModal,
   CustomiseFiltersModal,
   ForegroundNotification,
+  PostHtmlRenderer,
 };
