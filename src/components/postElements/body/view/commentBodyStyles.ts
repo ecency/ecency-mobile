@@ -9,6 +9,7 @@ export default EStyleSheet.create({
     borderRadius: 20,
     minWidth: 40,
     maxWidth: 170,
+    marginVertical: 8,
   },
   revealText: {
     color: '$white',
