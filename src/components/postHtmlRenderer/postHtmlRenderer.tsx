@@ -1,13 +1,13 @@
-import React from "react";
+import React, { memo } from "react";
 import { View, ImageBackground } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import RenderHTML, { CustomRendererProps, Element, TNode } from "react-native-render-html";
-import { IconButton } from "../../..";
-import styles from "./commentBodyStyles";
+import styles from "./postHtmlRendererStyles";
 import { LinkData, parseLinkData } from "./linkDataParser";
+import { IconButton } from "..";
 
 
-interface HtmlRendererProps {
+interface PostHtmlRendererProps {
   contentWidth:number;
   body:string;
   setSelectedImage:(imgUrl:string)=>void;
@@ -20,7 +20,7 @@ interface HtmlRendererProps {
   handleYoutubePress:(videoId:string)=>void;
 }
 
-const HtmlRenderer = ({
+export const PostHtmlRenderer = memo(({
     contentWidth,
     body,
     setSelectedImage,
@@ -31,7 +31,7 @@ const HtmlRenderer = ({
     handleTagPress,
     handleVideoPress,
     handleYoutubePress,
-  }:HtmlRendererProps) => {
+  }:PostHtmlRendererProps) => {
 
      //new renderer functions
   body = body.replace('<center>', '<div class="text-center">').replace('</center>','</div>');
@@ -175,9 +175,9 @@ const HtmlRenderer = ({
   
    return (
     <RenderHTML 
-      contentWidth={contentWidth}
       source={{ html:body }}
-      baseStyle={styles.baseStyle}
+      contentWidth={contentWidth}
+      baseStyle={{...styles.baseStyle, width:contentWidth}}
       classesStyles={{
         phishy:styles.phishy,
         'text-justify':styles.textJustify,
@@ -192,6 +192,7 @@ const HtmlRenderer = ({
         td:styles.td,
         blockquote:styles.blockquote,
         code:styles.code,
+        p:styles.p
       }}
       domVisitors={{
         onElement:_onElement
@@ -203,7 +204,4 @@ const HtmlRenderer = ({
       
     />
    )
-  }
-
-
-  export default React.memo(HtmlRenderer, (next, prev)=>next.body === prev.body)
+  }, (next, prev)=>next.body === prev.body)

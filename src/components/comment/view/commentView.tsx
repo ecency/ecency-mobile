@@ -3,13 +3,10 @@ import { View } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
+import { View as AnimatedView } from 'react-native-animatable';
 
 import { getTimeFromNow } from '../../../utils/time';
-import { parseActiveVotes } from '../../../utils/postParser';
 // Constants
-
-// Actions
-import { getActiveVotes } from '../../../providers/hive/dhive';
 
 // Components
 import { CommentBody, PostHeaderDescription } from '../../postElements';
@@ -20,6 +17,7 @@ import { TextWithIcon } from '../../basicUIElements';
 
 // Styles
 import styles from './commentStyles';
+import Animated from 'react-native-reanimated';
 
 const CommentView = ({
   avatarSize,
@@ -82,28 +80,148 @@ const CommentView = ({
 
   const _renderReplies = () => {
     return (
-      <Comments
-        isShowComments={isShowComments}
-        commentNumber={commentNumber + 1}
-        marginLeft={20}
-        isShowSubComments={true}
-        avatarSize={avatarSize || 24}
-        author={comment.author}
-        permlink={comment.permlink}
-        commentCount={comment.children}
-        comments={comment.replies}
-        isShowMoreButton={false}
-        hasManyComments={commentNumber === 5 && get(comment, 'children') > 0}
-        fetchPost={fetchPost}
-        hideManyCommentsButton={hideManyCommentsButton}
-        mainAuthor={mainAuthor}
-      />
+      <AnimatedView animation="zoomIn" duration={300}>
+        <Comments
+          isShowComments={isShowComments}
+          commentNumber={commentNumber + 1}
+          marginLeft={20}
+          isShowSubComments={true}
+          avatarSize={avatarSize || 24}
+          author={comment.author}
+          permlink={comment.permlink}
+          commentCount={comment.children}
+          comments={comment.replies}
+          isShowMoreButton={false}
+          hasManyComments={commentNumber === 5 && get(comment, 'children') > 0}
+          fetchPost={fetchPost}
+          hideManyCommentsButton={hideManyCommentsButton}
+          mainAuthor={mainAuthor}
+        />
+      </AnimatedView>
+     
     )
   }
 
+
+  const _renderComment = () => {
+    return ((
+      <View style={[{ marginLeft: 2, marginTop: -6 }]}>
+        <CommentBody
+          commentDepth={comment.depth}
+          reputation={comment.author_reputation}
+          handleOnUserPress={handleOnUserPress}
+          handleOnLongPress={handleOnLongPress}
+          body={comment.body}
+          created={comment.created}
+          key={`key-${comment.permlink}`}
+        />
+        
+        <Fragment>
+          <View style={styles.footerWrapper}>
+            {_renderActionPanel()}
+          </View>
+          { comment.children > 0 && !comment.replies?.length && _renderReadMoreButton() }
+        </Fragment>
+      </View>
+    ))
+  }
+
+
+  const _renderActionPanel = () => {
+    return (
+      <>
+        <Upvote activeVotes={activeVotes} isShowPayoutValue content={comment} />
+        <TextWithIcon
+          iconName="heart-outline"
+          iconSize={20}
+          wrapperStyle={styles.leftButton}
+          iconType="MaterialCommunityIcons"
+          isClickable
+          onPress={() =>
+            handleOnVotersPress &&
+            activeVotes.length > 0 &&
+            handleOnVotersPress(activeVotes, comment)
+          }
+          text={activeVotes.length}
+          textStyle={styles.voteCountText}
+        />
+
+        {isLoggedIn && (
+          <IconButton
+            size={20}
+            iconStyle={styles.leftIcon}
+            style={styles.leftButton}
+            name="comment-outline"
+            onPress={() => handleOnReplyPress && handleOnReplyPress(comment)}
+            iconType="MaterialCommunityIcons"
+          />
+        )}
+       
+         
+        {currentAccountUsername === comment.author && (
+          <Fragment>
+            <IconButton
+              size={20}
+              iconStyle={styles.leftIcon}
+              style={styles.leftButton}
+              name="create"
+              onPress={() => handleOnEditPress && handleOnEditPress(comment)}
+              iconType="MaterialIcons"
+            />
+            {!comment.children && !activeVotes.length && (
+              <Fragment>
+                <IconButton
+                  size={20}
+                  iconStyle={styles.leftIcon}
+                  style={styles.leftButton}
+                  name="delete-forever"
+                  onPress={() => actionSheet.current.show()}
+                  iconType="MaterialIcons"
+                />
+                <ActionSheet
+                  ref={actionSheet}
+                  options={[
+                    intl.formatMessage({ id: 'alert.delete' }),
+                    intl.formatMessage({ id: 'alert.cancel' }),
+                  ]}
+                  title={intl.formatMessage({ id: 'alert.delete' })}
+                  destructiveButtonIndex={0}
+                  cancelButtonIndex={1}
+                  onPress={(index) => {
+                    index === 0 ? handleDeleteComment(comment.permlink) : null;
+                  }}
+                />
+              </Fragment>
+            )}
+          </Fragment>
+        )}
+
+        
+        {isShowMoreButton && (
+          <View style={styles.rightButtonWrapper}>
+            <TextWithIcon
+              wrapperStyle={styles.rightButton}
+              iconName={_isShowSubComments ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
+              textStyle={styles.moreText}
+              iconType="MaterialIcons"
+              isClickable
+              iconStyle={styles.iconStyle}
+              iconSize={16}
+              onPress={() => _showSubCommentsToggle()}
+              text={`${comment.children} ${intl.formatMessage({ id: 'comments.more_replies' })}`}
+            />
+          </View>
+        )}
+
+      </>
+    )
+  }
+
+  const customContainerStyle = commentNumber > 2 ? {marginLeft: 44}:null
+
   return (
     <Fragment>
-      <View style={styles.commentContainer}>
+      <View style={{...styles.commentContainer, ...customContainerStyle}}>
         <PostHeaderDescription
           key={comment.permlink}
           date={getTimeFromNow(comment.created)}
@@ -114,136 +232,13 @@ const CommentView = ({
           isShowOwnerIndicator={mainAuthor === comment.author}
           isHideImage={isHideImage}
           inlineTime={true}
+          customStyle={{alignItems:'flex-start', paddingLeft: 12}}
+          showDotMenuButton={true}
+          handleOnDotPress={handleOnLongPress}
+          secondaryContentComponent={_renderComment()}
         />
-        <View style={[{ marginLeft: 34 }, styles.bodyWrapper]}>
-          <CommentBody
-            commentDepth={comment.depth}
-            reputation={comment.author_reputation}
-            handleOnUserPress={handleOnUserPress}
-            handleOnLongPress={handleOnLongPress}
-            body={comment.body}
-            created={comment.created}
-            key={`key-${comment.permlink}`}
-            textSelectable={true}
-          />
-          <View style={styles.footerWrapper}>
-            {isLoggedIn && (
-              <Fragment>
-                <Upvote activeVotes={activeVotes} isShowPayoutValue content={comment} />
-                <TextWithIcon
-                  iconName="heart-outline"
-                  iconSize={20}
-                  wrapperStyle={styles.leftButton}
-                  iconType="MaterialCommunityIcons"
-                  isClickable
-                  onPress={() =>
-                    handleOnVotersPress &&
-                    activeVotes.length > 0 &&
-                    handleOnVotersPress(activeVotes, comment)
-                  }
-                  text={activeVotes.length}
-                  textStyle={styles.voteCountText}
-                />
-                <IconButton
-                  size={20}
-                  iconStyle={styles.leftIcon}
-                  style={styles.leftButton}
-                  name="comment-outline"
-                  onPress={() => handleOnReplyPress && handleOnReplyPress(comment)}
-                  iconType="MaterialCommunityIcons"
-                />
-                <IconButton
-                  size={20}
-                  iconStyle={styles.leftIcon}
-                  style={styles.leftButton}
-                  name="dots-horizontal"
-                  onPress={() => handleOnLongPress && handleOnLongPress()}
-                  iconType="MaterialCommunityIcons"
-                />
-                {currentAccountUsername === comment.author && (
-                  <Fragment>
-                    <IconButton
-                      size={20}
-                      iconStyle={styles.leftIcon}
-                      style={styles.leftButton}
-                      name="create"
-                      onPress={() => handleOnEditPress && handleOnEditPress(comment)}
-                      iconType="MaterialIcons"
-                    />
-                    {!comment.children && !activeVotes.length && (
-                      <Fragment>
-                        <IconButton
-                          size={20}
-                          iconStyle={styles.leftIcon}
-                          style={styles.leftButton}
-                          name="delete-forever"
-                          onPress={() => actionSheet.current.show()}
-                          iconType="MaterialIcons"
-                        />
-                        <ActionSheet
-                          ref={actionSheet}
-                          options={[
-                            intl.formatMessage({ id: 'alert.delete' }),
-                            intl.formatMessage({ id: 'alert.cancel' }),
-                          ]}
-                          title={intl.formatMessage({ id: 'alert.delete' })}
-                          destructiveButtonIndex={0}
-                          cancelButtonIndex={1}
-                          onPress={(index) => {
-                            index === 0 ? handleDeleteComment(comment.permlink) : null;
-                          }}
-                        />
-                      </Fragment>
-                    )}
-                  </Fragment>
-                )}
-              </Fragment>
-            )}
-            
-            {isShowMoreButton && (
-              <View style={styles.rightButtonWrapper}>
-                <TextWithIcon
-                  wrapperStyle={styles.rightButton}
-                  iconName={_isShowSubComments ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
-                  textStyle={!isPressedShowButton && styles.moreText}
-                  iconType="MaterialIcons"
-                  isClickable
-                  iconStyle={styles.iconStyle}
-                  iconSize={16}
-                  onPress={() => _showSubCommentsToggle()}
-                  text={
-                    !isPressedShowButton
-                      ? `${comment.children} ${intl.formatMessage({ id: 'comments.more_replies' })}`
-                      : ''
-                  }
-                />
-              </View>
-            )}
 
-            {/* { comment.children > 0 && !comment.replies?.length && (
-              <View style={styles.rightButtonWrapper}>
-                <TextWithIcon
-                  wrapperStyle={styles.rightButton}
-                  textStyle={!isPressedShowButton && styles.moreText}
-                  iconType="MaterialIcons"
-                  isClickable
-                  iconStyle={styles.iconStyle}
-                  iconSize={16}
-                  onPress={() => openReplyThread && openReplyThread()}
-                  text={
-                    !isPressedShowButton
-                      ? intl.formatMessage({ id: 'post.open_thread' })
-                      : ''
-                  }
-                />
-             </View>
-             )
-            } */}
-          </View>
-            { comment.children > 0 && !comment.replies?.length && _renderReadMoreButton() }
-
-          {_isShowSubComments && commentNumber > 0 && _renderReplies()}
-        </View>
+        {_isShowSubComments && commentNumber > 0 && _renderReplies()}
       </View>
     </Fragment>
   );

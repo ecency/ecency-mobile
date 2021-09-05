@@ -40,7 +40,7 @@ const CommentsDisplayView = ({
             }
             selectedOptionIndex={selectedOptionIndex}
           />
-          <View style={styles.commentWrapper}>
+          <View>
             <Comments
               selectedFilter={selectedFilter}
               fetchPost={fetchPost}

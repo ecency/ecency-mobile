@@ -89,4 +89,10 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     marginLeft: 8,
   },
+  rightIcon: {
+    color: '$iconColor',
+  },
+  rightButton: {
+    marginRight: 10,
+  },
 });

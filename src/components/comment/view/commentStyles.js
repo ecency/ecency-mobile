@@ -41,7 +41,6 @@ export default EStyleSheet.create({
   footerWrapper: {
     flex: 1,
     flexDirection: 'row',
-    right: 29,
   },
   rightButtonWrapper: {
     alignSelf: 'flex-end',
@@ -49,6 +48,7 @@ export default EStyleSheet.create({
     right: 0,
     bottom: -10,
     padding: 10,
+    paddingRight: 0,
   },
   voteCountText: {
     alignSelf: 'center',
