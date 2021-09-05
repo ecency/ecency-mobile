@@ -88,7 +88,7 @@ class PostHeaderDescription extends PureComponent {
       intl,
       inlineTime,
       customStyle,
-      customContentComponent,
+      secondaryContentComponent,
       showDotMenuButton,
       handleOnDotPress,
     } = this.props;
@@ -144,7 +144,7 @@ class PostHeaderDescription extends PureComponent {
               )}
             </View>
 
-            {customContentComponent}
+            {secondaryContentComponent}
 
             <View style={styles.secondaryDetails}>
               {content && (

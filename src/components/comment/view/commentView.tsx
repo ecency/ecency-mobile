@@ -103,7 +103,7 @@ const CommentView = ({
   }
 
 
-  const _renderCommentBody = () => {
+  const _renderComment = () => {
     return ((
       <View style={[{ marginLeft: 2, marginTop: -6 }]}>
         <CommentBody
@@ -114,7 +114,6 @@ const CommentView = ({
           body={comment.body}
           created={comment.created}
           key={`key-${comment.permlink}`}
-          textSelectable={true}
         />
         
         <Fragment>
@@ -131,72 +130,71 @@ const CommentView = ({
   const _renderActionPanel = () => {
     return (
       <>
+        <Upvote activeVotes={activeVotes} isShowPayoutValue content={comment} />
+        <TextWithIcon
+          iconName="heart-outline"
+          iconSize={20}
+          wrapperStyle={styles.leftButton}
+          iconType="MaterialCommunityIcons"
+          isClickable
+          onPress={() =>
+            handleOnVotersPress &&
+            activeVotes.length > 0 &&
+            handleOnVotersPress(activeVotes, comment)
+          }
+          text={activeVotes.length}
+          textStyle={styles.voteCountText}
+        />
 
-          <Upvote activeVotes={activeVotes} isShowPayoutValue content={comment} />
-          <TextWithIcon
-            iconName="heart-outline"
-            iconSize={20}
-            wrapperStyle={styles.leftButton}
+        {isLoggedIn && (
+          <IconButton
+            size={20}
+            iconStyle={styles.leftIcon}
+            style={styles.leftButton}
+            name="comment-outline"
+            onPress={() => handleOnReplyPress && handleOnReplyPress(comment)}
             iconType="MaterialCommunityIcons"
-            isClickable
-            onPress={() =>
-              handleOnVotersPress &&
-              activeVotes.length > 0 &&
-              handleOnVotersPress(activeVotes, comment)
-            }
-            text={activeVotes.length}
-            textStyle={styles.voteCountText}
           />
-
-          {isLoggedIn && (
+        )}
+       
+         
+        {currentAccountUsername === comment.author && (
+          <Fragment>
             <IconButton
               size={20}
               iconStyle={styles.leftIcon}
               style={styles.leftButton}
-              name="comment-outline"
-              onPress={() => handleOnReplyPress && handleOnReplyPress(comment)}
-              iconType="MaterialCommunityIcons"
+              name="create"
+              onPress={() => handleOnEditPress && handleOnEditPress(comment)}
+              iconType="MaterialIcons"
             />
-          )}
-       
-         
-          {currentAccountUsername === comment.author && (
-            <Fragment>
-              <IconButton
-                size={20}
-                iconStyle={styles.leftIcon}
-                style={styles.leftButton}
-                name="create"
-                onPress={() => handleOnEditPress && handleOnEditPress(comment)}
-                iconType="MaterialIcons"
-              />
-              {!comment.children && !activeVotes.length && (
-                <Fragment>
-                  <IconButton
-                    size={20}
-                    iconStyle={styles.leftIcon}
-                    style={styles.leftButton}
-                    name="delete-forever"
-                    onPress={() => actionSheet.current.show()}
-                    iconType="MaterialIcons"
-                  />
-                  <ActionSheet
-                    ref={actionSheet}
-                    options={[
-                      intl.formatMessage({ id: 'alert.delete' }),
-                      intl.formatMessage({ id: 'alert.cancel' }),
-                    ]}
-                    title={intl.formatMessage({ id: 'alert.delete' })}
-                    destructiveButtonIndex={0}
-                    cancelButtonIndex={1}
-                    onPress={(index) => {
-                      index === 0 ? handleDeleteComment(comment.permlink) : null;
-                    }}
-                  />
-                </Fragment>
-              )}
-            </Fragment>
-          )}
+            {!comment.children && !activeVotes.length && (
+              <Fragment>
+                <IconButton
+                  size={20}
+                  iconStyle={styles.leftIcon}
+                  style={styles.leftButton}
+                  name="delete-forever"
+                  onPress={() => actionSheet.current.show()}
+                  iconType="MaterialIcons"
+                />
+                <ActionSheet
+                  ref={actionSheet}
+                  options={[
+                    intl.formatMessage({ id: 'alert.delete' }),
+                    intl.formatMessage({ id: 'alert.cancel' }),
+                  ]}
+                  title={intl.formatMessage({ id: 'alert.delete' })}
+                  destructiveButtonIndex={0}
+                  cancelButtonIndex={1}
+                  onPress={(index) => {
+                    index === 0 ? handleDeleteComment(comment.permlink) : null;
+                  }}
+                />
+              </Fragment>
+            )}
+          </Fragment>
+        )}
 
         
         {isShowMoreButton && (
@@ -235,9 +233,9 @@ const CommentView = ({
           isHideImage={isHideImage}
           inlineTime={true}
           customStyle={{alignItems:'flex-start', paddingLeft: 12}}
-          customContentComponent={_renderCommentBody()}
           showDotMenuButton={true}
           handleOnDotPress={handleOnLongPress}
+          secondaryContentComponent={_renderComment()}
         />
 
         {_isShowSubComments && commentNumber > 0 && _renderReplies()}

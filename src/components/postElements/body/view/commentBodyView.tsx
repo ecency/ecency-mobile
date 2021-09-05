@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { Alert, Dimensions, Linking, Modal, PermissionsAndroid, Platform, View } from 'react-native';
+import { Linking, Modal, PermissionsAndroid, Platform, View, Dimensions } from 'react-native';
 import { useIntl } from 'react-intl';
 import CameraRoll from '@react-native-community/cameraroll';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -14,7 +14,7 @@ import { navigate } from '../../../../navigation/service';
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
 
-import { TextButton } from '../../..';
+import { PostHtmlRenderer, TextButton } from '../../..';
 
 // Styles
 import styles from './commentBodyStyles';
@@ -26,7 +26,6 @@ import getYoutubeId from '../../../../utils/getYoutubeId';
 import VideoPlayerSheet from './videoPlayerSheet';
 import { LongPressGestureHandler, State } from 'react-native-gesture-handler';
 import { useCallback } from 'react';
-import HtmlRenderer from './htmlRenderer';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -325,9 +324,9 @@ const CommentBody = ({
         }}
       />
       {revealComment ? (
-        <LongPressGestureHandler onHandlersStateChange={_onLongPressStateChange}>
+        <LongPressGestureHandler onHandlerStateChange={_onLongPressStateChange}>
           <View>
-            <HtmlRenderer 
+            <PostHtmlRenderer
               contentWidth={_contentWidth}
               body={body}
               onElementIsImage={_onElementIsImage}
