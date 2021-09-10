@@ -9,6 +9,8 @@ import {
   SHOW_ACTION_MODAL,
   HIDE_ACTION_MODAL,
   SET_AVATAR_CACHE_STAMP,
+  SHOW_PROFILE_MODAL,
+  HIDE_PROFILE_MODAL
 } from '../constants/constants';
 
 export const updateActiveBottomTab = (payload:string) => ({
@@ -35,8 +37,22 @@ export const showActionModal = (title:string, body?:string, buttons?:AlertButton
   type: SHOW_ACTION_MODAL,
 });
 
+
+
 export const hideActionModal = () => ({
   type: HIDE_ACTION_MODAL,
+});
+
+
+export const showProfileModal = (username:string) => ({
+  payload: {
+    profileModalUsername: username
+  },
+  type: SHOW_PROFILE_MODAL,
+});
+
+export const hideProfileModal = () => ({
+  type: HIDE_PROFILE_MODAL,
 });
 
 export const setRcOffer = (payload:boolean) => ({

@@ -4,16 +4,15 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 
 // Services
-import { act } from 'react-test-renderer';
-import { getPost, getActiveVotes } from '../../../providers/hive/dhive';
+import { getPost } from '../../../providers/hive/dhive';
 import { getPostReblogs } from '../../../providers/ecency/ecency';
-
-import { parseActiveVotes } from '../../../utils/postParser';
 
 import PostCardView from '../view/postCardView';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
+import { useAppDispatch } from '../../../hooks';
+import { showProfileModal } from '../../../redux/actions/uiAction';
 /*
  *            Props Name        Description                                     Value
  *@props -->  props name here   description here                                Value Type Here
@@ -31,6 +30,8 @@ const PostCardContainer = ({
   setImageHeight,
   pageType,
 }) => {
+  const dispatch = useAppDispatch();
+
   const [_content, setContent] = useState(content);
   const [reblogs, setReblogs] = useState([]);
   const activeVotes = get(_content, 'active_votes', []);
@@ -78,23 +79,26 @@ const PostCardContainer = ({
 
   const _handleOnUserPress = (username) => {
     if (_content) {
-      let params = {
-        username: username || get(_content, 'author'),
-        reputation: !username && get(_content, 'author_reputation'),
-      };
+      username = username || get(_content, 'author');
+      // let params = {
+      //   username: username || get(_content, 'author'),
+      //   reputation: !username && get(_content, 'author_reputation'),
+      // };
 
-      if (
-        get(currentAccount, 'name') === params.username &&
-        (pageType === 'main' || pageType === 'ownProfile')
-      ) {
-        navigation.navigate(ROUTES.TABBAR.PROFILE);
-      } else {
-        navigation.navigate({
-          routeName: ROUTES.SCREENS.PROFILE,
-          params,
-          key: get(_content, 'author'),
-        });
-      }
+      dispatch(showProfileModal(username));
+
+      // if (
+      //   get(currentAccount, 'name') === params.username &&
+      //   (pageType === 'main' || pageType === 'ownProfile')
+      // ) {
+      //   navigation.navigate(ROUTES.TABBAR.PROFILE);
+      // } else {
+      //   navigation.navigate({
+      //     routeName: ROUTES.SCREENS.PROFILE,
+      //     params,
+      //     key: get(_content, 'author'),
+      //   });
+      // }
     }
   };
 

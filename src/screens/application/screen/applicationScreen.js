@@ -25,6 +25,7 @@ import {
   AccountsBottomSheet,
   ActionModal,
   ForegroundNotification,
+  QuickProfileModal,
 } from '../../../components';
 
 // Themes (Styles)
@@ -171,6 +172,7 @@ class ApplicationScreen extends Component {
         <ForegroundNotification remoteMessage={foregroundNotificationData} />
         <AccountsBottomSheet />
         <ActionModal />
+        <QuickProfileModal />
       </View>
     );
   }
