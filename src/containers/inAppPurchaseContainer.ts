@@ -15,6 +15,9 @@ import { purchaseOrder } from '../providers/ecency/ecency';
 import { default as ROUTES } from '../constants/routeNames';
 
 class InAppPurchaseContainer extends Component {
+  purchaseUpdateSubscription = null;
+  purchaseErrorSubscription = null;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -29,8 +32,11 @@ class InAppPurchaseContainer extends Component {
     try {
       await RNIap.initConnection();
       if (Platform.OS === 'android') {
-        await RNIap.flushFailedPurchasesCachedAsPendingAndroid();
+        await RNIap.flushFailedPurchasesCachedAsPendingAndroid(); 
       }
+
+      this._consumeAvailablePurchases()
+
     } catch (err) {
       bugsnagInstance.notify(err);
       console.warn(err.code, err.message);
@@ -52,6 +58,25 @@ class InAppPurchaseContainer extends Component {
     RNIap.endConnection();
   }
 
+
+  //this snippet consumes all previously bought purchases 
+  //that are set to be consumed yet
+  _consumeAvailablePurchases = async () => {
+    try{
+      //get available purchase
+      const purchases = await RNIap.getAvailablePurchases();
+      //check consumeable status
+      for (let i = 0; i < purchases.length; i++) {
+        //consume item using finishTransactionx      
+        await RNIap.finishTransaction(purchases[i], true);
+      }
+    }catch(err){
+      bugsnagInstance.notify(err);
+      console.warn(err.code, err.message);
+    }
+  }
+
+  
   // Component Functions
 
   _purchaseUpdatedListener = () => {
@@ -76,7 +101,7 @@ class InAppPurchaseContainer extends Component {
         purchaseOrder(data)
           .then(async () => {
             try {
-              const ackResult = await RNIap.finishTransaction(purchase);
+              const ackResult = await RNIap.finishTransaction(purchase, true);
               console.info('ackResult', ackResult);
             } catch (ackErr) {
               console.warn('ackErr', ackErr);
@@ -113,7 +138,7 @@ class InAppPurchaseContainer extends Component {
           intl.formatMessage({
             id: 'alert.warning',
           }),
-          JSON.stringify(error),
+          error.message
         );
       }
       this.setState({ isProcessing: false });
