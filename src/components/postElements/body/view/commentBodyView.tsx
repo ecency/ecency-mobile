@@ -100,9 +100,8 @@ const CommentBody = ({
       //save to local
       _saveImage(selectedImage);
     }
-    if (ind === 3) {
-      setSelectedImage(null);
-    }
+
+    setSelectedImage(null);
   };
 
   const handleLinkPress = (ind) => {
@@ -136,9 +135,9 @@ const CommentBody = ({
         );
       });
     }
-    if (ind === 2) {
-      setSelectedLink(null);
-    }
+    
+    setSelectedLink(null);
+    
   };
 
   const _handleTagPress = (tag) => {
