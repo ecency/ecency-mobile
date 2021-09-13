@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useIntl } from 'react-intl'
-import { View, Text, ActivityIndicator, Alert, Button } from 'react-native'
-import FastImage from 'react-native-fast-image'
+import { View, Text, ActivityIndicator, Alert } from 'react-native'
+import { ProfileStats, StatsData } from './profileStats'
+import { MainButton, PercentBar } from '../../..'
 import { checkFavorite } from '../../../../providers/ecency/ecency'
 import { getFollows, getRelationship, getUser } from '../../../../providers/hive/dhive'
 import { getRcPower, getVotingPower } from '../../../../utils/manaBar'
 import styles from './quickProfileStyles'
+import { ProfileBasic } from './profileBasic'
+import { parseReputation } from '../../../../utils/user'
 
 interface QuickProfileContentProps {
     username:string,
@@ -93,11 +96,6 @@ export const QuickProfileContent = ({
     //UI CALLBACKS
 
 
-    //UI RENDERERS
-    if(!user){
-        return <ActivityIndicator />
-    }
-
     //extract prop values
     let _votingPower = '';
     let _resourceCredits = '';
@@ -106,6 +104,7 @@ export const QuickProfileContent = ({
     let _postCount = 0;
     let _avatarUrl = '';
     let _about = '';
+    let _reputation = 0;
 
     if (user) {
       _votingPower = getVotingPower(user).toFixed(1);
@@ -113,6 +112,7 @@ export const QuickProfileContent = ({
       _postCount = user.post_count || 0;
       _avatarUrl = user.avatar || '';
       _about = user.about?.profile?.about || '';
+      _reputation = parseReputation(user.reputation);
     }
 
     if(follows){
@@ -120,35 +120,38 @@ export const QuickProfileContent = ({
         _followingCount = follows.following_count || 0
     }
 
+    const statsData1 = [
+        {label:'Follower', value:_followerCount},
+        {label:'Following', value:_followingCount},
+        {label:'Posts', value:_postCount},
+    ] as StatsData[]
+
+    const statsData2 = [
+        {label:'Voting Power', value:_votingPower, suffix:'%'},
+        {label:'Reputation', value:_reputation},
+    ] as StatsData[]
+
     return (
         <View style={styles.modalStyle}>
-            <FastImage 
-                source={{uri:_avatarUrl}}
-                resizeMode='cover'
-                style={{width:56, height:56, borderRadius:22}}
+            <ProfileBasic 
+                username={username} 
+                about={_about} 
+                avatarUrl={_avatarUrl} 
+                resourceCredits={_resourceCredits}
             />
-            <Text style={styles.bodyText}>{`@${username}`}</Text>
-            <Text style={styles.bodyText}>{_about}</Text>
-            <Text style={styles.bodyText}>{_votingPower}</Text>
-            <Text style={styles.bodyText}>{_resourceCredits}</Text>
-            <Text style={styles.bodyText}>{_followerCount}</Text>
-            <Text style={styles.bodyText}>{_followingCount}</Text>
-            <Text style={styles.bodyText}>{_postCount}</Text>
-            <Text style={styles.bodyText}>{isFollowing?"following":"not following"}</Text>
-            <Text style={styles.bodyText}>{isMuted?"muted":"not muted"}</Text>
-            <Text style={styles.bodyText}>{isFavourite?"fav":"not fav"}</Text>
-            <Button
-                title='View Profile'
+            <ProfileStats 
+                data={statsData1}
+            />
+             <ProfileStats 
+                horizontalMargin={16}
+                data={statsData2}
+            />
+            <MainButton
+                style={styles.button}
+                text='VIEW FULL PROFILE'
                 onPress={()=>{}}
             />
-            <Button
-                title='Add To Favourites'
-                onPress={()=>{}}
-            />
-            <Button
-                title='Follow'
-                onPress={()=>{}}
-            />
+    
             {isLoading && <ActivityIndicator/>}
         </View>
     )

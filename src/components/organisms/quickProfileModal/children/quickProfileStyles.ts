@@ -8,6 +8,7 @@ export default EStyleSheet.create({
         margin:0,
         paddingTop:32,
         paddingBottom: getBottomSpace() + 8,
+        marginHorizontal:24,
       },
 
     sheetContent: {
@@ -20,17 +21,15 @@ export default EStyleSheet.create({
     },
 
     container:{
-        marginTop:16,
-        marginBottom:44,
-        paddingHorizontal:24,
         alignItems:'center',
-        justifyContent:'space-between',
+        marginHorizontal:16
     } as ViewStyle,
 
-    imageStyle:{
-        marginTop:8,
-        height:150,
-        width:'100%',
+    image:{
+        width:128,
+        height:128,
+        borderRadius:64,
+        backgroundColor: '$primaryGray'
     } as ImageStyle,
 
     textContainer:{
@@ -42,17 +41,36 @@ export default EStyleSheet.create({
         color: '$primaryBlack',
         alignSelf: 'center',
         textAlign: 'center',
-        fontSize: 20,
+        fontSize: 18,
+        fontWeight: '800',
+        marginTop:32,
+    } as TextStyle,
+
+    statValue: {
+        fontFamily:'$editorFont',
+        color: '$primaryBlack',
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontSize: 34,
+        fontWeight: 'bold',
+    } as TextStyle,
+
+    statLabel: {
+        color: '$primaryBlack',
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontSize: 16,
         fontWeight: '800',
     } as TextStyle,
+
 
     bodyText: {
         color: '$primaryBlack',
         alignSelf: 'center',
         textAlign: 'center',
-        fontSize: 16,
-        fontWeight: '600',
-        marginTop:4,
+        fontSize: 18,
+        fontWeight: '500',
+        marginTop:6,
     } as TextStyle,
 
     btnText:{
@@ -60,9 +78,9 @@ export default EStyleSheet.create({
     } as TextStyle,
 
     button:{
-
+        marginTop: 40,
         backgroundColor:'$primaryBlue',
-        width:150,
+        paddingHorizontal:44,
         paddingVertical:16,
         borderRadius:32,
         justifyContent:'center',
