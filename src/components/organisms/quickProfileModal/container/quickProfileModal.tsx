@@ -11,15 +11,11 @@ import { hideProfileModal } from '../../../../redux/actions/uiAction';
 
 
 export interface ActionModalData {
-  title:string, 
-  body:string, 
-  buttons:AlertButton[], 
-  headerImage?:Source,
-  onClosed:()=>void,
+  navigation:any
 }
 
 
-export const QuickProfileModal = ({}) => {
+export const QuickProfileModal = ({navigation}) => {
     const sheetModalRef = useRef<ActionSheet>();
     const dispatch = useAppDispatch();
 
@@ -30,6 +26,8 @@ export const QuickProfileModal = ({}) => {
     useEffect(() => {
         if(profileModalUsername){
             sheetModalRef.current.show();
+        }else {
+            sheetModalRef.current.hide();
         }
     }, [profileModalUsername])
 
@@ -48,8 +46,10 @@ export const QuickProfileModal = ({}) => {
             indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}> 
             
             <QuickProfileContent
+                navigation={navigation}
                 username={profileModalUsername}
                 currentAccountName={currentAccount.name}
+                onClose={_onClose}
             />
         </ActionSheet> 
     );

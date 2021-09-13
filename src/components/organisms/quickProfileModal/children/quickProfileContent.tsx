@@ -9,16 +9,20 @@ import { getRcPower, getVotingPower } from '../../../../utils/manaBar'
 import styles from './quickProfileStyles'
 import { ProfileBasic } from './profileBasic'
 import { parseReputation } from '../../../../utils/user'
+import { default as ROUTES } from '../../../../constants/routeNames';
 
 interface QuickProfileContentProps {
     username:string,
     currentAccountName:string;
+    navigation:any;
+    onClose:()=>void;
 }
 
 export const QuickProfileContent = ({
     currentAccountName,
     username,
-
+    navigation,
+    onClose
 }:QuickProfileContentProps) => {
     const intl = useIntl();
     const [isLoading, setIsLoading] = useState(false);
@@ -89,12 +93,31 @@ export const QuickProfileContent = ({
             }),
             error.message || error.toString(),
             );
+            setIsLoading(false);
         }
     };
 
 
     //UI CALLBACKS
-
+    const _openFullProfile = () => {
+        let params = {
+          username,
+          reputation: user ? user.reputation : null
+        };
+  
+        if (isOwnProfile) {
+          navigation.navigate(ROUTES.TABBAR.PROFILE);
+        } else {
+          navigation.navigate({
+            routeName: ROUTES.SCREENS.PROFILE,
+            params,
+            key: username,
+          });
+        }
+        if(onClose){
+            onClose();
+        }
+    }
 
     //extract prop values
     let _votingPower = '';
@@ -106,19 +129,21 @@ export const QuickProfileContent = ({
     let _about = '';
     let _reputation = 0;
 
-    if (user) {
+    if (user && !isLoading) {
       _votingPower = getVotingPower(user).toFixed(1);
       _resourceCredits = getRcPower(user).toFixed(1);
       _postCount = user.post_count || 0;
       _avatarUrl = user.avatar || '';
       _about = user.about?.profile?.about || '';
       _reputation = parseReputation(user.reputation);
-    }
-
-    if(follows){
+      
+      if(follows){
         _followerCount = follows.follower_count || 0;
         _followingCount = follows.following_count || 0
+       }
     }
+
+    
 
     const statsData1 = [
         {label:'Follower', value:_followerCount},
@@ -138,6 +163,7 @@ export const QuickProfileContent = ({
                 about={_about} 
                 avatarUrl={_avatarUrl} 
                 resourceCredits={_resourceCredits}
+                isLoading={isLoading}
             />
             <ProfileStats 
                 data={statsData1}
@@ -149,10 +175,8 @@ export const QuickProfileContent = ({
             <MainButton
                 style={styles.button}
                 text='VIEW FULL PROFILE'
-                onPress={()=>{}}
+                onPress={_openFullProfile}
             />
-    
-            {isLoading && <ActivityIndicator/>}
         </View>
     )
-}
+};
