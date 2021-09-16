@@ -12,6 +12,7 @@ interface ActionPanelProps {
 }
 
 export const ActionPanel = ({isFollowing, isFavourite, onFavouritePress, onFollowPress}: ActionPanelProps) => {
+
   return (
     <View style={styles.actionPanel}>
          <IconButton 

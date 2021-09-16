@@ -33,6 +33,7 @@ export const QuickProfileContent = ({
 
     const currentAccount = useAppSelector((state)=>state.account.currentAccount);
     const pinCode = useAppSelector((state)=>state.application.pin);
+    const isLoggedIn = useAppSelector((state)=>state.application.isLoggedIn);
 
     const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState(null);
@@ -259,12 +260,15 @@ export const QuickProfileContent = ({
                 text='VIEW FULL PROFILE'
                 onPress={_openFullProfile}
             />
-            <ActionPanel 
+            {isLoggedIn && (
+                <ActionPanel 
                 isFollowing={isFollowing}
                 isFavourite={isFavourite}
                 onFavouritePress={_onFavouritePress}
                 onFollowPress={_onFollowPress}
-            />
+                />
+            )}
+           
         </View>
     )
 };
