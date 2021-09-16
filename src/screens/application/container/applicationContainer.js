@@ -87,6 +87,7 @@ import {
 } from '../../../redux/actions/applicationActions';
 import {
   hideActionModal,
+  hideProfileModal,
   setAvatarCacheStamp,
   setRcOffer,
   showActionModal,
@@ -761,6 +762,7 @@ class ApplicationContainer extends Component {
 
     //reset certain properties
     dispatch(hideActionModal());
+    dispatch(hideProfileModal());
     dispatch(toastNotification(''));
     dispatch(resetLocalVoteMap());
     dispatch(setRcOffer(false));
