@@ -12,7 +12,7 @@ import { parseReputation } from '../../../../utils/user'
 import { default as ROUTES } from '../../../../constants/routeNames';
 import { ActionPanel } from './actionPanel'
 import moment from 'moment'
-import { getTimeFromNow } from '../../../../utils/time'
+import { getTimeFromNow, getTimeFromNowNative } from '../../../../utils/time'
 
 interface QuickProfileContentProps {
     username:string,
@@ -131,17 +131,17 @@ export const QuickProfileContent = ({
     let _avatarUrl = '';
     let _about = '';
     let _reputation = 0;
-    let _created = '';
+    let _createdData = null;
 
     if (user && !isLoading) {
       _votingPower = getVotingPower(user).toFixed(1);
-      _resourceCredits = getRcPower(user).toFixed(1);
+      _resourceCredits = getRcPower(user).toFixed(0);
       _postCount = user.post_count || 0;
       _avatarUrl = user.avatar || '';
       _about = user.about?.profile?.about || '';
       _reputation = parseReputation(user.reputation);
-      _created = getTimeFromNow(user.created)
-      
+      _createdData = getTimeFromNowNative(user.created)
+  
       if(follows){
         _followerCount = follows.follower_count || 0;
         _followingCount = follows.following_count || 0
@@ -157,7 +157,7 @@ export const QuickProfileContent = ({
     ] as StatsData[]
 
     const statsData2 = [
-        {label:'Voting Power', value:_votingPower, suffix:'%'},
+        {label:'Resource Credits', value:_resourceCredits, suffix:'%'},
         {label:'Reputation', value:_reputation},
     ] as StatsData[]
 
@@ -167,8 +167,8 @@ export const QuickProfileContent = ({
                 username={username} 
                 about={_about} 
                 avatarUrl={_avatarUrl} 
-                created={_created}
-                resourceCredits={_resourceCredits}
+                created={_createdData}
+                votingPower={_votingPower}
                 isLoading={isLoading}
                 onPress={_openFullProfile}
             />
