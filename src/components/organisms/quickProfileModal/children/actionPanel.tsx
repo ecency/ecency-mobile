@@ -7,9 +7,11 @@ import styles from './quickProfileStyles';
 interface ActionPanelProps {
     isFollowing:boolean,
     isFavourite:boolean,
+    onFollowPress:()=>void,
+    onFavouritePress:()=>void
 }
 
-export const ActionPanel = ({isFollowing, isFavourite}: ActionPanelProps) => {
+export const ActionPanel = ({isFollowing, isFavourite, onFavouritePress, onFollowPress}: ActionPanelProps) => {
   return (
     <View style={styles.actionPanel}>
          <IconButton 
@@ -17,6 +19,7 @@ export const ActionPanel = ({isFollowing, isFavourite}: ActionPanelProps) => {
             name={isFollowing?'user-following':'user-follow'}
             size={20}
             color={EStyleSheet.value('$primaryBlack')}
+            onPress={onFollowPress}
         />
         <IconButton 
             style={{marginLeft:8}}
@@ -24,6 +27,8 @@ export const ActionPanel = ({isFollowing, isFavourite}: ActionPanelProps) => {
             name={'heart'}
             size={20}
             color={EStyleSheet.value(isFavourite?'$primaryRed':'$primaryBlack')}
+            disabled={isFavourite}
+            onPress={onFavouritePress}
         />
     </View>
   );

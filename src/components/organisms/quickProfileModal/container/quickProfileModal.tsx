@@ -20,7 +20,6 @@ export const QuickProfileModal = ({navigation}) => {
     const dispatch = useAppDispatch();
 
     const profileModalUsername = useAppSelector((state)=>state.ui.profileModalUsername);
-    const currentAccount = useAppSelector((state)=>state.account.currentAccount);
 
 
     useEffect(() => {
@@ -48,7 +47,6 @@ export const QuickProfileModal = ({navigation}) => {
             <QuickProfileContent
                 navigation={navigation}
                 username={profileModalUsername}
-                currentAccountName={currentAccount.name}
                 onClose={_onClose}
             />
         </ActionSheet> 

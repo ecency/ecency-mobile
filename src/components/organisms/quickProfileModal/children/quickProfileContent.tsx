@@ -4,7 +4,7 @@ import { View, Text, ActivityIndicator, Alert } from 'react-native'
 import { ProfileStats, StatsData } from './profileStats'
 import { MainButton, PercentBar } from '../../..'
 import { checkFavorite } from '../../../../providers/ecency/ecency'
-import { getFollows, getRelationship, getUser } from '../../../../providers/hive/dhive'
+import { followUser, getFollows, getRelationship, getUser, unfollowUser } from '../../../../providers/hive/dhive'
 import { getRcPower, getVotingPower } from '../../../../utils/manaBar'
 import styles from './quickProfileStyles'
 import { ProfileBasic } from './profileBasic'
@@ -13,21 +13,26 @@ import { default as ROUTES } from '../../../../constants/routeNames';
 import { ActionPanel } from './actionPanel'
 import moment from 'moment'
 import { getTimeFromNow, getTimeFromNowNative } from '../../../../utils/time'
+import { useAppDispatch, useAppSelector } from '../../../../hooks'
+import { toastNotification } from '../../../../redux/actions/uiAction'
 
 interface QuickProfileContentProps {
     username:string,
-    currentAccountName:string;
     navigation:any;
     onClose:()=>void;
 }
 
 export const QuickProfileContent = ({
-    currentAccountName,
     username,
     navigation,
     onClose
 }:QuickProfileContentProps) => {
     const intl = useIntl();
+    const dispatch = useAppDispatch();
+
+    const currentAccount = useAppSelector((state)=>state.account.currentAccount);
+    const pinCode = useAppSelector((state)=>state.application.pin);
+
     const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState(null);
     const [follows, setFollows] = useState(null);
@@ -35,7 +40,8 @@ export const QuickProfileContent = ({
     const [isMuted, setIsMuted] = useState(false);
     const [isFavourite, setIsFavourite] = useState(false);
 
-    const isOwnProfile = currentAccountName === username;
+    const isOwnProfile = currentAccount && currentAccount.name === username;
+    const currentAccountName = currentAccount ? currentAccount.name : null;
 
     useEffect(() => {
         if(username) {
@@ -101,7 +107,50 @@ export const QuickProfileContent = ({
     };
 
 
+    const _handleFollowUnfollowUser = async (isFollowAction:boolean) => {
+        const follower = currentAccountName
+        const following = username;
+    
+        let followAction;
+    
+        if (isFollowAction && !isFollowing) {
+          followAction = followUser;
+        } else {
+          followAction = unfollowUser;
+        }
+    
+        setIsLoading(true);
+        followAction(currentAccount, pinCode, {
+          follower,
+          following,
+        })
+          .then(() => {
+            setIsLoading(false);
+            setIsFollowing(isFollowAction)
+            dispatch(
+              toastNotification(
+                intl.formatMessage({
+                  id: isFollowing ? 'alert.success_unfollow' : 'alert.success_follow',
+                }),
+              ),
+            );
+          })
+          .catch((err) => {
+            setIsLoading(false);
+            Alert.alert(intl.formatMessage({id:'alert.fail'}), err.message)
+          });
+      };
+
+
     //UI CALLBACKS
+    const _onFollowPress = () => {
+        _handleFollowUnfollowUser(!isFollowing)
+    }
+
+    const _onFavouritePress = () => {
+
+    }
+
     const _openFullProfile = () => {
         let params = {
           username,
@@ -133,7 +182,7 @@ export const QuickProfileContent = ({
     let _reputation = 0;
     let _createdData = null;
 
-    if (user && !isLoading) {
+    if (user && follows) {
       _votingPower = getVotingPower(user).toFixed(1);
       _resourceCredits = getRcPower(user).toFixed(0);
       _postCount = user.post_count || 0;
@@ -187,6 +236,8 @@ export const QuickProfileContent = ({
             <ActionPanel 
                 isFollowing={isFollowing}
                 isFavourite={isFavourite}
+                onFavouritePress={_onFavouritePress}
+                onFollowPress={_onFollowPress}
             />
         </View>
     )
