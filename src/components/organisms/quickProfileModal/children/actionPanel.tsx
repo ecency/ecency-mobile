@@ -19,6 +19,7 @@ export const ActionPanel = ({isFollowing, isFavourite, onFavouritePress, onFollo
             name={isFollowing?'user-following':'user-follow'}
             size={20}
             color={EStyleSheet.value('$primaryBlack')}
+            disabled={isFollowing}
             onPress={onFollowPress}
         />
         <IconButton 

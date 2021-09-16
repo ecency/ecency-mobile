@@ -15,6 +15,7 @@ import moment from 'moment'
 import { getTimeFromNow, getTimeFromNowNative } from '../../../../utils/time'
 import { useAppDispatch, useAppSelector } from '../../../../hooks'
 import { toastNotification } from '../../../../redux/actions/uiAction'
+import Bugsnag from '@bugsnag/react-native'
 
 interface QuickProfileContentProps {
     username:string,
@@ -107,44 +108,40 @@ export const QuickProfileContent = ({
     };
 
 
-    const _handleFollowUnfollowUser = async (isFollowAction:boolean) => {
-        const follower = currentAccountName
-        const following = username;
-    
-        let followAction;
-    
-        if (isFollowAction && !isFollowing) {
-          followAction = followUser;
-        } else {
-          followAction = unfollowUser;
-        }
-    
-        setIsLoading(true);
-        followAction(currentAccount, pinCode, {
-          follower,
-          following,
-        })
-          .then(() => {
+    const _handleFollowUser = async () => {
+        try{
+            const follower = currentAccountName
+            const following = username;
+        
+            setIsLoading(true);
+            await followUser(currentAccount, pinCode, {
+              follower,
+              following,
+            })
+        
             setIsLoading(false);
-            setIsFollowing(isFollowAction)
+            setIsFollowing(true)
             dispatch(
-              toastNotification(
+                toastNotification(
                 intl.formatMessage({
-                  id: isFollowing ? 'alert.success_unfollow' : 'alert.success_follow',
+                    id: isFollowing ? 'alert.success_unfollow' : 'alert.success_follow',
                 }),
-              ),
+                ),
             );
-          })
-          .catch((err) => {
+        }
+        catch(err){
             setIsLoading(false);
+            console.warn("Failed to follow user", err)
+            Bugsnag.notify(err);
             Alert.alert(intl.formatMessage({id:'alert.fail'}), err.message)
-          });
-      };
+        }
+    }
+       
 
 
     //UI CALLBACKS
     const _onFollowPress = () => {
-        _handleFollowUnfollowUser(!isFollowing)
+        _handleFollowUser()
     }
 
     const _onFavouritePress = () => {
