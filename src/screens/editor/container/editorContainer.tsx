@@ -601,7 +601,7 @@ class EditorContainer extends Component {
         dublicatePost = null;
       }
 
-      if (dublicatePost && dublicatePost.id) {
+      if (dublicatePost && (dublicatePost.permlink === permlink)) {
         permlink = generatePermlink(fields.title, true);
       }
 
