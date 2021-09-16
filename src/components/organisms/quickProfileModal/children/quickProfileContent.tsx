@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl'
 import { View, Text, ActivityIndicator, Alert } from 'react-native'
 import { ProfileStats, StatsData } from './profileStats'
 import { MainButton, PercentBar } from '../../..'
-import { checkFavorite } from '../../../../providers/ecency/ecency'
+import { addFavorite, checkFavorite, deleteFavorite } from '../../../../providers/ecency/ecency'
 import { followUser, getFollows, getRelationship, getUser, unfollowUser } from '../../../../providers/hive/dhive'
 import { getRcPower, getVotingPower } from '../../../../utils/manaBar'
 import styles from './quickProfileStyles'
@@ -108,7 +108,7 @@ export const QuickProfileContent = ({
     };
 
 
-    const _handleFollowUser = async () => {
+    const _onFollowPress = async () => {
         try{
             const follower = currentAccountName
             const following = username;
@@ -136,17 +136,46 @@ export const QuickProfileContent = ({
             Alert.alert(intl.formatMessage({id:'alert.fail'}), err.message)
         }
     }
+
+    const _onFavouritePress = async () => {
+        try{
+            setIsLoading(true);
+            let favoriteAction;
+        
+            if (isFavourite) {
+            favoriteAction = deleteFavorite;
+            } else {
+            favoriteAction = addFavorite;
+            }
+        
+            await favoriteAction(username)
+            
+            dispatch(
+                toastNotification(
+                intl.formatMessage({
+                    id: isFavourite ? 'alert.success_unfavorite' : 'alert.success_favorite',
+                }),
+                ),
+            );
+            setIsFavourite(!isFavourite);
+            setIsLoading(false);
+        }
+
+        catch(error){
+            console.warn('Failed to perform favorite action');
+            setIsLoading(false);
+            Alert.alert(
+              intl.formatMessage({
+                id: 'alert.fail',
+              }),
+              error.message || error.toString(),
+            );
+        }
+    }
        
 
 
     //UI CALLBACKS
-    const _onFollowPress = () => {
-        _handleFollowUser()
-    }
-
-    const _onFavouritePress = () => {
-
-    }
 
     const _openFullProfile = () => {
         let params = {

@@ -28,7 +28,6 @@ export const ActionPanel = ({isFollowing, isFavourite, onFavouritePress, onFollo
             name={'heart'}
             size={20}
             color={EStyleSheet.value(isFavourite?'$primaryRed':'$primaryBlack')}
-            disabled={isFavourite}
             onPress={onFavouritePress}
         />
     </View>
