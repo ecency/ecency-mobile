@@ -42,7 +42,7 @@ export default EStyleSheet.create({
         alignSelf: 'center',
         textAlign: 'center',
         fontSize: 18,
-        fontWeight: '800',
+        fontWeight: 'bold',
         marginTop:32,
     } as TextStyle,
 
@@ -52,7 +52,7 @@ export default EStyleSheet.create({
         alignSelf: 'center',
         textAlign: 'center',
         fontSize: 34,
-        fontWeight: 'bold',
+        fontWeight: 'normal',
     } as TextStyle,
 
     statLabel: {
@@ -60,7 +60,7 @@ export default EStyleSheet.create({
         alignSelf: 'center',
         textAlign: 'center',
         fontSize: 16,
-        fontWeight: '800',
+        fontWeight: 'bold',
     } as TextStyle,
 
 
