@@ -16,6 +16,7 @@ const NotificationScreen = ({
   getActivities,
   intl,
   navigateToNotificationRoute,
+  handleOnUserPress,
   readAllNotification,
   isNotificationRefreshing,
   changeSelectedFilter,
@@ -42,6 +43,7 @@ const NotificationScreen = ({
                   getActivities={getActivities}
                   notifications={notifications}
                   navigateToNotificationRoute={navigateToNotificationRoute}
+                  handleOnUserPress={handleOnUserPress}
                   readAllNotification={readAllNotification}
                   isNotificationRefreshing={isNotificationRefreshing}
                   changeSelectedFilter={changeSelectedFilter}

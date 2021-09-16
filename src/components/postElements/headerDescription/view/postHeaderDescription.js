@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { injectIntl } from 'react-intl';
 
@@ -12,6 +13,7 @@ import styles from './postHeaderDescriptionStyles';
 
 import { default as ROUTES } from '../../../../constants/routeNames';
 import { IconButton } from '../../..';
+import { showProfileModal } from '../../../../redux/actions/uiAction';
 
 // Constants
 const DEFAULT_IMAGE = require('../../../../assets/ecency.png');
@@ -21,19 +23,12 @@ class PostHeaderDescription extends PureComponent {
 
   // Component Functions
   _handleOnUserPress = (username) => {
-    const { navigation, profileOnPress, reputation } = this.props;
+    const { profileOnPress, dispatch } = this.props;
 
     if (profileOnPress) {
       profileOnPress(username);
     } else {
-      navigation.navigate({
-        routeName: ROUTES.SCREENS.PROFILE,
-        params: {
-          username,
-          reputation,
-        },
-        key: username,
-      });
+      dispatch(showProfileModal(username));
     }
   };
 
@@ -181,4 +176,6 @@ class PostHeaderDescription extends PureComponent {
   }
 }
 
-export default withNavigation(injectIntl(PostHeaderDescription));
+const mapStateToProps = () => ({});
+
+export default connect(mapStateToProps)(withNavigation(injectIntl(PostHeaderDescription)));

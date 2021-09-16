@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, TouchableHighlight } from 'react-native';
+import { View, Text, Image, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 
@@ -10,7 +10,7 @@ import { UserAvatar } from '../../userAvatar';
 // Styles
 import styles from './notificationLineStyles';
 
-const NotificationLineView = ({ notification, handleOnPressNotification }) => {
+const NotificationLineView = ({ notification, handleOnPressNotification, handleOnUserPress }) => {
   const [isRead, setIsRead] = useState(notification.read);
   const intl = useIntl();
   let _title;
@@ -58,10 +58,14 @@ const NotificationLineView = ({ notification, handleOnPressNotification }) => {
         key={`${get(notification, 'id')}${_title}`}
         style={[styles.notificationWrapper, !isRead && styles.isNewNotification]}
       >
-        <UserAvatar
-          username={notification.source}
-          style={[styles.avatar, !notification.avatar && styles.hasNoAvatar]}
-        />
+        <TouchableOpacity onPress={handleOnUserPress}>
+          <UserAvatar
+            noAction={true}
+            username={notification.source}
+            style={[styles.avatar, !notification.avatar && styles.hasNoAvatar]}
+          />
+        </TouchableOpacity>
+
         <View style={styles.body}>
           <View style={styles.titleWrapper}>
             <Text style={styles.name}>{notification.source} </Text>

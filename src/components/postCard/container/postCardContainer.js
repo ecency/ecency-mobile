@@ -80,25 +80,7 @@ const PostCardContainer = ({
   const _handleOnUserPress = (username) => {
     if (_content) {
       username = username || get(_content, 'author');
-      // let params = {
-      //   username: username || get(_content, 'author'),
-      //   reputation: !username && get(_content, 'author_reputation'),
-      // };
-
       dispatch(showProfileModal(username));
-
-      // if (
-      //   get(currentAccount, 'name') === params.username &&
-      //   (pageType === 'main' || pageType === 'ownProfile')
-      // ) {
-      //   navigation.navigate(ROUTES.TABBAR.PROFILE);
-      // } else {
-      //   navigation.navigate({
-      //     routeName: ROUTES.SCREENS.PROFILE,
-      //     params,
-      //     key: get(_content, 'author'),
-      //   });
-      // }
     }
   };
 
