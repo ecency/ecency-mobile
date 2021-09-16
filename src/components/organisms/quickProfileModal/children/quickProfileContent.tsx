@@ -10,6 +10,7 @@ import styles from './quickProfileStyles'
 import { ProfileBasic } from './profileBasic'
 import { parseReputation } from '../../../../utils/user'
 import { default as ROUTES } from '../../../../constants/routeNames';
+import { ActionPanel } from './actionPanel'
 
 interface QuickProfileContentProps {
     username:string,
@@ -176,6 +177,10 @@ export const QuickProfileContent = ({
                 style={styles.button}
                 text='VIEW FULL PROFILE'
                 onPress={_openFullProfile}
+            />
+            <ActionPanel 
+                isFollowing={isFollowing}
+                isFavourite={isFavourite}
             />
         </View>
     )

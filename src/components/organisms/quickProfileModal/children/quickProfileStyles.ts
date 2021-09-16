@@ -89,10 +89,13 @@ export default EStyleSheet.create({
 
 
     actionPanel:{
-        width:'100%',
+        position: 'absolute',
+        right:0,
+        top:0,
         flexDirection:'row', 
-        justifyContent:'space-around', 
         alignItems:'center', 
     } as ViewStyle,
+
+
 
 })
