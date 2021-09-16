@@ -14,7 +14,7 @@ def getNpmVersionArray() { // major [0], minor [1], patch [2]
 
 buildscript {
     ext {
-        buildToolsVersion = "29.0.3"
+        buildToolsVersion = "30.0.2"
         minSdkVersion = 21
         compileSdkVersion = 30
         targetSdkVersion = 30
@@ -23,10 +23,8 @@ buildscript {
         firebaseVersion = "17.3.4"
     }
     repositories {
-        mavenCentral()
         google()
-
-        
+        mavenCentral()
     }
     dependencies {
         classpath('com.android.tools.build:gradle:4.1.0')
@@ -39,6 +37,7 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         mavenCentral()
         mavenLocal()
         maven {
@@ -50,7 +49,6 @@ allprojects {
             url("$rootDir/../node_modules/jsc-android/dist")
         }
 
-        google()
         maven { url "https://www.jitpack.io" }
 
 
