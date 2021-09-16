@@ -1,24 +1,33 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import FastImage from 'react-native-fast-image';
 import styles from './quickProfileStyles';
 import * as Progress from 'react-native-progress';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useIntl } from 'react-intl';
 
 interface Props {
     avatarUrl:string,
     username:string,
     about:string,
-    created:string,
-    resourceCredits:string,
+    created:{
+        unit:string,
+        value:number
+    },
+    votingPower:string,
     isLoading:boolean,
     onPress:()=>void
 }
 
-export const ProfileBasic = ({avatarUrl, username, about, resourceCredits, isLoading, created, onPress}: Props) => {
-    
-    const progress = parseInt(resourceCredits || '0')/100;
+export const ProfileBasic = ({avatarUrl, username, about, votingPower, isLoading, created, onPress}: Props) => {
+    const intl = useIntl();    
+    const progress = parseInt(votingPower || '0')/100;
+
+    let joinedString = '---'
+    if(created){
+        const timeString = `${(-created.value)} ${intl.formatMessage({id:`time.${created.unit}`})}`;
+        joinedString = intl.formatMessage({id:'profile.joined'}, {time:timeString})
+    }
     
     return (
         <TouchableOpacity onPress={onPress} >
@@ -43,8 +52,9 @@ export const ProfileBasic = ({avatarUrl, username, about, resourceCredits, isLoa
                     </View>
                 </View>
             
-                <Text style={styles.title}>{`@${username} - ${created}`}</Text>
+                <Text style={styles.title}>{`@${username}`}</Text>
                 <Text style={styles.bodyText} numberOfLines={2} >{about}</Text>
+                <Text style={styles.bodyText}>{joinedString}</Text>
             </View>
         </TouchableOpacity>
     )
