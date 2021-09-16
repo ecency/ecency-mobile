@@ -124,6 +124,7 @@ def enableHermes = project.ext.react.get("enableHermes", false);
 configurations.all {
     resolutionStrategy {
         force "com.facebook.soloader:soloader:0.9.0+"
+        force "androidx.browser:browser:1.3.0"
     }
 }
 android {
