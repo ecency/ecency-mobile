@@ -88,6 +88,7 @@ export default EStyleSheet.create({
     width:'100%',
     alignItems:'center', 
     justifyContent:'center',
+    backgroundColor:'$darkIconColor'
   },
   playButton:{
     alignItems:'center',
