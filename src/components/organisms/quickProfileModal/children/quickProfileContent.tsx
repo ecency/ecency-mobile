@@ -11,6 +11,8 @@ import { ProfileBasic } from './profileBasic'
 import { parseReputation } from '../../../../utils/user'
 import { default as ROUTES } from '../../../../constants/routeNames';
 import { ActionPanel } from './actionPanel'
+import moment from 'moment'
+import { getTimeFromNow } from '../../../../utils/time'
 
 interface QuickProfileContentProps {
     username:string,
@@ -129,6 +131,7 @@ export const QuickProfileContent = ({
     let _avatarUrl = '';
     let _about = '';
     let _reputation = 0;
+    let _created = '';
 
     if (user && !isLoading) {
       _votingPower = getVotingPower(user).toFixed(1);
@@ -137,6 +140,7 @@ export const QuickProfileContent = ({
       _avatarUrl = user.avatar || '';
       _about = user.about?.profile?.about || '';
       _reputation = parseReputation(user.reputation);
+      _created = getTimeFromNow(user.created)
       
       if(follows){
         _followerCount = follows.follower_count || 0;
@@ -163,8 +167,10 @@ export const QuickProfileContent = ({
                 username={username} 
                 about={_about} 
                 avatarUrl={_avatarUrl} 
+                created={_created}
                 resourceCredits={_resourceCredits}
                 isLoading={isLoading}
+                onPress={_openFullProfile}
             />
             <ProfileStats 
                 data={statsData1}

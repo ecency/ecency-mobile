@@ -96,6 +96,14 @@ export default EStyleSheet.create({
         alignItems:'center', 
     } as ViewStyle,
 
-
+    progressCircle:{
+        position:'absolute', 
+        top:0, 
+        bottom:0, 
+        left:0, 
+        right:0, 
+        alignItems:'center', 
+        justifyContent:'center'
+    } as ViewStyle
 
 })

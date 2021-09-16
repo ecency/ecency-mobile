@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 import styles from './quickProfileStyles'
+import * as Animated from 'react-native-animatable'
 
 
 export interface StatsData {
@@ -24,7 +25,12 @@ export const ProfileStats = ({data, horizontalMargin}: Props) => {
 
 const StatItem = (props:{label:string, value:number|string}) => (
     <View style={{alignItems:'center', flex:1}}>
-        <Text style={styles.statValue}>{props.value || '00'}</Text>
+        {!!props.value ? (
+            <Animated.Text animation='bounceIn' style={styles.statValue}>{props.value}</Animated.Text>
+        ):(
+            <Text style={styles.statValue}>{'--'}</Text>
+        )}
+       
         <Text style={styles.statLabel}>{props.label}</Text>
     </View>
 )
