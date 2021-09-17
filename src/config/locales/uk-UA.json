@@ -175,6 +175,9 @@
     "hive_dollars": "Hive Dollars",
     "savings": "Заощадження",
     "joined": "Joined {time} ago",
+    "view_full": "VIEW FULL PROFILE",
+    "resource_credits": "Resource Credits",
+    "reputation": "Reputation",
     "edit": {
       "display_name": "Відображуване ім'я",
       "about": "Про додаток",
