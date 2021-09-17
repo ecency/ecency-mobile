@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Hyötyjäpalkkio",
     "claim_reward_balance": "Lunasta palkkio ",
     "transfer": "Siirto",
-    "power_up": "To Vesting",
+    "power_up": "Ansaintaan",
     "transfer_from_savings": "Säästöistä",
     "withdraw_vesting": "Power Down",
     "fill_order": "Täytä hakemus",
@@ -68,8 +68,8 @@
     "next": "SEURAAVA",
     "delegate": "Valtuuta",
     "power_down": "Power Down",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HBD",
+    "withdraw_hive": "Kotiuta HIVE",
+    "withdraw_hbd": "Kotiuta HBD",
     "transfer_to_savings": "Säästöihin",
     "convert": "Muunna",
     "escrow_transfer": "Escrow-siirto",
@@ -86,18 +86,18 @@
       "buy": "Lunasta pisteet"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "HIVE säästöt"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "HBD säästöt"
     },
     "hive": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "HANKI HIVE"
     },
     "hbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "HANKI HBD"
     },
     "hive_power": {
       "title": "HIVE POWER"
@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "äänesti",
-    "unvote": "downvoted",
+    "unvote": "äänestetty alas",
     "reply": "vastasi",
     "mention": "mainittu",
     "follow": "seurasi sinua",
@@ -128,7 +128,7 @@
     "recent": "Viimeisimmät",
     "yesterday": "Eiliset",
     "this_week": "Tällä Viikolla",
-    "last_week": "Last Week",
+    "last_week": "Viime viikolla",
     "this_month": "Tässä kuussa",
     "older_then": "Kuukautta vanhempi",
     "activities": "Kaikki",
@@ -136,15 +136,15 @@
     "mentions": "Maininnat",
     "reblogs": "Jaot",
     "noactivity": "Ei viimeaikaista toimintaa",
-    "mention_on": "New mention on",
-    "reply_on": "New reply on",
-    "reply_body": "Tap to continue conversation..."
+    "mention_on": "Uusi maininta",
+    "reply_on": "Uusi vastaus",
+    "reply_body": "Napauta jatkaaksesi keskustelua..."
   },
   "leaderboard": {
     "daily": "PÄIVITTÄIN",
     "weekly": "VIIKOITTAIN",
     "monthly": "KUUKAUSITTAIN",
-    "tooltip_earn": "Earn points by actively participating in Ecency."
+    "tooltip_earn": "Ansaitse pisteitä osallistumalla aktiivisesti Ecencyssä."
   },
   "messages": {
     "comingsoon": "Viestiominaisuus on tulossa pian!"
@@ -152,7 +152,7 @@
   "profile": {
     "following": "Seurataan",
     "follower": "Seuraaja",
-    "edit_label": "Edit",
+    "edit_label": "Muokkaa",
     "post": "Julkaisut",
     "details": "Profiilitiedot",
     "comments": "Kommentit",
@@ -164,16 +164,17 @@
     "hours": "tuntia",
     "voting_power": "Äänivalta",
     "login_to_see": "Kirjaudu sisään nähdäksesi",
-    "follow_people": "When you follow people, you'll see their post here.",
-    "follow_communities": "When you join communities you'll see posts from communities here.",
+    "follow_people": "Kun seuraat ihmisiä, näet heidän julkaisunsa täällä.",
+    "follow_communities": "Kun liityt yhteisöihin, näet viestejä yhteisöistä täällä.",
     "havent_commented": "ei ole vielä kommentoinut mitään",
     "havent_posted": "ei ole vielä julkaissut mitään",
     "hive_power": "Hive Power",
     "next_power_text": "Seuraava power down tulee",
     "days": "päivää",
     "day": "päivä",
-    "hive_dollars": "Hive Dollars",
+    "hive_dollars": "Hive Dollarit",
     "savings": "Säästöt",
+    "joined": "Joined {time} ago",
     "edit": {
       "display_name": "Näyttönimi",
       "about": "Tietoa",
@@ -249,7 +250,7 @@
     "posts": "Julkaisut",
     "friends": "Ystävät",
     "communities": "Yhteisöt",
-    "popup_postfix": "Posted"
+    "popup_postfix": "Julkaistu"
   },
   "side_menu": {
     "profile": "Profiili",
@@ -287,7 +288,7 @@
     "reply": "Vastaa",
     "open_gallery": "Avaa Galleria",
     "capture_photo": "Ota kuva",
-    "uploaded_images": "Uploaded Images",
+    "uploaded_images": "Ladatut kuvat",
     "limited_tags": "10 tagia enintään, poista muutama",
     "limited_length": "Tagin maksimipituus on 24",
     "limited_dash": "Käytä yhtä viivaa per tagi",
@@ -299,28 +300,31 @@
     "setting_schedule": "Aikataulutus",
     "setting_reward": "Palkkio",
     "setting_beneficiary": "Hyötyjä",
+    "setting_thumb": "Aseta pikkukuva",
     "reward_default": "Oletus 50 % / 50 %",
     "reward_power_up": "Power Up 100%",
     "reward_decline": "Hylkää Palautus",
     "beneficiaries": "Hyötyjät",
     "options": "Asetukset",
     "my_blog": "Oma Blogi",
-    "select_community": "Choose a community",
+    "select_community": "Valitse yhteisö",
     "my_communities": "Yhteisöni",
     "top_communities": "Suosituimmat Yhteisöt",
     "schedule_modal_title": "Ajasta julkaisu",
     "snippets": "Katkelmat",
-    "alert_init_title": "New Content",
-    "alert_init_body": "Open recent draft or Create new post",
-    "alert_btn_draft": "Recent Draft",
-    "alert_btn_new": "New Post",
-    "alert_pub_edit_title": "Publishing edits",
-    "alert_pub_new_title": "Publishing new post",
-    "alert_pub_body": "Are you sure?",
-    "alert_btn_yes": "Yes",
-    "alert_btn_no": "No",
-    "draft_save_success": "Draft Saved",
-    "draft_save_fail": "Failed to save draft"
+    "alert_init_title": "Uusi Sisältö",
+    "alert_init_body": "Avaa viimeaikainen luonnos tai luo uusi julkaisu",
+    "alert_btn_draft": "Viimeisin Luonnos",
+    "alert_btn_new": "Uusi julkaisu",
+    "alert_pub_edit_title": "Julkaistaan muokkauksia",
+    "alert_pub_new_title": "Uuden sisällön julkaiseminen",
+    "alert_pub_body": "Oletko varma?",
+    "alert_btn_yes": "Kyllä",
+    "alert_btn_no": "Ei",
+    "draft_save_success": "Luonnos tallennettu",
+    "draft_save_fail": "Luonnosta ei kyetty tallentamaan",
+    "select_thumb": "Valitse esikatselukuva",
+    "two_thumbs_required": "Lisää kuvia julkaisuun, ennen kuin asetat pikkukuvan"
   },
   "snippets": {
     "label_no_snippets": "Katkelmia ei löytynyt",
@@ -339,11 +343,11 @@
     "btn_cancel": "Peruuta"
   },
   "uploads_modal": {
-    "label_no_images": "No Images Found",
-    "title": "Uploaded Images",
-    "title_remove_confirmation": "Delete image",
-    "btn_add": "Image",
-    "message_failed": "Failed to upload image"
+    "label_no_images": "Kuvia ei löytynyt",
+    "title": "Ladatut kuvat",
+    "title_remove_confirmation": "Poista kuva",
+    "btn_add": "Kuva",
+    "message_failed": "Kuvan lataaminen epäonnistui"
   },
   "pincode": {
     "enter_text": "Poista lukitus antamalla PIN-koodi",
@@ -408,21 +412,22 @@
     "payloadTooLarge": "Tiedostokoko liian suuri, muuta kokoa tai lataa pienempi",
     "qoutaExceeded": "Latausraja ylittyi",
     "invalidImage": "Vääränlainen kuva, yritä toista",
-    "something_wrong": "Something went wrong",
-    "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
-    "something_wrong_reload": "Try again?",
+    "something_wrong": "Jokin meni pieleen",
+    "something_wrong_alt": "Odottaessasi kokeile Ecency.com selaimella",
+    "something_wrong_reload": "Yritä uudelleen?",
     "can_not_be_empty": "Otsikko ja sisältö eivät voi olla tyhjiä!",
-    "wrong_filter_count": "Please select 3 filters",
-    "update_available_title": "Update available v{version}",
-    "update_available_body": "Using latest version of Ecency gives you the best experience",
-    "update": "Update Now",
-    "remind_later": "Remind Later",
-    "failed_to_open": "Failed to open a link"
+    "wrong_filter_count": "Valitse 3 suodatinta",
+    "update_available_title": "Päivitys saatavilla v{version}",
+    "update_available_body": "Käyttämällä uusinta versiota Ecencystä antaa sinulle parhaan kokemuksen",
+    "update": "Päivitä nyt",
+    "remind_later": "Muistuta myöhemmin",
+    "failed_to_open": "Linkin avaaminen epäonnistui"
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
     "removed_hint": "Sisältö ei ole käytettävissä",
     "copy_link": "Kopioi linkki",
+    "copy_text": "Copy text",
     "reblogged": "uudelleenjakanut",
     "sponsored": "SPONSOROITU",
     "open_thread": "Avaa ketju",
@@ -433,7 +438,7 @@
     "image_saved": "Tallennettu kuvagalleriaan",
     "image_saved_error": "Virhe tallentaessa kuvaa",
     "wrong_link": "Väärä linkki",
-    "in": "in"
+    "in": "ssä"
   },
   "drafts": {
     "title": "Luonnokset",
@@ -525,7 +530,7 @@
     "purchase_estm": "Osta pisteitä",
     "convert": "Muunna HBD HIVEksi",
     "points": "Lahjoita pisteitä",
-    "transfer_to_savings": "Transfer To Saving",
+    "transfer_to_savings": "Siirrä säästöihin",
     "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "Kotiuta säästöihin",
     "steemconnect_title": "Hivesigner-siirto",
@@ -539,11 +544,11 @@
     "next": "SEURAAVA",
     "delegate": "Valtuuta",
     "power_down": "Power Down",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HIVE Dollar",
+    "withdraw_hive": "Kotiuta HIVE",
+    "withdraw_hbd": "Kotiuta Hive Dollari",
     "incoming_funds": "Saapuvat varat",
     "stop": "Lopeta",
-    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
+    "sc_power_down_error": "Tätä ominaisuutta ei ole vielä toteutettu Hivesignerin kirjautumisessa",
     "address_view": "Näytä osoite"
   },
   "boost": {
@@ -592,7 +597,7 @@
     "title": "Kommentit",
     "reveal_comment": "Näytä kommentti",
     "read_more": "Lue lisää kommentteja",
-    "more_replies": "lisää vastauksia"
+    "more_replies": "replies"
   },
   "search_result": {
     "others": "Muut",
@@ -633,22 +638,22 @@
     "new_post": "Uusi julkaisu",
     "community": "yhteisö",
     "details": "Lisätiedot",
-    "muted": "Muted",
-    "payout": "Payout"
+    "muted": "Mykistetty",
+    "payout": "Palkkio"
   },
   "user": {
     "follow": "Seuraa",
     "unfollow": "Älä seuraa",
-    "add_to_favourites": "ADD TO FAVOURITES",
-    "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE",
-    "unmute": "UNMUTE"
+    "add_to_favourites": "LISÄÄ SUOSIKKEIHIN",
+    "remove_from_favourites": "POISTA SUOSIKEISTA",
+    "mute": "MYKISTÄ",
+    "unmute": "POISTA MYKISTYS"
   },
   "communities": {
     "joined": "Jäsenyys",
     "discover": "Löydä uutta",
-    "discover_communities": "Discover Communities",
-    "no_communities": "Connect with people who share your interests by joining Communities."
+    "discover_communities": "Löydä Yhteisöjä",
+    "no_communities": "Pidä yhteyttä ihmisiin, jotka jakavat samat mielenkiinnon kohteet liittymällä yhteisöihin."
   },
   "empty_screen": {
     "nothing_here": "Täällä ei ole mitään"
@@ -660,14 +665,23 @@
     "save": "Tallenna"
   },
   "welcome": {
-    "label": "Welcome to",
-    "title": "Ecency",
-    "line1_heading": "Are you looking for community?",
-    "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
-    "line2_heading": "We have a solution!",
-    "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
-    "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others.",
-    "get_started": "Get started!"
+    "label": "Tervetuloa",
+    "title": "Ecencyyn",
+    "line1_heading": "Etsitkö yhteisöä?",
+    "line1_body": "Sensuroimaton, muuttumaton, palkitseva, hajautettu, omistamasi.",
+    "line2_heading": "Meillä on ratkaisu!",
+    "line2_body": "Hyödynnetään lohkoketjuja, sensuurivapaa, hajautettu ja palkitseva.",
+    "line3_heading": "Liity Ecencyn yhteisöihin!",
+    "line3_body": "Rakenna omistamaasi yhteisöä, saa palkkioita ja palkitse muita.",
+    "get_started": "Aloitetaan!"
+  },
+  "time": {
+    "second": "seconds",
+    "minute": "minutes",
+    "hour": "hours",
+    "week": "weeks",
+    "day": "days",
+    "month": "months",
+    "year": "years"
   }
 }

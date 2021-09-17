@@ -174,6 +174,7 @@
     "day": "roj",
     "hive_dollars": "Hive Dollars",
     "savings": "Berhev bike",
+    "joined": "Joined {time} ago",
     "edit": {
       "display_name": "Navê Xuyangê",
       "about": "Derbar",
@@ -299,6 +300,7 @@
     "setting_schedule": "Scheduling Time",
     "setting_reward": "Reward",
     "setting_beneficiary": "Beneficiary",
+    "setting_thumb": "Set Thumbnail",
     "reward_default": "Default 50% / 50%",
     "reward_power_up": "Power Up 100%",
     "reward_decline": "Decline Payout",
@@ -320,7 +322,9 @@
     "alert_btn_yes": "Yes",
     "alert_btn_no": "No",
     "draft_save_success": "Draft Saved",
-    "draft_save_fail": "Failed to save draft"
+    "draft_save_fail": "Failed to save draft",
+    "select_thumb": "Select Post Thumbnail",
+    "two_thumbs_required": "Add more images in your post before setting thumbnail"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -423,6 +427,7 @@
     "reblog_alert": "Bi rastî jî tu dixwazî dîsa biweşînî?",
     "removed_hint": "Content is not available",
     "copy_link": "Girêdanê kopî bike",
+    "copy_text": "Copy text",
     "reblogged": "dîsweşandin ji aliyê",
     "sponsored": "SPONSORKIRÎ",
     "open_thread": "Mijara vekirî",
@@ -592,7 +597,7 @@
     "title": "Şîrove",
     "reveal_comment": "Şîroveyê eşkere bike",
     "read_more": "Zêdetir şîroveyan bixwîne",
-    "more_replies": "bersivên zêdetir"
+    "more_replies": "replies"
   },
   "search_result": {
     "others": "Others",
@@ -669,5 +674,14 @@
     "line3_heading": "Join Ecency communities!",
     "line3_body": "Build community you own, get rewarded and reward others.",
     "get_started": "Get started!"
+  },
+  "time": {
+    "second": "seconds",
+    "minute": "minutes",
+    "hour": "hours",
+    "week": "weeks",
+    "day": "days",
+    "month": "months",
+    "year": "years"
   }
 }

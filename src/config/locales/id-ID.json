@@ -174,6 +174,7 @@
     "day": "hari",
     "hive_dollars": "Hive Dolar",
     "savings": "Tabungan",
+    "joined": "Joined {time} ago",
     "edit": {
       "display_name": "Nama Tampilan",
       "about": "Tentang",
@@ -299,6 +300,7 @@
     "setting_schedule": "Waktu Penjadwalan",
     "setting_reward": "Hadiah",
     "setting_beneficiary": "Penerima manfaat",
+    "setting_thumb": "Atur Gambar Mini",
     "reward_default": "Default 50% / 50%",
     "reward_power_up": "Kekuatan 100%",
     "reward_decline": "Menolak Pembayaran",
@@ -320,7 +322,9 @@
     "alert_btn_yes": "Ya",
     "alert_btn_no": "Tidak",
     "draft_save_success": "Draf Disimpan",
-    "draft_save_fail": "Gagal menyimpan draf"
+    "draft_save_fail": "Gagal menyimpan draf",
+    "select_thumb": "Pilih Thumbnail Postingan",
+    "two_thumbs_required": "Tambahkan lebih banyak gambar di postinganmu sebelum mengatur thumbnail"
   },
   "snippets": {
     "label_no_snippets": "Cuplikan Tidak Ditemukan",
@@ -417,12 +421,13 @@
     "update_available_body": "Menggunakan versi terbaru dari Ecency memberikan Anda pengalaman terbaik",
     "update": "Perbaharui sekarang",
     "remind_later": "Ingatkan nanti",
-    "failed_to_open": "Failed to open a link"
+    "failed_to_open": "Gagal membuka sebuah tautan"
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
     "removed_hint": "Konten tidak tersedia",
     "copy_link": "Salin tautan",
+    "copy_text": "Copy text",
     "reblogged": "direblog Oleh",
     "sponsored": "DISPONSORI",
     "open_thread": "Buka urutan",
@@ -433,7 +438,7 @@
     "image_saved": "Gambar disimpan ke Galeri Foto",
     "image_saved_error": "Kesalahan menyimpan gambar",
     "wrong_link": "Link salah",
-    "in": "in"
+    "in": "di"
   },
   "drafts": {
     "title": "Konsep",
@@ -592,7 +597,7 @@
     "title": "Komentar",
     "reveal_comment": "Ungkapkan komentar",
     "read_more": "Baca lebih banyak komentar",
-    "more_replies": "lebih banyak balasan"
+    "more_replies": "balasan"
   },
   "search_result": {
     "others": "Lainnya",
@@ -669,5 +674,14 @@
     "line3_heading": "Bergabunglah dengan Komunitas Ecency!",
     "line3_body": "Bangun komunitas yang Anda miliki, dapatkan imbalan, dan beri penghargaan kepada orang lain.",
     "get_started": "Mulai!"
+  },
+  "time": {
+    "second": "seconds",
+    "minute": "minutes",
+    "hour": "hours",
+    "week": "weeks",
+    "day": "days",
+    "month": "months",
+    "year": "years"
   }
 }

@@ -174,6 +174,7 @@
     "day": "dia",
     "hive_dollars": "Dólares Hive",
     "savings": "Poupanças",
+    "joined": "Joined {time} ago",
     "edit": {
       "display_name": "Nome a Exibir",
       "about": "Sobre",
@@ -299,6 +300,7 @@
     "setting_schedule": "Hora do Agendamento",
     "setting_reward": "Recompensa",
     "setting_beneficiary": "Beneficiário",
+    "setting_thumb": "Set Thumbnail",
     "reward_default": "Padrão 50% / 50%",
     "reward_power_up": "Carregar Power a 100 %%",
     "reward_decline": "Declinar Pagamento",
@@ -320,7 +322,9 @@
     "alert_btn_yes": "Sim",
     "alert_btn_no": "Não",
     "draft_save_success": "Rascunho Salvo",
-    "draft_save_fail": "Falha ao salvar rascunho"
+    "draft_save_fail": "Falha ao salvar rascunho",
+    "select_thumb": "Select Post Thumbnail",
+    "two_thumbs_required": "Add more images in your post before setting thumbnail"
   },
   "snippets": {
     "label_no_snippets": "Nenhum Snippet Encontrado",
@@ -423,6 +427,7 @@
     "reblog_alert": "Tem certeza de que deseja reblogar?",
     "removed_hint": "Conteúdo não disponível",
     "copy_link": "Copiar link",
+    "copy_text": "Copy text",
     "reblogged": "repostado por",
     "sponsored": "Promovido",
     "open_thread": "Tópico aberto",
@@ -592,7 +597,7 @@
     "title": "Comentários",
     "reveal_comment": "Revelar comentário",
     "read_more": "Ler mais comentários",
-    "more_replies": "mais respostas"
+    "more_replies": "replies"
   },
   "search_result": {
     "others": "Outros",
@@ -669,5 +674,14 @@
     "line3_heading": "Junte-se às comunidades da Ecency!",
     "line3_body": "Crie e seja dono de uma comunidade. Seja recompensado e recompense.",
     "get_started": "Comece agora!"
+  },
+  "time": {
+    "second": "seconds",
+    "minute": "minutes",
+    "hour": "hours",
+    "week": "weeks",
+    "day": "days",
+    "month": "months",
+    "year": "years"
   }
 }

@@ -174,6 +174,7 @@
     "day": "天",
     "hive_dollars": "Hive Dollar",
     "savings": "儲蓄",
+    "joined": "Joined {time} ago",
     "edit": {
       "display_name": "顯示名",
       "about": "關於",
@@ -299,6 +300,7 @@
     "setting_schedule": "預訂發布時間",
     "setting_reward": "獎勵",
     "setting_beneficiary": "受益人",
+    "setting_thumb": "Set Thumbnail",
     "reward_default": "預設 50% / 50%",
     "reward_power_up": "全額100%充電",
     "reward_decline": "謝絕奬金",
@@ -320,7 +322,9 @@
     "alert_btn_yes": "确认",
     "alert_btn_no": "取消",
     "draft_save_success": "草稿已儲存",
-    "draft_save_fail": "儲存失敗"
+    "draft_save_fail": "儲存失敗",
+    "select_thumb": "Select Post Thumbnail",
+    "two_thumbs_required": "Add more images in your post before setting thumbnail"
   },
   "snippets": {
     "label_no_snippets": "沒找到片段",
@@ -423,6 +427,7 @@
     "reblog_alert": "您確定想要轉發？",
     "removed_hint": "內容不存在",
     "copy_link": "複製連結",
+    "copy_text": "Copy text",
     "reblogged": "已轉發，轉發者是",
     "sponsored": "贊助者清單",
     "open_thread": "打開主題",
@@ -592,7 +597,7 @@
     "title": "評論",
     "reveal_comment": "顯示評論",
     "read_more": "查看更多評論",
-    "more_replies": "更多回復"
+    "more_replies": "replies"
   },
   "search_result": {
     "others": "其他選項",
@@ -669,5 +674,14 @@
     "line3_heading": "加入我們Ecency社群吧",
     "line3_body": "建立您自己的社區，賺取獎賞，獎勵他人",
     "get_started": "開始吧"
+  },
+  "time": {
+    "second": "seconds",
+    "minute": "minutes",
+    "hour": "hours",
+    "week": "weeks",
+    "day": "days",
+    "month": "months",
+    "year": "years"
   }
 }

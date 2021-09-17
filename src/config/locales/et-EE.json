@@ -174,6 +174,7 @@
     "day": "päev",
     "hive_dollars": "Hive Dollars",
     "savings": "Säästud",
+    "joined": "Joined {time} ago",
     "edit": {
       "display_name": "Kuvatav Nimi",
       "about": "Teave",
@@ -299,6 +300,7 @@
     "setting_schedule": "Ajasta",
     "setting_reward": "Tasu",
     "setting_beneficiary": "Kasusaaja",
+    "setting_thumb": "Set Thumbnail",
     "reward_default": "Vaikimisi 50% / 50%",
     "reward_power_up": "Tasu Hive Power 100%",
     "reward_decline": "Keeldu väljamaksest",
@@ -320,7 +322,9 @@
     "alert_btn_yes": "Yes",
     "alert_btn_no": "No",
     "draft_save_success": "Draft Saved",
-    "draft_save_fail": "Failed to save draft"
+    "draft_save_fail": "Failed to save draft",
+    "select_thumb": "Select Post Thumbnail",
+    "two_thumbs_required": "Add more images in your post before setting thumbnail"
   },
   "snippets": {
     "label_no_snippets": "Katkeid ei leitud",
@@ -423,6 +427,7 @@
     "reblog_alert": "Oled sa kindel, et soovid seda jagada?",
     "removed_hint": "Sisu pole kättesaadav",
     "copy_link": "Kopeeri link",
+    "copy_text": "Copy text",
     "reblogged": "jagatud %s poolt",
     "sponsored": "SPONSOREERITUD",
     "open_thread": "Ava lõim",
@@ -592,7 +597,7 @@
     "title": "Kommentaarid",
     "reveal_comment": "Näita kommentaari",
     "read_more": "Näita veel kommentaare",
-    "more_replies": "kommentaar veel"
+    "more_replies": "replies"
   },
   "search_result": {
     "others": "Muud",
@@ -669,5 +674,14 @@
     "line3_heading": "Join Ecency communities!",
     "line3_body": "Build community you own, get rewarded and reward others.",
     "get_started": "Get started!"
+  },
+  "time": {
+    "second": "seconds",
+    "minute": "minutes",
+    "hour": "hours",
+    "week": "weeks",
+    "day": "days",
+    "month": "months",
+    "year": "years"
   }
 }

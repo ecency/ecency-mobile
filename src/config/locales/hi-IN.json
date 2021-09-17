@@ -128,7 +128,7 @@
     "recent": "ताजा",
     "yesterday": "बीता कल",
     "this_week": "इस सप्ताह",
-    "last_week": "Last Week",
+    "last_week": "पिछला सप्ताह",
     "this_month": "इस महीने",
     "older_then": "एक महीना से अधिक पुराना",
     "activities": "सब",
@@ -174,6 +174,7 @@
     "day": "दिन",
     "hive_dollars": "हाइव डॉलर",
     "savings": "बचत",
+    "joined": "Joined {time} ago",
     "edit": {
       "display_name": "प्रदर्शित होने वाला नाम",
       "about": "के बारे में",
@@ -299,6 +300,7 @@
     "setting_schedule": "Scheduling Time",
     "setting_reward": "इनाम",
     "setting_beneficiary": "लाभार्थी",
+    "setting_thumb": "थंबनेल सेट करें",
     "reward_default": "वितथ रूप से ५०%/५०%",
     "reward_power_up": "१००% शक्तिप्रापक करें",
     "reward_decline": "भुगतान अस्वीकार करें",
@@ -320,7 +322,9 @@
     "alert_btn_yes": "हाँ",
     "alert_btn_no": "नहीं",
     "draft_save_success": "ड्राफ्ट सहेजा गया",
-    "draft_save_fail": "ड्राफ्ट को सहेजने में विफल"
+    "draft_save_fail": "ड्राफ्ट को सहेजने में विफल",
+    "select_thumb": "पोस्ट थंबनेल चुनें",
+    "two_thumbs_required": "थंबनेल सेट करने से पहले अपनी पोस्ट में और इमेज जोड़ें"
   },
   "snippets": {
     "label_no_snippets": "कोई स्निपेट नहीं मिला",
@@ -408,21 +412,22 @@
     "payloadTooLarge": "फ़ाइल का आकार बहुत बड़ा है, कृपया आकार बदलें या छोटी छवि अपलोड करें",
     "qoutaExceeded": "अपलोड कोटा पार हो गया",
     "invalidImage": "अमान्य छवि, भिन्न फ़ाइल आज़माएं",
-    "something_wrong": "Something went wrong",
-    "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
-    "something_wrong_reload": "Try again?",
+    "something_wrong": "कुछ गलत हो गया",
+    "something_wrong_alt": "इस बीच, अपने ब्राउज़र से Ecency.com आज़माएं",
+    "something_wrong_reload": "पुनः प्रयास करें",
     "can_not_be_empty": "शीर्षक और शरीर खाली नहीं हो सकता!",
     "wrong_filter_count": "कृपया 3 फ़िल्टर चुनें",
-    "update_available_title": "Update available v{version}",
-    "update_available_body": "Using latest version of Ecency gives you the best experience",
-    "update": "Update Now",
-    "remind_later": "Remind Later",
-    "failed_to_open": "Failed to open a link"
+    "update_available_title": "अपडेट उपलब्ध v{version}",
+    "update_available_body": "Ecency के नवीनतम संस्करण का उपयोग करने से आपको सबसे अच्छा अनुभव मिलता है",
+    "update": "अभी अपडेट करें",
+    "remind_later": "बाद में याद दिलाना",
+    "failed_to_open": "लिंक खोलने में विफल"
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
     "removed_hint": "सामग्री उपलब्ध नहीं है",
     "copy_link": "लिंक कापी करें",
+    "copy_text": "Copy text",
     "reblogged": "द्वारा रीब्लॉग",
     "sponsored": "प्रायोजित",
     "open_thread": "खुले हुए थ्रेड",
@@ -433,7 +438,7 @@
     "image_saved": "फोटो गैलरी के लिए छवि सहेजी गई",
     "image_saved_error": "छवि सहेजने में त्रुटि",
     "wrong_link": "गलत लिंक",
-    "in": "in"
+    "in": "में"
   },
   "drafts": {
     "title": "प्रारूप",
@@ -592,7 +597,7 @@
     "title": "विवेचनाऐं",
     "reveal_comment": "टिप्पणी का खुलासा",
     "read_more": "अधिक टिप्पणियाँ पढ़ें",
-    "more_replies": "अधिक जवाब"
+    "more_replies": "replies"
   },
   "search_result": {
     "others": "अन्यों",
@@ -669,5 +674,14 @@
     "line3_heading": "इसेंसी समुदायों में शामिल हों!",
     "line3_body": "अपने समुदाय का निर्माण करें, पुरस्कृत हों और दूसरों को पुरस्कृत करें।",
     "get_started": "शुरू हो जाओ!"
+  },
+  "time": {
+    "second": "seconds",
+    "minute": "minutes",
+    "hour": "hours",
+    "week": "weeks",
+    "day": "days",
+    "month": "months",
+    "year": "years"
   }
 }
