@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { useIntl } from 'react-intl'
 import { View, Alert } from 'react-native'
 import { ProfileStats, StatsData } from './profileStats'
@@ -43,6 +43,7 @@ export const QuickProfileContent = ({
 
     const isOwnProfile = currentAccount && currentAccount.name === username;
     const currentAccountName = currentAccount ? currentAccount.name : null;
+    const isProfileLoaded = (user && follows) ? true : false;
 
     useEffect(() => {
         if(username) {
@@ -208,7 +209,7 @@ export const QuickProfileContent = ({
     let _reputation = 0;
     let _createdData = null;
 
-    if (user && follows) {
+    if (isProfileLoaded) {
       _votingPower = getVotingPower(user).toFixed(1);
       _resourceCredits = getRcPower(user).toFixed(0);
       _postCount = user.post_count || 0;
@@ -249,10 +250,12 @@ export const QuickProfileContent = ({
             />
             <ProfileStats 
                 data={statsData1}
+                intermediate={!isProfileLoaded}
             />
              <ProfileStats 
                 horizontalMargin={16}
                 data={statsData2}
+                intermediate={!isProfileLoaded}
             />
             <MainButton
                 style={styles.button}

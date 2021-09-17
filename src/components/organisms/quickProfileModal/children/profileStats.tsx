@@ -12,20 +12,26 @@ export interface StatsData {
 
 interface Props {
     data:StatsData[],
-    horizontalMargin?:number
+    horizontalMargin?:number,
+    intermediate:boolean,
 }
 
-export const ProfileStats = ({data, horizontalMargin}: Props) => {
+export const ProfileStats = ({data, horizontalMargin, intermediate}: Props) => {
     return (
         <View style={{flexDirection:'row', justifyContent:'space-around', marginTop:40, marginHorizontal:horizontalMargin }}>
-            {data.map((item)=><StatItem label={item.label} value={item.value && (item.value + (item.suffix || ''))}/>)}
+            {data.map((item)=>(
+                <StatItem 
+                    label={item.label} 
+                    value={item.value && (item.value + (item.suffix || ''))}
+                    intermediate={intermediate}/>
+            ))}
         </View>
     )
 }
 
-const StatItem = (props:{label:string, value:number|string}) => (
+const StatItem = (props:{label:string, value:number|string, intermediate:boolean}) => (
     <View style={{alignItems:'center', flex:1}}>
-        {!!props.value ? (
+        {!props.intermediate ? (
             <Animated.Text animation='bounceIn' style={styles.statValue}>{props.value}</Animated.Text>
         ):(
             <Text style={styles.statValue}>{'--'}</Text>
