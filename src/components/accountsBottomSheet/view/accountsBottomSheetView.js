@@ -72,7 +72,7 @@ const AccountsBottomSheet = forwardRef(
             onMomentumScrollEnd={() => bottomSheetModalRef.current?.handleChildScrollEnd()}
           />
           <Separator style={styles.separator} />
-          <View style={{ paddingBottom: insets.bottom }}>
+          <View style={{ paddingBottom: insets.bottom + 16 }}>
             <TouchableWithoutFeedback
               style={styles.button}
               onPress={() => navigateToRoute(ROUTES.SCREENS.REGISTER)}
