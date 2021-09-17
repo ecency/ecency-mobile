@@ -15,8 +15,8 @@ interface ActionPanelProps {
 export const ActionPanel = ({isFollowing, isFavourite, onFavouritePress, onFollowPress}: ActionPanelProps) => {
 
   const heartColor = isFavourite 
-    ? '$primaryRed' 
-    : '$primaryDarkGray'
+    ? '$primaryBlue' 
+    : '$iconColor'
 
   const followIcon = isFollowing
     ? 'user-check'
@@ -28,7 +28,7 @@ export const ActionPanel = ({isFollowing, isFavourite, onFavouritePress, onFollo
             iconType='FontAwesome5'
             name={followIcon}
             size={20}
-            color={EStyleSheet.value('$primaryDarkGray')}
+            color={EStyleSheet.value('$iconColor')}
             disabled={isFollowing}
             onPress={onFollowPress}
         />
