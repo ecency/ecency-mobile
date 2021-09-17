@@ -175,6 +175,9 @@
     "hive_dollars": "Hive Dollars",
     "savings": "Economii",
     "joined": "Joined {time} ago",
+    "view_full": "VIEW FULL PROFILE",
+    "resource_credits": "Resource Credits",
+    "reputation": "Reputation",
     "edit": {
       "display_name": "Numele afișat",
       "about": "Despre",
