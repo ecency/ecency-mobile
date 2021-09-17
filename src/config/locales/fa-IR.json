@@ -174,6 +174,7 @@
     "day": "روز",
     "hive_dollars": "Hive Dollars",
     "savings": "پس انداز",
+    "joined": "Joined {time} ago",
     "edit": {
       "display_name": "نام نمایشی",
       "about": "درباره",
@@ -672,5 +673,14 @@
     "line3_heading": "Join Ecency communities!",
     "line3_body": "Build community you own, get rewarded and reward others.",
     "get_started": "Get started!"
+  },
+  "time": {
+    "second": "seconds",
+    "minute": "minutes",
+    "hour": "hours",
+    "week": "weeks",
+    "day": "days",
+    "month": "months",
+    "year": "years"
   }
 }
