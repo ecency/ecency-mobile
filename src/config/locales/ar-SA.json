@@ -175,6 +175,9 @@
     "hive_dollars": "دولار Hive",
     "savings": "مدخرات",
     "joined": "Joined {time} ago",
+    "view_full": "VIEW FULL PROFILE",
+    "resource_credits": "Resource Credits",
+    "reputation": "Reputation",
     "edit": {
       "display_name": "عرض الاسم",
       "about": "حول التطبيق",

@@ -174,7 +174,10 @@
     "day": "hari",
     "hive_dollars": "Hive Dolar",
     "savings": "Tabungan",
-    "joined": "Joined {time} ago",
+    "joined": "Bergabung {time} yang lalu",
+    "view_full": "LIHAT PROFIL SELURUHNYA",
+    "resource_credits": "Sumber Kredit",
+    "reputation": "Reputasi",
     "edit": {
       "display_name": "Nama Tampilan",
       "about": "Tentang",
@@ -427,7 +430,7 @@
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
     "removed_hint": "Konten tidak tersedia",
     "copy_link": "Salin tautan",
-    "copy_text": "Copy text",
+    "copy_text": "Salin teks",
     "reblogged": "direblog Oleh",
     "sponsored": "DISPONSORI",
     "open_thread": "Buka urutan",
@@ -676,12 +679,12 @@
     "get_started": "Mulai!"
   },
   "time": {
-    "second": "seconds",
-    "minute": "minutes",
-    "hour": "hours",
-    "week": "weeks",
-    "day": "days",
-    "month": "months",
-    "year": "years"
+    "second": "detik",
+    "minute": "menit",
+    "hour": "jam",
+    "week": "minggu",
+    "day": "hari",
+    "month": "bulan",
+    "year": "tahun"
   }
 }
