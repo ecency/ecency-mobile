@@ -1,23 +1,16 @@
 import { TextStyle, ViewStyle, ImageStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 export default EStyleSheet.create({
     modalStyle: {
         backgroundColor: '$primaryBackgroundColor',
         margin:0,
         paddingTop:32,
-        paddingBottom: getBottomSpace() + 8,
         marginHorizontal:24,
       },
 
     sheetContent: {
         backgroundColor: '$primaryBackgroundColor',
-        position:'absolute',
-        bottom:0,
-        left:0, 
-        right:0,
-        zIndex:999
     },
 
     container:{
