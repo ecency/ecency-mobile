@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { IconButton } from '../../..';
+import { useAppSelector } from '../../../../hooks';
 import styles from './quickProfileStyles';
 
 interface ActionPanelProps {
@@ -13,22 +14,30 @@ interface ActionPanelProps {
 
 export const ActionPanel = ({isFollowing, isFavourite, onFavouritePress, onFollowPress}: ActionPanelProps) => {
 
+  const heartColor = isFavourite 
+    ? '$primaryRed' 
+    : '$primaryDarkGray'
+
+  const followIcon = isFollowing
+    ? 'user-check'
+    : 'user-plus'
+
   return (
     <View style={styles.actionPanel}>
          <IconButton 
-            iconType='SimpleLineIcons'
-            name={isFollowing?'user-following':'user-follow'}
+            iconType='FontAwesome5'
+            name={followIcon}
             size={20}
-            color={EStyleSheet.value('$primaryBlack')}
+            color={EStyleSheet.value('$primaryDarkGray')}
             disabled={isFollowing}
             onPress={onFollowPress}
         />
         <IconButton 
             style={{marginLeft:8}}
-            iconType='SimpleLineIcons'
+            iconType='AntDesign'
             name={'heart'}
             size={20}
-            color={EStyleSheet.value(isFavourite?'$primaryRed':'$primaryBlack')}
+            color={EStyleSheet.value(heartColor)}
             onPress={onFavouritePress}
         />
     </View>
