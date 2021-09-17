@@ -1,10 +1,8 @@
 import React, { memo } from "react";
-import { View, ImageBackground } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
 import RenderHTML, { CustomRendererProps, Element, TNode } from "react-native-render-html";
 import styles from "./postHtmlRendererStyles";
 import { LinkData, parseLinkData } from "./linkDataParser";
-import { IconButton } from "..";
+import VideoThumb from "./videoThumb";
 
 
 interface PostHtmlRendererProps {
@@ -35,6 +33,8 @@ export const PostHtmlRenderer = memo(({
 
      //new renderer functions
   body = body.replace('<center>', '<div class="text-center">').replace('</center>','</div>');
+
+  console.log("Comment body:", body);
 
   const _handleOnLinkPress = (data:LinkData) => {
 
@@ -105,6 +105,7 @@ export const PostHtmlRenderer = memo(({
         onElementIsImage(imgUrl)
       }
     };
+
   
     const _anchorRenderer = ({
       InternalRenderer,
@@ -116,8 +117,19 @@ export const PostHtmlRenderer = memo(({
         console.log("Link Pressed:", tnode)
         const data = parseLinkData(tnode);
         _handleOnLinkPress(data);
-       
       };
+
+      if(tnode.classes?.indexOf('markdown-video-link') >= 0){
+        const imgElement = tnode.children.find((child)=>{
+          return child.classes.indexOf('video-thumbnail') > 0 ? true:false
+        })
+        if(!imgElement){
+          return (
+            <VideoThumb contentWidth={contentWidth} onPress={_onPress}  />
+          )
+        }
+      }
+      
   
       return (
         <InternalRenderer
@@ -135,8 +147,8 @@ export const PostHtmlRenderer = memo(({
       ...props
     }:CustomRendererProps<TNode>) => {
   
+      const imgUrl = tnode.attributes.src;
       const _onPress = () => {
-        const imgUrl = tnode.attributes.src;
         console.log("Image Pressed:", imgUrl)
         setSelectedImage(imgUrl);
       };
@@ -145,23 +157,9 @@ export const PostHtmlRenderer = memo(({
       const isAnchored = !(tnode.parent?.classes?.indexOf('markdown-external-link') >= 0)
   
       if(isVideoThumb){
-        return (
-          <View pointerEvents={'none'}>
-            <ImageBackground
-              source={{uri:tnode.attributes.src}}
-              style={{...styles.videoThumb, height:contentWidth * 9/16 }}
-              resizeMode={'cover'}> 
-              <IconButton
-                style={styles.playButton}
-                size={44}
-                name='play-arrow'
-                color={EStyleSheet.value('$white')}
-                iconType='MaterialIcons'
-              />
-            </ImageBackground>
-        </View>
-        )
+        return <VideoThumb contentWidth={contentWidth} uri={imgUrl}/>;
       }
+
       else {
         return (
           <InternalRenderer
