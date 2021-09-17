@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
+import { postBodySummary } from '@ecency/render-helper';
 import { getComments, deleteComment } from '../../../providers/hive/dhive';
 // Services and Actions
 import { writeToClipboard } from '../../../utils/clipboard';
@@ -212,17 +213,23 @@ const CommentsContainer = ({
   };
 
   const _handleOnPressCommentMenu = (index, selectedComment) => {
+    const _showCopiedToast = () => {
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: 'alert.copied',
+          }),
+        ),
+      );
+    };
+
     if (index === 0) {
-      writeToClipboard(`https://ecency.com${get(selectedComment, 'url')}`).then(() => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'alert.copied',
-            }),
-          ),
-        );
-      });
-    } else if (index === 1) {
+      writeToClipboard(`https://ecency.com${get(selectedComment, 'url')}`).then(_showCopiedToast);
+    }
+    if (index === 1) {
+      const body = postBodySummary(selectedComment.markdownBody);
+      writeToClipboard(body).then(_showCopiedToast);
+    } else if (index === 2) {
       _openReplyThread(selectedComment);
     }
   };
