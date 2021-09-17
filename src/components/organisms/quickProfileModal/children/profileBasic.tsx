@@ -53,7 +53,7 @@ export const ProfileBasic = ({avatarUrl, username, about, votingPower, isLoading
                 </View>
             
                 <Text style={styles.title}>{`@${username}`}</Text>
-                <Text style={styles.bodyText} numberOfLines={2} >{about}</Text>
+                {!!about && <Text style={styles.bodyText} numberOfLines={2} >{about}</Text>}
                 <Text style={styles.bodyText}>{joinedString}</Text>
             </View>
         </TouchableOpacity>

@@ -226,14 +226,14 @@ export const QuickProfileContent = ({
     
 
     const statsData1 = [
-        {label:'Follower', value:_followerCount},
-        {label:'Following', value:_followingCount},
-        {label:'Posts', value:_postCount},
+        {label:intl.formatMessage({id:'profile.follower'}), value:_followerCount},
+        {label:intl.formatMessage({id:'profile.following'}), value:_followingCount},
+        {label:intl.formatMessage({id:'profile.post'}), value:_postCount},
     ] as StatsData[]
 
     const statsData2 = [
-        {label:'Resource Credits', value:_resourceCredits, suffix:'%'},
-        {label:'Reputation', value:_reputation},
+        {label:intl.formatMessage({id:'profile.resource_credits'}), value:_resourceCredits, suffix:'%'},
+        {label:intl.formatMessage({id:'profile.reputation'}), value:_reputation},
     ] as StatsData[]
 
     return (
@@ -256,7 +256,7 @@ export const QuickProfileContent = ({
             />
             <MainButton
                 style={styles.button}
-                text='VIEW FULL PROFILE'
+                text={intl.formatMessage({id:'profile.view_full'})}
                 onPress={_openFullProfile}
             />
             {isLoggedIn && (

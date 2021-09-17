@@ -1,5 +1,6 @@
 import { TextStyle, ViewStyle, ImageStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 export default EStyleSheet.create({
     modalStyle: {
@@ -7,6 +8,7 @@ export default EStyleSheet.create({
         margin:0,
         paddingTop:32,
         marginHorizontal:24,
+        paddingBottom: getBottomSpace() + 8,
       },
 
     sheetContent: {
@@ -53,7 +55,7 @@ export default EStyleSheet.create({
         alignSelf: 'center',
         textAlign: 'center',
         fontSize: 16,
-        fontWeight: 'bold',
+        fontWeight: 'normal',
     } as TextStyle,
 
 
@@ -62,9 +64,9 @@ export default EStyleSheet.create({
         alignSelf: 'center',
         textAlign: 'center',
         fontSize: 18,
-        fontWeight: '500',
         marginTop:6,
     } as TextStyle,
+
 
     btnText:{
         color:'$pureWhite'
