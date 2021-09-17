@@ -78,6 +78,7 @@ const CommentsView = ({
 
   const menuItems = [
     intl.formatMessage({ id: 'post.copy_link' }),
+    intl.formatMessage({ id: 'post.copy_text' }),
     intl.formatMessage({ id: 'post.open_thread' }),
     intl.formatMessage({ id: 'alert.cancel' }),
   ];
@@ -145,7 +146,7 @@ const CommentsView = ({
         ref={commentMenu}
         options={menuItems}
         title={get(selectedComment, 'summary')}
-        cancelButtonIndex={2}
+        cancelButtonIndex={3}
         onPress={_onMenuItemPress}
       />
     </Fragment>
