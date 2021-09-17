@@ -174,6 +174,7 @@
     "day": "दिन",
     "hive_dollars": "हाइव डॉलर",
     "savings": "बचत",
+    "joined": "Joined {time} ago",
     "edit": {
       "display_name": "प्रदर्शित होने वाला नाम",
       "about": "के बारे में",
@@ -672,5 +673,14 @@
     "line3_heading": "इसेंसी समुदायों में शामिल हों!",
     "line3_body": "अपने समुदाय का निर्माण करें, पुरस्कृत हों और दूसरों को पुरस्कृत करें।",
     "get_started": "शुरू हो जाओ!"
+  },
+  "time": {
+    "second": "seconds",
+    "minute": "minutes",
+    "hour": "hours",
+    "week": "weeks",
+    "day": "days",
+    "month": "months",
+    "year": "years"
   }
 }
