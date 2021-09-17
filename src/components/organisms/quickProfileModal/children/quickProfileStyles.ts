@@ -53,7 +53,7 @@ export default EStyleSheet.create({
         alignSelf: 'center',
         textAlign: 'center',
         fontSize: 16,
-        fontWeight: 'bold',
+        fontWeight: 'normal',
     } as TextStyle,
 
 
@@ -62,9 +62,9 @@ export default EStyleSheet.create({
         alignSelf: 'center',
         textAlign: 'center',
         fontSize: 18,
-        fontWeight: '500',
         marginTop:6,
     } as TextStyle,
+
 
     btnText:{
         color:'$pureWhite'
