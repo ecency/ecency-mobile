@@ -7,6 +7,8 @@ import {
   SHOW_ACTION_MODAL,
   HIDE_ACTION_MODAL,
   SET_AVATAR_CACHE_STAMP,
+  SHOW_PROFILE_MODAL,
+  HIDE_PROFILE_MODAL,
 } from '../constants/constants';
 
 interface UiState {
@@ -17,7 +19,8 @@ interface UiState {
   isVisibleAccountsBottomSheet:boolean;
   actionModalVisible:boolean;
   actionModalData:any;
-  avatarCacheStamp:number
+  avatarCacheStamp:number;
+  profileModalUsername:string;
 }
 
 const initialState:UiState = {
@@ -28,7 +31,8 @@ const initialState:UiState = {
   isVisibleAccountsBottomSheet: false,
   actionModalVisible: false,
   actionModalData: null,
-  avatarCacheStamp: 0
+  avatarCacheStamp: 0,
+  profileModalUsername: ''
 };
 
 export default function (state = initialState, action) {
@@ -58,6 +62,20 @@ export default function (state = initialState, action) {
         ...state,
         actionModalVisible: false,
         actionModalData: null,
+      };
+    }
+
+    case SHOW_PROFILE_MODAL: {
+      return {
+        ...state,
+        profileModalUsername: action.payload.profileModalUsername,
+      };
+    }
+
+    case HIDE_PROFILE_MODAL: {
+      return {
+        ...state,
+        profileModalUsername: '',
       };
     }
 

@@ -15,6 +15,7 @@ import ROUTES from '../../../constants/routeNames';
 
 // Components
 import NotificationScreen from '../screen/notificationScreen';
+import { showProfileModal } from '../../../redux/actions/uiAction';
 
 class NotificationContainer extends Component {
   constructor(props) {
@@ -118,6 +119,11 @@ class NotificationContainer extends Component {
     }
   };
 
+  _handleOnUserPress = (username) => {
+    const { dispatch } = this.props;
+    dispatch(showProfileModal(username));
+  };
+
   _readAllNotification = () => {
     const { dispatch, intl, isConnected } = this.props;
     const { notifications } = this.state;
@@ -174,6 +180,7 @@ class NotificationContainer extends Component {
         getActivities={this._getActivities}
         notifications={notifications}
         navigateToNotificationRoute={this._navigateToNotificationRoute}
+        handleOnUserPress={this._handleOnUserPress}
         readAllNotification={this._readAllNotification}
         handleLoginPress={this._handleOnPressLogin}
         isNotificationRefreshing={isRefreshing}

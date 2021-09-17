@@ -7,6 +7,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import styles from './iconStyles';
 
@@ -46,6 +47,8 @@ class IconView extends PureComponent {
         return <Feather {...this.props} />;
       case 'FontAwesome':
         return <FontAwesome {...this.props} />;
+      case 'FontAwesome5':
+        return <FontAwesome5 {...this.props} />;
       case 'SimpleLineIcons':
         return <SimpleLineIcons {...this.props}>{children}</SimpleLineIcons>;
       case 'AntDesign':

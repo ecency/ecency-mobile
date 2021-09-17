@@ -188,6 +188,7 @@ class NotificationView extends PureComponent {
     <NotificationLine
       notification={item}
       handleOnPressNotification={this.props.navigateToNotificationRoute}
+      handleOnUserPress={()=>{this.props.handleOnUserPress(item.source)}}
     />
   </>
   )

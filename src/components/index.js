@@ -91,6 +91,7 @@ import { ActionModal } from './actionModal';
 import { CustomiseFiltersModal } from './customiseFiltersModal';
 import { ForegroundNotification } from './foregroundNotification';
 import { PostHtmlRenderer } from './postHtmlRenderer';
+import { QuickProfileModal } from './organisms';
 
 // Basic UI Elements
 import {
@@ -230,4 +231,5 @@ export {
   CustomiseFiltersModal,
   ForegroundNotification,
   PostHtmlRenderer,
+  QuickProfileModal,
 };

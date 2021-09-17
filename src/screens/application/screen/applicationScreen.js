@@ -25,6 +25,7 @@ import {
   AccountsBottomSheet,
   ActionModal,
   ForegroundNotification,
+  QuickProfileModal,
 } from '../../../components';
 
 // Themes (Styles)
@@ -113,6 +114,7 @@ class ApplicationScreen extends Component {
       toastNotification,
       isReady,
       foregroundNotificationData,
+      navigation,
     } = this.props;
     const { isShowToastNotification, showWelcomeModal } = this.state;
     const barStyle = isDarkTheme ? 'light-content' : 'dark-content';
@@ -171,6 +173,7 @@ class ApplicationScreen extends Component {
         <ForegroundNotification remoteMessage={foregroundNotificationData} />
         <AccountsBottomSheet />
         <ActionModal />
+        <QuickProfileModal navigation={{ navigate }} />
       </View>
     );
   }

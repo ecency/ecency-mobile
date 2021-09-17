@@ -1,0 +1,273 @@
+import React, { useEffect, useState } from 'react'
+import { useIntl } from 'react-intl'
+import { View, Alert } from 'react-native'
+import { ProfileStats, StatsData } from './profileStats'
+import { MainButton } from '../../..'
+import { addFavorite, checkFavorite, deleteFavorite } from '../../../../providers/ecency/ecency'
+import { followUser, getFollows, getRelationship, getUser } from '../../../../providers/hive/dhive'
+import { getRcPower, getVotingPower } from '../../../../utils/manaBar'
+import styles from './quickProfileStyles'
+import { ProfileBasic } from './profileBasic'
+import { parseReputation } from '../../../../utils/user'
+import { default as ROUTES } from '../../../../constants/routeNames';
+import { ActionPanel } from './actionPanel'
+import { getTimeFromNowNative } from '../../../../utils/time'
+import { useAppDispatch, useAppSelector } from '../../../../hooks'
+import { toastNotification } from '../../../../redux/actions/uiAction'
+import Bugsnag from '@bugsnag/react-native'
+
+interface QuickProfileContentProps {
+    username:string,
+    navigation:any;
+    onClose:()=>void;
+}
+
+export const QuickProfileContent = ({
+    username,
+    navigation,
+    onClose
+}:QuickProfileContentProps) => {
+    const intl = useIntl();
+    const dispatch = useAppDispatch();
+
+    const currentAccount = useAppSelector((state)=>state.account.currentAccount);
+    const pinCode = useAppSelector((state)=>state.application.pin);
+    const isLoggedIn = useAppSelector((state)=>state.application.isLoggedIn);
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [user, setUser] = useState(null);
+    const [follows, setFollows] = useState(null);
+    const [isFollowing, setIsFollowing] = useState(false);
+    const [isMuted, setIsMuted] = useState(false);
+    const [isFavourite, setIsFavourite] = useState(false);
+
+    const isOwnProfile = currentAccount && currentAccount.name === username;
+    const currentAccountName = currentAccount ? currentAccount.name : null;
+
+    useEffect(() => {
+        if(username) {
+            _fetchUser();
+            _fetchExtraUserData();
+        } else {
+            setUser(null);
+        }
+    }, [username])
+
+
+    //NETWORK CALLS
+    const _fetchUser = async () => {
+        setIsLoading(true);
+        try {
+          const _user = await getUser(username, isOwnProfile);
+          setUser(_user)
+        } catch (error) {
+            setIsLoading(false);
+        }
+    };
+
+
+    const _fetchExtraUserData = async () => {
+        try {
+            if (username) {
+                let _isFollowing;
+                let _isMuted;
+                let _isFavourite;
+                let follows;
+        
+                if (!isOwnProfile) {
+                    const res = await getRelationship(currentAccountName, username);
+                    _isFollowing = res && res.follows;
+                    _isMuted = res && res.ignores;
+                    _isFavourite = await checkFavorite(username);
+                }
+        
+                try {
+                    follows = await getFollows(username);
+                } catch (err) {
+                    follows = null;
+                }
+        
+            
+                setFollows(follows);
+                setIsFollowing(_isFollowing);
+                setIsMuted(_isMuted)
+                setIsFavourite(_isFavourite)
+                setIsLoading(false);
+            
+            }
+        } catch (error) {
+            console.warn('Failed to fetch complete profile data', error);
+            Alert.alert(
+            intl.formatMessage({
+                id: 'alert.fail',
+            }),
+            error.message || error.toString(),
+            );
+            setIsLoading(false);
+        }
+    };
+
+
+    const _onFollowPress = async () => {
+        try{
+            const follower = currentAccountName
+            const following = username;
+        
+            setIsLoading(true);
+            await followUser(currentAccount, pinCode, {
+              follower,
+              following,
+            })
+        
+            setIsLoading(false);
+            setIsFollowing(true)
+            dispatch(
+                toastNotification(
+                intl.formatMessage({
+                    id: isFollowing ? 'alert.success_unfollow' : 'alert.success_follow',
+                }),
+                ),
+            );
+        }
+        catch(err){
+            setIsLoading(false);
+            console.warn("Failed to follow user", err)
+            Bugsnag.notify(err);
+            Alert.alert(intl.formatMessage({id:'alert.fail'}), err.message)
+        }
+    }
+
+    const _onFavouritePress = async () => {
+        try{
+            setIsLoading(true);
+            let favoriteAction;
+        
+            if (isFavourite) {
+            favoriteAction = deleteFavorite;
+            } else {
+            favoriteAction = addFavorite;
+            }
+        
+            await favoriteAction(username)
+            
+            dispatch(
+                toastNotification(
+                intl.formatMessage({
+                    id: isFavourite ? 'alert.success_unfavorite' : 'alert.success_favorite',
+                }),
+                ),
+            );
+            setIsFavourite(!isFavourite);
+            setIsLoading(false);
+        }
+
+        catch(error){
+            console.warn('Failed to perform favorite action');
+            setIsLoading(false);
+            Alert.alert(
+              intl.formatMessage({
+                id: 'alert.fail',
+              }),
+              error.message || error.toString(),
+            );
+        }
+    }
+       
+
+
+    //UI CALLBACKS
+
+    const _openFullProfile = () => {
+        let params = {
+          username,
+          reputation: user ? user.reputation : null
+        };
+  
+        if (isOwnProfile) {
+          navigation.navigate(ROUTES.TABBAR.PROFILE);
+        } else {
+          navigation.navigate({
+            routeName: ROUTES.SCREENS.PROFILE,
+            params,
+            key: username,
+          });
+        }
+        if(onClose){
+            onClose();
+        }
+    }
+
+    //extract prop values
+    let _votingPower = '';
+    let _resourceCredits = '';
+    let _followerCount = 0;
+    let _followingCount = 0;
+    let _postCount = 0;
+    let _avatarUrl = '';
+    let _about = '';
+    let _reputation = 0;
+    let _createdData = null;
+
+    if (user && follows) {
+      _votingPower = getVotingPower(user).toFixed(1);
+      _resourceCredits = getRcPower(user).toFixed(0);
+      _postCount = user.post_count || 0;
+      _avatarUrl = user.avatar || '';
+      _about = user.about?.profile?.about || '';
+      _reputation = parseReputation(user.reputation);
+      _createdData = getTimeFromNowNative(user.created)
+  
+      if(follows){
+        _followerCount = follows.follower_count || 0;
+        _followingCount = follows.following_count || 0
+       }
+    }
+
+    
+
+    const statsData1 = [
+        {label:'Follower', value:_followerCount},
+        {label:'Following', value:_followingCount},
+        {label:'Posts', value:_postCount},
+    ] as StatsData[]
+
+    const statsData2 = [
+        {label:'Resource Credits', value:_resourceCredits, suffix:'%'},
+        {label:'Reputation', value:_reputation},
+    ] as StatsData[]
+
+    return (
+        <View style={styles.modalStyle}>
+            <ProfileBasic 
+                username={username} 
+                about={_about} 
+                avatarUrl={_avatarUrl} 
+                created={_createdData}
+                votingPower={_votingPower}
+                isLoading={isLoading}
+                onPress={_openFullProfile}
+            />
+            <ProfileStats 
+                data={statsData1}
+            />
+             <ProfileStats 
+                horizontalMargin={16}
+                data={statsData2}
+            />
+            <MainButton
+                style={styles.button}
+                text='VIEW FULL PROFILE'
+                onPress={_openFullProfile}
+            />
+            {isLoggedIn && (
+                <ActionPanel 
+                isFollowing={isFollowing}
+                isFavourite={isFavourite}
+                onFavouritePress={_onFavouritePress}
+                onFollowPress={_onFollowPress}
+                />
+            )}
+           
+        </View>
+    )
+};
