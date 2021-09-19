@@ -14,7 +14,7 @@ import { ActionPanel } from './actionPanel'
 import { getTimeFromNowNative } from '../../../../utils/time'
 import { useAppDispatch, useAppSelector } from '../../../../hooks'
 import { toastNotification } from '../../../../redux/actions/uiAction'
-import Bugsnag from '@bugsnag/react-native'
+import bugsnapInstance from '../../../../config/bugsnag'
 
 interface QuickProfileContentProps {
     username:string,
@@ -133,7 +133,7 @@ export const QuickProfileContent = ({
         catch(err){
             setIsLoading(false);
             console.warn("Failed to follow user", err)
-            Bugsnag.notify(err);
+            bugsnapInstance.notify(err);
             Alert.alert(intl.formatMessage({id:'alert.fail'}), err.message)
         }
     }
