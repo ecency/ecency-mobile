@@ -220,6 +220,7 @@ class NotificationView extends PureComponent {
                 data={_notifications}
                 keyExtractor={(item, index) => `${item.id}-${index}`}
                 onEndReached={() => getActivities(selectedFilter, true)}
+                onEndReachedThreshold={0.3}
                 ListFooterComponent={this._renderFooterLoading}
                 ListEmptyComponent={<ListPlaceHolder />}
                 contentContainerStyle={styles.listContentContainer}
