@@ -77,6 +77,7 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     backgroundColor: '$primaryBackgroundColor',
     width: '100%',
+    flex: 1,
   },
   swipeItemWrapper: {
     flex: 1,

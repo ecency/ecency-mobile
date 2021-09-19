@@ -35,6 +35,7 @@ import { getDsteemDateErrorMessage } from '../../utils/dsteemUtils';
 import AUTH_TYPE from '../../constants/authType';
 import { SERVER_LIST } from '../../constants/options/api';
 import { b64uEnc } from '../../utils/b64';
+import bugsnagInstance from '../../config/bugsnag';
 
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
@@ -594,6 +595,8 @@ export const getPurePost = async (author, permlink) => {
   try {
     return await client.call('bridge', 'get_post', { author, permlink });
   } catch (error) {
+    console.warn('Failed to get pure post', error);
+    bugsnagInstance.notify(error);
     return error;
   }
 };
@@ -1252,14 +1255,20 @@ export const postContent = (
     jsonMetadata,
     options,
     voteWeight,
-  ).then((resp) => {
-    const t = title ? 100 : 110;
-    const { id } = resp;
-    if (!isEdit) {
-      userActivity(t, id);
-    }
-    return resp;
-  });
+  )
+    .then((resp) => {
+      const t = title ? 100 : 110;
+      const { id } = resp;
+      if (!isEdit) {
+        userActivity(t, id);
+      }
+      return resp;
+    })
+    .catch((err) => {
+      console.warn('Failed to post conent', err);
+      bugsnagInstance.notify(err);
+      throw err;
+    });
 
 /**
  * @method postComment post a comment/reply
@@ -1575,6 +1584,7 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
     },
   );
   newPosting.account_auths.sort();
+
   if (get(currentAccount, 'local.authType') === AUTH_TYPE.STEEM_CONNECT) {
     const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
     const api = new hsClient({
@@ -1592,7 +1602,11 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
     return api
       .broadcast(opArray)
       .then((resp) => resp.result)
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.warn('Failed to update posting key');
+        bugsnagInstance.notify(error);
+        console.log(error);
+      });
   }
 
   if (key) {
@@ -1618,6 +1632,8 @@ export const grantPostingPermission = async (json, pin, currentAccount) => {
           if (error && get(error, 'jse_info.code') === 4030100) {
             error.message = getDsteemDateErrorMessage(error);
           }
+          console.warn('Failed to update posting key, non-steam', error);
+          bugsnagInstance.notify(error);
           reject(error);
         });
     });

@@ -41,6 +41,7 @@ import {
 // import { generateSignature } from '../../../utils/image';
 // Component
 import EditorScreen from '../screen/editorScreen';
+import bugsnapInstance from '../../../config/bugsnag';
 
 /*
  *            Props Name        Description                                     Value
@@ -71,7 +72,7 @@ class EditorContainer extends Component {
       beneficiaries: [],
       sharedSnippetText: null,
       onLoadDraftPress: false,
-      thumbIndex:0,
+      thumbIndex: 0,
     };
   }
 
@@ -342,21 +343,21 @@ class EditorContainer extends Component {
   };
 
   _handleMediaOnSelected = async (media) => {
-    if (media.length > 0) {
-      for (let index = 0; index < media.length; index++) {
-        const element = media[index];
-        await this._uploadImage(element);
+
+    try {
+      if (media.length > 0) {
+        for (let index = 0; index < media.length; index++) {
+          const element = media[index];
+          await this._uploadImage(element);
+        }
+      } else {
+        await this._uploadImage(media);
       }
-    } else {
-      await this._uploadImage(media);
+    } catch (error) {
+      console.log("Failed to upload image", error)
+      bugsnapInstance.notify(error);
     }
 
-    // For new image api
-    // const { currentAccount } = this.props;
-    // const digitPinCode = await getPinCode();
-    // const privateKey = decryptKey(currentAccount.local.postingKey, digitPinCode);
-    // const sign = generateSignature(media, privateKey);
-    // const data = new Buffer(media.data, 'base64');
   };
 
   _uploadImage = async (media, { shouldInsert } = { shouldInsert: false }) => {
@@ -567,7 +568,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _submitPost = async ({fields, scheduleDate}:{fields:any, scheduleDate?:string}) => {
+  _submitPost = async ({ fields, scheduleDate }: { fields: any, scheduleDate?: string }) => {
     const {
       currentAccount,
       dispatch,
@@ -798,7 +799,10 @@ class EditorContainer extends Component {
     ) {
       //when RC is not enough, offer boosting account
       dispatch(setRcOffer(true));
-    } else if (error && error.jse_shortmsg && error.jse_shortmsg.includes('wait to transact')) {
+    } else if (
+      error &&
+      error.jse_shortmsg &&
+      error.jse_shortmsg.includes('wait to transact')) {
       //when RC is not enough, offer boosting account
       dispatch(setRcOffer(true));
     } else {
@@ -843,7 +847,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _handleSubmit = (form:any) => {
+  _handleSubmit = (form: any) => {
     const { isReply, isEdit } = this.state;
     const { intl } = this.props;
 
@@ -894,7 +898,7 @@ class EditorContainer extends Component {
             text: intl.formatMessage({
               id: 'editor.alert_btn_yes',
             }),
-            onPress: () => this._submitPost({fields:form.fields}),
+            onPress: () => this._submitPost({ fields: form.fields }),
           },
         ],
         { cancelable: false },
@@ -940,11 +944,11 @@ class EditorContainer extends Component {
       }
 
       if (hasPostingPerm) {
-        this._submitPost({fields, scheduleDate:datePickerValue});
+        this._submitPost({ fields, scheduleDate: datePickerValue });
       } else {
         await grantPostingPermission(json, pinCode, currentAccount)
           .then(() => {
-            this._submitPost({fields, scheduleDate:datePickerValue});
+            this._submitPost({ fields, scheduleDate: datePickerValue });
           })
           .catch((error) => {
             Alert.alert(
@@ -1042,9 +1046,9 @@ class EditorContainer extends Component {
     await AsyncStorage.setItem('temp-beneficiaries', JSON.stringify(value));
   };
 
-  _handleSetThumbIndex = (index:number) => {
+  _handleSetThumbIndex = (index: number) => {
     this.setState({
-      thumbIndex:index
+      thumbIndex: index
     })
   }
 
@@ -1079,7 +1083,7 @@ class EditorContainer extends Component {
         handleBeneficiaries={this._handleBeneficiaries}
         handleDatePickerChange={this._handleDatePickerChange}
         handleFormChanged={this._handleFormChanged}
-        handleOnBackPress={() => {}}
+        handleOnBackPress={() => { }}
         handleOnImagePicker={this._handleRoutingAction}
         handleOnSubmit={this._handleSubmit}
         initialEditor={this._initialEditor}
