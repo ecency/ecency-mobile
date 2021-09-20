@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { get, has, unionBy } from 'lodash';
+import { get, has, unionBy, update } from 'lodash';
 import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 import Matomo from 'react-native-matomo-sdk';
@@ -28,6 +28,7 @@ import { toastNotification, setRcOffer } from '../redux/actions/uiAction';
 
 // Constants
 import { default as ROUTES } from '../constants/routeNames';
+import { updateCurrentAccount } from '../redux/actions/accountAction';
 
 class ProfileContainer extends Component {
   constructor(props) {
@@ -177,6 +178,17 @@ class ProfileContainer extends Component {
       following,
     })
       .then(() => {
+        //means user is now being followed
+        if (!isFollowing) {
+          const mutes = currentAccount.mutes || [];
+          const mutedIndex = mutes.indexOf(username);
+          if (mutedIndex >= 0) {
+            mutes.splice(mutedIndex, 1);
+            currentAccount.mutes = mutes;
+            dispatch(updateCurrentAccount(currentAccount));
+          }
+        }
+
         dispatch(
           toastNotification(
             intl.formatMessage({
@@ -214,6 +226,18 @@ class ProfileContainer extends Component {
       following,
     })
       .then(() => {
+        this.setState({
+          isMuted: true,
+          isProfileLoading: false,
+        });
+
+        const curMutes = currentAccount.mutes || [];
+        if (curMutes.indexOf(username) < 0) {
+          //check to avoid double entry corner case
+          currentAccount.mutes = [username, ...curMutes];
+        }
+        dispatch(updateCurrentAccount(currentAccount));
+
         dispatch(
           toastNotification(
             intl.formatMessage({
@@ -221,7 +245,6 @@ class ProfileContainer extends Component {
             }),
           ),
         );
-        this._profileActionDone();
       })
       .catch((err) => {
         this._profileActionDone(err);
