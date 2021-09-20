@@ -12,6 +12,7 @@ import get from 'lodash/get';
 
 // Constants
 import FastImage from 'react-native-fast-image';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import LIGHT_COVER_IMAGE from '../../../assets/default_cover_image.png';
 import DARK_COVER_IMAGE from '../../../assets/dark_cover_image.png';
 
@@ -28,6 +29,7 @@ import { getResizedImage } from '../../../utils/image';
 // Styles
 import styles from './profileSummaryStyles';
 import { TextButton } from '../../buttons';
+import { Icon } from '../..';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
@@ -217,6 +219,15 @@ class ProfileSummaryView extends PureComponent {
 
           {isLoggedIn && !isOwnProfile ? (
             <View style={styles.rightIcons}>
+              {isMuted && (
+                <Icon
+                  name="volume-mute"
+                  color={EStyleSheet.value('$primaryDarkText')}
+                  size={24}
+                  style={{ marginHorizontal: 12 }}
+                />
+              )}
+
               <TouchableOpacity
                 style={styles.followActionWrapper}
                 onPress={() => handleFollowUnfollowUser(!isFollowing)}
