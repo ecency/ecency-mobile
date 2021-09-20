@@ -221,7 +221,8 @@ class ProfileSummaryView extends PureComponent {
             <View style={styles.rightIcons}>
               {isMuted && (
                 <Icon
-                  name="volume-mute"
+                  iconType="MaterialCommunityIcons"
+                  name="volume-variant-off"
                   color={EStyleSheet.value('$primaryDarkText')}
                   size={24}
                   style={{ marginHorizontal: 12 }}
