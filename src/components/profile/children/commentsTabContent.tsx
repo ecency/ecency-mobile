@@ -27,6 +27,7 @@ const CommentsTabContent = ({isOwnProfile, username, type, onScroll, selectedUse
     const [lastAuthor, setLastAuthor] = useState('');
     const [lastPermlink, setLastPermlink] = useState('');
     const [loading, setLoading] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
     const [noMore, setNoMore] = useState(false);
 
 
@@ -34,21 +35,23 @@ const CommentsTabContent = ({isOwnProfile, username, type, onScroll, selectedUse
         if(selectedUser){
             _fetchData();
         }
-        
     }, [selectedUser])
 
 
-    const _fetchData = async () => {
-        if(loading || noMore){
+    const _fetchData = async ({refresh}:{refresh?:boolean} = {}) => {
+        if(loading || (!refresh && noMore)){
             return;
         }
 
         setLoading(true);
+        if(refresh){
+            setRefreshing(true);
+        }
         
         const query:any = {
             account:username,
-            start_author: lastAuthor,
-            start_permlink: lastPermlink,
+            start_author: refresh ? '' : lastAuthor,
+            start_permlink: refresh ? '' : lastPermlink,
             limit:10,
             observer:'',
             sort:type
@@ -62,7 +65,7 @@ const CommentsTabContent = ({isOwnProfile, username, type, onScroll, selectedUse
         }
 
         const result = await getAccountPosts(query)
-        let _comments:any[] = unionBy(data, result, 'permlink');
+        let _comments:any[] = refresh ? result : unionBy(data, result, 'permlink');
         
         if(Array.isArray(_comments)){
             setData(_comments);
@@ -79,6 +82,7 @@ const CommentsTabContent = ({isOwnProfile, username, type, onScroll, selectedUse
         }
         
         setLoading(false);
+        setRefreshing(false);
           
     }
 
@@ -122,7 +126,13 @@ const CommentsTabContent = ({isOwnProfile, username, type, onScroll, selectedUse
                   onScroll:onScroll,
                   ListEmptyComponent:_renderListEmpty,
                   ListFooterComponent:_renderListFooter,
-                  onEndReachedThreshold:1
+                  onEndReachedThreshold:1,
+                  refreshControl:(
+                      <RefreshControl 
+                        refreshing={refreshing}
+                        onRefresh={()=>_fetchData({refresh:true})}
+                      />
+                  )
               }}
             />
       </View>
