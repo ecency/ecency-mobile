@@ -12,17 +12,17 @@ import { parseReputation } from './user';
 
 const webp = Platform.OS === 'ios' ? false : true;
 
-export const parsePosts = (posts, currentUserName, areComments) => {
+export const parsePosts = (posts, currentUserName) => {
   if (posts) {
     const formattedPosts = posts.map((post) =>
-      parsePost(post, currentUserName, false, true, areComments),
+      parsePost(post, currentUserName, false, true),
     );
     return formattedPosts;
   }
   return null;
 };
 
-export const parsePost = (post, currentUserName, isPromoted, isList = false, isComment = false) => {
+export const parsePost = (post, currentUserName, isPromoted, isList = false) => {
   if (!post) {
     return null;
   }
@@ -62,7 +62,7 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false, isC
   post.post_fetched_at = new Date().getTime();
 
   //discard post body if list
-  if (isList && !isComment) {
+  if (isList) {
     post.body = '';
   }
 
@@ -120,7 +120,7 @@ export const parseCommentThreads = async (commentsMap:any, author:string, permli
 
 
 
-export const parseComments = async (comments:any[]) => {
+export const parseComments = (comments:any[]) => {
   if(!comments){
     return null;
   }
