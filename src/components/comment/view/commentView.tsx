@@ -55,8 +55,13 @@ const CommentView = ({
   }, [comment]);
 
   const _showSubCommentsToggle = () => {
-    setIsShowSubComments(!_isShowSubComments);
-    setIsPressedShowButton(true);
+    if(comment.replies && comment.replies.length > 0){
+      setIsShowSubComments(!_isShowSubComments);
+      setIsPressedShowButton(true);
+    } else if(openReplyThread) {
+      openReplyThread();
+    }
+
   };
 
 
@@ -120,7 +125,11 @@ const CommentView = ({
           <View style={styles.footerWrapper}>
             {_renderActionPanel()}
           </View>
-          { comment.children > 0 && !comment.replies?.length && _renderReadMoreButton() }
+          { commentNumber > 1 && 
+            comment.children > 0 && 
+            !comment.replies?.length && 
+            _renderReadMoreButton() 
+          }
         </Fragment>
       </View>
     ))
