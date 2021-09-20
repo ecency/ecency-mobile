@@ -18,7 +18,7 @@ import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
 
 //Constants
 import AUTH_TYPE from '../../../constants/authType';
-import { getDigitPinCode } from '../../../providers/hive/dhive';
+import { getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
 import { setFeedPosts, setInitPosts } from '../../../redux/actions/postsAction';
 import { Alert } from 'react-native';
 import { useIntl } from 'react-intl';
@@ -105,6 +105,7 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
       _currentAccount.unread_activity_count = await getUnreadNotificationCount(
         decryptKey(encryptedAccessToken, getDigitPinCode(pinHash))
       );
+      _currentAccount.mutes = await getMutes(_currentAccount.username);
       dispatch(updateCurrentAccount(_currentAccount));
     }
 
