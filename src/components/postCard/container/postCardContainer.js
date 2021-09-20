@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
@@ -35,6 +35,9 @@ const PostCardContainer = ({
   const [_content, setContent] = useState(content);
   const [reblogs, setReblogs] = useState([]);
   const activeVotes = get(_content, 'active_votes', []);
+  const [isMuted, setIsMuted] = useState(
+    currentAccount.mutes && currentAccount.mutes.indexOf(content.author) > -1,
+  );
 
   useEffect(() => {
     let isCancelled = false;
@@ -117,12 +120,17 @@ const PostCardContainer = ({
     });
   };
 
+  const _handleOnUnmutePress = () => {
+    setIsMuted(false);
+  };
+
   return (
     <PostCardView
       handleOnUserPress={_handleOnUserPress}
       handleOnContentPress={_handleOnContentPress}
       handleOnVotersPress={_handleOnVotersPress}
       handleOnReblogsPress={_handleOnReblogsPress}
+      handleOnUnmutePress={_handleOnUnmutePress}
       content={_content}
       isHideImage={isHideImage}
       nsfw={nsfw || '1'}
@@ -130,6 +138,7 @@ const PostCardContainer = ({
       activeVotes={activeVotes}
       imageHeight={imageHeight}
       setImageHeight={setImageHeight}
+      isMuted={isMuted}
       fetchPost={_fetchPost}
     />
   );

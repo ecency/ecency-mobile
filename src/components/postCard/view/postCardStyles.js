@@ -91,4 +91,18 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     marginLeft: 2,
   },
+  revealButton: {
+    backgroundColor: '$primaryGrayBackground',
+    height: 56,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 12,
+    marginTop: 8,
+    marginHorizontal: 0,
+  },
+  revealText: {
+    color: '$primaryDarkText',
+    textAlign: 'center',
+    fontSize: 18,
+  },
 });
