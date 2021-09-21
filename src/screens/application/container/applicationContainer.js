@@ -367,7 +367,7 @@ class ApplicationContainer extends Component {
 
     const remoteVersion = await fetchLatestAppVersion();
 
-    if (remoteVersion !== VersionNumber.appVersion) {
+    if (parseVersionNumber(remoteVersion) > parseVersionNumber(VersionNumber.appVersion)) {
       dispatch(
         showActionModal(
           intl.formatMessage({ id: 'alert.update_available_title' }, { version: remoteVersion }),
