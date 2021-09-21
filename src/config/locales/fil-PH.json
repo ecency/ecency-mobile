@@ -441,7 +441,8 @@
     "image_saved": "Ang imahe ang na i-save sa Gallery ng mga Imahe",
     "image_saved_error": "Error sa Pag-save ng Imahe",
     "wrong_link": "Maling link",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "Mga Draft",
