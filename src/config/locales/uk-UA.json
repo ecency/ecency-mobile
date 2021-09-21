@@ -441,7 +441,8 @@
     "image_saved": "Зображення збережено до Галереї",
     "image_saved_error": "Не вдалося зберегти зображення",
     "wrong_link": "Невірне посилання",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "Чернетки",
