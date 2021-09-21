@@ -441,7 +441,8 @@
     "image_saved": "Təsvir Foto Qalereya saxlanıldı",
     "image_saved_error": "Təsvir Saxlanmadı",
     "wrong_link": "Yanlış bağlantı",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "Qaralamalar",
