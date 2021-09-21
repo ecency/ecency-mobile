@@ -8,6 +8,12 @@ export default EStyleSheet.create({
   content: {
     backgroundColor: '$primaryGrayBackground',
   },
+  mutedView: {
+    flex: 1,
+    backgroundColor: '$primaryLightBackground',
+    alignItems: 'center',
+    marginTop: 72,
+  },
   cover: {
     width: '$deviceWidth',
     height: 160,
