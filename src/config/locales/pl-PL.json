@@ -441,7 +441,8 @@
     "image_saved": "Obraz zapisany w galerii zdjęć",
     "image_saved_error": "Wystąpił błąd podczas zapisywania obrazu",
     "wrong_link": "Nieprawidłowy link",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "Szkice",
