@@ -441,7 +441,8 @@
     "image_saved": "图片已存到图库",
     "image_saved_error": "保存图片出错",
     "wrong_link": "链接错误",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "草稿",
