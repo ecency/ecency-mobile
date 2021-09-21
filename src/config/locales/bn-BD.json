@@ -441,7 +441,8 @@
     "image_saved": "চিত্র ফটো গ্যালারিতে সংরক্ষিত হয়েছে",
     "image_saved_error": "চিত্র সংরক্ষণে ত্রুটি",
     "wrong_link": "ভুল লিঙ্ক",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "খসড়া",
