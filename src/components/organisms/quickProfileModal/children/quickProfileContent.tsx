@@ -266,6 +266,7 @@ export const QuickProfileContent = ({
                 <ActionPanel 
                 isFollowing={isFollowing}
                 isFavourite={isFavourite}
+                isMuted={isMuted}
                 onFavouritePress={_onFavouritePress}
                 onFollowPress={_onFollowPress}
                 />

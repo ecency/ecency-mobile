@@ -4,7 +4,7 @@ import Config from 'react-native-config';
 import get from 'lodash/get';
 
 import { Alert } from 'react-native';
-import { getDigitPinCode, getUser } from './dhive';
+import { getDigitPinCode, getMutes, getUser } from './dhive';
 import {
   setUserData,
   setAuthStatus,
@@ -70,6 +70,7 @@ export const login = async (username, password, isPinCodeOpen) => {
   account.unread_activity_count = await getUnreadNotificationCount(
     scTokens ? scTokens.access_token : '',
   );
+  account.mutes = await getMutes(account.username);
 
   let jsonMetadata;
   try {
@@ -135,6 +136,7 @@ export const loginWithSC2 = async (code, isPinCodeOpen) => {
     account.unread_activity_count = await getUnreadNotificationCount(
       scTokens ? scTokens.access_token : '',
     );
+    account.mutes = await getMutes(account.username);
 
     let jsonMetadata;
     try {

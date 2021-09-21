@@ -18,6 +18,7 @@ import { TextWithIcon } from '../../basicUIElements';
 import { Upvote } from '../../upvote';
 // Styles
 import styles from './postCardStyles';
+import { TextButton } from '../..';
 
 const dim = Dimensions.get('window');
 const DEFAULT_IMAGE =
@@ -30,6 +31,7 @@ const PostCardView = ({
   handleOnContentPress,
   handleOnVotersPress,
   handleOnReblogsPress,
+  handleOnUnmutePress,
   content,
   reblogs,
   isHideImage,
@@ -39,6 +41,7 @@ const PostCardView = ({
   activeVotes,
   imageHeight,
   setImageHeight,
+  isMuted,
 }) => {
   //local state to manage fake upvote if available
   const [activeVotesCount, setActiveVotesCount] = useState(0);
@@ -78,7 +81,7 @@ const PostCardView = ({
 
   var images = { image: DEFAULT_IMAGE, thumbnail: DEFAULT_IMAGE };
   if (content.thumbnail) {
-    if (nsfw !== '0' && content.nsfw) {
+    if (isMuted || (nsfw !== '0' && content.nsfw)) {
       images = { image: NSFW_IMAGE, thumbnail: NSFW_IMAGE };
     } else {
       images = { image: content.image, thumbnail: content.thumbnail };
@@ -149,10 +152,19 @@ const PostCardView = ({
               }}
             />
           )}
-          <View style={[styles.postDescripton]}>
-            <Text style={styles.title}>{content.title}</Text>
-            <Text style={styles.summary}>{content.summary}</Text>
-          </View>
+          {!isMuted ? (
+            <View style={[styles.postDescripton]}>
+              <Text style={styles.title}>{content.title}</Text>
+              <Text style={styles.summary}>{content.summary}</Text>
+            </View>
+          ) : (
+            <TextButton
+              style={styles.revealButton}
+              textStyle={styles.revealText}
+              onPress={() => handleOnUnmutePress()}
+              text={intl.formatMessage({ id: 'post.reveal_muted' })}
+            />
+          )}
         </TouchableOpacity>
       </View>
       <View style={styles.bodyFooter}>

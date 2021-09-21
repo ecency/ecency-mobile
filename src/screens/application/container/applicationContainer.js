@@ -40,7 +40,7 @@ import {
   getLastUpdateCheck,
   setLastUpdateCheck,
 } from '../../../realm/realm';
-import { getUser, getPost, getDigitPinCode } from '../../../providers/hive/dhive';
+import { getUser, getPost, getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
 import {
   migrateToMasterKeyWithAccessToken,
   refreshSCToken,
@@ -747,6 +747,7 @@ class ApplicationContainer extends Component {
       }
 
       accountData.unread_activity_count = await getUnreadNotificationCount();
+      accountData.mutes = await getMutes(realmObject.username);
       dispatch(updateCurrentAccount(accountData));
 
       this._connectNotificationServer(accountData.name);
@@ -928,6 +929,7 @@ class ApplicationContainer extends Component {
     _currentAccount = await this._refreshAccessToken(_currentAccount);
 
     _currentAccount.unread_activity_count = await getUnreadNotificationCount();
+    _currentAccount.mutes = await getMutes(_currentAccount.username);
     dispatch(updateCurrentAccount(_currentAccount));
   };
 

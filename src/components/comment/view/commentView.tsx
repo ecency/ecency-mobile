@@ -17,7 +17,7 @@ import { TextWithIcon } from '../../basicUIElements';
 
 // Styles
 import styles from './commentStyles';
-import Animated from 'react-native-reanimated';
+import { useAppSelector } from '../../../hooks';
 
 const CommentView = ({
   avatarSize,
@@ -41,12 +41,16 @@ const CommentView = ({
   hideManyCommentsButton,
   openReplyThread,
 }) => {
+  const intl = useIntl();
+  const actionSheet = useRef(null);
+
+  const isMuted = useAppSelector(state => state.account.currentAccount.mutes?.indexOf(comment.author) > -1);
+
   const [_isShowSubComments, setIsShowSubComments] = useState(isShowSubComments || false);
   const [isPressedShowButton, setIsPressedShowButton] = useState(false);
   const [activeVotes, setActiveVotes] = useState([]);
 
-  const intl = useIntl();
-  const actionSheet = useRef(null);
+
 
   useEffect(() => {
     if (comment) {
@@ -119,6 +123,7 @@ const CommentView = ({
           body={comment.body}
           created={comment.created}
           key={`key-${comment.permlink}`}
+          isMuted={isMuted}
         />
         
         <Fragment>

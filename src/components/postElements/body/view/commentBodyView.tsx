@@ -38,6 +38,7 @@ const CommentBody = ({
   commentDepth,
   reputation,
   dispatch,
+  isMuted
 }) => {
 
   const _contentWidth = WIDTH - (40 + 28 + (commentDepth > 2 ? 44 : 0))
@@ -46,7 +47,7 @@ const CommentBody = ({
   const [postImages, setPostImages] = useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedLink, setSelectedLink] = useState(null);
-  const [revealComment, setRevealComment] = useState(reputation > 0);
+  const [revealComment, setRevealComment] = useState(reputation > 0 && !isMuted);
   const [videoUrl, setVideoUrl] = useState(null);
   const [youtubeVideoId, setYoutubeVideoId] = useState(null)
 

@@ -36,6 +36,7 @@ import AUTH_TYPE from '../../constants/authType';
 import { SERVER_LIST } from '../../constants/options/api';
 import { b64uEnc } from '../../utils/b64';
 import bugsnagInstance from '../../config/bugsnag';
+import bugsnapInstance from '../../config/bugsnag';
 
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
@@ -409,6 +410,27 @@ export const getFollowing = (follower, startFollowing, followType = 'blog', limi
 
 export const getFollowers = (follower, startFollowing, followType = 'blog', limit = 100) =>
   client.database.call('get_followers', [follower, startFollowing, followType, limit]);
+
+export const getMutes = async (currentUsername) => {
+  try {
+    const type = 'ignore';
+    const limit = 1000;
+    const response = await client.database.call('get_following', [
+      currentUsername,
+      '',
+      type,
+      limit,
+    ]);
+    if (!response) {
+      return [];
+    }
+    return response.map((item) => item.following);
+  } catch (err) {
+    console.warn('Failed to get muted accounts', err);
+    bugsnapInstance.notify(err);
+    return [];
+  }
+};
 
 export const getRelationship = (follower, following) =>
   new Promise((resolve, reject) => {
