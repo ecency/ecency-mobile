@@ -5,6 +5,7 @@ import get from 'lodash/get';
 import { connect } from 'react-redux';
 
 // Components
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { CollapsibleCard } from '../collapsibleCard';
 import { Comments } from '../comments';
 import { Header } from '../header';
@@ -23,6 +24,7 @@ import styles from './profileStyles';
 
 import { TabbedPosts } from '../tabbedPosts';
 import CommentsTabContent from './children/commentsTabContent';
+import { Icon } from '..';
 
 class ProfileView extends PureComponent {
   constructor(props) {
@@ -248,12 +250,26 @@ class ProfileView extends PureComponent {
     );
   };
 
+  _renderMutedView = () => {
+    return (
+      <View style={styles.mutedView}>
+        <Icon
+          iconType="MaterialCommunityIcons"
+          name="volume-variant-off"
+          size={120}
+          color={EStyleSheet.value('$iconColor')}
+          disabled={true}
+        />
+      </View>
+    );
+  };
+
   _isCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {
     return layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
   }
 
   render() {
-    const { handleOnBackPress, isOwnProfile, quickProfile, reverseHeader } = this.props;
+    const { handleOnBackPress, quickProfile, reverseHeader, isMuted } = this.props;
 
     return (
       <View style={styles.container}>
@@ -265,7 +281,7 @@ class ProfileView extends PureComponent {
         />
         <View style={styles.container}>
           {this._renderProfileContent()}
-          {this._renderTabs()}
+          {!isMuted ? this._renderTabs() : this._renderMutedView()}
         </View>
       </View>
     );
