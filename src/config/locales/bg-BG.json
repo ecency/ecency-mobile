@@ -441,7 +441,8 @@
     "image_saved": "Изображението е запазено в галерията",
     "image_saved_error": "Грешка при запазвана не снимката",
     "wrong_link": "Грешен линк/връзка",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "Чернови",
