@@ -441,7 +441,8 @@
     "image_saved": "Image sauvegardée dans la Galerie Photo",
     "image_saved_error": "Erreur de sauvegarde de l'image",
     "wrong_link": "Mauvais lien",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "Brouillons",
