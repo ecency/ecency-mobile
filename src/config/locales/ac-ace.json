@@ -441,7 +441,8 @@
     "image_saved": "Image saved to Photo Gallery",
     "image_saved_error": "Error Saving Image",
     "wrong_link": "Wrong link",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "Konsep",
