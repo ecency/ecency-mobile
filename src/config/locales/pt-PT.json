@@ -441,7 +441,8 @@
     "image_saved": "Imagem salva na Galeria de Fotos",
     "image_saved_error": "Error ao Salvar a Imagem",
     "wrong_link": "Link errado",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "Rascunhos",
