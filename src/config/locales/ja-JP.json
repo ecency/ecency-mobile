@@ -441,7 +441,8 @@
     "image_saved": "画像をフォトギャラリーに保存しました",
     "image_saved_error": "画像の保存時にエラー",
     "wrong_link": "間違ったリンク",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "下書き",
