@@ -219,16 +219,6 @@ class ProfileSummaryView extends PureComponent {
 
           {isLoggedIn && !isOwnProfile ? (
             <View style={styles.rightIcons}>
-              {isMuted && (
-                <Icon
-                  iconType="MaterialCommunityIcons"
-                  name="volume-variant-off"
-                  color={EStyleSheet.value('$primaryDarkText')}
-                  size={24}
-                  style={{ marginHorizontal: 12 }}
-                />
-              )}
-
               <TouchableOpacity
                 style={styles.followActionWrapper}
                 onPress={() => handleFollowUnfollowUser(!isFollowing)}

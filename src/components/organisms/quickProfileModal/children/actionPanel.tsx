@@ -8,30 +8,51 @@ import styles from './quickProfileStyles';
 interface ActionPanelProps {
     isFollowing:boolean,
     isFavourite:boolean,
+    isMuted:boolean,
     onFollowPress:()=>void,
     onFavouritePress:()=>void
 }
 
-export const ActionPanel = ({isFollowing, isFavourite, onFavouritePress, onFollowPress}: ActionPanelProps) => {
+export const ActionPanel = ({
+  isFollowing, 
+  isFavourite, 
+  isMuted,
+  onFavouritePress, 
+  onFollowPress
+}: ActionPanelProps) => {
 
   const heartColor = isFavourite 
     ? '$primaryBlue' 
-    : '$iconColor'
+    : '$iconColor';
 
   const followIcon = isFollowing
     ? 'user-check'
-    : 'user-plus'
+    : 'user-plus';
 
   return (
     <View style={styles.actionPanel}>
-         <IconButton 
-            iconType='FontAwesome5'
-            name={followIcon}
-            size={20}
-            color={EStyleSheet.value('$iconColor')}
-            disabled={isFollowing}
-            onPress={onFollowPress}
-        />
+        {
+          isMuted ? (
+            <IconButton
+              iconType="MaterialCommunityIcons"
+              name="volume-variant-off"
+              size={26}
+              color={EStyleSheet.value('$iconColor')}
+              disabled={true}
+            />
+    
+          ) : (
+            <IconButton 
+              iconType='FontAwesome5'
+              name={followIcon}
+              size={20}
+              color={EStyleSheet.value('$iconColor')}
+              disabled={isFollowing}
+              onPress={onFollowPress}
+            />
+          ) 
+        }
+      
         <IconButton 
             style={{marginLeft:8}}
             iconType='AntDesign'
