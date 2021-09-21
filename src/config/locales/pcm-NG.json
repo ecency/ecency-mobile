@@ -441,7 +441,8 @@
     "image_saved": "Keep image put for wia e dey save",
     "image_saved_error": "Gbege don happen as e dey save picture",
     "wrong_link": "Dis link no be am",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "Draft",
