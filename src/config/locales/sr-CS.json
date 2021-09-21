@@ -441,7 +441,8 @@
     "image_saved": "Slika je sačuvana u galeriji fotografija",
     "image_saved_error": "Greška pri čuvanju slike",
     "wrong_link": "Pogrešna veza",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "Radne verzije",
