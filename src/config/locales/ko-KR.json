@@ -441,7 +441,8 @@
     "image_saved": "이미지가 갤러리에 저장되었습니다.",
     "image_saved_error": "이미지 저장 오류",
     "wrong_link": "잘못된 링크",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "임시 보관함",

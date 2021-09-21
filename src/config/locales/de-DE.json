@@ -441,7 +441,8 @@
     "image_saved": "Bild in Galerie gespeichert",
     "image_saved_error": "Fehler beim Speichern des Bildes",
     "wrong_link": "Falscher Link",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "Entwürfe",

@@ -441,7 +441,8 @@
     "image_saved": "Imagine salvată în Galerie Foto",
     "image_saved_error": "Eroare la salvarea imaginii",
     "wrong_link": "Legătura este greșită",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "Schițe",

@@ -441,7 +441,8 @@
     "image_saved": "Gambar disimpan ke Galeri Foto",
     "image_saved_error": "Kesalahan menyimpan gambar",
     "wrong_link": "Link salah",
-    "in": "di"
+    "in": "di",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "Konsep",

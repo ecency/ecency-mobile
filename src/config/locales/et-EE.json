@@ -441,7 +441,8 @@
     "image_saved": "Pilt salvestatud Galeriisse",
     "image_saved_error": "Pildi salvestamine ebaõnnestus",
     "wrong_link": "Vale link",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "Mustandid",

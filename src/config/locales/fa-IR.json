@@ -441,7 +441,8 @@
     "image_saved": "تصویر در گالری عکس ذخیره شد",
     "image_saved_error": "خطایی در ذخیره عکس بوجود آمد",
     "wrong_link": "لنک اشتباه",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "پیشنویس ها",

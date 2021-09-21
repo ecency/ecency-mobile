@@ -441,7 +441,8 @@
     "image_saved": "Изображение сохранено в фотогалерею",
     "image_saved_error": "Ошибка при сохранении изображения",
     "wrong_link": "Неверная ссылка",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "Черновики",

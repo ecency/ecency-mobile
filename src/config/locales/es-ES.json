@@ -441,7 +441,8 @@
     "image_saved": "Imagen guardada en la galería de fotos",
     "image_saved_error": "Error guardando imagen",
     "wrong_link": "Enlace incorrecto",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "Borradores",

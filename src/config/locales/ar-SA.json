@@ -441,7 +441,8 @@
     "image_saved": "تم حفظ الصورة في معرض الصور",
     "image_saved_error": "حدث خطأ أثناء حفظ الصورة",
     "wrong_link": "رابط خاطئ",
-    "in": "in"
+    "in": "in",
+    "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
     "title": "المسودات",
