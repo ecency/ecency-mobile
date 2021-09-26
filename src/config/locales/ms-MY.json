@@ -75,25 +75,25 @@
     "escrow_transfer": "Pemindahan Escrow",
     "escrow_dispute": "Pertikai Escrow",
     "escrow_release": "Pelepasan Escrow",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel From Savings",
+    "escrow_approve": "Penyetujuan Escrow",
+    "cancel_transfer_from_savings": "Batalkan Dari Simpanan",
     "delegate_vesting_shares": "Delegasi",
-    "fill_convert_request": "Convert Executed",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_convert_request": "Penukaran terlaksana",
+    "fill_transfer_from_savings": "Simpanan Terlaksana",
+    "fill_vesting_withdraw": "Kurangkan Kuasa terlaksana",
     "estm": {
       "title": "Mata ganjaran",
-      "buy": "GET POINTS"
+      "buy": "DAPATKAN MATA"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "Simpanan HIVE"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "Simpanan HBD"
     },
     "hive": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "DAPATKAN HIVE"
     },
     "hbd": {
       "title": "HBD",
@@ -234,11 +234,11 @@
     "steemconnect_fee_description": "info"
   },
   "register": {
-    "button": "Sign Up",
+    "button": "Daftar",
     "title": "Daftar baru",
-    "username": "Pick a username",
-    "mail": "Enter your email address",
-    "ref_user": "Referred user (Optional)",
+    "username": "Pilih nama pengguna",
+    "mail": "Masukkan alamat emel anda",
+    "ref_user": "Pengguna yang dirujuk (Tidak diwajibkan)",
     "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
     "title_description": "One account to manage everything",
     "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
