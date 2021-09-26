@@ -3,6 +3,7 @@ import { View, StatusBar, Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
+import { debounce } from 'lodash';
 
 // Actions
 import HiveSigner from '../../steem-connect/hiveSigner';
@@ -112,7 +113,7 @@ class LoginScreen extends PureComponent {
                 leftIconName="close"
                 iconType="MaterialCommunityIcons"
                 isValid={isUsernameValid}
-                onChange={(value) => this._handleUsernameChange(value)}
+                onChange={debounce(this._handleUsernameChange, 1000)}
                 placeholder={intl.formatMessage({
                   id: 'login.username',
                 })}
