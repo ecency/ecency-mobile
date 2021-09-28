@@ -9,7 +9,7 @@ import get from 'lodash/get';
 // Services and Actions
 import { reblog } from '../../../providers/hive/dhive';
 import { addBookmark, addReport } from '../../../providers/ecency/ecency';
-import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
+import { toastNotification, setRcOffer, showActionModal } from '../../../redux/actions/uiAction';
 import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 
 // Constants
@@ -123,7 +123,8 @@ class PostDropdownContainer extends PureComponent {
   _report = (url) => {
     const { dispatch, intl } = this.props;
 
-    addReport(url)
+    const _onConfirm = () => {
+      addReport(url)
       .then(() => {
         dispatch(
           toastNotification(
@@ -142,6 +143,20 @@ class PostDropdownContainer extends PureComponent {
           ),
         );
       });
+    }
+
+    dispatch(showActionModal(
+      intl.formatMessage({id:'report.confirm_report_title'}),
+      intl.formatMessage({id:'report.confirm_report_body'}),
+      [{
+        text:intl.formatMessage({id:'alert.cancel'}),
+        onPress:()=>{}
+      },{
+        text:intl.formatMessage({id:'alert.confirm'}),
+        onPress:_onConfirm
+      }]
+    ))
+   
   };
 
   _addToBookmarks = () => {
