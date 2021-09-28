@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   Linking,
   Alert,
+  Platform,
 } from 'react-native';
 import get from 'lodash/get';
 
@@ -24,7 +25,7 @@ import { DropdownButton } from '../../dropdownButton';
 
 // Utils
 import { makeCountFriendly } from '../../../utils/formatter';
-import { getResizedImage } from '../../../utils/image';
+import { getCoverImageUrl } from '../../../utils/image';
 
 // Styles
 import styles from './profileSummaryStyles';
@@ -98,6 +99,7 @@ class ProfileSummaryView extends PureComponent {
       isProfileLoading,
       percentRC,
       percentVP,
+      username,
     } = this.props;
     const dropdownOptions = [];
     const votingPowerHoursText = hoursVP && `• Full in ${hoursVP} hours`;
@@ -120,7 +122,7 @@ class ProfileSummaryView extends PureComponent {
     const followButtonText = intl.formatMessage({
       id: !isFollowing ? 'user.follow' : 'user.unfollow',
     });
-    let coverImageUrl = getResizedImage(get(about, 'cover_image'), 600);
+    let coverImageUrl = getCoverImageUrl(username);
 
     if (!coverImageUrl) {
       coverImageUrl = isDarkTheme
