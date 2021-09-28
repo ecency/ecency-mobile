@@ -109,6 +109,7 @@ class ProfileView extends PureComponent {
       resourceCredits,
       selectedUser,
       votingPower,
+      username,
     } = this.props;
 
     const { isSummaryOpen, collapsibleMoreHeight } = this.state;
@@ -150,6 +151,7 @@ class ProfileView extends PureComponent {
           percentRC={resourceCredits}
           percentVP={votingPower}
           handleOnPressProfileEdit={handleOnPressProfileEdit}
+          username={username}
         />
       </CollapsibleCard>
     );

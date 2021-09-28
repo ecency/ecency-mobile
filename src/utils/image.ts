@@ -5,6 +5,7 @@ import { proxifyImageSrc } from '@ecency/render-helper';
 import { Platform } from 'react-native';
 
 const whatOs = Platform.OS;
+const BASE_IMAGE_URL = whatOs === 'android' ? 'https://images.ecency.com/webp' : 'https://images.ecency.com';
 
 export const generateSignature = (media, privateKey) => {
   const STRING = 'ImageSigningChallenge';
@@ -90,6 +91,12 @@ export const getResizedAvatar = (author, sizeString = 'small') => {
   if (!author) {
     return '';
   }
-  const url = whatOs === 'android' ? 'https://images.ecency.com/webp' : 'https://images.ecency.com';
-  return `${url}/u/${author}/avatar/${sizeString}`;
+  return `${BASE_IMAGE_URL}/u/${author}/avatar/${sizeString}`;
 };
+
+export const getCoverImageUrl = (username:string) => {
+  if (!username) {
+    return '';
+  }
+  return `${BASE_IMAGE_URL}/u/${username}/cover/`
+} 
