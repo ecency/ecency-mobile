@@ -5,9 +5,10 @@ import styles from './quickProfileStyles';
 import * as Progress from 'react-native-progress';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useIntl } from 'react-intl';
+import { UserAvatar } from '../../..';
+
 
 interface Props {
-    avatarUrl:string,
     username:string,
     about:string,
     created:{
@@ -19,7 +20,7 @@ interface Props {
     onPress:()=>void
 }
 
-export const ProfileBasic = ({avatarUrl, username, about, votingPower, isLoading, created, onPress}: Props) => {
+export const ProfileBasic = ({username, about, votingPower, isLoading, created, onPress}: Props) => {
     const intl = useIntl();    
     const progress = parseInt(votingPower || '0')/100;
 
@@ -33,9 +34,10 @@ export const ProfileBasic = ({avatarUrl, username, about, votingPower, isLoading
         <TouchableOpacity onPress={onPress} >
             <View style={styles.container}>
                 <View>
-                    <FastImage 
-                        source={{uri:avatarUrl}}
-                        resizeMode='cover'
+                    <UserAvatar 
+                        username={username}
+                        disableSize={true}
+                        noAction
                         style={styles.image}
                     />
                     <View style={styles.progressCircle}>
