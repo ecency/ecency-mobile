@@ -20,11 +20,11 @@ import {
 } from '../providers/hive/dhive';
 
 // Ecency providers
-import { checkFavorite, addFavorite, deleteFavorite } from '../providers/ecency/ecency';
+import { checkFavorite, addFavorite, deleteFavorite, addReport } from '../providers/ecency/ecency';
 
 // Utilitites
 import { getRcPower, getVotingPower } from '../utils/manaBar';
-import { toastNotification, setRcOffer } from '../redux/actions/uiAction';
+import { toastNotification, setRcOffer, showActionModal } from '../redux/actions/uiAction';
 
 // Constants
 import { default as ROUTES } from '../constants/routeNames';
@@ -407,6 +407,50 @@ class ProfileContainer extends Component {
       });
   };
 
+  _handleReportUser = () => {
+    const { dispatch, intl } = this.props;
+    const { username } = this.state;
+
+    const _onConfirm = () => {
+      addReport('user', username)
+        .then(() => {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'report.added',
+              }),
+            ),
+          );
+        })
+        .catch(() => {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'report.added',
+              }),
+            ),
+          );
+        });
+    };
+
+    dispatch(
+      showActionModal(
+        intl.formatMessage({ id: 'report.confirm_report_title' }),
+        intl.formatMessage({ id: 'report.confirm_report_body' }),
+        [
+          {
+            text: intl.formatMessage({ id: 'alert.cancel' }),
+            onPress: () => {},
+          },
+          {
+            text: intl.formatMessage({ id: 'alert.confirm' }),
+            onPress: _onConfirm,
+          },
+        ],
+      ),
+    );
+  };
+
   _handleOnBackPress = () => {
     const { navigation } = this.props;
     const navigationParams = get(navigation.state, 'params');
@@ -516,6 +560,7 @@ class ProfileContainer extends Component {
         handleOnFavoritePress: this._handleOnFavoritePress,
         handleOnFollowsPress: this._handleFollowsPress,
         handleOnPressProfileEdit: this._handleOnPressProfileEdit,
+        handleReportUser: this._handleReportUser,
         isDarkTheme,
         isFavorite,
         isFollowing,

@@ -24,6 +24,7 @@ const ProfileScreen = () => (
       handleOnFavoritePress,
       handleOnFollowsPress,
       handleOnPressProfileEdit,
+      handleReportUser,
       isDarkTheme,
       isFavorite,
       isFollowing,
@@ -61,6 +62,7 @@ const ProfileScreen = () => (
         handleOnFavoritePress={handleOnFavoritePress}
         handleOnFollowsPress={handleOnFollowsPress}
         handleOnPressProfileEdit={handleOnPressProfileEdit}
+        handleReportUser={handleReportUser}
         isDarkTheme={isDarkTheme}
         isFavorite={isFavorite}
         isFollowing={isFollowing}
