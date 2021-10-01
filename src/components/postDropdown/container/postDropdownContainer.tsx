@@ -124,7 +124,7 @@ class PostDropdownContainer extends PureComponent {
     const { dispatch, intl } = this.props;
 
     const _onConfirm = () => {
-      addReport(url)
+      addReport('content', url)
       .then(() => {
         dispatch(
           toastNotification(
