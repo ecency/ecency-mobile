@@ -164,8 +164,8 @@
     "hours": "час.",
     "voting_power": "Сила голоса",
     "login_to_see": "Войдите, чтобы увидеть",
-    "follow_people": "When you follow people, you'll see their post here.",
-    "follow_communities": "When you join communities you'll see posts from communities here.",
+    "follow_people": "Когда вы подписываетесь на людей, вы увидите их пост здесь.",
+    "follow_communities": "Когда вы присоединитесь к сообществам, вы увидите сообщения из сообществ здесь.",
     "havent_commented": "ещё ничего не комментировал",
     "havent_posted": "ещё ничего не написал",
     "hive_power": "Hive Сила",
@@ -300,7 +300,7 @@
     "limited_characters": "Используйте только строчные буквы, цифры и одно тире",
     "limited_firstchar": "Тег должен начинаться с буквы",
     "limited_lastchar": "Тег должен заканчиваться буквой или цифрой",
-    "setting_schedule": "Scheduling Time",
+    "setting_schedule": "Запланированное время",
     "setting_reward": "Вознаграждение",
     "setting_beneficiary": "Бенефициар",
     "setting_thumb": "Установить Миниатюру",
@@ -357,7 +357,7 @@
     "set_new": "Выберите новый пинкод",
     "write_again": "Повторите пинкод",
     "forgot_text": "Запамятовал...",
-    "pin_not_matched": "PIN do not match, Please try again.",
+    "pin_not_matched": "Пароли не совпадают, попробуйте еще раз.",
     "attempts_postfix": "неудачные попытки",
     "message_reset_warning": "Данные пользователя будут удалены при следующей неудачной попытке"
   },
@@ -416,9 +416,9 @@
     "qoutaExceeded": "Превышен лимит загрузки",
     "invalidImage": "Изображение не подходит, попробуйте другой файл",
     "something_wrong": "Что-то пошло не так",
-    "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
+    "something_wrong_alt": "Тем временем, попробуйте Ecency.com в вашем браузере",
     "something_wrong_reload": "Повторить попытку?",
-    "can_not_be_empty": "Title and body can not be empty!",
+    "can_not_be_empty": "Название и основная часть не могут быть пустыми!",
     "wrong_filter_count": "Пожалуйста, выберите 3 фильтра",
     "update_available_title": "Доступно обновление v{version}",
     "update_available_body": "Использование последней версии Ecency дает вам лучший опыт",
@@ -442,7 +442,7 @@
     "image_saved_error": "Ошибка при сохранении изображения",
     "wrong_link": "Неверная ссылка",
     "in": "в",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "reveal_muted": "ОТКЛЮЧЕНО\nНажмите, чтобы показать контент"
   },
   "drafts": {
     "title": "Черновики",
@@ -467,7 +467,7 @@
     "add": "добавить"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Было сообщено о нежелательном содержании"
   },
   "favorites": {
     "title": "Избранное",
