@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { injectIntl } from 'react-intl';
 import { View, FlatList, Text } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import ActionSheet from 'react-native-actionsheet';
 
 // Utils
 import { postBodySummary } from '@ecency/render-helper';
@@ -15,6 +14,7 @@ import { BasicHeader, TabBar, DraftListItem, PostCardPlaceHolder } from '../../.
 // Styles
 import globalStyles from '../../../globalStyles';
 import styles from './draftStyles';
+import { OptionsModal } from '../../../components/atoms';
 
 const DraftsScreen = ({
   currentAccount,
@@ -29,16 +29,10 @@ const DraftsScreen = ({
 }) => {
   const [selectedId, setSelectedId] = useState(null);
   const ActionSheetRef = useRef(null);
-  const firstMount = useRef(true);
-  const selectedIdRef = useRef();
-
-  useEffect(() => {
-    selectedIdRef.current = selectedId;
-  }, [selectedId]);
 
   const _onActionPress = (index) => {
     if (index === 0) {
-      moveScheduleToDraft(selectedIdRef.current);
+      moveScheduleToDraft(selectedId);
     }
   };
 
@@ -148,7 +142,7 @@ const DraftsScreen = ({
           {_getTabItem(schedules, 'schedules')}
         </View>
       </ScrollableTabView>
-      <ActionSheet
+      <OptionsModal
         ref={ActionSheetRef}
         title={intl.formatMessage({
           id: 'alert.move_question',
