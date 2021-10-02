@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Награда бенефициару",
     "claim_reward_balance": "Получение Вознаграждений ",
     "transfer": "Перевод",
-    "power_up": "To Vesting",
+    "power_up": "В Силу",
     "transfer_from_savings": "Из сейфа",
     "withdraw_vesting": "Понижение силы",
     "fill_order": "Заполнить ордер",
@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "проголосовал",
-    "unvote": "downvoted",
+    "unvote": "проголосовано против",
     "reply": "ответил",
     "mention": "упомянул вас в",
     "follow": "подписан",
@@ -303,7 +303,7 @@
     "setting_schedule": "Scheduling Time",
     "setting_reward": "Вознаграждение",
     "setting_beneficiary": "Бенефициар",
-    "setting_thumb": "Set Thumbnail",
+    "setting_thumb": "Установить Миниатюру",
     "reward_default": "По умолчанию 50% / 50%",
     "reward_power_up": "100% в Силу",
     "reward_decline": "Отказ от выплат",
@@ -326,31 +326,31 @@
     "alert_btn_no": "Нет",
     "draft_save_success": "Черновик сохранён",
     "draft_save_fail": "Не удалось сохранить черновик",
-    "select_thumb": "Select Post Thumbnail",
-    "two_thumbs_required": "Add more images in your post before setting thumbnail"
+    "select_thumb": "Выбрать Миниатюру для Поста",
+    "two_thumbs_required": "Добавьте больше изображений в ваше сообщение перед настройкой миниаютюры"
   },
   "snippets": {
     "label_no_snippets": "Сниппеты не найдены",
     "title_add_snippet": "Добавить сниппет",
     "title_edit_snippet": "Редактировать сниппет",
-    "title_remove_confirmation": "Delete snippet",
-    "placeholder_title": "Snippet title",
-    "placeholder_body": "Add snippet body here...",
-    "btn_save": "SAVE",
-    "btn_close": "CLOSE",
-    "btn_add": "Snippet",
-    "message_incomplete": "Please add title and body for snippet",
-    "message_failed": "Failed to save snippet",
-    "message_remove_confirmation": "Are you sure you want to delete this snippet?",
-    "btn_confirm": "Confirm",
-    "btn_cancel": "Cancel"
+    "title_remove_confirmation": "Удалить сниппет",
+    "placeholder_title": "Название сниппета",
+    "placeholder_body": "Добавьте текст сниппета сюда...",
+    "btn_save": "СОХРАНИТЬ",
+    "btn_close": "ЗАКРЫТЬ",
+    "btn_add": "Сниппет",
+    "message_incomplete": "Пожалуйста, добавьте название и текст для сниппета",
+    "message_failed": "Не удалось сохранить сниппет",
+    "message_remove_confirmation": "Вы уверены, что хотите удалить этот сниппет?",
+    "btn_confirm": "Подтвердить",
+    "btn_cancel": "Отмена"
   },
   "uploads_modal": {
-    "label_no_images": "No Images Found",
-    "title": "Uploaded Images",
-    "title_remove_confirmation": "Delete image",
-    "btn_add": "Image",
-    "message_failed": "Failed to upload image"
+    "label_no_images": "Изображения не найдены",
+    "title": "Загруженные изображения",
+    "title_remove_confirmation": "Удалить изображение",
+    "btn_add": "Изображение",
+    "message_failed": "Не удалось загрузить изображение"
   },
   "pincode": {
     "enter_text": "Чтобы разблокировать введите пин-код",
@@ -358,8 +358,8 @@
     "write_again": "Повторите пинкод",
     "forgot_text": "Запамятовал...",
     "pin_not_matched": "PIN do not match, Please try again.",
-    "attempts_postfix": "failed attempt(s)",
-    "message_reset_warning": "User data will be wiped on next failed attempt"
+    "attempts_postfix": "неудачные попытки",
+    "message_reset_warning": "Данные пользователя будут удалены при следующей неудачной попытке"
   },
   "alert": {
     "success": "Успех!",
@@ -369,7 +369,7 @@
     "fail": "Не вышло!",
     "move": "Переместить",
     "move_question": "Вы уверены, что хотите переместить в черновики?",
-    "success_shared": "Success! Content submitted!",
+    "success_shared": "Успех! Контент отправлен!",
     "success_moved": "Перемещён в черновики",
     "permission_denied": "Не достаточно разрешений",
     "permission_text": "Пожалуйста, перейдите в настройки телефона и измените разрешения для приложения Ecency.",
@@ -393,7 +393,7 @@
     "remove_alert": "Вы уверены, что хотите удалить?",
     "clear_alert": "Вы уверены, что хотите очистить?",
     "clear_user_alert": "Вы уверены, что хотите удалить все Ваши данные?",
-    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
+    "decrypt_fail_alert": "Повреждено состояние приложения, пожалуйста, перезайдите для сброса.",
     "clear": "Очистить",
     "cancel": "Отмена",
     "delete": "Удалить",
@@ -415,22 +415,22 @@
     "payloadTooLarge": "Размер файла слишком большой. Ппожалуйста, измените размер или загрузите изображение меньшего размера",
     "qoutaExceeded": "Превышен лимит загрузки",
     "invalidImage": "Изображение не подходит, попробуйте другой файл",
-    "something_wrong": "Something went wrong",
+    "something_wrong": "Что-то пошло не так",
     "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
-    "something_wrong_reload": "Try again?",
+    "something_wrong_reload": "Повторить попытку?",
     "can_not_be_empty": "Title and body can not be empty!",
-    "wrong_filter_count": "Please select 3 filters",
-    "update_available_title": "Update available v{version}",
-    "update_available_body": "Using latest version of Ecency gives you the best experience",
-    "update": "Update Now",
-    "remind_later": "Remind Later",
-    "failed_to_open": "Failed to open a link"
+    "wrong_filter_count": "Пожалуйста, выберите 3 фильтра",
+    "update_available_title": "Доступно обновление v{version}",
+    "update_available_body": "Использование последней версии Ecency дает вам лучший опыт",
+    "update": "Обновить сейчас",
+    "remind_later": "Напомнить позже",
+    "failed_to_open": "Не удалось открыть ссылку"
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
     "removed_hint": "Контент не доступен",
     "copy_link": "Копировать ссылку",
-    "copy_text": "Copy text",
+    "copy_text": "Копировать текст",
     "reblogged": "репостнуто",
     "sponsored": "СПОНСИРОВАНО",
     "open_thread": "Открыть обсуждение",
@@ -441,7 +441,7 @@
     "image_saved": "Изображение сохранено в фотогалерею",
     "image_saved_error": "Ошибка при сохранении изображения",
     "wrong_link": "Неверная ссылка",
-    "in": "in",
+    "in": "в",
     "reveal_muted": "MUTED\nTap to reveal content"
   },
   "drafts": {
@@ -500,7 +500,7 @@
     "bookmarks": "добавить в закладки",
     "promote": "продвинуть",
     "boost": "усилить",
-    "report": "report"
+    "report": "пожаловаться"
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
@@ -534,8 +534,8 @@
     "purchase_estm": "Купить Баллы",
     "convert": "Конвертировать HBD в HIVE",
     "points": "Подарить Баллы",
-    "transfer_to_savings": "Transfer To Saving",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_savings": "Отправить в сейф",
+    "transfer_to_vesting": "Увеличение силы",
     "withdraw_to_saving": "Перевести в сейф",
     "steemconnect_title": "Hivesigner транзакция",
     "estimated_weekly": "Примерно в неделю",
@@ -548,11 +548,11 @@
     "next": "ДАЛЕЕ",
     "delegate": "Делегировать",
     "power_down": "Понижение Силы",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HIVE Dollar",
+    "withdraw_hive": "Вывести HIVE",
+    "withdraw_hbd": "Вывести Hive Доллар",
     "incoming_funds": "Входящие средства",
     "stop": "Остановить",
-    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
+    "sc_power_down_error": "Эта функция еще не реализована для логина через Hivesigner",
     "address_view": "Посмотреть адрес"
   },
   "boost": {
@@ -642,7 +642,7 @@
     "new_post": "Новый пост",
     "community": "сообщество",
     "details": "Подробности",
-    "muted": "Muted",
+    "muted": "Отключено",
     "payout": "Выплата"
   },
   "user": {
@@ -650,12 +650,12 @@
     "unfollow": "Отписаться",
     "add_to_favourites": "ДОБАВИТЬ В ИЗБРАННОЕ",
     "remove_from_favourites": "УДАЛИТЬ ИЗ ИЗБРАННЫХ",
-    "mute": "MUTE",
-    "unmute": "UNMUTE"
+    "mute": "ОТКЛЮЧИТЬ",
+    "unmute": "ВКЛЮЧИТЬ"
   },
   "communities": {
     "joined": "Членство",
-    "discover": "Discover",
+    "discover": "Найти",
     "discover_communities": "Найти Сообщества",
     "no_communities": "Свяжитесь с людьми, которые разделяют ваши интересы, присоединившись к Сообществам."
   },
@@ -672,20 +672,20 @@
     "label": "Добро пожаловать в",
     "title": "Ecency",
     "line1_heading": "Вы ищете сообщество?",
-    "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
+    "line1_body": "Без цензуры, неизменный, награждающий, децентрализованный, которым вы владеете.",
     "line2_heading": "У нас есть решение!",
-    "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
+    "line2_body": "Использование блокчейна, без цензуры, децентрализованное и награждающее.",
     "line3_heading": "Присоединяйтесь к Ecency сообществам!",
-    "line3_body": "Build community you own, get rewarded and reward others.",
-    "get_started": "Get started!"
+    "line3_body": "Постройте собственное сообщество, получайте награды и награждайте других.",
+    "get_started": "Начать!"
   },
   "time": {
-    "second": "seconds",
-    "minute": "minutes",
-    "hour": "hours",
-    "week": "weeks",
-    "day": "days",
-    "month": "months",
-    "year": "years"
+    "second": "секунд",
+    "minute": "минут",
+    "hour": "часов",
+    "week": "недель",
+    "day": "дней",
+    "month": "месяцев",
+    "year": "лет"
   }
 }
