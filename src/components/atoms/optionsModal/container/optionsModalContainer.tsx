@@ -5,6 +5,7 @@ interface Props {
     options:string[],
     title:string,
     cancelButtonIndex:number,
+    destructiveButtonIndex?:number,
     onPress:(index:number)=>void
 }
 

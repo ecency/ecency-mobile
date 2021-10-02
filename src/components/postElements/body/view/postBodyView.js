@@ -8,7 +8,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import get from 'lodash/get';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import RNFetchBlob from 'rn-fetch-blob';
-import ActionSheet from 'react-native-actionsheet';
 import ActionSheetView from 'react-native-actions-sheet';
 import { connect } from 'react-redux';
 import { customBodyScript } from './config';
@@ -86,7 +85,6 @@ const PostBody = ({
         case 'markdown-external-link':
           setSelectedLink(href);
           actionLink.current.show();
-          //_handleBrowserLink(href);
           break;
         case 'markdown-author-link':
           if (!handleOnUserPress) {

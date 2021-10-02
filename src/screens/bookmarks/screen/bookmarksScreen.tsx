@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { injectIntl } from 'react-intl';
 import { View, FlatList, Text } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import ActionSheet from 'react-native-actionsheet';
 
 // Components
 import { UserListItem, WalletDetailsPlaceHolder, BasicHeader, TabBar } from '../../../components';
@@ -10,6 +9,7 @@ import { UserListItem, WalletDetailsPlaceHolder, BasicHeader, TabBar } from '../
 // Styles
 import globalStyles from '../../../globalStyles';
 import styles from './bookmarksStyles';
+import { OptionsModal } from '../../../components/atoms';
 
 const BookmarksScreen = ({
   isLoading,
@@ -23,18 +23,8 @@ const BookmarksScreen = ({
 }) => {
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [activeTab, setActiveTab] = useState(0);
-  const ActionSheetRef = useRef(null);
-  const firstMount = useRef(true);
+  const actionSheetRef = useRef(null);
 
-  useEffect(() => {
-    if (firstMount.current) {
-      firstMount.current = false;
-      return;
-    }
-    if (ActionSheetRef.current) {
-      ActionSheetRef.current.show();
-    }
-  }, [selectedItemId]);
 
   const _renderItem = (item, index, itemType) => {
     const isFavorites = itemType === 'favorites';
@@ -92,7 +82,10 @@ const BookmarksScreen = ({
     );
   };
   const _handleLongPress = (_selectedItemId) => {
-    setSelectedItemId(_selectedItemId);
+    if(actionSheetRef.current){
+      setSelectedItemId(_selectedItemId);
+      actionSheetRef.current.show()
+    }
   };
 
   return (
@@ -132,8 +125,8 @@ const BookmarksScreen = ({
           {_getTabItem(favorites, 'favorites')}
         </View>
       </ScrollableTabView>
-      <ActionSheet
-        ref={ActionSheetRef}
+      <OptionsModal
+        ref={actionSheetRef}
         options={[
           intl.formatMessage({ id: 'alert.delete' }),
           intl.formatMessage({ id: 'alert.cancel' }),
