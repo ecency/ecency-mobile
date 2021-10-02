@@ -22,6 +22,7 @@ import { toastNotification } from '../../../../redux/actions/uiAction';
 import { default as ROUTES } from '../../../../constants/routeNames';
 import getYoutubeId from '../../../../utils/getYoutubeId';
 import VideoPlayerSheet from './videoPlayerSheet';
+import { OptionsModal } from '../../../atoms';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -49,22 +50,10 @@ const PostBody = ({
   const youtubePlayerRef = useRef(null);
 
   useEffect(() => {
-    if (selectedLink) {
-      actionLink.current.show();
-    }
-  }, [selectedLink]);
-
-  useEffect(() => {
     if (body) {
       setHtml(body.replace(/<a/g, '<a target="_blank"'));
     }
   }, [body]);
-
-  useEffect(() => {
-    if (postImages.length > 0 && selectedImage) {
-      actionImage.current.show();
-    }
-  }, [postImages, selectedImage]);
 
   const _handleOnLinkPress = (event) => {
     if ((!event && !get(event, 'nativeEvent.data'), false)) {
@@ -96,6 +85,7 @@ const PostBody = ({
         case '_external':
         case 'markdown-external-link':
           setSelectedLink(href);
+          actionLink.current.show();
           //_handleBrowserLink(href);
           break;
         case 'markdown-author-link':
@@ -127,6 +117,7 @@ const PostBody = ({
         case 'image':
           setPostImages(images);
           setSelectedImage(image);
+          actionImage.current.show();
           break;
 
         default:
@@ -466,7 +457,7 @@ const PostBody = ({
         <VideoPlayerSheet youtubeVideoId={youtubeVideoId} />
       </ActionSheetView>
 
-      <ActionSheet
+      <OptionsModal
         ref={actionImage}
         options={[
           intl.formatMessage({ id: 'post.copy_link' }),
@@ -480,7 +471,7 @@ const PostBody = ({
           handleImagePress(index);
         }}
       />
-      <ActionSheet
+      <OptionsModal
         ref={actionLink}
         options={[
           intl.formatMessage({ id: 'post.copy_link' }),
