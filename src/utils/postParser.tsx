@@ -39,6 +39,10 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
     }
   }
 
+  //adjust tags type as it can be string sometimes;
+  post = parseTags(post);
+
+
   //extract cover image and thumbnail from post body
   post.image = catchPostImage(post, 600, 500, webp ? 'webp' : 'match');
   post.thumbnail = catchPostImage(post, 10, 7, webp ? 'webp' : 'match');
@@ -143,6 +147,11 @@ export const parseComment = (comment:any) => {
       comment.json_metadata = {};
     }
   }
+
+  //adjust tags type as it can be string sometimes;
+  comment = parseTags(comment);
+  
+
   //calculate and set total_payout to show to user.
   const totalPayout =
     parseAsset(comment.pending_payout_value).amount +
@@ -204,3 +213,20 @@ export const parseActiveVotes = (post) => {
 
   return post.active_votes;
 };
+
+
+const parseTags = (post:any) => {
+  if(post.json_metadata){
+    let _tags =  get(post.json_metadata, 'tags', []);
+    if(typeof _tags === 'string'){
+      let separator = ' ';
+      if(_tags.indexOf(', ') > -1){
+        separator = ', ';
+      }else if(_tags.indexOf(',') > -1){
+        separator = ',';
+      }
+      post.json_metadata.tags = _tags.split(separator)
+    }
+  }
+  return post;
+}

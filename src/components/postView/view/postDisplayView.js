@@ -62,7 +62,7 @@ const PostDisplayView = ({
   useEffect(() => {
     if (post) {
       const _tags = get(post.json_metadata, 'tags', []);
-      if (post.category && _tags[0] !== post.category && Array.isArray(tags)) {
+      if (post.category && _tags[0] !== post.category && Array.isArray(_tags)) {
         _tags.splice(0, 0, post.category);
       }
       setTags(_tags);
