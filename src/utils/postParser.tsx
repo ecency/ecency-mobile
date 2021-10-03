@@ -40,12 +40,7 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
   }
 
   //adjust tags type as it can be string sometimes;
-  if(post.json_metadata){
-    const _tags = get(post.json_metadata, 'tags', []);
-    if(typeof _tags === 'string'){
-      post.json_metadata.tags = [_tags];
-    }
-  }
+  post = parseTags(post);
 
 
   //extract cover image and thumbnail from post body
@@ -154,12 +149,8 @@ export const parseComment = (comment:any) => {
   }
 
   //adjust tags type as it can be string sometimes;
-  if(comment.json_metadata){
-    const _tags = get(comment.json_metadata, 'tags', []);
-    if(typeof _tags === 'string'){
-      comment.json_metadata.tags = [_tags];
-    }
-  }
+  comment = parseTags(comment);
+  
 
   //calculate and set total_payout to show to user.
   const totalPayout =
@@ -222,3 +213,20 @@ export const parseActiveVotes = (post) => {
 
   return post.active_votes;
 };
+
+
+const parseTags = (post:any) => {
+  if(post.json_metadata){
+    let _tags =  get(post.json_metadata, 'tags', []);
+    if(typeof _tags === 'string'){
+      let separator = ' ';
+      if(_tags.indexOf(', ') > -1){
+        separator = ', ';
+      }else if(_tags.indexOf(',') > -1){
+        separator = ',';
+      }
+      post.json_metadata.tags = _tags.split(separator)
+    }
+  }
+  return post;
+}
