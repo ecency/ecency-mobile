@@ -467,7 +467,9 @@
     "add": "पृष्ठ स्मृति में जोड़ें"
   },
   "report": {
-    "added": "आपत्तिजनक सामग्री की सूचना दी"
+    "added": "आपत्तिजनक सामग्री की सूचना दी",
+    "confirm_report_title": "Confirm Report!",
+    "confirm_report_body": "Are you sure you want report?"
   },
   "favorites": {
     "title": "पसंदीदा",
@@ -650,8 +652,9 @@
     "unfollow": "अनफॉलो करें",
     "add_to_favourites": "पसंदीदा में जोड़ें",
     "remove_from_favourites": "पसंदीदा से निकालें",
-    "mute": "म्यूट करें",
-    "unmute": "अनम्यूट करें"
+    "mute": "MUTE / BLOCK",
+    "unmute": "UNMUTE / UNBLOCK",
+    "report": "REPORT USER"
   },
   "communities": {
     "joined": "सदस्यता",
