@@ -467,7 +467,9 @@
     "add": "Əlfəcinlərə əlavə et"
   },
   "report": {
-    "added": "Mübahisəli məzmun şikayət edildi"
+    "added": "Mübahisəli məzmun şikayət edildi",
+    "confirm_report_title": "Confirm Report!",
+    "confirm_report_body": "Are you sure you want report?"
   },
   "favorites": {
     "title": "Sevimlilər",
@@ -650,8 +652,9 @@
     "unfollow": "İzləmədən imtina",
     "add_to_favourites": "SEVİMLİLƏRƏ ƏLAVƏ ET",
     "remove_from_favourites": "SEVİMLİLƏRDƏN ÇIXART",
-    "mute": "SƏSİ KƏS",
-    "unmute": "SƏSİ AÇ"
+    "mute": "MUTE / BLOCK",
+    "unmute": "UNMUTE / UNBLOCK",
+    "report": "REPORT USER"
   },
   "communities": {
     "joined": "Üzvlük",
