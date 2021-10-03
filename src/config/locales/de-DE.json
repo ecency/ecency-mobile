@@ -467,7 +467,9 @@
     "add": "Neues Lesezeichen"
   },
   "report": {
-    "added": "Gemeldeter anstößiger Inhalt"
+    "added": "Gemeldeter anstößiger Inhalt",
+    "confirm_report_title": "Confirm Report!",
+    "confirm_report_body": "Are you sure you want report?"
   },
   "favorites": {
     "title": "Favoriten",
@@ -650,8 +652,9 @@
     "unfollow": "Nicht mehr folgen",
     "add_to_favourites": "ADD TO FAVOURITES",
     "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE",
-    "unmute": "UNMUTE"
+    "mute": "MUTE / BLOCK",
+    "unmute": "UNMUTE / UNBLOCK",
+    "report": "REPORT USER"
   },
   "communities": {
     "joined": "Membership",
