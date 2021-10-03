@@ -467,7 +467,9 @@
     "add": "Lisää kirjanmerkkeihin"
   },
   "report": {
-    "added": "Raportoitu kielteinen sisältö"
+    "added": "Raportoitu kielteinen sisältö",
+    "confirm_report_title": "Confirm Report!",
+    "confirm_report_body": "Are you sure you want report?"
   },
   "favorites": {
     "title": "Suosikit",
@@ -650,8 +652,9 @@
     "unfollow": "Älä seuraa",
     "add_to_favourites": "LISÄÄ SUOSIKKEIHIN",
     "remove_from_favourites": "POISTA SUOSIKEISTA",
-    "mute": "MYKISTÄ",
-    "unmute": "POISTA MYKISTYS"
+    "mute": "MUTE / BLOCK",
+    "unmute": "UNMUTE / UNBLOCK",
+    "report": "REPORT USER"
   },
   "communities": {
     "joined": "Jäsenyys",
