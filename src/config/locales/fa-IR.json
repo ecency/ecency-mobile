@@ -467,7 +467,9 @@
     "add": "اضافه کردن به صفحات مورد علاقه"
   },
   "report": {
-    "added": "محتوای قابل اعتراض گزارش شده است"
+    "added": "محتوای قابل اعتراض گزارش شده است",
+    "confirm_report_title": "Confirm Report!",
+    "confirm_report_body": "Are you sure you want report?"
   },
   "favorites": {
     "title": "برگزیده‌ها",
@@ -650,8 +652,9 @@
     "unfollow": "عدم دنبال کردن",
     "add_to_favourites": "ADD TO FAVOURITES",
     "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE",
-    "unmute": "UNMUTE"
+    "mute": "MUTE / BLOCK",
+    "unmute": "UNMUTE / UNBLOCK",
+    "report": "REPORT USER"
   },
   "communities": {
     "joined": "Membership",
