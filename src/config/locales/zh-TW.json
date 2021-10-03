@@ -467,7 +467,9 @@
     "add": "添加到書簽"
   },
   "report": {
-    "added": "內容已經被投報或投訴"
+    "added": "內容已經被投報或投訴",
+    "confirm_report_title": "Confirm Report!",
+    "confirm_report_body": "Are you sure you want report?"
   },
   "favorites": {
     "title": "收藏夹",
@@ -650,8 +652,9 @@
     "unfollow": "取消關注",
     "add_to_favourites": "ADD TO FAVOURITES",
     "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE",
-    "unmute": "UNMUTE"
+    "mute": "MUTE / BLOCK",
+    "unmute": "UNMUTE / UNBLOCK",
+    "report": "REPORT USER"
   },
   "communities": {
     "joined": "會員身份",
