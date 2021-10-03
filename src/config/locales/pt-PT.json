@@ -467,7 +467,9 @@
     "add": "Adicionar aos marcadores"
   },
   "report": {
-    "added": "Conteúdo questionável reportado"
+    "added": "Conteúdo questionável reportado",
+    "confirm_report_title": "Confirm Report!",
+    "confirm_report_body": "Are you sure you want report?"
   },
   "favorites": {
     "title": "Favoritos",
@@ -650,8 +652,9 @@
     "unfollow": "Deixar de seguir",
     "add_to_favourites": "ADICIONAR OS FAVORITOS",
     "remove_from_favourites": "REMOVER DOS FAVORITOS",
-    "mute": "SILENCIAR",
-    "unmute": "DESMUTAR"
+    "mute": "MUTE / BLOCK",
+    "unmute": "UNMUTE / UNBLOCK",
+    "report": "REPORT USER"
   },
   "communities": {
     "joined": "Membros",
