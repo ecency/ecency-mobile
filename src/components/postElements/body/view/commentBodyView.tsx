@@ -1,10 +1,9 @@
-import React, { Fragment, useState, useEffect, useRef } from 'react';
+import React, { Fragment, useState, useRef } from 'react';
 import { Linking, Modal, PermissionsAndroid, Platform, View, Dimensions } from 'react-native';
 import { useIntl } from 'react-intl';
 import CameraRoll from '@react-native-community/cameraroll';
 import RNFetchBlob from 'rn-fetch-blob';
 import ImageViewer from 'react-native-image-zoom-viewer';
-import ActionSheet from 'react-native-actionsheet';
 import ActionsSheetView from 'react-native-actions-sheet';
 
 // import AutoHeightWebView from 'react-native-autoheight-webview';
@@ -26,6 +25,8 @@ import getYoutubeId from '../../../../utils/getYoutubeId';
 import VideoPlayerSheet from './videoPlayerSheet';
 import { LongPressGestureHandler, State } from 'react-native-gesture-handler';
 import { useCallback } from 'react';
+import { OptionsModal } from '../../../atoms';
+import { useAppDispatch } from '../../../../hooks';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -37,11 +38,12 @@ const CommentBody = ({
   created,
   commentDepth,
   reputation,
-  dispatch,
   isMuted
 }) => {
 
   const _contentWidth = WIDTH - (40 + 28 + (commentDepth > 2 ? 44 : 0))
+
+  const dispatch = useAppDispatch();
 
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [postImages, setPostImages] = useState<string[]>([]);
@@ -55,18 +57,6 @@ const CommentBody = ({
   const actionImage = useRef(null);
   const actionLink = useRef(null);
   const youtubePlayerRef = useRef(null);
-
-  useEffect(() => {
-    if (selectedLink) {
-      actionLink.current.show();
-    }
-  }, [selectedLink]);
-
-  useEffect(() => {
-    if (postImages.length > 0 && selectedImage !== null) {
-      actionImage.current.show();
-    }
-  }, [selectedImage]);
 
 
   const _onLongPressStateChange = ({nativeEvent}) => {
@@ -151,6 +141,16 @@ const CommentBody = ({
       });
     }
   };
+
+  const _handleSetSelectedLink = (link:string) => {
+    setSelectedLink(link)
+    actionLink.current.show();
+  }
+
+  const _handleSetSelectedImage = (imageLink:string) => {
+    setSelectedImage(imageLink);
+    actionImage.current.show();
+  }
 
   const _handleOnPostPress = (permlink, author) => {
     if(handleOnPostPress){
@@ -296,7 +296,7 @@ const CommentBody = ({
           onClick={() => setIsImageModalOpen(false)}
         />
       </Modal>
-      <ActionSheet
+      <OptionsModal
         ref={actionImage}
         options={[
           intl.formatMessage({ id: 'post.copy_link' }),
@@ -310,7 +310,7 @@ const CommentBody = ({
           handleImagePress(index);
         }}
       />
-      <ActionSheet
+      <OptionsModal
         ref={actionLink}
         options={[
           intl.formatMessage({ id: 'post.copy_link' }),
@@ -330,8 +330,8 @@ const CommentBody = ({
               contentWidth={_contentWidth}
               body={body}
               onElementIsImage={_onElementIsImage}
-              setSelectedImage={setSelectedImage}
-              setSelectedLink={setSelectedLink}
+              setSelectedImage={_handleSetSelectedImage}
+              setSelectedLink={_handleSetSelectedLink}
               handleOnPostPress={_handleOnPostPress}
               handleOnUserPress={_handleOnUserPress}
               handleTagPress={_handleTagPress}

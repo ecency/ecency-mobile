@@ -1,19 +1,15 @@
-import React, { useState, Fragment, useRef, useEffect } from 'react';
+import React, { useState, Fragment, useRef } from 'react';
 import { FlatList } from 'react-native';
-import ActionSheet from 'react-native-actionsheet';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
-import { navigate } from '../../../navigation/service';
 
 // Components
 import { Comment, TextButton } from '../..';
 
-// Constants
-import ROUTES from '../../../constants/routeNames';
-
 // Styles
 import styles from './commentStyles';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { OptionsModal } from '../../atoms';
 
 
 const CommentsView = ({
@@ -32,30 +28,25 @@ const CommentsView = ({
   hasManyComments,
   isHideImage,
   isLoggedIn,
-  isOwnProfile,
   isShowSubComments,
   mainAuthor,
   marginLeft,
   isShowMoreButton,
   showAllComments,
   hideManyCommentsButton,
-  onScroll,
-  onEndReached,
   flatListProps,
   openReplyThread,
 }) => {
   const [selectedComment, setSelectedComment] = useState(null);
   const intl = useIntl();
-  const commentMenu = useRef();
+  const commentMenu = useRef<any>();
 
-  useEffect(() => {
-    if(selectedComment && commentMenu.current){
-      commentMenu.current.show();
-    }
-  }, [selectedComment])
 
   const _openCommentMenu = (item) => {
-    setSelectedComment(item);
+    if(commentMenu.current){
+      setSelectedComment(item);
+      commentMenu.current.show();
+    }
   };
 
   const _openReplyThread = (item) => {
@@ -142,7 +133,7 @@ const CommentsView = ({
         keyExtractor={(item) => get(item, 'permlink')}
         {...flatListProps}
       />
-      <ActionSheet
+      <OptionsModal
         ref={commentMenu}
         options={menuItems}
         title={get(selectedComment, 'summary')}

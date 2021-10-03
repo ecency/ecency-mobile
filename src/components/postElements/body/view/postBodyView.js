@@ -8,7 +8,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import get from 'lodash/get';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import RNFetchBlob from 'rn-fetch-blob';
-import ActionSheet from 'react-native-actionsheet';
 import ActionSheetView from 'react-native-actions-sheet';
 import { connect } from 'react-redux';
 import { customBodyScript } from './config';
@@ -22,6 +21,7 @@ import { toastNotification } from '../../../../redux/actions/uiAction';
 import { default as ROUTES } from '../../../../constants/routeNames';
 import getYoutubeId from '../../../../utils/getYoutubeId';
 import VideoPlayerSheet from './videoPlayerSheet';
+import { OptionsModal } from '../../../atoms';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -49,22 +49,10 @@ const PostBody = ({
   const youtubePlayerRef = useRef(null);
 
   useEffect(() => {
-    if (selectedLink) {
-      actionLink.current.show();
-    }
-  }, [selectedLink]);
-
-  useEffect(() => {
     if (body) {
       setHtml(body.replace(/<a/g, '<a target="_blank"'));
     }
   }, [body]);
-
-  useEffect(() => {
-    if (postImages.length > 0 && selectedImage) {
-      actionImage.current.show();
-    }
-  }, [postImages, selectedImage]);
 
   const _handleOnLinkPress = (event) => {
     if ((!event && !get(event, 'nativeEvent.data'), false)) {
@@ -96,7 +84,7 @@ const PostBody = ({
         case '_external':
         case 'markdown-external-link':
           setSelectedLink(href);
-          //_handleBrowserLink(href);
+          actionLink.current.show();
           break;
         case 'markdown-author-link':
           if (!handleOnUserPress) {
@@ -127,6 +115,7 @@ const PostBody = ({
         case 'image':
           setPostImages(images);
           setSelectedImage(image);
+          actionImage.current.show();
           break;
 
         default:
@@ -466,7 +455,7 @@ const PostBody = ({
         <VideoPlayerSheet youtubeVideoId={youtubeVideoId} />
       </ActionSheetView>
 
-      <ActionSheet
+      <OptionsModal
         ref={actionImage}
         options={[
           intl.formatMessage({ id: 'post.copy_link' }),
@@ -480,7 +469,7 @@ const PostBody = ({
           handleImagePress(index);
         }}
       />
-      <ActionSheet
+      <OptionsModal
         ref={actionLink}
         options={[
           intl.formatMessage({ id: 'post.copy_link' }),
