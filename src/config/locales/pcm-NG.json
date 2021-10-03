@@ -467,7 +467,9 @@
     "add": "Add am to bookmark"
   },
   "report": {
-    "added": "Tell Oga dem for dis content wey dey objectionable"
+    "added": "Tell Oga dem for dis content wey dey objectionable",
+    "confirm_report_title": "Confirm Report!",
+    "confirm_report_body": "Are you sure you want report?"
   },
   "favorites": {
     "title": "Favorites",
@@ -650,8 +652,9 @@
     "unfollow": "Unfollow",
     "add_to_favourites": "ADD TO FAVOURITES",
     "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE",
-    "unmute": "UNMUTE"
+    "mute": "MUTE / BLOCK",
+    "unmute": "UNMUTE / UNBLOCK",
+    "report": "REPORT USER"
   },
   "communities": {
     "joined": "Membership",
