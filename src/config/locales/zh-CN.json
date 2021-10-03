@@ -467,7 +467,9 @@
     "add": "添加到书签"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Reported objectionable content",
+    "confirm_report_title": "Confirm Report!",
+    "confirm_report_body": "Are you sure you want report?"
   },
   "favorites": {
     "title": "收藏夹",
@@ -650,8 +652,9 @@
     "unfollow": "取消关注",
     "add_to_favourites": "ADD TO FAVOURITES",
     "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE",
-    "unmute": "UNMUTE"
+    "mute": "MUTE / BLOCK",
+    "unmute": "UNMUTE / UNBLOCK",
+    "report": "REPORT USER"
   },
   "communities": {
     "joined": "Membership",
