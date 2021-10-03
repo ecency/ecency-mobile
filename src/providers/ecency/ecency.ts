@@ -160,12 +160,20 @@ export const deleteBookmark = async (bookmarkId:string) => {
 }
 
 
-export const addReport = (url) =>
-  api
+export const addReport = async (type:'content'|'user', data:string) => {
+  try {
+   const response =  await api
     .post('/report', {
-      url,
+      type,
+      data
     })
-    .then((resp) => resp.data);
+    return response.data
+  } catch(err){
+    console.warn("Failed to report to ecency")
+    bugsnagInstance.notify(err);
+    throw err;
+  }
+}
 
 
   /** 

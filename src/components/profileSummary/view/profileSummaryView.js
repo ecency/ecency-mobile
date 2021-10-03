@@ -57,7 +57,13 @@ class ProfileSummaryView extends PureComponent {
   };
 
   _handleOnDropdownSelect = (index) => {
-    const { isMuted, isFavorite, handleMuteUnmuteUser, handleOnFavoritePress } = this.props;
+    const {
+      isMuted,
+      isFavorite,
+      handleMuteUnmuteUser,
+      handleOnFavoritePress,
+      handleReportUser,
+    } = this.props;
 
     switch (index) {
       case 0:
@@ -68,6 +74,11 @@ class ProfileSummaryView extends PureComponent {
       case 1:
         if (handleMuteUnmuteUser) {
           handleMuteUnmuteUser(!isMuted);
+        }
+        break;
+      case 2:
+        if (handleReportUser) {
+          handleReportUser();
         }
         break;
       default:
@@ -101,7 +112,7 @@ class ProfileSummaryView extends PureComponent {
       percentVP,
       username,
     } = this.props;
-    const dropdownOptions = [];
+    let dropdownOptions = [];
     const votingPowerHoursText = hoursVP && `• Full in ${hoursVP} hours`;
     const votingPowerText = `Voting power: ${percentVP}% ${votingPowerHoursText || ''}`;
     const rcPowerHoursText = hoursRC && `• Full in ${hoursRC} hours`;
@@ -133,16 +144,17 @@ class ProfileSummaryView extends PureComponent {
     }
 
     //compile dropdown options
-    dropdownOptions.push(
+    dropdownOptions = [
       intl.formatMessage({
         id: isFavorite ? 'user.remove_from_favourites' : 'user.add_to_favourites',
       }),
-    );
-    dropdownOptions.push(
       intl.formatMessage({
         id: !isMuted ? 'user.mute' : 'user.unmute',
       }),
-    );
+      intl.formatMessage({
+        id: 'user.report',
+      }),
+    ];
 
     return (
       <Fragment>
