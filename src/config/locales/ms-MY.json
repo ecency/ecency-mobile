@@ -141,9 +141,9 @@
     "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY",
+    "daily": "HARIAN",
+    "weekly": "MINGGUAN",
+    "monthly": "BULANAN",
     "tooltip_earn": "Earn points by actively participating in Ecency."
   },
   "messages": {
