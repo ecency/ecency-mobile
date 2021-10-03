@@ -119,16 +119,16 @@
     "reblog": "blog semula",
     "transfer": "dipindahkan",
     "spin": "Masa untuk dapatkan lebih banyak Mata",
-    "inactive": "Be active! Write a post, continue earning",
-    "referral": "joined with your referral, welcome them",
+    "inactive": "Jadi aktif! Tulis sebuah kiriman, teruskan menjana",
+    "referral": "telah menyertai dengan rujukan anda, sambutlah mereka",
     "notification": "Pemberitahuan",
     "leaderboard": "Papan Pendahulu",
     "epoint": "Mata ganjaran",
-    "leaderboard_title": "Top Users",
+    "leaderboard_title": "Pengguna Top",
     "recent": "Terbaru",
     "yesterday": "Semalam",
     "this_week": "Minggu ini",
-    "last_week": "Last Week",
+    "last_week": "Minggu Lepas",
     "this_month": "Bulan Ini",
     "older_then": "Lebih dari sebulan",
     "activities": "All",
@@ -500,7 +500,7 @@
     "reply": "Membalas",
     "share": "kongsi",
     "bookmarks": "tambah ke tanda halaman",
-    "promote": "promote",
+    "promote": "promosikan",
     "boost": "boost",
     "report": "report"
   },
@@ -542,7 +542,7 @@
     "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Estimated Weekly",
     "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
+    "stop_information": "Adakah anda pasti mahu berhenti?",
     "percent": "Percent",
     "auto_vests": "Auto Vests",
     "save": "SAVE",
@@ -553,7 +553,7 @@
     "withdraw_hive": "Withdraw HIVE",
     "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Incoming Funds",
-    "stop": "Stop",
+    "stop": "Henti",
     "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
     "address_view": "View address"
   },
@@ -574,12 +574,12 @@
     "timer_text": "Next free spin in"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
-    "user": "User",
-    "permlink": "Post",
-    "permlinkPlaceholder": "username/permlink",
-    "information": "Are you sure to promote?"
+    "title": "Promosikan",
+    "days": "hari",
+    "user": "Pengguna",
+    "permlink": "Hantar",
+    "permlinkPlaceholder": "nama pengguna/pautan tetap",
+    "information": "Adakah anda pasti hendak mempromosi?"
   },
   "boostPost": {
     "title": "Boost"
@@ -614,7 +614,7 @@
       "title": "People"
     },
     "topics": {
-      "title": "Topics"
+      "title": "Topik"
     },
     "communities": {
       "title": "Groups",
