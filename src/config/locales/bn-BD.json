@@ -467,7 +467,9 @@
     "add": "বুকমার্কগুলিতে যুক্ত করুন"
   },
   "report": {
-    "added": "আপত্তিজনক কনটেন্ট প্রতিবেদন করা হয়েছে"
+    "added": "আপত্তিজনক কনটেন্ট প্রতিবেদন করা হয়েছে",
+    "confirm_report_title": "Confirm Report!",
+    "confirm_report_body": "Are you sure you want report?"
   },
   "favorites": {
     "title": "প্রিয়",
@@ -650,8 +652,9 @@
     "unfollow": "Unfollow",
     "add_to_favourites": "ADD TO FAVOURITES",
     "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE",
-    "unmute": "UNMUTE"
+    "mute": "MUTE / BLOCK",
+    "unmute": "UNMUTE / UNBLOCK",
+    "report": "REPORT USER"
   },
   "communities": {
     "joined": "Membership",
