@@ -468,8 +468,8 @@
   },
   "report": {
     "added": "Было сообщено о нежелательном содержании",
-    "confirm_report_title": "Confirm Report!",
-    "confirm_report_body": "Are you sure you want report?"
+    "confirm_report_title": "Подтвердить Жалобу!",
+    "confirm_report_body": "Вы уверены, что хотите подать жалобу?"
   },
   "favorites": {
     "title": "Избранное",
@@ -652,9 +652,9 @@
     "unfollow": "Отписаться",
     "add_to_favourites": "ДОБАВИТЬ В ИЗБРАННОЕ",
     "remove_from_favourites": "УДАЛИТЬ ИЗ ИЗБРАННЫХ",
-    "mute": "MUTE / BLOCK",
-    "unmute": "UNMUTE / UNBLOCK",
-    "report": "REPORT USER"
+    "mute": "ОТКЛЮЧИТЬ / ЗАБЛОКИРОВАТЬ",
+    "unmute": "ВКЛЮЧИТЬ / РАЗБЛОКИРОВАТЬ",
+    "report": "ПОЖАЛОВАТЬСЯ НА ПОЛЬЗОВАТЕЛЯ"
   },
   "communities": {
     "joined": "Членство",
