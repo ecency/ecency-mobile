@@ -467,7 +467,9 @@
     "add": "Add to bookmarks"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Reported objectionable content",
+    "confirm_report_title": "Confirm Report!",
+    "confirm_report_body": "Are you sure you want report?"
   },
   "favorites": {
     "title": "Тандалгандар",
@@ -650,8 +652,9 @@
     "unfollow": "Unfollow",
     "add_to_favourites": "ADD TO FAVOURITES",
     "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE",
-    "unmute": "UNMUTE"
+    "mute": "MUTE / BLOCK",
+    "unmute": "UNMUTE / UNBLOCK",
+    "report": "REPORT USER"
   },
   "communities": {
     "joined": "Membership",
