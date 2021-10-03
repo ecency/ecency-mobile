@@ -97,19 +97,19 @@
     },
     "hbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "DAPATKAN HBD"
     },
     "hive_power": {
       "title": "HIVE POWER"
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "DAPATKAN BTC",
+      "address": "TERIMA"
     }
   },
   "notification": {
-    "vote": "voted",
+    "vote": "diundi",
     "unvote": "downvoted",
     "reply": "replied to",
     "mention": "mentioned in",
