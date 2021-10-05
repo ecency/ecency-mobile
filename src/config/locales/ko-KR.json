@@ -240,8 +240,8 @@
     "mail": "이메일 주소를 입력하세요",
     "ref_user": "추천인(선택사항)",
     "500_error": "귀하의 요청을 처리할 수 없습니다. 등록 대기열이 가득 찼을 수 있습니다! 몇 분 후에 다시 시도하세요...",
-    "title_description": "One account to manage everything",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "title_description": "모든 것을 관리하는 하나의 계정",
+    "form_description": "가입과 동시에 서비스 약관 및 개인 정보 보호 정책에 동의하게 됩니다"
   },
   "home": {
     "feed": "피드",
