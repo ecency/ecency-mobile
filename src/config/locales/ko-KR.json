@@ -420,11 +420,11 @@
     "something_wrong_reload": "다시 시도하시겠어요?",
     "can_not_be_empty": "제목과 내용이 비어있을 수 없습니다!",
     "wrong_filter_count": "필터를 3개를 선택하세요.",
-    "update_available_title": "Update available v{version}",
-    "update_available_body": "Using latest version of Ecency gives you the best experience",
+    "update_available_title": "버전 v{version} 업데이트하기",
+    "update_available_body": "최신 버전의 Ecency를 사용하면 최고의 경험을 제공합니다",
     "update": "지금 업데이트",
     "remind_later": "나중에 다시 알림",
-    "failed_to_open": "Failed to open a link"
+    "failed_to_open": "링크 열기 실패"
   },
   "post": {
     "reblog_alert": "리블로그 하시겠습니까?",
@@ -441,8 +441,8 @@
     "image_saved": "이미지가 갤러리에 저장되었습니다.",
     "image_saved_error": "이미지 저장 오류",
     "wrong_link": "잘못된 링크",
-    "in": "in",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "in": "에서",
+    "reveal_muted": "뮤트 증\n콘텐츠를 표시하려면 탭하세요"
   },
   "drafts": {
     "title": "임시 보관함",
@@ -467,7 +467,7 @@
     "add": "즐겨찾기에 추가"
   },
   "report": {
-    "added": "Reported objectionable content",
+    "added": "신고된 불쾌한 콘텐츠",
     "confirm_report_title": "신고 확인!",
     "confirm_report_body": "정말 신고하시겠습니까?"
   },
