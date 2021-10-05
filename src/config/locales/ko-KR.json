@@ -341,16 +341,16 @@
     "btn_add": "스니펫",
     "message_incomplete": "스니펫 제목 및 내용 추가해주세요",
     "message_failed": "스니펫 저장 실패",
-    "message_remove_confirmation": "Are you sure you want to delete this snippet?",
+    "message_remove_confirmation": "이 스니펫을 삭제하시겠습니까?",
     "btn_confirm": "확인",
     "btn_cancel": "취소"
   },
   "uploads_modal": {
     "label_no_images": "사진 없음",
-    "title": "Uploaded Images",
-    "title_remove_confirmation": "Delete image",
-    "btn_add": "Image",
-    "message_failed": "Failed to upload image"
+    "title": "이미지 업로드",
+    "title_remove_confirmation": "이미지 삭제",
+    "btn_add": "이미지",
+    "message_failed": "이미지 업로드에 실패"
   },
   "pincode": {
     "enter_text": "잠금을 해제하려면 PIN 코드를 입력해주세요",
@@ -358,7 +358,7 @@
     "write_again": "다시 한 번 입력해주세요",
     "forgot_text": "PIN 코드가 기억나지 않습니다...",
     "pin_not_matched": "비밀번호가 일치하지 않습니다. 다시 시도해 주세요.",
-    "attempts_postfix": "failed attempt(s)",
+    "attempts_postfix": "실패 횟수",
     "message_reset_warning": "User data will be wiped on next failed attempt"
   },
   "alert": {
@@ -415,10 +415,10 @@
     "payloadTooLarge": "File size too big, please resize or upload smaller image",
     "qoutaExceeded": "업로드 제한을 초과합니다.",
     "invalidImage": "Invalid image, try different file",
-    "something_wrong": "Something went wrong",
+    "something_wrong": "문제가 발생했습니다",
     "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
     "something_wrong_reload": "다시 시도하시겠어요?",
-    "can_not_be_empty": "Title and body can not be empty!",
+    "can_not_be_empty": "제목과 내용이 비어있을 수 없습니다!",
     "wrong_filter_count": "필터를 3개를 선택하세요.",
     "update_available_title": "Update available v{version}",
     "update_available_body": "Using latest version of Ecency gives you the best experience",
@@ -468,8 +468,8 @@
   },
   "report": {
     "added": "Reported objectionable content",
-    "confirm_report_title": "Confirm Report!",
-    "confirm_report_body": "Are you sure you want report?"
+    "confirm_report_title": "신고 확인!",
+    "confirm_report_body": "정말 신고하시겠습니까?"
   },
   "favorites": {
     "title": "좋아하는 저자",
