@@ -21,7 +21,7 @@
     "delegation": "임대",
     "delegations": "임대",
     "delegation_title": "임대 보상",
-    "delegation_desc": "Earn Points everyday for delegation",
+    "delegation_desc": "임대를 통해 매일 포인트를 얻으세요!",
     "post_title": "포스팅 포인트",
     "comment_title": "댓글 포인트",
     "vote_title": "투표 포인트",
@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "님이 보팅하였습니다.",
-    "unvote": "downvoted",
+    "unvote": "다운보팅된",
     "reply": " 님이 댓글을 남겼습니다.",
     "mention": "님이 언급하였습니다.",
     "follow": "님이 팔로우를 시작했습니다",
@@ -138,13 +138,13 @@
     "noactivity": "최근 활동 내역이 없습니다.",
     "mention_on": "새 언급",
     "reply_on": "새 답글",
-    "reply_body": "Tap to continue conversation..."
+    "reply_body": "대화를 계속하시려면 탭하세요..."
   },
   "leaderboard": {
     "daily": "일간",
     "weekly": "주간",
     "monthly": "월간",
-    "tooltip_earn": "Earn points by actively participating in Ecency."
+    "tooltip_earn": "Ecency에 적극적으로 참여하여 포인트를 적립하세요."
   },
   "messages": {
     "comingsoon": "메시지 기능은 곧 출시될 예정입니다!"
@@ -164,8 +164,8 @@
     "hours": "시간",
     "voting_power": "보팅 파워",
     "login_to_see": "로그인해서 확인하기",
-    "follow_people": "When you follow people, you'll see their post here.",
-    "follow_communities": "When you join communities you'll see posts from communities here.",
+    "follow_people": "여기서 팔로우한 사람의 글을 볼 수 있습니다.",
+    "follow_communities": "커뮤니티에 가입하면 여기에서 커뮤니티의 전체 게시물을 볼 수 있습니다.",
     "havent_commented": "아직 댓글을 작성한 적이 없습니다",
     "havent_posted": "아직 게시한 글이 없습니다",
     "hive_power": "Hive Power",
@@ -253,7 +253,7 @@
     "posts": "글 목록",
     "friends": "친구",
     "communities": "커뮤니티",
-    "popup_postfix": "Posted"
+    "popup_postfix": "게시된"
   },
   "side_menu": {
     "profile": "프로필",
@@ -297,13 +297,13 @@
     "limited_dash": "각 태그에 대시를 최대 한 개까지 사용할 수 있습니다.",
     "limited_space": "태그를 구분하기 위해 공백을 사용하세요.",
     "limited_lowercase": "소문자만 태그에 사용할 수 있습니다.",
-    "limited_characters": "Use only lowercase letters, digits and one dash",
+    "limited_characters": "소문자, 숫자 및 하나의 대시만 사용하세요",
     "limited_firstchar": "태그는 문자로 시작해야 합니다.",
     "limited_lastchar": "태그는 문자나 숫자로 끝나야 합니다.",
     "setting_schedule": "일정 시간",
     "setting_reward": "보상",
     "setting_beneficiary": "수령인",
-    "setting_thumb": "Set Thumbnail",
+    "setting_thumb": "썸네일 설정",
     "reward_default": "기본 50% / 50%",
     "reward_power_up": "파워업 100%",
     "reward_decline": "보상 거절",
@@ -317,16 +317,16 @@
     "snippets": "스니펫",
     "alert_init_title": "신규 콘텐츠",
     "alert_init_body": "Open recent draft or Create new post",
-    "alert_btn_draft": "Recent Draft",
+    "alert_btn_draft": "최신 초안",
     "alert_btn_new": "새 글",
     "alert_pub_edit_title": "Publishing edits",
-    "alert_pub_new_title": "Publishing new post",
-    "alert_pub_body": "Are you sure?",
+    "alert_pub_new_title": "새 글 게시 중",
+    "alert_pub_body": "정말 진행하시겠습니까?",
     "alert_btn_yes": "네",
     "alert_btn_no": "아니요",
     "draft_save_success": "초안이 저장되었습니다",
     "draft_save_fail": "초안을 저장하지 못했습니다",
-    "select_thumb": "Select Post Thumbnail",
+    "select_thumb": "글 썸네일 선택",
     "two_thumbs_required": "Add more images in your post before setting thumbnail"
   },
   "snippets": {
@@ -414,9 +414,9 @@
     "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
     "payloadTooLarge": "File size too big, please resize or upload smaller image",
     "qoutaExceeded": "업로드 제한을 초과합니다.",
-    "invalidImage": "Invalid image, try different file",
+    "invalidImage": "잘못된 이미지입니다. 다른 파일을 사용해 보세요",
     "something_wrong": "문제가 발생했습니다",
-    "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
+    "something_wrong_alt": "브라우저에서 Ecency.com을 사용해 보세요",
     "something_wrong_reload": "다시 시도하시겠어요?",
     "can_not_be_empty": "제목과 내용이 비어있을 수 없습니다!",
     "wrong_filter_count": "필터를 3개를 선택하세요.",
@@ -554,7 +554,7 @@
     "withdraw_hbd": "하이브 달러 출금",
     "incoming_funds": "입금 예정 자산",
     "stop": "중단",
-    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
+    "sc_power_down_error": "이 기능은 Hivesigner 로그인에 대해 아직 구현되지 않았습니다",
     "address_view": "지갑 주소 보기"
   },
   "boost": {
@@ -562,8 +562,8 @@
     "buy": "포인트 받기",
     "next": "다음",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "title": "계정 부스트 받기",
+      "desc": "30일 임대는 투표와 사회 활동을 강화하고 더 많은 리소스 크레딧으로 더 많은 활동을 제공합니다."
     }
   },
   "free_estm": {
@@ -578,7 +578,7 @@
     "days": "일",
     "user": "사용자",
     "permlink": "글 주소",
-    "permlinkPlaceholder": "username/permlink",
+    "permlinkPlaceholder": "사용자 이름/퍼머링크",
     "information": "홍보하시겠습니까?"
   },
   "boostPost": {
@@ -660,7 +660,7 @@
     "joined": "멤버쉽",
     "discover": "탐색",
     "discover_communities": "커뮤니티 찾기",
-    "no_communities": "Connect with people who share your interests by joining Communities."
+    "no_communities": "커뮤니티에 가입하여 관심사를 공유하는 사람들과 연결해보세요."
   },
   "empty_screen": {
     "nothing_here": "비어있음"
@@ -676,7 +676,7 @@
     "title": "Ecency",
     "line1_heading": "커뮤니티 찾고 계신가요?",
     "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
-    "line2_heading": "We have a solution!",
+    "line2_heading": "해결책이 있습니다!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "에센시 커뮤니티 가입!",
     "line3_body": "Build community you own, get rewarded and reward others.",
