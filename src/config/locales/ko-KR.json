@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "베네피셔리 보상",
     "claim_reward_balance": "보상 청구하기",
     "transfer": "전송",
-    "power_up": "To Vesting",
+    "power_up": "파워업",
     "transfer_from_savings": "안전 금고에서 출금하기",
     "withdraw_vesting": "파워 다운",
     "fill_order": "체결 주문",
@@ -62,14 +62,14 @@
     "purchase_estm": "포인트 받기",
     "points": "포인트 선물하기",
     "transfer_to_saving": "안전 금고에 보관하기",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_vesting": "파워업",
     "withdraw_to_saving": "안전 금고에서 출금하기",
     "steemconnect_title": "HiveSigner 이동",
     "next": "다음",
     "delegate": "임대",
     "power_down": "파워 다운",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HBD",
+    "withdraw_hive": "HIVE 출금",
+    "withdraw_hbd": "HBD 출금",
     "transfer_to_savings": "안전 금고에 보관하기",
     "convert": "전환하기",
     "escrow_transfer": "에스크로 송금",
@@ -86,10 +86,10 @@
       "buy": "포인트 받기"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "HIVE 예금"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "HBD 예금"
     },
     "hive": {
       "title": "HIVE",
@@ -357,7 +357,7 @@
     "set_new": "새로운 PIN 코드 설정하기",
     "write_again": "다시 한 번 입력해주세요",
     "forgot_text": "PIN 코드가 기억나지 않습니다...",
-    "pin_not_matched": "PIN do not match, Please try again.",
+    "pin_not_matched": "비밀번호가 일치하지 않습니다. 다시 시도해 주세요.",
     "attempts_postfix": "failed attempt(s)",
     "message_reset_warning": "User data will be wiped on next failed attempt"
   },
@@ -379,15 +379,15 @@
     "success_favorite": "즐겨찾기가 추가되었습니다.",
     "success_unfavorite": "즐겨찾기가 제거되었습니다.",
     "success_follow": "팔로우하였습니다.",
-    "fail_follow": "Follow failed!",
-    "success_subscribe": "Subscribe success!",
-    "fail_subscribe": "Subscribe failed!",
-    "success_leave": "Leave success!",
-    "fail_leave": "Leave failed!",
+    "fail_follow": "팔로우 오류!",
+    "success_subscribe": "구독 성공!",
+    "fail_subscribe": "구독 오류!",
+    "success_leave": "탈퇴 성공!",
+    "fail_leave": "탈퇴 오류!",
     "success_mute": "차단하였습니다.",
     "success_unmute": "차단을 해제하였습니다.",
     "success_unfollow": "팔로우를 취소하였습니다.",
-    "fail_unfollow": "Unfollow failed!",
+    "fail_unfollow": "팔로우 취소 오류!",
     "warning": "경고",
     "invalid_pincode": "올바르지 않은 PIN 코드입니다. 확인 후 다시 시도해주세요.",
     "remove_alert": "정말 삭제하시겠습니까?",
@@ -417,20 +417,20 @@
     "invalidImage": "Invalid image, try different file",
     "something_wrong": "Something went wrong",
     "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
-    "something_wrong_reload": "Try again?",
+    "something_wrong_reload": "다시 시도하시겠어요?",
     "can_not_be_empty": "Title and body can not be empty!",
-    "wrong_filter_count": "Please select 3 filters",
+    "wrong_filter_count": "필터를 3개를 선택하세요.",
     "update_available_title": "Update available v{version}",
     "update_available_body": "Using latest version of Ecency gives you the best experience",
-    "update": "Update Now",
-    "remind_later": "Remind Later",
+    "update": "지금 업데이트",
+    "remind_later": "나중에 다시 알림",
     "failed_to_open": "Failed to open a link"
   },
   "post": {
     "reblog_alert": "리블로그 하시겠습니까?",
     "removed_hint": "콘텐츠 이용 불가",
     "copy_link": "링크 복사하기",
-    "copy_text": "Copy text",
+    "copy_text": "텍스트 복사",
     "reblogged": "리블로그됨",
     "sponsored": "투표 후원받음",
     "open_thread": "스레드 열기",
@@ -502,7 +502,7 @@
     "bookmarks": "즐겨찾기에 추가",
     "promote": "홍보",
     "boost": "후원",
-    "report": "report"
+    "report": "신고"
   },
   "deep_link": {
     "no_existing_user": "존재하지 않는 사용자입니다",
@@ -536,8 +536,8 @@
     "purchase_estm": "포인트 구입",
     "convert": "하이브달러를 하이브로 전환하기",
     "points": "포인트 선물하기",
-    "transfer_to_savings": "Transfer To Saving",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_savings": "금고로 전송",
+    "transfer_to_vesting": "파워업",
     "withdraw_to_saving": "안전 금고로 출금",
     "steemconnect_title": "HiveSigner 이동",
     "estimated_weekly": "주간 추정",
@@ -550,8 +550,8 @@
     "next": "다음",
     "delegate": "임대",
     "power_down": "파워 다운",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HIVE Dollar",
+    "withdraw_hive": "HIVE 출금",
+    "withdraw_hbd": "하이브 달러 출금",
     "incoming_funds": "입금 예정 자산",
     "stop": "중단",
     "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
@@ -603,24 +603,24 @@
     "title": "작성한 댓글",
     "reveal_comment": "명성도가 낮은 사용자의 댓글 보기",
     "read_more": "댓글 더 보기",
-    "more_replies": "replies"
+    "more_replies": "댓글"
   },
   "search_result": {
-    "others": "Others",
+    "others": "기타",
     "best": {
-      "title": "Best"
+      "title": "최고"
     },
     "people": {
-      "title": "People"
+      "title": "사용자"
     },
     "topics": {
-      "title": "Topics"
+      "title": "주제"
     },
     "communities": {
-      "title": "Groups",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
+      "title": "그룹",
+      "subscribe": "가입",
+      "unsubscribe": "탈퇴",
+      "subscribers": "멤버",
       "posters": "포스터",
       "posts": "글 목록"
     },
@@ -680,15 +680,15 @@
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "Join Ecency communities!",
     "line3_body": "Build community you own, get rewarded and reward others.",
-    "get_started": "Get started!"
+    "get_started": "시작!"
   },
   "time": {
-    "second": "seconds",
-    "minute": "minutes",
-    "hour": "hours",
-    "week": "weeks",
-    "day": "days",
-    "month": "months",
-    "year": "years"
+    "second": "초",
+    "minute": "분",
+    "hour": "시",
+    "week": "주",
+    "day": "일",
+    "month": "달",
+    "year": "년"
   }
 }
