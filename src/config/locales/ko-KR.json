@@ -136,8 +136,8 @@
     "mentions": "언급",
     "reblogs": "리블로그",
     "noactivity": "최근 활동 내역이 없습니다.",
-    "mention_on": "New mention on",
-    "reply_on": "New reply on",
+    "mention_on": "새 언급",
+    "reply_on": "새 답글",
     "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
@@ -174,7 +174,7 @@
     "day": "일",
     "hive_dollars": "Hive Dollars",
     "savings": "안전 금고",
-    "joined": "Joined {time} ago",
+    "joined": "{time}전에 가입하였습니다",
     "view_full": "전체 프로파일 보기",
     "resource_credits": "리소스 크레딧",
     "reputation": "인기도",
@@ -314,8 +314,8 @@
     "my_communities": "내 커뮤니티",
     "top_communities": "인기 커뮤니티",
     "schedule_modal_title": "Schedule Post",
-    "snippets": "Snippets",
-    "alert_init_title": "New Content",
+    "snippets": "스니펫",
+    "alert_init_title": "신규 콘텐츠",
     "alert_init_body": "Open recent draft or Create new post",
     "alert_btn_draft": "Recent Draft",
     "alert_btn_new": "New Post",
@@ -625,9 +625,9 @@
       "posts": "글 목록"
     },
     "communities_filter": {
-      "my": "My Communities",
+      "my": "내 커뮤니티",
       "rank": "랭크",
-      "subs": "Members",
+      "subs": "멤버",
       "new": "새 글"
     },
     "post_result_filter": {
@@ -642,43 +642,43 @@
   },
   "community": {
     "new_post": "새 글",
-    "community": "community",
-    "details": "Details",
-    "muted": "Muted",
-    "payout": "Payout"
+    "community": "커뮤니티",
+    "details": "상세",
+    "muted": "뮤트",
+    "payout": "보상"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow",
-    "add_to_favourites": "ADD TO FAVOURITES",
-    "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE / BLOCK",
-    "unmute": "UNMUTE / UNBLOCK",
-    "report": "REPORT USER"
+    "follow": "팔로우",
+    "unfollow": "팔로우 취소",
+    "add_to_favourites": "즐겨찾기에 추가",
+    "remove_from_favourites": "즐겨찾기에서 삭제",
+    "mute": "뮤트 / 차단",
+    "unmute": "뮤트 취소 / 차단 취소",
+    "report": "사용자 신고"
   },
   "communities": {
-    "joined": "Membership",
-    "discover": "Discover",
-    "discover_communities": "Discover Communities",
+    "joined": "멤버쉽",
+    "discover": "탐색",
+    "discover_communities": "커뮤니티 찾기",
     "no_communities": "Connect with people who share your interests by joining Communities."
   },
   "empty_screen": {
-    "nothing_here": "Nothing here"
+    "nothing_here": "비어있음"
   },
   "beneficiary_modal": {
-    "percent": "Percent",
-    "username": "Username",
-    "addAccount": "Add Account",
-    "save": "Save"
+    "percent": "비율",
+    "username": "사용자 이름",
+    "addAccount": "계정 추가",
+    "save": "저장"
   },
   "welcome": {
-    "label": "Welcome to",
+    "label": "환영합니다",
     "title": "Ecency",
-    "line1_heading": "Are you looking for community?",
+    "line1_heading": "커뮤니티 찾고 계신가요?",
     "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
     "line2_heading": "We have a solution!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
-    "line3_heading": "Join Ecency communities!",
+    "line3_heading": "에센시 커뮤니티 가입!",
     "line3_body": "Build community you own, get rewarded and reward others.",
     "get_started": "시작!"
   },
