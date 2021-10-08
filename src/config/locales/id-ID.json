@@ -468,8 +468,8 @@
   },
   "report": {
     "added": "Konten yang tidak pantas dilaporkan",
-    "confirm_report_title": "Confirm Report!",
-    "confirm_report_body": "Are you sure you want report?"
+    "confirm_report_title": "Konfirmasi Laporan!",
+    "confirm_report_body": "Yakin mau membuat laporan?"
   },
   "favorites": {
     "title": "Favorit",
@@ -652,9 +652,9 @@
     "unfollow": "Berhenti mengikuti",
     "add_to_favourites": "MASUKKAN KE FAVORIT",
     "remove_from_favourites": "HAPUS DARI FAVORIT",
-    "mute": "MUTE / BLOCK",
-    "unmute": "UNMUTE / UNBLOCK",
-    "report": "REPORT USER"
+    "mute": "BISUKAN/BLOK",
+    "unmute": "HIDUPKAN/BUKA",
+    "report": "LAPORKAN PENGGUNA"
   },
   "communities": {
     "joined": "Keanggotaan",
