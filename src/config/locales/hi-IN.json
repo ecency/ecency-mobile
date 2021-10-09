@@ -442,7 +442,7 @@
     "image_saved_error": "छवि सहेजने में त्रुटि",
     "wrong_link": "गलत लिंक",
     "in": "में",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "reveal_muted": "मौन कर दिया गया\nसामग्री प्रकट करने के लिए टैप करें"
   },
   "drafts": {
     "title": "प्रारूप",
@@ -468,8 +468,8 @@
   },
   "report": {
     "added": "आपत्तिजनक सामग्री की सूचना दी",
-    "confirm_report_title": "Confirm Report!",
-    "confirm_report_body": "Are you sure you want report?"
+    "confirm_report_title": "रिपोर्ट की पुष्टि करें!",
+    "confirm_report_body": "क्या आप वाकई रिपोर्ट चाहते हैं?"
   },
   "favorites": {
     "title": "पसंदीदा",
@@ -603,7 +603,7 @@
     "title": "विवेचनाऐं",
     "reveal_comment": "टिप्पणी का खुलासा",
     "read_more": "अधिक टिप्पणियाँ पढ़ें",
-    "more_replies": "replies"
+    "more_replies": "जवाब"
   },
   "search_result": {
     "others": "अन्यों",
@@ -652,9 +652,9 @@
     "unfollow": "अनफॉलो करें",
     "add_to_favourites": "पसंदीदा में जोड़ें",
     "remove_from_favourites": "पसंदीदा से निकालें",
-    "mute": "MUTE / BLOCK",
-    "unmute": "UNMUTE / UNBLOCK",
-    "report": "REPORT USER"
+    "mute": "म्यूट / ब्लॉक",
+    "unmute": "अनम्यूट / अनब्लॉक",
+    "report": "उपयोगकर्ता को रिपोर्ट करें"
   },
   "communities": {
     "joined": "सदस्यता",
@@ -683,12 +683,12 @@
     "get_started": "शुरू हो जाओ!"
   },
   "time": {
-    "second": "seconds",
-    "minute": "minutes",
-    "hour": "hours",
-    "week": "weeks",
-    "day": "days",
-    "month": "months",
-    "year": "years"
+    "second": "सेकंड्स",
+    "minute": "मिनट्स",
+    "hour": "घंटे",
+    "week": "सप्ताह",
+    "day": "दिनों",
+    "month": "महीने",
+    "year": "वर्षों"
   }
 }
