@@ -8,6 +8,7 @@ export interface LinkData {
         tag?:string,
         proposal?:string,
         videoHref?:string,
+        filter?:string,
 }
 
 export const parseLinkData = (tnode:TNode):LinkData => {
@@ -54,9 +55,12 @@ export const parseLinkData = (tnode:TNode):LinkData => {
 
   if (tnode.classes.includes('markdown-tag-link')) {
     var tag = tnode.attributes['data-tag'];
+    var filter = tnode.attributes['data-filter'];
+
     return {
       type: 'markdown-tag-link',
-      tag: tag
+      tag: tag,
+      filter: filter,
     };
   }
 
@@ -80,6 +84,8 @@ export const parseLinkData = (tnode:TNode):LinkData => {
 
   if (tnode.classes.includes('markdown-video-link-youtube')) {
     var embedUrl = tnode.attributes['data-embed-src'];
+
+
 
     if (embedUrl) {
       return {
