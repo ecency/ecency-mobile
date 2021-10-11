@@ -323,7 +323,7 @@ class EditorScreen extends Component {
       intl,
       isDraftSaved,
       isDraftSaving,
-      isDraft,
+      draftId,
       isEdit,
       isLoggedIn,
       isPostSending,
@@ -376,7 +376,7 @@ class EditorScreen extends Component {
           handleOnSubmit={this._handleOnSubmit}
           isDraftSaved={isDraftSaved}
           isDraftSaving={isDraftSaving}
-          isDraft={isDraft}
+          draftId={draftId}
           isEdit={isEdit}
           isFormValid={isFormValid}
           isHasIcons

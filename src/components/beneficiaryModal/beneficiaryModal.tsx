@@ -1,24 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text, ScrollView } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import { useIntl } from 'react-intl';
-import AsyncStorage from '@react-native-community/async-storage';
 import { isArray, debounce } from 'lodash';
 
 import { lookupAccounts } from '../../providers/hive/dhive';
 
-import { FormInput, MainButton, Tag, TextButton } from '..';
+import { FormInput, MainButton, TextButton } from '..';
 
 import styles from './beneficiaryModalStyles';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import IconButton from '../iconButton';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { iteratorStream } from '@esteemapp/dhive/lib/utils';
+import { useAppSelector } from '../../hooks';
+import { Beneficiary } from '../../redux/reducers/editorReducer';
 
-const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, isDraft }) => {
+interface BeneficiaryModal {
+  username:string,
+  draftId:string,
+  handleOnSaveBeneficiaries:()=>void
+}
+
+const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
   const intl = useIntl();
 
-  const [beneficiaries, setBeneficiaries] = useState([
-    { account: username, weight: 10000},
+  const beneficiariesMap = useAppSelector(state => state.editor.beneficiariesMap)
+
+  const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([
+    { account: username, weight: 10000, isValid: true},
   ]);
 
   const [newUsername, setNewUsername] = useState('');
@@ -28,24 +36,22 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, isDraft }) => {
   const [newEditable, setNewEditable] = useState(false);
 
   useEffect(() => {
-    if (!isDraft) {
       readTempBeneficiaries();
-    }
-  }, []);
-
+  }, [draftId]);
 
 
   const readTempBeneficiaries = async () => {
-    const tempBeneficiariesString = await AsyncStorage.getItem('temp-beneficiaries');
-    const tempBeneficiaries = JSON.parse(tempBeneficiariesString);
-
-    if (isArray(tempBeneficiaries)) {
-      tempBeneficiaries.forEach((item) => {
-        item.isValid = true;
-      });
-
-      setBeneficiaries(tempBeneficiaries);
+    if(beneficiariesMap){
+      const tempBeneficiaries = beneficiariesMap[draftId || 'temp-beneficiaries'];
+      
+      if (isArray(tempBeneficiaries)) {
+        tempBeneficiaries.forEach((item) => {
+          item.isValid = true;
+        });
+        setBeneficiaries(tempBeneficiaries);
+      }
     }
+
   };
 
 

@@ -42,6 +42,7 @@ import {
 // Component
 import EditorScreen from '../screen/editorScreen';
 import bugsnapInstance from '../../../config/bugsnag';
+import { removeBeneficiaries, setBeneficiaries } from '../../../redux/actions/editorActions';
 
 /*
  *            Props Name        Description                                     Value
@@ -448,7 +449,7 @@ class EditorContainer extends Component {
   };
 
   _saveDraftToDB = async (fields, silent = false) => {
-    const { isDraftSaved, draftId } = this.state;
+    const { isDraftSaved, draftId, beneficiaries } = this.state;
     const { currentAccount, dispatch, intl } = this.props;
 
     try {
@@ -491,6 +492,9 @@ class EditorContainer extends Component {
               draftId: response._id,
             });
           }
+
+          dispatch(setBeneficiaries(response._id, beneficiaries));
+          dispatch(removeBeneficiaries('temp-beneficiaries'));
 
           //clear local copy is darft save is successful
           const username = get(currentAccount, 'name', '');
@@ -577,7 +581,7 @@ class EditorContainer extends Component {
       pinCode,
       // isDefaultFooter,
     } = this.props;
-    const { rewardType, beneficiaries, isPostSending, thumbIndex } = this.state;
+    const { rewardType, beneficiaries, isPostSending, thumbIndex, draftId } = this.state;
 
     if (isPostSending) {
       return;
@@ -652,7 +656,10 @@ class EditorContainer extends Component {
               currentAccount.name,
             );
 
-            await AsyncStorage.setItem('temp-beneficiaries', '');
+            dispatch(removeBeneficiaries('temp-beneficiaries'))
+            if(draftId){
+              dispatch(removeBeneficiaries(draftId))
+            }
 
             dispatch(
               toastNotification(
@@ -1042,8 +1049,14 @@ class EditorContainer extends Component {
   };
 
   _handleBeneficiaries = async (value) => {
+    const {
+      dispatch
+    } = this.props;
+    const {
+      draftId,
+    } = this.state;
     this.setState({ beneficiaries: value });
-    await AsyncStorage.setItem('temp-beneficiaries', JSON.stringify(value));
+    dispatch(setBeneficiaries(draftId || 'temp-beneficiaries', value));
   };
 
   _handleSetThumbIndex = (index: number) => {
@@ -1059,6 +1072,7 @@ class EditorContainer extends Component {
       draftPost,
       isDraftSaved,
       isDraftSaving,
+      draftId,
       isEdit,
       isOpenCamera,
       isPostSending,
@@ -1067,7 +1081,6 @@ class EditorContainer extends Component {
       post,
       uploadedImage,
       community,
-      isDraft,
       sharedSnippetText,
       onLoadDraftPress,
       thumbIndex
@@ -1103,7 +1116,7 @@ class EditorContainer extends Component {
         tags={tags}
         community={community}
         currentAccount={currentAccount}
-        isDraft={isDraft}
+        draftId={draftId}
         sharedSnippetText={sharedSnippetText}
         onLoadDraftPress={onLoadDraftPress}
         thumbIndex={thumbIndex}
