@@ -45,6 +45,12 @@ export const parseLinkData = (tnode:TNode):LinkData => {
       permlink = matchedLink[3];
     }
 
+    //check if permlink has trailing query param, remove that if is the case
+    const queryIndex = permlink.lastIndexOf('?');
+    if(queryIndex > -1){
+      permlink = permlink.substring(0, queryIndex)
+    }
+
     return {
       type: 'markdown-post-link',
       author: author,
