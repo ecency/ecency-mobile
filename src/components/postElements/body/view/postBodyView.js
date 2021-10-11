@@ -212,6 +212,20 @@ const PostBody = ({
 
   const _handleOnPostPress = (permlink, author) => {
     if (permlink) {
+      //snippets checks if there is anchored post inside permlink and use that instead
+      const anchoredPostRegex = /(.*?\#\@)(.*)\/(.*)/;
+      const matchedLink = permlink.match(anchoredPostRegex);
+      if (matchedLink) {
+        author = matchedLink[2];
+        permlink = matchedLink[3];
+      }
+
+      //check if permlink has trailing query param, remove that if is the case
+      const queryIndex = permlink.lastIndexOf('?');
+      if (queryIndex > -1) {
+        permlink = permlink.substring(0, queryIndex);
+      }
+
       navigation.navigate({
         routeName: ROUTES.SCREENS.POST,
         params: {

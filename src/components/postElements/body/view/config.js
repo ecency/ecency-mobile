@@ -64,10 +64,7 @@ document.addEventListener('click', function(event) {
     var author = el.getAttribute('data-author');
     var permlink = el.getAttribute('data-permlink');
 
-    const queryIndex = permlink.lastIndexOf('?');
-    if(queryIndex > -1){
-      permlink = permlink.substring(0, queryIndex)
-    }
+
     var result = {
       type: 'markdown-post-link',
       category: category,
