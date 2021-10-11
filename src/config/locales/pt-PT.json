@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "votou",
-    "unvote": "downvoted",
+    "unvote": "não curtiu",
     "reply": "respondeu a",
     "mention": "mencionado em",
     "follow": "seguiu você",
@@ -128,7 +128,7 @@
     "recent": "Recente",
     "yesterday": "Ontem",
     "this_week": "Esta Semana",
-    "last_week": "Last Week",
+    "last_week": "Última Semana",
     "this_month": "Este Mês",
     "older_then": "Com mais de um mês",
     "activities": "Todos",
@@ -152,7 +152,7 @@
   "profile": {
     "following": "Seguindo",
     "follower": "Seguidor",
-    "edit_label": "Edit",
+    "edit_label": "Editar",
     "post": "Posts",
     "details": "Detalhes do Perfil",
     "comments": "Comentários",
@@ -174,10 +174,10 @@
     "day": "dia",
     "hive_dollars": "Dólares Hive",
     "savings": "Poupanças",
-    "joined": "Joined {time} ago",
-    "view_full": "VIEW FULL PROFILE",
-    "resource_credits": "Resource Credits",
-    "reputation": "Reputation",
+    "joined": "Entrou há {time}",
+    "view_full": "VER PERFIL COMPLETO",
+    "resource_credits": "Créditos de Recurso",
+    "reputation": "Reputação",
     "edit": {
       "display_name": "Nome a Exibir",
       "about": "Sobre",
@@ -303,7 +303,7 @@
     "setting_schedule": "Hora do Agendamento",
     "setting_reward": "Recompensa",
     "setting_beneficiary": "Beneficiário",
-    "setting_thumb": "Set Thumbnail",
+    "setting_thumb": "Botar Capa",
     "reward_default": "Padrão 50% / 50%",
     "reward_power_up": "Carregar Power a 100 %%",
     "reward_decline": "Declinar Pagamento",
@@ -326,8 +326,8 @@
     "alert_btn_no": "Não",
     "draft_save_success": "Rascunho Salvo",
     "draft_save_fail": "Falha ao salvar rascunho",
-    "select_thumb": "Select Post Thumbnail",
-    "two_thumbs_required": "Add more images in your post before setting thumbnail"
+    "select_thumb": "Selecionar a Capa do Post",
+    "two_thumbs_required": "Adicione mais imagens no seu post antes de configurar a capa"
   },
   "snippets": {
     "label_no_snippets": "Nenhum Snippet Encontrado",
@@ -415,7 +415,7 @@
     "payloadTooLarge": "Tamanho de arquivo muito grande, por favor, redimensione ou carregue uma imagem menor",
     "qoutaExceeded": "Quota de carregamento excedida",
     "invalidImage": "Imagem inválida, tente um arquivo diferente",
-    "something_wrong": "Something went wrong",
+    "something_wrong": "Algo deu errado",
     "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
     "something_wrong_reload": "Try again?",
     "can_not_be_empty": "Título e corpo não podem estar vazios!",
@@ -430,7 +430,7 @@
     "reblog_alert": "Tem certeza de que deseja reblogar?",
     "removed_hint": "Conteúdo não disponível",
     "copy_link": "Copiar link",
-    "copy_text": "Copy text",
+    "copy_text": "Copiar texto",
     "reblogged": "repostado por",
     "sponsored": "Promovido",
     "open_thread": "Tópico aberto",
@@ -603,7 +603,7 @@
     "title": "Comentários",
     "reveal_comment": "Revelar comentário",
     "read_more": "Ler mais comentários",
-    "more_replies": "replies"
+    "more_replies": "respostas"
   },
   "search_result": {
     "others": "Outros",
@@ -683,12 +683,12 @@
     "get_started": "Comece agora!"
   },
   "time": {
-    "second": "seconds",
-    "minute": "minutes",
-    "hour": "hours",
-    "week": "weeks",
-    "day": "days",
-    "month": "months",
-    "year": "years"
+    "second": "segundos",
+    "minute": "minutos",
+    "hour": "horas",
+    "week": "semanas",
+    "day": "dias",
+    "month": "meses",
+    "year": "anos"
   }
 }
