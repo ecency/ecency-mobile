@@ -21,10 +21,14 @@ const initialState:State = {
     switch (type) {
         case SET_BENEFICIARIES:
             state.beneficiariesMap[payload.draftId] = payload.benficiaries;
-            return state;
+            return {
+                ...state //spread operator in requried here, otherwise persist do not register change
+            };
         case REMOVE_BENEFICIARIES:
             delete state.beneficiariesMap[payload.draftId]
-            return state;
+            return {
+                ...state //spread operator in requried here, otherwise persist do not register change
+            };
         default:
           return state;
       }
