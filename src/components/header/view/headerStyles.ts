@@ -34,7 +34,11 @@ export default EStyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     marginHorizontal: 8,
+    flex:2
   },
+  titleWrapperReverse: {
+    alignItems:'flex-end'
+  },  
   title: {
     fontSize: 14,
     fontWeight: 'bold',
@@ -73,7 +77,7 @@ export default EStyleSheet.create({
     marginLeft: 24,
   },
   reverseBackButtonWrapper: {
-    flexGrow: 1,
+    flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
   },
