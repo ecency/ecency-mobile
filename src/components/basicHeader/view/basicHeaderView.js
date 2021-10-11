@@ -28,7 +28,7 @@ const BasicHeaderView = ({
   intl,
   isDraftSaved,
   isDraftSaving,
-  isDraft,
+  draftId,
   isFormValid,
   isHasDropdown,
   isHasIcons,
@@ -300,7 +300,7 @@ const BasicHeaderView = ({
         <BeneficiaryModal
           username={username}
           handleOnSaveBeneficiaries={_handleOnSaveBeneficiaries}
-          isDraft={isDraft}
+          draftId={draftId}
         />
       </Modal>
       <Modal
