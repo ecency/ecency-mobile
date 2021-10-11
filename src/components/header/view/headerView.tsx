@@ -46,60 +46,59 @@ const HeaderView = ({
     });
   };
 
-  return (
-    <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
-      {!hideUser && (
-        <>
-          <SearchModal
-            placeholder={intl.formatMessage({
-              id: 'header.search',
-            })}
-            isOpen={isSearchModalOpen}
-            handleOnClose={() => setIsSearchModalOpen(false)}
-          />
-          <TouchableOpacity
-            style={styles.avatarWrapper}
-            onPress={handleOpenDrawer}
-            disabled={isReverse}
-          >
-            <LinearGradient
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              colors={gradientColor}
-              style={[
-                styles.avatarButtonWrapper,
-                isReverse ? styles.avatarButtonWrapperReverse : styles.avatarDefault,
-              ]}
-            >
-              <UserAvatar
-                noAction
-                style={isReverse ? styles.reverseAvatar : styles.avatar}
-                username={username}
-              />
-            </LinearGradient>
-          </TouchableOpacity>
-          {displayName || username ? (
-            <View style={styles.titleWrapper}>
-              {displayName && <Text style={styles.title}>{displayName}</Text>}
-              <Text style={styles.subTitle}>
-                {`@${username}`}
-                {reputation && ` (${reputation})`}
-              </Text>
-            </View>
-          ) : (
-            <View style={styles.titleWrapper}>
-              {isLoginDone && !isLoggedIn && (
-                <Text style={styles.noAuthTitle}>
-                  {intl.formatMessage({
-                    id: 'header.title',
-                  })}
-                </Text>
-              )}
-            </View>
-          )}
-        </>
-      )}
 
+  const _renderAvatar = () => (
+    <TouchableOpacity
+      style={styles.avatarWrapper}
+      onPress={handleOpenDrawer}
+      disabled={isReverse}
+    >
+      <LinearGradient
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        colors={gradientColor}
+        style={[
+          styles.avatarButtonWrapper,
+          isReverse ? styles.avatarButtonWrapperReverse : styles.avatarDefault,
+        ]}
+      >
+        <UserAvatar
+          noAction
+          style={isReverse ? styles.reverseAvatar : styles.avatar}
+          username={username}
+        />
+      </LinearGradient>
+    </TouchableOpacity>
+  )
+
+
+  const _renderTitle = () => (
+    <>
+      {displayName || username ? (
+        <View style={[styles.titleWrapper, isReverse && styles.titleWrapperReverse]}>
+          {displayName && <Text numberOfLines={1} style={styles.title}>{displayName}</Text>}
+          <Text style={styles.subTitle}>
+            {`@${username}`}
+            {reputation && ` (${reputation})`}
+          </Text>
+        </View>
+      ) : (
+        <View style={styles.titleWrapper}>
+          {isLoginDone && !isLoggedIn && (
+            <Text numberOfLines={2} style={styles.noAuthTitle}>
+              {intl.formatMessage({
+                id: 'header.title',
+              })}
+            </Text>
+          )}
+        </View>
+      )}
+    </>
+  )
+
+
+  const _renderActionButtons = () => (
+    <>
       {isReverse ? (
         <View style={styles.reverseBackButtonWrapper}>
           <IconButton
@@ -123,6 +122,27 @@ const HeaderView = ({
           <IconButton iconStyle={styles.backIcon} name="md-search" onPress={_onPressSearchButton} />
         </View>
       )}
+    </>
+  )
+
+  return (
+    <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
+      
+      {!hideUser && (
+        <>
+          <SearchModal
+            placeholder={intl.formatMessage({
+              id: 'header.search',
+            })}
+            isOpen={isSearchModalOpen}
+            handleOnClose={() => setIsSearchModalOpen(false)}
+          />
+
+          {_renderAvatar()}
+          {_renderTitle()}
+        </>
+      )}
+      {_renderActionButtons()}
     </SafeAreaView>
   );
 };
