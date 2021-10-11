@@ -74,8 +74,10 @@ document.addEventListener('click', function(event) {
   }
   if (el.classList.contains('markdown-tag-link')) {
     var tag = el.getAttribute('data-tag');
+    var filter = el.getAttribute('data-filter');
     var result = {
       type: 'markdown-tag-link',
+      filter: filter,
       tag: tag
     };
     window.ReactNativeWebView.postMessage(JSON.stringify(result));
