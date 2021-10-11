@@ -27,6 +27,8 @@ import { LongPressGestureHandler, State } from 'react-native-gesture-handler';
 import { useCallback } from 'react';
 import { OptionsModal } from '../../../atoms';
 import { useAppDispatch } from '../../../../hooks';
+import { isCommunity } from '../../../../utils/communityValidation';
+import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -131,12 +133,16 @@ const CommentBody = ({
     
   };
 
-  const _handleTagPress = (tag) => {
+  const _handleTagPress = (tag:string, filter:string = GLOBAL_POST_FILTERS_VALUE[0]) => {
     if (tag) {
+      const routeName = isCommunity(tag) ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT;
+      const key = `${filter}/${tag}`;
       navigate({
-        routeName: ROUTES.SCREENS.TAG_RESULT,
+        routeName,
         params: {
           tag,
+          filter,
+          key,
         },
       });
     }

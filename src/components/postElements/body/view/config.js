@@ -63,6 +63,8 @@ document.addEventListener('click', function(event) {
     var category = el.getAttribute('data-tag');
     var author = el.getAttribute('data-author');
     var permlink = el.getAttribute('data-permlink');
+
+
     var result = {
       type: 'markdown-post-link',
       category: category,
@@ -74,8 +76,10 @@ document.addEventListener('click', function(event) {
   }
   if (el.classList.contains('markdown-tag-link')) {
     var tag = el.getAttribute('data-tag');
+    var filter = el.getAttribute('data-filter');
     var result = {
       type: 'markdown-tag-link',
+      filter: filter,
       tag: tag
     };
     window.ReactNativeWebView.postMessage(JSON.stringify(result));

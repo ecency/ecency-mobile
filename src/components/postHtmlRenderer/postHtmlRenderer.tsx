@@ -13,7 +13,7 @@ interface PostHtmlRendererProps {
   onElementIsImage:(imgUrl:string)=>void;
   handleOnPostPress:(permlink:string, authro:string)=>void;
   handleOnUserPress:(username:string)=>void;
-  handleTagPress:(tag:string)=>void;
+  handleTagPress:(tag:string, filter?:string)=>void;
   handleVideoPress:(videoUrl:string)=>void;
   handleYoutubePress:(videoId:string)=>void;
 }
@@ -48,6 +48,7 @@ export const PostHtmlRenderer = memo(({
       author,
       permlink,
       tag,
+      filter,
       videoHref,
     } = data;
 
@@ -70,7 +71,7 @@ export const PostHtmlRenderer = memo(({
           break;
         case 'markdown-tag-link':
           if(handleTagPress){
-            handleTagPress(tag);
+            handleTagPress(tag, filter);
           }
           break;
   

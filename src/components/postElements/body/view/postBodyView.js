@@ -22,6 +22,8 @@ import { default as ROUTES } from '../../../../constants/routeNames';
 import getYoutubeId from '../../../../utils/getYoutubeId';
 import VideoPlayerSheet from './videoPlayerSheet';
 import { OptionsModal } from '../../../atoms';
+import { isCommunity } from '../../../../utils/communityValidation';
+import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -76,6 +78,7 @@ const PostBody = ({
         category,
         permlink,
         tag,
+        filter,
         proposal,
         videoHref,
       } = data;
@@ -101,7 +104,7 @@ const PostBody = ({
           }
           break;
         case 'markdown-tag-link':
-          _handleTagPress(tag);
+          _handleTagPress(tag, filter);
           break;
         case 'markdown-witnesses-link':
           break;
@@ -192,12 +195,16 @@ const PostBody = ({
     setSelectedLink(null);
   };
 
-  const _handleTagPress = (tag) => {
+  const _handleTagPress = (tag, filter = GLOBAL_POST_FILTERS_VALUE[0]) => {
     if (tag) {
+      const routeName = isCommunity(tag) ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT;
+      const key = `${filter}/${tag}`;
       navigation.navigate({
-        routeName: ROUTES.SCREENS.TAG_RESULT,
+        routeName,
         params: {
           tag,
+          filter,
+          key,
         },
       });
     }
@@ -205,6 +212,20 @@ const PostBody = ({
 
   const _handleOnPostPress = (permlink, author) => {
     if (permlink) {
+      //snippets checks if there is anchored post inside permlink and use that instead
+      const anchoredPostRegex = /(.*?\#\@)(.*)\/(.*)/;
+      const matchedLink = permlink.match(anchoredPostRegex);
+      if (matchedLink) {
+        author = matchedLink[2];
+        permlink = matchedLink[3];
+      }
+
+      //check if permlink has trailing query param, remove that if is the case
+      const queryIndex = permlink.lastIndexOf('?');
+      if (queryIndex > -1) {
+        permlink = permlink.substring(0, queryIndex);
+      }
+
       navigation.navigate({
         routeName: ROUTES.SCREENS.POST,
         params: {
