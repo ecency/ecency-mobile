@@ -521,6 +521,7 @@ const PostBody = ({
         scalesPageToFit={false}
         zoomable={false}
         onLoadEnd={_handleLoadEnd}
+        mediaPlaybackRequiresUserAction={true}
       />
     </Fragment>
   );
