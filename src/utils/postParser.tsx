@@ -10,7 +10,7 @@ import parseAsset from './parseAsset';
 import { getResizedAvatar } from './image';
 import { parseReputation } from './user';
 
-const webp = Platform.OS === 'ios' ? false : true;
+const webp = Platform.OS === 'ios' ? false : false;
 
 export const parsePosts = (posts, currentUserName) => {
   if (posts) {
