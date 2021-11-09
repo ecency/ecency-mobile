@@ -301,7 +301,7 @@
     "limited_firstchar": "La etiqueta debe comenzar con una letra",
     "limited_lastchar": "La etiqueta debe terminar con una letra o número",
     "setting_schedule": "Hora programada",
-    "setting_reward": "Reward",
+    "setting_reward": "Recompensa",
     "setting_beneficiary": "Beneficiary",
     "setting_thumb": "Set Thumbnail",
     "reward_default": "Default 50% / 50%",
