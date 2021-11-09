@@ -1,9 +1,9 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
-    "comment_benefactor_reward": "Benefactor Reward",
-    "claim_reward_balance": "Claim Reward ",
+    "curation_reward": "Recompensa por curaduria",
+    "author_reward": "Recompensa del autor",
+    "comment_benefactor_reward": "Recompensa de Benefactor del comentario",
+    "claim_reward_balance": "Reclamar recompensa ",
     "transfer": "Transfer",
     "power_up": "To Vesting",
     "transfer_from_savings": "From Savings",
