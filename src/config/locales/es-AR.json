@@ -79,47 +79,47 @@
     "cancel_transfer_from_savings": "Cancelar desde ahorros",
     "delegate_vesting_shares": "Delegación",
     "fill_convert_request": "Convertir ejecutados",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_transfer_from_savings": "Ahorros ejecutados",
+    "fill_vesting_withdraw": "PowerDown ejecutado",
     "estm": {
-      "title": "Points",
-      "buy": "GET POINTS"
+      "title": "Puntos",
+      "buy": "OBTENER PUNTOS"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "Ahorros HIVE"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "Ahorros HBD"
     },
     "hive": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "OBTEN HIVE"
     },
     "hbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "OBTENER HBD"
     },
     "hive_power": {
       "title": "HIVE POWER"
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "OBTENER BTC",
+      "address": "RECIBIR"
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "downvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
-    "follow": "followed you",
-    "unfollow": "unfollowed you",
-    "ignore": "ignored you",
-    "reblog": "reblogged",
-    "transfer": "transferred",
-    "spin": "Time to earn more Points",
-    "inactive": "Be active! Write a post, continue earning",
+    "vote": "votado",
+    "unvote": "voto negativo",
+    "reply": "respondido a",
+    "mention": "te mencionó en",
+    "follow": "te siguió",
+    "unfollow": "dejó de seguirte",
+    "ignore": "te ignoró",
+    "reblog": "reblogueado",
+    "transfer": "transferido",
+    "spin": "Es hora de ganar más puntos",
+    "inactive": "¡Estate activo! Escribe un mensaje, sigue ganando",
     "referral": "joined with your referral, welcome them",
     "notification": "Notifications",
     "leaderboard": "Leaderboard",
