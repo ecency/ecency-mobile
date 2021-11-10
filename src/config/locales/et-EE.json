@@ -270,7 +270,8 @@
     "logout_text": "Oled kindel, et soovid välja logida?",
     "create_a_new_account": "Registreeri uus kasutaja",
     "add_an_existing_account": "Lisa olemasolev kasutaja",
-    "accounts": "Kasutajad"
+    "accounts": "Kasutajad",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "Logi sisse, et kohandada oma voogu",
