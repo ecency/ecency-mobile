@@ -270,7 +270,8 @@
     "logout_text": "क्या आप सच में बाहर जाना चाहते हैं?",
     "create_a_new_account": "एक नया खाता बनाएं",
     "add_an_existing_account": "एक मौजूदा खाता जोड़ें",
-    "accounts": "खाते"
+    "accounts": "खाते",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "आपकी अपनी संभरण को अपने अनुकूल संयोजित करने के लिए लॉगिन करें",
