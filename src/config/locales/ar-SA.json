@@ -270,7 +270,8 @@
     "logout_text": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
     "create_a_new_account": "إنشاء حساب جديد",
     "add_an_existing_account": "إضافة حساب آخر",
-    "accounts": "الحسابات"
+    "accounts": "الحسابات",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "تسجيل الدخول لتخصيص خلاصتك",
