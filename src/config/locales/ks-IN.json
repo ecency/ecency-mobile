@@ -270,7 +270,8 @@
     "logout_text": "Are you sure you want to logout?",
     "create_a_new_account": "Create a new account",
     "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts"
+    "accounts": "Accounts",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "Login to customize your feed",
