@@ -270,7 +270,8 @@
     "logout_text": "Czy na pewno chcesz się wylogować?",
     "create_a_new_account": "Create a new account",
     "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts"
+    "accounts": "Accounts",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "Zaloguj się, aby dostosować swój kanał",
