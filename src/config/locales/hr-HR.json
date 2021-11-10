@@ -270,7 +270,8 @@
     "logout_text": "Jeste li sigurni da se želite odjaviti?",
     "create_a_new_account": "Create a new account",
     "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts"
+    "accounts": "Accounts",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "Ulogirajte se kako bi ste konfigurirali obavijesti",
