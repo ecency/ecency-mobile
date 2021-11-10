@@ -270,7 +270,8 @@
     "logout_text": "您確定要登出嗎？",
     "create_a_new_account": "創建一個新帳戶",
     "add_an_existing_account": "綁定現有帳號",
-    "accounts": "帳號"
+    "accounts": "帳號",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "登入後定制您的朋友圈",
