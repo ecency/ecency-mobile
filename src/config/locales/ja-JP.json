@@ -270,7 +270,8 @@
     "logout_text": "本当にログアウトしますか？",
     "create_a_new_account": "Create a new account",
     "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts"
+    "accounts": "Accounts",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "ログインして自分好みのフィードをつくろう",
