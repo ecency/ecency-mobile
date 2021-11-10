@@ -1,5 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, ImageBackground, FlatList, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  ImageBackground,
+  FlatList,
+  TouchableOpacity,
+  Linking,
+  Share,
+} from 'react-native';
 import { injectIntl, useIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
 import ActionSheet from 'react-native-actionsheet';
@@ -66,6 +74,13 @@ const SideMenuView = ({
       return;
     }
 
+    if (item.id === 'refer') {
+      Share.share({
+        url: `https://ecency.com/signup?referral=${currentAccount.username}`,
+      });
+      return;
+    }
+
     navigateToRoute(item.route);
   };
 
@@ -76,13 +91,6 @@ const SideMenuView = ({
   const { buildVersion, appVersion } = VersionNumber;
 
   let _username = currentAccount.name;
-  /*if (currentAccount.display_name && currentAccount.display_name.length > 8) {
-    currentAccount.display_name = currentAccount.display_name.slice(0, 8);
-  }
-
-  if (currentAccount.name && currentAccount.name.length > 8) {
-    _username = currentAccount.name.slice(0, 8);
-  }*/
 
   const _renderItem = (item) => (
     <TouchableOpacity
