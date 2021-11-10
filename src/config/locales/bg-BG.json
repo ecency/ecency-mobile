@@ -270,7 +270,8 @@
     "logout_text": "Сигурни ли сте, че искате да излезете?",
     "create_a_new_account": "Създаване на нов акаунт",
     "add_an_existing_account": "Добави съществуващ акаунт",
-    "accounts": "Акаунти"
+    "accounts": "Акаунти",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "Влезте, за да персонализирате вашите постове",
