@@ -270,7 +270,8 @@
     "logout_text": "Вы уверены, что хотите разлогина?",
     "create_a_new_account": "Создать новый аккаунт",
     "add_an_existing_account": "Добавить существующий аккаунт",
-    "accounts": "Аккаунты"
+    "accounts": "Аккаунты",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "Войдите, чтобы настроить свою ленту",
