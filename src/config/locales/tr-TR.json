@@ -270,7 +270,8 @@
     "logout_text": "Çıkış yapmak istediginize emin misiniz?",
     "create_a_new_account": "Yeni bir hesap oluştur",
     "add_an_existing_account": "Başka hesap ekle",
-    "accounts": "Hesaplar"
+    "accounts": "Hesaplar",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "Giriş yap ve akışını özelleştir.",
