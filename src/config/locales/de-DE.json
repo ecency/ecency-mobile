@@ -270,7 +270,8 @@
     "logout_text": "Bist du sicher, dass du dich ausloggen möchtest?",
     "create_a_new_account": "Neues Konto erstellen",
     "add_an_existing_account": "Bestehendes Konto hinzufügen",
-    "accounts": "Konten"
+    "accounts": "Konten",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "Login, um den Feed anzupassen",
