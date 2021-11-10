@@ -270,7 +270,8 @@
     "logout_text": "¿Estás seguro de que quieres salir?",
     "create_a_new_account": "Crea una cuenta nueva",
     "add_an_existing_account": "Añadir una cuenta existente",
-    "accounts": "Cuentas"
+    "accounts": "Cuentas",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "Inicie sesión para personalizar su inicio",
