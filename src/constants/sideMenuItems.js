@@ -19,12 +19,6 @@ const authMenuItems = [
     icon: 'docs',
     id: 'drafts',
   },
-  // {
-  //   name: 'Gallery',
-  //   route: 'galery',
-  //   icon: 'photo-library',
-  //   id: 'gallery',
-  // },
   {
     name: 'Communities',
     route: ROUTES.SCREENS.COMMUNITIES,
@@ -42,6 +36,12 @@ const authMenuItems = [
     route: '',
     icon: 'power',
     id: 'logout',
+  },
+  {
+    name: 'Refer $ Earn',
+    route: '',
+    icon: 'share',
+    id: 'refer',
   },
 ];
 
