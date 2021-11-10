@@ -270,7 +270,8 @@
     "logout_text": "您确定想要退出吗？",
     "create_a_new_account": "Create a new account",
     "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts"
+    "accounts": "Accounts",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "定制您的朋友圈，需要登录",
