@@ -108,6 +108,7 @@ import lightTheme from '../../../themes/lightTheme';
 import persistAccountGenerator from '../../../utils/persistAccountGenerator';
 import parseVersionNumber from '../../../utils/parseVersionNumber';
 import { getTimeFromNow, setMomentLocale } from '../../../utils/time';
+import parseAuthUrl from '../../../utils/parseAuthUrl';
 
 // Workaround
 let previousAppState = 'background';
@@ -325,7 +326,7 @@ class ApplicationContainer extends Component {
         }
       }
 
-      if (feedType) {
+      if (feedType === 'hot' || feedType === 'trending' || feedType === 'created') {
         if (!tag) {
           routeName = ROUTES.SCREENS.TAG_RESULT;
         } else if (/hive-[1-3]\d{4,6}$/.test(tag)) {
@@ -341,6 +342,18 @@ class ApplicationContainer extends Component {
       }
     } catch (error) {
       this._handleAlert('deep_link.no_existing_user');
+    }
+
+    if (!routeName) {
+      const { mode, referredUser } = parseAuthUrl(url);
+      if (mode === 'SIGNUP' || mode === 'LOGIN') {
+        routeName = ROUTES.SCREENS.LOGIN;
+        params = {
+          referredUser,
+          mode,
+        };
+        keey = `${mode}/${referredUser || ''}`;
+      }
     }
 
     if (routeName && keey) {
