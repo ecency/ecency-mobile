@@ -270,7 +270,8 @@
     "logout_text": "Haluatko varmasti kirjautua ulos?",
     "create_a_new_account": "Luo uusi tili",
     "add_an_existing_account": "Lisää olemassa oleva tili",
-    "accounts": "Tilit"
+    "accounts": "Tilit",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "Kirjaudu mukauttaaksesi syötettäsi",
