@@ -346,11 +346,10 @@ class ApplicationContainer extends Component {
 
     if (!routeName) {
       const { mode, referredUser } = parseAuthUrl(url);
-      if (mode === 'SIGNUP' || mode === 'LOGIN') {
-        routeName = ROUTES.SCREENS.LOGIN;
+      if (mode === 'SIGNUP') {
+        routeName = ROUTES.SCREENS.REGISTER;
         params = {
           referredUser,
-          mode,
         };
         keey = `${mode}/${referredUser || ''}`;
       }

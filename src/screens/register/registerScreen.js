@@ -25,7 +25,7 @@ const RegisterScreen = ({ navigation }) => {
   const [isUsernameValid, setIsUsernameValid] = useState(false);
   const [email, setEmail] = useState('');
   const [isEmailValid, setIsEmailValid] = useState(false);
-  const [refUsername, setRefUsername] = useState('');
+  const [refUsername, setRefUsername] = useState(navigation.getParam('referredUser', ''));
   const [isRefUsernameValid, setIsRefUsernameValid] = useState(true);
 
   const _handleEmailChange = (value) => {
@@ -60,7 +60,7 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <RegisterContainer>
-      {({ getAccountsWithUsername, isLoading, handleOnPressRegister }) => (
+      {({ getAccountsWithUsername, isLoading, handleOnPressRegister, referredUser }) => (
         <SafeAreaView style={styles.container}>
           <StatusBar hidden translucent />
           <View style={styles.headerRow}>
