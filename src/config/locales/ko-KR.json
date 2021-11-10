@@ -270,7 +270,8 @@
     "logout_text": "로그 아웃 하시겠습니까?",
     "create_a_new_account": "새 계정 만들기",
     "add_an_existing_account": "기존 계정 추가",
-    "accounts": "계정"
+    "accounts": "계정",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "맞춤형 피드를 원하신다면 로그인하세요",
