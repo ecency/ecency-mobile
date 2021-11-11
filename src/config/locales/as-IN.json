@@ -89,30 +89,30 @@
       "title": "হাইভ জমাপুণ্জী"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "হাইভ জমাপুণ্জী"
     },
     "hive": {
-      "title": "HIVE",
-      "buy": "GET HIVE"
+      "title": "হাইভ",
+      "buy": "হাইভ আহৰণ কৰক"
     },
     "hbd": {
       "title": "HBD",
       "buy": "GET HBD"
     },
     "hive_power": {
-      "title": "HIVE POWER"
+      "title": "হাইভ পাৱাৰ"
     },
     "btc": {
-      "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "title": "বিটকইন্",
+      "buy": "বিটকইন্ আহৰণ কৰক",
+      "address": "গ্ৰহণ কৰক"
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "downvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "vote": "ভোট কৰা হয়",
+    "unvote": "ডাউনভোট",
+    "reply": "ৰিপ্লাই দিয়ে",
+    "mention": "উল্লেখ হৈছে",
     "follow": "followed you",
     "unfollow": "unfollowed you",
     "ignore": "ignored you",
