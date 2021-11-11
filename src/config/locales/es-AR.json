@@ -147,11 +147,11 @@
     "tooltip_earn": "Gana puntos participando activamente en Ecency."
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "¡Pronto mensajería instantánea!"
   },
   "profile": {
-    "following": "Following",
-    "follower": "Follower",
+    "following": "Siguiendo",
+    "follower": "Seguidor",
     "edit_label": "Editar",
     "post": "Publicaciones",
     "details": "Detalles del perfil",
@@ -275,7 +275,7 @@
   },
   "header": {
     "title": "Login to customize your feed",
-    "search": "Search..."
+    "search": "Buscar..."
   },
   "basic_header": {
     "publish": "Publicar",
@@ -315,8 +315,8 @@
     "my_communities": "Mis comunidades",
     "top_communities": "Comunidades populares",
     "schedule_modal_title": "Programar publicación",
-    "snippets": "Snippets",
-    "alert_init_title": "New Content",
+    "snippets": "Fragmentos de código",
+    "alert_init_title": "Nuevo contenido",
     "alert_init_body": "Open recent draft or Create new post",
     "alert_btn_draft": "Recent Draft",
     "alert_btn_new": "New Post",
