@@ -73,20 +73,20 @@
     "transfer_to_savings": "জমাপুণ্জী লৈ",
     "convert": "ৰূপান্তৰ কৰক",
     "escrow_transfer": "এষ্ক্ৰো ট্ৰান্স্ফাৰ",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel From Savings",
-    "delegate_vesting_shares": "Delegation",
-    "fill_convert_request": "Convert Executed",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "escrow_dispute": "এষ্ক্ৰো বিসঙ্গতি",
+    "escrow_release": "এষ্ক্ৰো মুক্তি",
+    "escrow_approve": "এষ্ক্ৰো অনুমোদন",
+    "cancel_transfer_from_savings": "জমাপুণ্জীৰ পৰা নাকচ কৰক",
+    "delegate_vesting_shares": "ডেলিগেচন",
+    "fill_convert_request": "ৰূপান্তৰন আৰম্ভ হৈছে",
+    "fill_transfer_from_savings": "জমাপুণ্জীৰ পৰা আৰম্ভ হৈছে",
+    "fill_vesting_withdraw": "পাৱাৰ ডাউন আৰম্ভ হৈছে",
     "estm": {
-      "title": "Points",
-      "buy": "GET POINTS"
+      "title": "পইন্ট সমূহ",
+      "buy": "পইন্ট অৰ্জন কৰক"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "হাইভ জমাপুণ্জী"
     },
     "savinghbd": {
       "title": "HBD Savings"
@@ -155,12 +155,12 @@
     "edit_label": "Edit",
     "post": "Post",
     "details": "Profile Details",
-    "comments": "Comments",
-    "replies": "Replies",
-    "wallet": "Wallet",
-    "wallet_details": "Wallet Details",
-    "unclaimed_rewards": "Unclaimed Rewards",
-    "full_in": "Full in",
+    "comments": "মন্তব্য সমূহ",
+    "replies": "ৰিপ্লাই সমূহ",
+    "wallet": "ৱালেট্",
+    "wallet_details": "ৱালেট‌ সবিশেষ",
+    "unclaimed_rewards": "দাবিৰহিত পুৰস্কাৰ মুল্য",
+    "full_in": "ভৰ্তি",
     "hours": "hours",
     "voting_power": "Voting power",
     "login_to_see": "Login to see",
