@@ -147,12 +147,12 @@
     "tooltip_earn": "ইচেণ্ছীত সক্ৰিয় ভাৱে অঙ্শগ্ৰহন কৰি প‌ইন্ট আহৰণ কৰক."
   },
   "messages": {
-    "comingsoon": "Messages feature is coming soon!"
+    "comingsoon": "অতি সোনকালে মেচেজৰ সুবিধা আৰম্ভ কৰা হʼব!"
   },
   "profile": {
-    "following": "Following",
-    "follower": "Follower",
-    "edit_label": "Edit",
+    "following": "ফʼলʼ কৰিছে",
+    "follower": "অনুসৰণকাৰী",
+    "edit_label": "সম্পাদনা কৰক",
     "post": "Post",
     "details": "Profile Details",
     "comments": "মন্তব্য সমূহ",
