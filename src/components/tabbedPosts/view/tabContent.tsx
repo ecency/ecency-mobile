@@ -5,10 +5,10 @@ import { LoadPostsOptions, TabContentProps, TabMeta } from '../services/tabbedPo
 import {useSelector, useDispatch } from 'react-redux';
 import TabEmptyView from './listEmptyView';
 import { setInitPosts } from '../../../redux/actions/postsAction';
-import NewPostsPopup from './newPostsPopup';
 import { calculateTimeLeftForPostCheck } from '../services/tabbedPostsHelpers';
-import { AppState } from 'react-native';
+import { AppState, NativeScrollEvent, ScrollResponderEvent } from 'react-native';
 import { PostsListRef } from '../../postsList/container/postsListContainer';
+import ScrollTopPopup from './scrollTopPopup';
 
 
 const DEFAULT_TAB_META = {
@@ -17,6 +17,8 @@ const DEFAULT_TAB_META = {
     isLoading:false,
     isRefreshing:false,
   } as TabMeta;
+
+var scrollOffset = 0;
 
 const TabContent = ({
   filterKey, 
@@ -51,6 +53,7 @@ const TabContent = ({
   const [tabMeta, setTabMeta] = useState(DEFAULT_TAB_META);
   const [latestPosts, setLatestPosts] = useState<any[]>([]);
   const [postFetchTimer, setPostFetchTimer] = useState(0)
+  const [enableScrollTop, setEnableScrollTop] = useState(false);
 
   //refs
   let postsListRef = useRef<PostsListRef>()
@@ -250,6 +253,7 @@ const TabContent = ({
 
   const _scrollToTop = () => {
     postsListRef.current.scrollToTop();
+    setEnableScrollTop(false);
   };
   
   const _handleOnScroll = () => {
@@ -263,6 +267,12 @@ const TabContent = ({
     return <TabEmptyView filterKey={filterKey} isNoPost={tabMeta.isNoPost}/>
   }
 
+  const _onScroll = (event:ScrollResponderEvent) => {
+    var currentOffset = event.nativeEvent.contentOffset.y;
+    var scrollUp = currentOffset < scrollOffset - 20;
+    scrollOffset = currentOffset;
+    setEnableScrollTop(scrollUp)
+  }
 
   return (
 
@@ -278,17 +288,20 @@ const TabContent = ({
           _getPromotedPosts()
         }
       }}
+      onScroll={_onScroll}
       onScrollEndDrag={_handleOnScroll}
       isRefreshing={tabMeta.isRefreshing}
       isLoading={tabMeta.isLoading}
       ListEmptyComponent={_renderEmptyContent}
       pageType={pageType}
     />
-    <NewPostsPopup 
+    <ScrollTopPopup 
       popupAvatars={latestPosts.map(post=>post.avatar || '')}
+      enableScrollTop={enableScrollTop}
       onPress={_onPostsPopupPress}
       onClose={()=>{
         setLatestPosts([])
+        setEnableScrollTop(false);
       }}
     />
   </>
