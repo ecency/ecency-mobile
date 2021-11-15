@@ -76,6 +76,11 @@
                 android:host="ecency.com"
                 android:path="/hot"
             />
+            <data 
+                android:scheme="https" 
+                android:host="ecency.com"
+                android:path="/signup"
+            />
         </intent-filter>
         <intent-filter android:label="Ecency" >
             <action android:name="android.intent.action.VIEW" />
