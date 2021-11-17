@@ -24,6 +24,7 @@ import VideoPlayerSheet from './videoPlayerSheet';
 import { OptionsModal } from '../../../atoms';
 import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
+import { PostHtmlRenderer } from '../../..';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -452,6 +453,14 @@ const PostBody = ({
     float: right;
   }
   `;
+
+  const _onElementIsImage = (imgUrl) => {
+    if (postImages.indexOf(imgUrl) == -1) {
+      postImages.push(imgUrl);
+      setPostImages(postImages);
+    }
+  };
+
   return (
     <Fragment>
       <Modal visible={isImageModalOpen} transparent={true}>
@@ -505,7 +514,7 @@ const PostBody = ({
       />
 
       {/* {isLoading && (isComment ? <CommentPlaceHolder /> : <PostPlaceHolder />)} */}
-      <AutoHeightWebView
+      {/* <AutoHeightWebView
         source={{ html }}
         allowsFullscreenVideo={true}
         style={{
@@ -522,7 +531,15 @@ const PostBody = ({
         zoomable={false}
         onLoadEnd={_handleLoadEnd}
         mediaPlaybackRequiresUserAction={true}
-      />
+      /> */}
+      <View>
+        <PostHtmlRenderer
+          body={html}
+          contentWidth={WIDTH - 32}
+          onLoaded={_handleLoadEnd}
+          onElementIsImage={_onElementIsImage}
+        />
+      </View>
     </Fragment>
   );
 };
