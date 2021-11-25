@@ -173,6 +173,30 @@ export const PostHtmlRenderer = memo(({
       }
     
     }
+
+
+    /**
+     * the para renderer is designd to remove margins from para
+     * if it's a direct child of li tag as the added margin causes
+     * a weired misalignment of bullet and content
+     * @returns Default Renderer
+     */
+    const _paraRenderer = ({
+      TDefaultRenderer,
+      ...props
+    }:CustomRendererProps<TNode>) => {
+
+      props.style = props.tnode.parent.tagName === 'li'
+        ? styles.pLi
+        : styles.p
+
+      return (        
+        <TDefaultRenderer
+          {...props}
+        />
+      )
+    }
+    
   
    return (
     <RenderHTML 
@@ -193,7 +217,7 @@ export const PostHtmlRenderer = memo(({
         td:styles.td,
         blockquote:styles.blockquote,
         code:styles.code,
-        p:styles.p
+        li:styles.li
       }}
       domVisitors={{
         onElement:_onElement
@@ -201,6 +225,7 @@ export const PostHtmlRenderer = memo(({
       renderers={{
         img:_imageRenderer,
         a:_anchorRenderer,
+        p:_paraRenderer
       }}
       onHTMLLoaded={onLoaded && onLoaded}
       
