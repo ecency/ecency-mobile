@@ -14,7 +14,12 @@ export default EStyleSheet.create({
   } as TextStyle,
   p:{
     marginTop:6,
-    marginBottom:6
+    marginBottom:6,
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'center',
+    flexWrap:'wrap'
+
   } as TextStyle,
   pLi:{
     marginTop:0,
