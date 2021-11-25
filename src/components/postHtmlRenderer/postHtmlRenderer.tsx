@@ -213,7 +213,7 @@ export const PostHtmlRenderer = memo(({
         a:styles.a,
         img:styles.img,
         th:styles.th,
-        tr:styles.tr,
+        tr:{...styles.tr, width:contentWidth}, //center tag causes tr to have 0 width if not exclusivly set, contentWidth help avoid that
         td:styles.td,
         blockquote:styles.blockquote,
         code:styles.code,
