@@ -192,14 +192,19 @@ class ProfileContainer extends Component {
         dispatch(
           toastNotification(
             intl.formatMessage({
-              id: isFollowing ? 'alert.success_unfollow' : 'alert.success_follow',
+              id: isFollowAction ? 'alert.success_follow' : 'alert.success_unfollow',
             }),
           ),
         );
-        this._profileActionDone();
+
+        this.setState({
+          isFollowing: isFollowAction,
+        });
+
+        this._profileActionDone({ shouldFetchProfile: false });
       })
       .catch((err) => {
-        this._profileActionDone(err);
+        this._profileActionDone({ error: err });
       });
   };
 
@@ -247,11 +252,11 @@ class ProfileContainer extends Component {
         );
       })
       .catch((err) => {
-        this._profileActionDone(err);
+        this._profileActionDone({ error: err });
       });
   };
 
-  _profileActionDone = (error = null) => {
+  _profileActionDone = ({ error = null, shouldFetchProfile = true }) => {
     const { username } = this.state;
     const { intl, dispatch } = this.props;
 
@@ -277,7 +282,7 @@ class ProfileContainer extends Component {
             ),
         );
       }
-    } else {
+    } else if (shouldFetchProfile) {
       this._fetchProfile(username, true);
     }
   };
@@ -338,7 +343,7 @@ class ProfileContainer extends Component {
       user = await getUser(username, isOwnProfile);
       this._fetchProfile(username);
     } catch (error) {
-      this._profileActionDone(error);
+      this._profileActionDone({ error });
     }
 
     this.setState((prevState) => ({
