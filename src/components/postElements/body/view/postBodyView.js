@@ -483,7 +483,7 @@ const PostBody = ({
     <Fragment>
       <Modal visible={isImageModalOpen} transparent={true}>
         <ImageViewer
-          imageUrls={postImages}
+          imageUrls={postImages.map((url) => ({ url }))}
           enableSwipeDown
           onCancel={() => setIsImageModalOpen(false)}
           onClick={() => setIsImageModalOpen(false)}
