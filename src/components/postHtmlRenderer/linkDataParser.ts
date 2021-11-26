@@ -103,7 +103,7 @@ export const parseLinkData = (tnode:TNode):LinkData => {
 
 
   if (tnode.classes.includes('markdown-video-link')) {
-    var videoHref = tnode.attributes['data-embed-src'] || tnode.attributes['data-video-href'];
+    var videoHref = tnode.attributes['data-embed-src'] || tnode.attributes['data-video-href'] || tnode.children[0].attributes['src'];
     if (videoHref) {
       return {
         type: 'markdown-video-link',
