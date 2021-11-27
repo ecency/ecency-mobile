@@ -112,6 +112,7 @@ class ProfileSummaryView extends PureComponent {
       percentVP,
       username,
     } = this.props;
+
     let dropdownOptions = [];
     const votingPowerHoursText = hoursVP && `• Full in ${hoursVP} hours`;
     const votingPowerText = `Voting power: ${percentVP}% ${votingPowerHoursText || ''}`;
@@ -236,6 +237,7 @@ class ProfileSummaryView extends PureComponent {
               <TouchableOpacity
                 style={styles.followActionWrapper}
                 onPress={() => handleFollowUnfollowUser(!isFollowing)}
+                disabled={isProfileLoading}
               >
                 <Text style={styles.actionText}>{followButtonText}</Text>
               </TouchableOpacity>

@@ -261,11 +261,12 @@ export const QuickProfileContent = ({
             />
             {isLoggedIn && (
                 <ActionPanel 
-                isFollowing={isFollowing}
-                isFavourite={isFavourite}
-                isMuted={isMuted}
-                onFavouritePress={_onFavouritePress}
-                onFollowPress={_onFollowPress}
+                    isFollowing={isFollowing}
+                    isFavourite={isFavourite}
+                    isMuted={isMuted}
+                    isLoading={isLoading}
+                    onFavouritePress={_onFavouritePress}
+                    onFollowPress={_onFollowPress}
                 />
             )}
            
