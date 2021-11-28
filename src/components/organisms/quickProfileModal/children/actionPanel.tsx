@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { IconButton } from '../../..';
-import { useAppSelector } from '../../../../hooks';
 import styles from './quickProfileStyles';
 
 interface ActionPanelProps {
     isFollowing:boolean,
     isFavourite:boolean,
     isMuted:boolean,
+    isLoading:boolean,
     onFollowPress:()=>void,
     onFavouritePress:()=>void
 }
@@ -17,6 +17,7 @@ export const ActionPanel = ({
   isFollowing, 
   isFavourite, 
   isMuted,
+  isLoading,
   onFavouritePress, 
   onFollowPress
 }: ActionPanelProps) => {
@@ -47,7 +48,7 @@ export const ActionPanel = ({
               name={followIcon}
               size={20}
               color={EStyleSheet.value('$iconColor')}
-              disabled={isFollowing}
+              disabled={isFollowing || isLoading}
               onPress={onFollowPress}
             />
           ) 

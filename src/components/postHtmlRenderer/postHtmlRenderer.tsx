@@ -8,6 +8,7 @@ import VideoThumb from "./videoThumb";
 interface PostHtmlRendererProps {
   contentWidth:number;
   body:string;
+  onLoaded:()=>void;
   setSelectedImage:(imgUrl:string)=>void;
   setSelectedLink:(url:string)=>void;
   onElementIsImage:(imgUrl:string)=>void;
@@ -21,6 +22,7 @@ interface PostHtmlRendererProps {
 export const PostHtmlRenderer = memo(({
     contentWidth,
     body,
+    onLoaded,
     setSelectedImage,
     setSelectedLink,
     onElementIsImage,
@@ -32,7 +34,7 @@ export const PostHtmlRenderer = memo(({
   }:PostHtmlRendererProps) => {
 
      //new renderer functions
-  body = body.replace('<center>', '<div class="text-center">').replace('</center>','</div>');
+  body = body.replace(/<center>/g, '<div class="text-center">').replace(/<\/center>/g,'</div>');
 
   console.log("Comment body:", body);
 
@@ -200,6 +202,7 @@ export const PostHtmlRenderer = memo(({
         img:_imageRenderer,
         a:_anchorRenderer,
       }}
+      onHTMLLoaded={onLoaded && onLoaded}
       
     />
    )

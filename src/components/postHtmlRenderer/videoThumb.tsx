@@ -17,7 +17,7 @@ const VideoThumb = ({contentWidth, uri, onPress}: Props) => {
             <View pointerEvents={'none'}>
                 <ImageBackground
                     source={{uri}}
-                    style={{...styles.videoThumb, height:contentWidth * 9/16 }}
+                    style={{...styles.videoThumb, width:contentWidth, height:contentWidth * 9/16 }}
                     resizeMode={'cover'}> 
                     <IconButton
                         style={styles.playButton}
