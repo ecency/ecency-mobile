@@ -4,6 +4,7 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { IconButton } from '../..';
 import styles from './tabbedPostsStyles';
+import { View as AnimatedView } from 'react-native-animatable';
 
 interface ScrollTopPopupProps {
     onPress:()=>void;
@@ -25,7 +26,7 @@ const ScrollTopPopup = ({
     }
 
     return (
-        <View style={styles.popupContainer}>
+        <AnimatedView style={styles.popupContainer} animation="zoomIn" duration={300}>
             <View style={styles.popupContentContainer}>
                 <TouchableOpacity
                 onPress={onPress}
@@ -71,7 +72,7 @@ const ScrollTopPopup = ({
                 size={14}
                 />
             </View>
-            </View>
+        </AnimatedView>
     );
 };
 
