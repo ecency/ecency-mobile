@@ -6,10 +6,10 @@ import {useSelector, useDispatch } from 'react-redux';
 import TabEmptyView from './listEmptyView';
 import { setInitPosts } from '../../../redux/actions/postsAction';
 import { calculateTimeLeftForPostCheck } from '../services/tabbedPostsHelpers';
-import { AppState, NativeScrollEvent, ScrollResponderEvent } from 'react-native';
+import { AppState, ScrollResponderEvent } from 'react-native';
 import { PostsListRef } from '../../postsList/container/postsListContainer';
 import ScrollTopPopup from './scrollTopPopup';
-
+import { debounce } from 'lodash';
 
 const DEFAULT_TAB_META = {
     startAuthor:'',
@@ -224,9 +224,7 @@ const TabContent = ({
         const firstPostChanged = posts.length == 0 || (posts[0].permlink !== updatedPosts[0].permlink);
         if (isFeedScreen && firstPostChanged) {
             //schedule refetch of new posts by checking time of current post
-            
             _scheduleLatestPostsCheck(updatedPosts[0]);
-            
 
             if (isInitialTab) {
               dispatch(setInitPosts(updatedPosts));
@@ -251,10 +249,18 @@ const TabContent = ({
       setLatestPosts([]);
   }
 
+  const _debouncedScrollTop = (value:boolean) => {
+    setEnableScrollTop(value);
+    // debounce(()=>{
+    //   setEnableScrollTop(value);
+    // }, 500)
+  }
+
   const _scrollToTop = () => {
     postsListRef.current.scrollToTop();
-    setEnableScrollTop(false);
+    _debouncedScrollTop(false);
   };
+
   
   const _handleOnScroll = () => {
     if(handleOnScroll){
@@ -267,12 +273,19 @@ const TabContent = ({
     return <TabEmptyView filterKey={filterKey} isNoPost={tabMeta.isNoPost}/>
   }
 
-  const _onScroll = (event:ScrollResponderEvent) => {
+  const _onScroll =  debounce((event:ScrollResponderEvent)=>{
     var currentOffset = event.nativeEvent.contentOffset.y;
-    var scrollUp = currentOffset < scrollOffset - 20;
+    var scrollUp = currentOffset < scrollOffset;
     scrollOffset = currentOffset;
-    setEnableScrollTop(scrollUp)
-  }
+
+    if(!enableScrollTop && scrollUp){
+      // _debouncedScrollTop(scrollUp)
+      setEnableScrollTop(true);
+    }else{
+      setEnableScrollTop(false);
+    }
+  }, 500); 
+
 
   return (
 
@@ -301,7 +314,7 @@ const TabContent = ({
       onPress={_onPostsPopupPress}
       onClose={()=>{
         setLatestPosts([])
-        setEnableScrollTop(false);
+        _debouncedScrollTop(false);
       }}
     />
   </>
@@ -309,5 +322,4 @@ const TabContent = ({
 };
 
 export default TabContent;
-
 
