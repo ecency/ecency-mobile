@@ -124,7 +124,7 @@ const UpvoteContainer = (props) => {
   const authorPayout = parseAsset(content.author_payout_value).amount;
   const curationPayout = parseAsset(content.curator_payout_value).amount;
   const promotedPayout = parseAsset(content.promoted).amount;
-  const maxPayout = content.maxPayout;
+  const maxPayout = content.max_payout;
 
   const payoutDate = getTimeFromNow(get(content, 'payout_at'));
   const beneficiaries = [];
