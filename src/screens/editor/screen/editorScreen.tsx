@@ -32,6 +32,7 @@ import { isCommunity } from '../../../utils/communityValidation';
 
 import styles from './editorScreenStyles';
 import ThumbSelectionModal from '../children/thumbSelectionModal';
+import EditorSettingsModal from '../children/editorSettingsModal';
 
 class EditorScreen extends Component {
   /* Props
@@ -39,6 +40,7 @@ class EditorScreen extends Component {
    *   @prop { type }    name                - Description....
    */
   thumbSelectionModalRef = null;
+  editorSettingsModalRef = null;
 
   constructor(props) {
     super(props);
@@ -186,6 +188,12 @@ class EditorScreen extends Component {
     }
   };
 
+  _handleSettingsPress = () => {
+    if(this.editorSettingsModalRef){
+      this.editorSettingsModalRef.show();
+    }
+  }
+
   _handleIsFormValid = (bodyText) => {
     const { fields } = this.state;
     const { isReply, isLoggedIn } = this.props;
@@ -313,7 +321,6 @@ class EditorScreen extends Component {
       isPreviewActive,
       wordsCount,
       isFormValid,
-      isRemoveTag,
       isCommunitiesListModalOpen,
       selectedCommunity,
       selectedAccount,
@@ -387,6 +394,7 @@ class EditorScreen extends Component {
           quickTitle={wordsCount > 0 && `${wordsCount} words`}
           rightButtonText={rightButtonText}
           showThumbSelectionModal={this._showThumbSelectionModal}
+          handleSettingsPress={this._handleSettingsPress}
         />
         <PostForm
           handleFormUpdate={this._handleFormUpdate}
@@ -435,6 +443,9 @@ class EditorScreen extends Component {
           ref={(componentRef) => (this.thumbSelectionModalRef = componentRef)}
           thumbIndex={thumbIndex}
           onThumbSelection={this._handleOnThumbSelection}
+        />
+        <EditorSettingsModal
+            ref={(componentRef) => (this.editorSettingsModalRef = componentRef)}
         />
       </View>
     );
