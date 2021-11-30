@@ -60,9 +60,9 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
     parseAsset(post.author_payout_value).amount +
     parseAsset(post.curator_payout_value).amount;
 
+  post.total_payout = totalPayout;
   post.maxPayout = parseAsset(post.max_accepted_payout).amount || 0;
 
-  post.total_payout = totalPayout;
 
   //stamp posts with fetched time;
   post.post_fetched_at = new Date().getTime();
@@ -161,6 +161,7 @@ export const parseComment = (comment:any) => {
     parseAsset(comment.curator_payout_value).amount;
 
   comment.total_payout = totalPayout;
+  comment.maxPayout = parseAsset(comment.max_accepted_payout).amount || 0;
 
   //stamp comments with fetched time;
   comment.post_fetched_at = new Date().getTime();
