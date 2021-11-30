@@ -328,6 +328,11 @@ const UpvoteView = ({
                         intl.formatMessage({ id: 'payout.curation_payout' }),
                         `${'~'}$${curationPayout}`,
                       )}
+                    {payoutLimitHit &&
+                    _payoutPopupItem(
+                      intl.formatMessage({ id: 'payout.max_accepted' }),
+                      `${'~'}$${maxPayout.toFixed(3)}`,
+                    )}
 
                     {!!breakdownPayout &&
                       pendingPayout > 0 &&
@@ -350,6 +355,8 @@ const UpvoteView = ({
 
                     {warnZeroPayout &&
                       _payoutPopupItem(intl.formatMessage({ id: 'payout.warn_zero_payout' }), '')}
+
+         
                   </View>
                 ) : (
                   <Fragment>
