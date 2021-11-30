@@ -16,6 +16,7 @@ export default EStyleSheet.create({
         flex: 1,
         justifyContent: 'space-between',
         paddingVertical: 8,
+        paddingHorizontal: 32,
       },
       bodyWrapper: {
         flex: 3,
