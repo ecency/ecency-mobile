@@ -60,6 +60,8 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
     parseAsset(post.author_payout_value).amount +
     parseAsset(post.curator_payout_value).amount;
 
+  post.maxPayout = parseAsset(post.max_accepted_payout).amount || 0;
+
   post.total_payout = totalPayout;
 
   //stamp posts with fetched time;
