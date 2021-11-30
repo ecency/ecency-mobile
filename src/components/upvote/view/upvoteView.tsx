@@ -23,7 +23,7 @@ import styles from './upvoteStyles';
 import { useAppSelector } from '../../../hooks';
 
 interface UpvoteViewProps {
-  isDecinedPayout:boolean;
+  isDeclinedPayout:boolean;
   isShowPayoutValue:boolean;
   totalPayout:number;
   maxPayout:number;
@@ -48,11 +48,10 @@ interface UpvoteViewProps {
 }
 
 const UpvoteView = ({
-  isDecinedPayout,
+  isDeclinedPayout,
   isShowPayoutValue,
   totalPayout,
   maxPayout,
-  payoutDeclined,
   pendingPayout,
   promotedPayout,
   authorPayout,
@@ -227,7 +226,7 @@ const UpvoteView = ({
 
   const _percent = `${downvote ? '-' : ''}${(sliderValue * 100).toFixed(0)}%`;
   const _amount = `$${amount}`;
-  
+
   const payoutLimitHit = totalPayout >= maxPayout;
   const _shownPayout = payoutLimitHit && maxPayout > 0 ? maxPayout : totalPayout;
 
@@ -280,7 +279,7 @@ const UpvoteView = ({
               {isShowPayoutValue && (
                 <TextButton
                   style={styles.payoutTextButton}
-                  textStyle={[styles.payoutValue, isDecinedPayout && styles.declinedPayout]}
+                  textStyle={[styles.payoutValue, isDeclinedPayout && styles.declinedPayout]}
                   text={<FormattedCurrency value={_shownPayout || '0.000'} />}
                   onPress={() => {
                     openPopover();

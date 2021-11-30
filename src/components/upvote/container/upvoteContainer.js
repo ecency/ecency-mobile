@@ -118,13 +118,12 @@ const UpvoteContainer = (props) => {
   };
 
   const author = get(content, 'author');
-  const isDecinedPayout = get(content, 'is_declined_payout');
+  const isDeclinedPayout = get(content, 'is_declined_payout');
   const permlink = get(content, 'permlink');
   const pendingPayout = parseAsset(content.pending_payout_value).amount;
   const authorPayout = parseAsset(content.author_payout_value).amount;
   const curationPayout = parseAsset(content.curator_payout_value).amount;
   const promotedPayout = parseAsset(content.promoted).amount;
-  const payoutDeclined = content.payoutDeclined;
   const maxPayout = content.maxPayout;
 
   const payoutDate = getTimeFromNow(get(content, 'payout_at'));
@@ -171,7 +170,7 @@ const UpvoteContainer = (props) => {
       currentAccount={currentAccount}
       globalProps={globalProps}
       handleSetUpvotePercent={_setUpvotePercent}
-      isDecinedPayout={isDecinedPayout}
+      isDeclinedPayout={isDeclinedPayout}
       isLoggedIn={isLoggedIn}
       isShowPayoutValue={isShowPayoutValue}
       isVoted={isVoted}
@@ -183,7 +182,6 @@ const UpvoteContainer = (props) => {
       promotedPayout={promotedPayout}
       totalPayout={totalPayout}
       maxPayout={maxPayout}
-      payoutDeclined={payoutDeclined}
       upvotePercent={upvotePercent}
       beneficiaries={beneficiaries}
       warnZeroPayout={warnZeroPayout}
