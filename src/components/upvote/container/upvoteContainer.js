@@ -124,6 +124,9 @@ const UpvoteContainer = (props) => {
   const authorPayout = parseAsset(content.author_payout_value).amount;
   const curationPayout = parseAsset(content.curator_payout_value).amount;
   const promotedPayout = parseAsset(content.promoted).amount;
+  const payoutDeclined = content.payoutDeclined;
+  const maxPayout = content.maxPayout;
+
   const payoutDate = getTimeFromNow(get(content, 'payout_at'));
   const beneficiaries = [];
   const beneficiary = get(content, 'beneficiaries');
@@ -179,6 +182,8 @@ const UpvoteContainer = (props) => {
       pinCode={pinCode}
       promotedPayout={promotedPayout}
       totalPayout={totalPayout}
+      maxPayout={maxPayout}
+      payoutDeclined={payoutDeclined}
       upvotePercent={upvotePercent}
       beneficiaries={beneficiaries}
       warnZeroPayout={warnZeroPayout}
