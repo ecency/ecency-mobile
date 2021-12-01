@@ -12,9 +12,10 @@ export default EStyleSheet.create({
     zIndex:999
   },
   thumbStyle:{
-      width:100, 
-      height:100,
-      margin:8,
+      width:72, 
+      height:72,
+      marginVertical:8,
+      marginRight:8,
       borderRadius:12,
       backgroundColor:'$primaryLightGray'
     },
@@ -22,15 +23,13 @@ export default EStyleSheet.create({
       borderWidth:4,
       borderColor:'$primaryBlack'
     },
-    title:{
-      color: '$primaryBlack',
+    settingLabel:{
+      color: '$primaryDarkGray',
+      fontSize: 14,
       fontWeight: 'bold',
-      fontSize: 18,
-      padding: 16,
-      textAlign:'center'
+      flexGrow: 1,
     },
     listContainer:{
-      paddingHorizontal:8,  
       paddingBottom:getBottomSpace() + 16,
-    }
+    },
 });

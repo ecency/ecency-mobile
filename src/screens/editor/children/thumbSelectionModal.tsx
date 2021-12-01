@@ -2,12 +2,13 @@ import React, { useImperativeHandle, useRef, useState } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import styles from './thumbSelectionModalStyles';
+import styles from './styles';
 import { extractImageUrls } from '../../../utils/editor';
 import FastImage from 'react-native-fast-image';
 import { forwardRef } from 'react';
 import { View, Text, Alert } from 'react-native';
 import { useIntl } from 'react-intl';
+
 
 export interface ThumbSelectionModalProps {
   thumbIndex:number;
@@ -57,7 +58,6 @@ const ThumbSelectionModal = ({ onThumbSelection, thumbIndex }:ThumbSelectionModa
       }
 
       const selectedStyle = index === thumbIndex ? styles.selectedStyle : null
-    
 
     return (
         <TouchableOpacity onPress={_onPress} >

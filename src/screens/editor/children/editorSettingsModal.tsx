@@ -1,8 +1,9 @@
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { View } from 'react-native';
+import { Button, View } from 'react-native';
 import { Modal, SettingsItem } from '../../../components';
 import styles from './editorSettingsModalStyles';
+import ThumbSelectionContent from './thumbSelectionContent';
 
 
 const REWARD_TYPES = [
@@ -28,15 +29,27 @@ export interface EditorSettingsModalRef {
 
 
 interface EditorSettingsModalProps {
-  handleRewardChange:(rewardType:string)=>void
+  body:string;
+  handleRewardChange:(rewardType:string)=>void;
+  handleThumbSelection:(index:number)=>void;
 }
 
 const EditorSettingsModal =  forwardRef(({
-  handleRewardChange
+  body,
+  handleRewardChange,
+  handleThumbSelection,
 }: EditorSettingsModalProps, ref) => {
     const intl = useIntl();
+
     const [showModal, setShowModal] = useState(false);
-    const [rewardTypeIndex, setRewardTypeIndex] = useState(0); 
+    const [rewardTypeIndex, setRewardTypeIndex] = useState(0);
+    const [thumbIndex, setThumbIndex] = useState(0);
+
+    useEffect(() => {
+      if(handleThumbSelection){
+        handleThumbSelection(thumbIndex);
+      }
+    }, [thumbIndex])
   
 
     useImperativeHandle(ref, () => ({
@@ -44,7 +57,6 @@ const EditorSettingsModal =  forwardRef(({
           setShowModal(true);
         },
       }));
-
 
 
     const _handleRewardChange = (index:number) => {
@@ -70,6 +82,13 @@ const EditorSettingsModal =  forwardRef(({
             selectedOptionIndex={rewardTypeIndex}
             handleOnChange={_handleRewardChange}
           />
+
+          <ThumbSelectionContent 
+            body={body}
+            thumbIndex={thumbIndex}
+            onThumbSelection={setThumbIndex}
+          />
+          
         </View>
     )
 
