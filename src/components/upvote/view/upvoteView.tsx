@@ -308,30 +308,30 @@ const UpvoteView = ({
                     {promotedPayout > 0 &&
                       _payoutPopupItem(
                         intl.formatMessage({ id: 'payout.promoted' }),
-                        `${'~'}$${promotedPayout}`,
+                        <FormattedCurrency value={promotedPayout} isApproximate={true} />,
                       )}
 
                     {pendingPayout > 0 &&
                       _payoutPopupItem(
                         intl.formatMessage({ id: 'payout.potential_payout' }),
-                        `${'~'}$${pendingPayout}`,
+                        <FormattedCurrency value={pendingPayout} isApproximate={true} />,
                       )}
 
                     {authorPayout > 0 &&
                       _payoutPopupItem(
                         intl.formatMessage({ id: 'payout.author_payout' }),
-                        `${'~'}$${authorPayout}`,
+                        <FormattedCurrency value={authorPayout} isApproximate={true} />,
                       )}
 
                     {curationPayout > 0 &&
                       _payoutPopupItem(
                         intl.formatMessage({ id: 'payout.curation_payout' }),
-                        `${'~'}$${curationPayout}`,
+                        <FormattedCurrency value={curationPayout} isApproximate={true} />,
                       )}
                     {payoutLimitHit &&
                     _payoutPopupItem(
                       intl.formatMessage({ id: 'payout.max_accepted' }),
-                      `${'~'}$${maxPayout.toFixed(3)}`,
+                      <FormattedCurrency value={maxPayout} isApproximate={true} />,
                     )}
 
                     {!!breakdownPayout &&

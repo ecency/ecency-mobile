@@ -143,6 +143,8 @@ const UpvoteContainer = (props) => {
   if (pendingPayout > 0 && pendingPayout < minimumAmountForPayout) {
     warnZeroPayout = true;
   }
+
+  //assemble breakdown
   const base = get(globalProps, 'base', 0);
   const quote = get(globalProps, 'quote', 0);
   const hbdPrintRate = get(globalProps, 'hbdPrintRate', 0);
