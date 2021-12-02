@@ -493,7 +493,8 @@
     "payout_date": "보상",
     "beneficiaries": "베네피셔리",
     "warn_zero_payout": "페이아웃이 되려면 보팅 총 금액이 0.02 달러 이상이어야만 합니다.",
-    "breakdown": "중단"
+    "breakdown": "중단",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "링크 복사",
