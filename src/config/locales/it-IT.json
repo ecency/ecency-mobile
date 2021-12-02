@@ -493,7 +493,8 @@
     "payout_date": "Ricompensa",
     "beneficiaries": "Beneficiari",
     "warn_zero_payout": "L'importo minimo per ottenere il pagamento deve raggiungere $0.02",
-    "breakdown": "Ripartizione"
+    "breakdown": "Ripartizione",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "copia il link",
