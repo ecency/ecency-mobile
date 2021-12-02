@@ -493,7 +493,8 @@
     "payout_date": "Виплата",
     "beneficiaries": "Бенефіціари",
     "warn_zero_payout": "Для отримання виплати сума повинна досягти $0.02",
-    "breakdown": "Упс... щось Зламалося"
+    "breakdown": "Упс... щось Зламалося",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "скопіювати посилання",
