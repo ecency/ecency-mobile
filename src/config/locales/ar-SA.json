@@ -493,7 +493,8 @@
     "payout_date": "المكافأة",
     "beneficiaries": "المستفيدون",
     "warn_zero_payout": "يجب أن يصل المبلغ إلى 0.02 دولار للدفع",
-    "breakdown": "Breakdown"
+    "breakdown": "Breakdown",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "أنسخ الرابط",
