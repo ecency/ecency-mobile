@@ -493,7 +493,8 @@
     "payout_date": "Palkkio",
     "beneficiaries": "Hyötyjät",
     "warn_zero_payout": "Määrän tulee ylittää $0.02 maksuun",
-    "breakdown": "Erittely"
+    "breakdown": "Erittely",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "kopioi linkki",
