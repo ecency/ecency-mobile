@@ -493,7 +493,8 @@
     "payout_date": "Payout",
     "beneficiaries": "Mga Benepisyaryo",
     "warn_zero_payout": "Dapat umabot sa $0.02 na halaga para makapag payout",
-    "breakdown": "Breakdown"
+    "breakdown": "Breakdown",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "kopyahin ang link",
