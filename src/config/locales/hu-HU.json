@@ -493,7 +493,8 @@
     "payout_date": "Kifizetés",
     "beneficiaries": "Kedvezményezettek",
     "warn_zero_payout": "Az összegnek el kell érnie a $0.02-t a kifizetéshez",
-    "breakdown": "Lebontás"
+    "breakdown": "Lebontás",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "link másolása",
