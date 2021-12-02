@@ -493,7 +493,8 @@
     "payout_date": "Isplata",
     "beneficiaries": "Primaoci",
     "warn_zero_payout": "Za isplatu iznos mora dostići $0.02",
-    "breakdown": "Presek"
+    "breakdown": "Presek",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "kopiraj link",
