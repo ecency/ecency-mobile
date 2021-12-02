@@ -493,7 +493,8 @@
     "payout_date": "পরিশোধ",
     "beneficiaries": "স্বত্বভোগী",
     "warn_zero_payout": "পেআউট এর জন্য পরিমাণ অবশ্যই $০.০০২ এ পৌঁছাতে হবে",
-    "breakdown": "ব্রেকডাউন"
+    "breakdown": "ব্রেকডাউন",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "কপি লিংক",
