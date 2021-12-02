@@ -493,7 +493,8 @@
     "payout_date": "收益",
     "beneficiaries": "受益人",
     "warn_zero_payout": "收益数量必须达到$0.02，才会支付",
-    "breakdown": "明细"
+    "breakdown": "明细",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "复制链接",
