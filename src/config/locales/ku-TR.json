@@ -493,7 +493,8 @@
     "payout_date": "Peredan",
     "beneficiaries": "Xwedîmaf",
     "warn_zero_payout": "Ji bo peredayînê divê rêje bigihêje $0.02an",
-    "breakdown": "Hilweşîne"
+    "breakdown": "Hilweşîne",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "kopî bike",
