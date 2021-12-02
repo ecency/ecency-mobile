@@ -493,7 +493,8 @@
     "payout_date": "Auszahlung",
     "beneficiaries": "Begünstigte",
     "warn_zero_payout": "Betrag muss $0.02 für die Auszahlung erreichen",
-    "breakdown": "Breakdown"
+    "breakdown": "Breakdown",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "Link kopieren",
