@@ -493,7 +493,8 @@
     "payout_date": "Wypłata",
     "beneficiaries": "Beneficjenci",
     "warn_zero_payout": "Kwota musi osiągnąć 0,02 Usd za wypłatę",
-    "breakdown": "Awaria"
+    "breakdown": "Awaria",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "skopiuj link",
