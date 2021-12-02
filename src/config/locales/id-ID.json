@@ -493,7 +493,8 @@
     "payout_date": "Pembayaran",
     "beneficiaries": "Penerima manfaat",
     "warn_zero_payout": "Jumlah harus mencapai $ 0,02 untuk pembayaran",
-    "breakdown": "Kerusakan"
+    "breakdown": "Kerusakan",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "salin tautan",
