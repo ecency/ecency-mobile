@@ -493,7 +493,8 @@
     "payout_date": "Pagamento",
     "beneficiaries": "Beneficiários",
     "warn_zero_payout": "Montante deve chegar a $0.02 para pagamento",
-    "breakdown": "Decomposição"
+    "breakdown": "Decomposição",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "copiar ligação",
