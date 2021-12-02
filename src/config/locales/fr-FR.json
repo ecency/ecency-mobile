@@ -493,7 +493,8 @@
     "payout_date": "Gain",
     "beneficiaries": "Bénéficiaires",
     "warn_zero_payout": "Le montant doit atteindre 0,02 $ pour le retrait",
-    "breakdown": "Répartition"
+    "breakdown": "Répartition",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "copier le lien",
