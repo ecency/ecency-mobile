@@ -493,7 +493,8 @@
     "payout_date": "Payment",
     "beneficiaries": "Dose people wey go get am",
     "warn_zero_payout": "Dis money gaz enta $0.02 for cashout",
-    "breakdown": "Evrything selense"
+    "breakdown": "Evrything selense",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "copy the link",
