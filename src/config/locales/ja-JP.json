@@ -493,7 +493,8 @@
     "payout_date": "支払額",
     "beneficiaries": "受取人",
     "warn_zero_payout": "支払には最低金額$0.02が必要です",
-    "breakdown": "詳細"
+    "breakdown": "詳細",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "リンクをコピー",
