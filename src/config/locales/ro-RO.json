@@ -493,7 +493,8 @@
     "payout_date": "Plată",
     "beneficiaries": "Beneficiari",
     "warn_zero_payout": "Suma trebuie sa ajungă la $0.02 să fie plătită",
-    "breakdown": "Defalcare"
+    "breakdown": "Defalcare",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "copiază link",
