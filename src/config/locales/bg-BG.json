@@ -493,7 +493,8 @@
     "payout_date": "Изплащане",
     "beneficiaries": "Бенефициенти",
     "warn_zero_payout": "Стойността трябва да достигне $0.02 за изплащане",
-    "breakdown": "Разбивка"
+    "breakdown": "Разбивка",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "Копирай връзката/линка",
