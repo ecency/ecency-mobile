@@ -23,9 +23,11 @@ import styles from './upvoteStyles';
 import { useAppSelector } from '../../../hooks';
 
 interface UpvoteViewProps {
-  isDecinedPayout:boolean;
+  isDeclinedPayout:boolean;
   isShowPayoutValue:boolean;
-  totalPayout:string;
+  totalPayout:number;
+  maxPayout:number;
+  payoutDeclined:boolean;
   pendingPayout:number;
   promotedPayout:number;
   authorPayout:number;
@@ -46,9 +48,10 @@ interface UpvoteViewProps {
 }
 
 const UpvoteView = ({
-  isDecinedPayout,
+  isDeclinedPayout,
   isShowPayoutValue,
   totalPayout,
+  maxPayout,
   pendingPayout,
   promotedPayout,
   authorPayout,
@@ -223,7 +226,10 @@ const UpvoteView = ({
 
   const _percent = `${downvote ? '-' : ''}${(sliderValue * 100).toFixed(0)}%`;
   const _amount = `$${amount}`;
-  const _totalPayout = totalPayout || '0.000';
+
+  const payoutLimitHit = totalPayout >= maxPayout;
+  const _shownPayout = payoutLimitHit && maxPayout > 0 ? maxPayout : totalPayout;
+
   const sliderColor = downvote ? '#ec8b88' : '#357ce6';
 
   const _payoutPopupItem = (label, value) => {
@@ -273,8 +279,8 @@ const UpvoteView = ({
               {isShowPayoutValue && (
                 <TextButton
                   style={styles.payoutTextButton}
-                  textStyle={[styles.payoutValue, isDecinedPayout && styles.declinedPayout]}
-                  text={<FormattedCurrency value={_totalPayout} />}
+                  textStyle={[styles.payoutValue, isDeclinedPayout && styles.declinedPayout]}
+                  text={<FormattedCurrency value={_shownPayout || '0.000'} />}
                   onPress={() => {
                     openPopover();
                     setIsShowDetails(true);
@@ -302,26 +308,31 @@ const UpvoteView = ({
                     {promotedPayout > 0 &&
                       _payoutPopupItem(
                         intl.formatMessage({ id: 'payout.promoted' }),
-                        `${'~'}$${promotedPayout}`,
+                        <FormattedCurrency value={promotedPayout} isApproximate={true} />,
                       )}
 
                     {pendingPayout > 0 &&
                       _payoutPopupItem(
                         intl.formatMessage({ id: 'payout.potential_payout' }),
-                        `${'~'}$${pendingPayout}`,
+                        <FormattedCurrency value={pendingPayout} isApproximate={true} />,
                       )}
 
                     {authorPayout > 0 &&
                       _payoutPopupItem(
                         intl.formatMessage({ id: 'payout.author_payout' }),
-                        `${'~'}$${authorPayout}`,
+                        <FormattedCurrency value={authorPayout} isApproximate={true} />,
                       )}
 
                     {curationPayout > 0 &&
                       _payoutPopupItem(
                         intl.formatMessage({ id: 'payout.curation_payout' }),
-                        `${'~'}$${curationPayout}`,
+                        <FormattedCurrency value={curationPayout} isApproximate={true} />,
                       )}
+                    {payoutLimitHit &&
+                    _payoutPopupItem(
+                      intl.formatMessage({ id: 'payout.max_accepted' }),
+                      <FormattedCurrency value={maxPayout} isApproximate={true} />,
+                    )}
 
                     {!!breakdownPayout &&
                       pendingPayout > 0 &&
@@ -344,6 +355,8 @@ const UpvoteView = ({
 
                     {warnZeroPayout &&
                       _payoutPopupItem(intl.formatMessage({ id: 'payout.warn_zero_payout' }), '')}
+
+         
                   </View>
                 ) : (
                   <Fragment>
