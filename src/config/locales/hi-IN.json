@@ -493,7 +493,8 @@
     "payout_date": "भुगतान",
     "beneficiaries": "लाभार्थी",
     "warn_zero_payout": "भुगतान के लिए राशि $ 0.02 तक पहुंचनी चाहिए",
-    "breakdown": "विश्लेषण"
+    "breakdown": "विश्लेषण",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "लिंक कापी करें",
