@@ -493,7 +493,8 @@
     "payout_date": "Выплата",
     "beneficiaries": "Бенефициары",
     "warn_zero_payout": "Для получения выплаты сумма должна достичь $0.02",
-    "breakdown": "Разбивка"
+    "breakdown": "Разбивка",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "копировать ссылку",
