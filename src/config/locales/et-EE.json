@@ -493,7 +493,8 @@
     "payout_date": "Väljamakse",
     "beneficiaries": "Kasusaajad",
     "warn_zero_payout": "Kogus peab väljamakseks olema vähemalt $0.02",
-    "breakdown": "Analüüs"
+    "breakdown": "Analüüs",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "kopeeri link",
