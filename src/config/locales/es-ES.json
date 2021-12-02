@@ -493,7 +493,8 @@
     "payout_date": "Pago",
     "beneficiaries": "Beneficiarios",
     "warn_zero_payout": "El importe debe llegar a $0.02 para el pago",
-    "breakdown": "Intermedio"
+    "breakdown": "Intermedio",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "copiar enlace",
