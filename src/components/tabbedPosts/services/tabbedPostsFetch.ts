@@ -32,6 +32,7 @@ export const loadPosts = async ({
 
     const {isLoading, startPermlink, startAuthor} = tabMeta;
     
+    //reject update if already loading
     if (
         isLoading ||
       !isConnected ||
@@ -41,6 +42,7 @@ export const loadPosts = async ({
       return;
     }
 
+    //reject update if no connection
     if (!isConnected && (refreshing || isLoading)) {
       setTabMeta({
         ...tabMeta,
