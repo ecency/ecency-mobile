@@ -19,14 +19,14 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
 
   const _getUnclaimedText = (walletData, isPreview) => (
     <Text style={[isPreview ? styles.unclaimedTextPreview : styles.unclaimedText]}>
-      {walletData.rewardSteemBalance
-        ? `${Math.round(walletData.rewardSteemBalance * 1000) / 1000} HIVE`
+      {walletData.rewardHiveBalance
+        ? `${Math.round(walletData.rewardHiveBalance * 1000) / 1000} HIVE`
         : ''}
-      {walletData.rewardSbdBalance
-        ? ` ${Math.round(walletData.rewardSbdBalance * 1000) / 1000} HBD`
+      {walletData.rewardHbdBalance
+        ? ` ${Math.round(walletData.rewardHbdBalance * 1000) / 1000} HBD`
         : ''}
-      {walletData.rewardVestingSteem
-        ? ` ${Math.round(walletData.rewardVestingSteem * 1000) / 1000} HP`
+      {walletData.rewardVestingHive
+        ? ` ${Math.round(walletData.rewardVestingHive * 1000) / 1000} HP`
         : ''}
     </Text>
   );
@@ -71,7 +71,7 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
                 </Fragment>
               ) : (
                 <Fragment>
-                  {walletData.hasUnclaimedRewards && (
+                  {true && (
                     <CollapsibleCard
                       titleColor="#788187"
                       isBoldTitle
@@ -89,17 +89,22 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
                           onPress={() => claimRewardBalance()}
                         >
                           <View style={styles.mainButtonWrapper}>
-                            {_getUnclaimedText(walletData)}
+                            {_getUnclaimedText({
+                              ...walletData,
+                              rewardHiveBalance: 123.35435,
+                              rewardHbdBalance: 1343.34,
+                            })}
                             <View style={styles.mainIconWrapper}>
                               <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
                             </View>
                           </View>
                         </MainButton>
                       ) : (
-                        _getUnclaimedText(walletData, true)
+                        _getUnclaimedText({ ...walletData, rewardHiveBalance: 123 }, true)
                       )}
                     </CollapsibleCard>
                   )}
+
                   <CollapsibleCard
                     titleColor="#788187"
                     title={intl.formatMessage({
