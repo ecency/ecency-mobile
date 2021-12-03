@@ -1,9 +1,11 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Button, View } from 'react-native';
-import { Modal, SettingsItem } from '../../../components';
+import {View } from 'react-native';
+import { DateTimePicker, Modal, SettingsItem } from '../../../components';
 import styles from './editorSettingsModalStyles';
 import ThumbSelectionContent from './thumbSelectionContent';
+import {View as AnimatedView} from 'react-native-animatable';
+import Animated from 'react-native-reanimated';
 
 
 const REWARD_TYPES = [
@@ -44,6 +46,8 @@ const EditorSettingsModal =  forwardRef(({
     const [showModal, setShowModal] = useState(false);
     const [rewardTypeIndex, setRewardTypeIndex] = useState(0);
     const [thumbIndex, setThumbIndex] = useState(0);
+    const [showScheduleModal, setShowScheduleModal] = useState(false)
+    const [scheduleLater, setScheduleLater] = useState(false)
 
     useEffect(() => {
       if(handleThumbSelection){
@@ -70,6 +74,31 @@ const EditorSettingsModal =  forwardRef(({
 
     const _renderContent = (
         <View style={styles.container}>
+            <SettingsItem
+            title={"Scheduled For"}
+            type="dropdown"
+            actionType="reward"
+            options={[
+              "Immediate",
+              "Later",
+            ]}
+            selectedOptionIndex={scheduleLater ? 1 : 0}
+            handleOnChange={(index)=>{
+             setScheduleLater(index === 1)
+            }}
+          />
+
+          {scheduleLater && (
+            <AnimatedView animation="flipInX" duration={700}>
+              <DateTimePicker
+                type="datetime"
+                onChanged={()=>{}}
+                disabled={true}
+              />
+            </AnimatedView>
+           
+          )}
+
           <SettingsItem
             title={intl.formatMessage({
               id: 'editor.setting_reward',
@@ -88,6 +117,10 @@ const EditorSettingsModal =  forwardRef(({
             thumbIndex={thumbIndex}
             onThumbSelection={setThumbIndex}
           />
+
+
+       
+    
           
         </View>
     )

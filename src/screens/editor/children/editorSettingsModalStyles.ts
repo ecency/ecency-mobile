@@ -50,7 +50,10 @@ export default EStyleSheet.create({
         borderBottomWidth:StyleSheet.hairlineWidth,
         borderBottomColor:'$primaryDarkGray'
     } as TextStyle,
-
+    dateTimeModa:{
+      backgroundColor: 'white',
+      alignItems: 'center',
+    } as ViewStyle,
     title: {
         fontWeight: '700',
         flex:1,
