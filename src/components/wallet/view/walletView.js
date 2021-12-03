@@ -71,7 +71,7 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
                 </Fragment>
               ) : (
                 <Fragment>
-                  {true && (
+                  {walletData.hasUnclaimedRewards && (
                     <CollapsibleCard
                       titleColor="#788187"
                       isBoldTitle
@@ -89,18 +89,14 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
                           onPress={() => claimRewardBalance()}
                         >
                           <View style={styles.mainButtonWrapper}>
-                            {_getUnclaimedText({
-                              ...walletData,
-                              rewardHiveBalance: 123.35435,
-                              rewardHbdBalance: 1343.34,
-                            })}
+                            {_getUnclaimedText(walletData)}
                             <View style={styles.mainIconWrapper}>
                               <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
                             </View>
                           </View>
                         </MainButton>
                       ) : (
-                        _getUnclaimedText({ ...walletData, rewardHiveBalance: 123 }, true)
+                        _getUnclaimedText(walletData, true)
                       )}
                     </CollapsibleCard>
                   )}
