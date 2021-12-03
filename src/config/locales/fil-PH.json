@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Makaka-benepisyo sa Gantimpala",
     "claim_reward_balance": "Kunin ang Gantimpala ",
     "transfer": "Paglipat",
-    "power_up": "To Vesting",
+    "power_up": "Patungong Vesting",
     "transfer_from_savings": "Galing sa Inipon",
     "withdraw_vesting": "Power Down",
     "fill_order": "Punan ang Order",
@@ -68,8 +68,8 @@
     "next": "SUNOD",
     "delegate": "Mag-delegate",
     "power_down": "Power Down",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HBD",
+    "withdraw_hive": "Maglabas ng HIVE",
+    "withdraw_hbd": "Maglabas ng HBD",
     "transfer_to_savings": "Patungo sa Inipon",
     "convert": "I-convert",
     "escrow_transfer": "Paglipat ng Escrow",
@@ -86,10 +86,10 @@
       "buy": "MAGKAROON NG POINTS"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "Inipong HIVE"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "Inipong HBD"
     },
     "hive": {
       "title": "HIVE",
@@ -137,7 +137,7 @@
     "reblogs": "Mga Reblog",
     "noactivity": "Walang aktibidad kamakailan",
     "mention_on": "New mention on",
-    "reply_on": "New reply on",
+    "reply_on": "Bagong sagot sa",
     "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
@@ -152,7 +152,7 @@
   "profile": {
     "following": "Sunisundan",
     "follower": "Sumusunod",
-    "edit_label": "Edit",
+    "edit_label": "Baguhin",
     "post": "Post",
     "details": "Detalye ng Profile",
     "comments": "Mga komento",
@@ -177,7 +177,7 @@
     "joined": "Joined {time} ago",
     "view_full": "VIEW FULL PROFILE",
     "resource_credits": "Resource Credits",
-    "reputation": "Reputation",
+    "reputation": "Reputasyon",
     "edit": {
       "display_name": "Ngalan na Ipapakita",
       "about": "Tungkol",
@@ -263,13 +263,13 @@
     "schedules": "Mga Iskedyul",
     "gallery": "Gallery",
     "settings": "Settings",
-    "communities": "Communities",
+    "communities": "Mga pamayanan",
     "add_account": "Magdagdag ng Account",
     "logout": "Mag-logout",
     "cancel": "Kansel",
     "logout_text": "Sigurado kang gusto mong mag logout?",
-    "create_a_new_account": "Create a new account",
-    "add_an_existing_account": "Add an existing account",
+    "create_a_new_account": "Gumawa ng bagong account",
+    "add_an_existing_account": "Magdagdag ng kasalukuyang account",
     "accounts": "Accounts",
     "refer": "Refer & Earn"
   },
