@@ -108,7 +108,10 @@ const TabContent = ({
   const _handleAppStateChange = (nextAppState) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active' && posts.length > 0) {
       const isLatestPostsCheck = true;
-      _loadPosts(false, isLatestPostsCheck);
+      _loadPosts({
+        shouldReset:false, 
+        isLatestPostsCheck
+      });
     }
 
     appState.current = nextAppState;
@@ -130,19 +133,35 @@ const TabContent = ({
     }
 
     if(username || (filterKey !== 'friends' && filterKey !== 'communities')){
-      _loadPosts(!isFirstCall, false, _feedUsername, initialPosts, DEFAULT_TAB_META );
+      _loadPosts({
+        shouldReset:!isFirstCall,
+        isFirstCall,
+        isLatestPostsCheck:false,
+        _feedUsername, 
+        _posts:initialPosts, 
+        _tabMeta:DEFAULT_TAB_META 
+      });
       _getPromotedPosts();
     }
   }
 
   //fetch posts from server
-  const _loadPosts = async (
-      shouldReset:boolean = false, 
-      isLatestPostsCheck:boolean = false, 
-      _feedUsername:string = isFeedScreen? sessionUserRef.current:feedUsername,
-      _posts:any[] = postsRef.current,
-      _tabMeta:TabMeta = tabMeta
-    ) => {
+  const _loadPosts = async ({
+    shouldReset = false,
+    isLatestPostsCheck = false,
+    isFirstCall = false,
+    _feedUsername = isFeedScreen? sessionUserRef.current:feedUsername,
+    _posts = postsRef.current,
+    _tabMeta = tabMeta,
+
+  }:{
+    shouldReset?:boolean;
+    isLatestPostsCheck?:boolean;
+    isFirstCall?:boolean;
+    _feedUsername?:string;
+    _posts?:any[]; 
+    _tabMeta?:TabMeta;
+  }) => {
     const options = {
       setTabMeta:(meta:TabMeta) => {
         if(_isMounted){
@@ -167,6 +186,9 @@ const TabContent = ({
 
     const result = await loadPosts(options)
     if(_isMounted && result){
+      if(shouldReset || isFirstCall){
+        setPosts([]);
+      }
       _postProcessLoadResult(result)
     }
   }
@@ -194,7 +216,10 @@ const TabContent = ({
       const timeLeft = calculateTimeLeftForPostCheck(firstPost)
       const _postFetchTimer = setTimeout(() => {
           const isLatestPostsCheck = true;
-          _loadPosts(false, isLatestPostsCheck);
+          _loadPosts({
+            shouldReset:false, 
+            isLatestPostsCheck
+          });
         }, 
         timeLeft
       );
@@ -273,7 +298,7 @@ const TabContent = ({
       isFeedScreen={isFeedScreen}
       promotedPosts={promotedPosts}
       onLoadPosts={(shouldReset)=>{
-        _loadPosts(shouldReset)
+        _loadPosts({shouldReset})
         if(shouldReset){
           _getPromotedPosts()
         }

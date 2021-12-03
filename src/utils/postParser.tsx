@@ -53,7 +53,8 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
     post.body = renderPostBody(post, true, webp);
   }
   post.summary = postBodySummary(post, 150);
-  post.is_declined_payout = parseAsset(post.max_accepted_payout).amount === 0;
+  post.max_payout = parseAsset(post.max_accepted_payout).amount || 0;
+  post.is_declined_payout = post.max_payout === 0;
 
   const totalPayout =
     parseAsset(post.pending_payout_value).amount +
@@ -61,6 +62,8 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
     parseAsset(post.curator_payout_value).amount;
 
   post.total_payout = totalPayout;
+
+
 
   //stamp posts with fetched time;
   post.post_fetched_at = new Date().getTime();
@@ -151,6 +154,8 @@ export const parseComment = (comment:any) => {
   //adjust tags type as it can be string sometimes;
   comment = parseTags(comment);
   
+  comment.max_payout = parseAsset(comment.max_accepted_payout).amount || 0;
+  comment.is_declined_payout = comment.max_payout === 0;
 
   //calculate and set total_payout to show to user.
   const totalPayout =
