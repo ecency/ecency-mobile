@@ -494,7 +494,7 @@
     "beneficiaries": "Beneficiários",
     "warn_zero_payout": "Montante deve chegar a $0.02 para pagamento",
     "breakdown": "Decomposição",
-    "max_accepted": "Max Accepted"
+    "max_accepted": "Máximo Permitido"
   },
   "post_dropdown": {
     "copy": "copiar ligação",
