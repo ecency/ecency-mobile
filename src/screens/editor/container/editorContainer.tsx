@@ -925,7 +925,8 @@ class EditorContainer extends Component {
     }
   };
 
-  _handleDatePickerChange = async (datePickerValue, fields) => {
+
+  _handleSchedulePress = async (datePickerValue, fields) => {
     const { currentAccount, pinCode, intl } = this.props;
 
     if (fields.title === '' || fields.body === '') {
@@ -1094,7 +1095,7 @@ class EditorContainer extends Component {
         draftPost={draftPost}
         handleRewardChange={this._handleRewardChange}
         handleBeneficiaries={this._handleBeneficiaries}
-        handleDatePickerChange={this._handleDatePickerChange}
+        handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
         handleOnBackPress={() => { }}
         handleOnImagePicker={this._handleRoutingAction}

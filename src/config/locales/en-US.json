@@ -281,7 +281,8 @@
     "publish": "Publish",
     "search": "Search",
     "update": "Update",
-    "reply": "Reply"
+    "reply": "Reply",
+    "schedule":"Schedule"
   },
   "editor": {
     "title": "Title",

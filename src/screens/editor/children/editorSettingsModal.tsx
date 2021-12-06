@@ -1,12 +1,10 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { useIntl } from 'react-intl';
-import {View } from 'react-native';
+import { View } from 'react-native';
 import { DateTimePicker, Modal, SettingsItem } from '../../../components';
 import styles from './editorSettingsModalStyles';
 import ThumbSelectionContent from './thumbSelectionContent';
 import {View as AnimatedView} from 'react-native-animatable';
-import Animated from 'react-native-reanimated';
-
 
 const REWARD_TYPES = [
   {
@@ -34,26 +32,37 @@ interface EditorSettingsModalProps {
   body:string;
   handleRewardChange:(rewardType:string)=>void;
   handleThumbSelection:(index:number)=>void;
+  handleScheduleChange:(datetime:string|null)=>void;
 }
 
 const EditorSettingsModal =  forwardRef(({
   body,
   handleRewardChange,
   handleThumbSelection,
+  handleScheduleChange
 }: EditorSettingsModalProps, ref) => {
     const intl = useIntl();
 
     const [showModal, setShowModal] = useState(false);
     const [rewardTypeIndex, setRewardTypeIndex] = useState(0);
     const [thumbIndex, setThumbIndex] = useState(0);
-    const [showScheduleModal, setShowScheduleModal] = useState(false)
     const [scheduleLater, setScheduleLater] = useState(false)
+    const [scheduledFor, setScheduledFor] = useState('');
 
     useEffect(() => {
       if(handleThumbSelection){
         handleThumbSelection(thumbIndex);
       }
     }, [thumbIndex])
+
+
+    useEffect(()=>{
+      if(!scheduleLater){
+        handleScheduleChange(null)
+      }else if(scheduledFor) {
+        handleScheduleChange(scheduledFor)
+      }
+    }, [scheduleLater, scheduledFor])
   
 
     useImperativeHandle(ref, () => ({
@@ -70,29 +79,33 @@ const EditorSettingsModal =  forwardRef(({
         handleRewardChange(rewardTypeKey);
       }
     } 
+
+    const _handleDatePickerChange = (date:string) => {
+      setScheduledFor(date);
+    }
  
 
     const _renderContent = (
         <View style={styles.container}>
             <SettingsItem
-            title={"Scheduled For"}
-            type="dropdown"
-            actionType="reward"
-            options={[
-              "Immediate",
-              "Later",
-            ]}
-            selectedOptionIndex={scheduleLater ? 1 : 0}
-            handleOnChange={(index)=>{
-             setScheduleLater(index === 1)
-            }}
-          />
+              title={"Scheduled For"}
+              type="dropdown"
+              actionType="reward"
+              options={[
+                "Immediate",
+                "Later",
+              ]}
+              selectedOptionIndex={scheduleLater ? 1 : 0}
+              handleOnChange={(index)=>{
+              setScheduleLater(index === 1)
+              }}
+            />
 
           {scheduleLater && (
             <AnimatedView animation="flipInX" duration={700}>
               <DateTimePicker
                 type="datetime"
-                onChanged={()=>{}}
+                onChanged={_handleDatePickerChange}
                 disabled={true}
               />
             </AnimatedView>
@@ -117,10 +130,6 @@ const EditorSettingsModal =  forwardRef(({
             thumbIndex={thumbIndex}
             onThumbSelection={setThumbIndex}
           />
-
-
-       
-    
           
         </View>
     )
