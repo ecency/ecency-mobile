@@ -304,6 +304,7 @@
     "limited_lastchar": "Tag must end with letter or number",
     "setting_schedule": "Scheduling Time",
     "setting_reward": "Reward",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "Beneficiary",
     "setting_thumb": "Set Thumbnail",
     "reward_default": "Default 50% / 50%",

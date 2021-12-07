@@ -1,10 +1,14 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { View } from 'react-native';
-import { DateTimePicker, Modal, SettingsItem } from '../../../components';
+import { ScrollView, View } from 'react-native';
+
+import { BeneficiaryModal, DateTimePicker, Modal, SettingsItem } from '../../../components';
 import styles from './editorSettingsModalStyles';
 import ThumbSelectionContent from './thumbSelectionContent';
 import {View as AnimatedView} from 'react-native-animatable';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import BeneficiarySelectionContent from './beneficiarySelectionContent';
+import { Beneficiary } from '../../../redux/reducers/editorReducer';
 
 const REWARD_TYPES = [
   {
@@ -30,16 +34,20 @@ export interface EditorSettingsModalRef {
 
 interface EditorSettingsModalProps {
   body:string;
+  draftId:string;
   handleRewardChange:(rewardType:string)=>void;
   handleThumbSelection:(index:number)=>void;
   handleScheduleChange:(datetime:string|null)=>void;
+  handleBeneficiariesChange:(beneficiaries:Beneficiary[])=>void;
 }
 
 const EditorSettingsModal =  forwardRef(({
   body,
+  draftId,
   handleRewardChange,
   handleThumbSelection,
-  handleScheduleChange
+  handleScheduleChange,
+  handleBeneficiariesChange,
 }: EditorSettingsModalProps, ref) => {
     const intl = useIntl();
 
@@ -86,6 +94,7 @@ const EditorSettingsModal =  forwardRef(({
  
 
     const _renderContent = (
+      <KeyboardAwareScrollView contentContainerStyle={{flex:1}} >
         <View style={styles.container}>
             <SettingsItem
               title={"Scheduled For"}
@@ -125,13 +134,31 @@ const EditorSettingsModal =  forwardRef(({
             handleOnChange={_handleRewardChange}
           />
 
+          {/* <SettingsItem
+            title={intl.formatMessage({
+              id: 'editor.setting_reblog',
+            })}
+            type="toggle"
+            actionType="reblog"
+            selectedOptionIndex={rewardTypeIndex}
+            handleOnChange={_handleRewardChange}
+          /> */}
+
           <ThumbSelectionContent 
             body={body}
             thumbIndex={thumbIndex}
             onThumbSelection={setThumbIndex}
           />
+
+          <BeneficiarySelectionContent
+            username={'demo.com'}
+            handleOnSaveBeneficiaries={handleBeneficiariesChange}
+            draftId={draftId}
+          />
           
         </View>
+      </KeyboardAwareScrollView>
+        
     )
 
 
@@ -142,7 +169,7 @@ const EditorSettingsModal =  forwardRef(({
         isFullScreen
         isCloseButton
         presentationStyle="formSheet"
-        title={"Editor Settings"}
+        title={"Post Settings"}
         animationType="slide"
         style={styles.modalStyle}
     >
