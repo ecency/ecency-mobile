@@ -1,7 +1,7 @@
 {
   "wallet": {
-    "curation_reward": "مكافأة المصوت",
-    "author_reward": "مكافأة صاحب المنشور",
+    "curation_reward": "مكافأة التصويت",
+    "author_reward": "مكافأة المؤلف",
     "comment_benefactor_reward": "مكافأة المستفيد",
     "claim_reward_balance": "الحصول على المكافأة ",
     "transfer": "تحويل",
@@ -655,8 +655,8 @@
     "add_to_favourites": "إضافة إلى المفضلات",
     "remove_from_favourites": "إزالة من المفضلات",
     "mute": "كتم / صد",
-    "unmute": "UNMUTE / UNBLOCK",
-    "report": "REPORT USER"
+    "unmute": "إلغاء الكتم / إلغاء الصد",
+    "report": "تبليغ عن المستخدم"
   },
   "communities": {
     "joined": "العضوية",
@@ -685,12 +685,12 @@
     "get_started": "ابدأ هنا!"
   },
   "time": {
-    "second": "seconds",
-    "minute": "minutes",
-    "hour": "hours",
-    "week": "weeks",
-    "day": "days",
-    "month": "months",
-    "year": "years"
+    "second": "ثواني",
+    "minute": "دقائق",
+    "hour": "ساعات",
+    "week": "أسابيع",
+    "day": "أيام",
+    "month": "أشهر",
+    "year": "سنوات"
   }
 }
