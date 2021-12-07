@@ -57,7 +57,7 @@ const ThumbSelectionContent = ({body, thumbIndex, onThumbSelection}: ThumbSelect
             <Text style={styles.settingLabel}>{intl.formatMessage({id:'editor.select_thumb'})}</Text>
             {
                 needMore ? (
-                    <Text>Add more images to select thumbnail</Text>
+                    <Text style={styles.contentLabel}>Add more images to post</Text>
                 ):(
                     <FlatList
                         data={imageUrls}
