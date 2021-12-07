@@ -304,7 +304,7 @@
     "setting_schedule": "الجدول الزمني",
     "setting_reward": "المكافأة",
     "setting_beneficiary": "المستفيدون",
-    "setting_thumb": "Set Thumbnail",
+    "setting_thumb": "تعيين صورة مصغرة",
     "reward_default": "الافتراضي 50%/50%",
     "reward_power_up": "رفع الطاقة 100%",
     "reward_decline": "رفض دفع التعويضات",
@@ -327,8 +327,8 @@
     "alert_btn_no": "لا",
     "draft_save_success": "تم حفظ المسودة",
     "draft_save_fail": "فشل في حفظ المسودة",
-    "select_thumb": "Select Post Thumbnail",
-    "two_thumbs_required": "Add more images in your post before setting thumbnail"
+    "select_thumb": "اختيار الصورة المصغرة للمنشور",
+    "two_thumbs_required": "أضف المزيد من الصور في منشورك قبل تعيين الصورة المصغرة"
   },
   "snippets": {
     "label_no_snippets": "لم يتم العثور على مقتطفات",
@@ -416,22 +416,22 @@
     "payloadTooLarge": "حجم الملف كبير جداً، يرجى تغيير الحجم أو تحميل صورة أصغر",
     "qoutaExceeded": "تم تجاوز حصة الرفع",
     "invalidImage": "صورة غير صالحة، جرب ملف مختلف",
-    "something_wrong": "Something went wrong",
-    "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
-    "something_wrong_reload": "Try again?",
+    "something_wrong": "حدث خطأ ما",
+    "something_wrong_alt": "في هذا الوقت، جرب Ecency.com من متصفحك",
+    "something_wrong_reload": "حاول مجددا؟",
     "can_not_be_empty": "العنوان والجسم لا يمكن أن يكونا فارغين!",
     "wrong_filter_count": "الرجاء اختيار 3 فلاتر",
-    "update_available_title": "Update available v{version}",
-    "update_available_body": "Using latest version of Ecency gives you the best experience",
-    "update": "Update Now",
-    "remind_later": "Remind Later",
-    "failed_to_open": "Failed to open a link"
+    "update_available_title": "تحديث متوفر v{version}",
+    "update_available_body": "استخدام أحدث إصدار من Ecency يمنحك أفضل تجربة",
+    "update": "حدث الآن",
+    "remind_later": "تذكير لاحقاً",
+    "failed_to_open": "فشل في فتح رابط"
   },
   "post": {
     "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟",
     "removed_hint": "المحتوى غير متوفر",
     "copy_link": "نسخ الرابط",
-    "copy_text": "Copy text",
+    "copy_text": "نسخ النص",
     "reblogged": "تمت إعادة النشر من طرف",
     "sponsored": "مدعوم",
     "open_thread": "فتح الموضوع",
@@ -442,8 +442,8 @@
     "image_saved": "تم حفظ الصورة في معرض الصور",
     "image_saved_error": "حدث خطأ أثناء حفظ الصورة",
     "wrong_link": "رابط خاطئ",
-    "in": "in",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "in": "في",
+    "reveal_muted": "مكتوم\nانقر لإظهار المحتوى"
   },
   "drafts": {
     "title": "المسودات",
@@ -469,8 +469,8 @@
   },
   "report": {
     "added": "المحتوى المرفوض المبلغ عنه",
-    "confirm_report_title": "Confirm Report!",
-    "confirm_report_body": "Are you sure you want report?"
+    "confirm_report_title": "تأكيد التقرير!",
+    "confirm_report_body": "هل أنت متأكد من أنك تريد الإبلاغ؟"
   },
   "favorites": {
     "title": "المفضلات",
@@ -493,8 +493,8 @@
     "payout_date": "المكافأة",
     "beneficiaries": "المستفيدون",
     "warn_zero_payout": "يجب أن يصل المبلغ إلى 0.02 دولار للدفع",
-    "breakdown": "Breakdown",
-    "max_accepted": "Max Accepted"
+    "breakdown": "تفصيل",
+    "max_accepted": "الحد الأقصى المقبول"
   },
   "post_dropdown": {
     "copy": "أنسخ الرابط",
@@ -546,7 +546,7 @@
     "destination_accounts": "حسابات الوجهة",
     "stop_information": "هل أنت متأكد من أنك تريد التوقف؟",
     "percent": "النسبة المئوية",
-    "auto_vests": "Auto Vests",
+    "auto_vests": "استحقاقات تلقائية",
     "save": "حفظ",
     "percent_information": "معلومات النسبة المئوية",
     "next": "التالي",
@@ -605,7 +605,7 @@
     "title": "التعليقات",
     "reveal_comment": "كشف التعليق",
     "read_more": "المزيد من التعليقات",
-    "more_replies": "replies"
+    "more_replies": "ردود"
   },
   "search_result": {
     "others": "أخرى",
@@ -652,9 +652,9 @@
   "user": {
     "follow": "تابع",
     "unfollow": "الغاء المتابعة",
-    "add_to_favourites": "ADD TO FAVOURITES",
-    "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE / BLOCK",
+    "add_to_favourites": "إضافة إلى المفضلات",
+    "remove_from_favourites": "إزالة من المفضلات",
+    "mute": "كتم / صد",
     "unmute": "UNMUTE / UNBLOCK",
     "report": "REPORT USER"
   },
