@@ -80,6 +80,12 @@ const EditorSettingsModal =  forwardRef(({
     useEffect(() => {
       handleShouldReblogChange(shouldReblog)
     }, [shouldReblog])
+
+    useEffect(() => {
+      if(!isCommunityPost && shouldReblog){
+        setShouldReblog(false);
+      }
+    }, [isCommunityPost])
   
 
     useImperativeHandle(ref, () => ({

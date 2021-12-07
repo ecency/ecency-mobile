@@ -355,6 +355,7 @@ class EditorScreen extends Component {
       handleSchedulePress,
       handleRewardChange,
       handleBeneficiaries,
+      handleShouldReblogChange,
       currentAccount,
       autoFocusText,
       sharedSnippetText,
@@ -463,12 +464,12 @@ class EditorScreen extends Component {
           ref={(componentRef) => (this.editorSettingsModalRef = componentRef)}
           body={fields.body}
           draftId={draftId}
-          isCommunityPost={false}
+          isCommunityPost={selectedCommunity !== null}
           handleThumbSelection={this._handleOnThumbSelection}
           handleRewardChange={handleRewardChange}
           handleScheduleChange={this._handleScheduleChange}
           handleBeneficiariesChange={handleBeneficiaries}
-          handleShouldReblogChange={()=>{}}
+          handleShouldReblogChange={handleShouldReblogChange}
         />
       </View>
     );
