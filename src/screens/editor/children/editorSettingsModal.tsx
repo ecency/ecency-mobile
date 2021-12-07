@@ -1,8 +1,8 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
-import { BeneficiaryModal, DateTimePicker, Modal, SettingsItem } from '../../../components';
+import { DateTimePicker, Modal, SettingsItem } from '../../../components';
 import styles from './editorSettingsModalStyles';
 import ThumbSelectionContent from './thumbSelectionContent';
 import {View as AnimatedView} from 'react-native-animatable';
@@ -35,19 +35,23 @@ export interface EditorSettingsModalRef {
 interface EditorSettingsModalProps {
   body:string;
   draftId:string;
+  isCommunityPost:boolean;
   handleRewardChange:(rewardType:string)=>void;
   handleThumbSelection:(index:number)=>void;
   handleScheduleChange:(datetime:string|null)=>void;
   handleBeneficiariesChange:(beneficiaries:Beneficiary[])=>void;
+  handleShouldReblogChange:(shouldReblog:boolean)=>void;
 }
 
 const EditorSettingsModal =  forwardRef(({
   body,
   draftId,
+  isCommunityPost,
   handleRewardChange,
   handleThumbSelection,
   handleScheduleChange,
   handleBeneficiariesChange,
+  handleShouldReblogChange,
 }: EditorSettingsModalProps, ref) => {
     const intl = useIntl();
 
@@ -55,6 +59,7 @@ const EditorSettingsModal =  forwardRef(({
     const [rewardTypeIndex, setRewardTypeIndex] = useState(0);
     const [thumbIndex, setThumbIndex] = useState(0);
     const [scheduleLater, setScheduleLater] = useState(false)
+    const [shouldReblog, setShouldReblog] = useState(false);
     const [scheduledFor, setScheduledFor] = useState('');
 
     useEffect(() => {
@@ -71,6 +76,10 @@ const EditorSettingsModal =  forwardRef(({
         handleScheduleChange(scheduledFor)
       }
     }, [scheduleLater, scheduledFor])
+
+    useEffect(() => {
+      handleShouldReblogChange(shouldReblog)
+    }, [shouldReblog])
   
 
     useImperativeHandle(ref, () => ({
@@ -134,15 +143,19 @@ const EditorSettingsModal =  forwardRef(({
             handleOnChange={_handleRewardChange}
           />
 
-          {/* <SettingsItem
+
+        {isCommunityPost && (
+          <SettingsItem
             title={intl.formatMessage({
               id: 'editor.setting_reblog',
             })}
             type="toggle"
             actionType="reblog"
-            selectedOptionIndex={rewardTypeIndex}
-            handleOnChange={_handleRewardChange}
-          /> */}
+            isOn={shouldReblog}
+            handleOnChange={setShouldReblog}
+          />
+        )}
+
 
           <ThumbSelectionContent 
             body={body}

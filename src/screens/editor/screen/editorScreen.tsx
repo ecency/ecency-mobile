@@ -463,10 +463,12 @@ class EditorScreen extends Component {
           ref={(componentRef) => (this.editorSettingsModalRef = componentRef)}
           body={fields.body}
           draftId={draftId}
+          isCommunityPost={false}
           handleThumbSelection={this._handleOnThumbSelection}
           handleRewardChange={handleRewardChange}
           handleScheduleChange={this._handleScheduleChange}
           handleBeneficiariesChange={handleBeneficiaries}
+          handleShouldReblogChange={()=>{}}
         />
       </View>
     );
