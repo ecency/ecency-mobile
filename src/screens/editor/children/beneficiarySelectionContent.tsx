@@ -12,15 +12,15 @@ import { Beneficiary } from '../../../redux/reducers/editorReducer';
 import { lookupAccounts } from '../../../providers/hive/dhive';
 
 interface BeneficiarySelectionContent {
-  username:string,
   draftId:string,
   handleOnSaveBeneficiaries:()=>void
 }
 
-const BeneficiarySelectionContent = ({ username, handleOnSaveBeneficiaries, draftId }) => {
+const BeneficiarySelectionContent = ({handleOnSaveBeneficiaries, draftId }) => {
   const intl = useIntl();
 
   const beneficiariesMap = useAppSelector(state => state.editor.beneficiariesMap)
+  const username = useAppSelector(state=>state.account.currentAccount.name)
 
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([
     { account: username, weight: 10000, isValid: true},
@@ -122,7 +122,6 @@ const BeneficiarySelectionContent = ({ username, handleOnSaveBeneficiaries, draf
     setNewUsername('');
  
   }
-
 
 
 
