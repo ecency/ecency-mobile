@@ -167,7 +167,7 @@ const BeneficiarySelectionContent = ({handleOnSaveBeneficiaries, draftId }) => {
             rightIconName="at"
             iconType="MaterialCommunityIcons"
             isValid={isUsernameValid}
-            onChange={(value) => _onUsernameInputChange(value)}
+            onChange={(value) => _onUsernameInputChange(value.trim())}
             placeholder={intl.formatMessage({
               id: 'beneficiary_modal.username',
             })}

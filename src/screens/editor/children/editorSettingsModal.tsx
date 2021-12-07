@@ -151,7 +151,6 @@ const EditorSettingsModal =  forwardRef(({
           />
 
           <BeneficiarySelectionContent
-            username={'demo.com'}
             handleOnSaveBeneficiaries={handleBeneficiariesChange}
             draftId={draftId}
           />
