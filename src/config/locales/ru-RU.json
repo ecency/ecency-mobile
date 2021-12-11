@@ -494,7 +494,7 @@
     "beneficiaries": "Бенефициары",
     "warn_zero_payout": "Для получения выплаты сумма должна достичь $0.02",
     "breakdown": "Разбивка",
-    "max_accepted": "Max Accepted"
+    "max_accepted": "Максимально допустимый"
   },
   "post_dropdown": {
     "copy": "копировать ссылку",
