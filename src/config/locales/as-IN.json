@@ -179,25 +179,25 @@
     "resource_credits": "Resource Credits",
     "reputation": "Reputation",
     "edit": {
-      "display_name": "Display Name",
-      "about": "About",
-      "location": "Location",
-      "website": "Website"
+      "display_name": "প্ৰদৰ্শীত নাম",
+      "about": "পৰিচয়",
+      "location": "অবস্থান",
+      "website": "ৱেবছাইট"
     }
   },
   "settings": {
-    "settings": "Settings",
-    "general": "General",
-    "currency": "Currency",
-    "language": "Language",
-    "server": "Server",
-    "dark_theme": "Dark Theme",
-    "push_notification": "Push Notification",
+    "settings": "চেটিংচ্",
+    "general": "সাধাৰণ",
+    "currency": "মুদ্ৰা",
+    "language": "ভাষা",
+    "server": "ছাৰ্ভাৰ",
+    "dark_theme": "ক'লা থিম্",
+    "push_notification": "পুশ্ব অধিসূচনা",
     "notification": {
-      "follow": "Follow",
-      "vote": "Vote",
-      "comment": "Comment",
-      "mention": "Mention",
+      "follow": "অনুসৰণ কৰক",
+      "vote": "ভোট কৰক",
+      "comment": "মন্তব্য কৰক",
+      "mention": "উল্লেখ",
       "reblog": "Reblog",
       "transfers": "Transfers"
     },
