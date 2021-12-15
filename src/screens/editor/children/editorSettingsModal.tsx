@@ -35,6 +35,7 @@ export interface EditorSettingsModalRef {
 interface EditorSettingsModalProps {
   body:string;
   draftId:string;
+  isEdit:boolean;
   isCommunityPost:boolean;
   handleRewardChange:(rewardType:string)=>void;
   handleThumbSelection:(index:number)=>void;
@@ -46,6 +47,7 @@ interface EditorSettingsModalProps {
 const EditorSettingsModal =  forwardRef(({
   body,
   draftId,
+  isEdit,
   isCommunityPost,
   handleRewardChange,
   handleThumbSelection,
@@ -111,57 +113,61 @@ const EditorSettingsModal =  forwardRef(({
     const _renderContent = (
       <KeyboardAwareScrollView contentContainerStyle={{flex:1}} >
         <View style={styles.container}>
-            <SettingsItem
-              title={"Scheduled For"}
-              type="dropdown"
-              actionType="reward"
-              options={[
-                "Immediate",
-                "Later",
-              ]}
-              selectedOptionIndex={scheduleLater ? 1 : 0}
-              handleOnChange={(index)=>{
-              setScheduleLater(index === 1)
-              }}
-            />
-
-          {scheduleLater && (
-            <AnimatedView animation="flipInX" duration={700}>
-              <DateTimePicker
-                type="datetime"
-                onChanged={_handleDatePickerChange}
-                disabled={true}
+          {!isEdit && (
+            <>
+              <SettingsItem
+                title={"Scheduled For"}
+                type="dropdown"
+                actionType="reward"
+                options={[
+                  "Immediate",
+                  "Later",
+                ]}
+                selectedOptionIndex={scheduleLater ? 1 : 0}
+                handleOnChange={(index)=>{
+                setScheduleLater(index === 1)
+                }}
               />
-            </AnimatedView>
-           
+
+              {scheduleLater && (
+                <AnimatedView animation="flipInX" duration={700}>
+                  <DateTimePicker
+                    type="datetime"
+                    onChanged={_handleDatePickerChange}
+                    disabled={true}
+                  />
+                </AnimatedView>
+              
+              )}
+
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'editor.setting_reward',
+                })}
+                type="dropdown"
+                actionType="reward"
+                options={
+                  REWARD_TYPES.map((type)=>intl.formatMessage({ id: type.intlId}))
+                }
+                selectedOptionIndex={rewardTypeIndex}
+                handleOnChange={_handleRewardChange}
+              />
+
+
+              {isCommunityPost && (
+                <SettingsItem
+                  title={intl.formatMessage({
+                    id: 'editor.setting_reblog',
+                  })}
+                  type="toggle"
+                  actionType="reblog"
+                  isOn={shouldReblog}
+                  handleOnChange={setShouldReblog}
+                />
+              )}
+              </>
           )}
-
-          <SettingsItem
-            title={intl.formatMessage({
-              id: 'editor.setting_reward',
-            })}
-            type="dropdown"
-            actionType="reward"
-            options={
-              REWARD_TYPES.map((type)=>intl.formatMessage({ id: type.intlId}))
-            }
-            selectedOptionIndex={rewardTypeIndex}
-            handleOnChange={_handleRewardChange}
-          />
-
-
-        {isCommunityPost && (
-          <SettingsItem
-            title={intl.formatMessage({
-              id: 'editor.setting_reblog',
-            })}
-            type="toggle"
-            actionType="reblog"
-            isOn={shouldReblog}
-            handleOnChange={setShouldReblog}
-          />
-        )}
-
+            
 
           <ThumbSelectionContent 
             body={body}
@@ -169,10 +175,13 @@ const EditorSettingsModal =  forwardRef(({
             onThumbSelection={setThumbIndex}
           />
 
-          <BeneficiarySelectionContent
-            handleOnSaveBeneficiaries={handleBeneficiariesChange}
-            draftId={draftId}
-          />
+          {!isEdit && (
+              <BeneficiarySelectionContent
+                handleOnSaveBeneficiaries={handleBeneficiariesChange}
+                draftId={draftId}
+              />
+          )}
+          
           
         </View>
       </KeyboardAwareScrollView>
@@ -190,8 +199,8 @@ const EditorSettingsModal =  forwardRef(({
         title={"Post Settings"}
         animationType="slide"
         style={styles.modalStyle}
-    >
-    {_renderContent}
+      >
+      {_renderContent}
     </Modal>
      
   );

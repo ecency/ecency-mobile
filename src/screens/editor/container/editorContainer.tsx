@@ -758,7 +758,7 @@ class EditorContainer extends Component {
 
   _submitEdit = async (fields) => {
     const { currentAccount, pinCode } = this.props;
-    const { post, isEdit, isPostSending } = this.state;
+    const { post, isEdit, isPostSending, thumbIndex } = this.state;
 
     if (isPostSending) {
       return;
@@ -784,7 +784,7 @@ class EditorContainer extends Component {
         newBody = patch;
       }
 
-      const meta = extractMetadata(fields.body);
+      const meta = extractMetadata(fields.body, thumbIndex);
 
       let jsonMeta = {};
 

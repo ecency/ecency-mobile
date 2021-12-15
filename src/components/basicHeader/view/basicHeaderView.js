@@ -37,7 +37,6 @@ const BasicHeaderView = ({
   isModalHeader,
   isPreviewActive,
   isReply,
-  isEdit,
   quickTitle,
   rightButtonText,
   rightIconName,
@@ -173,7 +172,7 @@ const BasicHeaderView = ({
             onPress={() => (isModalHeader ? handleOnPressClose() : handleOnPressBackButton())}
             disabled={disabled}
           />
-          {isHasIcons && !isReply && !isEdit && (
+          {isHasIcons && !isReply && (
             <IconButton
               style={{ marginHorizontal: 20 }}
               iconStyle={[styles.backIcon, isModalHeader && styles.closeIcon]}

@@ -464,6 +464,7 @@ class EditorScreen extends Component {
           ref={(componentRef) => (this.editorSettingsModalRef = componentRef)}
           body={fields.body}
           draftId={draftId}
+          isEdit={isEdit}
           isCommunityPost={selectedCommunity !== null}
           handleThumbSelection={this._handleOnThumbSelection}
           handleRewardChange={handleRewardChange}
