@@ -281,7 +281,8 @@
     "publish": "Terbitkan",
     "search": "Carian",
     "update": "Mengemaskini",
-    "reply": "Balas"
+    "reply": "Balas",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "Tajuk",
@@ -303,6 +304,7 @@
     "limited_lastchar": "Tag mesti berakhir dengan huruf atau nombor",
     "setting_schedule": "Waktu Penjadualan",
     "setting_reward": "Ganjaran",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "Penerima Manfaat",
     "setting_thumb": "Tetapkan Gambar Kecil",
     "reward_default": "Lalai 50% / 50%",
@@ -328,7 +330,11 @@
     "draft_save_success": "Draf Telah Disimpan",
     "draft_save_fail": "Gagal untuk menyimpan draf",
     "select_thumb": "Pilih Gambar Kecil untuk Kiriman",
-    "two_thumbs_required": "Add more images in your post before setting thumbnail"
+    "two_thumbs_required": "Add more images in your post before setting thumbnail",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Settings"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -671,7 +677,8 @@
     "percent": "Percent",
     "username": "Username",
     "addAccount": "Add Account",
-    "save": "Save"
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "welcome": {
     "label": "Welcome to",
