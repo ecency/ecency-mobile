@@ -42,9 +42,14 @@ const BeneficiarySelectionContent = ({handleOnSaveBeneficiaries, draftId }) => {
       const tempBeneficiaries = beneficiariesMap[draftId || 'temp-beneficiaries'];
       
       if (isArray(tempBeneficiaries) && tempBeneficiaries.length > 0) {
-        tempBeneficiaries.forEach((item) => {
+        let othersWeight = 0;
+        tempBeneficiaries.forEach((item, index) => {
           item.isValid = true;
+          if(index > 0){
+            othersWeight += item.weight
+          }
         });
+        tempBeneficiaries[0].weight = 10000 - othersWeight;
         setBeneficiaries(tempBeneficiaries);
       }
     }
@@ -223,6 +228,7 @@ const BeneficiarySelectionContent = ({handleOnSaveBeneficiaries, draftId }) => {
       beneficiaries[0].weight = beneficiaries[0].weight + item.weight;
       beneficiaries.splice(index, 1);
       setBeneficiaries([...beneficiaries]);
+      handleOnSaveBeneficiaries(beneficiaries);
     }
 
 
