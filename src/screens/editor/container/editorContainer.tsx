@@ -22,6 +22,7 @@ import {
   getPurePost,
   grantPostingPermission,
   signImage,
+  reblog,
 } from '../../../providers/hive/dhive';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
 
@@ -583,7 +584,7 @@ class EditorContainer extends Component {
       pinCode,
       // isDefaultFooter,
     } = this.props;
-    const { rewardType, beneficiaries, isPostSending, thumbIndex, draftId} = this.state;
+    const { rewardType, beneficiaries, isPostSending, thumbIndex, draftId, shouldReblog} = this.state;
 
 
 
@@ -648,7 +649,24 @@ class EditorContainer extends Component {
           options,
           voteWeight,
         )
-          .then(async () => {
+          .then((response) => {
+
+            console.log(response);
+            
+            //reblog if flag is active
+            if(shouldReblog){
+              reblog(
+                currentAccount,
+                pinCode,
+                author,
+                permlink
+              ).then((resp)=>{
+                console.log("Successfully reblogged post", resp)
+              }).catch((err)=>{
+                console.warn("Failed to reblog post", err)
+              })
+            }
+
             //post publish updates
             setDraftPost(
               {
@@ -859,7 +877,7 @@ class EditorContainer extends Component {
   };
 
   _handleSubmit = (form: any) => {
-    const { isReply, isEdit, shouldReblog } = this.state;
+    const { isReply, isEdit } = this.state;
     const { intl } = this.props;
 
 
