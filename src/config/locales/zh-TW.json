@@ -281,7 +281,8 @@
     "publish": "發佈",
     "search": "搜尋",
     "update": "更新",
-    "reply": "回覆"
+    "reply": "回覆",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "標題",
@@ -303,6 +304,7 @@
     "limited_lastchar": "標籤必須以字母或數位結尾",
     "setting_schedule": "預訂發布時間",
     "setting_reward": "獎勵",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "受益人",
     "setting_thumb": "Set Thumbnail",
     "reward_default": "預設 50% / 50%",
@@ -328,7 +330,11 @@
     "draft_save_success": "草稿已儲存",
     "draft_save_fail": "儲存失敗",
     "select_thumb": "Select Post Thumbnail",
-    "two_thumbs_required": "Add more images in your post before setting thumbnail"
+    "two_thumbs_required": "Add more images in your post before setting thumbnail",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Settings"
   },
   "snippets": {
     "label_no_snippets": "沒找到片段",
@@ -671,7 +677,8 @@
     "percent": "百分比",
     "username": "用戶名稱",
     "addAccount": "添加帳號",
-    "save": "保存"
+    "save": "保存",
+    "cancel": "Cancel"
   },
   "welcome": {
     "label": "歡迎使用",
