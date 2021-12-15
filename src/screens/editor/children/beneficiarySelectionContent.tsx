@@ -41,7 +41,7 @@ const BeneficiarySelectionContent = ({handleOnSaveBeneficiaries, draftId }) => {
     if(beneficiariesMap){
       const tempBeneficiaries = beneficiariesMap[draftId || 'temp-beneficiaries'];
       
-      if (isArray(tempBeneficiaries)) {
+      if (isArray(tempBeneficiaries) && tempBeneficiaries.length > 0) {
         tempBeneficiaries.forEach((item) => {
           item.isValid = true;
         });
