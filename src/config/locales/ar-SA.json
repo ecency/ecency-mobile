@@ -281,7 +281,8 @@
     "publish": "نشر",
     "search": "بحث",
     "update": "تحديث",
-    "reply": "الرد"
+    "reply": "الرد",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "عنوان",
@@ -303,6 +304,7 @@
     "limited_lastchar": "يجب أن تنتهي العلامة بحرف أو رقم",
     "setting_schedule": "الجدول الزمني",
     "setting_reward": "المكافأة",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "المستفيدون",
     "setting_thumb": "تعيين صورة مصغرة",
     "reward_default": "الافتراضي 50%/50%",
@@ -328,7 +330,11 @@
     "draft_save_success": "تم حفظ المسودة",
     "draft_save_fail": "فشل في حفظ المسودة",
     "select_thumb": "اختيار الصورة المصغرة للمنشور",
-    "two_thumbs_required": "أضف المزيد من الصور في منشورك قبل تعيين الصورة المصغرة"
+    "two_thumbs_required": "أضف المزيد من الصور في منشورك قبل تعيين الصورة المصغرة",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Settings"
   },
   "snippets": {
     "label_no_snippets": "لم يتم العثور على مقتطفات",
@@ -671,7 +677,8 @@
     "percent": "النسبة المئوية",
     "username": "اسم المستخدم",
     "addAccount": "إضافة حساب",
-    "save": "حفظ"
+    "save": "حفظ",
+    "cancel": "Cancel"
   },
   "welcome": {
     "label": "مرحبا بك في",
