@@ -281,7 +281,8 @@
     "publish": "Avalda",
     "search": "Otsi",
     "update": "Uuenda",
-    "reply": "Vasta"
+    "reply": "Vasta",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "Pealkiri",
@@ -303,6 +304,7 @@
     "limited_lastchar": "Silt peab lõppema tähe või numbriga",
     "setting_schedule": "Ajasta",
     "setting_reward": "Tasu",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "Kasusaaja",
     "setting_thumb": "Set Thumbnail",
     "reward_default": "Vaikimisi 50% / 50%",
@@ -328,7 +330,11 @@
     "draft_save_success": "Draft Saved",
     "draft_save_fail": "Failed to save draft",
     "select_thumb": "Select Post Thumbnail",
-    "two_thumbs_required": "Add more images in your post before setting thumbnail"
+    "two_thumbs_required": "Add more images in your post before setting thumbnail",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Settings"
   },
   "snippets": {
     "label_no_snippets": "Katkeid ei leitud",
@@ -671,7 +677,8 @@
     "percent": "Protsent",
     "username": "Kasutajanimi",
     "addAccount": "Lisa konto",
-    "save": "Salvesta"
+    "save": "Salvesta",
+    "cancel": "Cancel"
   },
   "welcome": {
     "label": "Welcome to",
