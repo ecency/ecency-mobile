@@ -281,7 +281,8 @@
     "publish": "প্রকাশ",
     "search": "অনুসন্ধান",
     "update": "আপডেট",
-    "reply": "উত্তর"
+    "reply": "উত্তর",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "শিরোনাম",
@@ -303,6 +304,7 @@
     "limited_lastchar": "ট্যাগটি অবশ্যই বর্ণ বা সংখ্যা দিয়ে শেষ হতে হবে",
     "setting_schedule": "নির্ধারিত সময়",
     "setting_reward": "পুরষ্কার",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "স্বত্বভোগী",
     "setting_thumb": "Set Thumbnail",
     "reward_default": "ডিফল্ট ৫০% / ৫০%",
@@ -328,7 +330,11 @@
     "draft_save_success": "Draft Saved",
     "draft_save_fail": "Failed to save draft",
     "select_thumb": "Select Post Thumbnail",
-    "two_thumbs_required": "Add more images in your post before setting thumbnail"
+    "two_thumbs_required": "Add more images in your post before setting thumbnail",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Settings"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -671,7 +677,8 @@
     "percent": "Percent",
     "username": "Username",
     "addAccount": "Add Account",
-    "save": "Save"
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "welcome": {
     "label": "Welcome to",
