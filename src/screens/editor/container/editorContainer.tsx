@@ -22,6 +22,7 @@ import {
   getPurePost,
   grantPostingPermission,
   signImage,
+  reblog,
 } from '../../../providers/hive/dhive';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
 
@@ -74,6 +75,7 @@ class EditorContainer extends Component {
       sharedSnippetText: null,
       onLoadDraftPress: false,
       thumbIndex: 0,
+      shouldReblog:false
     };
   }
 
@@ -573,6 +575,7 @@ class EditorContainer extends Component {
   };
 
   _submitPost = async ({ fields, scheduleDate }: { fields: any, scheduleDate?: string }) => {
+
     const {
       currentAccount,
       dispatch,
@@ -581,7 +584,9 @@ class EditorContainer extends Component {
       pinCode,
       // isDefaultFooter,
     } = this.props;
-    const { rewardType, beneficiaries, isPostSending, thumbIndex, draftId } = this.state;
+    const { rewardType, beneficiaries, isPostSending, thumbIndex, draftId, shouldReblog} = this.state;
+
+
 
     if (isPostSending) {
       return;
@@ -644,7 +649,24 @@ class EditorContainer extends Component {
           options,
           voteWeight,
         )
-          .then(async () => {
+          .then((response) => {
+
+            console.log(response);
+            
+            //reblog if flag is active
+            if(shouldReblog){
+              reblog(
+                currentAccount,
+                pinCode,
+                author,
+                permlink
+              ).then((resp)=>{
+                console.log("Successfully reblogged post", resp)
+              }).catch((err)=>{
+                console.warn("Failed to reblog post", err)
+              })
+            }
+
             //post publish updates
             setDraftPost(
               {
@@ -736,7 +758,7 @@ class EditorContainer extends Component {
 
   _submitEdit = async (fields) => {
     const { currentAccount, pinCode } = this.props;
-    const { post, isEdit, isPostSending } = this.state;
+    const { post, isEdit, isPostSending, thumbIndex } = this.state;
 
     if (isPostSending) {
       return;
@@ -762,7 +784,7 @@ class EditorContainer extends Component {
         newBody = patch;
       }
 
-      const meta = extractMetadata(fields.body);
+      const meta = extractMetadata(fields.body, thumbIndex);
 
       let jsonMeta = {};
 
@@ -858,6 +880,7 @@ class EditorContainer extends Component {
     const { isReply, isEdit } = this.state;
     const { intl } = this.props;
 
+
     if (isReply && !isEdit) {
       this._submitReply(form.fields);
     } else if (isEdit) {
@@ -925,7 +948,8 @@ class EditorContainer extends Component {
     }
   };
 
-  _handleDatePickerChange = async (datePickerValue, fields) => {
+
+  _handleSchedulePress = async (datePickerValue, fields) => {
     const { currentAccount, pinCode, intl } = this.props;
 
     if (fields.title === '' || fields.body === '') {
@@ -1059,6 +1083,13 @@ class EditorContainer extends Component {
     dispatch(setBeneficiaries(draftId || 'temp-beneficiaries', value));
   };
 
+  _handleShouldReblogChange = (value:boolean) => {
+    this.setState({
+      shouldReblog:value
+    })
+  }
+
+
   _handleSetThumbIndex = (index: number) => {
     this.setState({
       thumbIndex: index
@@ -1094,7 +1125,8 @@ class EditorContainer extends Component {
         draftPost={draftPost}
         handleRewardChange={this._handleRewardChange}
         handleBeneficiaries={this._handleBeneficiaries}
-        handleDatePickerChange={this._handleDatePickerChange}
+        handleShouldReblogChange={this._handleShouldReblogChange}
+        handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
         handleOnBackPress={() => { }}
         handleOnImagePicker={this._handleRoutingAction}
