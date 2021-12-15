@@ -281,7 +281,8 @@
     "publish": "Publicar",
     "search": "Procurar",
     "update": "Atualizar",
-    "reply": "Responder"
+    "reply": "Responder",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "Título",
@@ -303,6 +304,7 @@
     "limited_lastchar": "Tag deve terminar com letra ou número",
     "setting_schedule": "Hora do Agendamento",
     "setting_reward": "Recompensa",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "Beneficiário",
     "setting_thumb": "Botar Capa",
     "reward_default": "Padrão 50% / 50%",
@@ -328,7 +330,11 @@
     "draft_save_success": "Rascunho Salvo",
     "draft_save_fail": "Falha ao salvar rascunho",
     "select_thumb": "Selecionar a Capa do Post",
-    "two_thumbs_required": "Adicione mais imagens no seu post antes de configurar a capa"
+    "two_thumbs_required": "Adicione mais imagens no seu post antes de configurar a capa",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Settings"
   },
   "snippets": {
     "label_no_snippets": "Nenhum Snippet Encontrado",
@@ -671,7 +677,8 @@
     "percent": "Porcentagem",
     "username": "Nome de Usuário",
     "addAccount": "Adicionar Conta",
-    "save": "Salvar"
+    "save": "Salvar",
+    "cancel": "Cancel"
   },
   "welcome": {
     "label": "Bem-vindo à",
