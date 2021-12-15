@@ -281,7 +281,8 @@
     "publish": "Julkaise",
     "search": "Haku",
     "update": "Päivitä",
-    "reply": "Vastaa"
+    "reply": "Vastaa",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "Otsikko",
@@ -303,6 +304,7 @@
     "limited_lastchar": "Tagi päättyy kirjaimeen tai numeroon",
     "setting_schedule": "Aikataulutus",
     "setting_reward": "Palkkio",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "Hyötyjä",
     "setting_thumb": "Aseta pikkukuva",
     "reward_default": "Oletus 50 % / 50 %",
@@ -328,7 +330,11 @@
     "draft_save_success": "Luonnos tallennettu",
     "draft_save_fail": "Luonnosta ei kyetty tallentamaan",
     "select_thumb": "Valitse esikatselukuva",
-    "two_thumbs_required": "Lisää kuvia julkaisuun, ennen kuin asetat pikkukuvan"
+    "two_thumbs_required": "Lisää kuvia julkaisuun, ennen kuin asetat pikkukuvan",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Settings"
   },
   "snippets": {
     "label_no_snippets": "Katkelmia ei löytynyt",
@@ -671,7 +677,8 @@
     "percent": "Prosenttia",
     "username": "Käyttäjänimi",
     "addAccount": "Lisää Tili",
-    "save": "Tallenna"
+    "save": "Tallenna",
+    "cancel": "Cancel"
   },
   "welcome": {
     "label": "Tervetuloa",
