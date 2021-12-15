@@ -281,7 +281,8 @@
     "publish": "प्रकाशित करें",
     "search": "खोजें",
     "update": "नवनीकरण",
-    "reply": "जबाब"
+    "reply": "जबाब",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "शीर्षक",
@@ -303,6 +304,7 @@
     "limited_lastchar": "टैग को पत्र या संख्या के साथ समाप्त होना चाहिए",
     "setting_schedule": "Scheduling Time",
     "setting_reward": "इनाम",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "लाभार्थी",
     "setting_thumb": "थंबनेल सेट करें",
     "reward_default": "वितथ रूप से ५०%/५०%",
@@ -328,7 +330,11 @@
     "draft_save_success": "ड्राफ्ट सहेजा गया",
     "draft_save_fail": "ड्राफ्ट को सहेजने में विफल",
     "select_thumb": "पोस्ट थंबनेल चुनें",
-    "two_thumbs_required": "थंबनेल सेट करने से पहले अपनी पोस्ट में और इमेज जोड़ें"
+    "two_thumbs_required": "थंबनेल सेट करने से पहले अपनी पोस्ट में और इमेज जोड़ें",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Settings"
   },
   "snippets": {
     "label_no_snippets": "कोई स्निपेट नहीं मिला",
@@ -671,7 +677,8 @@
     "percent": "प्रतिशत",
     "username": "प्रयोक्ता नाम",
     "addAccount": "खता जोड़ें",
-    "save": "रक्षित करें"
+    "save": "रक्षित करें",
+    "cancel": "Cancel"
   },
   "welcome": {
     "label": "आपका स्वागत है",
