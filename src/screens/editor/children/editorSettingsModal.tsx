@@ -207,5 +207,3 @@ const EditorSettingsModal =  forwardRef(({
 });
 
 export default EditorSettingsModal
-
-
