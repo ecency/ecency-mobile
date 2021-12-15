@@ -281,7 +281,8 @@
     "publish": "Terbitkan",
     "search": "Cari",
     "update": "Pembaruan",
-    "reply": "Balas"
+    "reply": "Balas",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "Judul",
@@ -303,6 +304,7 @@
     "limited_lastchar": "Tag harus diakhiri dengan huruf atau angka",
     "setting_schedule": "Waktu Penjadwalan",
     "setting_reward": "Hadiah",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "Penerima manfaat",
     "setting_thumb": "Atur Gambar Mini",
     "reward_default": "Default 50% / 50%",
@@ -328,7 +330,11 @@
     "draft_save_success": "Draf Disimpan",
     "draft_save_fail": "Gagal menyimpan draf",
     "select_thumb": "Pilih Thumbnail Postingan",
-    "two_thumbs_required": "Tambahkan lebih banyak gambar di postinganmu sebelum mengatur thumbnail"
+    "two_thumbs_required": "Tambahkan lebih banyak gambar di postinganmu sebelum mengatur thumbnail",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Settings"
   },
   "snippets": {
     "label_no_snippets": "Cuplikan Tidak Ditemukan",
@@ -671,7 +677,8 @@
     "percent": "Persen",
     "username": "Nama Pengguna",
     "addAccount": "Tambah Akun",
-    "save": "Simpan"
+    "save": "Simpan",
+    "cancel": "Cancel"
   },
   "welcome": {
     "label": "Selamat Datang di",
