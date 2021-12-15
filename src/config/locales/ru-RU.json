@@ -281,7 +281,8 @@
     "publish": "Написать",
     "search": "Поиск",
     "update": "Обновить",
-    "reply": "Ответить"
+    "reply": "Ответить",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "Заголовок",
@@ -303,6 +304,7 @@
     "limited_lastchar": "Тег должен заканчиваться буквой или цифрой",
     "setting_schedule": "Запланированное время",
     "setting_reward": "Вознаграждение",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "Бенефициар",
     "setting_thumb": "Установить Миниатюру",
     "reward_default": "По умолчанию 50% / 50%",
@@ -328,7 +330,11 @@
     "draft_save_success": "Черновик сохранён",
     "draft_save_fail": "Не удалось сохранить черновик",
     "select_thumb": "Выбрать Миниатюру для Поста",
-    "two_thumbs_required": "Добавьте больше изображений в ваше сообщение перед настройкой миниаютюры"
+    "two_thumbs_required": "Добавьте больше изображений в ваше сообщение перед настройкой миниаютюры",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Settings"
   },
   "snippets": {
     "label_no_snippets": "Сниппеты не найдены",
@@ -671,7 +677,8 @@
     "percent": "Процент",
     "username": "Имя пользователя",
     "addAccount": "Добавить аккаунт",
-    "save": "Сохранить"
+    "save": "Сохранить",
+    "cancel": "Cancel"
   },
   "welcome": {
     "label": "Добро пожаловать в",
