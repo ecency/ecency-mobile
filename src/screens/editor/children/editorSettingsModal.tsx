@@ -116,12 +116,12 @@ const EditorSettingsModal =  forwardRef(({
           {!isEdit && (
             <>
               <SettingsItem
-                title={"Scheduled For"}
+                title={intl.formatMessage({id:'editor.scheduled_for'}) }
                 type="dropdown"
                 actionType="reward"
                 options={[
-                  "Immediate",
-                  "Later",
+                  intl.formatMessage({id:"editor.scheduled_immediate"}),
+                  intl.formatMessage({id:"editor.scheduled_later"}),
                 ]}
                 selectedOptionIndex={scheduleLater ? 1 : 0}
                 handleOnChange={(index)=>{
@@ -196,7 +196,7 @@ const EditorSettingsModal =  forwardRef(({
         isFullScreen
         isCloseButton
         presentationStyle="formSheet"
-        title={"Post Settings"}
+        title={intl.formatMessage({id:"editor.settings_title"})}
         animationType="slide"
         style={styles.modalStyle}
       >

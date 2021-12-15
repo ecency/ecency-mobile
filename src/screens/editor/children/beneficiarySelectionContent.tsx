@@ -205,9 +205,11 @@ const BeneficiarySelectionContent = ({handleOnSaveBeneficiaries, draftId }) => {
         {newEditable && _renderInput()}
         <View style={{marginTop: 20, marginBottom:32}}>
         <TextButton 
-            text={newEditable?"Cancel":intl.formatMessage({
+            text={newEditable?intl.formatMessage({
+                id: 'beneficiary_modal.cancel'
+              }):intl.formatMessage({
                 id: 'beneficiary_modal.addAccount',
-                })}
+              })}
             onPress={newEditable?_resetInputs:_addAccount}
             textStyle={{
                 color:EStyleSheet.value('$primaryBlue'),
