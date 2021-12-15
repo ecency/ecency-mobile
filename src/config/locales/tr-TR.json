@@ -281,7 +281,8 @@
     "publish": "Yayınla",
     "search": "Ara",
     "update": "Güncelle",
-    "reply": "Cevapla"
+    "reply": "Cevapla",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "Başlık",
@@ -303,6 +304,7 @@
     "limited_lastchar": "Etiket harf veya sayı ile bitmelidir",
     "setting_schedule": "Scheduling Time",
     "setting_reward": "Ödül",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "Beneficiary",
     "setting_thumb": "Set Thumbnail",
     "reward_default": "Varsayılan %50 / %50",
@@ -328,7 +330,11 @@
     "draft_save_success": "Taslak Kaydedildi",
     "draft_save_fail": "Taslak kaydedilemedi",
     "select_thumb": "Select Post Thumbnail",
-    "two_thumbs_required": "Add more images in your post before setting thumbnail"
+    "two_thumbs_required": "Add more images in your post before setting thumbnail",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Settings"
   },
   "snippets": {
     "label_no_snippets": "Hiç Snippet Bulunamadı",
@@ -671,7 +677,8 @@
     "percent": "Percent",
     "username": "Username",
     "addAccount": "Add Account",
-    "save": "Save"
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "welcome": {
     "label": "Welcome to",
