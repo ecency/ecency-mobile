@@ -281,7 +281,8 @@
     "publish": "게시하기",
     "search": "검색",
     "update": "업데이트",
-    "reply": "댓글"
+    "reply": "댓글",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "제목",
@@ -303,6 +304,7 @@
     "limited_lastchar": "태그는 문자나 숫자로 끝나야 합니다.",
     "setting_schedule": "일정 시간",
     "setting_reward": "보상",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "수령인",
     "setting_thumb": "썸네일 설정",
     "reward_default": "기본 50% / 50%",
@@ -328,7 +330,11 @@
     "draft_save_success": "임시 보관함에 저장했습니다",
     "draft_save_fail": "임시 보관함에 저장 실패했습니다",
     "select_thumb": "글 썸네일 선택",
-    "two_thumbs_required": "썸네일 이미지를 설정하기 전에 게시물에 더 많은 이미지를 추가하세요"
+    "two_thumbs_required": "썸네일 이미지를 설정하기 전에 게시물에 더 많은 이미지를 추가하세요",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Settings"
   },
   "snippets": {
     "label_no_snippets": "스니펫 없음",
@@ -671,7 +677,8 @@
     "percent": "비율",
     "username": "사용자 이름",
     "addAccount": "계정 추가",
-    "save": "저장"
+    "save": "저장",
+    "cancel": "Cancel"
   },
   "welcome": {
     "label": "환영합니다",
