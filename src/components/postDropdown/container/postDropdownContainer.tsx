@@ -224,6 +224,7 @@ class PostDropdownContainer extends PureComponent {
     if (isLoggedIn) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.EDITOR,
+        key:`editor_post_${content.permlink}`,
         params: {
           isReply: true,
           post: content,

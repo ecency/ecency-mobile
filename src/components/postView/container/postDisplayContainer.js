@@ -8,14 +8,11 @@ import get from 'lodash/get';
 import { toastNotification } from '../../../redux/actions/uiAction';
 
 // Dsteem
-import { deleteComment, getActiveVotes } from '../../../providers/hive/dhive';
+import { deleteComment } from '../../../providers/hive/dhive';
 import { getPostReblogs } from '../../../providers/ecency/ecency';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
-
-// Utilities
-import { parseActiveVotes } from '../../../utils/postParser';
 
 // Component
 import PostDisplayView from '../view/postDisplayView';
@@ -84,6 +81,7 @@ const PostDisplayContainer = ({
   const _handleOnReplyPress = () => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
+      key: 'editor_replay',
       params: {
         isReply: true,
         post,
@@ -98,6 +96,7 @@ const PostDisplayContainer = ({
 
       navigation.navigate({
         routeName: ROUTES.SCREENS.EDITOR,
+        key: `editor_post_${post.permlink}`,
         params: {
           isEdit: true,
           isReply,
