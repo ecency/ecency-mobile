@@ -90,8 +90,9 @@ export const PostHtmlRenderer = memo(({
           break;
 
         //unused cases
-        // case 'markdown-witnesses-link':
-        //   break;
+        case 'markdown-witnesses-link':
+          setSelectedLink(href);
+          break;
         // case 'markdown-proposal-link':
         //   break;
         default:

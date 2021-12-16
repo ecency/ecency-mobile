@@ -73,7 +73,8 @@ export const parseLinkData = (tnode:TNode):LinkData => {
 
   if (tnode.classes.includes('markdown-witnesses-link')) {
    return {
-      type: 'markdown-witnesses-link'
+      type: 'markdown-witnesses-link',
+      href: tnode.attributes['data-href']
     };
 
   }
