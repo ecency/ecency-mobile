@@ -111,6 +111,7 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
 
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
+      key: `editor_draft_${id}`,
       params: {
         draft: selectedDraft,
         fetchPost: _getDrafts,

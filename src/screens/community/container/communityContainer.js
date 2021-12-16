@@ -55,6 +55,7 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isL
   const _handleNewPostButtonPress = () => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
+      key: 'editor_community_post',
       params: {
         community: [tag],
       },

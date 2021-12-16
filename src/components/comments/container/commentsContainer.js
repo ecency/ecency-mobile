@@ -157,6 +157,7 @@ const CommentsContainer = ({
   const _handleOnReplyPress = (item) => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
+      key: 'editor_reply',
       params: {
         isReply: true,
         post: item,
@@ -179,6 +180,7 @@ const CommentsContainer = ({
   const _handleOnEditPress = (item) => {
     navigation.navigate({
       routeName: ROUTES.SCREENS.EDITOR,
+      key: `editor_edit_reply_${item.permlink}`,
       params: {
         isEdit: true,
         isReply: true,
