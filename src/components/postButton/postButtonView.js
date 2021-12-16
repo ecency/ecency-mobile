@@ -12,6 +12,7 @@ const PostButtonView = ({ navigation }) => (
     onPress={() =>
       navigation.navigate({
         routeName: ROUTES.SCREENS.EDITOR,
+        key: 'editor_post',
       })
     }
     activeOpacity={1}
