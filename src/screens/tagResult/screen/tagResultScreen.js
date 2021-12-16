@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, SafeAreaView } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { useIntl } from 'react-intl';
@@ -22,6 +22,11 @@ const TagResultScreen = ({ navigation }) => {
   const _navigationGoBack = () => {
     navigation.goBack();
   };
+
+  // change state of tag when component initially mounts and value of initTag changes
+  useEffect(() => {
+    setTag(initTag);
+  }, [initTag]);
 
   const _setTag = debounce((tag) => {
     setTag(tag);
