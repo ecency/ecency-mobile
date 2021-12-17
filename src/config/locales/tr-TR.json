@@ -253,7 +253,8 @@
     "posts": "Gönderi",
     "friends": "Arkadaşlar",
     "communities": "Topluluklar",
-    "popup_postfix": "Yayınlandi"
+    "popup_postfix": "Yayınlandi",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "Profil",
