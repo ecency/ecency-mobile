@@ -253,7 +253,8 @@
     "posts": "Посты",
     "friends": "Друзья",
     "communities": "Сообщества",
-    "popup_postfix": "Опубликовано"
+    "popup_postfix": "Опубликовано",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "Профиль",
