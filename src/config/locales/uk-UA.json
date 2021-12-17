@@ -253,7 +253,8 @@
     "posts": "Дописи",
     "friends": "Друзі",
     "communities": "Спільноти",
-    "popup_postfix": "Posted"
+    "popup_postfix": "Posted",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "Профіль",
