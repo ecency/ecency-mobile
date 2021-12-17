@@ -253,7 +253,8 @@
     "posts": "Posts",
     "friends": "Amigos",
     "communities": "Comunidades",
-    "popup_postfix": "Postado"
+    "popup_postfix": "Postado",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "Perfil",
