@@ -253,7 +253,8 @@
     "posts": "文章",
     "friends": "朋友",
     "communities": "社區",
-    "popup_postfix": "已發佈"
+    "popup_postfix": "已發佈",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "個人檔案",
