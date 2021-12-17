@@ -253,7 +253,8 @@
     "posts": "منشورات",
     "friends": "الأصدقاء",
     "communities": "المجتمعات",
-    "popup_postfix": "تم النشر"
+    "popup_postfix": "تم النشر",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "الملف الشّخصي",
