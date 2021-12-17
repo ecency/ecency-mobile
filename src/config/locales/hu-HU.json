@@ -253,7 +253,8 @@
     "posts": "Bejegyzések",
     "friends": "Barátok",
     "communities": "Közösségek",
-    "popup_postfix": "Posted"
+    "popup_postfix": "Posted",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "Profil",
