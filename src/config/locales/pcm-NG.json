@@ -253,7 +253,8 @@
     "posts": "Post",
     "friends": "Ur padis",
     "communities": "Una areas",
-    "popup_postfix": "Posted"
+    "popup_postfix": "Posted",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "Your informate",
