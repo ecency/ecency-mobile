@@ -253,7 +253,8 @@
     "posts": "Post",
     "friends": "Teman",
     "communities": "Komunitas",
-    "popup_postfix": "Diposting"
+    "popup_postfix": "Diposting",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "Profil",
