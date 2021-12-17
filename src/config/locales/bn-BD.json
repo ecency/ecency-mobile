@@ -253,7 +253,8 @@
     "posts": "Post",
     "friends": "বন্ধুরা",
     "communities": "সম্প্রদায়গুলি",
-    "popup_postfix": "Posted"
+    "popup_postfix": "Posted",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "প্রোফাইল",
