@@ -5,11 +5,11 @@ import { LoadPostsOptions, TabContentProps, TabMeta } from '../services/tabbedPo
 import {useSelector, useDispatch } from 'react-redux';
 import TabEmptyView from './listEmptyView';
 import { setInitPosts } from '../../../redux/actions/postsAction';
-import NewPostsPopup from './newPostsPopup';
 import { calculateTimeLeftForPostCheck } from '../services/tabbedPostsHelpers';
-import { AppState } from 'react-native';
+import { AppState, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { PostsListRef } from '../../postsList/container/postsListContainer';
-
+import ScrollTopPopup from './scrollTopPopup';
+import { debounce } from 'lodash';
 
 const DEFAULT_TAB_META = {
     startAuthor:'',
@@ -17,6 +17,10 @@ const DEFAULT_TAB_META = {
     isLoading:false,
     isRefreshing:false,
   } as TabMeta;
+
+var scrollOffset = 0;
+var blockPopup = false;
+const SCROLL_POPUP_THRESHOLD = 5000;
 
 const TabContent = ({
   filterKey, 
@@ -51,6 +55,7 @@ const TabContent = ({
   const [tabMeta, setTabMeta] = useState(DEFAULT_TAB_META);
   const [latestPosts, setLatestPosts] = useState<any[]>([]);
   const [postFetchTimer, setPostFetchTimer] = useState(0)
+  const [enableScrollTop, setEnableScrollTop] = useState(false);
 
   //refs
   let postsListRef = useRef<PostsListRef>()
@@ -246,9 +251,7 @@ const TabContent = ({
         const firstPostChanged = posts.length == 0 || (posts[0].permlink !== updatedPosts[0].permlink);
         if (isFeedScreen && firstPostChanged) {
             //schedule refetch of new posts by checking time of current post
-            
             _scheduleLatestPostsCheck(updatedPosts[0]);
-            
 
             if (isInitialTab) {
               dispatch(setInitPosts(updatedPosts));
@@ -275,7 +278,14 @@ const TabContent = ({
 
   const _scrollToTop = () => {
     postsListRef.current.scrollToTop();
+    setEnableScrollTop(false);
+    scrollPopupDebouce.cancel();
+    blockPopup = true;
+    setTimeout(()=>{
+      blockPopup = false;
+    }, 1000)
   };
+
   
   const _handleOnScroll = () => {
     if(handleOnScroll){
@@ -287,6 +297,21 @@ const TabContent = ({
   const _renderEmptyContent = () => {
     return <TabEmptyView filterKey={filterKey} isNoPost={tabMeta.isNoPost}/>
   }
+
+
+  const scrollPopupDebouce = debounce((value)=>{
+    setEnableScrollTop(value);
+  }, 500, {leading:true})
+
+  const _onScroll =  (event:NativeSyntheticEvent<NativeScrollEvent>)=>{
+    var currentOffset = event.nativeEvent.contentOffset.y;
+    var scrollUp = currentOffset < scrollOffset;
+    scrollOffset = currentOffset;
+
+    if(scrollUp && !blockPopup && currentOffset > SCROLL_POPUP_THRESHOLD){
+      scrollPopupDebouce(true)
+    }
+  };
 
 
   return (
@@ -303,17 +328,20 @@ const TabContent = ({
           _getPromotedPosts()
         }
       }}
+      onScroll={_onScroll}
       onScrollEndDrag={_handleOnScroll}
       isRefreshing={tabMeta.isRefreshing}
       isLoading={tabMeta.isLoading}
       ListEmptyComponent={_renderEmptyContent}
       pageType={pageType}
     />
-    <NewPostsPopup 
+    <ScrollTopPopup 
       popupAvatars={latestPosts.map(post=>post.avatar || '')}
+      enableScrollTop={enableScrollTop}
       onPress={_onPostsPopupPress}
       onClose={()=>{
         setLatestPosts([])
+        setEnableScrollTop(false);
       }}
     />
   </>
@@ -321,5 +349,4 @@ const TabContent = ({
 };
 
 export default TabContent;
-
 
