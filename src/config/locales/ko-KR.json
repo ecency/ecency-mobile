@@ -253,7 +253,8 @@
     "posts": "글 목록",
     "friends": "친구",
     "communities": "커뮤니티",
-    "popup_postfix": "게시된"
+    "popup_postfix": "게시된",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "프로필",
