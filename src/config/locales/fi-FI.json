@@ -253,7 +253,8 @@
     "posts": "Julkaisut",
     "friends": "Ystävät",
     "communities": "Yhteisöt",
-    "popup_postfix": "Julkaistu"
+    "popup_postfix": "Julkaistu",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "Profiili",
