@@ -253,7 +253,8 @@
     "posts": "Göndərişlər",
     "friends": "Dostlar",
     "communities": "Cəmiyyətlər",
-    "popup_postfix": "Paylaşıldı"
+    "popup_postfix": "Paylaşıldı",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "Profil",
