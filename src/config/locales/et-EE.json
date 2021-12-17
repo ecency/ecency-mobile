@@ -253,7 +253,8 @@
     "posts": "Postitused",
     "friends": "Sõbrad",
     "communities": "Kogukonnad",
-    "popup_postfix": "Postitatud"
+    "popup_postfix": "Postitatud",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "Profiil",
