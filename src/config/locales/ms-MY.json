@@ -253,7 +253,8 @@
     "posts": "Post",
     "friends": "Rakan",
     "communities": "Komuniti",
-    "popup_postfix": "Kiriman dihantar"
+    "popup_postfix": "Kiriman dihantar",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "Profil",
