@@ -253,7 +253,8 @@
     "posts": "Post",
     "friends": "दोस्त",
     "communities": "समुदाय",
-    "popup_postfix": "पोस्ट की"
+    "popup_postfix": "पोस्ट की",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "रुपरेखा",
