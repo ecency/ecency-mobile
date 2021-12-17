@@ -253,7 +253,8 @@
     "posts": "Post",
     "friends": "دوستان",
     "communities": "انجمن ها",
-    "popup_postfix": "Posted"
+    "popup_postfix": "Posted",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "نمایه",
