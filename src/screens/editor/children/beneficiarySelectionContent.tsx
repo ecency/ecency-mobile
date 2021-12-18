@@ -6,24 +6,26 @@ import { isArray, debounce } from 'lodash';
 import styles from './styles';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import { useAppSelector } from '../../../hooks';
-import { FormInput, IconButton, TextButton } from '../../../components';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { BeneficiaryModal, FormInput, IconButton, TextButton } from '../../../components';
 import { Beneficiary } from '../../../redux/reducers/editorReducer';
 import { lookupAccounts } from '../../../providers/hive/dhive';
+import { TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
+import { removeBeneficiaries, setBeneficiaries as setBeneficiariesAction } from '../../../redux/actions/editorActions';
 
 interface BeneficiarySelectionContent {
   draftId:string,
-  handleOnSaveBeneficiaries:()=>void
 }
 
-const BeneficiarySelectionContent = ({handleOnSaveBeneficiaries, draftId }) => {
+const BeneficiarySelectionContent = ({ draftId }) => {
   const intl = useIntl();
+  const dispatch = useAppDispatch();
 
   const beneficiariesMap = useAppSelector(state => state.editor.beneficiariesMap)
   const username = useAppSelector(state=>state.account.currentAccount.name)
 
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([
-    { account: username, weight: 10000, isValid: true},
+    { account: username, weight: 10000},
   ]);
 
   const [newUsername, setNewUsername] = useState('');
@@ -39,22 +41,28 @@ const BeneficiarySelectionContent = ({handleOnSaveBeneficiaries, draftId }) => {
 
   const readTempBeneficiaries = async () => {
     if(beneficiariesMap){
-      const tempBeneficiaries = beneficiariesMap[draftId || 'temp-beneficiaries'];
+      const tempBeneficiaries = beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID];
       
       if (isArray(tempBeneficiaries) && tempBeneficiaries.length > 0) {
+
+        //weight correction algorithm.
         let othersWeight = 0;
         tempBeneficiaries.forEach((item, index) => {
-          item.isValid = true;
           if(index > 0){
             othersWeight += item.weight
           }
         });
         tempBeneficiaries[0].weight = 10000 - othersWeight;
+
         setBeneficiaries(tempBeneficiaries);
       }
     }
-
   };
+
+
+  const _saveBeneficiaries = (value:Beneficiary[]) => {
+    dispatch(setBeneficiariesAction(draftId || TEMP_BENEFICIARIES_ID, value));
+  }
 
 
   const _onSavePress = () => {
@@ -64,8 +72,8 @@ const BeneficiarySelectionContent = ({handleOnSaveBeneficiaries, draftId }) => {
         weight:newWeight
       })
     }
-    handleOnSaveBeneficiaries(beneficiaries);
-    _resetInputs();
+    _saveBeneficiaries(beneficiaries);
+    _resetInputs(false);
   }
 
 
@@ -88,12 +96,15 @@ const BeneficiarySelectionContent = ({handleOnSaveBeneficiaries, draftId }) => {
 
 
 
-  const _onWeightInputChange = (value) => {
+  const _onWeightInputChange = (value:string) => {
     let _value = (parseInt(value, 10) || 0) * 100;
+
     const _diff = _value - newWeight;
-    beneficiaries[0].weight = beneficiaries[0].weight - _diff;
+    const newAuthorWeight = beneficiaries[0].weight - _diff;
+    beneficiaries[0].weight = newAuthorWeight
+   
     setNewWeight(_value)
-    setIsWeightValid(_value > 0 && _value <= 10000)
+    setIsWeightValid(_value >= 0 && newAuthorWeight >= 0);
     setBeneficiaries([...beneficiaries]);
   };
 
@@ -115,12 +126,13 @@ const BeneficiarySelectionContent = ({handleOnSaveBeneficiaries, draftId }) => {
     _lookupAccounts(value);
   };
 
-  const _resetInputs = () => {
-    if(newWeight){
+  const _resetInputs = (adjustWeight = true) => {
+    if(newWeight && adjustWeight){
       beneficiaries[0].weight = beneficiaries[0].weight + newWeight;
       setBeneficiaries([...beneficiaries])
-      setNewWeight(0);
     }
+
+    setNewWeight(0);
     setNewEditable(false);
     setIsWeightValid(false);
     setIsUsernameValid(false);
@@ -230,7 +242,7 @@ const BeneficiarySelectionContent = ({handleOnSaveBeneficiaries, draftId }) => {
       beneficiaries[0].weight = beneficiaries[0].weight + item.weight;
       beneficiaries.splice(index, 1);
       setBeneficiaries([...beneficiaries]);
-      handleOnSaveBeneficiaries(beneficiaries);
+      _saveBeneficiaries(beneficiaries);
     }
 
 

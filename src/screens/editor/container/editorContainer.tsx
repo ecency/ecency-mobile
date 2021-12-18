@@ -44,6 +44,7 @@ import {
 import EditorScreen from '../screen/editorScreen';
 import bugsnapInstance from '../../../config/bugsnag';
 import { removeBeneficiaries, setBeneficiaries } from '../../../redux/actions/editorActions';
+import { TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
 
 /*
  *            Props Name        Description                                     Value
@@ -71,7 +72,6 @@ class EditorContainer extends Component {
       isDraft: false,
       community: [],
       rewardType: 'default',
-      beneficiaries: [],
       sharedSnippetText: null,
       onLoadDraftPress: false,
       thumbIndex: 0,
@@ -309,6 +309,14 @@ class EditorContainer extends Component {
     }
   };
 
+  _extractBeneficiaries = () => {
+    const {draftId} = this.state;
+    const {beneficiariesMap, currentAccount} = this.props;
+
+    return beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID] 
+      || { account: currentAccount.name, weight: 10000};
+  }
+
   _handleRoutingAction = (routingAction) => {
     if (routingAction === 'camera') {
       this._handleOpenCamera();
@@ -451,8 +459,10 @@ class EditorContainer extends Component {
   };
 
   _saveDraftToDB = async (fields, silent = false) => {
-    const { isDraftSaved, draftId, beneficiaries } = this.state;
+    const { isDraftSaved, draftId } = this.state;
     const { currentAccount, dispatch, intl } = this.props;
+
+    const beneficiaries = this._extractBeneficiaries();
 
     try {
       if (!isDraftSaved) {
@@ -496,7 +506,7 @@ class EditorContainer extends Component {
           }
 
           dispatch(setBeneficiaries(response._id, beneficiaries));
-          dispatch(removeBeneficiaries('temp-beneficiaries'));
+          dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID));
 
           //clear local copy is darft save is successful
           const username = get(currentAccount, 'name', '');
@@ -584,8 +594,9 @@ class EditorContainer extends Component {
       pinCode,
       // isDefaultFooter,
     } = this.props;
-    const { rewardType, beneficiaries, isPostSending, thumbIndex, draftId, shouldReblog} = this.state;
+    const { rewardType, isPostSending, thumbIndex, draftId, shouldReblog} = this.state;
 
+    const beneficiaries = this._extractBeneficiaries();
 
 
     if (isPostSending) {
@@ -678,7 +689,7 @@ class EditorContainer extends Component {
               currentAccount.name,
             );
 
-            dispatch(removeBeneficiaries('temp-beneficiaries'))
+            dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID))
             if(draftId){
               dispatch(removeBeneficiaries(draftId))
             }
@@ -712,7 +723,7 @@ class EditorContainer extends Component {
 
   _submitReply = async (fields) => {
     const { currentAccount, pinCode } = this.props;
-    const { rewardType, beneficiaries, isPostSending } = this.state;
+    const { rewardType, isPostSending } = this.state;
 
     if (isPostSending) {
       return;
@@ -995,7 +1006,8 @@ class EditorContainer extends Component {
 
   _setScheduledPost = (data) => {
     const { dispatch, intl, currentAccount, navigation } = this.props;
-    const { rewardType, beneficiaries } = this.state;
+    const { rewardType } = this.state;
+    const beneficiaries = this._extractBeneficiaries();
 
     const options = makeOptions({
       author: data.author,
@@ -1072,17 +1084,6 @@ class EditorContainer extends Component {
     this.setState({ rewardType: value });
   };
 
-  _handleBeneficiaries = async (value) => {
-    const {
-      dispatch
-    } = this.props;
-    const {
-      draftId,
-    } = this.state;
-    this.setState({ beneficiaries: value });
-    dispatch(setBeneficiaries(draftId || 'temp-beneficiaries', value));
-  };
-
   _handleShouldReblogChange = (value:boolean) => {
     this.setState({
       shouldReblog:value
@@ -1124,7 +1125,6 @@ class EditorContainer extends Component {
         autoFocusText={autoFocusText}
         draftPost={draftPost}
         handleRewardChange={this._handleRewardChange}
-        handleBeneficiaries={this._handleBeneficiaries}
         handleShouldReblogChange={this._handleShouldReblogChange}
         handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
@@ -1163,6 +1163,7 @@ const mapStateToProps = (state) => ({
   isDefaultFooter: state.account.isDefaultFooter,
   isLoggedIn: state.application.isLoggedIn,
   pinCode: state.application.pin,
+  beneficiariesMap: state.editor.beneficiariesMap
 });
 
 export default connect(mapStateToProps)(injectIntl(EditorContainer));

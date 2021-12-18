@@ -8,7 +8,6 @@ import ThumbSelectionContent from './thumbSelectionContent';
 import {View as AnimatedView} from 'react-native-animatable';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import BeneficiarySelectionContent from './beneficiarySelectionContent';
-import { Beneficiary } from '../../../redux/reducers/editorReducer';
 
 const REWARD_TYPES = [
   {
@@ -40,7 +39,6 @@ interface EditorSettingsModalProps {
   handleRewardChange:(rewardType:string)=>void;
   handleThumbSelection:(index:number)=>void;
   handleScheduleChange:(datetime:string|null)=>void;
-  handleBeneficiariesChange:(beneficiaries:Beneficiary[])=>void;
   handleShouldReblogChange:(shouldReblog:boolean)=>void;
 }
 
@@ -52,7 +50,6 @@ const EditorSettingsModal =  forwardRef(({
   handleRewardChange,
   handleThumbSelection,
   handleScheduleChange,
-  handleBeneficiariesChange,
   handleShouldReblogChange,
 }: EditorSettingsModalProps, ref) => {
     const intl = useIntl();
@@ -177,7 +174,6 @@ const EditorSettingsModal =  forwardRef(({
 
           {!isEdit && (
               <BeneficiarySelectionContent
-                handleOnSaveBeneficiaries={handleBeneficiariesChange}
                 draftId={draftId}
               />
           )}
