@@ -14,10 +14,11 @@ import { TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
 import { removeBeneficiaries, setBeneficiaries as setBeneficiariesAction } from '../../../redux/actions/editorActions';
 
 interface BeneficiarySelectionContent {
-  draftId:string,
+  draftId:string;
+  setDisableDone:(value:boolean)=>void;
 }
 
-const BeneficiarySelectionContent = ({ draftId }) => {
+const BeneficiarySelectionContent = ({ draftId, setDisableDone }) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
@@ -37,6 +38,10 @@ const BeneficiarySelectionContent = ({ draftId }) => {
   useEffect(() => {
       readTempBeneficiaries();
   }, [draftId]);
+
+  useEffect(() => {
+    setDisableDone(newEditable)
+  }, [newEditable])
 
 
   const readTempBeneficiaries = async () => {

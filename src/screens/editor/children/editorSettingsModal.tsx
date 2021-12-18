@@ -2,12 +2,13 @@ import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'rea
 import { useIntl } from 'react-intl';
 import { View } from 'react-native';
 
-import { DateTimePicker, Modal, SettingsItem } from '../../../components';
+import { DateTimePicker, MainButton, Modal, SettingsItem } from '../../../components';
 import styles from './editorSettingsModalStyles';
 import ThumbSelectionContent from './thumbSelectionContent';
 import {View as AnimatedView} from 'react-native-animatable';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import BeneficiarySelectionContent from './beneficiarySelectionContent';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const REWARD_TYPES = [
   {
@@ -60,6 +61,7 @@ const EditorSettingsModal =  forwardRef(({
     const [scheduleLater, setScheduleLater] = useState(false)
     const [shouldReblog, setShouldReblog] = useState(false);
     const [scheduledFor, setScheduledFor] = useState('');
+    const [disableDone, setDisableDone] = useState(false);
 
     useEffect(() => {
       if(handleThumbSelection){
@@ -105,82 +107,97 @@ const EditorSettingsModal =  forwardRef(({
     const _handleDatePickerChange = (date:string) => {
       setScheduledFor(date);
     }
+
+    const _onDonePress = () => {
+      setShowModal(false);
+    }
  
 
     const _renderContent = (
-      <KeyboardAwareScrollView contentContainerStyle={{flex:1}} >
-        <View style={styles.container}>
-          {!isEdit && (
-            <>
-              <SettingsItem
-                title={intl.formatMessage({id:'editor.scheduled_for'}) }
-                type="dropdown"
-                actionType="reward"
-                options={[
-                  intl.formatMessage({id:"editor.scheduled_immediate"}),
-                  intl.formatMessage({id:"editor.scheduled_later"}),
-                ]}
-                selectedOptionIndex={scheduleLater ? 1 : 0}
-                handleOnChange={(index)=>{
-                setScheduleLater(index === 1)
-                }}
-              />
-
-              {scheduleLater && (
-                <AnimatedView animation="flipInX" duration={700}>
-                  <DateTimePicker
-                    type="datetime"
-                    onChanged={_handleDatePickerChange}
-                    disabled={true}
-                  />
-                </AnimatedView>
-              
-              )}
-
-              <SettingsItem
-                title={intl.formatMessage({
-                  id: 'editor.setting_reward',
-                })}
-                type="dropdown"
-                actionType="reward"
-                options={
-                  REWARD_TYPES.map((type)=>intl.formatMessage({ id: type.intlId}))
-                }
-                selectedOptionIndex={rewardTypeIndex}
-                handleOnChange={_handleRewardChange}
-              />
-
-
-              {isCommunityPost && (
+      <View style={{flex:1}}>
+          <KeyboardAwareScrollView contentContainerStyle={{flex:1}} >
+          <View style={styles.container}>
+            {!isEdit && (
+              <>
+                <SettingsItem
+                  title={intl.formatMessage({id:'editor.scheduled_for'}) }
+                  type="dropdown"
+                  actionType="reward"
+                  options={[
+                    intl.formatMessage({id:"editor.scheduled_immediate"}),
+                    intl.formatMessage({id:"editor.scheduled_later"}),
+                  ]}
+                  selectedOptionIndex={scheduleLater ? 1 : 0}
+                  handleOnChange={(index)=>{
+                  setScheduleLater(index === 1)
+                  }}
+                />
+  
+                {scheduleLater && (
+                  <AnimatedView animation="flipInX" duration={700}>
+                    <DateTimePicker
+                      type="datetime"
+                      onChanged={_handleDatePickerChange}
+                      disabled={true}
+                    />
+                  </AnimatedView>
+                
+                )}
+  
                 <SettingsItem
                   title={intl.formatMessage({
-                    id: 'editor.setting_reblog',
+                    id: 'editor.setting_reward',
                   })}
-                  type="toggle"
-                  actionType="reblog"
-                  isOn={shouldReblog}
-                  handleOnChange={setShouldReblog}
+                  type="dropdown"
+                  actionType="reward"
+                  options={
+                    REWARD_TYPES.map((type)=>intl.formatMessage({ id: type.intlId}))
+                  }
+                  selectedOptionIndex={rewardTypeIndex}
+                  handleOnChange={_handleRewardChange}
                 />
-              )}
-              </>
-          )}
+  
+  
+                {isCommunityPost && (
+                  <SettingsItem
+                    title={intl.formatMessage({
+                      id: 'editor.setting_reblog',
+                    })}
+                    type="toggle"
+                    actionType="reblog"
+                    isOn={shouldReblog}
+                    handleOnChange={setShouldReblog}
+                  />
+                )}
+                </>
+            )}
+              
+  
+            <ThumbSelectionContent 
+              body={body}
+              thumbIndex={thumbIndex}
+              onThumbSelection={setThumbIndex}
+            />
+  
+            {!isEdit && (
+                <BeneficiarySelectionContent
+                  draftId={draftId}
+                  setDisableDone={setDisableDone}
+                />
+            )}
             
+            
+          </View>
+        </KeyboardAwareScrollView>
 
-          <ThumbSelectionContent 
-            body={body}
-            thumbIndex={thumbIndex}
-            onThumbSelection={setThumbIndex}
+        <MainButton
+          style={{...styles.saveButton, backgroundColor:EStyleSheet.value(disableDone?'$primaryDarkGray':'$primaryBlue') }}
+          isDisable={disableDone}
+          onPress={_onDonePress}
+          text={intl.formatMessage({id:"editor.done"})}
           />
-
-          {!isEdit && (
-              <BeneficiarySelectionContent
-                draftId={draftId}
-              />
-          )}
-          
-          
-        </View>
-      </KeyboardAwareScrollView>
+      </View>
+   
         
     )
 
