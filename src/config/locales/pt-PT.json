@@ -335,7 +335,8 @@
     "scheduled_for": "Agendado para",
     "scheduled_immediate": "Imediato",
     "scheduled_later": "Mais tarde",
-    "settings_title": "Configurações da publicação"
+    "settings_title": "Post Options",
+    "done": "DONE"
   },
   "snippets": {
     "label_no_snippets": "Nenhum Snippet Encontrado",
