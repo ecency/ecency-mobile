@@ -65,7 +65,7 @@ const BeneficiarySelectionContent = ({handleOnSaveBeneficiaries, draftId }) => {
       })
     }
     handleOnSaveBeneficiaries(beneficiaries);
-    _resetInputs();
+    _resetInputs(false);
   }
 
 
@@ -88,12 +88,15 @@ const BeneficiarySelectionContent = ({handleOnSaveBeneficiaries, draftId }) => {
 
 
 
-  const _onWeightInputChange = (value) => {
+  const _onWeightInputChange = (value:string) => {
     let _value = (parseInt(value, 10) || 0) * 100;
+
     const _diff = _value - newWeight;
-    beneficiaries[0].weight = beneficiaries[0].weight - _diff;
+    const newAuthorWeight = beneficiaries[0].weight - _diff;
+    beneficiaries[0].weight = newAuthorWeight
+   
     setNewWeight(_value)
-    setIsWeightValid(_value > 0 && _value <= 10000)
+    setIsWeightValid(_value >= 0 && newAuthorWeight >= 0);
     setBeneficiaries([...beneficiaries]);
   };
 
@@ -115,12 +118,13 @@ const BeneficiarySelectionContent = ({handleOnSaveBeneficiaries, draftId }) => {
     _lookupAccounts(value);
   };
 
-  const _resetInputs = () => {
-    if(newWeight){
+  const _resetInputs = (adjustWeight = true) => {
+    if(newWeight && adjustWeight){
       beneficiaries[0].weight = beneficiaries[0].weight + newWeight;
       setBeneficiaries([...beneficiaries])
-      setNewWeight(0);
     }
+
+    setNewWeight(0);
     setNewEditable(false);
     setIsWeightValid(false);
     setIsUsernameValid(false);
