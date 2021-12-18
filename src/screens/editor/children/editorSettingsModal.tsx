@@ -41,7 +41,6 @@ interface EditorSettingsModalProps {
   handleRewardChange:(rewardType:string)=>void;
   handleThumbSelection:(index:number)=>void;
   handleScheduleChange:(datetime:string|null)=>void;
-  handleBeneficiariesChange:(beneficiaries:Beneficiary[])=>void;
   handleShouldReblogChange:(shouldReblog:boolean)=>void;
 }
 
@@ -53,7 +52,6 @@ const EditorSettingsModal =  forwardRef(({
   handleRewardChange,
   handleThumbSelection,
   handleScheduleChange,
-  handleBeneficiariesChange,
   handleShouldReblogChange,
 }: EditorSettingsModalProps, ref) => {
     const intl = useIntl();
