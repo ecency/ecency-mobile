@@ -354,7 +354,6 @@ class EditorScreen extends Component {
       handleOnBackPress,
       handleSchedulePress,
       handleRewardChange,
-      handleBeneficiaries,
       handleShouldReblogChange,
       currentAccount,
       autoFocusText,
@@ -392,7 +391,6 @@ class EditorScreen extends Component {
         <BasicHeader
           handleSchedulePress={(date) => handleSchedulePress(date, fields)}
           handleRewardChange={handleRewardChange}
-          handleBeneficiaries={handleBeneficiaries}
           handleOnBackPress={handleOnBackPress}
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
           handleOnSaveButtonPress={this._handleOnSaveButtonPress}
@@ -469,7 +467,6 @@ class EditorScreen extends Component {
           handleThumbSelection={this._handleOnThumbSelection}
           handleRewardChange={handleRewardChange}
           handleScheduleChange={this._handleScheduleChange}
-          handleBeneficiariesChange={handleBeneficiaries}
           handleShouldReblogChange={handleShouldReblogChange}
         />
       </View>

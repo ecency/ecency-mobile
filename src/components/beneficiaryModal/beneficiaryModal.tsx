@@ -13,6 +13,7 @@ import IconButton from '../iconButton';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useAppSelector } from '../../hooks';
 import { Beneficiary } from '../../redux/reducers/editorReducer';
+import { TEMP_BENEFICIARIES_ID } from '../../redux/constants/constants';
 
 interface BeneficiaryModal {
   username:string,
@@ -42,7 +43,7 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
 
   const readTempBeneficiaries = async () => {
     if(beneficiariesMap){
-      const tempBeneficiaries = beneficiariesMap[draftId || 'temp-beneficiaries'];
+      const tempBeneficiaries = beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID];
       
       if (isArray(tempBeneficiaries)) {
         tempBeneficiaries.forEach((item) => {
