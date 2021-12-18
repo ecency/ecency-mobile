@@ -8,7 +8,6 @@ import ThumbSelectionContent from './thumbSelectionContent';
 import {View as AnimatedView} from 'react-native-animatable';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import BeneficiarySelectionContent from './beneficiarySelectionContent';
-import { Beneficiary } from '../../../redux/reducers/editorReducer';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 const REWARD_TYPES = [
@@ -182,7 +181,6 @@ const EditorSettingsModal =  forwardRef(({
   
             {!isEdit && (
                 <BeneficiarySelectionContent
-                  handleOnSaveBeneficiaries={handleBeneficiariesChange}
                   draftId={draftId}
                   setDisableDone={setDisableDone}
                 />
