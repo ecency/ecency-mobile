@@ -65,13 +65,15 @@ export default EStyleSheet.create({
         color:'$pureWhite'
     } as TextStyle,
     saveButton:{
-
         backgroundColor:'$primaryBlue',
         width:150,
         paddingVertical:16,
         borderRadius:32,
+        marginVertical:16,
+        marginRight:32,
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        alignSelf:'flex-end'
     } as ViewStyle,
     closeButton:{
         marginRight:16,

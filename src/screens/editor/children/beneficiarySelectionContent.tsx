@@ -12,11 +12,12 @@ import { Beneficiary } from '../../../redux/reducers/editorReducer';
 import { lookupAccounts } from '../../../providers/hive/dhive';
 
 interface BeneficiarySelectionContent {
-  draftId:string,
-  handleOnSaveBeneficiaries:()=>void
+  draftId:string;
+  handleOnSaveBeneficiaries:()=>void;
+  setDisableDone:(value:boolean)=>void;
 }
 
-const BeneficiarySelectionContent = ({handleOnSaveBeneficiaries, draftId }) => {
+const BeneficiarySelectionContent = ({handleOnSaveBeneficiaries, draftId, setDisableDone }) => {
   const intl = useIntl();
 
   const beneficiariesMap = useAppSelector(state => state.editor.beneficiariesMap)
@@ -35,6 +36,10 @@ const BeneficiarySelectionContent = ({handleOnSaveBeneficiaries, draftId }) => {
   useEffect(() => {
       readTempBeneficiaries();
   }, [draftId]);
+
+  useEffect(() => {
+    setDisableDone(newEditable)
+  }, [newEditable])
 
 
   const readTempBeneficiaries = async () => {
