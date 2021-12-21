@@ -459,7 +459,7 @@ class EditorContainer extends Component {
   };
 
   _saveDraftToDB = async (fields, silent = false) => {
-    const { isDraftSaved, draftId } = this.state;
+    const { isDraftSaved, draftId, thumbIndex } = this.state;
     const { currentAccount, dispatch, intl } = this.props;
 
     const beneficiaries = this._extractBeneficiaries();
@@ -483,7 +483,7 @@ class EditorContainer extends Component {
 
         //update draft is draftId is present
         if (draftId && draftField) {
-          await updateDraft(draftId, draftField.title, draftField.body, draftField.tags);
+          await updateDraft(draftId, draftField.title, draftField.body, draftField.tags, thumbIndex);
 
           if (this._isMounted) {
             this.setState({
@@ -495,7 +495,7 @@ class EditorContainer extends Component {
 
         //create new darft otherwise
         else if (draftField) {
-          const response = await addDraft(draftField.title, draftField.body, draftField.tags);
+          const response = await addDraft(draftField.title, draftField.body, draftField.tags, thumbIndex);
 
           if (this._isMounted) {
             this.setState({
