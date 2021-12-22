@@ -96,6 +96,8 @@ export const PostHtmlRenderer = memo(({
         case 'markdown-witnesses-link':
           setSelectedLink(href);
           break;
+          
+          //TODO: open in external browser
         // case 'markdown-proposal-link':
         //   break;
         default:
