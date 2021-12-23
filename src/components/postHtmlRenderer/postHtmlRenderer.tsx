@@ -1,11 +1,9 @@
-import React, { memo, useState } from "react";
+import React, { memo } from "react";
 import RenderHTML, { CustomRendererProps, Element, TNode } from "react-native-render-html";
 import styles from "./postHtmlRendererStyles";
 import { LinkData, parseLinkData } from "./linkDataParser";
 import VideoThumb from "./videoThumb";
-import FastImage, { OnLoadEvent } from "react-native-fast-image";
-import { TouchableOpacity, TouchableWithoutFeedback } from "react-native-gesture-handler";
-import EStyleSheet from "react-native-extended-stylesheet";
+import { AutoHeightImage } from "../autoHeightImage/autoHeightImage";
 
 
 interface PostHtmlRendererProps {
@@ -215,47 +213,3 @@ export const PostHtmlRenderer = memo(({
 
 
 
-
-  const AutoHeightImage = ({
-    contentWidth, 
-    imgUrl, 
-    isAnchored, 
-    onPress
-  }:{
-    contentWidth:number, 
-    imgUrl:string,
-    isAnchored:boolean,
-    onPress:()=>void,
-  }) => {
-
-    const [imgWidth, setImgWidth] = useState(contentWidth);
-    const [imgHeight, setImgHeight] = useState(imgWidth * (9/16))
-    const [onLoadCalled, setOnLoadCalled] = useState(false);
-
-    const imgStyle = {
-      width:imgWidth, 
-      height:imgHeight, 
-      backgroundColor: onLoadCalled ? 'transparent' : EStyleSheet.value('$primaryGray')
-    }
-
-    const _onLoad = (evt:OnLoadEvent) => {
-      const {width, height} = evt.nativeEvent;
-      const newWidth = width < contentWidth ? width : contentWidth;
-      const newHeight = (height / width) * newWidth;
-      setImgHeight(newHeight);
-      setImgWidth(newWidth);
-      setOnLoadCalled(true);
-    }
-
-    return (
-      <TouchableWithoutFeedback onPress={onPress} disabled={!isAnchored}>
-        <FastImage 
-          style={imgStyle}
-          source={{uri:imgUrl}}
-          resizeMode={FastImage.resizeMode.contain}
-          onLoad={_onLoad}
-        />
-      </TouchableWithoutFeedback>
-      
-    )
-  }
