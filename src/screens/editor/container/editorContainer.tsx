@@ -100,7 +100,7 @@ class EditorContainer extends Component {
         
         // if meta exist on draft, get the index of 1st image in meta from images urls in body
         const body = _draft.body
-        if(_draft.meta){
+        if(_draft.meta && _draft.meta.image){
           const urls = extractImageUrls({body});
           const draftThumbIndex = urls.indexOf(_draft.meta.image[0])
           this.setState({
