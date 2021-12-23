@@ -38,6 +38,7 @@ import {
   makeJsonMetadataReply,
   makeJsonMetadataForUpdate,
   createPatch,
+  extractImageUrls,
 } from '../../../utils/editor';
 // import { generateSignature } from '../../../utils/image';
 // Component
@@ -75,7 +76,7 @@ class EditorContainer extends Component {
       sharedSnippetText: null,
       onLoadDraftPress: false,
       thumbIndex: 0,
-      shouldReblog:false
+      shouldReblog:false,
     };
   }
 
@@ -96,6 +97,17 @@ class EditorContainer extends Component {
 
       if (navigationParams.draft) {
         _draft = navigationParams.draft;
+        
+        // if meta exist on draft, get the index of 1st image in meta from images urls in body
+        const body = _draft.body
+        if(_draft.meta){
+          const urls = extractImageUrls({body});
+          const draftThumbIndex = urls.indexOf(_draft.meta.image[0])
+          this.setState({
+            thumbIndex:draftThumbIndex,
+          })
+        }
+
         this.setState({
           draftId: _draft._id,
           isDraft: true,
@@ -1119,7 +1131,7 @@ class EditorContainer extends Component {
     } = this.state;
 
     const tags = navigation.state.params && navigation.state.params.tags;
-
+    
     return (
       <EditorScreen
         autoFocusText={autoFocusText}

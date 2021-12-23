@@ -34,14 +34,14 @@ const ThumbSelectionContent = ({body, thumbIndex, onThumbSelection}: ThumbSelect
 
     //VIEW_RENDERERS
     const _renderImageItem = ({item, index}:{item:string, index:number}) => {
-        const _onPress = () => {
+        const _onPress = () => {  
             onThumbSelection(index);
         }
 
         const selectedStyle = index === thumbIndex ? styles.selectedStyle : null
 
         return (
-            <TouchableOpacity onPress={_onPress} >
+            <TouchableOpacity onPress={() => _onPress()} >
                 <FastImage 
                     source={{uri:item}}
                     style={{...styles.thumbStyle, ...selectedStyle}}

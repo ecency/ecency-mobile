@@ -35,6 +35,7 @@ export interface EditorSettingsModalRef {
 interface EditorSettingsModalProps {
   body:string;
   draftId:string;
+  thumbIndex:number,
   isEdit:boolean;
   isCommunityPost:boolean;
   handleRewardChange:(rewardType:string)=>void;
@@ -46,6 +47,7 @@ interface EditorSettingsModalProps {
 const EditorSettingsModal =  forwardRef(({
   body,
   draftId,
+  thumbIndex,
   isEdit,
   isCommunityPost,
   handleRewardChange,
@@ -57,17 +59,12 @@ const EditorSettingsModal =  forwardRef(({
 
     const [showModal, setShowModal] = useState(false);
     const [rewardTypeIndex, setRewardTypeIndex] = useState(0);
-    const [thumbIndex, setThumbIndex] = useState(0);
     const [scheduleLater, setScheduleLater] = useState(false)
     const [shouldReblog, setShouldReblog] = useState(false);
     const [scheduledFor, setScheduledFor] = useState('');
     const [disableDone, setDisableDone] = useState(false);
 
-    useEffect(() => {
-      if(handleThumbSelection){
-        handleThumbSelection(thumbIndex);
-      }
-    }, [thumbIndex])
+    // removed the useeffect causing index reset bug
 
 
     useEffect(()=>{
@@ -112,6 +109,10 @@ const EditorSettingsModal =  forwardRef(({
       setShowModal(false);
     }
  
+    // handle index change here instead of useeffetc
+    const _handleThumbIndexSelection = (index:number) => {
+      handleThumbSelection(index)
+    }
 
     const _renderContent = (
       <View style={{flex:1}}>
@@ -176,7 +177,7 @@ const EditorSettingsModal =  forwardRef(({
             <ThumbSelectionContent 
               body={body}
               thumbIndex={thumbIndex}
-              onThumbSelection={setThumbIndex}
+              onThumbSelection={_handleThumbIndexSelection}
             />
   
             {!isEdit && (

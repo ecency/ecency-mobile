@@ -5,7 +5,7 @@ import serverList from '../../config/serverListApi';
 import bugsnagInstance from '../../config/bugsnag';
 import { SERVER_LIST } from '../../constants/options/api';
 import { parsePost } from '../../utils/postParser';
-import { extractMetadata } from '../../utils/editor';
+import { extractMetadata, makeJsonMetadata } from '../../utils/editor';
 
 export const getCurrencyRate = (currency) =>
   api
@@ -66,7 +66,7 @@ export const deleteDraft = async (draftId:string) => {
  */
 export const addDraft = async (title:string, body:string, tags:string, thumbIndex:number ) => {
   try {
-    const meta = extractMetadata(body, thumbIndex)
+    const meta = makeJsonMetadata(extractMetadata(body, thumbIndex), tags)
     const data = { title, body, tags, meta }
     const res = await ecencyApi.post('/private-api/drafts-add', data)
     const { drafts } = res.data;
@@ -91,7 +91,7 @@ export const addDraft = async (title:string, body:string, tags:string, thumbInde
  */
 export const updateDraft = async (draftId:string, title:string, body:string, tags:string, thumbIndex:number, ) => {
   try {
-    const meta = extractMetadata(body, thumbIndex)
+    const meta = makeJsonMetadata(extractMetadata(body, thumbIndex), tags)
     const data = {id:draftId, title, body, tags, meta }
     const res = await ecencyApi.post(`/private-api/drafts-update`, data)
     if(res.data){
