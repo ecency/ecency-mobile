@@ -5,7 +5,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 // Utils
 import { postBodySummary } from '@ecency/render-helper';
-import { catchDraftImage } from '../../../utils/image';
+import { catchImageFromMetadata, catchDraftImage } from '../../../utils/image';
 import { getFormatedCreatedDate } from '../../../utils/time';
 
 // Components
@@ -15,6 +15,7 @@ import { BasicHeader, TabBar, DraftListItem, PostCardPlaceHolder } from '../../.
 import globalStyles from '../../../globalStyles';
 import styles from './draftStyles';
 import { OptionsModal } from '../../../components/atoms';
+import { jsonStringify } from '../../../utils/jsonUtils';
 
 const DraftsScreen = ({
   currentAccount,
@@ -40,8 +41,14 @@ const DraftsScreen = ({
   const _renderItem = (item, type) => {
     const tags = item.tags ? item.tags.split(/[ ,]+/) : [];
     const tag = tags[0] || '';
-    const image = catchDraftImage(item.body);
-    const thumbnail = catchDraftImage(item.body, 'match', true);
+
+    // if meta exist, get 1st image from meta else get 1st image from body
+    const image =
+      item.meta && item.meta.image ? catchImageFromMetadata(item.meta) : catchDraftImage(item.body);
+    const thumbnail =
+      item.meta && item.meta.image
+        ? catchImageFromMetadata(item.meta, 'match', true)
+        : catchDraftImage(item.body, 'match', true);
     const summary = postBodySummary({ ...item, last_update: item.modified }, 100);
     const isSchedules = type === 'schedules';
 
