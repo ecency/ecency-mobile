@@ -84,7 +84,8 @@ export const parseLinkData = (tnode:TNode):LinkData => {
     var proposal = tnode.attributes['data-proposal'];
     return {
       type: 'markdown-proposal-link',
-      proposal: proposal
+      proposal: proposal,
+      href: tnode.attributes['data-href'],
     };
 
   }
