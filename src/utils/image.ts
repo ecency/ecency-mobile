@@ -78,6 +78,22 @@ export const catchDraftImage = (body, format = 'match', thumbnail = false) => {
   return null;
 };
 
+// get the image from meta data
+export const catchImageFromMetadata = (meta, format = 'match', thumbnail = false) => {
+  format = whatOs === 'android' ? 'webp' : 'match';
+
+  if (meta && meta.image) {
+    const images = meta.image;
+    console.log('images : ',images);
+    
+    if (thumbnail) {
+      return proxifyImageSrc(images[0], 6, 5, format);
+    }
+    return proxifyImageSrc(images[0], 600, 500, format);
+  }
+  return null;
+};
+
 export const getResizedImage = (url, size = 600, format = 'match') => {
   //TODO: implement fallback onError, for imagehoster is down case
   format = whatOs === 'android' ? 'webp' : 'match';

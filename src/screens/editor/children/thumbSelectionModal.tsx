@@ -60,7 +60,7 @@ const ThumbSelectionModal = ({ onThumbSelection, thumbIndex }:ThumbSelectionModa
       const selectedStyle = index === thumbIndex ? styles.selectedStyle : null
 
     return (
-        <TouchableOpacity onPress={_onPress} >
+        <TouchableOpacity onPress={() => _onPress()} >
             <FastImage 
                 source={{uri:item}}
                 style={{...styles.thumbStyle, ...selectedStyle}}
