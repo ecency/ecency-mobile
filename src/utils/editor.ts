@@ -12,6 +12,7 @@ export const generatePermlink = (title, random = false) => {
     return '';
   }
 
+  //TODO: check special character processing
   const slug = getSlug(title);
   let perm = slug && slug.toString();
 

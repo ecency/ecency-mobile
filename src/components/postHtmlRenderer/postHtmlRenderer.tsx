@@ -94,8 +94,11 @@ export const PostHtmlRenderer = memo(({
         case 'markdown-witnesses-link':
           setSelectedLink(href);
           break;
-        // case 'markdown-proposal-link':
-        //   break;
+        
+        case 'markdown-proposal-link':
+          setSelectedLink(href);
+          break;
+          
         default:
           break;
       }
@@ -210,6 +213,3 @@ export const PostHtmlRenderer = memo(({
     />
    )
   }, (next, prev)=>next.body === prev.body)
-
-
-
