@@ -181,7 +181,7 @@ class ProfileView extends PureComponent {
         key="profile.wallet"
         tabLabel={
           estimatedWalletValue
-            ? `${currencySymbol} ${(estimatedWalletValue * currencyRate).toFixed()}`
+            ? `${currencySymbol} ${(estimatedWalletValue * currencyRate).toFixed(2)}`
             : null
         }
       >
