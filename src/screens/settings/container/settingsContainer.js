@@ -6,7 +6,7 @@ import VersionNumber from 'react-native-version-number';
 import Config from 'react-native-config';
 import { injectIntl } from 'react-intl';
 import messaging from '@react-native-firebase/messaging';
-
+import { languageRestart } from '../../../utils/I18nUtils';
 // Realm
 import {
   getExistUser,
@@ -91,17 +91,17 @@ class SettingsContainer extends Component {
   }
 
   // Component Functions
-  _handleDropdownSelected = (action, actionType) => {
-    const { dispatch } = this.props;
-
+  _handleDropdownSelected = async (action, actionType) => {
+    const { dispatch, selectedLanguage } = this.props;
     switch (actionType) {
       case 'currency':
         this._currencyChange(action);
         break;
 
       case 'language':
-        dispatch(setLanguage(LANGUAGE_VALUE[action]));
-        setLanguage2DB(LANGUAGE_VALUE[action]);
+        await dispatch(setLanguage(LANGUAGE_VALUE[action]));
+        await setLanguage2DB(LANGUAGE_VALUE[action]);
+        await languageRestart(selectedLanguage, LANGUAGE_VALUE[action]); //restart the app and flip change layout according to lang direction
         break;
 
       case 'api':
