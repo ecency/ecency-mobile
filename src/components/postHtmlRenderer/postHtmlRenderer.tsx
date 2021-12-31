@@ -209,7 +209,9 @@ export const PostHtmlRenderer = memo(({
         a:_anchorRenderer,
       }}
       onHTMLLoaded={onLoaded && onLoaded}
-      
+      defaultTextProps={{
+        selectable:true
+      }}
     />
    )
   }, (next, prev)=>next.body === prev.body)
