@@ -175,7 +175,7 @@ const BasicHeaderView = ({
           {isHasIcons && !isReply && (
             <IconButton
               style={{ marginHorizontal: 20 }}
-              iconStyle={[styles.backIcon, isModalHeader && styles.closeIcon]}
+              iconStyle={[styles.gearIcon, isModalHeader && styles.closeIcon]}
               iconType="MaterialIcons"
               name="settings"
               onPress={handleSettingsPress && handleSettingsPress}
