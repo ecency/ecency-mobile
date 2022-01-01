@@ -254,7 +254,7 @@
     "friends": "दोस्त",
     "communities": "समुदाय",
     "popup_postfix": "पोस्ट की",
-    "scroll_top": "Scroll To Top"
+    "scroll_top": "शीर्ष तक स्क्रॉल करें"
   },
   "side_menu": {
     "profile": "रुपरेखा",
@@ -283,7 +283,7 @@
     "search": "खोजें",
     "update": "नवनीकरण",
     "reply": "जबाब",
-    "schedule": "Schedule"
+    "schedule": "शेड्यूल"
   },
   "editor": {
     "title": "शीर्षक",
@@ -305,7 +305,7 @@
     "limited_lastchar": "टैग को पत्र या संख्या के साथ समाप्त होना चाहिए",
     "setting_schedule": "Scheduling Time",
     "setting_reward": "इनाम",
-    "setting_reblog": "Reblog",
+    "setting_reblog": "रीब्लॉग",
     "setting_beneficiary": "लाभार्थी",
     "setting_thumb": "थंबनेल सेट करें",
     "reward_default": "वितथ रूप से ५०%/५०%",
@@ -333,8 +333,8 @@
     "select_thumb": "पोस्ट थंबनेल चुनें",
     "two_thumbs_required": "थंबनेल सेट करने से पहले अपनी पोस्ट में और इमेज जोड़ें",
     "scheduled_for": "Scheduled For",
-    "scheduled_immediate": "Immediate",
-    "scheduled_later": "Later",
+    "scheduled_immediate": "तुरंत",
+    "scheduled_later": "बाद में",
     "settings_title": "Post Options",
     "done": "DONE"
   },
