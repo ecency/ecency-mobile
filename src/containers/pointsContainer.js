@@ -211,7 +211,7 @@ const PointsContainer = ({
   const _getESTMPrice = (points) => {
     const { base, quote } = globalProps;
 
-    return points * 0.01 * (base / quote);
+    return points * 0.00442 * (base / quote);
   };
 
   return (
