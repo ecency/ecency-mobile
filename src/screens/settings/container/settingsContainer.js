@@ -92,7 +92,7 @@ class SettingsContainer extends Component {
 
   // Component Functions
   _handleDropdownSelected = async (action, actionType) => {
-    const { dispatch, selectedLanguage } = this.props;
+    const { dispatch, selectedLanguage, intl } = this.props;
     switch (actionType) {
       case 'currency':
         this._currencyChange(action);
@@ -101,7 +101,7 @@ class SettingsContainer extends Component {
       case 'language':
         await dispatch(setLanguage(LANGUAGE_VALUE[action]));
         await setLanguage2DB(LANGUAGE_VALUE[action]);
-        await languageRestart(selectedLanguage, LANGUAGE_VALUE[action]); //restart the app and flip change layout according to lang direction
+        await languageRestart(selectedLanguage, LANGUAGE_VALUE[action], intl); //restart the app and flip change layout according to lang direction
         break;
 
       case 'api':
