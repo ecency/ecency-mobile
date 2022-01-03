@@ -28,6 +28,8 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
   const [schedules, setSchedules] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [initialTabIndex] = useState(navigation.state?.params?.showSchedules ? 1 : 0);
+
   useEffect(() => {
     _getDrafts();
     _getSchedules();
@@ -145,6 +147,7 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
       removeDraft={_removeDraft}
       moveScheduleToDraft={_moveScheduleToDraft}
       removeSchedule={_removeSchedule}
+      initialTabIndex={initialTabIndex}
     />
   );
 };

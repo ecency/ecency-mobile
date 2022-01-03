@@ -15,7 +15,6 @@ import { BasicHeader, TabBar, DraftListItem, PostCardPlaceHolder } from '../../.
 import globalStyles from '../../../globalStyles';
 import styles from './draftStyles';
 import { OptionsModal } from '../../../components/atoms';
-import { jsonStringify } from '../../../utils/jsonUtils';
 
 const DraftsScreen = ({
   currentAccount,
@@ -27,6 +26,7 @@ const DraftsScreen = ({
   drafts,
   schedules,
   moveScheduleToDraft,
+  initialTabIndex,
 }) => {
   const [selectedId, setSelectedId] = useState(null);
   const ActionSheetRef = useRef(null);
@@ -123,6 +123,7 @@ const DraftsScreen = ({
 
       <ScrollableTabView
         style={[globalStyles.tabView, { paddingBottom: 40 }]}
+        initialPage={initialTabIndex}
         renderTabBar={() => (
           <TabBar
             style={styles.tabbar}

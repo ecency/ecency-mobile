@@ -717,13 +717,14 @@ class EditorContainer extends Component {
               this.setState({
                 isPostSending: false,
               });
-              navigation.navigate({
-                routeName: ROUTES.SCREENS.PROFILE,
-                params: {
+              navigation.replace(
+                ROUTES.SCREENS.PROFILE,
+                {
                   username: get(currentAccount, 'name'),
-                },
-                key: get(currentAccount, 'name'),
-              });
+                },{
+                  key:get(currentAccount, 'name')
+                }
+              );
             }, 3000);
           })
           .catch((error) => {
@@ -1058,10 +1059,10 @@ class EditorContainer extends Component {
         );
 
         setTimeout(() => {
-          navigation.navigate({
-            routeName: ROUTES.SCREENS.DRAFTS,
-            key: currentAccount.name,
-          });
+          navigation.replace(ROUTES.SCREENS.DRAFTS,
+          {
+            showSchedules:true
+          })   
         }, 3000);
       })
       .catch((error) => {
