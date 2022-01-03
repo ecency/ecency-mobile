@@ -73,7 +73,8 @@ export const parseLinkData = (tnode:TNode):LinkData => {
 
   if (tnode.classes.includes('markdown-witnesses-link')) {
    return {
-      type: 'markdown-witnesses-link'
+      type: 'markdown-witnesses-link',
+      href: tnode.attributes['data-href']
     };
 
   }
@@ -83,7 +84,8 @@ export const parseLinkData = (tnode:TNode):LinkData => {
     var proposal = tnode.attributes['data-proposal'];
     return {
       type: 'markdown-proposal-link',
-      proposal: proposal
+      proposal: proposal,
+      href: tnode.attributes['data-href'],
     };
 
   }

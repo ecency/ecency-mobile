@@ -22,6 +22,7 @@ import {
   getPurePost,
   grantPostingPermission,
   signImage,
+  reblog,
 } from '../../../providers/hive/dhive';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
 
@@ -37,12 +38,14 @@ import {
   makeJsonMetadataReply,
   makeJsonMetadataForUpdate,
   createPatch,
+  extractImageUrls,
 } from '../../../utils/editor';
 // import { generateSignature } from '../../../utils/image';
 // Component
 import EditorScreen from '../screen/editorScreen';
 import bugsnapInstance from '../../../config/bugsnag';
 import { removeBeneficiaries, setBeneficiaries } from '../../../redux/actions/editorActions';
+import { TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
 
 /*
  *            Props Name        Description                                     Value
@@ -70,10 +73,10 @@ class EditorContainer extends Component {
       isDraft: false,
       community: [],
       rewardType: 'default',
-      beneficiaries: [],
       sharedSnippetText: null,
       onLoadDraftPress: false,
       thumbIndex: 0,
+      shouldReblog:false,
     };
   }
 
@@ -94,6 +97,17 @@ class EditorContainer extends Component {
 
       if (navigationParams.draft) {
         _draft = navigationParams.draft;
+        
+        // if meta exist on draft, get the index of 1st image in meta from images urls in body
+        const body = _draft.body
+        if(_draft.meta && _draft.meta.image){
+          const urls = extractImageUrls({body});
+          const draftThumbIndex = urls.indexOf(_draft.meta.image[0])
+          this.setState({
+            thumbIndex:draftThumbIndex,
+          })
+        }
+
         this.setState({
           draftId: _draft._id,
           isDraft: true,
@@ -307,6 +321,14 @@ class EditorContainer extends Component {
     }
   };
 
+  _extractBeneficiaries = () => {
+    const {draftId} = this.state;
+    const {beneficiariesMap, currentAccount} = this.props;
+
+    return beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID] 
+      || { account: currentAccount.name, weight: 10000};
+  }
+
   _handleRoutingAction = (routingAction) => {
     if (routingAction === 'camera') {
       this._handleOpenCamera();
@@ -449,8 +471,10 @@ class EditorContainer extends Component {
   };
 
   _saveDraftToDB = async (fields, silent = false) => {
-    const { isDraftSaved, draftId, beneficiaries } = this.state;
+    const { isDraftSaved, draftId, thumbIndex } = this.state;
     const { currentAccount, dispatch, intl } = this.props;
+
+    const beneficiaries = this._extractBeneficiaries();
 
     try {
       if (!isDraftSaved) {
@@ -471,7 +495,7 @@ class EditorContainer extends Component {
 
         //update draft is draftId is present
         if (draftId && draftField) {
-          await updateDraft(draftId, draftField.title, draftField.body, draftField.tags);
+          await updateDraft(draftId, draftField.title, draftField.body, draftField.tags, thumbIndex);
 
           if (this._isMounted) {
             this.setState({
@@ -483,7 +507,7 @@ class EditorContainer extends Component {
 
         //create new darft otherwise
         else if (draftField) {
-          const response = await addDraft(draftField.title, draftField.body, draftField.tags);
+          const response = await addDraft(draftField.title, draftField.body, draftField.tags, thumbIndex);
 
           if (this._isMounted) {
             this.setState({
@@ -494,7 +518,7 @@ class EditorContainer extends Component {
           }
 
           dispatch(setBeneficiaries(response._id, beneficiaries));
-          dispatch(removeBeneficiaries('temp-beneficiaries'));
+          dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID));
 
           //clear local copy is darft save is successful
           const username = get(currentAccount, 'name', '');
@@ -573,6 +597,7 @@ class EditorContainer extends Component {
   };
 
   _submitPost = async ({ fields, scheduleDate }: { fields: any, scheduleDate?: string }) => {
+
     const {
       currentAccount,
       dispatch,
@@ -581,7 +606,10 @@ class EditorContainer extends Component {
       pinCode,
       // isDefaultFooter,
     } = this.props;
-    const { rewardType, beneficiaries, isPostSending, thumbIndex, draftId } = this.state;
+    const { rewardType, isPostSending, thumbIndex, draftId, shouldReblog} = this.state;
+
+    const beneficiaries = this._extractBeneficiaries();
+
 
     if (isPostSending) {
       return;
@@ -644,7 +672,24 @@ class EditorContainer extends Component {
           options,
           voteWeight,
         )
-          .then(async () => {
+          .then((response) => {
+
+            console.log(response);
+            
+            //reblog if flag is active
+            if(shouldReblog){
+              reblog(
+                currentAccount,
+                pinCode,
+                author,
+                permlink
+              ).then((resp)=>{
+                console.log("Successfully reblogged post", resp)
+              }).catch((err)=>{
+                console.warn("Failed to reblog post", err)
+              })
+            }
+
             //post publish updates
             setDraftPost(
               {
@@ -656,7 +701,7 @@ class EditorContainer extends Component {
               currentAccount.name,
             );
 
-            dispatch(removeBeneficiaries('temp-beneficiaries'))
+            dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID))
             if(draftId){
               dispatch(removeBeneficiaries(draftId))
             }
@@ -690,7 +735,7 @@ class EditorContainer extends Component {
 
   _submitReply = async (fields) => {
     const { currentAccount, pinCode } = this.props;
-    const { rewardType, beneficiaries, isPostSending } = this.state;
+    const { rewardType, isPostSending } = this.state;
 
     if (isPostSending) {
       return;
@@ -736,7 +781,7 @@ class EditorContainer extends Component {
 
   _submitEdit = async (fields) => {
     const { currentAccount, pinCode } = this.props;
-    const { post, isEdit, isPostSending } = this.state;
+    const { post, isEdit, isPostSending, thumbIndex } = this.state;
 
     if (isPostSending) {
       return;
@@ -762,7 +807,7 @@ class EditorContainer extends Component {
         newBody = patch;
       }
 
-      const meta = extractMetadata(fields.body);
+      const meta = extractMetadata(fields.body, thumbIndex);
 
       let jsonMeta = {};
 
@@ -858,6 +903,7 @@ class EditorContainer extends Component {
     const { isReply, isEdit } = this.state;
     const { intl } = this.props;
 
+
     if (isReply && !isEdit) {
       this._submitReply(form.fields);
     } else if (isEdit) {
@@ -925,7 +971,8 @@ class EditorContainer extends Component {
     }
   };
 
-  _handleDatePickerChange = async (datePickerValue, fields) => {
+
+  _handleSchedulePress = async (datePickerValue, fields) => {
     const { currentAccount, pinCode, intl } = this.props;
 
     if (fields.title === '' || fields.body === '') {
@@ -971,7 +1018,8 @@ class EditorContainer extends Component {
 
   _setScheduledPost = (data) => {
     const { dispatch, intl, currentAccount, navigation } = this.props;
-    const { rewardType, beneficiaries } = this.state;
+    const { rewardType } = this.state;
+    const beneficiaries = this._extractBeneficiaries();
 
     const options = makeOptions({
       author: data.author,
@@ -1048,16 +1096,12 @@ class EditorContainer extends Component {
     this.setState({ rewardType: value });
   };
 
-  _handleBeneficiaries = async (value) => {
-    const {
-      dispatch
-    } = this.props;
-    const {
-      draftId,
-    } = this.state;
-    this.setState({ beneficiaries: value });
-    dispatch(setBeneficiaries(draftId || 'temp-beneficiaries', value));
-  };
+  _handleShouldReblogChange = (value:boolean) => {
+    this.setState({
+      shouldReblog:value
+    })
+  }
+
 
   _handleSetThumbIndex = (index: number) => {
     this.setState({
@@ -1087,14 +1131,14 @@ class EditorContainer extends Component {
     } = this.state;
 
     const tags = navigation.state.params && navigation.state.params.tags;
-
+    
     return (
       <EditorScreen
         autoFocusText={autoFocusText}
         draftPost={draftPost}
         handleRewardChange={this._handleRewardChange}
-        handleBeneficiaries={this._handleBeneficiaries}
-        handleDatePickerChange={this._handleDatePickerChange}
+        handleShouldReblogChange={this._handleShouldReblogChange}
+        handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
         handleOnBackPress={() => { }}
         handleOnImagePicker={this._handleRoutingAction}
@@ -1131,6 +1175,7 @@ const mapStateToProps = (state) => ({
   isDefaultFooter: state.account.isDefaultFooter,
   isLoggedIn: state.application.isLoggedIn,
   pinCode: state.application.pin,
+  beneficiariesMap: state.editor.beneficiariesMap
 });
 
 export default connect(mapStateToProps)(injectIntl(EditorContainer));

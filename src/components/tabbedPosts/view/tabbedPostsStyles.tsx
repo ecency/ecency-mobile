@@ -51,19 +51,25 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '$primaryBlue',
-    paddingHorizontal: 0,
+    paddingHorizontal: 2,
     paddingVertical: 2,
     borderRadius: 32,
   },
-  popupText: {
+  postedText: {
     fontWeight: '500',
     color: '$white',
     marginLeft: 6,
   },
+  scrollTopText: {
+    fontWeight: '500',
+    color: '$white',
+    marginHorizontal: 4,
+    marginBottom:2
+  },
   closeIcon: {
     color: '$white',
     margin: 0,
-    padding: 6,
+    padding: 6
   },
   arrowUpIcon: {
     color: '$white',

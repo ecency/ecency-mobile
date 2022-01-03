@@ -34,11 +34,9 @@ const BasicHeaderView = ({
   isHasIcons,
   isHasSearch,
   isLoading,
-  isLoggedIn,
   isModalHeader,
   isPreviewActive,
   isReply,
-  isEdit,
   quickTitle,
   rightButtonText,
   rightIconName,
@@ -49,6 +47,7 @@ const BasicHeaderView = ({
   handleRewardChange,
   handleBeneficiaries,
   enableViewModeToggle,
+  handleSettingsPress,
   showThumbSelectionModal,
 }) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
@@ -173,13 +172,13 @@ const BasicHeaderView = ({
             onPress={() => (isModalHeader ? handleOnPressClose() : handleOnPressBackButton())}
             disabled={disabled}
           />
-          {isHasIcons && !isReply && !isEdit && (
+          {isHasIcons && !isReply && (
             <IconButton
               style={{ marginHorizontal: 20 }}
               iconStyle={[styles.backIcon, isModalHeader && styles.closeIcon]}
               iconType="MaterialIcons"
               name="settings"
-              onPress={() => settingMenuRef.current.show()}
+              onPress={handleSettingsPress && handleSettingsPress}
               disabled={disabled}
             />
           )}

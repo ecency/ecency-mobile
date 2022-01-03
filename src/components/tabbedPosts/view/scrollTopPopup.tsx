@@ -4,37 +4,41 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { IconButton } from '../..';
 import styles from './tabbedPostsStyles';
+import { View as AnimatedView } from 'react-native-animatable';
 
-interface NewPostsPopupProps {
+interface ScrollTopPopupProps {
     onPress:()=>void;
     onClose:()=>void;
     popupAvatars:string[];
+    enableScrollTop:boolean;
 }
 
-const NewPostsPopup = ({
+const ScrollTopPopup = ({
     onPress,
     onClose,
     popupAvatars,
-}: NewPostsPopupProps) => {
+    enableScrollTop
+}: ScrollTopPopupProps) => {
     const intl = useIntl();
 
-    if(popupAvatars.length == 0){
+    if(popupAvatars.length == 0 && !enableScrollTop){
         return null;
     }
 
     return (
-        <View style={styles.popupContainer}>
+        <AnimatedView style={styles.popupContainer} animation="zoomIn" duration={300}>
             <View style={styles.popupContentContainer}>
                 <TouchableOpacity
                 onPress={onPress}
                 >
+                
                 <View style={styles.popupContentContainer}>
                     <IconButton
                         iconStyle={styles.arrowUpIcon}
                         iconType="MaterialCommunityIcons"
                         name="arrow-up"
                         onPress={onPress}
-                        size={12}
+                        size={14}
                     />
 
                     {popupAvatars.map((url, index) => (
@@ -45,10 +49,19 @@ const NewPostsPopup = ({
                     />
                     ))}
 
-                    <Text style={styles.popupText}>
-                    {intl.formatMessage({ id: 'home.popup_postfix' })}
-                    </Text>
+                    {
+                        popupAvatars.length > 0 ? (
+                            <Text style={styles.postedText}>
+                                {intl.formatMessage({ id:'home.popup_postfix'})}
+                            </Text>
+                        ):(
+                            <Text style={styles.scrollTopText}>
+                                {intl.formatMessage({ id: 'home.scroll_top' })}
+                            </Text>
+                        )
+                    }
                 </View>
+
                 </TouchableOpacity>
 
                 <IconButton
@@ -56,11 +69,11 @@ const NewPostsPopup = ({
                 iconType="MaterialCommunityIcons"
                 name="close"
                 onPress={onClose}
-                size={12}
+                size={14}
                 />
             </View>
-            </View>
+        </AnimatedView>
     );
 };
 
-export default NewPostsPopup;
+export default ScrollTopPopup;

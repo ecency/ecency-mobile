@@ -29,7 +29,7 @@
   "dependencies": {
     "@babel/runtime": "^7.5.5",
     "@bugsnag/react-native": "^7.11.0",
-    "@ecency/render-helper": "2.1.25",
+    "@ecency/render-helper": "^2.2.8",
     "@esteemapp/dhive": "0.15.0",
     "@esteemapp/react-native-autocomplete-input": "^4.2.1",
     "@esteemapp/react-native-multi-slider": "^1.1.0",
@@ -154,7 +154,6 @@
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/runtime": "^7.8.4",
-    "@bam.tech/react-native-make": "^2.0.0",
     "@bugsnag/source-maps": "^2.2.0",
     "@react-native-community/eslint-config": "^1.1.0",
     "@types/react-redux": "^7.1.16",

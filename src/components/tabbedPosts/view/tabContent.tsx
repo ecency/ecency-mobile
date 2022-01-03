@@ -5,11 +5,11 @@ import { LoadPostsOptions, TabContentProps, TabMeta } from '../services/tabbedPo
 import {useSelector, useDispatch } from 'react-redux';
 import TabEmptyView from './listEmptyView';
 import { setInitPosts } from '../../../redux/actions/postsAction';
-import NewPostsPopup from './newPostsPopup';
 import { calculateTimeLeftForPostCheck } from '../services/tabbedPostsHelpers';
-import { AppState } from 'react-native';
+import { AppState, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { PostsListRef } from '../../postsList/container/postsListContainer';
-
+import ScrollTopPopup from './scrollTopPopup';
+import { debounce } from 'lodash';
 
 const DEFAULT_TAB_META = {
     startAuthor:'',
@@ -17,6 +17,10 @@ const DEFAULT_TAB_META = {
     isLoading:false,
     isRefreshing:false,
   } as TabMeta;
+
+var scrollOffset = 0;
+var blockPopup = false;
+const SCROLL_POPUP_THRESHOLD = 5000;
 
 const TabContent = ({
   filterKey, 
@@ -51,6 +55,7 @@ const TabContent = ({
   const [tabMeta, setTabMeta] = useState(DEFAULT_TAB_META);
   const [latestPosts, setLatestPosts] = useState<any[]>([]);
   const [postFetchTimer, setPostFetchTimer] = useState(0)
+  const [enableScrollTop, setEnableScrollTop] = useState(false);
 
   //refs
   let postsListRef = useRef<PostsListRef>()
@@ -108,7 +113,10 @@ const TabContent = ({
   const _handleAppStateChange = (nextAppState) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active' && posts.length > 0) {
       const isLatestPostsCheck = true;
-      _loadPosts(false, isLatestPostsCheck);
+      _loadPosts({
+        shouldReset:false, 
+        isLatestPostsCheck
+      });
     }
 
     appState.current = nextAppState;
@@ -130,19 +138,35 @@ const TabContent = ({
     }
 
     if(username || (filterKey !== 'friends' && filterKey !== 'communities')){
-      _loadPosts(!isFirstCall, false, _feedUsername, initialPosts, DEFAULT_TAB_META );
+      _loadPosts({
+        shouldReset:!isFirstCall,
+        isFirstCall,
+        isLatestPostsCheck:false,
+        _feedUsername, 
+        _posts:initialPosts, 
+        _tabMeta:DEFAULT_TAB_META 
+      });
       _getPromotedPosts();
     }
   }
 
   //fetch posts from server
-  const _loadPosts = async (
-      shouldReset:boolean = false, 
-      isLatestPostsCheck:boolean = false, 
-      _feedUsername:string = isFeedScreen? sessionUserRef.current:feedUsername,
-      _posts:any[] = postsRef.current,
-      _tabMeta:TabMeta = tabMeta
-    ) => {
+  const _loadPosts = async ({
+    shouldReset = false,
+    isLatestPostsCheck = false,
+    isFirstCall = false,
+    _feedUsername = isFeedScreen? sessionUserRef.current:feedUsername,
+    _posts = postsRef.current,
+    _tabMeta = tabMeta,
+
+  }:{
+    shouldReset?:boolean;
+    isLatestPostsCheck?:boolean;
+    isFirstCall?:boolean;
+    _feedUsername?:string;
+    _posts?:any[]; 
+    _tabMeta?:TabMeta;
+  }) => {
     const options = {
       setTabMeta:(meta:TabMeta) => {
         if(_isMounted){
@@ -167,6 +191,9 @@ const TabContent = ({
 
     const result = await loadPosts(options)
     if(_isMounted && result){
+      if(shouldReset || isFirstCall){
+        setPosts([]);
+      }
       _postProcessLoadResult(result)
     }
   }
@@ -194,7 +221,10 @@ const TabContent = ({
       const timeLeft = calculateTimeLeftForPostCheck(firstPost)
       const _postFetchTimer = setTimeout(() => {
           const isLatestPostsCheck = true;
-          _loadPosts(false, isLatestPostsCheck);
+          _loadPosts({
+            shouldReset:false, 
+            isLatestPostsCheck
+          });
         }, 
         timeLeft
       );
@@ -221,9 +251,7 @@ const TabContent = ({
         const firstPostChanged = posts.length == 0 || (posts[0].permlink !== updatedPosts[0].permlink);
         if (isFeedScreen && firstPostChanged) {
             //schedule refetch of new posts by checking time of current post
-            
             _scheduleLatestPostsCheck(updatedPosts[0]);
-            
 
             if (isInitialTab) {
               dispatch(setInitPosts(updatedPosts));
@@ -250,7 +278,14 @@ const TabContent = ({
 
   const _scrollToTop = () => {
     postsListRef.current.scrollToTop();
+    setEnableScrollTop(false);
+    scrollPopupDebouce.cancel();
+    blockPopup = true;
+    setTimeout(()=>{
+      blockPopup = false;
+    }, 1000)
   };
+
   
   const _handleOnScroll = () => {
     if(handleOnScroll){
@@ -264,6 +299,21 @@ const TabContent = ({
   }
 
 
+  const scrollPopupDebouce = debounce((value)=>{
+    setEnableScrollTop(value);
+  }, 500, {leading:true})
+
+  const _onScroll =  (event:NativeSyntheticEvent<NativeScrollEvent>)=>{
+    var currentOffset = event.nativeEvent.contentOffset.y;
+    var scrollUp = currentOffset < scrollOffset;
+    scrollOffset = currentOffset;
+
+    if(scrollUp && !blockPopup && currentOffset > SCROLL_POPUP_THRESHOLD){
+      scrollPopupDebouce(true)
+    }
+  };
+
+
   return (
 
     <>
@@ -273,22 +323,25 @@ const TabContent = ({
       isFeedScreen={isFeedScreen}
       promotedPosts={promotedPosts}
       onLoadPosts={(shouldReset)=>{
-        _loadPosts(shouldReset)
+        _loadPosts({shouldReset})
         if(shouldReset){
           _getPromotedPosts()
         }
       }}
+      onScroll={_onScroll}
       onScrollEndDrag={_handleOnScroll}
       isRefreshing={tabMeta.isRefreshing}
       isLoading={tabMeta.isLoading}
       ListEmptyComponent={_renderEmptyContent}
       pageType={pageType}
     />
-    <NewPostsPopup 
+    <ScrollTopPopup 
       popupAvatars={latestPosts.map(post=>post.avatar || '')}
+      enableScrollTop={enableScrollTop}
       onPress={_onPostsPopupPress}
       onClose={()=>{
         setLatestPosts([])
+        setEnableScrollTop(false);
       }}
     />
   </>
@@ -296,5 +349,4 @@ const TabContent = ({
 };
 
 export default TabContent;
-
 

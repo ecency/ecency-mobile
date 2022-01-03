@@ -3,31 +3,30 @@ import { View, FlatList, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 import { isArray, debounce } from 'lodash';
 
-import { lookupAccounts } from '../../providers/hive/dhive';
-
-import { FormInput, MainButton, TextButton } from '..';
-
-import styles from './beneficiaryModalStyles';
+import styles from './styles';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import IconButton from '../iconButton';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useAppSelector } from '../../hooks';
-import { Beneficiary } from '../../redux/reducers/editorReducer';
-import { TEMP_BENEFICIARIES_ID } from '../../redux/constants/constants';
 
-interface BeneficiaryModal {
-  username:string,
-  draftId:string,
-  handleOnSaveBeneficiaries:()=>void
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { BeneficiaryModal, FormInput, IconButton, TextButton } from '../../../components';
+import { Beneficiary } from '../../../redux/reducers/editorReducer';
+import { lookupAccounts } from '../../../providers/hive/dhive';
+import { TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
+import { removeBeneficiaries, setBeneficiaries as setBeneficiariesAction } from '../../../redux/actions/editorActions';
+
+interface BeneficiarySelectionContent {
+  draftId:string;
+  setDisableDone:(value:boolean)=>void;
 }
 
-const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
+const BeneficiarySelectionContent = ({ draftId, setDisableDone }) => {
   const intl = useIntl();
+  const dispatch = useAppDispatch();
 
   const beneficiariesMap = useAppSelector(state => state.editor.beneficiariesMap)
+  const username = useAppSelector(state=>state.account.currentAccount.name)
 
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([
-    { account: username, weight: 10000, isValid: true},
+    { account: username, weight: 10000},
   ]);
 
   const [newUsername, setNewUsername] = useState('');
@@ -40,20 +39,35 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
       readTempBeneficiaries();
   }, [draftId]);
 
+  useEffect(() => {
+    setDisableDone(newEditable)
+  }, [newEditable])
+
 
   const readTempBeneficiaries = async () => {
     if(beneficiariesMap){
       const tempBeneficiaries = beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID];
       
-      if (isArray(tempBeneficiaries)) {
-        tempBeneficiaries.forEach((item) => {
-          item.isValid = true;
+      if (isArray(tempBeneficiaries) && tempBeneficiaries.length > 0) {
+
+        //weight correction algorithm.
+        let othersWeight = 0;
+        tempBeneficiaries.forEach((item, index) => {
+          if(index > 0){
+            othersWeight += item.weight
+          }
         });
+        tempBeneficiaries[0].weight = 10000 - othersWeight;
+
         setBeneficiaries(tempBeneficiaries);
       }
     }
-
   };
+
+
+  const _saveBeneficiaries = (value:Beneficiary[]) => {
+    dispatch(setBeneficiariesAction(draftId || TEMP_BENEFICIARIES_ID, value));
+  }
 
 
   const _onSavePress = () => {
@@ -63,7 +77,8 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
         weight:newWeight
       })
     }
-    handleOnSaveBeneficiaries(beneficiaries);
+    _saveBeneficiaries(beneficiaries);
+    _resetInputs(false);
   }
 
 
@@ -86,12 +101,15 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
 
 
 
-  const _onWeightInputChange = (value) => {
+  const _onWeightInputChange = (value:string) => {
     let _value = (parseInt(value, 10) || 0) * 100;
+
     const _diff = _value - newWeight;
-    beneficiaries[0].weight = beneficiaries[0].weight - _diff;
+    const newAuthorWeight = beneficiaries[0].weight - _diff;
+    beneficiaries[0].weight = newAuthorWeight
+   
     setNewWeight(_value)
-    setIsWeightValid(_value > 0 && _value <= 10000)
+    setIsWeightValid(_value >= 0 && newAuthorWeight >= 0);
     setBeneficiaries([...beneficiaries]);
   };
 
@@ -113,25 +131,33 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
     _lookupAccounts(value);
   };
 
+  const _resetInputs = (adjustWeight = true) => {
+    if(newWeight && adjustWeight){
+      beneficiaries[0].weight = beneficiaries[0].weight + newWeight;
+      setBeneficiaries([...beneficiaries])
+    }
 
-
-  const _isValid = () => {
-    return !newEditable || (isUsernameValid && isWeightValid);
-  };
+    setNewWeight(0);
+    setNewEditable(false);
+    setIsWeightValid(false);
+    setIsUsernameValid(false);
+    setNewUsername('');
+ 
+  }
 
 
 
   const _renderHeader = () => (
     <View style={styles.inputWrapper}>
-      <View style={[styles.weightInput, { alignItems: 'center' }]}>
-        <Text style={styles.text}>
+      <View style={{...styles.weightInput, marginTop:4}}>
+        <Text style={styles.contentLabel}>
           {intl.formatMessage({
             id: 'beneficiary_modal.percent',
           })}
         </Text>
       </View>
-      <View style={[styles.usernameInput, { alignItems: 'center' }]}>
-        <Text style={styles.text}>
+      <View style={{...styles.usernameInput, marginTop:4, marginLeft:28}}>
+        <Text style={styles.contentLabel}>
           {intl.formatMessage({
             id: 'beneficiary_modal.username',
           })}
@@ -141,20 +167,8 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
   )
 
 
-  const _renderInput = () => {
 
-    const _onCancelPress = () => {
-      if(newWeight){
-        beneficiaries[0].weight = beneficiaries[0].weight + newWeight;
-        setBeneficiaries([...beneficiaries])
-        setNewWeight(0);
-      }
-      setNewEditable(false);
-      setIsWeightValid(false);
-      setIsUsernameValid(false);
-      setNewUsername('');
-   
-    }
+  const _renderInput = () => {
 
     return (
       <View style={styles.inputWrapper}>
@@ -175,7 +189,7 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
             rightIconName="at"
             iconType="MaterialCommunityIcons"
             isValid={isUsernameValid}
-            onChange={(value) => _onUsernameInputChange(value)}
+            onChange={(value) => _onUsernameInputChange(value.trim())}
             placeholder={intl.formatMessage({
               id: 'beneficiary_modal.username',
             })}
@@ -186,15 +200,17 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
             wrapperStyle={styles.usernameFormInputWrapper}
           />
         </View>
-
-        <IconButton 
-            name="close"
-            iconType="MaterialCommunityIcons"
-            color={EStyleSheet.value('$primaryBlack')}
-            size={24}
-            iconStyle={{paddingLeft:8}}
-            onPress={_onCancelPress}
-          />
+        
+        {isWeightValid && isUsernameValid ? (
+            <IconButton 
+                name="check"
+                iconType="MaterialCommunityIcons"
+                color={EStyleSheet.value('$primaryBlack')}
+                size={24}
+                iconStyle={{paddingLeft:8}}
+                onPress={_onSavePress}
+            />
+        ) : <View style={{width:28}}/>}
 
       </View>
     );
@@ -203,20 +219,22 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
   
   const _renderFooter = () => (
     <>
-      {newEditable && _renderInput()}
-      <View style={{marginTop: 20, marginBottom:32 }}>
+        {newEditable && _renderInput()}
+        <View style={{marginTop: 20, marginBottom:32}}>
         <TextButton 
-          text={intl.formatMessage({
-            id: 'beneficiary_modal.addAccount',
-          })}
-          disabled={!isAllValid}
-          onPress={_addAccount}
-          textStyle={{
-            color:EStyleSheet.value(isAllValid?'$primaryBlue':"$iconColor"),
-            fontWeight:'bold'
-          }}
+            text={newEditable?intl.formatMessage({
+                id: 'beneficiary_modal.cancel'
+              }):intl.formatMessage({
+                id: 'beneficiary_modal.addAccount',
+              })}
+            onPress={newEditable?_resetInputs:_addAccount}
+            textStyle={{
+                color:EStyleSheet.value('$primaryBlue'),
+                fontWeight:'bold'
+            }}
         />
-      </View>
+        
+        </View>
     </>
 
   )
@@ -229,6 +247,7 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
       beneficiaries[0].weight = beneficiaries[0].weight + item.weight;
       beneficiaries.splice(index, 1);
       setBeneficiaries([...beneficiaries]);
+      _saveBeneficiaries(beneficiaries);
     }
 
 
@@ -272,13 +291,9 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
     );
   };
 
-
-  const isAllValid = _isValid();
-
   return (
     <View style={styles.container}>
-      
-      <KeyboardAwareScrollView style={styles.bodyWrapper}>
+        <Text style={styles.settingLabel}>{intl.formatMessage({id:'editor.beneficiaries'})}</Text>
         <FlatList
           data={beneficiaries}
           renderItem={_renderItem}
@@ -286,20 +301,8 @@ const BeneficiaryModal = ({ username, handleOnSaveBeneficiaries, draftId }) => {
           showsVerticalScrollIndicator={false}
         />
         {_renderFooter()}
-      </KeyboardAwareScrollView>
-
-      <View style={styles.footerWrapper}>
-        <MainButton
-          style={styles.saveButton}
-          isDisable={!_isValid()}
-          onPress={_onSavePress}
-          text={intl.formatMessage({
-            id: 'beneficiary_modal.save',
-          })}
-        />
-      </View>
     </View>
   );
 };
 
-export default BeneficiaryModal;
+export default BeneficiarySelectionContent;

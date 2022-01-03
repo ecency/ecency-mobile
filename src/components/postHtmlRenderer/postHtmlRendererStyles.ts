@@ -37,6 +37,7 @@ export default EStyleSheet.create({
   th:{
     flex: 1,
     justifyContent: 'center',
+    alignItems:'center',
     fontWeight: 'bold',
     color: '$primaryBlack',
     fontSize: 14,
@@ -52,6 +53,10 @@ export default EStyleSheet.create({
     padding:10,
     borderColor: '$tableBorderColor',
     backgroundColor: '$tableTrColor',
+    alignItems:'center',
+  } as ViewStyle,
+  table:{
+      width: '100%',
   } as ViewStyle,
   li:{
       marginBottom:12

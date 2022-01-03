@@ -3,6 +3,7 @@ import RenderHTML, { CustomRendererProps, Element, TNode } from "react-native-re
 import styles from "./postHtmlRendererStyles";
 import { LinkData, parseLinkData } from "./linkDataParser";
 import VideoThumb from "./videoThumb";
+import { AutoHeightImage } from "../autoHeightImage/autoHeightImage";
 
 
 interface PostHtmlRendererProps {
@@ -90,10 +91,14 @@ export const PostHtmlRenderer = memo(({
           break;
 
         //unused cases
-        // case 'markdown-witnesses-link':
-        //   break;
-        // case 'markdown-proposal-link':
-        //   break;
+        case 'markdown-witnesses-link':
+          setSelectedLink(href);
+          break;
+        
+        case 'markdown-proposal-link':
+          setSelectedLink(href);
+          break;
+          
         default:
           break;
       }
@@ -145,9 +150,7 @@ export const PostHtmlRenderer = memo(({
   
   
     const _imageRenderer = ({
-      InternalRenderer,
       tnode,
-      ...props
     }:CustomRendererProps<TNode>) => {
   
       const imgUrl = tnode.attributes.src;
@@ -165,11 +168,13 @@ export const PostHtmlRenderer = memo(({
 
       else {
         return (
-          <InternalRenderer
-            tnode={tnode}
-            onPress={isAnchored && _onPress}
-            {...props}/>
-        );
+          <AutoHeightImage 
+            contentWidth={contentWidth} 
+            imgUrl={imgUrl}
+            isAnchored={isAnchored}
+            onPress={_onPress}
+          />
+        )
       }
     
     }
@@ -217,7 +222,9 @@ export const PostHtmlRenderer = memo(({
         td:styles.td,
         blockquote:styles.blockquote,
         code:styles.code,
-        li:styles.li
+        li:styles.li,
+        p:styles.p,
+        table:styles.table,
       }}
       domVisitors={{
         onElement:_onElement
@@ -228,7 +235,9 @@ export const PostHtmlRenderer = memo(({
         p:_paraRenderer
       }}
       onHTMLLoaded={onLoaded && onLoaded}
-      
+      defaultTextProps={{
+        selectable:true
+      }}
     />
    )
   }, (next, prev)=>next.body === prev.body)

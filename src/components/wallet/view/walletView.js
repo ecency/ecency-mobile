@@ -19,14 +19,14 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
 
   const _getUnclaimedText = (walletData, isPreview) => (
     <Text style={[isPreview ? styles.unclaimedTextPreview : styles.unclaimedText]}>
-      {walletData.rewardSteemBalance
-        ? `${Math.round(walletData.rewardSteemBalance * 1000) / 1000} HIVE`
+      {walletData.rewardHiveBalance
+        ? `${Math.round(walletData.rewardHiveBalance * 1000) / 1000} HIVE`
         : ''}
-      {walletData.rewardSbdBalance
-        ? ` ${Math.round(walletData.rewardSbdBalance * 1000) / 1000} HBD`
+      {walletData.rewardHbdBalance
+        ? ` ${Math.round(walletData.rewardHbdBalance * 1000) / 1000} HBD`
         : ''}
-      {walletData.rewardVestingSteem
-        ? ` ${Math.round(walletData.rewardVestingSteem * 1000) / 1000} HP`
+      {walletData.rewardVestingHive
+        ? ` ${Math.round(walletData.rewardVestingHive * 1000) / 1000} HP`
         : ''}
     </Text>
   );
@@ -100,6 +100,7 @@ const WalletView = ({ setEstimatedWalletValue, selectedUser, handleOnScroll }) =
                       )}
                     </CollapsibleCard>
                   )}
+
                   <CollapsibleCard
                     titleColor="#788187"
                     title={intl.formatMessage({

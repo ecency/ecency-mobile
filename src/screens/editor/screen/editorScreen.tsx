@@ -32,6 +32,7 @@ import { isCommunity } from '../../../utils/communityValidation';
 
 import styles from './editorScreenStyles';
 import ThumbSelectionModal from '../children/thumbSelectionModal';
+import EditorSettingsModal from '../children/editorSettingsModal';
 
 class EditorScreen extends Component {
   /* Props
@@ -39,6 +40,7 @@ class EditorScreen extends Component {
    *   @prop { type }    name                - Description....
    */
   thumbSelectionModalRef = null;
+  editorSettingsModalRef = null;
 
   constructor(props) {
     super(props);
@@ -57,6 +59,7 @@ class EditorScreen extends Component {
       isCommunitiesListModalOpen: false,
       selectedCommunity: null,
       selectedAccount: null,
+      scheduledFor:null
     };
   }
 
@@ -164,8 +167,13 @@ class EditorScreen extends Component {
   };
 
   _handleOnSubmit = () => {
-    const { handleOnSubmit } = this.props;
-    const { fields } = this.state;
+    const { handleOnSubmit, handleSchedulePress } = this.props;
+    const { fields, scheduledFor } = this.state;
+
+    if(scheduledFor && handleSchedulePress){
+      handleSchedulePress(scheduledFor, fields);
+      return;
+    }
 
     if (handleOnSubmit) {
       handleOnSubmit({ fields });
@@ -185,6 +193,18 @@ class EditorScreen extends Component {
       this.thumbSelectionModalRef.show(fields.body);
     }
   };
+
+  _handleScheduleChange = (datetime:string|null) => {
+    this.setState({
+      scheduledFor:datetime
+    })
+  }
+
+  _handleSettingsPress = () => {
+    if(this.editorSettingsModalRef){
+      this.editorSettingsModalRef.show();
+    }
+  }
 
   _handleIsFormValid = (bodyText) => {
     const { fields } = this.state;
@@ -313,10 +333,10 @@ class EditorScreen extends Component {
       isPreviewActive,
       wordsCount,
       isFormValid,
-      isRemoveTag,
       isCommunitiesListModalOpen,
       selectedCommunity,
       selectedAccount,
+      scheduledFor,
     } = this.state;
     const {
       handleOnImagePicker,
@@ -332,18 +352,20 @@ class EditorScreen extends Component {
       post,
       uploadedImage,
       handleOnBackPress,
-      handleDatePickerChange,
+      handleSchedulePress,
       handleRewardChange,
-      handleBeneficiaries,
+      handleShouldReblogChange,
       currentAccount,
       autoFocusText,
       sharedSnippetText,
       onLoadDraftPress,
       thumbIndex,
     } = this.props;
+
     const rightButtonText = intl.formatMessage({
-      id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : 'basic_header.publish',
+      id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : scheduledFor ?  'basic_header.schedule' : 'basic_header.publish',
     });
+
 
     const _renderCommunityModal = () => {
       return (
@@ -367,9 +389,8 @@ class EditorScreen extends Component {
     return (
       <View style={globalStyles.defaultContainer}>
         <BasicHeader
-          handleDatePickerChange={(date) => handleDatePickerChange(date, fields)}
+          handleSchedulePress={(date) => handleSchedulePress(date, fields)}
           handleRewardChange={handleRewardChange}
-          handleBeneficiaries={handleBeneficiaries}
           handleOnBackPress={handleOnBackPress}
           handleOnPressPreviewButton={this._handleOnPressPreviewButton}
           handleOnSaveButtonPress={this._handleOnSaveButtonPress}
@@ -387,6 +408,7 @@ class EditorScreen extends Component {
           quickTitle={wordsCount > 0 && `${wordsCount} words`}
           rightButtonText={rightButtonText}
           showThumbSelectionModal={this._showThumbSelectionModal}
+          handleSettingsPress={this._handleSettingsPress}
         />
         <PostForm
           handleFormUpdate={this._handleFormUpdate}
@@ -435,6 +457,18 @@ class EditorScreen extends Component {
           ref={(componentRef) => (this.thumbSelectionModalRef = componentRef)}
           thumbIndex={thumbIndex}
           onThumbSelection={this._handleOnThumbSelection}
+        />
+        <EditorSettingsModal
+          ref={(componentRef) => (this.editorSettingsModalRef = componentRef)}
+          body={fields.body}
+          draftId={draftId}
+          thumbIndex={thumbIndex}
+          isEdit={isEdit}
+          isCommunityPost={selectedCommunity !== null}
+          handleThumbSelection={this._handleOnThumbSelection}
+          handleRewardChange={handleRewardChange}
+          handleScheduleChange={this._handleScheduleChange}
+          handleShouldReblogChange={handleShouldReblogChange}
         />
       </View>
     );

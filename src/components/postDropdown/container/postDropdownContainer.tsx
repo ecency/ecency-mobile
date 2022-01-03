@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { Share, Alert } from 'react-native';
+import { Share } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
@@ -224,6 +224,7 @@ class PostDropdownContainer extends PureComponent {
     if (isLoggedIn) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.EDITOR,
+        key:`editor_post_${content.permlink}`,
         params: {
           isReply: true,
           post: content,
