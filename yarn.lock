@@ -1048,6 +1048,22 @@
     xmldom "^0.5.0"
     xss "^1.0.9"
 
+"@ecency/render-helper@https://github.com/ecency/render-helper.git#nt/entities-parsing":
+  version "2.2.8"
+  resolved "https://github.com/ecency/render-helper.git#42031c57c8e8a87539e8f7c89f3cec33d84e9352"
+  dependencies:
+    he "^1.2.0"
+    lolight "^1.4.0"
+    lru-cache "^6.0.0"
+    multihashes "0.4.13"
+    path "^0.12.7"
+    querystring "^0.2.0"
+    react-native-crypto-js "^1.0.0"
+    remarkable "^2.0.1"
+    url "^0.11.0"
+    xmldom "^0.5.0"
+    xss "^1.0.9"
+
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
   resolved "https://registry.yarnpkg.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz#5dc02af75a6a06e4c2db0202cae38c9263895124"
