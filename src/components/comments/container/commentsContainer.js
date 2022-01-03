@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { Platform } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
@@ -229,7 +230,7 @@ const CommentsContainer = ({
       writeToClipboard(`https://ecency.com${get(selectedComment, 'url')}`).then(_showCopiedToast);
     }
     if (index === 1) {
-      const body = postBodySummary(selectedComment.markdownBody);
+      const body = postBodySummary(selectedComment.markdownBody, null, Platform.OS);
       writeToClipboard(body).then(_showCopiedToast);
     } else if (index === 2) {
       _openReplyThread(selectedComment);

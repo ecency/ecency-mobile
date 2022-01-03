@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { injectIntl } from 'react-intl';
-import { View, FlatList, Text } from 'react-native';
+import { View, FlatList, Text, Platform } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 // Utils
@@ -49,7 +49,7 @@ const DraftsScreen = ({
       item.meta && item.meta.image
         ? catchImageFromMetadata(item.meta, 'match', true)
         : catchDraftImage(item.body, 'match', true);
-    const summary = postBodySummary({ ...item, last_update: item.modified }, 100);
+    const summary = postBodySummary({ ...item, last_update: item.modified }, 100, Platform.OS);
     const isSchedules = type === 'schedules';
 
     const _onItemPress = () => {

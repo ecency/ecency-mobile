@@ -52,7 +52,7 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
   if (!isList) {
     post.body = renderPostBody(post, true, webp);
   }
-  post.summary = postBodySummary(post, 150);
+  post.summary = postBodySummary(post, 150, Platform.OS);
   post.max_payout = parseAsset(post.max_accepted_payout).amount || 0;
   post.is_declined_payout = post.max_payout === 0;
 
