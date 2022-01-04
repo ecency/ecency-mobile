@@ -433,7 +433,9 @@
     "update_available_body": "Menggunakan versi terbaru dari Ecency memberikan Anda pengalaman terbaik",
     "update": "Perbaharui sekarang",
     "remind_later": "Ingatkan nanti",
-    "failed_to_open": "Gagal membuka sebuah tautan"
+    "failed_to_open": "Gagal membuka sebuah tautan",
+    "restart_ecency": "Restart Ecency?",
+    "restart_ecency_desc": "Applying changes will require a restart."
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
