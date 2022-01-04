@@ -433,7 +433,9 @@
     "update_available_body": "Ecency के नवीनतम संस्करण का उपयोग करने से आपको सबसे अच्छा अनुभव मिलता है",
     "update": "अभी अपडेट करें",
     "remind_later": "बाद में याद दिलाना",
-    "failed_to_open": "लिंक खोलने में विफल"
+    "failed_to_open": "लिंक खोलने में विफल",
+    "restart_ecency": "Restart Ecency?",
+    "restart_ecency_desc": "Applying changes will require a restart."
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
