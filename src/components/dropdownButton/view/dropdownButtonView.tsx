@@ -42,7 +42,11 @@ const renderDropdownRow = (
       </Text>
     </View>
 );
-
+const adjustDropdownFrame = (style:any) => {
+  style.left = 'auto'
+  style.right = 10
+  return style
+}
 const DropdownButtonView = ({
   childIconWrapperStyle,
   children,
@@ -90,6 +94,7 @@ const DropdownButtonView = ({
           dropdownRowWrapper,
         )
       }
+      adjustFrame={(style: any) => adjustDropdownFrame(style) }
     >
       {isHasChildIcon && !isLoading ? (
         <View style={[styles.iconWrapper, childIconWrapperStyle && childIconWrapperStyle]}>
