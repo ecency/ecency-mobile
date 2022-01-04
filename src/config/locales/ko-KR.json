@@ -433,7 +433,9 @@
     "update_available_body": "최신 버전의 Ecency를 사용하면 최고의 경험을 제공합니다",
     "update": "지금 업데이트",
     "remind_later": "나중에 다시 알림",
-    "failed_to_open": "링크 열기 실패"
+    "failed_to_open": "링크 열기 실패",
+    "restart_ecency": "Restart Ecency?",
+    "restart_ecency_desc": "Applying changes will require a restart."
   },
   "post": {
     "reblog_alert": "리블로그 하시겠습니까?",
