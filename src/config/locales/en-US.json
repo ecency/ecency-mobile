@@ -435,7 +435,7 @@
     "remind_later": "Remind Later",
     "failed_to_open": "Failed to open a link",
     "restart_ecency": "Restart Ecency?",
-    "restart_ecency_desc": "Press Confirm to restart the ecency for changes to take immediate effect. Press Cancel for not restarting it. "
+    "restart_ecency_desc": "Applying changes will require a restart."
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
