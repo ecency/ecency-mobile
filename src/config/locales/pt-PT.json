@@ -433,7 +433,9 @@
     "update_available_body": "Obtenha uma melhor experiência usando a última atualização da Ecency",
     "update": "Atualizar Já",
     "remind_later": "Lembrar Depois",
-    "failed_to_open": "Falhou em abrir o link"
+    "failed_to_open": "Falhou em abrir o link",
+    "restart_ecency": "Restart Ecency?",
+    "restart_ecency_desc": "Applying changes will require a restart."
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
