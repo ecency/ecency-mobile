@@ -433,7 +433,9 @@
     "update_available_body": "Käyttämällä uusinta versiota Ecencystä antaa sinulle parhaan kokemuksen",
     "update": "Päivitä nyt",
     "remind_later": "Muistuta myöhemmin",
-    "failed_to_open": "Linkin avaaminen epäonnistui"
+    "failed_to_open": "Linkin avaaminen epäonnistui",
+    "restart_ecency": "Restart Ecency?",
+    "restart_ecency_desc": "Applying changes will require a restart."
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
