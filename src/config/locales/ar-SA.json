@@ -433,7 +433,9 @@
     "update_available_body": "استخدام أحدث إصدار من Ecency يمنحك أفضل تجربة",
     "update": "حدث الآن",
     "remind_later": "تذكير لاحقاً",
-    "failed_to_open": "فشل في فتح رابط"
+    "failed_to_open": "فشل في فتح رابط",
+    "restart_ecency": "Restart Ecency?",
+    "restart_ecency_desc": "Applying changes will require a restart."
   },
   "post": {
     "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟",
