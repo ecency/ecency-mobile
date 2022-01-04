@@ -433,7 +433,9 @@
     "update_available_body": "Использование последней версии Ecency дает вам лучший опыт",
     "update": "Обновить сейчас",
     "remind_later": "Напомнить позже",
-    "failed_to_open": "Не удалось открыть ссылку"
+    "failed_to_open": "Не удалось открыть ссылку",
+    "restart_ecency": "Restart Ecency?",
+    "restart_ecency_desc": "Applying changes will require a restart."
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
