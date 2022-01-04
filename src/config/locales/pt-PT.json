@@ -254,7 +254,7 @@
     "friends": "Amigos",
     "communities": "Comunidades",
     "popup_postfix": "Postado",
-    "scroll_top": "Scroll To Top"
+    "scroll_top": "Rolar até o topo"
   },
   "side_menu": {
     "profile": "Perfil",
@@ -335,8 +335,8 @@
     "scheduled_for": "Agendado para",
     "scheduled_immediate": "Imediato",
     "scheduled_later": "Mais tarde",
-    "settings_title": "Post Options",
-    "done": "DONE"
+    "settings_title": "Opções da publicação",
+    "done": "FEITO"
   },
   "snippets": {
     "label_no_snippets": "Nenhum Snippet Encontrado",
@@ -434,8 +434,8 @@
     "update": "Atualizar Já",
     "remind_later": "Lembrar Depois",
     "failed_to_open": "Falhou em abrir o link",
-    "restart_ecency": "Restart Ecency?",
-    "restart_ecency_desc": "Applying changes will require a restart."
+    "restart_ecency": "Reiniciar a Ecency?",
+    "restart_ecency_desc": "Aplicar alterações exigirá uma reinicialização."
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
