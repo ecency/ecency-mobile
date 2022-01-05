@@ -36,6 +36,7 @@ export default EStyleSheet.create({
   userInfoWrapper: {
     alignSelf: 'center',
     marginLeft: 15,
+    marginRight: 8,
     width: 120,
   },
   username: {
@@ -63,10 +64,10 @@ export default EStyleSheet.create({
   listItemText: {
     color: '$primaryDarkGray',
     marginLeft: 12,
-    alignSelf: 'center',
     fontWeight: '500',
     fontSize: 14,
     flex: 1,
+    textAlign: 'left',
   },
   buttonText: {
     fontSize: 18,
