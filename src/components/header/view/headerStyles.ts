@@ -1,5 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Platform } from 'react-native';
+import { Platform, NativeModules } from 'react-native';
 
 export default EStyleSheet.create({
   container: {
@@ -29,15 +29,17 @@ export default EStyleSheet.create({
   avatarDefault: {
     borderTopRightRadius: 68 / 2,
     borderBottomRightRadius: 68 / 2,
+    overflow:'hidden'
   },
   titleWrapper: {
     flexDirection: 'column',
     justifyContent: 'center',
+    alignItems: 'flex-start',
     marginHorizontal: 8,
-    flex:2
+    flex:2,
   },
   titleWrapperReverse: {
-    alignItems:'flex-end'
+    alignItems:'flex-end',
   },  
   title: {
     fontSize: 14,
