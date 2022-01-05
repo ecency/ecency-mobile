@@ -8,6 +8,7 @@ export default EStyleSheet.create({
   },
   userDescription: {
     flexDirection: 'column',
+    alignItems: 'flex-start',
     flexGrow: 1,
     marginLeft: 8,
   },
@@ -26,7 +27,6 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     fontSize: 14,
     fontWeight: 'bold',
-    maxWidth: '$deviceWidth - 100',
     fontFamily: '$primaryFont',
   },
   reputation: {

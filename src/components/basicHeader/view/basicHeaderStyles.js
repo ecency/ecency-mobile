@@ -72,11 +72,12 @@ export default EStyleSheet.create({
   },
   title: {
     color: '$iconColor',
-    alignSelf: 'center',
+    // alignSelf: 'center',
     fontSize: 16,
     marginLeft: 16,
     flexGrow: 1,
     fontWeight: '500',
+    textAlign: 'left',
   },
   textInput: {
     color: '$iconColor',
