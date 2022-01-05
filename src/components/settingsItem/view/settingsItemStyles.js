@@ -12,6 +12,7 @@ export default EStyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     flexGrow: 1,
+    textAlign: 'left',
   },
   dropdownText: {
     fontSize: 14,

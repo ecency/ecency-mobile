@@ -77,6 +77,7 @@ export default EStyleSheet.create({
     marginLeft: 16,
     flexGrow: 1,
     fontWeight: '500',
+    textAlign: 'left',
   },
   textInput: {
     color: '$iconColor',
