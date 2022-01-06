@@ -1031,10 +1031,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@ecency/render-helper@^2.2.8":
-  version "2.2.8"
-  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.2.8.tgz#1c6e8b2e467f64097bf692a26f2a3103bc1e32f7"
-  integrity sha512-RPsM6Pbhb3Yfh2h1XiHj17fPM0doZTut3Wppf8iVGzwqdiaZ1NYI+mmYn5lG2lK8WcBAez0vHZeoHqBxdNGMWg==
+"@ecency/render-helper@^2.2.9":
+  version "2.2.9"
+  resolved "https://registry.yarnpkg.com/@ecency/render-helper/-/render-helper-2.2.9.tgz#067a4f3d3c27bcb814648c692a4dfb868035436b"
+  integrity sha512-Oiz2N7qbwRAuS7dtbSRmCr7Yp2wUyEmBNtEun1byYoE+1g4k7dxJLsigs9ErrJzZ/yFQVcLEB1YrfjZczl/vfQ==
   dependencies:
     he "^1.2.0"
     lolight "^1.4.0"
@@ -8691,10 +8691,10 @@ react-native-render-html@^6.0.5:
     stringify-entities "^3.1.0"
     urijs "^1.19.6"
 
-react-native-restart@0.0.17:
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/react-native-restart/-/react-native-restart-0.0.17.tgz#c1f38e019d1a2114248d496698e7951e9435ba91"
-  integrity sha512-UwFPDssMFoyDbF2aLARIHWt5g/o0TtxCXK9WIY+0iNpkgG9qWd+n80XBwXioNCdgy39ZQ5yfJBJRwtMLDgABag==
+react-native-restart@^0.0.23:
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/react-native-restart/-/react-native-restart-0.0.23.tgz#9b53062ebc692f469d0662c06879cb4d34c62520"
+  integrity sha512-BTs3YNl0MFyTgYgq6oQOspVV7+8Umm2QeuHWJ8xfRsjdHIUBoKF/Bxe1IMGAO5vHPcNwN+lHE6Mf58Tu4HS9/w==
 
 react-native-safe-area-context@^3.1.9:
   version "3.1.9"
@@ -9389,6 +9389,11 @@ rsvp@^4.8.4:
   version "4.8.5"
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-4.8.5.tgz#c8f155311d167f68f21e168df71ec5b083113734"
   integrity sha512-nfMOlASu9OnRJo1mbEk2cz0D56a1MBNrJ7orjRZQG10XDyuvwksKbuXNp6qa+kbn839HwjwhBzhFmdsaEAfauA==
+
+rtl-detect@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/rtl-detect/-/rtl-detect-1.0.4.tgz#40ae0ea7302a150b96bc75af7d749607392ecac6"
+  integrity sha512-EBR4I2VDSSYr7PkBmFy04uhycIpDKp+21p/jARYXlCSjQksTBQcJ0HFUPOO79EPPH5JS6VAhiIQbycf0O3JAxQ==
 
 run-async@^2.2.0:
   version "2.4.1"

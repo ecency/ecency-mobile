@@ -325,8 +325,8 @@ PODS:
     - React-Core
   - react-native-receive-sharing-intent (1.0.4):
     - React
-  - react-native-restart (0.0.17):
-    - React
+  - react-native-restart (0.0.23):
+    - React-Core
   - react-native-safe-area-context (3.1.9):
     - React-Core
   - react-native-splash-screen (3.2.0):
@@ -731,7 +731,7 @@ SPEC CHECKSUMS:
   react-native-netinfo: 30fb89fa913c342be82a887b56e96be6d71201dd
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-receive-sharing-intent: feba0a332a07977549a85aa58b496eb44368366a
-  react-native-restart: d19a0f8d053d065fe64cd2baebb6487111c77149
+  react-native-restart: aaad36f3ed7031daac3565f4a79d67e4f3884a50
   react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-udp: ff9d13e523f2b58e6bc5d4d32321ac60671b5dc9
@@ -772,4 +772,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 9c48318ea254e2c78005a7a0c2d8bfc14ddd783d
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2
