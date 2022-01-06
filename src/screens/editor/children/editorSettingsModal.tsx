@@ -115,8 +115,8 @@ const EditorSettingsModal =  forwardRef(({
     }
 
     const _renderContent = (
-      <View style={{flex:1}}>
-          <KeyboardAwareScrollView contentContainerStyle={{flex:1}} >
+      <View style={styles.fillSpace}>
+          <KeyboardAwareScrollView style={styles.fillSpace} >
           <View style={styles.container}>
             {!isEdit && (
               <>
