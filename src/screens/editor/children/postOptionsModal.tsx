@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { View } from 'react-native';
 
 import { DateTimePicker, MainButton, Modal, SettingsItem } from '../../../components';
-import styles from './editorSettingsModalStyles';
+import styles from './postOptionsModalStyles';
 import ThumbSelectionContent from './thumbSelectionContent';
 import {View as AnimatedView} from 'react-native-animatable';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -27,12 +27,12 @@ const REWARD_TYPES = [
 
 
 
-export interface EditorSettingsModalRef {
+export interface PostOptionsModalRef {
     showModal:()=>void;
 }
 
 
-interface EditorSettingsModalProps {
+interface PostOptionsModalProps {
   body:string;
   draftId:string;
   thumbIndex:number,
@@ -44,7 +44,7 @@ interface EditorSettingsModalProps {
   handleShouldReblogChange:(shouldReblog:boolean)=>void;
 }
 
-const EditorSettingsModal =  forwardRef(({
+const PostOptionsModal =  forwardRef(({
   body,
   draftId,
   thumbIndex,
@@ -54,7 +54,7 @@ const EditorSettingsModal =  forwardRef(({
   handleThumbSelection,
   handleScheduleChange,
   handleShouldReblogChange,
-}: EditorSettingsModalProps, ref) => {
+}: PostOptionsModalProps, ref) => {
     const intl = useIntl();
 
     const [showModal, setShowModal] = useState(false);
@@ -115,8 +115,8 @@ const EditorSettingsModal =  forwardRef(({
     }
 
     const _renderContent = (
-      <View style={{flex:1}}>
-          <KeyboardAwareScrollView contentContainerStyle={{flex:1}} >
+      <View style={styles.fillSpace}>
+          <KeyboardAwareScrollView style={styles.fillSpace} >
           <View style={styles.container}>
             {!isEdit && (
               <>
@@ -220,4 +220,4 @@ const EditorSettingsModal =  forwardRef(({
   );
 });
 
-export default EditorSettingsModal
+export default PostOptionsModal

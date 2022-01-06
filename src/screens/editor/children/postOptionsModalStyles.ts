@@ -12,8 +12,10 @@ export default EStyleSheet.create({
         paddingTop: 32,
         paddingBottom: 16,
       },
+      fillSpace:{
+        flex:1
+      },
       container: {
-        flex: 1,
         paddingVertical: 8,
         paddingHorizontal: 32,
       },

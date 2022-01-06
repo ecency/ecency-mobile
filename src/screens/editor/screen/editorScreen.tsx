@@ -32,7 +32,7 @@ import { isCommunity } from '../../../utils/communityValidation';
 
 import styles from './editorScreenStyles';
 import ThumbSelectionModal from '../children/thumbSelectionModal';
-import EditorSettingsModal from '../children/editorSettingsModal';
+import PostOptionsModal from '../children/postOptionsModal';
 
 class EditorScreen extends Component {
   /* Props
@@ -40,7 +40,7 @@ class EditorScreen extends Component {
    *   @prop { type }    name                - Description....
    */
   thumbSelectionModalRef = null;
-  editorSettingsModalRef = null;
+  postOptionsModalRef = null;
 
   constructor(props) {
     super(props);
@@ -201,8 +201,8 @@ class EditorScreen extends Component {
   }
 
   _handleSettingsPress = () => {
-    if(this.editorSettingsModalRef){
-      this.editorSettingsModalRef.show();
+    if(this.postOptionsModalRef){
+      this.postOptionsModalRef.show();
     }
   }
 
@@ -458,8 +458,8 @@ class EditorScreen extends Component {
           thumbIndex={thumbIndex}
           onThumbSelection={this._handleOnThumbSelection}
         />
-        <EditorSettingsModal
-          ref={(componentRef) => (this.editorSettingsModalRef = componentRef)}
+        <PostOptionsModal
+          ref={(componentRef) => (this.postOptionsModalRef = componentRef)}
           body={fields.body}
           draftId={draftId}
           thumbIndex={thumbIndex}
