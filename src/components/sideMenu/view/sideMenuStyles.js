@@ -1,4 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { isRTL } from '../../../utils/I18nUtils';
 import scalePx from '../../../utils/scalePx';
 
 export default EStyleSheet.create({
@@ -18,14 +19,16 @@ export default EStyleSheet.create({
   headerContentWrapper: {
     alignItems: 'center',
     height: 70,
-    flexDirection: 'row',
+    flexDirection: isRTL() ? 'row-reverse' : 'row',
     alignSelf: 'center',
+    flex: 1,
   },
   contentView: {
     flex: 4,
   },
   userAvatar: {
-    marginLeft: 32,
+    marginLeft: isRTL() ? 15 : 32,
+    marginRight: isRTL() ? 15 : 0,
   },
   otherUserAvatar: {
     borderWidth: 0.1,
@@ -63,10 +66,10 @@ export default EStyleSheet.create({
   listItemText: {
     color: '$primaryDarkGray',
     marginLeft: 12,
-    alignSelf: 'center',
     fontWeight: '500',
     fontSize: 14,
     flex: 1,
+    textAlign: 'left',
   },
   buttonText: {
     fontSize: 18,
