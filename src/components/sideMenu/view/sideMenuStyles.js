@@ -1,5 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { NativeModules } from 'react-native';
+import { isRTL } from '../../../utils/I18nUtils';
 import scalePx from '../../../utils/scalePx';
 
 export default EStyleSheet.create({
@@ -19,7 +19,7 @@ export default EStyleSheet.create({
   headerContentWrapper: {
     alignItems: 'center',
     height: 70,
-    flexDirection: NativeModules.I18nManager.isRTL ? 'row-reverse' : 'row',
+    flexDirection: isRTL() ? 'row-reverse' : 'row',
     alignSelf: 'center',
     flex: 1,
   },
@@ -27,8 +27,8 @@ export default EStyleSheet.create({
     flex: 4,
   },
   userAvatar: {
-    marginLeft: NativeModules.I18nManager.isRTL ? 15 : 32,
-    marginRight: NativeModules.I18nManager.isRTL ? 15 : 0,
+    marginLeft: isRTL() ? 15 : 32,
+    marginRight: isRTL() ? 15 : 0,
   },
   otherUserAvatar: {
     borderWidth: 0.1,
