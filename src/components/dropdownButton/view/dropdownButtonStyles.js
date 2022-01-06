@@ -80,5 +80,6 @@ export default EStyleSheet.create({
   rowText: {
     fontSize: 10,
     color: '$primaryDarkGray',
+    textAlign: 'left',
   },
 });

@@ -86,10 +86,12 @@ export default EStyleSheet.create({
   detailsText: {
     color: '$primaryDarkGray',
     fontSize: 12,
+    textAlign: 'right',
   },
   popoverItemContent: {
     flexDirection: 'row',
     marginTop: 4,
+    justifyContent: 'space-between',
   },
   popoverContent: {
     marginTop: 4,
@@ -100,5 +102,6 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     fontSize: 12,
     fontWeight: 'bold',
+    textAlign: 'left',
   },
 });
