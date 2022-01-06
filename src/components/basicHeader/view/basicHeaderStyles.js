@@ -1,4 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { NativeModules } from 'react-native';
 
 export default EStyleSheet.create({
   container: {
@@ -13,6 +14,11 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
   },
   backIcon: {
+    fontSize: 24,
+    color: '$iconColor',
+    transform: [{ scaleX: NativeModules.I18nManager.isRTL ? -1 : 1 }],
+  },
+  gearIcon: {
     fontSize: 24,
     color: '$iconColor',
   },
@@ -45,6 +51,7 @@ export default EStyleSheet.create({
   },
   iconButton: {
     marginRight: 24,
+    marginLeft: NativeModules.I18nManager.isRTL ? 24 : 0,
     justifyContent: 'center',
     alignSelf: 'center',
   },
@@ -65,11 +72,12 @@ export default EStyleSheet.create({
   },
   title: {
     color: '$iconColor',
-    alignSelf: 'center',
+    // alignSelf: 'center',
     fontSize: 16,
     marginLeft: 16,
     flexGrow: 1,
     fontWeight: '500',
+    textAlign: 'left',
   },
   textInput: {
     color: '$iconColor',

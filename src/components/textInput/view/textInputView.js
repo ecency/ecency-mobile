@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput } from 'react-native';
+import { TextInput, NativeModules } from 'react-native';
 
 import { ThemeContainer } from '../../../containers';
 
@@ -12,6 +12,7 @@ const TextInputView = ({ innerRef, height, style, ...props }) => (
       <TextInput
         ref={innerRef}
         keyboardAppearance={isDarkTheme ? 'dark' : 'light'}
+        textAlign={NativeModules.I18nManager.isRTL ? 'right' : 'left'}
         {...props}
         style={[styles.input, { minHeight: height }, style]}
       />
