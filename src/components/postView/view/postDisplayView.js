@@ -235,7 +235,6 @@ const PostDisplayView = ({
                     <Text style={styles.footerName}>{` ${author || post.author} `}</Text>
                     {formatedTime}
                   </Text>
-                  {/* {isPostEnd && this._getTabBar()} */}
                 </View>
               )}
             </View>

@@ -14,7 +14,16 @@ export default EStyleSheet.create({
   } as TextStyle,
   p:{
     marginTop:6,
-    marginBottom:6
+    marginBottom:6,
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'center',
+    flexWrap:'wrap'
+
+  } as TextStyle,
+  pLi:{
+    marginTop:0,
+    marginBottom:0
   } as TextStyle,
   a:{
     color: '$primaryBlue'
@@ -37,7 +46,6 @@ export default EStyleSheet.create({
   tr:{
     backgroundColor:'$darkIconColor',
     flexDirection:'row',
- 
   } as ViewStyle,
   td:{
     flex:1,
@@ -49,6 +57,9 @@ export default EStyleSheet.create({
   } as ViewStyle,
   table:{
       width: '100%',
+  } as ViewStyle,
+  li:{
+      marginBottom:12
   } as ViewStyle,
   blockquote: {
     borderLeftWidth: 5,
