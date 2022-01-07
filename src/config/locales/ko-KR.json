@@ -331,6 +331,7 @@
     "draft_save_success": "임시 보관함에 저장했습니다",
     "draft_save_fail": "임시 보관함에 저장 실패했습니다",
     "select_thumb": "글 썸네일 선택",
+    "add_more_imgs": "Add more images to post",
     "two_thumbs_required": "썸네일 이미지를 설정하기 전에 게시물에 더 많은 이미지를 추가하세요",
     "scheduled_for": "Scheduled For",
     "scheduled_immediate": "Immediate",
