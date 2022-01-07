@@ -24,6 +24,7 @@ export default EStyleSheet.create({
     fontSize: 12,
     color: '$primaryDarkGray',
     padding: 5,
+    textAlign: 'left',
   },
   dropdownStyle: {
     marginTop: 15,
