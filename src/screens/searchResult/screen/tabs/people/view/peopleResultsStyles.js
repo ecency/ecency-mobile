@@ -1,4 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { isRTL } from '../../../../../../utils/I18nUtils';
 
 export default EStyleSheet.create({
   container: {
@@ -48,6 +49,7 @@ export default EStyleSheet.create({
   descriptionStyle: {
     maxWidth: '$deviceWidth',
     marginTop: 4,
-    marginRight: 24,
+    marginRight: isRTL() ? 0 : 24,
+    marginLeft: isRTL() ? 24 : 0,
   },
 });

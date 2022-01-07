@@ -1,4 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { isRTL } from '../../../../utils/I18nUtils';
 
 export default EStyleSheet.create({
   container: {
@@ -8,16 +9,17 @@ export default EStyleSheet.create({
   },
   userDescription: {
     flexDirection: 'column',
-    alignItems: 'flex-start',
+    alignItems: isRTL() ? 'flex-end' : 'flex-start',
     flexGrow: 1,
-    marginLeft: 8,
+    marginLeft: isRTL() ? 0 : 8,
+    marginRight: isRTL() ? 8 : 0,
   },
   voteItemWrapper: {
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderRadius: 8,
-    flexDirection: 'row',
+    flexDirection: isRTL() ? 'row-reverse' : 'row',
     backgroundColor: '$primaryBackgroundColor',
   },
   voteItemWrapperGray: {
