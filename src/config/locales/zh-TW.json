@@ -253,7 +253,8 @@
     "posts": "文章",
     "friends": "朋友",
     "communities": "社區",
-    "popup_postfix": "已發佈"
+    "popup_postfix": "已發佈",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "個人檔案",
@@ -270,7 +271,8 @@
     "logout_text": "您確定要登出嗎？",
     "create_a_new_account": "創建一個新帳戶",
     "add_an_existing_account": "綁定現有帳號",
-    "accounts": "帳號"
+    "accounts": "帳號",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "登入後定制您的朋友圈",
@@ -280,7 +282,8 @@
     "publish": "發佈",
     "search": "搜尋",
     "update": "更新",
-    "reply": "回覆"
+    "reply": "回覆",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "標題",
@@ -302,6 +305,7 @@
     "limited_lastchar": "標籤必須以字母或數位結尾",
     "setting_schedule": "預訂發布時間",
     "setting_reward": "獎勵",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "受益人",
     "setting_thumb": "Set Thumbnail",
     "reward_default": "預設 50% / 50%",
@@ -327,7 +331,12 @@
     "draft_save_success": "草稿已儲存",
     "draft_save_fail": "儲存失敗",
     "select_thumb": "Select Post Thumbnail",
-    "two_thumbs_required": "Add more images in your post before setting thumbnail"
+    "two_thumbs_required": "Add more images in your post before setting thumbnail",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Options",
+    "done": "DONE"
   },
   "snippets": {
     "label_no_snippets": "沒找到片段",
@@ -424,7 +433,9 @@
     "update_available_body": "Using latest version of Ecency gives you the best experience",
     "update": "Update Now",
     "remind_later": "Remind Later",
-    "failed_to_open": "Failed to open a link"
+    "failed_to_open": "Failed to open a link",
+    "restart_ecency": "Restart Ecency?",
+    "restart_ecency_desc": "Applying changes will require a restart."
   },
   "post": {
     "reblog_alert": "您確定想要轉發？",
@@ -467,7 +478,9 @@
     "add": "添加到書簽"
   },
   "report": {
-    "added": "內容已經被投報或投訴"
+    "added": "內容已經被投報或投訴",
+    "confirm_report_title": "Confirm Report!",
+    "confirm_report_body": "Are you sure you want report?"
   },
   "favorites": {
     "title": "收藏夹",
@@ -490,7 +503,8 @@
     "payout_date": "收益",
     "beneficiaries": "受益人",
     "warn_zero_payout": "收益數量必須達到$0.02，才會支付",
-    "breakdown": "明细"
+    "breakdown": "明细",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "複製連結",
@@ -650,8 +664,9 @@
     "unfollow": "取消關注",
     "add_to_favourites": "ADD TO FAVOURITES",
     "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE",
-    "unmute": "UNMUTE"
+    "mute": "MUTE / BLOCK",
+    "unmute": "UNMUTE / UNBLOCK",
+    "report": "REPORT USER"
   },
   "communities": {
     "joined": "會員身份",
@@ -666,7 +681,8 @@
     "percent": "百分比",
     "username": "用戶名稱",
     "addAccount": "添加帳號",
-    "save": "保存"
+    "save": "保存",
+    "cancel": "Cancel"
   },
   "welcome": {
     "label": "歡迎使用",

@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Награда бенефициару",
     "claim_reward_balance": "Получение Вознаграждений ",
     "transfer": "Перевод",
-    "power_up": "To Vesting",
+    "power_up": "В Силу",
     "transfer_from_savings": "Из сейфа",
     "withdraw_vesting": "Понижение силы",
     "fill_order": "Заполнить ордер",
@@ -62,14 +62,14 @@
     "purchase_estm": "Получить Баллы",
     "points": "Подарить Баллы",
     "transfer_to_saving": "В Сейф",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_vesting": "Увеличить силу",
     "withdraw_to_saving": "Вывести в Сейф",
     "steemconnect_title": "Hivesigner транзакция",
     "next": "ДАЛЕЕ",
     "delegate": "Делегировать",
     "power_down": "Понижение силы",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HBD",
+    "withdraw_hive": "Вывести HIVE",
+    "withdraw_hbd": "Вывести HBD",
     "transfer_to_savings": "В Сейф",
     "convert": "Конвертировать",
     "escrow_transfer": "Передача на депозит",
@@ -86,21 +86,21 @@
       "buy": "Получить Баллы"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "HIVE сбережения"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "HBD сбережения"
     },
     "hive": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "Купить HIVE"
     },
     "hbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "Купить HBD"
     },
     "hive_power": {
-      "title": "HIVE POWER"
+      "title": "HIVE СИЛА"
     },
     "btc": {
       "title": "BTC",
@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "проголосовал",
-    "unvote": "downvoted",
+    "unvote": "проголосовано против",
     "reply": "ответил",
     "mention": "упомянул вас в",
     "follow": "подписан",
@@ -128,7 +128,7 @@
     "recent": "Недавно",
     "yesterday": "Вчера",
     "this_week": "На неделе",
-    "last_week": "Last Week",
+    "last_week": "На прошлой неделе",
     "this_month": "В этом месяце",
     "older_then": "Давно",
     "activities": "Все",
@@ -136,15 +136,15 @@
     "mentions": "Упоминания",
     "reblogs": "Репосты",
     "noactivity": "За последнее время активности нет",
-    "mention_on": "New mention on",
-    "reply_on": "New reply on",
-    "reply_body": "Tap to continue conversation..."
+    "mention_on": "Новое упоминание в",
+    "reply_on": "Новый ответ на",
+    "reply_body": "Нажмите, чтобы продолжить беседу..."
   },
   "leaderboard": {
     "daily": "ЗА ДЕНЬ",
     "weekly": "ЗА НЕДЕЛЮ",
     "monthly": "ЗА МЕСЯЦ",
-    "tooltip_earn": "Earn points by actively participating in Ecency."
+    "tooltip_earn": "Зарабатывайте поинты, активно участвуя в Ecency."
   },
   "messages": {
     "comingsoon": "Здесь будут сообщения!"
@@ -152,7 +152,7 @@
   "profile": {
     "following": "Подписки",
     "follower": "Подписчики",
-    "edit_label": "Edit",
+    "edit_label": "Редактировать",
     "post": "Посты",
     "details": "Детализация профиля",
     "comments": "Комментарии",
@@ -164,20 +164,20 @@
     "hours": "час.",
     "voting_power": "Сила голоса",
     "login_to_see": "Войдите, чтобы увидеть",
-    "follow_people": "When you follow people, you'll see their post here.",
-    "follow_communities": "When you join communities you'll see posts from communities here.",
+    "follow_people": "Когда вы подписываетесь на людей, вы увидите их пост здесь.",
+    "follow_communities": "Когда вы присоединитесь к сообществам, вы увидите сообщения из сообществ здесь.",
     "havent_commented": "ещё ничего не комментировал",
     "havent_posted": "ещё ничего не написал",
-    "hive_power": "Hive Power",
+    "hive_power": "Hive Сила",
     "next_power_text": "Следующее понижение силы",
     "days": "д",
     "day": "д",
-    "hive_dollars": "Hive Dollars",
+    "hive_dollars": "Hive Доллары",
     "savings": "Сейф",
-    "joined": "Joined {time} ago",
-    "view_full": "VIEW FULL PROFILE",
+    "joined": "Присоединился(ась) {time} назад",
+    "view_full": "ПОСМОТРЕТЬ ПОЛНЫЙ ПРОФИЛЬ",
     "resource_credits": "Resource Credits",
-    "reputation": "Reputation",
+    "reputation": "Репутация",
     "edit": {
       "display_name": "Отображаемое имя",
       "about": "О себе",
@@ -253,7 +253,8 @@
     "posts": "Посты",
     "friends": "Друзья",
     "communities": "Сообщества",
-    "popup_postfix": "Posted"
+    "popup_postfix": "Опубликовано",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "Профиль",
@@ -263,14 +264,15 @@
     "schedules": "Отложенное",
     "gallery": "Галлерея",
     "settings": "Настройки",
-    "communities": "Communities",
+    "communities": "Сообщества",
     "add_account": "Добавить аккаунт",
     "logout": "Выйти",
     "cancel": "Отмена",
     "logout_text": "Вы уверены, что хотите разлогина?",
     "create_a_new_account": "Создать новый аккаунт",
     "add_an_existing_account": "Добавить существующий аккаунт",
-    "accounts": "Аккаунты"
+    "accounts": "Аккаунты",
+    "refer": "Расскажите и заработайте"
   },
   "header": {
     "title": "Войдите, чтобы настроить свою ленту",
@@ -280,7 +282,8 @@
     "publish": "Написать",
     "search": "Поиск",
     "update": "Обновить",
-    "reply": "Ответить"
+    "reply": "Ответить",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "Заголовок",
@@ -291,7 +294,7 @@
     "reply": "Ответить",
     "open_gallery": "Перейти в галерею",
     "capture_photo": "Сделать фото",
-    "uploaded_images": "Uploaded Images",
+    "uploaded_images": "Загруженные изображения",
     "limited_tags": "Допускается только 10 тегов, удалите несколько",
     "limited_length": "Максимальная длина каждого тeга - 24 символа",
     "limited_dash": "Только один дефис в каждом теге",
@@ -300,66 +303,72 @@
     "limited_characters": "Используйте только строчные буквы, цифры и одно тире",
     "limited_firstchar": "Тег должен начинаться с буквы",
     "limited_lastchar": "Тег должен заканчиваться буквой или цифрой",
-    "setting_schedule": "Scheduling Time",
+    "setting_schedule": "Запланированное время",
     "setting_reward": "Вознаграждение",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "Бенефициар",
-    "setting_thumb": "Set Thumbnail",
+    "setting_thumb": "Установить Миниатюру",
     "reward_default": "По умолчанию 50% / 50%",
     "reward_power_up": "100% в Силу",
     "reward_decline": "Отказ от выплат",
     "beneficiaries": "Бенефициары",
-    "options": "Options",
+    "options": "Параметры",
     "my_blog": "Мой блог",
-    "select_community": "Choose a community",
+    "select_community": "Выбрать сообщество",
     "my_communities": "Мои сообщества",
     "top_communities": "Топовые сообщества",
     "schedule_modal_title": "Отложить пост",
-    "snippets": "Snippets",
-    "alert_init_title": "New Content",
-    "alert_init_body": "Open recent draft or Create new post",
-    "alert_btn_draft": "Recent Draft",
-    "alert_btn_new": "New Post",
-    "alert_pub_edit_title": "Publishing edits",
-    "alert_pub_new_title": "Publishing new post",
-    "alert_pub_body": "Are you sure?",
-    "alert_btn_yes": "Yes",
-    "alert_btn_no": "No",
-    "draft_save_success": "Draft Saved",
-    "draft_save_fail": "Failed to save draft",
-    "select_thumb": "Select Post Thumbnail",
-    "two_thumbs_required": "Add more images in your post before setting thumbnail"
+    "snippets": "Сниппеты",
+    "alert_init_title": "Новый контент",
+    "alert_init_body": "Открыть недавний черновик или Создать новый пост",
+    "alert_btn_draft": "Недавний черновик",
+    "alert_btn_new": "Новый пост",
+    "alert_pub_edit_title": "Публикация правок",
+    "alert_pub_new_title": "Публикация нового поста",
+    "alert_pub_body": "Вы уверены?",
+    "alert_btn_yes": "Да",
+    "alert_btn_no": "Нет",
+    "draft_save_success": "Черновик сохранён",
+    "draft_save_fail": "Не удалось сохранить черновик",
+    "select_thumb": "Выбрать Миниатюру для Поста",
+    "two_thumbs_required": "Добавьте больше изображений в ваше сообщение перед настройкой миниаютюры",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Options",
+    "done": "DONE"
   },
   "snippets": {
-    "label_no_snippets": "No Snippets Found",
-    "title_add_snippet": "Add Snippet",
-    "title_edit_snippet": "Edit Snippet",
-    "title_remove_confirmation": "Delete snippet",
-    "placeholder_title": "Snippet title",
-    "placeholder_body": "Add snippet body here...",
-    "btn_save": "SAVE",
-    "btn_close": "CLOSE",
-    "btn_add": "Snippet",
-    "message_incomplete": "Please add title and body for snippet",
-    "message_failed": "Failed to save snippet",
-    "message_remove_confirmation": "Are you sure you want to delete this snippet?",
-    "btn_confirm": "Confirm",
-    "btn_cancel": "Cancel"
+    "label_no_snippets": "Сниппеты не найдены",
+    "title_add_snippet": "Добавить сниппет",
+    "title_edit_snippet": "Редактировать сниппет",
+    "title_remove_confirmation": "Удалить сниппет",
+    "placeholder_title": "Название сниппета",
+    "placeholder_body": "Добавьте текст сниппета сюда...",
+    "btn_save": "СОХРАНИТЬ",
+    "btn_close": "ЗАКРЫТЬ",
+    "btn_add": "Сниппет",
+    "message_incomplete": "Пожалуйста, добавьте название и текст для сниппета",
+    "message_failed": "Не удалось сохранить сниппет",
+    "message_remove_confirmation": "Вы уверены, что хотите удалить этот сниппет?",
+    "btn_confirm": "Подтвердить",
+    "btn_cancel": "Отмена"
   },
   "uploads_modal": {
-    "label_no_images": "No Images Found",
-    "title": "Uploaded Images",
-    "title_remove_confirmation": "Delete image",
-    "btn_add": "Image",
-    "message_failed": "Failed to upload image"
+    "label_no_images": "Изображения не найдены",
+    "title": "Загруженные изображения",
+    "title_remove_confirmation": "Удалить изображение",
+    "btn_add": "Изображение",
+    "message_failed": "Не удалось загрузить изображение"
   },
   "pincode": {
     "enter_text": "Чтобы разблокировать введите пин-код",
     "set_new": "Выберите новый пинкод",
     "write_again": "Повторите пинкод",
     "forgot_text": "Запамятовал...",
-    "pin_not_matched": "PIN do not match, Please try again.",
-    "attempts_postfix": "failed attempt(s)",
-    "message_reset_warning": "User data will be wiped on next failed attempt"
+    "pin_not_matched": "Пароли не совпадают, попробуйте еще раз.",
+    "attempts_postfix": "неудачные попытки",
+    "message_reset_warning": "Данные пользователя будут удалены при следующей неудачной попытке"
   },
   "alert": {
     "success": "Успех!",
@@ -369,7 +378,7 @@
     "fail": "Не вышло!",
     "move": "Переместить",
     "move_question": "Вы уверены, что хотите переместить в черновики?",
-    "success_shared": "Success! Content submitted!",
+    "success_shared": "Успех! Контент отправлен!",
     "success_moved": "Перемещён в черновики",
     "permission_denied": "Не достаточно разрешений",
     "permission_text": "Пожалуйста, перейдите в настройки телефона и измените разрешения для приложения Ecency.",
@@ -393,7 +402,7 @@
     "remove_alert": "Вы уверены, что хотите удалить?",
     "clear_alert": "Вы уверены, что хотите очистить?",
     "clear_user_alert": "Вы уверены, что хотите удалить все Ваши данные?",
-    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
+    "decrypt_fail_alert": "Повреждено состояние приложения, пожалуйста, перезайдите для сброса.",
     "clear": "Очистить",
     "cancel": "Отмена",
     "delete": "Удалить",
@@ -415,22 +424,24 @@
     "payloadTooLarge": "Размер файла слишком большой. Ппожалуйста, измените размер или загрузите изображение меньшего размера",
     "qoutaExceeded": "Превышен лимит загрузки",
     "invalidImage": "Изображение не подходит, попробуйте другой файл",
-    "something_wrong": "Something went wrong",
-    "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
-    "something_wrong_reload": "Try again?",
-    "can_not_be_empty": "Title and body can not be empty!",
-    "wrong_filter_count": "Please select 3 filters",
-    "update_available_title": "Update available v{version}",
-    "update_available_body": "Using latest version of Ecency gives you the best experience",
-    "update": "Update Now",
-    "remind_later": "Remind Later",
-    "failed_to_open": "Failed to open a link"
+    "something_wrong": "Что-то пошло не так",
+    "something_wrong_alt": "Тем временем, попробуйте Ecency.com в вашем браузере",
+    "something_wrong_reload": "Повторить попытку?",
+    "can_not_be_empty": "Название и основная часть не могут быть пустыми!",
+    "wrong_filter_count": "Пожалуйста, выберите 3 фильтра",
+    "update_available_title": "Доступно обновление v{version}",
+    "update_available_body": "Использование последней версии Ecency дает вам лучший опыт",
+    "update": "Обновить сейчас",
+    "remind_later": "Напомнить позже",
+    "failed_to_open": "Не удалось открыть ссылку",
+    "restart_ecency": "Restart Ecency?",
+    "restart_ecency_desc": "Applying changes will require a restart."
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
     "removed_hint": "Контент не доступен",
     "copy_link": "Копировать ссылку",
-    "copy_text": "Copy text",
+    "copy_text": "Копировать текст",
     "reblogged": "репостнуто",
     "sponsored": "СПОНСИРОВАНО",
     "open_thread": "Открыть обсуждение",
@@ -441,8 +452,8 @@
     "image_saved": "Изображение сохранено в фотогалерею",
     "image_saved_error": "Ошибка при сохранении изображения",
     "wrong_link": "Неверная ссылка",
-    "in": "in",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "in": "в",
+    "reveal_muted": "ОТКЛЮЧЕНО\nНажмите, чтобы показать контент"
   },
   "drafts": {
     "title": "Черновики",
@@ -467,7 +478,9 @@
     "add": "добавить"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Было сообщено о нежелательном содержании",
+    "confirm_report_title": "Подтвердить Жалобу!",
+    "confirm_report_body": "Вы уверены, что хотите подать жалобу?"
   },
   "favorites": {
     "title": "Избранное",
@@ -490,7 +503,8 @@
     "payout_date": "Выплата",
     "beneficiaries": "Бенефициары",
     "warn_zero_payout": "Для получения выплаты сумма должна достичь $0.02",
-    "breakdown": "Разбивка"
+    "breakdown": "Разбивка",
+    "max_accepted": "Максимально допустимый"
   },
   "post_dropdown": {
     "copy": "копировать ссылку",
@@ -500,7 +514,7 @@
     "bookmarks": "добавить в закладки",
     "promote": "продвинуть",
     "boost": "усилить",
-    "report": "report"
+    "report": "пожаловаться"
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
@@ -534,8 +548,8 @@
     "purchase_estm": "Купить Баллы",
     "convert": "Конвертировать HBD в HIVE",
     "points": "Подарить Баллы",
-    "transfer_to_savings": "Transfer To Saving",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_savings": "Отправить в сейф",
+    "transfer_to_vesting": "Увеличение силы",
     "withdraw_to_saving": "Перевести в сейф",
     "steemconnect_title": "Hivesigner транзакция",
     "estimated_weekly": "Примерно в неделю",
@@ -548,11 +562,11 @@
     "next": "ДАЛЕЕ",
     "delegate": "Делегировать",
     "power_down": "Понижение Силы",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HIVE Dollar",
+    "withdraw_hive": "Вывести HIVE",
+    "withdraw_hbd": "Вывести Hive Доллар",
     "incoming_funds": "Входящие средства",
     "stop": "Остановить",
-    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
+    "sc_power_down_error": "Эта функция еще не реализована для логина через Hivesigner",
     "address_view": "Посмотреть адрес"
   },
   "boost": {
@@ -601,12 +615,12 @@
     "title": "Комментарии",
     "reveal_comment": "Показать комментарий",
     "read_more": "Читать больше комментариев",
-    "more_replies": "replies"
+    "more_replies": "ответы"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Другое",
     "best": {
-      "title": "Best"
+      "title": "Лучшее"
     },
     "people": {
       "title": "Люди"
@@ -615,7 +629,7 @@
       "title": "Темы"
     },
     "communities": {
-      "title": "Groups",
+      "title": "Группы",
       "subscribe": "Присоединиться",
       "unsubscribe": "Покинуть",
       "subscribers": "Участники",
@@ -642,50 +656,52 @@
     "new_post": "Новый пост",
     "community": "сообщество",
     "details": "Подробности",
-    "muted": "Muted",
-    "payout": "Payout"
+    "muted": "Отключено",
+    "payout": "Выплата"
   },
   "user": {
     "follow": "Подписаться",
     "unfollow": "Отписаться",
-    "add_to_favourites": "ADD TO FAVOURITES",
-    "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE",
-    "unmute": "UNMUTE"
+    "add_to_favourites": "ДОБАВИТЬ В ИЗБРАННОЕ",
+    "remove_from_favourites": "УДАЛИТЬ ИЗ ИЗБРАННЫХ",
+    "mute": "ОТКЛЮЧИТЬ / ЗАБЛОКИРОВАТЬ",
+    "unmute": "ВКЛЮЧИТЬ / РАЗБЛОКИРОВАТЬ",
+    "report": "ПОЖАЛОВАТЬСЯ НА ПОЛЬЗОВАТЕЛЯ"
   },
   "communities": {
-    "joined": "Membership",
-    "discover": "Discover",
-    "discover_communities": "Discover Communities",
-    "no_communities": "Connect with people who share your interests by joining Communities."
+    "joined": "Членство",
+    "discover": "Найти",
+    "discover_communities": "Найти Сообщества",
+    "no_communities": "Свяжитесь с людьми, которые разделяют ваши интересы, присоединившись к Сообществам."
   },
   "empty_screen": {
-    "nothing_here": "Nothing here"
+    "nothing_here": "Ничего нет"
   },
   "beneficiary_modal": {
-    "percent": "Percent",
-    "username": "Username",
-    "addAccount": "Add Account",
-    "save": "Save"
+    "percent": "Процент",
+    "username": "Имя пользователя",
+    "addAccount": "Добавить аккаунт",
+    "save": "Сохранить",
+    "cancel": "Cancel"
   },
   "welcome": {
-    "label": "Welcome to",
+    "label": "Добро пожаловать в",
     "title": "Ecency",
-    "line1_heading": "Are you looking for community?",
-    "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
-    "line2_heading": "We have a solution!",
-    "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
-    "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others.",
-    "get_started": "Get started!"
+    "line1_heading": "Вы ищете сообщество?",
+    "line1_body": "Без цензуры, неизменный, награждающий, децентрализованный, которым вы владеете.",
+    "line2_heading": "У нас есть решение!",
+    "line2_body": "Использование блокчейна, без цензуры, децентрализованное и награждающее.",
+    "line3_heading": "Присоединяйтесь к Ecency сообществам!",
+    "line3_body": "Постройте собственное сообщество, получайте награды и награждайте других.",
+    "get_started": "Начать!"
   },
   "time": {
-    "second": "seconds",
-    "minute": "minutes",
-    "hour": "hours",
-    "week": "weeks",
-    "day": "days",
-    "month": "months",
-    "year": "years"
+    "second": "секунд",
+    "minute": "минут",
+    "hour": "часов",
+    "week": "недель",
+    "day": "дней",
+    "month": "месяцев",
+    "year": "лет"
   }
 }

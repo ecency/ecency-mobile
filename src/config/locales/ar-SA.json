@@ -1,11 +1,11 @@
 {
   "wallet": {
-    "curation_reward": "مكافأة المصوت",
-    "author_reward": "مكافأة صاحب المنشور",
+    "curation_reward": "مكافأة التصويت",
+    "author_reward": "مكافأة المؤلف",
     "comment_benefactor_reward": "مكافأة المستفيد",
     "claim_reward_balance": "الحصول على المكافأة ",
     "transfer": "تحويل",
-    "power_up": "To Vesting",
+    "power_up": "إلى استحقاق",
     "transfer_from_savings": "من المدخرات",
     "withdraw_vesting": "سحب الطاقة",
     "fill_order": "ملئ الطلب",
@@ -72,10 +72,10 @@
     "withdraw_hbd": "سحب HBD",
     "transfer_to_savings": "إلى المدخرات",
     "convert": "تحويل",
-    "escrow_transfer": "Escrow Transfer",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
+    "escrow_transfer": "تحويل بضمان",
+    "escrow_dispute": "نزاع الضمان",
+    "escrow_release": "إصدار الضمان",
+    "escrow_approve": "موافقة الضمان",
     "cancel_transfer_from_savings": "إلغاء من المدخرات",
     "delegate_vesting_shares": "تفويض",
     "fill_convert_request": "تم التحويل بنجاح",
@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "تم التصويت",
-    "unvote": "downvoted",
+    "unvote": "مصوت سلباً",
     "reply": "الرد على",
     "mention": "أشارك إليك في",
     "follow": "قام بمتابعتك",
@@ -128,7 +128,7 @@
     "recent": "الأخيرة",
     "yesterday": "يوم أمس",
     "this_week": "هذا الأسبوع",
-    "last_week": "Last Week",
+    "last_week": "الأسبوع الماضي",
     "this_month": "هذا الشهر",
     "older_then": "أقدم من شهر",
     "activities": "الكل",
@@ -152,7 +152,7 @@
   "profile": {
     "following": "إتباع",
     "follower": "متابع",
-    "edit_label": "Edit",
+    "edit_label": "تعديل",
     "post": "منشورات",
     "details": "تفاصيل الملف الشخصي",
     "comments": "التعليقات",
@@ -174,10 +174,10 @@
     "day": "يوم",
     "hive_dollars": "دولار Hive",
     "savings": "مدخرات",
-    "joined": "Joined {time} ago",
-    "view_full": "VIEW FULL PROFILE",
-    "resource_credits": "Resource Credits",
-    "reputation": "Reputation",
+    "joined": "انضم منذ {time}",
+    "view_full": "عرض كامل الملف الشخصي",
+    "resource_credits": "رصيد الموارد",
+    "reputation": "السمعة",
     "edit": {
       "display_name": "عرض الاسم",
       "about": "حول التطبيق",
@@ -253,7 +253,8 @@
     "posts": "منشورات",
     "friends": "الأصدقاء",
     "communities": "المجتمعات",
-    "popup_postfix": "تم النشر"
+    "popup_postfix": "تم النشر",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "الملف الشّخصي",
@@ -270,7 +271,8 @@
     "logout_text": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
     "create_a_new_account": "إنشاء حساب جديد",
     "add_an_existing_account": "إضافة حساب آخر",
-    "accounts": "الحسابات"
+    "accounts": "الحسابات",
+    "refer": "رشح أصدقائك واربح"
   },
   "header": {
     "title": "تسجيل الدخول لتخصيص خلاصتك",
@@ -280,7 +282,8 @@
     "publish": "نشر",
     "search": "بحث",
     "update": "تحديث",
-    "reply": "الرد"
+    "reply": "الرد",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "عنوان",
@@ -302,8 +305,9 @@
     "limited_lastchar": "يجب أن تنتهي العلامة بحرف أو رقم",
     "setting_schedule": "الجدول الزمني",
     "setting_reward": "المكافأة",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "المستفيدون",
-    "setting_thumb": "Set Thumbnail",
+    "setting_thumb": "تعيين صورة مصغرة",
     "reward_default": "الافتراضي 50%/50%",
     "reward_power_up": "رفع الطاقة 100%",
     "reward_decline": "رفض دفع التعويضات",
@@ -326,8 +330,13 @@
     "alert_btn_no": "لا",
     "draft_save_success": "تم حفظ المسودة",
     "draft_save_fail": "فشل في حفظ المسودة",
-    "select_thumb": "Select Post Thumbnail",
-    "two_thumbs_required": "Add more images in your post before setting thumbnail"
+    "select_thumb": "اختيار الصورة المصغرة للمنشور",
+    "two_thumbs_required": "أضف المزيد من الصور في منشورك قبل تعيين الصورة المصغرة",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Options",
+    "done": "DONE"
   },
   "snippets": {
     "label_no_snippets": "لم يتم العثور على مقتطفات",
@@ -415,22 +424,24 @@
     "payloadTooLarge": "حجم الملف كبير جداً، يرجى تغيير الحجم أو تحميل صورة أصغر",
     "qoutaExceeded": "تم تجاوز حصة الرفع",
     "invalidImage": "صورة غير صالحة، جرب ملف مختلف",
-    "something_wrong": "Something went wrong",
-    "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
-    "something_wrong_reload": "Try again?",
+    "something_wrong": "حدث خطأ ما",
+    "something_wrong_alt": "في هذا الوقت، جرب Ecency.com من متصفحك",
+    "something_wrong_reload": "حاول مجددا؟",
     "can_not_be_empty": "العنوان والجسم لا يمكن أن يكونا فارغين!",
     "wrong_filter_count": "الرجاء اختيار 3 فلاتر",
-    "update_available_title": "Update available v{version}",
-    "update_available_body": "Using latest version of Ecency gives you the best experience",
-    "update": "Update Now",
-    "remind_later": "Remind Later",
-    "failed_to_open": "Failed to open a link"
+    "update_available_title": "تحديث متوفر v{version}",
+    "update_available_body": "استخدام أحدث إصدار من Ecency يمنحك أفضل تجربة",
+    "update": "حدث الآن",
+    "remind_later": "تذكير لاحقاً",
+    "failed_to_open": "فشل في فتح رابط",
+    "restart_ecency": "Restart Ecency?",
+    "restart_ecency_desc": "Applying changes will require a restart."
   },
   "post": {
     "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟",
     "removed_hint": "المحتوى غير متوفر",
     "copy_link": "نسخ الرابط",
-    "copy_text": "Copy text",
+    "copy_text": "نسخ النص",
     "reblogged": "تمت إعادة النشر من طرف",
     "sponsored": "مدعوم",
     "open_thread": "فتح الموضوع",
@@ -441,8 +452,8 @@
     "image_saved": "تم حفظ الصورة في معرض الصور",
     "image_saved_error": "حدث خطأ أثناء حفظ الصورة",
     "wrong_link": "رابط خاطئ",
-    "in": "in",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "in": "في",
+    "reveal_muted": "مكتوم\nانقر لإظهار المحتوى"
   },
   "drafts": {
     "title": "المسودات",
@@ -467,7 +478,9 @@
     "add": "إضافة إلى الإشارات المرجعية"
   },
   "report": {
-    "added": "المحتوى المرفوض المبلغ عنه"
+    "added": "المحتوى المرفوض المبلغ عنه",
+    "confirm_report_title": "تأكيد التقرير!",
+    "confirm_report_body": "هل أنت متأكد من أنك تريد الإبلاغ؟"
   },
   "favorites": {
     "title": "المفضلات",
@@ -490,7 +503,8 @@
     "payout_date": "المكافأة",
     "beneficiaries": "المستفيدون",
     "warn_zero_payout": "يجب أن يصل المبلغ إلى 0.02 دولار للدفع",
-    "breakdown": "Breakdown"
+    "breakdown": "تفصيل",
+    "max_accepted": "الحد الأقصى المقبول"
   },
   "post_dropdown": {
     "copy": "أنسخ الرابط",
@@ -542,7 +556,7 @@
     "destination_accounts": "حسابات الوجهة",
     "stop_information": "هل أنت متأكد من أنك تريد التوقف؟",
     "percent": "النسبة المئوية",
-    "auto_vests": "Auto Vests",
+    "auto_vests": "استحقاقات تلقائية",
     "save": "حفظ",
     "percent_information": "معلومات النسبة المئوية",
     "next": "التالي",
@@ -601,7 +615,7 @@
     "title": "التعليقات",
     "reveal_comment": "كشف التعليق",
     "read_more": "المزيد من التعليقات",
-    "more_replies": "replies"
+    "more_replies": "ردود"
   },
   "search_result": {
     "others": "أخرى",
@@ -648,10 +662,11 @@
   "user": {
     "follow": "تابع",
     "unfollow": "الغاء المتابعة",
-    "add_to_favourites": "ADD TO FAVOURITES",
-    "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE",
-    "unmute": "UNMUTE"
+    "add_to_favourites": "إضافة إلى المفضلات",
+    "remove_from_favourites": "إزالة من المفضلات",
+    "mute": "كتم / صد",
+    "unmute": "إلغاء الكتم / إلغاء الصد",
+    "report": "تبليغ عن المستخدم"
   },
   "communities": {
     "joined": "العضوية",
@@ -666,7 +681,8 @@
     "percent": "النسبة المئوية",
     "username": "اسم المستخدم",
     "addAccount": "إضافة حساب",
-    "save": "حفظ"
+    "save": "حفظ",
+    "cancel": "Cancel"
   },
   "welcome": {
     "label": "مرحبا بك في",
@@ -680,12 +696,12 @@
     "get_started": "ابدأ هنا!"
   },
   "time": {
-    "second": "seconds",
-    "minute": "minutes",
-    "hour": "hours",
-    "week": "weeks",
-    "day": "days",
-    "month": "months",
-    "year": "years"
+    "second": "ثواني",
+    "minute": "دقائق",
+    "hour": "ساعات",
+    "week": "أسابيع",
+    "day": "أيام",
+    "month": "أشهر",
+    "year": "سنوات"
   }
 }

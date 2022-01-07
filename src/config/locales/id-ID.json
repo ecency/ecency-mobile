@@ -253,7 +253,8 @@
     "posts": "Post",
     "friends": "Teman",
     "communities": "Komunitas",
-    "popup_postfix": "Diposting"
+    "popup_postfix": "Diposting",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "Profil",
@@ -270,7 +271,8 @@
     "logout_text": "Apakah Anda yakin ingin keluar?",
     "create_a_new_account": "Buat akun baru",
     "add_an_existing_account": "Tambahkan akun yang ada",
-    "accounts": "Akun"
+    "accounts": "Akun",
+    "refer": "Rekomendasikan Dan Dapatkan"
   },
   "header": {
     "title": "Login untuk menyesuaikan feed Anda",
@@ -280,7 +282,8 @@
     "publish": "Terbitkan",
     "search": "Cari",
     "update": "Pembaruan",
-    "reply": "Balas"
+    "reply": "Balas",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "Judul",
@@ -302,6 +305,7 @@
     "limited_lastchar": "Tag harus diakhiri dengan huruf atau angka",
     "setting_schedule": "Waktu Penjadwalan",
     "setting_reward": "Hadiah",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "Penerima manfaat",
     "setting_thumb": "Atur Gambar Mini",
     "reward_default": "Default 50% / 50%",
@@ -327,7 +331,12 @@
     "draft_save_success": "Draf Disimpan",
     "draft_save_fail": "Gagal menyimpan draf",
     "select_thumb": "Pilih Thumbnail Postingan",
-    "two_thumbs_required": "Tambahkan lebih banyak gambar di postinganmu sebelum mengatur thumbnail"
+    "two_thumbs_required": "Tambahkan lebih banyak gambar di postinganmu sebelum mengatur thumbnail",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Options",
+    "done": "DONE"
   },
   "snippets": {
     "label_no_snippets": "Cuplikan Tidak Ditemukan",
@@ -424,7 +433,9 @@
     "update_available_body": "Menggunakan versi terbaru dari Ecency memberikan Anda pengalaman terbaik",
     "update": "Perbaharui sekarang",
     "remind_later": "Ingatkan nanti",
-    "failed_to_open": "Gagal membuka sebuah tautan"
+    "failed_to_open": "Gagal membuka sebuah tautan",
+    "restart_ecency": "Restart Ecency?",
+    "restart_ecency_desc": "Applying changes will require a restart."
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
@@ -442,7 +453,7 @@
     "image_saved_error": "Kesalahan menyimpan gambar",
     "wrong_link": "Link salah",
     "in": "di",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "reveal_muted": "DIBISUKAN\nKetuk untuk membatalkan konten"
   },
   "drafts": {
     "title": "Konsep",
@@ -467,7 +478,9 @@
     "add": "Ditambahkan ke bookmark"
   },
   "report": {
-    "added": "Konten yang tidak pantas dilaporkan"
+    "added": "Konten yang tidak pantas dilaporkan",
+    "confirm_report_title": "Konfirmasi Laporan!",
+    "confirm_report_body": "Yakin mau membuat laporan?"
   },
   "favorites": {
     "title": "Favorit",
@@ -490,7 +503,8 @@
     "payout_date": "Pembayaran",
     "beneficiaries": "Penerima manfaat",
     "warn_zero_payout": "Jumlah harus mencapai $ 0,02 untuk pembayaran",
-    "breakdown": "Kerusakan"
+    "breakdown": "Kerusakan",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "salin tautan",
@@ -650,8 +664,9 @@
     "unfollow": "Berhenti mengikuti",
     "add_to_favourites": "MASUKKAN KE FAVORIT",
     "remove_from_favourites": "HAPUS DARI FAVORIT",
-    "mute": "BISUKAN",
-    "unmute": "HIDUPKAN"
+    "mute": "BISUKAN/BLOK",
+    "unmute": "HIDUPKAN/BUKA",
+    "report": "LAPORKAN PENGGUNA"
   },
   "communities": {
     "joined": "Keanggotaan",
@@ -666,7 +681,8 @@
     "percent": "Persen",
     "username": "Nama Pengguna",
     "addAccount": "Tambah Akun",
-    "save": "Simpan"
+    "save": "Simpan",
+    "cancel": "Cancel"
   },
   "welcome": {
     "label": "Selamat Datang di",

@@ -174,10 +174,10 @@
     "day": "दिन",
     "hive_dollars": "हाइव डॉलर",
     "savings": "बचत",
-    "joined": "Joined {time} ago",
-    "view_full": "VIEW FULL PROFILE",
-    "resource_credits": "Resource Credits",
-    "reputation": "Reputation",
+    "joined": "{time} पहले शामिल हुए",
+    "view_full": "पूरा प्रोफाइल देखें",
+    "resource_credits": "रिसोर्स क्रेडिट्स",
+    "reputation": "प्रतिष्ठा",
     "edit": {
       "display_name": "प्रदर्शित होने वाला नाम",
       "about": "के बारे में",
@@ -253,7 +253,8 @@
     "posts": "Post",
     "friends": "दोस्त",
     "communities": "समुदाय",
-    "popup_postfix": "पोस्ट की"
+    "popup_postfix": "पोस्ट की",
+    "scroll_top": "शीर्ष तक स्क्रॉल करें"
   },
   "side_menu": {
     "profile": "रुपरेखा",
@@ -270,7 +271,8 @@
     "logout_text": "क्या आप सच में बाहर जाना चाहते हैं?",
     "create_a_new_account": "एक नया खाता बनाएं",
     "add_an_existing_account": "एक मौजूदा खाता जोड़ें",
-    "accounts": "खाते"
+    "accounts": "खाते",
+    "refer": "रेफर करें और कमाएं"
   },
   "header": {
     "title": "आपकी अपनी संभरण को अपने अनुकूल संयोजित करने के लिए लॉगिन करें",
@@ -280,7 +282,8 @@
     "publish": "प्रकाशित करें",
     "search": "खोजें",
     "update": "नवनीकरण",
-    "reply": "जबाब"
+    "reply": "जबाब",
+    "schedule": "शेड्यूल"
   },
   "editor": {
     "title": "शीर्षक",
@@ -302,6 +305,7 @@
     "limited_lastchar": "टैग को पत्र या संख्या के साथ समाप्त होना चाहिए",
     "setting_schedule": "Scheduling Time",
     "setting_reward": "इनाम",
+    "setting_reblog": "रीब्लॉग",
     "setting_beneficiary": "लाभार्थी",
     "setting_thumb": "थंबनेल सेट करें",
     "reward_default": "वितथ रूप से ५०%/५०%",
@@ -327,7 +331,12 @@
     "draft_save_success": "ड्राफ्ट सहेजा गया",
     "draft_save_fail": "ड्राफ्ट को सहेजने में विफल",
     "select_thumb": "पोस्ट थंबनेल चुनें",
-    "two_thumbs_required": "थंबनेल सेट करने से पहले अपनी पोस्ट में और इमेज जोड़ें"
+    "two_thumbs_required": "थंबनेल सेट करने से पहले अपनी पोस्ट में और इमेज जोड़ें",
+    "scheduled_for": "के लिए निर्धारित",
+    "scheduled_immediate": "तुरंत",
+    "scheduled_later": "बाद में",
+    "settings_title": "पोस्ट विकल्प",
+    "done": "हो गया"
   },
   "snippets": {
     "label_no_snippets": "कोई स्निपेट नहीं मिला",
@@ -424,13 +433,15 @@
     "update_available_body": "Ecency के नवीनतम संस्करण का उपयोग करने से आपको सबसे अच्छा अनुभव मिलता है",
     "update": "अभी अपडेट करें",
     "remind_later": "बाद में याद दिलाना",
-    "failed_to_open": "लिंक खोलने में विफल"
+    "failed_to_open": "लिंक खोलने में विफल",
+    "restart_ecency": "Restart Ecency?",
+    "restart_ecency_desc": "Applying changes will require a restart."
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
     "removed_hint": "सामग्री उपलब्ध नहीं है",
     "copy_link": "लिंक कापी करें",
-    "copy_text": "Copy text",
+    "copy_text": "टेक्स्ट कॉपी करें",
     "reblogged": "द्वारा रीब्लॉग",
     "sponsored": "प्रायोजित",
     "open_thread": "खुले हुए थ्रेड",
@@ -442,7 +453,7 @@
     "image_saved_error": "छवि सहेजने में त्रुटि",
     "wrong_link": "गलत लिंक",
     "in": "में",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "reveal_muted": "मौन कर दिया गया\nसामग्री प्रकट करने के लिए टैप करें"
   },
   "drafts": {
     "title": "प्रारूप",
@@ -467,7 +478,9 @@
     "add": "पृष्ठ स्मृति में जोड़ें"
   },
   "report": {
-    "added": "आपत्तिजनक सामग्री की सूचना दी"
+    "added": "आपत्तिजनक सामग्री की सूचना दी",
+    "confirm_report_title": "रिपोर्ट की पुष्टि करें!",
+    "confirm_report_body": "क्या आप वाकई रिपोर्ट चाहते हैं?"
   },
   "favorites": {
     "title": "पसंदीदा",
@@ -490,7 +503,8 @@
     "payout_date": "भुगतान",
     "beneficiaries": "लाभार्थी",
     "warn_zero_payout": "भुगतान के लिए राशि $ 0.02 तक पहुंचनी चाहिए",
-    "breakdown": "विश्लेषण"
+    "breakdown": "विश्लेषण",
+    "max_accepted": "अधिकतम स्वीकृत"
   },
   "post_dropdown": {
     "copy": "लिंक कापी करें",
@@ -601,7 +615,7 @@
     "title": "विवेचनाऐं",
     "reveal_comment": "टिप्पणी का खुलासा",
     "read_more": "अधिक टिप्पणियाँ पढ़ें",
-    "more_replies": "replies"
+    "more_replies": "जवाब"
   },
   "search_result": {
     "others": "अन्यों",
@@ -650,8 +664,9 @@
     "unfollow": "अनफॉलो करें",
     "add_to_favourites": "पसंदीदा में जोड़ें",
     "remove_from_favourites": "पसंदीदा से निकालें",
-    "mute": "म्यूट करें",
-    "unmute": "अनम्यूट करें"
+    "mute": "म्यूट / ब्लॉक",
+    "unmute": "अनम्यूट / अनब्लॉक",
+    "report": "उपयोगकर्ता को रिपोर्ट करें"
   },
   "communities": {
     "joined": "सदस्यता",
@@ -666,7 +681,8 @@
     "percent": "प्रतिशत",
     "username": "प्रयोक्ता नाम",
     "addAccount": "खता जोड़ें",
-    "save": "रक्षित करें"
+    "save": "रक्षित करें",
+    "cancel": "रद्द करें"
   },
   "welcome": {
     "label": "आपका स्वागत है",
@@ -680,12 +696,12 @@
     "get_started": "शुरू हो जाओ!"
   },
   "time": {
-    "second": "seconds",
-    "minute": "minutes",
-    "hour": "hours",
-    "week": "weeks",
-    "day": "days",
-    "month": "months",
-    "year": "years"
+    "second": "सेकंड्स",
+    "minute": "मिनट्स",
+    "hour": "घंटे",
+    "week": "सप्ताह",
+    "day": "दिनों",
+    "month": "महीने",
+    "year": "वर्षों"
   }
 }

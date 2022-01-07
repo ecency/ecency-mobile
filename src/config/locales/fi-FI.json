@@ -62,7 +62,7 @@
     "purchase_estm": "Lunasta pisteet",
     "points": "Lahjoita pisteitä",
     "transfer_to_saving": "Säästöihin",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_vesting": "Tehostus",
     "withdraw_to_saving": "Kotiuta säästöihin",
     "steemconnect_title": "Hivesigner-siirto",
     "next": "SEURAAVA",
@@ -174,10 +174,10 @@
     "day": "päivä",
     "hive_dollars": "Hive Dollarit",
     "savings": "Säästöt",
-    "joined": "Joined {time} ago",
-    "view_full": "VIEW FULL PROFILE",
-    "resource_credits": "Resource Credits",
-    "reputation": "Reputation",
+    "joined": "Liittyi {time} sitten",
+    "view_full": "NÄYTÄ KOKO PROFIILI",
+    "resource_credits": "Resurssipisteet",
+    "reputation": "Maine",
     "edit": {
       "display_name": "Näyttönimi",
       "about": "Tietoa",
@@ -253,7 +253,8 @@
     "posts": "Julkaisut",
     "friends": "Ystävät",
     "communities": "Yhteisöt",
-    "popup_postfix": "Julkaistu"
+    "popup_postfix": "Julkaistu",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "Profiili",
@@ -270,7 +271,8 @@
     "logout_text": "Haluatko varmasti kirjautua ulos?",
     "create_a_new_account": "Luo uusi tili",
     "add_an_existing_account": "Lisää olemassa oleva tili",
-    "accounts": "Tilit"
+    "accounts": "Tilit",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "Kirjaudu mukauttaaksesi syötettäsi",
@@ -280,7 +282,8 @@
     "publish": "Julkaise",
     "search": "Haku",
     "update": "Päivitä",
-    "reply": "Vastaa"
+    "reply": "Vastaa",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "Otsikko",
@@ -302,6 +305,7 @@
     "limited_lastchar": "Tagi päättyy kirjaimeen tai numeroon",
     "setting_schedule": "Aikataulutus",
     "setting_reward": "Palkkio",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "Hyötyjä",
     "setting_thumb": "Aseta pikkukuva",
     "reward_default": "Oletus 50 % / 50 %",
@@ -327,7 +331,12 @@
     "draft_save_success": "Luonnos tallennettu",
     "draft_save_fail": "Luonnosta ei kyetty tallentamaan",
     "select_thumb": "Valitse esikatselukuva",
-    "two_thumbs_required": "Lisää kuvia julkaisuun, ennen kuin asetat pikkukuvan"
+    "two_thumbs_required": "Lisää kuvia julkaisuun, ennen kuin asetat pikkukuvan",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Options",
+    "done": "DONE"
   },
   "snippets": {
     "label_no_snippets": "Katkelmia ei löytynyt",
@@ -424,13 +433,15 @@
     "update_available_body": "Käyttämällä uusinta versiota Ecencystä antaa sinulle parhaan kokemuksen",
     "update": "Päivitä nyt",
     "remind_later": "Muistuta myöhemmin",
-    "failed_to_open": "Linkin avaaminen epäonnistui"
+    "failed_to_open": "Linkin avaaminen epäonnistui",
+    "restart_ecency": "Restart Ecency?",
+    "restart_ecency_desc": "Applying changes will require a restart."
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
     "removed_hint": "Sisältö ei ole käytettävissä",
     "copy_link": "Kopioi linkki",
-    "copy_text": "Copy text",
+    "copy_text": "Kopioi teksti",
     "reblogged": "uudelleenjakanut",
     "sponsored": "SPONSOROITU",
     "open_thread": "Avaa ketju",
@@ -441,8 +452,8 @@
     "image_saved": "Tallennettu kuvagalleriaan",
     "image_saved_error": "Virhe tallentaessa kuvaa",
     "wrong_link": "Väärä linkki",
-    "in": "ssä",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "in": "yht",
+    "reveal_muted": "Hiljennetty\nNapauta näyttääksesi sisällön"
   },
   "drafts": {
     "title": "Luonnokset",
@@ -467,7 +478,9 @@
     "add": "Lisää kirjanmerkkeihin"
   },
   "report": {
-    "added": "Raportoitu kielteinen sisältö"
+    "added": "Raportoitu kielteinen sisältö",
+    "confirm_report_title": "Confirm Report!",
+    "confirm_report_body": "Are you sure you want report?"
   },
   "favorites": {
     "title": "Suosikit",
@@ -490,7 +503,8 @@
     "payout_date": "Palkkio",
     "beneficiaries": "Hyötyjät",
     "warn_zero_payout": "Määrän tulee ylittää $0.02 maksuun",
-    "breakdown": "Erittely"
+    "breakdown": "Erittely",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "kopioi linkki",
@@ -535,7 +549,7 @@
     "convert": "Muunna HBD HIVEksi",
     "points": "Lahjoita pisteitä",
     "transfer_to_savings": "Siirrä säästöihin",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_vesting": "Tehostus",
     "withdraw_to_saving": "Kotiuta säästöihin",
     "steemconnect_title": "Hivesigner-siirto",
     "estimated_weekly": "Viikottainen arvio",
@@ -601,7 +615,7 @@
     "title": "Kommentit",
     "reveal_comment": "Näytä kommentti",
     "read_more": "Lue lisää kommentteja",
-    "more_replies": "replies"
+    "more_replies": "vastaukset"
   },
   "search_result": {
     "others": "Muut",
@@ -650,8 +664,9 @@
     "unfollow": "Älä seuraa",
     "add_to_favourites": "LISÄÄ SUOSIKKEIHIN",
     "remove_from_favourites": "POISTA SUOSIKEISTA",
-    "mute": "MYKISTÄ",
-    "unmute": "POISTA MYKISTYS"
+    "mute": "MUTE / BLOCK",
+    "unmute": "UNMUTE / UNBLOCK",
+    "report": "REPORT USER"
   },
   "communities": {
     "joined": "Jäsenyys",
@@ -666,7 +681,8 @@
     "percent": "Prosenttia",
     "username": "Käyttäjänimi",
     "addAccount": "Lisää Tili",
-    "save": "Tallenna"
+    "save": "Tallenna",
+    "cancel": "Cancel"
   },
   "welcome": {
     "label": "Tervetuloa",
@@ -680,12 +696,12 @@
     "get_started": "Aloitetaan!"
   },
   "time": {
-    "second": "seconds",
-    "minute": "minutes",
-    "hour": "hours",
-    "week": "weeks",
-    "day": "days",
-    "month": "months",
-    "year": "years"
+    "second": "s",
+    "minute": "min",
+    "hour": "t",
+    "week": "v",
+    "day": "p",
+    "month": "kk",
+    "year": "vuotta"
   }
 }

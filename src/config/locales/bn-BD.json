@@ -253,7 +253,8 @@
     "posts": "Post",
     "friends": "বন্ধুরা",
     "communities": "সম্প্রদায়গুলি",
-    "popup_postfix": "Posted"
+    "popup_postfix": "Posted",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "প্রোফাইল",
@@ -270,7 +271,8 @@
     "logout_text": "আপনি কি নিশ্চিতভাবে লগআউট করতে চান?",
     "create_a_new_account": "Create a new account",
     "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts"
+    "accounts": "Accounts",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "আপনার ফিডটি কাস্টমাইজ করতে লগইন করুন",
@@ -280,7 +282,8 @@
     "publish": "প্রকাশ",
     "search": "অনুসন্ধান",
     "update": "আপডেট",
-    "reply": "উত্তর"
+    "reply": "উত্তর",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "শিরোনাম",
@@ -302,6 +305,7 @@
     "limited_lastchar": "ট্যাগটি অবশ্যই বর্ণ বা সংখ্যা দিয়ে শেষ হতে হবে",
     "setting_schedule": "নির্ধারিত সময়",
     "setting_reward": "পুরষ্কার",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "স্বত্বভোগী",
     "setting_thumb": "Set Thumbnail",
     "reward_default": "ডিফল্ট ৫০% / ৫০%",
@@ -327,7 +331,12 @@
     "draft_save_success": "Draft Saved",
     "draft_save_fail": "Failed to save draft",
     "select_thumb": "Select Post Thumbnail",
-    "two_thumbs_required": "Add more images in your post before setting thumbnail"
+    "two_thumbs_required": "Add more images in your post before setting thumbnail",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Options",
+    "done": "DONE"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -424,7 +433,9 @@
     "update_available_body": "Using latest version of Ecency gives you the best experience",
     "update": "Update Now",
     "remind_later": "Remind Later",
-    "failed_to_open": "Failed to open a link"
+    "failed_to_open": "Failed to open a link",
+    "restart_ecency": "Restart Ecency?",
+    "restart_ecency_desc": "Applying changes will require a restart."
   },
   "post": {
     "reblog_alert": "আপনি কি নিশ্চিত যে আপনি পুনরায় ব্লগ করতে চান?",
@@ -467,7 +478,9 @@
     "add": "বুকমার্কগুলিতে যুক্ত করুন"
   },
   "report": {
-    "added": "আপত্তিজনক কনটেন্ট প্রতিবেদন করা হয়েছে"
+    "added": "আপত্তিজনক কনটেন্ট প্রতিবেদন করা হয়েছে",
+    "confirm_report_title": "Confirm Report!",
+    "confirm_report_body": "Are you sure you want report?"
   },
   "favorites": {
     "title": "প্রিয়",
@@ -490,7 +503,8 @@
     "payout_date": "পরিশোধ",
     "beneficiaries": "স্বত্বভোগী",
     "warn_zero_payout": "পেআউট এর জন্য পরিমাণ অবশ্যই $০.০০২ এ পৌঁছাতে হবে",
-    "breakdown": "ব্রেকডাউন"
+    "breakdown": "ব্রেকডাউন",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "কপি লিংক",
@@ -650,8 +664,9 @@
     "unfollow": "Unfollow",
     "add_to_favourites": "ADD TO FAVOURITES",
     "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE",
-    "unmute": "UNMUTE"
+    "mute": "MUTE / BLOCK",
+    "unmute": "UNMUTE / UNBLOCK",
+    "report": "REPORT USER"
   },
   "communities": {
     "joined": "Membership",
@@ -666,7 +681,8 @@
     "percent": "Percent",
     "username": "Username",
     "addAccount": "Add Account",
-    "save": "Save"
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "welcome": {
     "label": "Welcome to",

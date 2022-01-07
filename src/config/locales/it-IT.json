@@ -253,7 +253,8 @@
     "posts": "Post",
     "friends": "Friends",
     "communities": "Communities",
-    "popup_postfix": "Posted"
+    "popup_postfix": "Posted",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "Profilo",
@@ -270,7 +271,8 @@
     "logout_text": "Sei sicuro di voler uscire?",
     "create_a_new_account": "Create a new account",
     "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts"
+    "accounts": "Accounts",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "Effettua il Login per personalizzare il tuo feed",
@@ -280,7 +282,8 @@
     "publish": "Pubblica",
     "search": "Cerca",
     "update": "Aggiorna",
-    "reply": "Rispondi"
+    "reply": "Rispondi",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "Titolo",
@@ -302,6 +305,7 @@
     "limited_lastchar": "Il tag deve terminare con una lettera o un numero",
     "setting_schedule": "Scheduling Time",
     "setting_reward": "Reward",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "Beneficiary",
     "setting_thumb": "Set Thumbnail",
     "reward_default": "Default 50% / 50%",
@@ -327,7 +331,12 @@
     "draft_save_success": "Draft Saved",
     "draft_save_fail": "Failed to save draft",
     "select_thumb": "Select Post Thumbnail",
-    "two_thumbs_required": "Add more images in your post before setting thumbnail"
+    "two_thumbs_required": "Add more images in your post before setting thumbnail",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Options",
+    "done": "DONE"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -424,7 +433,9 @@
     "update_available_body": "Using latest version of Ecency gives you the best experience",
     "update": "Update Now",
     "remind_later": "Remind Later",
-    "failed_to_open": "Failed to open a link"
+    "failed_to_open": "Failed to open a link",
+    "restart_ecency": "Restart Ecency?",
+    "restart_ecency_desc": "Applying changes will require a restart."
   },
   "post": {
     "reblog_alert": "Sei sicuro di voler condividere?",
@@ -467,7 +478,9 @@
     "add": "Aggiungi ai segnalibri"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Reported objectionable content",
+    "confirm_report_title": "Confirm Report!",
+    "confirm_report_body": "Are you sure you want report?"
   },
   "favorites": {
     "title": "Preferiti",
@@ -490,7 +503,8 @@
     "payout_date": "Ricompensa",
     "beneficiaries": "Beneficiari",
     "warn_zero_payout": "L'importo minimo per ottenere il pagamento deve raggiungere $0.02",
-    "breakdown": "Ripartizione"
+    "breakdown": "Ripartizione",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "copia il link",
@@ -650,8 +664,9 @@
     "unfollow": "Unfollow",
     "add_to_favourites": "ADD TO FAVOURITES",
     "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE",
-    "unmute": "UNMUTE"
+    "mute": "MUTE / BLOCK",
+    "unmute": "UNMUTE / UNBLOCK",
+    "report": "REPORT USER"
   },
   "communities": {
     "joined": "Membership",
@@ -666,7 +681,8 @@
     "percent": "Percent",
     "username": "Username",
     "addAccount": "Add Account",
-    "save": "Save"
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "welcome": {
     "label": "Welcome to",

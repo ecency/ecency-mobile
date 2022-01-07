@@ -5,7 +5,7 @@
     "comment_benefactor_reward": "Makaka-benepisyo sa Gantimpala",
     "claim_reward_balance": "Kunin ang Gantimpala ",
     "transfer": "Paglipat",
-    "power_up": "To Vesting",
+    "power_up": "Patungong Vesting",
     "transfer_from_savings": "Galing sa Inipon",
     "withdraw_vesting": "Power Down",
     "fill_order": "Punan ang Order",
@@ -68,8 +68,8 @@
     "next": "SUNOD",
     "delegate": "Mag-delegate",
     "power_down": "Power Down",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HBD",
+    "withdraw_hive": "Maglabas ng HIVE",
+    "withdraw_hbd": "Maglabas ng HBD",
     "transfer_to_savings": "Patungo sa Inipon",
     "convert": "I-convert",
     "escrow_transfer": "Paglipat ng Escrow",
@@ -86,10 +86,10 @@
       "buy": "MAGKAROON NG POINTS"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "Inipong HIVE"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "Inipong HBD"
     },
     "hive": {
       "title": "HIVE",
@@ -137,7 +137,7 @@
     "reblogs": "Mga Reblog",
     "noactivity": "Walang aktibidad kamakailan",
     "mention_on": "New mention on",
-    "reply_on": "New reply on",
+    "reply_on": "Bagong sagot sa",
     "reply_body": "Tap to continue conversation..."
   },
   "leaderboard": {
@@ -152,7 +152,7 @@
   "profile": {
     "following": "Sunisundan",
     "follower": "Sumusunod",
-    "edit_label": "Edit",
+    "edit_label": "Baguhin",
     "post": "Post",
     "details": "Detalye ng Profile",
     "comments": "Mga komento",
@@ -177,7 +177,7 @@
     "joined": "Joined {time} ago",
     "view_full": "VIEW FULL PROFILE",
     "resource_credits": "Resource Credits",
-    "reputation": "Reputation",
+    "reputation": "Reputasyon",
     "edit": {
       "display_name": "Ngalan na Ipapakita",
       "about": "Tungkol",
@@ -253,7 +253,8 @@
     "posts": "Post",
     "friends": "Mga kaibigan",
     "communities": "Mga pamayanan",
-    "popup_postfix": "Posted"
+    "popup_postfix": "Posted",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "Profile",
@@ -263,14 +264,15 @@
     "schedules": "Mga Iskedyul",
     "gallery": "Gallery",
     "settings": "Settings",
-    "communities": "Communities",
+    "communities": "Mga pamayanan",
     "add_account": "Magdagdag ng Account",
     "logout": "Mag-logout",
     "cancel": "Kansel",
     "logout_text": "Sigurado kang gusto mong mag logout?",
-    "create_a_new_account": "Create a new account",
-    "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts"
+    "create_a_new_account": "Gumawa ng bagong account",
+    "add_an_existing_account": "Magdagdag ng kasalukuyang account",
+    "accounts": "Accounts",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "Mag login para i-customize ang iyong feed",
@@ -280,7 +282,8 @@
     "publish": "Mag-publish",
     "search": "Hanapin",
     "update": "Mag-update",
-    "reply": "Tumugon"
+    "reply": "Tumugon",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "Titulo",
@@ -302,6 +305,7 @@
     "limited_lastchar": "Dapat nakatapus sa letra o numero ang tag",
     "setting_schedule": "Oras ng Iskedyul",
     "setting_reward": "Gantimpala",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "Benepisyaryo",
     "setting_thumb": "Set Thumbnail",
     "reward_default": "Default 50% / 50%",
@@ -327,7 +331,12 @@
     "draft_save_success": "Draft Saved",
     "draft_save_fail": "Failed to save draft",
     "select_thumb": "Select Post Thumbnail",
-    "two_thumbs_required": "Add more images in your post before setting thumbnail"
+    "two_thumbs_required": "Add more images in your post before setting thumbnail",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Options",
+    "done": "DONE"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -424,7 +433,9 @@
     "update_available_body": "Using latest version of Ecency gives you the best experience",
     "update": "Update Now",
     "remind_later": "Remind Later",
-    "failed_to_open": "Failed to open a link"
+    "failed_to_open": "Failed to open a link",
+    "restart_ecency": "Restart Ecency?",
+    "restart_ecency_desc": "Applying changes will require a restart."
   },
   "post": {
     "reblog_alert": "Sigurado ka, gusto mong i-reblog?",
@@ -467,7 +478,9 @@
     "add": "I-dagdag sa mga bookmark"
   },
   "report": {
-    "added": "Reported objectionable content"
+    "added": "Reported objectionable content",
+    "confirm_report_title": "Confirm Report!",
+    "confirm_report_body": "Are you sure you want report?"
   },
   "favorites": {
     "title": "Mga Paborito",
@@ -490,7 +503,8 @@
     "payout_date": "Payout",
     "beneficiaries": "Mga Benepisyaryo",
     "warn_zero_payout": "Dapat umabot sa $0.02 na halaga para makapag payout",
-    "breakdown": "Breakdown"
+    "breakdown": "Breakdown",
+    "max_accepted": "Pinakamalaking Tatanggapin"
   },
   "post_dropdown": {
     "copy": "kopyahin ang link",
@@ -650,8 +664,9 @@
     "unfollow": "Unfollow",
     "add_to_favourites": "ADD TO FAVOURITES",
     "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE",
-    "unmute": "UNMUTE"
+    "mute": "MUTE / BLOCK",
+    "unmute": "UNMUTE / UNBLOCK",
+    "report": "REPORT USER"
   },
   "communities": {
     "joined": "Membership",
@@ -666,7 +681,8 @@
     "percent": "Percent",
     "username": "Username",
     "addAccount": "Add Account",
-    "save": "Save"
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "welcome": {
     "label": "Welcome to",

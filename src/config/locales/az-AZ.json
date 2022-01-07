@@ -253,7 +253,8 @@
     "posts": "Göndərişlər",
     "friends": "Dostlar",
     "communities": "Cəmiyyətlər",
-    "popup_postfix": "Paylaşıldı"
+    "popup_postfix": "Paylaşıldı",
+    "scroll_top": "Scroll To Top"
   },
   "side_menu": {
     "profile": "Profil",
@@ -270,7 +271,8 @@
     "logout_text": "Çıxış etmək istədiyinə əminsən?",
     "create_a_new_account": "Yeni bir hesab yaradın",
     "add_an_existing_account": "Mövcud bir hesab əlavə edin",
-    "accounts": "Hesablar"
+    "accounts": "Hesablar",
+    "refer": "Refer & Earn"
   },
   "header": {
     "title": "Axınını özəlləşdirmək üçün giriş et",
@@ -280,7 +282,8 @@
     "publish": "Dərc et",
     "search": "Axtar",
     "update": "Yenilə",
-    "reply": "Cavabla"
+    "reply": "Cavabla",
+    "schedule": "Schedule"
   },
   "editor": {
     "title": "Başlıq",
@@ -302,6 +305,7 @@
     "limited_lastchar": "Tag must end with letter or number",
     "setting_schedule": "Scheduling Time",
     "setting_reward": "Mükafat",
+    "setting_reblog": "Reblog",
     "setting_beneficiary": "Beneficiary",
     "setting_thumb": "Set Thumbnail",
     "reward_default": "Default 50% / 50%",
@@ -327,7 +331,12 @@
     "draft_save_success": "Qaralama saxlanıldı",
     "draft_save_fail": "Qaralama saxlanılmadı",
     "select_thumb": "Select Post Thumbnail",
-    "two_thumbs_required": "Add more images in your post before setting thumbnail"
+    "two_thumbs_required": "Add more images in your post before setting thumbnail",
+    "scheduled_for": "Scheduled For",
+    "scheduled_immediate": "Immediate",
+    "scheduled_later": "Later",
+    "settings_title": "Post Options",
+    "done": "DONE"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -424,7 +433,9 @@
     "update_available_body": "Using latest version of Ecency gives you the best experience",
     "update": "Update Now",
     "remind_later": "Remind Later",
-    "failed_to_open": "Failed to open a link"
+    "failed_to_open": "Failed to open a link",
+    "restart_ecency": "Restart Ecency?",
+    "restart_ecency_desc": "Applying changes will require a restart."
   },
   "post": {
     "reblog_alert": "Təkrar paylaşmaq istədiyinizə əminsiniz?",
@@ -467,7 +478,9 @@
     "add": "Əlfəcinlərə əlavə et"
   },
   "report": {
-    "added": "Mübahisəli məzmun şikayət edildi"
+    "added": "Mübahisəli məzmun şikayət edildi",
+    "confirm_report_title": "Confirm Report!",
+    "confirm_report_body": "Are you sure you want report?"
   },
   "favorites": {
     "title": "Sevimlilər",
@@ -490,7 +503,8 @@
     "payout_date": "Ödəniş",
     "beneficiaries": "Beneficiaries",
     "warn_zero_payout": "Amount must reach $0.02 for payout",
-    "breakdown": "Breakdown"
+    "breakdown": "Breakdown",
+    "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
     "copy": "bağlantını kopyala",
@@ -650,8 +664,9 @@
     "unfollow": "İzləmədən imtina",
     "add_to_favourites": "SEVİMLİLƏRƏ ƏLAVƏ ET",
     "remove_from_favourites": "SEVİMLİLƏRDƏN ÇIXART",
-    "mute": "SƏSİ KƏS",
-    "unmute": "SƏSİ AÇ"
+    "mute": "MUTE / BLOCK",
+    "unmute": "UNMUTE / UNBLOCK",
+    "report": "REPORT USER"
   },
   "communities": {
     "joined": "Üzvlük",
@@ -666,7 +681,8 @@
     "percent": "Faiz",
     "username": "İstifadəçi adı",
     "addAccount": "Hesab əlavə et",
-    "save": "Saxla"
+    "save": "Saxla",
+    "cancel": "Cancel"
   },
   "welcome": {
     "label": "Xoş Gəldiniz",
