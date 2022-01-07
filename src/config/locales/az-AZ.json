@@ -331,6 +331,7 @@
     "draft_save_success": "Qaralama saxlanıldı",
     "draft_save_fail": "Qaralama saxlanılmadı",
     "select_thumb": "Select Post Thumbnail",
+    "add_more_imgs": "Add more images to post",
     "two_thumbs_required": "Add more images in your post before setting thumbnail",
     "scheduled_for": "Scheduled For",
     "scheduled_immediate": "Immediate",
