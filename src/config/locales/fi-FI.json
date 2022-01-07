@@ -331,6 +331,7 @@
     "draft_save_success": "Luonnos tallennettu",
     "draft_save_fail": "Luonnosta ei kyetty tallentamaan",
     "select_thumb": "Valitse esikatselukuva",
+    "add_more_imgs": "Add more images to post",
     "two_thumbs_required": "Lisää kuvia julkaisuun, ennen kuin asetat pikkukuvan",
     "scheduled_for": "Scheduled For",
     "scheduled_immediate": "Immediate",
