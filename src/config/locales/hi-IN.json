@@ -331,6 +331,7 @@
     "draft_save_success": "ड्राफ्ट सहेजा गया",
     "draft_save_fail": "ड्राफ्ट को सहेजने में विफल",
     "select_thumb": "पोस्ट थंबनेल चुनें",
+    "add_more_imgs": "Add more images to post",
     "two_thumbs_required": "थंबनेल सेट करने से पहले अपनी पोस्ट में और इमेज जोड़ें",
     "scheduled_for": "के लिए निर्धारित",
     "scheduled_immediate": "तुरंत",
