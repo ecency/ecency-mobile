@@ -331,6 +331,7 @@
     "draft_save_success": "Borrador guardado",
     "draft_save_fail": "No es posible guardar el borrador.",
     "select_thumb": "Select Post Thumbnail",
+    "add_more_imgs": "Add more images to post",
     "two_thumbs_required": "Add more images in your post before setting thumbnail",
     "scheduled_for": "Scheduled For",
     "scheduled_immediate": "Immediate",
