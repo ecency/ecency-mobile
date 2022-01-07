@@ -331,6 +331,7 @@
     "draft_save_success": "تم حفظ المسودة",
     "draft_save_fail": "فشل في حفظ المسودة",
     "select_thumb": "اختيار الصورة المصغرة للمنشور",
+    "add_more_imgs": "Add more images to post",
     "two_thumbs_required": "أضف المزيد من الصور في منشورك قبل تعيين الصورة المصغرة",
     "scheduled_for": "Scheduled For",
     "scheduled_immediate": "Immediate",
