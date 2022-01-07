@@ -331,6 +331,7 @@
     "draft_save_success":"Draft Saved",
     "draft_save_fail":"Failed to save draft",
     "select_thumb":"Select Post Thumbnail",
+    "add_more_imgs":"Add more images to post",
     "two_thumbs_required":"Add more images in your post before setting thumbnail",
     "scheduled_for":"Scheduled For",
     "scheduled_immediate":"Immediate",

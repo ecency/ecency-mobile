@@ -230,7 +230,8 @@ const BeneficiarySelectionContent = ({ draftId, setDisableDone }) => {
             onPress={newEditable?_resetInputs:_addAccount}
             textStyle={{
                 color:EStyleSheet.value('$primaryBlue'),
-                fontWeight:'bold'
+                fontWeight:'bold',
+                textAlign:'left',
             }}
         />
         
