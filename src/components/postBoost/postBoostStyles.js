@@ -1,4 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { isRTL } from '../../utils/I18nUtils';
 
 export default EStyleSheet.create({
   container: {
@@ -54,6 +55,7 @@ export default EStyleSheet.create({
   autocompleteLabelText: {
     color: '$primaryBlack',
     fontWeight: '600',
+    textAlign: 'left',
   },
   autocompleteListContainer: {
     backgroundColor: '$primaryWhiteLightBackground',
@@ -146,7 +148,7 @@ export default EStyleSheet.create({
   },
   total: {
     marginVertical: 15,
-    flexDirection: 'row',
+    flexDirection: isRTL() ? 'row-reverse' : 'row',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
