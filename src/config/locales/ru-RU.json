@@ -331,6 +331,7 @@
     "draft_save_success": "Черновик сохранён",
     "draft_save_fail": "Не удалось сохранить черновик",
     "select_thumb": "Выбрать Миниатюру для Поста",
+    "add_more_imgs": "Add more images to post",
     "two_thumbs_required": "Добавьте больше изображений в ваше сообщение перед настройкой миниаютюры",
     "scheduled_for": "Scheduled For",
     "scheduled_immediate": "Immediate",
