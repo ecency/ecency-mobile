@@ -28,6 +28,7 @@ export default EStyleSheet.create({
       fontSize: 14,
       fontWeight: 'bold',
       flexGrow: 1,
+      textAlign:'left',
     },
     listContainer:{
       paddingBottom:getBottomSpace() + 16,
@@ -37,7 +38,7 @@ export default EStyleSheet.create({
     },
     bodyWrapper: { flex: 1, paddingTop: 20, paddingBottom:20},
     inputWrapper: { flexDirection: 'row', alignItems: 'center' },
-    contentLabel: { color: '$iconColor', marginTop:4 },
+    contentLabel: { color: '$iconColor', marginTop:4, textAlign:'left' },
     weightInput: {width:80},
     weightFormInput: { textAlign: 'center', color: '$primaryBlack' },
     weightFormInputWrapper: { marginTop: 8  },
@@ -50,4 +51,7 @@ export default EStyleSheet.create({
       alignSelf: 'flex-end',
       justifyContent: 'center',
     },
+    thumbSelectContainer:{
+      marginTop:12,
+    }
 });
