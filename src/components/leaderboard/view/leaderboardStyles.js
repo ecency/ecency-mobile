@@ -13,6 +13,7 @@ export default EStyleSheet.create({
     fontFamily: '$primaryFont',
     paddingBottom: 10,
     flexGrow: 1,
+    textAlign: 'left',
   },
   rewardText: {
     color: '$primaryBlue',
@@ -29,6 +30,7 @@ export default EStyleSheet.create({
     marginRight: 40,
     marginBottom: 10,
     fontFamily: '$primaryFont',
+    textAlign: 'left',
   },
   listContentContainer: {
     paddingBottom: 60,
