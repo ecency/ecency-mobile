@@ -187,7 +187,7 @@ const PromoteView = ({
                 })} `}
               </Text>
               <Text style={styles.price}>
-                {`${get(PROMOTE_PRICING[PROMOTE_DAYS.indexOf(day)], 'price')} Points`}
+                {`${get(PROMOTE_PRICING[PROMOTE_DAYS.indexOf(day)], 'price')} Points  `}
               </Text>
             </View>
 

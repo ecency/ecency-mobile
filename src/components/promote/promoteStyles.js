@@ -53,6 +53,7 @@ export default EStyleSheet.create({
   autocomplateLabelText: {
     color: '$primaryBlack',
     fontWeight: '600',
+    textAlign: 'left',
   },
   autocomplateListContainer: {
     backgroundColor: '$primaryWhiteLightBackground',
