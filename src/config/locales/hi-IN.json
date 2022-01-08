@@ -337,7 +337,10 @@
     "scheduled_immediate": "तुरंत",
     "scheduled_later": "बाद में",
     "settings_title": "पोस्ट विकल्प",
-    "done": "हो गया"
+    "done": "हो गया",
+    "draft_save_title": "Saving Draft",
+    "draft_update": "Update last draft",
+    "draft_save_new": "Save as new draft"
   },
   "snippets": {
     "label_no_snippets": "कोई स्निपेट नहीं मिला",
