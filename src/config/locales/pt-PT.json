@@ -337,7 +337,10 @@
     "scheduled_immediate": "Imediato",
     "scheduled_later": "Mais tarde",
     "settings_title": "Opções da publicação",
-    "done": "FEITO"
+    "done": "FEITO",
+    "draft_save_title": "Saving Draft",
+    "draft_update": "Update last draft",
+    "draft_save_new": "Save as new draft"
   },
   "snippets": {
     "label_no_snippets": "Nenhum Snippet Encontrado",
