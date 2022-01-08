@@ -337,7 +337,10 @@
     "scheduled_immediate": "Immediate",
     "scheduled_later": "Later",
     "settings_title": "Post Options",
-    "done": "DONE"
+    "done": "DONE",
+    "draft_save_title": "Saving Draft",
+    "draft_update": "Update last draft",
+    "draft_save_new": "Save as new draft"
   },
   "snippets": {
     "label_no_snippets": "Katkelmia ei löytynyt",
