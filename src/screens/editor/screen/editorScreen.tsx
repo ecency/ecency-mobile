@@ -157,7 +157,7 @@ class EditorScreen extends Component {
         intl.formatMessage({id:'editor.draft_save_title'}),
         "",
         [{
-          text:intl.formatMessage({id:'editor.draft_overwrite'}),
+          text:intl.formatMessage({id:'editor.draft_update'}),
           onPress:()=>this._saveDraftToDB(),
         },{
           text:intl.formatMessage({id:'editor.draft_save_new'}),
