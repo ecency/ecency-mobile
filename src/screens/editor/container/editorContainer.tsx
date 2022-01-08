@@ -470,7 +470,7 @@ class EditorContainer extends Component {
     }
   };
 
-  _saveDraftToDB = async (fields, silent = false) => {
+  _saveDraftToDB = async (fields, saveAsNew = false) => {
     const { isDraftSaved, draftId, thumbIndex } = this.state;
     const { currentAccount, dispatch, intl } = this.props;
 
@@ -480,7 +480,7 @@ class EditorContainer extends Component {
       if (!isDraftSaved) {
         let draftField;
 
-        if (this._isMounted && !silent) {
+        if (this._isMounted) {
           this.setState({
             isDraftSaving: true,
           });
@@ -494,7 +494,7 @@ class EditorContainer extends Component {
         }
 
         //update draft is draftId is present
-        if (draftId && draftField) {
+        if (draftId && draftField && !saveAsNew) {
           await updateDraft(draftId, draftField.title, draftField.body, draftField.tags, thumbIndex);
 
           if (this._isMounted) {
@@ -520,7 +520,7 @@ class EditorContainer extends Component {
           dispatch(setBeneficiaries(response._id, beneficiaries));
           dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID));
 
-          //clear local copy is darft save is successful
+          //clear local copy if darft save is successful
           const username = get(currentAccount, 'name', '');
           setDraftPost(
             {
@@ -530,18 +530,19 @@ class EditorContainer extends Component {
               timestamp: 0,
             },
             username,
+            saveAsNew ? draftId : undefined
           );
         }
 
-        if (!silent) {
-          dispatch(
-            toastNotification(
-              intl.formatMessage({
-                id: 'editor.draft_save_success',
-              }),
-            ),
-          );
-        }
+        
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'editor.draft_save_success',
+            }),
+          ),
+        );
+        
 
         //call fetch post to drafts screen
         this._navigationBackFetchDrafts();

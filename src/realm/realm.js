@@ -127,7 +127,7 @@ export const setDraftPost = async (fields, username, draftId) => {
     const data = {
       username,
       draftId,
-      timestamp,
+      timestamp: fields.timestamp === 0 ? 0 : timestamp,
       title: fields.title,
       tags: fields.tags,
       body: fields.body,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { get, isNull } from 'lodash';
 
@@ -151,6 +151,25 @@ class EditorScreen extends Component {
   };
 
   _handleOnSaveButtonPress = () => {
+    const {draftId, intl} = this.props;
+    if(draftId){
+      Alert.alert(
+        intl.formatMessage({id:'editor.draft_save_title'}),
+        "",
+        [{
+          text:intl.formatMessage({id:'editor.draft_update'}),
+          onPress:()=>this._saveDraftToDB(),
+        },{
+          text:intl.formatMessage({id:'editor.draft_save_new'}),
+          onPress:()=>this._saveDraftToDB(true)
+        },{
+          text:intl.formatMessage({id:'alert.cancel'}),
+          onPress:()=>{},
+          style:'cancel'
+        }]
+      )
+      return;
+    }
     this._saveDraftToDB();
   };
 
@@ -317,13 +336,13 @@ class EditorScreen extends Component {
       });
   };
 
-  _saveDraftToDB() {
+  _saveDraftToDB(saveAsNew?:boolean) {
     const { saveDraftToDB } = this.props;
     const { fields } = this.state;
 
     //save draft only if any of field is valid
     if (fields.body || fields.title) {
-      saveDraftToDB(fields);
+      saveDraftToDB(fields, saveAsNew);
     }
   }
 
