@@ -338,9 +338,9 @@
     "scheduled_later": "Mais tarde",
     "settings_title": "Opções da publicação",
     "done": "FEITO",
-    "draft_save_title": "Saving Draft",
-    "draft_update": "Update current draft",
-    "draft_save_new": "Save as new draft"
+    "draft_save_title": "Salvando o rascunho",
+    "draft_update": "Atualizar o rascunho atual",
+    "draft_save_new": "Salvo como novo rascunho"
   },
   "snippets": {
     "label_no_snippets": "Nenhum Snippet Encontrado",
