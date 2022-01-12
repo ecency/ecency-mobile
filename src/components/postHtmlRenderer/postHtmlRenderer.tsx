@@ -53,6 +53,7 @@ export const PostHtmlRenderer = memo(({
       tag,
       filter,
       videoHref,
+      community
     } = data;
 
     try {
@@ -97,6 +98,13 @@ export const PostHtmlRenderer = memo(({
         
         case 'markdown-proposal-link':
           setSelectedLink(href);
+          break;
+
+        case 'markdown-community-link':
+          //tag press also handles community by default
+          if(handleTagPress){
+            handleTagPress(community, filter)
+          }
           break;
           
         default:

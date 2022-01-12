@@ -9,6 +9,7 @@ export interface LinkData {
         proposal?:string,
         videoHref?:string,
         filter?:string,
+        community?:string,
 }
 
 export const parseLinkData = (tnode:TNode):LinkData => {
@@ -90,10 +91,16 @@ export const parseLinkData = (tnode:TNode):LinkData => {
 
   }
 
+  if(tnode.classes.includes('markdown-community-link')){
+    return {
+      type: 'markdown-community-link',
+      community: tnode.attributes['data-community'],
+      filter: tnode.attributes['data-filter'],
+    }
+  }
+
   if (tnode.classes.includes('markdown-video-link-youtube')) {
     var embedUrl = tnode.attributes['data-embed-src'];
-
-
 
     if (embedUrl) {
       return {
