@@ -47,7 +47,7 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
     }
 
     return (
-      <TouchableWithoutFeedback onPress={onPress} disabled={!isAnchored}>
+      <TouchableWithoutFeedback onPress={onPress} disabled={isAnchored}>
         <FastImage 
           style={imgStyle}
           source={{uri:imgUrl}}

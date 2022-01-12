@@ -168,7 +168,7 @@ export const PostHtmlRenderer = memo(({
       };
   
       const isVideoThumb = tnode.classes?.indexOf('video-thumbnail') >= 0;
-      const isAnchored = !(tnode.parent?.classes?.indexOf('markdown-external-link') >= 0)
+      const isAnchored = tnode.parent?.tagName === 'a';
   
       if(isVideoThumb){
         return <VideoThumb contentWidth={contentWidth} uri={imgUrl}/>;
