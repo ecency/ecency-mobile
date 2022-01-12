@@ -13,25 +13,51 @@ export default EStyleSheet.create({
   modalContainer: {
     padding: 12,
   },
-  modalHeader: {
-    justifyContent: 'center',
+
+  intialView: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+  },
+  userAvatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+  },
+  addCommentBtn: {
+    backgroundColor: '$primaryLightBackground',
+    flex: 1,
+    height: 50,
+    marginLeft: 8,
+    borderRadius: 8,
+    justifyContent: 'center',
+    paddingLeft: 12,
+  },
+  modalHeader: {},
+  titleBtnTxt: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '$primaryBlack',
+  },
+  inputContainer: {
+    paddingVertical: 16,
   },
   textInput: {
     color: '$iconColor',
     fontSize: 16,
     flexGrow: 1,
     fontWeight: '500',
-    height: 40,
+    height: 100,
   },
-  inputContainer: {
+  footer: {
     flexDirection: 'row',
-    paddingVertical: 12,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   commentBtn: {
+    width: 100,
     height: 40,
-    justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 12,
+    justifyContent: 'center',
   },
 });

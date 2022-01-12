@@ -709,7 +709,8 @@
     "year":"years"
   },
   "quick_reply":{
-    "placeholder":"Type your comment",
-    "comment": "Comment"
+    "placeholder":"Add a comment",
+    "comment": "Comment",
+    "reply": "Reply"
   }
 }
