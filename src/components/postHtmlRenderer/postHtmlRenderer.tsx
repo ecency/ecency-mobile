@@ -53,6 +53,7 @@ export const PostHtmlRenderer = memo(({
       tag,
       filter,
       videoHref,
+      community
     } = data;
 
     try {
@@ -97,6 +98,13 @@ export const PostHtmlRenderer = memo(({
         
         case 'markdown-proposal-link':
           setSelectedLink(href);
+          break;
+
+        case 'markdown-community-link':
+          //tag press also handles community by default
+          if(handleTagPress){
+            handleTagPress(community, filter)
+          }
           break;
           
         default:
@@ -160,7 +168,7 @@ export const PostHtmlRenderer = memo(({
       };
   
       const isVideoThumb = tnode.classes?.indexOf('video-thumbnail') >= 0;
-      const isAnchored = !(tnode.parent?.classes?.indexOf('markdown-external-link') >= 0)
+      const isAnchored = tnode.parent?.tagName === 'a';
   
       if(isVideoThumb){
         return <VideoThumb contentWidth={contentWidth} uri={imgUrl}/>;
