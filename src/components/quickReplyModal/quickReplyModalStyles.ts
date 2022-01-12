@@ -9,30 +9,15 @@ export default EStyleSheet.create({
     right: 0,
     zIndex: 999,
   },
-
+  container:{
+    flex:1,
+  },
   modalContainer: {
-    padding: 12,
+    paddingVertical: 16,
   },
 
-  intialView: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-  userAvatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 50,
-  },
-  addCommentBtn: {
-    backgroundColor: '$primaryLightBackground',
-    flex: 1,
-    height: 50,
-    marginLeft: 8,
-    borderRadius: 8,
-    justifyContent: 'center',
-    paddingLeft: 12,
-  },
+
+ 
   modalHeader: {},
   titleBtnTxt: {
     fontSize: 18,
@@ -40,7 +25,7 @@ export default EStyleSheet.create({
     color: '$primaryBlack',
   },
   inputContainer: {
-    paddingVertical: 16,
+    padding: 16,
   },
   textInput: {
     color: '$iconColor',
@@ -53,6 +38,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
+    paddingHorizontal:16,
   },
   commentBtn: {
     width: 100,
@@ -60,4 +46,30 @@ export default EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
+  replySection: {
+    paddingTop: 10,
+    paddingBottom: 0,
+  },
+  accountTile: {
+    height: 60,
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  avatarAndNameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal:16,
+    paddingTop:12,
+  },
+  nameContainer: {
+    marginLeft: 2,
+  },
+  name: {
+    marginLeft: 4,
+    color: '$primaryDarkGray',
+  },
+  
 });

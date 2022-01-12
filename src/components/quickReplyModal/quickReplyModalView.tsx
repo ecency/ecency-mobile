@@ -5,8 +5,9 @@ import styles from './quickReplyModalStyles';
 import { forwardRef } from 'react';
 import { View, Text } from 'react-native';
 import { useIntl } from 'react-intl';
-import { MainButton, TextButton, TextInput, UserAvatar } from '..';
+import { MainButton, SummaryArea, TextInput, UserAvatar } from '..';
 import { useSelector } from 'react-redux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export interface QuickReplyModalProps {}
 
@@ -16,13 +17,12 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
 
   const [selectedPost, setSelectedPost] = useState(null);
   const [commentValue, setCommentValue] = useState('');
-  const [expand, setExpand] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const sheetModalRef = useRef<ActionSheet>();
+  const inputRef = useRef<TextInput>(null);
 
   // reset the state when post changes
   useEffect(() => {
-    setExpand(false);
     setCommentValue('');
   }, [selectedPost]);
 
@@ -32,43 +32,31 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
       console.log('Showing action modal');
       setSelectedPost(post);
       sheetModalRef.current?.setModalVisible(true);
+      // wait  for modal to open and then show the keyboard
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 1000);
     },
   }));
 
   //VIEW_RENDERERS
 
-  const _renderInitialView = () => {
+  const _renderContent = () => {
     return (
-      <View style={styles.intialView}>
-        <UserAvatar username={currentAccount.name} disableSize style={styles.userAvatar} />
-        <TextButton
-          text={intl.formatMessage({
-            id: 'quick_reply.placeholder',
-          })}
-          onPress={() => setExpand(true)}
-          style={styles.addCommentBtn}
-          textStyle={styles.btnText}
-        />
-      </View>
-    );
-  };
-
-  const _renderFullView = () => {
-    return (
-      <View style={styles.fullView}>
-        <View style={styles.modalHeader}>
-          <TextButton
-            text={selectedPost.title}
-            onPress={() => console.log('title pressed!')}
-            style={styles.titleBtn}
-            textStyle={styles.titleBtnTxt}
-          />
+      <View style={styles.modalContainer}>
+        <SummaryArea summary={selectedPost.summary} />
+        <View style={styles.avatarAndNameContainer}>
+          <UserAvatar noAction username={currentAccount.username} />
+          <View style={styles.nameContainer}>
+            <Text style={styles.name}>{`@${currentAccount.username}`}</Text>
+          </View>
         </View>
         <View style={styles.inputContainer}>
           <TextInput
+            innerRef={inputRef}
             onChangeText={setCommentValue}
             value={commentValue}
-            autoFocus
+            // autoFocus
             placeholder={intl.formatMessage({
               id: 'quick_reply.placeholder',
             })}
@@ -77,6 +65,7 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
             style={styles.textInput}
             multiline={true}
             numberOfLines={5}
+            textAlignVertical="top"
           />
         </View>
         <View style={styles.footer}>
@@ -92,24 +81,17 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
       </View>
     );
   };
-  const _renderContent = () => {
-    return (
-      <View style={styles.modalContainer}>
-        {!expand && _renderInitialView()}
-        {expand && _renderFullView()}
-      </View>
-    );
-  };
 
   return (
     <ActionSheet
       ref={sheetModalRef}
-      gestureEnabled={false}
-      hideUnderlay
+      gestureEnabled={true}
       containerStyle={styles.sheetContent}
       indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
     >
-      {selectedPost && _renderContent()}
+      <KeyboardAwareScrollView enableOnAndroid={true}>
+        {selectedPost && _renderContent()}
+      </KeyboardAwareScrollView>
     </ActionSheet>
   );
 };
