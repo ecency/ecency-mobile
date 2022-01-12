@@ -17,7 +17,6 @@ export default EStyleSheet.create({
     marginBottom:6,
     flexDirection:'row',
     alignItems:'center',
-    justifyContent:'center',
     flexWrap:'wrap'
 
   } as TextStyle,
