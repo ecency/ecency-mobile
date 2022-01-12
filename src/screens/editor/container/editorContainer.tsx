@@ -23,6 +23,7 @@ import {
   grantPostingPermission,
   signImage,
   reblog,
+  postComment,
 } from '../../../providers/hive/dhive';
 import { setDraftPost, getDraftPost } from '../../../realm/realm';
 
@@ -737,7 +738,7 @@ class EditorContainer extends Component {
 
   _submitReply = async (fields) => {
     const { currentAccount, pinCode } = this.props;
-    const { rewardType, isPostSending } = this.state;
+    const { isPostSending } = this.state;
 
     if (isPostSending) {
       return;
@@ -749,27 +750,21 @@ class EditorContainer extends Component {
       });
 
       const { post } = this.state;
-
-      const jsonMeta = makeJsonMetadataReply(post.json_metadata.tags || ['ecency']);
       const permlink = generateReplyPermlink(post.author);
-      const author = currentAccount.name;
-      const options = null;
 
       const parentAuthor = post.author;
       const parentPermlink = post.permlink;
-      const voteWeight = null;
+      const parentTags = post.json_metadata.tags;
+ 
 
-      await postContent(
+      await postComment(
         currentAccount,
         pinCode,
         parentAuthor,
         parentPermlink,
         permlink,
-        '',
         fields.body,
-        jsonMeta,
-        options,
-        voteWeight,
+        parentTags,
       )
         .then(() => {
           AsyncStorage.setItem('temp-reply', '');
