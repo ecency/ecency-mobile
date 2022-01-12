@@ -37,6 +37,7 @@ import { SERVER_LIST } from '../../constants/options/api';
 import { b64uEnc } from '../../utils/b64';
 import bugsnagInstance from '../../config/bugsnag';
 import bugsnapInstance from '../../config/bugsnag';
+import { makeJsonMetadataReply } from '../../utils/editor';
 
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
@@ -1280,6 +1281,54 @@ export const postContent = (
   )
     .then((resp) => {
       const t = title ? 100 : 110;
+      const { id } = resp;
+      if (!isEdit) {
+        userActivity(t, id);
+      }
+      return resp;
+    })
+    .catch((err) => {
+      console.warn('Failed to post conent', err);
+      bugsnagInstance.notify(err);
+      throw err;
+    });
+
+/**
+ * Broadcasts a comment to post
+ * @param account currentAccount object
+ * @param pin encrypted pin taken from redux
+ * @param {*} parentAuthor author of parent post or in case of reply to comment author of parent comment
+ * @param {*} parentPermlink permlink of parent post or in case of reply to comment author of parent comment
+ * @param {*} permlink perlink of comment to be make
+ * @param {*} body body of comment
+ * @param {*} parentTags tags of parent post or parent comment
+ * @param {*} isEdit optional to avoid tracking activity in case of comment editing
+ * @returns
+ */
+export const postComment = (
+  account,
+  pin,
+  parentAuthor,
+  parentPermlink,
+  permlink,
+  body,
+  parentTags,
+  isEdit = false,
+) =>
+  _postContent(
+    account,
+    pin,
+    parentAuthor,
+    parentPermlink,
+    permlink,
+    '',
+    body,
+    makeJsonMetadataReply(parentTags || 'ecency'),
+    null,
+    null,
+  )
+    .then((resp) => {
+      const t = 110;
       const { id } = resp;
       if (!isEdit) {
         userActivity(t, id);
