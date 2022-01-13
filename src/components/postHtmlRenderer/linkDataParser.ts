@@ -8,6 +8,7 @@ export interface LinkData {
         tag?:string,
         proposal?:string,
         videoHref?:string,
+        youtubeId?:string,
         filter?:string,
         community?:string,
 }
@@ -18,10 +19,24 @@ export const parseLinkData = (tnode:TNode):LinkData => {
     }
 
     if(tnode.classes.includes('markdown-external-link')){
+
+      //inline external links can contain video links, for such tags and video id or url is contained as
+      //attribute if that is the case, use in app video modal to play content
+      //for now, only youtube id is supported
+      const youtubeId = tnode.attributes['data-youtube']
+      if(youtubeId){
         return {
-          type:'markdown-external-link',
-          href: tnode.attributes['data-href']
+          type:'markdown-video-link-youtube',
+          youtubeId:youtubeId.length > 11 && youtubeId[12] === '?' ? youtubeId.substring(0,11):youtubeId //this is a workaround to avoid feeding query parameters to youtube player
         }
+      }
+      //TOOD: support other video link later
+
+      //use default markdown-external-link with url;
+      return {
+        type:'markdown-external-link',
+        href: tnode.attributes['data-href']
+      }
     }
 
 
@@ -100,12 +115,12 @@ export const parseLinkData = (tnode:TNode):LinkData => {
   }
 
   if (tnode.classes.includes('markdown-video-link-youtube')) {
-    var embedUrl = tnode.attributes['data-embed-src'];
+    var youtubeId = tnode.attributes['data-youtube'];
 
-    if (embedUrl) {
+    if (youtubeId) {
       return {
         type: 'markdown-video-link-youtube',
-        tag: embedUrl
+        youtubeId : youtubeId.length > 11 && youtubeId[12] === '?' ? youtubeId.substring(0,11):youtubeId //this is a workaround to avoid feeding query parameters to youtube player
       };
     }
   }
