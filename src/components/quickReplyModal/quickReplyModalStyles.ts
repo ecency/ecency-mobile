@@ -13,7 +13,7 @@ export default EStyleSheet.create({
     flex:1,
   },
   modalContainer: {
-    paddingVertical: 16,
+    paddingVertical: 4,
   },
 
 
@@ -24,15 +24,20 @@ export default EStyleSheet.create({
     fontWeight: 'bold',
     color: '$primaryBlack',
   },
+  summaryStyle:{
+    fontSize:12,
+  },
   inputContainer: {
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical:8,
+    height:120,
+
   },
   textInput: {
-    color: '$iconColor',
+    color: '$primaryBlack',
     fontSize: 16,
     flexGrow: 1,
     fontWeight: '500',
-    height: 100,
   },
   footer: {
     flexDirection: 'row',
@@ -63,6 +68,7 @@ export default EStyleSheet.create({
     alignItems: 'center',
     paddingHorizontal:16,
     paddingTop:12,
+    paddingBottom:8,
   },
   nameContainer: {
     marginLeft: 2,

@@ -27,7 +27,7 @@ export default class SummaryAreaView extends PureComponent {
 
     return (
       <View style={globalStyles.containerHorizontal16}>
-        <Text style={styles.summaryText}>{summary}</Text>
+        <Text style={[styles.summaryText, this.props.style]}>{summary}</Text>
       </View>
     );
   }

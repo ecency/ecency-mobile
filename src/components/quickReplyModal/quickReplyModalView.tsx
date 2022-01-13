@@ -3,15 +3,26 @@ import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './quickReplyModalStyles';
 import { forwardRef } from 'react';
-import { View, Text, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  Alert,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  Keyboard,
+} from 'react-native';
 import { useIntl } from 'react-intl';
 import { MainButton, SummaryArea, TextInput, UserAvatar } from '..';
 import { useSelector, useDispatch } from 'react-redux';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { generateReplyPermlink } from '../../utils/editor';
 import { postComment } from '../../providers/hive/dhive';
 import AsyncStorage from '@react-native-community/async-storage';
 import { toastNotification } from '../../redux/actions/uiAction';
+import { useAppSelector } from '../../hooks';
+import { default as ROUTES } from '../../constants/routeNames';
+import get from 'lodash/get';
+import { navigate } from '../../navigation/service';
 
 export interface QuickReplyModalProps {}
 
@@ -20,12 +31,28 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
   const dispatch = useDispatch();
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const pinCode = useSelector((state) => state.application.pin);
+  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
 
   const [selectedPost, setSelectedPost] = useState(null);
   const [commentValue, setCommentValue] = useState('');
   const [isSending, setIsSending] = useState(false);
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const sheetModalRef = useRef<ActionSheet>();
   const inputRef = useRef<TextInput>(null);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      setKeyboardVisible(true); // or some other action
+    });
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardVisible(false); // or some other action
+    });
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
 
   // reset the state when post changes
   useEffect(() => {
@@ -46,6 +73,21 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
   }));
 
   // handlers
+
+  // navigate to post on summary press
+  const _handleOnSummaryPress = () => {
+    Keyboard.dismiss();
+    sheetModalRef.current?.setModalVisible(false);
+    navigate({
+      routeName: ROUTES.SCREENS.POST,
+      params: {
+        content: selectedPost,
+      },
+      key: get(selectedPost, 'permlink'),
+    });
+  };
+
+  // handle submit reply
   const _submitReply = async () => {
     let stateTimer;
     if (isSending) {
@@ -109,24 +151,30 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
           }, 500);
         });
       console.log('status : ', status);
-
-      // fetch posts again
-      // await loadPosts({ shouldReset: true });
     }
   };
 
   //VIEW_RENDERERS
 
+  const _renderSummary = () => (
+    <TouchableOpacity onPress={() => _handleOnSummaryPress()}>
+      <SummaryArea style={styles.summaryStyle} summary={selectedPost.summary} />
+    </TouchableOpacity>
+  );
+  const _renderAvatar = () => (
+    <View style={styles.avatarAndNameContainer}>
+      <UserAvatar noAction username={currentAccount.username} />
+      <View style={styles.nameContainer}>
+        <Text style={styles.name}>{`@${currentAccount.username}`}</Text>
+      </View>
+    </View>
+  );
+
   const _renderContent = () => {
     return (
       <View style={styles.modalContainer}>
-        <SummaryArea summary={selectedPost.summary} />
-        <View style={styles.avatarAndNameContainer}>
-          <UserAvatar noAction username={currentAccount.username} />
-          <View style={styles.nameContainer}>
-            <Text style={styles.name}>{`@${currentAccount.username}`}</Text>
-          </View>
-        </View>
+        {_renderSummary()}
+        {isLoggedIn && _renderAvatar()}
         <View style={styles.inputContainer}>
           <TextInput
             innerRef={inputRef}
@@ -162,14 +210,19 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
     <ActionSheet
       ref={sheetModalRef}
       gestureEnabled={true}
+      keyboardShouldPersistTaps="handled"
       containerStyle={styles.sheetContent}
+      keyboardHandlerEnabled
       indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
     >
-      <KeyboardAwareScrollView enableOnAndroid={true}>
+      <KeyboardAvoidingView
+        behavior={'position'}
+        style={{ paddingBottom: Platform.OS === 'ios' ? 0 : !isKeyboardVisible ? 0 : 32 }}
+      >
         {selectedPost && _renderContent()}
-      </KeyboardAwareScrollView>
+      </KeyboardAvoidingView>
     </ActionSheet>
   );
 };
 
-export default forwardRef(QuickReplyModal);
+export default forwardRef(QuickReplyModal as any);
