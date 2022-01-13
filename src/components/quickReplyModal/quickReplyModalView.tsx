@@ -3,21 +3,29 @@ import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './quickReplyModalStyles';
 import { forwardRef } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 import { useIntl } from 'react-intl';
 import { MainButton, SummaryArea, TextInput, UserAvatar } from '..';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { generateReplyPermlink } from '../../utils/editor';
+import { postComment } from '../../providers/hive/dhive';
+import AsyncStorage from '@react-native-community/async-storage';
+import { toastNotification } from '../../redux/actions/uiAction';
 
-export interface QuickReplyModalProps {}
+export interface QuickReplyModalProps {
+  loadPosts: ({ shouldReset }) => void;
+}
 
-const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
+const QuickReplyModal = ({ loadPosts }: QuickReplyModalProps, ref) => {
   const intl = useIntl();
+  const dispatch = useDispatch();
   const currentAccount = useSelector((state) => state.account.currentAccount);
+  const pinCode = useSelector((state) => state.application.pin);
 
   const [selectedPost, setSelectedPost] = useState(null);
   const [commentValue, setCommentValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSending, setIsSending] = useState(false);
   const sheetModalRef = useRef<ActionSheet>();
   const inputRef = useRef<TextInput>(null);
 
@@ -38,6 +46,77 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
       }, 1000);
     },
   }));
+
+  // handlers
+  const _submitReply = async () => {
+    let stateTimer;
+    if (isSending) {
+      return;
+    }
+
+    if (currentAccount) {
+      setIsSending(true);
+
+      const permlink = generateReplyPermlink(selectedPost.author);
+
+      const parentAuthor = selectedPost.author;
+      const parentPermlink = selectedPost.permlink;
+      const parentTags = selectedPost.json_metadata.tags;
+      console.log(
+        currentAccount,
+        pinCode,
+        parentAuthor,
+        parentPermlink,
+        permlink,
+        commentValue,
+        parentTags,
+      );
+
+      const status = await postComment(
+        currentAccount,
+        pinCode,
+        parentAuthor,
+        parentPermlink,
+        permlink,
+        commentValue,
+        parentTags,
+      )
+        .then(() => {
+          AsyncStorage.setItem('temp-reply', '');
+
+          stateTimer = setTimeout(() => {
+            setIsSending(false);
+            sheetModalRef.current?.setModalVisible(false);
+            dispatch(
+              toastNotification(
+                intl.formatMessage({
+                  id: 'alert.success',
+                }),
+              ),
+            );
+            loadPosts({ shouldReset: true })
+            clearTimeout(stateTimer);
+          }, 3000);
+        })
+        .catch((error) => {
+          console.log(error);
+          Alert.alert(
+            intl.formatMessage({
+              id: 'alert.fail',
+            }),
+            error.message || JSON.stringify(error),
+          );
+          stateTimer = setTimeout(() => {
+            setIsSending(false);
+            clearTimeout(stateTimer);
+          }, 500);
+        });
+        console.log('status : ', status);
+        
+      // fetch posts again
+      // await loadPosts({ shouldReset: true });
+    }
+  };
 
   //VIEW_RENDERERS
 
@@ -71,11 +150,11 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
         <View style={styles.footer}>
           <MainButton
             style={styles.commentBtn}
-            onPress={() => console.log('comment pressed!')}
+            onPress={() => _submitReply()}
             text={intl.formatMessage({
               id: 'quick_reply.reply',
             })}
-            isLoading={isLoading}
+            isLoading={isSending}
           />
         </View>
       </View>

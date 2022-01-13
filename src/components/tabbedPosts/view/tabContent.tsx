@@ -317,8 +317,7 @@ const TabContent = ({
 
   // show quick reply modal
   const _showQuickReplyModal = (post:any) => {
-    console.log('post: ', post);
-    
+    // console.log('post: ', post);
     quickReplyModalRef.current.show(post)
   }
 
@@ -353,7 +352,7 @@ const TabContent = ({
         setEnableScrollTop(false);
       }}
     />
-    <QuickReplyModal ref={quickReplyModalRef} />
+    <QuickReplyModal ref={quickReplyModalRef} loadPosts={_loadPosts} />
   </>
   );
 };
