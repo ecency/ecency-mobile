@@ -13,11 +13,9 @@ import { postComment } from '../../providers/hive/dhive';
 import AsyncStorage from '@react-native-community/async-storage';
 import { toastNotification } from '../../redux/actions/uiAction';
 
-export interface QuickReplyModalProps {
-  loadPosts: ({ shouldReset }) => void;
-}
+export interface QuickReplyModalProps {}
 
-const QuickReplyModal = ({ loadPosts }: QuickReplyModalProps, ref) => {
+const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const currentAccount = useSelector((state) => state.account.currentAccount);
@@ -94,7 +92,6 @@ const QuickReplyModal = ({ loadPosts }: QuickReplyModalProps, ref) => {
                 }),
               ),
             );
-            loadPosts({ shouldReset: true })
             clearTimeout(stateTimer);
           }, 3000);
         })
@@ -111,8 +108,8 @@ const QuickReplyModal = ({ loadPosts }: QuickReplyModalProps, ref) => {
             clearTimeout(stateTimer);
           }, 500);
         });
-        console.log('status : ', status);
-        
+      console.log('status : ', status);
+
       // fetch posts again
       // await loadPosts({ shouldReset: true });
     }

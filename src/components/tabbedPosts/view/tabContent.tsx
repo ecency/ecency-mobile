@@ -352,7 +352,7 @@ const TabContent = ({
         setEnableScrollTop(false);
       }}
     />
-    <QuickReplyModal ref={quickReplyModalRef} loadPosts={_loadPosts} />
+    <QuickReplyModal ref={quickReplyModalRef} />
   </>
   );
 };
