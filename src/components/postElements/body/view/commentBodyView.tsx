@@ -21,7 +21,6 @@ import styles from './commentBodyStyles';
 // Services and Actions
 import { writeToClipboard } from '../../../../utils/clipboard';
 import { toastNotification } from '../../../../redux/actions/uiAction';
-import getYoutubeId from '../../../../utils/getYoutubeId';
 import VideoPlayerSheet from './videoPlayerSheet';
 import { LongPressGestureHandler, State } from 'react-native-gesture-handler';
 import { useCallback } from 'react';
@@ -265,8 +264,7 @@ const CommentBody = ({
     }
   };
 
-  const _handleYoutubePress = (embedUrl) => {
-    const videoId = getYoutubeId(embedUrl);
+  const _handleYoutubePress = (videoId) => {
     if (videoId && youtubePlayerRef.current) {
       setYoutubeVideoId(videoId);
       youtubePlayerRef.current.setModalVisible(true);

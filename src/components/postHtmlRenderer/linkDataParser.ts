@@ -8,6 +8,7 @@ export interface LinkData {
         tag?:string,
         proposal?:string,
         videoHref?:string,
+        youtubeId?:string,
         filter?:string,
         community?:string,
 }
@@ -100,12 +101,12 @@ export const parseLinkData = (tnode:TNode):LinkData => {
   }
 
   if (tnode.classes.includes('markdown-video-link-youtube')) {
-    var embedUrl = tnode.attributes['data-embed-src'];
+    var youtubeId = tnode.attributes['data-youtube'];
 
-    if (embedUrl) {
+    if (youtubeId.length === 11) {
       return {
         type: 'markdown-video-link-youtube',
-        tag: embedUrl
+        youtubeId
       };
     }
   }
