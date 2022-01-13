@@ -117,10 +117,10 @@ export const parseLinkData = (tnode:TNode):LinkData => {
   if (tnode.classes.includes('markdown-video-link-youtube')) {
     var youtubeId = tnode.attributes['data-youtube'];
 
-    if (youtubeId.length === 11) {
+    if (youtubeId) {
       return {
         type: 'markdown-video-link-youtube',
-        youtubeId
+        youtubeId : youtubeId.length > 11 && youtubeId[12] === '?' ? youtubeId.substring(0,11):youtubeId //this is a workaround to avoid feeding query parameters to youtube player
       };
     }
   }
