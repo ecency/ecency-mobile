@@ -13,12 +13,15 @@ export default EStyleSheet.create({
     flex:1,
   },
   modalContainer: {
-    paddingVertical: 4,
+    // paddingVertical: 4,
   },
 
 
  
-  modalHeader: {},
+  modalHeader: {
+    paddingHorizontal: 12,
+    paddingVertical:8,
+  },
   titleBtnTxt: {
     fontSize: 18,
     fontWeight: 'bold',

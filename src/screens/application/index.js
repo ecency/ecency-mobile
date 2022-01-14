@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import SplashScreen from 'react-native-splash-screen';
 
+import { Host } from 'react-native-portalize';
 import ApplicationContainer from './container/applicationContainer';
 import WelcomeScreen from './screen/welcomeScreen';
 import ApplicationScreen from './screen/applicationScreen';
@@ -62,15 +63,17 @@ const Application = () => {
             </Modal>
 
             {isThemeReady && isRenderRequire && (
-              <ApplicationScreen
-                isConnected={isConnected}
-                locale={locale}
-                toastNotification={toastNotification}
-                isReady={isReady}
-                isDarkTheme={isDarkTheme}
-                rcOffer={rcOffer}
-                foregroundNotificationData={foregroundNotificationData}
-              />
+              <Host>
+                <ApplicationScreen
+                  isConnected={isConnected}
+                  locale={locale}
+                  toastNotification={toastNotification}
+                  isReady={isReady}
+                  isDarkTheme={isDarkTheme}
+                  rcOffer={rcOffer}
+                  foregroundNotificationData={foregroundNotificationData}
+                />
+              </Host>
             )}
             {!_isAppReady && <LaunchScreen />}
           </ErrorBoundary>

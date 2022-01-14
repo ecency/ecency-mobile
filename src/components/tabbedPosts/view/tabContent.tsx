@@ -318,7 +318,12 @@ const TabContent = ({
   // show quick reply modal
   const _showQuickReplyModal = (post:any) => {
     // console.log('post: ', post);
-    quickReplyModalRef.current.show(post)
+    if (isLoggedIn) {
+      quickReplyModalRef.current.show(post);
+    } else {
+      console.log('Not LoggedIn');
+    }
+    
   }
 
   return (
