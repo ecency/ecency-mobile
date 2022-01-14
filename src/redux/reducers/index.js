@@ -8,6 +8,7 @@ import communities from './communitiesReducer';
 import user from './userReducer';
 import customTabsReducer from './customTabsReducer';
 import editorReducer from './editorReducer';
+import cacheReducer from './cacheReducer';
 
 export default combineReducers({
   account: accountReducer,
@@ -19,4 +20,5 @@ export default combineReducers({
   ui,
   communities,
   user,
+  cache: cacheReducer,
 });

@@ -1,10 +1,26 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { persistStore, persistReducer } from 'redux-persist';
+import { persistStore, persistReducer, createTransform } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
 import Reactotron from '../../../reactotron-config';
 
 import reducer from '../reducers';
+
+const transformCacheVoteMap = createTransform(
+  (state) => {
+    if(state.votes){
+      state.votes = Array.from(state.votes);
+    }
+    return state;
+  },
+  (state) => {
+    console.log(state);
+    if(state.votes){
+      state.votes = new Map(state.votes);
+    }
+    return state;
+  }
+);
 
 // Middleware: Redux Persist Config
 const persistConfig = {
@@ -15,6 +31,7 @@ const persistConfig = {
   // Blacklist (Don't Save Specific Reducers)
   blacklist: ['nav', 'application', 'communities', 'user'],
   timeout: 0,
+  transforms:[transformCacheVoteMap]
 };
 
 // Middleware: Redux Persist Persisted Reducer
