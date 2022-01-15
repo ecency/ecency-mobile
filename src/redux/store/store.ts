@@ -7,19 +7,9 @@ import Reactotron from '../../../reactotron-config';
 import reducer from '../reducers';
 
 const transformCacheVoteMap = createTransform(
-  (state) => {
-    if(state.votes){
-      state.votes = Array.from(state.votes);
-    }
-    return state;
-  },
-  (state) => {
-    console.log(state);
-    if(state.votes){
-      state.votes = new Map(state.votes);
-    }
-    return state;
-  }
+  (inboundState:any) => ({ ...inboundState, votes : Array.from(inboundState.votes)}),
+  (outboundState) => ({ ...outboundState, votes:new Map(outboundState.votes)}),
+  {whitelist:['cache']}
 );
 
 // Middleware: Redux Persist Config
