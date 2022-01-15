@@ -94,12 +94,7 @@ import {
   toastNotification,
   updateActiveBottomTab,
 } from '../../../redux/actions/uiAction';
-import {
-  resetLocalVoteMap,
-  setFeedPosts,
-  setFeedScreenFilters,
-  setInitPosts,
-} from '../../../redux/actions/postsAction';
+import { setFeedPosts, setInitPosts } from '../../../redux/actions/postsAction';
 
 import { encryptKey } from '../../../utils/crypto';
 
@@ -109,6 +104,7 @@ import persistAccountGenerator from '../../../utils/persistAccountGenerator';
 import parseVersionNumber from '../../../utils/parseVersionNumber';
 import { getTimeFromNow, setMomentLocale } from '../../../utils/time';
 import parseAuthUrl from '../../../utils/parseAuthUrl';
+import { purgeExpiredCache } from '../../../redux/actions/cacheActions';
 
 // Workaround
 let previousAppState = 'background';
@@ -777,7 +773,7 @@ class ApplicationContainer extends Component {
     dispatch(hideActionModal());
     dispatch(hideProfileModal());
     dispatch(toastNotification(''));
-    dispatch(resetLocalVoteMap());
+    dispatch(purgeExpiredCache());
     dispatch(setRcOffer(false));
 
     const settings = await getSettings();

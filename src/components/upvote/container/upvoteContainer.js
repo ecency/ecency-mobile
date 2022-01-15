@@ -7,7 +7,6 @@ import { setUpvotePercent } from '../../../realm/realm';
 
 // Services and Actions
 import { setUpvotePercent as upvoteAction } from '../../../redux/actions/applicationActions';
-import { updateLocalVoteMap } from '../../../redux/actions/postsAction';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
@@ -16,6 +15,8 @@ import parseAsset from '../../../utils/parseAsset';
 
 // Component
 import UpvoteView from '../view/upvoteView';
+import { updateVoteCache } from '../../../redux/actions/cacheActions';
+import { useAppSelector } from '../../../hooks';
 
 /*
  *            Props Name        Description                                     Value
@@ -41,7 +42,7 @@ const UpvoteContainer = (props) => {
   const [isVoted, setIsVoted] = useState(null);
   const [isDownVoted, setIsDownVoted] = useState(null);
   const [totalPayout, setTotalPayout] = useState(get(content, 'total_payout'));
-  const localVoteMap = useSelector((state) => state.posts.localVoteMap);
+  const cachedVotes = useAppSelector((state) => state.cache.votes);
 
   useEffect(() => {
     let _isMounted = true;
@@ -54,8 +55,8 @@ const UpvoteContainer = (props) => {
         setIsVoted(_isVoted && parseInt(_isVoted, 10) / 10000);
         setIsDownVoted(_isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1);
 
-        if (localVoteMap) {
-          _handleLocalVote();
+        if (cachedVotes && cachedVotes.size() > 0) {
+          _handleCachedVote();
         }
       }
     };
@@ -71,14 +72,15 @@ const UpvoteContainer = (props) => {
     }
   };
 
-  const _handleLocalVote = () => {
-    const postId = `${content.author || ''}-${content.permlink || ''}`;
+  const _handleCachedVote = () => {
+    const postPath = `${content.author || ''}/${content.permlink || ''}`;
     const postFetchedAt = get(content, 'post_fetched_at', 0);
-    const localVote = localVoteMap[postId] || null;
-    if (localVote) {
-      const { votedAt, amount, isDownvote, incrementStep } = localVote;
 
-      if (postFetchedAt > votedAt) {
+    if (cachedVotes.has(postPath)) {
+      const cachedVote = cachedVotes.get(postPath);
+      const { expiresAt, amount, isDownvote, incrementStep } = cachedVote;
+
+      if (postFetchedAt > expiresAt) {
         return;
       }
 
@@ -107,14 +109,16 @@ const UpvoteContainer = (props) => {
 
     setTotalPayout(totalPayout + amountNum);
     //update redux
-    const postId = `${content.author || ''}-${content.permlink || ''}`;
+    const postPath = `${content.author || ''}/${content.permlink || ''}`;
+    const curTime = new Date().getTime();
     const vote = {
-      votedAt: new Date().getTime(),
+      votedAt: curTime,
       amount: amountNum,
       isDownvote,
       incrementStep,
+      expiresAt: curTime + 30000,
     };
-    dispatch(updateLocalVoteMap(postId, vote));
+    dispatch(updateVoteCache(postPath, vote));
   };
 
   const author = get(content, 'author');
