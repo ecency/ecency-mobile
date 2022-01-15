@@ -9,6 +9,7 @@ export interface LinkData {
         proposal?:string,
         videoHref?:string,
         youtubeId?:string,
+        startTime?:number,
         filter?:string,
         community?:string,
 }
@@ -24,10 +25,13 @@ export const parseLinkData = (tnode:TNode):LinkData => {
       //attribute if that is the case, use in app video modal to play content
       //for now, only youtube id is supported
       const youtubeId = tnode.attributes['data-youtube']
+      const startTime= tnode.attributes['data-start-time'];
       if(youtubeId){
+        
         return {
           type:'markdown-video-link-youtube',
-          youtubeId:youtubeId.length > 11 && youtubeId[12] === '?' ? youtubeId.substring(0,11):youtubeId //this is a workaround to avoid feeding query parameters to youtube player
+          youtubeId:youtubeId,
+          startTime:parseInt(startTime) || 0,
         }
       }
       //TOOD: support other video link later
@@ -116,11 +120,13 @@ export const parseLinkData = (tnode:TNode):LinkData => {
 
   if (tnode.classes.includes('markdown-video-link-youtube')) {
     var youtubeId = tnode.attributes['data-youtube'];
+    const startTime= tnode.attributes['data-start-time'];
 
     if (youtubeId) {
       return {
         type: 'markdown-video-link-youtube',
-        youtubeId : youtubeId.length > 11 && youtubeId[12] === '?' ? youtubeId.substring(0,11):youtubeId //this is a workaround to avoid feeding query parameters to youtube player
+        youtubeId : youtubeId,
+        startTime : parseInt(startTime) || 0,
       };
     }
   }

@@ -9,7 +9,7 @@ import { AutoHeightImage } from "../autoHeightImage/autoHeightImage";
 interface PostHtmlRendererProps {
   contentWidth:number;
   body:string;
-  onLoaded:()=>void;
+  onLoaded?:()=>void;
   setSelectedImage:(imgUrl:string)=>void;
   setSelectedLink:(url:string)=>void;
   onElementIsImage:(imgUrl:string)=>void;
@@ -17,7 +17,7 @@ interface PostHtmlRendererProps {
   handleOnUserPress:(username:string)=>void;
   handleTagPress:(tag:string, filter?:string)=>void;
   handleVideoPress:(videoUrl:string)=>void;
-  handleYoutubePress:(videoId:string)=>void;
+  handleYoutubePress:(videoId:string, startTime:number)=>void;
 }
 
 export const PostHtmlRenderer = memo(({
@@ -52,6 +52,7 @@ export const PostHtmlRenderer = memo(({
       permlink,
       tag,
       youtubeId,
+      startTime,
       filter,
       videoHref,
       community
@@ -87,7 +88,7 @@ export const PostHtmlRenderer = memo(({
           break;
         case 'markdown-video-link-youtube':
           if(handleYoutubePress){
-            handleYoutubePress(youtubeId)
+            handleYoutubePress(youtubeId, startTime)
           }
       
           break;
