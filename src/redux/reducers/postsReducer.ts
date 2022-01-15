@@ -7,8 +7,6 @@ import {
   FETCH_POSTS,
   FETCH_POSTS_SUCCESS,
   RESET,
-  UPDATE_LOCAL_VOTE_MAP,
-  RESET_LOCAL_VOTE_MAP,
   SET_FEED_SCREEN_FILTERS,
 } from '../constants/constants';
 
@@ -19,7 +17,6 @@ const initialState = {
   posts: [],
   loading: false,
   selectedFilterValue: '',
-  localVoteMap: new Map(),
   feedScreenFilters:DEFAULT_FEED_FILTERS
 };
 
@@ -43,20 +40,6 @@ export default function (state = initialState, action) {
         otherPosts: action.payload.posts,
         otherScrollPosition: action.payload.scrollPosition,
         posts: action.payload,
-      };
-    case UPDATE_LOCAL_VOTE_MAP:
-      const { postId, localVote } = action.payload;
-      const voteMap = state.localVoteMap || new Map();
-      voteMap[postId] = localVote;
-      return {
-        ...state,
-        localVoteMap: voteMap,
-      };
-
-    case RESET_LOCAL_VOTE_MAP:
-      return {
-        ...state,
-        localVoteMap: new Map(),
       };
 
     case FILTER_SELECTED: {

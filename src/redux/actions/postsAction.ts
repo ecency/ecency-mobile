@@ -6,8 +6,6 @@ import {
   RESET,
   FILTER_SELECTED,
   SET_INIT_POSTS,
-  UPDATE_LOCAL_VOTE_MAP,
-  RESET_LOCAL_VOTE_MAP,
   SET_FEED_SCREEN_FILTERS,
 } from '../constants/constants';
 
@@ -31,23 +29,7 @@ export const setOtherPosts = (posts, scrollPosition = 0) => ({
 });
 
 
-export const updateLocalVoteMap = (postId:string, localVote:{
-  votedAt: number,
-  amount: number,
-  isDownvote: boolean,
-  incrementStep: number
-}) => ({
-  payload: {
-    postId,
-    localVote,
-  },
-  type: UPDATE_LOCAL_VOTE_MAP,
-});
 
-
-export const resetLocalVoteMap = () => ({
-  type: RESET_LOCAL_VOTE_MAP,
-});
 export const fetchPosts = (payload) => ({
   payload,
   type: FETCH_POSTS,
