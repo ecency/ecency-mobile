@@ -113,7 +113,7 @@ const UpvoteContainer = (props) => {
     const amountNum = parseFloat(amount);
 
     let incrementStep = 0;
-    if (!isVoted && !isDownVoted && incrementVoteCount) {
+    if (!isVoted && !isDownVoted) {
       incrementStep = 1;
     }
 
