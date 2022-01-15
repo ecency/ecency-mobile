@@ -52,6 +52,7 @@ export const PostHtmlRenderer = memo(({
       permlink,
       tag,
       youtubeId,
+      startTime,
       filter,
       videoHref,
       community
@@ -87,7 +88,7 @@ export const PostHtmlRenderer = memo(({
           break;
         case 'markdown-video-link-youtube':
           if(handleYoutubePress){
-            handleYoutubePress(youtubeId)
+            handleYoutubePress(youtubeId, startTime)
           }
       
           break;
