@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import get from 'lodash/get';
 
 // Realm
@@ -43,6 +43,7 @@ const UpvoteContainer = (props) => {
   const [isDownVoted, setIsDownVoted] = useState(null);
   const [totalPayout, setTotalPayout] = useState(get(content, 'total_payout'));
   const cachedVotes = useAppSelector((state) => state.cache.votes);
+  const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
 
   useEffect(() => {
     let _isMounted = true;
@@ -64,6 +65,19 @@ const UpvoteContainer = (props) => {
     _calculateVoteStatus();
     return () => (_isMounted = false);
   }, [activeVotes]);
+
+  useEffect(() => {
+    const postPath = `${content.author || ''}/${content.permlink || ''}`;
+    //this conditional makes sure on targetted already fetched post is updated
+    //with new cache status, this is to avoid duplicate cache merging
+    if (
+      lastCacheUpdate &&
+      lastCacheUpdate.postPath === postPath &&
+      content.post_fetched_at < lastCacheUpdate.updatedAt
+    ) {
+      _handleCachedVote();
+    }
+  }, [lastCacheUpdate]);
 
   const _setUpvotePercent = (value) => {
     if (value) {
@@ -101,13 +115,8 @@ const UpvoteContainer = (props) => {
     let incrementStep = 0;
     if (!isVoted && !isDownVoted && incrementVoteCount) {
       incrementStep = 1;
-      incrementVoteCount();
     }
 
-    setIsDownVoted(isDownvote ? true : false);
-    setIsVoted(isDownvote ? false : true);
-
-    setTotalPayout(totalPayout + amountNum);
     //update redux
     const postPath = `${content.author || ''}/${content.permlink || ''}`;
     const curTime = new Date().getTime();

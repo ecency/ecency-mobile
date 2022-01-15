@@ -10,10 +10,15 @@ export interface Vote {
 
 interface State {
     votes:Map<string, Vote>
+    lastUpdate:{
+        postPath:string,
+        updatedAt:number,
+    }
 }
 
 const initialState:State = {
-    votes:new Map()
+    votes:new Map(),
+    lastUpdate:null,
   };
   
   export default function (state = initialState, action) {
@@ -25,7 +30,11 @@ const initialState:State = {
             }
             state.votes.set(payload.postPath, payload.vote);
             return {
-                ...state //spread operator in requried here, otherwise persist do not register change
+                ...state, //spread operator in requried here, otherwise persist do not register change
+                lastUpdate:{
+                    postPath:payload.postPath,
+                    updatedAt: new Date().getTime()
+                }
             };
         case PURGE_EXPIRED_CACHE:
             const currentTime = new Date().getTime();
