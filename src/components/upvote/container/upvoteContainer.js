@@ -55,7 +55,7 @@ const UpvoteContainer = (props) => {
         setIsVoted(_isVoted && parseInt(_isVoted, 10) / 10000);
         setIsDownVoted(_isDownVoted && (parseInt(_isDownVoted, 10) / 10000) * -1);
 
-        if (cachedVotes && cachedVotes.size() > 0) {
+        if (cachedVotes && cachedVotes.size > 0) {
           _handleCachedVote();
         }
       }
