@@ -28,6 +28,7 @@ import { OptionsModal } from '../../../atoms';
 import { useAppDispatch } from '../../../../hooks';
 import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
+import { startsWith } from 'core-js/core/string';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -53,6 +54,7 @@ const CommentBody = ({
   const [revealComment, setRevealComment] = useState(reputation > 0 && !isMuted);
   const [videoUrl, setVideoUrl] = useState(null);
   const [youtubeVideoId, setYoutubeVideoId] = useState(null)
+  const [videoStartTime, setVideoStartTime] = useState(0);
 
   const intl = useIntl();
   const actionImage = useRef(null);
@@ -264,9 +266,10 @@ const CommentBody = ({
     }
   };
 
-  const _handleYoutubePress = (videoId) => {
+  const _handleYoutubePress = (videoId, startTime) => {
     if (videoId && youtubePlayerRef.current) {
       setYoutubeVideoId(videoId);
+      setVideoStartTime(startTime);
       youtubePlayerRef.current.setModalVisible(true);
     }
   };
@@ -274,6 +277,7 @@ const CommentBody = ({
   const _handleVideoPress = (embedUrl) => {
     if (embedUrl && youtubePlayerRef.current) {
       setVideoUrl(embedUrl);
+      setVideoStartTime(0)
       youtubePlayerRef.current.setModalVisible(true);
     }
   };
@@ -364,7 +368,7 @@ const CommentBody = ({
           setVideoUrl(null);
         }}
       >
-        <VideoPlayerSheet youtubeVideoId={youtubeVideoId} videoUrl={videoUrl} />
+        <VideoPlayerSheet youtubeVideoId={youtubeVideoId} videoUrl={videoUrl} startTime={videoStartTime} />
       </ActionsSheetView>
     </Fragment>
   );
