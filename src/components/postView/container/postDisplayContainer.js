@@ -143,7 +143,6 @@ const PostDisplayContainer = ({
       post={post}
       activeVotes={activeVotes}
       activeVotesCount={activeVotesCount}
-      setActiveVotesCount={setActiveVotesCount}
       reblogs={reblogs}
     />
   );

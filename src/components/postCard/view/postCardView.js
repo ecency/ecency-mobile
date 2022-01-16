@@ -44,12 +44,9 @@ const PostCardView = ({
   isMuted,
 }) => {
   //local state to manage fake upvote if available
-  const [activeVotesCount, setActiveVotesCount] = useState(0);
+  const activeVotesCount = activeVotes ? activeVotes.length : 0;
+  const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
   const [calcImgHeight, setCalcImgHeight] = useState(imageHeight || 300);
-
-  useEffect(() => {
-    setActiveVotesCount(activeVotes ? activeVotes.length : 0);
-  }, [activeVotes]);
 
   // Component Functions
   const _handleOnUserPress = (username) => {
@@ -74,7 +71,7 @@ const PostCardView = ({
 
   const _handleIncrementVoteCount = () => {
     //fake increment vote using based on local change
-    setActiveVotesCount(activeVotesCount + 1);
+    setCacheVoteIcrement(1);
   };
 
   const rebloggedBy = get(content, 'reblogged_by[0]', null);
@@ -181,7 +178,7 @@ const PostCardView = ({
               iconStyle={styles.commentIcon}
               iconType="MaterialCommunityIcons"
               isClickable
-              text={activeVotesCount}
+              text={activeVotesCount + cacheVoteIcrement}
               onPress={_handleOnVotersPress}
             />
           </TouchableOpacity>
