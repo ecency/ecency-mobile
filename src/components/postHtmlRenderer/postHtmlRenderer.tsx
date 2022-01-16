@@ -37,6 +37,7 @@ export const PostHtmlRenderer = memo(({
      //new renderer functions
   body = body.replace(/<center>/g, '<div class="text-center">').replace(/<\/center>/g,'</div>');
 
+
   console.log("Comment body:", body);
 
   const _handleOnLinkPress = (data:LinkData) => {
@@ -157,6 +158,26 @@ export const PostHtmlRenderer = memo(({
         />
       );
     }
+
+    //this method checks if image is a child of table column
+    //and calculates img width accordingly,
+    //returns full width if img is not part of table
+    const getMaxImageWidth = (tnode:TNode)=>{
+      
+      //return full width if not parent exist
+      if(!tnode.parent || tnode.parent.tagName === 'body'){
+        return contentWidth;
+      }
+
+      //return divided width based on number td tags
+      if(tnode.parent.tagName === 'td'){
+        const cols = tnode.parent.parent.children.length
+        return contentWidth/cols;
+      }
+
+      //check next parent
+      return getMaxImageWidth(tnode.parent);
+    }
   
   
     const _imageRenderer = ({
@@ -172,14 +193,15 @@ export const PostHtmlRenderer = memo(({
       const isVideoThumb = tnode.classes?.indexOf('video-thumbnail') >= 0;
       const isAnchored = tnode.parent?.tagName === 'a';
   
+
       if(isVideoThumb){
         return <VideoThumb contentWidth={contentWidth} uri={imgUrl}/>;
       }
-
       else {
+        const maxImgWidth = getMaxImageWidth(tnode);
         return (
           <AutoHeightImage 
-            contentWidth={contentWidth} 
+            contentWidth={maxImgWidth} 
             imgUrl={imgUrl}
             isAnchored={isAnchored}
             onPress={_onPress}
