@@ -15,7 +15,6 @@ import { toastNotification } from '../../../../redux/actions/uiAction';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
-import getYoutubeId from '../../../../utils/getYoutubeId';
 import VideoPlayerSheet from './videoPlayerSheet';
 import { OptionsModal } from '../../../atoms';
 import { isCommunity } from '../../../../utils/communityValidation';
@@ -33,6 +32,7 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd }) => {
   const [html, setHtml] = useState('');
   const [youtubeVideoId, setYoutubeVideoId] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
+  const [videoStartTime, setVideoStartTime] = useState(0);
 
   const intl = useIntl();
   const actionImage = useRef(null);
@@ -45,10 +45,10 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd }) => {
     }
   }, [body]);
 
-  const _handleYoutubePress = (embedUrl) => {
-    const videoId = getYoutubeId(embedUrl);
+  const _handleYoutubePress = (videoId, startTime) => {
     if (videoId && youtubePlayerRef.current) {
       setYoutubeVideoId(videoId);
+      setVideoStartTime(startTime);
       youtubePlayerRef.current.setModalVisible(true);
     }
   };
@@ -56,6 +56,7 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd }) => {
   const _handleVideoPress = (embedUrl) => {
     if (embedUrl && youtubePlayerRef.current) {
       setVideoUrl(embedUrl);
+      setVideoStartTime(0);
       youtubePlayerRef.current.setModalVisible(true);
     }
   };
@@ -293,7 +294,11 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd }) => {
           setVideoUrl(null);
         }}
       >
-        <VideoPlayerSheet youtubeVideoId={youtubeVideoId} videoUrl={videoUrl} />
+        <VideoPlayerSheet
+          youtubeVideoId={youtubeVideoId}
+          videoUrl={videoUrl}
+          startTime={videoStartTime}
+        />
       </ActionSheetView>
 
       <OptionsModal

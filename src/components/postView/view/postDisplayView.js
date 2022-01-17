@@ -41,15 +41,14 @@ const PostDisplayView = ({
   activeVotes,
   reblogs,
   activeVotesCount,
-  setActiveVotesCount,
 }) => {
   const [postHeight, setPostHeight] = useState(0);
   const [scrollHeight, setScrollHeight] = useState(0);
+  const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
   const [isLoadedComments, setIsLoadedComments] = useState(false);
   const actionSheet = useRef(null);
   const [refreshing, setRefreshing] = useState(false);
   const [postBodyLoading, setPostBodyLoading] = useState(false);
-
   const [tags, setTags] = useState([]);
 
   // Component Life Cycles
@@ -94,7 +93,7 @@ const PostDisplayView = ({
   };
 
   const _handleIncrementActiveVotesCount = () => {
-    setActiveVotesCount(activeVotesCount + 1);
+    setCacheVoteIcrement(1);
   };
 
   const _getTabBar = (isFixedFooter = false) => {
@@ -114,7 +113,7 @@ const PostDisplayView = ({
               iconType="MaterialCommunityIcons"
               isClickable
               onPress={() => handleOnVotersPress && handleOnVotersPress()}
-              text={activeVotesCount}
+              text={activeVotesCount + cacheVoteIcrement}
               textMarginLeft={20}
             />
             <TextWithIcon

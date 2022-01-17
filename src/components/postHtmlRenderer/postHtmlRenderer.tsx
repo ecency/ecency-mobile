@@ -9,7 +9,7 @@ import { AutoHeightImage } from "../autoHeightImage/autoHeightImage";
 interface PostHtmlRendererProps {
   contentWidth:number;
   body:string;
-  onLoaded:()=>void;
+  onLoaded?:()=>void;
   setSelectedImage:(imgUrl:string)=>void;
   setSelectedLink:(url:string)=>void;
   onElementIsImage:(imgUrl:string)=>void;
@@ -17,7 +17,7 @@ interface PostHtmlRendererProps {
   handleOnUserPress:(username:string)=>void;
   handleTagPress:(tag:string, filter?:string)=>void;
   handleVideoPress:(videoUrl:string)=>void;
-  handleYoutubePress:(videoId:string)=>void;
+  handleYoutubePress:(videoId:string, startTime:number)=>void;
 }
 
 export const PostHtmlRenderer = memo(({
@@ -37,6 +37,7 @@ export const PostHtmlRenderer = memo(({
      //new renderer functions
   body = body.replace(/<center>/g, '<div class="text-center">').replace(/<\/center>/g,'</div>');
 
+
   console.log("Comment body:", body);
 
   const _handleOnLinkPress = (data:LinkData) => {
@@ -51,8 +52,11 @@ export const PostHtmlRenderer = memo(({
       author,
       permlink,
       tag,
+      youtubeId,
+      startTime,
       filter,
       videoHref,
+      community
     } = data;
 
     try {
@@ -85,7 +89,7 @@ export const PostHtmlRenderer = memo(({
           break;
         case 'markdown-video-link-youtube':
           if(handleYoutubePress){
-            handleYoutubePress(tag)
+            handleYoutubePress(youtubeId, startTime)
           }
       
           break;
@@ -97,6 +101,13 @@ export const PostHtmlRenderer = memo(({
         
         case 'markdown-proposal-link':
           setSelectedLink(href);
+          break;
+
+        case 'markdown-community-link':
+          //tag press also handles community by default
+          if(handleTagPress){
+            handleTagPress(community, filter)
+          }
           break;
           
         default:
@@ -147,6 +158,26 @@ export const PostHtmlRenderer = memo(({
         />
       );
     }
+
+    //this method checks if image is a child of table column
+    //and calculates img width accordingly,
+    //returns full width if img is not part of table
+    const getMaxImageWidth = (tnode:TNode)=>{
+      
+      //return full width if not parent exist
+      if(!tnode.parent || tnode.parent.tagName === 'body'){
+        return contentWidth;
+      }
+
+      //return divided width based on number td tags
+      if(tnode.parent.tagName === 'td'){
+        const cols = tnode.parent.parent.children.length
+        return contentWidth/cols;
+      }
+
+      //check next parent
+      return getMaxImageWidth(tnode.parent);
+    }
   
   
     const _imageRenderer = ({
@@ -160,16 +191,17 @@ export const PostHtmlRenderer = memo(({
       };
   
       const isVideoThumb = tnode.classes?.indexOf('video-thumbnail') >= 0;
-      const isAnchored = !(tnode.parent?.classes?.indexOf('markdown-external-link') >= 0)
+      const isAnchored = tnode.parent?.tagName === 'a';
   
+
       if(isVideoThumb){
         return <VideoThumb contentWidth={contentWidth} uri={imgUrl}/>;
       }
-
       else {
+        const maxImgWidth = getMaxImageWidth(tnode);
         return (
           <AutoHeightImage 
-            contentWidth={contentWidth} 
+            contentWidth={maxImgWidth} 
             imgUrl={imgUrl}
             isAnchored={isAnchored}
             onPress={_onPress}

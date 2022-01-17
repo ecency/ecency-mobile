@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
 import { Dimensions } from 'react-native';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
-import AutoHeightWebView from 'react-native-autoheight-webview';
 import WebView from 'react-native-webview';
-import YoutubeIframe from 'react-native-youtube-iframe';
+import YoutubeIframe, { InitialPlayerParams } from 'react-native-youtube-iframe';
 
 interface VideoPlayerSheetProps {
     youtubeVideoId?:string;
     videoUrl?:string;
+    startTime?:number;
 }
 
-const VideoPlayerSheet = ({youtubeVideoId, videoUrl}: VideoPlayerSheetProps) => {
+const VideoPlayerSheet = ({youtubeVideoId, videoUrl, startTime}: VideoPlayerSheetProps) => {
 
     const PLAYER_HEIGHT = Dimensions.get('screen').width * (9/16);
 
@@ -30,6 +30,10 @@ const VideoPlayerSheet = ({youtubeVideoId, videoUrl}: VideoPlayerSheetProps) => 
         setLoading(false)
     }
 
+    const initialParams:InitialPlayerParams = {
+        start:startTime
+    }
+
     return (
         <View style={styles.container}>
             
@@ -37,6 +41,7 @@ const VideoPlayerSheet = ({youtubeVideoId, videoUrl}: VideoPlayerSheetProps) => 
                 <YoutubeIframe 
                     height={PLAYER_HEIGHT} 
                     videoId={youtubeVideoId} 
+                    initialPlayerParams={initialParams}
                     onReady={_onReady} 
                     play={shouldPlay} 
                     onChangeState={_onChangeState} 

@@ -8,7 +8,10 @@ export interface LinkData {
         tag?:string,
         proposal?:string,
         videoHref?:string,
+        youtubeId?:string,
+        startTime?:number,
         filter?:string,
+        community?:string,
 }
 
 export const parseLinkData = (tnode:TNode):LinkData => {
@@ -17,10 +20,27 @@ export const parseLinkData = (tnode:TNode):LinkData => {
     }
 
     if(tnode.classes.includes('markdown-external-link')){
+
+      //inline external links can contain video links, for such tags and video id or url is contained as
+      //attribute if that is the case, use in app video modal to play content
+      //for now, only youtube id is supported
+      const youtubeId = tnode.attributes['data-youtube']
+      const startTime= tnode.attributes['data-start-time'];
+      if(youtubeId){
+        
         return {
-          type:'markdown-external-link',
-          href: tnode.attributes['data-href']
+          type:'markdown-video-link-youtube',
+          youtubeId:youtubeId,
+          startTime:parseInt(startTime) || 0,
         }
+      }
+      //TOOD: support other video link later
+
+      //use default markdown-external-link with url;
+      return {
+        type:'markdown-external-link',
+        href: tnode.attributes['data-href']
+      }
     }
 
 
@@ -90,15 +110,23 @@ export const parseLinkData = (tnode:TNode):LinkData => {
 
   }
 
+  if(tnode.classes.includes('markdown-community-link')){
+    return {
+      type: 'markdown-community-link',
+      community: tnode.attributes['data-community'],
+      filter: tnode.attributes['data-filter'],
+    }
+  }
+
   if (tnode.classes.includes('markdown-video-link-youtube')) {
-    var embedUrl = tnode.attributes['data-embed-src'];
+    var youtubeId = tnode.attributes['data-youtube'];
+    const startTime= tnode.attributes['data-start-time'];
 
-
-
-    if (embedUrl) {
+    if (youtubeId) {
       return {
         type: 'markdown-video-link-youtube',
-        tag: embedUrl
+        youtubeId : youtubeId,
+        startTime : parseInt(startTime) || 0,
       };
     }
   }
