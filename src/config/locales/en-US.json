@@ -711,6 +711,7 @@
   "quick_reply":{
     "placeholder":"Add a comment",
     "comment": "Comment",
-    "reply": "Reply"
+    "reply": "REPLY",
+    "close":"CLOSE"
   }
 }

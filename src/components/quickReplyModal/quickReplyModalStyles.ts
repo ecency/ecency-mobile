@@ -17,7 +17,9 @@ export default EStyleSheet.create({
   },
 
 
- 
+  cancelButton: {
+    marginRight: 10,
+  },
   modalHeader: {
     paddingHorizontal: 12,
     paddingVertical:8,

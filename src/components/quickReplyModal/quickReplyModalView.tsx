@@ -5,7 +5,7 @@ import styles from './quickReplyModalStyles';
 import { forwardRef } from 'react';
 import { View, Text, Alert, TouchableOpacity, Keyboard } from 'react-native';
 import { useIntl } from 'react-intl';
-import { IconButton, MainButton, SummaryArea, TextInput, UserAvatar } from '..';
+import { IconButton, MainButton, SummaryArea, TextButton, TextInput, UserAvatar } from '..';
 import { useSelector, useDispatch } from 'react-redux';
 import { generateReplyPermlink } from '../../utils/editor';
 import { postComment } from '../../providers/hive/dhive';
@@ -203,6 +203,13 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
           />
         </View>
         <View style={styles.footer}>
+            <TextButton
+                style={styles.cancelButton}
+                onPress={_handleClosePress}
+                text={intl.formatMessage({
+                  id: 'quick_reply.close',
+                })}
+              />
           <MainButton
             style={styles.commentBtn}
             onPress={() => _submitReply()}
@@ -225,7 +232,6 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
         containerStyle={styles.sheetContent}
         keyboardHandlerEnabled
         indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
-        CustomHeaderComponent={_renderSheetHeader()}
       >
         {selectedPost && _renderContent()}
       </ActionSheet>
