@@ -707,5 +707,11 @@
     "day": "p",
     "month": "kk",
     "year": "vuotta"
+  },
+  "quick_reply": {
+    "placeholder": "Add a comment",
+    "comment": "Comment",
+    "reply": "REPLY",
+    "close": "CLOSE"
   }
 }
