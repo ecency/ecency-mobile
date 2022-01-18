@@ -9,7 +9,13 @@ import { useIntl } from 'react-intl';
 import { LoggedInContainer, ThemeContainer } from '../../../containers';
 
 // Components
-import { Header, Transaction, HorizontalIconList, ListPlaceHolder } from '../../../components';
+import {
+  Header,
+  Transaction,
+  HorizontalIconList,
+  ListPlaceHolder,
+  CollapsibleCard,
+} from '../../../components';
 import EstmView from './estmView';
 import HiveView from './hiveView';
 import HpView from './hpView';
@@ -30,6 +36,7 @@ const WalletScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   useEffect(() => {
     if (selectedUserActivities) {
@@ -57,40 +64,53 @@ const WalletScreen = () => {
   const _renderHeaderComponent = () => {
     return (
       <>
-        <View style={[styles.header, { height: HEADER_EXPANDED_HEIGHT }]}>
-          <Swiper
-            loop={false}
-            showsPagination={true}
-            index={0}
-            dotStyle={styles.dotStyle}
-            onIndexChanged={(index) => setCurrentIndex(index)}
-          >
-            <EstmView
+        <CollapsibleCard
+          expanded={true}
+          isExpanded={isExpanded}
+          noContainer
+          noBorder
+          locked
+          titleComponent={<View />}
+          handleOnExpanded={() => {
+            setIsExpanded(true);
+          }}
+        >
+          <View style={[styles.header, { height: HEADER_EXPANDED_HEIGHT }]}>
+            <Swiper
+              loop={false}
+              showsPagination={true}
               index={0}
-              handleOnSelected={_handleSwipeItemChange}
-              refreshing={refreshing}
-              currentIndex={currentIndex}
-            />
-            <HiveView
-              index={1}
-              handleOnSelected={_handleSwipeItemChange}
-              refreshing={refreshing}
-              currentIndex={currentIndex}
-            />
-            <HbdView
-              index={2}
-              handleOnSelected={_handleSwipeItemChange}
-              refreshing={refreshing}
-              currentIndex={currentIndex}
-            />
-            <HpView
-              index={3}
-              refreshing={refreshing}
-              handleOnSelected={_handleSwipeItemChange}
-              currentIndex={currentIndex}
-            />
-          </Swiper>
-        </View>
+              dotStyle={styles.dotStyle}
+              onIndexChanged={(index) => setCurrentIndex(index)}
+            >
+              <EstmView
+                index={0}
+                handleOnSelected={_handleSwipeItemChange}
+                refreshing={refreshing}
+                currentIndex={currentIndex}
+              />
+              <HiveView
+                index={1}
+                handleOnSelected={_handleSwipeItemChange}
+                refreshing={refreshing}
+                currentIndex={currentIndex}
+              />
+              <HbdView
+                index={2}
+                handleOnSelected={_handleSwipeItemChange}
+                refreshing={refreshing}
+                currentIndex={currentIndex}
+              />
+              <HpView
+                index={3}
+                refreshing={refreshing}
+                handleOnSelected={_handleSwipeItemChange}
+                currentIndex={currentIndex}
+              />
+            </Swiper>
+          </View>
+        </CollapsibleCard>
+
         <SafeAreaView style={styles.header}>
           {currentIndex === 0 && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />}
         </SafeAreaView>
@@ -127,6 +147,14 @@ const WalletScreen = () => {
     );
   };
 
+  const _onScroll = (evt) => {
+    console.log(evt);
+    const expanded = evt.nativeEvent.contentOffset.y < 10;
+    if (isExpanded !== expanded) {
+      setIsExpanded(expanded);
+    }
+  };
+
   return (
     <Fragment>
       <Header />
@@ -147,6 +175,10 @@ const WalletScreen = () => {
                   initialNumToRender={5}
                   refreshControl={_refreshControl}
                   windowSize={5}
+                  onScroll={_onScroll}
+                  onScrollToTop={() => {
+                    setIsExpanded(true);
+                  }}
                 />
               </View>
             </>
