@@ -26,11 +26,15 @@ import globalStyles from '../../../globalStyles';
 import styles from './walletScreenStyles';
 
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
+import { useAppSelector } from '../../../hooks';
 
 const HEADER_EXPANDED_HEIGHT = 260;
 
 const WalletScreen = () => {
   const intl = useIntl();
+
+  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+
   const [selectedUserActivities, setSelectedUserActivities] = useState(null);
   const [filteredActivites, setFilteredActivites] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -122,21 +126,6 @@ const WalletScreen = () => {
     return <Transaction type={currentIndex} item={item} index={index} />;
   };
 
-  const _refreshControl = () => (
-    <ThemeContainer>
-      {(isDarkTheme) => (
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={() => setRefreshing(true)}
-          progressBackgroundColor="#357CE6"
-          tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-          titleColor="#fff"
-          colors={['#fff']}
-        />
-      )}
-    </ThemeContainer>
-  );
-
   const _renderLoading = () => {
     if (isLoading) {
       return <ListPlaceHolder />;
@@ -146,6 +135,17 @@ const WalletScreen = () => {
       <Text style={globalStyles.hintText}>{intl.formatMessage({ id: 'wallet.no_activity' })}</Text>
     );
   };
+
+  const _refreshControl = (
+    <RefreshControl
+      refreshing={refreshing}
+      onRefresh={() => setRefreshing(true)}
+      progressBackgroundColor="#357CE6"
+      tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+      titleColor="#fff"
+      colors={['#fff']}
+    />
+  );
 
   const _onScroll = (evt) => {
     console.log(evt);
@@ -170,7 +170,6 @@ const WalletScreen = () => {
                   ListEmptyComponent={_renderLoading}
                   renderItem={_renderItem}
                   keyExtractor={(item, index) => index.toString()}
-                  // ListHeaderComponent={_renderHeaderComponent}
                   maxToRenderPerBatch={5}
                   initialNumToRender={5}
                   refreshControl={_refreshControl}
