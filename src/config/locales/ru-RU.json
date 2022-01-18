@@ -707,5 +707,11 @@
     "day": "дней",
     "month": "месяцев",
     "year": "лет"
+  },
+  "quick_reply": {
+    "placeholder": "Add a comment",
+    "comment": "Comment",
+    "reply": "REPLY",
+    "close": "CLOSE"
   }
 }
