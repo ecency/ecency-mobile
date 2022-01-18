@@ -8441,10 +8441,10 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-native-actions-sheet@^0.4.2:
-  version "0.4.9"
-  resolved "https://registry.yarnpkg.com/react-native-actions-sheet/-/react-native-actions-sheet-0.4.9.tgz#2446f97eca4cc3674128c445665b1f8774a5d64a"
-  integrity sha512-4FuybHH+psq738w/6OIfdUEL4/5pG43yH+C0YeX22jQo0tYppqxVqQr3ITiXHF2PDJtdIiV7egy8Xncuuw5n9w==
+react-native-actions-sheet@^0.5.8:
+  version "0.5.8"
+  resolved "https://registry.yarnpkg.com/react-native-actions-sheet/-/react-native-actions-sheet-0.5.8.tgz#9367a7a2cbadd7b0cff82eb5e72c27578c13222d"
+  integrity sha512-bucvVl2lU0k0ogq6dDmJTKDa28SOGM8sMdr14qflnbqcSYEJH0YT+DWoJXzsocdNvXMBsdqM5J8bX+k6weIKFg==
 
 react-native-actionsheet@ecency/react-native-actionsheet:
   version "2.4.2"
@@ -8636,6 +8636,11 @@ react-native-os@^1.0.1:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/react-native-os/-/react-native-os-1.2.6.tgz#1bb16d78ccad1143972183a04f443cf1af9fbefa"
   integrity sha512-OlT+xQAcvkcnf7imgXiu+myMkqDt4xw2bP5SlVo19hEn5XHBkPMLX7dk3sSGxxncH/ToMDsf1KLyrPabNVtadA==
+
+react-native-portalize@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/react-native-portalize/-/react-native-portalize-1.0.7.tgz#8b3c742a06f863654d526ea1075a8596625f8482"
+  integrity sha512-icqopPh9ZSV+I8C5LlZN9pQJ0OMeBDNqHhP80+qDx0hOGEcsDC09wgjogbEMfJE0GcMDM7PDYtyQkqa9gIqd1g==
 
 react-native-progress@^5.0.0:
   version "5.0.0"

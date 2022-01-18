@@ -92,6 +92,7 @@ import { CustomiseFiltersModal } from './customiseFiltersModal';
 import { ForegroundNotification } from './foregroundNotification';
 import { PostHtmlRenderer } from './postHtmlRenderer';
 import { QuickProfileModal } from './organisms';
+import QuickReplyModal from './quickReplyModal/quickReplyModalView';
 
 // Basic UI Elements
 import {
@@ -232,4 +233,5 @@ export {
   ForegroundNotification,
   PostHtmlRenderer,
   QuickProfileModal,
+  QuickReplyModal,
 };

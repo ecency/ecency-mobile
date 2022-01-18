@@ -10,6 +10,7 @@ import { AppState, NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
 import { PostsListRef } from '../../postsList/container/postsListContainer';
 import ScrollTopPopup from './scrollTopPopup';
 import { debounce } from 'lodash';
+import { QuickReplyModal } from '../..';
 
 const DEFAULT_TAB_META = {
     startAuthor:'',
@@ -62,6 +63,7 @@ const TabContent = ({
   const appState = useRef(AppState.currentState);
   const postsRef = useRef(posts);
   const sessionUserRef = useRef(sessionUser);
+  const quickReplyModalRef = useRef(null)
 
   //init state refs;
   postsRef.current = posts;
@@ -313,6 +315,16 @@ const TabContent = ({
     }
   };
 
+  // show quick reply modal
+  const _showQuickReplyModal = (post:any) => {
+    // console.log('post: ', post);
+    if (isLoggedIn) {
+      quickReplyModalRef.current.show(post);
+    } else {
+      console.log('Not LoggedIn');
+    }
+    
+  }
 
   return (
 
@@ -334,6 +346,7 @@ const TabContent = ({
       isLoading={tabMeta.isLoading}
       ListEmptyComponent={_renderEmptyContent}
       pageType={pageType}
+      showQuickReplyModal={_showQuickReplyModal}
     />
     <ScrollTopPopup 
       popupAvatars={latestPosts.map(post=>post.avatar || '')}
@@ -344,6 +357,7 @@ const TabContent = ({
         setEnableScrollTop(false);
       }}
     />
+    <QuickReplyModal ref={quickReplyModalRef} />
   </>
   );
 };

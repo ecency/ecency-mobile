@@ -32,6 +32,7 @@ const PostCardView = ({
   handleOnVotersPress,
   handleOnReblogsPress,
   handleOnUnmutePress,
+  showQuickReplyModal,
   content,
   reblogs,
   isHideImage,
@@ -56,6 +57,7 @@ const PostCardView = ({
   };
 
   const _handleOnContentPress = () => {
+    console.log('content : ', content);
     handleOnContentPress(content);
   };
 
@@ -198,6 +200,7 @@ const PostCardView = ({
             iconType="MaterialCommunityIcons"
             isClickable
             text={get(content, 'children', 0)}
+            onPress={showQuickReplyModal}
           />
         </View>
       </View>

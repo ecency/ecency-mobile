@@ -707,5 +707,11 @@
     "day":"days",
     "month":"months",
     "year":"years"
+  },
+  "quick_reply":{
+    "placeholder":"Add a comment",
+    "comment": "Comment",
+    "reply": "REPLY",
+    "close":"CLOSE"
   }
 }

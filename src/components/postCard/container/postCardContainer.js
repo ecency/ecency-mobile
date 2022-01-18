@@ -29,6 +29,7 @@ const PostCardContainer = ({
   imageHeight,
   setImageHeight,
   pageType,
+  showQuickReplyModal,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -124,6 +125,9 @@ const PostCardContainer = ({
     setIsMuted(false);
   };
 
+  const _handleQuickReplyModal = () => {
+    showQuickReplyModal(content);
+  };
   return (
     <PostCardView
       handleOnUserPress={_handleOnUserPress}
@@ -140,6 +144,7 @@ const PostCardContainer = ({
       setImageHeight={setImageHeight}
       isMuted={isMuted}
       fetchPost={_fetchPost}
+      showQuickReplyModal={_handleQuickReplyModal}
     />
   );
 };
