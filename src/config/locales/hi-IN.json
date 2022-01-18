@@ -707,5 +707,11 @@
     "day": "दिनों",
     "month": "महीने",
     "year": "वर्षों"
+  },
+  "quick_reply": {
+    "placeholder": "Add a comment",
+    "comment": "Comment",
+    "reply": "REPLY",
+    "close": "CLOSE"
   }
 }
