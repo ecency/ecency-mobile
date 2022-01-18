@@ -707,5 +707,11 @@
     "day": "hari",
     "month": "bulan",
     "year": "tahun"
+  },
+  "quick_reply": {
+    "placeholder": "Add a comment",
+    "comment": "Comment",
+    "reply": "REPLY",
+    "close": "CLOSE"
   }
 }
