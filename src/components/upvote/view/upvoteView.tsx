@@ -128,6 +128,17 @@ const UpvoteView = ({
       vote(currentAccount, pinCode, author, permlink, weight)
         .then((response) => {
           console.log("Vote response: ",response);
+          if(!response || !response.id){
+            Alert.alert(
+              intl.formatMessage({
+                id: 'alert.fail',
+              }),
+              intl.formatMessage({
+                id: 'alert.invalid_response',
+              }),
+            );
+            return;
+          }
           setUpvote(!!sliderValue);
           setIsVoting(false);
           onVote(amount, false);
