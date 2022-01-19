@@ -227,7 +227,7 @@ class NotificationView extends PureComponent {
                 refreshControl={
                   <RefreshControl
                     refreshing={isNotificationRefreshing}
-                    onRefresh={() => getActivities()}
+                    onRefresh={() => getActivities(selectedFilter)}
                     progressBackgroundColor="#357CE6"
                     tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
                     titleColor="#fff"
