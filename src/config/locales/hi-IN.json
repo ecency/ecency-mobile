@@ -439,7 +439,8 @@
     "remind_later": "बाद में याद दिलाना",
     "failed_to_open": "लिंक खोलने में विफल",
     "restart_ecency": "इसेंसी फिर से शुरू करें?",
-    "restart_ecency_desc": "परिवर्तनों को लागू करने के लिए पुनः आरंभ करने की आवश्यकता होगी।"
+    "restart_ecency_desc": "परिवर्तनों को लागू करने के लिए पुनः आरंभ करने की आवश्यकता होगी।",
+    "invalid_response": "Could not process request, Try again later."
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
