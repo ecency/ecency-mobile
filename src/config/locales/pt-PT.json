@@ -440,7 +440,7 @@
     "failed_to_open": "Falhou em abrir o link",
     "restart_ecency": "Reiniciar a Ecency?",
     "restart_ecency_desc": "Aplicar alterações exigirá uma reinicialização.",
-    "invalid_response": "Could not process request, Try again later."
+    "invalid_response": "Não foi possível processar o pedido. Tente mais tarde."
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
@@ -710,9 +710,9 @@
     "year": "anos"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
-    "comment": "Comment",
-    "reply": "REPLY",
-    "close": "CLOSE"
+    "placeholder": "Adicionar comentário",
+    "comment": "Comentário",
+    "reply": "RESPONDER",
+    "close": "FECHAR"
   }
 }
