@@ -331,12 +331,16 @@
     "draft_save_success": "ड्राफ्ट सहेजा गया",
     "draft_save_fail": "ड्राफ्ट को सहेजने में विफल",
     "select_thumb": "पोस्ट थंबनेल चुनें",
+    "add_more_imgs": "पोस्ट करने के लिए और छवियां जोड़ें",
     "two_thumbs_required": "थंबनेल सेट करने से पहले अपनी पोस्ट में और इमेज जोड़ें",
     "scheduled_for": "के लिए निर्धारित",
     "scheduled_immediate": "तुरंत",
     "scheduled_later": "बाद में",
     "settings_title": "पोस्ट विकल्प",
-    "done": "हो गया"
+    "done": "हो गया",
+    "draft_save_title": "ड्राफ्ट सहेजा जा रहा है",
+    "draft_update": "वर्तमान ड्राफ्ट अपडेट करें",
+    "draft_save_new": "नए ड्राफ़्ट के रूप में सहेजें"
   },
   "snippets": {
     "label_no_snippets": "कोई स्निपेट नहीं मिला",
@@ -434,8 +438,9 @@
     "update": "अभी अपडेट करें",
     "remind_later": "बाद में याद दिलाना",
     "failed_to_open": "लिंक खोलने में विफल",
-    "restart_ecency": "Restart Ecency?",
-    "restart_ecency_desc": "Applying changes will require a restart."
+    "restart_ecency": "इसेंसी फिर से शुरू करें?",
+    "restart_ecency_desc": "परिवर्तनों को लागू करने के लिए पुनः आरंभ करने की आवश्यकता होगी।",
+    "invalid_response": "Could not process request, Try again later."
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
@@ -703,5 +708,11 @@
     "day": "दिनों",
     "month": "महीने",
     "year": "वर्षों"
+  },
+  "quick_reply": {
+    "placeholder": "Add a comment",
+    "comment": "Comment",
+    "reply": "REPLY",
+    "close": "CLOSE"
   }
 }

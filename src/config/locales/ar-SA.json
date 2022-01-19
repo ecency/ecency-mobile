@@ -331,12 +331,16 @@
     "draft_save_success": "تم حفظ المسودة",
     "draft_save_fail": "فشل في حفظ المسودة",
     "select_thumb": "اختيار الصورة المصغرة للمنشور",
+    "add_more_imgs": "Add more images to post",
     "two_thumbs_required": "أضف المزيد من الصور في منشورك قبل تعيين الصورة المصغرة",
     "scheduled_for": "Scheduled For",
     "scheduled_immediate": "Immediate",
     "scheduled_later": "Later",
     "settings_title": "Post Options",
-    "done": "DONE"
+    "done": "DONE",
+    "draft_save_title": "Saving Draft",
+    "draft_update": "Update current draft",
+    "draft_save_new": "Save as new draft"
   },
   "snippets": {
     "label_no_snippets": "لم يتم العثور على مقتطفات",
@@ -435,7 +439,8 @@
     "remind_later": "تذكير لاحقاً",
     "failed_to_open": "فشل في فتح رابط",
     "restart_ecency": "Restart Ecency?",
-    "restart_ecency_desc": "Applying changes will require a restart."
+    "restart_ecency_desc": "Applying changes will require a restart.",
+    "invalid_response": "Could not process request, Try again later."
   },
   "post": {
     "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟",
@@ -703,5 +708,11 @@
     "day": "أيام",
     "month": "أشهر",
     "year": "سنوات"
+  },
+  "quick_reply": {
+    "placeholder": "Add a comment",
+    "comment": "Comment",
+    "reply": "REPLY",
+    "close": "CLOSE"
   }
 }

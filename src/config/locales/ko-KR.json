@@ -331,12 +331,16 @@
     "draft_save_success": "임시 보관함에 저장했습니다",
     "draft_save_fail": "임시 보관함에 저장 실패했습니다",
     "select_thumb": "글 썸네일 선택",
+    "add_more_imgs": "Add more images to post",
     "two_thumbs_required": "썸네일 이미지를 설정하기 전에 게시물에 더 많은 이미지를 추가하세요",
     "scheduled_for": "Scheduled For",
     "scheduled_immediate": "Immediate",
     "scheduled_later": "Later",
     "settings_title": "Post Options",
-    "done": "DONE"
+    "done": "DONE",
+    "draft_save_title": "Saving Draft",
+    "draft_update": "Update current draft",
+    "draft_save_new": "Save as new draft"
   },
   "snippets": {
     "label_no_snippets": "스니펫 없음",
@@ -435,7 +439,8 @@
     "remind_later": "나중에 다시 알림",
     "failed_to_open": "링크 열기 실패",
     "restart_ecency": "Restart Ecency?",
-    "restart_ecency_desc": "Applying changes will require a restart."
+    "restart_ecency_desc": "Applying changes will require a restart.",
+    "invalid_response": "Could not process request, Try again later."
   },
   "post": {
     "reblog_alert": "리블로그 하시겠습니까?",
@@ -703,5 +708,11 @@
     "day": "일",
     "month": "달",
     "year": "년"
+  },
+  "quick_reply": {
+    "placeholder": "Add a comment",
+    "comment": "Comment",
+    "reply": "REPLY",
+    "close": "CLOSE"
   }
 }
