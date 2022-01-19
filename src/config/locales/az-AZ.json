@@ -439,7 +439,8 @@
     "remind_later": "Remind Later",
     "failed_to_open": "Failed to open a link",
     "restart_ecency": "Restart Ecency?",
-    "restart_ecency_desc": "Applying changes will require a restart."
+    "restart_ecency_desc": "Applying changes will require a restart.",
+    "invalid_response": "Could not process request, Try again later."
   },
   "post": {
     "reblog_alert": "Təkrar paylaşmaq istədiyinizə əminsiniz?",
