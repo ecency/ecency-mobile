@@ -740,11 +740,15 @@ const getBlockNum = async (trx_id) => {
 export const vote = async (account, pin, author, permlink, weight) => {
   try {
     const resp = await _vote(account, pin, author, permlink, weight);
+    console.log('Returning vote response', resp);
+    if (!resp || !resp.id) {
+      return Promise.reject(new Error('Invalid response received from hive'));
+    }
     userActivity(120, resp.id);
-    console.log('Returning vote response');
     return resp;
   } catch (err) {
     console.warn('Failed to complete vote', err);
+    return Promise.reject(err);
   }
 };
 
