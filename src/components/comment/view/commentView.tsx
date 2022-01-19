@@ -49,6 +49,7 @@ const CommentView = ({
   const [_isShowSubComments, setIsShowSubComments] = useState(isShowSubComments || false);
   const [isPressedShowButton, setIsPressedShowButton] = useState(false);
   const [activeVotes, setActiveVotes] = useState([]);
+  const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
 
 
 
@@ -66,6 +67,11 @@ const CommentView = ({
       openReplyThread();
     }
 
+  };
+
+  const _handleCacheVoteIncrement = () => {
+    //fake increment vote using based on local change
+    setCacheVoteIcrement(1);
   };
 
 
@@ -144,7 +150,12 @@ const CommentView = ({
   const _renderActionPanel = () => {
     return (
       <>
-        <Upvote activeVotes={activeVotes} isShowPayoutValue content={comment} />
+        <Upvote 
+          activeVotes={activeVotes} 
+          isShowPayoutValue 
+          content={comment}
+          handleCacheVoteIncrement={_handleCacheVoteIncrement}
+        />
         <TextWithIcon
           iconName="heart-outline"
           iconSize={20}
@@ -156,7 +167,7 @@ const CommentView = ({
             activeVotes.length > 0 &&
             handleOnVotersPress(activeVotes, comment)
           }
-          text={activeVotes.length}
+          text={activeVotes.length + cacheVoteIcrement}
           textStyle={styles.voteCountText}
         />
 

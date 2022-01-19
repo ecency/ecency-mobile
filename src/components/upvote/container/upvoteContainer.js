@@ -35,7 +35,7 @@ const UpvoteContainer = (props) => {
     globalProps,
     dispatch,
     activeVotes = [],
-    incrementVoteCount,
+    handleCacheVoteIncrement,
     fetchPost,
   } = props;
 
@@ -100,7 +100,7 @@ const UpvoteContainer = (props) => {
 
       setTotalPayout(get(content, 'total_payout') + amount);
       if (incrementStep > 0) {
-        incrementVoteCount();
+        handleCacheVoteIncrement();
       }
 
       setIsDownVoted(isDownvote ? true : false);

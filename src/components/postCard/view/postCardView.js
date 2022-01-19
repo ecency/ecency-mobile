@@ -71,7 +71,7 @@ const PostCardView = ({
     }
   };
 
-  const _handleIncrementVoteCount = () => {
+  const _handleCacheVoteIncrement = () => {
     //fake increment vote using based on local change
     setCacheVoteIcrement(1);
   };
@@ -172,7 +172,7 @@ const PostCardView = ({
             activeVotes={activeVotes}
             isShowPayoutValue
             content={content}
-            incrementVoteCount={_handleIncrementVoteCount}
+            handleCacheVoteIncrement={_handleCacheVoteIncrement}
           />
           <TouchableOpacity style={styles.commentButton} onPress={_handleOnVotersPress}>
             <TextWithIcon

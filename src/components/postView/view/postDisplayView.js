@@ -92,7 +92,7 @@ const PostDisplayView = ({
     }
   };
 
-  const _handleIncrementActiveVotesCount = () => {
+  const _handleCacheVoteIncrement = () => {
     setCacheVoteIcrement(1);
   };
 
@@ -105,7 +105,7 @@ const PostDisplayView = ({
               activeVotes={activeVotes}
               isShowPayoutValue
               content={post}
-              incrementVoteCount={_handleIncrementActiveVotesCount}
+              handleCacheVoteIncrement={_handleCacheVoteIncrement}
             />
             <TextWithIcon
               iconName="heart-outline"
