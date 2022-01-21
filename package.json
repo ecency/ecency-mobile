@@ -35,6 +35,7 @@
     "@esteemapp/react-native-multi-slider": "^1.1.0",
     "@esteemapp/react-native-slider": "^0.12.0",
     "@hiveio/dhive": "^1.0.1",
+    "@native-html/iframe-plugin": "^2.6.1",
     "@react-native-community/async-storage": "^1.11.0",
     "@react-native-community/cameraroll": "^1.3.0",
     "@react-native-community/cli-platform-ios": "^4.10.1",

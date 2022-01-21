@@ -1,10 +1,11 @@
-import React, { memo } from "react";
+import React, { memo, } from "react";
 import RenderHTML, { CustomRendererProps, Element, TNode } from "react-native-render-html";
 import styles from "./postHtmlRendererStyles";
 import { LinkData, parseLinkData } from "./linkDataParser";
 import VideoThumb from "./videoThumb";
 import { AutoHeightImage } from "../autoHeightImage/autoHeightImage";
-
+import IframeRenderer, { iframeModel } from '@native-html/iframe-plugin';
+import WebView from "react-native-webview";
 
 interface PostHtmlRendererProps {
   contentWidth:number;
@@ -37,6 +38,14 @@ export const PostHtmlRenderer = memo(({
      //new renderer functions
   body = body.replace(/<center>/g, '<div class="text-center">').replace(/<\/center>/g,'</div>');
 
+//   body = `<p><div class="text-center">
+//   <p><a target="_blank" class="markdown-video-link markdown-video-link-speak" data-embed-src="https://3speak.tv/embed?v=nerdvana/fpbvukbl"><img class="no-replace video-thumbnail" src="https://images.ecency.com/p/KWcVEiwEzuiCuSxBHEf42JyWvZsZ7iHiL2G9DgNyfVRh5xMJfn3qEHdhQSGpTpqps16btXRpHWshfED52n.png?format=match&amp;mode=fit" /><span class="markdown-video-play"></span></a></p>
+//   <p></p>
+//   <hr />
+//  <p>Demo Text </p>
+//  <hr />
+//  <iframe src="https://player.vimeo.com/video/656704401?h=2f29f806b1" width="640" height="360" frameborder="0" allow=" fullscreen; picture-in-picture" allowfullscreen playsinline ></iframe> 
+//   </div></p>`
 
   console.log("Comment body:", body);
 
@@ -137,7 +146,30 @@ export const PostHtmlRenderer = memo(({
         const data = parseLinkData(tnode);
         _handleOnLinkPress(data);
       };
-
+      console.log("parseLinkData(tnode) : ", parseLinkData(tnode));
+      
+      if (tnode.classes?.indexOf('markdown-video-link') >= 0) {
+        return (
+          <WebView
+            scalesPageToFit={true}
+            bounces={false}
+            javaScriptEnabled={true}
+            automaticallyAdjustContentInsets={false}
+            onLoadEnd={() => {
+              console.log('load end');
+            }}
+            onLoadStart={() => {
+              console.log('load start');
+            }}
+            source={{ uri: parseLinkData(tnode).videoHref }}
+            style={{ width: contentWidth, height: (contentWidth * 9) / 16 }}
+            startInLoadingState={true}
+            onShouldStartLoadWithRequest={() => true}
+            mediaPlaybackRequiresUserAction={true}
+            allowsInlineMediaPlayback={true}
+          />
+        );
+      }
       if(tnode.classes?.indexOf('markdown-video-link') >= 0){
         const imgElement = tnode.children.find((child)=>{
           return child.classes.indexOf('video-thumbnail') > 0 ? true:false
@@ -156,7 +188,7 @@ export const PostHtmlRenderer = memo(({
           onPress={_onPress}
           {...props}
         />
-      );
+      )
     }
 
     //this method checks if image is a child of table column
@@ -264,12 +296,29 @@ export const PostHtmlRenderer = memo(({
       renderers={{
         img:_imageRenderer,
         a:_anchorRenderer,
-        p:_paraRenderer
+        p:_paraRenderer,
+        iframe: IframeRenderer
       }}
       onHTMLLoaded={onLoaded && onLoaded}
       defaultTextProps={{
         selectable:true
       }}
+      customHTMLElementModels={{
+        iframe: iframeModel
+      }}
+      renderersProps={{
+        iframe: {
+          scalesPageToFit: true,
+          webViewProps: {
+            startInLoadingState:true,
+            onShouldStartLoadWithRequest: () => true ,
+            mediaPlaybackRequiresUserAction: true,
+            allowsFullscreenVideo: false,
+            /* Any prop you want to pass to iframe WebViews */
+          }
+        }
+      }}
+      WebView={WebView}
     />
    )
   }, (next, prev)=>next.body === prev.body)
