@@ -34,7 +34,7 @@ export default EStyleSheet.create({
     color: '$primaryDarkText',
   },
   mainButton: {
-    marginVertical: 8,
+    marginTop: 16,
     alignSelf: 'center',
     paddingHorizontal: 24,
   },
