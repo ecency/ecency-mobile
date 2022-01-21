@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 // Components
 import { DropdownButton, PopoverWrapper, Icon, GrayWrapper } from '../../..';
@@ -30,7 +29,7 @@ const WalletLineItem = ({
   hintDescription,
   onPress,
 }) => (
-  <TouchableWithoutFeedback onPress={onPress} disabled={!onPress}>
+  <TouchableOpacity onPress={onPress} disabled={!onPress} activeOpacity={0.8}>
     <GrayWrapper isGray={index && index % 2 !== 0}>
       <View style={[styles.container, fitContent && styles.fitContent, style]}>
         <View style={styles.iconTextWrapper}>
@@ -104,7 +103,7 @@ const WalletLineItem = ({
         )}
       </View>
     </GrayWrapper>
-  </TouchableWithoutFeedback>
+  </TouchableOpacity>
 );
 
 export default WalletLineItem;
