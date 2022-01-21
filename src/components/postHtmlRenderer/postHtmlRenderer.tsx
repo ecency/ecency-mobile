@@ -4,7 +4,7 @@ import styles from "./postHtmlRendererStyles";
 import { LinkData, parseLinkData } from "./linkDataParser";
 import VideoThumb from "./videoThumb";
 import { AutoHeightImage } from "../autoHeightImage/autoHeightImage";
-import IframeRenderer, { iframeModel } from '@native-html/iframe-plugin';
+import { useHtmlIframeProps,iframeModel } from '@native-html/iframe-plugin';
 import WebView from "react-native-webview";
 
 interface PostHtmlRendererProps {
@@ -37,15 +37,6 @@ export const PostHtmlRenderer = memo(({
 
      //new renderer functions
   body = body.replace(/<center>/g, '<div class="text-center">').replace(/<\/center>/g,'</div>');
-
-//   body = `<p><div class="text-center">
-//   <p><a target="_blank" class="markdown-video-link markdown-video-link-speak" data-embed-src="https://3speak.tv/embed?v=nerdvana/fpbvukbl"><img class="no-replace video-thumbnail" src="https://images.ecency.com/p/KWcVEiwEzuiCuSxBHEf42JyWvZsZ7iHiL2G9DgNyfVRh5xMJfn3qEHdhQSGpTpqps16btXRpHWshfED52n.png?format=match&amp;mode=fit" /><span class="markdown-video-play"></span></a></p>
-//   <p></p>
-//   <hr />
-//  <p>Demo Text </p>
-//  <hr />
-//  <iframe src="https://player.vimeo.com/video/656704401?h=2f29f806b1" width="640" height="360" frameborder="0" allow=" fullscreen; picture-in-picture" allowfullscreen playsinline ></iframe> 
-//   </div></p>`
 
   console.log("Comment body:", body);
 
@@ -266,6 +257,47 @@ export const PostHtmlRenderer = memo(({
       )
     }
     
+    // iframe renderer for rendering iframes in body
+    const _iframeRenderer = function IframeRenderer(props) {
+      const iframeProps = useHtmlIframeProps(props);
+      // console.log('iframeProps : ', iframeProps);
+      const checkSrcRegex = /(.*?)\.(mp4|webm|ogg)$/gi;
+      const isVideoType = iframeProps.source.uri.match(checkSrcRegex);
+
+      // check if source contain video source then wrap it with video tag
+      // else pass the source directly to webview
+      const src = isVideoType
+        ? {
+            html: `
+        <video width="100%" height="auto"  controls>
+            <source src="${iframeProps.source.uri}" type="video/mp4">
+        </video>
+        `,
+          }
+        : {
+            uri: iframeProps.source.uri,
+          };
+      return (
+        <WebView
+          scalesPageToFit={true}
+          bounces={false}
+          javaScriptEnabled={true}
+          automaticallyAdjustContentInsets={false}
+          onLoadEnd={() => {
+            console.log('load end');
+          }}
+          onLoadStart={() => {
+            console.log('load start');
+          }}
+          source={src}
+          style={{ width: contentWidth, height: (contentWidth * 9) / 16 }}
+          startInLoadingState={true}
+          onShouldStartLoadWithRequest={() => true}
+          mediaPlaybackRequiresUserAction={true}
+          allowsInlineMediaPlayback={true}
+        />
+      );
+    };
   
    return (
     <RenderHTML 
@@ -297,7 +329,7 @@ export const PostHtmlRenderer = memo(({
         img:_imageRenderer,
         a:_anchorRenderer,
         p:_paraRenderer,
-        iframe: IframeRenderer
+        iframe: _iframeRenderer,
       }}
       onHTMLLoaded={onLoaded && onLoaded}
       defaultTextProps={{
@@ -310,10 +342,6 @@ export const PostHtmlRenderer = memo(({
         iframe: {
           scalesPageToFit: true,
           webViewProps: {
-            startInLoadingState:true,
-            onShouldStartLoadWithRequest: () => true ,
-            mediaPlaybackRequiresUserAction: true,
-            allowsFullscreenVideo: false,
             /* Any prop you want to pass to iframe WebViews */
           }
         }
