@@ -137,9 +137,11 @@ export const PostHtmlRenderer = memo(({
         const data = parseLinkData(tnode);
         _handleOnLinkPress(data);
       };
-      console.log("parseLinkData(tnode) : ", parseLinkData(tnode));
       
       if (tnode.classes?.indexOf('markdown-video-link') >= 0) {
+        // get video src 
+        let videoHref = tnode.attributes['data-embed-src'] || tnode.attributes['data-video-href'] || tnode.children[0].attributes['src'];
+        
         return (
           <WebView
             scalesPageToFit={true}
@@ -152,7 +154,7 @@ export const PostHtmlRenderer = memo(({
             onLoadStart={() => {
               console.log('load start');
             }}
-            source={{ uri: parseLinkData(tnode).videoHref }}
+            source={{ uri: videoHref }}
             style={{ width: contentWidth, height: (contentWidth * 9) / 16 }}
             startInLoadingState={true}
             onShouldStartLoadWithRequest={() => true}
