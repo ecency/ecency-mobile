@@ -133,7 +133,7 @@ export const PostHtmlRenderer = memo(
         _handleOnLinkPress(data);
       };
       
-      if (parsedTnode.type === 'markdown-video-link-youtube') {
+      if (tnode.classes?.indexOf('markdown-video-link-youtube') >= 0) {
         return (
           <VideoPlayer
             contentWidth={contentWidth}
