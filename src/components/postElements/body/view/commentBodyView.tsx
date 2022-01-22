@@ -335,6 +335,7 @@ const CommentBody = ({
             <PostHtmlRenderer
               contentWidth={_contentWidth}
               body={body}
+              isComment={true}
               onElementIsImage={_onElementIsImage}
               setSelectedImage={_handleSetSelectedImage}
               setSelectedLink={_handleSetSelectedLink}

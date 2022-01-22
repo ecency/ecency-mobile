@@ -6,13 +6,12 @@ import VideoThumb from './videoThumb';
 import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
 import { useHtmlIframeProps, iframeModel } from '@native-html/iframe-plugin';
 import WebView from 'react-native-webview';
-import { View } from 'react-native';
-import YoutubeIframe from 'react-native-youtube-iframe';
 import { VideoPlayer } from '..';
 
 interface PostHtmlRendererProps {
   contentWidth: number;
   body: string;
+  isComment?: boolean;
   onLoaded?: () => void;
   setSelectedImage: (imgUrl: string) => void;
   setSelectedLink: (url: string) => void;
@@ -28,6 +27,7 @@ export const PostHtmlRenderer = memo(
   ({
     contentWidth,
     body,
+    isComment,
     onLoaded,
     setSelectedImage,
     setSelectedLink,
@@ -133,34 +133,41 @@ export const PostHtmlRenderer = memo(
         _handleOnLinkPress(data);
       };
       
-      if (tnode.classes?.indexOf('markdown-video-link-youtube') >= 0) {
-        return (
-          <VideoPlayer
-            contentWidth={contentWidth}
-            youtubeVideoId={parsedTnode.youtubeId}
-            startTime={parsedTnode.startTime}
-          />
-        );
-      }
-      if (tnode.classes?.indexOf('markdown-video-link') >= 0) {
-        return (
-          <VideoPlayer
-            contentWidth={contentWidth}
-            videoUrl={parsedTnode.videoHref}
-          />
-        );
-      }
-      if (tnode.classes?.indexOf('markdown-video-link') >= 0) {
-        const imgElement = tnode.children.find((child) => {
-          return child.classes.indexOf('video-thumbnail') > 0 ? true : false;
-        });
-        if (!imgElement) {
-          return <VideoThumb contentWidth={contentWidth} onPress={_onPress} />;
+
+      //process video link
+      if(tnode.classes?.indexOf('markdown-video-link') >= 0){
+        if(isComment){
+          const imgElement = tnode.children.find((child) => {
+            return child.classes.indexOf('video-thumbnail') > 0 ? true : false;
+          });
+          if (!imgElement) {
+            return <VideoThumb contentWidth={contentWidth} onPress={_onPress} />;
+          }
+        }
+        else if(tnode.classes?.indexOf('markdown-video-link-youtube') >= 0){
+          return (
+            <VideoPlayer
+              mode='youtube'
+              contentWidth={contentWidth}
+              youtubeVideoId={parsedTnode.youtubeId}
+              startTime={parsedTnode.startTime}
+            />
+          );
+        } else {
+          return (
+            <VideoPlayer
+              mode='url'
+              contentWidth={contentWidth}
+              videoUrl={parsedTnode.videoHref}
+            />
+          );
         }
       }
 
+
       return <InternalRenderer tnode={tnode} onPress={_onPress} {...props} />;
     };
+
 
     //this method checks if image is a child of table column
     //and calculates img width accordingly,
