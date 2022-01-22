@@ -1,19 +1,29 @@
 import React, { useState } from 'react';
-import style from './videoPlayerStyles';
 import { Dimensions } from 'react-native';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import WebView from 'react-native-webview';
 import YoutubeIframe, { InitialPlayerParams } from 'react-native-youtube-iframe';
+import { WebViewSource } from 'react-native-webview/lib/WebViewTypes';
 
 interface VideoPlayerProps {
+  mode: 'source'|'youtube'|'url';
+  contentWidth?: number;
   youtubeVideoId?: string;
   videoUrl?: string;
   startTime?: number;
-  contentWidth?: number;
+  source?: WebViewSource;
 }
 
-const VideoPlayer = ({ youtubeVideoId, videoUrl, startTime, contentWidth }: VideoPlayerProps) => {
-  const PLAYER_HEIGHT = Dimensions.get('screen').width * (9 / 16);
+const VideoPlayer = ({ 
+    youtubeVideoId, 
+    videoUrl, 
+    startTime, 
+    source, 
+    contentWidth = Dimensions.get('screen').width, 
+    mode
+  }: VideoPlayerProps) => {
+  
+  const PLAYER_HEIGHT = contentWidth * (9 / 16);
 
   const [shouldPlay, setShouldPlay] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -40,7 +50,7 @@ const VideoPlayer = ({ youtubeVideoId, videoUrl, startTime, contentWidth }: Vide
 
   return (
     <View style={styles.container}>
-      {youtubeVideoId && (
+      {mode === 'youtube' && youtubeVideoId && (
         <View style={{ width: contentWidth, height: PLAYER_HEIGHT }}>
           <YoutubeIframe
             height={PLAYER_HEIGHT}
@@ -53,7 +63,7 @@ const VideoPlayer = ({ youtubeVideoId, videoUrl, startTime, contentWidth }: Vide
           />
         </View>
       )}
-      {videoUrl && (
+      {((mode === 'source' && source) || (mode === 'url' && videoUrl)) && (
         <View style={{ height: PLAYER_HEIGHT }}>
           <WebView
             scalesPageToFit={true}
@@ -66,8 +76,8 @@ const VideoPlayer = ({ youtubeVideoId, videoUrl, startTime, contentWidth }: Vide
             onLoadStart={() => {
               setLoading(true);
             }}
-            source={{ uri: videoUrl }}
-            style={{ width: contentWidth, height: (contentWidth * 9) / 16 }}
+            source={source || { uri: videoUrl }}
+            style={{ width: contentWidth, height: PLAYER_HEIGHT}}
             startInLoadingState={true}
             onShouldStartLoadWithRequest={() => true}
             mediaPlaybackRequiresUserAction={true}

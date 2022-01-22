@@ -218,43 +218,31 @@ export const PostHtmlRenderer = memo(
       return <TDefaultRenderer {...props} />;
     };
 
+
     // iframe renderer for rendering iframes in body
     const _iframeRenderer = function IframeRenderer(props) {
       const iframeProps = useHtmlIframeProps(props);
       const checkSrcRegex = /(.*?)\.(mp4|webm|ogg)$/gi;
-      const isVideoType = iframeProps.source.uri.match(checkSrcRegex);
+      const isVideoFormat = iframeProps.source.uri.match(checkSrcRegex);
 
-      const src = isVideoType
-        ? {
-            html: `
-        <video width="100%" height="auto"  controls>
-            <source src="${iframeProps.source.uri}" type="video/mp4">
-        </video>
-        `,
-          }
-        : {
-            uri: iframeProps.source.uri,
-          };
-      return (
-        <WebView
-          scalesPageToFit={true}
-          bounces={false}
-          javaScriptEnabled={true}
-          automaticallyAdjustContentInsets={false}
-          onLoadEnd={() => {
-            console.log('load end');
-          }}
-          onLoadStart={() => {
-            console.log('load start');
-          }}
-          source={src}
-          style={{ width: contentWidth, height: (contentWidth * 9) / 16 }}
-          startInLoadingState={true}
-          onShouldStartLoadWithRequest={() => true}
-          mediaPlaybackRequiresUserAction={true}
-          allowsInlineMediaPlayback={true}
-        />
-      );
+      //this hack help avoid autoplaying fullscreened iframe videos;
+      const src = isVideoFormat ? 
+        {
+          html: `
+            <video width="100%" height="auto"  controls>
+              <source src="${iframeProps.source.uri}" type="video/mp4">
+            </video>`,
+        }:{
+          uri: iframeProps.source.uri,
+        };
+
+        return (
+          <VideoPlayer 
+            mode='source'
+            source={src}
+            contentWidth={contentWidth}
+          />
+        );
     };
 
     return (
