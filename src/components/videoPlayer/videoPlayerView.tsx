@@ -12,6 +12,9 @@ interface VideoPlayerProps {
   videoUrl?: string;
   startTime?: number;
   source?: WebViewSource;
+
+  //prop for youtube player
+  disableAutoplay?:boolean;
 }
 
 const VideoPlayer = ({ 
@@ -20,7 +23,8 @@ const VideoPlayer = ({
     startTime, 
     source, 
     contentWidth = Dimensions.get('screen').width, 
-    mode
+    mode,
+    disableAutoplay
   }: VideoPlayerProps) => {
   
   const PLAYER_HEIGHT = contentWidth * (9 / 16);
@@ -30,7 +34,7 @@ const VideoPlayer = ({
 
   const _onReady = () => {
     setLoading(false);
-    setShouldPlay(true);
+    setShouldPlay(disableAutoplay ? false : true);
     console.log('ready');
   };
 

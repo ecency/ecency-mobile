@@ -143,22 +143,15 @@ export const PostHtmlRenderer = memo(
           if (!imgElement) {
             return <VideoThumb contentWidth={contentWidth} onPress={_onPress} />;
           }
-        }
-        else if(tnode.classes?.indexOf('markdown-video-link-youtube') >= 0){
-          return (
-            <VideoPlayer
-              mode='youtube'
-              contentWidth={contentWidth}
-              youtubeVideoId={parsedTnode.youtubeId}
-              startTime={parsedTnode.startTime}
-            />
-          );
         } else {
           return (
             <VideoPlayer
-              mode='url'
+              mode={parsedTnode.youtubeId ? 'youtube' : 'url'}
               contentWidth={contentWidth}
               videoUrl={parsedTnode.videoHref}
+              youtubeVideoId={parsedTnode.youtubeId}
+              startTime={parsedTnode.startTime}
+              disableAutoplay={true}
             />
           );
         }
