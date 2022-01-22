@@ -6,7 +6,7 @@ import { SafeAreaView, View, RefreshControl, Text } from 'react-native';
 // Containers
 import { FlatList } from 'react-native-gesture-handler';
 import { useIntl } from 'react-intl';
-import { LoggedInContainer, ThemeContainer } from '../../../containers';
+import { LoggedInContainer } from '../../../containers';
 
 // Components
 import {
@@ -28,7 +28,7 @@ import styles from './walletScreenStyles';
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
 import { useAppSelector } from '../../../hooks';
 
-const HEADER_EXPANDED_HEIGHT = 260;
+const HEADER_EXPANDED_HEIGHT = 312;
 
 const WalletScreen = () => {
   const intl = useIntl();
