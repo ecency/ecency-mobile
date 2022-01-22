@@ -93,6 +93,7 @@ import { ForegroundNotification } from './foregroundNotification';
 import { PostHtmlRenderer } from './postHtmlRenderer';
 import { QuickProfileModal } from './organisms';
 import QuickReplyModal from './quickReplyModal/quickReplyModalView';
+import VideoPlayer from './videoPlayer/videoPlayerView';
 
 // Basic UI Elements
 import {
@@ -234,4 +235,5 @@ export {
   PostHtmlRenderer,
   QuickProfileModal,
   QuickReplyModal,
+  VideoPlayer,
 };
