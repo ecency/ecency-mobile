@@ -46,6 +46,7 @@ import styles from './markdownEditorStyles';
 import applySnippet from './formats/applySnippet';
 import { MainButton } from '../../mainButton';
 import isAndroidOreo from '../../../utils/isAndroidOreo';
+import { extractWordAtIndex } from '../../../utils/editor';
 
 const MIN_BODY_INPUT_HEIGHT = 300;
 
@@ -103,6 +104,13 @@ const MarkdownEditorView = ({
       setShowDraftLoadButton(true);
     }
   }, [onLoadDraftPress]);
+
+  useEffect(() => {
+    if (selection.start === selection.end && text) {
+      const word = extractWordAtIndex(text, selection.start);
+      console.log('selection word is: ', word);
+    }
+  }, [text, selection]);
 
   useEffect(() => {
     if (text === '' && draftBody !== '') {

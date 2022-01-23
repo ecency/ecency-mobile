@@ -44,6 +44,23 @@ export const generatePermlink = (title, random = false) => {
   return perm;
 };
 
+export const extractWordAtIndex = (text:string, index:number) => {
+  let word = '';
+  for(let i = index; i >= 0 && text[i] !== ' '; i--){
+    if(text[i]){
+      word += text[i];
+    }
+  }
+  word = word.split('').reverse().join('');
+  for(let i = index + 1; i < text.length && text[i] !== ' '; i++){
+    if(text[i]){
+      word += text[i];
+    }
+  }
+  return word;
+ 
+}
+
 export const generateReplyPermlink = (toAuthor) => {
   if (!toAuthor) {
     return '';
