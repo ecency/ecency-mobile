@@ -8,7 +8,6 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import ActionSheet from 'react-native-actionsheet';
 import { renderPostBody } from '@ecency/render-helper';
 import { useDispatch, useSelector } from 'react-redux';
 import { View as AnimatedView } from 'react-native-animatable';
@@ -46,6 +45,7 @@ import styles from './markdownEditorStyles';
 import applySnippet from './formats/applySnippet';
 import { MainButton } from '../../mainButton';
 import isAndroidOreo from '../../../utils/isAndroidOreo';
+import { OptionsModal } from '../../atoms';
 
 const MIN_BODY_INPUT_HEIGHT = 300;
 
@@ -474,7 +474,7 @@ const MarkdownEditorView = ({
         uploadedImage={uploadedImage}
       />
 
-      <ActionSheet
+      <OptionsModal
         ref={galleryRef}
         options={[
           intl.formatMessage({
@@ -500,7 +500,7 @@ const MarkdownEditorView = ({
           }
         }}
       />
-      <ActionSheet
+      <OptionsModal
         ref={clearRef}
         title={intl.formatMessage({
           id: 'alert.clear_alert',
