@@ -48,6 +48,7 @@ import { MainButton } from '../../mainButton';
 import isAndroidOreo from '../../../utils/isAndroidOreo';
 import { extractWordAtIndex } from '../../../utils/editor';
 import { searchAccount } from '../../../providers/ecency/ecency';
+import { UsersBar } from './usersBar';
 
 const MIN_BODY_INPUT_HEIGHT = 300;
 
@@ -111,8 +112,10 @@ const MarkdownEditorView = ({
     if (selection.start === selection.end && text) {
       const word = extractWordAtIndex(text, selection.start);
       console.log('selection word is: ', word);
-      if(word.startsWith('@')){
+      if (word.startsWith('@') && word.length > 3) {
         _handleUserSearch(word.substring(1));
+      } else {
+        setAutoCompleteUsers([]);
       }
     }
   }, [text, selection]);
@@ -197,16 +200,26 @@ const MarkdownEditorView = ({
     dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
   };
 
-  
   const _handleUserSearch = async (username) => {
     let users = [];
-    if(username){   
+    if (username) {
       users = await searchAccount(username, 5);
-      console.log("result users", users)
+      console.log('result users', users);
     }
 
     setAutoCompleteUsers(users);
-  }
+  };
+
+  const _onUserSelect = (username) => {
+    const word = extractWordAtIndex(text, selection.start);
+    const from = text.indexOf(word, selection.start - word.length);
+    const _text = text.slice(0, from) + text.slice(from).replace(word, '@' + username + ' ');
+
+    const sel = from + word.length + 2;
+    const _selection = { start: sel, end: sel };
+    _setTextAndSelection({ selection: _selection, text: _text });
+    setAutoCompleteUsers([]);
+  };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const _changeText = useCallback((input) => {
@@ -326,16 +339,6 @@ const MarkdownEditorView = ({
       );
     }
   };
-
-  const _renderLookedUpAccounts = () => {
-    return <FlatList 
-      horizontal={true}
-      data={autoCompleteUsers}
-      renderItem={(user)=>{
-        return <Text>{user.name + '   '}</Text>
-      }}
-    />
-  }
 
   const _renderEditorButtons = () => (
     <StickyBar>
@@ -483,9 +486,12 @@ const MarkdownEditorView = ({
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       {isAndroidOreo() ? _renderEditorWithoutScroll() : _renderEditorWithScroll()}
-
+      <UsersBar
+        usernames={autoCompleteUsers.map((user) => user.name)}
+        onUserSelect={_onUserSelect}
+      />
       {_renderFloatingDraftButton()}
-      {_renderLookedUpAccounts()}
+
       {!isPreviewActive && _renderEditorButtons()}
 
       <Modal
