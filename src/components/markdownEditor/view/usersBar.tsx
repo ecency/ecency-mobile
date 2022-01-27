@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, FlatList, Text } from "react-native"
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { View, FlatList, Text, TouchableOpacity } from "react-native"
 import { UserAvatar } from '../..';
 import styles from './markdownEditorStyles';
 
@@ -11,7 +10,12 @@ interface Props {
 
 export const UsersBar = ({usernames, onUserSelect}:Props) => {
 
+    if(!usernames || usernames.length === 0){
+        return null;
+    }
+
     const _renderItem = ({item}:{item:string}) => {
+
         const username = item;
         return (
             <TouchableOpacity onPress={()=>{onUserSelect(username)}}>
@@ -24,13 +28,15 @@ export const UsersBar = ({usernames, onUserSelect}:Props) => {
     }
 
     return (
-      <View style={styles.searchAccountsContainer}>
-        <FlatList 
-              horizontal={true}
-              data={usernames}
-              showsHorizontalScrollIndicator={false}
-              renderItem={_renderItem}
-            />
-      </View>
+        <View style={styles.searchAccountsContainer}> 
+            <FlatList 
+                style={{backgroundColor:'transparent'}}
+                horizontal={true}
+                data={usernames}
+                keyboardShouldPersistTaps="always"
+                showsHorizontalScrollIndicator={false}
+                renderItem={_renderItem}
+                />
+        </View>
     )
   }

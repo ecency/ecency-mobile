@@ -113,7 +113,8 @@ export default EStyleSheet.create({
   searchAccountsContainer: Platform.select({
     //absolute positioning makes button hide behind keyboard on ios
     ios: {
-      marginBottom: 24,
+      marginBottom: 12,
+      paddingTop: 8,
     },
     //on android the appearing of button was causing momentary glitch with ios variant style
     android: {
