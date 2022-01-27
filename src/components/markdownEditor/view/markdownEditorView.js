@@ -212,7 +212,12 @@ const MarkdownEditorView = ({
   };
 
   const _onUserSelect = (username) => {
-    applyUsername(text, selection, _setTextAndSelection, username);
+    applyUsername({
+      text,
+      selection,
+      setTextAndSelection: _setTextAndSelection,
+      username,
+    });
     setSearchedUsers([]);
   };
 

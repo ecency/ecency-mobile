@@ -30,7 +30,6 @@ export const UsersBar = ({usernames, onUserSelect}:Props) => {
     return (
         <View style={styles.searchAccountsContainer}> 
             <FlatList 
-                style={{backgroundColor:'transparent'}}
                 horizontal={true}
                 data={usernames}
                 keyboardShouldPersistTaps="always"
