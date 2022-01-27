@@ -18,6 +18,7 @@ interface Props {
 export const UsernameAutofillBar = ({text, selection, onApplyUsername}:Props) => {
 
     const [searchedUsers, setSearchedUsers] = useState([])
+    const [query, setQuery] = useState('');
 
     useEffect(() => {
         if (selection.start === selection.end && text) {
@@ -27,6 +28,7 @@ export const UsernameAutofillBar = ({text, selection, onApplyUsername}:Props) =>
               _handleUserSearch(word.substring(1));
             } else {
               setSearchedUsers([]);
+              setQuery('')
             }
           }
     }, [text, selection])
@@ -34,22 +36,27 @@ export const UsernameAutofillBar = ({text, selection, onApplyUsername}:Props) =>
 
 
     const _handleUserSearch = debounce(async (username) => {
+      if(query !== username){
         let users = [];
         if (username) {
+          setQuery(username)
           users = await lookupAccounts(username);
-          console.log('result users', users);
+          console.log('result users for', username, users);
         }
         setSearchedUsers(users);
+      }
+        
       }, 500);
 
-      
+
     
       const _onUserSelect = (username) => {
         onApplyUsername(username)
         setSearchedUsers([]);
+        setQuery('')
       };
 
-    if(!searchedUsers || searchedUsers.length === 0){
+    if(!searchedUsers || searchedUsers.length === 0 || query === ''){
         return null;
     }
 
