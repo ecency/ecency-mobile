@@ -46,9 +46,7 @@ import styles from './markdownEditorStyles';
 import applySnippet from './formats/applySnippet';
 import { MainButton } from '../../mainButton';
 import isAndroidOreo from '../../../utils/isAndroidOreo';
-import { extractWordAtIndex } from '../../../utils/editor';
-import { searchAccount } from '../../../providers/ecency/ecency';
-import { UsersBar } from './usersBar';
+import { UsernameAutofillBar } from './usernameAutofillBar';
 import applyUsername from './formats/applyUsername';
 
 const MIN_BODY_INPUT_HEIGHT = 300;
@@ -85,7 +83,6 @@ const MarkdownEditorView = ({
   const [bodyInputHeight, setBodyInputHeight] = useState(MIN_BODY_INPUT_HEIGHT);
   const [isSnippetsOpen, setIsSnippetsOpen] = useState(false);
   const [showDraftLoadButton, setShowDraftLoadButton] = useState(false);
-  const [searchedUsers, setSearchedUsers] = useState([]);
 
   const inputRef = useRef(null);
   const galleryRef = useRef(null);
@@ -108,18 +105,6 @@ const MarkdownEditorView = ({
       setShowDraftLoadButton(true);
     }
   }, [onLoadDraftPress]);
-
-  useEffect(() => {
-    if (selection.start === selection.end && text) {
-      const word = extractWordAtIndex(text, selection.start);
-      console.log('selection word is: ', word);
-      if (word.startsWith('@') && word.length > 3) {
-        _handleUserSearch(word.substring(1));
-      } else {
-        setSearchedUsers([]);
-      }
-    }
-  }, [text, selection]);
 
   useEffect(() => {
     if (text === '' && draftBody !== '') {
@@ -201,24 +186,13 @@ const MarkdownEditorView = ({
     dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
   };
 
-  const _handleUserSearch = async (username) => {
-    let users = [];
-    if (username) {
-      users = await searchAccount(username, 5);
-      console.log('result users', users);
-    }
-
-    setSearchedUsers(users);
-  };
-
-  const _onUserSelect = (username) => {
+  const _onApplyUsername = (username) => {
     applyUsername({
       text,
       selection,
       setTextAndSelection: _setTextAndSelection,
       username,
     });
-    setSearchedUsers([]);
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -486,7 +460,7 @@ const MarkdownEditorView = ({
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       {isAndroidOreo() ? _renderEditorWithoutScroll() : _renderEditorWithScroll()}
-      <UsersBar usernames={searchedUsers.map((user) => user.name)} onUserSelect={_onUserSelect} />
+      <UsernameAutofillBar text={text} selection={selection} onApplyUsername={_onApplyUsername} />
       {_renderFloatingDraftButton()}
 
       {!isPreviewActive && _renderEditorButtons()}
