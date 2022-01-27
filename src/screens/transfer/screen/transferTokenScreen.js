@@ -1,7 +1,6 @@
 import React, { Fragment, Component } from 'react';
 import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
-import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
@@ -20,6 +19,7 @@ import {
 } from '../../../components';
 
 import styles from './transferStyles';
+import { OptionsModal } from '../../../components/atoms';
 
 /* Props
  * ------------------------------------------------
@@ -260,7 +260,7 @@ class TransferTokenView extends Component {
             </View>
           </ScrollView>
         </View>
-        <ActionSheet
+        <OptionsModal
           ref={(o) => (this.ActionSheet = o)}
           options={[
             intl.formatMessage({ id: 'alert.confirm' }),
