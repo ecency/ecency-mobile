@@ -49,6 +49,7 @@ import isAndroidOreo from '../../../utils/isAndroidOreo';
 import { extractWordAtIndex } from '../../../utils/editor';
 import { searchAccount } from '../../../providers/ecency/ecency';
 import { UsersBar } from './usersBar';
+import applyUsername from './formats/applyUsername';
 
 const MIN_BODY_INPUT_HEIGHT = 300;
 
@@ -84,7 +85,7 @@ const MarkdownEditorView = ({
   const [bodyInputHeight, setBodyInputHeight] = useState(MIN_BODY_INPUT_HEIGHT);
   const [isSnippetsOpen, setIsSnippetsOpen] = useState(false);
   const [showDraftLoadButton, setShowDraftLoadButton] = useState(false);
-  const [autoCompleteUsers, setAutoCompleteUsers] = useState([]);
+  const [searchedUsers, setSearchedUsers] = useState([]);
 
   const inputRef = useRef(null);
   const galleryRef = useRef(null);
@@ -115,7 +116,7 @@ const MarkdownEditorView = ({
       if (word.startsWith('@') && word.length > 3) {
         _handleUserSearch(word.substring(1));
       } else {
-        setAutoCompleteUsers([]);
+        setSearchedUsers([]);
       }
     }
   }, [text, selection]);
@@ -207,18 +208,12 @@ const MarkdownEditorView = ({
       console.log('result users', users);
     }
 
-    setAutoCompleteUsers(users);
+    setSearchedUsers(users);
   };
 
   const _onUserSelect = (username) => {
-    const word = extractWordAtIndex(text, selection.start);
-    const from = text.indexOf(word, selection.start - word.length);
-    const _text = text.slice(0, from) + text.slice(from).replace(word, '@' + username + ' ');
-
-    const sel = from + word.length + 2;
-    const _selection = { start: sel, end: sel };
-    _setTextAndSelection({ selection: _selection, text: _text });
-    setAutoCompleteUsers([]);
+    applyUsername(text, selection, _setTextAndSelection, username);
+    setSearchedUsers([]);
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -486,10 +481,7 @@ const MarkdownEditorView = ({
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       {isAndroidOreo() ? _renderEditorWithoutScroll() : _renderEditorWithScroll()}
-      <UsersBar
-        usernames={autoCompleteUsers.map((user) => user.name)}
-        onUserSelect={_onUserSelect}
-      />
+      <UsersBar usernames={searchedUsers.map((user) => user.name)} onUserSelect={_onUserSelect} />
       {_renderFloatingDraftButton()}
 
       {!isPreviewActive && _renderEditorButtons()}
