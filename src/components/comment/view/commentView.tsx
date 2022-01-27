@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useRef, useEffect } from 'react';
 import { View } from 'react-native';
-import ActionSheet from 'react-native-actionsheet';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 import { View as AnimatedView } from 'react-native-animatable';
@@ -18,6 +17,7 @@ import { TextWithIcon } from '../../basicUIElements';
 // Styles
 import styles from './commentStyles';
 import { useAppSelector } from '../../../hooks';
+import { OptionsModal } from '../../atoms';
 
 const CommentView = ({
   avatarSize,
@@ -203,7 +203,7 @@ const CommentView = ({
                   onPress={() => actionSheet.current.show()}
                   iconType="MaterialIcons"
                 />
-                <ActionSheet
+                <OptionsModal
                   ref={actionSheet}
                   options={[
                     intl.formatMessage({ id: 'alert.delete' }),
