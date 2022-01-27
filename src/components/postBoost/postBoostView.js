@@ -3,7 +3,6 @@ import { injectIntl } from 'react-intl';
 import { Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { WebView } from 'react-native-webview';
 import get from 'lodash/get';
-import ActionSheet from 'react-native-actionsheet';
 import Autocomplete from '@esteemapp/react-native-autocomplete-input';
 import { Icon, TextInput } from '..';
 import { hsOptions } from '../../constants/hsOptions';
@@ -21,6 +20,7 @@ import { Modal } from '../modal';
 
 // Styles
 import styles from './postBoostStyles';
+import { OptionsModal } from '../atoms';
 
 class BoostPostScreen extends PureComponent {
   /* Props
@@ -240,7 +240,7 @@ class BoostPostScreen extends PureComponent {
             </View>
           </ScrollView>
         </View>
-        <ActionSheet
+        <OptionsModal
           ref={this.startActionSheet}
           options={[
             intl.formatMessage({ id: 'alert.confirm' }),
