@@ -126,14 +126,15 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginHorizontal: 4,
-    paddingHorizontal: 8,
-    paddingVertical: 8,
+    paddingHorizontal: 4,
+    paddingVertical: 4,
     backgroundColor: '$primaryBlue',
     borderRadius: 24,
   },
   userBubbleText: {
     fontSize: 16,
     color: '$white',
-    marginHorizontal: 6,
+    marginLeft: 6,
+    marginRight: 8,
   },
 });
