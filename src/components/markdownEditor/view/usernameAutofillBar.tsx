@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import { View, FlatList, Text, TouchableOpacity } from "react-native"
 import { UserAvatar } from '../..';
-import { searchAccount } from '../../../providers/ecency/ecency';
+import { lookupAccounts } from '../../../providers/hive/dhive';
 import { extractWordAtIndex } from '../../../utils/editor';
 import styles from './markdownEditorStyles';
+import {debounce} from 'lodash';
 
 interface Props {
     text:string,
@@ -31,14 +32,17 @@ export const UsernameAutofillBar = ({text, selection, onApplyUsername}:Props) =>
     }, [text, selection])
 
 
-    const _handleUserSearch = async (username) => {
+
+    const _handleUserSearch = debounce(async (username) => {
         let users = [];
         if (username) {
-          users = await searchAccount(username, 5);
+          users = await lookupAccounts(username);
           console.log('result users', users);
         }
         setSearchedUsers(users);
-      };
+      }, 500);
+
+      
     
       const _onUserSelect = (username) => {
         onApplyUsername(username)
@@ -62,16 +66,15 @@ export const UsernameAutofillBar = ({text, selection, onApplyUsername}:Props) =>
         )
     }
 
-    const usernames = searchedUsers.map(user=>user.name)
-
     return (
         <View style={styles.searchAccountsContainer}> 
             <FlatList 
                 horizontal={true}
-                data={usernames}
+                data={searchedUsers}
                 keyboardShouldPersistTaps="always"
                 showsHorizontalScrollIndicator={false}
                 renderItem={_renderItem}
+                keyExtractor={(item)=>`searched-user-${item}`}
                 />
         </View>
     )
