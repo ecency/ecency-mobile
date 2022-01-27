@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef, useState, Fragment } from 'react
 import { View, Text, ScrollView, Dimensions, SafeAreaView, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
-import ActionSheet from 'react-native-actionsheet';
 
 // Providers
 import { userActivity } from '../../../providers/ecency/ePoint';
@@ -20,6 +19,7 @@ import { ParentPost } from '../../parentPost';
 
 // Styles
 import styles from './postDisplayStyles';
+import { OptionsModal } from '../../atoms';
 
 const HEIGHT = Dimensions.get('window').width;
 
@@ -251,7 +251,7 @@ const PostDisplayView = ({
         )}
       </ScrollView>
       {post && _getTabBar(true)}
-      <ActionSheet
+      <OptionsModal
         ref={actionSheet}
         options={[
           intl.formatMessage({ id: 'alert.delete' }),
