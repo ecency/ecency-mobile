@@ -47,6 +47,7 @@ import applySnippet from './formats/applySnippet';
 import { MainButton } from '../../mainButton';
 import isAndroidOreo from '../../../utils/isAndroidOreo';
 import { extractWordAtIndex } from '../../../utils/editor';
+import { searchAccount } from '../../../providers/ecency/ecency';
 
 const MIN_BODY_INPUT_HEIGHT = 300;
 
@@ -82,6 +83,7 @@ const MarkdownEditorView = ({
   const [bodyInputHeight, setBodyInputHeight] = useState(MIN_BODY_INPUT_HEIGHT);
   const [isSnippetsOpen, setIsSnippetsOpen] = useState(false);
   const [showDraftLoadButton, setShowDraftLoadButton] = useState(false);
+  const [autoCompleteUsers, setAutoCompleteUsers] = useState([]);
 
   const inputRef = useRef(null);
   const galleryRef = useRef(null);
@@ -109,6 +111,9 @@ const MarkdownEditorView = ({
     if (selection.start === selection.end && text) {
       const word = extractWordAtIndex(text, selection.start);
       console.log('selection word is: ', word);
+      if(word.startsWith('@')){
+        _handleUserSearch(word.substring(1));
+      }
     }
   }, [text, selection]);
 
@@ -191,6 +196,17 @@ const MarkdownEditorView = ({
   const changeUser = async () => {
     dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
   };
+
+  
+  const _handleUserSearch = async (username) => {
+    let users = [];
+    if(username){   
+      users = await searchAccount(username, 5);
+      console.log("result users", users)
+    }
+
+    setAutoCompleteUsers(users);
+  }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const _changeText = useCallback((input) => {
@@ -310,6 +326,16 @@ const MarkdownEditorView = ({
       );
     }
   };
+
+  const _renderLookedUpAccounts = () => {
+    return <FlatList 
+      horizontal={true}
+      data={autoCompleteUsers}
+      renderItem={(user)=>{
+        return <Text>{user.name + '   '}</Text>
+      }}
+    />
+  }
 
   const _renderEditorButtons = () => (
     <StickyBar>
@@ -459,6 +485,7 @@ const MarkdownEditorView = ({
       {isAndroidOreo() ? _renderEditorWithoutScroll() : _renderEditorWithScroll()}
 
       {_renderFloatingDraftButton()}
+      {_renderLookedUpAccounts()}
       {!isPreviewActive && _renderEditorButtons()}
 
       <Modal
