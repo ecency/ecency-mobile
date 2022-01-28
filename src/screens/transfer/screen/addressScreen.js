@@ -1,17 +1,9 @@
-import React, { Fragment, Component } from 'react';
-import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
-import { WebView } from 'react-native-webview';
-import ActionSheet from 'react-native-actionsheet';
+import React, { Fragment } from 'react';
+import { Text, View, ScrollView } from 'react-native';
 import { injectIntl } from 'react-intl';
-import get from 'lodash/get';
 import QRCode from 'react-native-qrcode-svg';
-import { connect, useDispatch } from 'react-redux';
-
-import { hsOptions } from '../../../constants/hsOptions';
-import AUTH_TYPE from '../../../constants/authType';
-import { encryptKey, decryptKey } from '../../../utils/crypto';
-
-import { BasicHeader, MainButton } from '../../../components';
+import { connect } from 'react-redux';
+import { BasicHeader } from '../../../components';
 
 import styles from './transferStyles';
 
