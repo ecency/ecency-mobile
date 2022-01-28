@@ -1,6 +1,7 @@
 import {
     UPDATE_VOTE_CACHE,
-    PURGE_EXPIRED_CACHE
+    PURGE_EXPIRED_CACHE,
+    UPDATE_COMMENT_CACHE
   } from '../constants/constants';
 import { Vote } from '../reducers/cacheReducer';
   
@@ -11,6 +12,14 @@ import { Vote } from '../reducers/cacheReducer';
         vote
     },
     type: UPDATE_VOTE_CACHE
+  })
+
+  export const updateCommentCache = (commentPath:string, comment:Comment) => ({
+    payload:{
+      commentPath,
+      comment
+    },
+    type: UPDATE_COMMENT_CACHE
   })
   
   export const purgeExpiredCache = () => ({

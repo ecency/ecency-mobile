@@ -1,4 +1,4 @@
-import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE } from "../constants/constants";
+import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE, UPDATE_COMMENT_CACHE } from "../constants/constants";
 
 export interface Vote {
     amount:number;
@@ -8,16 +8,29 @@ export interface Vote {
     expiresAt:number;
 }
 
+export interface Comment {
+    author:string,
+    permlink:string,
+    parentAuthor:string,
+    parentPermlink:string,
+    content:string,
+    createdAt:number,
+    expiresAt:number,
+}
+
 interface State {
     votes:Map<string, Vote>
+    comments:Map<string, Comment>
     lastUpdate:{
         postPath:string,
         updatedAt:number,
+        type:'vote'|'comment',
     }
 }
 
 const initialState:State = {
     votes:new Map(),
+    comments:new Map(),
     lastUpdate:null,
   };
   
@@ -33,18 +46,41 @@ const initialState:State = {
                 ...state, //spread operator in requried here, otherwise persist do not register change
                 lastUpdate:{
                     postPath:payload.postPath,
-                    updatedAt: new Date().getTime()
+                    updatedAt: new Date().getTime(),
+                    type:'vote',
+                }
+            };
+        
+        case UPDATE_COMMENT_CACHE:
+            if(!state.comments){
+                state.comments = new Map<string, Comment>();
+            }
+            state.comments.set(payload.commentPath, payload.comment);
+            return {
+                ...state, //spread operator in requried here, otherwise persist do not register change
+                lastUpdate:{
+                    postPath:payload.commentPath,
+                    updatedAt: new Date().getTime(),
+                    type:'comment'
                 }
             };
         case PURGE_EXPIRED_CACHE:
             const currentTime = new Date().getTime();
 
-            if(state.votes && state.votes.entries){
+            if(state.votes && state.votes.size){
                 Array.from(state.votes).forEach((entry)=>{
                    if(entry[1].expiresAt < currentTime){
                        state.votes.delete(entry[0]);
                    }
                 })
+            }
+
+            if(state.comments && state.comments.size){
+                Array.from(state.comments).forEach((entry)=>{
+                    if(entry[1].expiresAt < currentTime){
+                        state.comments.delete(entry[0]);
+                    }
+                 })
             }
             
             return {
