@@ -11,10 +11,10 @@ export interface Vote {
 export interface Comment {
     author:string,
     permlink:string,
-    parentAuthor:string,
-    parentPermlink:string,
-    content:string,
-    createdAt:number,
+    parent_author:string,
+    parent_permlink:string,
+    body:string,
+    created:string,
     expiresAt:number,
 }
 

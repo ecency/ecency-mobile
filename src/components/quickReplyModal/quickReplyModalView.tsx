@@ -3,7 +3,7 @@ import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './quickReplyModalStyles';
 import { forwardRef } from 'react';
-import { View, Text, Alert, TouchableOpacity, Keyboard } from 'react-native';
+import { View, Text, Alert, TouchableOpacity, Keyboard, Platform } from 'react-native';
 import { useIntl } from 'react-intl';
 import { IconButton, MainButton, SummaryArea, TextButton, TextInput, UserAvatar } from '..';
 import { useSelector, useDispatch } from 'react-redux';
@@ -16,6 +16,7 @@ import { default as ROUTES } from '../../constants/routeNames';
 import get from 'lodash/get';
 import { navigate } from '../../navigation/service';
 import { Portal } from 'react-native-portalize';
+import { markdown2Html } from '@ecency/render-helper/lib/markdown-2-html';
 
 export interface QuickReplyModalProps {}
 
@@ -135,18 +136,18 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
             );
 
             //add comment cache entry
-            const createdAt = new Date().getTime();
+            const createdAt = new Date();
             dispatch(
               updateCommentCache(
                 `${currentAccount.name}/${permlink}`,
                 {
                   author:currentAccount.name,
                   permlink,
-                  parentAuthor,
-                  parentPermlink,
-                  content: commentValue,
-                  createdAt: createdAt,
-                  expiresAt: createdAt + 600000
+                  parent_author:parentAuthor,
+                  parent_permlink:parentPermlink,
+                  body: markdown2Html(commentValue, true, Platform.OS === 'android'),
+                  created: createdAt.toString(),
+                  expiresAt: createdAt.getTime() + 600000
                 }
               )
             )
