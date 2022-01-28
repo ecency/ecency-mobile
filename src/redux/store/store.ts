@@ -7,8 +7,16 @@ import Reactotron from '../../../reactotron-config';
 import reducer from '../reducers';
 
 const transformCacheVoteMap = createTransform(
-  (inboundState:any) => ({ ...inboundState, votes : Array.from(inboundState.votes)}),
-  (outboundState) => ({ ...outboundState, votes:new Map(outboundState.votes)}),
+  (inboundState:any) => ({ 
+    ...inboundState, 
+    votes : Array.from(inboundState.votes),
+    comments : Array.from(inboundState.comments)
+  }),
+  (outboundState) => ({ 
+    ...outboundState, 
+    votes:new Map(outboundState.votes),
+    comments:new Map(outboundState.comments)
+  }),
   {whitelist:['cache']}
 );
 
