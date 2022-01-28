@@ -46,6 +46,8 @@ import applySnippet from './formats/applySnippet';
 import { MainButton } from '../../mainButton';
 import isAndroidOreo from '../../../utils/isAndroidOreo';
 import { OptionsModal } from '../../atoms';
+import { UsernameAutofillBar } from './usernameAutofillBar';
+import applyUsername from './formats/applyUsername';
 
 const MIN_BODY_INPUT_HEIGHT = 300;
 
@@ -182,6 +184,15 @@ const MarkdownEditorView = ({
 
   const changeUser = async () => {
     dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
+  };
+
+  const _onApplyUsername = (username) => {
+    applyUsername({
+      text,
+      selection,
+      setTextAndSelection: _setTextAndSelection,
+      username,
+    });
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -449,8 +460,9 @@ const MarkdownEditorView = ({
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       {isAndroidOreo() ? _renderEditorWithoutScroll() : _renderEditorWithScroll()}
-
+      <UsernameAutofillBar text={text} selection={selection} onApplyUsername={_onApplyUsername} />
       {_renderFloatingDraftButton()}
+
       {!isPreviewActive && _renderEditorButtons()}
 
       <Modal
