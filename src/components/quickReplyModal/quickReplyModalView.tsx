@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { generateReplyPermlink } from '../../utils/editor';
 import { postComment } from '../../providers/hive/dhive';
 import { toastNotification } from '../../redux/actions/uiAction';
+import { updateCommentCache } from '../../redux/actions/cacheActions';
 import { useAppSelector } from '../../hooks';
 import { default as ROUTES } from '../../constants/routeNames';
 import get from 'lodash/get';
@@ -132,6 +133,24 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
                 }),
               ),
             );
+
+            //add comment cache entry
+            const createdAt = new Date().getTime();
+            dispatch(
+              updateCommentCache(
+                `${currentAccount.name}/${permlink}`,
+                {
+                  author:currentAccount.name,
+                  permlink,
+                  parentAuthor,
+                  parentPermlink,
+                  content: commentValue,
+                  createdAt: createdAt,
+                  expiresAt: createdAt + 600000
+                }
+              )
+            )
+
             clearTimeout(stateTimer);
           }, 3000);
         })
@@ -166,6 +185,8 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
       />
     </View>
   );
+
+
   const _renderSummary = () => (
     <TouchableOpacity onPress={() => _handleOnSummaryPress()}>
       <SummaryArea style={styles.summaryStyle} summary={selectedPost.summary} />

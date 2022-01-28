@@ -3,7 +3,7 @@ import {
     PURGE_EXPIRED_CACHE,
     UPDATE_COMMENT_CACHE
   } from '../constants/constants';
-import { Vote } from '../reducers/cacheReducer';
+import { Comment, Vote } from '../reducers/cacheReducer';
   
   
   export const updateVoteCache = (postPath:string, vote:Vote) => ({
