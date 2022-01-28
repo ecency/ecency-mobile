@@ -18,6 +18,7 @@ import ROUTES from '../../../constants/routeNames';
 
 // Component
 import CommentsView from '../view/commentsView';
+import { useAppSelector } from '../../../hooks';
 
 const CommentsContainer = ({
   author,
@@ -45,6 +46,9 @@ const CommentsContainer = ({
   hideManyCommentsButton,
   flatListProps,
 }) => {
+  const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
+  const cachedComments = useAppSelector((state) => state.cache.comments);
+
   const [lcomments, setLComments] = useState([]);
   const [selectedPermlink, setSelectedPermlink] = useState('');
 
@@ -57,6 +61,19 @@ const CommentsContainer = ({
     const shortedComments = _shortComments(selectedFilter);
     setLComments(shortedComments);
   }, [commentCount, selectedFilter]);
+
+  useEffect(() => {
+    const postPath = `${author || ''}/${permlink || ''}`;
+    //this conditional makes sure on targetted already fetched post is updated
+    //with new cache status, this is to avoid duplicate cache merging
+    if (
+      lastCacheUpdate &&
+      lastCacheUpdate.postPath === postPath &&
+      lastCacheUpdate.type === 'comment'
+    ) {
+      _handleCachedComment();
+    }
+  }, [lastCacheUpdate]);
 
   // Component Functions
 
@@ -144,15 +161,44 @@ const CommentsContainer = ({
     } else if (author && permlink && !comments) {
       await getComments(author, permlink, name)
         .then((__comments) => {
+          //TODO: favourable place for merging comment cache
           if (selectedFilter) {
-            const sortComments = _shortComments(selectedFilter, __comments);
-            setLComments(sortComments);
-          } else {
-            setLComments(__comments);
+            const __comments = _shortComments(selectedFilter, __comments);
           }
+
+          __comments = _handleCachedComment(__comments);
+          setLComments(__comments);
         })
         .catch(() => {});
     }
+  };
+
+  const _handleCachedComment = (passedComments = null) => {
+    const comments = passedComments || lcomments;
+    const postPath = `${author || ''}/${permlink || ''}`;
+
+    if (cachedComments.has(postPath)) {
+      const cachedComment = cachedComments.get(postPath);
+
+      var blockUpdated = false;
+      comments.forEach((comment) => {
+        if (cachedComment.permlink === comment.permlink) {
+          blockUpdated = true;
+          console.log('Ignore cache as comment is now present');
+        }
+      });
+
+      if (!blockUpdated) {
+        console.log('updated comments with cached comment');
+        const newComments = [cachedComment, ...comments];
+        if (comments) {
+          return newComments;
+        } else {
+          setLComments(newComments);
+        }
+      }
+    }
+    return comments;
   };
 
   const _handleOnReplyPress = (item) => {
