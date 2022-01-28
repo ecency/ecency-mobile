@@ -37,6 +37,7 @@ import {
   Modal,
   SnippetsModal,
   UploadsGalleryModal,
+  Tooltip,
 } from '../../index';
 
 import { ThemeContainer } from '../../../containers';
@@ -86,6 +87,7 @@ const MarkdownEditorView = ({
   const galleryRef = useRef(null);
   const clearRef = useRef(null);
   const uploadsGalleryModalRef = useRef(null);
+  const tooltipRef = useRef(null);
 
   const dispatch = useDispatch();
   const isVisibleAccountsBottomSheet = useSelector(
@@ -288,17 +290,25 @@ const MarkdownEditorView = ({
         onLoadDraftPress();
       };
       return (
-        <AnimatedView style={styles.floatingContainer} animation="bounceInRight">
-          <MainButton
-            style={{ width: isLoading ? null : 120 }}
-            onPress={_onPress}
-            iconName="square-edit-outline"
-            iconType="MaterialCommunityIcons"
-            iconColor="white"
-            text="DRAFT"
-            isLoading={isLoading}
-          />
-        </AnimatedView>
+        <>
+          <AnimatedView
+            style={styles.floatingContainer}
+            animation="bounceInRight"
+            onAnimationEnd={() => tooltipRef.current?.openTooltip()}
+          >
+            <Tooltip ref={tooltipRef} text="Draft">
+              <MainButton
+                style={{ width: isLoading ? null : 120 }}
+                onPress={_onPress}
+                iconName="square-edit-outline"
+                iconType="MaterialCommunityIcons"
+                iconColor="white"
+                text="DRAFT"
+                isLoading={isLoading}
+              />
+            </Tooltip>
+          </AnimatedView>
+        </>
       );
     }
   };
