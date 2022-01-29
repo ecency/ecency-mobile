@@ -33,10 +33,8 @@ const CommentView = ({
   handleOnVotersPress,
   isLoggedIn,
   isShowComments,
-  isShowMoreButton,
   mainAuthor = { mainAuthor },
   isHideImage,
-  showAllComments,
   isShowSubComments,
   hideManyCommentsButton,
   openReplyThread,
@@ -46,11 +44,16 @@ const CommentView = ({
   const actionSheet = useRef(null);
 
   const isMuted = useAppSelector(state => state.account.currentAccount.mutes?.indexOf(comment.author) > -1);
+  const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
+  const cachedComments = useAppSelector((state) => state.cache.comments);
 
   const [_isShowSubComments, setIsShowSubComments] = useState(isShowSubComments || false);
   const [isPressedShowButton, setIsPressedShowButton] = useState(false);
   const [activeVotes, setActiveVotes] = useState([]);
   const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
+
+  const [childCount, setChildCount] = useState(comment.children);
+  const [replies, setReplies] = useState(comment.replies);
 
 
 
@@ -60,8 +63,32 @@ const CommentView = ({
     }
   }, [comment]);
 
-  const _showSubCommentsToggle = () => {
-    if(comment.replies && comment.replies.length > 0){
+
+  useEffect(() => {
+    const postPath = `${comment.author || ''}/${comment.permlink || ''}`;
+    //this conditional makes sure on targetted already fetched post is updated
+    //with new cache status, this is to avoid duplicate cache merging
+    if (
+      lastCacheUpdate &&
+      lastCacheUpdate.postPath === postPath &&
+      lastCacheUpdate.type === 'comment' &&
+      lastCacheUpdate.updatedAt > fetchedAt
+    ) {
+      //TODO: update comment count and show sub comment if required;
+      const cachedComment = cachedComments.get(postPath);
+      if(cachedComment.updated === cachedComment.created){
+        setChildCount(childCount + 1);
+        setReplies(replies ? [...replies, cachedComment] : [cachedComment]);
+      }
+
+      if(!_isShowSubComments){
+        _showSubCommentsToggle(true);
+      }
+    }
+  }, [lastCacheUpdate]);
+
+  const _showSubCommentsToggle = (force) => {
+    if(((replies && replies.length > 0) || force)){
       setIsShowSubComments(!_isShowSubComments);
       setIsPressedShowButton(true);
     } else if(openReplyThread) {
@@ -105,9 +132,8 @@ const CommentView = ({
           avatarSize={avatarSize || 24}
           author={comment.author}
           permlink={comment.permlink}
-          commentCount={comment.children}
+          commentCount={childCount}
           comments={comment.replies}
-          isShowMoreButton={false}
           hasManyComments={commentNumber === 5 && get(comment, 'children') > 0}
           fetchPost={fetchPost}
           hideManyCommentsButton={hideManyCommentsButton}
@@ -139,8 +165,8 @@ const CommentView = ({
             {_renderActionPanel()}
           </View>
           { commentNumber > 1 && 
-            comment.children > 0 && 
-            !comment.replies?.length && 
+            childCount > 0 && 
+            !replies?.length && 
             _renderReadMoreButton() 
           }
         </Fragment>
@@ -195,7 +221,7 @@ const CommentView = ({
               onPress={() => handleOnEditPress && handleOnEditPress(comment)}
               iconType="MaterialIcons"
             />
-            {!comment.children && !activeVotes.length && (
+            {!childCount && !activeVotes.length && (
               <Fragment>
                 <IconButton
                   size={20}
@@ -224,7 +250,7 @@ const CommentView = ({
         )}
 
         
-        {isShowMoreButton && (
+        {commentNumber === 1 && childCount > 0 && (
           <View style={styles.rightButtonWrapper}>
             <TextWithIcon
               wrapperStyle={styles.rightButton}
@@ -235,7 +261,7 @@ const CommentView = ({
               iconStyle={styles.iconStyle}
               iconSize={16}
               onPress={() => _showSubCommentsToggle()}
-              text={`${comment.children} ${intl.formatMessage({ id: 'comments.more_replies' })}`}
+              text={`${childCount} ${intl.formatMessage({ id: 'comments.more_replies' })}`}
             />
           </View>
         )}

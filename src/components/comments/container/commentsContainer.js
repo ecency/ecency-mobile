@@ -36,7 +36,6 @@ const CommentsContainer = ({
   commentCount,
   isLoggedIn,
   commentNumber,
-  isShowMoreButton,
   mainAuthor,
   selectedPermlink: _selectedPermlink,
   isHideImage,
@@ -313,7 +312,6 @@ const CommentsContainer = ({
       selectedPermlink={_selectedPermlink || selectedPermlink}
       author={author}
       mainAuthor={mainAuthor}
-      isShowMoreButton={isShowMoreButton}
       commentNumber={commentNumber || 1}
       commentCount={commentCount}
       comments={lcomments.length > 0 ? lcomments : replies}

@@ -31,7 +31,6 @@ const CommentsView = ({
   isShowSubComments,
   mainAuthor,
   marginLeft,
-  isShowMoreButton,
   showAllComments,
   hideManyCommentsButton,
   flatListProps,
@@ -106,7 +105,6 @@ const CommentsView = ({
         handleOnVotersPress={handleOnVotersPress}
         isHideImage={isHideImage}
         isLoggedIn={isLoggedIn}
-        isShowMoreButton={isShowMoreButton || (commentNumber === 1 && get(item, 'children') > 0)}
         showAllComments={showAllComments}
         isShowSubComments={isShowSubComments}
         key={get(item, 'permlink')}
