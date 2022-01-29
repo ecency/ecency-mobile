@@ -117,8 +117,8 @@ const CommentsContainer = ({
         return 0;
       },
       votes: (a, b) => {
-        const keyA = a.net_votes;
-        const keyB = b.net_votes;
+        const keyA = a.active_votes.length;
+        const keyB = b.active_votes.length;
 
         if (keyA > keyB) {
           return -1;
@@ -164,11 +164,12 @@ const CommentsContainer = ({
       await getComments(author, permlink, name)
         .then((__comments) => {
           //TODO: favourable place for merging comment cache
+          __comments = _handleCachedComment(__comments);
+
           if (selectedFilter) {
             __comments = _shortComments(selectedFilter, __comments);
           }
 
-          __comments = _handleCachedComment(__comments);
           setLComments(__comments);
         })
         .catch(() => {});
@@ -192,7 +193,7 @@ const CommentsContainer = ({
 
       if (!blockUpdated) {
         console.log('updated comments with cached comment');
-        const newComments = [cachedComment, ...comments];
+        const newComments = [...comments, cachedComment];
         if (passedComments) {
           return newComments;
         } else {
