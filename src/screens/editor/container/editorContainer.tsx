@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Alert } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -47,6 +47,8 @@ import EditorScreen from '../screen/editorScreen';
 import bugsnapInstance from '../../../config/bugsnag';
 import { removeBeneficiaries, setBeneficiaries } from '../../../redux/actions/editorActions';
 import { TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
+import { updateCommentCache } from '../../../redux/actions/cacheActions';
+import { markdown2Html } from '@ecency/render-helper/lib/markdown-2-html';
 
 /*
  *            Props Name        Description                                     Value
@@ -737,7 +739,7 @@ class EditorContainer extends Component {
   };
 
   _submitReply = async (fields) => {
-    const { currentAccount, pinCode } = this.props;
+    const { currentAccount, pinCode, dispatch } = this.props;
     const { isPostSending } = this.state;
 
     if (isPostSending) {
@@ -769,6 +771,24 @@ class EditorContainer extends Component {
         .then(() => {
           AsyncStorage.setItem('temp-reply', '');
           this._handleSubmitSuccess();
+
+          //create a cache entry
+          const createdAt = new Date();
+          dispatch(
+            updateCommentCache(
+              `${parentAuthor}/${parentPermlink}`,
+              {
+                author:currentAccount.name,
+                permlink,
+                parent_author:parentAuthor,
+                parent_permlink:parentPermlink,
+                body: markdown2Html(fields.body, true, Platform.OS === 'android'),
+                created: createdAt.toISOString(),
+                expiresAt: createdAt.getTime() + 600000
+              }
+            )
+          )
+          
         })
         .catch((error) => {
           this._handleSubmitFailure(error);
