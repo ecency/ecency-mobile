@@ -165,7 +165,7 @@ const CommentsContainer = ({
         .then((__comments) => {
           //TODO: favourable place for merging comment cache
           if (selectedFilter) {
-            const __comments = _shortComments(selectedFilter, __comments);
+            __comments = _shortComments(selectedFilter, __comments);
           }
 
           __comments = _handleCachedComment(__comments);
