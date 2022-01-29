@@ -13,18 +13,20 @@ export interface Comment {
     permlink:string,
     parent_author:string,
     parent_permlink:string,
-    body:string,
+    body?:string,
+    markdownBody:string,
     author_reputation?:number,
     total_payout?:number,
     net_rshares?:number,
     active_votes?:Array<{rshares:number, voter:string}>,
-    created?:string,
+    created?:string, //handle created and updated separatly
+    updated?:string,
     expiresAt?:number,
 }
 
 interface State {
     votes:Map<string, Vote>
-    comments:Map<string, Comment>
+    comments:Map<string, Comment> //TODO: handle comment array per post, if parent is same
     lastUpdate:{
         postPath:string,
         updatedAt:number,
