@@ -40,6 +40,7 @@ const CommentView = ({
   isShowSubComments,
   hideManyCommentsButton,
   openReplyThread,
+  fetchedAt,
 }) => {
   const intl = useIntl();
   const actionSheet = useRef(null);
@@ -111,6 +112,7 @@ const CommentView = ({
           fetchPost={fetchPost}
           hideManyCommentsButton={hideManyCommentsButton}
           mainAuthor={mainAuthor}
+          fetchedAt={fetchedAt}
         />
       </AnimatedView>
      

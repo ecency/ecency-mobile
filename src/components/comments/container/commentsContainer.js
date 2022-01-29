@@ -51,6 +51,7 @@ const CommentsContainer = ({
   const cachedComments = useAppSelector((state) => state.cache.comments);
 
   const [lcomments, setLComments] = useState([]);
+  const [replies, setReplies] = useState(comments);
   const [selectedPermlink, setSelectedPermlink] = useState('');
 
   useEffect(() => {
@@ -160,7 +161,7 @@ const CommentsContainer = ({
   const _getComments = async () => {
     if (isOwnProfile) {
       fetchPost();
-    } else if (author && permlink && !comments) {
+    } else if (author && permlink && !replies) {
       await getComments(author, permlink, name)
         .then((__comments) => {
           //TODO: favourable place for merging comment cache
@@ -177,7 +178,7 @@ const CommentsContainer = ({
   };
 
   const _handleCachedComment = (passedComments = null) => {
-    const comments = passedComments || lcomments;
+    const _comments = passedComments || replies || lcomments;
     const postPath = `${author || ''}/${permlink || ''}`;
 
     if (cachedComments.has(postPath)) {
@@ -185,7 +186,7 @@ const CommentsContainer = ({
 
       var ignoreCache = false;
       var replaceAtIndex = -1;
-      comments.forEach((comment, index) => {
+      _comments.forEach((comment, index) => {
         if (cachedComment.permlink === comment.permlink) {
           if (cachedComment.updated < comment.updated) {
             //comment is present with latest data
@@ -202,21 +203,23 @@ const CommentsContainer = ({
       if (!ignoreCache) {
         let newComments = [];
         if (replaceAtIndex >= 0) {
-          comments[replaceAtIndex] = cachedComment;
-          newComments = [...comments];
+          _comments[replaceAtIndex] = cachedComment;
+          newComments = [..._comments];
         } else {
-          newComments = [...comments, cachedComment];
+          newComments = [..._comments, cachedComment];
         }
 
         console.log('updated comments with cached comment');
         if (passedComments) {
           return newComments;
+        } else if (replies) {
+          setReplies(newComments);
         } else {
           setLComments(newComments);
         }
       }
     }
-    return comments;
+    return _comments;
   };
 
   const _handleOnReplyPress = (item) => {
@@ -313,7 +316,7 @@ const CommentsContainer = ({
       isShowMoreButton={isShowMoreButton}
       commentNumber={commentNumber || 1}
       commentCount={commentCount}
-      comments={lcomments.length > 0 ? lcomments : comments}
+      comments={lcomments.length > 0 ? lcomments : replies}
       currentAccountUsername={currentAccount.name}
       handleOnEditPress={_handleOnEditPress}
       handleOnReplyPress={_handleOnReplyPress}
@@ -328,6 +331,7 @@ const CommentsContainer = ({
       showAllComments={showAllComments}
       flatListProps={flatListProps}
       openReplyThread={_openReplyThread}
+      fetchedAt={fetchedAt}
     />
   );
 };
