@@ -191,7 +191,7 @@ const CommentsContainer = ({
       if (!blockUpdated) {
         console.log('updated comments with cached comment');
         const newComments = [cachedComment, ...comments];
-        if (comments) {
+        if (passedComments) {
           return newComments;
         } else {
           setLComments(newComments);
