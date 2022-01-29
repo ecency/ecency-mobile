@@ -773,7 +773,6 @@ class EditorContainer extends Component {
           this._handleSubmitSuccess();
 
           //create a cache entry
-          const createdAt = new Date();
           dispatch(
             updateCommentCache(
               `${parentAuthor}/${parentPermlink}`,
@@ -783,8 +782,6 @@ class EditorContainer extends Component {
                 parent_author:parentAuthor,
                 parent_permlink:parentPermlink,
                 body: markdown2Html(fields.body, true, Platform.OS === 'android'),
-                created: createdAt.toISOString(),
-                expiresAt: createdAt.getTime() + 600000
               }
             )
           )

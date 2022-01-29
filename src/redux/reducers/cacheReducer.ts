@@ -14,8 +14,12 @@ export interface Comment {
     parent_author:string,
     parent_permlink:string,
     body:string,
-    created:string,
-    expiresAt:number,
+    author_reputation?:number,
+    total_payout?:number,
+    net_rshares?:number,
+    active_votes?:Array<{rshares:number, voter:string}>,
+    created?:string,
+    expiresAt?:number,
 }
 
 interface State {

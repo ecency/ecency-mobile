@@ -136,7 +136,6 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
             );
 
             //add comment cache entry
-            const createdAt = new Date();
             dispatch(
               updateCommentCache(
                 `${parentAuthor}/${parentPermlink}`,
@@ -146,8 +145,6 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
                   parent_author:parentAuthor,
                   parent_permlink:parentPermlink,
                   body: markdown2Html(commentValue, true, Platform.OS === 'android'),
-                  created: createdAt.toISOString(),
-                  expiresAt: createdAt.getTime() + 600000
                 }
               )
             )
