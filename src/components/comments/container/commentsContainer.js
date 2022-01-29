@@ -183,17 +183,32 @@ const CommentsContainer = ({
     if (cachedComments.has(postPath)) {
       const cachedComment = cachedComments.get(postPath);
 
-      var blockUpdated = false;
-      comments.forEach((comment) => {
+      var ignoreCache = false;
+      var replaceAtIndex = -1;
+      comments.forEach((comment, index) => {
         if (cachedComment.permlink === comment.permlink) {
-          blockUpdated = true;
-          console.log('Ignore cache as comment is now present');
+          if (cachedComment.updated < comment.updated) {
+            //comment is present with latest data
+            ignoreCache = true;
+            console.log('Ignore cache as comment is now present');
+          } else {
+            //comment is present in list but data is old
+            replaceAtIndex = index;
+          }
         }
       });
 
-      if (!blockUpdated) {
+      //manipulate comments with cached data
+      if (!ignoreCache) {
+        let newComments = [];
+        if (replaceAtIndex >= 0) {
+          comments[replaceAtIndex] = cachedComment;
+          newComments = [...comments];
+        } else {
+          newComments = [...comments, cachedComment];
+        }
+
         console.log('updated comments with cached comment');
-        const newComments = [...comments, cachedComment];
         if (passedComments) {
           return newComments;
         } else {
