@@ -1,7 +1,6 @@
-import React, { Fragment, Component, useState, useRef, useEffect } from 'react';
+import React, { Fragment, useState, useRef } from 'react';
 import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
-import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
@@ -20,6 +19,7 @@ import {
 } from '../../../components';
 
 import styles from './transferStyles';
+import { OptionsModal } from '../../../components/atoms';
 
 const TransferView = ({
   currentAccountName,
@@ -275,7 +275,7 @@ const TransferView = ({
           </View>
         </ScrollView>
       </View>
-      <ActionSheet
+      <OptionsModal
         ref={confirm}
         options={[
           intl.formatMessage({ id: 'alert.confirm' }),
