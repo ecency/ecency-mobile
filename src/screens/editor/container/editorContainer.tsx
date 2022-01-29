@@ -794,8 +794,8 @@ class EditorContainer extends Component {
   };
 
   _submitEdit = async (fields) => {
-    const { currentAccount, pinCode } = this.props;
-    const { post, isEdit, isPostSending, thumbIndex } = this.state;
+    const { currentAccount, pinCode, dispatch } = this.props;
+    const { post, isEdit, isPostSending, thumbIndex, isReply } = this.state;
 
     if (isPostSending) {
       return;
@@ -831,6 +831,7 @@ class EditorContainer extends Component {
       } catch (e) {
         jsonMeta = makeJsonMetadata(meta, tags);
       }
+      
       await postContent(
         currentAccount,
         pinCode,
@@ -845,8 +846,27 @@ class EditorContainer extends Component {
         isEdit,
       )
         .then(() => {
-          AsyncStorage.setItem('temp-reply', '');
+          
           this._handleSubmitSuccess();
+          if(isReply){
+            AsyncStorage.setItem('temp-reply', '');
+            dispatch(
+              updateCommentCache(
+                `${parentAuthor}/${parentPermlink}`,
+                {
+                  author:currentAccount.name,
+                  permlink,
+                  parent_author:parentAuthor,
+                  parent_permlink:parentPermlink,
+                  body:markdown2Html(newBody, true, Platform.OS === 'android'),
+                  active_votes:post.active_votes,
+                  net_rshares:post.net_rshares,
+                  author_reputation:post.author_reputation,
+                  total_payout:post.total_payout,
+                }
+              )
+            )
+          }
         })
         .catch((error) => {
           this._handleSubmitFailure(error);
