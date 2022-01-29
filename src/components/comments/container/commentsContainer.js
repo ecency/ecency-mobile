@@ -45,6 +45,7 @@ const CommentsContainer = ({
   showAllComments,
   hideManyCommentsButton,
   flatListProps,
+  fetchedAt,
 }) => {
   const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
   const cachedComments = useAppSelector((state) => state.cache.comments);
@@ -69,7 +70,8 @@ const CommentsContainer = ({
     if (
       lastCacheUpdate &&
       lastCacheUpdate.postPath === postPath &&
-      lastCacheUpdate.type === 'comment'
+      lastCacheUpdate.type === 'comment' &&
+      lastCacheUpdate.updatedAt > fetchedAt
     ) {
       _handleCachedComment();
     }

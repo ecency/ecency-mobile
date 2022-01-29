@@ -247,6 +247,7 @@ const PostDisplayView = ({
             commentCount={post.children}
             fetchPost={fetchPost}
             handleOnVotersPress={handleOnVotersPress}
+            fetchedAt={post.post_fetched_at}
           />
         )}
       </ScrollView>
