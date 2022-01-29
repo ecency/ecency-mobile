@@ -48,7 +48,7 @@ import bugsnapInstance from '../../../config/bugsnag';
 import { removeBeneficiaries, setBeneficiaries } from '../../../redux/actions/editorActions';
 import { TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
-import { markdown2Html } from '@ecency/render-helper/lib/markdown-2-html';
+import { renderPostBody } from '@ecency/render-helper';
 
 /*
  *            Props Name        Description                                     Value
@@ -781,7 +781,7 @@ class EditorContainer extends Component {
                 permlink,
                 parent_author:parentAuthor,
                 parent_permlink:parentPermlink,
-                body: markdown2Html(fields.body, true, Platform.OS === 'android'),
+                markdownBody: fields.body,
               }
             )
           )
@@ -846,7 +846,6 @@ class EditorContainer extends Component {
         isEdit,
       )
         .then(() => {
-          
           this._handleSubmitSuccess();
           if(isReply){
             AsyncStorage.setItem('temp-reply', '');
@@ -858,12 +857,14 @@ class EditorContainer extends Component {
                   permlink,
                   parent_author:parentAuthor,
                   parent_permlink:parentPermlink,
-                  body:markdown2Html(newBody, true, Platform.OS === 'android'),
+                  markdownBody:body,
                   active_votes:post.active_votes,
                   net_rshares:post.net_rshares,
                   author_reputation:post.author_reputation,
                   total_payout:post.total_payout,
-                }
+                  created:post.created,
+                },
+                true
               )
             )
           }

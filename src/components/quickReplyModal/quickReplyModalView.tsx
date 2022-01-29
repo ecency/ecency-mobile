@@ -16,7 +16,7 @@ import { default as ROUTES } from '../../constants/routeNames';
 import get from 'lodash/get';
 import { navigate } from '../../navigation/service';
 import { Portal } from 'react-native-portalize';
-import { markdown2Html } from '@ecency/render-helper/lib/markdown-2-html';
+import { renderPostBody } from '@ecency/render-helper';
 
 export interface QuickReplyModalProps {}
 
@@ -144,7 +144,7 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
                   permlink,
                   parent_author:parentAuthor,
                   parent_permlink:parentPermlink,
-                  body: markdown2Html(commentValue, true, Platform.OS === 'android'),
+                  markdownBody: commentValue,
                 }
               )
             )
