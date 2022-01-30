@@ -36,7 +36,6 @@ import {
   makeJsonMetadata,
   makeOptions,
   extractMetadata,
-  makeJsonMetadataReply,
   makeJsonMetadataForUpdate,
   createPatch,
   extractImageUrls,
@@ -48,7 +47,6 @@ import bugsnapInstance from '../../../config/bugsnag';
 import { removeBeneficiaries, setBeneficiaries } from '../../../redux/actions/editorActions';
 import { TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
-import { renderPostBody } from '@ecency/render-helper';
 
 /*
  *            Props Name        Description                                     Value
@@ -782,6 +780,9 @@ class EditorContainer extends Component {
                 parent_author:parentAuthor,
                 parent_permlink:parentPermlink,
                 markdownBody: fields.body,
+              },
+              {
+                parentTags
               }
             )
           )
@@ -863,8 +864,11 @@ class EditorContainer extends Component {
                   author_reputation:post.author_reputation,
                   total_payout:post.total_payout,
                   created:post.created,
+                  json_metadata:jsonMeta
                 },
-                true
+                {
+                  isUpdate:true
+                }
               )
             )
           }

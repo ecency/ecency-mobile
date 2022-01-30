@@ -145,6 +145,9 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
                   parent_author:parentAuthor,
                   parent_permlink:parentPermlink,
                   markdownBody: commentValue,
+                },
+                {
+                  parentTags
                 }
               )
             )

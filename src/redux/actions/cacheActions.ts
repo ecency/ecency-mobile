@@ -1,11 +1,14 @@
 import { renderPostBody } from '@ecency/render-helper';
 import { Platform } from 'react-native';
+import { makeJsonMetadataReply } from '../../utils/editor';
 import {
     UPDATE_VOTE_CACHE,
     PURGE_EXPIRED_CACHE,
     UPDATE_COMMENT_CACHE
   } from '../constants/constants';
 import { Comment, Vote } from '../reducers/cacheReducer';
+
+
   
   
   export const updateVoteCache = (postPath:string, vote:Vote) => ({
@@ -17,15 +20,24 @@ import { Comment, Vote } from '../reducers/cacheReducer';
     })
 
 
-  export const updateCommentCache = (commentPath:string, comment:Comment, isUpdate:boolean = false) => {
+    interface CommentCacheOptions {
+      isUpdate?:boolean;
+      parentTags?:Array<string>;
+    }
+
+  export const updateCommentCache = (commentPath:string, comment:Comment, options:CommentCacheOptions = {isUpdate:false}) => {
 
     console.log("body received:", comment.markdownBody);
     const updated = new Date();
     updated.setSeconds(updated.getSeconds() - 5); //make cache delayed by 5 seconds to avoid same updated stamp in post data
     const updatedStamp = updated.toISOString().substring(0, 19); //server only return 19 character time string without timezone part
     
-    if(isUpdate && !comment.created){
+    if(options.isUpdate && !comment.created){
       throw new Error("For comment update, created prop must be provided from original comment data to update local cache");
+    }
+
+    if(!options.parentTags && !comment.json_metadata){
+      throw new Error("either of json_metadata in comment data or parentTags in options must be provided");
     }
 
     comment.created = comment.created || updatedStamp;  //created will be set only once for new comment;
@@ -35,6 +47,7 @@ import { Comment, Vote } from '../reducers/cacheReducer';
     comment.net_rshares = comment.net_rshares || 0;
     comment.author_reputation = comment.author_reputation || 25;
     comment.total_payout = comment.total_payout || 0;
+    comment.json_metadata = comment.json_metadata || makeJsonMetadataReply(options.parentTags)
 
     comment.body = renderPostBody({
       author:comment.author,

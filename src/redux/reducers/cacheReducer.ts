@@ -19,6 +19,7 @@ export interface Comment {
     total_payout?:number,
     net_rshares?:number,
     active_votes?:Array<{rshares:number, voter:string}>,
+    json_metadata?:any,
     created?:string, //handle created and updated separatly
     updated?:string,
     expiresAt?:number,
