@@ -4,7 +4,8 @@ import { makeJsonMetadataReply } from '../../utils/editor';
 import {
     UPDATE_VOTE_CACHE,
     PURGE_EXPIRED_CACHE,
-    UPDATE_COMMENT_CACHE
+    UPDATE_COMMENT_CACHE,
+    DELETE_COMMENT_CACHE_ENTRY
   } from '../constants/constants';
 import { Comment, Vote } from '../reducers/cacheReducer';
 
@@ -64,6 +65,11 @@ import { Comment, Vote } from '../reducers/cacheReducer';
         type: UPDATE_COMMENT_CACHE
       })
     }
+
+  export const deleteCommentCacheEntry = (commentPath:string) => ({
+    payload:commentPath,
+    type: DELETE_COMMENT_CACHE_ENTRY
+  })
   
   export const purgeExpiredCache = () => ({
     type: PURGE_EXPIRED_CACHE

@@ -19,6 +19,7 @@ import ROUTES from '../../../constants/routeNames';
 // Component
 import CommentsView from '../view/commentsView';
 import { useAppSelector } from '../../../hooks';
+import { deleteCommentCacheEntry } from '../../../redux/actions/cacheActions';
 
 const CommentsContainer = ({
   author,
@@ -261,12 +262,25 @@ const CommentsContainer = ({
     let filteredComments;
 
     deleteComment(currentAccount, pinCode, _permlink).then(() => {
+      let cachePath = null;
+      const _applyFilter = (item) => {
+        if (item.permlink === _permlink) {
+          cachePath = `${item.parent_author}/${item.parent_permlink}`;
+          return false;
+        }
+        return true;
+      };
+
       if (lcomments.length > 0) {
-        filteredComments = lcomments.filter((item) => item.permlink !== _permlink);
+        filteredComments = lcomments.filter(_applyFilter);
+        setLComments(filteredComments);
       } else {
-        filteredComments = comments.filter((item) => item.permlink !== _permlink);
+        filteredComments = replies.filter(_applyFilter);
+        setReplies(filteredComments);
       }
-      setLComments(filteredComments);
+
+      // remove cached entry based on parent
+      dispatch(deleteCommentCacheEntry(cachePath));
     });
   };
 

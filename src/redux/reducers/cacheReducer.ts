@@ -1,4 +1,4 @@
-import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE, UPDATE_COMMENT_CACHE } from "../constants/constants";
+import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE, UPDATE_COMMENT_CACHE, DELETE_COMMENT_CACHE_ENTRY } from "../constants/constants";
 
 export interface Vote {
     amount:number;
@@ -71,6 +71,13 @@ const initialState:State = {
                     type:'comment'
                 }
             };
+
+        case DELETE_COMMENT_CACHE_ENTRY:
+            if(state.comments && state.comments.has(payload)){
+                state.comments.delete(payload);
+            }
+            return { ...state }
+            
         case PURGE_EXPIRED_CACHE:
             const currentTime = new Date().getTime();
 
