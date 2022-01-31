@@ -75,8 +75,9 @@ const SideMenuView = ({
     }
 
     if (item.id === 'refer') {
+      const shareUrl = `https://ecency.com/signup?referral=${currentAccount.username}`;
       Share.share({
-        url: `https://ecency.com/signup?referral=${currentAccount.username}`,
+        message: shareUrl,
       });
       return;
     }
