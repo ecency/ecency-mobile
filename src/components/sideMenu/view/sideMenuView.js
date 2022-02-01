@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import { injectIntl, useIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
-import ActionSheet from 'react-native-actionsheet';
 import VersionNumber from 'react-native-version-number';
 import { isEmpty } from 'lodash';
 import { getStorageType } from '../../../realm/realm';
@@ -28,6 +27,7 @@ import { getVotingPower } from '../../../utils/manaBar';
 
 // Styles
 import styles from './sideMenuStyles';
+import { OptionsModal } from '../../atoms';
 
 // Images
 const SIDE_MENU_BACKGROUND = require('../../../assets/side_menu_background.png');
@@ -75,8 +75,9 @@ const SideMenuView = ({
     }
 
     if (item.id === 'refer') {
+      const shareUrl = `https://ecency.com/signup?referral=${currentAccount.username}`;
       Share.share({
-        url: `https://ecency.com/signup?referral=${currentAccount.username}`,
+        message: shareUrl,
       });
       return;
     }
@@ -165,7 +166,7 @@ const SideMenuView = ({
         <FlatList data={menuItems} keyExtractor={(item) => item.id} renderItem={_renderItem} />
       </View>
       <Text style={styles.versionText}>{`v${appVersion}, ${buildVersion}${storageT}`}</Text>
-      <ActionSheet
+      <OptionsModal
         ref={ActionSheetRef}
         options={[
           intl.formatMessage({ id: 'side_menu.logout' }),

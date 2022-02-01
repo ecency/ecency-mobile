@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect, Fragment } from 'react';
-import ActionSheet from 'react-native-actionsheet';
 import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { injectIntl } from 'react-intl';
 import ImageSize from 'react-native-image-size';
@@ -11,6 +10,7 @@ import { getTimeFromNow } from '../../../utils/time';
 import { PostHeaderDescription } from '../../postElements';
 import { IconButton } from '../../iconButton';
 import ProgressiveImage from '../../progressiveImage';
+import { OptionsModal } from '../../atoms';
 
 // Styles
 import styles from './draftListItemStyles';
@@ -95,7 +95,7 @@ const DraftListItemView = ({
         </View>
       </View>
 
-      <ActionSheet
+      <OptionsModal
         ref={actionSheet}
         options={[
           intl.formatMessage({ id: 'alert.delete' }),

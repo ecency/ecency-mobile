@@ -4,7 +4,6 @@ import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
-import ActionSheet from 'react-native-actionsheet';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -28,6 +27,7 @@ import { vestsToHp } from '../../../utils/conversions';
 
 // Styles
 import styles from './transferStyles';
+import { OptionsModal } from '../../../components/atoms';
 
 class DelegateScreen extends Component {
   constructor(props) {
@@ -222,7 +222,7 @@ class DelegateScreen extends Component {
             </MainButton>
           </View>
         </View>
-        <ActionSheet
+        <OptionsModal
           ref={this.startActionSheet}
           options={[
             intl.formatMessage({ id: 'alert.confirm' }),

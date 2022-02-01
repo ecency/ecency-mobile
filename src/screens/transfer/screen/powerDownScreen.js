@@ -1,7 +1,6 @@
 /* eslint-disable react/no-unused-state */
 import React, { Fragment, Component } from 'react';
 import { Text, View, ScrollView, Alert } from 'react-native';
-import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
@@ -28,6 +27,7 @@ import { vestsToHp } from '../../../utils/conversions';
 import { isEmptyDate } from '../../../utils/time';
 
 import styles from './transferStyles';
+import { OptionsModal } from '../../../components/atoms';
 /* Props
  * ------------------------------------------------
  *   @prop { type }    name                - Description....
@@ -327,7 +327,7 @@ class PowerDownView extends Component {
             </View>
           </ScrollView>
         </View>
-        <ActionSheet
+        <OptionsModal
           ref={this.startActionSheet}
           options={[
             intl.formatMessage({ id: 'alert.confirm' }),
@@ -338,7 +338,7 @@ class PowerDownView extends Component {
           destructiveButtonIndex={0}
           onPress={(index) => (index === 0 ? this._handleTransferAction() : null)}
         />
-        <ActionSheet
+        <OptionsModal
           ref={this.stopActionSheet}
           options={[
             intl.formatMessage({ id: 'alert.confirm' }),

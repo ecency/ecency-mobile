@@ -1118,6 +1118,11 @@
   resolved "https://registry.yarnpkg.com/@formatjs/intl-utils/-/intl-utils-2.3.0.tgz#2dc8c57044de0340eb53a7ba602e59abf80dc799"
   integrity sha512-KWk80UPIzPmUg+P0rKh6TqspRw0G6eux1PuJr+zz47ftMaZ9QDwbGzHZbtzWkl5hgayM/qrKRutllRC7D/vVXQ==
 
+"@formidable-webview/webshell@^2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@formidable-webview/webshell/-/webshell-2.6.0.tgz#64704c0b513206e71b23118b3c9d096f0d545005"
+  integrity sha512-FwQQDajg1xs7W3CUiUNJMvdjgLjKLDGzs0XPzoVg0Dunhold1Jg7w5pihUdvVugFlNtkSpXMA+du9QDHE8lmpg==
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
@@ -1411,6 +1416,21 @@
   dependencies:
     css-to-react-native "^3.0.0"
     csstype "^3.0.8"
+
+"@native-html/iframe-plugin@^2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@native-html/iframe-plugin/-/iframe-plugin-2.6.1.tgz#5b9c36d9d500f82f0bcf654bc005922df4211158"
+  integrity sha512-PM2vFNT44n/UkCm9+OUn+cNSKgiMjaw7c7/2JnnztHDLVMtPIf52K/86miWNpQpxFoy1ouoLVOvfjFRhoPXjag==
+  dependencies:
+    "@formidable-webview/webshell" "^2.6.0"
+    "@native-html/plugins-core" "1.3.0"
+    "@types/prop-types" "^15.7.4"
+    prop-types "^15.7.2"
+
+"@native-html/plugins-core@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@native-html/plugins-core/-/plugins-core-1.3.0.tgz#f1f24622097551930d9dab0214c4929d00f7446e"
+  integrity sha512-vce35gqGJKa2oPDZVa2sKjucFFVK+3g8quLayeXiJtj5LzuS8TWGrBFTS5O4ToUtE02AJkCDOLwAguCzK2HWdQ==
 
 "@native-html/transient-render-engine@^9.2.2":
   version "9.2.2"
@@ -1783,6 +1803,11 @@
   version "15.7.3"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
   integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
+
+"@types/prop-types@^15.7.4":
+  version "15.7.4"
+  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.4.tgz#fcf7205c25dff795ee79af1e30da2c9790808f11"
+  integrity sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ==
 
 "@types/ramda@^0.27.40":
   version "0.27.44"
@@ -8599,10 +8624,10 @@ react-native-matomo-sdk@feruzm/react-native-matomo-sdk:
   version "0.4.1"
   resolved "https://codeload.github.com/feruzm/react-native-matomo-sdk/tar.gz/392b1cfca771b28005821ef909ffb9a2082156d9"
 
-react-native-modal-dropdown@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-modal-dropdown/-/react-native-modal-dropdown-1.0.1.tgz#24a9396dcb5dadf92feea1deae1089bcef054b20"
-  integrity sha512-7QAuKvdsIMvz5N2FnRGrZKb+JR3bYFFelONdmfwp1UW3acOyrhF32H06aMD09x2PdBz3VaR5+3iApt9FYClktQ==
+react-native-modal-dropdown@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-modal-dropdown/-/react-native-modal-dropdown-1.0.2.tgz#3e1efae5a5eacc42f44ac96468ea2f1b5bb0d759"
+  integrity sha512-X13RbwoQdaOb9Ffi7fjRVwh9OXauXIJhum0uXGzYZLMyoCQ5yt5cxf27P/YZbdh80Fb7bdPx6vTA4PTpUK2WDQ==
   dependencies:
     prop-types "^15.6.0"
 

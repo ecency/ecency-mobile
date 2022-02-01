@@ -110,4 +110,31 @@ export default EStyleSheet.create({
       bottom: 56,
     },
   }),
+  searchAccountsContainer: Platform.select({
+    //absolute positioning makes button hide behind keyboard on ios
+    ios: {
+      marginBottom: 12,
+      paddingTop: 8,
+    },
+    //on android the appearing of button was causing momentary glitch with ios variant style
+    android: {
+      position: 'absolute',
+      bottom: 56,
+    },
+  }),
+  userBubble: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 4,
+    paddingHorizontal: 4,
+    paddingVertical: 4,
+    backgroundColor: '$primaryBlue',
+    borderRadius: 24,
+  },
+  userBubbleText: {
+    fontSize: 16,
+    color: '$white',
+    marginLeft: 6,
+    marginRight: 8,
+  },
 });

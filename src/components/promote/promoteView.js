@@ -3,7 +3,6 @@ import { injectIntl } from 'react-intl';
 import { Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { WebView } from 'react-native-webview';
 import get from 'lodash/get';
-import ActionSheet from 'react-native-actionsheet';
 import Autocomplete from '@esteemapp/react-native-autocomplete-input';
 import { ScaleSlider, TextInput } from '..';
 import { hsOptions } from '../../constants/hsOptions';
@@ -23,6 +22,7 @@ import { PROMOTE_PRICING, PROMOTE_DAYS } from '../../constants/options/points';
 
 // Styles
 import styles from './promoteStyles';
+import { OptionsModal } from '../atoms';
 
 const PromoteView = ({
   intl,
@@ -214,7 +214,7 @@ const PromoteView = ({
           </View>
         </ScrollView>
       </View>
-      <ActionSheet
+      <OptionsModal
         ref={startActionSheet}
         options={[
           intl.formatMessage({ id: 'alert.confirm' }),
