@@ -307,7 +307,7 @@ const MarkdownEditorView = ({
             animation="bounceInRight"
             onAnimationEnd={() => tooltipRef.current?.openTooltip()}
           >
-            <Tooltip ref={tooltipRef} text="Draft">
+            <Tooltip ref={tooltipRef} text="This is Draft" walkthroughId="DRAFT_BTN_TOOLTIP">
               <MainButton
                 style={{ width: isLoading ? null : 120 }}
                 onPress={_onPress}

@@ -1,13 +1,16 @@
-import React, { forwardRef, Fragment, useImperativeHandle } from 'react';
-import { View, Text, TouchableOpacity, Button } from 'react-native';
+import React, { forwardRef, useImperativeHandle } from 'react';
+import { View, Text } from 'react-native';
 import { Popover, usePopover } from 'react-native-modal-popover';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerTooltip } from '../../redux/actions/tooltipsActions';
 
 import styles from './tooltipStyles';
 interface TooltipProps {
   children?: any;
   text?: string;
+  walkthroughId?: string;
 }
-const Tooltip = ({ children, text }: TooltipProps, ref) => {
+const Tooltip = ({ children, text, walkthroughId }: TooltipProps, ref) => {
   const {
     openPopover,
     closePopover,
@@ -16,11 +19,15 @@ const Tooltip = ({ children, text }: TooltipProps, ref) => {
     popoverAnchorRect,
   } = usePopover();
 
+  const dispatch = useDispatch();
+  const isTooltipDone = useSelector((state) => state.tooltips.isDone);
+
   useImperativeHandle(ref, () => ({
     openTooltip() {
-      openPopover();
+      !isTooltipDone && openPopover();
     },
     closeTooltip() {
+      !isTooltipDone && dispatch(registerTooltip(walkthroughId));
       closePopover();
     },
   }));
@@ -33,7 +40,7 @@ const Tooltip = ({ children, text }: TooltipProps, ref) => {
         contentStyle={styles.popoverDetails}
         arrowStyle={styles.arrow}
         visible={popoverVisible}
-        onClose={closePopover}
+        onClose={ref?.current?.closeTooltip}
         fromRect={popoverAnchorRect}
         placement="top"
         supportedOrientations={['portrait', 'landscape']}
