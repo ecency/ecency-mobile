@@ -363,6 +363,8 @@
     "title": "Yüklenen görseller",
     "title_remove_confirmation": "Görseli sil",
     "btn_add": "Görsel",
+    "btn_insert": "INSERT",
+    "btn_delete": "DELETE",
     "message_failed": "Görsel yüklenemedi"
   },
   "pincode": {
