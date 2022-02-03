@@ -363,6 +363,8 @@
     "title": "Yüklənilən təsvirlər",
     "title_remove_confirmation": "Təsviri sil",
     "btn_add": "Təsvir",
+    "btn_insert": "INSERT",
+    "btn_delete": "DELETE",
     "message_failed": "Təsvir yüklənmədi"
   },
   "pincode": {
