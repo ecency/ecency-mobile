@@ -7,6 +7,7 @@ import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
 import { useHtmlIframeProps, iframeModel } from '@native-html/iframe-plugin';
 import WebView from 'react-native-webview';
 import { VideoPlayer } from '..';
+import { Platform } from 'react-native';
 
 interface PostHtmlRendererProps {
   contentWidth: number;
@@ -136,7 +137,10 @@ export const PostHtmlRenderer = memo(
 
       //process video link
       if(tnode.classes?.indexOf('markdown-video-link') >= 0){
-        if(isComment){
+
+        //TODO: remove android check when fix for react-native-weview scroll crash is available
+        //ref: https://github.com/react-native-webview/react-native-webview/issues/2364
+        if(isComment || Platform.OS === 'android'){
           const imgElement = tnode.children.find((child) => {
             return child.classes.indexOf('video-thumbnail') > 0 ? true : false;
           });
@@ -225,17 +229,30 @@ export const PostHtmlRenderer = memo(
       const checkSrcRegex = /(.*?)\.(mp4|webm|ogg)$/gi;
       const isVideoFormat = iframeProps.source.uri.match(checkSrcRegex);
 
-      //this hack help avoid autoplaying fullscreened iframe videos;
-      const src = isVideoFormat ? 
-        {
-          html: `
-            <video width="100%" height="auto"  controls>
-              <source src="${iframeProps.source.uri}" type="video/mp4">
-            </video>`,
-        }:{
-          uri: iframeProps.source.uri,
-        };
+       //this hack help avoid autoplaying fullscreened iframe videos;
+       const src = isVideoFormat ? 
+       {
+         html: `
+           <video width="100%" height="auto"  controls>
+             <source src="${iframeProps.source.uri}" type="video/mp4">
+           </video>`,
+       }:{
+         uri: iframeProps.source.uri,
+       };
 
+       //TODO: remove android check logic when fix for react-native-webiew scrollview crash is available
+       //ref: https://github.com/react-native-webview/react-native-webview/issues/2364
+      if(isComment || Platform.OS === 'android'){
+        const _onPress = () => {
+          console.log('iframe thumb Pressed:', iframeProps);
+          if (handleVideoPress) {
+            handleVideoPress(iframeProps.source.uri);
+          }
+        };
+        return (
+          <VideoThumb contentWidth={contentWidth} onPress={_onPress} />
+        )
+      }else{
         return (
           <VideoPlayer 
             mode='source'
@@ -243,6 +260,8 @@ export const PostHtmlRenderer = memo(
             contentWidth={contentWidth}
           />
         );
+      }
+
     };
 
     return (
