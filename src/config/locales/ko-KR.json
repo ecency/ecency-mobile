@@ -363,6 +363,8 @@
     "title": "이미지 업로드",
     "title_remove_confirmation": "이미지 삭제",
     "btn_add": "이미지",
+    "btn_insert": "INSERT",
+    "btn_delete": "DELETE",
     "message_failed": "이미지 업로드에 실패"
   },
   "pincode": {
