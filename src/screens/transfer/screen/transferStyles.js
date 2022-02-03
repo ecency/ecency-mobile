@@ -6,6 +6,18 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
     justifyContent: 'center',
   },
+  stepOneContainer: {
+    flex: 2,
+    zIndex: 1,
+  },
+  stepTwoContainer: {
+    flex: 3,
+    paddingTop: 12,
+  },
+  stepThreeContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
   topContent: {
     flexDirection: 'row',
     flex: 1,

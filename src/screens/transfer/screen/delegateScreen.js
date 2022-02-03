@@ -25,6 +25,7 @@ import {
 import parseToken from '../../../utils/parseToken';
 import { isEmptyDate } from '../../../utils/time';
 import { vestsToHp } from '../../../utils/conversions';
+import TransferFormItemView from '../../../components/transferFormItem/view/transferFormItemView';
 
 // Styles
 import styles from './transferStyles';
@@ -53,6 +54,7 @@ class DelegateScreen extends Component {
       destination: '',
       steemConnectTransfer: false,
       usersResult: [],
+      step: 0,
     };
 
     this.startActionSheet = React.createRef();
@@ -89,6 +91,16 @@ class DelegateScreen extends Component {
     }
   };
 
+  _handleAmountChange = (value, availableBalance) => {
+    const parsedValue = parseFloat(Number(value));
+    if (Number.isNaN(parsedValue)) {
+      this.setState({ amount: 0 });
+    } else if (parsedValue > availableBalance) {
+      this.setState({ amount: availableBalance });
+    } else {
+      this.setState({ amount: parsedValue });
+    }
+  };
   _handleTransferAction = () => {
     const { transferToAccount, accountType } = this.props;
     const { from, destination, amount } = this.state;
@@ -145,10 +157,10 @@ class DelegateScreen extends Component {
       keyExtractor={(item) => `searched-user-${item}`}
       style={styles.usersDropdown}
       ListFooterComponent={<View />}
-      ListFooterComponentStyle={{ height: 20 }}
+      ListFooterComponentStyle={{ height: 20 }} //this fixes the last item visibility bug
     />
   );
-  _renderInput = (placeholder, state, keyboardType, isTextArea) => {
+  _renderInput = (placeholder, state, keyboardType, availableVestingShares, isTextArea) => {
     switch (state) {
       case 'destination':
         return (
@@ -179,8 +191,10 @@ class DelegateScreen extends Component {
         return (
           <TextInput
             style={[isTextArea ? styles.textarea : styles.input]}
-            onChangeText={(amount) => this._handleOnAmountChange(state, amount)}
-            value={this.state[state]}
+            onChangeText={(amount) => {
+              this._handleAmountChange(amount, availableVestingShares);
+            }}
+            value={this.state.amount.toString()}
             placeholder={placeholder}
             placeholderTextColor="#c1c5c7"
             autoCapitalize="none"
@@ -207,7 +221,7 @@ class DelegateScreen extends Component {
       hivePerMVests,
       accountType,
     } = this.props;
-    const { amount, isTransfering, from, destination, steemConnectTransfer } = this.state;
+    const { amount, isTransfering, from, destination, steemConnectTransfer, step } = this.state;
     let availableVestingShares = 0;
     if (!isEmptyDate(get(selectedAccount, 'next_vesting_withdrawal'))) {
       // powering down
@@ -229,64 +243,94 @@ class DelegateScreen extends Component {
     )}`;
 
     const spCalculated = vestsToHp(amount, hivePerMVests);
+    const totalHP = vestsToHp(availableVestingShares, hivePerMVests);
+    const _renderStepOne = () => (
+      <View style={styles.stepOneContainer}>
+        <View style={styles.topContent}>
+          <UserAvatar username={from} size="xl" style={styles.userAvatar} noAction />
+          <Icon style={styles.icon} name="arrow-forward" iconType="MaterialIcons" />
+          <UserAvatar username={destination} size="xl" style={styles.userAvatar} noAction />
+        </View>
+        <TransferFormItem
+          label={intl.formatMessage({ id: 'transfer.from' })}
+          rightComponent={() => this._renderDropdown(accounts, currentAccountName)}
+        />
+        <TransferFormItem
+          label={intl.formatMessage({ id: 'transfer.to' })}
+          rightComponent={() =>
+            this._renderInput(
+              intl.formatMessage({ id: 'transfer.to_placeholder' }),
+              'destination',
+              'default',
+            )
+          }
+        />
+      </View>
+    );
+    const _renderStepTwo = () => (
+      <View style={styles.stepTwoContainer}>
+        {/* <TransferFormItem
+          label={intl.formatMessage({ id: 'transfer.amount' })}
+          rightComponent={() => this._renderInformationText(`${amount.toFixed(6)} VESTS`)}
+        /> */}
+        <TransferFormItem
+          label={intl.formatMessage({ id: 'transfer.amount' })}
+          rightComponent={() =>
+            this._renderInput(
+              intl.formatMessage({ id: 'transfer.amount' }),
+              'amount',
+              'number-pad',
+              availableVestingShares,
+            )
+          }
+        />
+
+        <TransferFormItemView
+          rightComponent={() =>
+            this._renderInformationText(`${(availableVestingShares - amount).toFixed(6)} VESTS`)
+          }
+        />
+        <TransferFormItem
+          rightComponent={() =>
+            this._renderInformationText(`${(totalHP - spCalculated).toFixed(3)} HP`)
+          }
+        />
+        <Slider
+          style={styles.slider}
+          trackStyle={styles.track}
+          thumbStyle={styles.thumb}
+          minimumTrackTintColor="#357ce6"
+          thumbTintColor="#007ee5"
+          maximumValue={availableVestingShares}
+          value={amount}
+          onValueChange={(value) => {
+            this.setState({ amount: value });
+          }}
+        />
+        <Text style={styles.informationText}>
+          {intl.formatMessage({ id: 'transfer.amount_information' })}
+        </Text>
+      </View>
+    );
+    const _renderStepThree = () => (
+      <View style={styles.stepThreeContainer}>
+        <MainButton
+          style={styles.button}
+          onPress={() => this.startActionSheet.current.show()}
+          isLoading={isTransfering}
+        >
+          <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
+        </MainButton>
+      </View>
+    );
+
     return (
       <Fragment>
         <BasicHeader title={intl.formatMessage({ id: 'transfer.delegate' })} />
         <View style={styles.container}>
-          <View style={styles.topContent}>
-            <UserAvatar username={from} size="xl" style={styles.userAvatar} noAction />
-            <Icon style={styles.icon} name="arrow-forward" iconType="MaterialIcons" />
-            <UserAvatar username={destination} size="xl" style={styles.userAvatar} noAction />
-          </View>
-          <View style={styles.middleContent}>
-            <TransferFormItem
-              label={intl.formatMessage({ id: 'transfer.from' })}
-              rightComponent={() => this._renderDropdown(accounts, currentAccountName)}
-            />
-            <TransferFormItem
-              label={intl.formatMessage({ id: 'transfer.to' })}
-              rightComponent={() =>
-                this._renderInput(
-                  intl.formatMessage({ id: 'transfer.to_placeholder' }),
-                  'destination',
-                  'default',
-                )
-              }
-              containerStyle={{ zIndex: 1 }}
-            />
-            <TransferFormItem
-              label={intl.formatMessage({ id: 'transfer.amount' })}
-              rightComponent={() => this._renderInformationText(`${amount.toFixed(6)} VESTS`)}
-            />
-
-            <TransferFormItem
-              rightComponent={() => this._renderInformationText(`${spCalculated.toFixed(3)} HP`)}
-            />
-            <Slider
-              style={styles.slider}
-              trackStyle={styles.track}
-              thumbStyle={styles.thumb}
-              minimumTrackTintColor="#357ce6"
-              thumbTintColor="#007ee5"
-              maximumValue={availableVestingShares}
-              value={amount}
-              onValueChange={(value) => {
-                this.setState({ amount: value });
-              }}
-            />
-            <Text style={styles.informationText}>
-              {intl.formatMessage({ id: 'transfer.amount_information' })}
-            </Text>
-          </View>
-          <View style={styles.bottomContent}>
-            <MainButton
-              style={styles.button}
-              onPress={() => this.startActionSheet.current.show()}
-              isLoading={isTransfering}
-            >
-              <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
-            </MainButton>
-          </View>
+          {_renderStepOne()}
+          {_renderStepTwo()}
+          {_renderStepThree()}
         </View>
         <OptionsModal
           ref={this.startActionSheet}
