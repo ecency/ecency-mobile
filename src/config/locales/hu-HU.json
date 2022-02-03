@@ -363,6 +363,8 @@
     "title": "Uploaded Images",
     "title_remove_confirmation": "Delete image",
     "btn_add": "Image",
+    "btn_insert": "INSERT",
+    "btn_delete": "DELETE",
     "message_failed": "Failed to upload image"
   },
   "pincode": {
