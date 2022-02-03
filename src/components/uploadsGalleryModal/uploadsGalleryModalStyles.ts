@@ -22,11 +22,17 @@ export default EStyleSheet.create({
         paddingHorizontal:16
       },
       floatingContainer:{
+        flexDirection:'row',
         position:'absolute',
         bottom:0,
-        right:20,
+        right:0,
+        left: 0,
         justifyContent:'flex-end',
-        zIndex:10
+        alignItems:'center',
+        zIndex:10,
+        paddingVertical:16,
+        paddingHorizontal: 24,
+        backgroundColor:'$primaryBackgroundColor'
       } as ViewStyle,
 
       mediaItem:{
@@ -95,9 +101,14 @@ export default EStyleSheet.create({
 
     } as ViewStyle,
 
-    removeItemContainer:{
+    checkContainer:{
       position:'absolute', 
-      top:16, 
-      right:16
-    } as ViewStyle
+      bottom:20, 
+      right:20
+    } as ViewStyle,
+
+    checkStyle:{
+      backgroundColor:'$white',
+    } as ViewStyle,
+
 })

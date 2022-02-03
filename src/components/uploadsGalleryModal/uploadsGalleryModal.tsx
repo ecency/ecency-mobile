@@ -2,12 +2,13 @@ import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'rea
 import { useIntl } from 'react-intl';
 import {Text, View, FlatList, RefreshControl, TouchableOpacity, Alert, Platform } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { IconButton } from '..';
+import { CheckBox, IconButton, MainButton, TextButton } from '..';
 import { UploadedMedia } from '../../models';
 import { addImage, deleteImage, getImages } from '../../providers/ecency/ecency';
 import Modal from '../modal';
 import styles from './uploadsGalleryModalStyles';
 import { proxifyImageSrc } from '@ecency/render-helper';
+import {View as AnimatedView} from 'react-native-animatable';
 
 
 export interface UploadsGalleryModalRef {
@@ -21,7 +22,7 @@ interface MediaInsertData {
 
 interface UploadsGalleryModalProps {
     username:string;
-    handleOnSelect:(data:MediaInsertData)=>void;
+    handleOnSelect:(data:Array<MediaInsertData>)=>void;
     uploadedImage:MediaInsertData;
 }
 
@@ -30,7 +31,8 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploa
 
     const [mediaUploads, setMediaUploads] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [showModal, setShowModal] = useState(false);   
+    const [showModal, setShowModal] = useState(false);
+    const [indices, setIndices] = useState<Map<number, boolean>>(new Map());
   
 
     useImperativeHandle(ref, () => ({
@@ -43,6 +45,12 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploa
     useEffect(() => {
         _getMediaUploads();
     }, []);
+
+    useEffect(()=>{
+        if(!showModal){
+            setIndices(new Map());
+        }
+    }, [showModal])
 
     useEffect(() => {
         if(uploadedImage){
@@ -67,10 +75,12 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploa
 
 
     // remove image data from user's gallery
-    const _deleteMediaItem = async (id:string) => {
+    const _deleteMedia = async () => {
         try{
             setIsLoading(true);
-            await deleteImage(id)
+            for (const index of indices.keys()) {
+                await deleteImage(mediaUploads[index]._id)
+            }
             await _getMediaUploads();
             setIsLoading(false);
         } catch(err){
@@ -92,44 +102,110 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploa
                 setIsLoading(false);
             }
         }catch(err){
-            console.warn("Failed to get snippets")
+            console.warn("Failed to get images")
             setIsLoading(false);
         }
     }
 
-
-
-  //render list item for snippet and handle actions;
-  const _renderItem = ({ item }:{item:UploadedMedia, index:number}) => {
-
-    const _onPress = () => {
+    //inserts media items in post body
+    const _insertMedia = async (selectedIndex?:number) => {
+        //TODO: debug why insert not working
+        const map = selectedIndex ? new Map([[selectedIndex, true]]) : indices; 
         
-        const data = {
-            url:item.url,
-            hash:item.url.split('/').pop()
-        }
+        const data = []
+        for (const index of map.keys()) {
+            console.log(index)
+            const item = mediaUploads[index]
 
+            data.push({
+                 url:item.url,
+                 hash:item.url.split('/').pop()
+            })
+            
+        }
         handleOnSelect(data)
         setShowModal(false);
     }
 
-    const _onRemovePress = async () => {
-        const _onConfirm = () => {
-            _deleteMediaItem(item._id)
+      //renders footer with add snipept button and shows new snippet modal
+        const _renderFloatingPanel = () => {
+
+            if(!indices.size){
+                return null
+            }
+
+            const _onRemovePress = async () => {
+                const _onConfirm = () => {
+                    _deleteMedia()
+                }
+                Alert.alert(
+                    intl.formatMessage({id:'alert.delete'}),
+                    intl.formatMessage({id:'alert.remove_alert'}),
+                    [{
+                        text:intl.formatMessage({id:'alert.cancel'}),
+                        style:'cancel'
+                    },{
+                        text:intl.formatMessage({id:'alert.confirm'}),
+                        onPress:_onConfirm
+                    }]
+                )
+               
+            }
+            
+            return (
+                <AnimatedView animation={"slideInUp"} duration={300}>
+                    <View style={styles.floatingContainer}>
+                        <TextButton
+                            style={styles.cancelButton}
+                            onPress={_onRemovePress}
+                            text={intl.formatMessage({
+                                id: 'uploads_modal.btn_delete',
+                            })}
+                        />
+                        <MainButton
+                            style={{ width: 136, marginLeft:12}}
+                            onPress={_insertMedia}
+                            iconName="plus"
+                            iconType="MaterialCommunityIcons"
+                            iconColor="white"
+                            text={intl.formatMessage({
+                                id: 'uploads_modal.btn_insert',
+                            })}
+                        />
+                    </View>
+                </AnimatedView>
+
+            );
+        };
+
+
+
+  //render list item for snippet and handle actions;
+  const _renderItem = ({ item, index }:{item:UploadedMedia, index:number}) => {
+
+    const _onCheckPress = () => {
+        //update selection indices
+        if(indices.has(index)){
+            indices.delete(index);
+        }else {
+            indices.set(index, true);
         }
-        Alert.alert(
-            intl.formatMessage({id:'alert.delete'}),
-            intl.formatMessage({id:'alert.remove_alert'}),
-            [{
-                text:intl.formatMessage({id:'alert.cancel'}),
-                style:'cancel'
-            },{
-                text:intl.formatMessage({id:'alert.confirm'}),
-                onPress:_onConfirm
-            }]
-        )
-       
+
+        setIndices(new Map([...indices]));
     }
+
+    const _onPress = () => {
+        
+        if(indices.size){
+          _onCheckPress()
+        }else {
+          _insertMedia(index)
+        }
+
+      
+    }
+
+
 
     const thumbUrl = proxifyImageSrc(item.url, 600, 500, Platform.OS === 'ios' ? 'match' : 'webp');
 
@@ -139,14 +215,11 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploa
             source={{uri:thumbUrl}}
             style={styles.mediaItem}
         />
-        <View style={styles.removeItemContainer}>
-            <IconButton
-                iconStyle={styles.itemIcon}
-                style={styles.itemIconWrapper}
-                iconType="MaterialCommunityIcons"
-                name="delete"
-                onPress={_onRemovePress}
-                size={20}
+        <View style={styles.checkContainer}>
+            <CheckBox
+                isChecked={indices.has(index)}
+                clicked={_onCheckPress}
+                style={styles.checkStyle}
             />
         </View>
         
@@ -176,6 +249,7 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploa
                 keyExtractor={(item) => `item_${item.url}`}
                 renderItem={_renderItem}
                 ListEmptyComponent={_renderEmptyContent}
+                extraData={indices}
                 numColumns={2}
                 refreshControl={
                     <RefreshControl 
@@ -185,6 +259,7 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploa
                 }
             />
             </View>
+            {_renderFloatingPanel()}
         </View>
     )
 
