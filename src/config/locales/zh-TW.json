@@ -363,6 +363,8 @@
     "title": "已上傳的圖片",
     "title_remove_confirmation": "刪除圖片",
     "btn_add": "圖片",
+    "btn_insert": "INSERT",
+    "btn_delete": "DELETE",
     "message_failed": "圖片上傳失效"
   },
   "pincode": {
