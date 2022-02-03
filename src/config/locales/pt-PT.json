@@ -363,6 +363,8 @@
     "title": "Imagens Enviadas",
     "title_remove_confirmation": "Deletar imagem",
     "btn_add": "Imagem",
+    "btn_insert": "INSERT",
+    "btn_delete": "DELETE",
     "message_failed": "Falha ao carregar imagem"
   },
   "pincode": {
