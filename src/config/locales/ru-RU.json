@@ -363,6 +363,8 @@
     "title": "Загруженные изображения",
     "title_remove_confirmation": "Удалить изображение",
     "btn_add": "Изображение",
+    "btn_insert": "INSERT",
+    "btn_delete": "DELETE",
     "message_failed": "Не удалось загрузить изображение"
   },
   "pincode": {
