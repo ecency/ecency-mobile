@@ -363,6 +363,8 @@
     "title": "Imágenes subidas",
     "title_remove_confirmation": "Eliminar imagen",
     "btn_add": "Imágen",
+    "btn_insert": "INSERT",
+    "btn_delete": "DELETE",
     "message_failed": "Error al subir la imagen"
   },
   "pincode": {
