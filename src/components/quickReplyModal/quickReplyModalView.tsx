@@ -147,7 +147,7 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
                   markdownBody: commentValue,
                 },
                 {
-                  parentTags
+                  parentTags: parentTags || ['ecency']
                 }
               )
             )

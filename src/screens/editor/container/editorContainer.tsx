@@ -782,7 +782,7 @@ class EditorContainer extends Component {
                 markdownBody: fields.body,
               },
               {
-                parentTags
+                parentTags: parentTags || ['ecency']
               }
             )
           )
