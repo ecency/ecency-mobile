@@ -82,6 +82,7 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploa
                 await deleteImage(mediaUploads[index]._id)
             }
             await _getMediaUploads();
+            setIndices(new Map());
             setIsLoading(false);
         } catch(err){
             console.warn("failed to remove image from gallery", err)
