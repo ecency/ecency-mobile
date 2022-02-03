@@ -363,6 +363,8 @@
     "title": "الصور المرفوعة",
     "title_remove_confirmation": "حذف الصورة",
     "btn_add": "الصورة",
+    "btn_insert": "INSERT",
+    "btn_delete": "DELETE",
     "message_failed": "فشل في تحميل الصورة"
   },
   "pincode": {
