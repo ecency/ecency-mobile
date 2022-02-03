@@ -25,7 +25,7 @@ export default EStyleSheet.create({
     borderWidth: 1,
     borderColor: '$borderColor',
     borderRadius: 8,
-    padding: 10,
+    paddingHorizontal: 10,
     color: '$primaryBlack',
     width: 172,
     minHeight: 35,
@@ -194,5 +194,34 @@ export default EStyleSheet.create({
   },
   nextPowerDown: {
     marginVertical: 5,
+  },
+  transferToContainer: {
+    flex: 1,
+    width: 172,
+    position: 'relative',
+  },
+  usersDropdownContainer: {
+    position: 'absolute',
+    top: 40,
+    width: 172,
+    maxHeight: 250,
+    flex: 1,
+  },
+  usersDropdown: {
+    borderColor: '$primaryWhiteLightBackground',
+    borderRadius: 5,
+    shadowOpacity: 0.3,
+    shadowColor: '$shadowColor',
+    backgroundColor: '$primaryLightBackground',
+  },
+  usersDropItemRow: {
+    height: 35,
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  usersDropItemRowText: {
+    color: '$primaryDarkGray',
+    textAlign: 'left',
   },
 });

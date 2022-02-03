@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
 
 // Constants
+import { debounce } from 'lodash';
 import AUTH_TYPE from '../../../constants/authType';
 import { hsOptions } from '../../../constants/hsOptions';
 
@@ -30,6 +31,19 @@ import styles from './transferStyles';
 import { OptionsModal } from '../../../components/atoms';
 
 class DelegateScreen extends Component {
+  _handleOnAmountChange = debounce(
+    async (state, amount) => {
+      let _amount = amount.toString();
+      if (_amount.includes(',')) {
+        _amount = amount.replace(',', '.');
+      }
+
+      this._setState(state, _amount);
+    },
+    200,
+    { leading: true },
+  );
+
   constructor(props) {
     super(props);
     this.state = {
@@ -38,6 +52,7 @@ class DelegateScreen extends Component {
       from: props.currentAccountName,
       destination: '',
       steemConnectTransfer: false,
+      usersResult: [],
     };
 
     this.startActionSheet = React.createRef();
@@ -48,16 +63,18 @@ class DelegateScreen extends Component {
   // Component Functions
   _setState = (key, value) => {
     const { getAccountsWithUsername, balance } = this.props;
-
     if (key) {
       switch (key) {
         case 'destination':
           getAccountsWithUsername(value).then((res) => {
             const isValid = res.includes(value);
-
+            this.setState({ usersResult: [...res] });
             this.setState({ isUsernameValid: isValid });
           });
-          this.setState({ [key]: value });
+          if (!value) {
+            this.setState({ destination: '' });
+          }
+
           break;
         case 'amount':
           if (parseFloat(Number(value)) <= parseFloat(balance)) {
@@ -85,15 +102,6 @@ class DelegateScreen extends Component {
     }
   };
 
-  _handleOnAmountChange = (state, amount) => {
-    let _amount = amount.toString();
-    if (_amount.includes(',')) {
-      _amount = amount.replace(',', '.');
-    }
-
-    this._setState(state, _amount);
-  };
-
   _handleOnDropdownChange = (value) => {
     const { fetchBalance } = this.props;
 
@@ -115,19 +123,77 @@ class DelegateScreen extends Component {
     />
   );
 
-  _renderInput = (placeholder, state, keyboardType, isTextArea) => (
-    <TextInput
-      style={[isTextArea ? styles.textarea : styles.input]}
-      onChangeText={(amount) => this._handleOnAmountChange(state, amount)}
-      value={this.state[state]}
-      placeholder={placeholder}
-      placeholderTextColor="#c1c5c7"
-      autoCapitalize="none"
-      multiline={isTextArea}
-      numberOfLines={isTextArea ? 4 : 1}
-      keyboardType={keyboardType}
+  _renderUsersDropdownItem = ({ item }) => {
+    const username = item;
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          this.setState({ destination: username, usersResult: [] });
+        }}
+        style={styles.usersDropItemRow}
+      >
+        <Text style={styles.usersDropItemRowText}>{username}</Text>
+      </TouchableOpacity>
+    );
+  };
+
+  _renderUsersDropdown = () => (
+    <FlatList
+      data={this.state.usersResult}
+      keyboardShouldPersistTaps="always"
+      renderItem={this._renderUsersDropdownItem}
+      keyExtractor={(item) => `searched-user-${item}`}
+      style={styles.usersDropdown}
+      ListFooterComponent={<View />}
+      ListFooterComponentStyle={{ height: 20 }}
     />
   );
+  _renderInput = (placeholder, state, keyboardType, isTextArea) => {
+    switch (state) {
+      case 'destination':
+        return (
+          <View style={styles.transferToContainer}>
+            <TextInput
+              style={[isTextArea ? styles.textarea : styles.input]}
+              onChangeText={(amount) => {
+                this.setState({ destination: amount });
+                this._handleOnAmountChange(state, amount);
+              }}
+              value={this.state[state]}
+              placeholder={placeholder}
+              placeholderTextColor="#c1c5c7"
+              autoCapitalize="none"
+              multiline={isTextArea}
+              numberOfLines={isTextArea ? 4 : 1}
+              keyboardType={keyboardType}
+            />
+
+            <View style={styles.usersDropdownContainer}>
+              {this.state.destination !== '' &&
+                this.state.usersResult.length !== 0 &&
+                this._renderUsersDropdown()}
+            </View>
+          </View>
+        );
+      case 'amount':
+        return (
+          <TextInput
+            style={[isTextArea ? styles.textarea : styles.input]}
+            onChangeText={(amount) => this._handleOnAmountChange(state, amount)}
+            value={this.state[state]}
+            placeholder={placeholder}
+            placeholderTextColor="#c1c5c7"
+            autoCapitalize="none"
+            multiline={isTextArea}
+            numberOfLines={isTextArea ? 4 : 1}
+            keyboardType={keyboardType}
+          />
+        );
+      default:
+        null;
+        break;
+    }
+  };
 
   _renderInformationText = (text) => <Text style={styles.amountText}>{text}</Text>;
 
@@ -163,7 +229,6 @@ class DelegateScreen extends Component {
     )}`;
 
     const spCalculated = vestsToHp(amount, hivePerMVests);
-
     return (
       <Fragment>
         <BasicHeader title={intl.formatMessage({ id: 'transfer.delegate' })} />
@@ -187,6 +252,7 @@ class DelegateScreen extends Component {
                   'default',
                 )
               }
+              containerStyle={{ zIndex: 1 }}
             />
             <TransferFormItem
               label={intl.formatMessage({ id: 'transfer.amount' })}
