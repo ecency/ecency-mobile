@@ -363,6 +363,8 @@
     "title": "Ladatut kuvat",
     "title_remove_confirmation": "Poista kuva",
     "btn_add": "Kuva",
+    "btn_insert": "INSERT",
+    "btn_delete": "DELETE",
     "message_failed": "Kuvan lataaminen epäonnistui"
   },
   "pincode": {
