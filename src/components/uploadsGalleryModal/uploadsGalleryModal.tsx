@@ -2,13 +2,12 @@ import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'rea
 import { useIntl } from 'react-intl';
 import {Text, View, FlatList, RefreshControl, TouchableOpacity, Alert, Platform } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { CheckBox, IconButton, MainButton, TextButton } from '..';
+import { CheckBox, MainButton, TextButton } from '..';
 import { UploadedMedia } from '../../models';
 import { addImage, deleteImage, getImages } from '../../providers/ecency/ecency';
 import Modal from '../modal';
 import styles from './uploadsGalleryModalStyles';
 import { proxifyImageSrc } from '@ecency/render-helper';
-import {View as AnimatedView} from 'react-native-animatable';
 
 
 export interface UploadsGalleryModalRef {
@@ -110,7 +109,6 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploa
 
     //inserts media items in post body
     const _insertMedia = async (selectedIndex?:number) => {
-        //TODO: debug why insert not working
         const map = selectedIndex ? new Map([[selectedIndex, true]]) : indices; 
         
         const data = []
@@ -154,7 +152,6 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploa
             }
             
             return (
-                <AnimatedView animation={"slideInUp"} duration={300}>
                     <View style={styles.floatingContainer}>
                         <TextButton
                             style={styles.cancelButton}
@@ -174,8 +171,6 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploa
                             })}
                         />
                     </View>
-                </AnimatedView>
-
             );
         };
 

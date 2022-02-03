@@ -30,8 +30,8 @@ export default EStyleSheet.create({
         justifyContent:'flex-end',
         alignItems:'center',
         zIndex:10,
-        paddingVertical:16,
-        paddingHorizontal: 24,
+        paddingVertical:8,
+        paddingHorizontal: 16,
         backgroundColor:'$primaryBackgroundColor'
       } as ViewStyle,
 
