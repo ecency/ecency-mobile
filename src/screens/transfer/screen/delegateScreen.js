@@ -324,7 +324,7 @@ class DelegateScreen extends Component {
           onValueChange={(value) => {
             this.setState({ amount: value, hp: vestsToHp(value, hivePerMVests).toFixed(3) });
             if (value !== 0 && value !== availableVestingShares) {
-              this.setState({ step: 3 });
+              this.setState({ step: 3, isAmountValid: true });
             }
           }}
         />
