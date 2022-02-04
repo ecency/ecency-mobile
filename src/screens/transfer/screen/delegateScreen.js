@@ -4,6 +4,7 @@ import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 // Constants
 import { debounce } from 'lodash';
@@ -49,6 +50,7 @@ class DelegateScreen extends Component {
     super(props);
     this.state = {
       amount: 0,
+      isAmountValid: false,
       hp: 0,
       isTransfering: false,
       from: props.currentAccountName,
@@ -93,16 +95,25 @@ class DelegateScreen extends Component {
   };
 
   _handleAmountChange = (hp, availableVests) => {
+    if (!hp) {
+      this.setState({ step: 2, hp: 0, amount: 0, isAmountValid: false });
+      return;
+    }
     const parsedValue = parseFloat(Number(hp));
     const { hivePerMVests } = this.props;
     const vestsForHp = hpToVests(hp, hivePerMVests);
     const totalHP = vestsToHp(availableVests, hivePerMVests).toFixed(3);
     if (Number.isNaN(parsedValue)) {
-      this.setState({ amount: 0, hp: 0, step: 2 });
+      this.setState({ amount: 0, hp: 0, step: 2, isAmountValid: false });
     } else if (parsedValue > totalHP) {
-      this.setState({ amount: hpToVests(totalHP, hivePerMVests), hp: totalHP, step: 2 });
+      this.setState({
+        amount: hpToVests(totalHP, hivePerMVests),
+        hp: totalHP,
+        step: 2,
+        isAmountValid: false,
+      });
     } else {
-      this.setState({ amount: vestsForHp, hp: hp, step: 3 });
+      this.setState({ amount: vestsForHp, hp: parsedValue, step: 3, isAmountValid: true });
     }
   };
   _handleTransferAction = () => {
@@ -166,6 +177,7 @@ class DelegateScreen extends Component {
     />
   );
   _renderInput = (placeholder, state, keyboardType, availableVestingShares, isTextArea) => {
+    const { isAmountValid } = this.state;
     switch (state) {
       case 'destination':
         return (
@@ -195,7 +207,7 @@ class DelegateScreen extends Component {
       case 'amount':
         return (
           <TextInput
-            style={[isTextArea ? styles.textarea : styles.input]}
+            style={[styles.input, !isAmountValid && styles.error]}
             onChangeText={(amount) => {
               this._handleAmountChange(amount, availableVestingShares);
             }}
@@ -249,7 +261,6 @@ class DelegateScreen extends Component {
 
     const spCalculated = vestsToHp(amount, hivePerMVests);
     const totalHP = vestsToHp(availableVestingShares, hivePerMVests);
-    console.log('availableHP : ', vestsToHp(availableVestingShares - amount, hivePerMVests));
     const _renderStepOne = () => (
       <>
         <View style={styles.topContent}>
@@ -334,15 +345,16 @@ class DelegateScreen extends Component {
       </>
     );
 
-    console.log('remaining vests : ', availableVestingShares - amount);
     return (
       <Fragment>
         <BasicHeader title={intl.formatMessage({ id: 'transfer.delegate' })} />
-        <View style={styles.container}>
-          <View style={styles.stepOneContainer}>{_renderStepOne()}</View>
-          <View style={styles.stepTwoContainer}>{step >= 2 && _renderStepTwo()}</View>
-          <View style={styles.stepThreeContainer}>{step >= 3 && _renderStepThree()}</View>
-        </View>
+        <KeyboardAwareScrollView contentContainerStyle={styles.fillSpace} keyboardShouldPersistTaps>
+          <View style={styles.container}>
+            <View style={styles.stepOneContainer}>{_renderStepOne()}</View>
+            <View style={styles.stepTwoContainer}>{step >= 2 && _renderStepTwo()}</View>
+            <View style={styles.stepThreeContainer}>{step >= 3 && _renderStepThree()}</View>
+          </View>
+        </KeyboardAwareScrollView>
         <OptionsModal
           ref={this.startActionSheet}
           options={[

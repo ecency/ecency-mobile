@@ -42,6 +42,10 @@ export default EStyleSheet.create({
     width: 172,
     minHeight: 35,
   },
+  error: {
+    borderWidth: 1,
+    borderColor: 'red',
+  },
   textarea: {
     borderWidth: 1,
     borderColor: '$borderColor',
@@ -241,5 +245,8 @@ export default EStyleSheet.create({
   },
   paddBottom: {
     paddingBottom: 12,
+  },
+  fillSpace: {
+    flex: 1,
   },
 });
