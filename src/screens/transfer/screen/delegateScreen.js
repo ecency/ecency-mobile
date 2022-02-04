@@ -148,6 +148,7 @@ class DelegateScreen extends Component {
         }}
         style={styles.usersDropItemRow}
       >
+        <UserAvatar username={username} noAction />
         <Text style={styles.usersDropItemRowText}>{username}</Text>
       </TouchableOpacity>
     );

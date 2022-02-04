@@ -227,14 +227,17 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryLightBackground',
   },
   usersDropItemRow: {
-    height: 35,
-    justifyContent: 'center',
+    height: 50,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingVertical: 10,
   },
   usersDropItemRowText: {
     color: '$primaryDarkGray',
     textAlign: 'left',
+    marginLeft: 5,
   },
   paddBottom: {
     paddingBottom: 12,
