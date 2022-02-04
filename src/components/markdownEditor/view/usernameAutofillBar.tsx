@@ -29,6 +29,7 @@ export const UsernameAutofillBar = ({text, selection, onApplyUsername}:Props) =>
             } else {
               setSearchedUsers([]);
               setQuery('')
+              _handleUserSearch.cancel();
             }
           }
     }, [text, selection])
@@ -46,7 +47,7 @@ export const UsernameAutofillBar = ({text, selection, onApplyUsername}:Props) =>
         setSearchedUsers(users);
       }
         
-      }, 200);
+      }, 200, {leading:true});
 
 
     

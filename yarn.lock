@@ -8624,10 +8624,10 @@ react-native-matomo-sdk@feruzm/react-native-matomo-sdk:
   version "0.4.1"
   resolved "https://codeload.github.com/feruzm/react-native-matomo-sdk/tar.gz/392b1cfca771b28005821ef909ffb9a2082156d9"
 
-react-native-modal-dropdown@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-modal-dropdown/-/react-native-modal-dropdown-1.0.1.tgz#24a9396dcb5dadf92feea1deae1089bcef054b20"
-  integrity sha512-7QAuKvdsIMvz5N2FnRGrZKb+JR3bYFFelONdmfwp1UW3acOyrhF32H06aMD09x2PdBz3VaR5+3iApt9FYClktQ==
+react-native-modal-dropdown@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-modal-dropdown/-/react-native-modal-dropdown-1.0.2.tgz#3e1efae5a5eacc42f44ac96468ea2f1b5bb0d759"
+  integrity sha512-X13RbwoQdaOb9Ffi7fjRVwh9OXauXIJhum0uXGzYZLMyoCQ5yt5cxf27P/YZbdh80Fb7bdPx6vTA4PTpUK2WDQ==
   dependencies:
     prop-types "^15.6.0"
 
@@ -8856,10 +8856,10 @@ react-native-version@^4.0.0:
     resolve-from "^5.0.0"
     semver "^7.0.0"
 
-react-native-webview@^11.2.1:
-  version "11.2.3"
-  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-11.2.3.tgz#1b82685ab60645d4161f2e25e98286493cdffa5d"
-  integrity sha512-r/K+Lf/O5aij72gRndMX2qsyQ/WLtDPiO75SS57y6JjqSKxedGASVL9Jwl1TM7fCXqUq8dgiwik/LuBHbJXAEg==
+react-native-webview@^11.17.1:
+  version "11.17.1"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-11.17.1.tgz#a7c9d995d749539995a4fdad8aa6456bac77fc8f"
+  integrity sha512-gGdBavATj8Mya2VYZtWtB9cgOAgVJJGlgL5mo/EO8quBeI5L3IBy2ZQolsCyRRGFTUPCc3Ah0OwJal0PjijGqw==
   dependencies:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
