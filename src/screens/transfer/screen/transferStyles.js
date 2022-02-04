@@ -236,4 +236,7 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     textAlign: 'left',
   },
+  paddBottom: {
+    paddingBottom: 12,
+  },
 });
