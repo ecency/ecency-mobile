@@ -27,6 +27,7 @@ import styles from './walletScreenStyles';
 
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
 import { useAppSelector } from '../../../hooks';
+import CurrencyCard from '../children/currencyCard';
 
 const HEADER_EXPANDED_HEIGHT = 312;
 
@@ -123,7 +124,7 @@ const WalletScreen = () => {
   };
 
   const _renderItem = ({ item, index }) => {
-    return <Transaction type={currentIndex} item={item} index={index} />;
+    return <CurrencyCard id={item} />;
   };
 
   const _renderLoading = () => {
@@ -155,32 +156,34 @@ const WalletScreen = () => {
     }
   };
 
+  const data = ['unclaimed', 'ecency', 'hive', 'hive_dollar'];
+
   return (
     <Fragment>
       <Header />
       <SafeAreaView style={globalStyles.defaultContainer}>
         <LoggedInContainer>
           {() => (
-            <>
-              {_renderHeaderComponent()}
-              <View style={globalStyles.listWrapper}>
-                <FlatList
-                  data={filteredActivites}
-                  style={globalStyles.tabBarBottom}
-                  ListEmptyComponent={_renderLoading}
-                  renderItem={_renderItem}
-                  keyExtractor={(item, index) => index.toString()}
-                  maxToRenderPerBatch={5}
-                  initialNumToRender={5}
-                  refreshControl={_refreshControl}
-                  windowSize={5}
-                  onScroll={_onScroll}
-                  onScrollToTop={() => {
-                    setIsExpanded(true);
-                  }}
-                />
-              </View>
-            </>
+            // <>
+            //   {_renderHeaderComponent()}
+            <View style={globalStyles.listWrapper}>
+              <FlatList
+                data={data}
+                style={globalStyles.tabBarBottom}
+                ListEmptyComponent={_renderLoading}
+                renderItem={_renderItem}
+                keyExtractor={(item, index) => index.toString()}
+                maxToRenderPerBatch={5}
+                initialNumToRender={5}
+                refreshControl={_refreshControl}
+                windowSize={5}
+                onScroll={_onScroll}
+                onScrollToTop={() => {
+                  setIsExpanded(true);
+                }}
+              />
+            </View>
+            // </>
           )}
         </LoggedInContainer>
       </SafeAreaView>
