@@ -54,8 +54,8 @@ export default EStyleSheet.create({
     paddingTop:8,
     flexDirection:'row', 
     justifyContent:'space-between',
-    borderColor:'$primaryBlue',
-    borderTopWidth:1,
+    borderColor:'$chartText',
+    borderTopWidth:EStyleSheet.hairlineWidth,
   } as ViewStyle,
   textDiffPositive:{
     fontSize:18,
