@@ -13,6 +13,10 @@ interface CurrencyCardProps {
 
 const CurrencyCard = ({id}:CurrencyCardProps) => {
 
+  const data = DUMMY_HIVE.map((item)=>item[1]);
+  const baseWidth = Dimensions.get("window").width - 32;
+  const chartWidth = baseWidth + baseWidth/(data.length -1)
+
     const _renderHeader = (
         <View style={styles.cardHeader}>
             <View style={styles.logo} />
@@ -26,37 +30,34 @@ const CurrencyCard = ({id}:CurrencyCardProps) => {
 
 
     const _renderGraph = (
+      <View style={styles.chartContainer}>
         <LineChart 
-        data={{
-            labels:['as','ghg','fgf'],
-            datasets: [
-              {
-                data: DUMMY_HIVE.map((item)=>item[1])
-              }
-            ]
-          }}
-          width={Dimensions.get("window").width - 32} // from react-native
-          height={130}
-          withHorizontalLabels={true}
-          withVerticalLabels={false}
-          withDots={false}
-          yAxisInterval={1} // optional, defaults to 1
-          withInnerLines={false}
-          fromZero
-          xLabelsOffset={40}
-          chartConfig={{
-            backgroundColor:EStyleSheet.value('$primaryLightBlue'),
-            backgroundGradientFrom: EStyleSheet.value('$primaryLightBlue'),
-            backgroundGradientTo: EStyleSheet.value('$primaryLightBlue'),
-            fillShadowGradient: EStyleSheet.value('$primaryBlue'),
-            fillShadowGradientOpacity:0.8,
-            color: (opacity = 1) => 'transparent',
-      
-            style: {
-              borderRadius: 16
-            }
-          }}
-        />
+          data={{
+              labels:['as','ghg','fgf'],
+              datasets: [
+                {
+                  data
+                }
+              ],
+            }}
+            width={chartWidth} // from react-native
+            height={130}
+            withHorizontalLabels={true}
+            withVerticalLabels={false}
+            withDots={false}
+            withInnerLines={false}
+            fromZero
+            chartConfig={{
+              backgroundColor:EStyleSheet.value('$primaryLightBlue'),
+              backgroundGradientFrom: EStyleSheet.value('$primaryLightBlue'),
+              backgroundGradientTo: EStyleSheet.value('$primaryLightBlue'),
+              fillShadowGradient: EStyleSheet.value('$primaryBlue'),
+              fillShadowGradientOpacity:0.8,
+              color: (opacity = 1) => 'transparent',
+            }}
+          />
+      </View>
+     
     )
 
   return (

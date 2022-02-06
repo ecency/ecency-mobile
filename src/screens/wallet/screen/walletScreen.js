@@ -164,9 +164,7 @@ const WalletScreen = () => {
       <SafeAreaView style={globalStyles.defaultContainer}>
         <LoggedInContainer>
           {() => (
-            // <>
-            //   {_renderHeaderComponent()}
-            <View style={globalStyles.listWrapper}>
+            <View style={styles.listWrapper}>
               <FlatList
                 data={data}
                 style={globalStyles.tabBarBottom}
@@ -183,7 +181,6 @@ const WalletScreen = () => {
                 }}
               />
             </View>
-            // </>
           )}
         </LoggedInContainer>
       </SafeAreaView>

@@ -10,4 +10,7 @@ export default EStyleSheet.create({
   dotStyle: {
     backgroundColor: '$primaryDarkText',
   },
+  listWrapper: {
+    backgroundColor: '$primaryBackgroundColor',
+  },
 });
