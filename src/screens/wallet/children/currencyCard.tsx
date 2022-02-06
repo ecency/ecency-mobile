@@ -21,10 +21,10 @@ const CurrencyCard = ({id}:CurrencyCardProps) => {
         <View style={styles.cardHeader}>
             <View style={styles.logo} />
             <View style={styles.cardTitleContainer}>
-                <Text>{id.toUpperCase()}</Text>
-                <Text>{'Ecency Points'}</Text>
+                <Text style={styles.textTitle} >{id.toUpperCase()}</Text>
+                <Text style={styles.textSubtitle}>{'Ecency Points'}</Text>
             </View>
-            <Text><Text style={{fontWeight:'bold'}}>{'5.17 ETH'}</Text>{'/$10.64'}</Text>
+            <Text  style={styles.textCurValue}><Text style={{fontWeight:'500'}}>{'5.17 ETH'}</Text>{'/$10.64'}</Text>
         </View>
     );
 
@@ -33,7 +33,6 @@ const CurrencyCard = ({id}:CurrencyCardProps) => {
       <View style={styles.chartContainer}>
         <LineChart 
           data={{
-              labels:['as','ghg','fgf'],
               datasets: [
                 {
                   data
@@ -48,10 +47,10 @@ const CurrencyCard = ({id}:CurrencyCardProps) => {
             withInnerLines={false}
             fromZero
             chartConfig={{
-              backgroundColor:EStyleSheet.value('$primaryLightBlue'),
-              backgroundGradientFrom: EStyleSheet.value('$primaryLightBlue'),
-              backgroundGradientTo: EStyleSheet.value('$primaryLightBlue'),
-              fillShadowGradient: EStyleSheet.value('$primaryBlue'),
+              backgroundColor:EStyleSheet.value('$white'),
+              backgroundGradientFrom: EStyleSheet.value('$white'),
+              backgroundGradientTo: EStyleSheet.value('$white'),
+              fillShadowGradient: EStyleSheet.value('$chartBlue'),
               fillShadowGradientOpacity:0.8,
               color: (opacity = 1) => 'transparent',
             }}
@@ -60,10 +59,18 @@ const CurrencyCard = ({id}:CurrencyCardProps) => {
      
     )
 
+    const _renderFooter = (
+      <View style={styles.cardFooter}>
+        <Text style={styles.textCurValue}>$12.3</Text>
+        <Text style={styles.textDiffPositive}>+11%</Text>
+      </View>
+    )
+
   return (
     <View style={styles.cardContainer}>
       {_renderHeader}
       {_renderGraph}
+      {_renderFooter}
     </View>
   );
 };
