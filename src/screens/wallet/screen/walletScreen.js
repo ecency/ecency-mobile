@@ -6,6 +6,7 @@ import { SafeAreaView, View, RefreshControl, Text } from 'react-native';
 // Containers
 import { FlatList } from 'react-native-gesture-handler';
 import { useIntl } from 'react-intl';
+import { iteratorStream } from '@hiveio/dhive/lib/utils';
 import { LoggedInContainer } from '../../../containers';
 
 // Components
@@ -28,6 +29,8 @@ import styles from './walletScreenStyles';
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
 import { useAppSelector } from '../../../hooks';
 import CurrencyCard from '../children/currencyCard';
+import WalletTokens from '../children/walletTokens';
+import WALLET_TOKENS from '../children/walletTokens';
 
 const HEADER_EXPANDED_HEIGHT = 312;
 
@@ -124,7 +127,7 @@ const WalletScreen = () => {
   };
 
   const _renderItem = ({ item, index }) => {
-    return <CurrencyCard id={item} />;
+    return <CurrencyCard id={item} notToken={item === 'ecency'} />;
   };
 
   const _renderLoading = () => {
@@ -156,8 +159,6 @@ const WalletScreen = () => {
     }
   };
 
-  const data = ['unclaimed', 'ecency', 'hive', 'hive_dollar'];
-
   return (
     <Fragment>
       <Header />
@@ -166,7 +167,7 @@ const WalletScreen = () => {
           {() => (
             <View style={styles.listWrapper}>
               <FlatList
-                data={data}
+                data={WALLET_TOKENS}
                 style={globalStyles.tabBarBottom}
                 ListEmptyComponent={_renderLoading}
                 renderItem={_renderItem}
