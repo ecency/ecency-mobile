@@ -3,14 +3,15 @@ import { View, Text } from 'react-native';
 import { Popover, usePopover } from 'react-native-modal-popover';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerTooltip } from '../../redux/actions/tooltipsActions';
+import { Walkthrough } from '../../redux/reducers/tooltipsReducer';
 
 import styles from './tooltipStyles';
 interface TooltipProps {
   children?: any;
   text?: string;
-  walkthroughId?: string;
+  walkthroughIndex?: number;
 }
-const Tooltip = ({ children, text, walkthroughId }: TooltipProps, ref) => {
+const Tooltip = ({ children, text, walkthroughIndex }: TooltipProps, ref) => {
   const {
     openPopover,
     closePopover,
@@ -20,14 +21,21 @@ const Tooltip = ({ children, text, walkthroughId }: TooltipProps, ref) => {
   } = usePopover();
 
   const dispatch = useDispatch();
-  const isTooltipDone = useSelector((state) => state.tooltips.isDone);
+  const tooltipState = useSelector((state) => state.tooltips.walkthroughMap);
+  const isTooltipShown = tooltipState[walkthroughIndex].isShown;
 
   useImperativeHandle(ref, () => ({
     openTooltip() {
-      !isTooltipDone && openPopover();
+      !isTooltipShown && openPopover();
     },
     closeTooltip() {
-      !isTooltipDone && dispatch(registerTooltip(walkthroughId));
+      if (!isTooltipShown) {
+        const walkthrough: Walkthrough = {
+          walkthroughIndex: walkthroughIndex,
+          isShown: true,
+        };
+        dispatch(registerTooltip(walkthrough));
+      }
       closePopover();
     },
   }));

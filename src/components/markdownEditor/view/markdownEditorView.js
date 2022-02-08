@@ -49,6 +49,7 @@ import isAndroidOreo from '../../../utils/isAndroidOreo';
 import { OptionsModal } from '../../atoms';
 import { UsernameAutofillBar } from './usernameAutofillBar';
 import applyUsername from './formats/applyUsername';
+import { walkthrough } from '../../../redux/constants/walkthroughConstants';
 
 const MIN_BODY_INPUT_HEIGHT = 300;
 
@@ -310,7 +311,11 @@ const MarkdownEditorView = ({
             animation="bounceInRight"
             onAnimationEnd={() => tooltipRef.current?.openTooltip()}
           >
-            <Tooltip ref={tooltipRef} text="This is Draft" walkthroughId="DRAFT_BTN_TOOLTIP">
+            <Tooltip
+              ref={tooltipRef}
+              text={intl.formatMessage({ id: 'editor.load_draft_tooltip' })}
+              walkthroughIndex={walkthrough.EDITOR_DRAFT_BTN}
+            >
               <MainButton
                 style={{ width: isLoading ? null : 120 }}
                 onPress={_onPress}
