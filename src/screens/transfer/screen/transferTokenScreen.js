@@ -161,7 +161,7 @@ class TransferTokenView extends Component {
       path = `sign/custom-json?authority=active&required_auths=%5B%22${get(
         selectedAccount,
         'name',
-      )}%22%5D&required_posting_auths=%5B%5D&id=esteem_point_transfer&json=${encodeURIComponent(
+      )}%22%5D&required_posting_auths=%5B%5D&id=ecency_point_transfer&json=${encodeURIComponent(
         json,
       )}`;
     } else {

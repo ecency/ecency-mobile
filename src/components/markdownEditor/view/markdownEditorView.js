@@ -16,7 +16,7 @@ import { Icon } from '../../icon';
 
 // Utils
 import Formats from './formats/formats';
-import applyImageLink from './formats/applyWebLinkFormat';
+import applyMediaLink from './formats/applyMediaLink';
 
 // Actions
 import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
@@ -149,12 +149,11 @@ const MarkdownEditorView = ({
   useEffect(() => {
     if (uploadedImage && uploadedImage.url) {
       if (uploadedImage.shouldInsert) {
-        applyImageLink({
+        applyMediaLink({
           text,
           selection,
           setTextAndSelection: _setTextAndSelection,
-          item: { url: uploadedImage.url, text: uploadedImage.hash },
-          isImage: !!uploadedImage,
+          items: [{ url: uploadedImage.url, text: uploadedImage.hash }],
         });
       } else {
         uploadsGalleryModalRef.current.showModal();
@@ -267,14 +266,18 @@ const MarkdownEditorView = ({
     });
   };
 
-  const _handleOnMediaSelect = (mediaInsert) => {
-    if (mediaInsert && mediaInsert.url) {
-      applyImageLink({
+  const _handleOnMediaSelect = (mediaArray) => {
+    const items = mediaArray.map((mediaInsert) => ({
+      url: mediaInsert.url,
+      text: mediaInsert.hash,
+    }));
+
+    if (items.length) {
+      applyMediaLink({
         text,
         selection,
         setTextAndSelection: _setTextAndSelection,
-        item: { url: mediaInsert.url, text: mediaInsert.hash },
-        isImage: !!mediaInsert,
+        items,
       });
     }
   };

@@ -58,7 +58,7 @@ class RedeemContainer extends Component {
         permlink,
         ...specificParam,
       });
-      const uriType = redeemType === 'promote' ? 'esteem_promote' : 'esteem_boost';
+      const uriType = redeemType === 'promote' ? 'ecency_promote' : 'ecency_boost';
 
       const uri = `sign/custom-json?authority=active&required_auths=%5B%22${get(
         user,
