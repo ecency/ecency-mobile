@@ -128,6 +128,7 @@
     "react-native-vector-icons": "^6.6.0",
     "react-native-version": "^4.0.0",
     "react-native-version-number": "^0.3.5",
+    "react-native-video": "^5.2.0",
     "react-native-webview": "^11.17.1",
     "react-native-youtube-iframe": "^2.1.1",
     "react-navigation": "^4.0.10",
