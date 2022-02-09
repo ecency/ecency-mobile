@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
@@ -26,11 +26,11 @@ import {
 import parseToken from '../../../utils/parseToken';
 import { isEmptyDate } from '../../../utils/time';
 import { hpToVests, vestsToHp } from '../../../utils/conversions';
-import TransferFormItemView from '../../../components/transferFormItem/view/transferFormItemView';
 
 // Styles
 import styles from './transferStyles';
 import { OptionsModal } from '../../../components/atoms';
+import { getReceivedVestingShares } from '../../../providers/ecency/ecency';
 
 class DelegateScreen extends Component {
   _handleOnAmountChange = debounce(
@@ -64,6 +64,11 @@ class DelegateScreen extends Component {
   }
 
   // Component Life Cycles
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevState.step !== this.state.step && this.state.step === 2) {
+      this._fetchReceivedVestingShare();
+    }
+  };
 
   // Component Functions
   _setState = (key, value) => {
@@ -129,6 +134,27 @@ class DelegateScreen extends Component {
     }
   };
 
+  _fetchReceivedVestingShare = async () => {
+    try {
+      const delegateeUser = this.state.destination;
+      const vestingShares = await getReceivedVestingShares(delegateeUser);
+      if (vestingShares && vestingShares.length) {
+        const curShare = vestingShares.find((item) => {
+          item.delgator === this.state.from;
+        });
+
+        if (curShare) {
+          //TOOD: use already delegated vests from here.
+          Alert.alert('DEV: Received Vests from current user', curShare.vesting_shares);
+        } else {
+          Alert.alert('DEV: No previous delegated vests');
+        }
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
   _handleOnDropdownChange = (value) => {
     const { fetchBalance } = this.props;
 
@@ -176,6 +202,7 @@ class DelegateScreen extends Component {
       ListFooterComponentStyle={{ height: 20 }} //this fixes the last item visibility bug
     />
   );
+
   _renderInput = (placeholder, state, keyboardType, availableVestingShares, isTextArea) => {
     const { isAmountValid } = this.state;
     switch (state) {
