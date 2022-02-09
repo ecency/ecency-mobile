@@ -5,13 +5,11 @@ export interface Walkthrough {
   isShown?:boolean,
 }
 interface State {
-  walkthroughMap:{
-      [key: number]: Walkthrough
-  }
+  walkthroughMap: Map<number, Walkthrough>
 }
 
 const initialState:State = {
-  walkthroughMap:{}
+  walkthroughMap:new Map(),
 };
 export default function (state = initialState, action) {
   console.log('action : ', action);
@@ -19,7 +17,10 @@ export default function (state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
     case REGISTER_TOOLTIP:
-      state.walkthroughMap[payload.walkthroughIndex] = payload
+      if(!state.walkthroughMap){
+        state.walkthroughMap = new Map<number, Walkthrough>();
+    }
+      state.walkthroughMap.set(payload.walkthroughIndex, payload);
       return {
         ...state,
       };

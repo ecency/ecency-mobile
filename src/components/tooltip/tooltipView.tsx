@@ -2,8 +2,8 @@ import React, { forwardRef, useImperativeHandle } from 'react';
 import { View, Text } from 'react-native';
 import { Popover, usePopover } from 'react-native-modal-popover';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerTooltip } from '../../redux/actions/tooltipsActions';
-import { Walkthrough } from '../../redux/reducers/tooltipsReducer';
+import { registerTooltip } from '../../redux/actions/walkthroughActions';
+import { Walkthrough } from '../../redux/reducers/walkthroughReducer';
 
 import styles from './tooltipStyles';
 interface TooltipProps {
@@ -21,15 +21,21 @@ const Tooltip = ({ children, text, walkthroughIndex }: TooltipProps, ref) => {
   } = usePopover();
 
   const dispatch = useDispatch();
-  const tooltipState = useSelector((state) => state.tooltips.walkthroughMap);
-  const isTooltipShown = tooltipState[walkthroughIndex].isShown;
+  const tooltipState = useSelector((state) => state.walkthrough.walkthroughMap);
+  const tooltipRegistered = tooltipState.get(walkthroughIndex);
+
 
   useImperativeHandle(ref, () => ({
     openTooltip() {
-      !isTooltipShown && openPopover();
+      if (!tooltipRegistered) {
+        openPopover();
+      }
+      if (tooltipRegistered && !tooltipRegistered.isShown) {
+        openPopover();
+      }
     },
     closeTooltip() {
-      if (!isTooltipShown) {
+      if (!tooltipRegistered || (tooltipRegistered && !tooltipRegistered.isShown)) {
         const walkthrough: Walkthrough = {
           walkthroughIndex: walkthroughIndex,
           isShown: true,

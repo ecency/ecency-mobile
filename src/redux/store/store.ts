@@ -12,6 +12,12 @@ const transformCacheVoteMap = createTransform(
   {whitelist:['cache']}
 );
 
+const transformWalkthroughMap = createTransform(
+  (inboundState:any) => ({ ...inboundState, walkthroughMap : Array.from(inboundState.walkthroughMap)}),
+  (outboundState) => ({ ...outboundState, walkthroughMap:new Map(outboundState.walkthroughMap)}),
+  {whitelist:['walkthrough']}
+);
+
 // Middleware: Redux Persist Config
 const persistConfig = {
   // Root
@@ -21,7 +27,7 @@ const persistConfig = {
   // Blacklist (Don't Save Specific Reducers)
   blacklist: ['nav', 'application', 'communities', 'user'],
   timeout: 0,
-  transforms:[transformCacheVoteMap]
+  transforms:[transformCacheVoteMap,transformWalkthroughMap]
 };
 
 // Middleware: Redux Persist Persisted Reducer
