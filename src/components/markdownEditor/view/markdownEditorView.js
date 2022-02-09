@@ -36,6 +36,7 @@ import {
   Modal,
   SnippetsModal,
   UploadsGalleryModal,
+  Tooltip,
 } from '../../index';
 
 import { ThemeContainer } from '../../../containers';
@@ -48,6 +49,7 @@ import isAndroidOreo from '../../../utils/isAndroidOreo';
 import { OptionsModal } from '../../atoms';
 import { UsernameAutofillBar } from './usernameAutofillBar';
 import applyUsername from './formats/applyUsername';
+import { walkthrough } from '../../../redux/constants/walkthroughConstants';
 
 const MIN_BODY_INPUT_HEIGHT = 300;
 
@@ -88,6 +90,7 @@ const MarkdownEditorView = ({
   const galleryRef = useRef(null);
   const clearRef = useRef(null);
   const uploadsGalleryModalRef = useRef(null);
+  const tooltipRef = useRef(null);
 
   const dispatch = useDispatch();
   const isVisibleAccountsBottomSheet = useSelector(
@@ -302,17 +305,29 @@ const MarkdownEditorView = ({
         onLoadDraftPress();
       };
       return (
-        <AnimatedView style={styles.floatingContainer} animation="bounceInRight">
-          <MainButton
-            style={{ width: isLoading ? null : 120 }}
-            onPress={_onPress}
-            iconName="square-edit-outline"
-            iconType="MaterialCommunityIcons"
-            iconColor="white"
-            text="DRAFT"
-            isLoading={isLoading}
-          />
-        </AnimatedView>
+        <>
+          <AnimatedView
+            style={styles.floatingContainer}
+            animation="bounceInRight"
+            onAnimationEnd={() => tooltipRef.current?.openTooltip()}
+          >
+            <Tooltip
+              ref={tooltipRef}
+              text={intl.formatMessage({ id: 'walkthrough.load_draft_tooltip' })}
+              walkthroughIndex={walkthrough.EDITOR_DRAFT_BTN}
+            >
+              <MainButton
+                style={{ width: isLoading ? null : 120 }}
+                onPress={_onPress}
+                iconName="square-edit-outline"
+                iconType="MaterialCommunityIcons"
+                iconColor="white"
+                text="DRAFT"
+                isLoading={isLoading}
+              />
+            </Tooltip>
+          </AnimatedView>
+        </>
       );
     }
   };
