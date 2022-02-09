@@ -97,12 +97,17 @@ const DropdownButtonView = ({
       adjustFrame={(style: any) => adjustDropdownFrame(style) }
     >
       {isHasChildIcon && !isLoading ? (
-        <View style={[styles.iconWrapper, childIconWrapperStyle && childIconWrapperStyle]}>
-          <Icon
-            style={[styles.dropdownIcon, iconStyle]}
-            iconType="MaterialIcons"
-            name={!iconName ? 'arrow-drop-down' : iconName}
-          />
+        <View style={styles.childrenWrapper}>
+          <Text style={[textStyle || styles.buttonText]}>
+            {defaultText}
+          </Text>
+          <View style={[styles.iconWrapper, childIconWrapperStyle && childIconWrapperStyle]}>
+            <Icon
+              style={[styles.dropdownIcon, iconStyle]}
+              iconType="MaterialIcons"
+              name={!iconName ? 'arrow-drop-down' : iconName}
+            />
+          </View>
         </View>
       ) : (
         isHasChildIcon && <ActivityIndicator />

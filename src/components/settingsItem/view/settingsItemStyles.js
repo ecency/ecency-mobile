@@ -19,6 +19,7 @@ export default EStyleSheet.create({
     paddingLeft: 16,
     paddingHorizontal: 14,
     color: '$primaryDarkGray',
+    flex: 1,
   },
   rowTextStyle: {
     fontSize: 12,
@@ -43,6 +44,7 @@ export default EStyleSheet.create({
     flexGrow: 1,
     height: 'auto',
     width: 150,
+    justifyContent: 'center',
   },
   textStyle: {
     color: '$primaryBlue',

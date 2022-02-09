@@ -51,6 +51,7 @@ class SettingsItemView extends PureComponent {
             textStyle={styles.dropdownText}
             options={options}
             onSelect={(e) => handleOnChange(e, type, actionType)}
+            isHasChildIcon
           />
         );
 
