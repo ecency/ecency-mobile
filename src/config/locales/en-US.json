@@ -340,8 +340,7 @@
     "done":"DONE",
     "draft_save_title":"Saving Draft",
     "draft_update":"Update current draft",
-    "draft_save_new":"Save as new draft",
-    "load_draft_tooltip": "Load your lastest draft here"
+    "draft_save_new":"Save as new draft"
   },
   "snippets":{
     "label_no_snippets":"No Snippets Found",
@@ -717,5 +716,8 @@
     "comment": "Comment",
     "reply": "REPLY",
     "close":"CLOSE"
+  },
+  "walkthrough":{
+    "load_draft_tooltip": "Load your lastest draft here"
   }
 }

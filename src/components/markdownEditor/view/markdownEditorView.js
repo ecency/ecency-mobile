@@ -313,7 +313,7 @@ const MarkdownEditorView = ({
           >
             <Tooltip
               ref={tooltipRef}
-              text={intl.formatMessage({ id: 'editor.load_draft_tooltip' })}
+              text={intl.formatMessage({ id: 'walkthrough.load_draft_tooltip' })}
               walkthroughIndex={walkthrough.EDITOR_DRAFT_BTN}
             >
               <MainButton

@@ -1,11 +1,11 @@
 import { REGISTER_TOOLTIP } from '../constants/constants';
 
-export interface Walkthrough {
+export interface WalkthroughItem {
   walkthroughIndex:number,
   isShown?:boolean,
 }
 interface State {
-  walkthroughMap: Map<number, Walkthrough>
+  walkthroughMap: Map<number, WalkthroughItem>
 }
 
 const initialState:State = {
@@ -18,7 +18,7 @@ export default function (state = initialState, action) {
   switch (type) {
     case REGISTER_TOOLTIP:
       if(!state.walkthroughMap){
-        state.walkthroughMap = new Map<number, Walkthrough>();
+        state.walkthroughMap = new Map<number, WalkthroughItem>();
     }
       state.walkthroughMap.set(payload.walkthroughIndex, payload);
       return {
