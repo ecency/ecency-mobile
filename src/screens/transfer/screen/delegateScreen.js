@@ -180,7 +180,9 @@ class DelegateScreen extends Component {
     const username = item;
     return (
       <TouchableOpacity
-        onPress={() => {
+        onPress={async () => {
+          const receivedVS = await getReceivedVestingShares(username);
+          console.log('receivedVS : ', receivedVS);
           this.setState({ destination: username, usersResult: [], step: 2 });
         }}
         style={styles.usersDropItemRow}
@@ -335,6 +337,11 @@ class DelegateScreen extends Component {
             this._renderInformationText(`${(availableVestingShares - amount).toFixed(6)} VESTS`)
           }
         /> */}
+        <TransferFormItem
+          rightComponent={() =>
+            this._renderInformationText(`${(totalHP - spCalculated).toFixed(3)} HP`)
+          }
+        />
         <TransferFormItem
           rightComponent={() =>
             this._renderInformationText(`${(totalHP - spCalculated).toFixed(3)} HP`)

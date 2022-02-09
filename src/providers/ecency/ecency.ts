@@ -760,3 +760,22 @@ export const signUp = async (username:string, email:string, referral?:string) =>
     throw error;
   }
 };
+
+/**
+ * 
+ * details 
+ * @param username of user
+ */
+ export const getReceivedVestingShares = async (username:string) => {
+  try {
+    console.log('Fetching received vesting shares entries');
+    return ecencyApi.get(`/private-api/received-vesting/${username}`).then((resp) => {
+      return resp.data ?  resp.data : null
+    });
+    
+  } catch (error) {
+    console.warn("Failed to get received vesting shares" + error)
+    bugsnagInstance.notify(error);
+    return error;
+  }
+};
