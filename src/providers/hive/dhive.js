@@ -1562,7 +1562,7 @@ export const transferPoint = (currentAccount, pinCode, data) => {
     const privateKey = PrivateKey.fromString(key);
 
     const op = {
-      id: 'esteem_point_transfer',
+      id: 'ecency_point_transfer',
       json,
       required_auths: [username],
       required_posting_auths: [],
@@ -1585,7 +1585,7 @@ export const promote = (currentAccount, pinCode, duration, permlink, author) => 
     const user = get(currentAccount, 'name');
 
     const json = {
-      id: 'esteem_promote',
+      id: 'ecency_promote',
       json: JSON.stringify({
         user,
         author,
@@ -1614,7 +1614,7 @@ export const boost = (currentAccount, pinCode, point, permlink, author) => {
     const user = get(currentAccount, 'name');
 
     const json = {
-      id: 'esteem_boost',
+      id: 'ecency_boost',
       json: JSON.stringify({
         user,
         author,
