@@ -181,8 +181,6 @@ class DelegateScreen extends Component {
     return (
       <TouchableOpacity
         onPress={async () => {
-          const receivedVS = await getReceivedVestingShares(username);
-          console.log('receivedVS : ', receivedVS);
           this.setState({ destination: username, usersResult: [], step: 2 });
         }}
         style={styles.usersDropItemRow}
