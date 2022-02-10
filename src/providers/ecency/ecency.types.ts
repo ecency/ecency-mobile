@@ -1,5 +1,5 @@
 export interface ReceivedVestingShare {
-    delgator:string;
+    delegator:string;
     delegatee:string;
     vesting_shares:string;
     timestamp:string;

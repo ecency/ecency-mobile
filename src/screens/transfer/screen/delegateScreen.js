@@ -26,7 +26,7 @@ import {
 import parseToken from '../../../utils/parseToken';
 import { isEmptyDate } from '../../../utils/time';
 import { hpToVests, vestsToHp } from '../../../utils/conversions';
-
+import parseAsset from '../../../utils/parseAsset';
 // Styles
 import styles from './transferStyles';
 import { OptionsModal } from '../../../components/atoms';
@@ -58,6 +58,7 @@ class DelegateScreen extends Component {
       steemConnectTransfer: false,
       usersResult: [],
       step: 1,
+      delegatedHP: 0,
     };
 
     this.startActionSheet = React.createRef();
@@ -108,7 +109,7 @@ class DelegateScreen extends Component {
     const { hivePerMVests } = this.props;
     const vestsForHp = hpToVests(hp, hivePerMVests);
     const totalHP = vestsToHp(availableVests, hivePerMVests).toFixed(3);
-    if (Number.isNaN(parsedValue)) {
+    if (!parsedValue || Number.isNaN(parsedValue)) {
       this.setState({ amount: 0, hp: 0, step: 2, isAmountValid: false });
     } else if (parsedValue > totalHP) {
       this.setState({
@@ -136,19 +137,21 @@ class DelegateScreen extends Component {
 
   _fetchReceivedVestingShare = async () => {
     try {
+      const { hivePerMVests } = this.props;
       const delegateeUser = this.state.destination;
       const vestingShares = await getReceivedVestingShares(delegateeUser);
       if (vestingShares && vestingShares.length) {
-        const curShare = vestingShares.find((item) => {
-          item.delgator === this.state.from;
-        });
-
+        const curShare = vestingShares.find((item) => item.delegator === this.state.from);
         if (curShare) {
-          //TOOD: use already delegated vests from here.
-          Alert.alert('DEV: Received Vests from current user', curShare.vesting_shares);
-        } else {
-          Alert.alert('DEV: No previous delegated vests');
+          const vest_shares = parseAsset(curShare.vesting_shares);
+          this.setState({
+            delegatedHP: vestsToHp(vest_shares.amount, hivePerMVests).toFixed(3),
+          });
         }
+      } else {
+        this.setState({
+          delegatedHP: 0,
+        });
       }
     } catch (err) {
       console.warn(err);
@@ -162,6 +165,22 @@ class DelegateScreen extends Component {
     this.setState({ from: value, amount: 0 });
   };
 
+  _handleSliderValueChange = (value, availableVestingShares) => {
+    const { hivePerMVests } = this.props;
+    if (!value || value === availableVestingShares) {
+      this.setState({ isAmountValid: false });
+    }
+    if (value !== 0 && value !== availableVestingShares) {
+      this.setState({
+        step: 3,
+        isAmountValid: true,
+        amount: value,
+        hp: vestsToHp(value, hivePerMVests).toFixed(3),
+      });
+    } else {
+      this.setState({ amount: value, hp: vestsToHp(value, hivePerMVests).toFixed(3), step: 2 });
+    }
+  };
   _renderDropdown = (accounts, currentAccountName) => (
     <DropdownButton
       dropdownButtonStyle={styles.dropdownButtonStyle}
@@ -265,7 +284,15 @@ class DelegateScreen extends Component {
       hivePerMVests,
       accountType,
     } = this.props;
-    const { amount, isTransfering, from, destination, steemConnectTransfer, step } = this.state;
+    const {
+      amount,
+      isTransfering,
+      from,
+      destination,
+      steemConnectTransfer,
+      step,
+      delegatedHP,
+    } = this.state;
     let availableVestingShares = 0;
     if (!isEmptyDate(get(selectedAccount, 'next_vesting_withdrawal'))) {
       // powering down
@@ -336,11 +363,11 @@ class DelegateScreen extends Component {
           }
         /> */}
         <TransferFormItem
-          rightComponent={() =>
-            this._renderInformationText(`${(totalHP - spCalculated).toFixed(3)} HP`)
-          }
+          label={intl.formatMessage({ id: 'transfer.already_delegated' })}
+          rightComponent={() => this._renderInformationText(`${delegatedHP} HP`)}
         />
         <TransferFormItem
+          label={intl.formatMessage({ id: 'transfer.remain_hp' })}
           rightComponent={() =>
             this._renderInformationText(`${(totalHP - spCalculated).toFixed(3)} HP`)
           }
@@ -353,12 +380,7 @@ class DelegateScreen extends Component {
           thumbTintColor="#007ee5"
           maximumValue={availableVestingShares}
           value={amount}
-          onValueChange={(value) => {
-            this.setState({ amount: value, hp: vestsToHp(value, hivePerMVests).toFixed(3) });
-            if (value !== 0 && value !== availableVestingShares) {
-              this.setState({ step: 3, isAmountValid: true });
-            }
-          }}
+          onValueChange={(value) => this._handleSliderValueChange(value, availableVestingShares)}
         />
         <Text style={styles.informationText}>
           {intl.formatMessage({ id: 'transfer.amount_information' })}

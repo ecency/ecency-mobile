@@ -574,7 +574,9 @@
     "incoming_funds": "Incoming Funds",
     "stop": "Stop",
     "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
-    "address_view": "View address"
+    "address_view": "View address",
+    "already_delegated": "Already Delegated",
+    "remain_hp": "Remaining HP"
   },
   "boost": {
     "title": "Get Points",
