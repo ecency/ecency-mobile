@@ -581,7 +581,10 @@
     "delegat_detail_head": "Delegation Details",
     "delegat_detail_subhead": "New Amount overwrite the previous delegated HIVE Power ",
     "new_amount": "New Amount",
-    "review": "Review"
+    "review": "Review",
+    "confirm": "Confirm Delegation",
+    "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
+    "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user. "
   },
   "boost": {
     "title": "Get Points",

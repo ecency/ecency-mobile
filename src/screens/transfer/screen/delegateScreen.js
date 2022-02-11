@@ -31,6 +31,7 @@ import parseAsset from '../../../utils/parseAsset';
 import styles from './transferStyles';
 import { OptionsModal } from '../../../components/atoms';
 import { getReceivedVestingShares } from '../../../providers/ecency/ecency';
+import { showActionModal } from '../../../redux/actions/uiAction';
 
 class DelegateScreen extends Component {
   _handleOnAmountChange = debounce(
@@ -184,11 +185,44 @@ class DelegateScreen extends Component {
   };
 
   _handleNext = () => {
-    const { step } = this.state;
+    const { step, hp, amount, destination, from, delegatedHP } = this.state;
+    const { dispatch, intl } = this.props;
     if (step === 1) {
       this.setState({ step: 2 });
     } else {
-      console.log('this is step : ', step);
+      dispatch(
+        showActionModal(
+          intl.formatMessage({ id: 'transfer.confirm' }),
+          intl.formatMessage(
+            { id: 'transfer.confirm_summary' },
+            {
+              hp: hp,
+              vests: amount,
+              delegatee: from,
+              delegator: destination,
+            },
+          ),
+          intl.formatMessage(
+            { id: 'transfer.confirm_summary_para' },
+            {
+              prev: delegatedHP,
+            },
+          ),
+          [
+            {
+              text: intl.formatMessage({ id: 'alert.cancel' }),
+              onPress: () => console.log('cancel'),
+            },
+            {
+              text: intl.formatMessage({ id: 'alert.confirm' }),
+              onPress: () => console.log('confirm'),
+            },
+          ],
+        ),
+        <View>
+          <Text>Header </Text>
+        </View>,
+      );
     }
   };
   _renderDropdown = (accounts, currentAccountName) => (
@@ -292,6 +326,7 @@ class DelegateScreen extends Component {
       selectedAccount,
       handleOnModalClose,
       hivePerMVests,
+      actionModalVisible,
       accountType,
     } = this.props;
     const {
@@ -305,6 +340,7 @@ class DelegateScreen extends Component {
       hp,
       isAmountValid,
     } = this.state;
+    console.log('actionModalVisible : ', this.props.actionModalVisible);
     let availableVestingShares = 0;
     if (!isEmptyDate(get(selectedAccount, 'next_vesting_withdrawal'))) {
       // powering down
