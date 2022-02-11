@@ -4,7 +4,7 @@ import { ImageStyle } from 'react-native-fast-image';
 
 export default EStyleSheet.create({
   cardContainer: {
-    backgroundColor:'$white',
+    backgroundColor:'$primaryLightBackground',
     marginVertical: 8,
     marginHorizontal: 16,
     borderRadius: 12,
@@ -67,17 +67,17 @@ export default EStyleSheet.create({
   } as TextStyle,
   textCurValue:{
     fontSize:16,
-    color: '$chartText',
+    color: '$primaryBlack',
     fontWeight: '300',
   } as TextStyle,
   textTitle:{
     fontSize:16,
-    color: '$chartText',
+    color: '$primaryBlack',
     fontWeight: '500'
   },
   textSubtitle:{
     fontSize:14,
-    color: '$chartText',
+    color: '$primaryDarkText',
     fontWeight: '300',
   }
 });

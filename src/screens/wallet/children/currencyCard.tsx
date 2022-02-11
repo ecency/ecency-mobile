@@ -54,6 +54,7 @@ const CurrencyCard = ({
     const _renderGraph = () => {
       const _baseWidth = Dimensions.get("window").width - 32;
       const _chartWidth = _baseWidth + _baseWidth/(chartData.length -1)
+      const _chartBackgroundColor = EStyleSheet.value('$primaryLightBackground');
       return (
         <View style={styles.chartContainer}>
           <LineChart 
@@ -74,9 +75,9 @@ const CurrencyCard = ({
            
               
               chartConfig={{
-                backgroundColor:EStyleSheet.value('$white'),
-                backgroundGradientFrom: EStyleSheet.value('$white'),
-                backgroundGradientTo: EStyleSheet.value('$white'),
+                backgroundColor:_chartBackgroundColor,
+                backgroundGradientFrom: _chartBackgroundColor,
+                backgroundGradientTo: _chartBackgroundColor,
                 fillShadowGradient: EStyleSheet.value('$chartBlue'),
                 fillShadowGradientOpacity:0.8,
                 color: () => 'transparent',
@@ -96,7 +97,7 @@ const CurrencyCard = ({
     <View style={styles.cardContainer}>
       {_renderHeader}
       {!notCryptoToken  && _renderGraph()}
-      {!notCryptoToken && _renderFooter}
+      {!notCryptoToken ? _renderFooter : <View style={{height:12}} />}
     </View>
   );
 };

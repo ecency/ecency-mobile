@@ -12,5 +12,6 @@ export default EStyleSheet.create({
   },
   listWrapper: {
     backgroundColor: '$primaryBackgroundColor',
+    flex: 1,
   },
 });
