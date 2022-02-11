@@ -74,13 +74,13 @@ const SideMenuView = ({
       return;
     }
 
-    if (item.id === 'refer') {
+    /* if (item.id === 'refer') {
       const shareUrl = `https://ecency.com/signup?referral=${currentAccount.username}`;
       Share.share({
         message: shareUrl,
       });
       return;
-    }
+    } */
 
     navigateToRoute(item.route);
   };

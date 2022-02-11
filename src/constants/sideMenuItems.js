@@ -39,7 +39,7 @@ const authMenuItems = [
   },
   {
     name: 'Refer $ Earn',
-    route: '',
+    route: ROUTES.SCREENS.REFER,
     icon: 'share',
     id: 'refer',
   },
