@@ -50,7 +50,7 @@ class DelegateScreen extends Component {
     super(props);
     this.state = {
       amount: 0,
-      isAmountValid: false,
+      isAmountValid: true,
       hp: 0,
       isTransfering: false,
       from: props.currentAccountName,
@@ -109,9 +109,9 @@ class DelegateScreen extends Component {
     const { hivePerMVests } = this.props;
     const vestsForHp = hpToVests(hp, hivePerMVests);
     const totalHP = vestsToHp(availableVests, hivePerMVests).toFixed(3);
-    if (!parsedValue || Number.isNaN(parsedValue)) {
+    if (Number.isNaN(parsedValue)) {
       this.setState({ amount: 0, hp: 0, step: 2, isAmountValid: false });
-    } else if (parsedValue > totalHP) {
+    } else if (parsedValue >= totalHP) {
       this.setState({
         amount: hpToVests(totalHP, hivePerMVests),
         hp: totalHP,
@@ -122,6 +122,7 @@ class DelegateScreen extends Component {
       this.setState({ amount: vestsForHp, hp: parsedValue, step: 3, isAmountValid: true });
     }
   };
+
   _handleTransferAction = () => {
     const { transferToAccount, accountType } = this.props;
     const { from, destination, amount } = this.state;
@@ -167,7 +168,7 @@ class DelegateScreen extends Component {
 
   _handleSliderValueChange = (value, availableVestingShares) => {
     const { hivePerMVests } = this.props;
-    if (!value || value === availableVestingShares) {
+    if (value === availableVestingShares) {
       this.setState({ isAmountValid: false });
     }
     if (value !== 0 && value !== availableVestingShares) {
@@ -179,6 +180,15 @@ class DelegateScreen extends Component {
       });
     } else {
       this.setState({ amount: value, hp: vestsToHp(value, hivePerMVests).toFixed(3), step: 2 });
+    }
+  };
+
+  _handleNext = () => {
+    const { step } = this.state;
+    if (step === 1) {
+      this.setState({ step: 2 });
+    } else {
+      console.log('this is step : ', step);
     }
   };
   _renderDropdown = (accounts, currentAccountName) => (
@@ -229,7 +239,7 @@ class DelegateScreen extends Component {
         return (
           <View style={styles.transferToContainer}>
             <TextInput
-              style={[isTextArea ? styles.textarea : styles.input]}
+              style={[styles.input]}
               onChangeText={(value) => {
                 this.setState({ destination: value });
                 this._handleOnAmountChange(state, value);
@@ -292,6 +302,8 @@ class DelegateScreen extends Component {
       steemConnectTransfer,
       step,
       delegatedHP,
+      hp,
+      isAmountValid,
     } = this.state;
     let availableVestingShares = 0;
     if (!isEmptyDate(get(selectedAccount, 'next_vesting_withdrawal'))) {
@@ -315,13 +327,39 @@ class DelegateScreen extends Component {
 
     const spCalculated = vestsToHp(amount, hivePerMVests);
     const totalHP = vestsToHp(availableVestingShares, hivePerMVests);
-    const _renderStepOne = () => (
-      <>
-        <View style={styles.topContent}>
-          <UserAvatar username={from} size="xl" style={styles.userAvatar} noAction />
-          <Icon style={styles.icon} name="arrow-forward" iconType="MaterialIcons" />
-          <UserAvatar username={destination} size="xl" style={styles.userAvatar} noAction />
+    const _renderToFromAvatars = () => (
+      <View style={styles.toFromAvatarsContainer}>
+        <UserAvatar username={from} size="xl" style={styles.userAvatar} noAction />
+        <Icon style={styles.icon} name="arrow-forward" iconType="MaterialIcons" />
+        <UserAvatar username={destination} size="xl" style={styles.userAvatar} noAction />
+      </View>
+    );
+    const _renderSlider = () => (
+      <View style={styles.sliderBox}>
+        <View style={styles.emptyBox} />
+        <View style={styles.sliderContainer}>
+          <Slider
+            style={styles.slider}
+            trackStyle={styles.track}
+            thumbStyle={styles.thumb}
+            minimumTrackTintColor="#357ce6"
+            thumbTintColor="#007ee5"
+            maximumValue={availableVestingShares}
+            value={amount}
+            onValueChange={(value) => this._handleSliderValueChange(value, availableVestingShares)}
+          />
+          <View style={styles.sliderAmountContainer}>
+            <Text style={styles.amountText}>{`${hp} HP`}</Text>
+            <Text style={styles.amountText}>{`${totalHP.toFixed(3)} HP`}</Text>
+          </View>
         </View>
+      </View>
+    );
+    const _renderStepOne = () => (
+      <View style={styles.stepOneContainer}>
+        <Text style={styles.sectionHeading}>
+          {intl.formatMessage({ id: 'transfer.add_account' })}
+        </Text>
         <TransferFormItem
           label={intl.formatMessage({ id: 'transfer.from' })}
           rightComponent={() => this._renderDropdown(accounts, currentAccountName)}
@@ -335,17 +373,27 @@ class DelegateScreen extends Component {
               'default',
             )
           }
+          containerStyle={styles.elevate}
         />
-      </>
+        {_renderToFromAvatars()}
+      </View>
     );
     const _renderStepTwo = () => (
-      <>
-        {/* <TransferFormItem
-          label={intl.formatMessage({ id: 'transfer.amount' })}
-          rightComponent={() => this._renderInformationText(`${amount.toFixed(6)} VESTS`)}
-        /> */}
+      <View style={styles.stepTwoContainer}>
+        <Text style={styles.sectionHeading}>
+          {intl.formatMessage({ id: 'transfer.delegat_detail_head' })}
+        </Text>
+        <Text style={styles.sectionSubheading}>
+          {intl.formatMessage({ id: 'transfer.delegat_detail_subhead' })}
+        </Text>
+        <View style={styles.alreadyDelegateRow}>
+          <Text style={styles.sectionSubheading}>
+            {`${intl.formatMessage({ id: 'transfer.already_delegated' })} @${destination}`}
+          </Text>
+          <Text style={styles.sectionSubheading}>{`${delegatedHP} HP`}</Text>
+        </View>
         <TransferFormItem
-          label={intl.formatMessage({ id: 'transfer.amount' })}
+          label={intl.formatMessage({ id: 'transfer.new_amount' })}
           rightComponent={() =>
             this._renderInput(
               intl.formatMessage({ id: 'transfer.amount' }),
@@ -362,7 +410,7 @@ class DelegateScreen extends Component {
             this._renderInformationText(`${(availableVestingShares - amount).toFixed(6)} VESTS`)
           }
         /> */}
-        <TransferFormItem
+        {/* <TransferFormItem
           label={intl.formatMessage({ id: 'transfer.already_delegated' })}
           rightComponent={() => this._renderInformationText(`${delegatedHP} HP`)}
         />
@@ -371,32 +419,25 @@ class DelegateScreen extends Component {
           rightComponent={() =>
             this._renderInformationText(`${(totalHP - spCalculated).toFixed(3)} HP`)
           }
-        />
-        <Slider
-          style={styles.slider}
-          trackStyle={styles.track}
-          thumbStyle={styles.thumb}
-          minimumTrackTintColor="#357ce6"
-          thumbTintColor="#007ee5"
-          maximumValue={availableVestingShares}
-          value={amount}
-          onValueChange={(value) => this._handleSliderValueChange(value, availableVestingShares)}
-        />
-        <Text style={styles.informationText}>
-          {intl.formatMessage({ id: 'transfer.amount_information' })}
-        </Text>
-      </>
+        /> */}
+        {_renderSlider()}
+      </View>
     );
-    const _renderStepThree = () => (
-      <>
+    const _renderMainBtn = () => (
+      <View style={styles.stepThreeContainer}>
         <MainButton
           style={styles.button}
-          onPress={() => this.startActionSheet.current.show()}
+          onPress={this._handleNext}
           isLoading={isTransfering}
+          isDisable={!isAmountValid}
         >
-          <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
+          <Text style={styles.buttonText}>
+            {step === 2
+              ? intl.formatMessage({ id: 'transfer.review' })
+              : intl.formatMessage({ id: 'transfer.next' })}
+          </Text>
         </MainButton>
-      </>
+      </View>
     );
 
     return (
@@ -404,9 +445,9 @@ class DelegateScreen extends Component {
         <BasicHeader title={intl.formatMessage({ id: 'transfer.delegate' })} />
         <KeyboardAwareScrollView contentContainerStyle={styles.fillSpace} keyboardShouldPersistTaps>
           <View style={styles.container}>
-            <View style={styles.stepOneContainer}>{_renderStepOne()}</View>
-            <View style={styles.stepTwoContainer}>{step >= 2 && _renderStepTwo()}</View>
-            <View style={styles.stepThreeContainer}>{step >= 3 && _renderStepThree()}</View>
+            {step >= 1 && _renderStepOne()}
+            {step >= 2 && _renderStepTwo()}
+            {_renderMainBtn()}
           </View>
         </KeyboardAwareScrollView>
         <OptionsModal

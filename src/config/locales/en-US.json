@@ -575,8 +575,13 @@
     "stop": "Stop",
     "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
     "address_view": "View address",
-    "already_delegated": "Already Delegated",
-    "remain_hp": "Remaining HP"
+    "already_delegated": "Already Delegated to ",
+    "remain_hp": "Remaining HP",
+    "add_account": "Add Account Details",
+    "delegat_detail_head": "Delegation Details",
+    "delegat_detail_subhead": "New Amount overwrite the previous delegated HIVE Power ",
+    "new_amount": "New Amount",
+    "review": "Review"
   },
   "boost": {
     "title": "Get Points",

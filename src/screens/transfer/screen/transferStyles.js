@@ -4,25 +4,30 @@ export default EStyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '$primaryBackgroundColor',
-    justifyContent: 'center',
   },
   stepOneContainer: {
-    flex: 2,
-    zIndex: 1,
+    zIndex: 2,
+    borderWidth: 1,
+    borderColor: '$borderColor',
+    paddingVertical: 16,
   },
   stepTwoContainer: {
-    flex: 3,
-    paddingTop: 12,
+    paddingVertical: 12,
+    borderWidth: 1,
+    borderColor: '$borderColor',
+    marginTop: 16,
   },
   stepThreeContainer: {
-    flex: 1,
     alignItems: 'center',
+    marginTop: 16,
+    marginVertical: 16,
   },
-  topContent: {
+  toFromAvatarsContainer: {
     flexDirection: 'row',
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: 16,
+    marginTop: 16,
   },
   middleContent: {
     flex: 3,
@@ -60,7 +65,6 @@ export default EStyleSheet.create({
   },
   button: {
     width: '$deviceWidth / 3',
-    marginTop: 30,
     justifyContent: 'center',
     alignItems: 'center',
     fontWeight: 'bold',
@@ -110,24 +114,7 @@ export default EStyleSheet.create({
     flexGrow: 1,
     width: 150,
   },
-  track: {
-    height: 2,
-    borderRadius: 1,
-  },
-  thumb: {
-    width: 16,
-    height: 16,
-    borderRadius: 16 / 2,
-    backgroundColor: '$primaryLightBackground',
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 2,
-    shadowOpacity: 0.35,
-    elevation: 3,
-  },
-  slider: {
-    marginHorizontal: 30,
-  },
+
   formButton: {
     padding: 12,
     borderRadius: 5,
@@ -137,9 +124,6 @@ export default EStyleSheet.create({
   formButtonText: {
     color: '$white',
     fontSize: 14,
-  },
-  amountText: {
-    color: '$primaryBlue',
   },
   informationText: {
     alignSelf: 'center',
@@ -221,7 +205,6 @@ export default EStyleSheet.create({
     top: 40,
     width: 172,
     maxHeight: 250,
-    flex: 1,
   },
   usersDropdown: {
     borderColor: '$primaryWhiteLightBackground',
@@ -248,5 +231,70 @@ export default EStyleSheet.create({
   },
   fillSpace: {
     flex: 1,
+    padding: 16,
+  },
+  elevate: {
+    zIndex: 1,
+  },
+  sectionHeading: {
+    paddingHorizontal: 16,
+    marginBottom: 16,
+    fontSize: 16,
+    color: '$primaryBlack',
+    fontWeight: '600',
+    textAlign: 'left',
+  },
+  sectionSubheading: {
+    paddingHorizontal: 16,
+    marginBottom: 16,
+    fontSize: 12,
+    color: '$primaryBlack',
+    fontWeight: '600',
+    textAlign: 'left',
+  },
+  alreadyDelegateRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  sliderBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  emptyBox: {
+    flex: 1,
+  },
+  sliderContainer: {
+    flex: 2,
+  },
+  track: {
+    height: 2,
+    borderRadius: 1,
+  },
+  thumb: {
+    width: 16,
+    height: 16,
+    borderRadius: 16 / 2,
+    backgroundColor: '$primaryLightBackground',
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 2,
+    shadowOpacity: 0.35,
+    elevation: 3,
+  },
+  slider: {
+    marginRight: 16,
+    marginLeft: 8,
+  },
+  sliderAmountContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+  },
+  amountText: {
+    fontSize: 12,
+    color: '$primaryBlack',
+    fontWeight: '600',
+    textAlign: 'left',
   },
 });
