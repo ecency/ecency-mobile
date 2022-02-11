@@ -716,5 +716,8 @@
     "comment": "Comment",
     "reply": "REPLY",
     "close":"CLOSE"
+  },
+  "walkthrough":{
+    "load_draft_tooltip": "Load your lastest draft here"
   }
 }
