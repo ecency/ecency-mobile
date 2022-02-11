@@ -82,4 +82,8 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     textAlign: 'left',
   },
+  childrenWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 });

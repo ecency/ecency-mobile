@@ -107,3 +107,6 @@ export const TEMP_BENEFICIARIES_ID = 'temp-beneficiaries';
 //CACHE
 export const PURGE_EXPIRED_CACHE = 'PURGE_EXPIRED_CACHE';
 export const UPDATE_VOTE_CACHE = 'UPDATE_VOTE_CACHE';
+
+// TOOLTIPS
+export const REGISTER_TOOLTIP = 'REGISTER_TOOLTIP';
