@@ -31,6 +31,7 @@ import { useAppSelector } from '../../../hooks';
 import CurrencyCard from '../children/currencyCard';
 import WalletTokens from '../children/walletTokens';
 import WALLET_TOKENS from '../children/walletTokens';
+import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
 
 const HEADER_EXPANDED_HEIGHT = 312;
 
@@ -38,6 +39,7 @@ const WalletScreen = () => {
   const intl = useIntl();
 
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const currency = useAppSelector((state)=>state.application.currency)
 
   const [selectedUserActivities, setSelectedUserActivities] = useState(null);
   const [filteredActivites, setFilteredActivites] = useState([]);
@@ -45,6 +47,12 @@ const WalletScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
+
+  const [marketData, setMarketData] = useState([]);
+
+  useEffect(()=>{
+    _fetchTokensData();
+  },[])
 
   useEffect(() => {
     if (selectedUserActivities) {
@@ -63,71 +71,100 @@ const WalletScreen = () => {
     }
   }, [selectedUserActivities]);
 
-  const _handleSwipeItemChange = (userActivities, _isLoading) => {
-    setSelectedUserActivities(userActivities);
-    setIsLoading(_isLoading);
-    setRefreshing(false);
-  };
+  const _fetchTokensData = () => {
+    WALLET_TOKENS.forEach(async (token, index)=>{
 
-  const _renderHeaderComponent = () => {
-    return (
-      <>
-        <CollapsibleCard
-          expanded={true}
-          isExpanded={isExpanded}
-          noContainer
-          noBorder
-          locked
-          titleComponent={<View />}
-          handleOnExpanded={() => {
-            setIsExpanded(true);
-          }}
-        >
-          <View style={[styles.header, { height: HEADER_EXPANDED_HEIGHT }]}>
-            <Swiper
-              loop={false}
-              showsPagination={true}
-              index={0}
-              dotStyle={styles.dotStyle}
-              onIndexChanged={(index) => setCurrentIndex(index)}
-            >
-              <EstmView
-                index={0}
-                handleOnSelected={_handleSwipeItemChange}
-                refreshing={refreshing}
-                currentIndex={currentIndex}
-              />
-              <HiveView
-                index={1}
-                handleOnSelected={_handleSwipeItemChange}
-                refreshing={refreshing}
-                currentIndex={currentIndex}
-              />
-              <HbdView
-                index={2}
-                handleOnSelected={_handleSwipeItemChange}
-                refreshing={refreshing}
-                currentIndex={currentIndex}
-              />
-              <HpView
-                index={3}
-                refreshing={refreshing}
-                handleOnSelected={_handleSwipeItemChange}
-                currentIndex={currentIndex}
-              />
-            </Swiper>
-          </View>
-        </CollapsibleCard>
+      if(token.coingeckoId === 'ececny'){
+        setMarketData([])
+        
+      }
 
-        <SafeAreaView style={styles.header}>
-          {currentIndex === 0 && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />}
-        </SafeAreaView>
-      </>
-    );
-  };
+      const marketChart = await fetchMarketChart(token.coingeckoId, currency.currency, 3, 'hourly');
+      marketData[index] = marketChart.prices.map(item=>item.yValue);
+      setMarketData([...marketData]);
+    })
+  }
+
+  // const _handleSwipeItemChange = (userActivities, _isLoading) => {
+  //   setSelectedUserActivities(userActivities);
+  //   setIsLoading(_isLoading);
+  //   setRefreshing(false);
+  // };
+
+  // const _renderHeaderComponent = () => {
+  //   return (
+  //     <>
+  //       <CollapsibleCard
+  //         expanded={true}
+  //         isExpanded={isExpanded}
+  //         noContainer
+  //         noBorder
+  //         locked
+  //         titleComponent={<View />}
+  //         handleOnExpanded={() => {
+  //           setIsExpanded(true);
+  //         }}
+  //       >
+  //         <View style={[styles.header, { height: HEADER_EXPANDED_HEIGHT }]}>
+  //           <Swiper
+  //             loop={false}
+  //             showsPagination={true}
+  //             index={0}
+  //             dotStyle={styles.dotStyle}
+  //             onIndexChanged={(index) => setCurrentIndex(index)}
+  //           >
+  //             <EstmView
+  //               index={0}
+  //               handleOnSelected={_handleSwipeItemChange}
+  //               refreshing={refreshing}
+  //               currentIndex={currentIndex}
+  //             />
+  //             <HiveView
+  //               index={1}
+  //               handleOnSelected={_handleSwipeItemChange}
+  //               refreshing={refreshing}
+  //               currentIndex={currentIndex}
+  //             />
+  //             <HbdView
+  //               index={2}
+  //               handleOnSelected={_handleSwipeItemChange}
+  //               refreshing={refreshing}
+  //               currentIndex={currentIndex}
+  //             />
+  //             <HpView
+  //               index={3}
+  //               refreshing={refreshing}
+  //               handleOnSelected={_handleSwipeItemChange}
+  //               currentIndex={currentIndex}
+  //             />
+  //           </Swiper>
+  //         </View>
+  //       </CollapsibleCard>
+
+  //       <SafeAreaView style={styles.header}>
+  //         {currentIndex === 0 && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />}
+  //       </SafeAreaView>
+  //     </>
+  //   );
+  // };
 
   const _renderItem = ({ item, index }) => {
-    return <CurrencyCard id={item} notToken={item === 'ecency'} />;
+    const _tokenMarketData = marketData[index] || [];
+    const _currentValue = item.id == 'Ecency' ? 1/150 : (_tokenMarketData[0] || 0);
+    const _changePercent = 
+    _tokenMarketData.length > 0 ? 
+      ((_tokenMarketData[_tokenMarketData.length - 1] - _tokenMarketData[0])/(_tokenMarketData[_tokenMarketData.length - 1]))*100
+      :
+      0;
+    return (
+        <CurrencyCard 
+          chartData={_tokenMarketData || []} 
+          currentValue={_currentValue}
+          changePercent={_changePercent}
+          currencySymbol={currency.currencySymbol}
+          ownedTokens={150}
+          {...item} />
+      );
   };
 
   const _renderLoading = () => {
@@ -168,6 +205,7 @@ const WalletScreen = () => {
             <View style={styles.listWrapper}>
               <FlatList
                 data={WALLET_TOKENS}
+                extraData={marketData}
                 style={globalStyles.tabBarBottom}
                 ListEmptyComponent={_renderLoading}
                 renderItem={_renderItem}
