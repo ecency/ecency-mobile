@@ -22,16 +22,17 @@ import {
   Icon,
   Modal,
 } from '../../../components';
-
+// Styles
+import styles from './transferStyles';
+import { OptionsModal } from '../../../components/atoms';
+//  Redux
+import { showActionModal } from '../../../redux/actions/uiAction';
+// Utils
+import { getReceivedVestingShares } from '../../../providers/ecency/ecency';
 import parseToken from '../../../utils/parseToken';
 import { isEmptyDate } from '../../../utils/time';
 import { hpToVests, vestsToHp } from '../../../utils/conversions';
 import parseAsset from '../../../utils/parseAsset';
-// Styles
-import styles from './transferStyles';
-import { OptionsModal } from '../../../components/atoms';
-import { getReceivedVestingShares } from '../../../providers/ecency/ecency';
-import { showActionModal } from '../../../redux/actions/uiAction';
 
 class DelegateScreen extends Component {
   _handleOnAmountChange = debounce(
@@ -212,11 +213,11 @@ class DelegateScreen extends Component {
           [
             {
               text: intl.formatMessage({ id: 'alert.cancel' }),
-              onPress: () => console.log('cancel'),
+              onPress: () => console.log('Cancel'),
             },
             {
               text: intl.formatMessage({ id: 'alert.confirm' }),
-              onPress: () => console.log('confirm'),
+              onPress: () => this._handleTransferAction(),
             },
           ],
           this._renderToFromAvatars(),
@@ -369,10 +370,7 @@ class DelegateScreen extends Component {
     const path = `sign/delegate-vesting-shares?delegator=${from}&delegatee=${destination}&vesting_shares=${encodeURIComponent(
       fixedAmount,
     )}`;
-
-    const spCalculated = vestsToHp(amount, hivePerMVests);
     const totalHP = vestsToHp(availableVestingShares, hivePerMVests);
-
     const _renderSlider = () => (
       <View style={styles.sliderBox}>
         <View style={styles.emptyBox} />
@@ -443,22 +441,6 @@ class DelegateScreen extends Component {
           }
           containerStyle={styles.paddBottom}
         />
-        {/*
-        <TransferFormItemView
-          rightComponent={() =>
-            this._renderInformationText(`${(availableVestingShares - amount).toFixed(6)} VESTS`)
-          }
-        /> */}
-        {/* <TransferFormItem
-          label={intl.formatMessage({ id: 'transfer.already_delegated' })}
-          rightComponent={() => this._renderInformationText(`${delegatedHP} HP`)}
-        />
-        <TransferFormItem
-          label={intl.formatMessage({ id: 'transfer.remain_hp' })}
-          rightComponent={() =>
-            this._renderInformationText(`${(totalHP - spCalculated).toFixed(3)} HP`)
-          }
-        /> */}
         {_renderSlider()}
       </View>
     );
