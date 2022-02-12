@@ -7,15 +7,16 @@ export default EStyleSheet.create({
   },
   stepOneContainer: {
     zIndex: 2,
-    borderWidth: 1,
-    borderColor: '$borderColor',
     paddingVertical: 16,
+    borderRadius: 12,
+    backgroundColor: '$primaryLightBackground',
   },
   stepTwoContainer: {
     paddingVertical: 12,
-    borderWidth: 1,
-    borderColor: '$borderColor',
     marginTop: 16,
+
+    borderRadius: 12,
+    backgroundColor: '$primaryLightBackground',
   },
   stepThreeContainer: {
     alignItems: 'center',
@@ -232,6 +233,7 @@ export default EStyleSheet.create({
   fillSpace: {
     flex: 1,
     padding: 16,
+    backgroundColor: '$primaryBackgroundColor',
   },
   elevate: {
     zIndex: 1,
