@@ -43,12 +43,18 @@ const ActionModalView = ({onClose, data}: ActionModalViewProps, ref) => {
         body,
         buttons, 
         headerImage,
-        para
+        para,
+        headerContent
     } = data;
 
 
     const _renderContent = (
         <View style={styles.container}>
+            {
+                headerContent && (
+                    headerContent
+                )
+            }
             {
                 headerImage && (
                     <FastImage 

@@ -12,6 +12,7 @@ export interface ActionModalData {
   buttons:AlertButton[], 
   headerImage?:Source,
   onClosed:()=>void,
+  headerContent?: React.ReactNode,
 }
 
 

@@ -43,7 +43,7 @@ class DelegateScreen extends Component {
 
       this._setState(state, _amount);
     },
-    200,
+    1000,
     { leading: true },
   );
 
@@ -120,7 +120,7 @@ class DelegateScreen extends Component {
         isAmountValid: false,
       });
     } else {
-      this.setState({ amount: vestsForHp, hp: parsedValue, step: 3, isAmountValid: true });
+      this.setState({ amount: vestsForHp, hp: parsedValue, step: 2, isAmountValid: true });
     }
   };
 
@@ -172,9 +172,9 @@ class DelegateScreen extends Component {
     if (value === availableVestingShares) {
       this.setState({ isAmountValid: false });
     }
-    if (value !== 0 && value !== availableVestingShares) {
+    if (value !== availableVestingShares) {
       this.setState({
-        step: 3,
+        step: 2,
         isAmountValid: true,
         amount: value,
         hp: vestsToHp(value, hivePerMVests).toFixed(3),
@@ -197,7 +197,7 @@ class DelegateScreen extends Component {
             { id: 'transfer.confirm_summary' },
             {
               hp: hp,
-              vests: amount,
+              vests: amount.toFixed(3),
               delegatee: from,
               delegator: destination,
             },
@@ -218,10 +218,8 @@ class DelegateScreen extends Component {
               onPress: () => console.log('confirm'),
             },
           ],
+          this._renderToFromAvatars(),
         ),
-        <View>
-          <Text>Header </Text>
-        </View>,
       );
     }
   };
@@ -318,6 +316,16 @@ class DelegateScreen extends Component {
 
   _renderInformationText = (text) => <Text style={styles.amountText}>{text}</Text>;
 
+  _renderToFromAvatars = () => {
+    const { destination, from } = this.state;
+    return (
+      <View style={styles.toFromAvatarsContainer}>
+        <UserAvatar username={from} size="xl" style={styles.userAvatar} noAction />
+        <Icon style={styles.icon} name="arrow-forward" iconType="MaterialIcons" />
+        <UserAvatar username={destination} size="xl" style={styles.userAvatar} noAction />
+      </View>
+    );
+  };
   render() {
     const {
       intl,
@@ -363,13 +371,7 @@ class DelegateScreen extends Component {
 
     const spCalculated = vestsToHp(amount, hivePerMVests);
     const totalHP = vestsToHp(availableVestingShares, hivePerMVests);
-    const _renderToFromAvatars = () => (
-      <View style={styles.toFromAvatarsContainer}>
-        <UserAvatar username={from} size="xl" style={styles.userAvatar} noAction />
-        <Icon style={styles.icon} name="arrow-forward" iconType="MaterialIcons" />
-        <UserAvatar username={destination} size="xl" style={styles.userAvatar} noAction />
-      </View>
-    );
+
     const _renderSlider = () => (
       <View style={styles.sliderBox}>
         <View style={styles.emptyBox} />
@@ -411,7 +413,7 @@ class DelegateScreen extends Component {
           }
           containerStyle={styles.elevate}
         />
-        {_renderToFromAvatars()}
+        {this._renderToFromAvatars()}
       </View>
     );
     const _renderStepTwo = () => (
