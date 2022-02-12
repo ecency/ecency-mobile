@@ -106,7 +106,8 @@ class DelegateScreen extends Component {
       this.setState({ step: 2, hp: 0, amount: 0, isAmountValid: false });
       return;
     }
-    const parsedValue = parseFloat(Number(hp));
+    const parsedValue = parseFloat(hp);
+    console.log(('parsedValue : ', parsedValue));
     const { hivePerMVests } = this.props;
     const vestsForHp = hpToVests(hp, hivePerMVests);
     const totalHP = vestsToHp(availableVests, hivePerMVests).toFixed(3);

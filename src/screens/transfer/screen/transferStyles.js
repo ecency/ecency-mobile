@@ -273,9 +273,9 @@ export default EStyleSheet.create({
     borderRadius: 1,
   },
   thumb: {
-    width: 16,
-    height: 16,
-    borderRadius: 16 / 2,
+    width: 20,
+    height: 20,
+    borderRadius: 20 / 2,
     backgroundColor: '$primaryLightBackground',
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
