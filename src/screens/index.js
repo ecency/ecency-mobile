@@ -26,6 +26,7 @@ import Register from './register/registerScreen';
 import TagResult from './tagResult';
 import { Community } from './community';
 import Communities from './communities';
+import CoinDetails from './coinDetails';
 
 export {
   Bookmarks,
@@ -56,4 +57,5 @@ export {
   Community,
   Communities,
   WebBrowser,
+  CoinDetails,
 };
