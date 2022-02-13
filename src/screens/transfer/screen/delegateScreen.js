@@ -54,7 +54,7 @@ class DelegateScreen extends Component {
     this.state = {
       amount: 0,
       isAmountValid: true,
-      hp: 0,
+      hp: 0.0,
       isTransfering: false,
       from: props.currentAccountName,
       destination: '',
@@ -93,7 +93,7 @@ class DelegateScreen extends Component {
 
           break;
         case 'amount':
-          if (parseFloat(Number(value)) <= parseFloat(balance)) {
+          if (parseFloat(value) <= parseFloat(balance)) {
             this.setState({ [key]: value });
           }
           break;
@@ -107,16 +107,15 @@ class DelegateScreen extends Component {
 
   _handleAmountChange = (hp, availableVests) => {
     if (!hp) {
-      this.setState({ step: 2, hp: 0, amount: 0, isAmountValid: false });
+      this.setState({ step: 2, hp: 0.0, amount: 0, isAmountValid: false });
       return;
     }
     const parsedValue = parseFloat(hp);
-    console.log(('parsedValue : ', parsedValue));
     const { hivePerMVests } = this.props;
     const vestsForHp = hpToVests(hp, hivePerMVests);
     const totalHP = vestsToHp(availableVests, hivePerMVests).toFixed(3);
     if (Number.isNaN(parsedValue)) {
-      this.setState({ amount: 0, hp: 0, step: 2, isAmountValid: false });
+      this.setState({ amount: 0, hp: 0.0, step: 2, isAmountValid: false });
     } else if (parsedValue >= totalHP) {
       this.setState({
         amount: hpToVests(totalHP, hivePerMVests),
@@ -308,7 +307,7 @@ class DelegateScreen extends Component {
             onChangeText={(amount) => {
               this._handleAmountChange(amount, availableVestingShares);
             }}
-            value={this.state.hp.toString()}
+            value={this.state.hp}
             placeholder={placeholder}
             placeholderTextColor="#c1c5c7"
             autoCapitalize="none"
@@ -359,7 +358,6 @@ class DelegateScreen extends Component {
       hp,
       isAmountValid,
     } = this.state;
-    console.log('actionModalVisible : ', this.props.actionModalVisible);
     let availableVestingShares = 0;
     if (!isEmptyDate(get(selectedAccount, 'next_vesting_withdrawal'))) {
       // powering down
