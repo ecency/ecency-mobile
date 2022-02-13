@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, Platform, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { View as AnimatedView } from 'react-native-animatable';
+import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 
 // Constants
 import { debounce } from 'lodash';
@@ -477,17 +478,29 @@ class DelegateScreen extends Component {
     return (
       <Fragment>
         <BasicHeader title={intl.formatMessage({ id: 'transfer.delegate' })} />
-        <KeyboardAwareScrollView
-          contentContainerStyle={styles.fillSpace}
-          extraScrollHeight={80}
+        {/* <KeyboardAwareScrollView
+          contentContainerStyle={{borderWidth:1,flexGrow:1}}
+          extraScrollHeight={150}
+          extraHeight={200}
+          keyboardShouldPersistTaps
+          enableOnAndroid={true}
+          enableAutomaticScroll={(Platform.OS === 'ios')}
+        > */}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.fillSpace}
           keyboardShouldPersistTaps
         >
-          <View style={styles.container}>
-            {step >= 1 && _renderStepOne()}
-            {step >= 2 && _renderStepTwo()}
-            {_renderMainBtn()}
-          </View>
-        </KeyboardAwareScrollView>
+          <ScrollView keyboardShouldPersistTaps contentContainerStyle={styles.grow}>
+            <View style={styles.container}>
+              {step >= 1 && _renderStepOne()}
+              {step >= 2 && _renderStepTwo()}
+
+              {_renderMainBtn()}
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+        {/* </KeyboardAwareScrollView> */}
         <OptionsModal
           ref={this.startActionSheet}
           options={[

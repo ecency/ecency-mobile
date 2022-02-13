@@ -206,6 +206,8 @@ export default EStyleSheet.create({
     top: 40,
     width: 172,
     maxHeight: 250,
+    zIndex: 999999,
+    elevation: 3,
   },
   usersDropdown: {
     borderColor: '$primaryWhiteLightBackground',
@@ -213,6 +215,7 @@ export default EStyleSheet.create({
     shadowOpacity: 0.3,
     shadowColor: '$shadowColor',
     backgroundColor: '$primaryLightBackground',
+    elevation: 3,
   },
   usersDropItemRow: {
     height: 50,
@@ -221,6 +224,7 @@ export default EStyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 10,
     paddingVertical: 10,
+    elevation: 3,
   },
   usersDropItemRowText: {
     color: '$primaryDarkGray',
@@ -298,5 +302,8 @@ export default EStyleSheet.create({
     color: '$primaryBlack',
     fontWeight: '600',
     textAlign: 'left',
+  },
+  grow: {
+    flexGrow: 1,
   },
 });
