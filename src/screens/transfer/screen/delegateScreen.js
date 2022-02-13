@@ -4,7 +4,6 @@ import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { View as AnimatedView } from 'react-native-animatable';
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 
@@ -478,14 +477,6 @@ class DelegateScreen extends Component {
     return (
       <Fragment>
         <BasicHeader title={intl.formatMessage({ id: 'transfer.delegate' })} />
-        {/* <KeyboardAwareScrollView
-          contentContainerStyle={{borderWidth:1,flexGrow:1}}
-          extraScrollHeight={150}
-          extraHeight={200}
-          keyboardShouldPersistTaps
-          enableOnAndroid={true}
-          enableAutomaticScroll={(Platform.OS === 'ios')}
-        > */}
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.fillSpace}
@@ -500,7 +491,6 @@ class DelegateScreen extends Component {
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
-        {/* </KeyboardAwareScrollView> */}
         <OptionsModal
           ref={this.startActionSheet}
           options={[
