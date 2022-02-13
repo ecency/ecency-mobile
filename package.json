@@ -29,7 +29,7 @@
   "dependencies": {
     "@babel/runtime": "^7.5.5",
     "@bugsnag/react-native": "^7.11.0",
-    "@ecency/render-helper": "^2.2.14",
+    "@ecency/render-helper": "^2.2.16",
     "@esteemapp/dhive": "0.15.0",
     "@esteemapp/react-native-autocomplete-input": "^4.2.1",
     "@esteemapp/react-native-multi-slider": "^1.1.0",
@@ -101,8 +101,8 @@
     "react-native-linear-gradient": "^2.4.2",
     "react-native-matomo-sdk": "feruzm/react-native-matomo-sdk",
     "react-native-modal": "^11.5.6",
+    "react-native-modal-popover": "^2.1.0",
     "react-native-modal-dropdown": "^1.0.2",
-    "react-native-modal-popover": "^2.0.1",
     "react-native-modal-translucent": "^5.0.0",
     "react-native-navigation-bar-color": "^1.0.0",
     "react-native-os": "^1.0.1",
