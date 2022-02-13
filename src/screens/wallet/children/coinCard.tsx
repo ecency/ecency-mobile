@@ -5,8 +5,9 @@ import {
     LineChart,
   } from "react-native-chart-kit";
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export interface CurrencyCardProps {
+export interface CoinCardProps {
     chartData:number[]
     id:string,
     tokenName:string,
@@ -16,9 +17,10 @@ export interface CurrencyCardProps {
     changePercent:number,
     currentValue:number,
     ownedTokens:number,
+    onPress:()=>void
 }
 
-const CurrencyCard = ({
+const CoinCard = ({
   id, 
   notCryptoToken, 
   chartData, 
@@ -28,7 +30,8 @@ const CurrencyCard = ({
   changePercent,
   currentValue,
   ownedTokens,
-}:CurrencyCardProps) => {
+  onPress
+}:CoinCardProps) => {
   
   console.log(chartData);
   if(!notCryptoToken && !chartData.length){
@@ -94,12 +97,15 @@ const CurrencyCard = ({
     )
 
   return (
-    <View style={styles.cardContainer}>
-      {_renderHeader}
-      {!notCryptoToken  && _renderGraph()}
-      {!notCryptoToken ? _renderFooter : <View style={{height:12}} />}
-    </View>
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.cardContainer}>
+        {_renderHeader}
+        {!notCryptoToken  && _renderGraph()}
+        {!notCryptoToken ? _renderFooter : <View style={{height:12}} />}
+      </View>
+    </TouchableOpacity>
+
   );
 };
 
-export default CurrencyCard;
+export default CoinCard;

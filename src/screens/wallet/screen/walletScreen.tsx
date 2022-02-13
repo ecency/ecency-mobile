@@ -26,17 +26,17 @@ import HbdView from './hbdView';
 import globalStyles from '../../../globalStyles';
 import styles from './walletScreenStyles';
 
-import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
 import { useAppSelector } from '../../../hooks';
-import CurrencyCard from '../children/currencyCard';
-import WalletTokens from '../children/walletTokens';
-import WALLET_TOKENS from '../children/walletTokens';
+import CurrencyCard from '../children/coinCard';
+import WALLET_TOKENS from '../../../constants/walletTokens';
 import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
+import { withNavigation } from 'react-navigation';
+import ROUTES from '../../../constants/routeNames';
 
-const HEADER_EXPANDED_HEIGHT = 312;
 
-const WalletScreen = () => {
+const WalletScreen = ({navigation}) => {
   const intl = useIntl();
+
 
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   const currency = useAppSelector((state)=>state.application.currency)
@@ -149,6 +149,11 @@ const WalletScreen = () => {
   // };
 
   const _renderItem = ({ item, index }) => {
+
+    const _onPress = () => {
+      navigation.navigate(ROUTES.SCREENS.COIN_DETAILS)
+    }
+
     const _tokenMarketData = marketData[index] || [];
     const _currentValue = item.id == 'Ecency' ? 1/150 : (_tokenMarketData[0] || 0);
     const _changePercent = 
@@ -163,6 +168,7 @@ const WalletScreen = () => {
           changePercent={_changePercent}
           currencySymbol={currency.currencySymbol}
           ownedTokens={150}
+          onPress={_onPress}
           {...item} />
       );
   };
@@ -227,5 +233,5 @@ const WalletScreen = () => {
   );
 };
 
-export default WalletScreen;
+export default withNavigation(WalletScreen);
 /* eslint-enable */
