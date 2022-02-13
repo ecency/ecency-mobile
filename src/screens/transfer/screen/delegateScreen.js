@@ -64,6 +64,7 @@ class DelegateScreen extends Component {
     };
 
     this.startActionSheet = React.createRef();
+    this.destinationTextInput = React.createRef();
   }
 
   // Component Life Cycles
@@ -243,8 +244,9 @@ class DelegateScreen extends Component {
     const username = item;
     return (
       <TouchableOpacity
-        onPress={async () => {
+        onPress={() => {
           this.setState({ destination: username, usersResult: [], step: 2 });
+          this.destinationTextInput.current?.blur();
         }}
         style={styles.usersDropItemRow}
       >
@@ -285,6 +287,8 @@ class DelegateScreen extends Component {
               multiline={isTextArea}
               numberOfLines={isTextArea ? 4 : 1}
               keyboardType={keyboardType}
+              autoFocus={true}
+              innerRef={this.destinationTextInput}
             />
 
             <View style={styles.usersDropdownContainer}>
@@ -435,7 +439,7 @@ class DelegateScreen extends Component {
             this._renderInput(
               intl.formatMessage({ id: 'transfer.amount' }),
               'amount',
-              'number-pad',
+              'decimal-pad',
               availableVestingShares,
             )
           }
