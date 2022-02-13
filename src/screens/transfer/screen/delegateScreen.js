@@ -66,6 +66,7 @@ class DelegateScreen extends Component {
 
     this.startActionSheet = React.createRef();
     this.destinationTextInput = React.createRef();
+    this.amountTextInput = React.createRef();
   }
 
   // Component Life Cycles
@@ -192,8 +193,9 @@ class DelegateScreen extends Component {
     const { step, hp, amount, destination, from, delegatedHP } = this.state;
     const { dispatch, intl } = this.props;
     if (step === 1) {
-      this.setState({ step: 2 });
+      // this.setState({ step: 2 });
     } else {
+      // this.amountTextInput.current.blur();
       dispatch(
         showActionModal(
           intl.formatMessage({ id: 'transfer.confirm' }),
@@ -313,6 +315,8 @@ class DelegateScreen extends Component {
             multiline={isTextArea}
             numberOfLines={isTextArea ? 4 : 1}
             keyboardType={keyboardType}
+            innerRef={this.amountTextInput}
+            blurOnSubmit={false}
           />
         );
       default:
@@ -473,7 +477,11 @@ class DelegateScreen extends Component {
     return (
       <Fragment>
         <BasicHeader title={intl.formatMessage({ id: 'transfer.delegate' })} />
-        <KeyboardAwareScrollView contentContainerStyle={styles.fillSpace} keyboardShouldPersistTaps>
+        <KeyboardAwareScrollView
+          contentContainerStyle={styles.fillSpace}
+          extraScrollHeight={80}
+          keyboardShouldPersistTaps
+        >
           <View style={styles.container}>
             {step >= 1 && _renderStepOne()}
             {step >= 2 && _renderStepTwo()}
