@@ -5,6 +5,7 @@ import { injectIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { View as AnimatedView } from 'react-native-animatable';
 
 // Constants
 import { debounce } from 'lodash';
@@ -390,7 +391,6 @@ class DelegateScreen extends Component {
             onValueChange={(value) => this._handleSliderValueChange(value, availableVestingShares)}
           />
           <View style={styles.sliderAmountContainer}>
-            <Text style={styles.amountText}>{`${hp} HP`}</Text>
             <Text style={styles.amountText}>{`${totalHP.toFixed(3)} HP`}</Text>
           </View>
         </View>
@@ -420,33 +420,35 @@ class DelegateScreen extends Component {
       </View>
     );
     const _renderStepTwo = () => (
-      <View style={styles.stepTwoContainer}>
-        <Text style={styles.sectionHeading}>
-          {intl.formatMessage({ id: 'transfer.delegat_detail_head' })}
-        </Text>
-        <Text style={styles.sectionSubheading}>
-          {intl.formatMessage({ id: 'transfer.delegat_detail_subhead' })}
-        </Text>
-        <View style={styles.alreadyDelegateRow}>
-          <Text style={styles.sectionSubheading}>
-            {`${intl.formatMessage({ id: 'transfer.already_delegated' })} @${destination}`}
+      <AnimatedView animation="bounceInRight" delay={500} useNativeDriver>
+        <View style={styles.stepTwoContainer}>
+          <Text style={styles.sectionHeading}>
+            {intl.formatMessage({ id: 'transfer.delegat_detail_head' })}
           </Text>
-          <Text style={styles.sectionSubheading}>{`${delegatedHP} HP`}</Text>
+          <Text style={styles.sectionSubheading}>
+            {intl.formatMessage({ id: 'transfer.delegat_detail_subhead' })}
+          </Text>
+          <View style={styles.alreadyDelegateRow}>
+            <Text style={styles.sectionSubheading}>
+              {`${intl.formatMessage({ id: 'transfer.already_delegated' })} @${destination}`}
+            </Text>
+            <Text style={styles.sectionSubheading}>{`${delegatedHP} HP`}</Text>
+          </View>
+          <TransferFormItem
+            label={intl.formatMessage({ id: 'transfer.new_amount' })}
+            rightComponent={() =>
+              this._renderInput(
+                intl.formatMessage({ id: 'transfer.amount' }),
+                'amount',
+                'decimal-pad',
+                availableVestingShares,
+              )
+            }
+            containerStyle={styles.paddBottom}
+          />
+          {_renderSlider()}
         </View>
-        <TransferFormItem
-          label={intl.formatMessage({ id: 'transfer.new_amount' })}
-          rightComponent={() =>
-            this._renderInput(
-              intl.formatMessage({ id: 'transfer.amount' }),
-              'amount',
-              'decimal-pad',
-              availableVestingShares,
-            )
-          }
-          containerStyle={styles.paddBottom}
-        />
-        {_renderSlider()}
-      </View>
+      </AnimatedView>
     );
     const _renderMainBtn = () => (
       <View style={styles.stepThreeContainer}>
