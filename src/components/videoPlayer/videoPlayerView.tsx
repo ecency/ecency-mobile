@@ -6,11 +6,11 @@ import YoutubeIframe, { InitialPlayerParams } from 'react-native-youtube-iframe'
 import Video from 'react-native-video';
 
 interface VideoPlayerProps {
-  mode: 'source' | 'youtube';
+  mode: 'uri' | 'youtube';
   contentWidth?: number;
   youtubeVideoId?: string;
   startTime?: number;
-  source?: string;
+  uri?: string;
   //prop for youtube player
   disableAutoplay?: boolean;
 }
@@ -18,14 +18,14 @@ interface VideoPlayerProps {
 const VideoPlayer = ({
   youtubeVideoId,
   startTime,
-  source,
+  uri,
   contentWidth = Dimensions.get('screen').width,
   mode,
   disableAutoplay,
 }: VideoPlayerProps) => {
   const PLAYER_HEIGHT = contentWidth * (9 / 16);
   const checkSrcRegex = /(.*?)\.(mp4|webm|ogg)$/gi;
-  const isExtensionType = mode === 'source' ? source.match(checkSrcRegex) : false;
+  const isExtensionType = mode === 'uri' ? uri.match(checkSrcRegex) : false;
 
   const [shouldPlay, setShouldPlay] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -65,11 +65,11 @@ const VideoPlayer = ({
           />
         </View>
       )}
-      {mode === 'source' && source && (
+      {mode === 'uri' && uri && (
         <View style={{ height: PLAYER_HEIGHT }}>
           {isExtensionType ? (
             <Video
-              source={{ uri: source }}
+              source={{ uri: uri }}
               ref={videoPlayerRef}
               onBuffer={() => console.log('buffering')}
               onError={() => console.log('error while playing')}
@@ -92,7 +92,7 @@ const VideoPlayer = ({
               onLoadStart={() => {
                 setLoading(true);
               }}
-              source={{ uri: source }}
+              source={{ uri: uri }}
               style={{ width: contentWidth, height: PLAYER_HEIGHT }}
               startInLoadingState={true}
               onShouldStartLoadWithRequest={() => true}

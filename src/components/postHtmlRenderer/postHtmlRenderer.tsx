@@ -150,9 +150,9 @@ export const PostHtmlRenderer = memo(
         } else {
           return (
             <VideoPlayer
-              mode={parsedTnode.youtubeId ? 'youtube' : 'source'}
+              mode={parsedTnode.youtubeId ? 'youtube' : 'uri'}
               contentWidth={contentWidth}
-              source={parsedTnode.videoHref}
+              uri={parsedTnode.videoHref}
               youtubeVideoId={parsedTnode.youtubeId}
               startTime={parsedTnode.startTime}
               disableAutoplay={true}
@@ -243,8 +243,8 @@ export const PostHtmlRenderer = memo(
         return (
 
           <VideoPlayer 
-            mode='source'
-            source={iframeProps.source.uri}
+            mode='uri'
+            uri={iframeProps.source.uri}
             contentWidth={contentWidth}
           />
         );
