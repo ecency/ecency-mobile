@@ -391,7 +391,7 @@ class DelegateScreen extends Component {
             onValueChange={(value) => this._handleSliderValueChange(value, availableVestingShares)}
           />
           <View style={styles.sliderAmountContainer}>
-            <Text style={styles.amountText}>{`${totalHP.toFixed(3)} HP`}</Text>
+            <Text style={styles.amountText}>{`MAX  ${totalHP.toFixed(3)} HP`}</Text>
           </View>
         </View>
       </View>
@@ -399,7 +399,10 @@ class DelegateScreen extends Component {
     const _renderStepOne = () => (
       <View style={styles.stepOneContainer}>
         <Text style={styles.sectionHeading}>
-          {intl.formatMessage({ id: 'transfer.add_account' })}
+          {intl.formatMessage({ id: 'transfer.account_detail_head' })}
+        </Text>
+        <Text style={styles.sectionSubheading}>
+          {intl.formatMessage({ id: 'transfer.account_detail_subhead' })}
         </Text>
         <TransferFormItem
           label={intl.formatMessage({ id: 'transfer.from' })}

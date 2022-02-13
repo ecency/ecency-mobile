@@ -289,7 +289,7 @@ export default EStyleSheet.create({
   },
   sliderAmountContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     paddingHorizontal: 8,
   },
