@@ -6,6 +6,7 @@ export default EStyleSheet.create({
     marginHorizontal:16,
     marginVertical:8,
     borderRadius:12,
+    overflow: 'hidden',
     backgroundColor: '$primaryLightBackground'
   } as ViewStyle,
   basicsContainer:{
@@ -42,7 +43,7 @@ export default EStyleSheet.create({
   textBasicLabel:{
     color: '$primaryDarkText',
     fontSize: 14,
-    marginBottom:24,
+    marginBottom:16,
   } as TextStyle,
 
   rangeContainer:{
@@ -58,5 +59,11 @@ export default EStyleSheet.create({
   } as ViewStyle,
   textRange:{
     fontSize:18,
-  } as TextStyle
+  } as TextStyle,
+  chartContainer:{
+    height: 168,
+    marginTop: 16,
+    marginLeft:-66,
+    overflow: 'hidden',
+  } as ViewStyle
 });

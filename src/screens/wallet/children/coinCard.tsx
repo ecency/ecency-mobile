@@ -1,11 +1,12 @@
 import { View, Text, Dimensions } from 'react-native';
 import React from 'react';
-import styles from './styles';
+import styles from './children.styles';
 import {
     LineChart,
   } from "react-native-chart-kit";
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { SimpleChart } from '../../../components';
 
 export interface CoinCardProps {
     chartData:number[]
@@ -20,7 +21,7 @@ export interface CoinCardProps {
     onPress:()=>void
 }
 
-const CoinCard = ({
+export const CoinCard = ({
   id, 
   notCryptoToken, 
   chartData, 
@@ -56,36 +57,14 @@ const CoinCard = ({
 
     const _renderGraph = () => {
       const _baseWidth = Dimensions.get("window").width - 32;
-      const _chartWidth = _baseWidth + _baseWidth/(chartData.length -1)
-      const _chartBackgroundColor = EStyleSheet.value('$primaryLightBackground');
       return (
         <View style={styles.chartContainer}>
-          <LineChart 
-            data={{
-                labels: [],
-                datasets: [
-                  {
-                    data:chartData
-                  }
-                ],
-              }}
-              width={_chartWidth} // from react-native
-              height={130}
-              withHorizontalLabels={true}
-              withVerticalLabels={false}
-              withDots={false}
-              withInnerLines={false}
-           
-              
-              chartConfig={{
-                backgroundColor:_chartBackgroundColor,
-                backgroundGradientFrom: _chartBackgroundColor,
-                backgroundGradientTo: _chartBackgroundColor,
-                fillShadowGradient: EStyleSheet.value('$chartBlue'),
-                fillShadowGradientOpacity:0.8,
-                color: () => 'transparent',
-              }}
-            />
+          <SimpleChart 
+            data={chartData}
+            baseWidth={_baseWidth}
+            showLine={false}
+            chartHeight={130}
+          />
         </View>
     )}
 
@@ -108,4 +87,3 @@ const CoinCard = ({
   );
 };
 
-export default CoinCard;

@@ -27,7 +27,7 @@ import globalStyles from '../../../globalStyles';
 import styles from './walletScreenStyles';
 
 import { useAppSelector } from '../../../hooks';
-import CurrencyCard from '../children/coinCard';
+import {CoinCard} from '../children';
 import WALLET_TOKENS from '../../../constants/walletTokens';
 import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
 import { withNavigation } from 'react-navigation';
@@ -162,7 +162,7 @@ const WalletScreen = ({navigation}) => {
       :
       0;
     return (
-        <CurrencyCard 
+        <CoinCard 
           chartData={_tokenMarketData || []} 
           currentValue={_currentValue}
           changePercent={_changePercent}
