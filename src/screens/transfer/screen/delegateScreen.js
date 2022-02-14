@@ -69,13 +69,6 @@ class DelegateScreen extends Component {
     this.amountTextInput = React.createRef();
   }
 
-  // Component Life Cycles
-  componentDidUpdate = (prevProps, prevState) => {
-    if (prevState.step !== this.state.step && this.state.step === 2) {
-      this._fetchReceivedVestingShare();
-    }
-  };
-
   // Component Functions
   _setState = (key, value) => {
     const { getAccountsWithUsername, balance } = this.props;
@@ -247,6 +240,7 @@ class DelegateScreen extends Component {
     return (
       <TouchableOpacity
         onPress={() => {
+          this._fetchReceivedVestingShare();
           this.setState({ destination: username, usersResult: [], step: 2 });
           this.destinationTextInput.current?.blur();
         }}
@@ -279,7 +273,7 @@ class DelegateScreen extends Component {
             <TextInput
               style={[styles.input]}
               onChangeText={(value) => {
-                this.setState({ destination: value });
+                this.setState({ destination: value, step: 1 });
                 this._handleOnAmountChange(state, value);
               }}
               value={this.state[state]}
