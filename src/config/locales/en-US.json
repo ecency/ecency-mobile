@@ -585,7 +585,9 @@
     "review": "Review",
     "confirm": "Confirm Delegation",
     "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
-    "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user. "
+    "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
+    "username_alert": "Username Error!",
+    "username_alert_detail": "Please select different username"
   },
   "boost": {
     "title": "Get Points",

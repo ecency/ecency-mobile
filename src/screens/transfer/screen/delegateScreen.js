@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, Platform, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { View, Text, Platform, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
@@ -237,9 +237,18 @@ class DelegateScreen extends Component {
 
   _renderUsersDropdownItem = ({ item }) => {
     const username = item;
+    const { from } = this.state;
+    const { intl } = this.props;
     return (
       <TouchableOpacity
         onPress={() => {
+          if (username === from) {
+            Alert.alert(
+              intl.formatMessage({ id: 'transfer.username_alert' }),
+              intl.formatMessage({ id: 'transfer.username_alert_detail' }),
+            );
+            return;
+          }
           this._fetchReceivedVestingShare();
           this.setState({ destination: username, usersResult: [], step: 2 });
           this.destinationTextInput.current?.blur();
