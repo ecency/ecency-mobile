@@ -189,9 +189,9 @@ class DelegateScreen extends Component {
     } else {
       // this.amountTextInput.current.blur();
       dispatch(
-        showActionModal(
-          intl.formatMessage({ id: 'transfer.confirm' }),
-          intl.formatMessage(
+        showActionModal({
+          title: intl.formatMessage({ id: 'transfer.confirm' }),
+          body: intl.formatMessage(
             { id: 'transfer.confirm_summary' },
             {
               hp: hp,
@@ -200,13 +200,13 @@ class DelegateScreen extends Component {
               delegator: destination,
             },
           ),
-          intl.formatMessage(
+          para: intl.formatMessage(
             { id: 'transfer.confirm_summary_para' },
             {
               prev: delegatedHP,
             },
           ),
-          [
+          buttons: [
             {
               text: intl.formatMessage({ id: 'alert.cancel' }),
               onPress: () => console.log('Cancel'),
@@ -216,8 +216,8 @@ class DelegateScreen extends Component {
               onPress: () => this._handleTransferAction(),
             },
           ],
-          this._renderToFromAvatars(),
-        ),
+          headerContent: this._renderToFromAvatars(),
+        }),
       );
     }
   };
