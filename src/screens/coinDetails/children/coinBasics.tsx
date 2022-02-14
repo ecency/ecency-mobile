@@ -10,7 +10,7 @@ export const CoinBasics = () => {
              <Text style={styles.textCoinTitle}>HIVE</Text>
             </View>
          
-            <Text style={styles.textHeaderChange}>Change <Text style={styles.textPositive}>+10.13</Text></Text>
+            <Text style={styles.textHeaderChange}>Change <Text style={styles.textPositive}>+10.13%</Text></Text>
         </>
     )
 

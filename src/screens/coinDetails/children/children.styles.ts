@@ -43,5 +43,20 @@ export default EStyleSheet.create({
     color: '$primaryDarkText',
     fontSize: 14,
     marginBottom:24,
+  } as TextStyle,
+
+  rangeContainer:{
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'space-between',
+    borderRadius:32,
+  } as ViewStyle,
+  rangeOptionWrapper:{
+    borderRadius:32,
+    paddingVertical:16,
+    paddingHorizontal:24
+  } as ViewStyle,
+  textRange:{
+    fontSize:18,
   } as TextStyle
 });
