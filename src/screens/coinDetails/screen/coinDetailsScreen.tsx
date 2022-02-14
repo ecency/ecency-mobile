@@ -3,6 +3,7 @@ import React from 'react'
 import { BasicHeader } from '../../../components'
 import { FlatList } from 'react-native-gesture-handler'
 import { ActivityItem, CoinSummary } from '../children'
+import styles from './screen.styles';
 
 const CoinDetailsScreen = () => {
 
@@ -11,10 +12,10 @@ const CoinDetailsScreen = () => {
   }
 
   return (
-    <View style={{flex:1}}>
+    <View style={styles.container}>
       <BasicHeader title="Coin Details" />
       <FlatList 
-        style={{flex:1}}
+        style={styles.list}
         data={["data"]}
         renderItem={_renderActivityItem}
         keyExtractor={(item, index)=>`activity_item_${index}`}
