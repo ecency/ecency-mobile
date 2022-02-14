@@ -308,7 +308,7 @@ class DelegateScreen extends Component {
       case 'amount':
         return (
           <TextInput
-            style={[styles.input, !isAmountValid && styles.error]}
+            style={[styles.amountInput, !isAmountValid && styles.error]}
             onChangeText={(amount) => {
               this._handleAmountChange(amount, availableVestingShares);
             }}
@@ -403,6 +403,7 @@ class DelegateScreen extends Component {
         </View>
       </View>
     );
+
     const _renderStepOne = () => (
       <View style={styles.stepOneContainer}>
         <Text style={styles.sectionHeading}>
@@ -412,6 +413,7 @@ class DelegateScreen extends Component {
           {intl.formatMessage({ id: 'transfer.account_detail_subhead' })}
         </Text>
         <TransferFormItem
+          containerStyle={{ marginTop: 32 }}
           label={intl.formatMessage({ id: 'transfer.from' })}
           rightComponent={() => this._renderDropdown(accounts, currentAccountName)}
         />
@@ -429,6 +431,7 @@ class DelegateScreen extends Component {
         {this._renderToFromAvatars()}
       </View>
     );
+
     const _renderStepTwo = () => (
       <AnimatedView animation="bounceInRight" delay={500} useNativeDriver>
         <View style={styles.stepTwoContainer}>
@@ -452,6 +455,9 @@ class DelegateScreen extends Component {
                 'amount',
                 'decimal-pad',
                 availableVestingShares,
+                null,
+                null,
+                200,
               )
             }
             containerStyle={styles.paddBottom}
@@ -466,7 +472,7 @@ class DelegateScreen extends Component {
           style={styles.button}
           onPress={this._handleNext}
           isLoading={isTransfering}
-          isDisable={!isAmountValid}
+          isDisable={!isAmountValid || step === 1}
         >
           <Text style={styles.buttonText}>
             {step === 2
