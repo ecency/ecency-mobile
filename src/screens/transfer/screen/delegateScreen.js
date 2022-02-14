@@ -188,26 +188,29 @@ class DelegateScreen extends Component {
       // this.setState({ step: 2 });
     } else {
       // this.amountTextInput.current.blur();
+      let body =
+        intl.formatMessage(
+          { id: 'transfer.confirm_summary' },
+          {
+            hp: hp,
+            vests: amount.toFixed(3),
+            delegatee: from,
+            delegator: destination,
+          },
+        ) +
+        (delegatedHP
+          ? `\n${intl.formatMessage(
+              { id: 'transfer.confirm_summary_para' },
+              {
+                prev: delegatedHP,
+              },
+            )}`
+          : '');
+
       dispatch(
         showActionModal({
           title: intl.formatMessage({ id: 'transfer.confirm' }),
-          body: intl.formatMessage(
-            { id: 'transfer.confirm_summary' },
-            {
-              hp: hp,
-              vests: amount.toFixed(3),
-              delegatee: from,
-              delegator: destination,
-            },
-          ),
-          para: delegatedHP
-            ? intl.formatMessage(
-                { id: 'transfer.confirm_summary_para' },
-                {
-                  prev: delegatedHP,
-                },
-              )
-            : null,
+          body,
           buttons: [
             {
               text: intl.formatMessage({ id: 'alert.cancel' }),
