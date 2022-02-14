@@ -24,7 +24,7 @@ export const SimpleChart = ({data, baseWidth, chartHeight, showLine}:CoinChartPr
               }}
               width={_chartWidth} // from react-native
               height={chartHeight}
-              withHorizontalLabels={true}
+              withHorizontalLabels={false}
               withVerticalLabels={false}
               withHorizontalLines={false}
               withDots={false}
