@@ -377,10 +377,13 @@ class ApplicationContainer extends Component {
 
     if (parseVersionNumber(remoteVersion) > parseVersionNumber(VersionNumber.appVersion)) {
       dispatch(
-        showActionModal(
-          intl.formatMessage({ id: 'alert.update_available_title' }, { version: remoteVersion }),
-          intl.formatMessage({ id: 'alert.update_available_body' }),
-          [
+        showActionModal({
+          title: intl.formatMessage(
+            { id: 'alert.update_available_title' },
+            { version: remoteVersion },
+          ),
+          body: intl.formatMessage({ id: 'alert.update_available_body' }),
+          buttons: [
             {
               text: intl.formatMessage({ id: 'alert.remind_later' }),
               onPress: () => {
@@ -400,8 +403,8 @@ class ApplicationContainer extends Component {
               },
             },
           ],
-          require('../../../assets/phone-holding.png'),
-        ),
+          headerImage: require('../../../assets/phone-holding.png'),
+        }),
       );
     }
   };
