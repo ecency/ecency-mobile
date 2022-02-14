@@ -200,12 +200,14 @@ class DelegateScreen extends Component {
               delegator: destination,
             },
           ),
-          para: intl.formatMessage(
-            { id: 'transfer.confirm_summary_para' },
-            {
-              prev: delegatedHP,
-            },
-          ),
+          para: delegatedHP
+            ? intl.formatMessage(
+                { id: 'transfer.confirm_summary_para' },
+                {
+                  prev: delegatedHP,
+                },
+              )
+            : null,
           buttons: [
             {
               text: intl.formatMessage({ id: 'alert.cancel' }),
