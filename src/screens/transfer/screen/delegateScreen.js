@@ -158,8 +158,16 @@ class DelegateScreen extends Component {
   };
 
   _handleOnDropdownChange = (value) => {
-    const { fetchBalance } = this.props;
-
+    const { fetchBalance, intl } = this.props;
+    const { destination } = this.state;
+    if (value === destination) {
+      Alert.alert(
+        intl.formatMessage({ id: 'transfer.username_alert' }),
+        intl.formatMessage({ id: 'transfer.username_alert_detail' }),
+      );
+      this.setState({ step: 1, destination: '' });
+      return;
+    }
     fetchBalance(value);
     this.setState({ from: value, amount: 0 });
   };
