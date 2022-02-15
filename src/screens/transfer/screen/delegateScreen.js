@@ -69,6 +69,13 @@ class DelegateScreen extends Component {
     this.amountTextInput = React.createRef();
   }
 
+  // Component Lifecycles
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.from !== this.state.from) {
+      this._fetchReceivedVestingShare();
+    }
+  }
+
   // Component Functions
   _setState = (key, value) => {
     const { getAccountsWithUsername, balance } = this.props;
@@ -145,6 +152,10 @@ class DelegateScreen extends Component {
           const vest_shares = parseAsset(curShare.vesting_shares);
           this.setState({
             delegatedHP: vestsToHp(vest_shares.amount, hivePerMVests).toFixed(3),
+          });
+        } else {
+          this.setState({
+            delegatedHP: 0,
           });
         }
       } else {
