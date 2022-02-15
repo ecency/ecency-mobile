@@ -177,6 +177,8 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   if (!user) {
     return walletData;
   }
+
+  //TODO: Use already available accoutn for frist wallet start
   const state = await getAccount(get(user, 'name'));
 
   //const { accounts } = state;
@@ -203,9 +205,10 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   walletData.savingBalance = parseToken(userdata.savings_balance);
   walletData.savingBalanceHbd = parseToken(userdata.savings_hbd_balance);
 
-  const feedHistory = await getFeedHistory();
-  const base = parseToken(feedHistory.current_median_history.base);
-  const quote = parseToken(feedHistory.current_median_history.quote);
+  //TOOD: use base and quote from account.globalProps redux
+  // const feedHistory = await getFeedHistory();
+  const base = 1.049; // parseToken(feedHistory.current_median_history.base);
+  const quote = 1; // parseToken(feedHistory.current_median_history.quote);
 
   walletData.hivePerMVests = globalProps.hivePerMVests;
 
@@ -220,6 +223,7 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
 
   walletData.estimatedValue = totalHive * pricePerHive + totalHbd;
 
+  //TODO: cache data in redux or fetch once on wallet startup
   const ppHbd = await getCurrencyTokenRate(userCurrency, 'hbd');
   const ppHive = await getCurrencyTokenRate(userCurrency, 'hive');
 
@@ -232,6 +236,7 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   const timeDiff = Math.abs(parseDate(userdata.next_vesting_withdrawal) - new Date());
   walletData.nextVestingWithdrawal = Math.round(timeDiff / (1000 * 3600));
 
+  //TOOD: transfer history can be separated from here
   const history = await getAccountHistory(get(user, 'name'));
 
   const transfers = history.filter((tx) => transferTypes.includes(get(tx[1], 'op[0]', false)));
