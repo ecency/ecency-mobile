@@ -368,9 +368,9 @@ const CommentBody = ({
         }}
       >
         <VideoPlayer 
-          mode={youtubeVideoId ? 'youtube' : 'url'}
+          mode={youtubeVideoId ? 'youtube' : 'uri'}
           youtubeVideoId={youtubeVideoId} 
-          videoUrl={videoUrl} 
+          uri={videoUrl} 
           startTime={videoStartTime} 
         />
       </ActionsSheetView>
