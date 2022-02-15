@@ -32,5 +32,12 @@ const WALLET_TOKENS = [{
     notCryptoToken:false
 }] as WalletTokenBase[]
 
+export const COIN_SYMBOLS = {
+    ECENCY:'Ecency',
+    HIVE:'HIVE',
+    HBD:'HBD',
+    HP:'HP'
+}
+
 
 export default WALLET_TOKENS

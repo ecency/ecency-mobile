@@ -153,7 +153,7 @@ const WalletScreen = ({navigation}) => {
 
     const _onPress = () => {
       navigation.navigate(ROUTES.SCREENS.COIN_DETAILS, {
-        coinSymbol:item.tokenSymbol
+        coinId:item.id
       } as CoinDetailsScreenParams)
     }
 

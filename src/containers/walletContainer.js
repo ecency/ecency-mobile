@@ -20,6 +20,7 @@ import { getEstimatedAmount } from '../utils/vote';
 
 // Constants
 import ROUTES from '../constants/routeNames';
+import { COIN_SYMBOLS } from '../constants/walletTokens';
 
 const HIVE_DROPDOWN = [
   'purchase_estm',
@@ -274,6 +275,26 @@ const WalletContainer = ({
     }
   };
 
+  //process symbol based data
+  let balance = 0;
+  let estimateValue = 0;
+  let savings = 0;
+  switch (coinSymbol) {
+    case COIN_SYMBOLS.HIVE:
+      balance = hiveBalance;
+      estimateValue = estimatedHiveValue;
+      savings = hiveSavingBalance;
+      break;
+    case COIN_SYMBOLS.HBD:
+      balance = hbdBalance;
+      estimateValue = estimatedHbdValue;
+      savings = hbdSavingBalance;
+      break;
+
+    default:
+      break;
+  }
+
   return (
     children &&
     children({
@@ -310,6 +331,11 @@ const WalletContainer = ({
       hivePowerDropdown: HIVE_POWER_DROPDOWN,
       unclaimedBalance: unclaimedBalance && unclaimedBalance.trim(),
       estimatedAmount,
+
+      //symbol based data
+      balance,
+      estimateValue,
+      savings,
     })
   );
 };
