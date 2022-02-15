@@ -162,15 +162,15 @@ const WalletScreen = ({navigation}) => {
       :
       0;
     return (
-        <CoinCard 
-          chartData={_tokenMarketData || []} 
-          currentValue={_currentValue}
-          changePercent={_changePercent}
-          currencySymbol={currency.currencySymbol}
-          ownedTokens={150}
-          onPress={_onPress}
-          {...item} />
-      );
+      <CoinCard 
+        chartData={_tokenMarketData || []} 
+        currentValue={_currentValue}
+        changePercent={_changePercent}
+        currencySymbol={currency.currencySymbol}
+        ownedTokens={150}
+        onPress={_onPress}
+        {...item} />
+    );
   };
 
   const _renderLoading = () => {

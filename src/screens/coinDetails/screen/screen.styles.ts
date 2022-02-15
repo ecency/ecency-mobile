@@ -7,5 +7,15 @@ export default EStyleSheet.create({
   },
   list:{
     flex:1,
+  },
+  listContent:{
+    paddingBottom:56,
+    marginHorizontal:16
+  },
+  textActivities:{
+    color:'$primaryBlack',
+    fontWeight:'600',
+    fontSize:18,
+    paddingVertical:16 
   }
 });
