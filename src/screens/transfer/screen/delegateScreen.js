@@ -245,6 +245,7 @@ class DelegateScreen extends Component {
       );
     }
   };
+  // Note: dropdown for user account selection. can be used in later implementaion
   _renderDropdown = (accounts, currentAccountName) => (
     <DropdownButton
       dropdownButtonStyle={styles.dropdownButtonStyle}
@@ -300,6 +301,21 @@ class DelegateScreen extends Component {
   _renderInput = (placeholder, state, keyboardType, availableVestingShares, isTextArea) => {
     const { isAmountValid } = this.state;
     switch (state) {
+      case 'from':
+        return (
+          <TextInput
+            style={[styles.input]}
+            value={this.state[state]}
+            placeholder={placeholder}
+            placeholderTextColor="#c1c5c7"
+            autoCapitalize="none"
+            multiline={isTextArea}
+            numberOfLines={isTextArea ? 4 : 1}
+            keyboardType={keyboardType}
+            innerRef={this.destinationTextInput}
+            editable={false}
+          />
+        );
       case 'destination':
         return (
           <View style={styles.transferToContainer}>
@@ -437,7 +453,9 @@ class DelegateScreen extends Component {
         <TransferFormItem
           containerStyle={{ marginTop: 32 }}
           label={intl.formatMessage({ id: 'transfer.from' })}
-          rightComponent={() => this._renderDropdown(accounts, currentAccountName)}
+          rightComponent={() =>
+            this._renderInput(intl.formatMessage({ id: 'transfer.from' }), 'from', 'default')
+          }
         />
         <TransferFormItem
           label={intl.formatMessage({ id: 'transfer.to' })}
