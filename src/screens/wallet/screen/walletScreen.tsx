@@ -28,10 +28,11 @@ import styles from './walletScreenStyles';
 
 import { useAppSelector } from '../../../hooks';
 import {CoinCard} from '../children';
-import WALLET_TOKENS from '../../../constants/walletTokens';
+import WALLET_TOKENS, { WalletTokenBase } from '../../../constants/walletTokens';
 import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
 import { withNavigation } from 'react-navigation';
 import ROUTES from '../../../constants/routeNames';
+import { CoinDetailsScreenParams } from '../../coinDetails/screen/coinDetailsScreen';
 
 
 const WalletScreen = ({navigation}) => {
@@ -148,10 +149,12 @@ const WalletScreen = ({navigation}) => {
   //   );
   // };
 
-  const _renderItem = ({ item, index }) => {
+  const _renderItem = ({ item, index }:{item:WalletTokenBase, index:number}) => {
 
     const _onPress = () => {
-      navigation.navigate(ROUTES.SCREENS.COIN_DETAILS)
+      navigation.navigate(ROUTES.SCREENS.COIN_DETAILS, {
+        coinSymbol:item.tokenSymbol
+      } as CoinDetailsScreenParams)
     }
 
     const _tokenMarketData = marketData[index] || [];

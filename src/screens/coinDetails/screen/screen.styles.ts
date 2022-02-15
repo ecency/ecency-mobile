@@ -5,13 +5,7 @@ export default EStyleSheet.create({
     flex:1,
     backgroundColor: '$primaryBackgroundColor',
   },
-  list:{
-    flex:1,
-  },
-  listContent:{
-    paddingBottom:56,
-    marginHorizontal:16
-  },
+
   textActivities:{
     color:'$primaryBlack',
     fontWeight:'600',

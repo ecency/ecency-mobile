@@ -36,6 +36,7 @@ const HIVE_POWER_DROPDOWN = ['delegate', 'power_down'];
 const WalletContainer = ({
   children,
   currentAccount,
+  coinSymbol,
   globalProps,
   handleOnScroll,
   pinCode,

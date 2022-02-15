@@ -2,23 +2,33 @@ import React from 'react'
 import { View, Text } from 'react-native'
 import styles from './children.styles'
 
-export const CoinBasics = () => {
+export interface ValuePair {
+    value:string|number;
+    label:string;
+}
+
+interface CoinBasicsProps {
+    valuePairs:ValuePair[];
+    coinSymbol:string;
+}
+
+export const CoinBasics = ({valuePairs, coinSymbol}:CoinBasicsProps) => {
 
     const _renderCoinHeader = (
         <>
             <View style={styles.coinTitleContainer}>
-             <Text style={styles.textCoinTitle}>HIVE</Text>
+             <Text style={styles.textCoinTitle}>{coinSymbol}</Text>
             </View>
          
             <Text style={styles.textHeaderChange}>Change <Text style={styles.textPositive}>+10.13%</Text></Text>
         </>
     )
 
-    const _renderValuePair = (label:string, value:string) => {
+    const _renderValuePair = (args:ValuePair) => {
         return (
             <>
-                <Text style={styles.textBasicValue}>{value}</Text>
-                <Text style={styles.textBasicLabel}>{label}</Text>
+                <Text style={styles.textBasicValue}>{args.value}</Text>
+                <Text style={styles.textBasicLabel}>{args.label}</Text>
             </>
         )
 
@@ -27,9 +37,7 @@ export const CoinBasics = () => {
     return (
         <View style={[styles.card, styles.basicsContainer]}>
             {_renderCoinHeader}
-            {_renderValuePair('Balance', '234.423897')}
-            {_renderValuePair('Value', '$23423.34')}
-            {_renderValuePair('Savings', '434.3')}
+            {valuePairs.map((valPair)=>_renderValuePair(valPair))}
         </View>
     )
 }

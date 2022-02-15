@@ -2,18 +2,30 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import { BasicHeader, Transaction } from '../../../components'
 import { FlatList } from 'react-native-gesture-handler'
-import { CoinSummary } from '../children'
+import { CoinSummary, CoinSummaryProps } from '../children'
 import styles from './screen.styles';
+import { AccountContainer, WalletContainer } from '../../../containers'
+import ActivitiesList from '../children/activitiesList'
+import { NavigationStackRouterConfig, withNavigation } from 'react-navigation'
+import { NavigationStackConfig } from 'react-navigation-stack'
 
-const CoinDetailsScreen = () => {
+export interface CoinDetailsScreenParams {
+  coinSymbol:string;
+}
 
-  const _renderActivityItem = ({item, index}) => {
-    return <Transaction item={item} index={index} />
+interface CoinDetailsScreenProps {
+  navigation:any
+}
+
+const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
+  const coinSymbol = navigation.getParam('coinSymbol');
+  if(!coinSymbol){
+    throw new Error("Coin symbol must be passed")
   }
 
-  const _renderHeaderComponent = (
+  const _renderHeaderComponent = (headerProps:CoinSummaryProps) => (
     <>
-      <CoinSummary/>
+      <CoinSummary {...headerProps} />
       <Text style={styles.textActivities}>Activities</Text>
     </>
   )
@@ -21,19 +33,43 @@ const CoinDetailsScreen = () => {
   return (
     <View style={styles.container}>
       <BasicHeader title="Coin Details" />
-      <FlatList 
-        style={styles.list}
-        contentContainerStyle={styles.listContent}
-        data={DUMMY_DATA}
-        renderItem={_renderActivityItem}
-        keyExtractor={(item, index)=>`activity_item_${index}`}
-        ListHeaderComponent={_renderHeaderComponent}
-      />
+          <AccountContainer>
+          {({ currentAccount }) => (
+            <WalletContainer selectedUser={currentAccount} coinSymbol={coinSymbol}>
+              {({
+                isClaiming,
+                claimRewardBalance,
+                handleOnWalletRefresh,
+                refreshing,
+                transferHistory,
+                hiveBalance,
+                isLoading,
+                hiveSavingBalance,
+                estimatedHiveValue,
+                hiveDropdown,
+                savingHiveDropdown,
+                navigate,
+              }) => (
+                <ActivitiesList 
+                  header={_renderHeaderComponent({
+                    balance:hiveBalance,
+                    savings:hiveSavingBalance,
+                    estimateValue:estimatedHiveValue,
+                    coinSymbol
+                  })}
+                  activities={transferHistory}
+                  filter={coinSymbol}
+                />
+                 
+              )}
+              </WalletContainer>
+          )}
+          </AccountContainer>
     </View>
   )
 }
 
-export default CoinDetailsScreen
+export default withNavigation(CoinDetailsScreen)
 
 
 const DUMMY_DATA = [

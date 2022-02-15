@@ -1,4 +1,4 @@
-interface WalletTokenBase {
+export interface WalletTokenBase {
     id:string,
     coingeckoId:string,
     tokenName:string,
@@ -13,10 +13,16 @@ const WALLET_TOKENS = [{
     tokenSymbol:'Points',
     notCryptoToken:true
 },{
+    id:'HP', 
+    coingeckoId:'hive_power',
+    tokenName:'Hive Power', 
+    tokenSymbol:'HP',
+    notCryptoToken:true
+},{
     id:'Hive',
     coingeckoId:'hive',
     tokenName:'Hive Token',
-    tokenSymbol:'Hive',
+    tokenSymbol:'HIVE',
     notCryptoToken:false
 },{ 
     id:'HBD',

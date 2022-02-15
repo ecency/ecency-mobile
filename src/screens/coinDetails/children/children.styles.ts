@@ -3,6 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export const CHART_NEGATIVE_MARGIN = 12
 export default EStyleSheet.create({
+  
   card: {
     marginVertical:8,
     borderRadius:12,
@@ -68,6 +69,13 @@ export default EStyleSheet.create({
     marginTop: 16,
     marginLeft:-CHART_NEGATIVE_MARGIN,
     overflow: 'hidden',
-  } as ViewStyle
+  } as ViewStyle,
+  list:{
+    flex:1,
+  } as ViewStyle,
+  listContent:{
+    paddingBottom:56,
+    marginHorizontal:16
+  } as ViewStyle ,
 });
 
