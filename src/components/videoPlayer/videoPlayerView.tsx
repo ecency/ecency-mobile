@@ -5,6 +5,7 @@ import WebView from 'react-native-webview';
 import YoutubeIframe, { InitialPlayerParams } from 'react-native-youtube-iframe';
 import Video from 'react-native-video';
 import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 interface VideoPlayerProps {
   mode: 'uri' | 'youtube';
@@ -132,7 +133,7 @@ const VideoPlayer = ({
         <MediaControls
           duration={duration}
           isLoading={isLoading}
-          mainColor="#357ce6"
+          mainColor={'#3c4449'}
           onFullScreen={onFullScreen}
           onPaused={onPaused}
           onReplay={onReplay}
@@ -141,7 +142,7 @@ const VideoPlayer = ({
           playerState={playerState}
           progress={currentTime}
           isFullScreen={isFullScreen}
-          fadeOutDelay={30000}
+          fadeOutDelay={paused ? Number.MAX_VALUE : 3000}
           containerStyle={{}}
         />
       </View>
