@@ -207,26 +207,29 @@ class DelegateScreen extends Component {
       // this.setState({ step: 2 });
     } else {
       // this.amountTextInput.current.blur();
+      let body =
+        intl.formatMessage(
+          { id: 'transfer.confirm_summary' },
+          {
+            hp: hp,
+            vests: amount.toFixed(3),
+            delegatee: from,
+            delegator: destination,
+          },
+        ) +
+        (delegatedHP
+          ? `\n${intl.formatMessage(
+              { id: 'transfer.confirm_summary_para' },
+              {
+                prev: delegatedHP,
+              },
+            )}`
+          : '');
+
       dispatch(
         showActionModal({
           title: intl.formatMessage({ id: 'transfer.confirm' }),
-          body: intl.formatMessage(
-            { id: 'transfer.confirm_summary' },
-            {
-              hp: hp,
-              vests: amount.toFixed(3),
-              delegatee: from,
-              delegator: destination,
-            },
-          ),
-          para: delegatedHP
-            ? intl.formatMessage(
-                { id: 'transfer.confirm_summary_para' },
-                {
-                  prev: delegatedHP,
-                },
-              )
-            : null,
+          body,
           buttons: [
             {
               text: intl.formatMessage({ id: 'alert.cancel' }),
@@ -327,7 +330,7 @@ class DelegateScreen extends Component {
       case 'amount':
         return (
           <TextInput
-            style={[styles.input, !isAmountValid && styles.error]}
+            style={[styles.amountInput, !isAmountValid && styles.error]}
             onChangeText={(amount) => {
               this._handleAmountChange(amount, availableVestingShares);
             }}
@@ -422,6 +425,7 @@ class DelegateScreen extends Component {
         </View>
       </View>
     );
+
     const _renderStepOne = () => (
       <View style={styles.stepOneContainer}>
         <Text style={styles.sectionHeading}>
@@ -431,6 +435,7 @@ class DelegateScreen extends Component {
           {intl.formatMessage({ id: 'transfer.account_detail_subhead' })}
         </Text>
         <TransferFormItem
+          containerStyle={{ marginTop: 32 }}
           label={intl.formatMessage({ id: 'transfer.from' })}
           rightComponent={() => this._renderDropdown(accounts, currentAccountName)}
         />
@@ -448,6 +453,7 @@ class DelegateScreen extends Component {
         {this._renderToFromAvatars()}
       </View>
     );
+
     const _renderStepTwo = () => (
       <AnimatedView animation="bounceInRight" delay={500} useNativeDriver>
         <View style={styles.stepTwoContainer}>
@@ -471,6 +477,9 @@ class DelegateScreen extends Component {
                 'amount',
                 'decimal-pad',
                 availableVestingShares,
+                null,
+                null,
+                200,
               )
             }
             containerStyle={styles.paddBottom}
@@ -485,7 +494,7 @@ class DelegateScreen extends Component {
           style={styles.button}
           onPress={this._handleNext}
           isLoading={isTransfering}
-          isDisable={!isAmountValid}
+          isDisable={!isAmountValid || step === 1}
         >
           <Text style={styles.buttonText}>
             {step === 2

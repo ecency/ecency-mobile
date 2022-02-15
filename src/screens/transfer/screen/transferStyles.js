@@ -12,7 +12,7 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryLightBackground',
   },
   stepTwoContainer: {
-    paddingVertical: 12,
+    paddingVertical: 16,
     marginTop: 16,
 
     borderRadius: 12,
@@ -46,6 +46,15 @@ export default EStyleSheet.create({
     paddingHorizontal: 10,
     color: '$primaryBlack',
     width: 172,
+    minHeight: 35,
+  },
+  amountInput: {
+    borderWidth: 1,
+    borderColor: '$borderColor',
+    borderRadius: 8,
+    paddingLeft: 10,
+    color: '$primaryBlack',
+    flex: 2,
     minHeight: 35,
   },
   error: {
@@ -244,16 +253,15 @@ export default EStyleSheet.create({
   },
   sectionHeading: {
     paddingHorizontal: 16,
-    marginBottom: 16,
-    fontSize: 16,
+    marginBottom: 0,
+    fontSize: 18,
+    fontWeight: '700',
     color: '$primaryBlack',
-    fontWeight: '600',
     textAlign: 'left',
   },
   sectionSubheading: {
     paddingHorizontal: 16,
-    marginBottom: 16,
-    fontSize: 12,
+    fontSize: 14,
     color: '$primaryBlack',
     fontWeight: '600',
     textAlign: 'left',
@@ -261,10 +269,12 @@ export default EStyleSheet.create({
   alreadyDelegateRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: 32,
   },
   sliderBox: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginHorizontal: 12,
   },
   emptyBox: {
     flex: 1,
@@ -288,7 +298,7 @@ export default EStyleSheet.create({
     elevation: 3,
   },
   slider: {
-    marginRight: 16,
+    marginRight: 12,
     marginLeft: 8,
   },
   sliderAmountContainer: {
