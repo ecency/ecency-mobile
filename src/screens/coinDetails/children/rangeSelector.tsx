@@ -69,7 +69,7 @@ const FILTERS = [
         value:365
     },
     {
-        label:'All',
-        value:0
+        label:'5Y',
+        value:365*5
     },
 ] as RangeOption[]
