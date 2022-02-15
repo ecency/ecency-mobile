@@ -7,9 +7,10 @@ interface CoinChartProps {
     baseWidth:number,
     chartHeight:number,
     showLine:boolean,
+    showLabels?:boolean,
 }
 
-export const SimpleChart = ({data, baseWidth, chartHeight, showLine}:CoinChartProps) => {
+export const SimpleChart = ({data, baseWidth, chartHeight, showLine, showLabels = false}:CoinChartProps) => {
     const _chartWidth = baseWidth + baseWidth/(data.length -1)
     const _chartBackgroundColor = EStyleSheet.value('$primaryLightBackground');
     return (
@@ -24,12 +25,11 @@ export const SimpleChart = ({data, baseWidth, chartHeight, showLine}:CoinChartPr
               }}
               width={_chartWidth} // from react-native
               height={chartHeight}
-              withHorizontalLabels={false}
+              withHorizontalLabels={showLabels}
               withVerticalLabels={false}
               withHorizontalLines={false}
               withDots={false}
               withInnerLines={false}
-            
               chartConfig={{
                 backgroundColor:_chartBackgroundColor,
                 backgroundGradientFrom: _chartBackgroundColor,

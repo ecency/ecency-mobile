@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, Dimensions } from 'react-native'
-import { LineChart } from 'react-native-chart-kit'
-import EStyleSheet from 'react-native-extended-stylesheet'
+import { View, Dimensions } from 'react-native'
 import { SimpleChart } from '../../../components'
-import styles from './children.styles'
+import styles, { CHART_NEGATIVE_MARGIN } from './children.styles'
 
 export const CoinChart = () => {
 
@@ -28,7 +26,7 @@ export const CoinChart = () => {
     }, [])
 
     const _renderGraph = () => {
-        const _baseWidth = Dimensions.get("window").width - 32 + 66;
+        const _baseWidth = Dimensions.get("window").width - 32 + CHART_NEGATIVE_MARGIN;
         return (
           <View style={styles.chartContainer}>
             <SimpleChart 
@@ -36,6 +34,7 @@ export const CoinChart = () => {
                 baseWidth={_baseWidth} // from react-native
                 chartHeight={200}
                 showLine={true}
+                showLabels={true}
               />
           </View>
       )}

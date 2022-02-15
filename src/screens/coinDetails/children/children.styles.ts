@@ -1,6 +1,7 @@
 import { TextStyle, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+export const CHART_NEGATIVE_MARGIN = 12
 export default EStyleSheet.create({
   card: {
     marginHorizontal:16,
@@ -63,7 +64,8 @@ export default EStyleSheet.create({
   chartContainer:{
     height: 168,
     marginTop: 16,
-    marginLeft:-66,
+    marginLeft:-CHART_NEGATIVE_MARGIN,
     overflow: 'hidden',
   } as ViewStyle
 });
+
