@@ -189,6 +189,7 @@ export const getAccount = (user) =>
 
 export const getAccountHistory = (user, type_token) =>
   new Promise((resolve, reject) => {
+    //TOOD: list can be tweaked based on which coin is being visited
     const op = utils.operationOrders;
     let wallet_operations_bitmask = utils.makeBitMaskFilter([
       op.transfer, //HIVE
