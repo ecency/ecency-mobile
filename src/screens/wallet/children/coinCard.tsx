@@ -1,5 +1,5 @@
 import { View, Text, Dimensions } from 'react-native';
-import React from 'react';
+import React, { ComponentType } from 'react';
 import styles from './children.styles';
 import {
     LineChart,
@@ -18,6 +18,7 @@ export interface CoinCardProps {
     changePercent:number,
     currentValue:number,
     ownedTokens:number,
+    footerComponent:ComponentType<any>
     onPress:()=>void
 }
 
@@ -31,6 +32,7 @@ export const CoinCard = ({
   changePercent,
   currentValue,
   ownedTokens,
+  footerComponent,
   onPress
 }:CoinCardProps) => {
   
@@ -81,7 +83,9 @@ export const CoinCard = ({
         {_renderHeader}
         {!notCryptoToken  && _renderGraph()}
         {!notCryptoToken ? _renderFooter : <View style={{height:12}} />}
+        {footerComponent && footerComponent}
       </View>
+      
     </TouchableOpacity>
 
   );

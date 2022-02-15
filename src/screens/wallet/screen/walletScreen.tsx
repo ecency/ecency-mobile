@@ -33,6 +33,7 @@ import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
 import { withNavigation } from 'react-navigation';
 import ROUTES from '../../../constants/routeNames';
 import { CoinDetailsScreenParams } from '../../coinDetails/screen/coinDetailsScreen';
+import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
 
 
 const WalletScreen = ({navigation}) => {
@@ -172,6 +173,7 @@ const WalletScreen = ({navigation}) => {
         currencySymbol={currency.currencySymbol}
         ownedTokens={150}
         onPress={_onPress}
+        footerComponent={index === 0 && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />}
         {...item} />
     );
   };
