@@ -1,36 +1,34 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Dimensions } from 'react-native'
+import { RangeSelector } from '.';
 import { SimpleChart } from '../../../components'
-import styles, { CHART_NEGATIVE_MARGIN } from './children.styles'
+import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
+import styles, { CHART_NEGATIVE_MARGIN } from './children.styles';
 
-export const CoinChart = () => {
 
-    const [from, setFrom] = useState(0);
+interface CoinChartProps {
+  coingeckoId:string;
+}
 
-    useEffect(() => {
-        let min = Number.MAX_VALUE;
-        let max = 0;
-        CHART_DATA.forEach((val)=>{
-            if(val < min){
-                min = val;
-            }
+export const CoinChart = ({coingeckoId}:CoinChartProps) => {
+  const [range, setRange] = useState(1);
+  const [chartData, setChartData] = useState([])
 
-            if(val > max){
-                max = val;
-            }
-        })
+  useEffect(() => {
+    _fetchMarketData();
+  }, [range])
 
-        const diff = max - min;
-        setFrom(min - (diff * 0.3));
-
-    }, [])
+  const _fetchMarketData = async () => {
+    const marketData = await fetchMarketChart(coingeckoId, 'usd', range, 'hourly') 
+    setChartData(marketData.prices.map(item=>item.yValue));
+  }
 
     const _renderGraph = () => {
         const _baseWidth = Dimensions.get("window").width - 32 + CHART_NEGATIVE_MARGIN;
         return (
           <View style={styles.chartContainer}>
             <SimpleChart 
-                data={CHART_DATA}
+                data={chartData}
                 baseWidth={_baseWidth} // from react-native
                 chartHeight={200}
                 showLine={true}
@@ -39,9 +37,12 @@ export const CoinChart = () => {
           </View>
       )}
     return (
+      <>
         <View style={styles.card}>
             {_renderGraph()}
         </View>
+        <RangeSelector range={range} setRange={setRange} />
+      </>
     )
 }
 

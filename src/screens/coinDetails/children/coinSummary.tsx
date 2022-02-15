@@ -1,6 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
-import { CoinBasics, CoinChart, RangeSelector, ValuePair } from '.'
+import { CoinBasics, CoinChart, ValuePair } from '.'
 import { FormattedCurrency } from '../../../components'
 
 export interface CoinSummaryProps {
@@ -8,9 +8,10 @@ export interface CoinSummaryProps {
     estimateValue:number;
     savings:number;
     coinSymbol:string;
+    coingeckoId:string;
 }
 
-export const CoinSummary = ({balance, estimateValue, savings, coinSymbol}:CoinSummaryProps) => {
+export const CoinSummary = ({balance, estimateValue, savings, coinSymbol, coingeckoId}:CoinSummaryProps) => {
     const valuePairs = [
         {
             label:'Balance',
@@ -26,8 +27,7 @@ export const CoinSummary = ({balance, estimateValue, savings, coinSymbol}:CoinSu
     return (
         <View>
             <CoinBasics valuePairs={valuePairs} coinSymbol={coinSymbol}  />
-            <CoinChart />
-            <RangeSelector />
+            <CoinChart coingeckoId={coingeckoId} />
         </View>
     )
 }

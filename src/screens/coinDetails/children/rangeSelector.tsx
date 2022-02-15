@@ -9,13 +9,16 @@ interface RangeOption {
     value:number;
 }
 
-export const RangeSelector = () => {
+interface RangeSelectorProps {
+    range:number;
+    setRange:(range:number)=>void;
+}
 
-    const [selectedRange, setSelectedRange] = useState(1);
+export const RangeSelector = ({range, setRange}:RangeSelectorProps) => {
 
     const _onSelection = (range:number) => {
         console.log('selection', range)
-        setSelectedRange(range);
+        setRange(range);
         //TODO: implement on range change prop
     }
 
@@ -24,14 +27,14 @@ export const RangeSelector = () => {
             <View style={{
                 ...styles.rangeOptionWrapper, 
                 backgroundColor: EStyleSheet.value(
-                        item.value === selectedRange ? 
+                        item.value === range ? 
                             '$primaryDarkText':'$primaryLightBackground'
                     ) 
                 }}>
                 <Text style={{
                      ...styles.textRange, 
                      color: EStyleSheet.value(
-                             item.value === selectedRange ? 
+                             item.value === range ? 
                                  '$white':'$primaryDarkText'
                          ) 
                      }}>

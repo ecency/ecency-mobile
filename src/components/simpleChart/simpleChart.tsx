@@ -11,6 +11,11 @@ interface CoinChartProps {
 }
 
 export const SimpleChart = ({data, baseWidth, chartHeight, showLine, showLabels = false}:CoinChartProps) => {
+
+    if(!data || !data.length){
+      return null;
+    }
+  
     const _chartWidth = baseWidth + baseWidth/(data.length -1)
     const _chartBackgroundColor = EStyleSheet.value('$primaryLightBackground');
     return (

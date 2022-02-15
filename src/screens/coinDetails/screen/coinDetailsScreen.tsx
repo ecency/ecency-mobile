@@ -8,9 +8,10 @@ import { AccountContainer, WalletContainer } from '../../../containers'
 import ActivitiesList from '../children/activitiesList'
 import { NavigationStackRouterConfig, withNavigation } from 'react-navigation'
 import { NavigationStackConfig } from 'react-navigation-stack'
+import WALLET_TOKENS from '../../../constants/walletTokens'
 
 export interface CoinDetailsScreenParams {
-  coinSymbol:string;
+  coinId:string;
 }
 
 interface CoinDetailsScreenProps {
@@ -18,10 +19,13 @@ interface CoinDetailsScreenProps {
 }
 
 const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
-  const coinSymbol = navigation.getParam('coinSymbol');
-  if(!coinSymbol){
+  const coinId = navigation.getParam('coinId');
+  if(!coinId){
     throw new Error("Coin symbol must be passed")
   }
+
+  const {tokenSymbol:coinSymbol, coingeckoId } = WALLET_TOKENS.find((item)=>item.id===coinId)
+
 
   const _renderHeaderComponent = (headerProps:CoinSummaryProps) => (
     <>
@@ -49,13 +53,17 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
                 hiveDropdown,
                 savingHiveDropdown,
                 navigate,
+                balance,
+                savings,
+                estimateValue
               }) => (
                 <ActivitiesList 
                   header={_renderHeaderComponent({
-                    balance:hiveBalance,
-                    savings:hiveSavingBalance,
-                    estimateValue:estimatedHiveValue,
-                    coinSymbol
+                    balance,
+                    savings,
+                    estimateValue,
+                    coinSymbol,
+                    coingeckoId,
                   })}
                   activities={transferHistory}
                   filter={coinSymbol}

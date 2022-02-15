@@ -8,7 +8,7 @@ const PATH_COINS = 'coins';
 const PATH_MARKET_CHART = 'market_chart';
 
 export const fetchMarketChart = async (
-    coin:string, 
+    coingeckoId:string, 
     vs_currency:string, 
     days:number, 
     interval:'daily'|'hourly' = 'daily'
@@ -20,7 +20,7 @@ export const fetchMarketChart = async (
             interval
         }
 
-        const res = await coingeckoApi.get(`/${PATH_COINS}/${coin}/${PATH_MARKET_CHART}`, {
+        const res = await coingeckoApi.get(`/${PATH_COINS}/${coingeckoId}/${PATH_MARKET_CHART}`, {
             params
         });
         const rawData = res.data;
