@@ -63,6 +63,7 @@ allprojects {
                 includeGroup("com.facebook.fbjni")
                 includeGroup("com.henninghall.android")
                 includeGroup("org.matomo.sdk")
+                includeModule("com.yqritc", "android-scalablevideoview")
             }
         }
     }
