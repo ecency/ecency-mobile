@@ -7,6 +7,9 @@ import { MarketData } from './models';
 const PATH_COINS = 'coins';
 const PATH_MARKET_CHART = 'market_chart';
 
+export const INTERVAL_HOURLY = 'hourly';
+export const INTERVAL_DAILY = 'daily';
+
 export const fetchMarketChart = async (
     coingeckoId:string, 
     vs_currency:string, 

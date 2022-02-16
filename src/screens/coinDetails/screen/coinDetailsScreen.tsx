@@ -8,7 +8,7 @@ import { AccountContainer, WalletContainer } from '../../../containers'
 import ActivitiesList from '../children/activitiesList'
 import { NavigationStackRouterConfig, withNavigation } from 'react-navigation'
 import { NavigationStackConfig } from 'react-navigation-stack'
-import WALLET_TOKENS from '../../../constants/walletTokens'
+import WALLET_TOKENS from '../../../constants/defaultCoins'
 
 export interface CoinDetailsScreenParams {
   coinId:string;
@@ -24,7 +24,7 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
     throw new Error("Coin symbol must be passed")
   }
 
-  const {tokenSymbol:coinSymbol, coingeckoId } = WALLET_TOKENS.find((item)=>item.id===coinId)
+  const {symbol:coinSymbol, id:coingeckoId } = WALLET_TOKENS.find((item)=>item.id===coinId)
 
 
   const _renderHeaderComponent = (headerProps:CoinSummaryProps) => (

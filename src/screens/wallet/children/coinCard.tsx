@@ -1,19 +1,14 @@
 import { View, Text, Dimensions } from 'react-native';
 import React, { ComponentType } from 'react';
 import styles from './children.styles';
-import {
-    LineChart,
-  } from "react-native-chart-kit";
-import EStyleSheet from 'react-native-extended-stylesheet';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SimpleChart } from '../../../components';
 
 export interface CoinCardProps {
     chartData:number[]
-    id:string,
-    tokenName:string,
-    notCryptoToken:boolean,
-    tokenSymbol:string,
+    name:string,
+    notCrypto:boolean,
+    symbol:string,
     currencySymbol:string,
     changePercent:number,
     currentValue:number,
@@ -23,12 +18,11 @@ export interface CoinCardProps {
 }
 
 export const CoinCard = ({
-  id, 
-  notCryptoToken, 
+  notCrypto, 
   chartData, 
-  tokenName,
+  name,
   currencySymbol,
-  tokenSymbol,
+  symbol,
   changePercent,
   currentValue,
   ownedTokens,
@@ -37,7 +31,7 @@ export const CoinCard = ({
 }:CoinCardProps) => {
   
   console.log(chartData);
-  if(!notCryptoToken && !chartData.length){
+  if(!notCrypto && !chartData.length){
     return null
   }
 
@@ -45,12 +39,12 @@ export const CoinCard = ({
         <View style={styles.cardHeader}>
             {/* <View style={styles.logo} /> */}
             <View style={styles.cardTitleContainer}>
-                <Text style={styles.textTitle} >{id}</Text>
-                <Text style={styles.textSubtitle}>{tokenName}</Text>
+                <Text style={styles.textTitle} >{symbol}</Text>
+                <Text style={styles.textSubtitle}>{name}</Text>
             </View>
             <Text  
               style={styles.textCurValue}>
-                <Text style={{fontWeight:'500'}}>{`${ownedTokens} ${tokenSymbol}`}</Text>
+                <Text style={{fontWeight:'500'}}>{`${ownedTokens} ${symbol}`}</Text>
                 {`/${(ownedTokens * currentValue).toFixed(2)}${currencySymbol}`}
             </Text>
         </View>
@@ -81,8 +75,8 @@ export const CoinCard = ({
     <TouchableOpacity onPress={onPress}>
       <View style={styles.cardContainer}>
         {_renderHeader}
-        {!notCryptoToken  && _renderGraph()}
-        {!notCryptoToken ? _renderFooter : <View style={{height:12}} />}
+        {!notCrypto  && _renderGraph()}
+        {!notCrypto ? _renderFooter : <View style={{height:12}} />}
         {footerComponent && footerComponent}
       </View>
       
