@@ -6,6 +6,15 @@ import bugsnagInstance from '../../config/bugsnag';
 import { SERVER_LIST } from '../../constants/options/api';
 import { parsePost } from '../../utils/postParser';
 import { extractMetadata, makeJsonMetadata } from '../../utils/editor';
+import { ReceivedVestingShare, ReceivedVestingShares } from './ecency.types';
+
+
+
+/** 
+ * ************************************
+ * CURRENCY APIS IMPLEMENTATION 
+ * ************************************
+ */
 
 export const getCurrencyRate = (currency) =>
   api
@@ -25,6 +34,24 @@ export const getCurrencyTokenRate = (currency, token) =>
       bugsnagInstance.notify(err);
       return 0;
     });
+
+
+export const getReceivedVestingShares = async (username: string):Promise<ReceivedVestingShare[]> => {
+  try{
+    const res = await ecencyApi.get(`/private-api/received-vesting/${username}`);
+    console.log("Vesting Shares User", username, res.data);
+    if(!res.data || !res.data.list){
+      throw new Error("No vesting shares for user")
+    }
+    return res.data.list;
+  } catch (error){
+    bugsnagInstance.notify(error);
+    console.warn(error);
+    throw error
+  }
+}
+
+    
 
 
 
@@ -733,3 +760,4 @@ export const signUp = async (username:string, email:string, referral?:string) =>
     throw error;
   }
 };
+

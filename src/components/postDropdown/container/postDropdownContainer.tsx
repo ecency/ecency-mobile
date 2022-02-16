@@ -145,17 +145,22 @@ class PostDropdownContainer extends PureComponent {
       });
     }
 
-    dispatch(showActionModal(
-      intl.formatMessage({id:'report.confirm_report_title'}),
-      intl.formatMessage({id:'report.confirm_report_body'}),
-      [{
-        text:intl.formatMessage({id:'alert.cancel'}),
-        onPress:()=>{}
-      },{
-        text:intl.formatMessage({id:'alert.confirm'}),
-        onPress:_onConfirm
-      }]
-    ))
+    dispatch(
+      showActionModal({
+        title: intl.formatMessage({ id: 'report.confirm_report_title' }),
+        body: intl.formatMessage({ id: 'report.confirm_report_body' }),
+        buttons: [
+          {
+            text: intl.formatMessage({ id: 'alert.cancel' }),
+            onPress: () => {},
+          },
+          {
+            text: intl.formatMessage({ id: 'alert.confirm' }),
+            onPress: _onConfirm,
+          },
+        ],
+      }),
+    );
    
   };
 
