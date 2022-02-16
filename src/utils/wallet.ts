@@ -4,6 +4,9 @@ import parseToken from './parseToken';
 import { vestsToHp } from './conversions';
 import { getFeedHistory, getAccount, getAccountHistory } from '../providers/hive/dhive';
 import { getCurrencyTokenRate } from '../providers/ecency/ecency';
+import { CoinBase, CoinData } from '../redux/reducers/walletReducer';
+import { GlobalProps } from '../redux/reducers/accountReducer';
+import { COIN_IDS } from '../constants/defaultCoins';
 
 export const transferTypes = [
   'curation_reward',
@@ -246,6 +249,127 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   walletData.transactions = transfers;
   return walletData;
 };
+
+
+export const fetchCoinsData = async (
+  coins:CoinBase[], 
+  username:string, 
+  vsCurrency:string, 
+  globalProps:GlobalProps
+  ) 
+  : Promise<{[key:string]:CoinData}> => {
+
+    const coinData = {} as {[key:string]:CoinData};
+
+    const walletData = {} as any;
+
+    if (!username) {
+      return walletData;
+    }
+
+    //TODO: Use already available accoutn for frist wallet start
+    const state = await getAccount(username);
+    //TODO: cache data in redux or fetch once on wallet startup
+    const ppHbd = await getCurrencyTokenRate(vsCurrency, 'hbd');
+    const ppHive = await getCurrencyTokenRate(vsCurrency, 'hive');
+
+    const [userdata] = state;
+
+    coins.forEach((coinBase)=>{
+      switch(coinBase.id){
+        case COIN_IDS.HIVE:{
+          const balance = parseToken(userdata.balance);
+          const savings = parseToken(userdata.savings_balance);
+          
+          coinData[coinBase.id] = {
+            balance: Math.round(balance * 1000) / 1000,
+            estimateValue: (balance + savings) * ppHive,
+            savings:Math.round(savings * 1000) / 1000,
+            vsCurrency:vsCurrency,
+            currentPrice:ppHive
+          }
+          break;
+        }
+
+        case COIN_IDS.HBD:{
+          const balance = parseToken(userdata.hbd_balance);
+          const savings = parseToken(userdata.savings_hbd_balance);
+          
+          coinData[coinBase.id] = {
+            balance: Math.round(balance * 1000) / 1000,
+            estimateValue: (balance + savings) * ppHbd,
+            savings:Math.round(savings * 1000) / 1000,
+            vsCurrency:vsCurrency,
+            currentPrice:ppHbd
+          }
+          break;
+        }
+        case COIN_IDS.HP:{
+          //TODO: set correct values
+          const balance = parseToken(userdata.hbd_balance);
+          const savings = parseToken(userdata.savings_hbd_balance);
+          coinData[coinBase.id] = {
+            balance: Math.round(balance * 1000) / 1000,
+            estimateValue: (balance + savings) * ppHbd,
+            savings:Math.round(savings * 1000) / 1000,
+            vsCurrency:vsCurrency,
+            currentPrice:ppHbd
+          }
+          break;
+        }
+
+        default:
+          break;
+      }
+    })
+
+    walletData.rewardHiveBalance = parseToken(userdata.reward_hive_balance);
+    walletData.rewardHbdBalance = parseToken(userdata.reward_hbd_balance);
+    walletData.rewardVestingHive = parseToken(userdata.reward_vesting_hive);
+    
+    walletData.hasUnclaimedRewards =
+    walletData.rewardHiveBalance > 0 ||
+    walletData.rewardHbdBalance > 0 ||
+    walletData.rewardVestingHive > 0;
+
+    walletData.balance = parseToken(userdata.balance);
+    walletData.vestingShares = parseToken(userdata.vesting_shares);
+    walletData.vestingSharesDelegated = parseToken(userdata.delegated_vesting_shares);
+    walletData.vestingSharesReceived = parseToken(userdata.received_vesting_shares);
+    walletData.vestingSharesTotal =
+    walletData.vestingShares - walletData.vestingSharesDelegated + walletData.vestingSharesReceived;
+    walletData.hbdBalance = parseToken(userdata.hbd_balance);
+    walletData.savingBalance = parseToken(userdata.savings_balance);
+    walletData.savingBalanceHbd = parseToken(userdata.savings_hbd_balance);
+
+
+    const {base, quote, hivePerMVests} = globalProps
+    walletData.hivePerMVests = hivePerMVests;
+    const pricePerHive = base / quote;
+
+    const totalHive =
+      vestsToHp(walletData.vestingShares, walletData.hivePerMVests) +
+      walletData.balance +
+      walletData.savingBalance;
+
+    const totalHbd = walletData.hbdBalance + walletData.savingBalanceHbd;
+
+    walletData.estimatedValue = totalHive * pricePerHive + totalHbd;
+
+
+
+    walletData.estimatedHiveValue = (walletData.balance + walletData.savingBalance) * ppHive;
+    walletData.estimatedHbdValue = totalHbd * ppHbd;
+    walletData.estimatedHpValue =
+      vestsToHp(walletData.vestingShares, walletData.hivePerMVests) * ppHive;
+
+    walletData.showPowerDown = userdata.next_vesting_withdrawal !== '1969-12-31T23:59:59';
+    const timeDiff = Math.abs(parseDate(userdata.next_vesting_withdrawal) - new Date());
+    walletData.nextVestingWithdrawal = Math.round(timeDiff / (1000 * 3600));
+
+    
+    return coinData;
+}
 
 function compare(a, b) {
   if (a[1].block < b[1].block) {
