@@ -77,12 +77,12 @@
     "escrow_release": "托管轉賬（允許過賬）",
     "escrow_approve": "託管準予",
     "cancel_transfer_from_savings": "取消儲蓄轉出",
-    "delegate_vesting_shares": "委託",
-    "fill_convert_request": "轉換已執行",
-    "fill_transfer_from_savings": "儲蓄已執行",
-    "fill_vesting_withdraw": "釋放Steem Power已執行",
+    "delegate_vesting_shares": "代理",
+    "fill_convert_request": "兌換成功",
+    "fill_transfer_from_savings": "成功從儲蓄中提出",
+    "fill_vesting_withdraw": "Hive Power 斷電完成",
     "estm": {
-      "title": "點數",
+      "title": "積分",
       "buy": "購買Ecency積分"
     },
     "savinghive": {
