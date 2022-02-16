@@ -8,9 +8,11 @@ import ActionModalView, { ActionModalRef } from '../view/actionModalView';
 export interface ActionModalData {
   title:string, 
   body:string, 
+  para?: string,
   buttons:AlertButton[], 
   headerImage?:Source,
   onClosed:()=>void,
+  headerContent?: React.ReactNode,
 }
 
 

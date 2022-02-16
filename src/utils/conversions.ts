@@ -5,13 +5,18 @@ export const vestsToHp = (vests, hivePerMVests) => {
 
   return (vests / 1e6) * hivePerMVests;
 };
-
-export const vestsToRshares = (vests:number, votingPower:number, weight:number) => {
+export const hpToVests = (hp, hivePerMVests) => {
+  if (!hp || !hivePerMVests) {
+    return 0;
+  }
+  return (hp * 1e6) / hivePerMVests;
+};
+export const vestsToRshares = (vests: number, votingPower: number, weight: number) => {
   if (!vests || !votingPower || !weight) {
     return 0;
   }
 
   const finalVest = vests * 1e6;
-  const power = (votingPower * weight / 10000) / 50
-  return (power * finalVest / 1000) 
+  const power = (votingPower * weight) / 10000 / 50;
+  return (power * finalVest) / 1000;
 };
