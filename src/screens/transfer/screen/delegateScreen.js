@@ -264,22 +264,27 @@ class DelegateScreen extends Component {
     const username = item;
     const { from } = this.state;
     const { intl } = this.props;
+
+    const _onItemPress = () => {
+      if (username === from) {
+        Alert.alert(
+          intl.formatMessage({ id: 'transfer.username_alert' }),
+          intl.formatMessage({ id: 'transfer.username_alert_detail' }),
+        );
+        return;
+      }
+
+      this.setState({ destination: username, usersResult: [], step: 2 }, () => {
+        //since method uses destination from state it sould be called
+        //after state has been updated successfully
+        this._fetchReceivedVestingShare();
+      });
+
+      this.destinationTextInput.current?.blur();
+    };
+
     return (
-      <TouchableOpacity
-        onPress={() => {
-          if (username === from) {
-            Alert.alert(
-              intl.formatMessage({ id: 'transfer.username_alert' }),
-              intl.formatMessage({ id: 'transfer.username_alert_detail' }),
-            );
-            return;
-          }
-          this._fetchReceivedVestingShare();
-          this.setState({ destination: username, usersResult: [], step: 2 });
-          this.destinationTextInput.current?.blur();
-        }}
-        style={styles.usersDropItemRow}
-      >
+      <TouchableOpacity onPress={_onItemPress} style={styles.usersDropItemRow}>
         <UserAvatar username={username} noAction />
         <Text style={styles.usersDropItemRowText}>{username}</Text>
       </TouchableOpacity>
