@@ -126,7 +126,7 @@ export default EStyleSheet.create({
   },
 
   formButton: {
-    padding: 12,
+    height: 44,
     borderRadius: 5,
     backgroundColor: '$primaryBlue',
     marginTop: 5,
