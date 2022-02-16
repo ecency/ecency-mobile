@@ -574,7 +574,20 @@
     "incoming_funds": "Входящие средства",
     "stop": "Остановить",
     "sc_power_down_error": "Эта функция еще не реализована для логина через Hivesigner",
-    "address_view": "Посмотреть адрес"
+    "address_view": "Посмотреть адрес",
+    "already_delegated": "Already delegated to ",
+    "remain_hp": "Remaining HP",
+    "account_detail_head": "Account Details",
+    "account_detail_subhead": "Enter account username for HIVE Power delegation",
+    "delegat_detail_head": "Delegation Details",
+    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
+    "new_amount": "New Amount",
+    "review": "REVIEW",
+    "confirm": "Confirm Delegation",
+    "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
+    "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
+    "username_alert": "Username Error!",
+    "username_alert_detail": "Please select different username"
   },
   "boost": {
     "title": "Получить Баллы",
