@@ -176,7 +176,7 @@ export const PostHtmlRenderer = memo(
       }
 
       //return divided width based on number td tags
-      if (tnode.parent.tagName === 'td') {
+      if (tnode.parent.tagName === 'td' || tnode.parent.tagName === 'th') {
         const cols = tnode.parent.parent.children.length;
         return contentWidth / cols;
       }
