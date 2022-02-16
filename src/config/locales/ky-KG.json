@@ -578,7 +578,7 @@
     "already_delegated": "Already delegated to ",
     "remain_hp": "Remaining HP",
     "account_detail_head": "Account Details",
-    "account_detail_subhead": "Enter account username for HIVE Power delegation",
+    "account_detail_subhead": "Enter username for HIVE Power delegation",
     "delegat_detail_head": "Delegation Details",
     "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
     "new_amount": "New Amount",
