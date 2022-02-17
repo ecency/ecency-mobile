@@ -40,7 +40,7 @@ const WalletScreen = ({navigation}) => {
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   const currency = useAppSelector((state)=>state.application.currency);
   const selectedCoins = useAppSelector((state)=>state.wallet.selectedCoins);
-  const priceHistories = useAppSelector((state)=>state.wallet.priceHistory);
+  const priceHistories = useAppSelector((state)=>state.wallet.priceHistories);
   const coinsData = useAppSelector((state)=>state.wallet.coinsData);
   const globalProps = useAppSelector((state)=>state.account.globalProps);
   const currentAccount = useAppSelector((state)=>state.account.currentAccount);
