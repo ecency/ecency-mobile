@@ -7,6 +7,7 @@ import { SERVER_LIST } from '../../constants/options/api';
 import { parsePost } from '../../utils/postParser';
 import { extractMetadata, makeJsonMetadata } from '../../utils/editor';
 import { ReceivedVestingShare, Referral } from './ecency.types';
+import { convertReferral } from './converters';
 
 
 
@@ -768,17 +769,18 @@ export const signUp = async (username:string, email:string, referral?:string) =>
  */
 
 export const getReferralsList = async (username: string):Promise<Referral[]> => {
-  try{
+  try {
     const res = await ecencyApi.get(`/private-api/referrals/${username}`);
-    console.log("Referrals List", username, res.data);
-    if(!res.data){
-      throw new Error("No Referrals for this user!")
+    console.log('Referrals List', username, res.data);
+    if (!res.data) {
+      throw new Error('No Referrals for this user!');
     }
-    return res.data;
-  } catch (error){
+    const referralsList = res.data.length > 0 ? res.data.map((referralItem: any) => convertReferral(referralItem)) : [];
+    return referralsList;
+  } catch (error) {
     bugsnagInstance.notify(error);
     console.warn(error);
-    throw error
+    throw error;
   }
 }
 
