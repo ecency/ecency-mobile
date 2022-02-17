@@ -1,24 +1,28 @@
 import React, { Fragment } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Text, View } from 'react-native';
-import { BasicHeader, Icon, MainButton } from '../../components';
-
+import { FlatList, Text, View } from 'react-native';
+import { BasicHeader, Icon, MainButton, UserListItem } from '../../components';
+import get from 'lodash/get';
 // utils
 import { getReferralsList } from '../../providers/ecency/ecency';
+import { Referral } from '../../models';
 
 // styles
 import styles from './referScreenStyles';
 
 const ReferScreen = ({ navigation }) => {
   const intl = useIntl();
-
+  const [referralsList, setReferralsList] = useState<Referral[]>([]);
   useEffect(() => {
     _getReferralsList();
   }, []);
+
+  console.log('-----referralsList----- : ', referralsList);
+
   const _getReferralsList = async () => {
-    const referralsList = await getReferralsList('good-karma');
-    console.log('referralsList : ', referralsList);
+    const referralsListData = await getReferralsList('good-karma');
+    setReferralsList(referralsListData as any);
   };
   const _renderPointsEarned = () => {
     return (
@@ -26,8 +30,8 @@ const ReferScreen = ({ navigation }) => {
         <Text style={styles.points}>1000</Text>
         <Text style={styles.earendText}>Points Earned</Text>
         <MainButton
-          // isLoading={isClaiming}
-          // isDisable={isClaiming}
+          // isLoading={isLoading}
+          // isDisable={isLoading}
           style={styles.mainButton}
           height={50}
           onPress={() => console.log('pressed!')}
@@ -42,10 +46,39 @@ const ReferScreen = ({ navigation }) => {
       </View>
     );
   };
+
+  const _renderReferralListItem = ({ item, index }: { item: Referral; index: number }) => {
+    return (
+      <UserListItem
+        key={get(item, '_id')}
+        index={index}
+        username={item.referredUsername}
+        description={get(item, 'created')}
+        isHasRightItem
+        isClickable
+        isBlackRightColor
+        rightText={item.isRewarded ? 'Rewarded' : 'Not Rewarded'}
+        isLoggedIn
+        itemIndex={index + 1}
+        handleOnPress={() => console.log('pressed!')}
+        rightTextStyle={styles.rewardText}
+        // rightTooltipText={intl.formatMessage({ id: 'leaderboard.tooltip_earn' })}
+      />
+    );
+  };
   const _renderReferralsList = () => {
     return (
       <View style={styles.referralsListContainer}>
-        <Text>Referrals List</Text>
+        <FlatList
+          data={referralsList}
+          // refreshing={refreshing}
+          keyExtractor={(item, index) => `item ${index}`}
+          removeClippedSubviews={false}
+          // ListEmptyComponent={<ListPlaceHolder />}
+          // onRefresh={() => fetchLeaderBoard()}
+          renderItem={_renderReferralListItem}
+          contentContainerStyle={styles.listContentContainer}
+        />
       </View>
     );
   };
