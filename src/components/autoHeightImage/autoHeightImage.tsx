@@ -37,7 +37,7 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
     }
 
     const imgStyle = {
-      width:imgWidth, 
+      width:imgWidth - 10, 
       height:imgHeight, 
       backgroundColor: onLoadCalled ? 'transparent' : EStyleSheet.value('$primaryGray')
     }

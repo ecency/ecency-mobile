@@ -150,9 +150,9 @@ export const PostHtmlRenderer = memo(
         } else {
           return (
             <VideoPlayer
-              mode={parsedTnode.youtubeId ? 'youtube' : 'url'}
+              mode={parsedTnode.youtubeId ? 'youtube' : 'uri'}
               contentWidth={contentWidth}
-              videoUrl={parsedTnode.videoHref}
+              uri={parsedTnode.videoHref}
               youtubeVideoId={parsedTnode.youtubeId}
               startTime={parsedTnode.startTime}
               disableAutoplay={true}
@@ -176,7 +176,7 @@ export const PostHtmlRenderer = memo(
       }
 
       //return divided width based on number td tags
-      if (tnode.parent.tagName === 'td') {
+      if (tnode.parent.tagName === 'td' || tnode.parent.tagName === 'th') {
         const cols = tnode.parent.parent.children.length;
         return contentWidth / cols;
       }
@@ -226,19 +226,6 @@ export const PostHtmlRenderer = memo(
     // iframe renderer for rendering iframes in body
     const _iframeRenderer = function IframeRenderer(props) {
       const iframeProps = useHtmlIframeProps(props);
-      const checkSrcRegex = /(.*?)\.(mp4|webm|ogg)$/gi;
-      const isVideoFormat = iframeProps.source.uri.match(checkSrcRegex);
-
-       //this hack help avoid autoplaying fullscreened iframe videos;
-       const src = isVideoFormat ? 
-       {
-         html: `
-           <video width="100%" height="auto"  controls>
-             <source src="${iframeProps.source.uri}" type="video/mp4">
-           </video>`,
-       }:{
-         uri: iframeProps.source.uri,
-       };
 
        //TODO: remove android check logic when fix for react-native-webiew scrollview crash is available
        //ref: https://github.com/react-native-webview/react-native-webview/issues/2364
@@ -254,9 +241,10 @@ export const PostHtmlRenderer = memo(
         )
       }else{
         return (
+
           <VideoPlayer 
-            mode='source'
-            source={src}
+            mode='uri'
+            uri={iframeProps.source.uri}
             contentWidth={contentWidth}
           />
         );

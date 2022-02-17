@@ -13,7 +13,7 @@ export default EStyleSheet.create({
     },
     shadowColor: '#5f5f5fbf',
     shadowOpacity: 0.1,
-    elevation: 3,
+    // elevation: 3,
   },
   icon: {
     alignSelf: 'center',
