@@ -1,5 +1,4 @@
 import { Referral } from '../../models';
-import parseDate from '../../utils/parseDate';
 
 export const convertReferral = (rawData: any) => {
   return {
@@ -7,6 +6,6 @@ export const convertReferral = (rawData: any) => {
     referral: rawData.referral || '',
     referredUsername: rawData.username || '',
     isRewarded: rawData.rewarded ? true : false,
-    timestamp: parseDate(rawData.created) || new Date(),
+    timestamp: new Date(rawData.created) || new Date(),
   } as Referral;
 };
