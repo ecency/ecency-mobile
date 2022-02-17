@@ -49,7 +49,6 @@ export default EStyleSheet.create({
   },
   autocompleteLineContainer: {
     flexDirection: 'row',
-    paddingHorizontal: 20,
     zIndex: 999,
   },
   autocompleteLabelText: {
@@ -72,7 +71,8 @@ export default EStyleSheet.create({
   },
   autocompleteLabelContainer: {
     flex: 1,
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
     justifyContent: 'center',
     color: '$primaryBlack',
     maxWidth: '$deviceWidth / 2.9',

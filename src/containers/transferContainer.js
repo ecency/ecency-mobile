@@ -221,7 +221,15 @@ class TransferContainer extends Component {
   };
 
   render() {
-    const { accounts, navigation, children, hivePerMVests, currentAccount } = this.props;
+    const {
+      accounts,
+      navigation,
+      children,
+      hivePerMVests,
+      currentAccount,
+      actionModalVisible,
+      dispatch,
+    } = this.props;
     const { balance, fundType, selectedAccount, tokenAddress } = this.state;
 
     const transferType = navigation.getParam('transferType', '');
@@ -229,6 +237,7 @@ class TransferContainer extends Component {
     return (
       children &&
       children({
+        dispatch,
         accounts,
         balance,
         tokenAddress,
@@ -236,6 +245,7 @@ class TransferContainer extends Component {
         transferType,
         selectedAccount,
         hivePerMVests,
+        actionModalVisible,
         fetchBalance: this.fetchBalance,
         getAccountsWithUsername: this._getAccountsWithUsername,
         transferToAccount: this._transferToAccount,
@@ -253,6 +263,7 @@ const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,
   hivePerMVests: state.account.globalProps.hivePerMVests,
+  actionModalVisible: state.ui.actionModalVisible,
 });
 
 export default connect(mapStateToProps)(injectIntl(TransferContainer));

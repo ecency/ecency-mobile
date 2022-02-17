@@ -177,7 +177,7 @@ class TransferTokenView extends Component {
         <BasicHeader title={intl.formatMessage({ id: `transfer.${transferType}` })} />
         <View style={styles.container}>
           <ScrollView>
-            <View style={styles.topContent}>
+            <View style={[styles.toFromAvatarsContainer, { marginBottom: 16 }]}>
               <UserAvatar username={from} size="xl" style={styles.userAvatar} noAction />
               <Icon style={styles.icon} name="arrow-forward" iconType="MaterialIcons" />
               <UserAvatar username={destination} size="xl" style={styles.userAvatar} noAction />

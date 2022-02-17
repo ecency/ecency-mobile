@@ -439,10 +439,10 @@ class ProfileContainer extends Component {
     };
 
     dispatch(
-      showActionModal(
-        intl.formatMessage({ id: 'report.confirm_report_title' }),
-        intl.formatMessage({ id: 'report.confirm_report_body' }),
-        [
+      showActionModal({
+        title: intl.formatMessage({ id: 'report.confirm_report_title' }),
+        body: intl.formatMessage({ id: 'report.confirm_report_body' }),
+        buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
             onPress: () => {},
@@ -452,7 +452,7 @@ class ProfileContainer extends Component {
             onPress: _onConfirm,
           },
         ],
-      ),
+      }),
     );
   };
 

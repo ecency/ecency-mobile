@@ -23,15 +23,11 @@ export const toastNotification = (payload:string) => ({
   type: TOAST_NOTIFICATION,
 });
 
-export const showActionModal = (title:string, body?:string, buttons?:AlertButton[], headerImage?:any, onClosed?:()=>void) => ({
+export const showActionModal = (payload:any) => ({
   payload: {
     actionModalVisible: new Date().getTime(),
     actionModalData: {
-      title,
-      body,
-      buttons,
-      headerImage,
-      onClosed,
+      ...payload
     },
   },
   type: SHOW_ACTION_MODAL,
