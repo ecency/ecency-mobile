@@ -6,7 +6,7 @@ import bugsnagInstance from '../../config/bugsnag';
 import { SERVER_LIST } from '../../constants/options/api';
 import { parsePost } from '../../utils/postParser';
 import { extractMetadata, makeJsonMetadata } from '../../utils/editor';
-import { ReceivedVestingShare, ReceivedVestingShares } from './ecency.types';
+import { ReceivedVestingShare, Referral } from './ecency.types';
 
 
 
@@ -760,4 +760,25 @@ export const signUp = async (username:string, email:string, referral?:string) =>
     throw error;
   }
 };
+
+/** 
+ * ************************************
+ * REFERRAL API IMPLEMENTATION 
+ * ************************************
+ */
+
+export const getReferralsList = async (username: string):Promise<Referral[]> => {
+  try{
+    const res = await ecencyApi.get(`/private-api/referrals/${username}`);
+    console.log("Referrals List", username, res.data);
+    if(!res.data){
+      throw new Error("No Referrals for this user!")
+    }
+    return res.data;
+  } catch (error){
+    bugsnagInstance.notify(error);
+    console.warn(error);
+    throw error
+  }
+}
 
