@@ -31,7 +31,7 @@ import { setCoinsData, setPriceHistory } from '../../../redux/actions/walletActi
 import { fetchCoinsData } from '../../../utils/wallet';
 
 
-const CHART_DAYS_RANGE = 3;
+const CHART_DAYS_RANGE = 1;
 
 const WalletScreen = ({navigation}) => {
   const intl = useIntl();
@@ -92,6 +92,7 @@ const WalletScreen = ({navigation}) => {
 
     const _tokenMarketData = priceHistories[item.id] ? priceHistories[item.id].data : [];
     const _currentValue = item.id == 'ecency' ? 1/150 : (coinData.currentPrice || 0);
+    const _balance = item.id === 'ececny' ? 3 : (coinData.balance + coinData.savings);
     const _changePercent = 
     _tokenMarketData.length > 0 ? 
       ((_tokenMarketData[_tokenMarketData.length - 1] - _tokenMarketData[0])/(_tokenMarketData[_tokenMarketData.length - 1]))*100
@@ -103,7 +104,7 @@ const WalletScreen = ({navigation}) => {
         currentValue={_currentValue}
         changePercent={_changePercent}
         currencySymbol={currency.currencySymbol}
-        ownedTokens={150}
+        ownedTokens={_balance}
         onPress={_onPress}
         footerComponent={index === 0 && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />}
         {...item} />
