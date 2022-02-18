@@ -14,6 +14,8 @@ import styles from './referScreenStyles';
 const ReferScreen = ({ navigation }) => {
   const intl = useIntl();
   const [referralsList, setReferralsList] = useState<Referral[]>([]);
+  const [earnedPoints, setEarnedPoint] = useState(0);
+  const [pendingPoints, setPendingPoint] = useState(0);
   useEffect(() => {
     _getReferralsList();
   }, []);
@@ -21,20 +23,40 @@ const ReferScreen = ({ navigation }) => {
   console.log('-----referralsList----- : ', referralsList);
 
   const _getReferralsList = async () => {
+    // using 'good-karma' name for testing
     const referralsListData = await getReferralsList('good-karma');
+    let rewardedPoints = 0;
+    let unrewardedPoint = 0;
+    referralsListData.forEach((value) => {
+      if (value.isRewarded) {
+        rewardedPoints += 100;
+      } else {
+        unrewardedPoint += 100;
+      }
+    });
     setReferralsList(referralsListData as any);
+    setEarnedPoint(rewardedPoints);
+    setPendingPoint(unrewardedPoint);
   };
   const _renderPointsEarned = () => {
     return (
       <View style={styles.pointsContainer}>
         <View style={styles.pointsEarnedRow}>
           <View style={styles.earnedWrapper}>
-            <Text style={styles.points}>1000</Text>
-            <Text style={styles.earendText}>Points Earned</Text>
+            <Text style={styles.points}>{earnedPoints}</Text>
+            <Text style={styles.earendText}>
+              {intl.formatMessage({
+                id: 'refer.earned',
+              })}
+            </Text>
           </View>
           <View style={styles.pendingWrapper}>
-            <Text style={styles.points}>1000</Text>
-            <Text style={styles.pendingText}>Pending Points</Text>
+            <Text style={styles.points}>{pendingPoints}</Text>
+            <Text style={styles.pendingText}>
+              {intl.formatMessage({
+                id: 'refer.pending',
+              })}
+            </Text>
           </View>
         </View>
         <MainButton

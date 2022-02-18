@@ -738,6 +738,8 @@
     "refer": "Refer",
     "rewarded": "Rewarded",
     "not_rewarded": "Not Rewarded",
-    "delegate_hp": "Delegate HP"
+    "delegate_hp": "Delegate HP",
+    "earned": "Points Earned",
+    "pending": "Pending Points"
   }
 }
