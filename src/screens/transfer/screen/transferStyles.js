@@ -261,6 +261,7 @@ export default EStyleSheet.create({
   },
   sectionSubheading: {
     paddingHorizontal: 16,
+    marginTop: 8,
     fontSize: 14,
     color: '$primaryBlack',
     fontWeight: '600',
@@ -270,6 +271,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 32,
+    flexWrap: 'wrap',
   },
   sliderBox: {
     flexDirection: 'row',
