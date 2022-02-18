@@ -1,9 +1,19 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  pointsEarnedContainer: {
+  pointsContainer: {
     paddingVertical: 16,
     alignItems: 'center',
+  },
+  pointsEarnedRow: {
+    flexDirection: 'row',
+    marginBottom: 16,
+  },
+  earnedWrapper: {
+    marginRight: 8,
+  },
+  pendingWrapper: {
+    marginLeft: 8,
   },
   points: {
     color: '$primaryBlue',
@@ -15,9 +25,14 @@ export default EStyleSheet.create({
   },
   earendText: {
     color: '$darkIconColor',
-    fontSize: 18,
+    fontSize: 16,
     justifyContent: 'center',
-    alignSelf: 'center',
+    marginTop: 5,
+  },
+  pendingText: {
+    color: '$primaryDarkGray',
+    fontSize: 16,
+    justifyContent: 'center',
     marginTop: 5,
   },
   mainButton: {
@@ -33,21 +48,18 @@ export default EStyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     alignSelf: 'center',
+    textTransform: 'uppercase',
   },
   mainIconWrapper: {
-    backgroundColor: '$pureWhite',
     justifyContent: 'center',
     alignSelf: 'center',
     alignItems: 'center',
-    borderRadius: 20,
     marginLeft: 20,
-    width: 24,
-    height: 24,
   },
-  referralsListContainer:{
-    flex:1,
+  referralsListContainer: {
+    flex: 1,
   },
-  rewardText:{
+  rewardText: {
     width: 120,
-  }
+  },
 });

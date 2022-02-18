@@ -734,6 +734,7 @@
     "load_draft_tooltip": "Load your lastest draft here"
   },
   "refer":{
-    "refer_earn": "Refer & Earn"
+    "refer_earn": "Refer & Earn",
+    "refer": "Refer"
   }
 }

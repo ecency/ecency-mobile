@@ -26,9 +26,17 @@ const ReferScreen = ({ navigation }) => {
   };
   const _renderPointsEarned = () => {
     return (
-      <View style={styles.pointsEarnedContainer}>
-        <Text style={styles.points}>1000</Text>
-        <Text style={styles.earendText}>Points Earned</Text>
+      <View style={styles.pointsContainer}>
+        <View style={styles.pointsEarnedRow}>
+          <View style={styles.earnedWrapper}>
+            <Text style={styles.points}>1000</Text>
+            <Text style={styles.earendText}>Points Earned</Text>
+          </View>
+          <View style={styles.pendingWrapper}>
+            <Text style={styles.points}>1000</Text>
+            <Text style={styles.pendingText}>Pending Points</Text>
+          </View>
+        </View>
         <MainButton
           // isLoading={isLoading}
           // isDisable={isLoading}
@@ -37,9 +45,13 @@ const ReferScreen = ({ navigation }) => {
           onPress={() => console.log('pressed!')}
         >
           <View style={styles.mainButtonWrapper}>
-            <Text style={styles.unclaimedText}>Refer</Text>
+            <Text style={styles.unclaimedText}>
+              {intl.formatMessage({
+                id: 'refer.refer',
+              })}
+            </Text>
             <View style={styles.mainIconWrapper}>
-              <Icon name="add" iconType="MaterialIcons" color="#357ce6" size={23} />
+              <Icon name="share-social-outline" iconType="Ionicons" color="#fff" size={28} />
             </View>
           </View>
         </MainButton>
