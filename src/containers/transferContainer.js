@@ -39,6 +39,7 @@ class TransferContainer extends Component {
       balance: props.navigation.getParam('balance', ''),
       tokenAddress: props.navigation.getParam('tokenAddress', ''),
       transferType: props.navigation.getParam('transferType', ''),
+      referredUsername: props.navigation.getParam('referredUsername'),
       selectedAccount: props.currentAccount,
     };
   }
@@ -230,7 +231,7 @@ class TransferContainer extends Component {
       actionModalVisible,
       dispatch,
     } = this.props;
-    const { balance, fundType, selectedAccount, tokenAddress } = this.state;
+    const { balance, fundType, selectedAccount, tokenAddress, referredUsername } = this.state;
 
     const transferType = navigation.getParam('transferType', '');
 
@@ -246,6 +247,7 @@ class TransferContainer extends Component {
         selectedAccount,
         hivePerMVests,
         actionModalVisible,
+        referredUsername,
         fetchBalance: this.fetchBalance,
         getAccountsWithUsername: this._getAccountsWithUsername,
         transferToAccount: this._transferToAccount,

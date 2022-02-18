@@ -53,11 +53,11 @@ const ReferScreen = ({ navigation }) => {
     });
   };
 
-  const _handleDelegateHP = () => {
+  const _handleDelegateHP = (item: Referral) => {
     console.log('delegate HP!');
     navigate({
       routeName: ROUTES.SCREENS.TRANSFER,
-      params: { transferType: 'delegate', fundType: 'HIVE_POWER' },
+      params: { transferType: 'delegate', fundType: 'HIVE_POWER', referredUsername: item.referredUsername },
     });
   };
   const _renderPointsEarned = () => {
@@ -121,9 +121,9 @@ const ReferScreen = ({ navigation }) => {
     );
   };
 
-  const _rightItemRenderer = () => {
+  const _rightItemRenderer = (item:Referral) => {
     return (
-      <TouchableOpacity style={styles.rightItemRendererContainer} onPress={_handleDelegateHP}>
+      <TouchableOpacity style={styles.rightItemRendererContainer} onPress={() => _handleDelegateHP(item)}>
         <Text style={styles.rightItemText}>
           {intl.formatMessage({
             id: 'refer.delegate_hp',
@@ -144,7 +144,7 @@ const ReferScreen = ({ navigation }) => {
         isBlackRightColor
         isLoggedIn
         leftItemRenderer={() => _leftItemRenderer(item)}
-        rightItemRenderer={_rightItemRenderer}
+        rightItemRenderer={() => _rightItemRenderer(item)}
       />
     );
   };

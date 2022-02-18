@@ -70,6 +70,16 @@ class DelegateScreen extends Component {
   }
 
   // Component Lifecycles
+  componentDidMount() {
+    const { referredUsername } = this.props;
+    if (referredUsername) {
+      console.log('----referredUsername---- : ', referredUsername);
+      this.setState({ destination: referredUsername, usersResult: [], step: 2 }, () => {
+        this._fetchReceivedVestingShare();
+      });
+      this.destinationTextInput.current?.blur();
+    }
+  }
   componentDidUpdate(prevProps, prevState) {
     if (prevState.from !== this.state.from) {
       this._fetchReceivedVestingShare();
