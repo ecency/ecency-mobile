@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Share, Text, TouchableOpacity, View } from 'react-native';
 import { BasicHeader, Icon, MainButton, PopoverWrapper, UserListItem } from '../../components';
 import get from 'lodash/get';
 // utils
@@ -10,9 +10,12 @@ import { Referral } from '../../models';
 
 // styles
 import styles from './referScreenStyles';
+import { useAppSelector } from '../../hooks';
 
 const ReferScreen = ({ navigation }) => {
   const intl = useIntl();
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+
   const [referralsList, setReferralsList] = useState<Referral[]>([]);
   const [earnedPoints, setEarnedPoint] = useState(0);
   const [pendingPoints, setPendingPoint] = useState(0);
@@ -37,6 +40,13 @@ const ReferScreen = ({ navigation }) => {
     setReferralsList(referralsListData as any);
     setEarnedPoint(rewardedPoints);
     setPendingPoint(unrewardedPoint);
+  };
+
+  const _handleRefer = () => {
+    const shareUrl = `https://ecency.com/signup?referral=${currentAccount.username}`;
+    Share.share({
+      message: shareUrl,
+    });
   };
   const _renderPointsEarned = () => {
     return (
@@ -64,7 +74,7 @@ const ReferScreen = ({ navigation }) => {
           // isDisable={isLoading}
           style={styles.mainButton}
           height={50}
-          onPress={() => console.log('pressed!')}
+          onPress={_handleRefer}
         >
           <View style={styles.mainButtonWrapper}>
             <Text style={styles.unclaimedText}>
@@ -81,23 +91,6 @@ const ReferScreen = ({ navigation }) => {
     );
   };
 
-  const RewardItem = ({ rewarded }) => {
-    return (
-      <PopoverWrapper
-        text={
-          rewarded
-            ? intl.formatMessage({
-                id: 'refer.rewarded',
-              })
-            : intl.formatMessage({
-                id: 'refer.not_rewarded',
-              })
-        }
-      >
-        <Text style={[styles.dollarSign, rewarded ? styles.blueDollarSign : {}]}>$$</Text>
-      </PopoverWrapper>
-    );
-  };
   const _leftItemRenderer = (item: Referral) => {
     return (
       <PopoverWrapper
@@ -115,6 +108,7 @@ const ReferScreen = ({ navigation }) => {
       </PopoverWrapper>
     );
   };
+
   const _rightItemRenderer = () => {
     return (
       <View style={styles.rightItemRendererContainer}>
@@ -126,6 +120,7 @@ const ReferScreen = ({ navigation }) => {
       </View>
     );
   };
+
   const _renderReferralListItem = ({ item, index }: { item: Referral; index: number }) => {
     return (
       <UserListItem
@@ -133,15 +128,9 @@ const ReferScreen = ({ navigation }) => {
         index={index}
         username={item.referredUsername}
         description={get(item, 'created')}
-        // isHasRightItem
         // isClickable
         isBlackRightColor
-        // rightText={item.isRewarded ? 'Rewarded' : 'Not Rewarded'}
         isLoggedIn
-        // itemIndex={index + 1}
-        // handleOnPress={() => console.log('pressed!')}
-        // rightTextStyle={styles.rewardText}
-        // rightTooltipText={intl.formatMessage({ id: 'leaderboard.tooltip_earn' })}
         leftItemRenderer={() => _leftItemRenderer(item)}
         rightItemRenderer={_rightItemRenderer}
       />
