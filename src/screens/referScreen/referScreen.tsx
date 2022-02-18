@@ -30,8 +30,8 @@ const ReferScreen = ({ navigation }) => {
   console.log('-----referralsList----- : ', referralsList);
 
   const _getReferralsList = async () => {
-    // using 'good-karma' name for testing
-    const referralsListData = await getReferralsList('good-karma');
+    // const referralsListData = await getReferralsList('good-karma'); // using 'good-karma' name for testing, use original name here
+    const referralsListData = await getReferralsList(currentAccount.name);
     let rewardedPoints = 0;
     let unrewardedPoint = 0;
     referralsListData.forEach((value) => {
