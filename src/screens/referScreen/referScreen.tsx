@@ -11,6 +11,10 @@ import { Referral } from '../../models';
 // styles
 import styles from './referScreenStyles';
 import { useAppSelector } from '../../hooks';
+import { navigate } from '../../navigation/service';
+
+// constants
+import ROUTES from '../../constants/routeNames';
 
 const ReferScreen = ({ navigation }) => {
   const intl = useIntl();
@@ -46,6 +50,14 @@ const ReferScreen = ({ navigation }) => {
     const shareUrl = `https://ecency.com/signup?referral=${currentAccount.username}`;
     Share.share({
       message: shareUrl,
+    });
+  };
+
+  const _handleDelegateHP = () => {
+    console.log('delegate HP!');
+    navigate({
+      routeName: ROUTES.SCREENS.TRANSFER,
+      params: { transferType: 'delegate', fundType: 'HIVE_POWER' },
     });
   };
   const _renderPointsEarned = () => {
@@ -111,13 +123,13 @@ const ReferScreen = ({ navigation }) => {
 
   const _rightItemRenderer = () => {
     return (
-      <View style={styles.rightItemRendererContainer}>
+      <TouchableOpacity style={styles.rightItemRendererContainer} onPress={_handleDelegateHP}>
         <Text style={styles.rightItemText}>
           {intl.formatMessage({
             id: 'refer.delegate_hp',
           })}
         </Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 
