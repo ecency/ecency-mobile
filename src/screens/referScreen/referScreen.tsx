@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { FlatList, Text, View } from 'react-native';
-import { BasicHeader, Icon, MainButton, UserListItem } from '../../components';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { BasicHeader, Icon, MainButton, PopoverWrapper, UserListItem } from '../../components';
 import get from 'lodash/get';
 // utils
 import { getReferralsList } from '../../providers/ecency/ecency';
@@ -59,6 +59,51 @@ const ReferScreen = ({ navigation }) => {
     );
   };
 
+  const RewardItem = ({ rewarded }) => {
+    return (
+      <PopoverWrapper
+        text={
+          rewarded
+            ? intl.formatMessage({
+                id: 'refer.rewarded',
+              })
+            : intl.formatMessage({
+                id: 'refer.not_rewarded',
+              })
+        }
+      >
+        <Text style={[styles.dollarSign, rewarded ? styles.blueDollarSign : {}]}>$$</Text>
+      </PopoverWrapper>
+    );
+  };
+  const _leftItemRenderer = (item: Referral) => {
+    return (
+      <PopoverWrapper
+        text={
+          item.isRewarded
+            ? intl.formatMessage({
+                id: 'refer.rewarded',
+              })
+            : intl.formatMessage({
+                id: 'refer.not_rewarded',
+              })
+        }
+      >
+        <Text style={[styles.dollarSign, item.isRewarded ? styles.blueDollarSign : {}]}>$$</Text>
+      </PopoverWrapper>
+    );
+  };
+  const _rightItemRenderer = () => {
+    return (
+      <View style={styles.rightItemRendererContainer}>
+        <Text style={styles.rightItemText}>
+          {intl.formatMessage({
+            id: 'refer.delegate_hp',
+          })}
+        </Text>
+      </View>
+    );
+  };
   const _renderReferralListItem = ({ item, index }: { item: Referral; index: number }) => {
     return (
       <UserListItem
@@ -66,15 +111,17 @@ const ReferScreen = ({ navigation }) => {
         index={index}
         username={item.referredUsername}
         description={get(item, 'created')}
-        isHasRightItem
-        isClickable
+        // isHasRightItem
+        // isClickable
         isBlackRightColor
-        rightText={item.isRewarded ? 'Rewarded' : 'Not Rewarded'}
+        // rightText={item.isRewarded ? 'Rewarded' : 'Not Rewarded'}
         isLoggedIn
-        itemIndex={index + 1}
-        handleOnPress={() => console.log('pressed!')}
-        rightTextStyle={styles.rewardText}
+        // itemIndex={index + 1}
+        // handleOnPress={() => console.log('pressed!')}
+        // rightTextStyle={styles.rewardText}
         // rightTooltipText={intl.formatMessage({ id: 'leaderboard.tooltip_earn' })}
+        leftItemRenderer={() => _leftItemRenderer(item)}
+        rightItemRenderer={_rightItemRenderer}
       />
     );
   };

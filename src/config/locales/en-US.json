@@ -735,6 +735,9 @@
   },
   "refer":{
     "refer_earn": "Refer & Earn",
-    "refer": "Refer"
+    "refer": "Refer",
+    "rewarded": "Rewarded",
+    "not_rewarded": "Not Rewarded",
+    "delegate_hp": "Delegate HP"
   }
 }

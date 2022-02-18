@@ -62,4 +62,24 @@ export default EStyleSheet.create({
   rewardText: {
     width: 120,
   },
+  dollarSign: {
+    color: '$primaryDarkGray',
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginRight: 8,
+  },
+  blueDollarSign: {
+    color: '$primaryBlue',
+  },
+  rightItemRendererContainer:{
+    paddingHorizontal:8,
+    height:40,    
+    justifyContent:'center'
+  },
+  rightItemText:{
+    textAlign:'right',
+    color: '$primaryBlue',
+    fontSize: 14,
+    fontWeight: 'bold',
+  }
 });
