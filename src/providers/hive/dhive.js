@@ -591,6 +591,8 @@ export const getRepliesByLastUpdate = async (query) => {
 };
 
 export const getPost = async (author, permlink, currentUserName = null, isPromoted = false) => {
+  author = author && author.toLowerCase();
+  permlink = permlink && permlink.toLowerCase();
   try {
     console.log('Getting post: ', author, permlink);
     const post = await client.call('bridge', 'get_post', { author, permlink });
@@ -601,6 +603,8 @@ export const getPost = async (author, permlink, currentUserName = null, isPromot
 };
 
 export const isPostAvailable = async (author, permlink) => {
+  author = author && author.toLowerCase();
+  permlink = permlink && permlink.toLowerCase();
   try {
     const post = await client.call('bridge', 'get_post', { author, permlink });
     return get(post, 'post_id', 0) !== 0;
@@ -610,6 +614,8 @@ export const isPostAvailable = async (author, permlink) => {
 };
 
 export const getPurePost = async (author, permlink) => {
+  author = author && author.toLowerCase();
+  permlink = permlink && permlink.toLowerCase();
   try {
     return await client.call('bridge', 'get_post', { author, permlink });
   } catch (error) {

@@ -51,6 +51,7 @@ const parseAuthorPermlink = (u) => {
 };
 
 export default (url) => {
+  url = url && url.toLowerCase();
   if (url.startsWith('ecency://') || url.startsWith('esteem://')) {
     url = url
       .replace('ecency://', 'https://ecency.com/')
