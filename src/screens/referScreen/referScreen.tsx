@@ -40,7 +40,7 @@ const ReferScreen = ({ navigation }) => {
 
   const _getReferralsList = async () => {
     setLoading(true);
-    const referralsListData = await getReferralsList('good-karma'); // using 'good-karma' name for testing, use original name here
+    const referralsListData = await getReferralsList('ecency'); // using 'good-karma' name for testing, use original name here
     // const referralsListData = await getReferralsList(currentAccount.name);
     let rewardedPoints = 0;
     let unrewardedPoint = 0;
@@ -184,6 +184,7 @@ const ReferScreen = ({ navigation }) => {
           // onRefresh={() => fetchLeaderBoard()}
           renderItem={_renderReferralListItem}
           contentContainerStyle={styles.listContentContainer}
+          showsVerticalScrollIndicator={false}
         />
       </View>
     );

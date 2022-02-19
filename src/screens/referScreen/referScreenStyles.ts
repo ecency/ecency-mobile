@@ -65,6 +65,9 @@ export default EStyleSheet.create({
   referralsListContainer: {
     flex: 1,
   },
+  listContentContainer:{
+    
+  },
   rewardText: {
     width: 120,
   },
