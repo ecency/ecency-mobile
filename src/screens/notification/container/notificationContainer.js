@@ -16,6 +16,8 @@ import ROUTES from '../../../constants/routeNames';
 // Components
 import NotificationScreen from '../screen/notificationScreen';
 import { showProfileModal } from '../../../redux/actions/uiAction';
+import { markHiveNotifications } from '../../../providers/hive/dhive';
+import bugsnapInstance from '../../../config/bugsnag';
 
 class NotificationContainer extends Component {
   constructor(props) {
@@ -125,7 +127,7 @@ class NotificationContainer extends Component {
   };
 
   _readAllNotification = () => {
-    const { dispatch, intl, isConnected } = this.props;
+    const { dispatch, intl, isConnected, currentAccount, pinCode } = this.props;
     const { notifications } = this.state;
 
     if (!isConnected) {
@@ -138,6 +140,13 @@ class NotificationContainer extends Component {
       .then(() => {
         const updatedNotifications = notifications.map((item) => ({ ...item, read: 1 }));
         dispatch(updateUnreadActivityCount(0));
+        markHiveNotifications(currentAccount, pinCode)
+          .then(() => {
+            console.log('Hive notifications marked as Read');
+          })
+          .catch((err) => {
+            bugsnapInstance.notify(err);
+          });
         this.setState({ notifications: updatedNotifications, isRefreshing: false });
       })
       .catch(() => {
