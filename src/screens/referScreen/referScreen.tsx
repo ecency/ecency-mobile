@@ -2,7 +2,14 @@ import React, { Fragment } from 'react';
 import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { ActivityIndicator, FlatList, Share, Text, TouchableOpacity, View } from 'react-native';
-import { BasicHeader, Icon, ListPlaceHolder, MainButton, PopoverWrapper, UserListItem } from '../../components';
+import {
+  BasicHeader,
+  Icon,
+  ListPlaceHolder,
+  MainButton,
+  PopoverWrapper,
+  UserListItem,
+} from '../../components';
 import get from 'lodash/get';
 // utils
 import { getReferralsList } from '../../providers/ecency/ecency';
@@ -61,7 +68,11 @@ const ReferScreen = ({ navigation }) => {
     console.log('delegate HP!');
     navigate({
       routeName: ROUTES.SCREENS.TRANSFER,
-      params: { transferType: 'delegate', fundType: 'HIVE_POWER', referredUsername: item.referredUsername },
+      params: {
+        transferType: 'delegate',
+        fundType: 'HIVE_POWER',
+        referredUsername: item.referredUsername,
+      },
     });
   };
   const _renderPointsEarned = () => {
@@ -125,9 +136,12 @@ const ReferScreen = ({ navigation }) => {
     );
   };
 
-  const _rightItemRenderer = (item:Referral) => {
+  const _rightItemRenderer = (item: Referral) => {
     return (
-      <TouchableOpacity style={styles.rightItemRendererContainer} onPress={() => _handleDelegateHP(item)}>
+      <TouchableOpacity
+        style={styles.rightItemRendererContainer}
+        onPress={() => _handleDelegateHP(item)}
+      >
         <Text style={styles.rightItemText}>
           {intl.formatMessage({
             id: 'refer.delegate_hp',
@@ -137,9 +151,11 @@ const ReferScreen = ({ navigation }) => {
     );
   };
 
-  const _renderEmptyView = (
-    loading ? (<ListPlaceHolder />)
-    :(<Text style={styles.emptyText}>{intl.formatMessage({id:'refer.empty_text'})}</Text>));
+  const _renderEmptyView = loading ? (
+    <ListPlaceHolder />
+  ) : (
+    <Text style={styles.emptyText}>{intl.formatMessage({ id: 'refer.empty_text' })}</Text>
+  );
 
   const _renderReferralListItem = ({ item, index }: { item: Referral; index: number }) => {
     return (
@@ -179,8 +195,10 @@ const ReferScreen = ({ navigation }) => {
           id: 'refer.refer_earn',
         })}
       />
-      {_renderPointsEarned()}
-      {_renderReferralsList()}
+      <View style={styles.mainContainer}>
+        {_renderPointsEarned()}
+        {_renderReferralsList()}
+      </View>
     </Fragment>
   );
 };
