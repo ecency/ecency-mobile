@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { FlatList, Share, Text, TouchableOpacity, View } from 'react-native';
-import { BasicHeader, Icon, MainButton, PopoverWrapper, UserListItem } from '../../components';
+import { ActivityIndicator, FlatList, Share, Text, TouchableOpacity, View } from 'react-native';
+import { BasicHeader, Icon, ListPlaceHolder, MainButton, PopoverWrapper, UserListItem } from '../../components';
 import get from 'lodash/get';
 // utils
 import { getReferralsList } from '../../providers/ecency/ecency';
@@ -23,6 +23,8 @@ const ReferScreen = ({ navigation }) => {
   const [referralsList, setReferralsList] = useState<Referral[]>([]);
   const [earnedPoints, setEarnedPoint] = useState(0);
   const [pendingPoints, setPendingPoint] = useState(0);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     _getReferralsList();
   }, []);
@@ -30,8 +32,9 @@ const ReferScreen = ({ navigation }) => {
   console.log('-----referralsList----- : ', referralsList);
 
   const _getReferralsList = async () => {
-    // const referralsListData = await getReferralsList('good-karma'); // using 'good-karma' name for testing, use original name here
-    const referralsListData = await getReferralsList(currentAccount.name);
+    setLoading(true);
+    const referralsListData = await getReferralsList('good-karma'); // using 'good-karma' name for testing, use original name here
+    // const referralsListData = await getReferralsList(currentAccount.name);
     let rewardedPoints = 0;
     let unrewardedPoint = 0;
     referralsListData.forEach((value) => {
@@ -41,6 +44,7 @@ const ReferScreen = ({ navigation }) => {
         unrewardedPoint += 100;
       }
     });
+    setLoading(false);
     setReferralsList(referralsListData as any);
     setEarnedPoint(rewardedPoints);
     setPendingPoint(unrewardedPoint);
@@ -74,7 +78,7 @@ const ReferScreen = ({ navigation }) => {
           </View>
           <View style={styles.pendingWrapper}>
             <Text style={styles.points}>{pendingPoints}</Text>
-            <Text style={styles.pendingText}>
+            <Text style={styles.earendText}>
               {intl.formatMessage({
                 id: 'refer.pending',
               })}
@@ -95,7 +99,7 @@ const ReferScreen = ({ navigation }) => {
               })}
             </Text>
             <View style={styles.mainIconWrapper}>
-              <Icon name="share-social-outline" iconType="Ionicons" color="#fff" size={28} />
+              <Icon name="share-social" iconType="Ionicons" color="#fff" size={28} />
             </View>
           </View>
         </MainButton>
@@ -133,6 +137,10 @@ const ReferScreen = ({ navigation }) => {
     );
   };
 
+  const _renderEmptyView = (
+    loading ? (<ListPlaceHolder />)
+    :(<Text style={styles.emptyText}>{intl.formatMessage({id:'refer.empty_text'})}</Text>));
+
   const _renderReferralListItem = ({ item, index }: { item: Referral; index: number }) => {
     return (
       <UserListItem
@@ -156,7 +164,7 @@ const ReferScreen = ({ navigation }) => {
           // refreshing={refreshing}
           keyExtractor={(item, index) => `item ${index}`}
           removeClippedSubviews={false}
-          // ListEmptyComponent={<ListPlaceHolder />}
+          ListEmptyComponent={_renderEmptyView}
           // onRefresh={() => fetchLeaderBoard()}
           renderItem={_renderReferralListItem}
           contentContainerStyle={styles.listContentContainer}

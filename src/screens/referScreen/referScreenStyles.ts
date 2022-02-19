@@ -10,10 +10,10 @@ export default EStyleSheet.create({
     marginBottom: 16,
   },
   earnedWrapper: {
-    marginRight: 8,
+    marginRight: 32,
   },
   pendingWrapper: {
-    marginLeft: 8,
+    marginLeft: 32,
   },
   points: {
     color: '$primaryBlue',
@@ -29,11 +29,13 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     marginTop: 5,
   },
-  pendingText: {
-    color: '$primaryDarkGray',
+  emptyText:{
+    color: '$primaryDarkText',
     fontSize: 16,
     justifyContent: 'center',
     marginTop: 5,
+    padding: 32,
+    textAlign:'center'
   },
   mainButton: {
     marginTop: 16,
