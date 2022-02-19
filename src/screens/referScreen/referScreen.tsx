@@ -40,6 +40,7 @@ const ReferScreen = ({ navigation }) => {
 
   const _getReferralsList = async () => {
     setLoading(true);
+    //TOOD: remove test account line and uncomment currentAccount line before merging.
     const referralsListData = await getReferralsList('ecency'); // using 'good-karma' name for testing, use original name here
     // const referralsListData = await getReferralsList(currentAccount.name);
     let rewardedPoints = 0;
