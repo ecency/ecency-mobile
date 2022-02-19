@@ -44,7 +44,7 @@ export const CoinCard = ({
             </View>
             <Text  
               style={styles.textCurValue}>
-                <Text style={{fontWeight:'500'}}>{`${ownedTokens} ${symbol}`}</Text>
+                <Text style={{fontWeight:'500'}}>{`${ownedTokens.toFixed(3)} ${symbol}`}</Text>
                 {`/${(ownedTokens * currentValue).toFixed(2)}${currencySymbol}`}
             </Text>
         </View>

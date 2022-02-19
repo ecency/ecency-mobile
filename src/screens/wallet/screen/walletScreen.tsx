@@ -90,14 +90,17 @@ const WalletScreen = ({navigation}) => {
 
     const coinData = coinsData[item.id] || {};
 
-    const _tokenMarketData = priceHistories[item.id] ? priceHistories[item.id].data : [];
+    const _tokenMarketData:number[] = priceHistories[item.id] ? priceHistories[item.id].data : [];
     const _currentValue = item.id == 'ecency' ? 1/150 : (coinData.currentPrice || 0);
     const _balance = item.id === 'ececny' ? 3 : (coinData.balance + coinData.savings);
-    const _changePercent = 
-    _tokenMarketData.length > 0 ? 
-      ((_tokenMarketData[_tokenMarketData.length - 1] - _tokenMarketData[0])/(_tokenMarketData[_tokenMarketData.length - 1]))*100
-      :
-      0;
+    
+    //calculate percentage change
+    //TODO: verify or find a way to get exact percent change. current change value slightly differs from coingecko wep app values
+    const _pastPrice = _tokenMarketData.length > 0 && _tokenMarketData[0];
+    const _latestPrice = _tokenMarketData.length > 0 && _tokenMarketData.lastItem;
+    const _changePercent = _pastPrice && _latestPrice 
+      ? ((_latestPrice - _pastPrice)/(_latestPrice)) * 100 : 0;
+
     return (
       <CoinCard 
         chartData={_tokenMarketData || []} 
