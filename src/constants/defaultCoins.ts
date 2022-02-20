@@ -1,14 +1,9 @@
-import { Coin } from "../redux/reducers/walletReducer"
+import { CoinBase } from "../redux/reducers/walletReducer"
 
 const DEFAULT_COINS = [{
     id:'ecency',
     name:'Ecency Points', 
     symbol:'Points',
-    notCrypto:true
-},{
-    id:'hive_power',
-    name:'Hive Power', 
-    symbol:'HP',
     notCrypto:true
 },{
     id:'hive',
@@ -20,7 +15,12 @@ const DEFAULT_COINS = [{
     name:'Hive Dollar',
     symbol:'HBD',
     notCrypto:false
-}] as Coin[]
+},{
+    id:'hive_power',
+    name:'Hive Power', 
+    symbol:'HP',
+    notCrypto:true
+}] as CoinBase[]
 
 export const COIN_IDS = {
     ECENCY:'ecency',
