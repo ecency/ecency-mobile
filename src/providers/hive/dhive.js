@@ -1236,8 +1236,8 @@ export const unfollowUser = async (currentAccount, pin, data) => {
   );
 };
 
-export const markHiveNotifications = async (currentAccount, pin) => {
-  const digitPinCode = getDigitPinCode(pin);
+export const markHiveNotifications = async (currentAccount, pinHash) => {
+  const digitPinCode = getDigitPinCode(pinHash);
   const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
 
   const now = new Date().toISOString();

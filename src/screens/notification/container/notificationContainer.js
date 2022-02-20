@@ -170,11 +170,11 @@ class NotificationContainer extends Component {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { selectedFilter } = this.state;
-    const { username } = this.props;
+    const { currentAccount } = this.props;
 
     if (
-      (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION && nextProps.username) ||
-      (nextProps.username !== username && nextProps.username)
+      (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION && nextProps.currentAccount.name) ||
+      (nextProps.currentAccount.name !== currentAccount.name && nextProps.currentAccount.name)
     ) {
       this.setState({ endOfNotification: false }, () => this._getActivities(selectedFilter));
     }
@@ -203,8 +203,8 @@ class NotificationContainer extends Component {
 const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
   isConnected: state.application.isConnected,
-
-  username: state.account.currentAccount.name,
+  pinCode: state.application.pin,
+  currentAccount: state.account.currentAccount,
   activeBottomTab: state.ui.activeBottomTab,
 });
 
