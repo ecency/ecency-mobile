@@ -8,6 +8,7 @@ import { CoinBase, CoinData } from '../redux/reducers/walletReducer';
 import { GlobalProps } from '../redux/reducers/accountReducer';
 import { COIN_IDS } from '../constants/defaultCoins';
 import { getEstimatedAmount } from './vote';
+import { getUser as getEcencyUser } from '../providers/ecency/ePoint';
 
 export const transferTypes = [
   'curation_reward',
@@ -272,14 +273,29 @@ export const fetchCoinsData = async (
 
     //TODO: Use already available accoutn for frist wallet start
     const state = await getAccount(username);
+    const ecencyUser = await getEcencyUser(username)
     //TODO: cache data in redux or fetch once on wallet startup
     const ppHbd = await getCurrencyTokenRate(vsCurrency, 'hbd');
     const ppHive = await getCurrencyTokenRate(vsCurrency, 'hive');
+    const ppEstm = await getCurrencyTokenRate(vsCurrency, 'estm');
 
     const [userdata] = state;
 
     coins.forEach((coinBase)=>{
       switch(coinBase.id){
+        case COIN_IDS.ECENCY:{
+          const balance = ecencyUser.points ? parseFloat(ecencyUser.points) : 0;
+          const unclaimedBalance = ecencyUser.unclaimed_points ? parseFloat(ecencyUser.unclaimed_points) : 0;
+          coinData[coinBase.id] = {
+            balance : Math.round(balance * 1000) / 1000,
+            estimateValue : balance * ppEstm,
+            savings:0,
+            vsCurrency:vsCurrency,
+            currentPrice:ppEstm,
+            unclaimedBalance:'' + unclaimedBalance,
+          }
+          break;
+        }
         case COIN_IDS.HIVE:{
           const balance = parseToken(userdata.balance);
           const savings = parseToken(userdata.savings_balance);

@@ -2,6 +2,7 @@ import { Alert } from 'react-native';
 import ePointApi from '../../config/api';
 import ecencyApi from '../../config/ecencyApi';
 import bugsnagInstance from '../../config/bugsnag';
+import { EcencyUser } from './ecency.types';
 
 
 /**
@@ -32,7 +33,7 @@ export const userActivity = async (ty:number, tx:string = '', bl:string|number =
 }
 
 
-export const getUser = (username) =>
+export const getUser = (username:string):Promise<EcencyUser> =>
   new Promise((resolve) => {
     ePointApi
       .get(`/users/${username}`)
