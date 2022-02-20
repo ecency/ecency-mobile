@@ -6,6 +6,11 @@ const DEFAULT_COINS = [{
     symbol:'Points',
     notCrypto:true
 },{
+    id:'hive_power',
+    name:'Hive Power', 
+    symbol:'HP',
+    notCrypto:true
+},{
     id:'hive',
     name:'Hive Token',
     symbol:'HIVE',
@@ -15,11 +20,6 @@ const DEFAULT_COINS = [{
     name:'Hive Dollar',
     symbol:'HBD',
     notCrypto:false
-},{
-    id:'hive_power',
-    name:'Hive Power', 
-    symbol:'HP',
-    notCrypto:true
 }] as CoinBase[]
 
 export const COIN_IDS = {
