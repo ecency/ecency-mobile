@@ -26,9 +26,10 @@ import { withNavigation } from 'react-navigation';
 import ROUTES from '../../../constants/routeNames';
 import { CoinDetailsScreenParams } from '../../coinDetails/screen/coinDetailsScreen';
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
-import { CoinBase } from '../../../redux/reducers/walletReducer';
+import { CoinBase, CoinData } from '../../../redux/reducers/walletReducer';
 import { setCoinsData, setPriceHistory } from '../../../redux/actions/walletActions';
 import { fetchCoinsData } from '../../../utils/wallet';
+import { COIN_IDS } from '../../../constants/defaultCoins';
 
 
 const CHART_DAYS_RANGE = 1;
@@ -50,9 +51,15 @@ const WalletScreen = ({navigation}) => {
 
 
   useEffect(()=>{
-    _fetchPriceHistory();
-    _fetchCoinData();
+    _fetchData();
   },[])
+
+  const _fetchData = () => {
+    if(!isLoading){
+      _fetchPriceHistory();
+      _fetchCoinData();
+    }
+  } 
 
 
   const _fetchPriceHistory = () => {
@@ -68,6 +75,7 @@ const WalletScreen = ({navigation}) => {
   }
 
   const _fetchCoinData = async () => {
+    setIsLoading(true);
     const coinData = await fetchCoinsData(
       selectedCoins, 
       currentAccount.name, 
@@ -77,6 +85,8 @@ const WalletScreen = ({navigation}) => {
     
     console.log("Coins Data", coinData)
     dispatch(setCoinsData(coinData))
+    setRefreshing(false);
+    setIsLoading(false);
   }
 
 
@@ -88,7 +98,7 @@ const WalletScreen = ({navigation}) => {
       } as CoinDetailsScreenParams)
     }
 
-    const coinData = coinsData[item.id] || {};
+    const coinData:CoinData = coinsData[item.id] || {};
 
     const _tokenMarketData:number[] = priceHistories[item.id] ? priceHistories[item.id].data : [];
     const _currentValue = coinData.currentPrice || 0;
@@ -108,6 +118,8 @@ const WalletScreen = ({navigation}) => {
         changePercent={_changePercent}
         currencySymbol={currency.currencySymbol}
         ownedTokens={_balance}
+        unclaimedRewards={coinData.unclaimedBalance}
+        enableBuy={!coinData.unclaimedBalance && item.id === COIN_IDS.ECENCY}
         onPress={_onPress}
         footerComponent={index === 0 && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />}
         {...item} />
@@ -123,7 +135,7 @@ const WalletScreen = ({navigation}) => {
   const _refreshControl = (
     <RefreshControl
       refreshing={refreshing}
-      onRefresh={() => setRefreshing(true)}
+      onRefresh={() => {_fetchData(); setRefreshing(true)}}
       progressBackgroundColor="#357CE6"
       tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
       titleColor="#fff"

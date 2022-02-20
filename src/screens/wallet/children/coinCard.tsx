@@ -1,8 +1,8 @@
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import React, { ComponentType } from 'react';
 import styles from './children.styles';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { SimpleChart } from '../../../components';
+import { MainButton, SimpleChart, TextButton } from '../../../components';
+import { COIN_IDS } from '../../../constants/defaultCoins';
 
 export interface CoinCardProps {
     chartData:number[]
@@ -13,6 +13,8 @@ export interface CoinCardProps {
     changePercent:number,
     currentValue:number,
     ownedTokens:number,
+    unclaimedRewards:string,
+    enableBuy?:boolean,
     footerComponent:ComponentType<any>
     onPress:()=>void
 }
@@ -27,9 +29,10 @@ export const CoinCard = ({
   currentValue,
   ownedTokens,
   footerComponent,
+  unclaimedRewards,
+  enableBuy,
   onPress
 }:CoinCardProps) => {
-  
 
   if(!notCrypto && !chartData.length){
     return null
@@ -49,6 +52,19 @@ export const CoinCard = ({
             </Text>
         </View>
     );
+
+    const _renderClaimSection = () => {
+      if(unclaimedRewards || enableBuy){
+        const btnTitle = unclaimedRewards
+          ? unclaimedRewards + '\nCLAIM'
+          : 'GET MORE'
+        return (
+          <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center', marginTop:8}}>
+            <MainButton style={{paddingHorizontal:24}} text={btnTitle} onPress={()=>{}} />
+          </View>
+        )
+      }
+    }
 
 
     const _renderGraph = () => {
@@ -72,9 +88,10 @@ export const CoinCard = ({
     )
 
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} >
       <View style={styles.cardContainer}>
         {_renderHeader}
+        {_renderClaimSection()}
         {!notCrypto  && _renderGraph()}
         {!notCrypto ? _renderFooter : <View style={{height:12}} />}
         {footerComponent && footerComponent}

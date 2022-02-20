@@ -285,14 +285,14 @@ export const fetchCoinsData = async (
       switch(coinBase.id){
         case COIN_IDS.ECENCY:{
           const balance = ecencyUser.points ? parseFloat(ecencyUser.points) : 0;
-          const unclaimedBalance = ecencyUser.unclaimed_points ? parseFloat(ecencyUser.unclaimed_points) : 0;
+          const unclaimedBalance = ecencyUser.unclaimed_points ? parseFloat(ecencyUser.unclaimed_points) + ' Points' : '';
           coinData[coinBase.id] = {
             balance : Math.round(balance * 1000) / 1000,
             estimateValue : balance * ppEstm,
             savings:0,
             vsCurrency:vsCurrency,
             currentPrice:ppEstm,
-            unclaimedBalance:'' + unclaimedBalance,
+            unclaimedBalance: unclaimedBalance,
           }
           break;
         }
@@ -326,15 +326,16 @@ export const fetchCoinsData = async (
           break;
         }
         case COIN_IDS.HP:{
-          const _getBalance = (val:number, cur:string) => (val ? Math.round(val * 1000) / 1000 + cur : '');
+          const _getBalanceStr = (val:number, cur:string, prefix:string = '') => (val ? prefix + Math.round(val * 1000) / 1000 + cur : '');
           const balance = Math.round(
             vestsToHp(parseToken(userdata.vesting_shares), hivePerMVests) * 1000,
           ) / 1000;
         
-          const unclaimedBalance =  
-          `${_getBalance(parseToken(userdata.reward_hive_balance), ' HIVE')} ` +
-          `${_getBalance(parseToken(userdata.reward_hive_balance),' HBD')} ` +
-          `${_getBalance(parseToken(userdata.reward_vesting_hive), ' HP')}`
+          const unclaimedBalance = ( 
+          `${_getBalanceStr(parseToken(userdata.reward_hive_balance), ' HIVE')}` +
+          `${_getBalanceStr(parseToken(userdata.reward_hive_balance),' HBD', ' | ')}` +
+          `${_getBalanceStr(parseToken(userdata.reward_vesting_hive), ' HP', ' | ')}`
+          ).trim();
 
           //TODO: assess how we can make this value change live.
           const estimateValueStr = getEstimatedAmount(userdata, globalProps);
