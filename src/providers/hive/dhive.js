@@ -1236,6 +1236,59 @@ export const unfollowUser = async (currentAccount, pin, data) => {
   );
 };
 
+export const markHiveNotifications = async (currentAccount, pinHash) => {
+  const digitPinCode = getDigitPinCode(pinHash);
+  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+
+  const now = new Date().toISOString();
+  const date = now.split('.')[0];
+
+  const params = {
+    id: 'notify',
+    required_auths: [],
+    required_posting_auths: [currentAccount.name],
+    json: JSON.stringify(['setLastRead', { date }]),
+  };
+  const params1 = {
+    id: 'ecency_notify',
+    required_auths: [],
+    required_posting_auths: [currentAccount.name],
+    json: JSON.stringify(['setLastRead', { date }]),
+  };
+
+  const opArray: Operation[] = [
+    ['custom_json', params],
+    ['custom_json', params1],
+  ];
+
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
+    const api = new hsClient({
+      accessToken: token,
+    });
+
+    return api.broadcast(opArray).then((resp) => resp.result);
+  }
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+
+    return new Promise((resolve, reject) => {
+      sendHiveOperations(opArray, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(
+    new Error('Check private key permission! Required private posting key or above.'),
+  );
+};
+
 export const lookupAccounts = async (username) => {
   try {
     const users = await client.database.call('lookup_accounts', [username, 20]);
