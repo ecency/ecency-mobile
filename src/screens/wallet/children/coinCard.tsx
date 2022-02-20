@@ -30,7 +30,7 @@ export const CoinCard = ({
   onPress
 }:CoinCardProps) => {
   
-  console.log(chartData);
+
   if(!notCrypto && !chartData.length){
     return null
   }

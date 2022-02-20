@@ -12,6 +12,7 @@ export interface CoinData {
     currentPrice:number;
     balance:number;
     savings:number;
+    unclaimedBalance:string,
     estimateValue:number;
     vsCurrency:string;
 }

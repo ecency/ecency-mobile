@@ -7,6 +7,7 @@ import { getCurrencyTokenRate } from '../providers/ecency/ecency';
 import { CoinBase, CoinData } from '../redux/reducers/walletReducer';
 import { GlobalProps } from '../redux/reducers/accountReducer';
 import { COIN_IDS } from '../constants/defaultCoins';
+import { getEstimatedAmount } from './vote';
 
 export const transferTypes = [
   'curation_reward',
@@ -259,9 +260,11 @@ export const fetchCoinsData = async (
   ) 
   : Promise<{[key:string]:CoinData}> => {
 
-    const coinData = {} as {[key:string]:CoinData};
+    const {base, quote, hivePerMVests} = globalProps
 
+    const coinData = {} as {[key:string]:CoinData};
     const walletData = {} as any;
+
 
     if (!username) {
       return walletData;
@@ -286,7 +289,8 @@ export const fetchCoinsData = async (
             estimateValue: (balance + savings) * ppHive,
             savings:Math.round(savings * 1000) / 1000,
             vsCurrency:vsCurrency,
-            currentPrice:ppHive
+            currentPrice:ppHive,
+            unclaimedBalance:'',
           }
           break;
         }
@@ -300,20 +304,33 @@ export const fetchCoinsData = async (
             estimateValue: (balance + savings) * ppHbd,
             savings:Math.round(savings * 1000) / 1000,
             vsCurrency:vsCurrency,
-            currentPrice:ppHbd
+            currentPrice:ppHbd,
+            unclaimedBalance:'',
           }
           break;
         }
         case COIN_IDS.HP:{
-          //TODO: set correct values
-          const balance = parseToken(userdata.hbd_balance);
-          const savings = parseToken(userdata.savings_hbd_balance);
+          const _getBalance = (val:number, cur:string) => (val ? Math.round(val * 1000) / 1000 + cur : '');
+          const balance = Math.round(
+            vestsToHp(parseToken(userdata.vesting_shares), hivePerMVests) * 1000,
+          ) / 1000;
+        
+          const unclaimedBalance =  
+          `${_getBalance(parseToken(userdata.reward_hive_balance), ' HIVE')} ` +
+          `${_getBalance(parseToken(userdata.reward_hive_balance),' HBD')} ` +
+          `${_getBalance(parseToken(userdata.reward_vesting_hive), ' HP')}`
+
+          //TODO: assess how we can make this value change live.
+          const estimateValueStr = getEstimatedAmount(userdata, globalProps);
+
+
           coinData[coinBase.id] = {
             balance: Math.round(balance * 1000) / 1000,
-            estimateValue: (balance + savings) * ppHbd,
-            savings:Math.round(savings * 1000) / 1000,
+            estimateValue: parseFloat(estimateValueStr),
+            unclaimedBalance,
             vsCurrency:vsCurrency,
-            currentPrice:ppHbd
+            currentPrice:ppHbd,
+            savings:0,
           }
           break;
         }
@@ -343,7 +360,7 @@ export const fetchCoinsData = async (
     walletData.savingBalanceHbd = parseToken(userdata.savings_hbd_balance);
 
 
-    const {base, quote, hivePerMVests} = globalProps
+
     walletData.hivePerMVests = hivePerMVests;
     const pricePerHive = base / quote;
 
