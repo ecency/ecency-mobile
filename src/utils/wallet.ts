@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToHp } from './conversions';
-import { getFeedHistory, getAccount, getAccountHistory } from '../providers/hive/dhive';
+import { getAccount, getAccountHistory } from '../providers/hive/dhive';
 import { getCurrencyTokenRate } from '../providers/ecency/ecency';
 import { CoinBase, CoinData } from '../redux/reducers/walletReducer';
 import { GlobalProps } from '../redux/reducers/accountReducer';
@@ -289,7 +289,6 @@ export const fetchCoinsData = async (
           coinData[coinBase.id] = {
             balance : Math.round(balance * 1000) / 1000,
             estimateValue : balance * ppEstm,
-            savings:0,
             vsCurrency:vsCurrency,
             currentPrice:ppEstm,
             unclaimedBalance: unclaimedBalance,
@@ -338,16 +337,24 @@ export const fetchCoinsData = async (
           ).trim();
 
           //TODO: assess how we can make this value change live.
-          const estimateValueStr = getEstimatedAmount(userdata, globalProps);
+          const estimateVoteValueStr = getEstimatedAmount(userdata, globalProps);
 
 
           coinData[coinBase.id] = {
             balance: Math.round(balance * 1000) / 1000,
-            estimateValue: parseFloat(estimateValueStr),
+            estimateValue: balance * ppHive,
             unclaimedBalance,
             vsCurrency:vsCurrency,
-            currentPrice:ppHbd,
-            savings:0,
+            currentPrice:ppHive,
+            extraDataPairs:[
+              {
+                label:'Delegations',
+                value:'-136.177 HP'
+              },{
+                label:'Vote value',
+                value:estimateVoteValueStr
+              }
+            ]
           }
           break;
         }

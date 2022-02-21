@@ -1,14 +1,11 @@
 import React from 'react'
 import { View, Text } from 'react-native'
+import { DataPair } from '../../../redux/reducers/walletReducer'
 import styles from './children.styles'
 
-export interface ValuePair {
-    value:string|number;
-    label:string;
-}
 
 interface CoinBasicsProps {
-    valuePairs:ValuePair[];
+    valuePairs:DataPair[];
     coinSymbol:string;
 }
 
@@ -24,7 +21,7 @@ export const CoinBasics = ({valuePairs, coinSymbol}:CoinBasicsProps) => {
         </>
     )
 
-    const _renderValuePair = (args:ValuePair) => {
+    const _renderValuePair = (args:DataPair) => {
         return (
             <>
                 <Text style={styles.textBasicValue}>{args.value}</Text>

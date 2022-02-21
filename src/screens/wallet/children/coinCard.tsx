@@ -76,6 +76,7 @@ export const CoinCard = ({
         </View>
     );
 
+
     const _renderClaimSection = () => {
       if(unclaimedRewards || enableBuy){
         const btnTitle = unclaimedRewards
@@ -104,6 +105,7 @@ export const CoinCard = ({
       }
     }
 
+    
 
     const _renderGraph = () => {
       const _baseWidth = Dimensions.get("window").width - 32;

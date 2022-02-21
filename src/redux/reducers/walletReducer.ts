@@ -1,6 +1,11 @@
 import DEFAULT_COINS from "../../constants/defaultCoins";
 import { SET_PRICE_HISTORY, SET_SELECTED_COINS, SET_COINS_DATA } from "../constants/constants";
 
+export interface DataPair {
+    value:string|number;
+    label:string;
+}
+
 export interface CoinBase {
     id:string,
     name:string,
@@ -11,10 +16,11 @@ export interface CoinBase {
 export interface CoinData {
     currentPrice:number;
     balance:number;
-    savings:number;
+    savings?:number;
     unclaimedBalance:string,
     estimateValue:number;
     vsCurrency:string;
+    extraDataPairs?:DataPair[]
 }
 
 export interface PriceHistory {

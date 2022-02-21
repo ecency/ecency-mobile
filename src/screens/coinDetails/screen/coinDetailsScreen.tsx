@@ -1,14 +1,13 @@
-import { View, Text } from 'react-native'
+import { View, Text, Alert } from 'react-native'
 import React from 'react'
-import { BasicHeader, Transaction } from '../../../components'
-import { FlatList } from 'react-native-gesture-handler'
+import { BasicHeader } from '../../../components'
 import { CoinSummary, CoinSummaryProps } from '../children'
 import styles from './screen.styles';
-import { AccountContainer, WalletContainer } from '../../../containers'
 import ActivitiesList from '../children/activitiesList'
-import { NavigationStackRouterConfig, withNavigation } from 'react-navigation'
-import { NavigationStackConfig } from 'react-navigation-stack'
+import { withNavigation } from 'react-navigation'
 import WALLET_TOKENS from '../../../constants/defaultCoins'
+import { useAppSelector } from '../../../hooks'
+import { CoinData } from '../../../redux/reducers/walletReducer';
 
 export interface CoinDetailsScreenParams {
   coinId:string;
@@ -24,12 +23,26 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
     throw new Error("Coin symbol must be passed")
   }
 
-  const {symbol:coinSymbol, id:coingeckoId } = WALLET_TOKENS.find((item)=>item.id===coinId)
+  const coinData:CoinData = useAppSelector(state=>state.wallet.coinsData[coinId]);
+
+  if(!coinData){
+    Alert.alert("Invlaid coin data");
+    navigation.goBack();
+  }
+
+  const {symbol:coinSymbol, id } = WALLET_TOKENS.find((item)=>item.id===coinId)
 
 
-  const _renderHeaderComponent = (headerProps:CoinSummaryProps) => (
+  const _renderHeaderComponent = (
     <>
-      <CoinSummary {...headerProps} />
+      <CoinSummary {...{
+        balance:coinData.balance,
+        estimateValue:coinData.estimateValue,
+        savings:coinData.savings,
+        id,
+        coinSymbol,
+        extraData:coinData.extraDataPairs
+      }} />
       <Text style={styles.textActivities}>Activities</Text>
     </>
   )
@@ -37,42 +50,11 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
   return (
     <View style={styles.container}>
       <BasicHeader title="Coin Details" />
-          <AccountContainer>
-          {({ currentAccount }) => (
-            <WalletContainer selectedUser={currentAccount} coinSymbol={coinSymbol}>
-              {({
-                isClaiming,
-                claimRewardBalance,
-                handleOnWalletRefresh,
-                refreshing,
-                transferHistory,
-                hiveBalance,
-                isLoading,
-                hiveSavingBalance,
-                estimatedHiveValue,
-                hiveDropdown,
-                savingHiveDropdown,
-                navigate,
-                balance,
-                savings,
-                estimateValue
-              }) => (
-                <ActivitiesList 
-                  header={_renderHeaderComponent({
-                    balance,
-                    savings,
-                    estimateValue,
-                    coinSymbol,
-                    coingeckoId,
-                  })}
-                  activities={transferHistory}
-                  filter={coinSymbol}
-                />
-                 
-              )}
-              </WalletContainer>
-          )}
-          </AccountContainer>
+      <ActivitiesList 
+        header={_renderHeaderComponent}
+        activities={DUMMY_DATA}
+        filter={coinSymbol}
+      />  
     </View>
   )
 }
