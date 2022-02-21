@@ -26,6 +26,7 @@ import Register from './register/registerScreen';
 import TagResult from './tagResult';
 import { Community } from './community';
 import Communities from './communities';
+import ReferScreen from './referScreen/referScreen';
 
 export {
   Bookmarks,
@@ -56,4 +57,5 @@ export {
   Community,
   Communities,
   WebBrowser,
+  ReferScreen,
 };

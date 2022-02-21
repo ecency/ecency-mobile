@@ -25,6 +25,7 @@ const Transfer = ({ navigation }) => (
       actionModalVisible,
       setWithdrawVestingRoute,
       dispatch,
+      referredUsername,
     }) => {
       switch (transferType) {
         case 'transfer_token':
@@ -65,6 +66,7 @@ const Transfer = ({ navigation }) => (
               hivePerMVests={hivePerMVests}
               actionModalVisible={actionModalVisible}
               dispatch={dispatch}
+              referredUsername={referredUsername}
             />
           );
         case 'power_down':

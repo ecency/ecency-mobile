@@ -4,3 +4,15 @@ export interface ReceivedVestingShare {
     vesting_shares:string;
     timestamp:string;
 }
+export interface Referral {
+    id:number;
+    referral:string;
+    rewarded:boolean;
+    username:string;
+    created:string
+}
+
+export interface ReferralStat {
+    total: number;
+    rewarded: number;
+}

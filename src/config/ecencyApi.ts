@@ -24,6 +24,7 @@ api.interceptors.request.use((request) => {
     || request.url === '/private-api/promoted-entries'
     || request.url.startsWith('private-api/leaderboard')
     || request.url.startsWith('/private-api/received-vesting/')
+    || request.url.startsWith('/private-api/referrals/')
   ){
     return request
   }
