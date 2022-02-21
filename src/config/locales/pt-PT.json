@@ -364,7 +364,7 @@
     "title_remove_confirmation": "Deletar imagem",
     "btn_add": "Imagem",
     "btn_insert": "INSERT",
-    "btn_delete": "DELETE",
+    "btn_delete": "EXCLUIR",
     "message_failed": "Falha ao carregar imagem"
   },
   "pincode": {
@@ -582,11 +582,11 @@
     "delegat_detail_head": "Delegation Details",
     "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
     "new_amount": "New Amount",
-    "review": "REVIEW",
-    "confirm": "Confirm Delegation",
+    "review": "REVER",
+    "confirm": "Confirmar Delegação",
     "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
     "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
-    "username_alert": "Username Error!",
+    "username_alert": "Erro no nome!",
     "username_alert_detail": "Please select different username"
   },
   "boost": {
