@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ActivityIndicator, FlatList, Share, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, RefreshControl, Share, Text, TouchableOpacity, View } from 'react-native';
 import {
   BasicHeader,
   Icon,
@@ -26,6 +26,7 @@ import ROUTES from '../../constants/routeNames';
 const ReferScreen = ({ navigation }) => {
   const intl = useIntl();
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const isDarkTheme = useAppSelector((state)=>state.application.isDarkTheme)
 
   const [referralsList, setReferralsList] = useState<Referral[]>([]);
   const [earnedPoints, setEarnedPoint] = useState(0);
@@ -40,24 +41,23 @@ const ReferScreen = ({ navigation }) => {
 
   console.log('-----referralsList----- : ', referralsList);
 
-  const _getReferralsList = async () => {
-    setRefreshing(true);
-    //TOOD: remove test account line and uncomment currentAccount line before merging.
-    // const referralsListData = await getReferralsList(currentAccount.name);
-    const referralsListData = await getReferralsList('ecency', null); // using dummy name for testing, use original name here
-    setReferralsList(referralsListData as any)
-    setRefreshing(false);
-  };
+  const _getReferralsList = async (refresh?:boolean) => {
+    if(refresh){
+      setRefreshing(true);
+    }
+    setLoading(true)
 
-  const _getNextReferralListItems = async () => {
-    setLoading(true);
-    const lastReferralId = referralsList.length > 0 ? referralsList[referralsList.length - 1]._id : null;
+    const lastReferralId = refresh || !referralsList.length 
+      ? null 
+      : referralsList[referralsList.length - 1]._id;
+    
     //TOOD: remove test account line and uncomment currentAccount line before merging.
     // const referralsListData = await getReferralsList(currentAccount.name);
-    const referralsListData = await getReferralsList('ecency', lastReferralId); // using dummy name for testing, use original name here
-    setReferralsList((prevState) => ([...prevState, ...referralsListData as any]))
+    const responseData = await getReferralsList('ecency', lastReferralId); // using dummy name for testing, use original name here
+    setReferralsList(refresh ? responseData : [...referralsList, ...responseData])
+    setRefreshing(false);
     setLoading(false);
-  }
+  };
 
   const _getReferralsStats = async () => {
     setLoading(true);
@@ -171,6 +171,12 @@ const ReferScreen = ({ navigation }) => {
     <Text style={styles.emptyText}>{intl.formatMessage({ id: 'refer.empty_text' })}</Text>
   );
 
+  const _renderFooterView = (
+    <View style={{height:72, justifyContent:'center'}}>
+        {loading && <ActivityIndicator />}
+    </View>
+  )
+
   const _renderReferralListItem = ({ item, index }: { item: Referral; index: number }) => {
     return (
       <UserListItem
@@ -190,17 +196,27 @@ const ReferScreen = ({ navigation }) => {
     return (
       <View style={styles.referralsListContainer}>
         <FlatList
-          data={referralsList}
-          refreshing={refreshing}
+        data={referralsList}
           keyExtractor={(item, index) => `item ${index}`}
           removeClippedSubviews={false}
           ListEmptyComponent={_renderEmptyView}
-          onRefresh={() => _getReferralsList()}
+          ListHeaderComponent={_renderPointsEarned}
+          ListFooterComponent={_renderFooterView}
           renderItem={_renderReferralListItem}
           contentContainerStyle={styles.listContentContainer}
           showsVerticalScrollIndicator={false}
           onEndReachedThreshold={0}
-          onEndReached={_getNextReferralListItems}
+          onEndReached={()=>_getReferralsList()}
+          refreshControl={
+            <RefreshControl 
+              refreshing={refreshing}
+              onRefresh={() => _getReferralsList(true)}
+              progressBackgroundColor="#357CE6"
+              tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+              titleColor="#fff"
+              colors={['#fff']}
+            />
+          }
         />
       </View>
     );
@@ -213,7 +229,6 @@ const ReferScreen = ({ navigation }) => {
         })}
       />
       <View style={styles.mainContainer}>
-        {_renderPointsEarned()}
         {_renderReferralsList()}
       </View>
     </Fragment>
