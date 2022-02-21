@@ -285,7 +285,9 @@ export const fetchCoinsData = async (
       switch(coinBase.id){
         case COIN_IDS.ECENCY:{
           const balance = ecencyUser.points ? parseFloat(ecencyUser.points) : 0;
-          const unclaimedBalance = ecencyUser.unclaimed_points ? parseFloat(ecencyUser.unclaimed_points) + ' Points' : '';
+          const unclaimedFloat = parseFloat(ecencyUser.unclaimed_points || '0');
+          const unclaimedBalance = unclaimedFloat ? unclaimedFloat + ' Points' : '';
+
           coinData[coinBase.id] = {
             balance : Math.round(balance * 1000) / 1000,
             estimateValue : balance * ppEstm,
@@ -357,6 +359,7 @@ export const fetchCoinsData = async (
       }
     })
 
+    //TODO:discard unnessacry data processings towards the end of PR
     walletData.rewardHiveBalance = parseToken(userdata.reward_hive_balance);
     walletData.rewardHbdBalance = parseToken(userdata.reward_hbd_balance);
     walletData.rewardVestingHive = parseToken(userdata.reward_vesting_hive);

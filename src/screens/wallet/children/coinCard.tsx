@@ -1,8 +1,7 @@
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
-import React, { ComponentType, Fragment } from 'react';
+import React, { ComponentType, Fragment, useEffect, useState } from 'react';
 import styles from './children.styles';
-import { Icon, MainButton, SimpleChart, TextButton } from '../../../components';
-import { COIN_IDS } from '../../../constants/defaultCoins';
+import { Icon, MainButton, SimpleChart } from '../../../components';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
@@ -18,8 +17,10 @@ export interface CoinCardProps {
     ownedTokens:number;
     unclaimedRewards:string;
     enableBuy?:boolean;
+    isClaiming?:boolean;
     footerComponent:ComponentType<any>
-    onPress:()=>void
+    onCardPress:()=>void;
+    onClaimPress:()=>void;
 }
 
 export const CoinCard = ({
@@ -35,7 +36,9 @@ export const CoinCard = ({
   footerComponent,
   unclaimedRewards,
   enableBuy,
-  onPress
+  isClaiming,
+  onCardPress,
+  onClaimPress,
 }:CoinCardProps) => {
 
   if(!notCrypto && !chartData.length){
@@ -43,6 +46,20 @@ export const CoinCard = ({
   }
 
   const intl = useIntl();
+
+  const [claimExpected, setClaimExpected] = useState(false);
+
+  useEffect(()=>{
+    if(!isClaiming && claimExpected){
+      setClaimExpected(false);
+    }
+  }, [isClaiming])
+
+
+    const _onClaimPress = () => {
+      setClaimExpected(unclaimedRewards?true:false)
+      onClaimPress();
+    }
 
     const _renderHeader = (
         <View style={styles.cardHeader}>
@@ -67,11 +84,11 @@ export const CoinCard = ({
         return (
           <View style={styles.claimContainer}>
             <MainButton
-              isLoading={false}
-              isDisable={false}
+              isLoading={isClaiming && claimExpected}
+              isDisable={isClaiming && claimExpected}
               style={styles.claimBtn}
               height={50}
-              onPress={() => {}}
+              onPress={_onClaimPress}
             >
               <Fragment>
                 <Text style={styles.claimBtnTitle}>
@@ -109,7 +126,7 @@ export const CoinCard = ({
     )
 
   return (
-    <TouchableOpacity onPress={onPress} >
+    <TouchableOpacity onPress={onCardPress} >
       <View style={styles.cardContainer}>
         {_renderHeader}
         {_renderClaimSection()}

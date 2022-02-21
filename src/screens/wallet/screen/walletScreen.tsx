@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { Fragment, useState, useEffect } from 'react';
-import { SafeAreaView, View, RefreshControl, Text } from 'react-native';
+import { SafeAreaView, View, RefreshControl, Text, Alert } from 'react-native';
 
 // Containers
 import { FlatList } from 'react-native-gesture-handler';
@@ -30,6 +30,7 @@ import { CoinBase, CoinData } from '../../../redux/reducers/walletReducer';
 import { setCoinsData, setPriceHistory } from '../../../redux/actions/walletActions';
 import { fetchCoinsData } from '../../../utils/wallet';
 import { COIN_IDS } from '../../../constants/defaultCoins';
+import { claimPoints } from '../../../providers/ecency/ePoint';
 
 
 const CHART_DAYS_RANGE = 1;
@@ -48,6 +49,7 @@ const WalletScreen = ({navigation}) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [isClaiming, setIsClaiming] = useState(false);
 
 
   useEffect(()=>{
@@ -89,20 +91,59 @@ const WalletScreen = ({navigation}) => {
     setIsLoading(false);
   }
 
+  const _claimEcencyPoints = async () => {
+    setIsClaiming(true);
+
+    await claimPoints()
+      .then(() => {
+        _fetchCoinData();
+      })
+      .catch((error) => {
+        if (error) {
+          Alert.alert(
+            `PointsClaim - Connection issue, try again or write to support@ecency.com \n${error.message.substr(
+              0,
+              20,
+            )}`,
+          );
+        }
+      });
+
+      setIsClaiming(false);
+  };
+
+  const _claimRewards = (coinId:string) => {
+    switch(coinId){
+      case COIN_IDS.ECENCY:{
+        _claimEcencyPoints();
+        break;
+      }
+    }
+  }
+
 
   const _renderItem = ({ item, index }:{item:CoinBase, index:number}) => {
-
-    const _onPress = () => {
-      navigation.navigate(ROUTES.SCREENS.COIN_DETAILS, {
-        coinId:item.id
-      } as CoinDetailsScreenParams)
-    }
-
     const coinData:CoinData = coinsData[item.id] || {};
 
     const _tokenMarketData:number[] = priceHistories[item.id] ? priceHistories[item.id].data : [];
     const _currentValue = coinData.currentPrice || 0;
     const _balance = coinData.balance + (coinData.savings || 0);
+
+    const _onCardPress = () => {
+      navigation.navigate(ROUTES.SCREENS.COIN_DETAILS, {
+        coinId:item.id
+      } as CoinDetailsScreenParams)
+    }
+
+    const _onClaimPress = () => {
+      if(coinData.unclaimedBalance){
+        _claimRewards(item.id);
+      } else if(item.id === COIN_IDS.ECENCY) {
+        navigation.navigate(ROUTES.SCREENS.BOOST)
+      }
+    }
+
+
     
     //calculate percentage change
     //TODO: verify or find a way to get exact percent change. current change value slightly differs from coingecko wep app values
@@ -120,7 +161,9 @@ const WalletScreen = ({navigation}) => {
         ownedTokens={_balance}
         unclaimedRewards={coinData.unclaimedBalance}
         enableBuy={!coinData.unclaimedBalance && item.id === COIN_IDS.ECENCY}
-        onPress={_onPress}
+        isClaiming={isClaiming}
+        onCardPress={_onCardPress}
+        onClaimPress={_onClaimPress}
         footerComponent={index === 0 && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />}
         {...item} />
     );
