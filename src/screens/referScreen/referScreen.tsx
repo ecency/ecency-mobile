@@ -31,6 +31,7 @@ const ReferScreen = ({ navigation }) => {
   const [earnedPoints, setEarnedPoint] = useState(0);
   const [pendingPoints, setPendingPoint] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false)
 
   useEffect(() => {
     _getReferralsStats();
@@ -40,6 +41,15 @@ const ReferScreen = ({ navigation }) => {
   console.log('-----referralsList----- : ', referralsList);
 
   const _getReferralsList = async () => {
+    setRefreshing(true);
+    //TOOD: remove test account line and uncomment currentAccount line before merging.
+    // const referralsListData = await getReferralsList(currentAccount.name);
+    const referralsListData = await getReferralsList('ecency', null); // using dummy name for testing, use original name here
+    setReferralsList(referralsListData as any)
+    setRefreshing(false);
+  };
+
+  const _getNextReferralListItems = async () => {
     setLoading(true);
     const lastReferralId = referralsList.length > 0 ? referralsList[referralsList.length - 1]._id : null;
     //TOOD: remove test account line and uncomment currentAccount line before merging.
@@ -47,7 +57,7 @@ const ReferScreen = ({ navigation }) => {
     const referralsListData = await getReferralsList('ecency', lastReferralId); // using dummy name for testing, use original name here
     setReferralsList((prevState) => ([...prevState, ...referralsListData as any]))
     setLoading(false);
-  };
+  }
 
   const _getReferralsStats = async () => {
     setLoading(true);
@@ -181,16 +191,16 @@ const ReferScreen = ({ navigation }) => {
       <View style={styles.referralsListContainer}>
         <FlatList
           data={referralsList}
-          // refreshing={refreshing}
+          refreshing={refreshing}
           keyExtractor={(item, index) => `item ${index}`}
           removeClippedSubviews={false}
           ListEmptyComponent={_renderEmptyView}
-          // onRefresh={() => fetchLeaderBoard()}
+          onRefresh={() => _getReferralsList()}
           renderItem={_renderReferralListItem}
           contentContainerStyle={styles.listContentContainer}
           showsVerticalScrollIndicator={false}
           onEndReachedThreshold={0}
-          onEndReached={_getReferralsList}
+          onEndReached={_getNextReferralListItems}
         />
       </View>
     );
