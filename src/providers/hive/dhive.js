@@ -592,6 +592,8 @@ export const getRepliesByLastUpdate = async (query) => {
 };
 
 export const getPost = async (author, permlink, currentUserName = null, isPromoted = false) => {
+  author = author && author.toLowerCase();
+  permlink = permlink && permlink.toLowerCase();
   try {
     console.log('Getting post: ', author, permlink);
     const post = await client.call('bridge', 'get_post', { author, permlink });
@@ -602,6 +604,8 @@ export const getPost = async (author, permlink, currentUserName = null, isPromot
 };
 
 export const isPostAvailable = async (author, permlink) => {
+  author = author && author.toLowerCase();
+  permlink = permlink && permlink.toLowerCase();
   try {
     const post = await client.call('bridge', 'get_post', { author, permlink });
     return get(post, 'post_id', 0) !== 0;
@@ -611,6 +615,8 @@ export const isPostAvailable = async (author, permlink) => {
 };
 
 export const getPurePost = async (author, permlink) => {
+  author = author && author.toLowerCase();
+  permlink = permlink && permlink.toLowerCase();
   try {
     return await client.call('bridge', 'get_post', { author, permlink });
   } catch (error) {
@@ -1215,6 +1221,59 @@ export const unfollowUser = async (currentAccount, pin, data) => {
       required_posting_auths: [`${data.follower}`],
     };
     const opArray = [['custom_json', json]];
+    return new Promise((resolve, reject) => {
+      sendHiveOperations(opArray, privateKey)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  return Promise.reject(
+    new Error('Check private key permission! Required private posting key or above.'),
+  );
+};
+
+export const markHiveNotifications = async (currentAccount, pinHash) => {
+  const digitPinCode = getDigitPinCode(pinHash);
+  const key = getAnyPrivateKey(currentAccount.local, digitPinCode);
+
+  const now = new Date().toISOString();
+  const date = now.split('.')[0];
+
+  const params = {
+    id: 'notify',
+    required_auths: [],
+    required_posting_auths: [currentAccount.name],
+    json: JSON.stringify(['setLastRead', { date }]),
+  };
+  const params1 = {
+    id: 'ecency_notify',
+    required_auths: [],
+    required_posting_auths: [currentAccount.name],
+    json: JSON.stringify(['setLastRead', { date }]),
+  };
+
+  const opArray: Operation[] = [
+    ['custom_json', params],
+    ['custom_json', params1],
+  ];
+
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(get(currentAccount, 'local.accessToken'), digitPinCode);
+    const api = new hsClient({
+      accessToken: token,
+    });
+
+    return api.broadcast(opArray).then((resp) => resp.result);
+  }
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+
     return new Promise((resolve, reject) => {
       sendHiveOperations(opArray, privateKey)
         .then((result) => {
