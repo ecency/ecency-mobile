@@ -31,6 +31,7 @@ import { setCoinsData, setPriceHistory } from '../../../redux/actions/walletActi
 import { fetchCoinsData } from '../../../utils/wallet';
 import { COIN_IDS } from '../../../constants/defaultCoins';
 import { claimPoints } from '../../../providers/ecency/ePoint';
+import { getAccount } from '../../../providers/hive/dhive';
 
 
 const CHART_DAYS_RANGE = 1;
@@ -111,6 +112,11 @@ const WalletScreen = ({navigation}) => {
 
       setIsClaiming(false);
   };
+
+  const _claimRewardBalance = async () => {
+    const account = await getAccount(currentAccount.name);
+
+  }
 
   const _claimRewards = (coinId:string) => {
     switch(coinId){

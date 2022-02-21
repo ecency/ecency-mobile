@@ -168,13 +168,13 @@ const WalletContainer = ({
 
     getAccount(currentAccount.name)
       .then((account) => {
-        isHasUnclaimedRewards = _isHasUnclaimedRewards(account[0]);
+        isHasUnclaimedRewards = _isHasUnclaimedRewards(account);
         if (isHasUnclaimedRewards) {
           const {
             reward_hive_balance: hiveBal,
             reward_hbd_balance: hbdBal,
             reward_vesting_balance: vestingBal,
-          } = account[0];
+          } = account;
           return claimRewardBalance(currentAccount, pinCode, hiveBal, hbdBal, vestingBal);
         }
         setIsClaiming(false);

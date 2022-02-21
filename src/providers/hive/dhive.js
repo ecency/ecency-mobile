@@ -174,14 +174,17 @@ export const fetchGlobalProps = async () => {
 };
 
 /**
- * @method getAccount get account data
- * @param user username
+ * @method getAccount fetch raw account data without post processings
+ * @param username username
  */
-export const getAccount = (user) =>
+export const getAccount = (username) =>
   new Promise((resolve, reject) => {
     try {
-      const account = client.database.getAccounts([user]);
-      resolve(account);
+      const response = client.database.getAccounts([username]);
+      if (response.length) {
+        resolve(response[0]);
+      }
+      reject(new Error('Account not found, ' + JSON.stringify(response)));
     } catch (error) {
       reject(error);
     }

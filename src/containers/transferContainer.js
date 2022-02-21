@@ -77,7 +77,7 @@ class TransferContainer extends Component {
         (transferType === 'purchase_estm' || transferType === 'transfer_token') &&
         fundType === 'HIVE'
       ) {
-        balance = account[0].balance.replace(fundType, '');
+        balance = account.balance.replace(fundType, '');
       }
       if (
         (transferType === 'purchase_estm' ||
@@ -85,19 +85,19 @@ class TransferContainer extends Component {
           transferType === 'transfer_token') &&
         fundType === 'HBD'
       ) {
-        balance = account[0].hbd_balance.replace(fundType, '');
+        balance = account.hbd_balance.replace(fundType, '');
       }
       if (transferType === 'points' && fundType === 'ESTM') {
         this._getUserPointsBalance(username);
       }
       if (transferType === 'transfer_to_savings' && fundType === 'HIVE') {
-        balance = account[0].balance.replace(fundType, '');
+        balance = account.balance.replace(fundType, '');
       }
       if (transferType === 'transfer_to_savings' && fundType === 'HBD') {
-        balance = account[0].hbd_balance.replace(fundType, '');
+        balance = account.hbd_balance.replace(fundType, '');
       }
       if (transferType === 'transfer_to_vesting' && fundType === 'HIVE') {
-        balance = account[0].balance.replace(fundType, '');
+        balance = account.balance.replace(fundType, '');
       }
       if (transferType === 'address_view' && fundType === 'BTC') {
         //TODO implement transfer of custom tokens
@@ -111,7 +111,7 @@ class TransferContainer extends Component {
       }
 
       this.setState({
-        selectedAccount: { ...account[0], local: local[0] },
+        selectedAccount: { ...account, local: local[0] },
       });
     });
   };

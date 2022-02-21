@@ -184,13 +184,12 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   }
 
   //TODO: Use already available accoutn for frist wallet start
-  const state = await getAccount(get(user, 'name'));
+  const userdata = await getAccount(get(user, 'name'));
 
   //const { accounts } = state;
   //if (!accounts) {
   //  return walletData;
   //}
-  const [userdata] = state;
 
   // TODO: move them to utils these so big for a lifecycle function
   walletData.rewardHiveBalance = parseToken(userdata.reward_hive_balance);
@@ -272,14 +271,13 @@ export const fetchCoinsData = async (
     }
 
     //TODO: Use already available accoutn for frist wallet start
-    const state = await getAccount(username);
+    const userdata = await getAccount(username);
     const ecencyUser = await getEcencyUser(username)
     //TODO: cache data in redux or fetch once on wallet startup
     const ppHbd = await getCurrencyTokenRate(vsCurrency, 'hbd');
     const ppHive = await getCurrencyTokenRate(vsCurrency, 'hive');
     const ppEstm = await getCurrencyTokenRate(vsCurrency, 'estm');
 
-    const [userdata] = state;
 
     coins.forEach((coinBase)=>{
       switch(coinBase.id){
