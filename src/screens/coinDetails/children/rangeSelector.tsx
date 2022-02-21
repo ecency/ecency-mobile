@@ -11,14 +11,14 @@ interface RangeOption {
 
 interface RangeSelectorProps {
     range:number;
-    setRange:(range:number)=>void;
+    onRangeChange:(range:number)=>void;
 }
 
-export const RangeSelector = ({range, setRange}:RangeSelectorProps) => {
+export const RangeSelector = ({range, onRangeChange}:RangeSelectorProps) => {
 
     const _onSelection = (range:number) => {
         console.log('selection', range)
-        setRange(range);
+        onRangeChange(range);
         //TODO: implement on range change prop
     }
 

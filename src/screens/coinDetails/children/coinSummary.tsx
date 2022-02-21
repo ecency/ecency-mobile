@@ -35,15 +35,12 @@ export const CoinSummary = ({balance, estimateValue, savings, coinSymbol, id, ex
             value:savings
         })
     }
-    // if(extraData){
-    //     valuePairs.push(...extraData);
-    // }
 
     return (
         <View>
             <CoinBasics valuePairs={valuePairs} extraData={extraData} coinSymbol={coinSymbol}  />
             {
-                id !== COIN_IDS.ECENCY && id !== COIN_IDS.HP && <CoinChart coingeckoId={id} />
+                id !== COIN_IDS.ECENCY && id !== COIN_IDS.HP && <CoinChart coinId={id} />
             }
         </View>
     )
