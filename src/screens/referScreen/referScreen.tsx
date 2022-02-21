@@ -22,6 +22,7 @@ import { navigate } from '../../navigation/service';
 
 // constants
 import ROUTES from '../../constants/routeNames';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const ReferScreen = ({ navigation }) => {
   const intl = useIntl();
@@ -173,7 +174,7 @@ const ReferScreen = ({ navigation }) => {
 
   const _renderFooterView = (
     <View style={{height:72, justifyContent:'center'}}>
-        {loading && <ActivityIndicator />}
+        {loading && <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} />}
     </View>
   )
 
@@ -205,7 +206,7 @@ const ReferScreen = ({ navigation }) => {
           renderItem={_renderReferralListItem}
           contentContainerStyle={styles.listContentContainer}
           showsVerticalScrollIndicator={false}
-          onEndReachedThreshold={0}
+          onEndReachedThreshold={0.3}
           onEndReached={()=>_getReferralsList()}
           refreshControl={
             <RefreshControl 
