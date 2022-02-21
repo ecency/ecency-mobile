@@ -29,7 +29,7 @@ export interface PriceHistory {
     data:number[];
 }
 
-export interface CoinActivities {
+export interface CoinActivity {
     iconType: string;
     textKey: string;
     created: string;
@@ -48,7 +48,7 @@ interface State {
         [key: string]: PriceHistory;
     }
     coinsActivities:{
-        [key: string]: CoinActivities;
+        [key: string]: CoinActivity[];
     },
     updateTimestamp:number;
 }

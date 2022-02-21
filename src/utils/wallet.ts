@@ -252,6 +252,28 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
 };
 
 
+export const fetchCoinActivities = async (username:string, coinSymbol:string, globalProps:GlobalProps) => {
+  //TOOD: transfer history can be separated from here
+  const history = await getAccountHistory(username);
+
+  const transfers = history.filter((tx) => transferTypes.includes(get(tx[1], 'op[0]', false)));
+
+  transfers.sort(compare);
+
+  const activities = transfers.map(item=>groomingTransactionData(item, globalProps.hivePerMVests));
+
+  return activities
+    ? activities.filter((item) => {
+        return (
+          item &&
+          item.value &&
+          item.value.includes(coinSymbol)
+        );
+      })
+    : [];
+}
+
+
 export const fetchCoinsData = async (
   coins:CoinBase[], 
   username:string, 
