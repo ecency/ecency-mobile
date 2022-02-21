@@ -52,9 +52,8 @@ const ReferScreen = ({ navigation }) => {
       ? null 
       : referralsList[referralsList.length - 1]._id;
     
-    //TOOD: remove test account line and uncomment currentAccount line before merging.
-    // const referralsListData = await getReferralsList(currentAccount.name);
-    const responseData = await getReferralsList('ecency', lastReferralId); // using dummy name for testing, use original name here
+    const responseData = await getReferralsList(currentAccount.name, lastReferralId);
+
     setReferralsList(refresh ? responseData : [...referralsList, ...responseData])
     setRefreshing(false);
     setLoading(false);
@@ -62,9 +61,8 @@ const ReferScreen = ({ navigation }) => {
 
   const _getReferralsStats = async () => {
     setLoading(true);
-    //TOOD: remove test account line and uncomment currentAccount line before merging.
-    // const referralStats = await getReferralsStats(currentAccount.name);
-    const referralStats = await getReferralsStats('ecency');
+
+    const referralStats = await getReferralsStats(currentAccount.name);
     const earnedPoints = referralStats.rewarded * 100;
     const unearnedPoints = (referralStats.total - referralStats.rewarded) * 100;
     setEarnedPoint(earnedPoints)
