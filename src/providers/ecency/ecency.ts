@@ -768,9 +768,13 @@ export const signUp = async (username:string, email:string, referral?:string) =>
  * ************************************
  */
 
-export const getReferralsList = async (username: string):Promise<Referral[]> => {
+export const getReferralsList = async (username: string, maxId: number | undefined):Promise<Referral[]> => {
   try {
-    const res = await ecencyApi.get(`/private-api/referrals/${username}`);
+    const res = await ecencyApi.get(`/private-api/referrals/${username}`, {
+      params: {
+        max_id: maxId
+      }
+    });
     console.log('Referrals List', username, res.data);
     if (!res.data) {
       throw new Error('No Referrals for this user!');
