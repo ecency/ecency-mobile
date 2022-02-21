@@ -5,7 +5,12 @@ export default EStyleSheet.create({
     padding: 0,
   },
   header: {
-    backgroundColor: '$primaryBackgroundColor',
+    alignItems: 'flex-end',
+    paddingHorizontal: 16,
+  },
+  lastUpdateText: {
+    color: '$iconColor',
+    fontSize: 10,
   },
   dotStyle: {
     backgroundColor: '$primaryDarkText',

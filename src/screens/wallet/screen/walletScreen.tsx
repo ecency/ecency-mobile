@@ -12,6 +12,8 @@ import {
   Header,
   HorizontalIconList,
   ListPlaceHolder,
+  PostCardPlaceHolder,
+  PostPlaceHolder,
 } from '../../../components';
 
 
@@ -33,6 +35,7 @@ import { COIN_IDS } from '../../../constants/defaultCoins';
 import { claimPoints } from '../../../providers/ecency/ePoint';
 import { claimRewardBalance, getAccount } from '../../../providers/hive/dhive';
 import { toastNotification } from '../../../redux/actions/uiAction';
+import moment from 'moment';
 
 
 const CHART_DAYS_RANGE = 1;
@@ -46,9 +49,11 @@ const WalletScreen = ({navigation}) => {
   const selectedCoins = useAppSelector((state)=>state.wallet.selectedCoins);
   const priceHistories = useAppSelector((state)=>state.wallet.priceHistories);
   const coinsData = useAppSelector((state)=>state.wallet.coinsData);
+  const updateTimestamp = useAppSelector((state)=>state.wallet.updateTimestamp);
   const globalProps = useAppSelector((state)=>state.account.globalProps);
   const currentAccount = useAppSelector((state)=>state.account.currentAccount);
   const pinHash = useAppSelector((state)=>state.application.pin);
+
 
   const [isLoading, setIsLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -198,13 +203,16 @@ const WalletScreen = ({navigation}) => {
     );
   };
 
+  const _renderHeader = () => {
+    return (
+      <View style={styles.header}>
+        <Text style={styles.lastUpdateText}>
+          {isLoading? 'Updating...':`Last Updated: ${moment(updateTimestamp).format('HH:mm:ss')}`}
+        </Text>
+      </View>
+    )
+  }
 
-
-  const _renderLoading = () => {
-    if (isLoading) {
-      return <ListPlaceHolder />;
-    }
-  };
 
   const _refreshControl = (
     <RefreshControl
@@ -226,10 +234,11 @@ const WalletScreen = ({navigation}) => {
           {() => (
             <View style={styles.listWrapper}>
               <FlatList
-                data={selectedCoins}
+                data={updateTimestamp ? selectedCoins : []}
                 extraData={coinsData}
                 style={globalStyles.tabBarBottom}
-                ListEmptyComponent={_renderLoading}
+                ListEmptyComponent={<PostCardPlaceHolder />}
+                ListHeaderComponent={_renderHeader}
                 renderItem={_renderItem}
                 keyExtractor={(item, index) => index.toString()}
                 refreshControl={_refreshControl}

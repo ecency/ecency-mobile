@@ -34,7 +34,7 @@ export interface CoinActivities {
 }
 
 interface State {
-    selectedCoins:CoinBase[],
+    selectedCoins:CoinBase[];
     coinsData:{
         [key: string]: CoinData;
     },
@@ -43,7 +43,8 @@ interface State {
     }
     coinsActivities:{
         [key: string]: CoinActivities;
-    }
+    },
+    updateTimestamp:number;
 }
 
 const initialState:State = {
@@ -51,6 +52,7 @@ const initialState:State = {
     coinsData:{},
     priceHistories:{},
     coinsActivities:{},
+    updateTimestamp:0
 };
   
 export default function (state = initialState, action) {
@@ -65,7 +67,8 @@ export default function (state = initialState, action) {
     case SET_COINS_DATA:{
         return {
             ...state,
-            coinsData:payload
+            coinsData:payload,
+            updateTimestamp:new Date().getTime()
         }
     }
     case SET_PRICE_HISTORY:{
