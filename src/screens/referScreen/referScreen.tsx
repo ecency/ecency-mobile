@@ -12,7 +12,7 @@ import {
 } from '../../components';
 import get from 'lodash/get';
 // utils
-import { getReferralsList } from '../../providers/ecency/ecency';
+import { getReferralsList, getReferralsStats } from '../../providers/ecency/ecency';
 import { Referral } from '../../models';
 
 // styles
@@ -33,6 +33,7 @@ const ReferScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    _getReferralsStats();
     _getReferralsList();
   }, []);
 
@@ -40,14 +41,25 @@ const ReferScreen = ({ navigation }) => {
 
   const _getReferralsList = async () => {
     setLoading(true);
-    const lastReferralId =
-      referralsList.length > 0 ? referralsList[referralsList.length - 1]._id : null;
+    const lastReferralId = referralsList.length > 0 ? referralsList[referralsList.length - 1]._id : null;
     //TOOD: remove test account line and uncomment currentAccount line before merging.
-    const referralsListData = await getReferralsList('ecency', lastReferralId); // using 'good-karma' name for testing, use original name here
-    setReferralsList((prevState) => ([...prevState, ...referralsListData as any]))
     // const referralsListData = await getReferralsList(currentAccount.name);
+    const referralsListData = await getReferralsList('ecency', lastReferralId); // using dummy name for testing, use original name here
+    setReferralsList((prevState) => ([...prevState, ...referralsListData as any]))
     setLoading(false);
   };
+
+  const _getReferralsStats = async () => {
+    setLoading(true);
+    //TOOD: remove test account line and uncomment currentAccount line before merging.
+    // const referralStats = await getReferralsStats(currentAccount.name);
+    const referralStats = await getReferralsStats('ecency');
+    const earnedPoints = referralStats.rewarded * 100;
+    const unearnedPoints = (referralStats.total - referralStats.rewarded) * 100;
+    setEarnedPoint(earnedPoints)
+    setPendingPoint(unearnedPoints)
+    setLoading(false);
+  }
 
   const _handleRefer = () => {
     const shareUrl = `https://ecency.com/signup?referral=${currentAccount.username}`;

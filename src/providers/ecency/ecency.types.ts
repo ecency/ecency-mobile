@@ -11,3 +11,8 @@ export interface Referral {
     username:string;
     created:string
 }
+
+export interface ReferralStat {
+    total: number;
+    rewarded: number;
+}

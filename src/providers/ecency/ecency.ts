@@ -6,8 +6,8 @@ import bugsnagInstance from '../../config/bugsnag';
 import { SERVER_LIST } from '../../constants/options/api';
 import { parsePost } from '../../utils/postParser';
 import { extractMetadata, makeJsonMetadata } from '../../utils/editor';
-import { ReceivedVestingShare, Referral } from './ecency.types';
-import { convertReferral } from './converters';
+import { ReceivedVestingShare, Referral, ReferralStat } from './ecency.types';
+import { convertReferral, convertReferralStat } from './converters';
 
 
 
@@ -781,6 +781,21 @@ export const getReferralsList = async (username: string, maxId: number | undefin
     }
     const referralsList = res.data.length > 0 ? res.data.map((referralItem: any) => convertReferral(referralItem)) : [];
     return referralsList;
+  } catch (error) {
+    bugsnagInstance.notify(error);
+    console.warn(error);
+    throw error;
+  }
+}
+
+export const getReferralsStats = async (username: string):Promise<ReferralStat> => {
+  try {
+    const res = await ecencyApi.get(`/private-api/referrals/${username}/stats`);
+    console.log('Referrals Stats', username, res.data);
+    if (!res.data) {
+      throw new Error('No Referrals for this user!');
+    }
+    return convertReferralStat(res.data);
   } catch (error) {
     bugsnagInstance.notify(error);
     console.warn(error);
