@@ -90,6 +90,18 @@ const ReferScreen = ({ navigation }) => {
       },
     });
   };
+
+  const _handleOnItemPress = (username:string) => {
+    const routeName = ROUTES.SCREENS.PROFILE;
+    navigate({
+      routeName,
+      params: {
+        username,
+      },
+      key: username,
+    });
+  };
+
   const _renderPointsEarned = () => {
     return (
       <View style={styles.pointsContainer}>
@@ -190,6 +202,7 @@ const ReferScreen = ({ navigation }) => {
         isLoggedIn
         leftItemRenderer={() => _leftItemRenderer(item)}
         rightItemRenderer={() => _rightItemRenderer(item)}
+        handleOnPress={_handleOnItemPress}
       />
     );
   };
