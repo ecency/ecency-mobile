@@ -44,20 +44,9 @@ const ReferScreen = ({ navigation }) => {
       referralsList.length > 0 ? referralsList[referralsList.length - 1]._id : null;
     //TOOD: remove test account line and uncomment currentAccount line before merging.
     const referralsListData = await getReferralsList('ecency', lastReferralId); // using 'good-karma' name for testing, use original name here
+    setReferralsList((prevState) => ([...prevState, ...referralsListData as any]))
     // const referralsListData = await getReferralsList(currentAccount.name);
-    let rewardedPoints = 0;
-    let unrewardedPoint = 0;
-    // referralsListData.forEach((value) => {
-    //   if (value.isRewarded) {
-    //     rewardedPoints += 100;
-    //   } else {
-    //     unrewardedPoint += 100;
-    //   }
-    // });
     setLoading(false);
-    setReferralsList(referralsListData as any);
-    setEarnedPoint(rewardedPoints);
-    setPendingPoint(unrewardedPoint);
   };
 
   const _handleRefer = () => {
@@ -188,6 +177,8 @@ const ReferScreen = ({ navigation }) => {
           renderItem={_renderReferralListItem}
           contentContainerStyle={styles.listContentContainer}
           showsVerticalScrollIndicator={false}
+          onEndReachedThreshold={0}
+          onEndReached={_getReferralsList}
         />
       </View>
     );
