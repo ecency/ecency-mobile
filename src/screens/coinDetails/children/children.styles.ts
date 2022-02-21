@@ -21,7 +21,7 @@ export default EStyleSheet.create({
   textCoinTitle:{
       color: '$primaryBlack',
     fontSize: 34,
-    fontWeight:'600',
+    fontWeight:'700',
   } as TextStyle,
   textHeaderChange:{
     color: '$primaryDarkText',
@@ -37,7 +37,7 @@ export default EStyleSheet.create({
   } as TextStyle,
   textBasicValue:{
     color: '$primaryBlack',
-    fontWeight:'600',
+    fontWeight:'700',
     fontSize: 28,
 
   } as TextStyle,
@@ -45,6 +45,25 @@ export default EStyleSheet.create({
     color: '$primaryDarkText',
     fontSize: 14,
     marginBottom:16,
+  } as TextStyle,
+
+  extraDataContainer:{
+    flexDirection:'row', 
+    justifyContent: 'space-between',
+    alignItems:'center', 
+    width:'100%',
+    marginVertical: 2,
+  } as ViewStyle,
+
+  textExtraValue:{
+    color: '$primaryDarkText',
+    fontWeight:'700',
+    fontSize: 18,
+
+  } as TextStyle,
+  textExtraLabel:{
+    color: '$primaryDarkText',
+    fontSize: 14,
   } as TextStyle,
 
   rangeContainer:{

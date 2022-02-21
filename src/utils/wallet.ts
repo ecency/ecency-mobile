@@ -329,6 +329,16 @@ export const fetchCoinsData = async (
           const balance = Math.round(
             vestsToHp(parseToken(userdata.vesting_shares), hivePerMVests) * 1000,
           ) / 1000;
+
+          const receivedHP = vestsToHp(
+            parseToken(userdata.received_vesting_shares) ,
+            hivePerMVests,
+          )
+
+          const delegatedHP = vestsToHp(
+            parseToken(userdata.delegated_vesting_shares),
+            hivePerMVests,
+          )
         
           const unclaimedBalance = ( 
           `${_getBalanceStr(parseToken(userdata.reward_hive_balance), ' HIVE')}` +
@@ -337,7 +347,7 @@ export const fetchCoinsData = async (
           ).trim();
 
           //TODO: assess how we can make this value change live.
-          const estimateVoteValueStr = getEstimatedAmount(userdata, globalProps);
+          const estimateVoteValueStr = '$ ' + getEstimatedAmount(userdata, globalProps);
 
 
           coinData[coinBase.id] = {
@@ -348,10 +358,16 @@ export const fetchCoinsData = async (
             currentPrice:ppHive,
             extraDataPairs:[
               {
-                label:'Delegations',
-                value:'-136.177 HP'
+                label:'Delegated Hive Power',
+                value: `-${delegatedHP.toFixed(3)} HP` 
               },{
-                label:'Vote value',
+                label:'Received Hive Power',
+                value:`${receivedHP.toFixed(3)} HP` 
+              },{
+                label:'Total Hive Power',
+                value:`${(balance - delegatedHP + receivedHP).toFixed(3)} HP` 
+              },{
+                label:'Vote Value',
                 value:estimateVoteValueStr
               }
             ]

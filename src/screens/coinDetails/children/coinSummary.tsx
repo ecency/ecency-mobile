@@ -19,11 +19,15 @@ export const CoinSummary = ({balance, estimateValue, savings, coinSymbol, id, ex
         {
             label:'Balance',
             value:balance
-        },{
-            label:'Estimated Value',
-            value:<FormattedCurrency isApproximate isToken value={estimateValue} />,
         }
     ] as DataPair[]
+
+    if(estimateValue !== undefined){
+        valuePairs.push({
+            label:'Estimated Value',
+            value:<FormattedCurrency isApproximate isToken value={estimateValue} />,
+        })
+    }
 
     if(savings !== undefined){
         valuePairs.push({
@@ -31,17 +35,16 @@ export const CoinSummary = ({balance, estimateValue, savings, coinSymbol, id, ex
             value:savings
         })
     }
-    if(extraData){
-        valuePairs.push(...extraData);
-    }
+    // if(extraData){
+    //     valuePairs.push(...extraData);
+    // }
 
     return (
         <View>
-            <CoinBasics valuePairs={valuePairs} coinSymbol={coinSymbol}  />
+            <CoinBasics valuePairs={valuePairs} extraData={extraData} coinSymbol={coinSymbol}  />
             {
                 id !== COIN_IDS.ECENCY && id !== COIN_IDS.HP && <CoinChart coingeckoId={id} />
             }
-            
         </View>
     )
 }

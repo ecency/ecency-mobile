@@ -6,10 +6,11 @@ import styles from './children.styles'
 
 interface CoinBasicsProps {
     valuePairs:DataPair[];
+    extraData:DataPair[];
     coinSymbol:string;
 }
 
-export const CoinBasics = ({valuePairs, coinSymbol}:CoinBasicsProps) => {
+export const CoinBasics = ({valuePairs, extraData, coinSymbol}:CoinBasicsProps) => {
 
     const _renderCoinHeader = (
         <>
@@ -28,13 +29,22 @@ export const CoinBasics = ({valuePairs, coinSymbol}:CoinBasicsProps) => {
                 <Text style={styles.textBasicLabel}>{args.label}</Text>
             </>
         )
+    }
 
+    const _renderExtraData = (args:DataPair) => {
+        return (
+            <View style={styles.extraDataContainer}>
+                 <Text style={styles.textExtraLabel}>{args.label}</Text>
+                 <Text style={styles.textExtraValue}>{args.value}</Text>
+            </View>
+        )
     }
 
     return (
         <View style={[styles.card, styles.basicsContainer]}>
             {_renderCoinHeader}
             {valuePairs.map((valPair)=>_renderValuePair(valPair))}
+            {extraData && extraData.map(dataItem=>_renderExtraData(dataItem))}
         </View>
     )
 }

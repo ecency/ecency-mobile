@@ -18,7 +18,7 @@ export interface CoinData {
     balance:number;
     savings?:number;
     unclaimedBalance:string,
-    estimateValue:number;
+    estimateValue?:number;
     vsCurrency:string;
     extraDataPairs?:DataPair[]
 }
