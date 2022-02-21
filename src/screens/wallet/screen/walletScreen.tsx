@@ -31,7 +31,8 @@ import { setCoinsData, setPriceHistory } from '../../../redux/actions/walletActi
 import { fetchCoinsData } from '../../../utils/wallet';
 import { COIN_IDS } from '../../../constants/defaultCoins';
 import { claimPoints } from '../../../providers/ecency/ePoint';
-import { getAccount } from '../../../providers/hive/dhive';
+import { claimRewardBalance, getAccount } from '../../../providers/hive/dhive';
+import { toastNotification } from '../../../redux/actions/uiAction';
 
 
 const CHART_DAYS_RANGE = 1;
@@ -47,6 +48,7 @@ const WalletScreen = ({navigation}) => {
   const coinsData = useAppSelector((state)=>state.wallet.coinsData);
   const globalProps = useAppSelector((state)=>state.account.globalProps);
   const currentAccount = useAppSelector((state)=>state.account.currentAccount);
+  const pinHash = useAppSelector((state)=>state.application.pin);
 
   const [isLoading, setIsLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -60,7 +62,7 @@ const WalletScreen = ({navigation}) => {
   const _fetchData = () => {
     if(!isLoading){
       _fetchPriceHistory();
-      _fetchCoinData();
+      _fetchCoinsData();
     }
   } 
 
@@ -77,7 +79,7 @@ const WalletScreen = ({navigation}) => {
     })
   }
 
-  const _fetchCoinData = async () => {
+  const _fetchCoinsData = async () => {
     setIsLoading(true);
     const coinData = await fetchCoinsData(
       selectedCoins, 
@@ -96,26 +98,59 @@ const WalletScreen = ({navigation}) => {
     setIsClaiming(true);
     try{
       await claimPoints()
-      await _fetchCoinData(); 
+      await _fetchCoinsData(); 
     }catch(error){
       Alert.alert(`${error.message}\nTry again or write to support@ecency.com`);
     }
     setIsClaiming(false);
   };
 
-  const _claimRewardBalance = async () => {
-    const account = await getAccount(currentAccount.name);
 
+  const _claimRewardBalance = async () => {
+    setIsClaiming(true);
+    try{
+      const account = await getAccount(currentAccount.name);
+      await claimRewardBalance(
+        currentAccount,
+        pinHash,
+        account.reward_hive_balance,
+        account.reward_hbd_balance,
+        account.reward_vesting_balance,
+      )
+      await _fetchCoinsData();
+      dispatch(
+        toastNotification(
+          intl.formatMessage({
+            id: 'alert.claim_reward_balance_ok',
+          }),
+        ),
+      );
+
+    }catch(error){
+      Alert.alert(`Failed to claim rewards, ${error.message}\nTry again or write to support@ecency.com`);
+    }
+    setIsClaiming(false);
   }
+
 
   const _claimRewards = (coinId:string) => {
+    if(isLoading){
+      setRefreshing(true);
+      Alert.alert("Wallet update in progress, try again as update finishes");
+      return;
+    }
     switch(coinId){
-      case COIN_IDS.ECENCY:{
+      case COIN_IDS.ECENCY:
         _claimEcencyPoints();
         break;
-      }
+      
+      case COIN_IDS.HP:
+        _claimRewardBalance()
+        break;
+      
     }
   }
+
 
 
   const _renderItem = ({ item, index }:{item:CoinBase, index:number}) => {
@@ -138,8 +173,6 @@ const WalletScreen = ({navigation}) => {
         navigation.navigate(ROUTES.SCREENS.BOOST)
       }
     }
-
-
     
     //calculate percentage change
     //TODO: verify or find a way to get exact percent change. current change value slightly differs from coingecko wep app values
@@ -164,6 +197,8 @@ const WalletScreen = ({navigation}) => {
         {...item} />
     );
   };
+
+
 
   const _renderLoading = () => {
     if (isLoading) {
