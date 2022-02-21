@@ -75,7 +75,10 @@ class DelegateScreen extends Component {
     if (referredUsername) {
       this.setState({ destination: referredUsername, usersResult: [], step: 2 }, () => {
         this._fetchReceivedVestingShare();
+        this.destinationTextInput.current?.blur();
       });
+    } else {
+      this.destinationTextInput.current?.focus();
     }
   }
   componentDidUpdate(prevProps, prevState) {
@@ -344,7 +347,6 @@ class DelegateScreen extends Component {
               multiline={isTextArea}
               numberOfLines={isTextArea ? 4 : 1}
               keyboardType={keyboardType}
-              autoFocus={true}
               innerRef={this.destinationTextInput}
             />
 
