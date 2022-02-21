@@ -1,5 +1,5 @@
 import bugsnagInstance from '../../config/bugsnag';
-import githubApi from '../../config/locales/githubApi';
+import githubApi from '../../config/githubApi';
 
 export const fetchLatestAppVersion = async () => {
     try{
