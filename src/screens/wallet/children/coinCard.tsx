@@ -1,25 +1,29 @@
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
-import React, { ComponentType } from 'react';
+import React, { ComponentType, Fragment } from 'react';
 import styles from './children.styles';
-import { MainButton, SimpleChart, TextButton } from '../../../components';
+import { Icon, MainButton, SimpleChart, TextButton } from '../../../components';
 import { COIN_IDS } from '../../../constants/defaultCoins';
+import { useIntl } from 'react-intl';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 export interface CoinCardProps {
-    chartData:number[]
-    name:string,
-    notCrypto:boolean,
-    symbol:string,
-    currencySymbol:string,
-    changePercent:number,
-    currentValue:number,
-    ownedTokens:number,
-    unclaimedRewards:string,
-    enableBuy?:boolean,
+    id:string;
+    chartData:number[];
+    name:string;
+    notCrypto:boolean;
+    symbol:string;
+    currencySymbol:string;
+    changePercent:number;
+    currentValue:number;
+    ownedTokens:number;
+    unclaimedRewards:string;
+    enableBuy?:boolean;
     footerComponent:ComponentType<any>
     onPress:()=>void
 }
 
 export const CoinCard = ({
+  id,
   notCrypto, 
   chartData, 
   name,
@@ -37,6 +41,8 @@ export const CoinCard = ({
   if(!notCrypto && !chartData.length){
     return null
   }
+
+  const intl = useIntl();
 
     const _renderHeader = (
         <View style={styles.cardHeader}>
@@ -56,11 +62,26 @@ export const CoinCard = ({
     const _renderClaimSection = () => {
       if(unclaimedRewards || enableBuy){
         const btnTitle = unclaimedRewards
-          ? unclaimedRewards + '\nCLAIM'
-          : 'GET MORE'
+          ? unclaimedRewards
+          : intl.formatMessage({ id: `wallet.${id}.buy`});
         return (
-          <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center', marginTop:8}}>
-            <MainButton style={{paddingHorizontal:24}} text={btnTitle} onPress={()=>{}} />
+          <View style={styles.claimContainer}>
+            <MainButton
+              isLoading={false}
+              isDisable={false}
+              style={styles.claimBtn}
+              height={50}
+              onPress={() => {}}
+            >
+              <Fragment>
+                <Text style={styles.claimBtnTitle}>
+                  {btnTitle}
+                </Text>
+                <View style={styles.claimIconWrapper}>
+                  <Icon name="add" iconType="MaterialIcons" color={EStyleSheet.value('$primaryBlue')} size={23} />
+                </View>
+              </Fragment>
+            </MainButton>
           </View>
         )
       }

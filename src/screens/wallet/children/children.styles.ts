@@ -25,6 +25,36 @@ export default EStyleSheet.create({
     flex:1,
   } as ViewStyle,
 
+  claimContainer:{
+    flexDirection:'row', 
+    justifyContent:'center', 
+    alignItems:'center', 
+    marginTop:8
+  } as ViewStyle,
+
+  claimBtn:{
+      flexDirection: 'row',
+      paddingHorizontal: 16
+  } as ViewStyle,
+
+  claimBtnTitle:{
+    color: '$pureWhite',
+    fontSize: 14,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+  } as ViewStyle,
+
+  claimIconWrapper: {
+    backgroundColor: '$pureWhite',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    marginLeft: 20,
+    width: 24,
+    height: 24,
+  } as ViewStyle,
+
   logo:{
     height:24, 
     width:24, 
