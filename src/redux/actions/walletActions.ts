@@ -1,5 +1,5 @@
-import { SET_SELECTED_COINS, SET_PRICE_HISTORY, SET_COINS_DATA } from '../constants/constants';
-import { CoinBase, CoinData } from '../reducers/walletReducer';
+import { SET_SELECTED_COINS, SET_PRICE_HISTORY, SET_COINS_DATA, SET_COIN_ACTIVITIES } from '../constants/constants';
+import { CoinActivity, CoinBase, CoinData } from '../reducers/walletReducer';
 
 export const setSelectedCoins = (coins: CoinBase[]) => ({
   payload: coins,
@@ -18,5 +18,13 @@ export const setPriceHistory = (coinId:string, vsCurrency:string, data:number[])
         data
     },
     type: SET_PRICE_HISTORY
+})
+
+export const setCoinActivities = (coinId:string, data:CoinActivity[]) => ({
+    payload: {
+        id:coinId,
+        data,
+    },
+    type: SET_COIN_ACTIVITIES
 })
 

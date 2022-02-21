@@ -1,5 +1,5 @@
 import DEFAULT_COINS from "../../constants/defaultCoins";
-import { SET_PRICE_HISTORY, SET_SELECTED_COINS, SET_COINS_DATA } from "../constants/constants";
+import { SET_PRICE_HISTORY, SET_SELECTED_COINS, SET_COINS_DATA, SET_COIN_ACTIVITIES } from "../constants/constants";
 
 export interface DataPair {
     value:string|number;
@@ -83,6 +83,12 @@ export default function (state = initialState, action) {
             vsCurrency:payload.vsCurrency,
             data:payload.data
         };
+        return {
+            ...state
+        }
+    }
+    case SET_COIN_ACTIVITIES:{
+        state.coinsActivities[payload.id] = payload.data
         return {
             ...state
         }

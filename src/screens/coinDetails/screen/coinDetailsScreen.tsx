@@ -8,6 +8,7 @@ import { withNavigation } from 'react-navigation'
 import { useAppDispatch, useAppSelector } from '../../../hooks'
 import { CoinActivity, CoinData } from '../../../redux/reducers/walletReducer';
 import { fetchCoinActivities } from '../../../utils/wallet';
+import { setCoinActivities } from '../../../redux/actions/walletActions';
 
 export interface CoinDetailsScreenParams {
   coinId:string;
@@ -34,8 +35,6 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
 
   const {symbol, id } = selectedCoins.find((item)=>item.id===coinId)
 
-  const [activities, setActivities] = useState([])
-
 
   useEffect(()=>{
     _fetchCoinActivities();
@@ -43,9 +42,7 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
 
   const _fetchCoinActivities = async () => {
     const _activites = await fetchCoinActivities(currentAccount.name, symbol, globalProps);
-    setActivities(_activites)
-    // dispatch();
-    
+    dispatch(setCoinActivities(coinId, _activites));
   }
 
 
@@ -75,8 +72,7 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
       <BasicHeader title="Coin Details" />
       <ActivitiesList 
         header={_renderHeaderComponent}
-        activities={activities || []}
-
+        activities={coinActivities || []}
       />  
     </View>
   )
