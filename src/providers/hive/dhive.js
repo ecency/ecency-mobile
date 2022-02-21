@@ -179,15 +179,17 @@ export const fetchGlobalProps = async () => {
  */
 export const getAccount = (username) =>
   new Promise((resolve, reject) => {
-    try {
-      const response = client.database.getAccounts([username]);
-      if (response.length) {
-        resolve(response[0]);
-      }
-      reject(new Error('Account not found, ' + JSON.stringify(response)));
-    } catch (error) {
-      reject(error);
-    }
+    client.database
+      .getAccounts([username])
+      .then((response) => {
+        if (response.length) {
+          resolve(response[0]);
+        }
+        throw new Error('Account not found, ' + JSON.stringify(response));
+      })
+      .catch((error) => {
+        reject(error);
+      });
   });
 
 export const getAccountHistory = (user, type_token) =>
