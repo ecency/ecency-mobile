@@ -63,7 +63,8 @@ export const claimPoints = async () => {
     return response.data;
   }catch(error){
     console.warn("Failed to calim points", error);
-    bugsnagInstance.notify(error)
+    bugsnagInstance.notify(error);
+    throw new Error(error.response?.data?.message || error.message)
   }
 }
 

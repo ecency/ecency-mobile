@@ -94,23 +94,14 @@ const WalletScreen = ({navigation}) => {
 
   const _claimEcencyPoints = async () => {
     setIsClaiming(true);
-
-    await claimPoints()
-      .then(() => {
-        _fetchCoinData();
-      })
-      .catch((error) => {
-        if (error) {
-          Alert.alert(
-            `PointsClaim - Connection issue, try again or write to support@ecency.com \n${error.message.substr(
-              0,
-              20,
-            )}`,
-          );
-        }
-      });
-
-      setIsClaiming(false);
+    try{
+      await claimPoints()
+      await _fetchCoinData(); 
+    }catch(error){
+      console.warn("Failed to claim points", error.message)
+      Alert.alert(`${error.message}\nTry again or write to support@ecency.com`);
+    }
+    setIsClaiming(false);
   };
 
   const _claimRewardBalance = async () => {
@@ -130,6 +121,7 @@ const WalletScreen = ({navigation}) => {
 
   const _renderItem = ({ item, index }:{item:CoinBase, index:number}) => {
     const coinData:CoinData = coinsData[item.id] || {};
+    coinData.unclaimedBalance = '123.23 Points';
 
     const _tokenMarketData:number[] = priceHistories[item.id] ? priceHistories[item.id].data : [];
     const _currentValue = coinData.currentPrice || 0;
