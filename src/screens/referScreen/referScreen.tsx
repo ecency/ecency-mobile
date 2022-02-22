@@ -52,7 +52,8 @@ const ReferScreen = ({ navigation }) => {
       ? null 
       : referralsList[referralsList.length - 1]._id;
     
-    const responseData = await getReferralsList(currentAccount.name, lastReferralId);
+    // const responseData = await getReferralsList(currentAccount.name, lastReferralId);
+    const responseData = await getReferralsList('ecency', lastReferralId);
 
     setReferralsList(refresh ? responseData : [...referralsList, ...responseData])
     setRefreshing(false);
@@ -62,7 +63,8 @@ const ReferScreen = ({ navigation }) => {
   const _getReferralsStats = async () => {
     setLoading(true);
 
-    const referralStats = await getReferralsStats(currentAccount.name);
+    // const referralStats = await getReferralsStats(currentAccount.name);
+    const referralStats = await getReferralsStats('ecency');
     const earnedPoints = referralStats.rewarded * 100;
     const unearnedPoints = (referralStats.total - referralStats.rewarded) * 100;
     setEarnedPoint(earnedPoints)

@@ -4,9 +4,7 @@ export default EStyleSheet.create({
   popoverDetails: {
     flexDirection: 'row',
     width: '$deviceWidth / 2',
-    borderRadius: 20,
-    padding: 16,
-
+    borderRadius: 12,
     backgroundColor: '$primaryBackgroundColor',
   },
   arrow: {
@@ -15,8 +13,9 @@ export default EStyleSheet.create({
   popoverWrapper: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: 8,
   },
   overlay: {},
   popoverText: {
