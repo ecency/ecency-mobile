@@ -41,7 +41,7 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
   }, [])
 
   const _fetchCoinActivities = async () => {
-    const _activites = await fetchCoinActivities(currentAccount.name, symbol, globalProps);
+    const _activites = await fetchCoinActivities(currentAccount.name, coinId, symbol, globalProps);
     dispatch(setCoinActivities(coinId, _activites));
   }
 

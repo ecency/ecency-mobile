@@ -2,7 +2,7 @@ import { Alert } from 'react-native';
 import ePointApi from '../../config/api';
 import ecencyApi from '../../config/ecencyApi';
 import bugsnagInstance from '../../config/bugsnag';
-import { EcencyUser } from './ecency.types';
+import { EcencyUser, UserPoint } from './ecency.types';
 
 
 /**
@@ -45,7 +45,7 @@ export const getUser = (username:string):Promise<EcencyUser> =>
       });
   });
 
-export const getUserPoints = (username) => 
+export const getUserPoints = (username:string):Promise<UserPoint[]> => 
   new Promise((resolve) => {
     ePointApi
       .get(`/users/${username}/points`)

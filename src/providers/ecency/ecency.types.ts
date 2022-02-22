@@ -25,4 +25,14 @@ export interface ReferralStat {
     total: number;
     rewarded: number;
 }
+
+export interface UserPoint {
+    id: number;
+    type: number;
+    amount: string;
+    created:string;
+    memo?: string;
+    receiver?: string;
+    sender?: string;
+
 }

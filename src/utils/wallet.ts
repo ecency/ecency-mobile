@@ -6,9 +6,11 @@ import { getAccount, getAccountHistory } from '../providers/hive/dhive';
 import { getCurrencyTokenRate } from '../providers/ecency/ecency';
 import { CoinBase, CoinData } from '../redux/reducers/walletReducer';
 import { GlobalProps } from '../redux/reducers/accountReducer';
-import { COIN_IDS } from '../constants/defaultCoins';
 import { getEstimatedAmount } from './vote';
-import { getUser as getEcencyUser } from '../providers/ecency/ePoint';
+import { getUser as getEcencyUser, getUserPoints } from '../providers/ecency/ePoint';
+// Constant
+import POINTS from '../constants/options/points';
+import { COIN_IDS } from '../constants/defaultCoins';
 
 export const transferTypes = [
   'curation_reward',
@@ -31,6 +33,7 @@ export const transferTypes = [
   'fill_transfer_from_savings',
   'fill_vesting_withdraw',
 ];
+
 
 export const groomingTransactionData = (transaction, hivePerMVests) => {
   if (!transaction || !hivePerMVests) {
@@ -252,25 +255,40 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
 };
 
 
-export const fetchCoinActivities = async (username:string, coinSymbol:string, globalProps:GlobalProps) => {
+export const fetchCoinActivities = async (username:string, coinId:string, coinSymbol:string, globalProps:GlobalProps) => {
   //TOOD: transfer history can be separated from here
-  const history = await getAccountHistory(username);
-
-  const transfers = history.filter((tx) => transferTypes.includes(get(tx[1], 'op[0]', false)));
-
-  transfers.sort(compare);
-
-  const activities = transfers.map(item=>groomingTransactionData(item, globalProps.hivePerMVests));
-
-  return activities
-    ? activities.filter((item) => {
-        return (
-          item &&
-          item.value &&
-          item.value.includes(coinSymbol)
-        );
-      })
-    : [];
+  switch(coinId){
+    case COIN_IDS.ECENCY:{
+      const pointActivities = await getUserPoints(username);
+      console.log("Points Activities", pointActivities);
+      return pointActivities && pointActivities.length ?
+        pointActivities.map((item)=>
+          groomingPointsTransactionData({
+            ...item,
+            icon: get(POINTS[get(item, 'type')], 'icon'),
+            iconType: get(POINTS[get(item, 'type')], 'iconType'),
+            textKey: get(POINTS[get(item, 'type')], 'textKey'),
+          })
+        ):[];
+    }
+    default:{
+      const history = await getAccountHistory(username);
+      const transfers = history.filter((tx) => transferTypes.includes(get(tx[1], 'op[0]', false)));
+      transfers.sort(compare);
+    
+      const activities = transfers.map(item=>groomingTransactionData(item, globalProps.hivePerMVests));
+      return activities
+        ? activities.filter((item) => {
+            return (
+              item &&
+              item.value &&
+              item.value.includes(coinSymbol)
+            );
+          })
+        : [];
+    }
+  }
+  
 }
 
 
