@@ -1,25 +1,22 @@
 import React, { Fragment } from 'react'
 import { useIntl } from 'react-intl'
-import { View, Text, Alert } from 'react-native'
+import { View, Text } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { withNavigation } from 'react-navigation'
 import styles from './children.styles'
 
 interface CoinActionsProps {
-    coinId:string;
     actions:string[];
+    onActionPress:(action:string)=>void;
 }
 
-const CoinActions = ({coinId, actions}:CoinActionsProps) => {
+export const CoinActions = withNavigation(({actions, onActionPress}:CoinActionsProps) => {
     const intl = useIntl();
-
-    const _navigate = (action:string) => {
-       Alert.alert("Action Press", action)
-    }
 
     const _renderItem = (item) => {
 
         const _onPress = () => {
-            _navigate(item)
+            onActionPress(item)
         }
 
         return (
@@ -38,6 +35,4 @@ const CoinActions = ({coinId, actions}:CoinActionsProps) => {
             {actions.map(_renderItem)}
         </View>
     )
-}
-
-export default CoinActions
+});
