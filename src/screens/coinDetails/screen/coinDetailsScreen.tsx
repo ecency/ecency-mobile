@@ -58,41 +58,48 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
 
 
   const _onActionPress = (transferType:string) => {
-    let balance = 0;
-    let fundType = symbol;
+ 
+    let navigateTo = ROUTES.SCREENS.TRANSFER
+    let navigateParams = {};
 
-    if (
-      (transferType === 'transfer_token' || transferType === 'purchase_estm') &&
-      coinId === COIN_IDS.HIVE
-    ) {
-      balance = Math.round(coinData.balance * 1000) / 1000;
+    if(coinId === COIN_IDS.ECENCY){
+      if(transferType === 'dropdown_transfer'){
+          navigateParams = {
+            transferType: 'points',
+            fundType:'ESTM',
+            balance: coinData.balance
+          }
+      } else{
+        let redeemType = '';
+        if(transferType === 'dropdown_promote'){
+          redeemType = 'promote';
+        } else if(transferType === 'dropdown_boost'){
+          redeemType = 'boost'
+        }
+        navigateTo = ROUTES.SCREENS.REDEEM;
+        navigateParams = {
+          balance:coinData.balance,
+          redeemType,
+        }
+      }
+    } else {
+        const balance = transferType === 'withdraw_hive' || transferType === 'withdraw_hbd'
+          ? coinData.savings : coinData.balance;
+        navigateParams = { transferType, fundType:symbol, balance, tokenAddress };
     }
-    if (
-      (transferType === 'transfer_token' ||
-        transferType === 'convert' ||
-        transferType === 'purchase_estm') &&
-        coinId === COIN_IDS.HBD
-    ) {
-      balance = Math.round(coinData.balance * 1000) / 1000;
-    }
-    if (transferType === 'withdraw_hive' && coinId === COIN_IDS.HIVE) {
-      balance = Math.round(coinData.savings * 1000) / 1000;
-    }
-    if (transferType === 'withdraw_hbd' && coinId === COIN_IDS.HBD) {
-      balance = Math.round(coinData.savings * 1000) / 1000;
-    }
+
 
     if (isPinCodeOpen) {
       dispatch(
         openPinCodeModal({
-          navigateTo: ROUTES.SCREENS.TRANSFER,
-          navigateParams: { transferType, fundType, balance, tokenAddress },
+          navigateTo,
+          navigateParams,
         }),
       );
     } else {
       navigate({
-        routeName: ROUTES.SCREENS.TRANSFER,
-        params: { transferType, fundType, balance, tokenAddress },
+        routeName: navigateTo,
+        params: navigateParams
       });
     }
   } 
