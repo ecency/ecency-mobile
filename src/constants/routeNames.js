@@ -31,6 +31,7 @@ export default {
     COMMUNITY: `Community${SCREEN_SUFFIX}`,
     COMMUNITIES: `Communities${SCREEN_SUFFIX}`,
     WEB_BROWSER: `WebBrowser${SCREEN_SUFFIX}`,
+    REFER: `Refer${SCREEN_SUFFIX}`,
     COIN_DETAILS: `CoinDetails${SCREEN_SUFFIX}`,
   },
   DRAWER: {

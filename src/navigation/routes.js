@@ -39,6 +39,7 @@ import {
   Community,
   Communities,
   WebBrowser,
+  ReferScreen,
   CoinDetails,
 } from '../screens';
 
@@ -153,6 +154,7 @@ const stackNavigator = createStackNavigator(
     [ROUTES.SCREENS.COMMUNITY]: { screen: Community },
     [ROUTES.SCREENS.COMMUNITIES]: { screen: Communities },
     [ROUTES.SCREENS.WEB_BROWSER]: { screen: WebBrowser },
+    [ROUTES.SCREENS.REFER]: { screen: ReferScreen },
     [ROUTES.SCREENS.COIN_DETAILS]: { screen: CoinDetails },
   },
   {

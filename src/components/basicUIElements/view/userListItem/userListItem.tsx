@@ -29,6 +29,8 @@ const UserListItem = ({
   isLoggedIn,
   searchValue,
   rightTooltipText,
+  leftItemRenderer,
+  rightItemRenderer
 }) => {
   const _handleRightButtonPress = () => {
     if(onPressRightText){
@@ -47,6 +49,7 @@ const UserListItem = ({
       onPress={() => handleOnPress && handleOnPress(username)}
     >
       <View style={[styles.voteItemWrapper, index % 2 === 1 && styles.voteItemWrapperGray]}>
+        {leftItemRenderer && leftItemRenderer()}
         {itemIndex && <Text style={styles.itemIndex}>{itemIndex}</Text>}
         <UserAvatar noAction={true} style={styles.avatar} username={username} />
         <View style={styles.userDescription}>
@@ -86,7 +89,7 @@ const UserListItem = ({
           </View>
         )}
 
-
+        {rightItemRenderer && rightItemRenderer()}
         {isHasRightItem &&
           isLoggedIn &&
           (isLoadingRightAction ? (

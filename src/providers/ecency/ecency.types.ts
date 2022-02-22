@@ -12,3 +12,17 @@ export interface EcencyUser {
     points_by_type:{[key:string]:string};
     unclaimed_points_by_type:{[key:string]:string};
 }
+
+export interface Referral {
+    id:number;
+    referral:string;
+    rewarded:boolean;
+    username:string;
+    created:string
+}
+
+export interface ReferralStat {
+    total: number;
+    rewarded: number;
+}
+}

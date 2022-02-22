@@ -70,6 +70,17 @@ class DelegateScreen extends Component {
   }
 
   // Component Lifecycles
+  componentDidMount() {
+    const { referredUsername } = this.props;
+    if (referredUsername) {
+      this.setState({ destination: referredUsername, usersResult: [], step: 2 }, () => {
+        this._fetchReceivedVestingShare();
+        this.destinationTextInput.current?.blur();
+      });
+    } else {
+      this.destinationTextInput.current?.focus();
+    }
+  }
   componentDidUpdate(prevProps, prevState) {
     if (prevState.from !== this.state.from) {
       this._fetchReceivedVestingShare();
@@ -317,7 +328,6 @@ class DelegateScreen extends Component {
             multiline={isTextArea}
             numberOfLines={isTextArea ? 4 : 1}
             keyboardType={keyboardType}
-            innerRef={this.destinationTextInput}
             editable={false}
           />
         );
@@ -337,7 +347,6 @@ class DelegateScreen extends Component {
               multiline={isTextArea}
               numberOfLines={isTextArea ? 4 : 1}
               keyboardType={keyboardType}
-              autoFocus={true}
               innerRef={this.destinationTextInput}
             />
 

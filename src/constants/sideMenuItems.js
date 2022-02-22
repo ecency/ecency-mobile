@@ -26,6 +26,12 @@ const authMenuItems = [
     id: 'communities',
   },
   {
+    name: 'Refer $ Earn',
+    route: ROUTES.SCREENS.REFER,
+    icon: 'share',
+    id: 'refer',
+  },
+  {
     name: 'Settings',
     route: ROUTES.SCREENS.SETTINGS,
     icon: 'settings',
@@ -36,12 +42,6 @@ const authMenuItems = [
     route: '',
     icon: 'power',
     id: 'logout',
-  },
-  {
-    name: 'Refer $ Earn',
-    route: '',
-    icon: 'share',
-    id: 'refer',
   },
 ];
 
