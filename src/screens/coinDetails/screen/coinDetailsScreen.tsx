@@ -62,32 +62,22 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
     let navigateTo = ROUTES.SCREENS.TRANSFER
     let navigateParams = {};
 
-    if(coinId === COIN_IDS.ECENCY){
-      if(transferType === 'dropdown_transfer'){
-          navigateParams = {
-            transferType: 'points',
-            fundType:'ESTM',
-            balance: coinData.balance
-          }
-      } else{
-        let redeemType = '';
-        if(transferType === 'dropdown_promote'){
-          redeemType = 'promote';
-        } else if(transferType === 'dropdown_boost'){
-          redeemType = 'boost'
-        }
+    if(coinId === COIN_IDS.ECENCY && transferType !== 'dropdown_transfer'){
         navigateTo = ROUTES.SCREENS.REDEEM;
         navigateParams = {
           balance:coinData.balance,
-          redeemType,
+          redeemType:transferType === 'dropdown_promote'?'promote':'boost',
         }
-      }
     } else {
         const balance = transferType === 'withdraw_hive' || transferType === 'withdraw_hbd'
           ? coinData.savings : coinData.balance;
-        navigateParams = { transferType, fundType:symbol, balance, tokenAddress };
+        navigateParams = { 
+          transferType:coinId === COIN_IDS.ECENCY?'points':transferType, 
+          fundType:coinId === COIN_IDS.ECENCY?'ESTM':symbol, 
+          balance, 
+          tokenAddress 
+        };
     }
-
 
     if (isPinCodeOpen) {
       dispatch(
