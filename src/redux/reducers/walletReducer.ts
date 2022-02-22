@@ -20,7 +20,9 @@ export interface CoinData {
     unclaimedBalance:string,
     estimateValue?:number;
     vsCurrency:string;
-    extraDataPairs?:DataPair[]
+    actions:string[];
+    extraDataPairs?:DataPair[];
+
 }
 
 export interface PriceHistory {

@@ -3,18 +3,28 @@ import { View } from 'react-native'
 import { CoinBasics, CoinChart } from '.'
 import { FormattedCurrency } from '../../../components'
 import { COIN_IDS } from '../../../constants/defaultCoins'
-import { DataPair } from '../../../redux/reducers/walletReducer'
+import { CoinData, DataPair } from '../../../redux/reducers/walletReducer'
+import CoinActions from './coinActions'
 
 export interface CoinSummaryProps {
-    balance:number;
-    estimateValue:number;
-    savings:number;
-    coinSymbol:string;
     id:string;
-    extraData?:DataPair[]
+    coinSymbol:string;
+    coinData:CoinData;
 }
 
-export const CoinSummary = ({balance, estimateValue, savings, coinSymbol, id, extraData}:CoinSummaryProps) => {
+export const CoinSummary = ({
+    coinSymbol, 
+    id, 
+    coinData,
+}:CoinSummaryProps) => {
+    const { 
+        balance, 
+        estimateValue, 
+        savings,    
+        extraDataPairs, 
+        actions 
+    } = coinData
+
     const valuePairs = [
         {
             label:'Balance',
@@ -38,7 +48,8 @@ export const CoinSummary = ({balance, estimateValue, savings, coinSymbol, id, ex
 
     return (
         <View>
-            <CoinBasics valuePairs={valuePairs} extraData={extraData} coinSymbol={coinSymbol}  />
+            <CoinBasics valuePairs={valuePairs} extraData={extraDataPairs} coinSymbol={coinSymbol}  />
+            <CoinActions actions={actions} />
             {
                 id !== COIN_IDS.ECENCY && id !== COIN_IDS.HP && <CoinChart coinId={id} />
             }

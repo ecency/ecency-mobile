@@ -56,12 +56,9 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
   const _renderHeaderComponent = (
     <>
       <CoinSummary {...{
-        balance:coinData.balance,
-        estimateValue:coinData.estimateValue,
-        savings:coinData.savings,
         id,
         coinSymbol:symbol,
-        extraData:coinData.extraDataPairs
+        coinData,
       }} />
       <Text style={styles.textActivities}>Activities</Text>
     </>

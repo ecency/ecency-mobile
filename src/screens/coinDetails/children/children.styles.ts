@@ -96,5 +96,27 @@ export default EStyleSheet.create({
     paddingBottom:56,
     marginHorizontal:16
   } as ViewStyle ,
+
+  //COIN ACTIONS STYLES
+  actionBtnContainer:{
+    flexGrow:1
+  } as ViewStyle,
+  actionsContainer:{
+    flexDirection:'row', 
+    flexWrap:'wrap'
+  } as ViewStyle,
+  actionContainer:{
+    paddingHorizontal:16,
+    marginVertical:8,
+    marginHorizontal:4,
+    backgroundColor:'$primaryLightBackground',
+    height: 40,
+    borderRadius:20,
+    justifyContent:'center',
+    alignItems:'center',
+  } as ViewStyle,
+  actionText:{
+    color: '$primaryBlack'
+  } as TextStyle
 });
 

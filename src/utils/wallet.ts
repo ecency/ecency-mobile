@@ -34,6 +34,25 @@ export const transferTypes = [
   'fill_vesting_withdraw',
 ];
 
+const ECENCY_ACTIONS = [
+  'dropdown_transfer', 'dropdown_promote', 'dropdown_boost'
+];
+const HIVE_ACTIONS = [
+  'purchase_estm',
+  'transfer_token',
+  'transfer_to_savings',
+  'transfer_to_vesting',
+  'withdraw_hive'
+];
+const HBD_ACTIONS = [
+  'purchase_estm', 
+  'transfer_token', 
+  'transfer_to_savings', 
+  'convert',
+  'withdraw_hbd'
+];
+const HIVE_POWER_ACTIONS = ['delegate', 'power_down'];
+
 
 export const groomingTransactionData = (transaction, hivePerMVests) => {
   if (!transaction || !hivePerMVests) {
@@ -332,6 +351,7 @@ export const fetchCoinsData = async (
             vsCurrency:vsCurrency,
             currentPrice:ppEstm,
             unclaimedBalance: unclaimedBalance,
+            actions:ECENCY_ACTIONS,
           }
           break;
         }
@@ -346,6 +366,7 @@ export const fetchCoinsData = async (
             vsCurrency:vsCurrency,
             currentPrice:ppHive,
             unclaimedBalance:'',
+            actions:HIVE_ACTIONS,
           }
           break;
         }
@@ -361,6 +382,7 @@ export const fetchCoinsData = async (
             vsCurrency:vsCurrency,
             currentPrice:ppHbd,
             unclaimedBalance:'',
+            actions:HBD_ACTIONS,
           }
           break;
         }
@@ -396,6 +418,7 @@ export const fetchCoinsData = async (
             unclaimedBalance,
             vsCurrency:vsCurrency,
             currentPrice:ppHive,
+            actions:HIVE_POWER_ACTIONS,
             extraDataPairs:[
               {
                 label:'Delegated Hive Power',
