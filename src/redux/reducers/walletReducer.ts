@@ -42,7 +42,6 @@ export interface CoinActivity {
 }
 
 interface State {
-    tokenAddress:string;
     selectedCoins:CoinBase[];
     coinsData:{
         [key: string]: CoinData;
@@ -57,7 +56,6 @@ interface State {
 }
 
 const initialState:State = {
-    tokenAddress:'',
     selectedCoins:DEFAULT_COINS,
     coinsData:{},
     priceHistories:{},
@@ -77,7 +75,6 @@ export default function (state = initialState, action) {
     case SET_COINS_DATA:{
         return {
             ...state,
-            //TODO: pass and asign tokenAddress
             coinsData:payload,
             updateTimestamp:new Date().getTime()
         }

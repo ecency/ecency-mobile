@@ -32,7 +32,6 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
 
   const currentAccount = useAppSelector(state=>state.account.currentAccount);
   const globalProps = useAppSelector(state=>state.account.globalProps);
-  const tokenAddress =  useAppSelector(state=>state.wallet.tokenAddress);
   const selectedCoins = useAppSelector(state=>state.wallet.selectedCoins);
   const coinData:CoinData = useAppSelector(state=>state.wallet.coinsData[coinId]);
   const coinActivities:CoinActivity[] = useAppSelector(state=>state.wallet.coinsActivities[coinId]);
@@ -74,8 +73,7 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
         navigateParams = { 
           transferType:coinId === COIN_IDS.ECENCY?'points':transferType, 
           fundType:coinId === COIN_IDS.ECENCY?'ESTM':symbol, 
-          balance, 
-          tokenAddress 
+          balance
         };
     }
 
