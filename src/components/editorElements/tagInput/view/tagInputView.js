@@ -43,8 +43,6 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
         ? setWarning(intl.formatMessage({ id: 'editor.limited_lowercase' }))
         : cats.find((c) => !/^[a-z0-9-#]+$/.test(c))
         ? setWarning(intl.formatMessage({ id: 'editor.limited_characters' }))
-        : cats.find((c) => !/^[a-z-#]/.test(c))
-        ? setWarning(intl.formatMessage({ id: 'editor.limited_firstchar' }))
         : cats.find((c) => !/[a-z0-9]$/.test(c))
         ? setWarning(intl.formatMessage({ id: 'editor.limited_lastchar' }))
         : setWarning(null);
@@ -75,8 +73,6 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
         ? setWarning(intl.formatMessage({ id: 'editor.limited_lowercase' }))
         : cats.find((c) => !/^[a-z0-9-#]+$/.test(c))
         ? setWarning(intl.formatMessage({ id: 'editor.limited_characters' }))
-        : cats.find((c) => !/^[a-z-#]/.test(c))
-        ? setWarning(intl.formatMessage({ id: 'editor.limited_firstchar' }))
         : cats.find((c) => !/[a-z0-9]$/.test(c))
         ? setWarning(intl.formatMessage({ id: 'editor.limited_lastchar' }))
         : setWarning(null);
