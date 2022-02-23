@@ -96,6 +96,8 @@ const MarkdownEditorView = ({
   const isVisibleAccountsBottomSheet = useSelector(
     (state) => state.ui.isVisibleAccountsBottomSheet,
   );
+  const draftBtnTooltipState = useSelector((state) => state.walkthrough.walkthroughMap);
+  const draftBtnTooltipRegistered = draftBtnTooltipState.get(walkthrough.EDITOR_DRAFT_BTN);
 
   useEffect(() => {
     if (!isPreviewActive) {
@@ -167,7 +169,7 @@ const MarkdownEditorView = ({
   }, [draftBody]);
 
   useEffect(() => {
-    if (autoFocusText && inputRef && inputRef.current) {
+    if (autoFocusText && inputRef && inputRef.current && draftBtnTooltipRegistered) {
       inputRef.current.focus();
     }
   }, [autoFocusText]);
@@ -440,7 +442,7 @@ const MarkdownEditorView = ({
             <TextInput
               multiline
               autoCorrect={true}
-              autoFocus={isReply ? true : false}
+              autoFocus={isReply && draftBtnTooltipRegistered ? true : false}
               onChangeText={_changeText}
               onSelectionChange={_handleOnSelectionChange}
               placeholder={intl.formatMessage({

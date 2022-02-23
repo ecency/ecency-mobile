@@ -59,7 +59,7 @@ const Tooltip = ({ children, text, walkthroughIndex }: TooltipProps, ref) => {
         contentStyle={styles.popoverDetails}
         arrowStyle={styles.arrow}
         visible={showPopover}
-        onClose={() => setShowPopover(false)}
+        onClose={() => ref?.current?.closeTooltip()}
         fromRect={popoverAnchor}
         placement="top"
         supportedOrientations={['portrait', 'landscape']}
