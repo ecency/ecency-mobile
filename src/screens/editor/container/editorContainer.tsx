@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Alert } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -36,7 +36,6 @@ import {
   makeJsonMetadata,
   makeOptions,
   extractMetadata,
-  makeJsonMetadataReply,
   makeJsonMetadataForUpdate,
   createPatch,
   extractImageUrls,
@@ -47,6 +46,7 @@ import EditorScreen from '../screen/editorScreen';
 import bugsnapInstance from '../../../config/bugsnag';
 import { removeBeneficiaries, setBeneficiaries } from '../../../redux/actions/editorActions';
 import { TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
+import { updateCommentCache } from '../../../redux/actions/cacheActions';
 
 /*
  *            Props Name        Description                                     Value
@@ -737,7 +737,7 @@ class EditorContainer extends Component {
   };
 
   _submitReply = async (fields) => {
-    const { currentAccount, pinCode } = this.props;
+    const { currentAccount, pinCode, dispatch } = this.props;
     const { isPostSending } = this.state;
 
     if (isPostSending) {
@@ -769,6 +769,24 @@ class EditorContainer extends Component {
         .then(() => {
           AsyncStorage.setItem('temp-reply', '');
           this._handleSubmitSuccess();
+
+          //create a cache entry
+          dispatch(
+            updateCommentCache(
+              `${parentAuthor}/${parentPermlink}`,
+              {
+                author:currentAccount.name,
+                permlink,
+                parent_author:parentAuthor,
+                parent_permlink:parentPermlink,
+                markdownBody: fields.body,
+              },
+              {
+                parentTags: parentTags || ['ecency']
+              }
+            )
+          )
+          
         })
         .catch((error) => {
           this._handleSubmitFailure(error);
@@ -777,8 +795,8 @@ class EditorContainer extends Component {
   };
 
   _submitEdit = async (fields) => {
-    const { currentAccount, pinCode } = this.props;
-    const { post, isEdit, isPostSending, thumbIndex } = this.state;
+    const { currentAccount, pinCode, dispatch } = this.props;
+    const { post, isEdit, isPostSending, thumbIndex, isReply } = this.state;
 
     if (isPostSending) {
       return;
@@ -814,6 +832,7 @@ class EditorContainer extends Component {
       } catch (e) {
         jsonMeta = makeJsonMetadata(meta, tags);
       }
+      
       await postContent(
         currentAccount,
         pinCode,
@@ -828,8 +847,31 @@ class EditorContainer extends Component {
         isEdit,
       )
         .then(() => {
-          AsyncStorage.setItem('temp-reply', '');
           this._handleSubmitSuccess();
+          if(isReply){
+            AsyncStorage.setItem('temp-reply', '');
+            dispatch(
+              updateCommentCache(
+                `${parentAuthor}/${parentPermlink}`,
+                {
+                  author:currentAccount.name,
+                  permlink,
+                  parent_author:parentAuthor,
+                  parent_permlink:parentPermlink,
+                  markdownBody:body,
+                  active_votes:post.active_votes,
+                  net_rshares:post.net_rshares,
+                  author_reputation:post.author_reputation,
+                  total_payout:post.total_payout,
+                  created:post.created,
+                  json_metadata:jsonMeta
+                },
+                {
+                  isUpdate:true
+                }
+              )
+            )
+          }
         })
         .catch((error) => {
           this._handleSubmitFailure(error);

@@ -50,7 +50,7 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
   post.author_reputation = parseReputation(post.author_reputation);
   post.avatar = getResizedAvatar(get(post, 'author'));
   if (!isList) {
-    post.body = renderPostBody(post, true, webp);
+    post.body = renderPostBody({...post, last_update:post.updated}, true, webp);
   }
   post.summary = postBodySummary(post, 150, Platform.OS);
   post.max_payout = parseAsset(post.max_accepted_payout).amount || 0;
@@ -140,7 +140,7 @@ export const parseComment = (comment:any) => {
   comment.author_reputation = parseReputation(get(comment, 'author_reputation'));
   comment.avatar = getResizedAvatar(get(comment, 'author'));
   comment.markdownBody = get(comment, 'body');
-  comment.body = renderPostBody(comment, true, webp);
+  comment.body = renderPostBody({...comment, last_update:comment.updated}, true, webp);
 
   //parse json meta;
   if (typeof comment.json_metadata === 'string' || comment.json_metadata instanceof String) {

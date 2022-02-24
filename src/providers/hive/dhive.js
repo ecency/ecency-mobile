@@ -1384,7 +1384,7 @@ export const postComment = (
     permlink,
     '',
     body,
-    makeJsonMetadataReply(parentTags || 'ecency'),
+    makeJsonMetadataReply(parentTags || ['ecency']),
     null,
     null,
   )

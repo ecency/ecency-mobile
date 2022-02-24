@@ -3,18 +3,20 @@ import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './quickReplyModalStyles';
 import { forwardRef } from 'react';
-import { View, Text, Alert, TouchableOpacity, Keyboard } from 'react-native';
+import { View, Text, Alert, TouchableOpacity, Keyboard, Platform } from 'react-native';
 import { useIntl } from 'react-intl';
 import { IconButton, MainButton, SummaryArea, TextButton, TextInput, UserAvatar } from '..';
 import { useSelector, useDispatch } from 'react-redux';
 import { generateReplyPermlink } from '../../utils/editor';
 import { postComment } from '../../providers/hive/dhive';
 import { toastNotification } from '../../redux/actions/uiAction';
+import { updateCommentCache } from '../../redux/actions/cacheActions';
 import { useAppSelector } from '../../hooks';
 import { default as ROUTES } from '../../constants/routeNames';
 import get from 'lodash/get';
 import { navigate } from '../../navigation/service';
 import { Portal } from 'react-native-portalize';
+import { renderPostBody } from '@ecency/render-helper';
 
 export interface QuickReplyModalProps {}
 
@@ -132,6 +134,24 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
                 }),
               ),
             );
+
+            //add comment cache entry
+            dispatch(
+              updateCommentCache(
+                `${parentAuthor}/${parentPermlink}`,
+                {
+                  author:currentAccount.name,
+                  permlink,
+                  parent_author:parentAuthor,
+                  parent_permlink:parentPermlink,
+                  markdownBody: commentValue,
+                },
+                {
+                  parentTags: parentTags || ['ecency']
+                }
+              )
+            )
+
             clearTimeout(stateTimer);
           }, 3000);
         })
@@ -166,6 +186,8 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
       />
     </View>
   );
+
+
   const _renderSummary = () => (
     <TouchableOpacity onPress={() => _handleOnSummaryPress()}>
       <SummaryArea style={styles.summaryStyle} summary={selectedPost.summary} />
