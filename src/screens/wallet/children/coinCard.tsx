@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import React, { ComponentType, Fragment, useEffect, useState } from 'react';
 import styles from './children.styles';
 import { Icon, MainButton, SimpleChart } from '../../../components';
@@ -119,7 +119,7 @@ export const CoinCard = ({
     const _renderFooter = (
       <View style={styles.cardFooter}>
         <Text style={styles.textCurValue}>{`${currencySymbol} ${currentValue.toFixed(2)}`}</Text>
-        <Text style={ changePercent > 0 ? styles.textDiffPositive : styles.textDiffNegative}>{`${changePercent > 0 ? '+':''}${changePercent.toFixed(1)}%`}</Text>
+        <Text style={ changePercent > 0 ? styles.textDiffPositive : styles.textDiffNegative}>{`${changePercent >= 0 ? '+':''}${changePercent.toFixed(1)}%`}</Text>
       </View>
     )
 

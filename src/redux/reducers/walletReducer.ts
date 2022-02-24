@@ -69,7 +69,7 @@ const initialState:State = {
     coinsData:{},
     priceHistories:{},
     coinsActivities:{},
-    quotes: {},
+    quotes: null,
     updateTimestamp:0
 };
   
