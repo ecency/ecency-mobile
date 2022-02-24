@@ -1,5 +1,5 @@
 import DEFAULT_COINS from "../../constants/defaultCoins";
-import { SET_PRICE_HISTORY, SET_SELECTED_COINS, SET_COINS_DATA, SET_COIN_ACTIVITIES } from "../constants/constants";
+import { SET_PRICE_HISTORY, SET_SELECTED_COINS, SET_COINS_DATA, SET_COIN_ACTIVITIES, SET_COIN_QUOTES, RESET_WALLET_DATA } from "../constants/constants";
 
 export interface DataPair {
     value:string|number;
@@ -22,7 +22,6 @@ export interface CoinData {
     vsCurrency:string;
     actions:string[];
     extraDataPairs?:DataPair[];
-
 }
 
 export interface PriceHistory {
@@ -59,6 +58,9 @@ interface State {
     coinsActivities:{
         [key: string]: CoinActivity[];
     },
+    quotes:{
+        [key: string]: QuoteItem;
+    }
     updateTimestamp:number;
 }
 
@@ -67,12 +69,19 @@ const initialState:State = {
     coinsData:{},
     priceHistories:{},
     coinsActivities:{},
+    quotes: {},
     updateTimestamp:0
 };
   
 export default function (state = initialState, action) {
     const {type, payload} = action;
     switch (type) {
+    case RESET_WALLET_DATA:{
+        return {
+            ...initialState,
+            selectedCoins:state.selectedCoins
+        }
+    }
     case SET_SELECTED_COINS:{
         return {
             ...state,
@@ -100,6 +109,12 @@ export default function (state = initialState, action) {
         state.coinsActivities[payload.id] = payload.data
         return {
             ...state
+        }
+    }
+    case SET_COIN_QUOTES:{
+        return {
+            ...state,
+            quotes:payload,
         }
     }
     default:

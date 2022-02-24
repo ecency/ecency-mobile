@@ -1,5 +1,6 @@
-import { SET_SELECTED_COINS, SET_PRICE_HISTORY, SET_COINS_DATA, SET_COIN_ACTIVITIES } from '../constants/constants';
-import { CoinActivity, CoinBase, CoinData } from '../reducers/walletReducer';
+import { getLatestQuotes } from '../../providers/ecency/ecency';
+import { SET_SELECTED_COINS, SET_PRICE_HISTORY, SET_COINS_DATA, SET_COIN_ACTIVITIES, SET_COIN_QUOTES, RESET, RESET_WALLET_DATA } from '../constants/constants';
+import { CoinActivity, CoinBase, CoinData, QuoteItem } from '../reducers/walletReducer';
 
 export const setSelectedCoins = (coins: CoinBase[]) => ({
   payload: coins,
@@ -28,3 +29,15 @@ export const setCoinActivities = (coinId:string, data:CoinActivity[]) => ({
     type: SET_COIN_ACTIVITIES
 })
 
+export const resetWalletData = () => ({
+    type: RESET_WALLET_DATA
+})
+
+
+export const fetchCoinQuotes = () => (dispatch) =>
+    getLatestQuotes().then((quotes) =>
+    dispatch({
+      type: SET_COIN_QUOTES,
+      payload: { ...quotes },
+    }),
+  );
