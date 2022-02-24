@@ -5,6 +5,7 @@ import get from 'lodash/get';
 
 import { Alert } from 'react-native';
 import { getDigitPinCode, getMutes, getUser } from './dhive';
+import { getUser as getEcencyUser } from '../ecency/ePoint';
 import {
   setUserData,
   setAuthStatus,
@@ -71,6 +72,7 @@ export const login = async (username, password, isPinCodeOpen) => {
     scTokens ? scTokens.access_token : '',
   );
   account.mutes = await getMutes(account.username);
+  account.ecencyUserData = await getEcencyUser(account.username);
 
   let jsonMetadata;
   try {
@@ -137,6 +139,7 @@ export const loginWithSC2 = async (code, isPinCodeOpen) => {
       scTokens ? scTokens.access_token : '',
     );
     account.mutes = await getMutes(account.username);
+    account.ecencyUserData = await getEcencyUser(account.username);
 
     let jsonMetadata;
     try {
