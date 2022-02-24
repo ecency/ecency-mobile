@@ -37,7 +37,7 @@ const CommentBody = ({
   handleOnLongPress,
   created,
   commentDepth,
-  reputation,
+  reputation = 25,
   isMuted
 }) => {
 

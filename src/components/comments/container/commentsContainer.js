@@ -18,6 +18,8 @@ import ROUTES from '../../../constants/routeNames';
 
 // Component
 import CommentsView from '../view/commentsView';
+import { useAppSelector } from '../../../hooks';
+import { deleteCommentCacheEntry } from '../../../redux/actions/cacheActions';
 
 const CommentsContainer = ({
   author,
@@ -35,7 +37,6 @@ const CommentsContainer = ({
   commentCount,
   isLoggedIn,
   commentNumber,
-  isShowMoreButton,
   mainAuthor,
   selectedPermlink: _selectedPermlink,
   isHideImage,
@@ -44,8 +45,13 @@ const CommentsContainer = ({
   showAllComments,
   hideManyCommentsButton,
   flatListProps,
+  fetchedAt,
 }) => {
+  const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
+  const cachedComments = useAppSelector((state) => state.cache.comments);
+
   const [lcomments, setLComments] = useState([]);
+  const [replies, setReplies] = useState(comments);
   const [selectedPermlink, setSelectedPermlink] = useState('');
 
   useEffect(() => {
@@ -57,6 +63,20 @@ const CommentsContainer = ({
     const shortedComments = _shortComments(selectedFilter);
     setLComments(shortedComments);
   }, [commentCount, selectedFilter]);
+
+  useEffect(() => {
+    const postPath = `${author || ''}/${permlink || ''}`;
+    //this conditional makes sure on targetted already fetched post is updated
+    //with new cache status, this is to avoid duplicate cache merging
+    if (
+      lastCacheUpdate &&
+      lastCacheUpdate.postPath === postPath &&
+      lastCacheUpdate.type === 'comment' &&
+      lastCacheUpdate.updatedAt > fetchedAt
+    ) {
+      _handleCachedComment();
+    }
+  }, [lastCacheUpdate]);
 
   // Component Functions
 
@@ -98,8 +118,8 @@ const CommentsContainer = ({
         return 0;
       },
       votes: (a, b) => {
-        const keyA = a.net_votes;
-        const keyB = b.net_votes;
+        const keyA = a.active_votes.length;
+        const keyB = b.active_votes.length;
 
         if (keyA > keyB) {
           return -1;
@@ -141,18 +161,65 @@ const CommentsContainer = ({
   const _getComments = async () => {
     if (isOwnProfile) {
       fetchPost();
-    } else if (author && permlink && !comments) {
+    } else if (author && permlink && !replies) {
       await getComments(author, permlink, name)
         .then((__comments) => {
+          //TODO: favourable place for merging comment cache
+          __comments = _handleCachedComment(__comments);
+
           if (selectedFilter) {
-            const sortComments = _shortComments(selectedFilter, __comments);
-            setLComments(sortComments);
-          } else {
-            setLComments(__comments);
+            __comments = _shortComments(selectedFilter, __comments);
           }
+
+          setLComments(__comments);
         })
         .catch(() => {});
     }
+  };
+
+  const _handleCachedComment = (passedComments = null) => {
+    const _comments = passedComments || replies || lcomments;
+    const postPath = `${author || ''}/${permlink || ''}`;
+
+    if (cachedComments.has(postPath)) {
+      const cachedComment = cachedComments.get(postPath);
+
+      var ignoreCache = false;
+      var replaceAtIndex = -1;
+      _comments.forEach((comment, index) => {
+        if (cachedComment.permlink === comment.permlink) {
+          if (cachedComment.updated < comment.updated) {
+            //comment is present with latest data
+            ignoreCache = true;
+            console.log('Ignore cache as comment is now present');
+          } else {
+            //comment is present in list but data is old
+            replaceAtIndex = index;
+          }
+        }
+      });
+
+      //manipulate comments with cached data
+      if (!ignoreCache) {
+        let newComments = [];
+        if (replaceAtIndex >= 0) {
+          _comments[replaceAtIndex] = cachedComment;
+          newComments = [..._comments];
+        } else {
+          newComments = [..._comments, cachedComment];
+        }
+
+        console.log('updated comments with cached comment');
+        if (passedComments) {
+          return newComments;
+        } else if (replies) {
+          setReplies(newComments);
+        } else {
+          setLComments(newComments);
+        }
+      }
+    }
+    return _comments;
   };
 
   const _handleOnReplyPress = (item) => {
@@ -195,12 +262,25 @@ const CommentsContainer = ({
     let filteredComments;
 
     deleteComment(currentAccount, pinCode, _permlink).then(() => {
+      let cachePath = null;
+      const _applyFilter = (item) => {
+        if (item.permlink === _permlink) {
+          cachePath = `${item.parent_author}/${item.parent_permlink}`;
+          return false;
+        }
+        return true;
+      };
+
       if (lcomments.length > 0) {
-        filteredComments = lcomments.filter((item) => item.permlink !== _permlink);
+        filteredComments = lcomments.filter(_applyFilter);
+        setLComments(filteredComments);
       } else {
-        filteredComments = comments.filter((item) => item.permlink !== _permlink);
+        filteredComments = replies.filter(_applyFilter);
+        setReplies(filteredComments);
       }
-      setLComments(filteredComments);
+
+      // remove cached entry based on parent
+      dispatch(deleteCommentCacheEntry(cachePath));
     });
   };
 
@@ -246,10 +326,9 @@ const CommentsContainer = ({
       selectedPermlink={_selectedPermlink || selectedPermlink}
       author={author}
       mainAuthor={mainAuthor}
-      isShowMoreButton={isShowMoreButton}
       commentNumber={commentNumber || 1}
       commentCount={commentCount}
-      comments={lcomments.length > 0 ? lcomments : comments}
+      comments={lcomments.length > 0 ? lcomments : replies}
       currentAccountUsername={currentAccount.name}
       handleOnEditPress={_handleOnEditPress}
       handleOnReplyPress={_handleOnReplyPress}
@@ -264,6 +343,7 @@ const CommentsContainer = ({
       showAllComments={showAllComments}
       flatListProps={flatListProps}
       openReplyThread={_openReplyThread}
+      fetchedAt={fetchedAt}
     />
   );
 };
