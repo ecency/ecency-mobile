@@ -16,7 +16,6 @@ import PushNotification from 'react-native-push-notification';
 import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 import Matomo from 'react-native-matomo-sdk';
-import uniqueId from 'react-native-unique-id';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -97,7 +96,7 @@ import {
   updateActiveBottomTab,
 } from '../../../redux/actions/uiAction';
 import { setFeedPosts, setInitPosts } from '../../../redux/actions/postsAction';
-import { fetchCoinQuotes, resetWalletData } from '../../../redux/actions/walletActions';
+import { fetchCoinQuotes } from '../../../redux/actions/walletActions';
 
 import { encryptKey } from '../../../utils/crypto';
 
@@ -141,8 +140,6 @@ class ApplicationContainer extends Component {
     const { isIos } = this.state;
     const { appVersion } = VersionNumber;
     const { dispatch, isAnalytics } = this.props;
-
-    dispatch(resetWalletData());
 
     this._setNetworkListener();
 
