@@ -168,8 +168,9 @@ const WalletScreen = ({navigation}) => {
     const coinData:CoinData = coinsData[item.id] || {};
 
     const _tokenMarketData:number[] = priceHistories[item.id] ? priceHistories[item.id].data : [];
-    const _currentValue = coinData.currentPrice || 0;
+
     const _balance = coinData.balance + (coinData.savings || 0);
+    const quote = quotes[item.id];
 
     const _onCardPress = () => {
       navigation.navigate(ROUTES.SCREENS.COIN_DETAILS, {
@@ -184,19 +185,13 @@ const WalletScreen = ({navigation}) => {
         navigation.navigate(ROUTES.SCREENS.BOOST)
       }
     }
-    
-    //calculate percentage change
-    //TODO: verify or find a way to get exact percent change. current change value slightly differs from coingecko wep app values
-    const _pastPrice = _tokenMarketData.length > 0 && _tokenMarketData[0];
-    const _latestPrice = _tokenMarketData.length > 0 && _tokenMarketData.lastItem;
-    const _changePercent = _pastPrice && _latestPrice 
-      ? ((_latestPrice - _pastPrice)/(_latestPrice)) * 100 : 0;
+  
 
     return (
       <CoinCard 
         chartData={_tokenMarketData || []} 
-        currentValue={_currentValue}
-        changePercent={_changePercent}
+        currentValue={quote.price}
+        changePercent={quote.percentChange}
         currencySymbol={currency.currencySymbol}
         ownedTokens={_balance}
         unclaimedRewards={coinData.unclaimedBalance}
