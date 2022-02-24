@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 import React, { ComponentType, Fragment, useEffect, useState } from 'react';
 import styles from './children.styles';
 import { Icon, MainButton, SimpleChart } from '../../../components';
@@ -40,10 +40,6 @@ export const CoinCard = ({
   onCardPress,
   onClaimPress,
 }:CoinCardProps) => {
-
-  if(!notCrypto && !chartData.length){
-    return null
-  }
 
   const intl = useIntl();
 
@@ -111,12 +107,12 @@ export const CoinCard = ({
       const _baseWidth = Dimensions.get("window").width - 32;
       return (
         <View style={styles.chartContainer}>
-          <SimpleChart 
-            data={chartData}
-            baseWidth={_baseWidth}
-            showLine={false}
-            chartHeight={130}
-          />
+             <SimpleChart 
+              data={chartData}
+              baseWidth={_baseWidth}
+              showLine={false}
+              chartHeight={130}
+            />
         </View>
     )}
 
