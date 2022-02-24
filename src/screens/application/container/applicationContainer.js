@@ -41,6 +41,7 @@ import {
   setLastUpdateCheck,
 } from '../../../realm/realm';
 import { getUser, getPost, getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
+import { getUser as getEcencyUser } from '../../../providers/ecency/ePoint';
 import {
   migrateToMasterKeyWithAccessToken,
   refreshSCToken,
@@ -51,6 +52,7 @@ import {
   markActivityAsRead,
   markNotifications,
   getUnreadNotificationCount,
+  getLatestQuotes,
 } from '../../../providers/ecency/ecency';
 import { fetchLatestAppVersion } from '../../../providers/github/github';
 import { navigate } from '../../../navigation/service';
@@ -95,6 +97,7 @@ import {
   updateActiveBottomTab,
 } from '../../../redux/actions/uiAction';
 import { setFeedPosts, setInitPosts } from '../../../redux/actions/postsAction';
+import { fetchCoinQuotes, resetWalletData } from '../../../redux/actions/walletActions';
 
 import { encryptKey } from '../../../utils/crypto';
 
@@ -138,6 +141,8 @@ class ApplicationContainer extends Component {
     const { isIos } = this.state;
     const { appVersion } = VersionNumber;
     const { dispatch, isAnalytics } = this.props;
+
+    dispatch(resetWalletData());
 
     this._setNetworkListener();
 
@@ -619,6 +624,7 @@ class ApplicationContainer extends Component {
   _refreshGlobalProps = () => {
     const { actions } = this.props;
     actions.fetchGlobalProperties();
+    actions.fetchCoinQuotes();
   };
 
   _getUserDataFromRealm = async () => {
@@ -759,6 +765,7 @@ class ApplicationContainer extends Component {
 
       accountData.unread_activity_count = await getUnreadNotificationCount();
       accountData.mutes = await getMutes(realmObject.username);
+      accountData.ecencyUserData = await getEcencyUser(realmObject.username);
       dispatch(updateCurrentAccount(accountData));
 
       this._connectNotificationServer(accountData.name);
@@ -941,6 +948,7 @@ class ApplicationContainer extends Component {
 
     _currentAccount.unread_activity_count = await getUnreadNotificationCount();
     _currentAccount.mutes = await getMutes(_currentAccount.username);
+    _currentAccount.ecencyUserData = await getEcencyUser(_currentAccount.username);
     dispatch(updateCurrentAccount(_currentAccount));
   };
 
@@ -1068,6 +1076,7 @@ export default connect(
       ...bindActionCreators(
         {
           fetchGlobalProperties,
+          fetchCoinQuotes,
         },
         dispatch,
       ),
