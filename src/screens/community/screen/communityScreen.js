@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { useIntl } from 'react-intl';
 
 // Components
@@ -60,7 +60,9 @@ const CommunityScreen = ({ navigation }) => {
               defaultTitle=""
             >
               <View style={styles.collapsibleCard}>
-                <Text style={styles.description}>{data.description}</Text>
+                <ScrollView style={styles.descriptionContainer}>
+                  <Text style={styles.description}>{data.description}</Text>
+                </ScrollView>
                 <View style={styles.separator} />
                 <Text style={styles.stats}>
                   {`${data.subscribers} ${intl.formatMessage({

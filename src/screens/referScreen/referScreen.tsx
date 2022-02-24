@@ -16,16 +16,21 @@ import { getReferralsList, getReferralsStats } from '../../providers/ecency/ecen
 import { Referral } from '../../models';
 
 // styles
+import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './referScreenStyles';
-import { useAppSelector } from '../../hooks';
-import { navigate } from '../../navigation/service';
 
 // constants
 import ROUTES from '../../constants/routeNames';
-import EStyleSheet from 'react-native-extended-stylesheet';
+
+// Redux / Services
+import { showProfileModal } from '../../redux/actions/uiAction';
+import { navigate } from '../../navigation/service';
+import { useAppSelector } from '../../hooks';
+import { useDispatch } from 'react-redux';
 
 const ReferScreen = ({ navigation }) => {
   const intl = useIntl();
+  const dispatch = useDispatch();
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const isDarkTheme = useAppSelector((state)=>state.application.isDarkTheme)
 
@@ -90,14 +95,7 @@ const ReferScreen = ({ navigation }) => {
   };
 
   const _handleOnItemPress = (username:string) => {
-    const routeName = ROUTES.SCREENS.PROFILE;
-    navigate({
-      routeName,
-      params: {
-        username,
-      },
-      key: username,
-    });
+    dispatch(showProfileModal(username));
   };
 
   const _renderPointsEarned = () => {

@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import { withNavigation } from 'react-navigation';
 import get from 'lodash/get';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
+import { useIntl } from 'react-intl';
 
-import { subscribeCommunity, getCommunity, getSubscriptions } from '../../../providers/hive/dhive';
+import { getCommunity, getSubscriptions } from '../../../providers/hive/dhive';
+
+import { subscribeCommunity, leaveCommunity } from '../../../redux/actions/communitiesAction';
 
 import ROUTES from '../../../constants/routeNames';
 
@@ -11,6 +14,8 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isL
   const [data, setData] = useState(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const tag = get(navigation, 'state.params.tag');
+  const dispatch = useDispatch();
+  const intl = useIntl();
 
   useEffect(() => {
     getCommunity(tag)
@@ -39,17 +44,38 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isL
 
   const _handleSubscribeButtonPress = () => {
     const _data = {
-      isSubscribed: !isSubscribed,
+      isSubscribed: isSubscribed,
       communityId: data.name,
     };
+    const screen = 'communitiesScreenDiscoverTab';
+    let subscribeAction;
+    let successToastText = '';
+    let failToastText = '';
 
-    subscribeCommunity(currentAccount, pinCode, _data)
-      .then((result) => {
-        setIsSubscribed(!isSubscribed);
-      })
-      .catch((e) => {
-        console.log(e);
+    if (!_data.isSubscribed) {
+      subscribeAction = subscribeCommunity;
+
+      successToastText = intl.formatMessage({
+        id: 'alert.success_subscribe',
       });
+      failToastText = intl.formatMessage({
+        id: 'alert.fail_subscribe',
+      });
+    } else {
+      subscribeAction = leaveCommunity;
+
+      successToastText = intl.formatMessage({
+        id: 'alert.success_leave',
+      });
+      failToastText = intl.formatMessage({
+        id: 'alert.fail_leave',
+      });
+    }
+
+    dispatch(
+      subscribeAction(currentAccount, pinCode, _data, successToastText, failToastText, screen),
+    );
+    setIsSubscribed(!isSubscribed);
   };
 
   const _handleNewPostButtonPress = () => {
