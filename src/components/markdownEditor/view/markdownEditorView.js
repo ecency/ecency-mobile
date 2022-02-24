@@ -108,6 +108,11 @@ const MarkdownEditorView = ({
   useEffect(() => {
     if (onLoadDraftPress) {
       setShowDraftLoadButton(true);
+      if (!draftBtnTooltipRegistered) {
+        setTimeout(() => {
+          tooltipRef.current?.openTooltip();
+        }, 300);
+      }
     }
   }, [onLoadDraftPress]);
 
@@ -306,13 +311,11 @@ const MarkdownEditorView = ({
         setShowDraftLoadButton(false);
         onLoadDraftPress();
       };
+
+      const Wrapper = draftBtnTooltipRegistered ? AnimatedView : View;
       return (
         <>
-          <AnimatedView
-            style={styles.floatingContainer}
-            animation="bounceInRight"
-            onAnimationEnd={() => tooltipRef.current?.openTooltip()}
-          >
+          <Wrapper style={styles.floatingContainer} animation="bounceInRight">
             <Tooltip
               ref={tooltipRef}
               text={intl.formatMessage({ id: 'walkthrough.load_draft_tooltip' })}
@@ -328,7 +331,7 @@ const MarkdownEditorView = ({
                 isLoading={isLoading}
               />
             </Tooltip>
-          </AnimatedView>
+          </Wrapper>
         </>
       );
     }

@@ -61,8 +61,8 @@ const Tooltip = ({ children, text, walkthroughIndex }: TooltipProps, ref) => {
         visible={showPopover}
         onClose={() => ref?.current?.closeTooltip()}
         fromRect={popoverAnchor}
-        placement="top"
         supportedOrientations={['portrait', 'landscape']}
+
       >
         <Text>{text}</Text>
       </Popover>
