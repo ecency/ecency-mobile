@@ -192,26 +192,11 @@ export const getAccount = (username) =>
       });
   });
 
-export const getAccountHistory = (user, type_token) =>
+export const getAccountHistory = (user, operations) =>
   new Promise((resolve, reject) => {
     //TOOD: list can be tweaked based on which coin is being visited
     const op = utils.operationOrders;
-    let wallet_operations_bitmask = utils.makeBitMaskFilter([
-      op.transfer, //HIVE
-      op.author_reward, //HBD, HP
-      op.curation_reward, //HP
-      op.transfer_to_vesting, //HIVE, HP
-      op.withdraw_vesting, //HIVE, HP
-      op.interest, //HP
-      op.transfer_to_savings, //HIVE, HBD
-      op.transfer_from_savings, //HIVE, HBD
-      op.fill_convert_request, //HBD
-      op.fill_order, //HIVE, HBD
-      op.claim_reward_balance, //HP
-      op.sps_fund, //HBD
-      op.comment_benefactor_reward, //HP
-      op.return_vesting_delegation, //HP
-    ]);
+    let wallet_operations_bitmask = utils.makeBitMaskFilter(operations);
     try {
       const ah = client.call('condenser_api', 'get_account_history', [
         user,

@@ -11,6 +11,7 @@ import { getUser as getEcencyUser, getUserPoints } from '../providers/ecency/ePo
 // Constant
 import POINTS from '../constants/options/points';
 import { COIN_IDS } from '../constants/defaultCoins';
+import { operationOrders } from '@hiveio/dhive/lib/utils';
 
 export const transferTypes = [
   'curation_reward',
@@ -45,9 +46,9 @@ const HIVE_ACTIONS = [
   'withdraw_hive'
 ];
 const HBD_ACTIONS = [
-  'purchase_estm', 
-  'transfer_token', 
-  'transfer_to_savings', 
+  'purchase_estm',
+  'transfer_token',
+  'transfer_to_savings',
   'convert',
   'withdraw_hbd'
 ];
@@ -98,9 +99,8 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
         .toFixed(3)
         .replace(',', '.');
 
-      result.value = `${hbdPayout > 0 ? `${hbdPayout} HBD` : ''} ${
-        hivePayout > 0 ? `${hivePayout} HIVE` : ''
-      } ${vestingPayout > 0 ? `${vestingPayout} HP` : ''}`;
+      result.value = `${hbdPayout > 0 ? `${hbdPayout} HBD` : ''} ${hivePayout > 0 ? `${hivePayout} HIVE` : ''
+        } ${vestingPayout > 0 ? `${vestingPayout} HP` : ''}`;
 
       result.details = author && permlink ? `@${author}/${permlink}` : null;
       if (result.textKey === 'comment_benefactor_reward') {
@@ -114,9 +114,8 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
       rewardHive = parseToken(rewardHive).toFixed(3).replace(',', '.');
       rewardVests = vestsToHp(parseToken(rewardVests), hivePerMVests).toFixed(3).replace(',', '.');
 
-      result.value = `${rewardHdb > 0 ? `${rewardHdb} HBD` : ''} ${
-        rewardHive > 0 ? `${rewardHive} HIVE` : ''
-      } ${rewardVests > 0 ? `${rewardVests} HP` : ''}`;
+      result.value = `${rewardHdb > 0 ? `${rewardHdb} HBD` : ''} ${rewardHive > 0 ? `${rewardHive} HIVE` : ''
+        } ${rewardVests > 0 ? `${rewardVests} HP` : ''}`;
       break;
     case 'transfer':
     case 'transfer_to_savings':
@@ -274,40 +273,95 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
 };
 
 
-export const fetchCoinActivities = async (username:string, coinId:string, coinSymbol:string, globalProps:GlobalProps) => {
+export const fetchCoinActivities = async (username: string, coinId: string, coinSymbol: string, globalProps: GlobalProps) => {
   //TOOD: transfer history can be separated from here
-  switch(coinId){
-    case COIN_IDS.ECENCY:{
+
+  // [
+  //   op.transfer, //HIVE
+  //   op.author_reward, //HBD, HP
+  //   op.curation_reward, //HP
+  //   op.transfer_to_vesting, //HIVE, HP
+  //   op.withdraw_vesting, //HIVE, HP
+  //   op.interest, //HP
+  //   op.transfer_to_savings, //HIVE, HBD
+  //   op.transfer_from_savings, //HIVE, HBD
+  //   op.fill_convert_request, //HBD
+  //   op.fill_order, //HIVE, HBD
+  //   op.claim_reward_balance, //HP
+  //   op.sps_fund, //HBD
+  //   op.comment_benefactor_reward, //HP
+  //   op.return_vesting_delegation, //HP
+  // ]
+
+  const op = operationOrders;
+  let history = [];
+  switch (coinId) {
+    case COIN_IDS.ECENCY: {
       const pointActivities = await getUserPoints(username);
       console.log("Points Activities", pointActivities);
       return pointActivities && pointActivities.length ?
-        pointActivities.map((item)=>
+        pointActivities.map((item) =>
           groomingPointsTransactionData({
             ...item,
             icon: get(POINTS[get(item, 'type')], 'icon'),
             iconType: get(POINTS[get(item, 'type')], 'iconType'),
             textKey: get(POINTS[get(item, 'type')], 'textKey'),
           })
-        ):[];
+        ) : [];
     }
-    default:{
-      const history = await getAccountHistory(username);
-      const transfers = history.filter((tx) => transferTypes.includes(get(tx[1], 'op[0]', false)));
-      transfers.sort(compare);
-    
-      const activities = transfers.map(item=>groomingTransactionData(item, globalProps.hivePerMVests));
-      return activities
-        ? activities.filter((item) => {
-            return (
-              item &&
-              item.value &&
-              item.value.includes(coinSymbol)
-            );
-          })
-        : [];
-    }
+    case COIN_IDS.HIVE:
+      history = await getAccountHistory(username, [
+        op.transfer, //HIVE
+        op.transfer_to_vesting, //HIVE, HP
+        op.withdraw_vesting, //HIVE, HP
+        op.transfer_to_savings, //HIVE, HBD
+        op.transfer_from_savings, //HIVE, HBD
+        op.fill_order, //HIVE, HBD
+      ]);
+      break;
+    case COIN_IDS.HBD:
+      history = await getAccountHistory(username, [
+        op.transfer, //HIVE //HBD
+        op.author_reward, //HBD, HP
+        op.transfer_to_savings, //HIVE, HBD
+        op.transfer_from_savings, //HIVE, HBD
+        op.fill_convert_request, //HBD
+        op.fill_order, //HIVE, HBD
+        op.sps_fund, //HBD
+      ]);
+      break;
+    case COIN_IDS.HP:
+      history = await getAccountHistory(username, [
+        op.author_reward, //HBD, HP
+        op.curation_reward, //HP
+        op.transfer_to_vesting, //HIVE, HP
+        op.withdraw_vesting, //HIVE, HP
+        op.interest, //HP
+        op.claim_reward_balance, //HP
+        op.comment_benefactor_reward, //HP
+        op.return_vesting_delegation, //HP
+      ]);
+      break;
   }
-  
+
+
+  const transfers = history.filter((tx) => transferTypes.includes(get(tx[1], 'op[0]', false)));
+  transfers.sort(compare);
+
+  const activities = transfers.map(item => groomingTransactionData(item, globalProps.hivePerMVests));
+  const filterdActivities = activities
+    ? activities.filter((item) => {
+      return (
+        item &&
+        item.value &&
+        item.value.includes(coinSymbol)
+      );
+    })
+    : [];
+
+  console.log('FILTERED comap', activities.length, filterdActivities.length)
+  return filterdActivities
+
 }
 
 
@@ -318,185 +372,185 @@ export const fetchCoinsData = async ({
   globalProps,
   refresh,
   quotes,
-}:{
-  coins:CoinBase[], 
-  currentAccount:any, 
-  vsCurrency:string, 
-  globalProps:GlobalProps,
-  quotes:{[key:string]:QuoteItem}
-  refresh:boolean,
-}) 
-  : Promise<{[key:string]:CoinData}> => {
+}: {
+  coins: CoinBase[],
+  currentAccount: any,
+  vsCurrency: string,
+  globalProps: GlobalProps,
+  quotes: { [key: string]: QuoteItem }
+  refresh: boolean,
+})
+  : Promise<{ [key: string]: CoinData }> => {
 
-    const username = currentAccount.username;
-    const {base, quote, hivePerMVests} = globalProps
+  const username = currentAccount.username;
+  const { base, quote, hivePerMVests } = globalProps
 
-    const coinData = {} as {[key:string]:CoinData};
-    const walletData = {} as any;
+  const coinData = {} as { [key: string]: CoinData };
+  const walletData = {} as any;
 
 
-    if (!username) {
-      return walletData;
-    }
+  if (!username) {
+    return walletData;
+  }
 
-    //TODO: Use already available accoutn for frist wallet start
-    const userdata = refresh ? await getAccount(username) : currentAccount;
-    const _ecencyUserData = refresh ? await getEcencyUser(username) : currentAccount.ecencyUserData
-    //TODO: cache data in redux or fetch once on wallet startup
-    const _prices = !refresh && quotes ? quotes : await getLatestQuotes(); //TODO: figure out a way to handle other currencies
-  
+  //TODO: Use already available accoutn for frist wallet start
+  const userdata = refresh ? await getAccount(username) : currentAccount;
+  const _ecencyUserData = refresh ? await getEcencyUser(username) : currentAccount.ecencyUserData
+  //TODO: cache data in redux or fetch once on wallet startup
+  const _prices = !refresh && quotes ? quotes : await getLatestQuotes(); //TODO: figure out a way to handle other currencies
 
-    coins.forEach((coinBase)=>{
 
-      switch(coinBase.id){
-        case COIN_IDS.ECENCY:{
-          const balance = _ecencyUserData.points ? parseFloat(_ecencyUserData.points) : 0;
-          const unclaimedFloat = parseFloat(_ecencyUserData.unclaimed_points || '0');
-          const unclaimedBalance = unclaimedFloat ? unclaimedFloat + ' Points' : '';
-          const ppEstm = _prices[coinBase.id].price;
+  coins.forEach((coinBase) => {
 
-          coinData[coinBase.id] = {
-            balance : Math.round(balance * 1000) / 1000,
-            estimateValue : balance * ppEstm,
-            vsCurrency:vsCurrency,
-            currentPrice:ppEstm,
-            unclaimedBalance: unclaimedBalance,
-            actions:ECENCY_ACTIONS,
-          }
-          break;
+    switch (coinBase.id) {
+      case COIN_IDS.ECENCY: {
+        const balance = _ecencyUserData.points ? parseFloat(_ecencyUserData.points) : 0;
+        const unclaimedFloat = parseFloat(_ecencyUserData.unclaimed_points || '0');
+        const unclaimedBalance = unclaimedFloat ? unclaimedFloat + ' Points' : '';
+        const ppEstm = _prices[coinBase.id].price;
+
+        coinData[coinBase.id] = {
+          balance: Math.round(balance * 1000) / 1000,
+          estimateValue: balance * ppEstm,
+          vsCurrency: vsCurrency,
+          currentPrice: ppEstm,
+          unclaimedBalance: unclaimedBalance,
+          actions: ECENCY_ACTIONS,
         }
-        case COIN_IDS.HIVE:{
-          const balance = parseToken(userdata.balance);
-          const savings = parseToken(userdata.savings_balance);
-          const ppHive = _prices[coinBase.id].price;
-
-          coinData[coinBase.id] = {
-            balance: Math.round(balance * 1000) / 1000,
-            estimateValue: (balance + savings) * ppHive,
-            savings:Math.round(savings * 1000) / 1000,
-            vsCurrency:vsCurrency,
-            currentPrice:ppHive,
-            unclaimedBalance:'',
-            actions:HIVE_ACTIONS,
-          }
-          break;
-        }
-
-        case COIN_IDS.HBD:{
-          const balance = parseToken(userdata.hbd_balance);
-          const savings = parseToken(userdata.savings_hbd_balance);
-          const ppHbd = _prices[coinBase.id].price;
-          
-          coinData[coinBase.id] = {
-            balance: Math.round(balance * 1000) / 1000,
-            estimateValue: (balance + savings) * ppHbd,
-            savings:Math.round(savings * 1000) / 1000,
-            vsCurrency:vsCurrency,
-            currentPrice:ppHbd,
-            unclaimedBalance:'',
-            actions:HBD_ACTIONS,
-          }
-          break;
-        }
-        case COIN_IDS.HP:{
-          const _getBalanceStr = (val:number, cur:string, prefix:string = '') => (val ? prefix + Math.round(val * 1000) / 1000 + cur : '');
-          const balance = Math.round(
-            vestsToHp(parseToken(userdata.vesting_shares), hivePerMVests) * 1000,
-          ) / 1000;
-
-          const receivedHP = vestsToHp(
-            parseToken(userdata.received_vesting_shares) ,
-            hivePerMVests,
-          )
-
-          const delegatedHP = vestsToHp(
-            parseToken(userdata.delegated_vesting_shares),
-            hivePerMVests,
-          )
-        
-          const unclaimedBalance = ( 
-          `${_getBalanceStr(parseToken(userdata.reward_hive_balance), ' HIVE')}` +
-          `${_getBalanceStr(parseToken(userdata.reward_hive_balance),' HBD', ' | ')}` +
-          `${_getBalanceStr(parseToken(userdata.reward_vesting_hive), ' HP', ' | ')}`
-          ).trim();
-
-          //TODO: assess how we can make this value change live.
-          const estimateVoteValueStr = '$ ' + getEstimatedAmount(userdata, globalProps);
-
-          const ppHive = _prices[COIN_IDS.HIVE].price;
-          coinData[coinBase.id] = {
-            balance: Math.round(balance * 1000) / 1000,
-            estimateValue: balance * ppHive,
-            unclaimedBalance,
-            vsCurrency:vsCurrency,
-            currentPrice:ppHive,
-            actions:HIVE_POWER_ACTIONS,
-            extraDataPairs:[
-              {
-                label:'Delegated Hive Power',
-                value: `-${delegatedHP.toFixed(3)} HP` 
-              },{
-                label:'Received Hive Power',
-                value:`${receivedHP.toFixed(3)} HP` 
-              },{
-                label:'Total Hive Power',
-                value:`${(balance - delegatedHP + receivedHP).toFixed(3)} HP` 
-              },{
-                label:'Vote Value',
-                value:estimateVoteValueStr
-              }
-            ]
-          }
-          break;
-        }
-
-        default:
-          break;
+        break;
       }
-    })
+      case COIN_IDS.HIVE: {
+        const balance = parseToken(userdata.balance);
+        const savings = parseToken(userdata.savings_balance);
+        const ppHive = _prices[coinBase.id].price;
 
-    //TODO:discard unnessacry data processings towards the end of PR
-    walletData.rewardHiveBalance = parseToken(userdata.reward_hive_balance);
-    walletData.rewardHbdBalance = parseToken(userdata.reward_hbd_balance);
-    walletData.rewardVestingHive = parseToken(userdata.reward_vesting_hive);
-    
-    walletData.hasUnclaimedRewards =
+        coinData[coinBase.id] = {
+          balance: Math.round(balance * 1000) / 1000,
+          estimateValue: (balance + savings) * ppHive,
+          savings: Math.round(savings * 1000) / 1000,
+          vsCurrency: vsCurrency,
+          currentPrice: ppHive,
+          unclaimedBalance: '',
+          actions: HIVE_ACTIONS,
+        }
+        break;
+      }
+
+      case COIN_IDS.HBD: {
+        const balance = parseToken(userdata.hbd_balance);
+        const savings = parseToken(userdata.savings_hbd_balance);
+        const ppHbd = _prices[coinBase.id].price;
+
+        coinData[coinBase.id] = {
+          balance: Math.round(balance * 1000) / 1000,
+          estimateValue: (balance + savings) * ppHbd,
+          savings: Math.round(savings * 1000) / 1000,
+          vsCurrency: vsCurrency,
+          currentPrice: ppHbd,
+          unclaimedBalance: '',
+          actions: HBD_ACTIONS,
+        }
+        break;
+      }
+      case COIN_IDS.HP: {
+        const _getBalanceStr = (val: number, cur: string, prefix: string = '') => (val ? prefix + Math.round(val * 1000) / 1000 + cur : '');
+        const balance = Math.round(
+          vestsToHp(parseToken(userdata.vesting_shares), hivePerMVests) * 1000,
+        ) / 1000;
+
+        const receivedHP = vestsToHp(
+          parseToken(userdata.received_vesting_shares),
+          hivePerMVests,
+        )
+
+        const delegatedHP = vestsToHp(
+          parseToken(userdata.delegated_vesting_shares),
+          hivePerMVests,
+        )
+
+        const unclaimedBalance = (
+          `${_getBalanceStr(parseToken(userdata.reward_hive_balance), ' HIVE')}` +
+          `${_getBalanceStr(parseToken(userdata.reward_hive_balance), ' HBD', ' | ')}` +
+          `${_getBalanceStr(parseToken(userdata.reward_vesting_hive), ' HP', ' | ')}`
+        ).trim();
+
+        //TODO: assess how we can make this value change live.
+        const estimateVoteValueStr = '$ ' + getEstimatedAmount(userdata, globalProps);
+
+        const ppHive = _prices[COIN_IDS.HIVE].price;
+        coinData[coinBase.id] = {
+          balance: Math.round(balance * 1000) / 1000,
+          estimateValue: balance * ppHive,
+          unclaimedBalance,
+          vsCurrency: vsCurrency,
+          currentPrice: ppHive,
+          actions: HIVE_POWER_ACTIONS,
+          extraDataPairs: [
+            {
+              label: 'Delegated Hive Power',
+              value: `-${delegatedHP.toFixed(3)} HP`
+            }, {
+              label: 'Received Hive Power',
+              value: `${receivedHP.toFixed(3)} HP`
+            }, {
+              label: 'Total Hive Power',
+              value: `${(balance - delegatedHP + receivedHP).toFixed(3)} HP`
+            }, {
+              label: 'Vote Value',
+              value: estimateVoteValueStr
+            }
+          ]
+        }
+        break;
+      }
+
+      default:
+        break;
+    }
+  })
+
+  //TODO:discard unnessacry data processings towards the end of PR
+  walletData.rewardHiveBalance = parseToken(userdata.reward_hive_balance);
+  walletData.rewardHbdBalance = parseToken(userdata.reward_hbd_balance);
+  walletData.rewardVestingHive = parseToken(userdata.reward_vesting_hive);
+
+  walletData.hasUnclaimedRewards =
     walletData.rewardHiveBalance > 0 ||
     walletData.rewardHbdBalance > 0 ||
     walletData.rewardVestingHive > 0;
 
-    walletData.balance = parseToken(userdata.balance);
-    walletData.vestingShares = parseToken(userdata.vesting_shares);
-    walletData.vestingSharesDelegated = parseToken(userdata.delegated_vesting_shares);
-    walletData.vestingSharesReceived = parseToken(userdata.received_vesting_shares);
-    walletData.vestingSharesTotal =
+  walletData.balance = parseToken(userdata.balance);
+  walletData.vestingShares = parseToken(userdata.vesting_shares);
+  walletData.vestingSharesDelegated = parseToken(userdata.delegated_vesting_shares);
+  walletData.vestingSharesReceived = parseToken(userdata.received_vesting_shares);
+  walletData.vestingSharesTotal =
     walletData.vestingShares - walletData.vestingSharesDelegated + walletData.vestingSharesReceived;
-    walletData.hbdBalance = parseToken(userdata.hbd_balance);
-    walletData.savingBalance = parseToken(userdata.savings_balance);
-    walletData.savingBalanceHbd = parseToken(userdata.savings_hbd_balance);
+  walletData.hbdBalance = parseToken(userdata.hbd_balance);
+  walletData.savingBalance = parseToken(userdata.savings_balance);
+  walletData.savingBalanceHbd = parseToken(userdata.savings_hbd_balance);
 
 
 
-    walletData.hivePerMVests = hivePerMVests;
-    const pricePerHive = base / quote;
+  walletData.hivePerMVests = hivePerMVests;
+  const pricePerHive = base / quote;
 
-    const totalHive =
-      vestsToHp(walletData.vestingShares, walletData.hivePerMVests) +
-      walletData.balance +
-      walletData.savingBalance;
+  const totalHive =
+    vestsToHp(walletData.vestingShares, walletData.hivePerMVests) +
+    walletData.balance +
+    walletData.savingBalance;
 
-    const totalHbd = walletData.hbdBalance + walletData.savingBalanceHbd;
+  const totalHbd = walletData.hbdBalance + walletData.savingBalanceHbd;
 
-    walletData.estimatedValue = totalHive * pricePerHive + totalHbd;
+  walletData.estimatedValue = totalHive * pricePerHive + totalHbd;
 
 
 
-    walletData.showPowerDown = userdata.next_vesting_withdrawal !== '1969-12-31T23:59:59';
-    const timeDiff = Math.abs(parseDate(userdata.next_vesting_withdrawal) - new Date());
-    walletData.nextVestingWithdrawal = Math.round(timeDiff / (1000 * 3600));
+  walletData.showPowerDown = userdata.next_vesting_withdrawal !== '1969-12-31T23:59:59';
+  const timeDiff = Math.abs(parseDate(userdata.next_vesting_withdrawal) - new Date());
+  walletData.nextVestingWithdrawal = Math.round(timeDiff / (1000 * 3600));
 
-    
-    return coinData;
+
+  return coinData;
 }
 
 function compare(a, b) {
