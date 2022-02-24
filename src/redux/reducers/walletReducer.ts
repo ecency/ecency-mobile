@@ -41,6 +41,13 @@ export interface CoinActivity {
     memo: string;
 }
 
+export interface QuoteItem {
+    lastUpdated:string;
+    percentChange:number;
+    price:number;
+}
+
+
 interface State {
     selectedCoins:CoinBase[];
     coinsData:{

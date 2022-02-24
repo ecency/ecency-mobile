@@ -1,3 +1,5 @@
+import { QuoteItem } from "../../redux/reducers/walletReducer";
+
 export interface ReceivedVestingShare {
     delegator:string;
     delegatee:string;
@@ -35,4 +37,8 @@ export interface UserPoint {
     receiver?: string;
     sender?: string;
 
+}
+
+export interface LatestQuotes {
+   [key:string]:QuoteItem
 }
