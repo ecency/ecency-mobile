@@ -102,7 +102,11 @@ const SideMenuView = ({
     >
       <View style={styles.itemWrapper}>
         {item.item.icon && (
-          <Icon iconType="SimpleLineIcons" style={styles.listItemIcon} name={item.item.icon} />
+          <Icon
+            iconType={item.item.iconType ? item.item.iconType : 'SimpleLineIcons'}
+            style={styles.listItemIcon}
+            name={item.item.icon}
+          />
         )}
         {item.item.username && (
           <UserAvatar noAction username={item.item.username} style={styles.otherUserAvatar} />

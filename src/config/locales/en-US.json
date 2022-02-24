@@ -272,7 +272,8 @@
     "create_a_new_account": "Create a new account",
     "add_an_existing_account": "Add an existing account",
     "accounts": "Accounts",
-    "refer":"Refer & Earn"
+    "refer":"Refer & Earn",
+    "qr": "QR Scan"
   },
   "header": {
     "title": "Login to customize your feed",
@@ -741,5 +742,8 @@
     "earned": "Earned Points",
     "pending": "Pending Points",
     "empty_text": "Refer your loved ones today and earn free points",
+  },
+  "qr":{
+    "qr_scan": "QR Scan"
   }
 }

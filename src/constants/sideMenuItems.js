@@ -26,6 +26,13 @@ const authMenuItems = [
     id: 'communities',
   },
   {
+    name: 'QR Scan',
+    route: ROUTES.SCREENS.QR,
+    icon: 'qrcode-scan',
+    iconType: 'MaterialCommunityIcons',
+    id: 'qr',
+  },
+  {
     name: 'Refer $ Earn',
     route: ROUTES.SCREENS.REFER,
     icon: 'share',
