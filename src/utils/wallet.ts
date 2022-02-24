@@ -3,8 +3,8 @@ import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToHp } from './conversions';
 import { getAccount, getAccountHistory } from '../providers/hive/dhive';
-import { getCurrencyTokenRate } from '../providers/ecency/ecency';
-import { CoinBase, CoinData } from '../redux/reducers/walletReducer';
+import { getCurrencyTokenRate, getLatestQuotes } from '../providers/ecency/ecency';
+import { CoinBase, CoinData, QuoteItem } from '../redux/reducers/walletReducer';
 import { GlobalProps } from '../redux/reducers/accountReducer';
 import { getEstimatedAmount } from './vote';
 import { getUser as getEcencyUser, getUserPoints } from '../providers/ecency/ePoint';
@@ -311,14 +311,24 @@ export const fetchCoinActivities = async (username:string, coinId:string, coinSy
 }
 
 
-export const fetchCoinsData = async (
+export const fetchCoinsData = async ({
+  coins,
+  currentAccount,
+  vsCurrency,
+  globalProps,
+  refresh,
+  quotes,
+}:{
   coins:CoinBase[], 
-  username:string, 
+  currentAccount:any, 
   vsCurrency:string, 
-  globalProps:GlobalProps
-  ) 
+  globalProps:GlobalProps,
+  quotes:{[key:string]:QuoteItem}
+  refresh:boolean,
+}) 
   : Promise<{[key:string]:CoinData}> => {
 
+    const username = currentAccount.username;
     const {base, quote, hivePerMVests} = globalProps
 
     const coinData = {} as {[key:string]:CoinData};
@@ -330,20 +340,20 @@ export const fetchCoinsData = async (
     }
 
     //TODO: Use already available accoutn for frist wallet start
-    const userdata = await getAccount(username);
-    const ecencyUser = await getEcencyUser(username)
+    const userdata = refresh ? await getAccount(username) : currentAccount;
+    const _ecencyUserData = refresh ? await getEcencyUser(username) : currentAccount.ecencyUserData
     //TODO: cache data in redux or fetch once on wallet startup
-    const ppHbd = await getCurrencyTokenRate(vsCurrency, 'hbd');
-    const ppHive = await getCurrencyTokenRate(vsCurrency, 'hive');
-    const ppEstm = await getCurrencyTokenRate(vsCurrency, 'estm');
-
+    const _prices = !refresh && quotes ? quotes : await getLatestQuotes(); //TODO: figure out a way to handle other currencies
+  
 
     coins.forEach((coinBase)=>{
+
       switch(coinBase.id){
         case COIN_IDS.ECENCY:{
-          const balance = ecencyUser.points ? parseFloat(ecencyUser.points) : 0;
-          const unclaimedFloat = parseFloat(ecencyUser.unclaimed_points || '0');
+          const balance = _ecencyUserData.points ? parseFloat(_ecencyUserData.points) : 0;
+          const unclaimedFloat = parseFloat(_ecencyUserData.unclaimed_points || '0');
           const unclaimedBalance = unclaimedFloat ? unclaimedFloat + ' Points' : '';
+          const ppEstm = _prices[coinBase.id].price;
 
           coinData[coinBase.id] = {
             balance : Math.round(balance * 1000) / 1000,
@@ -358,7 +368,8 @@ export const fetchCoinsData = async (
         case COIN_IDS.HIVE:{
           const balance = parseToken(userdata.balance);
           const savings = parseToken(userdata.savings_balance);
-          
+          const ppHive = _prices[coinBase.id].price;
+
           coinData[coinBase.id] = {
             balance: Math.round(balance * 1000) / 1000,
             estimateValue: (balance + savings) * ppHive,
@@ -374,6 +385,7 @@ export const fetchCoinsData = async (
         case COIN_IDS.HBD:{
           const balance = parseToken(userdata.hbd_balance);
           const savings = parseToken(userdata.savings_hbd_balance);
+          const ppHbd = _prices[coinBase.id].price;
           
           coinData[coinBase.id] = {
             balance: Math.round(balance * 1000) / 1000,
@@ -411,7 +423,7 @@ export const fetchCoinsData = async (
           //TODO: assess how we can make this value change live.
           const estimateVoteValueStr = '$ ' + getEstimatedAmount(userdata, globalProps);
 
-
+          const ppHive = _prices[COIN_IDS.HIVE].price;
           coinData[coinBase.id] = {
             balance: Math.round(balance * 1000) / 1000,
             estimateValue: balance * ppHive,
@@ -478,11 +490,6 @@ export const fetchCoinsData = async (
     walletData.estimatedValue = totalHive * pricePerHive + totalHbd;
 
 
-
-    walletData.estimatedHiveValue = (walletData.balance + walletData.savingBalance) * ppHive;
-    walletData.estimatedHbdValue = totalHbd * ppHbd;
-    walletData.estimatedHpValue =
-      vestsToHp(walletData.vestingShares, walletData.hivePerMVests) * ppHive;
 
     walletData.showPowerDown = userdata.next_vesting_withdrawal !== '1969-12-31T23:59:59';
     const timeDiff = Math.abs(parseDate(userdata.next_vesting_withdrawal) - new Date());

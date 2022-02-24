@@ -46,10 +46,14 @@ const WalletScreen = ({navigation}) => {
 
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   const currency = useAppSelector((state)=>state.application.currency);
-  const selectedCoins = useAppSelector((state)=>state.wallet.selectedCoins);
-  const priceHistories = useAppSelector((state)=>state.wallet.priceHistories);
-  const coinsData = useAppSelector((state)=>state.wallet.coinsData);
-  const updateTimestamp = useAppSelector((state)=>state.wallet.updateTimestamp);
+  const { 
+    selectedCoins, 
+    priceHistories,
+    coinsData,
+    updateTimestamp,
+    quotes
+  } = useAppSelector((state)=>state.wallet);
+
   const globalProps = useAppSelector((state)=>state.account.globalProps);
   const currentAccount = useAppSelector((state)=>state.account.currentAccount);
   const pinHash = useAppSelector((state)=>state.application.pin);
@@ -64,10 +68,10 @@ const WalletScreen = ({navigation}) => {
     _fetchData();
   },[])
 
-  const _fetchData = () => {
+  const _fetchData = (refresh?:boolean) => {
     if(!isLoading){
       _fetchPriceHistory();
-      _fetchCoinsData();
+      _fetchCoinsData(refresh);
     }
   } 
 
@@ -75,7 +79,7 @@ const WalletScreen = ({navigation}) => {
   const _fetchPriceHistory = () => {
     selectedCoins.forEach(async (token:CoinBase)=>{
 
-      if(token.id !== 'ececny'){
+      if(!token.notCrypto){
         const marketChart = await fetchMarketChart(token.id, currency.currency, CHART_DAYS_RANGE, INTERVAL_HOURLY);
         const priceData = marketChart.prices.map(item=>item.yValue);
         dispatch(setPriceHistory(token.id, currency.currency, priceData));
@@ -84,14 +88,16 @@ const WalletScreen = ({navigation}) => {
     })
   }
 
-  const _fetchCoinsData = async () => {
+  const _fetchCoinsData = async (refresh?:boolean) => {
     setIsLoading(true);
-    const coinData = await fetchCoinsData(
-      selectedCoins, 
-      currentAccount.name, 
-      currency.currency, 
-      globalProps
-    );
+    const coinData = await fetchCoinsData({
+      coins:selectedCoins, 
+      currentAccount, 
+      vsCurrency:currency.currency, 
+      globalProps,
+      quotes,
+      refresh
+    });
     
     console.log("Coins Data", coinData)
     dispatch(setCoinsData(coinData))
@@ -103,7 +109,7 @@ const WalletScreen = ({navigation}) => {
     setIsClaiming(true);
     try{
       await claimPoints()
-      await _fetchCoinsData(); 
+      await _fetchCoinsData(true); 
     }catch(error){
       Alert.alert(`${error.message}\nTry again or write to support@ecency.com`);
     }
@@ -122,7 +128,7 @@ const WalletScreen = ({navigation}) => {
         account.reward_hbd_balance,
         account.reward_vesting_balance,
       )
-      await _fetchCoinsData();
+      await _fetchCoinsData(true);
       dispatch(
         toastNotification(
           intl.formatMessage({
@@ -217,7 +223,7 @@ const WalletScreen = ({navigation}) => {
   const _refreshControl = (
     <RefreshControl
       refreshing={refreshing}
-      onRefresh={() => {_fetchData(); setRefreshing(true)}}
+      onRefresh={() => {_fetchData(true); setRefreshing(true)}}
       progressBackgroundColor="#357CE6"
       tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
       titleColor="#fff"
@@ -235,7 +241,7 @@ const WalletScreen = ({navigation}) => {
             <View style={styles.listWrapper}>
               <FlatList
                 data={updateTimestamp ? selectedCoins : []}
-                extraData={coinsData}
+                extraData={[coinsData, priceHistories]}
                 style={globalStyles.tabBarBottom}
                 ListEmptyComponent={<PostCardPlaceHolder />}
                 ListHeaderComponent={_renderHeader}
