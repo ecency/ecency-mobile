@@ -36,6 +36,7 @@ const CommentsView = ({
   flatListProps,
   openReplyThread,
   fetchedAt,
+  incrementRepliesCount
 }) => {
   const [selectedComment, setSelectedComment] = useState(null);
   const intl = useIntl();
@@ -112,6 +113,7 @@ const CommentsView = ({
         handleOnLongPress={() => _openCommentMenu(item)}
         openReplyThread={()=> _openReplyThread(item)}
         fetchedAt={fetchedAt}
+        incrementRepliesCount={incrementRepliesCount}
       />
     )
   };
