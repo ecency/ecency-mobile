@@ -744,6 +744,7 @@
     "empty_text": "Refer your loved ones today and earn free points",
   },
   "qr":{
-    "qr_scan": "QR Scan"
+    "qr_scan": "QR Scan",
+    "open": "Open URL"
   }
 }
