@@ -174,6 +174,8 @@ const CommentsContainer = ({
           setLComments(__comments);
         })
         .catch(() => {});
+    } else {
+      _handleCachedComment();
     }
   };
 
