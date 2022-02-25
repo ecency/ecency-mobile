@@ -31,4 +31,21 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     textTransform: 'uppercase',
   },
+  urlContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 16,
+  },
+  urlTextContainer: {
+    flex: 1,
+    paddingHorizontal: 16,
+  },
+  validIcon: {
+    width: 30,
+  },
+  cameraStyle: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    width: 200,
+  },
 });
