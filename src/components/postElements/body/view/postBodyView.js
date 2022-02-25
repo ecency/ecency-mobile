@@ -15,11 +15,10 @@ import { toastNotification } from '../../../../redux/actions/uiAction';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
-import VideoPlayerSheet from './videoPlayerSheet';
 import { OptionsModal } from '../../../atoms';
 import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
-import { PostHtmlRenderer } from '../../..';
+import { PostHtmlRenderer, VideoPlayer } from '../../..';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -294,9 +293,10 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd }) => {
           setVideoUrl(null);
         }}
       >
-        <VideoPlayerSheet
+        <VideoPlayer
+          mode={youtubeVideoId ? 'youtube' : 'uri'}
           youtubeVideoId={youtubeVideoId}
-          videoUrl={videoUrl}
+          uri={videoUrl}
           startTime={videoStartTime}
         />
       </ActionSheetView>

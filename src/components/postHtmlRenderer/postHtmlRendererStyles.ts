@@ -1,4 +1,4 @@
-import { ImageStyle } from 'react-native';
+import { ImageStyle, Platform } from 'react-native';
 import { ViewStyle, TextStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
@@ -82,7 +82,7 @@ export default EStyleSheet.create({
     flexWrap:'wrap'
   } as TextStyle,
   textJustify:{
-    textAlign:'justify',
+    textAlign: Platform.select({ios:'justify', android:'auto'}), //justify with selectable on android causes ends of text getting clipped, 
     letterSpacing:0
   } as TextStyle,
   revealButton: {

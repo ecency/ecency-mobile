@@ -31,11 +31,12 @@ const CommentsView = ({
   isShowSubComments,
   mainAuthor,
   marginLeft,
-  isShowMoreButton,
   showAllComments,
   hideManyCommentsButton,
   flatListProps,
   openReplyThread,
+  fetchedAt,
+  incrementRepliesCount
 }) => {
   const [selectedComment, setSelectedComment] = useState(null);
   const intl = useIntl();
@@ -105,13 +106,14 @@ const CommentsView = ({
         handleOnVotersPress={handleOnVotersPress}
         isHideImage={isHideImage}
         isLoggedIn={isLoggedIn}
-        isShowMoreButton={isShowMoreButton || (commentNumber === 1 && get(item, 'children') > 0)}
         showAllComments={showAllComments}
         isShowSubComments={isShowSubComments}
         key={get(item, 'permlink')}
         marginLeft={marginLeft}
         handleOnLongPress={() => _openCommentMenu(item)}
         openReplyThread={()=> _openReplyThread(item)}
+        fetchedAt={fetchedAt}
+        incrementRepliesCount={incrementRepliesCount}
       />
     )
   };

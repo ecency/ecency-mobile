@@ -9,6 +9,7 @@ import user from './userReducer';
 import customTabsReducer from './customTabsReducer';
 import editorReducer from './editorReducer';
 import cacheReducer from './cacheReducer';
+import walkthroughReducer from './walkthroughReducer';
 
 export default combineReducers({
   account: accountReducer,
@@ -21,4 +22,5 @@ export default combineReducers({
   communities,
   user,
   cache: cacheReducer,
+  walkthrough: walkthroughReducer,
 });

@@ -1,7 +1,6 @@
 import React, { Fragment, Component } from 'react';
 import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
-import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
@@ -20,6 +19,7 @@ import {
 } from '../../../components';
 
 import styles from './transferStyles';
+import { OptionsModal } from '../../../components/atoms';
 
 /* Props
  * ------------------------------------------------
@@ -161,7 +161,7 @@ class TransferTokenView extends Component {
       path = `sign/custom-json?authority=active&required_auths=%5B%22${get(
         selectedAccount,
         'name',
-      )}%22%5D&required_posting_auths=%5B%5D&id=esteem_point_transfer&json=${encodeURIComponent(
+      )}%22%5D&required_posting_auths=%5B%5D&id=ecency_point_transfer&json=${encodeURIComponent(
         json,
       )}`;
     } else {
@@ -177,7 +177,7 @@ class TransferTokenView extends Component {
         <BasicHeader title={intl.formatMessage({ id: `transfer.${transferType}` })} />
         <View style={styles.container}>
           <ScrollView>
-            <View style={styles.topContent}>
+            <View style={[styles.toFromAvatarsContainer, { marginBottom: 16 }]}>
               <UserAvatar username={from} size="xl" style={styles.userAvatar} noAction />
               <Icon style={styles.icon} name="arrow-forward" iconType="MaterialIcons" />
               <UserAvatar username={destination} size="xl" style={styles.userAvatar} noAction />
@@ -260,7 +260,7 @@ class TransferTokenView extends Component {
             </View>
           </ScrollView>
         </View>
-        <ActionSheet
+        <OptionsModal
           ref={(o) => (this.ActionSheet = o)}
           options={[
             intl.formatMessage({ id: 'alert.confirm' }),

@@ -3,13 +3,17 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   container: {
     flexDirection: 'row',
-    paddingHorizontal: 20,
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    height: 40,
+    marginVertical: 8,
   },
   leftPart: {
     flex: 1,
-    padding: 10,
     justifyContent: 'center',
+    alignItems: 'flex-start',
     color: '$primaryBlack',
+    height: 40,
   },
   text: {
     color: '$primaryBlack',
@@ -18,6 +22,6 @@ export default EStyleSheet.create({
   },
   rightPart: {
     flex: 2,
-    padding: 10,
+    // padding: 10,
   },
 });

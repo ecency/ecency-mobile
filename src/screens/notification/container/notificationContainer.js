@@ -16,6 +16,8 @@ import ROUTES from '../../../constants/routeNames';
 // Components
 import NotificationScreen from '../screen/notificationScreen';
 import { showProfileModal } from '../../../redux/actions/uiAction';
+import { markHiveNotifications } from '../../../providers/hive/dhive';
+import bugsnapInstance from '../../../config/bugsnag';
 
 class NotificationContainer extends Component {
   constructor(props) {
@@ -125,7 +127,7 @@ class NotificationContainer extends Component {
   };
 
   _readAllNotification = () => {
-    const { dispatch, intl, isConnected } = this.props;
+    const { dispatch, intl, isConnected, currentAccount, pinCode } = this.props;
     const { notifications } = this.state;
 
     if (!isConnected) {
@@ -138,6 +140,13 @@ class NotificationContainer extends Component {
       .then(() => {
         const updatedNotifications = notifications.map((item) => ({ ...item, read: 1 }));
         dispatch(updateUnreadActivityCount(0));
+        markHiveNotifications(currentAccount, pinCode)
+          .then(() => {
+            console.log('Hive notifications marked as Read');
+          })
+          .catch((err) => {
+            bugsnapInstance.notify(err);
+          });
         this.setState({ notifications: updatedNotifications, isRefreshing: false });
       })
       .catch(() => {
@@ -161,11 +170,11 @@ class NotificationContainer extends Component {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { selectedFilter } = this.state;
-    const { username } = this.props;
+    const { currentAccount } = this.props;
 
     if (
-      (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION && nextProps.username) ||
-      (nextProps.username !== username && nextProps.username)
+      (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION && nextProps.currentAccount.name) ||
+      (nextProps.currentAccount.name !== currentAccount.name && nextProps.currentAccount.name)
     ) {
       this.setState({ endOfNotification: false }, () => this._getActivities(selectedFilter));
     }
@@ -194,8 +203,8 @@ class NotificationContainer extends Component {
 const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
   isConnected: state.application.isConnected,
-
-  username: state.account.currentAccount.name,
+  pinCode: state.application.pin,
+  currentAccount: state.account.currentAccount,
   activeBottomTab: state.ui.activeBottomTab,
 });
 

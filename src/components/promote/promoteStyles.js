@@ -47,7 +47,6 @@ export default EStyleSheet.create({
   },
   autocomplateLineContainer: {
     flexDirection: 'row',
-    paddingHorizontal: 20,
     zIndex: 999,
   },
   autocomplateLabelText: {
@@ -70,7 +69,8 @@ export default EStyleSheet.create({
   },
   autocomplateLabelContainer: {
     flex: 1,
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
     justifyContent: 'center',
     color: '$primaryBlack',
     maxWidth: '$deviceWidth / 2.9',

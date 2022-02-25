@@ -39,6 +39,7 @@ import {
   Community,
   Communities,
   WebBrowser,
+  ReferScreen,
 } from '../screens';
 
 const bottomTabNavigator = createBottomTabNavigator(
@@ -152,6 +153,7 @@ const stackNavigator = createStackNavigator(
     [ROUTES.SCREENS.COMMUNITY]: { screen: Community },
     [ROUTES.SCREENS.COMMUNITIES]: { screen: Communities },
     [ROUTES.SCREENS.WEB_BROWSER]: { screen: WebBrowser },
+    [ROUTES.SCREENS.REFER]: { screen: ReferScreen },
   },
   {
     headerMode: 'none',

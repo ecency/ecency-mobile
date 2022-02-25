@@ -1,7 +1,6 @@
 import React, { useState, Fragment, useRef } from 'react';
 import { View, Text, ActivityIndicator, SafeAreaView } from 'react-native';
 import { injectIntl } from 'react-intl';
-import ActionSheet from 'react-native-actionsheet';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
@@ -15,6 +14,7 @@ import { DateTimePicker } from '../../dateTimePicker';
 // Constants
 // Styles
 import styles from './basicHeaderStyles';
+import { OptionsModal } from '../../atoms';
 
 const BasicHeaderView = ({
   disabled,
@@ -324,7 +324,7 @@ const BasicHeaderView = ({
           />
         </SafeAreaView>
       </Modal>
-      <ActionSheet
+      <OptionsModal
         ref={settingMenuRef}
         options={[
           intl.formatMessage({ id: 'editor.setting_schedule' }),
@@ -337,7 +337,7 @@ const BasicHeaderView = ({
         title={intl.formatMessage({ id: 'editor.options' })}
         onPress={_handleSettingMenuSelect}
       />
-      <ActionSheet
+      <OptionsModal
         ref={rewardMenuRef}
         options={[
           intl.formatMessage({ id: 'editor.reward_default' }),

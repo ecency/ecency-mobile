@@ -44,6 +44,28 @@ export const generatePermlink = (title, random = false) => {
   return perm;
 };
 
+export const extractWordAtIndex = (text:string, index:number) => {
+  const END_REGEX = /[\s,]/
+  let word = '';
+  for(let i = index; i >= 0 && (!END_REGEX.test(text[i]) || i === index); i--){
+    if(text[i]){
+      word += text[i];
+    }
+  }
+  word = word.split('').reverse().join('');
+  
+  if(!END_REGEX.test(text[index])){
+    for(let i = index + 1; i < text.length && !END_REGEX.test(text[i]); i++){
+      if(text[i]){
+        word += text[i];
+      }
+    }
+  }
+ 
+  return word;
+ 
+}
+
 export const generateReplyPermlink = (toAuthor) => {
   if (!toAuthor) {
     return '';

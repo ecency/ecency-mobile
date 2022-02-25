@@ -73,7 +73,8 @@ const UpvoteContainer = (props) => {
     if (
       lastCacheUpdate &&
       lastCacheUpdate.postPath === postPath &&
-      content.post_fetched_at < lastCacheUpdate.updatedAt
+      content.post_fetched_at < lastCacheUpdate.updatedAt &&
+      lastCacheUpdate.type === 'vote'
     ) {
       _handleCachedVote();
     }

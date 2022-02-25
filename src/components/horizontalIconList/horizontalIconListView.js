@@ -50,6 +50,7 @@ const HorizontalIconList = ({ options, optionsKeys }) => {
         keyExtractor={(item) => get(item, 'type', Math.random()).toString()}
         horizontal
         renderItem={_renderItem}
+        showsHorizontalScrollIndicator={false}
       />
     </View>
   );

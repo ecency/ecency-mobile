@@ -13,7 +13,7 @@ import { navigate } from '../../../../navigation/service';
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
 
-import { PostHtmlRenderer, TextButton } from '../../..';
+import { PostHtmlRenderer, TextButton, VideoPlayer } from '../../..';
 
 // Styles
 import styles from './commentBodyStyles';
@@ -21,14 +21,12 @@ import styles from './commentBodyStyles';
 // Services and Actions
 import { writeToClipboard } from '../../../../utils/clipboard';
 import { toastNotification } from '../../../../redux/actions/uiAction';
-import VideoPlayerSheet from './videoPlayerSheet';
 import { LongPressGestureHandler, State } from 'react-native-gesture-handler';
 import { useCallback } from 'react';
 import { OptionsModal } from '../../../atoms';
 import { useAppDispatch } from '../../../../hooks';
 import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
-import { startsWith } from 'core-js/core/string';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -39,7 +37,7 @@ const CommentBody = ({
   handleOnLongPress,
   created,
   commentDepth,
-  reputation,
+  reputation = 25,
   isMuted
 }) => {
 
@@ -337,6 +335,7 @@ const CommentBody = ({
             <PostHtmlRenderer
               contentWidth={_contentWidth}
               body={body}
+              isComment={true}
               onElementIsImage={_onElementIsImage}
               setSelectedImage={_handleSetSelectedImage}
               setSelectedLink={_handleSetSelectedLink}
@@ -368,7 +367,12 @@ const CommentBody = ({
           setVideoUrl(null);
         }}
       >
-        <VideoPlayerSheet youtubeVideoId={youtubeVideoId} videoUrl={videoUrl} startTime={videoStartTime} />
+        <VideoPlayer 
+          mode={youtubeVideoId ? 'youtube' : 'uri'}
+          youtubeVideoId={youtubeVideoId} 
+          uri={videoUrl} 
+          startTime={videoStartTime} 
+        />
       </ActionsSheetView>
     </Fragment>
   );

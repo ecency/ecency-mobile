@@ -38,6 +38,9 @@ export default EStyleSheet.create({
     marginTop: 5,
     color: '$primaryBlack',
   },
+  descriptionContainer: {
+    maxHeight: 250,
+  },
   separator: {
     width: 100,
     alignSelf: 'center',
@@ -54,7 +57,10 @@ export default EStyleSheet.create({
     borderWidth: 1,
     borderColor: '$primaryBlue',
   },
-  collapsibleCard: { alignItems: 'center', marginBottom: 20 },
+  collapsibleCard: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
   subscribeButtonText: {
     color: '$primaryBlue',
   },

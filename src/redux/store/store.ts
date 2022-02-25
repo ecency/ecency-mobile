@@ -7,9 +7,23 @@ import Reactotron from '../../../reactotron-config';
 import reducer from '../reducers';
 
 const transformCacheVoteMap = createTransform(
-  (inboundState:any) => ({ ...inboundState, votes : Array.from(inboundState.votes)}),
-  (outboundState) => ({ ...outboundState, votes:new Map(outboundState.votes)}),
+  (inboundState:any) => ({ 
+    ...inboundState, 
+    votes : Array.from(inboundState.votes),
+    comments : Array.from(inboundState.comments)
+  }),
+  (outboundState) => ({ 
+    ...outboundState, 
+    votes:new Map(outboundState.votes),
+    comments:new Map(outboundState.comments)
+  }),
   {whitelist:['cache']}
+);
+
+const transformWalkthroughMap = createTransform(
+  (inboundState:any) => ({ ...inboundState, walkthroughMap : Array.from(inboundState.walkthroughMap)}),
+  (outboundState) => ({ ...outboundState, walkthroughMap:new Map(outboundState.walkthroughMap)}),
+  {whitelist:['walkthrough']}
 );
 
 // Middleware: Redux Persist Config
@@ -21,7 +35,7 @@ const persistConfig = {
   // Blacklist (Don't Save Specific Reducers)
   blacklist: ['nav', 'application', 'communities', 'user'],
   timeout: 0,
-  transforms:[transformCacheVoteMap]
+  transforms:[transformCacheVoteMap,transformWalkthroughMap]
 };
 
 // Middleware: Redux Persist Persisted Reducer

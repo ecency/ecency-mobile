@@ -8,7 +8,6 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import ActionSheet from 'react-native-actionsheet';
 import { renderPostBody } from '@ecency/render-helper';
 import { useDispatch, useSelector } from 'react-redux';
 import { View as AnimatedView } from 'react-native-animatable';
@@ -17,7 +16,7 @@ import { Icon } from '../../icon';
 
 // Utils
 import Formats from './formats/formats';
-import applyImageLink from './formats/applyWebLinkFormat';
+import applyMediaLink from './formats/applyMediaLink';
 
 // Actions
 import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
@@ -37,6 +36,7 @@ import {
   Modal,
   SnippetsModal,
   UploadsGalleryModal,
+  Tooltip,
 } from '../../index';
 
 import { ThemeContainer } from '../../../containers';
@@ -46,6 +46,10 @@ import styles from './markdownEditorStyles';
 import applySnippet from './formats/applySnippet';
 import { MainButton } from '../../mainButton';
 import isAndroidOreo from '../../../utils/isAndroidOreo';
+import { OptionsModal } from '../../atoms';
+import { UsernameAutofillBar } from './usernameAutofillBar';
+import applyUsername from './formats/applyUsername';
+import { walkthrough } from '../../../redux/constants/walkthroughConstants';
 
 const MIN_BODY_INPUT_HEIGHT = 300;
 
@@ -86,11 +90,14 @@ const MarkdownEditorView = ({
   const galleryRef = useRef(null);
   const clearRef = useRef(null);
   const uploadsGalleryModalRef = useRef(null);
+  const tooltipRef = useRef(null);
 
   const dispatch = useDispatch();
   const isVisibleAccountsBottomSheet = useSelector(
     (state) => state.ui.isVisibleAccountsBottomSheet,
   );
+  const draftBtnTooltipState = useSelector((state) => state.walkthrough.walkthroughMap);
+  const draftBtnTooltipRegistered = draftBtnTooltipState.get(walkthrough.EDITOR_DRAFT_BTN);
 
   useEffect(() => {
     if (!isPreviewActive) {
@@ -101,6 +108,11 @@ const MarkdownEditorView = ({
   useEffect(() => {
     if (onLoadDraftPress) {
       setShowDraftLoadButton(true);
+      if (!draftBtnTooltipRegistered) {
+        setTimeout(() => {
+          tooltipRef.current?.openTooltip();
+        }, 300);
+      }
     }
   }, [onLoadDraftPress]);
 
@@ -145,12 +157,11 @@ const MarkdownEditorView = ({
   useEffect(() => {
     if (uploadedImage && uploadedImage.url) {
       if (uploadedImage.shouldInsert) {
-        applyImageLink({
+        applyMediaLink({
           text,
           selection,
           setTextAndSelection: _setTextAndSelection,
-          item: { url: uploadedImage.url, text: uploadedImage.hash },
-          isImage: !!uploadedImage,
+          items: [{ url: uploadedImage.url, text: uploadedImage.hash }],
         });
       } else {
         uploadsGalleryModalRef.current.showModal();
@@ -163,7 +174,7 @@ const MarkdownEditorView = ({
   }, [draftBody]);
 
   useEffect(() => {
-    if (autoFocusText && inputRef && inputRef.current) {
+    if (autoFocusText && inputRef && inputRef.current && draftBtnTooltipRegistered) {
       inputRef.current.focus();
     }
   }, [autoFocusText]);
@@ -182,6 +193,15 @@ const MarkdownEditorView = ({
 
   const changeUser = async () => {
     dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
+  };
+
+  const _onApplyUsername = (username) => {
+    applyUsername({
+      text,
+      selection,
+      setTextAndSelection: _setTextAndSelection,
+      username,
+    });
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -254,14 +274,18 @@ const MarkdownEditorView = ({
     });
   };
 
-  const _handleOnMediaSelect = (mediaInsert) => {
-    if (mediaInsert && mediaInsert.url) {
-      applyImageLink({
+  const _handleOnMediaSelect = (mediaArray) => {
+    const items = mediaArray.map((mediaInsert) => ({
+      url: mediaInsert.url,
+      text: mediaInsert.hash,
+    }));
+
+    if (items.length) {
+      applyMediaLink({
         text,
         selection,
         setTextAndSelection: _setTextAndSelection,
-        item: { url: mediaInsert.url, text: mediaInsert.hash },
-        isImage: !!mediaInsert,
+        items,
       });
     }
   };
@@ -287,18 +311,28 @@ const MarkdownEditorView = ({
         setShowDraftLoadButton(false);
         onLoadDraftPress();
       };
+
+      const Wrapper = draftBtnTooltipRegistered ? AnimatedView : View;
       return (
-        <AnimatedView style={styles.floatingContainer} animation="bounceInRight">
-          <MainButton
-            style={{ width: isLoading ? null : 120 }}
-            onPress={_onPress}
-            iconName="square-edit-outline"
-            iconType="MaterialCommunityIcons"
-            iconColor="white"
-            text="DRAFT"
-            isLoading={isLoading}
-          />
-        </AnimatedView>
+        <>
+          <Wrapper style={styles.floatingContainer} animation="bounceInRight">
+            <Tooltip
+              ref={tooltipRef}
+              text={intl.formatMessage({ id: 'walkthrough.load_draft_tooltip' })}
+              walkthroughIndex={walkthrough.EDITOR_DRAFT_BTN}
+            >
+              <MainButton
+                style={{ width: isLoading ? null : 120 }}
+                onPress={_onPress}
+                iconName="square-edit-outline"
+                iconType="MaterialCommunityIcons"
+                iconColor="white"
+                text="DRAFT"
+                isLoading={isLoading}
+              />
+            </Tooltip>
+          </Wrapper>
+        </>
       );
     }
   };
@@ -411,7 +445,7 @@ const MarkdownEditorView = ({
             <TextInput
               multiline
               autoCorrect={true}
-              autoFocus={isReply ? true : false}
+              autoFocus={isReply && draftBtnTooltipRegistered ? true : false}
               onChangeText={_changeText}
               onSelectionChange={_handleOnSelectionChange}
               placeholder={intl.formatMessage({
@@ -449,8 +483,9 @@ const MarkdownEditorView = ({
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       {isAndroidOreo() ? _renderEditorWithoutScroll() : _renderEditorWithScroll()}
-
+      <UsernameAutofillBar text={text} selection={selection} onApplyUsername={_onApplyUsername} />
       {_renderFloatingDraftButton()}
+
       {!isPreviewActive && _renderEditorButtons()}
 
       <Modal
@@ -474,7 +509,7 @@ const MarkdownEditorView = ({
         uploadedImage={uploadedImage}
       />
 
-      <ActionSheet
+      <OptionsModal
         ref={galleryRef}
         options={[
           intl.formatMessage({
@@ -500,7 +535,7 @@ const MarkdownEditorView = ({
           }
         }}
       />
-      <ActionSheet
+      <OptionsModal
         ref={clearRef}
         title={intl.formatMessage({
           id: 'alert.clear_alert',

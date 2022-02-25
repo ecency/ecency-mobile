@@ -2,7 +2,6 @@ import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { Share } from 'react-native';
-import ActionSheet from 'react-native-actionsheet';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
@@ -22,6 +21,7 @@ import { getPostUrl } from '../../../utils/post';
 
 // Component
 import PostDropdownView from '../view/postDropdownView';
+import { OptionsModal } from '../../atoms';
 
 /*
  *            Props Name        Description                                     Value
@@ -145,17 +145,22 @@ class PostDropdownContainer extends PureComponent {
       });
     }
 
-    dispatch(showActionModal(
-      intl.formatMessage({id:'report.confirm_report_title'}),
-      intl.formatMessage({id:'report.confirm_report_body'}),
-      [{
-        text:intl.formatMessage({id:'alert.cancel'}),
-        onPress:()=>{}
-      },{
-        text:intl.formatMessage({id:'alert.confirm'}),
-        onPress:_onConfirm
-      }]
-    ))
+    dispatch(
+      showActionModal({
+        title: intl.formatMessage({ id: 'report.confirm_report_title' }),
+        body: intl.formatMessage({ id: 'report.confirm_report_body' }),
+        buttons: [
+          {
+            text: intl.formatMessage({ id: 'alert.cancel' }),
+            onPress: () => {},
+          },
+          {
+            text: intl.formatMessage({ id: 'alert.confirm' }),
+            onPress: _onConfirm,
+          },
+        ],
+      }),
+    );
    
   };
 
@@ -278,7 +283,7 @@ class PostDropdownContainer extends PureComponent {
           handleOnDropdownSelect={this._handleOnDropdownSelect}
           {...this.props}
         />
-        <ActionSheet
+        <OptionsModal
           ref={(o) => (this.ActionSheet = o)}
           options={['Reblog', intl.formatMessage({ id: 'alert.cancel' })]}
           title={intl.formatMessage({ id: 'post.reblog_alert' })}

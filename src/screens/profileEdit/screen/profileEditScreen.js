@@ -2,11 +2,11 @@ import React, { PureComponent, Fragment } from 'react';
 import { StatusBar } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
-import ActionSheet from 'react-native-actionsheet';
 
 import { ProfileEditContainer } from '../../../containers';
 
 import { AvatarHeader, ProfileEditForm } from '../../../components';
+import { OptionsModal } from '../../../components/atoms';
 
 class ProfileEditScreen extends PureComponent {
   /* Props
@@ -81,7 +81,7 @@ class ProfileEditScreen extends PureComponent {
               handleOnSubmit={handleOnSubmit}
             />
 
-            <ActionSheet
+            <OptionsModal
               ref={this.galleryRef}
               options={[
                 intl.formatMessage({
