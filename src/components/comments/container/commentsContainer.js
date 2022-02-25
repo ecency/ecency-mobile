@@ -46,6 +46,7 @@ const CommentsContainer = ({
   hideManyCommentsButton,
   flatListProps,
   fetchedAt,
+  incrementRepliesCount,
 }) => {
   const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
   const cachedComments = useAppSelector((state) => state.cache.comments);
@@ -345,6 +346,7 @@ const CommentsContainer = ({
       showAllComments={showAllComments}
       flatListProps={flatListProps}
       openReplyThread={_openReplyThread}
+      incrementRepliesCount={incrementRepliesCount}
       fetchedAt={fetchedAt}
     />
   );
