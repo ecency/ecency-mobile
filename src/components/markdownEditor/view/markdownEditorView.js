@@ -96,6 +96,8 @@ const MarkdownEditorView = ({
   const isVisibleAccountsBottomSheet = useSelector(
     (state) => state.ui.isVisibleAccountsBottomSheet,
   );
+  const draftBtnTooltipState = useSelector((state) => state.walkthrough.walkthroughMap);
+  const draftBtnTooltipRegistered = draftBtnTooltipState.get(walkthrough.EDITOR_DRAFT_BTN);
 
   useEffect(() => {
     if (!isPreviewActive) {
@@ -106,6 +108,11 @@ const MarkdownEditorView = ({
   useEffect(() => {
     if (onLoadDraftPress) {
       setShowDraftLoadButton(true);
+      if (!draftBtnTooltipRegistered) {
+        setTimeout(() => {
+          tooltipRef.current?.openTooltip();
+        }, 300);
+      }
     }
   }, [onLoadDraftPress]);
 
@@ -167,7 +174,7 @@ const MarkdownEditorView = ({
   }, [draftBody]);
 
   useEffect(() => {
-    if (autoFocusText && inputRef && inputRef.current) {
+    if (autoFocusText && inputRef && inputRef.current && draftBtnTooltipRegistered) {
       inputRef.current.focus();
     }
   }, [autoFocusText]);
@@ -304,13 +311,11 @@ const MarkdownEditorView = ({
         setShowDraftLoadButton(false);
         onLoadDraftPress();
       };
+
+      const Wrapper = draftBtnTooltipRegistered ? AnimatedView : View;
       return (
         <>
-          <AnimatedView
-            style={styles.floatingContainer}
-            animation="bounceInRight"
-            onAnimationEnd={() => tooltipRef.current?.openTooltip()}
-          >
+          <Wrapper style={styles.floatingContainer} animation="bounceInRight">
             <Tooltip
               ref={tooltipRef}
               text={intl.formatMessage({ id: 'walkthrough.load_draft_tooltip' })}
@@ -326,7 +331,7 @@ const MarkdownEditorView = ({
                 isLoading={isLoading}
               />
             </Tooltip>
-          </AnimatedView>
+          </Wrapper>
         </>
       );
     }
@@ -440,7 +445,7 @@ const MarkdownEditorView = ({
             <TextInput
               multiline
               autoCorrect={true}
-              autoFocus={isReply ? true : false}
+              autoFocus={isReply && draftBtnTooltipRegistered ? true : false}
               onChangeText={_changeText}
               onSelectionChange={_handleOnSelectionChange}
               placeholder={intl.formatMessage({

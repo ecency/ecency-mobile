@@ -363,6 +363,8 @@
     "title": "Imagens Enviadas",
     "title_remove_confirmation": "Deletar imagem",
     "btn_add": "Imagem",
+    "btn_insert": "INSERT",
+    "btn_delete": "EXCLUIR",
     "message_failed": "Falha ao carregar imagem"
   },
   "pincode": {
@@ -440,7 +442,7 @@
     "failed_to_open": "Falhou em abrir o link",
     "restart_ecency": "Reiniciar a Ecency?",
     "restart_ecency_desc": "Aplicar alterações exigirá uma reinicialização.",
-    "invalid_response": "Could not process request, Try again later."
+    "invalid_response": "Não foi possível processar o pedido. Tente mais tarde."
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
@@ -572,7 +574,20 @@
     "incoming_funds": "Fundos Recebidos",
     "stop": "Parar",
     "sc_power_down_error": "Esse recurso ainda não está implementado para fazer login através do Hivesigner, por enquanto",
-    "address_view": "Ver endereço"
+    "address_view": "Ver endereço",
+    "already_delegated": "Already delegated to ",
+    "remain_hp": "Remaining HP",
+    "account_detail_head": "Account Details",
+    "account_detail_subhead": "Enter username for HIVE Power delegation",
+    "delegat_detail_head": "Delegation Details",
+    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
+    "new_amount": "New Amount",
+    "review": "REVER",
+    "confirm": "Confirmar Delegação",
+    "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
+    "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
+    "username_alert": "Erro no nome!",
+    "username_alert_detail": "Please select different username"
   },
   "boost": {
     "title": "Obter Pontos",
@@ -710,9 +725,22 @@
     "year": "anos"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
-    "comment": "Comment",
-    "reply": "REPLY",
-    "close": "CLOSE"
+    "placeholder": "Adicionar comentário",
+    "comment": "Comentário",
+    "reply": "RESPONDER",
+    "close": "FECHAR"
+  },
+  "walkthrough": {
+    "load_draft_tooltip": "Load your lastest draft here"
+  },
+  "refer": {
+    "refer_earn": "Refer & Earn",
+    "refer": "Refer",
+    "rewarded": "Referral points rewarded",
+    "not_rewarded": "Referral reward pending",
+    "delegate_hp": "Delegate HP",
+    "earned": "Earned Points",
+    "pending": "Pending Points",
+    "empty_text": "Refer your loved ones today and earn free points"
   }
 }
