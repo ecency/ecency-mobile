@@ -80,6 +80,9 @@ const QRScreen = () => {
       </View>
     );
   };
+
+
+  
   return (
     <Fragment>
       <BasicHeader

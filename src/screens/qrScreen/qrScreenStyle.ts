@@ -46,6 +46,6 @@ export default EStyleSheet.create({
   cameraStyle: {
     alignSelf: 'center',
     justifyContent: 'center',
-    width: 200,
+    width: '100%',
   },
 });
