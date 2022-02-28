@@ -109,7 +109,7 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploa
 
     //inserts media items in post body
     const _insertMedia = async (selectedIndex?:number) => {
-        const map = selectedIndex ? new Map([[selectedIndex, true]]) : indices; 
+        const map = selectedIndex > -1 ? new Map([[selectedIndex, true]]) : indices; 
         
         const data = []
         for (const index of map.keys()) {
@@ -196,17 +196,13 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploa
           _onCheckPress()
         }else {
           _insertMedia(index)
-        }
-
-      
+        }      
     }
-
-
 
     const thumbUrl = proxifyImageSrc(item.url, 600, 500, Platform.OS === 'ios' ? 'match' : 'webp');
 
     return (
-      <TouchableOpacity onPress={_onPress}>
+      <TouchableOpacity onPress={_onPress} onLongPress={_onCheckPress}>
         <FastImage 
             source={{uri:thumbUrl}}
             style={styles.mediaItem}
