@@ -138,8 +138,6 @@ export const PostHtmlRenderer = memo(
       //process video link
       if(tnode.classes?.indexOf('markdown-video-link') >= 0){
 
-        //TODO: remove android check when fix for react-native-weview scroll crash is available
-        //ref: https://github.com/react-native-webview/react-native-webview/issues/2364
         if(isComment){
           const imgElement = tnode.children.find((child) => {
             return child.classes.indexOf('video-thumbnail') > 0 ? true : false;
@@ -227,8 +225,6 @@ export const PostHtmlRenderer = memo(
     const _iframeRenderer = function IframeRenderer(props) {
       const iframeProps = useHtmlIframeProps(props);
 
-       //TODO: remove android check logic when fix for react-native-webiew scrollview crash is available
-       //ref: https://github.com/react-native-webview/react-native-webview/issues/2364
       if(isComment){
         const _onPress = () => {
           console.log('iframe thumb Pressed:', iframeProps);
