@@ -15,6 +15,7 @@ export default EStyleSheet.create({
   },
   cameraContainer: {
     backgroundColor: 'black',
+    overflow: 'hidden',
   },
   mainButton: {
     marginTop: 16,
