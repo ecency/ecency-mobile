@@ -21,6 +21,9 @@ import com.reactnativecommunity.viewpager.RNCViewPagerPackage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import com.facebook.react.bridge.JSIModulePackage; 
+import com.swmansion.reanimated.ReanimatedJSIModulePackage;
+
 public class MainApplication extends MultiDexApplication implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -44,6 +47,11 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     protected String getJSMainModuleName() {
       return "index";
     }
+
+    @Override
+      protected JSIModulePackage getJSIModulePackage() {
+        return new ReanimatedJSIModulePackage(); 
+      }
   };
 
   @Override
