@@ -65,6 +65,10 @@ const CommentsContainer = ({
     setLComments(shortedComments);
   }, [commentCount, selectedFilter]);
 
+  
+  useEffect(() => {
+    setPropComments(comments);
+  }, [comments]);
 
 
   useEffect(() => {
