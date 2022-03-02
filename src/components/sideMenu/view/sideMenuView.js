@@ -84,7 +84,7 @@ const SideMenuView = ({
       });
       return;
     } */
-    if (item.id === 'refer') {
+    if (item.id === 'qr') {
       dispatch(toggleQRModal(true));
       return;
     }

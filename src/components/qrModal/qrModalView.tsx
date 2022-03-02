@@ -11,7 +11,7 @@ export interface QRModalProps {}
 export const QRModal = ({}: QRModalProps) => {
   const sheetModalRef = useRef<ActionSheet>();
   const dispatch = useAppDispatch();
-
+    
   const isVisibleQRModal = useAppSelector((state) => state.ui.isVisibleQRModal);
 
   useEffect(() => {
