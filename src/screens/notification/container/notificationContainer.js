@@ -56,7 +56,6 @@ class NotificationContainer extends Component {
       });
       getNotifications({ filter: type, since: since, limit: 20 })
         .then((res) => {
-          reactotron.log('res : ', res);
           const lastId = res.length > 0 ? [...res].pop().id : null;
 
           if (loadMore && (lastId === lastNotificationId || res.length === 0)) {
