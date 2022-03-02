@@ -7,6 +7,7 @@ import { injectIntl } from 'react-intl';
 
 // Actions and Services
 import { unionBy } from 'lodash';
+import reactotron from 'reactotron-react-native';
 import { getNotifications, markNotifications } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 
@@ -35,7 +36,6 @@ class NotificationContainer extends Component {
 
   componentDidMount() {
     const { isConnected } = this.props;
-
     if (isConnected) {
       this._getActivities();
     }
@@ -56,7 +56,7 @@ class NotificationContainer extends Component {
       });
       getNotifications({ filter: type, since: since, limit: 20 })
         .then((res) => {
-          console.log(res);
+          reactotron.log('res : ', res);
           const lastId = res.length > 0 ? [...res].pop().id : null;
 
           if (loadMore && (lastId === lastNotificationId || res.length === 0)) {
@@ -168,7 +168,9 @@ class NotificationContainer extends Component {
     await this.setState({ selectedFilter: value, endOfNotification: false, selectedIndex: ind });
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  // Note: This snippet is causing double api call which cause scroll position reset
+  /*
+    UNSAFE_componentWillReceiveProps(nextProps) {
     const { selectedFilter } = this.state;
     const { currentAccount } = this.props;
 
@@ -179,7 +181,7 @@ class NotificationContainer extends Component {
       this.setState({ endOfNotification: false }, () => this._getActivities(selectedFilter));
     }
   }
-
+ */
   render() {
     const { isLoggedIn } = this.props;
     const { notifications, isRefreshing } = this.state;
