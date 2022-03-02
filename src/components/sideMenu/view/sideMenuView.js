@@ -12,6 +12,7 @@ import { injectIntl, useIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
 import VersionNumber from 'react-native-version-number';
 import { isEmpty } from 'lodash';
+import { useDispatch } from 'react-redux';
 import { getStorageType } from '../../../realm/realm';
 
 // Components
@@ -28,6 +29,7 @@ import { getVotingPower } from '../../../utils/manaBar';
 // Styles
 import styles from './sideMenuStyles';
 import { OptionsModal } from '../../atoms';
+import { toggleQRModal } from '../../../redux/actions/uiAction';
 
 // Images
 const SIDE_MENU_BACKGROUND = require('../../../assets/side_menu_background.png');
@@ -40,6 +42,7 @@ const SideMenuView = ({
   handlePressOptions,
 }) => {
   const intl = useIntl();
+  const dispatch = useDispatch();
   const ActionSheetRef = useRef(null);
 
   const [menuItems, setMenuItems] = useState(
@@ -81,6 +84,10 @@ const SideMenuView = ({
       });
       return;
     } */
+    if (item.id === 'refer') {
+      dispatch(toggleQRModal(true));
+      return;
+    }
 
     navigateToRoute(item.route);
   };
