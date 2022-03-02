@@ -86,10 +86,12 @@ class NotificationContainer extends Component {
     let routeName;
     let params;
     let key;
-    markNotifications(data.id).then((result) => {
-      const { unread } = result;
-      dispatch(updateUnreadActivityCount(unread));
-    });
+    if (data && !data.read) {
+      markNotifications(data.id).then((result) => {
+        const { unread } = result;
+        dispatch(updateUnreadActivityCount(unread));
+      });
+    }
 
     if (permlink && author) {
       routeName = ROUTES.SCREENS.POST;
