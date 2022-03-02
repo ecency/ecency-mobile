@@ -52,7 +52,7 @@ const CommentsContainer = ({
   const cachedComments = useAppSelector((state) => state.cache.comments);
 
   const [lcomments, setLComments] = useState([]);
-  const [propComments, setPropComments] = useState(comments);
+  const [replies, setReplies] = useState(comments);
   const [selectedPermlink, setSelectedPermlink] = useState('');
 
   useEffect(() => {
@@ -64,10 +64,6 @@ const CommentsContainer = ({
     const shortedComments = _shortComments(selectedFilter);
     setLComments(shortedComments);
   }, [commentCount, selectedFilter]);
-
-  useEffect(() => {
-    setPropComments(comments);
-  }, [comments]);
 
   useEffect(() => {
     const postPath = `${author || ''}/${permlink || ''}`;
@@ -166,7 +162,7 @@ const CommentsContainer = ({
   const _getComments = async () => {
     if (isOwnProfile) {
       fetchPost();
-    } else if (author && permlink && !propComments) {
+    } else if (author && permlink && !replies) {
       await getComments(author, permlink, name)
         .then((__comments) => {
           //TODO: favourable place for merging comment cache
@@ -185,7 +181,7 @@ const CommentsContainer = ({
   };
 
   const _handleCachedComment = (passedComments = null) => {
-    const _comments = passedComments || propComments || lcomments;
+    const _comments = passedComments || replies || lcomments;
     const postPath = `${author || ''}/${permlink || ''}`;
 
     if (cachedComments.has(postPath)) {
@@ -219,8 +215,8 @@ const CommentsContainer = ({
         console.log('updated comments with cached comment');
         if (passedComments) {
           return newComments;
-        } else if (propComments) {
-          setPropComments(newComments);
+        } else if (replies) {
+          setReplies(newComments);
         } else {
           setLComments(newComments);
         }
@@ -282,8 +278,8 @@ const CommentsContainer = ({
         filteredComments = lcomments.filter(_applyFilter);
         setLComments(filteredComments);
       } else {
-        filteredComments = propComments.filter(_applyFilter);
-        setPropComments(filteredComments);
+        filteredComments = replies.filter(_applyFilter);
+        setReplies(filteredComments);
       }
 
       // remove cached entry based on parent
@@ -335,7 +331,7 @@ const CommentsContainer = ({
       mainAuthor={mainAuthor}
       commentNumber={commentNumber || 1}
       commentCount={commentCount}
-      comments={lcomments.length > 0 ? lcomments : propComments}
+      comments={lcomments.length > 0 ? lcomments : replies}
       currentAccountUsername={currentAccount.name}
       handleOnEditPress={_handleOnEditPress}
       handleOnReplyPress={_handleOnReplyPress}
