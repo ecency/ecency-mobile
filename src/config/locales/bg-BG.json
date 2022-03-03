@@ -118,6 +118,7 @@
     "ignore": "те игнорира",
     "reblog": "споделено от",
     "transfer": "прехвърлено",
+    "delegations": "delegated",
     "spin": "Време да спечелите още Estm",
     "inactive": "Бъди активен! Напишете публикация, продължете да печелите",
     "referral": "се присъедини чрез вашата покана, приветствайте го",
@@ -199,7 +200,8 @@
       "comment": "Коментар",
       "mention": "ви спомена",
       "reblog": "Споделяне",
-      "transfers": "Преводи"
+      "transfers": "Преводи",
+      "delegations": "Delegations"
     },
     "pincode": "Pincode",
     "reset_pin": "Анулирай пин код",

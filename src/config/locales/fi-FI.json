@@ -118,6 +118,7 @@
     "ignore": "sivuutti sinut",
     "reblog": "jaettu uudelleen",
     "transfer": "siirretty",
+    "delegations": "delegated",
     "spin": "Aika ansaita enemmän pisteitä",
     "inactive": "Ole aktiivinen! Kirjoita ja jatka tienaamista",
     "referral": "liittyi suosituksestasi, toivota heidät tervetulleeksi",
@@ -199,7 +200,8 @@
       "comment": "Kommentti",
       "mention": "Maininta",
       "reblog": "Jako",
-      "transfers": "Siirrot"
+      "transfers": "Siirrot",
+      "delegations": "Delegations"
     },
     "pincode": "PIN-koodi",
     "reset_pin": "Nollaa Pin-koodi",

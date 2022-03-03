@@ -118,6 +118,7 @@
     "ignore": "mellőzött téged",
     "reblog": "megosztotta",
     "transfer": "átutalva",
+    "delegations": "delegated",
     "spin": "Pontszerzés ideje",
     "inactive": "Légy aktív! Írj egy bejegyzést és folytasd a cryptoszerzést",
     "referral": "regisztrált a te ajánlásoddal, üdvözöld őt",
@@ -199,7 +200,8 @@
       "comment": "Hozzászólás",
       "mention": "Említés",
       "reblog": "Megosztás",
-      "transfers": "Átutalások"
+      "transfers": "Átutalások",
+      "delegations": "Delegations"
     },
     "pincode": "PIN kód",
     "reset_pin": "Pin kód beállítása",
