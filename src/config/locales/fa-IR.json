@@ -118,6 +118,7 @@
     "ignore": "شما را نادیده گرفته",
     "reblog": "اشتراک شد",
     "transfer": "منتقل شد",
+    "delegations": "delegated",
     "spin": "وقت کسب امتیاز بیشتر است",
     "inactive": "فعال باشید! یک پست بنویسید، ادامه درامد دهید",
     "referral": "معرف شما پیوست، به آنها خوش آمد بگوید",
@@ -199,7 +200,8 @@
       "comment": "نظر",
       "mention": "اشاره کردن",
       "reblog": "اشتراک گذاری",
-      "transfers": "تراکنش ها"
+      "transfers": "تراکنش ها",
+      "delegations": "Delegations"
     },
     "pincode": "Pincode",
     "reset_pin": "تنظیم مجدد پن کد",
