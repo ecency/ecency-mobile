@@ -7,6 +7,7 @@ import { injectIntl } from 'react-intl';
 
 // Actions and Services
 import { unionBy } from 'lodash';
+import reactotron from 'reactotron-react-native';
 import { getNotifications, markNotifications } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 
@@ -35,7 +36,6 @@ class NotificationContainer extends Component {
 
   componentDidMount() {
     const { isConnected } = this.props;
-
     if (isConnected) {
       this._getActivities();
     }
@@ -56,7 +56,6 @@ class NotificationContainer extends Component {
       });
       getNotifications({ filter: type, since: since, limit: 20 })
         .then((res) => {
-          console.log(res);
           const lastId = res.length > 0 ? [...res].pop().id : null;
 
           if (loadMore && (lastId === lastNotificationId || res.length === 0)) {
@@ -86,10 +85,12 @@ class NotificationContainer extends Component {
     let routeName;
     let params;
     let key;
-    markNotifications(data.id).then((result) => {
-      const { unread } = result;
-      dispatch(updateUnreadActivityCount(unread));
-    });
+    if (data && !data.read) {
+      markNotifications(data.id).then((result) => {
+        const { unread } = result;
+        dispatch(updateUnreadActivityCount(unread));
+      });
+    }
 
     if (permlink && author) {
       routeName = ROUTES.SCREENS.POST;
@@ -171,10 +172,10 @@ class NotificationContainer extends Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { selectedFilter } = this.state;
     const { currentAccount } = this.props;
-
     if (
-      (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION && nextProps.currentAccount.name) ||
-      (nextProps.currentAccount.name !== currentAccount.name && nextProps.currentAccount.name)
+      currentAccount &&
+      nextProps.currentAccount &&
+      nextProps.currentAccount.name !== currentAccount.name
     ) {
       this.setState({ endOfNotification: false }, () => this._getActivities(selectedFilter));
     }
