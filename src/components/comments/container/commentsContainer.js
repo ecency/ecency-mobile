@@ -65,11 +65,9 @@ const CommentsContainer = ({
     setLComments(shortedComments);
   }, [commentCount, selectedFilter]);
 
-  
   useEffect(() => {
     setPropComments(comments);
   }, [comments]);
-
 
   useEffect(() => {
     const postPath = `${author || ''}/${permlink || ''}`;
