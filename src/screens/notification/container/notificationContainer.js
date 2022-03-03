@@ -169,20 +169,18 @@ class NotificationContainer extends Component {
     await this.setState({ selectedFilter: value, endOfNotification: false, selectedIndex: ind });
   };
 
-  // Note: This snippet is causing double api call which cause scroll position reset
-  /*
-    UNSAFE_componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { selectedFilter } = this.state;
     const { currentAccount } = this.props;
-
     if (
-      (nextProps.activeBottomTab === ROUTES.TABBAR.NOTIFICATION && nextProps.currentAccount.name) ||
-      (nextProps.currentAccount.name !== currentAccount.name && nextProps.currentAccount.name)
+      currentAccount &&
+      nextProps.currentAccount &&
+      nextProps.currentAccount.name !== currentAccount.name
     ) {
       this.setState({ endOfNotification: false }, () => this._getActivities(selectedFilter));
     }
   }
- */
+
   render() {
     const { isLoggedIn } = this.props;
     const { notifications, isRefreshing } = this.state;
