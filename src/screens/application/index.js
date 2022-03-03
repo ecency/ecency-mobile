@@ -10,7 +10,7 @@ import { PinCode } from '../pinCode';
 import ErrorBoundary from './screen/errorBoundary';
 
 const Application = () => {
-  const [showAnimation, setShowAnimation] = useState(true); //process.env.NODE_ENV !== 'development');
+  const [showAnimation, setShowAnimation] = useState(process.env.NODE_ENV !== 'development');
 
   useEffect(() => {
     SplashScreen.hide();
