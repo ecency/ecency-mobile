@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Text, View } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './qrModalStyles';
@@ -9,22 +9,20 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import { deepLinkParser } from '../../utils/deepLinkParser';
 import { useIntl } from 'react-intl';
 import { navigate } from '../../navigation/service';
-import { Icon, MainButton } from '..';
+import { Icon } from '..';
 import { Dimensions } from 'react-native';
 
 export interface QRModalProps {}
 
-const screenHeight = Dimensions.get("window").height
+const screenHeight = Dimensions.get('window').height;
 export const QRModal = ({}: QRModalProps) => {
   const dispatch = useAppDispatch();
   const intl = useIntl();
   const isVisibleQRModal = useAppSelector((state) => state.ui.isVisibleQRModal);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
-  const [isActive, setIsActive] = useState(true);
-  const [scanURL, setScanURL] = useState(null);
-  const [navData, setNavData] = useState(null);
-  const [isURLValid, setIsURLValid] = useState(false);
+  const [isScannerActive, setIsScannerActive] = useState(true);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const sheetModalRef = useRef<ActionSheet>();
   const scannerRef = useRef(null);
@@ -42,91 +40,64 @@ export const QRModal = ({}: QRModalProps) => {
   };
 
   const onSuccess = (e) => {
+    setIsScannerActive(false);
     _handleDeepLink(e.data);
-    setIsActive(false);
   };
 
   const _handleDeepLink = async (url) => {
+    setIsProcessing(true);
     const deepLinkData = await deepLinkParser(url, currentAccount);
     const { routeName, params, key } = deepLinkData || {};
-    setNavData(routeName && params && key ? deepLinkData : null);
-    setIsURLValid(routeName && params && key ? true : false);
-    setScanURL(url);
-  };
-
-  const _handleOpen = () => {
-    if (navData) {
-      _onClose()
-      navigate(navData);
+    setIsProcessing(false);
+    if (routeName && params && key) {
+      setIsScannerActive(false);
+      _onClose();
+      navigate(deepLinkData);
+    } else {
+      Alert.alert('Unsupported URL!', 'Please scan a valid ecency url.', [
+        {
+          text: 'Close',
+          onPress: () => {
+            _onClose();
+          },
+          style: 'cancel',
+        },
+        {
+          text: 'Rescan',
+          onPress: () => {
+            setIsScannerActive(true);
+            scannerRef.current?.reactivate();
+          },
+        },
+      ]);
     }
-  };
-  
-  const _renderBottomContent = () => {
-    return (
-      <View style={styles.bottomContent}>
-        <View style={styles.urlContainer}>
-          <View style={styles.urlTextContainer}>
-            <Text>
-              {intl.formatMessage({
-                id: 'qr.detected_url',
-              })}
-              :
-            </Text>
-            <Text>{scanURL}</Text>
-          </View>
-          <View style={styles.validIcon}>
-            {scanURL && (
-              <Icon
-                iconType="Ionicons"
-                name={isURLValid ? 'checkmark-circle-outline' : 'close-circle-outline'}
-                size={20}
-                color={isURLValid ? 'green' : 'red'}
-              />
-            )}
-          </View>
-        </View>
-        <MainButton
-          // isLoading={isLoading}
-          isDisable={isActive || !isURLValid}
-          style={styles.mainButton}
-          height={50}
-          onPress={_handleOpen}
-        >
-          <View style={styles.mainButtonWrapper}>
-            <Text style={styles.openText}>
-              {intl.formatMessage({
-                id: 'qr.open',
-              })}
-            </Text>
-          </View>
-        </MainButton>
-      </View>
-    );
   };
 
   return (
     <ActionSheet
       ref={sheetModalRef}
       gestureEnabled={true}
-      containerStyle={{...styles.sheetContent, height: screenHeight }}
+      containerStyle={{ ...styles.sheetContent, height: screenHeight }}
       onClose={_onClose}
       indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
-   
     >
       <View style={styles.mainContainer}>
-      {/* <Text>QR Modal</Text> */}
-
         <QRCodeScanner
-          reactivate={isActive}
+          reactivate={isScannerActive}
           showMarker={true}
           ref={scannerRef}
           onRead={onSuccess}
           topViewStyle={{ display: 'none' }}
-          bottomViewStyle={{display:'none'}}
+          bottomViewStyle={{ display: 'none' }}
           containerStyle={styles.scannerContainer}
           cameraContainerStyle={styles.cameraContainer}
           cameraStyle={styles.cameraStyle}
         />
+        {isProcessing && (
+          <View style={styles.activityIndicatorContainer}>
+            <ActivityIndicator color={'white'} style={styles.activityIndicator} />
+          </View>
+        )}
       </View>
     </ActionSheet>
   );
