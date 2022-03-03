@@ -581,15 +581,15 @@
     "remain_hp": "HP restante",
     "account_detail_head": "Detalhes da Conta",
     "account_detail_subhead": "Enter username for HIVE Power delegation",
-    "delegat_detail_head": "Delegation Details",
+    "delegat_detail_head": "Detalhes da Delegação",
     "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
-    "new_amount": "New Amount",
+    "new_amount": "Nova Quantia",
     "review": "REVER",
     "confirm": "Confirmar Delegação",
-    "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
-    "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
+    "confirm_summary": "Delegar {hp} HP ({vests} VESTS) A @{delegator{delegatee}} de@{delegatee} ",
+    "confirm_summary_para": "Isso substituirá a sua delegação anterior de {prev} HP para esta conta.",
     "username_alert": "Erro no nome!",
-    "username_alert_detail": "Please select different username"
+    "username_alert_detail": "Por favor, selecione um nome diferente"
   },
   "boost": {
     "title": "Obter Pontos",
@@ -733,12 +733,12 @@
     "close": "FECHAR"
   },
   "walkthrough": {
-    "load_draft_tooltip": "Load your lastest draft here"
+    "load_draft_tooltip": "Carregue o seu último rascunho aqui"
   },
   "refer": {
     "refer_earn": "Indique & Ganhe",
     "refer": "Indique",
-    "rewarded": "Referral points rewarded",
+    "rewarded": "Ganho de pontos por indicação",
     "not_rewarded": "Recompensa de indicação pendente",
     "delegate_hp": "Delegar HP",
     "earned": "Pontos Ganhos",
