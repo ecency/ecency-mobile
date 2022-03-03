@@ -118,6 +118,7 @@
     "ignore": "قام بتجاهلك",
     "reblog": "تمت إعادة النشر",
     "transfer": "تم التحويل",
+    "delegations": "delegated",
     "spin": "حان وقت كسب المزيد من النقاط",
     "inactive": "كن نشطًا! اكتب منشور، واصل الكسب",
     "referral": "انضمو برابط إحالتك ، رحب بهم",
@@ -199,7 +200,8 @@
       "comment": "تعليق",
       "mention": "إشارة",
       "reblog": "إعادة النشر",
-      "transfers": "التحويلات"
+      "transfers": "التحويلات",
+      "delegations": "Delegations"
     },
     "pincode": "رمز PIN",
     "reset_pin": "إعادة تعيين رمز Pin",

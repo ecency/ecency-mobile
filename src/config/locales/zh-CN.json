@@ -118,6 +118,7 @@
     "ignore": "屏蔽了您",
     "reblog": "已转发",
     "transfer": "已转账",
+    "delegations": "delegated",
     "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
@@ -199,7 +200,8 @@
       "comment": "评论",
       "mention": "提到",
       "reblog": "转发",
-      "transfers": "转账"
+      "transfers": "转账",
+      "delegations": "Delegations"
     },
     "pincode": "PIN 码",
     "reset_pin": "重置 PIN 码",

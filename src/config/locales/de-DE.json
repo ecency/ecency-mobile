@@ -118,6 +118,7 @@
     "ignore": "ignoriert dich",
     "reblog": "geteilt",
     "transfer": "überwiesen",
+    "delegations": "delegated",
     "spin": "Zeit mehr Punkte zu verdienen",
     "inactive": "Sei aktiv! Schreibe einen Beitrag, verdiene weiter",
     "referral": "ist mit Deiner Empfehlung beigetreten. Sende eine Wilkommensnachricht",
@@ -199,7 +200,8 @@
       "comment": "Kommentar",
       "mention": "Erwähnung",
       "reblog": "Reblog",
-      "transfers": "Überweisungen"
+      "transfers": "Überweisungen",
+      "delegations": "Delegations"
     },
     "pincode": "Pincode",
     "reset_pin": "Pin Code festlegen",

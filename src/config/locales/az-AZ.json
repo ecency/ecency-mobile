@@ -118,6 +118,7 @@
     "ignore": "səni əngəllədi",
     "reblog": "reblogged",
     "transfer": "transferred",
+    "delegations": "delegated",
     "spin": "Daha çox Xal qazanma vaxtıdır",
     "inactive": "Aktiv olun! Göndəriş yazın, qazanmağa davam edin",
     "referral": "joined with your referral, welcome them",
@@ -199,7 +200,8 @@
       "comment": "Rəy",
       "mention": "Adını çəkmə",
       "reblog": "Paylaşma",
-      "transfers": "Köçürmə"
+      "transfers": "Köçürmə",
+      "delegations": "Delegations"
     },
     "pincode": "PIN kod",
     "reset_pin": "Pin Kodu Sıfırla",

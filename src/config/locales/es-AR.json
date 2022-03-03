@@ -118,6 +118,7 @@
     "ignore": "te ignoró",
     "reblog": "reblogueado",
     "transfer": "transferido",
+    "delegations": "delegated",
     "spin": "Es hora de ganar más puntos",
     "inactive": "¡Estate activo! Escribe un mensaje, sigue ganando",
     "referral": "se unieron con tu enlace de referido, dales la bienvenida",
@@ -199,7 +200,8 @@
       "comment": "Comentario",
       "mention": "Mención",
       "reblog": "Reblogueo",
-      "transfers": "Transferencias"
+      "transfers": "Transferencias",
+      "delegations": "Delegations"
     },
     "pincode": "Código PIN",
     "reset_pin": "Reiniciar Código Pin",

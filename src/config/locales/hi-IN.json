@@ -118,6 +118,7 @@
     "ignore": "आपको अनदेखा किया",
     "reblog": "रीब्लॉग हुवा",
     "transfer": "स्थान्तरण",
+    "delegations": "delegated",
     "spin": "अधिक अंक अर्जित करने का समय",
     "inactive": "सक्रिय हों! एक पोस्ट लिखो, कमाई जारी रखो",
     "referral": "अपने रेफरल के साथ शामिल हुए, उनका स्वागत करें",
@@ -199,7 +200,8 @@
       "comment": "टिप्पणी",
       "mention": "उल्लेख",
       "reblog": "पुनर्प्रेशण",
-      "transfers": "स्थानांतरण"
+      "transfers": "स्थानांतरण",
+      "delegations": "Delegations"
     },
     "pincode": "Pincode",
     "reset_pin": "पिन कोड रीसेट करें",

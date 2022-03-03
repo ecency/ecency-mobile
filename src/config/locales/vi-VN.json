@@ -118,6 +118,7 @@
     "ignore": "đã bỏ qua bạn",
     "reblog": "reblogged",
     "transfer": "transferred",
+    "delegations": "delegated",
     "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
@@ -199,7 +200,8 @@
       "comment": "Câu bình luận",
       "mention": "Nhắc đến",
       "reblog": "Đăng lại",
-      "transfers": "Những phần chuyển khoản"
+      "transfers": "Những phần chuyển khoản",
+      "delegations": "Delegations"
     },
     "pincode": "Mã PIN",
     "reset_pin": "Đặt Lại Mã Pin",
