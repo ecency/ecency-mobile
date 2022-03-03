@@ -53,7 +53,7 @@ class NotificationView extends PureComponent {
   };
 
   _renderList = (data) => {
-    const { navigateToNotificationRoute } = this.props;
+    const { navigateToNotificationRoute, globalProps } = this.props;
 
     return (
       <FlatList
@@ -65,6 +65,7 @@ class NotificationView extends PureComponent {
           <NotificationLine
             notification={item}
             handleOnPressNotification={navigateToNotificationRoute}
+            globalProps={globalProps}
           />
         )}
       />
@@ -189,6 +190,7 @@ class NotificationView extends PureComponent {
       notification={item}
       handleOnPressNotification={this.props.navigateToNotificationRoute}
       handleOnUserPress={()=>{this.props.handleOnUserPress(item.source)}}
+      globalProps={this.props.globalProps}
     />
   </>
   )
