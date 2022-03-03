@@ -29,7 +29,7 @@ const NotificationLineView = ({ notification, handleOnPressNotification, handleO
     handleOnPressNotification(notification);
   };
 
-  if (notification.type === 'transfer') {
+  if (notification.type === 'transfer' || notification.type === 'delegations') {
     titleExtra = notification.amount;
   } else if (notification.weight) {
     const _percent = `${parseFloat((notification.weight / 100).toFixed(2))}% `;

@@ -206,6 +206,7 @@ const PostDisplayView = ({
         contentContainerStyle={styles.scrollContent}
         onScroll={(event) => _handleOnScroll(event)}
         scrollEventThrottle={16}
+        overScrollMode="never"
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       >
         {parentPost && <ParentPost post={parentPost} />}
