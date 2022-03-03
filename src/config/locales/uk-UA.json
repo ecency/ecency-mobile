@@ -118,6 +118,7 @@
     "ignore": "ігнорує тебе",
     "reblog": "рестімнуто",
     "transfer": "відправлено",
+    "delegations": "delegated",
     "spin": "Час заробляти більше Балів",
     "inactive": "Будьте активними! Зробіть допис, продовжуйте заробляти",
     "referral": "приєднався за вашим посиланням. Привітайте його",
@@ -199,7 +200,8 @@
       "comment": "Коментарі",
       "mention": "Згадування",
       "reblog": "Рестім",
-      "transfers": "Перекази"
+      "transfers": "Перекази",
+      "delegations": "Delegations"
     },
     "pincode": "Pincode",
     "reset_pin": "Скинути Pin-код",
