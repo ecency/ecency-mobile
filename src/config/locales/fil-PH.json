@@ -118,6 +118,7 @@
     "ignore": "ayaw kang makita",
     "reblog": "nireblogged",
     "transfer": "nailipat",
+    "delegations": "delegated",
     "spin": "Panahon na para kumita ng mas maraming Points",
     "inactive": "Maging aktibo! Magsulat ng post, kumita ng tuloy-tuloy",
     "referral": "sumali gamit ang iyong referral, salubungin sila",
@@ -199,7 +200,8 @@
       "comment": "Komento",
       "mention": "Banggit",
       "reblog": "I-reblog",
-      "transfers": "Ilipat"
+      "transfers": "Ilipat",
+      "delegations": "Delegations"
     },
     "pincode": "Pincode",
     "reset_pin": "I-reset ang Pin Code",
