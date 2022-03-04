@@ -256,7 +256,7 @@
     "friends": "Ystävät",
     "communities": "Yhteisöt",
     "popup_postfix": "Julkaistu",
-    "scroll_top": "Scroll To Top"
+    "scroll_top": "Vieritä ylös"
   },
   "side_menu": {
     "profile": "Profiili",
@@ -285,7 +285,7 @@
     "search": "Haku",
     "update": "Päivitä",
     "reply": "Vastaa",
-    "schedule": "Schedule"
+    "schedule": "Ajasta"
   },
   "editor": {
     "title": "Otsikko",
@@ -333,13 +333,13 @@
     "draft_save_success": "Luonnos tallennettu",
     "draft_save_fail": "Luonnosta ei kyetty tallentamaan",
     "select_thumb": "Valitse esikatselukuva",
-    "add_more_imgs": "Add more images to post",
+    "add_more_imgs": "Lisää kuvia julkaisuun",
     "two_thumbs_required": "Lisää kuvia julkaisuun, ennen kuin asetat pikkukuvan",
-    "scheduled_for": "Scheduled For",
-    "scheduled_immediate": "Immediate",
-    "scheduled_later": "Later",
+    "scheduled_for": "Julkaisuaika",
+    "scheduled_immediate": "Heti",
+    "scheduled_later": "Myöhemmin",
     "settings_title": "Post Options",
-    "done": "DONE",
+    "done": "VALMIS",
     "draft_save_title": "Tallennetaan luonnosta",
     "draft_update": "Päivitä nykyinen luonnos",
     "draft_save_new": "Tallenna uutena luonnoksena"
@@ -686,9 +686,9 @@
     "unfollow": "Älä seuraa",
     "add_to_favourites": "LISÄÄ SUOSIKKEIHIN",
     "remove_from_favourites": "POISTA SUOSIKEISTA",
-    "mute": "MUTE / BLOCK",
+    "mute": "HILJENNÄ / ESTÄ",
     "unmute": "UNMUTE / UNBLOCK",
-    "report": "REPORT USER"
+    "report": "ILMIANNA KÄYTTÄJÄ"
   },
   "communities": {
     "joined": "Jäsenyys",
