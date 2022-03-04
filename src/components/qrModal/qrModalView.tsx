@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, PermissionsAndroid, Platform, Text, View } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './qrModalStyles';
@@ -11,6 +11,7 @@ import { useIntl } from 'react-intl';
 import { navigate } from '../../navigation/service';
 import { Icon } from '..';
 import { Dimensions } from 'react-native';
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 
 export interface QRModalProps {}
 
@@ -23,17 +24,54 @@ export const QRModal = ({}: QRModalProps) => {
 
   const [isScannerActive, setIsScannerActive] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
-
   const sheetModalRef = useRef<ActionSheet>();
   const scannerRef = useRef(null);
 
   useEffect(() => {
     if (isVisibleQRModal) {
+      requestCameraPermission();
       sheetModalRef.current.show();
     } else {
       sheetModalRef.current.hide();
     }
   }, [isVisibleQRModal]);
+
+  const requestCameraPermission = async () => {
+    if (Platform.OS === 'ios') {
+      request(PERMISSIONS.IOS.CAMERA).then((result) => {
+        if (result === RESULTS.GRANTED) {
+          console.log('Camera permission granted');
+        } else {
+          console.log('Camera permission denied');
+          Alert.alert(
+            'Unable to get camera permission',
+            'Please grant camera permission to scan QR code',
+          );
+        }
+      });
+    }
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, {
+          title: 'Ecency Camera Permission',
+          message: 'To scan QR, Ecency needs your permission.',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        });
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('Camera permission granted');
+        } else {
+          console.log('Camera permission denied');
+          Alert.alert(
+            'Unable to get camera permission',
+            'Please grant camera permission to scan QR code',
+          );
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+  };
 
   const _onClose = () => {
     dispatch(toggleQRModal(false));
