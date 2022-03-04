@@ -704,7 +704,7 @@
     "username": "Käyttäjänimi",
     "addAccount": "Lisää Tili",
     "save": "Tallenna",
-    "cancel": "Cancel"
+    "cancel": "Peruuta"
   },
   "welcome": {
     "label": "Tervetuloa",
@@ -727,10 +727,10 @@
     "year": "vuotta"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
+    "placeholder": "Lisää kommentti",
     "comment": "Comment",
-    "reply": "REPLY",
-    "close": "CLOSE"
+    "reply": "VASTAA",
+    "close": "SULJE"
   },
   "walkthrough": {
     "load_draft_tooltip": "Load your lastest draft here"
