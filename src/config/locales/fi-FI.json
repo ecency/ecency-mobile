@@ -489,7 +489,7 @@
   "report": {
     "added": "Raportoitu kielteinen sisältö",
     "confirm_report_title": "Vahvista ilmianto!",
-    "confirm_report_body": "Are you sure you want report?"
+    "confirm_report_body": "Haluatko varmasti tehdä ilmiannon?"
   },
   "favorites": {
     "title": "Suosikit",
@@ -687,7 +687,7 @@
     "add_to_favourites": "LISÄÄ SUOSIKKEIHIN",
     "remove_from_favourites": "POISTA SUOSIKEISTA",
     "mute": "HILJENNÄ / ESTÄ",
-    "unmute": "UNMUTE / UNBLOCK",
+    "unmute": "POISTA HILJENNYS / ESTO",
     "report": "ILMIANNA KÄYTTÄJÄ"
   },
   "communities": {
