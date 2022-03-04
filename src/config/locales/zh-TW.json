@@ -118,6 +118,7 @@
     "ignore": "屏蔽了您",
     "reblog": "已轉發",
     "transfer": "已轉帳",
+    "delegations": "delegated",
     "spin": "旋轉",
     "inactive": "走起！寫文章吧。我們繼續賺",
     "referral": "根據你的介紹已經加入我們。趕快歡迎他們吧",
@@ -199,7 +200,8 @@
       "comment": "評論",
       "mention": "提到",
       "reblog": "轉發",
-      "transfers": "轉帳"
+      "transfers": "轉帳",
+      "delegations": "Delegations"
     },
     "pincode": "PIN 碼",
     "reset_pin": "重置PIN碼",

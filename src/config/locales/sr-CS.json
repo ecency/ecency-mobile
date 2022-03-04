@@ -118,6 +118,7 @@
     "ignore": "vas je ignorisao",
     "reblog": "podeljeno",
     "transfer": "preneto",
+    "delegations": "delegated",
     "spin": "Vreme je da zaradite više poena",
     "inactive": "Budite aktivni! Napišite objavu, nastavite da zarađujete",
     "referral": "pridružili su se sa vašom preporukom, pozdravite ih",
@@ -199,7 +200,8 @@
       "comment": "Komentar",
       "mention": "Pominjanje",
       "reblog": "Podeli",
-      "transfers": "Prenosi"
+      "transfers": "Prenosi",
+      "delegations": "Delegations"
     },
     "pincode": "PIN kod",
     "reset_pin": "Resetuj Pin kod",

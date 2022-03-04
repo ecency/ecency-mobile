@@ -118,6 +118,7 @@
     "ignore": "yessanef-ik",
     "reblog": "tettwasuffeɣ-d tikelt-nniḍen",
     "transfer": "transferred",
+    "delegations": "delegated",
     "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
@@ -199,7 +200,8 @@
       "comment": "Awennit",
       "mention": "Abdar",
       "reblog": "Aɛiwed n usuffeɣ",
-      "transfers": "Iceyyiɛen"
+      "transfers": "Iceyyiɛen",
+      "delegations": "Delegations"
     },
     "pincode": "Tangalt PIN",
     "reset_pin": "Aɛawed n tengalt PIN",

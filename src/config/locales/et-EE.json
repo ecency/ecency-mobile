@@ -118,6 +118,7 @@
     "ignore": "ignoreeris sind",
     "reblog": "jagatud",
     "transfer": "ülekanne tehtud",
+    "delegations": "delegated",
     "spin": "Aeg teenida rohkem Punkte",
     "inactive": "Ole aktiivne! Postita, jätka teenimist",
     "referral": "liitus sinu kutsega, tervita neid",
@@ -199,7 +200,8 @@
       "comment": "Kommenteeri",
       "mention": "Maini",
       "reblog": "Jaga",
-      "transfers": "Ülekanded"
+      "transfers": "Ülekanded",
+      "delegations": "Delegations"
     },
     "pincode": "Pincode",
     "reset_pin": "Lähtesta Pin-kood",

@@ -118,6 +118,7 @@
     "ignore": "ignored you",
     "reblog": "reblogged",
     "transfer": "transferred",
+    "delegations": "delegated",
     "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
@@ -199,7 +200,8 @@
       "comment": "Билдирүү",
       "mention": "Mention",
       "reblog": "Бөлүшүү",
-      "transfers": "Transfers"
+      "transfers": "Transfers",
+      "delegations": "Delegations"
     },
     "pincode": "Pincode",
     "reset_pin": "Reset Pin Code",

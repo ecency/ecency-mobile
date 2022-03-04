@@ -118,6 +118,7 @@
     "ignore": "te-a ignorat",
     "reblog": "redistribuit",
     "transfer": "transferat",
+    "delegations": "delegated",
     "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
@@ -199,7 +200,8 @@
       "comment": "Comentarii",
       "mention": "Menționări",
       "reblog": "Reblog",
-      "transfers": "Transferuri"
+      "transfers": "Transferuri",
+      "delegations": "Delegations"
     },
     "pincode": "Pincode",
     "reset_pin": "Resetare Cod Pin",

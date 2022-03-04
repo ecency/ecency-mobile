@@ -118,6 +118,7 @@
     "ignore": "seni engelledi",
     "reblog": "reblogged",
     "transfer": "transferred",
+    "delegations": "delegated",
     "spin": "Daha fazla puan kazanma vakti",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
@@ -199,7 +200,8 @@
       "comment": "Yorum",
       "mention": "Bahset",
       "reblog": "Yeniden yayınla",
-      "transfers": "Transferler"
+      "transfers": "Transferler",
+      "delegations": "Delegations"
     },
     "pincode": "Pinkod",
     "reset_pin": "Reset Pin Code",
