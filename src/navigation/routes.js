@@ -40,7 +40,6 @@ import {
   Communities,
   WebBrowser,
   ReferScreen,
-  QRScreen,
 } from '../screens';
 
 const bottomTabNavigator = createBottomTabNavigator(
@@ -155,7 +154,6 @@ const stackNavigator = createStackNavigator(
     [ROUTES.SCREENS.COMMUNITIES]: { screen: Communities },
     [ROUTES.SCREENS.WEB_BROWSER]: { screen: WebBrowser },
     [ROUTES.SCREENS.REFER]: { screen: ReferScreen },
-    [ROUTES.SCREENS.QR]: { screen: QRScreen },
   },
   {
     headerMode: 'none',

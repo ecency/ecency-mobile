@@ -27,7 +27,7 @@ const authMenuItems = [
   },
   {
     name: 'QR Scan',
-    route: ROUTES.SCREENS.QR,
+    route: '',
     icon: 'qrcode-scan',
     iconType: 'MaterialCommunityIcons',
     id: 'qr',
