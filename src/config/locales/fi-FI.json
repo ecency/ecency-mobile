@@ -586,10 +586,10 @@
     "new_amount": "New Amount",
     "review": "REVIEW",
     "confirm": "Vahvista valtuutus",
-    "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
-    "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
-    "username_alert": "Username Error!",
-    "username_alert_detail": "Please select different username"
+    "confirm_summary": "Valtuuta {hp} HP ({vests} VESTS) tilille @{delegator} tililtä @{delegatee} ",
+    "confirm_summary_para": "Tämä korvaan aiemman {prev} HP valtuutuksen tälle käyttäjälle.",
+    "username_alert": "Virhe käyttäjänimessä!",
+    "username_alert_detail": "Valitse toinen käyttäjänimi"
   },
   "boost": {
     "title": "Hanki pisteitä",
