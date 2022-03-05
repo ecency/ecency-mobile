@@ -513,7 +513,7 @@
     "beneficiaries": "Hyötyjät",
     "warn_zero_payout": "Määrän tulee ylittää $0.02 maksuun",
     "breakdown": "Erittely",
-    "max_accepted": "Max Accepted"
+    "max_accepted": "Suurin sallittu"
   },
   "post_dropdown": {
     "copy": "kopioi linkki",
@@ -578,12 +578,12 @@
     "sc_power_down_error": "Tätä ominaisuutta ei ole vielä toteutettu Hivesignerin kirjautumisessa",
     "address_view": "Näytä osoite",
     "already_delegated": "Already delegated to ",
-    "remain_hp": "Remaining HP",
+    "remain_hp": "HP jäljellä",
     "account_detail_head": "Tilin tiedot",
     "account_detail_subhead": "Anna HIVE Power -valtuutuksen saajan käyttäjänimi",
     "delegat_detail_head": "Valtuutuksen tiedot",
-    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
-    "new_amount": "New Amount",
+    "delegat_detail_subhead": "Uusi arvo korvaa aiemman HIVE Power -valtuutuksen ",
+    "new_amount": "Uusi määrä",
     "review": "REVIEW",
     "confirm": "Vahvista valtuutus",
     "confirm_summary": "Valtuuta {hp} HP ({vests} VESTS) tilille @{delegator} tililtä @{delegatee} ",
@@ -733,7 +733,7 @@
     "close": "SULJE"
   },
   "walkthrough": {
-    "load_draft_tooltip": "Load your lastest draft here"
+    "load_draft_tooltip": "Lataa viimeisin luonnoksesi tähän"
   },
   "refer": {
     "refer_earn": "Refer & Earn",
