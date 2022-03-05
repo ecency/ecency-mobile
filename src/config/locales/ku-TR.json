@@ -118,6 +118,7 @@
     "ignore": "te asteng kir",
     "reblog": "dîsa hate weşandin",
     "transfer": "hate transferkirin",
+    "delegations": "delegated",
     "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
@@ -199,7 +200,8 @@
       "comment": "Şîrovekirin",
       "mention": "Behskirin",
       "reblog": "Dîsweşandin",
-      "transfers": "Transfer"
+      "transfers": "Transfer",
+      "delegations": "Delegations"
     },
     "pincode": "Pînkod",
     "reset_pin": "Nûsazkirina PînKodê",

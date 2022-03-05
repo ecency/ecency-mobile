@@ -118,6 +118,7 @@
     "ignore": "abaikan anda",
     "reblog": "blog semula",
     "transfer": "dipindahkan",
+    "delegations": "delegated",
     "spin": "Masa untuk dapatkan lebih banyak Mata",
     "inactive": "Jadi aktif! Tulis sebuah kiriman, teruskan menjana",
     "referral": "telah menyertai dengan rujukan anda, sambutlah mereka",
@@ -199,7 +200,8 @@
       "comment": "Komen",
       "mention": "Menyebut",
       "reblog": "Reblog",
-      "transfers": "Pindah"
+      "transfers": "Pindah",
+      "delegations": "Delegations"
     },
     "pincode": "Pincode",
     "reset_pin": "Reset Pin Code",

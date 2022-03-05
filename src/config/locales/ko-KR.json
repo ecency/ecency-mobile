@@ -118,6 +118,7 @@
     "ignore": "님이 당신을 차단했습니다",
     "reblog": "님이 리블로그하였습니다.",
     "transfer": "님이 송금하였습니다.",
+    "delegations": "delegated",
     "spin": "더 많은 포이트를 획득할 시간입니다.",
     "inactive": "포스트를 작성하고 활발하게 활동하여 꾸준하게 수익을 창출하세요.",
     "referral": "귀하의 추천인 링크를 통해 가입한 사용자를 환영해주세요.",
@@ -199,7 +200,8 @@
       "comment": "댓글",
       "mention": "언급",
       "reblog": "리블로그",
-      "transfers": "전송"
+      "transfers": "전송",
+      "delegations": "Delegations"
     },
     "pincode": "PIN 코드",
     "reset_pin": "핀코드 리셋",

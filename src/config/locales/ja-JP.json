@@ -118,6 +118,7 @@
     "ignore": "あなたをミュートしました",
     "reblog": "リブログ済み",
     "transfer": "送金済み",
+    "delegations": "delegated",
     "spin": "Time to earn more Points",
     "inactive": "まめに投稿！ブログを書くと、もっと稼げる",
     "referral": "あなたに紹介されて参加されました、歓迎しましょう",
@@ -199,7 +200,8 @@
       "comment": "コメント",
       "mention": "メンション",
       "reblog": "リブログ",
-      "transfers": "送金"
+      "transfers": "送金",
+      "delegations": "Delegations"
     },
     "pincode": "PINコード",
     "reset_pin": "PINコードをリセット",

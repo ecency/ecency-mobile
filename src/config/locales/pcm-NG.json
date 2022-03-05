@@ -118,6 +118,7 @@
     "ignore": "don dey ignore you",
     "reblog": "e don reblog",
     "transfer": "give am",
+    "delegations": "delegated",
     "spin": "Na when you gaz collect plenty some things",
     "inactive": "Dey online wella! put something dow, make you fit collect",
     "referral": "enter based on person wey send dem come, greet dem",
@@ -199,7 +200,8 @@
       "comment": "Comment",
       "mention": "Mention",
       "reblog": "Reblog am",
-      "transfers": "Transfer"
+      "transfers": "Transfer",
+      "delegations": "Delegations"
     },
     "pincode": "PIN code",
     "reset_pin": "Format your pin code",

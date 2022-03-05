@@ -118,6 +118,7 @@
     "ignore": "অৱহেলা কৰে",
     "reblog": "ৰিব্লগ কৰিছে",
     "transfer": "ট্ৰানষ্ফাৰ্",
+    "delegations": "delegated",
     "spin": "অধিক প‌ইন্ট আহৰণ কৰা সময় হৈছে",
     "inactive": "সক্ৰিয় হ‌ওঁক! এটা পোষ্ট লিখক,‌‌ টকা আহৰণ কৰক",
     "referral": "আপোনাৰ ৰেফাৰেলৰ জৰিয়তে যোগদান কৰিলে, স্বাগতম জনাওক",
@@ -199,7 +200,8 @@
       "comment": "মন্তব্য কৰক",
       "mention": "উল্লেখ",
       "reblog": "Reblog",
-      "transfers": "Transfers"
+      "transfers": "Transfers",
+      "delegations": "Delegations"
     },
     "pincode": "Pincode",
     "reset_pin": "Reset Pin Code",

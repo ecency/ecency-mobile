@@ -182,7 +182,7 @@ class NotificationContainer extends Component {
   }
 
   render() {
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, globalProps } = this.props;
     const { notifications, isRefreshing } = this.state;
 
     return (
@@ -196,6 +196,7 @@ class NotificationContainer extends Component {
         isNotificationRefreshing={isRefreshing}
         isLoggedIn={isLoggedIn}
         changeSelectedFilter={this._changeSelectedFilter}
+        globalProps={globalProps}
       />
     );
   }
@@ -206,6 +207,7 @@ const mapStateToProps = (state) => ({
   isConnected: state.application.isConnected,
   pinCode: state.application.pin,
   currentAccount: state.account.currentAccount,
+  globalProps: state.account.globalProps,
   activeBottomTab: state.ui.activeBottomTab,
 });
 

@@ -118,6 +118,7 @@
     "ignore": "hanapeureumeun dröen",
     "reblog": "reblogged",
     "transfer": "transferred",
+    "delegations": "delegated",
     "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
@@ -199,7 +200,8 @@
       "comment": "Komentar",
       "mention": "Seuböt",
       "reblog": "Reblog",
-      "transfers": "Kirèm"
+      "transfers": "Kirèm",
+      "delegations": "Delegations"
     },
     "pincode": "Kode PIN",
     "reset_pin": "Reset Pin Code",
