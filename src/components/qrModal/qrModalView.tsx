@@ -11,7 +11,7 @@ import { useIntl } from 'react-intl';
 import { navigate } from '../../navigation/service';
 import { Icon } from '..';
 import { Dimensions } from 'react-native';
-import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
 
 export interface QRModalProps {}
 
@@ -38,34 +38,53 @@ export const QRModal = ({}: QRModalProps) => {
 
   const requestCameraPermission = async () => {
     if (Platform.OS === 'ios') {
-      request(PERMISSIONS.IOS.CAMERA).then((result) => {
-        if (result === RESULTS.GRANTED) {
-          console.log('Camera permission granted');
-        } else {
-          console.log('Camera permission denied');
-          Alert.alert(
-            'Unable to get camera permission',
-            'Please grant camera permission to scan QR code',
-          );
-        }
-      });
+      const permissionStatus = await check(PERMISSIONS.IOS.CAMERA);
+      if (permissionStatus !== RESULTS.GRANTED) {
+        request(PERMISSIONS.IOS.CAMERA).then((result) => {
+          if (result === RESULTS.GRANTED) {
+            console.log('Camera permission granted');
+          } else {
+            console.log('Camera permission blocked');
+            Alert.alert(
+              'Unable to get Camera permission',
+              'Please grant camera permission in ecency settings.',
+              [
+                {
+                  text: 'Close',
+                  onPress: () => {
+                    _onClose();
+                  },
+                  style: 'cancel',
+                },
+                {
+                  text: 'Allow',
+                  onPress: () => {
+                    openSettings();
+                  },
+                },
+              ],
+            );
+          }
+        });
+      }
     }
     if (Platform.OS === 'android') {
       try {
-        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, {
-          title: 'Ecency Camera Permission',
-          message: 'To scan QR, Ecency needs your permission.',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
-        });
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log('Camera permission granted');
-        } else {
-          console.log('Camera permission denied');
-          Alert.alert(
-            'Unable to get camera permission',
-            'Please grant camera permission to scan QR code',
-          );
+        const permissionStatus = await PermissionsAndroid.check(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+        );
+        if (!permissionStatus) {
+          const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, {
+            title: 'Ecency Camera Permission',
+            message: 'To scan QR, Ecency needs your permission.',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'OK',
+          });
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            console.log('Camera permission granted');
+          } else {
+            console.log('Camera permission denied');
+          }
         }
       } catch (err) {
         console.warn(err);
