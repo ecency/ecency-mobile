@@ -740,9 +740,9 @@
     "refer": "रेफर",
     "rewarded": "रेफरल अंक पुरस्कृत",
     "not_rewarded": "रेफ़रल इनाम लंबित",
-    "delegate_hp": "Delegate HP",
-    "earned": "Earned Points",
-    "pending": "Pending Points",
-    "empty_text": "Refer your loved ones today and earn free points"
+    "delegate_hp": "डेलिगेट एचपी",
+    "earned": "अर्जित अंक",
+    "pending": "अर्जित अंक",
+    "empty_text": "आज ही अपने प्रियजनों को देखें और निःशुल्क अंक अर्जित करें"
   }
 }
