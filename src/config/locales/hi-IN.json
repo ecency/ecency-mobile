@@ -118,7 +118,7 @@
     "ignore": "आपको अनदेखा किया",
     "reblog": "रीब्लॉग हुवा",
     "transfer": "स्थान्तरण",
-    "delegations": "delegated",
+    "delegations": "डेलीगेटेड",
     "spin": "अधिक अंक अर्जित करने का समय",
     "inactive": "सक्रिय हों! एक पोस्ट लिखो, कमाई जारी रखो",
     "referral": "अपने रेफरल के साथ शामिल हुए, उनका स्वागत करें",
@@ -201,7 +201,7 @@
       "mention": "उल्लेख",
       "reblog": "पुनर्प्रेशण",
       "transfers": "स्थानांतरण",
-      "delegations": "Delegations"
+      "delegations": "डेलीगेशन्स"
     },
     "pincode": "Pincode",
     "reset_pin": "पिन कोड रीसेट करें",
@@ -365,8 +365,8 @@
     "title": "छवियाँ अपलोड की गईं",
     "title_remove_confirmation": "छवि हटाएं",
     "btn_add": "छवि",
-    "btn_insert": "INSERT",
-    "btn_delete": "DELETE",
+    "btn_insert": "सम्मिलित करें",
+    "btn_delete": "हटाएँ",
     "message_failed": "छवि अपलोड करने में विफल"
   },
   "pincode": {
@@ -444,7 +444,7 @@
     "failed_to_open": "लिंक खोलने में विफल",
     "restart_ecency": "इसेंसी फिर से शुरू करें?",
     "restart_ecency_desc": "परिवर्तनों को लागू करने के लिए पुनः आरंभ करने की आवश्यकता होगी।",
-    "invalid_response": "Could not process request, Try again later."
+    "invalid_response": "अनुरोध संसाधित नहीं किया जा सका, बाद में पुन: प्रयास करें।"
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
@@ -577,9 +577,9 @@
     "stop": "रुको",
     "sc_power_down_error": "यह सुविधा अभी तक Hivesigner लॉगिन के लिए लागू नहीं की गई है",
     "address_view": "पता देखें",
-    "already_delegated": "Already delegated to ",
-    "remain_hp": "Remaining HP",
-    "account_detail_head": "Account Details",
+    "already_delegated": "को पहले ही डेलीगेटेड किया जा चुका है ",
+    "remain_hp": "शेष एचपी",
+    "account_detail_head": "अकाउंट विवरण",
     "account_detail_subhead": "Enter username for HIVE Power delegation",
     "delegat_detail_head": "Delegation Details",
     "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
