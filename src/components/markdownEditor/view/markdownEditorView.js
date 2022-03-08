@@ -303,27 +303,13 @@ const MarkdownEditorView = ({
   };
   const _handleInsertLink = ({ label, url }) => {
     if (url) {
-      if (label) {
-        applyWebLinkFormat({
-          item: { text: label, url: url },
-          text,
-          selection,
-          setTextAndSelection: _setTextAndSelection,
-        });
-      } else {
-        let selection = {
-          start: 0,
-          end: 0,
-        };
-        inputRef.current.setNativeProps({
-          text: url,
-        });
-        inputRef.current.setNativeProps({
-          selection: selection,
-        });
-        setSelection(selection);
-        _changeText(url);
-      }
+      applyWebLinkFormat({
+        item: { text: label, url: url },
+        text,
+        selection,
+        setTextAndSelection: _setTextAndSelection,
+      });
+      
     } else {
       console.log('No url added!');
     }
