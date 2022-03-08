@@ -17,6 +17,7 @@ import { Icon } from '../../icon';
 // Utils
 import Formats from './formats/formats';
 import applyMediaLink from './formats/applyMediaLink';
+import applyWebLinkFormat from './formats/applyWebLinkFormat';
 
 // Actions
 import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
@@ -37,6 +38,7 @@ import {
   SnippetsModal,
   UploadsGalleryModal,
   Tooltip,
+  InsertLinkModal,
 } from '../../index';
 
 import { ThemeContainer } from '../../../containers';
@@ -90,6 +92,7 @@ const MarkdownEditorView = ({
   const galleryRef = useRef(null);
   const clearRef = useRef(null);
   const uploadsGalleryModalRef = useRef(null);
+  const insertLinkModalRef = useRef(null);
   const tooltipRef = useRef(null);
 
   const dispatch = useDispatch();
@@ -232,6 +235,7 @@ const MarkdownEditorView = ({
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const _setTextAndSelection = useCallback(({ selection: _selection, text: _text }) => {
+    console.log('_text : ', _text);
     inputRef.current.setNativeProps({
       text: _text,
     });
@@ -266,6 +270,7 @@ const MarkdownEditorView = ({
   );
 
   const _handleOnSnippetReceived = (snippetText) => {
+    console.log('text : ', text, 'selection : ', selection, 'snippetText : ', snippetText);
     applySnippet({
       text,
       selection,
@@ -290,6 +295,42 @@ const MarkdownEditorView = ({
     }
   };
 
+  const _handleOnAddLinkPress = () => {
+    insertLinkModalRef.current?.showModal();
+  };
+  const _handleOnAddLinkSheetClose = () => {
+    inputRef.current?.focus();
+  };
+  const _handleInsertLink = ({ label, url }) => {
+    if (url) {
+      if (label) {
+        applyWebLinkFormat({
+          item: { text: label, url: url },
+          text,
+          selection,
+          setTextAndSelection: _setTextAndSelection,
+        });
+      } else {
+        let selection = {
+          start: 0,
+          end: 0,
+        };
+        inputRef.current.setNativeProps({
+          text: url,
+        });
+        inputRef.current.setNativeProps({
+          selection: selection,
+        });
+        setSelection(selection);
+        _changeText(url);
+      }
+    } else {
+      console.log('No url added!');
+    }
+
+    insertLinkModalRef.current?.hideModal();
+    inputRef.current?.focus();
+  };
   const _renderMarkupButton = ({ item }) => (
     <View style={styles.buttonWrapper}>
       <IconButton
@@ -355,7 +396,8 @@ const MarkdownEditorView = ({
           iconType="FontAwesome"
           name="link"
           onPress={() =>
-            Formats[3].onPress({ text, selection, setTextAndSelection: _setTextAndSelection })
+            // Formats[3].onPress({ text, selection, setTextAndSelection: _setTextAndSelection })
+            _handleOnAddLinkPress()
           }
         />
         <IconButton
@@ -507,6 +549,12 @@ const MarkdownEditorView = ({
         username={currentAccount.username}
         handleOnSelect={_handleOnMediaSelect}
         uploadedImage={uploadedImage}
+      />
+
+      <InsertLinkModal
+        ref={insertLinkModalRef}
+        handleOnInsertLink={_handleInsertLink}
+        handleOnSheetClose={_handleOnAddLinkSheetClose}
       />
 
       <OptionsModal
