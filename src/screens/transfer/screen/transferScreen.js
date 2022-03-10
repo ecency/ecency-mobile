@@ -193,7 +193,7 @@ const TransferView = ({
     <Fragment>
       <BasicHeader title={intl.formatMessage({ id: `transfer.${transferType}` })} />
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView contentContainerStyle={styles.fullHeight}>
           <View style={[styles.toFromAvatarsContainer, { marginBottom: 16 }]}>
             <UserAvatar username={from} size="xl" style={styles.userAvatar} noAction />
             <Icon style={styles.icon} name="arrow-forward" iconType="MaterialIcons" />
@@ -250,6 +250,7 @@ const TransferView = ({
             )}
             {(transferType === 'points' || transferType === 'transfer_token') && (
               <TransferFormItem
+                containerStyle={{ marginTop: 40 }}
                 rightComponent={() =>
                   _renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
                 }
