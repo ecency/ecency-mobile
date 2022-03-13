@@ -7,6 +7,7 @@ import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import TextInput from '../textInput';
 import { delay } from '../../utils/editor';
+import { isStringWebLink } from '../markdownEditor/view/formats/utils';
 
 interface InsertLinkModalProps {
   handleOnInsertLink: ({ label, url }: { label: string; url: string }) => void;
@@ -20,6 +21,7 @@ export const InsertLinkModal = forwardRef(
     const [isLoading, setIsLoading] = useState(false);
     const [label, setLabel] = useState('');
     const [url, setUrl] = useState('');
+    const [isUrlValid, setIsUrlValid] = useState(true);
     const sheetModalRef = useRef<ActionSheet>();
     const labelInputRef = useRef(null);
 
@@ -34,7 +36,14 @@ export const InsertLinkModal = forwardRef(
       },
     }));
 
-    //renders footer with add snipept button and shows new snippet modal
+    const _handleInsert = () => {
+      if(!isStringWebLink(url)){
+        setIsUrlValid(false);
+        return
+      }
+      handleOnInsertLink({ label, url })
+    }
+
     const _renderFloatingPanel = () => {
       return (
         <View style={styles.floatingContainer}>
@@ -45,7 +54,7 @@ export const InsertLinkModal = forwardRef(
           />
           <MainButton
             style={styles.insertBtn}
-            onPress={() => handleOnInsertLink({ label, url })}
+            onPress={() => _handleInsert()}
             iconName="plus"
             iconType="MaterialCommunityIcons"
             iconColor="white"
@@ -77,6 +86,12 @@ export const InsertLinkModal = forwardRef(
           autoCapitalize="none"
           keyboardType="url"
         />
+        {
+          !isUrlValid && <Text style={styles.validText}>
+          Please insert valid url
+        </Text>
+        }
+        
       </View>
     );
     const _renderContent = (

@@ -59,4 +59,8 @@ export default EStyleSheet.create({
     maxHeight: 50,
     marginVertical: 8, 
   },
+  validText:{
+    color: '$primaryRed',
+    marginVertical: 4,
+  }
 });
