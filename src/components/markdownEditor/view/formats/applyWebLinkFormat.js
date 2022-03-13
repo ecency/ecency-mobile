@@ -40,8 +40,10 @@ export default async ({ text, selection, setTextAndSelection, item, isImage = nu
       };
     } else {
       newSelection = {
-        start: hasLabel ? selection.start + 1 : 0,
-        end: hasLabel ? selection.start + 1 + (itemText && itemText.length) : 0,
+        start: newText.length,
+        end: newText.length,
+        // start: hasLabel ? selection.start + 1 : 0,
+        // end: hasLabel ? selection.start + 1 + (itemText && itemText.length) : 0,
       };
     }
   }
