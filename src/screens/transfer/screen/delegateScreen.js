@@ -335,7 +335,7 @@ class DelegateScreen extends Component {
         return (
           <View style={styles.transferToContainer}>
             <TextInput
-              style={[styles.input]}
+              style={[styles.input, { width: '100%' }]}
               onChangeText={(value) => {
                 this.setState({ destination: value, step: 1 });
                 this._handleOnAmountChange(state, value);

@@ -116,7 +116,7 @@ export default EStyleSheet.create({
     borderColor: '$borderColor',
     borderWidth: 1,
     height: 44,
-    width: 172,
+    width: '100%',
     borderRadius: 8,
     marginHorizontal: 2,
   },
@@ -317,5 +317,8 @@ export default EStyleSheet.create({
   },
   grow: {
     flexGrow: 1,
+  },
+  fullHeight: {
+    height: '100%',
   },
 });
