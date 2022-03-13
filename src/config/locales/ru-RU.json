@@ -577,11 +577,11 @@
     "stop": "Остановить",
     "sc_power_down_error": "Эта функция еще не реализована для логина через Hivesigner",
     "address_view": "Посмотреть адрес",
-    "already_delegated": "Already delegated to ",
-    "remain_hp": "Remaining HP",
-    "account_detail_head": "Account Details",
-    "account_detail_subhead": "Enter username for HIVE Power delegation",
-    "delegat_detail_head": "Delegation Details",
+    "already_delegated": "Уже делегировано ",
+    "remain_hp": "Осталось HP",
+    "account_detail_head": "Детали учетной записи",
+    "account_detail_subhead": "Введите имя пользователя для делегирования HIVE Power",
+    "delegat_detail_head": "Детали делегирования",
     "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
     "new_amount": "New Amount",
     "review": "REVIEW",
@@ -737,12 +737,12 @@
   },
   "refer": {
     "refer_earn": "Расскажите и заработайте",
-    "refer": "Refer",
-    "rewarded": "Referral points rewarded",
-    "not_rewarded": "Referral reward pending",
-    "delegate_hp": "Delegate HP",
-    "earned": "Earned Points",
+    "refer": "Привлеките",
+    "rewarded": "Награда за привлечение",
+    "not_rewarded": "Выплата награды за привлечение",
+    "delegate_hp": "Делегировать HP",
+    "earned": "Заработанные баллы",
     "pending": "Pending Points",
-    "empty_text": "Refer your loved ones today and earn free points"
+    "empty_text": "Пригласите своих близких сегодня и зарабатывайте бесплатные баллы"
   }
 }
