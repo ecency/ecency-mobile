@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Text, View } from 'react-native';
 import { MainButton, TextButton } from '..';
@@ -6,6 +6,7 @@ import styles from './insertLinkModalStyles';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import TextInput from '../textInput';
+import { delay } from '../../utils/editor';
 
 interface InsertLinkModalProps {
   handleOnInsertLink: ({ label, url }: { label: string; url: string }) => void;
@@ -23,8 +24,10 @@ export const InsertLinkModal = forwardRef(
     const labelInputRef = useRef(null);
 
     useImperativeHandle(ref, () => ({
-      showModal: () => {
+      showModal: async() => {
         sheetModalRef.current?.setModalVisible(true);
+        await delay(1500);
+        labelInputRef.current?.focus()
       },
       hideModal: () => {
         sheetModalRef.current?.setModalVisible(false);
@@ -91,6 +94,7 @@ export const InsertLinkModal = forwardRef(
         keyboardHandlerEnabled
         indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
         onClose={() => {
+          labelInputRef.current?.blur();
           setLabel('');
           setUrl('');
           handleOnSheetClose();

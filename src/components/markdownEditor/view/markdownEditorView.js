@@ -297,6 +297,7 @@ const MarkdownEditorView = ({
 
   const _handleOnAddLinkPress = () => {
     insertLinkModalRef.current?.showModal();
+    inputRef.current?.blur();
   };
   const _handleOnAddLinkSheetClose = () => {
     inputRef.current?.focus();
@@ -309,13 +310,11 @@ const MarkdownEditorView = ({
         selection,
         setTextAndSelection: _setTextAndSelection,
       });
-      
     } else {
       console.log('No url added!');
     }
 
     insertLinkModalRef.current?.hideModal();
-    inputRef.current?.focus();
   };
   const _renderMarkupButton = ({ item }) => (
     <View style={styles.buttonWrapper}>
