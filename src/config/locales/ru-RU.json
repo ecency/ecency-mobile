@@ -118,7 +118,7 @@
     "ignore": "игнорирует",
     "reblog": "сделал репост",
     "transfer": "переведено",
-    "delegations": "delegated",
+    "delegations": "делегировано",
     "spin": "Пора заработать больше Баллов",
     "inactive": "Будьте активны! Напишите пост, продолжайте зарабатывать",
     "referral": "присоединился по вашей ссылке. Поприветствуйте его",
@@ -201,7 +201,7 @@
       "mention": "Упоминания",
       "reblog": "Репосты",
       "transfers": "Переводы",
-      "delegations": "Delegations"
+      "delegations": "Делегации"
     },
     "pincode": "Пинкод",
     "reset_pin": "Сбросить пин-код",
@@ -736,7 +736,7 @@
     "load_draft_tooltip": "Load your lastest draft here"
   },
   "refer": {
-    "refer_earn": "Refer & Earn",
+    "refer_earn": "Расскажите и заработайте",
     "refer": "Refer",
     "rewarded": "Referral points rewarded",
     "not_rewarded": "Referral reward pending",
