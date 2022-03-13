@@ -75,6 +75,7 @@ export const InsertLinkModal = forwardRef(
           placeholder={'Enter URL'}
           placeholderTextColor="#c1c5c7"
           autoCapitalize="none"
+          keyboardType="url"
         />
       </View>
     );
