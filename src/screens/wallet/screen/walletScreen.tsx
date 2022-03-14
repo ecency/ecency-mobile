@@ -103,13 +103,14 @@ const WalletScreen = ({navigation}) => {
       coins:selectedCoins, 
       currentAccount, 
       vsCurrency:currency.currency, 
+      currencyRate:currency.currencyRate,
       globalProps,
       quotes,
       refresh
     });
     
     console.log("Coins Data", coinData)
-    dispatch(setCoinsData(coinData))
+    dispatch(setCoinsData(coinData, currency.currency, currentAccount.username))
     setRefreshing(false);
     setIsLoading(false);
   }
