@@ -22,6 +22,7 @@ export default EStyleSheet.create({
   },
   rightPart: {
     flex: 2,
-    // padding: 10,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
 });
