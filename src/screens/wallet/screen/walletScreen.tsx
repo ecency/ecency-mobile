@@ -29,7 +29,7 @@ import ROUTES from '../../../constants/routeNames';
 import { CoinDetailsScreenParams } from '../../coinDetails/screen/coinDetailsScreen';
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
 import { CoinBase, CoinData } from '../../../redux/reducers/walletReducer';
-import { resetWalletData, setCoinsData, setPriceHistory } from '../../../redux/actions/walletActions';
+import { fetchCoinQuotes, resetWalletData, setCoinsData, setPriceHistory } from '../../../redux/actions/walletActions';
 import { fetchCoinsData } from '../../../utils/wallet';
 import { COIN_IDS } from '../../../constants/defaultCoins';
 import { claimPoints } from '../../../providers/ecency/ePoint';
@@ -73,7 +73,7 @@ const WalletScreen = ({navigation}) => {
   useEffect(()=>{
     if(currency.currency !== wallet.vsCurrency || currentAccount.username !== wallet.username ){
       dispatch(resetWalletData());
-      _fetchData();
+      _fetchData(true);
     }
   },[currency, currentAccount])
 
@@ -99,6 +99,9 @@ const WalletScreen = ({navigation}) => {
 
   const _fetchCoinsData = async (refresh?:boolean) => {
     setIsLoading(true);
+    if(refresh){
+      dispatch(fetchCoinQuotes());
+    }
     const coinData = await fetchCoinsData({
       coins:selectedCoins, 
       currentAccount, 
@@ -180,7 +183,7 @@ const WalletScreen = ({navigation}) => {
     const _tokenMarketData:number[] = priceHistories[item.id] ? priceHistories[item.id].data : [];
 
     const _balance = coinData.balance + (coinData.savings || 0);
-    const quote = quotes[item.id];
+    const quote = quotes ? quotes[item.id] : {};
 
     const _onCardPress = () => {
       navigation.navigate(ROUTES.SCREENS.COIN_DETAILS, {
@@ -200,8 +203,8 @@ const WalletScreen = ({navigation}) => {
     return (
       <CoinCard 
         chartData={_tokenMarketData || []} 
-        currentValue={quote.price}
-        changePercent={quote.percentChange}
+        currentValue={quote.price || 0}
+        changePercent={quote.percentChange || 0}
         currencySymbol={currency.currencySymbol}
         ownedTokens={_balance}
         unclaimedRewards={coinData.unclaimedBalance}
