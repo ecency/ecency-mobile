@@ -369,6 +369,7 @@ export const fetchCoinsData = async ({
   coins,
   currentAccount,
   vsCurrency,
+  currencyRate,
   globalProps,
   refresh,
   quotes,
@@ -376,6 +377,7 @@ export const fetchCoinsData = async ({
   coins: CoinBase[],
   currentAccount: any,
   vsCurrency: string,
+  currencyRate: number,
   globalProps: GlobalProps,
   quotes: { [key: string]: QuoteItem }
   refresh: boolean,
@@ -397,7 +399,7 @@ export const fetchCoinsData = async ({
   const userdata = refresh ? await getAccount(username) : currentAccount;
   const _ecencyUserData = refresh ? await getEcencyUser(username) : currentAccount.ecencyUserData
   //TODO: cache data in redux or fetch once on wallet startup
-  const _prices = !refresh && quotes ? quotes : await getLatestQuotes(); //TODO: figure out a way to handle other currencies
+  const _prices = !refresh && quotes ? quotes : await getLatestQuotes(currencyRate); //TODO: figure out a way to handle other currencies
 
 
   coins.forEach((coinBase) => {
