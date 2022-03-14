@@ -20,6 +20,7 @@ const NotificationScreen = ({
   readAllNotification,
   isNotificationRefreshing,
   changeSelectedFilter,
+  globalProps,
 }) => {
   return (
     <Fragment>
@@ -47,6 +48,7 @@ const NotificationScreen = ({
                   readAllNotification={readAllNotification}
                   isNotificationRefreshing={isNotificationRefreshing}
                   changeSelectedFilter={changeSelectedFilter}
+                  globalProps={globalProps}
                 />
               )}
             </LoggedInContainer>

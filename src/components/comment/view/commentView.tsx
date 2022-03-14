@@ -39,6 +39,7 @@ const CommentView = ({
   hideManyCommentsButton,
   openReplyThread,
   fetchedAt,
+  incrementRepliesCount
 }) => {
   const intl = useIntl();
   const actionSheet = useRef(null);
@@ -77,6 +78,9 @@ const CommentView = ({
       //TODO: update comment count and show sub comment if required;
       const cachedComment = cachedComments.get(postPath);
       if(cachedComment.updated === cachedComment.created){
+        if(commentNumber > 1 && incrementRepliesCount){
+          incrementRepliesCount();
+        }
         setChildCount(childCount + 1);
         setReplies(replies ? [...replies, cachedComment] : [cachedComment]);
       }
@@ -101,6 +105,13 @@ const CommentView = ({
     //fake increment vote using based on local change
     setCacheVoteIcrement(1);
   };
+
+  const _incrementRepliesCount = () => {
+    if(commentNumber > 1 && incrementRepliesCount){
+      incrementRepliesCount();
+    }
+    setChildCount(childCount + 1);
+  }
 
 
   const _renderReadMoreButton = () => (
@@ -139,6 +150,7 @@ const CommentView = ({
           hideManyCommentsButton={hideManyCommentsButton}
           mainAuthor={mainAuthor}
           fetchedAt={fetchedAt}
+          incrementRepliesCount={_incrementRepliesCount}
         />
       </AnimatedView>
      
@@ -221,7 +233,7 @@ const CommentView = ({
               onPress={() => handleOnEditPress && handleOnEditPress(comment)}
               iconType="MaterialIcons"
             />
-            {!childCount && !activeVotes.length && (
+            {!childCount && !activeVotes.length && isCommentDeletable && (
               <Fragment>
                 <IconButton
                   size={20}
@@ -271,7 +283,8 @@ const CommentView = ({
   }
 
   const customContainerStyle = commentNumber > 2 ? {marginLeft: 44}:null
-
+  const isCommentDeletable = comment && !(comment.children > 0 || comment.net_rshares > 0 || comment.is_paidout);
+  
   return (
     <Fragment>
       <View style={{...styles.commentContainer, ...customContainerStyle}}>

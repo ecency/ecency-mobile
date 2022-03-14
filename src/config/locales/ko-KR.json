@@ -118,6 +118,7 @@
     "ignore": "님이 당신을 차단했습니다",
     "reblog": "님이 리블로그하였습니다.",
     "transfer": "님이 송금하였습니다.",
+    "delegations": "delegated",
     "spin": "더 많은 포이트를 획득할 시간입니다.",
     "inactive": "포스트를 작성하고 활발하게 활동하여 꾸준하게 수익을 창출하세요.",
     "referral": "귀하의 추천인 링크를 통해 가입한 사용자를 환영해주세요.",
@@ -199,7 +200,8 @@
       "comment": "댓글",
       "mention": "언급",
       "reblog": "리블로그",
-      "transfers": "전송"
+      "transfers": "전송",
+      "delegations": "Delegations"
     },
     "pincode": "PIN 코드",
     "reset_pin": "핀코드 리셋",
@@ -363,6 +365,8 @@
     "title": "이미지 업로드",
     "title_remove_confirmation": "이미지 삭제",
     "btn_add": "이미지",
+    "btn_insert": "INSERT",
+    "btn_delete": "DELETE",
     "message_failed": "이미지 업로드에 실패"
   },
   "pincode": {
@@ -572,7 +576,20 @@
     "incoming_funds": "입금 예정 자산",
     "stop": "중단",
     "sc_power_down_error": "이 기능은 Hivesigner 로그인에 대해 아직 구현되지 않았습니다",
-    "address_view": "지갑 주소 보기"
+    "address_view": "지갑 주소 보기",
+    "already_delegated": "Already delegated to ",
+    "remain_hp": "Remaining HP",
+    "account_detail_head": "Account Details",
+    "account_detail_subhead": "Enter username for HIVE Power delegation",
+    "delegat_detail_head": "Delegation Details",
+    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
+    "new_amount": "New Amount",
+    "review": "REVIEW",
+    "confirm": "Confirm Delegation",
+    "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
+    "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
+    "username_alert": "Username Error!",
+    "username_alert_detail": "Please select different username"
   },
   "boost": {
     "title": "포인트 받기",
@@ -714,5 +731,18 @@
     "comment": "Comment",
     "reply": "REPLY",
     "close": "CLOSE"
+  },
+  "walkthrough": {
+    "load_draft_tooltip": "Load your lastest draft here"
+  },
+  "refer": {
+    "refer_earn": "Refer & Earn",
+    "refer": "Refer",
+    "rewarded": "Referral points rewarded",
+    "not_rewarded": "Referral reward pending",
+    "delegate_hp": "Delegate HP",
+    "earned": "Earned Points",
+    "pending": "Pending Points",
+    "empty_text": "Refer your loved ones today and earn free points"
   }
 }

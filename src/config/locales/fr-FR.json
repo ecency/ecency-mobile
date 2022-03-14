@@ -118,6 +118,7 @@
     "ignore": "vous a ignoré",
     "reblog": "reblogué",
     "transfer": "transféré",
+    "delegations": "delegated",
     "spin": "C'est l'heure de gagner plus de points",
     "inactive": "Soyez actif ! Écrivez un post, continuez à obtenir des gains",
     "referral": "à rejoint avec votre parrainage, acceuillez-le",
@@ -199,7 +200,8 @@
       "comment": "Commentaire",
       "mention": "Mention",
       "reblog": "Reblog",
-      "transfers": "Transferts"
+      "transfers": "Transferts",
+      "delegations": "Delegations"
     },
     "pincode": "Pincode",
     "reset_pin": "Réinitialisez le Code Pin",
@@ -363,6 +365,8 @@
     "title": "Uploaded Images",
     "title_remove_confirmation": "Delete image",
     "btn_add": "Image",
+    "btn_insert": "INSERT",
+    "btn_delete": "DELETE",
     "message_failed": "Failed to upload image"
   },
   "pincode": {
@@ -572,7 +576,20 @@
     "incoming_funds": "Fonds entrants",
     "stop": "Arrêter",
     "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
-    "address_view": "Voir l'adresse"
+    "address_view": "Voir l'adresse",
+    "already_delegated": "Already delegated to ",
+    "remain_hp": "Remaining HP",
+    "account_detail_head": "Account Details",
+    "account_detail_subhead": "Enter username for HIVE Power delegation",
+    "delegat_detail_head": "Delegation Details",
+    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
+    "new_amount": "New Amount",
+    "review": "REVIEW",
+    "confirm": "Confirm Delegation",
+    "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
+    "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
+    "username_alert": "Username Error!",
+    "username_alert_detail": "Please select different username"
   },
   "boost": {
     "title": "Obtenir des points",
@@ -714,5 +731,18 @@
     "comment": "Comment",
     "reply": "REPLY",
     "close": "CLOSE"
+  },
+  "walkthrough": {
+    "load_draft_tooltip": "Load your lastest draft here"
+  },
+  "refer": {
+    "refer_earn": "Refer & Earn",
+    "refer": "Refer",
+    "rewarded": "Referral points rewarded",
+    "not_rewarded": "Referral reward pending",
+    "delegate_hp": "Delegate HP",
+    "earned": "Earned Points",
+    "pending": "Pending Points",
+    "empty_text": "Refer your loved ones today and earn free points"
   }
 }

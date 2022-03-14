@@ -118,6 +118,7 @@
     "ignore": "ignorou você",
     "reblog": "repostado",
     "transfer": "transferido",
+    "delegations": "delegado",
     "spin": "Hora de ganhar mais Pontos",
     "inactive": "Fique ativo! Escreva uma publicação, e continue a ganhar",
     "referral": "entrou com sua indicação. Dê boas vindas",
@@ -199,7 +200,8 @@
       "comment": "Comentar",
       "mention": "Menção",
       "reblog": "Republicar",
-      "transfers": "Transferências"
+      "transfers": "Transferências",
+      "delegations": "Delegações"
     },
     "pincode": "Código PIN",
     "reset_pin": "Redefinir o código Pin",
@@ -363,6 +365,8 @@
     "title": "Imagens Enviadas",
     "title_remove_confirmation": "Deletar imagem",
     "btn_add": "Imagem",
+    "btn_insert": "INSERIR",
+    "btn_delete": "EXCLUIR",
     "message_failed": "Falha ao carregar imagem"
   },
   "pincode": {
@@ -440,7 +444,7 @@
     "failed_to_open": "Falhou em abrir o link",
     "restart_ecency": "Reiniciar a Ecency?",
     "restart_ecency_desc": "Aplicar alterações exigirá uma reinicialização.",
-    "invalid_response": "Could not process request, Try again later."
+    "invalid_response": "Não foi possível processar o pedido. Tente mais tarde."
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
@@ -572,7 +576,20 @@
     "incoming_funds": "Fundos Recebidos",
     "stop": "Parar",
     "sc_power_down_error": "Esse recurso ainda não está implementado para fazer login através do Hivesigner, por enquanto",
-    "address_view": "Ver endereço"
+    "address_view": "Ver endereço",
+    "already_delegated": "Já delegado para ",
+    "remain_hp": "HP restante",
+    "account_detail_head": "Detalhes da Conta",
+    "account_detail_subhead": "Enter username for HIVE Power delegation",
+    "delegat_detail_head": "Detalhes da Delegação",
+    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
+    "new_amount": "Nova Quantia",
+    "review": "REVER",
+    "confirm": "Confirmar Delegação",
+    "confirm_summary": "Delegar {hp} HP ({vests} VESTS) A @{delegator{delegatee}} de@{delegatee} ",
+    "confirm_summary_para": "Isso substituirá a sua delegação anterior de {prev} HP para esta conta.",
+    "username_alert": "Erro no nome!",
+    "username_alert_detail": "Por favor, selecione um nome diferente"
   },
   "boost": {
     "title": "Obter Pontos",
@@ -710,9 +727,22 @@
     "year": "anos"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
-    "comment": "Comment",
-    "reply": "REPLY",
-    "close": "CLOSE"
+    "placeholder": "Adicionar comentário",
+    "comment": "Comentário",
+    "reply": "RESPONDER",
+    "close": "FECHAR"
+  },
+  "walkthrough": {
+    "load_draft_tooltip": "Carregue o seu último rascunho aqui"
+  },
+  "refer": {
+    "refer_earn": "Indique & Ganhe",
+    "refer": "Indique",
+    "rewarded": "Ganho de pontos por indicação",
+    "not_rewarded": "Recompensa de indicação pendente",
+    "delegate_hp": "Delegar HP",
+    "earned": "Pontos Ganhos",
+    "pending": "Pontos Pendentes",
+    "empty_text": "Indique aos amigos e ganhe pontos"
   }
 }

@@ -118,6 +118,7 @@
     "ignore": "ignored you",
     "reblog": "reblogged",
     "transfer": "transferred",
+    "delegations": "delegated",
     "spin": "Time to earn more Points",
     "inactive": "Be active! Write a post, continue earning",
     "referral": "joined with your referral, welcome them",
@@ -199,7 +200,8 @@
       "comment": "Comment",
       "mention": "Mention",
       "reblog": "Reblog",
-      "transfers": "Transfers"
+      "transfers": "Transfers",
+      "delegations": "Delegations"
     },
     "pincode": "PIN code",
     "reset_pin": "Reset Pin Code",
@@ -301,6 +303,7 @@
     "limited_space": "Use space to separate tags",
     "limited_lowercase": "Only use lower letters in tag",
     "limited_characters": "Use only lowercase letters, digits and one dash",
+    "limited_firstchar": "Tag must start with a letter",
     "limited_lastchar": "Tag must end with letter or number",
     "setting_schedule": "Scheduling Time",
     "setting_reward": "Reward",
@@ -740,6 +743,6 @@
     "delegate_hp": "Delegate HP",
     "earned": "Earned Points",
     "pending": "Pending Points",
-    "empty_text": "Refer your loved ones today and earn free points",
+    "empty_text": "Refer your loved ones today and earn free points"
   }
 }
