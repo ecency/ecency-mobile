@@ -60,6 +60,8 @@ interface State {
     quotes:{
         [key: string]: QuoteItem;
     }
+    vsCurrency:string,
+    username:string,
     updateTimestamp:number;
 }
 
@@ -69,6 +71,8 @@ const initialState:State = {
     priceHistories:{},
     coinsActivities:{},
     quotes: null,
+    vsCurrency:'',
+    username:'',
     updateTimestamp:0
 };
   
@@ -90,7 +94,9 @@ export default function (state = initialState, action) {
     case SET_COINS_DATA:{
         return {
             ...state,
-            coinsData:payload,
+            coinsData:payload.data,
+            vsCurrency:payload.vsCurrency,
+            username:payload.username,
             updateTimestamp:new Date().getTime()
         }
     }
