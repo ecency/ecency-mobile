@@ -7,7 +7,8 @@ import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
 import { useHtmlIframeProps, iframeModel } from '@native-html/iframe-plugin';
 import WebView from 'react-native-webview';
 import { VideoPlayer } from '..';
-import { Platform } from 'react-native';
+import {useHtmlTableProps } from '@native-html/table-plugin';
+import { ScrollView } from 'react-native-gesture-handler';
 
 interface PostHtmlRendererProps {
   contentWidth: number;
@@ -43,6 +44,8 @@ export const PostHtmlRenderer = memo(
     body = body.replace(/<center>/g, '<div class="text-center">').replace(/<\/center>/g, '</div>');
 
     console.log('Comment body:', body);
+
+    const _minTableColWidth = (contentWidth / 3) - 12;
 
     const _handleOnLinkPress = (data: LinkData) => {
       if (!data) {
@@ -221,6 +224,21 @@ export const PostHtmlRenderer = memo(
     };
 
 
+    //based on number of columns a table have, sets scroll enabled or disable, also adjust table full width
+    const _tableRenderer = ({TDefaultRenderer, ...props}:CustomRendererProps<TNode>) => {
+      const tableProps = useHtmlTableProps(props);
+
+      const isScrollable = tableProps.numOfColumns > 3;
+      const _tableWidth = isScrollable ? tableProps.numOfColumns * _minTableColWidth: contentWidth;    
+      props.style = {width:_tableWidth};
+
+      return (
+        <ScrollView horizontal={true} scrollEnabled={isScrollable}>
+            <TDefaultRenderer {...props} />
+        </ScrollView>
+      )}
+
+
     // iframe renderer for rendering iframes in body
     const _iframeRenderer = function IframeRenderer(props) {
       const iframeProps = useHtmlIframeProps(props);
@@ -237,7 +255,6 @@ export const PostHtmlRenderer = memo(
         )
       }else{
         return (
-
           <VideoPlayer 
             mode='uri'
             uri={iframeProps.source.uri}
@@ -262,15 +279,15 @@ export const PostHtmlRenderer = memo(
           body: styles.body,
           a: styles.a,
           img: styles.img,
-          th: styles.th,
+          table: styles.table,
           tr: { ...styles.tr, width: contentWidth }, //center tag causes tr to have 0 width if not exclusivly set, contentWidth help avoid that
+          th: {...styles.th, minWidth: _minTableColWidth},
+          td: {...styles.td, minWidth: _minTableColWidth},
           div:{width:contentWidth},
-          td: styles.td,
           blockquote: styles.blockquote,
           code: styles.code,
           li: styles.li,
           p: styles.p,
-          table: styles.table,
         }}
         domVisitors={{
           onElement: _onElement,
@@ -280,6 +297,7 @@ export const PostHtmlRenderer = memo(
           a: _anchorRenderer,
           p: _paraRenderer,
           iframe: _iframeRenderer,
+          table: _tableRenderer
         }}
         onHTMLLoaded={onLoaded && onLoaded}
         defaultTextProps={{
