@@ -39,11 +39,11 @@ export default EStyleSheet.create({
     alignItems:'center',
     fontWeight: 'bold',
     color: '$primaryBlack',
+    backgroundColor:'$darkIconColor',
     fontSize: 14,
     padding: 10,
   } as TextStyle,
   tr:{
-    backgroundColor:'$darkIconColor',
     flexDirection:'row',
   } as ViewStyle,
   td:{
