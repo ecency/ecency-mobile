@@ -19,27 +19,27 @@ export const convertReferralStat = (rawData: any) => {
   } as ReferralStat;
 };
 
-export const convertQuoteItem = (rawData:any) => {
+export const convertQuoteItem = (rawData:any, currencyRate:number) => {
   if(!rawData){
     return null;
   }
   return {
-    price:rawData.price,
+    price:rawData.price * currencyRate,
     percentChange:rawData.percent_change,
     lastUpdated:rawData.last_updated,
   } as QuoteItem
 }
 
-export const convertLatestQuotes = (rawData: any, estmPrice:number) => {
+export const convertLatestQuotes = (rawData: any, estmPrice:number, currencyRate:number) => {
   return {
-    [COIN_IDS.HIVE]:convertQuoteItem(rawData.hive.quotes.usd),
-    [COIN_IDS.HP]:convertQuoteItem(rawData.hive.quotes.usd),
-    [COIN_IDS.HBD]:convertQuoteItem(rawData.hbd.quotes.usd),
+    [COIN_IDS.HIVE]:convertQuoteItem(rawData.hive.quotes.usd, currencyRate),
+    [COIN_IDS.HP]:convertQuoteItem(rawData.hive.quotes.usd, currencyRate),
+    [COIN_IDS.HBD]:convertQuoteItem(rawData.hbd.quotes.usd, currencyRate),
     [COIN_IDS.ECENCY]:convertQuoteItem({
       price:estmPrice,
       percent_change:0,
       last_updated:new Date().toISOString()
-    })
+    }, currencyRate)
 
   } as LatestQuotes;
 };

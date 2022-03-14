@@ -27,8 +27,9 @@ export const getCurrencyRate = (currency) =>
       return 1;
     });
 
-  export const getLatestQuotes = async ():Promise<LatestMarketPrices> => {
+  export const getLatestQuotes = async (currencyRate:number):Promise<LatestMarketPrices> => {
     try{
+      console.log('using currency rate', currencyRate);
       const res = await ecencyApi.get(`/private-api/market-data/latest`);
       const estmRes = await getCurrencyTokenRate('usd','estm')
    
@@ -36,7 +37,7 @@ export const getCurrencyRate = (currency) =>
         throw new Error("No quote data returned");
       }
 
-      const data = convertLatestQuotes(res.data, estmRes);
+      const data = convertLatestQuotes(res.data, estmRes, currencyRate);
       console.log('parsed quotes data', data);
       return data;
     } catch (error){
