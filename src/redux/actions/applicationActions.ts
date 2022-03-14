@@ -163,15 +163,14 @@ export const isDefaultFooter = (payload) => ({
 /**
  * MW
  */
-export const setCurrency = (currency) => (dispatch) => {
+export const setCurrency = (currency) => async (dispatch) => {
   const currencySymbol = getSymbolFromCurrency(currency);
 
-  getCurrencyRate(currency).then((currencyRate) =>
-    dispatch({
-      type: SET_CURRENCY,
-      payload: { currency, currencyRate, currencySymbol },
-    }),
-  );
+  const currencyRate = await getCurrencyRate(currency)
+  dispatch({
+    type: SET_CURRENCY,
+    payload: { currency, currencyRate, currencySymbol },
+  })
 };
 
 export const setPinCode = (data) => ({
