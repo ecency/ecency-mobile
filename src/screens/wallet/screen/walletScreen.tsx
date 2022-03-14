@@ -29,7 +29,7 @@ import ROUTES from '../../../constants/routeNames';
 import { CoinDetailsScreenParams } from '../../coinDetails/screen/coinDetailsScreen';
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
 import { CoinBase, CoinData } from '../../../redux/reducers/walletReducer';
-import { setCoinsData, setPriceHistory } from '../../../redux/actions/walletActions';
+import { resetWalletData, setCoinsData, setPriceHistory } from '../../../redux/actions/walletActions';
 import { fetchCoinsData } from '../../../utils/wallet';
 import { COIN_IDS } from '../../../constants/defaultCoins';
 import { claimPoints } from '../../../providers/ecency/ePoint';
@@ -46,12 +46,14 @@ const WalletScreen = ({navigation}) => {
 
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   const currency = useAppSelector((state)=>state.application.currency);
+
   const { 
     selectedCoins, 
     priceHistories,
     coinsData,
     updateTimestamp,
-    quotes
+    quotes,
+    ...wallet
   } = useAppSelector((state)=>state.wallet);
 
   const globalProps = useAppSelector((state)=>state.account.globalProps);
@@ -67,6 +69,13 @@ const WalletScreen = ({navigation}) => {
   useEffect(()=>{
     _fetchData();
   },[])
+
+  useEffect(()=>{
+    if(currency.currency !== wallet.vsCurrency || currentAccount.username !== wallet.username ){
+      dispatch(resetWalletData());
+      _fetchData();
+    }
+  },[currency, currentAccount])
 
   const _fetchData = (refresh?:boolean) => {
     if(!isLoading){
