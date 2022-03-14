@@ -34,8 +34,8 @@ export const resetWalletData = () => ({
 })
 
 
-export const fetchCoinQuotes = () => (dispatch) =>
-    getLatestQuotes().then((quotes) =>
+export const fetchCoinQuotes = () => (dispatch, getState) =>
+    getLatestQuotes(getState().application.currency.currencyRate).then((quotes) =>
     dispatch({
       type: SET_COIN_QUOTES,
       payload: { ...quotes },
