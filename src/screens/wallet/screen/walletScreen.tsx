@@ -208,7 +208,9 @@ const WalletScreen = ({navigation}) => {
     return (
       <View style={styles.header}>
         <Text style={styles.lastUpdateText}>
-          {isLoading? 'Updating...':`Last Updated: ${moment(updateTimestamp).format('HH:mm:ss')}`}
+          {isLoading 
+            ? intl.formatMessage({id:'wallet.updating'})
+            :`${intl.formatMessage({id:'wallet.last_updated'})} ${moment(updateTimestamp).format('HH:mm:ss')}`}
         </Text>
       </View>
     )

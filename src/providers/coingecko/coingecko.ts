@@ -40,8 +40,3 @@ export const fetchMarketChart = async (
         throw error;
       }
 }
-
-export const COINGECKO_COIN_IDS = {
-    HIVE_DOLLAR:'hive_dollar',
-    HIVE:'hive'
-}

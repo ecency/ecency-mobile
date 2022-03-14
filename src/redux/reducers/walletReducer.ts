@@ -8,7 +8,6 @@ export interface DataPair {
 
 export interface CoinBase {
     id:string,
-    name:string,
     symbol:string,
     notCrypto:boolean,
 }

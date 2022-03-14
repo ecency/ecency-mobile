@@ -62,7 +62,7 @@ export const CoinCard = ({
             {/* <View style={styles.logo} /> */}
             <View style={styles.cardTitleContainer}>
                 <Text style={styles.textTitle} >{symbol}</Text>
-                <Text style={styles.textSubtitle}>{name}</Text>
+                <Text style={styles.textSubtitle}>{intl.formatMessage({id:`wallet.${id}.name`})}</Text>
             </View>
             <Text  
               style={styles.textCurValue}>
