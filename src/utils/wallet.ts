@@ -487,16 +487,16 @@ export const fetchCoinsData = async ({
           actions: HIVE_POWER_ACTIONS,
           extraDataPairs: [
             {
-              label: 'Delegated Hive Power',
+              labelId: 'delegated_hive_power',
               value: `-${delegatedHP.toFixed(3)} HP`
             }, {
-              label: 'Received Hive Power',
+              labelId: 'received_hive_power',
               value: `${receivedHP.toFixed(3)} HP`
             }, {
-              label: 'Total Hive Power',
+              labelId: 'total_hive_power',
               value: `${(balance - delegatedHP + receivedHP).toFixed(3)} HP`
             }, {
-              label: 'Vote Value',
+              labelId: 'vote_value',
               value: estimateVoteValueStr
             }
           ]

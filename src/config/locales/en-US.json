@@ -49,7 +49,11 @@
     "to": "To",
     "estimated_value_desc": "According to purchase value",
     "estimated_value": "Estimated value",
-    "estimated_amount": "Vote value",
+    "vote_value": "Vote value",
+    "delegated_hive_power":"Delegated hive power",
+    "received_hive_power":"Received hive power",
+    "total_hive_power":"Total hive power",
+    "savings": "Savings",
     "amount_information": "Drag the slider to adjust the amount",
     "amount": "Amount",
     "memo": "Memo",
@@ -115,7 +119,10 @@
       "address": "RECEIVE"
     },
     "last_updated":"Last Updated:",
-    "updating":"Updating..."
+    "updating":"Updating...",
+    "coin_details":"Coin Details",
+    "change":"Change",
+    "activities":"Activities"
   },
   "notification": {
     "vote": "voted",

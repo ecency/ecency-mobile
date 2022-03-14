@@ -13,6 +13,7 @@ import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 import { navigate } from '../../../navigation/service';
 import ROUTES from '../../../constants/routeNames';
 import { COIN_IDS } from '../../../constants/defaultCoins';
+import { useIntl } from 'react-intl';
 
 export interface CoinDetailsScreenParams {
   coinId:string;
@@ -23,6 +24,7 @@ interface CoinDetailsScreenProps {
 }
 
 const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
+  const intl = useIntl();
   const dispatch = useAppDispatch();
 
   const coinId = navigation.getParam('coinId');
@@ -101,13 +103,13 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
         coinData={coinData}
         onActionPress={_onActionPress}
       />
-      <Text style={styles.textActivities}>Activities</Text>
+      <Text style={styles.textActivities}>{intl.formatMessage({id:'wallet.activities'})}</Text>
     </>
   )
 
   return (
     <View style={styles.container}>
-      <BasicHeader title="Coin Details" />
+      <BasicHeader title={intl.formatMessage({id:'wallet.coin_details'})} />
       <ActivitiesList 
         header={_renderHeaderComponent}
         activities={coinActivities || []}

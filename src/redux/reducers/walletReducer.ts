@@ -3,7 +3,7 @@ import { SET_PRICE_HISTORY, SET_SELECTED_COINS, SET_COINS_DATA, SET_COIN_ACTIVIT
 
 export interface DataPair {
     value:string|number;
-    label:string;
+    labelId:string;
 }
 
 export interface CoinBase {

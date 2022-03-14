@@ -28,21 +28,21 @@ export const CoinSummary = ({
 
     const valuePairs = [
         {
-            label:'Balance',
+            labelId:'amount_desc',
             value:balance
         }
     ] as DataPair[]
 
     if(estimateValue !== undefined){
         valuePairs.push({
-            label:'Estimated Value',
+            labelId:'estimated_value',
             value:<FormattedCurrency isApproximate isToken value={estimateValue} />,
         })
     }
 
     if(savings !== undefined){
         valuePairs.push({
-            label:'Savings',
+            labelId:'savings',
             value:savings
         })
     }
