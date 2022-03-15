@@ -165,6 +165,8 @@ export const parseComment = (comment:any) => {
 
   comment.total_payout = totalPayout;
 
+  comment.isDeletable = !(comment.active_votes?.length > 0 ||comment.children > 0 || comment.net_rshares > 0 || comment.is_paidout);
+
   //stamp comments with fetched time;
   comment.post_fetched_at = new Date().getTime();
 

@@ -233,7 +233,7 @@ const CommentView = ({
               onPress={() => handleOnEditPress && handleOnEditPress(comment)}
               iconType="MaterialIcons"
             />
-            {!childCount && !activeVotes.length && isCommentDeletable && (
+            {!childCount && !activeVotes.length && comment.isDeletable && (
               <Fragment>
                 <IconButton
                   size={20}
@@ -283,8 +283,7 @@ const CommentView = ({
   }
 
   const customContainerStyle = commentNumber > 2 ? {marginLeft: 44}:null
-  const isCommentDeletable = comment && !(comment.children > 0 || comment.net_rshares > 0 || comment.is_paidout);
-  
+
   return (
     <Fragment>
       <View style={{...styles.commentContainer, ...customContainerStyle}}>
