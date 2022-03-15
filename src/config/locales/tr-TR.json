@@ -2,7 +2,7 @@
   "wallet": {
     "curation_reward": "Küratör Ödülü",
     "author_reward": "Yazar Ödülü",
-    "comment_benefactor_reward": "Benefactor Reward",
+    "comment_benefactor_reward": "Bağış Ödülü",
     "claim_reward_balance": "Ödül Talep Et ",
     "transfer": "Transfer",
     "power_up": "To Vesting",
