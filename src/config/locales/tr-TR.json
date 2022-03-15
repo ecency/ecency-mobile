@@ -73,31 +73,31 @@
     "transfer_to_savings": "Tasarruflar",
     "convert": "Dönüştür",
     "escrow_transfer": "Emanet Transferi",
-    "escrow_dispute": "Escrow Dispute",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel From Savings",
+    "escrow_dispute": "Emanet İhtilafı",
+    "escrow_release": "Emanet Bırakılması",
+    "escrow_approve": "Emanet Onayı",
+    "cancel_transfer_from_savings": "Tasarruf Transferilerinin İptali",
     "delegate_vesting_shares": "Devretme",
-    "fill_convert_request": "Convert Executed",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_convert_request": "Dönüştürme Yapılan",
+    "fill_transfer_from_savings": "Tasarruf Edilen",
+    "fill_vesting_withdraw": "Güç Düşürme Yapılan",
     "estm": {
       "title": "Puanlar",
       "buy": "PUAN KAZAN"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "HIVE Tasarrufları"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "HBD Tasarrufları"
     },
     "hive": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "HIVE AL"
     },
     "hbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "HBD AL"
     },
     "hive_power": {
       "title": "HIVE POWER"
@@ -112,13 +112,13 @@
     "vote": "oylandı",
     "unvote": "oy geri alındı",
     "reply": "cevaplandı",
-    "mention": "mentioned in",
+    "mention": "bahsedildi",
     "follow": "seni takip etti",
     "unfollow": "seni takipetmeyi bıraktı",
     "ignore": "seni engelledi",
     "reblog": "tekrar yayınlandı",
     "transfer": "transfer edildi",
-    "delegations": "delegated",
+    "delegations": "delegasyon yapıldı",
     "spin": "Daha fazla puan kazanma vakti",
     "inactive": "Aktif ol! Gönderi yaz, kazanmaya devam et",
     "referral": "referansınızla katıldı, hoş geldin deyin",
@@ -201,7 +201,7 @@
       "mention": "Bahset",
       "reblog": "Yeniden yayınla",
       "transfers": "Transferler",
-      "delegations": "Delegations"
+      "delegations": "Delegasyonlar"
     },
     "pincode": "Pinkod",
     "reset_pin": "Pin Kodunu Sıfırla",
@@ -337,9 +337,9 @@
     "two_thumbs_required": "Add more images in your post before setting thumbnail",
     "scheduled_for": "Scheduled For",
     "scheduled_immediate": "Immediate",
-    "scheduled_later": "Later",
-    "settings_title": "Post Options",
-    "done": "DONE",
+    "scheduled_later": "Daha Sonra",
+    "settings_title": "Gönderi Seçenekleri",
+    "done": "TAMAMLANDI",
     "draft_save_title": "Saving Draft",
     "draft_update": "Update current draft",
     "draft_save_new": "Save as new draft"
@@ -366,7 +366,7 @@
     "title_remove_confirmation": "Görseli sil",
     "btn_add": "Görsel",
     "btn_insert": "INSERT",
-    "btn_delete": "DELETE",
+    "btn_delete": "SİL",
     "message_failed": "Görsel yüklenemedi"
   },
   "pincode": {
@@ -395,10 +395,10 @@
     "already_rebloged": "Zaten reblog yapmışsınız.",
     "success_favorite": "Sık kullanılanlara eklendi!",
     "success_unfavorite": "Sık kullanılanlardan silindi!",
-    "success_follow": "Follow success!",
-    "fail_follow": "Follow failed!",
-    "success_subscribe": "Subscribe success!",
-    "fail_subscribe": "Subscribe failed!",
+    "success_follow": "Takip başarılı!",
+    "fail_follow": "Takip etme başarısız!",
+    "success_subscribe": "Abonelik başarılı!",
+    "fail_subscribe": "Abonelik başarısız!",
     "success_leave": "Leave success!",
     "fail_leave": "Çıkış başarısız!",
     "success_mute": "Susturma başarılı!",
@@ -563,8 +563,8 @@
     "steemconnect_title": "Hivesigner Transfer",
     "estimated_weekly": "Estimated Weekly",
     "destination_accounts": "Destination Accounts",
-    "stop_information": "Are you sure want to stop?",
-    "percent": "Percent",
+    "stop_information": "Durdurmak istediğinize emin misiniz?",
+    "percent": "Yüzde",
     "auto_vests": "Auto Vests",
     "save": "SAVE",
     "percent_information": "Percent info",
