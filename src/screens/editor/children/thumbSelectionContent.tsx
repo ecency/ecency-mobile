@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Alert, Text, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import { FlatList } from 'react-native-gesture-handler';
 import { extractImageUrls } from '../../../utils/editor';
 import styles from './styles';
 
