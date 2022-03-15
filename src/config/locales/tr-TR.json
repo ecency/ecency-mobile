@@ -15,8 +15,8 @@
     "vote": "Oy",
     "reblog": "Yeniden yayınla",
     "login": "Giriş yap",
-    "incoming_transfer_title": "Incoming transfer",
-    "outgoing_transfer_title": "Outgoing transfer",
+    "incoming_transfer_title": "Gelen transfer",
+    "outgoing_transfer_title": "Giden transfer",
     "checkin_extra": "Bonus",
     "delegation": "Devretme",
     "delegations": "Yetkilendirenler",
@@ -47,7 +47,7 @@
     "dropdown_boost": "Güçlendir",
     "from": "Gönderen",
     "to": "Kime",
-    "estimated_value_desc": "According to purchase value",
+    "estimated_value_desc": "Satınalma değerine göre",
     "estimated_value": "Tahmini değer",
     "estimated_amount": "Oy değeri",
     "amount_information": "Miktarı ayarlamak için kaydırıcıyı sürükleyin",
@@ -104,14 +104,14 @@
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "BTC AL",
+      "address": "AL"
     }
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "downvoted",
-    "reply": "replied to",
+    "vote": "oylandı",
+    "unvote": "oy geri alındı",
+    "reply": "cevaplandı",
     "mention": "mentioned in",
     "follow": "seni takip etti",
     "unfollow": "seni takipetmeyi bıraktı",
