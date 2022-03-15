@@ -6,12 +6,12 @@
     "claim_reward_balance": "Ödül Talep Et ",
     "transfer": "Transfer",
     "power_up": "To Vesting",
-    "transfer_from_savings": "From Savings",
+    "transfer_from_savings": "Tasarruflardan",
     "withdraw_vesting": "Güç Düşürme",
     "fill_order": "Gerçekleşen emir",
     "post": "Gönderi",
     "comment": "Yorum",
-    "checkin": "Check-in",
+    "checkin": "Giriş",
     "vote": "Oy",
     "reblog": "Yeniden yayınla",
     "login": "Giriş yap",
@@ -38,10 +38,10 @@
     "post_desc": "Düzenli paylaşım yaparak puan kazanabilirsiniz. Her gönderi size 15 'e kadar puan kazandırır.",
     "comment_desc": "Yaptığınız her yorum, kitlenizi büyütmenize yardımcı olur ve ayrıca size 5 puana kadar kazandırır.",
     "checkin_desc": "Düzenli olarak giriş yapmak size 0,25 puan kazandırır.",
-    "vote_desc": "By voting you give reward to other creators and also earn back upto 0.01 x vote weight points.",
+    "vote_desc": "Oy vererek diğer içerik oluşturucuları ödüllendirir ve ayrıca 0.01 x oy ağırlık puanına kadar geri kazanırsınız.",
     "reblog_desc": "Beğendiğiniz gönderileri arkadaşlarınızla paylaşın ve puanlar kazanın.",
     "login_desc": "Uygulamaya ilk giriş yaptığınızda 100 puan kazanırsınız.",
-    "checkin_extra_desc": "Consistent use of app gives you extra chances to earn more points, be more active and earn more.",
+    "checkin_extra_desc": "Uygulamanın sürekli kullanılması size daha fazla puan kazanma şansı verir, daha fazla aktif ol ve daha fazla kazan.",
     "dropdown_transfer": "Hediye",
     "dropdown_promote": "Tanıtım Yap",
     "dropdown_boost": "Güçlendir",
@@ -61,7 +61,7 @@
     "transfer_token": "Transfer",
     "purchase_estm": "Puan Kazanın",
     "points": "Birine puan hediye edin",
-    "transfer_to_saving": "To Saving",
+    "transfer_to_saving": "Tasarruflara",
     "transfer_to_vesting": "Gücünü Artır",
     "withdraw_to_saving": "Tassarruf Hesabındaki Paranı Çek",
     "steemconnect_title": "Hivesigner Transferi",
@@ -72,7 +72,7 @@
     "withdraw_hbd": "HBD Çek",
     "transfer_to_savings": "Tasarruflar",
     "convert": "Dönüştür",
-    "escrow_transfer": "Escrow Transfer",
+    "escrow_transfer": "Emanet Transferi",
     "escrow_dispute": "Escrow Dispute",
     "escrow_release": "Escrow Release",
     "escrow_approve": "Escrow Approve",
@@ -620,73 +620,73 @@
   },
   "voters_dropdown": {
     "rewards": "ÖDÜLLER",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "percent": "YÜZDE",
+    "time": "SÜRE"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "Tekrar Gönderi Bilgisi"
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "Cihazınızın zamanı;",
+      "current_time": "Şu anki zaman;",
+      "information": "Cihazınızın hatalı tarih ve saatini fark ettik. Lütfen Tarih & Saat'i düzeltin veya Otomatik Ayarlayın ve tekrar deneyin."
     }
   },
   "comments": {
     "title": "Yorumlar",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "replies"
+    "reveal_comment": "Yorumu göster",
+    "read_more": "Daha fazla yorum oku",
+    "more_replies": "yanıtlar"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Diğerleri",
     "best": {
-      "title": "Best"
+      "title": "En İyisi"
     },
     "people": {
-      "title": "People"
+      "title": "Kişiler"
     },
     "topics": {
-      "title": "Topics"
+      "title": "Konular"
     },
     "communities": {
-      "title": "Groups",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
-      "posters": "Posters",
+      "title": "Gruplar",
+      "subscribe": "Katıl",
+      "unsubscribe": "Ayrıl",
+      "subscribers": "Üyeler",
+      "posters": "Yazarlar",
       "posts": "Gönderi"
     },
     "communities_filter": {
-      "my": "My Communities",
-      "rank": "Rank",
-      "subs": "Members",
-      "new": "New"
+      "my": "Topluluklarım",
+      "rank": "Rütbe",
+      "subs": "Üyeler",
+      "new": "Yeni"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "Popülarite",
+      "newest": "En Yeni",
+      "relevance": "Alaka Düzeyi"
     },
     "other_result_filter": {
-      "user": "User",
-      "tag": "Tag"
+      "user": "Kullanıcı",
+      "tag": "Etiket"
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details",
-    "muted": "Muted",
-    "payout": "Payout"
+    "new_post": "Yeni Gönderi",
+    "community": "topluluk",
+    "details": "Detaylar",
+    "muted": "Susturulmuş",
+    "payout": "Ödeme"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow",
-    "add_to_favourites": "ADD TO FAVOURITES",
-    "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE / BLOCK",
+    "follow": "Takip Et",
+    "unfollow": "Takibi Bırak",
+    "add_to_favourites": "FAVORİLERE EKLE",
+    "remove_from_favourites": "FAVORİLERDEN KALDIR",
+    "mute": "SUSTUR / ENGELLE",
     "unmute": "UNMUTE / UNBLOCK",
     "report": "REPORT USER"
   },
