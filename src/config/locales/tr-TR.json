@@ -116,12 +116,12 @@
     "follow": "seni takip etti",
     "unfollow": "seni takipetmeyi bıraktı",
     "ignore": "seni engelledi",
-    "reblog": "reblogged",
-    "transfer": "transferred",
+    "reblog": "tekrar yayınlandı",
+    "transfer": "transfer edildi",
     "delegations": "delegated",
     "spin": "Daha fazla puan kazanma vakti",
-    "inactive": "Be active! Write a post, continue earning",
-    "referral": "joined with your referral, welcome them",
+    "inactive": "Aktif ol! Gönderi yaz, kazanmaya devam et",
+    "referral": "referansınızla katıldı, hoş geldin deyin",
     "notification": "Bildirimler",
     "leaderboard": "Liderler Tablosu",
     "epoint": "Puanlar",
@@ -139,7 +139,7 @@
     "noactivity": "Son aktivite yok",
     "mention_on": "Yeni bahsetme",
     "reply_on": "Yeni yanıt",
-    "reply_body": "Tap to continue conversation..."
+    "reply_body": "Konuşmaya devam etmek için tıklayın..."
   },
   "leaderboard": {
     "daily": "GÜNLÜK",
@@ -166,7 +166,7 @@
     "voting_power": "Oylama güçü",
     "login_to_see": "Giriş yap ve gör!",
     "follow_people": "İnsanları takip ettiğinizde, gönderilerini burada göreceksiniz.",
-    "follow_communities": "When you join communities you'll see posts from communities here.",
+    "follow_communities": "Topluluklara katıldığınızda, topluluk gönderilerini burada göreceksiniz.",
     "havent_commented": "henüz yorum yapmadı",
     "havent_posted": "henüz post paylasmadi",
     "hive_power": "Hive Power",
@@ -175,8 +175,8 @@
     "day": "gün içinde düşecek",
     "hive_dollars": "Hive Dollars",
     "savings": "Biriktir",
-    "joined": "Joined {time} ago",
-    "view_full": "VIEW FULL PROFILE",
+    "joined": "{time} önce katıldı",
+    "view_full": "TAM PROFİLİ GÖRÜNTÜLE",
     "resource_credits": "Kaynak Kredileri",
     "reputation": "İtibar",
     "edit": {
@@ -204,7 +204,7 @@
       "delegations": "Delegations"
     },
     "pincode": "Pinkod",
-    "reset_pin": "Reset Pin Code",
+    "reset_pin": "Pin Kodunu Sıfırla",
     "reset": "Sifirla",
     "nsfw_content": "NSFW",
     "send_feedback": "Geri Bildirim Gönder",
@@ -241,9 +241,9 @@
     "username": "Kullanıcı adı seçin",
     "mail": "E-posta adresinizi girin",
     "ref_user": "Yönlendiren kullanıcı (isteğe bağlı)",
-    "500_error": "Your request could not be processed, signup queue is likely full! Try again in few minutes...",
+    "500_error": "İsteğiniz işlenemedi, kayıt sırası büyük olasılıkla dolu! Birkaç dakika sonra yeniden deneyiniz...",
     "title_description": "Bir hesapla her şeyi kontrol edin",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "form_description": "Kayıt olarak Kullanım Şartları ve Gizlilik Politikaları'nı kabul etmiş sayılırsınız."
   },
   "home": {
     "feed": "Akış",
@@ -256,7 +256,7 @@
     "friends": "Arkadaşlar",
     "communities": "Topluluklar",
     "popup_postfix": "Yayınlandi",
-    "scroll_top": "Scroll To Top"
+    "scroll_top": "En Başa Git"
   },
   "side_menu": {
     "profile": "Profil",
@@ -274,7 +274,7 @@
     "create_a_new_account": "Yeni bir hesap oluştur",
     "add_an_existing_account": "Başka hesap ekle",
     "accounts": "Hesaplar",
-    "refer": "Refer & Earn"
+    "refer": "Referans Ol & Kazan"
   },
   "header": {
     "title": "Giriş yap ve akışını özelleştir.",
@@ -285,7 +285,7 @@
     "search": "Ara",
     "update": "Güncelle",
     "reply": "Cevapla",
-    "schedule": "Schedule"
+    "schedule": "Takvim"
   },
   "editor": {
     "title": "Başlık",
