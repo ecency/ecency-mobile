@@ -449,20 +449,20 @@
   "post": {
     "reblog_alert": "Tekrar göndermek istediğinize emin misiniz?",
     "removed_hint": "İçerik mevcut değil",
-    "copy_link": "Copy link",
-    "copy_text": "Copy text",
-    "reblogged": "reblogged by",
+    "copy_link": "Bağlantıyı kopyala",
+    "copy_text": "Metni kopyala",
+    "reblogged": "tarafından tekrar yayınlandı",
     "sponsored": "SPONSORED",
-    "open_thread": "Open thread",
-    "image": "Image",
-    "link": "Link",
-    "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image",
-    "wrong_link": "Wrong link",
-    "in": "in",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "open_thread": "Açık konu",
+    "image": "Görsel",
+    "link": "Bağlantı",
+    "gallery_mode": "Galeri modu",
+    "save_to_local": "Cihaza indir",
+    "image_saved": "Görsel Fotoğraf Galerisi'ne kaydedildi",
+    "image_saved_error": "Görüntü Kaydetme Hatası",
+    "wrong_link": "Yanlış bağlantı",
+    "in": "içinde",
+    "reveal_muted": "SUSTURULDU\nİçeriği ortaya çıkarmak için dokunun"
   },
   "drafts": {
     "title": "Taslaklar",
@@ -471,7 +471,7 @@
     "deleted": "Taslak silindi"
   },
   "schedules": {
-    "title": "Schedules",
+    "title": "Zamanlananlar",
     "empty_list": "Burada hiçbir şey yok",
     "deleted": "Zamanlanmiş Gönderi Silindi",
     "move": "Taslaklara taşı",
@@ -487,9 +487,9 @@
     "add": "Yerimlerine ekle"
   },
   "report": {
-    "added": "Reported objectionable content",
-    "confirm_report_title": "Confirm Report!",
-    "confirm_report_body": "Are you sure you want report?"
+    "added": "Bildirilen sakıncalı içerik",
+    "confirm_report_title": "Raporu Onayla!",
+    "confirm_report_body": "Raporlamak istediğinize emin misiniz?"
   },
   "favorites": {
     "title": "Favoriler",
@@ -502,7 +502,7 @@
     "invalid_username": "Geçersiz Kullanıcı adı gözden geçirip yeniden deneyin",
     "already_logged": "Zaten oturum açmış, lütfen başka bir hesaba eklemek deneyin",
     "invalid_credentials": "Geçersiz Kullanıcı adı gözden geçirip yeniden deneyin",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "Bilinmeyen hata, lütfen support@ecency.com ile iletişime geçiniz"
   },
   "payout": {
     "potential_payout": "Tahmini Ödeme",
@@ -510,10 +510,10 @@
     "author_payout": "Yazar Ödemeleri",
     "curation_payout": "Küratör Ödemeleri",
     "payout_date": "Ödeme",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "beneficiaries": "Hak Sahipleri",
+    "warn_zero_payout": "Ödeme için miktar 0.02$'a ulaşmalı",
     "breakdown": "Breakdown",
-    "max_accepted": "Max Accepted"
+    "max_accepted": "Maksimum Kabul Edilen"
   },
   "post_dropdown": {
     "copy": "kopyala",
@@ -521,9 +521,9 @@
     "reply": "cevapla",
     "share": "paylaş",
     "bookmarks": "yer imlerine ekle",
-    "promote": "promote",
-    "boost": "boost",
-    "report": "report"
+    "promote": "tanıtım yap",
+    "boost": "yükselt",
+    "report": "bildir"
   },
   "deep_link": {
     "no_existing_user": "Kullanici Bulunamadi",
@@ -534,10 +534,10 @@
     "comments": "Yorumlar"
   },
   "comment_filter": {
-    "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
+    "trending": "ÜST",
+    "reputation": "İTİBAR",
+    "votes": "OY",
+    "age": "YAŞ",
     "top": "TOP",
     "time": "TIME"
   },
@@ -601,25 +601,25 @@
     }
   },
   "free_estm": {
-    "title": "Free Points",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "title": "Ücretsiz Puanlar",
+    "button": "ÇEVİR & KAZAN",
+    "get_spin": "5 ÇEVİRİ",
+    "spin_right": "Kalan Çeviri",
+    "timer_text": "Sıradaki ücretsiz çeviri"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
-    "user": "User",
-    "permlink": "Post",
-    "permlinkPlaceholder": "username/permlink",
-    "information": "Are you sure to promote?"
+    "title": "Tanıtım Yap",
+    "days": "gün",
+    "user": "Kullanıcı",
+    "permlink": "Gönderi",
+    "permlinkPlaceholder": "kullanıcı adı/kalıcı bağlantı",
+    "information": "Öne çıkarmak istediğinizden emin misiniz?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Yükselt"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
+    "rewards": "ÖDÜLLER",
     "percent": "PERCENT",
     "time": "TIME"
   },
