@@ -10,7 +10,7 @@ import { delay } from '../../utils/editor';
 import { isStringWebLink } from '../markdownEditor/view/formats/utils';
 
 interface InsertLinkModalProps {
-  handleOnInsertLink: ({ label, url }: { label: string; url: string }) => void;
+  handleOnInsertLink: ({ label, url, selection }: { label: string; url: string; selection: {start: number, end: number} }) => void;
   handleOnSheetClose: () => void;
 }
 
@@ -22,11 +22,22 @@ export const InsertLinkModal = forwardRef(
     const [label, setLabel] = useState('');
     const [url, setUrl] = useState('');
     const [isUrlValid, setIsUrlValid] = useState(true);
+    const [selectedText, setSelectedText] = useState('');
+    const [selection, setSelection] = useState({ start: 0, end: 0 });
     const sheetModalRef = useRef<ActionSheet>();
     const labelInputRef = useRef(null);
 
     useImperativeHandle(ref, () => ({
-      showModal: async() => {
+      showModal: async({selectedText, selection}) => {
+        setSelectedText(selectedText)
+        setSelection(selection)
+        if(selection && selection.start !== selection.end){
+          if(isStringWebLink(selectedText)){
+            setUrl(selectedText)
+          }else{
+            setLabel(selectedText)
+          }
+        }
         sheetModalRef.current?.setModalVisible(true);
         await delay(1500);
         labelInputRef.current?.focus()
@@ -41,7 +52,7 @@ export const InsertLinkModal = forwardRef(
         setIsUrlValid(false);
         return
       }
-      handleOnInsertLink({ label, url })
+      handleOnInsertLink({ label, url, selection })
     }
 
     const _renderFloatingPanel = () => {

@@ -296,13 +296,16 @@ const MarkdownEditorView = ({
   };
 
   const _handleOnAddLinkPress = () => {
-    insertLinkModalRef.current?.showModal();
+    insertLinkModalRef.current?.showModal({
+      selectedText: text.slice(selection.start, selection.end),
+      selection: selection,
+    });
     inputRef.current?.blur();
   };
   const _handleOnAddLinkSheetClose = () => {
     inputRef.current?.focus();
   };
-  const _handleInsertLink = ({ label, url }) => {
+  const _handleInsertLink = ({ label, url, selection }) => {
     if (url) {
       applyWebLinkFormat({
         item: { text: label, url: url },
