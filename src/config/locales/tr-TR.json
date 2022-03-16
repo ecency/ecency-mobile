@@ -586,18 +586,18 @@
     "new_amount": "Yeni Miktar",
     "review": "GÖZDEN GEÇİR",
     "confirm": "Delegasyonu Onayla",
-    "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
-    "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
-    "username_alert": "Username Error!",
-    "username_alert_detail": "Please select different username"
+    "confirm_summary": "@{delegatee}'den @{delegator}'a delegasyon yapılan {hp} HP ({vests} VESTS) ",
+    "confirm_summary_para": "Bu kullanıcıya döha önceki {prev} HP delegasyonunuzun üzerine yazıcak.",
+    "username_alert": "Kullanıcı Adı Hatası!",
+    "username_alert_detail": "Lütfen farklı bir kullanıcı adı seçiniz"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
-    "next": "NEXT",
+    "title": "Puan Al",
+    "buy": "Puan AL",
+    "next": "SONRAKİ",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "title": "Hesap Yükseltme Al",
+      "desc": "30 günlük delegasyon oylarınızı ve sosyal etkişeminizi yükseltecek ve daha fazla Kaynak Kredisi ile size daha fazla aksiyon verecek."
     }
   },
   "free_estm": {
@@ -687,31 +687,31 @@
     "add_to_favourites": "FAVORİLERE EKLE",
     "remove_from_favourites": "FAVORİLERDEN KALDIR",
     "mute": "SUSTUR / ENGELLE",
-    "unmute": "UNMUTE / UNBLOCK",
-    "report": "REPORT USER"
+    "unmute": "SUSTURMAYI KALDIR / ENGELİ KALDIR",
+    "report": "KULLANICIYI BİLDİR"
   },
   "communities": {
-    "joined": "Membership",
-    "discover": "Discover",
-    "discover_communities": "Discover Communities",
-    "no_communities": "Connect with people who share your interests by joining Communities."
+    "joined": "Üyelik",
+    "discover": "Keşfet",
+    "discover_communities": "Toplulukları Keşfet",
+    "no_communities": "Topluluklara katılarak sizinle aynı ilgi alanına sahip insanlarla iletişim kur."
   },
   "empty_screen": {
-    "nothing_here": "Nothing here"
+    "nothing_here": "Burada hiçbir şey yok"
   },
   "beneficiary_modal": {
-    "percent": "Percent",
-    "username": "Username",
-    "addAccount": "Add Account",
-    "save": "Save",
-    "cancel": "Cancel"
+    "percent": "Yüzde",
+    "username": "Kullanıcı adı",
+    "addAccount": "Hesap Ekle",
+    "save": "Kaydet",
+    "cancel": "İptal"
   },
   "welcome": {
-    "label": "Welcome to",
+    "label": "Hoşgeldiniz",
     "title": "Ecency",
-    "line1_heading": "Are you looking for community?",
-    "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
-    "line2_heading": "We have a solution!",
+    "line1_heading": "Topluluk mu arıyorsun?",
+    "line1_body": "Sansürsüz, değiştirilemez, ödüllendirici, merkezi olmayan, sahip olduğunuz.",
+    "line2_heading": "Bir çözümümüz var!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "Join Ecency communities!",
     "line3_body": "Build community you own, get rewarded and reward others.",
