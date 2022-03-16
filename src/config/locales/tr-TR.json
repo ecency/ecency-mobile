@@ -712,24 +712,24 @@
     "line1_heading": "Topluluk mu arıyorsun?",
     "line1_body": "Sansürsüz, değiştirilemez, ödüllendirici, merkezi olmayan, sahip olduğunuz.",
     "line2_heading": "Bir çözümümüz var!",
-    "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
-    "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others.",
-    "get_started": "Get started!"
+    "line2_body": "Blokzincir kullanan, sansürsüz, merkezi olmayan ve ödüllendirici.",
+    "line3_heading": "Ecency topluluklarına katıl!",
+    "line3_body": "Kendi topluluğunuzu oluşturun, ödül kazanın ve başkalarını ödüllendirin.",
+    "get_started": "Başlarken!"
   },
   "time": {
-    "second": "seconds",
-    "minute": "minutes",
-    "hour": "hours",
-    "week": "weeks",
-    "day": "days",
-    "month": "months",
-    "year": "years"
+    "second": "saniye",
+    "minute": "dakika",
+    "hour": "saat",
+    "week": "hafta",
+    "day": "gün",
+    "month": "ay",
+    "year": "yıl"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
-    "comment": "Comment",
-    "reply": "REPLY",
+    "placeholder": "Bir yorum ekle",
+    "comment": "Yorum",
+    "reply": "YANIT",
     "close": "KAPAT"
   },
   "walkthrough": {
