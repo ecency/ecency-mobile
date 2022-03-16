@@ -233,7 +233,7 @@ const CommentView = ({
               onPress={() => handleOnEditPress && handleOnEditPress(comment)}
               iconType="MaterialIcons"
             />
-            {!childCount && !activeVotes.length && (
+            {!childCount && !activeVotes.length && comment.isDeletable && (
               <Fragment>
                 <IconButton
                   size={20}

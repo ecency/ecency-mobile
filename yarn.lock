@@ -1138,7 +1138,7 @@
   resolved "https://registry.yarnpkg.com/@formatjs/intl-utils/-/intl-utils-2.3.0.tgz#2dc8c57044de0340eb53a7ba602e59abf80dc799"
   integrity sha512-KWk80UPIzPmUg+P0rKh6TqspRw0G6eux1PuJr+zz47ftMaZ9QDwbGzHZbtzWkl5hgayM/qrKRutllRC7D/vVXQ==
 
-"@formidable-webview/webshell@^2.6.0":
+"@formidable-webview/webshell@2.6.0", "@formidable-webview/webshell@^2.6.0":
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/@formidable-webview/webshell/-/webshell-2.6.0.tgz#64704c0b513206e71b23118b3c9d096f0d545005"
   integrity sha512-FwQQDajg1xs7W3CUiUNJMvdjgLjKLDGzs0XPzoVg0Dunhold1Jg7w5pihUdvVugFlNtkSpXMA+du9QDHE8lmpg==
@@ -1451,6 +1451,16 @@
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@native-html/plugins-core/-/plugins-core-1.3.0.tgz#f1f24622097551930d9dab0214c4929d00f7446e"
   integrity sha512-vce35gqGJKa2oPDZVa2sKjucFFVK+3g8quLayeXiJtj5LzuS8TWGrBFTS5O4ToUtE02AJkCDOLwAguCzK2HWdQ==
+
+"@native-html/table-plugin@^5.3.1":
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/@native-html/table-plugin/-/table-plugin-5.3.1.tgz#12d34869c2ff3e5f45de6ff6a8b5aba1471a8a03"
+  integrity sha512-zz1ww7tUgIY6fMnKYejKHacaUBV+yjuWDBWDwSp4SP0CFiLAbmLIER0UGw0kI58lAVgbWzdEJUX0dmeBG0qevA==
+  dependencies:
+    "@formidable-webview/webshell" "2.6.0"
+    "@native-html/plugins-core" "1.3.0"
+    "@types/prop-types" "^15.7.4"
+    prop-types "^15.7.2"
 
 "@native-html/transient-render-engine@^9.2.2":
   version "9.2.2"
