@@ -7,6 +7,7 @@ export default EStyleSheet.create({
   },
   leftContainer: {
     flexDirection: 'column',
+    flex: 1,
   },
   primaryDetails: {
     flexDirection: 'row',
