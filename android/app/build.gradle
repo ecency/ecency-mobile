@@ -153,6 +153,8 @@ android {
             abiFilters "armeabi-v7a",'x86',"arm64-v8a",'x86_64'
         }
         missingDimensionStrategy 'store', 'play'
+        missingDimensionStrategy 'react-native-camera', 'general'
+        missingDimensionStrategy 'react-native-camera', 'mlkit'
         
     }
     dexOptions {
