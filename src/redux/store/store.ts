@@ -37,7 +37,6 @@ const persistConfig = {
   blacklist: ['nav', 'application', 'communities', 'user'],
   timeout: 0,
   transforms:[transformCacheVoteMap,transformWalkthroughMap],
-  stateReconciler: autoMergeLevel2,
 };
 
 // Middleware: Redux Persist Persisted Reducer
