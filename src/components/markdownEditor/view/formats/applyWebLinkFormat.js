@@ -14,7 +14,7 @@ export default async ({ text, selection, setTextAndSelection, item, isImage = nu
 
   if (selection.start !== selection.end) {
     if (isStringWebLink(selectedText)) {
-      newText = replaceBetween(text, selection, `\n${imagePrefix}[${itemText}](${selectedText})\n`);
+      newText = replaceBetween(text, selection, `${imagePrefix}[${itemText}](${selectedText})`);
       newSelection = {
         // start: selection.start + 1,
         // end: selection.start + 1 + itemText && itemText.length,
@@ -22,7 +22,7 @@ export default async ({ text, selection, setTextAndSelection, item, isImage = nu
         end: newText.length,
       };
     } else {
-      newText = replaceBetween(text, selection, `\n${imagePrefix}[${selectedText}](${itemUrl})\n`);
+      newText = replaceBetween(text, selection, `${imagePrefix}[${selectedText}](${itemUrl})`);
       newSelection = {
         // start: selection.end + 3,
         // end: selection.end + 3 + itemUrl.length,
@@ -34,7 +34,7 @@ export default async ({ text, selection, setTextAndSelection, item, isImage = nu
     newText = replaceBetween(
       text,
       selection,
-      hasLabel ? `\n${imagePrefix}[${itemText}](${itemUrl})\n` : `\n${imagePrefix}${itemUrl}\n`,
+      hasLabel ? `${imagePrefix}[${itemText}](${itemUrl})` : `${imagePrefix}${itemUrl}`,
     );
     if (isImage) {
       const newIndex = newText && newText.indexOf(itemUrl) + 2 + itemUrl.length;
