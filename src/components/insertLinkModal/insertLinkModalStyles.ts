@@ -39,13 +39,12 @@ export default EStyleSheet.create({
   } as ViewStyle,
   insertBtn: {
     marginLeft: 16,
-    width: 170
+    width: 170,
   },
-  inputsContainer:{
-    height: 200,
+  inputsContainer: {
     paddingHorizontal: 16,
   },
-  inputLabel:{
+  inputLabel: {
     color: '$primaryBlack',
     fontWeight: '600',
     textAlign: 'left',
@@ -56,11 +55,43 @@ export default EStyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 10,
     color: '$primaryBlack',
-    maxHeight: 50,
-    marginVertical: 8, 
+    marginVertical: 8,
+    height: 50,
   },
-  validText:{
+  validText: {
     color: '$primaryRed',
     marginVertical: 4,
-  }
+  },
+  optionsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 12,
+  },
+  optionBtnSelected: {
+    maxWidth: 75,
+    borderWidth: 1,
+    borderColor: '$primaryBlue',
+    backgroundColor: '$primaryBlue',
+    borderRadius: 15,
+    paddingVertical: 4,
+    paddingHorizontal: 12,
+    marginRight: 8,
+  },
+  optionBtnTextSelected: {
+    textAlign: 'center',
+    color: '$white',
+  },
+  optionBtn: {
+    maxWidth: 75,
+    borderWidth: 1,
+    borderColor: '$primaryBlue',
+    borderRadius: 15,
+    paddingVertical: 4,
+    paddingHorizontal: 12,
+    marginRight: 8,
+  },
+  optionBtnText: {
+    textAlign: 'center',
+    color: '$primaryBlue',
+  },
 });

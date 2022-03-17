@@ -1,6 +1,6 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Text, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { MainButton, TextButton } from '..';
 import styles from './insertLinkModalStyles';
 import ActionSheet from 'react-native-actions-sheet';
@@ -10,7 +10,15 @@ import { delay } from '../../utils/editor';
 import { isStringWebLink } from '../markdownEditor/view/formats/utils';
 
 interface InsertLinkModalProps {
-  handleOnInsertLink: ({ label, url, selection }: { label: string; url: string; selection: {start: number, end: number} }) => void;
+  handleOnInsertLink: ({
+    label,
+    url,
+    selection,
+  }: {
+    label: string;
+    url: string;
+    selection: { start: number; end: number };
+  }) => void;
   handleOnSheetClose: () => void;
 }
 
@@ -24,23 +32,24 @@ export const InsertLinkModal = forwardRef(
     const [isUrlValid, setIsUrlValid] = useState(true);
     const [selectedText, setSelectedText] = useState('');
     const [selection, setSelection] = useState({ start: 0, end: 0 });
+    const [selectedUrlType, setSelectedUrlType] = useState(0);
     const sheetModalRef = useRef<ActionSheet>();
     const labelInputRef = useRef(null);
-
+    const urlInputRef = useRef(null);
     useImperativeHandle(ref, () => ({
-      showModal: async({selectedText, selection}) => {
-        setSelectedText(selectedText)
-        setSelection(selection)
-        if(selection && selection.start !== selection.end){
-          if(isStringWebLink(selectedText)){
-            setUrl(selectedText)
-          }else{
-            setLabel(selectedText)
+      showModal: async ({ selectedText, selection }) => {
+        setSelectedText(selectedText);
+        setSelection(selection);
+        if (selection && selection.start !== selection.end) {
+          if (isStringWebLink(selectedText)) {
+            setUrl(selectedText);
+          } else {
+            setLabel(selectedText);
           }
         }
         sheetModalRef.current?.setModalVisible(true);
         await delay(1500);
-        labelInputRef.current?.focus()
+        labelInputRef.current?.focus();
       },
       hideModal: () => {
         sheetModalRef.current?.setModalVisible(false);
@@ -48,12 +57,12 @@ export const InsertLinkModal = forwardRef(
     }));
 
     const _handleInsert = () => {
-      if(!isStringWebLink(url)){
+      if (!isStringWebLink(url)) {
         setIsUrlValid(false);
-        return
+        return;
       }
-      handleOnInsertLink({ label, url, selection })
-    }
+      handleOnInsertLink({ label, url, selection });
+    };
 
     const _renderFloatingPanel = () => {
       return (
@@ -75,8 +84,31 @@ export const InsertLinkModal = forwardRef(
       );
     };
 
-    const _renderInputs = () => (
-      <View style={styles.inputsContainer}>
+    const LinkTypeOptions = URL_TYPES.map((item) => {
+      const selected = item.id === selectedUrlType;
+      return (
+        <TouchableOpacity
+          onPress={() => {
+            setSelectedUrlType(item.id);
+            if (item.id === 0) {
+              urlInputRef.current?.blur();
+              labelInputRef.current?.focus();
+            } else {
+              labelInputRef.current?.blur();
+              urlInputRef.current?.focus();
+            }
+          }}
+          style={selected ? styles.optionBtnSelected : styles.optionBtn}
+        >
+          <Text style={selected ? styles.optionBtnTextSelected : styles.optionBtnText}>
+            {item.title}
+          </Text>
+        </TouchableOpacity>
+      );
+    });
+
+    const _renderLabelInput = () => (
+      <>
         <Text style={styles.inputLabel}>Label</Text>
         <TextInput
           style={styles.input}
@@ -86,7 +118,15 @@ export const InsertLinkModal = forwardRef(
           placeholderTextColor="#c1c5c7"
           autoCapitalize="none"
           innerRef={labelInputRef}
+          autoFocus
         />
+      </>
+    );
+    const _renderInputs = () => (
+      <View style={styles.inputsContainer}>
+        <Text style={styles.inputLabel}>Type of Link</Text>
+        <View style={styles.optionsRow}>{LinkTypeOptions}</View>
+        {selectedUrlType === 0 && _renderLabelInput()}
         <Text style={styles.inputLabel}>URL</Text>
         <TextInput
           style={styles.input}
@@ -96,13 +136,9 @@ export const InsertLinkModal = forwardRef(
           placeholderTextColor="#c1c5c7"
           autoCapitalize="none"
           keyboardType="url"
+          innerRef={urlInputRef}
         />
-        {
-          !isUrlValid && <Text style={styles.validText}>
-          Please insert valid url
-        </Text>
-        }
-        
+        {!isUrlValid && <Text style={styles.validText}>Please insert valid url</Text>}
       </View>
     );
     const _renderContent = (
@@ -132,3 +168,18 @@ export const InsertLinkModal = forwardRef(
     );
   },
 );
+
+const URL_TYPES = [
+  {
+    id: 0,
+    title: 'plain',
+  },
+  {
+    id: 1,
+    title: 'video',
+  },
+  {
+    id: 2,
+    title: 'image',
+  },
+];
