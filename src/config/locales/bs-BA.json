@@ -2,9 +2,9 @@
   "wallet": {
     "curation_reward": "Kuratorska Nagrada",
     "author_reward": "Autorska Nagrada",
-    "comment_benefactor_reward": "Benefactor Reward",
-    "claim_reward_balance": "Claim Reward ",
-    "transfer": "Transfer",
+    "comment_benefactor_reward": "Dobrotvorna Nagrada",
+    "claim_reward_balance": "Zatražite Nagradu ",
+    "transfer": "Prijenos",
     "power_up": "To Vesting",
     "transfer_from_savings": "From Savings",
     "withdraw_vesting": "Power Down",
