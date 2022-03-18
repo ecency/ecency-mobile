@@ -115,7 +115,6 @@ export const InsertLinkModal = forwardRef(
           onPress={() => {
             setSelectedUrlType(item.id);
             if (item.id === 0) {
-              urlInputRef.current?.blur();
               labelInputRef.current?.focus();
             } else {
               labelInputRef.current?.blur();
@@ -142,7 +141,6 @@ export const InsertLinkModal = forwardRef(
           placeholderTextColor="#c1c5c7"
           autoCapitalize="none"
           innerRef={labelInputRef}
-          autoFocus
         />
       </>
     );

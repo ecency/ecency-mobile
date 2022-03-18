@@ -4,7 +4,6 @@ export const writeUrlTextHere = 'https://example.com';
 export const writeTextHereString = 'Text here';
 
 export default async ({ text, selection, setTextAndSelection, item, isImage = null }) => {
-  console.log('text, selection, item, isImage : ', text, selection, item, isImage);
   const imagePrefix = isImage ? '!' : '';
   const itemText = item ? item.text : writeTextHereString;
   const itemUrl = item ? item.url : writeUrlTextHere;
@@ -53,6 +52,5 @@ export default async ({ text, selection, setTextAndSelection, item, isImage = nu
     }
   }
 
-  console.log('newText for image : ', newText);
   setTextAndSelection({ text: newText, selection: newSelection });
 };
