@@ -1,13 +1,15 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Text, TouchableOpacity, View } from 'react-native';
-import { MainButton, TextButton } from '..';
+import { Platform, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import { MainButton, PostBody, TextButton } from '..';
 import styles from './insertLinkModalStyles';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import TextInput from '../textInput';
 import { delay } from '../../utils/editor';
 import { isStringWebLink } from '../markdownEditor/view/formats/utils';
+import { renderPostBody } from '@ecency/render-helper';
+import { ScrollView } from 'react-native-gesture-handler';
 
 interface InsertLinkModalProps {
   handleOnInsertLink: ({
@@ -33,9 +35,11 @@ export const InsertLinkModal = forwardRef(
     const [selectedText, setSelectedText] = useState('');
     const [selection, setSelection] = useState({ start: 0, end: 0 });
     const [selectedUrlType, setSelectedUrlType] = useState(0);
+    const [previewBody, setPreviewBody] = useState('');
     const sheetModalRef = useRef<ActionSheet>();
     const labelInputRef = useRef(null);
     const urlInputRef = useRef(null);
+
     useImperativeHandle(ref, () => ({
       showModal: async ({ selectedText, selection }) => {
         setSelectedText(selectedText);
@@ -64,6 +68,22 @@ export const InsertLinkModal = forwardRef(
       handleOnInsertLink({ label, url, selection });
     };
 
+    const _handleUrlChange = async (text) => {
+      setUrl(text);
+      if (isStringWebLink(text)) {
+        setIsLoading(true);
+        setPreviewBody(renderPostBody(text, true, Platform.OS === 'ios' ? false : true));
+      }
+    };
+
+    const _handleOnCloseSheet = () => {
+      labelInputRef.current?.blur();
+      setLabel('');
+      setUrl('');
+      setSelectedUrlType(0);
+      setPreviewBody('');
+      handleOnSheetClose();
+    };
     const _renderFloatingPanel = () => {
       return (
         <View style={styles.floatingContainer}>
@@ -131,7 +151,7 @@ export const InsertLinkModal = forwardRef(
         <TextInput
           style={styles.input}
           value={url}
-          onChangeText={setUrl}
+          onChangeText={_handleUrlChange}
           placeholder={'Enter URL'}
           placeholderTextColor="#c1c5c7"
           autoCapitalize="none"
@@ -141,11 +161,27 @@ export const InsertLinkModal = forwardRef(
         {!isUrlValid && <Text style={styles.validText}>Please insert valid url</Text>}
       </View>
     );
+    const _renderPreview = () => {
+      return (
+        <>
+          <View style={styles.previewContainer}>
+            <Text style={styles.previewText}>Preview</Text>
+            {previewBody ? (
+              <View style={styles.preview}>
+                <PostBody body={previewBody} onLoadEnd={() => setIsLoading(false)} />
+              </View>
+            ) : null}
+            {isLoading && <ActivityIndicator color={'$primaryBlue'} />}
+          </View>
+        </>
+      );
+    };
     const _renderContent = (
-      <View style={styles.container}>
+      <ScrollView style={styles.container} keyboardShouldPersistTaps={'handled'}>
         {_renderInputs()}
+        {selectedUrlType !== 0 && _renderPreview()}
         {_renderFloatingPanel()}
-      </View>
+      </ScrollView>
     );
 
     return (
@@ -156,12 +192,7 @@ export const InsertLinkModal = forwardRef(
         containerStyle={styles.sheetContent}
         keyboardHandlerEnabled
         indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
-        onClose={() => {
-          labelInputRef.current?.blur();
-          setLabel('');
-          setUrl('');
-          handleOnSheetClose();
-        }}
+        onClose={_handleOnCloseSheet}
       >
         {_renderContent}
       </ActionSheet>

@@ -94,4 +94,18 @@ export default EStyleSheet.create({
     textAlign: 'center',
     color: '$primaryBlue',
   },
+  previewContainer: {
+    
+  },
+  previewText:{
+    color: '$primaryBlack',
+    fontWeight: '600',
+    textAlign: 'left',
+    paddingLeft: 16,
+    marginTop: 8,
+  },
+  preview: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

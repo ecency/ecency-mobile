@@ -23,6 +23,7 @@ import { PostHtmlRenderer, VideoPlayer } from '../../..';
 const WIDTH = Dimensions.get('window').width;
 
 const PostBody = ({ navigation, body, dispatch, onLoadEnd }) => {
+  console.log('body : ', body);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
   const [postImages, setPostImages] = useState([]);

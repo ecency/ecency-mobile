@@ -259,6 +259,7 @@ const MarkdownEditorView = ({
     _changeText(_text);
   });
 
+  console.log('text : ', text);
   const _renderPreview = () => (
     <ScrollView style={styles.previewContainer}>
       {text ? (
