@@ -89,7 +89,7 @@ class PostHeaderDescription extends PureComponent {
     } = this.props;
 
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <View style={[styles.container, customStyle]}>
           <TouchableOpacity
             style={styles.avatarNameWrapper}
