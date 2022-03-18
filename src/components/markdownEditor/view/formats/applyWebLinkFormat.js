@@ -4,11 +4,11 @@ export const writeUrlTextHere = 'https://example.com';
 export const writeTextHereString = 'Text here';
 
 export default async ({ text, selection, setTextAndSelection, item, isImage = null }) => {
-  console.log(text, selection, item, isImage);
+  console.log('text, selection, item, isImage : ', text, selection, item, isImage);
   const imagePrefix = isImage ? '!' : '';
   const itemText = item ? item.text : writeTextHereString;
   const itemUrl = item ? item.url : writeUrlTextHere;
-  const hasLabel = item && item.text;
+  const isRawUrl = isImage ? false : item && !item.text;
   let newText;
   let newSelection;
   const selectedText = text.substring(selection.start, selection.end);
@@ -35,7 +35,7 @@ export default async ({ text, selection, setTextAndSelection, item, isImage = nu
     newText = replaceBetween(
       text,
       selection,
-      hasLabel ? `${imagePrefix}[${itemText}](${itemUrl})` : `${imagePrefix}${itemUrl}`,
+      isRawUrl ? `${imagePrefix}${itemUrl}` : `${imagePrefix}[${itemText}](${itemUrl})`,
     );
     if (isImage) {
       const newIndex = newText && newText.indexOf(itemUrl) + 2 + itemUrl.length;
@@ -53,5 +53,6 @@ export default async ({ text, selection, setTextAndSelection, item, isImage = nu
     }
   }
 
+  console.log('newText for image : ', newText);
   setTextAndSelection({ text: newText, selection: newSelection });
 };
