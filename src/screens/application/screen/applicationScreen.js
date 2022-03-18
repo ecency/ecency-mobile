@@ -26,6 +26,7 @@ import {
   ActionModal,
   ForegroundNotification,
   QuickProfileModal,
+  QRModal,
 } from '../../../components';
 
 // Themes (Styles)
@@ -174,6 +175,7 @@ class ApplicationScreen extends Component {
         <AccountsBottomSheet />
         <ActionModal />
         <QuickProfileModal navigation={{ navigate }} />
+        <QRModal />
       </View>
     );
   }

@@ -32,6 +32,7 @@ export default {
     COMMUNITIES: `Communities${SCREEN_SUFFIX}`,
     WEB_BROWSER: `WebBrowser${SCREEN_SUFFIX}`,
     REFER: `Refer${SCREEN_SUFFIX}`,
+    QR: `QR${SCREEN_SUFFIX}`,
   },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,
