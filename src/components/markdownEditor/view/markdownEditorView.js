@@ -306,13 +306,14 @@ const MarkdownEditorView = ({
   const _handleOnAddLinkSheetClose = () => {
     inputRef.current?.focus();
   };
-  const _handleInsertLink = ({ label, url, selection }) => {
+  const _handleInsertLink = ({ label, url, selection, isImage }) => {
     if (url) {
       applyWebLinkFormat({
         item: { text: label, url: url },
         text,
         selection,
         setTextAndSelection: _setTextAndSelection,
+        isImage,
       });
     } else {
       console.log('No url added!');

@@ -16,10 +16,12 @@ interface InsertLinkModalProps {
     label,
     url,
     selection,
+    isImage,
   }: {
     label: string;
     url: string;
     selection: { start: number; end: number };
+    isImage: boolean;
   }) => void;
   handleOnSheetClose: () => void;
 }
@@ -65,14 +67,16 @@ export const InsertLinkModal = forwardRef(
         setIsUrlValid(false);
         return;
       }
-      handleOnInsertLink({ label, url, selection });
+      handleOnInsertLink({ label, url, selection, isImage: selectedUrlType === 2 });
     };
 
     const _handleUrlChange = async (text) => {
       setUrl(text);
-      if (isStringWebLink(text)) {
+      if (selectedUrlType !== 0 && isStringWebLink(text)) {
         setIsLoading(true);
         setPreviewBody(renderPostBody(text, true, Platform.OS === 'ios' ? false : true));
+      } else {
+        setIsLoading(false);
       }
     };
 
