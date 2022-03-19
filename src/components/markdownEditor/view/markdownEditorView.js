@@ -271,12 +271,11 @@ const MarkdownEditorView = ({
   );
 
   const _handleOnSnippetReceived = (snippetText) => {
-    console.log('text : ', text, 'selection : ', selection, 'snippetText : ', snippetText);
     applySnippet({
       text,
       selection,
       setTextAndSelection: _setTextAndSelection,
-      snippetText,
+      snippetText: `\n${snippetText}\n`,
     });
   };
 
@@ -306,18 +305,13 @@ const MarkdownEditorView = ({
   const _handleOnAddLinkSheetClose = () => {
     inputRef.current?.focus();
   };
-  const _handleInsertLink = ({ label, url, selection, isImage }) => {
-    if (url) {
-      applyWebLinkFormat({
-        item: { text: label, url: url },
-        text,
-        selection,
-        setTextAndSelection: _setTextAndSelection,
-        isImage,
-      });
-    } else {
-      console.log('No url added!');
-    }
+  const _handleInsertLink = ({ snippetText, selection }) => {
+    applySnippet({
+      text,
+      selection,
+      setTextAndSelection: _setTextAndSelection,
+      snippetText,
+    });
 
     insertLinkModalRef.current?.hideModal();
   };

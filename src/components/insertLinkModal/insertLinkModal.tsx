@@ -10,18 +10,15 @@ import { delay } from '../../utils/editor';
 import { isStringWebLink } from '../markdownEditor/view/formats/utils';
 import { renderPostBody } from '@ecency/render-helper';
 import { ScrollView } from 'react-native-gesture-handler';
+import applyWebLinkFormat from '../markdownEditor/view/formats/applyWebLinkFormat';
 
 interface InsertLinkModalProps {
   handleOnInsertLink: ({
-    label,
-    url,
+    snippetText,
     selection,
-    isImage,
   }: {
-    label: string;
-    url: string;
+    snippetText: string;
     selection: { start: number; end: number };
-    isImage: boolean;
   }) => void;
   handleOnSheetClose: () => void;
 }
@@ -35,6 +32,7 @@ export const InsertLinkModal = forwardRef(
     const [url, setUrl] = useState('');
     const [isUrlValid, setIsUrlValid] = useState(true);
     const [selectedText, setSelectedText] = useState('');
+    const [formattedText, setFormattedText] = useState('');
     const [selection, setSelection] = useState({ start: 0, end: 0 });
     const [selectedUrlType, setSelectedUrlType] = useState(0);
     const [previewBody, setPreviewBody] = useState('');
@@ -44,6 +42,8 @@ export const InsertLinkModal = forwardRef(
 
     useImperativeHandle(ref, () => ({
       showModal: async ({ selectedText, selection }) => {
+        console.log('selection : ', selection);
+        
         setSelectedText(selectedText);
         setSelection(selection);
         if (selection && selection.start !== selection.end) {
@@ -67,16 +67,29 @@ export const InsertLinkModal = forwardRef(
         setIsUrlValid(false);
         return;
       }
-      handleOnInsertLink({ label, url, selection, isImage: selectedUrlType === 2 });
+      handleOnInsertLink({ snippetText: formattedText, selection: selection, });
+      setIsUrlValid(true);
     };
 
+    const _setFormattedTextAndSelection = ({ selection, text }) => {
+      setPreviewBody(renderPostBody(text, true, Platform.OS === 'ios' ? false : true));
+      setFormattedText(text);
+    };
     const _handleUrlChange = async (text) => {
       setUrl(text);
-      if (selectedUrlType !== 0 && isStringWebLink(text)) {
+      if (isStringWebLink(text)) {
         setIsLoading(true);
-        setPreviewBody(renderPostBody(text, true, Platform.OS === 'ios' ? false : true));
+        applyWebLinkFormat({
+          item: { text: label, url: text },
+          text: '',
+          selection: { start: 0, end: 0 },
+          setTextAndSelection: _setFormattedTextAndSelection,
+          isImage: selectedUrlType === 2,
+        });
+        setIsLoading(false);
       } else {
         setIsLoading(false);
+        setPreviewBody('');
       }
     };
 
@@ -86,6 +99,9 @@ export const InsertLinkModal = forwardRef(
       setUrl('');
       setSelectedUrlType(0);
       setPreviewBody('');
+      setIsUrlValid(true);
+      setSelectedText('');
+      setFormattedText('');
       handleOnSheetClose();
     };
     const _renderFloatingPanel = () => {
@@ -137,7 +153,7 @@ export const InsertLinkModal = forwardRef(
           style={styles.input}
           value={label}
           onChangeText={setLabel}
-          placeholder={'Enter Label'}
+          placeholder={'Enter Label (Optional)'}
           placeholderTextColor="#c1c5c7"
           autoCapitalize="none"
           innerRef={labelInputRef}
@@ -181,7 +197,7 @@ export const InsertLinkModal = forwardRef(
     const _renderContent = (
       <ScrollView style={styles.container} keyboardShouldPersistTaps={'handled'}>
         {_renderInputs()}
-        {selectedUrlType !== 0 && _renderPreview()}
+        {_renderPreview()}
         {_renderFloatingPanel()}
       </ScrollView>
     );
