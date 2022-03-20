@@ -34,7 +34,8 @@ export default EStyleSheet.create({
     borderWidth: 1,
     borderColor: '$borderColor',
     borderRadius: 8,
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
     color: '$primaryBlack',
     width: 172,
   },
@@ -110,7 +111,7 @@ export default EStyleSheet.create({
   },
   dropdownText: {
     fontSize: 14,
-    paddingLeft: 16,
+    paddingLeft: 12,
     paddingHorizontal: 14,
     color: '$primaryDarkGray',
   },
@@ -130,7 +131,7 @@ export default EStyleSheet.create({
   },
   dropdown: {
     flexGrow: 1,
-    width: 150,
+    width: 130,
   },
   slider: {
     flex: 1,
