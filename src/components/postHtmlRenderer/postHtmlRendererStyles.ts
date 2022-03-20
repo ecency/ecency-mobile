@@ -12,13 +12,15 @@ export default EStyleSheet.create({
   body: {
     color: '$primaryBlack',
   } as TextStyle,
+  div: {
+    width:'100%',
+  },
   p:{
     marginTop:6,
     marginBottom:6,
     flexDirection:'row',
     alignItems:'center',
     flexWrap:'wrap'
-
   } as TextStyle,
   pLi:{
     marginTop:0,
