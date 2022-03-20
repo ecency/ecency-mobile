@@ -78,38 +78,38 @@
     "escrow_approve": "Odobri polog",
     "cancel_transfer_from_savings": "Otkaži sa štednje",
     "delegate_vesting_shares": "Delegacija",
-    "fill_convert_request": "Convert Executed",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_convert_request": "Pretvaranje izvršeno",
+    "fill_transfer_from_savings": "Ušteda izvšena",
+    "fill_vesting_withdraw": "Smanjenje snage izvršeno",
     "estm": {
-      "title": "Points",
-      "buy": "GET POINTS"
+      "title": "Bodovi",
+      "buy": "DOBIJTE BODOVE"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "HIVE štednja"
     },
     "savinghbd": {
       "title": "HBD Savings"
     },
     "hive": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "DOBIJTE HIVE"
     },
     "hbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "DOBIJTE HBD"
     },
     "hive_power": {
-      "title": "HIVE POWER"
+      "title": "HIVE SNAGA"
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "DOBIJTE BTC",
+      "address": "PRIMITE"
     }
   },
   "notification": {
-    "vote": "voted",
+    "vote": "glasano",
     "unvote": "downvoted",
     "reply": "replied to",
     "mention": "mentioned in",
