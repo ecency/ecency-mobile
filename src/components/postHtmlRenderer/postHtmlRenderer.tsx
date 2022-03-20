@@ -281,9 +281,9 @@ export const PostHtmlRenderer = memo(
           img: styles.img,
           table: styles.table,
           tr: { ...styles.tr, width: contentWidth }, //center tag causes tr to have 0 width if not exclusivly set, contentWidth help avoid that
-          th: {...styles.th, minWidth: _minTableColWidth},
-          td: {...styles.td, minWidth: _minTableColWidth},
-          div:{width:contentWidth},
+          th: { ...styles.th, minWidth: _minTableColWidth},
+          td: { ...styles.td, minWidth: _minTableColWidth},
+          div: { ...styles.div, maxWidth:contentWidth }, //makes sure width covers the available horizontal space for view and not exceed the contentWidth if parent bound id not defined
           blockquote: styles.blockquote,
           code: styles.code,
           li: styles.li,
