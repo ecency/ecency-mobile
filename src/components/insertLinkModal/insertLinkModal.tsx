@@ -76,11 +76,12 @@ export const InsertLinkModal = forwardRef(
       setFormattedText(text);
     };
     const _handleUrlChange = async (text) => {
+      const labelText = selectedUrlType === 2 ? 'image' : label;
       setUrl(text);
       if (isStringWebLink(text)) {
         setIsLoading(true);
         applyWebLinkFormat({
-          item: { text: label, url: text },
+          item: { text: labelText, url: text },
           text: '',
           selection: { start: 0, end: 0 },
           setTextAndSelection: _setFormattedTextAndSelection,

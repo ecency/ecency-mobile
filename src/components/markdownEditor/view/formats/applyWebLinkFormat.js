@@ -3,11 +3,18 @@ import { isStringWebLink, replaceBetween } from './utils';
 export const writeUrlTextHere = 'https://example.com';
 export const writeTextHereString = 'Text here';
 
-export default async ({ text, selection, setTextAndSelection, item, isImage = null }) => {
+export default async ({
+  text,
+  selection,
+  setTextAndSelection,
+  item,
+  isImage = null,
+  isVideo = null,
+}) => {
   const imagePrefix = isImage ? '!' : '';
   const itemText = item ? item.text : writeTextHereString;
   const itemUrl = item ? item.url : writeUrlTextHere;
-  const isRawUrl = isImage ? false : item && !item.text;
+  const isRawUrl = item && !item.text;
   let newText;
   let newSelection;
   const selectedText = text.substring(selection.start, selection.end);
@@ -34,7 +41,11 @@ export default async ({ text, selection, setTextAndSelection, item, isImage = nu
     newText = replaceBetween(
       text,
       selection,
-      isRawUrl ? `${imagePrefix}${itemUrl}` : `${imagePrefix}[${itemText}](${itemUrl})`,
+      isRawUrl
+        ? `[${itemUrl}](${itemUrl})`
+        : isVideo
+        ? `${itemUrl}`
+        : `${imagePrefix}[${itemText}](${itemUrl})`,
     );
     if (isImage) {
       const newIndex = newText && newText.indexOf(itemUrl) + 2 + itemUrl.length;
