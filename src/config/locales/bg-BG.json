@@ -444,15 +444,15 @@
     "failed_to_open": "Неуспешно отваряне на линк",
     "restart_ecency": "Пусни от начало Ecency?",
     "restart_ecency_desc": "Добавяне на промени изисква пускане от начало.",
-    "invalid_response": "Could not process request, Try again later."
+    "invalid_response": "Не можахме да обработим заявката ви. Опитайте пак по-късно."
   },
   "post": {
     "reblog_alert": "Сигорни ли сте,че искате да споделите?",
     "removed_hint": "Съдържанието не е достъпно",
     "copy_link": "Копирай връзката/линка",
-    "copy_text": "Copy text",
+    "copy_text": "Копирай текста",
     "reblogged": "споделено от",
-    "sponsored": "Спонсорирано",
+    "sponsored": "Промотирано",
     "open_thread": "Отворена нишка",
     "image": "Изображение",
     "link": "Линк/връзка",
@@ -461,8 +461,8 @@
     "image_saved": "Изображението е запазено в галерията",
     "image_saved_error": "Грешка при запазвана не снимката",
     "wrong_link": "Грешен линк/връзка",
-    "in": "in",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "in": "в",
+    "reveal_muted": "Заглушен Натисни да вижиш съдържанието"
   },
   "drafts": {
     "title": "Чернови",
@@ -488,8 +488,8 @@
   },
   "report": {
     "added": "\n30/5000\nСъобщено нежелателно съдържание",
-    "confirm_report_title": "Confirm Report!",
-    "confirm_report_body": "Are you sure you want report?"
+    "confirm_report_title": "Одобри доклад!",
+    "confirm_report_body": "Сигурен ли сте че искате да докладвате?"
   },
   "favorites": {
     "title": "Любими",
@@ -513,7 +513,7 @@
     "beneficiaries": "Бенефициенти",
     "warn_zero_payout": "Стойността трябва да достигне $0.02 за изплащане",
     "breakdown": "Разбивка",
-    "max_accepted": "Max Accepted"
+    "max_accepted": "Максимално Приемани"
   },
   "post_dropdown": {
     "copy": "Копирай връзката/линка",
@@ -557,8 +557,8 @@
     "purchase_estm": "Купи точки",
     "convert": "Преобразувай HBD към HIVE",
     "points": "Дарения на Estm на някого",
-    "transfer_to_savings": "Transfer To Saving",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_savings": "Прехвърли към Спестявания",
+    "transfer_to_vesting": "Подсилване стойността на гласа",
     "withdraw_to_saving": "Изтегли към Спестявания",
     "steemconnect_title": "Hivesigner транзакция",
     "estimated_weekly": "ориентировочно на седмица",
@@ -571,23 +571,23 @@
     "next": "следващ",
     "delegate": "Делегация/отдаване",
     "power_down": "Намаляване на енергията",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HIVE Dollar",
+    "withdraw_hive": "Изтегли Hive",
+    "withdraw_hbd": "Изтегли Hive Долари",
     "incoming_funds": "Идващи средства",
     "stop": "спри",
-    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
+    "sc_power_down_error": "Тази опция все още не работи с Hivesigner login",
     "address_view": "Преглед на адрес",
-    "already_delegated": "Already delegated to ",
-    "remain_hp": "Remaining HP",
-    "account_detail_head": "Account Details",
-    "account_detail_subhead": "Enter username for HIVE Power delegation",
-    "delegat_detail_head": "Delegation Details",
-    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
-    "new_amount": "New Amount",
-    "review": "REVIEW",
-    "confirm": "Confirm Delegation",
-    "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
-    "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
+    "already_delegated": "Вече отдадох към ",
+    "remain_hp": "Оставаща HP",
+    "account_detail_head": "Детайли на акаунта",
+    "account_detail_subhead": "Вкарай потребителско име за Hive power отдаване",
+    "delegat_detail_head": "Отдаване детайли",
+    "delegat_detail_subhead": "Новата делегация е над старата ",
+    "new_amount": "Нова сума",
+    "review": "Преглед",
+    "confirm": "Потвърди отдаване",
+    "confirm_summary": "Отдаване {hp} HP ({vests} VESTS) към @{delegator} от @{delegatee} ",
+    "confirm_summary_para": "Нова делегация над старата делегация от {prev} HP към този потребител.",
     "username_alert": "Username Error!",
     "username_alert_detail": "Please select different username"
   },
