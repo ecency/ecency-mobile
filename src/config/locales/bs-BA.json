@@ -231,7 +231,7 @@
     "password": "Lozinka ili WIF",
     "description": "Prijavom se slažete sa našim uslovima usluga i politikama privatnosti.",
     "cancel": "otkaži",
-    "login": "LOGIN",
+    "login": "PRIJAVI SE",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
     "steemconnect_fee_description": "info"
   },
