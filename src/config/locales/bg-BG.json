@@ -86,21 +86,21 @@
       "buy": "Вземи точки"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "Hive спестявания"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "HBD спестявания"
     },
     "hive": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "Взену HIVE"
     },
     "hbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "Вземи HBD"
     },
     "hive_power": {
-      "title": "HIVE POWER"
+      "title": "HIVE сила/стойност на гласа"
     },
     "btc": {
       "title": "Биткойн",
@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "Гласуван",
-    "unvote": "downvoted",
+    "unvote": "негативен глас",
     "reply": "отговорено на",
     "mention": "споменато в",
     "follow": "те последва",
@@ -118,7 +118,7 @@
     "ignore": "те игнорира",
     "reblog": "споделено от",
     "transfer": "прехвърлено",
-    "delegations": "delegated",
+    "delegations": "делегация/отдаване",
     "spin": "Време да спечелите още Estm",
     "inactive": "Бъди активен! Напишете публикация, продължете да печелите",
     "referral": "се присъедини чрез вашата покана, приветствайте го",
@@ -129,7 +129,7 @@
     "recent": "Скорошен",
     "yesterday": "Вчера",
     "this_week": "Тази седмица",
-    "last_week": "Last Week",
+    "last_week": "Предишна Седмица",
     "this_month": "Този месец",
     "older_then": "По-стар от месец",
     "activities": "Всички",
@@ -137,15 +137,15 @@
     "mentions": "Споменавания",
     "reblogs": "Споделяния",
     "noactivity": "Няма скорошна дейност",
-    "mention_on": "New mention on",
-    "reply_on": "New reply on",
-    "reply_body": "Tap to continue conversation..."
+    "mention_on": "Ново споменаване в",
+    "reply_on": "Нов отговор в",
+    "reply_body": "Натисни да продължиш разговора..."
   },
   "leaderboard": {
     "daily": "Дневно",
     "weekly": "Седмично",
     "monthly": "Месечно",
-    "tooltip_earn": "Earn points by actively participating in Ecency."
+    "tooltip_earn": "Спечели точки с активно участие в Ecency."
   },
   "messages": {
     "comingsoon": "Функцията за съобщения идва скоро!"
@@ -153,7 +153,7 @@
   "profile": {
     "following": "Следва: ",
     "follower": "Последователи",
-    "edit_label": "Edit",
+    "edit_label": "Редактиране",
     "post": "Публикации",
     "details": "Детайли на профила",
     "comments": "Коментари",
@@ -165,20 +165,20 @@
     "hours": "часове",
     "voting_power": "Сила за гласуване",
     "login_to_see": "Влез в акаунта да видиш",
-    "follow_people": "When you follow people, you'll see their post here.",
-    "follow_communities": "When you join communities you'll see posts from communities here.",
+    "follow_people": "Когато последваш хора ще виждаш техните постове.",
+    "follow_communities": "Когато се присъединиш към група, ще виждаш постовете тук.",
     "havent_commented": "Все още няма коментари",
     "havent_posted": "Все още няма публикации",
-    "hive_power": "Hive Power",
+    "hive_power": "Hive Сила/стойност на гласа",
     "next_power_text": "Следващо намаляване на енергията след",
     "days": "дни",
     "day": "Ден",
-    "hive_dollars": "Hive Dollars",
+    "hive_dollars": "Hive Долари",
     "savings": "Спестявания",
-    "joined": "Joined {time} ago",
-    "view_full": "VIEW FULL PROFILE",
-    "resource_credits": "Resource Credits",
-    "reputation": "Reputation",
+    "joined": "Се присъедини преди",
+    "view_full": "Виж целия профил",
+    "resource_credits": "Ресурс кредити",
+    "reputation": "Репутация",
     "edit": {
       "display_name": "Име за показване",
       "about": "Относно",
@@ -201,7 +201,7 @@
       "mention": "ви спомена",
       "reblog": "Споделяне",
       "transfers": "Преводи",
-      "delegations": "Delegations"
+      "delegations": "Делегация/отдаване"
     },
     "pincode": "Pincode",
     "reset_pin": "Анулирай пин код",
