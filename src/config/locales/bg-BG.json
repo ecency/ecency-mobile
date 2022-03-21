@@ -588,8 +588,8 @@
     "confirm": "Потвърди отдаване",
     "confirm_summary": "Отдаване {hp} HP ({vests} VESTS) към @{delegator} от @{delegatee} ",
     "confirm_summary_para": "Нова делегация над старата делегация от {prev} HP към този потребител.",
-    "username_alert": "Username Error!",
-    "username_alert_detail": "Please select different username"
+    "username_alert": "Потребителско име грешка!",
+    "username_alert_detail": "Моля изберете различно потребителско име"
   },
   "boost": {
     "title": "Вземи точки",
@@ -637,7 +637,7 @@
     "title": "Коментари",
     "reveal_comment": "Покажи коментара",
     "read_more": "Прочети още коментари",
-    "more_replies": "replies"
+    "more_replies": "отговори"
   },
   "search_result": {
     "others": "Други",
@@ -678,23 +678,23 @@
     "new_post": "Нова публикация",
     "community": "Група",
     "details": "Подробности",
-    "muted": "Muted",
-    "payout": "Payout"
+    "muted": "Заглушен",
+    "payout": "Изплащане"
   },
   "user": {
     "follow": "Последвай",
     "unfollow": "Отследване",
-    "add_to_favourites": "ADD TO FAVOURITES",
-    "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE / BLOCK",
-    "unmute": "UNMUTE / UNBLOCK",
-    "report": "REPORT USER"
+    "add_to_favourites": "Добави към Любими",
+    "remove_from_favourites": "Премахни от Любими",
+    "mute": "Заглуши/Блокирай",
+    "unmute": "Премахни заглушаване/Отблокирай",
+    "report": "Доладвай потребител"
   },
   "communities": {
     "joined": "Членство",
     "discover": "Открийте",
-    "discover_communities": "Discover Communities",
-    "no_communities": "Connect with people who share your interests by joining Communities."
+    "discover_communities": "Намери нови Групи",
+    "no_communities": "Свържи се към хора с общи интереси като се присъединиш към Групи."
   },
   "empty_screen": {
     "nothing_here": "Няма нищо тук"
@@ -704,45 +704,45 @@
     "username": "Потребителско име",
     "addAccount": "Добави акаунт",
     "save": "Запази",
-    "cancel": "Cancel"
+    "cancel": "Отказ"
   },
   "welcome": {
-    "label": "Welcome to",
+    "label": "Добре дошли в",
     "title": "Ecency",
-    "line1_heading": "Are you looking for community?",
-    "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
-    "line2_heading": "We have a solution!",
-    "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
-    "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others.",
-    "get_started": "Get started!"
+    "line1_heading": "Търсиш Група?",
+    "line1_body": "Нецензурирано, неизменно, възнаграждаващо, децентрализирано, което притежавате.",
+    "line2_heading": "Ние имаме Решение!",
+    "line2_body": "Използване на блокчейн, без цензура, децентрализирано и възнаграждаващо.",
+    "line3_heading": "Присъедини се към Ecency Групи!",
+    "line3_body": "Направи собствена Група, получи награди и награди другите.",
+    "get_started": "Започнете!"
   },
   "time": {
-    "second": "seconds",
-    "minute": "minutes",
-    "hour": "hours",
-    "week": "weeks",
-    "day": "days",
-    "month": "months",
-    "year": "years"
+    "second": "секунди",
+    "minute": "минути",
+    "hour": "часове",
+    "week": "седмици",
+    "day": "дни",
+    "month": "месеци",
+    "year": "години"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
-    "comment": "Comment",
-    "reply": "REPLY",
-    "close": "CLOSE"
+    "placeholder": "Добави коментар",
+    "comment": "Коментар",
+    "reply": "Отговор",
+    "close": "Затвори"
   },
   "walkthrough": {
-    "load_draft_tooltip": "Load your lastest draft here"
+    "load_draft_tooltip": "Зареди последната си чернова тук"
   },
   "refer": {
-    "refer_earn": "Refer & Earn",
-    "refer": "Refer",
-    "rewarded": "Referral points rewarded",
-    "not_rewarded": "Referral reward pending",
-    "delegate_hp": "Delegate HP",
-    "earned": "Earned Points",
-    "pending": "Pending Points",
-    "empty_text": "Refer your loved ones today and earn free points"
+    "refer_earn": "Покани § спечели",
+    "refer": "Поканен",
+    "rewarded": "Точки за покана",
+    "not_rewarded": "Точки за покана на изчакване",
+    "delegate_hp": "Отдаване на HP",
+    "earned": "Спечелени точки",
+    "pending": "Изчакващи Точки",
+    "empty_text": "Покани любимите си хора днес и спечели точки"
   }
 }
