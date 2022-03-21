@@ -118,7 +118,6 @@ export default EStyleSheet.create({
     height: 44,
     width: '100%',
     borderRadius: 8,
-    marginHorizontal: 2,
   },
   dropdown: {
     flexGrow: 1,
