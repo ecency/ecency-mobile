@@ -80,7 +80,7 @@
     "delegate_vesting_shares": "Делегация/отдаване",
     "fill_convert_request": "Преобразуване на изпълненото",
     "fill_transfer_from_savings": "Спестяване изпълнено",
-    "fill_vesting_withdraw": "Намаляване на стойността изпълнено",
+    "fill_vesting_withdraw": "Намаляване стойността на гласа изпълнено",
     "estm": {
       "title": "Точки",
       "buy": "Вземи точки"
