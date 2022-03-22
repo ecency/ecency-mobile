@@ -122,7 +122,10 @@
     "updating":"Updating...",
     "coin_details":"Coin Details",
     "change":"Change",
-    "activities":"Activities"
+    "activities":"Activities",
+    "savings_withdrawal":"Pending Withdrawals",
+    "open_orders":"Open Orders",
+    "conversions_requested":"Converstions Requested"
   },
   "notification": {
     "vote": "voted",
