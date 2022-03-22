@@ -174,6 +174,61 @@ export const fetchGlobalProps = async () => {
 };
 
 /**
+ * fetches all tranding orders that are not full-filled yet
+ * @param {string} username
+ * @returns {OpenOrderItem[]} array of openorders both hive and hbd
+ */
+export const getOpenOrders = async (username) => {
+  try {
+    const rawData = await client.call('condenser_api', 'get_open_orders', [username]);
+    if (!rawData || !rawData.length) {
+      return [];
+    }
+    return rawData;
+  } catch (err) {
+    console.warn('Failed to get open orders', err);
+    return [];
+  }
+};
+
+/**
+ * fetchs all pending converstion requests that are yet to be fullfilled
+ * @param {string} account
+ * @returns {ConversionRequest[]}  array of conversion requests
+ */
+export const getConversionRequests = async (username) => {
+  try {
+    const rawData = await client.database.call('get_conversion_requests', [username]);
+    if (!rawData || !rawData.length) {
+      return [];
+    }
+    return rawData;
+  } catch (err) {
+    console.warn('Failed to get open orders', err);
+    return [];
+  }
+};
+
+/**
+ * fetchs all pending converstion requests that are yet to be fullfilled
+ * @param {string} account
+ * @returns {SavingsWithdrawRequest[]}  array of requested savings withdraw
+ */
+
+export const getSavingsWithdrawFrom = async (username) => {
+  try {
+    const rawData = await client.database.call('get_savings_withdraw_from', [username]);
+    if (!rawData || !rawData.length) {
+      return [];
+    }
+    return rawData;
+  } catch (err) {
+    console.warn('Failed to get open orders', err);
+    return [];
+  }
+};
+
+/**
  * @method getAccount fetch raw account data without post processings
  * @param username username
  */
