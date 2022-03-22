@@ -2,9 +2,9 @@ import get from 'lodash/get';
 import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToHp } from './conversions';
-import { getAccount, getAccountHistory } from '../providers/hive/dhive';
+import { getAccount, getAccountHistory, getConversionRequests, getOpenOrders, getSavingsWithdrawFrom } from '../providers/hive/dhive';
 import { getCurrencyTokenRate, getLatestQuotes } from '../providers/ecency/ecency';
-import { CoinBase, CoinData, QuoteItem } from '../redux/reducers/walletReducer';
+import { CoinBase, CoinData, DataPair, QuoteItem } from '../redux/reducers/walletReducer';
 import { GlobalProps } from '../redux/reducers/accountReducer';
 import { getEstimatedAmount } from './vote';
 import { getUser as getEcencyUser, getUserPoints } from '../providers/ecency/ePoint';
@@ -12,6 +12,9 @@ import { getUser as getEcencyUser, getUserPoints } from '../providers/ecency/ePo
 import POINTS from '../constants/options/points';
 import { COIN_IDS } from '../constants/defaultCoins';
 import { operationOrders } from '@hiveio/dhive/lib/utils';
+import { ConversionRequest, OpenOrderItem, SavingsWithdrawRequest } from '../providers/hive/hive.types';
+import parseAsset from './parseAsset';
+
 
 export const transferTypes = [
   'curation_reward',
@@ -274,24 +277,9 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
 
 
 export const fetchCoinActivities = async (username: string, coinId: string, coinSymbol: string, globalProps: GlobalProps) => {
-  //TOOD: transfer history can be separated from here
 
-  // [
-  //   op.transfer, //HIVE
-  //   op.author_reward, //HBD, HP
-  //   op.curation_reward, //HP
-  //   op.transfer_to_vesting, //HIVE, HP
-  //   op.withdraw_vesting, //HIVE, HP
-  //   op.interest, //HP
-  //   op.transfer_to_savings, //HIVE, HBD
-  //   op.transfer_from_savings, //HIVE, HBD
-  //   op.fill_convert_request, //HBD
-  //   op.fill_order, //HIVE, HBD
-  //   op.claim_reward_balance, //HP
-  //   op.sps_fund, //HBD
-  //   op.comment_benefactor_reward, //HP
-  //   op.return_vesting_delegation, //HP
-  // ]
+
+
 
   const op = operationOrders;
   let history = [];
@@ -365,6 +353,34 @@ export const fetchCoinActivities = async (username: string, coinId: string, coin
 }
 
 
+const calculateConvertingAmount = (requests:ConversionRequest[]):number => {
+  if(!requests || !requests.length){
+    return 0;
+  }
+  //TODO: add method body
+  // ecency-vision -> src/common/components/wallet-hive/index.tsx#fetchConvertingAmount
+  throw new Error("calculateConvertingAmount method body not implemented yet");
+}
+
+const calculateSavingsWithdrawalAmount = (requests:SavingsWithdrawRequest[], coinSymbol:string):number => {
+  return requests.reduce((prevVal, curRequest)=>{
+    const _amount = curRequest.amount;
+    return _amount.includes(coinSymbol) 
+      ? prevVal + parseAsset(_amount).amount 
+      : prevVal
+  }, 0); 
+}
+
+const calculateOpenOrdersAmount = (requests:OpenOrderItem[], coinSymbol:string):number => {
+  return requests.reduce((prevVal, curRequest)=>{
+    const _basePrice = curRequest.sell_price.base;
+    return _basePrice.includes(coinSymbol) 
+      ? prevVal + parseAsset(_basePrice).amount 
+      : prevVal
+  }, 0); 
+}
+
+
 export const fetchCoinsData = async ({
   coins,
   currentAccount,
@@ -401,6 +417,13 @@ export const fetchCoinsData = async ({
   //TODO: cache data in redux or fetch once on wallet startup
   const _prices = !refresh && quotes ? quotes : await getLatestQuotes(currencyRate); //TODO: figure out a way to handle other currencies
 
+  const _conversions = await getConversionRequests(username);
+  const _openOrdres = await getOpenOrders(username);
+  const _withdrawRequests = await getSavingsWithdrawFrom(username);
+
+  console.log('fetched conversions', _conversions);
+  console.log('fetched open ordres', _openOrdres);
+  console.log('fetched withdraw requests', _withdrawRequests);
 
   coins.forEach((coinBase) => {
 
@@ -426,6 +449,26 @@ export const fetchCoinsData = async ({
         const savings = parseToken(userdata.savings_balance);
         const ppHive = _prices[coinBase.id].price;
 
+        const extraDataPairs:DataPair[] = []
+        const withdrawalsAmount = calculateSavingsWithdrawalAmount(_withdrawRequests, coinBase.symbol);
+        const openOrdersAmount = calculateOpenOrdersAmount(_openOrdres, coinBase.symbol)
+
+        if(withdrawalsAmount){
+          extraDataPairs.push({
+            labelId:'savings_withdrawal',
+            value: `+ ${withdrawalsAmount} HIVE`
+          });
+        }
+      
+        if(openOrdersAmount){
+          extraDataPairs.push({
+            labelId:'open_orders',
+            value: `+ ${openOrdersAmount} HIVE`
+          })
+        }
+      
+
+
         coinData[coinBase.id] = {
           balance: Math.round(balance * 1000) / 1000,
           estimateValue: (balance + savings) * ppHive,
@@ -434,6 +477,7 @@ export const fetchCoinsData = async ({
           currentPrice: ppHive,
           unclaimedBalance: '',
           actions: HIVE_ACTIONS,
+          extraDataPairs
         }
         break;
       }
