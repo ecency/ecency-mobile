@@ -80,6 +80,7 @@ export const InsertLinkModal = forwardRef(
       setUrl(text);
       if (isStringWebLink(text)) {
         setIsLoading(true);
+        setIsUrlValid(true);
         applyWebLinkFormat({
           item: { text: labelText, url: text },
           text: '',
