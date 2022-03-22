@@ -1,6 +1,6 @@
 import { View, Text, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { BasicHeader } from '../../../components'
+import { BasicHeader, Transaction } from '../../../components'
 import { CoinSummary } from '../children'
 import styles from './screen.styles';
 import ActivitiesList from '../children/activitiesList'
@@ -103,6 +103,18 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
         coinData={coinData}
         onActionPress={_onActionPress}
       />
+
+    
+      {/* 
+      //TODO: remove code if not needed in final wallet
+      {coinData.pendingRequests && !!coinData.pendingRequests.length && (
+        <>
+          <Text style={styles.textActivities}>{"Pending Requests"}</Text>
+          {coinData.pendingRequests.map((item, index)=>(<Transaction item={item} index={index} />))}
+        </>
+      )} */}
+      
+
       <Text style={styles.textActivities}>{intl.formatMessage({id:'wallet.activities'})}</Text>
     </>
   )

@@ -12,7 +12,7 @@ import { getUser as getEcencyUser, getUserPoints } from '../providers/ecency/ePo
 import POINTS from '../constants/options/points';
 import { COIN_IDS } from '../constants/defaultCoins';
 import { operationOrders } from '@hiveio/dhive/lib/utils';
-import { ConversionRequest, OpenOrderItem, SavingsWithdrawRequest } from '../providers/hive/hive.types';
+import { ConversionRequest, OpenOrderItem, OrdersData, SavingsWithdrawRequest } from '../providers/hive/hive.types';
 import parseAsset from './parseAsset';
 
 
@@ -278,9 +278,6 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
 
 export const fetchCoinActivities = async (username: string, coinId: string, coinSymbol: string, globalProps: GlobalProps) => {
 
-
-
-
   const op = operationOrders;
   let history = [];
   switch (coinId) {
@@ -351,6 +348,9 @@ export const fetchCoinActivities = async (username: string, coinId: string, coin
   return filterdActivities
 
 }
+
+
+
 
 
 const calculateConvertingAmount = (requests:ConversionRequest[]):number => {
@@ -466,6 +466,36 @@ export const fetchCoinsData = async ({
             value: `+ ${openOrdersAmount} HIVE`
           })
         }
+
+        //TODO: remove code if not needed in final wallet
+
+        // const openOrderRequests = _openOrdres.map((order)=>{
+        //   return ({
+        //     iconType:"MaterialIcons",
+        //     textKey:'fill_order',
+        //     created:order.expiration,
+        //     icon:'reorder',
+        //     value:order.sell_price.base
+        //   })
+        // })
+
+        // const withdrawRequests = _withdrawRequests.map((request)=>{
+       
+        //     return ({
+        //       iconType:"MaterialIcons",
+        //       textKey:"transfer_from_savings",
+        //       created:request.complete,
+        //       icon:"compare-arrows",
+        //       value:request.amount
+        //     })
+ 
+        // })
+
+        // const pendingRequests = [...openOrderRequests, ...withdrawRequests];
+
+        // pendingRequests.sort((a, b)=>(
+        //  new Date(a.created).getTime() > new Date(b.created).getTime() ? 1:-1 
+        // ))
       
 
 
@@ -477,7 +507,8 @@ export const fetchCoinsData = async ({
           currentPrice: ppHive,
           unclaimedBalance: '',
           actions: HIVE_ACTIONS,
-          extraDataPairs
+          extraDataPairs,
+          // pendingRequests
         }
         break;
       }
