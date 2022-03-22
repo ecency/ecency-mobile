@@ -95,6 +95,7 @@ import { QuickProfileModal } from './organisms';
 import QuickReplyModal from './quickReplyModal/quickReplyModalView';
 import Tooltip from './tooltip/tooltipView';
 import VideoPlayer from './videoPlayer/videoPlayerView';
+import QRModal from './qrModal/qrModalView';
 import { SimpleChart } from './simpleChart';
 
 // Basic UI Elements
@@ -239,5 +240,6 @@ export {
   QuickReplyModal,
   Tooltip,
   VideoPlayer,
+  QRModal,
   SimpleChart,
 };

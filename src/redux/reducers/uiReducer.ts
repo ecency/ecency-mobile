@@ -9,6 +9,7 @@ import {
   SET_AVATAR_CACHE_STAMP,
   SHOW_PROFILE_MODAL,
   HIDE_PROFILE_MODAL,
+  TOGGLE_QR_MODAL,
 } from '../constants/constants';
 
 interface UiState {
@@ -21,6 +22,7 @@ interface UiState {
   actionModalData:any;
   avatarCacheStamp:number;
   profileModalUsername:string;
+  isVisibleQRModal:boolean;
 }
 
 const initialState:UiState = {
@@ -32,7 +34,8 @@ const initialState:UiState = {
   actionModalVisible: false,
   actionModalData: null,
   avatarCacheStamp: 0,
-  profileModalUsername: ''
+  profileModalUsername: '',
+  isVisibleQRModal: false,
 };
 
 export default function (state = initialState, action) {
@@ -101,6 +104,11 @@ export default function (state = initialState, action) {
         ...state,
         avatarCacheStamp: action.payload
       }
+    case TOGGLE_QR_MODAL:
+      return {
+        ...state,
+        isVisibleQRModal: action.payload,
+      };
     default:
       return state;
   }

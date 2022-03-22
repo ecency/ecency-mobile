@@ -10,7 +10,8 @@ import {
   HIDE_ACTION_MODAL,
   SET_AVATAR_CACHE_STAMP,
   SHOW_PROFILE_MODAL,
-  HIDE_PROFILE_MODAL
+  HIDE_PROFILE_MODAL,
+  TOGGLE_QR_MODAL
 } from '../constants/constants';
 
 export const updateActiveBottomTab = (payload:string) => ({
@@ -70,3 +71,8 @@ export const setAvatarCacheStamp = (payload:number) => ({
   payload,
   type:SET_AVATAR_CACHE_STAMP
 })
+
+export const toggleQRModal = (payload:boolean) => ({
+  payload,
+  type: TOGGLE_QR_MODAL,
+});

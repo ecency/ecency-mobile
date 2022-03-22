@@ -20,6 +20,7 @@ export interface Comment {
     net_rshares?:number,
     active_votes?:Array<{rshares:number, voter:string}>,
     json_metadata?:any,
+    isDeletable?:boolean,
     created?:string, //handle created and updated separatly
     updated?:string,
     expiresAt?:number,
