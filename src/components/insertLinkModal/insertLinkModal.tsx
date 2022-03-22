@@ -42,8 +42,6 @@ export const InsertLinkModal = forwardRef(
 
     useImperativeHandle(ref, () => ({
       showModal: async ({ selectedText, selection }) => {
-        console.log('selection : ', selection);
-
         setSelectedText(selectedText);
         setSelection(selection);
         if (selection && selection.start !== selection.end) {
@@ -101,9 +99,7 @@ export const InsertLinkModal = forwardRef(
       }
     };
     const _handleUrlChange = (text) => {
-      console.log('inside url change : ', text, '\nlabel : ');
-
-      const labelText = selectedUrlType === 2 ? 'image' : label;
+      const labelText = selectedUrlType === 2 ? 'image' : label; //TODO: replace image label here. Using demo label for now
       setUrl(text);
       if (isStringWebLink(text)) {
         setIsLoading(true);
