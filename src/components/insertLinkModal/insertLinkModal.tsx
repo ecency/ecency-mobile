@@ -71,11 +71,11 @@ export const InsertLinkModal = forwardRef(
       setIsUrlValid(true);
     };
 
-    const _setFormattedTextAndSelection = ({ selection, text }) => {
+    const _setFormattedTextAndSelection = ({ selection, text }) => {  
       setPreviewBody(renderPostBody(text, true, Platform.OS === 'ios' ? false : true));
       setFormattedText(text);
     };
-    const _handleUrlChange = async (text) => {
+    const _handleUrlChange = async (text) => {  
       const labelText = selectedUrlType === 2 ? 'image' : label;
       setUrl(text);
       if (isStringWebLink(text)) {
@@ -180,7 +180,7 @@ export const InsertLinkModal = forwardRef(
         {!isUrlValid && <Text style={styles.validText}>Please insert valid url</Text>}
       </View>
     );
-    const _renderPreview = () => {
+    const _renderPreview = () => {      
       return (
         <>
           <View style={styles.previewContainer}>
