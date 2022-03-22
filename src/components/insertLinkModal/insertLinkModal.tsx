@@ -43,7 +43,7 @@ export const InsertLinkModal = forwardRef(
     useImperativeHandle(ref, () => ({
       showModal: async ({ selectedText, selection }) => {
         console.log('selection : ', selection);
-        
+
         setSelectedText(selectedText);
         setSelection(selection);
         if (selection && selection.start !== selection.end) {
@@ -67,15 +67,42 @@ export const InsertLinkModal = forwardRef(
         setIsUrlValid(false);
         return;
       }
-      handleOnInsertLink({ snippetText: formattedText, selection: selection, });
+      handleOnInsertLink({ snippetText: formattedText, selection: selection });
       setIsUrlValid(true);
     };
 
-    const _setFormattedTextAndSelection = ({ selection, text }) => {  
+    const _setFormattedTextAndSelection = ({ selection, text }) => {
       setPreviewBody(renderPostBody(text, true, Platform.OS === 'ios' ? false : true));
       setFormattedText(text);
     };
-    const _handleUrlChange = async (text) => {  
+
+    useEffect(() => {
+      if (!label) {
+        // hack for updating the preview when label is deleted
+        _handleUrlChange(url);
+      }
+    }, [label]);
+
+    const _handleLabelChange = (text) => {
+      setLabel(text);
+
+      if (text && isStringWebLink(url)) {
+        setIsLoading(true);
+        applyWebLinkFormat({
+          item: { text: text, url: url },
+          text: '',
+          selection: { start: 0, end: 0 },
+          setTextAndSelection: _setFormattedTextAndSelection,
+          isImage: selectedUrlType === 2,
+        });
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+    };
+    const _handleUrlChange = (text) => {
+      console.log('inside url change : ', text, '\nlabel : ');
+
       const labelText = selectedUrlType === 2 ? 'image' : label;
       setUrl(text);
       if (isStringWebLink(text)) {
@@ -154,7 +181,7 @@ export const InsertLinkModal = forwardRef(
         <TextInput
           style={styles.input}
           value={label}
-          onChangeText={setLabel}
+          onChangeText={_handleLabelChange}
           placeholder={'Enter Label (Optional)'}
           placeholderTextColor="#c1c5c7"
           autoCapitalize="none"
@@ -181,7 +208,7 @@ export const InsertLinkModal = forwardRef(
         {!isUrlValid && <Text style={styles.validText}>Please insert valid url</Text>}
       </View>
     );
-    const _renderPreview = () => {      
+    const _renderPreview = () => {
       return (
         <>
           <View style={styles.previewContainer}>
