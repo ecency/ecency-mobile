@@ -60,62 +60,35 @@ export const InsertLinkModal = forwardRef(
       },
     }));
 
-    const _handleInsert = () => {
-      if (!isStringWebLink(url)) {
-        setIsUrlValid(false);
-        return;
+    useEffect(() => {
+      if (isStringWebLink(url)) {
+        setIsUrlValid(true);
       }
-      handleOnInsertLink({ snippetText: formattedText, selection: selection });
-      setIsUrlValid(true);
-    };
+      if (url) {
+        const labelText =
+          selectedUrlType === 2 ? 'dummy-label' : selectedUrlType === 1 ? '' : label; //TODO: replace image label here. Using demo label for now
+        applyWebLinkFormat({
+          item: { text: labelText, url: url },
+          text: '',
+          selection: { start: 0, end: 0 },
+          setTextAndSelection: _setFormattedTextAndSelection,
+          isImage: selectedUrlType === 2,
+        });
+      } else {
+        setPreviewBody('');
+      }
+    }, [label, url, selectedUrlType]);
 
     const _setFormattedTextAndSelection = ({ selection, text }) => {
       setPreviewBody(renderPostBody(text, true, Platform.OS === 'ios' ? false : true));
       setFormattedText(text);
     };
 
-    useEffect(() => {
-      if (!label) {
-        // hack for updating the preview when label is deleted
-        _handleUrlChange(url);
-      }
-    }, [label]);
-
     const _handleLabelChange = (text) => {
       setLabel(text);
-
-      if (text && isStringWebLink(url)) {
-        setIsLoading(true);
-        applyWebLinkFormat({
-          item: { text: text, url: url },
-          text: '',
-          selection: { start: 0, end: 0 },
-          setTextAndSelection: _setFormattedTextAndSelection,
-          isImage: selectedUrlType === 2,
-        });
-        setIsLoading(false);
-      } else {
-        setIsLoading(false);
-      }
     };
     const _handleUrlChange = (text) => {
-      const labelText = selectedUrlType === 2 ? 'image' : label; //TODO: replace image label here. Using demo label for now
       setUrl(text);
-      if (isStringWebLink(text)) {
-        setIsLoading(true);
-        setIsUrlValid(true);
-        applyWebLinkFormat({
-          item: { text: labelText, url: text },
-          text: '',
-          selection: { start: 0, end: 0 },
-          setTextAndSelection: _setFormattedTextAndSelection,
-          isImage: selectedUrlType === 2,
-        });
-        setIsLoading(false);
-      } else {
-        setIsLoading(false);
-        setPreviewBody('');
-      }
     };
 
     const _handleOnCloseSheet = () => {
@@ -128,6 +101,15 @@ export const InsertLinkModal = forwardRef(
       setSelectedText('');
       setFormattedText('');
       handleOnSheetClose();
+    };
+
+    const _handleInsert = () => {
+      if (!isStringWebLink(url)) {
+        setIsUrlValid(false);
+        return;
+      }
+      handleOnInsertLink({ snippetText: formattedText, selection: selection });
+      setIsUrlValid(true);
     };
     const _renderFloatingPanel = () => {
       return (
