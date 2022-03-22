@@ -93,3 +93,21 @@ export interface OrdersData {
     asks: OrdersDataItem[];
     trading: OrdersDataItem[];
 }
+
+export interface ConversionRequest {
+    amount: string;
+    conversion_date: string;
+    id: number;
+    owner: string;
+    requestid: number;
+}
+
+export interface SavingsWithdrawRequest {
+    id: number;
+    from: string;
+    to: string;
+    memo: string;
+    request_id: number;
+    amount: string;
+    complete: string;
+}   
