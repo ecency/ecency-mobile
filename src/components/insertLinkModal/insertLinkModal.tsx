@@ -73,6 +73,7 @@ export const InsertLinkModal = forwardRef(
           selection: { start: 0, end: 0 },
           setTextAndSelection: _setFormattedTextAndSelection,
           isImage: selectedUrlType === 2,
+          isVideo: selectedUrlType === 1,
         });
       } else {
         setPreviewBody('');

@@ -41,7 +41,13 @@ export default async ({
     newText = replaceBetween(
       text,
       selection,
-      isRawUrl ? `${itemUrl}` : `${imagePrefix}[${itemText}](${itemUrl})`,
+      isVideo
+        ? `\n${itemUrl}\n`
+        : isRawUrl
+        ? `${itemUrl}`
+        : isImage
+        ? `\n${imagePrefix}[${itemText}](${itemUrl})\n`
+        : `${imagePrefix}[${itemText}](${itemUrl})`,
     );
     if (isImage) {
       const newIndex = newText && newText.indexOf(itemUrl) + 2 + itemUrl.length;
