@@ -246,7 +246,7 @@ export const InsertLinkModal = forwardRef(
                 id: 'editor.preview',
               })}
             </Text>
-            <View style={styles.previewWrapper}>
+            <View style={styles.previewWrapper} pointerEvents="none">
               <View style={styles.preview}>
                 {previewBody ? (
                   <PostBody
