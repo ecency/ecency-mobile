@@ -350,7 +350,10 @@
     "enter_url_placeholder":"Enter URL",
     "link_type_text":"Type of Link",
     "preview":"Preview",
-    "invalid_url_error":"Please insert valid url"
+    "invalid_url_error":"Please insert valid url",
+    "plain":"Plain",
+    "video":"Video",
+    "image":"Image"
   },
   "snippets":{
     "label_no_snippets":"No Snippets Found",

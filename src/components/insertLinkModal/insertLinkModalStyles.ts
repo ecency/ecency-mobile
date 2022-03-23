@@ -80,6 +80,7 @@ export default EStyleSheet.create({
   optionBtnTextSelected: {
     textAlign: 'center',
     color: '$white',
+    textTransform: "uppercase",
   },
   optionBtn: {
     maxWidth: 75,
@@ -93,6 +94,7 @@ export default EStyleSheet.create({
   optionBtnText: {
     textAlign: 'center',
     color: '$primaryBlue',
+    textTransform: "uppercase",
   },
   previewContainer: {
     

@@ -132,6 +132,26 @@ export const InsertLinkModal = forwardRef(
       );
     };
 
+    const URL_TYPES = [
+      {
+        id: 0,
+        title: intl.formatMessage({
+          id: 'editor.plain',
+        }),
+      },
+      {
+        id: 1,
+        title: intl.formatMessage({
+          id: 'editor.video',
+        }),
+      },
+      {
+        id: 2,
+        title: intl.formatMessage({
+          id: 'editor.image',
+        }),
+      },
+    ];
     const LinkTypeOptions = URL_TYPES.map((item) => {
       const selected = item.id === selectedUrlType;
       return (
@@ -251,18 +271,3 @@ export const InsertLinkModal = forwardRef(
     );
   },
 );
-
-const URL_TYPES = [
-  {
-    id: 0,
-    title: 'plain',
-  },
-  {
-    id: 1,
-    title: 'video',
-  },
-  {
-    id: 2,
-    title: 'image',
-  },
-];
