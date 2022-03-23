@@ -24,6 +24,8 @@ import { getUser } from '../providers/ecency/ePoint';
 // Utils
 import { countDecimals } from '../utils/number';
 import bugsnagInstance from '../config/bugsnag';
+import { fetchCoinsData } from '../utils/wallet';
+import { fetchAndSetCoinsData } from '../redux/actions/walletActions';
 
 /*
  *            Props Name        Description                                     Value
@@ -122,6 +124,13 @@ class TransferContainer extends Component {
     return validUsers;
   };
 
+  _delayedRefreshCoinsData = () => {
+    const { dispatch } = this.props;
+    setTimeout(() => {
+      dispatch(fetchAndSetCoinsData(true));
+    }, 3000);
+  };
+
   _transferToAccount = async (from, destination, amount, memo) => {
     const { pinCode, navigation, dispatch, intl } = this.props;
     let { currentAccount } = this.props;
@@ -192,6 +201,7 @@ class TransferContainer extends Component {
     return func(currentAccount, pinCode, data)
       .then(() => {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+        this._delayedRefreshCoinsData();
         navigation.goBack();
       })
       .catch((err) => {
@@ -218,6 +228,7 @@ class TransferContainer extends Component {
 
   _handleOnModalClose = () => {
     const { navigation } = this.props;
+    this._delayedRefreshCoinsData();
     navigation.goBack();
   };
 

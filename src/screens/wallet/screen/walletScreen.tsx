@@ -11,9 +11,7 @@ import { LoggedInContainer } from '../../../containers';
 import {
   Header,
   HorizontalIconList,
-  ListPlaceHolder,
   PostCardPlaceHolder,
-  PostPlaceHolder,
 } from '../../../components';
 
 
@@ -29,8 +27,7 @@ import ROUTES from '../../../constants/routeNames';
 import { CoinDetailsScreenParams } from '../../coinDetails/screen/coinDetailsScreen';
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
 import { CoinBase, CoinData } from '../../../redux/reducers/walletReducer';
-import { fetchCoinQuotes, resetWalletData, setCoinsData, setPriceHistory } from '../../../redux/actions/walletActions';
-import { fetchCoinsData } from '../../../utils/wallet';
+import { fetchAndSetCoinsData, fetchCoinQuotes, resetWalletData, setPriceHistory } from '../../../redux/actions/walletActions';
 import { COIN_IDS } from '../../../constants/defaultCoins';
 import { claimPoints } from '../../../providers/ecency/ePoint';
 import { claimRewardBalance, getAccount } from '../../../providers/hive/dhive';
@@ -56,7 +53,6 @@ const WalletScreen = ({navigation}) => {
     ...wallet
   } = useAppSelector((state)=>state.wallet);
 
-  const globalProps = useAppSelector((state)=>state.account.globalProps);
   const currentAccount = useAppSelector((state)=>state.account.currentAccount);
   const pinHash = useAppSelector((state)=>state.application.pin);
 
@@ -102,18 +98,8 @@ const WalletScreen = ({navigation}) => {
     if(refresh){
       dispatch(fetchCoinQuotes());
     }
-    const coinData = await fetchCoinsData({
-      coins:selectedCoins, 
-      currentAccount, 
-      vsCurrency:currency.currency, 
-      currencyRate:currency.currencyRate,
-      globalProps,
-      quotes,
-      refresh
-    });
-    
-    console.log("Coins Data", coinData)
-    dispatch(setCoinsData(coinData, currency.currency, currentAccount.username))
+     await dispatch(fetchAndSetCoinsData(refresh));
+
     setRefreshing(false);
     setIsLoading(false);
   }
