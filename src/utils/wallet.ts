@@ -555,7 +555,7 @@ export const fetchCoinsData = async ({
         break;
       }
       case COIN_IDS.HP: {
-        const _getBalanceStr = (val: number, cur: string, prefix: string = '') => (val ? prefix + Math.round(val * 1000) / 1000 + cur : '');
+        const _getBalanceStr = (val: number, cur: string) => (val ? Math.round(val * 1000) / 1000 + cur : '');
         const balance = Math.round(
           vestsToHp(parseToken(userdata.vesting_shares), hivePerMVests) * 1000,
         ) / 1000;
@@ -570,15 +570,19 @@ export const fetchCoinsData = async ({
           hivePerMVests,
         )
 
-        const unclaimedBalance = (
-          `${_getBalanceStr(parseToken(userdata.reward_hive_balance), ' HIVE')}` +
-          `${_getBalanceStr(parseToken(userdata.reward_hive_balance), ' HBD', ' | ')}` +
-          `${_getBalanceStr(parseToken(userdata.reward_vesting_hive), ' HP', ' | ')}`
-        ).trim();
+        //agggregate claim button text
+        const unclaimedBalance = [
+          _getBalanceStr(parseToken(userdata.reward_hive_balance), ' HIVE'),
+          _getBalanceStr(parseToken(userdata.reward_hbd_balance), ' HBD'),
+          _getBalanceStr(parseToken(userdata.rewardVestingHive), ' HP')
+        ].reduce(
+          (prevVal, bal) => prevVal + (!bal ? '' : (`${prevVal !== '' ? ' | ' : ''}${bal}`)),
+          ''
+        );
 
         //calculate power down
-        const isPoweringDown = userdata.next_vesting_withdrawal 
-          ? parseDate(userdata.next_vesting_withdrawal) > new Date() 
+        const isPoweringDown = userdata.next_vesting_withdrawal
+          ? parseDate(userdata.next_vesting_withdrawal) > new Date()
           : false;
 
         const nextVestingSharesWithdrawal = isPoweringDown
