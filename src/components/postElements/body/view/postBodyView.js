@@ -22,7 +22,7 @@ import { PostHtmlRenderer, VideoPlayer } from '../../..';
 
 const WIDTH = Dimensions.get('window').width;
 
-const PostBody = ({ navigation, body, dispatch, onLoadEnd }) => {
+const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
   console.log('body : ', body);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
@@ -332,7 +332,7 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd }) => {
       <View>
         <PostHtmlRenderer
           body={html}
-          contentWidth={WIDTH - 32}
+          contentWidth={width ? width : WIDTH - 32}
           onLoaded={_handleLoadEnd}
           onElementIsImage={_onElementIsImage}
           setSelectedImage={_handleSetSelectedImage}

@@ -1,6 +1,13 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Platform, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import {
+  Platform,
+  Text,
+  TouchableOpacity,
+  View,
+  ActivityIndicator,
+  Dimensions,
+} from 'react-native';
 import { MainButton, PostBody, TextButton } from '..';
 import styles from './insertLinkModalStyles';
 import ActionSheet from 'react-native-actions-sheet';
@@ -22,6 +29,7 @@ interface InsertLinkModalProps {
   }) => void;
   handleOnSheetClose: () => void;
 }
+const previewWidth = Dimensions.get('window').width - 64;
 
 export const InsertLinkModal = forwardRef(
   ({ handleOnInsertLink, handleOnSheetClose }: InsertLinkModalProps, ref) => {
@@ -238,11 +246,17 @@ export const InsertLinkModal = forwardRef(
                 id: 'editor.preview',
               })}
             </Text>
-            {previewBody ? (
+            <View style={styles.previewWrapper}>
               <View style={styles.preview}>
-                <PostBody body={previewBody} onLoadEnd={() => setIsLoading(false)} />
+                {previewBody ? (
+                  <PostBody
+                    body={previewBody}
+                    onLoadEnd={() => setIsLoading(false)}
+                    width={previewWidth}
+                  />
+                ) : null}
               </View>
-            ) : null}
+            </View>
             {isLoading && <ActivityIndicator color={'$primaryBlue'} />}
           </View>
         </>

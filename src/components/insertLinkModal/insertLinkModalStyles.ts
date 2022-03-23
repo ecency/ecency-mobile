@@ -1,8 +1,5 @@
-import { TextStyle, StyleSheet, ViewStyle, Dimensions, ImageStyle } from 'react-native';
+import { ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-
-const gridItemWidth = Dimensions.get('window').width / 2 - 32;
-const gridItemHeight = (gridItemWidth * 500) / 600;
 
 export default EStyleSheet.create({
   sheetContent: {
@@ -104,10 +101,17 @@ export default EStyleSheet.create({
     fontWeight: '600',
     textAlign: 'left',
     paddingLeft: 16,
-    marginTop: 8,
+    marginVertical: 8,
   },
-  preview: {
+  previewWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '$modalBackground',
+    minHeight: 70,
+    marginHorizontal: 16,
+    borderRadius: 12,
   },
+  preview:{
+    flex: 1,
+  }
 });
