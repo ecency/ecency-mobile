@@ -343,7 +343,14 @@
     "done":"DONE",
     "draft_save_title":"Saving Draft",
     "draft_update":"Update current draft",
-    "draft_save_new":"Save as new draft"
+    "draft_save_new":"Save as new draft",
+    "label":"Label",
+    "enter_label_placeholder":"Enter Label (Optional)",
+    "url": "URL",
+    "enter_url_placeholder":"Enter URL",
+    "link_type_text":"Type of Link",
+    "preview":"Preview",
+    "invalid_url_error":"Please insert valid url"
   },
   "snippets":{
     "label_no_snippets":"No Snippets Found",

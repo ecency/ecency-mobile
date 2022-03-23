@@ -156,12 +156,18 @@ export const InsertLinkModal = forwardRef(
 
     const _renderLabelInput = () => (
       <>
-        <Text style={styles.inputLabel}>Label</Text>
+        <Text style={styles.inputLabel}>
+          {intl.formatMessage({
+            id: 'editor.label',
+          })}
+        </Text>
         <TextInput
           style={styles.input}
           value={label}
           onChangeText={_handleLabelChange}
-          placeholder={'Enter Label (Optional)'}
+          placeholder={intl.formatMessage({
+            id: 'editor.enter_label_placeholder',
+          })}
           placeholderTextColor="#c1c5c7"
           autoCapitalize="none"
           innerRef={labelInputRef}
@@ -170,28 +176,48 @@ export const InsertLinkModal = forwardRef(
     );
     const _renderInputs = () => (
       <View style={styles.inputsContainer}>
-        <Text style={styles.inputLabel}>Type of Link</Text>
+        <Text style={styles.inputLabel}>
+          {intl.formatMessage({
+            id: 'editor.link_type_text',
+          })}
+        </Text>
         <View style={styles.optionsRow}>{LinkTypeOptions}</View>
         {selectedUrlType === 0 && _renderLabelInput()}
-        <Text style={styles.inputLabel}>URL</Text>
+        <Text style={styles.inputLabel}>
+          {intl.formatMessage({
+            id: 'editor.url',
+          })}
+        </Text>
         <TextInput
           style={styles.input}
           value={url}
           onChangeText={_handleUrlChange}
-          placeholder={'Enter URL'}
+          placeholder={intl.formatMessage({
+            id: 'editor.enter_url_placeholder',
+          })}
           placeholderTextColor="#c1c5c7"
           autoCapitalize="none"
           keyboardType="url"
           innerRef={urlInputRef}
         />
-        {!isUrlValid && <Text style={styles.validText}>Please insert valid url</Text>}
+        {!isUrlValid && (
+          <Text style={styles.validText}>
+            {intl.formatMessage({
+              id: 'editor.invalid_url_error',
+            })}
+          </Text>
+        )}
       </View>
     );
     const _renderPreview = () => {
       return (
         <>
           <View style={styles.previewContainer}>
-            <Text style={styles.previewText}>Preview</Text>
+            <Text style={styles.previewText}>
+              {intl.formatMessage({
+                id: 'editor.preview',
+              })}
+            </Text>
             {previewBody ? (
               <View style={styles.preview}>
                 <PostBody body={previewBody} onLoadEnd={() => setIsLoading(false)} />
