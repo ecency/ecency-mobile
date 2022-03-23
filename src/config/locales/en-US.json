@@ -76,6 +76,7 @@
     "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "To Savings",
     "convert": "Convert",
+    "convert_request":"Convert Request",
     "escrow_transfer": "Escrow Transfer",
     "escrow_dispute": "Escrow Dispute",
     "escrow_release": "Escrow Release",

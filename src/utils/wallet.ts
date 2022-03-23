@@ -276,6 +276,65 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
 };
 
 
+
+const fetchPendingRequests = async (username: string, coinSymbol: string): Promise<CoinActivity[]> => {
+
+  const _rawConversions = await getConversionRequests(username);
+  const _rawOpenOrdres = await getOpenOrders(username);
+  const _rawWithdrawRequests = await getSavingsWithdrawFrom(username);
+
+  console.log('fetched pending requests', _rawConversions, _rawOpenOrdres, _rawWithdrawRequests);
+
+  const openOrderRequests = _rawOpenOrdres
+    .filter(request => request.sell_price.base.includes(coinSymbol))
+    .map((request) => {
+      return ({
+        iconType: "MaterialIcons",
+        textKey: 'fill_order',
+        created: request.expiration,
+        icon: 'reorder',
+        value: request.sell_price.base
+      } as CoinActivity)
+    })
+
+  const withdrawRequests = _rawWithdrawRequests
+    .filter(request => request.amount.includes(coinSymbol))
+    .map((request) => {
+      return ({
+        iconType: "MaterialIcons",
+        textKey: "transfer_from_savings",
+        created: request.complete,
+        icon: "compare-arrows",
+        value: request.amount
+      } as CoinActivity)
+    })
+
+  const conversionRequests = _rawConversions
+    .filter(request => request.amount.includes(coinSymbol))
+    .map((request) => {
+      return ({
+        iconType: "MaterialIcons",
+        textKey: "convert_request",
+        created: request.conversion_date,
+        icon: "hourglass-full",
+        value: request.amount
+      } as CoinActivity)
+    })
+
+  const pendingRequests = [
+    ...openOrderRequests, 
+    ...withdrawRequests, 
+    ...conversionRequests
+  ];
+
+  pendingRequests.sort((a, b) => (
+    new Date(a.created).getTime() > new Date(b.created).getTime() ? 1 : -1
+  ))
+
+  return pendingRequests;
+}
+
+
 /**
  * 
  * @param username 
@@ -284,7 +343,7 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
  * @param globalProps 
  * @returns {Promise<CoinActivitiesCollection>}
  */
-export const fetchCoinActivities = async (username: string, coinId: string, coinSymbol: string, globalProps: GlobalProps):Promise<CoinActivitiesCollection> => {
+export const fetchCoinActivities = async (username: string, coinId: string, coinSymbol: string, globalProps: GlobalProps): Promise<CoinActivitiesCollection> => {
 
   const op = operationOrders;
   let history = [];
@@ -304,10 +363,10 @@ export const fetchCoinActivities = async (username: string, coinId: string, coin
             textKey: get(POINTS[get(item, 'type')], 'textKey'),
           })
         ) : [];
-        return {
-          completed,
-          pending:[] as CoinActivity[]
-        }
+      return {
+        completed,
+        pending: [] as CoinActivity[]
+      }
     }
     case COIN_IDS.HIVE:
       history = await getAccountHistory(username, [
@@ -349,7 +408,7 @@ export const fetchCoinActivities = async (username: string, coinId: string, coin
   transfers.sort(compare);
 
   const activities = transfers.map(item => groomingTransactionData(item, globalProps.hivePerMVests));
-  const filterdActivities:CoinActivity[] = activities
+  const filterdActivities: CoinActivity[] = activities
     ? activities.filter((item) => {
       return (
         item &&
@@ -360,9 +419,11 @@ export const fetchCoinActivities = async (username: string, coinId: string, coin
     : [];
 
   console.log('FILTERED comap', activities.length, filterdActivities.length)
+
+  const pendingRequests = await fetchPendingRequests(username, coinSymbol);
   return {
-    completed:filterdActivities,
-    pending:[] as CoinActivity[]
+    completed: filterdActivities,
+    pending: pendingRequests,
   }
 
 }
@@ -371,8 +432,8 @@ export const fetchCoinActivities = async (username: string, coinId: string, coin
 
 
 
-const calculateConvertingAmount = (requests:ConversionRequest[]):number => {
-  if(!requests || !requests.length){
+const calculateConvertingAmount = (requests: ConversionRequest[]): number => {
+  if (!requests || !requests.length) {
     return 0;
   }
   //TODO: add method body
@@ -380,22 +441,22 @@ const calculateConvertingAmount = (requests:ConversionRequest[]):number => {
   throw new Error("calculateConvertingAmount method body not implemented yet");
 }
 
-const calculateSavingsWithdrawalAmount = (requests:SavingsWithdrawRequest[], coinSymbol:string):number => {
-  return requests.reduce((prevVal, curRequest)=>{
+const calculateSavingsWithdrawalAmount = (requests: SavingsWithdrawRequest[], coinSymbol: string): number => {
+  return requests.reduce((prevVal, curRequest) => {
     const _amount = curRequest.amount;
-    return _amount.includes(coinSymbol) 
-      ? prevVal + parseAsset(_amount).amount 
+    return _amount.includes(coinSymbol)
+      ? prevVal + parseAsset(_amount).amount
       : prevVal
-  }, 0); 
+  }, 0);
 }
 
-const calculateOpenOrdersAmount = (requests:OpenOrderItem[], coinSymbol:string):number => {
-  return requests.reduce((prevVal, curRequest)=>{
+const calculateOpenOrdersAmount = (requests: OpenOrderItem[], coinSymbol: string): number => {
+  return requests.reduce((prevVal, curRequest) => {
     const _basePrice = curRequest.sell_price.base;
-    return _basePrice.includes(coinSymbol) 
-      ? prevVal + parseAsset(_basePrice).amount 
+    return _basePrice.includes(coinSymbol)
+      ? prevVal + parseAsset(_basePrice).amount
       : prevVal
-  }, 0); 
+  }, 0);
 }
 
 
@@ -435,13 +496,6 @@ export const fetchCoinsData = async ({
   //TODO: cache data in redux or fetch once on wallet startup
   const _prices = !refresh && quotes ? quotes : await getLatestQuotes(currencyRate); //TODO: figure out a way to handle other currencies
 
-  const _conversions = await getConversionRequests(username);
-  const _openOrdres = await getOpenOrders(username);
-  const _withdrawRequests = await getSavingsWithdrawFrom(username);
-
-  console.log('fetched conversions', _conversions);
-  console.log('fetched open ordres', _openOrdres);
-  console.log('fetched withdraw requests', _withdrawRequests);
 
   coins.forEach((coinBase) => {
 
@@ -467,55 +521,6 @@ export const fetchCoinsData = async ({
         const savings = parseToken(userdata.savings_balance);
         const ppHive = _prices[coinBase.id].price;
 
-        const extraDataPairs:DataPair[] = []
-        const withdrawalsAmount = calculateSavingsWithdrawalAmount(_withdrawRequests, coinBase.symbol);
-        const openOrdersAmount = calculateOpenOrdersAmount(_openOrdres, coinBase.symbol)
-
-        if(withdrawalsAmount){
-          extraDataPairs.push({
-            labelId:'savings_withdrawal',
-            value: `+ ${withdrawalsAmount} HIVE`
-          });
-        }
-      
-        if(openOrdersAmount){
-          extraDataPairs.push({
-            labelId:'open_orders',
-            value: `+ ${openOrdersAmount} HIVE`
-          })
-        }
-
-        //TODO: remove code if not needed in final wallet
-
-        // const openOrderRequests = _openOrdres.map((order)=>{
-        //   return ({
-        //     iconType:"MaterialIcons",
-        //     textKey:'fill_order',
-        //     created:order.expiration,
-        //     icon:'reorder',
-        //     value:order.sell_price.base
-        //   })
-        // })
-
-        // const withdrawRequests = _withdrawRequests.map((request)=>{
-       
-        //     return ({
-        //       iconType:"MaterialIcons",
-        //       textKey:"transfer_from_savings",
-        //       created:request.complete,
-        //       icon:"compare-arrows",
-        //       value:request.amount
-        //     })
- 
-        // })
-
-        // const pendingRequests = [...openOrderRequests, ...withdrawRequests];
-
-        // pendingRequests.sort((a, b)=>(
-        //  new Date(a.created).getTime() > new Date(b.created).getTime() ? 1:-1 
-        // ))
-      
-
 
         coinData[coinBase.id] = {
           balance: Math.round(balance * 1000) / 1000,
@@ -525,7 +530,6 @@ export const fetchCoinsData = async ({
           currentPrice: ppHive,
           unclaimedBalance: '',
           actions: HIVE_ACTIONS,
-          extraDataPairs,
         }
         break;
       }
