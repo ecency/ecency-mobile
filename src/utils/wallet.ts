@@ -291,9 +291,11 @@ const fetchPendingRequests = async (username: string, coinSymbol: string): Promi
       return ({
         iconType: "MaterialIcons",
         textKey: 'fill_order',
-        created: request.expiration,
+        expires: request.expiration,
+        created: request.created,
         icon: 'reorder',
-        value: request.sell_price.base
+        value: request.sell_price.base,
+        details: '',
       } as CoinActivity)
     })
 
@@ -305,7 +307,9 @@ const fetchPendingRequests = async (username: string, coinSymbol: string): Promi
         textKey: "transfer_from_savings",
         created: request.complete,
         icon: "compare-arrows",
-        value: request.amount
+        value: request.amount,
+        details: request.from && request.to ? `@${request.from} to @${request.to}` : null,
+        memo: request.memo || null
       } as CoinActivity)
     })
 
@@ -328,7 +332,7 @@ const fetchPendingRequests = async (username: string, coinSymbol: string): Promi
   ];
 
   pendingRequests.sort((a, b) => (
-    new Date(a.created).getTime() > new Date(b.created).getTime() ? 1 : -1
+    new Date(a.expires || a.created).getTime() > new Date(b.expires || b.created).getTime() ? 1 : -1
   ))
 
   return pendingRequests;

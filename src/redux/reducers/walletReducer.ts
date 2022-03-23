@@ -33,6 +33,7 @@ export interface CoinActivity {
     iconType: string;
     textKey: string;
     created: string;
+    expires: string;
     icon: string;
     value:string;
     details: string;

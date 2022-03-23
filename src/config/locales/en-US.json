@@ -127,7 +127,8 @@
     "activities":"Activities",
     "savings_withdrawal":"Pending Withdrawals",
     "open_orders":"Open Orders",
-    "conversions_requested":"Converstions Requested"
+    "conversions_requested":"Converstions Requested",
+    "expires":"expires"
   },
   "notification": {
     "vote": "voted",
