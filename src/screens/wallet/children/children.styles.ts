@@ -25,6 +25,12 @@ export default EStyleSheet.create({
     flex:1,
   } as ViewStyle,
 
+  cardValuesContainer:{
+    marginHorizontal: 8,
+    
+    justifyContent:'flex-end'
+  } as ViewStyle,
+
   claimContainer:{
     flexDirection:'row', 
     justifyContent:'center', 
@@ -109,5 +115,11 @@ export default EStyleSheet.create({
     fontSize:14,
     color: '$primaryDarkText',
     fontWeight: '300',
-  }
+  } as TextStyle,
+  textSubtitleRight:{
+    fontSize:14,
+    color: '$primaryDarkText',
+    fontWeight: '300',
+    textAlign:'right'
+  } as TextStyle
 });
