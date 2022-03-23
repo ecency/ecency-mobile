@@ -322,8 +322,8 @@ const fetchPendingRequests = async (username: string, coinSymbol: string): Promi
     })
 
   const pendingRequests = [
-    ...openOrderRequests, 
-    ...withdrawRequests, 
+    ...openOrderRequests,
+    ...withdrawRequests,
     ...conversionRequests
   ];
 
@@ -572,6 +572,18 @@ export const fetchCoinsData = async ({
           `${_getBalanceStr(parseToken(userdata.reward_vesting_hive), ' HP', ' | ')}`
         ).trim();
 
+        //calculate power down
+        const isPoweringDown = userdata.next_vesting_withdrawal 
+          ? parseDate(userdata.next_vesting_withdrawal) > new Date() 
+          : false;
+
+        const nextVestingSharesWithdrawal = isPoweringDown
+          ? Math.min(
+            parseAsset(userdata.vesting_withdraw_rate).amount,
+            (Number(userdata.to_withdraw) - Number(userdata.withdrawn)) / 1e6
+          ) : 0;
+        const nextVestingSharesWithdrawalHive = isPoweringDown ? vestsToHp(nextVestingSharesWithdrawal, hivePerMVests) : 0;
+
         //TODO: assess how we can make this value change live.
         const estimateVoteValueStr = '$ ' + getEstimatedAmount(userdata, globalProps);
 
@@ -586,13 +598,16 @@ export const fetchCoinsData = async ({
           extraDataPairs: [
             {
               labelId: 'delegated_hive_power',
-              value: `-${delegatedHP.toFixed(3)} HP`
+              value: `- ${delegatedHP.toFixed(3)} HP`
             }, {
               labelId: 'received_hive_power',
-              value: `${receivedHP.toFixed(3)} HP`
+              value: `+ ${receivedHP.toFixed(3)} HP`
+            }, {
+              labelId: 'powering_down_hive_power',
+              value: `- ${nextVestingSharesWithdrawalHive.toFixed(3)} HP`
             }, {
               labelId: 'total_hive_power',
-              value: `${(balance - delegatedHP + receivedHP).toFixed(3)} HP`
+              value: `${(balance - delegatedHP + receivedHP - nextVestingSharesWithdrawalHive).toFixed(3)} HP`
             }, {
               labelId: 'vote_value',
               value: estimateVoteValueStr
