@@ -117,6 +117,14 @@ export default EStyleSheet.create({
   } as ViewStyle,
   actionText:{
     color: '$primaryBlack'
+  } as TextStyle,
+
+  textActivities:{
+    color:'$primaryBlack',
+    fontWeight:'600',
+    fontSize:18,
+    paddingVertical:16,
+    backgroundColor:'$primaryBackgroundColor'
   } as TextStyle
 });
 

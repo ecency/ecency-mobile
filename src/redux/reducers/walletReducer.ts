@@ -45,6 +45,11 @@ export interface QuoteItem {
     price:number;
 }
 
+export interface CoinActivitiesCollection {
+    completed:CoinActivity[],
+    pending:CoinActivity[],
+}
+
 
 interface State {
     selectedCoins:CoinBase[];
@@ -55,7 +60,7 @@ interface State {
         [key: string]: PriceHistory;
     }
     coinsActivities:{
-        [key: string]: CoinActivity[];
+        [key: string]:CoinActivitiesCollection;
     },
     quotes:{
         [key: string]: QuoteItem;

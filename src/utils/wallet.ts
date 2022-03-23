@@ -4,7 +4,7 @@ import parseToken from './parseToken';
 import { vestsToHp } from './conversions';
 import { getAccount, getAccountHistory, getConversionRequests, getOpenOrders, getSavingsWithdrawFrom } from '../providers/hive/dhive';
 import { getCurrencyTokenRate, getLatestQuotes } from '../providers/ecency/ecency';
-import { CoinBase, CoinData, DataPair, QuoteItem } from '../redux/reducers/walletReducer';
+import { CoinActivitiesCollection, CoinActivity, CoinBase, CoinData, DataPair, QuoteItem } from '../redux/reducers/walletReducer';
 import { GlobalProps } from '../redux/reducers/accountReducer';
 import { getEstimatedAmount } from './vote';
 import { getUser as getEcencyUser, getUserPoints } from '../providers/ecency/ePoint';
@@ -276,15 +276,26 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
 };
 
 
-export const fetchCoinActivities = async (username: string, coinId: string, coinSymbol: string, globalProps: GlobalProps) => {
+/**
+ * 
+ * @param username 
+ * @param coinId 
+ * @param coinSymbol 
+ * @param globalProps 
+ * @returns {Promise<CoinActivitiesCollection>}
+ */
+export const fetchCoinActivities = async (username: string, coinId: string, coinSymbol: string, globalProps: GlobalProps):Promise<CoinActivitiesCollection> => {
 
   const op = operationOrders;
   let history = [];
+
+
+
   switch (coinId) {
     case COIN_IDS.ECENCY: {
       const pointActivities = await getUserPoints(username);
       console.log("Points Activities", pointActivities);
-      return pointActivities && pointActivities.length ?
+      const completed = pointActivities && pointActivities.length ?
         pointActivities.map((item) =>
           groomingPointsTransactionData({
             ...item,
@@ -293,6 +304,10 @@ export const fetchCoinActivities = async (username: string, coinId: string, coin
             textKey: get(POINTS[get(item, 'type')], 'textKey'),
           })
         ) : [];
+        return {
+          completed,
+          pending:[] as CoinActivity[]
+        }
     }
     case COIN_IDS.HIVE:
       history = await getAccountHistory(username, [
@@ -334,7 +349,7 @@ export const fetchCoinActivities = async (username: string, coinId: string, coin
   transfers.sort(compare);
 
   const activities = transfers.map(item => groomingTransactionData(item, globalProps.hivePerMVests));
-  const filterdActivities = activities
+  const filterdActivities:CoinActivity[] = activities
     ? activities.filter((item) => {
       return (
         item &&
@@ -345,7 +360,10 @@ export const fetchCoinActivities = async (username: string, coinId: string, coin
     : [];
 
   console.log('FILTERED comap', activities.length, filterdActivities.length)
-  return filterdActivities
+  return {
+    completed:filterdActivities,
+    pending:[] as CoinActivity[]
+  }
 
 }
 
@@ -508,7 +526,6 @@ export const fetchCoinsData = async ({
           unclaimedBalance: '',
           actions: HIVE_ACTIONS,
           extraDataPairs,
-          // pendingRequests
         }
         break;
       }

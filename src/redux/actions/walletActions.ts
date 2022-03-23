@@ -1,6 +1,6 @@
 import { getLatestQuotes } from '../../providers/ecency/ecency';
 import { SET_SELECTED_COINS, SET_PRICE_HISTORY, SET_COINS_DATA, SET_COIN_ACTIVITIES, SET_COIN_QUOTES, RESET_WALLET_DATA } from '../constants/constants';
-import { CoinActivity, CoinBase, CoinData } from '../reducers/walletReducer';
+import { CoinActivitiesCollection, CoinBase, CoinData } from '../reducers/walletReducer';
 
 export const setSelectedCoins = (coins: CoinBase[]) => ({
   payload: coins,
@@ -25,7 +25,7 @@ export const setPriceHistory = (coinId:string, vsCurrency:string, data:number[])
     type: SET_PRICE_HISTORY
 })
 
-export const setCoinActivities = (coinId:string, data:CoinActivity[]) => ({
+export const setCoinActivities = (coinId:string, data:CoinActivitiesCollection) => ({
     payload: {
         id:coinId,
         data,

@@ -1,29 +1,53 @@
-import React, { ComponentType, JSXElementConstructor, ReactElement, useEffect, useState } from 'react'
-import { FlatList } from 'react-native-gesture-handler';
+import React, { ComponentType, JSXElementConstructor, ReactElement } from 'react'
+import { useIntl } from 'react-intl';
+import { SectionList, Text } from 'react-native';
 import { Transaction } from '../../../components';
+import { CoinActivity } from '../../../redux/reducers/walletReducer';
 import styles from './children.styles';
 
 interface ActivitiesListProps {
-    header:ComponentType<any> | ReactElement<any, string | JSXElementConstructor<any>>
-    activities:any[];
+  header: ComponentType<any> | ReactElement<any, string | JSXElementConstructor<any>>
+  pendingActivities: CoinActivity[];
+  completedActivities: CoinActivity[]
 }
 
-const ActivitiesList = ({header, activities}:ActivitiesListProps) => {
+const ActivitiesList = ({ header, completedActivities, pendingActivities }: ActivitiesListProps) => {
+  const intl = useIntl();
 
-  const _renderActivityItem = ({item, index}) => {
+  const _renderActivityItem = ({ item, index }) => {
     return <Transaction item={item} index={index} />
   }
 
-    return (
-        <FlatList 
-            style={styles.list}
-            contentContainerStyle={styles.listContent}
-            data={activities}
-            renderItem={_renderActivityItem}
-            keyExtractor={(item, index)=>`activity_item_${index}_${item.created}`}
-            ListHeaderComponent={header}
-        />
-    )
+  const sections = [];
+
+  if (pendingActivities && pendingActivities.length) {
+    sections.push({
+      title: 'Pending Requests',
+      data: pendingActivities
+    })
+  }
+
+
+  sections.push({
+    title: intl.formatMessage({id:'wallet.activities'}),
+    data: completedActivities || []
+  })
+
+
+
+  return (
+    <SectionList
+      style={styles.list}
+      contentContainerStyle={styles.listContent}
+      sections={sections}
+      renderItem={_renderActivityItem}
+      keyExtractor={(item, index) => `activity_item_${index}_${item.created}`}
+      renderSectionHeader={({ section: { title } }) => (
+        <Text style={styles.textActivities}>{title}</Text>
+      )}
+      ListHeaderComponent={header}
+    />
+  )
 }
 
 export default ActivitiesList

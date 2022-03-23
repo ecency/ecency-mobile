@@ -6,10 +6,5 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
   },
 
-  textActivities:{
-    color:'$primaryBlack',
-    fontWeight:'600',
-    fontSize:18,
-    paddingVertical:16 
-  }
+
 });

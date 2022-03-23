@@ -176,7 +176,7 @@ export const fetchGlobalProps = async () => {
 /**
  * fetches all tranding orders that are not full-filled yet
  * @param {string} username
- * @returns {OpenOrderItem[]} array of openorders both hive and hbd
+ * @returns {Promise<OpenOrderItem[]>} array of openorders both hive and hbd
  */
 export const getOpenOrders = async (username) => {
   try {
@@ -194,7 +194,7 @@ export const getOpenOrders = async (username) => {
 /**
  * fetchs all pending converstion requests that are yet to be fullfilled
  * @param {string} account
- * @returns {ConversionRequest[]}  array of conversion requests
+ * @returns {Promise<ConversionRequest[]>}  array of conversion requests
  */
 export const getConversionRequests = async (username) => {
   try {
@@ -212,7 +212,7 @@ export const getConversionRequests = async (username) => {
 /**
  * fetchs all pending converstion requests that are yet to be fullfilled
  * @param {string} account
- * @returns {SavingsWithdrawRequest[]}  array of requested savings withdraw
+ * @returns {Promise<SavingsWithdrawRequest[]>}  array of requested savings withdraw
  */
 
 export const getSavingsWithdrawFrom = async (username) => {

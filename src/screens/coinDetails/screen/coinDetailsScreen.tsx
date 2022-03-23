@@ -6,7 +6,7 @@ import styles from './screen.styles';
 import ActivitiesList from '../children/activitiesList'
 import { withNavigation } from 'react-navigation'
 import { useAppDispatch, useAppSelector } from '../../../hooks'
-import { CoinActivity, CoinData } from '../../../redux/reducers/walletReducer';
+import { CoinActivitiesCollection, CoinActivity, CoinData } from '../../../redux/reducers/walletReducer';
 import { fetchCoinActivities } from '../../../utils/wallet';
 import { setCoinActivities } from '../../../redux/actions/walletActions';
 import { openPinCodeModal } from '../../../redux/actions/applicationActions';
@@ -36,7 +36,7 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
   const globalProps = useAppSelector(state=>state.account.globalProps);
   const selectedCoins = useAppSelector(state=>state.wallet.selectedCoins);
   const coinData:CoinData = useAppSelector(state=>state.wallet.coinsData[coinId]);
-  const coinActivities:CoinActivity[] = useAppSelector(state=>state.wallet.coinsActivities[coinId]);
+  const coinActivities:CoinActivitiesCollection = useAppSelector(state=>state.wallet.coinsActivities[coinId]);
   const isPinCodeOpen = useAppSelector(state=>state.application.isPinCodeOpen);
 
   const [symbol] = useState(selectedCoins.find((item)=>item.id===coinId).symbol);
@@ -96,27 +96,11 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
 
 
   const _renderHeaderComponent = (
-    <>
       <CoinSummary
         id={coinId}
         coinSymbol={symbol}
         coinData={coinData}
-        onActionPress={_onActionPress}
-      />
-
-    
-      {/* 
-      //TODO: remove code if not needed in final wallet
-      {coinData.pendingRequests && !!coinData.pendingRequests.length && (
-        <>
-          <Text style={styles.textActivities}>{"Pending Requests"}</Text>
-          {coinData.pendingRequests.map((item, index)=>(<Transaction item={item} index={index} />))}
-        </>
-      )} */}
-      
-
-      <Text style={styles.textActivities}>{intl.formatMessage({id:'wallet.activities'})}</Text>
-    </>
+        onActionPress={_onActionPress} />
   )
 
   return (
@@ -124,7 +108,8 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
       <BasicHeader title={intl.formatMessage({id:'wallet.coin_details'})} />
       <ActivitiesList 
         header={_renderHeaderComponent}
-        activities={coinActivities || []}
+        completedActivities={coinActivities?.completed || []}
+        pendingActivities={coinActivities?.pending || []}
       />  
     </View>
   )
