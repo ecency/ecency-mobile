@@ -149,6 +149,7 @@ class ProfileEditContainer extends Component {
 
     this.setState({ isLoading: true });
 
+    //TOOD: preserve pinned post permlink
     const params = {
       profile_image: avatarUrl,
       cover_image: coverUrl,

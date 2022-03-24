@@ -1,4 +1,4 @@
-import { getAccountPosts, getRankedPosts } from "../../../providers/hive/dhive";
+import { getAccountPosts, getPost, getRankedPosts } from "../../../providers/hive/dhive";
 import { filterLatestPosts, getUpdatedPosts } from "./tabbedPostsHelpers";
 import Matomo from 'react-native-matomo-sdk';
 import { LoadPostsOptions } from "./tabbedPostsModels";
@@ -17,6 +17,7 @@ export const loadPosts = async ({
     isLoggedIn,
     refreshing,
     feedUsername,
+    pinnedPermlink,
     pageType,
     tag,
     nsfw,
@@ -107,6 +108,7 @@ export const loadPosts = async ({
     }
 
     try {
+      //fetching posts
       const result:any[] = await func(options, feedUsername, nsfw);
 
       if(result.length > 0 && filter === 'reblogs'){
@@ -129,9 +131,14 @@ export const loadPosts = async ({
         isRefreshing:false,
       })
 
+      const retData = {
+        latestPosts:null,
+        updatedPosts:null
+      }
+
       if(isLatestPostsCheck){
         const latestPosts = filterLatestPosts(result, prevPosts.slice(0, 5));
-        return {latestPosts}
+        retData.latestPosts =  latestPosts
       }else{
         const updatedPosts = getUpdatedPosts(
           startAuthor && startPermlink ? prevPosts:[],
@@ -140,8 +147,18 @@ export const loadPosts = async ({
           tabMeta,
           setTabMeta
         )
-        return {updatedPosts}
+
+        retData.updatedPosts = updatedPosts;
       }
+
+      //fetch add pinned posts if applicable
+      if(retData.updatedPosts && pinnedPermlink){
+        const pinnedPost = await getPost(feedUsername, pinnedPermlink);
+        pinnedPost.isPinnedPost = true;
+        retData.updatedPosts = [pinnedPost, ...retData.updatedPosts];
+      }
+
+      return retData
       
 
     } catch (err) {
