@@ -24,7 +24,7 @@ export interface CoinData {
 }
 
 export interface PriceHistory {
-    lastFetchedAt:number;
+    expiresAt:number;
     vsCurrency:string;
     data:number[];
 }
@@ -71,6 +71,8 @@ interface State {
     updateTimestamp:number;
 }
 
+
+
 const initialState:State = {
     selectedCoins:DEFAULT_COINS,
     coinsData:{},
@@ -108,7 +110,7 @@ export default function (state = initialState, action) {
     }
     case SET_PRICE_HISTORY:{
         state.priceHistories[payload.id] = {
-            lastFetchedAt:new Date().getTime(),
+            expiresAt:new Date().getTime() + ONE_HOUR_MS,
             vsCurrency:payload.vsCurrency,
             data:payload.data
         };
@@ -133,3 +135,4 @@ export default function (state = initialState, action) {
     }
 }
 
+const ONE_HOUR_MS = 60 * 60 * 1000;

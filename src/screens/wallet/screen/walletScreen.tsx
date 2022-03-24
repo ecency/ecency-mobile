@@ -36,6 +36,7 @@ import moment from 'moment';
 
 
 const CHART_DAYS_RANGE = 1;
+const ONE_HOUR_MS = 60 * 60 * 1000;
 
 const WalletScreen = ({navigation}) => {
   const intl = useIntl();
@@ -84,7 +85,10 @@ const WalletScreen = ({navigation}) => {
   const _fetchPriceHistory = () => {
     selectedCoins.forEach(async (token:CoinBase)=>{
 
-      if(!token.notCrypto){
+      const expiresAt = priceHistories[token.id]?.expiresAt || 0;
+      const curTime = new Date().getTime();
+      
+      if(!token.notCrypto && curTime > expiresAt ){
         const marketChart = await fetchMarketChart(token.id, currency.currency, CHART_DAYS_RANGE, INTERVAL_HOURLY);
         const priceData = marketChart.prices.map(item=>item.yValue);
         dispatch(setPriceHistory(token.id, currency.currency, priceData));
@@ -92,6 +96,7 @@ const WalletScreen = ({navigation}) => {
       
     })
   }
+
 
   const _fetchCoinsData = async (refresh?:boolean) => {
     setIsLoading(true);
@@ -103,6 +108,7 @@ const WalletScreen = ({navigation}) => {
     setRefreshing(false);
     setIsLoading(false);
   }
+
 
   const _claimEcencyPoints = async () => {
     setIsClaiming(true);
