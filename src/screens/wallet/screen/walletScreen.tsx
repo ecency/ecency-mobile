@@ -36,7 +36,6 @@ import moment from 'moment';
 
 
 const CHART_DAYS_RANGE = 1;
-const ONE_HOUR_MS = 60 * 60 * 1000;
 
 const WalletScreen = ({navigation}) => {
   const intl = useIntl();
@@ -100,7 +99,7 @@ const WalletScreen = ({navigation}) => {
 
   const _fetchCoinsData = async (refresh?:boolean) => {
     setIsLoading(true);
-    if(refresh){
+    if(refresh || !quotes){
       dispatch(fetchCoinQuotes());
     }
      await dispatch(fetchAndSetCoinsData(refresh));
