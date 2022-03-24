@@ -81,7 +81,7 @@ export const InsertLinkModal = forwardRef(
       }
       if (url) {
         const labelText =
-          selectedUrlType === 2 ? 'dummy-label' : selectedUrlType === 1 ? '' : label; //TODO: replace image label here. Using demo label for now
+          selectedUrlType === 2 ? url.split('/').pop() : selectedUrlType === 1 ? '' : label;
         applyWebLinkFormat({
           item: { text: labelText, url: url },
           text: '',
