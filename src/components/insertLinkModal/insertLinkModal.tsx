@@ -18,6 +18,7 @@ import { isStringWebLink } from '../markdownEditor/view/formats/utils';
 import { renderPostBody } from '@ecency/render-helper';
 import { ScrollView } from 'react-native-gesture-handler';
 import applyWebLinkFormat from '../markdownEditor/view/formats/applyWebLinkFormat';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 interface InsertLinkModalProps {
   handleOnInsertLink: ({
@@ -29,7 +30,8 @@ interface InsertLinkModalProps {
   }) => void;
   handleOnSheetClose: () => void;
 }
-const previewWidth = Dimensions.get('window').width - 64;
+const screenWidth = Dimensions.get('window').width - 58;
+const previewWidth = (10 / 16) * Dimensions.get('window').width;
 
 export const InsertLinkModal = forwardRef(
   ({ handleOnInsertLink, handleOnSheetClose }: InsertLinkModalProps, ref) => {
@@ -50,15 +52,20 @@ export const InsertLinkModal = forwardRef(
 
     useImperativeHandle(ref, () => ({
       showModal: async ({ selectedText, selection }) => {
-        setSelectedText(selectedText);
-        setSelection(selection);
-        if (selection && selection.start !== selection.end) {
-          if (isStringWebLink(selectedText)) {
-            setUrl(selectedText);
-          } else {
-            setLabel(selectedText);
+        if (selectedText) {
+          setSelectedText(selectedText);
+          setSelection(selection);
+          if (selection && selection.start !== selection.end) {
+            if (isStringWebLink(selectedText)) {
+              setUrl(selectedText);
+            } else {
+              setLabel(selectedText);
+            }
           }
+        } else {
+          fetchCopiedText();
         }
+
         sheetModalRef.current?.setModalVisible(true);
         await delay(1500);
         labelInputRef.current?.focus();
@@ -87,6 +94,13 @@ export const InsertLinkModal = forwardRef(
         setPreviewBody('');
       }
     }, [label, url, selectedUrlType]);
+
+    const fetchCopiedText = async () => {
+      const text = await Clipboard.getString();
+      if (isStringWebLink(text)) {
+        setUrl(text);
+      }
+    };
 
     const _setFormattedTextAndSelection = ({ selection, text }) => {
       setPreviewBody(renderPostBody(text, true, Platform.OS === 'ios' ? false : true));
@@ -190,7 +204,7 @@ export const InsertLinkModal = forwardRef(
           })}
         </Text>
         <TextInput
-          style={[styles.input, selectedUrlType !== 0 && styles.disabled  ]}
+          style={[styles.input, selectedUrlType !== 0 && styles.disabled]}
           value={label}
           onChangeText={_handleLabelChange}
           placeholder={intl.formatMessage({
@@ -247,18 +261,20 @@ export const InsertLinkModal = forwardRef(
                 id: 'editor.preview',
               })}
             </Text>
-            <View style={styles.previewWrapper} pointerEvents="none">
-              <View style={styles.preview}>
+            <ScrollView
+              style={styles.previewWrapper}
+              contentContainerStyle={styles.previewContentContainer}
+            >
+              <View style={styles.preview} pointerEvents="none">
                 {previewBody ? (
                   <PostBody
                     body={previewBody}
                     onLoadEnd={() => setIsLoading(false)}
-                    width={previewWidth}
-                    // width={150}
+                    width={screenWidth}
                   />
                 ) : null}
               </View>
-            </View>
+            </ScrollView>
             {isLoading && <ActivityIndicator color={'$primaryBlue'} />}
           </View>
         </>

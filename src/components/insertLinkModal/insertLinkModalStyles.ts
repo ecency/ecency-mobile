@@ -1,7 +1,7 @@
 import { ViewStyle, Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-const previewHeight = 10/16 * Dimensions.get("window").width
+const previewHeight = (10 / 16) * Dimensions.get('window').width;
 export default EStyleSheet.create({
   sheetContent: {
     backgroundColor: '$primaryBackgroundColor',
@@ -19,8 +19,6 @@ export default EStyleSheet.create({
     paddingBottom: 16,
   },
   container: {
-    // flex: 1,
-    // justifyContent: 'space-between',
     paddingVertical: 8,
   },
   bodyWrapper: {
@@ -78,7 +76,7 @@ export default EStyleSheet.create({
   optionBtnTextSelected: {
     textAlign: 'center',
     color: '$white',
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
   },
   optionBtn: {
     maxWidth: 75,
@@ -92,12 +90,10 @@ export default EStyleSheet.create({
   optionBtnText: {
     textAlign: 'center',
     color: '$primaryBlue',
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
   },
-  previewContainer: {
-    
-  },
-  previewText:{
+  previewContainer: {},
+  previewText: {
     color: '$primaryBlack',
     fontWeight: '600',
     textAlign: 'left',
@@ -105,19 +101,21 @@ export default EStyleSheet.create({
     marginVertical: 8,
   },
   previewWrapper: {
-    justifyContent: 'center',
-    alignItems: 'center',
     height: previewHeight,
     marginHorizontal: 16,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: '$borderColor',
   },
-  preview:{
-    // borderWidth: 1,
-    // height: 120,
+  previewContentContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
   },
-  disabled:{
+  preview: {
+    paddingLeft: 12,
+    paddingRight: 12,
+  },
+  disabled: {
     backgroundColor: '$modalBackground',
-  }
+  },
 });
