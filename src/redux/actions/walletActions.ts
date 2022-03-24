@@ -5,33 +5,33 @@ import { CoinActivitiesCollection, CoinBase, CoinData } from '../reducers/wallet
 import { AppDispatch, RootState } from '../store/store';
 
 export const setSelectedCoins = (coins: CoinBase[]) => ({
-  payload: coins,
-  type: SET_SELECTED_COINS,
+    payload: coins,
+    type: SET_SELECTED_COINS,
 });
 
 
 
-export const setCoinsData = (data:{[key:string]:CoinData}, vsCurrency:string, username:string) => ({
-    payload:{
+export const setCoinsData = (data: { [key: string]: CoinData }, vsCurrency: string, username: string) => ({
+    payload: {
         data,
         vsCurrency,
         username,
     },
-    type:SET_COINS_DATA
+    type: SET_COINS_DATA
 })
 
-export const setPriceHistory = (coinId:string, vsCurrency:string, data:number[]) => ({
+export const setPriceHistory = (coinId: string, vsCurrency: string, data: number[]) => ({
     payload: {
-        id:coinId,
+        id: coinId,
         vsCurrency,
         data
     },
     type: SET_PRICE_HISTORY
 })
 
-export const setCoinActivities = (coinId:string, data:CoinActivitiesCollection) => ({
+export const setCoinActivities = (coinId: string, data: CoinActivitiesCollection) => ({
     payload: {
-        id:coinId,
+        id: coinId,
         data,
     },
     type: SET_COIN_ACTIVITIES
@@ -42,17 +42,22 @@ export const resetWalletData = () => ({
 })
 
 
-export const fetchCoinQuotes = () => (dispatch, getState) =>
-    getLatestQuotes(getState().application.currency.currencyRate).then((quotes) =>
-    dispatch({
-      type: SET_COIN_QUOTES,
-      payload: { ...quotes },
-    }),
-  );
+export const fetchCoinQuotes = () => (dispatch, getState) => {
+    const currency = getState().application.currency;
+    console.log("fetching quotes for currency", currency)
+    getLatestQuotes(currency.currencyRate)
+        .then((quotes) => {
+            console.log("Fetched quotes", quotes)
+            dispatch({
+                type: SET_COIN_QUOTES,
+                payload: { ...quotes },
+            })
+        })
+}
 
 
 
-  export const fetchAndSetCoinsData = (refresh:boolean = false) => async (dispatch:AppDispatch, getState:RootState) => {
+export const fetchAndSetCoinsData = (refresh: boolean = false) => async (dispatch: AppDispatch, getState: RootState) => {
     const coins = getState().wallet.selectedCoins;
     const quotes = getState().wallet.quotes;
     const currentAccount = getState().account.currentAccount;
@@ -62,16 +67,16 @@ export const fetchCoinQuotes = () => (dispatch, getState) =>
     const coinsData = await fetchCoinsData({
         coins,
         currentAccount,
-        vsCurrency:currency.currency,
-        currencyRate:currency.currencyRate,
+        vsCurrency: currency.currency,
+        currencyRate: currency.currencyRate,
         globalProps,
         quotes,
         refresh
-    }) 
+    })
 
-     return dispatch(setCoinsData(
-        coinsData, 
-        currency.currency,  
+    return dispatch(setCoinsData(
+        coinsData,
+        currency.currency,
         currentAccount.username
     ))
 }
