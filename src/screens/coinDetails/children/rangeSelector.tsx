@@ -23,7 +23,7 @@ export const RangeSelector = ({range, onRangeChange}:RangeSelectorProps) => {
     }
 
     const _renderRangeButtons = FILTERS.map((item:RangeOption)=>(
-        <TouchableOpacity onPress={()=>_onSelection(item.value)} >
+        <TouchableOpacity key={`range option-${item.value}`} onPress={()=>_onSelection(item.value)} >
             <View style={{
                 ...styles.rangeOptionWrapper, 
                 backgroundColor: EStyleSheet.value(
