@@ -106,6 +106,7 @@ class PostDropdownContainer extends PureComponent {
         this._report(get(content, 'url'));
         break;
 
+      //TOOD: add support for pin and unpin
       default:
         break;
     }

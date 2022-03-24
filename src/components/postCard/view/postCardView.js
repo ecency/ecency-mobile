@@ -115,6 +115,7 @@ const PostCardView = ({
           content={content}
           rebloggedBy={rebloggedBy}
           isPromoted={get(content, 'is_promoted')}
+          isPinned={content?.isPinnedPost}
         />
         <View style={styles.dropdownWrapper}>
           <PostDropdown content={content} fetchPost={fetchPost} />

@@ -86,6 +86,7 @@ class PostHeaderDescription extends PureComponent {
       secondaryContentComponent,
       showDotMenuButton,
       handleOnDotPress,
+      isPinned,
     } = this.props;
 
     return (
@@ -124,6 +125,8 @@ class PostHeaderDescription extends PureComponent {
               {isShowOwnerIndicator && (
                 <Icon style={styles.ownerIndicator} name="stars" iconType="MaterialIcons" />
               )}
+
+              {isPinned && <Icon style={styles.pushPinIcon} name="pushpin" iconType="AntDesign" />}
 
               {showDotMenuButton && (
                 <View style={{ flexGrow: 1, alignItems: 'flex-end' }}>
