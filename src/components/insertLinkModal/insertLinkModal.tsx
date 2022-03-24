@@ -64,6 +64,7 @@ export const InsertLinkModal = forwardRef(
           }
         } else {
           fetchCopiedText();
+          setSelection(selection);
         }
 
         sheetModalRef.current?.setModalVisible(true);
