@@ -8,7 +8,7 @@ import { withNavigation } from 'react-navigation'
 import { useAppDispatch, useAppSelector } from '../../../hooks'
 import { CoinActivitiesCollection, CoinActivity, CoinData } from '../../../redux/reducers/walletReducer';
 import { fetchCoinActivities } from '../../../utils/wallet';
-import { setCoinActivities } from '../../../redux/actions/walletActions';
+import { fetchAndSetCoinsData, setCoinActivities } from '../../../redux/actions/walletActions';
 import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 import { navigate } from '../../../navigation/service';
 import ROUTES from '../../../constants/routeNames';
@@ -40,15 +40,25 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
   const isPinCodeOpen = useAppSelector(state=>state.application.isPinCodeOpen);
 
   const [symbol] = useState(selectedCoins.find((item)=>item.id===coinId).symbol);
+  
+
+  const [refreshing, setRefreshing] = useState(false);
 
 
   useEffect(()=>{
-    _fetchCoinActivities();
+    _fetchDetails();
   }, [])
 
-  const _fetchCoinActivities = async () => {
+  const _fetchDetails = async (refresh = false) => {
+    
+    if(refresh){
+      setRefreshing(refresh);
+      dispatch(fetchAndSetCoinsData(refresh));
+    }
+
     const _activites = await fetchCoinActivities(currentAccount.name, coinId, symbol, globalProps);
     dispatch(setCoinActivities(coinId, _activites));
+    setRefreshing(false);
   }
 
 
@@ -95,6 +105,11 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
   } 
 
 
+  const _onRefresh = () => {
+    _fetchDetails(true);
+  }
+
+
   const _renderHeaderComponent = (
       <CoinSummary
         id={coinId}
@@ -110,6 +125,10 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
         header={_renderHeaderComponent}
         completedActivities={coinActivities?.completed || []}
         pendingActivities={coinActivities?.pending || []}
+        refreshControlProps={{
+          refreshing,
+          onRefresh:_onRefresh
+        }}
       />  
     </View>
   )

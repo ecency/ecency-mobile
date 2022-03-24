@@ -2,16 +2,18 @@ import React, { ComponentType, JSXElementConstructor, ReactElement } from 'react
 import { useIntl } from 'react-intl';
 import { SectionList, Text } from 'react-native';
 import { Transaction } from '../../../components';
+import { RefreshControl, RefreshControlProps } from '../../../components/atoms';
 import { CoinActivity } from '../../../redux/reducers/walletReducer';
 import styles from './children.styles';
 
 interface ActivitiesListProps {
   header: ComponentType<any> | ReactElement<any, string | JSXElementConstructor<any>>
   pendingActivities: CoinActivity[];
-  completedActivities: CoinActivity[]
+  completedActivities: CoinActivity[];
+  refreshControlProps:RefreshControlProps
 }
 
-const ActivitiesList = ({ header, completedActivities, pendingActivities }: ActivitiesListProps) => {
+const ActivitiesList = ({ header, completedActivities, pendingActivities, refreshControlProps }: ActivitiesListProps) => {
   const intl = useIntl();
 
   const _renderActivityItem = ({ item, index }) => {
@@ -46,6 +48,7 @@ const ActivitiesList = ({ header, completedActivities, pendingActivities }: Acti
         <Text style={styles.textActivities}>{title}</Text>
       )}
       ListHeaderComponent={header}
+      refreshControl={<RefreshControl {...refreshControlProps}/>}
     />
   )
 }
