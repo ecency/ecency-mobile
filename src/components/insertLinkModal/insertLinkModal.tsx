@@ -190,7 +190,7 @@ export const InsertLinkModal = forwardRef(
           })}
         </Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, selectedUrlType !== 0 && styles.disabled  ]}
           value={label}
           onChangeText={_handleLabelChange}
           placeholder={intl.formatMessage({
@@ -198,6 +198,7 @@ export const InsertLinkModal = forwardRef(
           })}
           placeholderTextColor="#c1c5c7"
           autoCapitalize="none"
+          editable={selectedUrlType === 0}
           innerRef={labelInputRef}
         />
       </>
@@ -210,7 +211,7 @@ export const InsertLinkModal = forwardRef(
           })}
         </Text>
         <View style={styles.optionsRow}>{LinkTypeOptions}</View>
-        {selectedUrlType === 0 && _renderLabelInput()}
+        {_renderLabelInput()}
         <Text style={styles.inputLabel}>
           {intl.formatMessage({
             id: 'editor.url',
@@ -253,6 +254,7 @@ export const InsertLinkModal = forwardRef(
                     body={previewBody}
                     onLoadEnd={() => setIsLoading(false)}
                     width={previewWidth}
+                    // width={150}
                   />
                 ) : null}
               </View>

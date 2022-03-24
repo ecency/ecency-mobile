@@ -1,6 +1,7 @@
-import { ViewStyle } from 'react-native';
+import { ViewStyle, Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+const previewHeight = 10/16 * Dimensions.get("window").width
 export default EStyleSheet.create({
   sheetContent: {
     backgroundColor: '$primaryBackgroundColor',
@@ -106,12 +107,17 @@ export default EStyleSheet.create({
   previewWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '$modalBackground',
-    minHeight: 70,
+    height: previewHeight,
     marginHorizontal: 16,
     borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '$borderColor',
   },
   preview:{
-    flex: 1,
+    // borderWidth: 1,
+    // height: 120,
+  },
+  disabled:{
+    backgroundColor: '$modalBackground',
   }
 });
