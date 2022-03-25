@@ -126,8 +126,6 @@ class PostHeaderDescription extends PureComponent {
                 <Icon style={styles.ownerIndicator} name="stars" iconType="MaterialIcons" />
               )}
 
-              {isPinned && <Icon style={styles.pushPinIcon} name="pushpin" iconType="AntDesign" />}
-
               {showDotMenuButton && (
                 <View style={{ flexGrow: 1, alignItems: 'flex-end' }}>
                   <IconButton

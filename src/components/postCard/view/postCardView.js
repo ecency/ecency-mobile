@@ -13,6 +13,7 @@ import { getTimeFromNow } from '../../../utils/time';
 import { PostHeaderDescription } from '../../postElements';
 import { PostDropdown } from '../../postDropdown';
 import { TextWithIcon } from '../../basicUIElements';
+import { Icon } from '../../icon';
 
 // STEEM
 import { Upvote } from '../../upvote';
@@ -117,6 +118,9 @@ const PostCardView = ({
           isPromoted={get(content, 'is_promoted')}
           isPinned={content?.isPinnedPost}
         />
+        {content?.isPinnedPost && (
+          <Icon style={styles.pushPinIcon} size={20} name="pin" iconType="MaterialCommunityIcons" />
+        )}
         <View style={styles.dropdownWrapper}>
           <PostDropdown content={content} fetchPost={fetchPost} />
         </View>
