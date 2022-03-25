@@ -24,7 +24,7 @@ const ActivitiesList = ({ header, completedActivities, pendingActivities, refres
 
   if (pendingActivities && pendingActivities.length) {
     sections.push({
-      title: 'Pending Requests',
+      title: intl.formatMessage({id:'wallet.pending_requests'}),
       data: pendingActivities
     })
   }

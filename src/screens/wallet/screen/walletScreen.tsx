@@ -167,7 +167,10 @@ const WalletScreen = ({navigation}) => {
       );
 
     }catch(error){
-      Alert.alert(`Failed to claim rewards, ${error.message}\nTry again or write to support@ecency.com`);
+      Alert.alert(intl.formatMessage(
+        {id:'alert.claim_failed'},
+        {message:error.message}
+      ));
     }
     setIsClaiming(false);
   }
@@ -176,7 +179,7 @@ const WalletScreen = ({navigation}) => {
   const _claimRewards = (coinId:string) => {
     if(isLoading){
       setRefreshing(true);
-      Alert.alert("Wallet update in progress, try again as update finishes");
+      Alert.alert(intl.formatMessage({id:'alert.wallet_updating'}) );
       return;
     }
     switch(coinId){

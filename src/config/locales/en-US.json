@@ -7,7 +7,9 @@
     "transfer": "Transfer",
     "power_up": "To Vesting",
     "transfer_from_savings": "From Savings",
+    "withdraw_savings":"Withdraw Savings",
     "withdraw_vesting": "Power Down",
+    "open_order":"Open Order",
     "fill_order": "Fill Order",
     "post": "Post",
     "comment": "Comment",
@@ -122,13 +124,14 @@
     },
     "last_updated":"Last Updated:",
     "updating":"Updating...",
-    "coin_details":"Coin Details",
+    "coin_details":"Details",
     "change":"Change",
     "activities":"Activities",
     "savings_withdrawal":"Pending Withdrawals",
     "open_orders":"Open Orders",
-    "conversions_requested":"Converstions Requested",
-    "expires":"expires"
+    "conversions_requested":"Conversions Requested",
+    "expires":"expires",
+    "pending_requests":"Pending Requests"
   },
   "notification": {
     "vote": "voted",
@@ -467,7 +470,9 @@
     "failed_to_open": "Failed to open a link",
     "restart_ecency": "Restart Ecency?",
     "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response":"Could not process request, Try again later."
+    "invalid_response":"Could not process request, Try again later.",
+    "wallet_updating":"Wallet update in progress, try again as update finishes",
+    "claim_failed":"Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
