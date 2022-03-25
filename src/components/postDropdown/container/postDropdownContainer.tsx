@@ -1,12 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { Share } from 'react-native';
+import { Alert, Share } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Services and Actions
-import { reblog } from '../../../providers/hive/dhive';
+import { profileUpdate, reblog } from '../../../providers/hive/dhive';
 import { addBookmark, addReport } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer, showActionModal } from '../../../redux/actions/uiAction';
 import { openPinCodeModal } from '../../../redux/actions/applicationActions';
@@ -22,6 +22,7 @@ import { getPostUrl } from '../../../utils/post';
 // Component
 import PostDropdownView from '../view/postDropdownView';
 import { OptionsModal } from '../../atoms';
+import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 
 /*
  *            Props Name        Description                                     Value
@@ -32,7 +33,18 @@ import { OptionsModal } from '../../atoms';
 class PostDropdownContainer extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {};
+
+    const { content, currentAccount } = this.props
+
+    //check if post is owned by current user or not, if so pinned or not
+    let options = (currentAccount.name === content.author)
+      ? OPTIONS.filter(item =>
+        item !== (content.stats?.is_pinned ? 'pin' : 'unpin'))
+      : OPTIONS.filter(item => item !== 'pin' && item !== 'unpin')
+
+    this.state = {
+      options
+    };
   }
 
   // Component Life Cycle Functions
@@ -56,8 +68,9 @@ class PostDropdownContainer extends PureComponent {
   // Component Functions
   _handleOnDropdownSelect = async (index) => {
     const { content, dispatch, intl } = this.props;
+    const { options } = this.state;
 
-    switch (OPTIONS[index]) {
+    switch (options[index]) {
       case 'copy':
         await writeToClipboard(getPostUrl(get(content, 'url')));
         this.alertTimer = setTimeout(() => {
@@ -105,8 +118,12 @@ class PostDropdownContainer extends PureComponent {
       case 'report':
         this._report(get(content, 'url'));
         break;
-
-      //TOOD: add support for pin and unpin
+      case 'pin':
+        this._updatePinnedPost();
+        break;
+      case 'unpin':
+        this._updatePinnedPost({ unpinPost: true });
+        break;
       default:
         break;
     }
@@ -126,24 +143,24 @@ class PostDropdownContainer extends PureComponent {
 
     const _onConfirm = () => {
       addReport('content', url)
-      .then(() => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'report.added',
-            }),
-          ),
-        );
-      })
-      .catch(() => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'report.added',
-            }),
-          ),
-        );
-      });
+        .then(() => {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'report.added',
+              }),
+            ),
+          );
+        })
+        .catch(() => {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'report.added',
+              }),
+            ),
+          );
+        });
     }
 
     dispatch(
@@ -153,7 +170,7 @@ class PostDropdownContainer extends PureComponent {
         buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: () => {},
+            onPress: () => { },
           },
           {
             text: intl.formatMessage({ id: 'alert.confirm' }),
@@ -162,7 +179,7 @@ class PostDropdownContainer extends PureComponent {
         ],
       }),
     );
-   
+
   };
 
   _addToBookmarks = () => {
@@ -224,13 +241,57 @@ class PostDropdownContainer extends PureComponent {
     }
   };
 
+  _updatePinnedPost = async ({ unpinPost }: { unpinPost: boolean } = { unpinPost: false }) => {
+    const { content, currentAccount, pinCode, dispatch, intl, isLoggedIn } = this.props;
+
+
+    if (!isLoggedIn) {
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        intl.formatMessage({
+          id: 'alert.not_logged_in',
+        }),
+      );
+      return;
+    }
+
+    const params = {
+      ...currentAccount.about.profile,
+      pinned: unpinPost ? null : content.permlink
+    };
+
+
+
+    try {
+      await profileUpdate(params, pinCode, currentAccount);
+
+      currentAccount.about.profile = { ...params };
+
+      dispatch(updateCurrentAccount({ ...currentAccount }));
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+
+      //TOOD: signal posts or pinned post refresh
+
+
+    } catch (err) {
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        get(err, 'message', err.toString()),
+      );
+    }
+  }
+
   _redirectToReply = () => {
     const { content, fetchPost, isLoggedIn, navigation } = this.props;
 
     if (isLoggedIn) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.EDITOR,
-        key:`editor_post_${content.permlink}`,
+        key: `editor_post_${content.permlink}`,
         params: {
           isReply: true,
           post: content,
@@ -269,16 +330,12 @@ class PostDropdownContainer extends PureComponent {
       currentAccount: { name },
       content,
     } = this.props;
-    let _OPTIONS = OPTIONS;
-
-    /*if ((content && content.author === name) || get(content, 'reblogged_by[0]', null) === name) {
-      _OPTIONS = OPTIONS.filter(item => item !== 'reblog');
-    }*/
+    const { options } = this.state;
 
     return (
       <Fragment>
         <PostDropdownView
-          options={_OPTIONS.map((item) =>
+          options={options.map((item) =>
             intl.formatMessage({ id: `post_dropdown.${item}` }).toUpperCase(),
           )}
           handleOnDropdownSelect={this._handleOnDropdownSelect}

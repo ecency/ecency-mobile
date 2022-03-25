@@ -445,7 +445,8 @@
     "failed_to_open": "Failed to open a link",
     "restart_ecency": "Restart Ecency?",
     "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response":"Could not process request, Try again later."
+    "invalid_response":"Could not process request, Try again later.",
+    "login_first":"Please login first."
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",
@@ -524,7 +525,9 @@
     "bookmarks": "add to bookmarks",
     "promote": "promote",
     "boost": "boost",
-    "report": "report"
+    "report": "report",
+    "pin":"Pin to blog",
+    "unpin":"Unpin from blog"
   },
   "deep_link": {
     "no_existing_user": "No existing user",
