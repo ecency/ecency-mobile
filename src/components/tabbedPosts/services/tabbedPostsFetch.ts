@@ -154,7 +154,7 @@ export const loadPosts = async ({
       //fetch add pinned posts if applicable
       if(retData.updatedPosts && pinnedPermlink){
         const pinnedPost = await getPost(feedUsername, pinnedPermlink);
-        pinnedPost.isPinnedPost = true;
+        pinnedPost.stats = {is_pinned:true, ...pinnedPost.stats};
         retData.updatedPosts = [pinnedPost, ...retData.updatedPosts];
       }
 

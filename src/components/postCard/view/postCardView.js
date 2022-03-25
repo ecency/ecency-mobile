@@ -116,9 +116,8 @@ const PostCardView = ({
           content={content}
           rebloggedBy={rebloggedBy}
           isPromoted={get(content, 'is_promoted')}
-          isPinned={content?.isPinnedPost}
         />
-        {content?.isPinnedPost && (
+        {content?.stats?.is_pinned && (
           <Icon style={styles.pushPinIcon} size={20} name="pin" iconType="MaterialCommunityIcons" />
         )}
         <View style={styles.dropdownWrapper}>
