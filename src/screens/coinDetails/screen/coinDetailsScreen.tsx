@@ -1,5 +1,5 @@
-import { View, Text, Alert } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { View, Text, Alert, AppState, AppStateStatus } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 import { BasicHeader, Transaction } from '../../../components'
 import { CoinSummary } from '../children'
 import styles from './screen.styles';
@@ -32,6 +32,10 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
     throw new Error("Coin symbol must be passed")
   }
 
+  //refs
+  const appState = useRef(AppState.currentState);
+
+  //redux props
   const currentAccount = useAppSelector(state=>state.account.currentAccount);
   const globalProps = useAppSelector(state=>state.account.globalProps);
   const selectedCoins = useAppSelector(state=>state.wallet.selectedCoins);
@@ -39,15 +43,32 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
   const coinActivities:CoinActivitiesCollection = useAppSelector(state=>state.wallet.coinsActivities[coinId]);
   const isPinCodeOpen = useAppSelector(state=>state.application.isPinCodeOpen);
 
+  //state
   const [symbol] = useState(selectedCoins.find((item)=>item.id===coinId).symbol);
-  
-
   const [refreshing, setRefreshing] = useState(false);
 
-
+  //side-effects
   useEffect(()=>{
     _fetchDetails();
+    AppState.addEventListener('change', _handleAppStateChange);
+    return _cleanup;
   }, [])
+
+
+  const _cleanup = () => {
+    AppState.removeEventListener('change', _handleAppStateChange);
+  }
+
+
+  const _handleAppStateChange = (nextAppState:AppStateStatus) => {
+    if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+      console.log("updating coins activities on app resume", coinId)
+      _fetchDetails();
+    }
+
+    appState.current = nextAppState;
+  }
+
 
   const _fetchDetails = async (refresh = false) => {
     
