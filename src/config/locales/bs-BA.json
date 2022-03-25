@@ -502,14 +502,14 @@
     "invalid_username": "Nevažeće korisničko ime, provjerite i pokušajte ponovo",
     "already_logged": "Već ste prijavljeni, pokušajte dodati drugi račun",
     "invalid_credentials": "Nevažeća ovlaštenja, provjerite i pokušajte ponovo",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "Nepoznata greška, molimo pišite na support@ecency.com"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout",
+    "potential_payout": "Potencijalna isplata",
+    "promoted": "Promovisano",
+    "author_payout": "Autorska isplata",
+    "curation_payout": "Isplata glasačima",
+    "payout_date": "Isplata",
     "beneficiaries": "Beneficiaries",
     "warn_zero_payout": "Amount must reach $0.02 for payout",
     "breakdown": "Breakdown",
