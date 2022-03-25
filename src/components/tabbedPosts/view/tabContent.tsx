@@ -34,6 +34,7 @@ const TabContent = ({
   tag,
   onScrollRequestProcessed,
   handleOnScroll,
+  pinnedPermlink,
   ...props
 }: TabContentProps) => {
   let _isMounted = true;
@@ -45,7 +46,7 @@ const TabContent = ({
   const isAnalytics = useSelector((state) => state.application.isAnalytics);
   const nsfw = useSelector((state) => state.application.nsfw);
   const isConnected = useSelector((state) => state.application.isConnected);
-  const username = useSelector((state) => state.account.currentAccount.name);
+  const {name:username, about:{profile:{pinned}}} = useSelector((state) => state.account.currentAccount);
   const initPosts = useSelector((state) => state.posts.initPosts)
 
 
@@ -97,6 +98,14 @@ const TabContent = ({
       }
     }
   }, [filterScrollRequest])
+
+  useEffect(()=>{
+    if(pageType === 'ownProfile' && pinned !== pinnedPermlink )
+    alert("Pinned post updated: " + pinned)
+    throw new Error("Update pinned post");
+    //TODO: update pinnned post
+    //TOOD: remove pinned post from list if present
+  },[pinned])
 
 
   const _cleanup = () => {
@@ -187,6 +196,7 @@ const TabContent = ({
       pageType,
       isLatestPostsCheck,
       feedUsername:_feedUsername,
+      pinnedPermlink,
       tag,
       ...props
     } as LoadPostsOptions
