@@ -465,17 +465,17 @@
     "reveal_muted": "UTIŠANO\nDodirnite da otkrijete sadržaj"
   },
   "drafts": {
-    "title": "Drafts",
-    "load_error": "Could not load drafts",
-    "empty_list": "Nothing here",
-    "deleted": "Draft deleted"
+    "title": "Nacrti",
+    "load_error": "Nije moguće učitati nacrte",
+    "empty_list": "Ovdje nema ništa",
+    "deleted": "Nacrt je izbrisan"
   },
   "schedules": {
-    "title": "Schedules",
-    "empty_list": "Nothing here",
-    "deleted": "Scheduled post deleted",
-    "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "title": "Rasporedi",
+    "empty_list": "Ovdje nema ništa",
+    "deleted": "Zakazana objava izbrisana",
+    "move": "Premjesti u nacrte",
+    "moved": "Premješteno u nacrte"
   },
   "bookmarks": {
     "title": "Bookmarks",
