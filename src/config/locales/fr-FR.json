@@ -256,7 +256,7 @@
     "friends": "Amis",
     "communities": "Communautés",
     "popup_postfix": "Publié",
-    "scroll_top": "Scroll To Top"
+    "scroll_top": "Défiler vers le haut de la page"
   },
   "side_menu": {
     "profile": "Profil",
@@ -266,15 +266,15 @@
     "schedules": "Planifications",
     "gallery": "Gallerie",
     "settings": "Réglages",
-    "communities": "Communities",
+    "communities": "Communautés",
     "add_account": "Ajouter un compte",
     "logout": "Déconnexion",
     "cancel": "Annuler",
     "logout_text": "Voulez-vous vraiment vous déconnecter?",
-    "create_a_new_account": "Create a new account",
-    "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts",
-    "refer": "Refer & Earn"
+    "create_a_new_account": "Créer un nouveau compte",
+    "add_an_existing_account": "Ajouter à un compte existant",
+    "accounts": "Comptes",
+    "refer": "Recommandez Et Gagnez"
   },
   "header": {
     "title": "Connectez-vous pour personnaliser votre flux",
@@ -285,7 +285,7 @@
     "search": "Rechercher",
     "update": "Mettre à jour",
     "reply": "Répondre",
-    "schedule": "Schedule"
+    "schedule": "Planifier"
   },
   "editor": {
     "title": "Titre",
@@ -296,7 +296,7 @@
     "reply": "Répondre",
     "open_gallery": "Ouvrir la galerie",
     "capture_photo": "Prendre une photo",
-    "uploaded_images": "Uploaded Images",
+    "uploaded_images": "Images téléchargées",
     "limited_tags": "Seulement 10 mots-clés autorisés, supprimez-en",
     "limited_length": "La longueur maximale de chaque mot-clé doit être de 24",
     "limited_dash": "Utilisez un seul tiret pour chaque mot-clé",
@@ -307,15 +307,15 @@
     "limited_lastchar": "Le mot-clé doit se terminer par une lettre ou un chiffre",
     "setting_schedule": "Horaire de planification",
     "setting_reward": "Récompense",
-    "setting_reblog": "Reblog",
+    "setting_reblog": "Rebloguer",
     "setting_beneficiary": "Bénéficiaire",
-    "setting_thumb": "Set Thumbnail",
+    "setting_thumb": "Définir une miniature",
     "reward_default": "Par défaut 50% / 50%",
-    "reward_power_up": "Power Up 100%",
+    "reward_power_up": "Montez en puissance de 100 %",
     "reward_decline": "Refuser le paiement",
     "beneficiaries": "Bénéficiaires",
     "options": "Options",
-    "my_blog": "My Blog",
+    "my_blog": "Mon Blog",
     "select_community": "Choose a community",
     "my_communities": "My Communities",
     "top_communities": "Top Communities",
@@ -361,22 +361,22 @@
     "btn_cancel": "Cancel"
   },
   "uploads_modal": {
-    "label_no_images": "No Images Found",
-    "title": "Uploaded Images",
-    "title_remove_confirmation": "Delete image",
+    "label_no_images": "Pas d'images trouvées",
+    "title": "Images téléchargées",
+    "title_remove_confirmation": "Supprimer l’image",
     "btn_add": "Image",
-    "btn_insert": "INSERT",
-    "btn_delete": "DELETE",
-    "message_failed": "Failed to upload image"
+    "btn_insert": "Insérer",
+    "btn_delete": "SUPPRIMER",
+    "message_failed": "Échec du chargement de l’image"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
     "write_again": "Écrire à nouveau",
     "forgot_text": "Ha, je l'ai oublié ...",
-    "pin_not_matched": "PIN do not match, Please try again.",
-    "attempts_postfix": "failed attempt(s)",
-    "message_reset_warning": "User data will be wiped on next failed attempt"
+    "pin_not_matched": "Les codes PIN ne correspondent pas. Veuillez réessayer.",
+    "attempts_postfix": "Tentatives échouées",
+    "message_reset_warning": "Les données de l'utilisateur seront effacées lors de la prochaine tentative échouée"
   },
   "alert": {
     "success": "Succés!",
@@ -396,7 +396,7 @@
     "success_favorite": "Favori ajouté !",
     "success_unfavorite": "Favori supprimé !",
     "success_follow": "Suivi avec succès !",
-    "fail_follow": "Follow failed!",
+    "fail_follow": "Echec de l'abonement!",
     "success_subscribe": "Subscribe success!",
     "fail_subscribe": "Subscribe failed!",
     "success_leave": "Leave success!",
