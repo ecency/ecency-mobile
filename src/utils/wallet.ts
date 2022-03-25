@@ -288,14 +288,15 @@ const fetchPendingRequests = async (username: string, coinSymbol: string): Promi
   const openOrderRequests = _rawOpenOrdres
     .filter(request => request.sell_price.base.includes(coinSymbol))
     .map((request) => {
+      const {base, quote} = request?.sell_price || {};
       return ({
         iconType: "MaterialIcons",
-        textKey: 'fill_order',
+        textKey: 'open_order',
         expires: request.expiration,
         created: request.created,
         icon: 'reorder',
-        value: request.sell_price.base,
-        details: '',
+        value: base || '-- --',
+        details: base && quote ? `@ ${base} = ${quote}`:'',
       } as CoinActivity)
     })
 
@@ -304,7 +305,7 @@ const fetchPendingRequests = async (username: string, coinSymbol: string): Promi
     .map((request) => {
       return ({
         iconType: "MaterialIcons",
-        textKey: "transfer_from_savings",
+        textKey: "withdraw_savings",
         created: request.complete,
         icon: "compare-arrows",
         value: request.amount,
