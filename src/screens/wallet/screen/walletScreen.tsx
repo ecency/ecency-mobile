@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import React, { Fragment, useState, useEffect } from 'react';
-import { SafeAreaView, View, RefreshControl, Text, Alert } from 'react-native';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
+import { SafeAreaView, View, RefreshControl, Text, Alert, AppState, AppStateStatus } from 'react-native';
 
 // Containers
 import { FlatList } from 'react-native-gesture-handler';
@@ -41,6 +41,10 @@ const WalletScreen = ({navigation}) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
+  //refs
+  const appState = useRef(AppState.currentState);
+
+  //redux
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   const currency = useAppSelector((state)=>state.application.currency);
 
@@ -56,14 +60,18 @@ const WalletScreen = ({navigation}) => {
   const currentAccount = useAppSelector((state)=>state.account.currentAccount);
   const pinHash = useAppSelector((state)=>state.application.pin);
 
-
+  //state
   const [isLoading, setIsLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [isClaiming, setIsClaiming] = useState(false);
 
 
+  //side-effects
   useEffect(()=>{
+    AppState.addEventListener('change', _handleAppStateChange);
     _fetchData();
+
+    return _cleanup;
   },[])
 
   useEffect(()=>{
@@ -72,6 +80,23 @@ const WalletScreen = ({navigation}) => {
       _fetchData(true);
     }
   },[currency, currentAccount])
+
+
+  const _cleanup = () => {
+    AppState.removeEventListener('change', _handleAppStateChange);
+  }
+ 
+
+  //actions
+  const _handleAppStateChange = (nextAppState:AppStateStatus) => {
+    if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+      console.log('updating selected coins data on app resume')
+      _fetchCoinsData(true)
+    }
+    appState.current = nextAppState;
+  };
+
+
 
   const _fetchData = (refresh?:boolean) => {
     if(!isLoading){
