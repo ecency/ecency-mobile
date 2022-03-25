@@ -244,24 +244,10 @@ class PostDropdownContainer extends PureComponent {
   _updatePinnedPost = async ({ unpinPost }: { unpinPost: boolean } = { unpinPost: false }) => {
     const { content, currentAccount, pinCode, dispatch, intl, isLoggedIn } = this.props;
 
-
-    if (!isLoggedIn) {
-      Alert.alert(
-        intl.formatMessage({
-          id: 'alert.fail',
-        }),
-        intl.formatMessage({
-          id: 'alert.not_logged_in',
-        }),
-      );
-      return;
-    }
-
     const params = {
       ...currentAccount.about.profile,
       pinned: unpinPost ? null : content.permlink
     };
-
 
 
     try {
