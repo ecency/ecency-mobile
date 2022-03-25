@@ -518,42 +518,42 @@
   "post_dropdown": {
     "copy": "kopiraj vezu",
     "reblog": "podijeli",
-    "reply": "reply",
-    "share": "share",
-    "bookmarks": "add to bookmarks",
-    "promote": "promote",
-    "boost": "boost",
-    "report": "report"
+    "reply": "odgovori",
+    "share": "podijeli",
+    "bookmarks": "dodaj u knjižne oznake",
+    "promote": "promoviši",
+    "boost": "pojačaj",
+    "report": "izvještaj"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_user": "Nema postojećeg korisnika",
+    "no_existing_post": "Nema postojeće objave"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Objave",
+    "comments": "Komentari"
   },
   "comment_filter": {
-    "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
-    "top": "TOP",
-    "time": "TIME"
+    "trending": "VRH",
+    "reputation": "REPUTACIJA",
+    "votes": "GLAS",
+    "age": "DOB",
+    "top": "VRH",
+    "time": "VRIJEME"
   },
   "transfer": {
-    "from": "From",
-    "to": "To",
-    "amount_information": "Drag the slider to adjust the amount",
-    "amount": "Amount",
-    "memo": "Memo",
-    "information": "Are you sure to transfer funds?",
-    "amount_desc": "Balance",
-    "memo_desc": "This memo is public",
-    "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
-    "to_placeholder": "Username",
-    "memo_placeholder": "Enter your notes here",
-    "transfer_token": "Transfer",
+    "from": "Od",
+    "to": "Za",
+    "amount_information": "Prevucite klizač da podesite količinu",
+    "amount": "Iznos",
+    "memo": "Bilješka",
+    "information": "Jeste li sigurni da prenosite sredstva?",
+    "amount_desc": "Stanje",
+    "memo_desc": "Ova bilješka je javna",
+    "convert_desc": "Pretvaranje traje 3.5 dana i ne preporučuje se ako je cijena HBD veća od $1",
+    "to_placeholder": "Korisničko ime",
+    "memo_placeholder": "Ovdje unesite svoje bilješke",
+    "transfer_token": "Prijenos",
     "purchase_estm": "Purchase Points",
     "convert": "Convert HBD to HIVE",
     "points": "Gift Points to someone",
