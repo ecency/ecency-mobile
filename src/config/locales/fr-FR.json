@@ -86,21 +86,21 @@
       "buy": "OBTENIR DES POINTS"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "Economiser HIVE"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "Economiser HBD"
     },
     "hive": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "OBTENIR HIVE"
     },
     "hbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "OBTENIR HBD"
     },
     "hive_power": {
-      "title": "HIVE POWER"
+      "title": "Puissance de HIVE"
     },
     "btc": {
       "title": "BTC",
@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "voté",
-    "unvote": "downvoted",
+    "unvote": "sous-vote",
     "reply": "répondu à",
     "mention": "mentionné dans",
     "follow": "vous a suivi",
@@ -118,7 +118,7 @@
     "ignore": "vous a ignoré",
     "reblog": "reblogué",
     "transfer": "transféré",
-    "delegations": "delegated",
+    "delegations": "délégué",
     "spin": "C'est l'heure de gagner plus de points",
     "inactive": "Soyez actif ! Écrivez un post, continuez à obtenir des gains",
     "referral": "à rejoint avec votre parrainage, acceuillez-le",
@@ -129,7 +129,7 @@
     "recent": "Récent",
     "yesterday": "Hier",
     "this_week": "Cette semaine",
-    "last_week": "Last Week",
+    "last_week": "La semaine dernière",
     "this_month": "Ce mois",
     "older_then": "Vieux de plus de 1 mois",
     "activities": "Toutes",
@@ -137,15 +137,15 @@
     "mentions": "Mentions",
     "reblogs": "Reblogs",
     "noactivity": "Aucune activité récente",
-    "mention_on": "New mention on",
-    "reply_on": "New reply on",
-    "reply_body": "Tap to continue conversation..."
+    "mention_on": "Nouvelle mention sur",
+    "reply_on": "Nouvelle réponse sur",
+    "reply_body": "Appuyez pour continuer la conversation..."
   },
   "leaderboard": {
     "daily": "QUOTIDIEN",
     "weekly": "HEBDOMADAIRE",
     "monthly": "MENSUEL",
-    "tooltip_earn": "Earn points by actively participating in Ecency."
+    "tooltip_earn": "Gagnez des points en participant activement dans Ecency."
   },
   "messages": {
     "comingsoon": "La fonctionnalité Messages arrive bientôt !"
@@ -153,7 +153,7 @@
   "profile": {
     "following": "Abonnements",
     "follower": "Abonnés",
-    "edit_label": "Edit",
+    "edit_label": "Modifier",
     "post": "Post",
     "details": "Détails du profil",
     "comments": "Commentaires",
@@ -165,20 +165,20 @@
     "hours": "heures",
     "voting_power": "Puissance de vote",
     "login_to_see": "Connectez-vous pour voir",
-    "follow_people": "When you follow people, you'll see their post here.",
-    "follow_communities": "When you join communities you'll see posts from communities here.",
+    "follow_people": "Quand tu t'abonnes à a des personnes,tu les verras ici.",
+    "follow_communities": "Quand vous rejoignez une communautés, vous verrez des messages des communautés ici.",
     "havent_commented": "n'a encore rien commenté",
     "havent_posted": "n'a encore rien posté",
-    "hive_power": "Hive Power",
+    "hive_power": "Puissance HIVE",
     "next_power_text": "Prochaine diminution d'influence dans",
     "days": "jours",
     "day": "jour",
     "hive_dollars": "Hive Dollars",
     "savings": "Économies",
     "joined": "Joined {time} ago",
-    "view_full": "VIEW FULL PROFILE",
-    "resource_credits": "Resource Credits",
-    "reputation": "Reputation",
+    "view_full": "VOIR LE PROFIL COMPLET",
+    "resource_credits": "Crédits de ressource",
+    "reputation": "Réputation",
     "edit": {
       "display_name": "Nom d'affichage",
       "about": "À propos",
@@ -201,7 +201,7 @@
       "mention": "Mention",
       "reblog": "Reblog",
       "transfers": "Transferts",
-      "delegations": "Delegations"
+      "delegations": "Délégations"
     },
     "pincode": "Pincode",
     "reset_pin": "Réinitialisez le Code Pin",
@@ -253,9 +253,9 @@
     "new": "Nouveau",
     "blog": "Blog",
     "posts": "Post",
-    "friends": "Friends",
-    "communities": "Communities",
-    "popup_postfix": "Posted",
+    "friends": "Amis",
+    "communities": "Communautés",
+    "popup_postfix": "Publié",
     "scroll_top": "Scroll To Top"
   },
   "side_menu": {
