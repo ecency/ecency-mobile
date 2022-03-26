@@ -6,7 +6,7 @@ import styles from './screen.styles';
 import ActivitiesList from '../children/activitiesList'
 import { withNavigation } from 'react-navigation'
 import { useAppDispatch, useAppSelector } from '../../../hooks'
-import { CoinActivitiesCollection, CoinActivity, CoinData } from '../../../redux/reducers/walletReducer';
+import { CoinActivitiesCollection, CoinActivity, CoinData, QuoteItem } from '../../../redux/reducers/walletReducer';
 import { fetchCoinActivities } from '../../../utils/wallet';
 import { fetchAndSetCoinsData, setCoinActivities } from '../../../redux/actions/walletActions';
 import { openPinCodeModal } from '../../../redux/actions/applicationActions';
@@ -40,6 +40,7 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
   const globalProps = useAppSelector(state=>state.account.globalProps);
   const selectedCoins = useAppSelector(state=>state.wallet.selectedCoins);
   const coinData:CoinData = useAppSelector(state=>state.wallet.coinsData[coinId]);
+  const quote:QuoteItem = useAppSelector(state=>state.wallet.quotes[coinId]);
   const coinActivities:CoinActivitiesCollection = useAppSelector(state=>state.wallet.coinsActivities[coinId]);
   const isPinCodeOpen = useAppSelector(state=>state.application.isPinCodeOpen);
 
@@ -136,6 +137,7 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
         id={coinId}
         coinSymbol={symbol}
         coinData={coinData}
+        percentChagne={quote.percentChange || 0}
         onActionPress={_onActionPress} />
   )
 

@@ -33,7 +33,7 @@ export default EStyleSheet.create({
     color: '$primaryGreen'
   } as TextStyle,
   textNegative:{
-
+    color: '$primaryRed'
   } as TextStyle,
   textBasicValue:{
     color: '$primaryBlack',

@@ -9,16 +9,25 @@ interface CoinBasicsProps {
     valuePairs: DataPair[];
     extraData: DataPair[];
     coinSymbol: string;
+    percentChange: number;
 }
 
-export const CoinBasics = ({ valuePairs, extraData, coinSymbol }: CoinBasicsProps) => {
+export const CoinBasics = ({ valuePairs, extraData, coinSymbol, percentChange }: CoinBasicsProps) => {
     const intl = useIntl();
     const _renderCoinHeader = (
         <>
             <View style={styles.coinTitleContainer}>
                 <Text style={styles.textCoinTitle}>{coinSymbol}</Text>
             </View>
-            <Text style={styles.textHeaderChange}>{intl.formatMessage({ id: 'wallet.change' })} <Text style={styles.textPositive}>+10.13%</Text></Text>
+            <Text 
+                style={styles.textHeaderChange}>
+                    {intl.formatMessage({ id: 'wallet.change' })} 
+                        <Text 
+                            style={percentChange > 0 ? styles.textPositive : styles.textNegative}>
+                                {` ${percentChange >= 0 ? '+' : ''}${percentChange.toFixed(1)}%`}
+                        </Text>
+                        
+            </Text>
         </>
     )
 

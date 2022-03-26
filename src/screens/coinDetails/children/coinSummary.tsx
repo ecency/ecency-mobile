@@ -9,6 +9,7 @@ export interface CoinSummaryProps {
     id:string;
     coinSymbol:string;
     coinData:CoinData;
+    percentChagne:number;
     onActionPress:(action:string)=>void;
 }
 
@@ -16,6 +17,7 @@ export const CoinSummary = ({
     coinSymbol, 
     id, 
     coinData,
+    percentChagne,
     onActionPress,
 }:CoinSummaryProps) => {
     const { 
@@ -49,7 +51,12 @@ export const CoinSummary = ({
 
     return (
         <View>
-            <CoinBasics valuePairs={valuePairs} extraData={extraDataPairs} coinSymbol={coinSymbol}  />
+            <CoinBasics 
+                valuePairs={valuePairs} 
+                extraData={extraDataPairs} 
+                coinSymbol={coinSymbol}  
+                percentChange={percentChagne}
+            />
             <CoinActions actions={actions} onActionPress={onActionPress}/>
             {
                 id !== COIN_IDS.ECENCY && id !== COIN_IDS.HP && <CoinChart coinId={id} />
