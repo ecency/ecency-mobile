@@ -10,6 +10,7 @@ import customTabsReducer from './customTabsReducer';
 import editorReducer from './editorReducer';
 import cacheReducer from './cacheReducer';
 import walkthroughReducer from './walkthroughReducer';
+import walletReducer from './walletReducer';
 
 export default combineReducers({
   account: accountReducer,
@@ -23,4 +24,5 @@ export default combineReducers({
   user,
   cache: cacheReducer,
   walkthrough: walkthroughReducer,
+  wallet: walletReducer,
 });

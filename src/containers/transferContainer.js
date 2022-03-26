@@ -24,6 +24,8 @@ import { getUser } from '../providers/ecency/ePoint';
 // Utils
 import { countDecimals } from '../utils/number';
 import bugsnagInstance from '../config/bugsnag';
+import { fetchCoinsData } from '../utils/wallet';
+import { fetchAndSetCoinsData } from '../redux/actions/walletActions';
 
 /*
  *            Props Name        Description                                     Value
@@ -78,7 +80,7 @@ class TransferContainer extends Component {
         (transferType === 'purchase_estm' || transferType === 'transfer_token') &&
         fundType === 'HIVE'
       ) {
-        balance = account[0].balance.replace(fundType, '');
+        balance = account.balance.replace(fundType, '');
       }
       if (
         (transferType === 'purchase_estm' ||
@@ -86,19 +88,19 @@ class TransferContainer extends Component {
           transferType === 'transfer_token') &&
         fundType === 'HBD'
       ) {
-        balance = account[0].hbd_balance.replace(fundType, '');
+        balance = account.hbd_balance.replace(fundType, '');
       }
       if (transferType === 'points' && fundType === 'ESTM') {
         this._getUserPointsBalance(username);
       }
       if (transferType === 'transfer_to_savings' && fundType === 'HIVE') {
-        balance = account[0].balance.replace(fundType, '');
+        balance = account.balance.replace(fundType, '');
       }
       if (transferType === 'transfer_to_savings' && fundType === 'HBD') {
-        balance = account[0].hbd_balance.replace(fundType, '');
+        balance = account.hbd_balance.replace(fundType, '');
       }
       if (transferType === 'transfer_to_vesting' && fundType === 'HIVE') {
-        balance = account[0].balance.replace(fundType, '');
+        balance = account.balance.replace(fundType, '');
       }
       if (transferType === 'address_view' && fundType === 'BTC') {
         //TODO implement transfer of custom tokens
@@ -112,7 +114,7 @@ class TransferContainer extends Component {
       }
 
       this.setState({
-        selectedAccount: { ...account[0], local: local[0] },
+        selectedAccount: { ...account, local: local[0] },
       });
     });
   };
@@ -120,6 +122,13 @@ class TransferContainer extends Component {
   _getAccountsWithUsername = async (username) => {
     const validUsers = await lookupAccounts(username);
     return validUsers;
+  };
+
+  _delayedRefreshCoinsData = () => {
+    const { dispatch } = this.props;
+    setTimeout(() => {
+      dispatch(fetchAndSetCoinsData(true));
+    }, 3000);
   };
 
   _transferToAccount = async (from, destination, amount, memo) => {
@@ -192,6 +201,7 @@ class TransferContainer extends Component {
     return func(currentAccount, pinCode, data)
       .then(() => {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+        this._delayedRefreshCoinsData();
         navigation.goBack();
       })
       .catch((err) => {
@@ -218,6 +228,7 @@ class TransferContainer extends Component {
 
   _handleOnModalClose = () => {
     const { navigation } = this.props;
+    this._delayedRefreshCoinsData();
     navigation.goBack();
   };
 

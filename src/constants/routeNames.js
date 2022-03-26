@@ -33,6 +33,7 @@ export default {
     WEB_BROWSER: `WebBrowser${SCREEN_SUFFIX}`,
     REFER: `Refer${SCREEN_SUFFIX}`,
     QR: `QR${SCREEN_SUFFIX}`,
+    COIN_DETAILS: `CoinDetails${SCREEN_SUFFIX}`,
   },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,

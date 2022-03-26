@@ -27,6 +27,8 @@ const transformWalkthroughMap = createTransform(
   {whitelist:['walkthrough']}
 );
 
+
+
 // Middleware: Redux Persist Config
 const persistConfig = {
   // Root
@@ -36,7 +38,10 @@ const persistConfig = {
   // Blacklist (Don't Save Specific Reducers)
   blacklist: ['nav', 'application', 'communities', 'user'],
   timeout: 0,
-  transforms:[transformCacheVoteMap,transformWalkthroughMap],
+  transforms:[
+    transformCacheVoteMap,
+    transformWalkthroughMap
+  ]
 };
 
 // Middleware: Redux Persist Persisted Reducer
