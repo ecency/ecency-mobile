@@ -603,55 +603,55 @@
   "free_estm": {
     "title": "Besplatni bodovi",
     "button": "ZAVRTI i OSVOJI",
-    "get_spin": "5 OBRTAJA",
-    "spin_right": "Spin Left",
+    "get_spin": "5 ZAVRTAJA",
+    "spin_right": "Zavrti lijevo",
     "timer_text": "Sljedeće besplatno okretanje u"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
-    "user": "User",
-    "permlink": "Post",
-    "permlinkPlaceholder": "username/permlink",
-    "information": "Are you sure to promote?"
+    "title": "Promoviši",
+    "days": "dana",
+    "user": "Korisnik",
+    "permlink": "Objava",
+    "permlinkPlaceholder": "korisničko ime/permanentna veza",
+    "information": "Da li ste sigurni da želite da promovišete?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Pojačaj"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "rewards": "NAGRADE",
+    "percent": "PROCENAT",
+    "time": "VRIJEME"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "Podijeli informaciju"
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "Vrijeme vašeg uređaja;",
+      "current_time": "Trenutno vrijeme;",
+      "information": "Primijetili smo da vaš uređaj ima netačan datum ili vrijeme. Molimo popravite datum i vrijeme ili postavite automatsko i pokušajte ponovo."
     }
   },
   "comments": {
-    "title": "Comments",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "replies"
+    "title": "Komentari",
+    "reveal_comment": "Prikaži komentar",
+    "read_more": "Pročitajte još komentara",
+    "more_replies": "odgovori"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Drugi",
     "best": {
-      "title": "Best"
+      "title": "Najbolji"
     },
     "people": {
-      "title": "People"
+      "title": "Ljudi"
     },
     "topics": {
-      "title": "Topics"
+      "title": "Teme"
     },
     "communities": {
-      "title": "Groups",
+      "title": "Grupe",
       "subscribe": "Join",
       "unsubscribe": "Leave",
       "subscribers": "Members",
