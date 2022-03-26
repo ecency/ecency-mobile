@@ -687,34 +687,34 @@
     "add_to_favourites": "DODAJTE U FAVORITE",
     "remove_from_favourites": "UKLONI IZ FAVORITA",
     "mute": "UTIŠAJ / BLOKIRAJ",
-    "unmute": "UNMUTE / UNBLOCK",
-    "report": "REPORT USER"
+    "unmute": "UKLJUČI / ODBLOKIRAJ",
+    "report": "PRIJAVI KORISNIKA"
   },
   "communities": {
-    "joined": "Membership",
-    "discover": "Discover",
-    "discover_communities": "Discover Communities",
-    "no_communities": "Connect with people who share your interests by joining Communities."
+    "joined": "Članstvo",
+    "discover": "Istražiti",
+    "discover_communities": "Istražite zajednice",
+    "no_communities": "Povežite se s ljudima koji dijele vaša interesovanja pridruživanjem zajednicama."
   },
   "empty_screen": {
-    "nothing_here": "Nothing here"
+    "nothing_here": "Ovdje nema ništa"
   },
   "beneficiary_modal": {
-    "percent": "Percent",
-    "username": "Username",
-    "addAccount": "Add Account",
-    "save": "Save",
-    "cancel": "Cancel"
+    "percent": "Procenat",
+    "username": "Korisničko ime",
+    "addAccount": "Dodaj račun",
+    "save": "Sačuvaj",
+    "cancel": "Odustani"
   },
   "welcome": {
-    "label": "Welcome to",
+    "label": "Dobrodošli u",
     "title": "Ecency",
-    "line1_heading": "Are you looking for community?",
-    "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
-    "line2_heading": "We have a solution!",
-    "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
-    "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others.",
+    "line1_heading": "Tražite li zajednicu?",
+    "line1_body": "Necenzurisano, nepromjenjivo, nagrađujuće, decentralizirano, koje posjedujete.",
+    "line2_heading": "Imamo rješenje!",
+    "line2_body": "Korištenje blockchaina, bez cenzure, decentralizirano i nagrađujuće.",
+    "line3_heading": "Pridružite se Ecency zajednicama!",
+    "line3_body": "Izgradite svoju zajednicu, budite nagrađeni i nagradite druge.",
     "get_started": "Get started!"
   },
   "time": {
