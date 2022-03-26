@@ -6,9 +6,9 @@
     "claim_reward_balance": "Zatražite Nagradu ",
     "transfer": "Prijenos",
     "power_up": "Za Dodijeliti",
-    "transfer_from_savings": "Od Štednje",
-    "withdraw_vesting": "Snaga Dole",
-    "fill_order": "Ispunite Narudžbu",
+    "transfer_from_savings": "Od štednje",
+    "withdraw_vesting": "Smanji snagu",
+    "fill_order": "Ispunite nalog",
     "post": "Objava",
     "comment": "Komentar",
     "checkin": "Prijava",
@@ -261,7 +261,7 @@
   "side_menu": {
     "profile": "Profil",
     "bookmarks": "Knjižne oznake",
-    "favorites": "Omiljeno",
+    "favorites": "Favoriti",
     "drafts": "Nacrti",
     "schedules": "Rasporedi",
     "gallery": "Galerija",
@@ -492,10 +492,10 @@
     "confirm_report_body": "Jeste li sigurni da želite izvještaj?"
   },
   "favorites": {
-    "title": "Omiljeno",
-    "load_error": "Nije moguće učitati omiljeno",
+    "title": "Favoriti",
+    "load_error": "Nije moguće učitati favorite",
     "empty_list": "Ovdje nema ništa",
-    "search": "Pretraži omiljeno"
+    "search": "Pretraži favorite"
   },
   "auth": {
     "invalid_pin": "Nevažeći pin kod, molimo provjerite i pokušajte ponovo",
@@ -652,41 +652,41 @@
     },
     "communities": {
       "title": "Grupe",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
-      "posters": "Posters",
+      "subscribe": "Pridruži se",
+      "unsubscribe": "Napusti",
+      "subscribers": "Članovi",
+      "posters": "Objavljivači",
       "posts": "Objave"
     },
     "communities_filter": {
-      "my": "My Communities",
-      "rank": "Rank",
-      "subs": "Members",
-      "new": "New"
+      "my": "Moje Zajednice",
+      "rank": "Rang",
+      "subs": "Članovi",
+      "new": "Novo"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "Popularnost",
+      "newest": "Najnovije",
+      "relevance": "Relevantnost"
     },
     "other_result_filter": {
-      "user": "User",
-      "tag": "Tag"
+      "user": "Korisnik",
+      "tag": "Oznaka"
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details",
-    "muted": "Muted",
-    "payout": "Payout"
+    "new_post": "Nova objava",
+    "community": "zajednica",
+    "details": "Detalji",
+    "muted": "Utišano",
+    "payout": "Isplata"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow",
-    "add_to_favourites": "ADD TO FAVOURITES",
-    "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE / BLOCK",
+    "follow": "Prati",
+    "unfollow": "Prestani da pratiš",
+    "add_to_favourites": "DODAJTE U FAVORITE",
+    "remove_from_favourites": "UKLONI IZ FAVORITA",
+    "mute": "UTIŠAJ / BLOKIRAJ",
     "unmute": "UNMUTE / UNBLOCK",
     "report": "REPORT USER"
   },
