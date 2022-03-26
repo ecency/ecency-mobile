@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import SplashScreen from 'react-native-splash-screen';
 
+import { OrientationLocker, PORTRAIT, LANDSCAPE } from 'react-native-orientation-locker';
 import ApplicationContainer from './container/applicationContainer';
 import WelcomeScreen from './screen/welcomeScreen';
 import ApplicationScreen from './screen/applicationScreen';
@@ -41,6 +42,13 @@ const Application = () => {
 
         return (
           <ErrorBoundary>
+            <OrientationLocker
+              orientation={PORTRAIT}
+              onChange={(orientation) => console.log('orientation changed : ', orientation)}
+              onDeviceChange={(orientation) =>
+                console.log('device orientation changed : ', orientation)
+              }
+            />
             <Modal
               isOpen={showWelcomeModal && _isAppReady}
               isFullScreen
