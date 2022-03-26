@@ -593,17 +593,17 @@
   },
   "boost": {
     "title": "Dobijte bodove",
-    "buy": "GET Points",
+    "buy": "DOBIJTE bodove",
     "next": "SLJEDEĆI",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "title": "Dobijte pojačanje računa",
+      "desc": "30-dnevna delegacija će povećati vaše glasove i društvene aktivnosti i dati vam više akcija s više resursa."
     }
   },
   "free_estm": {
-    "title": "Free Points",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
+    "title": "Besplatni bodovi",
+    "button": "ZAVRTI i OSVOJI",
+    "get_spin": "5 OBRTAJA",
     "spin_right": "Spin Left",
     "timer_text": "Sljedeće besplatno okretanje u"
   },
