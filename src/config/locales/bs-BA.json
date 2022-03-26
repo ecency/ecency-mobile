@@ -715,33 +715,33 @@
     "line2_body": "Korištenje blockchaina, bez cenzure, decentralizirano i nagrađujuće.",
     "line3_heading": "Pridružite se Ecency zajednicama!",
     "line3_body": "Izgradite svoju zajednicu, budite nagrađeni i nagradite druge.",
-    "get_started": "Get started!"
+    "get_started": "Započnite!"
   },
   "time": {
-    "second": "seconds",
-    "minute": "minutes",
-    "hour": "hours",
-    "week": "weeks",
-    "day": "days",
-    "month": "months",
-    "year": "years"
+    "second": "sekundi",
+    "minute": "minuta",
+    "hour": "sati",
+    "week": "sedmice",
+    "day": "dana",
+    "month": "mjeseci",
+    "year": "godina"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
-    "comment": "Comment",
-    "reply": "REPLY",
-    "close": "CLOSE"
+    "placeholder": "Dodaj komentar",
+    "comment": "Komentar",
+    "reply": "ODGOVOR",
+    "close": "ZATVORI"
   },
   "walkthrough": {
-    "load_draft_tooltip": "Load your lastest draft here"
+    "load_draft_tooltip": "Učitajte svoj posljednji nacrt ovdje"
   },
   "refer": {
-    "refer_earn": "Refer & Earn",
-    "refer": "Refer",
-    "rewarded": "Referral points rewarded",
-    "not_rewarded": "Referral reward pending",
-    "delegate_hp": "Delegate HP",
-    "earned": "Earned Points",
+    "refer_earn": "Preporučite i zaradite",
+    "refer": "Preporuči",
+    "rewarded": "Nagrađeni bodovima za preporuku",
+    "not_rewarded": "Nagrada za preporuku je na čekanju",
+    "delegate_hp": "Delegiraj HP",
+    "earned": "Zarađeni bodovi",
     "pending": "Pending Points",
     "empty_text": "Refer your loved ones today and earn free points"
   }
