@@ -575,7 +575,7 @@ export const fetchCoinsData = async ({
         const unclaimedBalance = [
           _getBalanceStr(parseToken(userdata.reward_hive_balance), ' HIVE'),
           _getBalanceStr(parseToken(userdata.reward_hbd_balance), ' HBD'),
-          _getBalanceStr(parseToken(userdata.rewardVestingHive), ' HP')
+          _getBalanceStr(parseToken(userdata.reward_vesting_hive), ' HP')
         ].reduce(
           (prevVal, bal) => prevVal + (!bal ? '' : (`${prevVal !== '' ? ' | ' : ''}${bal}`)),
           ''
