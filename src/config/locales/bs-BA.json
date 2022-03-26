@@ -46,7 +46,7 @@
     "dropdown_promote": "Promoviši",
     "dropdown_boost": "Pojačaj",
     "from": "Od",
-    "to": "Do",
+    "to": "Za",
     "estimated_value_desc": "Prema nabavnoj vrijednosti",
     "estimated_value": "Procijenjena vrijednost",
     "estimated_amount": "Vrijednost glasa",
@@ -586,13 +586,13 @@
     "new_amount": "Novi iznos",
     "review": "PREGLED",
     "confirm": "Potvrdite delegiranje",
-    "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
-    "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
-    "username_alert": "Username Error!",
-    "username_alert_detail": "Please select different username"
+    "confirm_summary": "Delegirajte {hp} HP ({vests} VESTS) za @{delegator} od @{delegatee} ",
+    "confirm_summary_para": "Ovo će zamijeniti vašu prethodnu delegaciju {prev} HP-a za ovaj račun.",
+    "username_alert": "Greška korisničkog imena!",
+    "username_alert_detail": "Molimo odaberite drugo korisničko ime"
   },
   "boost": {
-    "title": "Get Points",
+    "title": "Dobijte bodove",
     "buy": "GET Points",
     "next": "SLJEDEĆI",
     "account": {
