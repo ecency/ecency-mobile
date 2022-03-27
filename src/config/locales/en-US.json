@@ -7,7 +7,9 @@
     "transfer": "Transfer",
     "power_up": "To Vesting",
     "transfer_from_savings": "From Savings",
+    "withdraw_savings":"Withdraw Savings",
     "withdraw_vesting": "Power Down",
+    "open_order":"Open Order",
     "fill_order": "Fill Order",
     "post": "Post",
     "comment": "Comment",
@@ -49,7 +51,12 @@
     "to": "To",
     "estimated_value_desc": "According to purchase value",
     "estimated_value": "Estimated value",
-    "estimated_amount": "Vote value",
+    "vote_value": "Vote value",
+    "delegated_hive_power":"Delegated hive power",
+    "powering_down_hive_power":"Powering down",
+    "received_hive_power":"Received hive power",
+    "total_hive_power":"Total hive power",
+    "savings": "Savings",
     "amount_information": "Drag the slider to adjust the amount",
     "amount": "Amount",
     "memo": "Memo",
@@ -68,10 +75,11 @@
     "next": "NEXT",
     "delegate": "Delegate",
     "power_down": "Power Down",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HBD",
+    "withdraw_hive": "Withdraw Savings",
+    "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "To Savings",
     "convert": "Convert",
+    "convert_request":"Convert Request",
     "escrow_transfer": "Escrow Transfer",
     "escrow_dispute": "Escrow Dispute",
     "escrow_release": "Escrow Release",
@@ -81,8 +89,9 @@
     "fill_convert_request": "Convert Executed",
     "fill_transfer_from_savings": "Savings Executed",
     "fill_vesting_withdraw": "PowerDown executed",
-    "estm": {
+    "ecency": {
       "title": "Points",
+      "name":"Ecency Points",
       "buy": "GET POINTS"
     },
     "savinghive": {
@@ -93,6 +102,7 @@
     },
     "hive": {
       "title": "HIVE",
+      "name": "Hive Token",
       "buy": "GET HIVE"
     },
     "hbd": {
@@ -100,13 +110,28 @@
       "buy": "GET HBD"
     },
     "hive_power": {
-      "title": "HIVE POWER"
+      "title": "HIVE POWER",
+      "name":"Hive Power"
+
+    },
+    "hive_dollar":{
+      "name":"Hive Dollar"
     },
     "btc": {
       "title": "BTC",
       "buy": "GET BTC",
       "address": "RECEIVE"
-    }
+    },
+    "last_updated":"Last Updated:",
+    "updating":"Updating...",
+    "coin_details":"Details",
+    "change":"Change",
+    "activities":"Activities",
+    "savings_withdrawal":"Pending Withdrawals",
+    "open_orders":"Open Orders",
+    "conversions_requested":"Conversions Requested",
+    "expires":"expires",
+    "pending_requests":"Pending Requests"
   },
   "notification": {
     "vote": "voted",
@@ -445,7 +470,9 @@
     "failed_to_open": "Failed to open a link",
     "restart_ecency": "Restart Ecency?",
     "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response":"Could not process request, Try again later."
+    "invalid_response":"Could not process request, Try again later.",
+    "wallet_updating":"Wallet update in progress, try again as update finishes",
+    "claim_failed":"Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
   },
   "post": {
     "reblog_alert": "Are you sure, you want to reblog?",

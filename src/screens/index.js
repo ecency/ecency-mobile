@@ -27,6 +27,7 @@ import TagResult from './tagResult';
 import { Community } from './community';
 import Communities from './communities';
 import ReferScreen from './referScreen/referScreen';
+import CoinDetails from './coinDetails';
 
 export {
   Bookmarks,
@@ -58,4 +59,5 @@ export {
   Communities,
   WebBrowser,
   ReferScreen,
+  CoinDetails,
 };

@@ -25,6 +25,7 @@ import { useIntl } from 'react-intl';
 import { useAppSelector } from '../../../hooks';
 import { getUnreadNotificationCount } from '../../../providers/ecency/ecency';
 import { decryptKey } from '../../../utils/crypto';
+import { getUser as getEcencyUser} from '../../../providers/ecency/ePoint';
 
 const AccountsBottomSheetContainer = ({ navigation }) => {
   const intl = useIntl();
@@ -106,6 +107,7 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
         decryptKey(encryptedAccessToken, getDigitPinCode(pinHash))
       );
       _currentAccount.mutes = await getMutes(_currentAccount.username);
+      _currentAccount.ecencyUserData = await getEcencyUser(_currentAccount.username);
       dispatch(updateCurrentAccount(_currentAccount));
     }
 

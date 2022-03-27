@@ -6,8 +6,8 @@ import bugsnagInstance from '../../config/bugsnag';
 import { SERVER_LIST } from '../../constants/options/api';
 import { parsePost } from '../../utils/postParser';
 import { extractMetadata, makeJsonMetadata } from '../../utils/editor';
-import { ReceivedVestingShare, Referral, ReferralStat } from './ecency.types';
-import { convertReferral, convertReferralStat } from './converters';
+import { LatestMarketPrices, ReceivedVestingShare, Referral, ReferralStat } from './ecency.types';
+import { convertLatestQuotes, convertReferral, convertReferralStat } from './converters';
 
 
 
@@ -26,6 +26,27 @@ export const getCurrencyRate = (currency) =>
       //TODO: save currency rate of offline values
       return 1;
     });
+
+  export const getLatestQuotes = async (currencyRate:number):Promise<LatestMarketPrices> => {
+    try{
+      console.log('using currency rate', currencyRate);
+      const res = await ecencyApi.get(`/private-api/market-data/latest`);
+      const estmRes = await getCurrencyTokenRate('usd','estm')
+   
+      if(!res.data || !estmRes){
+        throw new Error("No quote data returned");
+      }
+
+      const data = convertLatestQuotes(res.data, estmRes, currencyRate);
+      console.log('parsed quotes data', data);
+      return data;
+    } catch (error){
+      bugsnagInstance.notify(error);
+      console.warn(error);
+      throw error
+    }
+  }
+    
 
 export const getCurrencyTokenRate = (currency, token) =>
   api
@@ -51,6 +72,8 @@ export const getReceivedVestingShares = async (username: string):Promise<Receive
     throw error
   }
 }
+
+
 
     
 

@@ -16,7 +16,6 @@ import PushNotification from 'react-native-push-notification';
 import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 import Matomo from 'react-native-matomo-sdk';
-import uniqueId from 'react-native-unique-id';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -41,6 +40,7 @@ import {
   setLastUpdateCheck,
 } from '../../../realm/realm';
 import { getUser, getPost, getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
+import { getUser as getEcencyUser } from '../../../providers/ecency/ePoint';
 import {
   migrateToMasterKeyWithAccessToken,
   refreshSCToken,
@@ -51,6 +51,7 @@ import {
   markActivityAsRead,
   markNotifications,
   getUnreadNotificationCount,
+  getLatestQuotes,
 } from '../../../providers/ecency/ecency';
 import { fetchLatestAppVersion } from '../../../providers/github/github';
 import { navigate } from '../../../navigation/service';
@@ -95,6 +96,7 @@ import {
   updateActiveBottomTab,
 } from '../../../redux/actions/uiAction';
 import { setFeedPosts, setInitPosts } from '../../../redux/actions/postsAction';
+import { fetchCoinQuotes } from '../../../redux/actions/walletActions';
 
 import { encryptKey } from '../../../utils/crypto';
 
@@ -619,6 +621,7 @@ class ApplicationContainer extends Component {
   _refreshGlobalProps = () => {
     const { actions } = this.props;
     actions.fetchGlobalProperties();
+    actions.fetchCoinQuotes();
   };
 
   _getUserDataFromRealm = async () => {
@@ -759,6 +762,7 @@ class ApplicationContainer extends Component {
 
       accountData.unread_activity_count = await getUnreadNotificationCount();
       accountData.mutes = await getMutes(realmObject.username);
+      accountData.ecencyUserData = await getEcencyUser(realmObject.username);
       dispatch(updateCurrentAccount(accountData));
 
       this._connectNotificationServer(accountData.name);
@@ -812,9 +816,7 @@ class ApplicationContainer extends Component {
       }
       if (settings.nsfw !== '') dispatch(setNsfw(settings.nsfw));
 
-      if (settings.currency !== '') {
-        dispatch(setCurrency(settings.currency !== '' ? settings.currency : 'usd'));
-      }
+      await dispatch(setCurrency(settings.currency !== '' ? settings.currency : 'usd'));
     }
   };
 
@@ -941,6 +943,7 @@ class ApplicationContainer extends Component {
 
     _currentAccount.unread_activity_count = await getUnreadNotificationCount();
     _currentAccount.mutes = await getMutes(_currentAccount.username);
+    _currentAccount.ecencyUserData = await getEcencyUser(_currentAccount.username);
     dispatch(updateCurrentAccount(_currentAccount));
   };
 
@@ -1068,6 +1071,7 @@ export default connect(
       ...bindActionCreators(
         {
           fetchGlobalProperties,
+          fetchCoinQuotes,
         },
         dispatch,
       ),

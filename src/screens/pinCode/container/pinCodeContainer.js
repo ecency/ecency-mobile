@@ -36,6 +36,7 @@ import {
 } from '../../../realm/realm';
 import { updateCurrentAccount, removeOtherAccount } from '../../../redux/actions/accountAction';
 import { getDigitPinCode, getMutes, getUser } from '../../../providers/hive/dhive';
+import { getUser as getEcencyUser } from '../../../providers/ecency/ePoint';
 
 // Utils
 import { encryptKey, decryptKey } from '../../../utils/crypto';
@@ -319,6 +320,7 @@ class PinCodeContainer extends Component {
               //get unread notifications
               _currentAccount.unread_activity_count = await getUnreadNotificationCount();
               _currentAccount.mutes = await getMutes(_currentAccount.username);
+              _currentAccount.ecencyUserData = await getEcencyUser(_currentAccount.username);
               dispatch(updateCurrentAccount({ ..._currentAccount }));
               dispatch(closePinCodeModal());
             }
