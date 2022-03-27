@@ -111,11 +111,22 @@ export const loadPosts = async ({
       //fetching posts
       const result:any[] = await func(options, feedUsername, nsfw);
 
-      if(result.length > 0 && filter === 'reblogs'){
-        for (let i = result.length - 1; i >= 0; i--) {
-          if (result[i].author === feedUsername) {
-              result.splice(i, 1);
+      if(result.length > 0){
+        if(filter === 'reblogs'){
+          for (let i = result.length - 1; i >= 0; i--) {
+            if (result[i].author === feedUsername) {
+                result.splice(i, 1);
+            }
           }
+        }
+        if((pageType === 'profile' || pageType === 'ownProfile') && pinnedPermlink){
+          let pinnedIndex = -1;
+          result.forEach((post, index)=>{
+            if(post.author === feedUsername && post.permlink === pinnedPermlink){
+              pinnedIndex = index;
+            }
+          })
+          result.splice(pinnedIndex, 1);
         }
       }
 
@@ -145,14 +156,14 @@ export const loadPosts = async ({
           result,
           refreshing,
           tabMeta,
-          setTabMeta
+          setTabMeta,
         )
 
         retData.updatedPosts = updatedPosts;
       }
 
       //fetch add pinned posts if applicable
-      if(retData.updatedPosts && pinnedPermlink){
+      if(retData.updatedPosts && pinnedPermlink && retData.updatedPosts[0].permlink !== pinnedPermlink){
         const pinnedPost = await getPost(feedUsername, pinnedPermlink);
         pinnedPost.stats = {is_pinned:true, ...pinnedPost.stats};
         retData.updatedPosts = [pinnedPost, ...retData.updatedPosts];

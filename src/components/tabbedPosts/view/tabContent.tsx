@@ -32,9 +32,9 @@ const TabContent = ({
   filterScrollRequest,
   feedUsername,
   tag,
+  pinnedPermlink,
   onScrollRequestProcessed,
   handleOnScroll,
-  pinnedPermlink,
   ...props
 }: TabContentProps) => {
   let _isMounted = true;
@@ -100,11 +100,12 @@ const TabContent = ({
   }, [filterScrollRequest])
 
   useEffect(()=>{
-    if(pageType === 'ownProfile' && pinned !== pinnedPermlink )
-    alert("Pinned post updated: " + pinned)
-    throw new Error("Update pinned post");
-    //TODO: update pinnned post
-    //TOOD: remove pinned post from list if present
+    if(pageType === 'ownProfile' && pinned !== pinnedPermlink ){
+      // setPinnedPermlink(pinnedPermlink)
+      // alert("This is called")
+      _scrollToTop();
+      _loadPosts({shouldReset:true, _pinnedPermlink:pinned})
+    }
   },[pinned])
 
 
@@ -169,7 +170,7 @@ const TabContent = ({
     _feedUsername = isFeedScreen? sessionUserRef.current:feedUsername,
     _posts = postsRef.current,
     _tabMeta = tabMeta,
-
+    _pinnedPermlink = pinnedPermlink
   }:{
     shouldReset?:boolean;
     isLatestPostsCheck?:boolean;
@@ -177,6 +178,7 @@ const TabContent = ({
     _feedUsername?:string;
     _posts?:any[]; 
     _tabMeta?:TabMeta;
+    _pinnedPermlink?:string
   }) => {
     const options = {
       setTabMeta:(meta:TabMeta) => {
@@ -196,7 +198,7 @@ const TabContent = ({
       pageType,
       isLatestPostsCheck,
       feedUsername:_feedUsername,
-      pinnedPermlink,
+      pinnedPermlink:_pinnedPermlink,
       tag,
       ...props
     } as LoadPostsOptions
