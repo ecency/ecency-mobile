@@ -34,10 +34,11 @@ class PostDropdownContainer extends PureComponent {
   constructor(props) {
     super(props);
 
-    const { content, currentAccount } = this.props
+    const { content, currentAccount } = this.props;
+
 
     //check if post is owned by current user or not, if so pinned or not
-    let options = (currentAccount.name === content.author)
+    let options = (!!content && !!currentAccount && currentAccount.name === content.author)
       ? OPTIONS.filter(item =>
         item !== (content.stats?.is_pinned ? 'pin' : 'unpin'))
       : OPTIONS.filter(item => item !== 'pin' && item !== 'unpin')
@@ -45,6 +46,18 @@ class PostDropdownContainer extends PureComponent {
     this.state = {
       options
     };
+  }
+
+  componentDidMount = () => {
+    const { content, currentAccount } = this.props;
+    this._initOptions(content, currentAccount);
+  }
+ 
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
+    if (nextProps.content?.permlink !== this.props.content?.permlink) {
+      const { content, currentAccount }  = nextProps;
+      this._initOptions(content, currentAccount);
+    }
   }
 
   // Component Life Cycle Functions
@@ -64,6 +77,16 @@ class PostDropdownContainer extends PureComponent {
       this.actionSheetTimer = 0;
     }
   };
+
+  _initOptions = (content, currentAccount) => {
+    //check if post is owned by current user or not, if so pinned or not
+    let options = (!!content && !!currentAccount && currentAccount.name === content.author)
+      ? OPTIONS.filter(item =>
+        item !== (content.stats?.is_pinned ? 'pin' : 'unpin'))
+      : OPTIONS.filter(item => item !== 'pin' && item !== 'unpin')
+
+    this.setState({ options })
+  }
 
   // Component Functions
   _handleOnDropdownSelect = async (index) => {
