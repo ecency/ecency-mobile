@@ -249,8 +249,6 @@ export const getAccount = (username) =>
 
 export const getAccountHistory = (user, operations) =>
   new Promise((resolve, reject) => {
-    //TOOD: list can be tweaked based on which coin is being visited
-    const op = utils.operationOrders;
     let wallet_operations_bitmask = utils.makeBitMaskFilter(operations);
     try {
       const ah = client.call('condenser_api', 'get_account_history', [
