@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToHp } from './conversions';
-import { getAccount, getAccountHistory, getConversionRequests, getOpenOrders, getSavingsWithdrawFrom } from '../providers/hive/dhive';
+import { getAccount, getAccountHistory, getConversionRequests, getFeedHistory, getOpenOrders, getSavingsWithdrawFrom } from '../providers/hive/dhive';
 import { getCurrencyTokenRate, getLatestQuotes } from '../providers/ecency/ecency';
 import { CoinActivitiesCollection, CoinActivity, CoinBase, CoinData, DataPair, QuoteItem } from '../redux/reducers/walletReducer';
 import { GlobalProps } from '../redux/reducers/accountReducer';
@@ -207,7 +207,6 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
     return walletData;
   }
 
-  //TODO: Use already available accoutn for frist wallet start
   const userdata = await getAccount(get(user, 'name'));
 
   //const { accounts } = state;
@@ -215,7 +214,6 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   //  return walletData;
   //}
 
-  // TODO: move them to utils these so big for a lifecycle function
   walletData.rewardHiveBalance = parseToken(userdata.reward_hive_balance);
   walletData.rewardHbdBalance = parseToken(userdata.reward_hbd_balance);
   walletData.rewardVestingHive = parseToken(userdata.reward_vesting_hive);
@@ -234,9 +232,9 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   walletData.savingBalanceHbd = parseToken(userdata.savings_hbd_balance);
 
   //TOOD: use base and quote from account.globalProps redux
-  // const feedHistory = await getFeedHistory();
-  const base = 1.049; // parseToken(feedHistory.current_median_history.base);
-  const quote = 1; // parseToken(feedHistory.current_median_history.quote);
+  const feedHistory = await getFeedHistory();
+  const base = parseToken(feedHistory.current_median_history.base);
+  const quote = parseToken(feedHistory.current_median_history.quote);
 
   walletData.hivePerMVests = globalProps.hivePerMVests;
 
