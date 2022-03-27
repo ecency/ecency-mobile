@@ -498,7 +498,7 @@
     "search": "Pretraži favorite"
   },
   "auth": {
-    "invalid_pin": "Nevažeći pin kod, molimo provjerite i pokušajte ponovo",
+    "invalid_pin": "Nevažeći PIN kod, molimo provjerite i pokušajte ponovo",
     "invalid_username": "Nevažeće korisničko ime, provjerite i pokušajte ponovo",
     "already_logged": "Već ste prijavljeni, pokušajte dodati drugi račun",
     "invalid_credentials": "Nevažeća ovlaštenja, provjerite i pokušajte ponovo",
