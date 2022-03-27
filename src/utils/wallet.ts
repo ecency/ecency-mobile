@@ -14,6 +14,7 @@ import { COIN_IDS } from '../constants/defaultCoins';
 import { operationOrders } from '@hiveio/dhive/lib/utils';
 import { ConversionRequest, OpenOrderItem, OrdersData, SavingsWithdrawRequest } from '../providers/hive/hive.types';
 import parseAsset from './parseAsset';
+import { utils } from '@hiveio/dhive';
 
 
 export const transferTypes = [
@@ -263,7 +264,25 @@ export const groomingWalletData = async (user, globalProps, userCurrency) => {
   walletData.nextVestingWithdrawal = Math.round(timeDiff / (1000 * 3600));
 
   //TOOD: transfer history can be separated from here
-  const history = await getAccountHistory(get(user, 'name'));
+  const op = utils.operationOrders
+  const ops = [
+    op.transfer, //HIVE
+    op.author_reward, //HBD, HP
+    op.curation_reward, //HP
+    op.transfer_to_vesting, //HIVE, HP
+    op.withdraw_vesting, //HIVE, HP
+    op.interest, //HP
+    op.transfer_to_savings, //HIVE, HBD
+    op.transfer_from_savings, //HIVE, HBD
+    op.fill_convert_request, //HBD
+    op.fill_order, //HIVE, HBD
+    op.claim_reward_balance, //HP
+    op.sps_fund, //HBD
+    op.comment_benefactor_reward, //HP
+    op.return_vesting_delegation, //HP
+  ]
+
+  const history = await getAccountHistory(get(user, 'name'), ops);
 
   const transfers = history.filter((tx) => transferTypes.includes(get(tx[1], 'op[0]', false)));
 
