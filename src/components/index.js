@@ -69,7 +69,7 @@ import { HorizontalIconList } from './horizontalIconList/horizontalIconListView'
 import { PopoverWrapper } from './popoverWrapper/popoverWrapperView';
 import CommunitiesList from './communitiesList';
 import SubscribedCommunitiesList from './subscribedCommunitiesList';
-
+import { InsertLinkModal } from './insertLinkModal/insertLinkModal';
 // View
 import { Comment } from './comment';
 import { Comments } from './comments';
@@ -240,6 +240,7 @@ export {
   QuickReplyModal,
   Tooltip,
   VideoPlayer,
+  InsertLinkModal,
   QRModal,
   SimpleChart,
 };
