@@ -11,7 +11,7 @@ export default EStyleSheet.create({
     borderRadius: 12,
     overflow: 'hidden',
     borderWidth: 2,
-    borderColor: "$primaryLightBackground"
+    borderColor: "$primaryLightBackground",
   } as ViewStyle,
 
   cardHeader:{
@@ -86,8 +86,8 @@ export default EStyleSheet.create({
   cardFooter:{
     position:'absolute', 
     bottom:8, 
-    left:76, 
-    right:16, 
+    left: isRTL() ? 16 : 76, 
+    right: isRTL() ? 76 : 16, 
     paddingTop:8,
     flexDirection: isRTL() ? "row-reverse" : "row", 
     justifyContent:'space-between',

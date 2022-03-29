@@ -94,7 +94,7 @@ export default EStyleSheet.create({
   } as ViewStyle,
   listContent:{
     paddingBottom:56,
-    marginHorizontal:16
+    paddingHorizontal:16,
   } as ViewStyle ,
 
   //COIN ACTIONS STYLES
@@ -124,7 +124,8 @@ export default EStyleSheet.create({
     fontWeight:'600',
     fontSize:18,
     paddingVertical:16,
-    backgroundColor:'$primaryBackgroundColor'
+    backgroundColor:'$primaryBackgroundColor',
+    textAlign: 'left',
   } as TextStyle
 });
 
