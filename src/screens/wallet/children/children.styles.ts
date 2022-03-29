@@ -95,26 +95,31 @@ export default EStyleSheet.create({
   } as ViewStyle,
   textDiffPositive:{
     fontSize:18,
-    color: '$primaryGreen'
+    color: '$primaryGreen',
+    textAlign: 'left',
   } as TextStyle,
   textDiffNegative:{
     fontSize:16,
-    color: '$primaryRed'
+    color: '$primaryRed',
+    textAlign: 'left',
   } as TextStyle,
   textCurValue:{
     fontSize:16,
     color: '$primaryBlack',
     fontWeight: '300',
+    textAlign: 'left',
   } as TextStyle,
   textTitle:{
     fontSize:16,
     color: '$primaryBlack',
-    fontWeight: '500'
+    fontWeight: '500',
+    textAlign: 'left',
   },
   textSubtitle:{
     fontSize:14,
     color: '$primaryDarkText',
     fontWeight: '300',
+    textAlign: 'left',
   } as TextStyle,
   textSubtitleRight:{
     fontSize:14,
