@@ -1,6 +1,7 @@
 import { TextStyle, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { ImageStyle } from 'react-native-fast-image';
+import { isRTL } from '../../../utils/I18nUtils';
 
 export default EStyleSheet.create({
   cardContainer: {
@@ -80,7 +81,7 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryDarkText',
   },
   chartContainer:{
-    height:112
+    height:112,
   },
   cardFooter:{
     position:'absolute', 
@@ -88,7 +89,7 @@ export default EStyleSheet.create({
     left:76, 
     right:16, 
     paddingTop:8,
-    flexDirection:'row', 
+    flexDirection: isRTL() ? "row-reverse" : "row", 
     justifyContent:'space-between',
     borderColor:'$chartText',
     borderTopWidth:EStyleSheet.hairlineWidth,
