@@ -1,6 +1,7 @@
 import { TextStyle, ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { ImageStyle } from 'react-native-fast-image';
+import { isRTL } from '../../../utils/I18nUtils';
 
 export default EStyleSheet.create({
   cardContainer: {
@@ -10,7 +11,7 @@ export default EStyleSheet.create({
     borderRadius: 12,
     overflow: 'hidden',
     borderWidth: 2,
-    borderColor: "$primaryLightBackground"
+    borderColor: "$primaryLightBackground",
   } as ViewStyle,
 
   cardHeader:{
@@ -80,41 +81,46 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryDarkText',
   },
   chartContainer:{
-    height:112
+    height:112,
   },
   cardFooter:{
     position:'absolute', 
     bottom:8, 
-    left:76, 
-    right:16, 
+    left: isRTL() ? 16 : 76, 
+    right: isRTL() ? 76 : 16, 
     paddingTop:8,
-    flexDirection:'row', 
+    flexDirection: isRTL() ? "row-reverse" : "row", 
     justifyContent:'space-between',
     borderColor:'$chartText',
     borderTopWidth:EStyleSheet.hairlineWidth,
   } as ViewStyle,
   textDiffPositive:{
     fontSize:18,
-    color: '$primaryGreen'
+    color: '$primaryGreen',
+    textAlign: 'left',
   } as TextStyle,
   textDiffNegative:{
     fontSize:16,
-    color: '$primaryRed'
+    color: '$primaryRed',
+    textAlign: 'left',
   } as TextStyle,
   textCurValue:{
     fontSize:16,
     color: '$primaryBlack',
     fontWeight: '300',
+    textAlign: 'left',
   } as TextStyle,
   textTitle:{
     fontSize:16,
     color: '$primaryBlack',
-    fontWeight: '500'
+    fontWeight: '500',
+    textAlign: 'left',
   },
   textSubtitle:{
     fontSize:14,
     color: '$primaryDarkText',
     fontWeight: '300',
+    textAlign: 'left',
   } as TextStyle,
   textSubtitleRight:{
     fontSize:14,
