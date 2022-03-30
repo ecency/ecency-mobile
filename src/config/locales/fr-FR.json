@@ -62,14 +62,14 @@
     "purchase_estm": "OBTENIR DES POINTS",
     "points": "Offrir des points à quelqu'un",
     "transfer_to_saving": "Vers l'économie",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_vesting": "Puissance Superieur",
     "withdraw_to_saving": "Récupérer l'économie",
     "steemconnect_title": "Transfert Hivesigner",
     "next": "SUIVANT",
     "delegate": "Déléguer",
     "power_down": "Diminuer son influence",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HBD",
+    "withdraw_hive": "Retirer HIVE",
+    "withdraw_hbd": "Retirer HBD",
     "transfer_to_savings": "Vers les économies",
     "convert": "Convertir",
     "escrow_transfer": "Escrow Transfer",
@@ -86,21 +86,21 @@
       "buy": "OBTENIR DES POINTS"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "Economiser HIVE"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "Economiser HBD"
     },
     "hive": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "buy": "OBTENIR HIVE"
     },
     "hbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "OBTENIR HBD"
     },
     "hive_power": {
-      "title": "HIVE POWER"
+      "title": "Puissance de HIVE"
     },
     "btc": {
       "title": "BTC",
@@ -110,7 +110,7 @@
   },
   "notification": {
     "vote": "voté",
-    "unvote": "downvoted",
+    "unvote": "sous-vote",
     "reply": "répondu à",
     "mention": "mentionné dans",
     "follow": "vous a suivi",
@@ -118,7 +118,7 @@
     "ignore": "vous a ignoré",
     "reblog": "reblogué",
     "transfer": "transféré",
-    "delegations": "delegated",
+    "delegations": "délégué",
     "spin": "C'est l'heure de gagner plus de points",
     "inactive": "Soyez actif ! Écrivez un post, continuez à obtenir des gains",
     "referral": "à rejoint avec votre parrainage, acceuillez-le",
@@ -129,7 +129,7 @@
     "recent": "Récent",
     "yesterday": "Hier",
     "this_week": "Cette semaine",
-    "last_week": "Last Week",
+    "last_week": "La semaine dernière",
     "this_month": "Ce mois",
     "older_then": "Vieux de plus de 1 mois",
     "activities": "Toutes",
@@ -137,15 +137,15 @@
     "mentions": "Mentions",
     "reblogs": "Reblogs",
     "noactivity": "Aucune activité récente",
-    "mention_on": "New mention on",
-    "reply_on": "New reply on",
-    "reply_body": "Tap to continue conversation..."
+    "mention_on": "Nouvelle mention sur",
+    "reply_on": "Nouvelle réponse sur",
+    "reply_body": "Appuyez pour continuer la conversation..."
   },
   "leaderboard": {
     "daily": "QUOTIDIEN",
     "weekly": "HEBDOMADAIRE",
     "monthly": "MENSUEL",
-    "tooltip_earn": "Earn points by actively participating in Ecency."
+    "tooltip_earn": "Gagnez des points en participant activement dans Ecency."
   },
   "messages": {
     "comingsoon": "La fonctionnalité Messages arrive bientôt !"
@@ -153,7 +153,7 @@
   "profile": {
     "following": "Abonnements",
     "follower": "Abonnés",
-    "edit_label": "Edit",
+    "edit_label": "Modifier",
     "post": "Post",
     "details": "Détails du profil",
     "comments": "Commentaires",
@@ -165,20 +165,20 @@
     "hours": "heures",
     "voting_power": "Puissance de vote",
     "login_to_see": "Connectez-vous pour voir",
-    "follow_people": "When you follow people, you'll see their post here.",
-    "follow_communities": "When you join communities you'll see posts from communities here.",
+    "follow_people": "Quand tu t'abonnes à a des personnes,tu les verras ici.",
+    "follow_communities": "Quand vous rejoignez une communautés, vous verrez des messages des communautés ici.",
     "havent_commented": "n'a encore rien commenté",
     "havent_posted": "n'a encore rien posté",
-    "hive_power": "Hive Power",
+    "hive_power": "Puissance HIVE",
     "next_power_text": "Prochaine diminution d'influence dans",
     "days": "jours",
     "day": "jour",
     "hive_dollars": "Hive Dollars",
     "savings": "Économies",
     "joined": "Joined {time} ago",
-    "view_full": "VIEW FULL PROFILE",
-    "resource_credits": "Resource Credits",
-    "reputation": "Reputation",
+    "view_full": "VOIR LE PROFIL COMPLET",
+    "resource_credits": "Crédits de ressource",
+    "reputation": "Réputation",
     "edit": {
       "display_name": "Nom d'affichage",
       "about": "À propos",
@@ -201,7 +201,7 @@
       "mention": "Mention",
       "reblog": "Reblog",
       "transfers": "Transferts",
-      "delegations": "Delegations"
+      "delegations": "Délégations"
     },
     "pincode": "Pincode",
     "reset_pin": "Réinitialisez le Code Pin",
@@ -253,10 +253,10 @@
     "new": "Nouveau",
     "blog": "Blog",
     "posts": "Post",
-    "friends": "Friends",
-    "communities": "Communities",
-    "popup_postfix": "Posted",
-    "scroll_top": "Scroll To Top"
+    "friends": "Amis",
+    "communities": "Communautés",
+    "popup_postfix": "Publié",
+    "scroll_top": "Défiler vers le haut de la page"
   },
   "side_menu": {
     "profile": "Profil",
@@ -266,15 +266,15 @@
     "schedules": "Planifications",
     "gallery": "Gallerie",
     "settings": "Réglages",
-    "communities": "Communities",
+    "communities": "Communautés",
     "add_account": "Ajouter un compte",
     "logout": "Déconnexion",
     "cancel": "Annuler",
     "logout_text": "Voulez-vous vraiment vous déconnecter?",
-    "create_a_new_account": "Create a new account",
-    "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts",
-    "refer": "Refer & Earn"
+    "create_a_new_account": "Créer un nouveau compte",
+    "add_an_existing_account": "Ajouter à un compte existant",
+    "accounts": "Comptes",
+    "refer": "Recommandez Et Gagnez"
   },
   "header": {
     "title": "Connectez-vous pour personnaliser votre flux",
@@ -285,7 +285,7 @@
     "search": "Rechercher",
     "update": "Mettre à jour",
     "reply": "Répondre",
-    "schedule": "Schedule"
+    "schedule": "Planifier"
   },
   "editor": {
     "title": "Titre",
@@ -296,7 +296,7 @@
     "reply": "Répondre",
     "open_gallery": "Ouvrir la galerie",
     "capture_photo": "Prendre une photo",
-    "uploaded_images": "Uploaded Images",
+    "uploaded_images": "Images téléchargées",
     "limited_tags": "Seulement 10 mots-clés autorisés, supprimez-en",
     "limited_length": "La longueur maximale de chaque mot-clé doit être de 24",
     "limited_dash": "Utilisez un seul tiret pour chaque mot-clé",
@@ -307,15 +307,15 @@
     "limited_lastchar": "Le mot-clé doit se terminer par une lettre ou un chiffre",
     "setting_schedule": "Horaire de planification",
     "setting_reward": "Récompense",
-    "setting_reblog": "Reblog",
+    "setting_reblog": "Rebloguer",
     "setting_beneficiary": "Bénéficiaire",
-    "setting_thumb": "Set Thumbnail",
+    "setting_thumb": "Définir une miniature",
     "reward_default": "Par défaut 50% / 50%",
-    "reward_power_up": "Power Up 100%",
+    "reward_power_up": "Montez en puissance de 100 %",
     "reward_decline": "Refuser le paiement",
     "beneficiaries": "Bénéficiaires",
     "options": "Options",
-    "my_blog": "My Blog",
+    "my_blog": "Mon Blog",
     "select_community": "Choose a community",
     "my_communities": "My Communities",
     "top_communities": "Top Communities",
@@ -361,22 +361,22 @@
     "btn_cancel": "Cancel"
   },
   "uploads_modal": {
-    "label_no_images": "No Images Found",
-    "title": "Uploaded Images",
-    "title_remove_confirmation": "Delete image",
+    "label_no_images": "Pas d'images trouvées",
+    "title": "Images téléchargées",
+    "title_remove_confirmation": "Supprimer l’image",
     "btn_add": "Image",
-    "btn_insert": "INSERT",
-    "btn_delete": "DELETE",
-    "message_failed": "Failed to upload image"
+    "btn_insert": "Insérer",
+    "btn_delete": "SUPPRIMER",
+    "message_failed": "Échec du chargement de l’image"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
     "set_new": "Set new pin",
     "write_again": "Écrire à nouveau",
     "forgot_text": "Ha, je l'ai oublié ...",
-    "pin_not_matched": "PIN do not match, Please try again.",
-    "attempts_postfix": "failed attempt(s)",
-    "message_reset_warning": "User data will be wiped on next failed attempt"
+    "pin_not_matched": "Les codes PIN ne correspondent pas. Veuillez réessayer.",
+    "attempts_postfix": "Tentatives échouées",
+    "message_reset_warning": "Les données de l'utilisateur seront effacées lors de la prochaine tentative échouée"
   },
   "alert": {
     "success": "Succés!",
@@ -396,21 +396,21 @@
     "success_favorite": "Favori ajouté !",
     "success_unfavorite": "Favori supprimé !",
     "success_follow": "Suivi avec succès !",
-    "fail_follow": "Follow failed!",
-    "success_subscribe": "Subscribe success!",
-    "fail_subscribe": "Subscribe failed!",
-    "success_leave": "Leave success!",
-    "fail_leave": "Leave failed!",
+    "fail_follow": "Echec de l'abonement!",
+    "success_subscribe": "Abonnement réussi !",
+    "fail_subscribe": "Échec de l'abonnement !",
+    "success_leave": "Quitter avec succès!",
+    "fail_leave": "Échec de la sortie!",
     "success_mute": "Rendu muet avec succès !",
     "success_unmute": "Rendu non muet avec succès !",
     "success_unfollow": "Désabonné avec succès !",
-    "fail_unfollow": "Unfollow failed!",
+    "fail_unfollow": "Echec du désabonement",
     "warning": "Attention",
     "invalid_pincode": "Invalid pin code, please check and try again.",
     "remove_alert": "Êtes-vous sûr de vouloir retirer ?",
     "clear_alert": "Êtes-vous sûr de vouloir effacer ?",
     "clear_user_alert": "Êtes-vous sûr de vouloir effacer toutes les données utilisateur ?",
-    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
+    "decrypt_fail_alert": "État de l'application corrompu, veuillez vous reconnecter pour réinitialiser l'état.",
     "clear": "Effacer",
     "cancel": "Annuler",
     "delete": "Supprimer",
@@ -432,12 +432,12 @@
     "payloadTooLarge": "La taille du fichier est trop grande, veuillez redimensionner ou télécharger une image plus petite",
     "qoutaExceeded": "Limite d'envoi dépassée",
     "invalidImage": "Image invalide, essayez un autre fichier",
-    "something_wrong": "Something went wrong",
-    "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
-    "something_wrong_reload": "Try again?",
-    "can_not_be_empty": "Title and body can not be empty!",
-    "wrong_filter_count": "Please select 3 filters",
-    "update_available_title": "Update available v{version}",
+    "something_wrong": "Un problème est survenu",
+    "something_wrong_alt": "Pendant ce temps, essayez Ecency.com depuis votre navigateur",
+    "something_wrong_reload": "Réessayer ?",
+    "can_not_be_empty": "Le titre et le corps ne peuvent pas être vides!",
+    "wrong_filter_count": "Veuillez sélectionner 3 filtres",
+    "update_available_title": "Mise à jour possible ({version})",
     "update_available_body": "Using latest version of Ecency gives you the best experience",
     "update": "Update Now",
     "remind_later": "Remind Later",
@@ -578,7 +578,7 @@
     "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
     "address_view": "Voir l'adresse",
     "already_delegated": "Already delegated to ",
-    "remain_hp": "Remaining HP",
+    "remain_hp": "HivePower restant",
     "account_detail_head": "Account Details",
     "account_detail_subhead": "Enter username for HIVE Power delegation",
     "delegat_detail_head": "Delegation Details",
