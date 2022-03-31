@@ -1,5 +1,5 @@
 import React, { useState, useRef, forwardRef } from 'react';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import { FormattedDate, useIntl } from 'react-intl';
@@ -28,16 +28,19 @@ const DateTimePickerView = React.forwardRef(({ type, iconName, disabled, onChang
   };
 
   return (
-    <DatePicker
-      textColor={styles.datePickerText.color}
-      date={date}
-      onDateChange={_setDate}
-      style={styles.picker}
-      minimumDate={new Date()}
-      androidVariant="iosClone"
-      is24hourSource="device"
-      locale={getLocale()}
-    />
+    <View style={styles.container}>
+      <DatePicker
+        textColor={styles.datePickerText.color}
+        date={date}
+        onDateChange={_setDate}
+        style={styles.picker}
+        minimumDate={new Date()}
+        androidVariant="iosClone"
+        is24hourSource="device"
+        locale={getLocale()}
+        mode={type}
+      />
+    </View>
   );
 });
 
