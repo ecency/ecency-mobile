@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 
 // Components
-import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker';
 import { BasicHeader, PostDisplay, PostDropdown } from '../../../components';
 
 const PostScreen = ({
@@ -15,15 +14,6 @@ const PostScreen = ({
   isPostUnavailable,
   author,
 }) => {
-  useEffect(() => {
-    return () => Orientation.lockToPortrait();
-  }, []);
-
-  useDeviceOrientationChange((orientation) => {
-    if (orientation === 'LANDSCAPE-RIGHT' || orientation === 'LANDSCAPE-LEFT') {
-      Orientation.unlockAllOrientations();
-    }
-  });
   return (
     <Fragment>
       <BasicHeader

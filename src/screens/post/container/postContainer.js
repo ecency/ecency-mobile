@@ -5,6 +5,7 @@ import get from 'lodash/get';
 
 // Services and Actions
 import Matomo from 'react-native-matomo-sdk';
+import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker';
 import { getPost } from '../../../providers/hive/dhive';
 // import { matomo } from '../../../providers/ecency/analytics';
 
@@ -22,8 +23,22 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
   const [isNewPost, setIsNewPost] = useState(false);
   const [isPostUnavailable, setIsPostUnavailable] = useState(false);
   const [parentPost, setParentPost] = useState(null);
+  const [deviceOrientation, setDeviceOrientation] = useState('PORTRAIT');
 
   let author;
+
+  useEffect(() => {
+    _getInitialOrientation();
+    return () => Orientation.lockToPortrait();
+  }, []);
+
+  useEffect(() => {
+    if (deviceOrientation === 'LANDSCAPE-RIGHT' || deviceOrientation === 'LANDSCAPE-LEFT') {
+      Orientation.unlockAllOrientations();
+    } else {
+      Orientation.lockToPortrait();
+    }
+  }, [deviceOrientation]);
 
   useEffect(() => {
     const { content, permlink, author: _author, isNewPost: _isNewPost } = get(
@@ -60,6 +75,15 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
   }, []);
 
   // Component Functions
+  useDeviceOrientationChange((orientation) => {
+    setDeviceOrientation(orientation);
+  });
+
+  const _getInitialOrientation = () => {
+    Orientation.getDeviceOrientation((deviceOrientation) => {
+      setDeviceOrientation(deviceOrientation);
+    });
+  };
 
   const _loadPost = async (__author = null, permlink = null, isParentPost = false) => {
     const _author = __author || get(post, 'author');
