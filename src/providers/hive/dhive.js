@@ -174,38 +174,82 @@ export const fetchGlobalProps = async () => {
 };
 
 /**
- * @method getAccount get account data
- * @param user username
+ * fetches all tranding orders that are not full-filled yet
+ * @param {string} username
+ * @returns {Promise<OpenOrderItem[]>} array of openorders both hive and hbd
  */
-export const getAccount = (user) =>
-  new Promise((resolve, reject) => {
-    try {
-      const account = client.database.getAccounts([user]);
-      resolve(account);
-    } catch (error) {
-      reject(error);
+export const getOpenOrders = async (username) => {
+  try {
+    const rawData = await client.call('condenser_api', 'get_open_orders', [username]);
+    if (!rawData || !rawData.length) {
+      return [];
     }
+    return rawData;
+  } catch (err) {
+    console.warn('Failed to get open orders', err);
+    return [];
+  }
+};
+
+/**
+ * fetchs all pending converstion requests that are yet to be fullfilled
+ * @param {string} account
+ * @returns {Promise<ConversionRequest[]>}  array of conversion requests
+ */
+export const getConversionRequests = async (username) => {
+  try {
+    const rawData = await client.database.call('get_conversion_requests', [username]);
+    if (!rawData || !rawData.length) {
+      return [];
+    }
+    return rawData;
+  } catch (err) {
+    console.warn('Failed to get open orders', err);
+    return [];
+  }
+};
+
+/**
+ * fetchs all pending converstion requests that are yet to be fullfilled
+ * @param {string} account
+ * @returns {Promise<SavingsWithdrawRequest[]>}  array of requested savings withdraw
+ */
+
+export const getSavingsWithdrawFrom = async (username) => {
+  try {
+    const rawData = await client.database.call('get_savings_withdraw_from', [username]);
+    if (!rawData || !rawData.length) {
+      return [];
+    }
+    return rawData;
+  } catch (err) {
+    console.warn('Failed to get open orders', err);
+    return [];
+  }
+};
+
+/**
+ * @method getAccount fetch raw account data without post processings
+ * @param username username
+ */
+export const getAccount = (username) =>
+  new Promise((resolve, reject) => {
+    client.database
+      .getAccounts([username])
+      .then((response) => {
+        if (response.length) {
+          resolve(response[0]);
+        }
+        throw new Error('Account not found, ' + JSON.stringify(response));
+      })
+      .catch((error) => {
+        reject(error);
+      });
   });
 
-export const getAccountHistory = (user, type_token) =>
+export const getAccountHistory = (user, operations) =>
   new Promise((resolve, reject) => {
-    const op = utils.operationOrders;
-    let wallet_operations_bitmask = utils.makeBitMaskFilter([
-      op.transfer, //HIVE
-      op.author_reward, //HBD, HP
-      op.curation_reward, //HP
-      op.transfer_to_vesting, //HIVE, HP
-      op.withdraw_vesting, //HIVE, HP
-      op.interest, //HP
-      op.transfer_to_savings, //HIVE, HBD
-      op.transfer_from_savings, //HIVE, HBD
-      op.fill_convert_request, //HBD
-      op.fill_order, //HIVE, HBD
-      op.claim_reward_balance, //HP
-      op.sps_fund, //HBD
-      op.comment_benefactor_reward, //HP
-      op.return_vesting_delegation, //HP
-    ]);
+    let wallet_operations_bitmask = utils.makeBitMaskFilter(operations);
     try {
       const ah = client.call('condenser_api', 'get_account_history', [
         user,

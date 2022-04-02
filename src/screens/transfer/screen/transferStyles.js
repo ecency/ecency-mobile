@@ -43,9 +43,10 @@ export default EStyleSheet.create({
     borderWidth: 1,
     borderColor: '$borderColor',
     borderRadius: 8,
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
     color: '$primaryBlack',
-    width: 172,
+    // width: 172,
+    flex: 1,
     minHeight: 35,
   },
   amountInput: {
@@ -67,7 +68,7 @@ export default EStyleSheet.create({
     borderRadius: 8,
     padding: 10,
     color: '$primaryBlack',
-    width: 172,
+    flex: 1,
     height: 75,
   },
   description: {
@@ -102,7 +103,7 @@ export default EStyleSheet.create({
   },
   dropdownText: {
     fontSize: 14,
-    paddingLeft: 16,
+    paddingLeft: 12,
     paddingHorizontal: 14,
     color: '$primaryDarkGray',
   },
@@ -118,7 +119,6 @@ export default EStyleSheet.create({
     height: 44,
     width: '100%',
     borderRadius: 8,
-    marginHorizontal: 2,
   },
   dropdown: {
     flexGrow: 1,

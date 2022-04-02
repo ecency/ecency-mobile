@@ -17,6 +17,7 @@ export default {
   $primaryDarkGray: '#788187',
   $primaryLightGray: '#f6f6f6',
   $primaryRed: '#e63535',
+  $primaryGreen: '#4FD688',
   $companyRed: '#c10000',
   $primaryBlack: '#3c4449',
   $primaryDarkText: '#788187',
@@ -41,6 +42,9 @@ export default {
   $tableBorderColor: '#FFFFFF',
   $noConnectionColor: '#788187',
   $borderedButtonBlue: '#357ce6',
+
+  $chartBlue: '#357CE6',
+  $chartText: '#357ce6',
 
   // Devices Sizes
   $deviceHeight:

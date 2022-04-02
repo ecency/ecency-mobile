@@ -232,3 +232,5 @@ export const createPatch = (text1, text2) => {
 
   return patch;
 };
+
+export const delay = ms => new Promise(res => setTimeout(res, ms));

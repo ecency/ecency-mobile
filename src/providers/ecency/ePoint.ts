@@ -2,6 +2,7 @@ import { Alert } from 'react-native';
 import ePointApi from '../../config/api';
 import ecencyApi from '../../config/ecencyApi';
 import bugsnagInstance from '../../config/bugsnag';
+import { EcencyUser, UserPoint } from './ecency.types';
 
 
 /**
@@ -32,7 +33,7 @@ export const userActivity = async (ty:number, tx:string = '', bl:string|number =
 }
 
 
-export const getUser = (username) =>
+export const getUser = (username:string):Promise<EcencyUser> =>
   new Promise((resolve) => {
     ePointApi
       .get(`/users/${username}`)
@@ -44,7 +45,7 @@ export const getUser = (username) =>
       });
   });
 
-export const getUserPoints = (username) => 
+export const getUserPoints = (username:string):Promise<UserPoint[]> => 
   new Promise((resolve) => {
     ePointApi
       .get(`/users/${username}/points`)
@@ -62,7 +63,8 @@ export const claimPoints = async () => {
     return response.data;
   }catch(error){
     console.warn("Failed to calim points", error);
-    bugsnagInstance.notify(error)
+    bugsnagInstance.notify(error);
+    throw new Error(error.response?.data?.message || error.message)
   }
 }
 

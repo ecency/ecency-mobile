@@ -68,8 +68,8 @@
     "next": "SIGUIENTE",
     "delegate": "Delegar",
     "power_down": "Power down",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HBD",
+    "withdraw_hive": "Retirar HIVE",
+    "withdraw_hbd": "Retirar HBD",
     "transfer_to_savings": "A ahorros",
     "convert": "Convertir",
     "escrow_transfer": "Transferencia de fideicomiso",
@@ -178,7 +178,7 @@
     "joined": "Joined {time} ago",
     "view_full": "VIEW FULL PROFILE",
     "resource_credits": "Resource Credits",
-    "reputation": "Reputation",
+    "reputation": "Reputación",
     "edit": {
       "display_name": "Nombre para mostrar",
       "about": "Acerca de",
@@ -342,7 +342,7 @@
     "done": "DONE",
     "draft_save_title": "Saving Draft",
     "draft_update": "Update current draft",
-    "draft_save_new": "Save as new draft"
+    "draft_save_new": "Guardar como borrador"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",

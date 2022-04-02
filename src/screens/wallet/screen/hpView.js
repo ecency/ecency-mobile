@@ -60,7 +60,7 @@ const HpView = ({ handleOnSelected, index, currentIndex, refreshing: reload }) =
                   value: <FormattedCurrency isApproximate isToken value={estimatedHpValue} />,
                 },
                 {
-                  textKey: 'estimated_amount',
+                  textKey: 'vote_value',
                   value: <FormattedCurrency isApproximate value={estimatedAmount} />,
                 },
               ]}

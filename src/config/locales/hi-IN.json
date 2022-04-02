@@ -118,7 +118,7 @@
     "ignore": "आपको अनदेखा किया",
     "reblog": "रीब्लॉग हुवा",
     "transfer": "स्थान्तरण",
-    "delegations": "delegated",
+    "delegations": "डेलीगेटेड",
     "spin": "अधिक अंक अर्जित करने का समय",
     "inactive": "सक्रिय हों! एक पोस्ट लिखो, कमाई जारी रखो",
     "referral": "अपने रेफरल के साथ शामिल हुए, उनका स्वागत करें",
@@ -201,7 +201,7 @@
       "mention": "उल्लेख",
       "reblog": "पुनर्प्रेशण",
       "transfers": "स्थानांतरण",
-      "delegations": "Delegations"
+      "delegations": "डेलीगेशन्स"
     },
     "pincode": "Pincode",
     "reset_pin": "पिन कोड रीसेट करें",
@@ -365,8 +365,8 @@
     "title": "छवियाँ अपलोड की गईं",
     "title_remove_confirmation": "छवि हटाएं",
     "btn_add": "छवि",
-    "btn_insert": "INSERT",
-    "btn_delete": "DELETE",
+    "btn_insert": "सम्मिलित करें",
+    "btn_delete": "हटाएँ",
     "message_failed": "छवि अपलोड करने में विफल"
   },
   "pincode": {
@@ -444,7 +444,7 @@
     "failed_to_open": "लिंक खोलने में विफल",
     "restart_ecency": "इसेंसी फिर से शुरू करें?",
     "restart_ecency_desc": "परिवर्तनों को लागू करने के लिए पुनः आरंभ करने की आवश्यकता होगी।",
-    "invalid_response": "Could not process request, Try again later."
+    "invalid_response": "अनुरोध संसाधित नहीं किया जा सका, बाद में पुन: प्रयास करें।"
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
@@ -577,19 +577,19 @@
     "stop": "रुको",
     "sc_power_down_error": "यह सुविधा अभी तक Hivesigner लॉगिन के लिए लागू नहीं की गई है",
     "address_view": "पता देखें",
-    "already_delegated": "Already delegated to ",
-    "remain_hp": "Remaining HP",
-    "account_detail_head": "Account Details",
-    "account_detail_subhead": "Enter username for HIVE Power delegation",
-    "delegat_detail_head": "Delegation Details",
-    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
-    "new_amount": "New Amount",
-    "review": "REVIEW",
-    "confirm": "Confirm Delegation",
-    "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
-    "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
-    "username_alert": "Username Error!",
-    "username_alert_detail": "Please select different username"
+    "already_delegated": "को पहले ही डेलीगेटेड किया जा चुका है ",
+    "remain_hp": "शेष एचपी",
+    "account_detail_head": "अकाउंट विवरण",
+    "account_detail_subhead": "हाइव पावर डेलीगेटेड के लिए उपयोगकर्ता नाम दर्ज करें",
+    "delegat_detail_head": "डेलीगेशन विवरण",
+    "delegat_detail_subhead": "नया माउंट पहले से ही डेलीगेशन हाइव पावर को अधिलेखित कर देता है ",
+    "new_amount": "नई राशि",
+    "review": "समीक्षा",
+    "confirm": "डेलीगेशन की पुष्टि करें",
+    "confirm_summary": "डेलिगेट {hp} HP ({vests} VESTS) से @{delegator} को @{delegatee} ",
+    "confirm_summary_para": "यह इस उपयोगकर्ता को आपके {prev} HP के पिछले डेलीगेशन को अधिलेखित कर देगा।",
+    "username_alert": "उपयोगकर्ता नाम त्रुटि!",
+    "username_alert_detail": "कृपया भिन्न उपयोगकर्ता नाम चुनें"
   },
   "boost": {
     "title": "अंक प्राप्त करें",
@@ -727,22 +727,22 @@
     "year": "वर्षों"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
-    "comment": "Comment",
-    "reply": "REPLY",
-    "close": "CLOSE"
+    "placeholder": "एक टिप्पणी जोड़े",
+    "comment": "टिप्पणी",
+    "reply": "जवाब",
+    "close": "बंद करे"
   },
   "walkthrough": {
-    "load_draft_tooltip": "Load your lastest draft here"
+    "load_draft_tooltip": "अपना नवीनतम ड्राफ्ट यहां लोड करें"
   },
   "refer": {
-    "refer_earn": "Refer & Earn",
-    "refer": "Refer",
-    "rewarded": "Referral points rewarded",
-    "not_rewarded": "Referral reward pending",
-    "delegate_hp": "Delegate HP",
-    "earned": "Earned Points",
-    "pending": "Pending Points",
-    "empty_text": "Refer your loved ones today and earn free points"
+    "refer_earn": "रेफर करें और कमाएं",
+    "refer": "रेफर",
+    "rewarded": "रेफरल अंक पुरस्कृत",
+    "not_rewarded": "रेफ़रल इनाम लंबित",
+    "delegate_hp": "डेलिगेट एचपी",
+    "earned": "अर्जित अंक",
+    "pending": "अर्जित अंक",
+    "empty_text": "आज ही अपने प्रियजनों को देखें और निःशुल्क अंक अर्जित करें"
   }
 }

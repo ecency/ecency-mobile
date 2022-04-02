@@ -69,7 +69,7 @@ import { HorizontalIconList } from './horizontalIconList/horizontalIconListView'
 import { PopoverWrapper } from './popoverWrapper/popoverWrapperView';
 import CommunitiesList from './communitiesList';
 import SubscribedCommunitiesList from './subscribedCommunitiesList';
-
+import { InsertLinkModal } from './insertLinkModal/insertLinkModal';
 // View
 import { Comment } from './comment';
 import { Comments } from './comments';
@@ -96,6 +96,7 @@ import QuickReplyModal from './quickReplyModal/quickReplyModalView';
 import Tooltip from './tooltip/tooltipView';
 import VideoPlayer from './videoPlayer/videoPlayerView';
 import QRModal from './qrModal/qrModalView';
+import { SimpleChart } from './simpleChart';
 
 // Basic UI Elements
 import {
@@ -239,5 +240,7 @@ export {
   QuickReplyModal,
   Tooltip,
   VideoPlayer,
+  InsertLinkModal,
   QRModal,
+  SimpleChart,
 };

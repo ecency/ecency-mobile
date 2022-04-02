@@ -118,7 +118,7 @@
     "ignore": "игнорирует",
     "reblog": "сделал репост",
     "transfer": "переведено",
-    "delegations": "delegated",
+    "delegations": "делегировано",
     "spin": "Пора заработать больше Баллов",
     "inactive": "Будьте активны! Напишите пост, продолжайте зарабатывать",
     "referral": "присоединился по вашей ссылке. Поприветствуйте его",
@@ -201,7 +201,7 @@
       "mention": "Упоминания",
       "reblog": "Репосты",
       "transfers": "Переводы",
-      "delegations": "Delegations"
+      "delegations": "Делегации"
     },
     "pincode": "Пинкод",
     "reset_pin": "Сбросить пин-код",
@@ -365,8 +365,8 @@
     "title": "Загруженные изображения",
     "title_remove_confirmation": "Удалить изображение",
     "btn_add": "Изображение",
-    "btn_insert": "INSERT",
-    "btn_delete": "DELETE",
+    "btn_insert": "ВСТАВИТЬ",
+    "btn_delete": "УДАЛИТЬ",
     "message_failed": "Не удалось загрузить изображение"
   },
   "pincode": {
@@ -577,19 +577,19 @@
     "stop": "Остановить",
     "sc_power_down_error": "Эта функция еще не реализована для логина через Hivesigner",
     "address_view": "Посмотреть адрес",
-    "already_delegated": "Already delegated to ",
-    "remain_hp": "Remaining HP",
-    "account_detail_head": "Account Details",
-    "account_detail_subhead": "Enter username for HIVE Power delegation",
-    "delegat_detail_head": "Delegation Details",
-    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
-    "new_amount": "New Amount",
-    "review": "REVIEW",
-    "confirm": "Confirm Delegation",
-    "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
-    "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
-    "username_alert": "Username Error!",
-    "username_alert_detail": "Please select different username"
+    "already_delegated": "Уже делегировано ",
+    "remain_hp": "Осталось HP",
+    "account_detail_head": "Детали учетной записи",
+    "account_detail_subhead": "Введите имя пользователя для делегирования HIVE Power",
+    "delegat_detail_head": "Детали делегирования",
+    "delegat_detail_subhead": "Новая сумма перезаписывает уже делегированную силу ВИЧ ",
+    "new_amount": "Новая сумма",
+    "review": "ОБЗОР",
+    "confirm": "Подтвердите делегирование",
+    "confirm_summary": "Делегат {hp} HP ({vests} VESTS) в @{delegator} от @{delegatee} ",
+    "confirm_summary_para": "Это перезапишет вашу предыдущую передачу {prev} HP этому пользователю.",
+    "username_alert": "Ошибка в имени пользователя!",
+    "username_alert_detail": "Пожалуйста, выберите другое имя пользователя"
   },
   "boost": {
     "title": "Получить Баллы",
@@ -733,16 +733,16 @@
     "close": "CLOSE"
   },
   "walkthrough": {
-    "load_draft_tooltip": "Load your lastest draft here"
+    "load_draft_tooltip": "Загрузите последний черновик здесь"
   },
   "refer": {
-    "refer_earn": "Refer & Earn",
-    "refer": "Refer",
-    "rewarded": "Referral points rewarded",
-    "not_rewarded": "Referral reward pending",
-    "delegate_hp": "Delegate HP",
-    "earned": "Earned Points",
+    "refer_earn": "Расскажите и заработайте",
+    "refer": "Привлеките",
+    "rewarded": "Награда за привлечение",
+    "not_rewarded": "Выплата награды за привлечение",
+    "delegate_hp": "Делегировать HP",
+    "earned": "Заработанные баллы",
     "pending": "Pending Points",
-    "empty_text": "Refer your loved ones today and earn free points"
+    "empty_text": "Пригласите своих близких сегодня и зарабатывайте бесплатные баллы"
   }
 }
