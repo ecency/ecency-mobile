@@ -11,7 +11,8 @@ import {
   SET_AVATAR_CACHE_STAMP,
   SHOW_PROFILE_MODAL,
   HIDE_PROFILE_MODAL,
-  TOGGLE_QR_MODAL
+  TOGGLE_QR_MODAL,
+  SET_DEVICE_ORIENTATION
 } from '../constants/constants';
 
 export const updateActiveBottomTab = (payload:string) => ({
@@ -76,3 +77,9 @@ export const toggleQRModal = (payload:boolean) => ({
   payload,
   type: TOGGLE_QR_MODAL,
 });
+
+export const setDeviceOrientation = (payload:string) => ({
+  payload,
+  type: SET_DEVICE_ORIENTATION,
+});
+

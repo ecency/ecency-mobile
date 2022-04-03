@@ -10,7 +10,9 @@ import {
   SHOW_PROFILE_MODAL,
   HIDE_PROFILE_MODAL,
   TOGGLE_QR_MODAL,
+  SET_DEVICE_ORIENTATION,
 } from '../constants/constants';
+import { orientations } from '../constants/orientationsConstants';
 
 interface UiState {
   activeBottomTab:string;
@@ -23,6 +25,7 @@ interface UiState {
   avatarCacheStamp:number;
   profileModalUsername:string;
   isVisibleQRModal:boolean;
+  deviceOrientation: string;
 }
 
 const initialState:UiState = {
@@ -36,6 +39,7 @@ const initialState:UiState = {
   avatarCacheStamp: 0,
   profileModalUsername: '',
   isVisibleQRModal: false,
+  deviceOrientation: orientations.PORTRAIT
 };
 
 export default function (state = initialState, action) {
@@ -109,6 +113,11 @@ export default function (state = initialState, action) {
         ...state,
         isVisibleQRModal: action.payload,
       };
+    case SET_DEVICE_ORIENTATION:
+      return {
+        ...state,
+        deviceOrientation: action.payload,
+    };
     default:
       return state;
   }

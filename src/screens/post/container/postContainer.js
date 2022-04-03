@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import get from 'lodash/get';
 
@@ -23,12 +23,12 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
   const [isNewPost, setIsNewPost] = useState(false);
   const [isPostUnavailable, setIsPostUnavailable] = useState(false);
   const [parentPost, setParentPost] = useState(null);
-  const [deviceOrientation, setDeviceOrientation] = useState('PORTRAIT');
+
+  const deviceOrientation = useSelector((state) => state.ui.deviceOrientation);
 
   let author;
 
   useEffect(() => {
-    _getInitialOrientation();
     return () => Orientation.lockToPortrait();
   }, []);
 
@@ -75,15 +75,6 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
   }, []);
 
   // Component Functions
-  useDeviceOrientationChange((orientation) => {
-    setDeviceOrientation(orientation);
-  });
-
-  const _getInitialOrientation = () => {
-    Orientation.getDeviceOrientation((deviceOrientation) => {
-      setDeviceOrientation(deviceOrientation);
-    });
-  };
 
   const _loadPost = async (__author = null, permlink = null, isParentPost = false) => {
     const _author = __author || get(post, 'author');
@@ -137,6 +128,7 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
       parentPost={parentPost}
       post={post}
       isPostUnavailable={isPostUnavailable}
+      orientation={deviceOrientation}
     />
   );
 };

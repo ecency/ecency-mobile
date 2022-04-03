@@ -4,6 +4,8 @@ import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Providers
+import { useSelector } from 'react-redux';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { userActivity } from '../../../providers/ecency/ePoint';
 
 // Utils
@@ -20,8 +22,10 @@ import { ParentPost } from '../../parentPost';
 // Styles
 import styles from './postDisplayStyles';
 import { OptionsModal } from '../../atoms';
+import { orientations } from '../../../redux/constants/orientationsConstants';
 
 const HEIGHT = Dimensions.get('window').width;
+const WIDTH = Dimensions.get('window').width;
 
 const PostDisplayView = ({
   currentAccount,
@@ -42,6 +46,8 @@ const PostDisplayView = ({
   reblogs,
   activeVotesCount,
 }) => {
+  const insets = useSafeAreaInsets();
+
   const [postHeight, setPostHeight] = useState(0);
   const [scrollHeight, setScrollHeight] = useState(0);
   const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
@@ -50,8 +56,21 @@ const PostDisplayView = ({
   const [refreshing, setRefreshing] = useState(false);
   const [postBodyLoading, setPostBodyLoading] = useState(false);
   const [tags, setTags] = useState([]);
+  const [contentWidth, setContentWidth] = useState(WIDTH - 32);
+  const deviceOrientation = useSelector((state) => state.ui.deviceOrientation);
 
   // Component Life Cycles
+  useEffect(() => {
+    if (
+      deviceOrientation === orientations.LANDSCAPE_LEFT ||
+      deviceOrientation === orientations.LANDSCAPE_RIGHT
+    ) {
+      setContentWidth(Dimensions.get('window').height - 128);
+    } else {
+      setContentWidth(Dimensions.get('window').width - 32);
+    }
+  }, [deviceOrientation]);
+
   useEffect(() => {
     if (isLoggedIn && get(currentAccount, 'name') && !isNewPost) {
       userActivity(10);
@@ -98,7 +117,7 @@ const PostDisplayView = ({
 
   const _getTabBar = (isFixedFooter = false) => {
     return (
-      <SafeAreaView>
+      <SafeAreaView style={styles.tabBarSafeArea}>
         <StickyBar isFixedFooter={isFixedFooter}>
           <View style={styles.stickyWrapper}>
             <Upvote
@@ -203,7 +222,10 @@ const PostDisplayView = ({
     <View style={styles.container}>
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[
+          styles.scrollContent,
+          { paddingLeft: deviceOrientation === orientations.LANDSCAPE_LEFT ? insets.left : 0 },
+        ]}
         onScroll={(event) => _handleOnScroll(event)}
         scrollEventThrottle={16}
         overScrollMode="never"
@@ -226,7 +248,7 @@ const PostDisplayView = ({
                 inlineTime={true}
                 customStyle={styles.headerLine}
               />
-              <PostBody body={post.body} onLoadEnd={_handleOnPostBodyLoad} />
+              <PostBody width={contentWidth} body={post.body} onLoadEnd={_handleOnPostBodyLoad} />
               {!postBodyLoading && (
                 <View style={styles.footer}>
                   <Tags tags={tags} />

@@ -3,11 +3,14 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   container: {
-    backgroundColor: '$primaryBackgroundColor',
     flex: 1,
+    backgroundColor: 'transparent',
   },
   header: {
     marginHorizontal: 16,
+  },
+  tabBarSafeArea: {
+    backgroundColor: '$primaryBackgroundColor',
   },
   headerLine: {
     bottom: 10,
@@ -23,12 +26,12 @@ export default EStyleSheet.create({
     flexDirection: 'row',
   },
   scroll: {
-    height: '$deviceHeight',
+    // height: '$deviceHeight',
     backgroundColor: '$primaryBackgroundColor',
-    marginBottom: 40,
   },
   scrollContent: {
     minHeight: Dimensions.get('window').height,
+    paddingBottom: 50,
   },
   footer: {
     flexDirection: 'column',
