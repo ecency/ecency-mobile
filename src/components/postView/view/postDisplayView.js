@@ -224,55 +224,57 @@ const PostDisplayView = ({
         style={styles.scroll}
         contentContainerStyle={[
           styles.scrollContent,
-          { paddingLeft: deviceOrientation === orientations.LANDSCAPE_LEFT ? insets.left : 0 },
+          // { paddingLeft: deviceOrientation === orientations.LANDSCAPE_LEFT ? insets.left : 0 },
         ]}
         onScroll={(event) => _handleOnScroll(event)}
         scrollEventThrottle={16}
         overScrollMode="never"
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       >
-        {parentPost && <ParentPost post={parentPost} />}
+        <View style={{ width: WIDTH }}>
+          {parentPost && <ParentPost post={parentPost} />}
 
-        <View style={styles.header}>
-          {!post ? (
-            <PostPlaceHolder />
-          ) : (
-            <View onLayout={(event) => _handleOnPostLayout(event)}>
-              {!!post.title && <Text style={styles.title}>{post.title}</Text>}
-              <PostHeaderDescription
-                date={formatedTime}
-                name={author || post.author}
-                currentAccountUsername={name}
-                reputation={post.author_reputation}
-                size={40}
-                inlineTime={true}
-                customStyle={styles.headerLine}
-              />
-              <PostBody width={contentWidth} body={post.body} onLoadEnd={_handleOnPostBodyLoad} />
-              {!postBodyLoading && (
-                <View style={styles.footer}>
-                  <Tags tags={tags} />
-                  <Text style={styles.footerText}>
-                    Posted by
-                    <Text style={styles.footerName}>{` ${author || post.author} `}</Text>
-                    {formatedTime}
-                  </Text>
-                </View>
-              )}
-            </View>
+          <View style={styles.header}>
+            {!post ? (
+              <PostPlaceHolder />
+            ) : (
+              <View onLayout={(event) => _handleOnPostLayout(event)}>
+                {!!post.title && <Text style={styles.title}>{post.title}</Text>}
+                <PostHeaderDescription
+                  date={formatedTime}
+                  name={author || post.author}
+                  currentAccountUsername={name}
+                  reputation={post.author_reputation}
+                  size={40}
+                  inlineTime={true}
+                  customStyle={styles.headerLine}
+                />
+                <PostBody body={post.body} onLoadEnd={_handleOnPostBodyLoad} />
+                {!postBodyLoading && (
+                  <View style={styles.footer}>
+                    <Tags tags={tags} />
+                    <Text style={styles.footerText}>
+                      Posted by
+                      <Text style={styles.footerName}>{` ${author || post.author} `}</Text>
+                      {formatedTime}
+                    </Text>
+                  </View>
+                )}
+              </View>
+            )}
+          </View>
+          {post && !postBodyLoading && (isGetComment || isLoadedComments) && (
+            <CommentsDisplay
+              author={author || post.author}
+              mainAuthor={author || post.author}
+              permlink={post.permlink}
+              commentCount={post.children}
+              fetchPost={fetchPost}
+              handleOnVotersPress={handleOnVotersPress}
+              fetchedAt={post.post_fetched_at}
+            />
           )}
         </View>
-        {post && !postBodyLoading && (isGetComment || isLoadedComments) && (
-          <CommentsDisplay
-            author={author || post.author}
-            mainAuthor={author || post.author}
-            permlink={post.permlink}
-            commentCount={post.children}
-            fetchPost={fetchPost}
-            handleOnVotersPress={handleOnVotersPress}
-            fetchedAt={post.post_fetched_at}
-          />
-        )}
       </ScrollView>
       {post && _getTabBar(true)}
       <OptionsModal

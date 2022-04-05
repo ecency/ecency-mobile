@@ -349,7 +349,7 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
 };
 
 const areEqual = (prevProps, nextProps) => {
-  if (prevProps.body === nextProps.body && prevProps.width === nextProps.width) {
+  if (prevProps.body === nextProps.body) {
     return true;
   }
   return false;

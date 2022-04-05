@@ -318,5 +318,5 @@ export const PostHtmlRenderer = memo(
       />
     );
   },
-  (next, prev) => next.body === prev.body && next.contentWidth === prev.contentWidth,
+  (next, prev) => next.body === prev.body,
 );

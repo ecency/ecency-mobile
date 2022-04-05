@@ -32,6 +32,7 @@ export default EStyleSheet.create({
   scrollContent: {
     minHeight: Dimensions.get('window').height,
     paddingBottom: 50,
+    alignItems: 'center',
   },
   footer: {
     flexDirection: 'column',
