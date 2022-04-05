@@ -305,7 +305,7 @@ const fetchPendingRequests = async (username: string, coinSymbol: string): Promi
   const openOrderRequests = _rawOpenOrdres
     .filter(request => request.sell_price.base.includes(coinSymbol))
     .map((request) => {
-      const {base, quote} = request?.sell_price || {};
+      const { base, quote } = request?.sell_price || {};
       return ({
         iconType: "MaterialIcons",
         textKey: 'open_order',
@@ -313,7 +313,7 @@ const fetchPendingRequests = async (username: string, coinSymbol: string): Promi
         created: request.created,
         icon: 'reorder',
         value: base || '-- --',
-        details: base && quote ? `@ ${base} = ${quote}`:'',
+        details: base && quote ? `@ ${base} = ${quote}` : '',
       } as CoinActivity)
     })
 
@@ -610,8 +610,42 @@ export const fetchCoinsData = async ({
           ) : 0;
         const nextVestingSharesWithdrawalHive = isPoweringDown ? vestsToHp(nextVestingSharesWithdrawal, hivePerMVests) : 0;
 
-        //TODO: assess how we can make this value change live.
         const estimateVoteValueStr = '$ ' + getEstimatedAmount(userdata, globalProps);
+
+        //aaggregate extra data pairs
+        const extraDataPairs = [];
+
+        if (delegatedHP) {
+          extraDataPairs.push({
+            labelId: 'delegated_hive_power',
+            value: `- ${delegatedHP.toFixed(3)} HP`
+          })
+        }
+
+        if (receivedHP) {
+          extraDataPairs.push({
+            labelId: 'received_hive_power',
+            value: `+ ${receivedHP.toFixed(3)} HP`
+          })
+        }
+
+        if (nextVestingSharesWithdrawalHive) {
+          extraDataPairs.push({
+            labelId: 'powering_down_hive_power',
+            value: `- ${nextVestingSharesWithdrawalHive.toFixed(3)} HP`
+          })
+        }
+
+        extraDataPairs.concat([
+          {
+            labelId: 'total_hive_power',
+            value: `${(balance - delegatedHP + receivedHP - nextVestingSharesWithdrawalHive).toFixed(3)} HP`
+          }, {
+            labelId: 'vote_value',
+            value: estimateVoteValueStr
+          }
+        ])
+
 
         const ppHive = _prices[COIN_IDS.HIVE].price;
         coinData[coinBase.id] = {
@@ -622,16 +656,7 @@ export const fetchCoinsData = async ({
           currentPrice: ppHive,
           actions: HIVE_POWER_ACTIONS,
           extraDataPairs: [
-            {
-              labelId: 'delegated_hive_power',
-              value: `- ${delegatedHP.toFixed(3)} HP`
-            }, {
-              labelId: 'received_hive_power',
-              value: `+ ${receivedHP.toFixed(3)} HP`
-            }, {
-              labelId: 'powering_down_hive_power',
-              value: `- ${nextVestingSharesWithdrawalHive.toFixed(3)} HP`
-            }, {
+            ...extraDataPairs, {
               labelId: 'total_hive_power',
               value: `${(balance - delegatedHP + receivedHP - nextVestingSharesWithdrawalHive).toFixed(3)} HP`
             }, {

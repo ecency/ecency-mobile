@@ -1,12 +1,12 @@
-import { View, Text, Alert, AppState, AppStateStatus } from 'react-native'
+import { View, Alert, AppState, AppStateStatus } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import { BasicHeader, Transaction } from '../../../components'
+import { BasicHeader } from '../../../components'
 import { CoinSummary } from '../children'
 import styles from './screen.styles';
 import ActivitiesList from '../children/activitiesList'
 import { withNavigation } from 'react-navigation'
 import { useAppDispatch, useAppSelector } from '../../../hooks'
-import { CoinActivitiesCollection, CoinActivity, CoinData, QuoteItem } from '../../../redux/reducers/walletReducer';
+import { CoinActivitiesCollection, QuoteItem } from '../../../redux/reducers/walletReducer';
 import { fetchCoinActivities } from '../../../utils/wallet';
 import { fetchAndSetCoinsData, setCoinActivities } from '../../../redux/actions/walletActions';
 import { openPinCodeModal } from '../../../redux/actions/applicationActions';
@@ -16,19 +16,19 @@ import { COIN_IDS } from '../../../constants/defaultCoins';
 import { useIntl } from 'react-intl';
 
 export interface CoinDetailsScreenParams {
-  coinId:string;
+  coinId: string;
 }
 
 interface CoinDetailsScreenProps {
-  navigation:any
+  navigation: any
 }
 
-const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
+const CoinDetailsScreen = ({ navigation }: CoinDetailsScreenProps) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
   const coinId = navigation.getParam('coinId');
-  if(!coinId){
+  if (!coinId) {
     throw new Error("Coin symbol must be passed")
   }
 
@@ -36,20 +36,20 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
   const appState = useRef(AppState.currentState);
 
   //redux props
-  const currentAccount = useAppSelector(state=>state.account.currentAccount);
-  const globalProps = useAppSelector(state=>state.account.globalProps);
-  const selectedCoins = useAppSelector(state=>state.wallet.selectedCoins);
-  const coinData:CoinData = useAppSelector(state=>state.wallet.coinsData[coinId]);
-  const quote:QuoteItem = useAppSelector(state=>state.wallet.quotes[coinId]);
-  const coinActivities:CoinActivitiesCollection = useAppSelector(state=>state.wallet.coinsActivities[coinId]);
-  const isPinCodeOpen = useAppSelector(state=>state.application.isPinCodeOpen);
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const globalProps = useAppSelector(state => state.account.globalProps);
+  const selectedCoins = useAppSelector(state => state.wallet.selectedCoins);
+  const coinData: CoinData = useAppSelector(state => state.wallet.coinsData[coinId]);
+  const quote: QuoteItem = useAppSelector(state => state.wallet.quotes[coinId]);
+  const coinActivities: CoinActivitiesCollection = useAppSelector(state => state.wallet.coinsActivities[coinId]);
+  const isPinCodeOpen = useAppSelector(state => state.application.isPinCodeOpen);
 
   //state
-  const [symbol] = useState(selectedCoins.find((item)=>item.id===coinId).symbol);
+  const [symbol] = useState(selectedCoins.find((item) => item.id === coinId).symbol);
   const [refreshing, setRefreshing] = useState(false);
 
   //side-effects
-  useEffect(()=>{
+  useEffect(() => {
     _fetchDetails();
     AppState.addEventListener('change', _handleAppStateChange);
     return _cleanup;
@@ -61,7 +61,7 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
   }
 
 
-  const _handleAppStateChange = (nextAppState:AppStateStatus) => {
+  const _handleAppStateChange = (nextAppState: AppStateStatus) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
       console.log("updating coins activities on app resume", coinId)
       _fetchDetails();
@@ -72,8 +72,8 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
 
 
   const _fetchDetails = async (refresh = false) => {
-    
-    if(refresh){
+
+    if (refresh) {
       setRefreshing(refresh);
       dispatch(fetchAndSetCoinsData(refresh));
     }
@@ -84,31 +84,31 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
   }
 
 
-  if(!coinData){
+  if (!coinData) {
     Alert.alert("Invalid coin data");
     navigation.goBack();
   }
 
 
-  const _onActionPress = (transferType:string) => {
- 
+  const _onActionPress = (transferType: string) => {
+
     let navigateTo = ROUTES.SCREENS.TRANSFER
     let navigateParams = {};
 
-    if(coinId === COIN_IDS.ECENCY && transferType !== 'dropdown_transfer'){
-        navigateTo = ROUTES.SCREENS.REDEEM;
-        navigateParams = {
-          balance:coinData.balance,
-          redeemType:transferType === 'dropdown_promote'?'promote':'boost',
-        }
+    if (coinId === COIN_IDS.ECENCY && transferType !== 'dropdown_transfer') {
+      navigateTo = ROUTES.SCREENS.REDEEM;
+      navigateParams = {
+        balance: coinData.balance,
+        redeemType: transferType === 'dropdown_promote' ? 'promote' : 'boost',
+      }
     } else {
-        const balance = transferType === 'withdraw_hive' || transferType === 'withdraw_hbd'
-          ? coinData.savings : coinData.balance;
-        navigateParams = { 
-          transferType:coinId === COIN_IDS.ECENCY?'points':transferType, 
-          fundType:coinId === COIN_IDS.ECENCY?'ESTM':symbol, 
-          balance
-        };
+      const balance = transferType === 'withdraw_hive' || transferType === 'withdraw_hbd'
+        ? coinData.savings : coinData.balance;
+      navigateParams = {
+        transferType: coinId === COIN_IDS.ECENCY ? 'points' : transferType,
+        fundType: coinId === COIN_IDS.ECENCY ? 'ESTM' : symbol,
+        balance
+      };
     }
 
     if (isPinCodeOpen) {
@@ -124,7 +124,7 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
         params: navigateParams
       });
     }
-  } 
+  }
 
 
   const _onRefresh = () => {
@@ -133,26 +133,24 @@ const CoinDetailsScreen = ({navigation}:CoinDetailsScreenProps) => {
 
 
   const _renderHeaderComponent = (
-      <CoinSummary
-        id={coinId}
-        coinSymbol={symbol}
-        coinData={coinData}
-        percentChagne={quote.percentChange || 0}
-        onActionPress={_onActionPress} />
+    <CoinSummary
+      id={coinId}
+      coinSymbol={symbol}
+      coinData={coinData}
+      percentChagne={quote.percentChange || 0}
+      onActionPress={_onActionPress} />
   )
 
   return (
     <View style={styles.container}>
-      <BasicHeader title={intl.formatMessage({id:'wallet.coin_details'})} />
-      <ActivitiesList 
+      <BasicHeader title={intl.formatMessage({ id: 'wallet.coin_details' })} />
+      <ActivitiesList
         header={_renderHeaderComponent}
         completedActivities={coinActivities?.completed || []}
         pendingActivities={coinActivities?.pending || []}
-        refreshControlProps={{
-          refreshing,
-          onRefresh:_onRefresh
-        }}
-      />  
+        refreshing={refreshing}
+        onRefresh={_onRefresh}
+      />
     </View>
   )
 }

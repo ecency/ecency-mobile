@@ -1,8 +1,8 @@
 import React, { ComponentType, JSXElementConstructor, ReactElement } from 'react'
 import { useIntl } from 'react-intl';
-import { SectionList, Text } from 'react-native';
+import { SectionList, Text, RefreshControl, ActivityIndicator } from 'react-native';
 import { Transaction } from '../../../components';
-import { RefreshControl, RefreshControlProps } from '../../../components/atoms';
+import { useAppSelector } from '../../../hooks';
 import { CoinActivity } from '../../../redux/reducers/walletReducer';
 import styles from './children.styles';
 
@@ -10,11 +10,15 @@ interface ActivitiesListProps {
   header: ComponentType<any> | ReactElement<any, string | JSXElementConstructor<any>>
   pendingActivities: CoinActivity[];
   completedActivities: CoinActivity[];
-  refreshControlProps:RefreshControlProps
+  refreshing: boolean;
+  onRefresh: () => void;
 }
 
-const ActivitiesList = ({ header, completedActivities, pendingActivities, refreshControlProps }: ActivitiesListProps) => {
+
+const ActivitiesList = ({ header, completedActivities, pendingActivities, refreshing, onRefresh }: ActivitiesListProps) => {
   const intl = useIntl();
+
+  const isDarkTheme = useAppSelector(state => state.ui.isDarkTheme);
 
   const _renderActivityItem = ({ item, index }) => {
     return <Transaction item={item} index={index} />
@@ -24,17 +28,28 @@ const ActivitiesList = ({ header, completedActivities, pendingActivities, refres
 
   if (pendingActivities && pendingActivities.length) {
     sections.push({
-      title: intl.formatMessage({id:'wallet.pending_requests'}),
+      title: intl.formatMessage({ id: 'wallet.pending_requests' }),
       data: pendingActivities
     })
   }
 
 
   sections.push({
-    title: intl.formatMessage({id:'wallet.activities'}),
+    title: intl.formatMessage({ id: 'wallet.activities' }),
     data: completedActivities || []
   })
 
+
+  const _refreshControl = (
+    <RefreshControl
+      refreshing={refreshing}
+      onRefresh={onRefresh}
+      progressBackgroundColor="#357CE6"
+      tintColor={isDarkTheme ? '#357ce6' : '#96c0ff'}
+      titleColor="#fff"
+      colors={['#fff']}
+    />
+  )
 
 
   return (
@@ -48,9 +63,11 @@ const ActivitiesList = ({ header, completedActivities, pendingActivities, refres
         <Text style={styles.textActivities}>{title}</Text>
       )}
       ListHeaderComponent={header}
-      refreshControl={<RefreshControl {...refreshControlProps}/>}
+      refreshControl={_refreshControl}
     />
   )
 }
 
 export default ActivitiesList
+
+
