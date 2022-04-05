@@ -16,7 +16,7 @@ export const CoinChart = ({coinId}:CoinChartProps) => {
   const priceHistory = useAppSelector(state=>state.wallet.priceHistories[coinId]);
 
   const [range, setRange] = useState(1);
-  const [chartData, setChartData] = useState(priceHistory.data);
+  const [chartData, setChartData] = useState(priceHistory?.data);
 
   const _fetchMarketData = async (days:number) => {
     const marketData = await fetchMarketChart(coinId, 'usd', days, 'hourly') 
@@ -34,7 +34,7 @@ export const CoinChart = ({coinId}:CoinChartProps) => {
         return (
           <View style={styles.chartContainer}>
             <SimpleChart 
-                data={chartData}
+                data={chartData || []}
                 baseWidth={_baseWidth} // from react-native
                 chartHeight={200}
                 showLine={true}
