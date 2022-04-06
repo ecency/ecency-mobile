@@ -51,6 +51,7 @@ export default EStyleSheet.create({
       alignSelf: 'flex-end',
       justifyContent: 'center',
     },
+    doneButton:{borderRadius:16, backgroundColor:'$primaryBlue'},
     thumbSelectContainer:{
       marginTop:12,
     }

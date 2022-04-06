@@ -209,9 +209,10 @@ const BeneficiarySelectionContent = ({ draftId, setDisableDone }) => {
             <IconButton 
                 name="check"
                 iconType="MaterialCommunityIcons"
-                color={EStyleSheet.value('$primaryBlack')}
+                color={EStyleSheet.value('$white')}
+                iconStyle={{marginTop:2}}
                 size={24}
-                iconStyle={{paddingLeft:8}}
+                style={styles.doneButton}
                 onPress={_onSavePress}
             />
         ) : <View style={{width:28}}/>}
