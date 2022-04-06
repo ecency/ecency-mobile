@@ -17,6 +17,7 @@ import { Icon } from '../../icon';
 // Utils
 import Formats from './formats/formats';
 import applyMediaLink from './formats/applyMediaLink';
+import applyWebLinkFormat from './formats/applyWebLinkFormat';
 
 // Actions
 import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
@@ -37,6 +38,7 @@ import {
   SnippetsModal,
   UploadsGalleryModal,
   Tooltip,
+  InsertLinkModal,
 } from '../../index';
 
 import { ThemeContainer } from '../../../containers';
@@ -90,6 +92,7 @@ const MarkdownEditorView = ({
   const galleryRef = useRef(null);
   const clearRef = useRef(null);
   const uploadsGalleryModalRef = useRef(null);
+  const insertLinkModalRef = useRef(null);
   const tooltipRef = useRef(null);
 
   const dispatch = useDispatch();
@@ -232,6 +235,7 @@ const MarkdownEditorView = ({
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const _setTextAndSelection = useCallback(({ selection: _selection, text: _text }) => {
+    console.log('_text : ', _text);
     inputRef.current.setNativeProps({
       text: _text,
     });
@@ -255,6 +259,7 @@ const MarkdownEditorView = ({
     _changeText(_text);
   });
 
+  console.log('text : ', text);
   const _renderPreview = () => (
     <ScrollView style={styles.previewContainer}>
       {text ? (
@@ -270,7 +275,7 @@ const MarkdownEditorView = ({
       text,
       selection,
       setTextAndSelection: _setTextAndSelection,
-      snippetText,
+      snippetText: `\n${snippetText}\n`,
     });
   };
 
@@ -290,6 +295,26 @@ const MarkdownEditorView = ({
     }
   };
 
+  const _handleOnAddLinkPress = () => {
+    insertLinkModalRef.current?.showModal({
+      selectedText: text.slice(selection.start, selection.end),
+      selection: selection,
+    });
+    inputRef.current?.blur();
+  };
+  const _handleOnAddLinkSheetClose = () => {
+    inputRef.current?.focus();
+  };
+  const _handleInsertLink = ({ snippetText, selection }) => {
+    applySnippet({
+      text,
+      selection,
+      setTextAndSelection: _setTextAndSelection,
+      snippetText,
+    });
+
+    insertLinkModalRef.current?.hideModal();
+  };
   const _renderMarkupButton = ({ item }) => (
     <View style={styles.buttonWrapper}>
       <IconButton
@@ -355,7 +380,8 @@ const MarkdownEditorView = ({
           iconType="FontAwesome"
           name="link"
           onPress={() =>
-            Formats[3].onPress({ text, selection, setTextAndSelection: _setTextAndSelection })
+            // Formats[3].onPress({ text, selection, setTextAndSelection: _setTextAndSelection })
+            _handleOnAddLinkPress()
           }
         />
         <IconButton
@@ -507,6 +533,12 @@ const MarkdownEditorView = ({
         username={currentAccount.username}
         handleOnSelect={_handleOnMediaSelect}
         uploadedImage={uploadedImage}
+      />
+
+      <InsertLinkModal
+        ref={insertLinkModalRef}
+        handleOnInsertLink={_handleInsertLink}
+        handleOnSheetClose={_handleOnAddLinkSheetClose}
       />
 
       <OptionsModal

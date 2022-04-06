@@ -13,7 +13,7 @@ export default EStyleSheet.create({
     flex: 1,
   },
   input: {
-    flex: 1,
-    minHeight: 50,
+    // flex: 1,
+    // minHeight: 50,
   },
 });

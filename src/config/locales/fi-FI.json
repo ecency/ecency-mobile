@@ -118,7 +118,7 @@
     "ignore": "sivuutti sinut",
     "reblog": "jaettu uudelleen",
     "transfer": "siirretty",
-    "delegations": "delegated",
+    "delegations": "valtuutettu",
     "spin": "Aika ansaita enemmän pisteitä",
     "inactive": "Ole aktiivinen! Kirjoita ja jatka tienaamista",
     "referral": "liittyi suosituksestasi, toivota heidät tervetulleeksi",
@@ -201,7 +201,7 @@
       "mention": "Maininta",
       "reblog": "Jako",
       "transfers": "Siirrot",
-      "delegations": "Delegations"
+      "delegations": "Valtuutukset"
     },
     "pincode": "PIN-koodi",
     "reset_pin": "Nollaa Pin-koodi",
@@ -256,7 +256,7 @@
     "friends": "Ystävät",
     "communities": "Yhteisöt",
     "popup_postfix": "Julkaistu",
-    "scroll_top": "Scroll To Top"
+    "scroll_top": "Vieritä ylös"
   },
   "side_menu": {
     "profile": "Profiili",
@@ -285,7 +285,7 @@
     "search": "Haku",
     "update": "Päivitä",
     "reply": "Vastaa",
-    "schedule": "Schedule"
+    "schedule": "Ajasta"
   },
   "editor": {
     "title": "Otsikko",
@@ -333,16 +333,16 @@
     "draft_save_success": "Luonnos tallennettu",
     "draft_save_fail": "Luonnosta ei kyetty tallentamaan",
     "select_thumb": "Valitse esikatselukuva",
-    "add_more_imgs": "Add more images to post",
+    "add_more_imgs": "Lisää kuvia julkaisuun",
     "two_thumbs_required": "Lisää kuvia julkaisuun, ennen kuin asetat pikkukuvan",
-    "scheduled_for": "Scheduled For",
-    "scheduled_immediate": "Immediate",
-    "scheduled_later": "Later",
-    "settings_title": "Post Options",
-    "done": "DONE",
-    "draft_save_title": "Saving Draft",
-    "draft_update": "Update current draft",
-    "draft_save_new": "Save as new draft"
+    "scheduled_for": "Julkaisuaika",
+    "scheduled_immediate": "Heti",
+    "scheduled_later": "Myöhemmin",
+    "settings_title": "Julkaisuasetukset",
+    "done": "VALMIS",
+    "draft_save_title": "Tallennetaan luonnosta",
+    "draft_update": "Päivitä nykyinen luonnos",
+    "draft_save_new": "Tallenna uutena luonnoksena"
   },
   "snippets": {
     "label_no_snippets": "Katkelmia ei löytynyt",
@@ -366,7 +366,7 @@
     "title_remove_confirmation": "Poista kuva",
     "btn_add": "Kuva",
     "btn_insert": "INSERT",
-    "btn_delete": "DELETE",
+    "btn_delete": "POISTA",
     "message_failed": "Kuvan lataaminen epäonnistui"
   },
   "pincode": {
@@ -442,9 +442,9 @@
     "update": "Päivitä nyt",
     "remind_later": "Muistuta myöhemmin",
     "failed_to_open": "Linkin avaaminen epäonnistui",
-    "restart_ecency": "Restart Ecency?",
-    "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response": "Could not process request, Try again later."
+    "restart_ecency": "Haluatko käynnistää Ecencyn uudelleen?",
+    "restart_ecency_desc": "Muutosten käyttöönotto vaatii uudelleenkäynnistyksen.",
+    "invalid_response": "Pyyntöä ei voitu käsitellä, Yritä myöhemmin uudelleen."
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
@@ -488,8 +488,8 @@
   },
   "report": {
     "added": "Raportoitu kielteinen sisältö",
-    "confirm_report_title": "Confirm Report!",
-    "confirm_report_body": "Are you sure you want report?"
+    "confirm_report_title": "Vahvista ilmianto!",
+    "confirm_report_body": "Haluatko varmasti tehdä ilmiannon?"
   },
   "favorites": {
     "title": "Suosikit",
@@ -513,11 +513,11 @@
     "beneficiaries": "Hyötyjät",
     "warn_zero_payout": "Määrän tulee ylittää $0.02 maksuun",
     "breakdown": "Erittely",
-    "max_accepted": "Max Accepted"
+    "max_accepted": "Suurin sallittu"
   },
   "post_dropdown": {
     "copy": "kopioi linkki",
-    "reblog": "jaa",
+    "reblog": "jaa blogissa",
     "reply": "vastaa",
     "share": "jaa",
     "bookmarks": "lisää kirjanmerkkeihin",
@@ -578,18 +578,18 @@
     "sc_power_down_error": "Tätä ominaisuutta ei ole vielä toteutettu Hivesignerin kirjautumisessa",
     "address_view": "Näytä osoite",
     "already_delegated": "Already delegated to ",
-    "remain_hp": "Remaining HP",
-    "account_detail_head": "Account Details",
-    "account_detail_subhead": "Enter username for HIVE Power delegation",
-    "delegat_detail_head": "Delegation Details",
-    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
-    "new_amount": "New Amount",
-    "review": "REVIEW",
-    "confirm": "Confirm Delegation",
-    "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
-    "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
-    "username_alert": "Username Error!",
-    "username_alert_detail": "Please select different username"
+    "remain_hp": "HP jäljellä",
+    "account_detail_head": "Tilin tiedot",
+    "account_detail_subhead": "Anna HIVE Power -valtuutuksen saajan käyttäjänimi",
+    "delegat_detail_head": "Valtuutuksen tiedot",
+    "delegat_detail_subhead": "Uusi arvo korvaa aiemman HIVE Power -valtuutuksen ",
+    "new_amount": "Uusi määrä",
+    "review": "VAHVISTA",
+    "confirm": "Vahvista valtuutus",
+    "confirm_summary": "Valtuuta {hp} HP ({vests} VESTS) tilille @{delegator} tililtä @{delegatee} ",
+    "confirm_summary_para": "Tämä korvaan aiemman {prev} HP valtuutuksen tälle käyttäjälle.",
+    "username_alert": "Virhe käyttäjänimessä!",
+    "username_alert_detail": "Valitse toinen käyttäjänimi"
   },
   "boost": {
     "title": "Hanki pisteitä",
@@ -686,9 +686,9 @@
     "unfollow": "Älä seuraa",
     "add_to_favourites": "LISÄÄ SUOSIKKEIHIN",
     "remove_from_favourites": "POISTA SUOSIKEISTA",
-    "mute": "MUTE / BLOCK",
-    "unmute": "UNMUTE / UNBLOCK",
-    "report": "REPORT USER"
+    "mute": "HILJENNÄ / ESTÄ",
+    "unmute": "POISTA HILJENNYS / ESTO",
+    "report": "ILMIANNA KÄYTTÄJÄ"
   },
   "communities": {
     "joined": "Jäsenyys",
@@ -704,7 +704,7 @@
     "username": "Käyttäjänimi",
     "addAccount": "Lisää Tili",
     "save": "Tallenna",
-    "cancel": "Cancel"
+    "cancel": "Peruuta"
   },
   "welcome": {
     "label": "Tervetuloa",
@@ -727,13 +727,13 @@
     "year": "vuotta"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
-    "comment": "Comment",
-    "reply": "REPLY",
-    "close": "CLOSE"
+    "placeholder": "Lisää kommentti",
+    "comment": "Kommentti",
+    "reply": "VASTAA",
+    "close": "SULJE"
   },
   "walkthrough": {
-    "load_draft_tooltip": "Load your lastest draft here"
+    "load_draft_tooltip": "Lataa viimeisin luonnoksesi tähän"
   },
   "refer": {
     "refer_earn": "Refer & Earn",

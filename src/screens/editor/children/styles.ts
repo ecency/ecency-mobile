@@ -40,7 +40,7 @@ export default EStyleSheet.create({
     inputWrapper: { flexDirection: 'row', alignItems: 'center' },
     contentLabel: { color: '$iconColor', marginTop:4, textAlign:'left' },
     weightInput: {width:80},
-    weightFormInput: { textAlign: 'center', color: '$primaryBlack' },
+    weightFormInput: { flex:1, color: '$primaryBlack' },
     weightFormInputWrapper: { marginTop: 8  },
     usernameInput: { flex:1, color: '$primaryBlack', marginLeft: 16 },
     usernameFormInputWrapper: { marginTop: 8 },
@@ -51,6 +51,7 @@ export default EStyleSheet.create({
       alignSelf: 'flex-end',
       justifyContent: 'center',
     },
+    doneButton:{borderRadius:16, backgroundColor:'$primaryBlue'},
     thumbSelectContainer:{
       marginTop:12,
     }
