@@ -9,7 +9,7 @@ export default EStyleSheet.create({
   header: {
     marginHorizontal: 16,
   },
-  tabBarSafeArea: {
+  stickyBar: {
     backgroundColor: '$primaryBackgroundColor',
   },
   headerLine: {
@@ -55,6 +55,7 @@ export default EStyleSheet.create({
   stickyWrapper: {
     flexDirection: 'row',
     paddingHorizontal: 16,
+    paddingVertical: 8,
     width: '$deviceWidth',
     alignItems: 'center',
     alignSelf: 'center',
