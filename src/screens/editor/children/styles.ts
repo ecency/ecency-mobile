@@ -37,13 +37,13 @@ export default EStyleSheet.create({
       paddingVertical:16
     },
     bodyWrapper: { flex: 1, paddingTop: 20, paddingBottom:20},
-    inputWrapper: { flexDirection: 'row', alignItems: 'center' },
+    inputWrapper: { flexDirection: 'row', alignItems: 'center'},
     contentLabel: { color: '$iconColor', marginTop:4, textAlign:'left' },
     weightInput: {width:80},
-    weightFormInput: { flex:1, color: '$primaryBlack' },
+    weightFormInput: { flex:1, color: '$primaryBlack', paddingLeft: 12 },
     weightFormInputWrapper: { marginTop: 8  },
     usernameInput: { flex:1, color: '$primaryBlack', marginLeft: 16 },
-    usernameFormInputWrapper: { marginTop: 8 },
+    usernameFormInputWrapper: { marginTop: 8, marginRight: 12 },
     footerWrapper: { paddingTop:16 },
     saveButton: {
       width: 140,
