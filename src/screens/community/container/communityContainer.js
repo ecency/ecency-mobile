@@ -21,8 +21,6 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isL
   useEffect(() => {
     getCommunity(tag)
       .then((res) => {
-        //TODO: manipulate community data here to force make member of team
-        res.team[0][0] = 'demo.com';
         setData(res);
       })
       .catch((e) => {
@@ -32,13 +30,22 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isL
 
   useEffect(() => {
     if (data) {
+      //check and set user role
+      let _hasTeamRole = false;
+      if (data.team && currentAccount) {
+        const member = data.team.find((m) => m[0] === currentAccount.username);
+        const role = member ? member[1] : userRole;
+        _hasTeamRole = !!member;
+        setUserRole(role);
+      }
+
       getSubscriptions(currentAccount.username)
         .then((result) => {
           if (result) {
             const _isSubscribed = result.some((item) => item[0] === data.name);
             setIsSubscribed(_isSubscribed);
 
-            if (_isSubscribed && userRole === 'guest') {
+            if (_isSubscribed && !_hasTeamRole) {
               //if userRole default value is not overwritten,
               //means user is not a part of community core team, so setting as member
               setUserRole('member');
@@ -48,13 +55,6 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isL
         .catch((e) => {
           console.log(e);
         });
-
-      //check and set user role
-      if (data.team && currentAccount) {
-        const member = data.team.find((m) => m[0] === currentAccount.username);
-        const role = member ? member[1] : userRole;
-        setUserRole(role);
-      }
     }
   }, [data]);
 
