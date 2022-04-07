@@ -14,6 +14,7 @@ export default EStyleSheet.create({
     borderTopColor: '$primaryLightGray',
     borderBottomWidth: 1,
     borderBottomColor: '$primaryLightGray',
+    flex: 1,
   },
   warning: {
     color: '$primaryRed',
