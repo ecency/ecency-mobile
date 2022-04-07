@@ -80,9 +80,9 @@ class PostDropdownContainer extends PureComponent {
     //cook options list based on collected flags
     const options = OPTIONS.filter((option)=>{
       switch(option){
-        case 'pin':
+        case 'pin-blog':
           return _canUpdateBlogPin && !_isPinnedInProfile;
-        case 'unpin':
+        case 'unpin-blog':
           return _canUpdateBlogPin && _isPinnedInProfile;
         case 'pin-community':
           return _canUpdateCommunityPin && !_isPinnedInCommunity;
@@ -149,10 +149,10 @@ class PostDropdownContainer extends PureComponent {
       case 'report':
         this._report(get(content, 'url'));
         break;
-      case 'pin':
+      case 'pin-blog':
         this._updatePinnedPost();
         break;
-      case 'unpin':
+      case 'unpin-blog':
         this._updatePinnedPost({ unpinPost: true });
         break;
       case 'pin-community':

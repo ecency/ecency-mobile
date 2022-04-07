@@ -562,8 +562,8 @@
     "promote": "promote",
     "boost": "boost",
     "report": "report",
-    "pin":"Pin to blog",
-    "unpin":"Unpin from blog",
+    "pin-blog":"Pin to blog",
+    "unpin-blog":"Unpin from blog",
     "pin-community":"Pin to community",
     "unpin-community":"Unpin from community"
 
