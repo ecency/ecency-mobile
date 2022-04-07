@@ -69,21 +69,21 @@ class PostDropdownContainer extends PureComponent {
 
   _initOptions = ({content, currentAccount, pageType, userCommunityRole} = this.props) => {
     //check if post is owned by current user or not, if so pinned or not
-    const _isPostOwner = !!content && !!currentAccount && currentAccount.name === content.author
-    const _isPinnedInProfile = content.stats?.is_pinned_blog;
+    const _canUpdateBlogPin = !!pageType && !!content && !!currentAccount && currentAccount.name === content.author
+    const _isPinnedInProfile = !!content && content.stats?.is_pinned_blog;
 
     //check community pin update eligibility
     const _canUpdateCommunityPin = pageType === 'community' && !!content && content.community 
       && ['owner', 'admin', 'mod'].includes(userCommunityRole);
-    const _isPinnedInCommunity = content.stats?.is_pinned;
+    const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
 
     //cook options list based on collected flags
     const options = OPTIONS.filter((option)=>{
       switch(option){
         case 'pin':
-          return _isPostOwner && !_isPinnedInProfile;
+          return _canUpdateBlogPin && !_isPinnedInProfile;
         case 'unpin':
-          return _isPostOwner && _isPinnedInProfile;
+          return _canUpdateBlogPin && _isPinnedInProfile;
         case 'pin-community':
           return _canUpdateCommunityPin && !_isPinnedInCommunity;
         case 'unpin-community':

@@ -127,7 +127,6 @@ const postsListContainer = ({
                   isHideImage={isHideImages}
                   imageHeight={imgHeight}
                   pageType={pageType}
-                  userCommunityRole={userCommunityRole}
                   setImageHeight = {_setImageHeightInMap}
                   showQuickReplyModal={showQuickReplyModal}
                 />,
@@ -148,6 +147,7 @@ const postsListContainer = ({
               imageHeight={imgHeight}
               setImageHeight = {_setImageHeightInMap}
               pageType={pageType}
+              userCommunityRole={userCommunityRole}
               showQuickReplyModal={showQuickReplyModal}
             />,
           );
