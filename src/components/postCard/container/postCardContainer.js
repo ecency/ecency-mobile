@@ -143,6 +143,7 @@ const PostCardContainer = ({
       imageHeight={imageHeight}
       setImageHeight={setImageHeight}
       isMuted={isMuted}
+      pageType={pageType}
       fetchPost={_fetchPost}
       showQuickReplyModal={_handleQuickReplyModal}
     />

@@ -214,7 +214,7 @@ const TabContent = ({
 
 
   const _getPromotedPosts = async () => {
-    if(pageType === 'profile' || pageType === 'ownProfile'){
+    if(pageType === 'profile' || pageType === 'ownProfile' || pageType === 'community'){
       return;
     }
     const pPosts = await fetchPromotedEntries(username)

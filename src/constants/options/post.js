@@ -6,6 +6,8 @@ export default [
   'reblog',
   'pin',
   'unpin',
+  'pin-community',
+  'unpin-community',
   'share',
   'bookmarks',
   'report',

@@ -563,7 +563,10 @@
     "boost": "boost",
     "report": "report",
     "pin":"Pin to blog",
-    "unpin":"Unpin from blog"
+    "unpin":"Unpin from blog",
+    "pin-community":"Pin to community",
+    "unpin-community":"Unpin from community"
+
   },
   "deep_link": {
     "no_existing_user": "No existing user",

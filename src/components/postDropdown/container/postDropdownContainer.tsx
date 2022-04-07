@@ -43,20 +43,20 @@ class PostDropdownContainer extends PureComponent {
         item !== (content.stats?.is_pinned ? 'pin' : 'unpin'))
       : OPTIONS.filter(item => item !== 'pin' && item !== 'unpin')
 
+
     this.state = {
       options
     };
   }
 
   componentDidMount = () => {
-    const { content, currentAccount } = this.props;
-    this._initOptions(content, currentAccount);
+    this._initOptions();
   }
- 
+
   UNSAFE_componentWillReceiveProps = (nextProps) => {
     if (nextProps.content?.permlink !== this.props.content?.permlink) {
-      const { content, currentAccount }  = nextProps;
-      this._initOptions(content, currentAccount);
+      const { content, currentAccount, pageType } = nextProps;
+      this._initOptions(nextProps);
     }
   }
 
@@ -78,12 +78,22 @@ class PostDropdownContainer extends PureComponent {
     }
   };
 
-  _initOptions = (content, currentAccount) => {
+  _initOptions = ({content, currentAccount, pageType} = this.props) => {
     //check if post is owned by current user or not, if so pinned or not
     let options = (!!content && !!currentAccount && currentAccount.name === content.author)
       ? OPTIONS.filter(item =>
         item !== (content.stats?.is_pinned ? 'pin' : 'unpin'))
       : OPTIONS.filter(item => item !== 'pin' && item !== 'unpin')
+
+
+    if (pageType === 'community' && !!content && content.community && true) { //TOOD: replace true with logic to check owner, admin or mod of community
+      let isPinned = content.stats?.is_pinned;
+      options.splice(options.indexOf(isPinned ? 'pin-community' : 'unpin-community'), 1);
+    } else {
+      options.splice(options.indexOf('pin-community'), 1);
+      options.splice(options.indexOf('unpin-community'), 1);
+    }
+
 
     this.setState({ options })
   }
