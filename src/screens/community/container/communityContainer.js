@@ -21,7 +21,8 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isL
   useEffect(() => {
     getCommunity(tag)
       .then((res) => {
-        //TODO: manipulate community data here to force make member of tearm
+        //TODO: manipulate community data here to force make member of team
+        res.team[0][0] = 'demo.com';
         setData(res);
       })
       .catch((e) => {
