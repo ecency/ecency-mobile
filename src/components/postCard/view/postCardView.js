@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
 import { TouchableOpacity, Text, View, Dimensions } from 'react-native';
 import { injectIntl } from 'react-intl';
-import ImageSize from 'react-native-image-size';
 
 // Utils
 import FastImage from 'react-native-fast-image';
@@ -45,6 +44,7 @@ const PostCardView = ({
   setImageHeight,
   isMuted,
   pageType,
+  userCommunityRole,
 }) => {
   //local state to manage fake upvote if available
   const activeVotesCount = activeVotes ? activeVotes.length : 0;
@@ -118,11 +118,16 @@ const PostCardView = ({
           rebloggedBy={rebloggedBy}
           isPromoted={get(content, 'is_promoted')}
         />
-        {content?.stats?.is_pinned && (
+        {(content?.stats?.is_pinned || content?.stats?.is_pinned_blog) && (
           <Icon style={styles.pushPinIcon} size={20} name="pin" iconType="MaterialCommunityIcons" />
         )}
         <View style={styles.dropdownWrapper}>
-          <PostDropdown pageType={pageType} content={content} fetchPost={fetchPost} />
+          <PostDropdown
+            pageType={pageType}
+            userCommunityRole={userCommunityRole}
+            content={content}
+            fetchPost={fetchPost}
+          />
         </View>
       </View>
       <View style={styles.postBodyWrapper}>

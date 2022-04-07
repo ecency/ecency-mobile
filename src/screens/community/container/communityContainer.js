@@ -13,6 +13,7 @@ import ROUTES from '../../../constants/routeNames';
 const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isLoggedIn }) => {
   const [data, setData] = useState(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [userRole, setUserRole] = useState('guest');
   const tag = get(navigation, 'state.params.tag');
   const dispatch = useDispatch();
   const intl = useIntl();
@@ -20,6 +21,7 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isL
   useEffect(() => {
     getCommunity(tag)
       .then((res) => {
+        //TODO: manipulate community data here to force make member of tearm
         setData(res);
       })
       .catch((e) => {
@@ -34,11 +36,24 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isL
           if (result) {
             const _isSubscribed = result.some((item) => item[0] === data.name);
             setIsSubscribed(_isSubscribed);
+
+            if (_isSubscribed && userRole === 'guest') {
+              //if userRole default value is not overwritten,
+              //means user is not a part of community core team, so setting as member
+              setUserRole('member');
+            }
           }
         })
         .catch((e) => {
           console.log(e);
         });
+
+      //check and set user role
+      if (data.team && currentAccount) {
+        const member = data.team.find((m) => m[0] === currentAccount.username);
+        const role = member ? member[1] : userRole;
+        setUserRole(role);
+      }
     }
   }, [data]);
 
@@ -96,6 +111,7 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isL
       handleNewPostButtonPress: _handleNewPostButtonPress,
       isSubscribed,
       isLoggedIn,
+      userRole,
     })
   );
 };
