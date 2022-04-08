@@ -179,7 +179,9 @@ const BeneficiarySelectionContent = ({ draftId, setDisableDone }) => {
             inputStyle={styles.weightFormInput}
             wrapperStyle={styles.weightFormInputWrapper}
             onChange={(value) => _onWeightInputChange(value)}
-            onBlur={() => {}}//_onBlur(item)}
+            selectTextOnFocus={true}
+            autoFocus={true}
+            returnKeyType={'next'}
             keyboardType='numeric'
           />
         </View>
@@ -195,7 +197,9 @@ const BeneficiarySelectionContent = ({ draftId, setDisableDone }) => {
             })}
             type="username"
             isFirstImage
+            returnKeyType='done'
             value={newUsername}
+            onSubmitEditing={isWeightValid && isUsernameValid && _onSavePress}
             inputStyle={styles.usernameInput}
             wrapperStyle={styles.usernameFormInputWrapper}
           />
@@ -205,9 +209,10 @@ const BeneficiarySelectionContent = ({ draftId, setDisableDone }) => {
             <IconButton 
                 name="check"
                 iconType="MaterialCommunityIcons"
-                color={EStyleSheet.value('$primaryBlack')}
+                color={EStyleSheet.value('$white')}
+                iconStyle={{marginTop:2}}
                 size={24}
-                iconStyle={{paddingLeft:8}}
+                style={styles.doneButton}
                 onPress={_onSavePress}
             />
         ) : <View style={{width:28}}/>}
