@@ -247,14 +247,14 @@ export const getAccount = (username) =>
       });
   });
 
-export const getAccountHistory = (user, operations) =>
+export const getAccountHistory = (user, operations, startIndex = -1, limit = 1000) =>
   new Promise((resolve, reject) => {
     let wallet_operations_bitmask = utils.makeBitMaskFilter(operations);
     try {
       const ah = client.call('condenser_api', 'get_account_history', [
         user,
-        -1,
-        1000,
+        startIndex,
+        limit,
         ...wallet_operations_bitmask,
       ]);
       resolve(ah);
