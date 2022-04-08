@@ -22,7 +22,6 @@ import { ParentPost } from '../../parentPost';
 // Styles
 import styles from './postDisplayStyles';
 import { OptionsModal } from '../../atoms';
-import { orientations } from '../../../redux/constants/orientationsConstants';
 
 const HEIGHT = Dimensions.get('window').width;
 const WIDTH = Dimensions.get('window').width;
@@ -56,21 +55,8 @@ const PostDisplayView = ({
   const [refreshing, setRefreshing] = useState(false);
   const [postBodyLoading, setPostBodyLoading] = useState(false);
   const [tags, setTags] = useState([]);
-  const [contentWidth, setContentWidth] = useState(WIDTH - 32);
-  const deviceOrientation = useSelector((state) => state.ui.deviceOrientation);
 
   // Component Life Cycles
-  useEffect(() => {
-    if (
-      deviceOrientation === orientations.LANDSCAPE_LEFT ||
-      deviceOrientation === orientations.LANDSCAPE_RIGHT
-    ) {
-      setContentWidth(Dimensions.get('window').height - 128);
-    } else {
-      setContentWidth(Dimensions.get('window').width - 32);
-    }
-  }, [deviceOrientation]);
-
   useEffect(() => {
     if (isLoggedIn && get(currentAccount, 'name') && !isNewPost) {
       userActivity(10);
@@ -117,7 +103,6 @@ const PostDisplayView = ({
 
   const _getTabBar = (isFixedFooter = false) => {
     return (
-      // <SafeAreaView style={styles.tabBarSafeArea}>
       <StickyBar isFixedFooter={isFixedFooter} style={styles.stickyBar}>
         <View style={[styles.stickyWrapper, { paddingBottom: insets.bottom ? insets.bottom : 8 }]}>
           <Upvote
@@ -189,7 +174,6 @@ const PostDisplayView = ({
           </View>
         </View>
       </StickyBar>
-      // </SafeAreaView>
     );
   };
 
@@ -222,10 +206,7 @@ const PostDisplayView = ({
     <View style={styles.container}>
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={[
-          styles.scrollContent,
-          // { paddingLeft: deviceOrientation === orientations.LANDSCAPE_LEFT ? insets.left : 0 },
-        ]}
+        contentContainerStyle={[styles.scrollContent]}
         onScroll={(event) => _handleOnScroll(event)}
         scrollEventThrottle={16}
         overScrollMode="never"
