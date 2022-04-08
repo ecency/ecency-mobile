@@ -66,6 +66,7 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
 
   const result = {
     iconType: 'MaterialIcons',
+    trxIndex:transaction[0]
   };
 
   [result.textKey] = transaction[1].op;

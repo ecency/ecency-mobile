@@ -30,6 +30,7 @@ export interface PriceHistory {
 }
 
 export interface CoinActivity {
+    trxIndex:number;
     iconType: string;
     textKey: string;
     created: string;
