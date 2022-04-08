@@ -23,7 +23,7 @@ import { ParentPost } from '../../parentPost';
 import styles from './postDisplayStyles';
 import { OptionsModal } from '../../atoms';
 
-const HEIGHT = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
 const PostDisplayView = ({
