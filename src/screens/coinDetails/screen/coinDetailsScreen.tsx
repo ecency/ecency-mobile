@@ -82,20 +82,20 @@ const CoinDetailsScreen = ({ navigation }: CoinDetailsScreenProps) => {
       setRefreshing(refresh);
       dispatch(fetchAndSetCoinsData(refresh));
     } else if(noMoreActivities || loading) {
-      console.log('Skipping transaction fetch', completedActivities.lastItem.trxIndex)
+      console.log('Skipping transaction fetch', completedActivities.lastItem?.trxIndex)
       return;
     }
 
     setLoading(true);
 
-    const startAt = refresh || !completedActivities.length ? -1 : completedActivities.lastItem.trxIndex - 1;
+    const startAt = refresh || !completedActivities.length ? -1 : completedActivities.lastItem?.trxIndex - 1;
     const _activites = await fetchCoinActivities(currentAccount.name, coinId, symbol, globalProps, startAt, FETCH_ITEMS_LIMIT);
 
     if(refresh){
       dispatch(setCoinActivities(coinId, _activites));
     }
     
-    setCompletedActivities([...completedActivities, ..._activites.completed]);
+    setCompletedActivities(refresh ? _activites.completed : [...completedActivities, ..._activites.completed]);
     setNoMoreActivities(!_activites.completed.length || _activites.completed.lastItem.trxIndex < FETCH_ITEMS_LIMIT);
     setRefreshing(false);
     setLoading(false);
