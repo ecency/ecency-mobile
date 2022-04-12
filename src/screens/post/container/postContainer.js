@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import get from 'lodash/get';
 
 // Services and Actions
 import Matomo from 'react-native-matomo-sdk';
+import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker';
 import { getPost } from '../../../providers/hive/dhive';
 // import { matomo } from '../../../providers/ecency/analytics';
 
@@ -23,7 +24,21 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
   const [isPostUnavailable, setIsPostUnavailable] = useState(false);
   const [parentPost, setParentPost] = useState(null);
 
+  const deviceOrientation = useSelector((state) => state.ui.deviceOrientation);
+
   let author;
+
+  useEffect(() => {
+    return () => Orientation.lockToPortrait();
+  }, []);
+
+  useEffect(() => {
+    if (deviceOrientation === 'LANDSCAPE-RIGHT' || deviceOrientation === 'LANDSCAPE-LEFT') {
+      Orientation.unlockAllOrientations();
+    } else {
+      Orientation.lockToPortrait();
+    }
+  }, [deviceOrientation]);
 
   useEffect(() => {
     const { content, permlink, author: _author, isNewPost: _isNewPost } = get(
@@ -113,6 +128,7 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
       parentPost={parentPost}
       post={post}
       isPostUnavailable={isPostUnavailable}
+      orientation={deviceOrientation}
     />
   );
 };

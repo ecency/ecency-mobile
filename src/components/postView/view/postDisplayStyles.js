@@ -3,11 +3,14 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   container: {
-    backgroundColor: '$primaryBackgroundColor',
     flex: 1,
+    backgroundColor: '$primaryBackgroundColor',
   },
   header: {
     marginHorizontal: 16,
+  },
+  stickyBar: {
+    backgroundColor: '$primaryBackgroundColor',
   },
   headerLine: {
     bottom: 10,
@@ -23,12 +26,13 @@ export default EStyleSheet.create({
     flexDirection: 'row',
   },
   scroll: {
-    height: '$deviceHeight',
+    // height: '$deviceHeight',
     backgroundColor: '$primaryBackgroundColor',
-    marginBottom: 40,
   },
   scrollContent: {
     minHeight: Dimensions.get('window').height,
+    paddingBottom: 50,
+    alignItems: 'center',
   },
   footer: {
     flexDirection: 'column',
@@ -51,6 +55,7 @@ export default EStyleSheet.create({
   stickyWrapper: {
     flexDirection: 'row',
     paddingHorizontal: 16,
+    paddingVertical: 8,
     width: '$deviceWidth',
     alignItems: 'center',
     alignSelf: 'center',

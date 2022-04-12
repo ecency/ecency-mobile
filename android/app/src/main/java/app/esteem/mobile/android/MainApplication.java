@@ -12,6 +12,7 @@ import com.facebook.soloader.SoLoader;
 import androidx.multidex.MultiDexApplication;
 import com.getkeepsafe.relinker.ReLinker;
 import com.bugsnag.android.Bugsnag;
+import org.wonday.orientation.OrientationActivityLifecycle;
 
 //See below, Webview debugging
 //import android.webkit.WebView; 
@@ -62,5 +63,6 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     SoLoader.init(this, /* native exopackage */ false);
     // Uncomment below line to Debug Webview
     // WebView.setWebContentsDebuggingEnabled(true);
+    registerActivityLifecycleCallbacks(OrientationActivityLifecycle.getInstance());
   }
 }
