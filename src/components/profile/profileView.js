@@ -200,6 +200,7 @@ class ProfileView extends PureComponent {
 
   _renderTabs = () => {
     const {
+      about,
       changeForceLoadPostState,
       forceLoadPost,
       username,
@@ -249,6 +250,7 @@ class ProfileView extends PureComponent {
           isFeedScreen={false}
           tabContentOverrides={tabContentOverrides}
           onChangeTab={this._onTabChange}
+          pinnedPermlink={about?.pinned}
         />
       </View>
     );

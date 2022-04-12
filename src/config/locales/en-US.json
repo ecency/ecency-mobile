@@ -561,7 +561,12 @@
     "bookmarks": "add to bookmarks",
     "promote": "promote",
     "boost": "boost",
-    "report": "report"
+    "report": "report",
+    "pin-blog":"Pin to blog",
+    "unpin-blog":"Unpin from blog",
+    "pin-community":"Pin to community",
+    "unpin-community":"Unpin from community"
+
   },
   "deep_link": {
     "no_existing_user": "No existing user",

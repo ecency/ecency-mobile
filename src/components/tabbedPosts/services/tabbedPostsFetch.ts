@@ -1,4 +1,4 @@
-import { getAccountPosts, getRankedPosts } from "../../../providers/hive/dhive";
+import { getAccountPosts, getPost, getRankedPosts } from "../../../providers/hive/dhive";
 import { filterLatestPosts, getUpdatedPosts } from "./tabbedPostsHelpers";
 import Matomo from 'react-native-matomo-sdk';
 import { LoadPostsOptions } from "./tabbedPostsModels";
@@ -17,6 +17,7 @@ export const loadPosts = async ({
     isLoggedIn,
     refreshing,
     feedUsername,
+    pinnedPermlink,
     pageType,
     tag,
     nsfw,
@@ -107,13 +108,25 @@ export const loadPosts = async ({
     }
 
     try {
+      //fetching posts
       const result:any[] = await func(options, feedUsername, nsfw);
 
-      if(result.length > 0 && filter === 'reblogs'){
-        for (let i = result.length - 1; i >= 0; i--) {
-          if (result[i].author === feedUsername) {
-              result.splice(i, 1);
+      if(result.length > 0){
+        if(filter === 'reblogs'){
+          for (let i = result.length - 1; i >= 0; i--) {
+            if (result[i].author === feedUsername) {
+                result.splice(i, 1);
+            }
           }
+        }
+        if((pageType === 'profile' || pageType === 'ownProfile') && pinnedPermlink){
+          let pinnedIndex = -1;
+          result.forEach((post, index)=>{
+            if(post.author === feedUsername && post.permlink === pinnedPermlink){
+              pinnedIndex = index;
+            }
+          })
+          result.splice(pinnedIndex, 1);
         }
       }
 
@@ -129,19 +142,34 @@ export const loadPosts = async ({
         isRefreshing:false,
       })
 
+      const retData = {
+        latestPosts:null,
+        updatedPosts:null
+      }
+
       if(isLatestPostsCheck){
         const latestPosts = filterLatestPosts(result, prevPosts.slice(0, 5));
-        return {latestPosts}
+        retData.latestPosts =  latestPosts
       }else{
         const updatedPosts = getUpdatedPosts(
           startAuthor && startPermlink ? prevPosts:[],
           result,
           refreshing,
           tabMeta,
-          setTabMeta
+          setTabMeta,
         )
-        return {updatedPosts}
+
+        retData.updatedPosts = updatedPosts;
       }
+
+      //fetch add pinned posts if applicable
+      if(retData.updatedPosts && pinnedPermlink && retData.updatedPosts[0].permlink !== pinnedPermlink){
+        const pinnedPost = await getPost(feedUsername, pinnedPermlink);
+        pinnedPost.stats = {is_pinned_blog:true, ...pinnedPost.stats};
+        retData.updatedPosts = [pinnedPost, ...retData.updatedPosts];
+      }
+
+      return retData
       
 
     } catch (err) {

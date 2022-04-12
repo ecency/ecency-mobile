@@ -68,6 +68,14 @@ export default EStyleSheet.create({
     marginTop: 4,
     marginHorizontal: 12,
     marginBottom: 12,
+    marginRight: 0,
+  },
+  pushPinIcon: {
+    color: '$primaryRed',
+    alignSelf: 'center',
+    marginLeft: 8,
+    marginRight: -16,
+    transform: [{ rotate: '45deg' }],
   },
   leftFooterWrapper: {
     flex: 1,
@@ -80,8 +88,7 @@ export default EStyleSheet.create({
     justifyContent: 'flex-end',
   },
   dropdownWrapper: {
-    position: 'absolute',
-    right: -5,
+    marginTop: 6,
   },
   reblogWrapper: {
     marginLeft: 6,
