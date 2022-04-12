@@ -90,6 +90,11 @@ export default EStyleSheet.create({
     alignSelf: 'center',
     marginLeft: 8,
   },
+  pushPinIcon: {
+    color: '$primaryRed',
+    alignSelf: 'center',
+    marginLeft: 8,
+  },
   rightIcon: {
     color: '$iconColor',
   },

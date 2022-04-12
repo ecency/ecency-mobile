@@ -1,12 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { Share } from 'react-native';
+import { Alert, Share } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Services and Actions
-import { reblog } from '../../../providers/hive/dhive';
+import { pinCommunityPost, profileUpdate, reblog } from '../../../providers/hive/dhive';
 import { addBookmark, addReport } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer, showActionModal } from '../../../redux/actions/uiAction';
 import { openPinCodeModal } from '../../../redux/actions/applicationActions';
@@ -22,6 +22,7 @@ import { getPostUrl } from '../../../utils/post';
 // Component
 import PostDropdownView from '../view/postDropdownView';
 import { OptionsModal } from '../../atoms';
+import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 
 /*
  *            Props Name        Description                                     Value
@@ -32,7 +33,20 @@ import { OptionsModal } from '../../atoms';
 class PostDropdownContainer extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {};
+
+    this.state = {
+      options:OPTIONS
+    };
+  }
+
+  componentDidMount = () => {
+    this._initOptions();
+  }
+
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
+    if (nextProps.content?.permlink !== this.props.content?.permlink) {
+      this._initOptions(nextProps);
+    }
   }
 
   // Component Life Cycle Functions
@@ -53,11 +67,41 @@ class PostDropdownContainer extends PureComponent {
     }
   };
 
+  _initOptions = ({content, currentAccount, pageType, userCommunityRole} = this.props) => {
+    //check if post is owned by current user or not, if so pinned or not
+    const _canUpdateBlogPin = !!pageType && !!content && !!currentAccount && currentAccount.name === content.author
+    const _isPinnedInProfile = !!content && content.stats?.is_pinned_blog;
+
+    //check community pin update eligibility
+    const _canUpdateCommunityPin = pageType === 'community' && !!content && content.community 
+      && ['owner', 'admin', 'mod'].includes(userCommunityRole);
+    const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
+
+    //cook options list based on collected flags
+    const options = OPTIONS.filter((option)=>{
+      switch(option){
+        case 'pin-blog':
+          return _canUpdateBlogPin && !_isPinnedInProfile;
+        case 'unpin-blog':
+          return _canUpdateBlogPin && _isPinnedInProfile;
+        case 'pin-community':
+          return _canUpdateCommunityPin && !_isPinnedInCommunity;
+        case 'unpin-community':
+          return _canUpdateCommunityPin && _isPinnedInCommunity;
+        default:
+          return true;
+      }
+    })
+
+    this.setState({ options })
+  }
+
   // Component Functions
   _handleOnDropdownSelect = async (index) => {
     const { content, dispatch, intl } = this.props;
+    const { options } = this.state;
 
-    switch (OPTIONS[index]) {
+    switch (options[index]) {
       case 'copy':
         await writeToClipboard(getPostUrl(get(content, 'url')));
         this.alertTimer = setTimeout(() => {
@@ -105,7 +149,18 @@ class PostDropdownContainer extends PureComponent {
       case 'report':
         this._report(get(content, 'url'));
         break;
-
+      case 'pin-blog':
+        this._updatePinnedPost();
+        break;
+      case 'unpin-blog':
+        this._updatePinnedPost({ unpinPost: true });
+        break;
+      case 'pin-community':
+        this._updatePinnedPostCommunity();
+        break;
+      case 'unpin-community':
+        this._updatePinnedPostCommunity({unpinPost:true});
+        break;
       default:
         break;
     }
@@ -125,24 +180,24 @@ class PostDropdownContainer extends PureComponent {
 
     const _onConfirm = () => {
       addReport('content', url)
-      .then(() => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'report.added',
-            }),
-          ),
-        );
-      })
-      .catch(() => {
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'report.added',
-            }),
-          ),
-        );
-      });
+        .then(() => {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'report.added',
+              }),
+            ),
+          );
+        })
+        .catch(() => {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'report.added',
+              }),
+            ),
+          );
+        });
     }
 
     dispatch(
@@ -152,7 +207,7 @@ class PostDropdownContainer extends PureComponent {
         buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: () => {},
+            onPress: () => { },
           },
           {
             text: intl.formatMessage({ id: 'alert.confirm' }),
@@ -161,7 +216,7 @@ class PostDropdownContainer extends PureComponent {
         ],
       }),
     );
-   
+
   };
 
   _addToBookmarks = () => {
@@ -223,13 +278,62 @@ class PostDropdownContainer extends PureComponent {
     }
   };
 
+  _updatePinnedPost = async ({ unpinPost }: { unpinPost: boolean } = { unpinPost: false }) => {
+    const { content, currentAccount, pinCode, dispatch, intl, isLoggedIn } = this.props;
+
+    const params = {
+      ...currentAccount.about.profile,
+      pinned: unpinPost ? null : content.permlink
+    };
+
+
+    try {
+      await profileUpdate(params, pinCode, currentAccount);
+
+      currentAccount.about.profile = { ...params };
+
+      dispatch(updateCurrentAccount({ ...currentAccount }));
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+
+      //TOOD: signal posts or pinned post refresh
+
+
+    } catch (err) {
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        get(err, 'message', err.toString()),
+      );
+    }
+  }
+
+  _updatePinnedPostCommunity = async ({ unpinPost }: { unpinPost: boolean } = { unpinPost: false }) => {
+    const { content, currentAccount, pinCode, dispatch, intl } = this.props;
+
+    try {
+      await pinCommunityPost(currentAccount, pinCode, content.community, content.author, content.permlink, unpinPost);
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+
+    }catch(err){
+      console.warn("Failed to update pin status of community post", err);
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.fail',
+        }),
+        get(err, 'message', err.toString()),
+      );
+    }
+     
+  }
+
   _redirectToReply = () => {
     const { content, fetchPost, isLoggedIn, navigation } = this.props;
 
     if (isLoggedIn) {
       navigation.navigate({
         routeName: ROUTES.SCREENS.EDITOR,
-        key:`editor_post_${content.permlink}`,
+        key: `editor_post_${content.permlink}`,
         params: {
           isReply: true,
           post: content,
@@ -268,16 +372,12 @@ class PostDropdownContainer extends PureComponent {
       currentAccount: { name },
       content,
     } = this.props;
-    let _OPTIONS = OPTIONS;
-
-    /*if ((content && content.author === name) || get(content, 'reblogged_by[0]', null) === name) {
-      _OPTIONS = OPTIONS.filter(item => item !== 'reblog');
-    }*/
+    const { options } = this.state;
 
     return (
       <Fragment>
         <PostDropdownView
-          options={_OPTIONS.map((item) =>
+          options={options.map((item) =>
             intl.formatMessage({ id: `post_dropdown.${item}` }).toUpperCase(),
           )}
           handleOnDropdownSelect={this._handleOnDropdownSelect}

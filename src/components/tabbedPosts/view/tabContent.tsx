@@ -32,6 +32,8 @@ const TabContent = ({
   filterScrollRequest,
   feedUsername,
   tag,
+  pinnedPermlink,
+  userCommunityRole,
   onScrollRequestProcessed,
   handleOnScroll,
   ...props
@@ -45,7 +47,7 @@ const TabContent = ({
   const isAnalytics = useSelector((state) => state.application.isAnalytics);
   const nsfw = useSelector((state) => state.application.nsfw);
   const isConnected = useSelector((state) => state.application.isConnected);
-  const username = useSelector((state) => state.account.currentAccount.name);
+  const {name:username, about:{profile:{pinned}}} = useSelector((state) => state.account.currentAccount);
   const initPosts = useSelector((state) => state.posts.initPosts)
 
 
@@ -97,6 +99,15 @@ const TabContent = ({
       }
     }
   }, [filterScrollRequest])
+
+  useEffect(()=>{
+    if(pageType === 'ownProfile' && pinned !== pinnedPermlink ){
+      // setPinnedPermlink(pinnedPermlink)
+      // alert("This is called")
+      _scrollToTop();
+      _loadPosts({shouldReset:true, _pinnedPermlink:pinned})
+    }
+  },[pinned])
 
 
   const _cleanup = () => {
@@ -160,7 +171,7 @@ const TabContent = ({
     _feedUsername = isFeedScreen? sessionUserRef.current:feedUsername,
     _posts = postsRef.current,
     _tabMeta = tabMeta,
-
+    _pinnedPermlink = pinnedPermlink
   }:{
     shouldReset?:boolean;
     isLatestPostsCheck?:boolean;
@@ -168,6 +179,7 @@ const TabContent = ({
     _feedUsername?:string;
     _posts?:any[]; 
     _tabMeta?:TabMeta;
+    _pinnedPermlink?:string
   }) => {
     const options = {
       setTabMeta:(meta:TabMeta) => {
@@ -187,6 +199,7 @@ const TabContent = ({
       pageType,
       isLatestPostsCheck,
       feedUsername:_feedUsername,
+      pinnedPermlink:_pinnedPermlink,
       tag,
       ...props
     } as LoadPostsOptions
@@ -202,7 +215,7 @@ const TabContent = ({
 
 
   const _getPromotedPosts = async () => {
-    if(pageType === 'profile' || pageType === 'ownProfile'){
+    if(pageType === 'profile' || pageType === 'ownProfile' || pageType === 'community'){
       return;
     }
     const pPosts = await fetchPromotedEntries(username)
@@ -346,6 +359,7 @@ const TabContent = ({
       isLoading={tabMeta.isLoading}
       ListEmptyComponent={_renderEmptyContent}
       pageType={pageType}
+      userCommunityRole={userCommunityRole}
       showQuickReplyModal={_showQuickReplyModal}
     />
     <ScrollTopPopup 

@@ -6,12 +6,13 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 16,
-    width: '$deviceWidth',
+    // width: '$deviceWidth',
     backgroundColor: '$primaryBackgroundColor',
     alignItems: 'center',
   },
   safeArea: {
     backgroundColor: '$primaryBackgroundColor',
+    paddingHorizontal: 0,
   },
   backIcon: {
     fontSize: 24,

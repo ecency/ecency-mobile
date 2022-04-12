@@ -86,6 +86,7 @@ class PostHeaderDescription extends PureComponent {
       secondaryContentComponent,
       showDotMenuButton,
       handleOnDotPress,
+      isPinned,
     } = this.props;
 
     return (

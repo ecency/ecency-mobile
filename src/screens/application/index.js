@@ -1,6 +1,9 @@
 import React, { Fragment, useEffect, useState } from 'react';
+import { Dimensions } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 
+import { OrientationLocker, PORTRAIT, LANDSCAPE } from 'react-native-orientation-locker';
+import { useDispatch } from 'react-redux';
 import ApplicationContainer from './container/applicationContainer';
 import WelcomeScreen from './screen/welcomeScreen';
 import ApplicationScreen from './screen/applicationScreen';
@@ -8,8 +11,10 @@ import LaunchScreen from '../launch';
 import { Modal } from '../../components';
 import { PinCode } from '../pinCode';
 import ErrorBoundary from './screen/errorBoundary';
+import { setDeviceOrientation } from '../../redux/actions/uiAction';
 
 const Application = () => {
+  const dispatch = useDispatch();
   const [showAnimation, setShowAnimation] = useState(process.env.NODE_ENV !== 'development');
 
   useEffect(() => {
@@ -20,6 +25,11 @@ const Application = () => {
       }, 3550);
     }
   }, [showAnimation]);
+
+  const _handleDeviceOrientationChange = (orientation) => {
+    console.log('device orientation changed at index : ', orientation);
+    dispatch(setDeviceOrientation(orientation));
+  };
 
   return (
     <ApplicationContainer>
@@ -41,6 +51,11 @@ const Application = () => {
 
         return (
           <ErrorBoundary>
+            <OrientationLocker
+              orientation={PORTRAIT}
+              onChange={(orientation) => console.log('orientation changed : ', orientation)}
+              onDeviceChange={_handleDeviceOrientationChange}
+            />
             <Modal
               isOpen={showWelcomeModal && _isAppReady}
               isFullScreen

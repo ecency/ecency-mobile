@@ -1901,6 +1901,45 @@ export const subscribeCommunity = (currentAccount, pinCode, data) => {
   );
 };
 
+export const pinCommunityPost = (
+  currentAccount,
+  pinCode,
+  communityId,
+  author,
+  permlink,
+  unpinPost = false,
+) => {
+  const pin = getDigitPinCode(pinCode);
+  const key = getActiveKey(get(currentAccount, 'local'), pin);
+  const username = get(currentAccount, 'name');
+
+  const json = JSON.stringify([
+    unpinPost ? 'unpinPost' : 'pinPost',
+    {
+      community: communityId,
+      account: author,
+      permlink,
+    },
+  ]);
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
+
+    const op = {
+      id: 'community',
+      json,
+      required_auths: [],
+      required_posting_auths: [username],
+    };
+    const opArray = [['custom_json', op]];
+    return sendHiveOperations(opArray, privateKey);
+  }
+
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
+};
+
 export const getBtcAddress = (pin, currentAccount) => {
   /*const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);

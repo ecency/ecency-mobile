@@ -4,6 +4,8 @@ import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Providers
+import { useSelector } from 'react-redux';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { userActivity } from '../../../providers/ecency/ePoint';
 
 // Utils
@@ -21,7 +23,8 @@ import { ParentPost } from '../../parentPost';
 import styles from './postDisplayStyles';
 import { OptionsModal } from '../../atoms';
 
-const HEIGHT = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('window').height;
+const WIDTH = Dimensions.get('window').width;
 
 const PostDisplayView = ({
   currentAccount,
@@ -42,6 +45,8 @@ const PostDisplayView = ({
   reblogs,
   activeVotesCount,
 }) => {
+  const insets = useSafeAreaInsets();
+
   const [postHeight, setPostHeight] = useState(0);
   const [scrollHeight, setScrollHeight] = useState(0);
   const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
@@ -98,79 +103,77 @@ const PostDisplayView = ({
 
   const _getTabBar = (isFixedFooter = false) => {
     return (
-      <SafeAreaView>
-        <StickyBar isFixedFooter={isFixedFooter}>
-          <View style={styles.stickyWrapper}>
-            <Upvote
-              activeVotes={activeVotes}
-              isShowPayoutValue
-              content={post}
-              handleCacheVoteIncrement={_handleCacheVoteIncrement}
-            />
+      <StickyBar isFixedFooter={isFixedFooter} style={styles.stickyBar}>
+        <View style={[styles.stickyWrapper, { paddingBottom: insets.bottom ? insets.bottom : 8 }]}>
+          <Upvote
+            activeVotes={activeVotes}
+            isShowPayoutValue
+            content={post}
+            handleCacheVoteIncrement={_handleCacheVoteIncrement}
+          />
+          <TextWithIcon
+            iconName="heart-outline"
+            iconStyle={styles.barIcons}
+            iconType="MaterialCommunityIcons"
+            isClickable
+            onPress={() => handleOnVotersPress && handleOnVotersPress()}
+            text={activeVotesCount + cacheVoteIcrement}
+            textMarginLeft={20}
+          />
+          <TextWithIcon
+            iconName="repeat"
+            iconStyle={styles.barIcons}
+            iconType="MaterialIcons"
+            isClickable
+            onPress={_handleOnReblogsPress}
+            text={reblogs.length}
+            textMarginLeft={20}
+          />
+          {isLoggedIn && (
             <TextWithIcon
-              iconName="heart-outline"
+              iconName="comment-outline"
               iconStyle={styles.barIcons}
               iconType="MaterialCommunityIcons"
               isClickable
-              onPress={() => handleOnVotersPress && handleOnVotersPress()}
-              text={activeVotesCount + cacheVoteIcrement}
+              text={get(post, 'children', 0)}
               textMarginLeft={20}
+              onPress={() => handleOnReplyPress && handleOnReplyPress()}
             />
+          )}
+          {!isLoggedIn && (
             <TextWithIcon
-              iconName="repeat"
+              iconName="comment-outline"
               iconStyle={styles.barIcons}
-              iconType="MaterialIcons"
+              iconType="MaterialCommunityIcons"
               isClickable
-              onPress={_handleOnReblogsPress}
-              text={reblogs.length}
+              text={get(post, 'children', 0)}
               textMarginLeft={20}
             />
-            {isLoggedIn && (
-              <TextWithIcon
-                iconName="comment-outline"
-                iconStyle={styles.barIcons}
-                iconType="MaterialCommunityIcons"
-                isClickable
-                text={get(post, 'children', 0)}
-                textMarginLeft={20}
-                onPress={() => handleOnReplyPress && handleOnReplyPress()}
-              />
-            )}
-            {!isLoggedIn && (
-              <TextWithIcon
-                iconName="comment-outline"
-                iconStyle={styles.barIcons}
-                iconType="MaterialCommunityIcons"
-                isClickable
-                text={get(post, 'children', 0)}
-                textMarginLeft={20}
-              />
-            )}
-            <View style={styles.stickyRightWrapper}>
-              {get(currentAccount, 'name') === get(post, 'author') && (
-                <Fragment>
-                  {!get(post, 'children') && !activeVotes.length && (
-                    <IconButton
-                      iconStyle={styles.barIconRight}
-                      iconType="MaterialIcons"
-                      name="delete-forever"
-                      onPress={() => actionSheet.current.show()}
-                      style={styles.barIconButton}
-                    />
-                  )}
+          )}
+          <View style={styles.stickyRightWrapper}>
+            {get(currentAccount, 'name') === get(post, 'author') && (
+              <Fragment>
+                {!get(post, 'children') && !activeVotes.length && (
                   <IconButton
                     iconStyle={styles.barIconRight}
                     iconType="MaterialIcons"
-                    name="create"
-                    onPress={() => handleOnEditPress && handleOnEditPress()}
+                    name="delete-forever"
+                    onPress={() => actionSheet.current.show()}
                     style={styles.barIconButton}
                   />
-                </Fragment>
-              )}
-            </View>
+                )}
+                <IconButton
+                  iconStyle={styles.barIconRight}
+                  iconType="MaterialIcons"
+                  name="create"
+                  onPress={() => handleOnEditPress && handleOnEditPress()}
+                  style={styles.barIconButton}
+                />
+              </Fragment>
+            )}
           </View>
-        </StickyBar>
-      </SafeAreaView>
+        </View>
+      </StickyBar>
     );
   };
 
@@ -203,54 +206,56 @@ const PostDisplayView = ({
     <View style={styles.container}>
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[styles.scrollContent]}
         onScroll={(event) => _handleOnScroll(event)}
         scrollEventThrottle={16}
         overScrollMode="never"
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       >
-        {parentPost && <ParentPost post={parentPost} />}
+        <View style={{ width: WIDTH }}>
+          {parentPost && <ParentPost post={parentPost} />}
 
-        <View style={styles.header}>
-          {!post ? (
-            <PostPlaceHolder />
-          ) : (
-            <View onLayout={(event) => _handleOnPostLayout(event)}>
-              {!!post.title && <Text style={styles.title}>{post.title}</Text>}
-              <PostHeaderDescription
-                date={formatedTime}
-                name={author || post.author}
-                currentAccountUsername={name}
-                reputation={post.author_reputation}
-                size={40}
-                inlineTime={true}
-                customStyle={styles.headerLine}
-              />
-              <PostBody body={post.body} onLoadEnd={_handleOnPostBodyLoad} />
-              {!postBodyLoading && (
-                <View style={styles.footer}>
-                  <Tags tags={tags} />
-                  <Text style={styles.footerText}>
-                    Posted by
-                    <Text style={styles.footerName}>{` ${author || post.author} `}</Text>
-                    {formatedTime}
-                  </Text>
-                </View>
-              )}
-            </View>
+          <View style={styles.header}>
+            {!post ? (
+              <PostPlaceHolder />
+            ) : (
+              <View onLayout={(event) => _handleOnPostLayout(event)}>
+                {!!post.title && <Text style={styles.title}>{post.title}</Text>}
+                <PostHeaderDescription
+                  date={formatedTime}
+                  name={author || post.author}
+                  currentAccountUsername={name}
+                  reputation={post.author_reputation}
+                  size={40}
+                  inlineTime={true}
+                  customStyle={styles.headerLine}
+                />
+                <PostBody body={post.body} onLoadEnd={_handleOnPostBodyLoad} />
+                {!postBodyLoading && (
+                  <View style={styles.footer}>
+                    <Tags tags={tags} />
+                    <Text style={styles.footerText}>
+                      Posted by
+                      <Text style={styles.footerName}>{` ${author || post.author} `}</Text>
+                      {formatedTime}
+                    </Text>
+                  </View>
+                )}
+              </View>
+            )}
+          </View>
+          {post && !postBodyLoading && (isGetComment || isLoadedComments) && (
+            <CommentsDisplay
+              author={author || post.author}
+              mainAuthor={author || post.author}
+              permlink={post.permlink}
+              commentCount={post.children}
+              fetchPost={fetchPost}
+              handleOnVotersPress={handleOnVotersPress}
+              fetchedAt={post.post_fetched_at}
+            />
           )}
         </View>
-        {post && !postBodyLoading && (isGetComment || isLoadedComments) && (
-          <CommentsDisplay
-            author={author || post.author}
-            mainAuthor={author || post.author}
-            permlink={post.permlink}
-            commentCount={post.children}
-            fetchPost={fetchPost}
-            handleOnVotersPress={handleOnVotersPress}
-            fetchedAt={post.post_fetched_at}
-          />
-        )}
       </ScrollView>
       {post && _getTabBar(true)}
       <OptionsModal

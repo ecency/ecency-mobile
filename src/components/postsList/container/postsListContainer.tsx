@@ -17,6 +17,7 @@ interface postsListContainerProps extends FlatListProps<any> {
     isLoading:boolean;
     isRefreshing:boolean;
     pageType:'main'|'profile'|'ownProfile'|'community';
+    userCommunityRole?:string;
     showQuickReplyModal:(post:any)=>void;
 }
 
@@ -29,6 +30,7 @@ const postsListContainer = ({
     isRefreshing,
     isLoading,
     pageType,
+    userCommunityRole,
     showQuickReplyModal,
     ...props
 }:postsListContainerProps, ref) => {
@@ -124,8 +126,8 @@ const postsListContainer = ({
                   content={p}
                   isHideImage={isHideImages}
                   imageHeight={imgHeight}
-                  setImageHeight = {_setImageHeightInMap}
                   pageType={pageType}
+                  setImageHeight = {_setImageHeightInMap}
                   showQuickReplyModal={showQuickReplyModal}
                 />,
               );
@@ -145,6 +147,7 @@ const postsListContainer = ({
               imageHeight={imgHeight}
               setImageHeight = {_setImageHeightInMap}
               pageType={pageType}
+              userCommunityRole={userCommunityRole}
               showQuickReplyModal={showQuickReplyModal}
             />,
           );
