@@ -126,6 +126,10 @@ export default EStyleSheet.create({
     paddingVertical:16,
     backgroundColor:'$primaryBackgroundColor',
     textAlign: 'left',
-  } as TextStyle
+  } as TextStyle,
+
+  activitiesFooterIndicator:{
+    marginVertical: 16
+  } as ViewStyle
 });
 

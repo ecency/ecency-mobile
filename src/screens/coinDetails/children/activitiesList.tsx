@@ -72,7 +72,7 @@ const ActivitiesList = ({
       renderSectionHeader={({ section: { title } }) => (
         <Text style={styles.textActivities}>{title}</Text>
       )}
-      ListFooterComponent={loading && <ActivityIndicator />}
+      ListFooterComponent={loading && <ActivityIndicator style={styles.activitiesFooterIndicator} />}
       ListHeaderComponent={header}
       refreshControl={_refreshControl}
       onEndReached={()=>{onEndReached()}}
