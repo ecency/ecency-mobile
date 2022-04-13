@@ -47,8 +47,11 @@ const TabContent = ({
   const isAnalytics = useSelector((state) => state.application.isAnalytics);
   const nsfw = useSelector((state) => state.application.nsfw);
   const isConnected = useSelector((state) => state.application.isConnected);
-  const {name:username, about:{profile:{pinned}}} = useSelector((state) => state.account.currentAccount);
+  const currentAccount = useSelector((state) => state.account.currentAccount);
   const initPosts = useSelector((state) => state.posts.initPosts)
+
+  const username = currentAccount.username;
+  const curPinned = currentAccount.about?.pinned;
 
 
   //state
@@ -70,6 +73,8 @@ const TabContent = ({
   //init state refs;
   postsRef.current = posts;
   sessionUserRef.current = sessionUser;
+
+
 
 
   //side effects
@@ -101,13 +106,11 @@ const TabContent = ({
   }, [filterScrollRequest])
 
   useEffect(()=>{
-    if(pageType === 'ownProfile' && pinned !== pinnedPermlink ){
-      // setPinnedPermlink(pinnedPermlink)
-      // alert("This is called")
+    if(pageType === 'ownProfile' && curPinned !== pinnedPermlink ){
       _scrollToTop();
-      _loadPosts({shouldReset:true, _pinnedPermlink:pinned})
+      _loadPosts({shouldReset:true, _pinnedPermlink:curPinned})
     }
-  },[pinned])
+  },[curPinned])
 
 
   const _cleanup = () => {
