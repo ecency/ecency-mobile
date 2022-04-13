@@ -3,7 +3,6 @@ import sha256 from 'crypto-js/sha256';
 import Config from 'react-native-config';
 import get from 'lodash/get';
 
-import { Alert } from 'react-native';
 import { getDigitPinCode, getMutes, getUser } from './dhive';
 import { getUser as getEcencyUser } from '../ecency/ePoint';
 import {

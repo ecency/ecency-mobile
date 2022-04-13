@@ -44,6 +44,7 @@ import { encryptKey, decryptKey } from '../../../utils/crypto';
 // Component
 import PinCodeScreen from '../screen/pinCodeScreen';
 import { getUnreadNotificationCount } from '../../../providers/ecency/ecency';
+import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
 
 class PinCodeContainer extends Component {
   constructor(props) {
@@ -322,6 +323,7 @@ class PinCodeContainer extends Component {
               _currentAccount.mutes = await getMutes(_currentAccount.username);
               _currentAccount.ecencyUserData = await getEcencyUser(_currentAccount.username);
               dispatch(updateCurrentAccount({ ..._currentAccount }));
+              dispatch(fetchSubscribedCommunities(_currentAccount.username));
               dispatch(closePinCodeModal());
             }
 

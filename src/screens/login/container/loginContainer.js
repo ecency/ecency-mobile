@@ -34,6 +34,7 @@ import ROUTES from '../../../constants/routeNames';
 // Component
 import LoginScreen from '../screen/loginScreen';
 import persistAccountGenerator from '../../../utils/persistAccountGenerator';
+import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
 
 /*
  *            Props Name        Description                                     Value
@@ -65,6 +66,7 @@ class LoginContainer extends PureComponent {
           const persistAccountData = persistAccountGenerator(result);
 
           dispatch(updateCurrentAccount({ ...result }));
+          dispatch(fetchSubscribedCommunities(username));
           dispatch(addOtherAccount({ ...persistAccountData }));
           dispatch(loginAction(true));
           dispatch(setInitPosts([]));

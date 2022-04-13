@@ -15,6 +15,7 @@ import { login as loginAction, openPinCodeModal } from '../../redux/actions/appl
 // Constants
 import { default as ROUTES } from '../../constants/routeNames';
 import persistAccountGenerator from '../../utils/persistAccountGenerator';
+import { fetchSubscribedCommunities } from '../../redux/actions/communitiesAction';
 
 class HiveSigner extends PureComponent {
   constructor(props) {
@@ -45,6 +46,7 @@ class HiveSigner extends PureComponent {
               const persistAccountData = persistAccountGenerator(result);
 
               dispatch(updateCurrentAccount({ ...result }));
+              dispatch(fetchSubscribedCommunities(result.username));
               dispatch(addOtherAccount({ ...persistAccountData }));
               dispatch(loginAction(true));
 
