@@ -17,7 +17,6 @@ export const TabbedPosts = ({
   tabContentOverrides,
   imagesToggleEnabled,
   stackedTabs,
-  userCommunityRole,
   onTabChange,
   ...props
 }:TabbedPostsProps) => {
@@ -74,7 +73,6 @@ export const TabbedPosts = ({
         pageType={pageType}
         filterScrollRequest={filterScrollRequest}
         onScrollRequestProcessed={_onScrollRequestProcessed}
-        userCommunityRole={userCommunityRole}
         {...props}
       />
     )

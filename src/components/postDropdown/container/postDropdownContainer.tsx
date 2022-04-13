@@ -35,7 +35,7 @@ class PostDropdownContainer extends PureComponent {
     super(props);
 
     this.state = {
-      options:OPTIONS
+      options: OPTIONS
     };
   }
 
@@ -67,19 +67,25 @@ class PostDropdownContainer extends PureComponent {
     }
   };
 
-  _initOptions = ({content, currentAccount, pageType, userCommunityRole} = this.props) => {
+  _initOptions = ({ content, currentAccount, pageType, subscribedCommunities } = this.props) => {
     //check if post is owned by current user or not, if so pinned or not
     const _canUpdateBlogPin = !!pageType && !!content && !!currentAccount && currentAccount.name === content.author
     const _isPinnedInProfile = !!content && content.stats?.is_pinned_blog;
 
+
     //check community pin update eligibility
-    const _canUpdateCommunityPin = pageType === 'community' && !!content && content.community 
-      && ['owner', 'admin', 'mod'].includes(userCommunityRole);
+    const _canUpdateCommunityPin = subscribedCommunities.data && !!content && content.community
+      ? subscribedCommunities.data.reduce((role, subscription) => {
+        if (content.community === subscription[0]) {
+          return ['owner', 'admin', 'mod'].includes(subscription[2]);
+        }
+        return role;
+      }, false) : false;
     const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
 
     //cook options list based on collected flags
-    const options = OPTIONS.filter((option)=>{
-      switch(option){
+    const options = OPTIONS.filter((option) => {
+      switch (option) {
         case 'pin-blog':
           return _canUpdateBlogPin && !_isPinnedInProfile;
         case 'unpin-blog':
@@ -159,7 +165,7 @@ class PostDropdownContainer extends PureComponent {
         this._updatePinnedPostCommunity();
         break;
       case 'unpin-community':
-        this._updatePinnedPostCommunity({unpinPost:true});
+        this._updatePinnedPostCommunity({ unpinPost: true });
         break;
       default:
         break;
@@ -315,7 +321,7 @@ class PostDropdownContainer extends PureComponent {
       await pinCommunityPost(currentAccount, pinCode, content.community, content.author, content.permlink, unpinPost);
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
 
-    }catch(err){
+    } catch (err) {
       console.warn("Failed to update pin status of community post", err);
       Alert.alert(
         intl.formatMessage({
@@ -324,7 +330,7 @@ class PostDropdownContainer extends PureComponent {
         get(err, 'message', err.toString()),
       );
     }
-     
+
   }
 
   _redirectToReply = () => {
@@ -402,6 +408,7 @@ const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,
   isPinCodeOpen: state.application.isPinCodeOpen,
+  subscribedCommunities: state.communities.subscribedCommunities,
 });
 
 export default withNavigation(connect(mapStateToProps)(injectIntl(PostDropdownContainer)));

@@ -26,6 +26,7 @@ import { useAppSelector } from '../../../hooks';
 import { getUnreadNotificationCount } from '../../../providers/ecency/ecency';
 import { decryptKey } from '../../../utils/crypto';
 import { getUser as getEcencyUser} from '../../../providers/ecency/ePoint';
+import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
 
 const AccountsBottomSheetContainer = ({ navigation }) => {
   const intl = useIntl();
@@ -109,6 +110,7 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
       _currentAccount.mutes = await getMutes(_currentAccount.username);
       _currentAccount.ecencyUserData = await getEcencyUser(_currentAccount.username);
       dispatch(updateCurrentAccount(_currentAccount));
+      dispatch(fetchSubscribedCommunities(_currentAccount.username))
     }
 
     catch(error){

@@ -15,7 +15,6 @@ export interface TabbedPostsProps {
     imagesToggleEnabled?:boolean,
     stackedTabs:boolean,
     pinnedPermlink?:string,
-    userCommunityRole?:string,
     onTabChange:(index:number)=>void
     handleOnScroll:()=>void,
 }
@@ -60,7 +59,6 @@ export interface TabMeta {
     forceLoadPosts:boolean,
     filterScrollRequest:string,
     pinnedPermlink?:string,
-    userCommunityRole?:string,
     onScrollRequestProcessed:()=>void
     handleOnScroll:()=>void;
   }

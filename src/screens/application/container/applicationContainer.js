@@ -107,6 +107,7 @@ import parseVersionNumber from '../../../utils/parseVersionNumber';
 import { getTimeFromNow, setMomentLocale } from '../../../utils/time';
 import parseAuthUrl from '../../../utils/parseAuthUrl';
 import { purgeExpiredCache } from '../../../redux/actions/cacheActions';
+import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
 
 // Workaround
 let previousAppState = 'background';
@@ -764,7 +765,7 @@ class ApplicationContainer extends Component {
       accountData.mutes = await getMutes(realmObject.username);
       accountData.ecencyUserData = await getEcencyUser(realmObject.username);
       dispatch(updateCurrentAccount(accountData));
-
+      dispatch(fetchSubscribedCommunities(realmObject.username));
       this._connectNotificationServer(accountData.name);
     } catch (err) {
       Alert.alert(
@@ -945,6 +946,7 @@ class ApplicationContainer extends Component {
     _currentAccount.mutes = await getMutes(_currentAccount.username);
     _currentAccount.ecencyUserData = await getEcencyUser(_currentAccount.username);
     dispatch(updateCurrentAccount(_currentAccount));
+    dispatch(fetchSubscribedCommunities(_currentAccount.username));
   };
 
   _handleWelcomeModalButtonPress = () => {

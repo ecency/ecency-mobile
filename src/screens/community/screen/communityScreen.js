@@ -43,7 +43,6 @@ const CommunityScreen = ({ navigation }) => {
         handleNewPostButtonPress,
         isSubscribed,
         isLoggedIn,
-        userRole,
       }) => (
         <View style={styles.container}>
           <BasicHeader
@@ -117,7 +116,6 @@ const CommunityScreen = ({ navigation }) => {
               selectedOptionIndex={_getSelectedIndex()}
               tag={tag}
               pageType="community"
-              userCommunityRole={userRole}
             />
           </View>
         </View>
