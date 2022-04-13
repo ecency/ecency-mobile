@@ -44,7 +44,6 @@ const PostCardView = ({
   setImageHeight,
   isMuted,
   pageType,
-  userCommunityRole,
 }) => {
   //local state to manage fake upvote if available
   const activeVotesCount = activeVotes ? activeVotes.length : 0;
@@ -122,12 +121,7 @@ const PostCardView = ({
           <Icon style={styles.pushPinIcon} size={20} name="pin" iconType="MaterialCommunityIcons" />
         )}
         <View style={styles.dropdownWrapper}>
-          <PostDropdown
-            pageType={pageType}
-            userCommunityRole={userCommunityRole}
-            content={content}
-            fetchPost={fetchPost}
-          />
+          <PostDropdown pageType={pageType} content={content} fetchPost={fetchPost} />
         </View>
       </View>
       <View style={styles.postBodyWrapper}>

@@ -33,7 +33,6 @@ const TabContent = ({
   feedUsername,
   tag,
   pinnedPermlink,
-  userCommunityRole,
   onScrollRequestProcessed,
   handleOnScroll,
   ...props
@@ -362,7 +361,6 @@ const TabContent = ({
       isLoading={tabMeta.isLoading}
       ListEmptyComponent={_renderEmptyContent}
       pageType={pageType}
-      userCommunityRole={userCommunityRole}
       showQuickReplyModal={_showQuickReplyModal}
     />
     <ScrollTopPopup 
