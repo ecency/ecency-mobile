@@ -67,14 +67,23 @@ class PostDropdownContainer extends PureComponent {
     }
   };
 
-  _initOptions = ({content, currentAccount, pageType, userCommunityRole} = this.props) => {
+  _initOptions = ({content, currentAccount, pageType, subscribedCommunities} = this.props) => {
     //check if post is owned by current user or not, if so pinned or not
     const _canUpdateBlogPin = !!pageType && !!content && !!currentAccount && currentAccount.name === content.author
     const _isPinnedInProfile = !!content && content.stats?.is_pinned_blog;
 
+    //get user role for community;
+    const defaultRole = 'guest';
+    const _userCommunitiyRole = subscribedCommunities.data && !!content && content.community ? subscribedCommunities.data.reduce((role, subscription)=>{
+      if(content.community === subscription[0]){
+        return subscription[2];
+      }
+      return role;
+    }, defaultRole) : defaultRole;
+
     //check community pin update eligibility
-    const _canUpdateCommunityPin = pageType === 'community' && !!content && content.community 
-      && ['owner', 'admin', 'mod'].includes(userCommunityRole);
+    const _canUpdateCommunityPin = !!content && content.community 
+      && ['owner', 'admin', 'mod'].includes(_userCommunitiyRole);
     const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
 
     //cook options list based on collected flags
@@ -402,6 +411,7 @@ const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   pinCode: state.application.pin,
   isPinCodeOpen: state.application.isPinCodeOpen,
+  subscribedCommunities: state.communities.subscribedCommunities,
 });
 
 export default withNavigation(connect(mapStateToProps)(injectIntl(PostDropdownContainer)));
