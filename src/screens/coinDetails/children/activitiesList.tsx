@@ -11,11 +11,21 @@ interface ActivitiesListProps {
   pendingActivities: CoinActivity[];
   completedActivities: CoinActivity[];
   refreshing: boolean;
+  loading: boolean;
+  onEndReached: () => void;
   onRefresh: () => void;
 }
 
 
-const ActivitiesList = ({ header, completedActivities, pendingActivities, refreshing, onRefresh }: ActivitiesListProps) => {
+const ActivitiesList = ({
+  header,
+  loading,
+  refreshing,
+  completedActivities,
+  pendingActivities,
+  onEndReached,
+  onRefresh
+}: ActivitiesListProps) => {
   const intl = useIntl();
 
   const isDarkTheme = useAppSelector(state => state.ui.isDarkTheme);
@@ -62,8 +72,10 @@ const ActivitiesList = ({ header, completedActivities, pendingActivities, refres
       renderSectionHeader={({ section: { title } }) => (
         <Text style={styles.textActivities}>{title}</Text>
       )}
+      ListFooterComponent={loading && <ActivityIndicator style={styles.activitiesFooterIndicator} />}
       ListHeaderComponent={header}
       refreshControl={_refreshControl}
+      onEndReached={()=>{onEndReached()}}
     />
   )
 }

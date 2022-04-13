@@ -23,6 +23,8 @@ interface CoinDetailsScreenProps {
   navigation: any
 }
 
+const FETCH_ITEMS_LIMIT = 500;
+
 const CoinDetailsScreen = ({ navigation }: CoinDetailsScreenProps) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
@@ -46,11 +48,14 @@ const CoinDetailsScreen = ({ navigation }: CoinDetailsScreenProps) => {
 
   //state
   const [symbol] = useState(selectedCoins.find((item) => item.id === coinId).symbol);
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing, setRefreshing] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [completedActivities, setCompletedActivities] = useState(coinActivities?.completed || []);
+  const [noMoreActivities, setNoMoreActivities] = useState(false);
 
   //side-effects
   useEffect(() => {
-    _fetchDetails();
+    _fetchDetails(true);
     AppState.addEventListener('change', _handleAppStateChange);
     return _cleanup;
   }, [])
@@ -64,7 +69,7 @@ const CoinDetailsScreen = ({ navigation }: CoinDetailsScreenProps) => {
   const _handleAppStateChange = (nextAppState: AppStateStatus) => {
     if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
       console.log("updating coins activities on app resume", coinId)
-      _fetchDetails();
+      _fetchDetails(true);
     }
 
     appState.current = nextAppState;
@@ -76,11 +81,24 @@ const CoinDetailsScreen = ({ navigation }: CoinDetailsScreenProps) => {
     if (refresh) {
       setRefreshing(refresh);
       dispatch(fetchAndSetCoinsData(refresh));
+    } else if(noMoreActivities || loading) {
+      console.log('Skipping transaction fetch', completedActivities.lastItem?.trxIndex)
+      return;
     }
 
-    const _activites = await fetchCoinActivities(currentAccount.name, coinId, symbol, globalProps);
-    dispatch(setCoinActivities(coinId, _activites));
+    setLoading(true);
+
+    const startAt = refresh || !completedActivities.length ? -1 : completedActivities.lastItem?.trxIndex - 1;
+    const _activites = await fetchCoinActivities(currentAccount.name, coinId, symbol, globalProps, startAt, FETCH_ITEMS_LIMIT);
+
+    if(refresh){
+      dispatch(setCoinActivities(coinId, _activites));
+    }
+    
+    setCompletedActivities(refresh ? _activites.completed : [...completedActivities, ..._activites.completed]);
+    setNoMoreActivities(!_activites.completed.length || _activites.completed.lastItem.trxIndex < FETCH_ITEMS_LIMIT);
     setRefreshing(false);
+    setLoading(false);
   }
 
 
@@ -141,14 +159,17 @@ const CoinDetailsScreen = ({ navigation }: CoinDetailsScreenProps) => {
       onActionPress={_onActionPress} />
   )
 
+
   return (
     <View style={styles.container}>
       <BasicHeader title={intl.formatMessage({ id: 'wallet.coin_details' })} />
       <ActivitiesList
         header={_renderHeaderComponent}
-        completedActivities={coinActivities?.completed || []}
+        completedActivities={completedActivities}
         pendingActivities={coinActivities?.pending || []}
         refreshing={refreshing}
+        loading={loading}
+        onEndReached={_fetchDetails}
         onRefresh={_onRefresh}
       />
     </View>

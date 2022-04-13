@@ -66,6 +66,7 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
 
   const result = {
     iconType: 'MaterialIcons',
+    trxIndex:transaction[0]
   };
 
   [result.textKey] = transaction[1].op;
@@ -365,15 +366,30 @@ const fetchPendingRequests = async (username: string, coinSymbol: string): Promi
  * @param globalProps 
  * @returns {Promise<CoinActivitiesCollection>}
  */
-export const fetchCoinActivities = async (username: string, coinId: string, coinSymbol: string, globalProps: GlobalProps): Promise<CoinActivitiesCollection> => {
+export const fetchCoinActivities = async (
+  username: string,
+  coinId: string,
+  coinSymbol: string,
+  globalProps: GlobalProps,
+  startIndex: number,
+  limit:number
+
+): Promise<CoinActivitiesCollection> => {
 
   const op = operationOrders;
   let history = [];
 
-
-
   switch (coinId) {
     case COIN_IDS.ECENCY: {
+
+      //TODO: remove condition when we have a way to fetch paginated points data
+      if(startIndex !== -1){
+        return {
+          completed:[],
+          pending:[]
+        }
+      }
+
       const pointActivities = await getUserPoints(username);
       console.log("Points Activities", pointActivities);
       const completed = pointActivities && pointActivities.length ?
@@ -398,7 +414,7 @@ export const fetchCoinActivities = async (username: string, coinId: string, coin
         op.transfer_to_savings, //HIVE, HBD
         op.transfer_from_savings, //HIVE, HBD
         op.fill_order, //HIVE, HBD
-      ]);
+      ], startIndex, limit);
       break;
     case COIN_IDS.HBD:
       history = await getAccountHistory(username, [
@@ -409,7 +425,7 @@ export const fetchCoinActivities = async (username: string, coinId: string, coin
         op.fill_convert_request, //HBD
         op.fill_order, //HIVE, HBD
         op.sps_fund, //HBD
-      ]);
+      ], startIndex, limit);
       break;
     case COIN_IDS.HP:
       history = await getAccountHistory(username, [
@@ -421,7 +437,7 @@ export const fetchCoinActivities = async (username: string, coinId: string, coin
         op.claim_reward_balance, //HP
         op.comment_benefactor_reward, //HP
         op.return_vesting_delegation, //HP
-      ]);
+      ], startIndex, limit);
       break;
   }
 
