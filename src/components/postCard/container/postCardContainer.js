@@ -30,7 +30,6 @@ const PostCardContainer = ({
   setImageHeight,
   pageType,
   showQuickReplyModal,
-  userCommunityRole,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -145,7 +144,6 @@ const PostCardContainer = ({
       setImageHeight={setImageHeight}
       isMuted={isMuted}
       pageType={pageType}
-      userCommunityRole={userCommunityRole}
       fetchPost={_fetchPost}
       showQuickReplyModal={_handleQuickReplyModal}
     />
