@@ -26,7 +26,7 @@ class NotificationContainer extends Component {
       notifications: [],
       notificationsMap: new Map(),
       lastNotificationId: null,
-      isRefreshing: false,
+      isRefreshing: true,
       isLoading: false,
       selectedFilter: 'activities',
       endOfNotification: false,
@@ -70,7 +70,6 @@ class NotificationContainer extends Component {
               : res;
             notificationsMap.set(type, _notifications);
             this.setState({
-              // notifications: loadMore ? unionBy(notifications, res, 'id') : res,
               notificationsMap,
               lastNotificationId: lastId,
               isRefreshing: false,
@@ -188,7 +187,7 @@ class NotificationContainer extends Component {
 
   render() {
     const { isLoggedIn, globalProps } = this.props;
-    const { notificationsMap, selectedFilter, isRefreshing } = this.state;
+    const { notificationsMap, selectedFilter, isRefreshing, isLoading } = this.state;
 
     const _notifications = notificationsMap.get(selectedFilter) || [];
     return (
@@ -203,6 +202,7 @@ class NotificationContainer extends Component {
         isLoggedIn={isLoggedIn}
         changeSelectedFilter={this._changeSelectedFilter}
         globalProps={globalProps}
+        isLoading={isLoading}
       />
     );
   }

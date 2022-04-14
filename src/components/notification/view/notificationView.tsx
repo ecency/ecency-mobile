@@ -24,6 +24,8 @@ class NotificationView extends PureComponent {
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
    */
+  listRef = null;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -37,6 +39,7 @@ class NotificationView extends PureComponent {
       selectedFilter: 'activities',
       selectedIndex: 0,
     };
+    this.listRef = React.createRef();
   }
 
   // Component Life Cycles
@@ -44,12 +47,15 @@ class NotificationView extends PureComponent {
   // Component Functions
 
   _handleOnDropdownSelect = async (index) => {
-    const { getActivities, changeSelectedFilter } = this.props;
-    const { filters } = this.state;
+    const { getActivities, changeSelectedFilter, } = this.props;
+    const { filters, contentOffset } = this.state;
 
-    this.setState({ selectedFilter: filters[index].key, selectedIndex: index });
-    await changeSelectedFilter(filters[index].key, index);
-    getActivities(filters[index].key, false);
+    const _selectedFilter = filters[index].key;
+
+    this.setState({ selectedFilter: _selectedFilter, selectedIndex: index, contentOffset });
+    await changeSelectedFilter(_selectedFilter, index);
+    getActivities(_selectedFilter, false);
+    this.listRef.current?.scrollToOffset({ x: 0, y: 0, animated: false });
   };
 
   _renderList = (data) => {
@@ -73,11 +79,11 @@ class NotificationView extends PureComponent {
   };
 
   _renderFooterLoading = () => {
-    const { loading, notifications } = this.props;
-    if (loading && notifications.length > 0) {
+    const { isLoading } = this.props;
+    if (isLoading) {
       return (
         <View style={styles.flatlistFooter}>
-          <ActivityIndicator animating size="large" />
+          <ActivityIndicator animating />
         </View>
       );
     }
@@ -133,8 +139,8 @@ class NotificationView extends PureComponent {
     let sectionIndex = -1;
     return notifications.map((item) => {
       const timeIndex = this._getTimeListIndex(item.timestamp);
-      if(timeIndex !== sectionIndex && timeIndex > sectionIndex){
-        if(sectionIndex === -1){
+      if (timeIndex !== sectionIndex && timeIndex > sectionIndex) {
+        if (sectionIndex === -1) {
           item.firstSection = true;
         }
         item.sectionTitle = notificationArray[timeIndex].title;
@@ -144,7 +150,7 @@ class NotificationView extends PureComponent {
     });
 
     // return notificationArray.filter((item) => item.data.length > 0).map((item, index)=>{item.index = index; return item});
-   };
+  };
 
   _getTimeListIndex = (timestamp) => {
     if (isToday(timestamp)) {
@@ -170,7 +176,7 @@ class NotificationView extends PureComponent {
     return 5;
   };
 
-  
+
   _getActivityIndicator = () => (
     <View style={styles.loading}>
       <ActivityIndicator animating size="large" />
@@ -178,26 +184,26 @@ class NotificationView extends PureComponent {
   );
 
 
-  _renderSectionHeader = ({ section: { title, index} }) => (
+  _renderSectionHeader = ({ section: { title, index } }) => (
     <ContainerHeader hasSeperator={index !== 0} isBoldTitle title={title} key={title} />
   )
 
 
   _renderItem = ({ item }) => (
     <>
-    {item.sectionTitle && <ContainerHeader hasSeperator={!item.firstSection} isBoldTitle title={item.sectionTitle}/>}
-    <NotificationLine
-      notification={item}
-      handleOnPressNotification={this.props.navigateToNotificationRoute}
-      handleOnUserPress={()=>{this.props.handleOnUserPress(item.source)}}
-      globalProps={this.props.globalProps}
-    />
-  </>
+      {item.sectionTitle && <ContainerHeader hasSeperator={!item.firstSection} isBoldTitle title={item.sectionTitle} />}
+      <NotificationLine
+        notification={item}
+        handleOnPressNotification={this.props.navigateToNotificationRoute}
+        handleOnUserPress={() => { this.props.handleOnUserPress(item.source) }}
+        globalProps={this.props.globalProps}
+      />
+    </>
   )
 
 
   render() {
-    const { readAllNotification, getActivities, isNotificationRefreshing, intl } = this.props;
+    const { readAllNotification, getActivities, isNotificationRefreshing, intl, isLoading } = this.props;
     const { filters, selectedFilter, selectedIndex } = this.state;
     const _notifications = this._getNotificationsArrays();
 
@@ -217,32 +223,35 @@ class NotificationView extends PureComponent {
         />
         <ThemeContainer>
           {({ isDarkTheme }) =>
-            _notifications && _notifications.length > 0 ? (
-              <FlatList
-                data={_notifications}
-                keyExtractor={(item, index) => `${item.id}-${index}`}
-                onEndReached={() => getActivities(selectedFilter, true)}
-                onEndReachedThreshold={0.3}
-                ListFooterComponent={this._renderFooterLoading}
-                ListEmptyComponent={<ListPlaceHolder />}
-                contentContainerStyle={styles.listContentContainer}
-                refreshControl={
-                  <RefreshControl
-                    refreshing={isNotificationRefreshing}
-                    onRefresh={() => getActivities(selectedFilter)}
-                    progressBackgroundColor="#357CE6"
-                    tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-                    titleColor="#fff"
-                    colors={['#fff']}
-                  />
+
+            <FlatList
+              ref={this.listRef}
+              data={_notifications}
+              keyExtractor={(item, index) => `${item.id}-${index}`}
+              onEndReached={() => getActivities(selectedFilter, true)}
+              onEndReachedThreshold={0.3}
+              ListFooterComponent={this._renderFooterLoading}
+              ListEmptyComponent={
+                isLoading ? <ListPlaceHolder/> : (
+                <Text style={globalStyles.hintText}>
+                  {intl.formatMessage({ id: 'notification.noactivity' })}
+                </Text>
+                )
                 }
-                renderItem={this._renderItem}
-              />
-            ) : (
-              <Text style={globalStyles.hintText}>
-                {intl.formatMessage({ id: 'notification.noactivity' })}
-              </Text>
-            )
+              contentContainerStyle={styles.listContentContainer}
+              refreshControl={
+                <RefreshControl
+                  refreshing={isNotificationRefreshing}
+                  onRefresh={() => getActivities(selectedFilter)}
+                  progressBackgroundColor="#357CE6"
+                  tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                  titleColor="#fff"
+                  colors={['#fff']}
+                />
+              }
+              renderItem={this._renderItem}
+            />
+
           }
         </ThemeContainer>
       </View>
