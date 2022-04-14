@@ -105,6 +105,7 @@ export const SET_OWN_PROFILE_TABS = 'SET_OWN_PROFILE_TABS';
 export const SET_BENEFICIARIES = 'SET_BENEFICIARIES';
 export const REMOVE_BENEFICIARIES = 'REMOVE_BENEFICIARIES';
 export const TEMP_BENEFICIARIES_ID = 'temp-beneficiaries';
+export const POWER_DOWN_BENEFICIARIES_ID = 'power-down-beneficiaries';
 
 //CACHE
 export const PURGE_EXPIRED_CACHE = 'PURGE_EXPIRED_CACHE';

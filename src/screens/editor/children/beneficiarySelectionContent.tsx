@@ -10,15 +10,16 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { BeneficiaryModal, FormInput, IconButton, TextButton } from '../../../components';
 import { Beneficiary } from '../../../redux/reducers/editorReducer';
 import { lookupAccounts } from '../../../providers/hive/dhive';
-import { TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
+import { TEMP_BENEFICIARIES_ID, POWER_DOWN_BENEFICIARIES_ID } from '../../../redux/constants/constants';
 import { removeBeneficiaries, setBeneficiaries as setBeneficiariesAction } from '../../../redux/actions/editorActions';
 
 interface BeneficiarySelectionContent {
   draftId:string;
   setDisableDone:(value:boolean)=>void;
+  powerDown?: boolean;
 }
 
-const BeneficiarySelectionContent = ({ draftId, setDisableDone }) => {
+const BeneficiarySelectionContent = ({ draftId, setDisableDone, powerDown }) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
@@ -36,6 +37,12 @@ const BeneficiarySelectionContent = ({ draftId, setDisableDone }) => {
   const [newEditable, setNewEditable] = useState(false);
 
   useEffect(() => {
+    if(powerDown){
+      readTempBeneficiaries();
+    }
+  },[]);
+
+  useEffect(() => {
       readTempBeneficiaries();
   }, [draftId]);
 
@@ -46,7 +53,7 @@ const BeneficiarySelectionContent = ({ draftId, setDisableDone }) => {
 
   const readTempBeneficiaries = async () => {
     if(beneficiariesMap){
-      const tempBeneficiaries = beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID];
+      const tempBeneficiaries = beneficiariesMap[powerDown ? POWER_DOWN_BENEFICIARIES_ID : draftId || TEMP_BENEFICIARIES_ID];
       
       if (isArray(tempBeneficiaries) && tempBeneficiaries.length > 0) {
 
@@ -66,7 +73,7 @@ const BeneficiarySelectionContent = ({ draftId, setDisableDone }) => {
 
 
   const _saveBeneficiaries = (value:Beneficiary[]) => {
-    dispatch(setBeneficiariesAction(draftId || TEMP_BENEFICIARIES_ID, value));
+    dispatch(setBeneficiariesAction(powerDown ? POWER_DOWN_BENEFICIARIES_ID : draftId || TEMP_BENEFICIARIES_ID, value));
   }
 
 

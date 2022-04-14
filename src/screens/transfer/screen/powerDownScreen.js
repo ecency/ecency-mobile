@@ -28,6 +28,7 @@ import { isEmptyDate } from '../../../utils/time';
 
 import styles from './transferStyles';
 import { OptionsModal } from '../../../components/atoms';
+import BeneficiarySelectionContent from '../../editor/children/beneficiarySelectionContent';
 /* Props
  * ------------------------------------------------
  *   @prop { type }    name                - Description....
@@ -43,6 +44,7 @@ class PowerDownView extends Component {
       isTransfering: false,
       isOpenWithdrawAccount: false,
       destinationAccounts: [],
+      disableDone: false,
     };
 
     this.startActionSheet = React.createRef();
@@ -155,6 +157,13 @@ class PowerDownView extends Component {
     </Fragment>
   );
 
+  _renderBeneficiarySelectionContent = () => (
+    <BeneficiarySelectionContent setDisableDone={this._handleSetDisableDone} powerDown={true} />
+  );
+
+  _handleSetDisableDone = (value) => {
+    this.setState({ disableDone: value });
+  };
   _handleOnDropdownChange = (value) => {
     const { fetchBalance } = this.props;
 
@@ -228,6 +237,7 @@ class PowerDownView extends Component {
         <BasicHeader title={intl.formatMessage({ id: `transfer.${transferType}` })} />
         <View style={styles.container}>
           <ScrollView>
+            {this._renderBeneficiarySelectionContent()}
             <View style={styles.middleContent}>
               <TransferFormItem
                 label={intl.formatMessage({ id: 'transfer.from' })}
