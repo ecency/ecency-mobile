@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Platform, BackHandler, Alert, Linking, AppState } from 'react-native';
+import { Platform, BackHandler, Alert, Linking, AppState, Appearance } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import Config from 'react-native-config';
 import get from 'lodash/get';
@@ -787,7 +787,7 @@ class ApplicationContainer extends Component {
     const settings = await getSettings();
 
     if (settings) {
-      const isDarkMode = false; //useDarkMode();
+      const isDarkMode = Appearance.getColorScheme() === 'dark';
       dispatch(isDarkTheme(settings.isDarkTheme !== null ? settings.isDarkTheme : isDarkMode));
       this.setState({
         isThemeReady: true,
