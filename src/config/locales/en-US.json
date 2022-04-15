@@ -241,7 +241,7 @@
       "always_warn": "Always warn"
     },
     "theme":{
-      "system": "System Defined",
+      "system": "Device settings",
       "light": "Light",
       "dark": "Dark"
     },
