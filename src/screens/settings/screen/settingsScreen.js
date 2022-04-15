@@ -129,7 +129,7 @@ const SettingsScreen = ({
                 id: item.key,
               }),
             )}
-            selectedOptionIndex={THEME_OPTIONS.findIndex(item=>item.value===themeSetting)}
+            selectedOptionIndex={THEME_OPTIONS.findIndex((item) => item.value === themeSetting)}
             handleOnChange={handleOnChange}
           />
 

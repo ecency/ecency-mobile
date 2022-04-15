@@ -33,6 +33,7 @@ public class MainActivity extends ReactActivity {
     setIntent(intent);
   }
 
+  //native side reference: https://github.com/facebook/react-native/issues/28823#issuecomment-642032481
   @Override
   public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);

@@ -92,11 +92,11 @@ class SettingsContainer extends Component {
         }),
       );
 
-    getTheme().then((themeSetting)=>{
+    getTheme().then((themeSetting) => {
       this.setState({
-        themeSetting
-      })
-    })
+        themeSetting,
+      });
+    });
   }
 
   // Component Functions
@@ -126,15 +126,12 @@ class SettingsContainer extends Component {
         let setting = THEME_OPTIONS[action].value;
         const systemTheme = Appearance.getColorScheme();
 
-        dispatch(isDarkTheme(setting === null
-          ? systemTheme === 'dark'
-          : setting
-        ));
-        
+        dispatch(isDarkTheme(setting === null ? systemTheme === 'dark' : setting));
+
         setTheme(setting);
         this.setState({
-          themeSetting:setting
-        })
+          themeSetting: setting,
+        });
         break;
 
       default:
