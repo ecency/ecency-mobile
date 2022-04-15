@@ -121,6 +121,7 @@ export const setPreviousAppState = () => {
 
 let firebaseOnNotificationOpenedAppListener = null;
 let firebaseOnMessageListener = null;
+let removeAppearanceListener = null;
 let scAccounts = [];
 
 class ApplicationContainer extends Component {
@@ -152,13 +153,14 @@ class ApplicationContainer extends Component {
     AppState.addEventListener('change', this._handleAppStateChange);
     setPreviousAppState();
 
-    /*if (nativeThemeEventEmitter) {
-      nativeThemeEventEmitter.on('currentModeChanged', (newMode) => {
-        const { dispatch } = this.props;
+    //use Appearance.addChangeListener here to change app theme on the fly
+    //native side reference: https://github.com/facebook/react-native/issues/28823#issuecomment-642032481
+    this.removeAppearanceListener = Appearance.addChangeListener(({ colorScheme }) => {
+      console.log('OS color scheme changed', colorScheme);
+      const _isDarkMode = colorScheme === 'dark';
+      dispatch(isDarkTheme(_isDarkMode));
+    });
 
-        dispatch(isDarkTheme(newMode === 'dark'));
-      });
-    }*/
     this._createPushListener();
 
     if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
@@ -254,6 +256,10 @@ class ApplicationContainer extends Component {
 
     if (firebaseOnNotificationOpenedAppListener) {
       firebaseOnNotificationOpenedAppListener();
+    }
+
+    if (removeAppearanceListener) {
+      removeAppearanceListener();
     }
 
     this.netListener();
