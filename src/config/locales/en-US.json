@@ -217,7 +217,7 @@
     "currency": "Currency",
     "language": "Language",
     "server": "Server",
-    "dark_theme": "Dark Theme",
+    "color_theme": "Color Theme",
     "push_notification": "Push Notification",
     "notification": {
       "follow": "Follow",
@@ -239,6 +239,11 @@
       "always_show": "Always show",
       "always_hide": "Always hide",
       "always_warn": "Always warn"
+    },
+    "theme":{
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "Email successfully open",
     "feedback_fail": "Email client could not open",
