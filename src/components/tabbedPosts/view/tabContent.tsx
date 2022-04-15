@@ -50,7 +50,7 @@ const TabContent = ({
   const initPosts = useSelector((state) => state.posts.initPosts)
 
   const username = currentAccount.username;
-  const curPinned = currentAccount.about?.pinned;
+  const userPinned = currentAccount.about?.profile?.pinned;
 
 
   //state
@@ -61,6 +61,7 @@ const TabContent = ({
   const [latestPosts, setLatestPosts] = useState<any[]>([]);
   const [postFetchTimer, setPostFetchTimer] = useState(0)
   const [enableScrollTop, setEnableScrollTop] = useState(false);
+  const [curPinned, setCurPinned] = useState(pinnedPermlink)
 
   //refs
   let postsListRef = useRef<PostsListRef>()
@@ -105,11 +106,13 @@ const TabContent = ({
   }, [filterScrollRequest])
 
   useEffect(()=>{
-    if(pageType === 'ownProfile' && curPinned !== pinnedPermlink ){
+    console.log("curPinned change", userPinned);
+    if(pageType === 'ownProfile' && userPinned !== curPinned ){
       _scrollToTop();
-      _loadPosts({shouldReset:true, _pinnedPermlink:curPinned})
+      _loadPosts({shouldReset:true, _pinnedPermlink:userPinned})
+      setCurPinned(userPinned);
     }
-  },[curPinned])
+  },[userPinned])
 
 
   const _cleanup = () => {
@@ -173,7 +176,7 @@ const TabContent = ({
     _feedUsername = isFeedScreen? sessionUserRef.current:feedUsername,
     _posts = postsRef.current,
     _tabMeta = tabMeta,
-    _pinnedPermlink = pinnedPermlink
+    _pinnedPermlink = curPinned
   }:{
     shouldReset?:boolean;
     isLatestPostsCheck?:boolean;
