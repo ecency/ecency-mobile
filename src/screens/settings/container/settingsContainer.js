@@ -88,6 +88,12 @@ class SettingsContainer extends Component {
           serverList: SERVER_LIST,
         }),
       );
+
+    getTheme().then((themeSetting)=>{
+      this.setState({
+        themeSetting
+      })
+    })
   }
 
   // Component Functions
@@ -452,7 +458,7 @@ class SettingsContainer extends Component {
   };
 
   render() {
-    const { serverList, isNotificationMenuOpen, isLoading } = this.state;
+    const { serverList, isNotificationMenuOpen, isLoading, themeSetting } = this.state;
 
     return (
       <SettingsScreen
@@ -461,6 +467,7 @@ class SettingsContainer extends Component {
         isNotificationMenuOpen={isNotificationMenuOpen}
         handleOnButtonPress={this._handleButtonPress}
         isLoading={isLoading}
+        themeSetting={themeSetting}
         {...this.props}
       />
     );
