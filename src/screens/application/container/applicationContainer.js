@@ -38,6 +38,7 @@ import {
   setVersionForWelcomeModal,
   getLastUpdateCheck,
   setLastUpdateCheck,
+  getTheme,
 } from '../../../realm/realm';
 import { getUser, getPost, getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
 import { getUser as getEcencyUser } from '../../../providers/ecency/ePoint';
@@ -153,13 +154,7 @@ class ApplicationContainer extends Component {
     AppState.addEventListener('change', this._handleAppStateChange);
     setPreviousAppState();
 
-    //use Appearance.addChangeListener here to change app theme on the fly
-    //native side reference: https://github.com/facebook/react-native/issues/28823#issuecomment-642032481
-    this.removeAppearanceListener = Appearance.addChangeListener(({ colorScheme }) => {
-      console.log('OS color scheme changed', colorScheme);
-      const _isDarkMode = colorScheme === 'dark';
-      dispatch(isDarkTheme(_isDarkMode));
-    });
+    this.removeAppearanceListener = Appearance.addChangeListener(this._appearanceChangeListener);
 
     this._createPushListener();
 
@@ -271,6 +266,17 @@ class ApplicationContainer extends Component {
       if (state.isConnected !== isConnected) {
         dispatch(setConnectivityStatus(state.isConnected));
         this._fetchApp();
+      }
+    });
+  };
+
+  //change app theme on the fly
+  _appearanceChangeListener = ({ colorScheme }) => {
+    console.log('OS color scheme changed', colorScheme);
+    const { dispatch } = this.props;
+    getTheme().then((darkThemeSetting) => {
+      if (darkThemeSetting === null) {
+        dispatch(isDarkTheme(colorScheme === 'dark'));
       }
     });
   };
