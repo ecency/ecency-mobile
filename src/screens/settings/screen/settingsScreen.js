@@ -10,6 +10,7 @@ import { groomingServerName } from '../../../utils/settings';
 import LANGUAGE, { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
 import CURRENCY, { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
 import NSFW from '../../../constants/options/nsfw';
+import THEME_OPTIONS from '../../../constants/options/theme';
 
 // Components
 import { BasicHeader, SettingsItem, CollapsibleCard } from '../../../components';
@@ -21,6 +22,7 @@ const SettingsScreen = ({
   handleOnChange,
   intl,
   isDarkTheme,
+  themeSetting,
   isPinCodeOpen,
   isLoggedIn,
   isNotificationSettingsOpen,
@@ -118,13 +120,19 @@ const SettingsScreen = ({
           />
           <SettingsItem
             title={intl.formatMessage({
-              id: 'settings.dark_theme',
+              id: 'settings.color_theme',
             })}
-            type="toggle"
+            type="dropdown"
             actionType="theme"
-            isOn={isDarkTheme}
+            options={THEME_OPTIONS.map((item) =>
+              intl.formatMessage({
+                id: item.key,
+              }),
+            )}
+            selectedOptionIndex={THEME_OPTIONS.findIndex(item=>item.value===themeSetting)}
             handleOnChange={handleOnChange}
           />
+
           {!!isLoggedIn && (
             <SettingsItem
               title={intl.formatMessage({
