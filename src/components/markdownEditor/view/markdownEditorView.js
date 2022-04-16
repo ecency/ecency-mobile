@@ -178,7 +178,10 @@ const MarkdownEditorView = ({
 
   useEffect(() => {
     if (autoFocusText && inputRef && inputRef.current && draftBtnTooltipRegistered) {
-      inputRef.current.focus();
+      // added delay to open keyboard, solves the issue of keyboard not opening
+      setTimeout(() => {
+        inputRef.current.focus();
+      }, 1000);
     }
   }, [autoFocusText]);
 

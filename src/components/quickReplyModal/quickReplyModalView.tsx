@@ -28,24 +28,8 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
   const [selectedPost, setSelectedPost] = useState(null);
   const [commentValue, setCommentValue] = useState('');
   const [isSending, setIsSending] = useState(false);
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const sheetModalRef = useRef<ActionSheet>();
   const inputRef = useRef<TextInput>(null);
-
-  // keyboard listener hook for checking if keyboard is active/inactove
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
-      setKeyboardVisible(true); // or some other action
-    });
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-      setKeyboardVisible(false); // or some other action
-    });
-
-    return () => {
-      keyboardDidHideListener.remove();
-      keyboardDidShowListener.remove();
-    };
-  }, []);
 
   // reset the state when post changes
   useEffect(() => {
@@ -69,7 +53,6 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
   // handle close press
   const _handleClosePress = () => {
     sheetModalRef.current?.setModalVisible(false);
-    setKeyboardVisible(false);
   };
   // navigate to post on summary press
   const _handleOnSummaryPress = () => {
