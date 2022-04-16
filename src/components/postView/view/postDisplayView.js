@@ -208,7 +208,7 @@ const PostDisplayView = ({
 
   // show quick reply modal
   const _showQuickReplyModal = (post) => {
-    // console.log('post: ', post);
+    // console.log('post in _showQuickReplyModal : ', post);
     if (isLoggedIn) {
       quickReplyModalRef.current.show(post);
     } else {
@@ -266,6 +266,7 @@ const PostDisplayView = ({
               commentCount={post.children}
               fetchPost={fetchPost}
               handleOnVotersPress={handleOnVotersPress}
+              handleOnReplyPress={_showQuickReplyModal}
               fetchedAt={post.post_fetched_at}
             />
           )}

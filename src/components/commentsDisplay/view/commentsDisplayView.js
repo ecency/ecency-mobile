@@ -18,6 +18,7 @@ const CommentsDisplayView = ({
   permlink,
   mainAuthor,
   handleOnVotersPress,
+  handleOnReplyPress,
   fetchedAt,
 }) => {
   const [selectedFilter, setSelectedFilter] = useState('trending');
@@ -50,6 +51,7 @@ const CommentsDisplayView = ({
               permlink={permlink}
               mainAuthor={mainAuthor}
               handleOnVotersPress={handleOnVotersPress}
+              handleOnReplyPress={handleOnReplyPress}
               fetchedAt={fetchedAt}
             />
           </View>
