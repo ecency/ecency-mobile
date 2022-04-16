@@ -28,9 +28,11 @@ export default EStyleSheet.create({
     textAlign: 'left',
   },
   dropdownStyle: {
-    marginTop: 15,
+    marginTop: 4,
     minWidth: 192,
     width: 192,
+    borderWidth: EStyleSheet.hairlineWidth,
+    borderColor: '$primaryDarkGray',
   },
   dropdownButtonStyle: {
     borderColor: '$primaryGray',
