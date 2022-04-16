@@ -423,7 +423,6 @@ const MarkdownEditorView = ({
       _setTextAndSelection({ text: '', selection: { start: 0, end: 0 } });
     }
   };
-
   const _renderEditor = () => (
     <>
       {isReply && !isEdit && <SummaryArea summary={post.summary} />}
@@ -471,7 +470,7 @@ const MarkdownEditorView = ({
             <TextInput
               multiline
               autoCorrect={true}
-              autoFocus={isReply && draftBtnTooltipRegistered ? true : false}
+              autoFocus={true}
               onChangeText={_changeText}
               onSelectionChange={_handleOnSelectionChange}
               placeholder={intl.formatMessage({

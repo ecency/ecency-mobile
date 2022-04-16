@@ -46,7 +46,7 @@ export default EStyleSheet.create({
   },
   footer: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal:16,
   },
@@ -56,11 +56,15 @@ export default EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-
+  replyBtnContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   replySection: {
     paddingTop: 10,
     paddingBottom: 0,
   },
+  
   accountTile: {
     height: 60,
     flexDirection: 'row',

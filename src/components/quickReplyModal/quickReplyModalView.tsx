@@ -16,7 +16,6 @@ import { default as ROUTES } from '../../constants/routeNames';
 import get from 'lodash/get';
 import { navigate } from '../../navigation/service';
 import { Portal } from 'react-native-portalize';
-import { renderPostBody } from '@ecency/render-helper';
 
 export interface QuickReplyModalProps {}
 
@@ -172,6 +171,19 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
     }
   };
 
+  const _handleExpandBtn = () => {
+    if(selectedPost){
+      navigate({
+        routeName: ROUTES.SCREENS.EDITOR,
+        key: 'editor_replay',
+        params: {
+          isReply: true,
+          post: selectedPost,
+        },
+      });
+      sheetModalRef.current?.setModalVisible(false);
+    }
+  }
   //VIEW_RENDERERS
 
   const _renderSheetHeader = () => (
@@ -202,6 +214,37 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
     </View>
   );
 
+  const _renderExpandBtn = () => (
+    <View style={styles.expandBtnContainer}>
+      <IconButton
+          iconStyle={styles.backIcon}
+          iconType="MaterialCommunityIcons"
+          name="arrow-expand"
+          onPress={_handleExpandBtn}
+          size={28}
+          color={EStyleSheet.value('$primaryBlack')}
+        />
+    </View>
+  )
+  const _renderReplyBtn = () => (
+    <View style={styles.replyBtnContainer}>
+      <TextButton
+        style={styles.cancelButton}
+        onPress={_handleClosePress}
+        text={intl.formatMessage({
+          id: 'quick_reply.close',
+        })}
+      />
+      <MainButton
+        style={styles.commentBtn}
+        onPress={() => _submitReply()}
+        text={intl.formatMessage({
+          id: 'quick_reply.reply',
+        })}
+        isLoading={isSending}
+      />
+    </View>
+  );
   const _renderContent = () => {
     return (
       <View style={styles.modalContainer}>
@@ -225,21 +268,8 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
           />
         </View>
         <View style={styles.footer}>
-            <TextButton
-                style={styles.cancelButton}
-                onPress={_handleClosePress}
-                text={intl.formatMessage({
-                  id: 'quick_reply.close',
-                })}
-              />
-          <MainButton
-            style={styles.commentBtn}
-            onPress={() => _submitReply()}
-            text={intl.formatMessage({
-              id: 'quick_reply.reply',
-            })}
-            isLoading={isSending}
-          />
+            {_renderExpandBtn()}
+            {_renderReplyBtn()}
         </View>
       </View>
     );
