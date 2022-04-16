@@ -470,7 +470,7 @@ const MarkdownEditorView = ({
             <TextInput
               multiline
               autoCorrect={true}
-              autoFocus={true}
+              autoFocus={!draftBtnTooltipRegistered ? false : true}
               onChangeText={_changeText}
               onSelectionChange={_handleOnSelectionChange}
               placeholder={intl.formatMessage({

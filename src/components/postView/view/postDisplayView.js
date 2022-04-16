@@ -22,6 +22,7 @@ import { ParentPost } from '../../parentPost';
 // Styles
 import styles from './postDisplayStyles';
 import { OptionsModal } from '../../atoms';
+import { QuickReplyModal } from '../..';
 
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
@@ -55,6 +56,8 @@ const PostDisplayView = ({
   const [refreshing, setRefreshing] = useState(false);
   const [postBodyLoading, setPostBodyLoading] = useState(false);
   const [tags, setTags] = useState([]);
+
+  const quickReplyModalRef = useRef(null);
 
   // Component Life Cycles
   useEffect(() => {
@@ -137,7 +140,8 @@ const PostDisplayView = ({
               isClickable
               text={get(post, 'children', 0)}
               textMarginLeft={20}
-              onPress={() => handleOnReplyPress && handleOnReplyPress()}
+              onPress={() => _showQuickReplyModal(post)}
+              // onPress={() => handleOnReplyPress && handleOnReplyPress()}
             />
           )}
           {!isLoggedIn && (
@@ -200,6 +204,16 @@ const PostDisplayView = ({
 
   const _handleOnPostBodyLoad = () => {
     setPostBodyLoading(false);
+  };
+
+  // show quick reply modal
+  const _showQuickReplyModal = (post) => {
+    // console.log('post: ', post);
+    if (isLoggedIn) {
+      quickReplyModalRef.current.show(post);
+    } else {
+      console.log('Not LoggedIn');
+    }
   };
 
   return (
@@ -268,6 +282,7 @@ const PostDisplayView = ({
         cancelButtonIndex={1}
         onPress={(index) => (index === 0 ? handleOnRemovePress(get(post, 'permlink')) : null)}
       />
+      <QuickReplyModal ref={quickReplyModalRef} />
     </View>
   );
 };
