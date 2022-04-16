@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Platform, BackHandler, Alert, Linking, AppState } from 'react-native';
+import { Platform, BackHandler, Alert, Linking, AppState, Appearance } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import Config from 'react-native-config';
 import get from 'lodash/get';
@@ -38,6 +38,7 @@ import {
   setVersionForWelcomeModal,
   getLastUpdateCheck,
   setLastUpdateCheck,
+  getTheme,
 } from '../../../realm/realm';
 import { getUser, getPost, getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
 import { getUser as getEcencyUser } from '../../../providers/ecency/ePoint';
@@ -121,6 +122,7 @@ export const setPreviousAppState = () => {
 
 let firebaseOnNotificationOpenedAppListener = null;
 let firebaseOnMessageListener = null;
+let removeAppearanceListener = null;
 let scAccounts = [];
 
 class ApplicationContainer extends Component {
@@ -152,13 +154,8 @@ class ApplicationContainer extends Component {
     AppState.addEventListener('change', this._handleAppStateChange);
     setPreviousAppState();
 
-    /*if (nativeThemeEventEmitter) {
-      nativeThemeEventEmitter.on('currentModeChanged', (newMode) => {
-        const { dispatch } = this.props;
+    this.removeAppearanceListener = Appearance.addChangeListener(this._appearanceChangeListener);
 
-        dispatch(isDarkTheme(newMode === 'dark'));
-      });
-    }*/
     this._createPushListener();
 
     if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
@@ -256,6 +253,10 @@ class ApplicationContainer extends Component {
       firebaseOnNotificationOpenedAppListener();
     }
 
+    if (removeAppearanceListener) {
+      removeAppearanceListener();
+    }
+
     this.netListener();
   }
 
@@ -265,6 +266,17 @@ class ApplicationContainer extends Component {
       if (state.isConnected !== isConnected) {
         dispatch(setConnectivityStatus(state.isConnected));
         this._fetchApp();
+      }
+    });
+  };
+
+  //change app theme on the fly
+  _appearanceChangeListener = ({ colorScheme }) => {
+    console.log('OS color scheme changed', colorScheme);
+    const { dispatch } = this.props;
+    getTheme().then((darkThemeSetting) => {
+      if (darkThemeSetting === null) {
+        dispatch(isDarkTheme(colorScheme === 'dark'));
       }
     });
   };
@@ -787,7 +799,7 @@ class ApplicationContainer extends Component {
     const settings = await getSettings();
 
     if (settings) {
-      const isDarkMode = false; //useDarkMode();
+      const isDarkMode = Appearance.getColorScheme() === 'dark';
       dispatch(isDarkTheme(settings.isDarkTheme !== null ? settings.isDarkTheme : isDarkMode));
       this.setState({
         isThemeReady: true,

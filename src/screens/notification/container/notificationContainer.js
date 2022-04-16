@@ -7,7 +7,6 @@ import { injectIntl } from 'react-intl';
 
 // Actions and Services
 import { unionBy } from 'lodash';
-import reactotron from 'reactotron-react-native';
 import { getNotifications, markNotifications } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 
@@ -25,8 +24,9 @@ class NotificationContainer extends Component {
     super(props);
     this.state = {
       notifications: [],
+      notificationsMap: new Map(),
       lastNotificationId: null,
-      isRefreshing: false,
+      isRefreshing: true,
       isLoading: false,
       selectedFilter: 'activities',
       endOfNotification: false,
@@ -42,7 +42,7 @@ class NotificationContainer extends Component {
   }
 
   _getActivities = (type = 'activities', loadMore = false) => {
-    const { lastNotificationId, notifications, endOfNotification, isLoading } = this.state;
+    const { lastNotificationId, endOfNotification, isLoading, notificationsMap } = this.state;
     const since = loadMore ? lastNotificationId : null;
 
     if (isLoading) {
@@ -65,8 +65,12 @@ class NotificationContainer extends Component {
               isLoading: false,
             });
           } else {
+            const _notifications = loadMore
+              ? unionBy(notificationsMap.get(type) || [], res, 'id')
+              : res;
+            notificationsMap.set(type, _notifications);
             this.setState({
-              notifications: loadMore ? unionBy(notifications, res, 'id') : res,
+              notificationsMap,
               lastNotificationId: lastId,
               isRefreshing: false,
               isLoading: false,
@@ -166,7 +170,7 @@ class NotificationContainer extends Component {
   };
 
   _changeSelectedFilter = async (value, ind) => {
-    await this.setState({ selectedFilter: value, endOfNotification: false, selectedIndex: ind });
+    this.setState({ selectedFilter: value, endOfNotification: false, selectedIndex: ind });
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -183,12 +187,13 @@ class NotificationContainer extends Component {
 
   render() {
     const { isLoggedIn, globalProps } = this.props;
-    const { notifications, isRefreshing } = this.state;
+    const { notificationsMap, selectedFilter, isRefreshing, isLoading } = this.state;
 
+    const _notifications = notificationsMap.get(selectedFilter) || [];
     return (
       <NotificationScreen
         getActivities={this._getActivities}
-        notifications={notifications}
+        notifications={_notifications}
         navigateToNotificationRoute={this._navigateToNotificationRoute}
         handleOnUserPress={this._handleOnUserPress}
         readAllNotification={this._readAllNotification}
@@ -197,6 +202,7 @@ class NotificationContainer extends Component {
         isLoggedIn={isLoggedIn}
         changeSelectedFilter={this._changeSelectedFilter}
         globalProps={globalProps}
+        isLoading={isLoading}
       />
     );
   }

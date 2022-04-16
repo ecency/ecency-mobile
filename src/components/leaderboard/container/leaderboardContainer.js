@@ -12,6 +12,7 @@ import ROUTES from '../../../constants/routeNames';
 
 // Component
 import LeaderboardView from '../view/leaderboardView';
+import { showProfileModal } from '../../../redux/actions/uiAction';
 
 /*
  *            Props Name        Description                                     Value
@@ -39,14 +40,8 @@ class LeaderboardContainer extends PureComponent {
   }
 
   _handleOnUserPress = (username) => {
-    const { navigation } = this.props;
-
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.PROFILE,
-      params: {
-        username,
-      },
-    });
+    const { dispatch } = this.props;
+    dispatch(showProfileModal(username));
   };
 
   _fetchLeaderBoard = async (selectedFilter, index) => {
