@@ -217,7 +217,7 @@
     "currency": "Currency",
     "language": "Language",
     "server": "Server",
-    "color_theme": "Color Theme",
+    "color_theme": "Appearance",
     "push_notification": "Push Notification",
     "notification": {
       "follow": "Follow",
