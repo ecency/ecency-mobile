@@ -55,5 +55,11 @@ export default EStyleSheet.create({
     thumbSelectContainer:{
       marginTop:12,
     },
-    
+    checkBoxHeader: {
+      width: 50,
+    },
+    checkBoxContainer: {
+      width: 50,
+      marginTop:12,
+    }
 });
