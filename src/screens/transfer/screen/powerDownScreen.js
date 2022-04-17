@@ -185,6 +185,17 @@ class PowerDownView extends Component {
         );
       }
     };
+
+    const _handleRemoveBeneficiary = (beneficiary) => {
+      if (beneficiary) {
+        const beneficiaryAccount = {
+          username: beneficiary.account,
+          percent: beneficiary.weight / 100,
+          autoPowerUp: beneficiary.autoPowerUp,
+        };
+        this._removeDestinationAccount(beneficiaryAccount);
+      }
+    };
     return (
       <View style={styles.beneficiaryContainer}>
         <BeneficiarySelectionContent
@@ -192,6 +203,7 @@ class PowerDownView extends Component {
           powerDown={true}
           powerDownBeneficiaries={powerDownBeneficiaries}
           handleSaveBeneficiary={_handleSaveBeneficiary}
+          handleRemoveBeneficiary={_handleRemoveBeneficiary}
         />
       </View>
     );

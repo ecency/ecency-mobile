@@ -22,6 +22,7 @@ interface BeneficiarySelectionContentProps {
   powerDown?: boolean;
   powerDownBeneficiaries?: Beneficiary[];
   handleSaveBeneficiary?: (beneficiaries: Beneficiary[]) => void;
+  handleRemoveBeneficiary?: (beneficiary: Beneficiary) => void;
 }
 
 const BeneficiarySelectionContent = ({
@@ -30,6 +31,7 @@ const BeneficiarySelectionContent = ({
   powerDown,
   powerDownBeneficiaries,
   handleSaveBeneficiary,
+  handleRemoveBeneficiary,
 }: BeneficiarySelectionContentProps) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
@@ -306,8 +308,13 @@ const BeneficiarySelectionContent = ({
 
     const _onRemovePress = () => {
       beneficiaries[0].weight = beneficiaries[0].weight + item.weight;
-      beneficiaries.splice(index, 1);
+      const removedBeneficiary = beneficiaries.splice(index, 1);
       setBeneficiaries([...beneficiaries]);
+      console.log('removedBeneficiary : ', removedBeneficiary);
+      if(handleRemoveBeneficiary){
+        handleRemoveBeneficiary(removedBeneficiary[0]);
+        return;
+      }
       _saveBeneficiaries(beneficiaries);
     };
 
