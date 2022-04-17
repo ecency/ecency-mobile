@@ -30,12 +30,11 @@ export default EStyleSheet.create({
     paddingVertical: 16,
     marginTop: 16,
   },
+  scroll: {},
   middleContent: {
-    flex: 3,
-    justifyContent: 'center',
+    flex: 1,
   },
   bottomContent: {
-    flex: 2,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -83,6 +82,7 @@ export default EStyleSheet.create({
   stopButton: {
     width: '$deviceWidth / 3',
     marginTop: 30,
+    marginBottom: 30,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'red',
@@ -320,5 +320,8 @@ export default EStyleSheet.create({
   },
   fullHeight: {
     height: '100%',
+  },
+  beneficiaryContainer: {
+    paddingHorizontal: 12,
   },
 });

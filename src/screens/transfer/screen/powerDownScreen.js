@@ -18,6 +18,7 @@ import {
   InformationBox,
   Icon,
   IconButton,
+  BeneficiarySelectionContent,
 } from '../../../components';
 import WithdrawAccountModal from './withdrawAccountModal';
 
@@ -28,7 +29,8 @@ import { isEmptyDate } from '../../../utils/time';
 
 import styles from './transferStyles';
 import { OptionsModal } from '../../../components/atoms';
-import BeneficiarySelectionContent from '../../editor/children/beneficiarySelectionContent';
+import { Beneficiary } from '../../../redux/reducers/editorReducer';
+
 /* Props
  * ------------------------------------------------
  *   @prop { type }    name                - Description....
@@ -157,9 +159,43 @@ class PowerDownView extends Component {
     </Fragment>
   );
 
-  _renderBeneficiarySelectionContent = () => (
-    <BeneficiarySelectionContent setDisableDone={this._handleSetDisableDone} powerDown={true} />
-  );
+  _renderBeneficiarySelectionContent = () => {
+    const { from, destinationAccounts, amount } = this.state;
+    const powerDownBeneficiaries = destinationAccounts?.map((item) => ({
+      account: item.username,
+      weight: item.percent * 100,
+      autoPowerUp: item.autoPowerUp,
+    }));
+
+    const _handleSaveBeneficiary = (beneficiaries) => {
+      console.log('beneficiaries in  _handleSaveBeneficiary: ', beneficiaries);
+      const destinationAccounts = beneficiaries.map((item) => ({
+        username: item.account,
+        percent: item.weight / 100,
+        autoPowerUp: item.autoPowerUp,
+      }));
+      console.log('destinationAccounts in _handleSaveBeneficiary :', destinationAccounts);
+      let latestDestinationAccount = destinationAccounts[destinationAccounts.length - 1];
+      console.log('latestDestinationAccount : ', latestDestinationAccount);
+      if (latestDestinationAccount.username && latestDestinationAccount.percent) {
+        this._handleOnSubmit(
+          latestDestinationAccount.username,
+          latestDestinationAccount.percent,
+          latestDestinationAccount.autoPowerUp,
+        );
+      }
+    };
+    return (
+      <View style={styles.beneficiaryContainer}>
+        <BeneficiarySelectionContent
+          setDisableDone={this._handleSetDisableDone}
+          powerDown={true}
+          powerDownBeneficiaries={powerDownBeneficiaries}
+          handleSaveBeneficiary={_handleSaveBeneficiary}
+        />
+      </View>
+    );
+  };
 
   _handleSetDisableDone = (value) => {
     this.setState({ disableDone: value });
@@ -232,21 +268,23 @@ class PowerDownView extends Component {
     const spCalculated = vestsToHp(amount, hivePerMVests);
     const fundPerWeek = Math.round((spCalculated / 13) * 1000) / 1000;
 
+    console.log('this.state : ', this.state);
+
     return (
       <Fragment>
         <BasicHeader title={intl.formatMessage({ id: `transfer.${transferType}` })} />
         <View style={styles.container}>
-          <ScrollView>
+          <ScrollView style={styles.scroll} contentContainerStyle={{ flexGrow: 1 }}>
             {this._renderBeneficiarySelectionContent()}
             <View style={styles.middleContent}>
-              <TransferFormItem
+              {/* <TransferFormItem
                 label={intl.formatMessage({ id: 'transfer.from' })}
                 rightComponent={() => this._renderDropdown(accounts, currentAccountName)}
               />
               <TransferFormItem
                 label={intl.formatMessage({ id: 'transfer.destination_accounts' })}
                 rightComponent={this._renderDestinationAccountItems}
-              />
+              /> */}
               {!poweringDown && (
                 <Fragment>
                   <TransferFormItem

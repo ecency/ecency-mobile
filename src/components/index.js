@@ -97,6 +97,7 @@ import Tooltip from './tooltip/tooltipView';
 import VideoPlayer from './videoPlayer/videoPlayerView';
 import QRModal from './qrModal/qrModalView';
 import { SimpleChart } from './simpleChart';
+import BeneficiarySelectionContent from './beneficiarySelectionContent/beneficiarySelectionContent';
 
 // Basic UI Elements
 import {
@@ -243,4 +244,5 @@ export {
   InsertLinkModal,
   QRModal,
   SimpleChart,
+  BeneficiarySelectionContent,
 };

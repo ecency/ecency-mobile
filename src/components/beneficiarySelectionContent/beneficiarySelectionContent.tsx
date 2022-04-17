@@ -6,44 +6,75 @@ import { isArray, debounce } from 'lodash';
 import styles from './styles';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { BeneficiaryModal, FormInput, IconButton, TextButton } from '../../../components';
-import { Beneficiary } from '../../../redux/reducers/editorReducer';
-import { lookupAccounts } from '../../../providers/hive/dhive';
-import { TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
-import { removeBeneficiaries, setBeneficiaries as setBeneficiariesAction } from '../../../redux/actions/editorActions';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { BeneficiaryModal, FormInput, IconButton, TextButton } from '../../components';
+import { Beneficiary } from '../../redux/reducers/editorReducer';
+import { lookupAccounts } from '../../providers/hive/dhive';
+import { TEMP_BENEFICIARIES_ID } from '../../redux/constants/constants';
+import { removeBeneficiaries, setBeneficiaries as setBeneficiariesAction } from '../../redux/actions/editorActions';
 
-interface BeneficiarySelectionContent {
+interface BeneficiarySelectionContentProps {
   draftId:string;
   setDisableDone:(value:boolean)=>void;
+  powerDown?: boolean;
+  powerDownBeneficiaries?: Beneficiary[];
+  handleSaveBeneficiary?:(beneficiaries: Beneficiary[]) => void;
 }
 
-const BeneficiarySelectionContent = ({ draftId, setDisableDone}) => {
+const BeneficiarySelectionContent = ({ draftId, setDisableDone, powerDown, powerDownBeneficiaries, handleSaveBeneficiary }:BeneficiarySelectionContentProps) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
   const beneficiariesMap = useAppSelector(state => state.editor.beneficiariesMap)
   const username = useAppSelector(state=>state.account.currentAccount.name)
 
-  const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([
-    { account: username, weight: 10000},
-  ]);
+  const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>(
+    [{ account: username, weight: 10000, autoPowerUp: false}]
+  );
 
   const [newUsername, setNewUsername] = useState('');
   const [newWeight, setNewWeight] = useState(0);
+  const [newAutoPowerUp, setNewAutoPowerUp] = useState(false);
   const [isUsernameValid, setIsUsernameValid] = useState(false);
   const [isWeightValid, setIsWeightValid] = useState(false);
   const [newEditable, setNewEditable] = useState(false);
 
+  useEffect(() => {
+    if(powerDown){
+      readPowerDownBeneficiaries();
+    }
+}, [powerDownBeneficiaries]);
 
   useEffect(() => {
-      readTempBeneficiaries();
+      if(draftId){
+        readTempBeneficiaries();
+      }
   }, [draftId]);
 
   useEffect(() => {
     setDisableDone(newEditable)
   }, [newEditable])
 
+  console.log('beneficiaries : ', beneficiaries);
+  
+  const readPowerDownBeneficiaries =  () => {
+      const tempBeneficiaries = [{ account: username, weight: 10000, autoPowerUp: false}, ...powerDownBeneficiaries]
+      console.log('tempBeneficiaries in readPowerDownBeneficiaries: ', tempBeneficiaries);
+      
+      if (isArray(tempBeneficiaries) && tempBeneficiaries.length > 0) {
+        //weight correction algorithm.
+        let othersWeight = 0;
+        tempBeneficiaries.forEach((item, index) => {
+          if(index > 0){
+            othersWeight += item.weight;
+          }
+        });
+        tempBeneficiaries[0].weight = 10000 - othersWeight;
+
+        setBeneficiaries([...tempBeneficiaries]);
+      }
+    
+  };
 
   const readTempBeneficiaries = async () => {
     if(beneficiariesMap){
@@ -67,7 +98,11 @@ const BeneficiarySelectionContent = ({ draftId, setDisableDone}) => {
 
 
   const _saveBeneficiaries = (value:Beneficiary[]) => {
-    dispatch(setBeneficiariesAction(draftId || TEMP_BENEFICIARIES_ID, value));
+    if(handleSaveBeneficiary){
+      handleSaveBeneficiary(value)
+    }else{
+      dispatch(setBeneficiariesAction(draftId || TEMP_BENEFICIARIES_ID, value));
+    }
   }
 
 
@@ -75,7 +110,8 @@ const BeneficiarySelectionContent = ({ draftId, setDisableDone}) => {
     if(newEditable){
       beneficiaries.push({
         account:newUsername,
-        weight:newWeight
+        weight:newWeight,
+        autoPowerUp: newAutoPowerUp
       })
     }
     _saveBeneficiaries(beneficiaries);

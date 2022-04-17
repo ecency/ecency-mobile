@@ -4,6 +4,7 @@ export interface Beneficiary {
     account:string,
     weight:number,
     isValid?:boolean,
+    autoPowerUp?: boolean,
 }
 
 interface State {
