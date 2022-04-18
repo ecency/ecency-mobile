@@ -121,7 +121,11 @@ const MarkdownEditorView = ({
 
   useEffect(() => {
     if (text === '' && draftBody !== '') {
-      _setTextAndSelection({ selection: { start: 0, end: 0 }, text: draftBody });
+      let draftBodyLength = draftBody.length;
+      _setTextAndSelection({
+        selection: { start: draftBodyLength, end: draftBodyLength },
+        text: draftBody,
+      });
     }
   }, [draftBody]);
 
