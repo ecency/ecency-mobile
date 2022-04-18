@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, Alert } from 'react-native';
+import { Platform, Alert, Appearance } from 'react-native';
 import { connect } from 'react-redux';
 import { Client } from '@hiveio/dhive';
 import VersionNumber from 'react-native-version-number';
@@ -7,6 +7,8 @@ import Config from 'react-native-config';
 import { injectIntl } from 'react-intl';
 import messaging from '@react-native-firebase/messaging';
 import { languageRestart } from '../../../utils/I18nUtils';
+import THEME_OPTIONS from '../../../constants/options/theme';
+
 // Realm
 import {
   getExistUser,
@@ -22,6 +24,7 @@ import {
   setAuthStatus,
   setExistUser,
   removeAllUserData,
+  getTheme,
 } from '../../../realm/realm';
 
 // Services and Actions
@@ -88,6 +91,12 @@ class SettingsContainer extends Component {
           serverList: SERVER_LIST,
         }),
       );
+
+    getTheme().then((themeSetting) => {
+      this.setState({
+        themeSetting,
+      });
+    });
   }
 
   // Component Functions
@@ -111,6 +120,18 @@ class SettingsContainer extends Component {
       case 'nsfw':
         dispatch(setNsfw(action));
         setNsfw2DB(action);
+        break;
+
+      case 'theme':
+        let setting = THEME_OPTIONS[action].value;
+        const systemTheme = Appearance.getColorScheme();
+
+        dispatch(isDarkTheme(setting === null ? systemTheme === 'dark' : setting));
+
+        setTheme(setting);
+        this.setState({
+          themeSetting: setting,
+        });
         break;
 
       default:
@@ -200,11 +221,6 @@ class SettingsContainer extends Component {
       case 'notification.reblog':
       case 'notification.transfers':
         this._handleNotification(action, actionType);
-        break;
-
-      case 'theme':
-        dispatch(isDarkTheme(action));
-        setTheme(action);
         break;
 
       case 'default_footer':
@@ -452,7 +468,7 @@ class SettingsContainer extends Component {
   };
 
   render() {
-    const { serverList, isNotificationMenuOpen, isLoading } = this.state;
+    const { serverList, isNotificationMenuOpen, isLoading, themeSetting } = this.state;
 
     return (
       <SettingsScreen
@@ -461,6 +477,7 @@ class SettingsContainer extends Component {
         isNotificationMenuOpen={isNotificationMenuOpen}
         handleOnButtonPress={this._handleButtonPress}
         isLoading={isLoading}
+        themeSetting={themeSetting}
         {...this.props}
       />
     );
