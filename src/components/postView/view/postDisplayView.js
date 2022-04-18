@@ -208,7 +208,8 @@ const PostDisplayView = ({
 
   // show quick reply modal
   const _showQuickReplyModal = (post) => {
-    // console.log('post in _showQuickReplyModal : ', post);
+    console.log('post in _showQuickReplyModal : ', post);
+    console.log('parentPost : ', parentPost);
     if (isLoggedIn) {
       quickReplyModalRef.current.show(post);
     } else {

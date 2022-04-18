@@ -86,5 +86,14 @@ export default EStyleSheet.create({
     marginLeft: 4,
     color: '$primaryDarkGray',
   },
-  
+  titleContainer: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: '$primaryBackgroundColor',
+  },
+  titleText: {
+    color: '$primaryBlack',
+    fontWeight: 'bold',
+    fontSize: 10,
+  },
 });

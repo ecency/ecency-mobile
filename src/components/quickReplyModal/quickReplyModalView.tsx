@@ -183,11 +183,19 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
   );
 
 
-  const _renderSummary = () => (
-    <TouchableOpacity onPress={() => _handleOnSummaryPress()}>
-      <SummaryArea style={styles.summaryStyle} summary={selectedPost.summary} />
-    </TouchableOpacity>
-  );
+  const _renderSummary = () => {
+    return selectedPost.summary ? (
+      <TouchableOpacity onPress={() => _handleOnSummaryPress()}>
+        <SummaryArea style={styles.summaryStyle} summary={selectedPost.summary} />
+      </TouchableOpacity>
+    ) : (
+      <View style={styles.titleContainer}>
+        <Text style={styles.titleText}>
+          {selectedPost.title}
+        </Text>
+      </View>
+    );
+  };
   const _renderAvatar = () => (
     <View style={styles.avatarAndNameContainer}>
       <UserAvatar noAction username={currentAccount.username} />
