@@ -323,5 +323,15 @@ export default EStyleSheet.create({
   },
   beneficiaryContainer: {
     paddingHorizontal: 12,
+    zIndex: 2,
+    paddingVertical: 16,
+    borderRadius: 12,
+    backgroundColor: '$primaryLightBackground',
+  },
+  scrollContentContainer: {
+    flexGrow: 1,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: 'red',
   },
 });

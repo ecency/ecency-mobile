@@ -619,7 +619,6 @@
     "percent_information": "Percent info",
     "next": "NEXT",
     "delegate": "Delegate",
-    "power_down": "Power Down",
     "withdraw_hive": "Withdraw HIVE",
     "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Incoming Funds",
@@ -638,7 +637,10 @@
     "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
     "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
     "username_alert": "Username Error!",
-    "username_alert_detail": "Please select different username"
+    "username_alert_detail": "Please select different username",
+    "power_down": "Power Down",
+    "power_down_amount_head": "withdraw amount",
+    "power_down_amount_subhead": "power down info here"
   },
   "boost": {
     "title": "Get Points",

@@ -5,6 +5,7 @@ import { injectIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
 
+import { View as AnimatedView } from 'react-native-animatable';
 import { getWithdrawRoutes } from '../../../providers/hive/dhive';
 import AUTH_TYPE from '../../../constants/authType';
 
@@ -19,6 +20,7 @@ import {
   Icon,
   IconButton,
   BeneficiarySelectionContent,
+  TextInput,
 } from '../../../components';
 import WithdrawAccountModal from './withdrawAccountModal';
 
@@ -51,6 +53,7 @@ class PowerDownView extends Component {
 
     this.startActionSheet = React.createRef();
     this.stopActionSheet = React.createRef();
+    this.amountTextInput = React.createRef();
   }
 
   // Component Functions
@@ -90,6 +93,11 @@ class PowerDownView extends Component {
     }
   };
 
+  _handleAmountChange = ({ value, availableVestingShares }) => {
+    this.setState({ amount: value });
+  };
+
+  // renderers
   _renderDropdown = (accounts, currentAccountName) => (
     <DropdownButton
       dropdownButtonStyle={styles.dropdownButtonStyle}
@@ -209,6 +217,26 @@ class PowerDownView extends Component {
     );
   };
 
+  _renderAmountInput = (placeholder, availableVestingShares) => {
+    const { isAmountValid } = this.state;
+    return (
+      <TextInput
+        style={[styles.amountInput, !isAmountValid && styles.error]}
+        onChangeText={(value) => {
+          this._handleAmountChange({ value, availableVestingShares });
+        }}
+        value={this.state.amount}
+        placeholder={placeholder}
+        placeholderTextColor="#c1c5c7"
+        autoCapitalize="none"
+        multiline={false}
+        keyboardType="decimal-pad"
+        innerRef={this.amountTextInput}
+        blurOnSubmit={false}
+      />
+    );
+  };
+
   _handleSetDisableDone = (value) => {
     this.setState({ disableDone: value });
   };
@@ -282,12 +310,41 @@ class PowerDownView extends Component {
 
     console.log('this.state : ', this.state);
 
+    const _renderMiddleContent = () => {
+      const { intl } = this.props;
+      return (
+        <AnimatedView animation="bounceInRight" delay={500} useNativeDriver>
+          <View style={styles.stepTwoContainer}>
+            <Text style={styles.sectionHeading}>
+              {intl.formatMessage({ id: 'transfer.power_down_amount_head' })}
+            </Text>
+            <Text style={styles.sectionSubheading}>
+              {intl.formatMessage({ id: 'transfer.power_down_amount_subhead' })}
+            </Text>
+
+            <TransferFormItem
+              label={intl.formatMessage({ id: 'transfer.new_amount' })}
+              rightComponent={() =>
+                this._renderAmountInput(
+                  intl.formatMessage({ id: 'transfer.amount' }),
+                  availableVestingShares,
+                )
+              }
+              containerStyle={styles.paddBottom}
+            />
+            {/* {_renderSlider()} */}
+          </View>
+        </AnimatedView>
+      );
+    };
+
     return (
       <Fragment>
         <BasicHeader title={intl.formatMessage({ id: `transfer.${transferType}` })} />
         <View style={styles.container}>
-          <ScrollView style={styles.scroll} contentContainerStyle={{ flexGrow: 1 }}>
+          <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContentContainer}>
             {this._renderBeneficiarySelectionContent()}
+            {_renderMiddleContent()}
             <View style={styles.middleContent}>
               {/* <TransferFormItem
                 label={intl.formatMessage({ id: 'transfer.from' })}
