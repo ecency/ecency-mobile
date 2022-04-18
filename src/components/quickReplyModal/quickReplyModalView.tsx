@@ -17,9 +17,11 @@ import get from 'lodash/get';
 import { navigate } from '../../navigation/service';
 import { Portal } from 'react-native-portalize';
 
-export interface QuickReplyModalProps {}
+export interface QuickReplyModalProps {
+  fetchPost?: any,
+}
 
-const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
+const QuickReplyModal = ({fetchPost}: QuickReplyModalProps, ref) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const currentAccount = useSelector((state) => state.account.currentAccount);
@@ -153,7 +155,7 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
       console.log('status : ', status);
     }
   };
-
+  
   const _handleExpandBtn = () => {
     if(selectedPost){
       navigate({
@@ -163,6 +165,7 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
           isReply: true,
           post: selectedPost,
           quickReplyText: commentValue,
+          fetchPost,
         },
       });
       sheetModalRef.current?.setModalVisible(false);

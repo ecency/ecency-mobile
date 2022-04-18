@@ -208,8 +208,6 @@ const PostDisplayView = ({
 
   // show quick reply modal
   const _showQuickReplyModal = (post) => {
-    console.log('post in _showQuickReplyModal : ', post);
-    console.log('parentPost : ', parentPost);
     if (isLoggedIn) {
       quickReplyModalRef.current.show(post);
     } else {
@@ -284,7 +282,7 @@ const PostDisplayView = ({
         cancelButtonIndex={1}
         onPress={(index) => (index === 0 ? handleOnRemovePress(get(post, 'permlink')) : null)}
       />
-      <QuickReplyModal ref={quickReplyModalRef} />
+      <QuickReplyModal ref={quickReplyModalRef} fetchPost={fetchPost} />
     </View>
   );
 };
