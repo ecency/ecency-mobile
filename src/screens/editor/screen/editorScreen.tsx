@@ -367,6 +367,7 @@ class EditorScreen extends Component {
       isLoggedIn,
       isPostSending,
       isReply,
+      quickReplyText,
       isUploading,
       post,
       uploadedImage,
@@ -404,6 +405,8 @@ class EditorScreen extends Component {
         </Modal>
       );
     };
+console.log('fields :', fields);
+console.log('quickReplyText : ', quickReplyText);
 
     return (
       <View style={globalStyles.defaultContainer}>
@@ -447,7 +450,7 @@ class EditorScreen extends Component {
           )}
           <MarkdownEditor
             componentID="body"
-            draftBody={fields && fields.body}
+            draftBody={quickReplyText ? quickReplyText : fields && fields.body}
             handleOnTextChange={this._setWordsCount}
             handleFormUpdate={this._handleFormUpdate}
             handleIsFormValid={this._handleIsFormValid}

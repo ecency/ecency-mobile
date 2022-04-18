@@ -68,6 +68,7 @@ class EditorContainer extends Component {
       isEdit: false,
       isPostSending: false,
       isReply: false,
+      quickReplyText: '',
       isUploading: false,
       post: null,
       uploadedImage: null,
@@ -87,6 +88,7 @@ class EditorContainer extends Component {
     const { currentAccount, navigation } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
     let isReply;
+    let quickReplyText;
     let isEdit;
     let post;
     let _draft;
@@ -129,9 +131,10 @@ class EditorContainer extends Component {
       }
 
       if (navigationParams.isReply) {
-        ({ isReply } = navigationParams);
+        ({ isReply, quickReplyText } = navigationParams);
         this.setState({
           isReply,
+          quickReplyText
         });
       }
 
@@ -1160,6 +1163,7 @@ class EditorContainer extends Component {
       isOpenCamera,
       isPostSending,
       isReply,
+      quickReplyText,
       isUploading,
       post,
       uploadedImage,
@@ -1191,6 +1195,7 @@ class EditorContainer extends Component {
         isOpenCamera={isOpenCamera}
         isPostSending={isPostSending}
         isReply={isReply}
+        quickReplyText={quickReplyText}
         isUploading={isUploading}
         post={post}
         saveCurrentDraft={this._saveCurrentDraft}

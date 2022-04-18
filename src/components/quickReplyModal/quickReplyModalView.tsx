@@ -162,6 +162,7 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
         params: {
           isReply: true,
           post: selectedPost,
+          quickReplyText: commentValue,
         },
       });
       sheetModalRef.current?.setModalVisible(false);
