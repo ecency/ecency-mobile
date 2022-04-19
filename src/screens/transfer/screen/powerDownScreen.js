@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unused-state */
 import React, { Fragment, Component } from 'react';
-import { Text, View, ScrollView, Alert } from 'react-native';
+import { Text, View, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { injectIntl } from 'react-intl';
 import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
@@ -390,7 +390,11 @@ class PowerDownView extends Component {
     return (
       <Fragment>
         <BasicHeader title={intl.formatMessage({ id: `transfer.${transferType}` })} />
-        <View style={styles.container}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.powerDownKeyboadrAvoidingContainer}
+          keyboardShouldPersistTaps
+        >
           <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContentContainer}>
             {this._renderBeneficiarySelectionContent()}
             {_renderMiddleContent()}
@@ -496,7 +500,7 @@ class PowerDownView extends Component {
               )}
             </View>
           </ScrollView>
-        </View>
+        </KeyboardAvoidingView>
         <OptionsModal
           ref={this.startActionSheet}
           options={[
