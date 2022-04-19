@@ -639,8 +639,9 @@
     "username_alert": "Username Error!",
     "username_alert_detail": "Please select different username",
     "power_down": "Power Down",
-    "power_down_amount_head": "withdraw amount",
-    "power_down_amount_subhead": "power down info here"
+    "power_down_amount_head": "Withdraw Amount",
+    "power_down_amount_subhead": "Power Down info here",
+    "amount_hp": "Amount (HP)"
   },
   "boost": {
     "title": "Get Points",

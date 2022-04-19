@@ -331,7 +331,20 @@ export default EStyleSheet.create({
   scrollContentContainer: {
     flexGrow: 1,
     padding: 16,
-    borderWidth: 1,
-    borderColor: 'red',
+  },
+  estimatedContainer: {
+    flexDirection: 'row',
+    marginTop: 12,
+  },
+  leftEstimated: {
+    flex: 1,
+  },
+  rightEstimated: {
+    flex: 2,
+    fontSize: 12,
+    color: '$primaryBlack',
+    fontWeight: '600',
+    textAlign: 'left',
+    paddingLeft: 12,
   },
 });

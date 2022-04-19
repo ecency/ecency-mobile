@@ -26,7 +26,7 @@ import WithdrawAccountModal from './withdrawAccountModal';
 
 import parseToken from '../../../utils/parseToken';
 import parseDate from '../../../utils/parseDate';
-import { vestsToHp } from '../../../utils/conversions';
+import { hpToVests, vestsToHp } from '../../../utils/conversions';
 import { isEmptyDate } from '../../../utils/time';
 
 import styles from './transferStyles';
@@ -44,11 +44,13 @@ class PowerDownView extends Component {
     this.state = {
       from: props.currentAccountName,
       amount: 0,
+      hp: 0.0,
       steemConnectTransfer: false,
       isTransfering: false,
       isOpenWithdrawAccount: false,
       destinationAccounts: [],
       disableDone: false,
+      isAmountValid: false,
     };
 
     this.startActionSheet = React.createRef();
@@ -93,8 +95,30 @@ class PowerDownView extends Component {
     }
   };
 
-  _handleAmountChange = ({ value, availableVestingShares }) => {
-    this.setState({ amount: value });
+  _handleAmountChange = ({ hpValue, availableVestingShares }) => {
+    const { hivePerMVests } = this.props;
+    const parsedValue = parseFloat(hpValue);
+    const vestsForHp = hpToVests(hpValue, hivePerMVests);
+    const totalHP = vestsToHp(availableVestingShares, hivePerMVests).toFixed(3);
+
+    if (Number.isNaN(parsedValue)) {
+      this.setState({ amount: 0, hp: 0.0, isAmountValid: false });
+    } else if (parsedValue >= totalHP) {
+      this.setState({
+        amount: availableVestingShares,
+        hp: totalHP,
+        isAmountValid: false,
+      });
+    } else {
+      this.setState({ amount: vestsForHp, hp: parsedValue, isAmountValid: true });
+    }
+  };
+
+  _handleSliderAmountChange = ({ value, availableVestingShares }) => {
+    const { hivePerMVests } = this.props;
+    const hp = vestsToHp(value, hivePerMVests).toFixed(3);
+    const isAmountValid = value !== 0 && value <= availableVestingShares;
+    this.setState({ amount: value, hp, isAmountValid });
   };
 
   // renderers
@@ -176,15 +200,12 @@ class PowerDownView extends Component {
     }));
 
     const _handleSaveBeneficiary = (beneficiaries) => {
-      console.log('beneficiaries in  _handleSaveBeneficiary: ', beneficiaries);
       const destinationAccounts = beneficiaries.map((item) => ({
         username: item.account,
         percent: item.weight / 100,
         autoPowerUp: item.autoPowerUp,
       }));
-      console.log('destinationAccounts in _handleSaveBeneficiary :', destinationAccounts);
       let latestDestinationAccount = destinationAccounts[destinationAccounts.length - 1];
-      console.log('latestDestinationAccount : ', latestDestinationAccount);
       if (latestDestinationAccount.username && latestDestinationAccount.percent) {
         this._handleOnSubmit(
           latestDestinationAccount.username,
@@ -222,10 +243,10 @@ class PowerDownView extends Component {
     return (
       <TextInput
         style={[styles.amountInput, !isAmountValid && styles.error]}
-        onChangeText={(value) => {
-          this._handleAmountChange({ value, availableVestingShares });
+        onChangeText={(hpValue) => {
+          this._handleAmountChange({ hpValue, availableVestingShares });
         }}
-        value={this.state.amount}
+        value={this.state.hp.toString()}
         placeholder={placeholder}
         placeholderTextColor="#c1c5c7"
         autoCapitalize="none"
@@ -307,9 +328,30 @@ class PowerDownView extends Component {
 
     const spCalculated = vestsToHp(amount, hivePerMVests);
     const fundPerWeek = Math.round((spCalculated / 13) * 1000) / 1000;
+    const totalHP = vestsToHp(availableVestingShares, hivePerMVests);
 
-    console.log('this.state : ', this.state);
-
+    const _renderSlider = () => (
+      <View style={styles.sliderBox}>
+        <View style={styles.emptyBox} />
+        <View style={styles.sliderContainer}>
+          <Slider
+            style={styles.slider}
+            trackStyle={styles.track}
+            thumbStyle={styles.thumb}
+            minimumTrackTintColor="#357ce6"
+            thumbTintColor="#007ee5"
+            maximumValue={availableVestingShares}
+            value={amount}
+            onValueChange={(value) =>
+              this._handleSliderAmountChange({ value, availableVestingShares })
+            }
+          />
+          <View style={styles.sliderAmountContainer}>
+            <Text style={styles.amountText}>{`MAX  ${totalHP.toFixed(3)} HP`}</Text>
+          </View>
+        </View>
+      </View>
+    );
     const _renderMiddleContent = () => {
       const { intl } = this.props;
       return (
@@ -323,7 +365,7 @@ class PowerDownView extends Component {
             </Text>
 
             <TransferFormItem
-              label={intl.formatMessage({ id: 'transfer.new_amount' })}
+              label={intl.formatMessage({ id: 'transfer.amount_hp' })}
               rightComponent={() =>
                 this._renderAmountInput(
                   intl.formatMessage({ id: 'transfer.amount' }),
@@ -332,7 +374,14 @@ class PowerDownView extends Component {
               }
               containerStyle={styles.paddBottom}
             />
-            {/* {_renderSlider()} */}
+            {_renderSlider()}
+            <View style={styles.estimatedContainer}>
+              <Text style={styles.leftEstimated} />
+              <Text style={styles.rightEstimated}>
+                {intl.formatMessage({ id: 'transfer.estimated_weekly' })} :
+                {`+ ${fundPerWeek.toFixed(3)} HIVE`}
+              </Text>
+            </View>
           </View>
         </AnimatedView>
       );
@@ -354,6 +403,7 @@ class PowerDownView extends Component {
                 label={intl.formatMessage({ id: 'transfer.destination_accounts' })}
                 rightComponent={this._renderDestinationAccountItems}
               /> */}
+              {/*
               {!poweringDown && (
                 <Fragment>
                   <TransferFormItem
@@ -377,6 +427,8 @@ class PowerDownView extends Component {
                   </Text>
                 </Fragment>
               )}
+               */}
+              {/*
               {poweringDown && (
                 <Fragment>
                   <TransferFormItem
@@ -391,6 +443,7 @@ class PowerDownView extends Component {
                   />
                 </Fragment>
               )}
+ */}
             </View>
             <View style={styles.bottomContent}>
               {!poweringDown && (
