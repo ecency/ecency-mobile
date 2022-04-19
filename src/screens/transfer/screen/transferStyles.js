@@ -78,6 +78,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     fontWeight: 'bold',
+    marginVertical: 16,
   },
   stopButton: {
     width: '$deviceWidth / 3',

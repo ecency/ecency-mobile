@@ -398,16 +398,17 @@ class PowerDownView extends Component {
           <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContentContainer}>
             {this._renderBeneficiarySelectionContent()}
             {_renderMiddleContent()}
+            {/*
             <View style={styles.middleContent}>
-              {/* <TransferFormItem
+              <TransferFormItem
                 label={intl.formatMessage({ id: 'transfer.from' })}
                 rightComponent={() => this._renderDropdown(accounts, currentAccountName)}
               />
               <TransferFormItem
                 label={intl.formatMessage({ id: 'transfer.destination_accounts' })}
                 rightComponent={this._renderDestinationAccountItems}
-              /> */}
-              {/*
+              />
+
               {!poweringDown && (
                 <Fragment>
                   <TransferFormItem
@@ -431,8 +432,7 @@ class PowerDownView extends Component {
                   </Text>
                 </Fragment>
               )}
-               */}
-              {/*
+
               {poweringDown && (
                 <Fragment>
                   <TransferFormItem
@@ -447,11 +447,12 @@ class PowerDownView extends Component {
                   />
                 </Fragment>
               )}
- */}
             </View>
+*/}
             <View style={styles.bottomContent}>
               {!poweringDown && (
                 <Fragment>
+                  {/*
                   <View style={styles.informationView}>
                     <InformationBox
                       style={styles.spInformation}
@@ -475,6 +476,7 @@ class PowerDownView extends Component {
                   <Text style={styles.informationText}>
                     {intl.formatMessage({ id: 'transfer.estimated_weekly' })}
                   </Text>
+*/}
                   <MainButton
                     style={styles.button}
                     isDisable={amount <= 0}
