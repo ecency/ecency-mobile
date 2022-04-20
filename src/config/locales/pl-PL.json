@@ -192,7 +192,7 @@
     "currency": "Waluta",
     "language": "Język",
     "server": "Serwer",
-    "dark_theme": "Ciemny Motyw",
+    "color_theme": "Appearance",
     "push_notification": "Powiadomienie Push",
     "notification": {
       "follow": "Obserwuj",
@@ -214,6 +214,11 @@
       "always_show": "Zawsze pokazuj",
       "always_hide": "Zawsze ukrywaj",
       "always_warn": "Zawsze ostrzegaj"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "E-mail wysłany pomyślnie",
     "feedback_fail": "Błąd klienta poczty e-mail",
@@ -523,7 +528,11 @@
     "bookmarks": "dodaj do zakładek",
     "promote": "promuj",
     "boost": "podbij",
-    "report": "raport"
+    "report": "raport",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "Brak istniejącego użytkownika",
