@@ -192,7 +192,7 @@
     "currency": "Валутa",
     "language": "Език",
     "server": "Сървър",
-    "dark_theme": "Тъмна тема",
+    "color_theme": "Appearance",
     "push_notification": "Пусни известия",
     "notification": {
       "follow": "Следвай",
@@ -214,6 +214,11 @@
       "always_show": "Винаги показвай",
       "always_hide": "Винаги скриваи",
       "always_warn": "Винаги предупреждавай"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "Емайл успешно отворен",
     "feedback_fail": "Емайл клиентът не може да се отвори",
@@ -523,7 +528,11 @@
     "bookmarks": "добави в отметки",
     "promote": "промотирани",
     "boost": "Подсилване",
-    "report": "Докладвай"
+    "report": "Докладвай",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "Съществуващ потребител",
