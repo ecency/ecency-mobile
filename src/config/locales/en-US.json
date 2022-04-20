@@ -641,7 +641,11 @@
     "power_down": "Power Down",
     "power_down_amount_head": "Withdraw Amount",
     "power_down_amount_subhead": "Power Down info here",
-    "amount_hp": "Amount (HP)"
+    "amount_hp": "Amount (HP)",
+    "powering_down": "Powering Down",
+    "powering_down_subheading": "You are currently powering down.",
+    "powering_down_info": "Next power down is in {days} days, {hp} HIVE"
+
   },
   "boost": {
     "title": "Get Points",

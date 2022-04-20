@@ -352,4 +352,12 @@ export default EStyleSheet.create({
     flex: 1,
     backgroundColor: '$primaryBackgroundColor',
   },
+  powerDownInfoContainer: {
+    marginTop: 16,
+    paddingHorizontal: 12,
+    zIndex: 2,
+    paddingVertical: 16,
+    borderRadius: 12,
+    backgroundColor: '$primaryLightBackground',
+  },
 });
