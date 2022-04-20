@@ -19,10 +19,10 @@ import { Portal } from 'react-native-portalize';
 import { postBodySummary } from '@ecency/render-helper';
 
 export interface QuickReplyModalProps {
-  fetchPost?: any,
+  fetchPost?: any;
 }
 
-const QuickReplyModal = ({fetchPost}: QuickReplyModalProps, ref) => {
+const QuickReplyModal = ({ fetchPost }: QuickReplyModalProps, ref) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const currentAccount = useSelector((state) => state.account.currentAccount);
@@ -33,6 +33,9 @@ const QuickReplyModal = ({fetchPost}: QuickReplyModalProps, ref) => {
   const [isSending, setIsSending] = useState(false);
   const sheetModalRef = useRef<ActionSheet>();
   const inputRef = useRef<TextInput>(null);
+
+  const headerText =
+    selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
 
   // reset the state when post changes
   useEffect(() => {
@@ -125,17 +128,17 @@ const QuickReplyModal = ({fetchPost}: QuickReplyModalProps, ref) => {
               updateCommentCache(
                 `${parentAuthor}/${parentPermlink}`,
                 {
-                  author:currentAccount.name,
+                  author: currentAccount.name,
                   permlink,
-                  parent_author:parentAuthor,
-                  parent_permlink:parentPermlink,
+                  parent_author: parentAuthor,
+                  parent_permlink: parentPermlink,
                   markdownBody: commentValue,
                 },
                 {
-                  parentTags: parentTags || ['ecency']
-                }
-              )
-            )
+                  parentTags: parentTags || ['ecency'],
+                },
+              ),
+            );
 
             clearTimeout(stateTimer);
           }, 3000);
@@ -156,9 +159,9 @@ const QuickReplyModal = ({fetchPost}: QuickReplyModalProps, ref) => {
       console.log('status : ', status);
     }
   };
-  
+
   const _handleExpandBtn = () => {
-    if(selectedPost){
+    if (selectedPost) {
       navigate({
         routeName: ROUTES.SCREENS.EDITOR,
         key: 'editor_replay',
@@ -171,7 +174,7 @@ const QuickReplyModal = ({fetchPost}: QuickReplyModalProps, ref) => {
       });
       sheetModalRef.current?.setModalVisible(false);
     }
-  }
+  };
   //VIEW_RENDERERS
 
   const _renderSheetHeader = () => (
@@ -187,20 +190,12 @@ const QuickReplyModal = ({fetchPost}: QuickReplyModalProps, ref) => {
     </View>
   );
 
-
-  const _renderSummary = () => {
-    return selectedPost.summary ? (
-      <TouchableOpacity onPress={() => _handleOnSummaryPress()}>
-        <SummaryArea style={styles.summaryStyle} summary={selectedPost.summary} />
-      </TouchableOpacity>
-    ) : (
-      <View style={styles.titleContainer}>
-        <Text style={styles.titleText}>
-          {postBodySummary(selectedPost, 150, Platform.OS)}
-        </Text>
-      </View>
-    );
-  };
+  const _renderSummary = () => (
+    <TouchableOpacity onPress={() => _handleOnSummaryPress()}>
+      <SummaryArea style={styles.summaryStyle} summary={headerText} />
+    </TouchableOpacity>
+  );
+  
   const _renderAvatar = () => (
     <View style={styles.avatarAndNameContainer}>
       <UserAvatar noAction username={currentAccount.username} />
@@ -213,15 +208,15 @@ const QuickReplyModal = ({fetchPost}: QuickReplyModalProps, ref) => {
   const _renderExpandBtn = () => (
     <View style={styles.expandBtnContainer}>
       <IconButton
-          iconStyle={styles.backIcon}
-          iconType="MaterialCommunityIcons"
-          name="arrow-expand"
-          onPress={_handleExpandBtn}
-          size={28}
-          color={EStyleSheet.value('$primaryBlack')}
-        />
+        iconStyle={styles.backIcon}
+        iconType="MaterialCommunityIcons"
+        name="arrow-expand"
+        onPress={_handleExpandBtn}
+        size={28}
+        color={EStyleSheet.value('$primaryBlack')}
+      />
     </View>
-  )
+  );
   const _renderReplyBtn = () => (
     <View style={styles.replyBtnContainer}>
       <TextButton
@@ -264,8 +259,8 @@ const QuickReplyModal = ({fetchPost}: QuickReplyModalProps, ref) => {
           />
         </View>
         <View style={styles.footer}>
-            {_renderExpandBtn()}
-            {_renderReplyBtn()}
+          {_renderExpandBtn()}
+          {_renderReplyBtn()}
         </View>
       </View>
     );
