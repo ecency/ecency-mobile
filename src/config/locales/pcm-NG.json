@@ -192,7 +192,7 @@
     "currency": "Currency",
     "language": "Language",
     "server": "Server",
-    "dark_theme": "Theme wey dark",
+    "color_theme": "Appearance",
     "push_notification": "Your Alert",
     "notification": {
       "follow": "Follow am",
@@ -214,6 +214,11 @@
       "always_show": "Show everytime",
       "always_hide": "Hide everytime",
       "always_warn": "Warn everytime"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "Email don open successfully",
     "feedback_fail": "Email no gree open",
@@ -523,7 +528,11 @@
     "bookmarks": "add am to bookmark",
     "promote": "loud am",
     "boost": "give am push",
-    "report": "tell Oga"
+    "report": "tell Oga",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "The person no exist",
