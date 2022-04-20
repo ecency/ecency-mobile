@@ -192,7 +192,7 @@
     "currency": "Валюта",
     "language": "Язык",
     "server": "Сервер",
-    "dark_theme": "Тёмная тема",
+    "color_theme": "Appearance",
     "push_notification": "Уведомления",
     "notification": {
       "follow": "Подписки",
@@ -214,6 +214,11 @@
       "always_show": "Отображать всегда",
       "always_hide": "Всегда скрывать",
       "always_warn": "Всегда предупреждать"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "Письмо успешно отправлено",
     "feedback_fail": "Не удалось открыть почтовый клиент",
@@ -523,7 +528,11 @@
     "bookmarks": "добавить в закладки",
     "promote": "продвинуть",
     "boost": "усилить",
-    "report": "пожаловаться"
+    "report": "пожаловаться",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
