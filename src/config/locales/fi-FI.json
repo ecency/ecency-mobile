@@ -192,7 +192,7 @@
     "currency": "Valuutta",
     "language": "Kieli",
     "server": "Palvelin",
-    "dark_theme": "Tumma teema",
+    "color_theme": "Appearance",
     "push_notification": "Push-ilmoitus",
     "notification": {
       "follow": "Seuraa",
@@ -214,6 +214,11 @@
       "always_show": "Näytä aina",
       "always_hide": "Piilota aina",
       "always_warn": "Kysy aina"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "Sähköposti avattu onnistuneesti",
     "feedback_fail": "Sähköpostipalvelin alhaalla",
@@ -523,7 +528,11 @@
     "bookmarks": "lisää kirjanmerkkeihin",
     "promote": "korosta",
     "boost": "tehosta",
-    "report": "raportoi"
+    "report": "raportoi",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "Käyttäjää ei ole",
