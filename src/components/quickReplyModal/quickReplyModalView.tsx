@@ -16,6 +16,7 @@ import { default as ROUTES } from '../../constants/routeNames';
 import get from 'lodash/get';
 import { navigate } from '../../navigation/service';
 import { Portal } from 'react-native-portalize';
+import { postBodySummary } from '@ecency/render-helper';
 
 export interface QuickReplyModalProps {
   fetchPost?: any,
@@ -195,7 +196,7 @@ const QuickReplyModal = ({fetchPost}: QuickReplyModalProps, ref) => {
     ) : (
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>
-          {selectedPost.title}
+          {postBodySummary(selectedPost, 150, Platform.OS)}
         </Text>
       </View>
     );
