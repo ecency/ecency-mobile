@@ -192,7 +192,7 @@
     "currency": "Valuuta",
     "language": "Keel",
     "server": "Server",
-    "dark_theme": "Tume Kujundus",
+    "color_theme": "Appearance",
     "push_notification": "Teavitused",
     "notification": {
       "follow": "Jälgi",
@@ -214,6 +214,11 @@
       "always_show": "Näita alati",
       "always_hide": "Peida alati",
       "always_warn": "Alati hoiata"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "Email edukalt avatud",
     "feedback_fail": "Emaili rakendus ei avanenud",
@@ -523,7 +528,11 @@
     "bookmarks": "lisa järjehoidjatesse",
     "promote": "reklaami",
     "boost": "võimenda",
-    "report": "teavita"
+    "report": "teavita",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "Kasutaja ei eksisteeri",
