@@ -192,7 +192,7 @@
     "currency": "Currency",
     "language": "Language",
     "server": "Server",
-    "dark_theme": "Dark Theme",
+    "color_theme": "Appearance",
     "push_notification": "Push Notification",
     "notification": {
       "follow": "Follow",
@@ -214,6 +214,11 @@
       "always_show": "Vedno prikaži",
       "always_hide": "Always hide",
       "always_warn": "Always warn"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "Email successfully open",
     "feedback_fail": "Email client could not open",
@@ -523,7 +528,11 @@
     "bookmarks": "add to bookmarks",
     "promote": "promote",
     "boost": "boost",
-    "report": "report"
+    "report": "report",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "No existing user",
