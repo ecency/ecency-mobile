@@ -405,6 +405,32 @@ class PowerDownView extends Component {
         </View>
       );
     };
+
+    const _renderBottomContent = () => (
+      <View style={styles.bottomContent}>
+        {!poweringDown && (
+          <Fragment>
+            <MainButton
+              style={styles.button}
+              isDisable={amount <= 0}
+              onPress={() => this.startActionSheet.current.show()}
+              isLoading={isTransfering}
+            >
+              <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
+            </MainButton>
+          </Fragment>
+        )}
+        {poweringDown && (
+          <MainButton
+            style={styles.stopButton}
+            onPress={() => this.stopActionSheet.current.show()}
+            isLoading={isTransfering}
+          >
+            <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.stop' })}</Text>
+          </MainButton>
+        )}
+      </View>
+    );
     return (
       <Fragment>
         <BasicHeader title={intl.formatMessage({ id: `transfer.${transferType}` })} />
@@ -417,33 +443,7 @@ class PowerDownView extends Component {
             {!poweringDown && this._renderBeneficiarySelectionContent()}
             {!poweringDown && _renderMiddleContent()}
             {poweringDown && _renderPowerDownInfo()}
-            <View style={styles.bottomContent}>
-              {!poweringDown && (
-                <Fragment>
-                  <MainButton
-                    style={styles.button}
-                    isDisable={amount <= 0}
-                    onPress={() => this.startActionSheet.current.show()}
-                    isLoading={isTransfering}
-                  >
-                    <Text style={styles.buttonText}>
-                      {intl.formatMessage({ id: 'transfer.next' })}
-                    </Text>
-                  </MainButton>
-                </Fragment>
-              )}
-              {poweringDown && (
-                <MainButton
-                  style={styles.stopButton}
-                  onPress={() => this.stopActionSheet.current.show()}
-                  isLoading={isTransfering}
-                >
-                  <Text style={styles.buttonText}>
-                    {intl.formatMessage({ id: 'transfer.stop' })}
-                  </Text>
-                </MainButton>
-              )}
-            </View>
+            {_renderBottomContent()}
           </ScrollView>
         </KeyboardAvoidingView>
         <OptionsModal
