@@ -15,7 +15,7 @@ export default EStyleSheet.create({
     height: 24,
     borderRadius: 12,
     top: 15,
-    marginLeft: 12,
+    marginLeft: 8,
   },
   textInput: {
     flex: 1,

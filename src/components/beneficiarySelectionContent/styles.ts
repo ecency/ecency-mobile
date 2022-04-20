@@ -42,7 +42,7 @@ export default EStyleSheet.create({
     weightInput: {width:80},
     weightFormInput: { flex:1, color: '$primaryBlack', paddingLeft: 12 },
     weightFormInputWrapper: { marginTop: 8  },
-    usernameInput: { flex:1, color: '$primaryBlack', marginLeft: 16 },
+    usernameInput: { flex:1, color: '$primaryBlack', marginLeft: 16, },
     usernameFormInputWrapper: { marginTop: 8, marginRight: 12 },
     footerWrapper: { paddingTop:16 },
     saveButton: {
