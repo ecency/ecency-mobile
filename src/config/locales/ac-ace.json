@@ -192,7 +192,7 @@
     "currency": "Mata péng",
     "language": "Basa",
     "server": "Server",
-    "dark_theme": "Layeu Supôet",
+    "color_theme": "Appearance",
     "push_notification": "Teugön Haba",
     "notification": {
       "follow": "Iköt",
@@ -214,6 +214,11 @@
       "always_show": "Always show",
       "always_hide": "Söm Sabè",
       "always_warn": "Sabë pëuingat"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "Email successfully open",
     "feedback_fail": "Email client could not open",
@@ -523,7 +528,11 @@
     "bookmarks": "tamah dalam bookmarks",
     "promote": "promote",
     "boost": "boost",
-    "report": "report"
+    "report": "report",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "Hana uréung pakék",
