@@ -151,6 +151,7 @@ const CommentView = ({
           mainAuthor={mainAuthor}
           fetchedAt={fetchedAt}
           incrementRepliesCount={_incrementRepliesCount}
+          handleOnReplyPress={handleOnReplyPress}
         />
       </AnimatedView>
      
