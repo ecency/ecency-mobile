@@ -192,7 +192,7 @@
     "currency": "پول در گردش",
     "language": "زبان",
     "server": "سرور",
-    "dark_theme": "ظاهر تیره",
+    "color_theme": "Appearance",
     "push_notification": "اعلام یادآوری ها",
     "notification": {
       "follow": "دنبال کردن",
@@ -214,6 +214,11 @@
       "always_show": "همیشه نمایش بده",
       "always_hide": "همیشه پنهان باشد",
       "always_warn": "همیشه هشدار بده"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "ایمیل با موفقیت باز شد",
     "feedback_fail": "سرویس دهنده ایمیل نمی تواند باز شود",
@@ -523,7 +528,11 @@
     "bookmarks": "اضافه کردن به صفحات مورد علاقه",
     "promote": "تبلیغ",
     "boost": "ارتقاء",
-    "report": "گزارش"
+    "report": "گزارش",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "کاربری موجود نیست",
