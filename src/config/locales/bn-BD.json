@@ -192,7 +192,7 @@
     "currency": "কারেন্সি",
     "language": "ভাষা",
     "server": "সার্ভার",
-    "dark_theme": "অন্ধকার থিম",
+    "color_theme": "Appearance",
     "push_notification": "পুশ নোটিফিকেশন",
     "notification": {
       "follow": "অনুসরণ",
@@ -214,6 +214,11 @@
       "always_show": "সবসময় দেখান",
       "always_hide": "সর্বদা লুকান",
       "always_warn": "সর্বদা সতর্ক করুন"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "ইমেল সফলভাবে খোলা",
     "feedback_fail": "ইমেল ক্লায়েন্ট খুলতে পারে নি",
@@ -523,7 +528,11 @@
     "bookmarks": "বুকমার্কে যোগ করুন",
     "promote": "প্রচার করুন",
     "boost": "বুস্ট",
-    "report": "প্রতিবেদন"
+    "report": "প্রতিবেদন",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "কোন বিদ্যমান ব্যবহারকারী",
