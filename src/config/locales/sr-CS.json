@@ -192,7 +192,7 @@
     "currency": "Valuta",
     "language": "Jezik",
     "server": "Server",
-    "dark_theme": "Noćni mod",
+    "color_theme": "Appearance",
     "push_notification": "Obaveštenja",
     "notification": {
       "follow": "Prati",
@@ -214,6 +214,11 @@
       "always_show": "Uvek prikazuj",
       "always_hide": "Uvek sakrij",
       "always_warn": "Uvek pokaži upozorenje"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "Email je uspešno otvoren",
     "feedback_fail": "Klijent nije mogao otvoriti email",
@@ -523,7 +528,11 @@
     "bookmarks": "dodaj u obeleživače",
     "promote": "promoviši",
     "boost": "pojačaj",
-    "report": "izveštaj"
+    "report": "izveštaj",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "Nema postojećih korisnika",
