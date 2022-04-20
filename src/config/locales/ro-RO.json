@@ -192,7 +192,7 @@
     "currency": "Monedă",
     "language": "Limbă",
     "server": "Server",
-    "dark_theme": "Tema întunecată",
+    "color_theme": "Appearance",
     "push_notification": "Notificări",
     "notification": {
       "follow": "Urmăriri",
@@ -214,6 +214,11 @@
       "always_show": "Afisează întotdeauna",
       "always_hide": "Ascunde întotdeauna",
       "always_warn": "Avertizează întotdeauna"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "E-mail deschis cu succes",
     "feedback_fail": "Email-ul nu a putut fi accesat",
@@ -523,7 +528,11 @@
     "bookmarks": "adaugă la bookmarks",
     "promote": "promovează",
     "boost": "boost",
-    "report": "report"
+    "report": "report",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "Utilizator inexistent",
