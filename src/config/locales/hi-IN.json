@@ -192,7 +192,7 @@
     "currency": "मुद्रा",
     "language": "भाषा",
     "server": "सर्वर",
-    "dark_theme": "काला थीम",
+    "color_theme": "Appearance",
     "push_notification": "संभर अधिसूचना",
     "notification": {
       "follow": "का पालन करें",
@@ -214,6 +214,11 @@
       "always_show": "हमेशा दिखाएं",
       "always_hide": "हमेशा छिपाए",
       "always_warn": "हमेशा चेतावनी देते हैं"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "ईमेल सफलतापूर्वक खुला",
     "feedback_fail": "ईमेल क्लाइंट नहीं खोल सका",
@@ -523,7 +528,11 @@
     "bookmarks": "पृष्ठ स्मृति में जोड़ें",
     "promote": "प्रचार करना",
     "boost": "प्रोत्साहन",
-    "report": "विवरण"
+    "report": "विवरण",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "कोई विद्यमान उपयोगकर्ता नहीं",
