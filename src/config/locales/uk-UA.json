@@ -192,7 +192,7 @@
     "currency": "Валюта",
     "language": "Мова",
     "server": "Сервер",
-    "dark_theme": "Темна тема",
+    "color_theme": "Appearance",
     "push_notification": "Push-сповіщення",
     "notification": {
       "follow": "Підписки",
@@ -214,6 +214,11 @@
       "always_show": "Завжди показувати",
       "always_hide": "Завжди приховувати",
       "always_warn": "Завжди попереджати"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "Електронний лист успішно відкрито",
     "feedback_fail": "Не вдалося відкрити клієнт електронної пошти",
@@ -523,7 +528,11 @@
     "bookmarks": "додати до закладок",
     "promote": "просувати",
     "boost": "підсилити",
-    "report": "report"
+    "report": "report",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "Неіснуючий користувач",
