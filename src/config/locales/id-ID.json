@@ -192,7 +192,7 @@
     "currency": "Nilai Tukar Mata Uang",
     "language": "Bahasa",
     "server": "Server",
-    "dark_theme": "Tema Gelap",
+    "color_theme": "Appearance",
     "push_notification": "Notifikasi Gegas",
     "notification": {
       "follow": "Ikuti",
@@ -214,6 +214,11 @@
       "always_show": "Selalu Tampilkan",
       "always_hide": "Selalu menyembunyikan",
       "always_warn": "Selalu memperingatkan"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "Email berhasil dibuka",
     "feedback_fail": "Klien email tidak bisa dibuka",
@@ -523,7 +528,11 @@
     "bookmarks": "tambah ke penanda",
     "promote": "promosikan",
     "boost": "menaikkan",
-    "report": "laporan"
+    "report": "laporan",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "Tidak ada pengguna yang ada",
