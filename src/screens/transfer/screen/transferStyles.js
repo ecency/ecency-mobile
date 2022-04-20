@@ -345,8 +345,8 @@ export default EStyleSheet.create({
     fontSize: 12,
     color: '$primaryBlack',
     fontWeight: '600',
-    textAlign: 'left',
-    paddingLeft: 12,
+    textAlign: 'right',
+    paddingRight: 16,
   },
   powerDownKeyboadrAvoidingContainer: {
     flex: 1,

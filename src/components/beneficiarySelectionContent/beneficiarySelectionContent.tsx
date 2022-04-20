@@ -66,14 +66,11 @@ const BeneficiarySelectionContent = ({
     setDisableDone(newEditable);
   }, [newEditable]);
 
-  console.log('beneficiaries : ', beneficiaries);
-
   const readPowerDownBeneficiaries = () => {
     const tempBeneficiaries = [
       { account: username, weight: 10000, autoPowerUp: false },
       ...powerDownBeneficiaries,
     ];
-    console.log('tempBeneficiaries in readPowerDownBeneficiaries: ', tempBeneficiaries);
 
     if (isArray(tempBeneficiaries) && tempBeneficiaries.length > 0) {
       //weight correction algorithm.
@@ -188,7 +185,7 @@ const BeneficiarySelectionContent = ({
       {powerDown && (
         <View style={{ ...styles.checkBoxHeader, marginTop: 4 }}>
           <Text style={styles.contentLabel}>
-            {intl.formatMessage({ id: 'transfer.vests' })}
+            {intl.formatMessage({ id: 'transfer.auto_vests' })}
           </Text>
         </View>
       )}
@@ -310,7 +307,6 @@ const BeneficiarySelectionContent = ({
       beneficiaries[0].weight = beneficiaries[0].weight + item.weight;
       const removedBeneficiary = beneficiaries.splice(index, 1);
       setBeneficiaries([...beneficiaries]);
-      console.log('removedBeneficiary : ', removedBeneficiary);
       if(handleRemoveBeneficiary){
         handleRemoveBeneficiary(removedBeneficiary[0]);
         return;
