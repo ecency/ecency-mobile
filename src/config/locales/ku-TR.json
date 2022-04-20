@@ -192,7 +192,7 @@
     "currency": "Dirav-Pere",
     "language": "Ziman",
     "server": "Rajekar",
-    "dark_theme": "Rûkara Tarî",
+    "color_theme": "Appearance",
     "push_notification": "Danezanan Bistîne",
     "notification": {
       "follow": "Şopandin",
@@ -214,6 +214,11 @@
       "always_show": "Hertim nîşan bide",
       "always_hide": "Hertim veşêre",
       "always_warn": "Hertim hişyar bike"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "Epeyam bi serkeftî vebû",
     "feedback_fail": "Stînera epeyamê venebû",
@@ -523,7 +528,11 @@
     "bookmarks": "tevlî cîhnîşanan bike",
     "promote": "reklama şandiyê bike",
     "boost": "zêde bike",
-    "report": "report"
+    "report": "report",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "Bikarhêner tune ye",
