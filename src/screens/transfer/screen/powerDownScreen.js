@@ -417,86 +417,9 @@ class PowerDownView extends Component {
             {!poweringDown && this._renderBeneficiarySelectionContent()}
             {!poweringDown && _renderMiddleContent()}
             {poweringDown && _renderPowerDownInfo()}
-            {/*
-            <View style={styles.middleContent}>
-              <TransferFormItem
-                label={intl.formatMessage({ id: 'transfer.from' })}
-                rightComponent={() => this._renderDropdown(accounts, currentAccountName)}
-              />
-              <TransferFormItem
-                label={intl.formatMessage({ id: 'transfer.destination_accounts' })}
-                rightComponent={this._renderDestinationAccountItems}
-              />
-
-              {!poweringDown && (
-                <Fragment>
-                  <TransferFormItem
-                    label={intl.formatMessage({ id: 'transfer.amount' })}
-                    rightComponent={() => this._renderInformationText(`${amount.toFixed(6)} VESTS`)}
-                  />
-                  <Slider
-                    style={styles.slider}
-                    trackStyle={styles.track}
-                    thumbStyle={styles.thumb}
-                    minimumTrackTintColor="#357ce6"
-                    thumbTintColor="#007ee5"
-                    maximumValue={availableVestingShares}
-                    value={amount}
-                    onValueChange={(value) => {
-                      this.setState({ amount: value });
-                    }}
-                  />
-                  <Text style={styles.informationText}>
-                    {intl.formatMessage({ id: 'transfer.amount_information' })}
-                  </Text>
-                </Fragment>
-              )}
-
-              {poweringDown && (
-                <Fragment>
-                  <TransferFormItem
-                    label={intl.formatMessage({ id: 'transfer.incoming_funds' })}
-                    rightComponent={() =>
-                      this._renderIncomingFunds(
-                        poweringDownFund,
-                        poweringDownVests,
-                        nextPowerDown.toLocaleString(),
-                      )
-                    }
-                  />
-                </Fragment>
-              )}
-            </View>
-*/}
-
             <View style={styles.bottomContent}>
               {!poweringDown && (
                 <Fragment>
-                  {/*
-                  <View style={styles.informationView}>
-                    <InformationBox
-                      style={styles.spInformation}
-                      text={`- ${spCalculated.toFixed(3)} HP`}
-                    />
-                    <InformationBox
-                      style={styles.vestsInformation}
-                      text={`- ${amount.toFixed(0)} VESTS`}
-                    />
-                  </View>
-                  <Icon
-                    style={styles.icon}
-                    size={40}
-                    iconType="MaterialIcons"
-                    name="arrow-downward"
-                  />
-                  <InformationBox
-                    style={styles.steemInformation}
-                    text={`+ ${fundPerWeek.toFixed(3)} HIVE`}
-                  />
-                  <Text style={styles.informationText}>
-                    {intl.formatMessage({ id: 'transfer.estimated_weekly' })}
-                  </Text>
-*/}
                   <MainButton
                     style={styles.button}
                     isDisable={amount <= 0}
