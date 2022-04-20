@@ -8,7 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { renderPostBody } from '@ecency/render-helper';
+import { renderPostBody, postBodySummary } from '@ecency/render-helper';
 import { useDispatch, useSelector } from 'react-redux';
 import { View as AnimatedView } from 'react-native-animatable';
 import { get } from 'lodash';
@@ -101,6 +101,7 @@ const MarkdownEditorView = ({
   );
   const draftBtnTooltipState = useSelector((state) => state.walkthrough.walkthroughMap);
   const draftBtnTooltipRegistered = draftBtnTooltipState.get(walkthrough.EDITOR_DRAFT_BTN);
+  const headerText = post && (post.summary || postBodySummary(post, 150, Platform.OS));
 
   useEffect(() => {
     if (!isPreviewActive) {
@@ -432,7 +433,7 @@ const MarkdownEditorView = ({
   };
   const _renderEditor = () => (
     <>
-      {isReply && !isEdit && <SummaryArea summary={post.summary} />}
+      {isReply && !isEdit && <SummaryArea summary={headerText} />}
       {!isReply && (
         <TitleArea value={fields.title} onChange={onTitleChanged} componentID="title" intl={intl} />
       )}
