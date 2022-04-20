@@ -192,7 +192,9 @@ class PowerDownView extends Component {
   );
 
   _renderBeneficiarySelectionContent = () => {
+    const { intl } = this.props;
     const { from, destinationAccounts, amount } = this.state;
+
     const powerDownBeneficiaries = destinationAccounts?.map((item) => ({
       account: item.username,
       weight: item.percent * 100,
@@ -228,6 +230,8 @@ class PowerDownView extends Component {
     return (
       <View style={styles.beneficiaryContainer}>
         <BeneficiarySelectionContent
+          label={intl.formatMessage({ id: 'transfer.withdraw_accounts' })}
+          labelStyle={{ ...styles.sectionHeading, paddingLeft: 0 }}
           setDisableDone={this._handleSetDisableDone}
           powerDown={true}
           powerDownBeneficiaries={powerDownBeneficiaries}
@@ -246,7 +250,7 @@ class PowerDownView extends Component {
         onChangeText={(hpValue) => {
           this._handleAmountChange({ hpValue, availableVestingShares });
         }}
-        value={this.state.hp.toString()}
+        value={this.state.hp}
         placeholder={placeholder}
         placeholderTextColor="#c1c5c7"
         autoCapitalize="none"
@@ -352,6 +356,7 @@ class PowerDownView extends Component {
         </View>
       </View>
     );
+
     const _renderMiddleContent = () => {
       const { intl } = this.props;
       return (
@@ -360,9 +365,11 @@ class PowerDownView extends Component {
             <Text style={styles.sectionHeading}>
               {intl.formatMessage({ id: 'transfer.power_down_amount_head' })}
             </Text>
-            <Text style={styles.sectionSubheading}>
-              {intl.formatMessage({ id: 'transfer.power_down_amount_subhead' })}
-            </Text>
+            <View style={styles.alreadyDelegateRow}>
+              <Text style={styles.sectionSubheading}>
+                {intl.formatMessage({ id: 'transfer.power_down_amount_subhead' })}
+              </Text>
+            </View>
 
             <TransferFormItem
               label={intl.formatMessage({ id: 'transfer.amount_hp' })}

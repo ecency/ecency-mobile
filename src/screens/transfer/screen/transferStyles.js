@@ -325,7 +325,6 @@ export default EStyleSheet.create({
   beneficiaryContainer: {
     paddingHorizontal: 12,
     zIndex: 2,
-    paddingVertical: 16,
     borderRadius: 12,
     backgroundColor: '$primaryLightBackground',
   },

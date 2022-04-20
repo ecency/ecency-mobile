@@ -17,15 +17,20 @@ import {
 } from '../../redux/actions/editorActions';
 
 interface BeneficiarySelectionContentProps {
+
   draftId: string;
   setDisableDone: (value: boolean) => void;
   powerDown?: boolean;
+  label?:string;
+  labelStyle?:string;
   powerDownBeneficiaries?: Beneficiary[];
   handleSaveBeneficiary?: (beneficiaries: Beneficiary[]) => void;
   handleRemoveBeneficiary?: (beneficiary: Beneficiary) => void;
 }
 
 const BeneficiarySelectionContent = ({
+  label,
+  labelStyle,
   draftId,
   setDisableDone,
   powerDown,
@@ -33,6 +38,7 @@ const BeneficiarySelectionContent = ({
   handleSaveBeneficiary,
   handleRemoveBeneficiary,
 }: BeneficiarySelectionContentProps) => {
+
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
@@ -356,7 +362,7 @@ const BeneficiarySelectionContent = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.settingLabel}>{intl.formatMessage({ id: 'editor.beneficiaries' })}</Text>
+      <Text style={labelStyle || styles.settingLabel}>{label || intl.formatMessage({ id: 'editor.beneficiaries' })}</Text>
       <FlatList
         data={beneficiaries}
         renderItem={_renderItem}
