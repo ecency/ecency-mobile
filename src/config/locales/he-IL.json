@@ -192,7 +192,7 @@
     "currency": "יתרת מטבע",
     "language": "שפה",
     "server": "שרת",
-    "dark_theme": "ערכת נושא כהה",
+    "color_theme": "Appearance",
     "push_notification": "התראות דחיפה",
     "notification": {
       "follow": "עקוב/י",
@@ -214,6 +214,11 @@
       "always_show": "הצג תמיד",
       "always_hide": "הסתר תמיד",
       "always_warn": "הזהר תמיד"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "האימייל נפתח בהצלחה",
     "feedback_fail": "דואר הלקוח אינו יכול להיפתח",
@@ -523,7 +528,11 @@
     "bookmarks": "הוסף\\י לסימניות",
     "promote": "promote",
     "boost": "boost",
-    "report": "report"
+    "report": "report",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "המשתמש אינו קיים",
