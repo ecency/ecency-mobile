@@ -192,7 +192,7 @@
     "currency": "Para Birimi",
     "language": "Dil",
     "server": "Sunucu",
-    "dark_theme": "Koyu Tema",
+    "color_theme": "Appearance",
     "push_notification": "Bildirim",
     "notification": {
       "follow": "Takip Et",
@@ -214,6 +214,11 @@
       "always_show": "Her zaman göster",
       "always_hide": "Her zaman gizle",
       "always_warn": "Her zaman uyar"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "E-posta başarıyla açıldı",
     "feedback_fail": "E-posta istemcisi açılamadı",
@@ -523,7 +528,11 @@
     "bookmarks": "yer imlerine ekle",
     "promote": "tanıtım yap",
     "boost": "yükselt",
-    "report": "bildir"
+    "report": "bildir",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "Kullanici Bulunamadi",
