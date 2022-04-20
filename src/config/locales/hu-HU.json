@@ -192,7 +192,7 @@
     "currency": "Pénznem",
     "language": "Nyelv",
     "server": "Szerver",
-    "dark_theme": "Sötét téma",
+    "color_theme": "Appearance",
     "push_notification": "Értesítések Bekapcsolása",
     "notification": {
       "follow": "Követés",
@@ -214,6 +214,11 @@
       "always_show": "Mindig látszik",
       "always_hide": "Mindig rejtve",
       "always_warn": "Mindig figyelmeztess"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "Email sikeresen megnyitva",
     "feedback_fail": "A levelezőprogram nem nyitható meg",
@@ -523,7 +528,11 @@
     "bookmarks": "hozzáadás a könyvjelzőkhöz",
     "promote": "hirdetés",
     "boost": "felpörgetés",
-    "report": "jelentés"
+    "report": "jelentés",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "Nem létező felhasználó",
