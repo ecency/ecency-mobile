@@ -192,7 +192,7 @@
     "currency": "Valiuta",
     "language": "Kalba",
     "server": "Serveris",
-    "dark_theme": "Tamsi Tema",
+    "color_theme": "Appearance",
     "push_notification": "Aktyvieji pranešimai",
     "notification": {
       "follow": "Sekėjai",
@@ -214,6 +214,11 @@
       "always_show": "Visada rodyti",
       "always_hide": "Visada paslėpti",
       "always_warn": "Visada įspėti"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "El. laiškas sėkmingai atidarytas",
     "feedback_fail": "El. pašto atidaryti nepavyko",
@@ -523,7 +528,11 @@
     "bookmarks": "pridėti į žymes",
     "promote": "promote",
     "boost": "boost",
-    "report": "report"
+    "report": "report",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "Nėra tokio vartotojo",
