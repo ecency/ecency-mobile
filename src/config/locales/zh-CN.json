@@ -192,7 +192,7 @@
     "currency": "币",
     "language": "语言",
     "server": "服务器",
-    "dark_theme": "深色主题",
+    "color_theme": "Appearance",
     "push_notification": "信息推送",
     "notification": {
       "follow": "关注",
@@ -214,6 +214,11 @@
       "always_show": "始终显示",
       "always_hide": "始终隐藏",
       "always_warn": "总是警告"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "成功打开电子邮件",
     "feedback_fail": "无法打开电子邮件客户端",
@@ -523,7 +528,11 @@
     "bookmarks": "添加到书签",
     "promote": "推广",
     "boost": "推荐",
-    "report": "举报"
+    "report": "举报",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "用户不存在",
