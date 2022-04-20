@@ -192,7 +192,7 @@
     "currency": "Pera",
     "language": "Wika",
     "server": "Server",
-    "dark_theme": "Maitim na Tema",
+    "color_theme": "Appearance",
     "push_notification": "Pa abiso",
     "notification": {
       "follow": "Sundan",
@@ -214,6 +214,11 @@
       "always_show": "Palaging ipakita",
       "always_hide": "Palaging itago",
       "always_warn": "Palaging magbabala"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "Matagumpay na nabuksan ang email",
     "feedback_fail": "Hindi mabuksan ang email client",
@@ -523,7 +528,11 @@
     "bookmarks": "idagdag sa mga bookmark",
     "promote": "i-promote",
     "boost": "i-boost",
-    "report": "iulat"
+    "report": "iulat",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "Walang makita na user",
