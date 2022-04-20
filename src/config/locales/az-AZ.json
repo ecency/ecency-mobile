@@ -192,7 +192,7 @@
     "currency": "Pul vahidi",
     "language": "Dil",
     "server": "Server",
-    "dark_theme": "Tünd Tema",
+    "color_theme": "Appearance",
     "push_notification": "Ani Bildiriş",
     "notification": {
       "follow": "İzləmə",
@@ -214,6 +214,11 @@
       "always_show": "Həmişə göstər",
       "always_hide": "Həmişə gizlət",
       "always_warn": "Həmişə xəbərdar et"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "E-poçt uğurla açıldı",
     "feedback_fail": "E-poçt sifarişçisi açıla bilmədi",
@@ -523,7 +528,11 @@
     "bookmarks": "əlfəcinlərə əlavə et",
     "promote": "tanıt",
     "boost": "gücləndir",
-    "report": "şikayət et"
+    "report": "şikayət et",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "Heç bir istifadəçi yoxdur",
