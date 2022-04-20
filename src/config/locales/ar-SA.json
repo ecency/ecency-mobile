@@ -192,7 +192,7 @@
     "currency": "عملة",
     "language": "لغة",
     "server": "الخادم",
-    "dark_theme": "الوضع المظلم",
+    "color_theme": "Appearance",
     "push_notification": "دفع الإشعارات",
     "notification": {
       "follow": "تابع",
@@ -214,6 +214,11 @@
       "always_show": "عرض دوماً",
       "always_hide": "إخفاء دوماً",
       "always_warn": "التحذير دوماً"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "تم فتح البريد الإلكتروني بنجاح",
     "feedback_fail": "لا يمكن فتح عميل البريد الإلكتروني",
@@ -523,7 +528,11 @@
     "bookmarks": "إضافة إلى الإشارات المرجعية",
     "promote": "قم بالترويج لمقالك",
     "boost": "تعزيز منشورك",
-    "report": "الإبلاغ"
+    "report": "الإبلاغ",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "لا يوجد أي مستخدم حاليا",
