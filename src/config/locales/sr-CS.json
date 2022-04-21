@@ -7,7 +7,9 @@
     "transfer": "Prenos",
     "power_up": "To Vesting",
     "transfer_from_savings": "Od štednje",
+    "withdraw_savings": "Withdraw Savings",
     "withdraw_vesting": "Power Down",
+    "open_order": "Open Order",
     "fill_order": "Popunite nalog",
     "post": "Objava",
     "comment": "Komentar",
@@ -49,6 +51,12 @@
     "to": "Za",
     "estimated_value_desc": "U skladu sa nabavnom vrednošću",
     "estimated_value": "Procenjena vrednost",
+    "vote_value": "Vote value",
+    "delegated_hive_power": "Delegated hive power",
+    "powering_down_hive_power": "Powering down",
+    "received_hive_power": "Received hive power",
+    "total_hive_power": "Total hive power",
+    "savings": "Savings",
     "estimated_amount": "Vrednost glasa",
     "amount_information": "Prevucite klizač da biste prilagodili količinu",
     "amount": "Iznos",
@@ -68,10 +76,11 @@
     "next": "SLEDEĆI",
     "delegate": "Delegiraj",
     "power_down": "Power Down",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HBD",
+    "withdraw_hive": "Withdraw Savings",
+    "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "U štednju",
     "convert": "Pretvori",
+    "convert_request": "Convert Request",
     "escrow_transfer": "Prenesi zalog",
     "escrow_dispute": "Ospori zalog",
     "escrow_release": "Oslobodi zalog",
@@ -81,9 +90,10 @@
     "fill_convert_request": "Pretvaranje izvršeno",
     "fill_transfer_from_savings": "Ušteda izvšena",
     "fill_vesting_withdraw": "Smanjenje snage izvršeno",
-    "estm": {
-      "title": "Poeni",
-      "buy": "DOBIJTE POENE"
+    "ecency": {
+      "title": "Points",
+      "name": "Ecency Points",
+      "buy": "GET POINTS"
     },
     "savinghive": {
       "title": "HIVE Savings"
@@ -93,6 +103,7 @@
     },
     "hive": {
       "title": "HIVE",
+      "name": "Hive Token",
       "buy": "GET HIVE"
     },
     "hbd": {
@@ -100,13 +111,27 @@
       "buy": "GET HBD"
     },
     "hive_power": {
-      "title": "HIVE POWER"
+      "title": "HIVE POWER",
+      "name": "Hive Power"
+    },
+    "hive_dollar": {
+      "name": "Hive Dollar"
     },
     "btc": {
       "title": "BTC",
       "buy": "DOBIJTE BTC",
       "address": "PRIMITE"
-    }
+    },
+    "last_updated": "Last Updated:",
+    "updating": "Updating...",
+    "coin_details": "Details",
+    "change": "Change",
+    "activities": "Activities",
+    "savings_withdrawal": "Pending Withdrawals",
+    "open_orders": "Open Orders",
+    "conversions_requested": "Conversions Requested",
+    "expires": "expires",
+    "pending_requests": "Pending Requests"
   },
   "notification": {
     "vote": "glasano",
@@ -279,7 +304,8 @@
     "create_a_new_account": "Napravite novi nalog",
     "add_an_existing_account": "Dodaj postojeći nalog",
     "accounts": "Nalozi",
-    "refer": "Refer & Earn"
+    "refer": "Refer & Earn",
+    "qr": "QR Scan"
   },
   "header": {
     "title": "Prijavite se kako biste prilagodili vaše novosti",
@@ -347,7 +373,17 @@
     "done": "DONE",
     "draft_save_title": "Saving Draft",
     "draft_update": "Update current draft",
-    "draft_save_new": "Save as new draft"
+    "draft_save_new": "Save as new draft",
+    "label": "Label",
+    "enter_label_placeholder": "Enter Label (Optional)",
+    "url": "URL",
+    "enter_url_placeholder": "Enter URL",
+    "link_type_text": "Type of Link",
+    "preview": "Preview",
+    "invalid_url_error": "Please insert valid url",
+    "plain": "Plain",
+    "video": "Video",
+    "image": "Image"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -449,7 +485,9 @@
     "failed_to_open": "Failed to open a link",
     "restart_ecency": "Restart Ecency?",
     "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response": "Could not process request, Try again later."
+    "invalid_response": "Could not process request, Try again later.",
+    "wallet_updating": "Wallet update in progress, try again as update finishes",
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
   },
   "post": {
     "reblog_alert": "Da li ste sigurni da želite da podelite?",
@@ -761,5 +799,10 @@
     "earned": "Earned Points",
     "pending": "Pending Points",
     "empty_text": "Refer your loved ones today and earn free points"
+  },
+  "qr": {
+    "qr_scan": "QR Scan",
+    "open": "Open URL",
+    "detected_url": "Detected URL"
   }
 }
