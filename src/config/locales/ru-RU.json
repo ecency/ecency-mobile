@@ -131,7 +131,7 @@
     "open_orders": "Открытые ордеры",
     "conversions_requested": "Запрашиваемые конверсии",
     "expires": "истекает",
-    "pending_requests": "Pending Requests"
+    "pending_requests": "Ожидающие рассмотрения запросы"
   },
   "notification": {
     "vote": "проголосовал",
@@ -305,7 +305,7 @@
     "add_an_existing_account": "Добавить существующий аккаунт",
     "accounts": "Аккаунты",
     "refer": "Расскажите и заработайте",
-    "qr": "QR Scan"
+    "qr": "QR Скан"
   },
   "header": {
     "title": "Войдите, чтобы настроить свою ленту",
@@ -374,16 +374,16 @@
     "draft_save_title": "Saving Draft",
     "draft_update": "Update current draft",
     "draft_save_new": "Save as new draft",
-    "label": "Label",
-    "enter_label_placeholder": "Enter Label (Optional)",
-    "url": "URL",
-    "enter_url_placeholder": "Enter URL",
-    "link_type_text": "Type of Link",
-    "preview": "Preview",
-    "invalid_url_error": "Please insert valid url",
-    "plain": "Plain",
-    "video": "Video",
-    "image": "Image"
+    "label": "Метка",
+    "enter_label_placeholder": "Введите метку (необязательно)",
+    "url": "Ссылка",
+    "enter_url_placeholder": "Введите Ссылку",
+    "link_type_text": "Тип ссылки",
+    "preview": "Предпросмотр",
+    "invalid_url_error": "Пожалуйста, введите действительную ссылку",
+    "plain": "Обычный",
+    "video": "Видео",
+    "image": "Изображение"
   },
   "snippets": {
     "label_no_snippets": "Сниппеты не найдены",
@@ -486,8 +486,8 @@
     "restart_ecency": "Restart Ecency?",
     "restart_ecency_desc": "Applying changes will require a restart.",
     "invalid_response": "Could not process request, Try again later.",
-    "wallet_updating": "Wallet update in progress, try again as update finishes",
-    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
+    "wallet_updating": "Выполняется обновление кошелька, попробуйте еще раз после завершения обновления",
+    "claim_failed": "Не удалось получить награды, {message}\nПовторите попытку или напишите нам на support@ecency.com"
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
@@ -801,8 +801,8 @@
     "empty_text": "Пригласите своих близких сегодня и зарабатывайте бесплатные баллы"
   },
   "qr": {
-    "qr_scan": "QR Scan",
-    "open": "Open URL",
-    "detected_url": "Detected URL"
+    "qr_scan": "QR Скан",
+    "open": "Открыть Ссылку",
+    "detected_url": "Обнаружена Ссылка"
   }
 }
