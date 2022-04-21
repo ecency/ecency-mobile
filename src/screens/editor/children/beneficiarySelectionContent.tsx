@@ -18,7 +18,7 @@ interface BeneficiarySelectionContent {
   setDisableDone:(value:boolean)=>void;
 }
 
-const BeneficiarySelectionContent = ({ draftId, setDisableDone }) => {
+const BeneficiarySelectionContent = ({ draftId, setDisableDone}) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
@@ -34,6 +34,7 @@ const BeneficiarySelectionContent = ({ draftId, setDisableDone }) => {
   const [isUsernameValid, setIsUsernameValid] = useState(false);
   const [isWeightValid, setIsWeightValid] = useState(false);
   const [newEditable, setNewEditable] = useState(false);
+
 
   useEffect(() => {
       readTempBeneficiaries();

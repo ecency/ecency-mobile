@@ -134,3 +134,9 @@ export const isEmptyContentDate = (value) => {
 };
 
 export const isEmptyDate = (s) => parseInt(s.split('-')[0], 10) < 1980;
+
+export const daysTillDate = (date) => {
+  var given = moment(new Date(date), 'YYYY-MM-DD');
+  var current = moment().startOf('day');
+  return Math.round(moment.duration(given.diff(current)).asDays());
+};

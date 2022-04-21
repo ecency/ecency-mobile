@@ -30,12 +30,11 @@ export default EStyleSheet.create({
     paddingVertical: 16,
     marginTop: 16,
   },
+  scroll: {},
   middleContent: {
-    flex: 3,
-    justifyContent: 'center',
+    flex: 1,
   },
   bottomContent: {
-    flex: 2,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -79,10 +78,12 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     fontWeight: 'bold',
+    marginVertical: 16,
   },
   stopButton: {
     width: '$deviceWidth / 3',
     marginTop: 30,
+    marginBottom: 30,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'red',
@@ -320,5 +321,42 @@ export default EStyleSheet.create({
   },
   fullHeight: {
     height: '100%',
+  },
+  beneficiaryContainer: {
+    paddingHorizontal: 12,
+    zIndex: 2,
+    borderRadius: 12,
+    backgroundColor: '$primaryLightBackground',
+  },
+  scrollContentContainer: {
+    flexGrow: 1,
+    padding: 16,
+  },
+  estimatedContainer: {
+    flexDirection: 'row',
+    marginTop: 12,
+  },
+  leftEstimated: {
+    flex: 1,
+  },
+  rightEstimated: {
+    flex: 2,
+    fontSize: 12,
+    color: '$primaryBlack',
+    fontWeight: '600',
+    textAlign: 'right',
+    paddingRight: 16,
+  },
+  powerDownKeyboadrAvoidingContainer: {
+    flex: 1,
+    backgroundColor: '$primaryBackgroundColor',
+  },
+  powerDownInfoContainer: {
+    marginTop: 16,
+    paddingHorizontal: 12,
+    zIndex: 2,
+    paddingVertical: 16,
+    borderRadius: 12,
+    backgroundColor: '$primaryLightBackground',
   },
 });

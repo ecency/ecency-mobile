@@ -101,7 +101,7 @@ const FormInputView = ({
       ]}
     >
       {isFirstImage && value && value.length > 2 ? (
-        <View style={{ flex: 0.15 }}>
+        <View style={{ flex: 0.2 }}>
           <FastImage
             style={styles.firstImage}
             source={{
