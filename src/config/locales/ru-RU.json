@@ -51,12 +51,12 @@
     "to": "Кому",
     "estimated_value_desc": "По стоимости покупки",
     "estimated_value": "Расчетная стоимость",
-    "vote_value": "Vote value",
-    "delegated_hive_power": "Delegated hive power",
-    "powering_down_hive_power": "Powering down",
-    "received_hive_power": "Received hive power",
-    "total_hive_power": "Total hive power",
-    "savings": "Savings",
+    "vote_value": "Величина голоса",
+    "delegated_hive_power": "Делегированная Сила Голоса",
+    "powering_down_hive_power": "Понижение Силы Голоса",
+    "received_hive_power": "Делегированная Сила Голоса",
+    "total_hive_power": "Всего Силы Голоса",
+    "savings": "Сбережения",
     "estimated_amount": "Стоимость голоса",
     "amount_information": "Потяните ползунок чтобы установить сумму",
     "amount": "Сумма",
@@ -76,11 +76,11 @@
     "next": "ДАЛЕЕ",
     "delegate": "Делегировать",
     "power_down": "Понижение силы",
-    "withdraw_hive": "Withdraw Savings",
-    "withdraw_hbd": "Withdraw Savings",
+    "withdraw_hive": "Вывести сбережения",
+    "withdraw_hbd": "Вывести сбережения",
     "transfer_to_savings": "В Сейф",
     "convert": "Конвертировать",
-    "convert_request": "Convert Request",
+    "convert_request": "Преобразовать запрос",
     "escrow_transfer": "Передача на депозит",
     "escrow_dispute": "Спор по депозиту",
     "escrow_release": "Выпуск депозита",
@@ -91,9 +91,9 @@
     "fill_transfer_from_savings": "Сбережения сняты",
     "fill_vesting_withdraw": "Понижение Силы выполнено",
     "ecency": {
-      "title": "Points",
-      "name": "Ecency Points",
-      "buy": "GET POINTS"
+      "title": "Баллы",
+      "name": "Баллы Ecency",
+      "buy": "Получить Баллы"
     },
     "savinghive": {
       "title": "HIVE сбережения"
@@ -103,7 +103,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "Hive Token",
+      "name": "Hive токен",
       "buy": "Купить HIVE"
     },
     "hbd": {
@@ -112,25 +112,25 @@
     },
     "hive_power": {
       "title": "HIVE СИЛА",
-      "name": "Hive Power"
+      "name": "Hive Сила"
     },
     "hive_dollar": {
-      "name": "Hive Dollar"
+      "name": "Hive Доллар"
     },
     "btc": {
       "title": "BTC",
       "buy": "Купить BTC",
       "address": "ПОЛУЧИТЬ"
     },
-    "last_updated": "Last Updated:",
-    "updating": "Updating...",
-    "coin_details": "Details",
-    "change": "Change",
-    "activities": "Activities",
-    "savings_withdrawal": "Pending Withdrawals",
-    "open_orders": "Open Orders",
-    "conversions_requested": "Conversions Requested",
-    "expires": "expires",
+    "last_updated": "Последнее обновление:",
+    "updating": "Обновление...",
+    "coin_details": "Детали",
+    "change": "Изменить",
+    "activities": "Активности",
+    "savings_withdrawal": "Ожидающие вывода",
+    "open_orders": "Открытые ордеры",
+    "conversions_requested": "Запрашиваемые конверсии",
+    "expires": "истекает",
     "pending_requests": "Pending Requests"
   },
   "notification": {
