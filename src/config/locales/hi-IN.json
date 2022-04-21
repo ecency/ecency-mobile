@@ -7,7 +7,9 @@
     "transfer": "स्थानांतरण",
     "power_up": "वेस्टिंग को",
     "transfer_from_savings": "बचत से",
+    "withdraw_savings": "Withdraw Savings",
     "withdraw_vesting": "शक्तिक्षय करें",
+    "open_order": "Open Order",
     "fill_order": "क्रम पूरा करें",
     "post": "लेख",
     "comment": "टिप्पणी",
@@ -49,6 +51,12 @@
     "to": "को",
     "estimated_value_desc": "खरीद मूल्य के अनुसार",
     "estimated_value": "अनुमानित मूल्य",
+    "vote_value": "Vote value",
+    "delegated_hive_power": "Delegated hive power",
+    "powering_down_hive_power": "Powering down",
+    "received_hive_power": "Received hive power",
+    "total_hive_power": "Total hive power",
+    "savings": "Savings",
     "estimated_amount": "वोट का मूल्य",
     "amount_information": "राशि समायोजित करने के लिए स्लाइडर को खींचें।",
     "amount": "रकम",
@@ -68,10 +76,11 @@
     "next": "अगला",
     "delegate": "कार्यभार सौंपें",
     "power_down": "शक्तिक्षय करें",
-    "withdraw_hive": "हाइव वापस लें",
-    "withdraw_hbd": "एचबीडी को वापस ले",
+    "withdraw_hive": "Withdraw Savings",
+    "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "बचत करने के लिए",
     "convert": "बदलें",
+    "convert_request": "Convert Request",
     "escrow_transfer": "एस्क्रो ट्रांसफर",
     "escrow_dispute": "एस्क्रो विवाद",
     "escrow_release": "एस्क्रो रिलीज",
@@ -81,9 +90,10 @@
     "fill_convert_request": "परिवर्तित परिवर्तित",
     "fill_transfer_from_savings": "बचत की गई",
     "fill_vesting_withdraw": "पॉवरडाउन को अंजाम दिया",
-    "estm": {
-      "title": "अंक",
-      "buy": "अंक प्राप्त करें"
+    "ecency": {
+      "title": "Points",
+      "name": "Ecency Points",
+      "buy": "GET POINTS"
     },
     "savinghive": {
       "title": "हाइव बचत"
@@ -93,6 +103,7 @@
     },
     "hive": {
       "title": "हाइव",
+      "name": "Hive Token",
       "buy": "हाइव प्राप्त करें"
     },
     "hbd": {
@@ -100,13 +111,27 @@
       "buy": "एचबीडी प्राप्त करें"
     },
     "hive_power": {
-      "title": "हाइव पावर"
+      "title": "हाइव पावर",
+      "name": "Hive Power"
+    },
+    "hive_dollar": {
+      "name": "Hive Dollar"
     },
     "btc": {
       "title": "बीटीसी",
       "buy": "बीटीसी प्राप्त करें",
       "address": "प्राप्त करना"
-    }
+    },
+    "last_updated": "Last Updated:",
+    "updating": "Updating...",
+    "coin_details": "Details",
+    "change": "Change",
+    "activities": "Activities",
+    "savings_withdrawal": "Pending Withdrawals",
+    "open_orders": "Open Orders",
+    "conversions_requested": "Conversions Requested",
+    "expires": "expires",
+    "pending_requests": "Pending Requests"
   },
   "notification": {
     "vote": "मतदान किया",
@@ -279,7 +304,8 @@
     "create_a_new_account": "एक नया खाता बनाएं",
     "add_an_existing_account": "एक मौजूदा खाता जोड़ें",
     "accounts": "खाते",
-    "refer": "रेफर करें और कमाएं"
+    "refer": "रेफर करें और कमाएं",
+    "qr": "QR Scan"
   },
   "header": {
     "title": "आपकी अपनी संभरण को अपने अनुकूल संयोजित करने के लिए लॉगिन करें",
@@ -347,7 +373,17 @@
     "done": "हो गया",
     "draft_save_title": "ड्राफ्ट सहेजा जा रहा है",
     "draft_update": "वर्तमान ड्राफ्ट अपडेट करें",
-    "draft_save_new": "नए ड्राफ़्ट के रूप में सहेजें"
+    "draft_save_new": "नए ड्राफ़्ट के रूप में सहेजें",
+    "label": "Label",
+    "enter_label_placeholder": "Enter Label (Optional)",
+    "url": "URL",
+    "enter_url_placeholder": "Enter URL",
+    "link_type_text": "Type of Link",
+    "preview": "Preview",
+    "invalid_url_error": "Please insert valid url",
+    "plain": "Plain",
+    "video": "Video",
+    "image": "Image"
   },
   "snippets": {
     "label_no_snippets": "कोई स्निपेट नहीं मिला",
@@ -449,7 +485,9 @@
     "failed_to_open": "लिंक खोलने में विफल",
     "restart_ecency": "इसेंसी फिर से शुरू करें?",
     "restart_ecency_desc": "परिवर्तनों को लागू करने के लिए पुनः आरंभ करने की आवश्यकता होगी।",
-    "invalid_response": "अनुरोध संसाधित नहीं किया जा सका, बाद में पुन: प्रयास करें।"
+    "invalid_response": "अनुरोध संसाधित नहीं किया जा सका, बाद में पुन: प्रयास करें।",
+    "wallet_updating": "Wallet update in progress, try again as update finishes",
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
@@ -761,5 +799,10 @@
     "earned": "अर्जित अंक",
     "pending": "अर्जित अंक",
     "empty_text": "आज ही अपने प्रियजनों को देखें और निःशुल्क अंक अर्जित करें"
+  },
+  "qr": {
+    "qr_scan": "QR Scan",
+    "open": "Open URL",
+    "detected_url": "Detected URL"
   }
 }
