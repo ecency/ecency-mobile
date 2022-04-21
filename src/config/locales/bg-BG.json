@@ -7,7 +7,9 @@
     "transfer": "Прехвърляне",
     "power_up": "Подсилване на гласа",
     "transfer_from_savings": "От спестявания",
+    "withdraw_savings": "Withdraw Savings",
     "withdraw_vesting": "Намаляване на енергията",
+    "open_order": "Open Order",
     "fill_order": "Попълнете поръчка",
     "post": "Публикация",
     "comment": "Коментар",
@@ -49,6 +51,12 @@
     "to": "До",
     "estimated_value_desc": "Според стойността при покупка",
     "estimated_value": "Предполагаема стойност",
+    "vote_value": "Vote value",
+    "delegated_hive_power": "Delegated hive power",
+    "powering_down_hive_power": "Powering down",
+    "received_hive_power": "Received hive power",
+    "total_hive_power": "Total hive power",
+    "savings": "Savings",
     "estimated_amount": "Стойност на гласа",
     "amount_information": "Плъзни лентата за промяна на сумата",
     "amount": "Сума",
@@ -68,10 +76,11 @@
     "next": "СЛЕДВАЩ",
     "delegate": "Делегирай",
     "power_down": "Намаляване на енергията",
-    "withdraw_hive": "Изтегли Hive",
-    "withdraw_hbd": "Изтегли HBD",
+    "withdraw_hive": "Withdraw Savings",
+    "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "Към спестявания",
     "convert": "Конвертиране",
+    "convert_request": "Convert Request",
     "escrow_transfer": "Escrow прехвърляне",
     "escrow_dispute": "Escrow тема/спор",
     "escrow_release": "Escrow пускане",
@@ -81,9 +90,10 @@
     "fill_convert_request": "Преобразуване на изпълненото",
     "fill_transfer_from_savings": "Спестяване изпълнено",
     "fill_vesting_withdraw": "Намаляване стойността на гласа изпълнено",
-    "estm": {
-      "title": "Точки",
-      "buy": "Вземи точки"
+    "ecency": {
+      "title": "Points",
+      "name": "Ecency Points",
+      "buy": "GET POINTS"
     },
     "savinghive": {
       "title": "Hive спестявания"
@@ -93,6 +103,7 @@
     },
     "hive": {
       "title": "HIVE",
+      "name": "Hive Token",
       "buy": "Взену HIVE"
     },
     "hbd": {
@@ -100,13 +111,27 @@
       "buy": "Вземи HBD"
     },
     "hive_power": {
-      "title": "HIVE сила/стойност на гласа"
+      "title": "HIVE сила/стойност на гласа",
+      "name": "Hive Power"
+    },
+    "hive_dollar": {
+      "name": "Hive Dollar"
     },
     "btc": {
       "title": "Биткойн",
       "buy": "Вземи Биткойн",
       "address": "Плучи"
-    }
+    },
+    "last_updated": "Last Updated:",
+    "updating": "Updating...",
+    "coin_details": "Details",
+    "change": "Change",
+    "activities": "Activities",
+    "savings_withdrawal": "Pending Withdrawals",
+    "open_orders": "Open Orders",
+    "conversions_requested": "Conversions Requested",
+    "expires": "expires",
+    "pending_requests": "Pending Requests"
   },
   "notification": {
     "vote": "Гласуван",
@@ -279,7 +304,8 @@
     "create_a_new_account": "Създаване на нов акаунт",
     "add_an_existing_account": "Добави съществуващ акаунт",
     "accounts": "Акаунти",
-    "refer": "Покани § спечели"
+    "refer": "Покани § спечели",
+    "qr": "QR Scan"
   },
   "header": {
     "title": "Влезте, за да персонализирате вашите постове",
@@ -347,7 +373,17 @@
     "done": "ГОТОВО",
     "draft_save_title": "Запазване на чернова",
     "draft_update": "Обнови сегашната чернова",
-    "draft_save_new": "Запиши като нова чернова"
+    "draft_save_new": "Запиши като нова чернова",
+    "label": "Label",
+    "enter_label_placeholder": "Enter Label (Optional)",
+    "url": "URL",
+    "enter_url_placeholder": "Enter URL",
+    "link_type_text": "Type of Link",
+    "preview": "Preview",
+    "invalid_url_error": "Please insert valid url",
+    "plain": "Plain",
+    "video": "Video",
+    "image": "Image"
   },
   "snippets": {
     "label_no_snippets": "Не са открити пряки пътеки",
@@ -449,7 +485,9 @@
     "failed_to_open": "Неуспешно отваряне на линк",
     "restart_ecency": "Пусни от начало Ecency?",
     "restart_ecency_desc": "Добавяне на промени изисква пускане от начало.",
-    "invalid_response": "Не можахме да обработим заявката ви. Опитайте пак по-късно."
+    "invalid_response": "Не можахме да обработим заявката ви. Опитайте пак по-късно.",
+    "wallet_updating": "Wallet update in progress, try again as update finishes",
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
   },
   "post": {
     "reblog_alert": "Сигорни ли сте,че искате да споделите?",
@@ -761,5 +799,10 @@
     "earned": "Спечелени точки",
     "pending": "Изчакващи Точки",
     "empty_text": "Покани любимите си хора днес и спечели точки"
+  },
+  "qr": {
+    "qr_scan": "QR Scan",
+    "open": "Open URL",
+    "detected_url": "Detected URL"
   }
 }

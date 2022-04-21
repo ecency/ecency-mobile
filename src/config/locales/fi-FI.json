@@ -7,7 +7,9 @@
     "transfer": "Siirto",
     "power_up": "Ansaintaan",
     "transfer_from_savings": "Säästöistä",
+    "withdraw_savings": "Withdraw Savings",
     "withdraw_vesting": "Power Down",
+    "open_order": "Open Order",
     "fill_order": "Täytä hakemus",
     "post": "Julkaisu",
     "comment": "Kommentti",
@@ -49,6 +51,12 @@
     "to": "Vastaanottaja",
     "estimated_value_desc": "Ostohinnan mukaan",
     "estimated_value": "Arvioutu arvo",
+    "vote_value": "Vote value",
+    "delegated_hive_power": "Delegated hive power",
+    "powering_down_hive_power": "Powering down",
+    "received_hive_power": "Received hive power",
+    "total_hive_power": "Total hive power",
+    "savings": "Savings",
     "estimated_amount": "Ääniarvo",
     "amount_information": "Siirrä kytkintä muuttaaksesi määrää",
     "amount": "Määrä",
@@ -68,10 +76,11 @@
     "next": "SEURAAVA",
     "delegate": "Valtuuta",
     "power_down": "Power Down",
-    "withdraw_hive": "Kotiuta HIVE",
-    "withdraw_hbd": "Kotiuta HBD",
+    "withdraw_hive": "Withdraw Savings",
+    "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "Säästöihin",
     "convert": "Muunna",
+    "convert_request": "Convert Request",
     "escrow_transfer": "Escrow-siirto",
     "escrow_dispute": "Escrow-riita",
     "escrow_release": "Escrow-vapautus",
@@ -81,9 +90,10 @@
     "fill_convert_request": "Muunnos Toteutettu",
     "fill_transfer_from_savings": "Säästöt Toteutettu",
     "fill_vesting_withdraw": "PowerDown toteutettu",
-    "estm": {
-      "title": "Pisteet",
-      "buy": "Lunasta pisteet"
+    "ecency": {
+      "title": "Points",
+      "name": "Ecency Points",
+      "buy": "GET POINTS"
     },
     "savinghive": {
       "title": "HIVE säästöt"
@@ -93,6 +103,7 @@
     },
     "hive": {
       "title": "HIVE",
+      "name": "Hive Token",
       "buy": "HANKI HIVE"
     },
     "hbd": {
@@ -100,13 +111,27 @@
       "buy": "HANKI HBD"
     },
     "hive_power": {
-      "title": "HIVE POWER"
+      "title": "HIVE POWER",
+      "name": "Hive Power"
+    },
+    "hive_dollar": {
+      "name": "Hive Dollar"
     },
     "btc": {
       "title": "BTC",
       "buy": "OTA BTC",
       "address": "VASTAANOTA"
-    }
+    },
+    "last_updated": "Last Updated:",
+    "updating": "Updating...",
+    "coin_details": "Details",
+    "change": "Change",
+    "activities": "Activities",
+    "savings_withdrawal": "Pending Withdrawals",
+    "open_orders": "Open Orders",
+    "conversions_requested": "Conversions Requested",
+    "expires": "expires",
+    "pending_requests": "Pending Requests"
   },
   "notification": {
     "vote": "äänesti",
@@ -279,7 +304,8 @@
     "create_a_new_account": "Luo uusi tili",
     "add_an_existing_account": "Lisää olemassa oleva tili",
     "accounts": "Tilit",
-    "refer": "Refer & Earn"
+    "refer": "Refer & Earn",
+    "qr": "QR Scan"
   },
   "header": {
     "title": "Kirjaudu mukauttaaksesi syötettäsi",
@@ -347,7 +373,17 @@
     "done": "VALMIS",
     "draft_save_title": "Tallennetaan luonnosta",
     "draft_update": "Päivitä nykyinen luonnos",
-    "draft_save_new": "Tallenna uutena luonnoksena"
+    "draft_save_new": "Tallenna uutena luonnoksena",
+    "label": "Label",
+    "enter_label_placeholder": "Enter Label (Optional)",
+    "url": "URL",
+    "enter_url_placeholder": "Enter URL",
+    "link_type_text": "Type of Link",
+    "preview": "Preview",
+    "invalid_url_error": "Please insert valid url",
+    "plain": "Plain",
+    "video": "Video",
+    "image": "Image"
   },
   "snippets": {
     "label_no_snippets": "Katkelmia ei löytynyt",
@@ -449,7 +485,9 @@
     "failed_to_open": "Linkin avaaminen epäonnistui",
     "restart_ecency": "Haluatko käynnistää Ecencyn uudelleen?",
     "restart_ecency_desc": "Muutosten käyttöönotto vaatii uudelleenkäynnistyksen.",
-    "invalid_response": "Pyyntöä ei voitu käsitellä, Yritä myöhemmin uudelleen."
+    "invalid_response": "Pyyntöä ei voitu käsitellä, Yritä myöhemmin uudelleen.",
+    "wallet_updating": "Wallet update in progress, try again as update finishes",
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
@@ -761,5 +799,10 @@
     "earned": "Earned Points",
     "pending": "Pending Points",
     "empty_text": "Refer your loved ones today and earn free points"
+  },
+  "qr": {
+    "qr_scan": "QR Scan",
+    "open": "Open URL",
+    "detected_url": "Detected URL"
   }
 }

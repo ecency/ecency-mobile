@@ -7,7 +7,9 @@
     "transfer": "Перевод",
     "power_up": "В Силу",
     "transfer_from_savings": "Из сейфа",
+    "withdraw_savings": "Withdraw Savings",
     "withdraw_vesting": "Понижение силы",
+    "open_order": "Open Order",
     "fill_order": "Заполнить ордер",
     "post": "Пост",
     "comment": "Комментарии",
@@ -49,6 +51,12 @@
     "to": "Кому",
     "estimated_value_desc": "По стоимости покупки",
     "estimated_value": "Расчетная стоимость",
+    "vote_value": "Vote value",
+    "delegated_hive_power": "Delegated hive power",
+    "powering_down_hive_power": "Powering down",
+    "received_hive_power": "Received hive power",
+    "total_hive_power": "Total hive power",
+    "savings": "Savings",
     "estimated_amount": "Стоимость голоса",
     "amount_information": "Потяните ползунок чтобы установить сумму",
     "amount": "Сумма",
@@ -68,10 +76,11 @@
     "next": "ДАЛЕЕ",
     "delegate": "Делегировать",
     "power_down": "Понижение силы",
-    "withdraw_hive": "Вывести HIVE",
-    "withdraw_hbd": "Вывести HBD",
+    "withdraw_hive": "Withdraw Savings",
+    "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "В Сейф",
     "convert": "Конвертировать",
+    "convert_request": "Convert Request",
     "escrow_transfer": "Передача на депозит",
     "escrow_dispute": "Спор по депозиту",
     "escrow_release": "Выпуск депозита",
@@ -81,9 +90,10 @@
     "fill_convert_request": "Конвертация выполнена",
     "fill_transfer_from_savings": "Сбережения сняты",
     "fill_vesting_withdraw": "Понижение Силы выполнено",
-    "estm": {
-      "title": "Баллы",
-      "buy": "Получить Баллы"
+    "ecency": {
+      "title": "Points",
+      "name": "Ecency Points",
+      "buy": "GET POINTS"
     },
     "savinghive": {
       "title": "HIVE сбережения"
@@ -93,6 +103,7 @@
     },
     "hive": {
       "title": "HIVE",
+      "name": "Hive Token",
       "buy": "Купить HIVE"
     },
     "hbd": {
@@ -100,13 +111,27 @@
       "buy": "Купить HBD"
     },
     "hive_power": {
-      "title": "HIVE СИЛА"
+      "title": "HIVE СИЛА",
+      "name": "Hive Power"
+    },
+    "hive_dollar": {
+      "name": "Hive Dollar"
     },
     "btc": {
       "title": "BTC",
       "buy": "Купить BTC",
       "address": "ПОЛУЧИТЬ"
-    }
+    },
+    "last_updated": "Last Updated:",
+    "updating": "Updating...",
+    "coin_details": "Details",
+    "change": "Change",
+    "activities": "Activities",
+    "savings_withdrawal": "Pending Withdrawals",
+    "open_orders": "Open Orders",
+    "conversions_requested": "Conversions Requested",
+    "expires": "expires",
+    "pending_requests": "Pending Requests"
   },
   "notification": {
     "vote": "проголосовал",
@@ -192,7 +217,7 @@
     "currency": "Валюта",
     "language": "Язык",
     "server": "Сервер",
-    "color_theme": "Appearance",
+    "color_theme": "Внешний вид",
     "push_notification": "Уведомления",
     "notification": {
       "follow": "Подписки",
@@ -216,9 +241,9 @@
       "always_warn": "Всегда предупреждать"
     },
     "theme": {
-      "system": "Device settings",
-      "light": "Light",
-      "dark": "Dark"
+      "system": "Настройки устройства",
+      "light": "Светлая",
+      "dark": "Тёмная"
     },
     "feedback_success": "Письмо успешно отправлено",
     "feedback_fail": "Не удалось открыть почтовый клиент",
@@ -279,7 +304,8 @@
     "create_a_new_account": "Создать новый аккаунт",
     "add_an_existing_account": "Добавить существующий аккаунт",
     "accounts": "Аккаунты",
-    "refer": "Расскажите и заработайте"
+    "refer": "Расскажите и заработайте",
+    "qr": "QR Scan"
   },
   "header": {
     "title": "Войдите, чтобы настроить свою ленту",
@@ -347,7 +373,17 @@
     "done": "DONE",
     "draft_save_title": "Saving Draft",
     "draft_update": "Update current draft",
-    "draft_save_new": "Save as new draft"
+    "draft_save_new": "Save as new draft",
+    "label": "Label",
+    "enter_label_placeholder": "Enter Label (Optional)",
+    "url": "URL",
+    "enter_url_placeholder": "Enter URL",
+    "link_type_text": "Type of Link",
+    "preview": "Preview",
+    "invalid_url_error": "Please insert valid url",
+    "plain": "Plain",
+    "video": "Video",
+    "image": "Image"
   },
   "snippets": {
     "label_no_snippets": "Сниппеты не найдены",
@@ -449,7 +485,9 @@
     "failed_to_open": "Не удалось открыть ссылку",
     "restart_ecency": "Restart Ecency?",
     "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response": "Could not process request, Try again later."
+    "invalid_response": "Could not process request, Try again later.",
+    "wallet_updating": "Wallet update in progress, try again as update finishes",
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
@@ -529,10 +567,10 @@
     "promote": "продвинуть",
     "boost": "усилить",
     "report": "пожаловаться",
-    "pin-blog": "Pin to blog",
-    "unpin-blog": "Unpin from blog",
-    "pin-community": "Pin to community",
-    "unpin-community": "Unpin from community"
+    "pin-blog": "Закрепить в блоге",
+    "unpin-blog": "Открепить от блога",
+    "pin-community": "Закрепить в сообществе",
+    "unpin-community": "Открепить от сообщества"
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
@@ -761,5 +799,10 @@
     "earned": "Заработанные баллы",
     "pending": "Pending Points",
     "empty_text": "Пригласите своих близких сегодня и зарабатывайте бесплатные баллы"
+  },
+  "qr": {
+    "qr_scan": "QR Scan",
+    "open": "Open URL",
+    "detected_url": "Detected URL"
   }
 }

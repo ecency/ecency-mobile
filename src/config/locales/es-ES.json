@@ -7,7 +7,9 @@
     "transfer": "Transferir",
     "power_up": "To Vesting",
     "transfer_from_savings": "Desde Ahorros",
+    "withdraw_savings": "Withdraw Savings",
     "withdraw_vesting": "Power down",
+    "open_order": "Open Order",
     "fill_order": "Completar orden",
     "post": "Publicar",
     "comment": "Comentario",
@@ -49,6 +51,12 @@
     "to": "Para",
     "estimated_value_desc": "De acuerdo al valor de compra",
     "estimated_value": "Valor estimado",
+    "vote_value": "Vote value",
+    "delegated_hive_power": "Delegated hive power",
+    "powering_down_hive_power": "Powering down",
+    "received_hive_power": "Received hive power",
+    "total_hive_power": "Total hive power",
+    "savings": "Savings",
     "estimated_amount": "Valor del voto",
     "amount_information": "Arrastra el deslizador para ajustar la cantidad",
     "amount": "Cantidad",
@@ -68,10 +76,11 @@
     "next": "SIGUIENTE",
     "delegate": "Delegar",
     "power_down": "Power down",
-    "withdraw_hive": "Retirar HIVE",
-    "withdraw_hbd": "Retirar HBD",
+    "withdraw_hive": "Withdraw Savings",
+    "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "A ahorros",
     "convert": "Convertir",
+    "convert_request": "Convert Request",
     "escrow_transfer": "Transferencia de fideicomiso",
     "escrow_dispute": "Disputa de fideicomiso",
     "escrow_release": "Liberar fideicomiso",
@@ -81,9 +90,10 @@
     "fill_convert_request": "Convertir ejecutados",
     "fill_transfer_from_savings": "Ahorros ejecutados",
     "fill_vesting_withdraw": "PowerDown ejecutado",
-    "estm": {
-      "title": "Puntos",
-      "buy": "OBTENER PUNTOS"
+    "ecency": {
+      "title": "Points",
+      "name": "Ecency Points",
+      "buy": "GET POINTS"
     },
     "savinghive": {
       "title": "HIVE Savings"
@@ -93,6 +103,7 @@
     },
     "hive": {
       "title": "HIVE",
+      "name": "Hive Token",
       "buy": "OBTEN HIVE"
     },
     "hbd": {
@@ -100,13 +111,27 @@
       "buy": "OBTENER HBD"
     },
     "hive_power": {
-      "title": "HIVE POWER"
+      "title": "HIVE POWER",
+      "name": "Hive Power"
+    },
+    "hive_dollar": {
+      "name": "Hive Dollar"
     },
     "btc": {
       "title": "BTC",
       "buy": "OBTENER BTC",
       "address": "RECIBIR"
-    }
+    },
+    "last_updated": "Last Updated:",
+    "updating": "Updating...",
+    "coin_details": "Details",
+    "change": "Change",
+    "activities": "Activities",
+    "savings_withdrawal": "Pending Withdrawals",
+    "open_orders": "Open Orders",
+    "conversions_requested": "Conversions Requested",
+    "expires": "expires",
+    "pending_requests": "Pending Requests"
   },
   "notification": {
     "vote": "votado",
@@ -279,7 +304,8 @@
     "create_a_new_account": "Crea una cuenta nueva",
     "add_an_existing_account": "Añadir una cuenta existente",
     "accounts": "Cuentas",
-    "refer": "Refer & Earn"
+    "refer": "Refer & Earn",
+    "qr": "QR Scan"
   },
   "header": {
     "title": "Inicie sesión para personalizar su inicio",
@@ -347,7 +373,17 @@
     "done": "DONE",
     "draft_save_title": "Saving Draft",
     "draft_update": "Update current draft",
-    "draft_save_new": "Guardar como borrador"
+    "draft_save_new": "Guardar como borrador",
+    "label": "Label",
+    "enter_label_placeholder": "Enter Label (Optional)",
+    "url": "URL",
+    "enter_url_placeholder": "Enter URL",
+    "link_type_text": "Type of Link",
+    "preview": "Preview",
+    "invalid_url_error": "Please insert valid url",
+    "plain": "Plain",
+    "video": "Video",
+    "image": "Image"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -449,7 +485,9 @@
     "failed_to_open": "Failed to open a link",
     "restart_ecency": "Restart Ecency?",
     "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response": "Could not process request, Try again later."
+    "invalid_response": "Could not process request, Try again later.",
+    "wallet_updating": "Wallet update in progress, try again as update finishes",
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
   },
   "post": {
     "reblog_alert": "¿Estás seguro de querer rebloguear?",
@@ -761,5 +799,10 @@
     "earned": "Earned Points",
     "pending": "Pending Points",
     "empty_text": "Refer your loved ones today and earn free points"
+  },
+  "qr": {
+    "qr_scan": "QR Scan",
+    "open": "Open URL",
+    "detected_url": "Detected URL"
   }
 }

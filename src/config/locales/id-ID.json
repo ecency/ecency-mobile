@@ -7,7 +7,9 @@
     "transfer": "Transfer",
     "power_up": "Untuk Menjamin",
     "transfer_from_savings": "Dari Tabungan",
+    "withdraw_savings": "Withdraw Savings",
     "withdraw_vesting": "Turunkan Daya Kekuatan",
+    "open_order": "Open Order",
     "fill_order": "Isi pesanan",
     "post": "Kiriman",
     "comment": "Komentar",
@@ -49,6 +51,12 @@
     "to": "Kepada",
     "estimated_value_desc": "Menurut nilai pembelian",
     "estimated_value": "Nilai perkiraan",
+    "vote_value": "Vote value",
+    "delegated_hive_power": "Delegated hive power",
+    "powering_down_hive_power": "Powering down",
+    "received_hive_power": "Received hive power",
+    "total_hive_power": "Total hive power",
+    "savings": "Savings",
     "estimated_amount": "Nilai suara",
     "amount_information": "Seret penggeser untuk menyesuaikan jumlahnya",
     "amount": "Jumlah",
@@ -68,10 +76,11 @@
     "next": "LANJUT",
     "delegate": "Delegasikan",
     "power_down": "Turunkan Daya Kekuatan",
-    "withdraw_hive": "Tarik HIVE",
-    "withdraw_hbd": "Tarik HBD",
+    "withdraw_hive": "Withdraw Savings",
+    "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "Untuk Tabungan",
     "convert": "Mengkonversi",
+    "convert_request": "Convert Request",
     "escrow_transfer": "Transfer Escrow",
     "escrow_dispute": "Sengketa Escrow",
     "escrow_release": "Escrow Release",
@@ -81,9 +90,10 @@
     "fill_convert_request": "Konversi Dieksekusi",
     "fill_transfer_from_savings": "Tabungan Dieksekusi",
     "fill_vesting_withdraw": "PowerDown dieksekusi",
-    "estm": {
-      "title": "Poin",
-      "buy": "DAPATKAN POIN"
+    "ecency": {
+      "title": "Points",
+      "name": "Ecency Points",
+      "buy": "GET POINTS"
     },
     "savinghive": {
       "title": "Penyimpanan HIVE"
@@ -93,6 +103,7 @@
     },
     "hive": {
       "title": "HIVE",
+      "name": "Hive Token",
       "buy": "DAPATKAN HIVE"
     },
     "hbd": {
@@ -100,13 +111,27 @@
       "buy": "DAPATKAN HBD"
     },
     "hive_power": {
-      "title": "KEKUATAN HIVE"
+      "title": "KEKUATAN HIVE",
+      "name": "Hive Power"
+    },
+    "hive_dollar": {
+      "name": "Hive Dollar"
     },
     "btc": {
       "title": "BTC",
       "buy": "DAPATKAN BTC",
       "address": "TERIMA"
-    }
+    },
+    "last_updated": "Last Updated:",
+    "updating": "Updating...",
+    "coin_details": "Details",
+    "change": "Change",
+    "activities": "Activities",
+    "savings_withdrawal": "Pending Withdrawals",
+    "open_orders": "Open Orders",
+    "conversions_requested": "Conversions Requested",
+    "expires": "expires",
+    "pending_requests": "Pending Requests"
   },
   "notification": {
     "vote": "voted",
@@ -279,7 +304,8 @@
     "create_a_new_account": "Buat akun baru",
     "add_an_existing_account": "Tambahkan akun yang ada",
     "accounts": "Akun",
-    "refer": "Rekomendasikan Dan Dapatkan"
+    "refer": "Rekomendasikan Dan Dapatkan",
+    "qr": "QR Scan"
   },
   "header": {
     "title": "Login untuk menyesuaikan feed Anda",
@@ -347,7 +373,17 @@
     "done": "DONE",
     "draft_save_title": "Saving Draft",
     "draft_update": "Update current draft",
-    "draft_save_new": "Save as new draft"
+    "draft_save_new": "Save as new draft",
+    "label": "Label",
+    "enter_label_placeholder": "Enter Label (Optional)",
+    "url": "URL",
+    "enter_url_placeholder": "Enter URL",
+    "link_type_text": "Type of Link",
+    "preview": "Preview",
+    "invalid_url_error": "Please insert valid url",
+    "plain": "Plain",
+    "video": "Video",
+    "image": "Image"
   },
   "snippets": {
     "label_no_snippets": "Cuplikan Tidak Ditemukan",
@@ -449,7 +485,9 @@
     "failed_to_open": "Gagal membuka sebuah tautan",
     "restart_ecency": "Restart Ecency?",
     "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response": "Could not process request, Try again later."
+    "invalid_response": "Could not process request, Try again later.",
+    "wallet_updating": "Wallet update in progress, try again as update finishes",
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
@@ -761,5 +799,10 @@
     "earned": "Earned Points",
     "pending": "Pending Points",
     "empty_text": "Refer your loved ones today and earn free points"
+  },
+  "qr": {
+    "qr_scan": "QR Scan",
+    "open": "Open URL",
+    "detected_url": "Detected URL"
   }
 }
