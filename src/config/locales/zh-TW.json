@@ -7,7 +7,9 @@
     "transfer": "轉賬",
     "power_up": "轉為 Hive Power",
     "transfer_from_savings": "從儲蓄轉出",
+    "withdraw_savings": "Withdraw Savings",
     "withdraw_vesting": "斷電 Hive Power",
+    "open_order": "Open Order",
     "fill_order": "成交訂單",
     "post": "發帖",
     "comment": "評論",
@@ -49,6 +51,12 @@
     "to": "至",
     "estimated_value_desc": "取決於購買積分的價值",
     "estimated_value": "估計價值",
+    "vote_value": "Vote value",
+    "delegated_hive_power": "Delegated hive power",
+    "powering_down_hive_power": "Powering down",
+    "received_hive_power": "Received hive power",
+    "total_hive_power": "Total hive power",
+    "savings": "Savings",
     "estimated_amount": "估計點贊價值",
     "amount_information": "拖動指標來調整數量",
     "amount": "數量",
@@ -68,10 +76,11 @@
     "next": "下一个",
     "delegate": "代理",
     "power_down": "斷電 Hive Power",
-    "withdraw_hive": "Hive提款",
-    "withdraw_hbd": "HBD提款",
+    "withdraw_hive": "Withdraw Savings",
+    "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "轉為儲蓄",
     "convert": "兌換",
+    "convert_request": "Convert Request",
     "escrow_transfer": "託管轉帳",
     "escrow_dispute": "托管轉賬（有爭議）",
     "escrow_release": "托管轉賬（允許過賬）",
@@ -81,9 +90,10 @@
     "fill_convert_request": "兌換成功",
     "fill_transfer_from_savings": "成功從儲蓄中提出",
     "fill_vesting_withdraw": "Hive Power 斷電完成",
-    "estm": {
-      "title": "積分",
-      "buy": "購買Ecency積分"
+    "ecency": {
+      "title": "Points",
+      "name": "Ecency Points",
+      "buy": "GET POINTS"
     },
     "savinghive": {
       "title": "HIVE存款"
@@ -93,6 +103,7 @@
     },
     "hive": {
       "title": "HIVE",
+      "name": "Hive Token",
       "buy": "購買HIVE"
     },
     "hbd": {
@@ -100,13 +111,27 @@
       "buy": "購買HBD"
     },
     "hive_power": {
-      "title": "HIVE POWER（已鎖倉）"
+      "title": "HIVE POWER（已鎖倉）",
+      "name": "Hive Power"
+    },
+    "hive_dollar": {
+      "name": "Hive Dollar"
     },
     "btc": {
       "title": "BTC大餅",
       "buy": "購買BTC大餅",
       "address": "接收"
-    }
+    },
+    "last_updated": "Last Updated:",
+    "updating": "Updating...",
+    "coin_details": "Details",
+    "change": "Change",
+    "activities": "Activities",
+    "savings_withdrawal": "Pending Withdrawals",
+    "open_orders": "Open Orders",
+    "conversions_requested": "Conversions Requested",
+    "expires": "expires",
+    "pending_requests": "Pending Requests"
   },
   "notification": {
     "vote": "已點贊",
@@ -279,7 +304,8 @@
     "create_a_new_account": "創建一個新帳戶",
     "add_an_existing_account": "綁定現有帳號",
     "accounts": "帳號",
-    "refer": "Refer & Earn"
+    "refer": "Refer & Earn",
+    "qr": "QR Scan"
   },
   "header": {
     "title": "登入後定制您的朋友圈",
@@ -347,7 +373,17 @@
     "done": "DONE",
     "draft_save_title": "Saving Draft",
     "draft_update": "Update current draft",
-    "draft_save_new": "Save as new draft"
+    "draft_save_new": "Save as new draft",
+    "label": "Label",
+    "enter_label_placeholder": "Enter Label (Optional)",
+    "url": "URL",
+    "enter_url_placeholder": "Enter URL",
+    "link_type_text": "Type of Link",
+    "preview": "Preview",
+    "invalid_url_error": "Please insert valid url",
+    "plain": "Plain",
+    "video": "Video",
+    "image": "Image"
   },
   "snippets": {
     "label_no_snippets": "沒找到片段",
@@ -449,7 +485,9 @@
     "failed_to_open": "Failed to open a link",
     "restart_ecency": "Restart Ecency?",
     "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response": "Could not process request, Try again later."
+    "invalid_response": "Could not process request, Try again later.",
+    "wallet_updating": "Wallet update in progress, try again as update finishes",
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
   },
   "post": {
     "reblog_alert": "您確定想要轉發？",
@@ -761,5 +799,10 @@
     "earned": "Earned Points",
     "pending": "Pending Points",
     "empty_text": "Refer your loved ones today and earn free points"
+  },
+  "qr": {
+    "qr_scan": "QR Scan",
+    "open": "Open URL",
+    "detected_url": "Detected URL"
   }
 }
