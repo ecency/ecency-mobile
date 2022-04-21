@@ -7,7 +7,9 @@
     "transfer": "Transfer",
     "power_up": "Hakediş",
     "transfer_from_savings": "Tasarruflardan",
+    "withdraw_savings": "Withdraw Savings",
     "withdraw_vesting": "Güç Düşürme",
+    "open_order": "Open Order",
     "fill_order": "Gerçekleşen emir",
     "post": "Gönderi",
     "comment": "Yorum",
@@ -49,6 +51,12 @@
     "to": "Kime",
     "estimated_value_desc": "Satınalma değerine göre",
     "estimated_value": "Tahmini değer",
+    "vote_value": "Vote value",
+    "delegated_hive_power": "Delegated hive power",
+    "powering_down_hive_power": "Powering down",
+    "received_hive_power": "Received hive power",
+    "total_hive_power": "Total hive power",
+    "savings": "Savings",
     "estimated_amount": "Oy değeri",
     "amount_information": "Miktarı ayarlamak için kaydırıcıyı sürükleyin",
     "amount": "Miktar",
@@ -68,10 +76,11 @@
     "next": "SONRAKİ",
     "delegate": "Devretme",
     "power_down": "Güç Düşürme",
-    "withdraw_hive": "Hive Çek",
-    "withdraw_hbd": "HBD Çek",
+    "withdraw_hive": "Withdraw Savings",
+    "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "Tasarruflar",
     "convert": "Dönüştür",
+    "convert_request": "Convert Request",
     "escrow_transfer": "Emanet Transferi",
     "escrow_dispute": "Emanet İhtilafı",
     "escrow_release": "Emanet Bırakılması",
@@ -81,9 +90,10 @@
     "fill_convert_request": "Dönüştürme Yapılan",
     "fill_transfer_from_savings": "Tasarruf Edilen",
     "fill_vesting_withdraw": "Güç Düşürme Yapılan",
-    "estm": {
-      "title": "Puanlar",
-      "buy": "PUAN KAZAN"
+    "ecency": {
+      "title": "Points",
+      "name": "Ecency Points",
+      "buy": "GET POINTS"
     },
     "savinghive": {
       "title": "HIVE Tasarrufları"
@@ -93,6 +103,7 @@
     },
     "hive": {
       "title": "HIVE",
+      "name": "Hive Token",
       "buy": "HIVE AL"
     },
     "hbd": {
@@ -100,13 +111,27 @@
       "buy": "HBD AL"
     },
     "hive_power": {
-      "title": "HIVE POWER"
+      "title": "HIVE POWER",
+      "name": "Hive Power"
+    },
+    "hive_dollar": {
+      "name": "Hive Dollar"
     },
     "btc": {
       "title": "BTC",
       "buy": "BTC AL",
       "address": "AL"
-    }
+    },
+    "last_updated": "Last Updated:",
+    "updating": "Updating...",
+    "coin_details": "Details",
+    "change": "Change",
+    "activities": "Activities",
+    "savings_withdrawal": "Pending Withdrawals",
+    "open_orders": "Open Orders",
+    "conversions_requested": "Conversions Requested",
+    "expires": "expires",
+    "pending_requests": "Pending Requests"
   },
   "notification": {
     "vote": "oylandı",
@@ -279,7 +304,8 @@
     "create_a_new_account": "Yeni bir hesap oluştur",
     "add_an_existing_account": "Başka hesap ekle",
     "accounts": "Hesaplar",
-    "refer": "Referans Ol & Kazan"
+    "refer": "Referans Ol & Kazan",
+    "qr": "QR Scan"
   },
   "header": {
     "title": "Giriş yap ve akışını özelleştir.",
@@ -347,7 +373,17 @@
     "done": "TAMAMLANDI",
     "draft_save_title": "Taslağı Kaydetme",
     "draft_update": "Geçerli taslağı güncelle",
-    "draft_save_new": "Yeni taslak olarak kaydet"
+    "draft_save_new": "Yeni taslak olarak kaydet",
+    "label": "Label",
+    "enter_label_placeholder": "Enter Label (Optional)",
+    "url": "URL",
+    "enter_url_placeholder": "Enter URL",
+    "link_type_text": "Type of Link",
+    "preview": "Preview",
+    "invalid_url_error": "Please insert valid url",
+    "plain": "Plain",
+    "video": "Video",
+    "image": "Image"
   },
   "snippets": {
     "label_no_snippets": "Hiç Snippet Bulunamadı",
@@ -449,7 +485,9 @@
     "failed_to_open": "Bağlantı açılırken bir hata oluştu",
     "restart_ecency": "Ecency Tekrar Başlasın Mı?",
     "restart_ecency_desc": "Değişiklikleri uygulamak tekrar başlatmayı gerektirir.",
-    "invalid_response": "İsteğiniz işleme koyulamıyor. Daha sonra tekrar deneyin."
+    "invalid_response": "İsteğiniz işleme koyulamıyor. Daha sonra tekrar deneyin.",
+    "wallet_updating": "Wallet update in progress, try again as update finishes",
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
   },
   "post": {
     "reblog_alert": "Tekrar göndermek istediğinize emin misiniz?",
@@ -761,5 +799,10 @@
     "earned": "Kazanılan Puanlar",
     "pending": "Askıdaki Puanlar",
     "empty_text": "Bugün sevdiğin birine referans ol ve ücretsiz puan kazan"
+  },
+  "qr": {
+    "qr_scan": "QR Scan",
+    "open": "Open URL",
+    "detected_url": "Detected URL"
   }
 }
