@@ -192,7 +192,7 @@
     "currency": "Валюта",
     "language": "Язык",
     "server": "Сервер",
-    "dark_theme": "Тёмная тема",
+    "color_theme": "Appearance",
     "push_notification": "Уведомления",
     "notification": {
       "follow": "Подписки",
@@ -214,6 +214,11 @@
       "always_show": "Отображать всегда",
       "always_hide": "Всегда скрывать",
       "always_warn": "Всегда предупреждать"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "Письмо успешно отправлено",
     "feedback_fail": "Не удалось открыть почтовый клиент",
@@ -523,7 +528,11 @@
     "bookmarks": "добавить в закладки",
     "promote": "продвинуть",
     "boost": "усилить",
-    "report": "пожаловаться"
+    "report": "пожаловаться",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
@@ -566,11 +575,11 @@
     "stop_information": "Вы действительно хотите остановить?",
     "percent": "Процент",
     "auto_vests": "Авто Vests",
+    "vests": "Vests",
     "save": "СОХРАНИТЬ",
     "percent_information": "Информация о %",
     "next": "ДАЛЕЕ",
     "delegate": "Делегировать",
-    "power_down": "Понижение Силы",
     "withdraw_hive": "Вывести HIVE",
     "withdraw_hbd": "Вывести Hive Доллар",
     "incoming_funds": "Входящие средства",
@@ -589,7 +598,15 @@
     "confirm_summary": "Делегат {hp} HP ({vests} VESTS) в @{delegator} от @{delegatee} ",
     "confirm_summary_para": "Это перезапишет вашу предыдущую передачу {prev} HP этому пользователю.",
     "username_alert": "Ошибка в имени пользователя!",
-    "username_alert_detail": "Пожалуйста, выберите другое имя пользователя"
+    "username_alert_detail": "Пожалуйста, выберите другое имя пользователя",
+    "power_down": "Понижение Силы",
+    "power_down_amount_head": "Withdraw Amount",
+    "power_down_amount_subhead": "Enter amount for powering down hive power",
+    "withdraw_accounts": "Withdraw Accounts",
+    "amount_hp": "Amount (HP)",
+    "powering_down": "Powering Down",
+    "powering_down_subheading": "You are currently powering down.",
+    "powering_down_info": "Next power down is in {days} days, {hp} HIVE"
   },
   "boost": {
     "title": "Получить Баллы",

@@ -192,7 +192,7 @@
     "currency": "Moeda",
     "language": "Língua",
     "server": "Servidor",
-    "dark_theme": "Tema Escuro",
+    "color_theme": "Appearance",
     "push_notification": "Puxar Notificações",
     "notification": {
       "follow": "Seguir",
@@ -214,6 +214,11 @@
       "always_show": "Mostrar sempre",
       "always_hide": "Ocultar sempre",
       "always_warn": "Avisar sempre"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "Email aberto com sucesso",
     "feedback_fail": "Não se pôde abrir o cliente de e-mail",
@@ -523,7 +528,11 @@
     "bookmarks": "adicionar aos marcadores",
     "promote": "promover",
     "boost": "reforço",
-    "report": "relatório"
+    "report": "relatório",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "Usuário não existe",
@@ -566,11 +575,11 @@
     "stop_information": "Tem certeza que deseja parar?",
     "percent": "Percentagem",
     "auto_vests": "Auto Vests",
+    "vests": "Vests",
     "save": "SALVAR",
     "percent_information": "Info de porcentagem",
     "next": "SEGUINTE",
     "delegate": "Delegar",
-    "power_down": "Decarregar Poder",
     "withdraw_hive": "Sacar HIVE",
     "withdraw_hbd": "Sacar HIVE Dólar",
     "incoming_funds": "Fundos Recebidos",
@@ -589,7 +598,15 @@
     "confirm_summary": "Delegar {hp} HP ({vests} VESTS) A @{delegator{delegatee}} de@{delegatee} ",
     "confirm_summary_para": "Isso substituirá a sua delegação anterior de {prev} HP para esta conta.",
     "username_alert": "Erro no nome!",
-    "username_alert_detail": "Por favor, selecione um nome diferente"
+    "username_alert_detail": "Por favor, selecione um nome diferente",
+    "power_down": "Decarregar Poder",
+    "power_down_amount_head": "Withdraw Amount",
+    "power_down_amount_subhead": "Enter amount for powering down hive power",
+    "withdraw_accounts": "Withdraw Accounts",
+    "amount_hp": "Amount (HP)",
+    "powering_down": "Powering Down",
+    "powering_down_subheading": "You are currently powering down.",
+    "powering_down_info": "Next power down is in {days} days, {hp} HIVE"
   },
   "boost": {
     "title": "Obter Pontos",

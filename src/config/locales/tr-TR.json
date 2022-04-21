@@ -192,7 +192,7 @@
     "currency": "Para Birimi",
     "language": "Dil",
     "server": "Sunucu",
-    "dark_theme": "Koyu Tema",
+    "color_theme": "Appearance",
     "push_notification": "Bildirim",
     "notification": {
       "follow": "Takip Et",
@@ -214,6 +214,11 @@
       "always_show": "Her zaman göster",
       "always_hide": "Her zaman gizle",
       "always_warn": "Her zaman uyar"
+    },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
     },
     "feedback_success": "E-posta başarıyla açıldı",
     "feedback_fail": "E-posta istemcisi açılamadı",
@@ -523,7 +528,11 @@
     "bookmarks": "yer imlerine ekle",
     "promote": "tanıtım yap",
     "boost": "yükselt",
-    "report": "bildir"
+    "report": "bildir",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community"
   },
   "deep_link": {
     "no_existing_user": "Kullanici Bulunamadi",
@@ -566,11 +575,11 @@
     "stop_information": "Durdurmak istediğinize emin misiniz?",
     "percent": "Yüzde",
     "auto_vests": "Otomatik Tasarruf",
+    "vests": "Vests",
     "save": "KAYDET",
     "percent_information": "Yüzdesel Bilgi",
     "next": "SONRAKİ",
     "delegate": "Delegasyon Yap",
-    "power_down": "Güç Düşür",
     "withdraw_hive": "HIVE Çek",
     "withdraw_hbd": "HIVE Dollar Çek",
     "incoming_funds": "Gelen Fonlar",
@@ -589,7 +598,15 @@
     "confirm_summary": "@{delegatee}'den @{delegator}'a delegasyon yapılan {hp} HP ({vests} VESTS) ",
     "confirm_summary_para": "Bu kullanıcıya döha önceki {prev} HP delegasyonunuzun üzerine yazıcak.",
     "username_alert": "Kullanıcı Adı Hatası!",
-    "username_alert_detail": "Lütfen farklı bir kullanıcı adı seçiniz"
+    "username_alert_detail": "Lütfen farklı bir kullanıcı adı seçiniz",
+    "power_down": "Güç Düşür",
+    "power_down_amount_head": "Withdraw Amount",
+    "power_down_amount_subhead": "Enter amount for powering down hive power",
+    "withdraw_accounts": "Withdraw Accounts",
+    "amount_hp": "Amount (HP)",
+    "powering_down": "Powering Down",
+    "powering_down_subheading": "You are currently powering down.",
+    "powering_down_info": "Next power down is in {days} days, {hp} HIVE"
   },
   "boost": {
     "title": "Puan Al",
