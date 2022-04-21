@@ -7,7 +7,9 @@
     "transfer": "전송",
     "power_up": "파워업",
     "transfer_from_savings": "안전 금고에서 출금하기",
+    "withdraw_savings": "Withdraw Savings",
     "withdraw_vesting": "파워 다운",
+    "open_order": "Open Order",
     "fill_order": "체결 주문",
     "post": "포스팅",
     "comment": "댓글",
@@ -49,6 +51,12 @@
     "to": "받는 사람",
     "estimated_value_desc": "구매 가치에 따라",
     "estimated_value": "추정 자산 가치",
+    "vote_value": "Vote value",
+    "delegated_hive_power": "Delegated hive power",
+    "powering_down_hive_power": "Powering down",
+    "received_hive_power": "Received hive power",
+    "total_hive_power": "Total hive power",
+    "savings": "Savings",
     "estimated_amount": "보팅 가치",
     "amount_information": "슬라이드를 드래그해서 수량을 설정할 수 있습니다",
     "amount": "수량",
@@ -68,10 +76,11 @@
     "next": "다음",
     "delegate": "임대",
     "power_down": "파워 다운",
-    "withdraw_hive": "HIVE 출금",
-    "withdraw_hbd": "HBD 출금",
+    "withdraw_hive": "Withdraw Savings",
+    "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "안전 금고에 보관하기",
     "convert": "전환하기",
+    "convert_request": "Convert Request",
     "escrow_transfer": "에스크로 송금",
     "escrow_dispute": "에스크로 분쟁",
     "escrow_release": "에스크로 해제",
@@ -81,9 +90,10 @@
     "fill_convert_request": "전환을 하였습니다.",
     "fill_transfer_from_savings": "안전 금고에 보관하였습니다.",
     "fill_vesting_withdraw": "스팀 파워 다운을 하였습니다.",
-    "estm": {
-      "title": "포인트",
-      "buy": "포인트 받기"
+    "ecency": {
+      "title": "Points",
+      "name": "Ecency Points",
+      "buy": "GET POINTS"
     },
     "savinghive": {
       "title": "HIVE 안전 금고"
@@ -93,6 +103,7 @@
     },
     "hive": {
       "title": "HIVE",
+      "name": "Hive Token",
       "buy": "HIVE 받기"
     },
     "hbd": {
@@ -100,13 +111,27 @@
       "buy": "HBD 받기"
     },
     "hive_power": {
-      "title": "HIVE POWER"
+      "title": "HIVE POWER",
+      "name": "Hive Power"
+    },
+    "hive_dollar": {
+      "name": "Hive Dollar"
     },
     "btc": {
       "title": "비트코인",
       "buy": "비트코인 구매하기",
       "address": "입금 주소"
-    }
+    },
+    "last_updated": "Last Updated:",
+    "updating": "Updating...",
+    "coin_details": "Details",
+    "change": "Change",
+    "activities": "Activities",
+    "savings_withdrawal": "Pending Withdrawals",
+    "open_orders": "Open Orders",
+    "conversions_requested": "Conversions Requested",
+    "expires": "expires",
+    "pending_requests": "Pending Requests"
   },
   "notification": {
     "vote": "님이 보팅하였습니다.",
@@ -279,7 +304,8 @@
     "create_a_new_account": "새 계정 만들기",
     "add_an_existing_account": "기존 계정 추가",
     "accounts": "계정",
-    "refer": "추천해서 혜택 받으세요"
+    "refer": "추천해서 혜택 받으세요",
+    "qr": "QR Scan"
   },
   "header": {
     "title": "맞춤형 피드를 원하신다면 로그인하세요",
@@ -347,7 +373,17 @@
     "done": "DONE",
     "draft_save_title": "Saving Draft",
     "draft_update": "Update current draft",
-    "draft_save_new": "Save as new draft"
+    "draft_save_new": "Save as new draft",
+    "label": "Label",
+    "enter_label_placeholder": "Enter Label (Optional)",
+    "url": "URL",
+    "enter_url_placeholder": "Enter URL",
+    "link_type_text": "Type of Link",
+    "preview": "Preview",
+    "invalid_url_error": "Please insert valid url",
+    "plain": "Plain",
+    "video": "Video",
+    "image": "Image"
   },
   "snippets": {
     "label_no_snippets": "스니펫 없음",
@@ -449,7 +485,9 @@
     "failed_to_open": "링크 열기 실패",
     "restart_ecency": "Restart Ecency?",
     "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response": "Could not process request, Try again later."
+    "invalid_response": "Could not process request, Try again later.",
+    "wallet_updating": "Wallet update in progress, try again as update finishes",
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
   },
   "post": {
     "reblog_alert": "리블로그 하시겠습니까?",
@@ -761,5 +799,10 @@
     "earned": "Earned Points",
     "pending": "Pending Points",
     "empty_text": "Refer your loved ones today and earn free points"
+  },
+  "qr": {
+    "qr_scan": "QR Scan",
+    "open": "Open URL",
+    "detected_url": "Detected URL"
   }
 }
