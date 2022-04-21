@@ -47,6 +47,7 @@ const CommentsContainer = ({
   flatListProps,
   fetchedAt,
   incrementRepliesCount,
+  handleOnReplyPress,
 }) => {
   const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
   const cachedComments = useAppSelector((state) => state.cache.comments);
@@ -338,7 +339,7 @@ const CommentsContainer = ({
       comments={lcomments.length > 0 ? lcomments : propComments}
       currentAccountUsername={currentAccount.name}
       handleOnEditPress={_handleOnEditPress}
-      handleOnReplyPress={_handleOnReplyPress}
+      handleOnReplyPress={handleOnReplyPress}
       isLoggedIn={isLoggedIn}
       fetchPost={fetchPost}
       handleDeleteComment={_handleDeleteComment}

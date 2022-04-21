@@ -8,7 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { renderPostBody } from '@ecency/render-helper';
+import { renderPostBody, postBodySummary } from '@ecency/render-helper';
 import { useDispatch, useSelector } from 'react-redux';
 import { View as AnimatedView } from 'react-native-animatable';
 import { get } from 'lodash';
@@ -101,6 +101,7 @@ const MarkdownEditorView = ({
   );
   const draftBtnTooltipState = useSelector((state) => state.walkthrough.walkthroughMap);
   const draftBtnTooltipRegistered = draftBtnTooltipState.get(walkthrough.EDITOR_DRAFT_BTN);
+  const headerText = post && (post.summary || postBodySummary(post, 150, Platform.OS));
 
   useEffect(() => {
     if (!isPreviewActive) {
@@ -121,7 +122,11 @@ const MarkdownEditorView = ({
 
   useEffect(() => {
     if (text === '' && draftBody !== '') {
-      _setTextAndSelection({ selection: { start: 0, end: 0 }, text: draftBody });
+      let draftBodyLength = draftBody.length;
+      _setTextAndSelection({
+        selection: { start: draftBodyLength, end: draftBodyLength },
+        text: draftBody,
+      });
     }
   }, [draftBody]);
 
@@ -178,7 +183,10 @@ const MarkdownEditorView = ({
 
   useEffect(() => {
     if (autoFocusText && inputRef && inputRef.current && draftBtnTooltipRegistered) {
-      inputRef.current.focus();
+      // added delay to open keyboard, solves the issue of keyboard not opening
+      setTimeout(() => {
+        inputRef.current.focus();
+      }, 1000);
     }
   }, [autoFocusText]);
 
@@ -423,10 +431,9 @@ const MarkdownEditorView = ({
       _setTextAndSelection({ text: '', selection: { start: 0, end: 0 } });
     }
   };
-
   const _renderEditor = () => (
     <>
-      {isReply && !isEdit && <SummaryArea summary={post.summary} />}
+      {isReply && !isEdit && <SummaryArea summary={headerText} />}
       {!isReply && (
         <TitleArea value={fields.title} onChange={onTitleChanged} componentID="title" intl={intl} />
       )}
@@ -471,7 +478,7 @@ const MarkdownEditorView = ({
             <TextInput
               multiline
               autoCorrect={true}
-              autoFocus={isReply && draftBtnTooltipRegistered ? true : false}
+              autoFocus={!draftBtnTooltipRegistered ? false : true}
               onChangeText={_changeText}
               onSelectionChange={_handleOnSelectionChange}
               placeholder={intl.formatMessage({

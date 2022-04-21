@@ -16,11 +16,13 @@ import { default as ROUTES } from '../../constants/routeNames';
 import get from 'lodash/get';
 import { navigate } from '../../navigation/service';
 import { Portal } from 'react-native-portalize';
-import { renderPostBody } from '@ecency/render-helper';
+import { postBodySummary } from '@ecency/render-helper';
 
-export interface QuickReplyModalProps {}
+export interface QuickReplyModalProps {
+  fetchPost?: any;
+}
 
-const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
+const QuickReplyModal = ({ fetchPost }: QuickReplyModalProps, ref) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const currentAccount = useSelector((state) => state.account.currentAccount);
@@ -29,24 +31,11 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
   const [selectedPost, setSelectedPost] = useState(null);
   const [commentValue, setCommentValue] = useState('');
   const [isSending, setIsSending] = useState(false);
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const sheetModalRef = useRef<ActionSheet>();
   const inputRef = useRef<TextInput>(null);
 
-  // keyboard listener hook for checking if keyboard is active/inactove
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
-      setKeyboardVisible(true); // or some other action
-    });
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-      setKeyboardVisible(false); // or some other action
-    });
-
-    return () => {
-      keyboardDidHideListener.remove();
-      keyboardDidShowListener.remove();
-    };
-  }, []);
+  const headerText =
+    selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
 
   // reset the state when post changes
   useEffect(() => {
@@ -70,7 +59,6 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
   // handle close press
   const _handleClosePress = () => {
     sheetModalRef.current?.setModalVisible(false);
-    setKeyboardVisible(false);
   };
   // navigate to post on summary press
   const _handleOnSummaryPress = () => {
@@ -140,17 +128,17 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
               updateCommentCache(
                 `${parentAuthor}/${parentPermlink}`,
                 {
-                  author:currentAccount.name,
+                  author: currentAccount.name,
                   permlink,
-                  parent_author:parentAuthor,
-                  parent_permlink:parentPermlink,
+                  parent_author: parentAuthor,
+                  parent_permlink: parentPermlink,
                   markdownBody: commentValue,
                 },
                 {
-                  parentTags: parentTags || ['ecency']
-                }
-              )
-            )
+                  parentTags: parentTags || ['ecency'],
+                },
+              ),
+            );
 
             clearTimeout(stateTimer);
           }, 3000);
@@ -172,6 +160,21 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
     }
   };
 
+  const _handleExpandBtn = () => {
+    if (selectedPost) {
+      navigate({
+        routeName: ROUTES.SCREENS.EDITOR,
+        key: 'editor_replay',
+        params: {
+          isReply: true,
+          post: selectedPost,
+          quickReplyText: commentValue,
+          fetchPost,
+        },
+      });
+      sheetModalRef.current?.setModalVisible(false);
+    }
+  };
   //VIEW_RENDERERS
 
   const _renderSheetHeader = () => (
@@ -187,12 +190,12 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
     </View>
   );
 
-
   const _renderSummary = () => (
     <TouchableOpacity onPress={() => _handleOnSummaryPress()}>
-      <SummaryArea style={styles.summaryStyle} summary={selectedPost.summary} />
+      <SummaryArea style={styles.summaryStyle} summary={headerText} />
     </TouchableOpacity>
   );
+  
   const _renderAvatar = () => (
     <View style={styles.avatarAndNameContainer}>
       <UserAvatar noAction username={currentAccount.username} />
@@ -202,6 +205,37 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
     </View>
   );
 
+  const _renderExpandBtn = () => (
+    <View style={styles.expandBtnContainer}>
+      <IconButton
+        iconStyle={styles.backIcon}
+        iconType="MaterialCommunityIcons"
+        name="arrow-expand"
+        onPress={_handleExpandBtn}
+        size={28}
+        color={EStyleSheet.value('$primaryBlack')}
+      />
+    </View>
+  );
+  const _renderReplyBtn = () => (
+    <View style={styles.replyBtnContainer}>
+      <TextButton
+        style={styles.cancelButton}
+        onPress={_handleClosePress}
+        text={intl.formatMessage({
+          id: 'quick_reply.close',
+        })}
+      />
+      <MainButton
+        style={styles.commentBtn}
+        onPress={() => _submitReply()}
+        text={intl.formatMessage({
+          id: 'quick_reply.reply',
+        })}
+        isLoading={isSending}
+      />
+    </View>
+  );
   const _renderContent = () => {
     return (
       <View style={styles.modalContainer}>
@@ -225,21 +259,8 @@ const QuickReplyModal = ({}: QuickReplyModalProps, ref) => {
           />
         </View>
         <View style={styles.footer}>
-            <TextButton
-                style={styles.cancelButton}
-                onPress={_handleClosePress}
-                text={intl.formatMessage({
-                  id: 'quick_reply.close',
-                })}
-              />
-          <MainButton
-            style={styles.commentBtn}
-            onPress={() => _submitReply()}
-            text={intl.formatMessage({
-              id: 'quick_reply.reply',
-            })}
-            isLoading={isSending}
-          />
+          {_renderExpandBtn()}
+          {_renderReplyBtn()}
         </View>
       </View>
     );
