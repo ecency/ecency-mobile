@@ -86,7 +86,7 @@ export default EStyleSheet.create({
     marginBottom: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'red',
+    backgroundColor: '$primaryRed',
     fontWeight: 'bold',
   },
   buttonText: {

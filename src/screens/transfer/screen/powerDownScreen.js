@@ -6,6 +6,7 @@ import Slider from '@esteemapp/react-native-slider';
 import get from 'lodash/get';
 
 import { View as AnimatedView } from 'react-native-animatable';
+import moment from 'moment';
 import { getWithdrawRoutes } from '../../../providers/hive/dhive';
 import AUTH_TYPE from '../../../constants/authType';
 
@@ -403,7 +404,7 @@ class PowerDownView extends Component {
           </Text>
           <Text style={styles.sectionSubheading}>
             {intl.formatMessage({ id: 'transfer.powering_down_subheading' }) +
-              '\n\n' +
+              '\n' +
               intl.formatMessage(
                 { id: 'transfer.powering_down_info' },
                 { days: days, hp: poweringDownFund },
