@@ -41,5 +41,6 @@ export default EStyleSheet.create({
   },
   input: {
     color: '$primaryDarkText',
+    flexGrow: 1,
   },
 });

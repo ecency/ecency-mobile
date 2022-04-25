@@ -134,6 +134,7 @@ class LoginScreen extends PureComponent {
                 isEditable
                 secureTextEntry
                 type="password"
+                numberOfLines={1}
                 inputStyle={styles.input}
               />
               <InformationArea
