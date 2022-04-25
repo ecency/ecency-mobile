@@ -63,6 +63,7 @@ class ProfileSummaryView extends PureComponent {
       handleMuteUnmuteUser,
       handleOnFavoritePress,
       handleReportUser,
+      handleDelegateHp,
     } = this.props;
 
     switch (index) {
@@ -79,6 +80,11 @@ class ProfileSummaryView extends PureComponent {
       case 2:
         if (handleReportUser) {
           handleReportUser();
+        }
+        break;
+      case 3:
+        if (handleDelegateHp) {
+          handleDelegateHp();
         }
         break;
       default:
@@ -154,6 +160,9 @@ class ProfileSummaryView extends PureComponent {
       }),
       intl.formatMessage({
         id: 'user.report',
+      }),
+      intl.formatMessage({
+        id: 'refer.delegate_hp',
       }),
     ];
 

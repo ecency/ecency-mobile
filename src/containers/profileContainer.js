@@ -456,6 +456,18 @@ class ProfileContainer extends Component {
     );
   };
 
+  _handleDelegateHp = () => {
+    const { navigation } = this.props;
+    const username = get(navigation, 'state.params.username');
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.TRANSFER,
+      params: {
+        transferType: 'delegate',
+        fundType: 'HIVE_POWER',
+        referredUsername: username,
+      },
+    });
+  };
   _handleOnBackPress = () => {
     const { navigation } = this.props;
     const navigationParams = get(navigation.state, 'params');
@@ -566,6 +578,7 @@ class ProfileContainer extends Component {
         handleOnFollowsPress: this._handleFollowsPress,
         handleOnPressProfileEdit: this._handleOnPressProfileEdit,
         handleReportUser: this._handleReportUser,
+        handleDelegateHp: this._handleDelegateHp,
         isDarkTheme,
         isFavorite,
         isFollowing,

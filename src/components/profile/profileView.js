@@ -98,6 +98,7 @@ class ProfileView extends PureComponent {
       handleOnFollowsPress,
       handleOnPressProfileEdit,
       handleReportUser,
+      handleDelegateHp,
       intl,
       isDarkTheme,
       isFavorite,
@@ -139,6 +140,7 @@ class ProfileView extends PureComponent {
           handleOnFavoritePress={handleOnFavoritePress}
           handleOnFollowsPress={handleOnFollowsPress}
           handleReportUser={handleReportUser}
+          handleDelegateHp={handleDelegateHp}
           handleUIChange={this._handleUIChange}
           hoursRC={Math.ceil((100 - resourceCredits) * 0.833333) || null}
           hoursVP={Math.ceil((100 - votingPower) * 0.833333) || null}
