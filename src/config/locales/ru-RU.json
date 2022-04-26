@@ -743,7 +743,8 @@
     "remove_from_favourites": "УДАЛИТЬ ИЗ ИЗБРАННЫХ",
     "mute": "ОТКЛЮЧИТЬ / ЗАБЛОКИРОВАТЬ",
     "unmute": "ВКЛЮЧИТЬ / РАЗБЛОКИРОВАТЬ",
-    "report": "ПОЖАЛОВАТЬСЯ НА ПОЛЬЗОВАТЕЛЯ"
+    "report": "ПОЖАЛОВАТЬСЯ НА ПОЛЬЗОВАТЕЛЯ",
+    "delegate": "DELEGATE HIVE POWER"
   },
   "communities": {
     "joined": "Членство",
