@@ -28,6 +28,7 @@ import { Community } from './community';
 import Communities from './communities';
 import ReferScreen from './referScreen/referScreen';
 import CoinDetails from './coinDetails';
+import EditHistoryScreen from './editHistoryScreen/editHistoryScreen';
 
 export {
   Bookmarks,
@@ -60,4 +61,5 @@ export {
   WebBrowser,
   ReferScreen,
   CoinDetails,
+  EditHistoryScreen,
 };

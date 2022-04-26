@@ -104,7 +104,7 @@ class PostDropdownContainer extends PureComponent {
 
   // Component Functions
   _handleOnDropdownSelect = async (index) => {
-    const { content, dispatch, intl } = this.props;
+    const { content, dispatch, intl, navigation } = this.props;
     const { options } = this.state;
 
     switch (options[index]) {
@@ -166,6 +166,11 @@ class PostDropdownContainer extends PureComponent {
         break;
       case 'unpin-community':
         this._updatePinnedPostCommunity({ unpinPost: true });
+        break;
+      case 'edit-history':
+        navigation.navigate({
+          routeName: ROUTES.SCREENS.EDIT_HISTORY,
+        });
         break;
       default:
         break;

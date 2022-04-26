@@ -11,4 +11,5 @@ export default [
   'share',
   'bookmarks',
   'report',
+  'edit-history',
 ];
