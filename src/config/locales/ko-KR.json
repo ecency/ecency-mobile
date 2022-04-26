@@ -743,7 +743,8 @@
     "remove_from_favourites": "즐겨찾기에서 삭제",
     "mute": "뮤트 / 차단",
     "unmute": "뮤트 취소 / 차단 취소",
-    "report": "사용자 신고"
+    "report": "사용자 신고",
+    "delegate": "DELEGATE HIVE POWER"
   },
   "communities": {
     "joined": "멤버쉽",
