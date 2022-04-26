@@ -42,3 +42,11 @@ export interface UserPoint {
 export interface LatestQuotes {
    [key:string]:QuoteItem
 }
+
+export interface CommentHistoryItem {
+    body: string;
+    tags: [string];
+    title: string;
+    timestamp:string;
+    v: number;
+}

@@ -104,9 +104,10 @@ class PostDropdownContainer extends PureComponent {
 
   // Component Functions
   _handleOnDropdownSelect = async (index) => {
-    const { content, dispatch, intl, navigation } = this.props;
+    const { content, dispatch, intl, navigation, } = this.props;
     const { options } = this.state;
-
+    console.log('content : ', content);
+    
     switch (options[index]) {
       case 'copy':
         await writeToClipboard(getPostUrl(get(content, 'url')));
@@ -170,6 +171,10 @@ class PostDropdownContainer extends PureComponent {
       case 'edit-history':
         navigation.navigate({
           routeName: ROUTES.SCREENS.EDIT_HISTORY,
+          params: {
+            author: content?.author || '',
+            permlink: content?.permlink || '',
+          },
         });
         break;
       default:
