@@ -810,6 +810,7 @@
     "detected_url": "Detected URL"
   },
   "history": {
-    "edit": "Edit History"
+    "edit": "Edit History",
+    "version": "Version"
   }
 }

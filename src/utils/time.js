@@ -140,3 +140,9 @@ export const daysTillDate = (dateObj) => {
   var current = moment();
   return Math.round(moment.duration(given.diff(current)).asDays());
 };
+
+export const dateToFormatted = (d, format = 'LLLL') => {
+  const isTimeZoned = d.indexOf('.') !== -1 || d.indexOf('+') !== -1 ? d : `${d}.000Z`;
+  const dm = moment(new Date(isTimeZoned));
+  return dm.format(format);
+};
