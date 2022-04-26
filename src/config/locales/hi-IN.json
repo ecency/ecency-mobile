@@ -743,7 +743,8 @@
     "remove_from_favourites": "पसंदीदा से निकालें",
     "mute": "म्यूट / ब्लॉक",
     "unmute": "अनम्यूट / अनब्लॉक",
-    "report": "उपयोगकर्ता को रिपोर्ट करें"
+    "report": "उपयोगकर्ता को रिपोर्ट करें",
+    "delegate": "DELEGATE HIVE POWER"
   },
   "communities": {
     "joined": "सदस्यता",
