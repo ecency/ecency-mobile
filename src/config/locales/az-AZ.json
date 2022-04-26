@@ -743,7 +743,8 @@
     "remove_from_favourites": "SEVİMLİLƏRDƏN ÇIXART",
     "mute": "MUTE / BLOCK",
     "unmute": "UNMUTE / UNBLOCK",
-    "report": "REPORT USER"
+    "report": "REPORT USER",
+    "delegate": "DELEGATE HIVE POWER"
   },
   "communities": {
     "joined": "Üzvlük",
