@@ -743,7 +743,8 @@
     "remove_from_favourites": "POISTA SUOSIKEISTA",
     "mute": "HILJENNÄ / ESTÄ",
     "unmute": "POISTA HILJENNYS / ESTO",
-    "report": "ILMIANNA KÄYTTÄJÄ"
+    "report": "ILMIANNA KÄYTTÄJÄ",
+    "delegate": "DELEGATE HIVE POWER"
   },
   "communities": {
     "joined": "Jäsenyys",
