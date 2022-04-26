@@ -1,8 +1,17 @@
 import React, { Fragment } from 'react';
 import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Alert, FlatList, Text, TouchableOpacity, View } from 'react-native';
-import { BasicHeader } from '../../components';
+import {
+  Alert,
+  Dimensions,
+  FlatList,
+  Platform,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { BasicHeader, PostBody } from '../../components';
 
 // styles
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -10,13 +19,16 @@ import styles from './editHistoryScreenStyles';
 import { getCommentHistory } from '../../providers/ecency/ecency';
 import { CommentHistoryItem } from '../../providers/ecency/ecency.types';
 import { dateToFormatted } from '../../utils/time';
+import { renderPostBody } from '@ecency/render-helper';
+
+const screenWidth = Dimensions.get('window').width - 32;
 
 const EditHistoryScreen = ({ navigation }) => {
   const { author, permlink } = navigation.state.params;
   const intl = useIntl();
   const [editHistory, setEditHistory] = useState<CommentHistoryItem[]>([]);
   const [versionSelected, setVersionSelected] = useState(1);
-
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     _getCommentHistory();
   }, []);
@@ -77,6 +89,30 @@ const EditHistoryScreen = ({ navigation }) => {
       />
     </View>
   );
+
+  const _renderBody = () => {
+    const selectedItem = editHistory.find((x) => x.v === versionSelected);
+    if (!selectedItem) {
+      return null;
+    }
+    const previewBody = renderPostBody(
+      selectedItem.body,
+      true,
+      Platform.OS === 'ios' ? false : true,
+    );
+
+    return (
+      <ScrollView
+        style={[styles.previewScroll]}
+        contentContainerStyle={styles.previewScrollContentContainer}
+      >
+        <View style={styles.bodyContainer}>
+          <PostBody body={previewBody} onLoadEnd={() => setIsLoading(false)} width={screenWidth} />
+        </View>
+      </ScrollView>
+    );
+  };
+
   return (
     <Fragment>
       <BasicHeader
@@ -84,7 +120,10 @@ const EditHistoryScreen = ({ navigation }) => {
           id: 'history.edit',
         })}
       />
-      <View style={styles.mainContainer}>{editHistory.length > 0 && _renderVersionsList()}</View>
+      <View style={styles.mainContainer}>
+        {editHistory.length > 0 && _renderVersionsList()}
+        {editHistory.length > 0 && _renderBody()}
+      </View>
     </Fragment>
   );
 };

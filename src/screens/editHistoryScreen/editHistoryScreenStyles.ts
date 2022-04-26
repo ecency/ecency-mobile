@@ -5,6 +5,10 @@ export default EStyleSheet.create({
     flex:1,
     backgroundColor: '$primaryBackgroundColor',
   },
+  versionsListContainer: {
+    paddingBottom: 32,
+    paddingTop: 16,
+  },
   versionsListContentContainer: {
     paddingHorizontal: 16
   },
@@ -26,5 +30,8 @@ export default EStyleSheet.create({
   versionItemBtnDate: {
     color: '$black',
     fontSize: 14,
+  },
+  previewScrollContentContainer: {
+    paddingHorizontal: 16,
   }
 });
