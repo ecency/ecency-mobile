@@ -63,6 +63,7 @@ class ProfileSummaryView extends PureComponent {
       handleMuteUnmuteUser,
       handleOnFavoritePress,
       handleReportUser,
+      handleDelegateHp,
     } = this.props;
 
     switch (index) {
@@ -72,15 +73,21 @@ class ProfileSummaryView extends PureComponent {
         }
         break;
       case 1:
+        if (handleDelegateHp) {
+          handleDelegateHp();
+        }
+        break;
+      case 2:
         if (handleMuteUnmuteUser) {
           handleMuteUnmuteUser(!isMuted);
         }
         break;
-      case 2:
+      case 3:
         if (handleReportUser) {
           handleReportUser();
         }
         break;
+
       default:
         Alert.alert('Action not implemented');
         break;
@@ -148,6 +155,9 @@ class ProfileSummaryView extends PureComponent {
     dropdownOptions = [
       intl.formatMessage({
         id: isFavorite ? 'user.remove_from_favourites' : 'user.add_to_favourites',
+      }),
+      intl.formatMessage({
+        id: 'user.delegate',
       }),
       intl.formatMessage({
         id: !isMuted ? 'user.mute' : 'user.unmute',

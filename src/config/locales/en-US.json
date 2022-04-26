@@ -745,7 +745,8 @@
     "remove_from_favourites": "REMOVE FROM FAVOURITES",
     "mute": "MUTE / BLOCK",
     "unmute": "UNMUTE / UNBLOCK",
-    "report": "REPORT USER"
+    "report": "REPORT USER",
+    "delegate":"DELEGATE HIVE POWER"
   },
   "communities": {
     "joined": "Membership",
