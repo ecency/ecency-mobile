@@ -134,6 +134,7 @@ class LoginScreen extends PureComponent {
                 isEditable
                 secureTextEntry
                 type="password"
+                numberOfLines={1}
                 inputStyle={styles.input}
               />
               <InformationArea
@@ -164,6 +165,7 @@ class LoginScreen extends PureComponent {
                 text={intl.formatMessage({
                   id: 'login.login',
                 })}
+                textStyle={styles.mainBtnText}
                 isDisable={!isUsernameValid || password.length < 2 || username.length < 2}
                 isLoading={isLoading}
               />

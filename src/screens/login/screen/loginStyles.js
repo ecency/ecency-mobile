@@ -41,5 +41,9 @@ export default EStyleSheet.create({
   },
   input: {
     color: '$primaryDarkText',
+    flexGrow: 1,
+  },
+  mainBtnText: {
+    marginRight: 12,
   },
 });
