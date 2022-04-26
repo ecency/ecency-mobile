@@ -743,7 +743,8 @@
     "remove_from_favourites": "UKLONI IZ FAVORITA",
     "mute": "UTIŠAJ / BLOKIRAJ",
     "unmute": "UKLJUČI / ODBLOKIRAJ",
-    "report": "PRIJAVI KORISNIKA"
+    "report": "PRIJAVI KORISNIKA",
+    "delegate": "DELEGATE HIVE POWER"
   },
   "communities": {
     "joined": "Članstvo",
