@@ -828,7 +828,7 @@ export const getReferralsStats = async (username: string):Promise<ReferralStat> 
 
 /** 
  * ************************************
- * REFERRAL API IMPLEMENTATION 
+ * EDIT HISTORY API IMPLEMENTATION 
  * ************************************
  */
 
