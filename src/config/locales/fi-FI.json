@@ -613,7 +613,7 @@
     "stop_information": "Haluatko varmasti poistua?",
     "percent": "Prosentti",
     "auto_vests": "Automaattiset Ansainnat",
-    "vests": "Vests",
+    "vests": "Annot",
     "save": "TALLENNA",
     "percent_information": "Prosenttitieto",
     "next": "SEURAAVA",
@@ -640,11 +640,11 @@
     "power_down": "Power Down",
     "power_down_amount_head": "Nostomäärä",
     "power_down_amount_subhead": "Syötä hive power tehonalennuksen määrä",
-    "withdraw_accounts": "Withdraw Accounts",
-    "amount_hp": "Amount (HP)",
-    "powering_down": "Powering Down",
-    "powering_down_subheading": "You are currently powering down.",
-    "powering_down_info": "Next power down is in {days} days, {hp} HIVE"
+    "withdraw_accounts": "Nostotilit",
+    "amount_hp": "Määrä (HP)",
+    "powering_down": "Tehon alentaminen",
+    "powering_down_subheading": "Olet alentamassa tehoa.",
+    "powering_down_info": "Seuraavaan tehonalennukseen on {days} päivää, {hp} HIVE"
   },
   "boost": {
     "title": "Hanki pisteitä",
@@ -792,18 +792,18 @@
     "load_draft_tooltip": "Lataa viimeisin luonnoksesi tähän"
   },
   "refer": {
-    "refer_earn": "Refer & Earn",
-    "refer": "Refer",
-    "rewarded": "Referral points rewarded",
-    "not_rewarded": "Referral reward pending",
-    "delegate_hp": "Delegate HP",
-    "earned": "Earned Points",
-    "pending": "Pending Points",
-    "empty_text": "Refer your loved ones today and earn free points"
+    "refer_earn": "Suosittele ja tienaa",
+    "refer": "Suosittele",
+    "rewarded": "Suosituspisteitä saatu",
+    "not_rewarded": "Suosituspalkkio odottaa",
+    "delegate_hp": "Valtuuta HP",
+    "earned": "Ansaitut Pisteet",
+    "pending": "Odottavat Pisteet",
+    "empty_text": "Suosittele tutuillesi ja tienaa ilmaisia pisteitä"
   },
   "qr": {
-    "qr_scan": "QR Scan",
-    "open": "Open URL",
-    "detected_url": "Detected URL"
+    "qr_scan": "QR-koodi",
+    "open": "Avaa URL",
+    "detected_url": "Havaittu URL"
   }
 }
