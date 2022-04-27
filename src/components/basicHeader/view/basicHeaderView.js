@@ -40,6 +40,9 @@ const BasicHeaderView = ({
   quickTitle,
   rightButtonText,
   rightIconName,
+  iconType,
+  rightIconBtnStyle,
+  rightIconStyle,
   title,
   handleOnSubmit,
   handleOnSearch,
@@ -206,8 +209,10 @@ const BasicHeaderView = ({
             <IconButton
               size={25}
               onPress={() => handleRightIconPress()}
-              iconStyle={styles.rightIcon}
+              iconStyle={[styles.rightIcon, rightIconStyle]}
+              style={rightIconBtnStyle}
               name={rightIconName}
+              iconType={iconType}
             />
           )}
 

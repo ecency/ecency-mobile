@@ -56,5 +56,13 @@ export default EStyleSheet.create({
   },
   tagIcon: {
     color: '$primaryDarkGray'
+  },
+  rightIcon: {
+    backgroundColor: '$primaryDarkGray',
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
   }
 });

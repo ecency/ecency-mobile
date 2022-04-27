@@ -37,6 +37,7 @@ const EditHistoryScreen = ({ navigation }) => {
   const intl = useIntl();
   const [editHistory, setEditHistory] = useState<CommentHistoryItem[]>([]);
   const [versionSelected, setVersionSelected] = useState(1);
+  const [showDiff, setShowDiff] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     _getCommentHistory();
@@ -151,11 +152,7 @@ const EditHistoryScreen = ({ navigation }) => {
         <View style={styles.postHeaderContainer}>
           <Text style={styles.postHeaderTitle}>{selectedItem.title}</Text>
           <View style={styles.tagsContainer}>
-            <Icon
-              style={styles.tagIcon}
-              iconType="AntDesign"
-              name={'tag'}
-            />
+            <Icon style={styles.tagIcon} iconType="AntDesign" name={'tag'} />
             <Text style={styles.tags}>{selectedItem.tags}</Text>
           </View>
         </View>
@@ -172,6 +169,22 @@ const EditHistoryScreen = ({ navigation }) => {
         title={intl.formatMessage({
           id: 'history.edit',
         })}
+        iconType="Ionicons"
+        rightIconName="git-compare-sharp"
+        rightIconBtnStyle={[
+          styles.rightIcon,
+          {
+            backgroundColor: showDiff
+              ? EStyleSheet.value('$primaryBlue')
+              : EStyleSheet.value('$primaryDarkGray'),
+          },
+        ]}
+        rightIconStyle={{
+          color: showDiff
+            ? EStyleSheet.value('white')
+            : EStyleSheet.value('$iconColor'),
+        }}
+        handleRightIconPress={() => setShowDiff(!showDiff)}
       />
       <View style={styles.mainContainer}>
         {editHistory.length > 0 && _renderVersionsList()}
