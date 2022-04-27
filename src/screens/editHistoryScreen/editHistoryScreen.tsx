@@ -22,6 +22,17 @@ import { CommentHistoryItem } from '../../providers/ecency/ecency.types';
 import { dateToFormatted } from '../../utils/time';
 import { renderPostBody } from '@ecency/render-helper';
 
+export interface CommentHistoryListItemDiff {
+  title: string;
+  titleDiff?: string;
+  body: string;
+  bodyDiff?: string;
+  tags: string;
+  tagsDiff?: string;
+  timestamp: string;
+  v: number;
+}
+
 const dmp = new diff_match_patch();
 
 const make_diff = (str1: string, str2: string): string => {
@@ -35,7 +46,7 @@ const screenWidth = Dimensions.get('window').width - 32;
 const EditHistoryScreen = ({ navigation }) => {
   const { author, permlink } = navigation.state.params;
   const intl = useIntl();
-  const [editHistory, setEditHistory] = useState<CommentHistoryItem[]>([]);
+  const [editHistory, setEditHistory] = useState<CommentHistoryListItemDiff[]>([]);
   const [versionSelected, setVersionSelected] = useState(1);
   const [showDiff, setShowDiff] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -133,22 +144,27 @@ const EditHistoryScreen = ({ navigation }) => {
     </View>
   );
 
-  const _renderBody = () => {
-    const selectedItem = editHistory.find((x) => x.v === versionSelected);
-    if (!selectedItem) {
-      return null;
-    }
+  const _renderDiff = (item: CommentHistoryListItemDiff) => {
+    return (
+      <View style={styles.diffContainer}>
+        <Text style={styles.titleDiff}>{item.titleDiff}</Text>
+        <View style={styles.tagsContainer}>
+          <Icon style={styles.tagIcon} iconType="AntDesign" name={'tag'} />
+          <Text style={styles.tags}>{item.tagsDiff}</Text>
+        </View>
+        <Text style={styles.bodyDiff}>{item.bodyDiff}</Text>
+      </View>
+    );
+  };
+
+  const _renderPreview = (selectedItem: CommentHistoryListItemDiff) => {
     const previewBody = renderPostBody(
       selectedItem.body,
       true,
       Platform.OS === 'ios' ? false : true,
     );
-
     return (
-      <ScrollView
-        style={[styles.previewScroll]}
-        contentContainerStyle={styles.previewScrollContentContainer}
-      >
+      <>
         <View style={styles.postHeaderContainer}>
           <Text style={styles.postHeaderTitle}>{selectedItem.title}</Text>
           <View style={styles.tagsContainer}>
@@ -159,6 +175,21 @@ const EditHistoryScreen = ({ navigation }) => {
         <View style={styles.bodyContainer}>
           <PostBody body={previewBody} onLoadEnd={() => setIsLoading(false)} width={screenWidth} />
         </View>
+      </>
+    );
+  };
+  const _renderBody = () => {
+    const selectedItem = editHistory.find((x) => x.v === versionSelected);
+    if (!selectedItem) {
+      return null;
+    }
+
+    return (
+      <ScrollView
+        style={[styles.previewScroll]}
+        contentContainerStyle={styles.previewScrollContentContainer}
+      >
+        {showDiff ? _renderDiff(selectedItem) : _renderPreview(selectedItem)}
       </ScrollView>
     );
   };
@@ -180,9 +211,7 @@ const EditHistoryScreen = ({ navigation }) => {
           },
         ]}
         rightIconStyle={{
-          color: showDiff
-            ? EStyleSheet.value('white')
-            : EStyleSheet.value('$iconColor'),
+          color: showDiff ? EStyleSheet.value('white') : EStyleSheet.value('$iconColor'),
         }}
         handleRightIconPress={() => setShowDiff(!showDiff)}
       />

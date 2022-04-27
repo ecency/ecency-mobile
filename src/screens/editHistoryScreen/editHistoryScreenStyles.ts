@@ -64,5 +64,18 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
-  }
+  },
+  titleDiff: {
+    fontSize: 24,
+    color: '$primaryBlack',
+    fontWeight: 'bold',
+    fontFamily: '$primaryFont',
+    marginBottom: 11,
+  },
+  bodyDiff: {
+    fontSize: 16,
+    color: '$primaryBlack',
+    fontFamily: '$primaryFont',
+    marginTop: 12,
+  },
 });
