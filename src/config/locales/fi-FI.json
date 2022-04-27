@@ -7,9 +7,9 @@
     "transfer": "Siirto",
     "power_up": "Ansaintaan",
     "transfer_from_savings": "Säästöistä",
-    "withdraw_savings": "Withdraw Savings",
+    "withdraw_savings": "Kotiuta säästöihin",
     "withdraw_vesting": "Power Down",
-    "open_order": "Open Order",
+    "open_order": "Avoimet Tilaukset",
     "fill_order": "Täytä hakemus",
     "post": "Julkaisu",
     "comment": "Kommentti",
@@ -51,12 +51,12 @@
     "to": "Vastaanottaja",
     "estimated_value_desc": "Ostohinnan mukaan",
     "estimated_value": "Arvioutu arvo",
-    "vote_value": "Vote value",
-    "delegated_hive_power": "Delegated hive power",
-    "powering_down_hive_power": "Powering down",
-    "received_hive_power": "Received hive power",
-    "total_hive_power": "Total hive power",
-    "savings": "Savings",
+    "vote_value": "Ääniarvo",
+    "delegated_hive_power": "Valtuutettu Hive Power",
+    "powering_down_hive_power": "Tehon alentaminen",
+    "received_hive_power": "Vastaanotettu Hive Power",
+    "total_hive_power": "Hive Power yhteensä",
+    "savings": "Säästöt",
     "estimated_amount": "Ääniarvo",
     "amount_information": "Siirrä kytkintä muuttaaksesi määrää",
     "amount": "Määrä",
@@ -76,11 +76,11 @@
     "next": "SEURAAVA",
     "delegate": "Valtuuta",
     "power_down": "Power Down",
-    "withdraw_hive": "Withdraw Savings",
-    "withdraw_hbd": "Withdraw Savings",
+    "withdraw_hive": "Kotiuta säästöihin",
+    "withdraw_hbd": "Kotiuta säästöt",
     "transfer_to_savings": "Säästöihin",
     "convert": "Muunna",
-    "convert_request": "Convert Request",
+    "convert_request": "Muunnospyyntö",
     "escrow_transfer": "Escrow-siirto",
     "escrow_dispute": "Escrow-riita",
     "escrow_release": "Escrow-vapautus",
@@ -91,9 +91,9 @@
     "fill_transfer_from_savings": "Säästöt Toteutettu",
     "fill_vesting_withdraw": "PowerDown toteutettu",
     "ecency": {
-      "title": "Points",
-      "name": "Ecency Points",
-      "buy": "GET POINTS"
+      "title": "Pisteet",
+      "name": "Ecency pisteet",
+      "buy": "Lunasta pisteet"
     },
     "savinghive": {
       "title": "HIVE säästöt"
@@ -744,7 +744,7 @@
     "mute": "HILJENNÄ / ESTÄ",
     "unmute": "POISTA HILJENNYS / ESTO",
     "report": "ILMIANNA KÄYTTÄJÄ",
-    "delegate": "DELEGATE HIVE POWER"
+    "delegate": "VALTUUTA HIVE POWER"
   },
   "communities": {
     "joined": "Jäsenyys",
