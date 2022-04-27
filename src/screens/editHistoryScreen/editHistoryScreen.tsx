@@ -61,7 +61,7 @@ const EditHistoryScreen = ({ navigation }) => {
     for (let l = 0; l < raw.length; l += 1) {
       if (raw[l].body.startsWith('@@')) {
         const p = dmp.patch_fromText(raw[l].body);
-        h = dmp.patch_apply(p, h)[0];
+        h = dmp.patch_apply(p, h)[0] as any;
         raw[l].body = h;
       } else {
         h = raw[l].body;
@@ -102,7 +102,7 @@ const EditHistoryScreen = ({ navigation }) => {
     item,
     index,
   }: {
-    item: CommentHistoryItem;
+    item: CommentHistoryListItemDiff;
     index: number;
   }) => {
     const selected = versionSelected === item.v;
@@ -114,7 +114,7 @@ const EditHistoryScreen = ({ navigation }) => {
           {
             backgroundColor: selected
               ? EStyleSheet.value('$primaryBlue')
-              : EStyleSheet.value('$primaryDarkGray'),
+              : EStyleSheet.value('$primaryLightGray'),
           },
         ]}
       >
@@ -207,7 +207,7 @@ const EditHistoryScreen = ({ navigation }) => {
           {
             backgroundColor: showDiff
               ? EStyleSheet.value('$primaryBlue')
-              : EStyleSheet.value('$primaryDarkGray'),
+              : EStyleSheet.value('$primaryLightGray'),
           },
         ]}
         rightIconStyle={{
