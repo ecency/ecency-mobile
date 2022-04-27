@@ -743,7 +743,8 @@
     "remove_from_favourites": "REMOVER DOS FAVORITOS",
     "mute": "MUTAR / BLOQUEAR",
     "unmute": "NÃO SILENCIAR / DESBLOQUEAR",
-    "report": "DENUNCIAR USUÁRIO"
+    "report": "DENUNCIAR USUÁRIO",
+    "delegate": "DELEGATE HIVE POWER"
   },
   "communities": {
     "joined": "Membros",

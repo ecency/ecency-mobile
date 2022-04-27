@@ -743,7 +743,8 @@
     "remove_from_favourites": "FAVORİLERDEN KALDIR",
     "mute": "SUSTUR / ENGELLE",
     "unmute": "SUSTURMAYI KALDIR / ENGELİ KALDIR",
-    "report": "KULLANICIYI BİLDİR"
+    "report": "KULLANICIYI BİLDİR",
+    "delegate": "DELEGATE HIVE POWER"
   },
   "communities": {
     "joined": "Üyelik",
