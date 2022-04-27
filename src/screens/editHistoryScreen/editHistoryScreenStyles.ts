@@ -33,5 +33,28 @@ export default EStyleSheet.create({
   },
   previewScrollContentContainer: {
     paddingHorizontal: 16,
+  },
+  postHeaderContainer: {
+    paddingVertical: 12,
+  },
+  postHeaderTitle: {
+    fontSize: 24,
+    color: '$primaryBlack',
+    fontWeight: 'bold',
+    fontFamily: '$primaryFont',
+    marginBottom: 11,
+  },
+  tagsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  tags: {
+    fontSize: 14,
+    color: '$primaryBlack',
+    fontFamily: '$primaryFont',
+    marginLeft: 12,
+  },
+  tagIcon: {
+    color: '$primaryDarkGray'
   }
 });

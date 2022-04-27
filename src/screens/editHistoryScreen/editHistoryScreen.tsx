@@ -11,7 +11,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { BasicHeader, PostBody } from '../../components';
+import { BasicHeader, Icon, PostBody } from '../../components';
+import { diff_match_patch } from 'diff-match-patch';
 
 // styles
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -20,6 +21,14 @@ import { getCommentHistory } from '../../providers/ecency/ecency';
 import { CommentHistoryItem } from '../../providers/ecency/ecency.types';
 import { dateToFormatted } from '../../utils/time';
 import { renderPostBody } from '@ecency/render-helper';
+
+const dmp = new diff_match_patch();
+
+const make_diff = (str1: string, str2: string): string => {
+  const d = dmp.diff_main(str1, str2);
+  dmp.diff_cleanupSemantic(d);
+  return dmp.diff_prettyHtml(d).replace(/&para;/g, '&nbsp;');
+};
 
 const screenWidth = Dimensions.get('window').width - 32;
 
@@ -33,13 +42,46 @@ const EditHistoryScreen = ({ navigation }) => {
     _getCommentHistory();
   }, []);
 
+  const buildList = (raw: CommentHistoryItem[]) => {
+    const t = [];
+
+    let h = '';
+    for (let l = 0; l < raw.length; l += 1) {
+      if (raw[l].body.startsWith('@@')) {
+        const p = dmp.patch_fromText(raw[l].body);
+        h = dmp.patch_apply(p, h)[0];
+        raw[l].body = h;
+      } else {
+        h = raw[l].body;
+      }
+
+      t.push({
+        v: raw[l].v,
+        title: raw[l].title,
+        body: h,
+        timestamp: raw[l].timestamp,
+        tags: raw[l].tags.join(', '),
+      });
+    }
+
+    for (let l = 0; l < t.length; l += 1) {
+      const p = l > 0 ? l - 1 : l;
+
+      t[l].titleDiff = make_diff(t[p].title, t[l].title);
+      t[l].bodyDiff = make_diff(t[p].body, t[l].body);
+      t[l].tagsDiff = make_diff(t[p].tags, t[l].tags);
+    }
+
+    return t;
+  };
+
   const _getCommentHistory = async () => {
     const responseData = await getCommentHistory(author, permlink);
     if (!responseData) {
       Alert.alert('No History found!');
       return;
     }
-    setEditHistory(responseData);
+    setEditHistory(buildList(responseData));
   };
   console.log('author, permlink : ', author, permlink);
   console.log('editHistory : ', editHistory);
@@ -106,6 +148,17 @@ const EditHistoryScreen = ({ navigation }) => {
         style={[styles.previewScroll]}
         contentContainerStyle={styles.previewScrollContentContainer}
       >
+        <View style={styles.postHeaderContainer}>
+          <Text style={styles.postHeaderTitle}>{selectedItem.title}</Text>
+          <View style={styles.tagsContainer}>
+            <Icon
+              style={styles.tagIcon}
+              iconType="AntDesign"
+              name={'tag'}
+            />
+            <Text style={styles.tags}>{selectedItem.tags}</Text>
+          </View>
+        </View>
         <View style={styles.bodyContainer}>
           <PostBody body={previewBody} onLoadEnd={() => setIsLoading(false)} width={screenWidth} />
         </View>
