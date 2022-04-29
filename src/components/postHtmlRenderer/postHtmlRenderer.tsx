@@ -168,6 +168,7 @@ export const PostHtmlRenderer = memo(
           contentWidth={maxImgWidth}
           imgUrl={tnode.children[0].attributes.src}
           isAnchored={false}
+          activeOpacity={0.8}
           onPress={_onPress}
         />
       }

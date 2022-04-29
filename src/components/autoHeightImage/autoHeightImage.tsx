@@ -2,21 +2,24 @@ import React, { useEffect, useState } from "react";
 import { Image } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import FastImage from "react-native-fast-image";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
+  interface AutoHeightImageProps {
+    contentWidth:number, 
+    imgUrl:string,
+    isAnchored:boolean,
+    activeOpacity?:number,
+    onPress:()=>void,
+  }
 
 
   export const AutoHeightImage = ({
     contentWidth, 
     imgUrl, 
     isAnchored, 
+    activeOpacity,
     onPress
-  }:{
-    contentWidth:number, 
-    imgUrl:string,
-    isAnchored:boolean,
-    onPress:()=>void,
-  }) => {
+  }:AutoHeightImageProps) => {
 
 
     const [imgWidth, setImgWidth] = useState(contentWidth);
@@ -47,14 +50,14 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
     }
 
     return (
-      <TouchableWithoutFeedback onPress={onPress} disabled={isAnchored}>
+      <TouchableOpacity onPress={onPress} disabled={isAnchored} activeOpacity={activeOpacity}>
         <FastImage 
           style={imgStyle}
           source={{uri:imgUrl}}
           resizeMode={FastImage.resizeMode.contain}
           onLoad={_onLoad}
         />
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
       
     )
   }
