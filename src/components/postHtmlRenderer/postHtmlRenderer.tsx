@@ -121,6 +121,27 @@ export const PostHtmlRenderer = memo(
       } catch (error) { }
     };
 
+
+    //this method checks if image is a child of table column
+    //and calculates img width accordingly,
+    //returns full width if img is not part of table
+    const getMaxImageWidth = (tnode: TNode) => {
+      //return full width if not parent exist
+      if (!tnode.parent || tnode.parent.tagName === 'body') {
+        return contentWidth;
+      }
+
+      //return divided width based on number td tags
+      if (tnode.parent.tagName === 'td' || tnode.parent.tagName === 'th') {
+        const cols = tnode.parent.parent.children.length;
+        return contentWidth / cols;
+      }
+
+      //check next parent
+      return getMaxImageWidth(tnode.parent);
+    };
+
+
     const _onElement = (element: Element) => {
       if (element.tagName === 'img' && element.attribs.src) {
         const imgUrl = element.attribs.src;
@@ -128,6 +149,9 @@ export const PostHtmlRenderer = memo(
         onElementIsImage(imgUrl);
       }
     };
+
+
+
 
     const _anchorRenderer = ({ InternalRenderer, tnode, ...props }: CustomRendererProps<TNode>) => {
       const parsedTnode = parseLinkData(tnode);
@@ -178,24 +202,8 @@ export const PostHtmlRenderer = memo(
     };
 
 
-    //this method checks if image is a child of table column
-    //and calculates img width accordingly,
-    //returns full width if img is not part of table
-    const getMaxImageWidth = (tnode: TNode) => {
-      //return full width if not parent exist
-      if (!tnode.parent || tnode.parent.tagName === 'body') {
-        return contentWidth;
-      }
 
-      //return divided width based on number td tags
-      if (tnode.parent.tagName === 'td' || tnode.parent.tagName === 'th') {
-        const cols = tnode.parent.parent.children.length;
-        return contentWidth / cols;
-      }
 
-      //check next parent
-      return getMaxImageWidth(tnode.parent);
-    };
 
     const _imageRenderer = ({ tnode }: CustomRendererProps<TNode>) => {
       const imgUrl = tnode.attributes.src;
