@@ -271,9 +271,11 @@ class ApplicationContainer extends Component {
   };
 
   //change app theme on the fly
-  _appearanceChangeListener = ({ colorScheme }) => {
-    console.log('OS color scheme changed', colorScheme);
+  _appearanceChangeListener = () => {
     const { dispatch } = this.props;
+
+    //workaround for bug with Appearece package: https://github.com/facebook/react-native/issues/28525#issuecomment-841812810
+    const colorScheme = Appearance.getColorScheme();
     getTheme().then((darkThemeSetting) => {
       if (darkThemeSetting === null) {
         dispatch(isDarkTheme(colorScheme === 'dark'));
