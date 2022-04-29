@@ -50,7 +50,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
     }
 
     return (
-      <TouchableOpacity onPress={onPress} disabled={isAnchored} activeOpacity={activeOpacity}>
+      <TouchableOpacity onPress={onPress} disabled={isAnchored} activeOpacity={activeOpacity || 1}>
         <FastImage 
           style={imgStyle}
           source={{uri:imgUrl}}
