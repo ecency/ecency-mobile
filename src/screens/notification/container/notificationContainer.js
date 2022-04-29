@@ -23,7 +23,6 @@ class NotificationContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      notifications: [],
       notificationsMap: new Map(),
       lastNotificationId: null,
       isRefreshing: true,
@@ -133,7 +132,7 @@ class NotificationContainer extends Component {
 
   _readAllNotification = () => {
     const { dispatch, intl, isConnected, currentAccount, pinCode } = this.props;
-    const { notifications } = this.state;
+    const { notificationsMap } = this.state;
 
     if (!isConnected) {
       return;
@@ -143,7 +142,11 @@ class NotificationContainer extends Component {
 
     markNotifications()
       .then(() => {
-        const updatedNotifications = notifications.map((item) => ({ ...item, read: 1 }));
+        notificationsMap.forEach((notifications, key) => {
+          const updatedNotifications = notifications.map((item) => ({ ...item, read: 1 }));
+          notificationsMap.set(key, updatedNotifications);
+        });
+
         dispatch(updateUnreadActivityCount(0));
         markHiveNotifications(currentAccount, pinCode)
           .then(() => {
@@ -152,7 +155,7 @@ class NotificationContainer extends Component {
           .catch((err) => {
             bugsnapInstance.notify(err);
           });
-        this.setState({ notifications: updatedNotifications, isRefreshing: false });
+        this.setState({ notificationsMap, isRefreshing: false });
       })
       .catch(() => {
         Alert.alert(
