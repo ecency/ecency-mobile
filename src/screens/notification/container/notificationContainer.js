@@ -181,14 +181,25 @@ class NotificationContainer extends Component {
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { selectedFilter } = this.state;
+    const { selectedFilter, notificationsMap } = this.state;
     const { currentAccount } = this.props;
-    if (
-      currentAccount &&
-      nextProps.currentAccount &&
-      nextProps.currentAccount.name !== currentAccount.name
-    ) {
-      this.setState({ endOfNotification: false }, () => this._getActivities(selectedFilter));
+    if (currentAccount && nextProps.currentAccount) {
+      if (nextProps.currentAccount.name !== currentAccount.name) {
+        this.setState(
+          {
+            endOfNotification: false,
+            notificationsMap: new Map(),
+          },
+          () => this._getActivities(selectedFilter),
+        );
+      } else if (
+        nextProps.currentAccount.unread_activity_count > currentAccount.unread_activity_count
+      ) {
+        notificationsMap.forEach((value, key) => {
+          console.log('fetching new activities for ', key);
+          this._getActivities(key, false, true);
+        });
+      }
     }
   }
 
