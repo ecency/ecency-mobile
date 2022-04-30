@@ -42,7 +42,7 @@ class NotificationContainer extends Component {
 
   _getActivities = (type = 'activities', loadMore = false, loadUnread = false) => {
     const { lastNotificationId, endOfNotification, isLoading, notificationsMap } = this.state;
-    const since = loadMore && !mapStateToProps ? lastNotificationId : null;
+    const since = loadMore ? lastNotificationId : null;
 
     if (isLoading) {
       return;
