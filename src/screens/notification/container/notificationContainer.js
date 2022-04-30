@@ -40,15 +40,15 @@ class NotificationContainer extends Component {
     }
   }
 
-  _getActivities = (type = 'activities', loadMore = false) => {
+  _getActivities = (type = 'activities', loadMore = false, loadUnread = false) => {
     const { lastNotificationId, endOfNotification, isLoading, notificationsMap } = this.state;
-    const since = loadMore ? lastNotificationId : null;
+    const since = loadMore && !mapStateToProps ? lastNotificationId : null;
 
     if (isLoading) {
       return;
     }
 
-    if (!endOfNotification || !loadMore) {
+    if (!endOfNotification || !loadMore || loadUnread) {
       this.setState({
         isRefreshing: !loadMore,
         isLoading: true,
@@ -64,8 +64,12 @@ class NotificationContainer extends Component {
               isLoading: false,
             });
           } else {
+            console.log('');
+            const stateNotifications = notificationsMap.get(type) || [];
             const _notifications = loadMore
-              ? unionBy(notificationsMap.get(type) || [], res, 'id')
+              ? unionBy(stateNotifications, res, 'id')
+              : loadUnread
+              ? unionBy(res, stateNotifications, 'id')
               : res;
             notificationsMap.set(type, _notifications);
             this.setState({
