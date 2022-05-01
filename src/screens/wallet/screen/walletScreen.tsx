@@ -69,7 +69,10 @@ const WalletScreen = ({navigation}) => {
   //side-effects
   useEffect(()=>{
     AppState.addEventListener('change', _handleAppStateChange);
-    _fetchData();
+    
+    //if coinsData is empty, initilise wallet without a fresh acount fetch
+    _fetchData(Object.keys(coinsData).length?true:false);
+
 
     return _cleanup;
   },[])
