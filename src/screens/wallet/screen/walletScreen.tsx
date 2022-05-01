@@ -232,6 +232,7 @@ const WalletScreen = ({navigation}) => {
         unclaimedRewards={coinData.unclaimedBalance}
         enableBuy={!coinData.unclaimedBalance && item.id === COIN_IDS.ECENCY}
         isClaiming={isClaiming}
+        isLoading={isLoading}
         onCardPress={_onCardPress}
         onClaimPress={_onClaimPress}
         footerComponent={index === 0 && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />}
