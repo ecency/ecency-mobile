@@ -52,9 +52,9 @@
     "estimated_value_desc": "De acordo com o valor da compra",
     "estimated_value": "Valor estimado",
     "vote_value": "Valor do voto",
-    "delegated_hive_power": "Delegated hive power",
-    "powering_down_hive_power": "Powering down",
-    "received_hive_power": "Received hive power",
+    "delegated_hive_power": "Hive Power delegado",
+    "powering_down_hive_power": "Baixando poder",
+    "received_hive_power": "Hive Power recebido",
     "total_hive_power": "Hive Power total",
     "savings": "Poupança",
     "estimated_amount": "Valor do voto",
@@ -80,7 +80,7 @@
     "withdraw_hbd": "Sacar da Poupança",
     "transfer_to_savings": "Para poupança",
     "convert": "Converter",
-    "convert_request": "Convert Request",
+    "convert_request": "Requerimento de Conversão",
     "escrow_transfer": "Transferência do Escrow",
     "escrow_dispute": "Disputa Escrow",
     "escrow_release": "Lançamento de Escrow",
@@ -92,8 +92,8 @@
     "fill_vesting_withdraw": "PowerDown executado",
     "ecency": {
       "title": "Pontos",
-      "name": "Ecency Points",
-      "buy": "GET POINTS"
+      "name": "Pontos Ecency",
+      "buy": "ADQUIRIR PONTOS"
     },
     "savinghive": {
       "title": "Poupança de HIVE"
@@ -103,7 +103,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "Hive Token",
+      "name": "Token Hive",
       "buy": "OBTER HIVE"
     },
     "hbd": {
@@ -122,16 +122,16 @@
       "buy": "OBTER BTC",
       "address": "RECEBER"
     },
-    "last_updated": "Last Updated:",
-    "updating": "Updating...",
-    "coin_details": "Details",
+    "last_updated": "Última Atualização:",
+    "updating": "Atualizando...",
+    "coin_details": "Detalhes",
     "change": "Alterar",
-    "activities": "Activities",
-    "savings_withdrawal": "Pending Withdrawals",
-    "open_orders": "Open Orders",
-    "conversions_requested": "Conversions Requested",
-    "expires": "expires",
-    "pending_requests": "Pending Requests"
+    "activities": "Atividades",
+    "savings_withdrawal": "Saques Pendentes",
+    "open_orders": "Ordens Abertas",
+    "conversions_requested": "Conversões Solicitadas",
+    "expires": "expira em",
+    "pending_requests": "Solicitações Pendentes"
   },
   "notification": {
     "vote": "votou",
@@ -241,7 +241,7 @@
       "always_warn": "Avisar sempre"
     },
     "theme": {
-      "system": "Device settings",
+      "system": "Configurações do dispositivo",
       "light": "Claro",
       "dark": "Escuro"
     },
@@ -486,8 +486,8 @@
     "restart_ecency": "Reiniciar a Ecency?",
     "restart_ecency_desc": "Aplicar alterações exigirá uma reinicialização.",
     "invalid_response": "Não foi possível processar o pedido. Tente mais tarde.",
-    "wallet_updating": "Wallet update in progress, try again as update finishes",
-    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
+    "wallet_updating": "Atualização da carteira em andamento. Tente novamente quando terminada",
+    "claim_failed": "Falha ao reivindicar recompensas, {message}\nTente novamente ou escreva para support@ecency.com"
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
@@ -567,10 +567,10 @@
     "promote": "promover",
     "boost": "reforço",
     "report": "relatório",
-    "pin-blog": "Pin to blog",
-    "unpin-blog": "Unpin from blog",
-    "pin-community": "Pin to community",
-    "unpin-community": "Unpin from community"
+    "pin-blog": "Fixar ao blog",
+    "unpin-blog": "Desafixar do blog",
+    "pin-community": "Fixar na comunidade",
+    "unpin-community": "Desafixar da comunidade"
   },
   "deep_link": {
     "no_existing_user": "Usuário não existe",
@@ -613,7 +613,7 @@
     "stop_information": "Tem certeza que deseja parar?",
     "percent": "Percentagem",
     "auto_vests": "Auto Vests",
-    "vests": "Vests",
+    "vests": "Alocações",
     "save": "SALVAR",
     "percent_information": "Info de porcentagem",
     "next": "SEGUINTE",
@@ -639,7 +639,7 @@
     "username_alert_detail": "Por favor, selecione um nome diferente",
     "power_down": "Decarregar Poder",
     "power_down_amount_head": "Sacar Quantia",
-    "power_down_amount_subhead": "Enter amount for powering down hive power",
+    "power_down_amount_subhead": "Defina a quantia de Hive Power para reduzir",
     "withdraw_accounts": "Withdraw Accounts",
     "amount_hp": "Amount (HP)",
     "powering_down": "Powering Down",
