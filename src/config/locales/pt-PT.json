@@ -125,7 +125,7 @@
     "last_updated": "Last Updated:",
     "updating": "Updating...",
     "coin_details": "Details",
-    "change": "Change",
+    "change": "Alterar",
     "activities": "Activities",
     "savings_withdrawal": "Pending Withdrawals",
     "open_orders": "Open Orders",
@@ -305,7 +305,7 @@
     "add_an_existing_account": "Adicionar uma conta existente",
     "accounts": "Contas",
     "refer": "Indique & Ganhe",
-    "qr": "QR Scan"
+    "qr": "Leitor QR"
   },
   "header": {
     "title": "Login para personalizar o seu feed",
@@ -374,11 +374,11 @@
     "draft_save_title": "Salvando o rascunho",
     "draft_update": "Atualizar o rascunho atual",
     "draft_save_new": "Salvo como novo rascunho",
-    "label": "Label",
-    "enter_label_placeholder": "Enter Label (Optional)",
+    "label": "Rótulo",
+    "enter_label_placeholder": "Digite o Rótulo (Opcional)",
     "url": "URL",
-    "enter_url_placeholder": "Enter URL",
-    "link_type_text": "Type of Link",
+    "enter_url_placeholder": "Introduzir URL",
+    "link_type_text": "Tipo de Link",
     "preview": "Visualizar",
     "invalid_url_error": "Por favor, insira um URL válido",
     "plain": "Simples",
