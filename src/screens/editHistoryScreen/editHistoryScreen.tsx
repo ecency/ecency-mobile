@@ -114,17 +114,17 @@ const EditHistoryScreen = ({ navigation }) => {
           {
             backgroundColor: selected
               ? EStyleSheet.value('$primaryBlue')
-              : EStyleSheet.value('$primaryLightGray'),
+              : EStyleSheet.value('$iconColor'),
           },
         ]}
       >
-        <Text style={[styles.versionItemBtnText, { color: selected ? 'white' : 'black' }]}>
+        <Text style={[styles.versionItemBtnText, { color: EStyleSheet.value('$pureWhite') }]}>
           {intl.formatMessage({
             id: 'history.version',
           })}
           {` ${item.v}`}
         </Text>
-        <Text style={[styles.versionItemBtnDate, { color: selected ? 'white' : 'black' }]}>
+        <Text style={[styles.versionItemBtnDate, { color: EStyleSheet.value('$pureWhite') }]}>
           {dateToFormatted(item.timestamp, 'LL')}
         </Text>
       </TouchableOpacity>
@@ -207,11 +207,11 @@ const EditHistoryScreen = ({ navigation }) => {
           {
             backgroundColor: showDiff
               ? EStyleSheet.value('$primaryBlue')
-              : EStyleSheet.value('$primaryLightGray'),
+              : EStyleSheet.value('$iconColor'),
           },
         ]}
         rightIconStyle={{
-          color: showDiff ? EStyleSheet.value('white') : EStyleSheet.value('$iconColor'),
+          color: EStyleSheet.value('$pureWhite'),
         }}
         handleRightIconPress={() => setShowDiff(!showDiff)}
       />

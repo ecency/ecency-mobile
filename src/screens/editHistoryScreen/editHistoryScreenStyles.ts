@@ -14,7 +14,7 @@ export default EStyleSheet.create({
   },
   versionItemBtn: {
     // backgroundColor: '$primaryBlue',
-    backgroundColor: '$primaryDarkGray',
+    backgroundColor: '$iconColor',
     marginRight: 16,
     width: 150,
     height: 48,
@@ -23,7 +23,7 @@ export default EStyleSheet.create({
     borderRadius: 100,
   },
   versionItemBtnText: {
-    color: '$black',
+    color: '$pureWhite',
     fontSize: 14,
     fontWeight: '700'
   },
