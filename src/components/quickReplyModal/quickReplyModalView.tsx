@@ -11,11 +11,9 @@ import { generateReplyPermlink } from '../../utils/editor';
 import { postComment } from '../../providers/hive/dhive';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { updateCommentCache } from '../../redux/actions/cacheActions';
-import { useAppSelector } from '../../hooks';
 import { default as ROUTES } from '../../constants/routeNames';
 import get from 'lodash/get';
 import { navigate } from '../../navigation/service';
-import { Portal } from 'react-native-portalize';
 import { postBodySummary } from '@ecency/render-helper';
 
 export interface QuickReplyModalProps {
@@ -195,7 +193,7 @@ const QuickReplyModal = ({ fetchPost }: QuickReplyModalProps, ref) => {
       <SummaryArea style={styles.summaryStyle} summary={headerText} />
     </TouchableOpacity>
   );
-  
+
   const _renderAvatar = () => (
     <View style={styles.avatarAndNameContainer}>
       <UserAvatar noAction username={currentAccount.username} />
@@ -267,18 +265,16 @@ const QuickReplyModal = ({ fetchPost }: QuickReplyModalProps, ref) => {
   };
 
   return (
-    <Portal>
-      <ActionSheet
-        ref={sheetModalRef}
-        gestureEnabled={true}
-        keyboardShouldPersistTaps="handled"
-        containerStyle={styles.sheetContent}
-        keyboardHandlerEnabled
-        indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
-      >
-        {selectedPost && _renderContent()}
-      </ActionSheet>
-    </Portal>
+    <ActionSheet
+      ref={sheetModalRef}
+      gestureEnabled={true}
+      keyboardShouldPersistTaps="handled"
+      containerStyle={styles.sheetContent}
+      keyboardHandlerEnabled
+      indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+    >
+      {selectedPost && _renderContent()}
+    </ActionSheet>
   );
 };
 
