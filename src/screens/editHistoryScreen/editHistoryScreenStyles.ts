@@ -44,6 +44,13 @@ export default EStyleSheet.create({
     fontFamily: '$primaryFont',
     marginBottom: 11,
   },
+  postBodyText:{
+    fontSize: 16,
+    color: '$primaryBlack',
+    fontWeight: 'bold',
+    fontFamily: '$primaryFont',
+    marginBottom: 12,
+  },
   tagsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -52,10 +59,10 @@ export default EStyleSheet.create({
     fontSize: 14,
     color: '$primaryBlack',
     fontFamily: '$primaryFont',
-    marginLeft: 12,
   },
   tagIcon: {
-    color: '$primaryDarkGray'
+    color: '$primaryDarkGray',
+    marginRight: 12,
   },
   rightIcon: {
     backgroundColor: '$primaryDarkGray',

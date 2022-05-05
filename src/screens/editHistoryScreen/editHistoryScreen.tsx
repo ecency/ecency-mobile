@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { BasicHeader, Icon, PostBody } from '../../components';
+import { BasicHeader, Icon, PostBody, TextInput } from '../../components';
 import { diff_match_patch } from 'diff-match-patch';
 
 // styles
@@ -145,35 +145,34 @@ const EditHistoryScreen = ({ navigation }) => {
   );
 
   const _renderDiff = (item: CommentHistoryListItemDiff) => {
+    const previewTitle = renderPostBody(item.titleDiff, true, Platform.OS === 'ios' ? false : true);
+    const previewTags = renderPostBody(item.tagsDiff, true, Platform.OS === 'ios' ? false : true);
+    const previewBody = renderPostBody(item.bodyDiff, true, Platform.OS === 'ios' ? false : true);
     return (
       <View style={styles.diffContainer}>
-        <Text style={styles.titleDiff}>{item.titleDiff}</Text>
+        <PostBody body={previewTitle} />
         <View style={styles.tagsContainer}>
           <Icon style={styles.tagIcon} iconType="AntDesign" name={'tag'} />
-          <Text style={styles.tags}>{item.tagsDiff}</Text>
+          <PostBody body={previewTags} width={screenWidth - 50} />
         </View>
-        <Text style={styles.bodyDiff}>{item.bodyDiff}</Text>
+
+        <PostBody body={previewBody} />
       </View>
     );
   };
 
-  const _renderPreview = (selectedItem: CommentHistoryListItemDiff) => {
-    const previewBody = renderPostBody(
-      selectedItem.body,
-      true,
-      Platform.OS === 'ios' ? false : true,
-    );
+  const _renderPlainBody = (selectedItem: CommentHistoryListItemDiff) => {
     return (
       <>
         <View style={styles.postHeaderContainer}>
-          <Text style={styles.postHeaderTitle}>{selectedItem.title}</Text>
+          <TextInput value={selectedItem.title} style={styles.postHeaderTitle} multiline={true} />
           <View style={styles.tagsContainer}>
             <Icon style={styles.tagIcon} iconType="AntDesign" name={'tag'} />
             <Text style={styles.tags}>{selectedItem.tags}</Text>
           </View>
         </View>
         <View style={styles.bodyContainer}>
-          <PostBody body={previewBody} onLoadEnd={() => setIsLoading(false)} width={screenWidth} />
+          <TextInput value={selectedItem.body} style={styles.postBodyText} multiline={true} />
         </View>
       </>
     );
@@ -189,7 +188,7 @@ const EditHistoryScreen = ({ navigation }) => {
         style={[styles.previewScroll]}
         contentContainerStyle={styles.previewScrollContentContainer}
       >
-        {showDiff ? _renderDiff(selectedItem) : _renderPreview(selectedItem)}
+        {showDiff ? _renderDiff(selectedItem) : _renderPlainBody(selectedItem)}
       </ScrollView>
     );
   };
