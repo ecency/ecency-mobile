@@ -7,9 +7,9 @@
     "transfer": "Siirto",
     "power_up": "Ansaintaan",
     "transfer_from_savings": "Säästöistä",
-    "withdraw_savings": "Withdraw Savings",
+    "withdraw_savings": "Kotiuta säästöihin",
     "withdraw_vesting": "Power Down",
-    "open_order": "Open Order",
+    "open_order": "Avoimet Tilaukset",
     "fill_order": "Täytä hakemus",
     "post": "Julkaisu",
     "comment": "Kommentti",
@@ -51,12 +51,12 @@
     "to": "Vastaanottaja",
     "estimated_value_desc": "Ostohinnan mukaan",
     "estimated_value": "Arvioutu arvo",
-    "vote_value": "Vote value",
-    "delegated_hive_power": "Delegated hive power",
-    "powering_down_hive_power": "Powering down",
-    "received_hive_power": "Received hive power",
-    "total_hive_power": "Total hive power",
-    "savings": "Savings",
+    "vote_value": "Ääniarvo",
+    "delegated_hive_power": "Valtuutettu Hive Power",
+    "powering_down_hive_power": "Tehon alentaminen",
+    "received_hive_power": "Vastaanotettu Hive Power",
+    "total_hive_power": "Hive Power yhteensä",
+    "savings": "Säästöt",
     "estimated_amount": "Ääniarvo",
     "amount_information": "Siirrä kytkintä muuttaaksesi määrää",
     "amount": "Määrä",
@@ -76,11 +76,11 @@
     "next": "SEURAAVA",
     "delegate": "Valtuuta",
     "power_down": "Power Down",
-    "withdraw_hive": "Withdraw Savings",
-    "withdraw_hbd": "Withdraw Savings",
+    "withdraw_hive": "Kotiuta säästöihin",
+    "withdraw_hbd": "Kotiuta säästöt",
     "transfer_to_savings": "Säästöihin",
     "convert": "Muunna",
-    "convert_request": "Convert Request",
+    "convert_request": "Muunnospyyntö",
     "escrow_transfer": "Escrow-siirto",
     "escrow_dispute": "Escrow-riita",
     "escrow_release": "Escrow-vapautus",
@@ -91,9 +91,9 @@
     "fill_transfer_from_savings": "Säästöt Toteutettu",
     "fill_vesting_withdraw": "PowerDown toteutettu",
     "ecency": {
-      "title": "Points",
-      "name": "Ecency Points",
-      "buy": "GET POINTS"
+      "title": "Pisteet",
+      "name": "Ecency pisteet",
+      "buy": "Lunasta pisteet"
     },
     "savinghive": {
       "title": "HIVE säästöt"
@@ -115,23 +115,23 @@
       "name": "Hive Power"
     },
     "hive_dollar": {
-      "name": "Hive Dollar"
+      "name": "Hive Dollarit"
     },
     "btc": {
       "title": "BTC",
       "buy": "OTA BTC",
       "address": "VASTAANOTA"
     },
-    "last_updated": "Last Updated:",
-    "updating": "Updating...",
-    "coin_details": "Details",
-    "change": "Change",
-    "activities": "Activities",
-    "savings_withdrawal": "Pending Withdrawals",
-    "open_orders": "Open Orders",
-    "conversions_requested": "Conversions Requested",
-    "expires": "expires",
-    "pending_requests": "Pending Requests"
+    "last_updated": "Viimeksi päivitetty:",
+    "updating": "Päivitetään...",
+    "coin_details": "Lisätiedot",
+    "change": "Muuta",
+    "activities": "Toiminnat",
+    "savings_withdrawal": "Odottavat Nostot",
+    "open_orders": "Avoimet Tilaukset",
+    "conversions_requested": "Pyydetyt muunnokset",
+    "expires": "vanhenee",
+    "pending_requests": "Odottavat pyynnöt"
   },
   "notification": {
     "vote": "äänesti",
@@ -217,7 +217,7 @@
     "currency": "Valuutta",
     "language": "Kieli",
     "server": "Palvelin",
-    "color_theme": "Appearance",
+    "color_theme": "Ulkoasu",
     "push_notification": "Push-ilmoitus",
     "notification": {
       "follow": "Seuraa",
@@ -241,9 +241,9 @@
       "always_warn": "Kysy aina"
     },
     "theme": {
-      "system": "Device settings",
-      "light": "Light",
-      "dark": "Dark"
+      "system": "Laitteen asetukset",
+      "light": "Vaalea",
+      "dark": "Tumma"
     },
     "feedback_success": "Sähköposti avattu onnistuneesti",
     "feedback_fail": "Sähköpostipalvelin alhaalla",
@@ -304,8 +304,8 @@
     "create_a_new_account": "Luo uusi tili",
     "add_an_existing_account": "Lisää olemassa oleva tili",
     "accounts": "Tilit",
-    "refer": "Refer & Earn",
-    "qr": "QR Scan"
+    "refer": "Suosittele ja tienaa",
+    "qr": "QR-koodi"
   },
   "header": {
     "title": "Kirjaudu mukauttaaksesi syötettäsi",
@@ -338,7 +338,7 @@
     "limited_lastchar": "Tagi päättyy kirjaimeen tai numeroon",
     "setting_schedule": "Aikataulutus",
     "setting_reward": "Palkkio",
-    "setting_reblog": "Reblog",
+    "setting_reblog": "Jako",
     "setting_beneficiary": "Hyötyjä",
     "setting_thumb": "Aseta pikkukuva",
     "reward_default": "Oletus 50 % / 50 %",
@@ -374,16 +374,16 @@
     "draft_save_title": "Tallennetaan luonnosta",
     "draft_update": "Päivitä nykyinen luonnos",
     "draft_save_new": "Tallenna uutena luonnoksena",
-    "label": "Label",
-    "enter_label_placeholder": "Enter Label (Optional)",
+    "label": "Nimike",
+    "enter_label_placeholder": "Syötä Tunniste (Valinnainen)",
     "url": "URL",
-    "enter_url_placeholder": "Enter URL",
-    "link_type_text": "Type of Link",
-    "preview": "Preview",
-    "invalid_url_error": "Please insert valid url",
-    "plain": "Plain",
+    "enter_url_placeholder": "Kirjoita URL-osoite",
+    "link_type_text": "Linkin tyyppi",
+    "preview": "Esikatselu",
+    "invalid_url_error": "Syötä kelvollinen URL",
+    "plain": "Yksinkertainen",
     "video": "Video",
-    "image": "Image"
+    "image": "Kuva"
   },
   "snippets": {
     "label_no_snippets": "Katkelmia ei löytynyt",
@@ -406,7 +406,7 @@
     "title": "Ladatut kuvat",
     "title_remove_confirmation": "Poista kuva",
     "btn_add": "Kuva",
-    "btn_insert": "INSERT",
+    "btn_insert": "Lisää",
     "btn_delete": "POISTA",
     "message_failed": "Kuvan lataaminen epäonnistui"
   },
@@ -486,8 +486,8 @@
     "restart_ecency": "Haluatko käynnistää Ecencyn uudelleen?",
     "restart_ecency_desc": "Muutosten käyttöönotto vaatii uudelleenkäynnistyksen.",
     "invalid_response": "Pyyntöä ei voitu käsitellä, Yritä myöhemmin uudelleen.",
-    "wallet_updating": "Wallet update in progress, try again as update finishes",
-    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
+    "wallet_updating": "Lompakon päivitys käynnissä, yritä uudelleen päivityksen valmistuessa",
+    "claim_failed": "Palkintojen lunastaminen epäonnistui, {message}\nYritä uudelleen tai kirjoita osoitteeseen support@ecency.com"
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
@@ -567,10 +567,10 @@
     "promote": "korosta",
     "boost": "tehosta",
     "report": "raportoi",
-    "pin-blog": "Pin to blog",
-    "unpin-blog": "Unpin from blog",
-    "pin-community": "Pin to community",
-    "unpin-community": "Unpin from community"
+    "pin-blog": "Kiinnitä blogiin",
+    "unpin-blog": "Irrota blogista",
+    "pin-community": "Kiinnitä yhteisölle",
+    "unpin-community": "Poista kiinnitys yhteisöstä"
   },
   "deep_link": {
     "no_existing_user": "Käyttäjää ei ole",
@@ -613,7 +613,7 @@
     "stop_information": "Haluatko varmasti poistua?",
     "percent": "Prosentti",
     "auto_vests": "Automaattiset Ansainnat",
-    "vests": "Vests",
+    "vests": "Annot",
     "save": "TALLENNA",
     "percent_information": "Prosenttitieto",
     "next": "SEURAAVA",
@@ -624,7 +624,7 @@
     "stop": "Lopeta",
     "sc_power_down_error": "Tätä ominaisuutta ei ole vielä toteutettu Hivesignerin kirjautumisessa",
     "address_view": "Näytä osoite",
-    "already_delegated": "Already delegated to ",
+    "already_delegated": "On jo delegoitu ",
     "remain_hp": "HP jäljellä",
     "account_detail_head": "Tilin tiedot",
     "account_detail_subhead": "Anna HIVE Power -valtuutuksen saajan käyttäjänimi",
@@ -638,13 +638,13 @@
     "username_alert": "Virhe käyttäjänimessä!",
     "username_alert_detail": "Valitse toinen käyttäjänimi",
     "power_down": "Power Down",
-    "power_down_amount_head": "Withdraw Amount",
-    "power_down_amount_subhead": "Enter amount for powering down hive power",
-    "withdraw_accounts": "Withdraw Accounts",
-    "amount_hp": "Amount (HP)",
-    "powering_down": "Powering Down",
-    "powering_down_subheading": "You are currently powering down.",
-    "powering_down_info": "Next power down is in {days} days, {hp} HIVE"
+    "power_down_amount_head": "Nostomäärä",
+    "power_down_amount_subhead": "Syötä hive power tehonalennuksen määrä",
+    "withdraw_accounts": "Nostotilit",
+    "amount_hp": "Määrä (HP)",
+    "powering_down": "Tehon alentaminen",
+    "powering_down_subheading": "Olet alentamassa tehoa.",
+    "powering_down_info": "Seuraavaan tehonalennukseen on {days} päivää, {hp} HIVE"
   },
   "boost": {
     "title": "Hanki pisteitä",
@@ -744,7 +744,7 @@
     "mute": "HILJENNÄ / ESTÄ",
     "unmute": "POISTA HILJENNYS / ESTO",
     "report": "ILMIANNA KÄYTTÄJÄ",
-    "delegate": "DELEGATE HIVE POWER"
+    "delegate": "VALTUUTA HIVE POWER"
   },
   "communities": {
     "joined": "Jäsenyys",
@@ -792,18 +792,18 @@
     "load_draft_tooltip": "Lataa viimeisin luonnoksesi tähän"
   },
   "refer": {
-    "refer_earn": "Refer & Earn",
-    "refer": "Refer",
-    "rewarded": "Referral points rewarded",
-    "not_rewarded": "Referral reward pending",
-    "delegate_hp": "Delegate HP",
-    "earned": "Earned Points",
-    "pending": "Pending Points",
-    "empty_text": "Refer your loved ones today and earn free points"
+    "refer_earn": "Suosittele ja tienaa",
+    "refer": "Suosittele",
+    "rewarded": "Suosituspisteitä saatu",
+    "not_rewarded": "Suosituspalkkio odottaa",
+    "delegate_hp": "Valtuuta HP",
+    "earned": "Ansaitut Pisteet",
+    "pending": "Odottavat Pisteet",
+    "empty_text": "Suosittele tutuillesi ja tienaa ilmaisia pisteitä"
   },
   "qr": {
-    "qr_scan": "QR Scan",
-    "open": "Open URL",
-    "detected_url": "Detected URL"
+    "qr_scan": "QR-koodi",
+    "open": "Avaa URL",
+    "detected_url": "Havaittu URL"
   }
 }

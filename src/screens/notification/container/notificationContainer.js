@@ -23,7 +23,6 @@ class NotificationContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      notifications: [],
       notificationsMap: new Map(),
       lastNotificationId: null,
       isRefreshing: true,
@@ -41,7 +40,7 @@ class NotificationContainer extends Component {
     }
   }
 
-  _getActivities = (type = 'activities', loadMore = false) => {
+  _getActivities = (type = 'activities', loadMore = false, loadUnread = false) => {
     const { lastNotificationId, endOfNotification, isLoading, notificationsMap } = this.state;
     const since = loadMore ? lastNotificationId : null;
 
@@ -49,7 +48,7 @@ class NotificationContainer extends Component {
       return;
     }
 
-    if (!endOfNotification || !loadMore) {
+    if (!endOfNotification || !loadMore || loadUnread) {
       this.setState({
         isRefreshing: !loadMore,
         isLoading: true,
@@ -65,8 +64,12 @@ class NotificationContainer extends Component {
               isLoading: false,
             });
           } else {
+            console.log('');
+            const stateNotifications = notificationsMap.get(type) || [];
             const _notifications = loadMore
-              ? unionBy(notificationsMap.get(type) || [], res, 'id')
+              ? unionBy(stateNotifications, res, 'id')
+              : loadUnread
+              ? unionBy(res, stateNotifications, 'id')
               : res;
             notificationsMap.set(type, _notifications);
             this.setState({
@@ -133,7 +136,7 @@ class NotificationContainer extends Component {
 
   _readAllNotification = () => {
     const { dispatch, intl, isConnected, currentAccount, pinCode } = this.props;
-    const { notifications } = this.state;
+    const { notificationsMap } = this.state;
 
     if (!isConnected) {
       return;
@@ -143,7 +146,11 @@ class NotificationContainer extends Component {
 
     markNotifications()
       .then(() => {
-        const updatedNotifications = notifications.map((item) => ({ ...item, read: 1 }));
+        notificationsMap.forEach((notifications, key) => {
+          const updatedNotifications = notifications.map((item) => ({ ...item, read: 1 }));
+          notificationsMap.set(key, updatedNotifications);
+        });
+
         dispatch(updateUnreadActivityCount(0));
         markHiveNotifications(currentAccount, pinCode)
           .then(() => {
@@ -152,7 +159,7 @@ class NotificationContainer extends Component {
           .catch((err) => {
             bugsnapInstance.notify(err);
           });
-        this.setState({ notifications: updatedNotifications, isRefreshing: false });
+        this.setState({ notificationsMap, isRefreshing: false });
       })
       .catch(() => {
         Alert.alert(
@@ -174,14 +181,25 @@ class NotificationContainer extends Component {
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { selectedFilter } = this.state;
+    const { selectedFilter, notificationsMap } = this.state;
     const { currentAccount } = this.props;
-    if (
-      currentAccount &&
-      nextProps.currentAccount &&
-      nextProps.currentAccount.name !== currentAccount.name
-    ) {
-      this.setState({ endOfNotification: false }, () => this._getActivities(selectedFilter));
+    if (currentAccount && nextProps.currentAccount) {
+      if (nextProps.currentAccount.name !== currentAccount.name) {
+        this.setState(
+          {
+            endOfNotification: false,
+            notificationsMap: new Map(),
+          },
+          () => this._getActivities(selectedFilter),
+        );
+      } else if (
+        nextProps.currentAccount.unread_activity_count > currentAccount.unread_activity_count
+      ) {
+        notificationsMap.forEach((value, key) => {
+          console.log('fetching new activities for ', key);
+          this._getActivities(key, false, true);
+        });
+      }
     }
   }
 

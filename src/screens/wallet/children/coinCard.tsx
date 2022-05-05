@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 import React, { ComponentType, Fragment, useEffect, useState } from 'react';
 import styles from './children.styles';
 import { Icon, MainButton, SimpleChart } from '../../../components';
@@ -18,6 +18,7 @@ export interface CoinCardProps {
   unclaimedRewards: string;
   enableBuy?: boolean;
   isClaiming?: boolean;
+  isLoading?: boolean;
   footerComponent: ComponentType<any>
   onCardPress: () => void;
   onClaimPress: () => void;
@@ -37,6 +38,7 @@ export const CoinCard = ({
   unclaimedRewards,
   enableBuy,
   isClaiming,
+  isLoading,
   onCardPress,
   onClaimPress,
 }: CoinCardProps) => {
@@ -83,11 +85,20 @@ export const CoinCard = ({
       const btnTitle = unclaimedRewards
         ? unclaimedRewards
         : intl.formatMessage({ id: `wallet.${id}.buy` });
+
+      const _rightComponent = isLoading ? (
+        <ActivityIndicator color={EStyleSheet.value('$pureWhite')} style={styles.claimActivityIndicator} />
+      ) : (
+        <View style={styles.claimIconWrapper}>
+          <Icon name="add" iconType="MaterialIcons" color={EStyleSheet.value('$primaryBlue')} size={23} />
+        </View>
+      )
+
       return (
         <View style={styles.claimContainer}>
           <MainButton
             isLoading={isClaiming && claimExpected}
-            isDisable={isClaiming && claimExpected}
+            isDisable={isLoading || (isClaiming && claimExpected)}
             style={styles.claimBtn}
             height={50}
             onPress={_onClaimPress}
@@ -96,9 +107,7 @@ export const CoinCard = ({
               <Text style={styles.claimBtnTitle}>
                 {btnTitle}
               </Text>
-              <View style={styles.claimIconWrapper}>
-                <Icon name="add" iconType="MaterialIcons" color={EStyleSheet.value('$primaryBlue')} size={23} />
-              </View>
+              {_rightComponent}
             </Fragment>
           </MainButton>
         </View>

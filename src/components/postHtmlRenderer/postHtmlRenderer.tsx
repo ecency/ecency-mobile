@@ -7,7 +7,7 @@ import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
 import { useHtmlIframeProps, iframeModel } from '@native-html/iframe-plugin';
 import WebView from 'react-native-webview';
 import { VideoPlayer } from '..';
-import {useHtmlTableProps } from '@native-html/table-plugin';
+import { useHtmlTableProps } from '@native-html/table-plugin';
 import { ScrollView } from 'react-native-gesture-handler';
 
 interface PostHtmlRendererProps {
@@ -118,52 +118,7 @@ export const PostHtmlRenderer = memo(
           default:
             break;
         }
-      } catch (error) {}
-    };
-
-    const _onElement = (element: Element) => {
-      if (element.tagName === 'img' && element.attribs.src) {
-        const imgUrl = element.attribs.src;
-        console.log('img element detected', imgUrl);
-        onElementIsImage(imgUrl);
-      }
-    };
-
-    const _anchorRenderer = ({ InternalRenderer, tnode, ...props }: CustomRendererProps<TNode>) => {
-      const parsedTnode = parseLinkData(tnode);
-      const _onPress = () => {
-        console.log('Link Pressed:', tnode);
-        const data = parseLinkData(tnode);
-        _handleOnLinkPress(data);
-      };
-      
-
-      //process video link
-      if(tnode.classes?.indexOf('markdown-video-link') >= 0){
-
-        if(isComment){
-          const imgElement = tnode.children.find((child) => {
-            return child.classes.indexOf('video-thumbnail') > 0 ? true : false;
-          });
-          if (!imgElement) {
-            return <VideoThumb contentWidth={contentWidth} onPress={_onPress} />;
-          }
-        } else {
-          return (
-            <VideoPlayer
-              mode={parsedTnode.youtubeId ? 'youtube' : 'uri'}
-              contentWidth={contentWidth}
-              uri={parsedTnode.videoHref}
-              youtubeVideoId={parsedTnode.youtubeId}
-              startTime={parsedTnode.startTime}
-              disableAutoplay={true}
-            />
-          );
-        }
-      }
-
-
-      return <InternalRenderer tnode={tnode} onPress={_onPress} {...props} />;
+      } catch (error) { }
     };
 
 
@@ -185,6 +140,70 @@ export const PostHtmlRenderer = memo(
       //check next parent
       return getMaxImageWidth(tnode.parent);
     };
+
+
+    const _onElement = (element: Element) => {
+      if (element.tagName === 'img' && element.attribs.src) {
+        const imgUrl = element.attribs.src;
+        console.log('img element detected', imgUrl);
+        onElementIsImage(imgUrl);
+      }
+    };
+
+
+
+
+    const _anchorRenderer = ({ InternalRenderer, tnode, ...props }: CustomRendererProps<TNode>) => {
+      const parsedTnode = parseLinkData(tnode);
+      const _onPress = () => {
+        console.log('Link Pressed:', tnode);
+        const data = parseLinkData(tnode);
+        _handleOnLinkPress(data);
+      };
+
+
+      //process video link
+      if (tnode.classes?.indexOf('markdown-video-link') >= 0) {
+
+        if (isComment) {
+          const imgElement = tnode.children.find((child) => {
+            return child.classes.indexOf('video-thumbnail') > 0 ? true : false;
+          });
+          if (!imgElement) {
+            return <VideoThumb contentWidth={contentWidth} onPress={_onPress} />;
+          }
+        } else {
+          return (
+            <VideoPlayer
+              mode={parsedTnode.youtubeId ? 'youtube' : 'uri'}
+              contentWidth={contentWidth}
+              uri={parsedTnode.videoHref}
+              youtubeVideoId={parsedTnode.youtubeId}
+              startTime={parsedTnode.startTime}
+              disableAutoplay={true}
+            />
+          );
+        }
+      }
+
+      if (tnode.children.length === 1 && tnode.children[0].tagName === 'img') {
+        const maxImgWidth = getMaxImageWidth(tnode);
+        return <AutoHeightImage
+          contentWidth={maxImgWidth}
+          imgUrl={tnode.children[0].attributes.src}
+          isAnchored={false}
+          activeOpacity={0.8}
+          onPress={_onPress}
+        />
+      }
+
+
+      return <InternalRenderer tnode={tnode} onPress={_onPress} {...props} />;
+    };
+
+
+
+
 
     const _imageRenderer = ({ tnode }: CustomRendererProps<TNode>) => {
       const imgUrl = tnode.attributes.src;
@@ -225,25 +244,26 @@ export const PostHtmlRenderer = memo(
 
 
     //based on number of columns a table have, sets scroll enabled or disable, also adjust table full width
-    const _tableRenderer = ({TDefaultRenderer, ...props}:CustomRendererProps<TNode>) => {
+    const _tableRenderer = ({ TDefaultRenderer, ...props }: CustomRendererProps<TNode>) => {
       const tableProps = useHtmlTableProps(props);
 
       const isScrollable = tableProps.numOfColumns > 3;
-      const _tableWidth = isScrollable ? tableProps.numOfColumns * _minTableColWidth: contentWidth;    
-      props.style = {width:_tableWidth};
+      const _tableWidth = isScrollable ? tableProps.numOfColumns * _minTableColWidth : contentWidth;
+      props.style = { width: _tableWidth };
 
       return (
         <ScrollView horizontal={true} scrollEnabled={isScrollable}>
-            <TDefaultRenderer {...props} />
+          <TDefaultRenderer {...props} />
         </ScrollView>
-      )}
+      )
+    }
 
 
     // iframe renderer for rendering iframes in body
     const _iframeRenderer = function IframeRenderer(props) {
       const iframeProps = useHtmlIframeProps(props);
 
-      if(isComment){
+      if (isComment) {
         const _onPress = () => {
           console.log('iframe thumb Pressed:', iframeProps);
           if (handleVideoPress) {
@@ -253,9 +273,9 @@ export const PostHtmlRenderer = memo(
         return (
           <VideoThumb contentWidth={contentWidth} onPress={_onPress} />
         )
-      }else{
+      } else {
         return (
-          <VideoPlayer 
+          <VideoPlayer
             mode='uri'
             uri={iframeProps.source.uri}
             contentWidth={contentWidth}
@@ -281,9 +301,9 @@ export const PostHtmlRenderer = memo(
           img: styles.img,
           table: styles.table,
           tr: { ...styles.tr, width: contentWidth }, //center tag causes tr to have 0 width if not exclusivly set, contentWidth help avoid that
-          th: { ...styles.th, minWidth: _minTableColWidth},
-          td: { ...styles.td, minWidth: _minTableColWidth},
-          div: { ...styles.div, maxWidth:contentWidth }, //makes sure width covers the available horizontal space for view and not exceed the contentWidth if parent bound id not defined
+          th: { ...styles.th, minWidth: _minTableColWidth },
+          td: { ...styles.td, minWidth: _minTableColWidth },
+          div: { ...styles.div, maxWidth: contentWidth }, //makes sure width covers the available horizontal space for view and not exceed the contentWidth if parent bound id not defined
           blockquote: styles.blockquote,
           code: styles.code,
           li: styles.li,
