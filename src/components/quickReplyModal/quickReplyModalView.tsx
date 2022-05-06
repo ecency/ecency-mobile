@@ -249,7 +249,6 @@ const QuickReplyModal = ({ fetchPost }: QuickReplyModalProps, ref) => {
               id: 'quick_reply.placeholder',
             })}
             placeholderTextColor="#c1c5c7"
-            autoCapitalize="none"
             style={styles.textInput}
             multiline={true}
             numberOfLines={5}
