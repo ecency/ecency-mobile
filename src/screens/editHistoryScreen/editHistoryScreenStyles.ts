@@ -35,7 +35,7 @@ export default EStyleSheet.create({
     paddingHorizontal: 16,
   },
   postHeaderContainer: {
-    paddingVertical: 12,
+    
   },
   postHeaderTitle: {
     fontSize: 24,
@@ -47,7 +47,6 @@ export default EStyleSheet.create({
   postBodyText:{
     fontSize: 16,
     color: '$primaryBlack',
-    fontWeight: 'bold',
     fontFamily: '$primaryFont',
     marginBottom: 12,
   },

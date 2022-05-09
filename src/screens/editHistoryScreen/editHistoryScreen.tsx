@@ -236,7 +236,7 @@ const customTitleStyle = `
     font-size: 25px;
     margin-bottom: 11px;
     font-weight: bold;
-    line-height: 1.5;
+    line-height: 1.25;
   }
 `;
 
