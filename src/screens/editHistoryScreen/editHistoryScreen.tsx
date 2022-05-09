@@ -5,13 +5,12 @@ import {
   Alert,
   Dimensions,
   FlatList,
-  Platform,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { BasicHeader, Icon, PostBody, TextInput } from '../../components';
+import { BasicHeader, Icon, TextInput } from '../../components';
 import { diff_match_patch } from 'diff-match-patch';
 
 // styles
@@ -20,7 +19,7 @@ import styles from './editHistoryScreenStyles';
 import { getCommentHistory } from '../../providers/ecency/ecency';
 import { CommentHistoryItem } from '../../providers/ecency/ecency.types';
 import { dateToFormatted } from '../../utils/time';
-import { renderPostBody } from '@ecency/render-helper';
+import AutoHeightWebView from 'react-native-autoheight-webview';
 
 export interface CommentHistoryListItemDiff {
   title: string;
@@ -145,18 +144,14 @@ const EditHistoryScreen = ({ navigation }) => {
   );
 
   const _renderDiff = (item: CommentHistoryListItemDiff) => {
-    const previewTitle = renderPostBody(item.titleDiff, true, Platform.OS === 'ios' ? false : true);
-    const previewTags = renderPostBody(item.tagsDiff, true, Platform.OS === 'ios' ? false : true);
-    const previewBody = renderPostBody(item.bodyDiff, true, Platform.OS === 'ios' ? false : true);
     return (
       <View style={styles.diffContainer}>
-        <PostBody body={previewTitle} />
+        <AutoHeightWebView source={{ html: item.titleDiff }} customStyle={customTitleStyle} />
         <View style={styles.tagsContainer}>
           <Icon style={styles.tagIcon} iconType="AntDesign" name={'tag'} />
-          <PostBody body={previewTags} width={screenWidth - 50} />
+          <AutoHeightWebView source={{ html: item.tagsDiff }} customStyle={customTagsStyle} />
         </View>
-
-        <PostBody body={previewBody} />
+        <AutoHeightWebView source={{ html: item.bodyDiff }} customStyle={customBodyStyle} />
       </View>
     );
   };
@@ -165,14 +160,24 @@ const EditHistoryScreen = ({ navigation }) => {
     return (
       <>
         <View style={styles.postHeaderContainer}>
-          <TextInput value={selectedItem.title} style={styles.postHeaderTitle} multiline={true} />
+          <TextInput
+            value={selectedItem.title}
+            style={styles.postHeaderTitle}
+            multiline={true}
+            editable={false}
+          />
           <View style={styles.tagsContainer}>
             <Icon style={styles.tagIcon} iconType="AntDesign" name={'tag'} />
             <Text style={styles.tags}>{selectedItem.tags}</Text>
           </View>
         </View>
         <View style={styles.bodyContainer}>
-          <TextInput value={selectedItem.body} style={styles.postBodyText} multiline={true} />
+          <TextInput
+            value={selectedItem.body}
+            style={styles.postBodyText}
+            multiline={true}
+            editable={false}
+          />
         </View>
       </>
     );
@@ -223,3 +228,44 @@ const EditHistoryScreen = ({ navigation }) => {
 };
 
 export default EditHistoryScreen;
+
+const customTitleStyle = `
+  * {
+    color: ${EStyleSheet.value('$primaryBlack')};
+    font-family: Roboto, sans-serif;
+    font-size: 25px;
+    margin-bottom: 11px;
+    font-weight: bold;
+    line-height: 1.5;
+  }
+`;
+
+const customTagsStyle = `
+  * {
+    color: ${EStyleSheet.value('$primaryBlack')};
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
+    width: ${screenWidth - 12}px;
+  }
+`;
+
+const customBodyStyle = `
+  * {
+    color: ${EStyleSheet.value('$primaryBlack')};
+    font-family: Roboto, sans-serif;
+    font-size: 18px;
+    width: ${screenWidth}px;
+
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+`;

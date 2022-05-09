@@ -54,6 +54,8 @@ export default EStyleSheet.create({
   tagsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 12,
+    marginBottom: 12,
   },
   tags: {
     fontSize: 14,
@@ -71,6 +73,9 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
+  },
+  diffContainer: {
+    paddingBottom: 20,
   },
   titleDiff: {
     fontSize: 24,
