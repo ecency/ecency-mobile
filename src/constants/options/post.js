@@ -8,6 +8,7 @@ export default [
   'unpin-blog',
   'pin-community',
   'unpin-community',
+  'edit-history',
   'share',
   'bookmarks',
   'report',

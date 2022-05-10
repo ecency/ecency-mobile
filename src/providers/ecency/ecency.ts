@@ -6,8 +6,8 @@ import bugsnagInstance from '../../config/bugsnag';
 import { SERVER_LIST } from '../../constants/options/api';
 import { parsePost } from '../../utils/postParser';
 import { extractMetadata, makeJsonMetadata } from '../../utils/editor';
-import { LatestMarketPrices, ReceivedVestingShare, Referral, ReferralStat } from './ecency.types';
-import { convertLatestQuotes, convertReferral, convertReferralStat } from './converters';
+import { CommentHistoryItem, LatestMarketPrices, ReceivedVestingShare, Referral, ReferralStat } from './ecency.types';
+import { convertCommentHistory, convertLatestQuotes, convertReferral, convertReferralStat } from './converters';
 
 
 
@@ -822,6 +822,30 @@ export const getReferralsStats = async (username: string):Promise<ReferralStat> 
   } catch (error) {
     bugsnagInstance.notify(error);
     console.warn(error);
+    throw error;
+  }
+}
+
+/** 
+ * ************************************
+ * EDIT HISTORY API IMPLEMENTATION 
+ * ************************************
+ */
+
+ export const getCommentHistory = async (author: string, permlink: string ):Promise<CommentHistoryItem[]> => {
+  try {
+    const data = {
+      author,
+      permlink
+    }
+    const res = await ecencyApi.post('/private-api/comment-history', data);
+    console.log('comment history', res.data);
+    if (!res.data) {
+      throw new Error('No history data!');
+    }
+    return res?.data?.list.map((item) => convertCommentHistory(item));
+  } catch (error) {
+    bugsnagInstance.notify(error);
     throw error;
   }
 }

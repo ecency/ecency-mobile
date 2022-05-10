@@ -26,6 +26,7 @@ api.interceptors.request.use((request) => {
     || request.url.startsWith('/private-api/received-vesting/')
     || request.url.startsWith('/private-api/referrals/')
     || request.url.startsWith('/private-api/market-data')
+    || request.url.startsWith('/private-api/comment-history')
   ){
     return request
   }

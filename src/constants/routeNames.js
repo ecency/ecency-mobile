@@ -34,6 +34,7 @@ export default {
     REFER: `Refer${SCREEN_SUFFIX}`,
     QR: `QR${SCREEN_SUFFIX}`,
     COIN_DETAILS: `CoinDetails${SCREEN_SUFFIX}`,
+    EDIT_HISTORY: `EditHistory${SCREEN_SUFFIX}`,
   },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,

@@ -41,6 +41,7 @@ import {
   WebBrowser,
   ReferScreen,
   CoinDetails,
+  EditHistoryScreen,
 } from '../screens';
 
 const bottomTabNavigator = createBottomTabNavigator(
@@ -156,6 +157,7 @@ const stackNavigator = createStackNavigator(
     [ROUTES.SCREENS.WEB_BROWSER]: { screen: WebBrowser },
     [ROUTES.SCREENS.REFER]: { screen: ReferScreen },
     [ROUTES.SCREENS.COIN_DETAILS]: { screen: CoinDetails },
+    [ROUTES.SCREENS.EDIT_HISTORY]: { screen: EditHistoryScreen },
   },
   {
     headerMode: 'none',

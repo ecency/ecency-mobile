@@ -1,6 +1,6 @@
 import { COIN_IDS } from '../../constants/defaultCoins';
 import { Referral } from '../../models';
-import { LatestMarketPrices, LatestQuotes, QuoteItem, ReferralStat } from './ecency.types';
+import { CommentHistoryItem, LatestMarketPrices, LatestQuotes, QuoteItem, ReferralStat } from './ecency.types';
 
 export const convertReferral = (rawData: any) => {
   return {
@@ -42,4 +42,14 @@ export const convertLatestQuotes = (rawData: any, estmPrice:number, currencyRate
     }, currencyRate)
 
   } as LatestQuotes;
+};
+
+export const convertCommentHistory = (rawData: any) => {
+  return {
+    body: rawData.body || '',
+    tags: rawData.tags || '',
+    timestamp: rawData.timestamp || '',
+    title: rawData.title || '',
+    v: rawData.v || 1,
+  } as CommentHistoryItem;
 };
