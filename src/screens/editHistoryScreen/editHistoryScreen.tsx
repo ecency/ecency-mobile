@@ -11,15 +11,14 @@ import {
   View,
 } from 'react-native';
 import { BasicHeader, Icon, TextInput } from '../../components';
-import { diff_match_patch } from 'diff-match-patch';
 
 // styles
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './editHistoryScreenStyles';
 import { getCommentHistory } from '../../providers/ecency/ecency';
-import { CommentHistoryItem } from '../../providers/ecency/ecency.types';
 import { dateToFormatted } from '../../utils/time';
 import AutoHeightWebView from 'react-native-autoheight-webview';
+import historyBuilder from './historyBuilder';
 
 export interface CommentHistoryListItemDiff {
   title: string;
@@ -32,14 +31,6 @@ export interface CommentHistoryListItemDiff {
   v: number;
 }
 
-const dmp = new diff_match_patch();
-
-const make_diff = (str1: string, str2: string): string => {
-  const d = dmp.diff_main(str1, str2);
-  dmp.diff_cleanupSemantic(d);
-  return dmp.diff_prettyHtml(d).replace(/&para;/g, '&nbsp;');
-};
-
 const screenWidth = Dimensions.get('window').width - 32;
 
 const EditHistoryScreen = ({ navigation }) => {
@@ -49,42 +40,54 @@ const EditHistoryScreen = ({ navigation }) => {
   const [versionSelected, setVersionSelected] = useState(1);
   const [showDiff, setShowDiff] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  // webview styles for renderring diff
+  const customTitleStyle = `
+  * {
+    color: ${EStyleSheet.value('$primaryBlack')};
+    font-family: Roboto, sans-serif;
+    font-size: 25px;
+    margin-bottom: 11px;
+    font-weight: bold;
+    line-height: 1.25;
+  }
+`;
+
+  const customTagsStyle = `
+  * {
+    color: ${EStyleSheet.value('$primaryBlack')};
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
+    width: ${screenWidth - 12}px;
+  }
+`;
+
+  const customBodyStyle = `
+  * {
+    color: ${EStyleSheet.value('$primaryBlack')};
+    font-family: Roboto, sans-serif;
+    font-size: 18px;
+    width: ${screenWidth}px;
+
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+`;
+
   useEffect(() => {
     _getCommentHistory();
   }, []);
 
-  const buildList = (raw: CommentHistoryItem[]) => {
-    const t = [];
-
-    let h = '';
-    for (let l = 0; l < raw.length; l += 1) {
-      if (raw[l].body.startsWith('@@')) {
-        const p = dmp.patch_fromText(raw[l].body);
-        h = dmp.patch_apply(p, h)[0] as any;
-        raw[l].body = h;
-      } else {
-        h = raw[l].body;
-      }
-
-      t.push({
-        v: raw[l].v,
-        title: raw[l].title,
-        body: h,
-        timestamp: raw[l].timestamp,
-        tags: raw[l].tags.join(', '),
-      });
-    }
-
-    for (let l = 0; l < t.length; l += 1) {
-      const p = l > 0 ? l - 1 : l;
-
-      t[l].titleDiff = make_diff(t[p].title, t[l].title);
-      t[l].bodyDiff = make_diff(t[p].body, t[l].body);
-      t[l].tagsDiff = make_diff(t[p].tags, t[l].tags);
-    }
-
-    return t;
-  };
+  
 
   const _getCommentHistory = async () => {
     const responseData = await getCommentHistory(author, permlink);
@@ -92,7 +95,7 @@ const EditHistoryScreen = ({ navigation }) => {
       Alert.alert('No History found!');
       return;
     }
-    setEditHistory(buildList(responseData));
+    setEditHistory(historyBuilder(responseData));
   };
   console.log('author, permlink : ', author, permlink);
   console.log('editHistory : ', editHistory);
@@ -228,44 +231,3 @@ const EditHistoryScreen = ({ navigation }) => {
 };
 
 export default EditHistoryScreen;
-
-const customTitleStyle = `
-  * {
-    color: ${EStyleSheet.value('$primaryBlack')};
-    font-family: Roboto, sans-serif;
-    font-size: 25px;
-    margin-bottom: 11px;
-    font-weight: bold;
-    line-height: 1.25;
-  }
-`;
-
-const customTagsStyle = `
-  * {
-    color: ${EStyleSheet.value('$primaryBlack')};
-    font-family: Roboto, sans-serif;
-    font-size: 16px;
-    width: ${screenWidth - 12}px;
-  }
-`;
-
-const customBodyStyle = `
-  * {
-    color: ${EStyleSheet.value('$primaryBlack')};
-    font-family: Roboto, sans-serif;
-    font-size: 18px;
-    width: ${screenWidth}px;
-
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-
-    -ms-word-break: break-all;
-    word-break: break-all;
-    word-break: break-word;
-
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-  }
-`;
