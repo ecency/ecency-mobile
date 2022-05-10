@@ -570,7 +570,8 @@
     "pin-blog": "Pin to blog",
     "unpin-blog": "Unpin from blog",
     "pin-community": "Pin to community",
-    "unpin-community": "Unpin from community"
+    "unpin-community": "Unpin from community",
+    "edit-history": "Edit History"
   },
   "deep_link": {
     "no_existing_user": "Kein vorhandener Benutzer",
@@ -805,5 +806,9 @@
     "qr_scan": "QR Scan",
     "open": "Open URL",
     "detected_url": "Detected URL"
+  },
+  "history": {
+    "edit": "Edit History",
+    "version": "Version"
   }
 }
