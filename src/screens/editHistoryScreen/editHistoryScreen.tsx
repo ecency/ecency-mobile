@@ -43,51 +43,58 @@ const EditHistoryScreen = ({ navigation }) => {
 
   // webview styles for renderring diff
   const customTitleStyle = `
-  * {
-    color: ${EStyleSheet.value('$primaryBlack')};
-    font-family: Roboto, sans-serif;
-    font-size: 25px;
-    margin-bottom: 11px;
-    font-weight: bold;
-    line-height: 1.25;
-  }
-`;
+    * {
+      color: ${EStyleSheet.value('$primaryBlack')};
+      font-family: Roboto, sans-serif;
+      font-size: 25px;
+      margin-bottom: 11px;
+      font-weight: bold;
+      line-height: 1.25;
+    }
+  `;
 
   const customTagsStyle = `
-  * {
-    color: ${EStyleSheet.value('$primaryBlack')};
-    font-family: Roboto, sans-serif;
-    font-size: 16px;
-    width: ${screenWidth - 12}px;
-  }
-`;
+    * {
+      color: ${EStyleSheet.value('$primaryBlack')};
+      font-family: Roboto, sans-serif;
+      font-size: 16px;
+      width: ${screenWidth - 12}px;
+    } 
+  `;
 
   const customBodyStyle = `
-  * {
-    color: ${EStyleSheet.value('$primaryBlack')};
-    font-family: Roboto, sans-serif;
-    font-size: 18px;
-    width: ${screenWidth}px;
+    * {
+      color: ${EStyleSheet.value('$primaryBlack')};
+      font-family: Roboto, sans-serif;
+      font-size: 18px;
+      width: ${screenWidth}px;
 
-    overflow-wrap: break-word;
-    word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
 
-    -ms-word-break: break-all;
-    word-break: break-all;
-    word-break: break-word;
+      -ms-word-break: break-all;
+      word-break: break-all;
+      word-break: break-word;
 
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-  }
-`;
+      -ms-hyphens: auto;
+      -moz-hyphens: auto;
+      -webkit-hyphens: auto;
+      hyphens: auto;
+    }
+  `;
 
+  const diffIconStyle = [
+    styles.rightIcon,
+    {
+      backgroundColor: showDiff
+        ? EStyleSheet.value('$primaryBlue')
+        : EStyleSheet.value('$iconColor'),
+    },
+  ];
+  
   useEffect(() => {
     _getCommentHistory();
   }, []);
-
-  
 
   const _getCommentHistory = async () => {
     const responseData = await getCommentHistory(author, permlink);
@@ -108,18 +115,16 @@ const EditHistoryScreen = ({ navigation }) => {
     index: number;
   }) => {
     const selected = versionSelected === item.v;
+    const btnStyle = [
+      styles.versionItemBtn,
+      {
+        backgroundColor: selected
+          ? EStyleSheet.value('$primaryBlue')
+          : EStyleSheet.value('$iconColor'),
+      },
+    ];
     return (
-      <TouchableOpacity
-        onPress={() => setVersionSelected(item.v)}
-        style={[
-          styles.versionItemBtn,
-          {
-            backgroundColor: selected
-              ? EStyleSheet.value('$primaryBlue')
-              : EStyleSheet.value('$iconColor'),
-          },
-        ]}
-      >
+      <TouchableOpacity onPress={() => setVersionSelected(item.v)} style={btnStyle}>
         <Text style={[styles.versionItemBtnText, { color: EStyleSheet.value('$pureWhite') }]}>
           {intl.formatMessage({
             id: 'history.version',
@@ -209,14 +214,7 @@ const EditHistoryScreen = ({ navigation }) => {
         })}
         iconType="Ionicons"
         rightIconName="git-compare-sharp"
-        rightIconBtnStyle={[
-          styles.rightIcon,
-          {
-            backgroundColor: showDiff
-              ? EStyleSheet.value('$primaryBlue')
-              : EStyleSheet.value('$iconColor'),
-          },
-        ]}
+        rightIconBtnStyle={diffIconStyle}
         rightIconStyle={{
           color: EStyleSheet.value('$pureWhite'),
         }}
