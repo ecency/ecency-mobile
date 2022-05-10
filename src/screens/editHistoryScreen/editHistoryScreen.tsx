@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { BasicHeader, Icon, TextInput } from '../../components';
+import { BasicHeader, Icon, PostPlaceHolder, TextInput } from '../../components';
 
 // styles
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -91,21 +91,22 @@ const EditHistoryScreen = ({ navigation }) => {
         : EStyleSheet.value('$iconColor'),
     },
   ];
-  
+
   useEffect(() => {
     _getCommentHistory();
   }, []);
 
   const _getCommentHistory = async () => {
+    setIsLoading(true);
     const responseData = await getCommentHistory(author, permlink);
     if (!responseData) {
+      setIsLoading(false);
       Alert.alert('No History found!');
       return;
     }
     setEditHistory(historyBuilder(responseData));
+    setIsLoading(false);
   };
-  console.log('author, permlink : ', author, permlink);
-  console.log('editHistory : ', editHistory);
 
   const _renderVersionsListItem = ({
     item,
@@ -220,10 +221,14 @@ const EditHistoryScreen = ({ navigation }) => {
         }}
         handleRightIconPress={() => setShowDiff(!showDiff)}
       />
-      <View style={styles.mainContainer}>
-        {editHistory.length > 0 && _renderVersionsList()}
-        {editHistory.length > 0 && _renderBody()}
-      </View>
+      {isLoading ? (
+        <PostPlaceHolder />
+      ) : (
+        <View style={styles.mainContainer}>
+          {editHistory.length > 0 && _renderVersionsList()}
+          {editHistory.length > 0 && _renderBody()}
+        </View>
+      )}
     </Fragment>
   );
 };
