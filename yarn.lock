@@ -8540,10 +8540,10 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-native-actions-sheet@^0.5.8:
-  version "0.5.8"
-  resolved "https://registry.yarnpkg.com/react-native-actions-sheet/-/react-native-actions-sheet-0.5.8.tgz#9367a7a2cbadd7b0cff82eb5e72c27578c13222d"
-  integrity sha512-bucvVl2lU0k0ogq6dDmJTKDa28SOGM8sMdr14qflnbqcSYEJH0YT+DWoJXzsocdNvXMBsdqM5J8bX+k6weIKFg==
+react-native-actions-sheet@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/react-native-actions-sheet/-/react-native-actions-sheet-0.6.1.tgz#ccfa2e3d717c9c44d7d51fc084876324bee0e8d0"
+  integrity sha512-cBDw1nVrgV9Wluonb/r3pXKxjN2Wm6iGs+DjlAoHoGQj0pD6QR2aLrXyO30334pjWnJE4oMRFv8G02PM8ikdNg==
 
 react-native-actionsheet@ecency/react-native-actionsheet:
   version "2.4.2"
