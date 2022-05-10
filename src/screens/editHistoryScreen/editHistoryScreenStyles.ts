@@ -66,12 +66,8 @@ export default EStyleSheet.create({
     marginRight: 12,
   },
   rightIcon: {
-    backgroundColor: '$primaryDarkGray',
-    width: 40,
-    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 8,
   },
   diffContainer: {
     paddingBottom: 20,

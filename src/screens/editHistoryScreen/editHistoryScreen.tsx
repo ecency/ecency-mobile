@@ -83,14 +83,13 @@ const EditHistoryScreen = ({ navigation }) => {
     }
   `;
 
-  const diffIconStyle = [
-    styles.rightIcon,
+  const diffIconStyle = 
     {
-      backgroundColor: showDiff
+      color: showDiff
         ? EStyleSheet.value('$primaryBlue')
         : EStyleSheet.value('$iconColor'),
-    },
-  ];
+    }
+  ;
 
   useEffect(() => {
     _getCommentHistory();
@@ -107,6 +106,7 @@ const EditHistoryScreen = ({ navigation }) => {
     setEditHistory(historyBuilder(responseData));
     setIsLoading(false);
   };
+
 
   const _renderVersionsListItem = ({
     item,
@@ -138,6 +138,8 @@ const EditHistoryScreen = ({ navigation }) => {
       </TouchableOpacity>
     );
   };
+
+
   const _renderVersionsList = () => (
     <View style={styles.versionsListContainer}>
       <FlatList
@@ -165,6 +167,7 @@ const EditHistoryScreen = ({ navigation }) => {
     );
   };
 
+
   const _renderPlainBody = (selectedItem: CommentHistoryListItemDiff) => {
     return (
       <>
@@ -191,6 +194,8 @@ const EditHistoryScreen = ({ navigation }) => {
       </>
     );
   };
+
+
   const _renderBody = () => {
     const selectedItem = editHistory.find((x) => x.v === versionSelected);
     if (!selectedItem) {
@@ -215,10 +220,7 @@ const EditHistoryScreen = ({ navigation }) => {
         })}
         iconType="Ionicons"
         rightIconName="git-compare-sharp"
-        rightIconBtnStyle={diffIconStyle}
-        rightIconStyle={{
-          color: EStyleSheet.value('$pureWhite'),
-        }}
+        rightIconStyle={diffIconStyle}
         handleRightIconPress={() => setShowDiff(!showDiff)}
       />
       {isLoading ? (
