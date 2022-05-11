@@ -9,6 +9,7 @@ import WebView from 'react-native-webview';
 import { VideoPlayer } from '..';
 import { useHtmlTableProps } from '@native-html/table-plugin';
 import { ScrollView } from 'react-native-gesture-handler';
+import { prependChild, removeElement } from 'htmlparser2/node_modules/domutils';
 
 interface PostHtmlRendererProps {
   contentWidth: number;
@@ -142,11 +143,48 @@ export const PostHtmlRenderer = memo(
     };
 
 
+
+    //Does some needed dom modifications for proper rendering
     const _onElement = (element: Element) => {
       if (element.tagName === 'img' && element.attribs.src) {
         const imgUrl = element.attribs.src;
         console.log('img element detected', imgUrl);
         onElementIsImage(imgUrl);
+      }
+
+      
+      //this avoids invalid rendering of first element of table pushing rest of columsn to extreme right.
+      if(element.tagName === 'table'){
+        console.log('table detected')
+
+        element.children.forEach((child)=>{
+          if(child.name === 'tr'){
+            let headerIndex = -1;
+            let colIndex = -1;
+            
+            child.children.forEach((gChild, index) => {
+              //check if element of row in table is not a column while it's other siblings are columns
+              if(gChild.type === 'tag'){
+                if(gChild.name !== 'td' && headerIndex === -1){
+                  headerIndex = index;
+                }else if(colIndex === -1){
+                  colIndex = index
+                }
+              }
+            })
+
+            //if row contans a header with column siblings
+            //remove first child and place it as first separate row in table
+            if(headerIndex !== -1 && colIndex !== -1 && headerIndex < colIndex){
+              console.log("time to do some switching", headerIndex, colIndex);
+              const header = child.children[headerIndex];
+              const headerRow = new Element('tr', {}, [header]);
+
+              removeElement(header);
+              prependChild(element, headerRow);
+            }
+          }
+        })
       }
     };
 
