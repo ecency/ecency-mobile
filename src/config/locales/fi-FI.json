@@ -570,7 +570,8 @@
     "pin-blog": "Kiinnitä blogiin",
     "unpin-blog": "Irrota blogista",
     "pin-community": "Kiinnitä yhteisölle",
-    "unpin-community": "Poista kiinnitys yhteisöstä"
+    "unpin-community": "Poista kiinnitys yhteisöstä",
+    "edit-history": "Muokkaushistoria"
   },
   "deep_link": {
     "no_existing_user": "Käyttäjää ei ole",
@@ -805,5 +806,9 @@
     "qr_scan": "QR-koodi",
     "open": "Avaa URL",
     "detected_url": "Havaittu URL"
+  },
+  "history": {
+    "edit": "Muokkaushistoria",
+    "version": "Versio"
   }
 }

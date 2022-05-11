@@ -570,7 +570,8 @@
     "pin-blog": "Закрепить в блоге",
     "unpin-blog": "Открепить от блога",
     "pin-community": "Закрепить в сообществе",
-    "unpin-community": "Открепить от сообщества"
+    "unpin-community": "Открепить от сообщества",
+    "edit-history": "Edit History"
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
@@ -805,5 +806,9 @@
     "qr_scan": "QR Скан",
     "open": "Открыть Ссылку",
     "detected_url": "Обнаружена Ссылка"
+  },
+  "history": {
+    "edit": "Edit History",
+    "version": "Version"
   }
 }

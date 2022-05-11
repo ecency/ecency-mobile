@@ -7,9 +7,9 @@
     "transfer": "Transferir",
     "power_up": "Power Up",
     "transfer_from_savings": "Das poupanças",
-    "withdraw_savings": "Withdraw Savings",
+    "withdraw_savings": "Sacar da Poupança",
     "withdraw_vesting": "Descarregar Poder",
-    "open_order": "Open Order",
+    "open_order": "Abrir Ordem",
     "fill_order": "Preencher pedido",
     "post": "Publicar",
     "comment": "Comentar",
@@ -51,12 +51,12 @@
     "to": "Para",
     "estimated_value_desc": "De acordo com o valor da compra",
     "estimated_value": "Valor estimado",
-    "vote_value": "Vote value",
-    "delegated_hive_power": "Delegated hive power",
-    "powering_down_hive_power": "Powering down",
-    "received_hive_power": "Received hive power",
-    "total_hive_power": "Total hive power",
-    "savings": "Savings",
+    "vote_value": "Valor do voto",
+    "delegated_hive_power": "Hive Power delegado",
+    "powering_down_hive_power": "Baixando poder",
+    "received_hive_power": "Hive Power recebido",
+    "total_hive_power": "Hive Power total",
+    "savings": "Poupança",
     "estimated_amount": "Valor do voto",
     "amount_information": "Arraste o controle deslizante para ajustar a quantia",
     "amount": "Quantia",
@@ -69,18 +69,18 @@
     "transfer_token": "Transferir",
     "purchase_estm": "GANHE PONTOS",
     "points": "Dê Pontos a alguém",
-    "transfer_to_saving": "Para poupança",
+    "transfer_to_saving": "Depositar na Poupança",
     "transfer_to_vesting": "Transferência para Hive Power",
     "withdraw_to_saving": "Levantar das poupanças",
     "steemconnect_title": "Transferência por Hivesigner",
     "next": "SEGUINTE",
     "delegate": "Delegar",
     "power_down": "Descarregar Hive Power",
-    "withdraw_hive": "Withdraw Savings",
-    "withdraw_hbd": "Withdraw Savings",
-    "transfer_to_savings": "Para poupança",
+    "withdraw_hive": "Sacar da Poupança",
+    "withdraw_hbd": "Sacar da Poupança",
+    "transfer_to_savings": "Depositar nas Poupanças",
     "convert": "Converter",
-    "convert_request": "Convert Request",
+    "convert_request": "Requerimento de Conversão",
     "escrow_transfer": "Transferência do Escrow",
     "escrow_dispute": "Disputa Escrow",
     "escrow_release": "Lançamento de Escrow",
@@ -91,9 +91,9 @@
     "fill_transfer_from_savings": "Poupanças executadas",
     "fill_vesting_withdraw": "PowerDown executado",
     "ecency": {
-      "title": "Points",
-      "name": "Ecency Points",
-      "buy": "GET POINTS"
+      "title": "Pontos",
+      "name": "Pontos Ecency",
+      "buy": "ADQUIRIR PONTOS"
     },
     "savinghive": {
       "title": "Poupança de HIVE"
@@ -103,7 +103,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "Hive Token",
+      "name": "Token Hive",
       "buy": "OBTER HIVE"
     },
     "hbd": {
@@ -122,16 +122,16 @@
       "buy": "OBTER BTC",
       "address": "RECEBER"
     },
-    "last_updated": "Last Updated:",
-    "updating": "Updating...",
-    "coin_details": "Details",
-    "change": "Change",
-    "activities": "Activities",
-    "savings_withdrawal": "Pending Withdrawals",
-    "open_orders": "Open Orders",
-    "conversions_requested": "Conversions Requested",
-    "expires": "expires",
-    "pending_requests": "Pending Requests"
+    "last_updated": "Última Atualização:",
+    "updating": "Atualizando...",
+    "coin_details": "Detalhes",
+    "change": "Alterar",
+    "activities": "Atividades",
+    "savings_withdrawal": "Saques Pendentes",
+    "open_orders": "Ordens Abertas",
+    "conversions_requested": "Conversões Solicitadas",
+    "expires": "expira em",
+    "pending_requests": "Solicitações Pendentes"
   },
   "notification": {
     "vote": "votou",
@@ -217,7 +217,7 @@
     "currency": "Moeda",
     "language": "Língua",
     "server": "Servidor",
-    "color_theme": "Appearance",
+    "color_theme": "Aparência",
     "push_notification": "Puxar Notificações",
     "notification": {
       "follow": "Seguir",
@@ -241,9 +241,9 @@
       "always_warn": "Avisar sempre"
     },
     "theme": {
-      "system": "Device settings",
-      "light": "Light",
-      "dark": "Dark"
+      "system": "Configurações do dispositivo",
+      "light": "Claro",
+      "dark": "Escuro"
     },
     "feedback_success": "Email aberto com sucesso",
     "feedback_fail": "Não se pôde abrir o cliente de e-mail",
@@ -305,7 +305,7 @@
     "add_an_existing_account": "Adicionar uma conta existente",
     "accounts": "Contas",
     "refer": "Indique & Ganhe",
-    "qr": "QR Scan"
+    "qr": "Leitor QR"
   },
   "header": {
     "title": "Login para personalizar o seu feed",
@@ -374,16 +374,16 @@
     "draft_save_title": "Salvando o rascunho",
     "draft_update": "Atualizar o rascunho atual",
     "draft_save_new": "Salvo como novo rascunho",
-    "label": "Label",
-    "enter_label_placeholder": "Enter Label (Optional)",
+    "label": "Rótulo",
+    "enter_label_placeholder": "Digite o Rótulo (Opcional)",
     "url": "URL",
-    "enter_url_placeholder": "Enter URL",
-    "link_type_text": "Type of Link",
-    "preview": "Preview",
-    "invalid_url_error": "Please insert valid url",
-    "plain": "Plain",
-    "video": "Video",
-    "image": "Image"
+    "enter_url_placeholder": "Introduzir URL",
+    "link_type_text": "Tipo de Link",
+    "preview": "Visualizar",
+    "invalid_url_error": "Por favor, insira um URL válido",
+    "plain": "Simples",
+    "video": "Vídeo",
+    "image": "Imagem"
   },
   "snippets": {
     "label_no_snippets": "Nenhum Snippet Encontrado",
@@ -486,8 +486,8 @@
     "restart_ecency": "Reiniciar a Ecency?",
     "restart_ecency_desc": "Aplicar alterações exigirá uma reinicialização.",
     "invalid_response": "Não foi possível processar o pedido. Tente mais tarde.",
-    "wallet_updating": "Wallet update in progress, try again as update finishes",
-    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
+    "wallet_updating": "Atualização da carteira em andamento. Tente novamente quando terminada",
+    "claim_failed": "Falha ao reivindicar recompensas, {message}\nTente novamente ou escreva para support@ecency.com"
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
@@ -567,10 +567,11 @@
     "promote": "promover",
     "boost": "reforço",
     "report": "relatório",
-    "pin-blog": "Pin to blog",
-    "unpin-blog": "Unpin from blog",
-    "pin-community": "Pin to community",
-    "unpin-community": "Unpin from community"
+    "pin-blog": "Fixar ao blog",
+    "unpin-blog": "Desafixar do blog",
+    "pin-community": "Fixar na comunidade",
+    "unpin-community": "Desafixar da comunidade",
+    "edit-history": "Edit History"
   },
   "deep_link": {
     "no_existing_user": "Usuário não existe",
@@ -613,7 +614,7 @@
     "stop_information": "Tem certeza que deseja parar?",
     "percent": "Percentagem",
     "auto_vests": "Auto Vests",
-    "vests": "Vests",
+    "vests": "Alocações",
     "save": "SALVAR",
     "percent_information": "Info de porcentagem",
     "next": "SEGUINTE",
@@ -638,8 +639,8 @@
     "username_alert": "Erro no nome!",
     "username_alert_detail": "Por favor, selecione um nome diferente",
     "power_down": "Decarregar Poder",
-    "power_down_amount_head": "Withdraw Amount",
-    "power_down_amount_subhead": "Enter amount for powering down hive power",
+    "power_down_amount_head": "Sacar Quantia",
+    "power_down_amount_subhead": "Defina a quantia de Hive Power para reduzir",
     "withdraw_accounts": "Withdraw Accounts",
     "amount_hp": "Amount (HP)",
     "powering_down": "Powering Down",
@@ -805,5 +806,9 @@
     "qr_scan": "QR Scan",
     "open": "Open URL",
     "detected_url": "Detected URL"
+  },
+  "history": {
+    "edit": "Edit History",
+    "version": "Version"
   }
 }
