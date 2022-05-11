@@ -88,34 +88,34 @@
     "cancel_transfer_from_savings": "Atšaukti iš Santaupų",
     "delegate_vesting_shares": "Delegacija",
     "fill_convert_request": "Konvertacija įvykdyta",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "fill_transfer_from_savings": "Santaupos nuimtos",
+    "fill_vesting_withdraw": "Jėgos mažinimas įvykdytas",
     "ecency": {
-      "title": "Points",
-      "name": "Ecency Points",
-      "buy": "GET POINTS"
+      "title": "Taškai",
+      "name": "Ecency Taškai",
+      "buy": "GAUTI TAŠKŲ"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "Hive santaupos"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "HBD santaupos"
     },
     "hive": {
       "title": "HIVE",
-      "name": "Hive Token",
-      "buy": "GET HIVE"
+      "name": "Hive žetonas",
+      "buy": "GAUTI HIVE"
     },
     "hbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "Gauti HBD"
     },
     "hive_power": {
-      "title": "HIVE POWER",
-      "name": "Hive Power"
+      "title": "HIVE GALIA",
+      "name": "Hive Galia"
     },
     "hive_dollar": {
-      "name": "Hive Dollar"
+      "name": "Hive doleris"
     },
     "btc": {
       "title": "BTC",
