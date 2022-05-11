@@ -2,8 +2,8 @@
   "wallet": {
     "curation_reward": "Kuracijos Atlygis",
     "author_reward": "Autorius Atlygis",
-    "comment_benefactor_reward": "Benefactor Reward",
-    "claim_reward_balance": "Claim Reward ",
+    "comment_benefactor_reward": "Labdarystės apdovanojimas",
+    "claim_reward_balance": "Atsiimti apdovanojimą ",
     "transfer": "Pervesti",
     "power_up": "To Vesting",
     "transfer_from_savings": "From Savings",
