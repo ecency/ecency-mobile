@@ -351,6 +351,7 @@ export const PostHtmlRenderer = memo(
           code: styles.code,
           li: styles.li,
           p: styles.p,
+          h6: styles.h6
         }}
         domVisitors={{
           onElement: _onElement,

@@ -22,6 +22,9 @@ export default EStyleSheet.create({
     alignItems:'center',
     flexWrap:'wrap'
   } as TextStyle,
+  h6:{
+    fontSize:14,
+  } as TextStyle,
   pLi:{
     marginTop:0,
     marginBottom:0
