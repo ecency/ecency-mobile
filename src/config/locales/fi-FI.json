@@ -571,7 +571,7 @@
     "unpin-blog": "Irrota blogista",
     "pin-community": "Kiinnitä yhteisölle",
     "unpin-community": "Poista kiinnitys yhteisöstä",
-    "edit-history": "Edit History"
+    "edit-history": "Muokkaushistoria"
   },
   "deep_link": {
     "no_existing_user": "Käyttäjää ei ole",
@@ -808,7 +808,7 @@
     "detected_url": "Havaittu URL"
   },
   "history": {
-    "edit": "Edit History",
-    "version": "Version"
+    "edit": "Muokkaushistoria",
+    "version": "Versio"
   }
 }
