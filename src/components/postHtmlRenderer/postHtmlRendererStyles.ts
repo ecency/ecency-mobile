@@ -36,7 +36,8 @@ export default EStyleSheet.create({
     width: '100%',
     alignSelf:'center',
     marginTop:4,
-    marginBottom:4
+    marginBottom:4,
+    backgroundColor:'red'
   } as ImageStyle,
   th:{
     flex: 1,
@@ -58,6 +59,7 @@ export default EStyleSheet.create({
     borderColor: '$tableBorderColor',
     backgroundColor: '$tableTrColor',
     alignItems:'center',
+    justifyContent:'center',
   } as ViewStyle,
   table:{
       width: '100%',
@@ -82,9 +84,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
   } as TextStyle,
   phishy:{
-    color:'red',
-    flexDirection:'row', 
-    flexWrap:'wrap'
+    color:'$primaryRed',
   } as TextStyle,
   textJustify:{
     textAlign: Platform.select({ios:'justify', android:'auto'}), //justify with selectable on android causes ends of text getting clipped, 
