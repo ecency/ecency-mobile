@@ -119,7 +119,7 @@
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
+      "buy": "Gauti BTC",
       "address": "RECEIVE"
     },
     "last_updated": "Last Updated:",
