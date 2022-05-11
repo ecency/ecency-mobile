@@ -282,16 +282,21 @@ export const PostHtmlRenderer = memo(
 
 
     //based on number of columns a table have, sets scroll enabled or disable, also adjust table full width
-    const _tableRenderer = ({ TDefaultRenderer, ...props }: CustomRendererProps<TNode>) => {
-      const tableProps = useHtmlTableProps(props);
+    const _tableRenderer = ({ InternalRenderer, ...props }: CustomRendererProps<TNode>) => {
+      // const tableProps = useHtmlTableProps(props);
 
-      const isScrollable = tableProps.numOfColumns > 3;
-      const _tableWidth = isScrollable ? tableProps.numOfColumns * _minTableColWidth : contentWidth;
+      let maxColumns = 0;
+      props.tnode.children.forEach((child)=>
+        maxColumns = child.children.length > maxColumns ? child.children.length : maxColumns
+      )
+
+      const isScrollable = maxColumns > 3;
+      const _tableWidth = isScrollable ? maxColumns * _minTableColWidth : contentWidth;
       props.style = { width: _tableWidth };
 
       return (
         <ScrollView horizontal={true} scrollEnabled={isScrollable}>
-          <TDefaultRenderer {...props} />
+          <InternalRenderer {...props} />
         </ScrollView>
       )
     }
