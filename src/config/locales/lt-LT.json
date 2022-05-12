@@ -220,7 +220,7 @@
     "color_theme": "Rodymas",
     "push_notification": "Aktyvieji pranešimai",
     "notification": {
-      "follow": "Sekėjai",
+      "follow": "Sekti",
       "vote": "Balsai",
       "comment": "Komentarai",
       "mention": "Paminėjimai",
@@ -228,7 +228,7 @@
       "transfers": "Pervedimai",
       "delegations": "Delegacijos"
     },
-    "pincode": "Pincode",
+    "pincode": "PIN kodas",
     "reset_pin": "Iš naujo nustatyti Pin kodą",
     "reset": "Atstatyti",
     "nsfw_content": "NSFW",
