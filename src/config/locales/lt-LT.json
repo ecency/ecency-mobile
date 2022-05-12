@@ -565,13 +565,13 @@
     "share": "dalintis",
     "bookmarks": "pridėti į žymes",
     "promote": "reklamuok",
-    "boost": "boost",
-    "report": "report",
-    "pin-blog": "Pin to blog",
-    "unpin-blog": "Unpin from blog",
-    "pin-community": "Pin to community",
-    "unpin-community": "Unpin from community",
-    "edit-history": "Edit History"
+    "boost": "sustiprink",
+    "report": "raportuok",
+    "pin-blog": "Prisegti prie blog'o",
+    "unpin-blog": "Atsegti nuo blog'o",
+    "pin-community": "Prisegti prie bendruomenės",
+    "unpin-community": "Atsegti nuo bendruomenės",
+    "edit-history": "Redaguoti istoriją"
   },
   "deep_link": {
     "no_existing_user": "Nėra tokio vartotojo",
@@ -583,19 +583,19 @@
   },
   "comment_filter": {
     "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
+    "reputation": "REPUTACIJA",
+    "votes": "BALSUOK",
+    "age": "AMŽIUS",
     "top": "TOP",
-    "time": "TIME"
+    "time": "LAIKAS"
   },
   "transfer": {
     "from": "Nuo",
     "to": "Į",
-    "amount_information": "Drag the slider to adjust the amount",
+    "amount_information": "Vilkite slankiklį, jog kad sureguliuotumėte suma",
     "amount": "Kiekis",
     "memo": "Atmintinė",
-    "information": "Are you sure to transfer funds?",
+    "information": "Ar tikrai norite persiųsti lėšas?",
     "amount_desc": "Likutis",
     "memo_desc": "Ši atmintinė yra vieša",
     "convert_desc": "Convert takes 3.5 days and NOT recommended IF HBD price is higher than $1",
