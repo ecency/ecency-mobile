@@ -412,15 +412,15 @@
   },
   "pincode": {
     "enter_text": "Įveskite slaptažodį, kad atrakintumėte",
-    "set_new": "Set new pin",
+    "set_new": "Įveskite naują PIN",
     "write_again": "Rašyti vėl",
     "forgot_text": "Oi, pamiršau...",
-    "pin_not_matched": "PIN do not match, Please try again.",
-    "attempts_postfix": "failed attempt(s)",
-    "message_reset_warning": "User data will be wiped on next failed attempt"
+    "pin_not_matched": "PIN kodas nesutampa. Bandykite dar kartą.",
+    "attempts_postfix": "Nepavykę bandymai",
+    "message_reset_warning": "Naudotojo duomenys bus ištrinti su sekančiu nesėkmingu bandymu"
   },
   "alert": {
-    "success": "Sėkminga!",
+    "success": "Sėkmė!",
     "successful": "Sėkminga",
     "allRead": "Pažymėti visus pranešimus kaip skaitytus",
     "claim_reward_balance_ok": "Atlygis atsiimtas",
