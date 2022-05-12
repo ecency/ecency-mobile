@@ -129,9 +129,9 @@
     "activities": "Veikla",
     "savings_withdrawal": "Laukiamas pinigų pervedimas",
     "open_orders": "Atviri užsakymai",
-    "conversions_requested": "Conversions Requested",
-    "expires": "expires",
-    "pending_requests": "Pending Requests"
+    "conversions_requested": "Pokalbių užklausos",
+    "expires": "galioja iki",
+    "pending_requests": "Laukiamos Užklausos"
   },
   "notification": {
     "vote": "voted",
