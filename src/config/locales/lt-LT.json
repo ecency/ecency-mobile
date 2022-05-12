@@ -169,8 +169,8 @@
   "leaderboard": {
     "daily": "KASDIEN",
     "weekly": "KAS SAVAITĘ",
-    "monthly": "MONTHLY",
-    "tooltip_earn": "Earn points by actively participating in Ecency."
+    "monthly": "KAS MĖNESĮ",
+    "tooltip_earn": "Uždirbk taškų, aktyviai dalyvaujant Ecency."
   },
   "messages": {
     "comingsoon": "Žinučių funkcija jau greitai!"
