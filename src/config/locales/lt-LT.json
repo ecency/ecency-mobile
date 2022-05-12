@@ -263,7 +263,7 @@
     "cancel": "atšaukti",
     "login": "PRISIJUNGTI",
     "steemconnect_description": "Jei nenorite, kad jūsų slaptažodis būtų įrašomas į jūsų įrenginį, galite naudoti Hivesighner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_fee_description": "informacija"
   },
   "register": {
     "button": "Užsiregistruoti",
@@ -286,7 +286,7 @@
     "friends": "Draugai",
     "communities": "Bendruomenės",
     "popup_postfix": "Publikuota",
-    "scroll_top": "Scroll To Top"
+    "scroll_top": "Keliauti iki puslapio viršaus"
   },
   "side_menu": {
     "profile": "Profilis",
@@ -296,15 +296,15 @@
     "schedules": "Suplanuota",
     "gallery": "Galerija",
     "settings": "Nustatymai",
-    "communities": "Communities",
+    "communities": "Bendruomenės",
     "add_account": "Pridėti paskyrą",
     "logout": "Atsijungti",
     "cancel": "Atšaukti",
     "logout_text": "Ar tikrai norite atsijungti?",
-    "create_a_new_account": "Create a new account",
-    "add_an_existing_account": "Add an existing account",
-    "accounts": "Accounts",
-    "refer": "Refer & Earn",
+    "create_a_new_account": "Sukurti naują paskyrą",
+    "add_an_existing_account": "Pridėkite esančią paskyrą",
+    "accounts": "Paskyros",
+    "refer": "Rekomenduok ir uždirbk",
     "qr": "QR Scan"
   },
   "header": {
@@ -316,18 +316,18 @@
     "search": "Paieška",
     "update": "Atnaujinti",
     "reply": "Atsakyti",
-    "schedule": "Schedule"
+    "schedule": "Grafikas"
   },
   "editor": {
     "title": "Pavadinimas",
-    "tags": "Tags (separate with space)",
-    "default_placeholder": "Tell us something...",
-    "reply_placeholder": "Add your reply...",
+    "tags": "Žymės (atskirkite su tarpu)",
+    "default_placeholder": "Pasakykite mums ką nors...",
+    "reply_placeholder": "Pridėkite savo atsakymą...",
     "publish": "Skelbti",
     "reply": "Atsakyti",
-    "open_gallery": "Open Gallery",
+    "open_gallery": "Atidaryti Galeriją",
     "capture_photo": "Užfiksuoti nuotrauką",
-    "uploaded_images": "Uploaded Images",
+    "uploaded_images": "Įkelti vaizdai",
     "limited_tags": "Only 10 tags allowed, remove some",
     "limited_length": "Maximum length of each tag should be 24",
     "limited_dash": "Use one dash in each tag",
