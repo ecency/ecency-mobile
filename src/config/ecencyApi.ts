@@ -45,8 +45,9 @@ api.interceptors.request.use((request) => {
     request.data.code = accessToken;
     console.log('Added access token:', accessToken);
   } else {
-    console.warn("Failed to inject accessToken")
-    bugsnagInstance.notify(new Error(`Failed to inject accessToken in api call`))
+    const isLoggedIn = state.application.isLoggedIn;
+    console.warn("Failed to inject accessToken", `isLoggedIn:${isLoggedIn}`)
+    bugsnagInstance.notify(new Error(`Failed to inject accessToken in ${request.url} call. isLoggedIn:${isLoggedIn}`))
   }
 
   return request;
