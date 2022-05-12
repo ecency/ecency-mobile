@@ -134,10 +134,10 @@
     "pending_requests": "Laukiamos Užklausos"
   },
   "notification": {
-    "vote": "voted",
-    "unvote": "downvoted",
-    "reply": "replied to",
-    "mention": "mentioned in",
+    "vote": "balsavo",
+    "unvote": "įvertinta neigiamai",
+    "reply": "atsakyta",
+    "mention": "paminėjo",
     "follow": "jus seka",
     "unfollow": "jūsų nebeseka",
     "ignore": "jus ignoravo",
