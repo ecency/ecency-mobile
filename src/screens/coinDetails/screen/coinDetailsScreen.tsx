@@ -42,7 +42,7 @@ const CoinDetailsScreen = ({ navigation }: CoinDetailsScreenProps) => {
   const globalProps = useAppSelector(state => state.account.globalProps);
   const selectedCoins = useAppSelector(state => state.wallet.selectedCoins);
   const coinData: CoinData = useAppSelector(state => state.wallet.coinsData[coinId]);
-  const quote: QuoteItem = useAppSelector(state => state.wallet.quotes[coinId]);
+  const quote: QuoteItem = useAppSelector(state => state.wallet.quotes ? state.wallet.quotes[coinId] : {});
   const coinActivities: CoinActivitiesCollection = useAppSelector(state => state.wallet.coinsActivities[coinId]);
   const isPinCodeOpen = useAppSelector(state => state.application.isPinCodeOpen);
 
