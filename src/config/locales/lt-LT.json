@@ -484,9 +484,9 @@
     "remind_later": "Priminti vėliau",
     "failed_to_open": "Epavyko atidaryti nuorodos",
     "restart_ecency": "Perkrauti Ecency?",
-    "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response": "Could not process request, Try again later.",
-    "wallet_updating": "Wallet update in progress, try again as update finishes",
+    "restart_ecency_desc": "Taikant pakeitimus perkraukite programėlę iš naujo.",
+    "invalid_response": "Negalėjome įvykdyti užklausos, pabandykite vėliau.",
+    "wallet_updating": "Pinigės atnaujinimas atliekamas, pabandykite kai atnaujinimas pasibaigs",
     "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
   },
   "post": {
