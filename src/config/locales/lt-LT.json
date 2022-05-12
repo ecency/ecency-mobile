@@ -272,20 +272,20 @@
     "mail": "Įveskite savo el. pašto adresą",
     "ref_user": "Rekomendavęs vartotojas (pasirinktinai)",
     "500_error": "Jūsų užklausa negali būti įvykdyta, greičiausiai registracijos eilėje nėra vietos! Pabandykite vėl už kelių minučių...",
-    "title_description": "One account to manage everything",
-    "form_description": "By signing up with us, you agree to our Terms of Service and Privacy Policies."
+    "title_description": "Viena paskyra tam viską sutvarkyti",
+    "form_description": "Prisiregisruodami, jūs sutinkate su mūsų paslaugų tiekimo sąlygomis ir privatumo politika."
   },
   "home": {
     "feed": "Pagrindinis",
     "popular": "Populiarūs",
     "top": "Top",
-    "hot": "Hot",
-    "new": "New",
-    "blog": "Blog",
-    "posts": "Post",
-    "friends": "Friends",
-    "communities": "Communities",
-    "popup_postfix": "Posted",
+    "hot": "Populiaru dabar",
+    "new": "Nauja",
+    "blog": "Blog'as",
+    "posts": "Įrašai",
+    "friends": "Draugai",
+    "communities": "Bendruomenės",
+    "popup_postfix": "Publikuota",
     "scroll_top": "Scroll To Top"
   },
   "side_menu": {
