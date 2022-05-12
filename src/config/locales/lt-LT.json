@@ -229,7 +229,7 @@
       "delegations": "Delegacijos"
     },
     "pincode": "Pincode",
-    "reset_pin": "Reset Pin Code",
+    "reset_pin": "Iš naujo nustatyti Pin kodą",
     "reset": "Atstatyti",
     "nsfw_content": "NSFW",
     "send_feedback": "Siųsti Atsiliepimus",
@@ -241,21 +241,21 @@
       "always_warn": "Visada įspėti"
     },
     "theme": {
-      "system": "Device settings",
-      "light": "Light",
-      "dark": "Dark"
+      "system": "Įrenginio nustatymai",
+      "light": "Šviesi",
+      "dark": "Tamsi"
     },
     "feedback_success": "El. laiškas sėkmingai atidarytas",
     "feedback_fail": "El. pašto atidaryti nepavyko",
-    "server_fail": "Server not available"
+    "server_fail": "Serveris neprieinamas"
   },
   "voters": {
     "voters_info": "Balsuotojo Informacija",
-    "no_user": "User is not found."
+    "no_user": "Naudotojas nerastas."
   },
   "login": {
     "signin": "Prisijungti",
-    "signup": "JOIN NOW",
+    "signup": "PRISIJUNKITE DABAR",
     "signin_title": "To get all the benefits of using Ecency",
     "username": "Vartotojo vardas",
     "password": "Slaptažodis arba WIF",
