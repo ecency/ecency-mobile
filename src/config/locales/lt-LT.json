@@ -531,8 +531,8 @@
   },
   "report": {
     "added": "Pranešta apie nepageidaujamą turinį",
-    "confirm_report_title": "Patvirtinkite pranešimą!",
-    "confirm_report_body": "Are you sure you want report?"
+    "confirm_report_title": "Patvirtinkite skundą!",
+    "confirm_report_body": "Ar tikrai norite pateikti skundą?"
   },
   "favorites": {
     "title": "Mėgstamiausi",
@@ -545,7 +545,7 @@
     "invalid_username": "Neteisingas naudotojo vardas, patikrinkite ir bandykite dar kartą",
     "already_logged": "Jūs jau prisijungę, bandykite pridėti kitą paskyrą",
     "invalid_credentials": "Neteisingi duomenys, patikrinkite ir bandykite dar kartą",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "unknow_error": "Nežinoma klaida, susisiekite su mumis adresu support@ecency.com"
   },
   "payout": {
     "potential_payout": "Potencialus užmokestis",
@@ -553,10 +553,10 @@
     "author_payout": "Autoriaus Užmokestis",
     "curation_payout": "Kuracijos Užmokestis",
     "payout_date": "Užmokestis",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
-    "breakdown": "Breakdown",
-    "max_accepted": "Max Accepted"
+    "beneficiaries": "Pelno gavėjai",
+    "warn_zero_payout": "Kiekis turi siekti $0.02, kad išsitraukti iš sąskaitos",
+    "breakdown": "Išskaidyti",
+    "max_accepted": "Maksimaliai leidžiama"
   },
   "post_dropdown": {
     "copy": "kopijuoti nuorodą",
@@ -564,7 +564,7 @@
     "reply": "atsakymas",
     "share": "dalintis",
     "bookmarks": "pridėti į žymes",
-    "promote": "promote",
+    "promote": "reklamuok",
     "boost": "boost",
     "report": "report",
     "pin-blog": "Pin to blog",
