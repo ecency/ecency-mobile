@@ -127,8 +127,8 @@
     "coin_details": "Išsami informacija",
     "change": "Keisti",
     "activities": "Veikla",
-    "savings_withdrawal": "Pending Withdrawals",
-    "open_orders": "Open Orders",
+    "savings_withdrawal": "Laukiamas pinigų pervedimas",
+    "open_orders": "Atviri užsakymai",
     "conversions_requested": "Conversions Requested",
     "expires": "expires",
     "pending_requests": "Pending Requests"
