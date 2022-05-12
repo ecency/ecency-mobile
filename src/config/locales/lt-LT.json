@@ -469,7 +469,7 @@
     "external_link": "Atidaryti naršyklėje",
     "not_existing_post": "Įrašas neegzistuoja! Prašome patikrinti žymę ir autorių.",
     "google_play_version": "Mes pastebėjome, kad jūsų prietaisas naudoja seną Google Play versiją. Atnaujinkite Google Play paslaugas ir pabandykite vėl!",
-    "rc_down": "Not enough resource credits to perform an action! \n\nBoost your account to continue enjoy the experience. Do you want to boost your account, now?",
+    "rc_down": "Nepakanka išteklių kreditų veksmui atlikti! \n\nSustiprinkite savo paskyrą, kad toliau mėgautumėtes programėle. Ar norite sustiprinti savo paskyrą dabar?",
     "payloadTooLarge": "File size too big, please resize or upload smaller image",
     "qoutaExceeded": "Upload quota exceeded",
     "invalidImage": "Invalid image, try different file",
