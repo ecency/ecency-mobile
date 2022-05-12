@@ -217,7 +217,7 @@
     "currency": "Valiuta",
     "language": "Kalba",
     "server": "Serveris",
-    "color_theme": "Appearance",
+    "color_theme": "Rodymas",
     "push_notification": "Aktyvieji pranešimai",
     "notification": {
       "follow": "Sekėjai",
@@ -226,7 +226,7 @@
       "mention": "Paminėjimai",
       "reblog": "Pasidalinimai",
       "transfers": "Pervedimai",
-      "delegations": "Delegations"
+      "delegations": "Delegacijos"
     },
     "pincode": "Pincode",
     "reset_pin": "Reset Pin Code",
