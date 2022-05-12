@@ -490,26 +490,26 @@
     "claim_failed": "Nepavyko atsiimti apdovanojimų, {message}\nPabandykite vėliau arba rašykite support@ecency.com"
   },
   "post": {
-    "reblog_alert": "Are you sure, you want to reblog?",
-    "removed_hint": "Content is not available",
-    "copy_link": "Copy link",
-    "copy_text": "Copy text",
-    "reblogged": "reblogged by",
-    "sponsored": "SPONSORED",
-    "open_thread": "Open thread",
-    "image": "Image",
-    "link": "Link",
-    "gallery_mode": "Gallery mode",
-    "save_to_local": "Download to device",
-    "image_saved": "Image saved to Photo Gallery",
-    "image_saved_error": "Error Saving Image",
-    "wrong_link": "Wrong link",
-    "in": "in",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "reblog_alert": "Ar tikrai norite dalintis?",
+    "removed_hint": "Turinys nepasiekiamas",
+    "copy_link": "Kopijuoti nuorodą",
+    "copy_text": "Nukopijuoti tekstą",
+    "reblogged": "pasidalinta",
+    "sponsored": "Remėjai",
+    "open_thread": "Atidaryti giją",
+    "image": "Vaizdas",
+    "link": "Nuoroda",
+    "gallery_mode": "Valerijos režimas",
+    "save_to_local": "Atsiųsti į įrenginį",
+    "image_saved": "Vaizdas išsaugotas fotogalerijoje",
+    "image_saved_error": "Nepavyko išsaugoti vaizdo",
+    "wrong_link": "Netinkama nuoroda",
+    "in": "į",
+    "reveal_muted": "UŽTILDYTA\nPaspauskite, kad atydarytumėte turinį"
   },
   "drafts": {
-    "title": "Ruošiniai",
-    "load_error": "Nepavyko užkrauti ruošinių",
+    "title": "Juodraščiai",
+    "load_error": "Nepavyko pakrauti juodraščių",
     "empty_list": "Nieko nėra",
     "deleted": "Ruošinys panaikintas"
   },
@@ -531,7 +531,7 @@
   },
   "report": {
     "added": "Pranešta apie nepageidaujamą turinį",
-    "confirm_report_title": "Confirm Report!",
+    "confirm_report_title": "Patvirtinkite pranešimą!",
     "confirm_report_body": "Are you sure you want report?"
   },
   "favorites": {
