@@ -708,39 +708,39 @@
     },
     "communities": {
       "title": "Grupės",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
-      "posters": "Posters",
-      "posts": "Post"
+      "subscribe": "Prisijunk",
+      "unsubscribe": "Išeiti",
+      "subscribers": "Nariai",
+      "posters": "Įrašų kūrėjai",
+      "posts": "Įrašai"
     },
     "communities_filter": {
-      "my": "My Communities",
-      "rank": "Rank",
-      "subs": "Members",
-      "new": "New"
+      "my": "Mano Bendruomenės",
+      "rank": "Reitingas",
+      "subs": "Nariai",
+      "new": "Nauja"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "Populiarumas",
+      "newest": "Naujausi",
+      "relevance": "Aktualumas"
     },
     "other_result_filter": {
-      "user": "User",
-      "tag": "Tag"
+      "user": "Naudotojas",
+      "tag": "Žymė"
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details",
-    "muted": "Muted",
-    "payout": "Payout"
+    "new_post": "Naujas įrašas",
+    "community": "bendruomenė",
+    "details": "Detalės",
+    "muted": "Be garso",
+    "payout": "Išmoka"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow",
-    "add_to_favourites": "ADD TO FAVOURITES",
+    "follow": "Sekti",
+    "unfollow": "Nustoti sekti",
+    "add_to_favourites": "PRIDĖTI PRIE MĖGSTAMIAUSIŲ",
     "remove_from_favourites": "REMOVE FROM FAVOURITES",
     "mute": "MUTE / BLOCK",
     "unmute": "UNMUTE / UNBLOCK",
