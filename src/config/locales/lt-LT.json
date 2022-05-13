@@ -741,17 +741,17 @@
     "follow": "Sekti",
     "unfollow": "Nustoti sekti",
     "add_to_favourites": "PRIDĖTI PRIE MĖGSTAMIAUSIŲ",
-    "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE / BLOCK",
-    "unmute": "UNMUTE / UNBLOCK",
-    "report": "REPORT USER",
-    "delegate": "DELEGATE HIVE POWER"
+    "remove_from_favourites": "PAŠALINTI IŠ MĖGSTAMIAUSIŲ",
+    "mute": "NUTILDYTI / BLOKUOTI",
+    "unmute": "ĮJUNGTI GARSĄ / ATBLOKUOTI",
+    "report": "PRANEŠTI APIE NAUDOTOJĄ",
+    "delegate": "DELEGUOTI HIVE POWER"
   },
   "communities": {
-    "joined": "Membership",
-    "discover": "Discover",
-    "discover_communities": "Discover Communities",
-    "no_communities": "Connect with people who share your interests by joining Communities."
+    "joined": "Narystė",
+    "discover": "Atrask",
+    "discover_communities": "Atrask bendruomenę",
+    "no_communities": "Susipažink su žmonėmis, kurie jus domina, prisijungiant prie bendruomenių."
   },
   "empty_screen": {
     "nothing_here": "Nothing here"
