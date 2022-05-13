@@ -176,7 +176,7 @@
     "comingsoon": "Žinučių funkcija jau greitai!"
   },
   "profile": {
-    "following": "Sekami",
+    "following": "Seka",
     "follower": "Sekėjas",
     "edit_label": "Redaguoti",
     "post": "Įrašai",
@@ -191,7 +191,7 @@
     "voting_power": "Balsavimo Galia",
     "login_to_see": "Prisijunkite norėdami pamatyti",
     "follow_people": "Kai jūs sekate žmones, jūs matysite jų įrašus čia.",
-    "follow_communities": "Kai prisijingsite prie bendruomenės, jūs matysite įrašus iš bendruomenės čia.",
+    "follow_communities": "Kai prisijungsite prie bendruomenės, jūs matysite įrašus iš bendruomenės čia.",
     "havent_commented": "kolkas dar nieko nepakomentavo",
     "havent_posted": "kolkas dar nieko neįkėlė",
     "hive_power": "Hive Galia",
