@@ -754,39 +754,39 @@
     "no_communities": "Susipažink su žmonėmis, kurie jus domina, prisijungiant prie bendruomenių."
   },
   "empty_screen": {
-    "nothing_here": "Nothing here"
+    "nothing_here": "Nieko nerasta"
   },
   "beneficiary_modal": {
-    "percent": "Percent",
-    "username": "Username",
-    "addAccount": "Add Account",
-    "save": "Save",
-    "cancel": "Cancel"
+    "percent": "Procentų",
+    "username": "Naudotojo vardas",
+    "addAccount": "Pridėti paskyrą",
+    "save": "Išsaugoti",
+    "cancel": "Atšaukti"
   },
   "welcome": {
-    "label": "Welcome to",
+    "label": "Sveiki atvykę į",
     "title": "Ecency",
-    "line1_heading": "Are you looking for community?",
-    "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
-    "line2_heading": "We have a solution!",
-    "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
-    "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others.",
-    "get_started": "Get started!"
+    "line1_heading": "Ar jūs ieškote bendruomenės?",
+    "line1_body": "Necenzūruotas, nesikeičiantis, apdovadojantis, decentralizuotas, tas kuris priklauso tau.",
+    "line2_heading": "Mes turime sprendimą!",
+    "line2_body": "Naudojantis blockchain, laisvas nuo cenzūros, decentralizuotas ir apdovanojantis.",
+    "line3_heading": "Prisijung prie Ecency bendruomenių!",
+    "line3_body": "Sukurt savo bendruomenę, gauk apdovanojimus ir apdovanok kitus.",
+    "get_started": "Pradėti!"
   },
   "time": {
-    "second": "seconds",
-    "minute": "minutes",
-    "hour": "hours",
-    "week": "weeks",
-    "day": "days",
-    "month": "months",
-    "year": "years"
+    "second": "sekundės",
+    "minute": "minutės",
+    "hour": "valandos",
+    "week": "savaitės",
+    "day": "dienos",
+    "month": "mėnesiai",
+    "year": "metai"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
-    "comment": "Comment",
-    "reply": "REPLY",
+    "placeholder": "Pridėti komentarą",
+    "comment": "Komentuoti",
+    "reply": "ATSAKYTI",
     "close": "CLOSE"
   },
   "walkthrough": {
