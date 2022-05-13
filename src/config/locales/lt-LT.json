@@ -787,28 +787,28 @@
     "placeholder": "Pridėti komentarą",
     "comment": "Komentuoti",
     "reply": "ATSAKYTI",
-    "close": "CLOSE"
+    "close": "UŽDARYTI"
   },
   "walkthrough": {
-    "load_draft_tooltip": "Load your lastest draft here"
+    "load_draft_tooltip": "Įkelkite savo naujausią juodraštį čia"
   },
   "refer": {
-    "refer_earn": "Refer & Earn",
-    "refer": "Refer",
-    "rewarded": "Referral points rewarded",
-    "not_rewarded": "Referral reward pending",
-    "delegate_hp": "Delegate HP",
-    "earned": "Earned Points",
-    "pending": "Pending Points",
-    "empty_text": "Refer your loved ones today and earn free points"
+    "refer_earn": "Pakviesk ir uždirbk",
+    "refer": "Pakviesk",
+    "rewarded": "Pakvietimo taškai atlyginti",
+    "not_rewarded": "Laukiama pakvietimo taškų",
+    "delegate_hp": "Deleguoti HP",
+    "earned": "Uždirbti taškai",
+    "pending": "Laukiami gauti taškai",
+    "empty_text": "Pakvieskite savo mylimuosius šiandien ir uždirbkite nemokamų taškų"
   },
   "qr": {
     "qr_scan": "QR Scan",
-    "open": "Open URL",
-    "detected_url": "Detected URL"
+    "open": "Atidaryti URL",
+    "detected_url": "Aptiktas URL"
   },
   "history": {
-    "edit": "Edit History",
-    "version": "Version"
+    "edit": "Redaguoti Istoriją",
+    "version": "Versija"
   }
 }
