@@ -668,46 +668,46 @@
     "days": "dienos",
     "user": "Naudotojas",
     "permlink": "Įrašas",
-    "permlinkPlaceholder": "username/permlink",
-    "information": "Are you sure to promote?"
+    "permlinkPlaceholder": "naudotojo vardas/ permlink",
+    "information": "Ar tikrai norite reklamuoti?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Sustiprink"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "rewards": "ATLYGIAI",
+    "percent": "PROCENTAI",
+    "time": "LAIKAS"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "Pasidalinti įrašo informaciją"
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "Jūsų prietaiso laikas;",
+      "current_time": "Esamas laikas;",
+      "information": "Mes pastebėjome, kad jūsų prietaisas blogai rodo datą ir laiką. Prašome sutvarkykite datą ir laiką arba nustaykyte automatiškai ir bandykite vėl."
     }
   },
   "comments": {
     "title": "Komentarai",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "replies"
+    "reveal_comment": "Rodyti komentarus",
+    "read_more": "Skaityti daugiau komentarų",
+    "more_replies": "atsakytimos žinutės"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Kita",
     "best": {
-      "title": "Best"
+      "title": "Geriausi"
     },
     "people": {
-      "title": "People"
+      "title": "Žmonės"
     },
     "topics": {
-      "title": "Topics"
+      "title": "Temos"
     },
     "communities": {
-      "title": "Groups",
+      "title": "Grupės",
       "subscribe": "Join",
       "unsubscribe": "Leave",
       "subscribers": "Members",
