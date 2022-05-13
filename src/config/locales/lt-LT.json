@@ -644,30 +644,30 @@
     "withdraw_accounts": "Išsitraukti iš paskyrų",
     "amount_hp": "Kiekis (HP)",
     "powering_down": "Galios mažinimas",
-    "powering_down_subheading": "You are currently powering down.",
-    "powering_down_info": "Next power down is in {days} days, {hp} HIVE"
+    "powering_down_subheading": "Jūs šiuo metu mažinate galią.",
+    "powering_down_info": "Sekantis galios mažinimas {days} dienų, {hp} HIVE"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
-    "next": "NEXT",
+    "title": "Gauk taškų",
+    "buy": "GAUK Taškų",
+    "next": "KITAS",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "title": "Sustiprink paskyrą",
+      "desc": "30 dienų delegacijos padidins jūsų balsų kiekį ir paspartins socialinę veiklą ir suteiks jums daugiau veiksmų su resursų kreditais."
     }
   },
   "free_estm": {
-    "title": "Free Points",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "title": "Nemokamj taškai",
+    "button": "SUK IR LAIMĖK",
+    "get_spin": "5 SUKIMAI",
+    "spin_right": "Sukti į kairę",
+    "timer_text": "Kitas nemokamas sukimas"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
-    "user": "User",
-    "permlink": "Post",
+    "title": "Reklamuok",
+    "days": "dienos",
+    "user": "Naudotojas",
+    "permlink": "Įrašas",
     "permlinkPlaceholder": "username/permlink",
     "information": "Are you sure to promote?"
   },
