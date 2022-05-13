@@ -38,8 +38,8 @@ api.interceptors.request.use((request) => {
   const digitPinCode = getDigitPinCode(pin);
   const accessToken = decryptKey(token, digitPinCode);
 
-  if (accessToken) {
-    if (!request.data) {
+  if (accessToken && !request.data?.code ) { 
+  if (!request.data){
       request.data = {};
     }
     request.data.code = accessToken;
