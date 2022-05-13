@@ -479,10 +479,10 @@
     "can_not_be_empty": "Pavadinimas ir pagrindinė dalis negali būti tušti!",
     "wrong_filter_count": "Prašime pasirinkti 3 filtrus",
     "update_available_title": "Galimas atnaujinimas v{version}",
-    "update_available_body": "Naudodajantis naujausia Ecency versija, suteikiamia geriausia patirtis",
+    "update_available_body": "Naudojantis naujausia Ecency versija, suteikiamia geriausia patirtis",
     "update": "Atnaujinti dabar",
     "remind_later": "Priminti vėliau",
-    "failed_to_open": "Epavyko atidaryti nuorodos",
+    "failed_to_open": "Nepavyko atidaryti nuorodos",
     "restart_ecency": "Perkrauti Ecency?",
     "restart_ecency_desc": "Taikant pakeitimus perkraukite programėlę iš naujo.",
     "invalid_response": "Negalėjome įvykdyti užklausos, pabandykite vėliau.",
@@ -490,7 +490,7 @@
     "claim_failed": "Nepavyko atsiimti apdovanojimų, {message}\nPabandykite vėliau arba rašykite support@ecency.com"
   },
   "post": {
-    "reblog_alert": "Ar tikrai norite dalintis?",
+    "reblog_alert": "Ar tikrai norite dalintis įrašu?",
     "removed_hint": "Turinys nepasiekiamas",
     "copy_link": "Kopijuoti nuorodą",
     "copy_text": "Nukopijuoti tekstą",
@@ -499,13 +499,13 @@
     "open_thread": "Atidaryti giją",
     "image": "Vaizdas",
     "link": "Nuoroda",
-    "gallery_mode": "Valerijos režimas",
+    "gallery_mode": "Galerijos režimas",
     "save_to_local": "Atsiųsti į įrenginį",
     "image_saved": "Vaizdas išsaugotas fotogalerijoje",
     "image_saved_error": "Nepavyko išsaugoti vaizdo",
     "wrong_link": "Netinkama nuoroda",
     "in": "į",
-    "reveal_muted": "UŽTILDYTA\nPaspauskite, kad atydarytumėte turinį"
+    "reveal_muted": "UŽTILDYTA\nPaspauskite, kad atidarytumėte turinį"
   },
   "drafts": {
     "title": "Juodraščiai",
@@ -517,8 +517,8 @@
     "title": "Suplanuota",
     "empty_list": "Nieko nėra",
     "deleted": "Suplanuotas įrašas panaikintas",
-    "move": "Perkelti į ruošinius",
-    "moved": "Perkelta į ruošinius"
+    "move": "Perkelti į juodraščius",
+    "moved": "Perkelta į juodraščius"
   },
   "bookmarks": {
     "title": "Žymės",
