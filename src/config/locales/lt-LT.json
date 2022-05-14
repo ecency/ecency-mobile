@@ -613,8 +613,8 @@
     "destination_accounts": "Gavėjo Paskyra(os)",
     "stop_information": "Ar tikrai norite sustabdyti?",
     "percent": "Procentai",
-    "auto_vests": "Auto Vests",
-    "vests": "Vests",
+    "auto_vests": "Automatinis teisių suteikimas",
+    "vests": "Teisių suteikimas",
     "save": "IŠSAUGOTI",
     "percent_information": "Procentų informacija",
     "next": "TOLIAU",
@@ -630,7 +630,7 @@
     "account_detail_head": "Paskyros duomenys",
     "account_detail_subhead": "Įveskite HIVE galios delegacijai savo vartotojo vardą",
     "delegat_detail_head": "Delegacijos informacija",
-    "delegat_detail_subhead": "Nauja suma pakeis jau deleguota Hive galią ",
+    "delegat_detail_subhead": "Nauja suma pakeis jau deleguotą Hive galią ",
     "new_amount": "Nauja suma",
     "review": "PERŽIŪRĖTI",
     "confirm": "Patvirtinti delegaciją",
@@ -657,7 +657,7 @@
     }
   },
   "free_estm": {
-    "title": "Nemokamj taškai",
+    "title": "Nemokami taškai",
     "button": "SUK IR LAIMĖK",
     "get_spin": "5 SUKIMAI",
     "spin_right": "Sukti į kairę",
@@ -686,14 +686,14 @@
     "date_error": {
       "device_time": "Jūsų prietaiso laikas;",
       "current_time": "Esamas laikas;",
-      "information": "Mes pastebėjome, kad jūsų prietaisas blogai rodo datą ir laiką. Prašome sutvarkykite datą ir laiką arba nustaykyte automatiškai ir bandykite vėl."
+      "information": "Mes pastebėjome, kad jūsų prietaisas blogai rodo datą arba laiką. Prašome sutvarkykite datą ir laiką arba nustaykite automatiškai ir bandykite vėl."
     }
   },
   "comments": {
     "title": "Komentarai",
     "reveal_comment": "Rodyti komentarus",
     "read_more": "Skaityti daugiau komentarų",
-    "more_replies": "atsakytimos žinutės"
+    "more_replies": "atsakytos žinutės"
   },
   "search_result": {
     "others": "Kita",
@@ -727,7 +727,7 @@
     },
     "other_result_filter": {
       "user": "Naudotojas",
-      "tag": "Žymė"
+      "tag": "Žyma"
     }
   },
   "community": {
