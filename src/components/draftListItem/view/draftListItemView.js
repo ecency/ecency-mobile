@@ -35,6 +35,8 @@ const DraftListItemView = ({
   id,
   intl,
   isFormatedDate,
+  status,
+  isSchedules,
 }) => {
   const actionSheet = useRef(null);
   const [calcImgHeight, setCalcImgHeight] = useState(300);
@@ -54,6 +56,10 @@ const DraftListItemView = ({
   }, []);
   // Component Functions
 
+  const statusIcon =
+    status === 1 ? 'timer' : status === 2 ? 'schedule' : status === 3 ? 'check-circle' : 'error';
+  const statusIconColor = status === 3 ? '#4FD688' : status === 4 ? '#e63535' : '#c1c5c7';
+
   return (
     <Fragment>
       <View style={styles.container}>
@@ -65,15 +71,29 @@ const DraftListItemView = ({
             size={36}
             tag={mainTag}
           />
-          <IconButton
-            backgroundColor="transparent"
-            name="delete"
-            iconType="MaterialIcons"
-            size={20}
-            onPress={() => actionSheet.current.show()}
-            style={[styles.rightItem]}
-            color="#c1c5c7"
-          />
+          <View style={styles.iconsContainer}>
+            {isSchedules && (
+              <IconButton
+                backgroundColor="transparent"
+                name={statusIcon}
+                iconType="MaterialIcons"
+                size={20}
+                onPress={() => actionSheet.current.show()}
+                style={[styles.rightItem]}
+                color={statusIconColor}
+                disabled
+              />
+            )}
+            <IconButton
+              backgroundColor="transparent"
+              name="delete"
+              iconType="MaterialIcons"
+              size={20}
+              onPress={() => actionSheet.current.show()}
+              style={[styles.rightItem]}
+              color="#c1c5c7"
+            />
+          </View>
         </View>
         <View style={styles.body}>
           <TouchableOpacity onPress={() => handleOnPressItem(id)}>

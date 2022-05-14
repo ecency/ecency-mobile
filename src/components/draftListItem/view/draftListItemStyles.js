@@ -52,7 +52,10 @@ export default EStyleSheet.create({
     marginBottom: 12,
   },
   rightItem: {
-    position: 'absolute',
-    right: 0,
+    // position: 'absolute',
+    // right: 0,
+  },
+  iconsContainer: {
+    flexDirection: 'row',
   },
 });
