@@ -112,7 +112,7 @@ export const InsertLinkModal = forwardRef(
       setLabel(text);
     };
     const _handleUrlChange = (text) => {
-      setUrl(text);
+      setUrl(text.trim());
     };
 
     const _handleOnCloseSheet = () => {
