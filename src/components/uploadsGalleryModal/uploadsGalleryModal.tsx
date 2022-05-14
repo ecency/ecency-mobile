@@ -241,6 +241,7 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploa
                 keyExtractor={(item) => `item_${item.url}`}
                 renderItem={_renderItem}
                 ListEmptyComponent={_renderEmptyContent}
+                ListFooterComponent={<View style={styles.listEmptyFooter} />}
                 extraData={indices}
                 numColumns={2}
                 refreshControl={
