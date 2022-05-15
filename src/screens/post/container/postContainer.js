@@ -28,6 +28,8 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
 
   let author;
 
+  // Commented Orientation Locker causing issues on Android. Can be enabled later
+  /*
   useEffect(() => {
     return () => Orientation.lockToPortrait();
   }, []);
@@ -39,6 +41,7 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
       Orientation.lockToPortrait();
     }
   }, [deviceOrientation]);
+  */
 
   useEffect(() => {
     const { content, permlink, author: _author, isNewPost: _isNewPost } = get(
