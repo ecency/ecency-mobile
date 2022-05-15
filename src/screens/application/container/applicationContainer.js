@@ -41,7 +41,7 @@ import {
   getTheme,
 } from '../../../realm/realm';
 import { getUser, getPost, getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
-import { getUser as getEcencyUser } from '../../../providers/ecency/ePoint';
+import { getPointsSummary } from '../../../providers/ecency/ePoint';
 import {
   migrateToMasterKeyWithAccessToken,
   refreshSCToken,
@@ -775,9 +775,16 @@ class ApplicationContainer extends Component {
         accountData = await this._refreshAccessToken(accountData);
       }
 
-      accountData.unread_activity_count = await getUnreadNotificationCount();
-      accountData.mutes = await getMutes(realmObject.username);
-      accountData.ecencyUserData = await getEcencyUser(realmObject.username);
+      try {
+        accountData.unread_activity_count = await getUnreadNotificationCount();
+        accountData.mutes = await getMutes(realmObject.username);
+        accountData.pointsSummary = await getPointsSummary(realmObject.username);
+      } catch (err) {
+        console.warn(
+          'Optional user data fetch failed, account can still function without them',
+          err,
+        );
+      }
       dispatch(updateCurrentAccount(accountData));
       dispatch(fetchSubscribedCommunities(realmObject.username));
       this._connectNotificationServer(accountData.name);
@@ -956,9 +963,14 @@ class ApplicationContainer extends Component {
     //update refresh token
     _currentAccount = await this._refreshAccessToken(_currentAccount);
 
-    _currentAccount.unread_activity_count = await getUnreadNotificationCount();
-    _currentAccount.mutes = await getMutes(_currentAccount.username);
-    _currentAccount.ecencyUserData = await getEcencyUser(_currentAccount.username);
+    try {
+      _currentAccount.unread_activity_count = await getUnreadNotificationCount();
+      _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.username);
+      _currentAccount.mutes = await getMutes(_currentAccount.username);
+    } catch (err) {
+      console.warn('Optional user data fetch failed, account can still function without them', err);
+    }
+
     dispatch(updateCurrentAccount(_currentAccount));
     dispatch(fetchSubscribedCommunities(_currentAccount.username));
   };

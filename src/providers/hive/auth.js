@@ -4,7 +4,7 @@ import Config from 'react-native-config';
 import get from 'lodash/get';
 
 import { getDigitPinCode, getMutes, getUser } from './dhive';
-import { getUser as getEcencyUser } from '../ecency/ePoint';
+import { getPointsSummary } from '../ecency/ePoint';
 import {
   setUserData,
   setAuthStatus,
@@ -67,11 +67,15 @@ export const login = async (username, password, isPinCodeOpen) => {
   const signerPrivateKey = privateKeys.ownerKey || privateKeys.activeKey || privateKeys.postingKey;
   const code = await makeHsCode(account.name, signerPrivateKey);
   const scTokens = await getSCAccessToken(code);
-  account.unread_activity_count = await getUnreadNotificationCount(
-    scTokens ? scTokens.access_token : '',
-  );
-  account.mutes = await getMutes(account.username);
-  account.ecencyUserData = await getEcencyUser(account.username);
+
+  try {
+    const accessToken = scTokens?.access_token;
+    account.unread_activity_count = await getUnreadNotificationCount(accessToken);
+    account.pointsSummary = await getPointsSummary(account.username);
+    account.mutes = await getMutes(account.username);
+  } catch (err) {
+    console.warn('Optional user data fetch failed, account can still function without them', err);
+  }
 
   let jsonMetadata;
   try {
@@ -134,11 +138,14 @@ export const loginWithSC2 = async (code, isPinCodeOpen) => {
   let avatar = '';
 
   return new Promise(async (resolve, reject) => {
-    account.unread_activity_count = await getUnreadNotificationCount(
-      scTokens ? scTokens.access_token : '',
-    );
-    account.mutes = await getMutes(account.username);
-    account.ecencyUserData = await getEcencyUser(account.username);
+    try {
+      const accessToken = scTokens ? scTokens.access_token : '';
+      account.unread_activity_count = await getUnreadNotificationCount(accessToken);
+      account.pointsSummary = await getPointsSummary(account.username);
+      account.mutes = await getMutes(account.username);
+    } catch (err) {
+      console.warn('Optional user data fetch failed, account can still function without them', err);
+    }
 
     let jsonMetadata;
     try {

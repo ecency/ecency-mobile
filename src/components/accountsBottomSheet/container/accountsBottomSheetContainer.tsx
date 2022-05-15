@@ -25,7 +25,7 @@ import { useIntl } from 'react-intl';
 import { useAppSelector } from '../../../hooks';
 import { getUnreadNotificationCount } from '../../../providers/ecency/ecency';
 import { decryptKey } from '../../../utils/crypto';
-import { getUser as getEcencyUser} from '../../../providers/ecency/ePoint';
+import { getPointsSummary} from '../../../providers/ecency/ePoint';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
 
 const AccountsBottomSheetContainer = ({ navigation }) => {
@@ -104,11 +104,11 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
 
       _currentAccount.local.accessToken = encryptedAccessToken;
 
-      _currentAccount.unread_activity_count = await getUnreadNotificationCount(
-        decryptKey(encryptedAccessToken, getDigitPinCode(pinHash))
-      );
+      const accessToken = decryptKey(encryptedAccessToken, getDigitPinCode(pinHash));
+      _currentAccount.unread_activity_count = await getUnreadNotificationCount(accessToken);
+      _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.username);
       _currentAccount.mutes = await getMutes(_currentAccount.username);
-      _currentAccount.ecencyUserData = await getEcencyUser(_currentAccount.username);
+
       dispatch(updateCurrentAccount(_currentAccount));
       dispatch(fetchSubscribedCommunities(_currentAccount.username))
     }
