@@ -41,7 +41,7 @@ import {
   getTheme,
 } from '../../../realm/realm';
 import { getUser, getPost, getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
-import { getUser as getEcencyUser } from '../../../providers/ecency/ePoint';
+import { getPointsSummary } from '../../../providers/ecency/ePoint';
 import {
   migrateToMasterKeyWithAccessToken,
   refreshSCToken,
@@ -777,7 +777,7 @@ class ApplicationContainer extends Component {
 
       accountData.unread_activity_count = await getUnreadNotificationCount();
       accountData.mutes = await getMutes(realmObject.username);
-      accountData.ecencyUserData = await getEcencyUser(realmObject.username);
+      accountData.pointsSummary = await getPointsSummary(realmObject.username);
       dispatch(updateCurrentAccount(accountData));
       dispatch(fetchSubscribedCommunities(realmObject.username));
       this._connectNotificationServer(accountData.name);
@@ -956,9 +956,11 @@ class ApplicationContainer extends Component {
     //update refresh token
     _currentAccount = await this._refreshAccessToken(_currentAccount);
 
+    //TODO decrypt access token here;
     _currentAccount.unread_activity_count = await getUnreadNotificationCount();
+    _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.username);
     _currentAccount.mutes = await getMutes(_currentAccount.username);
-    _currentAccount.ecencyUserData = await getEcencyUser(_currentAccount.username);
+
     dispatch(updateCurrentAccount(_currentAccount));
     dispatch(fetchSubscribedCommunities(_currentAccount.username));
   };

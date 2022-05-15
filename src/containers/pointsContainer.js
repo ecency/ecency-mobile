@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 
 // Services and Actions
-import { getUser, getUserPoints, claimPoints } from '../providers/ecency/ePoint';
+import { getPointsSummary, claimPoints, getPointsHistory } from '../providers/ecency/ePoint';
 import { openPinCodeModal } from '../redux/actions/applicationActions';
 import { getAccount, boost } from '../providers/hive/dhive';
 import { getUserDataWithUsername } from '../realm/realm';
@@ -130,7 +130,7 @@ const PointsContainer = ({
     }
     setRefreshing(true);
 
-    await getUser(_username)
+    await getPointsSummary(_username)
       .then(async (userPointsP) => {
         const _balance = Math.round(get(userPointsP, 'points') * 1000) / 1000;
         setUserPoints(userPointsP);
@@ -141,7 +141,7 @@ const PointsContainer = ({
         Alert.alert(get(err, 'message', 'Error'));
       });
 
-    await getUserPoints(_username)
+    await getPointsHistory(_username)
       .then((userActivitiesP) => {
         if (Object.entries(userActivitiesP).length !== 0) {
           setUserActivities(_groomUserActivities(userActivitiesP));
@@ -158,7 +158,7 @@ const PointsContainer = ({
   }, []);
 
   const _getUserBalance = async (_username) => {
-    await getUser(_username)
+    await getPointsSummary(_username)
       .then((_userPoints) => {
         const _balance = Math.round(get(_userPoints, 'points') * 1000) / 1000;
         return _balance;

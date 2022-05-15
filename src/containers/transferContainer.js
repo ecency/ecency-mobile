@@ -19,7 +19,7 @@ import {
 } from '../providers/hive/dhive';
 import { toastNotification } from '../redux/actions/uiAction';
 import { getUserDataWithUsername } from '../realm/realm';
-import { getUser } from '../providers/ecency/ePoint';
+import { getPointsSummary } from '../providers/ecency/ePoint';
 
 // Utils
 import { countDecimals } from '../utils/number';
@@ -58,7 +58,7 @@ class TransferContainer extends Component {
   // Component Functions
 
   _getUserPointsBalance = async (username) => {
-    await getUser(username)
+    await getPointsSummary(username)
       .then((userPoints) => {
         const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
         this.setState({ balance });

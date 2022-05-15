@@ -7,7 +7,7 @@ import { getCurrencyTokenRate, getLatestQuotes } from '../providers/ecency/ecenc
 import { CoinActivitiesCollection, CoinActivity, CoinBase, CoinData, DataPair, QuoteItem } from '../redux/reducers/walletReducer';
 import { GlobalProps } from '../redux/reducers/accountReducer';
 import { getEstimatedAmount } from './vote';
-import { getUser as getEcencyUser, getUserPoints } from '../providers/ecency/ePoint';
+import { getPointsSummary, getUserPoints } from '../providers/ecency/ePoint';
 // Constant
 import POINTS from '../constants/options/points';
 import { COIN_IDS } from '../constants/defaultCoins';
@@ -530,7 +530,7 @@ export const fetchCoinsData = async ({
 
   //TODO: Use already available accoutn for frist wallet start
   const userdata = refresh ? await getAccount(username) : currentAccount;
-  const _ecencyUserData = refresh ? await getEcencyUser(username) : currentAccount.ecencyUserData
+  const _pointsSummary = refresh ? await getPointsSummary(username) : currentAccount.pointsSummary
   //TODO: cache data in redux or fetch once on wallet startup
   const _prices = !refresh && quotes ? quotes : await getLatestQuotes(currencyRate); //TODO: figure out a way to handle other currencies
 
@@ -539,8 +539,8 @@ export const fetchCoinsData = async ({
 
     switch (coinBase.id) {
       case COIN_IDS.ECENCY: {
-        const balance = _ecencyUserData.points ? parseFloat(_ecencyUserData.points) : 0;
-        const unclaimedFloat = parseFloat(_ecencyUserData.unclaimed_points || '0');
+        const balance = _pointsSummary.points ? parseFloat(_pointsSummary.points) : 0;
+        const unclaimedFloat = parseFloat(_pointsSummary.unclaimed_points || '0');
         const unclaimedBalance = unclaimedFloat ? unclaimedFloat + ' Points' : '';
         const ppEstm = _prices[coinBase.id].price;
 

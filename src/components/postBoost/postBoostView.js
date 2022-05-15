@@ -8,7 +8,7 @@ import { Icon, TextInput } from '..';
 import { hsOptions } from '../../constants/hsOptions';
 
 // Services and Actions
-import { getUser } from '../../providers/ecency/ePoint';
+import { getPointsSummary } from '../../providers/ecency/ePoint';
 import { searchPath } from '../../providers/ecency/ecency';
 
 // Components
@@ -92,7 +92,7 @@ class BoostPostScreen extends PureComponent {
   );
 
   _getUserBalance = async (username) => {
-    await getUser(username)
+    await getPointsSummary(username)
       .then((userPoints) => {
         const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
         this.setState({ balance });
