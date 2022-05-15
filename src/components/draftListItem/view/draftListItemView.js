@@ -15,6 +15,7 @@ import { OptionsModal } from '../../atoms';
 // Styles
 import styles from './draftListItemStyles';
 import { ScheduledPostStatus } from '../../../providers/ecency/ecency.types';
+import { PopoverWrapper } from '../../popoverWrapper/popoverWrapperView';
 
 // Defaults
 const DEFAULT_IMAGE =
@@ -55,8 +56,16 @@ const DraftListItemView = ({
       _isMounted = true;
     };
   }, []);
-  // Component Functions
 
+  // consts
+  const scheduleStatus =
+    status === ScheduledPostStatus.PENDING
+      ? intl.formatMessage({ id: 'schedules.pending' })
+      : status === ScheduledPostStatus.POSTPONED
+      ? intl.formatMessage({ id: 'schedules.postponed' })
+      : status === ScheduledPostStatus.PUBLISHED
+      ? intl.formatMessage({ id: 'schedules.published' })
+      : intl.formatMessage({ id: 'schedules.error' });
   const statusIcon =
     status === ScheduledPostStatus.PENDING
       ? 'timer'
@@ -85,16 +94,18 @@ const DraftListItemView = ({
           />
           <View style={styles.iconsContainer}>
             {isSchedules && (
-              <IconButton
-                backgroundColor="transparent"
-                name={statusIcon}
-                iconType="MaterialIcons"
-                size={20}
-                onPress={() => actionSheet.current.show()}
-                style={[styles.rightItem]}
-                color={statusIconColor}
-                disabled
-              />
+              <PopoverWrapper text={scheduleStatus}>
+                <IconButton
+                  backgroundColor="transparent"
+                  name={statusIcon}
+                  iconType="MaterialIcons"
+                  size={20}
+                  onPress={() => actionSheet.current.show()}
+                  style={[styles.rightItem]}
+                  color={statusIconColor}
+                  disabled
+                />
+              </PopoverWrapper>
             )}
             <IconButton
               backgroundColor="transparent"
