@@ -1,11 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import WebView from 'react-native-webview';
 import YoutubeIframe, { InitialPlayerParams } from 'react-native-youtube-iframe';
 import Video from 'react-native-video';
 import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
-import EStyleSheet from 'react-native-extended-stylesheet';
+import Orientation from 'react-native-orientation-locker';
+
 
 interface VideoPlayerProps {
   mode: 'uri' | 'youtube';
@@ -38,6 +39,14 @@ const VideoPlayer = ({
   const [playerState, setPlayerState] = useState(PLAYER_STATES.PAUSED);
   const [screenType, setScreenType] = useState('contain');
 
+  useEffect(() => {
+    if(isFullScreen){
+      Orientation.unlockAllOrientations();
+    } else{
+      Orientation.lockToPortrait();
+    }
+  },[isFullScreen]);
+  
   // react-native-youtube-iframe handlers
   const [shouldPlay, setShouldPlay] = useState(false);
   const _onReady = () => {
@@ -148,6 +157,8 @@ const VideoPlayer = ({
       </View>
     );
   };
+  console.log('isFullScreen : ', isFullScreen);
+  
   return (
     <View style={styles.container}>
       {mode === 'youtube' && youtubeVideoId && (
@@ -160,6 +171,7 @@ const VideoPlayer = ({
             play={shouldPlay}
             onChangeState={_onChangeState}
             onError={_onError}
+            onFullScreenChange={(status) => setIsFullScreen(status)}
           />
         </View>
       )}
