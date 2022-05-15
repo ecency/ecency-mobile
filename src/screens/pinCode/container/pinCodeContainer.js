@@ -319,9 +319,16 @@ class PinCodeContainer extends Component {
               }
 
               //get unread notifications
-              _currentAccount.unread_activity_count = await getUnreadNotificationCount();
-              _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.username);
-              _currentAccount.mutes = await getMutes(_currentAccount.username);
+              try {
+                _currentAccount.unread_activity_count = await getUnreadNotificationCount();
+                _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.username);
+                _currentAccount.mutes = await getMutes(_currentAccount.username);
+              } catch (err) {
+                console.warn(
+                  'Optional user data fetch failed, account can still function without them',
+                  err,
+                );
+              }
 
               dispatch(updateCurrentAccount({ ..._currentAccount }));
               dispatch(fetchSubscribedCommunities(_currentAccount.username));

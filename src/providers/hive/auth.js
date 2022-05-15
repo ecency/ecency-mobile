@@ -68,10 +68,14 @@ export const login = async (username, password, isPinCodeOpen) => {
   const code = await makeHsCode(account.name, signerPrivateKey);
   const scTokens = await getSCAccessToken(code);
 
-  const accessToken = scTokens?.access_token;
-  account.unread_activity_count = await getUnreadNotificationCount(accessToken);
-  account.pointsSummary = await getPointsSummary(account.username);
-  account.mutes = await getMutes(account.username);
+  try {
+    const accessToken = scTokens?.access_token;
+    account.unread_activity_count = await getUnreadNotificationCount(accessToken);
+    account.pointsSummary = await getPointsSummary(account.username);
+    account.mutes = await getMutes(account.username);
+  } catch (err) {
+    console.warn('Optional user data fetch failed, account can still function without them', err);
+  }
 
   let jsonMetadata;
   try {
@@ -134,10 +138,14 @@ export const loginWithSC2 = async (code, isPinCodeOpen) => {
   let avatar = '';
 
   return new Promise(async (resolve, reject) => {
-    const accessToken = scTokens ? scTokens.access_token : '';
-    account.unread_activity_count = await getUnreadNotificationCount(accessToken);
-    account.pointsSummary = await getPointsSummary(account.username);
-    account.mutes = await getMutes(account.username);
+    try {
+      const accessToken = scTokens ? scTokens.access_token : '';
+      account.unread_activity_count = await getUnreadNotificationCount(accessToken);
+      account.pointsSummary = await getPointsSummary(account.username);
+      account.mutes = await getMutes(account.username);
+    } catch (err) {
+      console.warn('Optional user data fetch failed, account can still function without them', err);
+    }
 
     let jsonMetadata;
     try {
