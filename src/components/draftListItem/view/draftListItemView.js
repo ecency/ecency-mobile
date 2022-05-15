@@ -14,6 +14,7 @@ import { OptionsModal } from '../../atoms';
 
 // Styles
 import styles from './draftListItemStyles';
+import { ScheduledPostStatus } from '../../../providers/ecency/ecency.types';
 
 // Defaults
 const DEFAULT_IMAGE =
@@ -57,8 +58,19 @@ const DraftListItemView = ({
   // Component Functions
 
   const statusIcon =
-    status === 1 ? 'timer' : status === 2 ? 'schedule' : status === 3 ? 'check-circle' : 'error';
-  const statusIconColor = status === 3 ? '#4FD688' : status === 4 ? '#e63535' : '#c1c5c7';
+    status === ScheduledPostStatus.PENDING
+      ? 'timer'
+      : status === ScheduledPostStatus.POSTPONED
+      ? 'schedule'
+      : status === ScheduledPostStatus.PUBLISHED
+      ? 'check-circle'
+      : 'error';
+  const statusIconColor =
+    status === ScheduledPostStatus.PUBLISHED
+      ? '#4FD688'
+      : status === ScheduledPostStatus.ERROR
+      ? '#e63535'
+      : '#c1c5c7';
 
   return (
     <Fragment>
