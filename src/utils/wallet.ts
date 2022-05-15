@@ -7,7 +7,7 @@ import { getCurrencyTokenRate, getLatestQuotes } from '../providers/ecency/ecenc
 import { CoinActivitiesCollection, CoinActivity, CoinBase, CoinData, DataPair, QuoteItem } from '../redux/reducers/walletReducer';
 import { GlobalProps } from '../redux/reducers/accountReducer';
 import { getEstimatedAmount } from './vote';
-import { getPointsSummary, getUserPoints } from '../providers/ecency/ePoint';
+import { getPointsSummary, getPointsHistory } from '../providers/ecency/ePoint';
 // Constant
 import POINTS from '../constants/options/points';
 import { COIN_IDS } from '../constants/defaultCoins';
@@ -390,7 +390,7 @@ export const fetchCoinActivities = async (
         }
       }
 
-      const pointActivities = await getUserPoints(username);
+      const pointActivities = await getPointsHistory(username);
       console.log("Points Activities", pointActivities);
       const completed = pointActivities && pointActivities.length ?
         pointActivities.map((item) =>
