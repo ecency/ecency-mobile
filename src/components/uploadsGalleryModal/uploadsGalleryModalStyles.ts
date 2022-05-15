@@ -111,4 +111,8 @@ export default EStyleSheet.create({
       backgroundColor:'$white',
     } as ViewStyle,
 
+    listEmptyFooter: {
+      height: 80,
+    } as ViewStyle,
+
 })
