@@ -520,9 +520,9 @@
     "move": "Siirrä luonnoksiin",
     "moved": "Siirretty luonnoksiin",
     "pending": "Pending",
-    "postponed": "Postponed",
+    "postponed": "Lykätty",
     "published": "Published",
-    "error": "Error"
+    "error": "Virhe"
   },
   "bookmarks": {
     "title": "Kirjanmerkit",
