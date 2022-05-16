@@ -518,7 +518,11 @@
     "empty_list": "Disini belum ada apa-apa",
     "deleted": "Tulisan terjadwal dihapus",
     "move": "Pindahkan ke konsep",
-    "moved": "Pindahkan ke konsep"
+    "moved": "Pindahkan ke konsep",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Tandai",
