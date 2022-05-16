@@ -518,7 +518,11 @@
     "empty_list": "此处无内容",
     "deleted": "定时发布的文章已删除",
     "move": "存为草稿",
-    "moved": "已存为草稿"
+    "moved": "已存为草稿",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "书签",
