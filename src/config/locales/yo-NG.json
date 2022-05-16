@@ -518,7 +518,11 @@
     "empty_list": "Ko si ohun kan nibi",
     "deleted": "Eto asiko oro ti ose ti pare",
     "move": "Gbe lo si ibi akanse oro",
-    "moved": "Oti gbelo sibi awon akanse oro"
+    "moved": "Oti gbelo sibi awon akanse oro",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Fi amin si",
