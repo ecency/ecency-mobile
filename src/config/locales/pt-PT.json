@@ -518,7 +518,11 @@
     "empty_list": "Nada aqui",
     "deleted": "Post programado excluído",
     "move": "Mover para Rascunhos",
-    "moved": "Movido para Rascunhos"
+    "moved": "Movido para Rascunhos",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Marcadores",
