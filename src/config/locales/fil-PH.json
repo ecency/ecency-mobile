@@ -518,7 +518,11 @@
     "empty_list": "Walang makita dito",
     "deleted": "Ang naka-iskedyul na post ay tinanggal",
     "move": "Ilipat sa mga draft",
-    "moved": "Nailipat sa mga draft"
+    "moved": "Nailipat sa mga draft",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Mga Bookmark",
