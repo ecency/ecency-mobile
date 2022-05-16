@@ -518,7 +518,11 @@
     "empty_list": "Nada aquí",
     "deleted": "Publicación programada eliminada",
     "move": "Mover a borradores",
-    "moved": "Movido a borradores"
+    "moved": "Movido a borradores",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Marcadores",
