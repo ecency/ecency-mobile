@@ -518,7 +518,11 @@
     "empty_list": "Niets hier",
     "deleted": "Geplande post verwijderd",
     "move": "Verplaatsen naar concepten",
-    "moved": "Verplaatst naar concepten"
+    "moved": "Verplaatst naar concepten",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Bladwijzers",
