@@ -518,7 +518,11 @@
     "empty_list": "Nic tu nie ma",
     "deleted": "Zaplanowany post został usunięty",
     "move": "Przenieś do szkicy",
-    "moved": "Przenieś do szkicy"
+    "moved": "Przenieś do szkicy",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Zakładki",
