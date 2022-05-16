@@ -518,7 +518,11 @@
     "empty_list": "暫無内容！",
     "deleted": "定時發佈的文章已删除",
     "move": "存為草稿",
-    "moved": "已存為草稿"
+    "moved": "已存為草稿",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "書籤",
