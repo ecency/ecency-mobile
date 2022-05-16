@@ -518,7 +518,11 @@
     "empty_list": "Ничего нет",
     "deleted": "Отложенный пост удалён",
     "move": "Переместить в черновики",
-    "moved": "Перемещён в черновики"
+    "moved": "Перемещён в черновики",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Закладки",
