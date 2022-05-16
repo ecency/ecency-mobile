@@ -518,7 +518,11 @@
     "empty_list": "Няма нищо тук",
     "deleted": "Планираната публикация е изтрита",
     "move": "Премести в чернови",
-    "moved": "Премено в чернови"
+    "moved": "Премено в чернови",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Отметки",
