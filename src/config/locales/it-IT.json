@@ -518,7 +518,11 @@
     "empty_list": "Non c'è niente qui",
     "deleted": "Pianificazione post eliminata",
     "move": "Sposta in bozze",
-    "moved": "Spostata in bozze"
+    "moved": "Spostata in bozze",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Segnalibri",
