@@ -518,7 +518,11 @@
     "empty_list": "Siin pole midagi",
     "deleted": "Ajastatud postitus kustutatud",
     "move": "Teisalda mustanditesse",
-    "moved": "Teisaldatud mustanditesse"
+    "moved": "Teisaldatud mustanditesse",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Järjehoidjad",
