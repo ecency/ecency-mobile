@@ -518,7 +518,11 @@
     "empty_list": "Nema ničeg ovdje",
     "deleted": "Zakazani post izbrisan",
     "move": "Premjesti u skice",
-    "moved": "Premješteno u skice"
+    "moved": "Premješteno u skice",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Knjižne oznake",
