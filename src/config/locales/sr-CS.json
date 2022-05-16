@@ -518,7 +518,11 @@
     "empty_list": "Ovde nema ništa",
     "deleted": "Planirani post je izbrisan",
     "move": "Premesti u radne verzije",
-    "moved": "Premešteno u radne verzije"
+    "moved": "Premešteno u radne verzije",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Obeleživači",
