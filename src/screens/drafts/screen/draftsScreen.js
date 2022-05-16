@@ -78,6 +78,8 @@ const DraftsScreen = ({
         handleOnRemoveItem={isSchedules ? removeSchedule : removeDraft}
         id={item._id}
         key={item._id}
+        status={item.status}
+        isSchedules={isSchedules}
       />
     );
   };

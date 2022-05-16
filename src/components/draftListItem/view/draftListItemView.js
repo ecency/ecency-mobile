@@ -14,6 +14,8 @@ import { OptionsModal } from '../../atoms';
 
 // Styles
 import styles from './draftListItemStyles';
+import { ScheduledPostStatus } from '../../../providers/ecency/ecency.types';
+import { PopoverWrapper } from '../../popoverWrapper/popoverWrapperView';
 
 // Defaults
 const DEFAULT_IMAGE =
@@ -35,6 +37,8 @@ const DraftListItemView = ({
   id,
   intl,
   isFormatedDate,
+  status,
+  isSchedules,
 }) => {
   const actionSheet = useRef(null);
   const [calcImgHeight, setCalcImgHeight] = useState(300);
@@ -52,7 +56,30 @@ const DraftListItemView = ({
       _isMounted = true;
     };
   }, []);
-  // Component Functions
+
+  // consts
+  const scheduleStatus =
+    status === ScheduledPostStatus.PENDING
+      ? intl.formatMessage({ id: 'schedules.pending' })
+      : status === ScheduledPostStatus.POSTPONED
+      ? intl.formatMessage({ id: 'schedules.postponed' })
+      : status === ScheduledPostStatus.PUBLISHED
+      ? intl.formatMessage({ id: 'schedules.published' })
+      : intl.formatMessage({ id: 'schedules.error' });
+  const statusIcon =
+    status === ScheduledPostStatus.PENDING
+      ? 'timer'
+      : status === ScheduledPostStatus.POSTPONED
+      ? 'schedule'
+      : status === ScheduledPostStatus.PUBLISHED
+      ? 'check-circle'
+      : 'error';
+  const statusIconColor =
+    status === ScheduledPostStatus.PUBLISHED
+      ? '#4FD688'
+      : status === ScheduledPostStatus.ERROR
+      ? '#e63535'
+      : '#c1c5c7';
 
   return (
     <Fragment>
@@ -65,15 +92,31 @@ const DraftListItemView = ({
             size={36}
             tag={mainTag}
           />
-          <IconButton
-            backgroundColor="transparent"
-            name="delete"
-            iconType="MaterialIcons"
-            size={20}
-            onPress={() => actionSheet.current.show()}
-            style={[styles.rightItem]}
-            color="#c1c5c7"
-          />
+          <View style={styles.iconsContainer}>
+            {isSchedules && (
+              <PopoverWrapper text={scheduleStatus}>
+                <IconButton
+                  backgroundColor="transparent"
+                  name={statusIcon}
+                  iconType="MaterialIcons"
+                  size={20}
+                  onPress={() => actionSheet.current.show()}
+                  style={[styles.rightItem]}
+                  color={statusIconColor}
+                  disabled
+                />
+              </PopoverWrapper>
+            )}
+            <IconButton
+              backgroundColor="transparent"
+              name="delete"
+              iconType="MaterialIcons"
+              size={20}
+              onPress={() => actionSheet.current.show()}
+              style={[styles.rightItem]}
+              color="#c1c5c7"
+            />
+          </View>
         </View>
         <View style={styles.body}>
           <TouchableOpacity onPress={() => handleOnPressItem(id)}>
