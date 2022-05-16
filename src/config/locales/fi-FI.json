@@ -518,7 +518,11 @@
     "empty_list": "Täällä ei ole mitään",
     "deleted": "Ajastettu julkaisu poistettu",
     "move": "Siirrä luonnoksiin",
-    "moved": "Siirretty luonnoksiin"
+    "moved": "Siirretty luonnoksiin",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Kirjanmerkit",
