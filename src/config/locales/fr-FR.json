@@ -518,7 +518,11 @@
     "empty_list": "Rien ici",
     "deleted": "Publication planifiée supprimée",
     "move": "Déplacer vers brouillons",
-    "moved": "Déplacé vers brouillons"
+    "moved": "Déplacé vers brouillons",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Signets",
