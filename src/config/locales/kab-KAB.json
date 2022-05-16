@@ -518,7 +518,11 @@
     "empty_list": "Ur yelli kra da",
     "deleted": "Scheduled post deleted",
     "move": "Err ɣer trewayin",
-    "moved": "Yettwarra ɣer trewayin"
+    "moved": "Yettwarra ɣer trewayin",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Bookmarks",
