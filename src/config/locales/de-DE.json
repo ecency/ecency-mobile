@@ -518,7 +518,11 @@
     "empty_list": "Keine Einträge vorhanden",
     "deleted": "Geplanter Beitrag entfernt",
     "move": "In Entwürfe verschieben",
-    "moved": "Erfolgreich in Entwürfe verschoben"
+    "moved": "Erfolgreich in Entwürfe verschoben",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Lesezeichen",
