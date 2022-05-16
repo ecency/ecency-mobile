@@ -518,7 +518,11 @@
     "empty_list": "빈 목록입니다",
     "deleted": "예약된 글이 삭제되었습니다",
     "move": "임시 보관함으로 이동",
-    "moved": "임시 보관함으로 이동했습니다"
+    "moved": "임시 보관함으로 이동했습니다",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "즐겨찾기",
