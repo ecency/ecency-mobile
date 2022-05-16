@@ -518,7 +518,11 @@
     "empty_list": "まだ何もありません",
     "deleted": "予約投稿を削除しました",
     "move": "下書きへ移動",
-    "moved": "下書きへ移動しました"
+    "moved": "下書きへ移動しました",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "ブックマーク",
