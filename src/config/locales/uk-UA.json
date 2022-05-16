@@ -518,7 +518,11 @@
     "empty_list": "Тут поки що нічого немає",
     "deleted": "Запланований допис видалено",
     "move": "Перемістити до чернеток",
-    "moved": "Переміщено до чернеток"
+    "moved": "Переміщено до чернеток",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Закладки",
