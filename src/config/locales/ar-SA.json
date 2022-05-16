@@ -518,7 +518,11 @@
     "empty_list": "لا شيء هنا",
     "deleted": "تم مسح المشاركة المجدولة",
     "move": "نقل إلى المسودات",
-    "moved": "تم النقل إلى المسودات"
+    "moved": "تم النقل إلى المسودات",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "إشارات مرجعية",
