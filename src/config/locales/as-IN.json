@@ -518,7 +518,11 @@
     "empty_list": "Nothing here",
     "deleted": "Scheduled post deleted",
     "move": "Move to drafts",
-    "moved": "Moved to drafts"
+    "moved": "Moved to drafts",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Bookmarks",
