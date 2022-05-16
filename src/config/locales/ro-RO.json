@@ -518,7 +518,11 @@
     "empty_list": "Nici un rezultat",
     "deleted": "Postarea planificată a fost ștearsă",
     "move": "Mută la schițe",
-    "moved": "Mutat la schițe"
+    "moved": "Mutat la schițe",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Bookmarks",
