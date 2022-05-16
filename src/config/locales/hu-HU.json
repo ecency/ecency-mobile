@@ -518,7 +518,11 @@
     "empty_list": "Itt nincs semmi",
     "deleted": "A beütemezett bejegyzés törölve",
     "move": "Áthelyezés a vázlatokhoz",
-    "moved": "Áthelyezve a vázlatokhoz"
+    "moved": "Áthelyezve a vázlatokhoz",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Könyvjelzők",
