@@ -518,7 +518,11 @@
     "empty_list": "এখানে কিছু নেই",
     "deleted": "নির্ধারিত পোস্ট মোছা হয়েছে",
     "move": "খসড়াতে সরানো হয়েছে",
-    "moved": "খসড়াতে সরানো হয়েছে"
+    "moved": "খসড়াতে সরানো হয়েছে",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "বুকমার্ক",
