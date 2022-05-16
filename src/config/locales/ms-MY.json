@@ -518,7 +518,11 @@
     "empty_list": "Kosong",
     "deleted": "Jadual pos telah dipadamkan",
     "move": "Memindah ke draf",
-    "moved": "Dipindah ke draf"
+    "moved": "Dipindah ke draf",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Penanda halaman",
