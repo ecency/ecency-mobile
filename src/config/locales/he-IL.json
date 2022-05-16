@@ -518,7 +518,11 @@
     "empty_list": "אין כאן מידע",
     "deleted": "פוסטים מתוכננים נמחקו",
     "move": "העבר\\י לטיוטה",
-    "moved": "הועבר לטיוטה"
+    "moved": "הועבר לטיוטה",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "סימניות",
