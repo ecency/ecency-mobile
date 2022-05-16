@@ -518,7 +518,11 @@
     "empty_list": "Here empty oo",
     "deleted": "Tori wey you time don delete",
     "move": "Move am go draft",
-    "moved": "E don move go draft"
+    "moved": "E don move go draft",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Bookmarks",
