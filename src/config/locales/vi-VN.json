@@ -518,7 +518,11 @@
     "empty_list": "Không có gì ở đây",
     "deleted": "Các bài viết được hẹn lịch đã bị xóa",
     "move": "Di chuyển đến bản nháp",
-    "moved": "Được chuyển đến bản nháp"
+    "moved": "Được chuyển đến bản nháp",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Các trang đánh dấu",
