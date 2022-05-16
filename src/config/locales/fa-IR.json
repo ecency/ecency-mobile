@@ -518,7 +518,11 @@
     "empty_list": "اینجا چیزی نیست",
     "deleted": "پست های برنامه ریزی شده حذف شدند",
     "move": "انتقال به پیشنویس",
-    "moved": "به پیشنویس ها منتقل شده"
+    "moved": "به پیشنویس ها منتقل شده",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "صفحات محبوب",
