@@ -519,9 +519,9 @@
     "deleted": "Ajastettu julkaisu poistettu",
     "move": "Siirrä luonnoksiin",
     "moved": "Siirretty luonnoksiin",
-    "pending": "Pending",
-    "postponed": "Lykätty",
-    "published": "Published",
+    "pending": "Odottaa",
+    "postponed": "Siirretty",
+    "published": "Julkaistu",
     "error": "Virhe"
   },
   "bookmarks": {
