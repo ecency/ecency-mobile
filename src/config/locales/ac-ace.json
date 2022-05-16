@@ -518,7 +518,11 @@
     "empty_list": "Hana sapëuna",
     "deleted": "Post meujadwal kalhëuh meusampöh",
     "move": "Pinah lam konsep",
-    "moved": "Kalheuh pinah lam konsep"
+    "moved": "Kalheuh pinah lam konsep",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Pëunanda buku",
