@@ -518,7 +518,11 @@
     "empty_list": "Burada hiçbir şey yok",
     "deleted": "Zamanlanmiş Gönderi Silindi",
     "move": "Taslaklara taşı",
-    "moved": "Taslaklara taşı"
+    "moved": "Taslaklara taşı",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Yerimleri",
