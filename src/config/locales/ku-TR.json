@@ -518,7 +518,11 @@
     "empty_list": "Li vir ti tişt tune ye",
     "deleted": "Şandiya demsazkirî hate jêbirin",
     "move": "Veguhezîne reşnivîsan",
-    "moved": "Veguhezî reşnivîsan bû"
+    "moved": "Veguhezî reşnivîsan bû",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Cîhnîşan",
