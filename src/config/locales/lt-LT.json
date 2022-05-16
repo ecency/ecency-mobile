@@ -518,7 +518,11 @@
     "empty_list": "Nieko nėra",
     "deleted": "Suplanuotas įrašas panaikintas",
     "move": "Perkelti į juodraščius",
-    "moved": "Perkelta į juodraščius"
+    "moved": "Perkelta į juodraščius",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Žymės",
