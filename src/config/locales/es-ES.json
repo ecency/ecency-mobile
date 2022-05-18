@@ -5,11 +5,11 @@
     "comment_benefactor_reward": "Recompensa de Benefactor del comentario",
     "claim_reward_balance": "Reclamar recompensa ",
     "transfer": "Transferir",
-    "power_up": "To Vesting",
+    "power_up": "A invertir",
     "transfer_from_savings": "Desde Ahorros",
-    "withdraw_savings": "Withdraw Savings",
+    "withdraw_savings": "Retirar ahorros",
     "withdraw_vesting": "Power down",
-    "open_order": "Open Order",
+    "open_order": "Órdenes abiertas",
     "fill_order": "Completar orden",
     "post": "Publicar",
     "comment": "Comentario",
@@ -51,12 +51,12 @@
     "to": "Para",
     "estimated_value_desc": "De acuerdo al valor de compra",
     "estimated_value": "Valor estimado",
-    "vote_value": "Vote value",
-    "delegated_hive_power": "Delegated hive power",
-    "powering_down_hive_power": "Powering down",
-    "received_hive_power": "Received hive power",
-    "total_hive_power": "Total hive power",
-    "savings": "Savings",
+    "vote_value": "Valor del voto",
+    "delegated_hive_power": "Hive Power delegado",
+    "powering_down_hive_power": "Apagando",
+    "received_hive_power": "Hive power recibido",
+    "total_hive_power": "Total de Hive Power",
+    "savings": "Ahorros",
     "estimated_amount": "Valor del voto",
     "amount_information": "Arrastra el deslizador para ajustar la cantidad",
     "amount": "Cantidad",
@@ -70,17 +70,17 @@
     "purchase_estm": "OBTENER PUNTOS",
     "points": "Regalar puntos a alguien",
     "transfer_to_saving": "A ahorros",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_vesting": "Hacer Power Up",
     "withdraw_to_saving": "Retirar Ahorros",
     "steemconnect_title": "Transferencia en Hivesigner",
     "next": "SIGUIENTE",
     "delegate": "Delegar",
     "power_down": "Power down",
-    "withdraw_hive": "Withdraw Savings",
-    "withdraw_hbd": "Withdraw Savings",
+    "withdraw_hive": "Retirar ahorros",
+    "withdraw_hbd": "Retirar ahorros",
     "transfer_to_savings": "A ahorros",
     "convert": "Convertir",
-    "convert_request": "Convert Request",
+    "convert_request": "Solicitudes de conversión",
     "escrow_transfer": "Transferencia de fideicomiso",
     "escrow_dispute": "Disputa de fideicomiso",
     "escrow_release": "Liberar fideicomiso",
@@ -91,19 +91,19 @@
     "fill_transfer_from_savings": "Ahorros ejecutados",
     "fill_vesting_withdraw": "PowerDown ejecutado",
     "ecency": {
-      "title": "Points",
-      "name": "Ecency Points",
-      "buy": "GET POINTS"
+      "title": "Puntos",
+      "name": "Puntos Ecency",
+      "buy": "GANAR PINTOS"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "Ahorros HIVE"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "Ahorros HBD"
     },
     "hive": {
       "title": "HIVE",
-      "name": "Hive Token",
+      "name": "Token de Hive",
       "buy": "OBTEN HIVE"
     },
     "hbd": {
@@ -112,26 +112,26 @@
     },
     "hive_power": {
       "title": "HIVE POWER",
-      "name": "Hive Power"
+      "name": "Poder de voto"
     },
     "hive_dollar": {
-      "name": "Hive Dollar"
+      "name": "Dólares Hive"
     },
     "btc": {
       "title": "BTC",
       "buy": "OBTENER BTC",
       "address": "RECIBIR"
     },
-    "last_updated": "Last Updated:",
-    "updating": "Updating...",
-    "coin_details": "Details",
-    "change": "Change",
-    "activities": "Activities",
-    "savings_withdrawal": "Pending Withdrawals",
-    "open_orders": "Open Orders",
-    "conversions_requested": "Conversions Requested",
-    "expires": "expires",
-    "pending_requests": "Pending Requests"
+    "last_updated": "Última actualización:",
+    "updating": "Actualizando...",
+    "coin_details": "Detalles",
+    "change": "Cambiar",
+    "activities": "Actividades",
+    "savings_withdrawal": "Retiros pendientes",
+    "open_orders": "Órdenes abiertas",
+    "conversions_requested": "Conversiones solicitadas",
+    "expires": "caduca el",
+    "pending_requests": "Solicitudes pendientes"
   },
   "notification": {
     "vote": "votado",
@@ -143,7 +143,7 @@
     "ignore": "te ignoró",
     "reblog": "reblogueado",
     "transfer": "transferido",
-    "delegations": "delegated",
+    "delegations": "delegado",
     "spin": "Es hora de ganar más puntos",
     "inactive": "¡Estate activo! Escribe un mensaje, sigue ganando",
     "referral": "se unieron con tu enlace de referido, dales la bienvenida!",
@@ -154,7 +154,7 @@
     "recent": "Reciente",
     "yesterday": "Ayer",
     "this_week": "Esta semana",
-    "last_week": "Last Week",
+    "last_week": "Última semana",
     "this_month": "Este mes",
     "older_then": "Más de un mes",
     "activities": "Todo",
@@ -162,15 +162,15 @@
     "mentions": "Menciones",
     "reblogs": "Reblogueos",
     "noactivity": "Sin actividad reciente",
-    "mention_on": "New mention on",
-    "reply_on": "New reply on",
-    "reply_body": "Tap to continue conversation..."
+    "mention_on": "Nueva mención en",
+    "reply_on": "Nueva respuesta en",
+    "reply_body": "Pulse para continuar la conversación..."
   },
   "leaderboard": {
     "daily": "DIARIO",
     "weekly": "SEMANAL",
     "monthly": "MENSUAL",
-    "tooltip_earn": "Earn points by actively participating in Ecency."
+    "tooltip_earn": "Gana puntos participando activamente en Ecency."
   },
   "messages": {
     "comingsoon": "¡Pronto mensajería instantánea!"
@@ -178,7 +178,7 @@
   "profile": {
     "following": "Siguiendo",
     "follower": "Seguidor",
-    "edit_label": "Edit",
+    "edit_label": "Editar",
     "post": "Post",
     "details": "Datos de perfil",
     "comments": "Comentarios",
@@ -190,8 +190,8 @@
     "hours": "horas",
     "voting_power": "Poder de voto",
     "login_to_see": "Inciar sesión para ver",
-    "follow_people": "When you follow people, you'll see their post here.",
-    "follow_communities": "When you join communities you'll see posts from communities here.",
+    "follow_people": "Cuando sigas a otras personas, verás sus publicaciones aquí.",
+    "follow_communities": "Cuando te unes a las comunidades verás mensajes de las comunidades aquí.",
     "havent_commented": "no has comentado nada aún",
     "havent_posted": "no has publicado nada aún",
     "hive_power": "Potencia de Hive",
