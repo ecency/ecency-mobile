@@ -200,9 +200,9 @@
     "day": "día",
     "hive_dollars": "Dolares HIVE",
     "savings": "Ahorros",
-    "joined": "Joined {time} ago",
-    "view_full": "VIEW FULL PROFILE",
-    "resource_credits": "Resource Credits",
+    "joined": "Se unió hace {time}",
+    "view_full": "VER PERFIL COMPLETO",
+    "resource_credits": "Créditos de recursos",
     "reputation": "Reputación",
     "edit": {
       "display_name": "Nombre para mostrar",
@@ -217,7 +217,7 @@
     "currency": "Divisa",
     "language": "Idioma",
     "server": "Servidor",
-    "color_theme": "Appearance",
+    "color_theme": "Apariencia",
     "push_notification": "Notificación Push",
     "notification": {
       "follow": "Seguir",
@@ -226,7 +226,7 @@
       "mention": "Mención",
       "reblog": "Reblogueo",
       "transfers": "Transferencias",
-      "delegations": "Delegations"
+      "delegations": "Delegaciones"
     },
     "pincode": "Pincode",
     "reset_pin": "Reiniciar código pin",
@@ -241,9 +241,9 @@
       "always_warn": "Advertir siempre"
     },
     "theme": {
-      "system": "Device settings",
-      "light": "Light",
-      "dark": "Dark"
+      "system": "Configuración del dispositivo",
+      "light": "Tema Claro",
+      "dark": "Tema Oscuro"
     },
     "feedback_success": "Correo electrónico abierto con éxito",
     "feedback_fail": "Ocurrió un error al intentar abrir el cliente del correo electrónico",
@@ -285,7 +285,7 @@
     "posts": "Post",
     "friends": "Amigos",
     "communities": "Comunidades",
-    "popup_postfix": "Posted",
+    "popup_postfix": "Publicado",
     "scroll_top": "Scroll To Top"
   },
   "side_menu": {
@@ -474,26 +474,26 @@
     "qoutaExceeded": "Se ha superado la cuota de subida",
     "invalidImage": "Imagen no válida, prueba un archivo diferente",
     "something_wrong": "Something went wrong",
-    "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
-    "something_wrong_reload": "Try again?",
+    "something_wrong_alt": "Mientras tanto, prueba Ecency.com desde tu navegador",
+    "something_wrong_reload": "¿Intentar de nuevo?",
     "can_not_be_empty": "¡Título y cuerpo no pueden estar vacíos!",
-    "wrong_filter_count": "Please select 3 filters",
-    "update_available_title": "Update available v{version}",
-    "update_available_body": "Using latest version of Ecency gives you the best experience",
-    "update": "Update Now",
-    "remind_later": "Remind Later",
-    "failed_to_open": "Failed to open a link",
-    "restart_ecency": "Restart Ecency?",
-    "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response": "Could not process request, Try again later.",
-    "wallet_updating": "Wallet update in progress, try again as update finishes",
-    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
+    "wrong_filter_count": "Por favor, selecciona 3 filtros",
+    "update_available_title": "Actualización disponible v{version}",
+    "update_available_body": "Usar la última versión de Ecency te da la mejor experiencia",
+    "update": "Actualizar Ahora",
+    "remind_later": "Recordar Más Tarde",
+    "failed_to_open": "Error al abrir el enlace",
+    "restart_ecency": "¿Reiniciar Ecency?",
+    "restart_ecency_desc": "Aplicar cambios requerirá un reinicio.",
+    "invalid_response": "No se pudo procesar la solicitud, inténtalo de nuevo más tarde.",
+    "wallet_updating": "Actualización del monedero en progreso, inténtalo de nuevo cuando finalice la actualización",
+    "claim_failed": "Error al reclamar recompensas, {message}\nInténtalo de nuevo o escribe a support@ecency.com"
   },
   "post": {
     "reblog_alert": "¿Estás seguro de querer rebloguear?",
     "removed_hint": "Contenido no disponible",
     "copy_link": "Copiar enlace",
-    "copy_text": "Copy text",
+    "copy_text": "Copiar texto",
     "reblogged": "reblogueado por",
     "sponsored": "PATROCINADO",
     "open_thread": "Hilo abierto",
@@ -504,8 +504,8 @@
     "image_saved": "Imagen guardada en la galería de fotos",
     "image_saved_error": "Error guardando imagen",
     "wrong_link": "Enlace incorrecto",
-    "in": "in",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "in": "en",
+    "reveal_muted": "SILENCIADO\nToca para revelar el contenido"
   },
   "drafts": {
     "title": "Borradores",
@@ -519,9 +519,9 @@
     "deleted": "Publicación programada eliminada",
     "move": "Mover a borradores",
     "moved": "Movido a borradores",
-    "pending": "Pending",
-    "postponed": "Postponed",
-    "published": "Published",
+    "pending": "Pendiente",
+    "postponed": "Pospuesto",
+    "published": "Publicado",
     "error": "Error"
   },
   "bookmarks": {
@@ -535,8 +535,8 @@
   },
   "report": {
     "added": "Contenido censurable reportado",
-    "confirm_report_title": "Confirm Report!",
-    "confirm_report_body": "Are you sure you want report?"
+    "confirm_report_title": "¡Confirmar Reporte!",
+    "confirm_report_body": "¿Estás seguro de que quieres reportar?"
   },
   "favorites": {
     "title": "Favoritos",
@@ -560,7 +560,7 @@
     "beneficiaries": "Beneficiarios",
     "warn_zero_payout": "El importe debe llegar a $0.02 para el pago",
     "breakdown": "Intermedio",
-    "max_accepted": "Max Accepted"
+    "max_accepted": "Máximo Aceptado"
   },
   "post_dropdown": {
     "copy": "copiar enlace",
@@ -571,11 +571,11 @@
     "promote": "promocionar",
     "boost": "impulsar",
     "report": "reporte",
-    "pin-blog": "Pin to blog",
-    "unpin-blog": "Unpin from blog",
-    "pin-community": "Pin to community",
-    "unpin-community": "Unpin from community",
-    "edit-history": "Edit History"
+    "pin-blog": "Anclar al blog",
+    "unpin-blog": "Desanclar del blog",
+    "pin-community": "Anclar a la comunidad",
+    "unpin-community": "Desanclar de la comunidad",
+    "edit-history": "Editar historial"
   },
   "deep_link": {
     "no_existing_user": "Usuario no existe",
@@ -609,8 +609,8 @@
     "purchase_estm": "Puntos de compra",
     "convert": "Convertir HBD a HIVE",
     "points": "Regalar puntos a alguien",
-    "transfer_to_savings": "Transfer To Saving",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_savings": "Transferir a Ahorros",
+    "transfer_to_vesting": "Hacer Power Up",
     "withdraw_to_saving": "Retirar a Ahorros",
     "steemconnect_title": "Transferencia en Hivesigner",
     "estimated_weekly": "Estimado Semanal",
@@ -623,22 +623,22 @@
     "percent_information": "Información del porcentaje",
     "next": "SIGUIENTE",
     "delegate": "Delegar",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HIVE Dollar",
+    "withdraw_hive": "Retirar HIVE",
+    "withdraw_hbd": "Retirar Hive Dollar (HBD)",
     "incoming_funds": "Fondos entrantes",
     "stop": "Detener",
-    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
+    "sc_power_down_error": "Esta característica no está implementada para el inicio de sesión de Hivesigner, aún",
     "address_view": "Ver dirección",
-    "already_delegated": "Already delegated to ",
-    "remain_hp": "Remaining HP",
-    "account_detail_head": "Account Details",
-    "account_detail_subhead": "Enter username for HIVE Power delegation",
-    "delegat_detail_head": "Delegation Details",
-    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
-    "new_amount": "New Amount",
-    "review": "REVIEW",
-    "confirm": "Confirm Delegation",
-    "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
+    "already_delegated": "Ya delegado a ",
+    "remain_hp": "HP restante",
+    "account_detail_head": "Detalles de Cuenta",
+    "account_detail_subhead": "Introduce el nombre de usuario para la delegación de HIVE Power",
+    "delegat_detail_head": "Detalles de Delegación",
+    "delegat_detail_subhead": "Nuevo monto sobrescribe el Hive Power ya delegado ",
+    "new_amount": "Nuevo Monto",
+    "review": "REVISIÓN",
+    "confirm": "Confirmar Delegación",
+    "confirm_summary": "Delegar {hp} HP ({vests} VESTS) a @{delegator} de @{delegatee} ",
     "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
     "username_alert": "Username Error!",
     "username_alert_detail": "Please select different username",
