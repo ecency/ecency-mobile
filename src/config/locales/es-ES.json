@@ -646,10 +646,10 @@
     "power_down_amount_head": "Retirar Cantidad",
     "power_down_amount_subhead": "Introduce la cantidad para apagar HIVE Power",
     "withdraw_accounts": "Cuentas de Retirada",
-    "amount_hp": "Amount (HP)",
-    "powering_down": "Powering Down",
-    "powering_down_subheading": "You are currently powering down.",
-    "powering_down_info": "Next power down is in {days} days, {hp} HIVE"
+    "amount_hp": "Cantidad (HP)",
+    "powering_down": "Apagando",
+    "powering_down_subheading": "Actualmente estas apagando.",
+    "powering_down_info": "El siguiente apagado es en {days} días, {hp} HIVE"
   },
   "boost": {
     "title": "Obtener Puntos",
@@ -697,7 +697,7 @@
     "title": "Comentarios",
     "reveal_comment": "Revelar comentario",
     "read_more": "Cargar más comentarios",
-    "more_replies": "replies"
+    "more_replies": "respuestas"
   },
   "search_result": {
     "others": "Otros",
@@ -738,24 +738,24 @@
     "new_post": "Escribir un post",
     "community": "comunidad",
     "details": "Detalles",
-    "muted": "Muted",
-    "payout": "Payout"
+    "muted": "Silenciado",
+    "payout": "Pago"
   },
   "user": {
     "follow": "Seguir",
     "unfollow": "Dejar de seguir",
-    "add_to_favourites": "ADD TO FAVOURITES",
-    "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE / BLOCK",
-    "unmute": "UNMUTE / UNBLOCK",
-    "report": "REPORT USER",
-    "delegate": "DELEGATE HIVE POWER"
+    "add_to_favourites": "AÑADIR A FAVORITOS",
+    "remove_from_favourites": "ELIMINAR DE FAVORITOS",
+    "mute": "SILENCIAR / BLOQUEAR",
+    "unmute": "NO SILENCIAR / DESBLOQUEAR",
+    "report": "DENUNCIAR USUARIO",
+    "delegate": "DELEGAR HIVE POWER"
   },
   "communities": {
     "joined": "Membresía",
     "discover": "Descubrir",
-    "discover_communities": "Discover Communities",
-    "no_communities": "Connect with people who share your interests by joining Communities."
+    "discover_communities": "Descubre Comunidades",
+    "no_communities": "Conéctate con personas que comparten tus intereses uniéndote a las comunidades."
   },
   "empty_screen": {
     "nothing_here": "Nada aquí"
@@ -765,15 +765,15 @@
     "username": "Nombre de usuario",
     "addAccount": "Agregar cuenta",
     "save": "Guardar",
-    "cancel": "Cancel"
+    "cancel": "Cancelar"
   },
   "welcome": {
-    "label": "Welcome to",
+    "label": "Bienvenido a",
     "title": "Ecency",
-    "line1_heading": "Are you looking for community?",
-    "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
-    "line2_heading": "We have a solution!",
-    "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
+    "line1_heading": "¿Buscas una comunidad?",
+    "line1_body": "No censurado, inmutable, gratificante, descentralizado, que te pertenece.",
+    "line2_heading": "¡Tenemos una solución!",
+    "line2_body": "Utilizando blockchain, sin censura, descentralizado y gratificante.",
     "line3_heading": "Join Ecency communities!",
     "line3_body": "Build community you own, get rewarded and reward others.",
     "get_started": "Get started!"
