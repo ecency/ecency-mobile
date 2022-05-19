@@ -774,45 +774,45 @@
     "line1_body": "No censurado, inmutable, gratificante, descentralizado, que te pertenece.",
     "line2_heading": "¡Tenemos una solución!",
     "line2_body": "Utilizando blockchain, sin censura, descentralizado y gratificante.",
-    "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others.",
-    "get_started": "Get started!"
+    "line3_heading": "¡Únete a comunidades de Ecency!",
+    "line3_body": "Construye tu propia comunidad, recibe recompensas y recompensa a otros.",
+    "get_started": "¡Empieza ya!"
   },
   "time": {
-    "second": "seconds",
-    "minute": "minutes",
-    "hour": "hours",
-    "week": "weeks",
-    "day": "days",
-    "month": "months",
-    "year": "years"
+    "second": "segundos",
+    "minute": "minutos",
+    "hour": "horas",
+    "week": "semanas",
+    "day": "días",
+    "month": "meses",
+    "year": "años"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
-    "comment": "Comment",
-    "reply": "REPLY",
-    "close": "CLOSE"
+    "placeholder": "Añade un comentario",
+    "comment": "Comentario",
+    "reply": "RESPONDER",
+    "close": "CERRADO"
   },
   "walkthrough": {
-    "load_draft_tooltip": "Load your lastest draft here"
+    "load_draft_tooltip": "Carga aquí tu último borrador"
   },
   "refer": {
-    "refer_earn": "Refer & Earn",
-    "refer": "Refer",
-    "rewarded": "Referral points rewarded",
-    "not_rewarded": "Referral reward pending",
-    "delegate_hp": "Delegate HP",
-    "earned": "Earned Points",
-    "pending": "Pending Points",
-    "empty_text": "Refer your loved ones today and earn free points"
+    "refer_earn": "Referir y Ganar",
+    "refer": "Referir",
+    "rewarded": "Puntos de referencia recompensados",
+    "not_rewarded": "Recompensa de referido pendiente",
+    "delegate_hp": "HP Delegando",
+    "earned": "Puntos ganados",
+    "pending": "Puntos pendientes",
+    "empty_text": "Refiera a tus seres queridos hoy y gana puntos gratis"
   },
   "qr": {
-    "qr_scan": "QR Scan",
-    "open": "Open URL",
-    "detected_url": "Detected URL"
+    "qr_scan": "Escaneo de QR",
+    "open": "Abrir URL",
+    "detected_url": "URL detectada"
   },
   "history": {
-    "edit": "Edit History",
-    "version": "Version"
+    "edit": "Editar historial",
+    "version": "Versión"
   }
 }
