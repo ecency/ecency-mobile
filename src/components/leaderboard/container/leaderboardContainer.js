@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { getLeaderboard } from '../../../providers/ecency/ecency';
 
 // Constants
-import ROUTES from '../../../constants/routeNames';
+import FILTER_OPTIONS, { VALUE } from '../../../constants/options/leaderboard';
 
 // Component
 import LeaderboardView from '../view/leaderboardView';
@@ -50,6 +50,7 @@ class LeaderboardContainer extends PureComponent {
 
     if (index === undefined) {
       index = selectedIndex;
+      selectedFilter = FILTER_OPTIONS[selectedIndex];
     }
     let users;
 
