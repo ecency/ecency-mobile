@@ -8,6 +8,7 @@ import { parsePost } from '../../utils/postParser';
 import { extractMetadata, makeJsonMetadata } from '../../utils/editor';
 import { CommentHistoryItem, LatestMarketPrices, ReceivedVestingShare, Referral, ReferralStat } from './ecency.types';
 import { convertCommentHistory, convertLatestQuotes, convertReferral, convertReferralStat } from './converters';
+import { isArray } from 'lodash';
 
 
 
@@ -394,9 +395,15 @@ export const getFragments = async () => {
 export const getLeaderboard = async (duration:'day'|'week'|'month') => {
   try{
     const response = await ecencyApi.get(`private-api/leaderboard/${duration}`)
-    return response.data;
+
+    const rawData = response.data;
+    if(!rawData || !isArray(rawData)){
+      throw new Error('Invalid response returned');
+    }
+    return rawData;
   } catch(error) {
     bugsnagInstance.notify(error)
+    throw error;
   }
 }
 
