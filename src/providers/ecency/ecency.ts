@@ -403,6 +403,7 @@ export const getLeaderboard = async (duration:'day'|'week'|'month') => {
     return rawData;
   } catch(error) {
     bugsnagInstance.notify(error)
+    throw error;
   }
 }
 
