@@ -522,7 +522,7 @@
     "pending": "Pendente",
     "postponed": "Adiado",
     "published": "Publicado",
-    "error": "Error"
+    "error": "Erro"
   },
   "bookmarks": {
     "title": "Marcadores",
@@ -575,7 +575,7 @@
     "unpin-blog": "Desafixar do blog",
     "pin-community": "Fixar na comunidade",
     "unpin-community": "Desafixar da comunidade",
-    "edit-history": "Edit History"
+    "edit-history": "Histórico de Edição"
   },
   "deep_link": {
     "no_existing_user": "Usuário não existe",
@@ -645,11 +645,11 @@
     "power_down": "Decarregar Poder",
     "power_down_amount_head": "Sacar Quantia",
     "power_down_amount_subhead": "Defina a quantia de Hive Power para reduzir",
-    "withdraw_accounts": "Withdraw Accounts",
-    "amount_hp": "Amount (HP)",
-    "powering_down": "Powering Down",
-    "powering_down_subheading": "You are currently powering down.",
-    "powering_down_info": "Next power down is in {days} days, {hp} HIVE"
+    "withdraw_accounts": "Contas de retirada",
+    "amount_hp": "Quantia (HP)",
+    "powering_down": "Diminuindo Hive Power",
+    "powering_down_subheading": "Você está atualmente fazendo power down.",
+    "powering_down_info": "O próximo power down será em {days} dias, {hp} HIVE"
   },
   "boost": {
     "title": "Obter Pontos",
@@ -749,7 +749,7 @@
     "mute": "MUTAR / BLOQUEAR",
     "unmute": "NÃO SILENCIAR / DESBLOQUEAR",
     "report": "DENUNCIAR USUÁRIO",
-    "delegate": "DELEGATE HIVE POWER"
+    "delegate": "DELEGAR HIVE POWER"
   },
   "communities": {
     "joined": "Membros",
@@ -807,12 +807,12 @@
     "empty_text": "Indique aos amigos e ganhe pontos"
   },
   "qr": {
-    "qr_scan": "QR Scan",
-    "open": "Open URL",
-    "detected_url": "Detected URL"
+    "qr_scan": "Leitor QR",
+    "open": "Abrir URL",
+    "detected_url": "URL detectada"
   },
   "history": {
-    "edit": "Edit History",
-    "version": "Version"
+    "edit": "Editar Histórico",
+    "version": "Versão"
   }
 }
