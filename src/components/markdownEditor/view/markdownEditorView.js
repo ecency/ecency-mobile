@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, Fragment } from 'react';
 import {
   View,
   KeyboardAvoidingView,
@@ -17,7 +17,6 @@ import { Icon } from '../../icon';
 // Utils
 import Formats from './formats/formats';
 import applyMediaLink from './formats/applyMediaLink';
-import applyWebLinkFormat from './formats/applyWebLinkFormat';
 
 // Actions
 import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
@@ -26,7 +25,6 @@ import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
 import {
   IconButton,
   PostBody,
-  Separator,
   StickyBar,
   TextInput,
   UserAvatar,
@@ -63,7 +61,7 @@ const MarkdownEditorView = ({
   isPreviewActive,
   isReply,
   isLoading,
-  isUploading,
+
   initialFields,
   onChange,
   handleOnTextChange,
@@ -81,6 +79,8 @@ const MarkdownEditorView = ({
   sharedSnippetText,
   onLoadDraftPress,
 }) => {
+  const dispatch = useDispatch();
+
   const [text, setText] = useState(draftBody || '');
   const [selection, setSelection] = useState({ start: 0, end: 0 });
   const [editable, setEditable] = useState(true);
@@ -95,7 +95,6 @@ const MarkdownEditorView = ({
   const insertLinkModalRef = useRef(null);
   const tooltipRef = useRef(null);
 
-  const dispatch = useDispatch();
   const isVisibleAccountsBottomSheet = useSelector(
     (state) => state.ui.isVisibleAccountsBottomSheet,
   );
@@ -509,17 +508,29 @@ const MarkdownEditorView = ({
 
   const _renderEditorWithoutScroll = () => <View style={styles.container}>{_renderEditor()}</View>;
 
-  return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      keyboardVerticalOffset={Platform.select({ ios: 0, android: 30 })}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      {isAndroidOreo() ? _renderEditorWithoutScroll() : _renderEditorWithScroll()}
-      <UsernameAutofillBar text={text} selection={selection} onApplyUsername={_onApplyUsername} />
-      {_renderFloatingDraftButton()}
+  const _renderContent = () => {
+    const _innerContent = (
+      <>
+        {isAndroidOreo() ? _renderEditorWithoutScroll() : _renderEditorWithScroll()}
+        <UsernameAutofillBar text={text} selection={selection} onApplyUsername={_onApplyUsername} />
+        {_renderFloatingDraftButton()}
+        {!isPreviewActive && _renderEditorButtons()}
+      </>
+    );
 
-      {!isPreviewActive && _renderEditorButtons()}
+    return Platform.select({
+      ios: (
+        <KeyboardAvoidingView style={styles.container} behavior="padding">
+          {_innerContent}
+        </KeyboardAvoidingView>
+      ),
+      android: <View style={styles.container}>{_innerContent}</View>,
+    });
+  };
+
+  return (
+    <Fragment>
+      {_renderContent()}
 
       <Modal
         isOpen={isSnippetsOpen}
@@ -527,7 +538,6 @@ const MarkdownEditorView = ({
         isFullScreen
         isCloseButton
         presentationStyle="formSheet"
-        //handleOnModalClose={() => setBeneficiaryModal(false)}
         title={intl.formatMessage({ id: 'editor.snippets' })}
         animationType="slide"
         style={styles.modalStyle}
@@ -590,7 +600,7 @@ const MarkdownEditorView = ({
         cancelButtonIndex={1}
         onPress={_handleClear}
       />
-    </KeyboardAvoidingView>
+    </Fragment>
   );
 };
 
