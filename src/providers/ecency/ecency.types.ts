@@ -50,3 +50,10 @@ export interface CommentHistoryItem {
     timestamp:string;
     v: number;
 }
+
+export enum ScheduledPostStatus {
+    PENDING = 1,
+    POSTPONED = 2,
+    PUBLISHED = 3,
+    ERROR = 4,
+}
