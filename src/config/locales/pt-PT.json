@@ -519,9 +519,9 @@
     "deleted": "Post programado excluído",
     "move": "Mover para Rascunhos",
     "moved": "Movido para Rascunhos",
-    "pending": "Pending",
-    "postponed": "Postponed",
-    "published": "Published",
+    "pending": "Pendente",
+    "postponed": "Adiado",
+    "published": "Publicado",
     "error": "Error"
   },
   "bookmarks": {
