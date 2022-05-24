@@ -211,7 +211,6 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
     implementation 'com.android.support:multidex:2.0.1'
     implementation project(':react-native-pager-view')
-    implementation 'com.google.firebase:firebase-analytics:17.2.3'
     implementation 'com.getkeepsafe.relinker:relinker:1.4.4'
 
     if (enableHermes) {
