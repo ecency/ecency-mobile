@@ -217,7 +217,7 @@ class DelegateScreen extends Component {
     if (step === 1) {
       // this.setState({ step: 2 });
     } else {
-      // this.amountTextInput.current.blur();
+      this.amountTextInput.current.blur();
       let body =
         intl.formatMessage(
           { id: 'transfer.confirm_summary' },
@@ -537,7 +537,7 @@ class DelegateScreen extends Component {
       <View style={styles.stepThreeContainer}>
         <MainButton
           style={styles.button}
-          onPress={this._handleNext}
+          onPress={() => this._handleNext()}
           isLoading={isTransfering}
           isDisable={!isAmountValid || step === 1}
         >
