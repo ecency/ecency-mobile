@@ -190,7 +190,7 @@ const QuickReplyModal = ({ fetchPost }: QuickReplyModalProps, ref) => {
 
   const _renderSummary = () => (
     <TouchableOpacity onPress={() => _handleOnSummaryPress()}>
-      <SummaryArea style={styles.summaryStyle} summary={headerText} />
+      <Text numberOfLines={2} style={styles.summaryStyle} >{headerText}</Text>
     </TouchableOpacity>
   );
 
