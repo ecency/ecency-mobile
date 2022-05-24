@@ -1730,15 +1730,10 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/toolbar-android/-/toolbar-android-0.1.0-rc.2.tgz#86cae655836afacc52d4063062cc59837d1a8640"
   integrity sha512-UCblqsitOcoYxVc6QzcaqCKogeRnePPMw7cbGvW5GI/GXIwQel8Kge9d910W3MUPUzw3pFzhIZVug6U3W067Pg==
 
-"@react-native-community/viewpager@^2.0.1":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@react-native-community/viewpager/-/viewpager-2.0.2.tgz#622b190294b1310c4825c98daeaee1c8443f7124"
-  integrity sha512-CKVhIZdX/Cmb80muog8sKpi5vM8npwFp4tx4Dj1IvTBidZweuO22+VH2rDOj7E0LzdV9IYRJ4FGBwcPBD2qUrQ==
-
-"@react-native-firebase/analytics@^14.9.3":
-  version "14.9.3"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-14.9.3.tgz#f558325dfd0529666cdc03b89507998248dee14f"
-  integrity sha512-KAL2ss7TF6eWV/wTfQNeuAr3AVNpUmuYNqC+PwDRtAJUcfiwwCc+gcsXp8UzA7ELC+JWLO4kDc+1LkdFr7p81g==
+"@react-native-firebase/analytics@^7.3.1":
+  version "7.6.10"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-7.6.10.tgz#1c8cd7b31cebed53aeacd177bb01fead5f733738"
+  integrity sha512-Qok1s8oY1Gy3VHcCUSKK2oFc8ExghyKhf/KIjI/3gDVW6WDCB9eTGw/QmI5+br6nhZTKhWAgGfnToEQweJ24ig==
 
 "@react-native-firebase/app@^14.9.3":
   version "14.9.3"
@@ -8919,6 +8914,11 @@ react-native-os@^1.0.1:
   resolved "https://registry.yarnpkg.com/react-native-os/-/react-native-os-1.2.6.tgz#1bb16d78ccad1143972183a04f443cf1af9fbefa"
   integrity sha512-OlT+xQAcvkcnf7imgXiu+myMkqDt4xw2bP5SlVo19hEn5XHBkPMLX7dk3sSGxxncH/ToMDsf1KLyrPabNVtadA==
 
+react-native-pager-view@^5.4.22:
+  version "5.4.22"
+  resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-5.4.22.tgz#6a987274761f75fa018254756744004e20326d83"
+  integrity sha512-9+LjgK+iOiWJJt3Zj7i8Vwarkg9dvVCm8LxrWZFzOzwjtCcQ6K4YrlbPZ5EOb5aFDcMH+eKAty0OQoUIM9n2vA==
+
 react-native-permissions@^2.0.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-2.2.2.tgz#3d2a63f6b7d6be52fc86e30f77412a9566283028"
@@ -9026,13 +9026,13 @@ react-native-screens@^2.9.0:
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.18.1.tgz#47b9991c6f762d00d0ed3233e5283d523e859885"
   integrity sha512-r5WZLpmx2hHjC1RgMdPq5YpSU9tEhBpUaZ5M1SUtNIONyiLqQVxabhRCINdebIk4depJiIl7yw2Q85zJyeX6fw==
 
-react-native-scrollable-tab-view@ecency/react-native-scrollable-tab-view:
-  version "0.10.0"
-  resolved "https://codeload.github.com/ecency/react-native-scrollable-tab-view/tar.gz/a86ddabbda728b86eb16656b8e8e71655a38400e"
+react-native-scrollable-tab-view@ecency/react-native-scrollable-tab-view#to-es6:
+  version "1.0.0"
+  resolved "https://codeload.github.com/ecency/react-native-scrollable-tab-view/tar.gz/012dd74b55cdb083de28d6d68fb0622302bd2b73"
   dependencies:
-    "@react-native-community/viewpager" "^2.0.1"
     create-react-class "^15.6.2"
     prop-types "^15.6.0"
+    react-native-pager-view "^5.4.22"
     react-timer-mixin "^0.13.3"
 
 react-native-slider@^0.11.0:
