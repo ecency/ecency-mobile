@@ -217,7 +217,7 @@ class DelegateScreen extends Component {
     if (step === 1) {
       // this.setState({ step: 2 });
     } else {
-      // this.amountTextInput.current.blur();
+      this.amountTextInput.current.blur();
       let body =
         intl.formatMessage(
           { id: 'transfer.confirm_summary' },
@@ -316,6 +316,9 @@ class DelegateScreen extends Component {
 
   _renderInput = (placeholder, state, keyboardType, availableVestingShares, isTextArea) => {
     const { isAmountValid } = this.state;
+    const { hivePerMVests } = this.props;
+    const totalHP = vestsToHp(availableVestingShares, hivePerMVests).toFixed(3);
+
     switch (state) {
       case 'from':
         return (
@@ -347,6 +350,7 @@ class DelegateScreen extends Component {
               multiline={isTextArea}
               numberOfLines={isTextArea ? 4 : 1}
               keyboardType={keyboardType}
+              returnKeyType="done"
               innerRef={this.destinationTextInput}
             />
 
@@ -362,9 +366,14 @@ class DelegateScreen extends Component {
           <TextInput
             style={[styles.amountInput, !isAmountValid && styles.error]}
             onChangeText={(amount) => {
-              this._handleAmountChange(amount, availableVestingShares);
+              const parsedValue = parseFloat(amount);
+              const amountValid =
+                Number.isNaN(parsedValue) || parsedValue < 0.0 || parsedValue >= totalHP
+                  ? false
+                  : true;
+              this.setState({ hp: amount, isAmountValid: amountValid });
             }}
-            value={this.state.hp}
+            value={this.state.hp.toString()}
             placeholder={placeholder}
             placeholderTextColor="#c1c5c7"
             autoCapitalize="none"
@@ -372,7 +381,11 @@ class DelegateScreen extends Component {
             numberOfLines={isTextArea ? 4 : 1}
             keyboardType={keyboardType}
             innerRef={this.amountTextInput}
-            blurOnSubmit={false}
+            blurOnSubmit={true}
+            returnKeyType="done"
+            onEndEditing={(e) =>
+              this._handleAmountChange(e.nativeEvent.text, availableVestingShares)
+            }
           />
         );
       default:
@@ -524,7 +537,7 @@ class DelegateScreen extends Component {
       <View style={styles.stepThreeContainer}>
         <MainButton
           style={styles.button}
-          onPress={this._handleNext}
+          onPress={() => this._handleNext()}
           isLoading={isTransfering}
           isDisable={!isAmountValid || step === 1}
         >
