@@ -347,6 +347,7 @@ class DelegateScreen extends Component {
               multiline={isTextArea}
               numberOfLines={isTextArea ? 4 : 1}
               keyboardType={keyboardType}
+              returnKeyType="done"
               innerRef={this.destinationTextInput}
             />
 
@@ -372,7 +373,8 @@ class DelegateScreen extends Component {
             numberOfLines={isTextArea ? 4 : 1}
             keyboardType={keyboardType}
             innerRef={this.amountTextInput}
-            blurOnSubmit={false}
+            blurOnSubmit={true}
+            returnKeyType="done"
           />
         );
       default:
