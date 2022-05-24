@@ -34,7 +34,7 @@ export default EStyleSheet.create({
   summaryStyle:{
     fontSize:16,
     paddingHorizontal:16,
-    color: '$primaryBlack',
+    color: '$primaryDarkGray',
     fontWeight: '500',
   },
   inputContainer: {
