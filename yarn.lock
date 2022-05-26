@@ -9025,9 +9025,9 @@ react-native-screens@^2.9.0:
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.18.1.tgz#47b9991c6f762d00d0ed3233e5283d523e859885"
   integrity sha512-r5WZLpmx2hHjC1RgMdPq5YpSU9tEhBpUaZ5M1SUtNIONyiLqQVxabhRCINdebIk4depJiIl7yw2Q85zJyeX6fw==
 
-react-native-scrollable-tab-view@ecency/react-native-scrollable-tab-view#to-es6:
+react-native-scrollable-tab-view@ecency/react-native-scrollable-tab-view:
   version "1.0.0"
-  resolved "https://codeload.github.com/ecency/react-native-scrollable-tab-view/tar.gz/012dd74b55cdb083de28d6d68fb0622302bd2b73"
+  resolved "https://codeload.github.com/ecency/react-native-scrollable-tab-view/tar.gz/0a3115248ac9404f40231f335e7d3d1fb054b44a"
   dependencies:
     create-react-class "^15.6.2"
     prop-types "^15.6.0"

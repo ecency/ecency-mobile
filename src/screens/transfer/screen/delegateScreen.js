@@ -548,7 +548,7 @@ class DelegateScreen extends Component {
               this._renderInput(
                 intl.formatMessage({ id: 'transfer.amount' }),
                 'amount',
-                'decimal-pad',
+                'numeric',
                 availableVestingShares,
                 null,
                 null,
