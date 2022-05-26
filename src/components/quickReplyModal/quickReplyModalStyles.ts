@@ -13,7 +13,7 @@ export default EStyleSheet.create({
     flex:1,
   },
   modalContainer: {
-    // paddingVertical: 4,
+    paddingBottom: 12,
   },
 
 
