@@ -34,6 +34,7 @@ import parseToken from '../../../utils/parseToken';
 import { isEmptyDate } from '../../../utils/time';
 import { hpToVests, vestsToHp } from '../../../utils/conversions';
 import parseAsset from '../../../utils/parseAsset';
+import { delay } from '../../../utils/editor';
 
 class DelegateScreen extends Component {
   _handleOnAmountChange = debounce(
@@ -211,19 +212,34 @@ class DelegateScreen extends Component {
     }
   };
 
-  _handleNext = () => {
+  // validate hp value if it is out of range or not a valid number
+  _validateHP = ({ value, availableVestingShares }) => {
+    const { hivePerMVests } = this.props;
+    const totalHP = vestsToHp(availableVestingShares, hivePerMVests).toFixed(3);
+    const parsedHpValue = parseFloat(value);
+    const amountValid =
+      Number.isNaN(parsedHpValue) || parsedHpValue < 0.0 || parsedHpValue >= totalHP ? false : true;
+    return amountValid;
+  };
+
+  _handleNext = async ({ availableVestingShares }) => {
     const { step, hp, amount, destination, from, delegatedHP } = this.state;
-    const { dispatch, intl } = this.props;
+    const { dispatch, intl, hivePerMVests } = this.props;
+    const vestsForHp = hpToVests(hp, hivePerMVests);
+    const parsedHpValue = parseFloat(hp);
+    const amountValid = this._validateHP({ value: hp, availableVestingShares });
+    this.setState({ hp: parsedHpValue, isAmountValid: amountValid, amount: vestsForHp });
     if (step === 1) {
       // this.setState({ step: 2 });
     } else {
       this.amountTextInput.current.blur();
+      await delay(500);
       let body =
         intl.formatMessage(
           { id: 'transfer.confirm_summary' },
           {
-            hp: hp,
-            vests: amount.toFixed(3),
+            hp: parsedHpValue,
+            vests: vestsForHp.toFixed(3),
             delegatee: from,
             delegator: destination,
           },
@@ -237,23 +253,30 @@ class DelegateScreen extends Component {
             )}`
           : '');
 
-      dispatch(
-        showActionModal({
-          title: intl.formatMessage({ id: 'transfer.confirm' }),
-          body,
-          buttons: [
-            {
-              text: intl.formatMessage({ id: 'alert.cancel' }),
-              onPress: () => console.log('Cancel'),
-            },
-            {
-              text: intl.formatMessage({ id: 'alert.confirm' }),
-              onPress: () => this._handleTransferAction(),
-            },
-          ],
-          headerContent: this._renderToFromAvatars(),
-        }),
-      );
+      if (amountValid) {
+        dispatch(
+          showActionModal({
+            title: intl.formatMessage({ id: 'transfer.confirm' }),
+            body,
+            buttons: [
+              {
+                text: intl.formatMessage({ id: 'alert.cancel' }),
+                onPress: () => console.log('Cancel'),
+              },
+              {
+                text: intl.formatMessage({ id: 'alert.confirm' }),
+                onPress: () => this._handleTransferAction(),
+              },
+            ],
+            headerContent: this._renderToFromAvatars(),
+          }),
+        );
+      } else {
+        Alert.alert(
+          intl.formatMessage({ id: 'transfer.invalid_amount' }),
+          intl.formatMessage({ id: 'transfer.invalid_amount_desc' }),
+        );
+      }
     }
   };
   // Note: dropdown for user account selection. can be used in later implementaion
@@ -317,7 +340,6 @@ class DelegateScreen extends Component {
   _renderInput = (placeholder, state, keyboardType, availableVestingShares, isTextArea) => {
     const { isAmountValid } = this.state;
     const { hivePerMVests } = this.props;
-    const totalHP = vestsToHp(availableVestingShares, hivePerMVests).toFixed(3);
 
     switch (state) {
       case 'from':
@@ -366,12 +388,18 @@ class DelegateScreen extends Component {
           <TextInput
             style={[styles.amountInput, !isAmountValid && styles.error]}
             onChangeText={(amount) => {
-              const parsedValue = parseFloat(amount);
-              const amountValid =
-                Number.isNaN(parsedValue) || parsedValue < 0.0 || parsedValue >= totalHP
-                  ? false
-                  : true;
-              this.setState({ hp: amount, isAmountValid: amountValid });
+              this.setState({
+                hp: amount,
+                isAmountValid: this._validateHP({ value: amount, availableVestingShares }),
+              });
+
+              // const parsedValue = Number.isNaN(parseFloat(amount)) ? 0 : parseFloat(amount);
+              // console.log('parsedValue : ', parsedValue);
+              // const amountValid =
+              //   Number.isNaN(parsedValue) || parsedValue < 0.0 || parsedValue >= totalHP
+              //     ? false
+              //     : true;
+              // this.setState({ hp: parsedValue, isAmountValid: amountValid });
             }}
             value={this.state.hp.toString()}
             placeholder={placeholder}
@@ -537,7 +565,7 @@ class DelegateScreen extends Component {
       <View style={styles.stepThreeContainer}>
         <MainButton
           style={styles.button}
-          onPress={() => this._handleNext()}
+          onPress={() => this._handleNext({ availableVestingShares: availableVestingShares })}
           isLoading={isTransfering}
           isDisable={!isAmountValid || step === 1}
         >
