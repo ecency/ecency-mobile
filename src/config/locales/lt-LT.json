@@ -649,7 +649,9 @@
     "amount_hp": "Kiekis (HP)",
     "powering_down": "Galios mažinimas",
     "powering_down_subheading": "Jūs šiuo metu mažinate galią.",
-    "powering_down_info": "Sekantis galios mažinimas {days} dienų, {hp} HIVE"
+    "powering_down_info": "Sekantis galios mažinimas {days} dienų, {hp} HIVE",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Please enter valid amount"
   },
   "boost": {
     "title": "Gauk taškų",
