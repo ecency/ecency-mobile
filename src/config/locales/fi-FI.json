@@ -649,7 +649,9 @@
     "amount_hp": "Määrä (HP)",
     "powering_down": "Tehon alentaminen",
     "powering_down_subheading": "Olet alentamassa tehoa.",
-    "powering_down_info": "Seuraavaan tehonalennukseen on {days} päivää, {hp} HIVE"
+    "powering_down_info": "Seuraavaan tehonalennukseen on {days} päivää, {hp} HIVE",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Please enter valid amount"
   },
   "boost": {
     "title": "Hanki pisteitä",
