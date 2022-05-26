@@ -649,7 +649,9 @@
     "amount_hp": "Cantidad (HP)",
     "powering_down": "Apagando",
     "powering_down_subheading": "Actualmente estas apagando.",
-    "powering_down_info": "El siguiente apagado es en {days} días, {hp} HIVE"
+    "powering_down_info": "El siguiente apagado es en {days} días, {hp} HIVE",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Please enter valid amount"
   },
   "boost": {
     "title": "Obtener Puntos",
