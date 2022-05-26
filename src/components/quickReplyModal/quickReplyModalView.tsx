@@ -7,7 +7,7 @@ import { View, Text, Alert, TouchableOpacity, Keyboard, Platform } from 'react-n
 import { useIntl } from 'react-intl';
 import { IconButton, MainButton, SummaryArea, TextButton, TextInput, UserAvatar } from '..';
 import { useSelector, useDispatch } from 'react-redux';
-import { generateReplyPermlink } from '../../utils/editor';
+import { delay, generateReplyPermlink } from '../../utils/editor';
 import { postComment } from '../../providers/hive/dhive';
 import { toastNotification } from '../../redux/actions/uiAction';
 import { updateCommentCache } from '../../redux/actions/cacheActions';
@@ -48,7 +48,7 @@ const QuickReplyModal = ({ fetchPost }: QuickReplyModalProps, ref) => {
       // wait  for modal to open and then show the keyboard
       setTimeout(() => {
         inputRef.current?.focus();
-      }, 1000);
+      }, 500);
     },
   }));
 
@@ -158,8 +158,11 @@ const QuickReplyModal = ({ fetchPost }: QuickReplyModalProps, ref) => {
     }
   };
 
-  const _handleExpandBtn = () => {
+  const _handleExpandBtn = async () => {
     if (selectedPost) {
+      Keyboard.dismiss();
+      sheetModalRef.current?.hide();
+      await delay(50);
       navigate({
         routeName: ROUTES.SCREENS.EDITOR,
         key: 'editor_replay',
@@ -170,9 +173,9 @@ const QuickReplyModal = ({ fetchPost }: QuickReplyModalProps, ref) => {
           fetchPost,
         },
       });
-      sheetModalRef.current?.setModalVisible(false);
     }
   };
+  
   //VIEW_RENDERERS
 
   const _renderSheetHeader = () => (
@@ -267,7 +270,7 @@ const QuickReplyModal = ({ fetchPost }: QuickReplyModalProps, ref) => {
     <ActionSheet
       ref={sheetModalRef}
       gestureEnabled={true}
-      keyboardShouldPersistTaps="handled"
+      keyboardShouldPersistTaps="always"
       containerStyle={styles.sheetContent}
       keyboardHandlerEnabled
       indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
