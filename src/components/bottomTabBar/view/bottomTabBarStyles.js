@@ -1,8 +1,8 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 import scalePx from '../../../utils/scalePx';
-import { WINDOW_DIMENSIONS } from '../../../utils/windowDimensions';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 
-const deviceWidth = WINDOW_DIMENSIONS.deviceWidth;
+const deviceWidth = getWindowDimensions().width;
 
 export default EStyleSheet.create({
   wrapper: {
