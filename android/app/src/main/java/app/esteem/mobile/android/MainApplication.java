@@ -17,7 +17,7 @@ import org.wonday.orientation.OrientationActivityLifecycle;
 //See below, Webview debugging
 //import android.webkit.WebView; 
 
-import com.reactnativecommunity.viewpager.RNCViewPagerPackage;
+import com.reactnativepagerview.PagerViewPackage;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -37,7 +37,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
       // Packages that cannot be autolinked yet can be added manually here, for
       // example:
       // packages.add(new MyReactNativePackage());
-      packages.add(new RNCViewPagerPackage());
+      packages.add(new PagerViewPackage());
       return packages;
     }
 

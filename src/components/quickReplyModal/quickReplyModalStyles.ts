@@ -1,5 +1,4 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 export default EStyleSheet.create({
   sheetContent: {
@@ -14,8 +13,7 @@ export default EStyleSheet.create({
     flex:1,
   },
   modalContainer: {
-    paddingVertical: 4,
-    paddingBottom:getBottomSpace()
+    paddingBottom: 12,
   },
 
 

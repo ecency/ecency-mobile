@@ -134,7 +134,8 @@ class EditorContainer extends Component {
         ({ isReply, quickReplyText } = navigationParams);
         this.setState({
           isReply,
-          quickReplyText
+          quickReplyText,
+          autoFocusText: true,
         });
       }
 
@@ -919,7 +920,8 @@ class EditorContainer extends Component {
 
   _handleSubmitSuccess = () => {
     const { navigation } = this.props;
-
+    console.log('navigation.state.params: ', navigation.state.params);
+    
     this.stateTimer = setTimeout(() => {
       if (navigation) {
         navigation.goBack();
