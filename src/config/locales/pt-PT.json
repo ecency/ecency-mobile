@@ -650,8 +650,8 @@
     "powering_down": "Diminuindo Hive Power",
     "powering_down_subheading": "Você está atualmente fazendo power down.",
     "powering_down_info": "O próximo power down será em {days} dias, {hp} HIVE",
-    "invalid_amount": "Invalid Amount",
-    "invalid_amount_desc": "Please enter valid amount"
+    "invalid_amount": "Quantia Inválida",
+    "invalid_amount_desc": "Por favor, insira uma quantia válida"
   },
   "boost": {
     "title": "Obter Pontos",
