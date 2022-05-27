@@ -98,8 +98,8 @@ class PowerDownView extends Component {
 
   _handleAmountChange = ({ hpValue, availableVestingShares }) => {
     const { hivePerMVests } = this.props;
-    const parsedValue = parseFloat(hpValue);
-    const vestsForHp = hpToVests(hpValue, hivePerMVests);
+    const parsedValue = parseFloat(hpValue.replace(',', '.'));
+    const vestsForHp = hpToVests(parsedValue, hivePerMVests);
     const totalHP = vestsToHp(availableVestingShares, hivePerMVests).toFixed(3);
 
     if (Number.isNaN(parsedValue)) {
