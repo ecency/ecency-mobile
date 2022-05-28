@@ -16,12 +16,13 @@ import { OptionsModal } from '../../atoms';
 import styles from './draftListItemStyles';
 import { ScheduledPostStatus } from '../../../providers/ecency/ecency.types';
 import { PopoverWrapper } from '../../popoverWrapper/popoverWrapperView';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 // Defaults
 const DEFAULT_IMAGE =
   'https://images.ecency.com/DQmT8R33geccEjJfzZEdsRHpP3VE8pu3peRCnQa1qukU4KR/no_image_3x.png';
 
-const dim = Dimensions.get('window');
+const dim = getWindowDimensions();
 
 const DraftListItemView = ({
   title,

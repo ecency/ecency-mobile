@@ -12,6 +12,7 @@ import {
 
 // Styles
 import styles from './tabBarStyles';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 class TabBar extends PureComponent {
   /* Props
@@ -65,7 +66,7 @@ class TabBar extends PureComponent {
     } = this.props;
     const { activeColor } = this.state;
 
-    const containerWidth = Dimensions.get('window').width;
+    const containerWidth = getWindowDimensions().width;
     const numberOfTabs = tabs.length;
     const underlineWidth = tabUnderlineDefaultWidth || containerWidth / (numberOfTabs * 2);
     const scale = tabUnderlineScaleX || 2;
@@ -100,7 +101,6 @@ class TabBar extends PureComponent {
     };
 
     const scaleX = scrollValue.interpolate(scaleValue(scale));
-
     return (
       <Animated.View
         style={[

@@ -10,10 +10,10 @@ const getWindowDimensions = () => {
 
   const width = isDeviceRotated
     ? Dimensions.get('window').height
-    : Dimensions.get('screen').width;
+    : Dimensions.get('window').width;
   const height = isDeviceRotated
     ? Dimensions.get('window').width
-    : Dimensions.get('screen').height;
+    : Dimensions.get('window').height;
 
   return {
     width,

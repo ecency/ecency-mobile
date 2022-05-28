@@ -1,4 +1,5 @@
 import { Dimensions, Platform, StatusBar } from 'react-native';
+import getWindowDimensions from '../utils/getWindowDimensions';
 
 export default {
   // Primary Colors
@@ -49,9 +50,9 @@ export default {
   // Devices Sizes
   $deviceHeight:
     Platform.OS === 'ios'
-      ? Dimensions.get('window').height
-      : Dimensions.get('window').height + StatusBar.currentHeight,
-  $deviceWidth: Dimensions.get('window').width,
+      ? getWindowDimensions().height
+      : getWindowDimensions().height + StatusBar.currentHeight,
+  $deviceWidth: getWindowDimensions().width,
 
   // Fonts Properties
   $primaryFont: 'Roboto',

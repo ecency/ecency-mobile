@@ -6,6 +6,7 @@ import LottieView from 'lottie-react-native';
 import { ThemeContainer } from '../../../../containers';
 
 import styles from './postCardPlaceHolderStyles';
+import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
 const PostPlaceHolder = () => {
   return (
@@ -16,7 +17,7 @@ const PostPlaceHolder = () => {
         return (
           <View>
             <LottieView
-              style={{ width: Dimensions.get('screen').width - 24 }}
+              style={{ width: getWindowDimensions().width - 24 }}
               source={require('../../../../assets/animations/postBody.json')}
               autoPlay
               loop={true}

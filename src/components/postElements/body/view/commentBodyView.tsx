@@ -27,8 +27,9 @@ import { OptionsModal } from '../../../atoms';
 import { useAppDispatch } from '../../../../hooks';
 import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
+import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
-const WIDTH = Dimensions.get('window').width;
+const WIDTH = getWindowDimensions().width;
 
 const CommentBody = ({
   body,

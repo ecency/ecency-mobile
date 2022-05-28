@@ -7,8 +7,9 @@ import times from 'lodash/times';
 import { ThemeContainer } from '../../../../containers';
 
 import styles from './walletDetailsPlaceHolderStyles';
+import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
-const HEIGHT = Dimensions.get('window').height;
+const HEIGHT = getWindowDimensions().height;
 
 const listPlaceHolderView = (color) => {
   const ratio = (HEIGHT - 300) / 50;

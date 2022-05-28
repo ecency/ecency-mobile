@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, Dimensions, Text } from 'react-native';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 // Constants
 
@@ -31,7 +32,7 @@ class PercentBarView extends PureComponent {
   _calculateWidth = (percent, margin = null) => {
     if (percent) {
       const per = 100 / percent;
-      return (Dimensions.get('window').width - margin) / per;
+      return (getWindowDimensions().width - margin) / per;
     }
     return null;
   };

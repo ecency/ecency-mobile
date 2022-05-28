@@ -1,8 +1,9 @@
 import { Dimensions, Platform } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 import scalePx from '../../../utils/scalePx';
 
-const WINDOW_HEIGHT = Dimensions.get('window').height;
+const WINDOW_HEIGHT = getWindowDimensions().height;
 
 export default EStyleSheet.create({
   root: {

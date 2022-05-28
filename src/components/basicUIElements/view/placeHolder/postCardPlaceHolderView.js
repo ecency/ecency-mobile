@@ -6,10 +6,12 @@ import LottieView from 'lottie-react-native';
 import { ThemeContainer } from '../../../../containers';
 
 import styles from './postCardPlaceHolderStyles';
+import getWindowDimensions from '../../../../utils/getWindowDimensions';
+
 // TODO: make container for place holder wrapper after alpha
 const PostCardPlaceHolder = () => {
   const animationStyle = {
-    width: Dimensions.get('screen').width - 32,
+    width: getWindowDimensions().width - 32,
   };
 
   return (

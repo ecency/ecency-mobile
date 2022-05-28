@@ -19,8 +19,9 @@ import { OptionsModal } from '../../../atoms';
 import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
 import { PostHtmlRenderer, VideoPlayer } from '../../..';
+import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
-const WIDTH = Dimensions.get('window').width;
+const WIDTH = getWindowDimensions().width;
 
 const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
   console.log('body : ', body);

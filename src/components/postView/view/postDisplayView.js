@@ -23,9 +23,10 @@ import { ParentPost } from '../../parentPost';
 import styles from './postDisplayStyles';
 import { OptionsModal } from '../../atoms';
 import { QuickReplyModal } from '../..';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 
-const HEIGHT = Dimensions.get('window').height;
-const WIDTH = Dimensions.get('window').width;
+const HEIGHT = getWindowDimensions().height;
+const WIDTH = getWindowDimensions().width;
 
 const PostDisplayView = ({
   currentAccount,

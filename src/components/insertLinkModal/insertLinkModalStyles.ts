@@ -1,7 +1,8 @@
 import { ViewStyle, Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import getWindowDimensions from '../../utils/getWindowDimensions';
 
-const previewHeight = (10 / 16) * Dimensions.get('window').width;
+const previewHeight = (10 / 16) * getWindowDimensions().width;
 export default EStyleSheet.create({
   sheetContent: {
     backgroundColor: '$primaryBackgroundColor',

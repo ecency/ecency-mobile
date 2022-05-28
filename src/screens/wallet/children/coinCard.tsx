@@ -4,6 +4,7 @@ import styles from './children.styles';
 import { Icon, MainButton, SimpleChart } from '../../../components';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 export interface CoinCardProps {
   id: string;
@@ -118,7 +119,7 @@ export const CoinCard = ({
 
 
   const _renderGraph = () => {
-    const _baseWidth = Dimensions.get("window").width - 32;
+    const _baseWidth = getWindowDimensions().width - 32;
     return (
       <View style={styles.chartContainer}>
         <SimpleChart

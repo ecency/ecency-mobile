@@ -4,8 +4,9 @@ import { Dimensions } from 'react-native';
 import times from 'lodash/times';
 
 import ListItemPlaceHolder from './listItemPlaceHolderView';
+import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
-const HEIGHT = Dimensions.get('window').height;
+const HEIGHT = getWindowDimensions().height;
 
 const ListPlaceHolderView = () => {
   const ratio = (HEIGHT - 300) / 50;

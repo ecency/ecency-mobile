@@ -19,6 +19,7 @@ import { renderPostBody } from '@ecency/render-helper';
 import { ScrollView } from 'react-native-gesture-handler';
 import applyWebLinkFormat from '../markdownEditor/view/formats/applyWebLinkFormat';
 import Clipboard from '@react-native-clipboard/clipboard';
+import getWindowDimensions from '../../utils/getWindowDimensions';
 
 interface InsertLinkModalProps {
   handleOnInsertLink: ({
@@ -30,8 +31,8 @@ interface InsertLinkModalProps {
   }) => void;
   handleOnSheetClose: () => void;
 }
-const screenWidth = Dimensions.get('window').width - 58;
-const previewWidth = (10 / 16) * Dimensions.get('window').width;
+const screenWidth = getWindowDimensions().width - 58;
+const previewWidth = (10 / 16) * getWindowDimensions().width;
 
 export const InsertLinkModal = forwardRef(
   ({ handleOnInsertLink, handleOnSheetClose }: InsertLinkModalProps, ref) => {
