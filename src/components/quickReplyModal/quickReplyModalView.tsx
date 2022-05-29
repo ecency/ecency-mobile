@@ -14,7 +14,6 @@ const QuickReplyModal = ({ fetchPost }: QuickReplyModalProps, ref) => {
   const [selectedPost, setSelectedPost] = useState(null);
   const sheetModalRef = useRef<ActionSheet>();
   const inputRef = useRef<TextInput>(null);
-console.log('fetchPost in QuickReplyModal : ', fetchPost );
 
   //CALLBACK_METHOD
   useImperativeHandle(ref, () => ({

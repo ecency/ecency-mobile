@@ -27,8 +27,6 @@ export const QuickReplyModalContent = ({
   inputRef,
   sheetModalRef,
 }: QuickReplyModalContentProps) => {
-  console.log('fetchPost : ', fetchPost);
-
   const intl = useIntl();
   const dispatch = useDispatch();
   const currentAccount = useSelector((state) => state.account.currentAccount);
@@ -153,8 +151,6 @@ export const QuickReplyModalContent = ({
 
   const _handleExpandBtn = async () => {
     if (selectedPost) {
-        console.log('fetchPost : ', fetchPost);
-        
       Keyboard.dismiss();
       sheetModalRef.current?.setModalVisible(false);
       await delay(50);
