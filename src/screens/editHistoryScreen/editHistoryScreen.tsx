@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import {
   Alert,
-  Dimensions,
+  
   FlatList,
   ScrollView,
   Text,

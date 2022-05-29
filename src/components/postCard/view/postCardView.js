@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { TouchableOpacity, Text, View, Dimensions } from 'react-native';
+import { TouchableOpacity, Text, View } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Utils

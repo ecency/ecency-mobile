@@ -1,4 +1,4 @@
-import { TextStyle, StyleSheet, ViewStyle, ImageStyle, Dimensions } from 'react-native';
+import { TextStyle, StyleSheet, ViewStyle, ImageStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import getWindowDimensions from '../../utils/getWindowDimensions';
 

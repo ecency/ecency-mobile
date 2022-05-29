@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Dimensions, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 // Constants

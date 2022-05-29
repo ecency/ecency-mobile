@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useRef } from 'react';
-import { Linking, Modal, PermissionsAndroid, Platform, View, Dimensions } from 'react-native';
+import { Linking, Modal, PermissionsAndroid, Platform, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import CameraRoll from '@react-native-community/cameraroll';
 import RNFetchBlob from 'rn-fetch-blob';

@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, Fragment } from 'react';
-import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { injectIntl } from 'react-intl';
 import ImageSize from 'react-native-image-size';
 

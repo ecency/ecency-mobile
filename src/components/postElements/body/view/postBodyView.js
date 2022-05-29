@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { Dimensions, Linking, Modal, PermissionsAndroid, Platform, View } from 'react-native';
+import { Linking, Modal, PermissionsAndroid, Platform, View } from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
 import { withNavigation } from 'react-navigation';
 import { useIntl, injectIntl } from 'react-intl';

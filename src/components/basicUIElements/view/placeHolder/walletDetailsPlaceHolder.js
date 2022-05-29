@@ -1,6 +1,6 @@
 /* eslint-disable radix */
 import React, { Fragment } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View } from 'react-native';
 import Placeholder from 'rn-placeholder';
 import times from 'lodash/times';
 

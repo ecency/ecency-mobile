@@ -1,4 +1,4 @@
-import { Dimensions, Platform, StatusBar } from 'react-native';
+import { Platform, StatusBar } from 'react-native';
 import getWindowDimensions from '../utils/getWindowDimensions';
 
 export default {

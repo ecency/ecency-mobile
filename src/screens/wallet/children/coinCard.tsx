@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text,  TouchableOpacity, ActivityIndicator } from 'react-native';
 import React, { ComponentType, Fragment, useEffect, useState } from 'react';
 import styles from './children.styles';
 import { Icon, MainButton, SimpleChart } from '../../../components';

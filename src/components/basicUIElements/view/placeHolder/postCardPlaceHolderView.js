@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Dimensions } from 'react-native';
+import { View } from 'react-native';
 import Placeholder from 'rn-placeholder';
 
 import LottieView from 'lottie-react-native';

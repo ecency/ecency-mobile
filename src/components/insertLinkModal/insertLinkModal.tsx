@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
   ActivityIndicator,
-  Dimensions,
+  
 } from 'react-native';
 import { MainButton, PostBody, TextButton } from '..';
 import styles from './insertLinkModalStyles';
