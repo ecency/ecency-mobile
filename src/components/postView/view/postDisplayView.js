@@ -1,23 +1,29 @@
-import get from 'lodash/get';
-import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState, Fragment } from 'react';
+import { View, Text, ScrollView, Dimensions, SafeAreaView, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
-import { RefreshControl, ScrollView, Text, View } from 'react-native';
+import get from 'lodash/get';
+
+// Providers
+import { useSelector } from 'react-redux';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { QuickReplyModal } from '../..';
 import { userActivity } from '../../../providers/ecency/ePoint';
-import getWindowDimensions from '../../../utils/getWindowDimensions';
+
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
-import { OptionsModal } from '../../atoms';
-import { NoPost, PostPlaceHolder, StickyBar, TextWithIcon } from '../../basicUIElements';
-import { CommentsDisplay } from '../../commentsDisplay';
-import { IconButton } from '../../iconButton';
-import { ParentPost } from '../../parentPost';
+
 // Components
-import { PostBody, PostHeaderDescription, Tags } from '../../postElements';
+import { PostHeaderDescription, PostBody, Tags } from '../../postElements';
+import { PostPlaceHolder, StickyBar, TextWithIcon, NoPost } from '../../basicUIElements';
 import { Upvote } from '../../upvote';
+import { IconButton } from '../../iconButton';
+import { CommentsDisplay } from '../../commentsDisplay';
+import { ParentPost } from '../../parentPost';
+
 // Styles
 import styles from './postDisplayStyles';
+import { OptionsModal } from '../../atoms';
+import { QuickReplyModal } from '../..';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 const HEIGHT = getWindowDimensions().height;
 const WIDTH = getWindowDimensions().width;

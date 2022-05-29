@@ -1,32 +1,33 @@
-import CameraRoll from '@react-native-community/cameraroll';
-import React, { Fragment, useCallback, useRef, useState } from 'react';
+import React, { Fragment, useState, useRef } from 'react';
+import { Linking, Modal, PermissionsAndroid, Platform, View, Dimensions } from 'react-native';
 import { useIntl } from 'react-intl';
-import { Linking, Modal, PermissionsAndroid, Platform, View } from 'react-native';
+import CameraRoll from '@react-native-community/cameraroll';
+import RNFetchBlob from 'rn-fetch-blob';
+import ImageViewer from 'react-native-image-zoom-viewer';
 import ActionsSheetView from 'react-native-actions-sheet';
+
 // import AutoHeightWebView from 'react-native-autoheight-webview';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { LongPressGestureHandler, State } from 'react-native-gesture-handler';
-import ImageViewer from 'react-native-image-zoom-viewer';
-import RNFetchBlob from 'rn-fetch-blob';
-import { PostHtmlRenderer, TextButton, VideoPlayer } from '../../..';
-import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
+import { navigate } from '../../../../navigation/service';
+
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
-import { useAppDispatch } from '../../../../hooks';
-import { navigate } from '../../../../navigation/service';
-import { toastNotification } from '../../../../redux/actions/uiAction';
-// Services and Actions
-import { writeToClipboard } from '../../../../utils/clipboard';
-import { isCommunity } from '../../../../utils/communityValidation';
-import getWindowDimensions from '../../../../utils/getWindowDimensions';
-import { OptionsModal } from '../../../atoms';
+
+import { PostHtmlRenderer, TextButton, VideoPlayer } from '../../..';
+
 // Styles
 import styles from './commentBodyStyles';
 
-
-
-
-
+// Services and Actions
+import { writeToClipboard } from '../../../../utils/clipboard';
+import { toastNotification } from '../../../../redux/actions/uiAction';
+import { LongPressGestureHandler, State } from 'react-native-gesture-handler';
+import { useCallback } from 'react';
+import { OptionsModal } from '../../../atoms';
+import { useAppDispatch } from '../../../../hooks';
+import { isCommunity } from '../../../../utils/communityValidation';
+import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
+import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
 const WIDTH = getWindowDimensions().width;
 

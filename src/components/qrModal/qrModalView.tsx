@@ -1,16 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { ActivityIndicator, Alert, PermissionsAndroid, Platform, View } from 'react-native';
+import { ActivityIndicator, Alert, PermissionsAndroid, Platform, Text, View } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { check, openSettings, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
-import QRCodeScanner from 'react-native-qrcode-scanner';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { navigate } from '../../navigation/service';
-import { toggleQRModal } from '../../redux/actions/uiAction';
-import { deepLinkParser } from '../../utils/deepLinkParser';
-import getWindowDimensions from '../../utils/getWindowDimensions';
 import styles from './qrModalStyles';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { toggleQRModal } from '../../redux/actions/uiAction';
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import { deepLinkParser } from '../../utils/deepLinkParser';
+import { useIntl } from 'react-intl';
+import { navigate } from '../../navigation/service';
+import { Icon } from '..';
+import { Dimensions } from 'react-native';
+import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
+import getWindowDimensions from '../../utils/getWindowDimensions';
 
 export interface QRModalProps {}
 

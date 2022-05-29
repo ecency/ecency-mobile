@@ -1,9 +1,12 @@
-import LottieView from 'lottie-react-native';
 import React from 'react';
-import { View } from 'react-native';
+import { View, Dimensions } from 'react-native';
+import Placeholder from 'rn-placeholder';
+
+import LottieView from 'lottie-react-native';
 import { ThemeContainer } from '../../../../containers';
-import getWindowDimensions from '../../../../utils/getWindowDimensions';
+
 import styles from './postCardPlaceHolderStyles';
+import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
 // TODO: make container for place holder wrapper after alpha
 const PostCardPlaceHolder = () => {

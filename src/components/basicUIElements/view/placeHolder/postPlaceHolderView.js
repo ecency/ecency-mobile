@@ -1,8 +1,11 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Dimensions } from 'react-native';
+import Placeholder from 'rn-placeholder';
 
 import LottieView from 'lottie-react-native';
 import { ThemeContainer } from '../../../../containers';
+
+import styles from './postCardPlaceHolderStyles';
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
 const PostPlaceHolder = () => {

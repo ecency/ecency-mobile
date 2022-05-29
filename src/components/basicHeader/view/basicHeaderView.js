@@ -1,18 +1,20 @@
-import moment from 'moment';
-import React, { Fragment, useRef, useState } from 'react';
+import React, { useState, Fragment, useRef } from 'react';
+import { View, Text, ActivityIndicator, SafeAreaView, Dimensions } from 'react-native';
 import { injectIntl } from 'react-intl';
-import { ActivityIndicator, SafeAreaView, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
+
 // Components
-import { BeneficiaryModal, Modal, TextButton } from '../..';
-import { OptionsModal } from '../../atoms';
-import { DateTimePicker } from '../../dateTimePicker';
-import { DropdownButton } from '../../dropdownButton';
+import { TextButton, Modal, BeneficiaryModal } from '../..';
 import { IconButton } from '../../iconButton';
+import { DropdownButton } from '../../dropdownButton';
 import { TextInput } from '../../textInput';
+import { DateTimePicker } from '../../dateTimePicker';
+
 // Constants
 // Styles
 import styles from './basicHeaderStyles';
+import { OptionsModal } from '../../atoms';
 
 const BasicHeaderView = ({
   disabled,

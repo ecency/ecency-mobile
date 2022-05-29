@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import scalePx from '../../../utils/scalePx';

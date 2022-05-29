@@ -1,16 +1,18 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import {
-  Animated,
-  Dimensions,
-  Platform,
   Text,
+  View,
+  Animated,
   TouchableNativeFeedback,
   TouchableOpacity,
-  View,
+  Platform,
+  Dimensions,
 } from 'react-native';
-import { connect } from 'react-redux';
+
 // Styles
 import styles from './tabBarStyles';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 class TabBar extends PureComponent {
   /* Props

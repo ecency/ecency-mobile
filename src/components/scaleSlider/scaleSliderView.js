@@ -1,10 +1,11 @@
 /* eslint-disable react/no-unused-state */
+import React, { Component } from 'react';
+import { View, Dimensions, Text } from 'react-native';
 import MultiSlider from '@esteemapp/react-native-multi-slider';
 import get from 'lodash/get';
-import React, { Component } from 'react';
-import { Text, View } from 'react-native';
-import getWindowDimensions from '../../utils/getWindowDimensions';
+
 import styles from './scaleSliderStyles';
+import getWindowDimensions from '../../utils/getWindowDimensions';
 
 export default class ScaleSliderView extends Component {
   constructor(props) {

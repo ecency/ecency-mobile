@@ -1,23 +1,25 @@
+import React, { Fragment, useState, useEffect, useRef } from 'react';
+import { Dimensions, Linking, Modal, PermissionsAndroid, Platform, View } from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
-import React, { Fragment, useEffect, useRef, useState } from 'react';
-import { injectIntl, useIntl } from 'react-intl';
-import { Linking, Modal, PermissionsAndroid, Platform, View } from 'react-native';
-import ActionSheetView from 'react-native-actions-sheet';
+import { withNavigation } from 'react-navigation';
+import { useIntl, injectIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ImageViewer from 'react-native-image-zoom-viewer';
-import { withNavigation } from 'react-navigation';
-import { connect } from 'react-redux';
 import RNFetchBlob from 'rn-fetch-blob';
-import { PostHtmlRenderer, VideoPlayer } from '../../..';
-import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
-// Constants
-import { default as ROUTES } from '../../../../constants/routeNames';
-import { toastNotification } from '../../../../redux/actions/uiAction';
+import ActionSheetView from 'react-native-actions-sheet';
+import { connect } from 'react-redux';
+
 // Services and Actions
 import { writeToClipboard } from '../../../../utils/clipboard';
-import { isCommunity } from '../../../../utils/communityValidation';
-import getWindowDimensions from '../../../../utils/getWindowDimensions';
+import { toastNotification } from '../../../../redux/actions/uiAction';
+
+// Constants
+import { default as ROUTES } from '../../../../constants/routeNames';
 import { OptionsModal } from '../../../atoms';
+import { isCommunity } from '../../../../utils/communityValidation';
+import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
+import { PostHtmlRenderer, VideoPlayer } from '../../..';
+import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
 const WIDTH = getWindowDimensions().width;
 

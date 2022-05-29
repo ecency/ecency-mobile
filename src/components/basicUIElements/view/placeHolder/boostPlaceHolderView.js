@@ -1,11 +1,13 @@
 /* eslint-disable radix */
-import times from 'lodash/times';
 import React from 'react';
-import { View } from 'react-native';
+import { Dimensions, View } from 'react-native';
+import times from 'lodash/times';
 import Placeholder from 'rn-placeholder';
+
 import { ThemeContainer } from '../../../../containers';
-import getWindowDimensions from '../../../../utils/getWindowDimensions';
+
 import styles from './boostPlaceHolderStyles';
+import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
 const HEIGHT = getWindowDimensions().height;
 

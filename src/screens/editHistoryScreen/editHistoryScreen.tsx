@@ -1,22 +1,25 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment } from 'react';
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import {
-  Alert, FlatList,
+  Alert,
+  Dimensions,
+  FlatList,
   ScrollView,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
-import AutoHeightWebView from 'react-native-autoheight-webview';
+import { BasicHeader, Icon, PostPlaceHolder, TextInput } from '../../components';
+
 // styles
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { BasicHeader, Icon, PostPlaceHolder, TextInput } from '../../components';
-import { getCommentHistory } from '../../providers/ecency/ecency';
-import getWindowDimensions from '../../utils/getWindowDimensions';
-import { dateToFormatted } from '../../utils/time';
 import styles from './editHistoryScreenStyles';
+import { getCommentHistory } from '../../providers/ecency/ecency';
+import { dateToFormatted } from '../../utils/time';
+import AutoHeightWebView from 'react-native-autoheight-webview';
 import historyBuilder from './historyBuilder';
-
+import getWindowDimensions from '../../utils/getWindowDimensions';
 
 export interface CommentHistoryListItemDiff {
   title: string;

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
+import React, { useState, useEffect } from 'react'
+import { View, Dimensions } from 'react-native'
 import { RangeSelector } from '.';
-import { SimpleChart } from '../../../components';
+import { SimpleChart } from '../../../components'
 import { useAppSelector } from '../../../hooks';
 import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
