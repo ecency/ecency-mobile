@@ -692,7 +692,7 @@ export const deleteImage = async (id:string) => {
   }
 }
 
-export const uploadImage = (media, username, sign) => {
+export const uploadImage = (media, username, sign, uploadProgress = null) => {
   const file = {
     uri: media.path,
     type: media.mime,
@@ -703,7 +703,7 @@ export const uploadImage = (media, username, sign) => {
   const fData = new FormData();
   fData.append('file', file);
 
-  return upload(fData, username, sign);
+  return upload(fData, username, sign, uploadProgress);
 };
 
 // New image service

@@ -54,7 +54,7 @@ import { updateCommentCache } from '../../../redux/actions/cacheActions';
  *
  */
 
-class EditorContainer extends Component {
+class EditorContainer extends Component <any, any> {
   _isMounted = false;
 
   constructor(props) {
@@ -79,6 +79,8 @@ class EditorContainer extends Component {
       onLoadDraftPress: false,
       thumbIndex: 0,
       shouldReblog:false,
+      retryCount: 0,
+      failedImageUploads: [],
     };
   }
 
@@ -375,31 +377,43 @@ class EditorContainer extends Component {
       if (media.length > 0) {
         for (let index = 0; index < media.length; index++) {
           const element = media[index];
-          await this._uploadImage(element);
+          await this._uploadImage(element, index+1);
         }
       } else {
         await this._uploadImage(media);
       }
     } catch (error) {
-      console.log("Failed to upload image", error)
+      console.log("Failed to upload image", error);
+      console.log('failedImageUploads : ', this.state.failedImageUploads);
       bugsnapInstance.notify(error);
     }
 
   };
 
-  _uploadImage = async (media, { shouldInsert } = { shouldInsert: false }) => {
+  _uploadImage = async (media, imageIndex = 1 , { shouldInsert } = { shouldInsert: false }) => {
+    // console.log('imageIndex : ', imageIndex, ' \n this.state.retryCount : ', this.state.retryCount);
     const { intl, currentAccount, pinCode, isLoggedIn } = this.props;
-
+    const { retryCount } = this.state;
     if (!isLoggedIn) return;
 
     this.setState({
       isUploading: true,
+      retryCount: 0,
     });
 
     let sign = await signImage(media, currentAccount, pinCode);
 
     try {
-      const res = await uploadImage(media, currentAccount.name, sign);
+      let res = await uploadImage(media, currentAccount.name, sign, this._showUploadProgress);
+      // retry uplaod if there is no response or error has been aoccured
+      if (!res || !res.data) {
+        this.setState({ retryCount: this.state.retryCount + 1 }, async () => {
+          while (this.state.retryCount <= 2) {
+            console.log('retrying image uplaod : ', this.state.retryCount);
+            res = await uploadImage(media, currentAccount.name, sign, this._showUploadProgress);
+          }
+        });
+      }
       if (res.data && res.data.url) {
         res.data.hash = res.data.url.split('/').pop();
         res.data.shouldInsert = shouldInsert;
@@ -410,7 +424,8 @@ class EditorContainer extends Component {
         });
       }
     } catch (error) {
-      console.log(error, error.message);
+      console.log('error while uploading image : ', error);
+      this.setState({ failedImageUploads: [...this.state.failedImageUploads, imageIndex] });
       if (error.toString().includes('code 413')) {
         Alert.alert(
           intl.formatMessage({
@@ -446,11 +461,17 @@ class EditorContainer extends Component {
           error.message || error.toString(),
         );
       }
+
       this.setState({
         isUploading: false,
       });
     }
   };
+  // TODO: extend this to show realtime upload progress to user on sceen
+  _showUploadProgress = (event) => {
+    const progress = Math.round((100 * event.loaded) / event.total);
+    console.log('progress : ', progress);
+  }
 
   _handleMediaOnSelectFailure = (error) => {
     const { intl } = this.props;
