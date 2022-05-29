@@ -1,11 +1,8 @@
 import React, { PureComponent } from 'react';
-import { View, Dimensions, Text } from 'react-native';
+import { Text, View } from 'react-native';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
-
 // Constants
-
 // Components
-
 // Styles
 import styles from './percentBarStyles';
 

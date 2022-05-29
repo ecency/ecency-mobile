@@ -1,11 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Dimensions } from 'react-native';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
-import WebView from 'react-native-webview';
-import YoutubeIframe, { InitialPlayerParams } from 'react-native-youtube-iframe';
-import Video from 'react-native-video';
+import React, { useEffect, useRef, useState } from 'react';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
 import Orientation from 'react-native-orientation-locker';
+import Video from 'react-native-video';
+import WebView from 'react-native-webview';
+import YoutubeIframe, { InitialPlayerParams } from 'react-native-youtube-iframe';
 import getWindowDimensions from '../../utils/getWindowDimensions';
 
 

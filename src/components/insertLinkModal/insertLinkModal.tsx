@@ -1,25 +1,23 @@
+import { renderPostBody } from '@ecency/render-helper';
+import Clipboard from '@react-native-clipboard/clipboard';
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import {
-  Platform,
+  ActivityIndicator, Platform,
   Text,
   TouchableOpacity,
-  View,
-  ActivityIndicator,
-  Dimensions,
+  View
 } from 'react-native';
-import { MainButton, PostBody, TextButton } from '..';
-import styles from './insertLinkModalStyles';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import TextInput from '../textInput';
-import { delay } from '../../utils/editor';
-import { isStringWebLink } from '../markdownEditor/view/formats/utils';
-import { renderPostBody } from '@ecency/render-helper';
 import { ScrollView } from 'react-native-gesture-handler';
-import applyWebLinkFormat from '../markdownEditor/view/formats/applyWebLinkFormat';
-import Clipboard from '@react-native-clipboard/clipboard';
+import { MainButton, PostBody, TextButton } from '..';
+import { delay } from '../../utils/editor';
 import getWindowDimensions from '../../utils/getWindowDimensions';
+import applyWebLinkFormat from '../markdownEditor/view/formats/applyWebLinkFormat';
+import { isStringWebLink } from '../markdownEditor/view/formats/utils';
+import TextInput from '../textInput';
+import styles from './insertLinkModalStyles';
 
 interface InsertLinkModalProps {
   handleOnInsertLink: ({

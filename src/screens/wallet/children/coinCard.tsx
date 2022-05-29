@@ -1,10 +1,10 @@
-import { View, Text, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 import React, { ComponentType, Fragment, useEffect, useState } from 'react';
-import styles from './children.styles';
-import { Icon, MainButton, SimpleChart } from '../../../components';
 import { useIntl } from 'react-intl';
+import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { Icon, MainButton, SimpleChart } from '../../../components';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
+import styles from './children.styles';
 
 export interface CoinCardProps {
   id: string;

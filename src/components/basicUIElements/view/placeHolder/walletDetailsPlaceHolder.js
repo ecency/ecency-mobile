@@ -1,13 +1,11 @@
 /* eslint-disable radix */
-import React, { Fragment } from 'react';
-import { View, Dimensions } from 'react-native';
-import Placeholder from 'rn-placeholder';
 import times from 'lodash/times';
-
+import React, { Fragment } from 'react';
+import { View } from 'react-native';
+import Placeholder from 'rn-placeholder';
 import { ThemeContainer } from '../../../../containers';
-
-import styles from './walletDetailsPlaceHolderStyles';
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
+import styles from './walletDetailsPlaceHolderStyles';
 
 const HEIGHT = getWindowDimensions().height;
 

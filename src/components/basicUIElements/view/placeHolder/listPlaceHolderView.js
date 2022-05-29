@@ -1,10 +1,8 @@
 /* eslint-disable radix */
-import React, { Fragment } from 'react';
-import { Dimensions } from 'react-native';
 import times from 'lodash/times';
-
-import ListItemPlaceHolder from './listItemPlaceHolderView';
+import React, { Fragment } from 'react';
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
+import ListItemPlaceHolder from './listItemPlaceHolderView';
 
 const HEIGHT = getWindowDimensions().height;
 

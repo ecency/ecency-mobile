@@ -1,22 +1,19 @@
-import React, { useRef, useState, useEffect, Fragment } from 'react';
-import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { injectIntl } from 'react-intl';
+import { Text, TouchableOpacity, View } from 'react-native';
 import ImageSize from 'react-native-image-size';
-
+import { ScheduledPostStatus } from '../../../providers/ecency/ecency.types';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
-
+import { OptionsModal } from '../../atoms';
+import { IconButton } from '../../iconButton';
+import { PopoverWrapper } from '../../popoverWrapper/popoverWrapperView';
 // Components
 import { PostHeaderDescription } from '../../postElements';
-import { IconButton } from '../../iconButton';
 import ProgressiveImage from '../../progressiveImage';
-import { OptionsModal } from '../../atoms';
-
 // Styles
 import styles from './draftListItemStyles';
-import { ScheduledPostStatus } from '../../../providers/ecency/ecency.types';
-import { PopoverWrapper } from '../../popoverWrapper/popoverWrapperView';
-import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 // Defaults
 const DEFAULT_IMAGE =

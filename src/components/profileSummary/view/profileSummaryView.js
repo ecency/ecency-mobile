@@ -1,37 +1,20 @@
-import React, { PureComponent, Fragment } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Dimensions,
-  ActivityIndicator,
-  Linking,
-  Alert,
-  Platform,
-} from 'react-native';
 import get from 'lodash/get';
-
+import React, { Fragment, PureComponent } from 'react';
+import { ActivityIndicator, Alert, Linking, Text, TouchableOpacity, View } from 'react-native';
 // Constants
 import FastImage from 'react-native-fast-image';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import LIGHT_COVER_IMAGE from '../../../assets/default_cover_image.png';
 import DARK_COVER_IMAGE from '../../../assets/dark_cover_image.png';
-
-// Components
-import { TextWithIcon } from '../../basicUIElements';
-import { PercentBar } from '../../percentBar';
-import { IconButton } from '../../iconButton';
-import { DropdownButton } from '../../dropdownButton';
-
+import LIGHT_COVER_IMAGE from '../../../assets/default_cover_image.png';
 // Utils
 import { makeCountFriendly } from '../../../utils/formatter';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { getCoverImageUrl } from '../../../utils/image';
-
+// Components
+import { TextWithIcon } from '../../basicUIElements';
+import { DropdownButton } from '../../dropdownButton';
+import { PercentBar } from '../../percentBar';
 // Styles
 import styles from './profileSummaryStyles';
-import { TextButton } from '../../buttons';
-import { Icon } from '../..';
-import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 const DEVICE_WIDTH = getWindowDimensions().width;
 

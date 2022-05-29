@@ -1,25 +1,22 @@
-import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { TouchableOpacity, Text, View, Dimensions } from 'react-native';
+import React, { useState } from 'react';
 import { injectIntl } from 'react-intl';
-
+import { Text, TouchableOpacity, View } from 'react-native';
 // Utils
 import FastImage from 'react-native-fast-image';
+import { TextButton } from '../..';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { getTimeFromNow } from '../../../utils/time';
-//import bugsnagInstance from '../../../config/bugsnag';
-
-// Components
-import { PostHeaderDescription } from '../../postElements';
-import { PostDropdown } from '../../postDropdown';
 import { TextWithIcon } from '../../basicUIElements';
 import { Icon } from '../../icon';
-
+import { PostDropdown } from '../../postDropdown';
+//import bugsnagInstance from '../../../config/bugsnag';
+// Components
+import { PostHeaderDescription } from '../../postElements';
 // STEEM
 import { Upvote } from '../../upvote';
 // Styles
 import styles from './postCardStyles';
-import { TextButton } from '../..';
-import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 const dim = getWindowDimensions();
 const DEFAULT_IMAGE =
