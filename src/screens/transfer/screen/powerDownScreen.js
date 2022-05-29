@@ -259,7 +259,7 @@ class PowerDownView extends Component {
         style={[styles.amountInput, !isAmountValid && styles.error]}
         onChangeText={(value) =>
           this.setState({
-            hp: value,
+            hp: value.replace(',', '.'),
             isAmountValid: this._validateHP({ value, availableVestingShares }),
           })
         }
