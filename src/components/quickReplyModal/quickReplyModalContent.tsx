@@ -27,8 +27,8 @@ export const QuickReplyModalContent = ({
   inputRef,
   sheetModalRef,
 }: QuickReplyModalContentProps) => {
-    console.log('fetchPost : ', fetchPost);
-    
+  console.log('fetchPost : ', fetchPost);
+
   const intl = useIntl();
   const dispatch = useDispatch();
   const currentAccount = useSelector((state) => state.account.currentAccount);
@@ -151,11 +151,12 @@ export const QuickReplyModalContent = ({
     }
   };
 
-  const _handleExpandBtn = async() => {
+  const _handleExpandBtn = async () => {
     if (selectedPost) {
-        Keyboard.dismiss();
-        sheetModalRef.current?.setModalVisible(false);
-
+        console.log('fetchPost : ', fetchPost);
+        
+      Keyboard.dismiss();
+      sheetModalRef.current?.setModalVisible(false);
       await delay(50);
       navigate({
         routeName: ROUTES.SCREENS.EDITOR,
