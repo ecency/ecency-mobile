@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 
@@ -15,7 +16,7 @@ export default EStyleSheet.create({
   },
   modalContainer: {
     // paddingVertical: 4,
-    paddingBottom:getBottomSpace()
+    paddingBottom: Platform.OS === "ios" ? getBottomSpace() : 12 ,
   },
 
 
