@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { TouchableOpacity, Text, View, Dimensions } from 'react-native';
+import { TouchableOpacity, Text, View } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Utils
@@ -19,8 +19,9 @@ import { Upvote } from '../../upvote';
 // Styles
 import styles from './postCardStyles';
 import { TextButton } from '../..';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 
-const dim = Dimensions.get('window');
+const dim = getWindowDimensions();
 const DEFAULT_IMAGE =
   'https://images.ecency.com/DQmT8R33geccEjJfzZEdsRHpP3VE8pu3peRCnQa1qukU4KR/no_image_3x.png';
 const NSFW_IMAGE =

@@ -1,7 +1,8 @@
-import { TextStyle, StyleSheet, ViewStyle, Dimensions, ImageStyle } from 'react-native';
+import { TextStyle, StyleSheet, ViewStyle,  ImageStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import getWindowDimensions from '../../utils/getWindowDimensions';
 
-const gridItemWidth = ((Dimensions.get('window').width/2) - 32);
+const gridItemWidth = ((getWindowDimensions().width/2) - 32);
 const gridItemHeight = (gridItemWidth * 500)/600
 
 export default EStyleSheet.create({

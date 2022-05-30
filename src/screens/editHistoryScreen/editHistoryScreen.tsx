@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import {
   Alert,
-  Dimensions,
+  
   FlatList,
   ScrollView,
   Text,
@@ -19,6 +19,7 @@ import { getCommentHistory } from '../../providers/ecency/ecency';
 import { dateToFormatted } from '../../utils/time';
 import AutoHeightWebView from 'react-native-autoheight-webview';
 import historyBuilder from './historyBuilder';
+import getWindowDimensions from '../../utils/getWindowDimensions';
 
 export interface CommentHistoryListItemDiff {
   title: string;
@@ -31,7 +32,7 @@ export interface CommentHistoryListItemDiff {
   v: number;
 }
 
-const screenWidth = Dimensions.get('window').width - 32;
+const screenWidth = getWindowDimensions().width - 32;
 
 const EditHistoryScreen = ({ navigation }) => {
   const { author, permlink } = navigation.state.params;

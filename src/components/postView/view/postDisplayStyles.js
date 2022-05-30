@@ -1,5 +1,6 @@
 import { Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 export default EStyleSheet.create({
   container: {
@@ -30,7 +31,7 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
   },
   scrollContent: {
-    minHeight: Dimensions.get('window').height,
+    minHeight: getWindowDimensions().height,
     paddingBottom: 50,
     alignItems: 'center',
   },

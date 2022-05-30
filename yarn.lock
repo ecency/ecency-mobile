@@ -8914,9 +8914,9 @@ react-native-os@^1.0.1:
   integrity sha512-OlT+xQAcvkcnf7imgXiu+myMkqDt4xw2bP5SlVo19hEn5XHBkPMLX7dk3sSGxxncH/ToMDsf1KLyrPabNVtadA==
 
 react-native-pager-view@^5.4.22:
-  version "5.4.22"
-  resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-5.4.22.tgz#6a987274761f75fa018254756744004e20326d83"
-  integrity sha512-9+LjgK+iOiWJJt3Zj7i8Vwarkg9dvVCm8LxrWZFzOzwjtCcQ6K4YrlbPZ5EOb5aFDcMH+eKAty0OQoUIM9n2vA==
+  version "5.4.24"
+  resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-5.4.24.tgz#8626e757ddc55e41eca66d2f8a8a75aec54591ee"
+  integrity sha512-dRMB7i3B+mu4NCeIN6gqbR/kC/rr2wzqO0gisXDdJwJr78G24sWoTNpLEDFo3G8TFHY9nTMutVl5CUvkN2dp6g==
 
 react-native-permissions@^2.0.2:
   version "2.2.2"
@@ -9025,9 +9025,9 @@ react-native-screens@^2.9.0:
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.18.1.tgz#47b9991c6f762d00d0ed3233e5283d523e859885"
   integrity sha512-r5WZLpmx2hHjC1RgMdPq5YpSU9tEhBpUaZ5M1SUtNIONyiLqQVxabhRCINdebIk4depJiIl7yw2Q85zJyeX6fw==
 
-react-native-scrollable-tab-view@ecency/react-native-scrollable-tab-view#to-es6:
-  version "1.0.0"
-  resolved "https://codeload.github.com/ecency/react-native-scrollable-tab-view/tar.gz/012dd74b55cdb083de28d6d68fb0622302bd2b73"
+react-native-scrollable-tab-view@ecency/react-native-scrollable-tab-view:
+  version "1.1.0"
+  resolved "https://codeload.github.com/ecency/react-native-scrollable-tab-view/tar.gz/d35f17472eb2608c4895dcaac472f499cf6552cf"
   dependencies:
     create-react-class "^15.6.2"
     prop-types "^15.6.0"

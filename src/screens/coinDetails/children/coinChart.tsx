@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { View, Dimensions } from 'react-native'
+import { View } from 'react-native'
 import { RangeSelector } from '.';
 import { SimpleChart } from '../../../components'
 import { useAppSelector } from '../../../hooks';
 import { fetchMarketChart } from '../../../providers/coingecko/coingecko';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 import styles, { CHART_NEGATIVE_MARGIN } from './children.styles';
 
 
@@ -30,7 +31,7 @@ export const CoinChart = ({coinId}:CoinChartProps) => {
   }
 
     const _renderGraph = () => {
-        const _baseWidth = Dimensions.get("window").width - 32 + CHART_NEGATIVE_MARGIN;
+        const _baseWidth = getWindowDimensions().width - 32 + CHART_NEGATIVE_MARGIN;
         return (
           <View style={styles.chartContainer}>
             <SimpleChart 

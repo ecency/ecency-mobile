@@ -96,10 +96,19 @@ class PowerDownView extends Component {
     }
   };
 
+  // validate hp value if it is out of range or not a valid number
+  _validateHP = ({ value, availableVestingShares }) => {
+    const { hivePerMVests } = this.props;
+    const totalHP = vestsToHp(availableVestingShares, hivePerMVests).toFixed(3);
+    const parsedHpValue = parseFloat(value.replace(',', '.'));
+    const amountValid =
+      Number.isNaN(parsedHpValue) || parsedHpValue < 0.0 || parsedHpValue >= totalHP ? false : true;
+    return amountValid;
+  };
   _handleAmountChange = ({ hpValue, availableVestingShares }) => {
     const { hivePerMVests } = this.props;
-    const parsedValue = parseFloat(hpValue);
-    const vestsForHp = hpToVests(hpValue, hivePerMVests);
+    const parsedValue = parseFloat(hpValue.replace(',', '.'));
+    const vestsForHp = hpToVests(parsedValue, hivePerMVests);
     const totalHP = vestsToHp(availableVestingShares, hivePerMVests).toFixed(3);
 
     if (Number.isNaN(parsedValue)) {
@@ -248,17 +257,24 @@ class PowerDownView extends Component {
     return (
       <TextInput
         style={[styles.amountInput, !isAmountValid && styles.error]}
-        onChangeText={(hpValue) => {
-          this._handleAmountChange({ hpValue, availableVestingShares });
-        }}
-        value={this.state.hp}
+        onChangeText={(value) =>
+          this.setState({
+            hp: value.replace(',', '.'),
+            isAmountValid: this._validateHP({ value, availableVestingShares }),
+          })
+        }
+        value={this.state.hp.toString()}
         placeholder={placeholder}
         placeholderTextColor="#c1c5c7"
         autoCapitalize="none"
         multiline={false}
         keyboardType="decimal-pad"
         innerRef={this.amountTextInput}
-        blurOnSubmit={false}
+        blurOnSubmit={true}
+        returnKeyType="done"
+        onEndEditing={(e) =>
+          this._handleAmountChange({ hpValue: e.nativeEvent.text, availableVestingShares })
+        }
       />
     );
   };
@@ -312,7 +328,7 @@ class PowerDownView extends Component {
       currentAccountName,
       hivePerMVests,
     } = this.props;
-    const { amount, isTransfering, isOpenWithdrawAccount } = this.state;
+    const { amount, hp, isAmountValid, isTransfering, isOpenWithdrawAccount } = this.state;
     let poweringDownVests = 0;
     let availableVestingShares = 0;
     let poweringDownFund = 0;
@@ -414,14 +430,21 @@ class PowerDownView extends Component {
       );
     };
 
+    const _handleMainBtn = () => {
+      if (this._validateHP({ value: hp, availableVestingShares })) {
+        this._handleAmountChange({ hpValue: hp, availableVestingShares });
+        this.startActionSheet.current.show();
+      }
+    };
+
     const _renderBottomContent = () => (
       <View style={styles.bottomContent}>
         {!poweringDown && (
           <Fragment>
             <MainButton
               style={styles.button}
-              isDisable={amount <= 0}
-              onPress={() => this.startActionSheet.current.show()}
+              isDisable={hp <= 0 || !isAmountValid}
+              onPress={_handleMainBtn}
               isLoading={isTransfering}
             >
               <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
@@ -447,7 +470,11 @@ class PowerDownView extends Component {
           style={styles.powerDownKeyboadrAvoidingContainer}
           keyboardShouldPersistTaps
         >
-          <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContentContainer}>
+          <ScrollView
+            keyboardShouldPersistTaps
+            style={styles.scroll}
+            contentContainerStyle={styles.scrollContentContainer}
+          >
             {!poweringDown && this._renderBeneficiarySelectionContent()}
             {!poweringDown && _renderMiddleContent()}
             {poweringDown && _renderPowerDownInfo()}

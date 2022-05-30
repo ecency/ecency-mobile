@@ -6,6 +6,7 @@ import YoutubeIframe, { InitialPlayerParams } from 'react-native-youtube-iframe'
 import Video from 'react-native-video';
 import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
 import Orientation from 'react-native-orientation-locker';
+import getWindowDimensions from '../../utils/getWindowDimensions';
 
 
 interface VideoPlayerProps {
@@ -22,7 +23,7 @@ const VideoPlayer = ({
   youtubeVideoId,
   startTime,
   uri,
-  contentWidth = Dimensions.get('screen').width,
+  contentWidth = getWindowDimensions().width,
   mode,
   disableAutoplay,
 }: VideoPlayerProps) => {
