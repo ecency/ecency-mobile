@@ -24,6 +24,7 @@ class RedeemScreen extends PureComponent {
             navigationParams,
             redeemType,
             getESTMPrice,
+            user,
           }) => (
             <RedeemContainer>
               {({ handleOnSubmit, SCPath, isSCModalOpen, handleOnSCModalClose, isLoading }) => (
@@ -57,6 +58,7 @@ class RedeemScreen extends PureComponent {
                       handleOnSCModalClose={handleOnSCModalClose}
                       SCPath={SCPath}
                       getESTMPrice={getESTMPrice}
+                      user={user}
                     />
                   )}
                 </Fragment>

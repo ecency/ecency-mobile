@@ -21,6 +21,7 @@ import { Modal } from '../modal';
 // Styles
 import styles from './postBoostStyles';
 import { OptionsModal } from '../atoms';
+import { deepLinkParser } from '../../utils/deepLinkParser';
 
 class BoostPostScreen extends PureComponent {
   /* Props
@@ -112,6 +113,22 @@ class BoostPostScreen extends PureComponent {
     handleOnSubmit(redeemType, amount, fullPermlink, selectedUser);
   };
 
+  _validateUrl = async () => {
+    const { permlink } = this.state;
+    const { user } = this.props;
+    const deepLinkData = await deepLinkParser(permlink, user);
+    console.log('deepLinkData : ', deepLinkData);
+    const { routeName, params, key } = deepLinkData || {};
+    if (routeName && key && params && params.content) {
+      let postPermlink = `${params.content.author}/${params.content.permlink}`;
+      this.setState({
+        permlink: postPermlink,
+        isValid: true,
+      });
+    } else {
+      this.setState({ isValid: false });
+    }
+  };
   render() {
     const { intl } = this.props;
     const { selectedUser, balance, factor, permlinkSuggestions, permlink, isValid } = this.state;
@@ -126,10 +143,11 @@ class BoostPostScreen extends PureComponent {
       isSCModalOpen,
       handleOnSCModalClose,
       getESTMPrice,
+      user,
     } = this.props;
 
     const calculatedESTM = 150 + 50 * factor;
-
+    // console.log('this.state.permlink : ', this.state.permlink);
     return (
       <Fragment>
         <BasicHeader title={intl.formatMessage({ id: 'boostPost.title' })} />
@@ -166,6 +184,8 @@ class BoostPostScreen extends PureComponent {
                       placeholder={intl.formatMessage({ id: 'promote.permlinkPlaceholder' })}
                       placeholderTextColor="#c1c5c7"
                       autoCapitalize="none"
+                      returnKeyType="done"
+                      onBlur={() => this._validateUrl()}
                     />
                   )}
                   renderItem={({ item }) => (
