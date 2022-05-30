@@ -920,11 +920,12 @@ class EditorContainer extends Component {
 
   _handleSubmitSuccess = () => {
     const { navigation } = this.props;
-    console.log('navigation.state.params: ', navigation.state.params);
     
     this.stateTimer = setTimeout(() => {
       if (navigation) {
         navigation.goBack();
+      }
+      if(navigation && navigation.state && navigation.state.params && navigation.state.params.fetchPost ){
         navigation.state.params.fetchPost();
       }
       this.setState({
