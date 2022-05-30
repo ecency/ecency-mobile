@@ -42,6 +42,7 @@ class BoostPostScreen extends PureComponent {
     };
 
     this.startActionSheet = React.createRef();
+    this.urlInputRef = React.createRef();
   }
 
   // Component Life Cycles
@@ -115,17 +116,18 @@ class BoostPostScreen extends PureComponent {
   };
 
   _validateUrl = () => {
-    const { permlink } = this.state;
-    const postUrl = postUrlParser(permlink);
-    console.log('postUrl : ', postUrl);
-    if (postUrl && postUrl.author && postUrl.permlink) {
-      let postPermlink = `${postUrl.author}/${postUrl.permlink}`;
-      this.setState({
-        permlink: postPermlink,
-        isValid: true,
-      });
-    } else {
-      this.setState({ isValid: false });
+    const { permlink, isValid } = this.state;
+    if (!isValid) {
+      const postUrl = postUrlParser(permlink);
+      if (postUrl && postUrl.author && postUrl.permlink) {
+        let postPermlink = `${postUrl.author}/${postUrl.permlink}`;
+        this.setState({
+          permlink: postPermlink,
+          isValid: true,
+        });
+      } else {
+        this.setState({ isValid: false });
+      }
     }
   };
   render() {
@@ -151,7 +153,7 @@ class BoostPostScreen extends PureComponent {
       <Fragment>
         <BasicHeader title={intl.formatMessage({ id: 'boostPost.title' })} />
         <View style={styles.container}>
-          <ScrollView>
+          <ScrollView keyboardShouldPersistTaps="handled">
             <View style={styles.middleContent}>
               <TransferFormItem
                 label={intl.formatMessage({ id: 'promote.user' })}
@@ -185,18 +187,20 @@ class BoostPostScreen extends PureComponent {
                       autoCapitalize="none"
                       returnKeyType="done"
                       onBlur={() => this._validateUrl()}
+                      innerRef={this.urlInputRef}
                     />
                   )}
                   renderItem={({ item }) => (
                     <TouchableOpacity
                       key={item}
-                      onPress={() =>
+                      onPress={() => {
+                        this.urlInputRef.current?.blur();
                         this.setState({
                           permlink: item,
                           isValid: true,
                           permlinkSuggestions: [],
-                        })
-                      }
+                        });
+                      }}
                     >
                       <Text style={styles.autocompleteItemText}>{item}</Text>
                     </TouchableOpacity>
