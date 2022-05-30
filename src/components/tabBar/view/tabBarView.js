@@ -7,7 +7,6 @@ import {
   TouchableNativeFeedback,
   TouchableOpacity,
   Platform,
-  Dimensions,
 } from 'react-native';
 
 // Styles
@@ -66,7 +65,7 @@ class TabBar extends PureComponent {
     } = this.props;
     const { activeColor } = this.state;
 
-    const containerWidth = Dimensions.get('window').width;
+    const containerWidth = getWindowDimensions().nativeWidth;
     const numberOfTabs = tabs.length;
     const underlineWidth = tabUnderlineDefaultWidth || containerWidth / (numberOfTabs * 2);
     const scale = tabUnderlineScaleX || 2;
