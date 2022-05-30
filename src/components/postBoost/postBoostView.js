@@ -22,6 +22,7 @@ import { Modal } from '../modal';
 import styles from './postBoostStyles';
 import { OptionsModal } from '../atoms';
 import { deepLinkParser } from '../../utils/deepLinkParser';
+import postUrlParser from '../../utils/postUrlParser';
 
 class BoostPostScreen extends PureComponent {
   /* Props
@@ -113,14 +114,12 @@ class BoostPostScreen extends PureComponent {
     handleOnSubmit(redeemType, amount, fullPermlink, selectedUser);
   };
 
-  _validateUrl = async () => {
+  _validateUrl = () => {
     const { permlink } = this.state;
-    const { user } = this.props;
-    const deepLinkData = await deepLinkParser(permlink, user);
-    console.log('deepLinkData : ', deepLinkData);
-    const { routeName, params, key } = deepLinkData || {};
-    if (routeName && key && params && params.content) {
-      let postPermlink = `${params.content.author}/${params.content.permlink}`;
+    const postUrl = postUrlParser(permlink);
+    console.log('postUrl : ', postUrl);
+    if (postUrl && postUrl.author && postUrl.permlink) {
+      let postPermlink = `${postUrl.author}/${postUrl.permlink}`;
       this.setState({
         permlink: postPermlink,
         isValid: true,
