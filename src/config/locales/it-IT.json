@@ -657,6 +657,7 @@
     "title": "Get Points",
     "buy": "GET Points",
     "next": "PROSSIMO",
+    "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Ottieni un Boost per il tuo Account",
       "desc": "La delegazione per 30 giorni accrescerà il peso dei tuoi voti e delle tue attività sociali e ti darà più azioni con più crediti di risorse."
