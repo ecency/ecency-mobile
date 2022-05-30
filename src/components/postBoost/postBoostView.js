@@ -225,6 +225,16 @@ class BoostPostScreen extends PureComponent {
             </View>
 
             <View style={styles.bottomContent}>
+              <View style={styles.infoWrapper}>
+                <Icon
+                  size={20}
+                  style={styles.infoIcon}
+                  iconType="MaterialIcons"
+                  name="info-outline"
+                />
+                <Text style={styles.infoText}>{intl.formatMessage({ id: 'boost.info' })}</Text>
+              </View>
+
               <MainButton
                 style={styles.button}
                 isDisable={

@@ -659,6 +659,7 @@
     "title": "Get Points",
     "buy": "GET Points",
     "next": "NEXT",
+    "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Get Account Boost",
       "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
