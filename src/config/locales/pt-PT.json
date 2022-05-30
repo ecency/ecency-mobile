@@ -657,6 +657,7 @@
     "title": "Obter Pontos",
     "buy": "OBTER Pontos",
     "next": "SEGUINTE",
+    "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Obter Impulso na Conta",
       "desc": "30 dias de delegação irão impulsionar seus votos e atividades sociais, permitindo mais ações com o aumento dos Créditos de Recursos disponibilizados."
