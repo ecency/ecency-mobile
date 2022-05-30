@@ -657,6 +657,7 @@
     "title": "Get Points",
     "buy": "GET Points",
     "next": "次へ",
+    "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "アカウントブーストをゲット",
       "desc": "30日間の投資は投票とソーシャルメディア活動を強化し、リソースクレジットが増えることでより多くのアクションが提供されます。"
