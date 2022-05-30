@@ -56,7 +56,7 @@ export const deepLinkParser = async (url, currentAccount) => {
     }
   }
 
-  if (feedType === 'hot' || feedType === 'trending' || feedType === 'created') {
+  if (feedType && ( feedType === 'hot' || feedType === 'trending' || feedType === 'created' )) {
     if (!tag) {
       routeName = ROUTES.SCREENS.TAG_RESULT;
     } else if (/hive-[1-3]\d{4,6}$/.test(tag)) {
@@ -73,7 +73,7 @@ export const deepLinkParser = async (url, currentAccount) => {
 
   if (!routeName) {
     const { mode, referredUser } = parseAuthUrl(url) || {};
-    if (mode === 'SIGNUP') {
+    if (mode && referredUser &&  mode === 'SIGNUP') {
       routeName = ROUTES.SCREENS.REGISTER;
       params = {
         referredUser,
