@@ -173,4 +173,23 @@ export default EStyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
   },
+  infoWrapper: {
+    backgroundColor: '$primaryLightBackground',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 16,
+    paddingHorizontal: 16,
+    borderRadius: 16,
+    paddingVertical: 8,
+    marginTop: 40,
+  },
+  infoIcon: {
+    color: '$primaryDarkGray',
+  },
+  infoText: {
+    fontSize: 16,
+    marginLeft: 8,
+    color: '$primaryDarkGray',
+  },
 });
