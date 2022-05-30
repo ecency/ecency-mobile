@@ -575,7 +575,7 @@
     "unpin-blog": "Открепить от блога",
     "pin-community": "Закрепить в сообществе",
     "unpin-community": "Открепить от сообщества",
-    "edit-history": "Edit History"
+    "edit-history": "История изменений"
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
@@ -815,7 +815,7 @@
     "detected_url": "Обнаружена Ссылка"
   },
   "history": {
-    "edit": "Edit History",
-    "version": "Version"
+    "edit": "История изменений",
+    "version": "Версия"
   }
 }
