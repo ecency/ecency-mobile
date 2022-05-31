@@ -408,7 +408,8 @@
     "btn_add": "Vaizdas",
     "btn_insert": "ĮDĖKITE",
     "btn_delete": "IŠTRINTI",
-    "message_failed": "Nepavyko įkelti vaizdo"
+    "message_failed": "Nepavyko įkelti vaizdo",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "Įveskite slaptažodį, kad atrakintumėte",
