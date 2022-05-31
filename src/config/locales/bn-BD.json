@@ -408,7 +408,8 @@
     "btn_add": "Image",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
-    "message_failed": "Failed to upload image"
+    "message_failed": "Failed to upload image",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -518,7 +519,11 @@
     "empty_list": "এখানে কিছু নেই",
     "deleted": "নির্ধারিত পোস্ট মোছা হয়েছে",
     "move": "খসড়াতে সরানো হয়েছে",
-    "moved": "খসড়াতে সরানো হয়েছে"
+    "moved": "খসড়াতে সরানো হয়েছে",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "বুকমার্ক",
@@ -645,12 +650,15 @@
     "amount_hp": "Amount (HP)",
     "powering_down": "Powering Down",
     "powering_down_subheading": "You are currently powering down.",
-    "powering_down_info": "Next power down is in {days} days, {hp} HIVE"
+    "powering_down_info": "Next power down is in {days} days, {hp} HIVE",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Please enter valid amount"
   },
   "boost": {
     "title": "পয়েন্ট পান",
     "buy": "পয়েন্ট পান",
     "next": "পরবর্তী",
+    "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "অ্যাকাউন্ট বুস্ট করুন",
       "desc": "৩০ দিনের ডেলিগেশন আপনার ভোট এবং সামাজিক ক্রিয়াকলাপকে উত্সাহ দেবে এবং আরও সংস্থান ক্রেডিট দিয়ে আপনাকে আরও ক্রিয়া দেবে।"

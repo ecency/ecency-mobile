@@ -408,7 +408,8 @@
     "btn_add": "Image",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
-    "message_failed": "Failed to upload image"
+    "message_failed": "Failed to upload image",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "输入 PIN 解锁",
@@ -518,7 +519,11 @@
     "empty_list": "此处无内容",
     "deleted": "定时发布的文章已删除",
     "move": "存为草稿",
-    "moved": "已存为草稿"
+    "moved": "已存为草稿",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "书签",
@@ -645,12 +650,15 @@
     "amount_hp": "Amount (HP)",
     "powering_down": "Powering Down",
     "powering_down_subheading": "You are currently powering down.",
-    "powering_down_info": "Next power down is in {days} days, {hp} HIVE"
+    "powering_down_info": "Next power down is in {days} days, {hp} HIVE",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Please enter valid amount"
   },
   "boost": {
     "title": "Get Points",
     "buy": "GET Points",
     "next": "下一个",
+    "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Get Account Boost",
       "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."

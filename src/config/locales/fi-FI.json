@@ -408,7 +408,8 @@
     "btn_add": "Kuva",
     "btn_insert": "Lisää",
     "btn_delete": "POISTA",
-    "message_failed": "Kuvan lataaminen epäonnistui"
+    "message_failed": "Kuvan lataaminen epäonnistui",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "Poista lukitus antamalla PIN-koodi",
@@ -518,7 +519,11 @@
     "empty_list": "Täällä ei ole mitään",
     "deleted": "Ajastettu julkaisu poistettu",
     "move": "Siirrä luonnoksiin",
-    "moved": "Siirretty luonnoksiin"
+    "moved": "Siirretty luonnoksiin",
+    "pending": "Odottaa",
+    "postponed": "Siirretty",
+    "published": "Julkaistu",
+    "error": "Virhe"
   },
   "bookmarks": {
     "title": "Kirjanmerkit",
@@ -645,12 +650,15 @@
     "amount_hp": "Määrä (HP)",
     "powering_down": "Tehon alentaminen",
     "powering_down_subheading": "Olet alentamassa tehoa.",
-    "powering_down_info": "Seuraavaan tehonalennukseen on {days} päivää, {hp} HIVE"
+    "powering_down_info": "Seuraavaan tehonalennukseen on {days} päivää, {hp} HIVE",
+    "invalid_amount": "Virheellinen määrä",
+    "invalid_amount_desc": "Syötä kelvollinen arvo"
   },
   "boost": {
     "title": "Hanki pisteitä",
     "buy": "Hanki Pisteitä",
     "next": "SEURAAVA",
+    "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Vastaanota Tilitehostus",
       "desc": "30 päivän valtuutus tehostaa ääniäsi ja sosiaalista toimintaa, antaen lisää toimintoja ja Resurssipisteitä."

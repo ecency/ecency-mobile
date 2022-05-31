@@ -7,9 +7,9 @@
     "transfer": "स्थानांतरण",
     "power_up": "वेस्टिंग को",
     "transfer_from_savings": "बचत से",
-    "withdraw_savings": "Withdraw Savings",
+    "withdraw_savings": "बचत खाते से निकालें",
     "withdraw_vesting": "शक्तिक्षय करें",
-    "open_order": "Open Order",
+    "open_order": "खुला ऑर्डर्स",
     "fill_order": "क्रम पूरा करें",
     "post": "लेख",
     "comment": "टिप्पणी",
@@ -51,12 +51,12 @@
     "to": "को",
     "estimated_value_desc": "खरीद मूल्य के अनुसार",
     "estimated_value": "अनुमानित मूल्य",
-    "vote_value": "Vote value",
-    "delegated_hive_power": "Delegated hive power",
-    "powering_down_hive_power": "Powering down",
-    "received_hive_power": "Received hive power",
-    "total_hive_power": "Total hive power",
-    "savings": "Savings",
+    "vote_value": "वोट का मूल्य",
+    "delegated_hive_power": "प्रत्यायोजित हाइव पावर",
+    "powering_down_hive_power": "ऊर्जा / क्षमता कम करना",
+    "received_hive_power": "हाइव पावर प्राप्त किया",
+    "total_hive_power": "कुल हाइव पावर",
+    "savings": "बचत",
     "estimated_amount": "वोट का मूल्य",
     "amount_information": "राशि समायोजित करने के लिए स्लाइडर को खींचें।",
     "amount": "रकम",
@@ -76,11 +76,11 @@
     "next": "अगला",
     "delegate": "कार्यभार सौंपें",
     "power_down": "शक्तिक्षय करें",
-    "withdraw_hive": "Withdraw Savings",
-    "withdraw_hbd": "Withdraw Savings",
+    "withdraw_hive": "बचत खाते से निकालें",
+    "withdraw_hbd": "बचत खाते से निकालें",
     "transfer_to_savings": "बचत करने के लिए",
     "convert": "बदलें",
-    "convert_request": "Convert Request",
+    "convert_request": "अनुरोध कनवर्ट करें",
     "escrow_transfer": "एस्क्रो ट्रांसफर",
     "escrow_dispute": "एस्क्रो विवाद",
     "escrow_release": "एस्क्रो रिलीज",
@@ -91,8 +91,8 @@
     "fill_transfer_from_savings": "बचत की गई",
     "fill_vesting_withdraw": "पॉवरडाउन को अंजाम दिया",
     "ecency": {
-      "title": "Points",
-      "name": "Ecency Points",
+      "title": "अंक",
+      "name": "इसेंसी अंक",
       "buy": "GET POINTS"
     },
     "savinghive": {
@@ -408,7 +408,8 @@
     "btn_add": "छवि",
     "btn_insert": "सम्मिलित करें",
     "btn_delete": "हटाएँ",
-    "message_failed": "छवि अपलोड करने में विफल"
+    "message_failed": "छवि अपलोड करने में विफल",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "खोलनें के लिए पिन डालें",
@@ -518,7 +519,11 @@
     "empty_list": "कुछ नहीं है",
     "deleted": "निर्धारित लेख हट गया",
     "move": "प्रलेख में भेजें",
-    "moved": "प्रलेख में गया"
+    "moved": "प्रलेख में गया",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "पृष्टस्मृतियाँ",
@@ -645,12 +650,15 @@
     "amount_hp": "Amount (HP)",
     "powering_down": "Powering Down",
     "powering_down_subheading": "You are currently powering down.",
-    "powering_down_info": "Next power down is in {days} days, {hp} HIVE"
+    "powering_down_info": "Next power down is in {days} days, {hp} HIVE",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Please enter valid amount"
   },
   "boost": {
     "title": "अंक प्राप्त करें",
     "buy": "अंक प्राप्त करें",
     "next": "अगला",
+    "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "खाता बूस्ट प्राप्त करें",
       "desc": "30 दिनों का प्रतिनिधिमंडल आपके वोटों और सामाजिक गतिविधियों को बढ़ावा देगा और आपको अधिक संसाधन क्रेडिट के साथ अधिक कार्रवाई देगा।"

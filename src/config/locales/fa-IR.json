@@ -408,7 +408,8 @@
     "btn_add": "Image",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
-    "message_failed": "Failed to upload image"
+    "message_failed": "Failed to upload image",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -518,7 +519,11 @@
     "empty_list": "اینجا چیزی نیست",
     "deleted": "پست های برنامه ریزی شده حذف شدند",
     "move": "انتقال به پیشنویس",
-    "moved": "به پیشنویس ها منتقل شده"
+    "moved": "به پیشنویس ها منتقل شده",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "صفحات محبوب",
@@ -645,12 +650,15 @@
     "amount_hp": "Amount (HP)",
     "powering_down": "Powering Down",
     "powering_down_subheading": "You are currently powering down.",
-    "powering_down_info": "Next power down is in {days} days, {hp} HIVE"
+    "powering_down_info": "Next power down is in {days} days, {hp} HIVE",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Please enter valid amount"
   },
   "boost": {
     "title": "گرفتن امتیاز",
     "buy": "گرفتن امتیاز",
     "next": "بعدی",
+    "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "حساب را تقویت دهید",
       "desc": "تفویض 30 روزه آرا و فعالیتهای اجتماعی شما را افزایش داده و اقدامات بیشتری را با اعتبارات بیشتر به شما می دهد."

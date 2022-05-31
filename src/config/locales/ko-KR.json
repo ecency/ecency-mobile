@@ -408,7 +408,8 @@
     "btn_add": "이미지",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
-    "message_failed": "이미지 업로드에 실패"
+    "message_failed": "이미지 업로드에 실패",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "잠금을 해제하려면 PIN 코드를 입력해주세요",
@@ -518,7 +519,11 @@
     "empty_list": "빈 목록입니다",
     "deleted": "예약된 글이 삭제되었습니다",
     "move": "임시 보관함으로 이동",
-    "moved": "임시 보관함으로 이동했습니다"
+    "moved": "임시 보관함으로 이동했습니다",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "즐겨찾기",
@@ -645,12 +650,15 @@
     "amount_hp": "Amount (HP)",
     "powering_down": "Powering Down",
     "powering_down_subheading": "You are currently powering down.",
-    "powering_down_info": "Next power down is in {days} days, {hp} HIVE"
+    "powering_down_info": "Next power down is in {days} days, {hp} HIVE",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Please enter valid amount"
   },
   "boost": {
     "title": "포인트 받기",
     "buy": "포인트 받기",
     "next": "다음",
+    "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "계정 부스트 받기",
       "desc": "30일 임대는 투표와 사회 활동을 강화하고 더 많은 리소스 크레딧으로 더 많은 활동을 제공합니다."

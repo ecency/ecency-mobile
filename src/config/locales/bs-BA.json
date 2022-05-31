@@ -408,7 +408,8 @@
     "btn_add": "Slika",
     "btn_insert": "UMETNI",
     "btn_delete": "IZBRIŠI",
-    "message_failed": "Otpremanje slike nije uspjelo"
+    "message_failed": "Otpremanje slike nije uspjelo",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "Unesite PIN za otključavanje",
@@ -518,7 +519,11 @@
     "empty_list": "Ovdje nema ništa",
     "deleted": "Zakazana objava izbrisana",
     "move": "Premjesti u nacrte",
-    "moved": "Premješteno u nacrte"
+    "moved": "Premješteno u nacrte",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Knjižne oznake",
@@ -645,12 +650,15 @@
     "amount_hp": "Amount (HP)",
     "powering_down": "Powering Down",
     "powering_down_subheading": "You are currently powering down.",
-    "powering_down_info": "Next power down is in {days} days, {hp} HIVE"
+    "powering_down_info": "Next power down is in {days} days, {hp} HIVE",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Please enter valid amount"
   },
   "boost": {
     "title": "Dobijte bodove",
     "buy": "DOBIJTE bodove",
     "next": "SLJEDEĆI",
+    "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Dobijte pojačanje računa",
       "desc": "30-dnevna delegacija će povećati vaše glasove i društvene aktivnosti i dati vam više akcija s više resursa."

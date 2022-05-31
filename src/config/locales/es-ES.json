@@ -5,11 +5,11 @@
     "comment_benefactor_reward": "Recompensa de Benefactor del comentario",
     "claim_reward_balance": "Reclamar recompensa ",
     "transfer": "Transferir",
-    "power_up": "To Vesting",
+    "power_up": "A invertir",
     "transfer_from_savings": "Desde Ahorros",
-    "withdraw_savings": "Withdraw Savings",
+    "withdraw_savings": "Retirar ahorros",
     "withdraw_vesting": "Power down",
-    "open_order": "Open Order",
+    "open_order": "Órdenes abiertas",
     "fill_order": "Completar orden",
     "post": "Publicar",
     "comment": "Comentario",
@@ -51,12 +51,12 @@
     "to": "Para",
     "estimated_value_desc": "De acuerdo al valor de compra",
     "estimated_value": "Valor estimado",
-    "vote_value": "Vote value",
-    "delegated_hive_power": "Delegated hive power",
-    "powering_down_hive_power": "Powering down",
-    "received_hive_power": "Received hive power",
-    "total_hive_power": "Total hive power",
-    "savings": "Savings",
+    "vote_value": "Valor del voto",
+    "delegated_hive_power": "Hive Power delegado",
+    "powering_down_hive_power": "Apagando",
+    "received_hive_power": "Hive power recibido",
+    "total_hive_power": "Total de Hive Power",
+    "savings": "Ahorros",
     "estimated_amount": "Valor del voto",
     "amount_information": "Arrastra el deslizador para ajustar la cantidad",
     "amount": "Cantidad",
@@ -70,17 +70,17 @@
     "purchase_estm": "OBTENER PUNTOS",
     "points": "Regalar puntos a alguien",
     "transfer_to_saving": "A ahorros",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_vesting": "Hacer Power Up",
     "withdraw_to_saving": "Retirar Ahorros",
     "steemconnect_title": "Transferencia en Hivesigner",
     "next": "SIGUIENTE",
     "delegate": "Delegar",
     "power_down": "Power down",
-    "withdraw_hive": "Withdraw Savings",
-    "withdraw_hbd": "Withdraw Savings",
+    "withdraw_hive": "Retirar ahorros",
+    "withdraw_hbd": "Retirar ahorros",
     "transfer_to_savings": "A ahorros",
     "convert": "Convertir",
-    "convert_request": "Convert Request",
+    "convert_request": "Solicitudes de conversión",
     "escrow_transfer": "Transferencia de fideicomiso",
     "escrow_dispute": "Disputa de fideicomiso",
     "escrow_release": "Liberar fideicomiso",
@@ -91,19 +91,19 @@
     "fill_transfer_from_savings": "Ahorros ejecutados",
     "fill_vesting_withdraw": "PowerDown ejecutado",
     "ecency": {
-      "title": "Points",
-      "name": "Ecency Points",
-      "buy": "GET POINTS"
+      "title": "Puntos",
+      "name": "Puntos Ecency",
+      "buy": "GANAR PINTOS"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "Ahorros HIVE"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "Ahorros HBD"
     },
     "hive": {
       "title": "HIVE",
-      "name": "Hive Token",
+      "name": "Token de Hive",
       "buy": "OBTEN HIVE"
     },
     "hbd": {
@@ -112,26 +112,26 @@
     },
     "hive_power": {
       "title": "HIVE POWER",
-      "name": "Hive Power"
+      "name": "Poder de voto"
     },
     "hive_dollar": {
-      "name": "Hive Dollar"
+      "name": "Dólares Hive"
     },
     "btc": {
       "title": "BTC",
       "buy": "OBTENER BTC",
       "address": "RECIBIR"
     },
-    "last_updated": "Last Updated:",
-    "updating": "Updating...",
-    "coin_details": "Details",
-    "change": "Change",
-    "activities": "Activities",
-    "savings_withdrawal": "Pending Withdrawals",
-    "open_orders": "Open Orders",
-    "conversions_requested": "Conversions Requested",
-    "expires": "expires",
-    "pending_requests": "Pending Requests"
+    "last_updated": "Última actualización:",
+    "updating": "Actualizando...",
+    "coin_details": "Detalles",
+    "change": "Cambiar",
+    "activities": "Actividades",
+    "savings_withdrawal": "Retiros pendientes",
+    "open_orders": "Órdenes abiertas",
+    "conversions_requested": "Conversiones solicitadas",
+    "expires": "caduca el",
+    "pending_requests": "Solicitudes pendientes"
   },
   "notification": {
     "vote": "votado",
@@ -143,7 +143,7 @@
     "ignore": "te ignoró",
     "reblog": "reblogueado",
     "transfer": "transferido",
-    "delegations": "delegated",
+    "delegations": "delegado",
     "spin": "Es hora de ganar más puntos",
     "inactive": "¡Estate activo! Escribe un mensaje, sigue ganando",
     "referral": "se unieron con tu enlace de referido, dales la bienvenida!",
@@ -154,7 +154,7 @@
     "recent": "Reciente",
     "yesterday": "Ayer",
     "this_week": "Esta semana",
-    "last_week": "Last Week",
+    "last_week": "Última semana",
     "this_month": "Este mes",
     "older_then": "Más de un mes",
     "activities": "Todo",
@@ -162,15 +162,15 @@
     "mentions": "Menciones",
     "reblogs": "Reblogueos",
     "noactivity": "Sin actividad reciente",
-    "mention_on": "New mention on",
-    "reply_on": "New reply on",
-    "reply_body": "Tap to continue conversation..."
+    "mention_on": "Nueva mención en",
+    "reply_on": "Nueva respuesta en",
+    "reply_body": "Pulse para continuar la conversación..."
   },
   "leaderboard": {
     "daily": "DIARIO",
     "weekly": "SEMANAL",
     "monthly": "MENSUAL",
-    "tooltip_earn": "Earn points by actively participating in Ecency."
+    "tooltip_earn": "Gana puntos participando activamente en Ecency."
   },
   "messages": {
     "comingsoon": "¡Pronto mensajería instantánea!"
@@ -178,7 +178,7 @@
   "profile": {
     "following": "Siguiendo",
     "follower": "Seguidor",
-    "edit_label": "Edit",
+    "edit_label": "Editar",
     "post": "Post",
     "details": "Datos de perfil",
     "comments": "Comentarios",
@@ -190,8 +190,8 @@
     "hours": "horas",
     "voting_power": "Poder de voto",
     "login_to_see": "Inciar sesión para ver",
-    "follow_people": "When you follow people, you'll see their post here.",
-    "follow_communities": "When you join communities you'll see posts from communities here.",
+    "follow_people": "Cuando sigas a otras personas, verás sus publicaciones aquí.",
+    "follow_communities": "Cuando te unes a las comunidades verás mensajes de las comunidades aquí.",
     "havent_commented": "no has comentado nada aún",
     "havent_posted": "no has publicado nada aún",
     "hive_power": "Potencia de Hive",
@@ -200,9 +200,9 @@
     "day": "día",
     "hive_dollars": "Dolares HIVE",
     "savings": "Ahorros",
-    "joined": "Joined {time} ago",
-    "view_full": "VIEW FULL PROFILE",
-    "resource_credits": "Resource Credits",
+    "joined": "Se unió hace {time}",
+    "view_full": "VER PERFIL COMPLETO",
+    "resource_credits": "Créditos de recursos",
     "reputation": "Reputación",
     "edit": {
       "display_name": "Nombre para mostrar",
@@ -217,7 +217,7 @@
     "currency": "Divisa",
     "language": "Idioma",
     "server": "Servidor",
-    "color_theme": "Appearance",
+    "color_theme": "Apariencia",
     "push_notification": "Notificación Push",
     "notification": {
       "follow": "Seguir",
@@ -226,7 +226,7 @@
       "mention": "Mención",
       "reblog": "Reblogueo",
       "transfers": "Transferencias",
-      "delegations": "Delegations"
+      "delegations": "Delegaciones"
     },
     "pincode": "Pincode",
     "reset_pin": "Reiniciar código pin",
@@ -241,9 +241,9 @@
       "always_warn": "Advertir siempre"
     },
     "theme": {
-      "system": "Device settings",
-      "light": "Light",
-      "dark": "Dark"
+      "system": "Configuración del dispositivo",
+      "light": "Tema Claro",
+      "dark": "Tema Oscuro"
     },
     "feedback_success": "Correo electrónico abierto con éxito",
     "feedback_fail": "Ocurrió un error al intentar abrir el cliente del correo electrónico",
@@ -285,8 +285,8 @@
     "posts": "Post",
     "friends": "Amigos",
     "communities": "Comunidades",
-    "popup_postfix": "Posted",
-    "scroll_top": "Scroll To Top"
+    "popup_postfix": "Publicado",
+    "scroll_top": "Ir arriba"
   },
   "side_menu": {
     "profile": "Perfil",
@@ -304,8 +304,8 @@
     "create_a_new_account": "Crea una cuenta nueva",
     "add_an_existing_account": "Añadir una cuenta existente",
     "accounts": "Cuentas",
-    "refer": "Refer & Earn",
-    "qr": "QR Scan"
+    "refer": "Referir y Ganar",
+    "qr": "Escaneo de QR"
   },
   "header": {
     "title": "Inicie sesión para personalizar su inicio",
@@ -316,7 +316,7 @@
     "search": "Buscar",
     "update": "Actualizar",
     "reply": "Responder",
-    "schedule": "Schedule"
+    "schedule": "Programar"
   },
   "editor": {
     "title": "Título",
@@ -327,7 +327,7 @@
     "reply": "Responder",
     "open_gallery": "Abrir galería",
     "capture_photo": "Capturar foto",
-    "uploaded_images": "Uploaded Images",
+    "uploaded_images": "Imágenes subidas",
     "limited_tags": "Sólo 10 etiquetas permitidas, remueve algunas",
     "limited_length": "La longitud máxima de cada etiqueta debe ser de 24 caracteres",
     "limited_dash": "Usar un guión en cada etiqueta",
@@ -338,20 +338,20 @@
     "limited_lastchar": "La etiqueta debe terminar con una letra o número",
     "setting_schedule": "Hora programada",
     "setting_reward": "Recompensa",
-    "setting_reblog": "Reblog",
+    "setting_reblog": "Rebloguear",
     "setting_beneficiary": "Beneficiario",
-    "setting_thumb": "Set Thumbnail",
+    "setting_thumb": "Elegir Miniatura",
     "reward_default": "Predeterminado 50% / 50%",
     "reward_power_up": "Power Up 100%",
     "reward_decline": "Rechazar Pago",
     "beneficiaries": "Beneficiarios",
     "options": "Opciones",
     "my_blog": "Mi blog",
-    "select_community": "Choose a community",
+    "select_community": "Elige una comunidad",
     "my_communities": "Mis comunidades",
     "top_communities": "Comunidades populares",
     "schedule_modal_title": "Programar publicación",
-    "snippets": "Snippets",
+    "snippets": "Fragmentos de código",
     "alert_init_title": "Nuevo contenido",
     "alert_init_body": "Abrir borrador reciente o Crear nueva publicación",
     "alert_btn_draft": "Últimos borradores",
@@ -363,61 +363,62 @@
     "alert_btn_no": "No",
     "draft_save_success": "Borrador guardado",
     "draft_save_fail": "No es posible guardar el borrador.",
-    "select_thumb": "Select Post Thumbnail",
-    "add_more_imgs": "Add more images to post",
-    "two_thumbs_required": "Add more images in your post before setting thumbnail",
-    "scheduled_for": "Scheduled For",
-    "scheduled_immediate": "Immediate",
-    "scheduled_later": "Later",
-    "settings_title": "Post Options",
-    "done": "DONE",
-    "draft_save_title": "Saving Draft",
-    "draft_update": "Update current draft",
+    "select_thumb": "Seleccionar Miniatura de Publicación",
+    "add_more_imgs": "Añadir más imágenes para publicar",
+    "two_thumbs_required": "Añade más imágenes en tu publicación antes de configurar la miniatura",
+    "scheduled_for": "Programada para",
+    "scheduled_immediate": "Inmediato",
+    "scheduled_later": "Más tarde",
+    "settings_title": "Opciones de Publicación",
+    "done": "HECHO",
+    "draft_save_title": "Guardar Borrador",
+    "draft_update": "Actualizar borrador actual",
     "draft_save_new": "Guardar como borrador",
-    "label": "Label",
-    "enter_label_placeholder": "Enter Label (Optional)",
+    "label": "Etiqueta",
+    "enter_label_placeholder": "Introducir etiqueta (opcional)",
     "url": "URL",
-    "enter_url_placeholder": "Enter URL",
-    "link_type_text": "Type of Link",
-    "preview": "Preview",
-    "invalid_url_error": "Please insert valid url",
-    "plain": "Plain",
-    "video": "Video",
-    "image": "Image"
+    "enter_url_placeholder": "Introduce URL",
+    "link_type_text": "Tipo de enlace",
+    "preview": "Vista previa",
+    "invalid_url_error": "Por favor, introduzca una url válida",
+    "plain": "Sin formato",
+    "video": "Vídeo",
+    "image": "Imagen"
   },
   "snippets": {
-    "label_no_snippets": "No Snippets Found",
-    "title_add_snippet": "Add Snippet",
-    "title_edit_snippet": "Edit Snippet",
-    "title_remove_confirmation": "Delete snippet",
-    "placeholder_title": "Snippet title",
-    "placeholder_body": "Add snippet body here...",
-    "btn_save": "SAVE",
-    "btn_close": "CLOSE",
-    "btn_add": "Snippet",
-    "message_incomplete": "Please add title and body for snippet",
-    "message_failed": "Failed to save snippet",
-    "message_remove_confirmation": "Are you sure you want to delete this snippet?",
-    "btn_confirm": "Confirm",
-    "btn_cancel": "Cancel"
+    "label_no_snippets": "No se encontraron Fragmentos",
+    "title_add_snippet": "Añadir Fragmento",
+    "title_edit_snippet": "Editar Fragmento",
+    "title_remove_confirmation": "Eliminar fragmento",
+    "placeholder_title": "Título del Fragmento",
+    "placeholder_body": "Añadir el cuerpo del fragmento aquí...",
+    "btn_save": "GUARDAR",
+    "btn_close": "CERRADO",
+    "btn_add": "Fragmento",
+    "message_incomplete": "Por favor, añade el título y el cuerpo del fragmento",
+    "message_failed": "Error al guardar el fragmento",
+    "message_remove_confirmation": "¿Está seguro que desea eliminar este fragmento?",
+    "btn_confirm": "Confirmar",
+    "btn_cancel": "Cancelar"
   },
   "uploads_modal": {
     "label_no_images": "No se encontraron imágenes",
     "title": "Imágenes subidas",
     "title_remove_confirmation": "Eliminar imagen",
     "btn_add": "Imágen",
-    "btn_insert": "INSERT",
-    "btn_delete": "DELETE",
-    "message_failed": "Error al subir la imagen"
+    "btn_insert": "INSERTAR",
+    "btn_delete": "BORRAR",
+    "message_failed": "Error al subir la imagen",
+    "failed_count": "Error al subir {failedCount} de {totalCount} imagen(es) seleccionada(s)"
   },
   "pincode": {
     "enter_text": "Ingresa un pin para desbloquear",
     "set_new": "Set new pin",
     "write_again": "Escribir de nuevo",
     "forgot_text": "Oh, me olvidé...",
-    "pin_not_matched": "PIN do not match, Please try again.",
-    "attempts_postfix": "failed attempt(s)",
-    "message_reset_warning": "User data will be wiped on next failed attempt"
+    "pin_not_matched": "El PIN no coincide. Inténtelo de nuevo.",
+    "attempts_postfix": "intento(s) fallidos",
+    "message_reset_warning": "Los datos del usuario serán borrados en el próximo intento fallido"
   },
   "alert": {
     "success": "Conseguido!",
@@ -451,7 +452,7 @@
     "remove_alert": "Está seguro que quiere borrar?",
     "clear_alert": "¿Está seguro de que desea eliminar?",
     "clear_user_alert": "¿Estás seguro de querer borrar toda la información del usuario?",
-    "decrypt_fail_alert": "Corrupt app state, please relogin to reset state.",
+    "decrypt_fail_alert": "Estado de la aplicación incorrecto, por favor vuelva a iniciar sesión para restablecer el estado.",
     "clear": "Limpiar",
     "cancel": "Cancelar",
     "delete": "Borrar",
@@ -473,27 +474,27 @@
     "payloadTooLarge": "El tamaño del archivo es demasiado grande, por favor cambia el tamaño o suba una imagen más pequeña",
     "qoutaExceeded": "Se ha superado la cuota de subida",
     "invalidImage": "Imagen no válida, prueba un archivo diferente",
-    "something_wrong": "Something went wrong",
-    "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
-    "something_wrong_reload": "Try again?",
+    "something_wrong": "Algo salió mal",
+    "something_wrong_alt": "Mientras tanto, prueba Ecency.com desde tu navegador",
+    "something_wrong_reload": "¿Intentar de nuevo?",
     "can_not_be_empty": "¡Título y cuerpo no pueden estar vacíos!",
-    "wrong_filter_count": "Please select 3 filters",
-    "update_available_title": "Update available v{version}",
-    "update_available_body": "Using latest version of Ecency gives you the best experience",
-    "update": "Update Now",
-    "remind_later": "Remind Later",
-    "failed_to_open": "Failed to open a link",
-    "restart_ecency": "Restart Ecency?",
-    "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response": "Could not process request, Try again later.",
-    "wallet_updating": "Wallet update in progress, try again as update finishes",
-    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
+    "wrong_filter_count": "Por favor, selecciona 3 filtros",
+    "update_available_title": "Actualización disponible v{version}",
+    "update_available_body": "Usar la última versión de Ecency te da la mejor experiencia",
+    "update": "Actualizar Ahora",
+    "remind_later": "Recordar Más Tarde",
+    "failed_to_open": "Error al abrir el enlace",
+    "restart_ecency": "¿Reiniciar Ecency?",
+    "restart_ecency_desc": "Aplicar cambios requerirá un reinicio.",
+    "invalid_response": "No se pudo procesar la solicitud, inténtalo de nuevo más tarde.",
+    "wallet_updating": "Actualización del monedero en progreso, inténtalo de nuevo cuando finalice la actualización",
+    "claim_failed": "Error al reclamar recompensas, {message}\nInténtalo de nuevo o escribe a support@ecency.com"
   },
   "post": {
     "reblog_alert": "¿Estás seguro de querer rebloguear?",
     "removed_hint": "Contenido no disponible",
     "copy_link": "Copiar enlace",
-    "copy_text": "Copy text",
+    "copy_text": "Copiar texto",
     "reblogged": "reblogueado por",
     "sponsored": "PATROCINADO",
     "open_thread": "Hilo abierto",
@@ -504,8 +505,8 @@
     "image_saved": "Imagen guardada en la galería de fotos",
     "image_saved_error": "Error guardando imagen",
     "wrong_link": "Enlace incorrecto",
-    "in": "in",
-    "reveal_muted": "MUTED\nTap to reveal content"
+    "in": "en",
+    "reveal_muted": "SILENCIADO\nToca para revelar el contenido"
   },
   "drafts": {
     "title": "Borradores",
@@ -518,7 +519,11 @@
     "empty_list": "Nada aquí",
     "deleted": "Publicación programada eliminada",
     "move": "Mover a borradores",
-    "moved": "Movido a borradores"
+    "moved": "Movido a borradores",
+    "pending": "Pendiente",
+    "postponed": "Pospuesto",
+    "published": "Publicado",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Marcadores",
@@ -531,8 +536,8 @@
   },
   "report": {
     "added": "Contenido censurable reportado",
-    "confirm_report_title": "Confirm Report!",
-    "confirm_report_body": "Are you sure you want report?"
+    "confirm_report_title": "¡Confirmar Reporte!",
+    "confirm_report_body": "¿Estás seguro de que quieres reportar?"
   },
   "favorites": {
     "title": "Favoritos",
@@ -556,7 +561,7 @@
     "beneficiaries": "Beneficiarios",
     "warn_zero_payout": "El importe debe llegar a $0.02 para el pago",
     "breakdown": "Intermedio",
-    "max_accepted": "Max Accepted"
+    "max_accepted": "Máximo Aceptado"
   },
   "post_dropdown": {
     "copy": "copiar enlace",
@@ -567,11 +572,11 @@
     "promote": "promocionar",
     "boost": "impulsar",
     "report": "reporte",
-    "pin-blog": "Pin to blog",
-    "unpin-blog": "Unpin from blog",
-    "pin-community": "Pin to community",
-    "unpin-community": "Unpin from community",
-    "edit-history": "Edit History"
+    "pin-blog": "Anclar al blog",
+    "unpin-blog": "Desanclar del blog",
+    "pin-community": "Anclar a la comunidad",
+    "unpin-community": "Desanclar de la comunidad",
+    "edit-history": "Editar historial"
   },
   "deep_link": {
     "no_existing_user": "Usuario no existe",
@@ -605,8 +610,8 @@
     "purchase_estm": "Puntos de compra",
     "convert": "Convertir HBD a HIVE",
     "points": "Regalar puntos a alguien",
-    "transfer_to_savings": "Transfer To Saving",
-    "transfer_to_vesting": "Power Up",
+    "transfer_to_savings": "Transferir a Ahorros",
+    "transfer_to_vesting": "Hacer Power Up",
     "withdraw_to_saving": "Retirar a Ahorros",
     "steemconnect_title": "Transferencia en Hivesigner",
     "estimated_weekly": "Estimado Semanal",
@@ -619,38 +624,41 @@
     "percent_information": "Información del porcentaje",
     "next": "SIGUIENTE",
     "delegate": "Delegar",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HIVE Dollar",
+    "withdraw_hive": "Retirar HIVE",
+    "withdraw_hbd": "Retirar Hive Dollar (HBD)",
     "incoming_funds": "Fondos entrantes",
     "stop": "Detener",
-    "sc_power_down_error": "This feature is not implemented for Hivesigner login, yet",
+    "sc_power_down_error": "Esta característica no está implementada para el inicio de sesión de Hivesigner, aún",
     "address_view": "Ver dirección",
-    "already_delegated": "Already delegated to ",
-    "remain_hp": "Remaining HP",
-    "account_detail_head": "Account Details",
-    "account_detail_subhead": "Enter username for HIVE Power delegation",
-    "delegat_detail_head": "Delegation Details",
-    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
-    "new_amount": "New Amount",
-    "review": "REVIEW",
-    "confirm": "Confirm Delegation",
-    "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
-    "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
-    "username_alert": "Username Error!",
-    "username_alert_detail": "Please select different username",
+    "already_delegated": "Ya delegado a ",
+    "remain_hp": "HP restante",
+    "account_detail_head": "Detalles de Cuenta",
+    "account_detail_subhead": "Introduce el nombre de usuario para la delegación de HIVE Power",
+    "delegat_detail_head": "Detalles de Delegación",
+    "delegat_detail_subhead": "Nuevo monto sobrescribe el Hive Power ya delegado ",
+    "new_amount": "Nuevo Monto",
+    "review": "REVISIÓN",
+    "confirm": "Confirmar Delegación",
+    "confirm_summary": "Delegar {hp} HP ({vests} VESTS) a @{delegator} de @{delegatee} ",
+    "confirm_summary_para": "Esto sobrescribirá tu delegación anterior de {prev} HP a este usuario.",
+    "username_alert": "¡Error de nombre de usuario!",
+    "username_alert_detail": "Por favor, selecciona otro nombre de usuario",
     "power_down": "Hacer Power Down",
-    "power_down_amount_head": "Withdraw Amount",
-    "power_down_amount_subhead": "Enter amount for powering down hive power",
-    "withdraw_accounts": "Withdraw Accounts",
-    "amount_hp": "Amount (HP)",
-    "powering_down": "Powering Down",
-    "powering_down_subheading": "You are currently powering down.",
-    "powering_down_info": "Next power down is in {days} days, {hp} HIVE"
+    "power_down_amount_head": "Retirar Cantidad",
+    "power_down_amount_subhead": "Introduce la cantidad para apagar HIVE Power",
+    "withdraw_accounts": "Cuentas de Retirada",
+    "amount_hp": "Cantidad (HP)",
+    "powering_down": "Apagando",
+    "powering_down_subheading": "Actualmente estas apagando.",
+    "powering_down_info": "El siguiente apagado es en {days} días, {hp} HIVE",
+    "invalid_amount": "Cantidad no válida",
+    "invalid_amount_desc": "Por favor, introduce una cantidad válida"
   },
   "boost": {
     "title": "Obtener Puntos",
     "buy": "Obtener Puntos",
     "next": "SIGUIENTE",
+    "info": "El valor real del voto que recibes puede variar",
     "account": {
       "title": "Obtener impulso de cuenta",
       "desc": "La delegación de 30 días impulsará sus votos y actividades sociales y le dará más acciones con más créditos de Recursos."
@@ -693,7 +701,7 @@
     "title": "Comentarios",
     "reveal_comment": "Revelar comentario",
     "read_more": "Cargar más comentarios",
-    "more_replies": "replies"
+    "more_replies": "respuestas"
   },
   "search_result": {
     "others": "Otros",
@@ -734,24 +742,24 @@
     "new_post": "Escribir un post",
     "community": "comunidad",
     "details": "Detalles",
-    "muted": "Muted",
-    "payout": "Payout"
+    "muted": "Silenciado",
+    "payout": "Pago"
   },
   "user": {
     "follow": "Seguir",
     "unfollow": "Dejar de seguir",
-    "add_to_favourites": "ADD TO FAVOURITES",
-    "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE / BLOCK",
-    "unmute": "UNMUTE / UNBLOCK",
-    "report": "REPORT USER",
-    "delegate": "DELEGATE HIVE POWER"
+    "add_to_favourites": "AÑADIR A FAVORITOS",
+    "remove_from_favourites": "ELIMINAR DE FAVORITOS",
+    "mute": "SILENCIAR / BLOQUEAR",
+    "unmute": "NO SILENCIAR / DESBLOQUEAR",
+    "report": "DENUNCIAR USUARIO",
+    "delegate": "DELEGAR HIVE POWER"
   },
   "communities": {
     "joined": "Membresía",
     "discover": "Descubrir",
-    "discover_communities": "Discover Communities",
-    "no_communities": "Connect with people who share your interests by joining Communities."
+    "discover_communities": "Descubre Comunidades",
+    "no_communities": "Conéctate con personas que comparten tus intereses uniéndote a las comunidades."
   },
   "empty_screen": {
     "nothing_here": "Nada aquí"
@@ -761,54 +769,54 @@
     "username": "Nombre de usuario",
     "addAccount": "Agregar cuenta",
     "save": "Guardar",
-    "cancel": "Cancel"
+    "cancel": "Cancelar"
   },
   "welcome": {
-    "label": "Welcome to",
+    "label": "Bienvenido a",
     "title": "Ecency",
-    "line1_heading": "Are you looking for community?",
-    "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
-    "line2_heading": "We have a solution!",
-    "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
-    "line3_heading": "Join Ecency communities!",
-    "line3_body": "Build community you own, get rewarded and reward others.",
-    "get_started": "Get started!"
+    "line1_heading": "¿Buscas una comunidad?",
+    "line1_body": "No censurado, inmutable, gratificante, descentralizado, que te pertenece.",
+    "line2_heading": "¡Tenemos una solución!",
+    "line2_body": "Utilizando blockchain, sin censura, descentralizado y gratificante.",
+    "line3_heading": "¡Únete a comunidades de Ecency!",
+    "line3_body": "Construye tu propia comunidad, recibe recompensas y recompensa a otros.",
+    "get_started": "¡Empieza ya!"
   },
   "time": {
-    "second": "seconds",
-    "minute": "minutes",
-    "hour": "hours",
-    "week": "weeks",
-    "day": "days",
-    "month": "months",
-    "year": "years"
+    "second": "segundos",
+    "minute": "minutos",
+    "hour": "horas",
+    "week": "semanas",
+    "day": "días",
+    "month": "meses",
+    "year": "años"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
-    "comment": "Comment",
-    "reply": "REPLY",
-    "close": "CLOSE"
+    "placeholder": "Añade un comentario",
+    "comment": "Comentario",
+    "reply": "RESPONDER",
+    "close": "CERRADO"
   },
   "walkthrough": {
-    "load_draft_tooltip": "Load your lastest draft here"
+    "load_draft_tooltip": "Carga aquí tu último borrador"
   },
   "refer": {
-    "refer_earn": "Refer & Earn",
-    "refer": "Refer",
-    "rewarded": "Referral points rewarded",
-    "not_rewarded": "Referral reward pending",
-    "delegate_hp": "Delegate HP",
-    "earned": "Earned Points",
-    "pending": "Pending Points",
-    "empty_text": "Refer your loved ones today and earn free points"
+    "refer_earn": "Referir y Ganar",
+    "refer": "Referir",
+    "rewarded": "Puntos de referencia recompensados",
+    "not_rewarded": "Recompensa de referido pendiente",
+    "delegate_hp": "HP Delegando",
+    "earned": "Puntos ganados",
+    "pending": "Puntos pendientes",
+    "empty_text": "Refiera a tus seres queridos hoy y gana puntos gratis"
   },
   "qr": {
-    "qr_scan": "QR Scan",
-    "open": "Open URL",
-    "detected_url": "Detected URL"
+    "qr_scan": "Escaneo de QR",
+    "open": "Abrir URL",
+    "detected_url": "URL detectada"
   },
   "history": {
-    "edit": "Edit History",
-    "version": "Version"
+    "edit": "Editar historial",
+    "version": "Versión"
   }
 }

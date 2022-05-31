@@ -408,7 +408,8 @@
     "btn_add": "圖片",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
-    "message_failed": "圖片上傳失效"
+    "message_failed": "圖片上傳失效",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "輸入PIN碼解鎖",
@@ -518,7 +519,11 @@
     "empty_list": "暫無内容！",
     "deleted": "定時發佈的文章已删除",
     "move": "存為草稿",
-    "moved": "已存為草稿"
+    "moved": "已存為草稿",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "書籤",
@@ -645,12 +650,15 @@
     "amount_hp": "Amount (HP)",
     "powering_down": "Powering Down",
     "powering_down_subheading": "You are currently powering down.",
-    "powering_down_info": "Next power down is in {days} days, {hp} HIVE"
+    "powering_down_info": "Next power down is in {days} days, {hp} HIVE",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Please enter valid amount"
   },
   "boost": {
     "title": "獲取積分",
     "buy": "購買積分",
     "next": "下一個",
+    "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "增加點贊力",
       "desc": "30天的點贊力代理可以使您的點贊更有價值，得以回饋社區甚至造就自身的知名度。與此同時還可以廣大您的信用資源"
