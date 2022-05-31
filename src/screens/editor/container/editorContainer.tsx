@@ -80,7 +80,6 @@ class EditorContainer extends Component<any, any> {
       onLoadDraftPress: false,
       thumbIndex: 0,
       shouldReblog: false,
-      retryCount: 0,
       failedImageUploads: 0,
     };
   }
@@ -409,7 +408,7 @@ class EditorContainer extends Component<any, any> {
   };
 
   _uploadImage = async (media, { shouldInsert } = { shouldInsert: false }) => {
-    // console.log('imageIndex : ', imageIndex, ' \n this.state.retryCount : ', this.state.retryCount);
+
     const { intl, currentAccount, pinCode, isLoggedIn } = this.props;
     if (!isLoggedIn) return;
 
@@ -428,8 +427,6 @@ class EditorContainer extends Component<any, any> {
         res = await uploadImage(media, currentAccount.name, sign, this._showUploadProgress);
         if (res && res.data) {
           break;
-        } else {
-          console.log("retrying upload");
         }
       }
 
