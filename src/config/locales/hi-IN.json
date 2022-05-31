@@ -408,7 +408,8 @@
     "btn_add": "छवि",
     "btn_insert": "सम्मिलित करें",
     "btn_delete": "हटाएँ",
-    "message_failed": "छवि अपलोड करने में विफल"
+    "message_failed": "छवि अपलोड करने में विफल",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "खोलनें के लिए पिन डालें",
