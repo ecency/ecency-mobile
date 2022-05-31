@@ -408,7 +408,8 @@
     "btn_add": "Image",
     "btn_insert": "Insérer",
     "btn_delete": "SUPPRIMER",
-    "message_failed": "Échec du chargement de l’image"
+    "message_failed": "Échec du chargement de l’image",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
