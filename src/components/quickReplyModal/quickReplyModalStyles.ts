@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { getBottomSpace, isIphoneX } from 'react-native-iphone-x-helper';
 
@@ -16,7 +17,10 @@ export default EStyleSheet.create({
 
   modalContainer: {
     paddingVertical: 4,
-    paddingBottom: isIphoneX() ? getBottomSpace() : 12,
+    paddingBottom: Platform.select({
+      ios:isIphoneX() ? getBottomSpace() - 20 : 12, 
+      android: 20
+    }) ,
   },
 
   cancelButton: {
