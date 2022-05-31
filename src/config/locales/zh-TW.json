@@ -408,7 +408,8 @@
     "btn_add": "圖片",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
-    "message_failed": "圖片上傳失效"
+    "message_failed": "圖片上傳失效",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "輸入PIN碼解鎖",
