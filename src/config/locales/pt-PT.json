@@ -408,7 +408,8 @@
     "btn_add": "Imagem",
     "btn_insert": "INSERIR",
     "btn_delete": "EXCLUIR",
-    "message_failed": "Falha ao carregar imagem"
+    "message_failed": "Falha ao carregar imagem",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "Insira PIN para desbloquear",
