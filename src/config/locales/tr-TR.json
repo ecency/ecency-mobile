@@ -408,7 +408,8 @@
     "btn_add": "Görsel",
     "btn_insert": "GİR",
     "btn_delete": "SİL",
-    "message_failed": "Görsel yüklenemedi"
+    "message_failed": "Görsel yüklenemedi",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "Açmak için pin kodunu giriniz",
