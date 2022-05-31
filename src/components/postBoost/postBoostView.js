@@ -21,6 +21,8 @@ import { Modal } from '../modal';
 // Styles
 import styles from './postBoostStyles';
 import { OptionsModal } from '../atoms';
+import { deepLinkParser } from '../../utils/deepLinkParser';
+import postUrlParser from '../../utils/postUrlParser';
 
 class BoostPostScreen extends PureComponent {
   /* Props
@@ -40,6 +42,7 @@ class BoostPostScreen extends PureComponent {
     };
 
     this.startActionSheet = React.createRef();
+    this.urlInputRef = React.createRef();
   }
 
   // Component Life Cycles
@@ -112,6 +115,21 @@ class BoostPostScreen extends PureComponent {
     handleOnSubmit(redeemType, amount, fullPermlink, selectedUser);
   };
 
+  _validateUrl = () => {
+    const { permlink, isValid } = this.state;
+    if (!isValid) {
+      const postUrl = postUrlParser(permlink);
+      if (postUrl && postUrl.author && postUrl.permlink) {
+        let postPermlink = `${postUrl.author}/${postUrl.permlink}`;
+        this.setState({
+          permlink: postPermlink,
+          isValid: true,
+        });
+      } else {
+        this.setState({ isValid: false });
+      }
+    }
+  };
   render() {
     const { intl } = this.props;
     const { selectedUser, balance, factor, permlinkSuggestions, permlink, isValid } = this.state;
@@ -126,15 +144,16 @@ class BoostPostScreen extends PureComponent {
       isSCModalOpen,
       handleOnSCModalClose,
       getESTMPrice,
+      user,
     } = this.props;
 
     const calculatedESTM = 150 + 50 * factor;
-
+    // console.log('this.state.permlink : ', this.state.permlink);
     return (
       <Fragment>
         <BasicHeader title={intl.formatMessage({ id: 'boostPost.title' })} />
         <View style={styles.container}>
-          <ScrollView>
+          <ScrollView keyboardShouldPersistTaps="handled">
             <View style={styles.middleContent}>
               <TransferFormItem
                 label={intl.formatMessage({ id: 'promote.user' })}
@@ -166,18 +185,22 @@ class BoostPostScreen extends PureComponent {
                       placeholder={intl.formatMessage({ id: 'promote.permlinkPlaceholder' })}
                       placeholderTextColor="#c1c5c7"
                       autoCapitalize="none"
+                      returnKeyType="done"
+                      onBlur={() => this._validateUrl()}
+                      innerRef={this.urlInputRef}
                     />
                   )}
                   renderItem={({ item }) => (
                     <TouchableOpacity
                       key={item}
-                      onPress={() =>
+                      onPress={() => {
+                        this.urlInputRef.current?.blur();
                         this.setState({
                           permlink: item,
                           isValid: true,
                           permlinkSuggestions: [],
-                        })
-                      }
+                        });
+                      }}
                     >
                       <Text style={styles.autocompleteItemText}>{item}</Text>
                     </TouchableOpacity>
