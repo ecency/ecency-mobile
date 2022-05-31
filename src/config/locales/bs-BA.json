@@ -408,7 +408,8 @@
     "btn_add": "Slika",
     "btn_insert": "UMETNI",
     "btn_delete": "IZBRIŠI",
-    "message_failed": "Otpremanje slike nije uspjelo"
+    "message_failed": "Otpremanje slike nije uspjelo",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "Unesite PIN za otključavanje",
