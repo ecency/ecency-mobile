@@ -54,7 +54,7 @@ import { updateCommentCache } from '../../../redux/actions/cacheActions';
  *
  */
 
-class EditorContainer extends Component <any, any> {
+class EditorContainer extends Component<any, any> {
   _isMounted = false;
 
   constructor(props) {
@@ -70,7 +70,7 @@ class EditorContainer extends Component <any, any> {
       isReply: false,
       quickReplyText: '',
       isUploading: false,
-      uploadProgress:0,
+      uploadProgress: 0,
       post: null,
       uploadedImage: null,
       isDraft: false,
@@ -79,7 +79,7 @@ class EditorContainer extends Component <any, any> {
       sharedSnippetText: null,
       onLoadDraftPress: false,
       thumbIndex: 0,
-      shouldReblog:false,
+      shouldReblog: false,
       retryCount: 0,
       failedImageUploads: 0,
     };
@@ -103,14 +103,14 @@ class EditorContainer extends Component <any, any> {
 
       if (navigationParams.draft) {
         _draft = navigationParams.draft;
-        
+
         // if meta exist on draft, get the index of 1st image in meta from images urls in body
         const body = _draft.body
-        if(_draft.meta && _draft.meta.image){
-          const urls = extractImageUrls({body});
+        if (_draft.meta && _draft.meta.image) {
+          const urls = extractImageUrls({ body });
           const draftThumbIndex = urls.indexOf(_draft.meta.image[0])
           this.setState({
-            thumbIndex:draftThumbIndex,
+            thumbIndex: draftThumbIndex,
           })
         }
 
@@ -330,11 +330,11 @@ class EditorContainer extends Component <any, any> {
   };
 
   _extractBeneficiaries = () => {
-    const {draftId} = this.state;
-    const {beneficiariesMap, currentAccount} = this.props;
+    const { draftId } = this.state;
+    const { beneficiariesMap, currentAccount } = this.props;
 
-    return beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID] 
-      || { account: currentAccount.name, weight: 10000};
+    return beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID]
+      || { account: currentAccount.name, weight: 10000 };
   }
 
   _handleRoutingAction = (routingAction) => {
@@ -376,7 +376,7 @@ class EditorContainer extends Component <any, any> {
   _handleMediaOnSelected = async (media) => {
 
     this.setState({
-      failedImageUploads:0
+      failedImageUploads: 0
     })
     try {
       if (media.length > 0) {
@@ -388,10 +388,17 @@ class EditorContainer extends Component <any, any> {
         await this._uploadImage(media);
       }
 
-      if(this.state.failedImageUploads){
-        Alert.alert(`Failed to upload ${this.state.failedImageUploads} of ${media.length || 1} selected image(s)`);
+      if (this.state.failedImageUploads) {
+        const { intl } = this.props;
+        Alert.alert(intl.formatMessage(
+          { id: 'uploads_modal.failed_count' },
+          {
+            totalCount: this.state.failedImageUploads,
+            failedCount: media.length || 1
+          })
+        );
       }
-      
+
     } catch (error) {
       console.log("Failed to upload image", error);
       console.log('failedImageUploads : ', this.state.failedImageUploads);
@@ -416,10 +423,10 @@ class EditorContainer extends Component <any, any> {
     let MAX_RETRY = 2;
     try {
       let res = null;
-      
-      for(var i = 0; i < MAX_RETRY; i++){
+
+      for (var i = 0; i < MAX_RETRY; i++) {
         res = await uploadImage(media, currentAccount.name, sign, this._showUploadProgress);
-        if(res && res.data){
+        if (res && res.data) {
           break;
         } else {
           console.log("retrying upload");
@@ -436,7 +443,7 @@ class EditorContainer extends Component <any, any> {
           uploadedImage: res.data,
         });
 
-      } else if(res.error) {
+      } else if (res.error) {
         throw res.error
       }
 
@@ -492,7 +499,7 @@ class EditorContainer extends Component <any, any> {
 
     console.log('progress : ', progress);
     this.setState({
-      uploadProgress:progress
+      uploadProgress: progress
     })
   }
 
@@ -582,7 +589,7 @@ class EditorContainer extends Component <any, any> {
           );
         }
 
-        
+
         dispatch(
           toastNotification(
             intl.formatMessage({
@@ -590,7 +597,7 @@ class EditorContainer extends Component <any, any> {
             }),
           ),
         );
-        
+
 
         //call fetch post to drafts screen
         this._navigationBackFetchDrafts();
@@ -655,7 +662,7 @@ class EditorContainer extends Component <any, any> {
       pinCode,
       // isDefaultFooter,
     } = this.props;
-    const { rewardType, isPostSending, thumbIndex, draftId, shouldReblog} = this.state;
+    const { rewardType, isPostSending, thumbIndex, draftId, shouldReblog } = this.state;
 
     const beneficiaries = this._extractBeneficiaries();
 
@@ -724,17 +731,17 @@ class EditorContainer extends Component <any, any> {
           .then((response) => {
 
             console.log(response);
-            
+
             //reblog if flag is active
-            if(shouldReblog){
+            if (shouldReblog) {
               reblog(
                 currentAccount,
                 pinCode,
                 author,
                 permlink
-              ).then((resp)=>{
+              ).then((resp) => {
                 console.log("Successfully reblogged post", resp)
-              }).catch((err)=>{
+              }).catch((err) => {
                 console.warn("Failed to reblog post", err)
               })
             }
@@ -751,7 +758,7 @@ class EditorContainer extends Component <any, any> {
             );
 
             dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID))
-            if(draftId){
+            if (draftId) {
               dispatch(removeBeneficiaries(draftId))
             }
 
@@ -770,9 +777,9 @@ class EditorContainer extends Component <any, any> {
                 ROUTES.SCREENS.PROFILE,
                 {
                   username: get(currentAccount, 'name'),
-                },{
-                  key:get(currentAccount, 'name')
-                }
+                }, {
+                key: get(currentAccount, 'name')
+              }
               );
             }, 3000);
           })
@@ -802,7 +809,7 @@ class EditorContainer extends Component <any, any> {
       const parentAuthor = post.author;
       const parentPermlink = post.permlink;
       const parentTags = post.json_metadata.tags;
- 
+
 
       await postComment(
         currentAccount,
@@ -822,10 +829,10 @@ class EditorContainer extends Component <any, any> {
             updateCommentCache(
               `${parentAuthor}/${parentPermlink}`,
               {
-                author:currentAccount.name,
+                author: currentAccount.name,
                 permlink,
-                parent_author:parentAuthor,
-                parent_permlink:parentPermlink,
+                parent_author: parentAuthor,
+                parent_permlink: parentPermlink,
                 markdownBody: fields.body,
               },
               {
@@ -833,7 +840,7 @@ class EditorContainer extends Component <any, any> {
               }
             )
           )
-          
+
         })
         .catch((error) => {
           this._handleSubmitFailure(error);
@@ -879,7 +886,7 @@ class EditorContainer extends Component <any, any> {
       } catch (e) {
         jsonMeta = makeJsonMetadata(meta, tags);
       }
-      
+
       await postContent(
         currentAccount,
         pinCode,
@@ -895,26 +902,26 @@ class EditorContainer extends Component <any, any> {
       )
         .then(() => {
           this._handleSubmitSuccess();
-          if(isReply){
+          if (isReply) {
             AsyncStorage.setItem('temp-reply', '');
             dispatch(
               updateCommentCache(
                 `${parentAuthor}/${parentPermlink}`,
                 {
-                  author:currentAccount.name,
+                  author: currentAccount.name,
                   permlink,
-                  parent_author:parentAuthor,
-                  parent_permlink:parentPermlink,
-                  markdownBody:body,
-                  active_votes:post.active_votes,
-                  net_rshares:post.net_rshares,
-                  author_reputation:post.author_reputation,
-                  total_payout:post.total_payout,
-                  created:post.created,
-                  json_metadata:jsonMeta
+                  parent_author: parentAuthor,
+                  parent_permlink: parentPermlink,
+                  markdownBody: body,
+                  active_votes: post.active_votes,
+                  net_rshares: post.net_rshares,
+                  author_reputation: post.author_reputation,
+                  total_payout: post.total_payout,
+                  created: post.created,
+                  json_metadata: jsonMeta
                 },
                 {
-                  isUpdate:true
+                  isUpdate: true
                 }
               )
             )
@@ -963,12 +970,12 @@ class EditorContainer extends Component <any, any> {
 
   _handleSubmitSuccess = () => {
     const { navigation } = this.props;
-    
+
     this.stateTimer = setTimeout(() => {
       if (navigation) {
         navigation.goBack();
       }
-      if(navigation && navigation.state && navigation.state.params && navigation.state.params.fetchPost ){
+      if (navigation && navigation.state && navigation.state.params && navigation.state.params.fetchPost) {
         navigation.state.params.fetchPost();
       }
       this.setState({
@@ -1147,9 +1154,9 @@ class EditorContainer extends Component <any, any> {
 
         setTimeout(() => {
           navigation.replace(ROUTES.SCREENS.DRAFTS,
-          {
-            showSchedules:true
-          })   
+            {
+              showSchedules: true
+            })
         }, 3000);
       })
       .catch((error) => {
@@ -1184,9 +1191,9 @@ class EditorContainer extends Component <any, any> {
     this.setState({ rewardType: value });
   };
 
-  _handleShouldReblogChange = (value:boolean) => {
+  _handleShouldReblogChange = (value: boolean) => {
     this.setState({
-      shouldReblog:value
+      shouldReblog: value
     })
   }
 
@@ -1221,7 +1228,7 @@ class EditorContainer extends Component <any, any> {
     } = this.state;
 
     const tags = navigation.state.params && navigation.state.params.tags;
-    
+
     return (
       <EditorScreen
         autoFocusText={autoFocusText}
