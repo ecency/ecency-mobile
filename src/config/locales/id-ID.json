@@ -408,7 +408,8 @@
     "btn_add": "Gambar",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
-    "message_failed": "Gagal mengunggah gambar"
+    "message_failed": "Gagal mengunggah gambar",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "Masukkan PIN untuk membuka kunci",
