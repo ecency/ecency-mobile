@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Animated, Dimensions } from 'react-native';
+import { View, StyleSheet, Animated } from 'react-native';
 import FastImage from 'react-native-fast-image';
-//const dim = Dimensions.get('window');
+
 const styles = StyleSheet.create({
   imageOverlay: {
     position: 'absolute',

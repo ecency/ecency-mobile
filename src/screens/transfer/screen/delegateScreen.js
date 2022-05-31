@@ -389,17 +389,9 @@ class DelegateScreen extends Component {
             style={[styles.amountInput, !isAmountValid && styles.error]}
             onChangeText={(amount) => {
               this.setState({
-                hp: amount,
+                hp: amount.replace(',', '.'),
                 isAmountValid: this._validateHP({ value: amount, availableVestingShares }),
               });
-
-              // const parsedValue = Number.isNaN(parseFloat(amount)) ? 0 : parseFloat(amount);
-              // console.log('parsedValue : ', parsedValue);
-              // const amountValid =
-              //   Number.isNaN(parsedValue) || parsedValue < 0.0 || parsedValue >= totalHP
-              //     ? false
-              //     : true;
-              // this.setState({ hp: parsedValue, isAmountValid: amountValid });
             }}
             value={this.state.hp.toString()}
             placeholder={placeholder}
@@ -411,6 +403,7 @@ class DelegateScreen extends Component {
             innerRef={this.amountTextInput}
             blurOnSubmit={true}
             returnKeyType="done"
+            selectTextOnFocus={true}
             onEndEditing={(e) =>
               this._handleAmountChange(e.nativeEvent.text, availableVestingShares)
             }

@@ -12,10 +12,11 @@ import { navigate } from '../../navigation/service';
 import { Icon } from '..';
 import { Dimensions } from 'react-native';
 import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
+import getWindowDimensions from '../../utils/getWindowDimensions';
 
 export interface QRModalProps {}
 
-const screenHeight = Dimensions.get('window').height;
+const screenHeight = getWindowDimensions().height;
 export const QRModal = ({}: QRModalProps) => {
   const dispatch = useAppDispatch();
   const intl = useIntl();

@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Dimensions,
   ActivityIndicator,
   Linking,
   Alert,
@@ -31,8 +30,9 @@ import { getCoverImageUrl } from '../../../utils/image';
 import styles from './profileSummaryStyles';
 import { TextButton } from '../../buttons';
 import { Icon } from '../..';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 
-const DEVICE_WIDTH = Dimensions.get('window').width;
+const DEVICE_WIDTH = getWindowDimensions().width;
 
 class ProfileSummaryView extends PureComponent {
   /* Props

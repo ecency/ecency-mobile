@@ -1,10 +1,11 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
-import { View, Dimensions, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import MultiSlider from '@esteemapp/react-native-multi-slider';
 import get from 'lodash/get';
 
 import styles from './scaleSliderStyles';
+import getWindowDimensions from '../../utils/getWindowDimensions';
 
 export default class ScaleSliderView extends Component {
   constructor(props) {
@@ -68,7 +69,7 @@ export default class ScaleSliderView extends Component {
           <MultiSlider
             trackStyle={styles.track}
             selectedStyle={styles.selected}
-            sliderLength={Dimensions.get('window').width - LRpadding * 2}
+            sliderLength={getWindowDimensions().width - LRpadding * 2}
             onValuesChange={this._valueChange}
             values={[activeIndex + 1]}
             min={1}

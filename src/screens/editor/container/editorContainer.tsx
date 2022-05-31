@@ -136,7 +136,8 @@ class EditorContainer extends Component <any, any> {
         ({ isReply, quickReplyText } = navigationParams);
         this.setState({
           isReply,
-          quickReplyText
+          quickReplyText,
+          autoFocusText: true,
         });
       }
 
@@ -944,10 +945,12 @@ class EditorContainer extends Component <any, any> {
 
   _handleSubmitSuccess = () => {
     const { navigation } = this.props;
-
+    
     this.stateTimer = setTimeout(() => {
       if (navigation) {
         navigation.goBack();
+      }
+      if(navigation && navigation.state && navigation.state.params && navigation.state.params.fetchPost ){
         navigation.state.params.fetchPost();
       }
       this.setState({

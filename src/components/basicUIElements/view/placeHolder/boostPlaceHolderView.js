@@ -1,14 +1,15 @@
 /* eslint-disable radix */
 import React from 'react';
-import { Dimensions, View } from 'react-native';
+import { View } from 'react-native';
 import times from 'lodash/times';
 import Placeholder from 'rn-placeholder';
 
 import { ThemeContainer } from '../../../../containers';
 
 import styles from './boostPlaceHolderStyles';
+import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
-const HEIGHT = Dimensions.get('window').height;
+const HEIGHT = getWindowDimensions().height;
 
 const BoostPlaceHolder = () => {
   const ratio = (HEIGHT - 300) / 50 / 1.3;

@@ -1,15 +1,13 @@
 import React from 'react';
-import { View, Dimensions } from 'react-native';
-import Placeholder from 'rn-placeholder';
-
+import { View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { ThemeContainer } from '../../../../containers';
-
 import styles from './postCardPlaceHolderStyles';
-// TODO: make container for place holder wrapper after alpha
+import getWindowDimensions from '../../../../utils/getWindowDimensions';
+
 const PostCardPlaceHolder = () => {
   const animationStyle = {
-    width: Dimensions.get('screen').width - 32,
+    width: getWindowDimensions().nativeWidth - 32,
   };
 
   return (
@@ -32,24 +30,6 @@ const PostCardPlaceHolder = () => {
                 },
               ]}
             />
-
-            {/* <View style={styles.textWrapper}>
-              <Placeholder.Media size={35} hasRadius animate="fade" color={color} />
-              <Placeholder.Line width="30%" lastLineWidth="30%" animate="fade" color={color} />
-            </View>
-            <Placeholder.Box animate="fade" height={200} width="100%" radius={5} color={color} />
-            <View style={styles.paragraphWrapper}>
-              <Placeholder.Paragraph
-                lineNumber={3}
-                color={color}
-                textSize={16}
-                lineSpacing={5}
-                width="100%"
-                lastLineWidth="70%"
-                firstLineWidth="50%"
-                animate="fade"
-              />
-            </View> */}
           </View>
         );
       }}
