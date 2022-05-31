@@ -408,7 +408,8 @@
     "btn_add": "Снимка",
     "btn_insert": "Добави",
     "btn_delete": "Изтрий",
-    "message_failed": "Неуспешно качване на снимка"
+    "message_failed": "Неуспешно качване на снимка",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "Вкарай Пин-код за отключване",
