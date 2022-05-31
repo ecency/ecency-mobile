@@ -61,7 +61,7 @@ const MarkdownEditorView = ({
   isPreviewActive,
   isReply,
   isLoading,
-
+  isUploading,
   initialFields,
   onChange,
   handleOnTextChange,
@@ -78,6 +78,7 @@ const MarkdownEditorView = ({
   autoFocusText,
   sharedSnippetText,
   onLoadDraftPress,
+  uploadProgress,
 }) => {
   const dispatch = useDispatch();
 
@@ -162,19 +163,19 @@ const MarkdownEditorView = ({
   }, [isLoading]);
 
   useEffect(() => {
-    if (uploadedImage && uploadedImage.url) {
-      if (uploadedImage.shouldInsert) {
-        applyMediaLink({
-          text,
-          selection,
-          setTextAndSelection: _setTextAndSelection,
-          items: [{ url: uploadedImage.url, text: uploadedImage.hash }],
-        });
-      } else {
-        uploadsGalleryModalRef.current.showModal();
-      }
+    if (uploadedImage && uploadedImage.shouldInsert && !isUploading) {
+      applyMediaLink({
+        text,
+        selection,
+        setTextAndSelection: _setTextAndSelection,
+        items: [{ url: uploadedImage.url, text: uploadedImage.hash }],
+      });
     }
-  }, [uploadedImage]);
+
+    if (isUploading) {
+      uploadsGalleryModalRef.current.showModal();
+    }
+  }, [uploadedImage, isUploading]);
 
   useEffect(() => {
     setText(draftBody);
@@ -550,6 +551,8 @@ const MarkdownEditorView = ({
         username={currentAccount.username}
         handleOnSelect={_handleOnMediaSelect}
         uploadedImage={uploadedImage}
+        isUploading={isUploading}
+        uploadProgress={uploadProgress}
       />
 
       <InsertLinkModal

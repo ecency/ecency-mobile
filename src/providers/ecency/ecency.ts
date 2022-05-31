@@ -1,14 +1,14 @@
+import { isArray } from 'lodash';
 import api from '../../config/api';
+import bugsnagInstance from '../../config/bugsnag';
 import ecencyApi from '../../config/ecencyApi';
 import { upload } from '../../config/imageApi';
 import serverList from '../../config/serverListApi';
-import bugsnagInstance from '../../config/bugsnag';
 import { SERVER_LIST } from '../../constants/options/api';
-import { parsePost } from '../../utils/postParser';
 import { extractMetadata, makeJsonMetadata } from '../../utils/editor';
-import { CommentHistoryItem, LatestMarketPrices, ReceivedVestingShare, Referral, ReferralStat } from './ecency.types';
+import { parsePost } from '../../utils/postParser';
 import { convertCommentHistory, convertLatestQuotes, convertReferral, convertReferralStat } from './converters';
-import { isArray } from 'lodash';
+import { CommentHistoryItem, LatestMarketPrices, ReceivedVestingShare, Referral, ReferralStat } from './ecency.types';
 
 
 
@@ -28,26 +28,26 @@ export const getCurrencyRate = (currency) =>
       return 1;
     });
 
-  export const getLatestQuotes = async (currencyRate:number):Promise<LatestMarketPrices> => {
-    try{
-      console.log('using currency rate', currencyRate);
-      const res = await ecencyApi.get(`/private-api/market-data/latest`);
-      const estmRes = await getCurrencyTokenRate('usd','estm')
-   
-      if(!res.data || !estmRes){
-        throw new Error("No quote data returned");
-      }
+export const getLatestQuotes = async (currencyRate: number): Promise<LatestMarketPrices> => {
+  try {
+    console.log('using currency rate', currencyRate);
+    const res = await ecencyApi.get(`/private-api/market-data/latest`);
+    const estmRes = await getCurrencyTokenRate('usd', 'estm')
 
-      const data = convertLatestQuotes(res.data, estmRes, currencyRate);
-      console.log('parsed quotes data', data);
-      return data;
-    } catch (error){
-      bugsnagInstance.notify(error);
-      console.warn(error);
-      throw error
+    if (!res.data || !estmRes) {
+      throw new Error("No quote data returned");
     }
+
+    const data = convertLatestQuotes(res.data, estmRes, currencyRate);
+    console.log('parsed quotes data', data);
+    return data;
+  } catch (error) {
+    bugsnagInstance.notify(error);
+    console.warn(error);
+    throw error
   }
-    
+}
+
 
 export const getCurrencyTokenRate = (currency, token) =>
   api
@@ -59,15 +59,15 @@ export const getCurrencyTokenRate = (currency, token) =>
     });
 
 
-export const getReceivedVestingShares = async (username: string):Promise<ReceivedVestingShare[]> => {
-  try{
+export const getReceivedVestingShares = async (username: string): Promise<ReceivedVestingShare[]> => {
+  try {
     const res = await ecencyApi.get(`/private-api/received-vesting/${username}`);
     console.log("Vesting Shares User", username, res.data);
-    if(!res.data || !res.data.list){
+    if (!res.data || !res.data.list) {
       throw new Error("No vesting shares for user")
     }
     return res.data.list;
-  } catch (error){
+  } catch (error) {
     bugsnagInstance.notify(error);
     console.warn(error);
     throw error
@@ -76,7 +76,7 @@ export const getReceivedVestingShares = async (username: string):Promise<Receive
 
 
 
-    
+
 
 
 
@@ -84,26 +84,26 @@ export const getReceivedVestingShares = async (username: string):Promise<Receive
  * returns list of saved drafts on ecency server
  */
 export const getDrafts = async () => {
-  try{
+  try {
     const res = await ecencyApi.post('/private-api/drafts');
     return res.data;
-  }catch(error){
+  } catch (error) {
     bugsnagInstance.notify(error);
     throw error;
   }
 }
-  
+
 
 
 /**
  * @params draftId
  */
-export const deleteDraft = async (draftId:string) => {
-  try{
-    const data = { id:draftId }
+export const deleteDraft = async (draftId: string) => {
+  try {
+    const data = { id: draftId }
     const res = await ecencyApi.post(`/private-api/drafts-delete`, data);
     return res.data
-  }catch(error){
+  } catch (error) {
     bugsnagInstance.notify(error);
     throw error;
   }
@@ -116,7 +116,7 @@ export const deleteDraft = async (draftId:string) => {
  * @params tags
  * @param thumbIndex
  */
-export const addDraft = async (title:string, body:string, tags:string, thumbIndex:number ) => {
+export const addDraft = async (title: string, body: string, tags: string, thumbIndex: number) => {
   try {
     const meta = makeJsonMetadata(extractMetadata(body, thumbIndex), tags)
     const data = { title, body, tags, meta }
@@ -127,7 +127,7 @@ export const addDraft = async (title:string, body:string, tags:string, thumbInde
     } else {
       throw new Error('No drafts returned in response');
     }
-  } catch(error){
+  } catch (error) {
     bugsnagInstance.notify(error);
     throw error;
   }
@@ -141,17 +141,17 @@ export const addDraft = async (title:string, body:string, tags:string, thumbInde
  * @params tags
  * @params thumbIndex
  */
-export const updateDraft = async (draftId:string, title:string, body:string, tags:string, thumbIndex:number, ) => {
+export const updateDraft = async (draftId: string, title: string, body: string, tags: string, thumbIndex: number,) => {
   try {
     const meta = makeJsonMetadata(extractMetadata(body, thumbIndex), tags)
-    const data = {id:draftId, title, body, tags, meta }
+    const data = { id: draftId, title, body, tags, meta }
     const res = await ecencyApi.post(`/private-api/drafts-update`, data)
-    if(res.data){
+    if (res.data) {
       return res.data
     } else {
       throw new Error("No data returned in response")
     }
-  } catch(error){
+  } catch (error) {
     bugsnagInstance.notify(error);
     throw error;
   }
@@ -171,12 +171,12 @@ export const updateDraft = async (draftId:string, title:string, body:string, tag
  * @param permlink 
  * @returns array of saved bookmarks
  */
-export const addBookmark = async (author:string, permlink:string) => {
+export const addBookmark = async (author: string, permlink: string) => {
   try {
     const data = { author, permlink };
     const response = await ecencyApi.post(`/private-api/bookmarks-add`, data);
     return response.data;
-  } catch(error) {
+  } catch (error) {
     console.warn("Failed to add bookmark", error)
     bugsnagInstance.notify(error)
     throw error
@@ -191,7 +191,7 @@ export const getBookmarks = async () => {
   try {
     const response = await ecencyApi.post(`/private-api/bookmarks`);
     return response.data;
-  } catch(error) {
+  } catch (error) {
     console.warn("Failed to get saved bookmarks", error)
     bugsnagInstance.notify(error)
     throw error
@@ -204,12 +204,12 @@ export const getBookmarks = async () => {
  * @params bookmarkId
  * @returns array of saved bookmarks
  */
-export const deleteBookmark = async (bookmarkId:string) => {
+export const deleteBookmark = async (bookmarkId: string) => {
   try {
-    const data = { id:bookmarkId}
+    const data = { id: bookmarkId }
     const response = await ecencyApi.post(`/private-api/bookmarks-delete`, data);
     return response.data;
-  } catch(error) {
+  } catch (error) {
     console.warn("Failed to delete bookmark", error)
     bugsnagInstance.notify(error)
     throw error
@@ -217,15 +217,15 @@ export const deleteBookmark = async (bookmarkId:string) => {
 }
 
 
-export const addReport = async (type:'content'|'user', data:string) => {
+export const addReport = async (type: 'content' | 'user', data: string) => {
   try {
-   const response =  await api
-    .post('/report', {
-      type,
-      data
-    })
+    const response = await api
+      .post('/report', {
+        type,
+        data
+      })
     return response.data
-  } catch(err){
+  } catch (err) {
     console.warn("Failed to report to ecency")
     bugsnagInstance.notify(err);
     throw err;
@@ -233,21 +233,21 @@ export const addReport = async (type:'content'|'user', data:string) => {
 }
 
 
-  /** 
- * ************************************
- * FAVOURITES ECENCY APIS IMPLEMENTATION 
- * ************************************
- */
+/** 
+* ************************************
+* FAVOURITES ECENCY APIS IMPLEMENTATION 
+* ************************************
+*/
 
 /**
  * Fetches user favourites
  * @returns array of favourite accounts
  */
 export const getFavorites = async () => {
-  try{
+  try {
     const response = await ecencyApi.post(`/private-api/favorites`)
     return response.data;
-  } catch(error) {
+  } catch (error) {
     console.warn("Failed to get favorites", error);
     bugsnagInstance.notify(error);
     throw error
@@ -259,12 +259,12 @@ export const getFavorites = async () => {
  * @params targetUsername username
  * @returns boolean
  */
-export const checkFavorite = async (targetUsername:string) => {
+export const checkFavorite = async (targetUsername: string) => {
   try {
     const data = { account: targetUsername };
     const response = await ecencyApi.post(`/private-api/favorites-check`, data);
     return response.data || false;
-  } catch(error) {
+  } catch (error) {
     console.warn("Failed to check favorite", error);
     bugsnagInstance.notify(error);
   }
@@ -275,12 +275,12 @@ export const checkFavorite = async (targetUsername:string) => {
  * @params target username
  * @returns array of user favourites
  */
-export const addFavorite = async (targetUsername:string) => {
+export const addFavorite = async (targetUsername: string) => {
   try {
     const data = { account: targetUsername };
     const response = await ecencyApi.post(`/private-api/favorites-add`, data);
     return response.data;
-  } catch(error) {
+  } catch (error) {
     console.warn("Failed to add user favorites", error);
     bugsnagInstance.notify(error);
     throw error
@@ -293,12 +293,12 @@ export const addFavorite = async (targetUsername:string) => {
  * @params target username
  * @returns array of user favourites
  */
-export const deleteFavorite = async (targetUsername:string) => {
+export const deleteFavorite = async (targetUsername: string) => {
   try {
     const data = { account: targetUsername };
     const response = await ecencyApi.post(`/private-api/favorites-delete`, data);
     return response.data;
-  } catch(error) {
+  } catch (error) {
     console.warn("Failed to add user favorites", error);
     bugsnagInstance.notify(error);
     throw error;
@@ -321,7 +321,7 @@ export const getFragments = async () => {
   try {
     const response = await ecencyApi.post(`/private-api/fragments`);
     return response.data;
-  } catch(error) {
+  } catch (error) {
     console.warn("Failed to get fragments", error);
     bugsnagInstance.notify(error)
     throw error;
@@ -336,17 +336,17 @@ export const getFragments = async () => {
  * @returns array of fragments
  */
 
-  export const addFragment = async (title: string, body: string) => {
-    try{
-      const data = { title, body };
-      const response = await ecencyApi.post(`/private-api/fragments-add`, data);
-      return response.data;
-    } catch(error) {
-      console.warn("Failed to add fragment", error);
-      bugsnagInstance.notify(error)
-      throw error;
-    }
+export const addFragment = async (title: string, body: string) => {
+  try {
+    const data = { title, body };
+    const response = await ecencyApi.post(`/private-api/fragments-add`, data);
+    return response.data;
+  } catch (error) {
+    console.warn("Failed to add fragment", error);
+    bugsnagInstance.notify(error)
+    throw error;
   }
+}
 
 /**
  * Updates a fragment content using fragment id
@@ -355,12 +355,12 @@ export const getFragments = async () => {
  * @params body
  * @returns array of fragments
  */
- export const updateFragment = async (fragmentId:string, title: string, body: string) => {
-  try{
-    const data = { id:fragmentId, title, body };
+export const updateFragment = async (fragmentId: string, title: string, body: string) => {
+  try {
+    const data = { id: fragmentId, title, body };
     const response = await ecencyApi.post(`/private-api/fragments-update`, data);
     return response.data;
-  } catch(error) {
+  } catch (error) {
     console.warn("Failed to update fragment", error);
     bugsnagInstance.notify(error)
     throw error;
@@ -372,12 +372,12 @@ export const getFragments = async () => {
  * @params fragmentId
  * @returns array of fragments
  */
- export const deleteFragment = async (fragmentId:string) => {
-  try{
-    const data = { id:fragmentId };
+export const deleteFragment = async (fragmentId: string) => {
+  try {
+    const data = { id: fragmentId };
     const response = await ecencyApi.post(`/private-api/fragments-delete`, data);
     return response.data;
-  } catch(error) {
+  } catch (error) {
     console.warn("Failed to delete fragment", error);
     bugsnagInstance.notify(error)
     throw error;
@@ -386,22 +386,22 @@ export const getFragments = async () => {
 
 
 
-  /** 
- * ************************************
- * ACTIVITES ECENCY APIS IMPLEMENTATION 
- * ************************************
- */
+/** 
+* ************************************
+* ACTIVITES ECENCY APIS IMPLEMENTATION 
+* ************************************
+*/
 
-export const getLeaderboard = async (duration:'day'|'week'|'month') => {
-  try{
+export const getLeaderboard = async (duration: 'day' | 'week' | 'month') => {
+  try {
     const response = await ecencyApi.get(`private-api/leaderboard/${duration}`)
 
     const rawData = response.data;
-    if(!rawData || !isArray(rawData)){
+    if (!rawData || !isArray(rawData)) {
       throw new Error('Invalid response returned');
     }
     return rawData;
-  } catch(error) {
+  } catch (error) {
     bugsnagInstance.notify(error)
     throw error;
   }
@@ -412,47 +412,47 @@ export const getLeaderboard = async (duration:'day'|'week'|'month') => {
  * @param data optional filter and since props;
  * @returns array of notifications
  */
-export const getNotifications = async (data:{
-    filter?: "rvotes"|"mentions"|"follows"|"replies"|"reblogs"|"transfers"|"delegations",
-    since?:string
-  }) => {
-    try{
-      const response = await ecencyApi.post(`/private-api/notifications`, data);
-      return response.data;
-    }catch(error){
-      console.warn("Failed to get notifications", error)
-      bugsnagInstance.notify(error)
-      throw error;
-    }
+export const getNotifications = async (data: {
+  filter?: "rvotes" | "mentions" | "follows" | "replies" | "reblogs" | "transfers" | "delegations",
+  since?: string
+}) => {
+  try {
+    const response = await ecencyApi.post(`/private-api/notifications`, data);
+    return response.data;
+  } catch (error) {
+    console.warn("Failed to get notifications", error)
+    bugsnagInstance.notify(error)
+    throw error;
   }
+}
 
 
-  export const getUnreadNotificationCount = async (accessToken?:string) => {
-    try {
-      const data = accessToken ? {code:accessToken}:{}
-      const response = await ecencyApi.post(`/private-api/notifications/unread`, data)
-      return response.data ? response.data.count : 0;
-    } catch(error) {
-      bugsnagInstance.notify(error);
-      return 0;
-    }
+export const getUnreadNotificationCount = async (accessToken?: string) => {
+  try {
+    const data = accessToken ? { code: accessToken } : {}
+    const response = await ecencyApi.post(`/private-api/notifications/unread`, data)
+    return response.data ? response.data.count : 0;
+  } catch (error) {
+    bugsnagInstance.notify(error);
+    return 0;
   }
+}
 
-  export const markNotifications = async (id: string | null = null) => {
-    try{
-      const data = id ? { id } : {};
-      const response = await ecencyApi.post((`/private-api/notifications/mark`), data);
-      return response.data
-    }catch(error) {
-      bugsnagInstance.notify(error);
-      throw error
-    }
-  };
+export const markNotifications = async (id: string | null = null) => {
+  try {
+    const data = id ? { id } : {};
+    const response = await ecencyApi.post((`/private-api/notifications/mark`), data);
+    return response.data
+  } catch (error) {
+    bugsnagInstance.notify(error);
+    throw error
+  }
+};
 
 
 export const setPushToken = async (data) => {
   try {
-    if(!data.username){
+    if (!data.username) {
       console.log("skipping push token setting, as no user is provided")
       return;
     }
@@ -460,7 +460,7 @@ export const setPushToken = async (data) => {
     const res = await api.post('/rgstrmbldvc/', data);
     return res.data;
 
-  } catch(error){
+  } catch (error) {
     console.warn("Failed to set push token on server")
     bugsnagInstance.notify(error);
   }
@@ -472,17 +472,17 @@ export const setPushToken = async (data) => {
  * ************************************
  */
 
-export const search = async (data:{
-  q: string, 
-  sort: string, 
-  hideLow: string, 
-  since?: string, 
+export const search = async (data: {
+  q: string,
+  sort: string,
+  hideLow: string,
+  since?: string,
   scroll_id?: string
 }) => {
   try {
     const response = await ecencyApi.post('/search-api/search', data);
     return response.data;
-  } catch(error) {
+  } catch (error) {
     console.warn("Search failed", error);
     bugsnagInstance.notify(error);
     throw error;
@@ -490,70 +490,70 @@ export const search = async (data:{
 }
 
 
-  /**
-   * 
-   * @param q query
-   * @returns array of path strings
-   */
-  export const searchPath = async (q:string) => {
-    try {
-      const data = { q };
-      const response = await ecencyApi.post('/search-api/search-path', data);
-      return response.data; 
-    } catch(error){
-      console.warn("path search failed", error)
-      bugsnagInstance.notify(error);
-      throw error
-    }
+/**
+ * 
+ * @param q query
+ * @returns array of path strings
+ */
+export const searchPath = async (q: string) => {
+  try {
+    const data = { q };
+    const response = await ecencyApi.post('/search-api/search-path', data);
+    return response.data;
+  } catch (error) {
+    console.warn("path search failed", error)
+    bugsnagInstance.notify(error);
+    throw error
   }
+}
 
 
-  /**
-   * 
-   * @param q query
-   * @param limit number of posts to fetch
-   * @param random random
-   * @returns array of accounts
-   */
-  export const searchAccount = async (q:string = '', limit:number = 20, random:number = 0) => {
-    try {
-      const data = {
-        q,
-        limit,
-        random,
-      }
-      const response = await ecencyApi.post(`/search-api/search-account`, data)
-      return response.data;
-    } catch(error) {
-      console.warn("account search failed", error)
-      bugsnagInstance.notify(error);
-      throw error;
+/**
+ * 
+ * @param q query
+ * @param limit number of posts to fetch
+ * @param random random
+ * @returns array of accounts
+ */
+export const searchAccount = async (q: string = '', limit: number = 20, random: number = 0) => {
+  try {
+    const data = {
+      q,
+      limit,
+      random,
     }
+    const response = await ecencyApi.post(`/search-api/search-account`, data)
+    return response.data;
+  } catch (error) {
+    console.warn("account search failed", error)
+    bugsnagInstance.notify(error);
+    throw error;
   }
+}
 
 
-  /**
-   * 
-   * @param q query
-   * @param limit number of posts to fetch
-   * @param random random
-   * @returns array of accounts
-   */
-  export const searchTag = async (q:string = '', limit:number = 20, random:number = 0) => {
-    try {
-      const data = {
-        q,
-        limit,
-        random,
-      }
-      const response = await ecencyApi.post(`/search-api/search-tag`, data);
-      return response.data;
-    } catch(error) {
-      console.warn("tag search failed", error)
-      bugsnagInstance.notify(error);
-      throw error
+/**
+ * 
+ * @param q query
+ * @param limit number of posts to fetch
+ * @param random random
+ * @returns array of accounts
+ */
+export const searchTag = async (q: string = '', limit: number = 20, random: number = 0) => {
+  try {
+    const data = {
+      q,
+      limit,
+      random,
     }
+    const response = await ecencyApi.post(`/search-api/search-tag`, data);
+    return response.data;
+  } catch (error) {
+    console.warn("tag search failed", error)
+    bugsnagInstance.notify(error);
+    throw error
   }
+}
 
 
 
@@ -574,12 +574,12 @@ export const search = async (data:{
  * @returns All scheduled posts
  */
 export const addSchedule = async (
-  permlink:string,
-  title:string,
-  body:string,
-  meta:any,
-  options:any,
-  scheduleDate:string
+  permlink: string,
+  title: string,
+  body: string,
+  meta: any,
+  options: any,
+  scheduleDate: string
 ) => {
   try {
     const data = {
@@ -592,9 +592,9 @@ export const addSchedule = async (
       reblog: 0,
     }
     const response = await ecencyApi
-    .post('/private-api/schedules-add', data)
+      .post('/private-api/schedules-add', data)
     return response.data;
-  } catch(error) {
+  } catch (error) {
     console.warn("Failed to add post to schedule", error)
     bugsnagInstance.notify(error);
     throw error;
@@ -609,7 +609,7 @@ export const getSchedules = async () => {
   try {
     const response = await ecencyApi.post(`/private-api/schedules`)
     return response.data;
-  } catch(error){
+  } catch (error) {
     console.warn("Failed to get schedules")
     bugsnagInstance.notify(error)
     throw error;
@@ -621,29 +621,29 @@ export const getSchedules = async () => {
  * @param id 
  * @returns array of scheduled posts
  */
-export const deleteScheduledPost = async (id:string) => {
+export const deleteScheduledPost = async (id: string) => {
   try {
     const data = { id };
     const response = await ecencyApi.post(`/private-api/schedules-delete`, data);
     return response;
-  }catch(error){
+  } catch (error) {
     console.warn("Failed to delete scheduled post")
     bugsnagInstance.notify(error)
     throw error;
   }
-} 
+}
 
 /**
  * Moves scheduled post to draft using schedule id
  * @param id 
  * @returns Array of scheduled posts
  */
-export const moveScheduledToDraft = async (id:string) => {
+export const moveScheduledToDraft = async (id: string) => {
   try {
     const data = { id }
     const response = await ecencyApi.post(`/private-api/schedules-move`, data);
     return response.data;
-  } catch(error) {
+  } catch (error) {
     console.warn("Failed to move scheduled post to drafts")
     bugsnagInstance.notify(error)
     throw error;
@@ -662,48 +662,58 @@ export const getImages = async () => {
   try {
     const response = await ecencyApi.post('/private-api/images')
     return response.data;
-  } catch(error){
+  } catch (error) {
     console.warn('Failed to get images', error);
     bugsnagInstance.notify(error);
   }
 }
 
-export const addImage = async (url:string) => {
+export const addImage = async (url: string) => {
   try {
     const data = { url };
     const response = await ecencyApi.post(`/private-api/images-add`, data);
     return response.data;
-  } catch(error) {
+  } catch (error) {
     console.warn('Failed to add image', error);
     bugsnagInstance.notify(error);
     throw error;
   }
 }
 
-export const deleteImage = async (id:string) => {
+export const deleteImage = async (id: string) => {
   try {
     const data = { id };
     const response = await ecencyApi.post(`/private-api/images-delete`, data);
     return response.data;
-  } catch(error) {
+  } catch (error) {
     console.warn('Failed to delete image', error);
     bugsnagInstance.notify(error);
     throw error;
   }
 }
 
-export const uploadImage = (media, username, sign) => {
-  const file = {
-    uri: media.path,
-    type: media.mime,
-    name: media.filename || `img_${Math.random()}.jpg`,
-    size: media.size,
-  };
+export const uploadImage = async (media, username, sign, uploadProgress = null) => {
+  try {
+    const file = {
+      uri: media.path,
+      type: media.mime,
+      name: media.filename || `img_${Math.random()}.jpg`,
+      size: media.size,
+    };
 
-  const fData = new FormData();
-  fData.append('file', file);
+    const fData = new FormData();
+    fData.append('file', file);
+    
+    const res = await upload(fData, username, sign, uploadProgress)
+    if (!res || !res.data) {
+      throw new Error("Returning response missing media data");
+    }
+    return res;
 
-  return upload(fData, username, sign);
+  } catch (error) {
+    console.warn("Image upload failed", error)
+    return { error }
+  }
 };
 
 // New image service
@@ -717,13 +727,13 @@ export const getNodes = () => serverList.get().then((resp) => resp.data.hived ||
  * @param code refresh token
  * @returns scToken (includes accessToken as property)
  */
-export const getSCAccessToken = async (code:string) => {
-  try{
+export const getSCAccessToken = async (code: string) => {
+  try {
     const response = await ecencyApi.post('/auth-api/hs-token-refresh', {
       code,
     })
     return response.data;
-  }catch(error){
+  } catch (error) {
     console.warn("failed to refresh token")
     bugsnagInstance.notify(error);
     throw error
@@ -732,25 +742,25 @@ export const getSCAccessToken = async (code:string) => {
 
 
 
-  /**
-   * fetches promoted posts for tab content
-   * @param username for parsing post data
-   * @returns array of promoted posts
-   */
-  export const getPromotedEntries = async (username:string) => {
-    try {
-      console.log('Fetching promoted entries');
-      return ecencyApi.get('/private-api/promoted-entries').then((resp) => {
-        return resp.data.map((post_data:any) =>
-          post_data ? parsePost(post_data, username, true) : null,
-        );
-      });
-    } catch (error) {
-      console.warn("Failed to get promoted enties")
-      bugsnagInstance.notify(error);
-      return error;
-    }
-  };
+/**
+ * fetches promoted posts for tab content
+ * @param username for parsing post data
+ * @returns array of promoted posts
+ */
+export const getPromotedEntries = async (username: string) => {
+  try {
+    console.log('Fetching promoted entries');
+    return ecencyApi.get('/private-api/promoted-entries').then((resp) => {
+      return resp.data.map((post_data: any) =>
+        post_data ? parsePost(post_data, username, true) : null,
+      );
+    });
+  } catch (error) {
+    console.warn("Failed to get promoted enties")
+    bugsnagInstance.notify(error);
+    return error;
+  }
+};
 
 
 
@@ -777,7 +787,7 @@ export const getPostReblogs = (data) =>
  * @param referral username
  * @returns boolean success flag
  */
-export const signUp = async (username:string, email:string, referral?:string) => {
+export const signUp = async (username: string, email: string, referral?: string) => {
   try {
     const data = {
       username,
@@ -798,7 +808,7 @@ export const signUp = async (username:string, email:string, referral?:string) =>
  * ************************************
  */
 
-export const getReferralsList = async (username: string, maxId: number | undefined):Promise<Referral[]> => {
+export const getReferralsList = async (username: string, maxId: number | undefined): Promise<Referral[]> => {
   try {
     const res = await ecencyApi.get(`/private-api/referrals/${username}`, {
       params: {
@@ -818,7 +828,7 @@ export const getReferralsList = async (username: string, maxId: number | undefin
   }
 }
 
-export const getReferralsStats = async (username: string):Promise<ReferralStat> => {
+export const getReferralsStats = async (username: string): Promise<ReferralStat> => {
   try {
     const res = await ecencyApi.get(`/private-api/referrals/${username}/stats`);
     console.log('Referrals Stats', username, res.data);
@@ -839,7 +849,7 @@ export const getReferralsStats = async (username: string):Promise<ReferralStat> 
  * ************************************
  */
 
- export const getCommentHistory = async (author: string, permlink: string ):Promise<CommentHistoryItem[]> => {
+export const getCommentHistory = async (author: string, permlink: string): Promise<CommentHistoryItem[]> => {
   try {
     const data = {
       author,

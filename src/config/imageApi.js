@@ -1,13 +1,14 @@
 import axios from 'axios';
 import Config from 'react-native-config';
 
-function upload(fd, username, signature) {
+function upload(fd, username, signature, uploadProgress) {
   const image = axios.create({
     baseURL: `${Config.NEW_IMAGE_API}/hs/${signature}`, // Config.NEW_IMAGE_API
     headers: {
       Authorization: Config.NEW_IMAGE_API, // Config.NEW_IMAGE_API
       'Content-Type': 'multipart/form-data',
     },
+    onUploadProgress: uploadProgress,
   });
 
   image.interceptors.request.use((request) => {
