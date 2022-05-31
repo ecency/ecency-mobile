@@ -409,7 +409,7 @@
     "btn_insert": "ĮDĖKITE",
     "btn_delete": "IŠTRINTI",
     "message_failed": "Nepavyko įkelti vaizdo",
-    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
+    "failed_count": "Nepavyko įkelti {failedCount} iš {totalCount} pasirinkto vaizdo(ų)"
   },
   "pincode": {
     "enter_text": "Įveskite slaptažodį, kad atrakintumėte",
