@@ -409,7 +409,7 @@
     "btn_insert": "ВСТАВИТЬ",
     "btn_delete": "УДАЛИТЬ",
     "message_failed": "Не удалось загрузить изображение",
-    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
+    "failed_count": "Не удалось загрузить {failedCount} из {totalCount} выбранного изображения(ов)"
   },
   "pincode": {
     "enter_text": "Чтобы разблокировать введите пин-код",
