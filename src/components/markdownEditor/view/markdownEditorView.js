@@ -163,19 +163,19 @@ const MarkdownEditorView = ({
   }, [isLoading]);
 
   useEffect(() => {
-    if (uploadedImage && uploadedImage.url) {
-      if (uploadedImage.shouldInsert) {
-        applyMediaLink({
-          text,
-          selection,
-          setTextAndSelection: _setTextAndSelection,
-          items: [{ url: uploadedImage.url, text: uploadedImage.hash }],
-        });
-      } else {
-        uploadsGalleryModalRef.current.showModal();
-      }
+    if (uploadedImage && uploadedImage.shouldInsert && !isUploading) {
+      applyMediaLink({
+        text,
+        selection,
+        setTextAndSelection: _setTextAndSelection,
+        items: [{ url: uploadedImage.url, text: uploadedImage.hash }],
+      });
     }
-  }, [uploadedImage]);
+
+    if (isUploading) {
+      uploadsGalleryModalRef.current.showModal();
+    }
+  }, [uploadedImage, isUploading]);
 
   useEffect(() => {
     setText(draftBody);

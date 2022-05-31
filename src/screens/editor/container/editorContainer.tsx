@@ -70,6 +70,7 @@ class EditorContainer extends Component <any, any> {
       isReply: false,
       quickReplyText: '',
       isUploading: false,
+      uploadProgress:0,
       post: null,
       uploadedImage: null,
       isDraft: false,
@@ -394,11 +395,11 @@ class EditorContainer extends Component <any, any> {
   _uploadImage = async (media, imageIndex = 1 , { shouldInsert } = { shouldInsert: false }) => {
     // console.log('imageIndex : ', imageIndex, ' \n this.state.retryCount : ', this.state.retryCount);
     const { intl, currentAccount, pinCode, isLoggedIn } = this.props;
-    const { retryCount } = this.state;
     if (!isLoggedIn) return;
 
     this.setState({
       isUploading: true,
+      uploadProgress: 0,
       retryCount: 0,
     });
 
@@ -421,6 +422,7 @@ class EditorContainer extends Component <any, any> {
 
         this.setState({
           isUploading: false,
+          uploadProgress: 0,
           uploadedImage: res.data,
         });
       }
@@ -465,6 +467,7 @@ class EditorContainer extends Component <any, any> {
 
       this.setState({
         isUploading: false,
+        uploadPorgress: 0,
       });
     }
   };

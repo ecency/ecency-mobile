@@ -41,6 +41,7 @@ export const UploadsGalleryModal = forwardRef(({
     const [mediaUploads, setMediaUploads] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [lastAddedImageUrl, setLastAddedImageUrl] = useState(null);
     const [indices, setIndices] = useState<Map<number, boolean>>(new Map());
 
 
@@ -62,7 +63,7 @@ export const UploadsGalleryModal = forwardRef(({
     }, [showModal])
 
     useEffect(() => {
-        if (uploadedImage) {
+        if (uploadedImage && uploadedImage.url !== lastAddedImageUrl) {
             _addUploadedImageToGallery();
         }
     }, [uploadedImage])
@@ -75,6 +76,7 @@ export const UploadsGalleryModal = forwardRef(({
             setIsLoading(true);
             await addImage(uploadedImage.url);
             await _getMediaUploads();
+            setLastAddedImageUrl(uploadedImage.url);
             setIsLoading(false);
         } catch (err) {
             console.warn("Failed to add image to gallery, could possibly a duplicate image", err)
@@ -264,7 +266,7 @@ export const UploadsGalleryModal = forwardRef(({
                     numColumns={2}
                     refreshControl={
                         <RefreshControl
-                            refreshing={isLoading || isUploading}
+                            refreshing={isLoading}
                             onRefresh={_getMediaUploads}
                         />
                     }
