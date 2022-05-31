@@ -380,6 +380,7 @@ class EditorScreen extends Component {
       sharedSnippetText,
       onLoadDraftPress,
       thumbIndex,
+      uploadProgress,
     } = this.props;
 
     const rightButtonText = intl.formatMessage({
@@ -472,6 +473,7 @@ console.log('quickReplyText : ', quickReplyText);
             autoFocusText={autoFocusText}
             sharedSnippetText={sharedSnippetText}
             onLoadDraftPress={onLoadDraftPress}
+            uploadProgress={uploadProgress}
           />
         </PostForm>
         {_renderCommunityModal()}

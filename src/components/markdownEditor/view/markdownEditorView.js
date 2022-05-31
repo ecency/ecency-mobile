@@ -61,7 +61,7 @@ const MarkdownEditorView = ({
   isPreviewActive,
   isReply,
   isLoading,
-
+  isUploading,
   initialFields,
   onChange,
   handleOnTextChange,
@@ -78,6 +78,7 @@ const MarkdownEditorView = ({
   autoFocusText,
   sharedSnippetText,
   onLoadDraftPress,
+  uploadProgress,
 }) => {
   const dispatch = useDispatch();
 
@@ -550,6 +551,8 @@ const MarkdownEditorView = ({
         username={currentAccount.username}
         handleOnSelect={_handleOnMediaSelect}
         uploadedImage={uploadedImage}
+        isUploading={isUploading}
+        uploadProgress={uploadProgress}
       />
 
       <InsertLinkModal

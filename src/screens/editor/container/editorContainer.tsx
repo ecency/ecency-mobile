@@ -470,7 +470,11 @@ class EditorContainer extends Component <any, any> {
   // TODO: extend this to show realtime upload progress to user on sceen
   _showUploadProgress = (event) => {
     const progress = Math.round((100 * event.loaded) / event.total);
+
     console.log('progress : ', progress);
+    this.setState({
+      uploadProgress:progress
+    })
   }
 
   _handleMediaOnSelectFailure = (error) => {
@@ -1191,7 +1195,8 @@ class EditorContainer extends Component <any, any> {
       community,
       sharedSnippetText,
       onLoadDraftPress,
-      thumbIndex
+      thumbIndex,
+      uploadProgress,
     } = this.state;
 
     const tags = navigation.state.params && navigation.state.params.tags;
@@ -1230,6 +1235,7 @@ class EditorContainer extends Component <any, any> {
         onLoadDraftPress={onLoadDraftPress}
         thumbIndex={thumbIndex}
         setThumbIndex={this._handleSetThumbIndex}
+        uploadProgress={uploadProgress}
       />
     );
   }

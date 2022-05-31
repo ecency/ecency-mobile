@@ -1,58 +1,68 @@
+import { proxifyImageSrc } from '@ecency/render-helper';
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { useIntl } from 'react-intl';
-import {Text, View, FlatList, RefreshControl, TouchableOpacity, Alert, Platform } from 'react-native';
+import { Alert, FlatList, Platform, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { CheckBox, MainButton, TextButton } from '..';
 import { UploadedMedia } from '../../models';
 import { addImage, deleteImage, getImages } from '../../providers/ecency/ecency';
+import { ProgressBar } from '../atoms';
 import Modal from '../modal';
 import styles from './uploadsGalleryModalStyles';
-import { proxifyImageSrc } from '@ecency/render-helper';
 
 
 export interface UploadsGalleryModalRef {
-    showModal:()=>void;
+    showModal: () => void;
 }
 
 interface MediaInsertData {
-    url:string,
-    hash:string,
+    url: string,
+    hash: string,
 }
 
 interface UploadsGalleryModalProps {
-    username:string;
-    handleOnSelect:(data:Array<MediaInsertData>)=>void;
-    uploadedImage:MediaInsertData;
+    username: string;
+    handleOnSelect: (data: Array<MediaInsertData>) => void;
+    uploadedImage: MediaInsertData;
+    isUploading: boolean;
+    uploadProgress: number
 }
 
-export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploadedImage}: UploadsGalleryModalProps, ref) => {
+export const UploadsGalleryModal = forwardRef(({
+    username,
+    handleOnSelect,
+    uploadedImage,
+    isUploading,
+    uploadProgress,
+
+}: UploadsGalleryModalProps, ref) => {
     const intl = useIntl();
 
     const [mediaUploads, setMediaUploads] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [indices, setIndices] = useState<Map<number, boolean>>(new Map());
-  
+
 
     useImperativeHandle(ref, () => ({
         showModal: () => {
-          setShowModal(true);
+            setShowModal(true);
         },
-      }));
-      
+    }));
+
 
     useEffect(() => {
         _getMediaUploads();
     }, []);
 
-    useEffect(()=>{
-        if(!showModal){
+    useEffect(() => {
+        if (!showModal) {
             setIndices(new Map());
         }
     }, [showModal])
 
     useEffect(() => {
-        if(uploadedImage){
+        if (uploadedImage) {
             _addUploadedImageToGallery();
         }
     }, [uploadedImage])
@@ -60,13 +70,13 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploa
 
     //save image to user gallery
     const _addUploadedImageToGallery = async () => {
-        try{
-            console.log("adding image to gallery",username, uploadedImage )
+        try {
+            console.log("adding image to gallery", username, uploadedImage)
             setIsLoading(true);
             await addImage(uploadedImage.url);
             await _getMediaUploads();
             setIsLoading(false);
-        }catch(err){
+        } catch (err) {
             console.warn("Failed to add image to gallery, could possibly a duplicate image", err)
             setIsLoading(false);
         }
@@ -75,7 +85,7 @@ export const UploadsGalleryModal =  forwardRef(({username, handleOnSelect, uploa
 
     // remove image data from user's gallery
     const _deleteMedia = async () => {
-        try{
+        try {
             setIsLoading(true);
             for (const index of indices.keys()) {
                 await deleteImage(mediaUploads[index]._id)
