@@ -1,4 +1,6 @@
+import { Platform } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { getBottomSpace, isIphoneX } from 'react-native-iphone-x-helper';
 
 export default EStyleSheet.create({
   sheetContent: {
@@ -9,34 +11,40 @@ export default EStyleSheet.create({
     right: 0,
     zIndex: 999,
   },
-  container:{
-    flex:1,
-  },
-  modalContainer: {
-    // paddingVertical: 4,
+  container: {
+    flex: 1,
   },
 
+  modalContainer: {
+    paddingVertical: 4,
+    paddingBottom: Platform.select({
+      ios:isIphoneX() ? getBottomSpace() - 20 : 12, 
+      android: 20
+    }) ,
+  },
 
   cancelButton: {
     marginRight: 10,
   },
   modalHeader: {
     paddingHorizontal: 12,
-    paddingVertical:8,
+    paddingVertical: 8,
   },
   titleBtnTxt: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '$primaryBlack',
   },
-  summaryStyle:{
-    fontSize:12,
+  summaryStyle: {
+    fontSize: 16,
+    paddingHorizontal: 16,
+    color: '$primaryDarkGray',
+    fontWeight: '500',
   },
   inputContainer: {
     paddingHorizontal: 16,
-    paddingVertical:8,
-    height:120,
-
+    paddingVertical: 8,
+    height: 120,
   },
   textInput: {
     color: '$primaryBlack',
@@ -48,7 +56,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal:16,
+    paddingHorizontal: 16,
   },
   commentBtn: {
     width: 100,
@@ -64,7 +72,7 @@ export default EStyleSheet.create({
     paddingTop: 10,
     paddingBottom: 0,
   },
-  
+
   accountTile: {
     height: 60,
     flexDirection: 'row',
@@ -75,9 +83,9 @@ export default EStyleSheet.create({
   avatarAndNameContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal:16,
-    paddingTop:12,
-    paddingBottom:8,
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: 8,
   },
   nameContainer: {
     marginLeft: 2,
