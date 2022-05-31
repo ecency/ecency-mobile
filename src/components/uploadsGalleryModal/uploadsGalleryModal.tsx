@@ -240,23 +240,20 @@ export const UploadsGalleryModal = forwardRef(({
     };
 
 
-    const _renderUploadProgress = () => {
-        return (
-            <View>
+    const _renderHeaderContent = (
+        <>
+            {isUploading && <ProgressBar progress={uploadProgress} />}
+        </>
 
-            </View>
-        )
-    }
-
-
+    )
 
 
 
     const _renderContent = (
         <View style={styles.container}>
             <View style={styles.bodyWrapper}>
-                {true && <ProgressBar progress={30} />}
-                
+
+                {_renderHeaderContent}
                 <FlatList
                     data={mediaUploads}
                     keyExtractor={(item) => `item_${item.url}`}
