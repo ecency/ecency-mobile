@@ -408,7 +408,8 @@
     "btn_add": "الصورة",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
-    "message_failed": "فشل في تحميل الصورة"
+    "message_failed": "فشل في تحميل الصورة",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "أدخل الرقم السري للفتح",
