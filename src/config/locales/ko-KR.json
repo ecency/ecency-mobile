@@ -408,7 +408,8 @@
     "btn_add": "이미지",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
-    "message_failed": "이미지 업로드에 실패"
+    "message_failed": "이미지 업로드에 실패",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "잠금을 해제하려면 PIN 코드를 입력해주세요",
