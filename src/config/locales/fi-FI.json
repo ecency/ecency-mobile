@@ -408,7 +408,8 @@
     "btn_add": "Kuva",
     "btn_insert": "Lisää",
     "btn_delete": "POISTA",
-    "message_failed": "Kuvan lataaminen epäonnistui"
+    "message_failed": "Kuvan lataaminen epäonnistui",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "Poista lukitus antamalla PIN-koodi",
