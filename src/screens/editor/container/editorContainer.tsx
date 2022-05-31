@@ -81,7 +81,7 @@ class EditorContainer extends Component <any, any> {
       thumbIndex: 0,
       shouldReblog:false,
       retryCount: 0,
-      failedImageUploads: [],
+      failedImageUploads: 0,
     };
   }
 
@@ -375,24 +375,33 @@ class EditorContainer extends Component <any, any> {
 
   _handleMediaOnSelected = async (media) => {
 
+    this.setState({
+      failedImageUploads:0
+    })
     try {
       if (media.length > 0) {
         for (let index = 0; index < media.length; index++) {
           const element = media[index];
-          await this._uploadImage(element, index+1);
+          await this._uploadImage(element);
         }
       } else {
         await this._uploadImage(media);
       }
+
+      if(this.state.failedImageUploads){
+        Alert.alert(`Failed to upload ${this.state.failedImageUploads} of ${media.length || 1} selected image(s)`);
+      }
+      
     } catch (error) {
       console.log("Failed to upload image", error);
       console.log('failedImageUploads : ', this.state.failedImageUploads);
+
       bugsnapInstance.notify(error);
     }
 
   };
 
-  _uploadImage = async (media, imageIndex = 1 , { shouldInsert } = { shouldInsert: false }) => {
+  _uploadImage = async (media, { shouldInsert } = { shouldInsert: false }) => {
     // console.log('imageIndex : ', imageIndex, ' \n this.state.retryCount : ', this.state.retryCount);
     const { intl, currentAccount, pinCode, isLoggedIn } = this.props;
     if (!isLoggedIn) return;
@@ -400,22 +409,23 @@ class EditorContainer extends Component <any, any> {
     this.setState({
       isUploading: true,
       uploadProgress: 0,
-      retryCount: 0,
     });
 
     let sign = await signImage(media, currentAccount, pinCode);
 
+    let MAX_RETRY = 2;
     try {
-      let res = await uploadImage(media, currentAccount.name, sign, this._showUploadProgress);
-      // retry uplaod if there is no response or error has been aoccured
-      if (!res || !res.data) {
-        this.setState({ retryCount: this.state.retryCount + 1 }, async () => {
-          while (this.state.retryCount <= 2) {
-            console.log('retrying image uplaod : ', this.state.retryCount);
-            res = await uploadImage(media, currentAccount.name, sign, this._showUploadProgress);
-          }
-        });
+      let res = null;
+      
+      for(var i = 0; i < MAX_RETRY; i++){
+        res = await uploadImage(media, currentAccount.name, sign, this._showUploadProgress);
+        if(res && res.data){
+          break;
+        } else {
+          console.log("retrying upload");
+        }
       }
+
       if (res.data && res.data.url) {
         res.data.hash = res.data.url.split('/').pop();
         res.data.shouldInsert = shouldInsert;
@@ -425,10 +435,14 @@ class EditorContainer extends Component <any, any> {
           uploadProgress: 0,
           uploadedImage: res.data,
         });
+
+      } else if(res.error) {
+        throw res.error
       }
+
     } catch (error) {
       console.log('error while uploading image : ', error);
-      this.setState({ failedImageUploads: [...this.state.failedImageUploads, imageIndex] });
+      this.setState({ failedImageUploads: this.state.failedImageUploads + 1 });
       if (error.toString().includes('code 413')) {
         Alert.alert(
           intl.formatMessage({
@@ -470,6 +484,7 @@ class EditorContainer extends Component <any, any> {
         uploadPorgress: 0,
       });
     }
+
   };
   // TODO: extend this to show realtime upload progress to user on sceen
   _showUploadProgress = (event) => {
