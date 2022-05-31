@@ -93,151 +93,160 @@ export const UploadsGalleryModal = forwardRef(({
             await _getMediaUploads();
             setIndices(new Map());
             setIsLoading(false);
-        } catch(err){
+        } catch (err) {
             console.warn("failed to remove image from gallery", err)
             setIsLoading(false);
         }
     }
-   
+
 
     //fetch images from server
     const _getMediaUploads = async () => {
-        try{
+        try {
             if (username) {
                 setIsLoading(true);
-                console.log("getting images for: " + username )
+                console.log("getting images for: " + username)
                 const images = await getImages()
                 console.log("images received", images)
                 setMediaUploads(images);
                 setIsLoading(false);
             }
-        }catch(err){
+        } catch (err) {
             console.warn("Failed to get images")
             setIsLoading(false);
         }
     }
 
     //inserts media items in post body
-    const _insertMedia = async (selectedIndex?:number) => {
-        const map = selectedIndex > -1 ? new Map([[selectedIndex, true]]) : indices; 
-        
+    const _insertMedia = async (selectedIndex?: number) => {
+        const map = selectedIndex > -1 ? new Map([[selectedIndex, true]]) : indices;
+
         const data = []
         for (const index of map.keys()) {
             console.log(index)
             const item = mediaUploads[index]
 
             data.push({
-                 url:item.url,
-                 hash:item.url.split('/').pop()
+                url: item.url,
+                hash: item.url.split('/').pop()
             })
-            
+
         }
         handleOnSelect(data)
         setShowModal(false);
     }
 
-      //renders footer with add snipept button and shows new snippet modal
-        const _renderFloatingPanel = () => {
+    //renders footer with add snipept button and shows new snippet modal
+    const _renderFloatingPanel = () => {
 
-            if(!indices.size){
-                return null
-            }
-
-            const _onRemovePress = async () => {
-                const _onConfirm = () => {
-                    _deleteMedia()
-                }
-                Alert.alert(
-                    intl.formatMessage({id:'alert.delete'}),
-                    intl.formatMessage({id:'alert.remove_alert'}),
-                    [{
-                        text:intl.formatMessage({id:'alert.cancel'}),
-                        style:'cancel'
-                    },{
-                        text:intl.formatMessage({id:'alert.confirm'}),
-                        onPress:_onConfirm
-                    }]
-                )
-               
-            }
-            
-            return (
-                    <View style={styles.floatingContainer}>
-                        <TextButton
-                            style={styles.cancelButton}
-                            onPress={_onRemovePress}
-                            text={intl.formatMessage({
-                                id: 'uploads_modal.btn_delete',
-                            })}
-                        />
-                        <MainButton
-                            style={{ width: 136, marginLeft:12}}
-                            onPress={_insertMedia}
-                            iconName="plus"
-                            iconType="MaterialCommunityIcons"
-                            iconColor="white"
-                            text={intl.formatMessage({
-                                id: 'uploads_modal.btn_insert',
-                            })}
-                        />
-                    </View>
-            );
-        };
-
-
-
-  //render list item for snippet and handle actions;
-  const _renderItem = ({ item, index }:{item:UploadedMedia, index:number}) => {
-
-    const _onCheckPress = () => {
-        //update selection indices
-        if(indices.has(index)){
-            indices.delete(index);
-        }else {
-            indices.set(index, true);
+        if (!indices.size) {
+            return null
         }
 
-        setIndices(new Map([...indices]));
-    }
+        const _onRemovePress = async () => {
+            const _onConfirm = () => {
+                _deleteMedia()
+            }
+            Alert.alert(
+                intl.formatMessage({ id: 'alert.delete' }),
+                intl.formatMessage({ id: 'alert.remove_alert' }),
+                [{
+                    text: intl.formatMessage({ id: 'alert.cancel' }),
+                    style: 'cancel'
+                }, {
+                    text: intl.formatMessage({ id: 'alert.confirm' }),
+                    onPress: _onConfirm
+                }]
+            )
 
-    const _onPress = () => {
-        
-        if(indices.size){
-          _onCheckPress()
-        }else {
-          _insertMedia(index)
-        }      
-    }
+        }
 
-    const thumbUrl = proxifyImageSrc(item.url, 600, 500, Platform.OS === 'ios' ? 'match' : 'webp');
+        return (
+            <View style={styles.floatingContainer}>
+                <TextButton
+                    style={styles.cancelButton}
+                    onPress={_onRemovePress}
+                    text={intl.formatMessage({
+                        id: 'uploads_modal.btn_delete',
+                    })}
+                />
+                <MainButton
+                    style={{ width: 136, marginLeft: 12 }}
+                    onPress={_insertMedia}
+                    iconName="plus"
+                    iconType="MaterialCommunityIcons"
+                    iconColor="white"
+                    text={intl.formatMessage({
+                        id: 'uploads_modal.btn_insert',
+                    })}
+                />
+            </View>
+        );
+    };
 
-    return (
-      <TouchableOpacity onPress={_onPress} onLongPress={_onCheckPress}>
-        <FastImage 
-            source={{uri:thumbUrl}}
-            style={styles.mediaItem}
-        />
-        <View style={styles.checkContainer}>
-            <CheckBox
-                isChecked={indices.has(index)}
-                clicked={_onCheckPress}
-                style={styles.checkStyle}
-            />
-        </View>
-        
-      </TouchableOpacity>
-    )
-  };
+
+
+    //render list item for snippet and handle actions;
+    const _renderItem = ({ item, index }: { item: UploadedMedia, index: number }) => {
+
+        const _onCheckPress = () => {
+            //update selection indices
+            if (indices.has(index)) {
+                indices.delete(index);
+            } else {
+                indices.set(index, true);
+            }
+
+            setIndices(new Map([...indices]));
+        }
+
+        const _onPress = () => {
+
+            if (indices.size) {
+                _onCheckPress()
+            } else {
+                _insertMedia(index)
+            }
+        }
+
+        const thumbUrl = proxifyImageSrc(item.url, 600, 500, Platform.OS === 'ios' ? 'match' : 'webp');
+
+        return (
+            <TouchableOpacity onPress={_onPress} onLongPress={_onCheckPress}>
+                <FastImage
+                    source={{ uri: thumbUrl }}
+                    style={styles.mediaItem}
+                />
+                <View style={styles.checkContainer}>
+                    <CheckBox
+                        isChecked={indices.has(index)}
+                        clicked={_onCheckPress}
+                        style={styles.checkStyle}
+                    />
+                </View>
+
+            </TouchableOpacity>
+        )
+    };
 
 
     //render empty list placeholder
     const _renderEmptyContent = () => {
         return (
-          <>
-            <Text style={styles.title}>{intl.formatMessage({id:'uploads_modal.label_no_images'})}</Text>
-          </>
+            <>
+                <Text style={styles.title}>{intl.formatMessage({ id: 'uploads_modal.label_no_images' })}</Text>
+            </>
         );
     };
+
+
+    const _renderUploadProgress = () => {
+        return (
+            <View>
+
+            </View>
+        )
+    }
 
 
 
@@ -246,44 +255,46 @@ export const UploadsGalleryModal = forwardRef(({
     const _renderContent = (
         <View style={styles.container}>
             <View style={styles.bodyWrapper}>
-            <FlatList
-                data={mediaUploads}
-                keyExtractor={(item) => `item_${item.url}`}
-                renderItem={_renderItem}
-                ListEmptyComponent={_renderEmptyContent}
-                ListFooterComponent={<View style={styles.listEmptyFooter} />}
-                extraData={indices}
-                numColumns={2}
-                refreshControl={
-                    <RefreshControl 
-                        refreshing={isLoading}
-                        onRefresh={_getMediaUploads}
-                    />
-                }
-            />
+                {true && <ProgressBar progress={30} />}
+                
+                <FlatList
+                    data={mediaUploads}
+                    keyExtractor={(item) => `item_${item.url}`}
+                    renderItem={_renderItem}
+                    ListEmptyComponent={_renderEmptyContent}
+                    ListFooterComponent={<View style={styles.listEmptyFooter} />}
+                    extraData={indices}
+                    numColumns={2}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={isLoading || isUploading}
+                            onRefresh={_getMediaUploads}
+                        />
+                    }
+                />
             </View>
             {_renderFloatingPanel()}
         </View>
     )
 
 
-  return (
-    <Modal 
-        isOpen={showModal}
-        handleOnModalClose={() => setShowModal(false)}
-        isFullScreen
-        isCloseButton
-        presentationStyle="formSheet"
-        title={intl.formatMessage({
-            id:'uploads_modal.title'
-        })}
-        animationType="slide"
-        style={styles.modalStyle}
-    >
-    {_renderContent}
-    </Modal>
-     
-  );
+    return (
+        <Modal
+            isOpen={showModal}
+            handleOnModalClose={() => setShowModal(false)}
+            isFullScreen
+            isCloseButton
+            presentationStyle="formSheet"
+            title={intl.formatMessage({
+                id: 'uploads_modal.title'
+            })}
+            animationType="slide"
+            style={styles.modalStyle}
+        >
+            {_renderContent}
+        </Modal>
+
+    );
 });
 
 
