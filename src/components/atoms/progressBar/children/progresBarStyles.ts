@@ -2,12 +2,13 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
     container:{
-        backgroundColor:'$primaryLightGray',
+        backgroundColor:'$primaryLightBackground',
         flexDirection:'row',
         borderRadius:16,
-        maxHeight:16,
-        flexGrow:1,
-        marginVertical:8,
+        height:16,
+        alignSelf:'stretch',
+        marginHorizontal:8,
+        marginBottom:12,
     },
     filled:{
         borderRadius:16,
