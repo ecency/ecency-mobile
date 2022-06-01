@@ -32,7 +32,7 @@ const QuickReplyModal = ({ fetchPost }: QuickReplyModalProps, ref) => {
       <ActionSheet
         ref={sheetModalRef}
         gestureEnabled={true}
-        keyboardShouldPersistTaps="handled"
+        keyboardShouldPersistTaps="always"
         containerStyle={styles.sheetContent}
         keyboardHandlerEnabled
         indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
