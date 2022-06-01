@@ -409,7 +409,7 @@
     "btn_insert": "Lisää",
     "btn_delete": "POISTA",
     "message_failed": "Kuvan lataaminen epäonnistui",
-    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
+    "failed_count": "Ei voitu ladata {failedCount} valituista kuvista {totalCount}"
   },
   "pincode": {
     "enter_text": "Poista lukitus antamalla PIN-koodi",
@@ -658,7 +658,7 @@
     "title": "Hanki pisteitä",
     "buy": "Hanki Pisteitä",
     "next": "SEURAAVA",
-    "info": "Actual value of vote you receive may vary",
+    "info": "Antamasi äänen todellinen arvo voi vaihdella",
     "account": {
       "title": "Vastaanota Tilitehostus",
       "desc": "30 päivän valtuutus tehostaa ääniäsi ja sosiaalista toimintaa, antaen lisää toimintoja ja Resurssipisteitä."
