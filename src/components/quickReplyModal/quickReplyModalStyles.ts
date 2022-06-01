@@ -16,7 +16,7 @@ export default EStyleSheet.create({
   },
 
   modalContainer: {
-    paddingVertical: 4,
+    paddingTop: 4,
     paddingBottom: Platform.select({
       ios:isIphoneX() ? getBottomSpace() - 20 : 12, 
       android: 20
@@ -42,12 +42,12 @@ export default EStyleSheet.create({
     fontWeight: '500',
   },
   inputContainer: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingVertical: 6,
     height: 120,
   },
   textInput: {
     color: '$primaryBlack',
+    paddingHorizontal:16,
     fontSize: 16,
     flexGrow: 1,
     fontWeight: '500',
