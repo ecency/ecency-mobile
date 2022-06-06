@@ -222,14 +222,6 @@ const MarkdownEditorView = ({
     if (onChange) {
       onChange(input);
     }
-
-    if (handleIsValid) {
-      handleIsValid(componentID, !!(input && input.length));
-    }
-
-    if (handleOnTextChange) {
-      handleOnTextChange(input);
-    }
   });
 
   const _handleOnSelectionChange = async (event) => {
@@ -267,7 +259,6 @@ const MarkdownEditorView = ({
     _changeText(_text);
   });
 
-  console.log('text : ', text);
   const _renderPreview = () => (
     <ScrollView style={styles.previewContainer}>
       {text ? (

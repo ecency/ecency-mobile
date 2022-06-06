@@ -435,6 +435,7 @@ console.log('quickReplyText : ', quickReplyText);
         />
         <PostForm
           handleFormUpdate={this._handleFormUpdate}
+          handleBodyChange={this._setWordsCount}
           handleOnSubmit={this._handleOnSubmit}
           isFormValid={isFormValid}
           isPreviewActive={isPreviewActive}
@@ -452,9 +453,6 @@ console.log('quickReplyText : ', quickReplyText);
           <MarkdownEditor
             componentID="body"
             draftBody={quickReplyText ? quickReplyText : fields && fields.body}
-            handleOnTextChange={this._setWordsCount}
-            handleFormUpdate={this._handleFormUpdate}
-            handleIsFormValid={this._handleIsFormValid}
             isFormValid={isFormValid}
             handleOpenImagePicker={handleOnImagePicker}
             intl={intl}
