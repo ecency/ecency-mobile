@@ -95,7 +95,7 @@
     "react-native-fast-image": "^8.3.2",
     "react-native-gesture-handler": "^1.9.0",
     "react-native-highlight-words": "^1.0.1",
-    "react-native-iap": "^7.2.1",
+    "react-native-iap": "^7.5.6",
     "react-native-image-crop-picker": "^0.35.2",
     "react-native-image-size": "^1.1.3",
     "react-native-image-zoom-viewer": "^2.2.27",

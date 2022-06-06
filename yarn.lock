@@ -8806,10 +8806,10 @@ react-native-highlight-words@^1.0.1:
     highlight-words-core "^1.0.3"
     prop-types "^15.5.7"
 
-react-native-iap@^7.2.1:
-  version "7.2.1"
-  resolved "https://registry.yarnpkg.com/react-native-iap/-/react-native-iap-7.2.1.tgz#f1eca6133d1df05af722c06e7862345049c7ebff"
-  integrity sha512-kNMSmW/ME5yOFBf2MJpGYtpZ47Te6auqrg3Tgd0RyJTHtROUbjlYJnNe6oCneYZ1GimV4NlWQ+Oa4se2EZO12g==
+react-native-iap@^7.5.6:
+  version "7.5.6"
+  resolved "https://registry.yarnpkg.com/react-native-iap/-/react-native-iap-7.5.6.tgz#75a370f0a689da4fbe5ecf2cd9b7bdd0f7d20f2f"
+  integrity sha512-ua+KTq7NO+/Rw+S9cGDZizR45AdmpQ0LEx9gSubbRD3f5KSTp91mEMHgdyVcqUcxiBuVgRTfv3zy9mbPEdo8Mg==
   dependencies:
     dooboolab-welcome "1.3.2"
 
