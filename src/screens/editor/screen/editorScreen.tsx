@@ -451,7 +451,7 @@ console.log('quickReplyText : ', quickReplyText);
           )}
           <MarkdownEditor
             componentID="body"
-            draftBody={quickReplyText ? quickReplyText : fields && fields.body}
+            draftBody={isReply ? quickReplyText : fields && fields.body}
             handleOnTextChange={this._setWordsCount}
             handleFormUpdate={this._handleFormUpdate}
             handleIsFormValid={this._handleIsFormValid}
