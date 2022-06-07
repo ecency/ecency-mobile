@@ -1,4 +1,4 @@
-import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE, UPDATE_COMMENT_CACHE, DELETE_COMMENT_CACHE_ENTRY } from "../constants/constants";
+import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE, UPDATE_COMMENT_CACHE, DELETE_COMMENT_CACHE_ENTRY, UPDATE_QUICK_COMMENT_CACHE, DELETE_QUICK_COMMENT_CACHE_ENTRY } from "../constants/constants";
 
 export interface Vote {
     amount:number;
@@ -26,19 +26,29 @@ export interface Comment {
     expiresAt?:number,
 }
 
+export interface QuickComment {
+    parent_permlink:string,
+    body?:string,
+    created?:string,
+    updated?:string,
+    expiresAt:number;
+}
+
 interface State {
     votes:Map<string, Vote>
     comments:Map<string, Comment> //TODO: handle comment array per post, if parent is same
+    quickComments: Map<string, QuickComment>
     lastUpdate:{
         postPath:string,
         updatedAt:number,
-        type:'vote'|'comment',
+        type:'vote'|'comment'|'quickComment',
     }
 }
 
 const initialState:State = {
     votes:new Map(),
     comments:new Map(),
+    quickComments: new Map(),
     lastUpdate:null,
   };
   
@@ -79,6 +89,26 @@ const initialState:State = {
             }
             return { ...state }
             
+        case UPDATE_QUICK_COMMENT_CACHE:
+            if(!state.quickComments){
+                state.quickComments = new Map<string, QuickComment>();
+            }
+            state.quickComments.set(payload.path, payload.quickComment);
+            return {
+              ...state, //spread operator in requried here, otherwise persist do not register change
+              lastUpdate: {
+                postPath: payload.path,
+                updatedAt: new Date().getTime(),
+                type: 'quickComment',
+              },
+            };
+
+        case DELETE_QUICK_COMMENT_CACHE_ENTRY:
+            if (state.quickComments && state.quickComments.has(payload)) {
+                state.quickComments.delete(payload);
+            }
+            return { ...state }
+
         case PURGE_EXPIRED_CACHE:
             const currentTime = new Date().getTime();
 

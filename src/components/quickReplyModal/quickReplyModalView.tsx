@@ -14,6 +14,7 @@ const QuickReplyModal = ({ fetchPost }: QuickReplyModalProps, ref) => {
   const [selectedPost, setSelectedPost] = useState(null);
   const sheetModalRef = useRef<ActionSheet>();
   const inputRef = useRef<TextInput>(null);
+  const handleCloseRef = useRef(null);
 
   //CALLBACK_METHOD
   useImperativeHandle(ref, () => ({
@@ -36,12 +37,14 @@ const QuickReplyModal = ({ fetchPost }: QuickReplyModalProps, ref) => {
         containerStyle={styles.sheetContent}
         keyboardHandlerEnabled
         indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+        onClose={() => handleCloseRef.current()}
       >
         <QuickReplyModalContent
           fetchPost={fetchPost}
           selectedPost={selectedPost}
           inputRef={inputRef}
           sheetModalRef={sheetModalRef}
+          handleCloseRef={handleCloseRef}
         />
       </ActionSheet>
     </Portal>

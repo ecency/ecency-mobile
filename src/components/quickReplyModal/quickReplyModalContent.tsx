@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { delay, generateReplyPermlink } from '../../utils/editor';
 import { postComment } from '../../providers/hive/dhive';
 import { toastNotification } from '../../redux/actions/uiAction';
-import { updateCommentCache } from '../../redux/actions/cacheActions';
+import { updateCommentCache, updateQuickCommentCache } from '../../redux/actions/cacheActions';
 import { default as ROUTES } from '../../constants/routeNames';
 import get from 'lodash/get';
 import { navigate } from '../../navigation/service';
@@ -19,6 +19,7 @@ export interface QuickReplyModalContentProps {
   selectedPost?: any;
   inputRef?: any;
   sheetModalRef?: any;
+  handleCloseRef?: any;
 }
 
 export const QuickReplyModalContent = ({
@@ -26,6 +27,7 @@ export const QuickReplyModalContent = ({
   selectedPost,
   inputRef,
   sheetModalRef,
+  handleCloseRef
 }: QuickReplyModalContentProps) => {
   const intl = useIntl();
   const dispatch = useDispatch();
@@ -38,12 +40,46 @@ export const QuickReplyModalContent = ({
   const headerText =
     selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
 
+    useEffect(() => {
+      handleCloseRef.current = handleSheetClose;
+    }, [commentValue])
+  
   // reset the state when post changes
   useEffect(() => {
     setCommentValue('');
   }, [selectedPost]);
 
   // handlers
+  
+  const  handleSheetClose = () => {
+    console.log('sheet closed!');
+
+    if(!commentValue){
+      return;
+    }
+    console.log('commentValue : ', commentValue);
+    
+    const parentAuthor = selectedPost.author;
+    const parentPermlink = selectedPost.permlink;
+    const date = new Date();
+    const updatedStamp = date.toISOString().substring(0, 19);
+
+    const quickCommentCache = {
+      parent_permlink: parentPermlink,
+      body: commentValue,
+      created: updatedStamp,
+      updated: updatedStamp,
+      expiresAt: date.getTime() + 6000000,
+    }
+    
+    //add quick comment cache entry
+    dispatch(
+      updateQuickCommentCache(
+        `${parentAuthor}/${parentPermlink}`,
+        quickCommentCache
+      ),
+    );
+  }
 
   // handle close press
   const _handleClosePress = () => {
@@ -237,7 +273,9 @@ export const QuickReplyModalContent = ({
       <View style={styles.inputContainer}>
         <TextInput
           innerRef={inputRef}
-          onChangeText={setCommentValue}
+          onChangeText={(value) => {
+            setCommentValue(value);
+          }}
           value={commentValue}
           // autoFocus
           placeholder={intl.formatMessage({
