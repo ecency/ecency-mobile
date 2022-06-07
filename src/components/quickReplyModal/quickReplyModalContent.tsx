@@ -8,7 +8,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { delay, generateReplyPermlink } from '../../utils/editor';
 import { postComment } from '../../providers/hive/dhive';
 import { toastNotification } from '../../redux/actions/uiAction';
-import { updateCommentCache, updateQuickCommentCache } from '../../redux/actions/cacheActions';
+import {
+  deleteQuickCommentCacheEntry,
+  updateCommentCache,
+  updateQuickCommentCache,
+} from '../../redux/actions/cacheActions';
 import { default as ROUTES } from '../../constants/routeNames';
 import get from 'lodash/get';
 import { navigate } from '../../navigation/service';
@@ -62,13 +66,14 @@ export const QuickReplyModalContent = ({
   // handlers
 
   const handleSheetClose = () => {
-    console.log('sheet closed!');
+    _addQuickCommentIntoCache();
+  };
 
+  // add quick comment value into cache
+  const _addQuickCommentIntoCache = () => {
     if (!commentValue) {
       return;
     }
-    console.log('commentValue : ', commentValue);
-
     const date = new Date();
     const updatedStamp = date.toISOString().substring(0, 19);
 
@@ -83,7 +88,6 @@ export const QuickReplyModalContent = ({
     //add quick comment cache entry
     dispatch(updateQuickCommentCache(`${parentAuthor}/${parentPermlink}`, quickCommentCache));
   };
-
   // handle close press
   const _handleClosePress = () => {
     sheetModalRef.current?.setModalVisible(false);
@@ -167,7 +171,10 @@ export const QuickReplyModalContent = ({
                 },
               ),
             );
-
+            // delete quick cache if it exist
+            if (quickComments.has(path)) {
+              dispatch(deleteQuickCommentCacheEntry(path));
+            }
             clearTimeout(stateTimer);
           }, 3000);
         })
@@ -181,6 +188,7 @@ export const QuickReplyModalContent = ({
           );
           stateTimer = setTimeout(() => {
             setIsSending(false);
+            _addQuickCommentIntoCache(); //add comment value into cache if there is error while posting comment
             clearTimeout(stateTimer);
           }, 500);
         });
