@@ -127,6 +127,14 @@ const initialState:State = {
                     }
                  })
             }
+
+            if(state.quickComments && state.quickComments.size){
+                Array.from(state.quickComments).forEach((entry)=>{
+                    if(entry[1].expiresAt < currentTime){
+                        state.quickComments.delete(entry[0]);
+                    }
+                 })
+            }
             
             return {
                 ...state
