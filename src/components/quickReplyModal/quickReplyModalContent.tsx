@@ -42,6 +42,7 @@ export const QuickReplyModalContent = ({
 
   const [commentValue, setCommentValue] = useState('');
   const [isSending, setIsSending] = useState(false);
+  const [quickCommentCache, setQuickCommentCache] = useState<QuickComment>(null);
 
   const headerText =
     selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
@@ -58,6 +59,7 @@ export const QuickReplyModalContent = ({
     if (quickComments.has(path)) {
       const quickComment: QuickComment = quickComments.get(path);
       setCommentValue(quickComment.body);
+      setQuickCommentCache(quickComment);
     } else {
       setCommentValue('');
     }
@@ -77,16 +79,16 @@ export const QuickReplyModalContent = ({
     const date = new Date();
     const updatedStamp = date.toISOString().substring(0, 19);
 
-    const quickCommentCache = {
+    const quickCommentCacheData = {
       parent_permlink: parentPermlink,
       body: commentValue,
-      created: updatedStamp,
+      created: quickCommentCache ? quickCommentCache.created : date ,
       updated: updatedStamp,
       expiresAt: date.getTime() + 6000000,
     };
 
     //add quick comment cache entry
-    dispatch(updateQuickCommentCache(`${parentAuthor}/${parentPermlink}`, quickCommentCache));
+    dispatch(updateQuickCommentCache(`${parentAuthor}/${parentPermlink}`, quickCommentCacheData ));
   };
   // handle close press
   const _handleClosePress = () => {
