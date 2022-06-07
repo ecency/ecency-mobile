@@ -13,6 +13,7 @@ import { default as ROUTES } from '../../constants/routeNames';
 import get from 'lodash/get';
 import { navigate } from '../../navigation/service';
 import { postBodySummary } from '@ecency/render-helper';
+import { QuickComment } from '../../redux/reducers/cacheReducer';
 
 export interface QuickReplyModalContentProps {
   fetchPost?: any;
@@ -27,40 +28,47 @@ export const QuickReplyModalContent = ({
   selectedPost,
   inputRef,
   sheetModalRef,
-  handleCloseRef
+  handleCloseRef,
 }: QuickReplyModalContentProps) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const pinCode = useSelector((state) => state.application.pin);
+  const quickComments = useSelector((state) => state.cache.quickComments);
 
   const [commentValue, setCommentValue] = useState('');
   const [isSending, setIsSending] = useState(false);
 
   const headerText =
     selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
+  const parentAuthor = selectedPost ? selectedPost.author : '';
+  const parentPermlink = selectedPost ? selectedPost.permlink : '';
+  const path = `${parentAuthor}/${parentPermlink}`;
 
-    useEffect(() => {
-      handleCloseRef.current = handleSheetClose;
-    }, [commentValue])
-  
-  // reset the state when post changes
   useEffect(() => {
-    setCommentValue('');
+    handleCloseRef.current = handleSheetClose;
+  }, [commentValue]);
+
+  // load quick comment value from cache
+  useEffect(() => {
+    if (quickComments.has(path)) {
+      const quickComment: QuickComment = quickComments.get(path);
+      setCommentValue(quickComment.body);
+    } else {
+      setCommentValue('');
+    }
   }, [selectedPost]);
 
   // handlers
-  
-  const  handleSheetClose = () => {
+
+  const handleSheetClose = () => {
     console.log('sheet closed!');
 
-    if(!commentValue){
+    if (!commentValue) {
       return;
     }
     console.log('commentValue : ', commentValue);
-    
-    const parentAuthor = selectedPost.author;
-    const parentPermlink = selectedPost.permlink;
+
     const date = new Date();
     const updatedStamp = date.toISOString().substring(0, 19);
 
@@ -70,16 +78,11 @@ export const QuickReplyModalContent = ({
       created: updatedStamp,
       updated: updatedStamp,
       expiresAt: date.getTime() + 6000000,
-    }
-    
+    };
+
     //add quick comment cache entry
-    dispatch(
-      updateQuickCommentCache(
-        `${parentAuthor}/${parentPermlink}`,
-        quickCommentCache
-      ),
-    );
-  }
+    dispatch(updateQuickCommentCache(`${parentAuthor}/${parentPermlink}`, quickCommentCache));
+  };
 
   // handle close press
   const _handleClosePress = () => {
