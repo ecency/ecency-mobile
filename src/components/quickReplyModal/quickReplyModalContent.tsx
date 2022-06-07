@@ -73,9 +73,6 @@ export const QuickReplyModalContent = ({
 
   // add quick comment value into cache
   const _addQuickCommentIntoCache = () => {
-    if (!commentValue) {
-      return;
-    }
     const date = new Date();
     const updatedStamp = date.toISOString().substring(0, 19);
 
