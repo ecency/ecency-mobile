@@ -74,10 +74,10 @@ import { Comment, Draft, Vote } from '../reducers/cacheReducer';
     type: DELETE_COMMENT_CACHE_ENTRY
   })
   
-  export const updateDraftCache = (id:string, quickComment:Draft) => ({
+  export const updateDraftCache = (id:string, draft:Draft) => ({
     payload:{
         id,
-        quickComment
+        draft
     },
     type: UPDATE_DRAFT_CACHE
   })

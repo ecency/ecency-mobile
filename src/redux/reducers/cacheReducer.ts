@@ -27,6 +27,7 @@ export interface Comment {
 }
 
 export interface Draft {
+    author: string,
     parent_permlink:string,
     body?:string,
     created?:string,
@@ -93,7 +94,7 @@ const initialState:State = {
             if(!state.drafts){
                 state.drafts = new Map<string, Draft>();
             }
-            state.drafts.set(payload.id, payload.quickComment);
+            state.drafts.set(payload.id, payload.draft);
             return {
               ...state, //spread operator in requried here, otherwise persist do not register change
               lastUpdate: {
