@@ -1,4 +1,4 @@
-import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE, UPDATE_COMMENT_CACHE, DELETE_COMMENT_CACHE_ENTRY, UPDATE_QUICK_COMMENT_CACHE, DELETE_QUICK_COMMENT_CACHE_ENTRY } from "../constants/constants";
+import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE, UPDATE_COMMENT_CACHE, DELETE_COMMENT_CACHE_ENTRY, DELETE_DRAFT_CACHE_ENTRY, UPDATE_DRAFT_CACHE,  } from "../constants/constants";
 
 export interface Vote {
     amount:number;
@@ -26,7 +26,7 @@ export interface Comment {
     expiresAt?:number,
 }
 
-export interface QuickComment {
+export interface Draft {
     parent_permlink:string,
     body?:string,
     created?:string,
@@ -37,18 +37,18 @@ export interface QuickComment {
 interface State {
     votes:Map<string, Vote>
     comments:Map<string, Comment> //TODO: handle comment array per post, if parent is same
-    quickComments: Map<string, QuickComment>
+    drafts: Map<string, Draft>
     lastUpdate:{
         postPath:string,
         updatedAt:number,
-        type:'vote'|'comment'|'quickComment',
+        type:'vote'|'comment'|'draft',
     }
 }
 
 const initialState:State = {
     votes:new Map(),
     comments:new Map(),
-    quickComments: new Map(),
+    drafts: new Map(),
     lastUpdate:null,
   };
   
@@ -89,23 +89,23 @@ const initialState:State = {
             }
             return { ...state }
             
-        case UPDATE_QUICK_COMMENT_CACHE:
-            if(!state.quickComments){
-                state.quickComments = new Map<string, QuickComment>();
+        case UPDATE_DRAFT_CACHE:
+            if(!state.drafts){
+                state.drafts = new Map<string, Draft>();
             }
-            state.quickComments.set(payload.path, payload.quickComment);
+            state.drafts.set(payload.id, payload.quickComment);
             return {
               ...state, //spread operator in requried here, otherwise persist do not register change
               lastUpdate: {
-                postPath: payload.path,
+                postPath: payload.id,
                 updatedAt: new Date().getTime(),
-                type: 'quickComment',
+                type: 'draft',
               },
             };
 
-        case DELETE_QUICK_COMMENT_CACHE_ENTRY:
-            if (state.quickComments && state.quickComments.has(payload)) {
-                state.quickComments.delete(payload);
+        case DELETE_DRAFT_CACHE_ENTRY:
+            if (state.drafts && state.drafts.has(payload)) {
+                state.drafts.delete(payload);
             }
             return { ...state }
 
@@ -128,10 +128,10 @@ const initialState:State = {
                  })
             }
 
-            if(state.quickComments && state.quickComments.size){
-                Array.from(state.quickComments).forEach((entry)=>{
+            if(state.drafts && state.drafts.size){
+                Array.from(state.drafts).forEach((entry)=>{
                     if(entry[1].expiresAt < currentTime){
-                        state.quickComments.delete(entry[0]);
+                        state.drafts.delete(entry[0]);
                     }
                  })
             }

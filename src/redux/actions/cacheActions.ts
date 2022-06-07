@@ -6,10 +6,10 @@ import {
     PURGE_EXPIRED_CACHE,
     UPDATE_COMMENT_CACHE,
     DELETE_COMMENT_CACHE_ENTRY,
-    UPDATE_QUICK_COMMENT_CACHE,
-    DELETE_QUICK_COMMENT_CACHE_ENTRY
+    UPDATE_DRAFT_CACHE,
+    DELETE_DRAFT_CACHE_ENTRY,
   } from '../constants/constants';
-import { Comment, QuickComment, Vote } from '../reducers/cacheReducer';
+import { Comment, Draft, Vote } from '../reducers/cacheReducer';
 
 
   
@@ -74,17 +74,17 @@ import { Comment, QuickComment, Vote } from '../reducers/cacheReducer';
     type: DELETE_COMMENT_CACHE_ENTRY
   })
   
-  export const updateQuickCommentCache = (path:string, quickComment:QuickComment) => ({
+  export const updateDraftCache = (id:string, quickComment:Draft) => ({
     payload:{
-        path,
+        id,
         quickComment
     },
-    type: UPDATE_QUICK_COMMENT_CACHE
+    type: UPDATE_DRAFT_CACHE
   })
 
-  export const deleteQuickCommentCacheEntry = (path:string) => ({
-    payload:path,
-    type: DELETE_QUICK_COMMENT_CACHE_ENTRY
+  export const deleteDraftCacheEntry = (id:string) => ({
+    payload:id,
+    type: DELETE_DRAFT_CACHE_ENTRY
   })
 
   export const purgeExpiredCache = () => ({

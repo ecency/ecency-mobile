@@ -12,13 +12,13 @@ const transformCacheVoteMap = createTransform(
     ...inboundState, 
     votes : Array.from(inboundState.votes),
     comments : Array.from(inboundState.comments),
-    quickComments : Array.from(inboundState.quickComments),
+    drafts : Array.from(inboundState.drafts),
   }),
   (outboundState) => ({ 
     ...outboundState, 
     votes:new Map(outboundState.votes),
     comments:new Map(outboundState.comments),
-    quickComments: new Map(outboundState.quickComments)
+    drafts: new Map(outboundState.drafts)
   }),
   {whitelist:['cache']}
 );

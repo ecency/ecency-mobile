@@ -9,15 +9,16 @@ import { delay, generateReplyPermlink } from '../../utils/editor';
 import { postComment } from '../../providers/hive/dhive';
 import { toastNotification } from '../../redux/actions/uiAction';
 import {
-  deleteQuickCommentCacheEntry,
+  deleteDraftCacheEntry,
   updateCommentCache,
-  updateQuickCommentCache,
+  updateDraftCache,
 } from '../../redux/actions/cacheActions';
 import { default as ROUTES } from '../../constants/routeNames';
 import get from 'lodash/get';
 import { navigate } from '../../navigation/service';
 import { postBodySummary } from '@ecency/render-helper';
-import { QuickComment } from '../../redux/reducers/cacheReducer';
+import { Draft } from '../../redux/reducers/cacheReducer';
+import { RootState } from '../../redux/store/store';
 
 export interface QuickReplyModalContentProps {
   fetchPost?: any;
@@ -36,19 +37,19 @@ export const QuickReplyModalContent = ({
 }: QuickReplyModalContentProps) => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const currentAccount = useSelector((state) => state.account.currentAccount);
-  const pinCode = useSelector((state) => state.application.pin);
-  const quickComments = useSelector((state) => state.cache.quickComments);
+  const currentAccount = useSelector((state: RootState) => state.account.currentAccount);
+  const pinCode = useSelector((state: RootState) => state.application.pin);
+  const drafts = useSelector((state: RootState) => state.cache.drafts);
 
   const [commentValue, setCommentValue] = useState('');
   const [isSending, setIsSending] = useState(false);
-  const [quickCommentCache, setQuickCommentCache] = useState<QuickComment>(null);
+  const [quickCommentDraft, setQuickCommentDraft] = useState<Draft>(null);
 
   const headerText =
     selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
   const parentAuthor = selectedPost ? selectedPost.author : '';
   const parentPermlink = selectedPost ? selectedPost.permlink : '';
-  const path = `${parentAuthor}/${parentPermlink}`;
+  const draftId = `${parentAuthor}/${parentPermlink}`;
 
   useEffect(() => {
     handleCloseRef.current = handleSheetClose;
@@ -56,10 +57,10 @@ export const QuickReplyModalContent = ({
 
   // load quick comment value from cache
   useEffect(() => {
-    if (quickComments.has(path)) {
-      const quickComment: QuickComment = quickComments.get(path);
+    if (drafts.has(draftId)) {
+      const quickComment: Draft = drafts.get(draftId);
       setCommentValue(quickComment.body);
-      setQuickCommentCache(quickComment);
+      setQuickCommentDraft(quickComment);
     } else {
       setCommentValue('');
     }
@@ -76,16 +77,16 @@ export const QuickReplyModalContent = ({
     const date = new Date();
     const updatedStamp = date.toISOString().substring(0, 19);
 
-    const quickCommentCacheData = {
+    const quickCommentDraftData: Draft = {
       parent_permlink: parentPermlink,
       body: commentValue,
-      created: quickCommentCache ? quickCommentCache.created : date ,
+      created: quickCommentDraft ? quickCommentDraft.created : updatedStamp,
       updated: updatedStamp,
-      expiresAt: date.getTime() + 6000000,
+      expiresAt: date.getTime() + 604800000, // 7 days expiry time
     };
 
     //add quick comment cache entry
-    dispatch(updateQuickCommentCache(`${parentAuthor}/${parentPermlink}`, quickCommentCacheData ));
+    dispatch(updateDraftCache(draftId, quickCommentDraftData));
   };
   // handle close press
   const _handleClosePress = () => {
@@ -170,9 +171,9 @@ export const QuickReplyModalContent = ({
                 },
               ),
             );
-            // delete quick cache if it exist
-            if (quickComments.has(path)) {
-              dispatch(deleteQuickCommentCacheEntry(path));
+            // delete quick comment draft cache if it exist
+            if (drafts.has(draftId)) {
+              dispatch(deleteDraftCacheEntry(draftId));
             }
             clearTimeout(stateTimer);
           }, 3000);
