@@ -7,6 +7,7 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import { renderPostBody, postBodySummary } from '@ecency/render-helper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -53,9 +54,9 @@ import { walkthrough } from '../../../redux/constants/walkthroughConstants';
 
 const MIN_BODY_INPUT_HEIGHT = 300;
 
+
 const MarkdownEditorView = ({
   draftBody,
-  handleIsFormValid,
   handleOpenImagePicker,
   intl,
   isPreviewActive,
@@ -79,8 +80,9 @@ const MarkdownEditorView = ({
 }) => {
   const dispatch = useDispatch();
 
-  const [text, setText] = useState(draftBody || '');
-  const [selection, setSelection] = useState({ start: 0, end: 0 });
+  const bodyText = useRef('');
+  const bodySelection = useRef({ start: 0, end: 0 });
+
   const [editable, setEditable] = useState(true);
   const [bodyInputHeight, setBodyInputHeight] = useState(MIN_BODY_INPUT_HEIGHT);
   const [isSnippetsOpen, setIsSnippetsOpen] = useState(false);
@@ -102,7 +104,7 @@ const MarkdownEditorView = ({
 
   useEffect(() => {
     if (!isPreviewActive) {
-      _setTextAndSelection({ selection: { start: 0, end: 0 }, text });
+      _setTextAndSelection({ selection: { start: 0, end: 0 }, text: bodyText.current });
     }
   }, [isPreviewActive]);
 
@@ -118,7 +120,7 @@ const MarkdownEditorView = ({
   }, [onLoadDraftPress]);
 
   useEffect(() => {
-    if (text === '' && draftBody !== '') {
+    if (bodyText.current === '' && draftBody !== '') {
       let draftBodyLength = draftBody.length;
       _setTextAndSelection({
         selection: { start: draftBodyLength, end: draftBodyLength },
@@ -162,8 +164,8 @@ const MarkdownEditorView = ({
   useEffect(() => {
     if (uploadedImage && uploadedImage.shouldInsert && !isUploading) {
       applyMediaLink({
-        text,
-        selection,
+        text: bodyText.current,
+        selection: bodySelection.current,
         setTextAndSelection: _setTextAndSelection,
         items: [{ url: uploadedImage.url, text: uploadedImage.hash }],
       });
@@ -175,7 +177,7 @@ const MarkdownEditorView = ({
   }, [uploadedImage, isUploading]);
 
   useEffect(() => {
-    setText(draftBody);
+    bodyText.current = draftBody;
   }, [draftBody]);
 
   useEffect(() => {
@@ -188,16 +190,13 @@ const MarkdownEditorView = ({
   }, [autoFocusText]);
 
   useEffect(() => {
-    const nextText = text.replace(text, '');
+    const nextText = bodyText.current.replace(bodyText.current, '');
 
     if (nextText && nextText.length > 0) {
-      _changeText(text);
+      _changeText(bodyText.current);
 
-      if (handleIsFormValid) {
-        handleIsFormValid(text);
-      }
     }
-  }, [text]);
+  }, [bodyText.current]);
 
   const changeUser = async () => {
     dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
@@ -205,8 +204,8 @@ const MarkdownEditorView = ({
 
   const _onApplyUsername = (username) => {
     applyUsername({
-      text,
-      selection,
+      text: bodyText.current,
+      selection: bodySelection.current,
       setTextAndSelection: _setTextAndSelection,
       username,
     });
@@ -214,15 +213,17 @@ const MarkdownEditorView = ({
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const _changeText = useCallback((input) => {
-    setText(input);
+    bodyText.current = input;
 
+    //NOTE: onChange method is called by direct parent of MarkdownEditor that is PostForm, do not remove
     if (onChange) {
       onChange(input);
     }
-  });
+  }, []);
+
 
   const _handleOnSelectionChange = async (event) => {
-    setSelection(event.nativeEvent.selection);
+    bodySelection.current = event.nativeEvent.selection;
   };
 
   const _handleOnContentSizeChange = async (event) => {
@@ -237,29 +238,33 @@ const MarkdownEditorView = ({
       text: _text,
     });
 
-    // Workaround for iOS selection update issue
-    const isIos = Platform.OS === 'ios';
-    if (isIos) {
-      setTimeout(() => {
-        inputRef.current.setNativeProps({
-          selection: _selection,
-        });
-        setSelection(_selection);
-      }, 100);
-    } else {
+    const _updateSelection = () => {
+      bodySelection.current = _selection
       inputRef.current.setNativeProps({
         selection: _selection,
       });
-      setSelection(_selection);
     }
-    setIsSnippetsOpen(false);
+
+    // Workaround for iOS selection update issue
+    if (Platform.OS === 'ios') {
+      setTimeout(() => {
+        _updateSelection();
+      }, 100);
+    } else {
+      _updateSelection()
+    }
+
+    if (isSnippetsOpen) {
+      setIsSnippetsOpen(false);
+    }
+
     _changeText(_text);
-  });
+  }, []);
 
   const _renderPreview = () => (
     <ScrollView style={styles.previewContainer}>
-      {text ? (
-        <PostBody body={renderPostBody(text, true, Platform.OS === 'ios' ? false : true)} />
+      {bodyText.current ? (
+        <PostBody body={renderPostBody(bodyText.current, true, Platform.OS === 'ios' ? false : true)} />
       ) : (
         <Text>...</Text>
       )}
@@ -268,8 +273,8 @@ const MarkdownEditorView = ({
 
   const _handleOnSnippetReceived = (snippetText) => {
     applySnippet({
-      text,
-      selection,
+      text: bodyText.current,
+      selection: bodySelection.current,
       setTextAndSelection: _setTextAndSelection,
       snippetText: `\n${snippetText}\n`,
     });
@@ -283,8 +288,8 @@ const MarkdownEditorView = ({
 
     if (items.length) {
       applyMediaLink({
-        text,
-        selection,
+        text: bodyText.current,
+        selection: bodySelection.current,
         setTextAndSelection: _setTextAndSelection,
         items,
       });
@@ -293,8 +298,8 @@ const MarkdownEditorView = ({
 
   const _handleOnAddLinkPress = () => {
     insertLinkModalRef.current?.showModal({
-      selectedText: text.slice(selection.start, selection.end),
-      selection: selection,
+      selectedText: bodyText.current.slice(bodySelection.current.start, bodySelection.current.end),
+      selection: bodySelection.current,
     });
     inputRef.current?.blur();
   };
@@ -303,7 +308,7 @@ const MarkdownEditorView = ({
   };
   const _handleInsertLink = ({ snippetText, selection }) => {
     applySnippet({
-      text,
+      text: bodyText.current,
       selection,
       setTextAndSelection: _setTextAndSelection,
       snippetText,
@@ -320,7 +325,12 @@ const MarkdownEditorView = ({
         iconType={item.iconType}
         name={item.icon}
         onPress={() =>
-          item.onPress({ text, selection, setTextAndSelection: _setTextAndSelection, item })
+          item.onPress({
+            text: bodyText.current,
+            selection: bodySelection.current,
+            setTextAndSelection: _setTextAndSelection,
+            item
+          })
         }
       />
     </View>
@@ -415,7 +425,7 @@ const MarkdownEditorView = ({
   const _handleClear = (index) => {
     if (index === 0) {
       initialFields();
-      setText('');
+
       _setTextAndSelection({ text: '', selection: { start: 0, end: 0 } });
     }
   };
@@ -501,7 +511,7 @@ const MarkdownEditorView = ({
     const _innerContent = (
       <>
         {isAndroidOreo() ? _renderEditorWithoutScroll() : _renderEditorWithScroll()}
-        <UsernameAutofillBar text={text} selection={selection} onApplyUsername={_onApplyUsername} />
+        <UsernameAutofillBar text={bodyText.current} selection={bodySelection.current} onApplyUsername={_onApplyUsername} />
         {_renderFloatingDraftButton()}
         {!isPreviewActive && _renderEditorButtons()}
       </>
