@@ -444,7 +444,7 @@ class EditorScreen extends Component {
           )}
           <MarkdownEditor
             componentID="body"
-            draftBody={quickReplyText ? quickReplyText : fields && fields.body}
+            draftBody={isReply ? quickReplyText : fields && fields.body}
             isFormValid={isFormValid}
             handleOpenImagePicker={handleOnImagePicker}
             intl={intl}

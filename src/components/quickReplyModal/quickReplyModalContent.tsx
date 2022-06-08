@@ -8,17 +8,24 @@ import { useSelector, useDispatch } from 'react-redux';
 import { delay, generateReplyPermlink } from '../../utils/editor';
 import { postComment } from '../../providers/hive/dhive';
 import { toastNotification } from '../../redux/actions/uiAction';
-import { updateCommentCache } from '../../redux/actions/cacheActions';
+import {
+  deleteDraftCacheEntry,
+  updateCommentCache,
+  updateDraftCache,
+} from '../../redux/actions/cacheActions';
 import { default as ROUTES } from '../../constants/routeNames';
 import get from 'lodash/get';
 import { navigate } from '../../navigation/service';
 import { postBodySummary } from '@ecency/render-helper';
+import { Draft } from '../../redux/reducers/cacheReducer';
+import { RootState } from '../../redux/store/store';
 
 export interface QuickReplyModalContentProps {
   fetchPost?: any;
   selectedPost?: any;
   inputRef?: any;
   sheetModalRef?: any;
+  handleCloseRef?: any;
 }
 
 export const QuickReplyModalContent = ({
@@ -26,25 +33,61 @@ export const QuickReplyModalContent = ({
   selectedPost,
   inputRef,
   sheetModalRef,
+  handleCloseRef,
 }: QuickReplyModalContentProps) => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const currentAccount = useSelector((state) => state.account.currentAccount);
-  const pinCode = useSelector((state) => state.application.pin);
+  const currentAccount = useSelector((state: RootState) => state.account.currentAccount);
+  const pinCode = useSelector((state: RootState) => state.application.pin);
+  const drafts = useSelector((state: RootState) => state.cache.drafts);
 
   const [commentValue, setCommentValue] = useState('');
   const [isSending, setIsSending] = useState(false);
+  const [quickCommentDraft, setQuickCommentDraft] = useState<Draft>(null);
 
   const headerText =
-    selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
+    selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS as any));
+  const parentAuthor = selectedPost ? selectedPost.author : '';
+  const parentPermlink = selectedPost ? selectedPost.permlink : '';
+  const draftId = `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; //different draftId for each user acount
 
-  // reset the state when post changes
   useEffect(() => {
-    setCommentValue('');
+    handleCloseRef.current = handleSheetClose;
+  }, [commentValue]);
+
+  // load quick comment value from cache
+  useEffect(() => {
+    if (drafts.has(draftId) && currentAccount.name === drafts.get(draftId).author) {
+      const quickComment: Draft = drafts.get(draftId);
+      setCommentValue(quickComment.body);
+      setQuickCommentDraft(quickComment);
+    } else {
+      setCommentValue('');
+    }
   }, [selectedPost]);
 
   // handlers
 
+  const handleSheetClose = () => {
+    _addQuickCommentIntoCache();
+  };
+
+  // add quick comment value into cache
+  const _addQuickCommentIntoCache = () => {
+    const date = new Date();
+    const updatedStamp = date.toISOString().substring(0, 19);
+
+    const quickCommentDraftData: Draft = {
+      author: currentAccount.name,
+      body: commentValue,
+      created: quickCommentDraft ? quickCommentDraft.created : updatedStamp,
+      updated: updatedStamp,
+      expiresAt: date.getTime() + 604800000, // 7 days expiry time
+    };
+
+    //add quick comment cache entry
+    dispatch(updateDraftCache(draftId, quickCommentDraftData));
+  };
   // handle close press
   const _handleClosePress = () => {
     sheetModalRef.current?.setModalVisible(false);
@@ -128,7 +171,10 @@ export const QuickReplyModalContent = ({
                 },
               ),
             );
-
+            // delete quick comment draft cache if it exist
+            if (drafts.has(draftId)) {
+              dispatch(deleteDraftCacheEntry(draftId));
+            }
             clearTimeout(stateTimer);
           }, 3000);
         })
@@ -142,6 +188,7 @@ export const QuickReplyModalContent = ({
           );
           stateTimer = setTimeout(() => {
             setIsSending(false);
+            _addQuickCommentIntoCache(); //add comment value into cache if there is error while posting comment
             clearTimeout(stateTimer);
           }, 500);
         });
@@ -237,7 +284,9 @@ export const QuickReplyModalContent = ({
       <View style={styles.inputContainer}>
         <TextInput
           innerRef={inputRef}
-          onChangeText={setCommentValue}
+          onChangeText={(value) => {
+            setCommentValue(value);
+          }}
           value={commentValue}
           // autoFocus
           placeholder={intl.formatMessage({

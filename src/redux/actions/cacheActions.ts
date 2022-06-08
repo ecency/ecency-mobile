@@ -5,9 +5,11 @@ import {
     UPDATE_VOTE_CACHE,
     PURGE_EXPIRED_CACHE,
     UPDATE_COMMENT_CACHE,
-    DELETE_COMMENT_CACHE_ENTRY
+    DELETE_COMMENT_CACHE_ENTRY,
+    UPDATE_DRAFT_CACHE,
+    DELETE_DRAFT_CACHE_ENTRY,
   } from '../constants/constants';
-import { Comment, Vote } from '../reducers/cacheReducer';
+import { Comment, Draft, Vote } from '../reducers/cacheReducer';
 
 
   
@@ -72,6 +74,19 @@ import { Comment, Vote } from '../reducers/cacheReducer';
     type: DELETE_COMMENT_CACHE_ENTRY
   })
   
+  export const updateDraftCache = (id:string, draft:Draft) => ({
+    payload:{
+        id,
+        draft
+    },
+    type: UPDATE_DRAFT_CACHE
+  })
+
+  export const deleteDraftCacheEntry = (id:string) => ({
+    payload:id,
+    type: DELETE_DRAFT_CACHE_ENTRY
+  })
+
   export const purgeExpiredCache = () => ({
     type: PURGE_EXPIRED_CACHE
   })
