@@ -103,6 +103,11 @@ const MarkdownEditorView = ({
   const headerText = post && (post.summary || postBodySummary(post, 150, Platform.OS));
 
   useEffect(() => {
+    bodyText = '';
+    bodySelection = {start:0, end:0};
+   }, []);
+
+  useEffect(() => {
     if (!isPreviewActive) {
       _setTextAndSelection({ selection: { start: 0, end: 0 }, text: bodyText });
     }
@@ -189,14 +194,7 @@ const MarkdownEditorView = ({
     }
   }, [autoFocusText]);
 
-  useEffect(() => {
-    const nextText = bodyText.replace(bodyText, '');
 
-    if (nextText && nextText.length > 0) {
-      _changeText(bodyText);
-
-    }
-  }, [bodyText]);
 
   const changeUser = async () => {
     dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
