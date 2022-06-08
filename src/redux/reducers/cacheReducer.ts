@@ -1,4 +1,4 @@
-import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE, UPDATE_COMMENT_CACHE, DELETE_COMMENT_CACHE_ENTRY } from "../constants/constants";
+import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE, UPDATE_COMMENT_CACHE, DELETE_COMMENT_CACHE_ENTRY, DELETE_DRAFT_CACHE_ENTRY, UPDATE_DRAFT_CACHE,  } from "../constants/constants";
 
 export interface Vote {
     amount:number;
@@ -26,19 +26,29 @@ export interface Comment {
     expiresAt?:number,
 }
 
+export interface Draft {
+    author: string,
+    body?:string,
+    created?:string,
+    updated?:string,
+    expiresAt:number;
+}
+
 interface State {
     votes:Map<string, Vote>
     comments:Map<string, Comment> //TODO: handle comment array per post, if parent is same
+    drafts: Map<string, Draft>
     lastUpdate:{
         postPath:string,
         updatedAt:number,
-        type:'vote'|'comment',
+        type:'vote'|'comment'|'draft',
     }
 }
 
 const initialState:State = {
     votes:new Map(),
     comments:new Map(),
+    drafts: new Map(),
     lastUpdate:null,
   };
   
@@ -79,6 +89,26 @@ const initialState:State = {
             }
             return { ...state }
             
+        case UPDATE_DRAFT_CACHE:
+            if(!state.drafts){
+                state.drafts = new Map<string, Draft>();
+            }
+            state.drafts.set(payload.id, payload.draft);
+            return {
+              ...state, //spread operator in requried here, otherwise persist do not register change
+              lastUpdate: {
+                postPath: payload.id,
+                updatedAt: new Date().getTime(),
+                type: 'draft',
+              },
+            };
+
+        case DELETE_DRAFT_CACHE_ENTRY:
+            if (state.drafts && state.drafts.has(payload)) {
+                state.drafts.delete(payload);
+            }
+            return { ...state }
+
         case PURGE_EXPIRED_CACHE:
             const currentTime = new Date().getTime();
 
@@ -94,6 +124,14 @@ const initialState:State = {
                 Array.from(state.comments).forEach((entry)=>{
                     if(entry[1].expiresAt < currentTime){
                         state.comments.delete(entry[0]);
+                    }
+                 })
+            }
+
+            if(state.drafts && state.drafts.size){
+                Array.from(state.drafts).forEach((entry)=>{
+                    if(entry[1].expiresAt < currentTime){
+                        state.drafts.delete(entry[0]);
                     }
                  })
             }
