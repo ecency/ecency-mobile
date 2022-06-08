@@ -28,7 +28,6 @@ export interface Comment {
 
 export interface Draft {
     author: string,
-    parent_permlink:string,
     body?:string,
     created?:string,
     updated?:string,

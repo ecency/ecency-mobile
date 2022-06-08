@@ -79,7 +79,6 @@ export const QuickReplyModalContent = ({
 
     const quickCommentDraftData: Draft = {
       author: currentAccount.name,
-      parent_permlink: parentPermlink,
       body: commentValue,
       created: quickCommentDraft ? quickCommentDraft.created : updatedStamp,
       updated: updatedStamp,
