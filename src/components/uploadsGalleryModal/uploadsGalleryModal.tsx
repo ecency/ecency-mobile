@@ -283,8 +283,6 @@ export const UploadsGalleryModal = forwardRef(({
     } 
 
 
-
-
     return (
         <Modal
             isOpen={showModal}

@@ -39,7 +39,6 @@ class EditorScreen extends Component {
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
    */
-  thumbSelectionModalRef = null;
   postOptionsModalRef = null;
 
   constructor(props) {
@@ -206,12 +205,6 @@ class EditorScreen extends Component {
     }
   };
 
-  _showThumbSelectionModal = () => {
-    const { fields } = this.state;
-    if (this.thumbSelectionModalRef) {
-      this.thumbSelectionModalRef.show(fields.body);
-    }
-  };
 
   _handleScheduleChange = (datetime:string|null) => {
     this.setState({
@@ -406,8 +399,8 @@ class EditorScreen extends Component {
         </Modal>
       );
     };
-console.log('fields :', fields);
-console.log('quickReplyText : ', quickReplyText);
+
+    
 
     return (
       <View style={globalStyles.defaultContainer}>
@@ -430,7 +423,6 @@ console.log('quickReplyText : ', quickReplyText);
           isReply={isReply}
           quickTitle={wordsCount > 0 && `${wordsCount} words`}
           rightButtonText={rightButtonText}
-          showThumbSelectionModal={this._showThumbSelectionModal}
           handleSettingsPress={this._handleSettingsPress}
         />
         <PostForm
@@ -474,12 +466,9 @@ console.log('quickReplyText : ', quickReplyText);
             uploadProgress={uploadProgress}
           />
         </PostForm>
+
         {_renderCommunityModal()}
-        <ThumbSelectionModal
-          ref={(componentRef) => (this.thumbSelectionModalRef = componentRef)}
-          thumbIndex={thumbIndex}
-          onThumbSelection={this._handleOnThumbSelection}
-        />
+
         <PostOptionsModal
           ref={(componentRef) => (this.postOptionsModalRef = componentRef)}
           body={fields.body}
