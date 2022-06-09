@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Alert, Platform } from 'react-native';
+import { Alert } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -25,7 +25,6 @@ import {
   reblog,
   postComment,
 } from '../../../providers/hive/dhive';
-import { setDraftPost, getDraftPost } from '../../../realm/realm';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -45,8 +44,8 @@ import {
 import EditorScreen from '../screen/editorScreen';
 import bugsnapInstance from '../../../config/bugsnag';
 import { removeBeneficiaries, setBeneficiaries } from '../../../redux/actions/editorActions';
-import { TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
-import { updateCommentCache, updateDraftCache } from '../../../redux/actions/cacheActions';
+import { DEFAULT_USER_DRAFT_ID, TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
+import { deleteDraftCacheEntry, updateCommentCache, updateDraftCache } from '../../../redux/actions/cacheActions';
 
 /*
  *            Props Name        Description                                     Value
@@ -139,8 +138,8 @@ class EditorContainer extends Component<any, any> {
           draftId,
           autoFocusText: true,
         });
-        if(draftId){
-          this._getStorageDraft(username, isReply, {_id:draftId});
+        if (draftId) {
+          this._getStorageDraft(username, isReply, { _id: draftId });
         }
       }
 
@@ -197,51 +196,57 @@ class EditorContainer extends Component<any, any> {
   }
 
   _getStorageDraft = async (username, isReply, paramDraft) => {
+    const { drafts } = this.props;
+
     if (isReply) {
-      //TODO: get draft reply from redux based on draft passed in param;
-      const {drafts} = this.props;
-      const draft = drafts.get(paramDraft._id);
-      if (draft && draft.body) {
+      const _draft = drafts.get(paramDraft._id);
+      if (_draft && _draft.body) {
         this.setState({
           draftPost: {
-            body: draft.body,
+            body: _draft.body,
           },
         });
       }
     } else {
       //TOOD: get draft from redux after reply side is complete
-      getDraftPost(username, paramDraft && paramDraft._id).then((result) => {
-        //if result is return and param draft available, compare timestamp, use latest
-        //if no draft, use result anayways
-        if (result && (!paramDraft || paramDraft.timestamp < result.timestamp)) {
-          this.setState({
-            draftPost: {
-              body: get(result, 'body', ''),
-              title: get(result, 'title', ''),
-              tags: get(result, 'tags', '').split(','),
-              isDraft: paramDraft ? true : false,
-              draftId: paramDraft ? paramDraft._id : null,
-            },
-          });
-        }
+      const _draftId = paramDraft ? paramDraft._id : DEFAULT_USER_DRAFT_ID + username;
+      const _localDraft = drafts.get(_draftId);
+      if (!_localDraft) {
+        return;
+      }
 
-        //if above fails with either no result returned or timestamp is old,
-        // and use draft form nav param if available.
-        else if (paramDraft) {
-          const _tags = paramDraft.tags.includes(' ')
-            ? paramDraft.tags.split(' ')
-            : paramDraft.tags.split(',');
-          this.setState({
-            draftPost: {
-              title: paramDraft.title,
-              body: paramDraft.body,
-              tags: _tags,
-            },
-            isDraft: true,
-            draftId: paramDraft._id,
-          });
-        }
-      });
+      //if _draft is returned and param draft is available, compare timestamp, use latest
+      //if no draft, use result anayways
+
+      if (_localDraft && (!paramDraft || paramDraft.timestamp < _localDraft.updated)) {
+        this.setState({
+          draftPost: {
+            body: get(_localDraft, 'body', ''),
+            title: get(_localDraft, 'title', ''),
+            tags: get(_localDraft, 'tags', '').split(','),
+            isDraft: paramDraft ? true : false,
+            draftId: paramDraft ? paramDraft._id : null,
+          },
+        });
+      }
+
+      //if above fails with either no result returned or timestamp is old,
+      // and use draft form nav param if available.
+      else if (paramDraft) {
+        const _tags = paramDraft.tags.includes(' ')
+          ? paramDraft.tags.split(' ')
+          : paramDraft.tags.split(',');
+        this.setState({
+          draftPost: {
+            title: paramDraft.title,
+            body: paramDraft.body,
+            tags: _tags,
+          },
+          isDraft: true,
+          draftId: paramDraft._id,
+        });
+      }
+      ;
     }
   };
 
@@ -256,14 +261,14 @@ class EditorContainer extends Component<any, any> {
   };
 
   /**
-   * this fucntion is run if editor is access used mid tab or reply section
+   * this fucntion is run if editor is access fused mid tab or reply section
    * it fetches fresh drafts and run some comparions to load one of following
    * empty editor, load non-remote draft or most recent remote draft based on timestamps
    * prompts user as well
    * @param isReply
    **/
   _fetchDraftsForComparison = async (isReply) => {
-    const { currentAccount, isLoggedIn, intl, dispatch } = this.props;
+    const { currentAccount, isLoggedIn, intl, dispatch, drafts } = this.props;
     const username = get(currentAccount, 'name', '');
 
     //initilizes editor with reply or non remote id less draft
@@ -287,28 +292,29 @@ class EditorContainer extends Component<any, any> {
         return;
       }
 
-      const drafts = await getDrafts(username);
-      const idLessDraft = await getDraftPost(username);
+      const remoteDrafts = await getDrafts(username);
+      
+      const idLessDraft = drafts.get(DEFAULT_USER_DRAFT_ID + username)
 
       const loadRecentDraft = () => {
         //if no draft available means local draft is recent
-        if (drafts.length == 0) {
+        if (remoteDrafts.length == 0) {
           _getStorageDraftGeneral(false);
           return;
         }
 
         //sort darts based on timestamps
-        drafts.sort((d1, d2) =>
+        remoteDrafts.sort((d1, d2) =>
           new Date(d1.modified).getTime() < new Date(d2.modified).getTime() ? 1 : -1,
         );
-        const _draft = drafts[0];
+        const _draft = remoteDrafts[0];
 
         //if unsaved local draft is more latest then remote draft, use that instead
         //if editor was opened from draft screens, this code will be skipped anyways.
         if (
           idLessDraft &&
           (idLessDraft.title !== '' || idLessDraft.tags !== '' || idLessDraft.body !== '') &&
-          new Date(_draft.modified).getTime() < idLessDraft.timestamp
+          new Date(_draft.modified).getTime() < idLessDraft.updated
         ) {
           _getStorageDraftGeneral(false);
           return;
@@ -322,7 +328,7 @@ class EditorContainer extends Component<any, any> {
         this._getStorageDraft(username, isReply, _draft);
       };
 
-      if (drafts.length > 0 || (idLessDraft && idLessDraft.timestamp > 0)) {
+      if (remoteDrafts.length > 0 || (idLessDraft && idLessDraft.updated > 0)) {
         this.setState({
           onLoadDraftPress: loadRecentDraft,
         });
@@ -531,7 +537,7 @@ class EditorContainer extends Component<any, any> {
     const { isDraftSaved, draftId, thumbIndex, isReply } = this.state;
     const { currentAccount, dispatch, intl } = this.props;
 
-    if(isReply){
+    if (isReply) {
       return;
     }
 
@@ -584,16 +590,8 @@ class EditorContainer extends Component<any, any> {
 
           //clear local copy if darft save is successful
           const username = get(currentAccount, 'name', '');
-          setDraftPost(
-            {
-              title: '',
-              body: '',
-              tags: '',
-              timestamp: 0,
-            },
-            username,
-            saveAsNew ? draftId : undefined
-          );
+
+          dispatch(deleteDraftCacheEntry(draftId || (DEFAULT_USER_DRAFT_ID + username)))
         }
 
 
@@ -636,39 +634,28 @@ class EditorContainer extends Component<any, any> {
       return;
     }
 
-    const { currentAccount } = this.props;
+    const { currentAccount, dispatch } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
 
     const draftField = {
-      ...fields,
+      title: fields.title,
+      body: fields.body,
       tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
-    };
+      author: username,
+    }
 
     //save reply data
     if (isReply && draftField.body !== null) {
-      //TODO: update draft item in redux using draftId passed in params
-      const {dispatch} = this.props;
-      const {draftId} = this.state;
-
-      const replyDraft = {
-        author:currentAccount.name,
-        body:fields.body,
-        updated: new Date().toISOString().substring(0, 19),
-        expiresAt: new Date().getTime() + 604800000, // 7 days expiry time
-      }
-
-      dispatch(updateDraftCache(draftId, replyDraft))
-      //await AsyncStorage.setItem('temp-reply', draftField.body);
-      
+      dispatch(updateDraftCache(draftId, draftField))
 
       //save existing draft data locally
     } else if (draftId) {
-      setDraftPost(draftField, username, draftId);
+      dispatch(updateDraftCache(draftId, draftField))
     }
 
     //update editor data locally
     else if (!isReply) {
-      setDraftPost(draftField, username);
+      dispatch(updateDraftCache(DEFAULT_USER_DRAFT_ID + username, draftField));
     }
   };
 
@@ -767,15 +754,7 @@ class EditorContainer extends Component<any, any> {
             }
 
             //post publish updates
-            setDraftPost(
-              {
-                title: '',
-                body: '',
-                tags: '',
-                timestamp: 0,
-              },
-              currentAccount.name,
-            );
+            dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name))
 
             dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID))
             if (draftId) {
@@ -1162,15 +1141,8 @@ class EditorContainer extends Component<any, any> {
             }),
           ),
         );
-        setDraftPost(
-          {
-            title: '',
-            body: '',
-            tags: '',
-            timestamp: 0,
-          },
-          currentAccount.name,
-        );
+
+        dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name))
 
         setTimeout(() => {
           navigation.replace(ROUTES.SCREENS.DRAFTS,
@@ -1190,17 +1162,10 @@ class EditorContainer extends Component<any, any> {
   _initialEditor = () => {
     const {
       currentAccount: { name },
+      dispatch
     } = this.props;
 
-    setDraftPost(
-      {
-        title: '',
-        body: '',
-        tags: '',
-        timestamp: 0,
-      },
-      name,
-    );
+    dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + name))
 
     this.setState({
       uploadedImage: null,
