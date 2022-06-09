@@ -215,9 +215,6 @@ class EditorContainer extends Component<any, any> {
       //TOOD: get draft from redux after reply side is complete
       const _draftId = paramDraft ? paramDraft._id : DEFAULT_USER_DRAFT_ID + username;
       const _localDraft = drafts.get(_draftId);
-      if (!_localDraft) {
-        return;
-      }
 
       //if _draft is returned and param draft is available, compare timestamp, use latest
       //if no draft, use result anayways
