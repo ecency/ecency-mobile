@@ -46,7 +46,7 @@ import EditorScreen from '../screen/editorScreen';
 import bugsnapInstance from '../../../config/bugsnag';
 import { removeBeneficiaries, setBeneficiaries } from '../../../redux/actions/editorActions';
 import { TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
-import { updateCommentCache } from '../../../redux/actions/cacheActions';
+import { updateCommentCache, updateDraftCache } from '../../../redux/actions/cacheActions';
 
 /*
  *            Props Name        Description                                     Value
@@ -90,7 +90,7 @@ class EditorContainer extends Component<any, any> {
     const { currentAccount, navigation } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
     let isReply;
-    let quickReplyText;
+    let draftId;
     let isEdit;
     let post;
     let _draft;
@@ -133,12 +133,15 @@ class EditorContainer extends Component<any, any> {
       }
 
       if (navigationParams.isReply) {
-        ({ isReply, quickReplyText } = navigationParams);
+        ({ isReply, draftId } = navigationParams);
         this.setState({
           isReply,
-          quickReplyText,
+          draftId,
           autoFocusText: true,
         });
+        if(draftId){
+          this._getStorageDraft(username, isReply, {_id:draftId});
+        }
       }
 
       if (navigationParams.isEdit) {
@@ -158,7 +161,7 @@ class EditorContainer extends Component<any, any> {
       }
     }
 
-    if (!isEdit && !_draft && !hasSharedIntent) {
+    if (!isEdit && !_draft && !draftId && !hasSharedIntent) {
       this._fetchDraftsForComparison(isReply);
     }
     this._requestKeyboardFocus();
@@ -195,16 +198,18 @@ class EditorContainer extends Component<any, any> {
 
   _getStorageDraft = async (username, isReply, paramDraft) => {
     if (isReply) {
-      const draftReply = await AsyncStorage.getItem('temp-reply');
-
-      if (draftReply) {
+      //TODO: get draft reply from redux based on draft passed in param;
+      const {drafts} = this.props;
+      const draft = drafts.get(paramDraft._id);
+      if (draft && draft.body) {
         this.setState({
           draftPost: {
-            body: draftReply,
+            body: draft.body,
           },
         });
       }
     } else {
+      //TOOD: get draft from redux after reply side is complete
       getDraftPost(username, paramDraft && paramDraft._id).then((result) => {
         //if result is return and param draft available, compare timestamp, use latest
         //if no draft, use result anayways
@@ -523,8 +528,13 @@ class EditorContainer extends Component<any, any> {
   };
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
-    const { isDraftSaved, draftId, thumbIndex } = this.state;
+    const { isDraftSaved, draftId, thumbIndex, isReply } = this.state;
     const { currentAccount, dispatch, intl } = this.props;
+
+    if(isReply){
+      return;
+    }
+
 
     const beneficiaries = this._extractBeneficiaries();
 
@@ -636,7 +646,20 @@ class EditorContainer extends Component<any, any> {
 
     //save reply data
     if (isReply && draftField.body !== null) {
-      await AsyncStorage.setItem('temp-reply', draftField.body);
+      //TODO: update draft item in redux using draftId passed in params
+      const {dispatch} = this.props;
+      const {draftId} = this.state;
+
+      const replyDraft = {
+        author:currentAccount.name,
+        body:fields.body,
+        updated: new Date().toISOString().substring(0, 19),
+        expiresAt: new Date().getTime() + 604800000, // 7 days expiry time
+      }
+
+      dispatch(updateDraftCache(draftId, replyDraft))
+      //await AsyncStorage.setItem('temp-reply', draftField.body);
+      
 
       //save existing draft data locally
     } else if (draftId) {
@@ -1271,7 +1294,8 @@ const mapStateToProps = (state) => ({
   isDefaultFooter: state.account.isDefaultFooter,
   isLoggedIn: state.application.isLoggedIn,
   pinCode: state.application.pin,
-  beneficiariesMap: state.editor.beneficiariesMap
+  beneficiariesMap: state.editor.beneficiariesMap,
+  drafts: state.cache.drafts,
 });
 
 export default connect(mapStateToProps)(injectIntl(EditorContainer));
