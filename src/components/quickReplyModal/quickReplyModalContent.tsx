@@ -75,15 +75,10 @@ export const QuickReplyModalContent = ({
 
   // add quick comment value into cache
   const _addQuickCommentIntoCache = (value = commentValue) => {
-    const date = new Date();
-    const updatedStamp = date.toISOString().substring(0, 19);
 
     const quickCommentDraftData: Draft = {
       author: currentAccount.name,
-      body: value,
-      created: quickCommentDraft ? quickCommentDraft.created : updatedStamp,
-      updated: updatedStamp,
-      expiresAt: date.getTime() + 604800000, // 7 days expiry time
+      body: value
     };
 
     //add quick comment cache entry
