@@ -132,7 +132,11 @@ class EditorContainer extends Component<any, any> {
       }
 
       if (navigationParams.isReply) {
-        ({ isReply, draftId } = navigationParams);
+        ({ isReply } = navigationParams);
+        if(post){
+          draftId = `${currentAccount.name}/${post.author}/${post.permlink}`
+        }
+
         this.setState({
           isReply,
           draftId,

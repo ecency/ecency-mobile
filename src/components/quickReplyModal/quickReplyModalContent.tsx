@@ -44,7 +44,7 @@ export const QuickReplyModalContent = ({
 
   const [commentValue, setCommentValue] = useState('');
   const [isSending, setIsSending] = useState(false);
-  const [quickCommentDraft, setQuickCommentDraft] = useState<Draft>(null);
+
 
   const headerText =
     selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS as any));
@@ -61,7 +61,6 @@ export const QuickReplyModalContent = ({
     if (drafts.has(draftId) && currentAccount.name === drafts.get(draftId).author) {
       const quickComment: Draft = drafts.get(draftId);
       setCommentValue(quickComment.body);
-      setQuickCommentDraft(quickComment);
     } else {
       setCommentValue('');
     }
@@ -208,7 +207,6 @@ export const QuickReplyModalContent = ({
         params: {
           isReply: true,
           post: selectedPost,
-          draftId: draftId,
           fetchPost,
         },
       });
