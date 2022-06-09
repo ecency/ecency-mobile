@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './quickReplyModalStyles';
 import { View, Text, Alert, TouchableOpacity, Keyboard, Platform } from 'react-native';
@@ -14,11 +14,12 @@ import {
   updateDraftCache,
 } from '../../redux/actions/cacheActions';
 import { default as ROUTES } from '../../constants/routeNames';
-import get from 'lodash/get';
+import {get, debounce} from 'lodash';
 import { navigate } from '../../navigation/service';
 import { postBodySummary } from '@ecency/render-helper';
 import { Draft } from '../../redux/reducers/cacheReducer';
 import { RootState } from '../../redux/store/store';
+import comment from '../../constants/options/comment';
 
 export interface QuickReplyModalContentProps {
   fetchPost?: any;
@@ -43,7 +44,7 @@ export const QuickReplyModalContent = ({
 
   const [commentValue, setCommentValue] = useState('');
   const [isSending, setIsSending] = useState(false);
-  const [quickCommentDraft, setQuickCommentDraft] = useState<Draft>(null);
+
 
   const headerText =
     selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS as any));
@@ -60,7 +61,6 @@ export const QuickReplyModalContent = ({
     if (drafts.has(draftId) && currentAccount.name === drafts.get(draftId).author) {
       const quickComment: Draft = drafts.get(draftId);
       setCommentValue(quickComment.body);
-      setQuickCommentDraft(quickComment);
     } else {
       setCommentValue('');
     }
@@ -73,25 +73,24 @@ export const QuickReplyModalContent = ({
   };
 
   // add quick comment value into cache
-  const _addQuickCommentIntoCache = () => {
-    const date = new Date();
-    const updatedStamp = date.toISOString().substring(0, 19);
+  const _addQuickCommentIntoCache = (value = commentValue) => {
 
     const quickCommentDraftData: Draft = {
       author: currentAccount.name,
-      body: commentValue,
-      created: quickCommentDraft ? quickCommentDraft.created : updatedStamp,
-      updated: updatedStamp,
-      expiresAt: date.getTime() + 604800000, // 7 days expiry time
+      body: value
     };
 
     //add quick comment cache entry
     dispatch(updateDraftCache(draftId, quickCommentDraftData));
   };
+
+
   // handle close press
   const _handleClosePress = () => {
     sheetModalRef.current?.setModalVisible(false);
   };
+
+
   // navigate to post on summary press
   const _handleOnSummaryPress = () => {
     Keyboard.dismiss();
@@ -104,6 +103,7 @@ export const QuickReplyModalContent = ({
       key: get(selectedPost, 'permlink'),
     });
   };
+
 
   // handle submit reply
   const _submitReply = async () => {
@@ -207,12 +207,22 @@ export const QuickReplyModalContent = ({
         params: {
           isReply: true,
           post: selectedPost,
-          quickReplyText: commentValue,
           fetchPost,
         },
       });
     }
   };
+
+
+  const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500),[])
+
+  const _onChangeText = (value) => {
+    setCommentValue(value);
+    _deboucedCacheUpdate(value)
+  }
+
+
+
   //VIEW_RENDERERS
 
   const _renderSheetHeader = () => (
@@ -284,9 +294,7 @@ export const QuickReplyModalContent = ({
       <View style={styles.inputContainer}>
         <TextInput
           innerRef={inputRef}
-          onChangeText={(value) => {
-            setCommentValue(value);
-          }}
+          onChangeText={_onChangeText}
           value={commentValue}
           // autoFocus
           placeholder={intl.formatMessage({
