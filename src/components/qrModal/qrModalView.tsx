@@ -9,8 +9,6 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import { deepLinkParser } from '../../utils/deepLinkParser';
 import { useIntl } from 'react-intl';
 import { navigate } from '../../navigation/service';
-import { Icon } from '..';
-import { Dimensions } from 'react-native';
 import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
 import getWindowDimensions from '../../utils/getWindowDimensions';
 
