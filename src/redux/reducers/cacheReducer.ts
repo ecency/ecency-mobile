@@ -28,10 +28,12 @@ export interface Comment {
 
 export interface Draft {
     author: string,
-    body?:string,
-    created?:string,
-    updated?:string,
-    expiresAt:number;
+    body:string,
+    title?:string,
+    tags?:string,
+    created?:number,
+    updated?:number,
+    expiresAt?:number;
 }
 
 interface State {
@@ -93,7 +95,16 @@ const initialState:State = {
             if(!state.drafts){
                 state.drafts = new Map<string, Draft>();
             }
-            state.drafts.set(payload.id, payload.draft);
+
+            const curTime = new Date().getTime();
+            const curDraft = state.drafts.get(payload.id);
+            const payloadDraft = payload.draft;
+
+            payloadDraft.created = curDraft ? curDraft.created : curTime;
+            payloadDraft.updated = curTime;
+            payloadDraft.expiresAt = curTime + 604800000 // 7 days ms
+
+            state.drafts.set(payload.id, payloadDraft);
             return {
               ...state, //spread operator in requried here, otherwise persist do not register change
               lastUpdate: {

@@ -360,7 +360,6 @@ class EditorScreen extends Component {
       isLoggedIn,
       isPostSending,
       isReply,
-      quickReplyText,
       isUploading,
       post,
       uploadedImage,
@@ -444,7 +443,7 @@ class EditorScreen extends Component {
           )}
           <MarkdownEditor
             componentID="body"
-            draftBody={isReply ? quickReplyText : fields && fields.body}
+            draftBody={fields && fields.body}
             isFormValid={isFormValid}
             handleOpenImagePicker={handleOnImagePicker}
             intl={intl}

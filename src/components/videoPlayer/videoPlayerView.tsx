@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import WebView from 'react-native-webview';
 import YoutubeIframe, { InitialPlayerParams } from 'react-native-youtube-iframe';
@@ -158,8 +158,37 @@ const VideoPlayer = ({
       </View>
     );
   };
-  console.log('isFullScreen : ', isFullScreen);
-  
+
+  const htmlIframeVideoPlayer = (uri) =>
+    `
+      <!DOCTYPE html>
+        <html>
+          <head>
+            <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0" />
+              <style>
+                * {
+                    padding: 0;
+                    margin: 0;
+                    box-sizing: border-box;
+                  }
+                #iframeWrapper {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    height: 100%;
+                  }
+                </style>
+            </head> 
+            <body>
+              <div id="iframeWrapper">
+                <iframe width="100%" height="100%" src="${uri}" frameborder="0"  allowfullscreen>
+                </iframe>
+                </div>
+          </body>
+        </html>
+                `;
   return (
     <View style={styles.container}>
       {mode === 'youtube' && youtubeVideoId && (
@@ -185,19 +214,23 @@ const VideoPlayer = ({
               scalesPageToFit={true}
               bounces={false}
               javaScriptEnabled={true}
-              automaticallyAdjustContentInsets={false}
+              automaticallyAdjustContentInsets={true}
               onLoadEnd={() => {
                 setIsLoading(false);
               }}
               onLoadStart={() => {
                 setIsLoading(true);
               }}
-              source={{ uri: uri }}
+              source={{html: htmlIframeVideoPlayer(uri)}}
               style={[styles.barkBackground, { width: contentWidth, height: PLAYER_HEIGHT }]}
               startInLoadingState={true}
               onShouldStartLoadWithRequest={() => true}
               mediaPlaybackRequiresUserAction={true}
               allowsInlineMediaPlayback={true}
+              allowsFullscreenVideo={true}
+              useWebKit={true}
+              domStorageEnabled
+              originWhitelist={['*']}
             />
           )}
         </View>
