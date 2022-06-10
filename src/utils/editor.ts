@@ -45,25 +45,40 @@ export const generatePermlink = (title, random = false) => {
 };
 
 export const extractWordAtIndex = (text:string, index:number) => {
+
+  const RANGE = 50;
+
+  const _start = index - RANGE;
+  const _end = index + RANGE;
+
+  const _length = text.length;
+
+  const textChunk = text.substring(_start > 0 ? _start : 0, _end < _length ? _end : _length);
+  const indexChunk = index < 50 ? index : (
+    _length - index < 50 ? textChunk.length - (_length - index) : 
+      RANGE
+  );
+
+  console.log('char at index: ', textChunk[indexChunk]);
+
   const END_REGEX = /[\s,]/
   let word = '';
-  for(let i = index; i >= 0 && (!END_REGEX.test(text[i]) || i === index); i--){
-    if(text[i]){
-      word += text[i];
+  for(let i = indexChunk; i >= 0 && (!END_REGEX.test(textChunk[i]) || i === indexChunk); i--){
+    if(textChunk[i]){
+      word += textChunk[i];
     }
   }
   word = word.split('').reverse().join('');
   
-  if(!END_REGEX.test(text[index])){
-    for(let i = index + 1; i < text.length && !END_REGEX.test(text[i]); i++){
-      if(text[i]){
-        word += text[i];
+  if(!END_REGEX.test(textChunk[indexChunk])){
+    for(let i = indexChunk + 1; i < textChunk.length && !END_REGEX.test(textChunk[i]); i++){
+      if(textChunk[i]){
+        word += textChunk[i];
       }
     }
   }
  
   return word;
- 
 }
 
 export const generateReplyPermlink = (toAuthor) => {

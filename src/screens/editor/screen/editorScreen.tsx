@@ -39,7 +39,6 @@ class EditorScreen extends Component {
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
    */
-  thumbSelectionModalRef = null;
   postOptionsModalRef = null;
 
   constructor(props) {
@@ -206,12 +205,6 @@ class EditorScreen extends Component {
     }
   };
 
-  _showThumbSelectionModal = () => {
-    const { fields } = this.state;
-    if (this.thumbSelectionModalRef) {
-      this.thumbSelectionModalRef.show(fields.body);
-    }
-  };
 
   _handleScheduleChange = (datetime:string|null) => {
     this.setState({
@@ -367,7 +360,6 @@ class EditorScreen extends Component {
       isLoggedIn,
       isPostSending,
       isReply,
-      quickReplyText,
       isUploading,
       post,
       uploadedImage,
@@ -406,8 +398,8 @@ class EditorScreen extends Component {
         </Modal>
       );
     };
-console.log('fields :', fields);
-console.log('quickReplyText : ', quickReplyText);
+
+    
 
     return (
       <View style={globalStyles.defaultContainer}>
@@ -430,11 +422,11 @@ console.log('quickReplyText : ', quickReplyText);
           isReply={isReply}
           quickTitle={wordsCount > 0 && `${wordsCount} words`}
           rightButtonText={rightButtonText}
-          showThumbSelectionModal={this._showThumbSelectionModal}
           handleSettingsPress={this._handleSettingsPress}
         />
         <PostForm
           handleFormUpdate={this._handleFormUpdate}
+          handleBodyChange={this._setWordsCount}
           handleOnSubmit={this._handleOnSubmit}
           isFormValid={isFormValid}
           isPreviewActive={isPreviewActive}
@@ -451,10 +443,7 @@ console.log('quickReplyText : ', quickReplyText);
           )}
           <MarkdownEditor
             componentID="body"
-            draftBody={isReply ? quickReplyText : fields && fields.body}
-            handleOnTextChange={this._setWordsCount}
-            handleFormUpdate={this._handleFormUpdate}
-            handleIsFormValid={this._handleIsFormValid}
+            draftBody={fields && fields.body}
             isFormValid={isFormValid}
             handleOpenImagePicker={handleOnImagePicker}
             intl={intl}
@@ -476,12 +465,9 @@ console.log('quickReplyText : ', quickReplyText);
             uploadProgress={uploadProgress}
           />
         </PostForm>
+
         {_renderCommunityModal()}
-        <ThumbSelectionModal
-          ref={(componentRef) => (this.thumbSelectionModalRef = componentRef)}
-          thumbIndex={thumbIndex}
-          onThumbSelection={this._handleOnThumbSelection}
-        />
+
         <PostOptionsModal
           ref={(componentRef) => (this.postOptionsModalRef = componentRef)}
           body={fields.body}
