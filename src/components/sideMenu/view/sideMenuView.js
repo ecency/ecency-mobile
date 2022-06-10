@@ -22,6 +22,7 @@ import { TextWithIcon } from '../../basicUIElements';
 
 // Constants
 import MENU from '../../../constants/sideMenuItems';
+import ROUTES from '../../../constants/routeNames';
 
 //Utils
 import { getVotingPower } from '../../../utils/manaBar';
@@ -86,6 +87,16 @@ const SideMenuView = ({
     } */
     if (item.id === 'qr') {
       dispatch(toggleQRModal(true));
+      return;
+    }
+
+    if (item.id === 'schedules') {
+      navigateToRoute({
+        routeName: ROUTES.SCREENS.DRAFTS,
+        params: {
+          showSchedules: true,
+        },
+      });
       return;
     }
 
