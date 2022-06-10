@@ -69,6 +69,7 @@ export const UploadsGalleryModal = forwardRef(({
     }, [uploadedImage])
 
 
+    
     //save image to user gallery
     const _addUploadedImageToGallery = async () => {
         try {
@@ -137,6 +138,8 @@ export const UploadsGalleryModal = forwardRef(({
         handleOnSelect(data)
         setShowModal(false);
     }
+
+
 
     //renders footer with add snipept button and shows new snippet modal
     const _renderFloatingPanel = () => {
@@ -242,7 +245,7 @@ export const UploadsGalleryModal = forwardRef(({
     };
 
 
-    const _renderHeaderContent = (
+    const _renderHeaderContent = () => (
         <>
             {isUploading && <ProgressBar progress={uploadProgress} />}
         </>
@@ -251,30 +254,33 @@ export const UploadsGalleryModal = forwardRef(({
 
 
 
-    const _renderContent = (
-        <View style={styles.container}>
-            <View style={styles.bodyWrapper}>
-
-                {_renderHeaderContent}
-                <FlatList
-                    data={mediaUploads}
-                    keyExtractor={(item) => `item_${item.url}`}
-                    renderItem={_renderItem}
-                    ListEmptyComponent={_renderEmptyContent}
-                    ListFooterComponent={<View style={styles.listEmptyFooter} />}
-                    extraData={indices}
-                    numColumns={2}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={isLoading}
-                            onRefresh={_getMediaUploads}
-                        />
-                    }
-                />
+    const _renderContent = () => {
+        console.log("Rendering uploaded images")
+        return (
+            <View style={styles.container}>
+                <View style={styles.bodyWrapper}>
+    
+                    {_renderHeaderContent()}
+                    <FlatList
+                        data={mediaUploads}
+                        keyExtractor={(item) => `item_${item.url}`}
+                        renderItem={_renderItem}
+                        ListEmptyComponent={_renderEmptyContent}
+                        ListFooterComponent={<View style={styles.listEmptyFooter} />}
+                        extraData={indices}
+                        numColumns={2}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={isLoading}
+                                onRefresh={_getMediaUploads}
+                            />
+                        }
+                    />
+                </View>
+                {_renderFloatingPanel()}
             </View>
-            {_renderFloatingPanel()}
-        </View>
-    )
+        )
+    } 
 
 
     return (
@@ -290,7 +296,7 @@ export const UploadsGalleryModal = forwardRef(({
             animationType="slide"
             style={styles.modalStyle}
         >
-            {_renderContent}
+            {showModal && _renderContent()}
         </Modal>
 
     );

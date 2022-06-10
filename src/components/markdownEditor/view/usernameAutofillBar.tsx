@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { View, FlatList, Text, TouchableOpacity } from "react-native"
 import { UserAvatar } from '../..';
 import { lookupAccounts } from '../../../providers/hive/dhive';
@@ -22,21 +22,25 @@ export const UsernameAutofillBar = ({text, selection, onApplyUsername}:Props) =>
 
     useEffect(() => {
         if (selection.start === selection.end && text) {
-            const word = extractWordAtIndex(text, selection.start);
-            console.log('selection word is: ', word);
-            if (word.startsWith('@') && word.length > 3) {
-              _handleUserSearch(word.substring(1));
-            } else {
-              setSearchedUsers([]);
-              setQuery('')
-              _handleUserSearch.cancel();
-            }
+            _processTextForSearch(text, selection.start);
           }
     }, [text, selection])
 
 
+    const _processTextForSearch = useCallback(debounce((text:string, index:number) => {
+      const word = extractWordAtIndex(text, index);
+      console.log('selection word is: ', word);
+      if (word.startsWith('@') && word.length > 1) {
+        _handleUserSearch(word.substring(1));
+      } else {
+        setSearchedUsers([]);
+        setQuery('')
+        _handleUserSearch.cancel();
+      }
+    }, 300, {leading:true}),[]);
 
-    const _handleUserSearch = debounce(async (username) => {
+
+    const _handleUserSearch = useCallback(debounce(async (username) => {
       if(query !== username){
         let users = [];
         if (username) {
@@ -47,7 +51,7 @@ export const UsernameAutofillBar = ({text, selection, onApplyUsername}:Props) =>
         setSearchedUsers(users);
       }
         
-      }, 200, {leading:true});
+      }, 200, {leading:true}), []);
 
 
     

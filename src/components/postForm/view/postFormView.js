@@ -1,4 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
+import { debounce } from 'lodash';
 
 class PostFormView extends PureComponent {
   constructor(props) {
@@ -18,9 +19,12 @@ class PostFormView extends PureComponent {
   };
 
   _handleOnChange = (componentID, value, isValid = null) => {
-    const { handleFormUpdate } = this.props;
-
+    const { handleFormUpdate, handleBodyChange } = this.props;
+    console.log('update fields state :', componentID, value);
     handleFormUpdate(componentID, value, !!isValid || !!value);
+    if (componentID === 'body') {
+      handleBodyChange(value);
+    }
   };
 
   render() {
@@ -33,7 +37,10 @@ class PostFormView extends PureComponent {
             return React.cloneElement(child, {
               onSubmitEditing: (item) =>
                 this._handleOnSubmitEditing(child.props.returnKeyType, item),
-              onChange: (value) => this._handleOnChange(child.props.componentID, value),
+              onChange: debounce(
+                (value) => this._handleOnChange(child.props.componentID, value),
+                500,
+              ),
               returnKeyType: isFormValid ? 'done' : 'next',
               isPreviewActive,
             });

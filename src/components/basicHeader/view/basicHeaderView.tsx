@@ -1,15 +1,12 @@
 import React, { useState, Fragment, useRef } from 'react';
 import { View, Text, ActivityIndicator, SafeAreaView } from 'react-native';
 import { injectIntl } from 'react-intl';
-import { useSelector } from 'react-redux';
-import moment from 'moment';
 
 // Components
-import { TextButton, Modal, BeneficiaryModal } from '../..';
+import { TextButton } from '../..';
 import { IconButton } from '../../iconButton';
 import { DropdownButton } from '../../dropdownButton';
 import { TextInput } from '../../textInput';
-import { DateTimePicker } from '../../dateTimePicker';
 
 // Constants
 // Styles
@@ -28,7 +25,6 @@ const BasicHeaderView = ({
   intl,
   isDraftSaved,
   isDraftSaving,
-  draftId,
   isFormValid,
   isHasDropdown,
   isHasIcons,
@@ -46,23 +42,14 @@ const BasicHeaderView = ({
   title,
   handleOnSubmit,
   handleOnSearch,
-  handleDatePickerChange,
   handleRewardChange,
-  handleBeneficiaries,
   enableViewModeToggle,
   handleSettingsPress,
-  showThumbSelectionModal,
 }) => {
+
   const [isInputVisible, setIsInputVisible] = useState(false);
-  const [beneficiaryModal, setBeneficiaryModal] = useState(false);
-  const [showScheduleModal, setShowScheduleModal] = useState(false);
-  const [scheduledDate, setScheduledDate] = useState('');
-
-  const username = useSelector((state) => state.account.currentAccount.name);
-
-  const settingMenuRef = useRef(null);
   const rewardMenuRef = useRef(null);
-  const scheduleRef = useRef(null);
+
 
   /**
    *
@@ -90,27 +77,6 @@ const BasicHeaderView = ({
     handleOnSearch(value);
   };
 
-  const _handleSettingMenuSelect = (index) => {
-    switch (index) {
-      case 0:
-        setShowScheduleModal(true);
-        break;
-      case 1:
-        if (showThumbSelectionModal) {
-          showThumbSelectionModal();
-        }
-        break;
-      case 2:
-        rewardMenuRef.current.show();
-        break;
-      case 3:
-        setBeneficiaryModal(true);
-        break;
-
-      default:
-        break;
-    }
-  };
 
   const _handleRewardMenuSelect = (index) => {
     let rewardType = 'default';
@@ -131,32 +97,7 @@ const BasicHeaderView = ({
     }
   };
 
-  const _handleOnSaveBeneficiaries = (beneficiaries) => {
-    const _beneficiaries = beneficiaries.map((item) => ({
-      account: item.account,
-      weight: item.weight,
-    }));
-    setBeneficiaryModal(false);
-    if (handleBeneficiaries) {
-      handleBeneficiaries(_beneficiaries);
-    }
-  };
 
-  const _handleDatePickerChange = (datePickerValue) => {
-    setScheduledDate(datePickerValue);
-  };
-
-  const _onPressDone = () => {
-    let dateString = scheduledDate;
-
-    if (dateString === '') {
-      dateString = moment().format();
-    }
-
-    setScheduledDate('');
-    handleDatePickerChange(dateString);
-    setShowScheduleModal(false);
-  };
 
   /**
    *
@@ -291,57 +232,8 @@ const BasicHeaderView = ({
           </Fragment>
         )}
       </View>
-      <Modal
-        isOpen={beneficiaryModal}
-        isFullScreen
-        isCloseButton
-        presentationStyle="formSheet"
-        handleOnModalClose={() => setBeneficiaryModal(false)}
-        title={intl.formatMessage({ id: 'editor.beneficiaries' })}
-        animationType="slide"
-        style={styles.beneficiaryModal}
-      >
-        <BeneficiaryModal
-          username={username}
-          handleOnSaveBeneficiaries={_handleOnSaveBeneficiaries}
-          draftId={draftId}
-        />
-      </Modal>
-      <Modal
-        isFullScreen={false}
-        isOpen={showScheduleModal}
-        isBottomModal
-        isTransparent
-        isRadius
-        coverScreen={false}
-        title={intl.formatMessage({ id: 'editor.schedule_modal_title' })}
-        hasRightText
-        rightText="Done"
-        onPressRightText={_onPressDone}
-        onBackdropPress={() => setShowScheduleModal(false)}
-      >
-        <SafeAreaView style={styles.dateTimeModal}>
-          <DateTimePicker
-            type="datetime"
-            onChanged={_handleDatePickerChange}
-            disabled={!isFormValid}
-            ref={scheduleRef}
-          />
-        </SafeAreaView>
-      </Modal>
-      <OptionsModal
-        ref={settingMenuRef}
-        options={[
-          intl.formatMessage({ id: 'editor.setting_schedule' }),
-          intl.formatMessage({ id: 'editor.setting_thumb' }),
-          intl.formatMessage({ id: 'editor.setting_reward' }),
-          intl.formatMessage({ id: 'editor.setting_beneficiary' }),
-          intl.formatMessage({ id: 'alert.cancel' }),
-        ]}
-        cancelButtonIndex={4}
-        title={intl.formatMessage({ id: 'editor.options' })}
-        onPress={_handleSettingMenuSelect}
-      />
+
+
       <OptionsModal
         ref={rewardMenuRef}
         options={[
@@ -354,6 +246,7 @@ const BasicHeaderView = ({
         title="Reward"
         onPress={_handleRewardMenuSelect}
       />
+
     </SafeAreaView>
   );
 };

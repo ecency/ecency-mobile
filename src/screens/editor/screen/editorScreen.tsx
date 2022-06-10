@@ -39,7 +39,6 @@ class EditorScreen extends Component {
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
    */
-  thumbSelectionModalRef = null;
   postOptionsModalRef = null;
 
   constructor(props) {
@@ -206,12 +205,6 @@ class EditorScreen extends Component {
     }
   };
 
-  _showThumbSelectionModal = () => {
-    const { fields } = this.state;
-    if (this.thumbSelectionModalRef) {
-      this.thumbSelectionModalRef.show(fields.body);
-    }
-  };
 
   _handleScheduleChange = (datetime:string|null) => {
     this.setState({
@@ -406,6 +399,7 @@ class EditorScreen extends Component {
       );
     };
 
+    
 
     return (
       <View style={globalStyles.defaultContainer}>
@@ -428,11 +422,11 @@ class EditorScreen extends Component {
           isReply={isReply}
           quickTitle={wordsCount > 0 && `${wordsCount} words`}
           rightButtonText={rightButtonText}
-          showThumbSelectionModal={this._showThumbSelectionModal}
           handleSettingsPress={this._handleSettingsPress}
         />
         <PostForm
           handleFormUpdate={this._handleFormUpdate}
+          handleBodyChange={this._setWordsCount}
           handleOnSubmit={this._handleOnSubmit}
           isFormValid={isFormValid}
           isPreviewActive={isPreviewActive}
@@ -450,9 +444,6 @@ class EditorScreen extends Component {
           <MarkdownEditor
             componentID="body"
             draftBody={fields && fields.body}
-            handleOnTextChange={this._setWordsCount}
-            handleFormUpdate={this._handleFormUpdate}
-            handleIsFormValid={this._handleIsFormValid}
             isFormValid={isFormValid}
             handleOpenImagePicker={handleOnImagePicker}
             intl={intl}
@@ -474,12 +465,9 @@ class EditorScreen extends Component {
             uploadProgress={uploadProgress}
           />
         </PostForm>
+
         {_renderCommunityModal()}
-        <ThumbSelectionModal
-          ref={(componentRef) => (this.thumbSelectionModalRef = componentRef)}
-          thumbIndex={thumbIndex}
-          onThumbSelection={this._handleOnThumbSelection}
-        />
+
         <PostOptionsModal
           ref={(componentRef) => (this.postOptionsModalRef = componentRef)}
           body={fields.body}

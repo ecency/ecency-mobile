@@ -114,7 +114,7 @@ const PostOptionsModal =  forwardRef(({
       handleThumbSelection(index)
     }
 
-    const _renderContent = (
+    const _renderContent = () => (
       <View style={styles.fillSpace}>
           <KeyboardAwareScrollView style={styles.fillSpace} >
           <View style={styles.container}>
@@ -214,7 +214,7 @@ const PostOptionsModal =  forwardRef(({
         animationType="slide"
         style={styles.modalStyle}
       >
-      {_renderContent}
+      {_renderContent()}
     </Modal>
      
   );
