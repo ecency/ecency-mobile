@@ -1,6 +1,7 @@
 
 /**
- * extracts purchase information from deep link url
+ * extracts purchase information from deep link url i-e https://ecency.com/purchase?type=boost&username=demo.com
+ * 
  */
 
 export default (urlString:string) => {
@@ -14,6 +15,6 @@ export default (urlString:string) => {
             username
         }
     }
-    
+
     return null;
 }
