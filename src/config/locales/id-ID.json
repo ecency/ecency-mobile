@@ -92,8 +92,8 @@
     "fill_vesting_withdraw": "PowerDown dieksekusi",
     "ecency": {
       "title": "Poin",
-      "name": "Ecency Points",
-      "buy": "GET POINTS"
+      "name": "Poin Ecency",
+      "buy": "DAPATKAN POIN"
     },
     "savinghive": {
       "title": "Penyimpanan HIVE"
@@ -103,7 +103,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "Hive Token",
+      "name": "Token Hive",
       "buy": "DAPATKAN HIVE"
     },
     "hbd": {
@@ -112,26 +112,26 @@
     },
     "hive_power": {
       "title": "KEKUATAN HIVE",
-      "name": "Hive Power"
+      "name": "Kekuatan Hive"
     },
     "hive_dollar": {
-      "name": "Hive Dollar"
+      "name": "Hive Dolar"
     },
     "btc": {
       "title": "BTC",
       "buy": "DAPATKAN BTC",
       "address": "TERIMA"
     },
-    "last_updated": "Last Updated:",
-    "updating": "Updating...",
-    "coin_details": "Details",
-    "change": "Change",
-    "activities": "Activities",
-    "savings_withdrawal": "Pending Withdrawals",
-    "open_orders": "Open Orders",
-    "conversions_requested": "Conversions Requested",
-    "expires": "expires",
-    "pending_requests": "Pending Requests"
+    "last_updated": "Pembaruan Terakhir:",
+    "updating": "Memperbarui...",
+    "coin_details": "Rincian",
+    "change": "Mengganti",
+    "activities": "Aktifitas",
+    "savings_withdrawal": "Penarikan Tertunda",
+    "open_orders": "Membuka Pesanan",
+    "conversions_requested": "Permintaan Konversi",
+    "expires": "kadaluwarsa",
+    "pending_requests": "Permintaan Tertunda"
   },
   "notification": {
     "vote": "voted",
@@ -143,7 +143,7 @@
     "ignore": "mengabaikan anda",
     "reblog": "reblogged",
     "transfer": "ditransfer",
-    "delegations": "delegated",
+    "delegations": "didelegasikan",
     "spin": "Waktunya untuk mendapatkan lebih banyak poin",
     "inactive": "Ayo aktif! Tulislah postingan, teruskan mengumpulkan pendapatan",
     "referral": "bergabunglah dengan referral Anda, sambutlah mereka",
