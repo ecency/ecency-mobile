@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Platform, ScrollView, Image, Text } from 'react-native';
+import { View, Platform, SafeAreaView, Image, Text } from 'react-native';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 
@@ -29,23 +29,27 @@ const AccountBoost = ({ navigation }) => {
   return (
     <InAppPurchaseContainer skus={ITEM_SKUS} username={username} isNoSpin>
       {({ buyItem, productList, isLoading, isProcessing }) => (
-        <View style={globalStyles.container}>
+        <SafeAreaView style={styles.container}>
           <BasicHeader
             disabled={isProcessing}
             title={intl.formatMessage({
               id: 'boost.account.title',
             })}
           />
-          <View style={styles.mainContainer}>
+
+          <View style={styles.contentContainer}>
             <View style={styles.userContainer}>
               <UserAvatar
                 username={username ? username : currentAccount.name}
                 style={styles.avatarStyle}
                 disableSize
               />
-              <Text style={styles.usernameText}>{username ? username : currentAccount.name}</Text>
+              <Text style={styles.usernameText}>
+                {'@' + (username ? username : currentAccount.name)}
+              </Text>
             </View>
-            <View style={styles.container}>
+
+            <View style={styles.iconContainer}>
               <Image style={styles.logoEstm} source={LOGO_ESTM} />
               <Text style={styles.desc}>
                 {intl.formatMessage({
@@ -53,26 +57,25 @@ const AccountBoost = ({ navigation }) => {
                 })}
               </Text>
             </View>
+
             {isLoading ? (
               <BoostPlaceHolder />
             ) : (
               <View style={styles.productsWrapper}>
-                <ScrollView>
-                  {productList.map((product) => (
-                    <ProductItemLine
-                      key={get(product, 'title')}
-                      isLoading={isLoading}
-                      disabled={isProcessing}
-                      product={product}
-                      title="Boost+"
-                      handleOnButtonPress={(id) => buyItem(id)}
-                    />
-                  ))}
-                </ScrollView>
+                {productList.map((product) => (
+                  <ProductItemLine
+                    key={get(product, 'title')}
+                    isLoading={isLoading}
+                    disabled={isProcessing}
+                    product={product}
+                    title="Boost+"
+                    handleOnButtonPress={(id) => buyItem(id)}
+                  />
+                ))}
               </View>
             )}
           </View>
-        </View>
+        </SafeAreaView>
       )}
     </InAppPurchaseContainer>
   );

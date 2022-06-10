@@ -1,14 +1,19 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  mainContainer: {
+  container: {
+    backgroundColor: '$primaryBackgroundColor',
+    flex: 1,
+  },
+  contentContainer: {
     justifyContent: 'space-around',
     backgroundColor: '$primaryBackgroundColor',
     flex: 1,
   },
-  container: {
+  iconContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+    paddingBottom: 24,
     backgroundColor: '$primaryBackgroundColor',
   },
   userContainer: {
@@ -16,26 +21,28 @@ export default EStyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: '$primaryBackgroundColor',
-    paddingVertical: 12,
-    paddingLeft: 20,
+    paddingVertical: 8,
+    marginBottom: -16,
+    paddingLeft: 32,
   },
   avatarStyle: {
-    width: 54,
-    height: 54,
-    borderRadius: 27,
+    width: 72,
+    height: 72,
+    borderRadius: 66,
     borderColor: '$primaryBlue',
-    borderWidth: 3,
+    borderWidth: 4,
   },
   usernameText: {
     backgroundColor: '$primaryBlue',
     color: '$white',
-    paddingVertical: 6,
-    paddingRight: 16,
-    paddingLeft: 20,
+    paddingVertical: 8,
+    paddingRight: 20,
+    paddingLeft: 16,
     marginLeft: -8,
     zIndex: -1,
-    borderTopRightRadius: 16,
-    borderBottomRightRadius: 16,
+    fontSize: 16,
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
     fontWeight: '700',
   },
   logoEstm: {
@@ -49,6 +56,8 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
   },
   productsWrapper: {
-    paddingVertical: 12,
+    paddingTop: 8,
+    paddingBottom: 52,
+    marginHorizontal: 16,
   },
 });
