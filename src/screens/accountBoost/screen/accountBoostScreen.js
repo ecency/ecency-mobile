@@ -4,7 +4,8 @@ import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 
 // Components
-import { BasicHeader, BoostPlaceHolder, ProductItemLine } from '../../../components';
+import { useSelector } from 'react-redux';
+import { BasicHeader, BoostPlaceHolder, ProductItemLine, UserAvatar } from '../../../components';
 
 import LOGO_ESTM from '../../../assets/esteemcoin_boost.png';
 
@@ -20,11 +21,13 @@ const ITEM_SKUS = Platform.select({
   android: ['999boosts'],
 });
 
-const AccountBoost = () => {
+const AccountBoost = ({ navigation }) => {
   const intl = useIntl();
+  const currentAccount = useSelector((state) => state.account.currentAccount);
+  const { username } = navigation.state.params;
 
   return (
-    <InAppPurchaseContainer skus={ITEM_SKUS} isNoSpin>
+    <InAppPurchaseContainer skus={ITEM_SKUS} username={username} isNoSpin>
       {({ buyItem, productList, isLoading, isProcessing }) => (
         <View style={globalStyles.container}>
           <BasicHeader
@@ -34,6 +37,14 @@ const AccountBoost = () => {
             })}
           />
           <>
+            <View style={styles.userContainer}>
+              <UserAvatar
+                username={username ? username : currentAccount.name}
+                style={styles.avatarStyle}
+                disableSize
+              />
+              <Text style={styles.usernameText}>{username ? username : currentAccount.name}</Text>
+            </View>
             <View style={styles.container}>
               <Image style={styles.logoEstm} source={LOGO_ESTM} />
               <Text style={styles.desc}>
