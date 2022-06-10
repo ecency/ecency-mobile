@@ -87,7 +87,6 @@ const CommunitiesContainer = ({ children, navigation }) => {
     setIsSubscriptionsLoading(true);
     getSubscriptions(currentAccount.username)
       .then((subs) => {
-        setIsSubscriptionsLoading(false);
         subs.forEach((item) => item.push(true));
         getCommunities('', 50, null, 'rank').then((communities) => {
           communities.forEach((community) =>
@@ -100,6 +99,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
 
           setSubscriptions(subs);
           setDiscovers(shuffle(communities));
+          setIsSubscriptionsLoading(false);
         });
       })
       .catch((err) => {
