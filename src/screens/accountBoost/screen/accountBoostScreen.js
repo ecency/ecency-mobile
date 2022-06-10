@@ -36,7 +36,7 @@ const AccountBoost = ({ navigation }) => {
               id: 'boost.account.title',
             })}
           />
-          <>
+          <View style={styles.mainContainer}>
             <View style={styles.userContainer}>
               <UserAvatar
                 username={username ? username : currentAccount.name}
@@ -56,8 +56,8 @@ const AccountBoost = ({ navigation }) => {
             {isLoading ? (
               <BoostPlaceHolder />
             ) : (
-              <ScrollView>
-                <View style={styles.productsWrapper}>
+              <View style={styles.productsWrapper}>
+                <ScrollView>
                   {productList.map((product) => (
                     <ProductItemLine
                       key={get(product, 'title')}
@@ -68,10 +68,10 @@ const AccountBoost = ({ navigation }) => {
                       handleOnButtonPress={(id) => buyItem(id)}
                     />
                   ))}
-                </View>
-              </ScrollView>
+                </ScrollView>
+              </View>
             )}
-          </>
+          </View>
         </View>
       )}
     </InAppPurchaseContainer>
