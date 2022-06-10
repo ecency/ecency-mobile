@@ -40,10 +40,10 @@ export default EStyleSheet.create({
     paddingLeft: 16,
     marginLeft: -8,
     zIndex: -1,
-    fontSize: 16,
+    fontSize: 15,
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
-    fontWeight: '700',
+    fontWeight: 'bold',
   },
   logoEstm: {
     width: '$deviceWidth / 1.4',
