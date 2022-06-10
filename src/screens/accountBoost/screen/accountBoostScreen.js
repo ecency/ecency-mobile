@@ -13,7 +13,6 @@ import LOGO_ESTM from '../../../assets/esteemcoin_boost.png';
 import { InAppPurchaseContainer } from '../../../containers';
 
 // Styles
-import globalStyles from '../../../globalStyles';
 import styles from './accountBoostStyles';
 
 const ITEM_SKUS = Platform.select({
@@ -37,30 +36,30 @@ const AccountBoost = ({ navigation }) => {
             })}
           />
 
-          <View style={styles.contentContainer}>
-            <View style={styles.userContainer}>
-              <UserAvatar
-                username={username ? username : currentAccount.name}
-                style={styles.avatarStyle}
-                disableSize
-              />
-              <Text style={styles.usernameText}>
-                {'@' + (username ? username : currentAccount.name)}
-              </Text>
-            </View>
+          {isLoading ? (
+            <BoostPlaceHolder />
+          ) : (
+            <View style={styles.contentContainer}>
+              <View style={styles.userContainer}>
+                <UserAvatar
+                  username={username ? username : currentAccount.name}
+                  style={styles.avatarStyle}
+                  disableSize
+                />
+                <Text style={styles.usernameText}>
+                  {'@' + (username ? username : currentAccount.name)}
+                </Text>
+              </View>
 
-            <View style={styles.iconContainer}>
-              <Image style={styles.logoEstm} source={LOGO_ESTM} />
-              <Text style={styles.desc}>
-                {intl.formatMessage({
-                  id: 'boost.account.desc',
-                })}
-              </Text>
-            </View>
+              <View style={styles.iconContainer}>
+                <Image style={styles.logoEstm} source={LOGO_ESTM} />
+                <Text style={styles.desc}>
+                  {intl.formatMessage({
+                    id: 'boost.account.desc',
+                  })}
+                </Text>
+              </View>
 
-            {isLoading ? (
-              <BoostPlaceHolder />
-            ) : (
               <View style={styles.productsWrapper}>
                 {productList.map((product) => (
                   <ProductItemLine
@@ -73,8 +72,8 @@ const AccountBoost = ({ navigation }) => {
                   />
                 ))}
               </View>
-            )}
-          </View>
+            </View>
+          )}
         </SafeAreaView>
       )}
     </InAppPurchaseContainer>
