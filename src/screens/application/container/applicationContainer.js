@@ -105,7 +105,7 @@ import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
 import persistAccountGenerator from '../../../utils/persistAccountGenerator';
 import parseVersionNumber from '../../../utils/parseVersionNumber';
-import { getTimeFromNow, setMomentLocale } from '../../../utils/time';
+import { setMomentLocale } from '../../../utils/time';
 import parseAuthUrl from '../../../utils/parseAuthUrl';
 import { purgeExpiredCache } from '../../../redux/actions/cacheActions';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
@@ -132,7 +132,6 @@ class ApplicationContainer extends Component {
       isRenderRequire: true,
       isReady: false,
       isIos: Platform.OS !== 'android',
-      isThemeReady: false,
       appState: AppState.currentState,
       showWelcomeModal: false,
       foregroundNotificationData: null,
@@ -795,6 +794,7 @@ class ApplicationContainer extends Component {
     }
   };
 
+  //TODO keep settings in redux and get rid of getSettings
   _getSettings = async () => {
     const { dispatch, otherAccounts } = this.props;
 
@@ -810,9 +810,6 @@ class ApplicationContainer extends Component {
     if (settings) {
       const isDarkMode = Appearance.getColorScheme() === 'dark';
       dispatch(isDarkTheme(settings.isDarkTheme !== null ? settings.isDarkTheme : isDarkMode));
-      this.setState({
-        isThemeReady: true,
-      });
       if (settings.isPinCodeOpen !== '') await dispatch(isPinCodeOpen(settings.isPinCodeOpen));
       if (settings.language !== '') dispatch(setLanguage(settings.language));
       if (settings.server !== '') dispatch(setApi(settings.server));
@@ -1037,13 +1034,7 @@ class ApplicationContainer extends Component {
       isPinCodeRequire,
       rcOffer,
     } = this.props;
-    const {
-      isRenderRequire,
-      isReady,
-      isThemeReady,
-      showWelcomeModal,
-      foregroundNotificationData,
-    } = this.state;
+    const { isRenderRequire, isReady, showWelcomeModal, foregroundNotificationData } = this.state;
 
     return (
       children &&
@@ -1053,7 +1044,6 @@ class ApplicationContainer extends Component {
         isPinCodeRequire,
         isReady,
         isRenderRequire,
-        isThemeReady,
         locale: selectedLanguage,
         rcOffer,
         toastNotification,
