@@ -12,7 +12,7 @@ import styles from './welcomeStyles';
 const WelcomeScreen = ({ handleButtonPress }) => {
   const intl = useIntl();
     
-  const [showAnimation, setShowAnimation] = useState(process.env.NODE_ENV !== 'development');
+  const [showAnimation, setShowAnimation] = useState(true);
 
   useEffect(() => {
     if (showAnimation) {
