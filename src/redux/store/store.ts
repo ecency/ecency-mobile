@@ -5,7 +5,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Reactotron from '../../../reactotron-config';
 
 import reducer from '../reducers';
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
 const transformCacheVoteMap = createTransform(
   (inboundState:any) => ({ 
@@ -38,7 +37,7 @@ const persistConfig = {
   // Storage Method (React Native)
   storage: AsyncStorage,
   // Blacklist (Don't Save Specific Reducers)
-  blacklist: ['nav', 'application', 'communities', 'user'],
+  blacklist: ['nav', 'communities', 'user'],
   timeout: 0,
   transforms:[
     transformCacheVoteMap,
