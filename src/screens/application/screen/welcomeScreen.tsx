@@ -1,15 +1,27 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useIntl } from 'react-intl';
 import { Text, Image, View, SafeAreaView, TouchableOpacity } from 'react-native';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import { Icon, MainButton } from '../../../components';
+import LaunchScreen from '../../launch';
 
 import styles from './welcomeStyles';
 
 const WelcomeScreen = ({ handleButtonPress }) => {
   const intl = useIntl();
+    
+  const [showAnimation, setShowAnimation] = useState(process.env.NODE_ENV !== 'development');
+
+  useEffect(() => {
+    if (showAnimation) {
+      setTimeout(() => {
+        setShowAnimation(false);
+      }, 3550);
+    }
+  }, [showAnimation]);
+  
 
   const _renderInfo = (iconName, headingIntlId, bodyIntlId) => (
     <View style={styles.sectionRow}>
@@ -53,6 +65,7 @@ const WelcomeScreen = ({ handleButtonPress }) => {
           />
         </View>
       </TouchableOpacity>
+      {showAnimation && <LaunchScreen />}
     </SafeAreaView>
   );
 };
