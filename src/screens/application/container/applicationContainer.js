@@ -178,6 +178,7 @@ class ApplicationContainer extends Component {
     });
 
     setMomentLocale();
+    this._fetchApp();
 
     ReceiveSharingIntent.getReceivedFiles(
       () => {
@@ -816,10 +817,11 @@ class ApplicationContainer extends Component {
       if (settings.upvotePercent !== '') {
         dispatch(setUpvotePercent(Number(settings.upvotePercent)));
       }
-      if (settings.isDefaultFooter !== '') dispatch(isDefaultFooter(settings.isDefaultFooter));
+      if (settings.isDefaultFooter !== '') dispatch(isDefaultFooter(settings.isDefaultFooter)); //TODO: remove as not being used
 
       if (settings.notification !== '') {
         console.log('Notification Settings', settings.notification, otherAccounts);
+        //TODO: no need to set nottification settings here.
         dispatch(
           changeNotificationSettings({
             type: 'notification',
@@ -1062,7 +1064,7 @@ export default connect(
     selectedLanguage: state.application.language,
     isPinCodeOpen: state.application.isPinCodeOpen,
     isLogingOut: state.application.isLogingOut,
-    isLoggedIn: state.application.isLoggedIn,
+    isLoggedIn: state.application.isLoggedIn, //TODO: remove as is not being used in this class
     isConnected: state.application.isConnected,
     nav: state.nav.routes,
     isPinCodeRequire: state.application.isPinCodeRequire,
