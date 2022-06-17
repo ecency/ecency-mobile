@@ -1,13 +1,11 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { Dimensions } from 'react-native';
+import React, { useEffect } from 'react';
 import SplashScreen from 'react-native-splash-screen';
 
-import { OrientationLocker, PORTRAIT, LANDSCAPE } from 'react-native-orientation-locker';
+import { OrientationLocker, PORTRAIT } from 'react-native-orientation-locker';
 import { useDispatch } from 'react-redux';
 import ApplicationContainer from './container/applicationContainer';
 import WelcomeScreen from './screen/welcomeScreen';
 import ApplicationScreen from './screen/applicationScreen';
-import LaunchScreen from '../launch';
 import { Modal } from '../../components';
 import { PinCode } from '../pinCode';
 import ErrorBoundary from './screen/errorBoundary';
@@ -15,16 +13,10 @@ import { setDeviceOrientation } from '../../redux/actions/uiAction';
 
 const Application = () => {
   const dispatch = useDispatch();
-  const [showAnimation, setShowAnimation] = useState(process.env.NODE_ENV !== 'development');
 
   useEffect(() => {
     SplashScreen.hide();
-    if (showAnimation) {
-      setTimeout(() => {
-        setShowAnimation(false);
-      }, 3550);
-    }
-  }, [showAnimation]);
+  }, []);
 
   const _handleDeviceOrientationChange = (orientation) => {
     console.log('device orientation changed at index : ', orientation);
@@ -39,7 +31,6 @@ const Application = () => {
         isPinCodeRequire,
         isReady,
         isRenderRequire,
-        isThemeReady,
         locale,
         rcOffer,
         toastNotification,
@@ -47,7 +38,7 @@ const Application = () => {
         handleWelcomeModalButtonPress,
         foregroundNotificationData,
       }) => {
-        const _isAppReady = !showAnimation && isReady && isRenderRequire && isThemeReady;
+        const _isAppReady = isReady && isRenderRequire;
 
         return (
           <ErrorBoundary>
@@ -76,7 +67,7 @@ const Application = () => {
               <PinCode />
             </Modal>
 
-            {isThemeReady && isRenderRequire && (
+            {isRenderRequire && (
               <ApplicationScreen
                 isConnected={isConnected}
                 locale={locale}
@@ -87,7 +78,6 @@ const Application = () => {
                 foregroundNotificationData={foregroundNotificationData}
               />
             )}
-            {!_isAppReady && <LaunchScreen />}
           </ErrorBoundary>
         );
       }}
