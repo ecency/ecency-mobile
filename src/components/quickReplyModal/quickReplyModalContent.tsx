@@ -48,10 +48,11 @@ export const QuickReplyModalContent = ({
 
   const headerText =
     selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS as any));
-  const parentAuthor = selectedPost ? selectedPost.author : '';
-  const parentPermlink = selectedPost ? selectedPost.permlink : '';
-  const draftId = `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; //different draftId for each user acount
-
+  let parentAuthor = selectedPost ? selectedPost.author : '';
+  let parentPermlink = selectedPost ? selectedPost.permlink : '';
+  let draftId = `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; //different draftId for each user acount
+  
+  
   useEffect(() => {
     handleCloseRef.current = handleSheetClose;
   }, [commentValue]);
@@ -74,7 +75,7 @@ export const QuickReplyModalContent = ({
 
   // add quick comment value into cache
   const _addQuickCommentIntoCache = (value = commentValue) => {
-
+    
     const quickCommentDraftData: Draft = {
       author: currentAccount.name,
       body: value

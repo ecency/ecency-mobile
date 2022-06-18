@@ -37,15 +37,20 @@ const QuickReplyModal = ({ fetchPost }: QuickReplyModalProps, ref) => {
         containerStyle={styles.sheetContent}
         keyboardHandlerEnabled
         indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
-        onClose={() => handleCloseRef.current()}
+        onClose={() => {
+          setSelectedPost(null); //set null on sheet close, causing inconsistant cache bug
+          handleCloseRef.current();
+        }}
       >
-        <QuickReplyModalContent
-          fetchPost={fetchPost}
-          selectedPost={selectedPost}
-          inputRef={inputRef}
-          sheetModalRef={sheetModalRef}
-          handleCloseRef={handleCloseRef}
-        />
+        {selectedPost && (
+          <QuickReplyModalContent
+            fetchPost={fetchPost}
+            selectedPost={selectedPost}
+            inputRef={inputRef}
+            sheetModalRef={sheetModalRef}
+            handleCloseRef={handleCloseRef}
+          />
+        )}
       </ActionSheet>
     </Portal>
   );
