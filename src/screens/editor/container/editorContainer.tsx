@@ -144,7 +144,7 @@ class EditorContainer extends Component<any, any> {
         });
         if (draftId) {
           this._getStorageDraft(username, isReply, { _id: draftId });
-        }
+        }        
       }
 
       if (navigationParams.isEdit) {
