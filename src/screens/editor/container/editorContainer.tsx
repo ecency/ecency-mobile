@@ -199,6 +199,12 @@ class EditorContainer extends Component<any, any> {
     this._isMounted = false;
   }
 
+  componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {
+    if(prevState.rewardType !== this.state.rewardType){
+      // update isDraftSaved when reward type or beneficiaries are changed in post options
+      this._handleFormChanged();
+    }
+  }
   _getStorageDraft = async (username, isReply, paramDraft) => {
     const { drafts } = this.props;
 
