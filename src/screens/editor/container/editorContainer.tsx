@@ -535,7 +535,7 @@ class EditorContainer extends Component<any, any> {
   };
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
-    const { isDraftSaved, draftId, thumbIndex, isReply } = this.state;
+    const { isDraftSaved, draftId, thumbIndex, isReply, rewardType } = this.state;
     const { currentAccount, dispatch, intl } = this.props;
 
     if (isReply) {
@@ -564,6 +564,8 @@ class EditorContainer extends Component<any, any> {
         
         const meta = Object.assign({}, extractMetadata(draftField.body, thumbIndex), {
           tags: draftField.tags,
+          beneficiaries,
+          rewardType
         });
         const jsonMeta = makeJsonMetadata(meta, draftField.tags);
         
