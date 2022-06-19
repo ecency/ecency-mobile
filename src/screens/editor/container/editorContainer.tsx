@@ -561,10 +561,15 @@ class EditorContainer extends Component<any, any> {
             tags: fields.tags.join(' '),
           };
         }
-
+        
+        const meta = Object.assign({}, extractMetadata(draftField.body, thumbIndex), {
+          tags: draftField.tags,
+        });
+        const jsonMeta = makeJsonMetadata(meta, draftField.tags);
+        
         //update draft is draftId is present
         if (draftId && draftField && !saveAsNew) {
-          await updateDraft(draftId, draftField.title, draftField.body, draftField.tags, thumbIndex);
+          await updateDraft(draftId, draftField.title, draftField.body, draftField.tags, jsonMeta);
 
           if (this._isMounted) {
             this.setState({
@@ -576,7 +581,7 @@ class EditorContainer extends Component<any, any> {
 
         //create new darft otherwise
         else if (draftField) {
-          const response = await addDraft(draftField.title, draftField.body, draftField.tags, thumbIndex);
+          const response = await addDraft(draftField.title, draftField.body, draftField.tags, jsonMeta);
 
           if (this._isMounted) {
             this.setState({
