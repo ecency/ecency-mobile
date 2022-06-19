@@ -111,7 +111,12 @@ class EditorContainer extends Component<any, any> {
             thumbIndex: draftThumbIndex,
           })
         }
-
+        // load beneficiaries and rewards data from meta data of draft
+        if(_draft.meta && _draft.meta.rewardType){
+          this.setState({
+            rewardType: _draft.meta.rewardType
+          })
+        }
         this.setState({
           draftId: _draft._id,
           isDraft: true,
@@ -1224,9 +1229,11 @@ class EditorContainer extends Component<any, any> {
       onLoadDraftPress,
       thumbIndex,
       uploadProgress,
+      rewardType
     } = this.state;
 
     const tags = navigation.state.params && navigation.state.params.tags;
+console.log('this.state.rewardType', this.state.rewardType);
 
     return (
       <EditorScreen
@@ -1263,6 +1270,7 @@ class EditorContainer extends Component<any, any> {
         thumbIndex={thumbIndex}
         setThumbIndex={this._handleSetThumbIndex}
         uploadProgress={uploadProgress}
+        rewardType={rewardType}
       />
     );
   }

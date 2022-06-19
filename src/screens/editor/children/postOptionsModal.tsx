@@ -38,6 +38,7 @@ interface PostOptionsModalProps {
   thumbIndex:number,
   isEdit:boolean;
   isCommunityPost:boolean;
+  rewardType: string;
   handleRewardChange:(rewardType:string)=>void;
   handleThumbSelection:(index:number)=>void;
   handleScheduleChange:(datetime:string|null)=>void;
@@ -50,6 +51,7 @@ const PostOptionsModal =  forwardRef(({
   thumbIndex,
   isEdit,
   isCommunityPost,
+  rewardType,
   handleRewardChange,
   handleThumbSelection,
   handleScheduleChange,
@@ -65,7 +67,6 @@ const PostOptionsModal =  forwardRef(({
     const [disableDone, setDisableDone] = useState(false);
 
     // removed the useeffect causing index reset bug
-
 
     useEffect(()=>{
       if(!scheduleLater){
@@ -84,7 +85,14 @@ const PostOptionsModal =  forwardRef(({
         setShouldReblog(false);
       }
     }, [isCommunityPost])
-  
+
+    // load rewardtype from props if it is already saved in drafts
+    useEffect(() => {
+      if(rewardType){
+        let rewardTypeKey = REWARD_TYPES.findIndex((item) => item.key === rewardType)
+        setRewardTypeIndex(rewardTypeKey);
+      }
+    },[rewardType])
 
     useImperativeHandle(ref, () => ({
         show: () => {

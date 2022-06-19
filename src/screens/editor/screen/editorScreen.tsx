@@ -373,6 +373,7 @@ class EditorScreen extends Component {
       onLoadDraftPress,
       thumbIndex,
       uploadProgress,
+      rewardType
     } = this.props;
 
     const rightButtonText = intl.formatMessage({
@@ -475,6 +476,7 @@ class EditorScreen extends Component {
           thumbIndex={thumbIndex}
           isEdit={isEdit}
           isCommunityPost={selectedCommunity !== null}
+          rewardType={rewardType}
           handleThumbSelection={this._handleOnThumbSelection}
           handleRewardChange={handleRewardChange}
           handleScheduleChange={this._handleScheduleChange}
