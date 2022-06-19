@@ -86,7 +86,7 @@ class EditorContainer extends Component<any, any> {
   // Component Life Cycle Functions
   componentDidMount() {
     this._isMounted = true;
-    const { currentAccount, navigation } = this.props;
+    const { currentAccount, navigation, dispatch } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
     let isReply;
     let draftId;
@@ -111,11 +111,14 @@ class EditorContainer extends Component<any, any> {
             thumbIndex: draftThumbIndex,
           })
         }
-        // load beneficiaries and rewards data from meta data of draft
+        // load beneficiaries and rewards data from meta field of draft
         if(_draft.meta && _draft.meta.rewardType){
           this.setState({
             rewardType: _draft.meta.rewardType
           })
+        }
+        if(_draft._id && _draft.meta && _draft.meta.beneficiaries){
+          dispatch(setBeneficiaries(_draft._id || TEMP_BENEFICIARIES_ID, _draft.meta.beneficiaries));
         }
         this.setState({
           draftId: _draft._id,
@@ -1233,8 +1236,6 @@ class EditorContainer extends Component<any, any> {
     } = this.state;
 
     const tags = navigation.state.params && navigation.state.params.tags;
-console.log('this.state.rewardType', this.state.rewardType);
-
     return (
       <EditorScreen
         autoFocusText={autoFocusText}
