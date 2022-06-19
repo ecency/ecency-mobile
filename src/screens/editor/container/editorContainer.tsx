@@ -205,7 +205,7 @@ class EditorContainer extends Component<any, any> {
   }
 
   componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {
-    if(prevState.rewardType !== this.state.rewardType){
+    if(prevState.rewardType !== this.state.rewardType || prevProps.beneficiariesMap !== this.props.beneficiariesMap){
       // update isDraftSaved when reward type or beneficiaries are changed in post options
       this._handleFormChanged();
     }
