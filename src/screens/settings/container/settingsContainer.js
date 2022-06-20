@@ -269,6 +269,7 @@ class SettingsContainer extends Component {
         type: actionType,
       }),
     );
+    //TODO: remove setting notification settings
     setNotificationSettings({
       action,
       type: actionType,

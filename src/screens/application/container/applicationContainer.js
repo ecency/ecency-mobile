@@ -235,7 +235,7 @@ class ApplicationContainer extends Component {
 
     if (!isIos) BackHandler.removeEventListener('hardwareBackPress', this._onBackPress);
 
-    // NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
+    //TOOD: listen for back press and cancel all pending api requests;
 
     Linking.removeEventListener('url', this._handleOpenURL);
 

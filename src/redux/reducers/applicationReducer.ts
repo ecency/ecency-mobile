@@ -38,7 +38,7 @@ const initialState = {
   isActive: false,
   isConnected: null, // internet connectivity
   isDarkTheme: false,
-  isDefaultFooter: true,
+  isDefaultFooter: true, //TODO: remove present of isDefaultFooter as it's no longer in use
   isLoggedIn: false, // Has any logged in user.
   isAnalytics: false,
   isLoginDone: false,
