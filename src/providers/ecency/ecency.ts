@@ -457,7 +457,7 @@ export const setPushToken = async (data) => {
       return;
     }
 
-    const res = await api.post('/rgstrmbldvc/', data);
+    const res = await await ecencyApi.post((`/private-api/register-device`), data);
     return res.data;
 
   } catch (error) {
