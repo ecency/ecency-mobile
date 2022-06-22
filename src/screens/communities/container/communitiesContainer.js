@@ -98,7 +98,8 @@ const CommunitiesContainer = ({ children, navigation }) => {
           );
 
           setSubscriptions(subs);
-          setDiscovers(shuffle(communities));
+          let sortedCommunitiesList = communities.sort((a, b) => a.title.localeCompare(b.title)); //sort the communities list by title
+          setDiscovers(sortedCommunitiesList);
           setIsSubscriptionsLoading(false);
         });
       })
