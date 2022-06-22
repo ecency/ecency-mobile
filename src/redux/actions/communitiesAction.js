@@ -72,7 +72,12 @@ export const subscribeCommunity = (
   return (dispatch) => {
     dispatch({ type: SUBSCRIBE_COMMUNITY, payload: { ...data, screen } });
     subscribeCommunityReq(currentAccount, pin, data)
-      .then((res) => dispatch(subscribeCommunitySuccess(data, successToastText, screen)))
+      .then((res) => {
+        dispatch(subscribeCommunitySuccess(data, successToastText, screen));
+        setTimeout(() => {
+          dispatch(fetchSubscribedCommunities(currentAccount.username));
+        }, 7000); //added 7 sec delay for refetching, subscribe/unsubscribe event takes 5-7sec time delay for completion
+      })
       .catch((err) => dispatch(subscribeCommunityFail(err, data, failToastText, screen)));
   };
 };
@@ -115,7 +120,12 @@ export const leaveCommunity = (
   return (dispatch) => {
     dispatch({ type: LEAVE_COMMUNITY, payload: { ...data, screen } });
     subscribeCommunityReq(currentAccount, pin, data)
-      .then((res) => dispatch(leaveCommunitySuccess(data, successToastText, screen)))
+      .then((res) => {
+        dispatch(leaveCommunitySuccess(data, successToastText, screen));
+        setTimeout(() => {
+          dispatch(fetchSubscribedCommunities(currentAccount.username));
+        }, 7000); //added 7 sec delay for refetching, subscribe/unsubscribe event takes 5-7sec time delay for completion
+      })
       .catch((err) => dispatch(leaveCommunityFail(err, data, failToastText, screen)));
   };
 };

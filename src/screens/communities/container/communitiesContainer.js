@@ -8,7 +8,11 @@ import ROUTES from '../../../constants/routeNames';
 
 import { getCommunities, getSubscriptions } from '../../../providers/hive/dhive';
 
-import { subscribeCommunity, leaveCommunity } from '../../../redux/actions/communitiesAction';
+import {
+  subscribeCommunity,
+  leaveCommunity,
+  fetchSubscribedCommunities,
+} from '../../../redux/actions/communitiesAction';
 
 const CommunitiesContainer = ({ children, navigation }) => {
   const dispatch = useDispatch();
@@ -26,10 +30,13 @@ const CommunitiesContainer = ({ children, navigation }) => {
   const subscribingCommunitiesInJoinedTab = useSelector(
     (state) => state.communities.subscribingCommunitiesInCommunitiesScreenJoinedTab,
   );
+  const subscribedCommunities = useSelector(
+    (state) => state.communities.subscribedCommunities.data,
+  );
 
   useEffect(() => {
     _getSubscriptions();
-  }, []);
+  }, [subscribedCommunities]);
 
   useEffect(() => {
     const discoversData = [...discovers];
@@ -84,31 +91,30 @@ const CommunitiesContainer = ({ children, navigation }) => {
   }, [subscribingCommunitiesInJoinedTab]);
 
   const _getSubscriptions = () => {
-    setIsSubscriptionsLoading(true);
-    getSubscriptions(currentAccount.username)
-      .then((subs) => {
-        subs.forEach((item) => item.push(true));
-        getCommunities('', 50, null, 'rank').then((communities) => {
-          communities.forEach((community) =>
-            Object.assign(community, {
-              isSubscribed: subs.some(
-                (subscribedCommunity) => subscribedCommunity[0] === community.name,
-              ),
-            }),
-          );
+    if (subscribedCommunities && subscribedCommunities.length > 0) {
+      setIsSubscriptionsLoading(true);
+      let subs = subscribedCommunities.slice();
+      subs.forEach((item) => item.push(true));
+      getCommunities('', 50, null, 'rank').then((communities) => {
+        communities.forEach((community) =>
+          Object.assign(community, {
+            isSubscribed: subs.some(
+              (subscribedCommunity) => subscribedCommunity[0] === community.name,
+            ),
+          }),
+        );
 
-          setSubscriptions(subs);
-          let sortedCommunitiesList = communities.sort((a, b) => a.title.localeCompare(b.title)); //sort the communities list by title
-          setDiscovers(sortedCommunitiesList);
-          setIsSubscriptionsLoading(false);
-        });
-      })
-      .catch((err) => {
-        console.warn('Failed to get subscriptions', err);
+        setSubscriptions(subs);
+        let sortedCommunitiesList = communities.sort((a, b) => a.title.localeCompare(b.title)); //sort the communities list by title
+        setDiscovers(sortedCommunitiesList);
         setIsSubscriptionsLoading(false);
       });
+    }
   };
 
+  const _refreshSubscriptions = () => {
+    dispatch(fetchSubscribedCommunities(currentAccount.username));
+  };
   // Component Functions
   const _handleOnPress = (name) => {
     navigation.navigate({
@@ -159,7 +165,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
       isSubscriptionsLoading,
       handleOnPress: _handleOnPress,
       handleSubscribeButtonPress: _handleSubscribeButtonPress,
-      handleGetSubscriptions: _getSubscriptions,
+      handleGetSubscriptions: _refreshSubscriptions,
     })
   );
 };
