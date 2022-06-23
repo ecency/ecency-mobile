@@ -76,15 +76,24 @@ const SubscribedCommunitiesListView = ({
             }
             isPin={!item[4]}
             isFilter
-            onPress={() =>
+            onPress={() => {
+              // update subscribe stutus
+              const updatedItem = item.map((value, index) => {
+                if (index === 4) {
+                  return !value;
+                } else {
+                  return value;
+                }
+              });
               handleSubscribeButtonPress(
                 {
                   isSubscribed: item[4],
                   communityId: item[0],
                 },
                 'communitiesScreenJoinedTab',
-              )
-            }
+                updatedItem,
+              );
+            }}
           />
         )}
       </View>

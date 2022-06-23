@@ -11,6 +11,7 @@ import {
   LEAVE_COMMUNITY,
   LEAVE_COMMUNITY_SUCCESS,
   LEAVE_COMMUNITY_FAIL,
+  UPDATE_SUBSCRIBED_COMMUNITIES,
 } from '../constants/constants';
 
 const initialState = {
@@ -108,6 +109,24 @@ export default function (state = initialState, action) {
           data: [],
           loading: false,
           error: action.payload,
+        },
+      };
+    case UPDATE_SUBSCRIBED_COMMUNITIES:
+      let itemIndex = state.subscribedCommunities.data.findIndex(
+        (obj) => obj[0] === action.payload[0],
+      );
+      let subs = state.subscribedCommunities.data;
+      if (itemIndex !== -1) {
+        subs[itemIndex] = action.payload;
+      } else {
+        subs.push(action.payload);
+      }
+      return {
+        ...state,
+        subscribedCommunities: {
+          data: subs.slice(),
+          loading: false,
+          error: false,
         },
       };
     case SUBSCRIBE_COMMUNITY:

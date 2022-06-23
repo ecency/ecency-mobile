@@ -87,6 +87,7 @@ const CommunitiesScreen = () => {
                   isLoggedIn={true}
                   noResult={discovers.length === 0}
                   screen="communitiesScreenDiscoverTab"
+                  isLoading={isSubscriptionsLoading}
                 />
               </View>
             </ScrollableTabView>

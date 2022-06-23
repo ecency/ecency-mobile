@@ -16,6 +16,7 @@ const CommunitiesList = ({
   isLoggedIn,
   noResult,
   screen,
+  isLoading,
 }) => {
   const _renderItem = ({ item, index }) => {
     return (

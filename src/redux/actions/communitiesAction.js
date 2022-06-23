@@ -12,6 +12,7 @@ import {
   LEAVE_COMMUNITY_SUCCESS,
   LEAVE_COMMUNITY_FAIL,
   TOAST_NOTIFICATION,
+  UPDATE_SUBSCRIBED_COMMUNITIES,
 } from '../constants/constants';
 
 import {
@@ -45,7 +46,12 @@ export const fetchSubscribedCommunities = (username) => {
   return (dispatch) => {
     dispatch({ type: FETCH_SUBSCRIBED_COMMUNITIES });
     getSubscriptions(username)
-      .then((res) => dispatch(fetchSubscribedCommunitiesSuccess(res)))
+      .then((res) => {
+        res.forEach((item) => {
+          item.push(true);
+        });
+        dispatch(fetchSubscribedCommunitiesSuccess(res));
+      })
       .catch((err) => dispatch(fetchSubscribedCommunitiesFail(err)));
   };
 };
@@ -68,15 +74,20 @@ export const subscribeCommunity = (
   successToastText,
   failToastText,
   screen,
+  item = null,
 ) => {
   return (dispatch) => {
     dispatch({ type: SUBSCRIBE_COMMUNITY, payload: { ...data, screen } });
     subscribeCommunityReq(currentAccount, pin, data)
       .then((res) => {
-        dispatch(subscribeCommunitySuccess(data, successToastText, screen));
-        setTimeout(() => {
-          dispatch(fetchSubscribedCommunities(currentAccount.username));
-        }, 7000); //added 7 sec delay for refetching, subscribe/unsubscribe event takes 5-7sec time delay for completion
+        dispatch(subscribeCommunitySuccess(data, successToastText, screen, item));
+
+        if (item) {
+          dispatch(updateSubscribedCommunities(item));
+        }
+        // setTimeout(() => {
+        //   dispatch(fetchSubscribedCommunities(currentAccount.username));
+        // }, 7000); //added 7 sec delay for refetching, subscribe/unsubscribe event takes 5-7sec time delay for completion
       })
       .catch((err) => dispatch(subscribeCommunityFail(err, data, failToastText, screen)));
   };
@@ -116,15 +127,19 @@ export const leaveCommunity = (
   successToastText,
   failToastText,
   screen,
+  item = null,
 ) => {
   return (dispatch) => {
     dispatch({ type: LEAVE_COMMUNITY, payload: { ...data, screen } });
     subscribeCommunityReq(currentAccount, pin, data)
       .then((res) => {
-        dispatch(leaveCommunitySuccess(data, successToastText, screen));
-        setTimeout(() => {
-          dispatch(fetchSubscribedCommunities(currentAccount.username));
-        }, 7000); //added 7 sec delay for refetching, subscribe/unsubscribe event takes 5-7sec time delay for completion
+        dispatch(leaveCommunitySuccess(data, successToastText, screen, item));
+        if (item) {
+          dispatch(updateSubscribedCommunities(item));
+        }
+        // setTimeout(() => {
+        //   dispatch(fetchSubscribedCommunities(currentAccount.username));
+        // }, 7000); //added 7 sec delay for refetching, subscribe/unsubscribe event takes 5-7sec time delay for completion
       })
       .catch((err) => dispatch(leaveCommunityFail(err, data, failToastText, screen)));
   };
@@ -154,4 +169,12 @@ export const leaveCommunityFail = (error, data, failToastText, screen) => {
       type: TOAST_NOTIFICATION,
     }),
   ];
+};
+
+export const updateSubscribedCommunities = (item) => {
+  return (dispatch) =>
+    dispatch({
+      payload: item,
+      type: UPDATE_SUBSCRIBED_COMMUNITIES,
+    });
 };

@@ -38,71 +38,70 @@ const CommunitiesContainer = ({ children, navigation }) => {
     _getSubscriptions();
   }, [subscribedCommunities]);
 
-  useEffect(() => {
-    const discoversData = [...discovers];
+  //  Commented this code as it not serving any purpose now because we are handling data in redux
+  // useEffect(() => {
+  //   const discoversData = [...discovers];
 
-    Object.keys(subscribingCommunitiesInDiscoverTab).map((communityId) => {
-      if (!subscribingCommunitiesInDiscoverTab[communityId].loading) {
-        if (!subscribingCommunitiesInDiscoverTab[communityId].error) {
-          if (subscribingCommunitiesInDiscoverTab[communityId].isSubscribed) {
-            discoversData.forEach((item) => {
-              if (item.name === communityId) {
-                item.isSubscribed = true;
-              }
-            });
-          } else {
-            discoversData.forEach((item) => {
-              if (item.name === communityId) {
-                item.isSubscribed = false;
-              }
-            });
-          }
-        }
-      }
-    });
+  //   Object.keys(subscribingCommunitiesInDiscoverTab).map((communityId) => {
+  //     if (!subscribingCommunitiesInDiscoverTab[communityId].loading) {
+  //       if (!subscribingCommunitiesInDiscoverTab[communityId].error) {
+  //         if (subscribingCommunitiesInDiscoverTab[communityId].isSubscribed) {
+  //           discoversData.forEach((item) => {
+  //             if (item.name === communityId) {
+  //               item.isSubscribed = true;
+  //             }
+  //           });
+  //         } else {
+  //           discoversData.forEach((item) => {
+  //             if (item.name === communityId) {
+  //               item.isSubscribed = false;
+  //             }
+  //           });
+  //         }
+  //       }
+  //     }
+  //   });
 
-    setDiscovers(discoversData);
-  }, [subscribingCommunitiesInDiscoverTab]);
+  //   setDiscovers(discoversData);
+  // }, [subscribingCommunitiesInDiscoverTab]);
 
-  useEffect(() => {
-    const subscribedsData = [...subscriptions];
+  // useEffect(() => {
+  //   const subscribedsData = [...subscriptions];
 
-    Object.keys(subscribingCommunitiesInJoinedTab).map((communityId) => {
-      if (!subscribingCommunitiesInJoinedTab[communityId].loading) {
-        if (!subscribingCommunitiesInJoinedTab[communityId].error) {
-          if (subscribingCommunitiesInJoinedTab[communityId].isSubscribed) {
-            subscribedsData.forEach((item) => {
-              if (item[0] === communityId) {
-                item[4] = true;
-              }
-            });
-          } else {
-            subscribedsData.forEach((item) => {
-              if (item[0] === communityId) {
-                item[4] = false;
-              }
-            });
-          }
-        }
-      }
-    });
+  //   Object.keys(subscribingCommunitiesInJoinedTab).map((communityId) => {
+  //     if (!subscribingCommunitiesInJoinedTab[communityId].loading) {
+  //       if (!subscribingCommunitiesInJoinedTab[communityId].error) {
+  //         if (subscribingCommunitiesInJoinedTab[communityId].isSubscribed) {
+  //           subscribedsData.forEach((item) => {
+  //             if (item[0] === communityId) {
+  //               item[4] = true;
+  //             }
+  //           });
+  //         } else {
+  //           subscribedsData.forEach((item) => {
+  //             if (item[0] === communityId) {
+  //               item[4] = false;
+  //             }
+  //           });
+  //         }
+  //       }
+  //     }
+  //   });
 
-    setSubscriptions(subscribedsData);
-  }, [subscribingCommunitiesInJoinedTab]);
+  //   setSubscriptions(subscribedsData);
+  // }, [subscribingCommunitiesInJoinedTab]);
 
   const _getSubscriptions = () => {
     if (subscribedCommunities && subscribedCommunities.length > 0) {
       setIsSubscriptionsLoading(true);
       let subs = subscribedCommunities.slice();
-      subs.forEach((item) => item.push(true));
       getCommunities('', 50, null, 'rank').then((communities) => {
-        communities.forEach((community) =>
+        communities.forEach((community) => {
+          let subItem = subs.find((item) => item[0] === community.name);
           Object.assign(community, {
-            isSubscribed: subs.some(
-              (subscribedCommunity) => subscribedCommunity[0] === community.name,
-            ),
-          }),
-        );
+            isSubscribed: subItem ? subItem[4] : false,
+          });
+        });
 
         setSubscriptions(subs);
         let sortedCommunitiesList = communities.sort((a, b) => a.title.localeCompare(b.title)); //sort the communities list by title
@@ -125,7 +124,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
     });
   };
 
-  const _handleSubscribeButtonPress = (data, screen) => {
+  const _handleSubscribeButtonPress = (data, screen, item) => {
     let subscribeAction;
     let successToastText = '';
     let failToastText = '';
@@ -151,7 +150,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
     }
 
     dispatch(
-      subscribeAction(currentAccount, pinCode, data, successToastText, failToastText, screen),
+      subscribeAction(currentAccount, pinCode, data, successToastText, failToastText, screen, item),
     );
   };
 

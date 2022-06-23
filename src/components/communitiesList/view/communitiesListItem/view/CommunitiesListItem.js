@@ -28,7 +28,8 @@ const CommunitiesListItem = ({
   const intl = useIntl();
 
   const _handleSubscribeButtonPress = () => {
-    handleSubscribeButtonPress({ isSubscribed: isSubscribed, communityId: name }, screen);
+    const item = [name, title, 'guest', '', !isSubscribed]; //create community item according to redux structure/api structure
+    handleSubscribeButtonPress({ isSubscribed: isSubscribed, communityId: name }, screen, item);
   };
 
   return (
