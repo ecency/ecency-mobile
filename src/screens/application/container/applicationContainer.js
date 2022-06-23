@@ -838,8 +838,8 @@ class ApplicationContainer extends Component {
           //decrypt access token
           let accessToken = null;
           if (encAccessToken) {
-            //default pin decryption works also for custom pin as other account
-            //NOTE: keys are not yet being affected by changed pin
+            //NOTE: default pin decryption works also for custom pin as other account
+            //keys are not yet being affected by changed pin, which I think we should dig more
             accessToken = decryptKey(encAccessToken, Config.DEFAULT_PIN);
           }
 
