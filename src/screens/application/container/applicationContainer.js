@@ -99,7 +99,7 @@ import {
 import { setFeedPosts, setInitPosts } from '../../../redux/actions/postsAction';
 import { fetchCoinQuotes } from '../../../redux/actions/walletActions';
 
-import { encryptKey } from '../../../utils/crypto';
+import { decryptKey, encryptKey } from '../../../utils/crypto';
 
 import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
@@ -833,7 +833,13 @@ class ApplicationContainer extends Component {
 
         //updateing fcm token with settings;
         otherAccounts.forEach((account) => {
-          this._enableNotification(account.name, settings.notification, settings);
+          //since there can be more than one accounts, process access tokens separate
+          this._enableNotification(
+            account.name,
+            settings.notification,
+            settings,
+            account.local.accessToken,
+          );
         });
       }
       if (settings.nsfw !== '') dispatch(setNsfw(settings.nsfw));
@@ -902,7 +908,7 @@ class ApplicationContainer extends Component {
       });
   };
 
-  _enableNotification = async (username, isEnable, settings) => {
+  _enableNotification = async (username, isEnable, settings, encAccessToken = null) => {
     //compile notify_types
     let notify_types = [];
     if (settings) {
@@ -924,16 +930,25 @@ class ApplicationContainer extends Component {
       notify_types = [1, 2, 3, 4, 5, 6];
     }
 
+    //decrypt access token
+    let accessToken = null;
+    if (encAccessToken) {
+      accessToken = decryptKey(encAccessToken, Config.DEFAULT_PIN);
+    }
+
     messaging()
       .getToken()
       .then((token) => {
-        setPushToken({
-          username,
-          token: isEnable ? token : '',
-          system: `fcm-${Platform.OS}`,
-          allows_notify: Number(isEnable),
-          notify_types,
-        });
+        setPushToken(
+          {
+            username,
+            token: isEnable ? token : '',
+            system: `fcm-${Platform.OS}`,
+            allows_notify: Number(isEnable),
+            notify_types,
+          },
+          accessToken,
+        );
       });
   };
 
