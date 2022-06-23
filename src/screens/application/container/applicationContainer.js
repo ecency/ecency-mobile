@@ -834,12 +834,16 @@ class ApplicationContainer extends Component {
         //updateing fcm token with settings;
         otherAccounts.forEach((account) => {
           //since there can be more than one accounts, process access tokens separate
-          this._enableNotification(
-            account.name,
-            settings.notification,
-            settings,
-            account.local.accessToken,
-          );
+          const encAccessToken = account.local.accessToken;
+          //decrypt access token
+          let accessToken = null;
+          if (encAccessToken) {
+            //default pin decryption works also for custom pin as other account
+            //NOTE: keys are not yet being affected by changed pin
+            accessToken = decryptKey(encAccessToken, Config.DEFAULT_PIN);
+          }
+
+          this._enableNotification(account.name, settings.notification, settings, accessToken);
         });
       }
       if (settings.nsfw !== '') dispatch(setNsfw(settings.nsfw));
@@ -908,7 +912,7 @@ class ApplicationContainer extends Component {
       });
   };
 
-  _enableNotification = async (username, isEnable, settings, encAccessToken = null) => {
+  _enableNotification = async (username, isEnable, settings, accessToken = null) => {
     //compile notify_types
     let notify_types = [];
     if (settings) {
@@ -928,12 +932,6 @@ class ApplicationContainer extends Component {
       });
     } else {
       notify_types = [1, 2, 3, 4, 5, 6];
-    }
-
-    //decrypt access token
-    let accessToken = null;
-    if (encAccessToken) {
-      accessToken = decryptKey(encAccessToken, Config.DEFAULT_PIN);
     }
 
     messaging()
