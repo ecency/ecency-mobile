@@ -379,6 +379,7 @@
     "url": "URL",
     "enter_url_placeholder": "Introduzir URL",
     "link_type_text": "Tipo de Link",
+    "insert_link": "Insert Link",
     "preview": "Visualizar",
     "invalid_url_error": "Por favor, insira um URL válido",
     "plain": "Simples",
