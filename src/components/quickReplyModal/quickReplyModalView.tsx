@@ -1,10 +1,7 @@
 import React, { useImperativeHandle, useRef, useState } from 'react';
-import { View as AnimatedView } from 'react-native-animatable'
 import { forwardRef } from 'react';
-import { Portal } from 'react-native-portalize';
 import { QuickReplyModalContent } from './quickReplyModalContent';
-import styles from './quickReplyModalStyles';
-import { KeyboardAvoidingView, Platform, View } from 'react-native';
+import { InputSupportModal } from '../organisms';
 
 export interface QuickReplyModalProps {
   fetchPost?: any;
@@ -30,44 +27,21 @@ const QuickReplyModal = ({ fetchPost }: QuickReplyModalProps, ref) => {
     setVisible(false);
   }
 
-  const _renderContent = () => (
-    <QuickReplyModalContent
-      fetchPost={fetchPost}
-      selectedPost={selectedPost}
-      inputRef={inputRef}
-      onClose={_onClose}
-      handleCloseRef={handleCloseRef}
-    />
-  )
 
   return (
-    <Portal>
-      {
-        visible && (
-          <AnimatedView
-            style={styles.container}
-            duration={300}
-            animation='fadeInUp'>
-            {selectedPost && (
-              <>
-                <View style={styles.container} onTouchEnd={_onClose} />
-                {
-                  Platform.select({
-                    ios: (
-                      <KeyboardAvoidingView style={styles.container} behavior="padding">
-                        {_renderContent()}
-                      </KeyboardAvoidingView>
-                    ),
-                    android: <View style={styles.container}>{_renderContent()}</View>,
-                  })
-                }
+    <InputSupportModal
+      visible={visible && !!selectedPost}
+      onClose={_onClose}
+    >
+      <QuickReplyModalContent
+        fetchPost={fetchPost}
+        selectedPost={selectedPost}
+        inputRef={inputRef}
+        onClose={_onClose}
+        handleCloseRef={handleCloseRef}
+      />
+    </InputSupportModal>
 
-              </>
-            )}
-          </AnimatedView>
-        )
-      }
-    </Portal>
   );
 };
 
