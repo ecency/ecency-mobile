@@ -379,6 +379,7 @@
     "url": "Ссылка",
     "enter_url_placeholder": "Введите Ссылку",
     "link_type_text": "Тип ссылки",
+    "insert_link": "Insert Link",
     "preview": "Предпросмотр",
     "invalid_url_error": "Пожалуйста, введите действительную ссылку",
     "plain": "Обычный",
