@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './quickReplyModalStyles';
-import { View, Text, Alert, TouchableOpacity, Keyboard, Platform } from 'react-native';
+import { View, Text, Alert, TouchableOpacity, Keyboard, Platform, KeyboardAvoidingView } from 'react-native';
 import { useIntl } from 'react-intl';
 import { IconButton, MainButton, TextButton, TextInput, UserAvatar } from '..';
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,27 +14,26 @@ import {
   updateDraftCache,
 } from '../../redux/actions/cacheActions';
 import { default as ROUTES } from '../../constants/routeNames';
-import {get, debounce} from 'lodash';
+import { get, debounce } from 'lodash';
 import { navigate } from '../../navigation/service';
 import { postBodySummary } from '@ecency/render-helper';
 import { Draft } from '../../redux/reducers/cacheReducer';
 import { RootState } from '../../redux/store/store';
-import comment from '../../constants/options/comment';
 
 export interface QuickReplyModalContentProps {
   fetchPost?: any;
   selectedPost?: any;
   inputRef?: any;
-  sheetModalRef?: any;
   handleCloseRef?: any;
+  onClose:()=>void;
 }
 
 export const QuickReplyModalContent = ({
   fetchPost,
   selectedPost,
   inputRef,
-  sheetModalRef,
   handleCloseRef,
+  onClose,
 }: QuickReplyModalContentProps) => {
   const intl = useIntl();
   const dispatch = useDispatch();
@@ -51,8 +50,8 @@ export const QuickReplyModalContent = ({
   let parentAuthor = selectedPost ? selectedPost.author : '';
   let parentPermlink = selectedPost ? selectedPost.permlink : '';
   let draftId = `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; //different draftId for each user acount
-  
-  
+
+
   useEffect(() => {
     handleCloseRef.current = handleSheetClose;
   }, [commentValue]);
@@ -75,7 +74,7 @@ export const QuickReplyModalContent = ({
 
   // add quick comment value into cache
   const _addQuickCommentIntoCache = (value = commentValue) => {
-    
+
     const quickCommentDraftData: Draft = {
       author: currentAccount.name,
       body: value
@@ -88,14 +87,14 @@ export const QuickReplyModalContent = ({
 
   // handle close press
   const _handleClosePress = () => {
-    sheetModalRef.current?.setModalVisible(false);
+    onClose()
   };
 
 
   // navigate to post on summary press
   const _handleOnSummaryPress = () => {
     Keyboard.dismiss();
-    sheetModalRef.current?.setModalVisible(false);
+    onClose();
     navigate({
       routeName: ROUTES.SCREENS.POST,
       params: {
@@ -146,7 +145,7 @@ export const QuickReplyModalContent = ({
         .then(() => {
           stateTimer = setTimeout(() => {
             setIsSending(false);
-            sheetModalRef.current?.setModalVisible(false);
+            onClose();
             setCommentValue('');
             dispatch(
               toastNotification(
@@ -200,7 +199,7 @@ export const QuickReplyModalContent = ({
   const _handleExpandBtn = async () => {
     if (selectedPost) {
       Keyboard.dismiss();
-      sheetModalRef.current?.setModalVisible(false);
+      onClose();
       await delay(50);
       navigate({
         routeName: ROUTES.SCREENS.EDITOR,
@@ -215,7 +214,7 @@ export const QuickReplyModalContent = ({
   };
 
 
-  const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500),[])
+  const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), [])
 
   const _onChangeText = (value) => {
     setCommentValue(value);
@@ -226,18 +225,6 @@ export const QuickReplyModalContent = ({
 
   //VIEW_RENDERERS
 
-  const _renderSheetHeader = () => (
-    <View style={styles.modalHeader}>
-      <IconButton
-        name="close"
-        iconType="MaterialCommunityIcons"
-        size={28}
-        color={EStyleSheet.value('$primaryBlack')}
-        iconStyle={{}}
-        onPress={() => _handleClosePress()}
-      />
-    </View>
-  );
 
   const _renderSummary = () => (
     <TouchableOpacity onPress={() => _handleOnSummaryPress()}>
@@ -288,7 +275,9 @@ export const QuickReplyModalContent = ({
     </View>
   );
 
-  return (
+
+
+  const _renderContent = (
     <View style={styles.modalContainer}>
       {_renderSummary()}
       {_renderAvatar()}
@@ -297,7 +286,7 @@ export const QuickReplyModalContent = ({
           innerRef={inputRef}
           onChangeText={_onChangeText}
           value={commentValue}
-          // autoFocus
+          autoFocus
           placeholder={intl.formatMessage({
             id: 'quick_reply.placeholder',
           })}
@@ -313,5 +302,7 @@ export const QuickReplyModalContent = ({
         {_renderReplyBtn()}
       </View>
     </View>
-  );
+  )
+
+  return _renderContent
 };
