@@ -379,6 +379,7 @@
     "url": "URL",
     "enter_url_placeholder": "Kirjoita URL-osoite",
     "link_type_text": "Linkin tyyppi",
+    "insert_link": "Insert Link",
     "preview": "Esikatselu",
     "invalid_url_error": "Syötä kelvollinen URL",
     "plain": "Yksinkertainen",
