@@ -99,7 +99,7 @@ import {
 import { setFeedPosts, setInitPosts } from '../../../redux/actions/postsAction';
 import { fetchCoinQuotes } from '../../../redux/actions/walletActions';
 
-import { encryptKey } from '../../../utils/crypto';
+import { decryptKey, encryptKey } from '../../../utils/crypto';
 
 import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
@@ -833,7 +833,17 @@ class ApplicationContainer extends Component {
 
         //updateing fcm token with settings;
         otherAccounts.forEach((account) => {
-          this._enableNotification(account.name, settings.notification, settings);
+          //since there can be more than one accounts, process access tokens separate
+          const encAccessToken = account.local.accessToken;
+          //decrypt access token
+          let accessToken = null;
+          if (encAccessToken) {
+            //NOTE: default pin decryption works also for custom pin as other account
+            //keys are not yet being affected by changed pin, which I think we should dig more
+            accessToken = decryptKey(encAccessToken, Config.DEFAULT_PIN);
+          }
+
+          this._enableNotification(account.name, settings.notification, settings, accessToken);
         });
       }
       if (settings.nsfw !== '') dispatch(setNsfw(settings.nsfw));
@@ -902,7 +912,7 @@ class ApplicationContainer extends Component {
       });
   };
 
-  _enableNotification = async (username, isEnable, settings) => {
+  _enableNotification = async (username, isEnable, settings, accessToken = null) => {
     //compile notify_types
     let notify_types = [];
     if (settings) {
@@ -927,13 +937,16 @@ class ApplicationContainer extends Component {
     messaging()
       .getToken()
       .then((token) => {
-        setPushToken({
-          username,
-          token: isEnable ? token : '',
-          system: `fcm-${Platform.OS}`,
-          allows_notify: Number(isEnable),
-          notify_types,
-        });
+        setPushToken(
+          {
+            username,
+            token: isEnable ? token : '',
+            system: `fcm-${Platform.OS}`,
+            allows_notify: Number(isEnable),
+            notify_types,
+          },
+          accessToken,
+        );
       });
   };
 
