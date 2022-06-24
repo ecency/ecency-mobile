@@ -379,6 +379,7 @@
     "url": "URL",
     "enter_url_placeholder": "Enter URL",
     "link_type_text": "Type of Link",
+    "insert_link": "Insert Link",
     "preview": "Preview",
     "invalid_url_error": "Please insert valid url",
     "plain": "Plain",
