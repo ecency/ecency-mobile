@@ -1,26 +1,23 @@
-import { Platform } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { getBottomSpace, isIphoneX } from 'react-native-iphone-x-helper';
 
 export default EStyleSheet.create({
   sheetContent: {
     backgroundColor: '$primaryBackgroundColor',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    zIndex: 999,
+    marginTop:132,
   },
+
   container: {
     flex: 1,
+    justifyContent:"flex-end",
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
 
   modalContainer: {
-    paddingTop: 4,
-    paddingBottom: Platform.select({
-      ios:isIphoneX() ? getBottomSpace() - 20 : 12, 
-      android: 20
-    }) ,
+    margin:16,
+    borderRadius:16,
+    backgroundColor: '$primaryBackgroundColor',
+    paddingTop: 16,
+    paddingBottom: 16,
   },
 
   cancelButton: {

@@ -1,10 +1,10 @@
 import React, { useImperativeHandle, useRef, useState } from 'react';
-import ActionSheet from 'react-native-actions-sheet';
-import EStyleSheet from 'react-native-extended-stylesheet';
+import { View as AnimatedView } from 'react-native-animatable'
 import { forwardRef } from 'react';
 import { Portal } from 'react-native-portalize';
 import { QuickReplyModalContent } from './quickReplyModalContent';
 import styles from './quickReplyModalStyles';
+import { KeyboardAvoidingView, Platform, View } from 'react-native';
 
 export interface QuickReplyModalProps {
   fetchPost?: any;
@@ -12,46 +12,61 @@ export interface QuickReplyModalProps {
 
 const QuickReplyModal = ({ fetchPost }: QuickReplyModalProps, ref) => {
   const [selectedPost, setSelectedPost] = useState(null);
-  const sheetModalRef = useRef<ActionSheet>();
   const inputRef = useRef<TextInput>(null);
   const handleCloseRef = useRef(null);
+
+  const [visible, setVisible] = useState(false);
 
   //CALLBACK_METHOD
   useImperativeHandle(ref, () => ({
     show: (post: any) => {
       setSelectedPost(post);
-      sheetModalRef.current?.setModalVisible(true);
-      // wait  for modal to open and then show the keyboard
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 500);
+      setVisible(true)
+
     },
   }));
 
+  const _onClose = () => {
+    setVisible(false);
+  }
+
+  const _renderContent = () => (
+    <QuickReplyModalContent
+      fetchPost={fetchPost}
+      selectedPost={selectedPost}
+      inputRef={inputRef}
+      onClose={_onClose}
+      handleCloseRef={handleCloseRef}
+    />
+  )
+
   return (
     <Portal>
-      <ActionSheet
-        ref={sheetModalRef}
-        gestureEnabled={true}
-        keyboardShouldPersistTaps="always"
-        containerStyle={styles.sheetContent}
-        keyboardHandlerEnabled
-        indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
-        onClose={() => {
-          setSelectedPost(null); //set null on sheet close, causing inconsistant cache bug
-          handleCloseRef.current();
-        }}
-      >
-        {selectedPost && (
-          <QuickReplyModalContent
-            fetchPost={fetchPost}
-            selectedPost={selectedPost}
-            inputRef={inputRef}
-            sheetModalRef={sheetModalRef}
-            handleCloseRef={handleCloseRef}
-          />
-        )}
-      </ActionSheet>
+      {
+        visible && (
+          <AnimatedView
+            style={styles.container}
+            duration={300}
+            animation='fadeInUp'>
+            {selectedPost && (
+              <>
+                <View style={styles.container} onTouchEnd={_onClose} />
+                {
+                  Platform.select({
+                    ios: (
+                      <KeyboardAvoidingView style={styles.container} behavior="padding">
+                        {_renderContent()}
+                      </KeyboardAvoidingView>
+                    ),
+                    android: <View style={styles.container}>{_renderContent()}</View>,
+                  })
+                }
+
+              </>
+            )}
+          </AnimatedView>
+        )
+      }
     </Portal>
   );
 };
