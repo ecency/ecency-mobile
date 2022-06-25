@@ -14,10 +14,10 @@ const CommunitiesList = ({
   handleOnPress,
   handleSubscribeButtonPress,
   isLoggedIn,
-  noResult,
   screen,
   loading,
   subscribingItem,
+  isDiscoversLoading,
 }) => {
   const _renderItem = ({ item, index }) => {
     return (
@@ -45,28 +45,29 @@ const CommunitiesList = ({
 
   const _renderEmptyContent = () => {
     return (
-      <>
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
-        <CommunitiesPlaceHolder />
-      </>
+      isDiscoversLoading && (
+        <>
+          <CommunitiesPlaceHolder />
+          <CommunitiesPlaceHolder />
+          <CommunitiesPlaceHolder />
+          <CommunitiesPlaceHolder />
+          <CommunitiesPlaceHolder />
+          <CommunitiesPlaceHolder />
+          <CommunitiesPlaceHolder />
+        </>
+      )
     );
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      {!noResult && (
-        <FlatList
-          data={data}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={_renderItem}
-          ListEmptyComponent={_renderEmptyContent}
-        />
-      )}
+      <FlatList
+        data={data}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={_renderItem}
+        ListEmptyComponent={_renderEmptyContent}
+        ListFooterComponent={isDiscoversLoading && <CommunitiesPlaceHolder />}
+      />
     </SafeAreaView>
   );
 };

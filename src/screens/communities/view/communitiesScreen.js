@@ -47,6 +47,7 @@ const CommunitiesScreen = () => {
         subscribingCommunitiesInJoinedTab,
         handleGetSubscriptions,
         isSubscriptionsLoading,
+        isDiscoversLoading,
         handleTabChange,
         loading,
         subscribingItem,
@@ -91,10 +92,10 @@ const CommunitiesScreen = () => {
                   handleOnPress={handleOnPress}
                   handleSubscribeButtonPress={handleSubscribeButtonPress}
                   isLoggedIn={true}
-                  noResult={discovers.length === 0}
                   screen="communitiesScreenDiscoverTab"
                   loading={loading}
                   subscribingItem={subscribingItem}
+                  isDiscoversLoading={isDiscoversLoading}
                 />
               </View>
             </ScrollableTabView>

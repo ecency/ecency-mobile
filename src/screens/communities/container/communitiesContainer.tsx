@@ -92,7 +92,6 @@ const CommunitiesContainer = ({ children, navigation }) => {
 
   // Component Functions
   const _handleTabChange = ({ i }) => {
-    console.log('i : ', i);
     setActiveTabIndex(i);
     // fetch discovers data when discover tab is active
     if (i === 1 && (!discovers || discovers.length === 0)) {
@@ -148,6 +147,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
       subscribingCommunitiesInDiscoverTab,
       subscribingCommunitiesInJoinedTab,
       isSubscriptionsLoading,
+      isDiscoversLoading,
       subscribingItem,
       loading: communitiesCache.subscribingCommunity,
       handleOnPress: _handleOnPress,
