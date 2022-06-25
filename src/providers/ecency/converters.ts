@@ -1,5 +1,6 @@
 import { COIN_IDS } from '../../constants/defaultCoins';
 import { Referral } from '../../models';
+import { Community } from '../../redux/reducers/cacheReducer';
 import { CommentHistoryItem, LatestMarketPrices, LatestQuotes, QuoteItem, ReferralStat } from './ecency.types';
 
 export const convertReferral = (rawData: any) => {
@@ -53,3 +54,13 @@ export const convertCommentHistory = (rawData: any) => {
     v: rawData.v || 1,
   } as CommentHistoryItem;
 };
+
+export const convertCommunityRes = (rawData: any) => {
+  return {
+    communityId: rawData[0],
+    title: rawData[1],
+    role: rawData[2],
+    label: rawData[3],
+    isSubscribed: true,
+  } as Community
+}

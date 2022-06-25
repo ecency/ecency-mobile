@@ -1879,7 +1879,7 @@ export const subscribeCommunity = (currentAccount, pinCode, data) => {
   const username = get(currentAccount, 'name');
 
   const json = JSON.stringify([
-    data.isSubscribed ? 'unsubscribe' : 'subscribe',
+    data.isSubscribed ? 'subscribe' : 'unsubscribe',
     { community: data.communityId },
   ]);
 

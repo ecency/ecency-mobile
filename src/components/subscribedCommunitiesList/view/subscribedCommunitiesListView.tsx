@@ -16,21 +16,28 @@ import DEFAULT_IMAGE from '../../../assets/no_image.png';
 
 import styles from './subscribedCommunitiesListStyles';
 import globalStyles from '../../../globalStyles';
+import { Community } from '../../../redux/reducers/cacheReducer';
 
 const SubscribedCommunitiesListView = ({
   data,
-  isLoading,
+  subscriptionsLoading,
   subscribingCommunities,
   handleOnPress,
   handleSubscribeButtonPress,
   handleGetSubscriptions,
   handleDiscoverPress,
+  loading,
+  subscribingItem
+}: {
+  data: Community[],
+  loading: boolean,
+  subscribingItem: Community | null,
 }) => {
   const intl = useIntl();
 
   const _renderEmptyContent = () => {
     return (
-      !isLoading && (
+      !subscriptionsLoading && (
         <>
           <Text style={[globalStyles.subTitle, styles.noContentText]}>
             {intl.formatMessage({ id: 'communities.no_communities' })}
@@ -45,28 +52,27 @@ const SubscribedCommunitiesListView = ({
     );
   };
 
-  const _renderListItem = ({ item, index }) => (
+  const _renderListItem = ({ item, index }: {item: Community, index: number}) => (
     <View style={[styles.communityWrapper, index % 2 !== 0 && styles.itemWrapperGray]}>
       <View style={{ flex: 3, flexDirection: 'row', alignItems: 'center' }}>
-        <TouchableOpacity onPress={() => handleOnPress(item[0])}>
-          <UserAvatar username={item[0]} defaultSource={DEFAULT_IMAGE} noAction />
+        <TouchableOpacity onPress={() => handleOnPress(item.communityId)}>
+          <UserAvatar username={item.communityId} defaultSource={DEFAULT_IMAGE} noAction />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleOnPress(item[0])}>
-          <Text style={styles.community}>{item[1]}</Text>
+        <TouchableOpacity onPress={() => handleOnPress(item.communityId)}>
+          <Text style={styles.community}>{item.title}</Text>
         </TouchableOpacity>
       </View>
       <View>
-        {subscribingCommunities.hasOwnProperty(item[0]) &&
-        subscribingCommunities[item[0]].loading ? (
+        {loading && subscribingItem && subscribingItem.communityId === item.communityId ? (
           <View style={{ width: 65, alignItems: 'center', justifyContent: 'center' }}>
             <ActivityIndicator />
           </View>
         ) : (
           <Tag
             style={styles.subscribeButton}
-            textStyle={item[4] && styles.subscribeButtonText}
+            textStyle={item.isSubscribed && styles.subscribeButtonText}
             value={
-              !item[4]
+              !item.isSubscribed
                 ? intl.formatMessage({
                     id: 'search_result.communities.subscribe',
                   })
@@ -74,16 +80,9 @@ const SubscribedCommunitiesListView = ({
                     id: 'search_result.communities.unsubscribe',
                   })
             }
-            isPin={!item[4]}
+            isPin={!item.isSubscribed}
             isFilter
-            onPress={() =>
-              handleSubscribeButtonPress(
-                {
-                  isSubscribed: item[4],
-                  communityId: item[0],
-                },
-                'communitiesScreenJoinedTab',
-              )
+            onPress={() => handleSubscribeButtonPress(item)
             }
           />
         )}
@@ -97,8 +96,8 @@ const SubscribedCommunitiesListView = ({
       keyExtractor={(item, index) => index.toString()}
       renderItem={_renderListItem}
       ListEmptyComponent={_renderEmptyContent}
-      ListFooterComponent={isLoading && <ListPlaceHolder />}
-      refreshControl={<RefreshControl refreshing={isLoading} onRefresh={handleGetSubscriptions} />}
+      ListFooterComponent={subscriptionsLoading && <ListPlaceHolder />}
+      refreshControl={<RefreshControl refreshing={subscriptionsLoading} onRefresh={handleGetSubscriptions} />}
     />
   );
 };

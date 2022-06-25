@@ -1,5 +1,7 @@
 import { renderPostBody } from '@ecency/render-helper';
 import { Platform } from 'react-native';
+import { convertCommunityRes } from '../../providers/ecency/converters';
+import { getSubscriptions, subscribeCommunity } from '../../providers/hive/dhive';
 import { makeJsonMetadataReply } from '../../utils/editor';
 import {
   UPDATE_VOTE_CACHE,
@@ -8,8 +10,14 @@ import {
   DELETE_COMMENT_CACHE_ENTRY,
   UPDATE_DRAFT_CACHE,
   DELETE_DRAFT_CACHE_ENTRY,
+  UPDATE_COMMUNITIES_CACHE,
+  SET_COMMUNITIES_CACHE,
+  SET_LOADING,
+  SET_FETCHING_SUBSCRIBED_COMMUNITIES,
+  SET_SUBSCRIBING_COMMUNITY,
+  TOAST_NOTIFICATION,
 } from '../constants/constants';
-import { Comment, Draft, Vote } from '../reducers/cacheReducer';
+import { Comment, Community, Draft, Vote } from '../reducers/cacheReducer';
 
 
 
@@ -87,6 +95,66 @@ export const deleteDraftCacheEntry = (id: string) => ({
   type: DELETE_DRAFT_CACHE_ENTRY
 })
 
+export const fetchSubscribedCommunities = (username) => {
+  return (dispatch) => {
+    dispatch(setFetchingSubscribedCommunities(true));
+    getSubscriptions(username)
+      .then((res) => {
+        if(res && res.length > 0){
+          const subscribedCommunities = res.map((item) => convertCommunityRes(item));
+          dispatch(fetchCommunitiesSuccess(subscribedCommunities));
+          dispatch(setFetchingSubscribedCommunities(false));
+        }
+      })
+      .catch((err) => {
+        console.log('Error while fetching subscriptions : ', err);
+        dispatch(setFetchingSubscribedCommunities(false));
+      });
+  };
+};
+
+export const fetchCommunitiesSuccess = (payload) => ({
+  payload,
+  type: SET_COMMUNITIES_CACHE,
+});
+
+export const updateCommunitiesSubscription = (currentAccount: any, pin: any, item: Community, successText: string, failText: string) => {
+  return (dispatch) => {
+    dispatch(setSubscribingCommunity(true));
+    subscribeCommunity(currentAccount, pin, item)
+      .then((res) => {
+        console.log('updateCommunitiesSubscription : ', res);
+        dispatch(subscribeCommunitySuccess(item));
+        dispatch(showToast(successText));
+      })
+      .catch((err) => {
+        console.log('Error while subscribing : ', err);
+        dispatch(setSubscribingCommunity(false));
+        dispatch(showToast(failText));
+      });
+    
+  };
+};
+
+export const subscribeCommunitySuccess = (payload: Community) => ({
+  type: UPDATE_COMMUNITIES_CACHE,
+  payload,
+})
+
+export const setFetchingSubscribedCommunities = (payload) => ({
+  payload,
+  type: SET_FETCHING_SUBSCRIBED_COMMUNITIES,
+});
+
+export const setSubscribingCommunity = (payload) => ({
+  payload,
+  type: SET_SUBSCRIBING_COMMUNITY,
+});
+
+export const showToast = (payload) => ({
+  payload: payload,
+  type: TOAST_NOTIFICATION,
+});
 export const purgeExpiredCache = () => ({
   type: PURGE_EXPIRED_CACHE
 })

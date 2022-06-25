@@ -23,12 +23,18 @@ const CommunitiesListItem = ({
   isSubscribed,
   isLoggedIn,
   loading,
+  subscribingItem,
   screen,
 }) => {
   const intl = useIntl();
 
   const _handleSubscribeButtonPress = () => {
-    handleSubscribeButtonPress({ isSubscribed: isSubscribed, communityId: name }, screen);
+    const item = {
+      communityId: name,
+      title: title,
+      isSubscribed: isSubscribed,
+    };
+    handleSubscribeButtonPress(item);
   };
 
   return (
@@ -41,7 +47,7 @@ const CommunitiesListItem = ({
           <View style={styles.header}>
             <Text style={styles.title}>{title}</Text>
             {isLoggedIn &&
-              (loading ? (
+              (loading && subscribingItem && subscribingItem.communityId === name ? (
                 <View style={styles.indicatorView}>
                   <ActivityIndicator />
                 </View>

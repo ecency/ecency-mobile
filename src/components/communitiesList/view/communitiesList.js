@@ -16,6 +16,8 @@ const CommunitiesList = ({
   isLoggedIn,
   noResult,
   screen,
+  loading,
+  subscribingItem,
 }) => {
   const _renderItem = ({ item, index }) => {
     return (
@@ -34,10 +36,8 @@ const CommunitiesList = ({
         handleSubscribeButtonPress={handleSubscribeButtonPress}
         isSubscribed={item.isSubscribed}
         isLoggedIn={isLoggedIn}
-        loading={
-          subscribingCommunities.hasOwnProperty(item.name) &&
-          subscribingCommunities[item.name].loading
-        }
+        loading={loading}
+        subscribingItem={subscribingItem}
         screen={screen}
       />
     );

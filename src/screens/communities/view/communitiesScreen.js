@@ -47,6 +47,9 @@ const CommunitiesScreen = () => {
         subscribingCommunitiesInJoinedTab,
         handleGetSubscriptions,
         isSubscriptionsLoading,
+        handleTabChange,
+        loading,
+        subscribingItem,
       }) => {
         return (
           <View style={styles.container}>
@@ -60,6 +63,7 @@ const CommunitiesScreen = () => {
               style={globalStyles.tabView}
               renderTabBar={_renderTabbar}
               prerenderingSiblingsNumber={Infinity}
+              onChangeTab={handleTabChange}
             >
               <View
                 tabLabel={intl.formatMessage({ id: 'communities.joined' })}
@@ -72,7 +76,9 @@ const CommunitiesScreen = () => {
                   handleOnPress={handleOnPress}
                   handleGetSubscriptions={handleGetSubscriptions}
                   handleDiscoverPress={_handleDiscoverPress}
-                  isLoading={isSubscriptionsLoading}
+                  subscriptionsLoading={isSubscriptionsLoading}
+                  loading={loading}
+                  subscribingItem={subscribingItem}
                 />
               </View>
               <View
@@ -87,6 +93,8 @@ const CommunitiesScreen = () => {
                   isLoggedIn={true}
                   noResult={discovers.length === 0}
                   screen="communitiesScreenDiscoverTab"
+                  loading={loading}
+                  subscribingItem={subscribingItem}
                 />
               </View>
             </ScrollableTabView>

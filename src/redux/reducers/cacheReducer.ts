@@ -1,4 +1,4 @@
-import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE, UPDATE_COMMENT_CACHE, DELETE_COMMENT_CACHE_ENTRY, DELETE_DRAFT_CACHE_ENTRY, UPDATE_DRAFT_CACHE,  } from "../constants/constants";
+import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE, UPDATE_COMMENT_CACHE, DELETE_COMMENT_CACHE_ENTRY, DELETE_DRAFT_CACHE_ENTRY, UPDATE_DRAFT_CACHE, UPDATE_COMMUNITIES_CACHE, DELETE_COMMUNITIES_CACHE, SET_COMMUNITIES_CACHE, SET_SUBSCRIBING_COMMUNITY, SET_FETCHING_SUBSCRIBED_COMMUNITIES,  } from "../constants/constants";
 
 export interface Vote {
     amount:number;
@@ -36,14 +36,28 @@ export interface Draft {
     expiresAt?:number;
 }
 
+export interface Community {
+    communityId:string;
+    title:string;
+    role?:string;
+    label?:string; 
+    isSubscribed: boolean;
+}
+export interface CommunityCacheObject {
+    subscribedCommunities?: Array<Community>,
+    fetchingSubscribedCommunities?: boolean,
+    subscribingCommunity?: boolean
+}
+
 interface State {
     votes:Map<string, Vote>
     comments:Map<string, Comment> //TODO: handle comment array per post, if parent is same
     drafts: Map<string, Draft>
+    communities: CommunityCacheObject
     lastUpdate:{
         postPath:string,
         updatedAt:number,
-        type:'vote'|'comment'|'draft',
+        type:'vote'|'comment'|'draft'|'communities',
     }
 }
 
@@ -51,6 +65,11 @@ const initialState:State = {
     votes:new Map(),
     comments:new Map(),
     drafts: new Map(),
+    communities: {
+        subscribedCommunities: [],
+        fetchingSubscribedCommunities: true,
+        subscribingCommunity: false
+    },
     lastUpdate:null,
   };
   
@@ -119,6 +138,64 @@ const initialState:State = {
                 state.drafts.delete(payload);
             }
             return { ...state }
+
+        case SET_COMMUNITIES_CACHE:
+             
+            return {
+                ...state,
+                communities: {
+                    subscribedCommunities: payload,
+                    fetchingSubscribedCommunities: false,
+                    subscribingCommunity: false,
+                },
+            }
+        
+        case DELETE_COMMUNITIES_CACHE:
+            return {
+                ...state,
+                communities: {
+                    subscribedCommunities: [],
+                    fetchingSubscribedCommunities: false,
+
+                },
+            }
+
+        case UPDATE_COMMUNITIES_CACHE:
+            const isItemExist = state.communities.subscribedCommunities.find((item) => item.communityId === payload.communityId); 
+            const updatedCommunitiesList = isItemExist
+              ? state.communities.subscribedCommunities.map((item) => {
+                  if (payload.communityId === item.communityId) {
+                    return payload;
+                  } else {
+                    return item;
+                  }
+                })
+              : [...state.communities.subscribedCommunities, payload];
+            return {
+                ...state,
+                communities: {
+                    subscribedCommunities: updatedCommunitiesList,
+                    subscribingCommunity: false,
+                }
+            }
+ 
+        case SET_FETCHING_SUBSCRIBED_COMMUNITIES: 
+            return {
+                ...state,
+                communities: {
+                    ...state.communities,
+                    fetchingSubscribedCommunities: payload,
+                }
+            }
+
+        case SET_SUBSCRIBING_COMMUNITY: 
+            return {
+                ...state,
+                communities: {
+                    ...state.communities,
+                    subscribingCommunity: payload,
+                }
+            }
 
         case PURGE_EXPIRED_CACHE:
             const currentTime = new Date().getTime();
