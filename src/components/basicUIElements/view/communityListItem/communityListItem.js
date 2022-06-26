@@ -27,7 +27,12 @@ const CommunityListItem = ({
   const intl = useIntl();
 
   const _handleSubscribeButtonPress = () => {
-    handleSubscribeButtonPress({ isSubscribed, communityId: name });
+    const item = {
+      communityId: name,
+      title: title,
+      isSubscribed: isSubscribed,
+    };
+    handleSubscribeButtonPress(item);
   };
 
   return (

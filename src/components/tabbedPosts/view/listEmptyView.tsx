@@ -9,9 +9,12 @@ import styles from './tabbedPostsStyles';
 import { default as ROUTES } from '../../../constants/routeNames';
 import { withNavigation } from 'react-navigation';
 import {useSelector, useDispatch } from 'react-redux';
-import { fetchCommunities, leaveCommunity, subscribeCommunity } from '../../../redux/actions/communitiesAction';
+import { fetchCommunities, fetchSubscribedCommunities, leaveCommunity, subscribeCommunity } from '../../../redux/actions/communitiesAction';
 import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';
 import { getCommunity } from '../../../providers/hive/dhive';
+import { Community, CommunityCacheObject } from '../../../redux/reducers/cacheReducer';
+import { RootState } from '../../../redux/store/store';
+import { updateCommunitiesSubscription } from '../../../redux/actions/cacheActions';
 
 interface TabEmptyViewProps {
   filterKey:string,
@@ -27,19 +30,19 @@ const TabEmptyView = ({
 
   const intl = useIntl();
   const dispatch = useDispatch();
-  //redux properties
-  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
-  const subscribingCommunities = useSelector(
-    (state) => state.communities.subscribingCommunitiesInFeedScreen,
-  );
+
   const [recommendedCommunities, setRecommendedCommunities] = useState([]);
   const [recommendedUsers, setRecommendedUsers] = useState([]);
+  const [isLoadingSubscribeButton, setIsLoadingSubscribeButton] = useState(false);
+  const [subscribingItem, setSubscribingItem] = useState<Community | null>(null);
+
+  //redux properties
+  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);  
   const followingUsers = useSelector((state) => state.user.followingUsersInFeedScreen);
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const pinCode = useSelector((state) => state.application.pin);
-
   const leaderboard = useSelector((state) => state.user.leaderboard);
-  const communities = useSelector((state) => state.communities.communities);
+  const communitiesCache: CommunityCacheObject = useSelector((state: RootState) => state.cache.communities);
 
   //hooks
 
@@ -50,7 +53,7 @@ const TabEmptyView = ({
           _getRecommendedUsers();
         }
       } else if(filterKey === 'communities') {
-        if (recommendedCommunities.length === 0) {
+        if (communitiesCache.discoverCommunities.length === 0) {
           _getRecommendedCommunities();
         }
       }
@@ -68,42 +71,23 @@ const TabEmptyView = ({
   }, [leaderboard]);
 
   useEffect(() => {
-    const {loading, error, data} = communities;
-    if (!loading) {
-      if (!error && data && data?.length > 0) {
-        _formatRecommendedCommunities(data);
-      }
+    if (communitiesCache.discoverCommunities && communitiesCache.discoverCommunities.length > 0) {
+      _formatRecommendedCommunities(communitiesCache.discoverCommunities);
     }
-  }, [communities]);
-
+  }, [communitiesCache.discoverCommunities]);
 
   useEffect(() => {
-    const recommendeds = [...recommendedCommunities];
+    if(communitiesCache.subscribingCommunity){
+      setIsLoadingSubscribeButton(true);
+    }
+  },[communitiesCache.subscribingCommunity]);
 
-    Object.keys(subscribingCommunities).map((communityId) => {
-      if (!subscribingCommunities[communityId].loading) {
-        if (!subscribingCommunities[communityId].error) {
-          if (subscribingCommunities[communityId].isSubscribed) {
-            recommendeds.forEach((item) => {
-              if (item.name === communityId) {
-                item.isSubscribed = true;
-              }
-            });
-          } else {
-            recommendeds.forEach((item) => {
-              if (item.name === communityId) {
-                item.isSubscribed = false;
-              }
-            });
-          }
-        }
-      }
-    });
-
-    setRecommendedCommunities(recommendeds);
-  }, [subscribingCommunities]);
-
-
+  // used this hack to solve the glitch in join/leave button caused due to delay in state change
+  useEffect(() => {
+    if(recommendedCommunities && recommendedCommunities.length > 0){
+      setIsLoadingSubscribeButton(false);
+    }
+  },[recommendedCommunities])
 
   useEffect(() => {
     const recommendeds = [...recommendedUsers];
@@ -134,15 +118,14 @@ const TabEmptyView = ({
 
   //fetching
   const _getRecommendedUsers = () => dispatch(fetchLeaderboard());
-  const _getRecommendedCommunities = () => dispatch(fetchCommunities('', 10));
+  const _getRecommendedCommunities = () => dispatch(fetchSubscribedCommunities(currentAccount.username));
 
   //formating 
   const _formatRecommendedCommunities = async (communitiesArray) => {
     try {
       const ecency = await getCommunity('hive-125125');
-
+      Object.assign(ecency, { isSubscribed: ecency ? communitiesCache.subscribedCommunities.some((subscribedCommunity) => subscribedCommunity.communityId === ecency.name && subscribedCommunity.isSubscribed) : false  })
       const recommendeds = [ecency, ...communitiesArray];
-      recommendeds.forEach((item) => Object.assign(item, { isSubscribed: false }));
 
       setRecommendedCommunities(recommendeds);
     } catch (err) {
@@ -162,14 +145,11 @@ const TabEmptyView = ({
   };
 
   //actions related routines
-  const _handleSubscribeCommunityButtonPress = (data) => {
-    let subscribeAction;
+  const _handleSubscribeCommunityButtonPress = (item: Community) => {
+    console.log('item : ', item);
     let successToastText = '';
     let failToastText = '';
-
-    if (!data.isSubscribed) {
-      subscribeAction = subscribeCommunity;
-
+    if (!item.isSubscribed) {
       successToastText = intl.formatMessage({
         id: 'alert.success_subscribe',
       });
@@ -177,8 +157,6 @@ const TabEmptyView = ({
         id: 'alert.fail_subscribe',
       });
     } else {
-      subscribeAction = leaveCommunity;
-
       successToastText = intl.formatMessage({
         id: 'alert.success_leave',
       });
@@ -187,8 +165,16 @@ const TabEmptyView = ({
       });
     }
 
+    const updatedItem = { ...item, isSubscribed: !item.isSubscribed };
+    setSubscribingItem(updatedItem);
     dispatch(
-      subscribeAction(currentAccount, pinCode, data, successToastText, failToastText, 'feedScreen'),
+      updateCommunitiesSubscription(
+        currentAccount,
+        pinCode,
+        updatedItem,
+        successToastText,
+        failToastText,
+      ),
     );
   };
 
@@ -228,7 +214,10 @@ const TabEmptyView = ({
     navigation.navigate(ROUTES.SCREENS.LOGIN);
   };
 
-
+  console.log('isLoadingSubscribeButton : ', isLoadingSubscribeButton);
+  console.log('recommendedCommunities : ', recommendedCommunities);
+  
+  
 //render related operations
   if ((filterKey === 'feed' || filterKey === 'friends' || filterKey === 'communities') && !isLoggedIn) {
     return (
@@ -317,10 +306,8 @@ const TabEmptyView = ({
                   }
                   handleSubscribeButtonPress={_handleSubscribeCommunityButtonPress}
                   isSubscribed={item.isSubscribed}
-                  isLoadingRightAction={
-                    subscribingCommunities.hasOwnProperty(item.name) &&
-                    subscribingCommunities[item.name].loading
-                  }
+                  isLoadingRightAction={isLoadingSubscribeButton && subscribingItem && subscribingItem.communityId === item.name}
+                  subscribingItem={subscribingItem}
                   isLoggedIn={isLoggedIn}
                 />
               )}
