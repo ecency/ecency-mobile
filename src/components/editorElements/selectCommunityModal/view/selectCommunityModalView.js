@@ -60,33 +60,31 @@ const SelectCommunityModalView = ({
             }}
             onPress={() => onPressCommunity(null)}
           />
-          {!subscribedCommunities.loading &&
-            !subscribedCommunities.error &&
-            subscribedCommunities.data?.length > 0 && (
-              <View>
-                <Text style={[globalStyles.label, styles.title]}>
-                  {intl.formatMessage({ id: 'editor.my_communities' }).toUpperCase()}
-                </Text>
-                <FlatList
-                  ItemSeparatorComponent={() => <Separator />}
-                  showsVerticalScrollIndicator={false}
-                  data={subscribedCommunities.data}
-                  keyExtractor={(item, index) => index.toString()}
-                  renderItem={({ item, index, separators }) => {
-                    const community = { name: item[0], title: item[1] };
-                    return (
-                      <CommunityCard
-                        community={community}
-                        key={community.name}
-                        onPress={onPressCommunity}
-                        separators={separators}
-                      />
-                    );
-                  }}
-                />
-              </View>
-            )}
-          {!topCommunities.loading && !topCommunities.error && topCommunities.data?.length > 0 && (
+          {subscribedCommunities.length > 0 && (
+            <View>
+              <Text style={[globalStyles.label, styles.title]}>
+                {intl.formatMessage({ id: 'editor.my_communities' }).toUpperCase()}
+              </Text>
+              <FlatList
+                ItemSeparatorComponent={() => <Separator />}
+                showsVerticalScrollIndicator={false}
+                data={subscribedCommunities}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item, index, separators }) => {
+                  const community = { name: item.communityId, title: item.title };
+                  return (
+                    <CommunityCard
+                      community={community}
+                      key={community.name}
+                      onPress={onPressCommunity}
+                      separators={separators}
+                    />
+                  );
+                }}
+              />
+            </View>
+          )}
+          {topCommunities.length > 0 && (
             <View>
               <Text style={[globalStyles.label, styles.title]}>
                 {intl.formatMessage({ id: 'editor.top_communities' }).toUpperCase()}
@@ -94,7 +92,7 @@ const SelectCommunityModalView = ({
               <FlatList
                 ItemSeparatorComponent={() => <Separator />}
                 showsVerticalScrollIndicator={false}
-                data={topCommunities.data}
+                data={topCommunities}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item, index, separators }) => (
                   <CommunityCard

@@ -9,11 +9,10 @@ import SelectCommunityModalView from '../view/selectCommunityModalView';
 
 // Actions
 import {
-  fetchCommunities,
-  fetchCommunitiesSuccess,
   fetchSubscribedCommunities,
-  fetchSubscribedCommunitiesSuccess,
 } from '../../../../redux/actions/communitiesAction';
+import { RootState } from '../../../../redux/store/store';
+import { CommunityCacheObject } from '../../../../redux/reducers/cacheReducer';
 
 const SelectCommunityModalContainer = ({ onPressCommunity, currentAccount, onCloseModal }) => {
   const dispatch = useDispatch();
@@ -21,17 +20,15 @@ const SelectCommunityModalContainer = ({ onPressCommunity, currentAccount, onClo
   const [searchedCommunities, setSearchedCommunities] = useState([]);
   const [showSearchedCommunities, setShowSearchedCommunities] = useState(false);
 
-  const topCommunities = useSelector((state) => state.communities.communities);
-  const subscribedCommunities = useSelector((state) => state.communities.subscribedCommunities);
-
+  const communitiesCache: CommunityCacheObject = useSelector(
+    (state: RootState) => state.cache.communities,
+  );
+  
   useEffect(() => {
-    callTopCommunities();
-    callSubscribedCommunities();
+    if(!communitiesCache || communitiesCache.subscribedCommunities.length === 0){
+      dispatch(fetchSubscribedCommunities(currentAccount.name));
+    }
   }, []);
-
-  const callTopCommunities = () => dispatch(fetchCommunities('', 15, '', 'rank'));
-
-  const callSubscribedCommunities = () => dispatch(fetchSubscribedCommunities(currentAccount.name));
 
   const handleChangeSearch = (text) => {
     if (text.length >= 3) {
@@ -52,8 +49,8 @@ const SelectCommunityModalContainer = ({ onPressCommunity, currentAccount, onClo
     <>
       <SelectCommunityModalView
         onPressCommunity={onPressCommunity}
-        topCommunities={topCommunities}
-        subscribedCommunities={subscribedCommunities}
+        topCommunities={communitiesCache.discoverCommunities}
+        subscribedCommunities={communitiesCache.subscribedCommunities}
         onChangeSearch={debounce(handleChangeSearch, 500)}
         searchedCommunities={searchedCommunities}
         showSearchedCommunities={showSearchedCommunities}
