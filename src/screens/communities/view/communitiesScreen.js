@@ -43,8 +43,6 @@ const CommunitiesScreen = () => {
         discovers,
         handleOnPress,
         handleSubscribeButtonPress,
-        subscribingCommunitiesInDiscoverTab,
-        subscribingCommunitiesInJoinedTab,
         handleGetSubscriptions,
         isSubscriptionsLoading,
         isDiscoversLoading,
@@ -72,7 +70,6 @@ const CommunitiesScreen = () => {
               >
                 <SubscribedCommunitiesList
                   data={subscriptions}
-                  subscribingCommunities={subscribingCommunitiesInJoinedTab}
                   handleSubscribeButtonPress={handleSubscribeButtonPress}
                   handleOnPress={handleOnPress}
                   handleGetSubscriptions={handleGetSubscriptions}
@@ -88,7 +85,6 @@ const CommunitiesScreen = () => {
               >
                 <CommunitiesList
                   data={discovers}
-                  subscribingCommunities={subscribingCommunitiesInDiscoverTab}
                   handleOnPress={handleOnPress}
                   handleSubscribeButtonPress={handleSubscribeButtonPress}
                   isLoggedIn={true}

@@ -27,15 +27,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
 
   const currentAccount = useSelector((state: RootState) => state.account.currentAccount);
   const pinCode = useSelector((state: RootState) => state.application.pin);
-  const subscribingCommunitiesInDiscoverTab = useSelector(
-    (state) => state.communities.subscribingCommunitiesInCommunitiesScreenDiscoverTab,
-  );
-  const subscribingCommunitiesInJoinedTab = useSelector(
-    (state) => state.communities.subscribingCommunitiesInCommunitiesScreenJoinedTab,
-  );
-  const communitiesCache: CommunityCacheObject = useSelector(
-    (state: RootState) => state.cache.communities,
-  );
+  const communitiesCache: CommunityCacheObject = useSelector((state: RootState) => state.cache.communities);
 
   useEffect(() => {
     _getSubscriptions();
@@ -117,8 +109,6 @@ const CommunitiesContainer = ({ children, navigation }) => {
     children({
       subscriptions,
       discovers,
-      subscribingCommunitiesInDiscoverTab,
-      subscribingCommunitiesInJoinedTab,
       isSubscriptionsLoading,
       isDiscoversLoading,
       subscribingItem,
