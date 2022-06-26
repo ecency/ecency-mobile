@@ -1,4 +1,4 @@
-import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE, UPDATE_COMMENT_CACHE, DELETE_COMMENT_CACHE_ENTRY, DELETE_DRAFT_CACHE_ENTRY, UPDATE_DRAFT_CACHE, UPDATE_COMMUNITIES_CACHE, DELETE_COMMUNITIES_CACHE, SET_COMMUNITIES_CACHE, SET_SUBSCRIBING_COMMUNITY, SET_FETCHING_SUBSCRIBED_COMMUNITIES,  } from "../constants/constants";
+import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE, UPDATE_COMMENT_CACHE, DELETE_COMMENT_CACHE_ENTRY, DELETE_DRAFT_CACHE_ENTRY, UPDATE_DRAFT_CACHE, UPDATE_COMMUNITIES_CACHE, DELETE_COMMUNITIES_CACHE, SET_COMMUNITIES_CACHE, SET_SUBSCRIBING_COMMUNITY, SET_FETCHING_SUBSCRIBED_COMMUNITIES, SET_DISCOVER_COMMUNITIES_CACHE, SET_FETCHING_DISCOVER_COMMUNITIES, UPDATE_DISCOVER_COMMUNITIES_CACHE,  } from "../constants/constants";
 
 export interface Vote {
     amount:number;
@@ -45,7 +45,9 @@ export interface Community {
 }
 export interface CommunityCacheObject {
     subscribedCommunities?: Array<Community>,
+    discoverCommunities?: Array<any>,
     fetchingSubscribedCommunities?: boolean,
+    fetchingDiscoverCommunities?: boolean,
     subscribingCommunity?: boolean
 }
 
@@ -68,6 +70,8 @@ const initialState:State = {
     communities: {
         subscribedCommunities: [],
         fetchingSubscribedCommunities: true,
+        discoverCommunities: [],
+        fetchingDiscoverCommunities: true,
         subscribingCommunity: false
     },
     lastUpdate:null,
@@ -144,9 +148,9 @@ const initialState:State = {
             return {
                 ...state,
                 communities: {
+                    ...state.communities,
                     subscribedCommunities: payload,
                     fetchingSubscribedCommunities: false,
-                    subscribingCommunity: false,
                 },
             }
         
@@ -155,8 +159,10 @@ const initialState:State = {
                 ...state,
                 communities: {
                     subscribedCommunities: [],
+                    discoverCommunities: [],
                     fetchingSubscribedCommunities: false,
-
+                    fetchingDiscoverCommunities: false,
+                    subscribingCommunity: false,
                 },
             }
 
@@ -174,6 +180,7 @@ const initialState:State = {
             return {
                 ...state,
                 communities: {
+                    ...state.communities,
                     subscribedCommunities: updatedCommunitiesList,
                     subscribingCommunity: false,
                 }
@@ -181,12 +188,65 @@ const initialState:State = {
  
         case SET_FETCHING_SUBSCRIBED_COMMUNITIES: 
             return {
+              ...state,
+              communities: {
+                ...state.communities,
+                fetchingSubscribedCommunities: payload,
+              },
+            };
+
+        case SET_DISCOVER_COMMUNITIES_CACHE:
+            if(payload && payload.length > 0){
+                payload.forEach((community) =>
+                  Object.assign(community, {
+                    isSubscribed: state.communities.subscribedCommunities.some(
+                      (subscribedCommunity) =>
+                        subscribedCommunity.communityId === community.name &&
+                        subscribedCommunity.isSubscribed,
+                    ),
+                  }),
+                );
+                payload.sort((a, b) => a.title.localeCompare(b.title));
+            }
+    
+            return {
+              ...state,
+              communities: {
+                ...state.communities,
+                discoverCommunities: payload,
+                fetchingDiscoverCommunities: false,
+              },
+            };
+
+        case UPDATE_DISCOVER_COMMUNITIES_CACHE:
+            const updatedDiscoversList = state.communities.discoverCommunities.map((community) => {
+              let subItem = state.communities.subscribedCommunities.find(
+                (subscribedCommunity) => subscribedCommunity.communityId === community.name,
+              );
+              if (subItem) {
+                return {
+                  ...community,
+                  isSubscribed: subItem.isSubscribed,
+                };
+              } else {
+                return community;
+              }
+            });
+              return {
                 ...state,
                 communities: {
-                    ...state.communities,
-                    fetchingSubscribedCommunities: payload,
-                }
-            }
+                  ...state.communities,
+                  discoverCommunities: updatedDiscoversList,
+                },
+              };
+        case SET_FETCHING_DISCOVER_COMMUNITIES: 
+            return {
+              ...state,
+              communities: {
+                ...state.communities,
+                fetchingDiscoverCommunities: payload,
+              },
+            };
 
         case SET_SUBSCRIBING_COMMUNITY: 
             return {

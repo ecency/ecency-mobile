@@ -1,7 +1,7 @@
 import { renderPostBody } from '@ecency/render-helper';
 import { Platform } from 'react-native';
 import { convertCommunityRes } from '../../providers/ecency/converters';
-import { getSubscriptions, subscribeCommunity } from '../../providers/hive/dhive';
+import { getCommunities, getSubscriptions, subscribeCommunity } from '../../providers/hive/dhive';
 import { makeJsonMetadataReply } from '../../utils/editor';
 import {
   UPDATE_VOTE_CACHE,
@@ -16,6 +16,9 @@ import {
   SET_FETCHING_SUBSCRIBED_COMMUNITIES,
   SET_SUBSCRIBING_COMMUNITY,
   TOAST_NOTIFICATION,
+  SET_DISCOVER_COMMUNITIES_CACHE,
+  SET_FETCHING_DISCOVER_COMMUNITIES,
+  UPDATE_DISCOVER_COMMUNITIES_CACHE,
 } from '../constants/constants';
 import { Comment, Community, Draft, Vote } from '../reducers/cacheReducer';
 
@@ -95,6 +98,7 @@ export const deleteDraftCacheEntry = (id: string) => ({
   type: DELETE_DRAFT_CACHE_ENTRY
 })
 
+// Communities Cache Actions
 export const fetchSubscribedCommunities = (username) => {
   return (dispatch) => {
     dispatch(setFetchingSubscribedCommunities(true));
@@ -104,6 +108,7 @@ export const fetchSubscribedCommunities = (username) => {
           const subscribedCommunities = res.map((item) => convertCommunityRes(item));
           dispatch(fetchCommunitiesSuccess(subscribedCommunities));
           dispatch(setFetchingSubscribedCommunities(false));
+          dispatch(fetchDiscoverCommunities()); //fetch discovers after fetching subscriptions, as discovers depends on subscribed data
         }
       })
       .catch((err) => {
@@ -123,9 +128,9 @@ export const updateCommunitiesSubscription = (currentAccount: any, pin: any, ite
     dispatch(setSubscribingCommunity(true));
     subscribeCommunity(currentAccount, pin, item)
       .then((res) => {
-        console.log('updateCommunitiesSubscription : ', res);
         dispatch(subscribeCommunitySuccess(item));
         dispatch(showToast(successText));
+        dispatch(updateDiscoverCommunities()); //update discovers data when subscription is changed
       })
       .catch((err) => {
         console.log('Error while subscribing : ', err);
@@ -141,6 +146,30 @@ export const subscribeCommunitySuccess = (payload: Community) => ({
   payload,
 })
 
+export const fetchDiscoverCommunities = () => {
+  return (dispatch) => {
+    dispatch(setFetchingDiscoverCommunities(true));
+    getCommunities('', 50, null, 'rank')
+      .then((communities) => {
+        dispatch(fetchDiscoverCommunitiesSuccess(communities));
+      })
+      .catch((err) => {
+        console.warn('Failed to get subscriptions', err);
+        dispatch(setFetchingDiscoverCommunities(false));
+      });
+  };
+};
+
+export const fetchDiscoverCommunitiesSuccess = (payload) => ({
+  payload,
+  type: SET_DISCOVER_COMMUNITIES_CACHE,
+});
+
+export const updateDiscoverCommunities = () => ({
+  type: UPDATE_DISCOVER_COMMUNITIES_CACHE,
+});
+
+
 export const setFetchingSubscribedCommunities = (payload) => ({
   payload,
   type: SET_FETCHING_SUBSCRIBED_COMMUNITIES,
@@ -149,6 +178,11 @@ export const setFetchingSubscribedCommunities = (payload) => ({
 export const setSubscribingCommunity = (payload) => ({
   payload,
   type: SET_SUBSCRIBING_COMMUNITY,
+});
+
+export const setFetchingDiscoverCommunities = (payload) => ({
+  payload,
+  type: SET_FETCHING_DISCOVER_COMMUNITIES,
 });
 
 export const showToast = (payload) => ({

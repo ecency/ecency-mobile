@@ -7,6 +7,7 @@ import ROUTES from '../../../constants/routeNames';
 
 import { getCommunities, getSubscriptions } from '../../../providers/hive/dhive';
 import {
+  fetchDiscoverCommunities,
   fetchSubscribedCommunities,
   updateCommunitiesSubscription,
 } from '../../../redux/actions/cacheActions';
@@ -22,7 +23,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
   const [subscribingItem, setSubscribingItem] = useState<Community | null>(null);
   const [isSubscriptionsLoading, setIsSubscriptionsLoading] = useState(true);
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-  const [isDiscoversLoading, setIsDiscoversLoading] = useState(false);
+  const [isDiscoversLoading, setIsDiscoversLoading] = useState(true);
 
   const currentAccount = useSelector((state: RootState) => state.account.currentAccount);
   const pinCode = useSelector((state: RootState) => state.application.pin);
@@ -40,63 +41,35 @@ const CommunitiesContainer = ({ children, navigation }) => {
     _getSubscriptions();
   }, []);
 
+  // Side effects for updating state when cache is updated
   useEffect(() => {
     if (communitiesCache && communitiesCache.subscribedCommunities.length > 0) {
       setSubscriptions(communitiesCache.subscribedCommunities);
       setIsSubscriptionsLoading(false);
-      _updateDiscovers();
     }
   }, [communitiesCache.subscribedCommunities]);
 
+  useEffect(() => {
+    if (communitiesCache && communitiesCache.discoverCommunities.length > 0) {
+      setDiscovers(communitiesCache.discoverCommunities);
+    }
+  }, [communitiesCache.discoverCommunities]);
+
+  useEffect(() => {
+    setIsDiscoversLoading(communitiesCache.fetchingDiscoverCommunities);
+  }, [communitiesCache.fetchingDiscoverCommunities]);
+
+  useEffect(() => {
+    setIsSubscriptionsLoading(communitiesCache.fetchingSubscribedCommunities);
+  }, [communitiesCache.fetchingSubscribedCommunities]);
+
   const _getSubscriptions = () => {
     dispatch(fetchSubscribedCommunities(currentAccount.name));
-  };
-  const _getDiscovers = () => {
-    setIsDiscoversLoading(true);
-    getCommunities('', 50, null, 'rank')
-      .then((communities) => {
-        communities.forEach((community) =>
-          Object.assign(community, {
-            isSubscribed: communitiesCache.subscribedCommunities.some(
-              (subscribedCommunity) =>
-                subscribedCommunity.communityId === community.name &&
-                subscribedCommunity.isSubscribed,
-            ),
-          }),
-        );
-        setDiscovers(communities.sort((a, b) => a.title.localeCompare(b.title)));
-        setIsDiscoversLoading(false);
-      })
-      .catch((err) => {
-        console.warn('Failed to get subscriptions', err);
-        setIsDiscoversLoading(false);
-      });
-  };
-
-  const _updateDiscovers = () => {
-    const updatedDiscovers = discovers.map((community) => {
-      let subItem = communitiesCache.subscribedCommunities.find(
-        (subscribedCommunity) => subscribedCommunity.communityId === community.name,
-      );
-      if (subItem) {
-        return {
-          ...community,
-          isSubscribed: subItem.isSubscribed,
-        };
-      } else {
-        return community;
-      }
-    });
-    setDiscovers(updatedDiscovers);
   };
 
   // Component Functions
   const _handleTabChange = ({ i }) => {
     setActiveTabIndex(i);
-    // fetch discovers data when discover tab is active
-    if (i === 1 && (!discovers || discovers.length === 0)) {
-      _getDiscovers();
-    }
   };
   const _handleOnPress = (name) => {
     navigation.navigate({
