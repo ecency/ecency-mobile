@@ -2,15 +2,12 @@ import { useState, useEffect } from 'react';
 import { withNavigation } from 'react-navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
-import { shuffle } from 'lodash';
 
 import ROUTES from '../../../../../../constants/routeNames';
 
-import { getCommunities, getSubscriptions } from '../../../../../../providers/hive/dhive';
+import { getCommunities } from '../../../../../../providers/hive/dhive';
 
 import {
-  subscribeCommunity,
-  leaveCommunity,
   fetchSubscribedCommunities,
 } from '../../../../../../redux/actions/communitiesAction';
 import { Community, CommunityCacheObject } from '../../../../../../redux/reducers/cacheReducer';
@@ -40,13 +37,9 @@ const CommunitiesResultsContainer = ({ children, navigation, searchValue }) => {
   const [isDiscoversLoading, setIsDiscoversLoading] = useState(false);
   const [subscribingItem, setSubscribingItem] = useState<Community | null>(null);
 
-  const pinCode = useSelector((state) => state.application.pin);
-  const currentAccount = useSelector((state) => state.account.currentAccount);
-  const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
-  const subscribingCommunities = useSelector(
-    (state) => state.communities.subscribingCommunitiesInSearchResultsScreen,
-  );
-
+  const pinCode = useSelector((state: RootState) => state.application.pin);
+  const currentAccount = useSelector((state: RootState) => state.account.currentAccount);
+  const isLoggedIn = useSelector((state: RootState) => state.application.isLoggedIn);
   const communitiesCache: CommunityCacheObject = useSelector(
     (state: RootState) => state.cache.communities,
   );
@@ -62,8 +55,6 @@ const CommunitiesResultsContainer = ({ children, navigation, searchValue }) => {
   }, []);
 
   useEffect(() => {
-    console.log('communitiesCache.subscribedCommunities changed');
-    
     if (
       communitiesCache.subscribedCommunities &&
       communitiesCache.subscribedCommunities.length > 0
@@ -71,6 +62,7 @@ const CommunitiesResultsContainer = ({ children, navigation, searchValue }) => {
       _getSearchedCommunities();
     }
   }, [communitiesCache.subscribedCommunities]);
+
   useEffect(() => {
     if (searchValue) {
       _getSearchedCommunities();
