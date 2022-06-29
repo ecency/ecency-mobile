@@ -787,8 +787,9 @@ class ApplicationContainer extends Component {
 
   //TODO keep settings in redux and get rid of getSettings
   _getSettings = async () => {
-    const { dispatch, otherAccounts } = this.props;
+    const { dispatch } = this.props;
 
+    //TOOD: no need for resetting modal here afer adding them to non persist store.
     //reset certain properties
     dispatch(hideActionModal());
     dispatch(hideProfileModal());
@@ -810,36 +811,44 @@ class ApplicationContainer extends Component {
       if (settings.isDefaultFooter !== '') dispatch(isDefaultFooter(settings.isDefaultFooter)); //TODO: remove as not being used
 
       if (settings.notification !== '') {
-        console.log('Notification Settings', settings.notification, otherAccounts);
-        //TODO: no need to set nottification settings here.
-        dispatch(
-          changeNotificationSettings({
-            type: 'notification',
-            action: settings.notification,
-          }),
-        );
-        dispatch(changeAllNotificationSettings(settings));
-
-        //updateing fcm token with settings;
-        otherAccounts.forEach((account) => {
-          //since there can be more than one accounts, process access tokens separate
-          const encAccessToken = account.local.accessToken;
-          //decrypt access token
-          let accessToken = null;
-          if (encAccessToken) {
-            //NOTE: default pin decryption works also for custom pin as other account
-            //keys are not yet being affected by changed pin, which I think we should dig more
-            accessToken = decryptKey(encAccessToken, Config.DEFAULT_PIN);
-          }
-
-          this._enableNotification(account.name, settings.notification, settings, accessToken);
-        });
+        this._initNotificationSettings(settings);
       }
       if (settings.nsfw !== '') dispatch(setNsfw(settings.nsfw));
 
       await dispatch(setCurrency(settings.currency !== '' ? settings.currency : 'usd'));
     }
   };
+
+
+  //update notification settings and update push token for each signed accoutn useing access tokens
+  _initNotificationSettings = (settings) => {
+    const { dispatch, otherAccounts } = this.props;
+
+    console.log('Notification Settings', settings.notification, otherAccounts);
+    //TODO: no need to set nottification settings here.
+    dispatch(
+      changeNotificationSettings({
+        type: 'notification',
+        action: settings.notification,
+      }),
+    );
+
+    dispatch(changeAllNotificationSettings(settings));
+    //updateing fcm token with settings;
+    otherAccounts.forEach((account) => {
+      //since there can be more than one accounts, process access tokens separate
+      const encAccessToken = account.local.accessToken;
+      //decrypt access token
+      let accessToken = null;
+      if (encAccessToken) {
+        //NOTE: default pin decryption works also for custom pin as other account
+        //keys are not yet being affected by changed pin, which I think we should dig more
+        accessToken = decryptKey(encAccessToken, Config.DEFAULT_PIN);
+      }
+
+      this._enableNotification(account.name, settings.notification, settings, accessToken);
+    });
+  }
 
   _connectNotificationServer = (username) => {
     /* eslint no-undef: "warn" */
