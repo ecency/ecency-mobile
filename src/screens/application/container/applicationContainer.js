@@ -129,7 +129,6 @@ class ApplicationContainer extends Component {
     super(props);
     this.state = {
       isRenderRequire: true,
-      isReady: false,
       isIos: Platform.OS !== 'android',
       appState: AppState.currentState,
       showWelcomeModal: false,
@@ -466,9 +465,6 @@ class ApplicationContainer extends Component {
 
   _fetchApp = async () => {
     await this._getSettings();
-    this.setState({
-      isReady: true,
-    });
     this._refreshGlobalProps();
     await this._getUserDataFromRealm();
     this._compareAndPromptForUpdate();
@@ -819,7 +815,6 @@ class ApplicationContainer extends Component {
     }
   };
 
-
   //update notification settings and update push token for each signed accoutn useing access tokens
   _initNotificationSettings = (settings) => {
     const { dispatch, otherAccounts } = this.props;
@@ -848,7 +843,7 @@ class ApplicationContainer extends Component {
 
       this._enableNotification(account.name, settings.notification, settings, accessToken);
     });
-  }
+  };
 
   _connectNotificationServer = (username) => {
     /* eslint no-undef: "warn" */
@@ -1048,7 +1043,7 @@ class ApplicationContainer extends Component {
       isPinCodeRequire,
       rcOffer,
     } = this.props;
-    const { isRenderRequire, isReady, showWelcomeModal, foregroundNotificationData } = this.state;
+    const { isRenderRequire, showWelcomeModal, foregroundNotificationData } = this.state;
 
     return (
       children &&
@@ -1056,7 +1051,6 @@ class ApplicationContainer extends Component {
         isConnected,
         isDarkTheme: _isDarkTheme,
         isPinCodeRequire,
-        isReady,
         isRenderRequire,
         locale: selectedLanguage,
         rcOffer,

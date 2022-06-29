@@ -29,7 +29,6 @@ const Application = () => {
         isConnected,
         isDarkTheme,
         isPinCodeRequire,
-        isReady,
         isRenderRequire,
         locale,
         rcOffer,
@@ -71,7 +70,6 @@ const Application = () => {
                 isConnected={isConnected}
                 locale={locale}
                 toastNotification={toastNotification}
-                isReady={isReady}
                 isDarkTheme={isDarkTheme}
                 rcOffer={rcOffer}
                 foregroundNotificationData={foregroundNotificationData}

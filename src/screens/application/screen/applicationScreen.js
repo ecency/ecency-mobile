@@ -95,20 +95,13 @@ class ApplicationScreen extends Component {
   }
 
   render() {
-    const {
-      isConnected,
-      isDarkTheme,
-      toastNotification,
-      isReady,
-      foregroundNotificationData,
-      navigation,
-    } = this.props;
+    const { isConnected, isDarkTheme, toastNotification, foregroundNotificationData } = this.props;
     const { isShowToastNotification } = this.state;
     const barStyle = isDarkTheme ? 'light-content' : 'dark-content';
     const barColor = isDarkTheme ? '#1e2835' : '#fff';
 
     return (
-      <View pointerEvents={isReady ? 'auto' : 'none'} style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
         {Platform.os === 'ios' ? (
           <StatusBar barStyle={barStyle} />
         ) : (
