@@ -447,14 +447,18 @@ export const markNotifications = async (id: string | null = null) => {
 };
 
 
-export const setPushToken = async (data) => {
+export const setPushToken = async (data, accessToken = null) => {
   try {
     if (!data.username) {
       console.log("skipping push token setting, as no user is provided")
       return;
     }
 
-    const res = await api.post('/rgstrmbldvc/', data);
+    if(accessToken){
+      data.code = accessToken
+    }
+
+    const res = await await ecencyApi.post((`/private-api/register-device`), data);
     return res.data;
 
   } catch (error) {

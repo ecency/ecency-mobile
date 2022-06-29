@@ -6,12 +6,9 @@ import {
   TouchableOpacity,
   View,
   ActivityIndicator,
-  
 } from 'react-native';
 import { MainButton, PostBody, TextButton } from '..';
 import styles from './insertLinkModalStyles';
-import ActionSheet from 'react-native-actions-sheet';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import TextInput from '../textInput';
 import { delay } from '../../utils/editor';
 import { isStringWebLink } from '../markdownEditor/view/formats/utils';
@@ -20,6 +17,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import applyWebLinkFormat from '../markdownEditor/view/formats/applyWebLinkFormat';
 import Clipboard from '@react-native-clipboard/clipboard';
 import getWindowDimensions from '../../utils/getWindowDimensions';
+import Modal from '../modal';
 
 interface InsertLinkModalProps {
   handleOnInsertLink: ({
@@ -32,12 +30,12 @@ interface InsertLinkModalProps {
   handleOnSheetClose: () => void;
 }
 const screenWidth = getWindowDimensions().width - 58;
-const previewWidth = (10 / 16) * getWindowDimensions().width;
 
 export const InsertLinkModal = forwardRef(
   ({ handleOnInsertLink, handleOnSheetClose }: InsertLinkModalProps, ref) => {
     const intl = useIntl();
 
+    const [visible, setVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [label, setLabel] = useState('');
     const [url, setUrl] = useState('');
@@ -47,9 +45,10 @@ export const InsertLinkModal = forwardRef(
     const [selection, setSelection] = useState({ start: 0, end: 0 });
     const [selectedUrlType, setSelectedUrlType] = useState(0);
     const [previewBody, setPreviewBody] = useState('');
-    const sheetModalRef = useRef<ActionSheet>();
+
     const labelInputRef = useRef(null);
     const urlInputRef = useRef(null);
+
 
     useImperativeHandle(ref, () => ({
       showModal: async ({ selectedText, selection }) => {
@@ -68,12 +67,12 @@ export const InsertLinkModal = forwardRef(
           setSelection(selection);
         }
 
-        sheetModalRef.current?.setModalVisible(true);
+        setVisible(true);
         await delay(1500);
         labelInputRef.current?.focus();
       },
       hideModal: () => {
-        sheetModalRef.current?.setModalVisible(false);
+        setVisible(false);
       },
     }));
 
@@ -118,6 +117,7 @@ export const InsertLinkModal = forwardRef(
 
     const _handleOnCloseSheet = () => {
       labelInputRef.current?.blur();
+      setVisible(false);
       setLabel('');
       setUrl('');
       setSelectedUrlType(0);
@@ -141,7 +141,7 @@ export const InsertLinkModal = forwardRef(
         <View style={styles.floatingContainer}>
           <TextButton
             style={styles.cancelButton}
-            onPress={() => sheetModalRef.current?.setModalVisible(false)}
+            onPress={() => setVisible(false)}// sheetModalRef.current?.setModalVisible(false)}
             text={'Cancel'}
           />
           <MainButton
@@ -150,7 +150,7 @@ export const InsertLinkModal = forwardRef(
             iconName="plus"
             iconType="MaterialCommunityIcons"
             iconColor="white"
-            text={'Insert Link'}
+            text={intl.formatMessage({ id: 'editor.insert_link' })}
           />
         </View>
       );
@@ -291,17 +291,18 @@ export const InsertLinkModal = forwardRef(
     );
 
     return (
-      <ActionSheet
-        ref={sheetModalRef}
-        gestureEnabled={true}
-        keyboardShouldPersistTaps="handled"
-        containerStyle={styles.sheetContent}
-        keyboardHandlerEnabled
-        indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
-        onClose={_handleOnCloseSheet}
+
+      <Modal
+        isOpen={visible}
+        handleOnModalClose={_handleOnCloseSheet}
+        presentationStyle="formSheet"
+        animationType="slide"
+        title={intl.formatMessage({ id: 'editor.insert_link' })}
+        style={styles.modalStyle}
       >
         {_renderContent}
-      </ActionSheet>
+      </Modal>
+
     );
   },
 );

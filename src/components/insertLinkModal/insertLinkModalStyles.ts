@@ -19,8 +19,10 @@ export default EStyleSheet.create({
     paddingTop: 32,
     paddingBottom: 16,
   },
+  
   container: {
     paddingVertical: 8,
+    backgroundColor: '$primaryBackgroundColor',
   },
   bodyWrapper: {
     flex: 3,
@@ -30,7 +32,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: 16,
     paddingHorizontal: 16,
     backgroundColor: '$primaryBackgroundColor',
   } as ViewStyle,

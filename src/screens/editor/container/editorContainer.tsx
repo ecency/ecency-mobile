@@ -457,7 +457,7 @@ class EditorContainer extends Component<any, any> {
       }
 
       if (res.data && res.data.url) {
-        res.data.hash = res.data.url.split('/').pop();
+        res.data.hash = "";
         res.data.shouldInsert = shouldInsert;
 
         this.setState({

@@ -7,7 +7,7 @@ export default async ({ text, selection, setTextAndSelection, items }) => {
     let newSelection = selection;
 
     items.forEach(item => {
-        if(item.url && item.text){
+        if(item.url){
             const formatedText = `\n${imagePrefix}[${item.text}](${item.url})\n`
             newText = replaceBetween(newText, newSelection, formatedText);
             const newIndex = newText && newText.indexOf(item.url, newSelection.start) + item.url.length + 2;
