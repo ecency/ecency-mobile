@@ -38,7 +38,6 @@ const Application = () => {
         handleWelcomeModalButtonPress,
         foregroundNotificationData,
       }) => {
-        const _isAppReady = isReady && isRenderRequire;
 
         return (
           <ErrorBoundary>
@@ -48,7 +47,7 @@ const Application = () => {
               onDeviceChange={_handleDeviceOrientationChange}
             />
             <Modal
-              isOpen={showWelcomeModal && _isAppReady}
+              isOpen={showWelcomeModal}
               isFullScreen
               swipeToClose={false}
               backButtonClose={false}

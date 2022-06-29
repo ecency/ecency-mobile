@@ -123,7 +123,6 @@ export const setPreviousAppState = () => {
 let firebaseOnNotificationOpenedAppListener = null;
 let firebaseOnMessageListener = null;
 let removeAppearanceListener = null;
-let scAccounts = [];
 
 class ApplicationContainer extends Component {
   constructor(props) {
@@ -164,16 +163,7 @@ class ApplicationContainer extends Component {
 
     getVersionForWelcomeModal().then((version) => {
       if (version < parseVersionNumber(appVersion)) {
-        getUserData().then((accounts) => {
-          this.setState({ showWelcomeModal: true });
-          if (accounts && accounts.length > 0) {
-            accounts.forEach((account) => {
-              if (get(account, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
-                scAccounts.push(account);
-              }
-            });
-          }
-        });
+        this.setState({ showWelcomeModal: true });
       }
     });
 
