@@ -419,7 +419,7 @@ class ApplicationContainer extends Component {
     );
   };
 
-  
+
   _handleAppStateChange = (nextAppState) => {
     const { appState } = this.state;
 
@@ -665,6 +665,7 @@ class ApplicationContainer extends Component {
 
       if (isConnected) {
         this._fetchUserDataFromDsteem(realmObject[0]);
+      
       }
 
       return realmObject[0];
@@ -744,6 +745,7 @@ class ApplicationContainer extends Component {
       dispatch(updateCurrentAccount(accountData));
       dispatch(fetchSubscribedCommunities(realmObject.username));
       this._connectNotificationServer(accountData.name);
+      //TODO: better update device push token here after access token refresh
     } catch (err) {
       Alert.alert(
         `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
