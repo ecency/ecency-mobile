@@ -23,6 +23,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
   const [discovers, setDiscovers] = useState([]);
   const [subscriptions, setSubscriptions] = useState([]);
   const [isSubscriptionsLoading, setIsSubscriptionsLoading] = useState(true);
+  const [isDiscoversLoading, setIsDiscoversLoading] = useState(true);
   const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
 
   const currentAccount = useSelector((state) => state.account.currentAccount);
@@ -134,6 +135,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
 
   const _getSubscriptions = () => {
     setIsSubscriptionsLoading(true);
+    setIsDiscoversLoading(true);
     if (
       subscribedCommunities &&
       subscribedCommunities.data &&
@@ -161,13 +163,15 @@ const CommunitiesContainer = ({ children, navigation }) => {
           );
 
           setSubscriptions(mergeSubCommunitiesCacheInSubList(subs, subscribedCommunitiesCache)); //merge cache with fetched data
-          setDiscovers(shuffle(communities));
+          setDiscovers(communities);
           setIsSubscriptionsLoading(false);
+          setIsDiscoversLoading(false);
         });
       })
       .catch((err) => {
         console.warn('Failed to get subscriptions', err);
         setIsSubscriptionsLoading(false);
+        setIsDiscoversLoading(false);
       });
   };
 
@@ -231,6 +235,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
       subscribingCommunitiesInDiscoverTab,
       subscribingCommunitiesInJoinedTab,
       isSubscriptionsLoading,
+      isDiscoversLoading,
       handleOnPress: _handleOnPress,
       handleSubscribeButtonPress: _handleSubscribeButtonPress,
       handleGetSubscriptions: _getSubscriptions,
