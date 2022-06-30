@@ -6,8 +6,6 @@ import { useDispatch } from 'react-redux';
 import ApplicationContainer from './container/applicationContainer';
 import WelcomeModal from './screen/welcomeModal';
 import ApplicationScreen from './screen/applicationScreen';
-import { Modal } from '../../components';
-import { PinCode } from '../pinCode';
 import ErrorBoundary from './screen/errorBoundary';
 import { setDeviceOrientation } from '../../redux/actions/uiAction';
 import PinCodeModal from './screen/pinCodeModal';
@@ -18,7 +16,9 @@ const Application = () => {
   const [welcomeModalVisible, setWelcomeModalVisible] = useState(false);
 
   useEffect(() => {
-    SplashScreen.hide();
+    setTimeout(()=>{
+      SplashScreen.hide();
+    }, 300)
   }, []);
 
   const _handleDeviceOrientationChange = (orientation) => {
