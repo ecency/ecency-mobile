@@ -10,6 +10,7 @@ import { Modal } from '../../components';
 import { PinCode } from '../pinCode';
 import ErrorBoundary from './screen/errorBoundary';
 import { setDeviceOrientation } from '../../redux/actions/uiAction';
+import PinCodeModal from './screen/pinCodeModal';
 
 const Application = () => {
   const dispatch = useDispatch();
@@ -48,15 +49,9 @@ const Application = () => {
 
             <WelcomeModal onModalVisibilityChange={setWelcomeModalVisible} />
 
-            <Modal
-              isOpen={isPinCodeRequire && !welcomeModalVisible}
-              isFullScreen
-              swipeToClose={false}
-              backButtonClose={false}
-              style={{ margin: 0 }}
-            >
-              <PinCode />
-            </Modal>
+            <PinCodeModal welcomeModalVisible={welcomeModalVisible} />
+            
+            
 
             {isRenderRequire && (
               <ApplicationScreen

@@ -13,11 +13,11 @@ import LaunchScreen from '../../launch';
 
 import styles from './welcomeStyles';
 
-const WelcomeModal = ({onModalVisibilityChange}) => {
+const WelcomeModal = ({ onModalVisibilityChange }) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
-  const lastAppVersion = useAppSelector(state=>state.application.lastAppVersion)
+  const lastAppVersion = useAppSelector(state => state.application.lastAppVersion)
 
   const [showAnimation, setShowAnimation] = useState(true);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
@@ -29,30 +29,26 @@ const WelcomeModal = ({onModalVisibilityChange}) => {
   }, [])
 
 
-  useEffect(() => {
-    if (showAnimation) {
-      setTimeout(() => {
-        setShowAnimation(false);
-      }, 3550);
-    }
-  }, [showAnimation]);
-
-
   const _compareAppVersion = () => {
-    if(!lastAppVersion || (parseVersionNumber(lastAppVersion) < parseVersionNumber(appVersion))){
-      setShowWelcomeModal(true);
-      onModalVisibilityChange(true)
-    } 
+    if (!lastAppVersion || (parseVersionNumber(lastAppVersion) < parseVersionNumber(appVersion))) {
+      _showWelcomeModal();
+    }
+  }
+
+  const _showWelcomeModal = () => {
+    setShowWelcomeModal(true);
+    onModalVisibilityChange(true);
+    setShowAnimation(true);
+    setTimeout(() => {
+      setShowAnimation(false);
+    }, 3550);
   }
 
 
   const _handleButtonPress = () => {
     dispatch(setLastAppVersion(appVersion))
     setShowWelcomeModal(false);
-    setTimeout(()=>{
-      onModalVisibilityChange(false)
-    }, 100)
-    
+    onModalVisibilityChange(false);
   }
 
 

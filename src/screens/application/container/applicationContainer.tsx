@@ -10,7 +10,6 @@ import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { isEmpty, some } from 'lodash';
-import { useDarkMode } from 'react-native-dynamic';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import VersionNumber from 'react-native-version-number';
@@ -420,22 +419,10 @@ class ApplicationContainer extends Component {
     );
   };
 
+  
   _handleAppStateChange = (nextAppState) => {
     const { appState } = this.state;
-    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
-    getExistUser().then((isExistUser) => {
-      if (isExistUser) {
-        if (appState.match(/active|forground/) && nextAppState === 'inactive') {
-          this._startPinCodeTimer();
-        }
 
-        if (appState.match(/inactive|background/) && nextAppState === 'active') {
-          if (_isPinCodeOpen) {
-            clearTimeout(this._pinCodeTimer);
-          }
-        }
-      }
-    });
     if (appState.match(/inactive|background/) && nextAppState === 'active') {
       this._refreshGlobalProps();
     }
@@ -445,15 +432,6 @@ class ApplicationContainer extends Component {
     });
   };
 
-  _startPinCodeTimer = () => {
-    const { dispatch, isPinCodeOpen: _isPinCodeOpen } = this.props;
-
-    if (_isPinCodeOpen) {
-      this._pinCodeTimer = setTimeout(() => {
-        dispatch(openPinCodeModal());
-      }, 1 * 60 * 1000);
-    }
-  };
 
   _fetchApp = async () => {
     await this._getSettings();
@@ -674,11 +652,11 @@ class ApplicationContainer extends Component {
         // TODO:
         await switchAccount(realmObject[0].username);
       }
-      const isExistUser = await getExistUser();
+
 
       realmObject[0].name = currentUsername;
       // If in dev mode pin code does not show
-      if ((!isExistUser || !pinCode) && _isPinCodeOpen) {
+      if (_isPinCodeOpen) {
         dispatch(openPinCodeModal());
       } else if (!_isPinCodeOpen) {
         const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
