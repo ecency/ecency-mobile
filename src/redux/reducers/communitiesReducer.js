@@ -12,6 +12,7 @@ import {
   LEAVE_COMMUNITY_SUCCESS,
   LEAVE_COMMUNITY_FAIL,
 } from '../constants/constants';
+import { statusMessage } from '../constants/communitiesConstants';
 
 const initialState = {
   communities: {
@@ -121,6 +122,7 @@ export default function (state = initialState, action) {
                 isSubscribed: false,
                 loading: true,
                 error: false,
+                status: statusMessage.PENDING,
               },
             },
           };
@@ -133,6 +135,7 @@ export default function (state = initialState, action) {
                 isSubscribed: false,
                 loading: true,
                 error: false,
+                status: statusMessage.PENDING,
               },
             },
           };
@@ -145,6 +148,7 @@ export default function (state = initialState, action) {
                 isSubscribed: false,
                 loading: true,
                 error: false,
+                status: statusMessage.PENDING,
               },
             },
           };
@@ -157,6 +161,7 @@ export default function (state = initialState, action) {
                 isSubscribed: false,
                 loading: true,
                 error: false,
+                status: statusMessage.PENDING,
               },
             },
           };
@@ -174,6 +179,7 @@ export default function (state = initialState, action) {
                 isSubscribed: true,
                 loading: false,
                 error: false,
+                status: statusMessage.SUCCESS,
               },
             },
           };
@@ -186,6 +192,7 @@ export default function (state = initialState, action) {
                 isSubscribed: true,
                 loading: false,
                 error: false,
+                status: statusMessage.SUCCESS,
               },
             },
           };
@@ -198,6 +205,7 @@ export default function (state = initialState, action) {
                 isSubscribed: true,
                 loading: false,
                 error: false,
+                status: statusMessage.SUCCESS,
               },
             },
           };
@@ -210,6 +218,7 @@ export default function (state = initialState, action) {
                 isSubscribed: true,
                 loading: false,
                 error: false,
+                status: statusMessage.SUCCESS,
               },
             },
           };
@@ -227,6 +236,7 @@ export default function (state = initialState, action) {
                 isSubscribed: false,
                 loading: false,
                 error: true,
+                status: statusMessage.FAIL,
               },
             },
           };
@@ -239,6 +249,7 @@ export default function (state = initialState, action) {
                 isSubscribed: false,
                 loading: false,
                 error: true,
+                status: statusMessage.FAIL,
               },
             },
           };
@@ -251,6 +262,7 @@ export default function (state = initialState, action) {
                 isSubscribed: false,
                 loading: false,
                 error: true,
+                status: statusMessage.FAIL,
               },
             },
           };
@@ -263,6 +275,7 @@ export default function (state = initialState, action) {
                 isSubscribed: false,
                 loading: false,
                 error: true,
+                status: statusMessage.FAIL,
               },
             },
           };
@@ -280,6 +293,7 @@ export default function (state = initialState, action) {
                 isSubscribed: true,
                 loading: true,
                 error: false,
+                status: statusMessage.PENDING,
               },
             },
           };
@@ -292,6 +306,7 @@ export default function (state = initialState, action) {
                 isSubscribed: true,
                 loading: true,
                 error: false,
+                status: statusMessage.PENDING,
               },
             },
           };
@@ -304,6 +319,7 @@ export default function (state = initialState, action) {
                 isSubscribed: true,
                 loading: true,
                 error: false,
+                status: statusMessage.PENDING,
               },
             },
           };
@@ -316,6 +332,7 @@ export default function (state = initialState, action) {
                 isSubscribed: true,
                 loading: true,
                 error: false,
+                status: statusMessage.PENDING,
               },
             },
           };
@@ -333,6 +350,7 @@ export default function (state = initialState, action) {
                 isSubscribed: false,
                 loading: false,
                 error: false,
+                status: statusMessage.SUCCESS,
               },
             },
           };
@@ -345,6 +363,7 @@ export default function (state = initialState, action) {
                 isSubscribed: false,
                 loading: false,
                 error: false,
+                status: statusMessage.SUCCESS,
               },
             },
           };
@@ -357,6 +376,7 @@ export default function (state = initialState, action) {
                 isSubscribed: false,
                 loading: false,
                 error: false,
+                status: statusMessage.SUCCESS,
               },
             },
           };
@@ -369,6 +389,7 @@ export default function (state = initialState, action) {
                 isSubscribed: false,
                 loading: false,
                 error: false,
+                status: statusMessage.SUCCESS,
               },
             },
           };
@@ -386,6 +407,7 @@ export default function (state = initialState, action) {
                 isSubscribed: true,
                 loading: false,
                 error: true,
+                status: statusMessage.FAIL,
               },
             },
           };
@@ -398,6 +420,7 @@ export default function (state = initialState, action) {
                 isSubscribed: true,
                 loading: false,
                 error: true,
+                status: statusMessage.FAIL,
               },
             },
           };
@@ -410,6 +433,7 @@ export default function (state = initialState, action) {
                 isSubscribed: true,
                 loading: false,
                 error: true,
+                status: statusMessage.FAIL,
               },
             },
           };
@@ -422,6 +446,7 @@ export default function (state = initialState, action) {
                 isSubscribed: true,
                 loading: false,
                 error: true,
+                status: statusMessage.FAIL,
               },
             },
           };

@@ -17,6 +17,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
   const [discovers, setDiscovers] = useState([]);
   const [subscriptions, setSubscriptions] = useState([]);
   const [isSubscriptionsLoading, setIsSubscriptionsLoading] = useState(true);
+  const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
 
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const pinCode = useSelector((state) => state.application.pin);
@@ -30,6 +31,22 @@ const CommunitiesContainer = ({ children, navigation }) => {
   useEffect(() => {
     _getSubscriptions();
   }, []);
+
+  useEffect(() => {
+    if (subscribingCommunitiesInJoinedTab && selectedCommunityItem) {
+      const { status } = subscribingCommunitiesInJoinedTab[selectedCommunityItem.communityId];
+      // hande cache here
+      console.log('subscribingCommunitiesInJoinedTab status : ', status);
+    }
+  }, [subscribingCommunitiesInJoinedTab]);
+
+  useEffect(() => {
+    if (subscribingCommunitiesInDiscoverTab && selectedCommunityItem) {
+      const { status } = subscribingCommunitiesInDiscoverTab[selectedCommunityItem.communityId];
+      // hande cache here
+      console.log('subscribingCommunitiesInDiscoverTab status : ', status);
+    }
+  }, [subscribingCommunitiesInDiscoverTab]);
 
   useEffect(() => {
     const discoversData = [...discovers];
@@ -119,6 +136,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
   };
 
   const _handleSubscribeButtonPress = (data, screen) => {
+    setSelectedCommunityItem(data); //set selected item to handle its cache
     let subscribeAction;
     let successToastText = '';
     let failToastText = '';
