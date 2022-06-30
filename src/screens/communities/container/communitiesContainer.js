@@ -150,7 +150,6 @@ const CommunitiesContainer = ({ children, navigation }) => {
         subscribedCommunitiesCache,
       );
       setSubscriptions(updatedSubsList.slice());
-      console.log('just before isSubscriptionsLoading : ', updatedSubsList.slice());
       setIsSubscriptionsLoading(false);
     }
     getSubscriptions(currentAccount.username)
@@ -231,9 +230,9 @@ const CommunitiesContainer = ({ children, navigation }) => {
     );
   };
 
-  console.log('isSubscriptionsLoading : ', isSubscriptionsLoading);
-  console.log('subscribedCommunities : ', subscribedCommunities);
-  console.log('subscriptions : ', subscriptions);
+  // console.log('isSubscriptionsLoading : ', isSubscriptionsLoading);
+  // console.log('subscribedCommunities : ', subscribedCommunities);
+  // console.log('subscriptions : ', subscriptions);
   return (
     children &&
     children({
