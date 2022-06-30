@@ -8,7 +8,11 @@ import ROUTES from '../../../constants/routeNames';
 
 import { getCommunities, getSubscriptions } from '../../../providers/hive/dhive';
 
-import { subscribeCommunity, leaveCommunity } from '../../../redux/actions/communitiesAction';
+import {
+  subscribeCommunity,
+  leaveCommunity,
+  fetchSubscribedCommunitiesSuccess,
+} from '../../../redux/actions/communitiesAction';
 import { statusMessage } from '../../../redux/constants/communitiesConstants';
 import {
   deleteSubscribedCommunityCacheEntry,
@@ -166,6 +170,9 @@ const CommunitiesContainer = ({ children, navigation }) => {
           setDiscovers(communities);
           setIsSubscriptionsLoading(false);
           setIsDiscoversLoading(false);
+          dispatch(
+            fetchSubscribedCommunitiesSuccess(subs.sort((a, b) => a[1].localeCompare(b[1]))),
+          ); //register subscribed data in communities store
         });
       })
       .catch((err) => {

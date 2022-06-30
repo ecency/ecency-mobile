@@ -24,6 +24,7 @@ const initialState = {
     data: [],
     loading: false,
     error: false,
+    status: statusMessage.PENDING,
   },
   subscribingCommunitiesInFeedScreen: {
     //['name']: {
@@ -91,6 +92,7 @@ export default function (state = initialState, action) {
           data: [],
           loading: true,
           error: false,
+          status: statusMessage.PENDING,
         },
       };
     case FETCH_SUBSCRIBED_COMMUNITIES_SUCCESS:
@@ -100,6 +102,7 @@ export default function (state = initialState, action) {
           data: action.payload || [],
           loading: false,
           error: false,
+          status: statusMessage.SUCCESS,
         },
       };
     case FETCH_SUBSCRIBED_COMMUNITIES_FAIL:
@@ -109,6 +112,7 @@ export default function (state = initialState, action) {
           data: [],
           loading: false,
           error: action.payload,
+          status: statusMessage.FAIL,
         },
       };
     case SUBSCRIBE_COMMUNITY:
