@@ -28,6 +28,7 @@ import {
   SET_PIN_CODE,
   IS_PIN_CODE_OPEN,
   IS_RENDER_REQUIRED,
+  SET_LAST_APP_VERSION,
 } from '../constants/constants';
 
 export const login = (payload) => ({
@@ -182,4 +183,9 @@ export const isRenderRequired = (payload) => ({
   payload,
   type: IS_RENDER_REQUIRED,
 });
+
+export const setLastAppVersion = (versionNumber:string) => ({
+  payload:versionNumber,
+  type: SET_LAST_APP_VERSION
+})
 

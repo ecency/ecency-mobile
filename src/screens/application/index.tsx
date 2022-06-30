@@ -4,7 +4,7 @@ import SplashScreen from 'react-native-splash-screen';
 import { OrientationLocker, PORTRAIT } from 'react-native-orientation-locker';
 import { useDispatch } from 'react-redux';
 import ApplicationContainer from './container/applicationContainer';
-import WelcomeScreen from './screen/welcomeScreen';
+import WelcomeModal from './screen/welcomeModal';
 import ApplicationScreen from './screen/applicationScreen';
 import { Modal } from '../../components';
 import { PinCode } from '../pinCode';
@@ -45,15 +45,9 @@ const Application = () => {
               onChange={(orientation) => console.log('orientation changed : ', orientation)}
               onDeviceChange={_handleDeviceOrientationChange}
             />
-            <Modal
-              isOpen={showWelcomeModal}
-              isFullScreen
-              swipeToClose={false}
-              backButtonClose={false}
-              style={{ margin: 0 }}
-            >
-              <WelcomeScreen handleButtonPress={handleWelcomeModalButtonPress} />
-            </Modal>
+    
+              <WelcomeModal />
+  
 
             <Modal
               isOpen={isPinCodeRequire && !showWelcomeModal}

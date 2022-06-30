@@ -1,18 +1,33 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { Text, Image, View, SafeAreaView, TouchableOpacity } from 'react-native';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
+import VersionNumber from 'react-native-version-number';
 
-import { Icon, MainButton } from '../../../components';
+import { Icon, MainButton, Modal } from '../../../components';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { setLastAppVersion } from '../../../redux/actions/applicationActions';
+import parseVersionNumber from '../../../utils/parseVersionNumber';
 import LaunchScreen from '../../launch';
 
 import styles from './welcomeStyles';
 
-const WelcomeScreen = ({ handleButtonPress }) => {
+const WelcomeModal = () => {
   const intl = useIntl();
-    
+  const dispatch = useAppDispatch();
+
+  const lastAppVersion = useAppSelector(state=>state.application.lastAppVersion)
+
   const [showAnimation, setShowAnimation] = useState(true);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+
+  const [appVersion] = useState(VersionNumber.appVersion);
+
+  useEffect(() => {
+    _compareAppVersion()
+  }, [])
+
 
   useEffect(() => {
     if (showAnimation) {
@@ -21,7 +36,20 @@ const WelcomeScreen = ({ handleButtonPress }) => {
       }, 3550);
     }
   }, [showAnimation]);
-  
+
+
+  const _compareAppVersion = () => {
+    if(!lastAppVersion || (parseVersionNumber(lastAppVersion) < parseVersionNumber(appVersion))){
+      setShowWelcomeModal(true);
+    } 
+  }
+
+
+  const _handleButtonPress = () => {
+    dispatch(setLastAppVersion(appVersion))
+    setShowWelcomeModal(false);
+  }
+
 
   const _renderInfo = (iconName, headingIntlId, bodyIntlId) => (
     <View style={styles.sectionRow}>
@@ -38,9 +66,9 @@ const WelcomeScreen = ({ handleButtonPress }) => {
     </View>
   );
 
-  return (
+  const _renderContent = () => (
     <SafeAreaView style={styles.root}>
-      <TouchableOpacity onPress={handleButtonPress} style={styles.container}>
+      <TouchableOpacity onPress={_handleButtonPress} style={styles.container}>
         <Image
           style={styles.mascot}
           resizeMode="contain"
@@ -57,7 +85,7 @@ const WelcomeScreen = ({ handleButtonPress }) => {
         </View>
         <View style={styles.bottomButton}>
           <MainButton
-            onPress={handleButtonPress}
+            onPress={_handleButtonPress}
             isDisable={false}
             isLoading={false}
             style={{ alignSelf: 'center', paddingHorizontal: 30 }}
@@ -68,6 +96,18 @@ const WelcomeScreen = ({ handleButtonPress }) => {
       {showAnimation && <LaunchScreen />}
     </SafeAreaView>
   );
+
+
+  return (
+    <Modal
+      isOpen={showWelcomeModal}
+      isFullScreen
+      swipeToClose={false}
+      backButtonClose={false}
+      style={{ margin: 0 }}
+    >
+      {_renderContent()}
+    </Modal>)
 };
 
-export default WelcomeScreen;
+export default WelcomeModal;
