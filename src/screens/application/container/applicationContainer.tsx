@@ -832,7 +832,7 @@ class ApplicationContainer extends Component {
     //updateing fcm token with settings;
     otherAccounts.forEach((account) => {
       //since there can be more than one accounts, process access tokens separate
-      const encAccessToken = account.local.accessToken;
+      const encAccessToken = account?.local?.accessToken;
       //decrypt access token
       let accessToken = null;
       if (encAccessToken) {
