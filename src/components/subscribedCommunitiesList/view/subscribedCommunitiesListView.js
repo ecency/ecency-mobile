@@ -81,6 +81,7 @@ const SubscribedCommunitiesListView = ({
                 {
                   isSubscribed: item[4],
                   communityId: item[0],
+                  communityTitle: item[1],
                 },
                 'communitiesScreenJoinedTab',
               )

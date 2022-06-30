@@ -1,4 +1,4 @@
-import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE, UPDATE_COMMENT_CACHE, DELETE_COMMENT_CACHE_ENTRY, DELETE_DRAFT_CACHE_ENTRY, UPDATE_DRAFT_CACHE,  } from "../constants/constants";
+import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE, UPDATE_COMMENT_CACHE, DELETE_COMMENT_CACHE_ENTRY, DELETE_DRAFT_CACHE_ENTRY, UPDATE_DRAFT_CACHE, UPDATE_SUBSCRIBED_COMMUNITY_CACHE, DELETE_SUBSCRIBED_COMMUNITY_CACHE,  } from "../constants/constants";
 
 export interface Vote {
     amount:number;
@@ -36,10 +36,15 @@ export interface Draft {
     expiresAt?:number;
 }
 
+export interface SubscribedCommunity {
+    data: Array<any>,
+    expiresAt?:number;
+}
 interface State {
     votes:Map<string, Vote>
     comments:Map<string, Comment> //TODO: handle comment array per post, if parent is same
     drafts: Map<string, Draft>
+    subscribedCommunities: Map<string, SubscribedCommunity>
     lastUpdate:{
         postPath:string,
         updatedAt:number,
@@ -51,6 +56,7 @@ const initialState:State = {
     votes:new Map(),
     comments:new Map(),
     drafts: new Map(),
+    subscribedCommunities: new Map(),
     lastUpdate:null,
   };
   
@@ -120,6 +126,23 @@ const initialState:State = {
             }
             return { ...state }
 
+        case UPDATE_SUBSCRIBED_COMMUNITY_CACHE:
+            if(!state.subscribedCommunities){
+                state.subscribedCommunities = new Map<string, SubscribedCommunity>();
+            }
+            const subscribedCommunities = new Map(state.subscribedCommunities);
+            subscribedCommunities.set(payload.path, payload.subscribedCommunity);
+            return {
+                ...state, //spread operator in requried here, otherwise persist do not register change
+                subscribedCommunities: subscribedCommunities
+            };
+
+        case DELETE_SUBSCRIBED_COMMUNITY_CACHE:
+            if (state.subscribedCommunities && state.subscribedCommunities.has(payload)) {
+                state.subscribedCommunities.delete(payload);
+            }
+            return { ...state }
+            
         case PURGE_EXPIRED_CACHE:
             const currentTime = new Date().getTime();
 
@@ -143,6 +166,14 @@ const initialState:State = {
                 Array.from(state.drafts).forEach((entry)=>{
                     if(entry[1].expiresAt < currentTime){
                         state.drafts.delete(entry[0]);
+                    }
+                 })
+            }
+
+            if(state.subscribedCommunities && state.subscribedCommunities.size){
+                Array.from(state.subscribedCommunities).forEach((entry)=>{
+                    if(entry[1].expiresAt < currentTime){
+                        state.subscribedCommunities.delete(entry[0]);
                     }
                  })
             }

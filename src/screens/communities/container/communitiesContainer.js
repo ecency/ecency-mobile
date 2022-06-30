@@ -9,6 +9,8 @@ import ROUTES from '../../../constants/routeNames';
 import { getCommunities, getSubscriptions } from '../../../providers/hive/dhive';
 
 import { subscribeCommunity, leaveCommunity } from '../../../redux/actions/communitiesAction';
+import { statusMessage } from '../../../redux/constants/communitiesConstants';
+import { updateSubscribedCommunitiesCache } from '../../../redux/actions/cacheActions';
 
 const CommunitiesContainer = ({ children, navigation }) => {
   const dispatch = useDispatch();
@@ -27,26 +29,36 @@ const CommunitiesContainer = ({ children, navigation }) => {
   const subscribingCommunitiesInJoinedTab = useSelector(
     (state) => state.communities.subscribingCommunitiesInCommunitiesScreenJoinedTab,
   );
+  const subscribedCommunitiesCache = useSelector((state) => state.cache.subscribedCommunities);
 
   useEffect(() => {
     _getSubscriptions();
   }, []);
 
+  // handle cache in joined/membership tab
   useEffect(() => {
     if (subscribingCommunitiesInJoinedTab && selectedCommunityItem) {
       const { status } = subscribingCommunitiesInJoinedTab[selectedCommunityItem.communityId];
-      // hande cache here
-      console.log('subscribingCommunitiesInJoinedTab status : ', status);
+      if (status === statusMessage.SUCCESS) {
+        dispatch(updateSubscribedCommunitiesCache(selectedCommunityItem));
+      }
     }
   }, [subscribingCommunitiesInJoinedTab]);
 
+  // handle cache in discover tab
   useEffect(() => {
     if (subscribingCommunitiesInDiscoverTab && selectedCommunityItem) {
       const { status } = subscribingCommunitiesInDiscoverTab[selectedCommunityItem.communityId];
-      // hande cache here
-      console.log('subscribingCommunitiesInDiscoverTab status : ', status);
+      if (status === statusMessage.SUCCESS) {
+        dispatch(updateSubscribedCommunitiesCache(selectedCommunityItem));
+      }
     }
   }, [subscribingCommunitiesInDiscoverTab]);
+
+  // side effect for subscribed communities cache update
+  useEffect(() => {
+    console.log('subscribedCommunitiesCache updated : ', subscribedCommunitiesCache);
+  }, [subscribedCommunitiesCache]);
 
   useEffect(() => {
     const discoversData = [...discovers];
@@ -166,6 +178,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
     );
   };
 
+  console.log('subscriptions : ', subscriptions);
   return (
     children &&
     children({
