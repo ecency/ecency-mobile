@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SplashScreen from 'react-native-splash-screen';
 
 import { OrientationLocker, PORTRAIT } from 'react-native-orientation-locker';
@@ -13,6 +13,8 @@ import { setDeviceOrientation } from '../../redux/actions/uiAction';
 
 const Application = () => {
   const dispatch = useDispatch();
+
+  const [welcomeModalVisible, setWelcomeModalVisible] = useState(false);
 
   useEffect(() => {
     SplashScreen.hide();
@@ -33,8 +35,6 @@ const Application = () => {
         locale,
         rcOffer,
         toastNotification,
-        showWelcomeModal,
-        handleWelcomeModalButtonPress,
         foregroundNotificationData,
       }) => {
 
@@ -45,12 +45,11 @@ const Application = () => {
               onChange={(orientation) => console.log('orientation changed : ', orientation)}
               onDeviceChange={_handleDeviceOrientationChange}
             />
-    
-              <WelcomeModal />
-  
+
+            <WelcomeModal onModalVisibilityChange={setWelcomeModalVisible} />
 
             <Modal
-              isOpen={isPinCodeRequire && !showWelcomeModal}
+              isOpen={isPinCodeRequire && !welcomeModalVisible}
               isFullScreen
               swipeToClose={false}
               backButtonClose={false}

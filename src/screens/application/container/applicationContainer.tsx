@@ -34,8 +34,6 @@ import {
   setAuthStatus,
   removeSCAccount,
   setExistUser,
-  getVersionForWelcomeModal,
-  setVersionForWelcomeModal,
   getLastUpdateCheck,
   setLastUpdateCheck,
   getTheme,
@@ -131,7 +129,6 @@ class ApplicationContainer extends Component {
       isRenderRequire: true,
       isIos: Platform.OS !== 'android',
       appState: AppState.currentState,
-      showWelcomeModal: false,
       foregroundNotificationData: null,
     };
   }
@@ -160,11 +157,6 @@ class ApplicationContainer extends Component {
     //set avatar cache stamp to invalidate previous session avatars
     dispatch(setAvatarCacheStamp(new Date().getTime()));
 
-    getVersionForWelcomeModal().then((version) => {
-      if (version < parseVersionNumber(appVersion)) {
-        this.setState({ showWelcomeModal: true });
-      }
-    });
 
     setMomentLocale();
     this._fetchApp();
@@ -981,13 +973,6 @@ class ApplicationContainer extends Component {
     dispatch(fetchSubscribedCommunities(_currentAccount.username));
   };
 
-  _handleWelcomeModalButtonPress = () => {
-    const { appVersion } = VersionNumber;
-
-    setVersionForWelcomeModal(appVersion);
-
-    this.setState({ showWelcomeModal: false });
-  };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     const {
@@ -1043,7 +1028,7 @@ class ApplicationContainer extends Component {
       isPinCodeRequire,
       rcOffer,
     } = this.props;
-    const { isRenderRequire, showWelcomeModal, foregroundNotificationData } = this.state;
+    const { isRenderRequire, foregroundNotificationData } = this.state;
 
     return (
       children &&
@@ -1055,9 +1040,7 @@ class ApplicationContainer extends Component {
         locale: selectedLanguage,
         rcOffer,
         toastNotification,
-        showWelcomeModal,
         foregroundNotificationData,
-        handleWelcomeModalButtonPress: this._handleWelcomeModalButtonPress,
       })
     );
   }

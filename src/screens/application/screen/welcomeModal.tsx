@@ -13,7 +13,7 @@ import LaunchScreen from '../../launch';
 
 import styles from './welcomeStyles';
 
-const WelcomeModal = () => {
+const WelcomeModal = ({onModalVisibilityChange}) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
@@ -21,8 +21,8 @@ const WelcomeModal = () => {
 
   const [showAnimation, setShowAnimation] = useState(true);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-
   const [appVersion] = useState(VersionNumber.appVersion);
+
 
   useEffect(() => {
     _compareAppVersion()
@@ -41,6 +41,7 @@ const WelcomeModal = () => {
   const _compareAppVersion = () => {
     if(!lastAppVersion || (parseVersionNumber(lastAppVersion) < parseVersionNumber(appVersion))){
       setShowWelcomeModal(true);
+      onModalVisibilityChange(true)
     } 
   }
 
@@ -48,6 +49,10 @@ const WelcomeModal = () => {
   const _handleButtonPress = () => {
     dispatch(setLastAppVersion(appVersion))
     setShowWelcomeModal(false);
+    setTimeout(()=>{
+      onModalVisibilityChange(false)
+    }, 100)
+    
   }
 
 
