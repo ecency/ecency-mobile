@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { withNavigation } from 'react-navigation';
 import { useSelector, useDispatch } from 'react-redux';
-import { shuffle } from 'lodash';
+import { shuffle, isEmpty } from 'lodash';
 import { useIntl } from 'react-intl';
 
 import ROUTES from '../../../constants/routeNames';
@@ -10,7 +10,11 @@ import { getCommunities, getSubscriptions } from '../../../providers/hive/dhive'
 
 import { subscribeCommunity, leaveCommunity } from '../../../redux/actions/communitiesAction';
 import { statusMessage } from '../../../redux/constants/communitiesConstants';
-import { updateSubscribedCommunitiesCache } from '../../../redux/actions/cacheActions';
+import {
+  deleteSubscribedCommunityCacheEntry,
+  updateSubscribedCommunitiesCache,
+} from '../../../redux/actions/cacheActions';
+import { mergeSubCommunitiesCacheInSubList } from '../../../utils/communitiesUtils';
 
 const CommunitiesContainer = ({ children, navigation }) => {
   const dispatch = useDispatch();
@@ -23,6 +27,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
 
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const pinCode = useSelector((state) => state.application.pin);
+  const subscribedCommunities = useSelector((state) => state.communities.subscribedCommunities);
   const subscribingCommunitiesInDiscoverTab = useSelector(
     (state) => state.communities.subscribingCommunitiesInCommunitiesScreenDiscoverTab,
   );
@@ -57,7 +62,18 @@ const CommunitiesContainer = ({ children, navigation }) => {
 
   // side effect for subscribed communities cache update
   useEffect(() => {
-    console.log('subscribedCommunitiesCache updated : ', subscribedCommunitiesCache);
+    if (
+      subscribedCommunitiesCache &&
+      subscribedCommunitiesCache.size &&
+      subscriptions &&
+      subscriptions.length > 0
+    ) {
+      const updatedSubsList = mergeSubCommunitiesCacheInSubList(
+        subscriptions,
+        subscribedCommunitiesCache,
+      );
+      setSubscriptions(updatedSubsList.slice());
+    }
   }, [subscribedCommunitiesCache]);
 
   useEffect(() => {
@@ -87,36 +103,54 @@ const CommunitiesContainer = ({ children, navigation }) => {
   }, [subscribingCommunitiesInDiscoverTab]);
 
   useEffect(() => {
-    const subscribedsData = [...subscriptions];
-
-    Object.keys(subscribingCommunitiesInJoinedTab).map((communityId) => {
-      if (!subscribingCommunitiesInJoinedTab[communityId].loading) {
-        if (!subscribingCommunitiesInJoinedTab[communityId].error) {
-          if (subscribingCommunitiesInJoinedTab[communityId].isSubscribed) {
-            subscribedsData.forEach((item) => {
-              if (item[0] === communityId) {
-                item[4] = true;
-              }
-            });
-          } else {
-            subscribedsData.forEach((item) => {
-              if (item[0] === communityId) {
-                item[4] = false;
-              }
-            });
+    if (!isEmpty(subscribingCommunitiesInJoinedTab)) {
+      const subscribedsData = mergeSubCommunitiesCacheInSubList(
+        subscribedCommunities.data,
+        subscribedCommunitiesCache,
+      );
+      Object.keys(subscribingCommunitiesInJoinedTab).map((communityId) => {
+        if (!subscribingCommunitiesInJoinedTab[communityId].loading) {
+          if (!subscribingCommunitiesInJoinedTab[communityId].error) {
+            if (subscribingCommunitiesInJoinedTab[communityId].isSubscribed) {
+              subscribedsData.forEach((item) => {
+                if (item[0] === communityId) {
+                  item[4] = true;
+                }
+              });
+            } else {
+              subscribedsData.forEach((item) => {
+                if (item[0] === communityId) {
+                  item[4] = false;
+                }
+              });
+            }
           }
         }
-      }
-    });
+      });
 
-    setSubscriptions(subscribedsData);
+      setSubscriptions(subscribedsData);
+    }
   }, [subscribingCommunitiesInJoinedTab]);
 
   const _getSubscriptions = () => {
     setIsSubscriptionsLoading(true);
+    if (
+      subscribedCommunities &&
+      subscribedCommunities.data &&
+      subscribedCommunities.data.length > 0
+    ) {
+      const updatedSubsList = mergeSubCommunitiesCacheInSubList(
+        subscribedCommunities.data,
+        subscribedCommunitiesCache,
+      );
+      setSubscriptions(updatedSubsList.slice());
+      console.log('just before isSubscriptionsLoading : ', updatedSubsList.slice());
+      setIsSubscriptionsLoading(false);
+    }
     getSubscriptions(currentAccount.username)
       .then((subs) => {
         subs.forEach((item) => item.push(true));
+        _invalidateSubscribedCommunityCache(subs); // invalidate subscribed communities cache item when latest data is available
         getCommunities('', 50, null, 'rank').then((communities) => {
           communities.forEach((community) =>
             Object.assign(community, {
@@ -126,7 +160,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
             }),
           );
 
-          setSubscriptions(subs);
+          setSubscriptions(mergeSubCommunitiesCacheInSubList(subs, subscribedCommunitiesCache)); //merge cache with fetched data
           setDiscovers(shuffle(communities));
           setIsSubscriptionsLoading(false);
         });
@@ -137,6 +171,14 @@ const CommunitiesContainer = ({ children, navigation }) => {
       });
   };
 
+  const _invalidateSubscribedCommunityCache = (fetchedList) => {
+    fetchedList.map((listItem) => {
+      let itemExists = subscribedCommunitiesCache.get(listItem[0]);
+      if (itemExists) {
+        dispatch(deleteSubscribedCommunityCacheEntry(listItem[0]));
+      }
+    });
+  };
   // Component Functions
   const _handleOnPress = (name) => {
     navigation.navigate({
@@ -178,6 +220,8 @@ const CommunitiesContainer = ({ children, navigation }) => {
     );
   };
 
+  console.log('isSubscriptionsLoading : ', isSubscriptionsLoading);
+  console.log('subscribedCommunities : ', subscribedCommunities);
   console.log('subscriptions : ', subscriptions);
   return (
     children &&

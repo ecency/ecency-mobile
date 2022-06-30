@@ -93,11 +93,12 @@ export const updateSubscribedCommunitiesCache = (data: any) => {
   const path = data.communityId;
   const created = new Date();
   const communityTitle = data.communityTitle ? data.communityTitle : '';
-  const userRole = '';
-  const userLabel = '';
+  const userRole = data.userRole ? data.userRole : '';
+  const userLabel = data.userLabel ? data.userLabel : '';
+
   const subscribedCommunity:SubscribedCommunity = {
     data : [data.communityId, communityTitle, userRole, userLabel, !data.isSubscribed],
-    expiresAt : created.getTime() + 6000000,
+    expiresAt : created.getTime() + 86400000,
   };
 
   return ({

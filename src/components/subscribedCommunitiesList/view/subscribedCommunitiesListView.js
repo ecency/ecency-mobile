@@ -79,9 +79,11 @@ const SubscribedCommunitiesListView = ({
             onPress={() =>
               handleSubscribeButtonPress(
                 {
-                  isSubscribed: item[4],
                   communityId: item[0],
                   communityTitle: item[1],
+                  userRole: item[2],
+                  userLabel: item[3],
+                  isSubscribed: item[4],
                 },
                 'communitiesScreenJoinedTab',
               )
