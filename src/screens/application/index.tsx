@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import SplashScreen from 'react-native-splash-screen';
 
 import { OrientationLocker, PORTRAIT } from 'react-native-orientation-locker';
 import { useDispatch } from 'react-redux';
@@ -14,12 +13,6 @@ const Application = () => {
   const dispatch = useDispatch();
 
   const [welcomeModalVisible, setWelcomeModalVisible] = useState(false);
-
-  useEffect(() => {
-    setTimeout(()=>{
-      SplashScreen.hide();
-    }, 300)
-  }, []);
 
   const _handleDeviceOrientationChange = (orientation) => {
     console.log('device orientation changed at index : ', orientation);
