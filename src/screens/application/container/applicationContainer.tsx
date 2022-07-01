@@ -81,6 +81,7 @@ import {
   isRenderRequired,
   logout,
   setColorTheme,
+  setSettingsMigrated,
 } from '../../../redux/actions/applicationActions';
 import {
   hideActionModal,
@@ -432,6 +433,7 @@ class ApplicationContainer extends Component {
 
 
   _fetchApp = async () => {
+    this._initNotificationSettings();
     await this._getSettings();
     this._refreshGlobalProps();
     await this._getUserDataFromRealm();
@@ -751,7 +753,7 @@ class ApplicationContainer extends Component {
 
 
 
-  //TODO keep settings in redux and get rid of getSettings
+  //TODO rename to migrateSettings and move out of application container
   _getSettings = async () => {
     const { dispatch, settingsMigrated } = this.props;
 
@@ -766,7 +768,6 @@ class ApplicationContainer extends Component {
 
 
     if(settingsMigrated){
-      // this._initNotificationSettings(settings);
       return;
     }
 
@@ -802,15 +803,22 @@ class ApplicationContainer extends Component {
         this._initNotificationSettings(settings);
       }
 
-      //TODO: set migration to true
+      dispatch(setSettingsMigrated(true))
     }
   };
 
 
 
   //update notification settings and update push token for each signed accoutn useing access tokens
-  _initNotificationSettings = (settings) => {
-    const { otherAccounts } = this.props;
+  _initNotificationSettings = (settings?:any) => {
+    const { otherAccounts, notificationDetails, isNotificationsEnabled } = this.props;
+
+    if(!settings){
+      settings = notificationDetails;
+    }
+
+    const isEnabled = settings ? !!settings.notification : isNotificationsEnabled;
+
 
     //updateing fcm token with settings;
     otherAccounts.forEach((account) => {
@@ -824,7 +832,7 @@ class ApplicationContainer extends Component {
         accessToken = decryptKey(encAccessToken, Config.DEFAULT_PIN);
       }
 
-      this._enableNotification(account.name, settings.notification, settings, accessToken);
+      this._enableNotification(account.name, isEnabled, settings, accessToken);
     });
   };
 
@@ -1055,6 +1063,8 @@ export default connect(
     isAnalytics: state.application.isAnalytics,
     lastUpdateCheck: state.application.lastUpdateCheck,
     settingsMigrated: state.application.settingsMigrated,
+    isNotificationsEnabled: state.application.isNotificationOpen,
+    notificationDetails: state.application.notificationDetails,
 
     // Account
     unreadActivityCount: state.account.currentAccount.unread_activity_count,

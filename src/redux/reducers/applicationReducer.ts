@@ -27,6 +27,7 @@ import {
   IS_RENDER_REQUIRED,
   SET_LAST_APP_VERSION,
   SET_COLOR_THEME,
+  SET_SETTINGS_MIGRATED,
 } from '../constants/constants';
 
 interface State {
@@ -256,6 +257,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         lastAppVersion:action.payload
+      }
+
+    case SET_SETTINGS_MIGRATED:
+      return {
+        ...state,
+        settingsMigrated:action.payload
       }
 
     default:

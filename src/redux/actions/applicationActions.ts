@@ -28,7 +28,8 @@ import {
   IS_PIN_CODE_OPEN,
   IS_RENDER_REQUIRED,
   SET_LAST_APP_VERSION,
-  SET_COLOR_THEME
+  SET_COLOR_THEME,
+  SET_SETTINGS_MIGRATED
 } from '../constants/constants';
 
 export const login = (payload) => ({
@@ -189,5 +190,10 @@ export const isRenderRequired = (payload) => ({
 export const setLastAppVersion = (versionNumber:string) => ({
   payload:versionNumber,
   type: SET_LAST_APP_VERSION
+})
+
+export const setSettingsMigrated = (isMigrated:boolean) => ({
+  payload:isMigrated,
+  type: SET_SETTINGS_MIGRATED
 })
 
