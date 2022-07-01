@@ -28,6 +28,7 @@ import {
   IS_PIN_CODE_OPEN,
   IS_RENDER_REQUIRED,
   SET_LAST_APP_VERSION,
+  SET_COLOR_THEME
 } from '../constants/constants';
 
 export const login = (payload) => ({
@@ -131,6 +132,11 @@ export const isDarkTheme = (payload) => ({
   payload,
   type: IS_DARK_THEME,
 });
+
+export const setColorTheme = (payload:number) => ({
+  payload,
+  type: SET_COLOR_THEME
+})
 
 export const isPinCodeOpen = (payload) => ({
   payload,

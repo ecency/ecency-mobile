@@ -42,6 +42,7 @@ import {
   login,
   logoutDone,
   closePinCodeModal,
+  setColorTheme,
 } from '../../../redux/actions/applicationActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { setPushToken, getNodes } from '../../../providers/ecency/ecency';
@@ -91,12 +92,6 @@ class SettingsContainer extends Component {
           serverList: SERVER_LIST,
         }),
       );
-
-    getTheme().then((themeSetting) => {
-      this.setState({
-        themeSetting,
-      });
-    });
   }
 
   // Component Functions
@@ -127,11 +122,9 @@ class SettingsContainer extends Component {
         const systemTheme = Appearance.getColorScheme();
 
         dispatch(isDarkTheme(setting === null ? systemTheme === 'dark' : setting));
+        dispatch(setColorTheme(action));
+        setTheme(setting); //TODO: remove before merging
 
-        setTheme(setting);
-        this.setState({
-          themeSetting: setting,
-        });
         break;
 
       default:
@@ -469,7 +462,8 @@ class SettingsContainer extends Component {
   };
 
   render() {
-    const { serverList, isNotificationMenuOpen, isLoading, themeSetting } = this.state;
+    const { serverList, isNotificationMenuOpen, isLoading } = this.state;
+    const { colorTheme } = this.props;
 
     return (
       <SettingsScreen
@@ -478,7 +472,7 @@ class SettingsContainer extends Component {
         isNotificationMenuOpen={isNotificationMenuOpen}
         handleOnButtonPress={this._handleButtonPress}
         isLoading={isLoading}
-        themeSetting={themeSetting}
+        colorThemeIndex={colorTheme}
         {...this.props}
       />
     );
@@ -487,6 +481,7 @@ class SettingsContainer extends Component {
 
 const mapStateToProps = (state) => ({
   isDarkTheme: state.application.isDarkTheme,
+  colorTheme: state.application.colorTheme,
   isPinCodeOpen: state.application.isPinCodeOpen,
   pinCode: state.application.pin,
   isDefaultFooter: state.application.isDefaultFooter,

@@ -20,6 +20,7 @@ import Matomo from 'react-native-matomo-sdk';
 import AUTH_TYPE from '../../../constants/authType';
 import ROUTES from '../../../constants/routeNames';
 import postUrlParser from '../../../utils/postUrlParser';
+import THEME_OPTIONS from '../../../constants/options/theme';
 
 // Services
 import {
@@ -79,6 +80,7 @@ import {
   setPinCode as savePinCode,
   isRenderRequired,
   logout,
+  setColorTheme,
 } from '../../../redux/actions/applicationActions';
 import {
   hideActionModal,
@@ -751,7 +753,7 @@ class ApplicationContainer extends Component {
 
   //TODO keep settings in redux and get rid of getSettings
   _getSettings = async () => {
-    const { dispatch } = this.props;
+    const { dispatch, settingsMigrated } = this.props;
 
     //TOOD: no need for resetting modal here afer adding them to non persist store.
     //reset certain properties
@@ -761,11 +763,20 @@ class ApplicationContainer extends Component {
     dispatch(purgeExpiredCache());
     dispatch(setRcOffer(false));
 
+    //TODO: set pin code navigation to null, else move it to non persisted state
+
+    if(settingsMigrated){
+      // this._initNotificationSettings(settings);
+      return;
+    }
+
+
     const settings = await getSettings();
 
     if (settings) {
       const isDarkMode = Appearance.getColorScheme() === 'dark';
       dispatch(isDarkTheme(settings.isDarkTheme !== null ? settings.isDarkTheme : isDarkMode));
+      dispatch(setColorTheme(THEME_OPTIONS.findIndex(item=>item.value===settings.isDarkTheme)));
       if (settings.isPinCodeOpen !== '') await dispatch(isPinCodeOpen(settings.isPinCodeOpen));
       if (settings.language !== '') dispatch(setLanguage(settings.language));
       if (settings.server !== '') dispatch(setApi(settings.server));
@@ -774,12 +785,22 @@ class ApplicationContainer extends Component {
       }
       if (settings.isDefaultFooter !== '') dispatch(isDefaultFooter(settings.isDefaultFooter)); //TODO: remove as not being used
 
-      if (settings.notification !== '') {
-        this._initNotificationSettings(settings);
-      }
+
       if (settings.nsfw !== '') dispatch(setNsfw(settings.nsfw));
 
-      await dispatch(setCurrency(settings.currency !== '' ? settings.currency : 'usd'));
+      dispatch(setCurrency(settings.currency !== '' ? settings.currency : 'usd'));
+
+      if (settings.notification !== '') {
+        dispatch(
+          changeNotificationSettings({
+            type: 'notification',
+            action: settings.notification,
+          }),
+        );
+
+       dispatch(changeAllNotificationSettings(settings));
+        this._initNotificationSettings(settings);
+      }
     }
   };
 
@@ -787,18 +808,8 @@ class ApplicationContainer extends Component {
 
   //update notification settings and update push token for each signed accoutn useing access tokens
   _initNotificationSettings = (settings) => {
-    const { dispatch, otherAccounts } = this.props;
+    const { otherAccounts } = this.props;
 
-    console.log('Notification Settings', settings.notification, otherAccounts);
-    //TODO: no need to set nottification settings here.
-    dispatch(
-      changeNotificationSettings({
-        type: 'notification',
-        action: settings.notification,
-      }),
-    );
-
-    dispatch(changeAllNotificationSettings(settings));
     //updateing fcm token with settings;
     otherAccounts.forEach((account) => {
       //since there can be more than one accounts, process access tokens separate
@@ -814,6 +825,8 @@ class ApplicationContainer extends Component {
       this._enableNotification(account.name, settings.notification, settings, accessToken);
     });
   };
+
+  
 
   _connectNotificationServer = (username) => {
     /* eslint no-undef: "warn" */
@@ -1039,6 +1052,7 @@ export default connect(
     isGlobalRenderRequired: state.application.isRenderRequired,
     isAnalytics: state.application.isAnalytics,
     lastUpdateCheck: state.application.lastUpdateCheck,
+    settingsMigrated: state.application.settingsMigrated,
 
     // Account
     unreadActivityCount: state.account.currentAccount.unread_activity_count,

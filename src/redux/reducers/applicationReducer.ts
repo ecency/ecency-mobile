@@ -26,9 +26,47 @@ import {
   IS_PIN_CODE_OPEN,
   IS_RENDER_REQUIRED,
   SET_LAST_APP_VERSION,
+  SET_COLOR_THEME,
 } from '../constants/constants';
 
-const initialState = {
+interface State {
+  api: string;
+  currency: {
+    currency: string,
+    currencyRate: number,
+    currencySymbol: string,
+  },
+  isConnected: boolean|null, // internet connectivity
+  isDarkTheme: boolean;
+  colorTheme: number;
+  isDefaultFooter: boolean; //TODO: remove present of isDefaultFooter as it's no longer in use
+  isLoggedIn: boolean; // Has any logged in user.
+  isAnalytics: boolean;
+  isLoginDone: boolean;
+  isLogingOut: boolean;
+  isNotificationOpen: boolean;
+  isPinCodeRequire: boolean;
+  pinCodeNavigation: any,
+  language: string,
+  loading: boolean; // It is lock to all screen and shows loading animation.
+  notificationDetails: {
+    commentNotification: boolean,
+    followNotification: boolean,
+    mentionNotification: boolean,
+    reblogNotification: boolean,
+    transfersNotification: boolean,
+    voteNotification: boolean,
+  },
+  upvotePercent: number,
+  nsfw: string,
+  pin: string|null,
+  isPinCodeOpen: boolean,
+  isRenderRequired: boolean,
+  lastAppVersion:string;
+  settingsMigrated: boolean,
+}
+
+const initialState:State = {
   api: 'rpc.ecency.com',
   currency: {
     currency: 'usd',
@@ -37,6 +75,7 @@ const initialState = {
   },
   isConnected: null, // internet connectivity
   isDarkTheme: false,
+  colorTheme: 0, //values mapped from => src/constants/options/theme.ts
   isDefaultFooter: true, //TODO: remove present of isDefaultFooter as it's no longer in use
   isLoggedIn: false, // Has any logged in user.
   isAnalytics: false,
@@ -60,7 +99,8 @@ const initialState = {
   pin: null,
   isPinCodeOpen: true,
   isRenderRequired: false,
-  lastAppVersion:''
+  lastAppVersion:'',
+  settingsMigrated: false,
 };
 
 export default function (state = initialState, action) {
@@ -181,6 +221,11 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, {
         isDarkTheme: action.payload,
       });
+    case SET_COLOR_THEME:
+      return {
+        ...state,
+        colorTheme:action.payload
+      };
     case IS_PIN_CODE_OPEN:
       return Object.assign({}, state, {
         isPinCodeOpen: action.payload,

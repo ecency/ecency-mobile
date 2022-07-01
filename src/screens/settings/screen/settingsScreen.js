@@ -22,7 +22,7 @@ const SettingsScreen = ({
   handleOnChange,
   intl,
   isDarkTheme,
-  themeSetting,
+  colorThemeIndex,
   isPinCodeOpen,
   isLoggedIn,
   isNotificationSettingsOpen,
@@ -129,7 +129,7 @@ const SettingsScreen = ({
                 id: item.key,
               }),
             )}
-            selectedOptionIndex={THEME_OPTIONS.findIndex((item) => item.value === themeSetting)}
+            selectedOptionIndex={colorThemeIndex}
             handleOnChange={handleOnChange}
           />
 
