@@ -1,7 +1,6 @@
 import getSymbolFromCurrency from 'currency-symbol-map';
 import { getCurrencyRate } from '../../providers/ecency/ecency';
 import {
-  ACTIVE_APPLICATION,
   CHANGE_COMMENT_NOTIFICATION,
   CHANGE_FOLLOW_NOTIFICATION,
   CHANGE_MENTION_NOTIFICATION,
@@ -57,9 +56,6 @@ export const closePinCodeModal = () => ({
   type: CLOSE_PIN_CODE_MODAL,
 });
 
-export const activeApplication = () => ({
-  type: ACTIVE_APPLICATION,
-});
 
 // Settings actions
 export const setLanguage = (payload) => ({

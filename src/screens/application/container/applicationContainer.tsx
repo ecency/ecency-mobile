@@ -46,10 +46,8 @@ import {
 } from '../../../providers/hive/auth';
 import {
   setPushToken,
-  markActivityAsRead,
   markNotifications,
   getUnreadNotificationCount,
-  getLatestQuotes,
 } from '../../../providers/ecency/ecency';
 import { fetchLatestAppVersion } from '../../../providers/github/github';
 import { navigate } from '../../../navigation/service';
@@ -61,10 +59,8 @@ import {
   updateUnreadActivityCount,
   removeOtherAccount,
   fetchGlobalProperties,
-  removeAllOtherAccount,
 } from '../../../redux/actions/accountAction';
 import {
-  activeApplication,
   isDarkTheme,
   changeNotificationSettings,
   changeAllNotificationSettings,
@@ -603,7 +599,6 @@ class ApplicationContainer extends Component {
     const { currentUsername } = res;
 
     if (res) {
-      dispatch(activeApplication());
       dispatch(login(true));
       const userData = await getUserData();
 
@@ -672,7 +667,6 @@ class ApplicationContainer extends Component {
     }
 
     dispatch(updateCurrentAccount({}));
-    dispatch(activeApplication());
 
     return null;
   };
@@ -753,6 +747,8 @@ class ApplicationContainer extends Component {
     }
   };
 
+
+
   //TODO keep settings in redux and get rid of getSettings
   _getSettings = async () => {
     const { dispatch } = this.props;
@@ -786,6 +782,8 @@ class ApplicationContainer extends Component {
       await dispatch(setCurrency(settings.currency !== '' ? settings.currency : 'usd'));
     }
   };
+
+
 
   //update notification settings and update push token for each signed accoutn useing access tokens
   _initNotificationSettings = (settings) => {
@@ -1037,7 +1035,6 @@ export default connect(
     isConnected: state.application.isConnected,
     nav: state.nav.routes,
     isPinCodeRequire: state.application.isPinCodeRequire,
-    isActiveApp: state.application.isActive,
     api: state.application.api,
     isGlobalRenderRequired: state.application.isRenderRequired,
     isAnalytics: state.application.isAnalytics,

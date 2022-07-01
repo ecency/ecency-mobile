@@ -1,5 +1,4 @@
 import {
-  ACTIVE_APPLICATION,
   CHANGE_COMMENT_NOTIFICATION,
   CHANGE_FOLLOW_NOTIFICATION,
   CHANGE_MENTION_NOTIFICATION,
@@ -36,7 +35,6 @@ const initialState = {
     currencyRate: 1,
     currencySymbol: '$',
   },
-  isActive: false,
   isConnected: null, // internet connectivity
   isDarkTheme: false,
   isDefaultFooter: true, //TODO: remove present of isDefaultFooter as it's no longer in use
@@ -107,11 +105,6 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isPinCodeRequire: false,
-      };
-    case ACTIVE_APPLICATION:
-      return {
-        ...state,
-        isActive: true,
       };
     case SET_API:
       return Object.assign({}, state, {

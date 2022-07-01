@@ -4,7 +4,6 @@ export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
 export const SET_USER_DATA = 'SET_USER_DATA';
 
 // Applicaiton
-export const ACTIVE_APPLICATION = 'ACTIVE_APPLICATION';
 export const CLOSE_PIN_CODE_MODAL = 'CLOSE_PIN_CODE_MODAL';
 export const IS_CONNECTED = 'IS_CONNECTED';
 export const IS_ANALYTICS = 'IS_ANALYTICS';
