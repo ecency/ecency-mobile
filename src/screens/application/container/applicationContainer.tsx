@@ -25,7 +25,6 @@ import THEME_OPTIONS from '../../../constants/options/theme';
 // Services
 import {
   getAuthStatus,
-  getExistUser,
   getSettings,
   getUserData,
   removeUserData,
@@ -438,6 +437,7 @@ class ApplicationContainer extends Component {
     await this._getUserDataFromRealm();
     this._compareAndPromptForUpdate();
     this._registerDeviceForNotifications();
+    this.props.dispatch(purgeExpiredCache());
   };
 
   _pushNavigate = (notification) => {
@@ -757,19 +757,15 @@ class ApplicationContainer extends Component {
   _getSettings = async () => {
     const { dispatch, settingsMigrated } = this.props;
 
-    //TOOD: no need for resetting modal here afer adding them to non persist store.
+    if(settingsMigrated){
+      return;
+    }
+
     //reset certain properties
     dispatch(hideActionModal());
     dispatch(hideProfileModal());
     dispatch(toastNotification(''));
     dispatch(setRcOffer(false));
-
-    dispatch(purgeExpiredCache());
-
-
-    if(settingsMigrated){
-      return;
-    }
 
 
     const settings = await getSettings();
