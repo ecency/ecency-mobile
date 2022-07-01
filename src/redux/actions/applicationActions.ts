@@ -29,7 +29,8 @@ import {
   IS_RENDER_REQUIRED,
   SET_LAST_APP_VERSION,
   SET_COLOR_THEME,
-  SET_SETTINGS_MIGRATED
+  SET_SETTINGS_MIGRATED,
+  HIDE_POSTS_THUMBNAILS
 } from '../constants/constants';
 
 export const login = (payload) => ({
@@ -196,4 +197,10 @@ export const setSettingsMigrated = (isMigrated:boolean) => ({
   payload:isMigrated,
   type: SET_SETTINGS_MIGRATED
 })
+
+export const setHidePostsThumbnails = (shouldHide:boolean) => ({
+  payload:shouldHide,
+  type: HIDE_POSTS_THUMBNAILS,
+});
+
 

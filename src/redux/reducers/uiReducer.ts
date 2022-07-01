@@ -1,7 +1,6 @@
 import {
   UPDATE_ACTIVE_BOTTOM_TAB,
   TOAST_NOTIFICATION,
-  HIDE_POSTS_THUMBNAILS,
   RC_OFFER,
   TOGGLE_ACCOUNTS_BOTTOM_SHEET,
   SHOW_ACTION_MODAL,
@@ -17,7 +16,6 @@ import { orientations } from '../constants/orientationsConstants';
 interface UiState {
   activeBottomTab:string;
   toastNotification:string;
-  hidePostsThumbnails:boolean;
   rcOffer:boolean;
   isVisibleAccountsBottomSheet:boolean;
   actionModalVisible:boolean;
@@ -31,7 +29,6 @@ interface UiState {
 const initialState:UiState = {
   activeBottomTab: 'HomeTabbar',
   toastNotification: '',
-  hidePostsThumbnails: false,
   rcOffer: false,
   isVisibleAccountsBottomSheet: false,
   actionModalVisible: false,
@@ -90,12 +87,6 @@ export default function (state = initialState, action) {
       return {
         ...state,
         rcOffer: action.payload,
-      };
-
-    case HIDE_POSTS_THUMBNAILS:
-      return {
-        ...state,
-        hidePostsThumbnails: action.payload,
       };
 
     case TOGGLE_ACCOUNTS_BOTTOM_SHEET:

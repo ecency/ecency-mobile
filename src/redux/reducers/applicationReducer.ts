@@ -28,6 +28,7 @@ import {
   SET_LAST_APP_VERSION,
   SET_COLOR_THEME,
   SET_SETTINGS_MIGRATED,
+  HIDE_POSTS_THUMBNAILS,
 } from '../constants/constants';
 
 interface State {
@@ -58,13 +59,14 @@ interface State {
     transfersNotification: boolean,
     voteNotification: boolean,
   },
-  upvotePercent: number,
-  nsfw: string,
-  pin: string|null,
-  isPinCodeOpen: boolean,
-  isRenderRequired: boolean,
+  upvotePercent: number;
+  nsfw: string;
+  pin: string|null;
+  isPinCodeOpen: boolean;
+  isRenderRequired: boolean;
   lastAppVersion:string;
-  settingsMigrated: boolean,
+  settingsMigrated: boolean;
+  hidePostsThumbnails: boolean;
 }
 
 const initialState:State = {
@@ -102,6 +104,7 @@ const initialState:State = {
   isRenderRequired: false,
   lastAppVersion:'',
   settingsMigrated: false,
+  hidePostsThumbnails: false,
 };
 
 export default function (state = initialState, action) {
@@ -263,6 +266,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         settingsMigrated:action.payload
+      }
+
+    case HIDE_POSTS_THUMBNAILS:
+      return {
+        ...state,
+        hidePostsThumbnails:action.payload
       }
 
     default:

@@ -37,7 +37,7 @@ const postsListContainer = ({
 
     const [imageHeights, setImageHeights] = useState(new Map<string, number>());
 
-    const isHideImages = useSelector((state) => state.ui.hidePostsThumbnails);
+    const isHideImages = useSelector((state) => state.application.hidePostsThumbnails);
     const posts = useSelector((state) => {
         return isFeedScreen
         ? state.posts.feedPosts
