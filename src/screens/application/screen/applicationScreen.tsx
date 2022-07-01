@@ -45,6 +45,7 @@ class ApplicationScreen extends Component {
     const { rcOffer, dispatch, intl } = this.props;
     const { rcOffer: rcOfferPrev } = prevProps;
 
+    //TODO: display action modal instead
     if (!rcOfferPrev && rcOffer) {
       setTimeout(() => {
         Alert.alert(

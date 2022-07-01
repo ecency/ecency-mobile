@@ -760,10 +760,10 @@ class ApplicationContainer extends Component {
     dispatch(hideActionModal());
     dispatch(hideProfileModal());
     dispatch(toastNotification(''));
-    dispatch(purgeExpiredCache());
     dispatch(setRcOffer(false));
 
-    //TODO: set pin code navigation to null, else move it to non persisted state
+    dispatch(purgeExpiredCache());
+
 
     if(settingsMigrated){
       // this._initNotificationSettings(settings);
@@ -801,6 +801,8 @@ class ApplicationContainer extends Component {
        dispatch(changeAllNotificationSettings(settings));
         this._initNotificationSettings(settings);
       }
+
+      //TODO: set migration to true
     }
   };
 
@@ -826,7 +828,7 @@ class ApplicationContainer extends Component {
     });
   };
 
-  
+
 
   _connectNotificationServer = (username) => {
     /* eslint no-undef: "warn" */
