@@ -433,11 +433,11 @@ class ApplicationContainer extends Component {
 
 
   _fetchApp = async () => {
-    this._initNotificationSettings();
     await this._getSettings();
     this._refreshGlobalProps();
     await this._getUserDataFromRealm();
     this._compareAndPromptForUpdate();
+    this._registerDeviceForNotifications();
   };
 
   _pushNavigate = (notification) => {
@@ -800,24 +800,20 @@ class ApplicationContainer extends Component {
         );
 
        dispatch(changeAllNotificationSettings(settings));
-        this._initNotificationSettings(settings);
       }
 
-      dispatch(setSettingsMigrated(true))
+      await dispatch(setSettingsMigrated(true))
     }
   };
 
 
 
   //update notification settings and update push token for each signed accoutn useing access tokens
-  _initNotificationSettings = (settings?:any) => {
+  _registerDeviceForNotifications = (settings?:any) => {
     const { otherAccounts, notificationDetails, isNotificationsEnabled } = this.props;
-
-    if(!settings){
-      settings = notificationDetails;
-    }
-
+    
     const isEnabled = settings ? !!settings.notification : isNotificationsEnabled;
+    settings = settings || notificationDetails;
 
 
     //updateing fcm token with settings;
