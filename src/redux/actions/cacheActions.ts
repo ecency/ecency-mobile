@@ -10,6 +10,7 @@ import {
   DELETE_DRAFT_CACHE_ENTRY,
   UPDATE_SUBSCRIBED_COMMUNITY_CACHE,
   DELETE_SUBSCRIBED_COMMUNITY_CACHE,
+  CLEAR_SUBSCRIBED_COMMUNITIES_CACHE,
 } from '../constants/constants';
 import { Comment, Draft, SubscribedCommunity, Vote } from '../reducers/cacheReducer';
 
@@ -114,6 +115,11 @@ export const deleteSubscribedCommunityCacheEntry = (path: string) => ({
   payload: path,
   type: DELETE_SUBSCRIBED_COMMUNITY_CACHE
 })
+
+export const clearSubscribedCommunitiesCache = () => ({
+  type: CLEAR_SUBSCRIBED_COMMUNITIES_CACHE
+})
+
 
 export const purgeExpiredCache = () => ({
   type: PURGE_EXPIRED_CACHE
