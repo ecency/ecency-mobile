@@ -128,10 +128,9 @@ export const UploadsGalleryModal = forwardRef(({
         for (const index of map.keys()) {
             console.log(index)
             const item = mediaUploads[index]
-            const hhash = item.url.split('/').pop() 
             data.push({
                 url: item.url,
-                hash: hhash.replace(/\.[^/.]+$/, "")
+                hash: ""
             })
 
         }
