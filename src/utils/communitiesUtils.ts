@@ -24,3 +24,24 @@ export const mergeSubCommunitiesCacheInSubList = (
   });
   return subList.sort((a, b) => a[1].localeCompare(b[1]));
 };
+
+/**
+ * Accepts Array of discover items arrays as 1st argument, community cache map as second argument.
+ * Returns discovers list with updated isSubscribed status
+ *
+ **/
+export const mergeSubCommunitiesCacheInDiscoverList = (
+  discoverList: any[],
+  cacheMap: Map<string, SubscribedCommunity>,
+) => {
+  if (!cacheMap || !cacheMap.size) {
+    return discoverList;
+  }
+  discoverList.forEach((discoverListItem) => {
+    let itemExist = cacheMap.get(discoverListItem.name);
+    if (itemExist) {
+      discoverListItem.isSubscribed = itemExist.data[4];
+    }
+  });
+  return discoverList;
+};

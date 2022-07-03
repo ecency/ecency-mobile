@@ -18,7 +18,10 @@ import {
   deleteSubscribedCommunityCacheEntry,
   updateSubscribedCommunitiesCache,
 } from '../../../redux/actions/cacheActions';
-import { mergeSubCommunitiesCacheInSubList } from '../../../utils/communitiesUtils';
+import {
+  mergeSubCommunitiesCacheInDiscoverList,
+  mergeSubCommunitiesCacheInSubList,
+} from '../../../utils/communitiesUtils';
 
 const CommunitiesContainer = ({ children, navigation }) => {
   const dispatch = useDispatch();
@@ -77,13 +80,17 @@ const CommunitiesContainer = ({ children, navigation }) => {
         subscriptions,
         subscribedCommunitiesCache,
       );
+      const updatedDiscoversList = mergeSubCommunitiesCacheInDiscoverList(
+        discovers,
+        subscribedCommunitiesCache,
+      );
       setSubscriptions(updatedSubsList.slice());
+      setDiscovers(updatedDiscoversList);
     }
   }, [subscribedCommunitiesCache]);
 
   useEffect(() => {
     const discoversData = [...discovers];
-
     Object.keys(subscribingCommunitiesInDiscoverTab).map((communityId) => {
       if (!subscribingCommunitiesInDiscoverTab[communityId].loading) {
         if (!subscribingCommunitiesInDiscoverTab[communityId].error) {
@@ -230,9 +237,6 @@ const CommunitiesContainer = ({ children, navigation }) => {
     );
   };
 
-  // console.log('isSubscriptionsLoading : ', isSubscriptionsLoading);
-  // console.log('subscribedCommunities : ', subscribedCommunities);
-  // console.log('subscriptions : ', subscriptions);
   return (
     children &&
     children({
