@@ -33,7 +33,7 @@ const CommunitiesResultsContainer = ({ children, navigation, searchValue }) => {
 
   const [data, setData] = useState([]);
   const [noResult, setNoResult] = useState(false);
-
+  const [isDiscoversLoading, setIsDiscoversLoading] = useState(false);
   const pinCode = useSelector((state) => state.application.pin);
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
@@ -44,7 +44,7 @@ const CommunitiesResultsContainer = ({ children, navigation, searchValue }) => {
   useEffect(() => {
     setData([]);
     setNoResult(false);
-
+    setIsDiscoversLoading(true);
     getCommunities('', searchValue ? 100 : 20, searchValue || null, 'rank')
       .then((communities) => {
         if (currentAccount && currentAccount.username) {
@@ -78,10 +78,12 @@ const CommunitiesResultsContainer = ({ children, navigation, searchValue }) => {
             setNoResult(true);
           }
         }
+        setIsDiscoversLoading(false);
       })
       .catch((err) => {
         setNoResult(true);
         setData([]);
+        setIsDiscoversLoading(false);
       });
   }, [searchValue]);
 
@@ -160,6 +162,7 @@ const CommunitiesResultsContainer = ({ children, navigation, searchValue }) => {
       handleSubscribeButtonPress: _handleSubscribeButtonPress,
       isLoggedIn,
       noResult,
+      isDiscoversLoading,
     })
   );
 };
