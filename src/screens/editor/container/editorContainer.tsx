@@ -102,24 +102,8 @@ class EditorContainer extends Component<any, any> {
       if (navigationParams.draft) {
         _draft = navigationParams.draft;
 
-        // if meta exist on draft, get the index of 1st image in meta from images urls in body
-        const body = _draft.body
-        if (_draft.meta && _draft.meta.image) {
-          const urls = extractImageUrls({ body });
-          const draftThumbIndex = urls.indexOf(_draft.meta.image[0])
-          this.setState({
-            thumbIndex: draftThumbIndex,
-          })
-        }
-        // load beneficiaries and rewards data from meta field of draft
-        if(_draft.meta && _draft.meta.rewardType){
-          this.setState({
-            rewardType: _draft.meta.rewardType
-          })
-        }
-        if(_draft._id && _draft.meta && _draft.meta.beneficiaries){
-          dispatch(setBeneficiaries(_draft._id || TEMP_BENEFICIARIES_ID, _draft.meta.beneficiaries));
-        }
+        // this._loadMeta(_draft);
+
         this.setState({
           draftId: _draft._id,
           isDraft: true,
@@ -214,8 +198,7 @@ class EditorContainer extends Component<any, any> {
     }
   }
   _getStorageDraft = async (username, isReply, paramDraft) => {
-    const { drafts } = this.props;
-
+    const { drafts, dispatch } = this.props;
     if (isReply) {
       const _draft = drafts.get(paramDraft._id);
       if (_draft && _draft.body) {
@@ -243,6 +226,7 @@ class EditorContainer extends Component<any, any> {
             draftId: paramDraft ? paramDraft._id : null,
           },
         });
+        this._loadMeta(_localDraft); //load meta from local draft
       }
 
       //if above fails with either no result returned or timestamp is old,
@@ -260,11 +244,36 @@ class EditorContainer extends Component<any, any> {
           isDraft: true,
           draftId: paramDraft._id,
         });
+
+        this._loadMeta(paramDraft); //load meta from param draft
       }
-      ;
+
     }
   };
 
+  // load meta from local/param drfat into state
+  _loadMeta = (draft: any) => {
+    const { dispatch } = this.props;
+    // if meta exist on draft, get the index of 1st image in meta from images urls in body
+    const body = draft.body;
+    if (draft.meta && draft.meta.image) {
+      const urls = extractImageUrls({ body });
+      const draftThumbIndex = urls.indexOf(draft.meta.image[0]);
+      this.setState({
+        thumbIndex: draftThumbIndex,
+      });
+    }
+    // load beneficiaries and rewards data from meta field of draft
+    if (draft.meta && draft.meta.rewardType) {
+      this.setState({
+        rewardType: draft.meta.rewardType,
+      });
+    }
+    if (draft._id && draft.meta && draft.meta.beneficiaries) {
+      dispatch(setBeneficiaries(draft._id || TEMP_BENEFICIARIES_ID, draft.meta.beneficiaries));
+    }
+        
+  }
   _requestKeyboardFocus = () => {
     //50 ms timeout is added to avoid keyboard not showing up on android
     setTimeout(() => {
@@ -649,7 +658,7 @@ class EditorContainer extends Component<any, any> {
   };
 
   _saveCurrentDraft = async (fields) => {
-    const { draftId, isReply, isEdit, isPostSending } = this.state;
+    const { draftId, isReply, isEdit, isPostSending, thumbIndex, rewardType } = this.state;
 
     //skip draft save in case post is sending or is post beign edited
     if (isPostSending || isEdit) {
@@ -659,11 +668,20 @@ class EditorContainer extends Component<any, any> {
     const { currentAccount, dispatch } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
 
+    const beneficiaries = this._extractBeneficiaries();
+    const meta = Object.assign({}, extractMetadata(fields.body, thumbIndex), {
+      tags: fields.tags,
+      beneficiaries,
+      rewardType
+    });
+    const jsonMeta = makeJsonMetadata(meta, fields.tags);
+
     const draftField = {
       title: fields.title,
       body: fields.body,
       tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
       author: username,
+      meta: jsonMeta,
     }
 
     //save reply data

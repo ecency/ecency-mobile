@@ -31,6 +31,7 @@ export interface Draft {
     body:string,
     title?:string,
     tags?:string,
+    meta?: any,
     created?:number,
     updated?:number,
     expiresAt?:number;
