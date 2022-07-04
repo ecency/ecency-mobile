@@ -43,6 +43,7 @@ interface PostOptionsModalProps {
   handleThumbSelection:(index:number)=>void;
   handleScheduleChange:(datetime:string|null)=>void;
   handleShouldReblogChange:(shouldReblog:boolean)=>void;
+  handleFormUpdate:()=>void;
 }
 
 const PostOptionsModal =  forwardRef(({
@@ -56,6 +57,7 @@ const PostOptionsModal =  forwardRef(({
   handleThumbSelection,
   handleScheduleChange,
   handleShouldReblogChange,
+  handleFormUpdate
 }: PostOptionsModalProps, ref) => {
     const intl = useIntl();
 
@@ -115,6 +117,7 @@ const PostOptionsModal =  forwardRef(({
 
     const _onDonePress = () => {
       setShowModal(false);
+      handleFormUpdate();
     }
  
     // handle index change here instead of useeffetc
@@ -214,7 +217,10 @@ const PostOptionsModal =  forwardRef(({
   return (
     <Modal 
         isOpen={showModal}
-        handleOnModalClose={() => setShowModal(false)}
+        handleOnModalClose={() => {
+          setShowModal(false);
+          handleFormUpdate();
+        }}
         isFullScreen
         isCloseButton
         presentationStyle="formSheet"

@@ -481,6 +481,7 @@ class EditorScreen extends Component {
           handleRewardChange={handleRewardChange}
           handleScheduleChange={this._handleScheduleChange}
           handleShouldReblogChange={handleShouldReblogChange}
+          handleFormUpdate={this._handleFormUpdate}
         />
       </View>
     );
