@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { OrientationLocker, PORTRAIT } from 'react-native-orientation-locker';
 import { useDispatch } from 'react-redux';
 import ApplicationContainer from './container/applicationContainer';
-import WelcomeModal from './screen/welcomeModal';
-import ApplicationScreen from './screen/applicationScreen';
-import ErrorBoundary from './screen/errorBoundary';
+import WelcomeModal from './children/welcomeModal';
+import ApplicationScreen from './children/applicationScreen';
+import ErrorBoundary from './children/errorBoundary';
 import { setDeviceOrientation } from '../../redux/actions/uiAction';
-import PinCodeModal from './screen/pinCodeModal';
+import PinCodeModal from './children/pinCodeModal';
 
 const Application = () => {
   const dispatch = useDispatch();
