@@ -104,6 +104,7 @@ import { setMomentLocale } from '../../../utils/time';
 import parseAuthUrl from '../../../utils/parseAuthUrl';
 import { purgeExpiredCache } from '../../../redux/actions/cacheActions';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
+import MigrationHelpers from '../children/migrationHelpers';
 
 // Workaround
 let previousAppState = 'background';
@@ -432,12 +433,14 @@ class ApplicationContainer extends Component {
 
 
   _fetchApp = async () => {
-    await this._getSettings();
+    const {dispatch, settingsMigrated} = this.props;
+
+    await MigrationHelpers.migrateSettings(dispatch, settingsMigrated)
     this._refreshGlobalProps();
     await this._getUserDataFromRealm();
     this._compareAndPromptForUpdate();
     this._registerDeviceForNotifications();
-    this.props.dispatch(purgeExpiredCache());
+    dispatch(purgeExpiredCache());
   };
 
   _pushNavigate = (notification) => {
@@ -748,57 +751,6 @@ class ApplicationContainer extends Component {
       Alert.alert(
         `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
       );
-    }
-  };
-
-
-
-  //TODO rename to migrateSettings and move out of application container
-  _getSettings = async () => {
-    const { dispatch, settingsMigrated } = this.props;
-
-    if(settingsMigrated){
-      return;
-    }
-
-    //reset certain properties
-    dispatch(hideActionModal());
-    dispatch(hideProfileModal());
-    dispatch(toastNotification(''));
-    dispatch(setRcOffer(false));
-
-
-    const settings = await getSettings();
-
-    if (settings) {
-      const isDarkMode = Appearance.getColorScheme() === 'dark';
-      dispatch(isDarkTheme(settings.isDarkTheme !== null ? settings.isDarkTheme : isDarkMode));
-      dispatch(setColorTheme(THEME_OPTIONS.findIndex(item=>item.value===settings.isDarkTheme)));
-      if (settings.isPinCodeOpen !== '') await dispatch(isPinCodeOpen(settings.isPinCodeOpen));
-      if (settings.language !== '') dispatch(setLanguage(settings.language));
-      if (settings.server !== '') dispatch(setApi(settings.server));
-      if (settings.upvotePercent !== '') {
-        dispatch(setUpvotePercent(Number(settings.upvotePercent)));
-      }
-      if (settings.isDefaultFooter !== '') dispatch(isDefaultFooter(settings.isDefaultFooter)); //TODO: remove as not being used
-
-
-      if (settings.nsfw !== '') dispatch(setNsfw(settings.nsfw));
-
-      dispatch(setCurrency(settings.currency !== '' ? settings.currency : 'usd'));
-
-      if (settings.notification !== '') {
-        dispatch(
-          changeNotificationSettings({
-            type: 'notification',
-            action: settings.notification,
-          }),
-        );
-
-       dispatch(changeAllNotificationSettings(settings));
-      }
-
-      await dispatch(setSettingsMigrated(true))
     }
   };
 
