@@ -5,7 +5,6 @@ import ecencyApi from '../../config/ecencyApi';
 import { upload } from '../../config/imageApi';
 import serverList from '../../config/serverListApi';
 import { SERVER_LIST } from '../../constants/options/api';
-import { extractMetadata, makeJsonMetadata } from '../../utils/editor';
 import { parsePost } from '../../utils/postParser';
 import { convertCommentHistory, convertLatestQuotes, convertReferral, convertReferralStat } from './converters';
 import { CommentHistoryItem, LatestMarketPrices, ReceivedVestingShare, Referral, ReferralStat } from './ecency.types';
@@ -114,11 +113,10 @@ export const deleteDraft = async (draftId: string) => {
  * @params title
  * @params body
  * @params tags
- * @param thumbIndex
+ * @param meta
  */
-export const addDraft = async (title: string, body: string, tags: string, thumbIndex: number) => {
+export const addDraft = async (title: string, body: string, tags: string, meta: Object) => {
   try {
-    const meta = makeJsonMetadata(extractMetadata(body, thumbIndex), tags)
     const data = { title, body, tags, meta }
     const res = await ecencyApi.post('/private-api/drafts-add', data)
     const { drafts } = res.data;
@@ -139,11 +137,10 @@ export const addDraft = async (title: string, body: string, tags: string, thumbI
  * @params title
  * @params body
  * @params tags
- * @params thumbIndex
+ * @params meta
  */
-export const updateDraft = async (draftId: string, title: string, body: string, tags: string, thumbIndex: number,) => {
+export const updateDraft = async (draftId: string, title: string, body: string, tags: string, meta: Object) => {
   try {
-    const meta = makeJsonMetadata(extractMetadata(body, thumbIndex), tags)
     const data = { id: draftId, title, body, tags, meta }
     const res = await ecencyApi.post(`/private-api/drafts-update`, data)
     if (res.data) {

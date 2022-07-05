@@ -75,6 +75,7 @@ class EditorContainer extends Component<any, any> {
       isDraft: false,
       community: [],
       rewardType: 'default',
+      scheduledForDate: null,
       sharedSnippetText: null,
       onLoadDraftPress: false,
       thumbIndex: 0,
@@ -86,7 +87,7 @@ class EditorContainer extends Component<any, any> {
   // Component Life Cycle Functions
   componentDidMount() {
     this._isMounted = true;
-    const { currentAccount, navigation } = this.props;
+    const { currentAccount, navigation, dispatch } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
     let isReply;
     let draftId;
@@ -102,15 +103,7 @@ class EditorContainer extends Component<any, any> {
       if (navigationParams.draft) {
         _draft = navigationParams.draft;
 
-        // if meta exist on draft, get the index of 1st image in meta from images urls in body
-        const body = _draft.body
-        if (_draft.meta && _draft.meta.image) {
-          const urls = extractImageUrls({ body });
-          const draftThumbIndex = urls.indexOf(_draft.meta.image[0])
-          this.setState({
-            thumbIndex: draftThumbIndex,
-          })
-        }
+        // this._loadMeta(_draft);
 
         this.setState({
           draftId: _draft._id,
@@ -199,9 +192,14 @@ class EditorContainer extends Component<any, any> {
     this._isMounted = false;
   }
 
+  componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {
+    if(prevState.rewardType !== this.state.rewardType || prevProps.beneficiariesMap !== this.props.beneficiariesMap){
+      // update isDraftSaved when reward type or beneficiaries are changed in post options
+      this._handleFormChanged();
+    }
+  }
   _getStorageDraft = async (username, isReply, paramDraft) => {
-    const { drafts } = this.props;
-
+    const { drafts, dispatch } = this.props;
     if (isReply) {
       const _draft = drafts.get(paramDraft._id);
       if (_draft && _draft.body) {
@@ -227,8 +225,10 @@ class EditorContainer extends Component<any, any> {
             tags: get(_localDraft, 'tags', '').split(','),
             isDraft: paramDraft ? true : false,
             draftId: paramDraft ? paramDraft._id : null,
+            meta: _localDraft.meta ? _localDraft.meta : null
           },
         });
+        this._loadMeta(_localDraft); //load meta from local draft
       }
 
       //if above fails with either no result returned or timestamp is old,
@@ -242,15 +242,48 @@ class EditorContainer extends Component<any, any> {
             title: paramDraft.title,
             body: paramDraft.body,
             tags: _tags,
+            meta: paramDraft.meta ? paramDraft.meta : null
           },
           isDraft: true,
           draftId: paramDraft._id,
         });
+
+        this._loadMeta(paramDraft); //load meta from param draft
       }
-      ;
+
     }
   };
 
+  // load meta from local/param drfat into state
+  _loadMeta = (draft: any) => {
+    const { dispatch } = this.props;
+    // if meta exist on draft, get the index of 1st image in meta from images urls in body
+    const body = draft.body;
+    if (draft.meta && draft.meta.image) {
+      const urls = extractImageUrls({ body });
+      const draftThumbIndex = urls.indexOf(draft.meta.image[0]);
+      this.setState({
+        thumbIndex: draftThumbIndex,
+      });
+    }
+    // load schedule date
+    if (draft.meta && draft.meta.scheduledFor) {
+      this.setState({
+        scheduledForDate: draft.meta.scheduledFor,
+      });
+    }
+
+    // load beneficiaries and rewards data from meta field of draft
+    if (draft.meta && draft.meta.rewardType) {
+      this.setState({
+        rewardType: draft.meta.rewardType,
+      });
+    }
+
+    if (draft._id && draft.meta && draft.meta.beneficiaries) {
+      dispatch(setBeneficiaries(draft._id || TEMP_BENEFICIARIES_ID, draft.meta.beneficiaries));
+    }
+  }
   _requestKeyboardFocus = () => {
     //50 ms timeout is added to avoid keyboard not showing up on android
     setTimeout(() => {
@@ -535,7 +568,7 @@ class EditorContainer extends Component<any, any> {
   };
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
-    const { isDraftSaved, draftId, thumbIndex, isReply } = this.state;
+    const { isDraftSaved, draftId, thumbIndex, isReply, rewardType } = this.state;
     const { currentAccount, dispatch, intl } = this.props;
 
     if (isReply) {
@@ -561,10 +594,17 @@ class EditorContainer extends Component<any, any> {
             tags: fields.tags.join(' '),
           };
         }
-
+        
+        const meta = Object.assign({}, extractMetadata(draftField.body, thumbIndex), {
+          tags: draftField.tags,
+          beneficiaries,
+          rewardType
+        });
+        const jsonMeta = makeJsonMetadata(meta, draftField.tags);
+        
         //update draft is draftId is present
         if (draftId && draftField && !saveAsNew) {
-          await updateDraft(draftId, draftField.title, draftField.body, draftField.tags, thumbIndex);
+          await updateDraft(draftId, draftField.title, draftField.body, draftField.tags, jsonMeta);
 
           if (this._isMounted) {
             this.setState({
@@ -576,7 +616,7 @@ class EditorContainer extends Component<any, any> {
 
         //create new darft otherwise
         else if (draftField) {
-          const response = await addDraft(draftField.title, draftField.body, draftField.tags, thumbIndex);
+          const response = await addDraft(draftField.title, draftField.body, draftField.tags, jsonMeta);
 
           if (this._isMounted) {
             this.setState({
@@ -628,7 +668,7 @@ class EditorContainer extends Component<any, any> {
   };
 
   _saveCurrentDraft = async (fields) => {
-    const { draftId, isReply, isEdit, isPostSending } = this.state;
+    const { draftId, isReply, isEdit, isPostSending, thumbIndex, rewardType, scheduleDate } = this.state;
 
     //skip draft save in case post is sending or is post beign edited
     if (isPostSending || isEdit) {
@@ -643,6 +683,7 @@ class EditorContainer extends Component<any, any> {
       body: fields.body,
       tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
       author: username,
+      meta: fields.meta && fields.meta,
     }
 
     //save reply data
@@ -1177,6 +1218,10 @@ class EditorContainer extends Component<any, any> {
     this.setState({ rewardType: value });
   };
 
+  _handleScheduleDateChange = (value) => {
+    this.setState({ scheduledForDate: value })
+  };
+
   _handleShouldReblogChange = (value: boolean) => {
     this.setState({
       shouldReblog: value
@@ -1211,15 +1256,17 @@ class EditorContainer extends Component<any, any> {
       onLoadDraftPress,
       thumbIndex,
       uploadProgress,
+      rewardType,
+      scheduledForDate,
     } = this.state;
 
     const tags = navigation.state.params && navigation.state.params.tags;
-
     return (
       <EditorScreen
         autoFocusText={autoFocusText}
         draftPost={draftPost}
         handleRewardChange={this._handleRewardChange}
+        handleScheduleDateChange={this._handleScheduleDateChange}
         handleShouldReblogChange={this._handleShouldReblogChange}
         handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
@@ -1250,6 +1297,9 @@ class EditorContainer extends Component<any, any> {
         thumbIndex={thumbIndex}
         setThumbIndex={this._handleSetThumbIndex}
         uploadProgress={uploadProgress}
+        rewardType={rewardType}
+        scheduledForDate={scheduledForDate}
+        getBeneficiaries={this._extractBeneficiaries}
       />
     );
   }

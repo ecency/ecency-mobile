@@ -38,10 +38,13 @@ interface PostOptionsModalProps {
   thumbIndex:number,
   isEdit:boolean;
   isCommunityPost:boolean;
+  rewardType: string;
+  scheduledForDate: string | null;
   handleRewardChange:(rewardType:string)=>void;
   handleThumbSelection:(index:number)=>void;
   handleScheduleChange:(datetime:string|null)=>void;
   handleShouldReblogChange:(shouldReblog:boolean)=>void;
+  handleFormUpdate:()=>void;
 }
 
 const PostOptionsModal =  forwardRef(({
@@ -50,23 +53,25 @@ const PostOptionsModal =  forwardRef(({
   thumbIndex,
   isEdit,
   isCommunityPost,
+  rewardType,
+  scheduledForDate,
   handleRewardChange,
   handleThumbSelection,
   handleScheduleChange,
   handleShouldReblogChange,
+  handleFormUpdate
 }: PostOptionsModalProps, ref) => {
     const intl = useIntl();
 
     const [showModal, setShowModal] = useState(false);
     const [rewardTypeIndex, setRewardTypeIndex] = useState(0);
-    const [scheduleLater, setScheduleLater] = useState(false)
+    const [scheduleLater, setScheduleLater] = useState(scheduledForDate ? true : false);
     const [shouldReblog, setShouldReblog] = useState(false);
     const [scheduledFor, setScheduledFor] = useState('');
     const [disableDone, setDisableDone] = useState(false);
 
     // removed the useeffect causing index reset bug
-
-
+/* 
     useEffect(()=>{
       if(!scheduleLater){
         handleScheduleChange(null)
@@ -74,7 +79,23 @@ const PostOptionsModal =  forwardRef(({
         handleScheduleChange(scheduledFor)
       }
     }, [scheduleLater, scheduledFor])
+*/
+    useEffect(() => {
+      if(scheduledFor){
+        handleScheduleChange(scheduledFor);
+      }
+    },[scheduledFor])
 
+    useEffect(() => {
+      if (scheduledForDate) {
+        setScheduleLater(true);
+        setScheduledFor(scheduledForDate);
+      } else {
+        setScheduleLater(false);
+        setScheduledFor('');
+      }
+    },[scheduledForDate])
+    
     useEffect(() => {
       handleShouldReblogChange(shouldReblog)
     }, [shouldReblog])
@@ -84,7 +105,14 @@ const PostOptionsModal =  forwardRef(({
         setShouldReblog(false);
       }
     }, [isCommunityPost])
-  
+
+    // load rewardtype from props if it is already saved in drafts
+    useEffect(() => {
+      if(rewardType){
+        let rewardTypeKey = REWARD_TYPES.findIndex((item) => item.key === rewardType)
+        setRewardTypeIndex(rewardTypeKey);
+      }
+    },[rewardType])
 
     useImperativeHandle(ref, () => ({
         show: () => {
@@ -107,6 +135,7 @@ const PostOptionsModal =  forwardRef(({
 
     const _onDonePress = () => {
       setShowModal(false);
+      handleFormUpdate();
     }
  
     // handle index change here instead of useeffetc
@@ -129,8 +158,11 @@ const PostOptionsModal =  forwardRef(({
                     intl.formatMessage({id:"editor.scheduled_later"}),
                   ]}
                   selectedOptionIndex={scheduleLater ? 1 : 0}
-                  handleOnChange={(index)=>{
-                  setScheduleLater(index === 1)
+                  handleOnChange={(index)=> {
+                    setScheduleLater(index === 1);
+                    if (index !== 1) {
+                      handleScheduleChange(null);
+                    }
                   }}
                 />
   
@@ -138,6 +170,7 @@ const PostOptionsModal =  forwardRef(({
                   <AnimatedView animation="flipInX" duration={700}>
                     <DateTimePicker
                       type="datetime"
+                      selectedDate={scheduledForDate}
                       onChanged={_handleDatePickerChange}
                       disabled={true}
                     />
@@ -206,7 +239,10 @@ const PostOptionsModal =  forwardRef(({
   return (
     <Modal 
         isOpen={showModal}
-        handleOnModalClose={() => setShowModal(false)}
+        handleOnModalClose={() => {
+          setShowModal(false);
+          handleFormUpdate();
+        }}
         isFullScreen
         isCloseButton
         presentationStyle="formSheet"
