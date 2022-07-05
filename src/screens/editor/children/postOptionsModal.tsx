@@ -79,7 +79,7 @@ const PostOptionsModal =  forwardRef(({
         handleScheduleChange(scheduledFor)
       }
     }, [scheduleLater, scheduledFor])
-*/   
+*/
     useEffect(() => {
       if(scheduledFor){
         handleScheduleChange(scheduledFor);
@@ -87,9 +87,12 @@ const PostOptionsModal =  forwardRef(({
     },[scheduledFor])
 
     useEffect(() => {
-      if(scheduledForDate){
+      if (scheduledForDate) {
         setScheduleLater(true);
         setScheduledFor(scheduledForDate);
+      } else {
+        setScheduleLater(false);
+        setScheduledFor('');
       }
     },[scheduledForDate])
     
@@ -155,8 +158,11 @@ const PostOptionsModal =  forwardRef(({
                     intl.formatMessage({id:"editor.scheduled_later"}),
                   ]}
                   selectedOptionIndex={scheduleLater ? 1 : 0}
-                  handleOnChange={(index)=>{
-                  setScheduleLater(index === 1)
+                  handleOnChange={(index)=> {
+                    setScheduleLater(index === 1);
+                    if (index !== 1) {
+                      handleScheduleChange(null);
+                    }
                   }}
                 />
   
