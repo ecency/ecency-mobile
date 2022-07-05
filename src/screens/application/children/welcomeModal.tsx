@@ -8,7 +8,7 @@ import VersionNumber from 'react-native-version-number';
 
 import { CheckBox, Icon, MainButton, Modal } from '../../../components';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { setLastAppVersion } from '../../../redux/actions/applicationActions';
+import { setLastAppVersion, setIsTermsAccepted } from '../../../redux/actions/applicationActions';
 import parseVersionNumber from '../../../utils/parseVersionNumber';
 import LaunchScreen from '../../launch';
 
@@ -19,10 +19,11 @@ const WelcomeModal = ({ onModalVisibilityChange }) => {
   const dispatch = useAppDispatch();
 
   const lastAppVersion = useAppSelector(state => state.application.lastAppVersion)
+  const isTermsAccepted = useAppSelector(state => state.application.isTermsAccepted);
 
   const [showAnimation, setShowAnimation] = useState(true);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-  const [isConsentChecked, setIsConsentChecked] = useState(false);
+  const [isConsentChecked, setIsConsentChecked] = useState(isTermsAccepted);
 
   const [appVersion] = useState(VersionNumber.appVersion);
 
@@ -52,6 +53,7 @@ const WelcomeModal = ({ onModalVisibilityChange }) => {
 
   const _handleButtonPress = () => {
     dispatch(setLastAppVersion(appVersion))
+    dispatch(setIsTermsAccepted(isConsentChecked));
     setShowWelcomeModal(false);
     onModalVisibilityChange(false);
   }
@@ -78,7 +80,7 @@ const WelcomeModal = ({ onModalVisibilityChange }) => {
 
   const _renderConsent = () => (
     <View style={styles.consentContainer}>
-      <CheckBox value={isConsentChecked} clicked={_onCheckPress} style={styles.checkStyle} />
+      <CheckBox isChecked={isConsentChecked} clicked={_onCheckPress} style={styles.checkStyle} />
       <TouchableOpacity onPress={() => Linking.openURL('https://ecency.com/terms-of-service')}>
         <View style={styles.consentTextContainer}>
           <Text style={styles.termsDescText}>
