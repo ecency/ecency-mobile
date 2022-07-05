@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import { Text, Image, View, SafeAreaView, TouchableOpacity, Linking } from 'react-native';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { ScrollView } from 'react-native-gesture-handler';
 import VersionNumber from 'react-native-version-number';
 
 import { CheckBox, Icon, MainButton, Modal } from '../../../components';
@@ -97,23 +98,32 @@ const WelcomeModal = ({ onModalVisibilityChange }) => {
 
   const _renderContent = () => (
     <SafeAreaView style={styles.root}>
-      <TouchableOpacity disabled={!isConsentChecked} onPress={_handleButtonPress} style={styles.container}>
+
+      <View style={styles.container}>
         <Image
           style={styles.mascot}
           resizeMode="contain"
           source={require('../../../assets/love_mascot.png')}
         />
+
         <View style={styles.topText}>
           <Text style={styles.welcomeText}>{intl.formatMessage({ id: 'welcome.label' })}</Text>
           <Text style={styles.ecencyText}>{intl.formatMessage({ id: 'welcome.title' })}</Text>
         </View>
-        <View>
-          {_renderInfo('question', 'welcome.line1_heading', 'welcome.line1_body')}
-          {_renderInfo('emotsmile', 'welcome.line2_heading', 'welcome.line2_body')}
-          {_renderInfo('people', 'welcome.line3_heading', 'welcome.line3_body')}
+
+        <ScrollView contentContainerStyle={styles.contentContainer} >
+          <TouchableOpacity disabled={!isConsentChecked} onPress={_handleButtonPress} >
+
+            {_renderInfo('question', 'welcome.line1_heading', 'welcome.line1_body')}
+            {_renderInfo('emotsmile', 'welcome.line2_heading', 'welcome.line2_body')}
+            {_renderInfo('people', 'welcome.line3_heading', 'welcome.line3_body')}
+
+          </TouchableOpacity>
+        </ScrollView>
+
+
+        <View style={styles.bottomContainer}>
           {_renderConsent()}
-        </View>
-        <View style={styles.bottomButton}>
           <MainButton
             onPress={_handleButtonPress}
             isDisable={!isConsentChecked}
@@ -122,7 +132,9 @@ const WelcomeModal = ({ onModalVisibilityChange }) => {
             text={intl.formatMessage({ id: 'welcome.get_started' })}
           />
         </View>
-      </TouchableOpacity>
+
+      </View>
+
       {showAnimation && <LaunchScreen />}
     </SafeAreaView>
   );

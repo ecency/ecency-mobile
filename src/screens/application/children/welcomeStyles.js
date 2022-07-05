@@ -20,6 +20,11 @@ export default EStyleSheet.create({
     paddingBottom: 20,
     paddingHorizontal: 40,
   },
+
+  contentContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+  },
   welcomeText: {
     fontSize: scalePx(34),
     color: '$primaryBlack',
@@ -47,8 +52,10 @@ export default EStyleSheet.create({
   topText: {
     marginTop: 40,
   },
-  bottomButton: {
-    paddingTop: 10,
+  bottomContainer: {
+    marginTop: 8,
+    borderTopWidth: EStyleSheet.hairlineWidth,
+    borderColor: '$iconColor',
   },
   sectionRow: {
     flexDirection: 'row',
@@ -71,8 +78,9 @@ export default EStyleSheet.create({
   },
   consentContainer: {
     flexDirection: 'row',
-    marginTop: 52,
     alignItems: 'center',
+    marginTop: 32,
+    marginBottom: 40,
   },
   checkStyle: {
     backgroundColor: '$white',
