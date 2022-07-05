@@ -10,7 +10,6 @@ import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { isEmpty, some } from 'lodash';
-import { useDarkMode } from 'react-native-dynamic';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import VersionNumber from 'react-native-version-number';
@@ -21,11 +20,11 @@ import Matomo from 'react-native-matomo-sdk';
 import AUTH_TYPE from '../../../constants/authType';
 import ROUTES from '../../../constants/routeNames';
 import postUrlParser from '../../../utils/postUrlParser';
+import THEME_OPTIONS from '../../../constants/options/theme';
 
 // Services
 import {
   getAuthStatus,
-  getExistUser,
   getSettings,
   getUserData,
   removeUserData,
@@ -34,8 +33,6 @@ import {
   setAuthStatus,
   removeSCAccount,
   setExistUser,
-  getVersionForWelcomeModal,
-  setVersionForWelcomeModal,
   getLastUpdateCheck,
   setLastUpdateCheck,
   getTheme,
@@ -49,10 +46,8 @@ import {
 } from '../../../providers/hive/auth';
 import {
   setPushToken,
-  markActivityAsRead,
   markNotifications,
   getUnreadNotificationCount,
-  getLatestQuotes,
 } from '../../../providers/ecency/ecency';
 import { fetchLatestAppVersion } from '../../../providers/github/github';
 import { navigate } from '../../../navigation/service';
@@ -64,10 +59,8 @@ import {
   updateUnreadActivityCount,
   removeOtherAccount,
   fetchGlobalProperties,
-  removeAllOtherAccount,
 } from '../../../redux/actions/accountAction';
 import {
-  activeApplication,
   isDarkTheme,
   changeNotificationSettings,
   changeAllNotificationSettings,
@@ -86,6 +79,8 @@ import {
   setPinCode as savePinCode,
   isRenderRequired,
   logout,
+  setColorTheme,
+  setSettingsMigrated,
 } from '../../../redux/actions/applicationActions';
 import {
   hideActionModal,
@@ -105,10 +100,11 @@ import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
 import persistAccountGenerator from '../../../utils/persistAccountGenerator';
 import parseVersionNumber from '../../../utils/parseVersionNumber';
-import { getTimeFromNow, setMomentLocale } from '../../../utils/time';
+import { setMomentLocale } from '../../../utils/time';
 import parseAuthUrl from '../../../utils/parseAuthUrl';
 import { purgeExpiredCache } from '../../../redux/actions/cacheActions';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
+import MigrationHelpers from '../children/migrationHelpers';
 
 // Workaround
 let previousAppState = 'background';
@@ -123,18 +119,14 @@ export const setPreviousAppState = () => {
 let firebaseOnNotificationOpenedAppListener = null;
 let firebaseOnMessageListener = null;
 let removeAppearanceListener = null;
-let scAccounts = [];
 
 class ApplicationContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isRenderRequire: true,
-      isReady: false,
       isIos: Platform.OS !== 'android',
-      isThemeReady: false,
       appState: AppState.currentState,
-      showWelcomeModal: false,
       foregroundNotificationData: null,
     };
   }
@@ -163,22 +155,9 @@ class ApplicationContainer extends Component {
     //set avatar cache stamp to invalidate previous session avatars
     dispatch(setAvatarCacheStamp(new Date().getTime()));
 
-    getVersionForWelcomeModal().then((version) => {
-      if (version < parseVersionNumber(appVersion)) {
-        getUserData().then((accounts) => {
-          this.setState({ showWelcomeModal: true });
-          if (accounts && accounts.length > 0) {
-            accounts.forEach((account) => {
-              if (get(account, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
-                scAccounts.push(account);
-              }
-            });
-          }
-        });
-      }
-    });
 
     setMomentLocale();
+    this._fetchApp();
 
     ReceiveSharingIntent.getReceivedFiles(
       () => {
@@ -235,7 +214,7 @@ class ApplicationContainer extends Component {
 
     if (!isIos) BackHandler.removeEventListener('hardwareBackPress', this._onBackPress);
 
-    // NetInfo.isConnected.removeEventListener('connectionChange', this._handleConntectionChange);
+    //TOOD: listen for back press and cancel all pending api requests;
 
     Linking.removeEventListener('url', this._handleOpenURL);
 
@@ -439,22 +418,10 @@ class ApplicationContainer extends Component {
     );
   };
 
+
   _handleAppStateChange = (nextAppState) => {
     const { appState } = this.state;
-    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
-    getExistUser().then((isExistUser) => {
-      if (isExistUser) {
-        if (appState.match(/active|forground/) && nextAppState === 'inactive') {
-          this._startPinCodeTimer();
-        }
 
-        if (appState.match(/inactive|background/) && nextAppState === 'active') {
-          if (_isPinCodeOpen) {
-            clearTimeout(this._pinCodeTimer);
-          }
-        }
-      }
-    });
     if (appState.match(/inactive|background/) && nextAppState === 'active') {
       this._refreshGlobalProps();
     }
@@ -464,24 +431,16 @@ class ApplicationContainer extends Component {
     });
   };
 
-  _startPinCodeTimer = () => {
-    const { dispatch, isPinCodeOpen: _isPinCodeOpen } = this.props;
-
-    if (_isPinCodeOpen) {
-      this._pinCodeTimer = setTimeout(() => {
-        dispatch(openPinCodeModal());
-      }, 1 * 60 * 1000);
-    }
-  };
 
   _fetchApp = async () => {
-    await this._getSettings();
-    this.setState({
-      isReady: true,
-    });
+    const {dispatch, settingsMigrated} = this.props;
+
+    await MigrationHelpers.migrateSettings(dispatch, settingsMigrated)
     this._refreshGlobalProps();
     await this._getUserDataFromRealm();
     this._compareAndPromptForUpdate();
+    this._registerDeviceForNotifications();
+    dispatch(purgeExpiredCache());
   };
 
   _pushNavigate = (notification) => {
@@ -647,7 +606,6 @@ class ApplicationContainer extends Component {
     const { currentUsername } = res;
 
     if (res) {
-      dispatch(activeApplication());
       dispatch(login(true));
       const userData = await getUserData();
 
@@ -696,11 +654,11 @@ class ApplicationContainer extends Component {
         // TODO:
         await switchAccount(realmObject[0].username);
       }
-      const isExistUser = await getExistUser();
+
 
       realmObject[0].name = currentUsername;
       // If in dev mode pin code does not show
-      if ((!isExistUser || !pinCode) && _isPinCodeOpen) {
+      if (_isPinCodeOpen) {
         dispatch(openPinCodeModal());
       } else if (!_isPinCodeOpen) {
         const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
@@ -709,13 +667,13 @@ class ApplicationContainer extends Component {
 
       if (isConnected) {
         this._fetchUserDataFromDsteem(realmObject[0]);
+      
       }
 
       return realmObject[0];
     }
 
     dispatch(updateCurrentAccount({}));
-    dispatch(activeApplication());
 
     return null;
   };
@@ -788,6 +746,7 @@ class ApplicationContainer extends Component {
       dispatch(updateCurrentAccount(accountData));
       dispatch(fetchSubscribedCommunities(realmObject.username));
       this._connectNotificationServer(accountData.name);
+      //TODO: better update device push token here after access token refresh
     } catch (err) {
       Alert.alert(
         `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
@@ -795,62 +754,33 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _getSettings = async () => {
-    const { dispatch, otherAccounts } = this.props;
 
-    //reset certain properties
-    dispatch(hideActionModal());
-    dispatch(hideProfileModal());
-    dispatch(toastNotification(''));
-    dispatch(purgeExpiredCache());
-    dispatch(setRcOffer(false));
 
-    const settings = await getSettings();
+  //update notification settings and update push token for each signed accoutn useing access tokens
+  _registerDeviceForNotifications = (settings?:any) => {
+    const { otherAccounts, notificationDetails, isNotificationsEnabled } = this.props;
+    
+    const isEnabled = settings ? !!settings.notification : isNotificationsEnabled;
+    settings = settings || notificationDetails;
 
-    if (settings) {
-      const isDarkMode = Appearance.getColorScheme() === 'dark';
-      dispatch(isDarkTheme(settings.isDarkTheme !== null ? settings.isDarkTheme : isDarkMode));
-      this.setState({
-        isThemeReady: true,
-      });
-      if (settings.isPinCodeOpen !== '') await dispatch(isPinCodeOpen(settings.isPinCodeOpen));
-      if (settings.language !== '') dispatch(setLanguage(settings.language));
-      if (settings.server !== '') dispatch(setApi(settings.server));
-      if (settings.upvotePercent !== '') {
-        dispatch(setUpvotePercent(Number(settings.upvotePercent)));
+
+    //updateing fcm token with settings;
+    otherAccounts.forEach((account) => {
+      //since there can be more than one accounts, process access tokens separate
+      const encAccessToken = account?.local?.accessToken;
+      //decrypt access token
+      let accessToken = null;
+      if (encAccessToken) {
+        //NOTE: default pin decryption works also for custom pin as other account
+        //keys are not yet being affected by changed pin, which I think we should dig more
+        accessToken = decryptKey(encAccessToken, Config.DEFAULT_PIN);
       }
-      if (settings.isDefaultFooter !== '') dispatch(isDefaultFooter(settings.isDefaultFooter));
 
-      if (settings.notification !== '') {
-        console.log('Notification Settings', settings.notification, otherAccounts);
-        dispatch(
-          changeNotificationSettings({
-            type: 'notification',
-            action: settings.notification,
-          }),
-        );
-        dispatch(changeAllNotificationSettings(settings));
-
-        //updateing fcm token with settings;
-        otherAccounts.forEach((account) => {
-          //since there can be more than one accounts, process access tokens separate
-          const encAccessToken = account.local.accessToken;
-          //decrypt access token
-          let accessToken = null;
-          if (encAccessToken) {
-            //NOTE: default pin decryption works also for custom pin as other account
-            //keys are not yet being affected by changed pin, which I think we should dig more
-            accessToken = decryptKey(encAccessToken, Config.DEFAULT_PIN);
-          }
-
-          this._enableNotification(account.name, settings.notification, settings, accessToken);
-        });
-      }
-      if (settings.nsfw !== '') dispatch(setNsfw(settings.nsfw));
-
-      await dispatch(setCurrency(settings.currency !== '' ? settings.currency : 'usd'));
-    }
+      this._enableNotification(account.name, isEnabled, settings, accessToken);
+    });
   };
+
+
 
   _connectNotificationServer = (username) => {
     /* eslint no-undef: "warn" */
@@ -988,13 +918,6 @@ class ApplicationContainer extends Component {
     dispatch(fetchSubscribedCommunities(_currentAccount.username));
   };
 
-  _handleWelcomeModalButtonPress = () => {
-    const { appVersion } = VersionNumber;
-
-    setVersionForWelcomeModal(appVersion);
-
-    this.setState({ showWelcomeModal: false });
-  };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     const {
@@ -1050,13 +973,7 @@ class ApplicationContainer extends Component {
       isPinCodeRequire,
       rcOffer,
     } = this.props;
-    const {
-      isRenderRequire,
-      isReady,
-      isThemeReady,
-      showWelcomeModal,
-      foregroundNotificationData,
-    } = this.state;
+    const { isRenderRequire, foregroundNotificationData } = this.state;
 
     return (
       children &&
@@ -1064,15 +981,11 @@ class ApplicationContainer extends Component {
         isConnected,
         isDarkTheme: _isDarkTheme,
         isPinCodeRequire,
-        isReady,
         isRenderRequire,
-        isThemeReady,
         locale: selectedLanguage,
         rcOffer,
         toastNotification,
-        showWelcomeModal,
         foregroundNotificationData,
-        handleWelcomeModalButtonPress: this._handleWelcomeModalButtonPress,
       })
     );
   }
@@ -1085,15 +998,17 @@ export default connect(
     selectedLanguage: state.application.language,
     isPinCodeOpen: state.application.isPinCodeOpen,
     isLogingOut: state.application.isLogingOut,
-    isLoggedIn: state.application.isLoggedIn,
+    isLoggedIn: state.application.isLoggedIn, //TODO: remove as is not being used in this class
     isConnected: state.application.isConnected,
     nav: state.nav.routes,
     isPinCodeRequire: state.application.isPinCodeRequire,
-    isActiveApp: state.application.isActive,
     api: state.application.api,
     isGlobalRenderRequired: state.application.isRenderRequired,
     isAnalytics: state.application.isAnalytics,
     lastUpdateCheck: state.application.lastUpdateCheck,
+    settingsMigrated: state.application.settingsMigrated,
+    isNotificationsEnabled: state.application.isNotificationOpen,
+    notificationDetails: state.application.notificationDetails,
 
     // Account
     unreadActivityCount: state.account.currentAccount.unread_activity_count,

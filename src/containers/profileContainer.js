@@ -606,7 +606,7 @@ const mapStateToProps = (state) => ({
   isAnalytics: state.application.isAnalytics,
   activeBottomTab: state.ui.activeBottomTab,
   currentAccount: state.account.currentAccount,
-  isHideImage: state.ui.hidePostsThumbnails,
+  isHideImage: state.application.hidePostsThumbnails,
 });
 
 export default connect(mapStateToProps)(injectIntl(withNavigation(ProfileContainer)));

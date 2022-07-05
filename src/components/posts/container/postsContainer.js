@@ -25,7 +25,6 @@ import {
   setOtherPosts,
   setInitPosts,
 } from '../../../redux/actions/postsAction';
-import { hidePostsThumbnails } from '../../../redux/actions/uiAction';
 import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';
 import {
   subscribeCommunity,
@@ -34,6 +33,7 @@ import {
 } from '../../../redux/actions/communitiesAction';
 
 import useIsMountedRef from '../../../customHooks/useIsMountedRef';
+import { setHidePostsThumbnails } from '../../../redux/actions/applicationActions';
 
 const PostsContainer = ({
   changeForceLoadPostState,
@@ -59,7 +59,7 @@ const PostsContainer = ({
   const nsfw = useSelector((state) => state.application.nsfw);
   const initPosts = useSelector((state) => state.posts.initPosts);
   const isConnected = useSelector((state) => state.application.isConnected);
-  const isHideImages = useSelector((state) => state.ui.hidePostsThumbnails);
+  const isHideImages = useSelector((state) => state.application.hidePostsThumbnails);
   const username = useSelector((state) => state.account.currentAccount.name);
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
   const isAnalytics = useSelector((state) => state.application.isAnalytics);
@@ -467,7 +467,7 @@ const PostsContainer = ({
   };
 
   const _handleImagesHide = () => {
-    dispatch(hidePostsThumbnails(!isHideImages));
+    dispatch(setHidePostsThumbnails(!isHideImages));
   };
 
   const _getPromotePosts = async () => {

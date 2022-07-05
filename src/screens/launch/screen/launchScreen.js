@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Appearance } from 'react-native';
+import { View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import styles from './launchStyles';
+import { useAppSelector } from '../../../hooks';
 
 const LaunchScreen = () => {
-  const isDarkMode = Appearance.getColorScheme() === 'dark';
+  const isDarkMode = useAppSelector((state) => state.application.isDarkTheme);
   return (
     <View style={isDarkMode ? styles.darkContainer : styles.container}>
       <LottieView

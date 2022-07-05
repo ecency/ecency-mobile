@@ -6,7 +6,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 import { CheckBox, Icon, MainButton } from '../../../components';
 
-import styles from './welcomeStyles';
+import styles from '../children/welcomeStyles';
 
 const WelcomeScreen = ({ handleButtonPress }) => {
   const intl = useIntl();

@@ -1,9 +1,7 @@
 
-import { AlertButton } from 'react-native';
 import {
   TOAST_NOTIFICATION,
   UPDATE_ACTIVE_BOTTOM_TAB,
-  HIDE_POSTS_THUMBNAILS,
   RC_OFFER,
   TOGGLE_ACCOUNTS_BOTTOM_SHEET,
   SHOW_ACTION_MODAL,
@@ -58,10 +56,6 @@ export const setRcOffer = (payload:boolean) => ({
   type: RC_OFFER,
 });
 
-export const hidePostsThumbnails = (payload:boolean) => ({
-  payload,
-  type: HIDE_POSTS_THUMBNAILS,
-});
 
 export const toggleAccountsBottomSheet = (payload:boolean) => ({
   payload,

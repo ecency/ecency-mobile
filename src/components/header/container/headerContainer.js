@@ -8,8 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import HeaderView from '../view/headerView';
 
 import { AccountContainer, ThemeContainer } from '../../../containers';
-import { hidePostsThumbnails } from '../../../redux/actions/uiAction';
 import { parseReputation } from '../../../utils/user';
+import { setHidePostsThumbnails } from '../../../redux/actions/applicationActions';
 
 const HeaderContainer = ({
   selectedUser,
@@ -22,7 +22,7 @@ const HeaderContainer = ({
   const dispatch = useDispatch();
 
   //redux properties
-  const isHideImages = useSelector((state) => state.ui.hidePostsThumbnails);
+  const isHideImages = useSelector((state) => state.application.hidePostsThumbnails);
 
   const _handleOpenDrawer = () => {
     if (has(navigation, 'openDrawer') && typeof get(navigation, 'openDrawer') === 'function') {
@@ -39,7 +39,7 @@ const HeaderContainer = ({
   };
 
   const _handleViewModeTogglePress = () => {
-    dispatch(hidePostsThumbnails(!isHideImages));
+    dispatch(setHidePostsThumbnails(!isHideImages));
   };
 
   return (

@@ -4,14 +4,14 @@ import { withNavigation } from 'react-navigation';
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { hidePostsThumbnails } from '../../../redux/actions/uiAction';
+import { setHidePostsThumbnails } from '../../../redux/actions/applicationActions';
 
 // Components
 import BasicHeaderView from '../view/basicHeaderView';
 
 const BasicHeaderContainer = (props) => {
   const dispatch = useAppDispatch();
-  const isHideImages = useAppSelector((state) => state.ui.hidePostsThumbnails);
+  const isHideImages = useAppSelector((state) => state.application.hidePostsThumbnails);
 
   const _handleOnPressBackButton = () => {
     const { navigation, isNewPost, handleOnBackPress } = props;
@@ -30,7 +30,7 @@ const BasicHeaderContainer = (props) => {
   };
 
   const _handleViewModeToggle = () => {
-    dispatch(hidePostsThumbnails(!isHideImages));
+    dispatch(setHidePostsThumbnails(!isHideImages));
   };
 
   return (
