@@ -30,8 +30,6 @@ const WelcomeModal = ({ onModalVisibilityChange }) => {
 
   useEffect(() => {
     _compareAppVersion()
-    _showWelcomeModal();
-
   }, [])
 
 
