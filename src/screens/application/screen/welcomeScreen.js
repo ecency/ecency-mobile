@@ -34,20 +34,20 @@ const WelcomeScreen = ({ handleButtonPress }) => {
   const _renderConsent = () => (
     <View style={styles.consentContainer}>
       <CheckBox value={isConsentChecked} clicked={_onCheckPress} style={styles.checkStyle} />
-      <View style={styles.consentTextContainer}>
-        <Text style={styles.termsDescText}>
-          {intl.formatMessage({
-            id: 'welcome.terms_description',
-          })}
-        </Text>
-        <TouchableOpacity onPress={() => Linking.openURL('https://ecency.com/terms-of-service')}>
-          <Text style={styles.termsLinkText}>
+      <TouchableOpacity onPress={() => Linking.openURL('https://ecency.com/terms-of-service')}>
+        <View style={styles.consentTextContainer}>
+          <Text style={styles.termsDescText}>
             {intl.formatMessage({
-              id: 'welcome.terms_text',
+              id: 'welcome.terms_description',
             })}
+            <Text style={styles.termsLinkText}>
+              {intl.formatMessage({
+                id: 'welcome.terms_text',
+              })}
+            </Text>
           </Text>
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 
