@@ -69,4 +69,27 @@ export default EStyleSheet.create({
   flex1: {
     flex: 1,
   },
+  consentContainer: {
+    flexDirection: 'row',
+    marginTop: 52,
+    alignItems: 'center',
+  },
+  checkStyle: {
+    backgroundColor: '$white',
+    marginRight: 12,
+  },
+  consentTextContainer: {
+    flexDirection: 'row',
+    flex: 1,
+    flexWrap: 'wrap',
+  },
+  termsDescText: {
+    fontSize: 14,
+    color: '$primaryBlack',
+  },
+  termsLinkText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '$primaryBlue',
+  },
 });
