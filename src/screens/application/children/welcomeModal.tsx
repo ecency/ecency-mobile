@@ -86,6 +86,7 @@ const WelcomeModal = ({ onModalVisibilityChange }) => {
               id: 'welcome.terms_description',
             })}
             <Text style={styles.termsLinkText}>
+              {' '}
               {intl.formatMessage({
                 id: 'welcome.terms_text',
               })}
