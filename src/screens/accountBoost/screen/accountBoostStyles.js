@@ -2,9 +2,48 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   container: {
+    backgroundColor: '$primaryBackgroundColor',
+    flex: 1,
+  },
+  contentContainer: {
+    justifyContent: 'space-around',
+    backgroundColor: '$primaryBackgroundColor',
+    flex: 1,
+  },
+  iconContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+    paddingBottom: 24,
     backgroundColor: '$primaryBackgroundColor',
+  },
+  userContainer: {
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    flexDirection: 'row',
+    backgroundColor: '$primaryBackgroundColor',
+    paddingVertical: 8,
+    marginBottom: -16,
+    paddingLeft: 32,
+  },
+  avatarStyle: {
+    width: 72,
+    height: 72,
+    borderRadius: 66,
+    borderColor: '$primaryBlue',
+    borderWidth: 4,
+  },
+  usernameText: {
+    backgroundColor: '$primaryBlue',
+    color: '$white',
+    paddingVertical: 8,
+    paddingRight: 20,
+    paddingLeft: 16,
+    marginLeft: -8,
+    zIndex: -1,
+    fontSize: 15,
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
+    fontWeight: 'bold',
   },
   logoEstm: {
     width: '$deviceWidth / 1.4',
@@ -17,6 +56,8 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
   },
   productsWrapper: {
-    marginTop: '$deviceHeight / 4',
+    paddingTop: 8,
+    paddingBottom: 52,
+    marginHorizontal: 16,
   },
 });

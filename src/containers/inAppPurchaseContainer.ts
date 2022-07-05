@@ -84,6 +84,7 @@ class InAppPurchaseContainer extends Component {
       currentAccount: { name },
       intl,
       fetchData,
+      username,
     } = this.props;
 
     this.purchaseUpdateSubscription = purchaseUpdatedListener((purchase) => {
@@ -95,7 +96,7 @@ class InAppPurchaseContainer extends Component {
           platform: Platform.OS === 'android' ? 'play_store' : 'app_store',
           product: get(purchase, 'productId'),
           receipt: Platform.OS === 'android' ? token : receipt,
-          user: name,
+          user: username ? username : name, //username from passed in props from nav params i-e got from url qr scan
         };
 
         purchaseOrder(data)
