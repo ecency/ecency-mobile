@@ -78,7 +78,7 @@ const WelcomeModal = ({ onModalVisibilityChange }) => {
   const _renderConsent = () => (
     <View style={styles.consentContainer}>
       <CheckBox value={isConsentChecked} clicked={_onCheckPress} style={styles.checkStyle} />
-      <TouchableOpacity disabled={!isConsentChecked} onPress={() => Linking.openURL('https://ecency.com/terms-of-service')}>
+      <TouchableOpacity onPress={() => Linking.openURL('https://ecency.com/terms-of-service')}>
         <View style={styles.consentTextContainer}>
           <Text style={styles.termsDescText}>
             {intl.formatMessage({
@@ -97,7 +97,7 @@ const WelcomeModal = ({ onModalVisibilityChange }) => {
 
   const _renderContent = () => (
     <SafeAreaView style={styles.root}>
-      <TouchableOpacity onPress={_handleButtonPress} style={styles.container}>
+      <TouchableOpacity disabled={!isConsentChecked} onPress={_handleButtonPress} style={styles.container}>
         <Image
           style={styles.mascot}
           resizeMode="contain"
