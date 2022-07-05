@@ -30,7 +30,8 @@ import {
   SET_LAST_APP_VERSION,
   SET_COLOR_THEME,
   SET_SETTINGS_MIGRATED,
-  HIDE_POSTS_THUMBNAILS
+  HIDE_POSTS_THUMBNAILS,
+  SET_TERMS_ACCEPTED
 } from '../constants/constants';
 
 export const login = (payload) => ({
@@ -202,5 +203,10 @@ export const setHidePostsThumbnails = (shouldHide:boolean) => ({
   payload:shouldHide,
   type: HIDE_POSTS_THUMBNAILS,
 });
+
+export const setIsTermsAccepted = (isTermsAccepted:boolean) => ({
+  payload:isTermsAccepted,
+  type: SET_TERMS_ACCEPTED
+})
 
 

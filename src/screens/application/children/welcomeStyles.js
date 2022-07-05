@@ -20,6 +20,11 @@ export default EStyleSheet.create({
     paddingBottom: 20,
     paddingHorizontal: 40,
   },
+
+  contentContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+  },
   welcomeText: {
     fontSize: scalePx(34),
     color: '$primaryBlack',
@@ -47,8 +52,10 @@ export default EStyleSheet.create({
   topText: {
     marginTop: 40,
   },
-  bottomButton: {
-    paddingTop: 10,
+  bottomContainer: {
+    marginTop: 8,
+    borderTopWidth: EStyleSheet.hairlineWidth,
+    borderColor: '$iconColor',
   },
   sectionRow: {
     flexDirection: 'row',
@@ -68,5 +75,29 @@ export default EStyleSheet.create({
   },
   flex1: {
     flex: 1,
+  },
+  consentContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 32,
+    marginBottom: 40,
+  },
+  checkStyle: {
+    backgroundColor: '$white',
+    marginRight: 12,
+  },
+  consentTextContainer: {
+    flexDirection: 'row',
+    flex: 1,
+    flexWrap: 'wrap',
+  },
+  termsDescText: {
+    fontSize: 14,
+    color: '$primaryBlack',
+  },
+  termsLinkText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '$primaryBlue',
   },
 });

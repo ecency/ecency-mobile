@@ -29,6 +29,7 @@ import {
   SET_COLOR_THEME,
   SET_SETTINGS_MIGRATED,
   HIDE_POSTS_THUMBNAILS,
+  SET_TERMS_ACCEPTED,
 } from '../constants/constants';
 
 interface State {
@@ -67,6 +68,7 @@ interface State {
   lastAppVersion:string;
   settingsMigrated: boolean;
   hidePostsThumbnails: boolean;
+  isTermsAccepted: boolean;
 }
 
 const initialState:State = {
@@ -105,6 +107,7 @@ const initialState:State = {
   lastAppVersion:'',
   settingsMigrated: false,
   hidePostsThumbnails: false,
+  isTermsAccepted: false,
 };
 
 export default function (state = initialState, action) {
@@ -272,6 +275,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         hidePostsThumbnails:action.payload
+      }
+    
+    case SET_TERMS_ACCEPTED:
+      return {
+        ...state,
+        isTermsAccepted:action.payload
       }
 
     default:

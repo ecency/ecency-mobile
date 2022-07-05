@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { Text, Image, View, SafeAreaView, TouchableOpacity } from 'react-native';
+import { Text, Image, View, SafeAreaView, TouchableOpacity, Linking } from 'react-native';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { ScrollView } from 'react-native-gesture-handler';
 import VersionNumber from 'react-native-version-number';
 
-import { Icon, MainButton, Modal } from '../../../components';
+import { CheckBox, Icon, MainButton, Modal } from '../../../components';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { setLastAppVersion } from '../../../redux/actions/applicationActions';
+import { setLastAppVersion, setIsTermsAccepted } from '../../../redux/actions/applicationActions';
 import parseVersionNumber from '../../../utils/parseVersionNumber';
 import LaunchScreen from '../../launch';
 
@@ -18,9 +19,12 @@ const WelcomeModal = ({ onModalVisibilityChange }) => {
   const dispatch = useAppDispatch();
 
   const lastAppVersion = useAppSelector(state => state.application.lastAppVersion)
+  const isTermsAccepted = useAppSelector(state => state.application.isTermsAccepted);
 
   const [showAnimation, setShowAnimation] = useState(true);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const [isConsentChecked, setIsConsentChecked] = useState(isTermsAccepted);
+
   const [appVersion] = useState(VersionNumber.appVersion);
 
 
@@ -47,9 +51,14 @@ const WelcomeModal = ({ onModalVisibilityChange }) => {
 
   const _handleButtonPress = () => {
     dispatch(setLastAppVersion(appVersion))
+    dispatch(setIsTermsAccepted(isConsentChecked));
     setShowWelcomeModal(false);
     onModalVisibilityChange(false);
   }
+
+  const _onCheckPress = (value, isCheck) => {
+    setIsConsentChecked(isCheck);
+  };
 
 
   const _renderInfo = (iconName, headingIntlId, bodyIntlId) => (
@@ -67,33 +76,66 @@ const WelcomeModal = ({ onModalVisibilityChange }) => {
     </View>
   );
 
+  const _renderConsent = () => (
+    <View style={styles.consentContainer}>
+      <CheckBox isChecked={isConsentChecked} clicked={_onCheckPress} style={styles.checkStyle} />
+      <TouchableOpacity onPress={() => Linking.openURL('https://ecency.com/terms-of-service')}>
+        <View style={styles.consentTextContainer}>
+          <Text style={styles.termsDescText}>
+            {intl.formatMessage({
+              id: 'welcome.terms_description',
+            })}
+            <Text style={styles.termsLinkText}>
+              {' '}
+              {intl.formatMessage({
+                id: 'welcome.terms_text',
+              })}
+            </Text>
+          </Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+
   const _renderContent = () => (
     <SafeAreaView style={styles.root}>
-      <TouchableOpacity onPress={_handleButtonPress} style={styles.container}>
+
+      <View style={styles.container}>
         <Image
           style={styles.mascot}
           resizeMode="contain"
           source={require('../../../assets/love_mascot.png')}
         />
+
         <View style={styles.topText}>
           <Text style={styles.welcomeText}>{intl.formatMessage({ id: 'welcome.label' })}</Text>
           <Text style={styles.ecencyText}>{intl.formatMessage({ id: 'welcome.title' })}</Text>
         </View>
-        <View>
-          {_renderInfo('question', 'welcome.line1_heading', 'welcome.line1_body')}
-          {_renderInfo('emotsmile', 'welcome.line2_heading', 'welcome.line2_body')}
-          {_renderInfo('people', 'welcome.line3_heading', 'welcome.line3_body')}
-        </View>
-        <View style={styles.bottomButton}>
+
+        <ScrollView contentContainerStyle={styles.contentContainer} >
+          <TouchableOpacity disabled={!isConsentChecked} onPress={_handleButtonPress} >
+
+            {_renderInfo('question', 'welcome.line1_heading', 'welcome.line1_body')}
+            {_renderInfo('emotsmile', 'welcome.line2_heading', 'welcome.line2_body')}
+            {_renderInfo('people', 'welcome.line3_heading', 'welcome.line3_body')}
+
+          </TouchableOpacity>
+        </ScrollView>
+
+
+        <View style={styles.bottomContainer}>
+          {_renderConsent()}
           <MainButton
             onPress={_handleButtonPress}
-            isDisable={false}
+            isDisable={!isConsentChecked}
             isLoading={false}
             style={{ alignSelf: 'center', paddingHorizontal: 30 }}
             text={intl.formatMessage({ id: 'welcome.get_started' })}
           />
         </View>
-      </TouchableOpacity>
+
+      </View>
+
       {showAnimation && <LaunchScreen />}
     </SafeAreaView>
   );
