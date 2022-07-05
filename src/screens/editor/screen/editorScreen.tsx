@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Alert, View } from 'react-native';
 import { injectIntl } from 'react-intl';
-import { get, isNull } from 'lodash';
+import { get, isNull, isEqual } from 'lodash';
 
 // Utils
-import { getWordsCount } from '../../../utils/editor';
+import { extractMetadata, getWordsCount, makeJsonMetadata } from '../../../utils/editor';
 
 // Components
 import {
@@ -58,13 +58,13 @@ class EditorScreen extends Component {
       isCommunitiesListModalOpen: false,
       selectedCommunity: null,
       selectedAccount: null,
-      scheduledFor:null
+      scheduledFor: (props.scheduledForDate && props.scheduledForDate) || null,
     };
   }
 
   // Component Life Cycles
   componentDidMount() {
-    const { draftPost, currentAccount } = this.props;
+    const { draftPost, currentAccount, scheduledForDate } = this.props;
 
     if (draftPost) {
       if (draftPost.tags?.length > 0 && isCommunity(draftPost.tags[0])) {
@@ -74,6 +74,9 @@ class EditorScreen extends Component {
           selectedAccount: currentAccount,
         });
       }
+    }
+    if(scheduledForDate){
+      this._handleScheduleChange(scheduledForDate);
     }
   }
 
@@ -207,11 +210,17 @@ class EditorScreen extends Component {
 
 
   _handleScheduleChange = (datetime:string|null) => {
+    const { handleScheduleDateChange } = this.props;
     this.setState({
-      scheduledFor:datetime
+      scheduledFor:datetime,
     })
+    handleScheduleDateChange(datetime);
   }
 
+  _handleRewardChange = (value) => {
+    const { handleRewardChange } = this.props;
+    handleRewardChange(value);
+  }
   _handleSettingsPress = () => {
     if(this.postOptionsModalRef){
       this.postOptionsModalRef.show();
@@ -238,8 +247,8 @@ class EditorScreen extends Component {
   };
 
   _handleFormUpdate = (componentID, content) => {
-    const { handleFormChanged } = this.props;
-    const { fields: _fields } = this.state;
+    const { handleFormChanged, thumbIndex, rewardType, getBeneficiaries, scheduledForDate } = this.props;
+    const { fields: _fields, scheduledFor } = this.state;
     const fields = { ..._fields };
 
     if (componentID === 'body') {
@@ -250,11 +259,22 @@ class EditorScreen extends Component {
       fields.tags = content;
     }
 
+    const meta = Object.assign({}, extractMetadata(fields.body, thumbIndex), {
+      tags: fields.tags,
+      beneficiaries: getBeneficiaries(),
+      rewardType,
+      scheduledFor: scheduledFor ? scheduledFor : scheduledForDate,
+    });
+    const jsonMeta = makeJsonMetadata(meta, fields.tags);
+    fields.meta = jsonMeta;
+    
     if (
       get(fields, 'body', '').trim() !== get(_fields, 'body', '').trim() ||
       get(fields, 'title', '').trim() !== get(_fields, 'title', '').trim() ||
-      get(fields, 'tags') !== get(_fields, 'tags')
+      get(fields, 'tags') !== get(_fields, 'tags') ||
+      !isEqual(get(fields, 'meta'), get(_fields, 'meta'))
     ) {
+      console.log('jsonMeta : ', jsonMeta);
       handleFormChanged();
       this._saveCurrentDraft(fields);
     }
@@ -373,7 +393,8 @@ class EditorScreen extends Component {
       onLoadDraftPress,
       thumbIndex,
       uploadProgress,
-      rewardType
+      rewardType,
+      scheduledForDate
     } = this.props;
 
     const rightButtonText = intl.formatMessage({
@@ -399,8 +420,6 @@ class EditorScreen extends Component {
         </Modal>
       );
     };
-
-    
 
     return (
       <View style={globalStyles.defaultContainer}>
@@ -477,8 +496,9 @@ class EditorScreen extends Component {
           isEdit={isEdit}
           isCommunityPost={selectedCommunity !== null}
           rewardType={rewardType}
+          scheduledForDate={scheduledForDate}
           handleThumbSelection={this._handleOnThumbSelection}
-          handleRewardChange={handleRewardChange}
+          handleRewardChange={this._handleRewardChange}
           handleScheduleChange={this._handleScheduleChange}
           handleShouldReblogChange={handleShouldReblogChange}
           handleFormUpdate={this._handleFormUpdate}
