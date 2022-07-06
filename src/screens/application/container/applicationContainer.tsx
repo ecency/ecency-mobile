@@ -21,12 +21,10 @@ import SplashScreen from 'react-native-splash-screen'
 import AUTH_TYPE from '../../../constants/authType';
 import ROUTES from '../../../constants/routeNames';
 import postUrlParser from '../../../utils/postUrlParser';
-import THEME_OPTIONS from '../../../constants/options/theme';
 
 // Services
 import {
   getAuthStatus,
-  getSettings,
   getUserData,
   removeUserData,
   getUserDataWithUsername,
@@ -63,31 +61,17 @@ import {
 } from '../../../redux/actions/accountAction';
 import {
   isDarkTheme,
-  changeNotificationSettings,
-  changeAllNotificationSettings,
   login,
   logoutDone,
   openPinCodeModal,
-  setApi,
   setConnectivityStatus,
   setAnalyticsStatus,
-  setCurrency,
-  setLanguage,
-  setUpvotePercent,
-  setNsfw,
-  isDefaultFooter,
-  isPinCodeOpen,
   setPinCode as savePinCode,
   isRenderRequired,
   logout,
-  setColorTheme,
-  setSettingsMigrated,
 } from '../../../redux/actions/applicationActions';
 import {
-  hideActionModal,
-  hideProfileModal,
   setAvatarCacheStamp,
-  setRcOffer,
   showActionModal,
   toastNotification,
   updateActiveBottomTab,
@@ -134,7 +118,6 @@ class ApplicationContainer extends Component {
 
   componentDidMount = () => {
     const { isIos } = this.state;
-    const { appVersion } = VersionNumber;
     const { dispatch, isAnalytics } = this.props;
 
     this._setNetworkListener();
