@@ -18,6 +18,7 @@ const CommunitiesResultsScreen = ({ navigation, searchValue }) => {
         handleSubscribeButtonPress,
         isLoggedIn,
         noResult,
+        isDiscoversLoading,
       }) =>
         noResult ? (
           <EmptyScreen />
@@ -30,6 +31,7 @@ const CommunitiesResultsScreen = ({ navigation, searchValue }) => {
             isLoggedIn={isLoggedIn}
             noResult={noResult}
             screen="searchResultsScreen"
+            isDiscoversLoading={isDiscoversLoading}
           />
         )
       }

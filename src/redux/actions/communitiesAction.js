@@ -45,7 +45,11 @@ export const fetchSubscribedCommunities = (username) => {
   return (dispatch) => {
     dispatch({ type: FETCH_SUBSCRIBED_COMMUNITIES });
     getSubscriptions(username)
-      .then((res) => dispatch(fetchSubscribedCommunitiesSuccess(res)))
+      .then((res) => {
+        res.forEach((item) => item.push(true)); //add true value for subscribe status
+        res.sort((a, b) => a[1].localeCompare(b[1]));
+        dispatch(fetchSubscribedCommunitiesSuccess(res));
+      })
       .catch((err) => dispatch(fetchSubscribedCommunitiesFail(err)));
   };
 };
