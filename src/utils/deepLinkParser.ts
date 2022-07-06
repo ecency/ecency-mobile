@@ -3,6 +3,7 @@ import postUrlParser from './postUrlParser';
 import parseAuthUrl from './parseAuthUrl';
 import get from 'lodash/get';
 import ROUTES from '../constants/routeNames';
+import parsePurchaseUrl from './parsePurchaseUrl';
 
 export const deepLinkParser = async (url, currentAccount) => {
   if (!url || url.indexOf('ShareMedia://') >= 0) return;
@@ -80,6 +81,18 @@ export const deepLinkParser = async (url, currentAccount) => {
       };
       keey = `${mode}/${referredUser || ''}`;
     }
+
+    //if url is for purchase
+    const { type, username} = parsePurchaseUrl(url) || {};
+    console.log('type, username : ', type, username);
+    if(type && type === 'boost'){
+      routeName = ROUTES.SCREENS.ACCOUNT_BOOST;
+      params = {
+        username,
+      };
+      keey = `${type}/${username || ''}`;
+    }
+
   }
 
   return {
