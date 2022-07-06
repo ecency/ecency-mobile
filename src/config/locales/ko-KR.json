@@ -781,7 +781,9 @@
     "line2_body": "블록체인을 활용하여 검열이 없고 탈중앙화되고 보상해주고 있습니다.",
     "line3_heading": "에센시 커뮤니티 가입!",
     "line3_body": "자신이 소유한 커뮤니티를 구축하고 보상을 받고 다른 사람들에게 보상하세요.",
-    "get_started": "시작!"
+    "get_started": "시작!",
+    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
+    "terms_text": "Read Here!"
   },
   "time": {
     "second": "초",
