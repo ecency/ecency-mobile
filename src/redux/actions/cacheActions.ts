@@ -8,8 +8,11 @@ import {
   DELETE_COMMENT_CACHE_ENTRY,
   UPDATE_DRAFT_CACHE,
   DELETE_DRAFT_CACHE_ENTRY,
+  UPDATE_SUBSCRIBED_COMMUNITY_CACHE,
+  DELETE_SUBSCRIBED_COMMUNITY_CACHE,
+  CLEAR_SUBSCRIBED_COMMUNITIES_CACHE,
 } from '../constants/constants';
-import { Comment, Draft, Vote } from '../reducers/cacheReducer';
+import { Comment, Draft, SubscribedCommunity, Vote } from '../reducers/cacheReducer';
 
 
 
@@ -86,6 +89,37 @@ export const deleteDraftCacheEntry = (id: string) => ({
   payload: id,
   type: DELETE_DRAFT_CACHE_ENTRY
 })
+
+export const updateSubscribedCommunitiesCache = (data: any) => {
+  const path = data.communityId;
+  const created = new Date();
+  const communityTitle = data.communityTitle ? data.communityTitle : '';
+  const userRole = data.userRole ? data.userRole : '';
+  const userLabel = data.userLabel ? data.userLabel : '';
+
+  const subscribedCommunity:SubscribedCommunity = {
+    data : [data.communityId, communityTitle, userRole, userLabel, !data.isSubscribed],
+    expiresAt : created.getTime() + 86400000,
+  };
+
+  return ({
+    payload: {
+      path,
+      subscribedCommunity
+    },
+    type: UPDATE_SUBSCRIBED_COMMUNITY_CACHE
+  })
+}
+
+export const deleteSubscribedCommunityCacheEntry = (path: string) => ({
+  payload: path,
+  type: DELETE_SUBSCRIBED_COMMUNITY_CACHE
+})
+
+export const clearSubscribedCommunitiesCache = () => ({
+  type: CLEAR_SUBSCRIBED_COMMUNITIES_CACHE
+})
+
 
 export const purgeExpiredCache = () => ({
   type: PURGE_EXPIRED_CACHE
