@@ -38,7 +38,7 @@ const CommentsContainer = ({
   isLoggedIn,
   commentNumber,
   mainAuthor,
-  selectedPermlink: _selectedPermlink,
+  selectedPermlink,
   isHideImage,
   isShowSubComments,
   hasManyComments,
@@ -54,7 +54,6 @@ const CommentsContainer = ({
 
   const [lcomments, setLComments] = useState([]);
   const [propComments, setPropComments] = useState(comments);
-  const [selectedPermlink, setSelectedPermlink] = useState('');
 
   useEffect(() => {
     _getComments();
@@ -328,7 +327,7 @@ const CommentsContainer = ({
       hasManyComments={hasManyComments}
       hideManyCommentsButton={hideManyCommentsButton}
       selectedFilter={selectedFilter}
-      selectedPermlink={_selectedPermlink || selectedPermlink}
+      selectedPermlink={selectedPermlink}
       author={author}
       mainAuthor={mainAuthor}
       commentNumber={commentNumber || 1}
