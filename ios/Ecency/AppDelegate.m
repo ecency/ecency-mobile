@@ -1,5 +1,6 @@
-#import "RNSplashScreen.h"
 #import "AppDelegate.h"
+#import "RNSplashScreen.h"
+
 #import <AppCenterReactNativeShared/AppCenterReactNativeShared.h>
 #import <AppCenterReactNative.h>
 #import <AppCenterReactNativeAnalytics.h>

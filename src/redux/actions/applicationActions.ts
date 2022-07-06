@@ -1,7 +1,6 @@
 import getSymbolFromCurrency from 'currency-symbol-map';
 import { getCurrencyRate } from '../../providers/ecency/ecency';
 import {
-  ACTIVE_APPLICATION,
   CHANGE_COMMENT_NOTIFICATION,
   CHANGE_FOLLOW_NOTIFICATION,
   CHANGE_MENTION_NOTIFICATION,
@@ -28,6 +27,11 @@ import {
   SET_PIN_CODE,
   IS_PIN_CODE_OPEN,
   IS_RENDER_REQUIRED,
+  SET_LAST_APP_VERSION,
+  SET_COLOR_THEME,
+  SET_SETTINGS_MIGRATED,
+  HIDE_POSTS_THUMBNAILS,
+  SET_TERMS_ACCEPTED
 } from '../constants/constants';
 
 export const login = (payload) => ({
@@ -47,7 +51,7 @@ export const isLoginDone = () => ({
   type: IS_LOGIN_DONE,
 });
 
-export const openPinCodeModal = (payload) => ({
+export const openPinCodeModal = (payload = null) => ({
   payload,
   type: OPEN_PIN_CODE_MODAL,
 });
@@ -56,9 +60,6 @@ export const closePinCodeModal = () => ({
   type: CLOSE_PIN_CODE_MODAL,
 });
 
-export const activeApplication = () => ({
-  type: ACTIVE_APPLICATION,
-});
 
 // Settings actions
 export const setLanguage = (payload) => ({
@@ -135,6 +136,11 @@ export const isDarkTheme = (payload) => ({
   type: IS_DARK_THEME,
 });
 
+export const setColorTheme = (payload:number) => ({
+  payload,
+  type: SET_COLOR_THEME
+})
+
 export const isPinCodeOpen = (payload) => ({
   payload,
   type: IS_PIN_CODE_OPEN,
@@ -182,4 +188,25 @@ export const isRenderRequired = (payload) => ({
   payload,
   type: IS_RENDER_REQUIRED,
 });
+
+export const setLastAppVersion = (versionNumber:string) => ({
+  payload:versionNumber,
+  type: SET_LAST_APP_VERSION
+})
+
+export const setSettingsMigrated = (isMigrated:boolean) => ({
+  payload:isMigrated,
+  type: SET_SETTINGS_MIGRATED
+})
+
+export const setHidePostsThumbnails = (shouldHide:boolean) => ({
+  payload:shouldHide,
+  type: HIDE_POSTS_THUMBNAILS,
+});
+
+export const setIsTermsAccepted = (isTermsAccepted:boolean) => ({
+  payload:isTermsAccepted,
+  type: SET_TERMS_ACCEPTED
+})
+
 

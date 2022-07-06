@@ -20,7 +20,7 @@ const CommentsTabContent = ({isOwnProfile, username, type, onScroll, selectedUse
 
     const intl = useIntl();
 
-    const isHideImage = useAppSelector(state => state.ui.hidePostsThumbnails);
+    const isHideImage = useAppSelector(state => state.application.hidePostsThumbnails);
     const isAnalytics = useAppSelector(state => state.application.isAnalytics);
 
     const [data, setData] = useState([]);

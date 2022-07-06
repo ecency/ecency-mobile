@@ -1,5 +1,4 @@
 import {
-  ACTIVE_APPLICATION,
   CHANGE_COMMENT_NOTIFICATION,
   CHANGE_FOLLOW_NOTIFICATION,
   CHANGE_MENTION_NOTIFICATION,
@@ -26,19 +25,63 @@ import {
   SET_PIN_CODE,
   IS_PIN_CODE_OPEN,
   IS_RENDER_REQUIRED,
+  SET_LAST_APP_VERSION,
+  SET_COLOR_THEME,
+  SET_SETTINGS_MIGRATED,
+  HIDE_POSTS_THUMBNAILS,
+  SET_TERMS_ACCEPTED,
 } from '../constants/constants';
 
-const initialState = {
+interface State {
+  api: string;
+  currency: {
+    currency: string,
+    currencyRate: number,
+    currencySymbol: string,
+  },
+  isConnected: boolean|null, // internet connectivity
+  isDarkTheme: boolean;
+  colorTheme: number;
+  isDefaultFooter: boolean; //TODO: remove present of isDefaultFooter as it's no longer in use
+  isLoggedIn: boolean; // Has any logged in user.
+  isAnalytics: boolean;
+  isLoginDone: boolean;
+  isLogingOut: boolean;
+  isNotificationOpen: boolean;
+  isPinCodeRequire: boolean;
+  pinCodeNavigation: any,
+  language: string,
+  loading: boolean; // It is lock to all screen and shows loading animation.
+  notificationDetails: {
+    commentNotification: boolean,
+    followNotification: boolean,
+    mentionNotification: boolean,
+    reblogNotification: boolean,
+    transfersNotification: boolean,
+    voteNotification: boolean,
+  },
+  upvotePercent: number;
+  nsfw: string;
+  pin: string|null;
+  isPinCodeOpen: boolean;
+  isRenderRequired: boolean;
+  lastAppVersion:string;
+  settingsMigrated: boolean;
+  hidePostsThumbnails: boolean;
+  isTermsAccepted: boolean;
+}
+
+const initialState:State = {
   api: 'rpc.ecency.com',
   currency: {
     currency: 'usd',
     currencyRate: 1,
     currencySymbol: '$',
   },
-  isActive: false,
   isConnected: null, // internet connectivity
   isDarkTheme: false,
-  isDefaultFooter: true,
+  colorTheme: 0, //values mapped from => src/constants/options/theme.ts
+  isDefaultFooter: true, //TODO: remove present of isDefaultFooter as it's no longer in use
   isLoggedIn: false, // Has any logged in user.
   isAnalytics: false,
   isLoginDone: false,
@@ -61,7 +104,10 @@ const initialState = {
   pin: null,
   isPinCodeOpen: true,
   isRenderRequired: false,
-
+  lastAppVersion:'',
+  settingsMigrated: false,
+  hidePostsThumbnails: false,
+  isTermsAccepted: false,
 };
 
 export default function (state = initialState, action) {
@@ -106,11 +152,6 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isPinCodeRequire: false,
-      };
-    case ACTIVE_APPLICATION:
-      return {
-        ...state,
-        isActive: true,
       };
     case SET_API:
       return Object.assign({}, state, {
@@ -187,6 +228,11 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, {
         isDarkTheme: action.payload,
       });
+    case SET_COLOR_THEME:
+      return {
+        ...state,
+        colorTheme:action.payload
+      };
     case IS_PIN_CODE_OPEN:
       return Object.assign({}, state, {
         isPinCodeOpen: action.payload,
@@ -212,6 +258,30 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, {
         isRenderRequired: action.payload,
       });
+    
+    case SET_LAST_APP_VERSION:
+      return {
+        ...state,
+        lastAppVersion:action.payload
+      }
+
+    case SET_SETTINGS_MIGRATED:
+      return {
+        ...state,
+        settingsMigrated:action.payload
+      }
+
+    case HIDE_POSTS_THUMBNAILS:
+      return {
+        ...state,
+        hidePostsThumbnails:action.payload
+      }
+    
+    case SET_TERMS_ACCEPTED:
+      return {
+        ...state,
+        isTermsAccepted:action.payload
+      }
 
     default:
       return state;
