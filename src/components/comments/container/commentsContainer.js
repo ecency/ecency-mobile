@@ -62,8 +62,8 @@ const CommentsContainer = ({
 
   useEffect(() => {
     _getComments();
-    const shortedComments = _shortComments(selectedFilter);
-    setLComments(shortedComments);
+    const sortedComments = _sortComments(selectedFilter);
+    setLComments(sortedComments);
   }, [commentCount, selectedFilter]);
 
   useEffect(() => {
@@ -86,7 +86,7 @@ const CommentsContainer = ({
 
   // Component Functions
 
-  const _shortComments = (sortOrder, _comments) => {
+  const _sortComments = (sortOrder = 'trending', _comments) => {
     const sortedComments = _comments || lcomments;
 
     const absNegative = (a) => a.net_rshares < 0;
@@ -170,12 +170,9 @@ const CommentsContainer = ({
     } else if (author && permlink && !propComments) {
       await getComments(author, permlink, name)
         .then((__comments) => {
-          //TODO: favourable place for merging comment cache
+          //favourable place for merging comment cache
           __comments = _handleCachedComment(__comments);
-
-          if (selectedFilter) {
-            __comments = _shortComments(selectedFilter, __comments);
-          }
+          __comments = _sortComments(selectedFilter, __comments);
 
           setLComments(__comments);
         })
@@ -186,7 +183,7 @@ const CommentsContainer = ({
   };
 
   const _handleCachedComment = (passedComments = null) => {
-    const _comments = passedComments || propComments || lcomments;
+    const _comments = passedComments || propComments || lcomments || [];
     const postPath = `${author || ''}/${permlink || ''}`;
 
     if (cachedComments.has(postPath)) {
