@@ -1,5 +1,12 @@
 import React, { Fragment, useState, useRef } from 'react';
-import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import {
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
@@ -16,6 +23,7 @@ import {
   UserAvatar,
   Icon,
   Modal,
+  TransferAccountSelector,
 } from '../../../components';
 
 import styles from './transferStyles';
@@ -192,90 +200,96 @@ const TransferView = ({
   return (
     <Fragment>
       <BasicHeader title={intl.formatMessage({ id: `transfer.${transferType}` })} />
-      <View style={styles.container}>
-        <ScrollView contentContainerStyle={styles.fullHeight}>
-          <View style={[styles.toFromAvatarsContainer, { marginBottom: 16 }]}>
-            <UserAvatar username={from} size="xl" style={styles.userAvatar} noAction />
-            <Icon style={styles.icon} name="arrow-forward" iconType="MaterialIcons" />
-            <UserAvatar username={destination} size="xl" style={styles.userAvatar} noAction />
-          </View>
-          <View style={styles.middleContent}>
-            <TransferFormItem
-              label={intl.formatMessage({ id: 'transfer.from' })}
-              rightComponent={() => _renderDropdown(accounts, currentAccountName)}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.avoidingViewContainer}
+        keyboardShouldPersistTaps
+      >
+        <ScrollView
+          keyboardShouldPersistTaps
+          contentContainerStyle={[styles.grow, { padding: 16 }]}
+        >
+          <View style={styles.container}>
+            <TransferAccountSelector
+              accounts={accounts}
+              currentAccountName={currentAccountName}
+              transferType={transferType}
+              balance={balance}
+              fetchBalance={fetchBalance}
+              getAccountsWithUsername={getAccountsWithUsername}
+              from={from}
+              setFrom={setFrom}
+              destination={destination}
+              setDestination={setDestination}
+              amount={amount}
+              setAmount={setAmount}
+              setIsUsernameValid={setIsUsernameValid}
+              memo={memo}
+              setMemo={setMemo}
             />
-            {transferType !== 'convert' && (
+            <View style={styles.middleContent}>
               <TransferFormItem
-                label={intl.formatMessage({ id: 'transfer.to' })}
+                label={intl.formatMessage({ id: 'transfer.amount' })}
                 rightComponent={() =>
-                  _renderInput(
-                    intl.formatMessage({ id: 'transfer.to_placeholder' }),
-                    'destination',
-                    'default',
-                  )
+                  _renderInput(intl.formatMessage({ id: 'transfer.amount' }), 'amount', 'numeric')
                 }
               />
-            )}
-            <TransferFormItem
-              label={intl.formatMessage({ id: 'transfer.amount' })}
-              rightComponent={() =>
-                _renderInput(intl.formatMessage({ id: 'transfer.amount' }), 'amount', 'numeric')
-              }
-            />
-            <TransferFormItem
-              rightComponent={() => (
-                <TouchableOpacity onPress={() => _handleOnChange('amount', balance)}>
-                  {_renderDescription(
-                    `${intl.formatMessage({
-                      id: 'transfer.amount_desc',
-                    })} ${balance} ${fundType === 'ESTM' ? 'Points' : fundType}`,
-                  )}
-                </TouchableOpacity>
+              <TransferFormItem
+                rightComponent={() => (
+                  <TouchableOpacity onPress={() => _handleOnChange('amount', balance)}>
+                    {_renderDescription(
+                      `${intl.formatMessage({
+                        id: 'transfer.amount_desc',
+                      })} ${balance} ${fundType === 'ESTM' ? 'Points' : fundType}`,
+                    )}
+                  </TouchableOpacity>
+                )}
+              />
+              {(transferType === 'points' ||
+                transferType === 'transfer_token' ||
+                transferType === 'transfer_to_savings') && (
+                <TransferFormItem
+                  label={intl.formatMessage({ id: 'transfer.memo' })}
+                  rightComponent={() =>
+                    _renderInput(
+                      intl.formatMessage({ id: 'transfer.memo_placeholder' }),
+                      'memo',
+                      'default',
+                      true,
+                    )
+                  }
+                />
               )}
-            />
-            {(transferType === 'points' ||
-              transferType === 'transfer_token' ||
-              transferType === 'transfer_to_savings') && (
-              <TransferFormItem
-                label={intl.formatMessage({ id: 'transfer.memo' })}
-                rightComponent={() =>
-                  _renderInput(
-                    intl.formatMessage({ id: 'transfer.memo_placeholder' }),
-                    'memo',
-                    'default',
-                    true,
-                  )
-                }
-              />
-            )}
-            {(transferType === 'points' || transferType === 'transfer_token') && (
-              <TransferFormItem
-                containerStyle={{ marginTop: 40 }}
-                rightComponent={() =>
-                  _renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
-                }
-              />
-            )}
-            {transferType === 'convert' && (
-              <TransferFormItem
-                rightComponent={() =>
-                  _renderDescription(intl.formatMessage({ id: 'transfer.convert_desc' }))
-                }
-              />
-            )}
-          </View>
-          <View style={styles.bottomContent}>
-            <MainButton
-              style={styles.button}
-              isDisable={!(amount >= 0.001 && isUsernameValid)}
-              onPress={() => confirm.current.show()}
-              isLoading={isTransfering}
-            >
-              <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
-            </MainButton>
+              {(transferType === 'points' || transferType === 'transfer_token') && (
+                <TransferFormItem
+                  containerStyle={{ marginTop: 40 }}
+                  rightComponent={() =>
+                    _renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
+                  }
+                />
+              )}
+              {transferType === 'convert' && (
+                <TransferFormItem
+                  rightComponent={() =>
+                    _renderDescription(intl.formatMessage({ id: 'transfer.convert_desc' }))
+                  }
+                />
+              )}
+            </View>
+            <View style={styles.bottomContent}>
+              <MainButton
+                style={styles.button}
+                isDisable={!(amount >= 0.001 && isUsernameValid)}
+                onPress={() => confirm.current.show()}
+                isLoading={isTransfering}
+              >
+                <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
+              </MainButton>
+            </View>
           </View>
         </ScrollView>
-      </View>
+      </KeyboardAvoidingView>
+
       <OptionsModal
         ref={confirm}
         options={[
