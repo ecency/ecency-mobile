@@ -490,7 +490,7 @@
     "invalid_response": "No se pudo procesar la solicitud, inténtalo de nuevo más tarde.",
     "wallet_updating": "Actualización del monedero en progreso, inténtalo de nuevo cuando finalice la actualización",
     "claim_failed": "Error al reclamar recompensas, {message}\nInténtalo de nuevo o escribe a support@ecency.com",
-    "connection_issues": "The server is unreachable, please check your connection and try again."
+    "connection_issues": "El servidor no está disponible, por favor comprueba tu conexión e inténtalo de nuevo."
   },
   "post": {
     "reblog_alert": "¿Estás seguro de querer rebloguear?",
