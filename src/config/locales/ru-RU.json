@@ -489,7 +489,8 @@
     "restart_ecency_desc": "Applying changes will require a restart.",
     "invalid_response": "Could not process request, Try again later.",
     "wallet_updating": "Выполняется обновление кошелька, попробуйте еще раз после завершения обновления",
-    "claim_failed": "Не удалось получить награды, {message}\nПовторите попытку или напишите нам на support@ecency.com"
+    "claim_failed": "Не удалось получить награды, {message}\nПовторите попытку или напишите нам на support@ecency.com",
+    "connection_issues": "The server is unreachable, please check your connection and try again."
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
