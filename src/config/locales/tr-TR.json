@@ -489,7 +489,8 @@
     "restart_ecency_desc": "Değişiklikleri uygulamak tekrar başlatmayı gerektirir.",
     "invalid_response": "İsteğiniz işleme koyulamıyor. Daha sonra tekrar deneyin.",
     "wallet_updating": "Wallet update in progress, try again as update finishes",
-    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
+    "connection_issues": "The server is unreachable, please check your connection and try again."
   },
   "post": {
     "reblog_alert": "Tekrar göndermek istediğinize emin misiniz?",
