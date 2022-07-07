@@ -489,7 +489,8 @@
     "restart_ecency_desc": "Applying changes will require a restart.",
     "invalid_response": "Could not process request, Try again later.",
     "wallet_updating": "Wallet update in progress, try again as update finishes",
-    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
+    "connection_issues": "The server is unreachable, please check your connection and try again."
   },
   "post": {
     "reblog_alert": "آیا مطمئن هستید که می‌خواهید دوباره به اشتراک بگذارید?",
