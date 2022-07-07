@@ -489,7 +489,8 @@
     "restart_ecency_desc": "परिवर्तनों को लागू करने के लिए पुनः आरंभ करने की आवश्यकता होगी।",
     "invalid_response": "अनुरोध संसाधित नहीं किया जा सका, बाद में पुन: प्रयास करें।",
     "wallet_updating": "Wallet update in progress, try again as update finishes",
-    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
+    "connection_issues": "The server is unreachable, please check your connection and try again."
   },
   "post": {
     "reblog_alert": "क्या आप निश्चित हैं, आप इसे हटाना चाहते हैं?",
