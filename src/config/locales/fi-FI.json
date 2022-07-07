@@ -489,7 +489,8 @@
     "restart_ecency_desc": "Muutosten käyttöönotto vaatii uudelleenkäynnistyksen.",
     "invalid_response": "Pyyntöä ei voitu käsitellä, Yritä myöhemmin uudelleen.",
     "wallet_updating": "Lompakon päivitys käynnissä, yritä uudelleen päivityksen valmistuessa",
-    "claim_failed": "Palkintojen lunastaminen epäonnistui, {message}\nYritä uudelleen tai kirjoita osoitteeseen support@ecency.com"
+    "claim_failed": "Palkintojen lunastaminen epäonnistui, {message}\nYritä uudelleen tai kirjoita osoitteeseen support@ecency.com",
+    "connection_issues": "The server is unreachable, please check your connection and try again."
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
