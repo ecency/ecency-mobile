@@ -156,9 +156,11 @@ class InAppPurchaseContainer extends Component {
     } catch (err) {
       bugsnagInstance.notify(err);
       Alert.alert(
-        `InApp - Connection issue
-          ${err.message.substr(0, 20)}`,
-      );
+          intl.formatMessage({
+            id: 'alert.connection_issues',
+          }),
+          error.message
+        );
     }
 
     await this.setState({ isLoading: false });
