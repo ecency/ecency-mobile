@@ -24,17 +24,16 @@ PlayStore Android: https://android.ecency.com
 
 `$ react-native start` (Now your local server should start)
 
-
 ## Setting up Reactotron
 
 `Reactotron` for logging,
+
 - Install: [download here](https://github.com/infinitered/reactotron/blob/master/docs/installing.md)
 - Run: After installation, start the reactotron desktop application
 - Link: For android, run `adb reverse tcp:9090 tcp:9090` and restart app. For iOS, it should connect without futher config.
-- Usage: 
-    1. use `Timeline` tab to track logs and network call
-    2. use `State` tab to track redux stage changes, to track particular store, add it by it's initilzing name, example: `account`
-
+- Usage:
+  1. use `Timeline` tab to track logs and network call
+  2. use `State` tab to track redux stage changes, to track particular store, add it by it's initilzing name, example: `account`
 
 ## Starting for IOS
 
@@ -42,7 +41,11 @@ PlayStore Android: https://android.ecency.com
 
 ## Starting for Android
 
-TODO
+1. Create a new app in your firebase console.
+2. Choose add Android platform, with a package name of `app.esteem.mobile.android`
+3. Download the generated `google-services.json` and place it in `<project-root>/android/app/`
+4. Connect dev device or start android emulator.
+5. Run `npm run android` in the project's root.
 
 ##### Using Android Studio's `adb`
 
@@ -54,8 +57,6 @@ TODO
 1. Find Genymotion’s copy of adb. On macOS for example, this is normally `/Applications/Genymotion.app/Contents/MacOS/tools/`.
 2. Add the Genymotion tools directory to your path (instructions for [Mac](http://osxdaily.com/2014/08/14/add-new-path-to-path-command-line/), [Linux](http://www.computerhope.com/issues/ch001647.htm), and [Windows](https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/)).
 3. Make sure that you can run adb from your terminal.
-
-
 
 # The Rules 🔪
 
