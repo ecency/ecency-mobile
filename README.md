@@ -42,7 +42,7 @@ PlayStore Android: https://android.ecency.com
 ## Starting for Android
 
 1. Create a new app in your firebase console.
-2. Choose add Android platform, with a package name of `app.esteem.mobile.android`
+2. Choose Add Android platform, with a package name of `app.esteem.mobile.android`
 3. Download the generated `google-services.json` and place it in `<project-root>/android/app/`
 4. Connect dev device or start android emulator.
 5. Run `npm run android` in the project's root.
