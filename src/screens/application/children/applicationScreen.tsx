@@ -25,6 +25,7 @@ import {
   ForegroundNotification,
   QuickProfileModal,
   QRModal,
+  QuickReplyModal,
 } from '../../../components';
 
 // Themes (Styles)
@@ -127,10 +128,13 @@ class ApplicationScreen extends Component {
         )}
 
         <ForegroundNotification remoteMessage={foregroundNotificationData} />
+       
+        <QuickProfileModal navigation={{ navigate }} />
         <AccountsBottomSheet />
         <ActionModal />
-        <QuickProfileModal navigation={{ navigate }} />
+        <QuickReplyModal />
         <QRModal />
+
       </View>
     );
   }

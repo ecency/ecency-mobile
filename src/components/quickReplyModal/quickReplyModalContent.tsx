@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './quickReplyModalStyles';
-import { View, Text, Alert, TouchableOpacity, Keyboard, Platform, KeyboardAvoidingView } from 'react-native';
+import { View, Text, Alert, TouchableOpacity, Keyboard, Platform } from 'react-native';
 import { useIntl } from 'react-intl';
 import { IconButton, MainButton, TextButton, TextInput, UserAvatar } from '..';
 import { useSelector, useDispatch } from 'react-redux';
@@ -19,24 +19,24 @@ import { navigate } from '../../navigation/service';
 import { postBodySummary } from '@ecency/render-helper';
 import { Draft } from '../../redux/reducers/cacheReducer';
 import { RootState } from '../../redux/store/store';
+import { useImperativeHandle } from 'react';
+import { forwardRef } from 'react';
 
 export interface QuickReplyModalContentProps {
-  fetchPost?: any;
   selectedPost?: any;
-  inputRef?: any;
   handleCloseRef?: any;
-  onClose:()=>void;
+  onClose: () => void;
 }
 
-export const QuickReplyModalContent = ({
-  fetchPost,
+export const QuickReplyModalContent = forwardRef(({
   selectedPost,
-  inputRef,
-  handleCloseRef,
   onClose,
-}: QuickReplyModalContentProps) => {
+}: QuickReplyModalContentProps, ref) => {
   const intl = useIntl();
   const dispatch = useDispatch();
+
+  const inputRef = useRef(null);
+
   const currentAccount = useSelector((state: RootState) => state.account.currentAccount);
   const pinCode = useSelector((state: RootState) => state.application.pin);
   const drafts = useSelector((state: RootState) => state.cache.drafts);
@@ -52,25 +52,31 @@ export const QuickReplyModalContent = ({
   let draftId = `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; //different draftId for each user acount
 
 
-  useEffect(() => {
-    handleCloseRef.current = handleSheetClose;
-  }, [commentValue]);
+  useImperativeHandle(ref, () => ({
+    handleSheetClose() {
+      _addQuickCommentIntoCache();
+    },
+  }));
 
+  
   // load quick comment value from cache
   useEffect(() => {
+    let _value = ''
     if (drafts.has(draftId) && currentAccount.name === drafts.get(draftId).author) {
       const quickComment: Draft = drafts.get(draftId);
-      setCommentValue(quickComment.body);
-    } else {
-      setCommentValue('');
+      _value = quickComment.body;
+    } 
+
+    if(inputRef.current){
+      inputRef.current.setNativeProps({
+        text:_value
+      })
+      setCommentValue(_value)
     }
+
   }, [selectedPost]);
 
-  // handlers
 
-  const handleSheetClose = () => {
-    _addQuickCommentIntoCache();
-  };
 
   // add quick comment value into cache
   const _addQuickCommentIntoCache = (value = commentValue) => {
@@ -146,6 +152,10 @@ export const QuickReplyModalContent = ({
           stateTimer = setTimeout(() => {
             setIsSending(false);
             onClose();
+            //TODO: use native method to update comment value instead
+            inputRef.current.setNativeProps({
+              text:''
+            })
             setCommentValue('');
             dispatch(
               toastNotification(
@@ -207,7 +217,6 @@ export const QuickReplyModalContent = ({
         params: {
           isReply: true,
           post: selectedPost,
-          fetchPost,
         },
       });
     }
@@ -285,7 +294,6 @@ export const QuickReplyModalContent = ({
         <TextInput
           innerRef={inputRef}
           onChangeText={_onChangeText}
-          value={commentValue}
           autoFocus
           placeholder={intl.formatMessage({
             id: 'quick_reply.placeholder',
@@ -305,4 +313,4 @@ export const QuickReplyModalContent = ({
   )
 
   return _renderContent
-};
+});
