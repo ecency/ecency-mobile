@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './quickReplyModalStyles';
 import { View, Text, Alert, TouchableOpacity, Keyboard, Platform } from 'react-native';
@@ -34,6 +34,9 @@ export const QuickReplyModalContent = forwardRef(({
 }: QuickReplyModalContentProps, ref) => {
   const intl = useIntl();
   const dispatch = useDispatch();
+
+  const inputRef = useRef(null);
+
   const currentAccount = useSelector((state: RootState) => state.account.currentAccount);
   const pinCode = useSelector((state: RootState) => state.application.pin);
   const drafts = useSelector((state: RootState) => state.cache.drafts);
@@ -48,21 +51,27 @@ export const QuickReplyModalContent = forwardRef(({
   let parentPermlink = selectedPost ? selectedPost.permlink : '';
   let draftId = `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; //different draftId for each user acount
 
+
   useImperativeHandle(ref, () => ({
     handleSheetClose() {
       _addQuickCommentIntoCache();
     },
   }));
 
+  
   // load quick comment value from cache
   useEffect(() => {
+    let _value = ''
     if (drafts.has(draftId) && currentAccount.name === drafts.get(draftId).author) {
       const quickComment: Draft = drafts.get(draftId);
-      //TODO: use native method to update comment value instead
-      setCommentValue(quickComment.body);
-    } else {
-      //TODO: use native method to update comment value instead
-      setCommentValue('');
+      _value = quickComment.body;
+    } 
+
+    if(inputRef.current){
+      inputRef.current.setNativeProps({
+        text:_value
+      })
+      setCommentValue(_value)
     }
 
   }, [selectedPost]);
@@ -144,6 +153,9 @@ export const QuickReplyModalContent = forwardRef(({
             setIsSending(false);
             onClose();
             //TODO: use native method to update comment value instead
+            inputRef.current.setNativeProps({
+              text:''
+            })
             setCommentValue('');
             dispatch(
               toastNotification(
@@ -214,7 +226,6 @@ export const QuickReplyModalContent = forwardRef(({
   const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), [])
 
   const _onChangeText = (value) => {
-    //TODO: use native method to update comment value instead
     setCommentValue(value);
     _deboucedCacheUpdate(value)
   }
@@ -281,8 +292,8 @@ export const QuickReplyModalContent = forwardRef(({
       {_renderAvatar()}
       <View style={styles.inputContainer}>
         <TextInput
+          innerRef={inputRef}
           onChangeText={_onChangeText}
-          value={commentValue}
           autoFocus
           placeholder={intl.formatMessage({
             id: 'quick_reply.placeholder',
