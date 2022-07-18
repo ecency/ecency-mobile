@@ -10,10 +10,13 @@ const QuickReplyModal = () => {
 
   const replyModalVisible = useAppSelector((state) => state.ui.replyModalVisible);
   const replyModalPost = useAppSelector(state => state.ui.replyModalPost)
-  const handleCloseRef = useRef(null);
+  const modalContentRef = useRef(null);
 
 
   const _onClose = () => {
+    if(modalContentRef.current){
+      modalContentRef.current.handleSheetClose();
+    }
     dispatch(hideReplyModal());
   }
 
@@ -24,9 +27,9 @@ const QuickReplyModal = () => {
       onClose={_onClose}
     >
       <QuickReplyModalContent
+        ref={modalContentRef}
         selectedPost={replyModalPost}
         onClose={_onClose}
-        handleCloseRef={handleCloseRef}
       />
     </InputSupportModal>
 

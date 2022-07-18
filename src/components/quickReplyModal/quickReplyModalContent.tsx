@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './quickReplyModalStyles';
-import { View, Text, Alert, TouchableOpacity, Keyboard, Platform, KeyboardAvoidingView } from 'react-native';
+import { View, Text, Alert, TouchableOpacity, Keyboard, Platform } from 'react-native';
 import { useIntl } from 'react-intl';
 import { IconButton, MainButton, TextButton, TextInput, UserAvatar } from '..';
 import { useSelector, useDispatch } from 'react-redux';
@@ -19,20 +19,19 @@ import { navigate } from '../../navigation/service';
 import { postBodySummary } from '@ecency/render-helper';
 import { Draft } from '../../redux/reducers/cacheReducer';
 import { RootState } from '../../redux/store/store';
+import { useImperativeHandle } from 'react';
+import { forwardRef } from 'react';
 
 export interface QuickReplyModalContentProps {
-  fetchPost?: any;
   selectedPost?: any;
-  inputRef?: any;
   handleCloseRef?: any;
-  onClose:()=>void;
+  onClose: () => void;
 }
 
-export const QuickReplyModalContent = ({
+export const QuickReplyModalContent = forwardRef(({
   selectedPost,
-  handleCloseRef,
   onClose,
-}: QuickReplyModalContentProps) => {
+}: QuickReplyModalContentProps, ref) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const currentAccount = useSelector((state: RootState) => state.account.currentAccount);
@@ -49,26 +48,26 @@ export const QuickReplyModalContent = ({
   let parentPermlink = selectedPost ? selectedPost.permlink : '';
   let draftId = `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; //different draftId for each user acount
 
-
-  useEffect(() => {
-    handleCloseRef.current = handleSheetClose;
-  }, [commentValue]);
+  useImperativeHandle(ref, () => ({
+    handleSheetClose() {
+      _addQuickCommentIntoCache();
+    },
+  }));
 
   // load quick comment value from cache
   useEffect(() => {
     if (drafts.has(draftId) && currentAccount.name === drafts.get(draftId).author) {
       const quickComment: Draft = drafts.get(draftId);
+      //TODO: use native method to update comment value instead
       setCommentValue(quickComment.body);
     } else {
+      //TODO: use native method to update comment value instead
       setCommentValue('');
     }
+
   }, [selectedPost]);
 
-  // handlers
 
-  const handleSheetClose = () => {
-    _addQuickCommentIntoCache();
-  };
 
   // add quick comment value into cache
   const _addQuickCommentIntoCache = (value = commentValue) => {
@@ -144,6 +143,7 @@ export const QuickReplyModalContent = ({
           stateTimer = setTimeout(() => {
             setIsSending(false);
             onClose();
+            //TODO: use native method to update comment value instead
             setCommentValue('');
             dispatch(
               toastNotification(
@@ -214,6 +214,7 @@ export const QuickReplyModalContent = ({
   const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), [])
 
   const _onChangeText = (value) => {
+    //TODO: use native method to update comment value instead
     setCommentValue(value);
     _deboucedCacheUpdate(value)
   }
@@ -301,4 +302,4 @@ export const QuickReplyModalContent = ({
   )
 
   return _renderContent
-};
+});
