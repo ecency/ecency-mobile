@@ -10,7 +10,9 @@ import {
   SHOW_PROFILE_MODAL,
   HIDE_PROFILE_MODAL,
   TOGGLE_QR_MODAL,
-  SET_DEVICE_ORIENTATION
+  SET_DEVICE_ORIENTATION,
+  SHOW_REPLY_MODAL,
+  HIDE_REPLY_MODAL
 } from '../constants/constants';
 
 export const updateActiveBottomTab = (payload:string) => ({
@@ -77,3 +79,11 @@ export const setDeviceOrientation = (payload:string) => ({
   type: SET_DEVICE_ORIENTATION,
 });
 
+export const showReplyModal = (selectionPost:any) => ({
+  payload:selectionPost,
+  type: SHOW_REPLY_MODAL
+})
+
+export const hideReplyModal = () => ({
+  type: HIDE_REPLY_MODAL
+})

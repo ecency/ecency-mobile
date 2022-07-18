@@ -5,12 +5,12 @@ import { LoadPostsOptions, TabContentProps, TabMeta } from '../services/tabbedPo
 import {useSelector, useDispatch } from 'react-redux';
 import TabEmptyView from './listEmptyView';
 import { setInitPosts } from '../../../redux/actions/postsAction';
+import { showReplyModal } from '../../../redux/actions/uiAction';
 import { calculateTimeLeftForPostCheck } from '../services/tabbedPostsHelpers';
 import { AppState, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { PostsListRef } from '../../postsList/container/postsListContainer';
 import ScrollTopPopup from './scrollTopPopup';
 import { debounce } from 'lodash';
-import { QuickReplyModal } from '../..';
 
 const DEFAULT_TAB_META = {
     startAuthor:'',
@@ -68,7 +68,6 @@ const TabContent = ({
   const appState = useRef(AppState.currentState);
   const postsRef = useRef(posts);
   const sessionUserRef = useRef(sessionUser);
-  const quickReplyModalRef = useRef(null)
 
   //init state refs;
   postsRef.current = posts;
@@ -335,13 +334,12 @@ const TabContent = ({
 
   // show quick reply modal
   const _showQuickReplyModal = (post:any) => {
-    // console.log('post: ', post);
     if (isLoggedIn) {
-      quickReplyModalRef.current.show(post);
+      dispatch(showReplyModal(post))
     } else {
+      //TODO: show proper alert message 
       console.log('Not LoggedIn');
     }
-    
   }
 
   return (
@@ -375,7 +373,6 @@ const TabContent = ({
         setEnableScrollTop(false);
       }}
     />
-    <QuickReplyModal ref={quickReplyModalRef} />
   </>
   );
 };

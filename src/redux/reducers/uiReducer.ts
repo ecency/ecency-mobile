@@ -10,6 +10,8 @@ import {
   HIDE_PROFILE_MODAL,
   TOGGLE_QR_MODAL,
   SET_DEVICE_ORIENTATION,
+  SHOW_REPLY_MODAL,
+  HIDE_REPLY_MODAL,
 } from '../constants/constants';
 import { orientations } from '../constants/orientationsConstants';
 
@@ -24,6 +26,8 @@ interface UiState {
   profileModalUsername:string;
   isVisibleQRModal:boolean;
   deviceOrientation: string;
+  replyModalVisible:boolean;
+  replyModalPost:any
 }
 
 const initialState:UiState = {
@@ -36,10 +40,12 @@ const initialState:UiState = {
   avatarCacheStamp: 0,
   profileModalUsername: '',
   isVisibleQRModal: false,
-  deviceOrientation: orientations.PORTRAIT
+  deviceOrientation: orientations.PORTRAIT,
+  replyModalPost: null,
+  replyModalVisible: false,
 };
 
-export default function (state = initialState, action) {
+export default function (state = initialState, action) : UiState {
   switch (action.type) {
     case UPDATE_ACTIVE_BOTTOM_TAB:
       return {
@@ -109,6 +115,18 @@ export default function (state = initialState, action) {
         ...state,
         deviceOrientation: action.payload,
     };
+    case SHOW_REPLY_MODAL:
+      return {
+        ...state,
+        replyModalVisible:true,
+        replyModalPost:action.payload
+      }
+    case HIDE_REPLY_MODAL:
+      return {
+        ...state,
+        replyModalVisible:false,
+        replyModalPost:null
+      }
     default:
       return state;
   }

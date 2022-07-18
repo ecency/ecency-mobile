@@ -1,48 +1,39 @@
-import React, { useImperativeHandle, useRef, useState } from 'react';
-import { forwardRef } from 'react';
+import React, { useRef } from 'react';
 import { QuickReplyModalContent } from './quickReplyModalContent';
 import { InputSupportModal } from '../organisms';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { hideReplyModal } from '../../redux/actions/uiAction';
 
-export interface QuickReplyModalProps {
-  fetchPost?: any;
-}
+const QuickReplyModal = () => {
 
-const QuickReplyModal = ({ fetchPost }: QuickReplyModalProps, ref) => {
-  const [selectedPost, setSelectedPost] = useState(null);
-  const inputRef = useRef<TextInput>(null);
-  const handleCloseRef = useRef(null);
+  const dispatch = useAppDispatch();
 
-  const [visible, setVisible] = useState(false);
+  const replyModalVisible = useAppSelector((state) => state.ui.replyModalVisible);
+  const replyModalPost = useAppSelector(state => state.ui.replyModalPost)
+  const modalContentRef = useRef(null);
 
-  //CALLBACK_METHOD
-  useImperativeHandle(ref, () => ({
-    show: (post: any) => {
-      setSelectedPost(post);
-      setVisible(true)
-
-    },
-  }));
 
   const _onClose = () => {
-    setVisible(false);
+    if(modalContentRef.current){
+      modalContentRef.current.handleSheetClose();
+    }
+    dispatch(hideReplyModal());
   }
 
 
   return (
     <InputSupportModal
-      visible={visible && !!selectedPost}
+      visible={replyModalVisible && !!replyModalPost}
       onClose={_onClose}
     >
       <QuickReplyModalContent
-        fetchPost={fetchPost}
-        selectedPost={selectedPost}
-        inputRef={inputRef}
+        ref={modalContentRef}
+        selectedPost={replyModalPost}
         onClose={_onClose}
-        handleCloseRef={handleCloseRef}
       />
     </InputSupportModal>
 
   );
 };
 
-export default forwardRef(QuickReplyModal as any);
+export default QuickReplyModal;
