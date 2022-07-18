@@ -29,9 +29,7 @@ export interface QuickReplyModalContentProps {
 }
 
 export const QuickReplyModalContent = ({
-  fetchPost,
   selectedPost,
-  inputRef,
   handleCloseRef,
   onClose,
 }: QuickReplyModalContentProps) => {
@@ -207,7 +205,6 @@ export const QuickReplyModalContent = ({
         params: {
           isReply: true,
           post: selectedPost,
-          fetchPost,
         },
       });
     }
@@ -283,7 +280,6 @@ export const QuickReplyModalContent = ({
       {_renderAvatar()}
       <View style={styles.inputContainer}>
         <TextInput
-          innerRef={inputRef}
           onChangeText={_onChangeText}
           value={commentValue}
           autoFocus
