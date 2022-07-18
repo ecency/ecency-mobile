@@ -1,4 +1,3 @@
-import { State } from 'react-native-gesture-handler';
 import {
   UPDATE_ACTIVE_BOTTOM_TAB,
   TOAST_NOTIFICATION,
@@ -12,6 +11,7 @@ import {
   TOGGLE_QR_MODAL,
   SET_DEVICE_ORIENTATION,
   SHOW_REPLY_MODAL,
+  HIDE_REPLY_MODAL,
 } from '../constants/constants';
 import { orientations } from '../constants/orientationsConstants';
 
@@ -121,7 +121,7 @@ export default function (state = initialState, action) : UiState {
         replyModalVisible:true,
         replyModalPost:action.payload
       }
-    case HIDE_ACTION_MODAL:
+    case HIDE_REPLY_MODAL:
       return {
         ...state,
         replyModalVisible:false,
