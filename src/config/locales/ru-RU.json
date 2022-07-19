@@ -637,7 +637,7 @@
     "account_detail_head": "Детали учетной записи",
     "account_detail_subhead": "Введите имя пользователя для делегирования HIVE Power",
     "delegat_detail_head": "Детали делегирования",
-    "delegat_detail_subhead": "Новая сумма перезаписывает уже делегированную силу ВИЧ ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "Новая сумма",
     "review": "ОБЗОР",
     "confirm": "Подтвердите делегирование",
