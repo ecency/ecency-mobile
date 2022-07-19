@@ -637,7 +637,7 @@
     "account_detail_head": "Detalles de Cuenta",
     "account_detail_subhead": "Introduce el nombre de usuario para la delegación de HIVE Power",
     "delegat_detail_head": "Detalles de Delegación",
-    "delegat_detail_subhead": "Nuevo monto sobrescribe el Hive Power ya delegado ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "Nuevo Monto",
     "review": "REVISIÓN",
     "confirm": "Confirmar Delegación",
