@@ -637,7 +637,7 @@
     "account_detail_head": "Tilin tiedot",
     "account_detail_subhead": "Anna HIVE Power -valtuutuksen saajan käyttäjänimi",
     "delegat_detail_head": "Valtuutuksen tiedot",
-    "delegat_detail_subhead": "Uusi arvo korvaa aiemman HIVE Power -valtuutuksen ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "Uusi määrä",
     "review": "VAHVISTA",
     "confirm": "Vahvista valtuutus",
