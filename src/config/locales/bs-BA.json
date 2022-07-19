@@ -637,7 +637,7 @@
     "account_detail_head": "Detalji računa",
     "account_detail_subhead": "Unesite korisničko ime za delegiranje HIVE snage",
     "delegat_detail_head": "Detalji o delegaciji",
-    "delegat_detail_subhead": "Novo montiranje zamenjuje već delegiranu HIVE snagu ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "Novi iznos",
     "review": "PREGLED",
     "confirm": "Potvrdite delegiranje",
