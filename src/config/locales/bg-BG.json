@@ -637,7 +637,7 @@
     "account_detail_head": "Детайли на акаунта",
     "account_detail_subhead": "Вкарай потребителско име за Hive power отдаване",
     "delegat_detail_head": "Отдаване детайли",
-    "delegat_detail_subhead": "Новата делегация е над старата ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "Нова сума",
     "review": "Преглед",
     "confirm": "Потвърди отдаване",
