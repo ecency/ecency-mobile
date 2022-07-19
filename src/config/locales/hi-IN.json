@@ -637,7 +637,7 @@
     "account_detail_head": "अकाउंट विवरण",
     "account_detail_subhead": "हाइव पावर डेलीगेटेड के लिए उपयोगकर्ता नाम दर्ज करें",
     "delegat_detail_head": "डेलीगेशन विवरण",
-    "delegat_detail_subhead": "नया माउंट पहले से ही डेलीगेशन हाइव पावर को अधिलेखित कर देता है ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "नई राशि",
     "review": "समीक्षा",
     "confirm": "डेलीगेशन की पुष्टि करें",
