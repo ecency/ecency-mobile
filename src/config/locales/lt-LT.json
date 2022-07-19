@@ -637,7 +637,7 @@
     "account_detail_head": "Paskyros duomenys",
     "account_detail_subhead": "Įveskite HIVE galios delegacijai savo vartotojo vardą",
     "delegat_detail_head": "Delegacijos informacija",
-    "delegat_detail_subhead": "Nauja suma pakeis jau deleguotą Hive galią ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "Nauja suma",
     "review": "PERŽIŪRĖTI",
     "confirm": "Patvirtinti delegaciją",
