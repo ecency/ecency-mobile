@@ -637,7 +637,7 @@
     "account_detail_head": "Hesap Detayları",
     "account_detail_subhead": "HIVE Güç delegasyonu için kullanıcı adı giriniz",
     "delegat_detail_head": "Delegasyon Detayları",
-    "delegat_detail_subhead": "Yeniden bağlama zaten delegasyon yapılmış HIVE Power üzerine yazar ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "Yeni Miktar",
     "review": "GÖZDEN GEÇİR",
     "confirm": "Delegasyonu Onayla",
