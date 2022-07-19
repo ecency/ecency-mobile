@@ -638,7 +638,7 @@
     "account_detail_head": "Account Details",
     "account_detail_subhead": "Enter username for HIVE Power delegation",
     "delegat_detail_head": "Delegation Details",
-    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "New Amount",
     "review": "REVIEW",
     "confirm": "Confirm Delegation",
