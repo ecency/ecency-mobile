@@ -51,6 +51,12 @@ export default EStyleSheet.create({
     fontSize: 12,
     color: '$primaryBlack',
     fontWeight: '600',
-    textAlign: 'left',
+    textAlign: 'right',
   },
+  transferItemContainer: {
+    height: 20,
+  },
+  transferItemRightStyle: {
+    justifyContent: 'flex-end',
+  }
 });

@@ -100,6 +100,8 @@ const TransferAmountInputSection = ({
         }
       />
       <TransferFormItem
+        rightComponentStyle={styles.transferItemRightStyle}
+        containerStyle={styles.transferItemContainer}
         rightComponent={() => (
           <TouchableOpacity onPress={() => _handleOnChange('amount', balance)}>
             {_renderDescription(
@@ -128,7 +130,8 @@ const TransferAmountInputSection = ({
       )}
       {(transferType === transferTypes.POINTS || transferType === transferTypes.TRANSFER_TOKEN) && (
         <TransferFormItem
-          containerStyle={{ marginTop: 20 }}
+          rightComponentStyle={styles.transferItemRightStyle}
+          containerStyle={styles.transferItemContainer}
           rightComponent={() =>
             _renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
           }
