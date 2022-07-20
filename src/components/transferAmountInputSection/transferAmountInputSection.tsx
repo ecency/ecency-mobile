@@ -90,54 +90,6 @@ const TransferAmountInputSection = ({
   );
 
   const _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
-  let path;
-  if (hsTransfer) {
-    if (transferType !== transferTypes.CONVERT) {
-      const json = JSON.stringify({
-        sender: get(selectedAccount, 'name'),
-        receiver: destination,
-        amount: `${Number(amount).toFixed(3)} ${fundType}`,
-        memo,
-      });
-      path = `sign/custom-json?authority=active&required_auths=%5B%22${get(
-        selectedAccount,
-        'name',
-      )}%22%5D&required_posting_auths=%5B%5D&id=ecency_point_transfer&json=${encodeURIComponent(
-        json,
-      )}`;
-    } else if (transferType === transferTypes.TRANSFER_TO_SAVINGS) {
-      path = `sign/transfer_to_savings?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
-        `${amount} ${fundType}`,
-      )}&memo=${encodeURIComponent(memo)}`;
-    } else if (transferType === transferTypes.DELEGATE_VESTING_SHARES) {
-      path = `sign/delegate_vesting_shares?delegator=${currentAccountName}&delegatee=${destination}&vesting_shares=${encodeURIComponent(
-        `${amount} ${fundType}`,
-      )}`;
-    } else if (transferType === transferTypes.TRANSFER_TO_VESTING) {
-      path = `sign/transfer_to_vesting?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
-        `${amount} ${fundType}`,
-      )}`;
-    } else if (
-      transferType === transferTypes.WITHDRAW_HIVE ||
-      transferType === transferTypes.WITHDRAW_HBD
-    ) {
-      path = `sign/transfer_from_savings?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
-        `${amount} ${fundType}`,
-      )}&request_id=${new Date().getTime() >>> 0}`;
-    } else if (transferType === transferTypes.CONVERT) {
-      path = `sign/convert?owner=${currentAccountName}&amount=${encodeURIComponent(
-        `${amount} ${fundType}`,
-      )}&requestid=${new Date().getTime() >>> 0}`;
-    } else if (transferType === transferTypes.WITHDRAW_VESTING) {
-      path = `sign/withdraw_vesting?account=${currentAccountName}&vesting_shares=${encodeURIComponent(
-        `${amount} ${fundType}`,
-      )}`;
-    } else {
-      path = `sign/transfer?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
-        `${amount} ${fundType}`,
-      )}&memo=${encodeURIComponent(memo)}`;
-    }
-  }
 
   return (
     <View style={styles.stepTwoContainer}>
