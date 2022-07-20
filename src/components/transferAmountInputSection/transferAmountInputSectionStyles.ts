@@ -48,6 +48,9 @@ export default EStyleSheet.create({
     height: 75,
   },
   description: {
-    color: '$iconColor',
+    fontSize: 12,
+    color: '$primaryBlack',
+    fontWeight: '600',
+    textAlign: 'left',
   },
 });
