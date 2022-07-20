@@ -58,18 +58,18 @@ export const QuickReplyModalContent = forwardRef(({
     },
   }));
 
-  
+
   // load quick comment value from cache
   useEffect(() => {
     let _value = ''
     if (drafts.has(draftId) && currentAccount.name === drafts.get(draftId).author) {
       const quickComment: Draft = drafts.get(draftId);
       _value = quickComment.body;
-    } 
+    }
 
-    if(inputRef.current){
+    if (inputRef.current) {
       inputRef.current.setNativeProps({
-        text:_value
+        text: _value
       })
       setCommentValue(_value)
     }
@@ -113,7 +113,7 @@ export const QuickReplyModalContent = forwardRef(({
 
   // handle submit reply
   const _submitReply = async () => {
-    let stateTimer;
+
     if (!commentValue) {
       return;
     }
@@ -149,44 +149,48 @@ export const QuickReplyModalContent = forwardRef(({
         parentTags,
       )
         .then(() => {
-          stateTimer = setTimeout(() => {
-            setIsSending(false);
-            onClose();
-            //TODO: use native method to update comment value instead
-            inputRef.current.setNativeProps({
-              text:''
-            })
-            setCommentValue('');
-            dispatch(
-              toastNotification(
-                intl.formatMessage({
-                  id: 'alert.success',
-                }),
-              ),
-            );
 
-            //add comment cache entry
-            dispatch(
-              updateCommentCache(
-                `${parentAuthor}/${parentPermlink}`,
-                {
-                  author: currentAccount.name,
-                  permlink,
-                  parent_author: parentAuthor,
-                  parent_permlink: parentPermlink,
-                  markdownBody: commentValue,
-                },
-                {
-                  parentTags: parentTags || ['ecency'],
-                },
-              ),
-            );
-            // delete quick comment draft cache if it exist
-            if (drafts.has(draftId)) {
-              dispatch(deleteDraftCacheEntry(draftId));
-            }
-            clearTimeout(stateTimer);
-          }, 3000);
+          setIsSending(false);
+          setCommentValue('');
+
+          if(inputRef.current){
+            inputRef.current.setNativeProps({
+              text: ''
+            })
+          }
+
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'alert.success',
+              }),
+            ),
+          );
+
+          //add comment cache entry
+          dispatch(
+            updateCommentCache(
+              `${parentAuthor}/${parentPermlink}`,
+              {
+                author: currentAccount.name,
+                permlink,
+                parent_author: parentAuthor,
+                parent_permlink: parentPermlink,
+                markdownBody: commentValue,
+              },
+              {
+                parentTags: parentTags || ['ecency'],
+              },
+            ),
+          );
+
+          // delete quick comment draft cache if it exist
+          if (drafts.has(draftId)) {
+            dispatch(deleteDraftCacheEntry(draftId));
+          }
+
+          //close should alwasy be called at method end
+          onClose();
         })
         .catch((error) => {
           console.log(error);
@@ -196,11 +200,11 @@ export const QuickReplyModalContent = forwardRef(({
             }),
             error.message || JSON.stringify(error),
           );
-          stateTimer = setTimeout(() => {
-            setIsSending(false);
-            _addQuickCommentIntoCache(); //add comment value into cache if there is error while posting comment
-            clearTimeout(stateTimer);
-          }, 500);
+
+
+          setIsSending(false);
+          _addQuickCommentIntoCache(); //add comment value into cache if there is error while posting comment
+
         });
       console.log('status : ', status);
     }
