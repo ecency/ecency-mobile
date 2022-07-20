@@ -99,6 +99,7 @@ import QRModal from './qrModal/qrModalView';
 import { SimpleChart } from './simpleChart';
 import BeneficiarySelectionContent from './beneficiarySelectionContent/beneficiarySelectionContent';
 import TransferAccountSelector from './transferAccountSelector/transferAccountSelector';
+import TransferAmountInputSection from './transferAmountInputSection/transferAmountInputSection';
 
 // Basic UI Elements
 import {
@@ -247,4 +248,5 @@ export {
   SimpleChart,
   BeneficiarySelectionContent,
   TransferAccountSelector,
+  TransferAmountInputSection,
 };

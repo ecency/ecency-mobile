@@ -24,6 +24,7 @@ import {
   Icon,
   Modal,
   TransferAccountSelector,
+  TransferAmountInputSection,
 } from '../../../components';
 
 import styles from './transferStyles';
@@ -227,55 +228,22 @@ const TransferView = ({
               memo={memo}
               setMemo={setMemo}
             />
-            <View style={styles.middleContent}>
-              <TransferFormItem
-                label={intl.formatMessage({ id: 'transfer.amount' })}
-                rightComponent={() =>
-                  _renderInput(intl.formatMessage({ id: 'transfer.amount' }), 'amount', 'numeric')
-                }
-              />
-              <TransferFormItem
-                rightComponent={() => (
-                  <TouchableOpacity onPress={() => _handleOnChange('amount', balance)}>
-                    {_renderDescription(
-                      `${intl.formatMessage({
-                        id: 'transfer.amount_desc',
-                      })} ${balance} ${fundType === 'ESTM' ? 'Points' : fundType}`,
-                    )}
-                  </TouchableOpacity>
-                )}
-              />
-              {(transferType === 'points' ||
-                transferType === 'transfer_token' ||
-                transferType === 'transfer_to_savings') && (
-                <TransferFormItem
-                  label={intl.formatMessage({ id: 'transfer.memo' })}
-                  rightComponent={() =>
-                    _renderInput(
-                      intl.formatMessage({ id: 'transfer.memo_placeholder' }),
-                      'memo',
-                      'default',
-                      true,
-                    )
-                  }
-                />
-              )}
-              {(transferType === 'points' || transferType === 'transfer_token') && (
-                <TransferFormItem
-                  containerStyle={{ marginTop: 40 }}
-                  rightComponent={() =>
-                    _renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
-                  }
-                />
-              )}
-              {transferType === 'convert' && (
-                <TransferFormItem
-                  rightComponent={() =>
-                    _renderDescription(intl.formatMessage({ id: 'transfer.convert_desc' }))
-                  }
-                />
-              )}
-            </View>
+            <TransferAmountInputSection
+              balance={balance}
+              getAccountsWithUsername={getAccountsWithUsername}
+              setIsUsernameValid={setIsUsernameValid}
+              setDestination={setDestination}
+              destination={destination}
+              memo={memo}
+              setMemo={setMemo}
+              amount={amount}
+              setAmount={setAmount}
+              hsTransfer={hsTransfer}
+              transferType={transferType}
+              selectedAccount={selectedAccount}
+              fundType={fundType}
+              currentAccountName={currentAccountName}
+            />
             <View style={styles.bottomContent}>
               <MainButton
                 style={styles.button}
