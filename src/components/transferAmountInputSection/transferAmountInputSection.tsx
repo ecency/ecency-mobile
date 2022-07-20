@@ -7,6 +7,7 @@ import get from 'lodash/get';
 
 // Styles
 import styles from './transferAmountInputSectionStyles';
+import transferTypes from '../../constants/transferTypes';
 
 export interface TransferAmountInputSectionProps {
   balance: number;
@@ -91,7 +92,7 @@ const TransferAmountInputSection = ({
   const _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
   let path;
   if (hsTransfer) {
-    if (transferType === 'points') {
+    if (transferType !== transferTypes.CONVERT) {
       const json = JSON.stringify({
         sender: get(selectedAccount, 'name'),
         receiver: destination,
@@ -104,27 +105,30 @@ const TransferAmountInputSection = ({
       )}%22%5D&required_posting_auths=%5B%5D&id=ecency_point_transfer&json=${encodeURIComponent(
         json,
       )}`;
-    } else if (transferType === 'transfer_to_savings') {
+    } else if (transferType === transferTypes.TRANSFER_TO_SAVINGS) {
       path = `sign/transfer_to_savings?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&memo=${encodeURIComponent(memo)}`;
-    } else if (transferType === 'delegate_vesting_shares') {
+    } else if (transferType === transferTypes.DELEGATE_VESTING_SHARES) {
       path = `sign/delegate_vesting_shares?delegator=${currentAccountName}&delegatee=${destination}&vesting_shares=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;
-    } else if (transferType === 'transfer_to_vesting') {
+    } else if (transferType === transferTypes.TRANSFER_TO_VESTING) {
       path = `sign/transfer_to_vesting?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;
-    } else if (transferType === 'withdraw_hive' || transferType === 'withdraw_hbd') {
+    } else if (
+      transferType === transferTypes.WITHDRAW_HIVE ||
+      transferType === transferTypes.WITHDRAW_HBD
+    ) {
       path = `sign/transfer_from_savings?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&request_id=${new Date().getTime() >>> 0}`;
-    } else if (transferType === 'convert') {
+    } else if (transferType === transferTypes.CONVERT) {
       path = `sign/convert?owner=${currentAccountName}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&requestid=${new Date().getTime() >>> 0}`;
-    } else if (transferType === 'withdraw_vesting') {
+    } else if (transferType === transferTypes.WITHDRAW_VESTING) {
       path = `sign/withdraw_vesting?account=${currentAccountName}&vesting_shares=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;
@@ -154,9 +158,9 @@ const TransferAmountInputSection = ({
           </TouchableOpacity>
         )}
       />
-      {(transferType === 'points' ||
-        transferType === 'transfer_token' ||
-        transferType === 'transfer_to_savings') && (
+      {(transferType === transferTypes.POINTS ||
+        transferType === transferTypes.TRANSFER_TOKEN ||
+        transferType === transferTypes.TRANSFER_TO_SAVINGS) && (
         <TransferFormItem
           label={intl.formatMessage({ id: 'transfer.memo' })}
           rightComponent={() =>
@@ -170,7 +174,7 @@ const TransferAmountInputSection = ({
           containerStyle={{ height: 80 }}
         />
       )}
-      {(transferType === 'points' || transferType === 'transfer_token') && (
+      {(transferType === transferTypes.POINTS || transferType === transferTypes.TRANSFER_TOKEN) && (
         <TransferFormItem
           containerStyle={{ marginTop: 20 }}
           rightComponent={() =>
@@ -178,7 +182,7 @@ const TransferAmountInputSection = ({
           }
         />
       )}
-      {transferType === 'convert' && (
+      {transferType === transferTypes.CONVERT && (
         <TransferFormItem
           rightComponent={() =>
             _renderDescription(intl.formatMessage({ id: 'transfer.convert_desc' }))
