@@ -12,20 +12,20 @@ import styles from './transferAccountSelectorStyles';
 
 export interface TransferAccountSelectorProps {
   accounts: any;
-  currentAccountName: any;
-  transferType: any;
+  currentAccountName: string;
+  transferType: string;
   balance: any;
   fetchBalance: any;
-  from: any;
-  setFrom: any;
-  destination: any;
-  setDestination: any;
-  amount: any;
-  setAmount: any;
+  from: string;
+  setFrom: (value: string) => void;
+  destination: string;
+  setDestination: (value: string) => void;
+  amount: string;
+  setAmount: (value: string) => void;
   getAccountsWithUsername: any;
-  setIsUsernameValid: any;
-  memo: any;
-  setMemo: any;
+  setIsUsernameValid: (value: boolean) => void;
+  memo: string;
+  setMemo: (value: string) => void;
 }
 
 const TransferAccountSelector = ({
