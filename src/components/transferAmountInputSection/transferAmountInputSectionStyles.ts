@@ -58,5 +58,21 @@ export default EStyleSheet.create({
   },
   transferItemRightStyle: {
     justifyContent: 'flex-end',
-  }
+  },
+  sectionHeading: {
+    paddingHorizontal: 16,
+    marginBottom: 0,
+    fontSize: 18,
+    fontWeight: '700',
+    color: '$primaryBlack',
+    textAlign: 'left',
+  },
+  sectionSubheading: {
+    paddingHorizontal: 16,
+    marginTop: 8,
+    fontSize: 14,
+    color: '$primaryBlack',
+    fontWeight: '600',
+    textAlign: 'left',
+  },
 });

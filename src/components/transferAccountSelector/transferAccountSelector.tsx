@@ -116,10 +116,10 @@ const TransferAccountSelector = ({
   return (
     <View style={styles.stepOneContainer}>
       <Text style={styles.sectionHeading}>
-        {intl.formatMessage({ id: 'transfer.account_detail_head' })}
+        {intl.formatMessage({ id: 'transfer.account_select_title' })}
       </Text>
       <Text style={styles.sectionSubheading}>
-        {intl.formatMessage({ id: 'transfer.account_detail_subhead' })}
+        {intl.formatMessage({ id: 'transfer.account_select_description' })}
       </Text>
       <TransferFormItem
         containerStyle={{ marginTop: 32 }}

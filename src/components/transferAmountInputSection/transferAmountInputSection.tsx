@@ -93,6 +93,12 @@ const TransferAmountInputSection = ({
 
   return (
     <View style={styles.stepTwoContainer}>
+      <Text style={styles.sectionHeading}>
+        {intl.formatMessage({ id: 'transfer.amount_select_title' })}
+      </Text>
+      <Text style={styles.sectionSubheading}>
+        {intl.formatMessage({ id: 'transfer.amount_select_description' })}
+      </Text>
       <TransferFormItem
         label={intl.formatMessage({ id: 'transfer.amount' })}
         rightComponent={() =>
