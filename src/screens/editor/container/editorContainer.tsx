@@ -55,6 +55,7 @@ import { deleteDraftCacheEntry, updateCommentCache, updateDraftCache } from '../
 
 class EditorContainer extends Component<any, any> {
   _isMounted = false;
+  _updatedDraftFields = null;
 
   constructor(props) {
     super(props);
@@ -571,7 +572,9 @@ class EditorContainer extends Component<any, any> {
     const { isDraftSaved, draftId, thumbIndex, isReply, rewardType } = this.state;
     const { currentAccount, dispatch, intl } = this.props;
 
-    if (isReply) {
+
+    if (isReply) { 
+      this._saveCurrentDraft(this._updatedDraftFields)
       return;
     }
 
@@ -655,6 +658,9 @@ class EditorContainer extends Component<any, any> {
           isDraftSaving: false,
           isDraftSaved: false,
         });
+
+        //saves draft locally if remote draft save fails
+        this._saveCurrentDraft(this._updatedDraftFields)
       }
 
       dispatch(
@@ -667,8 +673,14 @@ class EditorContainer extends Component<any, any> {
     }
   };
 
+
+  _updateDraftFields = (fields) => {
+      this._updatedDraftFields = fields;
+  }
+
+
   _saveCurrentDraft = async (fields) => {
-    const { draftId, isReply, isEdit, isPostSending, thumbIndex, rewardType, scheduleDate } = this.state;
+    const { draftId, isReply, isEdit, isPostSending } = this.state;
 
     //skip draft save in case post is sending or is post beign edited
     if (isPostSending || isEdit) {
@@ -700,6 +712,10 @@ class EditorContainer extends Component<any, any> {
       dispatch(updateDraftCache(DEFAULT_USER_DRAFT_ID + username, draftField));
     }
   };
+
+
+
+
 
   _submitPost = async ({ fields, scheduleDate }: { fields: any, scheduleDate?: string }) => {
 
@@ -1285,6 +1301,7 @@ class EditorContainer extends Component<any, any> {
         quickReplyText={quickReplyText}
         isUploading={isUploading}
         post={post}
+        updateDraftFields = {this._updateDraftFields}
         saveCurrentDraft={this._saveCurrentDraft}
         saveDraftToDB={this._saveDraftToDB}
         uploadedImage={uploadedImage}
@@ -1300,6 +1317,7 @@ class EditorContainer extends Component<any, any> {
         rewardType={rewardType}
         scheduledForDate={scheduledForDate}
         getBeneficiaries={this._extractBeneficiaries}
+  
       />
     );
   }
