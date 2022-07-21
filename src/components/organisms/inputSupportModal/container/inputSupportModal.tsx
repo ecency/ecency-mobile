@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View as AnimatedView } from 'react-native-animatable'
 import { Portal } from 'react-native-portalize';
 import styles from '../children/inputSupportModal.styles';
@@ -22,15 +22,15 @@ export const InputSupportModal = ({children, visible, onClose}: InputSupportModa
             duration={300}
             animation='fadeInUp'>
               <>
-                <View style={styles.container} onTouchEnd={onClose} />
+                <View style={styles.container}  onTouchEnd={onClose} />
                 {
                   Platform.select({
                     ios: (
-                      <KeyboardAvoidingView style={styles.container} behavior="padding">
+                      <KeyboardAvoidingView behavior="padding">
                         {children}
                       </KeyboardAvoidingView>
                     ),
-                    android: <View style={styles.container}>{children}</View>,
+                    android: <View>{children}</View>,
                   })
                 }
 
