@@ -143,52 +143,52 @@ const initialState:State = {
                 state.subscribedCommunities.delete(payload);
             }
             return { ...state }
-        
+
         case CLEAR_SUBSCRIBED_COMMUNITIES_CACHE:
             state.subscribedCommunities = new Map<string, SubscribedCommunity>();
 
-            return {...state}
-            
+            return { ...state }
+
         case PURGE_EXPIRED_CACHE:
             const currentTime = new Date().getTime();
 
-            if(state.votes && state.votes.size){
-                Array.from(state.votes).forEach((entry)=>{
-                   if(entry[1].expiresAt < currentTime){
-                       state.votes.delete(entry[0]);
-                   }
+            if (state.votes && state.votes.size) {
+                Array.from(state.votes).forEach((entry) => {
+                    if (entry[1].expiresAt < currentTime) {
+                        state.votes.delete(entry[0]);
+                    }
                 })
             }
 
-            if(state.comments && state.comments.size){
-                Array.from(state.comments).forEach((entry)=>{
-                    if(entry[1].expiresAt < currentTime){
+            if (state.comments && state.comments.size) {
+                Array.from(state.comments).forEach((entry) => {
+                    if (entry[1].expiresAt < currentTime) {
                         state.comments.delete(entry[0]);
                     }
-                 })
+                })
             }
 
-            if(state.drafts && state.drafts.size){
-                Array.from(state.drafts).forEach((entry)=>{
-                    if(entry[1].expiresAt < currentTime){
+            if (state.drafts && state.drafts.size) {
+                Array.from(state.drafts).forEach((entry) => {
+                    if (entry[1].expiresAt < currentTime || !entry[1].body) {
                         state.drafts.delete(entry[0]);
                     }
-                 })
+                })
             }
 
-            if(state.subscribedCommunities && state.subscribedCommunities.size){
-                Array.from(state.subscribedCommunities).forEach((entry)=>{
-                    if(entry[1].expiresAt < currentTime){
+            if (state.subscribedCommunities && state.subscribedCommunities.size) {
+                Array.from(state.subscribedCommunities).forEach((entry) => {
+                    if (entry[1].expiresAt < currentTime) {
                         state.subscribedCommunities.delete(entry[0]);
                     }
-                 })
+                })
             }
-            
+
             return {
                 ...state
             }
         default:
-          return state;
-      }
+            return state;
     }
+}
 
