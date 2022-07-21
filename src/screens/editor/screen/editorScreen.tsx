@@ -276,7 +276,8 @@ class EditorScreen extends Component {
     ) {
       console.log('jsonMeta : ', jsonMeta);
       handleFormChanged();
-      this._saveCurrentDraft(fields);
+      //TODO: REMOVED FOR TESTING, CAN BE PUT BACK IF APP STILL CRASHES
+      // this._saveCurrentDraft(fields);
     }
 
     this.setState({ fields }, () => {

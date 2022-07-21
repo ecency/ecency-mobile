@@ -227,11 +227,13 @@ export const QuickReplyModalContent = forwardRef(({
   };
 
 
-  const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), [])
+  //REMOVED FOR TESTING, CAN BE PUT BACK IF APP STILL CRASHES
+  // const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), [])
 
   const _onChangeText = (value) => {
     setCommentValue(value);
-    _deboucedCacheUpdate(value)
+    //REMOVED FOR TESTING, CAN BE PUT BACK IF APP STILL CRASHES
+    // _deboucedCacheUpdate(value)
   }
 
 

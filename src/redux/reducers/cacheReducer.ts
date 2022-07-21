@@ -174,6 +174,8 @@ export default function (state = initialState, action) {
                         state.drafts.delete(entry[0]);
                     }
                 })
+
+
             }
 
             if (state.subscribedCommunities && state.subscribedCommunities.size) {

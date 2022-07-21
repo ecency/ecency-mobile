@@ -571,7 +571,10 @@ class EditorContainer extends Component<any, any> {
     const { isDraftSaved, draftId, thumbIndex, isReply, rewardType } = this.state;
     const { currentAccount, dispatch, intl } = this.props;
 
-    if (isReply) {
+    //Saves draft locally for both reply and post
+    this._saveCurrentDraft(fields)
+
+    if (isReply) { 
       return;
     }
 
@@ -667,8 +670,10 @@ class EditorContainer extends Component<any, any> {
     }
   };
 
+
+
   _saveCurrentDraft = async (fields) => {
-    const { draftId, isReply, isEdit, isPostSending, thumbIndex, rewardType, scheduleDate } = this.state;
+    const { draftId, isReply, isEdit, isPostSending } = this.state;
 
     //skip draft save in case post is sending or is post beign edited
     if (isPostSending || isEdit) {
@@ -700,6 +705,10 @@ class EditorContainer extends Component<any, any> {
       dispatch(updateDraftCache(DEFAULT_USER_DRAFT_ID + username, draftField));
     }
   };
+
+
+
+
 
   _submitPost = async ({ fields, scheduleDate }: { fields: any, scheduleDate?: string }) => {
 
