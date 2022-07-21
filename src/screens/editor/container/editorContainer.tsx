@@ -55,6 +55,7 @@ import { deleteDraftCacheEntry, updateCommentCache, updateDraftCache } from '../
 
 class EditorContainer extends Component<any, any> {
   _isMounted = false;
+  _updatedDraftFields = null;
 
   constructor(props) {
     super(props);
@@ -571,10 +572,9 @@ class EditorContainer extends Component<any, any> {
     const { isDraftSaved, draftId, thumbIndex, isReply, rewardType } = this.state;
     const { currentAccount, dispatch, intl } = this.props;
 
-    //Saves draft locally for both reply and post
-    this._saveCurrentDraft(fields)
 
     if (isReply) { 
+      this._saveCurrentDraft(this._updatedDraftFields)
       return;
     }
 
@@ -658,6 +658,9 @@ class EditorContainer extends Component<any, any> {
           isDraftSaving: false,
           isDraftSaved: false,
         });
+
+        //saves draft locally if remote draft save fails
+        this._saveCurrentDraft(this._updatedDraftFields)
       }
 
       dispatch(
@@ -670,6 +673,10 @@ class EditorContainer extends Component<any, any> {
     }
   };
 
+
+  _updateDraftFields = (fields) => {
+      this._updatedDraftFields = fields;
+  }
 
 
   _saveCurrentDraft = async (fields) => {
@@ -1294,6 +1301,7 @@ class EditorContainer extends Component<any, any> {
         quickReplyText={quickReplyText}
         isUploading={isUploading}
         post={post}
+        updateDraftFields = {this._updateDraftFields}
         saveCurrentDraft={this._saveCurrentDraft}
         saveDraftToDB={this._saveDraftToDB}
         uploadedImage={uploadedImage}
@@ -1309,6 +1317,7 @@ class EditorContainer extends Component<any, any> {
         rewardType={rewardType}
         scheduledForDate={scheduledForDate}
         getBeneficiaries={this._extractBeneficiaries}
+  
       />
     );
   }

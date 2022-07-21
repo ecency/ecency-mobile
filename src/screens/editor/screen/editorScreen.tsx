@@ -9,17 +9,11 @@ import { extractMetadata, getWordsCount, makeJsonMetadata } from '../../../utils
 // Components
 import {
   BasicHeader,
-  TitleArea,
-  TagArea,
-  TagInput,
-  SummaryArea,
   PostForm,
   MarkdownEditor,
   SelectCommunityAreaView,
   SelectCommunityModalContainer,
   Modal,
-  UserAvatar,
-  MainButton,
 } from '../../../components';
 
 // dhive
@@ -31,7 +25,6 @@ import globalStyles from '../../../globalStyles';
 import { isCommunity } from '../../../utils/communityValidation';
 
 import styles from './editorScreenStyles';
-import ThumbSelectionModal from '../children/thumbSelectionModal';
 import PostOptionsModal from '../children/postOptionsModal';
 
 class EditorScreen extends Component {
@@ -176,14 +169,15 @@ class EditorScreen extends Component {
   };
 
   _saveCurrentDraft = (fields) => {
-    const { saveCurrentDraft } = this.props;
+    const { saveCurrentDraft, updateDraftFields } = this.props;
 
     if (this.changeTimer) {
       clearTimeout(this.changeTimer);
     }
 
     this.changeTimer = setTimeout(() => {
-      saveCurrentDraft(fields);
+      // saveCurrentDraft(fields);
+      updateDraftFields(fields)
     }, 300);
   };
 
@@ -276,8 +270,8 @@ class EditorScreen extends Component {
     ) {
       console.log('jsonMeta : ', jsonMeta);
       handleFormChanged();
-      //TODO: REMOVED FOR TESTING, CAN BE PUT BACK IF APP STILL CRASHES
-      // this._saveCurrentDraft(fields);
+  
+      this._saveCurrentDraft(fields);
     }
 
     this.setState({ fields }, () => {
