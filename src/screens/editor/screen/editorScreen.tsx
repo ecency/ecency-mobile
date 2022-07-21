@@ -81,8 +81,8 @@ class EditorScreen extends Component {
   }
 
   componentWillUnmount() {
-    const { isReply, isEdit } = this.props;
-    if (!isReply && !isEdit) {
+    const { isEdit } = this.props;
+    if (!isEdit) {
       this._saveDraftToDB();
     }
   }
