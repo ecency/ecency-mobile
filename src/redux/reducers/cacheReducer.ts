@@ -1,105 +1,105 @@
-import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE, UPDATE_COMMENT_CACHE, DELETE_COMMENT_CACHE_ENTRY, DELETE_DRAFT_CACHE_ENTRY, UPDATE_DRAFT_CACHE, UPDATE_SUBSCRIBED_COMMUNITY_CACHE, DELETE_SUBSCRIBED_COMMUNITY_CACHE, CLEAR_SUBSCRIBED_COMMUNITIES_CACHE,  } from "../constants/constants";
+import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE, UPDATE_COMMENT_CACHE, DELETE_COMMENT_CACHE_ENTRY, DELETE_DRAFT_CACHE_ENTRY, UPDATE_DRAFT_CACHE, UPDATE_SUBSCRIBED_COMMUNITY_CACHE, DELETE_SUBSCRIBED_COMMUNITY_CACHE, CLEAR_SUBSCRIBED_COMMUNITIES_CACHE, } from "../constants/constants";
 
 export interface Vote {
-    amount:number;
-    isDownvote:boolean;
-    incrementStep:number;
-    votedAt:number; 
-    expiresAt:number;
+    amount: number;
+    isDownvote: boolean;
+    incrementStep: number;
+    votedAt: number;
+    expiresAt: number;
 }
 
 export interface Comment {
-    author:string,
-    permlink:string,
-    parent_author:string,
-    parent_permlink:string,
-    body?:string,
-    markdownBody:string,
-    author_reputation?:number,
-    total_payout?:number,
-    net_rshares?:number,
-    active_votes?:Array<{rshares:number, voter:string}>,
-    json_metadata?:any,
-    isDeletable?:boolean,
-    created?:string, //handle created and updated separatly
-    updated?:string,
-    expiresAt?:number,
+    author: string,
+    permlink: string,
+    parent_author: string,
+    parent_permlink: string,
+    body?: string,
+    markdownBody: string,
+    author_reputation?: number,
+    total_payout?: number,
+    net_rshares?: number,
+    active_votes?: Array<{ rshares: number, voter: string }>,
+    json_metadata?: any,
+    isDeletable?: boolean,
+    created?: string, //handle created and updated separatly
+    updated?: string,
+    expiresAt?: number,
 }
 
 export interface Draft {
     author: string,
-    body:string,
-    title?:string,
-    tags?:string,
+    body: string,
+    title?: string,
+    tags?: string,
     meta?: any,
-    created?:number,
-    updated?:number,
-    expiresAt?:number;
+    created?: number,
+    updated?: number,
+    expiresAt?: number;
 }
 
 export interface SubscribedCommunity {
     data: Array<any>,
-    expiresAt?:number;
+    expiresAt?: number;
 }
 interface State {
-    votes:Map<string, Vote>
-    comments:Map<string, Comment> //TODO: handle comment array per post, if parent is same
+    votes: Map<string, Vote>
+    comments: Map<string, Comment> //TODO: handle comment array per post, if parent is same
     drafts: Map<string, Draft>
     subscribedCommunities: Map<string, SubscribedCommunity>
-    lastUpdate:{
-        postPath:string,
-        updatedAt:number,
-        type:'vote'|'comment'|'draft',
+    lastUpdate: {
+        postPath: string,
+        updatedAt: number,
+        type: 'vote' | 'comment' | 'draft',
     }
 }
 
-const initialState:State = {
-    votes:new Map(),
-    comments:new Map(),
+const initialState: State = {
+    votes: new Map(),
+    comments: new Map(),
     drafts: new Map(),
     subscribedCommunities: new Map(),
-    lastUpdate:null,
-  };
-  
-  export default function (state = initialState, action) {
-      const {type, payload} = action;
+    lastUpdate: null,
+};
+
+export default function (state = initialState, action) {
+    const { type, payload } = action;
     switch (type) {
         case UPDATE_VOTE_CACHE:
-            if(!state.votes){
+            if (!state.votes) {
                 state.votes = new Map<string, Vote>();
             }
             state.votes.set(payload.postPath, payload.vote);
             return {
                 ...state, //spread operator in requried here, otherwise persist do not register change
-                lastUpdate:{
-                    postPath:payload.postPath,
+                lastUpdate: {
+                    postPath: payload.postPath,
                     updatedAt: new Date().getTime(),
-                    type:'vote',
+                    type: 'vote',
                 }
             };
-        
+
         case UPDATE_COMMENT_CACHE:
-            if(!state.comments){
+            if (!state.comments) {
                 state.comments = new Map<string, Comment>();
             }
             state.comments.set(payload.commentPath, payload.comment);
             return {
                 ...state, //spread operator in requried here, otherwise persist do not register change
-                lastUpdate:{
-                    postPath:payload.commentPath,
+                lastUpdate: {
+                    postPath: payload.commentPath,
                     updatedAt: new Date().getTime(),
-                    type:'comment'
+                    type: 'comment'
                 }
             };
 
         case DELETE_COMMENT_CACHE_ENTRY:
-            if(state.comments && state.comments.has(payload)){
+            if (state.comments && state.comments.has(payload)) {
                 state.comments.delete(payload);
             }
             return { ...state }
-            
+
         case UPDATE_DRAFT_CACHE:
-            if(!state.drafts){
+            if (!state.drafts) {
                 state.drafts = new Map<string, Draft>();
             }
 
@@ -113,12 +113,12 @@ const initialState:State = {
 
             state.drafts.set(payload.id, payloadDraft);
             return {
-              ...state, //spread operator in requried here, otherwise persist do not register change
-              lastUpdate: {
-                postPath: payload.id,
-                updatedAt: new Date().getTime(),
-                type: 'draft',
-              },
+                ...state, //spread operator in requried here, otherwise persist do not register change
+                lastUpdate: {
+                    postPath: payload.id,
+                    updatedAt: new Date().getTime(),
+                    type: 'draft',
+                },
             };
 
         case DELETE_DRAFT_CACHE_ENTRY:
@@ -128,7 +128,7 @@ const initialState:State = {
             return { ...state }
 
         case UPDATE_SUBSCRIBED_COMMUNITY_CACHE:
-            if(!state.subscribedCommunities){
+            if (!state.subscribedCommunities) {
                 state.subscribedCommunities = new Map<string, SubscribedCommunity>();
             }
             const subscribedCommunities = new Map(state.subscribedCommunities);
