@@ -3,7 +3,6 @@ import { useIntl } from 'react-intl';
 import { Text, TouchableOpacity, View } from 'react-native';
 import TextInput from '../textInput';
 import { TransferFormItem } from '../transferFormItem';
-import get from 'lodash/get';
 
 // Styles
 import styles from './transferAmountInputSectionStyles';

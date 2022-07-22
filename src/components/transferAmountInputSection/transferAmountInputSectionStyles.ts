@@ -70,6 +70,7 @@ export default EStyleSheet.create({
   sectionSubheading: {
     paddingHorizontal: 16,
     marginTop: 8,
+    marginBottom: 20,
     fontSize: 14,
     color: '$primaryBlack',
     fontWeight: '600',
