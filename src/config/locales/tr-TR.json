@@ -654,7 +654,11 @@
     "powering_down_subheading": "You are currently powering down.",
     "powering_down_info": "Next power down is in {days} days, {hp} HIVE",
     "invalid_amount": "Invalid Amount",
-    "invalid_amount_desc": "Please enter valid amount"
+    "invalid_amount_desc": "Please enter valid amount",
+    "account_select_title": "Account Details",
+    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
+    "amount_select_title": "Transfer Details",
+    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
   },
   "boost": {
     "title": "Puan Al",
