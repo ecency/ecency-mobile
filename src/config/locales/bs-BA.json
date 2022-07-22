@@ -379,6 +379,7 @@
     "url": "URL",
     "enter_url_placeholder": "Enter URL",
     "link_type_text": "Type of Link",
+    "insert_link": "Insert Link",
     "preview": "Preview",
     "invalid_url_error": "Please insert valid url",
     "plain": "Plain",
@@ -488,7 +489,8 @@
     "restart_ecency_desc": "Primjena promjena će zahtijevati ponovno pokretanje.",
     "invalid_response": "Nije moguće obraditi zahtjev, pokušajte ponovo kasnije.",
     "wallet_updating": "Wallet update in progress, try again as update finishes",
-    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
+    "connection_issues": "The server is unreachable, please check your connection and try again."
   },
   "post": {
     "reblog_alert": "Da li ste sigurni da želite da podjelite?",
@@ -635,7 +637,7 @@
     "account_detail_head": "Detalji računa",
     "account_detail_subhead": "Unesite korisničko ime za delegiranje HIVE snage",
     "delegat_detail_head": "Detalji o delegaciji",
-    "delegat_detail_subhead": "Novo montiranje zamenjuje već delegiranu HIVE snagu ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "Novi iznos",
     "review": "PREGLED",
     "confirm": "Potvrdite delegiranje",
@@ -780,7 +782,9 @@
     "line2_body": "Korištenje blockchaina, bez cenzure, decentralizirano i nagrađujuće.",
     "line3_heading": "Pridružite se Ecency zajednicama!",
     "line3_body": "Izgradite svoju zajednicu, budite nagrađeni i nagradite druge.",
-    "get_started": "Započnite!"
+    "get_started": "Započnite!",
+    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
+    "terms_text": "Read Here!"
   },
   "time": {
     "second": "sekundi",

@@ -379,6 +379,7 @@
     "url": "URL",
     "enter_url_placeholder": "Enter URL",
     "link_type_text": "Type of Link",
+    "insert_link": "Insert Link",
     "preview": "Preview",
     "invalid_url_error": "Please insert valid url",
     "plain": "Plain",
@@ -488,7 +489,8 @@
     "restart_ecency_desc": "Değişiklikleri uygulamak tekrar başlatmayı gerektirir.",
     "invalid_response": "İsteğiniz işleme koyulamıyor. Daha sonra tekrar deneyin.",
     "wallet_updating": "Wallet update in progress, try again as update finishes",
-    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
+    "connection_issues": "The server is unreachable, please check your connection and try again."
   },
   "post": {
     "reblog_alert": "Tekrar göndermek istediğinize emin misiniz?",
@@ -635,7 +637,7 @@
     "account_detail_head": "Hesap Detayları",
     "account_detail_subhead": "HIVE Güç delegasyonu için kullanıcı adı giriniz",
     "delegat_detail_head": "Delegasyon Detayları",
-    "delegat_detail_subhead": "Yeniden bağlama zaten delegasyon yapılmış HIVE Power üzerine yazar ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "Yeni Miktar",
     "review": "GÖZDEN GEÇİR",
     "confirm": "Delegasyonu Onayla",
@@ -780,7 +782,9 @@
     "line2_body": "Blokzincir kullanan, sansürsüz, merkezi olmayan ve ödüllendirici.",
     "line3_heading": "Ecency topluluklarına katıl!",
     "line3_body": "Kendi topluluğunuzu oluşturun, ödül kazanın ve başkalarını ödüllendirin.",
-    "get_started": "Başlarken!"
+    "get_started": "Başlarken!",
+    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
+    "terms_text": "Read Here!"
   },
   "time": {
     "second": "saniye",

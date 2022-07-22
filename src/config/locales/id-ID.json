@@ -7,9 +7,9 @@
     "transfer": "Transfer",
     "power_up": "Untuk Menjamin",
     "transfer_from_savings": "Dari Tabungan",
-    "withdraw_savings": "Withdraw Savings",
+    "withdraw_savings": "Tarik Tabungan",
     "withdraw_vesting": "Turunkan Daya Kekuatan",
-    "open_order": "Open Order",
+    "open_order": "Buka Pesanan",
     "fill_order": "Isi pesanan",
     "post": "Kiriman",
     "comment": "Komentar",
@@ -51,12 +51,12 @@
     "to": "Kepada",
     "estimated_value_desc": "Menurut nilai pembelian",
     "estimated_value": "Nilai perkiraan",
-    "vote_value": "Vote value",
-    "delegated_hive_power": "Delegated hive power",
-    "powering_down_hive_power": "Powering down",
-    "received_hive_power": "Received hive power",
-    "total_hive_power": "Total hive power",
-    "savings": "Savings",
+    "vote_value": "Nilai Voting",
+    "delegated_hive_power": "Kekuatan Hive yang Didelegasikan",
+    "powering_down_hive_power": "Menurunkan kekuatan",
+    "received_hive_power": "Kekuatan Hive yang diterima",
+    "total_hive_power": "Jumlah kekuatan Hive",
+    "savings": "Tabungan",
     "estimated_amount": "Nilai suara",
     "amount_information": "Seret penggeser untuk menyesuaikan jumlahnya",
     "amount": "Jumlah",
@@ -76,11 +76,11 @@
     "next": "LANJUT",
     "delegate": "Delegasikan",
     "power_down": "Turunkan Daya Kekuatan",
-    "withdraw_hive": "Withdraw Savings",
-    "withdraw_hbd": "Withdraw Savings",
+    "withdraw_hive": "Tarik Tabungan",
+    "withdraw_hbd": "Tarik Tabungan",
     "transfer_to_savings": "Untuk Tabungan",
     "convert": "Mengkonversi",
-    "convert_request": "Convert Request",
+    "convert_request": "Permintaan Konversi",
     "escrow_transfer": "Transfer Escrow",
     "escrow_dispute": "Sengketa Escrow",
     "escrow_release": "Escrow Release",
@@ -91,9 +91,9 @@
     "fill_transfer_from_savings": "Tabungan Dieksekusi",
     "fill_vesting_withdraw": "PowerDown dieksekusi",
     "ecency": {
-      "title": "Points",
-      "name": "Ecency Points",
-      "buy": "GET POINTS"
+      "title": "Poin",
+      "name": "Poin Ecency",
+      "buy": "DAPATKAN POIN"
     },
     "savinghive": {
       "title": "Penyimpanan HIVE"
@@ -103,7 +103,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "Hive Token",
+      "name": "Token Hive",
       "buy": "DAPATKAN HIVE"
     },
     "hbd": {
@@ -112,26 +112,26 @@
     },
     "hive_power": {
       "title": "KEKUATAN HIVE",
-      "name": "Hive Power"
+      "name": "Kekuatan Hive"
     },
     "hive_dollar": {
-      "name": "Hive Dollar"
+      "name": "Hive Dolar"
     },
     "btc": {
       "title": "BTC",
       "buy": "DAPATKAN BTC",
       "address": "TERIMA"
     },
-    "last_updated": "Last Updated:",
-    "updating": "Updating...",
-    "coin_details": "Details",
-    "change": "Change",
-    "activities": "Activities",
-    "savings_withdrawal": "Pending Withdrawals",
-    "open_orders": "Open Orders",
-    "conversions_requested": "Conversions Requested",
-    "expires": "expires",
-    "pending_requests": "Pending Requests"
+    "last_updated": "Pembaruan Terakhir:",
+    "updating": "Memperbarui...",
+    "coin_details": "Rincian",
+    "change": "Mengganti",
+    "activities": "Aktifitas",
+    "savings_withdrawal": "Penarikan Tertunda",
+    "open_orders": "Membuka Pesanan",
+    "conversions_requested": "Permintaan Konversi",
+    "expires": "kadaluwarsa",
+    "pending_requests": "Permintaan Tertunda"
   },
   "notification": {
     "vote": "voted",
@@ -143,7 +143,7 @@
     "ignore": "mengabaikan anda",
     "reblog": "reblogged",
     "transfer": "ditransfer",
-    "delegations": "delegated",
+    "delegations": "didelegasikan",
     "spin": "Waktunya untuk mendapatkan lebih banyak poin",
     "inactive": "Ayo aktif! Tulislah postingan, teruskan mengumpulkan pendapatan",
     "referral": "bergabunglah dengan referral Anda, sambutlah mereka",
@@ -379,6 +379,7 @@
     "url": "URL",
     "enter_url_placeholder": "Enter URL",
     "link_type_text": "Type of Link",
+    "insert_link": "Insert Link",
     "preview": "Preview",
     "invalid_url_error": "Please insert valid url",
     "plain": "Plain",
@@ -488,7 +489,8 @@
     "restart_ecency_desc": "Applying changes will require a restart.",
     "invalid_response": "Could not process request, Try again later.",
     "wallet_updating": "Wallet update in progress, try again as update finishes",
-    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
+    "connection_issues": "The server is unreachable, please check your connection and try again."
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
@@ -635,7 +637,7 @@
     "account_detail_head": "Account Details",
     "account_detail_subhead": "Enter username for HIVE Power delegation",
     "delegat_detail_head": "Delegation Details",
-    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "New Amount",
     "review": "REVIEW",
     "confirm": "Confirm Delegation",
@@ -780,7 +782,9 @@
     "line2_body": "Memanfaatkan blockchain, bebas sensor, terdesentralisasi, dan bermanfaat.",
     "line3_heading": "Bergabunglah dengan Komunitas Ecency!",
     "line3_body": "Bangun komunitas yang Anda miliki, dapatkan imbalan, dan beri penghargaan kepada orang lain.",
-    "get_started": "Mulai!"
+    "get_started": "Mulai!",
+    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
+    "terms_text": "Read Here!"
   },
   "time": {
     "second": "detik",

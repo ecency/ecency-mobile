@@ -379,6 +379,7 @@
     "url": "URL",
     "enter_url_placeholder": "Enter URL",
     "link_type_text": "Type of Link",
+    "insert_link": "Insert Link",
     "preview": "Preview",
     "invalid_url_error": "Please insert valid url",
     "plain": "Plain",
@@ -488,7 +489,8 @@
     "restart_ecency_desc": "Applying changes will require a restart.",
     "invalid_response": "Could not process request, Try again later.",
     "wallet_updating": "Wallet update in progress, try again as update finishes",
-    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
+    "connection_issues": "The server is unreachable, please check your connection and try again."
   },
   "post": {
     "reblog_alert": "您確定想要轉發？",
@@ -635,7 +637,7 @@
     "account_detail_head": "Account Details",
     "account_detail_subhead": "Enter username for HIVE Power delegation",
     "delegat_detail_head": "Delegation Details",
-    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "New Amount",
     "review": "REVIEW",
     "confirm": "Confirm Delegation",
@@ -780,7 +782,9 @@
     "line2_body": "利用區塊鏈技術，不屏蔽，去中心化，還給予獎勵",
     "line3_heading": "加入我們Ecency社群吧",
     "line3_body": "建立您自己的社區，賺取獎賞，獎勵他人",
-    "get_started": "開始吧"
+    "get_started": "開始吧",
+    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
+    "terms_text": "Read Here!"
   },
   "time": {
     "second": "seconds",

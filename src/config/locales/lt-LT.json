@@ -379,6 +379,7 @@
     "url": "URL",
     "enter_url_placeholder": "Įveskite URL",
     "link_type_text": "Žymės tipas",
+    "insert_link": "Insert Link",
     "preview": "Peržiūra",
     "invalid_url_error": "Prašome įvesti tinkamą tinklalapio adresą",
     "plain": "Paprastas",
@@ -488,7 +489,8 @@
     "restart_ecency_desc": "Taikant pakeitimus perkraukite programėlę iš naujo.",
     "invalid_response": "Negalėjome įvykdyti užklausos, pabandykite vėliau.",
     "wallet_updating": "Pinigės atnaujinimas atliekamas, pabandykite kai atnaujinimas pasibaigs",
-    "claim_failed": "Nepavyko atsiimti apdovanojimų, {message}\nPabandykite vėliau arba rašykite support@ecency.com"
+    "claim_failed": "Nepavyko atsiimti apdovanojimų, {message}\nPabandykite vėliau arba rašykite support@ecency.com",
+    "connection_issues": "The server is unreachable, please check your connection and try again."
   },
   "post": {
     "reblog_alert": "Ar tikrai norite dalintis įrašu?",
@@ -635,7 +637,7 @@
     "account_detail_head": "Paskyros duomenys",
     "account_detail_subhead": "Įveskite HIVE galios delegacijai savo vartotojo vardą",
     "delegat_detail_head": "Delegacijos informacija",
-    "delegat_detail_subhead": "Nauja suma pakeis jau deleguotą Hive galią ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "Nauja suma",
     "review": "PERŽIŪRĖTI",
     "confirm": "Patvirtinti delegaciją",
@@ -780,7 +782,9 @@
     "line2_body": "Naudojantis blockchain, laisvas nuo cenzūros, decentralizuotas ir apdovanojantis.",
     "line3_heading": "Prisijung prie Ecency bendruomenių!",
     "line3_body": "Sukurt savo bendruomenę, gauk apdovanojimus ir apdovanok kitus.",
-    "get_started": "Pradėti!"
+    "get_started": "Pradėti!",
+    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
+    "terms_text": "Read Here!"
   },
   "time": {
     "second": "sekundės",

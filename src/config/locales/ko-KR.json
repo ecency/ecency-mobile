@@ -379,6 +379,7 @@
     "url": "URL",
     "enter_url_placeholder": "Enter URL",
     "link_type_text": "Type of Link",
+    "insert_link": "Insert Link",
     "preview": "Preview",
     "invalid_url_error": "Please insert valid url",
     "plain": "Plain",
@@ -488,7 +489,8 @@
     "restart_ecency_desc": "Applying changes will require a restart.",
     "invalid_response": "Could not process request, Try again later.",
     "wallet_updating": "Wallet update in progress, try again as update finishes",
-    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com"
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
+    "connection_issues": "The server is unreachable, please check your connection and try again."
   },
   "post": {
     "reblog_alert": "리블로그 하시겠습니까?",
@@ -635,7 +637,7 @@
     "account_detail_head": "Account Details",
     "account_detail_subhead": "Enter username for HIVE Power delegation",
     "delegat_detail_head": "Delegation Details",
-    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "New Amount",
     "review": "REVIEW",
     "confirm": "Confirm Delegation",
@@ -780,7 +782,9 @@
     "line2_body": "블록체인을 활용하여 검열이 없고 탈중앙화되고 보상해주고 있습니다.",
     "line3_heading": "에센시 커뮤니티 가입!",
     "line3_body": "자신이 소유한 커뮤니티를 구축하고 보상을 받고 다른 사람들에게 보상하세요.",
-    "get_started": "시작!"
+    "get_started": "시작!",
+    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
+    "terms_text": "Read Here!"
   },
   "time": {
     "second": "초",

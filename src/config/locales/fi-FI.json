@@ -379,6 +379,7 @@
     "url": "URL",
     "enter_url_placeholder": "Kirjoita URL-osoite",
     "link_type_text": "Linkin tyyppi",
+    "insert_link": "Insert Link",
     "preview": "Esikatselu",
     "invalid_url_error": "Syötä kelvollinen URL",
     "plain": "Yksinkertainen",
@@ -409,7 +410,7 @@
     "btn_insert": "Lisää",
     "btn_delete": "POISTA",
     "message_failed": "Kuvan lataaminen epäonnistui",
-    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
+    "failed_count": "Ei voitu ladata {failedCount} valituista kuvista {totalCount}"
   },
   "pincode": {
     "enter_text": "Poista lukitus antamalla PIN-koodi",
@@ -488,7 +489,8 @@
     "restart_ecency_desc": "Muutosten käyttöönotto vaatii uudelleenkäynnistyksen.",
     "invalid_response": "Pyyntöä ei voitu käsitellä, Yritä myöhemmin uudelleen.",
     "wallet_updating": "Lompakon päivitys käynnissä, yritä uudelleen päivityksen valmistuessa",
-    "claim_failed": "Palkintojen lunastaminen epäonnistui, {message}\nYritä uudelleen tai kirjoita osoitteeseen support@ecency.com"
+    "claim_failed": "Palkintojen lunastaminen epäonnistui, {message}\nYritä uudelleen tai kirjoita osoitteeseen support@ecency.com",
+    "connection_issues": "The server is unreachable, please check your connection and try again."
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
@@ -635,7 +637,7 @@
     "account_detail_head": "Tilin tiedot",
     "account_detail_subhead": "Anna HIVE Power -valtuutuksen saajan käyttäjänimi",
     "delegat_detail_head": "Valtuutuksen tiedot",
-    "delegat_detail_subhead": "Uusi arvo korvaa aiemman HIVE Power -valtuutuksen ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "Uusi määrä",
     "review": "VAHVISTA",
     "confirm": "Vahvista valtuutus",
@@ -658,7 +660,7 @@
     "title": "Hanki pisteitä",
     "buy": "Hanki Pisteitä",
     "next": "SEURAAVA",
-    "info": "Actual value of vote you receive may vary",
+    "info": "Antamasi äänen todellinen arvo voi vaihdella",
     "account": {
       "title": "Vastaanota Tilitehostus",
       "desc": "30 päivän valtuutus tehostaa ääniäsi ja sosiaalista toimintaa, antaen lisää toimintoja ja Resurssipisteitä."
@@ -780,7 +782,9 @@
     "line2_body": "Hyödynnetään lohkoketjuja, sensuurivapaa, hajautettu ja palkitseva.",
     "line3_heading": "Liity Ecencyn yhteisöihin!",
     "line3_body": "Rakenna omistamaasi yhteisöä, saa palkkioita ja palkitse muita.",
-    "get_started": "Aloitetaan!"
+    "get_started": "Aloitetaan!",
+    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
+    "terms_text": "Read Here!"
   },
   "time": {
     "second": "s",

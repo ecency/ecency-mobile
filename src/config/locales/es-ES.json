@@ -379,6 +379,7 @@
     "url": "URL",
     "enter_url_placeholder": "Introduce URL",
     "link_type_text": "Tipo de enlace",
+    "insert_link": "Insertar enlace",
     "preview": "Vista previa",
     "invalid_url_error": "Por favor, introduzca una url válida",
     "plain": "Sin formato",
@@ -488,7 +489,8 @@
     "restart_ecency_desc": "Aplicar cambios requerirá un reinicio.",
     "invalid_response": "No se pudo procesar la solicitud, inténtalo de nuevo más tarde.",
     "wallet_updating": "Actualización del monedero en progreso, inténtalo de nuevo cuando finalice la actualización",
-    "claim_failed": "Error al reclamar recompensas, {message}\nInténtalo de nuevo o escribe a support@ecency.com"
+    "claim_failed": "Error al reclamar recompensas, {message}\nInténtalo de nuevo o escribe a support@ecency.com",
+    "connection_issues": "El servidor no está disponible, por favor comprueba tu conexión e inténtalo de nuevo."
   },
   "post": {
     "reblog_alert": "¿Estás seguro de querer rebloguear?",
@@ -635,7 +637,7 @@
     "account_detail_head": "Detalles de Cuenta",
     "account_detail_subhead": "Introduce el nombre de usuario para la delegación de HIVE Power",
     "delegat_detail_head": "Detalles de Delegación",
-    "delegat_detail_subhead": "Nuevo monto sobrescribe el Hive Power ya delegado ",
+    "delegat_detail_subhead": "Nueva cantidad sobrescribe el monto anteriormente delegado de HIVE Power ",
     "new_amount": "Nuevo Monto",
     "review": "REVISIÓN",
     "confirm": "Confirmar Delegación",
@@ -780,7 +782,9 @@
     "line2_body": "Utilizando blockchain, sin censura, descentralizado y gratificante.",
     "line3_heading": "¡Únete a comunidades de Ecency!",
     "line3_body": "Construye tu propia comunidad, recibe recompensas y recompensa a otros.",
-    "get_started": "¡Empieza ya!"
+    "get_started": "¡Empieza ya!",
+    "terms_description": "Al aceptar, estás aceptando nuestros Términos de Servicio y Políticas de Privacidad.",
+    "terms_text": "¡Lee aquí!"
   },
   "time": {
     "second": "segundos",

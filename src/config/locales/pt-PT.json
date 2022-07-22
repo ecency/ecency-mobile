@@ -379,6 +379,7 @@
     "url": "URL",
     "enter_url_placeholder": "Introduzir URL",
     "link_type_text": "Tipo de Link",
+    "insert_link": "Inserir Link",
     "preview": "Visualizar",
     "invalid_url_error": "Por favor, insira um URL válido",
     "plain": "Simples",
@@ -409,7 +410,7 @@
     "btn_insert": "INSERIR",
     "btn_delete": "EXCLUIR",
     "message_failed": "Falha ao carregar imagem",
-    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
+    "failed_count": "Falha ao enviar {failedCount} de {totalCount} foto(s) selecionada(s)"
   },
   "pincode": {
     "enter_text": "Insira PIN para desbloquear",
@@ -488,7 +489,8 @@
     "restart_ecency_desc": "Aplicar alterações exigirá uma reinicialização.",
     "invalid_response": "Não foi possível processar o pedido. Tente mais tarde.",
     "wallet_updating": "Atualização da carteira em andamento. Tente novamente quando terminada",
-    "claim_failed": "Falha ao reivindicar recompensas, {message}\nTente novamente ou escreva para support@ecency.com"
+    "claim_failed": "Falha ao reivindicar recompensas, {message}\nTente novamente ou escreva para support@ecency.com",
+    "connection_issues": "The server is unreachable, please check your connection and try again."
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
@@ -635,7 +637,7 @@
     "account_detail_head": "Detalhes da Conta",
     "account_detail_subhead": "Digite o nome da conta para delegação de HIVE Power",
     "delegat_detail_head": "Detalhes da Delegação",
-    "delegat_detail_subhead": "Nova quantia substitui a quantidade de HIVE Power já delegado ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "Nova Quantia",
     "review": "REVER",
     "confirm": "Confirmar Delegação",
@@ -658,7 +660,7 @@
     "title": "Obter Pontos",
     "buy": "OBTER Pontos",
     "next": "SEGUINTE",
-    "info": "Actual value of vote you receive may vary",
+    "info": "O valor real de voto que você recebe pode variar",
     "account": {
       "title": "Obter Impulso na Conta",
       "desc": "30 dias de delegação irão impulsionar seus votos e atividades sociais, permitindo mais ações com o aumento dos Créditos de Recursos disponibilizados."
@@ -780,7 +782,9 @@
     "line2_body": "Utilizando uma blockchain livre de censura, descentralizada e recompensante.",
     "line3_heading": "Junte-se às comunidades da Ecency!",
     "line3_body": "Crie e seja dono de uma comunidade. Seja recompensado e recompense.",
-    "get_started": "Comece agora!"
+    "get_started": "Comece agora!",
+    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
+    "terms_text": "Read Here!"
   },
   "time": {
     "second": "segundos",

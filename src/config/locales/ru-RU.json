@@ -379,6 +379,7 @@
     "url": "Ссылка",
     "enter_url_placeholder": "Введите Ссылку",
     "link_type_text": "Тип ссылки",
+    "insert_link": "Insert Link",
     "preview": "Предпросмотр",
     "invalid_url_error": "Пожалуйста, введите действительную ссылку",
     "plain": "Обычный",
@@ -488,7 +489,8 @@
     "restart_ecency_desc": "Applying changes will require a restart.",
     "invalid_response": "Could not process request, Try again later.",
     "wallet_updating": "Выполняется обновление кошелька, попробуйте еще раз после завершения обновления",
-    "claim_failed": "Не удалось получить награды, {message}\nПовторите попытку или напишите нам на support@ecency.com"
+    "claim_failed": "Не удалось получить награды, {message}\nПовторите попытку или напишите нам на support@ecency.com",
+    "connection_issues": "The server is unreachable, please check your connection and try again."
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
@@ -635,7 +637,7 @@
     "account_detail_head": "Детали учетной записи",
     "account_detail_subhead": "Введите имя пользователя для делегирования HIVE Power",
     "delegat_detail_head": "Детали делегирования",
-    "delegat_detail_subhead": "Новая сумма перезаписывает уже делегированную силу ВИЧ ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "Новая сумма",
     "review": "ОБЗОР",
     "confirm": "Подтвердите делегирование",
@@ -780,7 +782,9 @@
     "line2_body": "Использование блокчейна, без цензуры, децентрализованное и награждающее.",
     "line3_heading": "Присоединяйтесь к Ecency сообществам!",
     "line3_body": "Постройте собственное сообщество, получайте награды и награждайте других.",
-    "get_started": "Начать!"
+    "get_started": "Начать!",
+    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
+    "terms_text": "Read Here!"
   },
   "time": {
     "second": "секунд",
