@@ -249,6 +249,10 @@ export default EStyleSheet.create({
     padding: 16,
     backgroundColor: '$primaryBackgroundColor',
   },
+  avoidingViewContainer: {
+    flex: 1,
+    backgroundColor: '$primaryBackgroundColor',
+  },
   elevate: {
     zIndex: 1,
   },

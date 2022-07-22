@@ -1,25 +1,24 @@
 import React, { Fragment, useState, useRef } from 'react';
-import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { hsOptions } from '../../../constants/hsOptions';
 import AUTH_TYPE from '../../../constants/authType';
 
 import {
   BasicHeader,
-  TextInput,
-  TransferFormItem,
   MainButton,
-  DropdownButton,
-  UserAvatar,
-  Icon,
   Modal,
+  TransferAccountSelector,
+  TransferAmountInputSection,
 } from '../../../components';
 
 import styles from './transferStyles';
 import { OptionsModal } from '../../../components/atoms';
+import transferTypes from '../../../constants/transferTypes';
 
 const TransferView = ({
   currentAccountName,
@@ -65,9 +64,6 @@ const TransferView = ({
   const [isTransfering, setIsTransfering] = useState(false);
   const confirm = useRef(null);
 
-  //useEffect(() => {
-  //}, []);
-
   const _handleTransferAction = () => {
     setIsTransfering(true);
     if (accountType === AUTH_TYPE.STEEM_CONNECT) {
@@ -77,76 +73,9 @@ const TransferView = ({
     }
   };
 
-  const _handleOnChange = (state, val) => {
-    let _amount = val.toString();
-    if (_amount.includes(',')) {
-      _amount = val.replace(',', '.');
-    }
-    if (state === 'amount') {
-      if (parseFloat(Number(_amount)) <= parseFloat(balance)) {
-        setAmount(_amount);
-      }
-    }
-    if (state === 'destination') {
-      getAccountsWithUsername(val).then((res) => {
-        const isValid = res.includes(val);
-
-        setIsUsernameValid(isValid);
-      });
-      setDestination(_amount);
-    }
-    if (state === 'memo') {
-      setMemo(_amount);
-    }
-  };
-
-  const _renderInput = (placeholder, state, keyboardType, isTextArea) => (
-    <TextInput
-      style={[isTextArea ? styles.textarea : styles.input]}
-      onChangeText={(amount) => _handleOnChange(state, amount)}
-      value={
-        state === 'destination'
-          ? destination
-          : state === 'amount'
-          ? amount
-          : state === 'memo'
-          ? memo
-          : ''
-      }
-      placeholder={placeholder}
-      placeholderTextColor="#c1c5c7"
-      autoCapitalize="none"
-      multiline={isTextArea}
-      numberOfLines={isTextArea ? 4 : 1}
-      keyboardType={keyboardType}
-    />
-  );
-  const _renderDropdown = (accounts, currentAccountName) => (
-    <DropdownButton
-      dropdownButtonStyle={styles.dropdownButtonStyle}
-      rowTextStyle={styles.rowTextStyle}
-      style={styles.dropdown}
-      dropdownStyle={styles.dropdownStyle}
-      textStyle={styles.dropdownText}
-      options={accounts.map((item) => item.username)}
-      defaultText={currentAccountName}
-      selectedOptionIndex={accounts.findIndex((item) => item.username === currentAccountName)}
-      onSelect={(index, value) => _handleOnDropdownChange(value)}
-    />
-  );
-
-  const _handleOnDropdownChange = (value) => {
-    fetchBalance(value);
-    setFrom(value);
-    if (transferType === 'convert') {
-      setDestination(value);
-    }
-  };
-
-  const _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
   let path;
   if (hsTransfer) {
-    if (transferType === 'points') {
+    if (transferType !== transferTypes.CONVERT) {
       const json = JSON.stringify({
         sender: get(selectedAccount, 'name'),
         receiver: destination,
@@ -159,27 +88,30 @@ const TransferView = ({
       )}%22%5D&required_posting_auths=%5B%5D&id=ecency_point_transfer&json=${encodeURIComponent(
         json,
       )}`;
-    } else if (transferType === 'transfer_to_savings') {
+    } else if (transferType === transferTypes.TRANSFER_TO_SAVINGS) {
       path = `sign/transfer_to_savings?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&memo=${encodeURIComponent(memo)}`;
-    } else if (transferType === 'delegate_vesting_shares') {
+    } else if (transferType === transferTypes.DELEGATE_VESTING_SHARES) {
       path = `sign/delegate_vesting_shares?delegator=${currentAccountName}&delegatee=${destination}&vesting_shares=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;
-    } else if (transferType === 'transfer_to_vesting') {
+    } else if (transferType === transferTypes.TRANSFER_TO_VESTING) {
       path = `sign/transfer_to_vesting?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;
-    } else if (transferType === 'withdraw_hive' || transferType === 'withdraw_hbd') {
+    } else if (
+      transferType === transferTypes.WITHDRAW_HIVE ||
+      transferType === transferTypes.WITHDRAW_HBD
+    ) {
       path = `sign/transfer_from_savings?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&request_id=${new Date().getTime() >>> 0}`;
-    } else if (transferType === 'convert') {
+    } else if (transferType === transferTypes.CONVERT) {
       path = `sign/convert?owner=${currentAccountName}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&requestid=${new Date().getTime() >>> 0}`;
-    } else if (transferType === 'withdraw_vesting') {
+    } else if (transferType === transferTypes.WITHDRAW_VESTING) {
       path = `sign/withdraw_vesting?account=${currentAccountName}&vesting_shares=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}`;
@@ -192,78 +124,45 @@ const TransferView = ({
   return (
     <Fragment>
       <BasicHeader title={intl.formatMessage({ id: `transfer.${transferType}` })} />
-      <View style={styles.container}>
-        <ScrollView contentContainerStyle={styles.fullHeight}>
-          <View style={[styles.toFromAvatarsContainer, { marginBottom: 16 }]}>
-            <UserAvatar username={from} size="xl" style={styles.userAvatar} noAction />
-            <Icon style={styles.icon} name="arrow-forward" iconType="MaterialIcons" />
-            <UserAvatar username={destination} size="xl" style={styles.userAvatar} noAction />
-          </View>
-          <View style={styles.middleContent}>
-            <TransferFormItem
-              label={intl.formatMessage({ id: 'transfer.from' })}
-              rightComponent={() => _renderDropdown(accounts, currentAccountName)}
-            />
-            {transferType !== 'convert' && (
-              <TransferFormItem
-                label={intl.formatMessage({ id: 'transfer.to' })}
-                rightComponent={() =>
-                  _renderInput(
-                    intl.formatMessage({ id: 'transfer.to_placeholder' }),
-                    'destination',
-                    'default',
-                  )
-                }
-              />
-            )}
-            <TransferFormItem
-              label={intl.formatMessage({ id: 'transfer.amount' })}
-              rightComponent={() =>
-                _renderInput(intl.formatMessage({ id: 'transfer.amount' }), 'amount', 'numeric')
-              }
-            />
-            <TransferFormItem
-              rightComponent={() => (
-                <TouchableOpacity onPress={() => _handleOnChange('amount', balance)}>
-                  {_renderDescription(
-                    `${intl.formatMessage({
-                      id: 'transfer.amount_desc',
-                    })} ${balance} ${fundType === 'ESTM' ? 'Points' : fundType}`,
-                  )}
-                </TouchableOpacity>
-              )}
-            />
-            {(transferType === 'points' ||
-              transferType === 'transfer_token' ||
-              transferType === 'transfer_to_savings') && (
-              <TransferFormItem
-                label={intl.formatMessage({ id: 'transfer.memo' })}
-                rightComponent={() =>
-                  _renderInput(
-                    intl.formatMessage({ id: 'transfer.memo_placeholder' }),
-                    'memo',
-                    'default',
-                    true,
-                  )
-                }
-              />
-            )}
-            {(transferType === 'points' || transferType === 'transfer_token') && (
-              <TransferFormItem
-                containerStyle={{ marginTop: 40 }}
-                rightComponent={() =>
-                  _renderDescription(intl.formatMessage({ id: 'transfer.memo_desc' }))
-                }
-              />
-            )}
-            {transferType === 'convert' && (
-              <TransferFormItem
-                rightComponent={() =>
-                  _renderDescription(intl.formatMessage({ id: 'transfer.convert_desc' }))
-                }
-              />
-            )}
-          </View>
+
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps
+        contentContainerStyle={[styles.grow, { padding: 16 }]}
+      >
+        <View style={styles.container}>
+          <TransferAccountSelector
+            accounts={accounts}
+            currentAccountName={currentAccountName}
+            transferType={transferType}
+            balance={balance}
+            fetchBalance={fetchBalance}
+            getAccountsWithUsername={getAccountsWithUsername}
+            from={from}
+            setFrom={setFrom}
+            destination={destination}
+            setDestination={setDestination}
+            amount={amount}
+            setAmount={setAmount}
+            setIsUsernameValid={setIsUsernameValid}
+            memo={memo}
+            setMemo={setMemo}
+          />
+          <TransferAmountInputSection
+            balance={balance}
+            getAccountsWithUsername={getAccountsWithUsername}
+            setIsUsernameValid={setIsUsernameValid}
+            setDestination={setDestination}
+            destination={destination}
+            memo={memo}
+            setMemo={setMemo}
+            amount={amount}
+            setAmount={setAmount}
+            hsTransfer={hsTransfer}
+            transferType={transferType}
+            selectedAccount={selectedAccount}
+            fundType={fundType}
+            currentAccountName={currentAccountName}
+          />
           <View style={styles.bottomContent}>
             <MainButton
               style={styles.button}
@@ -274,8 +173,9 @@ const TransferView = ({
               <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
             </MainButton>
           </View>
-        </ScrollView>
-      </View>
+        </View>
+      </KeyboardAwareScrollView>
+
       <OptionsModal
         ref={confirm}
         options={[
