@@ -53,6 +53,12 @@ export default EStyleSheet.create({
     fontWeight: '600',
     textAlign: 'right',
   },
+  centerDescription: {
+    marginTop:8,
+    fontSize: 12,
+    color: '$primaryBlack',
+    fontWeight: '600',
+  },
   transferItemContainer: {
     height: 20,
   },

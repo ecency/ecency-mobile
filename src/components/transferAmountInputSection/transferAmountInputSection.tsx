@@ -89,6 +89,7 @@ const TransferAmountInputSection = ({
   );
 
   const _renderDescription = (text) => <Text style={styles.description}>{text}</Text>;
+  const _renderCenterDescription = (text) => <Text style={styles.centerDescription}>{text}</Text>;
 
   return (
     <View style={styles.stepTwoContainer}>
@@ -145,7 +146,7 @@ const TransferAmountInputSection = ({
       {transferType === transferTypes.CONVERT && (
         <TransferFormItem
           rightComponent={() =>
-            _renderDescription(intl.formatMessage({ id: 'transfer.convert_desc' }))
+            _renderCenterDescription(intl.formatMessage({ id: 'transfer.convert_desc' }))
           }
         />
       )}
