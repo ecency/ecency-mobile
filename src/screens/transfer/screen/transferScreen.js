@@ -1,9 +1,10 @@
 import React, { Fragment, useState, useRef } from 'react';
-import { Text, View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { hsOptions } from '../../../constants/hsOptions';
 import AUTH_TYPE from '../../../constants/authType';
 
@@ -123,62 +124,57 @@ const TransferView = ({
   return (
     <Fragment>
       <BasicHeader title={intl.formatMessage({ id: `transfer.${transferType}` })} />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.avoidingViewContainer}
+
+      <KeyboardAwareScrollView
         keyboardShouldPersistTaps
+        contentContainerStyle={[styles.grow, { padding: 16 }]}
       >
-        <ScrollView
-          keyboardShouldPersistTaps
-          contentContainerStyle={[styles.grow, { padding: 16 }]}
-        >
-          <View style={styles.container}>
-            <TransferAccountSelector
-              accounts={accounts}
-              currentAccountName={currentAccountName}
-              transferType={transferType}
-              balance={balance}
-              fetchBalance={fetchBalance}
-              getAccountsWithUsername={getAccountsWithUsername}
-              from={from}
-              setFrom={setFrom}
-              destination={destination}
-              setDestination={setDestination}
-              amount={amount}
-              setAmount={setAmount}
-              setIsUsernameValid={setIsUsernameValid}
-              memo={memo}
-              setMemo={setMemo}
-            />
-            <TransferAmountInputSection
-              balance={balance}
-              getAccountsWithUsername={getAccountsWithUsername}
-              setIsUsernameValid={setIsUsernameValid}
-              setDestination={setDestination}
-              destination={destination}
-              memo={memo}
-              setMemo={setMemo}
-              amount={amount}
-              setAmount={setAmount}
-              hsTransfer={hsTransfer}
-              transferType={transferType}
-              selectedAccount={selectedAccount}
-              fundType={fundType}
-              currentAccountName={currentAccountName}
-            />
-            <View style={styles.bottomContent}>
-              <MainButton
-                style={styles.button}
-                isDisable={!(amount >= 0.001 && isUsernameValid)}
-                onPress={() => confirm.current.show()}
-                isLoading={isTransfering}
-              >
-                <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
-              </MainButton>
-            </View>
+        <View style={styles.container}>
+          <TransferAccountSelector
+            accounts={accounts}
+            currentAccountName={currentAccountName}
+            transferType={transferType}
+            balance={balance}
+            fetchBalance={fetchBalance}
+            getAccountsWithUsername={getAccountsWithUsername}
+            from={from}
+            setFrom={setFrom}
+            destination={destination}
+            setDestination={setDestination}
+            amount={amount}
+            setAmount={setAmount}
+            setIsUsernameValid={setIsUsernameValid}
+            memo={memo}
+            setMemo={setMemo}
+          />
+          <TransferAmountInputSection
+            balance={balance}
+            getAccountsWithUsername={getAccountsWithUsername}
+            setIsUsernameValid={setIsUsernameValid}
+            setDestination={setDestination}
+            destination={destination}
+            memo={memo}
+            setMemo={setMemo}
+            amount={amount}
+            setAmount={setAmount}
+            hsTransfer={hsTransfer}
+            transferType={transferType}
+            selectedAccount={selectedAccount}
+            fundType={fundType}
+            currentAccountName={currentAccountName}
+          />
+          <View style={styles.bottomContent}>
+            <MainButton
+              style={styles.button}
+              isDisable={!(amount >= 0.001 && isUsernameValid)}
+              onPress={() => confirm.current.show()}
+              isLoading={isTransfering}
+            >
+              <Text style={styles.buttonText}>{intl.formatMessage({ id: 'transfer.next' })}</Text>
+            </MainButton>
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        </View>
+      </KeyboardAwareScrollView>
 
       <OptionsModal
         ref={confirm}
