@@ -655,10 +655,10 @@
     "powering_down_info": "El siguiente apagado es en {days} días, {hp} HIVE",
     "invalid_amount": "Cantidad no válida",
     "invalid_amount_desc": "Por favor, introduce una cantidad válida",
-    "account_select_title": "Account Details",
-    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
-    "amount_select_title": "Transfer Details",
-    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
+    "account_select_title": "Detalles de Cuenta",
+    "account_select_description": "Las operaciones relacionadas con los fondos son irreversibles, asegúrate de que el nombre de usuario del receptor es correcto",
+    "amount_select_title": "Detalles de Transferencia",
+    "amount_select_description": "Introduce la cantidad de la transferencia dentro del saldo máximo disponible y debe ser mayor que 0.001"
   },
   "boost": {
     "title": "Obtener Puntos",
