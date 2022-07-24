@@ -144,13 +144,14 @@ class ApplicationContainer extends Component {
     this._fetchApp();
 
     ReceiveSharingIntent.getReceivedFiles(
-      () => {
+      files => {
         navigate({
           routeName: ROUTES.SCREENS.EDITOR,
-          params: { hasSharedIntent: true },
+          params: { hasSharedIntent: true, files },
         });
         // files returns as JSON Array example
         //[{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]
+        ReceiveSharingIntent.clearReceivedFiles();  // clear Intents
       },
       (error) => {
         console.log('error :>> ', error);

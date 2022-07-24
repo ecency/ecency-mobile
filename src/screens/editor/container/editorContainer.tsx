@@ -156,15 +156,12 @@ class EditorContainer extends Component<any, any> {
       if (navigationParams.action) {
         this._handleRoutingAction(navigationParams.action);
       }
-    }
 
-    if (!isEdit && !_draft && !draftId && !hasSharedIntent) {
-      this._fetchDraftsForComparison(isReply);
-    }
-    this._requestKeyboardFocus();
-
-    ReceiveSharingIntent.getReceivedFiles(
-      (files) => {
+      // handle file/text shared from ReceiveSharingIntent
+      if(hasSharedIntent){
+        const files = navigationParams.files;
+        console.log('files : ', files);
+        
         files.forEach((el) => {
           if (el.filePath && el.fileName) {
             const _media = {
@@ -180,13 +177,13 @@ class EditorContainer extends Component<any, any> {
             });
           }
         });
-        // To clear Intents
-        ReceiveSharingIntent.clearReceivedFiles();
-      },
-      (error) => {
-        console.log('error :>> ', error);
-      },
-    );
+      }
+    }
+
+    if (!isEdit && !_draft && !draftId && !hasSharedIntent) {
+      this._fetchDraftsForComparison(isReply);
+    }
+    this._requestKeyboardFocus();
   }
 
   componentWillUnmount() {
