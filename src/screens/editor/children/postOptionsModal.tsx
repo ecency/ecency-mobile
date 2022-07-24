@@ -2,12 +2,11 @@ import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'rea
 import { useIntl } from 'react-intl';
 import { View } from 'react-native';
 
-import { DateTimePicker, MainButton, Modal, SettingsItem } from '../../../components';
+import { BeneficiarySelectionContent, DateTimePicker, MainButton, Modal, SettingsItem } from '../../../components';
 import styles from './postOptionsModalStyles';
 import ThumbSelectionContent from './thumbSelectionContent';
 import {View as AnimatedView} from 'react-native-animatable';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import BeneficiarySelectionContent from './beneficiarySelectionContent';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 const REWARD_TYPES = [

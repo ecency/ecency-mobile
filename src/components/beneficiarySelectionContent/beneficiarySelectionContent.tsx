@@ -75,7 +75,7 @@ const BeneficiarySelectionContent = ({
   const readPowerDownBeneficiaries = () => {
     const tempBeneficiaries = [
       { account: username, weight: 10000, autoPowerUp: false },
-      ...powerDownBeneficiaries,
+      ...powerDownBeneficiaries as Beneficiary[],
     ];
 
     if (isArray(tempBeneficiaries) && tempBeneficiaries.length > 0) {
