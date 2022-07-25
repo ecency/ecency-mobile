@@ -654,7 +654,11 @@
     "powering_down_subheading": "Olet alentamassa tehoa.",
     "powering_down_info": "Seuraavaan tehonalennukseen on {days} päivää, {hp} HIVE",
     "invalid_amount": "Virheellinen määrä",
-    "invalid_amount_desc": "Syötä kelvollinen arvo"
+    "invalid_amount_desc": "Syötä kelvollinen arvo",
+    "account_select_title": "Account Details",
+    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
+    "amount_select_title": "Transfer Details",
+    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
   },
   "boost": {
     "title": "Hanki pisteitä",

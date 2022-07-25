@@ -654,7 +654,11 @@
     "powering_down_subheading": "Você está atualmente fazendo power down.",
     "powering_down_info": "O próximo power down será em {days} dias, {hp} HIVE",
     "invalid_amount": "Quantia Inválida",
-    "invalid_amount_desc": "Por favor, insira uma quantia válida"
+    "invalid_amount_desc": "Por favor, insira uma quantia válida",
+    "account_select_title": "Account Details",
+    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
+    "amount_select_title": "Transfer Details",
+    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
   },
   "boost": {
     "title": "Obter Pontos",
