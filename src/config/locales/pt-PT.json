@@ -637,7 +637,7 @@
     "account_detail_head": "Detalhes da Conta",
     "account_detail_subhead": "Digite o nome da conta para delegação de HIVE Power",
     "delegat_detail_head": "Detalhes da Delegação",
-    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
+    "delegat_detail_subhead": "Nova quantia substitui a quantidade de Poder HIVE já delegado ",
     "new_amount": "Nova Quantia",
     "review": "REVER",
     "confirm": "Confirmar Delegação",
@@ -655,9 +655,9 @@
     "powering_down_info": "O próximo power down será em {days} dias, {hp} HIVE",
     "invalid_amount": "Quantia Inválida",
     "invalid_amount_desc": "Por favor, insira uma quantia válida",
-    "account_select_title": "Account Details",
-    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
-    "amount_select_title": "Transfer Details",
+    "account_select_title": "Detalhes da Conta",
+    "account_select_description": "Operações de envio monetário são irreversíveis. Certifique-se que o nome da conta dos destinatários está correto",
+    "amount_select_title": "Detalhes da Transferência",
     "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
   },
   "boost": {
@@ -787,8 +787,8 @@
     "line3_heading": "Junte-se às comunidades da Ecency!",
     "line3_body": "Crie e seja dono de uma comunidade. Seja recompensado e recompense.",
     "get_started": "Comece agora!",
-    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
-    "terms_text": "Read Here!"
+    "terms_description": "Ao aceitar, você concorda com nossos Termos de Serviço e Políticas de Privacidade.",
+    "terms_text": "Leia Aqui!"
   },
   "time": {
     "second": "segundos",
