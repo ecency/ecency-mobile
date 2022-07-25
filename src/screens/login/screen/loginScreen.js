@@ -62,6 +62,9 @@ class LoginScreen extends PureComponent {
     this.setState({ isModalOpen: !isModalOpen });
   };
 
+  _handleFormInputFocus = (isFocused) => {
+    this.setState({ keyboardIsOpen: isFocused });
+  };
   render() {
     const { navigation, intl, handleOnPressLogin, handleSignUp, isLoading } = this.props;
     const { username, isUsernameValid, keyboardIsOpen, password, isModalOpen } = this.state;
@@ -102,8 +105,6 @@ class LoginScreen extends PureComponent {
             style={styles.tabbarItem}
           >
             <KeyboardAwareScrollView
-              onKeyboardWillShow={() => this.setState({ keyboardIsOpen: true })}
-              onKeyboardWillHide={() => this.setState({ keyboardIsOpen: false })}
               enableAutoAutomaticScroll={Platform.OS === 'ios'}
               contentContainerStyle={styles.formWrapper}
               enableOnAndroid={true}
@@ -122,6 +123,7 @@ class LoginScreen extends PureComponent {
                 isFirstImage
                 value={username}
                 inputStyle={styles.input}
+                handleFocus={this._handleFormInputFocus}
               />
               <FormInput
                 rightIconName="lock"
@@ -136,6 +138,7 @@ class LoginScreen extends PureComponent {
                 type="password"
                 numberOfLines={1}
                 inputStyle={styles.input}
+                handleFocus={this._handleFormInputFocus}
               />
               <InformationArea
                 description={intl.formatMessage({

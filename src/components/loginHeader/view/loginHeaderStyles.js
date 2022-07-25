@@ -48,6 +48,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '$primaryBackgroundColor',
+    paddingVertical: 8,
   },
   logo: {
     width: 32,
