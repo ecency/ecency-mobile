@@ -128,11 +128,14 @@ class PinCodeContainer extends Component {
     } catch (err) {
       console.warn('Failed to process biometric', err);
     }
+
+    FingerprintScanner.release();
   };
 
   //this function updates realm with appropriate master key required for encyrption
   //this function is important: must run while chaning pin
   //and even logging in with existing pin code
+  //TODO: make sure this routine is not called
   _updatePinCodeRealm = async (pinData) => {
     try {
       const { currentAccount, dispatch } = this.props;
@@ -256,12 +259,14 @@ class PinCodeContainer extends Component {
       } = this.props;
       const { oldPinCode } = this.state;
 
+      //TOOD: make sure user is set with defualt pin here.
       const pinData = {
         pinCode: pin,
         password: currentAccount ? currentAccount.password : '',
         username: currentAccount ? currentAccount.name : '',
         accessToken,
       };
+
       setUserDataWithPinCode(pinData).then((response) => {
         getUser(currentAccount.name).then((user) => {
           const _currentAccount = user;
@@ -390,6 +395,7 @@ class PinCodeContainer extends Component {
         });
     });
 
+  //TODO: make sure pinCode is rather saved as different redux state, encryptedUnlockPin
   _savePinCode = (pin) => {
     const { dispatch } = this.props;
     const encryptedPin = encryptKey(pin, Config.PIN_KEY);
