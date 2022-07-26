@@ -229,6 +229,7 @@
       "delegations": "Delegations"
     },
     "pincode": "PIN code",
+    "biometric": "TouchId / FaceId Unlock",
     "reset_pin": "Reset Pin Code",
     "reset": "Reset",
     "nsfw_content": "NSFW",

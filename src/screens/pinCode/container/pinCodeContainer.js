@@ -104,9 +104,10 @@ class PinCodeContainer extends Component {
       const {
         pinCodeParams: { isReset },
         applicationPinCode,
+        isBiometricEnabled,
       } = this.props;
 
-      if (isReset) {
+      if (isReset || !isBiometricEnabled) {
         return;
       }
 
@@ -566,6 +567,7 @@ const mapStateToProps = (state) => ({
   applicationPinCode: state.application.pin,
   otherAccounts: state.account.otherAccounts,
   pinCodeParams: state.application.pinCodeNavigation,
+  isBiometricEnabled: state.application.isBiometricEnabled,
 });
 
 export default injectIntl(connect(mapStateToProps)(PinCodeContainer));

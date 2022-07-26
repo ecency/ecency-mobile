@@ -43,6 +43,7 @@ import {
   logoutDone,
   closePinCodeModal,
   setColorTheme,
+  setIsBiometricEnabled,
 } from '../../../redux/actions/applicationActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { setPushToken, getNodes } from '../../../providers/ecency/ecency';
@@ -238,6 +239,14 @@ class SettingsContainer extends Component {
             }),
           );
         }
+        break;
+
+      case 'biometric':
+        dispatch(
+          openPinCodeModal({
+            callback: () => dispatch(setIsBiometricEnabled(action)),
+          }),
+        );
         break;
       default:
         break;
@@ -483,6 +492,7 @@ const mapStateToProps = (state) => ({
   isDarkTheme: state.application.isDarkTheme,
   colorTheme: state.application.colorTheme,
   isPinCodeOpen: state.application.isPinCodeOpen,
+  isBiometricEnabled: state.application.isBiometricEnabled,
   pinCode: state.application.pin,
   isDefaultFooter: state.application.isDefaultFooter,
   isLoggedIn: state.application.isLoggedIn,

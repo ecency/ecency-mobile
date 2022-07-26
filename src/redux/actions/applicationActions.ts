@@ -31,7 +31,8 @@ import {
   SET_COLOR_THEME,
   SET_SETTINGS_MIGRATED,
   HIDE_POSTS_THUMBNAILS,
-  SET_TERMS_ACCEPTED
+  SET_TERMS_ACCEPTED,
+  SET_IS_BIOMETRIC_ENABLED
 } from '../constants/constants';
 
 export const login = (payload) => ({
@@ -207,6 +208,11 @@ export const setHidePostsThumbnails = (shouldHide:boolean) => ({
 export const setIsTermsAccepted = (isTermsAccepted:boolean) => ({
   payload:isTermsAccepted,
   type: SET_TERMS_ACCEPTED
+})
+
+export const setIsBiometricEnabled = (enabled:boolean) => ({
+  payload:enabled,
+  type: SET_IS_BIOMETRIC_ENABLED
 })
 
 
