@@ -64,6 +64,7 @@ allprojects {
                 includeGroup("com.henninghall.android")
                 includeGroup("org.matomo.sdk")
                 includeModule("com.yqritc", "android-scalablevideoview")
+                includeModule("com.wei.android.lib", "fingerprintidentify")
             }
         }
     }
