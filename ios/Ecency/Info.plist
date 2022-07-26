@@ -74,6 +74,8 @@
 	<string>Photo Library Access for allowing user to download and upload photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Photo Usage Access for allowing user to upload photos</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Ecency requires FaceID access to allow you quick and secure access.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>

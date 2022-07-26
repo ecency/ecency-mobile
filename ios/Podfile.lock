@@ -346,6 +346,8 @@ PODS:
     - React-Core
   - react-native-date-picker (4.2.0):
     - React-Core
+  - react-native-fingerprint-scanner (6.0.0):
+    - React
   - react-native-matomo-sdk (0.4.1):
     - MatomoTracker (~> 7)
     - React (~> 0.60)
@@ -530,6 +532,7 @@ DEPENDENCIES:
   - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
   - react-native-config (from `../node_modules/react-native-config`)
   - react-native-date-picker (from `../node_modules/react-native-date-picker`)
+  - react-native-fingerprint-scanner (from `../node_modules/react-native-fingerprint-scanner`)
   - react-native-matomo-sdk (from `../node_modules/react-native-matomo-sdk`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-orientation-locker (from `../node_modules/react-native-orientation-locker`)
@@ -652,6 +655,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-config"
   react-native-date-picker:
     :path: "../node_modules/react-native-date-picker"
+  react-native-fingerprint-scanner:
+    :path: "../node_modules/react-native-fingerprint-scanner"
   react-native-matomo-sdk:
     :path: "../node_modules/react-native-matomo-sdk"
   react-native-netinfo:
@@ -784,6 +789,7 @@ SPEC CHECKSUMS:
   react-native-cameraroll: e2917a5e62da9f10c3d525e157e25e694d2d6dfa
   react-native-config: c98128a72bc2c3a1ca72caec0b021f0fa944aa29
   react-native-date-picker: d83ab9cccbc497642a93fdca783ae76ecd6b17b6
+  react-native-fingerprint-scanner: ac6656f18c8e45a7459302b84da41a44ad96dbbe
   react-native-matomo-sdk: 025c54f92e1e26a4d0acee7c3f28cb0fc7e4729c
   react-native-netinfo: 30fb89fa913c342be82a887b56e96be6d71201dd
   react-native-orientation-locker: 2da91e5391971dace445495821c899c111dcad7a
@@ -833,4 +839,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 0282022703ad578ab2d9afbf3147ba3b373b4311
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3
