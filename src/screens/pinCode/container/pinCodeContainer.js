@@ -114,7 +114,7 @@ class PinCodeContainer extends Component {
       const biometryType = await FingerprintScanner.isSensorAvailable();
       console.log('biometryType is => ', biometryType);
 
-      await FingerprintScanner.authenticate({ description: 'Scan your biometric to continue' });
+      await FingerprintScanner.authenticate();
       console.log('successfully passed biometric auth');
 
       //code gets here means biometeric succeeded
