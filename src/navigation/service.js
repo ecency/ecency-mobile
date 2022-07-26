@@ -1,3 +1,4 @@
+import { BackHandler } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 
 let _navigator;
@@ -24,6 +25,17 @@ const navigate = (navigationProps) => {
   }
 };
 
+const navigateBack = () => {
+  if (_navigator) {
+    const { index } = _navigator.state.nav.routes[0];
+    if (index) {
+      _navigator.dispatch(NavigationActions.back());
+    } else {
+      BackHandler.exitApp();
+    }
+  }
+};
+
 // add other navigation functions that you need and export them
 
-export { navigate, setTopLevelNavigator };
+export { navigate, setTopLevelNavigator, navigateBack };

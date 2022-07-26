@@ -49,7 +49,7 @@ import {
   getUnreadNotificationCount,
 } from '../../../providers/ecency/ecency';
 import { fetchLatestAppVersion } from '../../../providers/github/github';
-import { navigate } from '../../../navigation/service';
+import { navigate, navigateBack } from '../../../navigation/service';
 
 // Actions
 import {
@@ -566,14 +566,15 @@ class ApplicationContainer extends Component {
   };
 
   _onBackPress = () => {
+    navigateBack();
+    /* 
     const { dispatch, nav } = this.props;
-
     if (nav && nav[0].index !== 0) {
       dispatch(NavigationActions.back());
     } else {
       BackHandler.exitApp();
     }
-
+    */
     return true;
   };
 
