@@ -5,6 +5,10 @@ export default EStyleSheet.create({
     flex: 1,
     backgroundColor: '$primaryBackgroundColor',
   },
+  keyboardAwareScrollContainer: {
+    backgroundColor: '$primaryBackgroundColor',
+    padding: 16,
+  },
   stepOneContainer: {
     zIndex: 2,
     paddingVertical: 16,
