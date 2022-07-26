@@ -658,7 +658,7 @@
     "account_select_title": "Detalhes da Conta",
     "account_select_description": "Operações de envio monetário são irreversíveis. Certifique-se que o nome da conta dos destinatários está correto",
     "amount_select_title": "Detalhes da Transferência",
-    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
+    "amount_select_description": "Insira uma quantia a ser transferida dentro do seu saldo disponível. O valor deverá ser superior a 0.001"
   },
   "boost": {
     "title": "Obter Pontos",
