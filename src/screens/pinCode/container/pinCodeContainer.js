@@ -102,6 +102,7 @@ class PinCodeContainer extends Component {
   _processBiometric = async () => {
     try {
       const {
+        intl,
         pinCodeParams: { isReset },
         applicationPinCode,
         isBiometricEnabled,
@@ -114,7 +115,9 @@ class PinCodeContainer extends Component {
       const biometryType = await FingerprintScanner.isSensorAvailable();
       console.log('biometryType is => ', biometryType);
 
-      await FingerprintScanner.authenticate();
+      await FingerprintScanner.authenticate({
+        description: intl.formatMessage({ id: 'pincode.biometric_desc' }),
+      });
       console.log('successfully passed biometric auth');
 
       //code gets here means biometeric succeeded
