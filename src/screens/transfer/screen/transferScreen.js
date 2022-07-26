@@ -127,7 +127,7 @@ const TransferView = ({
 
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps
-        contentContainerStyle={[styles.grow, { padding: 16 }]}
+        contentContainerStyle={[styles.grow, styles.keyboardAwareScrollContainer]}
       >
         <View style={styles.container}>
           <TransferAccountSelector
