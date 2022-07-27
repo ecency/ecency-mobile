@@ -23,6 +23,7 @@ import {
   login,
   logout,
   logoutDone,
+  setEncryptedUnlockPin,
   setPinCode as savePinCode,
 } from '../../../redux/actions/applicationActions';
 import {
@@ -64,6 +65,9 @@ class PinCodeContainer extends Component {
   // TODO: if check for decide to set to pin or verify to pin page
   // TODO: these text should move to view!
   componentDidMount() {
+
+    // this.props.dispatch(setEncryptedUnlockPin(undefined))
+
     this._getDataFromStorage().then(() => {
       const { intl } = this.props;
       const { isOldPinVerified } = this.state;
@@ -583,6 +587,7 @@ class PinCodeContainer extends Component {
 const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   applicationPinCode: state.application.pin,
+  encUnlockPin: state.application.encUnlockPin,
   otherAccounts: state.account.otherAccounts,
   pinCodeParams: state.application.pinCodeNavigation,
 });

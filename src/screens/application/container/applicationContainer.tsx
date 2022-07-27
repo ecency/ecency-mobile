@@ -666,9 +666,9 @@ class ApplicationContainer extends Component {
   };
 
   _refreshAccessToken = async (currentAccount) => {
-    const { pinCode, isPinCodeOpen, dispatch, intl } = this.props;
+    const { pinCode, isPinCodeOpen, encUnlockPin, dispatch, intl } = this.props;
 
-    if (isPinCodeOpen) {
+    if (isPinCodeOpen && !encUnlockPin) {
       return currentAccount;
     }
 
@@ -984,6 +984,7 @@ export default connect(
     isDarkTheme: state.application.isDarkTheme,
     selectedLanguage: state.application.language,
     isPinCodeOpen: state.application.isPinCodeOpen,
+    encUnlockPin: state.application.encUnlockPin,
     isLogingOut: state.application.isLogingOut,
     isLoggedIn: state.application.isLoggedIn, //TODO: remove as is not being used in this class
     isConnected: state.application.isConnected,
