@@ -418,9 +418,10 @@ class ApplicationContainer extends Component {
 
 
   _fetchApp = async () => {
-    const {dispatch, settingsMigrated} = this.props;
+    const {dispatch, settingsMigratedV2} = this.props;
 
-    await MigrationHelpers.migrateSettings(dispatch, settingsMigrated)
+    await MigrationHelpers.migrateSettings(dispatch, settingsMigratedV2)
+
     this._refreshGlobalProps();
     await this._getUserDataFromRealm();
     this._compareAndPromptForUpdate();
@@ -992,7 +993,7 @@ export default connect(
     isGlobalRenderRequired: state.application.isRenderRequired,
     isAnalytics: state.application.isAnalytics,
     lastUpdateCheck: state.application.lastUpdateCheck,
-    settingsMigrated: state.application.settingsMigrated,
+    settingsMigratedV2: state.application.settingsMigratedV2,
     isNotificationsEnabled: state.application.isNotificationOpen,
     notificationDetails: state.application.notificationDetails,
 
