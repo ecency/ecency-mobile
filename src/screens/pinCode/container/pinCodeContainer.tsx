@@ -194,17 +194,9 @@ class PinCodeContainer extends Component {
 
         //check if pins match
         if (unlockPin !== pin) {
-          const err = new Error("Invalid pin added");
-          console.warn('Failed to verify pin code', err);
-          Alert.alert(
-            intl.formatMessage({
-              id: 'alert.warning',
-            }),
-            intl.formatMessage({
-              id: err.message,
-            }),
-          );
+          const err = new Error('alert.invalid_pincode');
           reject(err);
+          return;
         }
 
 
