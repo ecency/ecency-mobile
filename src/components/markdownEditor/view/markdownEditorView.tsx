@@ -276,6 +276,7 @@ const MarkdownEditorView = ({
       setTextAndSelection: _setTextAndSelection,
       snippetText: `\n${snippetText}\n`,
     });
+    setIsSnippetsOpen(false);
   };
 
   const _handleOnMediaSelect = (mediaArray) => {
