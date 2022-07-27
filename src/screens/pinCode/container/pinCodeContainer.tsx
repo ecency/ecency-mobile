@@ -38,8 +38,10 @@ import { updateCurrentAccount, removeOtherAccount } from '../../../redux/actions
 import { getDigitPinCode, getMutes, getUser } from '../../../providers/hive/dhive';
 import { getPointsSummary } from '../../../providers/ecency/ePoint';
 
+
 // Utils
 import { encryptKey, decryptKey } from '../../../utils/crypto';
+import MigrationHelpers from '../../../utils/migrationHelpers';
 
 // Component
 import PinCodeScreen from '../screen/pinCodeScreen';
@@ -268,6 +270,57 @@ class PinCodeContainer extends Component {
     }, 300);
   };
 
+
+
+  //verifies is the pin entered is right or wrong
+  _verifyPinCodeNew = async (pin, { shouldUpdateRealm } = {}) => {
+    try{
+      const {
+        currentAccount,
+        dispatch,
+        encUnlockPin,
+        applicationPinCode,
+        pinCodeParams: { navigateTo, navigateParams, callback },
+      } = this.props;
+      const { oldPinCode } = this.state;
+  
+      let unlockPin = encUnlockPin ?
+        decryptKey(encUnlockPin, Config.PIN_KEY) : decryptKey(applicationPinCode, Config.PIN_KEY);
+  
+  
+      //check if pins match
+      if (unlockPin !== pin) {
+        throw new Error("Invalid pin added");
+      }
+  
+      //migrate data to default pin if encUnlockPin is not set.
+      if (encUnlockPin) {
+        await MigrationHelpers.migrateUserEncryption(dispatch, currentAccount, applicationPinCode, this._onRefreshTokenFailed);
+      }
+  
+  
+      //on successful code verification run requested operation passed as props
+      if (callback) {
+        callback(pin, oldPinCode);
+      }
+  
+      if (navigateTo) {
+        navigate({
+          routeName: navigateTo,
+          params: navigateParams,
+        });
+      }
+
+      dispatch(closePinCodeModal());
+
+      return true;
+    } catch(err){
+      throw err
+    }
+  }
+
+
+
   _verifyPinCode = (pin, { shouldUpdateRealm } = {}) =>
     new Promise((resolve, reject) => {
       const {
@@ -471,13 +524,13 @@ class PinCodeContainer extends Component {
             );
           }
         } else {
-          await this._verifyPinCode(pin);
+          await this._verifyPinCodeNew(pin);
         }
         return true;
       }
 
       //means this is not reset routine and user do not exist
-      //only possible option left is user logging int,
+      //only possible option left is user logging in,
       //verifyPinCode then and update realm as well.
       else {
         await this._verifyPinCode(pin, { shouldUpdateRealm: true });
