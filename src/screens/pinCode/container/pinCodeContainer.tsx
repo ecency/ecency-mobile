@@ -282,10 +282,11 @@ class PinCodeContainer extends Component {
 
 
 
-  //verifies is the pin entered is right or wrong
-  _verifyPinCodeNew = async (pin, { shouldUpdateRealm } = {}) => {
+  //verifies is the pin entered is right or wrong, also migrates to newer locking method
+  _verifyPinCode = async (pin) => {
     try {
       const {
+        intl,
         currentAccount,
         dispatch,
         encUnlockPin,
@@ -300,7 +301,9 @@ class PinCodeContainer extends Component {
 
       //check if pins match
       if (unlockPin !== pin) {
-        throw new Error("Invalid pin added");
+        throw new Error(intl.formatMessage({
+          id: 'alert.invalid_pincode',
+        }),);
       }
 
       //migrate data to default pin if encUnlockPin is not set.
@@ -329,94 +332,6 @@ class PinCodeContainer extends Component {
     }
   }
 
-
-
-  _verifyPinCode = (pin, { shouldUpdateRealm } = {}) =>
-    new Promise((resolve, reject) => {
-      const {
-        currentAccount,
-        dispatch,
-        pinCodeParams: { navigateTo, navigateParams, accessToken, callback },
-      } = this.props;
-      const { oldPinCode } = this.state;
-
-      // If the user is exist, we are just checking to pin and navigating to feed screen
-      const pinData = {
-        pinCode: pin,
-        password: currentAccount ? currentAccount.password : '',
-        username: currentAccount ? currentAccount.name : '',
-        accessToken,
-      };
-      verifyPinCode(pinData)
-        .then(() => {
-          this._savePinCode(pin);
-          getUserDataWithUsername(currentAccount.name).then(async (realmData) => {
-            if (shouldUpdateRealm) {
-              this._updatePinCodeRealm(pinData).then(() => {
-                dispatch(closePinCodeModal());
-              });
-            } else {
-              let _currentAccount = currentAccount;
-              _currentAccount.username = _currentAccount.name;
-              [_currentAccount.local] = realmData;
-
-              try {
-                const pinHash = encryptKey(pin, Config.PIN_KEY);
-                //migration script for previously mast key based logged in user not having access token
-                if (
-                  realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT &&
-                  realmData[0].accessToken === ''
-                ) {
-                  _currentAccount = await migrateToMasterKeyWithAccessToken(
-                    _currentAccount,
-                    realmData[0],
-                    pinHash,
-                  );
-                }
-
-                //refresh access token
-                const encryptedAccessToken = await refreshSCToken(_currentAccount.local, pin);
-                _currentAccount.local.accessToken = encryptedAccessToken;
-              } catch (error) {
-                this._onRefreshTokenFailed(error);
-              }
-
-              //get unread notifications
-              try {
-                _currentAccount.unread_activity_count = await getUnreadNotificationCount();
-                _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.username);
-                _currentAccount.mutes = await getMutes(_currentAccount.username);
-              } catch (err) {
-                console.warn(
-                  'Optional user data fetch failed, account can still function without them',
-                  err,
-                );
-              }
-
-              dispatch(updateCurrentAccount({ ..._currentAccount }));
-              dispatch(fetchSubscribedCommunities(_currentAccount.username));
-              dispatch(closePinCodeModal());
-            }
-
-            //on successful code verification run requested operation passed as props
-            if (callback) {
-              callback(pin, oldPinCode);
-            }
-            if (navigateTo) {
-              navigate({
-                routeName: navigateTo,
-                params: navigateParams,
-              });
-            }
-            resolve();
-          });
-        })
-        .catch((err) => {
-          console.warn('code verification for login failed: ', err);
-          reject(err);
-        });
-    });
-
   _savePinCode = (pin) => {
     const { dispatch } = this.props;
     const encryptedPin = encryptKey(pin, Config.PIN_KEY);
@@ -439,7 +354,6 @@ class PinCodeContainer extends Component {
         dispatch(logoutDone());
         dispatch(closePinCodeModal());
         dispatch(isPinCodeOpen(false));
-        setPinCodeOpen(false);
       })
       .catch((err) => {
         console.warn('Failed to remove user data', err);
@@ -505,47 +419,16 @@ class PinCodeContainer extends Component {
     const { isExistUser } = this.state;
 
     try {
-      const realmData = await getUserDataWithUsername(currentAccount.name);
-      const userData = realmData[0];
 
       // check if reset routine is triggered by user, reroute code to reset hanlder
       if (isReset) {
         await this._resetPinCode(pin);
-        return true;
+      } else {
+        await this._verifyPinCode(pin);
       }
 
-      //user is logged in and is not reset routine...
-      if (isExistUser) {
-        if (!userData.accessToken && !userData.masterKey && applicationPinCode) {
-          const verifiedPin = decryptKey(applicationPinCode, Config.PIN_KEY, this._onDecryptFail);
-          if (verifiedPin === undefined) {
-            return true;
-          }
-          if (verifiedPin === pin) {
-            await this._setFirstPinCode(pin);
-          } else {
-            Alert.alert(
-              intl.formatMessage({
-                id: 'alert.warning',
-              }),
-              intl.formatMessage({
-                id: 'alert.invalid_pincode',
-              }),
-            );
-          }
-        } else {
-          await this._verifyPinCodeNew(pin);
-        }
-        return true;
-      }
+      return true
 
-      //means this is not reset routine and user do not exist
-      //only possible option left is user logging in,
-      //verifyPinCode then and update realm as well.
-      else {
-        await this._verifyPinCode(pin, { shouldUpdateRealm: true });
-        return true;
-      }
     } catch (error) {
       return this._handleFailedAttempt(error);
     }
