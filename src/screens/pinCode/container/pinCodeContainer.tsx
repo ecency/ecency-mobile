@@ -120,12 +120,15 @@ class PinCodeContainer extends Component {
     }
   };
 
+
+
   _resetPinCode = (pin) =>
     new Promise((resolve, reject) => {
       const {
         currentAccount,
         dispatch,
         pinCodeParams: { navigateTo, navigateParams, accessToken, callback },
+        encUnlockPin,
         intl,
       } = this.props;
       const { isOldPinVerified, oldPinCode, newPinCode } = this.state;
@@ -142,24 +145,20 @@ class PinCodeContainer extends Component {
       if (isOldPinVerified) {
         //if newPin already exist and pin is a valid pin, compare and set new pin
         if (pin !== undefined && pin === newPinCode) {
-          this._updatePinCodeRealm(pinData).then((status) => {
-            if (!status) {
-              resolve();
-              return;
-            }
-            this._savePinCode(pin);
-            if (callback) {
-              callback(pin, oldPinCode);
-            }
-            dispatch(closePinCodeModal());
-            if (navigateTo) {
-              navigate({
-                routeName: navigateTo,
-                params: navigateParams,
-              });
-            }
-            resolve();
-          });
+
+          this._savePinCode(pin);
+          if (callback) {
+            callback(pin, oldPinCode);
+          }
+          dispatch(closePinCodeModal());
+
+          if (navigateTo) {
+            navigate({
+              routeName: navigateTo,
+              params: navigateParams,
+            });
+          }
+          resolve();
         }
 
         // if newPin code exists and above case failed, that means pins did not match
@@ -190,32 +189,39 @@ class PinCodeContainer extends Component {
 
       // if old pin code is not yet verified attempt to verify code
       else {
-        verifyPinCode(pinData)
-          .then(() => {
-            this.setState({ isOldPinVerified: true });
-            this.setState({
-              informationText: intl.formatMessage({
-                id: 'pincode.set_new',
-              }),
-              newPinCode: null,
-              oldPinCode: pin,
-            });
-            resolve();
-          })
-          .catch((err) => {
-            console.warn('Failed to verify pin code', err);
-            Alert.alert(
-              intl.formatMessage({
-                id: 'alert.warning',
-              }),
-              intl.formatMessage({
-                id: err.message,
-              }),
-            );
-            reject(err);
-          });
+
+        let unlockPin = decryptKey(encUnlockPin, Config.PIN_KEY)
+
+        //check if pins match
+        if (unlockPin !== pin) {
+          const err = new Error("Invalid pin added");
+          console.warn('Failed to verify pin code', err);
+          Alert.alert(
+            intl.formatMessage({
+              id: 'alert.warning',
+            }),
+            intl.formatMessage({
+              id: err.message,
+            }),
+          );
+          reject(err);
+        }
+
+
+        this.setState({ isOldPinVerified: true });
+        this.setState({
+          informationText: intl.formatMessage({
+            id: 'pincode.set_new',
+          }),
+          newPinCode: null,
+          oldPinCode: pin,
+        });
+        resolve();
+
       }
     });
+
+
 
   _setFirstPinCode = (pin) =>
     new Promise((resolve) => {
@@ -278,7 +284,7 @@ class PinCodeContainer extends Component {
 
   //verifies is the pin entered is right or wrong
   _verifyPinCodeNew = async (pin, { shouldUpdateRealm } = {}) => {
-    try{
+    try {
       const {
         currentAccount,
         dispatch,
@@ -287,27 +293,27 @@ class PinCodeContainer extends Component {
         pinCodeParams: { navigateTo, navigateParams, callback },
       } = this.props;
       const { oldPinCode } = this.state;
-  
+
       let unlockPin = encUnlockPin ?
         decryptKey(encUnlockPin, Config.PIN_KEY) : decryptKey(applicationPinCode, Config.PIN_KEY);
-  
-  
+
+
       //check if pins match
       if (unlockPin !== pin) {
         throw new Error("Invalid pin added");
       }
-  
+
       //migrate data to default pin if encUnlockPin is not set.
       if (!encUnlockPin) {
         await MigrationHelpers.migrateUserEncryption(dispatch, currentAccount, applicationPinCode, this._onRefreshTokenFailed);
       }
-  
-  
+
+
       //on successful code verification run requested operation passed as props
       if (callback) {
         callback(pin, oldPinCode);
       }
-  
+
       if (navigateTo) {
         navigate({
           routeName: navigateTo,
@@ -318,7 +324,7 @@ class PinCodeContainer extends Component {
       dispatch(closePinCodeModal());
 
       return true;
-    } catch(err){
+    } catch (err) {
       throw err
     }
   }
@@ -414,7 +420,7 @@ class PinCodeContainer extends Component {
   _savePinCode = (pin) => {
     const { dispatch } = this.props;
     const encryptedPin = encryptKey(pin, Config.PIN_KEY);
-    dispatch(savePinCode(encryptedPin));
+    dispatch(setEncryptedUnlockPin(encryptedPin));
   };
 
   _forgotPinCode = async () => {
