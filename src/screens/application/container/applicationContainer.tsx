@@ -89,7 +89,7 @@ import { setMomentLocale } from '../../../utils/time';
 import parseAuthUrl from '../../../utils/parseAuthUrl';
 import { purgeExpiredCache } from '../../../redux/actions/cacheActions';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
-import MigrationHelpers from '../children/migrationHelpers';
+import MigrationHelpers from '../../../utils/migrationHelpers';
 
 // Workaround
 let previousAppState = 'background';
