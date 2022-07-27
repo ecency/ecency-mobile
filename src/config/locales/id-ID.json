@@ -217,7 +217,7 @@
     "currency": "Nilai Tukar Mata Uang",
     "language": "Bahasa",
     "server": "Server",
-    "color_theme": "Appearance",
+    "color_theme": "Tampilan",
     "push_notification": "Notifikasi Gegas",
     "notification": {
       "follow": "Ikuti",
@@ -226,7 +226,7 @@
       "mention": "Menyebutkan",
       "reblog": "Reblog",
       "transfers": "Transfer",
-      "delegations": "Delegations"
+      "delegations": "Delagasi"
     },
     "pincode": "Kode PIN",
     "reset_pin": "Setel Ulang Kode Pin",
@@ -241,9 +241,9 @@
       "always_warn": "Selalu memperingatkan"
     },
     "theme": {
-      "system": "Device settings",
-      "light": "Light",
-      "dark": "Dark"
+      "system": "Pengaturan perangkat",
+      "light": "Ringan",
+      "dark": "Gelap"
     },
     "feedback_success": "Email berhasil dibuka",
     "feedback_fail": "Klien email tidak bisa dibuka",
@@ -286,7 +286,7 @@
     "friends": "Teman",
     "communities": "Komunitas",
     "popup_postfix": "Diposting",
-    "scroll_top": "Scroll To Top"
+    "scroll_top": "Gulir ke Atas"
   },
   "side_menu": {
     "profile": "Profil",
@@ -305,7 +305,7 @@
     "add_an_existing_account": "Tambahkan akun yang ada",
     "accounts": "Akun",
     "refer": "Rekomendasikan Dan Dapatkan",
-    "qr": "QR Scan"
+    "qr": "Scan QR"
   },
   "header": {
     "title": "Login untuk menyesuaikan feed Anda",
@@ -316,7 +316,7 @@
     "search": "Cari",
     "update": "Pembaruan",
     "reply": "Balas",
-    "schedule": "Schedule"
+    "schedule": "Jadwal"
   },
   "editor": {
     "title": "Judul",
@@ -338,7 +338,7 @@
     "limited_lastchar": "Tag harus diakhiri dengan huruf atau angka",
     "setting_schedule": "Waktu Penjadwalan",
     "setting_reward": "Hadiah",
-    "setting_reblog": "Reblog",
+    "setting_reblog": "Tampilkan kembali",
     "setting_beneficiary": "Penerima manfaat",
     "setting_thumb": "Atur Gambar Mini",
     "reward_default": "Default 50% / 50%",
@@ -364,11 +364,11 @@
     "draft_save_success": "Draf Disimpan",
     "draft_save_fail": "Gagal menyimpan draf",
     "select_thumb": "Pilih Thumbnail Postingan",
-    "add_more_imgs": "Add more images to post",
+    "add_more_imgs": "Tambahkan banyak foto dalam postingan",
     "two_thumbs_required": "Tambahkan lebih banyak gambar di postinganmu sebelum mengatur thumbnail",
-    "scheduled_for": "Scheduled For",
-    "scheduled_immediate": "Immediate",
-    "scheduled_later": "Later",
+    "scheduled_for": "Dijadwalkan untuk",
+    "scheduled_immediate": "Segera",
+    "scheduled_later": "Nanti",
     "settings_title": "Post Options",
     "done": "DONE",
     "draft_save_title": "Saving Draft",
@@ -578,7 +578,7 @@
     "unpin-blog": "Unpin from blog",
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
-    "edit-history": "Edit History"
+    "edit-history": "Riwayat Penyuntingan"
   },
   "deep_link": {
     "no_existing_user": "Tidak ada pengguna yang ada",
