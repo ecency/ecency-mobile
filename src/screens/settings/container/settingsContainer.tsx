@@ -43,6 +43,7 @@ import {
   logoutDone,
   closePinCodeModal,
   setColorTheme,
+  setEncryptedUnlockPin,
 } from '../../../redux/actions/applicationActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { setPushToken, getNodes } from '../../../providers/ecency/ecency';
@@ -225,7 +226,7 @@ class SettingsContainer extends Component {
         if (action) {
           dispatch(
             openPinCodeModal({
-              callback: () => this._setDefaultPinCode(action),
+              callback: () => this._enableDefaultUnlockPin(action),
               isReset: true,
               isOldPinVerified: true,
               oldPinCode: Config.DEFAULT_PIN,
@@ -234,7 +235,7 @@ class SettingsContainer extends Component {
         } else {
           dispatch(
             openPinCodeModal({
-              callback: () => this._setDefaultPinCode(action),
+              callback: () => this._enableDefaultUnlockPin(action),
             }),
           );
         }
@@ -394,7 +395,6 @@ class SettingsContainer extends Component {
         }
         dispatch(logoutDone());
         dispatch(isPinCodeOpen(false));
-        setPinCodeOpen(false);
       })
       .catch((err) => {
         console.warn('Failed to remove user data', err);
@@ -419,45 +419,21 @@ class SettingsContainer extends Component {
     }, 500);
   };
 
-  _setDefaultPinCode = (action) => {
-    const { dispatch, username, currentAccount, pinCode } = this.props;
 
-    if (!action) {
-      const oldPinCode = decryptKey(pinCode, Config.PIN_KEY, this._onDecryptFail);
+  _enableDefaultUnlockPin = (isEnabled) => {
+    const { dispatch, encUnlockPin } = this.props;
+
+    dispatch(isPinCodeOpen(isEnabled));
+
+    if (!isEnabled) {
+      const oldPinCode = decryptKey(encUnlockPin, Config.PIN_KEY, this._onDecryptFail);
 
       if (oldPinCode === undefined) {
         return;
       }
 
-      const pinData = {
-        pinCode: Config.DEFAULT_PIN,
-        username,
-        oldPinCode,
-      };
-      updatePinCode(pinData)
-        .then((response) => {
-          const _currentAccount = currentAccount;
-          _currentAccount.local = response;
-
-          dispatch(
-            updateCurrentAccount({
-              ..._currentAccount,
-            }),
-          );
-
-          const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
-          dispatch(savePinCode(encryptedPin));
-
-          setPinCodeOpen(action);
-          dispatch(isPinCodeOpen(action));
-        })
-        .catch((err) => {
-          console.warn('pin update failure: ', err);
-          this._onDecryptFail();
-        });
-    } else {
-      setPinCodeOpen(action);
-      dispatch(isPinCodeOpen(action));
+      const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
+      dispatch(setEncryptedUnlockPin(encryptedPin));
     }
   };
 
@@ -483,7 +459,7 @@ const mapStateToProps = (state) => ({
   isDarkTheme: state.application.isDarkTheme,
   colorTheme: state.application.colorTheme,
   isPinCodeOpen: state.application.isPinCodeOpen,
-  pinCode: state.application.pin,
+  encUnlockPin: state.application.encUnlockPin,
   isDefaultFooter: state.application.isDefaultFooter,
   isLoggedIn: state.application.isLoggedIn,
   isNotificationSettingsOpen: state.application.isNotificationOpen,
