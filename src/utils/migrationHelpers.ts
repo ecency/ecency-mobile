@@ -129,7 +129,7 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
 
     dispatch(setEncryptedUnlockPin(encUserPin))
 
-    const realmData = getUserDataWithUsername(currentAccount.name)
+    const realmData = await getUserDataWithUsername(currentAccount.name)
 
     let _currentAccount = currentAccount;
     _currentAccount.username = _currentAccount.name;
