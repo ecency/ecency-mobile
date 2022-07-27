@@ -31,7 +31,8 @@ import {
   SET_COLOR_THEME,
   SET_SETTINGS_MIGRATED,
   HIDE_POSTS_THUMBNAILS,
-  SET_TERMS_ACCEPTED
+  SET_TERMS_ACCEPTED,
+  SET_ENC_UNLOCK_PIN
 } from '../constants/constants';
 
 export const login = (payload) => ({
@@ -207,6 +208,11 @@ export const setHidePostsThumbnails = (shouldHide:boolean) => ({
 export const setIsTermsAccepted = (isTermsAccepted:boolean) => ({
   payload:isTermsAccepted,
   type: SET_TERMS_ACCEPTED
+})
+
+export const setEncryptedUnlockPin = (encryptedUnlockPin:string) => ({
+  payload:encryptedUnlockPin,
+  type: SET_ENC_UNLOCK_PIN
 })
 
 

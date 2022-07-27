@@ -30,6 +30,7 @@ import {
   SET_SETTINGS_MIGRATED,
   HIDE_POSTS_THUMBNAILS,
   SET_TERMS_ACCEPTED,
+  SET_ENC_UNLOCK_PIN
 } from '../constants/constants';
 
 interface State {
@@ -65,6 +66,7 @@ interface State {
   pin: string|null;
   isPinCodeOpen: boolean;
   isRenderRequired: boolean;
+  encUnlockPin: string;
   lastAppVersion:string;
   settingsMigratedV2: boolean;
   hidePostsThumbnails: boolean;
@@ -104,13 +106,14 @@ const initialState:State = {
   pin: null,
   isPinCodeOpen: false,
   isRenderRequired: false,
+  encUnlockPin: '',
   lastAppVersion:'',
   settingsMigratedV2: false,
   hidePostsThumbnails: false,
   isTermsAccepted: false,
 };
 
-export default function (state = initialState, action) {
+export default function (state = initialState, action):State {
   switch (action.type) {
     case LOGIN:
       return {
@@ -281,6 +284,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isTermsAccepted:action.payload
+      }
+
+    case SET_ENC_UNLOCK_PIN:
+      return {
+        ...state,
+        encUnlockPin:action.payload
       }
 
     default:
