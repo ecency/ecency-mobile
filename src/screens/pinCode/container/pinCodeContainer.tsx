@@ -5,17 +5,11 @@ import { injectIntl } from 'react-intl';
 import Config from 'react-native-config';
 import get from 'lodash/get';
 
-//Contstants
-import AUTH_TYPE from '../../../constants/authType';
 
 // Actions & Services
 import { navigate } from '../../../navigation/service';
 import {
-  setUserDataWithPinCode,
-  verifyPinCode,
   updatePinCode,
-  migrateToMasterKeyWithAccessToken,
-  refreshSCToken,
 } from '../../../providers/hive/auth';
 import {
   closePinCodeModal,
@@ -24,21 +18,15 @@ import {
   logout,
   logoutDone,
   setEncryptedUnlockPin,
-  setPinCode as savePinCode,
 } from '../../../redux/actions/applicationActions';
 import {
   getExistUser,
   setExistUser,
-  getUserDataWithUsername,
   removeAllUserData,
   removePinCode,
   setAuthStatus,
-  setPinCodeOpen,
 } from '../../../realm/realm';
 import { updateCurrentAccount, removeOtherAccount } from '../../../redux/actions/accountAction';
-import { getDigitPinCode, getMutes, getUser } from '../../../providers/hive/dhive';
-import { getPointsSummary } from '../../../providers/ecency/ePoint';
-
 
 // Utils
 import { encryptKey, decryptKey } from '../../../utils/crypto';
@@ -46,8 +34,7 @@ import MigrationHelpers from '../../../utils/migrationHelpers';
 
 // Component
 import PinCodeScreen from '../screen/pinCodeScreen';
-import { getUnreadNotificationCount } from '../../../providers/ecency/ecency';
-import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
+
 
 class PinCodeContainer extends Component {
   constructor(props) {
@@ -62,43 +49,30 @@ class PinCodeContainer extends Component {
     };
   }
 
-  // TODO: if check for decide to set to pin or verify to pin page
-  // TODO: these text should move to view!
+
+  //sets initial pin code screen label based on oldPinVerified param/state
   componentDidMount() {
 
     // this.props.dispatch(setEncryptedUnlockPin(undefined))
 
-    this._getDataFromStorage().then(() => {
-      const { intl } = this.props;
-      const { isOldPinVerified } = this.state;
+    const { intl } = this.props;
+    const { isOldPinVerified } = this.state;
 
-      if (!isOldPinVerified) {
-        this.setState({
-          informationText: intl.formatMessage({
-            id: 'pincode.enter_text',
-          }),
-        });
-      } else {
-        this.setState({
-          informationText: intl.formatMessage({
-            id: 'pincode.set_new',
-          }),
-        });
-      }
-    });
-  }
-
-  _getDataFromStorage = () =>
-    new Promise((resolve) => {
-      getExistUser().then((isExistUser) => {
-        this.setState(
-          {
-            isExistUser,
-          },
-          resolve,
-        );
+    if (!isOldPinVerified) {
+      this.setState({
+        informationText: intl.formatMessage({
+          id: 'pincode.enter_text',
+        }),
       });
-    });
+    } else {
+      this.setState({
+        informationText: intl.formatMessage({
+          id: 'pincode.set_new',
+        }),
+      });
+    }
+
+  }
 
   //this function updates realm with appropriate master key required for encyrption
   //this function is important: must run while chaning pin
@@ -121,7 +95,8 @@ class PinCodeContainer extends Component {
   };
 
 
-
+  //routine for checking and setting new pin code, same routine is used for
+  //setting pin for the first time
   _resetPinCode = (pin) =>
     new Promise((resolve, reject) => {
       const {
@@ -215,46 +190,6 @@ class PinCodeContainer extends Component {
 
 
 
-  _setFirstPinCode = (pin) =>
-    new Promise((resolve) => {
-      const {
-        currentAccount,
-        dispatch,
-        pinCodeParams: { navigateTo, navigateParams, accessToken, callback },
-      } = this.props;
-      const { oldPinCode } = this.state;
-
-      const pinData = {
-        pinCode: pin,
-        password: currentAccount ? currentAccount.password : '',
-        username: currentAccount ? currentAccount.name : '',
-        accessToken,
-      };
-      setUserDataWithPinCode(pinData).then((response) => {
-        getUser(currentAccount.name).then((user) => {
-          const _currentAccount = user;
-          _currentAccount.local = response;
-
-          dispatch(updateCurrentAccount({ ..._currentAccount }));
-
-          setExistUser(true).then(() => {
-            this._savePinCode(pin);
-            if (callback) {
-              callback(pin, oldPinCode);
-            }
-            dispatch(closePinCodeModal());
-            if (navigateTo) {
-              navigate({
-                routeName: navigateTo,
-                params: navigateParams,
-              });
-            }
-            resolve();
-          });
-        });
-      });
-    });
-
   _onRefreshTokenFailed = (error) => {
     setTimeout(() => {
       const { dispatch, intl } = this.props;
@@ -295,7 +230,7 @@ class PinCodeContainer extends Component {
       if (unlockPin !== pin) {
         throw new Error(intl.formatMessage({
           id: 'alert.invalid_pincode',
-        }),);
+        }));
       }
 
       //migrate data to default pin if encUnlockPin is not set.
@@ -324,11 +259,15 @@ class PinCodeContainer extends Component {
     }
   }
 
+
+  //encryptes and saved unlockPin
   _savePinCode = (pin) => {
     const { dispatch } = this.props;
     const encryptedPin = encryptKey(pin, Config.PIN_KEY);
     dispatch(setEncryptedUnlockPin(encryptedPin));
   };
+
+
 
   _forgotPinCode = async () => {
     const { otherAccounts, dispatch } = this.props;
@@ -407,11 +346,7 @@ class PinCodeContainer extends Component {
   };
 
   _setPinCode = async (pin, isReset) => {
-    const { intl, currentAccount, applicationPinCode } = this.props;
-    const { isExistUser } = this.state;
-
     try {
-
       // check if reset routine is triggered by user, reroute code to reset hanlder
       if (isReset) {
         await this._resetPinCode(pin);
@@ -449,7 +384,7 @@ class PinCodeContainer extends Component {
       intl,
       pinCodeParams: { isReset },
     } = this.props;
-    const { informationText, isOldPinVerified, isExistUser } = this.state;
+    const { informationText, isOldPinVerified } = this.state;
 
     return (
       <PinCodeScreen

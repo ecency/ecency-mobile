@@ -63,10 +63,10 @@ interface State {
   },
   upvotePercent: number;
   nsfw: string;
-  pin: string|null;
+  pin: string|null; //encrypted pin used for encrypting sensitive user data
   isPinCodeOpen: boolean;
   isRenderRequired: boolean;
-  encUnlockPin: string;
+  encUnlockPin: string; //ecryped pin used for user defined lock screen pass code
   lastAppVersion:string;
   settingsMigratedV2: boolean;
   hidePostsThumbnails: boolean;
