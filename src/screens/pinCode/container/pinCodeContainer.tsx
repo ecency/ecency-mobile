@@ -294,7 +294,7 @@ class PinCodeContainer extends Component {
       }
   
       //migrate data to default pin if encUnlockPin is not set.
-      if (encUnlockPin) {
+      if (!encUnlockPin) {
         await MigrationHelpers.migrateUserEncryption(dispatch, currentAccount, applicationPinCode, this._onRefreshTokenFailed);
       }
   
