@@ -40,7 +40,7 @@ class HiveSigner extends PureComponent {
       if (!isLoading) {
         this.setState({ isLoading: true });
         handleOnModalClose();
-        loginWithSC2(code[1], isPinCodeOpen)
+        loginWithSC2(code[1])
           .then((result) => {
             if (result) {
               const persistAccountData = persistAccountGenerator(result);
