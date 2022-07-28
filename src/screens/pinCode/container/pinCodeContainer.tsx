@@ -75,6 +75,7 @@ class PinCodeContainer extends Component {
       });
     }
 
+    this._processBiometric();
   }
 
   _processBiometric = async () => {
@@ -83,6 +84,7 @@ class PinCodeContainer extends Component {
         intl,
         pinCodeParams: { isReset },
         applicationPinCode,
+        encUnlockPin,
         isBiometricEnabled,
       } = this.props;
 
@@ -100,7 +102,8 @@ class PinCodeContainer extends Component {
 
       //code gets here means biometeric succeeded
       if (this.screenRef) {
-        const verifiedPin = decryptKey(applicationPinCode, Config.PIN_KEY, this._onDecryptFail);
+        const encPin = encUnlockPin || applicationPinCode;
+        const verifiedPin = decryptKey(encPin, Config.PIN_KEY, this._onDecryptFail);
         this.screenRef.setPinThroughBiometric(verifiedPin);
       }
     } catch (err) {
