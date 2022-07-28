@@ -60,7 +60,7 @@ class LoginContainer extends PureComponent {
 
     this.setState({ isLoading: true });
 
-    login(username, password, isPinCodeOpen)
+    login(username, password)
       .then((result) => {
         if (result) {
           const persistAccountData = persistAccountGenerator(result);
@@ -75,11 +75,12 @@ class LoginContainer extends PureComponent {
           userActivity(20);
           setExistUser(true);
           this._setPushToken(result.name);
+          const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
+          dispatch(setPinCode(encryptedPin));
+
           if (isPinCodeOpen) {
             dispatch(openPinCodeModal({ navigateTo: ROUTES.DRAWER.MAIN }));
           } else {
-            const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
-            dispatch(setPinCode(encryptedPin));
             navigation.navigate({
               routeName: ROUTES.DRAWER.MAIN,
             });

@@ -30,7 +30,8 @@ import {
   SET_SETTINGS_MIGRATED,
   HIDE_POSTS_THUMBNAILS,
   SET_TERMS_ACCEPTED,
-  SET_IS_BIOMETRIC_ENABLED
+  SET_IS_BIOMETRIC_ENABLED,
+  SET_ENC_UNLOCK_PIN
 } from '../constants/constants';
 
 interface State {
@@ -63,9 +64,10 @@ interface State {
   },
   upvotePercent: number;
   nsfw: string;
-  pin: string|null;
+  pin: string|null; //encrypted pin used for encrypting sensitive user data
   isPinCodeOpen: boolean;
   isRenderRequired: boolean;
+  encUnlockPin: string; //ecryped pin used for user defined lock screen pass code
   lastAppVersion:string;
   settingsMigratedV2: boolean;
   hidePostsThumbnails: boolean;
@@ -106,6 +108,7 @@ const initialState:State = {
   pin: null,
   isPinCodeOpen: false,
   isRenderRequired: false,
+  encUnlockPin: '',
   lastAppVersion:'',
   settingsMigratedV2: false,
   hidePostsThumbnails: false,
@@ -113,7 +116,7 @@ const initialState:State = {
   isBiometricEnabled: false
 };
 
-export default function (state = initialState, action) {
+export default function (state = initialState, action):State {
   switch (action.type) {
     case LOGIN:
       return {
@@ -290,6 +293,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isBiometricEnabled:action.payload
+      }
+
+    case SET_ENC_UNLOCK_PIN:
+      return {
+        ...state,
+        encUnlockPin:action.payload
       }
 
     default:

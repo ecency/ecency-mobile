@@ -69,6 +69,8 @@ import {
   setPinCode as savePinCode,
   isRenderRequired,
   logout,
+  isPinCodeOpen,
+  setEncryptedUnlockPin,
 } from '../../../redux/actions/applicationActions';
 import {
   setAvatarCacheStamp,
@@ -89,7 +91,7 @@ import { setMomentLocale } from '../../../utils/time';
 import parseAuthUrl from '../../../utils/parseAuthUrl';
 import { purgeExpiredCache } from '../../../redux/actions/cacheActions';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
-import MigrationHelpers from '../children/migrationHelpers';
+import MigrationHelpers from '../../../utils/migrationHelpers';
 
 // Workaround
 let previousAppState = 'background';
@@ -666,9 +668,9 @@ class ApplicationContainer extends Component {
   };
 
   _refreshAccessToken = async (currentAccount) => {
-    const { pinCode, isPinCodeOpen, dispatch, intl } = this.props;
+    const { pinCode, isPinCodeOpen, encUnlockPin, dispatch, intl } = this.props;
 
-    if (isPinCodeOpen) {
+    if (isPinCodeOpen && !encUnlockPin) {
       return currentAccount;
     }
 
@@ -703,14 +705,14 @@ class ApplicationContainer extends Component {
   };
 
   _fetchUserDataFromDsteem = async (realmObject) => {
-    const { dispatch, intl, pinCode, isPinCodeOpen } = this.props;
+    const { dispatch, intl, pinCode, isPinCodeOpen, encUnlockPin } = this.props;
 
     try {
       let accountData = await getUser(realmObject.username);
       accountData.local = realmObject;
 
       //cannot migrate or refresh token since pin would null while pin code modal is open
-      if (!isPinCodeOpen) {
+      if (!isPinCodeOpen || encUnlockPin) {
         //migration script for previously mast key based logged in user not having access token
         if (realmObject.authType !== AUTH_TYPE.STEEM_CONNECT && realmObject.accessToken === '') {
           accountData = await migrateToMasterKeyWithAccessToken(accountData, realmObject, pinCode);
@@ -792,6 +794,7 @@ class ApplicationContainer extends Component {
       currentAccount: { name, local },
       dispatch,
       intl,
+
     } = this.props;
 
     removeUserData(name)
@@ -812,6 +815,8 @@ class ApplicationContainer extends Component {
             isLoggedIn: false,
           });
           setExistUser(false);
+          dispatch(isPinCodeOpen(false));
+          dispatch(setEncryptedUnlockPin(encryptKey(Config.DEFAULT_KEU, Config.PIN_KEY)))
           if (local.authType === AUTH_TYPE.STEEM_CONNECT) {
             removeSCAccount(name);
           }
@@ -984,6 +989,7 @@ export default connect(
     isDarkTheme: state.application.isDarkTheme,
     selectedLanguage: state.application.language,
     isPinCodeOpen: state.application.isPinCodeOpen,
+    encUnlockPin: state.application.encUnlockPin,
     isLogingOut: state.application.isLogingOut,
     isLoggedIn: state.application.isLoggedIn, //TODO: remove as is not being used in this class
     isConnected: state.application.isConnected,

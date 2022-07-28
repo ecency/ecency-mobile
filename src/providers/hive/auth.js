@@ -25,7 +25,7 @@ import { getSCAccessToken, getUnreadNotificationCount } from '../ecency/ecency';
 import AUTH_TYPE from '../../constants/authType';
 import { makeHsCode } from '../../utils/hive-signer-helper';
 
-export const login = async (username, password, isPinCodeOpen) => {
+export const login = async (username, password) => {
   let loginFlag = false;
   let avatar = '';
   let authType = '';
@@ -98,19 +98,15 @@ export const login = async (username, password, isPinCodeOpen) => {
       accessToken: '',
     };
 
-    if (isPinCodeOpen) {
-      account.local = userData;
-    } else {
-      const resData = {
-        pinCode: Config.DEFAULT_PIN,
-        password,
-        accessToken: get(scTokens, 'access_token', ''),
-      };
-      const updatedUserData = await getUpdatedUserData(userData, resData);
+    const resData = {
+      pinCode: Config.DEFAULT_PIN,
+      password,
+      accessToken: get(scTokens, 'access_token', ''),
+    };
+    const updatedUserData = await getUpdatedUserData(userData, resData);
 
-      account.local = updatedUserData;
-      account.local.avatar = avatar;
-    }
+    account.local = updatedUserData;
+    account.local.avatar = avatar;
 
     const authData = {
       isLoggedIn: true,
@@ -130,7 +126,7 @@ export const login = async (username, password, isPinCodeOpen) => {
   return Promise.reject(new Error('auth.invalid_credentials'));
 };
 
-export const loginWithSC2 = async (code, isPinCodeOpen) => {
+export const loginWithSC2 = async (code) => {
   const scTokens = await getSCAccessToken(code);
   await hsApi.setAccessToken(get(scTokens, 'access_token', ''));
   const scAccount = await hsApi.me();
@@ -168,18 +164,14 @@ export const loginWithSC2 = async (code, isPinCodeOpen) => {
     };
     const isUserLoggedIn = await isLoggedInUser(account.name);
 
-    if (isPinCodeOpen) {
-      account.local = userData;
-    } else {
-      const resData = {
-        pinCode: Config.DEFAULT_PIN,
-        accessToken: get(scTokens, 'access_token', ''),
-      };
-      const updatedUserData = await getUpdatedUserData(userData, resData);
+    const resData = {
+      pinCode: Config.DEFAULT_PIN,
+      accessToken: get(scTokens, 'access_token', ''),
+    };
+    const updatedUserData = await getUpdatedUserData(userData, resData);
 
-      account.local = updatedUserData;
-      account.local.avatar = avatar;
-    }
+    account.local = updatedUserData;
+    account.local.avatar = avatar;
 
     if (isUserLoggedIn) {
       reject(new Error('auth.already_logged'));
@@ -296,37 +288,38 @@ export const updatePinCode = (data) =>
     }
   });
 
-export const verifyPinCode = async (data) => {
-  try {
-    const pinHash = await getPinCode();
+// export const verifyPinCode = async (data) => {
+//   try {
+//     const pinHash = await getPinCode();
 
-    const result = await getUserDataWithUsername(data.username);
-    const userData = result[0];
+//     const result = await getUserDataWithUsername(data.username);
+//     const userData = result[0];
 
-    // This is migration for new pin structure, it will remove v2.2
-    if (!pinHash) {
-      try {
-        if (get(userData, 'authType', '') === AUTH_TYPE.STEEM_CONNECT) {
-          decryptKey(get(userData, 'accessToken'), get(data, 'pinCode'));
-        } else {
-          decryptKey(userData.masterKey, get(data, 'pinCode'));
-        }
-        await setPinCode(get(data, 'pinCode'));
-      } catch (error) {
-        return Promise.reject(new Error('Invalid pin code, please check and try again'));
-      }
-    }
+//     // This is migration for new pin structure, it will remove v2.2
+//     if (!pinHash) {
+//       try {
+//         //if decrypt fails, means key is invalid
+//         if (userData.accessToken === AUTH_TYPE.STEEM_CONNECT) {
+//           decryptKey(userData.accessToken, data.pinCode);
+//         } else {
+//           decryptKey(userData.masterKey, data.pinCode);
+//         }
+//         await setPinCode(data.pinCode);
+//       } catch (error) {
+//         return Promise.reject(new Error('Invalid pin code, please check and try again'));
+//       }
+//     }
 
-    if (sha256(get(data, 'pinCode')).toString() !== pinHash) {
-      return Promise.reject(new Error('auth.invalid_pin'));
-    }
+//     if (sha256(get(data, 'pinCode')).toString() !== pinHash) {
+//       return Promise.reject(new Error('auth.invalid_pin'));
+//     }
 
-    return true;
-  } catch (err) {
-    console.warn('Failed to verify pin in auth: ', data, err);
-    return Promise.reject(err);
-  }
-};
+//     return true;
+//   } catch (err) {
+//     console.warn('Failed to verify pin in auth: ', data, err);
+//     return Promise.reject(err);
+//   }
+// };
 
 export const refreshSCToken = async (userData, pinCode) => {
   const scAccount = await getSCAccount(userData.username);
