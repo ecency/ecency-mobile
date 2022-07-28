@@ -229,6 +229,7 @@
       "delegations": "डेलीगेशन्स"
     },
     "pincode": "Pincode",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "पिन कोड रीसेट करें",
     "reset": "पुनः नियोजन",
     "nsfw_content": "एनडीएफडब्ल्यू",
@@ -419,7 +420,8 @@
     "forgot_text": "ओह! मैं इसे भूल गया...",
     "pin_not_matched": "पिन मेल नहीं खाता, कृपया पुनः प्रयास करें।",
     "attempts_postfix": "असफल प्रयास",
-    "message_reset_warning": "अगले असफल प्रयास पर उपयोगकर्ता डेटा मिटा दिया जाएगा"
+    "message_reset_warning": "अगले असफल प्रयास पर उपयोगकर्ता डेटा मिटा दिया जाएगा",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "सफल!",
