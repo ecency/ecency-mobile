@@ -227,10 +227,6 @@ class PinCodeContainer extends Component {
 
 
       //check if pins match
-      //TODO: assess if this snippet can be used to match pin
-      //     if (sha256(get(data, 'pinCode')).toString() !== pinHash) {
-      //       return Promise.reject(new Error('auth.invalid_pin'));
-      //     }
       if (unlockPin !== pin) {
         throw new Error(intl.formatMessage({
           id: 'alert.invalid_pincode',

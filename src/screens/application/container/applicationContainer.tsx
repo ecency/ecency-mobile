@@ -69,6 +69,8 @@ import {
   setPinCode as savePinCode,
   isRenderRequired,
   logout,
+  isPinCodeOpen,
+  setEncryptedUnlockPin,
 } from '../../../redux/actions/applicationActions';
 import {
   setAvatarCacheStamp,
@@ -792,6 +794,7 @@ class ApplicationContainer extends Component {
       currentAccount: { name, local },
       dispatch,
       intl,
+
     } = this.props;
 
     removeUserData(name)
@@ -812,6 +815,8 @@ class ApplicationContainer extends Component {
             isLoggedIn: false,
           });
           setExistUser(false);
+          dispatch(isPinCodeOpen(false));
+          dispatch(setEncryptedUnlockPin(encryptKey(Config.DEFAULT_KEU, Config.PIN_KEY)))
           if (local.authType === AUTH_TYPE.STEEM_CONNECT) {
             removeSCAccount(name);
           }
