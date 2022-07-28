@@ -18,13 +18,10 @@ import {
   setLanguage as setLanguage2DB,
   setNsfw as setNsfw2DB,
   setTheme,
-  setPinCodeOpen,
-  removeUserData,
   removePinCode,
   setAuthStatus,
   setExistUser,
   removeAllUserData,
-  getTheme,
 } from '../../../realm/realm';
 
 // Services and Actions
@@ -38,10 +35,8 @@ import {
   openPinCodeModal,
   setNsfw,
   isPinCodeOpen,
-  setPinCode as savePinCode,
   login,
   logoutDone,
-  closePinCodeModal,
   setColorTheme,
   setIsBiometricEnabled,
   setEncryptedUnlockPin,
@@ -49,7 +44,6 @@ import {
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { setPushToken, getNodes } from '../../../providers/ecency/ecency';
 import { checkClient } from '../../../providers/hive/dhive';
-import { updatePinCode } from '../../../providers/hive/auth';
 import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
 // Middleware
 

@@ -56,8 +56,6 @@ class PinCodeContainer extends Component {
   //sets initial pin code screen label based on oldPinVerified param/state
   componentDidMount() {
 
-    // this.props.dispatch(setEncryptedUnlockPin(undefined))
-
     const { intl } = this.props;
     const { isOldPinVerified } = this.state;
 
@@ -140,21 +138,13 @@ class PinCodeContainer extends Component {
   _resetPinCode = (pin) =>
     new Promise((resolve, reject) => {
       const {
-        currentAccount,
         dispatch,
-        pinCodeParams: { navigateTo, navigateParams, accessToken, callback },
+        pinCodeParams: { navigateTo, navigateParams, callback },
         encUnlockPin,
         intl,
       } = this.props;
       const { isOldPinVerified, oldPinCode, newPinCode } = this.state;
 
-      const pinData = {
-        pinCode: pin,
-        password: currentAccount ? currentAccount.password : '',
-        username: currentAccount ? currentAccount.name : '',
-        accessToken,
-        oldPinCode,
-      };
 
       //if old pin already verified, check new pin setup conditions.
       if (isOldPinVerified) {
