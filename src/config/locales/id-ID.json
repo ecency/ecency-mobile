@@ -229,6 +229,7 @@
       "delegations": "Delagasi"
     },
     "pincode": "Kode PIN",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "Setel Ulang Kode Pin",
     "reset": "Setel Ulang",
     "nsfw_content": "NSFW",
@@ -419,7 +420,8 @@
     "forgot_text": "Oh, saya lupa...",
     "pin_not_matched": "PIN tidak cocok, Tolong coba lagi.",
     "attempts_postfix": "percobaan gagal",
-    "message_reset_warning": "Data pengguna akan dihapus pada percobaan berikutnya"
+    "message_reset_warning": "Data pengguna akan dihapus pada percobaan berikutnya",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "Sukses!",
