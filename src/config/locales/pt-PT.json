@@ -229,6 +229,7 @@
       "delegations": "Delegações"
     },
     "pincode": "Código PIN",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "Redefinir o código Pin",
     "reset": "Reiniciar",
     "nsfw_content": "NSFW",
@@ -419,7 +420,8 @@
     "forgot_text": "Oh, esqueci disso...",
     "pin_not_matched": "PIN incorreto. Por favor, tente novamente.",
     "attempts_postfix": "tentativa(s) errada(s)",
-    "message_reset_warning": "Os dados do usuário serão apagados na próxima tentativa mal-sucedida"
+    "message_reset_warning": "Os dados do usuário serão apagados na próxima tentativa mal-sucedida",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "Sucesso!",
