@@ -32,6 +32,7 @@ import {
   SET_SETTINGS_MIGRATED,
   HIDE_POSTS_THUMBNAILS,
   SET_TERMS_ACCEPTED,
+  SET_IS_BIOMETRIC_ENABLED,
   SET_ENC_UNLOCK_PIN
 } from '../constants/constants';
 
@@ -208,6 +209,11 @@ export const setHidePostsThumbnails = (shouldHide:boolean) => ({
 export const setIsTermsAccepted = (isTermsAccepted:boolean) => ({
   payload:isTermsAccepted,
   type: SET_TERMS_ACCEPTED
+})
+
+export const setIsBiometricEnabled = (enabled:boolean) => ({
+  payload:enabled,
+  type: SET_IS_BIOMETRIC_ENABLED
 })
 
 export const setEncryptedUnlockPin = (encryptedUnlockPin:string) => ({

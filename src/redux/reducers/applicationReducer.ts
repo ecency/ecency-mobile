@@ -30,6 +30,7 @@ import {
   SET_SETTINGS_MIGRATED,
   HIDE_POSTS_THUMBNAILS,
   SET_TERMS_ACCEPTED,
+  SET_IS_BIOMETRIC_ENABLED,
   SET_ENC_UNLOCK_PIN
 } from '../constants/constants';
 
@@ -71,6 +72,7 @@ interface State {
   settingsMigratedV2: boolean;
   hidePostsThumbnails: boolean;
   isTermsAccepted: boolean;
+  isBiometricEnabled: boolean;
 }
 
 const initialState:State = {
@@ -111,6 +113,7 @@ const initialState:State = {
   settingsMigratedV2: false,
   hidePostsThumbnails: false,
   isTermsAccepted: false,
+  isBiometricEnabled: false
 };
 
 export default function (state = initialState, action):State {
@@ -284,6 +287,12 @@ export default function (state = initialState, action):State {
       return {
         ...state,
         isTermsAccepted:action.payload
+      }
+    
+    case SET_IS_BIOMETRIC_ENABLED:
+      return {
+        ...state,
+        isBiometricEnabled:action.payload
       }
 
     case SET_ENC_UNLOCK_PIN:

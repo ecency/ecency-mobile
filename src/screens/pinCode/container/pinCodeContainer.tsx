@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import Config from 'react-native-config';
 import get from 'lodash/get';
+import FingerprintScanner from 'react-native-fingerprint-scanner';
 
 
 // Actions & Services
@@ -37,6 +38,8 @@ import PinCodeScreen from '../screen/pinCodeScreen';
 
 
 class PinCodeContainer extends Component {
+  screenRef = null;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -74,9 +77,43 @@ class PinCodeContainer extends Component {
 
   }
 
+  _processBiometric = async () => {
+    try {
+      const {
+        intl,
+        pinCodeParams: { isReset },
+        applicationPinCode,
+        isBiometricEnabled,
+      } = this.props;
+
+      if (isReset || !isBiometricEnabled) {
+        return;
+      }
+
+      const biometryType = await FingerprintScanner.isSensorAvailable();
+      console.log('biometryType is => ', biometryType);
+
+      await FingerprintScanner.authenticate({
+        description: intl.formatMessage({ id: 'pincode.biometric_desc' }),
+      });
+      console.log('successfully passed biometric auth');
+
+      //code gets here means biometeric succeeded
+      if (this.screenRef) {
+        const verifiedPin = decryptKey(applicationPinCode, Config.PIN_KEY, this._onDecryptFail);
+        this.screenRef.setPinThroughBiometric(verifiedPin);
+      }
+    } catch (err) {
+      console.warn('Failed to process biometric', err);
+    }
+
+    FingerprintScanner.release();
+  };
+
   //this function updates realm with appropriate master key required for encyrption
   //this function is important: must run while chaning pin
   //and even logging in with existing pin code
+
   _updatePinCodeRealm = async (pinData) => {
     try {
       const { currentAccount, dispatch } = this.props;
@@ -388,12 +425,14 @@ class PinCodeContainer extends Component {
 
     return (
       <PinCodeScreen
+        ref={(ref) => (this.screenRef = ref)}
         informationText={informationText}
         setPinCode={(pin) => this._setPinCode(pin, isReset)}
         showForgotButton={!isOldPinVerified}
         username={currentAccount.name}
         intl={intl}
         handleForgotButton={() => this._handleForgotButton()}
+        isReset={isReset}
         {...this.props}
       />
     );
@@ -406,6 +445,7 @@ const mapStateToProps = (state) => ({
   encUnlockPin: state.application.encUnlockPin,
   otherAccounts: state.account.otherAccounts,
   pinCodeParams: state.application.pinCodeNavigation,
+  isBiometricEnabled: state.application.isBiometricEnabled,
 });
 
 export default injectIntl(connect(mapStateToProps)(PinCodeContainer));
