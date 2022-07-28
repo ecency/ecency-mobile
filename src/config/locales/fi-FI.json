@@ -229,6 +229,7 @@
       "delegations": "Valtuutukset"
     },
     "pincode": "PIN-koodi",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "Nollaa Pin-koodi",
     "reset": "Nollaa",
     "nsfw_content": "NSFW",
@@ -419,7 +420,8 @@
     "forgot_text": "Unohdin sen...",
     "pin_not_matched": "PIN-koodi ei täsmää, yritä uudelleen.",
     "attempts_postfix": "epäonnistuneet yritykset",
-    "message_reset_warning": "Käyttäjätiedot poistetaan seuraavan epäonnistuneen yrityksen yhteydessä"
+    "message_reset_warning": "Käyttäjätiedot poistetaan seuraavan epäonnistuneen yrityksen yhteydessä",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "Onnistui!",
