@@ -67,7 +67,7 @@ interface State {
   isPinCodeOpen: boolean;
   isRenderRequired: boolean;
   lastAppVersion:string;
-  settingsMigrated: boolean;
+  settingsMigratedV2: boolean;
   hidePostsThumbnails: boolean;
   isTermsAccepted: boolean;
   isBiometricEnabled: boolean;
@@ -104,10 +104,10 @@ const initialState:State = {
   upvotePercent: 1,
   nsfw: '1',
   pin: null,
-  isPinCodeOpen: true,
+  isPinCodeOpen: false,
   isRenderRequired: false,
   lastAppVersion:'',
-  settingsMigrated: false,
+  settingsMigratedV2: false,
   hidePostsThumbnails: false,
   isTermsAccepted: false,
   isBiometricEnabled: false
@@ -271,7 +271,7 @@ export default function (state = initialState, action) {
     case SET_SETTINGS_MIGRATED:
       return {
         ...state,
-        settingsMigrated:action.payload
+        settingsMigratedV2:action.payload
       }
 
     case HIDE_POSTS_THUMBNAILS:

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, Text, Image, SafeAreaView } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 // Constants
 
 // Components
@@ -7,6 +8,7 @@ import { TextButton } from '../../buttons';
 import { LineBreak } from '../../basicUIElements';
 // Styles
 import styles from './loginHeaderStyles';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 class LoginHeaderView extends PureComponent {
   /* Props
@@ -43,7 +45,10 @@ class LoginHeaderView extends PureComponent {
               />
             </View>
           </View>
-          {!isKeyboardOpen && (
+          <Animatable.View
+            animation={isKeyboardOpen ? hideAnimation : showAnimation}
+            duration={300}
+          >
             <View style={styles.body}>
               <View style={styles.titleText}>
                 <Text style={styles.title}>{title}</Text>
@@ -51,7 +56,7 @@ class LoginHeaderView extends PureComponent {
               </View>
               <Image style={styles.mascot} source={require('../../../assets/love_mascot.png')} />
             </View>
-          )}
+          </Animatable.View>
           <LineBreak />
         </View>
       </SafeAreaView>
@@ -60,3 +65,27 @@ class LoginHeaderView extends PureComponent {
 }
 
 export default LoginHeaderView;
+
+const { height } = getWindowDimensions();
+const bodyHeight = height / 3.9;
+const showAnimation = {
+  from: {
+    opacity: 0,
+    height: 0,
+  },
+  to: {
+    opacity: 1,
+    height: bodyHeight,
+  },
+};
+
+const hideAnimation = {
+  from: {
+    opacity: 1,
+    height: bodyHeight,
+  },
+  to: {
+    opacity: 0,
+    height: 0,
+  },
+};

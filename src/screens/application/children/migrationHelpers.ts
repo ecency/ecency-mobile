@@ -31,9 +31,9 @@ import {
 
 
 //migrates settings from realm to redux once and do no user realm for settings again;
-export const migrateSettings = async (dispatch: any, settingsMigrated: boolean) => {
+export const migrateSettings = async (dispatch: any, settingsMigratedV2: boolean) => {
 
-    if (settingsMigrated) {
+    if (settingsMigratedV2) {
         return;
     }
 
@@ -50,7 +50,7 @@ export const migrateSettings = async (dispatch: any, settingsMigrated: boolean) 
         const isDarkMode = Appearance.getColorScheme() === 'dark';
         dispatch(isDarkTheme(settings.isDarkTheme !== null ? settings.isDarkTheme : isDarkMode));
         dispatch(setColorTheme(THEME_OPTIONS.findIndex(item => item.value === settings.isDarkTheme)));
-        if (settings.isPinCodeOpen !== '') await dispatch(isPinCodeOpen(settings.isPinCodeOpen));
+        await dispatch(isPinCodeOpen(!!settings.isPinCodeOpen));
         if (settings.language !== '') dispatch(setLanguage(settings.language));
         if (settings.server !== '') dispatch(setApi(settings.server));
         if (settings.upvotePercent !== '') {

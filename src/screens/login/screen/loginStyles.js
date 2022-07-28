@@ -27,9 +27,9 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'flex-end',
-    marginRight: 10,
-    bottom: 24,
-    right: 24,
+    paddingRight: 24,
+    paddingBottom: 24,
+    backgroundColor: '$primaryBackgroundColor',
   },
   cancelButton: {
     marginRight: 10,
