@@ -229,6 +229,7 @@
       "delegations": "Delegations"
     },
     "pincode": "PIN 코드",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "핀코드 리셋",
     "reset": "초기화",
     "nsfw_content": "안전하지 않은 콘텐츠",
@@ -419,7 +420,8 @@
     "forgot_text": "PIN 코드가 기억나지 않습니다...",
     "pin_not_matched": "비밀번호가 일치하지 않습니다. 다시 시도해 주세요.",
     "attempts_postfix": "실패 횟수",
-    "message_reset_warning": "다음 시도 실패 시 사용자 데이터가 삭제됩니다"
+    "message_reset_warning": "다음 시도 실패 시 사용자 데이터가 삭제됩니다",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "성공!",
