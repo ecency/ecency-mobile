@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, StatusBar, Platform } from 'react-native';
+import { View, StatusBar, Platform, Keyboard } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
@@ -41,6 +41,11 @@ class LoginScreen extends PureComponent {
     };
   }
 
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
   _handleOnPasswordChange = (value) => {
     this.setState({ password: value });
   };
@@ -62,13 +67,20 @@ class LoginScreen extends PureComponent {
     this.setState({ isModalOpen: !isModalOpen });
   };
 
-  _handleFormInputFocus = (isFocused) => {
-    this.setState({ keyboardIsOpen: isFocused });
-  };
+  UNSAFE_componentWillMount() {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () =>
+      this.setState({ keyboardIsOpen: true }),
+    );
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () =>
+      this.setState({ keyboardIsOpen: false }),
+    );
+  }
+
   render() {
     const { navigation, intl, handleOnPressLogin, handleSignUp, isLoading } = this.props;
     const { username, isUsernameValid, keyboardIsOpen, password, isModalOpen } = this.state;
 
+    console.log('keyboardIsOpen : ', keyboardIsOpen);
     return (
       <View style={styles.container}>
         <StatusBar hidden translucent />
@@ -123,7 +135,6 @@ class LoginScreen extends PureComponent {
                 isFirstImage
                 value={username}
                 inputStyle={styles.input}
-                handleFocus={this._handleFormInputFocus}
               />
               <FormInput
                 rightIconName="lock"
@@ -138,7 +149,6 @@ class LoginScreen extends PureComponent {
                 type="password"
                 numberOfLines={1}
                 inputStyle={styles.input}
-                handleFocus={this._handleFormInputFocus}
               />
               <InformationArea
                 description={intl.formatMessage({
