@@ -1,26 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { useIntl } from 'react-intl';
 
 import { Text, TouchableOpacity, View } from 'react-native';
-
 import { NumericKeyboard, PinAnimatedInput, UserAvatar } from '../../../components';
 
 import styles from './pinCodeStyles';
 
-const PinCodeScreen = ({
+const PinCodeScreen = forwardRef(({
   informationText,
   showForgotButton,
   username,
   handleForgotButton,
   setPinCode,
-}) => {
+}, ref) => {
   const [pin, setPin] = useState('');
   const [loading, setLoading] = useState(false);
   const intl = useIntl();
 
+  useImperativeHandle(ref, () => ({
+   setPinThroughBiometric(bioPin){
+     if(bioPin && bioPin.length === 4){
+      setLoading(true);
+      setPin(bioPin)
+     }
+   }
+  }));
+
+
+
   useEffect(() => {
     _handlePinComplete();
   }, [pin]);
+
+
 
   const _handlePinComplete = async () => {
     if (pin.length === 4) {
@@ -30,6 +42,7 @@ const PinCodeScreen = ({
       setLoading(false);
     }
   };
+
 
   const _handleKeyboardOnPress = async (value) => {
     try {
@@ -82,6 +95,6 @@ const PinCodeScreen = ({
       )}
     </View>
   );
-};
+}) 
 
 export default PinCodeScreen;

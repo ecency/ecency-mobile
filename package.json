@@ -93,6 +93,7 @@
     "react-native-dynamic": "^1.0.0",
     "react-native-extended-stylesheet": "^0.10.0",
     "react-native-fast-image": "^8.3.2",
+    "react-native-fingerprint-scanner": "hieuvp/react-native-fingerprint-scanner",
     "react-native-gesture-handler": "^1.9.0",
     "react-native-highlight-words": "^1.0.1",
     "react-native-iap": "^7.5.6",

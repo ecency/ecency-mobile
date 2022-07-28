@@ -24,6 +24,7 @@ const SettingsScreen = ({
   isDarkTheme,
   colorThemeIndex,
   isPinCodeOpen,
+  isBiometricEnabled,
   isLoggedIn,
   isNotificationSettingsOpen,
   nsfw,
@@ -149,6 +150,16 @@ const SettingsScreen = ({
             <Fragment>
               <SettingsItem
                 title={intl.formatMessage({
+                  id: 'settings.biometric',
+                })}
+                type="toggle"
+                actionType="biometric"
+                isOn={isBiometricEnabled}
+                handleOnChange={handleOnChange}
+              />
+
+              <SettingsItem
+                title={intl.formatMessage({
                   id: 'settings.reset_pin',
                 })}
                 text={intl.formatMessage({
@@ -159,15 +170,6 @@ const SettingsScreen = ({
                 handleOnButtonPress={handleOnButtonPress}
               />
             </Fragment>
-            //  <SettingsItem
-            //   title={intl.formatMessage({
-            //     id: 'settings.default_footer',
-            //   })}
-            //   type="toggle"
-            //   actionType="default_footer"
-            //   isOn={isDefaultFooter}
-            //   handleOnChange={handleOnChange}
-            // />
           )}
         </View>
         {!!isLoggedIn && (
