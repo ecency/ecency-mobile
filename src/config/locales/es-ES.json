@@ -229,7 +229,7 @@
       "delegations": "Delegaciones"
     },
     "pincode": "Pincode",
-    "biometric": "Finger Print / Face Unlock",
+    "biometric": "Desbloquear por Huella Dactilar / Reconocimiento Facial",
     "reset_pin": "Reiniciar código pin",
     "reset": "Reiniciar",
     "nsfw_content": "NSFW",
@@ -421,7 +421,7 @@
     "pin_not_matched": "El PIN no coincide. Inténtelo de nuevo.",
     "attempts_postfix": "intento(s) fallidos",
     "message_reset_warning": "Los datos del usuario serán borrados en el próximo intento fallido",
-    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
+    "biometric_desc": "Escanea tu huella dactilar en el escáner del dispositivo para continuar"
   },
   "alert": {
     "success": "Conseguido!",
