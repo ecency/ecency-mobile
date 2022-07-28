@@ -88,7 +88,7 @@ import lightTheme from '../../../themes/lightTheme';
 import persistAccountGenerator from '../../../utils/persistAccountGenerator';
 import parseVersionNumber from '../../../utils/parseVersionNumber';
 import { setMomentLocale } from '../../../utils/time';
-import parseAuthUrl from '../../../utils/parseAuthUrl';
+import parseAuthUrl, { AUTH_MODES } from '../../../utils/parseAuthUrl';
 import { purgeExpiredCache } from '../../../redux/actions/cacheActions';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
 import MigrationHelpers from '../../../utils/migrationHelpers';
@@ -324,13 +324,30 @@ class ApplicationContainer extends Component {
     }
 
     if (!routeName) {
-      const { mode, referredUser } = parseAuthUrl(url);
-      if (mode === 'SIGNUP') {
+      const { 
+        mode, 
+        queryParams:{
+          referredUser,
+          username,
+          password
+        } 
+      } = parseAuthUrl(url);
+
+      if (mode === AUTH_MODES.SIGNUP) {
         routeName = ROUTES.SCREENS.REGISTER;
         params = {
-          referredUser,
+          referredUser:referredUser,
         };
         keey = `${mode}/${referredUser || ''}`;
+      }
+      if (mode === AUTH_MODES.LOGIN && username && password){
+        
+        routeName = ROUTES.SCREENS.LOGIN;
+        params = {
+          username,
+          password
+        };
+        keey = `${mode}/${username || ''}`;
       }
     }
 

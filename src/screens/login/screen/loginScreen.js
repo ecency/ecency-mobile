@@ -33,12 +33,20 @@ class LoginScreen extends PureComponent {
     super(props);
 
     this.state = {
-      username: '',
-      password: '',
+      username: props.navigation.getParam('username', ''),
+      password: props.navigation.getParam('password', ''),
       isUsernameValid: true,
       keyboardIsOpen: false,
       isModalOpen: false,
     };
+  }
+
+  componentDidMount() {
+    const { handleOnPressLogin } = this.props;
+    const { username, password } = this.state;
+    if (username && password) {
+      handleOnPressLogin(username, password);
+    }
   }
 
   componentWillUnmount() {
@@ -148,6 +156,7 @@ class LoginScreen extends PureComponent {
                 secureTextEntry
                 type="password"
                 numberOfLines={1}
+                value={password}
                 inputStyle={styles.input}
               />
               <InformationArea
