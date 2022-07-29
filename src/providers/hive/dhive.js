@@ -635,8 +635,8 @@ export const getRepliesByLastUpdate = async (query) => {
 };
 
 export const getPost = async (author, permlink, currentUserName = null, isPromoted = false) => {
-  author = author && author.toLowerCase();
-  permlink = permlink && permlink.toLowerCase();
+  author = 'chaosmagic23'; // author && author.toLowerCase();
+  permlink = 'guide-for-using-anchor-in'; // permlink && permlink.toLowerCase();
   try {
     console.log('Getting post: ', author, permlink);
     const post = await client.call('bridge', 'get_post', { author, permlink });
