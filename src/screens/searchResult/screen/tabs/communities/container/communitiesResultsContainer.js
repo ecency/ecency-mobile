@@ -6,7 +6,7 @@ import { shuffle } from 'lodash';
 
 import ROUTES from '../../../../../../constants/routeNames';
 
-import { getCommunities, getSubscriptions } from '../../../../../../providers/hive/dhive';
+import { getCommunities } from '../../../../../../providers/hive/dhive';
 
 import {
   subscribeCommunity,
@@ -40,6 +40,7 @@ const CommunitiesResultsContainer = ({ children, navigation, searchValue }) => {
   const subscribingCommunities = useSelector(
     (state) => state.communities.subscribingCommunitiesInSearchResultsScreen,
   );
+  const subscribedCommunities = useSelector((state) => state.communities.subscribedCommunities);
 
   useEffect(() => {
     setData([]);
@@ -48,25 +49,26 @@ const CommunitiesResultsContainer = ({ children, navigation, searchValue }) => {
     getCommunities('', searchValue ? 100 : 20, searchValue || null, 'rank')
       .then((communities) => {
         if (currentAccount && currentAccount.username) {
-          getSubscriptions(currentAccount.username).then((subs) => {
-            if (subs) {
-              communities.forEach((community) =>
-                Object.assign(community, {
-                  isSubscribed: subs.some(
-                    (subscribedCommunity) => subscribedCommunity[0] === community.name,
-                  ),
-                }),
-              );
-            }
-            if (searchValue) {
-              setData(communities);
-            } else {
-              setData(shuffle(communities));
-            }
-            if (communities.length === 0) {
-              setNoResult(true);
-            }
-          });
+          if (subscribedCommunities.data && subscribedCommunities.data.length) {
+            communities.forEach((community) => {
+              const _isSubscribed =
+                subscribedCommunities.data.findIndex((item) => item[0] === community.name) === -1
+                  ? false
+                  : true;
+              console.log('_isSubscribed : ', _isSubscribed);
+              return Object.assign(community, {
+                isSubscribed: _isSubscribed,
+              });
+            });
+          }
+          if (searchValue) {
+            setData(communities);
+          } else {
+            setData(shuffle(communities));
+          }
+          if (communities.length === 0) {
+            setNoResult(true);
+          }
         } else {
           if (searchValue) {
             setData(communities);
