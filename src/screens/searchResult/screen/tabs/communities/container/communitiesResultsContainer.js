@@ -12,6 +12,8 @@ import {
   subscribeCommunity,
   leaveCommunity,
 } from '../../../../../../redux/actions/communitiesAction';
+import { updateSubscribedCommunitiesCache } from '../../../../../../redux/actions/cacheActions';
+import { statusMessage } from '../../../../../../redux/constants/communitiesConstants';
 
 // const DEFAULT_COMMUNITIES = [
 //   'hive-125125',
@@ -37,10 +39,27 @@ const CommunitiesResultsContainer = ({ children, navigation, searchValue }) => {
   const pinCode = useSelector((state) => state.application.pin);
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
+  const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
   const subscribingCommunities = useSelector(
     (state) => state.communities.subscribingCommunitiesInSearchResultsScreen,
   );
+  const subscribingCommunitiesInSearchResultsScreen = useSelector(
+    (state) => state.communities.subscribingCommunitiesInSearchResultsScreen,
+  );
   const subscribedCommunities = useSelector((state) => state.communities.subscribedCommunities);
+  const subscribedCommunitiesCache = useSelector((state) => state.cache.subscribedCommunities);
+
+  // handle cache when searchResultsScreen data updates in communities reducer
+  useEffect(() => {
+    if (subscribingCommunitiesInSearchResultsScreen && selectedCommunityItem) {
+      const { status } = subscribingCommunitiesInSearchResultsScreen[
+        selectedCommunityItem.communityId
+      ];
+      if (status === statusMessage.SUCCESS) {
+        dispatch(updateSubscribedCommunitiesCache(selectedCommunityItem));
+      }
+    }
+  }, [subscribingCommunitiesInSearchResultsScreen]);
 
   useEffect(() => {
     setData([]);
@@ -51,11 +70,13 @@ const CommunitiesResultsContainer = ({ children, navigation, searchValue }) => {
         if (currentAccount && currentAccount.username) {
           if (subscribedCommunities.data && subscribedCommunities.data.length) {
             communities.forEach((community) => {
-              const _isSubscribed =
-                subscribedCommunities.data.findIndex((item) => item[0] === community.name) === -1
-                  ? false
-                  : true;
-              console.log('_isSubscribed : ', _isSubscribed);
+              // first check in cache and then in subscription list
+              const itemExistInCache = subscribedCommunitiesCache.get(community.name);
+              const _isSubscribed = itemExistInCache
+                ? itemExistInCache.data[4]
+                : subscribedCommunities.data.findIndex((item) => item[0] === community.name) === -1
+                ? false
+                : true;
               return Object.assign(community, {
                 isSubscribed: _isSubscribed,
               });
@@ -126,6 +147,7 @@ const CommunitiesResultsContainer = ({ children, navigation, searchValue }) => {
   };
 
   const _handleSubscribeButtonPress = (_data, screen) => {
+    setSelectedCommunityItem(_data); //set selected item to handle its cache
     let subscribeAction;
     let successToastText = '';
     let failToastText = '';
