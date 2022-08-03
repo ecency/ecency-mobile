@@ -15,13 +15,13 @@ export default {
   $primaryDarkBlue: '#1a509a',
   $primaryLightBlue: '#2e3d51',
   $primaryGray: '#f5f5f5',
-  $primaryDarkGray: '#c1c5c7',
+  $primaryDarkGray: '#fcfcfc',
   $primaryLightGray: '#f6f6f6',
   $primaryRed: '#e63535',
   $primaryGreen: '#4FD688',
   $companyRed: '#c10000',
-  $primaryBlack: '#c1c5c7',
-  $primaryDarkText: '#526d91',
+  $primaryBlack: '#fcfcfc',
+  $primaryDarkText: '#fcfcfc',
 
   // General Colors
   $borderColor: '#c5c5c5',
