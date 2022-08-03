@@ -18,6 +18,8 @@ import { TextWithIcon } from '../../basicUIElements';
 import styles from './commentStyles';
 import { useAppSelector } from '../../../hooks';
 import { OptionsModal } from '../../atoms';
+import { useDispatch } from 'react-redux';
+import { showReplyModal } from '../../../redux/actions/uiAction';
 
 const CommentView = ({
   avatarSize,
@@ -43,6 +45,7 @@ const CommentView = ({
 }) => {
   const intl = useIntl();
   const actionSheet = useRef(null);
+  const dispatch = useDispatch();
 
   const isMuted = useAppSelector(state => state.account.currentAccount.mutes?.indexOf(comment.author) > -1);
   const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
@@ -113,6 +116,13 @@ const CommentView = ({
     setChildCount(childCount + 1);
   }
 
+  const _handleOnReplyPress = () => {
+    if (isLoggedIn) {
+      dispatch(showReplyModal(comment));
+    } else {
+      console.log('Not LoggedIn');
+    }
+  }
 
   const _renderReadMoreButton = () => (
     <TextWithIcon
@@ -151,7 +161,7 @@ const CommentView = ({
           mainAuthor={mainAuthor}
           fetchedAt={fetchedAt}
           incrementRepliesCount={_incrementRepliesCount}
-          handleOnReplyPress={handleOnReplyPress}
+          handleOnReplyPress={_handleOnReplyPress}
         />
       </AnimatedView>
      
@@ -218,7 +228,7 @@ const CommentView = ({
             iconStyle={styles.leftIcon}
             style={styles.leftButton}
             name="comment-outline"
-            onPress={() => handleOnReplyPress && handleOnReplyPress(comment)}
+            onPress={_handleOnReplyPress}
             iconType="MaterialCommunityIcons"
           />
         )}
