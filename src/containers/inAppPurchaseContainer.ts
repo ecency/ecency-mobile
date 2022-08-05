@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Platform, Alert } from 'react-native';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import RNIap, { purchaseErrorListener, purchaseUpdatedListener } from 'react-native-iap';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';

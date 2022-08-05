@@ -3,7 +3,7 @@ import { View, Alert, StatusBar } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 
 import { loginWithSC2 } from '../../providers/hive/auth';
 import { hsOptions } from '../../constants/hsOptions';

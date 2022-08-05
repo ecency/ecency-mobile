@@ -4,7 +4,7 @@ import { BasicHeader } from '../../../components'
 import { CoinSummary } from '../children'
 import styles from './screen.styles';
 import ActivitiesList from '../children/activitiesList'
-import { withNavigation } from 'react-navigation'
+import { withNavigation } from '@react-navigation/compat'
 import { useAppDispatch, useAppSelector } from '../../../hooks'
 import { CoinActivitiesCollection, QuoteItem } from '../../../redux/reducers/walletReducer';
 import { fetchCoinActivities } from '../../../utils/wallet';

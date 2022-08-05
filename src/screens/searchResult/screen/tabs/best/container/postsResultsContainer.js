@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { useSelector } from 'react-redux';
 
 import ROUTES from '../../../../../../constants/routeNames';

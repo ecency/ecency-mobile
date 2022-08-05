@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { Linking, Modal, PermissionsAndroid, Platform, View } from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { useIntl, injectIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ImageViewer from 'react-native-image-zoom-viewer';

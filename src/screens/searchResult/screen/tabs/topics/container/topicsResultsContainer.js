@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { connect } from 'react-redux';
 
 import ROUTES from '../../../../../../constants/routeNames';
 
 import { searchTag } from '../../../../../../providers/ecency/ecency';
-import { isCommunity } from '../../../../../../utils/communityValidation';
 
 const OtherResultContainer = (props) => {
   const [tags, setTags] = useState([]);

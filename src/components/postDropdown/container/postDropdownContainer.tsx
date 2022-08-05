@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { Alert, Share } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';

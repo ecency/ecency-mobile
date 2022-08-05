@@ -1,5 +1,5 @@
 import React from 'react';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';

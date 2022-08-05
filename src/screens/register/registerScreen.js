@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, StatusBar, Platform, Image, Text, SafeAreaView } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useIntl } from 'react-intl';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 
 import RegisterContainer from './registerContainer';
 

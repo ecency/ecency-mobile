@@ -10,7 +10,7 @@ import {
   Button,
 } from 'react-native';
 import { useIntl } from 'react-intl';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { get } from 'lodash';
 
 // COMPONENTS

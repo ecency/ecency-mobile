@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 
 // Services and Actions
 import { getPointsSummary, claimPoints, getPointsHistory } from '../providers/ecency/ePoint';

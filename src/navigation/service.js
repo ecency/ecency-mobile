@@ -1,5 +1,5 @@
 import { BackHandler } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions } from '@react-navigation/compat';
 
 let _navigator;
 
