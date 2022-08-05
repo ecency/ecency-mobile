@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from 'react';
-import { StatusBar, Platform, View, Alert } from 'react-native';
+import { StatusBar, Platform, View, Alert, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
-import { NavigationContainer } from '@react-navigation/native';
+
 
 
 import { injectIntl } from 'react-intl';
 
-import AppNavitation from '../../../navigation/routes';
+import {initAppNavigation} from '../../../navigation/navigation';
 import { setTopLevelNavigator, navigate } from '../../../navigation/service';
 
 // Services
@@ -33,8 +33,12 @@ import {
 // Themes (Styles)
 import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
+import { NavigationContainer } from '@react-navigation/native';
+import FeedScreen from '../../feed/screen/feedScreen';
 
-const Navigation = <NavigationContainer>{AppNavitation}</NavigationContainer>;
+import { createStackNavigator } from '@react-navigation/stack';
+const Stack = createStackNavigator();
+
 
 class ApplicationScreen extends Component {
   constructor(props) {
@@ -98,6 +102,8 @@ class ApplicationScreen extends Component {
     }
   }
 
+
+
   render() {
     const { isConnected, isDarkTheme, toastNotification, foregroundNotificationData } = this.props;
     const { isShowToastNotification } = this.state;
@@ -106,21 +112,29 @@ class ApplicationScreen extends Component {
 
     return (
       <View style={{ flex: 1 }}>
+
         {Platform.os === 'ios' ? (
           <StatusBar barStyle={barStyle} />
         ) : (
           <StatusBar barStyle={barStyle} backgroundColor={barColor} />
         )}
 
+
         <Fragment>
           {!isConnected && <NoInternetConnection />}
-          <Navigation
-            ref={(navigatorRef) => {
-              setTopLevelNavigator(navigatorRef);
-            }}
-          />
+
+          {initAppNavigation()}
+      
         </Fragment>
 
+
+
+        <ForegroundNotification remoteMessage={foregroundNotificationData} />
+        <QuickProfileModal navigation={{ navigate }} />
+        <AccountsBottomSheet />
+        <ActionModal />
+        <QuickReplyModal />
+        <QRModal />
         {isShowToastNotification && (
           <ToastNotification
             text={toastNotification}
@@ -128,14 +142,6 @@ class ApplicationScreen extends Component {
             onHide={this._handleOnHideToastNotification}
           />
         )}
-
-        <ForegroundNotification remoteMessage={foregroundNotificationData} />
-       
-        <QuickProfileModal navigation={{ navigate }} />
-        <AccountsBottomSheet />
-        <ActionModal />
-        <QuickReplyModal />
-        <QRModal />
 
       </View>
     );

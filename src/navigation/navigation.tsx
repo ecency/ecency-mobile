@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -43,6 +44,7 @@ import {
   CoinDetails,
   EditHistoryScreen,
 } from '../screens';
+import FeedScreen from '../screens/feed/screen/feedScreen';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -126,7 +128,7 @@ const mainNavigation = (
   </Drawer.Navigator>
 );
 
-const AppNavigator = (
+const StackNavigator = (
   <Stack.Navigator headerMode="none">
     <Stack.Screen name={ROUTES.DRAWER.MAIN} component={mainNavigation} />
     <Stack.Screen name={ROUTES.DRAWER.PROFILE} component={Profile} />
@@ -165,4 +167,10 @@ const AppNavigator = (
   </Stack.Navigator>
 );
 
-export default AppNavigator; //TODO: create separation of main, register and login perspectives
+export const initAppNavigation = () => (
+  <NavigationContainer>
+    <Stack.Navigator headerMode="none">
+      <Stack.Screen name="Feed" component={FeedScreen} />
+    </Stack.Navigator>
+  </NavigationContainer>
+)
