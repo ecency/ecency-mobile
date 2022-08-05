@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 
-import { getCommunity, getSubscriptions } from '../../../providers/hive/dhive';
+import { getCommunity } from '../../../providers/hive/dhive';
 
 import { subscribeCommunity, leaveCommunity } from '../../../redux/actions/communitiesAction';
 
@@ -25,6 +25,7 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isL
     (state) => state.communities.subscribingCommunitiesInCommunitiesScreenDiscoverTab,
   );
   const subscribedCommunitiesCache = useSelector((state) => state.cache.subscribedCommunities);
+  const subscribedCommunities = useSelector((state) => state.communities.subscribedCommunities);
 
   useEffect(() => {
     if (subscribingCommunitiesInDiscoverTab && selectedCommunityItem) {
@@ -55,17 +56,9 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isL
         const itemExistInCache = subscribedCommunitiesCache.get(data.name);
         setIsSubscribed(itemExistInCache.data[4]); //if item exist in cache, get isSubscribed value from cache
       } else {
-        //check and set user role
-        getSubscriptions(currentAccount.username)
-          .then((result) => {
-            if (result) {
-              const _isSubscribed = result.some((item) => item[0] === data.name);
-              setIsSubscribed(_isSubscribed);
-            }
-          })
-          .catch((e) => {
-            console.log(e);
-          });
+        // check in subscribed communities list if selected community exists
+        const itemExist = subscribedCommunities.data.find((item) => item[0] === data.name);
+        setIsSubscribed(itemExist ? true : false);
       }
     }
   }, [data]);
