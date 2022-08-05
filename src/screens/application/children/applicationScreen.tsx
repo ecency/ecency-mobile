@@ -2,7 +2,9 @@ import React, { Component, Fragment } from 'react';
 import { StatusBar, Platform, View, Alert } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
-import { createAppContainer } from 'react-navigation';
+import { NavigationContainer } from '@react-navigation/native';
+
+
 import { injectIntl } from 'react-intl';
 
 import AppNavitation from '../../../navigation/routes';
@@ -32,7 +34,7 @@ import {
 import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
 
-const Navigation = createAppContainer(AppNavitation);
+const Navigation = <NavigationContainer>{AppNavitation}</NavigationContainer>;
 
 class ApplicationScreen extends Component {
   constructor(props) {

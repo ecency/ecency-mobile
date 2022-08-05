@@ -1,8 +1,8 @@
 import React from 'react';
-import { createSwitchNavigator } from 'react-navigation';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { createDrawerNavigator } from 'react-navigation-drawer';
-import { createStackNavigator } from 'react-navigation-stack';
+
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createStackNavigator } from '@react-navigation/stack';
 
 // Constants
 import ROUTES from '../constants/routeNames';
@@ -44,128 +44,125 @@ import {
   EditHistoryScreen,
 } from '../screens';
 
-const bottomTabNavigator = createBottomTabNavigator(
-  {
-    [ROUTES.TABBAR.FEED]: {
-      screen: Feed,
-      navigationOptions: () => ({
-        tabBarIcon: ({ tintColor }) => (
-          <Icon
-            iconType="MaterialIcons"
-            style={{ padding: 15 }}
-            name="view-day"
-            color={tintColor}
-            size={scalePx(26)}
-          />
-        ),
-      }),
-    },
-    [ROUTES.TABBAR.NOTIFICATION]: {
-      screen: Notification,
-      navigationOptions: () => ({
-        tabBarIcon: ({ tintColor }) => (
+const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator();
+
+const _tabBarIcon = (name, color) => (
+  <Icon
+    iconType="MaterialIcons"
+    style={{ padding: 15 }}
+    name={name}
+    color={color}
+    size={scalePx(26)}
+  />
+);
+
+const bottomTabNavigator = (
+  <Tab.Navigator
+    tabBar={BottomTabBar}
+    tabBarOptions={{
+      showLabel: false,
+      activeTintColor: '#357ce6',
+      inactiveTintColor: '#c1c5c7',
+    }}
+  >
+    <Tab.Screen
+      name={ROUTES.TABBAR.FEED}
+      component={Feed}
+      options={{
+        tabBarIcon: ({ color }) => _tabBarIcon('view-day', color),
+      }}
+    />
+
+    <Tab.Screen
+      name={ROUTES.TABBAR.NOTIFICATION}
+      component={Notification}
+      options={{
+        tabBarIcon: ({ color }) => (
           <IconContainer
             isBadge
             badgeType="notification"
             iconType="MaterialIcons"
             style={{ padding: 15 }}
             name="notifications"
-            color={tintColor}
+            color={color}
             size={scalePx(26)}
           />
         ),
-      }),
-    },
-    [ROUTES.TABBAR.POST_BUTTON]: {
-      screen: () => null,
-      navigationOptions: {
+      }}
+    />
+
+    <Tab.Screen
+      name={ROUTES.TABBAR.POST_BUTTON}
+      options={{
         tabBarIcon: () => <PostButton />,
-      },
-    },
-    [ROUTES.TABBAR.WALLET]: {
-      screen: Wallet,
-      navigationOptions: () => ({
-        tabBarIcon: ({ tintColor }) => (
-          <Icon
-            iconType="MaterialIcons"
-            style={{ padding: 15 }}
-            name="account-balance-wallet"
-            color={tintColor}
-            size={scalePx(26)}
-          />
-        ),
-      }),
-    },
-    [ROUTES.TABBAR.PROFILE]: {
-      screen: Profile,
-      navigationOptions: () => ({
-        tabBarIcon: ({ tintColor }) => (
-          <Icon
-            iconType="MaterialIcons"
-            style={{ padding: 15 }}
-            name="person"
-            color={tintColor}
-            size={scalePx(26)}
-          />
-        ),
-      }),
-    },
-  },
-  {
-    tabBarComponent: (props) => <BottomTabBar {...props} />,
-    tabBarOptions: {
-      showLabel: false,
-      activeTintColor: '#357ce6',
-      inactiveTintColor: '#c1c5c7',
-    },
-  },
+      }}
+    />
+
+    <Tab.Screen
+      name={ROUTES.TABBAR.WALLET}
+      component={Wallet}
+      options={{
+        tabBarIcon: ({ color }) => _tabBarIcon('account-balance-wallet', color),
+      }}
+    />
+
+    <Tab.Screen
+      name={ROUTES.TABBAR.PROFILE}
+      component={Profile}
+      options={{
+        tabBarIcon: ({ color }) => _tabBarIcon('person', color),
+      }}
+    />
+  </Tab.Navigator>
 );
 
-const mainNavigation = createDrawerNavigator(
-  { [ROUTES.SCREENS.FEED]: { screen: bottomTabNavigator } },
-  { contentComponent: SideMenu },
+const mainNavigation = (
+  <Drawer.Navigator>
+    <Drawer.Screen name={ROUTES.SCREENS.FEED} component={bottomTabNavigator} />
+
+    <Drawer.Screen name="contentComponent" component={SideMenu} />
+  </Drawer.Navigator>
 );
 
-const stackNavigator = createStackNavigator(
-  {
-    [ROUTES.DRAWER.MAIN]: { screen: mainNavigation },
-    [ROUTES.SCREENS.PROFILE]: { screen: Profile },
-    [ROUTES.SCREENS.PROFILE_EDIT]: { screen: ProfileEdit },
-    [ROUTES.SCREENS.POST]: {
-      screen: Post,
-      navigationOptions: {
-        gesturesEnabled: true,
+const AppNavigator = (
+  <Stack.Navigator headerMode="none">
+    <Stack.Screen name={ROUTES.DRAWER.MAIN} component={mainNavigation} />
+    <Stack.Screen name={ROUTES.DRAWER.PROFILE} component={Profile} />
+    <Stack.Screen name={ROUTES.DRAWER.PROFILE_EDIT} component={ProfileEdit} />
+    <Stack.Screen
+      name={ROUTES.DRAWER.POST}
+      component={Post}
+      options={{
+        gestureEnabled: true,
         gestureResponseDistance: { horizontal: 70 },
-      },
-    },
-    [ROUTES.SCREENS.EDITOR]: { screen: Editor },
-    [ROUTES.SCREENS.VOTERS]: { screen: Voters },
-    [ROUTES.SCREENS.FOLLOWS]: { screen: Follows },
-    [ROUTES.SCREENS.SETTINGS]: { screen: Settings },
-    [ROUTES.SCREENS.DRAFTS]: { screen: Drafts },
-    [ROUTES.SCREENS.BOOKMARKS]: { screen: Bookmarks },
-    [ROUTES.SCREENS.SEARCH_RESULT]: { screen: SearchResult },
-    [ROUTES.SCREENS.TAG_RESULT]: { screen: TagResult },
-    [ROUTES.SCREENS.TRANSFER]: { screen: Transfer },
-    [ROUTES.SCREENS.BOOST]: { screen: Boost },
-    [ROUTES.SCREENS.REDEEM]: { screen: Redeem },
-    [ROUTES.SCREENS.REBLOGS]: { screen: Reblogs },
-    [ROUTES.SCREENS.SPIN_GAME]: { screen: SpinGame },
-    [ROUTES.SCREENS.ACCOUNT_BOOST]: { screen: AccountBoost },
-    [ROUTES.SCREENS.COMMUNITY]: { screen: Community },
-    [ROUTES.SCREENS.COMMUNITIES]: { screen: Communities },
-    [ROUTES.SCREENS.WEB_BROWSER]: { screen: WebBrowser },
-    [ROUTES.SCREENS.REFER]: { screen: ReferScreen },
-    [ROUTES.SCREENS.COIN_DETAILS]: { screen: CoinDetails },
-    [ROUTES.SCREENS.EDIT_HISTORY]: { screen: EditHistoryScreen },
-  },
-  {
-    headerMode: 'none',
-  },
+      }}
+    />
+    <Stack.Screen name={ROUTES.SCREENS.EDITOR} component={Editor} />
+    <Stack.Screen name={ROUTES.SCREENS.VOTERS} component={Voters} />
+    <Stack.Screen name={ROUTES.SCREENS.FOLLOWS} component={Follows} />
+    <Stack.Screen name={ROUTES.SCREENS.SETTINGS} component={Settings} />
+    <Stack.Screen name={ROUTES.SCREENS.DRAFTS} component={Drafts} />
+    <Stack.Screen name={ROUTES.SCREENS.BOOKMARKS} component={Bookmarks} />
+    <Stack.Screen name={ROUTES.SCREENS.SEARCH_RESULT} component={SearchResult} />
+    <Stack.Screen name={ROUTES.SCREENS.TAG_RESULT} component={TagResult} />
+    <Stack.Screen name={ROUTES.SCREENS.TRANSFER} component={Transfer} />
+    <Stack.Screen name={ROUTES.SCREENS.BOOST} component={Boost} />
+    <Stack.Screen name={ROUTES.SCREENS.REDEEM} component={Redeem} />
+    <Stack.Screen name={ROUTES.SCREENS.REBLOGS} component={Reblogs} />
+    <Stack.Screen name={ROUTES.SCREENS.SPIN_GAME} component={SpinGame} />
+    <Stack.Screen name={ROUTES.SCREENS.ACCOUNT_BOOST} component={AccountBoost} />
+    <Stack.Screen name={ROUTES.SCREENS.COMMUNITY} component={Community} />
+    <Stack.Screen name={ROUTES.SCREENS.COMMUNITIES} component={Communities} />
+    <Stack.Screen name={ROUTES.SCREENS.WEB_BROWSER} component={WebBrowser} />
+    <Stack.Screen name={ROUTES.SCREENS.REFER} component={ReferScreen} />
+    <Stack.Screen name={ROUTES.SCREENS.COIN_DETAILS} component={CoinDetails} />
+    <Stack.Screen name={ROUTES.SCREENS.EDIT_HISTORY} component={EditHistoryScreen} />
+
+    <Stack.Screen name={ROUTES.SCREENS.REGISTER} component={Register} />
+    <Stack.Screen name={ROUTES.SCREENS.LOGIN} component={Login} />
+  </Stack.Navigator>
 );
 
-export default createSwitchNavigator({
-  stackNavigator,
-  [ROUTES.SCREENS.REGISTER]: { screen: Register },
-  [ROUTES.SCREENS.LOGIN]: { screen: Login },
-});
+export default AppNavigator; //TODO: create separation of main, register and login perspectives
