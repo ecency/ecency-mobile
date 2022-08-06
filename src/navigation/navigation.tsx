@@ -1,14 +1,11 @@
 import React from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 
 // Constants
 import ROUTES from '../constants/routeNames';
 
-// Components
-import { SideMenu } from '../components';
 
 // Screens
 import {
@@ -38,25 +35,17 @@ import {
   CoinDetails,
   EditHistoryScreen,
 } from '../screens';
+import { DrawerNavigator } from './drawerNavigator';
 import { BottomTabNavigator } from './botomTabNavigator';
 
 
 const Stack = createStackNavigator();
-const Drawer = createDrawerNavigator();
 
 
-
-const mainNavigation = (
-  <Drawer.Navigator>
-    <Drawer.Screen name={ROUTES.SCREENS.FEED} component={BottomTabNavigator} />
-
-    <Drawer.Screen name="contentComponent" component={SideMenu} />
-  </Drawer.Navigator>
-);
 
 const StackNavigator = (
   <Stack.Navigator headerMode="none">
-    <Stack.Screen name={ROUTES.DRAWER.MAIN} component={mainNavigation} />
+    <Stack.Screen name={ROUTES.DRAWER.MAIN} component={DrawerNavigator} />
     <Stack.Screen name={ROUTES.DRAWER.PROFILE} component={Profile} />
     <Stack.Screen name={ROUTES.DRAWER.PROFILE_EDIT} component={ProfileEdit} />
     <Stack.Screen
@@ -95,6 +84,6 @@ const StackNavigator = (
 
 export const initAppNavigation = () => (
   <NavigationContainer>
-    {mainNavigation}
+    <DrawerNavigator />
   </NavigationContainer>
 )

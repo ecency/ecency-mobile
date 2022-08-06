@@ -11,25 +11,15 @@ import {
     Profile,
     Wallet,
 } from '../screens';
-import { useDispatch } from 'react-redux';
 
 const Tab = createBottomTabNavigator();
 
 export const BottomTabNavigator = () => {
 
-    const dispatch = useDispatch();
-
-    const _bottomTabBar = (props) => {
-        return (
-            <BottomTabBar
-            dispatch={dispatch}
-                {...props} />
-        )
-    }
 
     return (
         <Tab.Navigator
-            tabBar={_bottomTabBar}
+            tabBar={(props) => <BottomTabBar {...props} /> }
             tabBarOptions={{
                 showLabel: false,
                 activeTintColor: '#357ce6',

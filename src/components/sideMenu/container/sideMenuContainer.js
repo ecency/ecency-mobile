@@ -14,7 +14,6 @@ const SideMenuContainer = ({ navigation }) => {
 
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
   const currentAccount = useSelector((state) => state.account.currentAccount);
-  const otherAccounts = useSelector((state) => state.account.otherAccounts);
   const isVisibleAccountsBottomSheet = useSelector(
     (state) => state.ui.isVisibleAccountsBottomSheet,
   );

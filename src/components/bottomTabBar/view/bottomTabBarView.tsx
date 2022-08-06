@@ -13,21 +13,26 @@ import styles from './bottomTabBarStyles';
 import Icon, { IconContainer } from '../../icon';
 import scalePx from '../../../utils/scalePx';
 import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
+import { useDispatch } from 'react-redux';
 
 
 const BottomTabBarView = ({
-  dispatch,
   state : { routes , index },
   navigation,
   activeTintColor,
   inactiveTintColor,
 }) => {
 
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(updateActiveBottomTab(routes[index].name))
+  },[index])
 
 
-  const _jumpTo = (route, isFocused, idx) => {
 
-  
+  const _jumpTo = (route, isFocused) => {
+
     if(route.name === ROUTES.TABBAR.POST_BUTTON){
       navigation.navigate(ROUTES.SCREENS.POST, {key: 'editor_post'})
       return;
@@ -44,8 +49,6 @@ const BottomTabBarView = ({
     if (!isFocused && !event.defaultPrevented) {
       navigation.navigate(route.name);
     }
-
-    dispatch(updateActiveBottomTab(routes[idx].name))
 
   };
 
@@ -76,7 +79,7 @@ const BottomTabBarView = ({
 
     return (
       <View key={route.key} style={{ flex: 1, alignItems: 'center' }}>
-        <TouchableOpacity onPress={() => _jumpTo(route, isFocused, idx)}>
+        <TouchableOpacity onPress={() => _jumpTo(route, isFocused)}>
           {_tabBarIcon}
         </TouchableOpacity>
       </View>
