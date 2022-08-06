@@ -5,19 +5,31 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import ROUTES from '../constants/routeNames';
 import { BottomTabBar } from '../components';
-import {   
+import {
     Feed,
     Notification,
     Profile,
     Wallet,
- } from '../screens';
+} from '../screens';
+import { useDispatch } from 'react-redux';
+
+const Tab = createBottomTabNavigator();
 
 export const BottomTabNavigator = () => {
-    const Tab = createBottomTabNavigator();
+
+    const dispatch = useDispatch();
+
+    const _bottomTabBar = (props) => {
+        return (
+            <BottomTabBar
+            dispatch={dispatch}
+                {...props} />
+        )
+    }
 
     return (
         <Tab.Navigator
-            tabBar={BottomTabBar}
+            tabBar={_bottomTabBar}
             tabBarOptions={{
                 showLabel: false,
                 activeTintColor: '#357ce6',
@@ -43,7 +55,7 @@ export const BottomTabNavigator = () => {
 
             <Tab.Screen
                 name={ROUTES.TABBAR.POST_BUTTON}
-                component={() => null}
+                component={EmptyScreen}
                 initialParams={{
                     iconName: 'pencil' //read in bottomTabBarView
                 }}
@@ -69,3 +81,4 @@ export const BottomTabNavigator = () => {
 }
 
 
+const EmptyScreen = () => null
