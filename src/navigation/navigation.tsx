@@ -1,17 +1,14 @@
 import React from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 
 // Constants
 import ROUTES from '../constants/routeNames';
-import scalePx from '../utils/scalePx';
 
 // Components
-import { Icon, IconContainer } from '../components/icon';
-import { PostButton, BottomTabBar, SideMenu } from '../components';
+import { SideMenu } from '../components';
 
 // Screens
 import {
@@ -19,10 +16,8 @@ import {
   Boost,
   Drafts,
   Editor,
-  Feed,
   Follows,
   Login,
-  Notification,
   Post,
   Profile,
   ProfileEdit,
@@ -34,7 +29,6 @@ import {
   SpinGame,
   Transfer,
   Voters,
-  Wallet,
   AccountBoost,
   TagResult,
   Community,
@@ -44,85 +38,17 @@ import {
   CoinDetails,
   EditHistoryScreen,
 } from '../screens';
-import FeedScreen from '../screens/feed/screen/feedScreen';
+import { BottomTabNavigator } from './botomTabNavigator';
+
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
-const Tab = createBottomTabNavigator();
 
-const _tabBarIcon = (name, color) => (
-  <Icon
-    iconType="MaterialIcons"
-    style={{ padding: 15 }}
-    name={name}
-    color={color}
-    size={scalePx(26)}
-  />
-);
 
-const bottomTabNavigator = (
-  <Tab.Navigator
-    tabBar={BottomTabBar}
-    tabBarOptions={{
-      showLabel: false,
-      activeTintColor: '#357ce6',
-      inactiveTintColor: '#c1c5c7',
-    }}
-  >
-    <Tab.Screen
-      name={ROUTES.TABBAR.FEED}
-      component={Feed}
-      options={{
-        tabBarIcon: ({ color }) => _tabBarIcon('view-day', color),
-      }}
-    />
-
-    <Tab.Screen
-      name={ROUTES.TABBAR.NOTIFICATION}
-      component={Notification}
-      options={{
-        tabBarIcon: ({ color }) => (
-          <IconContainer
-            isBadge
-            badgeType="notification"
-            iconType="MaterialIcons"
-            style={{ padding: 15 }}
-            name="notifications"
-            color={color}
-            size={scalePx(26)}
-          />
-        ),
-      }}
-    />
-
-    <Tab.Screen
-      name={ROUTES.TABBAR.POST_BUTTON}
-      options={{
-        tabBarIcon: () => <PostButton />,
-      }}
-    />
-
-    <Tab.Screen
-      name={ROUTES.TABBAR.WALLET}
-      component={Wallet}
-      options={{
-        tabBarIcon: ({ color }) => _tabBarIcon('account-balance-wallet', color),
-      }}
-    />
-
-    <Tab.Screen
-      name={ROUTES.TABBAR.PROFILE}
-      component={Profile}
-      options={{
-        tabBarIcon: ({ color }) => _tabBarIcon('person', color),
-      }}
-    />
-  </Tab.Navigator>
-);
 
 const mainNavigation = (
   <Drawer.Navigator>
-    <Drawer.Screen name={ROUTES.SCREENS.FEED} component={bottomTabNavigator} />
+    <Drawer.Screen name={ROUTES.SCREENS.FEED} component={BottomTabNavigator} />
 
     <Drawer.Screen name="contentComponent" component={SideMenu} />
   </Drawer.Navigator>
@@ -169,8 +95,6 @@ const StackNavigator = (
 
 export const initAppNavigation = () => (
   <NavigationContainer>
-    <Stack.Navigator headerMode="none">
-      <Stack.Screen name="Feed" component={FeedScreen} />
-    </Stack.Navigator>
+    {mainNavigation}
   </NavigationContainer>
 )

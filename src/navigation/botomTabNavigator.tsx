@@ -1,0 +1,71 @@
+
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+
+import ROUTES from '../constants/routeNames';
+import { BottomTabBar } from '../components';
+import {   
+    Feed,
+    Notification,
+    Profile,
+    Wallet,
+ } from '../screens';
+
+export const BottomTabNavigator = () => {
+    const Tab = createBottomTabNavigator();
+
+    return (
+        <Tab.Navigator
+            tabBar={BottomTabBar}
+            tabBarOptions={{
+                showLabel: false,
+                activeTintColor: '#357ce6',
+                inactiveTintColor: '#c1c5c7',
+            }}
+            backBehavior='initialRoute'
+        >
+            <Tab.Screen
+                name={ROUTES.TABBAR.FEED}
+                component={Feed}
+                initialParams={{
+                    iconName: 'view-day' //read in bottomTabBarView
+                }}
+            />
+
+            <Tab.Screen
+                name={ROUTES.TABBAR.NOTIFICATION}
+                component={Notification}
+                initialParams={{
+                    iconName: 'notifications' //read in bottomTabBarView
+                }}
+            />
+
+            <Tab.Screen
+                name={ROUTES.TABBAR.POST_BUTTON}
+                component={() => null}
+                initialParams={{
+                    iconName: 'pencil' //read in bottomTabBarView
+                }}
+            />
+
+            <Tab.Screen
+                name={ROUTES.TABBAR.WALLET}
+                component={Wallet}
+                initialParams={{
+                    iconName: 'account-balance-wallet' //read in bottomTabBarView
+                }}
+            />
+
+            <Tab.Screen
+                name={ROUTES.TABBAR.PROFILE}
+                component={Profile}
+                initialParams={{
+                    iconName: 'person' //read in bottomTabBarView
+                }}
+            />
+        </Tab.Navigator>
+    )
+}
+
+
