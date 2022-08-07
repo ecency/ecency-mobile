@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
-import { withNavigation } from '@react-navigation/compat';
 import get from 'lodash/get';
 
 // Services and Actions
 import Matomo from 'react-native-matomo-sdk';
-import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker';
 import { getPost } from '../../../providers/hive/dhive';
 // import { matomo } from '../../../providers/ecency/analytics';
 
@@ -17,7 +15,7 @@ import PostScreen from '../screen/postScreen';
  *@props -->  content           which is include all post data                  Object
  *
  */
-const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) => {
+const PostContainer = ({ currentAccount, isLoggedIn, isAnalytics, route }) => {
   const [post, setPost] = useState(null);
   const [error, setError] = useState(null);
   const [isNewPost, setIsNewPost] = useState(false);
@@ -44,10 +42,7 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
   */
 
   useEffect(() => {
-    const { content, permlink, author: _author, isNewPost: _isNewPost } = get(
-      navigation,
-      'state.params',
-    );
+    const { content, permlink, author: _author, isNewPost: _isNewPost } = route.params ?? {};
     if (_isNewPost) {
       setIsNewPost(_isNewPost);
     }
@@ -101,13 +96,13 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
   };
 
   useEffect(() => {
-    const { isFetch: nextIsFetch } = navigation.state.params;
+    const { isFetch: nextIsFetch } = route.params ?? {};
     if (nextIsFetch) {
-      const { author: _author, permlink } = get(navigation, 'state.params');
+      const { author: _author, permlink } = route.params;
 
       _loadPost(_author, permlink);
     }
-  }, [navigation.state.params.isFetch]);
+  }, [route.params.isFetch]);
 
   if (
     !parentPost &&
@@ -142,4 +137,4 @@ const mapStateToProps = (state) => ({
   isAnalytics: state.application.isAnalytics,
 });
 
-export default connect(mapStateToProps)(withNavigation(PostContainer));
+export default connect(mapStateToProps)(PostContainer);
