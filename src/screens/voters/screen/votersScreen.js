@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView } from 'react-native';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 import forEach from 'lodash/forEach';
@@ -16,9 +15,10 @@ import { getResizedAvatar } from '../../../utils/image';
 
 const filterOptions = ['rewards', 'percent', 'time'];
 
-const VotersScreen = ({ navigation }) => {
+const VotersScreen = ({ route, navigation }) => {
   const intl = useIntl();
-  const [content, setContent] = useState(get(navigation, 'state.params.content'));
+
+  const [content, setContent] = useState(route.params?.content ?? null);
   const [activeVotes, setActiveVotes] = useState(get(content, 'active_votes') || []);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -48,9 +48,6 @@ const VotersScreen = ({ navigation }) => {
         .catch(() => {});
     }
   }, [content]);
-
-  //const activeVotes = get(navigation, 'state.params.activeVotes');
-  //const content = get(navigation, 'state.params.content');
 
   return (
     <AccountListContainer data={activeVotes}>
