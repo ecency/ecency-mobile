@@ -108,8 +108,9 @@ const MarkdownEditorView = ({
    }, []);
 
   useEffect(() => {
+    let bodyLength = bodyText.length;
     if (!isPreviewActive) {
-      _setTextAndSelection({ selection: { start: 0, end: 0 }, text: bodyText });
+      _setTextAndSelection({ selection: { start: bodyLength, end: bodyLength }, text: bodyText });
     }
   }, [isPreviewActive]);
 
