@@ -20,10 +20,10 @@ const ITEM_SKUS = Platform.select({
   android: ['999boosts'],
 });
 
-const AccountBoost = ({ navigation }) => {
+const AccountBoost = ({ route }) => {
   const intl = useIntl();
   const currentAccount = useSelector((state) => state.account.currentAccount);
-  const { username } = navigation.state.params;
+  const { username } = route.params ?? {};
 
   return (
     <InAppPurchaseContainer skus={ITEM_SKUS} username={username} isNoSpin>
