@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { withNavigation } from '@react-navigation/compat';
 import { useSelector } from 'react-redux';
 
+import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../../../../constants/routeNames';
 
-import { search, getPromotePosts } from '../../../../../../providers/ecency/ecency';
-import { getPost, getAccountPosts } from '../../../../../../providers/hive/dhive';
+import { search } from '../../../../../../providers/ecency/ecency';
+import { getAccountPosts } from '../../../../../../providers/hive/dhive';
 
-const PostsResultsContainer = ({ children, navigation, searchValue }) => {
+const PostsResultsContainer = ({ children, searchValue }) => {
+  const navigation = useNavigation();
+
   const [data, setData] = useState([]);
   const [sort, setSort] = useState('newest');
   const [scrollId, setScrollId] = useState('');
@@ -59,21 +61,6 @@ const PostsResultsContainer = ({ children, navigation, searchValue }) => {
   }, [searchValue]);
 
   const getInitialPosts = async () => {
-    // const promoteds = await getPromotePosts();
-    // return await Promise.all(
-    //   promoteds.map(async (item) => {
-    //     const post = await getPost(
-    //       get(item, 'author'),
-    //       get(item, 'permlink'),
-    //       currentAccountUsername,
-    //       true,
-    //     );
-    //     post.author_rep = post.author_reputation;
-    //     post.body = (post.summary && post.summary.substring(0, 130)) || '';
-    //     // return await call to your function
-    //     return post;
-    //   }),
-    // );
     const options = {
       observer: currentAccountUsername,
       account: 'ecency',
@@ -88,7 +75,7 @@ const PostsResultsContainer = ({ children, navigation, searchValue }) => {
 
   const _handleOnPress = (item) => {
     navigation.navigate({
-      routeName: ROUTES.SCREENS.POST,
+      name: ROUTES.SCREENS.POST,
       params: {
         author: get(item, 'author'),
         permlink: get(item, 'permlink'),
@@ -120,4 +107,4 @@ const PostsResultsContainer = ({ children, navigation, searchValue }) => {
   );
 };
 
-export default withNavigation(PostsResultsContainer);
+export default PostsResultsContainer;

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { withNavigation } from '@react-navigation/compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { shuffle } from 'lodash';
 
+import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../../../../constants/routeNames';
 
 import { getCommunities, getSubscriptions } from '../../../../../../providers/hive/dhive';
@@ -13,23 +13,10 @@ import {
   leaveCommunity,
 } from '../../../../../../redux/actions/communitiesAction';
 
-// const DEFAULT_COMMUNITIES = [
-//   'hive-125125',
-//   'hive-174301',
-//   'hive-140217',
-//   'hive-179017',
-//   'hive-160545',
-//   'hive-194913',
-//   'hive-166847',
-//   'hive-176853',
-//   'hive-183196',
-//   'hive-163772',
-//   'hive-106444',
-// ];
-
-const CommunitiesResultsContainer = ({ children, navigation, searchValue }) => {
+const CommunitiesResultsContainer = ({ children, searchValue }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const [data, setData] = useState([]);
   const [noResult, setNoResult] = useState(false);
@@ -116,7 +103,7 @@ const CommunitiesResultsContainer = ({ children, navigation, searchValue }) => {
   // Component Functions
   const _handleOnPress = (name) => {
     navigation.navigate({
-      routeName: ROUTES.SCREENS.COMMUNITY,
+      name: ROUTES.SCREENS.COMMUNITY,
       params: {
         tag: name,
       },
@@ -167,4 +154,4 @@ const CommunitiesResultsContainer = ({ children, navigation, searchValue }) => {
   );
 };
 
-export default withNavigation(CommunitiesResultsContainer);
+export default CommunitiesResultsContainer;

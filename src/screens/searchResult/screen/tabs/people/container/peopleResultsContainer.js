@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
-import { withNavigation } from '@react-navigation/compat';
 import { connect } from 'react-redux';
 
+import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../../../../constants/routeNames';
 
 import { searchAccount } from '../../../../../../providers/ecency/ecency';
 
-const PeopleResultsContainer = (props) => {
+const PeopleResultsContainer = ({ children, searchValue, username }) => {
+  const navigation = useNavigation();
+
   const [users, setUsers] = useState([]);
   const [noResult, setNoResult] = useState(false);
-
-  const { children, navigation, searchValue, username } = props;
 
   useEffect(() => {
     setNoResult(false);
@@ -33,7 +33,7 @@ const PeopleResultsContainer = (props) => {
 
   const _handleOnPress = (item) => {
     navigation.navigate({
-      routeName: item.name === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE,
+      name: item.name === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE,
       params: {
         username: item.name,
       },
@@ -55,4 +55,4 @@ const mapStateToProps = (state) => ({
   username: state.account.currentAccount.name,
 });
 
-export default connect(mapStateToProps)(withNavigation(PeopleResultsContainer));
+export default connect(mapStateToProps)(PeopleResultsContainer);
