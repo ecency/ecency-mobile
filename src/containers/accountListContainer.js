@@ -1,12 +1,11 @@
-import { Component, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
+import { useNavigation } from '@react-navigation/native';
 import { isBefore } from '../utils/time';
 
 import ROUTES from '../constants/routeNames';
-import { useNavigation } from '@react-navigation/native';
 
 const AccountListContainer = ({ data, children }) => {
-
   const navigation = useNavigation();
 
   const [vdata, setVData] = useState(data);
