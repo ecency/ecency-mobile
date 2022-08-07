@@ -164,7 +164,7 @@ class LoginScreen extends PureComponent {
                 style={styles.cancelButton}
                 onPress={() =>
                   navigation.navigate({
-                    routeName: ROUTES.DRAWER.MAIN,
+                    name: ROUTES.DRAWER.MAIN,
                   })
                 }
                 text={intl.formatMessage({

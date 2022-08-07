@@ -82,7 +82,7 @@ class LoginContainer extends PureComponent {
             dispatch(openPinCodeModal({ navigateTo: ROUTES.DRAWER.MAIN }));
           } else {
             navigation.navigate({
-              routeName: ROUTES.DRAWER.MAIN,
+              name: ROUTES.DRAWER.MAIN,
             });
           }
         }
@@ -157,9 +157,7 @@ class LoginContainer extends PureComponent {
   _handleSignUp = () => {
     const { navigation } = this.props;
 
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.REGISTER,
-    });
+    navigation.replace(ROUTES.SCREENS.REGISTER);
   };
 
   render() {

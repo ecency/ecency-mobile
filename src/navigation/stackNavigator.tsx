@@ -70,14 +70,14 @@ export const StackNavigator = () => {
             <Stack.Screen name={ROUTES.SCREENS.SPIN_GAME} component={SpinGame} />
             <Stack.Screen name={ROUTES.SCREENS.ACCOUNT_BOOST} component={AccountBoost} />
             <Stack.Screen name={ROUTES.SCREENS.COMMUNITY} component={Community} />
-            {/* <Stack.Screen name={ROUTES.SCREENS.COMMUNITIES} component={Communities} /> */}
-            {/* <Stack.Screen name={ROUTES.SCREENS.WEB_BROWSER} component={WebBrowser} /> */}
-            {/* <Stack.Screen name={ROUTES.SCREENS.REFER} component={ReferScreen} /> */}
+            <Stack.Screen name={ROUTES.SCREENS.COMMUNITIES} component={Communities} />
+            <Stack.Screen name={ROUTES.SCREENS.WEB_BROWSER} component={WebBrowser} />
+            <Stack.Screen name={ROUTES.SCREENS.REFER} component={ReferScreen} />
             <Stack.Screen name={ROUTES.SCREENS.COIN_DETAILS} component={CoinDetails} />
             <Stack.Screen name={ROUTES.SCREENS.EDIT_HISTORY} component={EditHistoryScreen} />
 
-            {/* <Stack.Screen name={ROUTES.SCREENS.REGISTER} component={Register} /> */}
-            {/* <Stack.Screen name={ROUTES.SCREENS.LOGIN} component={Login} /> */}
+            <Stack.Screen name={ROUTES.SCREENS.REGISTER} component={Register} />
+            <Stack.Screen name={ROUTES.SCREENS.LOGIN} component={Login} />
         </Stack.Navigator>
     )
 }

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, StatusBar, Platform, Image, Text, SafeAreaView } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useIntl } from 'react-intl';
-import { withNavigation } from '@react-navigation/compat';
 
 import RegisterContainer from './registerContainer';
 
@@ -18,14 +17,14 @@ import styles from './registerStyles';
 import ESTEEM_LOGO from '../../assets/like_new.png';
 import ESTEEM_SMALL_LOGO from '../../assets/ecency_logo_transparent.png';
 
-const RegisterScreen = ({ navigation }) => {
+const RegisterScreen = ({ navigation, route }) => {
   const intl = useIntl();
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
   const [username, setUsername] = useState('');
   const [isUsernameValid, setIsUsernameValid] = useState(false);
   const [email, setEmail] = useState('');
   const [isEmailValid, setIsEmailValid] = useState(false);
-  const [refUsername, setRefUsername] = useState(navigation.getParam('referredUser', ''));
+  const [refUsername, setRefUsername] = useState(route.params?.referredUser ?? '');
   const [isRefUsernameValid, setIsRefUsernameValid] = useState(true);
 
   const _handleEmailChange = (value) => {
@@ -68,9 +67,7 @@ const RegisterScreen = ({ navigation }) => {
             <View style={styles.headerButton}>
               <TextButton
                 onPress={() => {
-                  navigation.navigate({
-                    routeName: ROUTES.SCREENS.LOGIN,
-                  });
+                  navigation.replace(ROUTES.SCREENS.LOGIN);
                 }}
                 text="LOGIN"
                 textStyle={{ color: '#357ce6' }}
@@ -150,7 +147,7 @@ const RegisterScreen = ({ navigation }) => {
                 style={styles.cancelButton}
                 onPress={() => {
                   navigation.navigate({
-                    routeName: ROUTES.DRAWER.MAIN,
+                    name: ROUTES.DRAWER.MAIN,
                   });
                 }}
                 text={intl.formatMessage({
@@ -176,4 +173,4 @@ const RegisterScreen = ({ navigation }) => {
   );
 };
 
-export default withNavigation(RegisterScreen);
+export default RegisterScreen;
