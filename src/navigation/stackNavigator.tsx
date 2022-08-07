@@ -65,7 +65,7 @@ export const StackNavigator = () => {
             <Stack.Screen name={ROUTES.SCREENS.TAG_RESULT} component={TagResult} />
             <Stack.Screen name={ROUTES.SCREENS.TRANSFER} component={Transfer} />
             {/* <Stack.Screen name={ROUTES.SCREENS.BOOST} component={Boost} /> */}
-            {/* <Stack.Screen name={ROUTES.SCREENS.REDEEM} component={Redeem} /> */}
+            <Stack.Screen name={ROUTES.SCREENS.REDEEM} component={Redeem} />
             {/* <Stack.Screen name={ROUTES.SCREENS.REBLOGS} component={Reblogs} /> */}
             {/* <Stack.Screen name={ROUTES.SCREENS.SPIN_GAME} component={SpinGame} /> */}
             {/* <Stack.Screen name={ROUTES.SCREENS.ACCOUNT_BOOST} component={AccountBoost} /> */}
