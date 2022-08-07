@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 // Screens
 import { StackNavigator } from './stackNavigator';
+import { setTopLevelNavigator } from './service';
 
 
 export const initAppNavigation = () => {
@@ -11,7 +12,9 @@ export const initAppNavigation = () => {
   //TOOD: read state for setting appropriate navigation mode like login/register etc
 
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={(ref)=>{
+      setTopLevelNavigator(ref)
+    }} >
       <StackNavigator />
     </NavigationContainer>
   )

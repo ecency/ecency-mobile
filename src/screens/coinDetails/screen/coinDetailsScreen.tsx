@@ -138,7 +138,7 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
       );
     } else {
       navigate({
-        name: navigateTo,
+        routeName: navigateTo,
         params: navigateParams
       });
     }
