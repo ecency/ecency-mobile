@@ -2,9 +2,9 @@
 import React, { PureComponent } from 'react';
 import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { injectIntl } from 'react-intl';
-import { withNavigation } from '@react-navigation/compat';
 
 // Constants
+import { withNavigation } from '@react-navigation/compat';
 import ROUTES from '../../../constants/routeNames';
 
 // Components

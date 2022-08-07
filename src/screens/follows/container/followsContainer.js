@@ -6,6 +6,7 @@ import get from 'lodash/get';
 // Utilities
 
 // Services and Actions
+import { withNavigation } from '@react-navigation/compat';
 import { getFollowers, getFollowing, getFollowSearch } from '../../../providers/hive/dhive';
 // Component
 import FollowsScreen from '../screen/followsScreen';
@@ -31,10 +32,10 @@ class FollowsContainer extends Component {
 
   // Component Life Cycle Functions
   async componentDidMount() {
-    const { navigation } = this.props;
+    const { route } = this.props;
 
-    if (navigation.state && navigation.state.params) {
-      const { count, username, isFollowingPress } = navigation.state.params;
+    if (route && route.params) {
+      const { count, username, isFollowingPress } = route.params;
 
       this.setState({
         count,
