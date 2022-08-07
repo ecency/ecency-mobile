@@ -46,18 +46,11 @@ export const StackNavigator = () => {
                 <Stack.Screen name={ROUTES.DRAWER.MAIN} component={DrawerNavigator} />
                 <Stack.Screen name={ROUTES.SCREENS.PROFILE} component={Profile} />
                 <Stack.Screen name={ROUTES.SCREENS.PROFILE_EDIT} component={ProfileEdit} />
-                <Stack.Screen
-                    name={ROUTES.SCREENS.POST}
-                    component={Post}
-                    options={{
-                        gestureEnabled: true,
-                        gestureResponseDistance: { horizontal: 70 },
-                    }}
-                />
                 <Stack.Screen name={ROUTES.SCREENS.SETTINGS} component={Settings} />
                 <Stack.Screen name={ROUTES.SCREENS.DRAFTS} component={Drafts} />
                 <Stack.Screen name={ROUTES.SCREENS.BOOKMARKS} component={Bookmarks} />
                 <Stack.Screen name={ROUTES.SCREENS.SEARCH_RESULT} component={SearchResult} />
+                <Stack.Screen name={ROUTES.SCREENS.TAG_RESULT} component={TagResult}/>
                 <Stack.Screen name={ROUTES.SCREENS.BOOST} component={Boost} />
                 <Stack.Screen name={ROUTES.SCREENS.REDEEM} component={Redeem} />
                 <Stack.Screen name={ROUTES.SCREENS.SPIN_GAME} component={SpinGame} />
@@ -68,6 +61,14 @@ export const StackNavigator = () => {
                 <Stack.Screen name={ROUTES.SCREENS.REFER} component={ReferScreen} />
                 <Stack.Screen name={ROUTES.SCREENS.COIN_DETAILS} component={CoinDetails} />
                 <Stack.Screen name={ROUTES.SCREENS.EDIT_HISTORY} component={EditHistoryScreen} />
+                <Stack.Screen
+                    name={ROUTES.SCREENS.POST}
+                    component={Post}
+                    options={{
+                        gestureEnabled: true,
+                        gestureResponseDistance: { horizontal: 70 },
+                    }}
+                />
                 <Stack.Screen name={ROUTES.SCREENS.TRANSFER} component={Transfer} options={{
                     ...TransitionPresets.ModalPresentationIOS
                 }} />
@@ -80,9 +81,7 @@ export const StackNavigator = () => {
                 <Stack.Screen name={ROUTES.SCREENS.FOLLOWS} component={Follows} options={{
                     ...TransitionPresets.ModalSlideFromBottomIOS
                 }} />
-                <Stack.Screen name={ROUTES.SCREENS.TAG_RESULT} component={TagResult} options={{
-                    ...TransitionPresets.ModalSlideFromBottomIOS
-                }} />
+                
                 <Stack.Screen name={ROUTES.SCREENS.REBLOGS} component={Reblogs} options={{
                     ...TransitionPresets.ModalSlideFromBottomIOS
                 }} />
