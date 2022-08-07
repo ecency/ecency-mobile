@@ -46,7 +46,7 @@ export const StackNavigator = () => {
         <Stack.Navigator headerMode="none">
             <Stack.Screen name={ROUTES.DRAWER.MAIN} component={DrawerNavigator} />
              <Stack.Screen name={ROUTES.SCREENS.PROFILE} component={Profile} /> 
-            {/* <Stack.Screen name={ROUTES.SCREENS.PROFILE_EDIT} component={ProfileEdit} /> */}
+            <Stack.Screen name={ROUTES.SCREENS.PROFILE_EDIT} component={ProfileEdit} />
             <Stack.Screen
                 name={ROUTES.SCREENS.POST}
                 component={Post}
@@ -62,7 +62,7 @@ export const StackNavigator = () => {
             <Stack.Screen name={ROUTES.SCREENS.DRAFTS} component={Drafts} />
             <Stack.Screen name={ROUTES.SCREENS.BOOKMARKS} component={Bookmarks} />
             <Stack.Screen name={ROUTES.SCREENS.SEARCH_RESULT} component={SearchResult} />
-            {/* <Stack.Screen name={ROUTES.SCREENS.TAG_RESULT} component={TagResult} /> */}
+            <Stack.Screen name={ROUTES.SCREENS.TAG_RESULT} component={TagResult} />
             {/* <Stack.Screen name={ROUTES.SCREENS.TRANSFER} component={Transfer} /> */}
             {/* <Stack.Screen name={ROUTES.SCREENS.BOOST} component={Boost} /> */}
             {/* <Stack.Screen name={ROUTES.SCREENS.REDEEM} component={Redeem} /> */}

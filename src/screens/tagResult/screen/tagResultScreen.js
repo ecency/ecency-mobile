@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { View, SafeAreaView } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
-import { useIntl } from 'react-intl';
+import { View } from 'react-native';
 import { debounce } from 'lodash';
 
 // Components
-import { SearchInput, Posts, TabBar, TabbedPosts, IconButton } from '../../../components';
+import { SearchInput, TabbedPosts } from '../../../components';
 
 // Styles
 import styles from './tagResultStyles';
-import globalStyles from '../../../globalStyles';
 
 import { GLOBAL_POST_FILTERS, GLOBAL_POST_FILTERS_VALUE } from '../../../constants/options/filters';
 
-const TagResultScreen = ({ navigation }) => {
-  const initTag = navigation.getParam('tag', '');
-  const filter = navigation.getParam('filter', '');
+
+const TagResultScreen = ({navigation, route}) => {
+
+  const initTag = route.params?.tag ?? ''
+  const filter =  route.params?.filter ?? ''
 
   const [tag, setTag] = useState(initTag);
 
