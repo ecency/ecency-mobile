@@ -63,7 +63,7 @@ export const StackNavigator = () => {
             <Stack.Screen name={ROUTES.SCREENS.BOOKMARKS} component={Bookmarks} />
             <Stack.Screen name={ROUTES.SCREENS.SEARCH_RESULT} component={SearchResult} />
             <Stack.Screen name={ROUTES.SCREENS.TAG_RESULT} component={TagResult} />
-            {/* <Stack.Screen name={ROUTES.SCREENS.TRANSFER} component={Transfer} /> */}
+            <Stack.Screen name={ROUTES.SCREENS.TRANSFER} component={Transfer} />
             {/* <Stack.Screen name={ROUTES.SCREENS.BOOST} component={Boost} /> */}
             {/* <Stack.Screen name={ROUTES.SCREENS.REDEEM} component={Redeem} /> */}
             {/* <Stack.Screen name={ROUTES.SCREENS.REBLOGS} component={Reblogs} /> */}
@@ -73,7 +73,7 @@ export const StackNavigator = () => {
             {/* <Stack.Screen name={ROUTES.SCREENS.COMMUNITIES} component={Communities} /> */}
             {/* <Stack.Screen name={ROUTES.SCREENS.WEB_BROWSER} component={WebBrowser} /> */}
             {/* <Stack.Screen name={ROUTES.SCREENS.REFER} component={ReferScreen} /> */}
-            {/* <Stack.Screen name={ROUTES.SCREENS.COIN_DETAILS} component={CoinDetails} /> */}
+            <Stack.Screen name={ROUTES.SCREENS.COIN_DETAILS} component={CoinDetails} />
             {/* <Stack.Screen name={ROUTES.SCREENS.EDIT_HISTORY} component={EditHistoryScreen} /> */}
 
             {/* <Stack.Screen name={ROUTES.SCREENS.REGISTER} component={Register} /> */}

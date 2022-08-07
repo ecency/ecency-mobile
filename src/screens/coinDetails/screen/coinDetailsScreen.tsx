@@ -4,7 +4,6 @@ import { BasicHeader } from '../../../components'
 import { CoinSummary } from '../children'
 import styles from './screen.styles';
 import ActivitiesList from '../children/activitiesList'
-import { withNavigation } from '@react-navigation/compat'
 import { useAppDispatch, useAppSelector } from '../../../hooks'
 import { CoinActivitiesCollection, QuoteItem } from '../../../redux/reducers/walletReducer';
 import { fetchCoinActivities } from '../../../utils/wallet';
@@ -21,15 +20,16 @@ export interface CoinDetailsScreenParams {
 
 interface CoinDetailsScreenProps {
   navigation: any
+  route: any
 }
 
 const FETCH_ITEMS_LIMIT = 500;
 
-const CoinDetailsScreen = ({ navigation }: CoinDetailsScreenProps) => {
+const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
 
-  const coinId = navigation.getParam('coinId');
+  const coinId = route.params?.coinId;
   if (!coinId) {
     throw new Error("Coin symbol must be passed")
   }
@@ -138,7 +138,7 @@ const CoinDetailsScreen = ({ navigation }: CoinDetailsScreenProps) => {
       );
     } else {
       navigate({
-        routeName: navigateTo,
+        name: navigateTo,
         params: navigateParams
       });
     }
@@ -176,4 +176,4 @@ const CoinDetailsScreen = ({ navigation }: CoinDetailsScreenProps) => {
   )
 }
 
-export default withNavigation(CoinDetailsScreen)
+export default CoinDetailsScreen

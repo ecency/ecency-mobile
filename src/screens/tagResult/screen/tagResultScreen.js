@@ -10,11 +10,9 @@ import styles from './tagResultStyles';
 
 import { GLOBAL_POST_FILTERS, GLOBAL_POST_FILTERS_VALUE } from '../../../constants/options/filters';
 
-
-const TagResultScreen = ({navigation, route}) => {
-
-  const initTag = route.params?.tag ?? ''
-  const filter =  route.params?.filter ?? ''
+const TagResultScreen = ({ navigation, route }) => {
+  const initTag = route.params?.tag ?? '';
+  const filter = route.params?.filter ?? '';
 
   const [tag, setTag] = useState(initTag);
 
