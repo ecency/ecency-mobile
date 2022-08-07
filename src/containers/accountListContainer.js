@@ -3,8 +3,12 @@ import { Component, useState, useEffect } from 'react';
 import { isBefore } from '../utils/time';
 
 import ROUTES from '../constants/routeNames';
+import { useNavigation } from '@react-navigation/native';
 
-const AccountListContainer = ({ data, navigation, children }) => {
+const AccountListContainer = ({ data, children }) => {
+
+  const navigation = useNavigation();
+
   const [vdata, setVData] = useState(data);
   const [filterResult, setFilterResult] = useState(null);
   const [filterIndex, setFilterIndex] = useState(0);
@@ -66,7 +70,7 @@ const AccountListContainer = ({ data, navigation, children }) => {
 
   const _handleOnUserPress = (username) => {
     navigation.navigate({
-      routeName: ROUTES.SCREENS.PROFILE,
+      name: ROUTES.SCREENS.PROFILE,
       params: {
         username,
       },
