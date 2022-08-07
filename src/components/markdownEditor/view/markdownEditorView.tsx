@@ -232,13 +232,13 @@ const MarkdownEditorView = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const _setTextAndSelection = useCallback(({ selection: _selection, text: _text }) => {
     // console.log('_text : ', _text);
-    inputRef.current.setNativeProps({
+    inputRef?.current?.setNativeProps({
       text: _text,
     });
 
     const _updateSelection = () => {
       bodySelection = _selection
-      inputRef.current.setNativeProps({
+      inputRef?.current?.setNativeProps({
         selection: _selection,
       });
     }
