@@ -22,7 +22,6 @@ import styles from './walletScreenStyles';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import {CoinCard} from '../children';
 import { fetchMarketChart, INTERVAL_HOURLY } from '../../../providers/coingecko/coingecko';
-import { withNavigation } from '@react-navigation/compat';
 import ROUTES from '../../../constants/routeNames';
 import { CoinDetailsScreenParams } from '../../coinDetails/screen/coinDetailsScreen';
 import POINTS, { POINTS_KEYS } from '../../../constants/options/points';
@@ -290,5 +289,5 @@ const WalletScreen = ({navigation}) => {
   );
 };
 
-export default withNavigation(WalletScreen);
+export default WalletScreen;
 /* eslint-enable */

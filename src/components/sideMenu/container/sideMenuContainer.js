@@ -21,6 +21,7 @@ const SideMenuContainer = ({ navigation }) => {
   const _navigateToRoute = (route = null) => {
     if (route) {
       navigation.navigate(route);
+      navigation.closeDrawer();
     }
   };
 
