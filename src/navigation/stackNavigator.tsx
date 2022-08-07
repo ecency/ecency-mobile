@@ -59,7 +59,7 @@ export const StackNavigator = () => {
              <Stack.Screen name={ROUTES.SCREENS.VOTERS} component={Voters} />
              {/* <Stack.Screen name={ROUTES.SCREENS.FOLLOWS} component={Follows} /> */}
             <Stack.Screen name={ROUTES.SCREENS.SETTINGS} component={Settings} />
-            {/* <Stack.Screen name={ROUTES.SCREENS.DRAFTS} component={Drafts} /> */}
+            <Stack.Screen name={ROUTES.SCREENS.DRAFTS} component={Drafts} />
             {/* <Stack.Screen name={ROUTES.SCREENS.BOOKMARKS} component={Bookmarks} /> */}
             {/* <Stack.Screen name={ROUTES.SCREENS.SEARCH_RESULT} component={SearchResult} /> */}
             {/* <Stack.Screen name={ROUTES.SCREENS.TAG_RESULT} component={TagResult} /> */}

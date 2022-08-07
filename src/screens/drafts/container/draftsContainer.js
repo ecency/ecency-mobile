@@ -23,12 +23,12 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Component
 import DraftsScreen from '../screen/draftsScreen';
 
-const DraftsContainer = ({ currentAccount, intl, navigation, dispatch }) => {
+const DraftsContainer = ({ currentAccount, intl, navigation, dispatch, route }) => {
   const [drafts, setDrafts] = useState([]);
   const [schedules, setSchedules] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [initialTabIndex] = useState(navigation.state?.params?.showSchedules ? 1 : 0);
+  const [initialTabIndex] = useState(route.params?.showSchedules ? 1 : 0);
 
   useEffect(() => {
     _getDrafts();
