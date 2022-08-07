@@ -55,7 +55,7 @@ export const StackNavigator = () => {
                     gestureResponseDistance: { horizontal: 70 },
                 }}
             />
-            {/* <Stack.Screen name={ROUTES.SCREENS.EDITOR} component={Editor} /> */}
+            <Stack.Screen name={ROUTES.SCREENS.EDITOR} component={Editor} />
              <Stack.Screen name={ROUTES.SCREENS.VOTERS} component={Voters} />
              <Stack.Screen name={ROUTES.SCREENS.FOLLOWS} component={Follows} />
             <Stack.Screen name={ROUTES.SCREENS.SETTINGS} component={Settings} />

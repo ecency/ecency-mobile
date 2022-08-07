@@ -34,7 +34,7 @@ const BottomTabBarView = ({
   const _jumpTo = (route, isFocused) => {
 
     if(route.name === ROUTES.TABBAR.POST_BUTTON){
-      navigation.navigate(ROUTES.SCREENS.POST, {key: 'editor_post'})
+      navigation.navigate(ROUTES.SCREENS.EDITOR, {key: 'editor_post'})
       return;
     }
 

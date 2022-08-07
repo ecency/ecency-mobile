@@ -112,7 +112,7 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch, route }) 
     const selectedDraft = drafts.find((draft) => draft._id === id);
 
     navigation.navigate({
-      routeName: ROUTES.SCREENS.EDITOR,
+      name: ROUTES.SCREENS.EDITOR,
       key: `editor_draft_${id}`,
       params: {
         draft: selectedDraft,
