@@ -448,6 +448,7 @@ const MarkdownEditorView = ({
           draftChips={fields.tags.length > 0 ? fields.tags : null}
           componentID="tag-area"
           intl={intl}
+          isPreviewActive={isPreviewActive}
         />
       )}
       {isReply && (
