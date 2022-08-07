@@ -7,7 +7,7 @@ import { StackNavigator } from './stackNavigator';
 import { setTopLevelNavigator } from './service';
 
 
-export const initAppNavigation = () => {
+export const AppNavigator = () => {
 
   //TOOD: read state for setting appropriate navigation mode like login/register etc
 

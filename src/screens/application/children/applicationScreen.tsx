@@ -7,8 +7,8 @@ import { connect } from 'react-redux';
 
 import { injectIntl } from 'react-intl';
 
-import {initAppNavigation} from '../../../navigation/navigation';
-import { setTopLevelNavigator, navigate } from '../../../navigation/service';
+import { AppNavigator } from '../../../navigation';
+import { navigate } from '../../../navigation/service';
 
 // Services
 import {
@@ -33,11 +33,6 @@ import {
 // Themes (Styles)
 import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
-import { NavigationContainer } from '@react-navigation/native';
-import FeedScreen from '../../feed/screen/feedScreen';
-
-import { createStackNavigator } from '@react-navigation/stack';
-const Stack = createStackNavigator();
 
 
 class ApplicationScreen extends Component {
@@ -103,32 +98,42 @@ class ApplicationScreen extends Component {
   }
 
 
-
-  render() {
-    const { isConnected, isDarkTheme, toastNotification, foregroundNotificationData } = this.props;
-    const { isShowToastNotification } = this.state;
+  _renderStatusBar() {
+    const { isDarkTheme } = this.props;
     const barStyle = isDarkTheme ? 'light-content' : 'dark-content';
     const barColor = isDarkTheme ? '#1e2835' : '#fff';
-
     return (
-      <View style={{ flex: 1 }}>
-
-        {Platform.os === 'ios' ? (
+      <>
+        {Platform.OS === 'ios' ? (
           <StatusBar barStyle={barStyle} />
         ) : (
           <StatusBar barStyle={barStyle} backgroundColor={barColor} />
         )}
+      </>
+    )
+  }
 
 
-        <Fragment>
-          {!isConnected && <NoInternetConnection />}
+  _renderAppNavigator() {
+    const { isConnected } = this.props;
+    return (
+      <Fragment>
+        {!isConnected && <NoInternetConnection />}
 
-          {initAppNavigation()}
-      
-        </Fragment>
+        <AppNavigator />
+
+      </Fragment>
+    )
+  }
 
 
 
+  _renderAppModals() {
+    const { toastNotification, foregroundNotificationData } = this.props;
+    const { isShowToastNotification } = this.state;
+   
+    return (
+      <>
         <ForegroundNotification remoteMessage={foregroundNotificationData} />
         <QuickProfileModal navigation={{ navigate }} />
         <AccountsBottomSheet />
@@ -142,7 +147,18 @@ class ApplicationScreen extends Component {
             onHide={this._handleOnHideToastNotification}
           />
         )}
+      </>
+    )
+  }
 
+
+
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+        {this._renderStatusBar()}
+        {this._renderAppNavigator()}
+        {this._renderAppModals()}
       </View>
     );
   }
