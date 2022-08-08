@@ -6,7 +6,11 @@ import get from 'lodash/get';
 import { setUpvotePercent } from '../../../realm/realm';
 
 // Services and Actions
-import { setUpvotePercent as upvoteAction } from '../../../redux/actions/applicationActions';
+import {
+  setUpvotePercent as upvoteAction,
+  setCommentUpvotePercent,
+  setPostUpvotePercent,
+} from '../../../redux/actions/applicationActions';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
@@ -17,6 +21,7 @@ import parseAsset from '../../../utils/parseAsset';
 import UpvoteView from '../view/upvoteView';
 import { updateVoteCache } from '../../../redux/actions/cacheActions';
 import { useAppSelector } from '../../../hooks';
+import postTypes from '../../../constants/postTypes';
 
 /*
  *            Props Name        Description                                     Value
@@ -32,11 +37,14 @@ const UpvoteContainer = (props) => {
     isShowPayoutValue,
     pinCode,
     upvotePercent,
+    postUpvotePercent,
+    commentUpvotePercent,
     globalProps,
     dispatch,
     activeVotes = [],
     handleCacheVoteIncrement,
     fetchPost,
+    parentType,
   } = props;
 
   const [isVoted, setIsVoted] = useState(null);
@@ -84,6 +92,12 @@ const UpvoteContainer = (props) => {
     if (value) {
       setUpvotePercent(String(value));
       dispatch(upvoteAction(value));
+      if (parentType === postTypes.POST) {
+        dispatch(setPostUpvotePercent(value));
+      }
+      if (parentType === postTypes.COMMENT) {
+        dispatch(setCommentUpvotePercent(value));
+      }
     }
   };
 
@@ -199,6 +213,9 @@ const UpvoteContainer = (props) => {
       totalPayout={totalPayout}
       maxPayout={maxPayout}
       upvotePercent={upvotePercent}
+      postUpvotePercent={postUpvotePercent}
+      commentUpvotePercent={commentUpvotePercent}
+      parentType={parentType}
       beneficiaries={beneficiaries}
       warnZeroPayout={warnZeroPayout}
       breakdownPayout={breakdownPayout}
@@ -215,6 +232,8 @@ const UpvoteContainer = (props) => {
 const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
   upvotePercent: state.application.upvotePercent,
+  postUpvotePercent: state.application.postUpvotePercent,
+  commentUpvotePercent: state.application.commentUpvotePercent,
   pinCode: state.application.pin,
   currentAccount: state.account.currentAccount,
   globalProps: state.account.globalProps,

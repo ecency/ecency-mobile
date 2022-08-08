@@ -22,6 +22,8 @@ import {
   SET_LANGUAGE,
   SET_NSFW,
   SET_UPVOTE_PERCENT,
+  SET_POST_UPVOTE_PERCENT,
+  SET_COMMENT_UPVOTE_PERCENT,
   SET_PIN_CODE,
   IS_PIN_CODE_OPEN,
   IS_RENDER_REQUIRED,
@@ -63,6 +65,8 @@ interface State {
     voteNotification: boolean,
   },
   upvotePercent: number;
+  postUpvotePercent: number;
+  commentUpvotePercent: number;
   nsfw: string;
   pin: string|null; //encrypted pin used for encrypting sensitive user data
   isPinCodeOpen: boolean;
@@ -104,6 +108,8 @@ const initialState:State = {
     voteNotification: true,
   },
   upvotePercent: 1,
+  postUpvotePercent: 1,
+  commentUpvotePercent: 1,
   nsfw: '1',
   pin: null,
   isPinCodeOpen: false,
@@ -246,6 +252,14 @@ export default function (state = initialState, action):State {
     case SET_UPVOTE_PERCENT:
       return Object.assign({}, state, {
         upvotePercent: action.payload,
+      });
+    case SET_POST_UPVOTE_PERCENT:
+      return Object.assign({}, state, {
+        postUpvotePercent: action.payload,
+      });
+    case SET_COMMENT_UPVOTE_PERCENT:
+      return Object.assign({}, state, {
+        commentUpvotePercent: action.payload,
       });
     case SET_NSFW:
       return Object.assign({}, state, {

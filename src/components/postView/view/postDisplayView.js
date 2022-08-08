@@ -26,6 +26,7 @@ import { QuickReplyModal } from '../..';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { useAppDispatch } from '../../../hooks';
 import { showReplyModal } from '../../../redux/actions/uiAction';
+import postTypes from '../../../constants/postTypes';
 
 const HEIGHT = getWindowDimensions().height;
 const WIDTH = getWindowDimensions().width;
@@ -115,6 +116,7 @@ const PostDisplayView = ({
             isShowPayoutValue
             content={post}
             handleCacheVoteIncrement={_handleCacheVoteIncrement}
+            parentType={postTypes.POST}
           />
           <TextWithIcon
             iconName="heart-outline"

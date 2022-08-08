@@ -33,7 +33,9 @@ import {
   HIDE_POSTS_THUMBNAILS,
   SET_TERMS_ACCEPTED,
   SET_IS_BIOMETRIC_ENABLED,
-  SET_ENC_UNLOCK_PIN
+  SET_ENC_UNLOCK_PIN,
+  SET_POST_UPVOTE_PERCENT,
+  SET_COMMENT_UPVOTE_PERCENT
 } from '../constants/constants';
 
 export const login = (payload) => ({
@@ -77,6 +79,16 @@ export const setApi = (payload) => ({
 export const setUpvotePercent = (payload) => ({
   payload,
   type: SET_UPVOTE_PERCENT,
+});
+
+export const setPostUpvotePercent = (payload) => ({
+  payload,
+  type: SET_POST_UPVOTE_PERCENT,
+});
+
+export const setCommentUpvotePercent = (payload) => ({
+  payload,
+  type: SET_COMMENT_UPVOTE_PERCENT,
 });
 
 export const changeAllNotificationSettings = (payload) => ({
