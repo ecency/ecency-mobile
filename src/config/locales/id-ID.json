@@ -229,7 +229,7 @@
       "delegations": "Delagasi"
     },
     "pincode": "Kode PIN",
-    "biometric": "Finger Print / Face Unlock",
+    "biometric": "Buka dengan Sidik Jari / Wajah",
     "reset_pin": "Setel Ulang Kode Pin",
     "reset": "Setel Ulang",
     "nsfw_content": "NSFW",
@@ -371,21 +371,21 @@
     "scheduled_immediate": "Segera",
     "scheduled_later": "Nanti",
     "settings_title": "Post Options",
-    "done": "DONE",
-    "draft_save_title": "Saving Draft",
-    "draft_update": "Update current draft",
-    "draft_save_new": "Save as new draft",
+    "done": "SELESAI",
+    "draft_save_title": "Simpan Konsep",
+    "draft_update": "Perbarui konsep ini",
+    "draft_save_new": "Simpan sebagai konsep baru",
     "label": "Label",
-    "enter_label_placeholder": "Enter Label (Optional)",
+    "enter_label_placeholder": "Label (Opsional)",
     "url": "URL",
-    "enter_url_placeholder": "Enter URL",
-    "link_type_text": "Type of Link",
-    "insert_link": "Insert Link",
-    "preview": "Preview",
-    "invalid_url_error": "Please insert valid url",
-    "plain": "Plain",
+    "enter_url_placeholder": "Masukkan URL",
+    "link_type_text": "Jenis Tautan",
+    "insert_link": "Masukkan Tautan",
+    "preview": "Tinjauan",
+    "invalid_url_error": "Masukkan url yang valid",
+    "plain": "Polos",
     "video": "Video",
-    "image": "Image"
+    "image": "Gambar"
   },
   "snippets": {
     "label_no_snippets": "Cuplikan Tidak Ditemukan",
@@ -408,10 +408,10 @@
     "title": "Gambar Diunggah",
     "title_remove_confirmation": "Hapus gambar",
     "btn_add": "Gambar",
-    "btn_insert": "INSERT",
-    "btn_delete": "DELETE",
+    "btn_insert": "MASUKKAN",
+    "btn_delete": "HAPUS",
     "message_failed": "Gagal mengunggah gambar",
-    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
+    "failed_count": "Gagal mengunggah {failedCount} dari {totalCount} gambar yang dipilih"
   },
   "pincode": {
     "enter_text": "Masukkan PIN untuk membuka kunci",
@@ -421,7 +421,7 @@
     "pin_not_matched": "PIN tidak cocok, Tolong coba lagi.",
     "attempts_postfix": "percobaan gagal",
     "message_reset_warning": "Data pengguna akan dihapus pada percobaan berikutnya",
-    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
+    "biometric_desc": "Pindai sidik jari anda pada alat pemindai untuk melanjutkan"
   },
   "alert": {
     "success": "Sukses!",
@@ -487,12 +487,12 @@
     "update": "Perbaharui sekarang",
     "remind_later": "Ingatkan nanti",
     "failed_to_open": "Gagal membuka sebuah tautan",
-    "restart_ecency": "Restart Ecency?",
-    "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response": "Could not process request, Try again later.",
-    "wallet_updating": "Wallet update in progress, try again as update finishes",
-    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
-    "connection_issues": "The server is unreachable, please check your connection and try again."
+    "restart_ecency": "Muat ulang Ecency?",
+    "restart_ecency_desc": "Perubahan yang dilakukan memerlukan pemuatan ulang.",
+    "invalid_response": "Tidak dapat memproses permintaan Anda, coba lagi nanti.",
+    "wallet_updating": "Pembaruan dompet sedang dalam pengerjaan, coba lagi ketika pembaruan sudah selesai",
+    "claim_failed": "Gagal mengklaim hadiah, {message}\nCoba lagi atau tanya ke support@ecency.com",
+    "connection_issues": "Server tidak dapat diakses, silakan periksa koneksi anda dan coba kembali."
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
@@ -524,10 +524,10 @@
     "deleted": "Tulisan terjadwal dihapus",
     "move": "Pindahkan ke konsep",
     "moved": "Pindahkan ke konsep",
-    "pending": "Pending",
-    "postponed": "Postponed",
-    "published": "Published",
-    "error": "Error"
+    "pending": "Tertunda",
+    "postponed": "Ditunda",
+    "published": "Diterbitkan",
+    "error": "Kesalahan"
   },
   "bookmarks": {
     "title": "Tandai",
@@ -565,7 +565,7 @@
     "beneficiaries": "Penerima manfaat",
     "warn_zero_payout": "Jumlah harus mencapai $ 0,02 untuk pembayaran",
     "breakdown": "Kerusakan",
-    "max_accepted": "Max Accepted"
+    "max_accepted": "Jumlah maksimum yang diterima"
   },
   "post_dropdown": {
     "copy": "salin tautan",
@@ -576,10 +576,10 @@
     "promote": "promosikan",
     "boost": "menaikkan",
     "report": "laporan",
-    "pin-blog": "Pin to blog",
-    "unpin-blog": "Unpin from blog",
-    "pin-community": "Pin to community",
-    "unpin-community": "Unpin from community",
+    "pin-blog": "Sematkan ke blog",
+    "unpin-blog": "Lepas sematan di blog",
+    "pin-community": "Semat untuk komunitas",
+    "unpin-community": "Lepaskan sematan dari komunitas",
     "edit-history": "Riwayat Penyuntingan"
   },
   "deep_link": {
@@ -623,7 +623,7 @@
     "stop_information": "Anda yakin ingin berhenti?",
     "percent": "Persen",
     "auto_vests": "Vests Otomatis",
-    "vests": "Vests",
+    "vests": "Rompi",
     "save": "Simpan",
     "percent_information": "Informasi persen",
     "next": "LANJUT",
@@ -634,15 +634,15 @@
     "stop": "Berhenti",
     "sc_power_down_error": "Fitur ini belum diimplementasikan untuk login dengan Hivesigner",
     "address_view": "Lihat alamat",
-    "already_delegated": "Already delegated to ",
-    "remain_hp": "Remaining HP",
-    "account_detail_head": "Account Details",
-    "account_detail_subhead": "Enter username for HIVE Power delegation",
-    "delegat_detail_head": "Delegation Details",
-    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
-    "new_amount": "New Amount",
-    "review": "REVIEW",
-    "confirm": "Confirm Delegation",
+    "already_delegated": "Telah didelegasikan pada ",
+    "remain_hp": "Sisa HP",
+    "account_detail_head": "Rincian Akun",
+    "account_detail_subhead": "Masukkan nama pengguna untuk mendelegasikan HIVE Power",
+    "delegat_detail_head": "Detil Delegasi",
+    "delegat_detail_subhead": "Menuliskan jumlah baru HIVE Power yang didelegasikan ",
+    "new_amount": "Nilai Baru",
+    "review": "TINJAUAN",
+    "confirm": "Konfirmasikan Delegasi",
     "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
     "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
     "username_alert": "Username Error!",
