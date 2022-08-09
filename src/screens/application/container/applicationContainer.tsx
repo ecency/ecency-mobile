@@ -14,7 +14,6 @@ import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
-import Matomo from 'react-native-matomo-sdk';
 import SplashScreen from 'react-native-splash-screen'
 
 // Constants
@@ -159,23 +158,6 @@ class ApplicationContainer extends Component {
         console.log('error :>> ', error);
       },
     );
-
-    // tracking init
-    if (!__DEV__) {
-      Matomo.initialize(Config.ANALYTICS_URL, 1, 'https://ecency.com')
-        .catch((error) => console.warn('Failed to initialize matomo', error))
-        .then(() => {
-          if (isAnalytics !== true) {
-            dispatch(setAnalyticsStatus(true));
-          }
-        })
-        .then(() => {
-          // start up event
-          Matomo.trackEvent('Application', 'Startup').catch((error) =>
-            console.warn('Failed to track event', error),
-          );
-        });
-    }
   };
 
   componentDidUpdate(prevProps, prevState) {
