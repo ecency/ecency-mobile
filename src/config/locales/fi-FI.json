@@ -660,7 +660,7 @@
     "account_select_title": "Tilitiedot",
     "account_select_description": "Varoihin liittyvät toiminnot ovat peruuttamattomia. Varmista, että vastaanottajan käyttäjätunnus on oikea",
     "amount_select_title": "Siirron Tiedot",
-    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
+    "amount_select_description": "Syötä siirtosumma maksimaalisen käytettävissä olevan saldon rajoissa ja määrän tulee olla suurempi kuin 0.001"
   },
   "boost": {
     "title": "Hanki pisteitä",
@@ -789,8 +789,8 @@
     "line3_heading": "Liity Ecencyn yhteisöihin!",
     "line3_body": "Rakenna omistamaasi yhteisöä, saa palkkioita ja palkitse muita.",
     "get_started": "Aloitetaan!",
-    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
-    "terms_text": "Read Here!"
+    "terms_description": "Kirjautumalla sisään hyväksyt käyttöehtomme ja tietosuojamme periaatteet.",
+    "terms_text": "Lue lisää!"
   },
   "time": {
     "second": "s",
