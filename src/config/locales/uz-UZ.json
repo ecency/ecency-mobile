@@ -1,10 +1,10 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
+    "curation_reward": "Kuratorlik mukofoti",
+    "author_reward": "Avtorlik mukofoti",
     "comment_benefactor_reward": "Benefactor Reward",
-    "claim_reward_balance": "Claim Reward ",
-    "transfer": "Transfer",
+    "claim_reward_balance": "Mukofotlarni olish ",
+    "transfer": "O'tkazma",
     "power_up": "To Vesting",
     "transfer_from_savings": "From Savings",
     "withdraw_savings": "Withdraw Savings",
