@@ -116,7 +116,7 @@ const PostDisplayView = ({
             isShowPayoutValue
             content={post}
             handleCacheVoteIncrement={_handleCacheVoteIncrement}
-            parentType={postTypes.POST}
+            parentType={parentPost ? postTypes.COMMENT : postTypes.POST}
           />
           <TextWithIcon
             iconName="heart-outline"

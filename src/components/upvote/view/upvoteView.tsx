@@ -103,7 +103,7 @@ const UpvoteView = ({
     if (parentType === postTypes.COMMENT) {
       setUpvotePercent(commentUpvotePercent);
     }
-  },[postUpvotePercent, commentUpvotePercent])
+  },[postUpvotePercent, commentUpvotePercent, parentType])
   
   useEffect(() => {
     const value = (isVoted || isDownVoted) 
@@ -268,7 +268,6 @@ const UpvoteView = ({
       </View>
     );
   };
-console.log('upvotePercent : ', upvotePercent, '\n parentType : ', parentType);
 
   return (
     <PopoverController>
