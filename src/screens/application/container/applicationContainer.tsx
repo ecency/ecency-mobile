@@ -48,7 +48,7 @@ import {
   getUnreadNotificationCount,
 } from '../../../providers/ecency/ecency';
 import { fetchLatestAppVersion } from '../../../providers/github/github';
-import { navigate, navigateBack } from '../../../navigation/service';
+import { navigate } from '../../../navigation/service';
 
 // Actions
 import {
