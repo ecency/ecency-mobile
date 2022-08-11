@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Platform, BackHandler, Alert, Linking, AppState, Appearance } from 'react-native';
+import { Platform, Alert, Linking, AppState, Appearance } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import Config from 'react-native-config';
 import get from 'lodash/get';
