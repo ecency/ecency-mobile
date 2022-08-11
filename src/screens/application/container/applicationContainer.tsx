@@ -118,7 +118,7 @@ class ApplicationContainer extends Component {
   }
 
   componentDidMount = () => {
-    const { isIos } = this.state;
+  
     const { dispatch, isAnalytics } = this.props;
 
     this._setNetworkListener();
@@ -134,8 +134,6 @@ class ApplicationContainer extends Component {
     this.removeAppearanceListener = Appearance.addChangeListener(this._appearanceChangeListener);
 
     this._createPushListener();
-
-    if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
 
     //set avatar cache stamp to invalidate previous session avatars
     dispatch(setAvatarCacheStamp(new Date().getTime()));
@@ -195,10 +193,8 @@ class ApplicationContainer extends Component {
   }
 
   componentWillUnmount() {
-    const { isIos } = this.state;
-    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
 
-    if (!isIos) BackHandler.removeEventListener('hardwareBackPress', this._onBackPress);
+    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
 
     //TOOD: listen for back press and cancel all pending api requests;
 
@@ -567,18 +563,6 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _onBackPress = () => {
-    navigateBack();
-    /* 
-    const { dispatch, nav } = this.props;
-    if (nav && nav[0].index !== 0) {
-      dispatch(NavigationActions.back());
-    } else {
-      BackHandler.exitApp();
-    }
-    */
-    return true;
-  };
 
   _refreshGlobalProps = () => {
     const { actions } = this.props;
@@ -992,7 +976,6 @@ export default connect(
     isLogingOut: state.application.isLogingOut,
     isLoggedIn: state.application.isLoggedIn, //TODO: remove as is not being used in this class
     isConnected: state.application.isConnected,
-    nav: state.nav.routes,
     isPinCodeRequire: state.application.isPinCodeRequire,
     api: state.application.api,
     isGlobalRenderRequired: state.application.isRenderRequired,

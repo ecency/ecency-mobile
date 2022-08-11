@@ -39,7 +39,7 @@ const persistConfig = {
   // Storage Method (React Native)
   storage: AsyncStorage,
   // Blacklist (Don't Save Specific Reducers)
-  blacklist: ['nav', 'communities', 'user', 'ui'],
+  blacklist: ['communities', 'user', 'ui'],
   timeout: 0,
   transforms:[
     transformCacheVoteMap,
