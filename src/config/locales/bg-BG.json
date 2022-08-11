@@ -229,6 +229,7 @@
       "delegations": "Делегация/отдаване"
     },
     "pincode": "Pincode",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "Анулирай пин код",
     "reset": "Изчисти",
     "nsfw_content": "NSFW",
@@ -419,7 +420,8 @@
     "forgot_text": "О, забравих го ...",
     "pin_not_matched": "ПИН кодовете не съвпадат. Моля, опитайте отново.",
     "attempts_postfix": "неуспешни опити",
-    "message_reset_warning": "Информацията ще бъде изтрита при следваща грешка"
+    "message_reset_warning": "Информацията ще бъде изтрита при следваща грешка",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "Успех",
