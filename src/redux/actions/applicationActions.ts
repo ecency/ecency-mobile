@@ -23,7 +23,6 @@ import {
   SET_CURRENCY,
   SET_LANGUAGE,
   SET_NSFW,
-  SET_UPVOTE_PERCENT,
   SET_PIN_CODE,
   IS_PIN_CODE_OPEN,
   IS_RENDER_REQUIRED,
@@ -76,10 +75,6 @@ export const setApi = (payload) => ({
   type: SET_API,
 });
 
-export const setUpvotePercent = (payload) => ({
-  payload,
-  type: SET_UPVOTE_PERCENT,
-});
 
 export const setPostUpvotePercent = (payload) => ({
   payload,

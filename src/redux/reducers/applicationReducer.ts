@@ -21,7 +21,6 @@ import {
   SET_CURRENCY,
   SET_LANGUAGE,
   SET_NSFW,
-  SET_UPVOTE_PERCENT,
   SET_POST_UPVOTE_PERCENT,
   SET_COMMENT_UPVOTE_PERCENT,
   SET_PIN_CODE,
@@ -64,7 +63,6 @@ interface State {
     transfersNotification: boolean,
     voteNotification: boolean,
   },
-  upvotePercent: number;
   postUpvotePercent: number;
   commentUpvotePercent: number;
   nsfw: string;
@@ -248,10 +246,7 @@ export default function (state = initialState, action):State {
       return Object.assign({}, state, {
         isPinCodeOpen: action.payload,
       });
-    case SET_UPVOTE_PERCENT:
-      return Object.assign({}, state, {
-        upvotePercent: action.payload,
-      });
+
     case SET_POST_UPVOTE_PERCENT:
       return Object.assign({}, state, {
         postUpvotePercent: action.payload,

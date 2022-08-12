@@ -45,7 +45,6 @@ interface UpvoteViewProps {
   dispatch:any
   onVote:(amount:string, downvote:boolean)=>void;
   isVoted:boolean;
-  upvotePercent:number;
   postUpvotePercent: number;
   commentUpvotePercent: number;
   parentType: string;
@@ -72,7 +71,6 @@ const UpvoteView = ({
   dispatch,
   onVote,
   isVoted,
-  // upvotePercent,
   postUpvotePercent,
   commentUpvotePercent,
   parentType,

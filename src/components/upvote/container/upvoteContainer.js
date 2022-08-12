@@ -2,12 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 
-// Realm
-import { setUpvotePercent } from '../../../realm/realm';
-
 // Services and Actions
 import {
-  setUpvotePercent as upvoteAction,
   setCommentUpvotePercent,
   setPostUpvotePercent,
 } from '../../../redux/actions/applicationActions';
@@ -36,7 +32,6 @@ const UpvoteContainer = (props) => {
     isLoggedIn,
     isShowPayoutValue,
     pinCode,
-    upvotePercent,
     postUpvotePercent,
     commentUpvotePercent,
     globalProps,
@@ -90,8 +85,6 @@ const UpvoteContainer = (props) => {
 
   const _setUpvotePercent = (value) => {
     if (value) {
-      setUpvotePercent(String(value));
-      dispatch(upvoteAction(value));
       if (parentType === postTypes.POST) {
         dispatch(setPostUpvotePercent(value));
       }
@@ -212,7 +205,6 @@ const UpvoteContainer = (props) => {
       promotedPayout={promotedPayout}
       totalPayout={totalPayout}
       maxPayout={maxPayout}
-      upvotePercent={upvotePercent}
       postUpvotePercent={postUpvotePercent}
       commentUpvotePercent={commentUpvotePercent}
       parentType={parentType}
@@ -231,7 +223,6 @@ const UpvoteContainer = (props) => {
 
 const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
-  upvotePercent: state.application.upvotePercent,
   postUpvotePercent: state.application.postUpvotePercent,
   commentUpvotePercent: state.application.commentUpvotePercent,
   pinCode: state.application.pin,
