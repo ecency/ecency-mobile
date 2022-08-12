@@ -585,7 +585,7 @@
   "deep_link": {
     "no_existing_user": "Käyttäjää ei ole",
     "no_existing_post": "Julkaisua ei ole",
-    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
+    "invalid_link": "Url on virheellinen, voit yrittää uudelleen kelvollisella url-osoitteella tai kokeilla avata sen selaimessa"
   },
   "search": {
     "posts": "Julkaisut",
