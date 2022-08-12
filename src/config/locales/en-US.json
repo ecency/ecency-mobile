@@ -248,7 +248,8 @@
     },
     "feedback_success": "Email successfully open",
     "feedback_fail": "Email client could not open",
-    "server_fail": "Server not available"
+    "server_fail": "Server not available",
+    "show_imgs": "Show images"
   },
   "voters": {
     "voters_info": "Voters Info",
