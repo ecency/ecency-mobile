@@ -585,7 +585,7 @@
   "deep_link": {
     "no_existing_user": "Usuario no existe",
     "no_existing_post": "Publicación no existe",
-    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
+    "invalid_link": "La Url no es válida, puedes intentarlo de nuevo con una url válida o intentar abrirla en el navegador web"
   },
   "search": {
     "posts": "Publicaciones",
