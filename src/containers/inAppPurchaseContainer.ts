@@ -28,21 +28,8 @@ class InAppPurchaseContainer extends Component {
   }
 
   // Component Life Cycle Functions
-  async componentDidMount() {
-    try {
-      await RNIap.initConnection();
-      if (Platform.OS === 'android') {
-        await RNIap.flushFailedPurchasesCachedAsPendingAndroid(); 
-      }
-
-      this._consumeAvailablePurchases()
-
-    } catch (err) {
-      bugsnagInstance.notify(err);
-      console.warn(err.code, err.message);
-    }
-    this._getItems();
-    this._purchaseUpdatedListener();
+  componentDidMount() {
+    this._initContainer();
   }
 
   componentWillUnmount() {
@@ -56,6 +43,35 @@ class InAppPurchaseContainer extends Component {
       this.purchaseErrorSubscription = null;
     }
     RNIap.endConnection();
+  }
+
+
+  _initContainer = async () => {
+    const {
+      intl,
+    } = this.props;
+    try {
+      await RNIap.initConnection();
+      if (Platform.OS === 'android') {
+        await RNIap.flushFailedPurchasesCachedAsPendingAndroid(); 
+      }
+
+      await this._consumeAvailablePurchases()
+      this._getItems();
+      this._purchaseUpdatedListener();
+
+    } catch (err) {
+      bugsnagInstance.notify(err);
+      console.warn(err.code, err.message);
+
+      Alert.alert(
+        intl.formatMessage({
+          id: 'alert.connection_issues',
+        }),
+        err.message
+      );
+    }
+   
   }
 
 
@@ -152,7 +168,7 @@ class InAppPurchaseContainer extends Component {
       const products = await RNIap.getProducts(skus);
       console.log(products);
       products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)).reverse();
-      await this.setState({ productList: products });
+      this.setState({ productList: products });
     } catch (err) {
       bugsnagInstance.notify(err);
       Alert.alert(
@@ -163,7 +179,7 @@ class InAppPurchaseContainer extends Component {
         );
     }
 
-    await this.setState({ isLoading: false });
+    this.setState({ isLoading: false });
   };
 
   _buyItem = async (sku) => {

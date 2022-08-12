@@ -91,6 +91,7 @@ import parseAuthUrl from '../../../utils/parseAuthUrl';
 import { purgeExpiredCache } from '../../../redux/actions/cacheActions';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
 import MigrationHelpers from '../../../utils/migrationHelpers';
+import { deepLinkParser } from '../../../utils/deepLinkParser';
 
 // Workaround
 let previousAppState = 'background';
@@ -236,93 +237,25 @@ class ApplicationContainer extends Component {
   };
 
   _handleDeepLink = async (url = '') => {
-    if (!url || url.indexOf('ShareMedia://') >= 0) return;
+    const { currentAccount, intl } = this.props;
 
-    let routeName;
-    let params;
-    let content;
-    let profile;
-    let keey;
-    const { currentAccount } = this.props;
-
-    const postUrl = postUrlParser(url);
-    const { author, permlink, feedType, tag } = postUrl || {};
-
-    try {
-      if (author) {
-        if (
-          !permlink ||
-          permlink === 'wallet' ||
-          permlink === 'points' ||
-          permlink === 'comments' ||
-          permlink === 'replies' ||
-          permlink === 'posts'
-        ) {
-          let deepLinkFilter;
-          if (permlink) {
-            deepLinkFilter = permlink === 'points' ? 'wallet' : permlink;
-          }
-
-          profile = await getUser(author);
-          routeName = ROUTES.SCREENS.PROFILE;
-          params = {
-            username: get(profile, 'name'),
-            reputation: get(profile, 'reputation'),
-            deepLinkFilter, //TODO: process this in profile screen
-          };
-          keey = get(profile, 'name');
-        } else if (permlink === 'communities') {
-          routeName = ROUTES.SCREENS.WEB_BROWSER;
-          params = {
-            url: url,
-          };
-          keey = 'WebBrowser';
-        } else if (permlink) {
-          content = await getPost(author, permlink, currentAccount.name);
-          routeName = ROUTES.SCREENS.POST;
-          params = {
-            content,
-          };
-          keey = `${author}/${permlink}`;
-        }
+    try{
+      const deepLinkData = await deepLinkParser(url, currentAccount);
+      const { routeName, params, key } = deepLinkData || {};
+      
+      if (routeName && key) {
+        navigate({
+          routeName,
+          params,
+          key: key,
+        });
+      } else {
+        throw new Error(intl.formatMessage({id:'deep_link.invalid_link'}))
       }
-
-      if (feedType === 'hot' || feedType === 'trending' || feedType === 'created') {
-        if (!tag) {
-          routeName = ROUTES.SCREENS.TAG_RESULT;
-        } else if (/hive-[1-3]\d{4,6}$/.test(tag)) {
-          routeName = ROUTES.SCREENS.COMMUNITY;
-        } else {
-          routeName = ROUTES.SCREENS.TAG_RESULT;
-        }
-        params = {
-          tag,
-          filter: feedType,
-        };
-        keey = `${feedType}/${tag || ''}`;
-      }
-    } catch (error) {
-      this._handleAlert('deep_link.no_existing_user');
+    } catch(err){
+      this._handleAlert(err.message)
     }
-
-    if (!routeName) {
-      const { mode, referredUser } = parseAuthUrl(url);
-      if (mode === 'SIGNUP') {
-        routeName = ROUTES.SCREENS.REGISTER;
-        params = {
-          referredUser,
-        };
-        keey = `${mode}/${referredUser || ''}`;
-      }
-    }
-
-    if (routeName && keey) {
-      navigate({
-        routeName,
-        params,
-        key: keey,
-      });
-    }
+    
   };
 
   _compareAndPromptForUpdate = async () => {
