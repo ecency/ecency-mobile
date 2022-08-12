@@ -584,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "لا يوجد أي مستخدم حاليا",
-    "no_existing_post": "لا يوجد أي منشور حالياً"
+    "no_existing_post": "لا يوجد أي منشور حالياً",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "منشورات",
