@@ -584,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "کاربری موجود نیست",
-    "no_existing_post": "پستی موجود نیست"
+    "no_existing_post": "پستی موجود نیست",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "پست‌ها",
