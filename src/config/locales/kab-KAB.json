@@ -584,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "Ulac amseqdac",
-    "no_existing_post": "Ulac tasuffeɣt"
+    "no_existing_post": "Ulac tasuffeɣt",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Tisuffɣin",
