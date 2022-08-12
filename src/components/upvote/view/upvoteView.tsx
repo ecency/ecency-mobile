@@ -21,6 +21,7 @@ import { vote } from '../../../providers/hive/dhive';
 // Styles
 import styles from './upvoteStyles';
 import { useAppSelector } from '../../../hooks';
+import postTypes from '../../../constants/postTypes';
 
 interface UpvoteViewProps {
   isDeclinedPayout:boolean;
@@ -44,7 +45,9 @@ interface UpvoteViewProps {
   dispatch:any
   onVote:(amount:string, downvote:boolean)=>void;
   isVoted:boolean;
-  upvotePercent:number;
+  postUpvotePercent: number;
+  commentUpvotePercent: number;
+  parentType: string;
 }
 
 const UpvoteView = ({
@@ -68,7 +71,9 @@ const UpvoteView = ({
   dispatch,
   onVote,
   isVoted,
-  upvotePercent
+  postUpvotePercent,
+  commentUpvotePercent,
+  parentType,
 }:UpvoteViewProps) => {
   const intl = useIntl();
 
@@ -83,11 +88,20 @@ const UpvoteView = ({
   const [upvote, setUpvote] = useState(isVoted || false);
   const [downvote, setDownvote] = useState(isDownVoted || false);
   const [isShowDetails, setIsShowDetails] = useState(false);
+  const [upvotePercent, setUpvotePercent] = useState(1);
 
   useEffect(() => {
     _calculateEstimatedAmount();
   }, [])
 
+  useEffect(() => {
+    if (parentType === postTypes.POST) {
+      setUpvotePercent(postUpvotePercent);
+    }
+    if (parentType === postTypes.COMMENT) {
+      setUpvotePercent(commentUpvotePercent);
+    }
+  },[postUpvotePercent, commentUpvotePercent, parentType])
   
   useEffect(() => {
     const value = (isVoted || isDownVoted) 

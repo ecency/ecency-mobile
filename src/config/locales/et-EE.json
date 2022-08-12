@@ -91,24 +91,24 @@
     "fill_transfer_from_savings": "Hoius alustatud",
     "fill_vesting_withdraw": "Hive Poweri vähendamist alustatud",
     "ecency": {
-      "title": "Points",
-      "name": "Ecency Points",
-      "buy": "GET POINTS"
+      "title": "Punktid",
+      "name": "Ecency punktid",
+      "buy": "OSTA PUNKTE"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "HIVE Hoius"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "HBD Hoius"
     },
     "hive": {
       "title": "HIVE",
       "name": "Hive Token",
-      "buy": "GET HIVE"
+      "buy": "OSTA HIVE"
     },
     "hbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "OSTA HBD"
     },
     "hive_power": {
       "title": "HIVE POWER",
@@ -124,7 +124,7 @@
     },
     "last_updated": "Last Updated:",
     "updating": "Updating...",
-    "coin_details": "Details",
+    "coin_details": "Üksikasjad",
     "change": "Change",
     "activities": "Activities",
     "savings_withdrawal": "Pending Withdrawals",
@@ -229,6 +229,7 @@
       "delegations": "Delegations"
     },
     "pincode": "Pincode",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "Lähtesta Pin-kood",
     "reset": "Algseisundi Taastamine",
     "nsfw_content": "18+",
@@ -419,7 +420,8 @@
     "forgot_text": "Ups, ma unustasin...",
     "pin_not_matched": "Vale PIN, palun proovi uuesti.",
     "attempts_postfix": "ebaõnnestunud katse(d)",
-    "message_reset_warning": "User data will be wiped on next failed attempt"
+    "message_reset_warning": "User data will be wiped on next failed attempt",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "Edukas!",

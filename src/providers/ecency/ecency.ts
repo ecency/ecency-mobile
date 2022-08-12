@@ -18,8 +18,8 @@ import { CommentHistoryItem, LatestMarketPrices, ReceivedVestingShare, Referral,
  */
 
 export const getCurrencyRate = (currency) =>
-  api
-    .get(`/market-data/currency-rate/${currency}/hbd?fixed=1`)
+  ecencyApi
+    .get(`/private-api/market-data/${currency}/hbd?fixed=1`)
     .then((resp) => resp.data)
     .catch((err) => {
       bugsnagInstance.notify(err);
@@ -31,14 +31,14 @@ export const getLatestQuotes = async (currencyRate: number): Promise<LatestMarke
   try {
     console.log('using currency rate', currencyRate);
     const res = await ecencyApi.get(`/private-api/market-data/latest`);
-    const estmRes = await getCurrencyTokenRate('usd', 'estm')
 
-    if (!res.data || !estmRes) {
+    if (!res.data) {
       throw new Error("No quote data returned");
     }
 
-    const data = convertLatestQuotes(res.data, estmRes, currencyRate);
-    console.log('parsed quotes data', data);
+    const data = convertLatestQuotes(res.data, currencyRate);
+    console.log('parsed quotes data', data, currencyRate);
+
     return data;
   } catch (error) {
     bugsnagInstance.notify(error);
@@ -49,8 +49,8 @@ export const getLatestQuotes = async (currencyRate: number): Promise<LatestMarke
 
 
 export const getCurrencyTokenRate = (currency, token) =>
-  api
-    .get(`/market-data/currency-rate/${currency}/${token}`)
+  ecencyApi
+    .get(`/private-api/market-data/${currency}/${token}`)
     .then((resp) => resp.data)
     .catch((err) => {
       bugsnagInstance.notify(err);

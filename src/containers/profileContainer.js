@@ -5,7 +5,6 @@ import { withNavigation } from '@react-navigation/compat';
 import { get, has, unionBy, update } from 'lodash';
 import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
-import Matomo from 'react-native-matomo-sdk';
 
 // Providers
 import {
@@ -88,11 +87,6 @@ class ProfileContainer extends Component {
     }
 
     this._loadProfile(targetUsername);
-    if (isAnalytics) {
-      Matomo.trackView([`/@${targetUsername}`]).catch((error) =>
-        console.warn('Failed to track screen', error),
-      );
-    }
   }
 
   _getReplies = async (query) => {
@@ -116,12 +110,6 @@ class ProfileContainer extends Component {
         query.observer = '';
         query.sort = 'comments';
       }
-
-      if (isAnalytics && user) {
-        Matomo.trackView([`/@${user.name}/comments`]).catch((error) =>
-          console.warn('Failed to track screen', error),
-        );
-      }
     } else {
       repliesAction = getAccountPosts;
       if (query) {
@@ -133,12 +121,6 @@ class ProfileContainer extends Component {
         query.limit = 5;
         query.observer = '';
         query.sort = 'replies';
-      }
-
-      if (isAnalytics) {
-        Matomo.trackView([`/@${currentAccountUsername}/replies`]).catch((error) =>
-          console.warn('Failed to track screen', error),
-        );
       }
     }
 

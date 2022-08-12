@@ -229,6 +229,7 @@
       "delegations": "Delegacijos"
     },
     "pincode": "PIN kodas",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "Iš naujo nustatyti Pin kodą",
     "reset": "Atstatyti",
     "nsfw_content": "NSFW",
@@ -419,7 +420,8 @@
     "forgot_text": "Oi, pamiršau...",
     "pin_not_matched": "PIN kodas nesutampa. Bandykite dar kartą.",
     "attempts_postfix": "nepavykę bandymas(ai)",
-    "message_reset_warning": "Naudotojo duomenys bus ištrinti su sekančiu nesėkmingu bandymu"
+    "message_reset_warning": "Naudotojo duomenys bus ištrinti su sekančiu nesėkmingu bandymu",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "Sėkmė!",

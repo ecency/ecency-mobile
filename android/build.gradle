@@ -62,7 +62,6 @@ allprojects {
                 includeGroup("com.facebook.yoga")
                 includeGroup("com.facebook.fbjni")
                 includeGroup("com.henninghall.android")
-                includeGroup("org.matomo.sdk")
                 includeModule("com.yqritc", "android-scalablevideoview")
                 includeModule("com.wei.android.lib", "fingerprintidentify")
             }

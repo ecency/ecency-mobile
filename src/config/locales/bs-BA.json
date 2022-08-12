@@ -229,6 +229,7 @@
       "delegations": "Povjeravanja"
     },
     "pincode": "Pin kod",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "Poništi Pin kod",
     "reset": "Poništi",
     "nsfw_content": "NSFW",
@@ -419,7 +420,8 @@
     "forgot_text": "Oh, zaboravio sam...",
     "pin_not_matched": "PIN se ne podudara, pokušajte ponovo.",
     "attempts_postfix": "neuspjeli pokušaj(i)",
-    "message_reset_warning": "Korisnički podaci će biti obrisani pri sljedećem neuspjelom pokušaju"
+    "message_reset_warning": "Korisnički podaci će biti obrisani pri sljedećem neuspjelom pokušaju",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "Uspjeh!",

@@ -1,10 +1,10 @@
 {
   "wallet": {
-    "curation_reward": "Curation Reward",
-    "author_reward": "Author Reward",
+    "curation_reward": "Kuratorlik mukofoti",
+    "author_reward": "Avtorlik mukofoti",
     "comment_benefactor_reward": "Benefactor Reward",
-    "claim_reward_balance": "Claim Reward ",
-    "transfer": "Transfer",
+    "claim_reward_balance": "Mukofotlarni olish ",
+    "transfer": "O'tkazma",
     "power_up": "To Vesting",
     "transfer_from_savings": "From Savings",
     "withdraw_savings": "Withdraw Savings",
@@ -229,6 +229,7 @@
       "delegations": "Delegations"
     },
     "pincode": "Pincode",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "Reset Pin Code",
     "reset": "Reset",
     "nsfw_content": "NSFW",
@@ -419,7 +420,8 @@
     "forgot_text": "Oh, I forgot it...",
     "pin_not_matched": "PIN do not match, Please try again.",
     "attempts_postfix": "failed attempt(s)",
-    "message_reset_warning": "User data will be wiped on next failed attempt"
+    "message_reset_warning": "User data will be wiped on next failed attempt",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "Success!",

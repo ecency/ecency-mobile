@@ -22,7 +22,6 @@ import {
     setApi,
     setCurrency,
     setLanguage,
-    setUpvotePercent,
     setNsfw,
     isDefaultFooter,
     isPinCodeOpen,
@@ -30,6 +29,8 @@ import {
     setSettingsMigrated,
     setPinCode,
     setEncryptedUnlockPin,
+    setPostUpvotePercent,
+    setCommentUpvotePercent,
 } from '../redux/actions/applicationActions';
 import { fetchSubscribedCommunities } from '../redux/actions/communitiesAction';
 import {
@@ -65,7 +66,9 @@ export const migrateSettings = async (dispatch: any, settingsMigratedV2: boolean
         if (settings.language !== '') dispatch(setLanguage(settings.language));
         if (settings.server !== '') dispatch(setApi(settings.server));
         if (settings.upvotePercent !== '') {
-            dispatch(setUpvotePercent(Number(settings.upvotePercent)));
+            const percent = Number(settings.upvotePercent);
+            dispatch(setPostUpvotePercent(percent));
+            dispatch(setCommentUpvotePercent(percent));
         }
         if (settings.isDefaultFooter !== '') dispatch(isDefaultFooter(settings.isDefaultFooter)); //TODO: remove as not being used
 
@@ -173,7 +176,20 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
     
 }
 
+
+
+const reduxMigrations = {
+    0: (state) => {
+      const upvotePercent = state.application.upvotePercent;
+      state.application.postUpvotePercent = upvotePercent;
+      state.application.commentUpvotePercent = upvotePercent
+      state.application.upvotePercent = undefined;
+      return state
+    }
+  }
+
 export default {
     migrateSettings,
-    migrateUserEncryption
+    migrateUserEncryption,
+    reduxMigrations,
 }
