@@ -18,7 +18,7 @@ import styles from './headerStyles';
 const HeaderView = ({
   displayName,
   handleOnPressBackButton,
-  handleOnViewModePress,
+  handleOnQRPress,
   handleOpenDrawer,
   isDarkTheme,
   isLoggedIn,
@@ -114,9 +114,9 @@ const HeaderView = ({
             <IconButton
               style={styles.viewIconContainer}
               iconStyle={styles.viewIcon}
-              name="view-module"
-              iconType="MaterialIcons"
-              onPress={handleOnViewModePress}
+              name="qrcode-scan"
+              iconType="MaterialCommunityIcons"
+              onPress={handleOnQRPress}
             />
           )}
           <IconButton iconStyle={styles.backIcon} name="md-search" onPress={_onPressSearchButton} />
