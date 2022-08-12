@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import get from 'lodash/get';
 
-// Services and Actions
-import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker';
+// Services and Action
 import { getPost } from '../../../providers/hive/dhive';
 
 // Component
