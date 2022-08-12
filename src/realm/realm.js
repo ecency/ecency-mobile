@@ -348,31 +348,6 @@ export const setDefaultFooter = async (isDefaultFooter) => {
   }
 };
 
-export const setUpvotePercent = async (percent) => {
-  try {
-    const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-
-    setting.upvotePercent = percent;
-    await setItemToStorage(SETTINGS_SCHEMA, setting);
-
-    return true;
-  } catch (error) {
-    return error;
-  }
-};
-
-export const getUpvotePercent = async () => {
-  try {
-    const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-    if (setting) {
-      return setting.upvotePercent;
-    }
-    return false;
-  } catch (error) {
-    return error;
-  }
-};
-
 export const getNsfw = async () => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
