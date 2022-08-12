@@ -584,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "Неіснуючий користувач",
-    "no_existing_post": "Неіснуючий допис"
+    "no_existing_post": "Неіснуючий допис",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Дописи",
