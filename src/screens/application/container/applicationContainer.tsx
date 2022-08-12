@@ -239,6 +239,11 @@ class ApplicationContainer extends Component {
   _handleDeepLink = async (url = '') => {
     const { currentAccount, intl } = this.props;
 
+    if(!url){
+      return;
+    }
+
+
     try{
       const deepLinkData = await deepLinkParser(url, currentAccount);
       const { routeName, params, key } = deepLinkData || {};
