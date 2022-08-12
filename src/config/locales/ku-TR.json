@@ -229,6 +229,7 @@
       "delegations": "Delegations"
     },
     "pincode": "Pînkod",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "Nûsazkirina PînKodê",
     "reset": "Nûsaz bike",
     "nsfw_content": "Naverokên Neguncav",
@@ -419,7 +420,8 @@
     "forgot_text": "Wey, Min ji bîr kiriye...",
     "pin_not_matched": "PIN do not match, Please try again.",
     "attempts_postfix": "failed attempt(s)",
-    "message_reset_warning": "User data will be wiped on next failed attempt"
+    "message_reset_warning": "User data will be wiped on next failed attempt",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "Serkevtî!",

@@ -229,6 +229,7 @@
       "delegations": "Valtuutukset"
     },
     "pincode": "PIN-koodi",
+    "biometric": "Sormenjälki / Kasvontunnistus",
     "reset_pin": "Nollaa Pin-koodi",
     "reset": "Nollaa",
     "nsfw_content": "NSFW",
@@ -379,7 +380,7 @@
     "url": "URL",
     "enter_url_placeholder": "Kirjoita URL-osoite",
     "link_type_text": "Linkin tyyppi",
-    "insert_link": "Insert Link",
+    "insert_link": "Lisää linkki",
     "preview": "Esikatselu",
     "invalid_url_error": "Syötä kelvollinen URL",
     "plain": "Yksinkertainen",
@@ -419,7 +420,8 @@
     "forgot_text": "Unohdin sen...",
     "pin_not_matched": "PIN-koodi ei täsmää, yritä uudelleen.",
     "attempts_postfix": "epäonnistuneet yritykset",
-    "message_reset_warning": "Käyttäjätiedot poistetaan seuraavan epäonnistuneen yrityksen yhteydessä"
+    "message_reset_warning": "Käyttäjätiedot poistetaan seuraavan epäonnistuneen yrityksen yhteydessä",
+    "biometric_desc": "Skannaa sormenjälkesi laitteen skannerilla jatkaaksesi"
   },
   "alert": {
     "success": "Onnistui!",
@@ -490,7 +492,7 @@
     "invalid_response": "Pyyntöä ei voitu käsitellä, Yritä myöhemmin uudelleen.",
     "wallet_updating": "Lompakon päivitys käynnissä, yritä uudelleen päivityksen valmistuessa",
     "claim_failed": "Palkintojen lunastaminen epäonnistui, {message}\nYritä uudelleen tai kirjoita osoitteeseen support@ecency.com",
-    "connection_issues": "The server is unreachable, please check your connection and try again."
+    "connection_issues": "Palvelin ei ole tavoitettavissa, tarkista yhteytesi ja yritä uudelleen."
   },
   "post": {
     "reblog_alert": "Haluatko varmasti jakaa?",
@@ -637,7 +639,7 @@
     "account_detail_head": "Tilin tiedot",
     "account_detail_subhead": "Anna HIVE Power -valtuutuksen saajan käyttäjänimi",
     "delegat_detail_head": "Valtuutuksen tiedot",
-    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
+    "delegat_detail_subhead": "Uusi määrä korvaa aiemman HIVE Power -valtuutuksen ",
     "new_amount": "Uusi määrä",
     "review": "VAHVISTA",
     "confirm": "Vahvista valtuutus",
@@ -655,10 +657,10 @@
     "powering_down_info": "Seuraavaan tehonalennukseen on {days} päivää, {hp} HIVE",
     "invalid_amount": "Virheellinen määrä",
     "invalid_amount_desc": "Syötä kelvollinen arvo",
-    "account_select_title": "Account Details",
-    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
-    "amount_select_title": "Transfer Details",
-    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
+    "account_select_title": "Tilitiedot",
+    "account_select_description": "Varoihin liittyvät toiminnot ovat peruuttamattomia. Varmista, että vastaanottajan käyttäjätunnus on oikea",
+    "amount_select_title": "Siirron Tiedot",
+    "amount_select_description": "Syötä siirtosumma maksimaalisen käytettävissä olevan saldon rajoissa ja määrän tulee olla suurempi kuin 0.001"
   },
   "boost": {
     "title": "Hanki pisteitä",
@@ -787,8 +789,8 @@
     "line3_heading": "Liity Ecencyn yhteisöihin!",
     "line3_body": "Rakenna omistamaasi yhteisöä, saa palkkioita ja palkitse muita.",
     "get_started": "Aloitetaan!",
-    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
-    "terms_text": "Read Here!"
+    "terms_description": "Kirjautumalla sisään hyväksyt käyttöehtomme ja tietosuojamme periaatteet.",
+    "terms_text": "Lue lisää!"
   },
   "time": {
     "second": "s",

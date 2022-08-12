@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { get, isEmpty } from 'lodash';
 import unionBy from 'lodash/unionBy';
-import Matomo from 'react-native-matomo-sdk';
 import { useIntl } from 'react-intl';
 import { Alert, AppState } from 'react-native';
 
@@ -655,23 +654,6 @@ const PostsContainer = ({
           isLoading: false,
         },
       });
-    }
-
-    // track filter and tag views
-    if (isAnalytics) {
-      if (tag) {
-        Matomo.trackView([`/${selectedFilterValue}/${tag}`]).catch((error) =>
-          console.warn('Failed to track screen', error),
-        );
-      } else if (selectedFilterValue === 'feed') {
-        Matomo.trackView([`/@${feedUsername}/${selectedFilterValue}`]).catch((error) =>
-          console.warn('Failed to track screen', error),
-        );
-      } else {
-        Matomo.trackView([`/${selectedFilterValue}`]).catch((error) =>
-          console.warn('Failed to track screen', error),
-        );
-      }
     }
   };
 

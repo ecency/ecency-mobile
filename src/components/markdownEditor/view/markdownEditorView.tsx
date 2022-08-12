@@ -109,7 +109,7 @@ const MarkdownEditorView = ({
 
   useEffect(() => {
     if (!isPreviewActive) {
-      _setTextAndSelection({ selection: { start: 0, end: 0 }, text: bodyText });
+      _setTextAndSelection({ selection: bodySelection, text: bodyText });
     }
   }, [isPreviewActive]);
 
@@ -232,13 +232,13 @@ const MarkdownEditorView = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const _setTextAndSelection = useCallback(({ selection: _selection, text: _text }) => {
     // console.log('_text : ', _text);
-    inputRef.current.setNativeProps({
+    inputRef?.current?.setNativeProps({
       text: _text,
     });
 
     const _updateSelection = () => {
       bodySelection = _selection
-      inputRef.current.setNativeProps({
+      inputRef?.current?.setNativeProps({
         selection: _selection,
       });
     }
@@ -448,6 +448,7 @@ const MarkdownEditorView = ({
           draftChips={fields.tags.length > 0 ? fields.tags : null}
           componentID="tag-area"
           intl={intl}
+          isPreviewActive={isPreviewActive}
         />
       )}
       {isReply && (

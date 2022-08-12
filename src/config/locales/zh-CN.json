@@ -229,6 +229,7 @@
       "delegations": "Delegations"
     },
     "pincode": "PIN 码",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "重置 PIN 码",
     "reset": "重置",
     "nsfw_content": "NSFW(工作不宜)",
@@ -419,7 +420,8 @@
     "forgot_text": "哦，我忘记了......",
     "pin_not_matched": "PIN do not match, Please try again.",
     "attempts_postfix": "failed attempt(s)",
-    "message_reset_warning": "User data will be wiped on next failed attempt"
+    "message_reset_warning": "User data will be wiped on next failed attempt",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "成功!",

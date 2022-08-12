@@ -4,10 +4,8 @@ import { withNavigation } from 'react-navigation';
 import get from 'lodash/get';
 
 // Services and Actions
-import Matomo from 'react-native-matomo-sdk';
 import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker';
 import { getPost } from '../../../providers/hive/dhive';
-// import { matomo } from '../../../providers/ecency/analytics';
 
 // Component
 import PostScreen from '../screen/postScreen';
@@ -58,22 +56,9 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
       } else {
         setPost(content);
       }
-      // tracking info
-      if (isAnalytics) {
-        Matomo.trackView([`${content.url}`]).catch((error) =>
-          console.warn('Failed to track screen', error),
-        );
-      }
     } else if (_author && permlink) {
       _loadPost(_author, permlink);
       author = _author;
-
-      // tracking info
-      if (isAnalytics) {
-        Matomo.trackView([`/post/@${_author}/${permlink}`]).catch((error) =>
-          console.warn('Failed to track screen', error),
-        );
-      }
     }
   }, []);
 
