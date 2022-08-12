@@ -107,7 +107,6 @@ const initialState:State = {
     transfersNotification: true,
     voteNotification: true,
   },
-  upvotePercent: 1,
   postUpvotePercent: 1,
   commentUpvotePercent: 1,
   nsfw: '1',
