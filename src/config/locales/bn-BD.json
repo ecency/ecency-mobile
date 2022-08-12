@@ -584,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "কোন বিদ্যমান ব্যবহারকারী",
-    "no_existing_post": "কোন বিদ্যমান পোস্ট নেই"
+    "no_existing_post": "কোন বিদ্যমান পোস্ট নেই",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "পোস্ট",
