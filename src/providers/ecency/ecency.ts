@@ -31,7 +31,16 @@ export const getLatestQuotes = async (currencyRate: number): Promise<LatestMarke
   try {
     console.log('using currency rate', currencyRate);
     const res = await ecencyApi.get(`/private-api/market-data/latest`);
-    const estmRes = await getCurrencyTokenRate('usd', 'estm')
+
+    
+    //TODO: remove block when estm working/stable endpoint is available
+    let estmRes =  0.002 //hardcoded fallback value for estm
+    try{
+      estmRes = await getCurrencyTokenRate('usd', 'estm')
+    } catch(err){
+      console.warn('estm price get failed, using fallback value. ', err);
+    }
+    
 
     if (!res.data || !estmRes) {
       throw new Error("No quote data returned");
