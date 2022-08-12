@@ -585,7 +585,8 @@
   },
   "deep_link": {
     "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_post": "No existing post",
+    "invalid_link":"Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Posts",
