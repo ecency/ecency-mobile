@@ -224,7 +224,7 @@ const PostOptionsModal =  forwardRef(({
         </KeyboardAwareScrollView>
 
         <MainButton
-          style={{...styles.saveButton, backgroundColor:EStyleSheet.value(disableDone?'$primaryDarkGray':'$primaryBlue') }}
+          style={{...styles.saveButton }}
           isDisable={disableDone}
           onPress={_onDonePress}
           text={intl.formatMessage({id:"editor.done"})}
