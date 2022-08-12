@@ -584,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "Съществуващ потребител",
-    "no_existing_post": "Несъществуваща тема"
+    "no_existing_post": "Несъществуваща тема",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Публикации",
