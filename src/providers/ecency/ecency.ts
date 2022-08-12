@@ -18,8 +18,8 @@ import { CommentHistoryItem, LatestMarketPrices, ReceivedVestingShare, Referral,
  */
 
 export const getCurrencyRate = (currency) =>
-  api
-    .get(`/market-data/currency-rate/${currency}/hbd?fixed=1`)
+  ecencyApi
+    .get(`/private-api/market-data/${currency}/hbd?fixed=1`)
     .then((resp) => resp.data)
     .catch((err) => {
       bugsnagInstance.notify(err);
@@ -58,8 +58,8 @@ export const getLatestQuotes = async (currencyRate: number): Promise<LatestMarke
 
 
 export const getCurrencyTokenRate = (currency, token) =>
-  api
-    .get(`/market-data/currency-rate/${currency}/${token}`)
+  ecencyApi
+    .get(`/private-api/market-data/${currency}/${token}`)
     .then((resp) => resp.data)
     .catch((err) => {
       bugsnagInstance.notify(err);
