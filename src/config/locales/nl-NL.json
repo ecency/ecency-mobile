@@ -584,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "Geen bestaande gebruiker",
-    "no_existing_post": "Geen bestaand artikel"
+    "no_existing_post": "Geen bestaand artikel",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Posts",
