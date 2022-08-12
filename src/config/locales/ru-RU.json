@@ -584,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
-    "no_existing_post": "Несуществующий пост"
+    "no_existing_post": "Несуществующий пост",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Посты",

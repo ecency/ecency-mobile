@@ -584,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "Heç bir istifadəçi yoxdur",
-    "no_existing_post": "Heç bir göndəriş yoxdur"
+    "no_existing_post": "Heç bir göndəriş yoxdur",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Göndərişlər",

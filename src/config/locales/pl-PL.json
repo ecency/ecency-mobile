@@ -584,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "Brak istniejącego użytkownika",
-    "no_existing_post": "Brak istniejącego wpisu"
+    "no_existing_post": "Brak istniejącego wpisu",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Wpisy",

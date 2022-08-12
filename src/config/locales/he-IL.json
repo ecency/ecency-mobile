@@ -584,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "המשתמש אינו קיים",
-    "no_existing_post": "הפוסט אינו קיים"
+    "no_existing_post": "הפוסט אינו קיים",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "העלאות",

@@ -584,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "Nem létező felhasználó",
-    "no_existing_post": "Nem létező bejegyzés"
+    "no_existing_post": "Nem létező bejegyzés",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Bejegyzések",

@@ -584,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "Tidak ada pengguna yang ada",
-    "no_existing_post": "Tidak ada post yang ada"
+    "no_existing_post": "Tidak ada post yang ada",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Kiriman",
