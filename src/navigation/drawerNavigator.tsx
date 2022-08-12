@@ -12,7 +12,7 @@ const Drawer = createDrawerNavigator();
 export const DrawerNavigator = () => {
 
     return (
-        <Drawer.Navigator drawerContent={(props) => <SideMenu {...props}/>} >
+        <Drawer.Navigator screenOptions={{headerShown:false}} drawerContent={(props) => <SideMenu {...props}/>} >
             <Drawer.Screen name={ROUTES.SCREENS.FEED} component={BottomTabNavigator} />
         </Drawer.Navigator>
     )

@@ -42,7 +42,7 @@ const Stack = createStackNavigator();
 export const StackNavigator = () => {
 
     return (
-            <Stack.Navigator headerMode="none" >
+            <Stack.Navigator screenOptions={{ headerShown: false }} >
                 <Stack.Screen name={ROUTES.DRAWER.MAIN} component={DrawerNavigator} />
                 <Stack.Screen name={ROUTES.SCREENS.PROFILE} component={Profile} />
                 <Stack.Screen name={ROUTES.SCREENS.PROFILE_EDIT} component={ProfileEdit} />

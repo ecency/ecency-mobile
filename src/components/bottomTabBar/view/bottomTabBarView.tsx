@@ -14,14 +14,17 @@ import Icon, { IconContainer } from '../../icon';
 import scalePx from '../../../utils/scalePx';
 import { updateActiveBottomTab } from '../../../redux/actions/uiAction';
 import { useDispatch } from 'react-redux';
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+
+
+
 
 
 const BottomTabBarView = ({
   state : { routes , index },
   navigation,
-  activeTintColor,
-  inactiveTintColor,
-}) => {
+  descriptors
+}:BottomTabBarProps) => {
 
   const dispatch = useDispatch();
 
@@ -49,13 +52,14 @@ const BottomTabBarView = ({
     if (!isFocused && !event.defaultPrevented) {
       navigation.navigate(route.name);
     }
-
   };
 
 
+
   const _tabButtons = routes.map((route, idx) => {
+    const {tabBarActiveTintColor, tabBarInactiveTintColor} = descriptors[route.key].options
     const isFocused = index == idx;
-    const iconColor = isFocused ? activeTintColor : inactiveTintColor
+    const iconColor = isFocused ? tabBarActiveTintColor : tabBarInactiveTintColor
 
     let _iconProps = {
       iconType:"MaterialIcons",

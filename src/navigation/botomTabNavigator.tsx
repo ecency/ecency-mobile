@@ -20,12 +20,13 @@ export const BottomTabNavigator = () => {
     return (
         <Tab.Navigator
             tabBar={(props) => <BottomTabBar {...props} /> }
-            tabBarOptions={{
-                showLabel: false,
-                activeTintColor: '#357ce6',
-                inactiveTintColor: '#c1c5c7',
-            }}
+
             backBehavior='initialRoute'
+            screenOptions={{
+                headerShown:false,  
+                tabBarShowLabel: false,
+                tabBarActiveTintColor: '#357ce6',
+                tabBarInactiveTintColor: '#c1c5c7',}}
         >
             <Tab.Screen
                 name={ROUTES.TABBAR.FEED}
