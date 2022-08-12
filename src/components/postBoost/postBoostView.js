@@ -21,7 +21,6 @@ import { Modal } from '../modal';
 // Styles
 import styles from './postBoostStyles';
 import { OptionsModal } from '../atoms';
-import { deepLinkParser } from '../../utils/deepLinkParser';
 import postUrlParser from '../../utils/postUrlParser';
 
 class BoostPostScreen extends PureComponent {
