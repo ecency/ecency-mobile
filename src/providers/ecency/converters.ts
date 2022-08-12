@@ -30,17 +30,12 @@ export const convertQuoteItem = (rawData:any, currencyRate:number) => {
   } as QuoteItem
 }
 
-export const convertLatestQuotes = (rawData: any, estmPrice:number, currencyRate:number) => {
+export const convertLatestQuotes = (rawData: any, currencyRate:number) => {
   return {
     [COIN_IDS.HIVE]:convertQuoteItem(rawData.hive.quotes.usd, currencyRate),
     [COIN_IDS.HP]:convertQuoteItem(rawData.hive.quotes.usd, currencyRate),
     [COIN_IDS.HBD]:convertQuoteItem(rawData.hbd.quotes.usd, currencyRate),
-    [COIN_IDS.ECENCY]:convertQuoteItem({
-      price:estmPrice,
-      percent_change:0,
-      last_updated:new Date().toISOString()
-    }, currencyRate)
-
+    [COIN_IDS.ECENCY]:convertQuoteItem(rawData.estm.quotes.usd, currencyRate)
   } as LatestQuotes;
 };
 
