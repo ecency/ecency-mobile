@@ -85,7 +85,7 @@ export const deepLinkParser = async (url, currentAccount) => {
     //if url is for purchase
     const { type, username} = parsePurchaseUrl(url) || {};
     console.log('type, username : ', type, username);
-    if(type && type === 'boost'){
+    if(type && type === 'boost' || type === 'points'){
       routeName = ROUTES.SCREENS.ACCOUNT_BOOST;
       params = {
         username,
