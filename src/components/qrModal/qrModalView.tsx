@@ -110,22 +110,26 @@ export const QRModal = ({}: QRModalProps) => {
       _onClose();
       navigate(deepLinkData);
     } else {
-      Alert.alert('Unsupported URL!', 'Please scan a valid ecency url.', [
-        {
-          text: 'Close',
-          onPress: () => {
-            _onClose();
+      Alert.alert(
+        intl.formatMessage({ id: 'qr.unsupported_alert_title' }),
+        intl.formatMessage({ id: 'qr.unsupported_alert_desc' }),
+        [
+          {
+            text: 'Close',
+            onPress: () => {
+              _onClose();
+            },
+            style: 'cancel',
           },
-          style: 'cancel',
-        },
-        {
-          text: 'Rescan',
-          onPress: () => {
-            setIsScannerActive(true);
-            scannerRef.current?.reactivate();
+          {
+            text: 'Rescan',
+            onPress: () => {
+              setIsScannerActive(true);
+              scannerRef.current?.reactivate();
+            },
           },
-        },
-      ]);
+        ],
+      );
     }
   };
 
