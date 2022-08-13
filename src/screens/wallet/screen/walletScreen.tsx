@@ -221,6 +221,9 @@ const WalletScreen = ({navigation}) => {
       }
     }
   
+    const _onBoostAccountPress = () => {
+      navigation.navigate(ROUTES.SCREENS.BOOST);
+    };
 
     return (
       <CoinCard 
@@ -235,6 +238,7 @@ const WalletScreen = ({navigation}) => {
         isLoading={isLoading}
         onCardPress={_onCardPress}
         onClaimPress={_onClaimPress}
+        onBoostAccountPress={_onBoostAccountPress}
         footerComponent={index === 0 && <HorizontalIconList options={POINTS} optionsKeys={POINTS_KEYS} />}
         {...item} />
     );

@@ -131,7 +131,8 @@
     "open_orders":"Open Orders",
     "conversions_requested":"Conversions Requested",
     "expires":"expires",
-    "pending_requests":"Pending Requests"
+    "pending_requests":"Pending Requests",
+    "boost_account": "Boost Account"
   },
   "notification": {
     "vote": "voted",
