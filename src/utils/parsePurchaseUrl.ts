@@ -10,9 +10,11 @@ export default (urlString:string) => {
     if(url.pathname === '/purchase'){
         const type = url.searchParams.get('type');
         const username = url.searchParams.get('username');
+        const productId = url.searchParams.get('product_id');
         return {
             type,
-            username
+            username,
+            productId
         }
     }
 

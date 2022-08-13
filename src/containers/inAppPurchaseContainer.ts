@@ -59,7 +59,7 @@ class InAppPurchaseContainer extends Component {
       await this._consumeAvailablePurchases()
       this._getItems();
       this._purchaseUpdatedListener();
-
+      await this._handleQrPurchase();
     } catch (err) {
       bugsnagInstance.notify(err);
       console.warn(err.code, err.message);
@@ -201,6 +201,15 @@ class InAppPurchaseContainer extends Component {
       });
     }
   };
+
+  _handleQrPurchase = async () => {
+    const { navigation, skus } = this.props as any;
+    const products = await RNIap.getProducts(skus);
+    const productId = navigation.getParam('productId', '');
+    if(productId && products  && products.find((product) => product.productId === productId)){
+      await this._buyItem(productId);
+    }
+  }
 
   render() {
     const { children, isNoSpin } = this.props;
