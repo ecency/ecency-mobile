@@ -56,7 +56,7 @@
     "powering_down_hive_power": "斷電中",
     "received_hive_power": "已接收的 Hive Power(HP)",
     "total_hive_power": "Hive Power點贊力總額",
-    "savings": "Savings",
+    "savings": "存款",
     "estimated_amount": "估計點贊價值",
     "amount_information": "拖動指標來調整數量",
     "amount": "數量",
@@ -76,11 +76,11 @@
     "next": "下一个",
     "delegate": "代理",
     "power_down": "斷電 Hive Power",
-    "withdraw_hive": "Withdraw Savings",
-    "withdraw_hbd": "Withdraw Savings",
+    "withdraw_hive": "從儲存提款Hive出來",
+    "withdraw_hbd": "從儲存提款HBD出來",
     "transfer_to_savings": "轉為儲蓄",
     "convert": "兌換",
-    "convert_request": "Convert Request",
+    "convert_request": "提出兌換要求",
     "escrow_transfer": "託管轉帳",
     "escrow_dispute": "托管轉賬（有爭議）",
     "escrow_release": "托管轉賬（允許過賬）",
@@ -91,9 +91,9 @@
     "fill_transfer_from_savings": "成功從儲蓄中提出",
     "fill_vesting_withdraw": "Hive Power 斷電完成",
     "ecency": {
-      "title": "Points",
-      "name": "Ecency Points",
-      "buy": "GET POINTS"
+      "title": "點數積分",
+      "name": "Ecency積分",
+      "buy": "購買Ecency積分"
     },
     "savinghive": {
       "title": "HIVE存款"
@@ -103,7 +103,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "Hive Token",
+      "name": "Hive代幣",
       "buy": "購買HIVE"
     },
     "hbd": {
@@ -112,26 +112,26 @@
     },
     "hive_power": {
       "title": "HIVE POWER（已鎖倉）",
-      "name": "Hive Power"
+      "name": "Hive Power（已鎖倉Hive）"
     },
     "hive_dollar": {
-      "name": "Hive Dollar"
+      "name": "Hive Dollar(HBD穩定幣)"
     },
     "btc": {
       "title": "BTC大餅",
       "buy": "購買BTC大餅",
       "address": "接收"
     },
-    "last_updated": "Last Updated:",
-    "updating": "Updating...",
-    "coin_details": "Details",
-    "change": "Change",
-    "activities": "Activities",
-    "savings_withdrawal": "Pending Withdrawals",
-    "open_orders": "Open Orders",
-    "conversions_requested": "Conversions Requested",
-    "expires": "expires",
-    "pending_requests": "Pending Requests"
+    "last_updated": "最後一次更新",
+    "updating": "正在更新...",
+    "coin_details": "詳細資訊",
+    "change": "兌換",
+    "activities": "動態",
+    "savings_withdrawal": "未完成的提款",
+    "open_orders": "挂單",
+    "conversions_requested": "直接兌換",
+    "expires": "已過期",
+    "pending_requests": "待處理"
   },
   "notification": {
     "vote": "已點贊",
@@ -143,7 +143,7 @@
     "ignore": "屏蔽了您",
     "reblog": "已轉發",
     "transfer": "已轉帳",
-    "delegations": "delegated",
+    "delegations": "代理",
     "spin": "旋轉",
     "inactive": "走起！寫文章吧。我們繼續賺",
     "referral": "根據你的介紹已經加入我們。趕快歡迎他們吧",
@@ -154,7 +154,7 @@
     "recent": "最新",
     "yesterday": "昨天",
     "this_week": "本週",
-    "last_week": "Last Week",
+    "last_week": "最後一周",
     "this_month": "本月",
     "older_then": "一個月前",
     "activities": "全部",
@@ -178,7 +178,7 @@
   "profile": {
     "following": "關注",
     "follower": "粉絲",
-    "edit_label": "Edit",
+    "edit_label": "修改",
     "post": "文章",
     "details": "個人資料詳情",
     "comments": "評論",
@@ -200,10 +200,10 @@
     "day": "天",
     "hive_dollars": "Hive Dollar",
     "savings": "儲蓄",
-    "joined": "Joined {time} ago",
-    "view_full": "VIEW FULL PROFILE",
-    "resource_credits": "Resource Credits",
-    "reputation": "Reputation",
+    "joined": "{time} 前加入",
+    "view_full": "查看個人資料",
+    "resource_credits": "信用資源",
+    "reputation": "聲望等級",
     "edit": {
       "display_name": "顯示名",
       "about": "關於",
@@ -217,7 +217,7 @@
     "currency": "貨幣",
     "language": "語言",
     "server": "伺服器",
-    "color_theme": "Appearance",
+    "color_theme": "界面設定",
     "push_notification": "推送通知",
     "notification": {
       "follow": "关注",
@@ -226,10 +226,10 @@
       "mention": "提到",
       "reblog": "轉發",
       "transfers": "轉帳",
-      "delegations": "Delegations"
+      "delegations": "代理"
     },
     "pincode": "PIN 碼",
-    "biometric": "Finger Print / Face Unlock",
+    "biometric": "指紋驗證/刷臉解鎖",
     "reset_pin": "重置PIN碼",
     "reset": "重置",
     "nsfw_content": "NSFW(工作不宜)",
@@ -242,7 +242,7 @@
       "always_warn": "總是警告"
     },
     "theme": {
-      "system": "Device settings",
+      "system": "界面設定",
       "light": "Light",
       "dark": "Dark"
     },
