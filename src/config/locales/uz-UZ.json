@@ -83,32 +83,32 @@
     "convert_request": "Konvertatsiya So'rovlari",
     "escrow_transfer": "Depozitga o'tkazish",
     "escrow_dispute": "Depozit bahsi",
-    "escrow_release": "Escrow Release",
-    "escrow_approve": "Escrow Approve",
-    "cancel_transfer_from_savings": "Cancel From Savings",
-    "delegate_vesting_shares": "Delegation",
-    "fill_convert_request": "Convert Executed",
-    "fill_transfer_from_savings": "Savings Executed",
-    "fill_vesting_withdraw": "PowerDown executed",
+    "escrow_release": "Depozitni chiqarish",
+    "escrow_approve": "Depozitni Tasdiqlash",
+    "cancel_transfer_from_savings": "Jamg'armadan chiqishni bekor qilish",
+    "delegate_vesting_shares": "Delegatsiya",
+    "fill_convert_request": "Konvertatsiya amalga oshirildi",
+    "fill_transfer_from_savings": "Jamg'arma Saqlandi",
+    "fill_vesting_withdraw": "Power down amalga oshirildi",
     "ecency": {
-      "title": "Points",
-      "name": "Ecency Points",
-      "buy": "GET POINTS"
+      "title": "Ballar",
+      "name": "Ecency ballari",
+      "buy": "BALLARNI OLISH"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "HIVE jamg'armalari"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "HBD jamg'armalari"
     },
     "hive": {
       "title": "HIVE",
       "name": "Hive Token",
-      "buy": "GET HIVE"
+      "buy": "HIVE olish"
     },
     "hbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "HBD olish"
     },
     "hive_power": {
       "title": "HIVE POWER",
@@ -119,8 +119,8 @@
     },
     "btc": {
       "title": "BTC",
-      "buy": "GET BTC",
-      "address": "RECEIVE"
+      "buy": "BTC olish",
+      "address": "OLISH"
     },
     "last_updated": "Oxirgi yangilangan:",
     "updating": "Yangilanyapti...",
@@ -167,10 +167,10 @@
     "reply_body": "Suhbatni davom ettirish uchun bosing..."
   },
   "leaderboard": {
-    "daily": "DAILY",
-    "weekly": "WEEKLY",
-    "monthly": "MONTHLY",
-    "tooltip_earn": "Earn points by actively participating in Ecency."
+    "daily": "KUNLIK",
+    "weekly": "HAFTALIK",
+    "monthly": "OYLIK",
+    "tooltip_earn": "Ecencyda faol bo'lish orqali ballarga ega bo'ling."
   },
   "messages": {
     "comingsoon": "Messages feature is coming soon!"
@@ -233,8 +233,8 @@
     "reset_pin": "Reset Pin Code",
     "reset": "Reset",
     "nsfw_content": "NSFW",
-    "send_feedback": "Send Feedback",
-    "send": "Send",
+    "send_feedback": "Fikr-mulohaza yuborish",
+    "send": "Jo'natish",
     "default_footer": "Default Footer",
     "nsfw": {
       "always_show": "Always show",
