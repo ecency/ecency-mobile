@@ -114,8 +114,8 @@ const HeaderView = ({
             <IconButton
               style={styles.viewIconContainer}
               iconStyle={styles.viewIcon}
-              name="qrcode-scan"
-              iconType="MaterialCommunityIcons"
+              name="qr-code-sharp"
+              iconType="IonIcons"
               onPress={handleOnQRPress}
             />
           )}
