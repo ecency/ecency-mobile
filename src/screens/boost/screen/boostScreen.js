@@ -11,6 +11,8 @@ import { InAppPurchaseContainer } from '../../../containers';
 
 // Styles
 import globalStyles from '../../../globalStyles';
+import UserRibbon from '../../../components/userRibbon/userRibbon';
+import styles from '../../editor/children/styles';
 
 const ITEM_SKUS = Platform.select({
   ios: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
@@ -26,8 +28,10 @@ const _getTitle = (title) => {
   return _title;
 };
 
-const BoostScreen = () => {
+const BoostScreen = ({ navigation }) => {
   const intl = useIntl();
+  const productId = navigation.getParam('productId', '');
+  const username = navigation.getParam('username', '');
 
   return (
     <InAppPurchaseContainer skus={ITEM_SKUS}>
@@ -39,7 +43,9 @@ const BoostScreen = () => {
               id: 'boost.title',
             })}
           />
-
+          {username ? (
+            <UserRibbon username={username} containerStyle={styles.userRibbonContainer} />
+          ) : null}
           {isLoading ? (
             <BoostPlaceHolder />
           ) : (

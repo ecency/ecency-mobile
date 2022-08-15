@@ -212,7 +212,7 @@ class InAppPurchaseContainer extends Component {
   }
 
   render() {
-    const { children, isNoSpin } = this.props;
+    const { children, isNoSpin, navigation } = this.props;
     const { productList, isLoading, isProcessing } = this.state;
     const FREE_ESTM = { productId: 'freePoints', title: 'free points' };
     const _productList = isNoSpin
@@ -228,6 +228,7 @@ class InAppPurchaseContainer extends Component {
         isProcessing,
         getItems: this._getItems,
         spinProduct: productList.filter((item) => item.productId.includes('spins')),
+        navigation: navigation
       })
     );
   }
