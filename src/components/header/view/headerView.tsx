@@ -28,7 +28,7 @@ const HeaderView = ({
   username,
   navigation,
   hideUser,
-  enableViewModeToggle,
+  showQR,
 }) => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const intl = useIntl();
@@ -110,7 +110,7 @@ const HeaderView = ({
         </View>
       ) : (
         <View style={styles.backButtonWrapper}>
-          {enableViewModeToggle && (
+          {showQR && (
             <IconButton
               style={styles.viewIconContainer}
               iconStyle={styles.viewIcon}

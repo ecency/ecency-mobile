@@ -17,7 +17,7 @@ const HeaderContainer = ({
   navigation,
   handleOnBackPress,
   hideUser,
-  enableViewModeToggle,
+  showQR,
 }) => {
   const dispatch = useDispatch();
 
@@ -60,7 +60,7 @@ const HeaderContainer = ({
                 reputation={reputation}
                 username={get(_user, 'name')}
                 hideUser={hideUser}
-                enableViewModeToggle={enableViewModeToggle}
+                showQR={showQR}
               />
             );
           }}
