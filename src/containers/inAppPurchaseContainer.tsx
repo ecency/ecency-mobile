@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Platform, Alert } from 'react-native';
+import { Platform, Alert, Text } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import RNIap, { purchaseErrorListener, purchaseUpdatedListener } from 'react-native-iap';
 import { injectIntl } from 'react-intl';
@@ -13,6 +13,8 @@ import { purchaseOrder } from '../providers/ecency/ecency';
 
 // Utilities
 import { default as ROUTES } from '../constants/routeNames';
+import { showActionModal } from '../redux/actions/uiAction';
+import UserRibbon from '../components/userRibbon/userRibbon';
 
 class InAppPurchaseContainer extends Component {
   purchaseUpdateSubscription = null;
@@ -203,14 +205,34 @@ class InAppPurchaseContainer extends Component {
   };
 
   _handleQrPurchase = async () => {
-    const { navigation, skus } = this.props as any;
+    const { navigation, skus, dispatch, intl } = this.props as any;
     const products = await RNIap.getProducts(skus);
     const productId = navigation.getParam('productId', '');
-    if(productId && products  && products.find((product) => product.productId === productId)){
-      await this._buyItem(productId);
+    const username = navigation.getParam('username', '');
+    let body = intl.formatMessage({ id: 'boost.confirm_purchase_summary' }, { username });
+    if (productId && products && products.find((product) => product.productId === productId)) {
+      dispatch(
+        showActionModal({
+          title: intl.formatMessage({ id: 'boost.confirm_purchase' }),
+          body,
+          buttons: [
+            {
+              text: intl.formatMessage({ id: 'alert.cancel' }),
+              onPress: () => console.log('Cancel'),
+            },
+            {
+              text: intl.formatMessage({ id: 'alert.confirm' }),
+              onPress: async () => await this._buyItem(productId),
+            },
+          ],
+          headerContent: this._renderUserRibbon(username),
+        }),
+      );
     }
   }
 
+  _renderUserRibbon = (username) => <UserRibbon username={username} />;
+  
   render() {
     const { children, isNoSpin, navigation } = this.props;
     const { productList, isLoading, isProcessing } = this.state;
