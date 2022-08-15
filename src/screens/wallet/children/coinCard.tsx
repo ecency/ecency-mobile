@@ -137,7 +137,7 @@ export const CoinCard = ({
           <MainButton style={styles.claimBtn} height={50} onPress={onBoostAccountPress}>
             <Fragment>
               <Text style={styles.claimBtnTitle}>
-                {intl.formatMessage({ id: `wallet.boost_account` })}
+                {intl.formatMessage({ id: `wallet.get_boost` })}
               </Text>
               {_rightComponent}
             </Fragment>
