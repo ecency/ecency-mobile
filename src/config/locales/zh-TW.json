@@ -584,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "用户不存在",
-    "no_existing_post": "文章不存在"
+    "no_existing_post": "文章不存在",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "文章",

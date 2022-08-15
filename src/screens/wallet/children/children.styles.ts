@@ -78,7 +78,7 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
   },
   dotStyle: {
-    backgroundColor: '$primaryDarkText',
+    backgroundColor: '$darkGrayBackground',
   },
   chartContainer: {
     height: 112,

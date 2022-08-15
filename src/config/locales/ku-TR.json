@@ -584,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "Bikarhêner tune ye",
-    "no_existing_post": "Şandî tune ye"
+    "no_existing_post": "Şandî tune ye",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Şandî",

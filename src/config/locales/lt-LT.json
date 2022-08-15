@@ -584,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "Nėra tokio vartotojo",
-    "no_existing_post": "Nėra tokio įrašo"
+    "no_existing_post": "Nėra tokio įrašo",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Įrašai",

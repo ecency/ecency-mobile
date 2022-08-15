@@ -584,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "Nema postojećih korisnika",
-    "no_existing_post": "Nema postojećih postova"
+    "no_existing_post": "Nema postojećih postova",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Postovi",

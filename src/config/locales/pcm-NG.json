@@ -584,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "The person no exist",
-    "no_existing_post": "The post no exist"
+    "no_existing_post": "The post no exist",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Tori",

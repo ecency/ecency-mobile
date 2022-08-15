@@ -584,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "Utente non esistente",
-    "no_existing_post": "Post non esistente"
+    "no_existing_post": "Post non esistente",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Articoli",

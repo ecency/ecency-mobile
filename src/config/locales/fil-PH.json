@@ -584,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "Walang makita na user",
-    "no_existing_post": "Walang makita na post"
+    "no_existing_post": "Walang makita na post",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Mga post",
