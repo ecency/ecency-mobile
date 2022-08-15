@@ -132,7 +132,7 @@
     "conversions_requested":"Conversions Requested",
     "expires":"expires",
     "pending_requests":"Pending Requests",
-    "boost_account": "Boost Account"
+    "boost_account": "Boost"
   },
   "notification": {
     "vote": "voted",

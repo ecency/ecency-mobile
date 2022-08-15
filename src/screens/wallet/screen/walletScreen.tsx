@@ -222,7 +222,12 @@ const WalletScreen = ({navigation}) => {
     }
   
     const _onBoostAccountPress = () => {
-      navigation.navigate(ROUTES.SCREENS.BOOST);
+      navigation.navigate({
+        routeName:ROUTES.SCREENS.ACCOUNT_BOOST,
+        params:{
+        username: currentAccount.name
+        }
+      });
     };
 
     return (
