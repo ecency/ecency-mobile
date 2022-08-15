@@ -14,6 +14,7 @@ import { InAppPurchaseContainer } from '../../../containers';
 
 // Styles
 import styles from './accountBoostStyles';
+import UserRibbon from '../../../components/userRibbon/userRibbon';
 
 const ITEM_SKUS = Platform.select({
   ios: ['999boosts'],
@@ -40,19 +41,7 @@ const AccountBoost = ({ navigation }) => {
             <BoostPlaceHolder />
           ) : (
             <View style={styles.contentContainer}>
-              <View style={styles.userContainer}>
-                <UserAvatar
-                  username={username ? username : currentAccount.name}
-                  style={styles.avatarStyle}
-                  disableSize
-                />
-                <View style={styles.usernameContainer}>
-                  <Text style={styles.usernameText}>
-                    {'@' + (username ? username : currentAccount.name)}
-                  </Text>
-                </View>
-              </View>
-
+              <UserRibbon username={username ? username : currentAccount.name} />
               <View style={styles.iconContainer}>
                 <Image style={styles.logoEstm} source={LOGO_ESTM} />
                 <Text style={styles.desc}>
