@@ -32,17 +32,20 @@ export default EStyleSheet.create({
     borderColor: '$primaryBlue',
     borderWidth: 4,
   },
-  usernameText: {
-    backgroundColor: '$primaryBlue',
-    color: '$white',
+  usernameContainer: {
+    zIndex: -1,
     paddingVertical: 8,
     paddingRight: 20,
     paddingLeft: 16,
     marginLeft: -8,
-    zIndex: -1,
-    fontSize: 15,
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
+    overflow: 'hidden',
+    backgroundColor: '$primaryBlue',
+  },
+  usernameText: {
+    color: '$white',
+    fontSize: 15,
     fontWeight: 'bold',
   },
   logoEstm: {

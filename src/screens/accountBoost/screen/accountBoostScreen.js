@@ -46,9 +46,11 @@ const AccountBoost = ({ navigation }) => {
                   style={styles.avatarStyle}
                   disableSize
                 />
-                <Text style={styles.usernameText}>
-                  {'@' + (username ? username : currentAccount.name)}
-                </Text>
+                <View style={styles.usernameContainer}>
+                  <Text style={styles.usernameText}>
+                    {'@' + (username ? username : currentAccount.name)}
+                  </Text>
+                </View>
               </View>
 
               <View style={styles.iconContainer}>
