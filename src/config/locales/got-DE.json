@@ -229,6 +229,7 @@
       "delegations": "Delegations"
     },
     "pincode": "PIN kodus",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "Reset Pin Code",
     "reset": "Aftralagei",
     "nsfw_content": "NSFW",
@@ -419,7 +420,8 @@
     "forgot_text": "O, ik ufarmaudida...",
     "pin_not_matched": "PIN do not match, Please try again.",
     "attempts_postfix": "failed attempt(s)",
-    "message_reset_warning": "User data will be wiped on next failed attempt"
+    "message_reset_warning": "User data will be wiped on next failed attempt",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "Warþ!",
@@ -582,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post"
+    "no_existing_post": "No existing post",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Posts",

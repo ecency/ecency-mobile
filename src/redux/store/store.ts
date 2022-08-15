@@ -5,6 +5,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Reactotron from '../../../reactotron-config';
 
 import reducer from '../reducers';
+import createMigrate from 'redux-persist/es/createMigrate';
+import MigrationHelpers from '../../utils/migrationHelpers';
 
 const transformCacheVoteMap = createTransform(
   (inboundState:any) => ({ 
@@ -38,13 +40,15 @@ const persistConfig = {
   key: 'root',
   // Storage Method (React Native)
   storage: AsyncStorage,
+  version: 0, // New version 0, default or previous version -1, versions are useful migrations
   // Blacklist (Don't Save Specific Reducers)
   blacklist: ['nav', 'communities', 'user', 'ui'],
   timeout: 0,
   transforms:[
     transformCacheVoteMap,
     transformWalkthroughMap
-  ]
+  ],
+  migrate: createMigrate(MigrationHelpers.reduxMigrations, {debug:false})
 };
 
 // Middleware: Redux Persist Persisted Reducer

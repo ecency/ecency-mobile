@@ -28,16 +28,25 @@
       android:allowBackup="false"
       android:largeHeap="true"
       android:theme="@style/AppTheme">
+
+      <!-- Add this SplashActivity -->
+        <activity
+          android:name=".SplashActivity"
+          android:theme="@style/SplashTheme"
+          android:label="@string/app_name">
+          <intent-filter>
+              <action android:name="android.intent.action.MAIN" />
+              <category android:name="android.intent.category.LAUNCHER" />
+          </intent-filter>
+        </activity>
+
       <activity
         android:name=".MainActivity"
         android:launchMode="singleTask"
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
-        android:windowSoftInputMode="adjustResize">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+        android:windowSoftInputMode="adjustResize"
+        android:exported="true">
         
         <intent-filter android:label="Ecency" android:autoVerify="true">
             <action android:name="android.intent.action.VIEW" />
@@ -87,6 +96,11 @@
                 android:scheme="https" 
                 android:host="ecency.com"
                 android:path="/login"
+            />
+           <data 
+                android:scheme="https" 
+                android:host="ecency.com"
+                android:path="/purchase"
             />
         </intent-filter>
         <intent-filter android:label="Ecency" >

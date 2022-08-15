@@ -229,6 +229,7 @@
       "delegations": "Delegações"
     },
     "pincode": "Código PIN",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "Redefinir o código Pin",
     "reset": "Reiniciar",
     "nsfw_content": "NSFW",
@@ -419,7 +420,8 @@
     "forgot_text": "Oh, esqueci disso...",
     "pin_not_matched": "PIN incorreto. Por favor, tente novamente.",
     "attempts_postfix": "tentativa(s) errada(s)",
-    "message_reset_warning": "Os dados do usuário serão apagados na próxima tentativa mal-sucedida"
+    "message_reset_warning": "Os dados do usuário serão apagados na próxima tentativa mal-sucedida",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "Sucesso!",
@@ -490,7 +492,7 @@
     "invalid_response": "Não foi possível processar o pedido. Tente mais tarde.",
     "wallet_updating": "Atualização da carteira em andamento. Tente novamente quando terminada",
     "claim_failed": "Falha ao reivindicar recompensas, {message}\nTente novamente ou escreva para support@ecency.com",
-    "connection_issues": "The server is unreachable, please check your connection and try again."
+    "connection_issues": "O servidor está inacessível. Por favor, verifique sua conexão e tente novamente."
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
@@ -582,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "Usuário não existe",
-    "no_existing_post": "Post não existe"
+    "no_existing_post": "Post não existe",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Posts",
@@ -637,7 +640,7 @@
     "account_detail_head": "Detalhes da Conta",
     "account_detail_subhead": "Digite o nome da conta para delegação de HIVE Power",
     "delegat_detail_head": "Detalhes da Delegação",
-    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
+    "delegat_detail_subhead": "Nova quantia substitui a quantidade de Poder HIVE já delegado ",
     "new_amount": "Nova Quantia",
     "review": "REVER",
     "confirm": "Confirmar Delegação",
@@ -655,10 +658,10 @@
     "powering_down_info": "O próximo power down será em {days} dias, {hp} HIVE",
     "invalid_amount": "Quantia Inválida",
     "invalid_amount_desc": "Por favor, insira uma quantia válida",
-    "account_select_title": "Account Details",
-    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
-    "amount_select_title": "Transfer Details",
-    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
+    "account_select_title": "Detalhes da Conta",
+    "account_select_description": "Operações de envio monetário são irreversíveis. Certifique-se que o nome da conta dos destinatários está correto",
+    "amount_select_title": "Detalhes da Transferência",
+    "amount_select_description": "Insira uma quantia a ser transferida dentro do seu saldo disponível. O valor deverá ser superior a 0.001"
   },
   "boost": {
     "title": "Obter Pontos",
@@ -787,8 +790,8 @@
     "line3_heading": "Junte-se às comunidades da Ecency!",
     "line3_body": "Crie e seja dono de uma comunidade. Seja recompensado e recompense.",
     "get_started": "Comece agora!",
-    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
-    "terms_text": "Read Here!"
+    "terms_description": "Ao aceitar, você concorda com nossos Termos de Serviço e Políticas de Privacidade.",
+    "terms_text": "Leia Aqui!"
   },
   "time": {
     "second": "segundos",

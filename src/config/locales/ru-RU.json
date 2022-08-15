@@ -229,6 +229,7 @@
       "delegations": "Делегации"
     },
     "pincode": "Пинкод",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "Сбросить пин-код",
     "reset": "Сбросить",
     "nsfw_content": "NSFW",
@@ -419,7 +420,8 @@
     "forgot_text": "Запамятовал...",
     "pin_not_matched": "Пароли не совпадают, попробуйте еще раз.",
     "attempts_postfix": "неудачные попытки",
-    "message_reset_warning": "Данные пользователя будут удалены при следующей неудачной попытке"
+    "message_reset_warning": "Данные пользователя будут удалены при следующей неудачной попытке",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "Успех!",
@@ -582,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
-    "no_existing_post": "Несуществующий пост"
+    "no_existing_post": "Несуществующий пост",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Посты",

@@ -11,7 +11,7 @@ export default EStyleSheet.create({
     minWidth: '$deviceWidth / 1.9',
     height: 44,
     borderRadius: 30,
-    backgroundColor: '$primaryDarkText',
+    backgroundColor: '$darkGrayBackground',
     margin: 5,
     shadowOffset: {
       height: 5,

@@ -1,6 +1,5 @@
 import { getAccountPosts, getPost, getRankedPosts } from "../../../providers/hive/dhive";
 import { filterLatestPosts, getUpdatedPosts } from "./tabbedPostsHelpers";
-import Matomo from 'react-native-matomo-sdk';
 import { LoadPostsOptions } from "./tabbedPostsModels";
 import { getPromotedEntries } from "../../../providers/ecency/ecency";
 
@@ -178,23 +177,6 @@ export const loadPosts = async ({
         isLoading:false,
         isRefreshing:false,
       })
-    }
-
-    // track filter and tag views
-    if (isAnalytics) {
-      if (tag) {
-        Matomo.trackView([`/${filter}/${tag}`]).catch((error) =>
-          console.warn('Failed to track screen', error),
-        );
-      } else if (filter === 'friends' || filter === 'communities') {
-        Matomo.trackView([`/@${feedUsername}/${filter}`]).catch((error) =>
-          console.warn('Failed to track screen', error),
-        );
-      } else {
-        Matomo.trackView([`/${filter}`]).catch((error) =>
-          console.warn('Failed to track screen', error),
-        );
-      }
     }
   };
 

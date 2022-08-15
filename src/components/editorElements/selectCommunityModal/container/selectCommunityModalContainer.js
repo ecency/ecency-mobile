@@ -3,16 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { debounce } from 'lodash';
 
 // HIVE
-import { getCommunities, getSubscriptions } from '../../../../providers/hive/dhive';
+import { getCommunities } from '../../../../providers/hive/dhive';
 
 import SelectCommunityModalView from '../view/selectCommunityModalView';
 
 // Actions
 import {
   fetchCommunities,
-  fetchCommunitiesSuccess,
   fetchSubscribedCommunities,
-  fetchSubscribedCommunitiesSuccess,
 } from '../../../../redux/actions/communitiesAction';
 import { mergeSubCommunitiesCacheInSubList } from '../../../../utils/communitiesUtils';
 

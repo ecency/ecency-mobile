@@ -229,6 +229,7 @@
       "delegations": "Delegations"
     },
     "pincode": "PIN kod",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "Pin Kodu Sıfırla",
     "reset": "Sıfırla",
     "nsfw_content": "NSFW",
@@ -419,7 +420,8 @@
     "forgot_text": "Unutmuşam...",
     "pin_not_matched": "PIN uyğun gəlmir, zəhmət olmasa yenidən sınayın.",
     "attempts_postfix": "uğursuz cəhd(lər)",
-    "message_reset_warning": "Növbəti uğursuz cəhddə istifadəçi verilənləri silənəcək"
+    "message_reset_warning": "Növbəti uğursuz cəhddə istifadəçi verilənləri silənəcək",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "Uğurlu!",
@@ -582,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "Heç bir istifadəçi yoxdur",
-    "no_existing_post": "Heç bir göndəriş yoxdur"
+    "no_existing_post": "Heç bir göndəriş yoxdur",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Göndərişlər",

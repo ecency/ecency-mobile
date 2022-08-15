@@ -28,7 +28,7 @@ export const RangeSelector = ({range, onRangeChange}:RangeSelectorProps) => {
                 ...styles.rangeOptionWrapper, 
                 backgroundColor: EStyleSheet.value(
                         item.value === range ? 
-                            '$primaryDarkText':'$primaryLightBackground'
+                            '$darkGrayBackground':'$primaryLightBackground'
                     ) 
                 }}>
                 <Text style={{

@@ -229,6 +229,7 @@
       "delegations": "Delegasyonlar"
     },
     "pincode": "Pinkod",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "Pin Kodunu Sıfırla",
     "reset": "Sifirla",
     "nsfw_content": "NSFW",
@@ -419,7 +420,8 @@
     "forgot_text": "Of! unuttum...",
     "pin_not_matched": "PIN eşleşmiyor, Lütfen tekrar deneyin.",
     "attempts_postfix": "hatalı deneme(ler)",
-    "message_reset_warning": "Bir sonraki hatalı denemede kullanıcı verisi silinecek"
+    "message_reset_warning": "Bir sonraki hatalı denemede kullanıcı verisi silinecek",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "Başarılı!",
@@ -582,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "Kullanici Bulunamadi",
-    "no_existing_post": "Mevcut yayın yok"
+    "no_existing_post": "Mevcut yayın yok",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Gönderi",

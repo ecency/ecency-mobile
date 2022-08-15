@@ -68,7 +68,6 @@ export default EStyleSheet.create({
         color:'$pureWhite'
     } as TextStyle,
     saveButton:{
-        backgroundColor:'$primaryBlue',
         width:150,
         paddingVertical:16,
         borderRadius:32,

@@ -37,7 +37,7 @@ export default EStyleSheet.create({
     marginLeft: 25,
   },
   postIconText: {
-    color: '$primaryDarkGray',
+    color: '$iconColor',
     fontSize: 13,
     alignSelf: 'center',
   },

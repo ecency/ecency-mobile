@@ -20,6 +20,7 @@ import { Upvote } from '../../upvote';
 import styles from './postCardStyles';
 import { TextButton } from '../..';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
+import postTypes from '../../../constants/postTypes';
 
 const dim = getWindowDimensions();
 const DEFAULT_IMAGE =
@@ -178,6 +179,7 @@ const PostCardView = ({
             isShowPayoutValue
             content={content}
             handleCacheVoteIncrement={_handleCacheVoteIncrement}
+            parentType={postTypes.POST}
           />
           <TouchableOpacity style={styles.commentButton} onPress={_handleOnVotersPress}>
             <TextWithIcon

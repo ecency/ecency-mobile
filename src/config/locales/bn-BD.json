@@ -229,6 +229,7 @@
       "delegations": "Delegations"
     },
     "pincode": "Pincode",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "পিন কোডটি রিসেট করুন",
     "reset": "রিসেট",
     "nsfw_content": "এনএসএফডাব্লু",
@@ -419,7 +420,8 @@
     "forgot_text": "ওহ, আমি এটি ভুলে গিয়েছিলাম ...",
     "pin_not_matched": "PIN do not match, Please try again.",
     "attempts_postfix": "failed attempt(s)",
-    "message_reset_warning": "User data will be wiped on next failed attempt"
+    "message_reset_warning": "User data will be wiped on next failed attempt",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "সফল!",
@@ -582,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "কোন বিদ্যমান ব্যবহারকারী",
-    "no_existing_post": "কোন বিদ্যমান পোস্ট নেই"
+    "no_existing_post": "কোন বিদ্যমান পোস্ট নেই",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "পোস্ট",

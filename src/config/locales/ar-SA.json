@@ -229,6 +229,7 @@
       "delegations": "Delegations"
     },
     "pincode": "رمز PIN",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "إعادة تعيين رمز Pin",
     "reset": "إعادة",
     "nsfw_content": "ليس آمنًا للمشاهدة",
@@ -419,7 +420,8 @@
     "forgot_text": "أوه، لقد نسيت ذلك...",
     "pin_not_matched": "كلمة المرور ليست متطابقة. الرجاء المحاولة مرة أخرى.",
     "attempts_postfix": "المحاولات الفاشلة",
-    "message_reset_warning": "سيتم مسح بيانات المستخدم في المحاولة الفاشلة التالية"
+    "message_reset_warning": "سيتم مسح بيانات المستخدم في المحاولة الفاشلة التالية",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "تم بنجاح!",
@@ -582,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "لا يوجد أي مستخدم حاليا",
-    "no_existing_post": "لا يوجد أي منشور حالياً"
+    "no_existing_post": "لا يوجد أي منشور حالياً",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "منشورات",

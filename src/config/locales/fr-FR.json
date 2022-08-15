@@ -229,6 +229,7 @@
       "delegations": "Délégations"
     },
     "pincode": "Pincode",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "Réinitialisez le Code Pin",
     "reset": "Réinitialiser",
     "nsfw_content": "NSFW",
@@ -419,7 +420,8 @@
     "forgot_text": "Ha, je l'ai oublié ...",
     "pin_not_matched": "Les codes PIN ne correspondent pas. Veuillez réessayer.",
     "attempts_postfix": "Tentatives échouées",
-    "message_reset_warning": "Les données de l'utilisateur seront effacées lors de la prochaine tentative échouée"
+    "message_reset_warning": "Les données de l'utilisateur seront effacées lors de la prochaine tentative échouée",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "Succés!",
@@ -582,7 +584,8 @@
   },
   "deep_link": {
     "no_existing_user": "Utilisateur inexistant",
-    "no_existing_post": "Post inexistant"
+    "no_existing_post": "Post inexistant",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Publications",
