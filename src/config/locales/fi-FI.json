@@ -131,7 +131,9 @@
     "open_orders": "Avoimet Tilaukset",
     "conversions_requested": "Pyydetyt muunnokset",
     "expires": "vanhenee",
-    "pending_requests": "Odottavat pyynnöt"
+    "pending_requests": "Odottavat pyynnöt",
+    "boost_account": "Boost",
+    "get_boost": "Get Boost"
   },
   "notification": {
     "vote": "äänesti",
@@ -248,7 +250,8 @@
     },
     "feedback_success": "Sähköposti avattu onnistuneesti",
     "feedback_fail": "Sähköpostipalvelin alhaalla",
-    "server_fail": "Ei yhteyttä palvelimeen"
+    "server_fail": "Ei yhteyttä palvelimeen",
+    "show_imgs": "Show Images"
   },
   "voters": {
     "voters_info": "Äänestystiedot",
@@ -671,7 +674,9 @@
     "account": {
       "title": "Vastaanota Tilitehostus",
       "desc": "30 päivän valtuutus tehostaa ääniäsi ja sosiaalista toimintaa, antaen lisää toimintoja ja Resurssipisteitä."
-    }
+    },
+    "confirm_purchase": "Confirm Purchase @{username}",
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
   "free_estm": {
     "title": "Ilmaiset Pisteet",
@@ -824,7 +829,9 @@
   "qr": {
     "qr_scan": "QR-koodi",
     "open": "Avaa URL",
-    "detected_url": "Havaittu URL"
+    "detected_url": "Havaittu URL",
+    "unsupported_alert_title": "Unsupported URL!",
+    "unsupported_alert_desc": "Please scan a valid ecency url."
   },
   "history": {
     "edit": "Muokkaushistoria",
