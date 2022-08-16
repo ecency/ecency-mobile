@@ -237,26 +237,26 @@
     "send": "Jo'natish",
     "default_footer": "Default Footer",
     "nsfw": {
-      "always_show": "Always show",
-      "always_hide": "Always hide",
-      "always_warn": "Always warn"
+      "always_show": "Doim ko‘rsatish",
+      "always_hide": "Doim yashirish",
+      "always_warn": "Doim ogohlantirish"
     },
     "theme": {
-      "system": "Device settings",
-      "light": "Light",
-      "dark": "Dark"
+      "system": "Qurilma sozlamalari",
+      "light": "Yorug'",
+      "dark": "Qorong'u"
     },
-    "feedback_success": "Email successfully open",
-    "feedback_fail": "Email client could not open",
-    "server_fail": "Server not available"
+    "feedback_success": "Elektron pochta muvaffaqiyatli ochildi",
+    "feedback_fail": "Elektron pochta mijozini ochib bo‘lmadi",
+    "server_fail": "Server mavjud emas"
   },
   "voters": {
-    "voters_info": "Voters Info",
-    "no_user": "User is not found."
+    "voters_info": "Ovoz berganlar",
+    "no_user": "Foydalanuvchi topilmadi."
   },
   "login": {
-    "signin": "Sign in",
-    "signup": "JOIN NOW",
+    "signin": "Kirish",
+    "signup": "HOZIROQ QO'SHIL",
     "signin_title": "To get all the benefits of using Ecency",
     "username": "Username",
     "password": "Password or WIF",
