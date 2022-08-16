@@ -55,8 +55,5 @@ export default EStyleSheet.create({
     doneButton:{borderRadius:16, backgroundColor:'$primaryBlue'},
     thumbSelectContainer:{
       marginTop:12,
-    },
-    userRibbonContainer:{
-      marginBottom: 12,
-    } as ViewStyle,
+    }
 });

@@ -12,7 +12,7 @@ import { InAppPurchaseContainer } from '../../../containers';
 // Styles
 import globalStyles from '../../../globalStyles';
 import UserRibbon from '../../../components/userRibbon/userRibbon';
-import styles from '../../editor/children/styles';
+import styles from './styles';
 
 const ITEM_SKUS = Platform.select({
   ios: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
@@ -49,7 +49,7 @@ const BoostScreen = ({ navigation }) => {
           {isLoading ? (
             <BoostPlaceHolder />
           ) : (
-            <ScrollView>
+            <ScrollView contentContainerStyle={styles.listContainer}>
               {productList.map((product) => (
                 <ProductItemLine
                   key={get(product, 'title')}
