@@ -419,14 +419,14 @@
     "write_again": "Yana yozing",
     "forgot_text": "Esimdan chiqdi...",
     "pin_not_matched": "PIN kodlar bir-biriga mos kelmadi. Qaytadan kiriting.",
-    "attempts_postfix": "failed attempt(s)",
-    "message_reset_warning": "User data will be wiped on next failed attempt",
-    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
+    "attempts_postfix": "muvaffaqiyatsiz urinish(lar)",
+    "message_reset_warning": "Keyingi muvaffaqiyatsiz urinishda foydalanuvchi ma'lumotlari o'chib ketadi",
+    "biometric_desc": "Davom etish uchun qurilma skaneri yordamida barmoq izingizni skanerlang"
   },
   "alert": {
-    "success": "Success!",
-    "successful": "Successful",
-    "allRead": "Marked all notifications as read",
+    "success": "Muvaffaqiyat!",
+    "successful": "Muvaffaqiyatli",
+    "allRead": "Barcha xabarnomalar o‘qilgan deb belgilandi",
     "claim_reward_balance_ok": "Reward balance claimed",
     "fail": "Fail!",
     "move": "Move",
