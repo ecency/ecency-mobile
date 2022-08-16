@@ -131,7 +131,9 @@
     "open_orders": "Open Orders",
     "conversions_requested": "Conversions Requested",
     "expires": "expires",
-    "pending_requests": "Pending Requests"
+    "pending_requests": "Pending Requests",
+    "boost_account": "Boost",
+    "get_boost": "Get Boost"
   },
   "notification": {
     "vote": "님이 보팅하였습니다.",
@@ -248,7 +250,8 @@
     },
     "feedback_success": "이메일 클라이언트가 성공적으로 열렸습니다",
     "feedback_fail": "이메일 클라이언트를 열지 못했습니다",
-    "server_fail": "서버를 이용할 수 없습니다."
+    "server_fail": "서버를 이용할 수 없습니다.",
+    "show_imgs": "Show Images"
   },
   "voters": {
     "voters_info": "투표자 정보",
@@ -671,7 +674,9 @@
     "account": {
       "title": "계정 부스트 받기",
       "desc": "30일 임대는 투표와 사회 활동을 강화하고 더 많은 리소스 크레딧으로 더 많은 활동을 제공합니다."
-    }
+    },
+    "confirm_purchase": "Confirm Purchase @{username}",
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
   "free_estm": {
     "title": "무료 포인트",
@@ -824,7 +829,9 @@
   "qr": {
     "qr_scan": "QR Scan",
     "open": "Open URL",
-    "detected_url": "Detected URL"
+    "detected_url": "Detected URL",
+    "unsupported_alert_title": "Unsupported URL!",
+    "unsupported_alert_desc": "Please scan a valid ecency url."
   },
   "history": {
     "edit": "Edit History",
