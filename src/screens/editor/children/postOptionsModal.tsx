@@ -7,7 +7,6 @@ import styles from './postOptionsModalStyles';
 import ThumbSelectionContent from './thumbSelectionContent';
 import {View as AnimatedView} from 'react-native-animatable';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 const REWARD_TYPES = [
   {
@@ -224,7 +223,7 @@ const PostOptionsModal =  forwardRef(({
         </KeyboardAwareScrollView>
 
         <MainButton
-          style={{...styles.saveButton, backgroundColor:EStyleSheet.value(disableDone?'$primaryDarkGray':'$primaryBlue') }}
+          style={{...styles.saveButton }}
           isDisable={disableDone}
           onPress={_onDonePress}
           text={intl.formatMessage({id:"editor.done"})}
