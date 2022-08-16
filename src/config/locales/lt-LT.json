@@ -131,7 +131,9 @@
     "open_orders": "Atviri užsakymai",
     "conversions_requested": "Pokalbių užklausos",
     "expires": "galioja iki",
-    "pending_requests": "Laukiamos Užklausos"
+    "pending_requests": "Laukiamos Užklausos",
+    "boost_account": "Boost",
+    "get_boost": "Get Boost"
   },
   "notification": {
     "vote": "balsavo",
@@ -248,7 +250,8 @@
     },
     "feedback_success": "El. laiškas sėkmingai atidarytas",
     "feedback_fail": "El. pašto atidaryti nepavyko",
-    "server_fail": "Serveris neprieinamas"
+    "server_fail": "Serveris neprieinamas",
+    "show_imgs": "Show Images"
   },
   "voters": {
     "voters_info": "Balsuotojo Informacija",
@@ -671,7 +674,9 @@
     "account": {
       "title": "Sustiprink paskyrą",
       "desc": "30 dienų delegacijos padidins jūsų balsų kiekį ir paspartins socialinę veiklą ir suteiks jums daugiau veiksmų su resursų kreditais."
-    }
+    },
+    "confirm_purchase": "Confirm Purchase @{username}",
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
   "free_estm": {
     "title": "Nemokami taškai",
@@ -824,7 +829,9 @@
   "qr": {
     "qr_scan": "QR Scan",
     "open": "Atidaryti URL",
-    "detected_url": "Aptiktas URL"
+    "detected_url": "Aptiktas URL",
+    "unsupported_alert_title": "Unsupported URL!",
+    "unsupported_alert_desc": "Please scan a valid ecency url."
   },
   "history": {
     "edit": "Redaguoti Istoriją",
