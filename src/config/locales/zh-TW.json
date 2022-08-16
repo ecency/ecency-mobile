@@ -131,7 +131,9 @@
     "open_orders": "挂單",
     "conversions_requested": "直接兌換",
     "expires": "已過期",
-    "pending_requests": "待處理"
+    "pending_requests": "待處理",
+    "boost_account": "Boost",
+    "get_boost": "Get Boost"
   },
   "notification": {
     "vote": "已點贊",
@@ -248,7 +250,8 @@
     },
     "feedback_success": "成功打開電子郵件",
     "feedback_fail": "無法打開電子郵件用戶端",
-    "server_fail": "服務器不可用"
+    "server_fail": "服務器不可用",
+    "show_imgs": "Show Images"
   },
   "voters": {
     "voters_info": "投票者訊息",
@@ -671,7 +674,9 @@
     "account": {
       "title": "增加點贊力",
       "desc": "30天的點贊力代理可以使您的點贊更有價值，得以回饋社區甚至造就自身的知名度。與此同時還可以廣大您的信用資源"
-    }
+    },
+    "confirm_purchase": "Confirm Purchase @{username}",
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
   "free_estm": {
     "title": "免費領取積分",
@@ -824,7 +829,9 @@
   "qr": {
     "qr_scan": "QR Scan",
     "open": "Open URL",
-    "detected_url": "Detected URL"
+    "detected_url": "Detected URL",
+    "unsupported_alert_title": "Unsupported URL!",
+    "unsupported_alert_desc": "Please scan a valid ecency url."
   },
   "history": {
     "edit": "Edit History",
