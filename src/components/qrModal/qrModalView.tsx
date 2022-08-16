@@ -33,7 +33,6 @@ export const QRModal = ({}: QRModalProps) => {
     } else {
       sheetModalRef.current.hide();
     }
-    _handleDeepLink("https://ecency.com/purchase?type=points&username=demo&product_id=099points")
   }, [isVisibleQRModal]);
 
   const requestCameraPermission = async () => {
