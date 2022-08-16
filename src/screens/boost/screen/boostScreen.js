@@ -19,15 +19,6 @@ const ITEM_SKUS = Platform.select({
   android: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
 });
 
-const _getTitle = (title) => {
-  let _title = title.toUpperCase();
-  if (_title !== 'FREE POINTS') {
-    _title = _title.replace(/[^0-9]+/g, '') + ' POINTS';
-  }
-
-  return _title;
-};
-
 const BoostScreen = ({ navigation }) => {
   const intl = useIntl();
   const productId = navigation.getParam('productId', '');
@@ -35,7 +26,7 @@ const BoostScreen = ({ navigation }) => {
 
   return (
     <InAppPurchaseContainer skus={ITEM_SKUS}>
-      {({ buyItem, productList, isLoading, isProcessing }) => (
+      {({ buyItem, productList, isLoading, isProcessing, getTitle }) => (
         <View style={globalStyles.container}>
           <BasicHeader
             disabled={isProcessing}
@@ -56,7 +47,7 @@ const BoostScreen = ({ navigation }) => {
                   isLoading={isLoading}
                   disabled={isProcessing}
                   product={product}
-                  title={_getTitle(get(product, 'title'))}
+                  title={getTitle(get(product, 'title'))}
                   handleOnButtonPress={(id) => buyItem(id)}
                 />
               ))}

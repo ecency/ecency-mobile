@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Platform, Alert, Text } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import RNIap, { purchaseErrorListener, purchaseUpdatedListener } from 'react-native-iap';
+import RNIap, { Product, purchaseErrorListener, purchaseUpdatedListener } from 'react-native-iap';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
@@ -14,7 +14,7 @@ import { purchaseOrder } from '../providers/ecency/ecency';
 // Utilities
 import { default as ROUTES } from '../constants/routeNames';
 import { showActionModal } from '../redux/actions/uiAction';
-import UserRibbon from '../components/userRibbon/userRibbon';
+import { UserAvatar } from '../components';
 
 class InAppPurchaseContainer extends Component {
   purchaseUpdateSubscription = null;
@@ -164,6 +164,15 @@ class InAppPurchaseContainer extends Component {
     });
   };
 
+  _getTitle = (title) => {
+    let _title = title.toUpperCase();
+    if (_title !== 'FREE POINTS') {
+      _title = _title.replace(/[^0-9]+/g, '') + ' POINTS';
+    }
+  
+    return _title;
+  };
+
   _getItems = async () => {
     const { skus } = this.props;
     try {
@@ -209,11 +218,28 @@ class InAppPurchaseContainer extends Component {
     const products = await RNIap.getProducts(skus);
     const productId = navigation.getParam('productId', '');
     const username = navigation.getParam('username', '');
-    let body = intl.formatMessage({ id: 'boost.confirm_purchase_summary' }, { username });
-    if (productId && products && products.find((product) => product.productId === productId)) {
+
+    const product:Product = productId && products && products.find((product) => product.productId === productId)
+    
+    if (product) {
+
+      let body = intl.formatMessage({
+         id: 'boost.confirm_purchase_summary' 
+        }, {
+          points: this._getTitle(product.title),
+           username,
+           price: `${product.currency} ${product.price}`
+          });
+
+          let title = intl.formatMessage({
+            id: 'boost.confirm_purchase' 
+           }, {
+              username,
+             });
+
       dispatch(
         showActionModal({
-          title: intl.formatMessage({ id: 'boost.confirm_purchase' }),
+          title,
           body,
           buttons: [
             {
@@ -225,13 +251,12 @@ class InAppPurchaseContainer extends Component {
               onPress: async () => await this._buyItem(productId),
             },
           ],
-          headerContent: this._renderUserRibbon(username),
+          headerContent: <UserAvatar username={username} size='xl' />,
         }),
       );
     }
   }
 
-  _renderUserRibbon = (username) => <UserRibbon username={username} />;
   
   render() {
     const { children, isNoSpin, navigation } = this.props;
@@ -249,6 +274,7 @@ class InAppPurchaseContainer extends Component {
         isLoading,
         isProcessing,
         getItems: this._getItems,
+        getTitle: this._getTitle,
         spinProduct: productList.filter((item) => item.productId.includes('spins')),
         navigation: navigation
       })

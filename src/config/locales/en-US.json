@@ -676,8 +676,8 @@
       "title": "Get Account Boost",
       "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
     },
-    "confirm_purchase": "Confirm Purchase",
-    "confirm_purchase_summary": "Get points for @{username}"
+    "confirm_purchase": "Confirm Purchase @{username}",
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
   "free_estm": {
     "title": "Free Points",
