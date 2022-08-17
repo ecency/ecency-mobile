@@ -480,7 +480,7 @@
     "payloadTooLarge": "Fayl hajmi juda katta, oʻlchamini oʻzgartiring yoki kichikroq rasmni yuklang",
     "qoutaExceeded": "Yuklash kvotasi oshib ketdi",
     "invalidImage": "Rasm mos emas, boshqa faylni sinab ko'ring",
-    "something_wrong": "Something went wrong",
+    "something_wrong": "Nimadir noto'g'ri bajarildi",
     "something_wrong_alt": "Shu bilan birga, brauzeringizdan Ecency.com ni sinab ko'ring",
     "something_wrong_reload": "Yana urinib ko'rish?",
     "can_not_be_empty": "Sarlavha va asosiy matn bo'sh bo'lishi mumkin emas!",
@@ -567,8 +567,8 @@
     "payout_date": "To'lov",
     "beneficiaries": "Haq egalari",
     "warn_zero_payout": "To'lov uchun summa $0,02 ga yetishi kerak",
-    "breakdown": "Breakdown",
-    "max_accepted": "Max Accepted"
+    "breakdown": "Bo'linish",
+    "max_accepted": "Maks qabul qilingan"
   },
   "post_dropdown": {
     "copy": "linkni nusxalash",
@@ -596,15 +596,15 @@
   },
   "comment_filter": {
     "trending": "TOP",
-    "reputation": "REPUTATION",
-    "votes": "VOTE",
-    "age": "AGE",
+    "reputation": "REPUTATSIYA",
+    "votes": "OVOZ BERISH",
+    "age": "YOSH",
     "top": "TOP",
-    "time": "TIME"
+    "time": "VAQT"
   },
   "transfer": {
-    "from": "From",
-    "to": "To",
+    "from": "Dan",
+    "to": "Ga",
     "amount_information": "Miqdorni belgilash uchun slayderni torting",
     "amount": "Miqdor",
     "memo": "Eslatma",
@@ -654,7 +654,7 @@
     "power_down": "Kuchni pasaytirish",
     "power_down_amount_head": "Yechib olish summasi",
     "power_down_amount_subhead": "Hive Powerni pasaytirish miqdorini kiriting",
-    "withdraw_accounts": "Withdraw Accounts",
+    "withdraw_accounts": "Yechib olish foydalanuchilari",
     "amount_hp": "Miqdori (HP)",
     "powering_down": "Kuchni pasaytirish",
     "powering_down_subheading": "Siz hozir kuchingizni kamaytiryapsiz.",
