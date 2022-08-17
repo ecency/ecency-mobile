@@ -5,6 +5,7 @@ import { Alert } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-community/async-storage';
+import { isArray } from 'lodash';
 
 // Services and Actions
 import { Buffer } from 'buffer';
@@ -254,7 +255,7 @@ class EditorContainer extends Component<any, any> {
 
   // load meta from local/param drfat into state
   _loadMeta = (draft: any) => {
-    const { dispatch } = this.props;
+    const { dispatch, currentAccount } = this.props;
     // if meta exist on draft, get the index of 1st image in meta from images urls in body
     const body = draft.body;
     if (draft.meta && draft.meta.image) {
@@ -279,7 +280,10 @@ class EditorContainer extends Component<any, any> {
     }
 
     if (draft._id && draft.meta && draft.meta.beneficiaries) {
-      dispatch(setBeneficiaries(draft._id || TEMP_BENEFICIARIES_ID, draft.meta.beneficiaries));
+      if(isArray(draft.meta.beneficiaries)){
+        const filteredBeneficiaries = draft.meta.beneficiaries.filter((item) => item.account !== currentAccount.username); //remove default beneficiary from array while saving
+        dispatch(setBeneficiaries(draft._id || TEMP_BENEFICIARIES_ID, filteredBeneficiaries));
+      }
     }
   }
   _requestKeyboardFocus = () => {
@@ -625,8 +629,8 @@ class EditorContainer extends Component<any, any> {
               draftId: response._id,
             });
           }
-
-          dispatch(setBeneficiaries(response._id, beneficiaries));
+          const filteredBeneficiaries = beneficiaries.filter((item) => item.account !== currentAccount.username); //remove default beneficiary from array while saving
+          dispatch(setBeneficiaries(response._id, filteredBeneficiaries));
           dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID));
 
           //clear local copy if darft save is successful
