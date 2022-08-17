@@ -19,10 +19,10 @@ const ITEM_SKUS = Platform.select({
   android: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
 });
 
-const BoostScreen = ({ navigation }) => {
+const BoostScreen = ({ route }) => {
   const intl = useIntl();
-  const productId = navigation.getParam('productId', '');
-  const username = navigation.getParam('username', '');
+
+  const username = route.params?.username ?? '';
 
   return (
     <InAppPurchaseContainer skus={ITEM_SKUS}>
