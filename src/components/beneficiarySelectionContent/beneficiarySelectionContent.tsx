@@ -361,7 +361,6 @@ const BeneficiarySelectionContent = ({
       </View>
     );
   };
-console.log('draftId : ',draftId );
 
   return (
     <View style={styles.container}>
