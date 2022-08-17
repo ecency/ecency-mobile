@@ -479,10 +479,10 @@
     "rc_down": "Harakatni bajarish uchun resurs kreditlari yetarli emas!\n\nTajribadan zavqlanishda davom etish uchun hisobingizni kuchaytiring. Hisobingizni hoziroq kuchaytirmoqchimisiz?",
     "payloadTooLarge": "Fayl hajmi juda katta, oʻlchamini oʻzgartiring yoki kichikroq rasmni yuklang",
     "qoutaExceeded": "Yuklash kvotasi oshib ketdi",
-    "invalidImage": "Invalid image, try different file",
+    "invalidImage": "Rasm mos emas, boshqa faylni sinab ko'ring",
     "something_wrong": "Something went wrong",
-    "something_wrong_alt": "Meanwhile, try Ecency.com from your Browser",
-    "something_wrong_reload": "Try again?",
+    "something_wrong_alt": "Shu bilan birga, brauzeringizdan Ecency.com ni sinab ko'ring",
+    "something_wrong_reload": "Yana urinib ko'rish?",
     "can_not_be_empty": "Title and body can not be empty!",
     "wrong_filter_count": "Please select 3 filters",
     "update_available_title": "Update available v{version}",
@@ -663,84 +663,84 @@
     "invalid_amount_desc": "Yaroqli miqdorni kiriting",
     "account_select_title": "Akkaunt tafsilotlari",
     "account_select_description": "Mablag'lar bilan bog'liq operatsiyalar qaytarib bo'lmaydi, qabul qiluvchining foydalanuvchi nomi to'g'ri ekanligiga ishonch hosil qiling",
-    "amount_select_title": "Transfer Details",
-    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
+    "amount_select_title": "Transfer tafsilotlari",
+    "amount_select_description": "Mavjud balansingizda o'tkaziladigan miqdorni kiriting. Qiymat 0,001 dan katta bo'lishi kerak"
   },
   "boost": {
-    "title": "Get Points",
-    "buy": "GET Points",
-    "next": "NEXT",
-    "info": "Actual value of vote you receive may vary",
+    "title": "Ballar oling",
+    "buy": "Ballar OLING",
+    "next": "KEYINGI",
+    "info": "Siz olgan ovozlarning haqiqiy qiymati farq qilishi mumkin",
     "account": {
-      "title": "Get Account Boost",
-      "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
+      "title": "Akkauntni kuchaytirish",
+      "desc": "30 kunlik delegatsiya sizning ovozlaringiz va ijtimoiy faolligingizni oshiradi va sizga ko'proq Resurs kreditlari bilan ko'proq harakatlar beradi."
     },
-    "confirm_purchase": "Confirm Purchase @{username}",
-    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
+    "confirm_purchase": "@{username} xaridini tasdiqlang",
+    "confirm_purchase_summary": "{username} uchun {points} xarid qilish {price}"
   },
   "free_estm": {
-    "title": "Free Points",
-    "button": "SPIN & WIN",
-    "get_spin": "5 SPINS",
-    "spin_right": "Spin Left",
-    "timer_text": "Next free spin in"
+    "title": "Bepul ballar",
+    "button": "AYLANTIRING & YUTING",
+    "get_spin": "5 TA AYLANTIRISH",
+    "spin_right": "Aylantirish Qoldi",
+    "timer_text": "Keyingi bepul aylantirish"
   },
   "promote": {
-    "title": "Promote",
-    "days": "days",
-    "user": "User",
+    "title": "Targ'ib qilish",
+    "days": "kunlar",
+    "user": "Foydalanuvchi",
     "permlink": "Post",
-    "permlinkPlaceholder": "username/permlink",
-    "information": "Are you sure to promote?"
+    "permlinkPlaceholder": "foydalanuvchi nomi/ssilka",
+    "information": "Targ'ib qilmoqchimisiz?"
   },
   "boostPost": {
-    "title": "Boost"
+    "title": "Kuchaytirish"
   },
   "voters_dropdown": {
-    "rewards": "REWARDS",
-    "percent": "PERCENT",
-    "time": "TIME"
+    "rewards": "MUKOFOTLAR",
+    "percent": "FOIZ",
+    "time": "VAQT"
   },
   "reblog": {
-    "title": "Reblog Info"
+    "title": "Qayta blog haqida ma'lumot"
   },
   "dsteem": {
     "date_error": {
-      "device_time": "Your device time;",
-      "current_time": "Current time;",
-      "information": "We noticed that your device has incorrect date or time. Please fix Date & Time or Set Automatically and try again."
+      "device_time": "Qurilmangiz vaqti;",
+      "current_time": "Joriy vaqt;",
+      "information": "Qurilmangizda sana yoki vaqt noto‘g‘ri ekanligini payqadik. Iltimos, Sana va vaqtni tuzating yoki Avtomatik sozlang va qaytadan urining."
     }
   },
   "comments": {
-    "title": "Comments",
-    "reveal_comment": "Reveal comment",
-    "read_more": "Read more comments",
-    "more_replies": "replies"
+    "title": "Izohlar",
+    "reveal_comment": "Izhohni ko'rsatish",
+    "read_more": "Ko'proq izohlarni o'qish",
+    "more_replies": "javoblar"
   },
   "search_result": {
-    "others": "Others",
+    "others": "Boshqalar",
     "best": {
-      "title": "Best"
+      "title": "Eng Yaxshi"
     },
     "people": {
-      "title": "People"
+      "title": "Odamlar"
     },
     "topics": {
-      "title": "Topics"
+      "title": "Mavzular"
     },
     "communities": {
-      "title": "Groups",
-      "subscribe": "Join",
-      "unsubscribe": "Leave",
-      "subscribers": "Members",
-      "posters": "Posters",
+      "title": "Guruhlar",
+      "subscribe": "Qo'shilish",
+      "unsubscribe": "Chiqish",
+      "subscribers": "A'zolar",
+      "posters": "Mualliflar",
       "posts": "Post"
     },
     "communities_filter": {
-      "my": "My Communities",
-      "rank": "Rank",
-      "subs": "Members",
-      "new": "New"
+      "my": "Mening Guruhlarim",
+      "rank": "Reyting",
+      "subs": "A'zolar",
+      "new": "Yangi"
     },
     "post_result_filter": {
       "popularity": "Mashhurlik",
@@ -814,27 +814,27 @@
     "close": "YOPISH"
   },
   "walkthrough": {
-    "load_draft_tooltip": "Load your lastest draft here"
+    "load_draft_tooltip": "Oxirgi qoralamangizni shu yerda yuklang"
   },
   "refer": {
-    "refer_earn": "Refer & Earn",
-    "refer": "Refer",
-    "rewarded": "Referral points rewarded",
-    "not_rewarded": "Referral reward pending",
-    "delegate_hp": "Delegate HP",
-    "earned": "Earned Points",
-    "pending": "Pending Points",
-    "empty_text": "Refer your loved ones today and earn free points"
+    "refer_earn": "Taklif qiling & Daromad oling",
+    "refer": "Taklif qilish",
+    "rewarded": "Taklif qilganlik uchun mukofot",
+    "not_rewarded": "Taklif mukofoti",
+    "delegate_hp": "HPni delegatsiyalash",
+    "earned": "Ishlangan ballar",
+    "pending": "Kutilayotgan ballar",
+    "empty_text": "Hoziroq yaqinlaringizga taklif qiling va bepul ball oling"
   },
   "qr": {
-    "qr_scan": "QR Scan",
-    "open": "Open URL",
-    "detected_url": "Detected URL",
-    "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url."
+    "qr_scan": "QR skanerlash",
+    "open": "URL‘ni ochish",
+    "detected_url": "Aniqlangan URL",
+    "unsupported_alert_title": "Noto'g'ri URL!",
+    "unsupported_alert_desc": "Iltimos, haqiqiy ecency urlni skanerlang."
   },
   "history": {
-    "edit": "Edit History",
-    "version": "Version"
+    "edit": "Tarixni Tahrirlash",
+    "version": "Versiya"
   }
 }
