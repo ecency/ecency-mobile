@@ -77,7 +77,6 @@ class EditorContainer extends Component<any, any> {
       isDraft: false,
       community: [],
       rewardType: 'default',
-      scheduledForDate: null,
       sharedSnippetText: null,
       onLoadDraftPress: false,
       thumbIndex: 0,
@@ -1229,9 +1228,6 @@ class EditorContainer extends Component<any, any> {
     this.setState({ rewardType: value });
   };
 
-  _handleScheduleDateChange = (value) => {
-    this.setState({ scheduledForDate: value })
-  };
 
   _handleShouldReblogChange = (value: boolean) => {
     this.setState({
@@ -1268,7 +1264,6 @@ class EditorContainer extends Component<any, any> {
       thumbIndex,
       uploadProgress,
       rewardType,
-      scheduledForDate,
     } = this.state;
 
     const tags = navigation.state.params && navigation.state.params.tags;
@@ -1277,7 +1272,6 @@ class EditorContainer extends Component<any, any> {
         autoFocusText={autoFocusText}
         draftPost={draftPost}
         handleRewardChange={this._handleRewardChange}
-        handleScheduleDateChange={this._handleScheduleDateChange}
         handleShouldReblogChange={this._handleShouldReblogChange}
         handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
@@ -1310,7 +1304,6 @@ class EditorContainer extends Component<any, any> {
         setThumbIndex={this._handleSetThumbIndex}
         uploadProgress={uploadProgress}
         rewardType={rewardType}
-        scheduledForDate={scheduledForDate}
         getBeneficiaries={this._extractBeneficiaries}
   
       />
