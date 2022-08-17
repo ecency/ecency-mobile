@@ -1,3 +1,4 @@
+import { ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 

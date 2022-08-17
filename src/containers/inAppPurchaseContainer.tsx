@@ -13,6 +13,8 @@ import { purchaseOrder } from '../providers/ecency/ecency';
 
 // Utilities
 import { default as ROUTES } from '../constants/routeNames';
+import { showActionModal } from '../redux/actions/uiAction';
+import { UserAvatar } from '../components';
 
 class InAppPurchaseContainer extends Component {
   purchaseUpdateSubscription = null;
@@ -59,7 +61,7 @@ class InAppPurchaseContainer extends Component {
       await this._consumeAvailablePurchases()
       this._getItems();
       this._purchaseUpdatedListener();
-
+      await this._handleQrPurchase();
     } catch (err) {
       bugsnagInstance.notify(err);
       console.warn(err.code, err.message);
@@ -162,6 +164,15 @@ class InAppPurchaseContainer extends Component {
     });
   };
 
+  _getTitle = (title) => {
+    let _title = title.toUpperCase();
+    if (_title !== 'FREE POINTS') {
+      _title = _title.replace(/[^0-9]+/g, '') + ' POINTS';
+    }
+  
+    return _title;
+  };
+
   _getItems = async () => {
     const { skus } = this.props;
     try {
@@ -202,8 +213,53 @@ class InAppPurchaseContainer extends Component {
     }
   };
 
+  _handleQrPurchase = async () => {
+    const { navigation, skus, dispatch, intl } = this.props as any;
+    const products = await RNIap.getProducts(skus);
+    const productId = navigation.getParam('productId', '');
+    const username = navigation.getParam('username', '');
+
+    const product:Product = productId && products && products.find((product) => product.productId === productId)
+    
+    if (product) {
+
+      let body = intl.formatMessage({
+         id: 'boost.confirm_purchase_summary' 
+        }, {
+          points: this._getTitle(product.title),
+           username,
+           price: `${product.currency} ${product.price}`
+          });
+
+          let title = intl.formatMessage({
+            id: 'boost.confirm_purchase' 
+           }, {
+              username,
+             });
+
+      dispatch(
+        showActionModal({
+          title,
+          body,
+          buttons: [
+            {
+              text: intl.formatMessage({ id: 'alert.cancel' }),
+              onPress: () => console.log('Cancel'),
+            },
+            {
+              text: intl.formatMessage({ id: 'alert.confirm' }),
+              onPress: async () => await this._buyItem(productId),
+            },
+          ],
+          headerContent: <UserAvatar username={username} size='xl' />,
+        }),
+      );
+    }
+  }
+
+  
   render() {
-    const { children, isNoSpin } = this.props;
+    const { children, isNoSpin, navigation } = this.props;
     const { productList, isLoading, isProcessing } = this.state;
     const FREE_ESTM = { productId: 'freePoints', title: 'free points' };
     const _productList = isNoSpin
@@ -218,7 +274,9 @@ class InAppPurchaseContainer extends Component {
         isLoading,
         isProcessing,
         getItems: this._getItems,
+        getTitle: this._getTitle,
         spinProduct: productList.filter((item) => item.productId.includes('spins')),
+        navigation: navigation
       })
     );
   }
