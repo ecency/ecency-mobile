@@ -3,8 +3,8 @@ import React from 'react';
 // Constants
 import ROUTES from '../constants/routeNames';
 
-import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
-
+import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // Screens
 import {
     Bookmarks,
@@ -36,7 +36,8 @@ import {
 import { DrawerNavigator } from './drawerNavigator';
 
 
-const Stack = createStackNavigator();
+// const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 
 export const StackNavigator = () => {
@@ -72,4 +73,5 @@ export const StackNavigator = () => {
             </Stack.Navigator>
     )
 }
+
 

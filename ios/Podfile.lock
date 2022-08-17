@@ -10,13 +10,13 @@ PODS:
     - AppCenter/Crashes (~> 4.0)
     - AppCenterReactNativeShared (~> 4.0)
     - React-Core
-  - AppCenter/Analytics (4.2.0):
+  - AppCenter/Analytics (4.4.3):
     - AppCenter/Core
-  - AppCenter/Core (4.2.0)
-  - AppCenter/Crashes (4.2.0):
+  - AppCenter/Core (4.4.3)
+  - AppCenter/Crashes (4.4.3):
     - AppCenter/Core
-  - AppCenterReactNativeShared (4.2.0):
-    - AppCenter/Core (= 4.2.0)
+  - AppCenterReactNativeShared (4.4.5):
+    - AppCenter/Core (= 4.4.3)
   - boost-for-react-native (1.63.0)
   - BugsnagReactNative (7.11.0):
     - React-Core
@@ -117,7 +117,7 @@ PODS:
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
     - nanopb (~> 2.30908.0)
-  - GoogleDataTransport (9.1.4):
+  - GoogleDataTransport (9.2.0):
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
@@ -140,15 +140,15 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.7.0):
     - GoogleUtilities/Logger
-  - libwebp (1.2.0):
-    - libwebp/demux (= 1.2.0)
-    - libwebp/mux (= 1.2.0)
-    - libwebp/webp (= 1.2.0)
-  - libwebp/demux (1.2.0):
+  - libwebp (1.2.3):
+    - libwebp/demux (= 1.2.3)
+    - libwebp/mux (= 1.2.3)
+    - libwebp/webp (= 1.2.3)
+  - libwebp/demux (1.2.3):
     - libwebp/webp
-  - libwebp/mux (1.2.0):
+  - libwebp/mux (1.2.3):
     - libwebp/demux
-  - libwebp/webp (1.2.0)
+  - libwebp/webp (1.2.3)
   - lottie-ios (3.2.3)
   - lottie-react-native (5.1.3):
     - lottie-ios (~> 3.2.3)
@@ -160,7 +160,7 @@ PODS:
   - nanopb/encode (2.30908.0)
   - Permission-Camera (3.3.0):
     - RNPermissions
-  - PromisesObjC (2.1.0)
+  - PromisesObjC (2.1.1)
   - RCTRequired (0.63.4)
   - RCTTypeSafety (0.63.4):
     - FBLazyVector (= 0.63.4)
@@ -355,7 +355,7 @@ PODS:
     - React
   - react-native-restart (0.0.23):
     - React-Core
-  - react-native-safe-area-context (3.1.9):
+  - react-native-safe-area-context (3.4.1):
     - React-Core
   - react-native-splash-screen (3.3.0):
     - React-Core
@@ -477,21 +477,22 @@ PODS:
     - React-Core
   - RNReanimated (1.13.2):
     - React-Core
-  - RNScreens (2.18.1):
+  - RNScreens (3.15.0):
     - React-Core
+    - React-RCTImage
   - RNSVG (12.1.1):
     - React
   - RNVectorIcons (6.7.0):
     - React
-  - SDWebImage (5.11.1):
-    - SDWebImage/Core (= 5.11.1)
-  - SDWebImage/Core (5.11.1)
+  - SDWebImage (5.13.2):
+    - SDWebImage/Core (= 5.13.2)
+  - SDWebImage/Core (5.13.2)
   - SDWebImageWebPCoder (0.6.1):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.7)
   - TcpSockets (4.0.0):
     - React
-  - TOCropViewController (2.6.0)
+  - TOCropViewController (2.6.1)
   - toolbar-android (0.1.0-rc.2):
     - React
   - Yoga (1.14.0)
@@ -735,11 +736,11 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  AppCenter: 87ef6eefd8ade4df59e88951288587429f3dd2a5
+  AppCenter: 3fd04aa1b166e16fdb03ec81dabe488aece83fbd
   appcenter-analytics: aa074250b2cb182d6f7d67d9c236dd4606673ab5
   appcenter-core: c97920e79eba2321a262d3733cb2a6f1097db539
   appcenter-crashes: 804ae51c5d1742ce20fdb6a68b3d06208a404ad5
-  AppCenterReactNativeShared: ef370308277adf71ec1586798b196e4cc35335ea
+  AppCenterReactNativeShared: f395caeabde0dc3a11609dbcb737d0f14cd40e79
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BugsnagReactNative: a96bc039e0e4ec317a8b331714393d836ca60557
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
@@ -756,14 +757,14 @@ SPEC CHECKSUMS:
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
   GoogleAppMeasurement: 4c19f031220c72464d460c9daa1fb5d1acce958e
-  GoogleDataTransport: 5fffe35792f8b96ec8d6775f5eccd83c998d5a3b
+  GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
-  libwebp: e90b9c01d99205d03b6bb8f2c8c415e5a4ef66f0
+  libwebp: 60305b2e989864154bd9be3d772730f08fc6a59c
   lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
   lottie-react-native: a501112fa980529ccb80b9f3ee117a7f98c6af3a
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   Permission-Camera: 597646618d1edcc055a3f660844c2ee6de8e0596
-  PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
+  PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   RCTRequired: 082f10cd3f905d6c124597fd1c14f6f2655ff65e
   RCTTypeSafety: 8c9c544ecbf20337d069e4ae7fd9a377aadf504b
   React: b0a957a2c44da4113b0c4c9853d8387f8e64e615
@@ -784,7 +785,7 @@ SPEC CHECKSUMS:
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-receive-sharing-intent: feba0a332a07977549a85aa58b496eb44368366a
   react-native-restart: aaad36f3ed7031daac3565f4a79d67e4f3884a50
-  react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
+  react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-udp: ff9d13e523f2b58e6bc5d4d32321ac60671b5dc9
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
@@ -815,13 +816,13 @@ SPEC CHECKSUMS:
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
   RNPermissions: bcd846e8f5a7f39e921cc7ca7172e2de0e698b6f
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
-  RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
+  RNScreens: 4a1af06327774490d97342c00aee0c2bafb497b7
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   RNVectorIcons: 368d6d8b8301224e5ffb6254191f4f8876c2be0d
-  SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
+  SDWebImage: 72f86271a6f3139cc7e4a89220946489d4b9a866
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
   TcpSockets: 4ef55305239923b343ed0a378b1fac188b1373b0
-  TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
+  TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   toolbar-android: 85f3ef4d691469f2d304e7dee4bca013aa1ba1ff
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
 
