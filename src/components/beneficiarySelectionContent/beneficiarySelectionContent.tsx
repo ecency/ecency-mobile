@@ -44,6 +44,7 @@ const BeneficiarySelectionContent = ({
 
   const beneficiariesMap = useAppSelector((state) => state.editor.beneficiariesMap);
   const username = useAppSelector((state) => state.account.currentAccount.name);
+  const DEFAULT_BENEFICIARY = { account: username, weight: 10000 };
 
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([
     { account: username, weight: 10000, autoPowerUp: false },
@@ -94,8 +95,9 @@ const BeneficiarySelectionContent = ({
 
   const readTempBeneficiaries = async () => {
     if (beneficiariesMap) {
-      const tempBeneficiaries = beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID];
-
+      const savedBeneficiareis = beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID];
+      const tempBeneficiaries = savedBeneficiareis && savedBeneficiareis.length ?  [DEFAULT_BENEFICIARY, ...beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID]] : [DEFAULT_BENEFICIARY];
+  
       if (isArray(tempBeneficiaries) && tempBeneficiaries.length > 0) {
         //weight correction algorithm.
         let othersWeight = 0;
@@ -105,17 +107,17 @@ const BeneficiarySelectionContent = ({
           }
         });
         tempBeneficiaries[0].weight = 10000 - othersWeight;
-
         setBeneficiaries(tempBeneficiaries);
       }
     }
   };
 
   const _saveBeneficiaries = (value: Beneficiary[]) => {
+    const filteredBeneficiaries = value.filter((item) => item.account !== username); //remove default beneficiary from array while saving
     if (handleSaveBeneficiary) {
-      handleSaveBeneficiary(value);
+      handleSaveBeneficiary(filteredBeneficiaries);
     } else {
-      dispatch(setBeneficiariesAction(draftId || TEMP_BENEFICIARIES_ID, value));
+      dispatch(setBeneficiariesAction(draftId || TEMP_BENEFICIARIES_ID, filteredBeneficiaries));
     }
   };
 

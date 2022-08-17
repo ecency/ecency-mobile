@@ -51,13 +51,13 @@ class EditorScreen extends Component {
       isCommunitiesListModalOpen: false,
       selectedCommunity: null,
       selectedAccount: null,
-      scheduledFor: (props.scheduledForDate && props.scheduledForDate) || null,
+      scheduledFor: null,
     };
   }
 
   // Component Life Cycles
   componentDidMount() {
-    const { draftPost, currentAccount, scheduledForDate } = this.props;
+    const { draftPost, currentAccount } = this.props;
 
     if (draftPost) {
       if (draftPost.tags?.length > 0 && isCommunity(draftPost.tags[0])) {
@@ -67,9 +67,6 @@ class EditorScreen extends Component {
           selectedAccount: currentAccount,
         });
       }
-    }
-    if(scheduledForDate){
-      this._handleScheduleChange(scheduledForDate);
     }
   }
 
@@ -204,11 +201,9 @@ class EditorScreen extends Component {
 
 
   _handleScheduleChange = (datetime:string|null) => {
-    const { handleScheduleDateChange } = this.props;
     this.setState({
       scheduledFor:datetime,
     })
-    handleScheduleDateChange(datetime);
   }
 
   _handleRewardChange = (value) => {
@@ -241,8 +236,8 @@ class EditorScreen extends Component {
   };
 
   _handleFormUpdate = (componentID, content) => {
-    const { handleFormChanged, thumbIndex, rewardType, getBeneficiaries, scheduledForDate } = this.props;
-    const { fields: _fields, scheduledFor } = this.state;
+    const { handleFormChanged, thumbIndex, rewardType, getBeneficiaries } = this.props;
+    const { fields: _fields } = this.state;
     const fields = { ..._fields };
 
     if (componentID === 'body') {
@@ -257,7 +252,6 @@ class EditorScreen extends Component {
       tags: fields.tags,
       beneficiaries: getBeneficiaries(),
       rewardType,
-      scheduledFor: scheduledFor ? scheduledFor : scheduledForDate,
     });
     const jsonMeta = makeJsonMetadata(meta, fields.tags);
     fields.meta = jsonMeta;
@@ -389,7 +383,6 @@ class EditorScreen extends Component {
       thumbIndex,
       uploadProgress,
       rewardType,
-      scheduledForDate
     } = this.props;
 
     const rightButtonText = intl.formatMessage({
@@ -491,7 +484,6 @@ class EditorScreen extends Component {
           isEdit={isEdit}
           isCommunityPost={selectedCommunity !== null}
           rewardType={rewardType}
-          scheduledForDate={scheduledForDate}
           handleThumbSelection={this._handleOnThumbSelection}
           handleRewardChange={this._handleRewardChange}
           handleScheduleChange={this._handleScheduleChange}

@@ -37,7 +37,6 @@ interface PostOptionsModalProps {
   isEdit:boolean;
   isCommunityPost:boolean;
   rewardType: string;
-  scheduledForDate: string | null;
   handleRewardChange:(rewardType:string)=>void;
   handleThumbSelection:(index:number)=>void;
   handleScheduleChange:(datetime:string|null)=>void;
@@ -52,7 +51,6 @@ const PostOptionsModal =  forwardRef(({
   isEdit,
   isCommunityPost,
   rewardType,
-  scheduledForDate,
   handleRewardChange,
   handleThumbSelection,
   handleScheduleChange,
@@ -63,13 +61,13 @@ const PostOptionsModal =  forwardRef(({
 
     const [showModal, setShowModal] = useState(false);
     const [rewardTypeIndex, setRewardTypeIndex] = useState(0);
-    const [scheduleLater, setScheduleLater] = useState(scheduledForDate ? true : false);
+    const [scheduleLater, setScheduleLater] = useState(false);
     const [shouldReblog, setShouldReblog] = useState(false);
     const [scheduledFor, setScheduledFor] = useState('');
     const [disableDone, setDisableDone] = useState(false);
 
     // removed the useeffect causing index reset bug
-/* 
+
     useEffect(()=>{
       if(!scheduleLater){
         handleScheduleChange(null)
@@ -77,22 +75,6 @@ const PostOptionsModal =  forwardRef(({
         handleScheduleChange(scheduledFor)
       }
     }, [scheduleLater, scheduledFor])
-*/
-    useEffect(() => {
-      if(scheduledFor){
-        handleScheduleChange(scheduledFor);
-      }
-    },[scheduledFor])
-
-    useEffect(() => {
-      if (scheduledForDate) {
-        setScheduleLater(true);
-        setScheduledFor(scheduledForDate);
-      } else {
-        setScheduleLater(false);
-        setScheduledFor('');
-      }
-    },[scheduledForDate])
     
     useEffect(() => {
       handleShouldReblogChange(shouldReblog)
@@ -168,7 +150,6 @@ const PostOptionsModal =  forwardRef(({
                   <AnimatedView animation="flipInX" duration={700}>
                     <DateTimePicker
                       type="datetime"
-                      selectedDate={scheduledForDate}
                       onChanged={_handleDatePickerChange}
                       disabled={true}
                     />
