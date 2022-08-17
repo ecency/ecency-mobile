@@ -483,9 +483,9 @@
     "something_wrong": "Something went wrong",
     "something_wrong_alt": "Shu bilan birga, brauzeringizdan Ecency.com ni sinab ko'ring",
     "something_wrong_reload": "Yana urinib ko'rish?",
-    "can_not_be_empty": "Title and body can not be empty!",
-    "wrong_filter_count": "Please select 3 filters",
-    "update_available_title": "Update available v{version}",
+    "can_not_be_empty": "Sarlavha va asosiy matn bo'sh bo'lishi mumkin emas!",
+    "wrong_filter_count": "Iltimos, 3 ta filtrni tanlang",
+    "update_available_title": "Mavjud v{version} yangilash",
     "update_available_body": "Eng so'nggi versiyasidan foydalanish sizga eng yaxshi tajribani beradi",
     "update": "Hoziroq yangilash",
     "remind_later": "Keyinroq eslatish",
@@ -548,51 +548,51 @@
   },
   "favorites": {
     "title": "Sevimlilar",
-    "load_error": "Could not load favorites",
-    "empty_list": "Nothing here",
-    "search": "Search in favorites"
+    "load_error": "Sevimlilarni yuklab bo‘lmadi",
+    "empty_list": "Hech narsa yo'q",
+    "search": "Sevimlilardan izlash"
   },
   "auth": {
     "invalid_pin": "Invalid pin code, please check and try again",
-    "invalid_username": "Invalid username, please check and try again",
-    "already_logged": "You are already logged in, please try to add another account",
-    "invalid_credentials": "Invalid credentials, please check and try again",
-    "unknow_error": "Unknown error, please write to support@ecency.com"
+    "invalid_username": "Foydalanuvchi nomi noto‘g‘ri, tekshiring va qayta urinib ko‘ring",
+    "already_logged": "Tizimga allaqachon kirgansiz, boshqa hisob qo‘shishga harakat qiling",
+    "invalid_credentials": "Maʼlumotlar notoʻgʻri, tekshiring va qayta urinib koʻring",
+    "unknow_error": "Noma'lum xatolik, support@ecency.com manziliga yozing"
   },
   "payout": {
-    "potential_payout": "Potential Payout",
-    "promoted": "Promoted",
-    "author_payout": "Author Payout",
-    "curation_payout": "Curation Payout",
-    "payout_date": "Payout",
-    "beneficiaries": "Beneficiaries",
-    "warn_zero_payout": "Amount must reach $0.02 for payout",
+    "potential_payout": "Potentsial to'lov",
+    "promoted": "Targ'ib qilingan",
+    "author_payout": "Avtorlik to'lovi",
+    "curation_payout": "Kuratorlar to'lovi",
+    "payout_date": "To'lov",
+    "beneficiaries": "Haq egalari",
+    "warn_zero_payout": "To'lov uchun summa $0,02 ga yetishi kerak",
     "breakdown": "Breakdown",
     "max_accepted": "Max Accepted"
   },
   "post_dropdown": {
-    "copy": "copy link",
-    "reblog": "reblog",
-    "reply": "reply",
-    "share": "share",
-    "bookmarks": "add to bookmarks",
-    "promote": "promote",
-    "boost": "boost",
-    "report": "report",
-    "pin-blog": "Pin to blog",
-    "unpin-blog": "Unpin from blog",
-    "pin-community": "Pin to community",
-    "unpin-community": "Unpin from community",
-    "edit-history": "Edit History"
+    "copy": "linkni nusxalash",
+    "reblog": "qayta bloglash",
+    "reply": "javob berish",
+    "share": "bo‘lishish",
+    "bookmarks": "saqlanganlarga qo'shish",
+    "promote": "targ'ib qilish",
+    "boost": "kuchaytirish",
+    "report": "xabar berish",
+    "pin-blog": "Blogga qadash",
+    "unpin-blog": "Blogdan olish",
+    "pin-community": "Guruhga qadash",
+    "unpin-community": "Guruhdan olish",
+    "edit-history": "Tarixni Tahrirlash"
   },
   "deep_link": {
-    "no_existing_user": "No existing user",
-    "no_existing_post": "No existing post",
-    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
+    "no_existing_user": "Mavjud bo'lmagan foydalanuvchi",
+    "no_existing_post": "Mavjud bo'lmagan post",
+    "invalid_link": "Url noto‘g‘ri, siz yaroqli url bilan qayta urinib ko‘rishingiz yoki veb-brauzerda ochishga urinib ko‘rishingiz mumkin"
   },
   "search": {
-    "posts": "Posts",
-    "comments": "Comments"
+    "posts": "Postlar",
+    "comments": "Izohlar"
   },
   "comment_filter": {
     "trending": "TOP",
