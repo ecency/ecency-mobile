@@ -265,12 +265,6 @@ class EditorContainer extends Component<any, any> {
         thumbIndex: draftThumbIndex,
       });
     }
-    // load schedule date
-    if (draft.meta && draft.meta.scheduledFor) {
-      this.setState({
-        scheduledForDate: draft.meta.scheduledFor,
-      });
-    }
 
     // load beneficiaries and rewards data from meta field of draft
     if (draft.meta && draft.meta.rewardType) {
