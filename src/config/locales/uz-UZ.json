@@ -765,32 +765,32 @@
     "add_to_favourites": "SEVIMLILARGA QO'SHISH",
     "remove_from_favourites": "SEVIMLILARDAN O'CHIRISH",
     "mute": "O'CHIRISH/BLOKLASH",
-    "unmute": "UNMUTE / UNBLOCK",
-    "report": "REPORT USER",
-    "delegate": "DELEGATE HIVE POWER"
+    "unmute": "YOQISH/BLOKDAN OCHISH",
+    "report": "FOYDALANUVCHI HAQIDA",
+    "delegate": "HIVE POWERNI DELEGATSIYALASH"
   },
   "communities": {
-    "joined": "Membership",
-    "discover": "Discover",
-    "discover_communities": "Discover Communities",
-    "no_communities": "Connect with people who share your interests by joining Communities."
+    "joined": "A'zolik",
+    "discover": "Topish",
+    "discover_communities": "Guruhkarni topish",
+    "no_communities": "Guruhlarga qoʻshilish orqali qiziqishlaringizni baham koʻradigan odamlar bilan bogʻlaning."
   },
   "empty_screen": {
-    "nothing_here": "Nothing here"
+    "nothing_here": "Hech narsa yo'q"
   },
   "beneficiary_modal": {
-    "percent": "Percent",
-    "username": "Username",
-    "addAccount": "Add Account",
-    "save": "Save",
-    "cancel": "Cancel"
+    "percent": "Foiz",
+    "username": "Foydalanuvchi nomi",
+    "addAccount": "Akkaunt qo'shish",
+    "save": "Saqlash",
+    "cancel": "Bekor qilish"
   },
   "welcome": {
-    "label": "Welcome to",
+    "label": "Hush kelibsiz",
     "title": "Ecency",
-    "line1_heading": "Are you looking for community?",
-    "line1_body": "Uncensored, immutable, rewarding, decentralized, that you own.",
-    "line2_heading": "We have a solution!",
+    "line1_heading": "Guruhni izlayapsizmi?",
+    "line1_body": "Tsenzurasiz, o'zgarmas, foydali, markazlashtirilmagan, o'zingiz egalik qilasiz.",
+    "line2_heading": "Bizda yechim bor!",
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "Join Ecency communities!",
     "line3_body": "Build community you own, get rewarded and reward others.",
