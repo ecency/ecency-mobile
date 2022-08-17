@@ -643,7 +643,7 @@
     "account_detail_head": "Akkaunt tafsilotlari",
     "account_detail_subhead": "HIVE Power delegatsiyasi uchun foydalanuvchi nomini kiriting",
     "delegat_detail_head": "Delegatsiya tafsilotlari",
-    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
+    "delegat_detail_subhead": "Yangi delegatsiya oldingi HIVE Power qiymatini o'zgartiradi ",
     "new_amount": "Yangi miqdor",
     "review": "KO'ZDAN KECHIRISH",
     "confirm": "Delegatsiyani Tasdiqlash",
@@ -655,14 +655,14 @@
     "power_down_amount_head": "Yechib olish summasi",
     "power_down_amount_subhead": "Hive Powerni pasaytirish miqdorini kiriting",
     "withdraw_accounts": "Withdraw Accounts",
-    "amount_hp": "Amount (HP)",
-    "powering_down": "Powering Down",
-    "powering_down_subheading": "You are currently powering down.",
-    "powering_down_info": "Next power down is in {days} days, {hp} HIVE",
-    "invalid_amount": "Invalid Amount",
-    "invalid_amount_desc": "Please enter valid amount",
-    "account_select_title": "Account Details",
-    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
+    "amount_hp": "Miqdori (HP)",
+    "powering_down": "Kuchni pasaytirish",
+    "powering_down_subheading": "Siz hozir kuchingizni kamaytiryapsiz.",
+    "powering_down_info": "Keyingi quvvat {days} kundan keyin oʻchiriladi, {hp} HIVE",
+    "invalid_amount": "Yaroqsiz miqdor",
+    "invalid_amount_desc": "Yaroqli miqdorni kiriting",
+    "account_select_title": "Akkaunt tafsilotlari",
+    "account_select_description": "Mablag'lar bilan bog'liq operatsiyalar qaytarib bo'lmaydi, qabul qiluvchining foydalanuvchi nomi to'g'ri ekanligiga ishonch hosil qiling",
     "amount_select_title": "Transfer Details",
     "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
   },
@@ -743,28 +743,28 @@
       "new": "New"
     },
     "post_result_filter": {
-      "popularity": "Popularity",
-      "newest": "Newest",
-      "relevance": "Relevance"
+      "popularity": "Mashhurlik",
+      "newest": "Eng yangi",
+      "relevance": "Muvofiqlik"
     },
     "other_result_filter": {
-      "user": "User",
-      "tag": "Tag"
+      "user": "Foydalanuvchi",
+      "tag": "Teg"
     }
   },
   "community": {
-    "new_post": "New Post",
-    "community": "community",
-    "details": "Details",
-    "muted": "Muted",
-    "payout": "Payout"
+    "new_post": "Yangi post",
+    "community": "guruh",
+    "details": "Tafsilotlar",
+    "muted": "O'chirilgan",
+    "payout": "To'lov"
   },
   "user": {
-    "follow": "Follow",
-    "unfollow": "Unfollow",
-    "add_to_favourites": "ADD TO FAVOURITES",
-    "remove_from_favourites": "REMOVE FROM FAVOURITES",
-    "mute": "MUTE / BLOCK",
+    "follow": "Kuzatish",
+    "unfollow": "Kuzatishni to'xtatish",
+    "add_to_favourites": "SEVIMLILARGA QO'SHISH",
+    "remove_from_favourites": "SEVIMLILARDAN O'CHIRISH",
+    "mute": "O'CHIRISH/BLOKLASH",
     "unmute": "UNMUTE / UNBLOCK",
     "report": "REPORT USER",
     "delegate": "DELEGATE HIVE POWER"
