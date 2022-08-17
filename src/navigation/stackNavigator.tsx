@@ -61,38 +61,15 @@ export const StackNavigator = () => {
                 <Stack.Screen name={ROUTES.SCREENS.REFER} component={ReferScreen} />
                 <Stack.Screen name={ROUTES.SCREENS.COIN_DETAILS} component={CoinDetails} />
                 <Stack.Screen name={ROUTES.SCREENS.EDIT_HISTORY} component={EditHistoryScreen} />
-                <Stack.Screen
-                    name={ROUTES.SCREENS.POST}
-                    component={Post}
-                    options={{
-                        gestureEnabled: true,
-                        gestureResponseDistance: { horizontal: 70 },
-                    }}
-                />
-                <Stack.Screen name={ROUTES.SCREENS.TRANSFER} component={Transfer} options={{
-                    ...TransitionPresets.ModalPresentationIOS
-                }} />
-                <Stack.Screen name={ROUTES.SCREENS.EDITOR} component={Editor} options={{
-                    ...TransitionPresets.RevealFromBottomAndroid
-                }} />
-                <Stack.Screen name={ROUTES.SCREENS.VOTERS} component={Voters} options={{
-                    ...TransitionPresets.ModalSlideFromBottomIOS
-                }} />
-                <Stack.Screen name={ROUTES.SCREENS.FOLLOWS} component={Follows} options={{
-                    ...TransitionPresets.ModalSlideFromBottomIOS
-                }} />
-                
-                <Stack.Screen name={ROUTES.SCREENS.REBLOGS} component={Reblogs} options={{
-                    ...TransitionPresets.ModalSlideFromBottomIOS
-                }} />
-                <Stack.Screen name={ROUTES.SCREENS.REGISTER} component={Register} options={{
-                    ...TransitionPresets.ModalSlideFromBottomIOS
-                }} />
-                <Stack.Screen name={ROUTES.SCREENS.LOGIN} component={Login} options={{
-                    ...TransitionPresets.ModalSlideFromBottomIOS
-                }} />
+                <Stack.Screen name={ROUTES.SCREENS.POST} component={Post} />
+                <Stack.Screen name={ROUTES.SCREENS.TRANSFER} component={Transfer} />
+                <Stack.Screen name={ROUTES.SCREENS.EDITOR} component={Editor} />
+                <Stack.Screen name={ROUTES.SCREENS.VOTERS} component={Voters} />
+                <Stack.Screen name={ROUTES.SCREENS.FOLLOWS} component={Follows} />
+                <Stack.Screen name={ROUTES.SCREENS.REBLOGS} component={Reblogs} />
+                <Stack.Screen name={ROUTES.SCREENS.REGISTER} component={Register} />
+                <Stack.Screen name={ROUTES.SCREENS.LOGIN} component={Login} />
             </Stack.Navigator>
-
     )
 }
 
