@@ -3,7 +3,6 @@ import React from 'react';
 // Constants
 import ROUTES from '../constants/routeNames';
 
-import { createStackNavigator } from '@react-navigation/stack';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // Screens
 import {
@@ -35,8 +34,6 @@ import {
 } from '../screens';
 import { DrawerNavigator } from './drawerNavigator';
 
-
-// const Stack = createStackNavigator();
 const Stack = createNativeStackNavigator();
 
 
