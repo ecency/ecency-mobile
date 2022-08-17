@@ -241,7 +241,7 @@ class EditorScreen extends Component {
   };
 
   _handleFormUpdate = (componentID, content) => {
-    const { handleFormChanged, thumbIndex, rewardType, getBeneficiaries, scheduledForDate } = this.props;
+    const { handleFormChanged, thumbIndex, rewardType, getBeneficiaries } = this.props;
     const { fields: _fields, scheduledFor } = this.state;
     const fields = { ..._fields };
 
@@ -257,7 +257,6 @@ class EditorScreen extends Component {
       tags: fields.tags,
       beneficiaries: getBeneficiaries(),
       rewardType,
-      scheduledFor: scheduledFor ? scheduledFor : scheduledForDate,
     });
     const jsonMeta = makeJsonMetadata(meta, fields.tags);
     fields.meta = jsonMeta;
