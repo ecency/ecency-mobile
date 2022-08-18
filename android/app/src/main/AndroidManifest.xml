@@ -95,7 +95,7 @@
             <data 
                 android:scheme="https" 
                 android:host="ecency.com"
-                android:path="/login"
+                android:path="/auth"
             />
            <data 
                 android:scheme="https" 
