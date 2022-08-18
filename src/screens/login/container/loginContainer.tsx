@@ -69,8 +69,8 @@ class LoginContainer extends PureComponent {
     const {dispatch, intl} = this.props;
 
     dispatch(showActionModal({
-      title:"Direct Login @" + username,
-      body:"Verify direct login using access code",
+      title: intl.formatMessage({id: 'login.deep_login_alert_title'}, {username}),
+      body: intl.formatMessage({id: 'login.deep_login_alert_body'}),
       buttons: [
         {
           text: intl.formatMessage({ id: 'alert.cancel' }),
@@ -89,7 +89,7 @@ class LoginContainer extends PureComponent {
 
 
   _loginWithCode = (code) => {
-    const {dispatch, isPinCodeOpen, navigation} = this.props;
+    const {dispatch, isPinCodeOpen, navigation, intl} = this.props;
     this.setState({ isLoading: true });
     loginWithSC2(code)
     .then((result) => {
@@ -123,9 +123,9 @@ class LoginContainer extends PureComponent {
       this.setState({ isLoading: false });
       Alert.alert(
         'Error',
-        //intl.formatMessage({ id:
-        error,
-        //}),
+        intl.formatMessage({ id:
+        error.message,
+        }),
       );
       // TODO: return
     });
