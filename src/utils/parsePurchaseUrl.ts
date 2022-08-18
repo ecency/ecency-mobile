@@ -4,6 +4,12 @@
  * 
  */
 
+
+export enum PURCHASE_TYPES {
+    POINTS ='points',
+    BOOST ='boost'
+}
+
 export default (urlString:string) => {
     const url = new URL(urlString);
     console.log(JSON.stringify(url, null, '\t'));
