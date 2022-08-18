@@ -17,6 +17,7 @@ import { BasicHeader, SettingsItem, CollapsibleCard } from '../../../components'
 
 // Styles
 import styles from './settingsStyles';
+import settingsTypes from '../../../constants/settingsTypes';
 
 const SettingsScreen = ({
   handleOnChange,
@@ -41,6 +42,7 @@ const SettingsScreen = ({
   voteNotification,
   handleOnButtonPress,
   isLoading,
+  isHideImages,
 }) => {
   return (
     <Fragment>
@@ -132,6 +134,19 @@ const SettingsScreen = ({
             )}
             selectedOptionIndex={colorThemeIndex}
             handleOnChange={handleOnChange}
+          />
+
+          <SettingsItem
+            title={intl.formatMessage({
+              id: 'settings.show_imgs',
+            })}
+            text={intl.formatMessage({
+              id: 'settings.show_imgs',
+            })}
+            type="toggle"
+            actionType={settingsTypes.SHOW_HIDE_IMGS}
+            handleOnChange={handleOnChange}
+            isOn={!isHideImages}
           />
 
           {!!isLoggedIn && (

@@ -36,7 +36,7 @@ const FeedScreen = () => {
     <AccountContainer>
       {({ currentAccount }) => (
         <Fragment>
-          <Header enableViewModeToggle={true} />
+          <Header showQR={true} />
           <SafeAreaView style={styles.container} onLayout={_lazyLoadContent}>
 
             {lazyLoad && (

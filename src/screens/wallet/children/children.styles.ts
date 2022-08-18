@@ -49,7 +49,8 @@ export default EStyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     alignSelf: 'center',
-  } as ViewStyle,
+    textTransform: 'uppercase'
+  } as TextStyle,
 
   claimIconWrapper: {
     backgroundColor: '$pureWhite',

@@ -40,6 +40,7 @@ import {
   setColorTheme,
   setIsBiometricEnabled,
   setEncryptedUnlockPin,
+  setHidePostsThumbnails,
 } from '../../../redux/actions/applicationActions';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import { setPushToken, getNodes } from '../../../providers/ecency/ecency';
@@ -50,6 +51,8 @@ import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions
 // Constants
 import { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
 import { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
+import settingsTypes from '../../../constants/settingsTypes';
+
 
 // Utilities
 import { sendEmail } from '../../../utils/sendEmail';
@@ -199,7 +202,7 @@ class SettingsContainer extends Component {
   };
 
   _handleToggleChanged = (action, actionType) => {
-    const { dispatch } = this.props;
+    const { dispatch, isHideImages } = this.props;
 
     switch (actionType) {
       case 'notification':
@@ -242,6 +245,9 @@ class SettingsContainer extends Component {
             callback: () => dispatch(setIsBiometricEnabled(action)),
           }),
         );
+        break;
+      case settingsTypes.SHOW_HIDE_IMGS:
+        dispatch(setHidePostsThumbnails(!isHideImages));
         break;
       default:
         break;
@@ -481,6 +487,7 @@ const mapStateToProps = (state) => ({
   username: state.account.currentAccount && state.account.currentAccount.name,
   currentAccount: state.account.currentAccount,
   otherAccounts: state.account.otherAccounts,
+  isHideImages: state.application.hidePostsThumbnails,
 });
 
 export default injectIntl(connect(mapStateToProps)(SettingsContainer));

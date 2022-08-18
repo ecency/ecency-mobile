@@ -43,14 +43,12 @@ const ECENCY_ACTIONS = [
   'dropdown_transfer', 'dropdown_promote', 'dropdown_boost'
 ];
 const HIVE_ACTIONS = [
-  'purchase_estm',
   'transfer_token',
   'transfer_to_savings',
   'transfer_to_vesting',
   'withdraw_hive'
 ];
 const HBD_ACTIONS = [
-  'purchase_estm',
   'transfer_token',
   'transfer_to_savings',
   'convert',

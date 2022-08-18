@@ -4,12 +4,12 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 
 // Component
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import HeaderView from '../view/headerView';
 
 import { AccountContainer, ThemeContainer } from '../../../containers';
 import { parseReputation } from '../../../utils/user';
-import { setHidePostsThumbnails } from '../../../redux/actions/applicationActions';
+import { toggleQRModal } from '../../../redux/actions/uiAction';
 
 const HeaderContainer = ({
   selectedUser,
@@ -17,12 +17,9 @@ const HeaderContainer = ({
   navigation,
   handleOnBackPress,
   hideUser,
-  enableViewModeToggle,
+  showQR,
 }) => {
   const dispatch = useDispatch();
-
-  //redux properties
-  const isHideImages = useSelector((state) => state.application.hidePostsThumbnails);
 
   const _handleOpenDrawer = () => {
     if (has(navigation, 'openDrawer') && typeof get(navigation, 'openDrawer') === 'function') {
@@ -38,8 +35,8 @@ const HeaderContainer = ({
     navigation.goBack();
   };
 
-  const _handleViewModeTogglePress = () => {
-    dispatch(setHidePostsThumbnails(!isHideImages));
+  const _handleQRPress = () => {
+    dispatch(toggleQRModal(true));
   };
 
   return (
@@ -54,7 +51,7 @@ const HeaderContainer = ({
               <HeaderView
                 displayName={get(_user, 'display_name')}
                 handleOnPressBackButton={_handleOnPressBackButton}
-                handleOnViewModePress={_handleViewModeTogglePress}
+                handleOnQRPress={_handleQRPress}
                 handleOpenDrawer={_handleOpenDrawer}
                 isDarkTheme={isDarkTheme}
                 isLoggedIn={isLoggedIn}
@@ -63,7 +60,7 @@ const HeaderContainer = ({
                 reputation={reputation}
                 username={get(_user, 'name')}
                 hideUser={hideUser}
-                enableViewModeToggle={enableViewModeToggle}
+                showQR={showQR}
               />
             );
           }}

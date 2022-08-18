@@ -1,21 +1,6 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  container: {
-    backgroundColor: '$primaryBackgroundColor',
-    flex: 1,
-  },
-  contentContainer: {
-    justifyContent: 'space-around',
-    backgroundColor: '$primaryBackgroundColor',
-    flex: 1,
-  },
-  iconContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingBottom: 24,
-    backgroundColor: '$primaryBackgroundColor',
-  },
   userContainer: {
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -47,20 +32,5 @@ export default EStyleSheet.create({
     color: '$white',
     fontSize: 15,
     fontWeight: 'bold',
-  },
-  logoEstm: {
-    width: '$deviceWidth / 1.4',
-    height: '$deviceHeight / 3',
-  },
-  desc: {
-    width: '$deviceWidth / 1.5',
-    fontSize: 16,
-    textAlign: 'center',
-    color: '$primaryDarkGray',
-  },
-  productsWrapper: {
-    paddingTop: 8,
-    paddingBottom: 52,
-    marginHorizontal: 16,
   },
 });
