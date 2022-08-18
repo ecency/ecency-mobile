@@ -40,7 +40,8 @@ const Stack = createNativeStackNavigator();
 export const StackNavigator = () => {
 
     return (
-            <Stack.Navigator screenOptions={{ headerShown: false }} >
+        <Stack.Navigator screenOptions={{ headerShown: false}} >
+            <Stack.Group screenOptions={{ animation: 'slide_from_right' }}>
                 <Stack.Screen name={ROUTES.DRAWER.MAIN} component={DrawerNavigator} />
                 <Stack.Screen name={ROUTES.SCREENS.PROFILE} component={Profile} />
                 <Stack.Screen name={ROUTES.SCREENS.PROFILE_EDIT} component={ProfileEdit} />
@@ -48,7 +49,7 @@ export const StackNavigator = () => {
                 <Stack.Screen name={ROUTES.SCREENS.DRAFTS} component={Drafts} />
                 <Stack.Screen name={ROUTES.SCREENS.BOOKMARKS} component={Bookmarks} />
                 <Stack.Screen name={ROUTES.SCREENS.SEARCH_RESULT} component={SearchResult} />
-                <Stack.Screen name={ROUTES.SCREENS.TAG_RESULT} component={TagResult}/>
+                <Stack.Screen name={ROUTES.SCREENS.TAG_RESULT} component={TagResult} />
                 <Stack.Screen name={ROUTES.SCREENS.BOOST} component={Boost} />
                 <Stack.Screen name={ROUTES.SCREENS.REDEEM} component={Redeem} />
                 <Stack.Screen name={ROUTES.SCREENS.SPIN_GAME} component={SpinGame} />
@@ -60,14 +61,22 @@ export const StackNavigator = () => {
                 <Stack.Screen name={ROUTES.SCREENS.COIN_DETAILS} component={CoinDetails} />
                 <Stack.Screen name={ROUTES.SCREENS.EDIT_HISTORY} component={EditHistoryScreen} />
                 <Stack.Screen name={ROUTES.SCREENS.POST} component={Post} />
-                <Stack.Screen name={ROUTES.SCREENS.TRANSFER} component={Transfer} />
-                <Stack.Screen name={ROUTES.SCREENS.EDITOR} component={Editor} />
+
+            </Stack.Group>
+            <Stack.Group screenOptions={{ presentation: 'modal' }}> 
+                <Stack.Screen name={ROUTES.SCREENS.REBLOGS} component={Reblogs} />
                 <Stack.Screen name={ROUTES.SCREENS.VOTERS} component={Voters} />
                 <Stack.Screen name={ROUTES.SCREENS.FOLLOWS} component={Follows} />
-                <Stack.Screen name={ROUTES.SCREENS.REBLOGS} component={Reblogs} />
+
+            </Stack.Group>
+            <Stack.Group screenOptions={{ animation: 'slide_from_bottom' }}>
+                <Stack.Screen name={ROUTES.SCREENS.TRANSFER} component={Transfer} />
+                <Stack.Screen name={ROUTES.SCREENS.EDITOR} component={Editor} />
                 <Stack.Screen name={ROUTES.SCREENS.REGISTER} component={Register} />
                 <Stack.Screen name={ROUTES.SCREENS.LOGIN} component={Login} />
-            </Stack.Navigator>
+            </Stack.Group>
+
+        </Stack.Navigator>
     )
 }
 
