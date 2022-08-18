@@ -75,7 +75,7 @@ const TransferView = ({
 
   let path;
   if (hsTransfer) {
-    if (transferType !== transferTypes.CONVERT) {
+    if (transferType === transferTypes.PURCHASE_ESTM) {
       const json = JSON.stringify({
         sender: get(selectedAccount, 'name'),
         receiver: destination,
