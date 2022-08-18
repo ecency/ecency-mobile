@@ -1874,8 +1874,8 @@ export const profileUpdate = async (params, pin, currentAccount) => {
 };
 
 export const subscribeCommunity = (currentAccount, pinCode, data) => {
-  const pin = getDigitPinCode(pinCode);
-  const key = getActiveKey(get(currentAccount, 'local'), pin);
+  const digitPinCode = getDigitPinCode(pinCode);
+  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
   const username = get(currentAccount, 'name');
 
   const json = JSON.stringify([
@@ -1883,16 +1883,24 @@ export const subscribeCommunity = (currentAccount, pinCode, data) => {
     { community: data.communityId },
   ]);
 
+  const op = {
+    id: 'community',
+    json,
+    required_auths: [],
+    required_posting_auths: [username],
+  };
+  const opArray = [['custom_json', op]];
+
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const api = new hsClient({
+      accessToken: token,
+    });
+    return api.broadcast(opArray);
+  }
+
   if (key) {
     const privateKey = PrivateKey.fromString(key);
-
-    const op = {
-      id: 'community',
-      json,
-      required_auths: [],
-      required_posting_auths: [username],
-    };
-    const opArray = [['custom_json', op]];
     return sendHiveOperations(opArray, privateKey);
   }
 
@@ -1909,8 +1917,8 @@ export const pinCommunityPost = (
   permlink,
   unpinPost = false,
 ) => {
-  const pin = getDigitPinCode(pinCode);
-  const key = getActiveKey(get(currentAccount, 'local'), pin);
+  const digitPinCode = getDigitPinCode(pinCode);
+  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
   const username = get(currentAccount, 'name');
 
   const json = JSON.stringify([
@@ -1922,16 +1930,24 @@ export const pinCommunityPost = (
     },
   ]);
 
+  const op = {
+    id: 'community',
+    json,
+    required_auths: [],
+    required_posting_auths: [username],
+  };
+  const opArray = [['custom_json', op]];
+
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const api = new hsClient({
+      accessToken: token,
+    });
+    return api.broadcast(opArray);
+  }
+
   if (key) {
     const privateKey = PrivateKey.fromString(key);
-
-    const op = {
-      id: 'community',
-      json,
-      required_auths: [],
-      required_posting_auths: [username],
-    };
-    const opArray = [['custom_json', op]];
     return sendHiveOperations(opArray, privateKey);
   }
 

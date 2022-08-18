@@ -25,7 +25,7 @@ import {
 } from '../../../components';
 // Styles
 import styles from './transferStyles';
-import { OptionsModal } from '../../../components/atoms';
+
 //  Redux
 import { showActionModal } from '../../../redux/actions/uiAction';
 // Utils
@@ -63,9 +63,9 @@ class DelegateScreen extends Component {
       usersResult: [],
       step: 1,
       delegatedHP: 0,
+      confirmModalOpen: true,
     };
 
-    this.startActionSheet = React.createRef();
     this.destinationTextInput = React.createRef();
     this.amountTextInput = React.createRef();
   }
@@ -144,11 +144,10 @@ class DelegateScreen extends Component {
     const { transferToAccount, accountType } = this.props;
     const { from, destination, amount } = this.state;
 
-    this.setState({ isTransfering: true });
-
     if (accountType === AUTH_TYPE.STEEM_CONNECT) {
       this.setState({ steemConnectTransfer: true });
     } else {
+      this.setState({ isTransfering: true });
       transferToAccount(from, destination, amount, '');
     }
   };
@@ -254,6 +253,7 @@ class DelegateScreen extends Component {
           : '');
 
       if (amountValid) {
+        this.setState({ confirmModalOpen: true });
         dispatch(
           showActionModal({
             title: intl.formatMessage({ id: 'transfer.confirm' }),
@@ -269,6 +269,7 @@ class DelegateScreen extends Component {
               },
             ],
             headerContent: this._renderToFromAvatars(),
+            onClosed: () => this.setState({ confirmModalOpen: false }),
           }),
         );
       } else {
@@ -447,6 +448,7 @@ class DelegateScreen extends Component {
       step,
       delegatedHP,
       hp,
+      confirmModalOpen,
       isAmountValid,
     } = this.state;
     let availableVestingShares = 0;
@@ -588,26 +590,18 @@ class DelegateScreen extends Component {
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
-        <OptionsModal
-          ref={this.startActionSheet}
-          options={[
-            intl.formatMessage({ id: 'alert.confirm' }),
-            intl.formatMessage({ id: 'alert.cancel' }),
-          ]}
-          title={intl.formatMessage({ id: 'transfer.information' })}
-          cancelButtonIndex={1}
-          destructiveButtonIndex={0}
-          onPress={(index) => (index === 0 ? this._handleTransferAction() : null)}
-        />
-        <Modal
-          isOpen={steemConnectTransfer}
-          isFullScreen
-          isCloseButton
-          handleOnModalClose={handleOnModalClose}
-          title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
-        >
-          <WebView source={{ uri: `${hsOptions.base_url}${path}` }} />
-        </Modal>
+
+        {path && !confirmModalOpen && (
+          <Modal
+            isOpen={steemConnectTransfer}
+            isFullScreen
+            isCloseButton
+            handleOnModalClose={handleOnModalClose}
+            title={intl.formatMessage({ id: 'transfer.steemconnect_title' })}
+          >
+            <WebView source={{ uri: `${hsOptions.base_url}${path}` }} />
+          </Modal>
+        )}
       </Fragment>
     );
   }
