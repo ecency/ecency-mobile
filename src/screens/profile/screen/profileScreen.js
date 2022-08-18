@@ -74,11 +74,11 @@ const ProfileScreen = () => (
         isProfileLoading={isProfileLoading}
         isReady={isReady}
         quickProfile={quickProfile}
-        resourceCredits={resourceCredits}
+        resourceCredits={resourceCredits || 0}
         selectedUser={selectedUser}
         setEstimatedWalletValue={setEstimatedWalletValue}
         username={username}
-        votingPower={votingPower}
+        votingPower={votingPower || 0}
         isHideImage={isHideImage}
         reverseHeader={reverseHeader}
         deepLinkFilter={deepLinkFilter}
