@@ -4,6 +4,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
 import { debounce } from 'lodash';
+import { withNavigation } from 'react-navigation';
 
 // Actions
 import HiveSigner from '../../steem-connect/hiveSigner';
@@ -33,20 +34,12 @@ class LoginScreen extends PureComponent {
     super(props);
 
     this.state = {
-      username: props.navigation.getParam('username', ''),
-      password: props.navigation.getParam('password', ''),
+      username: '',
+      password: '',
       isUsernameValid: true,
       keyboardIsOpen: false,
       isModalOpen: false,
     };
-  }
-
-  componentDidMount() {
-    const { handleOnPressLogin } = this.props;
-    const { username, password } = this.state;
-    if (username && password) {
-      handleOnPressLogin(username, password);
-    }
   }
 
   componentWillUnmount() {
@@ -226,4 +219,4 @@ class LoginScreen extends PureComponent {
   }
 }
 
-export default injectIntl(LoginScreen);
+export default withNavigation(injectIntl(LoginScreen));
