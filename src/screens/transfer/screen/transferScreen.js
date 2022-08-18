@@ -75,20 +75,25 @@ const TransferView = ({
 
   let path;
   if (hsTransfer) {
-    if (transferType === transferTypes.PURCHASE_ESTM) {
-      const json = JSON.stringify({
-        sender: get(selectedAccount, 'name'),
-        receiver: destination,
-        amount: `${Number(amount).toFixed(3)} ${fundType}`,
-        memo,
-      });
-      path = `sign/custom-json?authority=active&required_auths=%5B%22${get(
-        selectedAccount,
-        'name',
-      )}%22%5D&required_posting_auths=%5B%5D&id=ecency_point_transfer&json=${encodeURIComponent(
-        json,
-      )}`;
-    } else if (transferType === transferTypes.TRANSFER_TO_SAVINGS) {
+    //NOTE: Keepping point purchase url here for referemnce in case we have to put it back again,
+    //the path formatting seems quite complex so perhaps it's better to just let it live here
+    //as comment
+    // if (transferType === transferTypes.PURCHASE_ESTM) {
+    //   const json = JSON.stringify({
+    //     sender: get(selectedAccount, 'name'),
+    //     receiver: destination,
+    //     amount: `${Number(amount).toFixed(3)} ${fundType}`,
+    //     memo,
+    //   });
+    //   path = `sign/custom-json?authority=active&required_auths=%5B%22${get(
+    //     selectedAccount,
+    //     'name',
+    //   )}%22%5D&required_posting_auths=%5B%5D&id=ecency_point_transfer&json=${encodeURIComponent(
+    //     json,
+    //   )}`;
+    // } else
+
+    if (transferType === transferTypes.TRANSFER_TO_SAVINGS) {
       path = `sign/transfer_to_savings?from=${currentAccountName}&to=${destination}&amount=${encodeURIComponent(
         `${amount} ${fundType}`,
       )}&memo=${encodeURIComponent(memo)}`;
