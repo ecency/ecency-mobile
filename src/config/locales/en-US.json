@@ -269,7 +269,9 @@
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
     "steemconnect_fee_description": "info",
     "deep_login_alert_title": "Easy Login @{username}",
-    "deep_login_alert_body":"Verify direct login using access code"
+    "deep_login_alert_body":"Verify direct login using access code",
+    "deep_login_url_expired":"Login url expired, please use private key or password to login",
+    "deep_login_malformed_url":"Malformed login url, please use private key or password to login" 
   },
   "register": {
     "button": "Sign Up",

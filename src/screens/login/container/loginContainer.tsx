@@ -22,7 +22,7 @@ import {
 import { setInitPosts, setFeedPosts } from '../../../redux/actions/postsAction';
 import { setPushTokenSaved, setExistUser } from '../../../realm/realm';
 import { setPushToken } from '../../../providers/ecency/ecency';
-import { encryptKey } from '../../../utils/crypto';
+import { decodeBase64, encryptKey } from '../../../utils/crypto';
 
 // Middleware
 
@@ -58,15 +58,34 @@ class LoginContainer extends PureComponent {
     //TOOD: migrate getParam to routes.state.param after nt/navigaiton merge
 
     const {navigation} = this.props;
-    const username = navigation.getParam('username', '')
-    const code = navigation.getParam('code', '')
+    const username = navigation.getParam('username', 'demo.com')
+    const code = navigation.getParam('code', 'eyJzaWduZWRfbWVzc2FnZSI6eyJ0eXBlIjoiY29kZSIsImFwcCI6ImVjZW5jeS5hcHAifSwiYXV0aG9ycyI6WyJkZW1vLmNvbSJdLCJ0aW1lc3RhbXAiOjE2NjA4MDMzOTUsInNpZ25hdHVyZXMiOlsiMWY3NzY2MTE5NTkyYTU4MDFhYzRhZTViOTdiM2UwYjdlNGVjNTIyOTE4MjM5NDVlNTVjYTI0NGI5ZmIxYzA4NGM0NmQwMGNlOGMyOTg2MmQ4YzMzMzI4Y2Y2NzljOTQzNzQ0MWQwOWJlMjI5ZmY4OWI4YzMyMmE5MDA1MmI3ZjExZSJdfQ..')
 
-    this._confirmCodeLogin(username, code);
+    if(username && code){
+      this._confirmCodeLogin(username, code);
+    }
   }
 
   // Component Functions
   _confirmCodeLogin = (username, code) => {
     const {dispatch, intl} = this.props;
+
+    const dataStr = decodeBase64(code);
+    if(!dataStr){
+      Alert.alert(intl.formatMessage({id:'login.deep_login_url_expired'}))
+      return;
+    }
+
+    let data = dataStr
+    
+    const curTimestamp = new Date().getTime();
+    const expiryTimestamp = data && data.timestamp && ((data.timestamp * 1000) + 604800000)
+
+    console.warn('timestamp', data);
+    if(!expiryTimestamp || expiryTimestamp < curTimestamp){
+      Alert.alert(intl.formatMessage({id:'login.deep_login_url_expired'}))
+      return;
+    }
 
     dispatch(showActionModal({
       title: intl.formatMessage({id: 'login.deep_login_alert_title'}, {username}),
