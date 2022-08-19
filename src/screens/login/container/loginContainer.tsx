@@ -58,9 +58,9 @@ class LoginContainer extends PureComponent {
     //TOOD: migrate getParam to routes.state.param after nt/navigaiton merge
 
     const {navigation} = this.props;
-    const username = navigation.getParam('username', 'demo.com')
-    const code = navigation.getParam('code', 'eyJzaWduZWRfbWVzc2FnZSI6eyJ0eXBlIjoiY29kZSIsImFwcCI6ImVjZW5jeS5hcHAifSwiYXV0aG9ycyI6WyJkZW1vLmNvbSJdLCJ0aW1lc3RhbXAiOjE2NjA4MDMzOTUsInNpZ25hdHVyZXMiOlsiMWY3NzY2MTE5NTkyYTU4MDFhYzRhZTViOTdiM2UwYjdlNGVjNTIyOTE4MjM5NDVlNTVjYTI0NGI5ZmIxYzA4NGM0NmQwMGNlOGMyOTg2MmQ4YzMzMzI4Y2Y2NzljOTQzNzQ0MWQwOWJlMjI5ZmY4OWI4YzMyMmE5MDA1MmI3ZjExZSJdfQ..')
-
+    const username = navigation.getParam('username', '')
+    const code:string = navigation.getParam('code', '')
+    
     if(username && code){
       this._confirmCodeLogin(username, code);
     }
@@ -70,39 +70,47 @@ class LoginContainer extends PureComponent {
   _confirmCodeLogin = (username, code) => {
     const {dispatch, intl} = this.props;
 
-    const dataStr = decodeBase64(code);
-    if(!dataStr){
-      Alert.alert(intl.formatMessage({id:'login.deep_login_url_expired'}))
-      return;
+    try{
+      //check accessCode formatting and compare expiry
+      const dataStr = decodeBase64(code);
+      if(!dataStr){
+        throw new Error('login.deep_login_malformed_url');
+      }
+  
+      let data = JSON.parse(dataStr.slice(0, dataStr.lastIndexOf('}') + 1));
+      
+      const curTimestamp = new Date().getTime();
+      const expiryTimestamp = data && data.timestamp && ((data.timestamp * 1000) + 604800000) //add 7 day (604800000ms) expiry
+  
+      if(!expiryTimestamp || expiryTimestamp < curTimestamp){
+        throw new Error('login.deep_login_url_expired');
+      }
+  
+      //Everything is set, show login confirmation
+      dispatch(showActionModal({
+        title: intl.formatMessage({id: 'login.deep_login_alert_title'}, {username}),
+        body: intl.formatMessage({id: 'login.deep_login_alert_body'}),
+        buttons: [
+          {
+            text: intl.formatMessage({ id: 'alert.cancel' }),
+            onPress: () => console.log('Cancel'),
+            style:'cancel'
+          },
+          {
+            text: intl.formatMessage({ id: 'alert.confirm' }),
+            onPress: ()=> this._loginWithCode(code),
+          },
+        ],
+        headerContent: <UserAvatar username={username} size='xl' />,
+      }))
+    } catch(err){
+      console.warn("Failed to login using code", err)
+      Alert.alert(
+        intl.formatMessage({id: 'alert.fail'}),
+        intl.formatMessage({id: err.message})
+      )
     }
-
-    let data = dataStr
     
-    const curTimestamp = new Date().getTime();
-    const expiryTimestamp = data && data.timestamp && ((data.timestamp * 1000) + 604800000)
-
-    console.warn('timestamp', data);
-    if(!expiryTimestamp || expiryTimestamp < curTimestamp){
-      Alert.alert(intl.formatMessage({id:'login.deep_login_url_expired'}))
-      return;
-    }
-
-    dispatch(showActionModal({
-      title: intl.formatMessage({id: 'login.deep_login_alert_title'}, {username}),
-      body: intl.formatMessage({id: 'login.deep_login_alert_body'}),
-      buttons: [
-        {
-          text: intl.formatMessage({ id: 'alert.cancel' }),
-          onPress: () => console.log('Cancel'),
-          style:'cancel'
-        },
-        {
-          text: intl.formatMessage({ id: 'alert.confirm' }),
-          onPress: ()=> this._loginWithCode(code),
-        },
-      ],
-      headerContent: <UserAvatar username={username} size='xl' />,
-    }))
   }
 
 
