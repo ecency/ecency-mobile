@@ -385,7 +385,7 @@
     "link_type_text": "Type of Link",
     "insert_link": "링크 삽입",
     "preview": "미리 보기",
-    "invalid_url_error": "Please insert valid url",
+    "invalid_url_error": "유효한 URL을 입력하세요",
     "plain": "일반",
     "video": "영상",
     "image": "이미지"
@@ -640,7 +640,7 @@
     "address_view": "지갑 주소 보기",
     "already_delegated": "Already delegated to ",
     "remain_hp": "Remaining HP",
-    "account_detail_head": "Account Details",
+    "account_detail_head": "계정 정보",
     "account_detail_subhead": "Enter username for HIVE Power delegation",
     "delegat_detail_head": "Delegation Details",
     "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
@@ -649,21 +649,21 @@
     "confirm": "Confirm Delegation",
     "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
     "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
-    "username_alert": "Username Error!",
+    "username_alert": "사용자 ID 오류!",
     "username_alert_detail": "Please select different username",
     "power_down": "파워 다운",
     "power_down_amount_head": "Withdraw Amount",
     "power_down_amount_subhead": "Enter amount for powering down hive power",
     "withdraw_accounts": "Withdraw Accounts",
     "amount_hp": "Amount (HP)",
-    "powering_down": "Powering Down",
-    "powering_down_subheading": "You are currently powering down.",
+    "powering_down": "파워 다운 중",
+    "powering_down_subheading": "현재 파워 다운 중입니다.",
     "powering_down_info": "Next power down is in {days} days, {hp} HIVE",
-    "invalid_amount": "Invalid Amount",
-    "invalid_amount_desc": "Please enter valid amount",
-    "account_select_title": "Account Details",
+    "invalid_amount": "잘못된 금액",
+    "invalid_amount_desc": "올바른 금액을 입력하세요",
+    "account_select_title": "계정 정보",
     "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
-    "amount_select_title": "Transfer Details",
+    "amount_select_title": "송금 세부 정보",
     "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
   },
   "boost": {
@@ -783,7 +783,7 @@
     "username": "사용자 이름",
     "addAccount": "계정 추가",
     "save": "저장",
-    "cancel": "Cancel"
+    "cancel": "취소"
   },
   "welcome": {
     "label": "환영합니다",
@@ -796,7 +796,7 @@
     "line3_body": "자신이 소유한 커뮤니티를 구축하고 보상을 받고 다른 사람들에게 보상하세요.",
     "get_started": "시작!",
     "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
-    "terms_text": "Read Here!"
+    "terms_text": "더보기!"
   },
   "time": {
     "second": "초",
@@ -808,33 +808,33 @@
     "year": "년"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
-    "comment": "Comment",
-    "reply": "REPLY",
-    "close": "CLOSE"
+    "placeholder": "댓글 추가",
+    "comment": "댓글",
+    "reply": "답변",
+    "close": "닫기"
   },
   "walkthrough": {
     "load_draft_tooltip": "Load your lastest draft here"
   },
   "refer": {
-    "refer_earn": "Refer & Earn",
-    "refer": "Refer",
+    "refer_earn": "추천해서 혜택 받으세요",
+    "refer": "추천하기",
     "rewarded": "Referral points rewarded",
     "not_rewarded": "Referral reward pending",
     "delegate_hp": "Delegate HP",
-    "earned": "Earned Points",
+    "earned": "획득한 포인트",
     "pending": "Pending Points",
     "empty_text": "Refer your loved ones today and earn free points"
   },
   "qr": {
-    "qr_scan": "QR Scan",
-    "open": "Open URL",
+    "qr_scan": "QR 코드 스캔",
+    "open": "URL 열기",
     "detected_url": "Detected URL",
-    "unsupported_alert_title": "Unsupported URL!",
+    "unsupported_alert_title": "지원하지 않는 URL입니다!",
     "unsupported_alert_desc": "Please scan a valid ecency url."
   },
   "history": {
-    "edit": "Edit History",
-    "version": "Version"
+    "edit": "편집 내역",
+    "version": "버전"
   }
 }
