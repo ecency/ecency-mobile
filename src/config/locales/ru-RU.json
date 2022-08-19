@@ -251,7 +251,7 @@
     "feedback_success": "Письмо успешно отправлено",
     "feedback_fail": "Не удалось открыть почтовый клиент",
     "server_fail": "Сервер недоступен",
-    "show_imgs": "Show Images"
+    "show_imgs": "Показать изображения"
   },
   "voters": {
     "voters_info": "Детали голосов",
@@ -290,7 +290,7 @@
     "friends": "Друзья",
     "communities": "Сообщества",
     "popup_postfix": "Опубликовано",
-    "scroll_top": "Scroll To Top"
+    "scroll_top": "Наверх"
   },
   "side_menu": {
     "profile": "Профиль",
@@ -320,7 +320,7 @@
     "search": "Поиск",
     "update": "Обновить",
     "reply": "Ответить",
-    "schedule": "Schedule"
+    "schedule": "Запланировать"
   },
   "editor": {
     "title": "Заголовок",
@@ -342,7 +342,7 @@
     "limited_lastchar": "Тег должен заканчиваться буквой или цифрой",
     "setting_schedule": "Запланированное время",
     "setting_reward": "Вознаграждение",
-    "setting_reblog": "Reblog",
+    "setting_reblog": "Репост",
     "setting_beneficiary": "Бенефициар",
     "setting_thumb": "Установить Миниатюру",
     "reward_default": "По умолчанию 50% / 50%",
@@ -368,22 +368,22 @@
     "draft_save_success": "Черновик сохранён",
     "draft_save_fail": "Не удалось сохранить черновик",
     "select_thumb": "Выбрать Миниатюру для Поста",
-    "add_more_imgs": "Add more images to post",
+    "add_more_imgs": "Добавить больше изображений к статье",
     "two_thumbs_required": "Добавьте больше изображений в ваше сообщение перед настройкой миниаютюры",
-    "scheduled_for": "Scheduled For",
-    "scheduled_immediate": "Immediate",
-    "scheduled_later": "Later",
-    "settings_title": "Post Options",
-    "done": "DONE",
-    "draft_save_title": "Saving Draft",
-    "draft_update": "Update current draft",
-    "draft_save_new": "Save as new draft",
+    "scheduled_for": "Запланировано на",
+    "scheduled_immediate": "Немедленно",
+    "scheduled_later": "Позже",
+    "settings_title": "Параметры статьи",
+    "done": "ГОТОВО",
+    "draft_save_title": "Сохранение черновика",
+    "draft_update": "Обновить текущий черновик",
+    "draft_save_new": "Сохранить как новый черновик",
     "label": "Метка",
     "enter_label_placeholder": "Введите метку (необязательно)",
     "url": "Ссылка",
     "enter_url_placeholder": "Введите Ссылку",
     "link_type_text": "Тип ссылки",
-    "insert_link": "Insert Link",
+    "insert_link": "Вставить ссылку",
     "preview": "Предпросмотр",
     "invalid_url_error": "Пожалуйста, введите действительную ссылку",
     "plain": "Обычный",
@@ -490,9 +490,9 @@
     "update": "Обновить сейчас",
     "remind_later": "Напомнить позже",
     "failed_to_open": "Не удалось открыть ссылку",
-    "restart_ecency": "Restart Ecency?",
+    "restart_ecency": "Перезапустить Ecency?",
     "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response": "Could not process request, Try again later.",
+    "invalid_response": "Не удалось обработать запрос, повторите попытку позже.",
     "wallet_updating": "Выполняется обновление кошелька, попробуйте еще раз после завершения обновления",
     "claim_failed": "Не удалось получить награды, {message}\nПовторите попытку или напишите нам на support@ecency.com",
     "connection_issues": "The server is unreachable, please check your connection and try again."
@@ -588,7 +588,7 @@
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
     "no_existing_post": "Несуществующий пост",
-    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
+    "invalid_link": "Неверный Url, вы можете попробовать еще раз с корректным url или попытаться открыть его в веб-браузере"
   },
   "search": {
     "posts": "Посты",
@@ -652,18 +652,18 @@
     "username_alert": "Ошибка в имени пользователя!",
     "username_alert_detail": "Пожалуйста, выберите другое имя пользователя",
     "power_down": "Понижение Силы",
-    "power_down_amount_head": "Withdraw Amount",
-    "power_down_amount_subhead": "Enter amount for powering down hive power",
+    "power_down_amount_head": "Вывести сумму",
+    "power_down_amount_subhead": "Введите количество для понижения hive power",
     "withdraw_accounts": "Withdraw Accounts",
-    "amount_hp": "Amount (HP)",
-    "powering_down": "Powering Down",
-    "powering_down_subheading": "You are currently powering down.",
+    "amount_hp": "Сумма (HP)",
+    "powering_down": "Понижение Силы",
+    "powering_down_subheading": "В настоящее время вы понижаете Силу.",
     "powering_down_info": "Next power down is in {days} days, {hp} HIVE",
     "invalid_amount": "Неверное значение",
     "invalid_amount_desc": "Пожалуйста, введите правильную сумму",
-    "account_select_title": "Account Details",
+    "account_select_title": "Детали аккаунта",
     "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
-    "amount_select_title": "Transfer Details",
+    "amount_select_title": "Детали перевода",
     "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
   },
   "boost": {
@@ -783,7 +783,7 @@
     "username": "Имя пользователя",
     "addAccount": "Добавить аккаунт",
     "save": "Сохранить",
-    "cancel": "Cancel"
+    "cancel": "Отмена"
   },
   "welcome": {
     "label": "Добро пожаловать в",
@@ -796,7 +796,7 @@
     "line3_body": "Постройте собственное сообщество, получайте награды и награждайте других.",
     "get_started": "Начать!",
     "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
-    "terms_text": "Read Here!"
+    "terms_text": "Подробнее!"
   },
   "time": {
     "second": "секунд",
@@ -808,10 +808,10 @@
     "year": "лет"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
-    "comment": "Comment",
-    "reply": "REPLY",
-    "close": "CLOSE"
+    "placeholder": "Добавить комментарий",
+    "comment": "Комментарий",
+    "reply": "ОТВЕТИТЬ",
+    "close": "ЗАКРЫТЬ"
   },
   "walkthrough": {
     "load_draft_tooltip": "Загрузите последний черновик здесь"
@@ -823,15 +823,15 @@
     "not_rewarded": "Выплата награды за привлечение",
     "delegate_hp": "Делегировать HP",
     "earned": "Заработанные баллы",
-    "pending": "Pending Points",
+    "pending": "Ожидаемые поинты",
     "empty_text": "Пригласите своих близких сегодня и зарабатывайте бесплатные баллы"
   },
   "qr": {
     "qr_scan": "QR Скан",
     "open": "Открыть Ссылку",
     "detected_url": "Обнаружена Ссылка",
-    "unsupported_alert_title": "Unsupported URL!",
-    "unsupported_alert_desc": "Please scan a valid ecency url."
+    "unsupported_alert_title": "Неподдерживаемый URL!",
+    "unsupported_alert_desc": "Пожалуйста, отсканируйте корректный адрес ecency."
   },
   "history": {
     "edit": "История изменений",
