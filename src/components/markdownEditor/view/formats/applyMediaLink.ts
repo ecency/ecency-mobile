@@ -12,7 +12,7 @@ export default async ({ text, selection, setTextAndSelection, items }) => {
             newText = replaceBetween(newText, newSelection, formatedText);
             const newIndex = newText && newText.indexOf(item.url, newSelection.start) + item.url.length + 2;
             newSelection = {
-                start: newIndex,
+                start: selection.end,
                 end: newIndex
             }
         }

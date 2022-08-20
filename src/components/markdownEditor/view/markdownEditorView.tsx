@@ -87,6 +87,7 @@ const MarkdownEditorView = ({
   const [bodyInputHeight, setBodyInputHeight] = useState(MIN_BODY_INPUT_HEIGHT);
   const [isSnippetsOpen, setIsSnippetsOpen] = useState(false);
   const [showDraftLoadButton, setShowDraftLoadButton] = useState(false);
+  const [insertedImageSelection, setInsertedImageSelection] = useState({start: 0, end: 0});
 
   const inputRef = useRef(null);
   const galleryRef = useRef(null);
@@ -176,10 +177,32 @@ const MarkdownEditorView = ({
       });
     }
 
-    if (isUploading) {
-      uploadsGalleryModalRef.current.showModal();
-    }
+    // commenting gallery modal show on upload for now
+    // if (isUploading) {
+    //   uploadsGalleryModalRef.current.showModal();
+    // }
   }, [uploadedImage, isUploading]);
+
+  useEffect(() => {
+
+    if(isUploading){
+      applyMediaLink({
+        text: bodyText,
+        selection: bodySelection,
+        setTextAndSelection: _updateSelections,
+        items: [{ url: 'Uploading...', text: '' }],
+      });
+    }else{
+      if(uploadedImage){
+        applyMediaLink({
+          text: bodyText,
+          selection: insertedImageSelection,
+          setTextAndSelection: _setTextAndSelection,
+          items: [{ url: uploadedImage.url, text: uploadedImage.hash }],
+        });
+      }
+    }
+  },[isUploading]);
 
   useEffect(() => {
     bodyText = draftBody;
@@ -228,6 +251,11 @@ const MarkdownEditorView = ({
     const height = Math.max(MIN_BODY_INPUT_HEIGHT, event.nativeEvent.contentSize.height + 100);
     setBodyInputHeight(height);
   };
+
+  const _updateSelections = ({ text: newText, selection: newSelection }) => {
+    setInsertedImageSelection(newSelection);
+    _setTextAndSelection({selection: newSelection, text: newText})
+  }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const _setTextAndSelection = useCallback(({ selection: _selection, text: _text }) => {
@@ -526,7 +554,8 @@ const MarkdownEditorView = ({
       android: <View style={styles.container}>{_innerContent}</View>,
     });
   };
-
+  console.log('uploadedImage : ', uploadedImage, '\n bodySelection : ', bodySelection);
+  
   return (
     <Fragment>
       {_renderContent()}
