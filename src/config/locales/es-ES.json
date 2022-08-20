@@ -131,7 +131,9 @@
     "open_orders": "Órdenes abiertas",
     "conversions_requested": "Conversiones solicitadas",
     "expires": "caduca el",
-    "pending_requests": "Solicitudes pendientes"
+    "pending_requests": "Solicitudes pendientes",
+    "boost_account": "Impulsar",
+    "get_boost": "Obtener impulso"
   },
   "notification": {
     "vote": "votado",
@@ -248,7 +250,8 @@
     },
     "feedback_success": "Correo electrónico abierto con éxito",
     "feedback_fail": "Ocurrió un error al intentar abrir el cliente del correo electrónico",
-    "server_fail": "Servidor no disponible"
+    "server_fail": "Servidor no disponible",
+    "show_imgs": "Mostrar imágenes"
   },
   "voters": {
     "voters_info": "Información de votantes",
@@ -585,7 +588,7 @@
   "deep_link": {
     "no_existing_user": "Usuario no existe",
     "no_existing_post": "Publicación no existe",
-    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
+    "invalid_link": "La Url no es válida, puedes intentarlo de nuevo con una url válida o intentar abrirla en el navegador web"
   },
   "search": {
     "posts": "Publicaciones",
@@ -671,7 +674,9 @@
     "account": {
       "title": "Obtener impulso de cuenta",
       "desc": "La delegación de 30 días impulsará sus votos y actividades sociales y le dará más acciones con más créditos de Recursos."
-    }
+    },
+    "confirm_purchase": "Confirmar compra @{username}",
+    "confirm_purchase_summary": "Comprando {points} por {username} a {price}"
   },
   "free_estm": {
     "title": "Puntos gratis",
@@ -824,7 +829,9 @@
   "qr": {
     "qr_scan": "Escaneo de QR",
     "open": "Abrir URL",
-    "detected_url": "URL detectada"
+    "detected_url": "URL detectada",
+    "unsupported_alert_title": "¡URL no soportada!",
+    "unsupported_alert_desc": "Por favor, escanee una url de ecency válida."
   },
   "history": {
     "edit": "Editar historial",

@@ -131,7 +131,9 @@
     "open_orders": "Open Orders",
     "conversions_requested": "Conversions Requested",
     "expires": "expires",
-    "pending_requests": "Pending Requests"
+    "pending_requests": "Pending Requests",
+    "boost_account": "Boost",
+    "get_boost": "Get Boost"
   },
   "notification": {
     "vote": "मतदान किया",
@@ -248,7 +250,8 @@
     },
     "feedback_success": "ईमेल सफलतापूर्वक खुला",
     "feedback_fail": "ईमेल क्लाइंट नहीं खोल सका",
-    "server_fail": "Server उपलब्ध नहीं है"
+    "server_fail": "Server उपलब्ध नहीं है",
+    "show_imgs": "Show Images"
   },
   "voters": {
     "voters_info": "मतदाताओं की जानकारी",
@@ -671,7 +674,9 @@
     "account": {
       "title": "खाता बूस्ट प्राप्त करें",
       "desc": "30 दिनों का प्रतिनिधिमंडल आपके वोटों और सामाजिक गतिविधियों को बढ़ावा देगा और आपको अधिक संसाधन क्रेडिट के साथ अधिक कार्रवाई देगा।"
-    }
+    },
+    "confirm_purchase": "Confirm Purchase @{username}",
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
   "free_estm": {
     "title": "नि: शुल्क अंक",
@@ -824,7 +829,9 @@
   "qr": {
     "qr_scan": "QR Scan",
     "open": "Open URL",
-    "detected_url": "Detected URL"
+    "detected_url": "Detected URL",
+    "unsupported_alert_title": "Unsupported URL!",
+    "unsupported_alert_desc": "Please scan a valid ecency url."
   },
   "history": {
     "edit": "Edit History",
