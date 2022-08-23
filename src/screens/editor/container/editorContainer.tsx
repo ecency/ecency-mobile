@@ -373,7 +373,7 @@ class EditorContainer extends Component<any, any> {
     const { beneficiariesMap, currentAccount } = this.props;
 
     return beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID]
-      || { account: currentAccount.name, weight: 10000 };
+      || [{ account: currentAccount.name, weight: 10000 }];
   }
 
   _handleRoutingAction = (routingAction) => {
