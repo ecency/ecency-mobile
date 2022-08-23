@@ -817,6 +817,7 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
           resolve(result.result);
         })
         .catch((err) => {
+          bugsnagInstance.notify(err);
           reject(err);
         });
     });
@@ -847,6 +848,7 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
           if (err && get(err, 'jse_info.code') === 4030100) {
             err.message = getDsteemDateErrorMessage(err);
           }
+          bugsnagInstance.notify(err);
           reject(err);
         });
     });
