@@ -61,7 +61,12 @@ class FollowsScreen extends PureComponent {
 
     return (
       <View style={styles.container}>
-        <BasicHeader title={headerTitle} isHasSearch handleOnSearch={handleSearch} />
+        <BasicHeader
+          title={headerTitle}
+          isHasSearch
+          backIconName="close"
+          handleOnSearch={handleSearch}
+        />
         <FlatList
           data={data}
           keyExtractor={(item, index) => index.toString()}

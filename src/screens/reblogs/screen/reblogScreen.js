@@ -39,6 +39,7 @@ const ReblogScreen = ({ navigation, route }) => {
         <SafeAreaView style={[globalStyles.container, { paddingBottom: 40 }]}>
           <BasicHeader
             title={`${headerTitle} (${data && data.length})`}
+            backIconName="close"
             isHasSearch
             handleOnSearch={(text) => handleSearch(text, 'account')}
           />

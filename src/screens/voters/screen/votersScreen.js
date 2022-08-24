@@ -15,12 +15,11 @@ import { getResizedAvatar } from '../../../utils/image';
 
 const filterOptions = ['rewards', 'percent', 'time'];
 
-const VotersScreen = ({ route, navigation }) => {
+const VotersScreen = ({ route }) => {
   const intl = useIntl();
 
-  const [content, setContent] = useState(route.params?.content ?? null);
+  const [content] = useState(route.params?.content ?? null);
   const [activeVotes, setActiveVotes] = useState(get(content, 'active_votes') || []);
-  const [isLoading, setIsLoading] = useState(false);
 
   const headerTitle = intl.formatMessage({
     id: 'voters.voters_info',
@@ -54,6 +53,7 @@ const VotersScreen = ({ route, navigation }) => {
       {({ data, filterResult, filterIndex, handleOnVotersDropdownSelect, handleSearch }) => (
         <>
           <BasicHeader
+            backIconName="close"
             title={`${headerTitle} (${data && data.length})`}
             isHasSearch
             handleOnSearch={(text) => handleSearch(text, 'voter')}

@@ -6,7 +6,6 @@ import get from 'lodash/get';
 // Utilities
 
 // Services and Actions
-import { withNavigation } from '@react-navigation/compat';
 import { getFollowers, getFollowing, getFollowSearch } from '../../../providers/hive/dhive';
 // Component
 import FollowsScreen from '../screen/followsScreen';
