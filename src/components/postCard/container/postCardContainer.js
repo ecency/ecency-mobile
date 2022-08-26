@@ -30,6 +30,7 @@ const PostCardContainer = ({
   setImageHeight,
   pageType,
   showQuickReplyModal,
+  onLoadPosts,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -146,6 +147,7 @@ const PostCardContainer = ({
       pageType={pageType}
       fetchPost={_fetchPost}
       showQuickReplyModal={_handleQuickReplyModal}
+      onLoadPosts={onLoadPosts}
     />
   );
 };

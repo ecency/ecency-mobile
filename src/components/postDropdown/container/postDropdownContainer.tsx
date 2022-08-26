@@ -6,7 +6,7 @@ import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Services and Actions
-import { pinCommunityPost, profileUpdate, reblog } from '../../../providers/hive/dhive';
+import { followUser, getRelationship, ignoreUser, pinCommunityPost, profileUpdate, reblog, unfollowUser } from '../../../providers/hive/dhive';
 import { addBookmark, addReport } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer, showActionModal } from '../../../redux/actions/uiAction';
 import { openPinCodeModal } from '../../../redux/actions/applicationActions';
@@ -67,7 +67,7 @@ class PostDropdownContainer extends PureComponent {
     }
   };
 
-  _initOptions = ({ content, currentAccount, pageType, subscribedCommunities } = this.props) => {
+  _initOptions = ({ content, currentAccount, pageType, subscribedCommunities, isMuted } = this.props) => {    
     //check if post is owned by current user or not, if so pinned or not
     const _canUpdateBlogPin = !!pageType && !!content && !!currentAccount && currentAccount.name === content.author
     const _isPinnedInProfile = !!content && content.stats?.is_pinned_blog;
@@ -82,6 +82,7 @@ class PostDropdownContainer extends PureComponent {
         return role;
       }, false) : false;
     const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
+    
 
     //cook options list based on collected flags
     const options = OPTIONS.filter((option) => {
@@ -94,6 +95,10 @@ class PostDropdownContainer extends PureComponent {
           return _canUpdateCommunityPin && !_isPinnedInCommunity;
         case 'unpin-community':
           return _canUpdateCommunityPin && _isPinnedInCommunity;
+        case 'mute':
+          return !isMuted;
+        case 'unmute':
+          return isMuted;
         default:
           return true;
       }
@@ -104,7 +109,7 @@ class PostDropdownContainer extends PureComponent {
 
   // Component Functions
   _handleOnDropdownSelect = async (index) => {
-    const { content, dispatch, intl, navigation, } = this.props;
+    const { content, dispatch, intl, navigation, isMuted } = this.props;
     const { options } = this.state;
     console.log('content : ', content);
     
@@ -177,8 +182,134 @@ class PostDropdownContainer extends PureComponent {
           },
         });
         break;
+      case 'mute':
+        this._handleMuteUnmuteUser(!isMuted);
+        break;
+      case 'unmute':
+        this._handleMuteUnmuteUser(!isMuted);
+        break;
       default:
         break;
+    }
+  };
+
+  _handleMuteUnmuteUser = async (isMuteAction) => {
+    const { currentAccount, content } = this.props as any;
+    const username = content.author;
+    const isOwnProfile = !username || currentAccount.username === username;
+    console.log('isMuteAction,isOwnProfile : ', isMuteAction, isOwnProfile);
+
+    if(!isOwnProfile){
+      console.log('isMuteAction : ', isMuteAction);
+      
+      if (isMuteAction) {
+        this._muteUser();
+      } else {
+        this._handleFollowUnfollowUser();
+      }
+    }
+    
+  };
+  _muteUser = () => {
+    const { currentAccount, pinCode, dispatch, intl, content, onLoadPosts } = this.props as any;
+    const username = content.author;
+    const follower = currentAccount.name;
+    const following = username;
+   
+    ignoreUser(currentAccount, pinCode, {
+      follower,
+      following,
+    })
+      .then(() => {
+        const curMutes = currentAccount.mutes || [];
+        if (curMutes.indexOf(username) < 0) {
+          //check to avoid double entry corner case
+          currentAccount.mutes = [username, ...curMutes];
+        }
+        dispatch(updateCurrentAccount(currentAccount));
+        onLoadPosts(true); //fetch posts again after muting user
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: 'alert.success_mute',
+            }),
+          ),
+        );
+      })
+      .catch((err) => {
+        this._profileActionDone({ error: err });
+      });
+ 
+  };
+
+  _handleFollowUnfollowUser = async () => {
+    console.log('inside _handleFollowUnfollowUser');
+    
+    const { currentAccount, pinCode, dispatch, intl, content, onLoadPosts } = this.props as any;
+    const username = content.author;
+    const follower = get(currentAccount, 'name', '');
+    const following = username;
+
+    let followAction;
+    const res = await getRelationship(currentAccount.name, username);
+    const _isFollowing = res && res.follows;
+    const _isMuted = res && res.ignores;
+          
+    if (_isMuted) {
+      followAction = followUser;
+    } 
+    if(_isFollowing) {
+      followAction = unfollowUser;
+    }
+
+    followAction(currentAccount, pinCode, {
+      follower,
+      following,
+    })
+      .then(() => {
+        //means user is now being followed
+        if (!_isFollowing || _isMuted) {
+          const mutes = currentAccount.mutes || [];
+          const mutedIndex = mutes.indexOf(username);
+          if (mutedIndex >= 0) {
+            mutes.splice(mutedIndex, 1);
+            currentAccount.mutes = mutes;
+            dispatch(updateCurrentAccount(currentAccount));
+          }
+        }
+        onLoadPosts(true); //fetch posts again after muting user
+        dispatch(
+          toastNotification(
+            intl.formatMessage({
+              id: !_isFollowing || _isMuted ? 'alert.success_follow' : 'alert.success_unfollow',
+            }),
+          ),
+        );
+
+      })
+      .catch((err) => {
+        this._profileActionDone({ error: err });
+      });
+  };
+
+  _profileActionDone = ({ error = null }) => {
+    const { intl, dispatch, content } = this.props;
+
+    this.setState({
+      isProfileLoading: false,
+    });
+    if (error) {
+      if (error.jse_shortmsg && error.jse_shortmsg.includes('wait to transact')) {
+        //when RC is not enough, offer boosting account
+        dispatch(setRcOffer(true));
+      } else {
+        Alert.alert(
+          intl.formatMessage({
+            id: 'alert.fail',
+          }),
+          error.message || error.toString(),
+        );
+      }
     }
   };
 
@@ -387,9 +518,10 @@ class PostDropdownContainer extends PureComponent {
       intl,
       currentAccount: { name },
       content,
+      isMuted
     } = this.props;
     const { options } = this.state;
-
+    
     return (
       <Fragment>
         <PostDropdownView

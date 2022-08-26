@@ -127,7 +127,8 @@ const postsListContainer = ({
                   pageType={pageType}
                   setImageHeight = {_setImageHeightInMap}
                   showQuickReplyModal={showQuickReplyModal}
-                />,
+                  onLoadPosts={onLoadPosts}
+                />
               );
             }
           }
@@ -146,6 +147,7 @@ const postsListContainer = ({
               setImageHeight = {_setImageHeightInMap}
               pageType={pageType}
               showQuickReplyModal={showQuickReplyModal}
+              onLoadPosts={onLoadPosts}
             />,
           );
         }
