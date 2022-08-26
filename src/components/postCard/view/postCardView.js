@@ -46,7 +46,6 @@ const PostCardView = ({
   setImageHeight,
   isMuted,
   pageType,
-  onLoadPosts,
 }) => {
   //local state to manage fake upvote if available
   const activeVotesCount = activeVotes ? activeVotes.length : 0;
@@ -128,7 +127,6 @@ const PostCardView = ({
             pageType={pageType}
             content={content}
             fetchPost={fetchPost}
-            onLoadPosts={onLoadPosts}
             isMuted={isMuted}
           />
         </View>

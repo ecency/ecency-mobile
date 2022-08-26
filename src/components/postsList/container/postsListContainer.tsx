@@ -43,7 +43,8 @@ const postsListContainer = ({
         ? state.posts.feedPosts
         : state.posts.otherPosts
     });
-
+    const mutes = useSelector((state) => state.account.currentAccount.mutes);
+    
     const scrollPosition = useSelector((state) => {
       return isFeedScreen
       ? state.posts.feedScrollPosition
@@ -76,7 +77,6 @@ const postsListContainer = ({
       
     }, [scrollPosition])
 
-
     const _setImageHeightInMap = (mapKey:string, height:number) => {
       if(mapKey && height){
         setImageHeights(imageHeights.set(mapKey, height));
@@ -106,17 +106,19 @@ const postsListContainer = ({
 
 
     const _renderItem = ({ item, index }:{item:any, index:number}) => {
-        const e = [];
-    
+        const e = [] as any;
+        
         if (index % 3 === 0) {
           const ix = index / 3 - 1;
           if (promotedPosts[ix] !== undefined) {
             const p = promotedPosts[ix];
-            if (get(p, 'author', null) && posts && posts.filter((x) => x.permlink === p.permlink).length <= 0) {
+            let isMuted = mutes && mutes.indexOf(p.author) > -1;
+
+            if (!isMuted && get(p, 'author', null) && posts && posts.filter((x) => x.permlink === p.permlink).length <= 0) {
               
               //get image height from cache if available
               const localId =  p.author + p.permlink;
-              const imgHeight = imageHeights.get(localId)
+              const imgHeight = imageHeights.get(localId);
 
               e.push(
                 <PostCard
@@ -127,13 +129,15 @@ const postsListContainer = ({
                   pageType={pageType}
                   setImageHeight = {_setImageHeightInMap}
                   showQuickReplyModal={showQuickReplyModal}
-                  onLoadPosts={onLoadPosts}
+                  mutes={mutes}
                 />
               );
             }
           }
         }
-        if (get(item, 'author', null)) {
+
+        let isMuted = mutes && mutes.indexOf(item.author) > -1;
+        if (!isMuted && get(item, 'author', null)) {
           //get image height from cache if available
           const localId = item.author + item.permlink;
           const imgHeight = imageHeights.get(localId)
@@ -147,14 +151,13 @@ const postsListContainer = ({
               setImageHeight = {_setImageHeightInMap}
               pageType={pageType}
               showQuickReplyModal={showQuickReplyModal}
-              onLoadPosts={onLoadPosts}
+              mutes={mutes}
             />,
           );
         }
         return e;
       };
-
-
+      
     return (
       <ThemeContainer>
         {({ isDarkTheme }) => (

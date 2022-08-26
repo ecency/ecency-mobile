@@ -30,16 +30,14 @@ const PostCardContainer = ({
   setImageHeight,
   pageType,
   showQuickReplyModal,
-  onLoadPosts,
+  mutes,
 }) => {
   const dispatch = useAppDispatch();
 
   const [_content, setContent] = useState(content);
   const [reblogs, setReblogs] = useState([]);
   const activeVotes = get(_content, 'active_votes', []);
-  const [isMuted, setIsMuted] = useState(
-    currentAccount.mutes && currentAccount.mutes.indexOf(content.author) > -1,
-  );
+  const [isMuted, setIsMuted] = useState(!!mutes && mutes.indexOf(content.author) > -1);
 
   useEffect(() => {
     let isCancelled = false;
@@ -147,7 +145,6 @@ const PostCardContainer = ({
       pageType={pageType}
       fetchPost={_fetchPost}
       showQuickReplyModal={_handleQuickReplyModal}
-      onLoadPosts={onLoadPosts}
     />
   );
 };

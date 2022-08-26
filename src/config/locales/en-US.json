@@ -584,8 +584,7 @@
     "pin-community":"Pin to community",
     "unpin-community":"Unpin from community",
     "edit-history": "Edit History",
-    "mute": "Mute / Block",
-    "unmute": "UnMute / UnBlock"
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "No existing user",

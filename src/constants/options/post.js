@@ -12,6 +12,5 @@ export default [
   'share',
   'bookmarks',
   'mute',
-  'unmute',
   'report',
 ];

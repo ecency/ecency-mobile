@@ -95,10 +95,6 @@ class PostDropdownContainer extends PureComponent {
           return _canUpdateCommunityPin && !_isPinnedInCommunity;
         case 'unpin-community':
           return _canUpdateCommunityPin && _isPinnedInCommunity;
-        case 'mute':
-          return !isMuted;
-        case 'unmute':
-          return isMuted;
         default:
           return true;
       }
@@ -109,9 +105,10 @@ class PostDropdownContainer extends PureComponent {
 
   // Component Functions
   _handleOnDropdownSelect = async (index) => {
-    const { content, dispatch, intl, navigation, isMuted } = this.props;
+    const {currentAccount, content, dispatch, intl, navigation, isMuted } = this.props as any;
+    const username = content.author;
+    const isOwnProfile = !username || currentAccount.username === username;
     const { options } = this.state;
-    console.log('content : ', content);
     
     switch (options[index]) {
       case 'copy':
@@ -183,35 +180,15 @@ class PostDropdownContainer extends PureComponent {
         });
         break;
       case 'mute':
-        this._handleMuteUnmuteUser(!isMuted);
-        break;
-      case 'unmute':
-        this._handleMuteUnmuteUser(!isMuted);
+        !isOwnProfile && this._muteUser();
         break;
       default:
         break;
     }
   };
 
-  _handleMuteUnmuteUser = async (isMuteAction) => {
-    const { currentAccount, content } = this.props as any;
-    const username = content.author;
-    const isOwnProfile = !username || currentAccount.username === username;
-    console.log('isMuteAction,isOwnProfile : ', isMuteAction, isOwnProfile);
-
-    if(!isOwnProfile){
-      console.log('isMuteAction : ', isMuteAction);
-      
-      if (isMuteAction) {
-        this._muteUser();
-      } else {
-        this._handleFollowUnfollowUser();
-      }
-    }
-    
-  };
   _muteUser = () => {
-    const { currentAccount, pinCode, dispatch, intl, content, onLoadPosts } = this.props as any;
+    const { currentAccount, pinCode, dispatch, intl, content } = this.props as any;
     const username = content.author;
     const follower = currentAccount.name;
     const following = username;
@@ -227,7 +204,6 @@ class PostDropdownContainer extends PureComponent {
           currentAccount.mutes = [username, ...curMutes];
         }
         dispatch(updateCurrentAccount(currentAccount));
-        onLoadPosts(true); //fetch posts again after muting user
         dispatch(
           toastNotification(
             intl.formatMessage({
@@ -242,58 +218,8 @@ class PostDropdownContainer extends PureComponent {
  
   };
 
-  _handleFollowUnfollowUser = async () => {
-    console.log('inside _handleFollowUnfollowUser');
-    
-    const { currentAccount, pinCode, dispatch, intl, content, onLoadPosts } = this.props as any;
-    const username = content.author;
-    const follower = get(currentAccount, 'name', '');
-    const following = username;
-
-    let followAction;
-    const res = await getRelationship(currentAccount.name, username);
-    const _isFollowing = res && res.follows;
-    const _isMuted = res && res.ignores;
-          
-    if (_isMuted) {
-      followAction = followUser;
-    } 
-    if(_isFollowing) {
-      followAction = unfollowUser;
-    }
-
-    followAction(currentAccount, pinCode, {
-      follower,
-      following,
-    })
-      .then(() => {
-        //means user is now being followed
-        if (!_isFollowing || _isMuted) {
-          const mutes = currentAccount.mutes || [];
-          const mutedIndex = mutes.indexOf(username);
-          if (mutedIndex >= 0) {
-            mutes.splice(mutedIndex, 1);
-            currentAccount.mutes = mutes;
-            dispatch(updateCurrentAccount(currentAccount));
-          }
-        }
-        onLoadPosts(true); //fetch posts again after muting user
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: !_isFollowing || _isMuted ? 'alert.success_follow' : 'alert.success_unfollow',
-            }),
-          ),
-        );
-
-      })
-      .catch((err) => {
-        this._profileActionDone({ error: err });
-      });
-  };
-
   _profileActionDone = ({ error = null }) => {
-    const { intl, dispatch, content } = this.props;
+    const { intl, dispatch, content } = this.props as any;
 
     this.setState({
       isProfileLoading: false,
@@ -314,7 +240,7 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _share = () => {
-    const { content } = this.props;
+    const { content } = this.props as any;
     const postUrl = getPostUrl(get(content, 'url'));
 
     Share.share({
@@ -323,7 +249,7 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _report = (url) => {
-    const { dispatch, intl } = this.props;
+    const { dispatch, intl } = this.props as any;
 
     const _onConfirm = () => {
       addReport('content', url)
@@ -367,7 +293,7 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _addToBookmarks = () => {
-    const { content, dispatch, intl } = this.props;
+    const { content, dispatch, intl } = this.props as any;
 
     addBookmark(get(content, 'author'), get(content, 'permlink'))
       .then(() => {
@@ -391,7 +317,7 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _reblog = () => {
-    const { content, currentAccount, dispatch, intl, isLoggedIn, pinCode } = this.props;
+    const { content, currentAccount, dispatch, intl, isLoggedIn, pinCode } = this.props as any;
     if (isLoggedIn) {
       reblog(currentAccount, pinCode, content.author, get(content, 'permlink', ''))
         .then(() => {
@@ -475,7 +401,7 @@ class PostDropdownContainer extends PureComponent {
   }
 
   _redirectToReply = () => {
-    const { content, fetchPost, isLoggedIn, navigation } = this.props;
+    const { content, fetchPost, isLoggedIn, navigation } = this.props as any;
 
     if (isLoggedIn) {
       navigation.navigate({
@@ -491,7 +417,7 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _redirectToPromote = (routeName, from, redeemType) => {
-    const { content, isLoggedIn, navigation, dispatch, isPinCodeOpen } = this.props;
+    const { content, isLoggedIn, navigation, dispatch, isPinCodeOpen } = this.props as any;
     const params = {
       from,
       permlink: `${get(content, 'author')}/${get(content, 'permlink')}`,
@@ -503,7 +429,7 @@ class PostDropdownContainer extends PureComponent {
         openPinCodeModal({
           navigateTo: routeName,
           navigateParams: params,
-        }),
+        } as any)
       );
     } else if (isLoggedIn) {
       navigation.navigate({
