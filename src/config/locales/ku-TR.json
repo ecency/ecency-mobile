@@ -131,7 +131,9 @@
     "open_orders": "Open Orders",
     "conversions_requested": "Conversions Requested",
     "expires": "expires",
-    "pending_requests": "Pending Requests"
+    "pending_requests": "Pending Requests",
+    "boost_account": "Boost",
+    "get_boost": "Get Boost"
   },
   "notification": {
     "vote": "deng hate dayîn",
@@ -248,7 +250,8 @@
     },
     "feedback_success": "Epeyam bi serkeftî vebû",
     "feedback_fail": "Stînera epeyamê venebû",
-    "server_fail": "Rajekar ne li berdest e"
+    "server_fail": "Rajekar ne li berdest e",
+    "show_imgs": "Show Images"
   },
   "voters": {
     "voters_info": "Agahiya Dengdêran",
@@ -671,7 +674,9 @@
     "account": {
       "title": "Get Account Boost",
       "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
-    }
+    },
+    "confirm_purchase": "Confirm Purchase @{username}",
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
   "free_estm": {
     "title": "Free Points",
@@ -824,7 +829,9 @@
   "qr": {
     "qr_scan": "QR Scan",
     "open": "Open URL",
-    "detected_url": "Detected URL"
+    "detected_url": "Detected URL",
+    "unsupported_alert_title": "Unsupported URL!",
+    "unsupported_alert_desc": "Please scan a valid ecency url."
   },
   "history": {
     "edit": "Edit History",
