@@ -23,6 +23,7 @@ import { getPostUrl } from '../../../utils/post';
 import PostDropdownView from '../view/postDropdownView';
 import { OptionsModal } from '../../atoms';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
+import showLoginAlert from '../../../utils/showLoginAlert';
 
 /*
  *            Props Name        Description                                     Value
@@ -188,11 +189,15 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _muteUser = () => {
-    const { currentAccount, pinCode, dispatch, intl, content } = this.props as any;
+    const { currentAccount, pinCode, dispatch, intl, content, isLoggedIn, navigation } = this.props as any;
     const username = content.author;
     const follower = currentAccount.name;
     const following = username;
    
+    if(!isLoggedIn){
+      showLoginAlert({navigation, intl});
+      return;
+    }
     ignoreUser(currentAccount, pinCode, {
       follower,
       following,
