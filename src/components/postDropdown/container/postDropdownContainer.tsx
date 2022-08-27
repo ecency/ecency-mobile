@@ -298,8 +298,11 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _addToBookmarks = () => {
-    const { content, dispatch, intl } = this.props as any;
-
+    const { content, dispatch, intl, isLoggedIn, navigation } = this.props as any;
+    if(!isLoggedIn){
+      showLoginAlert({navigation, intl});
+      return;
+    }
     addBookmark(get(content, 'author'), get(content, 'permlink'))
       .then(() => {
         dispatch(
@@ -322,7 +325,11 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _reblog = () => {
-    const { content, currentAccount, dispatch, intl, isLoggedIn, pinCode } = this.props as any;
+    const { content, currentAccount, dispatch, intl, isLoggedIn, pinCode, navigation } = this.props as any;
+    if(!isLoggedIn){
+      showLoginAlert({navigation, intl});
+      return;
+    }
     if (isLoggedIn) {
       reblog(currentAccount, pinCode, content.author, get(content, 'permlink', ''))
         .then(() => {
