@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { OrientationLocker, PORTRAIT } from 'react-native-orientation-locker';
 import { useDispatch } from 'react-redux';
 import ApplicationContainer from './container/applicationContainer';
-import WelcomeModal from './children/welcomeModal';
 import ApplicationScreen from './children/applicationScreen';
 import ErrorBoundary from './children/errorBoundary';
 import { setDeviceOrientation } from '../../redux/actions/uiAction';
@@ -11,8 +10,6 @@ import PinCodeModal from './children/pinCodeModal';
 
 const Application = () => {
   const dispatch = useDispatch();
-
-  const [welcomeModalVisible, setWelcomeModalVisible] = useState(false);
 
   const _handleDeviceOrientationChange = (orientation) => {
     console.log('device orientation changed at index : ', orientation);
@@ -40,10 +37,7 @@ const Application = () => {
               onDeviceChange={_handleDeviceOrientationChange}
             />
 
-            <WelcomeModal onModalVisibilityChange={setWelcomeModalVisible} />
-
-            <PinCodeModal welcomeModalVisible={welcomeModalVisible} />
-            
+            <PinCodeModal />
             
 
             {isRenderRequire && (

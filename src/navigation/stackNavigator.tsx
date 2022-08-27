@@ -31,8 +31,10 @@ import {
     ReferScreen,
     CoinDetails,
     EditHistoryScreen,
+    WelcomeScreen
 } from '../screens';
 import { DrawerNavigator } from './drawerNavigator';
+
 
 const RootStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
@@ -70,15 +72,19 @@ const MainStackNavigator = () => {
     )
 }
 
-export const StackNavigator = () => {
+export const StackNavigator = ({initRoute}) => {
 
     return (
-        <RootStack.Navigator screenOptions={{ headerShown: false, animation:'slide_from_bottom' }}>
+        <RootStack.Navigator 
+            initialRouteName={initRoute} 
+            screenOptions={{ headerShown: false, animation:'slide_from_bottom' }}>
+            
             <MainStack.Screen name={ROUTES.STACK.MAIN} component={MainStackNavigator} />
 
 
             <MainStack.Screen name={ROUTES.SCREENS.REGISTER} component={Register} />
             <MainStack.Screen name={ROUTES.SCREENS.LOGIN} component={Login} />
+            <MainStack.Screen name={ROUTES.SCREENS.WELCOME} component={WelcomeScreen}/>
 
         </RootStack.Navigator>
     )

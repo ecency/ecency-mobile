@@ -7,11 +7,8 @@ import { getExistUser } from '../../../realm/realm';
 import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 import PinCode from '../../pinCode';
 
-interface PinCodeModalProps {
-    welcomeModalVisible: boolean;
-}
 
-const PinCodeModal = ({ welcomeModalVisible }: PinCodeModalProps) => {
+const PinCodeModal = () => {
     const dispatch = useAppDispatch();
 
     const pinCodeTimer = useRef<any>(null);
@@ -63,7 +60,7 @@ const PinCodeModal = ({ welcomeModalVisible }: PinCodeModalProps) => {
 
     return (
         <Modal
-            isOpen={isPinCodeRequire && !welcomeModalVisible}
+            isOpen={isPinCodeRequire}
             isFullScreen
             swipeToClose={false}
             backButtonClose={false}

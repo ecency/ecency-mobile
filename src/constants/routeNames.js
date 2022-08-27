@@ -36,6 +36,7 @@ export default {
     QR: `QR${SCREEN_SUFFIX}`,
     COIN_DETAILS: `CoinDetails${SCREEN_SUFFIX}`,
     EDIT_HISTORY: `EditHistory${SCREEN_SUFFIX}`,
+    WELCOME: `Welcome${SCREEN_SUFFIX}`,
   },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,
@@ -46,9 +47,6 @@ export default {
     WALLET: `Wallet${TABBAR_SUFFIX}`,
     POST_BUTTON: `PostButton${TABBAR_SUFFIX}`,
     PROFILE: `Profile${TABBAR_SUFFIX}`,
-  },
-  MODAL: {
-    LOGOUT: `Logout${MODAL_SUFFIX}`,
   },
   STACK: {
     MAIN: `Main${STACK_SUFFIX}`,

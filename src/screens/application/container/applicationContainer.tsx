@@ -156,6 +156,7 @@ class ApplicationContainer extends Component {
         console.log('error :>> ', error);
       },
     );
+
   };
 
   componentDidUpdate(prevProps, prevState) {

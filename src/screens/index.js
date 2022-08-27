@@ -29,6 +29,7 @@ import Communities from './communities';
 import ReferScreen from './referScreen/referScreen';
 import CoinDetails from './coinDetails';
 import EditHistoryScreen from './editHistoryScreen/editHistoryScreen';
+import WelcomeScreen from './welcome';
 
 export {
   Bookmarks,
@@ -62,4 +63,5 @@ export {
   ReferScreen,
   CoinDetails,
   EditHistoryScreen,
+  WelcomeScreen,
 };
