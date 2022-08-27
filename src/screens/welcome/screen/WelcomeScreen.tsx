@@ -68,6 +68,7 @@ const WelcomeScreen = () => {
     </View>
   );
 
+
   const _renderConsent = () => (
     <View style={styles.consentContainer}>
       <CheckBox isChecked={isConsentChecked} clicked={_onCheckPress} style={styles.checkStyle} />
@@ -89,7 +90,8 @@ const WelcomeScreen = () => {
     </View>
   );
 
-  const _renderContent = () => (
+
+  return (
     <SafeAreaView style={styles.root}>
 
       <View style={styles.container}>
@@ -131,15 +133,7 @@ const WelcomeScreen = () => {
       {showAnimation && <LaunchScreen />}
     </SafeAreaView>
   );
+}
 
-
-  return (
-    <View
-
-      style={{flex:1}}
-    >
-      {_renderContent()}
-    </View>)
-};
 
 export default WelcomeScreen;
