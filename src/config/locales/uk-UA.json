@@ -267,7 +267,9 @@
     "cancel": "скасувати",
     "login": "ЛОГІН",
     "steemconnect_description": "Якщо ви не бажаєте тримати пароль у зашифрованому вигляді на вашому пристрої, можете використовувати Hivesigner.",
-    "steemconnect_fee_description": "інформація"
+    "steemconnect_fee_description": "інформація",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "Зареєструватися",
@@ -583,7 +585,8 @@
     "unpin-blog": "Unpin from blog",
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
-    "edit-history": "Edit History"
+    "edit-history": "Edit History",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Неіснуючий користувач",
