@@ -268,8 +268,8 @@
     "login": "ACCEDER",
     "steemconnect_description": "Si no desea mantener su contraseña encriptada y guardada en su dispositivo, puede usar Hivesigner.",
     "steemconnect_fee_description": "info.",
-    "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert": "No conectado",
+    "not_loggedin_alert_desc": "Inicia tu sesión primero"
   },
   "register": {
     "button": "Registrarse",
@@ -586,7 +586,7 @@
     "pin-community": "Anclar a la comunidad",
     "unpin-community": "Desanclar de la comunidad",
     "edit-history": "Editar historial",
-    "mute": "Mute / Block"
+    "mute": "Silenciar / Bloquear"
   },
   "deep_link": {
     "no_existing_user": "Usuario no existe",
