@@ -47,12 +47,20 @@ import bugsnapInstance from '../../../config/bugsnag';
 import { removeBeneficiaries, setBeneficiaries } from '../../../redux/actions/editorActions';
 import { DEFAULT_USER_DRAFT_ID, TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
 import { deleteDraftCacheEntry, updateCommentCache, updateDraftCache } from '../../../redux/actions/cacheActions';
+import uuid from 'react-native-uuid';
 
 /*
  *            Props Name        Description                                     Value
  *@props -->  props name here   description here                                Value Type Here
  *
  */
+
+interface ImageUploadInfo {
+  imgName?: string;
+  uploadProgress?: number;
+  uploadSuccess?: boolean;
+  uploadFailure?: boolean;
+}
 
 class EditorContainer extends Component<any, any> {
   _isMounted = false;
@@ -82,6 +90,8 @@ class EditorContainer extends Component<any, any> {
       thumbIndex: 0,
       shouldReblog: false,
       failedImageUploads: 0,
+      uploadingImgName: '',
+      isImgUploaded: false,
     };
   }
 
@@ -413,17 +423,20 @@ class EditorContainer extends Component<any, any> {
   };
 
   _handleMediaOnSelected = async (media) => {
-
+    console.log('media selected  : ', media);
+    
     this.setState({
       failedImageUploads: 0
     })
     try {
       if (media.length > 0) {
         for (let index = 0; index < media.length; index++) {
+          this.setState({uploadingImgName: `Uploading...${uuid.v4()}`});
           const element = media[index];
           await this._uploadImage(element);
         }
       } else {
+        this.setState({uploadingImgName: `Uploading...${uuid.v4()}`});
         await this._uploadImage(media);
       }
 
@@ -455,6 +468,7 @@ class EditorContainer extends Component<any, any> {
     this.setState({
       isUploading: true,
       uploadProgress: 0,
+      isImgUploaded: false,
     });
 
     let sign = await signImage(media, currentAccount, pinCode);
@@ -478,10 +492,14 @@ class EditorContainer extends Component<any, any> {
           isUploading: false,
           uploadProgress: 0,
           uploadedImage: res.data,
+          isImgUploaded: true,
         });
 
       } else if (res.error) {
         throw res.error
+      }
+      else {
+        this.setState({isImgUploaded: false, isUploading: false,});
       }
 
     } catch (error) {
@@ -526,6 +544,7 @@ class EditorContainer extends Component<any, any> {
       this.setState({
         isUploading: false,
         uploadPorgress: 0,
+        isImgUploaded: false,
       });
     }
 
@@ -1264,8 +1283,11 @@ class EditorContainer extends Component<any, any> {
       thumbIndex,
       uploadProgress,
       rewardType,
+      uploadingImgName,
+      isImgUploaded,
     } = this.state;
-
+    console.log('uploadingImgName : ', uploadingImgName, '\nisImgUploaded : ', isImgUploaded);
+    
     const tags = navigation.state.params && navigation.state.params.tags;
     return (
       <EditorScreen
@@ -1305,7 +1327,8 @@ class EditorContainer extends Component<any, any> {
         uploadProgress={uploadProgress}
         rewardType={rewardType}
         getBeneficiaries={this._extractBeneficiaries}
-  
+        uploadingImgName={uploadingImgName}
+        isImgUploaded={isImgUploaded}
       />
     );
   }

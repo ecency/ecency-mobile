@@ -383,7 +383,9 @@ class EditorScreen extends Component {
       thumbIndex,
       uploadProgress,
       rewardType,
-    } = this.props;
+      uploadingImgName,
+      isImgUploaded,
+    } = this.props as any;
 
     const rightButtonText = intl.formatMessage({
       id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : scheduledFor ?  'basic_header.schedule' : 'basic_header.publish',
@@ -471,6 +473,8 @@ class EditorScreen extends Component {
             sharedSnippetText={sharedSnippetText}
             onLoadDraftPress={onLoadDraftPress}
             uploadProgress={uploadProgress}
+            uploadingImgName={uploadingImgName}
+            isImgUploaded={isImgUploaded}
           />
         </PostForm>
 

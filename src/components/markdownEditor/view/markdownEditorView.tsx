@@ -80,6 +80,8 @@ const MarkdownEditorView = ({
   sharedSnippetText,
   onLoadDraftPress,
   uploadProgress,
+  uploadingImgName,
+  isImgUploaded,
 }) => {
   const dispatch = useDispatch();
 
@@ -185,24 +187,54 @@ const MarkdownEditorView = ({
 
   useEffect(() => {
 
-    if(isUploading){
+    // if(isUploading){
+    //   applyMediaLink({
+    //     text: bodyText,
+    //     selection: bodySelection,
+    //     setTextAndSelection: _updateSelections,
+    //     items: [{ url: 'Uploading...', text: '' }],
+    //   });
+    // }else{
+    //   if(uploadedImage){
+    //     applyMediaLink({
+    //       text: bodyText,
+    //       selection: insertedImageSelection,
+    //       setTextAndSelection: _setTextAndSelection,
+    //       items: [{ url: uploadedImage.url, text: uploadedImage.hash }],
+    //     });
+    //   }
+    // }
+    if(isUploading && uploadingImgName){
+      console.log('Image is uploading');
+      
       applyMediaLink({
         text: bodyText,
         selection: bodySelection,
-        setTextAndSelection: _updateSelections,
-        items: [{ url: 'Uploading...', text: '' }],
+        setTextAndSelection: _setTextAndSelection,
+        items: [{ url: uploadingImgName, text: '' }],
       });
-    }else{
-      if(uploadedImage){
-        applyMediaLink({
-          text: bodyText,
-          selection: insertedImageSelection,
-          setTextAndSelection: _setTextAndSelection,
-          items: [{ url: uploadedImage.url, text: uploadedImage.hash }],
-        });
+    }
+    if(isImgUploaded && uploadedImage){
+      console.log('Image is uploaded');
+      const inseretdImgStartIndex = bodyText.indexOf(uploadingImgName) - 5; //first index of image name and previous 5 characters which were added due to formatting
+      const inseretdImgLastIndex = bodyText.indexOf(uploadingImgName) + uploadingImgName.length + 2; 
+      const imageSelection = {
+        start: inseretdImgStartIndex,
+        end: inseretdImgLastIndex,
       }
+      applyMediaLink({
+        text: bodyText,
+        selection: imageSelection,
+        setTextAndSelection: _setTextAndSelection,
+        items: [{ url: uploadedImage.url, text: uploadedImage.hash }],
+      });
     }
   },[isUploading]);
+
+  useEffect(() => {
+    console.log('Inside isImgUploaded useeffect : ','\nuploadingImgName : ', uploadingImgName, '\nisImgUploaded : ', isImgUploaded);
+    
+  },[isImgUploaded])
 
   useEffect(() => {
     bodyText = draftBody;
@@ -554,7 +586,7 @@ const MarkdownEditorView = ({
       android: <View style={styles.container}>{_innerContent}</View>,
     });
   };
-  console.log('uploadedImage : ', uploadedImage, '\n bodySelection : ', bodySelection);
+  // console.log('uploadedImage : ', uploadedImage, '\n bodySelection : ', bodySelection);
   
   return (
     <Fragment>
