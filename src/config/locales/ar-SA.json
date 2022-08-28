@@ -267,7 +267,9 @@
     "cancel": "إلغاء",
     "login": "تسجيل الدخول",
     "steemconnect_description": "إذا كنت لا ترغب في إبقاء كلمة المرور مشفرة وحفظها على جهازك، يمكنك استخدام Hivesigner.",
-    "steemconnect_fee_description": "معلومات"
+    "steemconnect_fee_description": "معلومات",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "إنشاء حساب",
@@ -583,7 +585,8 @@
     "unpin-blog": "Unpin from blog",
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
-    "edit-history": "Edit History"
+    "edit-history": "Edit History",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "لا يوجد أي مستخدم حاليا",
