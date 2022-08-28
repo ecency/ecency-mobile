@@ -267,7 +267,9 @@
     "cancel": "bekor qilish",
     "login": "KIRISH",
     "steemconnect_description": "Agar siz qurilmangizda shifrlangan kalitlarni saqlashni xohlamasangiz, Hivesignerdan foydalaning.",
-    "steemconnect_fee_description": "ma'lumot"
+    "steemconnect_fee_description": "ma'lumot",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "Ro‘yxatdan o‘tish",
@@ -583,7 +585,8 @@
     "unpin-blog": "Blogdan olish",
     "pin-community": "Guruhga qadash",
     "unpin-community": "Guruhdan olish",
-    "edit-history": "Tarixni Tahrirlash"
+    "edit-history": "Tarixni Tahrirlash",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Mavjud bo'lmagan foydalanuvchi",
