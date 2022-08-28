@@ -549,6 +549,11 @@
     "confirm_report_title":"Confirm Report!",
     "confirm_report_body":"Are you sure you want report?"
   },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
+  },
   "favorites": {
     "title": "Favorites",
     "load_error": "Could not load favorites",
