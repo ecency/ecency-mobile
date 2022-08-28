@@ -267,7 +267,9 @@
     "cancel": "peruuta",
     "login": "KIRJAUDU SISÄÄN",
     "steemconnect_description": "Jos et halua säilyttää kryptattua salasanaa laitteessasi, voit käyttää Hivesigneriä.",
-    "steemconnect_fee_description": "tietoa"
+    "steemconnect_fee_description": "tietoa",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "Luo tili",
@@ -583,7 +585,8 @@
     "unpin-blog": "Irrota blogista",
     "pin-community": "Kiinnitä yhteisölle",
     "unpin-community": "Poista kiinnitys yhteisöstä",
-    "edit-history": "Muokkaushistoria"
+    "edit-history": "Muokkaushistoria",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Käyttäjää ei ole",

@@ -267,7 +267,9 @@
     "cancel": "रद्द करें",
     "login": "लॉगिन करें",
     "steemconnect_description": "यदि आप अपने पासवर्ड को अपने डिवाइस पर एन्क्रिप्ट और सहेज कर नहीं रखना चाहते हैं, तो आप हाइवसाईनरका उपयोग कर सकते हैं।",
-    "steemconnect_fee_description": "जानकारी"
+    "steemconnect_fee_description": "जानकारी",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "साइन अप करें",
@@ -583,7 +585,8 @@
     "unpin-blog": "Unpin from blog",
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
-    "edit-history": "Edit History"
+    "edit-history": "Edit History",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "कोई विद्यमान उपयोगकर्ता नहीं",

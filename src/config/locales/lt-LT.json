@@ -267,7 +267,9 @@
     "cancel": "atšaukti",
     "login": "PRISIJUNGTI",
     "steemconnect_description": "Jei nenorite, kad jūsų slaptažodis būtų įrašomas į jūsų įrenginį, galite naudoti Hivesighner.",
-    "steemconnect_fee_description": "informacija"
+    "steemconnect_fee_description": "informacija",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "Užsiregistruoti",
@@ -583,7 +585,8 @@
     "unpin-blog": "Atsegti nuo tinklaraščio",
     "pin-community": "Prisegti prie bendruomenės",
     "unpin-community": "Atsegti nuo bendruomenės",
-    "edit-history": "Redaguoti istoriją"
+    "edit-history": "Redaguoti istoriją",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Nėra tokio vartotojo",
@@ -675,8 +678,8 @@
       "title": "Sustiprink paskyrą",
       "desc": "30 dienų delegacijos padidins jūsų balsų kiekį ir paspartins socialinę veiklą ir suteiks jums daugiau veiksmų su resursų kreditais."
     },
-    "confirm_purchase": "Confirm Purchase @{username}",
-    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
+    "confirm_purchase": "Patvirtinkite pirkinį{username}",
+    "confirm_purchase_summary": "{points} pirkimas {username} už {price}"
   },
   "free_estm": {
     "title": "Nemokami taškai",
@@ -830,7 +833,7 @@
     "qr_scan": "QR Scan",
     "open": "Atidaryti URL",
     "detected_url": "Aptiktas URL",
-    "unsupported_alert_title": "Unsupported URL!",
+    "unsupported_alert_title": "Nepalaikomas URL!",
     "unsupported_alert_desc": "Please scan a valid ecency url."
   },
   "history": {
