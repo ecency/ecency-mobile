@@ -267,7 +267,9 @@
     "cancel": "atšaukti",
     "login": "PRISIJUNGTI",
     "steemconnect_description": "Jei nenorite, kad jūsų slaptažodis būtų įrašomas į jūsų įrenginį, galite naudoti Hivesighner.",
-    "steemconnect_fee_description": "informacija"
+    "steemconnect_fee_description": "informacija",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "Užsiregistruoti",
@@ -583,7 +585,8 @@
     "unpin-blog": "Atsegti nuo tinklaraščio",
     "pin-community": "Prisegti prie bendruomenės",
     "unpin-community": "Atsegti nuo bendruomenės",
-    "edit-history": "Redaguoti istoriją"
+    "edit-history": "Redaguoti istoriją",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Nėra tokio vartotojo",
