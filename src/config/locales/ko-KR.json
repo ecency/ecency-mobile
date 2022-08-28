@@ -267,7 +267,9 @@
     "cancel": "취소",
     "login": "로그인",
     "steemconnect_description": "암호화된 비밀번호를 기기에 저장하고 싶지 않다면, HiveSigner를 사용하시면 됩니다",
-    "steemconnect_fee_description": "정보"
+    "steemconnect_fee_description": "정보",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "가입",
@@ -583,7 +585,8 @@
     "unpin-blog": "맨 위 고정 해제",
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
-    "edit-history": "편집 내역"
+    "edit-history": "편집 내역",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "존재하지 않는 사용자입니다",
