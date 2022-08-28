@@ -54,4 +54,8 @@ export default EStyleSheet.create({
   textButton: {
     justifyContent: 'center',
   },
+  iconBtn: {
+    borderRadius: 0,
+    width: 50,
+  },
 });

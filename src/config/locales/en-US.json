@@ -251,7 +251,8 @@
     "feedback_success": "Email successfully open",
     "feedback_fail": "Email client could not open",
     "server_fail": "Server not available",
-    "show_imgs": "Show Images"
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Voters Info",

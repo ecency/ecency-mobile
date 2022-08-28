@@ -312,6 +312,11 @@ class SettingsContainer extends Component {
       case 'feedback':
         this._handleSendFeedback();
         break;
+      
+      case settingsTypes.DELETE_ACCOUNT:
+        console.log('delete account');
+        
+        break;
       default:
         break;
     }
