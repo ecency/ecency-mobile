@@ -267,7 +267,9 @@
     "cancel": "Отказ",
     "login": "ВХОД",
     "steemconnect_description": "Ако не искате да запазите паролата си криптирана и съхранена на устройството си, можете да използвате Steemconnect.",
-    "steemconnect_fee_description": "информация"
+    "steemconnect_fee_description": "информация",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "Регистрация",
@@ -583,7 +585,8 @@
     "unpin-blog": "Unpin from blog",
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
-    "edit-history": "Edit History"
+    "edit-history": "Edit History",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Съществуващ потребител",
