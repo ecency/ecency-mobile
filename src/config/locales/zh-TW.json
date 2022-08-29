@@ -251,7 +251,8 @@
     "feedback_success": "成功打開電子郵件",
     "feedback_fail": "無法打開電子郵件用戶端",
     "server_fail": "服務器不可用",
-    "show_imgs": "Show Images"
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "投票者訊息",
@@ -547,6 +548,11 @@
     "added": "內容已經被投報或投訴",
     "confirm_report_title": "Confirm Report!",
     "confirm_report_body": "Are you sure you want report?"
+  },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
   },
   "favorites": {
     "title": "收藏夹",
