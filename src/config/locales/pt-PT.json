@@ -251,7 +251,8 @@
     "feedback_success": "Email aberto com sucesso",
     "feedback_fail": "Não se pôde abrir o cliente de e-mail",
     "server_fail": "Servidor não disponível",
-    "show_imgs": "Show Images"
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Informação de eleitores",
@@ -547,6 +548,11 @@
     "added": "Conteúdo questionável reportado",
     "confirm_report_title": "Confirmar Relatório!",
     "confirm_report_body": "Tem certeza que quer denunciar?"
+  },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
   },
   "favorites": {
     "title": "Favoritos",

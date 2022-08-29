@@ -251,7 +251,8 @@
     "feedback_success": "Correo electrónico abierto con éxito",
     "feedback_fail": "Ocurrió un error al intentar abrir el cliente del correo electrónico",
     "server_fail": "Servidor no disponible",
-    "show_imgs": "Mostrar imágenes"
+    "show_imgs": "Mostrar imágenes",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Información de votantes",
@@ -268,8 +269,8 @@
     "login": "ACCEDER",
     "steemconnect_description": "Si no desea mantener su contraseña encriptada y guardada en su dispositivo, puede usar Hivesigner.",
     "steemconnect_fee_description": "info.",
-    "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert": "No conectado",
+    "not_loggedin_alert_desc": "Inicia tu sesión primero"
   },
   "register": {
     "button": "Registrarse",
@@ -548,6 +549,11 @@
     "confirm_report_title": "¡Confirmar Reporte!",
     "confirm_report_body": "¿Estás seguro de que quieres reportar?"
   },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
+  },
   "favorites": {
     "title": "Favoritos",
     "load_error": "No se pudo cargar favoritos",
@@ -586,7 +592,7 @@
     "pin-community": "Anclar a la comunidad",
     "unpin-community": "Desanclar de la comunidad",
     "edit-history": "Editar historial",
-    "mute": "Mute / Block"
+    "mute": "Silenciar / Bloquear"
   },
   "deep_link": {
     "no_existing_user": "Usuario no existe",

@@ -251,7 +251,8 @@
     "feedback_success": "Письмо успешно отправлено",
     "feedback_fail": "Не удалось открыть почтовый клиент",
     "server_fail": "Сервер недоступен",
-    "show_imgs": "Показать изображения"
+    "show_imgs": "Показать изображения",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Детали голосов",
@@ -547,6 +548,11 @@
     "added": "Было сообщено о нежелательном содержании",
     "confirm_report_title": "Подтвердить Жалобу!",
     "confirm_report_body": "Вы уверены, что хотите подать жалобу?"
+  },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
   },
   "favorites": {
     "title": "Избранное",

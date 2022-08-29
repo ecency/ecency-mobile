@@ -251,7 +251,8 @@
     "feedback_success": "تم فتح البريد الإلكتروني بنجاح",
     "feedback_fail": "لا يمكن فتح عميل البريد الإلكتروني",
     "server_fail": "الخادم غير متوفر",
-    "show_imgs": "Show Images"
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "معلومات عن المصوتين",
@@ -547,6 +548,11 @@
     "added": "المحتوى المرفوض المبلغ عنه",
     "confirm_report_title": "تأكيد التقرير!",
     "confirm_report_body": "هل أنت متأكد من أنك تريد الإبلاغ؟"
+  },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
   },
   "favorites": {
     "title": "المفضلات",
