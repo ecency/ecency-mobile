@@ -251,7 +251,8 @@
     "feedback_success": "ईमेल सफलतापूर्वक खुला",
     "feedback_fail": "ईमेल क्लाइंट नहीं खोल सका",
     "server_fail": "Server उपलब्ध नहीं है",
-    "show_imgs": "Show Images"
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "मतदाताओं की जानकारी",
@@ -547,6 +548,11 @@
     "added": "आपत्तिजनक सामग्री की सूचना दी",
     "confirm_report_title": "रिपोर्ट की पुष्टि करें!",
     "confirm_report_body": "क्या आप वाकई रिपोर्ट चाहते हैं?"
+  },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
   },
   "favorites": {
     "title": "पसंदीदा",
