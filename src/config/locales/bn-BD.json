@@ -251,7 +251,8 @@
     "feedback_success": "ইমেল সফলভাবে খোলা",
     "feedback_fail": "ইমেল ক্লায়েন্ট খুলতে পারে নি",
     "server_fail": "সার্ভার এভেইলএবেল নেই",
-    "show_imgs": "Show Images"
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "ভোটারদের তথ্য",
@@ -547,6 +548,11 @@
     "added": "আপত্তিজনক কনটেন্ট প্রতিবেদন করা হয়েছে",
     "confirm_report_title": "Confirm Report!",
     "confirm_report_body": "Are you sure you want report?"
+  },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
   },
   "favorites": {
     "title": "প্রিয়",
