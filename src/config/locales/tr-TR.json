@@ -251,7 +251,8 @@
     "feedback_success": "E-posta başarıyla açıldı",
     "feedback_fail": "E-posta istemcisi açılamadı",
     "server_fail": "Sunucu kullanılamıyor",
-    "show_imgs": "Show Images"
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Oy Verenler",
@@ -547,6 +548,11 @@
     "added": "Bildirilen sakıncalı içerik",
     "confirm_report_title": "Raporu Onayla!",
     "confirm_report_body": "Raporlamak istediğinize emin misiniz?"
+  },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
   },
   "favorites": {
     "title": "Favoriler",
