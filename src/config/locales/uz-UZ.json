@@ -251,7 +251,8 @@
     "feedback_success": "Elektron pochta muvaffaqiyatli ochildi",
     "feedback_fail": "Elektron pochta mijozini ochib bo‘lmadi",
     "server_fail": "Server mavjud emas",
-    "show_imgs": "Rasmlarni Ko'rsatish"
+    "show_imgs": "Rasmlarni Ko'rsatish",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Ovoz berganlar",
@@ -547,6 +548,11 @@
     "added": "Nomaqbul kontent haqida xabar berilgan",
     "confirm_report_title": "Xabarni tasdiqlash!",
     "confirm_report_body": "Haqiqatan ham xabar berishni xohlaysizmi?"
+  },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
   },
   "favorites": {
     "title": "Sevimlilar",
