@@ -251,7 +251,8 @@
     "feedback_success": "Sähköposti avattu onnistuneesti",
     "feedback_fail": "Sähköpostipalvelin alhaalla",
     "server_fail": "Ei yhteyttä palvelimeen",
-    "show_imgs": "Näytä kuvat"
+    "show_imgs": "Näytä kuvat",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Äänestystiedot",
@@ -547,6 +548,11 @@
     "added": "Raportoitu kielteinen sisältö",
     "confirm_report_title": "Vahvista ilmianto!",
     "confirm_report_body": "Haluatko varmasti tehdä ilmiannon?"
+  },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
   },
   "favorites": {
     "title": "Suosikit",
