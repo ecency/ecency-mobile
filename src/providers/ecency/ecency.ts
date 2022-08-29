@@ -229,6 +229,20 @@ export const addReport = async (type: 'content' | 'user', data: string) => {
   }
 }
 
+export const deleteAccount = async (username: string) => {
+  try {
+    const response = await api
+      .post('/request-delete', {
+        username,
+      })
+    return response.data
+  } catch (err) {
+    console.warn("Failed to report to ecency")
+    bugsnagInstance.notify(err);
+    throw err;
+  }
+}
+
 
 /** 
 * ************************************
