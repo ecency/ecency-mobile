@@ -251,7 +251,8 @@
     "feedback_success": "メールを開くことができました",
     "feedback_fail": "メールを開くことができませんでした",
     "server_fail": "サーバーは利用できません",
-    "show_imgs": "Show Images"
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "ヴォート情報",
@@ -547,6 +548,11 @@
     "added": "Reported objectionable content",
     "confirm_report_title": "Confirm Report!",
     "confirm_report_body": "Are you sure you want report?"
+  },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
   },
   "favorites": {
     "title": "お気に入り",
