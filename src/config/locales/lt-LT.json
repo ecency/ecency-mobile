@@ -251,7 +251,8 @@
     "feedback_success": "El. laiškas sėkmingai atidarytas",
     "feedback_fail": "El. pašto atidaryti nepavyko",
     "server_fail": "Serveris neprieinamas",
-    "show_imgs": "Show Images"
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Balsuotojo Informacija",
@@ -547,6 +548,11 @@
     "added": "Pranešta apie nepageidaujamą turinį",
     "confirm_report_title": "Patvirtinkite skundą!",
     "confirm_report_body": "Ar tikrai norite pateikti skundą?"
+  },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
   },
   "favorites": {
     "title": "Mėgstamiausi",
