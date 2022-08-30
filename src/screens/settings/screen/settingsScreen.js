@@ -157,6 +157,7 @@ const SettingsScreen = ({
               type="toggle"
               actionType="pincode"
               isOn={isPinCodeOpen}
+              toggleLatchBack={true}
               handleOnChange={handleOnChange}
             />
           )}
@@ -170,6 +171,7 @@ const SettingsScreen = ({
                 type="toggle"
                 actionType="biometric"
                 isOn={isBiometricEnabled}
+                toggleLatchBack={true}
                 handleOnChange={handleOnChange}
               />
 
@@ -182,6 +184,7 @@ const SettingsScreen = ({
                 })}
                 type="button"
                 actionType="reset_pin"
+                toggleLatchBack={true}
                 handleOnButtonPress={handleOnButtonPress}
               />
             </Fragment>

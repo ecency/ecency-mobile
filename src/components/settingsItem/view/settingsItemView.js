@@ -34,6 +34,7 @@ class SettingsItemView extends PureComponent {
       handleOnChange,
       text,
       isOn,
+      toggleLatchBack,
       actionType,
       defaultText,
       handleOnButtonPress,
@@ -63,6 +64,7 @@ class SettingsItemView extends PureComponent {
             size="large"
             isOn={isOn}
             onToggle={(e) => handleOnChange(e, type, actionType)}
+            latchBack={toggleLatchBack}
           />
         );
       case 'button':
