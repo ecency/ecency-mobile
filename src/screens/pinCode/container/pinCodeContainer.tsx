@@ -14,6 +14,7 @@ import {
 } from '../../../providers/hive/auth';
 import {
   isPinCodeOpen,
+  isRenderRequired,
   login,
   logout,
   logoutDone,
@@ -319,7 +320,8 @@ class PinCodeContainer extends Component {
         }
         dispatch(logoutDone());
         dispatch(isPinCodeOpen(false));
-        navigation.goBack();
+        dispatch(isRenderRequired(true))
+
       })
       .catch((err) => {
         console.warn('Failed to remove user data', err);
