@@ -18,7 +18,6 @@ const PinCodeScreen = ({ route, navigation }) => {
   const pinCodeTimer = useRef<any>(null);
   const appState = useRef(AppState.currentState);
 
-  const isPinCodeRequire = useAppSelector(state => state.application.isPinCodeRequire);
   const isPinCodeOpen = useAppSelector(state => state.application.isPinCodeOpen);
 
 

@@ -6,7 +6,6 @@ import {
   CHANGE_TRANSFERS_NOTIFICATION,
   CHANGE_VOTE_NOTIFICATION,
   CHANGE_ALL_NOTIFICATION_SETTINGS,
-  CLOSE_PIN_CODE_MODAL,
   IS_CONNECTED,
   IS_ANALYTICS,
   IS_DARK_THEME,
@@ -16,7 +15,6 @@ import {
   LOGIN,
   LOGOUT_DONE,
   LOGOUT,
-  OPEN_PIN_CODE_MODAL,
   SET_API,
   SET_CURRENCY,
   SET_LANGUAGE,
@@ -51,8 +49,6 @@ interface State {
   isLoginDone: boolean;
   isLogingOut: boolean;
   isNotificationOpen: boolean;
-  isPinCodeRequire: boolean;
-  pinCodeNavigation: any,
   language: string,
   loading: boolean; // It is lock to all screen and shows loading animation.
   notificationDetails: {
@@ -93,8 +89,6 @@ const initialState:State = {
   isLoginDone: false,
   isLogingOut: false,
   isNotificationOpen: true,
-  isPinCodeRequire: false,
-  pinCodeNavigation: {},
   language: 'en-US',
   loading: false, // It is lock to all screen and shows loading animation.
   notificationDetails: {
@@ -151,17 +145,7 @@ export default function (state = initialState, action):State {
         ...state,
         isLogingOut: false,
       };
-    case OPEN_PIN_CODE_MODAL:
-      return {
-        ...state,
-        isPinCodeRequire: true,
-        pinCodeNavigation: action.payload || {},
-      };
-    case CLOSE_PIN_CODE_MODAL:
-      return {
-        ...state,
-        isPinCodeRequire: false,
-      };
+
     case SET_API:
       return Object.assign({}, state, {
         api: action.payload,

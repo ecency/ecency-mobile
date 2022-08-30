@@ -20,7 +20,6 @@ const Application = () => {
       {({
         isConnected,
         isDarkTheme,
-        isPinCodeRequire,
         isRenderRequire,
         locale,
         rcOffer,

@@ -13,7 +13,6 @@ import {
   updatePinCode,
 } from '../../../providers/hive/auth';
 import {
-  closePinCodeModal,
   isPinCodeOpen,
   login,
   logout,
@@ -21,7 +20,6 @@ import {
   setEncryptedUnlockPin,
 } from '../../../redux/actions/applicationActions';
 import {
-  getExistUser,
   setExistUser,
   removeAllUserData,
   removePinCode,
@@ -36,7 +34,6 @@ import MigrationHelpers from '../../../utils/migrationHelpers';
 // Component
 import { withNavigation } from '@react-navigation/compat';
 import PinCodeView from '../children/pinCodeView';
-import ROUTES from '../../../constants/routeNames';
 
 
 class PinCodeContainer extends Component {
@@ -160,7 +157,6 @@ class PinCodeContainer extends Component {
           if (callback) {
             callback(pin, oldPinCode);
           }
-          // dispatch(closePinCodeModal());
 
           if (navigateTo) {
             navigate({

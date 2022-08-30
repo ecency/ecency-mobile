@@ -888,7 +888,6 @@ class ApplicationContainer extends Component {
       toastNotification,
       isDarkTheme: _isDarkTheme,
       children,
-      isPinCodeRequire,
       rcOffer,
     } = this.props;
     const { isRenderRequire, foregroundNotificationData } = this.state;
@@ -898,7 +897,6 @@ class ApplicationContainer extends Component {
       children({
         isConnected,
         isDarkTheme: _isDarkTheme,
-        isPinCodeRequire,
         isRenderRequire,
         locale: selectedLanguage,
         rcOffer,
@@ -919,7 +917,6 @@ export default connect(
     isLogingOut: state.application.isLogingOut,
     isLoggedIn: state.application.isLoggedIn, //TODO: remove as is not being used in this class
     isConnected: state.application.isConnected,
-    isPinCodeRequire: state.application.isPinCodeRequire,
     api: state.application.api,
     isGlobalRenderRequired: state.application.isRenderRequired,
     isAnalytics: state.application.isAnalytics,
