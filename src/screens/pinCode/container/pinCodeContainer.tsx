@@ -34,14 +34,18 @@ import { encryptKey, decryptKey } from '../../../utils/crypto';
 import MigrationHelpers from '../../../utils/migrationHelpers';
 
 // Component
-import PinCodeScreen from '../screen/pinCodeScreen';
+import { withNavigation } from '@react-navigation/compat';
+import PinCodeView from '../children/pinCodeView';
+import ROUTES from '../../../constants/routeNames';
 
 
 class PinCodeContainer extends Component {
   screenRef = null;
 
+  
   constructor(props) {
     super(props);
+
     this.state = {
       isExistUser: null,
       informationText: '',
@@ -142,6 +146,7 @@ class PinCodeContainer extends Component {
         pinCodeParams: { navigateTo, navigateParams, callback },
         encUnlockPin,
         intl,
+        navigation,
       } = this.props;
       const { isOldPinVerified, oldPinCode, newPinCode } = this.state;
 
@@ -155,13 +160,15 @@ class PinCodeContainer extends Component {
           if (callback) {
             callback(pin, oldPinCode);
           }
-          dispatch(closePinCodeModal());
+          // dispatch(closePinCodeModal());
 
           if (navigateTo) {
             navigate({
               routeName: navigateTo,
               params: navigateParams,
             });
+          } else {
+            navigation.goBack();
           }
           resolve();
         }
@@ -249,6 +256,7 @@ class PinCodeContainer extends Component {
         encUnlockPin,
         applicationPinCode,
         pinCodeParams: { navigateTo, navigateParams, callback },
+        navigation
       } = this.props;
       const { oldPinCode } = this.state;
 
@@ -279,9 +287,10 @@ class PinCodeContainer extends Component {
           routeName: navigateTo,
           params: navigateParams,
         });
+      } else {
+        navigation.goBack();
       }
-
-      dispatch(closePinCodeModal());
+      
 
       return true;
     } catch (err) {
@@ -300,7 +309,7 @@ class PinCodeContainer extends Component {
 
 
   _forgotPinCode = async () => {
-    const { otherAccounts, dispatch } = this.props;
+    const { otherAccounts, dispatch, navigation } = this.props;
 
     await removeAllUserData()
       .then(async () => {
@@ -313,8 +322,8 @@ class PinCodeContainer extends Component {
           otherAccounts.map((item) => dispatch(removeOtherAccount(item.username)));
         }
         dispatch(logoutDone());
-        dispatch(closePinCodeModal());
         dispatch(isPinCodeOpen(false));
+        navigation.goBack();
       })
       .catch((err) => {
         console.warn('Failed to remove user data', err);
@@ -417,7 +426,7 @@ class PinCodeContainer extends Component {
     const { informationText, isOldPinVerified } = this.state;
 
     return (
-      <PinCodeScreen
+      <PinCodeView
         ref={(ref) => (this.screenRef = ref)}
         informationText={informationText}
         setPinCode={(pin) => this._setPinCode(pin, isReset)}
@@ -437,8 +446,7 @@ const mapStateToProps = (state) => ({
   applicationPinCode: state.application.pin,
   encUnlockPin: state.application.encUnlockPin,
   otherAccounts: state.account.otherAccounts,
-  pinCodeParams: state.application.pinCodeNavigation,
   isBiometricEnabled: state.application.isBiometricEnabled,
 });
 
-export default injectIntl(connect(mapStateToProps)(PinCodeContainer));
+export default withNavigation(injectIntl(connect(mapStateToProps)(PinCodeContainer)));

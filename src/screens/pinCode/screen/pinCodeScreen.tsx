@@ -1,100 +1,79 @@
-import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
-import { useIntl } from 'react-intl';
+import React, { useEffect, useRef } from 'react'
+import { Alert, AppState, View } from 'react-native';
 
-import { Text, TouchableOpacity, View } from 'react-native';
-import { NumericKeyboard, PinAnimatedInput, UserAvatar } from '../../../components';
+import { useAppDispatch, useAppSelector } from '../../../hooks'
+import { getExistUser } from '../../../realm/realm';
+import { openPinCodeModal } from '../../../redux/actions/applicationActions';
+import { BasicHeader } from '../../../components';
 
-import styles from './pinCodeStyles';
+import PinCodeContainer from '../container/pinCodeContainer';
+import ROUTE from '../../../constants/routeNames';
+import { navigate } from '../../../navigation/service';
+import routeNames from '../../../constants/routeNames';
 
-const PinCodeScreen = forwardRef(({
-  informationText,
-  showForgotButton,
-  username,
-  handleForgotButton,
-  setPinCode,
-}, ref) => {
-  const [pin, setPin] = useState('');
-  const [loading, setLoading] = useState(false);
-  const intl = useIntl();
 
-  useImperativeHandle(ref, () => ({
-   setPinThroughBiometric(bioPin){
-     if(bioPin && bioPin.length === 4){
-      setLoading(true);
-      setPin(bioPin)
-     }
-   }
-  }));
+const PinCodeScreen = ({ route, navigation }) => {
 
+
+  const dispatch = useAppDispatch();
+
+  const pinCodeTimer = useRef<any>(null);
+  const appState = useRef(AppState.currentState);
+
+  const isPinCodeRequire = useAppSelector(state => state.application.isPinCodeRequire);
+  const isPinCodeOpen = useAppSelector(state => state.application.isPinCodeOpen);
 
 
   useEffect(() => {
-    _handlePinComplete();
-  }, [pin]);
+      AppState.addEventListener('change', _handleAppStateChange);
+      return _unmount
+  }, [])
 
 
+  const _unmount = () => {
+      AppState.removeEventListener('change', _handleAppStateChange);
+  }
 
-  const _handlePinComplete = async () => {
-    if (pin.length === 4) {
-      setLoading(true);
-      await setPinCode(pin);
-      setPin('');
-      setLoading(false);
-    }
+
+  const _handleAppStateChange = (nextAppState) => {
+      getExistUser().then((isExistUser) => {
+          if (isExistUser) {
+              if (appState.current.match(/active|forground/) && nextAppState === 'inactive') {
+                  _startPinCodeTimer();
+              }
+
+              if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+                  if (isPinCodeOpen && pinCodeTimer.current) {
+                      clearTimeout(pinCodeTimer.current);
+                  }
+              }
+          }
+      });
+
+      appState.current = nextAppState;
   };
 
 
-  const _handleKeyboardOnPress = async (value) => {
-    try {
-      if (loading) {
-        return;
-      }
-      if (value === 'clear') {
-        setPin('');
-        return;
-      }
-      const newPin = `${pin}${value}`;
 
-      if (pin.length < 4) {
-        setPin(newPin);
-      } else if (pin.length >= 4) {
-        setPin(`${value}`);
+  const _startPinCodeTimer = () => {
+      if (isPinCodeOpen) {
+          pinCodeTimer.current = setTimeout(() => {
+            navigate(routeNames.SCREENS.PINCODE)
+          }, 5000);
       }
-    } catch (err) {
-      console.warn('Failed to handle keyboard press as expected', err);
-    }
   };
+
+
+  const hideCloseButton = route.params ?
+    (route.params.hideCloseButton ?? false) :
+    true;
 
   return (
-    <View style={styles.container}>
-      <View style={styles.logoView}>
-        <UserAvatar noAction username={username} size="xl" style={styles.avatar} />
-      </View>
-      <View style={styles.titleView}>
-        <Text style={styles.title}>{`@${username}`}</Text>
-      </View>
-      <View style={styles.informationView}>
-        <Text style={styles.informationText}>{informationText}</Text>
-      </View>
-      <View style={styles.animatedView}>
-        <PinAnimatedInput pin={pin} loading={loading} />
-      </View>
-      <View style={styles.numericKeyboardView}>
-        <NumericKeyboard onPress={_handleKeyboardOnPress} />
-      </View>
-      {showForgotButton ? (
-        <TouchableOpacity onPress={() => handleForgotButton()} style={styles.forgotButtonView}>
-          <Text style={styles.forgotButtonText}>
-            {intl.formatMessage({
-              id: 'pincode.forgot_text',
-            })}
-          </Text>
-        </TouchableOpacity>
-      ) : (
-        <View style={styles.forgotButtonView} />
-      )}
-    </View>
-  );
-}) 
+    <PinCodeContainer
+      hideCloseButton={hideCloseButton}
+      pinCodeParams={route.params ?? { }}
+    />
+  )
+}
 
-export default PinCodeScreen;
+export default PinCodeScreen
