@@ -251,7 +251,8 @@
     "feedback_success": "Elektron pochta muvaffaqiyatli ochildi",
     "feedback_fail": "Elektron pochta mijozini ochib bo‘lmadi",
     "server_fail": "Server mavjud emas",
-    "show_imgs": "Rasmlarni Ko'rsatish"
+    "show_imgs": "Rasmlarni Ko'rsatish",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Ovoz berganlar",
@@ -267,7 +268,9 @@
     "cancel": "bekor qilish",
     "login": "KIRISH",
     "steemconnect_description": "Agar siz qurilmangizda shifrlangan kalitlarni saqlashni xohlamasangiz, Hivesignerdan foydalaning.",
-    "steemconnect_fee_description": "ma'lumot"
+    "steemconnect_fee_description": "ma'lumot",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "Ro‘yxatdan o‘tish",
@@ -546,6 +549,11 @@
     "confirm_report_title": "Xabarni tasdiqlash!",
     "confirm_report_body": "Haqiqatan ham xabar berishni xohlaysizmi?"
   },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
+  },
   "favorites": {
     "title": "Sevimlilar",
     "load_error": "Sevimlilarni yuklab bo‘lmadi",
@@ -583,7 +591,8 @@
     "unpin-blog": "Blogdan olish",
     "pin-community": "Guruhga qadash",
     "unpin-community": "Guruhdan olish",
-    "edit-history": "Tarixni Tahrirlash"
+    "edit-history": "Tarixni Tahrirlash",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Mavjud bo'lmagan foydalanuvchi",

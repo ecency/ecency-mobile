@@ -251,7 +251,8 @@
     "feedback_success": "成功打開電子郵件",
     "feedback_fail": "無法打開電子郵件用戶端",
     "server_fail": "服務器不可用",
-    "show_imgs": "Show Images"
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "投票者訊息",
@@ -267,7 +268,9 @@
     "cancel": "取消",
     "login": "登錄",
     "steemconnect_description": "假如您不想將您的密碼保存在手機，您可以使用Hivesigner。",
-    "steemconnect_fee_description": "資訊"
+    "steemconnect_fee_description": "資訊",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "註冊",
@@ -546,6 +549,11 @@
     "confirm_report_title": "Confirm Report!",
     "confirm_report_body": "Are you sure you want report?"
   },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
+  },
   "favorites": {
     "title": "收藏夹",
     "load_error": "無法載入收藏夹",
@@ -583,7 +591,8 @@
     "unpin-blog": "取消置頂",
     "pin-community": "置頂于社群",
     "unpin-community": "取消社區置頂",
-    "edit-history": "更改副本"
+    "edit-history": "更改副本",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "用户不存在",

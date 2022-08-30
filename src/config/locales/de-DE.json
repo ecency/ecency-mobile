@@ -251,7 +251,8 @@
     "feedback_success": "E-Mail erfolgreich geöffnet",
     "feedback_fail": "E-Mail Client konnte nicht geöffnet werden",
     "server_fail": "Server nicht verfügbar",
-    "show_imgs": "Show Images"
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Voter-Informationen",
@@ -267,7 +268,9 @@
     "cancel": "Abbrechen",
     "login": "LOGIN",
     "steemconnect_description": "Wenn du dein Passwort nicht verschlüsselt auf deinem Gerät gespeichert haben möchtest, kannst du Hivesigner verwenden.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_fee_description": "info",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "Registrieren",
@@ -546,6 +549,11 @@
     "confirm_report_title": "Confirm Report!",
     "confirm_report_body": "Are you sure you want report?"
   },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
+  },
   "favorites": {
     "title": "Favoriten",
     "load_error": "Favoriten können nicht geladen werden",
@@ -583,7 +591,8 @@
     "unpin-blog": "Unpin from blog",
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
-    "edit-history": "Edit History"
+    "edit-history": "Edit History",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Kein vorhandener Benutzer",

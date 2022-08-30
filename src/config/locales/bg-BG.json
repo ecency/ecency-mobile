@@ -251,7 +251,8 @@
     "feedback_success": "Емайл успешно отворен",
     "feedback_fail": "Емайл клиентът не може да се отвори",
     "server_fail": "Мрежата не е достъпна",
-    "show_imgs": "Show Images"
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Информация за гласувалите",
@@ -267,7 +268,9 @@
     "cancel": "Отказ",
     "login": "ВХОД",
     "steemconnect_description": "Ако не искате да запазите паролата си криптирана и съхранена на устройството си, можете да използвате Steemconnect.",
-    "steemconnect_fee_description": "информация"
+    "steemconnect_fee_description": "информация",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "Регистрация",
@@ -546,6 +549,11 @@
     "confirm_report_title": "Одобри доклад!",
     "confirm_report_body": "Сигурен ли сте че искате да докладвате?"
   },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
+  },
   "favorites": {
     "title": "Любими",
     "load_error": "Не може да зареди любими",
@@ -583,7 +591,8 @@
     "unpin-blog": "Unpin from blog",
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
-    "edit-history": "Edit History"
+    "edit-history": "Edit History",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Съществуващ потребител",

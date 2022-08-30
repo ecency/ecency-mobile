@@ -26,7 +26,7 @@ export const InputSupportModal = ({children, visible, onClose}: InputSupportModa
                 {
                   Platform.select({
                     ios: (
-                      <KeyboardAvoidingView behavior="padding">
+                      <KeyboardAvoidingView behavior="padding" style={{backgroundColor: 'rgba(0, 0, 0, 0.2)'}}>
                         {children}
                       </KeyboardAvoidingView>
                     ),

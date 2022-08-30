@@ -251,7 +251,8 @@
     "feedback_success": "Email aberto com sucesso",
     "feedback_fail": "Não se pôde abrir o cliente de e-mail",
     "server_fail": "Servidor não disponível",
-    "show_imgs": "Show Images"
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Informação de eleitores",
@@ -267,7 +268,9 @@
     "cancel": "cancelar",
     "login": "ENTRAR",
     "steemconnect_description": "Se você não quiser manter sua senha criptográfica salva no dispositivo, você pode usar o Hivesigner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_fee_description": "info",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "Cadastre-se",
@@ -546,6 +549,11 @@
     "confirm_report_title": "Confirmar Relatório!",
     "confirm_report_body": "Tem certeza que quer denunciar?"
   },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
+  },
   "favorites": {
     "title": "Favoritos",
     "load_error": "Não foi possível carregar os favoritos",
@@ -583,7 +591,8 @@
     "unpin-blog": "Desafixar do blog",
     "pin-community": "Fixar na comunidade",
     "unpin-community": "Desafixar da comunidade",
-    "edit-history": "Histórico de Edição"
+    "edit-history": "Histórico de Edição",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Usuário não existe",
