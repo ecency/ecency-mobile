@@ -6,14 +6,13 @@ import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Services and Actions
-import { followUser, getRelationship, ignoreUser, pinCommunityPost, profileUpdate, reblog, unfollowUser } from '../../../providers/hive/dhive';
+import { ignoreUser, pinCommunityPost, profileUpdate, reblog } from '../../../providers/hive/dhive';
 import { addBookmark, addReport } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer, showActionModal } from '../../../redux/actions/uiAction';
-import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 
 // Constants
 import OPTIONS from '../../../constants/options/post';
-import { default as ROUTES } from '../../../constants/routeNames';
+import  ROUTES from '../../../constants/routeNames';
 
 // Utilities
 import { writeToClipboard } from '../../../utils/clipboard';
@@ -429,7 +428,7 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _redirectToPromote = (routeName, from, redeemType) => {
-    const { content, isLoggedIn, navigation, dispatch, isPinCodeOpen } = this.props as any;
+    const { content, isLoggedIn, navigation, isPinCodeOpen } = this.props as any;
     const params = {
       from,
       permlink: `${get(content, 'author')}/${get(content, 'permlink')}`,
@@ -437,12 +436,14 @@ class PostDropdownContainer extends PureComponent {
     };
 
     if (isPinCodeOpen) {
-      dispatch(
-        openPinCodeModal({
+      navigation.navigate({
+        routeName:ROUTES.SCREENS.PINCODE,
+        params:{
           navigateTo: routeName,
           navigateParams: params,
-        } as any)
-      );
+        } 
+      })
+     
     } else if (isLoggedIn) {
       navigation.navigate({
         routeName,

@@ -7,7 +7,6 @@ import { withNavigation } from '@react-navigation/compat';
 
 // Services and Actions
 import { getPointsSummary, claimPoints, getPointsHistory } from '../providers/ecency/ePoint';
-import { openPinCodeModal } from '../redux/actions/applicationActions';
 import { getAccount, boost } from '../providers/hive/dhive';
 import { getUserDataWithUsername } from '../realm/realm';
 import { toastNotification } from '../redux/actions/uiAction';
@@ -100,12 +99,13 @@ const PointsContainer = ({
     }
 
     if (isPinCodeOpen) {
-      dispatch(
-        openPinCodeModal({
-          navigateTo,
-          navigateParams,
-        }),
-      );
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.PINCODE,
+        params: {
+          routeName: navigateTo,
+          params: navigateParams,
+        },
+      });
     } else {
       navigation.navigate({
         routeName: navigateTo,

@@ -1,13 +1,11 @@
 import React, { useEffect, useRef } from 'react'
-import { Alert, AppState, View } from 'react-native';
+import { AppState } from 'react-native';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks'
 import { getExistUser } from '../../../realm/realm';
-import { openPinCodeModal } from '../../../redux/actions/applicationActions';
-import { BasicHeader } from '../../../components';
+
 
 import PinCodeContainer from '../container/pinCodeContainer';
-import ROUTE from '../../../constants/routeNames';
 import { navigate } from '../../../navigation/service';
 import routeNames from '../../../constants/routeNames';
 

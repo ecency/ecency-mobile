@@ -10,7 +10,7 @@ import { hsOptions } from '../../constants/hsOptions';
 
 // Actions
 import { addOtherAccount, updateCurrentAccount } from '../../redux/actions/accountAction';
-import { login as loginAction, openPinCodeModal } from '../../redux/actions/applicationActions';
+import { login as loginAction } from '../../redux/actions/applicationActions';
 
 // Constants
 import { default as ROUTES } from '../../constants/routeNames';
@@ -51,12 +51,13 @@ class HiveSigner extends PureComponent {
               dispatch(loginAction(true));
 
               if (isPinCodeOpen) {
-                dispatch(
-                  openPinCodeModal({
+                navigation.navigate({
+                  routeName: ROUTES.SCREENS.PINCODE,
+                  params: {
                     accessToken: result.accessToken,
                     navigateTo: ROUTES.DRAWER.MAIN,
-                  }),
-                );
+                  },
+                });
               } else {
                 navigation.navigate({
                   routeName: ROUTES.DRAWER.MAIN,

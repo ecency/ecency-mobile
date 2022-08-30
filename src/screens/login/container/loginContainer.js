@@ -14,11 +14,7 @@ import {
   addOtherAccount,
   updateCurrentAccount,
 } from '../../../redux/actions/accountAction';
-import {
-  login as loginAction,
-  openPinCodeModal,
-  setPinCode,
-} from '../../../redux/actions/applicationActions';
+import { login as loginAction, setPinCode } from '../../../redux/actions/applicationActions';
 import { setInitPosts, setFeedPosts } from '../../../redux/actions/postsAction';
 import { setPushTokenSaved, setExistUser } from '../../../realm/realm';
 import { setPushToken } from '../../../providers/ecency/ecency';
@@ -79,7 +75,12 @@ class LoginContainer extends PureComponent {
           dispatch(setPinCode(encryptedPin));
 
           if (isPinCodeOpen) {
-            dispatch(openPinCodeModal({ navigateTo: ROUTES.DRAWER.MAIN }));
+            navigation.navigate({
+              name: ROUTES.SCREENS.PINCODE,
+              params: {
+                navigateTo: ROUTES.DRAWER.MAIN,
+              },
+            });
           } else {
             navigation.navigate({
               name: ROUTES.DRAWER.MAIN,

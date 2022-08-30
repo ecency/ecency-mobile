@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from '../../../hooks'
 import { CoinActivitiesCollection, QuoteItem } from '../../../redux/reducers/walletReducer';
 import { fetchCoinActivities } from '../../../utils/wallet';
 import { fetchAndSetCoinsData, setCoinActivities } from '../../../redux/actions/walletActions';
-import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 import { navigate } from '../../../navigation/service';
 import ROUTES from '../../../constants/routeNames';
 import { COIN_IDS } from '../../../constants/defaultCoins';
@@ -130,12 +129,13 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
     }
 
     if (isPinCodeOpen) {
-      dispatch(
-        openPinCodeModal({
+      navigate({
+        routeName: ROUTES.SCREENS.PINCODE,
+        params:{
           navigateTo,
           navigateParams,
-        }),
-      );
+        }
+      })
     } else {
       navigate({
         routeName: navigateTo,

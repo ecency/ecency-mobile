@@ -61,7 +61,6 @@ import {
   isDarkTheme,
   login,
   logoutDone,
-  openPinCodeModal,
   setConnectivityStatus,
   setAnalyticsStatus,
   setPinCode as savePinCode,
