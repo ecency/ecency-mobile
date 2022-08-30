@@ -15,10 +15,11 @@ import parseVersionNumber from '../utils/parseVersionNumber';
 export const AppNavigator = () => {
 
   const lastAppVersion = useAppSelector(state => state.application.lastAppVersion)
+
   const [appVersion] = useState(VersionNumber.appVersion);
 
   const _initRoute = (!lastAppVersion || (parseVersionNumber(lastAppVersion) < parseVersionNumber(appVersion))) ?
-    ROUTES.SCREENS.WELCOME : ROUTES.SCREENS.FEED
+    ROUTES.SCREENS.WELCOME : ROUTES.SCREENS.FEED;
   
 
   return (

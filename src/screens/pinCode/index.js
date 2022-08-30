@@ -1,3 +1,3 @@
-import PinCodeScreen from './screen/pinCodeScreen';
+import PinCode from './screen/pinCodeScreen';
 
-export default PinCodeScreen;
+export default PinCode;

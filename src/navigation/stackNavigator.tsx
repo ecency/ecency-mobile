@@ -31,9 +31,11 @@ import {
     ReferScreen,
     CoinDetails,
     EditHistoryScreen,
-    WelcomeScreen
+    WelcomeScreen,
+    PinCode
 } from '../screens';
 import { DrawerNavigator } from './drawerNavigator';
+import PinCodeScreen from '../screens/pinCode';
 
 
 const RootStack = createNativeStackNavigator();
@@ -79,13 +81,12 @@ export const StackNavigator = ({initRoute}) => {
             initialRouteName={initRoute} 
             screenOptions={{ headerShown: false, animation:'slide_from_bottom' }}>
             
-            <MainStack.Screen name={ROUTES.STACK.MAIN} component={MainStackNavigator} />
+            <RootStack.Screen name={ROUTES.STACK.MAIN} component={MainStackNavigator} />
 
-
-            <MainStack.Screen name={ROUTES.SCREENS.REGISTER} component={Register} />
-            <MainStack.Screen name={ROUTES.SCREENS.LOGIN} component={Login} />
-            <MainStack.Screen name={ROUTES.SCREENS.WELCOME} component={WelcomeScreen}/>
-
+            <RootStack.Screen name={ROUTES.SCREENS.REGISTER} component={Register} />
+            <RootStack.Screen name={ROUTES.SCREENS.LOGIN} component={Login} />
+            <RootStack.Screen name={ROUTES.SCREENS.WELCOME} component={WelcomeScreen}/>
+            <RootStack.Screen name={ROUTES.SCREENS.PINCODE} component={PinCodeScreen}/>
         </RootStack.Navigator>
     )
 }
