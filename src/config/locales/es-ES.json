@@ -252,7 +252,7 @@
     "feedback_fail": "Ocurrió un error al intentar abrir el cliente del correo electrónico",
     "server_fail": "Servidor no disponible",
     "show_imgs": "Mostrar imágenes",
-    "delete_account": "Delete Account"
+    "delete_account": "Eliminar cuenta"
   },
   "voters": {
     "voters_info": "Información de votantes",
@@ -550,9 +550,9 @@
     "confirm_report_body": "¿Estás seguro de que quieres reportar?"
   },
   "delete": {
-    "confirm_delete_title": "Confirm Delete",
-    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
-    "request_sent": "Your request for deletion is sent"
+    "confirm_delete_title": "Confirmar eliminación",
+    "confirm_delete_body": "¿Estás seguro de que deseas eliminar la cuenta? Se borrarán todos tus datos",
+    "request_sent": "Su solicitud de eliminación está enviada"
   },
   "favorites": {
     "title": "Favoritos",
