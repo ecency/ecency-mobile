@@ -86,7 +86,7 @@ export const StackNavigator = ({initRoute}) => {
             <RootStack.Screen name={ROUTES.SCREENS.REGISTER} component={Register} />
             <RootStack.Screen name={ROUTES.SCREENS.LOGIN} component={Login} />
             <RootStack.Screen name={ROUTES.SCREENS.WELCOME} component={WelcomeScreen}/>
-            <RootStack.Screen name={ROUTES.SCREENS.PINCODE} component={PinCode}/>
+            <RootStack.Screen name={ROUTES.SCREENS.PINCODE} options={{gestureEnabled:false}} component={PinCode}/>
         </RootStack.Navigator>
     )
 }

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { BackHandler } from 'react-native';
 import PinCodeContainer from '../container/pinCodeContainer';
 
 
@@ -9,20 +10,17 @@ const PinCodeScreen = ({ route, navigation }) => {
     true;
 
   useEffect(() => {
-    navigation.addListener('beforeRemove', _handleBeforeRemove);
-    return _unmount();
+    BackHandler.addEventListener('hardwareBackPress', _handleBackPress)
+    
+    return _unmount;
   }, [navigation])
 
-
   const _unmount = () => {
-    navigation.removeListener('beforeRemove', _handleBeforeRemove)
+    BackHandler.removeEventListener('hardwareBackPress', _handleBackPress)
   }
 
-  const _handleBeforeRemove = (e) => {
-    if (hideCloseButton) {
-      e.preventDefault();
-    }
-  }
+  const _handleBackPress = () => hideCloseButton ? true : false;
+
 
   return (
 
