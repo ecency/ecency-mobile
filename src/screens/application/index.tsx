@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { OrientationLocker, PORTRAIT } from 'react-native-orientation-locker';
 import { useDispatch } from 'react-redux';
@@ -6,7 +6,6 @@ import ApplicationContainer from './container/applicationContainer';
 import ApplicationScreen from './children/applicationScreen';
 import ErrorBoundary from './children/errorBoundary';
 import { setDeviceOrientation } from '../../redux/actions/uiAction';
-import PinCodeModal from './children/pinCodeModal';
 
 const Application = () => {
   const dispatch = useDispatch();
@@ -37,9 +36,7 @@ const Application = () => {
               onDeviceChange={_handleDeviceOrientationChange}
             />
 
-            <PinCodeModal />
-            
-
+          
             {isRenderRequire && (
               <ApplicationScreen
                 isConnected={isConnected}
