@@ -106,6 +106,9 @@ let firebaseOnMessageListener = null;
 let removeAppearanceListener = null;
 
 class ApplicationContainer extends Component {
+
+  _pinCodeTimer:any = null
+
   constructor(props) {
     super(props);
     this.state = {
@@ -322,16 +325,25 @@ class ApplicationContainer extends Component {
 
 
   _handleAppStateChange = (nextAppState) => {
+    const { isPinCodeOpen:_isPinCodeOpen } = this.props;
     const { appState } = this.state;
 
     if (appState.match(/inactive|background/) && nextAppState === 'active') {
       this._refreshGlobalProps();
+      if (_isPinCodeOpen && this._pinCodeTimer) {
+        clearTimeout(this._pinCodeTimer);
+    }
+    }
+
+    if (appState.match(/active|forground/) && nextAppState === 'inactive') {
+      this._startPinCodeTimer();
     }
     setPreviousAppState();
     this.setState({
       appState: nextAppState,
     });
   };
+
 
 
   _fetchApp = async () => {
@@ -345,6 +357,17 @@ class ApplicationContainer extends Component {
     this._registerDeviceForNotifications();
     dispatch(purgeExpiredCache());
   };
+
+  _startPinCodeTimer = () => {
+    const {isPinCodeOpen:_isPinCodeOpen} = this.props;
+    if (_isPinCodeOpen) {
+        this._pinCodeTimer = setTimeout(() => {
+            navigate({
+              routeName:ROUTES.SCREENS.PINCODE
+            })
+        }, 1 * 60 * 1000);
+    }
+};
 
   _pushNavigate = (notification) => {
     const { dispatch } = this.props;
