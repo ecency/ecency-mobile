@@ -251,7 +251,8 @@
     "feedback_success": "Email sikeresen megnyitva",
     "feedback_fail": "A levelezőprogram nem nyitható meg",
     "server_fail": "A szerver nem elérhető",
-    "show_imgs": "Show Images"
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Infó a szavazókról",
@@ -267,7 +268,9 @@
     "cancel": "visszavonom",
     "login": "BEJELENTKEZÉS",
     "steemconnect_description": "Ha nem szeretnéd a jelszavad a készülékeden elmentve tárolni, használhatod a Hivesigner-t.",
-    "steemconnect_fee_description": "infó"
+    "steemconnect_fee_description": "infó",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "Regisztráció",
@@ -546,6 +549,11 @@
     "confirm_report_title": "Confirm Report!",
     "confirm_report_body": "Are you sure you want report?"
   },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
+  },
   "favorites": {
     "title": "Kedvencek",
     "load_error": "Nem sikerült betölteni a kedvenceket",
@@ -583,7 +591,8 @@
     "unpin-blog": "Unpin from blog",
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
-    "edit-history": "Edit History"
+    "edit-history": "Edit History",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Nem létező felhasználó",

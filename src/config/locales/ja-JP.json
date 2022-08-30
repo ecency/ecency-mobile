@@ -251,7 +251,8 @@
     "feedback_success": "メールを開くことができました",
     "feedback_fail": "メールを開くことができませんでした",
     "server_fail": "サーバーは利用できません",
-    "show_imgs": "Show Images"
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "ヴォート情報",
@@ -267,7 +268,9 @@
     "cancel": "キャンセル",
     "login": "ログイン",
     "steemconnect_description": "端末に暗号化したパスワードを保存したくない場合、Hivesignerを利用できます。",
-    "steemconnect_fee_description": "お知らせ"
+    "steemconnect_fee_description": "お知らせ",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "サインアップ",
@@ -546,6 +549,11 @@
     "confirm_report_title": "Confirm Report!",
     "confirm_report_body": "Are you sure you want report?"
   },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
+  },
   "favorites": {
     "title": "お気に入り",
     "load_error": "お気に入りを読み込めませんでした",
@@ -583,7 +591,8 @@
     "unpin-blog": "Unpin from blog",
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
-    "edit-history": "Edit History"
+    "edit-history": "Edit History",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "ユーザーは存在しません",

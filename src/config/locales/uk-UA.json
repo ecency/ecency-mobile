@@ -251,7 +251,8 @@
     "feedback_success": "Електронний лист успішно відкрито",
     "feedback_fail": "Не вдалося відкрити клієнт електронної пошти",
     "server_fail": "Сервер недоступний",
-    "show_imgs": "Show Images"
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Деталі голосування",
@@ -267,7 +268,9 @@
     "cancel": "скасувати",
     "login": "ЛОГІН",
     "steemconnect_description": "Якщо ви не бажаєте тримати пароль у зашифрованому вигляді на вашому пристрої, можете використовувати Hivesigner.",
-    "steemconnect_fee_description": "інформація"
+    "steemconnect_fee_description": "інформація",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "Зареєструватися",
@@ -546,6 +549,11 @@
     "confirm_report_title": "Confirm Report!",
     "confirm_report_body": "Are you sure you want report?"
   },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
+  },
   "favorites": {
     "title": "Обране",
     "load_error": "Не вдалося завантажити обране",
@@ -583,7 +591,8 @@
     "unpin-blog": "Unpin from blog",
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
-    "edit-history": "Edit History"
+    "edit-history": "Edit History",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Неіснуючий користувач",

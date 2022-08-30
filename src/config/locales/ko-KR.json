@@ -251,7 +251,8 @@
     "feedback_success": "이메일 클라이언트가 성공적으로 열렸습니다",
     "feedback_fail": "이메일 클라이언트를 열지 못했습니다",
     "server_fail": "서버를 이용할 수 없습니다.",
-    "show_imgs": "이미지 표시"
+    "show_imgs": "이미지 표시",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "투표자 정보",
@@ -267,7 +268,9 @@
     "cancel": "취소",
     "login": "로그인",
     "steemconnect_description": "암호화된 비밀번호를 기기에 저장하고 싶지 않다면, HiveSigner를 사용하시면 됩니다",
-    "steemconnect_fee_description": "정보"
+    "steemconnect_fee_description": "정보",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "가입",
@@ -546,6 +549,11 @@
     "confirm_report_title": "신고 확인!",
     "confirm_report_body": "정말 신고하시겠습니까?"
   },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
+  },
   "favorites": {
     "title": "좋아하는 저자",
     "load_error": "좋아하는 저자 목록을 불러올 수 없습니다.",
@@ -583,7 +591,8 @@
     "unpin-blog": "맨 위 고정 해제",
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
-    "edit-history": "편집 내역"
+    "edit-history": "편집 내역",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "존재하지 않는 사용자입니다",

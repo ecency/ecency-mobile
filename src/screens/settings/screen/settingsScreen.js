@@ -277,6 +277,19 @@ const SettingsScreen = ({
             actionType="feedback"
             handleOnButtonPress={handleOnButtonPress}
           />
+          {!!isLoggedIn && (
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.delete_account',
+              })}
+              text={intl.formatMessage({
+                id: 'settings.delete_account',
+              })}
+              type="icon"
+              actionType={settingsTypes.DELETE_ACCOUNT}
+              handleOnButtonPress={handleOnButtonPress}
+            />
+          )}
         </View>
       </ScrollView>
     </Fragment>

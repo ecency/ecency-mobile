@@ -83,7 +83,7 @@ const DropdownButtonView = ({
       defaultIndex={selectedOptionIndex}
       defaultValue={defaultText}
       renderSeparator={() => null}
-  
+      showsVerticalScrollIndicator={false}
       renderRow={(rowData, rowID, highlighted) =>
         renderDropdownRow(
           rowData,

@@ -251,7 +251,8 @@
     "feedback_success": "ইমেল সফলভাবে খোলা",
     "feedback_fail": "ইমেল ক্লায়েন্ট খুলতে পারে নি",
     "server_fail": "সার্ভার এভেইলএবেল নেই",
-    "show_imgs": "Show Images"
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "ভোটারদের তথ্য",
@@ -267,7 +268,9 @@
     "cancel": "বাতিল করুন",
     "login": "প্রবেশ করুন",
     "steemconnect_description": "আপনি যদি নিজের পাসওয়ার্ডটি এনক্রিপ্ট করা এবং আপনার ডিভাইসে সংরক্ষণ করতে না চান তবে আপনি হাইভসাইনার ব্যবহার করতে পারেন।",
-    "steemconnect_fee_description": "তথ্য"
+    "steemconnect_fee_description": "তথ্য",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "সাইন আপ",
@@ -546,6 +549,11 @@
     "confirm_report_title": "Confirm Report!",
     "confirm_report_body": "Are you sure you want report?"
   },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
+  },
   "favorites": {
     "title": "প্রিয়",
     "load_error": "পছন্দসই লোড করা যায়নি",
@@ -583,7 +591,8 @@
     "unpin-blog": "Unpin from blog",
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
-    "edit-history": "Edit History"
+    "edit-history": "Edit History",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "কোন বিদ্যমান ব্যবহারকারী",
