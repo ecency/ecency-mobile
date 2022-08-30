@@ -6,7 +6,7 @@ import { Follows } from './follows';
 import { Launch } from './launch';
 import { Login } from './login';
 import { Notification } from './notification';
-import { PinCode } from './pinCode';
+import PinCode from './pinCode';
 import { Post } from './post';
 import { SearchResult } from './searchResult';
 import { Settings } from './settings';
