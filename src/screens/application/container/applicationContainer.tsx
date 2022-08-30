@@ -552,7 +552,7 @@ class ApplicationContainer extends Component {
       realmObject[0].name = currentUsername;
       // If in dev mode pin code does not show
       if (_isPinCodeOpen) {
-        dispatch(openPinCodeModal());
+        navigate({routeName:ROUTES.SCREENS.PINCODE})
       } else if (!_isPinCodeOpen) {
         const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
         dispatch(savePinCode(encryptedPin));
