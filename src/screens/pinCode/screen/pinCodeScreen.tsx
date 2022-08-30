@@ -1,75 +1,37 @@
-import React, { useEffect, useRef } from 'react'
-import { AppState } from 'react-native';
-
-import { useAppDispatch, useAppSelector } from '../../../hooks'
-import { getExistUser } from '../../../realm/realm';
-
-
+import React, { useEffect } from 'react'
 import PinCodeContainer from '../container/pinCodeContainer';
-import { navigate } from '../../../navigation/service';
-import routeNames from '../../../constants/routeNames';
 
 
 const PinCodeScreen = ({ route, navigation }) => {
-
-
-  const dispatch = useAppDispatch();
-
-  const pinCodeTimer = useRef<any>(null);
-  const appState = useRef(AppState.currentState);
-
-  const isPinCodeOpen = useAppSelector(state => state.application.isPinCodeOpen);
-
-
-  useEffect(() => {
-      AppState.addEventListener('change', _handleAppStateChange);
-      return _unmount
-  }, [])
-
-
-  const _unmount = () => {
-      AppState.removeEventListener('change', _handleAppStateChange);
-  }
-
-
-  const _handleAppStateChange = (nextAppState) => {
-      getExistUser().then((isExistUser) => {
-          if (isExistUser) {
-              if (appState.current.match(/active|forground/) && nextAppState === 'inactive') {
-                  _startPinCodeTimer();
-              }
-
-              if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
-                  if (isPinCodeOpen && pinCodeTimer.current) {
-                      clearTimeout(pinCodeTimer.current);
-                  }
-              }
-          }
-      });
-
-      appState.current = nextAppState;
-  };
-
-
-
-  const _startPinCodeTimer = () => {
-      if (isPinCodeOpen) {
-          pinCodeTimer.current = setTimeout(() => {
-            navigate(routeNames.SCREENS.PINCODE)
-          }, 5000);
-      }
-  };
-
 
   const hideCloseButton = route.params ?
     (route.params.hideCloseButton ?? false) :
     true;
 
+  useEffect(() => {
+    navigation.addListener('beforeRemove', _handleBeforeRemove);
+    return _unmount();
+  }, [navigation])
+
+
+  const _unmount = () => {
+    navigation.removeListener('beforeRemove', _handleBeforeRemove)
+  }
+
+  const _handleBeforeRemove = (e) => {
+    if (hideCloseButton) {
+      e.preventDefault();
+    }
+  }
+
   return (
+
     <PinCodeContainer
       hideCloseButton={hideCloseButton}
-      pinCodeParams={route.params ?? { }}
+      pinCodeParams={route.params ?? {}}
     />
+
+
   )
 }
 
