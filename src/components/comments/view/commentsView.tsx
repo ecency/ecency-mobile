@@ -125,6 +125,9 @@ const CommentsView = ({
   } : null
 
   const _renderEmptyContent = () => {
+    if(commentNumber > 1){
+      return;
+    }
     const _onPress = () => {
       handleOnReplyPress()
     }
