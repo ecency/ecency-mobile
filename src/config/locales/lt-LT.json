@@ -724,7 +724,8 @@
     "title": "Komentarai",
     "reveal_comment": "Rodyti komentarus",
     "read_more": "Skaityti daugiau komentarų",
-    "more_replies": "atsakytos žinutės"
+    "more_replies": "atsakytos žinutės",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Kita",
