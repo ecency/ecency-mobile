@@ -724,7 +724,8 @@
     "title": "মন্তব্য",
     "reveal_comment": "মন্তব্য প্রকাশ করুন",
     "read_more": "আরও মন্তব্য পড়ুন",
-    "more_replies": "replies"
+    "more_replies": "replies",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Others",
