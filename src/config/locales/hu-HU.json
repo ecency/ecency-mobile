@@ -724,7 +724,8 @@
     "title": "Hozzászólások",
     "reveal_comment": "Hozzászólás megjelenítése",
     "read_more": "Még több hozzáaszólás",
-    "more_replies": "replies"
+    "more_replies": "replies",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Others",
