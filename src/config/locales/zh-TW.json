@@ -724,7 +724,8 @@
     "title": "評論",
     "reveal_comment": "顯示評論",
     "read_more": "查看更多評論",
-    "more_replies": "回復"
+    "more_replies": "回復",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "其他選項",
