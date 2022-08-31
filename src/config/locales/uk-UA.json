@@ -724,7 +724,8 @@
     "title": "Коментарі",
     "reveal_comment": "Показати коментар",
     "read_more": "Читати більше коментарів",
-    "more_replies": "replies"
+    "more_replies": "replies",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Others",
