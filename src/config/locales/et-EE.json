@@ -724,7 +724,8 @@
     "title": "Kommentaarid",
     "reveal_comment": "Näita kommentaari",
     "read_more": "Näita veel kommentaare",
-    "more_replies": "replies"
+    "more_replies": "replies",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Muud",
