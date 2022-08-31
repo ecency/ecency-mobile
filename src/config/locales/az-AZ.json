@@ -724,7 +724,8 @@
     "title": "Rəylər",
     "reveal_comment": "Rəyi açın",
     "read_more": "Daha çox rəy oxuyun",
-    "more_replies": "replies"
+    "more_replies": "replies",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Digərləri",
