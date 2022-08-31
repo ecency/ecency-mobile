@@ -724,7 +724,8 @@
     "title": "विवेचनाऐं",
     "reveal_comment": "टिप्पणी का खुलासा",
     "read_more": "अधिक टिप्पणियाँ पढ़ें",
-    "more_replies": "जवाब"
+    "more_replies": "जवाब",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "अन्यों",
