@@ -724,7 +724,8 @@
     "title": "Kommentit",
     "reveal_comment": "Näytä kommentti",
     "read_more": "Lue lisää kommentteja",
-    "more_replies": "vastaukset"
+    "more_replies": "vastaukset",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Muut",
