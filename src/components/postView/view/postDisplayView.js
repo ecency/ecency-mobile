@@ -6,6 +6,7 @@ import get from 'lodash/get';
 // Providers
 import { useSelector } from 'react-redux';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { userActivity } from '../../../providers/ecency/ePoint';
 
 // Utils
@@ -18,11 +19,12 @@ import { Upvote } from '../../upvote';
 import { IconButton } from '../../iconButton';
 import { CommentsDisplay } from '../../commentsDisplay';
 import { ParentPost } from '../../parentPost';
+import { UserAvatar, QuickReplyModal } from '../..';
 
 // Styles
 import styles from './postDisplayStyles';
 import { OptionsModal } from '../../atoms';
-import { QuickReplyModal } from '../..';
+
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { useAppDispatch } from '../../../hooks';
 import { showReplyModal } from '../../../redux/actions/uiAction';
@@ -107,9 +109,39 @@ const PostDisplayView = ({
     setCacheVoteIcrement(1);
   };
 
+  const _listHeader = (
+    <View
+      style={{ padding: 16, height: 40, flexDirection: 'row', alignItems: 'center', marginTop: 12 }}
+    >
+      <UserAvatar username="demo.com" />
+      <View
+        style={{
+          marginLeft: 16,
+          justifyContent: 'center',
+          height: 36,
+          borderRadius: 12,
+          flex: 1,
+          backgroundColor: EStyleSheet.value('$primaryLightGray'),
+        }}
+      >
+        <Text
+          style={{
+            color: EStyleSheet.value('$primaryDarkGray'),
+            fontSize: 16,
+            marginTop: 5,
+            paddingHorizontal: 16,
+          }}
+        >
+          Write a comment...
+        </Text>
+      </View>
+    </View>
+  );
+
   const _getTabBar = (isFixedFooter = false) => {
     return (
       <StickyBar isFixedFooter={isFixedFooter} style={styles.stickyBar}>
+        {_listHeader}
         <View style={[styles.stickyWrapper, { paddingBottom: insets.bottom ? insets.bottom : 8 }]}>
           <Upvote
             activeVotes={activeVotes}
@@ -211,9 +243,9 @@ const PostDisplayView = ({
   };
 
   // show quick reply modal
-  const _showQuickReplyModal = (post) => {
+  const _showQuickReplyModal = (_post = post) => {
     if (isLoggedIn) {
-      dispatch(showReplyModal(post));
+      dispatch(showReplyModal(_post));
     } else {
       console.log('Not LoggedIn');
     }
