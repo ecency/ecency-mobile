@@ -724,7 +724,8 @@
     "title": "Коментари",
     "reveal_comment": "Покажи коментара",
     "read_more": "Прочети още коментари",
-    "more_replies": "отговори"
+    "more_replies": "отговори",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Други",
