@@ -724,7 +724,8 @@
     "title": "작성한 댓글",
     "reveal_comment": "명성도가 낮은 사용자의 댓글 보기",
     "read_more": "댓글 더 보기",
-    "more_replies": "댓글"
+    "more_replies": "댓글",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "기타",
