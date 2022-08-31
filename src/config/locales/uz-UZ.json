@@ -724,7 +724,8 @@
     "title": "Izohlar",
     "reveal_comment": "Izhohni ko'rsatish",
     "read_more": "Ko'proq izohlarni o'qish",
-    "more_replies": "javoblar"
+    "more_replies": "javoblar",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Boshqalar",
