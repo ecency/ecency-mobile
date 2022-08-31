@@ -724,7 +724,8 @@
     "title": "Comentarii",
     "reveal_comment": "Arată comentariul",
     "read_more": "Vizualizați mai multe comentarii",
-    "more_replies": "replies"
+    "more_replies": "replies",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Others",
