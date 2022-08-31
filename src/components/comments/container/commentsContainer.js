@@ -66,7 +66,11 @@ const CommentsContainer = ({
   }, [commentCount, selectedFilter]);
 
   useEffect(() => {
-    setPropComments(comments);
+    let _comments = comments;
+    if (_comments) {
+      _comments = _handleCachedComment(comments);
+    }
+    setPropComments(_comments);
   }, [comments]);
 
   useEffect(() => {
