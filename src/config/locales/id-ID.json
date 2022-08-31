@@ -724,7 +724,8 @@
     "title": "Komentar",
     "reveal_comment": "Ungkapkan komentar",
     "read_more": "Baca lebih banyak komentar",
-    "more_replies": "balasan"
+    "more_replies": "balasan",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Lainnya",
