@@ -10,9 +10,9 @@ import {
   DELETE_DRAFT_CACHE_ENTRY,
   UPDATE_SUBSCRIBED_COMMUNITY_CACHE,
   DELETE_SUBSCRIBED_COMMUNITY_CACHE,
-  CLEAR_SUBSCRIBED_COMMUNITIES_CACHE,
+  CLEAR_SUBSCRIBED_COMMUNITIES_CACHE
 } from '../constants/constants';
-import { Comment, Draft, SubscribedCommunity, Vote } from '../reducers/cacheReducer';
+import { Comment, CommentCacheStatus, Draft, SubscribedCommunity, Vote } from '../reducers/cacheReducer';
 
 
 
@@ -46,6 +46,8 @@ export const updateCommentCache = (commentPath: string, comment: Comment, option
     throw new Error("either of json_metadata in comment data or parentTags in options must be provided");
   }
 
+
+
   comment.created = comment.created || updatedStamp;  //created will be set only once for new comment;
   comment.updated = comment.updated || updatedStamp;
   comment.expiresAt = comment.expiresAt || updated.getTime() + 6000000;//600000;
@@ -55,6 +57,7 @@ export const updateCommentCache = (commentPath: string, comment: Comment, option
   comment.total_payout = comment.total_payout || 0;
   comment.json_metadata = comment.json_metadata || makeJsonMetadataReply(options.parentTags)
   comment.isDeletable = comment.isDeletable || true;
+  comment.status = comment.status || CommentCacheStatus.PENDING;
 
   comment.body = renderPostBody({
     author: comment.author,

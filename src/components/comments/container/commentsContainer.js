@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Platform } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
@@ -19,7 +19,8 @@ import ROUTES from '../../../constants/routeNames';
 // Component
 import CommentsView from '../view/commentsView';
 import { useAppSelector } from '../../../hooks';
-import { deleteCommentCacheEntry } from '../../../redux/actions/cacheActions';
+import { updateCommentCache } from '../../../redux/actions/cacheActions';
+import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
 
 const CommentsContainer = ({
   author,
@@ -194,12 +195,15 @@ const CommentsContainer = ({
 
       var ignoreCache = false;
       var replaceAtIndex = -1;
+      var removeAtIndex = -1;
       _comments.forEach((comment, index) => {
         if (cachedComment.permlink === comment.permlink) {
           if (cachedComment.updated < comment.updated) {
             //comment is present with latest data
             ignoreCache = true;
             console.log('Ignore cache as comment is now present');
+          } else if (cachedComment.status === CommentCacheStatus.DELETED) {
+            removeAtIndex = index;
           } else {
             //comment is present in list but data is old
             replaceAtIndex = index;
@@ -207,10 +211,18 @@ const CommentsContainer = ({
         }
       });
 
+      //means deleted comment is not being retuend in fresh data, cache needs to be ignored
+      if (cachedComment.status === CommentCacheStatus.DELETED && removeAtIndex < 0) {
+        ignoreCache = true;
+      }
+
       //manipulate comments with cached data
       if (!ignoreCache) {
         let newComments = [];
-        if (replaceAtIndex >= 0) {
+        if (removeAtIndex >= 0) {
+          newComments = _comments;
+          newComments.splice(removeAtIndex, 1);
+        } else if (replaceAtIndex >= 0) {
           _comments[replaceAtIndex] = cachedComment;
           newComments = [..._comments];
         } else {
@@ -270,10 +282,11 @@ const CommentsContainer = ({
     let filteredComments;
 
     deleteComment(currentAccount, pinCode, _permlink).then(() => {
-      let cachePath = null;
+      let deletedItem = null;
+
       const _applyFilter = (item) => {
         if (item.permlink === _permlink) {
-          cachePath = `${item.parent_author}/${item.parent_permlink}`;
+          deletedItem = item;
           return false;
         }
         return true;
@@ -288,7 +301,12 @@ const CommentsContainer = ({
       }
 
       // remove cached entry based on parent
-      dispatch(deleteCommentCacheEntry(cachePath));
+      if (deletedItem) {
+        const cachePath = `${deletedItem.parent_author}/${deletedItem.parent_permlink}`;
+        deletedItem.status = CommentCacheStatus.DELETED;
+        delete deletedItem.updated;
+        dispatch(updateCommentCache(cachePath, deletedItem, { isUpdate: true }));
+      }
     });
   };
 
