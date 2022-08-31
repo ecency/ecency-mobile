@@ -6,6 +6,7 @@ import { injectIntl } from 'react-intl';
 import { FilterBar } from '../../filterBar';
 import { Comments } from '../../comments';
 import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
+import { WriteCommentButton } from './writeCommentButton';
 
 const CommentsDisplayView = ({
   author,
@@ -29,6 +30,7 @@ const CommentsDisplayView = ({
   return (
     <Fragment>
       <Fragment>
+        <WriteCommentButton onPress={handleOnReplyPress} />
         <FilterBar
           dropdownIconName="arrow-drop-down"
           options={VALUE.map((val) => intl.formatMessage({ id: `comment_filter.${val}` }))}
