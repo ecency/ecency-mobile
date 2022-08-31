@@ -724,7 +724,8 @@
     "title": "Komentari",
     "reveal_comment": "Prikaži komentar",
     "read_more": "Pročitajte još komentara",
-    "more_replies": "replies"
+    "more_replies": "replies",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Others",
