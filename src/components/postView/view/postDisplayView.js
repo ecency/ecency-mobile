@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState, Fragment } from 'react';
-import { View, Text, ScrollView, SafeAreaView, RefreshControl } from 'react-native';
+import { View, Text, ScrollView, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Providers
-import { useSelector } from 'react-redux';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 import { userActivity } from '../../../providers/ecency/ePoint';
 
 // Utils
@@ -22,7 +22,7 @@ import { ParentPost } from '../../parentPost';
 // Styles
 import styles from './postDisplayStyles';
 import { OptionsModal } from '../../atoms';
-import { QuickReplyModal } from '../..';
+
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { useAppDispatch } from '../../../hooks';
 import { showReplyModal } from '../../../redux/actions/uiAction';
@@ -37,7 +37,6 @@ const PostDisplayView = ({
   isNewPost,
   fetchPost,
   handleOnEditPress,
-  handleOnReplyPress,
   handleOnVotersPress,
   handleOnReblogsPress,
   post,
@@ -211,9 +210,9 @@ const PostDisplayView = ({
   };
 
   // show quick reply modal
-  const _showQuickReplyModal = (post) => {
+  const _showQuickReplyModal = (_post = post) => {
     if (isLoggedIn) {
-      dispatch(showReplyModal(post));
+      dispatch(showReplyModal(_post));
     } else {
       console.log('Not LoggedIn');
     }

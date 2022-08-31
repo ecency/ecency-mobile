@@ -18,4 +18,11 @@ export default EStyleSheet.create({
     color: '$white',
     fontSize: 10,
   },
+  emptyText: {
+    color: '$primaryDarkGray',
+    fontSize: 16,
+    justifyContent: 'center',
+    marginTop: 5,
+    padding: 32,
+  },
 });

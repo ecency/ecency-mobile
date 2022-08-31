@@ -7,9 +7,6 @@ import { FilterBar } from '../../filterBar';
 import { Comments } from '../../comments';
 import COMMENT_FILTER, { VALUE } from '../../../constants/options/comment';
 
-// Styles
-import styles from './commentDisplayStyles';
-
 const CommentsDisplayView = ({
   author,
   commentCount,
@@ -31,32 +28,30 @@ const CommentsDisplayView = ({
 
   return (
     <Fragment>
-      {commentCount > 0 && (
-        <Fragment>
-          <FilterBar
-            dropdownIconName="arrow-drop-down"
-            options={VALUE.map((val) => intl.formatMessage({ id: `comment_filter.${val}` }))}
-            defaultText={intl.formatMessage({ id: `comment_filter.${VALUE[0]}` })}
-            onDropdownSelect={(selectedIndex) =>
-              _handleOnDropdownSelect(COMMENT_FILTER[selectedIndex], selectedIndex)
-            }
-            selectedOptionIndex={selectedOptionIndex}
+      <Fragment>
+        <FilterBar
+          dropdownIconName="arrow-drop-down"
+          options={VALUE.map((val) => intl.formatMessage({ id: `comment_filter.${val}` }))}
+          defaultText={intl.formatMessage({ id: `comment_filter.${VALUE[0]}` })}
+          onDropdownSelect={(selectedIndex) =>
+            _handleOnDropdownSelect(COMMENT_FILTER[selectedIndex], selectedIndex)
+          }
+          selectedOptionIndex={selectedOptionIndex}
+        />
+        <View>
+          <Comments
+            selectedFilter={selectedFilter}
+            fetchPost={fetchPost}
+            commentCount={commentCount}
+            author={author}
+            permlink={permlink}
+            mainAuthor={mainAuthor}
+            handleOnVotersPress={handleOnVotersPress}
+            handleOnReplyPress={handleOnReplyPress}
+            fetchedAt={fetchedAt}
           />
-          <View>
-            <Comments
-              selectedFilter={selectedFilter}
-              fetchPost={fetchPost}
-              commentCount={commentCount}
-              author={author}
-              permlink={permlink}
-              mainAuthor={mainAuthor}
-              handleOnVotersPress={handleOnVotersPress}
-              handleOnReplyPress={handleOnReplyPress}
-              fetchedAt={fetchedAt}
-            />
-          </View>
-        </Fragment>
-      )}
+        </View>
+      </Fragment>
     </Fragment>
   );
 };
