@@ -724,7 +724,8 @@
     "title": "コメント",
     "reveal_comment": "コメントを表示",
     "read_more": "もっとコメントを読む",
-    "more_replies": "replies"
+    "more_replies": "replies",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Others",
