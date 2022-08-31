@@ -724,7 +724,8 @@
     "title": "Yorumlar",
     "reveal_comment": "Yorumu göster",
     "read_more": "Daha fazla yorum oku",
-    "more_replies": "yanıtlar"
+    "more_replies": "yanıtlar",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Diğerleri",
