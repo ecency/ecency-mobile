@@ -724,7 +724,8 @@
     "title": "Kommentare",
     "reveal_comment": "Kommentar anzeigen",
     "read_more": "Weitere Kommentare",
-    "more_replies": "replies"
+    "more_replies": "replies",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Others",
