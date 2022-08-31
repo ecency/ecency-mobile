@@ -724,7 +724,8 @@
     "title": "Комментарии",
     "reveal_comment": "Показать комментарий",
     "read_more": "Читать больше комментариев",
-    "more_replies": "ответы"
+    "more_replies": "ответы",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Другое",
