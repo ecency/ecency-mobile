@@ -724,7 +724,8 @@
     "title": "评论",
     "reveal_comment": "显示评论",
     "read_more": "查看更多评论",
-    "more_replies": "replies"
+    "more_replies": "replies",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "其它",
