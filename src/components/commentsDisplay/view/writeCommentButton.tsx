@@ -45,7 +45,7 @@ export const WriteCommentButton = forwardRef(({ onPress }, ref) => {
                     <UserAvatar username="demo.com" />
                     <View style={styles.inputContainer}>
                         <Text style={styles.inputPlaceholder}>
-                            {'Write a comment...'}
+                            {intl.formatMessage({id:'quick_reply.placeholder'})}
                         </Text>
                     </View>
                 </View>
