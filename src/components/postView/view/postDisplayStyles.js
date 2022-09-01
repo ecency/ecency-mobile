@@ -13,6 +13,7 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
   },
   headerLine: {
+    marginTop: -4,
     marginBottom: 4,
   },
   title: {
