@@ -14,10 +14,10 @@ export default EStyleSheet.create({
     height: 36,
     borderRadius: 12,
     flex: 1,
-    backgroundColor: EStyleSheet.value('$primaryLightGray'),
+    backgroundColor: '$darkGrayBackground',
   },
   inputPlaceholder: {
-    color: EStyleSheet.value('$primaryDarkGray'),
+    color: '$primaryDarkGray',
     fontSize: 16,
     marginTop: 5,
     paddingHorizontal: 16,
