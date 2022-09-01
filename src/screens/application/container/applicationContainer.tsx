@@ -92,6 +92,7 @@ import { purgeExpiredCache } from '../../../redux/actions/cacheActions';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
 import MigrationHelpers from '../../../utils/migrationHelpers';
 import { deepLinkParser } from '../../../utils/deepLinkParser';
+import bugsnapInstance from '../../../config/bugsnag';
 
 // Workaround
 let previousAppState = 'background';
@@ -666,26 +667,40 @@ class ApplicationContainer extends Component {
 
 
   //update notification settings and update push token for each signed accoutn useing access tokens
-  _registerDeviceForNotifications = (settings?:any) => {
-    const { otherAccounts, notificationDetails, isNotificationsEnabled } = this.props;
-    
+  _registerDeviceForNotifications = (settings?: any) => {
+    const { currentAccount, otherAccounts, notificationDetails, isNotificationsEnabled } = this.props;
+
     const isEnabled = settings ? !!settings.notification : isNotificationsEnabled;
     settings = settings || notificationDetails;
 
-
-    //updateing fcm token with settings;
-    otherAccounts.forEach((account) => {
-      //since there can be more than one accounts, process access tokens separate
+    const _enabledNotificationForAccount = (account) => {
       const encAccessToken = account?.local?.accessToken;
       //decrypt access token
       let accessToken = null;
       if (encAccessToken) {
         //NOTE: default pin decryption works also for custom pin as other account
         //keys are not yet being affected by changed pin, which I think we should dig more
-        accessToken = decryptKey(encAccessToken, Config.DEFAULT_PIN);
+        accessToken = decryptKey(account.name, Config.DEFAULT_PIN);
       }
 
       this._enableNotification(account.name, isEnabled, settings, accessToken);
+    }
+
+
+    //updateing fcm token with settings;
+    otherAccounts.forEach((account) => {
+      //since there can be more than one accounts, process access tokens separate
+      if (account?.local?.accessToken) {
+        _enabledNotificationForAccount(account)
+      } else {
+        console.warn("access token not present, reporting to bugsnag")
+        bugsnapInstance.notify(new Error(`Reporting missing access token in other accounts section: account:${account.name} with local data ${JSON.stringify(account?.local)}`))
+
+        //fallback to current account access token to register atleast logged in account
+        if (currentAccount.name === account.name) {
+          _enabledNotificationForAccount(currentAccount)
+        }
+      }
     });
   };
 
