@@ -109,7 +109,7 @@ const PostDisplayView = ({
   const _scrollToComments = () => {
     if(scrollRef.current){
       const pos = postHeight;
-      scrollRef.current.scrollTo(pos)
+      scrollRef.current.scrollTo({y:pos})
     }
   }
 
