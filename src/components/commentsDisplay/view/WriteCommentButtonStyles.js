@@ -14,7 +14,9 @@ export default EStyleSheet.create({
     height: 36,
     borderRadius: 12,
     flex: 1,
-    backgroundColor: '$darkGrayBackground',
+    backgroundColor: '$primaryLightBackground',
+    borderWidth: EStyleSheet.hairlineWidth,
+    borderColor: '$primaryDarkGray',
   },
   inputPlaceholder: {
     color: '$primaryDarkGray',
