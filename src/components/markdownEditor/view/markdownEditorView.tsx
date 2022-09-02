@@ -80,7 +80,7 @@ const MarkdownEditorView = ({
   autoFocusText,
   sharedSnippetText,
   onLoadDraftPress,
-  uploadProgress,
+  setIsUploading
 }) => {
   const dispatch = useDispatch();
 
@@ -550,9 +550,7 @@ const MarkdownEditorView = ({
         ref={uploadsGalleryModalRef}
         username={currentAccount.username}
         handleMediaInsert={_handleMediaInsert}
-        uploadedImage={uploadedImage}
-        isUploading={isUploading}
-        uploadProgress={uploadProgress}
+        setIsUploading={setIsUploading}
       />
 
       <InsertLinkModal

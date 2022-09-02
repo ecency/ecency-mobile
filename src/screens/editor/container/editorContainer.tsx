@@ -1242,6 +1242,13 @@ class EditorContainer extends Component<any, any> {
     })
   }
 
+  _setIsUploading = (status:boolean) => {
+    this.setState({
+      isUploading:status
+    })
+  }
+
+
   render() {
     const { isLoggedIn, isDarkTheme, navigation, currentAccount } = this.props;
     const {
@@ -1305,7 +1312,7 @@ class EditorContainer extends Component<any, any> {
         uploadProgress={uploadProgress}
         rewardType={rewardType}
         getBeneficiaries={this._extractBeneficiaries}
-  
+        setIsUploading={this._setIsUploading}
       />
     );
   }

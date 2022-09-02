@@ -383,6 +383,7 @@ class EditorScreen extends Component {
       thumbIndex,
       uploadProgress,
       rewardType,
+      setIsUploading,
     } = this.props;
 
     const rightButtonText = intl.formatMessage({
@@ -471,6 +472,7 @@ class EditorScreen extends Component {
             sharedSnippetText={sharedSnippetText}
             onLoadDraftPress={onLoadDraftPress}
             uploadProgress={uploadProgress}
+            setIsUploading={setIsUploading}
           />
         </PostForm>
 

@@ -31,11 +31,13 @@ export interface MediaInsertData {
 interface UploadsGalleryModalProps {
     username: string;
     handleMediaInsert: (data: Array<MediaInsertData>) => void;
+    setIsUploading:(status:boolean)=>void;
 }
 
 export const UploadsGalleryModal = forwardRef(({
     username,
     handleMediaInsert,
+    setIsUploading
 }: UploadsGalleryModalProps, ref) => {
     const intl = useIntl();
 
@@ -154,6 +156,7 @@ export const UploadsGalleryModal = forwardRef(({
         if (!isLoggedIn) return;
 
         setIsLoading(true);
+        setIsUploading(true);
         let sign = await signImage(media, currentAccount, pinCode);
 
         let MAX_RETRY = 2;
@@ -179,6 +182,7 @@ export const UploadsGalleryModal = forwardRef(({
                 }
 
                 setIsLoading(false);
+                setIsUploading(false);
 
             } else if (res.error) {
                 throw res.error
@@ -231,6 +235,7 @@ export const UploadsGalleryModal = forwardRef(({
                     status:MediaInsertStatus.FAILED
                 }])
             }
+            setIsUploading(false);
             setIsLoading(false);
         }
 
