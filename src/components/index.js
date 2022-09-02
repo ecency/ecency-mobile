@@ -4,7 +4,7 @@ import { BasicHeader } from './basicHeader';
 import { BoostIndicatorAnimation, PulseAnimation, SpinIndicator } from './animations';
 import BeneficiaryModal from './beneficiaryModal/beneficiaryModal';
 import SnippetsModal from './snippetsModal/snippetsModal';
-import { UploadsGalleryModal } from './uploadsGalleryModal/uploadsGalleryModal';
+import { UploadsGalleryModal } from './uploadsGalleryModal/container/uploadsGalleryModal';
 import { BottomTabBar } from './bottomTabBar';
 import { CheckBox } from './checkbox';
 import { CircularButton, TextButton, SquareButton } from './buttons';
