@@ -50,6 +50,7 @@ import { OptionsModal } from '../../atoms';
 import { UsernameAutofillBar } from './usernameAutofillBar';
 import applyUsername from './formats/applyUsername';
 import { walkthrough } from '../../../redux/constants/walkthroughConstants';
+import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 
 const MIN_BODY_INPUT_HEIGHT = 300;
 
@@ -279,21 +280,21 @@ const MarkdownEditorView = ({
     setIsSnippetsOpen(false);
   };
 
-  const _handleOnMediaSelect = (mediaArray) => {
-    const items = mediaArray.map((mediaInsert) => ({
-      url: mediaInsert.url,
-      text: mediaInsert.hash,
-    }));
 
-    if (items.length) {
+
+  const _handleMediaInsert = (mediaArray:MediaInsertData[]) => {
+    if (mediaArray.length) {
       applyMediaLink({
         text: bodyText,
         selection: bodySelection,
         setTextAndSelection: _setTextAndSelection,
-        items,
+        items:mediaArray,
       });
     }
   };
+
+
+
 
   const _handleOnAddLinkPress = () => {
     insertLinkModalRef.current?.showModal({
@@ -547,7 +548,7 @@ const MarkdownEditorView = ({
       <UploadsGalleryModal
         ref={uploadsGalleryModalRef}
         username={currentAccount.username}
-        handleOnSelect={_handleOnMediaSelect}
+        handleMediaInsert={_handleMediaInsert}
         uploadedImage={uploadedImage}
         isUploading={isUploading}
         uploadProgress={uploadProgress}
