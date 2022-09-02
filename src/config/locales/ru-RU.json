@@ -252,7 +252,7 @@
     "feedback_fail": "Не удалось открыть почтовый клиент",
     "server_fail": "Сервер недоступен",
     "show_imgs": "Показать изображения",
-    "delete_account": "Delete Account"
+    "delete_account": "﻿Удалить учётную запись"
   },
   "voters": {
     "voters_info": "Детали голосов",
@@ -550,9 +550,9 @@
     "confirm_report_body": "Вы уверены, что хотите подать жалобу?"
   },
   "delete": {
-    "confirm_delete_title": "Confirm Delete",
-    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
-    "request_sent": "Your request for deletion is sent"
+    "confirm_delete_title": "Подтвердите удаление",
+    "confirm_delete_body": "Вы уверены, что хотите удалить учетную запись? Это сотрет все ваши данные",
+    "request_sent": "Ваш запрос на удаление отправлен"
   },
   "favorites": {
     "title": "Избранное",
@@ -725,7 +725,7 @@
     "reveal_comment": "Показать комментарий",
     "read_more": "Читать больше комментариев",
     "more_replies": "ответы",
-    "no_comments": "Be the first to respond..."
+    "no_comments": "Прокомментируйте первым..."
   },
   "search_result": {
     "others": "Другое",
