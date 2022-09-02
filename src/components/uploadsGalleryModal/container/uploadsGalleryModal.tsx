@@ -9,6 +9,8 @@ import styles from '../children/uploadsGalleryModalStyles';
 import ImagePicker from 'react-native-image-crop-picker';
 import { signImage } from '../../../providers/hive/dhive';
 import { useAppSelector } from '../../../hooks';
+import { replaceBetween } from '../../markdownEditor/view/formats/utils';
+import { generateRndStr } from '../../../utils/editor';
 
 
 export interface UploadsGalleryModalRef {
@@ -96,7 +98,7 @@ export const UploadsGalleryModal = forwardRef(({
 
 
 
-    const _handleMediaOnSelected = async (media) => {
+    const _handleMediaOnSelected = async (media:any[]) => {
 
         // this.setState({
         //     failedImageUploads: 0
@@ -104,17 +106,19 @@ export const UploadsGalleryModal = forwardRef(({
         try {
             if (media.length > 0) {
 
-                //single image is selected, insert placeholder;
-                media.forEach((item) => {
-                    console.log("media item", item)
+                media.forEach((element, index)=>{
+                    const suffixIndex = element.filename.lastIndexOf('.') - 1
+                    media[index].filename = replaceBetween(element.filename, {start:suffixIndex, end:suffixIndex},'-'+ generateRndStr())
+                    console.log("media item", element)
                     handleMediaInsert([{
-                        filename: item.filename,
+                        filename: element.filename,
                         url: '',
                         text: '',
                         status: MediaInsertStatus.UPLOADING
                     }])
                 })
-
+               
+                
                 for (let index = 0; index < media.length; index++) {
                     const element = media[index];
                     await _uploadImage(element, {shouldInsert:true});

@@ -178,7 +178,7 @@ const MarkdownEditorView = ({
     }
 
     if (isUploading) {
-      uploadsGalleryModalRef.current.showModal();
+      // uploadsGalleryModalRef.current.showModal();
     }
   }, [uploadedImage, isUploading]);
 
