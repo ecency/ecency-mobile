@@ -400,7 +400,8 @@ const MarkdownEditorView = ({
         />
         <IconButton
           onPress={() => {
-            galleryRef.current.show();
+            // galleryRef.current.show();
+            uploadsGalleryModalRef.current.showModal();
           }}
           style={styles.rightIcons}
           size={20}
