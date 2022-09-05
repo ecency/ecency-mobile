@@ -118,7 +118,7 @@ const ForegroundNotification = ({remoteMessage}:Props) => {
         get(data, 'permlink1', '') + get(data, 'permlink2', '') + get(data, 'permlink3', '');
 
       let params = {
-        author: get(remoteMessage, 'source', ''),
+        author: get(data, 'source', ''),
         permlink: fullPermlink,
       };
       let key = fullPermlink
