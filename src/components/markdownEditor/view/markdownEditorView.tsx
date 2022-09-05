@@ -90,7 +90,6 @@ const MarkdownEditorView = ({
   const [showDraftLoadButton, setShowDraftLoadButton] = useState(false);
 
   const inputRef = useRef(null);
-  const galleryRef = useRef(null);
   const clearRef = useRef(null);
   const uploadsGalleryModalRef = useRef(null);
   const insertLinkModalRef = useRef(null);
@@ -369,6 +368,13 @@ const MarkdownEditorView = ({
   };
 
   const _renderEditorButtons = () => (
+    <>
+          <UploadsGalleryModal
+        ref={uploadsGalleryModalRef}
+        username={currentAccount.username}
+        handleMediaInsert={_handleMediaInsert}
+        setIsUploading={setIsUploading}
+      />
     <StickyBar>
       <View style={styles.leftButtonsWrapper}>
         <FlatList
@@ -400,8 +406,7 @@ const MarkdownEditorView = ({
         />
         <IconButton
           onPress={() => {
-            // galleryRef.current.show();
-            uploadsGalleryModalRef.current.showModal();
+            uploadsGalleryModalRef.current.toggleModal();
           }}
           style={styles.rightIcons}
           size={20}
@@ -421,6 +426,7 @@ const MarkdownEditorView = ({
         </View>
       </View>
     </StickyBar>
+    </>
   );
 
   const _handleClear = (index) => {
@@ -546,12 +552,7 @@ const MarkdownEditorView = ({
         <SnippetsModal handleOnSelect={_handleOnSnippetReceived} />
       </Modal>
 
-      <UploadsGalleryModal
-        ref={uploadsGalleryModalRef}
-        username={currentAccount.username}
-        handleMediaInsert={_handleMediaInsert}
-        setIsUploading={setIsUploading}
-      />
+
 
       <InsertLinkModal
         ref={insertLinkModalRef}
@@ -559,32 +560,6 @@ const MarkdownEditorView = ({
         handleOnSheetClose={_handleOnAddLinkSheetClose}
       />
 
-      <OptionsModal
-        ref={galleryRef}
-        options={[
-          intl.formatMessage({
-            id: 'editor.open_gallery',
-          }),
-          intl.formatMessage({
-            id: 'editor.capture_photo',
-          }),
-          intl.formatMessage({
-            id: 'editor.uploaded_images',
-          }),
-
-          intl.formatMessage({
-            id: 'alert.cancel',
-          }),
-        ]}
-        cancelButtonIndex={3}
-        onPress={(index) => {
-          if (index == 2) {
-            uploadsGalleryModalRef.current.showModal();
-          } else {
-            handleOpenImagePicker(index === 0 ? 'image' : index === 1 && 'camera');
-          }
-        }}
-      />
       <OptionsModal
         ref={clearRef}
         title={intl.formatMessage({

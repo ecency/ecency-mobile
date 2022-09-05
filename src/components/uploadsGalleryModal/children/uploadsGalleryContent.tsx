@@ -2,18 +2,22 @@ import { proxifyImageSrc } from '@ecency/render-helper';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Alert, FlatList, Platform, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import FastImage from 'react-native-fast-image';
-import { CheckBox, MainButton, TextButton } from '../..';
+import { CheckBox, IconButton, MainButton, TextButton } from '../..';
 import { UploadedMedia } from '../../../models';
 import styles from '../children/uploadsGalleryModalStyles';
 
 type Props = {
-    mediaUploads:any[],
-    indices:Map<number, boolean>
-    isLoading:boolean,
-    getMediaUploads:()=>void,
-    deleteMedia:(indices)=>Promise<boolean>,
-    insertMedia:(map:Map<number, boolean>)=>void
+    mediaUploads: any[],
+    indices: Map<number, boolean>
+    isLoading: boolean,
+    getMediaUploads: () => void,
+    deleteMedia: (indices) => Promise<boolean>,
+    insertMedia: (map: Map<number, boolean>) => void
+    handleOpenGallery: (addToUploads?: boolean) => void,
+    handleOpenCamera: () => void,
+    handleOpenForUpload: () => void,
 }
 
 const UploadsGalleryContent = ({
@@ -21,69 +25,71 @@ const UploadsGalleryContent = ({
     isLoading,
     deleteMedia,
     insertMedia,
-    getMediaUploads
+    getMediaUploads,
+    handleOpenGallery,
+    handleOpenCamera,
 
 }: Props) => {
 
-        const intl = useIntl()
+    const intl = useIntl()
 
-        const [indices, setIndices] = useState<Map<number, boolean>>(new Map());
+    const [indices, setIndices] = useState<Map<number, boolean>>(new Map());
 
-        const _deleteMedia = async () => {
-           const status = await deleteMedia(indices)
-           if(status){
+    const _deleteMedia = async () => {
+        const status = await deleteMedia(indices)
+        if (status) {
             setIndices(new Map())
-           }
+        }
+    }
+
+
+    //renders footer with add snipept button and shows new snippet modal
+    const _renderFloatingPanel = () => {
+
+        if (!indices.size) {
+            return null
         }
 
-
-        //renders footer with add snipept button and shows new snippet modal
-        const _renderFloatingPanel = () => {
-
-            if (!indices.size) {
-                return null
+        const _onRemovePress = async () => {
+            const _onConfirm = () => {
+                _deleteMedia()
             }
-    
-            const _onRemovePress = async () => {
-                const _onConfirm = () => {
-                    _deleteMedia()
-                }
-                Alert.alert(
-                    intl.formatMessage({ id: 'alert.delete' }),
-                    intl.formatMessage({ id: 'alert.remove_alert' }),
-                    [{
-                        text: intl.formatMessage({ id: 'alert.cancel' }),
-                        style: 'cancel'
-                    }, {
-                        text: intl.formatMessage({ id: 'alert.confirm' }),
-                        onPress: _onConfirm
-                    }]
-                )
-    
-            }
-    
-            return (
-                <View style={styles.floatingContainer}>
-                    <TextButton
-                        style={styles.cancelButton}
-                        onPress={_onRemovePress}
-                        text={intl.formatMessage({
-                            id: 'uploads_modal.btn_delete',
-                        })}
-                    />
-                    <MainButton
-                        style={{ width: 136, marginLeft: 12 }}
-                        onPress={()=>insertMedia(indices)}
-                        iconName="plus"
-                        iconType="MaterialCommunityIcons"
-                        iconColor="white"
-                        text={intl.formatMessage({
-                            id: 'uploads_modal.btn_insert',
-                        })}
-                    />
-                </View>
-            );
-        };
+            Alert.alert(
+                intl.formatMessage({ id: 'alert.delete' }),
+                intl.formatMessage({ id: 'alert.remove_alert' }),
+                [{
+                    text: intl.formatMessage({ id: 'alert.cancel' }),
+                    style: 'cancel'
+                }, {
+                    text: intl.formatMessage({ id: 'alert.confirm' }),
+                    onPress: _onConfirm
+                }]
+            )
+
+        }
+
+        return (
+            <View style={styles.floatingContainer}>
+                <TextButton
+                    style={styles.cancelButton}
+                    onPress={_onRemovePress}
+                    text={intl.formatMessage({
+                        id: 'uploads_modal.btn_delete',
+                    })}
+                />
+                <MainButton
+                    style={{ width: 136, marginLeft: 12 }}
+                    onPress={() => insertMedia(indices)}
+                    iconName="plus"
+                    iconType="MaterialCommunityIcons"
+                    iconColor="white"
+                    text={intl.formatMessage({
+                        id: 'uploads_modal.btn_insert',
+                    })}
+                />
+            </View>
+        );
+    };
 
     //render list item for snippet and handle actions;
     const _renderItem = ({ item, index }: { item: UploadedMedia, index: number }) => {
@@ -116,17 +122,44 @@ const UploadsGalleryContent = ({
                     source={{ uri: thumbUrl }}
                     style={styles.mediaItem}
                 />
-                <View style={styles.checkContainer}>
+                {/* <View style={styles.checkContainer}>
                     <CheckBox
                         isChecked={indices.has(index)}
                         clicked={_onCheckPress}
                         style={styles.checkStyle}
                     />
-                </View>
+                </View> */}
 
             </TouchableOpacity>
         )
     };
+
+
+    const _btn = (iconName, text, onPress) => {
+        return (
+            <View style={{flexDirection:'row', alignItems:'center'}}>
+                <IconButton
+                    style={{ width: 32, height: 32 }}
+                    color={EStyleSheet.value('$primaryBlack')}
+                    iconType="MaterialCommunityIcons"
+                    name={iconName}
+                    size={24}
+                    onPress={() => { handleOpenGallery() }} />
+                    <Text style={{}}>{text}</Text>
+            </View>
+        )
+    }
+
+
+    const _renderHeaderContent = () => (
+        <View style={{ justifyContent: 'center',marginHorizontal:12 }} >
+            {_btn('image-multiple-outline', 'Gallery', ()=>{})}
+            {_btn('camera-outline', 'Camera', ()=>{})}
+            {_btn('cloud-upload-outline', 'To Store', ()=>{})}
+
+
+        </View>
+    )
 
     //render empty list placeholder
     const _renderEmptyContent = () => {
@@ -141,24 +174,25 @@ const UploadsGalleryContent = ({
 
     return (
         <View style={styles.container}>
-            <View style={styles.bodyWrapper}>
 
-                <FlatList
-                    data={mediaUploads}
-                    keyExtractor={(item) => `item_${item.url}`}
-                    renderItem={_renderItem}
-                    ListEmptyComponent={_renderEmptyContent}
-                    ListFooterComponent={<View style={styles.listEmptyFooter} />}
-                    extraData={indices}
-                    numColumns={2}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={isLoading}
-                            onRefresh={getMediaUploads}
-                        />
-                    }
-                />
-            </View>
+
+            <FlatList
+                data={mediaUploads}
+                keyExtractor={(item) => `item_${item.url}`}
+                renderItem={_renderItem}
+                ListHeaderComponent={_renderHeaderContent}
+                ListEmptyComponent={_renderEmptyContent}
+                ListFooterComponent={<View style={styles.listEmptyFooter} />}
+                extraData={indices}
+                horizontal={true}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={isLoading}
+                        onRefresh={getMediaUploads}
+                    />
+                }
+            />
+
             {_renderFloatingPanel()}
         </View>
     )

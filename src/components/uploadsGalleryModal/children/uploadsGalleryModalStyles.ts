@@ -1,26 +1,18 @@
 import { TextStyle, StyleSheet, ViewStyle,  ImageStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import getWindowDimensions from '../../../utils/getWindowDimensions';
 
-const gridItemWidth = ((getWindowDimensions().width/2) - 32);
-const gridItemHeight = (gridItemWidth * 500)/600
+const gridItemHeight = 96;
+const gridItemWidth = gridItemHeight;
 
 export default EStyleSheet.create({
     modalStyle: {
-        flex: 1,
-        backgroundColor: '$primaryBackgroundColor',
-        margin: 0,
-        paddingTop: 32,
-        paddingBottom: 16,
+        height:112,
+        backgroundColor: '$primaryLightBackground',
       },
       container: {
         flex: 1,
         justifyContent: 'space-between',
         paddingVertical: 8,
-      },
-      bodyWrapper: {
-        flex: 3,
-        paddingHorizontal:16
       },
       floatingContainer:{
         flexDirection:'row',
@@ -37,7 +29,7 @@ export default EStyleSheet.create({
       } as ViewStyle,
 
       mediaItem:{
-        margin:8, 
+        marginLeft:8, 
         height:gridItemHeight,
         width:gridItemWidth,
         borderRadius:16,

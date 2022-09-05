@@ -1,9 +1,8 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Alert, Button } from 'react-native';
+import { Alert, View } from 'react-native';
 import bugsnapInstance from '../../../config/bugsnag';
 import { addImage, deleteImage, getImages, uploadImage } from '../../../providers/ecency/ecency';
-import Modal from '../../modal';
 import UploadsGalleryContent from '../children/uploadsGalleryContent';
 import styles from '../children/uploadsGalleryModalStyles';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -21,7 +20,7 @@ export enum MediaInsertStatus {
     UPLOADING = 'UPLOADING',
     READY = 'READY',
     FAILED = 'FAILED'
-}   
+}
 
 export interface MediaInsertData {
     url: string,
@@ -33,7 +32,7 @@ export interface MediaInsertData {
 interface UploadsGalleryModalProps {
     username: string;
     handleMediaInsert: (data: Array<MediaInsertData>) => void;
-    setIsUploading:(status:boolean)=>void;
+    setIsUploading: (status: boolean) => void;
 }
 
 export const UploadsGalleryModal = forwardRef(({
@@ -54,8 +53,8 @@ export const UploadsGalleryModal = forwardRef(({
 
 
     useImperativeHandle(ref, () => ({
-        showModal: () => {
-            setShowModal(true);
+        toggleModal: () => {
+            setShowModal(!showModal);
         },
     }));
 
@@ -98,7 +97,7 @@ export const UploadsGalleryModal = forwardRef(({
 
 
 
-    const _handleMediaOnSelected = async (media:any[]) => {
+    const _handleMediaOnSelected = async (media: any[]) => {
 
         // this.setState({
         //     failedImageUploads: 0
@@ -106,9 +105,9 @@ export const UploadsGalleryModal = forwardRef(({
         try {
             if (media.length > 0) {
 
-                media.forEach((element, index)=>{
+                media.forEach((element, index) => {
                     const suffixIndex = element.filename.lastIndexOf('.') - 1
-                    media[index].filename = replaceBetween(element.filename, {start:suffixIndex, end:suffixIndex},'-'+ generateRndStr())
+                    media[index].filename = replaceBetween(element.filename, { start: suffixIndex, end: suffixIndex }, '-' + generateRndStr())
                     console.log("media item", element)
                     handleMediaInsert([{
                         filename: element.filename,
@@ -117,11 +116,11 @@ export const UploadsGalleryModal = forwardRef(({
                         status: MediaInsertStatus.UPLOADING
                     }])
                 })
-               
-                
+
+
                 for (let index = 0; index < media.length; index++) {
                     const element = media[index];
-                    await _uploadImage(element, {shouldInsert:true});
+                    await _uploadImage(element, { shouldInsert: true });
                 }
             } else {
                 //single image is selected, insert placeholder;
@@ -131,7 +130,7 @@ export const UploadsGalleryModal = forwardRef(({
                     text: '',
                     status: MediaInsertStatus.UPLOADING
                 }])
-                await _uploadImage(media, {shouldInsert:true});
+                await _uploadImage(media, { shouldInsert: true });
             }
 
             // if (this.state.failedImageUploads) {
@@ -165,7 +164,7 @@ export const UploadsGalleryModal = forwardRef(({
 
         let MAX_RETRY = 2;
         try {
-            let res:any = null;
+            let res: any = null;
 
             for (var i = 0; i < MAX_RETRY; i++) {
                 res = await uploadImage(media, currentAccount.name, sign);
@@ -176,12 +175,12 @@ export const UploadsGalleryModal = forwardRef(({
 
             if (res.data && res.data.url) {
                 _addUploadedImageToGallery(res.data.url)
-                if(shouldInsert){
+                if (shouldInsert) {
                     handleMediaInsert([{
-                        filename:media.filename,
-                        url:res.data.url,
-                        text:'',
-                        status:MediaInsertStatus.READY
+                        filename: media.filename,
+                        url: res.data.url,
+                        text: '',
+                        status: MediaInsertStatus.READY
                     }])
                 }
 
@@ -231,12 +230,12 @@ export const UploadsGalleryModal = forwardRef(({
                 );
             }
 
-            if(shouldInsert){
+            if (shouldInsert) {
                 handleMediaInsert([{
-                    filename:media.filename,
-                    url:'',
-                    text:'',
-                    status:MediaInsertStatus.FAILED
+                    filename: media.filename,
+                    url: '',
+                    text: '',
+                    status: MediaInsertStatus.FAILED
                 }])
             }
             setIsUploading(false);
@@ -269,7 +268,7 @@ export const UploadsGalleryModal = forwardRef(({
 
 
     //save image to user gallery
-    const _addUploadedImageToGallery = async (url:string) => {
+    const _addUploadedImageToGallery = async (url: string) => {
         try {
             console.log("adding image to gallery", username, url)
             setIsLoading(true);
@@ -322,14 +321,14 @@ export const UploadsGalleryModal = forwardRef(({
     //inserts media items in post body
     const _insertMedia = async (map: Map<number, boolean>) => {
 
-        const data:MediaInsertData[] = []
+        const data: MediaInsertData[] = []
         for (const index of map.keys()) {
             console.log(index)
             const item = mediaUploads[index]
             data.push({
                 url: item.url,
                 text: "",
-                status:MediaInsertStatus.READY
+                status: MediaInsertStatus.READY
             })
 
         }
@@ -340,8 +339,8 @@ export const UploadsGalleryModal = forwardRef(({
     const _renderContent = () => {
         return (
             <>
-                <Button onPress={_handleOpenImagePicker} title="gallery" />
-                <Button onPress={_handleOpenCamera} title="camera" />
+                {/* <Button onPress={_handleOpenImagePicker} title="gallery" />
+                <Button onPress={_handleOpenCamera} title="camera" /> */}
 
 
                 <UploadsGalleryContent
@@ -350,6 +349,8 @@ export const UploadsGalleryModal = forwardRef(({
                     getMediaUploads={_getMediaUploads}
                     deleteMedia={_deleteMedia}
                     insertMedia={_insertMedia}
+                    handleOpenCamera={_handleOpenCamera}
+                    handleOpenGallery={_handleOpenImagePicker}
 
                 />
             </>
@@ -358,20 +359,13 @@ export const UploadsGalleryModal = forwardRef(({
 
 
     return (
-        <Modal
-            isOpen={showModal}
-            handleOnModalClose={() => setShowModal(false)}
-            isFullScreen
-            isCloseButton
-            presentationStyle="formSheet"
-            title={intl.formatMessage({
-                id: 'uploads_modal.title'
-            })}
-            animationType="slide"
+        showModal &&
+        <View
+
             style={styles.modalStyle}
         >
-            {showModal && _renderContent()}
-        </Modal>
+            {_renderContent()}
+        </View>
 
     );
 });
