@@ -6,7 +6,6 @@ import get from 'lodash/get';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { isEmpty, some } from 'lodash';
@@ -19,7 +18,6 @@ import SplashScreen from 'react-native-splash-screen'
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
 import ROUTES from '../../../constants/routeNames';
-import postUrlParser from '../../../utils/postUrlParser';
 
 // Services
 import {
@@ -35,7 +33,7 @@ import {
   setLastUpdateCheck,
   getTheme,
 } from '../../../realm/realm';
-import { getUser, getPost, getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
+import { getUser, getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
 import { getPointsSummary } from '../../../providers/ecency/ePoint';
 import {
   migrateToMasterKeyWithAccessToken,
@@ -120,7 +118,6 @@ class ApplicationContainer extends Component {
     });
 
     AppState.addEventListener('change', this._handleAppStateChange);
-    // setPreviousAppState();
 
     this.removeAppearanceListener = Appearance.addChangeListener(this._appearanceChangeListener);
 
@@ -322,7 +319,7 @@ class ApplicationContainer extends Component {
     if (appState.match(/inactive|background/) && nextAppState === 'active') {
       this._refreshGlobalProps();
     }
-    setPreviousAppState();
+
     this.setState({
       appState: nextAppState,
     });
@@ -449,11 +446,11 @@ class ApplicationContainer extends Component {
 
     firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
       console.log('Notification Received: foreground', remoteMessage);
-      // this._showNotificationToast(remoteMessage);
+
       this.setState({
         foregroundNotificationData: remoteMessage,
       });
-      this._pushNavigate(remoteMessage);
+
     });
 
     firebaseOnNotificationOpenedAppListener = messaging().onNotificationOpenedApp(
