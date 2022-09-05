@@ -89,7 +89,7 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
   };
 
   const hide = async () => {
-    if (isVisible && containerRef.current && containerRef.current.fadeOutUp) {
+    if (containerRef.current) {
       await containerRef.current.fadeOutUp(300);
 
       setIsVisible(false);
@@ -124,7 +124,7 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
 
 
   return (
-    isVisible &&
+     isVisible &&
     <AnimatedView
       ref={containerRef}
       style={styles.container}
