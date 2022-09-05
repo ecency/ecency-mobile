@@ -89,9 +89,11 @@ class LoginContainer extends PureComponent {
       })
       .catch((err) => {
         Alert.alert(
-          'Error',
           intl.formatMessage({
-            id: err.message,
+            id: 'login.login_failed',
+          }),
+          intl.formatMessage({
+            id: 'login.login_failed_body',
           }),
         );
         dispatch(failedAccount(err.message));
