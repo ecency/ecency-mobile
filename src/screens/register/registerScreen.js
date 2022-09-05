@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, StatusBar, Platform, Image, Text, SafeAreaView, Keyboard } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {
+  View,
+  StatusBar,
+  Platform,
+  Image,
+  Text,
+  SafeAreaView,
+  Keyboard,
+  KeyboardAvoidingView,
+} from 'react-native';
 import { useIntl } from 'react-intl';
 import { withNavigation } from 'react-navigation';
 import * as Animatable from 'react-native-animatable';
@@ -93,6 +101,7 @@ const RegisterScreen = ({ navigation }) => {
           </View>
           <Animatable.View
             animation={keyboardIsOpen ? hideAnimation : showAnimation}
+            delay={0}
             duration={300}
           >
             <View style={styles.header}>
@@ -105,12 +114,12 @@ const RegisterScreen = ({ navigation }) => {
               <Image style={styles.mascot} source={ESTEEM_LOGO} />
             </View>
           </Animatable.View>
-          <View style={styles.body}>
-            <KeyboardAwareScrollView
-              enableAutoAutomaticScroll={Platform.OS === 'ios'}
-              contentContainerStyle={styles.formWrapper}
-              enableOnAndroid={true}
-            >
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={styles.formWrapper}
+            keyboardShouldPersistTaps
+          >
+            <View style={styles.body}>
               <FormInput
                 rightIconName="at"
                 leftIconName="close"
@@ -125,6 +134,7 @@ const RegisterScreen = ({ navigation }) => {
                 isFirstImage
                 value={username}
                 inputStyle={styles.input}
+                onFocus={() => setKeyboardIsOpen(true)}
               />
               <FormInput
                 rightIconName="mail"
@@ -138,6 +148,7 @@ const RegisterScreen = ({ navigation }) => {
                 type="emailAddress"
                 value={email}
                 inputStyle={styles.input}
+                onFocus={() => setKeyboardIsOpen(true)}
               />
               <FormInput
                 rightIconName="person"
@@ -152,14 +163,14 @@ const RegisterScreen = ({ navigation }) => {
                 isFirstImage
                 value={refUsername}
                 inputStyle={styles.input}
+                onFocus={() => setKeyboardIsOpen(true)}
               />
               <InformationArea
                 description={intl.formatMessage({ id: 'register.form_description' })}
                 iconName="ios-information-circle-outline"
                 link="https://ecency.com/terms-of-service"
               />
-            </KeyboardAwareScrollView>
-
+            </View>
             <View style={styles.footerButtons}>
               <TextButton
                 style={styles.cancelButton}
@@ -184,7 +195,7 @@ const RegisterScreen = ({ navigation }) => {
                 style={styles.mainButton}
               />
             </View>
-          </View>
+          </KeyboardAvoidingView>
         </SafeAreaView>
       )}
     </RegisterContainer>
