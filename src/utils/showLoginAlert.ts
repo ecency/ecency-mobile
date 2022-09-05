@@ -1,7 +1,8 @@
 import { Alert } from 'react-native';
 import ROUTES from '../../src/constants/routeNames';
+import { navigate } from '../navigation/service';
 
-const showLoginAlert = ({ navigation, intl }) => {
+const showLoginAlert = ({ intl }) => {
   return Alert.alert(
     intl.formatMessage({ id: 'login.not_loggedin_alert' }),
     intl.formatMessage({ id: 'login.not_loggedin_alert_desc' }),
@@ -14,7 +15,7 @@ const showLoginAlert = ({ navigation, intl }) => {
       {
         text: intl.formatMessage({ id: 'login.login' }),
         onPress: () => {
-          navigation.navigate(ROUTES.SCREENS.LOGIN);
+          navigate({routeName:ROUTES.SCREENS.LOGIN});
         },
       },
     ],

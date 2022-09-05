@@ -1,43 +1,67 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View as AnimatedView } from 'react-native-animatable'
 import { Portal } from 'react-native-portalize';
 import styles from '../children/inputSupportModal.styles';
 import { KeyboardAvoidingView, Platform, View } from 'react-native';
 
 export interface InputSupportModalProps {
-    visible:boolean;
-    onClose:()=>void;
-    children?:any
+  visible: boolean;
+  onClose: () => void;
+  children?: any
 }
 
-export const InputSupportModal = ({children, visible, onClose}: InputSupportModalProps, ref) => {
+export const InputSupportModal = ({ children, visible, onClose }: InputSupportModalProps, ref) => {
+
+  const container = useRef<AnimatedView>(null);
+  const innerContainer = useRef<AnimatedView>(null);
+
+  const [showModal, setShowModal] = useState(visible);
+
+  useEffect(() => {
+    if (visible) {
+      setShowModal(true);
+    }
+    else if (!visible && container.current && innerContainer.current) {
+      innerContainer.current.slideOutDown(1000)
+      setTimeout(async () => {
+        await container.current?.fadeOut(200)
+        setShowModal(false);
+      }, 300)
+    }
+  }, [visible])
 
 
-  return (
+  return showModal && (
     <Portal>
-      {
-        visible && (
-          <AnimatedView
-            style={styles.container}
-            duration={300}
-            animation='fadeInUp'>
-              <>
-                <View style={styles.container}  onTouchEnd={onClose} />
-                {
-                  Platform.select({
-                    ios: (
-                      <KeyboardAvoidingView behavior="padding" style={{backgroundColor: 'rgba(0, 0, 0, 0.2)'}}>
-                        {children}
-                      </KeyboardAvoidingView>
-                    ),
-                    android: <View>{children}</View>,
-                  })
-                }
 
-              </>
-          </AnimatedView>
-        )
-      }
+      <AnimatedView
+        ref={container}
+        animation='fadeIn'
+        duration={300}
+        style={styles.container} >
+
+        <AnimatedView
+          ref={innerContainer}
+          style={{ flex: 1 }}
+          animation='slideInUp'
+          duration={300}>
+
+          <View
+            style={{ flex: 1 }}
+            onTouchEnd={onClose} />
+
+          {
+            Platform.select({
+              ios: (
+                <KeyboardAvoidingView behavior="padding" style={{}}>
+                  {children}
+                </KeyboardAvoidingView>
+              ),
+              android: <View>{children}</View>,
+            })
+          }
+        </AnimatedView>
+      </AnimatedView>
     </Portal>
   );
 };
