@@ -16,7 +16,7 @@ export default EStyleSheet.create({
       ios:getStatusBarHeight() + 12,
       android:8,
     }),
-    backgroundColor: '$primaryDarkText',
+    backgroundColor: '$darkGrayBackground',
     shadowColor: '#5f5f5fbf',
     shadowOpacity: 0.3,
     shadowOffset: {
