@@ -64,7 +64,6 @@ import {
   logoutDone,
   openPinCodeModal,
   setConnectivityStatus,
-  setAnalyticsStatus,
   setPinCode as savePinCode,
   isRenderRequired,
   logout,
@@ -87,22 +86,12 @@ import lightTheme from '../../../themes/lightTheme';
 import persistAccountGenerator from '../../../utils/persistAccountGenerator';
 import parseVersionNumber from '../../../utils/parseVersionNumber';
 import { setMomentLocale } from '../../../utils/time';
-import parseAuthUrl from '../../../utils/parseAuthUrl';
 import { purgeExpiredCache } from '../../../redux/actions/cacheActions';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
 import MigrationHelpers from '../../../utils/migrationHelpers';
 import { deepLinkParser } from '../../../utils/deepLinkParser';
 import bugsnapInstance from '../../../config/bugsnag';
 
-// Workaround
-let previousAppState = 'background';
-export const setPreviousAppState = () => {
-  previousAppState = AppState.currentState;
-  const appStateTimeout = setTimeout(() => {
-    previousAppState = AppState.currentState;
-    clearTimeout(appStateTimeout);
-  }, 500);
-};
 
 let firebaseOnNotificationOpenedAppListener = null;
 let firebaseOnMessageListener = null;
@@ -131,7 +120,7 @@ class ApplicationContainer extends Component {
     });
 
     AppState.addEventListener('change', this._handleAppStateChange);
-    setPreviousAppState();
+    // setPreviousAppState();
 
     this.removeAppearanceListener = Appearance.addChangeListener(this._appearanceChangeListener);
 
@@ -358,7 +347,7 @@ class ApplicationContainer extends Component {
     let key = null;
     let routeName = null;
 
-    if (previousAppState !== 'active' && !!notification) {
+    if (!!notification) {
       const push = get(notification, 'data');
       const type = get(push, 'type', '');
       const fullPermlink =
