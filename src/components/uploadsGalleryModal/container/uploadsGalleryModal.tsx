@@ -8,7 +8,7 @@ import styles from '../children/uploadsGalleryModalStyles';
 import ImagePicker from 'react-native-image-crop-picker';
 import { signImage } from '../../../providers/hive/dhive';
 import { useAppSelector } from '../../../hooks';
-import { replaceBetween } from '../../markdownEditor/view/formats/utils';
+import { replaceBetween } from '../../markdownEditor/children/formats/utils';
 import { generateRndStr } from '../../../utils/editor';
 
 

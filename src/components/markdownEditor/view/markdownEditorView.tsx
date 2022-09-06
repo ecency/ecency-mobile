@@ -15,8 +15,7 @@ import { get } from 'lodash';
 import { Icon } from '../../icon';
 
 // Utils
-import Formats from './formats/formats';
-import applyMediaLink from './formats/applyMediaLink';
+import applyMediaLink from '../children/formats/applyMediaLink';
 
 // Actions
 import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
@@ -42,22 +41,23 @@ import {
 import { ThemeContainer } from '../../../containers';
 
 // Styles
-import styles from './markdownEditorStyles';
-import applySnippet from './formats/applySnippet';
+import styles from '../styles/markdownEditorStyles';
+import applySnippet from '../children/formats/applySnippet';
 import { MainButton } from '../../mainButton';
 import isAndroidOreo from '../../../utils/isAndroidOreo';
 import { OptionsModal } from '../../atoms';
-import { UsernameAutofillBar } from './usernameAutofillBar';
-import applyUsername from './formats/applyUsername';
+import { UsernameAutofillBar } from '../children/usernameAutofillBar';
+import applyUsername from '../children/formats/applyUsername';
 import { walkthrough } from '../../../redux/constants/walkthroughConstants';
 import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
+import { EditorToolbar } from '../children/editorToolbar';
 
 const MIN_BODY_INPUT_HEIGHT = 300;
 
 //These variable keep track of body text input state, 
 //this helps keep load on minimal compared to both useState and useRef;
 var bodyText = '';
-var bodySelection = {start: 0, end: 0};
+var bodySelection = { start: 0, end: 0 };
 
 const MarkdownEditorView = ({
   draftBody,
@@ -104,8 +104,8 @@ const MarkdownEditorView = ({
 
   useEffect(() => {
     bodyText = '';
-    bodySelection = {start:0, end:0};
-   }, []);
+    bodySelection = { start: 0, end: 0 };
+  }, []);
 
   useEffect(() => {
     if (!isPreviewActive) {
@@ -281,13 +281,13 @@ const MarkdownEditorView = ({
 
 
 
-  const _handleMediaInsert = (mediaArray:MediaInsertData[]) => {
+  const _handleMediaInsert = (mediaArray: MediaInsertData[]) => {
     if (mediaArray.length) {
       applyMediaLink({
         text: bodyText,
         selection: bodySelection,
         setTextAndSelection: _setTextAndSelection,
-        items:mediaArray,
+        items: mediaArray,
       });
     }
   };
@@ -302,9 +302,11 @@ const MarkdownEditorView = ({
     });
     inputRef.current?.blur();
   };
+
   const _handleOnAddLinkSheetClose = () => {
     inputRef.current?.focus();
   };
+
   const _handleInsertLink = ({ snippetText, selection }) => {
     applySnippet({
       text: bodyText,
@@ -315,25 +317,7 @@ const MarkdownEditorView = ({
 
     insertLinkModalRef.current?.hideModal();
   };
-  const _renderMarkupButton = ({ item }) => (
-    <View style={styles.buttonWrapper}>
-      <IconButton
-        size={20}
-        style={styles.editorButton}
-        iconStyle={styles.icon}
-        iconType={item.iconType}
-        name={item.icon}
-        onPress={() =>
-          item.onPress({
-            text: bodyText,
-            selection: bodySelection,
-            setTextAndSelection: _setTextAndSelection,
-            item
-          })
-        }
-      />
-    </View>
-  );
+
 
   const _renderFloatingDraftButton = () => {
     if (showDraftLoadButton) {
@@ -366,68 +350,6 @@ const MarkdownEditorView = ({
       );
     }
   };
-
-  const _renderEditorButtons = () => (
-    <>
-          <UploadsGalleryModal
-        ref={uploadsGalleryModalRef}
-        username={currentAccount.username}
-        handleMediaInsert={_handleMediaInsert}
-        setIsUploading={setIsUploading}
-      />
-    <StickyBar>
-      <View style={styles.leftButtonsWrapper}>
-        <FlatList
-          data={Formats}
-          keyboardShouldPersistTaps="always"
-          renderItem={({ item, index }) => index < 3 && _renderMarkupButton({ item })}
-          horizontal
-        />
-      </View>
-      <View style={styles.rightButtonsWrapper}>
-        <IconButton
-          size={20}
-          style={styles.rightIcons}
-          iconStyle={styles.icon}
-          iconType="FontAwesome"
-          name="link"
-          onPress={() =>
-            // Formats[3].onPress({ text, selection, setTextAndSelection: _setTextAndSelection })
-            _handleOnAddLinkPress()
-          }
-        />
-        <IconButton
-          onPress={() => setIsSnippetsOpen(true)}
-          style={styles.rightIcons}
-          size={20}
-          iconStyle={styles.icon}
-          iconType="MaterialCommunityIcons"
-          name="text-short"
-        />
-        <IconButton
-          onPress={() => {
-            uploadsGalleryModalRef.current.toggleModal();
-          }}
-          style={styles.rightIcons}
-          size={20}
-          iconStyle={styles.icon}
-          iconType="FontAwesome"
-          name="image"
-        />
-        <View style={styles.clearButtonWrapper}>
-          <IconButton
-            onPress={() => clearRef.current.show()}
-            size={20}
-            iconStyle={styles.clearIcon}
-            iconType="FontAwesome"
-            name="trash"
-            backgroundColor={styles.clearButtonWrapper.backgroundColor}
-          />
-        </View>
-      </View>
-    </StickyBar>
-    </>
-  );
 
   const _handleClear = (index) => {
     if (index === 0) {
@@ -521,7 +443,22 @@ const MarkdownEditorView = ({
         {isAndroidOreo() ? _renderEditorWithoutScroll() : _renderEditorWithScroll()}
         <UsernameAutofillBar text={bodyText} selection={bodySelection} onApplyUsername={_onApplyUsername} />
         {_renderFloatingDraftButton()}
-        {!isPreviewActive && _renderEditorButtons()}
+        {!isPreviewActive && (
+          <EditorToolbar
+            handleMediaInsert={_handleMediaInsert}
+            handleOnAddLinkPress={_handleOnAddLinkPress}
+            handleShowSnippets={() => setIsSnippetsOpen(true)}
+            handleOnClearPress={() => clearRef.current.show()}
+            handleOnMarkupButtonPress={(item) => {
+              item.onPress({
+                text: bodyText,
+                selection: bodySelection,
+                setTextAndSelection: _setTextAndSelection,
+                item
+              })
+            }}
+          />
+        )}
       </>
     );
 
