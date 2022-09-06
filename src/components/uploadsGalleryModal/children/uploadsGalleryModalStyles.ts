@@ -7,7 +7,8 @@ const gridItemWidth = gridItemHeight;
 export default EStyleSheet.create({
     modalStyle: {
         height:112,
-        backgroundColor: '$primaryLightBackground',
+        borderBottomWidth:1,
+        borderColor:'$primaryLightBackground'
       },
       container: {
         flex: 1,

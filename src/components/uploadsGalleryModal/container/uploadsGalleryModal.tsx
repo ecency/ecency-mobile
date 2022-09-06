@@ -1,6 +1,7 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Alert, View } from 'react-native';
+import { View as AnimatedView } from 'react-native-animatable';
 import bugsnapInstance from '../../../config/bugsnag';
 import { addImage, deleteImage, getImages, uploadImage } from '../../../providers/ecency/ecency';
 import UploadsGalleryContent from '../children/uploadsGalleryContent';
@@ -49,7 +50,6 @@ export const UploadsGalleryModal = forwardRef(({
     const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
     const pinCode = useAppSelector(state => state.application.pin);
     const currentAccount = useAppSelector(state => state.account.currentAccount);
-
 
 
     useImperativeHandle(ref, () => ({
@@ -338,11 +338,6 @@ export const UploadsGalleryModal = forwardRef(({
 
     const _renderContent = () => {
         return (
-            <>
-                {/* <Button onPress={_handleOpenImagePicker} title="gallery" />
-                <Button onPress={_handleOpenCamera} title="camera" /> */}
-
-
                 <UploadsGalleryContent
                     mediaUploads={mediaUploads}
                     isLoading={isLoading}
@@ -353,19 +348,17 @@ export const UploadsGalleryModal = forwardRef(({
                     handleOpenGallery={_handleOpenImagePicker}
 
                 />
-            </>
         )
     }
 
 
     return (
         showModal &&
-        <View
-
-            style={styles.modalStyle}
-        >
-            {_renderContent()}
-        </View>
+        <AnimatedView animation='slideInRight' duration={500}>
+            <View style={styles.modalStyle}>
+                {_renderContent()}
+            </View>
+        </AnimatedView>
 
     );
 });
