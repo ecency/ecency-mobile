@@ -147,7 +147,7 @@ const UploadsGalleryContent = ({
                         name={iconName}
                         size={24}
                     />
-                    <Text style={{}}>{text}</Text>
+                    <Text style={styles.selectButtonLabel}>{text}</Text>
                 </View>
             </TouchableOpacity>
         )

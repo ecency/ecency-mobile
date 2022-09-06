@@ -10,6 +10,9 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     width:'$deviceWidth'
   },
+  clearIcon: {
+    color: '$primaryLightGray',
+  },
   rightIcons: {
     marginRight: 20,
   },

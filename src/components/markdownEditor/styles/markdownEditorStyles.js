@@ -39,9 +39,6 @@ export default EStyleSheet.create({
     marginLeft: 4,
     color: '$iconColor',
   },
-  clearIcon: {
-    color: '$primaryLightGray',
-  },
   replySection: {
     paddingTop: 10,
     paddingBottom: 0,

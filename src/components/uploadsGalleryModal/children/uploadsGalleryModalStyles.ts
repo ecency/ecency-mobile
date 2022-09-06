@@ -1,4 +1,4 @@
-import { TextStyle, StyleSheet, ViewStyle, ImageStyle } from 'react-native';
+import { TextStyle, StyleSheet, ViewStyle, ImageStyle, Platform } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 const thumbSize = 96;
@@ -6,6 +6,10 @@ const thumbSize = 96;
 export default EStyleSheet.create({
   modalStyle: {
     height: 112,
+    borderTopWidth: Platform.select({
+      android:1,
+      ios:0
+    }),
     borderBottomWidth: 1,
     borderColor: '$primaryLightBackground'
   },
@@ -108,6 +112,13 @@ export default EStyleSheet.create({
     paddingVertical:8,
     height: thumbSize
   } as ViewStyle,
+
+  selectButtonLabel:{
+    fontSize: 16,   
+    textAlignVertical:'top', 
+    color: '$primaryBlack',
+    marginBottom:4,
+  } as TextStyle,
 
   addButton:{
     height:thumbSize,
