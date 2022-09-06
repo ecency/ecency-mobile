@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { Alert, FlatList, Platform, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import FastImage from 'react-native-fast-image';
-import { CheckBox, IconButton, MainButton, TextButton } from '../..';
+import { CheckBox, Icon, IconButton, MainButton, TextButton } from '../..';
 import { UploadedMedia } from '../../../models';
 import styles from '../children/uploadsGalleryModalStyles';
 
@@ -69,6 +69,7 @@ const UploadsGalleryContent = ({
         }
 
         return (
+
             <View style={styles.floatingContainer}>
                 <TextButton
                     style={styles.cancelButton}
@@ -135,37 +136,47 @@ const UploadsGalleryContent = ({
     };
 
 
-    const _btn = (iconName, text, onPress) => {
+    const _renderSelectButton = (iconName, text, onPress) => {
         return (
-            <View style={{flexDirection:'row', alignItems:'center'}}>
-                <IconButton
-                    style={{ width: 32, height: 32 }}
-                    color={EStyleSheet.value('$primaryBlack')}
-                    iconType="MaterialCommunityIcons"
-                    name={iconName}
-                    size={24}
-                    onPress={() => { handleOpenGallery() }} />
+            <TouchableOpacity onPress={() => { onPress && onPress() }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Icon
+                        style={{ width: 32, height: 32 }}
+                        color={EStyleSheet.value('$primaryBlack')}
+                        iconType="MaterialCommunityIcons"
+                        name={iconName}
+                        size={24}
+                    />
                     <Text style={{}}>{text}</Text>
-            </View>
+                </View>
+            </TouchableOpacity>
         )
     }
 
 
     const _renderHeaderContent = () => (
-        <View style={{ justifyContent: 'center',marginHorizontal:12 }} >
-            {_btn('image-multiple-outline', 'Gallery', ()=>{})}
-            {_btn('camera-outline', 'Camera', ()=>{})}
-            {_btn('cloud-upload-outline', 'To Store', ()=>{})}
-
-
+        <View style={styles.buttonsContainer}>
+            <View style={styles.selectButtonsContainer} >
+                {_renderSelectButton('image-plus', 'Gallery', handleOpenGallery)}
+                {_renderSelectButton('camera-plus', 'Camera', handleOpenCamera)}
+            </View>
+            <IconButton
+                style={styles.addButton}
+                color={EStyleSheet.value('$primaryBlack')}
+                iconType="MaterialCommunityIcons"
+                name={'plus'}
+                size={28}
+                onPress={()=>{handleOpenGallery(true)}}
+            />
         </View>
+
     )
 
     //render empty list placeholder
     const _renderEmptyContent = () => {
         return (
             <>
-                <Text style={styles.title}>{intl.formatMessage({ id: 'uploads_modal.label_no_images' })}</Text>
+                <Text style={styles.emptyText}>{intl.formatMessage({ id: 'uploads_modal.label_no_images' })}</Text>
             </>
         );
     };
@@ -174,12 +185,12 @@ const UploadsGalleryContent = ({
 
     return (
         <View style={styles.container}>
-
-
             <FlatList
                 data={mediaUploads}
                 keyExtractor={(item) => `item_${item.url}`}
                 renderItem={_renderItem}
+                style={{flex:1}}
+                contentContainerStyle={{alignItems:'center' }}
                 ListHeaderComponent={_renderHeaderContent}
                 ListEmptyComponent={_renderEmptyContent}
                 ListFooterComponent={<View style={styles.listEmptyFooter} />}
