@@ -39,9 +39,12 @@ export default async ({ text, selection, setTextAndSelection, items }: Args) => 
 
 
     const _replaceFormatedString = (placeholder: string, url: string) => {
-        newText = newText.replace(`(${placeholder})`, `(${url})`);
+        const replaceStr = `(${placeholder})`;
 
-        if (newSelection.start > (newText.indexOf(url))) {
+        const endingIndex = newText.indexOf(replaceStr) + replaceStr.length + 1;
+        newText = newText.replace(replaceStr, `(${url})`);
+
+        if (newSelection.start >= endingIndex) {
             const lengthDiff = url.length - placeholder.length
             newSelection = {
                 start: newSelection.start + lengthDiff,
