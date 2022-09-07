@@ -88,6 +88,7 @@ const MarkdownEditorView = ({
   const [bodyInputHeight, setBodyInputHeight] = useState(MIN_BODY_INPUT_HEIGHT);
   const [isSnippetsOpen, setIsSnippetsOpen] = useState(false);
   const [showDraftLoadButton, setShowDraftLoadButton] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const inputRef = useRef(null);
   const clearRef = useRef(null);
@@ -211,22 +212,26 @@ const MarkdownEditorView = ({
 
 
   const _debouncedOnTextChange = useCallback(debounce(()=>{
-    if(editorToolbarRef.current){
-      console.log("debounced text change called")
-      editorToolbarRef.current.onEditingPause()
-    }
-  },500),[])
+    console.log("setting is editing to", false)
+    setIsEditing(false)
+  }, 500),[])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const _changeText = useCallback((input) => {
     bodyText = input;
+
+    if(!isEditing){
+      console.log('force setting is editing to true', true)
+      setIsEditing(true)
+    }
+
     _debouncedOnTextChange();
 
     //NOTE: onChange method is called by direct parent of MarkdownEditor that is PostForm, do not remove
     if (onChange) {
       onChange(input);
     }
-  }, []);
+  }, [isEditing]);
 
 
   const _handleOnSelectionChange = async (event) => {

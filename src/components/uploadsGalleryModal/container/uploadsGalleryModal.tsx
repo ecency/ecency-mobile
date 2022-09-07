@@ -9,8 +9,7 @@ import styles from '../children/uploadsGalleryModalStyles';
 import ImagePicker from 'react-native-image-crop-picker';
 import { signImage } from '../../../providers/hive/dhive';
 import { useAppSelector } from '../../../hooks';
-import { replaceBetween } from '../../markdownEditor/children/formats/utils';
-import { delay, generateRndStr } from '../../../utils/editor';
+import { generateRndStr } from '../../../utils/editor';
 
 
 export interface UploadsGalleryModalRef {
@@ -32,12 +31,14 @@ export interface MediaInsertData {
 
 interface UploadsGalleryModalProps {
     username: string;
+    isEditing: boolean;
     handleMediaInsert: (data: Array<MediaInsertData>) => void;
     setIsUploading: (status: boolean) => void;
 }
 
 export const UploadsGalleryModal = forwardRef(({
     username,
+    isEditing,
     handleMediaInsert,
     setIsUploading
 }: UploadsGalleryModalProps, ref) => {
@@ -49,6 +50,7 @@ export const UploadsGalleryModal = forwardRef(({
     const [isLoading, setIsLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
+
     const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
     const pinCode = useAppSelector(state => state.application.pin);
     const currentAccount = useAppSelector(state => state.account.currentAccount);
@@ -58,19 +60,19 @@ export const UploadsGalleryModal = forwardRef(({
         toggleModal: () => {
             setShowModal(!showModal);
         },
-        processPendingInserts: () => {
-            if(pendingInserts.current.length){
-                handleMediaInsert(pendingInserts.current);
-                pendingInserts.current = []
-            }
-        }
-
     }));
 
 
     useEffect(() => {
         _getMediaUploads();
     }, []);
+
+    useEffect(()=>{
+        if(!isEditing && pendingInserts.current.length){
+            handleMediaInsert(pendingInserts.current);
+            pendingInserts.current = []
+        }
+    },[isEditing])
 
 
     const _handleOpenImagePicker = () => {
@@ -187,7 +189,7 @@ export const UploadsGalleryModal = forwardRef(({
             if (res.data && res.data.url) {
 
                 if (shouldInsert) {
-                    pendingInserts.current.push({
+                    _handleMediaInsertion({
                         filename: media.filename,
                         url: res.data.url,
                         text: '',
@@ -245,7 +247,7 @@ export const UploadsGalleryModal = forwardRef(({
             }
 
             if (shouldInsert) {
-                pendingInserts.current.push({
+                _handleMediaInsertion({
                     filename: media.filename,
                     url: '',
                     text: '',
@@ -282,6 +284,15 @@ export const UploadsGalleryModal = forwardRef(({
             );
         }
     };
+
+
+    const _handleMediaInsertion = (data:MediaInsertData) => {
+        if(isEditing){
+            pendingInserts.current.push(data);
+        }else if(handleMediaInsert) {
+            handleMediaInsert([data]);
+        }
+    }
 
 
     //save image to user gallery

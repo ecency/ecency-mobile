@@ -8,6 +8,7 @@ import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGall
 import Formats from './formats/formats';
 
 type Props = {
+  isEditing:boolean,
   setIsUploading: (isUploading: boolean) => void;
   handleMediaInsert: (data: MediaInsertData[]) => void;
   handleOnAddLinkPress: () => void;
@@ -16,7 +17,8 @@ type Props = {
   handleShowSnippets: () => void;
 }
 
-export const EditorToolbar = forwardRef(({
+export const EditorToolbar = ({
+  isEditing,
   setIsUploading,
   handleMediaInsert,
   handleOnAddLinkPress,
@@ -24,21 +26,12 @@ export const EditorToolbar = forwardRef(({
   handleOnMarkupButtonPress,
   handleShowSnippets
 
-}: Props, ref) => {
+}: Props) => {
 
   const currentAccount = useAppSelector(state => state.account.currentAccount)
 
   const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
 
-
-  useImperativeHandle(ref, () => ({
-    onEditingPause: () => {
-      console.log("editor toolbar on editing paused")
-      if(uploadsGalleryModalRef.current){
-        uploadsGalleryModalRef.current.processPendingInserts()
-      }
-    },
-  }));
 
   const _renderMarkupButton = ({ item }) => (
     <View style={styles.buttonWrapper}>
@@ -58,6 +51,7 @@ export const EditorToolbar = forwardRef(({
 
       <UploadsGalleryModal
         ref={uploadsGalleryModalRef}
+        isEditing={isEditing}
         username={currentAccount.username}
         handleMediaInsert={handleMediaInsert}
         setIsUploading={setIsUploading}
@@ -118,4 +112,4 @@ export const EditorToolbar = forwardRef(({
 
     </StickyBar>
   )
-})
+}
