@@ -11,7 +11,7 @@ import {
 import { renderPostBody, postBodySummary } from '@ecency/render-helper';
 import { useDispatch, useSelector } from 'react-redux';
 import { View as AnimatedView } from 'react-native-animatable';
-import { get } from 'lodash';
+import { get, debounce } from 'lodash';
 import { Icon } from '../../icon';
 
 // Utils
@@ -91,7 +91,7 @@ const MarkdownEditorView = ({
 
   const inputRef = useRef(null);
   const clearRef = useRef(null);
-  const uploadsGalleryModalRef = useRef(null);
+  const editorToolbarRef = useRef<typeof EditorToolbar>(null);
   const insertLinkModalRef = useRef(null);
   const tooltipRef = useRef(null);
 
@@ -209,9 +209,18 @@ const MarkdownEditorView = ({
     });
   };
 
+
+  const _debouncedOnTextChange = useCallback(debounce(()=>{
+    if(editorToolbarRef.current){
+      console.log("debounced text change called")
+      editorToolbarRef.current.onEditingPause()
+    }
+  },500),[])
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const _changeText = useCallback((input) => {
     bodyText = input;
+    _debouncedOnTextChange();
 
     //NOTE: onChange method is called by direct parent of MarkdownEditor that is PostForm, do not remove
     if (onChange) {
@@ -445,6 +454,8 @@ const MarkdownEditorView = ({
         {_renderFloatingDraftButton()}
         {!isPreviewActive && (
           <EditorToolbar
+            ref={editorToolbarRef}
+            setIsUploading={setIsUploading}
             handleMediaInsert={_handleMediaInsert}
             handleOnAddLinkPress={_handleOnAddLinkPress}
             handleShowSnippets={() => setIsSnippetsOpen(true)}

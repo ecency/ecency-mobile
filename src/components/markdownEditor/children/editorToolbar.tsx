@@ -1,5 +1,5 @@
 import { View, Text } from 'react-native'
-import React, { useRef } from 'react'
+import React, { forwardRef, useImperativeHandle, useRef } from 'react'
 import { IconButton, StickyBar, UploadsGalleryModal } from '../..'
 import { FlatList } from 'react-native-gesture-handler';
 import styles from '../styles/editorToolbarStyles';
@@ -9,14 +9,14 @@ import Formats from './formats/formats';
 
 type Props = {
   setIsUploading: (isUploading: boolean) => void;
-  handleMediaInsert: (data:MediaInsertData[]) => void;
+  handleMediaInsert: (data: MediaInsertData[]) => void;
   handleOnAddLinkPress: () => void;
   handleOnClearPress: () => void;
   handleOnMarkupButtonPress: (item) => void;
-  handleShowSnippets:()=>void;
+  handleShowSnippets: () => void;
 }
 
-export const EditorToolbar = ({
+export const EditorToolbar = forwardRef(({
   setIsUploading,
   handleMediaInsert,
   handleOnAddLinkPress,
@@ -24,11 +24,21 @@ export const EditorToolbar = ({
   handleOnMarkupButtonPress,
   handleShowSnippets
 
-}: Props) => {
+}: Props, ref) => {
 
   const currentAccount = useAppSelector(state => state.account.currentAccount)
 
-  const uploadsGalleryModalRef = useRef(null);
+  const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
+
+
+  useImperativeHandle(ref, () => ({
+    onEditingPause: () => {
+      console.log("editor toolbar on editing paused")
+      if(uploadsGalleryModalRef.current){
+        uploadsGalleryModalRef.current.processPendingInserts()
+      }
+    },
+  }));
 
   const _renderMarkupButton = ({ item }) => (
     <View style={styles.buttonWrapper}>
@@ -69,10 +79,10 @@ export const EditorToolbar = ({
             iconStyle={styles.icon}
             iconType="FontAwesome"
             name="link"
-            onPress={()=>{handleOnAddLinkPress && handleOnAddLinkPress()}}
+            onPress={() => { handleOnAddLinkPress && handleOnAddLinkPress() }}
           />
           <IconButton
-            onPress={() => {handleShowSnippets && handleShowSnippets()}}
+            onPress={() => { handleShowSnippets && handleShowSnippets() }}
             style={styles.rightIcons}
             size={20}
             iconStyle={styles.icon}
@@ -94,7 +104,7 @@ export const EditorToolbar = ({
           />
           <View style={styles.clearButtonWrapper}>
             <IconButton
-              onPress={() => {handleOnClearPress && handleOnClearPress()}}
+              onPress={() => { handleOnClearPress && handleOnClearPress() }}
               size={20}
               iconStyle={styles.clearIcon}
               iconType="FontAwesome"
@@ -108,4 +118,4 @@ export const EditorToolbar = ({
 
     </StickyBar>
   )
-}
+})

@@ -196,12 +196,12 @@ const UploadsGalleryContent = ({
                 ListFooterComponent={<View style={styles.listEmptyFooter} />}
                 extraData={indices}
                 horizontal={true}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={isLoading}
-                        onRefresh={getMediaUploads}
-                    />
-                }
+                // refreshControl={
+                //     <RefreshControl
+                //         refreshing={isLoading}
+                //         onRefresh={getMediaUploads}
+                //     />
+                // }
             />
 
             {_renderFloatingPanel()}
