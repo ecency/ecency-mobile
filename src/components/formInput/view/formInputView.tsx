@@ -26,6 +26,8 @@ interface Props extends TextInputProps {
   inputStyle:TextStyle;
   isValid:boolean;
   onChange?:(value:string)=>void;
+  onFocus?:()=>void;
+  onBlur?:()=>void;
 }
 
 const FormInputView = ({
@@ -44,6 +46,7 @@ const FormInputView = ({
   isValid,
   value,
   onBlur,
+  onFocus,
   ...props
 }:Props) => {
   const [_value, setValue] = useState(value || '');
@@ -62,6 +65,9 @@ const FormInputView = ({
 
   const _handleOnFocus = () => {
     setInputBorderColor('#357ce6');
+    if(onFocus){
+      onFocus();
+    }
   };
 
   const _handleOnBlur = () => {
