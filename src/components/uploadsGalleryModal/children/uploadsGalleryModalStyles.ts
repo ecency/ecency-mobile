@@ -150,4 +150,14 @@ export default EStyleSheet.create({
     height: 80,
   } as ViewStyle,
 
+  thumbPlaceholder:{
+    height: thumbSize,
+    width: thumbSize,
+    backgroundColor:'$primaryLightBackground',
+    marginLeft:8,
+    borderRadius:20,
+    justifyContent:'center',
+    alignItems:'center'
+  } as ViewStyle
+
 })

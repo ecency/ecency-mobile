@@ -1,7 +1,8 @@
 import { proxifyImageSrc } from '@ecency/render-helper';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Alert, FlatList, Platform, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, FlatList, Platform, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
+import { View as AnimatedView } from 'react-native-animatable';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import FastImage from 'react-native-fast-image';
 import { CheckBox, Icon, IconButton, MainButton, TextButton } from '../..';
@@ -12,6 +13,7 @@ type Props = {
     mediaUploads: any[],
     indices: Map<number, boolean>
     isLoading: boolean,
+    isAddingToUploads: boolean,
     getMediaUploads: () => void,
     deleteMedia: (indices) => Promise<boolean>,
     insertMedia: (map: Map<number, boolean>) => void
@@ -23,6 +25,7 @@ type Props = {
 const UploadsGalleryContent = ({
     mediaUploads,
     isLoading,
+    isAddingToUploads,
     deleteMedia,
     insertMedia,
     getMediaUploads,
@@ -168,6 +171,11 @@ const UploadsGalleryContent = ({
                 size={28}
                 onPress={()=>{handleOpenGallery(true)}}
             />
+            {isAddingToUploads && (
+                <AnimatedView animation='zoomIn' duration={500} style={styles.thumbPlaceholder}>
+                    <ActivityIndicator/>
+                </AnimatedView>
+            )}
         </View>
 
     )

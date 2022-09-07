@@ -49,6 +49,7 @@ export const UploadsGalleryModal = forwardRef(({
     const [mediaUploads, setMediaUploads] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [isAddingToUploads, setIsAddingToUploads] = useState(false);
 
 
     const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
@@ -75,7 +76,7 @@ export const UploadsGalleryModal = forwardRef(({
     },[isEditing])
 
 
-    const _handleOpenImagePicker = () => {
+    const _handleOpenImagePicker = (addToUploads?:boolean) => {
         ImagePicker.openPicker({
             includeBase64: true,
             multiple: true,
@@ -83,8 +84,8 @@ export const UploadsGalleryModal = forwardRef(({
             smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
         })
             .then((images) => {
-                _handleMediaOnSelected(images);
-                setShowModal(false)
+                _handleMediaOnSelected(images, !addToUploads);
+             
             })
             .catch((e) => {
                 _handleMediaOnSelectFailure(e);
@@ -98,8 +99,8 @@ export const UploadsGalleryModal = forwardRef(({
             mediaType: 'photo',
         })
             .then((image) => {
-                _handleMediaOnSelected(image);
-                setShowModal(false)
+                _handleMediaOnSelected(image, true);
+              
             })
             .catch((e) => {
                 _handleMediaOnSelectFailure(e);
@@ -108,7 +109,7 @@ export const UploadsGalleryModal = forwardRef(({
 
 
 
-    const _handleMediaOnSelected = async (media: any[]) => {
+    const _handleMediaOnSelected = async (media: any[], shouldInsert:boolean) => {
 
         // this.setState({
         //     failedImageUploads: 0
@@ -116,20 +117,21 @@ export const UploadsGalleryModal = forwardRef(({
         try {
             if (media.length > 0) {
 
-                media.forEach((element, index) => {
-                    media[index].filename = element.filename || generateRndStr();
-                    handleMediaInsert([{
-                        filename: element.filename,
-                        url: '',
-                        text: '',
-                        status: MediaInsertStatus.UPLOADING
-                    }])
-                })
-
+                if(shouldInsert){
+                    media.forEach((element, index) => {
+                        media[index].filename = element.filename || generateRndStr();
+                        handleMediaInsert([{
+                            filename: element.filename,
+                            url: '',
+                            text: '',
+                            status: MediaInsertStatus.UPLOADING
+                        }])
+                    })
+                }
 
                 for (let index = 0; index < media.length; index++) {
                     const element = media[index];
-                    await _uploadImage(element, { shouldInsert: true });
+                    await _uploadImage(element, { shouldInsert });
                 }
             } else {
                 //single image is selected, insert placeholder;
@@ -140,7 +142,7 @@ export const UploadsGalleryModal = forwardRef(({
                     status: MediaInsertStatus.UPLOADING
                 }])
 
-                await _uploadImage(media, { shouldInsert: true });
+                await _uploadImage(media, { shouldInsert });
             }
 
             // if (this.state.failedImageUploads) {
@@ -171,6 +173,9 @@ export const UploadsGalleryModal = forwardRef(({
             setIsLoading(true);
             if (setIsUploading) {
                 setIsUploading(true)
+            }
+            if(!shouldInsert){
+                setIsAddingToUploads(true);
             }
 
             let sign = await signImage(media, currentAccount, pinCode);
@@ -259,6 +264,7 @@ export const UploadsGalleryModal = forwardRef(({
             if (setIsUploading) {
                 setIsUploading(false)
             }
+            setIsAddingToUploads(false);
         }
 
     };
@@ -306,7 +312,9 @@ export const UploadsGalleryModal = forwardRef(({
         } catch (err) {
             console.warn("Failed to add image to gallery, could possibly a duplicate image", err)
             setIsLoading(false);
+            setIsAddingToUploads(false);
         }
+
     }
 
 
@@ -344,6 +352,7 @@ export const UploadsGalleryModal = forwardRef(({
             console.warn("Failed to get images")
             setIsLoading(false);
         }
+        setIsAddingToUploads(false);
     }
 
     //inserts media items in post body
@@ -361,7 +370,6 @@ export const UploadsGalleryModal = forwardRef(({
 
         }
         handleMediaInsert(data)
-        setShowModal(false);
     }
 
     const _renderContent = () => {
@@ -369,6 +377,7 @@ export const UploadsGalleryModal = forwardRef(({
             <UploadsGalleryContent
                 mediaUploads={mediaUploads}
                 isLoading={isLoading}
+                isAddingToUploads={isAddingToUploads}
                 getMediaUploads={_getMediaUploads}
                 deleteMedia={_deleteMedia}
                 insertMedia={_insertMedia}
