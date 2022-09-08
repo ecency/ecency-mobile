@@ -208,7 +208,9 @@ export const UploadsGalleryModal = forwardRef(({
                 }
 
                 setIsLoading(false);
-
+                if(setIsUploading){
+                    setIsUploading(false)
+                }
 
 
             } else if (res.error) {

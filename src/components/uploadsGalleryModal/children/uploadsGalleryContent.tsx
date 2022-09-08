@@ -1,11 +1,11 @@
 import { proxifyImageSrc } from '@ecency/render-helper';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ActivityIndicator, Alert, FlatList, Platform, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, Platform, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
 import { View as AnimatedView } from 'react-native-animatable';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import FastImage from 'react-native-fast-image';
-import { CheckBox, Icon, IconButton, MainButton, TextButton } from '../..';
+import { Icon, IconButton } from '../..';
 import { UploadedMedia } from '../../../models';
 import styles from '../children/uploadsGalleryModalStyles';
 
