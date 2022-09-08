@@ -137,9 +137,9 @@ const UploadsGalleryContent = ({
             </View>
 
             {isAddingToUploads && (
-                <AnimatedView animation='zoomIn' duration={500} style={styles.thumbPlaceholder}>
-                    <ActivityIndicator />
-                </AnimatedView>
+                <View style={styles.thumbPlaceholder}>
+                    <ActivityIndicator color={EStyleSheet.value('$primaryBlack')} />
+                </View>
             )}
         </View>
 
