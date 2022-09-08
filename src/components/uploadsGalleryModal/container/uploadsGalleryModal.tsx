@@ -49,6 +49,7 @@ export const UploadsGalleryModal = forwardRef(({
     const intl = useIntl();
     const dispatch = useAppDispatch();
 
+    const processedParamFiles = useRef<any[]>([]);
     const pendingInserts = useRef<MediaInsertData[]>([]);
 
     const [mediaUploads, setMediaUploads] = useState([]);
@@ -71,7 +72,7 @@ export const UploadsGalleryModal = forwardRef(({
     }));
 
     useEffect(() => {
-        if (paramFiles) {
+        if (paramFiles && processedParamFiles.current !== paramFiles) {
             console.log('files : ', paramFiles);
 
             const _mediaItems = paramFiles.map((el) => {
@@ -88,6 +89,7 @@ export const UploadsGalleryModal = forwardRef(({
             });
 
             _handleMediaOnSelected(_mediaItems, true)
+            processedParamFiles.current = paramFiles
         }
 
     }, [paramFiles])
