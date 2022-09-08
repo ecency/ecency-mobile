@@ -410,13 +410,14 @@
     "btn_cancel": "Отмена"
   },
   "uploads_modal": {
-    "label_no_images": "Изображения не найдены",
+    "label_no_images": "No Existing Uploads...",
     "title": "Загруженные изображения",
     "title_remove_confirmation": "Удалить изображение",
     "btn_add": "Изображение",
     "btn_insert": "ВСТАВИТЬ",
     "btn_delete": "УДАЛИТЬ",
     "message_failed": "Не удалось загрузить изображение",
+    "delete_failed": "Failed to delete image",
     "failed_count": "Не удалось загрузить {failedCount} из {totalCount} выбранного изображения(ов)"
   },
   "pincode": {
