@@ -1,7 +1,7 @@
 import { proxifyImageSrc } from '@ecency/render-helper';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ActivityIndicator, FlatList, Platform, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, Platform, Text, TouchableOpacity, View } from 'react-native';
 import { View as AnimatedView } from 'react-native-animatable';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import FastImage from 'react-native-fast-image';
@@ -24,11 +24,9 @@ type Props = {
 
 const UploadsGalleryContent = ({
     mediaUploads,
-    isLoading,
     isAddingToUploads,
     deleteMedia,
     insertMedia,
-    getMediaUploads,
     handleOpenGallery,
     handleOpenCamera,
 

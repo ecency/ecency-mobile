@@ -457,8 +457,9 @@ const MarkdownEditorView = ({
         {isAndroidOreo() ? _renderEditorWithoutScroll() : _renderEditorWithScroll()}
         <UsernameAutofillBar text={bodyText} selection={bodySelection} onApplyUsername={_onApplyUsername} />
         {_renderFloatingDraftButton()}
-        {!isPreviewActive && (
+       
           <EditorToolbar
+            isPreviewActive={isPreviewActive}
             paramFiles={paramFiles}
             setIsUploading={setIsUploading}
             handleMediaInsert={_handleMediaInsert}
@@ -474,7 +475,7 @@ const MarkdownEditorView = ({
               })
             }}
           />
-        )}
+        
       </>
     );
 

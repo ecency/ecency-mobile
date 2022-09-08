@@ -10,6 +10,7 @@ import Formats from './formats/formats';
 type Props = {
   paramFiles:any[]
   isEditing:boolean,
+  isPreviewActive:boolean,
   setIsUploading: (isUploading: boolean) => void;
   handleMediaInsert: (data: MediaInsertData[]) => void;
   handleOnAddLinkPress: () => void;
@@ -21,6 +22,7 @@ type Props = {
 export const EditorToolbar = ({
   paramFiles,
   isEditing,
+  isPreviewActive,
   setIsUploading,
   handleMediaInsert,
   handleOnAddLinkPress,
@@ -53,6 +55,7 @@ export const EditorToolbar = ({
 
       <UploadsGalleryModal
         ref={uploadsGalleryModalRef}
+        isPreviewActive={isPreviewActive}
         paramFiles={paramFiles}
         isEditing={isEditing}
         username={currentAccount.username}
@@ -60,7 +63,8 @@ export const EditorToolbar = ({
         setIsUploading={setIsUploading}
       />
 
-      <View style={styles.buttonsContainer}>
+      {!isPreviewActive && (
+        <View style={styles.buttonsContainer}>
         <View style={styles.leftButtonsWrapper}>
           <FlatList
             data={Formats}
@@ -111,6 +115,8 @@ export const EditorToolbar = ({
           </View>
         </View>
       </View>
+      )}
+      
 
 
     </StickyBar>

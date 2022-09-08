@@ -1081,7 +1081,7 @@ class EditorContainer extends Component<any, any> {
     } = this.state;
 
     const tags = route.params?.tags;
-	const paramFiles = route.params?.paramFiles
+	  const paramFiles = route.params?.files;
     return (
       <EditorScreen
         paramFiles={paramFiles}

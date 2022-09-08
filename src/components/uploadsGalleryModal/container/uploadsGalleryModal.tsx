@@ -9,7 +9,7 @@ import styles from '../children/uploadsGalleryModalStyles';
 import ImagePicker from 'react-native-image-crop-picker';
 import { signImage } from '../../../providers/hive/dhive';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { generateRndStr } from '../../../utils/editor';
+import { delay, generateRndStr } from '../../../utils/editor';
 import { toastNotification } from '../../../redux/actions/uiAction';
 
 
@@ -35,6 +35,7 @@ interface UploadsGalleryModalProps {
     paramFiles: any[];
     username: string;
     isEditing: boolean;
+    isPreviewActive: boolean;
     handleMediaInsert: (data: Array<MediaInsertData>) => void;
     setIsUploading: (status: boolean) => void;
 }
@@ -43,13 +44,13 @@ export const UploadsGalleryModal = forwardRef(({
     paramFiles,
     username,
     isEditing,
+    isPreviewActive,
     handleMediaInsert,
     setIsUploading
 }: UploadsGalleryModalProps, ref) => {
     const intl = useIntl();
     const dispatch = useAppDispatch();
 
-    const processedParamFiles = useRef<any[]>([]);
     const pendingInserts = useRef<MediaInsertData[]>([]);
 
     const [mediaUploads, setMediaUploads] = useState([]);
@@ -72,24 +73,26 @@ export const UploadsGalleryModal = forwardRef(({
     }));
 
     useEffect(() => {
-        if (paramFiles && processedParamFiles.current !== paramFiles) {
+        if (paramFiles) {
             console.log('files : ', paramFiles);
 
-            const _mediaItems = paramFiles.map((el) => {
-                if (el.filePath && el.fileName) {
-                    const _media = {
-                        path: el.filePath,
-                        mime: el.mimeType,
-                        filename: el.fileName || `img_${Math.random()}.jpg`,
-                    };
-
-                    return _media;
-                }
-                return null
-            });
-
-            _handleMediaOnSelected(_mediaItems, true)
-            processedParamFiles.current = paramFiles
+            //delay is a workaround to let editor ready before initiating uploads on mount
+            delay(500).then(()=>{
+                const _mediaItems = paramFiles.map((el) => {
+                    if (el.filePath && el.fileName) {
+                        const _media = {
+                            path: el.filePath,
+                            mime: el.mimeType,
+                            filename: el.fileName || `img_${Math.random()}.jpg`,
+                        };
+    
+                        return _media;
+                    }
+                    return null
+                });
+    
+                _handleMediaOnSelected(_mediaItems, true)
+            })
         }
 
     }, [paramFiles])
@@ -164,6 +167,7 @@ export const UploadsGalleryModal = forwardRef(({
                 for (let index = 0; index < media.length; index++) {
                     const element = media[index];
                     if (element) {
+                        await delay(3000)
                         await _uploadImage(element, { shouldInsert });
                     }
                 }
@@ -426,7 +430,7 @@ export const UploadsGalleryModal = forwardRef(({
 
 
     return (
-        showModal &&
+        !isPreviewActive && showModal &&
         <AnimatedView animation='slideInRight' duration={500}>
             <View style={styles.modalStyle}>
                 {_renderContent()}
