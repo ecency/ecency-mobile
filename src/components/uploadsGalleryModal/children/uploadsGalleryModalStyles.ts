@@ -17,19 +17,7 @@ export default EStyleSheet.create({
     flex: 1,
     width:'$deviceWidth',
   },
-  floatingContainer: {
-    flexDirection: 'row',
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    left: 0,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    zIndex: 10,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    backgroundColor: '$primaryBackgroundColor'
-  } as ViewStyle,
+
 
   mediaItem: {
     marginLeft: 8,
@@ -146,10 +134,13 @@ export default EStyleSheet.create({
 
   } as ViewStyle,
 
-  checkContainer: {
+  minusContainer: {
     position: 'absolute',
     top: 8,
-    left: 16
+    left: 16,
+    backgroundColor:'$primaryRed',
+    borderRadius:16,
+    padding:2,
   } as ViewStyle,
 
   checkStyle: {

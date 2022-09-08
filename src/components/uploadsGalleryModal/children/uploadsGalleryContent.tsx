@@ -15,7 +15,7 @@ type Props = {
     isLoading: boolean,
     isAddingToUploads: boolean,
     getMediaUploads: () => void,
-    deleteMedia: (indices) => Promise<boolean>,
+    deleteMedia: (id:string) => Promise<boolean>,
     insertMedia: (map: Map<number, boolean>) => void
     handleOpenGallery: (addToUploads?: boolean) => void,
     handleOpenCamera: () => void,
@@ -36,85 +36,29 @@ const UploadsGalleryContent = ({
 
     const intl = useIntl()
 
-    const [indices, setIndices] = useState<Map<number, boolean>>(new Map());
+    const [deleteIds, setDeleteIds] = useState<Map<string, boolean>>(new Map());
     const [isDeleteMode, setIsDeleteMode] = useState(false);
 
-    const _deleteMedia = async () => {
-        const status = await deleteMedia(indices)
-        if (status) {
-            setIndices(new Map())
+
+    const _deleteMedia = async (id:string) => {
+        await deleteMedia(id)
+        if(deleteIds.has(id)) {
+            deleteIds.delete(id);
+            setDeleteIds(new Map([...deleteIds]))
         }
     }
 
 
-    //renders footer with add snipept button and shows new snippet modal
-    const _renderFloatingPanel = () => {
-
-        if (!indices.size) {
-            return null
-        }
-
-        const _onRemovePress = async () => {
-            const _onConfirm = () => {
-                _deleteMedia()
-            }
-            Alert.alert(
-                intl.formatMessage({ id: 'alert.delete' }),
-                intl.formatMessage({ id: 'alert.remove_alert' }),
-                [{
-                    text: intl.formatMessage({ id: 'alert.cancel' }),
-                    style: 'cancel'
-                }, {
-                    text: intl.formatMessage({ id: 'alert.confirm' }),
-                    onPress: _onConfirm
-                }]
-            )
-
-        }
-
-        return (
-
-            <View style={styles.floatingContainer}>
-                <TextButton
-                    style={styles.cancelButton}
-                    onPress={_onRemovePress}
-                    text={intl.formatMessage({
-                        id: 'uploads_modal.btn_delete',
-                    })}
-                />
-                <MainButton
-                    style={{ width: 136, marginLeft: 12 }}
-                    onPress={() => insertMedia(indices)}
-                    iconName="plus"
-                    iconType="MaterialCommunityIcons"
-                    iconColor="white"
-                    text={intl.formatMessage({
-                        id: 'uploads_modal.btn_insert',
-                    })}
-                />
-            </View>
-        );
-    };
-
     //render list item for snippet and handle actions;
     const _renderItem = ({ item, index }: { item: UploadedMedia, index: number }) => {
 
-        const _onCheckPress = () => {
-            //update selection indices
-            if (indices.has(index)) {
-                indices.delete(index);
-            } else {
-                indices.set(index, true);
-            }
-
-            setIndices(new Map([...indices]));
-        }
-
         const _onPress = () => {
-            //TODO: cehck and delete media
 
-            if (indices.size) {
-                _onCheckPress()
+            if (isDeleteMode) {
+                deleteIds.set(item._id, true);
+                setDeleteIds(new Map([...deleteIds]));
+                _deleteMedia(item._id);
+
             } else {
                 insertMedia(new Map([[index, true]]))
             }
@@ -123,28 +67,29 @@ const UploadsGalleryContent = ({
         const thumbUrl = proxifyImageSrc(item.url, 600, 500, Platform.OS === 'ios' ? 'match' : 'webp');
 
         return (
-            <TouchableOpacity onPress={_onPress}>
+            <TouchableOpacity onPress={_onPress} disabled={deleteIds.has(item._id)}>
                 <FastImage
                     source={{ uri: thumbUrl }}
                     style={styles.mediaItem}
                 />
                 {
                     isDeleteMode && (
-
-                        <AnimatedView animation='zoomIn' duration={300} style={styles.checkContainer}>
-                            <IconButton
-                                style={{ backgroundColor: EStyleSheet.value('$primaryLightBackground') }}
-                                color={EStyleSheet.value('$primaryBlack')}
-                                iconType="MaterialCommunityIcons"
-                                name={'minus'}
-                                size={24}
-                            />
+                        <AnimatedView animation='zoomIn' duration={300} style={styles.minusContainer}>
+                            {
+                                deleteIds.has(item._id) ? (
+                                    <ActivityIndicator color={EStyleSheet.value('$pureWhite')} />
+                                ) : (
+                                    <Icon
+                                        color={EStyleSheet.value('$pureWhite')}
+                                        iconType="MaterialCommunityIcons"
+                                        name={'minus'}
+                                        size={24}
+                                    />
+                                )
+                            }
                         </AnimatedView>
-
-
                     )
                 }
-
             </TouchableOpacity>
         )
     };
@@ -224,7 +169,7 @@ const UploadsGalleryContent = ({
                 ListHeaderComponent={_renderHeaderContent}
                 ListEmptyComponent={_renderEmptyContent}
                 ListFooterComponent={<View style={styles.listEmptyFooter} />}
-                extraData={indices}
+                extraData={deleteIds}
                 horizontal={true}
                 keyboardShouldPersistTaps='always'
             // refreshControl={
@@ -234,8 +179,6 @@ const UploadsGalleryContent = ({
             //     />
             // }
             />
-
-            {/* {_renderFloatingPanel()} */}
         </View>
     )
 }

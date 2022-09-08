@@ -417,6 +417,7 @@
     "btn_insert":"INSERT",
     "btn_delete":"DELETE",
     "message_failed":"Failed to upload image",
+    "delete_failed":"Failed to delete image",
     "failed_count":"Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {

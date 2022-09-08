@@ -8,8 +8,10 @@ import UploadsGalleryContent from '../children/uploadsGalleryContent';
 import styles from '../children/uploadsGalleryModalStyles';
 import ImagePicker from 'react-native-image-crop-picker';
 import { signImage } from '../../../providers/hive/dhive';
-import { useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { generateRndStr } from '../../../utils/editor';
+import { toastNotification } from '../../../redux/actions/uiAction';
+
 
 
 export interface UploadsGalleryModalRef {
@@ -43,6 +45,7 @@ export const UploadsGalleryModal = forwardRef(({
     setIsUploading
 }: UploadsGalleryModalProps, ref) => {
     const intl = useIntl();
+    const dispatch = useAppDispatch();
 
     const pendingInserts = useRef<MediaInsertData[]>([]);
 
@@ -319,19 +322,16 @@ export const UploadsGalleryModal = forwardRef(({
 
 
     // remove image data from user's gallery
-    const _deleteMedia = async (indices) => {
+    const _deleteMedia = async (id:string) => {
         try {
-            setIsLoading(true);
-            for (const index of indices.keys()) {
-                await deleteImage(mediaUploads[index]._id)
-            }
+        
+            await deleteImage(id)
             await _getMediaUploads();
 
-            setIsLoading(false);
             return true
         } catch (err) {
             console.warn("failed to remove image from gallery", err)
-            setIsLoading(false);
+            dispatch(toastNotification(intl.formatMessage({id:'uploads_modal.delete_failed'})))
             return false
         }
     }
