@@ -37,6 +37,7 @@ const UploadsGalleryContent = ({
     const intl = useIntl()
 
     const [indices, setIndices] = useState<Map<number, boolean>>(new Map());
+    const [isDeleteMode, setIsDeleteMode] = useState(false);
 
     const _deleteMedia = async () => {
         const status = await deleteMedia(indices)
@@ -110,6 +111,7 @@ const UploadsGalleryContent = ({
         }
 
         const _onPress = () => {
+            //TODO: cehck and delete media
 
             if (indices.size) {
                 _onCheckPress()
@@ -121,18 +123,27 @@ const UploadsGalleryContent = ({
         const thumbUrl = proxifyImageSrc(item.url, 600, 500, Platform.OS === 'ios' ? 'match' : 'webp');
 
         return (
-            <TouchableOpacity onPress={_onPress} onLongPress={_onCheckPress}>
+            <TouchableOpacity onPress={_onPress}>
                 <FastImage
                     source={{ uri: thumbUrl }}
                     style={styles.mediaItem}
                 />
-                {/* <View style={styles.checkContainer}>
-                    <CheckBox
-                        isChecked={indices.has(index)}
-                        clicked={_onCheckPress}
-                        style={styles.checkStyle}
-                    />
-                </View> */}
+                {
+                    isDeleteMode && (
+
+                        <AnimatedView animation='zoomIn' duration={300} style={styles.checkContainer}>
+                            <IconButton
+                                style={{ backgroundColor: EStyleSheet.value('$primaryLightBackground') }}
+                                color={EStyleSheet.value('$primaryBlack')}
+                                iconType="MaterialCommunityIcons"
+                                name={'minus'}
+                                size={24}
+                            />
+                        </AnimatedView>
+
+
+                    )
+                }
 
             </TouchableOpacity>
         )
@@ -163,17 +174,28 @@ const UploadsGalleryContent = ({
                 {_renderSelectButton('image-plus', 'Gallery', handleOpenGallery)}
                 {_renderSelectButton('camera-plus', 'Camera', handleOpenCamera)}
             </View>
-            <IconButton
-                style={styles.addButton}
-                color={EStyleSheet.value('$primaryBlack')}
-                iconType="MaterialCommunityIcons"
-                name={'plus'}
-                size={28}
-                onPress={()=>{handleOpenGallery(true)}}
-            />
+            <View style={styles.uploadsBtnContainer}>
+                <IconButton
+                    style={styles.uploadsActionBtn}
+                    color={EStyleSheet.value('$primaryBlack')}
+                    iconType="MaterialCommunityIcons"
+                    name={'plus'}
+                    size={28}
+                    onPress={() => { handleOpenGallery(true) }}
+                />
+                <IconButton
+                    style={{ ...styles.uploadsActionBtn, backgroundColor: isDeleteMode ? EStyleSheet.value('$iconColor') : 'transparent' }}
+                    color={EStyleSheet.value('$primaryBlack')}
+                    iconType="MaterialCommunityIcons"
+                    name={'minus'}
+                    size={28}
+                    onPress={() => { setIsDeleteMode(!isDeleteMode) }}
+                />
+            </View>
+
             {isAddingToUploads && (
                 <AnimatedView animation='zoomIn' duration={500} style={styles.thumbPlaceholder}>
-                    <ActivityIndicator/>
+                    <ActivityIndicator />
                 </AnimatedView>
             )}
         </View>
@@ -197,23 +219,23 @@ const UploadsGalleryContent = ({
                 data={mediaUploads}
                 keyExtractor={(item) => `item_${item.url}`}
                 renderItem={_renderItem}
-                style={{flex:1}}
-                contentContainerStyle={{alignItems:'center' }}
+                style={{ flex: 1 }}
+                contentContainerStyle={{ alignItems: 'center' }}
                 ListHeaderComponent={_renderHeaderContent}
                 ListEmptyComponent={_renderEmptyContent}
                 ListFooterComponent={<View style={styles.listEmptyFooter} />}
                 extraData={indices}
                 horizontal={true}
                 keyboardShouldPersistTaps='always'
-                // refreshControl={
-                //     <RefreshControl
-                //         refreshing={isLoading}
-                //         onRefresh={getMediaUploads}
-                //     />
-                // }
+            // refreshControl={
+            //     <RefreshControl
+            //         refreshing={isLoading}
+            //         onRefresh={getMediaUploads}
+            //     />
+            // }
             />
 
-            {_renderFloatingPanel()}
+            {/* {_renderFloatingPanel()} */}
         </View>
     )
 }

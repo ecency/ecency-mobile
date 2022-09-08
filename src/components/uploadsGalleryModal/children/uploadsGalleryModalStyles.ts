@@ -120,12 +120,22 @@ export default EStyleSheet.create({
     marginBottom:4,
   } as TextStyle,
 
-  addButton:{
+  uploadsBtnContainer:{
     height:thumbSize,
     width:thumbSize/1.8,
     backgroundColor:'$primaryLightBackground',
     marginLeft:16,
     borderRadius:20,
+    alignItems:'center',
+    justifyContent: 'space-around',
+  } as ViewStyle,
+
+  uploadsActionBtn:{
+    height: thumbSize/1.8,
+    width: thumbSize/1.8,
+    borderRadius:0,
+    borderBottomLeftRadius:20,
+    borderBottomRightRadius:20
   } as ViewStyle,
   
 
@@ -138,8 +148,8 @@ export default EStyleSheet.create({
 
   checkContainer: {
     position: 'absolute',
-    bottom: 20,
-    right: 20
+    top: 8,
+    left: 16
   } as ViewStyle,
 
   checkStyle: {
