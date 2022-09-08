@@ -410,13 +410,14 @@
     "btn_cancel": "Peruuta"
   },
   "uploads_modal": {
-    "label_no_images": "Kuvia ei löytynyt",
+    "label_no_images": "No Existing Uploads...",
     "title": "Ladatut kuvat",
     "title_remove_confirmation": "Poista kuva",
     "btn_add": "Kuva",
     "btn_insert": "Lisää",
     "btn_delete": "POISTA",
     "message_failed": "Kuvan lataaminen epäonnistui",
+    "delete_failed": "Failed to delete image",
     "failed_count": "Ei voitu ladata {failedCount} valituista kuvista {totalCount}"
   },
   "pincode": {
