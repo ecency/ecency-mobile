@@ -25,6 +25,7 @@ import styles from './registerStyles';
 import ESTEEM_LOGO from '../../assets/like_new.png';
 import ESTEEM_SMALL_LOGO from '../../assets/ecency_logo_transparent.png';
 import getWindowDimensions from '../../utils/getWindowDimensions';
+import { BuyAccountModal } from './children/buyAccountModal';
 
 const RegisterScreen = ({ navigation, route }) => {
   const intl = useIntl();
@@ -81,7 +82,13 @@ const RegisterScreen = ({ navigation, route }) => {
 
   return (
     <RegisterContainer>
-      {({ getAccountsWithUsername, isLoading, handleOnPressRegister, referredUser }) => (
+      {({
+        getAccountsWithUsername,
+        isLoading,
+        handleOnPressRegister,
+        referredUser,
+        buyAccountModalRef,
+      }) => (
         <SafeAreaView style={styles.container}>
           <StatusBar hidden translucent />
           <View style={styles.headerRow}>
@@ -193,6 +200,7 @@ const RegisterScreen = ({ navigation, route }) => {
               />
             </View>
           </KeyboardAvoidingView>
+          <BuyAccountModal ref={buyAccountModalRef} username={username} email={email} />
         </SafeAreaView>
       )}
     </RegisterContainer>

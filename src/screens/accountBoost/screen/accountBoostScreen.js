@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 
 // Components
 import { useSelector } from 'react-redux';
-import { BasicHeader, BoostPlaceHolder, ProductItemLine, UserAvatar } from '../../../components';
+import { BasicHeader, BoostPlaceHolder, ProductItemLine } from '../../../components';
 
 import LOGO_ESTM from '../../../assets/esteemcoin_boost.png';
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Alert } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -11,6 +11,9 @@ import ROUTES from '../../constants/routeNames';
 
 const RegisterContainer = ({ children, navigation }) => {
   const intl = useIntl();
+
+  const buyAccountModalRef = useRef(null);
+
   const isConnected = useSelector((state) => state.application.isConnected);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -54,7 +57,23 @@ const RegisterContainer = ({ children, navigation }) => {
             intl.formatMessage({ id: 'register.500_error' }),
           );
         } else if (get(err, 'response.data.message')) {
-          Alert.alert(intl.formatMessage({ id: 'alert.fail' }), err.response.data.message);
+          Alert.alert(
+            intl.formatMessage({ id: 'alert.fail' }),
+            err.response.data.message + '\nTry buying account instead',
+            [
+              {
+                text: 'Buy Account',
+                onPress: () => {
+                  if (buyAccountModalRef.current) {
+                    buyAccountModalRef.current.showModal();
+                  }
+                },
+              },
+              {
+                text: 'Cancel',
+              },
+            ],
+          );
         } else {
           Alert.alert(
             intl.formatMessage({ id: 'alert.fail' }),
@@ -71,6 +90,7 @@ const RegisterContainer = ({ children, navigation }) => {
       getAccountsWithUsername: _getAccountsWithUsername,
       handleOnPressRegister: _handleOnPressRegister,
       isLoading,
+      buyAccountModalRef,
     })
   );
 };
