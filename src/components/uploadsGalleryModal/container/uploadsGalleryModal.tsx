@@ -167,7 +167,6 @@ export const UploadsGalleryModal = forwardRef(({
                 for (let index = 0; index < media.length; index++) {
                     const element = media[index];
                     if (element) {
-                        await delay(3000)
                         await _uploadImage(element, { shouldInsert });
                     }
                 }
