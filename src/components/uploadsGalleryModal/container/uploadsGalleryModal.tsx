@@ -11,6 +11,7 @@ import { signImage } from '../../../providers/hive/dhive';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { delay, generateRndStr } from '../../../utils/editor';
 import { toastNotification } from '../../../redux/actions/uiAction';
+import showLoginAlert from '../../../utils/showLoginAlert';
 
 
 
@@ -65,6 +66,10 @@ export const UploadsGalleryModal = forwardRef(({
 
     useImperativeHandle(ref, () => ({
         toggleModal: () => {
+            if(!isLoggedIn){
+                showLoginAlert({intl});
+                return;
+            }
             if (!showModal) {
                 _getMediaUploads();
             }
