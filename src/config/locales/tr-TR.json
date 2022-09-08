@@ -410,13 +410,14 @@
     "btn_cancel": "İptal"
   },
   "uploads_modal": {
-    "label_no_images": "Görsel bulunamadı",
+    "label_no_images": "No Existing Uploads...",
     "title": "Yüklenen görseller",
     "title_remove_confirmation": "Görseli sil",
     "btn_add": "Görsel",
     "btn_insert": "GİR",
     "btn_delete": "SİL",
     "message_failed": "Görsel yüklenemedi",
+    "delete_failed": "Failed to delete image",
     "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
