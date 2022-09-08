@@ -12,6 +12,7 @@ import { TextInput } from '../../textInput';
 // Styles
 import styles from './basicHeaderStyles';
 import { OptionsModal } from '../../atoms';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const BasicHeaderView = ({
   disabled,
@@ -205,7 +206,7 @@ const BasicHeaderView = ({
                     onPress={() => handleOnSaveButtonPress && handleOnSaveButtonPress()}
                   />
                 ) : (
-                  <ActivityIndicator style={styles.textButtonWrapper} />
+                  <ActivityIndicator style={styles.textButtonWrapper} color={EStyleSheet.value('$primaryBlue')} />
                 )}
               </Fragment>
             )}
@@ -228,7 +229,7 @@ const BasicHeaderView = ({
                 text={rightButtonText}
               />
             ) : (
-              <ActivityIndicator style={[styles.textButtonWrapper]} />
+              <ActivityIndicator style={[styles.textButtonWrapper]}  color={EStyleSheet.value('$primaryBlue')} />
             )}
           </Fragment>
         )}

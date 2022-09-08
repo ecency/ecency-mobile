@@ -360,6 +360,7 @@ class EditorScreen extends Component {
       scheduledFor,
     } = this.state;
     const {
+      paramFiles,
       handleOnImagePicker,
       intl,
       isDraftSaved,
@@ -383,6 +384,7 @@ class EditorScreen extends Component {
       thumbIndex,
       uploadProgress,
       rewardType,
+      setIsUploading,
     } = this.props;
 
     const rightButtonText = intl.formatMessage({
@@ -450,6 +452,7 @@ class EditorScreen extends Component {
             />
           )}
           <MarkdownEditor
+            paramFiles={paramFiles}
             componentID="body"
             draftBody={fields && fields.body}
             isFormValid={isFormValid}
@@ -471,6 +474,7 @@ class EditorScreen extends Component {
             sharedSnippetText={sharedSnippetText}
             onLoadDraftPress={onLoadDraftPress}
             uploadProgress={uploadProgress}
+            setIsUploading={setIsUploading}
           />
         </PostForm>
 

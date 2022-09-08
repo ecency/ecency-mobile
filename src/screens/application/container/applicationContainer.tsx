@@ -240,8 +240,6 @@ class ApplicationContainer extends Component {
           params,
           key: key,
         });
-      } else {
-        throw new Error(intl.formatMessage({id:'deep_link.invalid_link'}))
       }
     } catch(err){
       this._handleAlert(err.message)
