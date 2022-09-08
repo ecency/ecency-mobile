@@ -410,13 +410,14 @@
     "btn_cancel": "Otkaži"
   },
   "uploads_modal": {
-    "label_no_images": "Slike nisu pronađene",
+    "label_no_images": "No Existing Uploads...",
     "title": "Otpremljene slike",
     "title_remove_confirmation": "Izbriši sliku",
     "btn_add": "Slika",
     "btn_insert": "UMETNI",
     "btn_delete": "IZBRIŠI",
     "message_failed": "Otpremanje slike nije uspjelo",
+    "delete_failed": "Failed to delete image",
     "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
