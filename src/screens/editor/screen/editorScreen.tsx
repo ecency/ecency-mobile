@@ -360,6 +360,7 @@ class EditorScreen extends Component {
       scheduledFor,
     } = this.state;
     const {
+      paramFiles,
       handleOnImagePicker,
       intl,
       isDraftSaved,
@@ -451,6 +452,7 @@ class EditorScreen extends Component {
             />
           )}
           <MarkdownEditor
+            paramFiles={paramFiles}
             componentID="body"
             draftBody={fields && fields.body}
             isFormValid={isFormValid}

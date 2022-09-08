@@ -32,6 +32,7 @@ export interface MediaInsertData {
 }
 
 interface UploadsGalleryModalProps {
+    paramFiles: any[];
     username: string;
     isEditing: boolean;
     handleMediaInsert: (data: Array<MediaInsertData>) => void;
@@ -39,6 +40,7 @@ interface UploadsGalleryModalProps {
 }
 
 export const UploadsGalleryModal = forwardRef(({
+    paramFiles,
     username,
     isEditing,
     handleMediaInsert,
@@ -54,7 +56,6 @@ export const UploadsGalleryModal = forwardRef(({
     const [showModal, setShowModal] = useState(false);
     const [isAddingToUploads, setIsAddingToUploads] = useState(false);
 
-
     const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
     const pinCode = useAppSelector(state => state.application.pin);
     const currentAccount = useAppSelector(state => state.account.currentAccount);
@@ -62,24 +63,48 @@ export const UploadsGalleryModal = forwardRef(({
 
     useImperativeHandle(ref, () => ({
         toggleModal: () => {
+            if (!showModal) {
+                _getMediaUploads();
+            }
             setShowModal(!showModal);
         },
     }));
 
+    useEffect(() => {
+        if (paramFiles) {
+            console.log('files : ', paramFiles);
+
+            const _mediaItems = paramFiles.map((el) => {
+                if (el.filePath && el.fileName) {
+                    const _media = {
+                        path: el.filePath,
+                        mime: el.mimeType,
+                        filename: el.fileName || `img_${Math.random()}.jpg`,
+                    };
+
+                    return _media;
+                }
+                return null
+            });
+
+            _handleMediaOnSelected(_mediaItems, true)
+        }
+
+    }, [paramFiles])
 
     useEffect(() => {
         _getMediaUploads();
     }, []);
 
-    useEffect(()=>{
-        if(!isEditing && pendingInserts.current.length){
+    useEffect(() => {
+        if (!isEditing && pendingInserts.current.length) {
             handleMediaInsert(pendingInserts.current);
             pendingInserts.current = []
         }
-    },[isEditing])
+    }, [isEditing])
 
 
-    const _handleOpenImagePicker = (addToUploads?:boolean) => {
+    const _handleOpenImagePicker = (addToUploads?: boolean) => {
         ImagePicker.openPicker({
             includeBase64: true,
             multiple: true,
@@ -88,7 +113,7 @@ export const UploadsGalleryModal = forwardRef(({
         })
             .then((images) => {
                 _handleMediaOnSelected(images, !addToUploads);
-             
+
             })
             .catch((e) => {
                 _handleMediaOnSelectFailure(e);
@@ -103,7 +128,7 @@ export const UploadsGalleryModal = forwardRef(({
         })
             .then((image) => {
                 _handleMediaOnSelected(image, true);
-              
+
             })
             .catch((e) => {
                 _handleMediaOnSelectFailure(e);
@@ -112,7 +137,7 @@ export const UploadsGalleryModal = forwardRef(({
 
 
 
-    const _handleMediaOnSelected = async (media: any[], shouldInsert:boolean) => {
+    const _handleMediaOnSelected = async (media: any[], shouldInsert: boolean) => {
 
         // this.setState({
         //     failedImageUploads: 0
@@ -120,32 +145,39 @@ export const UploadsGalleryModal = forwardRef(({
         try {
             if (media.length > 0) {
 
-                if(shouldInsert){
+                if (shouldInsert) {
                     media.forEach((element, index) => {
-                        media[index].filename = element.filename || generateRndStr();
-                        handleMediaInsert([{
-                            filename: element.filename,
-                            url: '',
-                            text: '',
-                            status: MediaInsertStatus.UPLOADING
-                        }])
+                        if (element) {
+                            media[index].filename = element.filename || generateRndStr();
+                            handleMediaInsert([{
+                                filename: element.filename,
+                                url: '',
+                                text: '',
+                                status: MediaInsertStatus.UPLOADING
+                            }])
+                        }
                     })
                 }
 
                 for (let index = 0; index < media.length; index++) {
                     const element = media[index];
-                    await _uploadImage(element, { shouldInsert });
+                    if (element) {
+                        await _uploadImage(element, { shouldInsert });
+                    }
                 }
             } else {
-                //single image is selected, insert placeholder;
-                handleMediaInsert([{
-                    filename: media.filename || generateRndStr(),
-                    url: '',
-                    text: '',
-                    status: MediaInsertStatus.UPLOADING
-                }])
+                if (media) {
+                    //single image is selected, insert placeholder;
+                    handleMediaInsert([{
+                        filename: media.filename || generateRndStr(),
+                        url: '',
+                        text: '',
+                        status: MediaInsertStatus.UPLOADING
+                    }])
 
-                await _uploadImage(media, { shouldInsert });
+                    await _uploadImage(media, { shouldInsert });
+                }
+
             }
 
             // if (this.state.failedImageUploads) {
@@ -177,7 +209,7 @@ export const UploadsGalleryModal = forwardRef(({
             if (setIsUploading) {
                 setIsUploading(true)
             }
-            if(!shouldInsert){
+            if (!shouldInsert) {
                 setIsAddingToUploads(true);
             }
 
@@ -208,7 +240,7 @@ export const UploadsGalleryModal = forwardRef(({
                 }
 
                 setIsLoading(false);
-                if(setIsUploading){
+                if (setIsUploading) {
                     setIsUploading(false)
                 }
 
@@ -297,10 +329,10 @@ export const UploadsGalleryModal = forwardRef(({
     };
 
 
-    const _handleMediaInsertion = (data:MediaInsertData) => {
-        if(isEditing){
+    const _handleMediaInsertion = (data: MediaInsertData) => {
+        if (isEditing) {
             pendingInserts.current.push(data);
-        }else if(handleMediaInsert) {
+        } else if (handleMediaInsert) {
             handleMediaInsert([data]);
         }
     }
@@ -324,16 +356,16 @@ export const UploadsGalleryModal = forwardRef(({
 
 
     // remove image data from user's gallery
-    const _deleteMedia = async (id:string) => {
+    const _deleteMedia = async (id: string) => {
         try {
-        
+
             await deleteImage(id)
             await _getMediaUploads();
 
             return true
         } catch (err) {
             console.warn("failed to remove image from gallery", err)
-            dispatch(toastNotification(intl.formatMessage({id:'uploads_modal.delete_failed'})))
+            dispatch(toastNotification(intl.formatMessage({ id: 'uploads_modal.delete_failed' })))
             return false
         }
     }

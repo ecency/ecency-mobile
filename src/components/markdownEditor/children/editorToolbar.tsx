@@ -1,5 +1,5 @@
-import { View, Text } from 'react-native'
-import React, { forwardRef, useImperativeHandle, useRef } from 'react'
+import { View } from 'react-native'
+import React, { useRef } from 'react'
 import { IconButton, StickyBar, UploadsGalleryModal } from '../..'
 import { FlatList } from 'react-native-gesture-handler';
 import styles from '../styles/editorToolbarStyles';
@@ -8,6 +8,7 @@ import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGall
 import Formats from './formats/formats';
 
 type Props = {
+  paramFiles:any[]
   isEditing:boolean,
   setIsUploading: (isUploading: boolean) => void;
   handleMediaInsert: (data: MediaInsertData[]) => void;
@@ -18,6 +19,7 @@ type Props = {
 }
 
 export const EditorToolbar = ({
+  paramFiles,
   isEditing,
   setIsUploading,
   handleMediaInsert,
@@ -51,6 +53,7 @@ export const EditorToolbar = ({
 
       <UploadsGalleryModal
         ref={uploadsGalleryModalRef}
+        paramFiles={paramFiles}
         isEditing={isEditing}
         username={currentAccount.username}
         handleMediaInsert={handleMediaInsert}

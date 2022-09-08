@@ -163,15 +163,15 @@ class EditorContainer extends Component<any, any> {
         console.log('files : ', files);
         
         files.forEach((el) => {
-          if (el.filePath && el.fileName) {
-            const _media = {
-              path: el.filePath,
-              mime: el.mimeType,
-              filename: el.fileName || `img_${Math.random()}.jpg`,
-            };
+        //   if (el.filePath && el.fileName) {
+        //     const _media = {
+        //       path: el.filePath,
+        //       mime: el.mimeType,
+        //       filename: el.fileName || `img_${Math.random()}.jpg`,
+        //     };
 
-            this._uploadImage(_media, { shouldInsert: true });
-          } else if (el.text) {
+        //     this._uploadImage(_media, { shouldInsert: true });
+           if (el.text) {
             this.setState({
               sharedSnippetText: el.text,
             });
@@ -1274,8 +1274,10 @@ class EditorContainer extends Component<any, any> {
     } = this.state;
 
     const tags = navigation.state.params && navigation.state.params.tags;
+    const paramFiles = navigation.state.params && navigation.state.params.files; //TODO: migrate to navigation v6 after navigation merge
     return (
       <EditorScreen
+        paramFiles={paramFiles}
         autoFocusText={autoFocusText}
         draftPost={draftPost}
         handleRewardChange={this._handleRewardChange}

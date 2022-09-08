@@ -60,6 +60,7 @@ var bodyText = '';
 var bodySelection = { start: 0, end: 0 };
 
 const MarkdownEditorView = ({
+  paramFiles,
   draftBody,
   handleOpenImagePicker,
   intl,
@@ -92,7 +93,6 @@ const MarkdownEditorView = ({
 
   const inputRef = useRef(null);
   const clearRef = useRef(null);
-  const editorToolbarRef = useRef<typeof EditorToolbar>(null);
   const insertLinkModalRef = useRef(null);
   const tooltipRef = useRef(null);
 
@@ -459,7 +459,7 @@ const MarkdownEditorView = ({
         {_renderFloatingDraftButton()}
         {!isPreviewActive && (
           <EditorToolbar
-            ref={editorToolbarRef}
+            paramFiles={paramFiles}
             setIsUploading={setIsUploading}
             handleMediaInsert={_handleMediaInsert}
             handleOnAddLinkPress={_handleOnAddLinkPress}
