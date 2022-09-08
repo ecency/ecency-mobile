@@ -410,13 +410,14 @@
     "btn_cancel": "إلغاء"
   },
   "uploads_modal": {
-    "label_no_images": "لم يتم العثور على صور",
+    "label_no_images": "No Existing Uploads...",
     "title": "الصور المرفوعة",
     "title_remove_confirmation": "حذف الصورة",
     "btn_add": "الصورة",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
     "message_failed": "فشل في تحميل الصورة",
+    "delete_failed": "Failed to delete image",
     "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
