@@ -410,13 +410,14 @@
     "btn_cancel": "Bekor qilish"
   },
   "uploads_modal": {
-    "label_no_images": "Rasmlar topilmadi",
+    "label_no_images": "No Existing Uploads...",
     "title": "Rasmlarni yuklash",
     "title_remove_confirmation": "Rasmni o'chirish",
     "btn_add": "Rasm",
     "btn_insert": "KIRITISH",
     "btn_delete": "O'CHIRISH",
     "message_failed": "Rasm yuklanmadi",
+    "delete_failed": "Failed to delete image",
     "failed_count": "Tanlangan {totalCount} ta rasmdan {failedCount} tasini yuklab bo‘lmadi"
   },
   "pincode": {
