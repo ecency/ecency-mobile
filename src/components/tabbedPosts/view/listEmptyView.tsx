@@ -7,7 +7,7 @@ import globalStyles from '../../../globalStyles';
 import { CommunityListItem, EmptyScreen } from '../../basicUIElements';
 import styles from './tabbedPostsStyles';
 import { default as ROUTES } from '../../../constants/routeNames';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import {useSelector, useDispatch } from 'react-redux';
 import { fetchCommunities, leaveCommunity, subscribeCommunity } from '../../../redux/actions/communitiesAction';
 import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';

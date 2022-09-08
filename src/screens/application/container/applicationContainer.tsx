@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Platform, BackHandler, Alert, Linking, AppState, Appearance } from 'react-native';
+import { Platform, Alert, Linking, AppState, Appearance } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import Config from 'react-native-config';
 import get from 'lodash/get';
@@ -46,7 +46,7 @@ import {
   getUnreadNotificationCount,
 } from '../../../providers/ecency/ecency';
 import { fetchLatestAppVersion } from '../../../providers/github/github';
-import { navigate, navigateBack } from '../../../navigation/service';
+import { navigate } from '../../../navigation/service';
 
 // Actions
 import {
@@ -60,7 +60,6 @@ import {
   isDarkTheme,
   login,
   logoutDone,
-  openPinCodeModal,
   setConnectivityStatus,
   setPinCode as savePinCode,
   isRenderRequired,
@@ -96,6 +95,9 @@ let firebaseOnMessageListener = null;
 let removeAppearanceListener = null;
 
 class ApplicationContainer extends Component {
+
+  _pinCodeTimer:any = null
+
   constructor(props) {
     super(props);
     this.state = {
@@ -107,7 +109,7 @@ class ApplicationContainer extends Component {
   }
 
   componentDidMount = () => {
-    const { isIos } = this.state;
+  
     const { dispatch, isAnalytics } = this.props;
 
     this._setNetworkListener();
@@ -122,8 +124,6 @@ class ApplicationContainer extends Component {
     this.removeAppearanceListener = Appearance.addChangeListener(this._appearanceChangeListener);
 
     this._createPushListener();
-
-    if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
 
     //set avatar cache stamp to invalidate previous session avatars
     dispatch(setAvatarCacheStamp(new Date().getTime()));
@@ -146,6 +146,7 @@ class ApplicationContainer extends Component {
         console.log('error :>> ', error);
       },
     );
+
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -166,10 +167,8 @@ class ApplicationContainer extends Component {
   }
 
   componentWillUnmount() {
-    const { isIos } = this.state;
-    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
 
-    if (!isIos) BackHandler.removeEventListener('hardwareBackPress', this._onBackPress);
+    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
 
     //TOOD: listen for back press and cancel all pending api requests;
 
@@ -314,16 +313,25 @@ class ApplicationContainer extends Component {
 
 
   _handleAppStateChange = (nextAppState) => {
+    const { isPinCodeOpen:_isPinCodeOpen } = this.props;
     const { appState } = this.state;
 
     if (appState.match(/inactive|background/) && nextAppState === 'active') {
       this._refreshGlobalProps();
+      if (_isPinCodeOpen && this._pinCodeTimer) {
+        clearTimeout(this._pinCodeTimer);
+    }
+    }
+
+    if (appState.match(/active|forground/) && nextAppState === 'inactive') {
+      this._startPinCodeTimer();
     }
 
     this.setState({
       appState: nextAppState,
     });
   };
+
 
 
   _fetchApp = async () => {
@@ -337,6 +345,17 @@ class ApplicationContainer extends Component {
     this._registerDeviceForNotifications();
     dispatch(purgeExpiredCache());
   };
+
+  _startPinCodeTimer = () => {
+    const {isPinCodeOpen:_isPinCodeOpen} = this.props;
+    if (_isPinCodeOpen) {
+        this._pinCodeTimer = setTimeout(() => {
+            navigate({
+              routeName:ROUTES.SCREENS.PINCODE
+            })
+        }, 1 * 60 * 1000);
+    }
+};
 
   _pushNavigate = (notification) => {
     const { dispatch } = this.props;
@@ -475,18 +494,6 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _onBackPress = () => {
-    navigateBack();
-    /* 
-    const { dispatch, nav } = this.props;
-    if (nav && nav[0].index !== 0) {
-      dispatch(NavigationActions.back());
-    } else {
-      BackHandler.exitApp();
-    }
-    */
-    return true;
-  };
 
   _refreshGlobalProps = () => {
     const { actions } = this.props;
@@ -555,7 +562,7 @@ class ApplicationContainer extends Component {
       realmObject[0].name = currentUsername;
       // If in dev mode pin code does not show
       if (_isPinCodeOpen) {
-        dispatch(openPinCodeModal());
+        navigate({routeName:ROUTES.SCREENS.PINCODE})
       } else if (!_isPinCodeOpen) {
         const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
         dispatch(savePinCode(encryptedPin));
@@ -883,7 +890,6 @@ class ApplicationContainer extends Component {
       toastNotification,
       isDarkTheme: _isDarkTheme,
       children,
-      isPinCodeRequire,
       rcOffer,
     } = this.props;
     const { isRenderRequire, foregroundNotificationData } = this.state;
@@ -893,7 +899,6 @@ class ApplicationContainer extends Component {
       children({
         isConnected,
         isDarkTheme: _isDarkTheme,
-        isPinCodeRequire,
         isRenderRequire,
         locale: selectedLanguage,
         rcOffer,
@@ -914,8 +919,6 @@ export default connect(
     isLogingOut: state.application.isLogingOut,
     isLoggedIn: state.application.isLoggedIn, //TODO: remove as is not being used in this class
     isConnected: state.application.isConnected,
-    nav: state.nav.routes,
-    isPinCodeRequire: state.application.isPinCodeRequire,
     api: state.application.api,
     isGlobalRenderRequired: state.application.isRenderRequired,
     isAnalytics: state.application.isAnalytics,

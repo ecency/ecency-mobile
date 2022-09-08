@@ -4,7 +4,6 @@ export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
 export const SET_USER_DATA = 'SET_USER_DATA';
 
 // Applicaiton
-export const CLOSE_PIN_CODE_MODAL = 'CLOSE_PIN_CODE_MODAL';
 export const IS_CONNECTED = 'IS_CONNECTED';
 export const IS_ANALYTICS = 'IS_ANALYTICS';
 export const IS_DARK_THEME = 'IS_DARK_THEME';
@@ -19,7 +18,6 @@ export const LOGOUT = 'LOGOUT';
 export const LOGOUT_DONE = 'LOGOUT_DONE';
 export const LOGOUT_FAIL = 'LOGOUT_FAIL';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-export const OPEN_PIN_CODE_MODAL = 'OPEN_PIN_CODE_MODAL';
 export const SET_API = 'SET_API';
 export const SET_CURRENCY = 'SET_CURRENCY';
 export const SET_LANGUAGE = 'SET_LANGUAGE';

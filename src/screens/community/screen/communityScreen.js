@@ -3,7 +3,7 @@ import { View, Text, ScrollView } from 'react-native';
 import { useIntl } from 'react-intl';
 
 // Components
-import { Posts, CollapsibleCard, Header, BasicHeader, TabbedPosts } from '../../../components';
+import { CollapsibleCard, BasicHeader, TabbedPosts } from '../../../components';
 import { Tag, ProfileSummaryPlaceHolder } from '../../../components/basicUIElements';
 
 import CommunityContainer from '../container/communityContainer';
@@ -14,9 +14,9 @@ import styles from './communityStyles';
 import { getDefaultFilters, getFilterMap } from '../../../constants/options/filters';
 import { useAppSelector } from '../../../hooks';
 
-const CommunityScreen = ({ navigation }) => {
-  const tag = navigation.getParam('tag', '');
-  const filter = navigation.getParam('filter', '');
+const CommunityScreen = ({ route }) => {
+  const tag = route.params?.tag ?? '';
+  const filter = route.params?.filter ?? '';
 
   const intl = useIntl();
 

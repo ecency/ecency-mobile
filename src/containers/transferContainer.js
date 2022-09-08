@@ -24,7 +24,6 @@ import { getPointsSummary } from '../providers/ecency/ePoint';
 // Utils
 import { countDecimals } from '../utils/number';
 import bugsnagInstance from '../config/bugsnag';
-import { fetchCoinsData } from '../utils/wallet';
 import { fetchAndSetCoinsData } from '../redux/actions/walletActions';
 
 /*
@@ -37,11 +36,11 @@ class TransferContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fundType: props.navigation.getParam('fundType', ''),
-      balance: props.navigation.getParam('balance', ''),
-      tokenAddress: props.navigation.getParam('tokenAddress', ''),
-      transferType: props.navigation.getParam('transferType', ''),
-      referredUsername: props.navigation.getParam('referredUsername'),
+      fundType: props.route.params?.fundType ?? '',
+      balance: props.route.params?.balance ?? '',
+      tokenAddress: props.route.params?.tokenAddress ?? '',
+      transferType: props.route.params?.transferType ?? '',
+      referredUsername: props.route.params?.referredUsername,
       selectedAccount: props.currentAccount,
     };
   }
@@ -132,12 +131,12 @@ class TransferContainer extends Component {
   };
 
   _transferToAccount = async (from, destination, amount, memo) => {
-    const { pinCode, navigation, dispatch, intl } = this.props;
+    const { pinCode, navigation, dispatch, intl, route } = this.props;
     let { currentAccount } = this.props;
     const { selectedAccount } = this.state;
 
-    const transferType = navigation.getParam('transferType', '');
-    const fundType = navigation.getParam('fundType', '');
+    const transferType = route.params?.transferType ?? '';
+    const fundType = route.params?.fundType ?? '';
     let func;
 
     const data = {
@@ -235,16 +234,16 @@ class TransferContainer extends Component {
   render() {
     const {
       accounts,
-      navigation,
       children,
       hivePerMVests,
       currentAccount,
       actionModalVisible,
       dispatch,
+      route,
     } = this.props;
     const { balance, fundType, selectedAccount, tokenAddress, referredUsername } = this.state;
 
-    const transferType = navigation.getParam('transferType', '');
+    const transferType = route.params?.transferType ?? '';
 
     return (
       children &&

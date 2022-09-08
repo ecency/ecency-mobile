@@ -1,3 +1,4 @@
+import { NativeModules } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
@@ -13,6 +14,14 @@ export default EStyleSheet.create({
   },
   logo: {
     width: '$deviceWidth / 7',
+  },
+  backIconContainer: {
+    paddingHorizontal: 16,
+  },
+  backIcon: {
+    fontSize: 24,
+    color: '$iconColor',
+    transform: [{ scaleX: NativeModules.I18nManager.isRTL ? -1 : 1 }],
   },
   titleView: {
     flex: 1,

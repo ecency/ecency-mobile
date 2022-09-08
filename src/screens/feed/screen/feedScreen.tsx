@@ -24,6 +24,8 @@ const FeedScreen = () => {
 
   const [lazyLoad, setLazyLoad] = useState(false);
 
+  
+
   const _lazyLoadContent = () => {
     if(!lazyLoad){
       setTimeout(() => {

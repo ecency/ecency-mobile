@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView } from 'react-native';
 import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 import forEach from 'lodash/forEach';
@@ -16,11 +15,11 @@ import { getResizedAvatar } from '../../../utils/image';
 
 const filterOptions = ['rewards', 'percent', 'time'];
 
-const VotersScreen = ({ navigation }) => {
+const VotersScreen = ({ route }) => {
   const intl = useIntl();
-  const [content, setContent] = useState(get(navigation, 'state.params.content'));
+
+  const [content] = useState(route.params?.content ?? null);
   const [activeVotes, setActiveVotes] = useState(get(content, 'active_votes') || []);
-  const [isLoading, setIsLoading] = useState(false);
 
   const headerTitle = intl.formatMessage({
     id: 'voters.voters_info',
@@ -49,14 +48,12 @@ const VotersScreen = ({ navigation }) => {
     }
   }, [content]);
 
-  //const activeVotes = get(navigation, 'state.params.activeVotes');
-  //const content = get(navigation, 'state.params.content');
-
   return (
     <AccountListContainer data={activeVotes}>
       {({ data, filterResult, filterIndex, handleOnVotersDropdownSelect, handleSearch }) => (
         <>
           <BasicHeader
+            backIconName="close"
             title={`${headerTitle} (${data && data.length})`}
             isHasSearch
             handleOnSearch={(text) => handleSearch(text, 'voter')}

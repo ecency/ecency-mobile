@@ -10,7 +10,6 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { useIntl } from 'react-intl';
-import { withNavigation } from 'react-navigation';
 import * as Animatable from 'react-native-animatable';
 import RegisterContainer from './registerContainer';
 
@@ -27,14 +26,14 @@ import ESTEEM_LOGO from '../../assets/like_new.png';
 import ESTEEM_SMALL_LOGO from '../../assets/ecency_logo_transparent.png';
 import getWindowDimensions from '../../utils/getWindowDimensions';
 
-const RegisterScreen = ({ navigation }) => {
+const RegisterScreen = ({ navigation, route }) => {
   const intl = useIntl();
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
   const [username, setUsername] = useState('');
   const [isUsernameValid, setIsUsernameValid] = useState(false);
   const [email, setEmail] = useState('');
   const [isEmailValid, setIsEmailValid] = useState(false);
-  const [refUsername, setRefUsername] = useState(navigation.getParam('referredUser', ''));
+  const [refUsername, setRefUsername] = useState(route.params?.referredUser ?? '');
   const [isRefUsernameValid, setIsRefUsernameValid] = useState(true);
 
   useEffect(() => {
@@ -90,9 +89,7 @@ const RegisterScreen = ({ navigation }) => {
             <View style={styles.headerButton}>
               <TextButton
                 onPress={() => {
-                  navigation.navigate({
-                    routeName: ROUTES.SCREENS.LOGIN,
-                  });
+                  navigation.replace(ROUTES.SCREENS.LOGIN);
                 }}
                 text="LOGIN"
                 textStyle={{ color: '#357ce6' }}
@@ -176,7 +173,7 @@ const RegisterScreen = ({ navigation }) => {
                 style={styles.cancelButton}
                 onPress={() => {
                   navigation.navigate({
-                    routeName: ROUTES.DRAWER.MAIN,
+                    name: ROUTES.DRAWER.MAIN,
                   });
                 }}
                 text={intl.formatMessage({
@@ -202,8 +199,6 @@ const RegisterScreen = ({ navigation }) => {
   );
 };
 
-export default withNavigation(RegisterScreen);
-
 const { height } = getWindowDimensions();
 const bodyHeight = height / 5;
 const showAnimation = {
@@ -227,3 +222,4 @@ const hideAnimation = {
     height: 0,
   },
 };
+export default RegisterScreen;

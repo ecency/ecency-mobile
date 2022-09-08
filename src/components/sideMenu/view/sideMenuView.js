@@ -78,13 +78,6 @@ const SideMenuView = ({
       return;
     }
 
-    /* if (item.id === 'refer') {
-      const shareUrl = `https://ecency.com/signup?referral=${currentAccount.username}`;
-      Share.share({
-        message: shareUrl,
-      });
-      return;
-    } */
     if (item.id === 'qr') {
       dispatch(toggleQRModal(true));
       return;
@@ -92,7 +85,7 @@ const SideMenuView = ({
 
     if (item.id === 'schedules') {
       navigateToRoute({
-        routeName: ROUTES.SCREENS.DRAFTS,
+        name: ROUTES.SCREENS.DRAFTS,
         params: {
           showSchedules: true,
         },
@@ -136,8 +129,8 @@ const SideMenuView = ({
     </TouchableOpacity>
   );
 
-  return (
-    <View style={styles.container}>
+  const _renderHeader = () => {
+    return (
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
@@ -184,6 +177,12 @@ const SideMenuView = ({
           )}
         </ImageBackground>
       </LinearGradient>
+    );
+  };
+
+  return (
+    <View style={styles.container}>
+      {_renderHeader()}
       <View style={styles.contentView}>
         <FlatList data={menuItems} keyExtractor={(item) => item.id} renderItem={_renderItem} />
       </View>

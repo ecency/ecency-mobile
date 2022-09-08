@@ -45,6 +45,7 @@ const BasicHeaderView = ({
   handleRewardChange,
   enableViewModeToggle,
   handleSettingsPress,
+  backIconName,
 }) => {
 
   const [isInputVisible, setIsInputVisible] = useState(false);
@@ -112,7 +113,7 @@ const BasicHeaderView = ({
           <IconButton
             iconStyle={[styles.backIcon, isModalHeader && styles.closeIcon]}
             iconType="MaterialIcons"
-            name="arrow-back"
+            name={backIconName || 'arrow-back'}
             onPress={() => (isModalHeader ? handleOnPressClose() : handleOnPressBackButton())}
             disabled={disabled}
           />
