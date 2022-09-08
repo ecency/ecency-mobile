@@ -144,9 +144,6 @@ export const UploadsGalleryModal = forwardRef(({
 
     const _handleMediaOnSelected = async (media: any[], shouldInsert: boolean) => {
 
-        // this.setState({
-        //     failedImageUploads: 0
-        // })
         try {
             if (media.length > 0) {
 
@@ -185,20 +182,10 @@ export const UploadsGalleryModal = forwardRef(({
 
             }
 
-            // if (this.state.failedImageUploads) {
-            //     Alert.alert(intl.formatMessage(
-            //         { id: 'uploads_modal.failed_count' },
-            //         {
-            //             totalCount: this.state.failedImageUploads,
-            //             failedCount: media.length || 1
-            //         })
-            //     );
-            // }
 
         } catch (error) {
             console.log("Failed to upload image", error);
-            // console.log('failedImageUploads : ', this.state.failedImageUploads);
-
+        
             bugsnapInstance.notify(error);
         }
 
@@ -256,7 +243,7 @@ export const UploadsGalleryModal = forwardRef(({
 
         } catch (error) {
             console.log('error while uploading image : ', error);
-            // this.setState({ failedImageUploads: this.state.failedImageUploads + 1 });
+        
             if (error.toString().includes('code 413')) {
                 Alert.alert(
                     intl.formatMessage({
