@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { Alert } from 'react-native';
-import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-community/async-storage';
 import { isArray } from 'lodash';
@@ -11,7 +10,7 @@ import { isArray } from 'lodash';
 import { Buffer } from 'buffer';
 
 import {
-  uploadImage,
+
   addDraft,
   updateDraft,
   getDrafts,
@@ -22,7 +21,6 @@ import {
   postContent,
   getPurePost,
   grantPostingPermission,
-  signImage,
   reblog,
   postComment,
 } from '../../../providers/hive/dhive';
@@ -43,7 +41,6 @@ import {
 // import { generateSignature } from '../../../utils/image';
 // Component
 import EditorScreen from '../screen/editorScreen';
-import bugsnapInstance from '../../../config/bugsnag';
 import { removeBeneficiaries, setBeneficiaries } from '../../../redux/actions/editorActions';
 import { DEFAULT_USER_DRAFT_ID, TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
 import { deleteDraftCacheEntry, updateCommentCache, updateDraftCache } from '../../../redux/actions/cacheActions';
