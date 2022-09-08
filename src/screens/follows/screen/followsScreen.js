@@ -2,9 +2,9 @@
 import React, { PureComponent } from 'react';
 import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { injectIntl } from 'react-intl';
-import { withNavigation } from 'react-navigation';
 
 // Constants
+import { withNavigation } from '@react-navigation/compat';
 import ROUTES from '../../../constants/routeNames';
 
 // Components
@@ -61,7 +61,12 @@ class FollowsScreen extends PureComponent {
 
     return (
       <View style={styles.container}>
-        <BasicHeader title={headerTitle} isHasSearch handleOnSearch={handleSearch} />
+        <BasicHeader
+          title={headerTitle}
+          isHasSearch
+          backIconName="close"
+          handleOnSearch={handleSearch}
+        />
         <FlatList
           data={data}
           keyExtractor={(item, index) => index.toString()}

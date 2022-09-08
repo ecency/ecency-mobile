@@ -9,7 +9,7 @@ import { isArray } from 'lodash';
 
 // Services and Actions
 import { Buffer } from 'buffer';
-import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
+
 import {
   uploadImage,
   addDraft,
@@ -88,7 +88,7 @@ class EditorContainer extends Component<any, any> {
   // Component Life Cycle Functions
   componentDidMount() {
     this._isMounted = true;
-    const { currentAccount, navigation, dispatch } = this.props;
+    const { currentAccount, route } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
     let isReply;
     let draftId;
@@ -97,8 +97,8 @@ class EditorContainer extends Component<any, any> {
     let _draft;
     let hasSharedIntent = false;
 
-    if (navigation.state && navigation.state.params) {
-      const navigationParams = navigation.state.params;
+    if (route.params) {
+      const navigationParams = route.params;
       hasSharedIntent = navigationParams.hasSharedIntent;
 
       if (navigationParams.draft) {
@@ -827,14 +827,14 @@ class EditorContainer extends Component<any, any> {
   };
 
   _handleSubmitSuccess = () => {
-    const { navigation } = this.props;
+    const { navigation, route } = this.props;
 
     this.stateTimer = setTimeout(() => {
       if (navigation) {
         navigation.goBack();
       }
-      if (navigation && navigation.state && navigation.state.params && navigation.state.params.fetchPost) {
-        navigation.state.params.fetchPost();
+      if (route.params?.fetchPost) {
+        route.params.fetchPost();
       }
       this.setState({
         isPostSending: false,
@@ -844,11 +844,11 @@ class EditorContainer extends Component<any, any> {
   };
 
   _navigationBackFetchDrafts = () => {
-    const { navigation } = this.props;
+    const { route } = this.props;
     const { isDraft } = this.state;
 
-    if (isDraft && navigation.state.params) {
-      navigation.state.params.fetchPost();
+    if (isDraft && route.params?.fetchPost) {
+      route.params.fetchPost
     }
   };
 
@@ -1057,7 +1057,7 @@ class EditorContainer extends Component<any, any> {
 
 
   render() {
-    const { isLoggedIn, isDarkTheme, navigation, currentAccount } = this.props;
+    const { isLoggedIn, isDarkTheme, currentAccount, route } = this.props;
     const {
       autoFocusText,
       draftPost,
@@ -1080,8 +1080,8 @@ class EditorContainer extends Component<any, any> {
       rewardType,
     } = this.state;
 
-    const tags = navigation.state.params && navigation.state.params.tags;
-    const paramFiles = navigation.state.params && navigation.state.params.files; //TODO: migrate to navigation v6 after navigation merge
+    const tags = route.params?.tags;
+	const paramFiles = route.params?.paramFiles
     return (
       <EditorScreen
         paramFiles={paramFiles}

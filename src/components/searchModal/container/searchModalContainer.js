@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 

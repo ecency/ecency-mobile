@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 
 import { uploadImage } from '../providers/ecency/ecency';
 

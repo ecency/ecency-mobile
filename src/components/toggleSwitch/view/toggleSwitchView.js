@@ -71,7 +71,7 @@ class ToggleSwitchView extends PureComponent {
   };
 
   _onToggle = () => {
-    const { onToggle } = this.props;
+    const { onToggle, latchBack } = this.props;
     const { isOn } = this.state;
     this.setState({ isOn: !isOn });
 
@@ -80,7 +80,14 @@ class ToggleSwitchView extends PureComponent {
       if (onToggle) {
         onToggle(!isOn);
       }
+      // this.setState({isOn})
     }, 300);
+
+    if (latchBack) {
+      setTimeout(() => {
+        this.setState({ isOn });
+      }, 500);
+    }
   };
 
   _triggerAnimation = () => {
@@ -92,6 +99,12 @@ class ToggleSwitchView extends PureComponent {
       duration,
     }).start();
   };
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.isOn !== this.props.isOn) {
+      this.setState({ isOn: nextProps.isOn });
+    }
+  }
 
   UNSAFE_componentWillMount() {
     this.setState({ duration: 0 });
