@@ -410,13 +410,14 @@
     "btn_cancel": "Atšaukti"
   },
   "uploads_modal": {
-    "label_no_images": "Vaizdų nerasta",
+    "label_no_images": "No Existing Uploads...",
     "title": "Įkelti vaizdai",
     "title_remove_confirmation": "Ištrinti vaizdą",
     "btn_add": "Vaizdas",
     "btn_insert": "ĮDĖKITE",
     "btn_delete": "IŠTRINTI",
     "message_failed": "Nepavyko įkelti vaizdo",
+    "delete_failed": "Failed to delete image",
     "failed_count": "Nepavyko įkelti {failedCount} iš {totalCount} pasirinkto vaizdo(ų)"
   },
   "pincode": {
