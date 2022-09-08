@@ -122,7 +122,7 @@ class NotificationContainer extends Component {
 
     if (routeName) {
       navigation.navigate({
-        routeName,
+        name: routeName,
         params,
         key,
       });

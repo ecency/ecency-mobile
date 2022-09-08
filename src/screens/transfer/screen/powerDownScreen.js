@@ -464,7 +464,10 @@ class PowerDownView extends Component {
     );
     return (
       <Fragment>
-        <BasicHeader title={intl.formatMessage({ id: `transfer.${transferType}` })} />
+        <BasicHeader
+          title={intl.formatMessage({ id: `transfer.${transferType}` })}
+          backIconName="close"
+        />
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.powerDownKeyboadrAvoidingContainer}

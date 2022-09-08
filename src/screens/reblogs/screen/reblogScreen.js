@@ -25,20 +25,21 @@ const renderUserListItem = (item, index, handleOnUserPress) => {
   );
 };
 
-const ReblogScreen = ({ navigation }) => {
+const ReblogScreen = ({ navigation, route }) => {
   const intl = useIntl();
   const headerTitle = intl.formatMessage({
     id: 'reblog.title',
   });
 
-  const reblogs = get(navigation, 'state.params.reblogs');
+  const reblogs = route.params?.reblogs;
 
   return (
-    <AccountListContainer data={reblogs} navigation={navigation}>
+    <AccountListContainer data={reblogs}>
       {({ data, filterResult, handleSearch, handleOnUserPress }) => (
         <SafeAreaView style={[globalStyles.container, { paddingBottom: 40 }]}>
           <BasicHeader
             title={`${headerTitle} (${data && data.length})`}
+            backIconName="close"
             isHasSearch
             handleOnSearch={(text) => handleSearch(text, 'account')}
           />

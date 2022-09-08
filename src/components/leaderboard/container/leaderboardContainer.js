@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';

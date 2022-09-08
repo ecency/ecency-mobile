@@ -26,26 +26,8 @@ export default EStyleSheet.create({
   inlinePadding: {
     padding: 8,
   },
-  leftButtonsWrapper: {
-    marginLeft: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    maxWidth: '$deviceWidth / 3',
-  },
-  rightButtonsWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  editorButton: {
-    color: '$primaryDarkGray',
-    marginRight: 15,
-    height: 24,
-  },
   dropdownStyle: {
     marginRight: 8,
-  },
-  rightIcons: {
-    marginRight: 20,
   },
   dropdownIconStyle: {
     color: '$primaryDarkGray',
@@ -56,16 +38,6 @@ export default EStyleSheet.create({
   iconArrow: {
     marginLeft: 4,
     color: '$iconColor',
-  },
-  clearButtonWrapper: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 35,
-    width: 56,
-    backgroundColor: '$primaryBlue',
-  },
-  clearIcon: {
-    color: '$primaryLightGray',
   },
   replySection: {
     paddingTop: 10,

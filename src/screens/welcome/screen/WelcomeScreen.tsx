@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { Text, Image, View, SafeAreaView, TouchableOpacity, Linking } from 'react-native';
@@ -6,42 +7,33 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { ScrollView } from 'react-native-gesture-handler';
 import VersionNumber from 'react-native-version-number';
 
-import { CheckBox, Icon, MainButton, Modal } from '../../../components';
+import { CheckBox, Icon, MainButton } from '../../../components';
+import ROUTES from '../../../constants/routeNames';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { setLastAppVersion, setIsTermsAccepted } from '../../../redux/actions/applicationActions';
-import parseVersionNumber from '../../../utils/parseVersionNumber';
 import LaunchScreen from '../../launch';
 
-import styles from './welcomeStyles';
+import styles from '../children/WelcomeScreenStyles';
 
-const WelcomeModal = ({ onModalVisibilityChange }) => {
+const WelcomeScreen = () => {
   const intl = useIntl();
+  const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
-  const lastAppVersion = useAppSelector(state => state.application.lastAppVersion)
+
   const isTermsAccepted = useAppSelector(state => state.application.isTermsAccepted);
-
   const [showAnimation, setShowAnimation] = useState(true);
-  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [isConsentChecked, setIsConsentChecked] = useState(isTermsAccepted);
-
   const [appVersion] = useState(VersionNumber.appVersion);
 
 
   useEffect(() => {
-    _compareAppVersion()
+    _showWelcomeModal();
   }, [])
 
 
-  const _compareAppVersion = () => {
-    if (!lastAppVersion || (parseVersionNumber(lastAppVersion) < parseVersionNumber(appVersion))) {
-      _showWelcomeModal();
-    }
-  }
-
   const _showWelcomeModal = () => {
-    setShowWelcomeModal(true);
-    onModalVisibilityChange(true);
+
     setShowAnimation(true);
     setTimeout(() => {
       setShowAnimation(false);
@@ -52,8 +44,8 @@ const WelcomeModal = ({ onModalVisibilityChange }) => {
   const _handleButtonPress = () => {
     dispatch(setLastAppVersion(appVersion))
     dispatch(setIsTermsAccepted(isConsentChecked));
-    setShowWelcomeModal(false);
-    onModalVisibilityChange(false);
+
+    navigation.navigate(ROUTES.STACK.MAIN)
   }
 
   const _onCheckPress = (value, isCheck) => {
@@ -76,6 +68,7 @@ const WelcomeModal = ({ onModalVisibilityChange }) => {
     </View>
   );
 
+
   const _renderConsent = () => (
     <View style={styles.consentContainer}>
       <CheckBox isChecked={isConsentChecked} clicked={_onCheckPress} style={styles.checkStyle} />
@@ -97,7 +90,8 @@ const WelcomeModal = ({ onModalVisibilityChange }) => {
     </View>
   );
 
-  const _renderContent = () => (
+
+  return (
     <SafeAreaView style={styles.root}>
 
       <View style={styles.container}>
@@ -139,18 +133,7 @@ const WelcomeModal = ({ onModalVisibilityChange }) => {
       {showAnimation && <LaunchScreen />}
     </SafeAreaView>
   );
+}
 
 
-  return (
-    <Modal
-      isOpen={showWelcomeModal}
-      isFullScreen
-      swipeToClose={false}
-      backButtonClose={false}
-      style={{ margin: 0 }}
-    >
-      {_renderContent()}
-    </Modal>)
-};
-
-export default WelcomeModal;
+export default WelcomeScreen;

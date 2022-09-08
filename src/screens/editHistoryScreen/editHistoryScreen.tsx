@@ -34,8 +34,8 @@ export interface CommentHistoryListItemDiff {
 
 const screenWidth = getWindowDimensions().width - 32;
 
-const EditHistoryScreen = ({ navigation }) => {
-  const { author, permlink } = navigation.state.params;
+const EditHistoryScreen = ({ route }) => {
+  const { author, permlink } = route.params ?? {};
   const intl = useIntl();
   const [editHistory, setEditHistory] = useState<CommentHistoryListItemDiff[]>([]);
   const [versionSelected, setVersionSelected] = useState(1);

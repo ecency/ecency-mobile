@@ -3,7 +3,7 @@ import { View, FlatList, Text, TouchableOpacity } from "react-native"
 import { UserAvatar } from '../..';
 import { lookupAccounts } from '../../../providers/hive/dhive';
 import { extractWordAtIndex } from '../../../utils/editor';
-import styles from './markdownEditorStyles';
+import styles from '../styles/markdownEditorStyles';
 import {debounce} from 'lodash';
 
 interface Props {

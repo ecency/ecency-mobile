@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { Alert } from 'react-native';
-import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-community/async-storage';
 import { isArray } from 'lodash';
 
 // Services and Actions
 import { Buffer } from 'buffer';
-import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
+
 import {
-  uploadImage,
+
   addDraft,
   updateDraft,
   getDrafts,
@@ -22,7 +21,6 @@ import {
   postContent,
   getPurePost,
   grantPostingPermission,
-  signImage,
   reblog,
   postComment,
 } from '../../../providers/hive/dhive';
@@ -43,7 +41,6 @@ import {
 // import { generateSignature } from '../../../utils/image';
 // Component
 import EditorScreen from '../screen/editorScreen';
-import bugsnapInstance from '../../../config/bugsnag';
 import { removeBeneficiaries, setBeneficiaries } from '../../../redux/actions/editorActions';
 import { DEFAULT_USER_DRAFT_ID, TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
 import { deleteDraftCacheEntry, updateCommentCache, updateDraftCache } from '../../../redux/actions/cacheActions';
@@ -88,7 +85,7 @@ class EditorContainer extends Component<any, any> {
   // Component Life Cycle Functions
   componentDidMount() {
     this._isMounted = true;
-    const { currentAccount, navigation, dispatch } = this.props;
+    const { currentAccount, route } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
     let isReply;
     let draftId;
@@ -97,8 +94,8 @@ class EditorContainer extends Component<any, any> {
     let _draft;
     let hasSharedIntent = false;
 
-    if (navigation.state && navigation.state.params) {
-      const navigationParams = navigation.state.params;
+    if (route.params) {
+      const navigationParams = route.params;
       hasSharedIntent = navigationParams.hasSharedIntent;
 
       if (navigationParams.draft) {
@@ -163,15 +160,7 @@ class EditorContainer extends Component<any, any> {
         console.log('files : ', files);
         
         files.forEach((el) => {
-          if (el.filePath && el.fileName) {
-            const _media = {
-              path: el.filePath,
-              mime: el.mimeType,
-              filename: el.fileName || `img_${Math.random()}.jpg`,
-            };
-
-            this._uploadImage(_media, { shouldInsert: true });
-          } else if (el.text) {
+           if (el.text) {
             this.setState({
               sharedSnippetText: el.text,
             });
@@ -376,191 +365,6 @@ class EditorContainer extends Component<any, any> {
       || [{ account: currentAccount.name, weight: 10000 }];
   }
 
-  _handleRoutingAction = (routingAction) => {
-    if (routingAction === 'camera') {
-      this._handleOpenCamera();
-    } else if (routingAction === 'image') {
-      this._handleOpenImagePicker();
-    }
-  };
-
-  _handleOpenImagePicker = () => {
-    ImagePicker.openPicker({
-      includeBase64: true,
-      multiple: true,
-      mediaType: 'photo',
-      smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
-    })
-      .then((images) => {
-        this._handleMediaOnSelected(images);
-      })
-      .catch((e) => {
-        this._handleMediaOnSelectFailure(e);
-      });
-  };
-
-  _handleOpenCamera = () => {
-    ImagePicker.openCamera({
-      includeBase64: true,
-      mediaType: 'photo',
-    })
-      .then((image) => {
-        this._handleMediaOnSelected(image);
-      })
-      .catch((e) => {
-        this._handleMediaOnSelectFailure(e);
-      });
-  };
-
-  _handleMediaOnSelected = async (media) => {
-
-    this.setState({
-      failedImageUploads: 0
-    })
-    try {
-      if (media.length > 0) {
-        for (let index = 0; index < media.length; index++) {
-          const element = media[index];
-          await this._uploadImage(element);
-        }
-      } else {
-        await this._uploadImage(media);
-      }
-
-      if (this.state.failedImageUploads) {
-        const { intl } = this.props;
-        Alert.alert(intl.formatMessage(
-          { id: 'uploads_modal.failed_count' },
-          {
-            totalCount: this.state.failedImageUploads,
-            failedCount: media.length || 1
-          })
-        );
-      }
-
-    } catch (error) {
-      console.log("Failed to upload image", error);
-      console.log('failedImageUploads : ', this.state.failedImageUploads);
-
-      bugsnapInstance.notify(error);
-    }
-
-  };
-
-  _uploadImage = async (media, { shouldInsert } = { shouldInsert: false }) => {
-
-    const { intl, currentAccount, pinCode, isLoggedIn } = this.props;
-    if (!isLoggedIn) return;
-
-    this.setState({
-      isUploading: true,
-      uploadProgress: 0,
-    });
-
-    let sign = await signImage(media, currentAccount, pinCode);
-
-    let MAX_RETRY = 2;
-    try {
-      let res = null;
-
-      for (var i = 0; i < MAX_RETRY; i++) {
-        res = await uploadImage(media, currentAccount.name, sign, this._showUploadProgress);
-        if (res && res.data) {
-          break;
-        }
-      }
-
-      if (res.data && res.data.url) {
-        res.data.hash = "";
-        res.data.shouldInsert = shouldInsert;
-
-        this.setState({
-          isUploading: false,
-          uploadProgress: 0,
-          uploadedImage: res.data,
-        });
-
-      } else if (res.error) {
-        throw res.error
-      }
-
-    } catch (error) {
-      console.log('error while uploading image : ', error);
-      this.setState({ failedImageUploads: this.state.failedImageUploads + 1 });
-      if (error.toString().includes('code 413')) {
-        Alert.alert(
-          intl.formatMessage({
-            id: 'alert.fail',
-          }),
-          intl.formatMessage({
-            id: 'alert.payloadTooLarge',
-          }),
-        );
-      } else if (error.toString().includes('code 429')) {
-        Alert.alert(
-          intl.formatMessage({
-            id: 'alert.fail',
-          }),
-          intl.formatMessage({
-            id: 'alert.quotaExceeded',
-          }),
-        );
-      } else if (error.toString().includes('code 400')) {
-        Alert.alert(
-          intl.formatMessage({
-            id: 'alert.fail',
-          }),
-          intl.formatMessage({
-            id: 'alert.invalidImage',
-          }),
-        );
-      } else {
-        Alert.alert(
-          intl.formatMessage({
-            id: 'alert.fail',
-          }),
-          error.message || error.toString(),
-        );
-      }
-
-      this.setState({
-        isUploading: false,
-        uploadPorgress: 0,
-      });
-    }
-
-  };
-  // TODO: extend this to show realtime upload progress to user on sceen
-  _showUploadProgress = (event) => {
-    const progress = Math.round((100 * event.loaded) / event.total);
-
-    console.log('progress : ', progress);
-    this.setState({
-      uploadProgress: progress
-    })
-  }
-
-  _handleMediaOnSelectFailure = (error) => {
-    const { intl } = this.props;
-
-    if (get(error, 'code') === 'E_PERMISSION_MISSING') {
-      Alert.alert(
-        intl.formatMessage({
-          id: 'alert.permission_denied',
-        }),
-        intl.formatMessage({
-          id: 'alert.permission_text',
-        }),
-      );
-    } else {
-      Alert.alert(
-        intl.formatMessage({
-          id: 'alert.fail',
-        }),
-        error.message || JSON.stringify(error),
-      );
-    }
-  };
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
     const { isDraftSaved, draftId, thumbIndex, isReply, rewardType } = this.state;
@@ -1020,14 +824,14 @@ class EditorContainer extends Component<any, any> {
   };
 
   _handleSubmitSuccess = () => {
-    const { navigation } = this.props;
+    const { navigation, route } = this.props;
 
     this.stateTimer = setTimeout(() => {
       if (navigation) {
         navigation.goBack();
       }
-      if (navigation && navigation.state && navigation.state.params && navigation.state.params.fetchPost) {
-        navigation.state.params.fetchPost();
+      if (route.params?.fetchPost) {
+        route.params.fetchPost();
       }
       this.setState({
         isPostSending: false,
@@ -1037,11 +841,11 @@ class EditorContainer extends Component<any, any> {
   };
 
   _navigationBackFetchDrafts = () => {
-    const { navigation } = this.props;
+    const { route } = this.props;
     const { isDraft } = this.state;
 
-    if (isDraft && navigation.state.params) {
-      navigation.state.params.fetchPost();
+    if (isDraft && route.params?.fetchPost) {
+      route.params.fetchPost
     }
   };
 
@@ -1242,8 +1046,15 @@ class EditorContainer extends Component<any, any> {
     })
   }
 
+  _setIsUploading = (status:boolean) => {
+    this.setState({
+      isUploading:status
+    })
+  }
+
+
   render() {
-    const { isLoggedIn, isDarkTheme, navigation, currentAccount } = this.props;
+    const { isLoggedIn, isDarkTheme, currentAccount, route } = this.props;
     const {
       autoFocusText,
       draftPost,
@@ -1266,9 +1077,11 @@ class EditorContainer extends Component<any, any> {
       rewardType,
     } = this.state;
 
-    const tags = navigation.state.params && navigation.state.params.tags;
+    const tags = route.params?.tags;
+	  const paramFiles = route.params?.files;
     return (
       <EditorScreen
+        paramFiles={paramFiles}
         autoFocusText={autoFocusText}
         draftPost={draftPost}
         handleRewardChange={this._handleRewardChange}
@@ -1276,7 +1089,6 @@ class EditorContainer extends Component<any, any> {
         handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
         handleOnBackPress={() => { }}
-        handleOnImagePicker={this._handleRoutingAction}
         handleOnSubmit={this._handleSubmit}
         initialEditor={this._initialEditor}
         isDarkTheme={isDarkTheme}
@@ -1305,7 +1117,7 @@ class EditorContainer extends Component<any, any> {
         uploadProgress={uploadProgress}
         rewardType={rewardType}
         getBeneficiaries={this._extractBeneficiaries}
-  
+        setIsUploading={this._setIsUploading}
       />
     );
   }

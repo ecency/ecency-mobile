@@ -1,5 +1,5 @@
 import React from 'react';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -9,7 +9,12 @@ import { setHidePostsThumbnails } from '../../../redux/actions/applicationAction
 // Components
 import BasicHeaderView from '../view/basicHeaderView';
 
-const BasicHeaderContainer = (props) => {
+
+interface BackHeaderProps {
+  backIconName:'close'|'arrow-back';
+}
+
+const BasicHeaderContainer = (props:BackHeaderProps) => {
   const dispatch = useAppDispatch();
   const isHideImages = useAppSelector((state) => state.application.hidePostsThumbnails);
 

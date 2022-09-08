@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { useIntl } from 'react-intl'
 import { View, Text } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { withNavigation } from 'react-navigation'
+import { withNavigation } from '@react-navigation/compat'
 import styles from './children.styles'
 
 interface CoinActionsProps {

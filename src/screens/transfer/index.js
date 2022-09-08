@@ -7,8 +7,8 @@ import AddressView from './screen/addressScreen';
 import PowerDownView from './screen/powerDownScreen';
 import DelegateView from './screen/delegateScreen';
 
-const Transfer = ({ navigation }) => (
-  <TransferContainer navigation={navigation}>
+const Transfer = ({ navigation, route }) => (
+  <TransferContainer navigation={navigation} route={route}>
     {({
       accounts,
       balance,

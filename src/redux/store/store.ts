@@ -42,7 +42,7 @@ const persistConfig = {
   storage: AsyncStorage,
   version: 0, // New version 0, default or previous version -1, versions are useful migrations
   // Blacklist (Don't Save Specific Reducers)
-  blacklist: ['nav', 'communities', 'user', 'ui'],
+  blacklist: ['communities', 'user', 'ui'],
   timeout: 0,
   transforms:[
     transformCacheVoteMap,

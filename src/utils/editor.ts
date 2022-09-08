@@ -5,7 +5,7 @@ import VersionNumber from 'react-native-version-number';
 export const getWordsCount = (text) =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
 
-const permlinkRnd = () => (Math.random() + 1).toString(16).substring(2);
+export const generateRndStr = () => (Math.random() + 1).toString(16).substring(2);
 
 export const generatePermlink = (title, random = false) => {
   if (!title) {
@@ -24,7 +24,7 @@ export const generatePermlink = (title, random = false) => {
     }
 
     if (random) {
-      const rnd = permlinkRnd();
+      const rnd = generateRndStr();
       perm = `${perm}-${rnd}`;
     }
 
@@ -37,7 +37,7 @@ export const generatePermlink = (title, random = false) => {
     perm = perm.toLowerCase().replace(/[^a-z0-9-]+/g, '');
 
     if (perm.length === 0) {
-      return permlinkRnd();
+      return generateRndStr();
     }
   }
 

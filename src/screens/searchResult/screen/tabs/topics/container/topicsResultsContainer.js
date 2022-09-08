@@ -1,18 +1,17 @@
 import { useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 
+import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../../../../constants/routeNames';
 
 import { searchTag } from '../../../../../../providers/ecency/ecency';
-import { isCommunity } from '../../../../../../utils/communityValidation';
 
-const OtherResultContainer = (props) => {
+const OtherResultContainer = ({ children, searchValue }) => {
+  const navigation = useNavigation();
+
   const [tags, setTags] = useState([]);
   const [noResult, setNoResult] = useState(false);
-
-  const { children, navigation, searchValue } = props;
 
   useEffect(() => {
     if (searchValue && searchValue.length <= 10) {
@@ -49,7 +48,7 @@ const OtherResultContainer = (props) => {
 
   const _handleOnPress = (item) => {
     navigation.navigate({
-      routeName: ROUTES.SCREENS.TAG_RESULT,
+      name: ROUTES.SCREENS.TAG_RESULT,
       params: {
         tag: get(item, 'tag', ''),
       },
@@ -70,4 +69,4 @@ const mapStateToProps = (state) => ({
   username: state.account.currentAccount.name,
 });
 
-export default connect(mapStateToProps)(withNavigation(OtherResultContainer));
+export default connect(mapStateToProps)(OtherResultContainer);

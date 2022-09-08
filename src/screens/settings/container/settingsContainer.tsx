@@ -32,7 +32,6 @@ import {
   setApi,
   isDarkTheme,
   isDefaultFooter,
-  openPinCodeModal,
   setNsfw,
   isPinCodeOpen,
   login,
@@ -62,6 +61,8 @@ import { encryptKey, decryptKey } from '../../../utils/crypto';
 // Component
 import SettingsScreen from '../screen/settingsScreen';
 import { SERVER_LIST } from '../../../constants/options/api';
+import ROUTES from '../../../constants/routeNames';
+import { withNavigation } from '@react-navigation/compat';
 
 /*
  *            Props Name        Description                                     Value
@@ -203,7 +204,7 @@ class SettingsContainer extends Component {
   };
 
   _handleToggleChanged = (action, actionType) => {
-    const { dispatch, isHideImages } = this.props;
+    const { dispatch, isHideImages, navigation } = this.props;
 
     switch (actionType) {
       case 'notification':
@@ -223,29 +224,25 @@ class SettingsContainer extends Component {
 
       case 'pincode':
         if (action) {
-          dispatch(
-            openPinCodeModal({
-              callback: () => this._enableDefaultUnlockPin(action),
-              isReset: true,
-              isOldPinVerified: true,
-              oldPinCode: Config.DEFAULT_PIN,
-            }),
-          );
+          navigation.navigate(ROUTES.SCREENS.PINCODE, {
+            callback: () => this._enableDefaultUnlockPin(action),
+            isReset: true,
+            isOldPinVerified: true,
+            oldPinCode: Config.DEFAULT_PIN,
+          })
+          
         } else {
-          dispatch(
-            openPinCodeModal({
-              callback: () => this._enableDefaultUnlockPin(action),
-            }),
-          );
+          navigation.navigate(ROUTES.SCREENS.PINCODE, {
+            callback: () => this._enableDefaultUnlockPin(action),
+          })
         }
         break;
 
       case 'biometric':
-        dispatch(
-          openPinCodeModal({
-            callback: () => dispatch(setIsBiometricEnabled(action)),
-          }),
-        );
+        navigation.navigate(ROUTES.SCREENS.PINCODE, {
+          callback: () => dispatch(setIsBiometricEnabled(action)),
+        });
+ 
         break;
       case settingsTypes.SHOW_HIDE_IMGS:
         dispatch(setHidePostsThumbnails(!isHideImages));
@@ -300,14 +297,12 @@ class SettingsContainer extends Component {
   };
 
   _handleButtonPress = (actionType) => {
-    const { dispatch } = this.props;
+    const { navigation } = this.props;
     switch (actionType) {
       case 'reset_pin':
-        dispatch(
-          openPinCodeModal({
-            isReset: true,
-          }),
-        );
+        navigation.navigate(ROUTES.SCREENS.PINCODE, {
+          isReset:true
+        })
         break;
 
       case 'feedback':
@@ -541,4 +536,4 @@ const mapStateToProps = (state) => ({
   isHideImages: state.application.hidePostsThumbnails,
 });
 
-export default injectIntl(connect(mapStateToProps)(SettingsContainer));
+export default withNavigation(injectIntl(connect(mapStateToProps)(SettingsContainer)));

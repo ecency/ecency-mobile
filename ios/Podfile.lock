@@ -355,7 +355,7 @@ PODS:
     - React
   - react-native-restart (0.0.23):
     - React-Core
-  - react-native-safe-area-context (3.1.9):
+  - react-native-safe-area-context (3.4.1):
     - React-Core
   - react-native-splash-screen (3.3.0):
     - React-Core
@@ -477,8 +477,9 @@ PODS:
     - React-Core
   - RNReanimated (1.13.2):
     - React-Core
-  - RNScreens (2.18.1):
+  - RNScreens (3.13.1):
     - React-Core
+    - React-RCTImage
   - RNSVG (12.1.1):
     - React
   - RNVectorIcons (6.7.0):
@@ -784,7 +785,7 @@ SPEC CHECKSUMS:
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-receive-sharing-intent: feba0a332a07977549a85aa58b496eb44368366a
   react-native-restart: aaad36f3ed7031daac3565f4a79d67e4f3884a50
-  react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
+  react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-udp: ff9d13e523f2b58e6bc5d4d32321ac60671b5dc9
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
@@ -815,7 +816,7 @@ SPEC CHECKSUMS:
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
   RNPermissions: bcd846e8f5a7f39e921cc7ca7172e2de0e698b6f
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
-  RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
+  RNScreens: 40a2cb40a02a609938137a1e0acfbf8fc9eebf19
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   RNVectorIcons: 368d6d8b8301224e5ffb6254191f4f8876c2be0d
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
@@ -827,4 +828,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 0282022703ad578ab2d9afbf3147ba3b373b4311
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3
