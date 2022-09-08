@@ -204,6 +204,7 @@ const UploadsGalleryContent = ({
                 ListFooterComponent={<View style={styles.listEmptyFooter} />}
                 extraData={indices}
                 horizontal={true}
+                keyboardShouldPersistTaps='always'
                 // refreshControl={
                 //     <RefreshControl
                 //         refreshing={isLoading}
