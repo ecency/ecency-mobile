@@ -410,13 +410,14 @@
     "btn_cancel": "İmtina"
   },
   "uploads_modal": {
-    "label_no_images": "Təsvir tapılmadı",
+    "label_no_images": "No Existing Uploads...",
     "title": "Yüklənilən təsvirlər",
     "title_remove_confirmation": "Təsviri sil",
     "btn_add": "Təsvir",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
     "message_failed": "Təsvir yüklənmədi",
+    "delete_failed": "Failed to delete image",
     "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
