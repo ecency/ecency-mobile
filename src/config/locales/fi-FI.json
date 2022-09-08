@@ -252,7 +252,7 @@
     "feedback_fail": "Sähköpostipalvelin alhaalla",
     "server_fail": "Ei yhteyttä palvelimeen",
     "show_imgs": "Näytä kuvat",
-    "delete_account": "Delete Account"
+    "delete_account": "Poista tili"
   },
   "voters": {
     "voters_info": "Äänestystiedot",
@@ -269,8 +269,8 @@
     "login": "KIRJAUDU SISÄÄN",
     "steemconnect_description": "Jos et halua säilyttää kryptattua salasanaa laitteessasi, voit käyttää Hivesigneriä.",
     "steemconnect_fee_description": "tietoa",
-    "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert": "Ei Kirjautunut",
+    "not_loggedin_alert_desc": "Kirjaudu ensin sisään"
   },
   "register": {
     "button": "Luo tili",
@@ -550,9 +550,9 @@
     "confirm_report_body": "Haluatko varmasti tehdä ilmiannon?"
   },
   "delete": {
-    "confirm_delete_title": "Confirm Delete",
-    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
-    "request_sent": "Your request for deletion is sent"
+    "confirm_delete_title": "Vahvista poistaminen",
+    "confirm_delete_body": "Oletko varma, että haluat poistaa tilin? Se poistaa kaikki tietosi",
+    "request_sent": "Pyyntösi poistamisesta on lähetetty"
   },
   "favorites": {
     "title": "Suosikit",
@@ -592,7 +592,7 @@
     "pin-community": "Kiinnitä yhteisölle",
     "unpin-community": "Poista kiinnitys yhteisöstä",
     "edit-history": "Muokkaushistoria",
-    "mute": "Mute / Block"
+    "mute": "Mykistä / Estä"
   },
   "deep_link": {
     "no_existing_user": "Käyttäjää ei ole",

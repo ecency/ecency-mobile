@@ -1,4 +1,3 @@
-import { Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 
@@ -14,7 +13,8 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
   },
   headerLine: {
-    bottom: 10,
+    marginTop: -4,
+    marginBottom: 4,
   },
   title: {
     fontSize: 24,

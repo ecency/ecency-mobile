@@ -1,8 +1,16 @@
-import React, { useState } from 'react';
-import { View, StatusBar, Platform, Image, Text, SafeAreaView } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  StatusBar,
+  Platform,
+  Image,
+  Text,
+  SafeAreaView,
+  Keyboard,
+  KeyboardAvoidingView,
+} from 'react-native';
 import { useIntl } from 'react-intl';
-
+import * as Animatable from 'react-native-animatable';
 import RegisterContainer from './registerContainer';
 
 // Internal Components
@@ -16,6 +24,7 @@ import styles from './registerStyles';
 
 import ESTEEM_LOGO from '../../assets/like_new.png';
 import ESTEEM_SMALL_LOGO from '../../assets/ecency_logo_transparent.png';
+import getWindowDimensions from '../../utils/getWindowDimensions';
 
 const RegisterScreen = ({ navigation, route }) => {
   const intl = useIntl();
@@ -26,6 +35,19 @@ const RegisterScreen = ({ navigation, route }) => {
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [refUsername, setRefUsername] = useState(route.params?.referredUser ?? '');
   const [isRefUsernameValid, setIsRefUsernameValid] = useState(true);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      setKeyboardIsOpen(true);
+    });
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardIsOpen(false);
+    });
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
 
   const _handleEmailChange = (value) => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -74,7 +96,11 @@ const RegisterScreen = ({ navigation, route }) => {
               />
             </View>
           </View>
-          {!keyboardIsOpen && (
+          <Animatable.View
+            animation={keyboardIsOpen ? hideAnimation : showAnimation}
+            delay={0}
+            duration={300}
+          >
             <View style={styles.header}>
               <View style={styles.titleText}>
                 <Text style={styles.title}>{intl.formatMessage({ id: 'register.title' })}</Text>
@@ -84,15 +110,13 @@ const RegisterScreen = ({ navigation, route }) => {
               </View>
               <Image style={styles.mascot} source={ESTEEM_LOGO} />
             </View>
-          )}
-          <View style={styles.body}>
-            <KeyboardAwareScrollView
-              onKeyboardWillShow={() => setKeyboardIsOpen(true)}
-              onKeyboardWillHide={() => setKeyboardIsOpen(false)}
-              enableAutoAutomaticScroll={Platform.OS === 'ios'}
-              contentContainerStyle={styles.formWrapper}
-              enableOnAndroid={true}
-            >
+          </Animatable.View>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={styles.formWrapper}
+            keyboardShouldPersistTaps
+          >
+            <View style={styles.body}>
               <FormInput
                 rightIconName="at"
                 leftIconName="close"
@@ -107,6 +131,7 @@ const RegisterScreen = ({ navigation, route }) => {
                 isFirstImage
                 value={username}
                 inputStyle={styles.input}
+                onFocus={() => setKeyboardIsOpen(true)}
               />
               <FormInput
                 rightIconName="mail"
@@ -120,6 +145,7 @@ const RegisterScreen = ({ navigation, route }) => {
                 type="emailAddress"
                 value={email}
                 inputStyle={styles.input}
+                onFocus={() => setKeyboardIsOpen(true)}
               />
               <FormInput
                 rightIconName="person"
@@ -134,14 +160,14 @@ const RegisterScreen = ({ navigation, route }) => {
                 isFirstImage
                 value={refUsername}
                 inputStyle={styles.input}
+                onFocus={() => setKeyboardIsOpen(true)}
               />
               <InformationArea
                 description={intl.formatMessage({ id: 'register.form_description' })}
                 iconName="ios-information-circle-outline"
                 link="https://ecency.com/terms-of-service"
               />
-            </KeyboardAwareScrollView>
-
+            </View>
             <View style={styles.footerButtons}>
               <TextButton
                 style={styles.cancelButton}
@@ -166,11 +192,34 @@ const RegisterScreen = ({ navigation, route }) => {
                 style={styles.mainButton}
               />
             </View>
-          </View>
+          </KeyboardAvoidingView>
         </SafeAreaView>
       )}
     </RegisterContainer>
   );
 };
 
+const { height } = getWindowDimensions();
+const bodyHeight = height / 5;
+const showAnimation = {
+  from: {
+    opacity: 0,
+    height: 0,
+  },
+  to: {
+    opacity: 1,
+    height: bodyHeight,
+  },
+};
+
+const hideAnimation = {
+  from: {
+    opacity: 1,
+    height: bodyHeight,
+  },
+  to: {
+    opacity: 0,
+    height: 0,
+  },
+};
 export default RegisterScreen;

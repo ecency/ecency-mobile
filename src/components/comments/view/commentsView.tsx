@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useRef } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, Text } from 'react-native';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 
@@ -44,21 +44,21 @@ const CommentsView = ({
 
 
   const _openCommentMenu = (item) => {
-    if(commentMenu.current){
+    if (commentMenu.current) {
       setSelectedComment(item);
       commentMenu.current.show();
     }
   };
 
   const _openReplyThread = (item) => {
-    if(item && openReplyThread){
+    if (item && openReplyThread) {
       openReplyThread(item)
     }
-    
+
   }
 
   const _readMoreComments = () => {
-    if(comments[0] && openReplyThread){
+    if (comments[0] && openReplyThread) {
       openReplyThread(comments[0])
     }
   };
@@ -111,7 +111,7 @@ const CommentsView = ({
         key={get(item, 'permlink')}
         marginLeft={marginLeft}
         handleOnLongPress={() => _openCommentMenu(item)}
-        openReplyThread={()=> _openReplyThread(item)}
+        openReplyThread={() => _openReplyThread(item)}
         fetchedAt={fetchedAt}
         incrementRepliesCount={incrementRepliesCount}
       />
@@ -120,19 +120,34 @@ const CommentsView = ({
 
 
   const styleOerride = commentNumber > 1 ? {
-    backgroundColor:EStyleSheet.value('$primaryLightBackground'),
-    marginTop:8,
-  }:null
+    backgroundColor: EStyleSheet.value('$primaryLightBackground'),
+    marginTop: 8,
+  } : null
+
+  const _renderEmptyContent = () => {
+    if(commentNumber > 1){
+      return;
+    }
+    const _onPress = () => {
+      handleOnReplyPress()
+    }
+    return (
+      <Text onPress={_onPress} style={styles.emptyText}>
+        {intl.formatMessage({ id: "comments.no_comments" })}
+      </Text>
+    )
+  }
 
 
   return (
     <Fragment>
       <FlatList
-        style={{...styles.list, ...styleOerride  }}
-        contentContainerStyle={{padding:0}}
+        style={{ ...styles.list, ...styleOerride }}
+        contentContainerStyle={{ padding: 0 }}
         data={comments}
         renderItem={_renderItem}
         keyExtractor={(item) => get(item, 'permlink')}
+        ListEmptyComponent={_renderEmptyContent()}
         {...flatListProps}
       />
       <OptionsModal
