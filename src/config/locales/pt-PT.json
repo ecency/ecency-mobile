@@ -410,13 +410,14 @@
     "btn_cancel": "Cancelar"
   },
   "uploads_modal": {
-    "label_no_images": "Nenhuma Imagem Encontrada",
+    "label_no_images": "No Existing Uploads...",
     "title": "Imagens Enviadas",
     "title_remove_confirmation": "Deletar imagem",
     "btn_add": "Imagem",
     "btn_insert": "INSERIR",
     "btn_delete": "EXCLUIR",
     "message_failed": "Falha ao carregar imagem",
+    "delete_failed": "Failed to delete image",
     "failed_count": "Falha ao enviar {failedCount} de {totalCount} foto(s) selecionada(s)"
   },
   "pincode": {
