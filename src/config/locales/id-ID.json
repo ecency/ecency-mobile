@@ -410,13 +410,14 @@
     "btn_cancel": "Batalkan"
   },
   "uploads_modal": {
-    "label_no_images": "Tidak Ada Gambar Ditemukan",
+    "label_no_images": "No Existing Uploads...",
     "title": "Gambar Diunggah",
     "title_remove_confirmation": "Hapus gambar",
     "btn_add": "Gambar",
     "btn_insert": "MASUKKAN",
     "btn_delete": "HAPUS",
     "message_failed": "Gagal mengunggah gambar",
+    "delete_failed": "Failed to delete image",
     "failed_count": "Gagal mengunggah {failedCount} dari {totalCount} gambar yang dipilih"
   },
   "pincode": {
