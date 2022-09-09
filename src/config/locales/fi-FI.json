@@ -270,7 +270,9 @@
     "steemconnect_description": "Jos et halua säilyttää kryptattua salasanaa laitteessasi, voit käyttää Hivesigneriä.",
     "steemconnect_fee_description": "tietoa",
     "not_loggedin_alert": "Ei Kirjautunut",
-    "not_loggedin_alert_desc": "Kirjaudu ensin sisään"
+    "not_loggedin_alert_desc": "Kirjaudu ensin sisään",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later."
   },
   "register": {
     "button": "Luo tili",
