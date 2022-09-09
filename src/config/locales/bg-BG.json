@@ -270,7 +270,9 @@
     "steemconnect_description": "Ако не искате да запазите паролата си криптирана и съхранена на устройството си, можете да използвате Steemconnect.",
     "steemconnect_fee_description": "информация",
     "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later."
   },
   "register": {
     "button": "Регистрация",
