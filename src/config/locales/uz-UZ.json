@@ -270,7 +270,9 @@
     "steemconnect_description": "Agar siz qurilmangizda shifrlangan kalitlarni saqlashni xohlamasangiz, Hivesignerdan foydalaning.",
     "steemconnect_fee_description": "ma'lumot",
     "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later."
   },
   "register": {
     "button": "Ro‘yxatdan o‘tish",
