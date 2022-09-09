@@ -134,8 +134,6 @@ const MarkdownEditorView = ({
         selection: { start: draftBodyLength, end: draftBodyLength },
         text: draftBody,
       });
-      const urls = extractImageUrls({body:draftBody})
-      setInsertedMediaUrls(urls);
     }
   }, [draftBody]);
 
@@ -171,21 +169,6 @@ const MarkdownEditorView = ({
     }
   }, [isLoading]);
 
-  useEffect(() => {
-    if (uploadedImage && uploadedImage.shouldInsert && !isUploading) {
-      applyMediaLink({
-        text: bodyText,
-        selection: bodySelection,
-        setTextAndSelection: _setTextAndSelection,
-        items: [{ url: uploadedImage.url, text: uploadedImage.hash }],
-      });
-     
-    }
-
-    if (isUploading) {
-      // uploadsGalleryModalRef.current.showModal();
-    }
-  }, [uploadedImage, isUploading]);
 
   useEffect(() => {
     bodyText = draftBody;
@@ -219,6 +202,10 @@ const MarkdownEditorView = ({
   const _debouncedOnTextChange = useCallback(debounce(()=>{
     console.log("setting is editing to", false)
     setIsEditing(false)
+    const urls = extractImageUrls({body:bodyText})
+    if(urls.length !== insertedMediaUrls.length){
+      setInsertedMediaUrls(urls);
+    }
   }, 500),[])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -308,9 +295,6 @@ const MarkdownEditorView = ({
         setTextAndSelection: _setTextAndSelection,
         items: mediaArray,
       });
-      
-      const urls = extractImageUrls({body:bodyText})
-      setInsertedMediaUrls(urls);
     }
   };
 
