@@ -270,7 +270,9 @@
     "steemconnect_description": "Jika Anda tidak ingin menyimpan kata sandi Anda dienkripsi dan disimpan di perangkat Anda, Anda dapat menggunakan Hivesigner.",
     "steemconnect_fee_description": "info",
     "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later."
   },
   "register": {
     "button": "Daftar",
