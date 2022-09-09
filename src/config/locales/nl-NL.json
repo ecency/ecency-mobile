@@ -252,7 +252,7 @@
     "feedback_fail": "Email client could not open",
     "server_fail": "Server not available",
     "show_imgs": "Show Images",
-    "delete_account": "Delete Account"
+    "delete_account": "Account verwijderen"
   },
   "voters": {
     "voters_info": "Stemmers informatie",
@@ -819,7 +819,7 @@
     "year": "years"
   },
   "quick_reply": {
-    "placeholder": "Add a comment...",
+    "placeholder": "Voeg een reactie toe...",
     "comment": "Comment",
     "reply": "REPLY",
     "close": "CLOSE"
