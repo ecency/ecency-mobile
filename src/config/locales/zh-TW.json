@@ -270,7 +270,9 @@
     "steemconnect_description": "假如您不想將您的密碼保存在手機，您可以使用Hivesigner。",
     "steemconnect_fee_description": "資訊",
     "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later."
   },
   "register": {
     "button": "註冊",
