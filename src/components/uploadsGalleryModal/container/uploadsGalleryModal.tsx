@@ -28,11 +28,12 @@ export enum MediaInsertStatus {
 export interface MediaInsertData {
     url: string,
     filename?: string,
-    text: string,
+    text: string, 
     status: MediaInsertStatus
 }
 
 interface UploadsGalleryModalProps {
+    insertedMediaUrls: string[],
     paramFiles: any[];
     username: string;
     isEditing: boolean;
@@ -42,6 +43,7 @@ interface UploadsGalleryModalProps {
 }
 
 export const UploadsGalleryModal = forwardRef(({
+    insertedMediaUrls,
     paramFiles,
     username,
     isEditing,
@@ -101,6 +103,7 @@ export const UploadsGalleryModal = forwardRef(({
         }
 
     }, [paramFiles])
+
 
     useEffect(() => {
         _getMediaUploads();
@@ -355,10 +358,7 @@ export const UploadsGalleryModal = forwardRef(({
     // remove image data from user's gallery
     const _deleteMedia = async (id: string) => {
         try {
-
             await deleteImage(id)
-            await _getMediaUploads();
-
             return true
         } catch (err) {
             console.warn("failed to remove image from gallery", err)
@@ -406,6 +406,7 @@ export const UploadsGalleryModal = forwardRef(({
     const _renderContent = () => {
         return (
             <UploadsGalleryContent
+                insertedMediaUrls={insertedMediaUrls}
                 mediaUploads={mediaUploads}
                 isLoading={isLoading}
                 isAddingToUploads={isAddingToUploads}

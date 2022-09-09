@@ -8,6 +8,7 @@ import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGall
 import Formats from './formats/formats';
 
 type Props = {
+  insertedMediaUrls:string[],
   paramFiles:any[]
   isEditing:boolean,
   isPreviewActive:boolean,
@@ -20,6 +21,7 @@ type Props = {
 }
 
 export const EditorToolbar = ({
+  insertedMediaUrls,
   paramFiles,
   isEditing,
   isPreviewActive,
@@ -55,6 +57,7 @@ export const EditorToolbar = ({
 
       <UploadsGalleryModal
         ref={uploadsGalleryModalRef}
+        insertedMediaUrls={insertedMediaUrls}
         isPreviewActive={isPreviewActive}
         paramFiles={paramFiles}
         isEditing={isEditing}

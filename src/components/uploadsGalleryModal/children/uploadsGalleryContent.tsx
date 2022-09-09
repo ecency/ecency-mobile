@@ -1,7 +1,7 @@
 import { proxifyImageSrc } from '@ecency/render-helper';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ActivityIndicator, FlatList, Platform, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, FlatList, Platform, Text, TouchableOpacity, View } from 'react-native';
 import { View as AnimatedView } from 'react-native-animatable';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import FastImage from 'react-native-fast-image';
@@ -10,12 +10,13 @@ import { UploadedMedia } from '../../../models';
 import styles from '../children/uploadsGalleryModalStyles';
 
 type Props = {
+    insertedMediaUrls: string[],
     mediaUploads: any[],
     indices: Map<number, boolean>
     isLoading: boolean,
     isAddingToUploads: boolean,
     getMediaUploads: () => void,
-    deleteMedia: (id: string) => Promise<boolean>,
+    deleteMedia: (ids: string) => Promise<boolean>,
     insertMedia: (map: Map<number, boolean>) => void
     handleOpenGallery: (addToUploads?: boolean) => void,
     handleOpenCamera: () => void,
@@ -23,27 +24,58 @@ type Props = {
 }
 
 const UploadsGalleryContent = ({
+    insertedMediaUrls,
     mediaUploads,
     isAddingToUploads,
+    getMediaUploads,
     deleteMedia,
     insertMedia,
     handleOpenGallery,
     handleOpenCamera,
-
 }: Props) => {
 
     const intl = useIntl()
 
-    const [deleteIds, setDeleteIds] = useState<Map<string, boolean>>(new Map());
+    const [deleteIds, setDeleteIds] = useState<string[]>([]);
+    const [isDeleting, setIsDeleting] = useState(false);
     const [isDeleteMode, setIsDeleteMode] = useState(false);
 
 
-    const _deleteMedia = async (id: string) => {
-        await deleteMedia(id)
-        if (deleteIds.has(id)) {
-            deleteIds.delete(id);
-            setDeleteIds(new Map([...deleteIds]))
+    const _deleteMedia = async () => {
+
+        setIsDeleting(true)
+        try {
+            for (const i in deleteIds) {
+                await deleteMedia(deleteIds[i])
+            }
+        } catch (err) {
+            console.warn("Failed to delete media items")
         }
+        getMediaUploads();
+        setIsDeleting(false);
+        setIsDeleteMode(false);
+        setDeleteIds([]);
+
+    }
+
+
+    const _onDeletePress = async () => {
+        if (isDeleteMode && deleteIds.length > 0) {
+            Alert.alert(
+                intl.formatMessage({ id: 'alert.delete' }),
+                intl.formatMessage({ id: 'alert.remove_alert' }),
+                [{
+                    text: intl.formatMessage({ id: 'alert.cancel' }),
+                    style: 'cancel'
+                }, {
+                    text: intl.formatMessage({ id: 'alert.confirm' }),
+                    onPress: () => _deleteMedia()
+                }]
+            )
+        } else {
+            setIsDeleteMode(!isDeleteMode);
+        }
+
     }
 
 
@@ -51,49 +83,58 @@ const UploadsGalleryContent = ({
     const _renderItem = ({ item, index }: { item: UploadedMedia, index: number }) => {
 
         const _onPress = () => {
-
             if (isDeleteMode) {
-                deleteIds.set(item._id, true);
-                setDeleteIds(new Map([...deleteIds]));
-                _deleteMedia(item._id);
-
+                const idIndex = deleteIds.indexOf(item._id)
+                if (idIndex >= 0) {
+                    deleteIds.splice(idIndex, 1);
+                } else {
+                    deleteIds.push(item._id);
+                }
+                setDeleteIds([...deleteIds]);
             } else {
                 insertMedia(new Map([[index, true]]))
             }
         }
 
         const thumbUrl = proxifyImageSrc(item.url, 600, 500, Platform.OS === 'ios' ? 'match' : 'webp');
+        const isInserted = insertedMediaUrls.indexOf(item.url) >= 0;
+        const isToBeDeleted = deleteIds.indexOf(item._id) >= 0;
+        const transformStyle = {
+            transform: isToBeDeleted ?
+                [{ scaleX: 0.7 }, { scaleY: 0.7 }] : []
+        }
+
+        const _renderIndicator = (iconName: string, backgroundColor: string) => {
+            return (
+                <AnimatedView
+                    animation='zoomIn'
+                    duration={300}
+                    style={{ ...styles.minusContainer, backgroundColor }}>
+                    <Icon
+                        color={EStyleSheet.value('$pureWhite')}
+                        iconType="MaterialCommunityIcons"
+                        name={iconName}
+                        size={24}
+                    />
+                </AnimatedView>)
+        }
 
         return (
-            <TouchableOpacity onPress={_onPress} disabled={deleteIds.has(item._id)}>
-                <FastImage
-                    source={{ uri: thumbUrl }}
-                    style={styles.mediaItem}
-                />
-                {
-                    isDeleteMode && (
-                        <AnimatedView animation='zoomIn' duration={300} style={styles.minusContainer}>
-                            {
-                                deleteIds.has(item._id) ? (
-                                    <ActivityIndicator color={EStyleSheet.value('$pureWhite')} />
-                                ) : (
-                                    <Icon
-                                        color={EStyleSheet.value('$pureWhite')}
-                                        iconType="MaterialCommunityIcons"
-                                        name={'minus'}
-                                        size={24}
-                                    />
-                                )
-                            }
-                        </AnimatedView>
-                    )
-                }
+            <TouchableOpacity onPress={_onPress} disabled={isDeleting}>
+                <View style={transformStyle}>
+                    <FastImage
+                        source={{ uri: thumbUrl }}
+                        style={styles.mediaItem}
+                    />
+                    {isInserted && _renderIndicator('check', EStyleSheet.value('$primaryBlue'))}
+                    {isDeleteMode && _renderIndicator('minus', EStyleSheet.value('$primaryRed'))}
+                </View>
             </TouchableOpacity>
         )
     };
 
 
-    const _renderSelectButton = (iconName, text, onPress) => {
+    const _renderSelectButton = (iconName: string, text: string, onPress: () => void) => {
         return (
             <TouchableOpacity onPress={() => { onPress && onPress() }}>
                 <View style={styles.selectButton}>
@@ -137,12 +178,20 @@ const UploadsGalleryContent = ({
                     onPress={() => { handleOpenGallery(true) }}
                 />
                 <IconButton
-                    style={{ ...styles.uploadsActionBtn, backgroundColor: isDeleteMode ? EStyleSheet.value('$iconColor') : 'transparent' }}
+                    style={{
+                        ...styles.uploadsActionBtn,
+                        backgroundColor: isDeleteMode ?
+                            deleteIds.length ? EStyleSheet.value('$primaryRed')
+                                : EStyleSheet.value('$iconColor')
+                            : 'transparent'
+                    }}
                     color={EStyleSheet.value('$primaryBlack')}
                     iconType="MaterialCommunityIcons"
-                    name={'minus'}
+                    name={isDeleteMode && deleteIds.length ? 'delete-outline' : 'minus'}
+                    disabled={isDeleting}
                     size={28}
-                    onPress={() => { setIsDeleteMode(!isDeleteMode) }}
+                    onPress={_onDeletePress}
+                    isLoading={isDeleting}
                 />
             </View>
 

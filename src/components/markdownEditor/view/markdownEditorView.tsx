@@ -51,6 +51,7 @@ import applyUsername from '../children/formats/applyUsername';
 import { walkthrough } from '../../../redux/constants/walkthroughConstants';
 import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 import { EditorToolbar } from '../children/editorToolbar';
+import { extractImageUrls } from '../../../utils/editor';
 
 const MIN_BODY_INPUT_HEIGHT = 300;
 
@@ -90,6 +91,7 @@ const MarkdownEditorView = ({
   const [isSnippetsOpen, setIsSnippetsOpen] = useState(false);
   const [showDraftLoadButton, setShowDraftLoadButton] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [insertedMediaUrls, setInsertedMediaUrls] = useState([]);
 
   const inputRef = useRef(null);
   const clearRef = useRef(null);
@@ -132,6 +134,8 @@ const MarkdownEditorView = ({
         selection: { start: draftBodyLength, end: draftBodyLength },
         text: draftBody,
       });
+      const urls = extractImageUrls({body:draftBody})
+      setInsertedMediaUrls(urls);
     }
   }, [draftBody]);
 
@@ -175,6 +179,7 @@ const MarkdownEditorView = ({
         setTextAndSelection: _setTextAndSelection,
         items: [{ url: uploadedImage.url, text: uploadedImage.hash }],
       });
+     
     }
 
     if (isUploading) {
@@ -303,6 +308,9 @@ const MarkdownEditorView = ({
         setTextAndSelection: _setTextAndSelection,
         items: mediaArray,
       });
+      
+      const urls = extractImageUrls({body:bodyText})
+      setInsertedMediaUrls(urls);
     }
   };
 
@@ -459,6 +467,7 @@ const MarkdownEditorView = ({
         {_renderFloatingDraftButton()}
        
           <EditorToolbar
+            insertedMediaUrls={insertedMediaUrls}
             isPreviewActive={isPreviewActive}
             paramFiles={paramFiles}
             setIsUploading={setIsUploading}
