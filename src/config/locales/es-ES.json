@@ -270,7 +270,9 @@
     "steemconnect_description": "Si no desea mantener su contraseña encriptada y guardada en su dispositivo, puede usar Hivesigner.",
     "steemconnect_fee_description": "info.",
     "not_loggedin_alert": "No conectado",
-    "not_loggedin_alert_desc": "Inicia tu sesión primero"
+    "not_loggedin_alert_desc": "Inicia tu sesión primero",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later."
   },
   "register": {
     "button": "Registrarse",
