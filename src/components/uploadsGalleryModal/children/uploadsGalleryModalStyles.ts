@@ -103,9 +103,10 @@ export default EStyleSheet.create({
 
   selectButton:{
     flexDirection: 'row', 
-    alignItems: 'center'
+    alignItems: 'center',
+    height: 32,
   } as ViewStyle,
-  
+
   selectBtnPlus:{
       marginRight: -8,
       marginTop: -16,
