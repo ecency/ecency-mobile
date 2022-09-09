@@ -270,7 +270,9 @@
     "steemconnect_description": "Якщо ви не бажаєте тримати пароль у зашифрованому вигляді на вашому пристрої, можете використовувати Hivesigner.",
     "steemconnect_fee_description": "інформація",
     "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later."
   },
   "register": {
     "button": "Зареєструватися",
