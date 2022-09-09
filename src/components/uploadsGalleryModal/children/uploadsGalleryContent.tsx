@@ -104,27 +104,41 @@ const UploadsGalleryContent = ({
         }
 
         const thumbUrl = proxifyImageSrc(item.url, 600, 500, Platform.OS === 'ios' ? 'match' : 'webp');
-        const isInserted = insertedMediaUrls.indexOf(item.url) >= 0;
+        let isInsertedTimes = 0;
+        insertedMediaUrls.forEach(url => isInsertedTimes += url === item.url ? 1 : 0);
         const isToBeDeleted = deleteIds.indexOf(item._id) >= 0;
         const transformStyle = {
             transform: isToBeDeleted ?
                 [{ scaleX: 0.7 }, { scaleY: 0.7 }] : []
         }
 
-        const _renderIndicator = (iconName: string, backgroundColor: string) => {
-            return (
+        const _renderMinus = () => (
+            isDeleteMode && (
                 <AnimatedView
                     animation='zoomIn'
                     duration={300}
-                    style={{ ...styles.minusContainer, backgroundColor }}>
+                    style={styles.minusContainer}>
                     <Icon
                         color={EStyleSheet.value('$pureWhite')}
                         iconType="MaterialCommunityIcons"
-                        name={iconName}
-                        size={24}
+                        name={'minus'}
+                        size={20}
                     />
-                </AnimatedView>)
-        }
+                </AnimatedView>
+            )
+        )
+
+
+        const _renderCounter = () => (
+            isInsertedTimes > 0 && !isDeleteMode && (
+                <AnimatedView
+                    animation='zoomIn'
+                    duration={300}
+                    style={styles.counterContainer}>
+                    <Text style={styles.counterText}>{isInsertedTimes}</Text>
+                </AnimatedView>
+            )
+        )
 
         return (
             <TouchableOpacity onPress={_onPress} disabled={isDeleting}>
@@ -133,8 +147,8 @@ const UploadsGalleryContent = ({
                         source={{ uri: thumbUrl }}
                         style={styles.mediaItem}
                     />
-                    {isInserted && !isDeleteMode && _renderIndicator('check', EStyleSheet.value('$primaryBlue'))}
-                    {isDeleteMode && _renderIndicator('minus', EStyleSheet.value('$primaryRed'))}
+                    {_renderCounter()}
+                    {_renderMinus()}
                 </View>
             </TouchableOpacity>
         )
