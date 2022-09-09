@@ -16,8 +16,13 @@ export default EStyleSheet.create({
   container: {
     flex: 1,
     width: '$deviceWidth',
+  
   },
 
+  listContentContainer:{
+     alignItems: 'center', 
+     paddingRight:72 
+  },
 
   mediaItem: {
     marginLeft: 8,
@@ -139,6 +144,25 @@ export default EStyleSheet.create({
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20
   } as ViewStyle,
+
+
+  deleteButtonContainer:{ 
+    position: 'absolute', 
+    right: 0, 
+    top: 0, 
+    bottom: 0, 
+    justifyContent: 'center'
+   },
+
+  deleteButton: {
+    height: thumbSize / 1.8,
+    width: thumbSize / 1.8,
+    borderRadius: 0,
+    borderBottomLeftRadius: 20,
+    borderTopLeftRadius: 20,
+    backgroundColor:'$primaryRed'
+  } as ViewStyle,
+
 
 
   itemIconWrapper: {

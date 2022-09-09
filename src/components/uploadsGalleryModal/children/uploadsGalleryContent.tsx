@@ -202,17 +202,14 @@ const UploadsGalleryContent = ({
                     style={{
                         ...styles.uploadsActionBtn,
                         backgroundColor: isDeleteMode ?
-                            deleteIds.length ? EStyleSheet.value('$primaryRed')
-                                : EStyleSheet.value('$iconColor')
+                            EStyleSheet.value('$iconColor')
                             : 'transparent'
                     }}
                     color={EStyleSheet.value('$primaryBlack')}
                     iconType="MaterialCommunityIcons"
-                    name={isDeleteMode && deleteIds.length ? 'delete-outline' : 'minus'}
-                    disabled={isDeleting}
+                    name={'minus'}
                     size={28}
-                    onPress={_onDeletePress}
-                    isLoading={isDeleting}
+                    onPress={() => { setIsDeleteMode(!isDeleteMode); setDeleteIds([]) }}
                 />
             </View>
 
@@ -235,6 +232,24 @@ const UploadsGalleryContent = ({
     };
 
 
+    const _renderDeleteButton = () => (
+        <AnimatedView
+            animation={deleteIds.length > 0 ? 'slideInRight' : 'slideOutRight'}
+            duration={300}
+            style={styles.deleteButtonContainer}
+        >
+            <IconButton
+                style={styles.deleteButton}
+                color={EStyleSheet.value('$primaryBlack')}
+                iconType="MaterialCommunityIcons"
+                name={'delete-outline'}
+                disabled={isDeleting}
+                size={28}
+                onPress={_onDeletePress}
+                isLoading={isDeleting} />
+        </AnimatedView>
+    )
+
 
     return (
         <View style={styles.container}>
@@ -243,20 +258,17 @@ const UploadsGalleryContent = ({
                 keyExtractor={(item) => `item_${item.url}`}
                 renderItem={_renderItem}
                 style={{ flex: 1 }}
-                contentContainerStyle={{ alignItems: 'center' }}
+                contentContainerStyle={styles.listContentContainer}
                 ListHeaderComponent={_renderHeaderContent}
                 ListEmptyComponent={_renderEmptyContent}
                 ListFooterComponent={<View style={styles.listEmptyFooter} />}
                 extraData={deleteIds}
                 horizontal={true}
                 keyboardShouldPersistTaps='always'
-            // refreshControl={
-            //     <RefreshControl
-            //         refreshing={isLoading}
-            //         onRefresh={getMediaUploads}
-            //     />
-            // }
             />
+
+            {_renderDeleteButton()}
+
         </View>
     )
 }
