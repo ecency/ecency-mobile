@@ -270,7 +270,9 @@
     "steemconnect_description": "Eğer kullanıcı şifrelerinizi şifreli olarak tutulmasını istemiyorsanız şifreleri cihazınıza indirebilir ya da Hivesigner kullanabilirsiniz.",
     "steemconnect_fee_description": "bilgi",
     "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later."
   },
   "register": {
     "button": "Kaydol",
