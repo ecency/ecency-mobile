@@ -270,7 +270,9 @@
     "steemconnect_description": "আপনি যদি নিজের পাসওয়ার্ডটি এনক্রিপ্ট করা এবং আপনার ডিভাইসে সংরক্ষণ করতে না চান তবে আপনি হাইভসাইনার ব্যবহার করতে পারেন।",
     "steemconnect_fee_description": "তথ্য",
     "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later."
   },
   "register": {
     "button": "সাইন আপ",
