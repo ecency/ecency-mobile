@@ -161,7 +161,7 @@ export default EStyleSheet.create({
     position: 'absolute',
     top: 8,
     left: 16,
-    backgroundColor: '$iconColor',
+    backgroundColor: '$primaryLightBackground',
     borderRadius: 16,
     padding: 2,
     height: 24,
@@ -171,7 +171,7 @@ export default EStyleSheet.create({
   } as ViewStyle,
 
   counterText:{
-    color:'$pureWhite',
+    color:'$primaryBlack',
     fontSize:16
   } as TextStyle,
   
