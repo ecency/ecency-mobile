@@ -270,7 +270,9 @@
     "steemconnect_description": "Jeśli nie chcesz zachować swojego hasła zaszyfrowanego i zapisanego na swoim urządzeniu, możesz użyć Hivesignera.",
     "steemconnect_fee_description": "informacja",
     "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later."
   },
   "register": {
     "button": "Zapisz się",
