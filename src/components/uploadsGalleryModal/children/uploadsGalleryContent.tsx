@@ -61,12 +61,19 @@ const UploadsGalleryContent = ({
 
     const _onDeletePress = async () => {
         if (isDeleteMode && deleteIds.length > 0) {
+
+            const _onCancelPress = () => {
+                setIsDeleteMode(false);
+                setDeleteIds([])
+            }
+
             Alert.alert(
                 intl.formatMessage({ id: 'alert.delete' }),
                 intl.formatMessage({ id: 'alert.remove_alert' }),
                 [{
                     text: intl.formatMessage({ id: 'alert.cancel' }),
-                    style: 'cancel'
+                    style: 'cancel',
+                    onPress: _onCancelPress
                 }, {
                     text: intl.formatMessage({ id: 'alert.confirm' }),
                     onPress: () => _deleteMedia()
@@ -126,7 +133,7 @@ const UploadsGalleryContent = ({
                         source={{ uri: thumbUrl }}
                         style={styles.mediaItem}
                     />
-                    {isInserted && _renderIndicator('check', EStyleSheet.value('$primaryBlue'))}
+                    {isInserted && !isDeleteMode && _renderIndicator('check', EStyleSheet.value('$primaryBlue'))}
                     {isDeleteMode && _renderIndicator('minus', EStyleSheet.value('$primaryRed'))}
                 </View>
             </TouchableOpacity>
