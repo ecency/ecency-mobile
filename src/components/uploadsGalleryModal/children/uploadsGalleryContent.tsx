@@ -69,7 +69,7 @@ const UploadsGalleryContent = ({
 
             Alert.alert(
                 intl.formatMessage({ id: 'alert.delete' }),
-                intl.formatMessage({ id: 'alert.remove_alert' }),
+                intl.formatMessage({ id: 'uploads_modal.confirm_delete' }),
                 [{
                     text: intl.formatMessage({ id: 'alert.cancel' }),
                     style: 'cancel',
