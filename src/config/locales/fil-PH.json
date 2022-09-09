@@ -270,7 +270,9 @@
     "steemconnect_description": "Kung ayaw mong itago ang encrypted password mo sa device mo, gamitin ang Hivesigner.",
     "steemconnect_fee_description": "impormasyon",
     "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later."
   },
   "register": {
     "button": "Sumali",
