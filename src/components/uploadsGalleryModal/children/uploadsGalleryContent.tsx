@@ -15,7 +15,7 @@ type Props = {
     isLoading: boolean,
     isAddingToUploads: boolean,
     getMediaUploads: () => void,
-    deleteMedia: (id:string) => Promise<boolean>,
+    deleteMedia: (id: string) => Promise<boolean>,
     insertMedia: (map: Map<number, boolean>) => void
     handleOpenGallery: (addToUploads?: boolean) => void,
     handleOpenCamera: () => void,
@@ -38,9 +38,9 @@ const UploadsGalleryContent = ({
     const [isDeleteMode, setIsDeleteMode] = useState(false);
 
 
-    const _deleteMedia = async (id:string) => {
+    const _deleteMedia = async (id: string) => {
         await deleteMedia(id)
-        if(deleteIds.has(id)) {
+        if (deleteIds.has(id)) {
             deleteIds.delete(id);
             setDeleteIds(new Map([...deleteIds]))
         }
@@ -96,14 +96,24 @@ const UploadsGalleryContent = ({
     const _renderSelectButton = (iconName, text, onPress) => {
         return (
             <TouchableOpacity onPress={() => { onPress && onPress() }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View style={styles.selectButton}>
+
+                    <View style={styles.selectBtnPlus}>
+                        <Icon
+                            color={EStyleSheet.value('$primaryBackgroundColor')}
+                            iconType="FontAwesome5"
+                            name={'plus-circle'}
+                            size={12}
+                        />
+                    </View>
+
                     <Icon
-                        style={{ width: 32, height: 32 }}
                         color={EStyleSheet.value('$primaryBlack')}
                         iconType="MaterialCommunityIcons"
                         name={iconName}
                         size={24}
                     />
+
                     <Text style={styles.selectButtonLabel}>{text}</Text>
                 </View>
             </TouchableOpacity>
@@ -114,8 +124,8 @@ const UploadsGalleryContent = ({
     const _renderHeaderContent = () => (
         <View style={styles.buttonsContainer}>
             <View style={styles.selectButtonsContainer} >
-                {_renderSelectButton('image-plus', 'Gallery', handleOpenGallery)}
-                {_renderSelectButton('camera-plus', 'Camera', handleOpenCamera)}
+                {_renderSelectButton('image', 'Gallery', handleOpenGallery)}
+                {_renderSelectButton('camera', 'Camera', handleOpenCamera)}
             </View>
             <View style={styles.uploadsBtnContainer}>
                 <IconButton

@@ -101,11 +101,24 @@ export default EStyleSheet.create({
     height: thumbSize
   } as ViewStyle,
 
+  selectButton:{
+    flexDirection: 'row', 
+    alignItems: 'center'
+  } as ViewStyle,
+  
+  selectBtnPlus:{
+      marginRight: -8,
+      marginTop: -16,
+      zIndex: 2,
+      borderRadius: 12,
+      backgroundColor: "$primaryBlack"
+  } as ViewStyle,
+
   selectButtonLabel:{
     fontSize: 16,   
     textAlignVertical:'top', 
     color: '$primaryBlack',
-    marginBottom:4,
+    marginLeft:4
   } as TextStyle,
 
   uploadsBtnContainer:{
