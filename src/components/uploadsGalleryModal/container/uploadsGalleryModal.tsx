@@ -28,7 +28,7 @@ export enum MediaInsertStatus {
 export interface MediaInsertData {
     url: string,
     filename?: string,
-    text: string, 
+    text: string,
     status: MediaInsertStatus
 }
 
@@ -160,20 +160,6 @@ export const UploadsGalleryModal = forwardRef(({
             if (!Array.isArray(media)) {
                 media = [media];
             }
-                if (shouldInsert) {
-                    setShowModal(false);
-                    media.forEach((element, index) => {
-                        if (element) {
-                            media[index].filename = element.filename || generateRndStr();
-                            handleMediaInsert([{
-                                filename: element.filename,
-                                url: '',
-                                text: '',
-                                status: MediaInsertStatus.UPLOADING
-                            }])
-                        }
-                    })
-                }
 
             if (shouldInsert) {
                 media.forEach((element, index) => {
