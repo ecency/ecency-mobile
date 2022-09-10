@@ -51,6 +51,7 @@ import applyUsername from '../children/formats/applyUsername';
 import { walkthrough } from '../../../redux/constants/walkthroughConstants';
 import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 import { EditorToolbar } from '../children/editorToolbar';
+import { extractImageUrls } from '../../../utils/editor';
 
 const MIN_BODY_INPUT_HEIGHT = 300;
 
@@ -90,6 +91,7 @@ const MarkdownEditorView = ({
   const [isSnippetsOpen, setIsSnippetsOpen] = useState(false);
   const [showDraftLoadButton, setShowDraftLoadButton] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [insertedMediaUrls, setInsertedMediaUrls] = useState([]);
 
   const inputRef = useRef(null);
   const clearRef = useRef(null);
@@ -167,20 +169,6 @@ const MarkdownEditorView = ({
     }
   }, [isLoading]);
 
-  useEffect(() => {
-    if (uploadedImage && uploadedImage.shouldInsert && !isUploading) {
-      applyMediaLink({
-        text: bodyText,
-        selection: bodySelection,
-        setTextAndSelection: _setTextAndSelection,
-        items: [{ url: uploadedImage.url, text: uploadedImage.hash }],
-      });
-    }
-
-    if (isUploading) {
-      // uploadsGalleryModalRef.current.showModal();
-    }
-  }, [uploadedImage, isUploading]);
 
   useEffect(() => {
     bodyText = draftBody;
@@ -214,6 +202,10 @@ const MarkdownEditorView = ({
   const _debouncedOnTextChange = useCallback(debounce(()=>{
     console.log("setting is editing to", false)
     setIsEditing(false)
+    const urls = extractImageUrls({body:bodyText})
+    if(urls.length !== insertedMediaUrls.length){
+      setInsertedMediaUrls(urls);
+    }
   }, 500),[])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -459,6 +451,7 @@ const MarkdownEditorView = ({
         {_renderFloatingDraftButton()}
        
           <EditorToolbar
+            insertedMediaUrls={insertedMediaUrls}
             isPreviewActive={isPreviewActive}
             paramFiles={paramFiles}
             setIsUploading={setIsUploading}
