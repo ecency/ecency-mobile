@@ -156,6 +156,7 @@ export const UploadsGalleryModal = forwardRef(({
             if (media.length > 0) {
 
                 if (shouldInsert) {
+                    setShowModal(false);
                     media.forEach((element, index) => {
                         if (element) {
                             media[index].filename = element.filename || generateRndStr();
