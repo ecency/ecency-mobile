@@ -125,6 +125,9 @@ export const UploadsGalleryModal = forwardRef(({
             smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
         })
             .then((images) => {
+                if(images && !Array.isArray(images)){
+                    images = [images];
+                }
                 _handleMediaOnSelected(images, !addToUploads);
 
             })
@@ -140,8 +143,7 @@ export const UploadsGalleryModal = forwardRef(({
             mediaType: 'photo',
         })
             .then((image) => {
-                _handleMediaOnSelected(image, true);
-
+                _handleMediaOnSelected([image], true);
             })
             .catch((e) => {
                 _handleMediaOnSelectFailure(e);
@@ -153,12 +155,8 @@ export const UploadsGalleryModal = forwardRef(({
     const _handleMediaOnSelected = async (media: any[], shouldInsert: boolean) => {
 
         try {
-            if (!media) {
-                throw new Error("New media item returned")
-            }
-
-            if (!Array.isArray(media)) {
-                media = [media];
+            if (!media || media.length == 0) {
+                throw new Error("New media items returned")
             }
 
             if (shouldInsert) {
