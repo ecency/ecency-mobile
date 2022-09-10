@@ -18,6 +18,7 @@ export const WriteCommentButton = forwardRef(({ onPress }, ref) => {
     const animatedContainer = useRef<AnimatedView>();
 
     const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
+    const currentAccount = useAppSelector(state => state.account.currentAccount);
 
     useImperativeHandle(ref, () => ({
         bounce: () => {
@@ -42,7 +43,7 @@ export const WriteCommentButton = forwardRef(({ onPress }, ref) => {
         <AnimatedView ref={animatedContainer}>
             <TouchableOpacity onPress={_onPress}>
                 <View style={styles.container}>
-                    <UserAvatar username="demo.com" />
+                    <UserAvatar username={currentAccount.username} />
                     <View style={styles.inputContainer}>
                         <Text style={styles.inputPlaceholder}>
                             {intl.formatMessage({id:'quick_reply.placeholder'})}
