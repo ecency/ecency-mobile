@@ -488,6 +488,7 @@ class EditorScreen extends Component {
           isEdit={isEdit}
           isCommunityPost={selectedCommunity !== null}
           rewardType={rewardType}
+          isUploading={isUploading}
           handleThumbSelection={this._handleOnThumbSelection}
           handleRewardChange={this._handleRewardChange}
           handleScheduleChange={this._handleScheduleChange}
