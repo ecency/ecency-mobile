@@ -39,7 +39,7 @@ export const EditorToolbar = ({
   const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
   const translateY = useRef(new Animated.Value(0));
   const shouldHideExtension = useRef(false);
-
+  
   const [isExtensionVisible, setIsExtensionVisible] = useState(false);
 
   const _renderMarkupButton = ({ item }) => (
@@ -91,10 +91,10 @@ export const EditorToolbar = ({
   }
 
   const _revealExtension = () => {
-    if(!isExtensionVisible){
+    if (!isExtensionVisible) {
       translateY.current.setValue(200);
     }
-    
+
     setIsExtensionVisible(true);
     Animated.timing(translateY.current, {
       toValue: 0,
@@ -135,18 +135,22 @@ export const EditorToolbar = ({
         onHandlerStateChange={_onPanHandlerStateChange}
         onEnded={_onPanEnded}>
         <Animated.View style={_animatedStyle}>
-          <UploadsGalleryModal
-            ref={uploadsGalleryModalRef}
-            insertedMediaUrls={insertedMediaUrls}
-            isPreviewActive={isPreviewActive}
-            paramFiles={paramFiles}
-            isEditing={isEditing}
-            username={currentAccount.username}
-            handleMediaInsert={handleMediaInsert}
-            setIsUploading={setIsUploading}
-          />
+          <View onLayout={(e)=>{
+            
+          }}>
+            {isExtensionVisible && <View style={styles.indicator} />}
+            <UploadsGalleryModal
+              ref={uploadsGalleryModalRef}
+              insertedMediaUrls={insertedMediaUrls}
+              isPreviewActive={isPreviewActive}
+              paramFiles={paramFiles}
+              isEditing={isEditing}
+              username={currentAccount.username}
+              handleMediaInsert={handleMediaInsert}
+              setIsUploading={setIsUploading}
+            />
+          </View>
         </Animated.View>
-
       </PanGestureHandler>
     )
 
@@ -158,7 +162,7 @@ export const EditorToolbar = ({
       {_renderExtension()}
 
       {!isPreviewActive && (
-        <View style={styles.buttonsContainer}>
+        <View style={{...styles.buttonsContainer, borderTopWidth:isExtensionVisible?1:0}}>
           <View style={styles.leftButtonsWrapper}>
             <FlatList
               data={Formats}

@@ -3,7 +3,7 @@ import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 export default EStyleSheet.create({
   container: {
-    width:'$deviceWidth',
+    width: '$deviceWidth',
     backgroundColor: '$primaryBackgroundColor',
     shadowOpacity: 0.1,
     shadowOffset: {
@@ -12,12 +12,13 @@ export default EStyleSheet.create({
     },
     elevation: 3,
   },
-  buttonsContainer:{
-    justifyContent:'space-between',
+  buttonsContainer: {
+    justifyContent: 'space-between',
     flexDirection: 'row',
-    width:'$deviceWidth',
-    backgroundColor:'$primaryBackgroundColor',
-    paddingBottom:getBottomSpace()
+    width: '$deviceWidth',
+    backgroundColor: '$primaryBackgroundColor',
+    borderColor: '$primaryLightBackground',
+    paddingBottom: getBottomSpace()
   },
   clearIcon: {
     color: '$primaryLightGray',
@@ -29,7 +30,7 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     marginRight: 15,
     height: 24,
-  },  
+  },
   leftButtonsWrapper: {
     marginLeft: 16,
     flexDirection: 'row',
@@ -50,4 +51,12 @@ export default EStyleSheet.create({
     width: 56,
     backgroundColor: '$primaryBlue',
   },
+  indicator: {
+    height: 8, 
+    width: 44, 
+    backgroundColor: '$primaryWhiteLightBackground', 
+    borderRadius: 8, 
+    margin: 8,
+    alignSelf:'center'
+  }
 });

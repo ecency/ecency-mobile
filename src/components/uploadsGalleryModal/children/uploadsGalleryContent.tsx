@@ -250,8 +250,9 @@ const UploadsGalleryContent = ({
         </AnimatedView>
     )
 
-
     return (
+
+
         <View style={styles.container}>
             <FlatList
                 data={mediaUploads}
@@ -270,6 +271,8 @@ const UploadsGalleryContent = ({
             {_renderDeleteButton()}
 
         </View>
+
+
     )
 }
 

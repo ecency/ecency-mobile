@@ -9,14 +9,12 @@ export default EStyleSheet.create({
     borderTopWidth: Platform.select({
       android: 1,
       ios: 0
-    }),
-    borderBottomWidth: 1,
-    borderColor: '$primaryLightBackground'
+    })
   },
   container: {
     flex: 1,
     width: '$deviceWidth',
-  
+    alignItems:'center',
   },
 
   listContentContainer:{
