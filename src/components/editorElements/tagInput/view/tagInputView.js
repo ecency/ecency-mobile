@@ -80,6 +80,7 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
     }
   };
 
+  console.log('text : ', text, '\nvalue : ', value);
   return (
     <View style={[globalStyles.containerHorizontal16, styles.container]}>
       <ThemeContainer>
@@ -98,7 +99,8 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
             autoCorrect={false}
             autoFocus={autoFocus}
             autoCapitalize="none"
-            onChangeText={_handleOnChange}
+            keyboardType="visible-password"
+            onChangeText={(val) => _handleOnChange(val.toLowerCase())}
             onEndEditing={_handleOnEnd}
             value={text}
           />
