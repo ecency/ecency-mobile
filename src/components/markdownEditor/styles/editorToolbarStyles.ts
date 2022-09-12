@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 
@@ -8,6 +9,11 @@ const _dropShadow = {
     height: -3,
   },
   backgroundColor: '$primaryBackgroundColor',
+  borderColor: '$primaryLightBackground',
+  borderTopWidth : Platform.select({
+    android: 1,
+    ios: 0
+  })
 }
 
 export default EStyleSheet.create({
