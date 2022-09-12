@@ -105,7 +105,6 @@ export const EditorToolbar = ({
 
 
   const _hideExtension = () => {
-    setIsExtensionVisible(false);
     Animated.timing(translateY.current, {
       toValue: 200,
       duration: 200,
@@ -135,9 +134,7 @@ export const EditorToolbar = ({
         onHandlerStateChange={_onPanHandlerStateChange}
         onEnded={_onPanEnded}>
         <Animated.View style={_animatedStyle}>
-          <View onLayout={(e)=>{
-            
-          }}>
+          <View style={styles.dropShadow}>
             {isExtensionVisible && <View style={styles.indicator} />}
             <UploadsGalleryModal
               ref={uploadsGalleryModalRef}
@@ -157,7 +154,7 @@ export const EditorToolbar = ({
   }
 
   return (
-    <View style={styles.container}>
+    <View  style={isExtensionVisible? styles.container:styles.shadowedContainer}>
 
       {_renderExtension()}
 

@@ -1,16 +1,28 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 
+const _dropShadow = {
+  shadowOpacity: 0.1,
+  shadowOffset: {
+    width: 0,
+    height: -3,
+  },
+  backgroundColor: '$primaryBackgroundColor',
+}
+
 export default EStyleSheet.create({
   container: {
     width: '$deviceWidth',
-    backgroundColor: '$primaryBackgroundColor',
-    shadowOpacity: 0.1,
-    shadowOffset: {
-      width: 0,
-      height: -3,
-    },
     elevation: 3,
+    backgroundColor: '$primaryBackgroundColor',
+  },
+  shadowedContainer:{
+    elevation: 3,
+    width: '$deviceWidth',
+    ..._dropShadow
+  },
+  dropShadow: {
+    ..._dropShadow
   },
   buttonsContainer: {
     justifyContent: 'space-between',
@@ -52,11 +64,13 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBlue',
   },
   indicator: {
-    height: 8, 
-    width: 44, 
-    backgroundColor: '$primaryWhiteLightBackground', 
-    borderRadius: 8, 
+    height: 8,
+    width: 44,
+    backgroundColor: '$primaryWhiteLightBackground',
+    borderRadius: 8,
     margin: 8,
-    alignSelf:'center'
+    alignSelf: 'center'
   }
 });
+
+
