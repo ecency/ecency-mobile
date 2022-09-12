@@ -1,14 +1,23 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 export default EStyleSheet.create({
   container: {
-    flexDirection: 'column',
-    width:'$deviceWidth'
+    width:'$deviceWidth',
+    backgroundColor: '$primaryBackgroundColor',
+    shadowOpacity: 0.1,
+    shadowOffset: {
+      width: 0,
+      height: -3,
+    },
+    elevation: 3,
   },
   buttonsContainer:{
     justifyContent:'space-between',
     flexDirection: 'row',
-    width:'$deviceWidth'
+    width:'$deviceWidth',
+    backgroundColor:'$primaryBackgroundColor',
+    paddingBottom:getBottomSpace()
   },
   clearIcon: {
     color: '$primaryLightGray',

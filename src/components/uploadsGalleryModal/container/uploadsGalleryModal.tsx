@@ -9,7 +9,7 @@ import styles from '../children/uploadsGalleryModalStyles';
 import ImagePicker from 'react-native-image-crop-picker';
 import { signImage } from '../../../providers/hive/dhive';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { delay, extractFilenameFromPath, extractImageUrls, generateRndStr } from '../../../utils/editor';
+import { delay, extractFilenameFromPath } from '../../../utils/editor';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import showLoginAlert from '../../../utils/showLoginAlert';
 
@@ -67,15 +67,20 @@ export const UploadsGalleryModal = forwardRef(({
 
 
     useImperativeHandle(ref, () => ({
-        toggleModal: () => {
+        toggleModal: (value:boolean) => {
             if (!isLoggedIn) {
                 showLoginAlert({ intl });
                 return;
             }
-            if (!showModal) {
+
+            if(value === showModal){
+                return;
+            }
+            
+            if (value) {
                 _getMediaUploads();
             }
-            setShowModal(!showModal);
+            setShowModal(value);
         },
     }));
 
@@ -125,7 +130,7 @@ export const UploadsGalleryModal = forwardRef(({
             smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
         })
             .then((images) => {
-                if(images && !Array.isArray(images)){
+                if (images && !Array.isArray(images)) {
                     images = [images];
                 }
                 _handleMediaOnSelected(images, !addToUploads);
@@ -160,6 +165,7 @@ export const UploadsGalleryModal = forwardRef(({
             }
 
             if (shouldInsert) {
+                setShowModal(false);
                 media.forEach((element, index) => {
                     if (element) {
                         media[index].filename = element.filename || extractFilenameFromPath({ path: element.path, mimeType: element.mime });
@@ -412,12 +418,9 @@ export const UploadsGalleryModal = forwardRef(({
 
     return (
         !isPreviewActive && showModal &&
-        <AnimatedView animation='slideInRight' duration={500}>
-            <View style={styles.modalStyle}>
-                {_renderContent()}
-            </View>
-        </AnimatedView>
-
+        <View style={styles.modalStyle}>
+            {_renderContent()}
+        </View>
     );
 });
 
