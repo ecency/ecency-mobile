@@ -38,6 +38,7 @@ export const EditorToolbar = ({
   const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
   const translateY = useRef(new Animated.Value(0));
   const shouldHideExtension = useRef(false);
+  const extensionHeight = useRef(0);
 
   const [expandExtension, setExpandExtension] = useState(false);
   const [isExtensionVisible, setIsExtensionVisible] = useState(false);
@@ -60,7 +61,7 @@ export const EditorToolbar = ({
       _hideExtension();
     } else if (uploadsGalleryModalRef.current) {
       uploadsGalleryModalRef.current.toggleModal(true);
-      _revealExtension(true);
+      _revealExtension();
     }
   }
 
@@ -73,7 +74,10 @@ export const EditorToolbar = ({
           translationY: translateY.current,
         },
       },
-    ]
+    ],
+    {
+      useNativeDriver:false
+    }
   );
 
 
@@ -94,7 +98,7 @@ export const EditorToolbar = ({
 
   const _onPanHandlerStateChange = (e: HandlerStateChangeEvent<PanGestureHandlerEventPayload>) => {
     console.log("handler state change", e.nativeEvent.velocityY, e.nativeEvent.velocityY > 300, e.nativeEvent.translationY);
-    shouldHideExtension.current = e.nativeEvent.velocityY > 300 || e.nativeEvent.translationY > 60;
+    shouldHideExtension.current = e.nativeEvent.velocityY > 300 || e.nativeEvent.translationY > (extensionHeight.current/2);
   }
 
   const _revealExtension = () => {
@@ -113,7 +117,7 @@ export const EditorToolbar = ({
 
   const _hideExtension = () => {
     Animated.timing(translateY.current, {
-      toValue: 200,
+      toValue: extensionHeight.current,
       duration: 200,
       useNativeDriver: false
     }).start(() => {
@@ -140,7 +144,11 @@ export const EditorToolbar = ({
       <PanGestureHandler onGestureEvent={_onGestureEvent}
         onHandlerStateChange={_onPanHandlerStateChange}
         onEnded={_onPanEnded}>
-        <Animated.View style={_animatedStyle}>
+        <Animated.View onLayout={(e)=>{
+          extensionHeight.current = e.nativeEvent.layout.height;
+          console.log('extension height', extensionHeight.current)
+          
+        }} style={_animatedStyle}>
           <View style={styles.dropShadow}>
             {isExtensionVisible && <View style={styles.indicator} />}
             <UploadsGalleryModal

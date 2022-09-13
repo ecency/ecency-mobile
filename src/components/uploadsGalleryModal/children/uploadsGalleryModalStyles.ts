@@ -23,7 +23,8 @@ export default EStyleSheet.create({
   },
 
   gridContentContainer: {
-
+    width: '$deviceWidth',
+    paddingHorizontal: 16,
   },
 
   mediaItem: {

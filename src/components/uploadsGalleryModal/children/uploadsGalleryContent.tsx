@@ -1,7 +1,7 @@
 import { proxifyImageSrc } from '@ecency/render-helper';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ActivityIndicator, Alert, FlatList, Keyboard, Platform, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Animated, FlatList, Keyboard, Platform, Text, TouchableOpacity, View } from 'react-native';
 import { View as AnimatedView } from 'react-native-animatable';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import FastImage from 'react-native-fast-image';
@@ -46,6 +46,8 @@ const UploadsGalleryContent = ({
     const [isDeleting, setIsDeleting] = useState(false);
     const [isDeleteMode, setIsDeleteMode] = useState(false);
     const [isExpandedMode, setIsExpandedMode] = useState(false);
+
+    const animatedHeightRef = useRef(new Animated.Value(COMPACT_HEIGHT));
 
     useEffect(() => {
         if (isExpandedMode) {
@@ -255,7 +257,15 @@ const UploadsGalleryContent = ({
             name={isExpandedMode ? 'arrow-collapse-vertical' : 'arrow-expand-vertical'}
             color={EStyleSheet.value('$primaryBlack')}
             size={32}
-            onPress={() => setIsExpandedMode(!isExpandedMode)}
+            onPress={() => {
+                Animated.timing(animatedHeightRef.current, {
+                    toValue: isExpandedMode ? COMPACT_HEIGHT : EXPANDED_HEIGHT,
+                    duration: 300,
+                    useNativeDriver: false
+                }).start(() => {
+                    setIsExpandedMode(!isExpandedMode)
+                })
+            }}
         />
     )
 
@@ -304,8 +314,9 @@ const UploadsGalleryContent = ({
     }
 
 
+
     return (
-        <View style={{ ...styles.container, height: isExpandedMode ? EXPANDED_HEIGHT : COMPACT_HEIGHT }}>
+        <Animated.View style={{ ...styles.container, height: animatedHeightRef.current }}>
             <FlatList
                 key={isExpandedMode ? 'vertical_grid' : 'horizontal_list'}
                 data={mediaUploads.slice(0, MAX_HORIZONTAL_THUMBS)}
@@ -324,9 +335,7 @@ const UploadsGalleryContent = ({
 
             {!isExpandedMode && _renderDeleteButton()}
 
-        </View>
-
-
+        </Animated.View>
     )
 }
 
