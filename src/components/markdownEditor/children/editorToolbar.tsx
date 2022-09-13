@@ -1,11 +1,12 @@
-import { Animated, View } from 'react-native'
-import React, { useMemo, useRef, useState } from 'react'
+import { Animated, Keyboard, View, ViewStyle } from 'react-native'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { IconButton, UploadsGalleryModal } from '../..'
 import { FlatList, HandlerStateChangeEvent, PanGestureHandler, PanGestureHandlerEventPayload } from 'react-native-gesture-handler';
 import styles from '../styles/editorToolbarStyles';
 import { useAppSelector } from '../../../hooks';
 import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 import Formats from './formats/formats';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 type Props = {
   insertedMediaUrls: string[],
@@ -40,8 +41,29 @@ export const EditorToolbar = ({
   const shouldHideExtension = useRef(false);
   const extensionHeight = useRef(0);
 
-  const [expandExtension, setExpandExtension] = useState(false);
   const [isExtensionVisible, setIsExtensionVisible] = useState(false);
+
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true); // or some other action
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false); // or some other action
+      }
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
 
   const _renderMarkupButton = ({ item }) => (
     <View style={styles.buttonWrapper}>
@@ -76,12 +98,12 @@ export const EditorToolbar = ({
       },
     ],
     {
-      useNativeDriver:false
+      useNativeDriver: false
     }
   );
 
 
-  const consY = useMemo(()=>translateY.current.interpolate({
+  const consY = useMemo(() => translateY.current.interpolate({
     inputRange: [0, Infinity],
     outputRange: [0, Infinity],
     extrapolate: 'clamp'
@@ -98,7 +120,7 @@ export const EditorToolbar = ({
 
   const _onPanHandlerStateChange = (e: HandlerStateChangeEvent<PanGestureHandlerEventPayload>) => {
     console.log("handler state change", e.nativeEvent.velocityY, e.nativeEvent.velocityY > 300, e.nativeEvent.translationY);
-    shouldHideExtension.current = e.nativeEvent.velocityY > 300 || e.nativeEvent.translationY > (extensionHeight.current/2);
+    shouldHideExtension.current = e.nativeEvent.velocityY > 300 || e.nativeEvent.translationY > (extensionHeight.current / 2);
   }
 
   const _revealExtension = () => {
@@ -144,10 +166,10 @@ export const EditorToolbar = ({
       <PanGestureHandler onGestureEvent={_onGestureEvent}
         onHandlerStateChange={_onPanHandlerStateChange}
         onEnded={_onPanEnded}>
-        <Animated.View onLayout={(e)=>{
+        <Animated.View onLayout={(e) => {
           extensionHeight.current = e.nativeEvent.layout.height;
           console.log('extension height', extensionHeight.current)
-          
+
         }} style={_animatedStyle}>
           <View style={styles.dropShadow}>
             {isExtensionVisible && <View style={styles.indicator} />}
@@ -159,20 +181,27 @@ export const EditorToolbar = ({
               isEditing={isEditing}
               username={currentAccount.username}
               handleMediaInsert={handleMediaInsert}
-              setIsUploading={setIsUploading}/>
+              setIsUploading={setIsUploading} />
           </View>
         </Animated.View>
       </PanGestureHandler>
     )
   }
 
+  const _containerStyle: ViewStyle = isExtensionVisible ? styles.container : styles.shadowedContainer;
+  const _buttonsContainerStyle: ViewStyle = {
+    ...styles.buttonsContainer,
+    borderTopWidth: isExtensionVisible ? 1 : 0,
+    paddingBottom: !isKeyboardVisible ? getBottomSpace() : 0
+  }
+
   return (
-    <View style={isExtensionVisible ? styles.container : styles.shadowedContainer}>
+    <View style={_containerStyle}>
 
       {_renderExtension()}
 
       {!isPreviewActive && (
-        <View style={{ ...styles.buttonsContainer, borderTopWidth: isExtensionVisible ? 1 : 0 }}>
+        <View style={_buttonsContainerStyle}>
           <View style={styles.leftButtonsWrapper}>
             <FlatList
               data={Formats}
