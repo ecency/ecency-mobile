@@ -13,10 +13,6 @@ export default EStyleSheet.create({
     width: '$deviceWidth',
     alignItems: 'center',
     height: 112,
-    borderTopWidth: Platform.select({
-      android: 1,
-      ios: 0
-    })
   },
 
   listContentContainer: {
