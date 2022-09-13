@@ -188,6 +188,15 @@ const RegisterScreen = ({ navigation, route }) => {
                 })}
               />
               <MainButton
+                onPress={() => buyAccountModalRef.current.showModal()}
+                iconName="shopping-cart"
+                iconColor="white"
+                text="Buy"
+                isDisable={!isUsernameValid || !isRefUsernameValid || !isEmailValid}
+                isLoading={isLoading}
+                style={styles.mainButton}
+              />
+              <MainButton
                 onPress={() => handleOnPressRegister({ username, email, refUsername })}
                 iconName="person"
                 iconColor="white"
