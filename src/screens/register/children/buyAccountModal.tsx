@@ -1,12 +1,12 @@
 import { View, Text, Image, Platform } from 'react-native'
-import React, { forwardRef, useImperativeHandle, useRef } from 'react'
+import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react'
 import ActionSheet from 'react-native-actions-sheet'
 import styles from '../styles/buyAccountModalStyles';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { InAppPurchaseContainer } from '../../../containers';
 import { useIntl } from 'react-intl';
 import { useAppSelector } from '../../../hooks';
-import { BasicHeader, BoostPlaceHolder, ProductItemLine } from '../../../components';
+import { BasicHeader, BoostPlaceHolder, Modal, ProductItemLine } from '../../../components';
 import UserRibbon from '../../../components/userRibbon/userRibbon';
 import get from 'lodash/get';
 import LOGO_ESTM from '../../../assets/esteemcoin_boost.png';
@@ -28,14 +28,13 @@ export const BuyAccountModal = forwardRef(({ username, email }: Props, ref) => {
 
     const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
+    const [showModal, setShowModal] = useState(false);
 
     useImperativeHandle(
         ref,
         () => ({
             showModal: () => {
-                if (sheetModalRef.current) {
-                    sheetModalRef.current?.show();
-                }
+               setShowModal(true);
 
             }
         })
@@ -46,12 +45,6 @@ export const BuyAccountModal = forwardRef(({ username, email }: Props, ref) => {
             <InAppPurchaseContainer skus={ITEM_SKUS} username={username} isNoSpin>
                 {({ buyItem, productList, isLoading, isProcessing }) => (
                     <SafeAreaView style={styles.container}>
-                        <BasicHeader
-                            backIconName='close'
-                            disabled={isProcessing}
-                            title={"Buy Ecency Account"}
-                            isModalHeader={true}
-                        />
 
                         {isLoading ? (
                             <BoostPlaceHolder />
@@ -89,14 +82,17 @@ export const BuyAccountModal = forwardRef(({ username, email }: Props, ref) => {
 
 
     return (
-        <ActionSheet
-            ref={sheetModalRef}
-            gestureEnabled={true}
-            containerStyle={styles.sheetContent}
-            onClose={() => { }}
-            indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}>
+        <Modal
+            isOpen={showModal}
+            handleOnModalClose={() => { setShowModal(false) }}
+            isCloseButton
+            isFullScreen
+            presentationStyle="formSheet"
+            title={"Buy Account"}
+            animationType="slide"
+            style={styles.modalStyle}>
 
             {_renderContent()}
-        </ActionSheet>
+        </Modal>
     )
 })
