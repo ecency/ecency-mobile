@@ -8,6 +8,7 @@ import FastImage from 'react-native-fast-image';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Icon, IconButton } from '../..';
 import { UploadedMedia } from '../../../models';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 import styles from '../children/uploadsGalleryModalStyles';
 
 type Props = {
@@ -23,6 +24,10 @@ type Props = {
     handleOpenCamera: () => void,
     handleOpenForUpload: () => void,
 }
+
+const MAX_HORIZONTAL_THUMBS = 10;
+const COMPACT_HEIGHT = 112;
+const EXPANDED_HEIGHT = getWindowDimensions().height * 0.65;
 
 const UploadsGalleryContent = ({
     insertedMediaUrls,
@@ -300,17 +305,17 @@ const UploadsGalleryContent = ({
 
 
     return (
-        <View style={{ ...styles.container, height: isExpandedMode ? 500 : 112 }}>
+        <View style={{ ...styles.container, height: isExpandedMode ? EXPANDED_HEIGHT : COMPACT_HEIGHT }}>
             <FlatList
                 key={isExpandedMode ? 'vertical_grid' : 'horizontal_list'}
-                data={mediaUploads}
+                data={mediaUploads.slice(0, MAX_HORIZONTAL_THUMBS)}
                 keyExtractor={(item) => `item_${item.url}`}
                 renderItem={_renderItem}
                 style={{ flex: 1 }}
                 contentContainerStyle={isExpandedMode ? styles.gridContentContainer : styles.listContentContainer}
                 ListHeaderComponent={_renderHeaderContent}
                 ListEmptyComponent={_renderEmptyContent}
-                ListFooterComponent={!isExpandedMode && _renderExpansionButton}
+                ListFooterComponent={!isExpandedMode && mediaUploads.length > 0 && _renderExpansionButton}
                 extraData={deleteIds}
                 horizontal={!isExpandedMode}
                 numColumns={isExpandedMode ? 2 : 1}
