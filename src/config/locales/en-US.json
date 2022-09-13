@@ -270,7 +270,10 @@
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
     "steemconnect_fee_description": "info",
     "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later."
+
   },
   "register": {
     "button": "Sign Up",
@@ -416,6 +419,7 @@
     "btn_add":"Image",
     "btn_insert":"INSERT",
     "btn_delete":"DELETE",
+    "confirm_delete":"Are you sure you want to delete images from your uploads",
     "message_failed":"Failed to upload image",
     "delete_failed":"Failed to delete image",
     "failed_count":"Failed to upload {failedCount} of {totalCount} selected image(s)"

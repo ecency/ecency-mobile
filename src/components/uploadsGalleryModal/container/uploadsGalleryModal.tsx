@@ -1,15 +1,13 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Alert, View } from 'react-native';
-import { View as AnimatedView } from 'react-native-animatable';
+import { Alert } from 'react-native';
 import bugsnapInstance from '../../../config/bugsnag';
 import { addImage, deleteImage, getImages, uploadImage } from '../../../providers/ecency/ecency';
 import UploadsGalleryContent from '../children/uploadsGalleryContent';
-import styles from '../children/uploadsGalleryModalStyles';
 import ImagePicker from 'react-native-image-crop-picker';
 import { signImage } from '../../../providers/hive/dhive';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { delay, generateRndStr } from '../../../utils/editor';
+import { delay, extractFilenameFromPath } from '../../../utils/editor';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import showLoginAlert from '../../../utils/showLoginAlert';
 
@@ -33,6 +31,7 @@ export interface MediaInsertData {
 }
 
 interface UploadsGalleryModalProps {
+    insertedMediaUrls: string[],
     paramFiles: any[];
     username: string;
     isEditing: boolean;
@@ -42,6 +41,7 @@ interface UploadsGalleryModalProps {
 }
 
 export const UploadsGalleryModal = forwardRef(({
+    insertedMediaUrls,
     paramFiles,
     username,
     isEditing,
@@ -59,21 +59,27 @@ export const UploadsGalleryModal = forwardRef(({
     const [showModal, setShowModal] = useState(false);
     const [isAddingToUploads, setIsAddingToUploads] = useState(false);
 
+
     const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
     const pinCode = useAppSelector(state => state.application.pin);
     const currentAccount = useAppSelector(state => state.account.currentAccount);
 
 
     useImperativeHandle(ref, () => ({
-        toggleModal: () => {
-            if(!isLoggedIn){
-                showLoginAlert({intl});
+        toggleModal: (value:boolean) => {
+            if (!isLoggedIn) {
+                showLoginAlert({ intl });
                 return;
             }
-            if (!showModal) {
+
+            if(value === showModal){
+                return;
+            }
+            
+            if (value) {
                 _getMediaUploads();
             }
-            setShowModal(!showModal);
+            setShowModal(value);
         },
     }));
 
@@ -82,25 +88,26 @@ export const UploadsGalleryModal = forwardRef(({
             console.log('files : ', paramFiles);
 
             //delay is a workaround to let editor ready before initiating uploads on mount
-            delay(500).then(()=>{
+            delay(500).then(() => {
                 const _mediaItems = paramFiles.map((el) => {
                     if (el.filePath && el.fileName) {
                         const _media = {
                             path: el.filePath,
                             mime: el.mimeType,
-                            filename: el.fileName || `img_${Math.random()}.jpg`,
+                            filename: el.fileName,
                         };
-    
+
                         return _media;
                     }
                     return null
                 });
-    
+
                 _handleMediaOnSelected(_mediaItems, true)
             })
         }
 
     }, [paramFiles])
+
 
     useEffect(() => {
         _getMediaUploads();
@@ -122,6 +129,9 @@ export const UploadsGalleryModal = forwardRef(({
             smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
         })
             .then((images) => {
+                if (images && !Array.isArray(images)) {
+                    images = [images];
+                }
                 _handleMediaOnSelected(images, !addToUploads);
 
             })
@@ -137,8 +147,7 @@ export const UploadsGalleryModal = forwardRef(({
             mediaType: 'photo',
         })
             .then((image) => {
-                _handleMediaOnSelected(image, true);
-
+                _handleMediaOnSelected([image], true);
             })
             .catch((e) => {
                 _handleMediaOnSelectFailure(e);
@@ -150,47 +159,35 @@ export const UploadsGalleryModal = forwardRef(({
     const _handleMediaOnSelected = async (media: any[], shouldInsert: boolean) => {
 
         try {
-            if (media.length > 0) {
-
-                if (shouldInsert) {
-                    media.forEach((element, index) => {
-                        if (element) {
-                            media[index].filename = element.filename || generateRndStr();
-                            handleMediaInsert([{
-                                filename: element.filename,
-                                url: '',
-                                text: '',
-                                status: MediaInsertStatus.UPLOADING
-                            }])
-                        }
-                    })
-                }
-
-                for (let index = 0; index < media.length; index++) {
-                    const element = media[index];
-                    if (element) {
-                        await _uploadImage(element, { shouldInsert });
-                    }
-                }
-            } else {
-                if (media) {
-                    //single image is selected, insert placeholder;
-                    handleMediaInsert([{
-                        filename: media.filename || generateRndStr(),
-                        url: '',
-                        text: '',
-                        status: MediaInsertStatus.UPLOADING
-                    }])
-
-                    await _uploadImage(media, { shouldInsert });
-                }
-
+            if (!media || media.length == 0) {
+                throw new Error("New media items returned")
             }
 
+            if (shouldInsert) {
+                setShowModal(false);
+                media.forEach((element, index) => {
+                    if (element) {
+                        media[index].filename = element.filename || extractFilenameFromPath({ path: element.path, mimeType: element.mime });
+                        handleMediaInsert([{
+                            filename: element.filename,
+                            url: '',
+                            text: '',
+                            status: MediaInsertStatus.UPLOADING
+                        }])
+                    }
+                })
+            }
+
+            for (let index = 0; index < media.length; index++) {
+                const element = media[index];
+                if (element) {
+                    await _uploadImage(element, { shouldInsert });
+                }
+            }
 
         } catch (error) {
             console.log("Failed to upload image", error);
-        
+
             bugsnapInstance.notify(error);
         }
 
@@ -248,7 +245,7 @@ export const UploadsGalleryModal = forwardRef(({
 
         } catch (error) {
             console.log('error while uploading image : ', error);
-        
+
             if (error.toString().includes('code 413')) {
                 Alert.alert(
                     intl.formatMessage({
@@ -355,10 +352,7 @@ export const UploadsGalleryModal = forwardRef(({
     // remove image data from user's gallery
     const _deleteMedia = async (id: string) => {
         try {
-
             await deleteImage(id)
-            await _getMediaUploads();
-
             return true
         } catch (err) {
             console.warn("failed to remove image from gallery", err)
@@ -376,7 +370,7 @@ export const UploadsGalleryModal = forwardRef(({
                 console.log("getting images for: " + username)
                 const images = await getImages()
                 console.log("images received", images)
-                setMediaUploads(images);
+                setMediaUploads(images || []);
                 setIsLoading(false);
             }
         } catch (err) {
@@ -403,9 +397,10 @@ export const UploadsGalleryModal = forwardRef(({
         handleMediaInsert(data)
     }
 
-    const _renderContent = () => {
-        return (
+    return (
+        !isPreviewActive && showModal && (
             <UploadsGalleryContent
+                insertedMediaUrls={insertedMediaUrls}
                 mediaUploads={mediaUploads}
                 isLoading={isLoading}
                 isAddingToUploads={isAddingToUploads}
@@ -417,17 +412,6 @@ export const UploadsGalleryModal = forwardRef(({
 
             />
         )
-    }
-
-
-    return (
-        !isPreviewActive && showModal &&
-        <AnimatedView animation='slideInRight' duration={500}>
-            <View style={styles.modalStyle}>
-                {_renderContent()}
-            </View>
-        </AnimatedView>
-
     );
 });
 

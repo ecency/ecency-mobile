@@ -1,28 +1,43 @@
-import { TextStyle, StyleSheet, ViewStyle, ImageStyle, Platform } from 'react-native';
+import { TextStyle, StyleSheet, ViewStyle, ImageStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 
-const thumbSize = 96;
+export const THUMB_SIZE = 96;
+export const GRID_THUMB_SIZE = getWindowDimensions().width / 2 - 32;
+export const MAX_HORIZONTAL_THUMBS = 10;
+export const COMPACT_HEIGHT = 112;
+export const EXPANDED_HEIGHT = getWindowDimensions().height * 0.65;
 
 export default EStyleSheet.create({
-  modalStyle: {
-    height: 112,
-    borderTopWidth: Platform.select({
-      android:1,
-      ios:0
-    }),
-    borderBottomWidth: 1,
-    borderColor: '$primaryLightBackground'
-  },
   container: {
-    flex: 1,
-    width:'$deviceWidth',
+    width: '$deviceWidth',
+    height: COMPACT_HEIGHT,
   },
 
+  listContentContainer: {
+    marginTop:8,
+    paddingRight: 72,
+    paddingLeft: 16,
+  },
+
+  gridContentContainer: {
+    width: '$deviceWidth',
+    paddingHorizontal: 16,
+  },
 
   mediaItem: {
     marginLeft: 8,
-    height: thumbSize,
-    width: thumbSize,
+    height: THUMB_SIZE,
+    width: THUMB_SIZE,
+    borderRadius: 16,
+    backgroundColor: '$primaryLightGray'
+  } as ImageStyle,
+
+  gridMediaItem: {
+    marginHorizontal: 8,
+    height: GRID_THUMB_SIZE,
+    width: GRID_THUMB_SIZE,
+    marginVertical: 8,
     borderRadius: 16,
     backgroundColor: '$primaryLightGray'
   } as ImageStyle,
@@ -48,12 +63,13 @@ export default EStyleSheet.create({
     color: '$primaryBlack',
   } as TextStyle,
 
-  emptyText:{
+  emptyText: {
     fontWeight: '700',
     flex: 1,
     fontSize: 16,
     color: '$primaryBlack',
-    marginLeft:12,
+    marginLeft: 12,
+    alignSelf:'center'
   },
 
   btnText: {
@@ -68,6 +84,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   } as ViewStyle,
+
   closeButton: {
     marginRight: 16,
     paddingVertical: 8,
@@ -75,6 +92,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   } as ViewStyle,
+
   actionPanel: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -89,43 +107,72 @@ export default EStyleSheet.create({
   buttonsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    flex: 1,
-    marginLeft: 16,
     marginRight: 2,
   } as ViewStyle,
 
   selectButtonsContainer: {
     justifyContent: 'space-around',
-    flex: 1,
-    paddingVertical:8,
-    height: thumbSize
+    paddingVertical: 8,
+    marginRight:8,
+    height: THUMB_SIZE
   } as ViewStyle,
 
-  selectButtonLabel:{
-    fontSize: 16,   
-    textAlignVertical:'top', 
+  selectButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 32,
+  } as ViewStyle,
+
+  selectBtnPlus: {
+    marginRight: -8,
+    marginTop: -16,
+    zIndex: 2,
+    borderRadius: 12,
+    backgroundColor: "$primaryBlack"
+  } as ViewStyle,
+
+  selectButtonLabel: {
+    fontSize: 16,
+    textAlignVertical: 'top',
     color: '$primaryBlack',
-    marginBottom:4,
+    marginLeft: 4
   } as TextStyle,
 
-  uploadsBtnContainer:{
-    height:thumbSize,
-    width:thumbSize/1.8,
-    backgroundColor:'$primaryLightBackground',
-    marginLeft:16,
-    borderRadius:20,
-    alignItems:'center',
+  pillBtnContainer: {
+    height: THUMB_SIZE,
+    width: THUMB_SIZE / 1.8,
+    backgroundColor: '$primaryLightBackground',
+    marginLeft: 8,
+    borderRadius: 20,
+    alignItems: 'center',
     justifyContent: 'space-around',
   } as ViewStyle,
 
-  uploadsActionBtn:{
-    height: thumbSize/1.8,
-    width: thumbSize/1.8,
-    borderRadius:0,
-    borderBottomLeftRadius:20,
-    borderBottomRightRadius:20
+  uploadsActionBtn: {
+    height: THUMB_SIZE / 1.8,
+    width: THUMB_SIZE / 1.8,
+    borderRadius: 0,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20
   } as ViewStyle,
-  
+
+
+  deleteButtonContainer: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    bottom: 0,
+    justifyContent: 'center'
+  },
+
+  deleteButton: {
+    height: THUMB_SIZE / 1.8,
+    width: THUMB_SIZE / 1.8,
+    borderRadius: 0,
+    borderBottomLeftRadius: 20,
+    borderTopLeftRadius: 20,
+    backgroundColor: '$primaryRed'
+  } as ViewStyle,
 
   itemIconWrapper: {
     justifyContent: 'center',
@@ -136,12 +183,31 @@ export default EStyleSheet.create({
 
   minusContainer: {
     position: 'absolute',
-    top: 8,
+    top: 16,
     left: 16,
-    backgroundColor:'$primaryRed',
-    borderRadius:16,
-    padding:2,
+    backgroundColor: '$primaryRed',
+    borderRadius: 16,
+    padding: 2,
   } as ViewStyle,
+
+  counterContainer: {
+    position: 'absolute',
+    top: 16,
+    left: 16,
+    backgroundColor: '$primaryLightBackground',
+    borderRadius: 16,
+    padding: 2,
+    height: 24,
+    width: 24,
+    justifyContent: 'center',
+    alignItems: 'center'
+  } as ViewStyle,
+
+  counterText: {
+    color: '$primaryBlack',
+    fontSize: 16
+  } as TextStyle,
+
 
   checkStyle: {
     backgroundColor: '$white',
@@ -151,14 +217,14 @@ export default EStyleSheet.create({
     height: 80,
   } as ViewStyle,
 
-  thumbPlaceholder:{
-    height: thumbSize,
-    width: thumbSize,
-    backgroundColor:'$primaryLightBackground',
-    marginLeft:8,
-    borderRadius:20,
-    justifyContent:'center',
-    alignItems:'center'
+  thumbPlaceholder: {
+    height: THUMB_SIZE,
+    width: THUMB_SIZE,
+    backgroundColor: '$primaryLightBackground',
+    marginLeft: 8,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center'
   } as ViewStyle
 
 })
