@@ -69,6 +69,7 @@ export default EStyleSheet.create({
     fontSize: 16,
     color: '$primaryBlack',
     marginLeft: 12,
+    alignSelf:'center'
   },
 
   btnText: {
