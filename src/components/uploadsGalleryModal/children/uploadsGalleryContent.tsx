@@ -1,15 +1,14 @@
 import { proxifyImageSrc } from '@ecency/render-helper';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ActivityIndicator, Alert, Animated, FlatList, Keyboard, Platform, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Animated, Keyboard, Platform, Text, TouchableOpacity, View } from 'react-native';
 import { View as AnimatedView } from 'react-native-animatable';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import FastImage from 'react-native-fast-image';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, FlatList } from 'react-native-gesture-handler';
 import { Icon, IconButton } from '../..';
 import { UploadedMedia } from '../../../models';
-import getWindowDimensions from '../../../utils/getWindowDimensions';
-import styles from '../children/uploadsGalleryModalStyles';
+import styles, { COMPACT_HEIGHT, EXPANDED_HEIGHT, MAX_HORIZONTAL_THUMBS, THUMB_SIZE } from '../children/uploadsGalleryModalStyles';
 
 type Props = {
     insertedMediaUrls: string[],
@@ -25,9 +24,6 @@ type Props = {
     handleOpenForUpload: () => void,
 }
 
-const MAX_HORIZONTAL_THUMBS = 10;
-const COMPACT_HEIGHT = 112;
-const EXPANDED_HEIGHT = getWindowDimensions().height * 0.65;
 
 const UploadsGalleryContent = ({
     insertedMediaUrls,
@@ -48,6 +44,7 @@ const UploadsGalleryContent = ({
     const [isExpandedMode, setIsExpandedMode] = useState(false);
 
     const animatedHeightRef = useRef(new Animated.Value(COMPACT_HEIGHT));
+
 
     useEffect(() => {
         if (isExpandedMode) {
@@ -199,12 +196,12 @@ const UploadsGalleryContent = ({
 
 
     const _renderHeaderContent = () => (
-        <ScrollView horizontal={true} contentContainerStyle={{ ...styles.buttonsContainer, paddingVertical: isExpandedMode ? 8 : 0 }}>
+        <View style={{ ...styles.buttonsContainer, paddingVertical: isExpandedMode ? 8 : 0 }}>
             {<View style={styles.selectButtonsContainer} >
                 {_renderSelectButton('image', 'Gallery', handleOpenGallery)}
                 {_renderSelectButton('camera', 'Camera', handleOpenCamera)}
             </View>}
-            <View style={styles.uploadsBtnContainer}>
+            <View style={styles.pillBtnContainer}>
                 <IconButton
                     style={styles.uploadsActionBtn}
                     color={EStyleSheet.value('$primaryBlack')}
@@ -229,7 +226,7 @@ const UploadsGalleryContent = ({
             </View>
 
             {isAddingToUploads && (
-                <View style={styles.thumbPlaceholder}>
+                <View style={styles.pillBtnContainer}>
                     <ActivityIndicator color={EStyleSheet.value('$primaryBlack')} />
                 </View>
             )}
@@ -237,7 +234,7 @@ const UploadsGalleryContent = ({
 
             {isExpandedMode && _renderExpansionButton()}
             {isExpandedMode && _renderDeleteButton()}
-        </ScrollView>
+        </View>
 
     )
 
@@ -252,7 +249,7 @@ const UploadsGalleryContent = ({
 
     const _renderExpansionButton = () => (
         <IconButton
-            style={styles.thumbPlaceholder}
+            style={styles.pillBtnContainer}
             iconType="MaterialCommunityIcons"
             name={isExpandedMode ? 'arrow-collapse-vertical' : 'arrow-expand-vertical'}
             color={EStyleSheet.value('$primaryBlack')}
@@ -278,7 +275,7 @@ const UploadsGalleryContent = ({
 
                     <IconButton
                         style={{
-                            ...styles.thumbPlaceholder,
+                            ...styles.pillBtnContainer,
                             backgroundColor: EStyleSheet.value('$primaryRed')
                         }}
                         iconType="MaterialCommunityIcons"

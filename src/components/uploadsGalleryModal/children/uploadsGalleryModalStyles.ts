@@ -2,8 +2,11 @@ import { TextStyle, StyleSheet, ViewStyle, ImageStyle, Platform } from 'react-na
 import EStyleSheet from 'react-native-extended-stylesheet';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 
-const thumbSize = 96;
-const gridThumbSize = getWindowDimensions().width / 2 - 32;
+export const THUMB_SIZE = 96;
+export const GRID_THUMB_SIZE = getWindowDimensions().width / 2 - 32;
+export const MAX_HORIZONTAL_THUMBS = 10;
+export const COMPACT_HEIGHT = 112;
+export const EXPANDED_HEIGHT = getWindowDimensions().height * 0.65;
 
 export default EStyleSheet.create({
   container: {
@@ -29,8 +32,8 @@ export default EStyleSheet.create({
 
   mediaItem: {
     marginLeft: 8,
-    height: thumbSize,
-    width: thumbSize,
+    height: THUMB_SIZE,
+    width: THUMB_SIZE,
     borderRadius: 16,
     marginVertical: 8,
     backgroundColor: '$primaryLightGray'
@@ -38,8 +41,8 @@ export default EStyleSheet.create({
 
   gridMediaItem: {
     marginHorizontal: 8,
-    height: gridThumbSize,
-    width: gridThumbSize,
+    height: GRID_THUMB_SIZE,
+    width: GRID_THUMB_SIZE,
     marginVertical: 8,
     borderRadius: 16,
     backgroundColor: '$primaryLightGray'
@@ -115,7 +118,8 @@ export default EStyleSheet.create({
   selectButtonsContainer: {
     justifyContent: 'space-around',
     paddingVertical: 8,
-    height: thumbSize
+    marginRight:8,
+    height: THUMB_SIZE
   } as ViewStyle,
 
   selectButton: {
@@ -139,19 +143,19 @@ export default EStyleSheet.create({
     marginLeft: 4
   } as TextStyle,
 
-  uploadsBtnContainer: {
-    height: thumbSize,
-    width: thumbSize / 1.8,
+  pillBtnContainer: {
+    height: THUMB_SIZE,
+    width: THUMB_SIZE / 1.8,
     backgroundColor: '$primaryLightBackground',
-    marginLeft: 16,
+    marginLeft: 8,
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'space-around',
   } as ViewStyle,
 
   uploadsActionBtn: {
-    height: thumbSize / 1.8,
-    width: thumbSize / 1.8,
+    height: THUMB_SIZE / 1.8,
+    width: THUMB_SIZE / 1.8,
     borderRadius: 0,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20
@@ -167,8 +171,8 @@ export default EStyleSheet.create({
   },
 
   deleteButton: {
-    height: thumbSize / 1.8,
-    width: thumbSize / 1.8,
+    height: THUMB_SIZE / 1.8,
+    width: THUMB_SIZE / 1.8,
     borderRadius: 0,
     borderBottomLeftRadius: 20,
     borderTopLeftRadius: 20,
@@ -219,8 +223,8 @@ export default EStyleSheet.create({
   } as ViewStyle,
 
   thumbPlaceholder: {
-    height: thumbSize,
-    width: thumbSize,
+    height: THUMB_SIZE,
+    width: THUMB_SIZE,
     backgroundColor: '$primaryLightBackground',
     marginLeft: 8,
     borderRadius: 20,
