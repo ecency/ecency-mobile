@@ -1,13 +1,10 @@
 import { View, Text, Image, Platform } from 'react-native'
-import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react'
-import ActionSheet from 'react-native-actions-sheet'
+import React, { forwardRef, useImperativeHandle, useState } from 'react'
 import styles from '../styles/buyAccountModalStyles';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import { InAppPurchaseContainer } from '../../../containers';
 import { useIntl } from 'react-intl';
 import { useAppSelector } from '../../../hooks';
-import { BasicHeader, BoostPlaceHolder, Modal, ProductItemLine } from '../../../components';
-import UserRibbon from '../../../components/userRibbon/userRibbon';
+import { BoostPlaceHolder, Modal, ProductItemLine } from '../../../components';
 import get from 'lodash/get';
 import LOGO_ESTM from '../../../assets/esteemcoin_boost.png';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -24,9 +21,6 @@ const ITEM_SKUS = Platform.select({
 
 export const BuyAccountModal = forwardRef(({ username, email }: Props, ref) => {
     const intl = useIntl();
-    const sheetModalRef = useRef<ActionSheet>(null);
-
-    const currentAccount = useAppSelector((state) => state.account.currentAccount);
 
     const [showModal, setShowModal] = useState(false);
 
@@ -40,6 +34,14 @@ export const BuyAccountModal = forwardRef(({ username, email }: Props, ref) => {
         })
     )
 
+    const _renderUserInfo = (text:string, style:TextStyle) => (
+        <View style={styles.userInfoContainer}>
+            <View style={styles.userInfoWrapper}>
+                <Text style={style}>{text}</Text>
+            </View>
+        </View>
+    )
+
     const _renderContent = () => {
         return (
             <InAppPurchaseContainer skus={ITEM_SKUS} username={username} isNoSpin>
@@ -50,12 +52,16 @@ export const BuyAccountModal = forwardRef(({ username, email }: Props, ref) => {
                             <BoostPlaceHolder />
                         ) : (
                             <View style={styles.contentContainer}>
-                                <UserRibbon username={username ? username : currentAccount.name} />
+                                <View>
+                                {_renderUserInfo(username, styles.usernameStyle)}
+                                {_renderUserInfo(email, styles.emailStyle)}
+                                </View>
+                               
                                 <View style={styles.iconContainer}>
                                     <Image style={styles.logoEstm} source={LOGO_ESTM} />
                                     <Text style={styles.desc}>
                                         {intl.formatMessage({
-                                            id: 'boost.account.desc',
+                                            id: 'buy_account.desc',
                                         })}
                                     </Text>
                                 </View>
@@ -67,7 +73,7 @@ export const BuyAccountModal = forwardRef(({ username, email }: Props, ref) => {
                                             isLoading={isLoading}
                                             disabled={isProcessing}
                                             product={product}
-                                            title="Buy Account"
+                                            title={intl.formatMessage({id:'buy_account.btn_buy'})}
                                             handleOnButtonPress={(id) => buyItem(id)}
                                         />
                                     ))}
@@ -88,7 +94,7 @@ export const BuyAccountModal = forwardRef(({ username, email }: Props, ref) => {
             isCloseButton
             isFullScreen
             presentationStyle="formSheet"
-            title={"Buy Account"}
+            title={intl.formatMessage({id:'buy_account.title'})}
             animationType="slide"
             style={styles.modalStyle}>
 

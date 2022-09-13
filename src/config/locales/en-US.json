@@ -692,6 +692,11 @@
     "confirm_purchase": "Confirm Purchase @{username}",
     "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
+  "buy_account":{
+    "title": "Get Ecency Account",
+    "btn_buy": "Buy Account",
+    "desc": "Ecency let's buy account as inAppPurchase that instantly verifies your account legitimacy and grant you access to HIVE for blogging."
+  },
   "free_estm": {
     "title": "Free Points",
     "button": "SPIN & WIN",

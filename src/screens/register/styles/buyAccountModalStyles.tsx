@@ -1,6 +1,5 @@
-import { ImageStyle, TextStyle, ViewStyle } from 'react-native';
+import { TextStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 export default EStyleSheet.create({
   modalStyle: {
@@ -14,12 +13,33 @@ export default EStyleSheet.create({
   container:{
     flex:1
   },
-  
-  sheetContent: {
-    backgroundColor: '$primaryBackgroundColor',
+
+  userInfoContainer:{
+   marginBottom:8,
+   alignItems: 'baseline'
+  },
+
+  userInfoWrapper:{
+    backgroundColor:'$primaryBlue',
+    borderTopRightRadius:16,
+    borderBottomRightRadius:16,
+    paddingHorizontal:16,
+    paddingVertical:4,
+  },
+
+  usernameStyle:{
+    fontSize:18,
+    color:'$pureWhite',
+    fontWeight:'bold'
+  } as TextStyle,
+
+  emailStyle:{
+    fontSize:18,
+    color:'$pureWhite'
   },
 
   contentContainer: {
+    flex:1,
     justifyContent: 'space-around',
     backgroundColor: '$primaryBackgroundColor',
 
@@ -30,38 +50,7 @@ export default EStyleSheet.create({
     paddingBottom: 24,
     backgroundColor: '$primaryBackgroundColor',
   },
-  userContainer: {
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    flexDirection: 'row',
-    backgroundColor: '$primaryBackgroundColor',
-    paddingVertical: 8,
-    marginBottom: -16,
-    paddingLeft: 32,
-  },
-  avatarStyle: {
-    width: 72,
-    height: 72,
-    borderRadius: 66,
-    borderColor: '$primaryBlue',
-    borderWidth: 4,
-  },
-  usernameContainer: {
-    zIndex: -1,
-    paddingVertical: 8,
-    paddingRight: 20,
-    paddingLeft: 16,
-    marginLeft: -8,
-    borderTopRightRadius: 20,
-    borderBottomRightRadius: 20,
-    overflow: 'hidden',
-    backgroundColor: '$primaryBlue',
-  },
-  usernameText: {
-    color: '$white',
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
+
   logoEstm: {
     width: '$deviceWidth / 1.4',
     height: '$deviceHeight / 3',
