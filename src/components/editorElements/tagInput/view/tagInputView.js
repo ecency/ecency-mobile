@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Platform } from 'react-native';
 // Constants
 
 // Components
@@ -93,13 +93,14 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
             placeholder={intl.formatMessage({
               id: 'editor.tags',
             })}
-            //multiline
-            //numberOfLines={2}
             autoCompleteType="off"
             autoCorrect={false}
             autoFocus={autoFocus}
             autoCapitalize="none"
-            keyboardType="visible-password"
+            keyboardType={Platform.select({
+              ios: 'ascii-capable',
+              android: 'visible-password',
+            })}
             onChangeText={(val) => _handleOnChange(val.toLowerCase())}
             onEndEditing={_handleOnEnd}
             value={text}
