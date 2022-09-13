@@ -1,31 +1,45 @@
 import { TextStyle, StyleSheet, ViewStyle, ImageStyle, Platform } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 const thumbSize = 96;
+const gridThumbSize = getWindowDimensions().width / 2 - 32;
 
 export default EStyleSheet.create({
-  modalStyle: {
+  container: {
+    width: '$deviceWidth',
+    alignItems: 'center',
     height: 112,
     borderTopWidth: Platform.select({
       android: 1,
       ios: 0
     })
   },
-  container: {
-    flex: 1,
-    width: '$deviceWidth',
-    alignItems:'center',
+
+  listContentContainer: {
+    alignItems: 'center',
+    paddingRight: 72,
+    paddingLeft: 16,
   },
 
-  listContentContainer:{
-     alignItems: 'center', 
-     paddingRight:72 
+  gridContentContainer: {
+
   },
 
   mediaItem: {
     marginLeft: 8,
     height: thumbSize,
     width: thumbSize,
+    borderRadius: 16,
+    marginVertical: 8,
+    backgroundColor: '$primaryLightGray'
+  } as ImageStyle,
+
+  gridMediaItem: {
+    marginHorizontal: 8,
+    height: gridThumbSize,
+    width: gridThumbSize,
+    marginVertical: 8,
     borderRadius: 16,
     backgroundColor: '$primaryLightGray'
   } as ImageStyle,
@@ -71,6 +85,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   } as ViewStyle,
+
   closeButton: {
     marginRight: 16,
     paddingVertical: 8,
@@ -78,6 +93,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   } as ViewStyle,
+
   actionPanel: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -92,14 +108,11 @@ export default EStyleSheet.create({
   buttonsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    flex: 1,
-    marginLeft: 16,
     marginRight: 2,
   } as ViewStyle,
 
   selectButtonsContainer: {
     justifyContent: 'space-around',
-    flex: 1,
     paddingVertical: 8,
     height: thumbSize
   } as ViewStyle,
@@ -144,13 +157,13 @@ export default EStyleSheet.create({
   } as ViewStyle,
 
 
-  deleteButtonContainer:{ 
-    position: 'absolute', 
-    right: 0, 
-    top: 0, 
-    bottom: 0, 
+  deleteButtonContainer: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    bottom: 0,
     justifyContent: 'center'
-   },
+  },
 
   deleteButton: {
     height: thumbSize / 1.8,
@@ -158,10 +171,8 @@ export default EStyleSheet.create({
     borderRadius: 0,
     borderBottomLeftRadius: 20,
     borderTopLeftRadius: 20,
-    backgroundColor:'$primaryRed'
+    backgroundColor: '$primaryRed'
   } as ViewStyle,
-
-
 
   itemIconWrapper: {
     justifyContent: 'center',
@@ -172,7 +183,7 @@ export default EStyleSheet.create({
 
   minusContainer: {
     position: 'absolute',
-    top: 8,
+    top: 16,
     left: 16,
     backgroundColor: '$primaryRed',
     borderRadius: 16,
@@ -181,22 +192,21 @@ export default EStyleSheet.create({
 
   counterContainer: {
     position: 'absolute',
-    top: 8,
+    top: 16,
     left: 16,
     backgroundColor: '$primaryLightBackground',
     borderRadius: 16,
     padding: 2,
     height: 24,
     width: 24,
-    justifyContent:'center',
-    alignItems:'center'
+    justifyContent: 'center',
+    alignItems: 'center'
   } as ViewStyle,
 
-  counterText:{
-    color:'$primaryBlack',
-    fontSize:16
+  counterText: {
+    color: '$primaryBlack',
+    fontSize: 16
   } as TextStyle,
-  
 
 
   checkStyle: {

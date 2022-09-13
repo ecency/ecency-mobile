@@ -38,6 +38,8 @@ export const EditorToolbar = ({
   const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
   const translateY = useRef(new Animated.Value(0));
   const shouldHideExtension = useRef(false);
+
+  const [expandExtension, setExpandExtension] = useState(false);
   const [isExtensionVisible, setIsExtensionVisible] = useState(false);
 
   const _renderMarkupButton = ({ item }) => (

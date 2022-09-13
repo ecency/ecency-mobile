@@ -1,11 +1,9 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Alert, View } from 'react-native';
-import { View as AnimatedView } from 'react-native-animatable';
+import { Alert } from 'react-native';
 import bugsnapInstance from '../../../config/bugsnag';
 import { addImage, deleteImage, getImages, uploadImage } from '../../../providers/ecency/ecency';
 import UploadsGalleryContent from '../children/uploadsGalleryContent';
-import styles from '../children/uploadsGalleryModalStyles';
 import ImagePicker from 'react-native-image-crop-picker';
 import { signImage } from '../../../providers/hive/dhive';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
@@ -60,6 +58,7 @@ export const UploadsGalleryModal = forwardRef(({
     const [isLoading, setIsLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [isAddingToUploads, setIsAddingToUploads] = useState(false);
+
 
     const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
     const pinCode = useAppSelector(state => state.application.pin);
@@ -398,8 +397,8 @@ export const UploadsGalleryModal = forwardRef(({
         handleMediaInsert(data)
     }
 
-    const _renderContent = () => {
-        return (
+    return (
+        !isPreviewActive && showModal && (
             <UploadsGalleryContent
                 insertedMediaUrls={insertedMediaUrls}
                 mediaUploads={mediaUploads}
@@ -413,14 +412,6 @@ export const UploadsGalleryModal = forwardRef(({
 
             />
         )
-    }
-
-
-    return (
-        !isPreviewActive && showModal &&
-        <View style={styles.modalStyle}>
-            {_renderContent()}
-        </View>
     );
 });
 
