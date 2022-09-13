@@ -1,5 +1,5 @@
 import { Animated, View } from 'react-native'
-import React, { useRef, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { IconButton, UploadsGalleryModal } from '../..'
 import { FlatList, HandlerStateChangeEvent, PanGestureHandler, PanGestureHandlerEventPayload } from 'react-native-gesture-handler';
 import styles from '../styles/editorToolbarStyles';
@@ -35,11 +35,9 @@ export const EditorToolbar = ({
 }: Props) => {
 
   const currentAccount = useAppSelector(state => state.account.currentAccount)
-
   const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
   const translateY = useRef(new Animated.Value(0));
   const shouldHideExtension = useRef(false);
-  
   const [isExtensionVisible, setIsExtensionVisible] = useState(false);
 
   const _renderMarkupButton = ({ item }) => (
@@ -73,14 +71,21 @@ export const EditorToolbar = ({
           translationY: translateY.current,
         },
       },
-    ],
-    { useNativeDriver: true }
+    ]
   );
+
+
+  const consY = useMemo(()=>translateY.current.interpolate({
+    inputRange: [0, Infinity],
+    outputRange: [0, Infinity],
+    extrapolate: 'clamp'
+  }), [translateY.current]);
+
 
   const _animatedStyle = {
     transform: [
       {
-        translateY: translateY.current,
+        translateY: consY,
       },
     ]
   }
@@ -99,7 +104,7 @@ export const EditorToolbar = ({
     Animated.timing(translateY.current, {
       toValue: 0,
       duration: 200,
-      useNativeDriver: true
+      useNativeDriver: false
     }).start();
   }
 
@@ -108,7 +113,7 @@ export const EditorToolbar = ({
     Animated.timing(translateY.current, {
       toValue: 200,
       duration: 200,
-      useNativeDriver: true
+      useNativeDriver: false
     }).start(() => {
       shouldHideExtension.current = false;
       setIsExtensionVisible(false);
@@ -144,22 +149,20 @@ export const EditorToolbar = ({
               isEditing={isEditing}
               username={currentAccount.username}
               handleMediaInsert={handleMediaInsert}
-              setIsUploading={setIsUploading}
-            />
+              setIsUploading={setIsUploading}/>
           </View>
         </Animated.View>
       </PanGestureHandler>
     )
-
   }
 
   return (
-    <View  style={isExtensionVisible? styles.container:styles.shadowedContainer}>
+    <View style={isExtensionVisible ? styles.container : styles.shadowedContainer}>
 
       {_renderExtension()}
 
       {!isPreviewActive && (
-        <View style={{...styles.buttonsContainer, borderTopWidth:isExtensionVisible?1:0}}>
+        <View style={{ ...styles.buttonsContainer, borderTopWidth: isExtensionVisible ? 1 : 0 }}>
           <View style={styles.leftButtonsWrapper}>
             <FlatList
               data={Formats}
