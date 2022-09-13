@@ -1,14 +1,15 @@
 import { proxifyImageSrc } from '@ecency/render-helper';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ActivityIndicator, Alert, Animated, Keyboard, Platform, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Keyboard, Platform, Text, TouchableOpacity, View } from 'react-native';
 import { View as AnimatedView } from 'react-native-animatable';
+import Animated, { Easing } from 'react-native-reanimated';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import FastImage from 'react-native-fast-image';
-import { ScrollView, FlatList } from 'react-native-gesture-handler';
+import { FlatList } from 'react-native-gesture-handler';
 import { Icon, IconButton } from '../..';
 import { UploadedMedia } from '../../../models';
-import styles, { COMPACT_HEIGHT, EXPANDED_HEIGHT, MAX_HORIZONTAL_THUMBS, THUMB_SIZE } from '../children/uploadsGalleryModalStyles';
+import styles, { COMPACT_HEIGHT, EXPANDED_HEIGHT, MAX_HORIZONTAL_THUMBS } from '../children/uploadsGalleryModalStyles';
 
 type Props = {
     insertedMediaUrls: string[],
@@ -258,7 +259,7 @@ const UploadsGalleryContent = ({
                 Animated.timing(animatedHeightRef.current, {
                     toValue: isExpandedMode ? COMPACT_HEIGHT : EXPANDED_HEIGHT,
                     duration: 300,
-                    useNativeDriver: false
+                    easing: Easing.inOut(Easing.cubic)
                 }).start(() => {
                     setIsExpandedMode(!isExpandedMode)
                 })

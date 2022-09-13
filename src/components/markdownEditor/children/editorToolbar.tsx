@@ -1,4 +1,4 @@
-import { Animated, Keyboard, View, ViewStyle } from 'react-native'
+import { Keyboard, View, ViewStyle } from 'react-native'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { IconButton, UploadsGalleryModal } from '../..'
 import { FlatList, HandlerStateChangeEvent, PanGestureHandler, PanGestureHandlerEventPayload } from 'react-native-gesture-handler';
@@ -7,6 +7,7 @@ import { useAppSelector } from '../../../hooks';
 import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 import Formats from './formats/formats';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
+import Animated, { Easing, Extrapolate } from 'react-native-reanimated';
 
 type Props = {
   insertedMediaUrls: string[],
@@ -37,7 +38,7 @@ export const EditorToolbar = ({
 
   const currentAccount = useAppSelector(state => state.account.currentAccount)
   const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
-  const translateY = useRef(new Animated.Value(0));
+  const translateY = useRef(new Animated.Value(200));
   const shouldHideExtension = useRef(false);
   const extensionHeight = useRef(0);
 
@@ -104,9 +105,9 @@ export const EditorToolbar = ({
 
 
   const consY = useMemo(() => translateY.current.interpolate({
-    inputRange: [0, Infinity],
-    outputRange: [0, Infinity],
-    extrapolate: 'clamp'
+    inputRange: [0, 500],
+    outputRange: [0, 500],
+    extrapolate: Extrapolate.CLAMP
   }), [translateY.current]);
 
 
@@ -129,11 +130,12 @@ export const EditorToolbar = ({
     }
 
     setIsExtensionVisible(true);
+
     Animated.timing(translateY.current, {
-      toValue: 0,
       duration: 200,
-      useNativeDriver: false
-    }).start();
+      toValue: 0,
+      easing: Easing.inOut(Easing.ease),
+    }).start()
   }
 
 
@@ -141,7 +143,7 @@ export const EditorToolbar = ({
     Animated.timing(translateY.current, {
       toValue: extensionHeight.current,
       duration: 200,
-      useNativeDriver: false
+      easing: Easing.inOut(Easing.ease),
     }).start(() => {
       shouldHideExtension.current = false;
       setIsExtensionVisible(false);
@@ -166,12 +168,12 @@ export const EditorToolbar = ({
       <PanGestureHandler onGestureEvent={_onGestureEvent}
         onHandlerStateChange={_onPanHandlerStateChange}
         onEnded={_onPanEnded}>
-        <Animated.View onLayout={(e) => {
+        <Animated.View  style={_animatedStyle}>
+          <View onLayout={(e) => {
           extensionHeight.current = e.nativeEvent.layout.height;
           console.log('extension height', extensionHeight.current)
 
-        }} style={_animatedStyle}>
-          <View style={styles.dropShadow}>
+        }} style={styles.dropShadow}>
             {isExtensionVisible && <View style={styles.indicator} />}
             <UploadsGalleryModal
               ref={uploadsGalleryModalRef}

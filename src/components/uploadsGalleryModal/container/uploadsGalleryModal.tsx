@@ -370,7 +370,7 @@ export const UploadsGalleryModal = forwardRef(({
                 console.log("getting images for: " + username)
                 const images = await getImages()
                 console.log("images received", images)
-                setMediaUploads(images);
+                setMediaUploads(images || []);
                 setIsLoading(false);
             }
         } catch (err) {
