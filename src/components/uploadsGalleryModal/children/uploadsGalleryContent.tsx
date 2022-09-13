@@ -1,13 +1,15 @@
 import { proxifyImageSrc } from '@ecency/render-helper';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ActivityIndicator, Alert, FlatList, Platform, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Keyboard, Platform, Text, TouchableOpacity, View } from 'react-native';
 import { View as AnimatedView } from 'react-native-animatable';
+import Animated, { Easing } from 'react-native-reanimated';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import FastImage from 'react-native-fast-image';
+import { FlatList } from 'react-native-gesture-handler';
 import { Icon, IconButton } from '../..';
 import { UploadedMedia } from '../../../models';
-import styles from '../children/uploadsGalleryModalStyles';
+import styles, { COMPACT_HEIGHT, EXPANDED_HEIGHT, MAX_HORIZONTAL_THUMBS } from '../children/uploadsGalleryModalStyles';
 
 type Props = {
     insertedMediaUrls: string[],
@@ -22,6 +24,7 @@ type Props = {
     handleOpenCamera: () => void,
     handleOpenForUpload: () => void,
 }
+
 
 const UploadsGalleryContent = ({
     insertedMediaUrls,
@@ -39,6 +42,16 @@ const UploadsGalleryContent = ({
     const [deleteIds, setDeleteIds] = useState<string[]>([]);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isDeleteMode, setIsDeleteMode] = useState(false);
+    const [isExpandedMode, setIsExpandedMode] = useState(false);
+
+    const animatedHeightRef = useRef(new Animated.Value(COMPACT_HEIGHT));
+
+
+    useEffect(() => {
+        if (isExpandedMode) {
+            Keyboard.dismiss()
+        }
+    }, [isExpandedMode])
 
 
     const _deleteMedia = async () => {
@@ -145,7 +158,7 @@ const UploadsGalleryContent = ({
                 <View style={transformStyle}>
                     <FastImage
                         source={{ uri: thumbUrl }}
-                        style={styles.mediaItem}
+                        style={isExpandedMode ? styles.gridMediaItem : styles.mediaItem}
                     />
                     {_renderCounter()}
                     {_renderMinus()}
@@ -184,12 +197,12 @@ const UploadsGalleryContent = ({
 
 
     const _renderHeaderContent = () => (
-        <View style={styles.buttonsContainer}>
-            <View style={styles.selectButtonsContainer} >
+        <View style={{ ...styles.buttonsContainer, paddingVertical: isExpandedMode ? 8 : 0 }}>
+            {<View style={styles.selectButtonsContainer} >
                 {_renderSelectButton('image', 'Gallery', handleOpenGallery)}
                 {_renderSelectButton('camera', 'Camera', handleOpenCamera)}
-            </View>
-            <View style={styles.uploadsBtnContainer}>
+            </View>}
+            <View style={styles.pillBtnContainer}>
                 <IconButton
                     style={styles.uploadsActionBtn}
                     color={EStyleSheet.value('$primaryBlack')}
@@ -214,10 +227,14 @@ const UploadsGalleryContent = ({
             </View>
 
             {isAddingToUploads && (
-                <View style={styles.thumbPlaceholder}>
+                <View style={styles.pillBtnContainer}>
                     <ActivityIndicator color={EStyleSheet.value('$primaryBlack')} />
                 </View>
             )}
+
+
+            {isExpandedMode && _renderExpansionButton()}
+            {isExpandedMode && _renderDeleteButton()}
         </View>
 
     )
@@ -231,45 +248,92 @@ const UploadsGalleryContent = ({
         );
     };
 
-
-    const _renderDeleteButton = () => (
-        <AnimatedView
-            animation={deleteIds.length > 0 ? 'slideInRight' : 'slideOutRight'}
-            duration={300}
-            style={styles.deleteButtonContainer}
-        >
-            <IconButton
-                style={styles.deleteButton}
-                color={EStyleSheet.value('$primaryBlack')}
-                iconType="MaterialCommunityIcons"
-                name={'delete-outline'}
-                disabled={isDeleting}
-                size={28}
-                onPress={_onDeletePress}
-                isLoading={isDeleting} />
-        </AnimatedView>
+    const _renderExpansionButton = () => (
+        <IconButton
+            style={styles.pillBtnContainer}
+            iconType="MaterialCommunityIcons"
+            name={isExpandedMode ? 'arrow-collapse-vertical' : 'arrow-expand-vertical'}
+            color={EStyleSheet.value('$primaryBlack')}
+            size={32}
+            onPress={() => {
+                Animated.timing(animatedHeightRef.current, {
+                    toValue: isExpandedMode ? COMPACT_HEIGHT : EXPANDED_HEIGHT,
+                    duration: 300,
+                    easing: Easing.inOut(Easing.cubic)
+                }).start(() => {
+                    setIsExpandedMode(!isExpandedMode)
+                })
+            }}
+        />
     )
 
 
+    const _renderDeleteButton = () => {
+        if (deleteIds.length > 0) {
+            return (
+                isExpandedMode ? (
+
+
+                    <IconButton
+                        style={{
+                            ...styles.pillBtnContainer,
+                            backgroundColor: EStyleSheet.value('$primaryRed')
+                        }}
+                        iconType="MaterialCommunityIcons"
+                        name={'delete-outline'}
+                        color={EStyleSheet.value(deleteIds.length > 0 ? '$primaryBlack' : '$primaryBlack')}
+                        size={32}
+                        onPress={_onDeletePress}
+                        isLoading={isDeleting}
+                    />
+
+
+                ) : (
+                    <AnimatedView
+                        animation={deleteIds.length > 0 ? 'slideInRight' : 'slideOutRight'
+                        }
+                        duration={300}
+                        style={styles.deleteButtonContainer}
+                    >
+                        <IconButton
+                            style={styles.deleteButton}
+                            color={EStyleSheet.value('$primaryBlack')}
+                            iconType="MaterialCommunityIcons"
+                            name={'delete-outline'}
+                            disabled={isDeleting}
+                            size={28}
+                            onPress={_onDeletePress}
+                            isLoading={isDeleting} />
+                    </AnimatedView >
+                )
+            )
+        }
+        return null;
+    }
+
+
+
     return (
-        <View style={styles.container}>
+        <Animated.View style={{ ...styles.container, height: animatedHeightRef.current }}>
             <FlatList
-                data={mediaUploads}
+                key={isExpandedMode ? 'vertical_grid' : 'horizontal_list'}
+                data={mediaUploads.slice(0, MAX_HORIZONTAL_THUMBS)}
                 keyExtractor={(item) => `item_${item.url}`}
                 renderItem={_renderItem}
                 style={{ flex: 1 }}
-                contentContainerStyle={styles.listContentContainer}
+                contentContainerStyle={isExpandedMode ? styles.gridContentContainer : styles.listContentContainer}
                 ListHeaderComponent={_renderHeaderContent}
                 ListEmptyComponent={_renderEmptyContent}
-                ListFooterComponent={<View style={styles.listEmptyFooter} />}
+                ListFooterComponent={!isExpandedMode && mediaUploads.length > 0 && _renderExpansionButton}
                 extraData={deleteIds}
-                horizontal={true}
+                horizontal={!isExpandedMode}
+                numColumns={isExpandedMode ? 2 : 1}
                 keyboardShouldPersistTaps='always'
             />
 
-            {_renderDeleteButton()}
+            {!isExpandedMode && _renderDeleteButton()}
 
-        </View>
+        </Animated.View>
     )
 }
 

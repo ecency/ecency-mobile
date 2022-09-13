@@ -1,15 +1,13 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Alert, View } from 'react-native';
-import { View as AnimatedView } from 'react-native-animatable';
+import { Alert } from 'react-native';
 import bugsnapInstance from '../../../config/bugsnag';
 import { addImage, deleteImage, getImages, uploadImage } from '../../../providers/ecency/ecency';
 import UploadsGalleryContent from '../children/uploadsGalleryContent';
-import styles from '../children/uploadsGalleryModalStyles';
 import ImagePicker from 'react-native-image-crop-picker';
 import { signImage } from '../../../providers/hive/dhive';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { delay, extractFilenameFromPath, extractImageUrls, generateRndStr } from '../../../utils/editor';
+import { delay, extractFilenameFromPath } from '../../../utils/editor';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import showLoginAlert from '../../../utils/showLoginAlert';
 
@@ -61,21 +59,27 @@ export const UploadsGalleryModal = forwardRef(({
     const [showModal, setShowModal] = useState(false);
     const [isAddingToUploads, setIsAddingToUploads] = useState(false);
 
+
     const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
     const pinCode = useAppSelector(state => state.application.pin);
     const currentAccount = useAppSelector(state => state.account.currentAccount);
 
 
     useImperativeHandle(ref, () => ({
-        toggleModal: () => {
+        toggleModal: (value:boolean) => {
             if (!isLoggedIn) {
                 showLoginAlert({ intl });
                 return;
             }
-            if (!showModal) {
+
+            if(value === showModal){
+                return;
+            }
+            
+            if (value) {
                 _getMediaUploads();
             }
-            setShowModal(!showModal);
+            setShowModal(value);
         },
     }));
 
@@ -125,7 +129,7 @@ export const UploadsGalleryModal = forwardRef(({
             smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
         })
             .then((images) => {
-                if(images && !Array.isArray(images)){
+                if (images && !Array.isArray(images)) {
                     images = [images];
                 }
                 _handleMediaOnSelected(images, !addToUploads);
@@ -160,6 +164,7 @@ export const UploadsGalleryModal = forwardRef(({
             }
 
             if (shouldInsert) {
+                setShowModal(false);
                 media.forEach((element, index) => {
                     if (element) {
                         media[index].filename = element.filename || extractFilenameFromPath({ path: element.path, mimeType: element.mime });
@@ -365,7 +370,7 @@ export const UploadsGalleryModal = forwardRef(({
                 console.log("getting images for: " + username)
                 const images = await getImages()
                 console.log("images received", images)
-                setMediaUploads(images);
+                setMediaUploads(images || []);
                 setIsLoading(false);
             }
         } catch (err) {
@@ -392,8 +397,8 @@ export const UploadsGalleryModal = forwardRef(({
         handleMediaInsert(data)
     }
 
-    const _renderContent = () => {
-        return (
+    return (
+        !isPreviewActive && showModal && (
             <UploadsGalleryContent
                 insertedMediaUrls={insertedMediaUrls}
                 mediaUploads={mediaUploads}
@@ -407,17 +412,6 @@ export const UploadsGalleryModal = forwardRef(({
 
             />
         )
-    }
-
-
-    return (
-        !isPreviewActive && showModal &&
-        <AnimatedView animation='slideInRight' duration={500}>
-            <View style={styles.modalStyle}>
-                {_renderContent()}
-            </View>
-        </AnimatedView>
-
     );
 });
 

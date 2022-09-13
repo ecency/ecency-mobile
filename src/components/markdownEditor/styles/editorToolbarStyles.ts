@@ -1,14 +1,42 @@
+import { Platform } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
+
+const _dropShadow = {
+  shadowOpacity: 0.1,
+  shadowOffset: {
+    width: 0,
+    height: -3,
+  },
+  backgroundColor: '$primaryBackgroundColor',
+  borderColor: '$primaryLightBackground',
+  borderTopWidth : Platform.select({
+    android: 1,
+    ios: 0
+  })
+}
 
 export default EStyleSheet.create({
   container: {
-    flexDirection: 'column',
-    width:'$deviceWidth'
+    width: '$deviceWidth',
+    elevation: 3,
+    backgroundColor: '$primaryBackgroundColor',
   },
-  buttonsContainer:{
-    justifyContent:'space-between',
+  shadowedContainer:{
+    elevation: 3,
+    width: '$deviceWidth',
+    ..._dropShadow
+  },
+  dropShadow: {
+    ..._dropShadow
+  },
+  buttonsContainer: {
+    justifyContent: 'space-between',
     flexDirection: 'row',
-    width:'$deviceWidth'
+    width: '$deviceWidth',
+    backgroundColor: '$primaryBackgroundColor',
+    borderColor: '$primaryLightBackground',
+    paddingBottom: getBottomSpace()
   },
   clearIcon: {
     color: '$primaryLightGray',
@@ -20,7 +48,7 @@ export default EStyleSheet.create({
     color: '$primaryDarkGray',
     marginRight: 15,
     height: 24,
-  },  
+  },
   leftButtonsWrapper: {
     marginLeft: 16,
     flexDirection: 'row',
@@ -41,4 +69,14 @@ export default EStyleSheet.create({
     width: 56,
     backgroundColor: '$primaryBlue',
   },
+  indicator: {
+    height: 8,
+    width: 44,
+    backgroundColor: '$primaryWhiteLightBackground',
+    borderRadius: 8,
+    margin: 8,
+    alignSelf: 'center'
+  }
 });
+
+
