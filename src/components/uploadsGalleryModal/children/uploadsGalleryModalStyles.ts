@@ -11,12 +11,11 @@ export const EXPANDED_HEIGHT = getWindowDimensions().height * 0.65;
 export default EStyleSheet.create({
   container: {
     width: '$deviceWidth',
-    alignItems: 'center',
-    height: 112,
+    height: COMPACT_HEIGHT,
   },
 
   listContentContainer: {
-    alignItems: 'center',
+    marginTop:8,
     paddingRight: 72,
     paddingLeft: 16,
   },
@@ -31,7 +30,6 @@ export default EStyleSheet.create({
     height: THUMB_SIZE,
     width: THUMB_SIZE,
     borderRadius: 16,
-    marginVertical: 8,
     backgroundColor: '$primaryLightGray'
   } as ImageStyle,
 
