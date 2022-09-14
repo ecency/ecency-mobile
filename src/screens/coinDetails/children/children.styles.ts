@@ -138,6 +138,10 @@ export default EStyleSheet.create({
     margin: 0,
     paddingTop: 32,
     paddingBottom: 16,
+  },
+  textUnderline:{
+    textDecorationLine:'underline', 
+    textDecorationColor:'$primaryLightGray'
   }
 });
 

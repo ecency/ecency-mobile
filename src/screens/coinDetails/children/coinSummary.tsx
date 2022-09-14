@@ -11,6 +11,7 @@ export interface CoinSummaryProps {
     coinData:CoinData;
     percentChagne:number;
     onActionPress:(action:string)=>void;
+    onInfoPress:(dataKey:string)=>void;
 }
 
 export const CoinSummary = ({
@@ -19,6 +20,7 @@ export const CoinSummary = ({
     coinData,
     percentChagne,
     onActionPress,
+    onInfoPress
 }:CoinSummaryProps) => {
     const { 
         balance, 
@@ -56,6 +58,7 @@ export const CoinSummary = ({
                 extraData={extraDataPairs} 
                 coinSymbol={coinSymbol}  
                 percentChange={percentChagne}
+                onInfoPress={onInfoPress}
             />
             <CoinActions actions={actions} onActionPress={onActionPress}/>
             {

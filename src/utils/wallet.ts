@@ -627,7 +627,7 @@ export const fetchCoinsData = async ({
         const estimateVoteValueStr = '$ ' + getEstimatedAmount(userdata, globalProps);
 
         //aaggregate extra data pairs
-        const extraDataPairs = [];
+        const extraDataPairs:DataPair[] = [];
 
         if (delegatedHP) {
           extraDataPairs.push({
