@@ -317,7 +317,7 @@ const UploadsGalleryContent = ({
         <Animated.View style={{ ...styles.container, height: animatedHeightRef.current }}>
             <FlatList
                 key={isExpandedMode ? 'vertical_grid' : 'horizontal_list'}
-                data={mediaUploads.slice(0, MAX_HORIZONTAL_THUMBS)}
+                data={mediaUploads.slice(0, !isExpandedMode ? MAX_HORIZONTAL_THUMBS:undefined)}
                 keyExtractor={(item) => `item_${item.url}`}
                 renderItem={_renderItem}
                 style={{ flex: 1 }}
