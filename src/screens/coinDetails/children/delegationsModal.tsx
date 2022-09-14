@@ -9,20 +9,19 @@ import styles from './children.styles';
 import { BasicHeader, Modal, UserListItem } from '../../../components'
 import { useAppSelector } from '../../../hooks'
 import { getVestingDelegations } from '../../../providers/hive/dhive'
-import { Alert, RefreshControl } from 'react-native'
-import { getTimeFromNow } from '../../../utils/time'
+import { RefreshControl } from 'react-native'
 import { getReceivedVestingShares } from '../../../providers/ecency/ecency'
 import { vestsToHp } from '../../../utils/conversions'
 
-
 export enum MODES {
-    DELEGATEED = 'delegated',
-    RECEIVED = 'receieved',
+    DELEGATEED = 'delegated_hive_power',
+    RECEIVED = 'received_hive_power',
 }
 
 interface DelegationItem {
     username: string;
     vestingShares: string;
+    timestamp: string;
 }
 
 export const DelegationsModal = forwardRef(({ }, ref) => {
@@ -40,6 +39,7 @@ export const DelegationsModal = forwardRef(({ }, ref) => {
 
     useImperativeHandle(ref, () => ({
         showModal: (_mode: MODES) => {
+            setDelegations([])
             setShowModal(true)
             setMode(_mode)
         }
@@ -61,13 +61,15 @@ export const DelegationsModal = forwardRef(({ }, ref) => {
                 case MODES.DELEGATEED:
                     response = (await getVestingDelegations(currentAccount.username)).map((item) => ({
                         username: item.delegatee,
-                        vestingShares: item.vesting_shares
+                        vestingShares: item.vesting_shares,
+                        timestamp: item.min_delegation_time
                     } as DelegationItem))
                     break;
                 case MODES.RECEIVED:
                     response = (await getReceivedVestingShares(currentAccount.username)).map((item) => ({
                         username: item.delegator,
-                        vestingShares: item.vesting_shares
+                        vestingShares: item.vesting_shares,
+                        timestamp: item.timestamp
                     }))
                     break;
             }
@@ -89,27 +91,30 @@ export const DelegationsModal = forwardRef(({ }, ref) => {
             },
             key: username
         });
+        setShowModal(false);
     };
 
-
+    const title = intl.formatMessage({id:`wallet.${mode}`})
 
     const _renderItem = ({ item, index }: { item: DelegationItem, index: number }) => {
-        const value = vestsToHp(item.vestingShares, globalProps.hivePerMVests)
-
+        const value = vestsToHp(item.vestingShares, globalProps.hivePerMVests).toFixed(3) + ' HP';
+        const timeString = new Date(item.timestamp).toDateString();
+        
         return (
             <UserListItem
+                key={item.username}
                 index={index}
                 username={item.username}
+                description={timeString}
                 isHasRightItem
-                isRightColor={item.is_down_vote}
                 rightText={value}
                 isLoggedIn
                 handleOnPress={() => _handleOnUserPress(item.username)}
                 isClickable
-                subRightText={item.vestingShares}
             />
         );
     }
+
 
 
     const _renderContent = () => {
@@ -119,9 +124,9 @@ export const DelegationsModal = forwardRef(({ }, ref) => {
                     <>
                         <BasicHeader
                             backIconName="close"
-                            isModalHeader={true}
-                            handleOnPressBackButton={() => { }}
-                            title={`${'Delgations'} (${data && data.length})`}
+                            isModalHeader
+                            handleOnPressClose={() => { setShowModal(false)}}
+                            title={`${title} (${data && data.length})`}
                             isHasSearch
                             handleOnSearch={(text) => handleSearch(text, 'delagator')}
                         />
@@ -155,7 +160,6 @@ export const DelegationsModal = forwardRef(({ }, ref) => {
             isFullScreen
             isCloseButton
             presentationStyle="formSheet"
-            title={"Delegations"}
             animationType="slide"
             style={styles.delegationsModal}
         >
