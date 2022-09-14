@@ -32,9 +32,9 @@ export const CoinBasics = ({ valuePairs, extraData, coinSymbol, percentChange }:
     )
 
     const _renderValuePair = (args: DataPair, index: number) => {
-        const label = intl.formatMessage({ id: `wallet.${args.labelId}` })
+        const label = intl.formatMessage({ id: `wallet.${args.dataKey}` })
         return (
-            <Fragment key={`basic-data-${args.labelId}-${index}`}>
+            <Fragment key={`basic-data-${args.dataKey}-${index}`}>
                 <Text style={styles.textBasicValue}>{args.value}</Text>
                 <Text style={styles.textBasicLabel}>{label}</Text>
             </Fragment>
@@ -42,9 +42,9 @@ export const CoinBasics = ({ valuePairs, extraData, coinSymbol, percentChange }:
     }
 
     const _renderExtraData = (args: DataPair, index: number) => {
-        const label = intl.formatMessage({ id: `wallet.${args.labelId}` })
+        const label = intl.formatMessage({ id: `wallet.${args.dataKey || args.labelId}` })
         return (
-            <View key={`extra-data-${args.labelId}-${index}`} style={styles.extraDataContainer}>
+            <View key={`extra-data-${args.dataKey}-${index}`} style={styles.extraDataContainer}>
                 <Text style={styles.textExtraLabel}>{label}</Text>
                 <Text style={styles.textExtraValue}>{args.value}</Text>
             </View>
