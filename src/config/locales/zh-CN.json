@@ -92,11 +92,11 @@
     "fill_vesting_withdraw": "释放 Steem Power 已执行",
     "ecency": {
       "title": "Points",
-      "name": "Ecency Points",
+      "name": "Ecency 积分",
       "buy": "GET POINTS"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "Hive 转入储蓄户口"
     },
     "savinghbd": {
       "title": "HBD Savings"
