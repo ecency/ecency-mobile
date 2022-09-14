@@ -130,6 +130,14 @@ export default EStyleSheet.create({
 
   activitiesFooterIndicator:{
     marginVertical: 16
-  } as ViewStyle
+  } as ViewStyle,
+
+  delegationsModal:{
+    flex: 1,
+    backgroundColor: '$primaryBackgroundColor',
+    margin: 0,
+    paddingTop: 32,
+    paddingBottom: 16,
+  }
 });
 
