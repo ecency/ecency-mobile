@@ -53,9 +53,9 @@ class LoginContainer extends PureComponent {
   componentDidMount(){
     //TOOD: migrate getParam to routes.state.param after nt/navigaiton merge
 
-    const {navigation} = this.props;
-    const username = navigation.getParam('username', '')
-    const code:string = navigation.getParam('code', '')
+    const {route} = this.props;
+    const username = route.params?.username ?? ''
+    const code:string = route.params?.code ?? ''
     
     if(username && code){
       this._confirmCodeLogin(username, code);
