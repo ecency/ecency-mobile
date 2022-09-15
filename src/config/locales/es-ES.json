@@ -61,6 +61,7 @@
     "amount_information": "Arrastra el deslizador para ajustar la cantidad",
     "amount": "Cantidad",
     "memo": "Memo",
+    "tap_update": "Tap to update",
     "information": "¿Está seguro de transferir los fondos?",
     "amount_desc": "Balance",
     "memo_desc": "Este memo es público",
@@ -272,7 +273,11 @@
     "not_loggedin_alert": "No conectado",
     "not_loggedin_alert_desc": "Inicia tu sesión primero",
     "login_failed": "Error al iniciar sesión",
-    "login_failed_body": "prueba una clave diferente o inténtalo de nuevo más tarde."
+    "login_failed_body": "prueba una clave diferente o inténtalo de nuevo más tarde.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "Registrarse",
