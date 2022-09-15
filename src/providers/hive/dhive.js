@@ -1148,6 +1148,34 @@ export const delegateVestingShares = (currentAccount, pin, data) => {
   );
 };
 
+/**
+ *
+ * @param {string} username
+ * @param {string} fromDelegatee
+ * @param {number} limit
+ * @returns {Array} Array of vesting delegation objects [{
+ *  delegatee:string;
+ *  delegator:string;
+ *  id: number;
+ *  min_delegation_time: string;
+ *  vesting_shares": string'
+ * }]
+ */
+export const getVestingDelegations = async (username, fromDelegatee = '', limit = 1000) => {
+  try {
+    const response = await client.database.call('get_vesting_delegations', [
+      username,
+      fromDelegatee,
+      limit,
+    ]);
+    console.log('Vested delegatees response', response);
+    return response;
+  } catch (err) {
+    console.warn('Failed to get vested delegatees');
+    bugsnagInstance.notify(err);
+  }
+};
+
 export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(

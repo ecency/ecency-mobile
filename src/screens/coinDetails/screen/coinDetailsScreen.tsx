@@ -12,6 +12,7 @@ import { navigate } from '../../../navigation/service';
 import ROUTES from '../../../constants/routeNames';
 import { COIN_IDS } from '../../../constants/defaultCoins';
 import { useIntl } from 'react-intl';
+import { DelegationsModal, MODES } from '../children/delegationsModal';
 
 export interface CoinDetailsScreenParams {
   coinId: string;
@@ -35,6 +36,7 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
 
   //refs
   const appState = useRef(AppState.currentState);
+  const delegationsModalRef = useRef(null);
 
   //redux props
   const currentAccount = useAppSelector(state => state.account.currentAccount);
@@ -106,6 +108,12 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
     navigation.goBack();
   }
 
+  const _onInfoPress = (dataKey:string) => {
+    if((dataKey === MODES.DELEGATEED || dataKey === MODES.RECEIVED) && delegationsModalRef.current) {
+      delegationsModalRef.current.showModal(dataKey)
+    }
+  }
+
 
   const _onActionPress = (transferType: string) => {
 
@@ -156,7 +164,8 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
       coinSymbol={symbol}
       coinData={coinData}
       percentChagne={quote.percentChange || 0}
-      onActionPress={_onActionPress} />
+      onActionPress={_onActionPress}
+      onInfoPress={_onInfoPress} />
   )
 
 
@@ -172,6 +181,7 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
         onEndReached={_fetchDetails}
         onRefresh={_onRefresh}
       />
+      <DelegationsModal ref={delegationsModalRef} />
     </View>
   )
 }

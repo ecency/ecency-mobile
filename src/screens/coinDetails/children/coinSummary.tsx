@@ -11,6 +11,7 @@ export interface CoinSummaryProps {
     coinData:CoinData;
     percentChagne:number;
     onActionPress:(action:string)=>void;
+    onInfoPress:(dataKey:string)=>void;
 }
 
 export const CoinSummary = ({
@@ -19,6 +20,7 @@ export const CoinSummary = ({
     coinData,
     percentChagne,
     onActionPress,
+    onInfoPress
 }:CoinSummaryProps) => {
     const { 
         balance, 
@@ -30,21 +32,21 @@ export const CoinSummary = ({
 
     const valuePairs = [
         {
-            labelId:'amount_desc',
+            dataKey:'amount_desc',
             value:balance
         }
     ] as DataPair[]
 
     if(estimateValue !== undefined){
         valuePairs.push({
-            labelId:'estimated_value',
+            dataKey:'estimated_value',
             value:<FormattedCurrency isApproximate isToken value={estimateValue} />,
         })
     }
 
     if(savings !== undefined){
         valuePairs.push({
-            labelId:'savings',
+            dataKey:'savings',
             value:savings
         })
     }
@@ -56,6 +58,7 @@ export const CoinSummary = ({
                 extraData={extraDataPairs} 
                 coinSymbol={coinSymbol}  
                 percentChange={percentChagne}
+                onInfoPress={onInfoPress}
             />
             <CoinActions actions={actions} onActionPress={onActionPress}/>
             {

@@ -627,35 +627,37 @@ export const fetchCoinsData = async ({
         const estimateVoteValueStr = '$ ' + getEstimatedAmount(userdata, globalProps);
 
         //aaggregate extra data pairs
-        const extraDataPairs = [];
+        const extraDataPairs:DataPair[] = [];
 
         if (delegatedHP) {
           extraDataPairs.push({
-            labelId: 'delegated_hive_power',
-            value: `- ${delegatedHP.toFixed(3)} HP`
+            dataKey: 'delegated_hive_power',
+            value: `- ${delegatedHP.toFixed(3)} HP`,
+            isClickable: true
           })
         }
 
         if (receivedHP) {
           extraDataPairs.push({
-            labelId: 'received_hive_power',
-            value: `+ ${receivedHP.toFixed(3)} HP`
+            dataKey: 'received_hive_power',
+            value: `+ ${receivedHP.toFixed(3)} HP`,
+            isClickable: true
           })
         }
 
         if (nextVestingSharesWithdrawalHive) {
           extraDataPairs.push({
-            labelId: 'powering_down_hive_power',
+            dataKey: 'powering_down_hive_power',
             value: `- ${nextVestingSharesWithdrawalHive.toFixed(3)} HP`
           })
         }
 
         extraDataPairs.concat([
           {
-            labelId: 'total_hive_power',
+            dataKey: 'total_hive_power',
             value: `${(balance - delegatedHP + receivedHP - nextVestingSharesWithdrawalHive).toFixed(3)} HP`
           }, {
-            labelId: 'vote_value',
+            dataKey: 'vote_value',
             value: estimateVoteValueStr
           }
         ])
@@ -671,10 +673,10 @@ export const fetchCoinsData = async ({
           actions: HIVE_POWER_ACTIONS,
           extraDataPairs: [
             ...extraDataPairs, {
-              labelId: 'total_hive_power',
+              dataKey: 'total_hive_power',
               value: `${(balance - delegatedHP + receivedHP - nextVestingSharesWithdrawalHive).toFixed(3)} HP`
             }, {
-              labelId: 'vote_value',
+              dataKey: 'vote_value',
               value: estimateVoteValueStr
             }
           ]
