@@ -61,6 +61,7 @@
     "amount_information": "Faites glisser le curseur pour ajuster le montant",
     "amount": "Montant",
     "memo": "Mémo",
+    "tap_update": "Tap to update",
     "information": "Êtes-vous sûr de vouloir transférer les fonds ?",
     "amount_desc": "Solde",
     "memo_desc": "Ce mémo est public",
@@ -272,7 +273,11 @@
     "not_loggedin_alert": "Not LoggedIn",
     "not_loggedin_alert_desc": "Please login first",
     "login_failed": "Login Failed",
-    "login_failed_body": "try a different key or try again later."
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "Créer un compte",
