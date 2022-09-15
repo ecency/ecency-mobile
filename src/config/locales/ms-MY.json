@@ -61,6 +61,7 @@
     "amount_information": "Seret penggelongsor untuk menyelaraskan amaun",
     "amount": "Jumlah",
     "memo": "Memo",
+    "tap_update": "Tap to update",
     "information": "Adakah anda pasti hendak memindahkan dana?",
     "amount_desc": "Baki",
     "memo_desc": "Memo ini adalah umum",
@@ -272,7 +273,11 @@
     "not_loggedin_alert": "Not LoggedIn",
     "not_loggedin_alert_desc": "Please login first",
     "login_failed": "Login Failed",
-    "login_failed_body": "try a different key or try again later."
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "Daftar",
