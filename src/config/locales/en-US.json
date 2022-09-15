@@ -61,6 +61,7 @@
     "amount_information": "Drag the slider to adjust the amount",
     "amount": "Amount",
     "memo": "Memo",
+    "tap_update":"Tap to update",
     "information": "Are you sure to transfer funds?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
