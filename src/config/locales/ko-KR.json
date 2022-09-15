@@ -61,6 +61,7 @@
     "amount_information": "슬라이드를 드래그해서 수량을 설정할 수 있습니다",
     "amount": "수량",
     "memo": "메모",
+    "tap_update": "Tap to update",
     "information": "자금을 전송하시겠습니까?",
     "amount_desc": "잔액",
     "memo_desc": "이 메모는 누구나 볼 수 있습니다",
@@ -272,7 +273,11 @@
     "not_loggedin_alert": "Not LoggedIn",
     "not_loggedin_alert_desc": "Please login first",
     "login_failed": "Login Failed",
-    "login_failed_body": "try a different key or try again later."
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "가입",
