@@ -12,6 +12,7 @@ import { getVestingDelegations } from '../../../providers/hive/dhive'
 import { RefreshControl } from 'react-native'
 import { getReceivedVestingShares } from '../../../providers/ecency/ecency'
 import { vestsToHp } from '../../../utils/conversions'
+import unionBy from 'lodash/unionBy'
 
 export enum MODES {
     DELEGATEED = 'delegated_hive_power',
@@ -52,6 +53,36 @@ export const DelegationsModal = forwardRef(({ }, ref) => {
     }, [mode, showModal])
 
 
+    const _getVestingDelegations = async (startUsername: string = '') => {
+        let resData:any = []
+        let limit = 1000;
+
+        const response = await getVestingDelegations(currentAccount.username, startUsername);
+        resData = response.map((item) => ({
+            username: item.delegatee,
+            vestingShares: item.vesting_shares,
+            timestamp: item.min_delegation_time
+        } as DelegationItem))
+
+        if (resData.length === limit) {
+            const data = await _getVestingDelegations(response[response.length - 1].delegatee)
+            resData = unionBy(resData, data, 'username')
+        }
+
+
+        return resData;
+    }
+
+    const _getReceivedDelegations = async () => {
+        const response = await getReceivedVestingShares(currentAccount.username)
+        return response.map((item) => ({
+            username: item.delegator,
+            vestingShares: item.vesting_shares,
+            timestamp: item.timestamp
+        }))
+    }
+
+
     const _getDelegations = async () => {
 
         try {
@@ -59,18 +90,10 @@ export const DelegationsModal = forwardRef(({ }, ref) => {
             let response: DelegationItem[] = [];
             switch (mode) {
                 case MODES.DELEGATEED:
-                    response = (await getVestingDelegations(currentAccount.username)).map((item) => ({
-                        username: item.delegatee,
-                        vestingShares: item.vesting_shares,
-                        timestamp: item.min_delegation_time
-                    } as DelegationItem))
+                    response = await _getVestingDelegations();
                     break;
                 case MODES.RECEIVED:
-                    response = (await getReceivedVestingShares(currentAccount.username)).map((item) => ({
-                        username: item.delegator,
-                        vestingShares: item.vesting_shares,
-                        timestamp: item.timestamp
-                    }))
+                    response = await _getReceivedDelegations();
                     break;
             }
             setDelegations(response);
@@ -94,12 +117,12 @@ export const DelegationsModal = forwardRef(({ }, ref) => {
         setShowModal(false);
     };
 
-    const title = intl.formatMessage({id:`wallet.${mode}`})
+    const title = intl.formatMessage({ id: `wallet.${mode}` })
 
     const _renderItem = ({ item, index }: { item: DelegationItem, index: number }) => {
         const value = vestsToHp(item.vestingShares, globalProps.hivePerMVests).toFixed(3) + ' HP';
         const timeString = new Date(item.timestamp).toDateString();
-        
+
         return (
             <UserListItem
                 key={item.username}
