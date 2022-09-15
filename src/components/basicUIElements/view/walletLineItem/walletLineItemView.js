@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Components
 import { DropdownButton, PopoverWrapper, Icon, GrayWrapper } from '../../..';
@@ -38,7 +39,13 @@ const WalletLineItem = ({
               style={[
                 styles.iconWrapper,
                 isCircleIcon && styles.circleIcon,
-                index && { backgroundColor: `${index && index % 2 !== 0 ? 'white' : '#f5f5f5'}` },
+                index && {
+                  backgroundColor: `${
+                    index && index % 2 !== 0
+                      ? EStyleSheet.value('$white')
+                      : EStyleSheet.value('$primaryLightBackground')
+                  }`,
+                },
               ]}
             >
               <Icon style={styles.icon} name={iconName} iconType={iconType} />
