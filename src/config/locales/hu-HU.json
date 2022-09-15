@@ -61,6 +61,7 @@
     "amount_information": "A csúszka húzásával állítsd be a mennyiséget",
     "amount": "Összeg",
     "memo": "Üzenet",
+    "tap_update": "Tap to update",
     "information": "Bistoz átutalod?",
     "amount_desc": "Egyenleg",
     "memo_desc": "Ez az üzenet nyilvános",
@@ -272,7 +273,11 @@
     "not_loggedin_alert": "Not LoggedIn",
     "not_loggedin_alert_desc": "Please login first",
     "login_failed": "Login Failed",
-    "login_failed_body": "try a different key or try again later."
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "Regisztráció",
