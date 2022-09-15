@@ -13,16 +13,16 @@ export interface WebBrowserParams {
 
 interface Props {
   navigation:{
-    state:{
-      params:WebBrowserParams
-    }
     goBack:()=>void;
+  },
+  route:{
+    params:WebBrowserParams
   }
 }
 
-const WebBrowser = ({navigation}:Props) => {
+const WebBrowser = ({navigation, route}:Props) => {
 
-  const url = useMemo(() => get(navigation, 'state.params.url'), []);
+  const url = useMemo(() => route.params?.url, []);
 
   if(!url){
     Alert.alert("DEV: url parameter cannot be empty")

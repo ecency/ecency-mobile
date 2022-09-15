@@ -131,7 +131,9 @@
     "open_orders": "Ordens Abertas",
     "conversions_requested": "Conversões Solicitadas",
     "expires": "expira em",
-    "pending_requests": "Solicitações Pendentes"
+    "pending_requests": "Solicitações Pendentes",
+    "boost_account": "Boost",
+    "get_boost": "Get Boost"
   },
   "notification": {
     "vote": "votou",
@@ -248,7 +250,9 @@
     },
     "feedback_success": "Email aberto com sucesso",
     "feedback_fail": "Não se pôde abrir o cliente de e-mail",
-    "server_fail": "Servidor não disponível"
+    "server_fail": "Servidor não disponível",
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Informação de eleitores",
@@ -264,7 +268,9 @@
     "cancel": "cancelar",
     "login": "ENTRAR",
     "steemconnect_description": "Se você não quiser manter sua senha criptográfica salva no dispositivo, você pode usar o Hivesigner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_fee_description": "info",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "Cadastre-se",
@@ -543,6 +549,11 @@
     "confirm_report_title": "Confirmar Relatório!",
     "confirm_report_body": "Tem certeza que quer denunciar?"
   },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
+  },
   "favorites": {
     "title": "Favoritos",
     "load_error": "Não foi possível carregar os favoritos",
@@ -580,7 +591,8 @@
     "unpin-blog": "Desafixar do blog",
     "pin-community": "Fixar na comunidade",
     "unpin-community": "Desafixar da comunidade",
-    "edit-history": "Histórico de Edição"
+    "edit-history": "Histórico de Edição",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Usuário não existe",
@@ -671,7 +683,9 @@
     "account": {
       "title": "Obter Impulso na Conta",
       "desc": "30 dias de delegação irão impulsionar seus votos e atividades sociais, permitindo mais ações com o aumento dos Créditos de Recursos disponibilizados."
-    }
+    },
+    "confirm_purchase": "Confirm Purchase @{username}",
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
   "free_estm": {
     "title": "Pontos Grátis",
@@ -824,7 +838,9 @@
   "qr": {
     "qr_scan": "Leitor QR",
     "open": "Abrir URL",
-    "detected_url": "URL detectada"
+    "detected_url": "URL detectada",
+    "unsupported_alert_title": "Unsupported URL!",
+    "unsupported_alert_desc": "Please scan a valid ecency url."
   },
   "history": {
     "edit": "Editar Histórico",

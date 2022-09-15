@@ -6,7 +6,7 @@ import { Follows } from './follows';
 import { Launch } from './launch';
 import { Login } from './login';
 import { Notification } from './notification';
-import { PinCode } from './pinCode';
+import PinCode from './pinCode';
 import { Post } from './post';
 import { SearchResult } from './searchResult';
 import { Settings } from './settings';
@@ -29,6 +29,7 @@ import Communities from './communities';
 import ReferScreen from './referScreen/referScreen';
 import CoinDetails from './coinDetails';
 import EditHistoryScreen from './editHistoryScreen/editHistoryScreen';
+import WelcomeScreen from './welcome';
 
 export {
   Bookmarks,
@@ -62,4 +63,5 @@ export {
   ReferScreen,
   CoinDetails,
   EditHistoryScreen,
+  WelcomeScreen,
 };

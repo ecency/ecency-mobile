@@ -1,4 +1,10 @@
-import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE, UPDATE_COMMENT_CACHE, DELETE_COMMENT_CACHE_ENTRY, DELETE_DRAFT_CACHE_ENTRY, UPDATE_DRAFT_CACHE, UPDATE_SUBSCRIBED_COMMUNITY_CACHE, DELETE_SUBSCRIBED_COMMUNITY_CACHE, CLEAR_SUBSCRIBED_COMMUNITIES_CACHE, } from "../constants/constants";
+import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE, UPDATE_COMMENT_CACHE, DELETE_COMMENT_CACHE_ENTRY, DELETE_DRAFT_CACHE_ENTRY, UPDATE_DRAFT_CACHE, UPDATE_SUBSCRIBED_COMMUNITY_CACHE, DELETE_SUBSCRIBED_COMMUNITY_CACHE, CLEAR_SUBSCRIBED_COMMUNITIES_CACHE, UPDATE_COMMENT_CACHE_ENTRY_STATUS, } from "../constants/constants";
+
+export enum CommentCacheStatus {
+    PENDING = 'PENDING',
+    POSTPONED = 'PUBLISHED',
+    DELETED = 'DELETED',
+}
 
 export interface Vote {
     amount: number;
@@ -24,6 +30,7 @@ export interface Comment {
     created?: string, //handle created and updated separatly
     updated?: string,
     expiresAt?: number,
+    status: CommentCacheStatus
 }
 
 export interface Draft {

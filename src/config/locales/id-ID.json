@@ -131,7 +131,9 @@
     "open_orders": "Membuka Pesanan",
     "conversions_requested": "Permintaan Konversi",
     "expires": "kadaluwarsa",
-    "pending_requests": "Permintaan Tertunda"
+    "pending_requests": "Permintaan Tertunda",
+    "boost_account": "Boost",
+    "get_boost": "Get Boost"
   },
   "notification": {
     "vote": "voted",
@@ -248,7 +250,9 @@
     },
     "feedback_success": "Email berhasil dibuka",
     "feedback_fail": "Klien email tidak bisa dibuka",
-    "server_fail": "Server tidak tersedia"
+    "server_fail": "Server tidak tersedia",
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Info Pemilih",
@@ -264,7 +268,9 @@
     "cancel": "batal",
     "login": "MASUK",
     "steemconnect_description": "Jika Anda tidak ingin menyimpan kata sandi Anda dienkripsi dan disimpan di perangkat Anda, Anda dapat menggunakan Hivesigner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_fee_description": "info",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "Daftar",
@@ -543,6 +549,11 @@
     "confirm_report_title": "Konfirmasi Laporan!",
     "confirm_report_body": "Yakin mau membuat laporan?"
   },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
+  },
   "favorites": {
     "title": "Favorit",
     "load_error": "Tidak dapat menampilkan favorit",
@@ -580,7 +591,8 @@
     "unpin-blog": "Lepas sematan di blog",
     "pin-community": "Semat untuk komunitas",
     "unpin-community": "Lepaskan sematan dari komunitas",
-    "edit-history": "Riwayat Penyuntingan"
+    "edit-history": "Riwayat Penyuntingan",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Tidak ada pengguna yang ada",
@@ -671,7 +683,9 @@
     "account": {
       "title": "Lakukan Peningkatan Akun",
       "desc": "Delegasi 30 hari akan meningkatkan suara dan aktivitas sosial Anda dan memberi Anda lebih banyak tindakan dengan lebih banyak Kredit Sumber Daya."
-    }
+    },
+    "confirm_purchase": "Confirm Purchase @{username}",
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
   "free_estm": {
     "title": "Poin Gratis",
@@ -824,7 +838,9 @@
   "qr": {
     "qr_scan": "QR Scan",
     "open": "Open URL",
-    "detected_url": "Detected URL"
+    "detected_url": "Detected URL",
+    "unsupported_alert_title": "Unsupported URL!",
+    "unsupported_alert_desc": "Please scan a valid ecency url."
   },
   "history": {
     "edit": "Edit History",

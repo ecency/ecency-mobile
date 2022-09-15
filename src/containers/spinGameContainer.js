@@ -3,7 +3,6 @@ import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
-import { withNavigation } from 'react-navigation';
 
 // Providers
 import { gameStatusCheck, gameClaim } from '../providers/ecency/ePoint';
@@ -100,4 +99,4 @@ const mapStateToProps = (state) => ({
   username: state.account.currentAccount.name,
 });
 
-export default withNavigation(connect(mapStateToProps)(injectIntl(RedeemContainer)));
+export default connect(mapStateToProps)(injectIntl(RedeemContainer));

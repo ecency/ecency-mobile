@@ -11,12 +11,11 @@ import {
 import { renderPostBody, postBodySummary } from '@ecency/render-helper';
 import { useDispatch, useSelector } from 'react-redux';
 import { View as AnimatedView } from 'react-native-animatable';
-import { get } from 'lodash';
+import { get, debounce } from 'lodash';
 import { Icon } from '../../icon';
 
 // Utils
-import Formats from './formats/formats';
-import applyMediaLink from './formats/applyMediaLink';
+import applyMediaLink from '../children/formats/applyMediaLink';
 
 // Actions
 import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
@@ -42,23 +41,27 @@ import {
 import { ThemeContainer } from '../../../containers';
 
 // Styles
-import styles from './markdownEditorStyles';
-import applySnippet from './formats/applySnippet';
+import styles from '../styles/markdownEditorStyles';
+import applySnippet from '../children/formats/applySnippet';
 import { MainButton } from '../../mainButton';
 import isAndroidOreo from '../../../utils/isAndroidOreo';
 import { OptionsModal } from '../../atoms';
-import { UsernameAutofillBar } from './usernameAutofillBar';
-import applyUsername from './formats/applyUsername';
+import { UsernameAutofillBar } from '../children/usernameAutofillBar';
+import applyUsername from '../children/formats/applyUsername';
 import { walkthrough } from '../../../redux/constants/walkthroughConstants';
+import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
+import { EditorToolbar } from '../children/editorToolbar';
+import { extractImageUrls } from '../../../utils/editor';
 
 const MIN_BODY_INPUT_HEIGHT = 300;
 
 //These variable keep track of body text input state, 
 //this helps keep load on minimal compared to both useState and useRef;
 var bodyText = '';
-var bodySelection = {start: 0, end: 0};
+var bodySelection = { start: 0, end: 0 };
 
 const MarkdownEditorView = ({
+  paramFiles,
   draftBody,
   handleOpenImagePicker,
   intl,
@@ -79,7 +82,7 @@ const MarkdownEditorView = ({
   autoFocusText,
   sharedSnippetText,
   onLoadDraftPress,
-  uploadProgress,
+  setIsUploading
 }) => {
   const dispatch = useDispatch();
 
@@ -87,11 +90,11 @@ const MarkdownEditorView = ({
   const [bodyInputHeight, setBodyInputHeight] = useState(MIN_BODY_INPUT_HEIGHT);
   const [isSnippetsOpen, setIsSnippetsOpen] = useState(false);
   const [showDraftLoadButton, setShowDraftLoadButton] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [insertedMediaUrls, setInsertedMediaUrls] = useState([]);
 
   const inputRef = useRef(null);
-  const galleryRef = useRef(null);
   const clearRef = useRef(null);
-  const uploadsGalleryModalRef = useRef(null);
   const insertLinkModalRef = useRef(null);
   const tooltipRef = useRef(null);
 
@@ -104,8 +107,8 @@ const MarkdownEditorView = ({
 
   useEffect(() => {
     bodyText = '';
-    bodySelection = {start:0, end:0};
-   }, []);
+    bodySelection = { start: 0, end: 0 };
+  }, []);
 
   useEffect(() => {
     if (!isPreviewActive) {
@@ -166,20 +169,6 @@ const MarkdownEditorView = ({
     }
   }, [isLoading]);
 
-  useEffect(() => {
-    if (uploadedImage && uploadedImage.shouldInsert && !isUploading) {
-      applyMediaLink({
-        text: bodyText,
-        selection: bodySelection,
-        setTextAndSelection: _setTextAndSelection,
-        items: [{ url: uploadedImage.url, text: uploadedImage.hash }],
-      });
-    }
-
-    if (isUploading) {
-      uploadsGalleryModalRef.current.showModal();
-    }
-  }, [uploadedImage, isUploading]);
 
   useEffect(() => {
     bodyText = draftBody;
@@ -209,15 +198,32 @@ const MarkdownEditorView = ({
     });
   };
 
+
+  const _debouncedOnTextChange = useCallback(debounce(()=>{
+    console.log("setting is editing to", false)
+    setIsEditing(false)
+    const urls = extractImageUrls({body:bodyText})
+    if(urls.length !== insertedMediaUrls.length){
+      setInsertedMediaUrls(urls);
+    }
+  }, 500),[])
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const _changeText = useCallback((input) => {
     bodyText = input;
+
+    if(!isEditing){
+      console.log('force setting is editing to true', true)
+      setIsEditing(true)
+    }
+
+    _debouncedOnTextChange();
 
     //NOTE: onChange method is called by direct parent of MarkdownEditor that is PostForm, do not remove
     if (onChange) {
       onChange(input);
     }
-  }, []);
+  }, [isEditing]);
 
 
   const _handleOnSelectionChange = async (event) => {
@@ -279,21 +285,21 @@ const MarkdownEditorView = ({
     setIsSnippetsOpen(false);
   };
 
-  const _handleOnMediaSelect = (mediaArray) => {
-    const items = mediaArray.map((mediaInsert) => ({
-      url: mediaInsert.url,
-      text: mediaInsert.hash,
-    }));
 
-    if (items.length) {
+
+  const _handleMediaInsert = (mediaArray: MediaInsertData[]) => {
+    if (mediaArray.length) {
       applyMediaLink({
         text: bodyText,
         selection: bodySelection,
         setTextAndSelection: _setTextAndSelection,
-        items,
+        items: mediaArray,
       });
     }
   };
+
+
+
 
   const _handleOnAddLinkPress = () => {
     insertLinkModalRef.current?.showModal({
@@ -302,9 +308,11 @@ const MarkdownEditorView = ({
     });
     inputRef.current?.blur();
   };
+
   const _handleOnAddLinkSheetClose = () => {
     inputRef.current?.focus();
   };
+
   const _handleInsertLink = ({ snippetText, selection }) => {
     applySnippet({
       text: bodyText,
@@ -315,25 +323,7 @@ const MarkdownEditorView = ({
 
     insertLinkModalRef.current?.hideModal();
   };
-  const _renderMarkupButton = ({ item }) => (
-    <View style={styles.buttonWrapper}>
-      <IconButton
-        size={20}
-        style={styles.editorButton}
-        iconStyle={styles.icon}
-        iconType={item.iconType}
-        name={item.icon}
-        onPress={() =>
-          item.onPress({
-            text: bodyText,
-            selection: bodySelection,
-            setTextAndSelection: _setTextAndSelection,
-            item
-          })
-        }
-      />
-    </View>
-  );
+
 
   const _renderFloatingDraftButton = () => {
     if (showDraftLoadButton) {
@@ -366,60 +356,6 @@ const MarkdownEditorView = ({
       );
     }
   };
-
-  const _renderEditorButtons = () => (
-    <StickyBar>
-      <View style={styles.leftButtonsWrapper}>
-        <FlatList
-          data={Formats}
-          keyboardShouldPersistTaps="always"
-          renderItem={({ item, index }) => index < 3 && _renderMarkupButton({ item })}
-          horizontal
-        />
-      </View>
-      <View style={styles.rightButtonsWrapper}>
-        <IconButton
-          size={20}
-          style={styles.rightIcons}
-          iconStyle={styles.icon}
-          iconType="FontAwesome"
-          name="link"
-          onPress={() =>
-            // Formats[3].onPress({ text, selection, setTextAndSelection: _setTextAndSelection })
-            _handleOnAddLinkPress()
-          }
-        />
-        <IconButton
-          onPress={() => setIsSnippetsOpen(true)}
-          style={styles.rightIcons}
-          size={20}
-          iconStyle={styles.icon}
-          iconType="MaterialCommunityIcons"
-          name="text-short"
-        />
-        <IconButton
-          onPress={() => {
-            galleryRef.current.show();
-          }}
-          style={styles.rightIcons}
-          size={20}
-          iconStyle={styles.icon}
-          iconType="FontAwesome"
-          name="image"
-        />
-        <View style={styles.clearButtonWrapper}>
-          <IconButton
-            onPress={() => clearRef.current.show()}
-            size={20}
-            iconStyle={styles.clearIcon}
-            iconType="FontAwesome"
-            name="trash"
-            backgroundColor={styles.clearButtonWrapper.backgroundColor}
-          />
-        </View>
-      </View>
-    </StickyBar>
-  );
 
   const _handleClear = (index) => {
     if (index === 0) {
@@ -513,7 +449,26 @@ const MarkdownEditorView = ({
         {isAndroidOreo() ? _renderEditorWithoutScroll() : _renderEditorWithScroll()}
         <UsernameAutofillBar text={bodyText} selection={bodySelection} onApplyUsername={_onApplyUsername} />
         {_renderFloatingDraftButton()}
-        {!isPreviewActive && _renderEditorButtons()}
+       
+          <EditorToolbar
+            insertedMediaUrls={insertedMediaUrls}
+            isPreviewActive={isPreviewActive}
+            paramFiles={paramFiles}
+            setIsUploading={setIsUploading}
+            handleMediaInsert={_handleMediaInsert}
+            handleOnAddLinkPress={_handleOnAddLinkPress}
+            handleShowSnippets={() => setIsSnippetsOpen(true)}
+            handleOnClearPress={() => clearRef.current.show()}
+            handleOnMarkupButtonPress={(item) => {
+              item.onPress({
+                text: bodyText,
+                selection: bodySelection,
+                setTextAndSelection: _setTextAndSelection,
+                item
+              })
+            }}
+          />
+        
       </>
     );
 
@@ -544,14 +499,7 @@ const MarkdownEditorView = ({
         <SnippetsModal handleOnSelect={_handleOnSnippetReceived} />
       </Modal>
 
-      <UploadsGalleryModal
-        ref={uploadsGalleryModalRef}
-        username={currentAccount.username}
-        handleOnSelect={_handleOnMediaSelect}
-        uploadedImage={uploadedImage}
-        isUploading={isUploading}
-        uploadProgress={uploadProgress}
-      />
+
 
       <InsertLinkModal
         ref={insertLinkModalRef}
@@ -559,32 +507,6 @@ const MarkdownEditorView = ({
         handleOnSheetClose={_handleOnAddLinkSheetClose}
       />
 
-      <OptionsModal
-        ref={galleryRef}
-        options={[
-          intl.formatMessage({
-            id: 'editor.open_gallery',
-          }),
-          intl.formatMessage({
-            id: 'editor.capture_photo',
-          }),
-          intl.formatMessage({
-            id: 'editor.uploaded_images',
-          }),
-
-          intl.formatMessage({
-            id: 'alert.cancel',
-          }),
-        ]}
-        cancelButtonIndex={3}
-        onPress={(index) => {
-          if (index == 2) {
-            uploadsGalleryModalRef.current.showModal();
-          } else {
-            handleOpenImagePicker(index === 0 ? 'image' : index === 1 && 'camera');
-          }
-        }}
-      />
       <OptionsModal
         ref={clearRef}
         title={intl.formatMessage({

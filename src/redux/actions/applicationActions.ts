@@ -8,7 +8,6 @@ import {
   CHANGE_TRANSFERS_NOTIFICATION,
   CHANGE_ALL_NOTIFICATION_SETTINGS,
   CHANGE_VOTE_NOTIFICATION,
-  CLOSE_PIN_CODE_MODAL,
   IS_CONNECTED,
   IS_ANALYTICS,
   IS_DARK_THEME,
@@ -18,7 +17,6 @@ import {
   LOGIN,
   LOGOUT_DONE,
   LOGOUT,
-  OPEN_PIN_CODE_MODAL,
   SET_API,
   SET_CURRENCY,
   SET_LANGUAGE,
@@ -54,14 +52,7 @@ export const isLoginDone = () => ({
   type: IS_LOGIN_DONE,
 });
 
-export const openPinCodeModal = (payload = null) => ({
-  payload,
-  type: OPEN_PIN_CODE_MODAL,
-});
 
-export const closePinCodeModal = () => ({
-  type: CLOSE_PIN_CODE_MODAL,
-});
 
 
 // Settings actions

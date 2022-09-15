@@ -93,13 +93,12 @@ export default function (state = initialState, action) {
       };
 
     case UPDATE_CURRENT_ACCOUNT:
-      return {
-        ...state,
+      return Object.assign({}, state, {
         currentAccount: action.payload,
         isFetching: false,
         hasError: false,
         errorMessage: null,
-      };
+      });
 
     case UPDATE_UNREAD_ACTIVITY_COUNT:
       return {

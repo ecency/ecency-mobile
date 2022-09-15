@@ -14,11 +14,7 @@ import {
   addOtherAccount,
   updateCurrentAccount,
 } from '../../../redux/actions/accountAction';
-import {
-  login as loginAction,
-  openPinCodeModal,
-  setPinCode,
-} from '../../../redux/actions/applicationActions';
+import { login as loginAction, setPinCode } from '../../../redux/actions/applicationActions';
 import { setInitPosts, setFeedPosts } from '../../../redux/actions/postsAction';
 import { setPushTokenSaved, setExistUser } from '../../../realm/realm';
 import { setPushToken } from '../../../providers/ecency/ecency';
@@ -182,20 +178,31 @@ class LoginContainer extends PureComponent {
           dispatch(setPinCode(encryptedPin));
 
           if (isPinCodeOpen) {
-            dispatch(openPinCodeModal({ navigateTo: ROUTES.DRAWER.MAIN }));
+            navigation.navigate({
+              name: ROUTES.SCREENS.PINCODE,
+              params: {
+                navigateTo: ROUTES.DRAWER.MAIN,
+              },
+            });
           } else {
             navigation.navigate({
-              routeName: ROUTES.DRAWER.MAIN,
+              name: ROUTES.DRAWER.MAIN,
             });
           }
         }
       })
       .catch((err) => {
+        // if error description exist, pass it to alert else pass error message key
+        const errorDescription = err?.response?.data?.error_description
+          ? err?.response?.data?.error_description
+          : intl.formatMessage({
+              id: err.message,
+            });
         Alert.alert(
-          'Error',
           intl.formatMessage({
-            id: err.message,
+            id: 'login.login_failed',
           }),
+          ` ${errorDescription}\n${intl.formatMessage({ id: 'login.login_failed_body' })}`, //append login body failure key
         );
         dispatch(failedAccount(err.message));
         this.setState({ isLoading: false });
@@ -260,9 +267,7 @@ class LoginContainer extends PureComponent {
   _handleSignUp = () => {
     const { navigation } = this.props;
 
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.REGISTER,
-    });
+    navigation.replace(ROUTES.SCREENS.REGISTER);
   };
 
   render() {

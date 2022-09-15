@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 
 // Services and Actions
 import { getCommunityTitle } from '../../../../providers/hive/dhive';

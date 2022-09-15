@@ -128,7 +128,10 @@ const TransferView = ({
   }
   return (
     <Fragment>
-      <BasicHeader title={intl.formatMessage({ id: `transfer.${transferType}` })} />
+      <BasicHeader
+        title={intl.formatMessage({ id: `transfer.${transferType}` })}
+        backIconName="close"
+      />
 
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps

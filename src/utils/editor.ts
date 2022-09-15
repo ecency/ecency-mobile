@@ -1,11 +1,13 @@
 import getSlug from 'speakingurl';
 import { diff_match_patch as diffMatchPatch } from 'diff-match-patch';
 import VersionNumber from 'react-native-version-number';
+import { PanGestureHandler } from 'react-native-gesture-handler';
+import MimeTypes from 'mime-types';
 
 export const getWordsCount = (text) =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
 
-const permlinkRnd = () => (Math.random() + 1).toString(16).substring(2);
+export const generateRndStr = () => (Math.random() + 1).toString(16).substring(2);
 
 export const generatePermlink = (title, random = false) => {
   if (!title) {
@@ -24,7 +26,7 @@ export const generatePermlink = (title, random = false) => {
     }
 
     if (random) {
-      const rnd = permlinkRnd();
+      const rnd = generateRndStr();
       perm = `${perm}-${rnd}`;
     }
 
@@ -37,14 +39,14 @@ export const generatePermlink = (title, random = false) => {
     perm = perm.toLowerCase().replace(/[^a-z0-9-]+/g, '');
 
     if (perm.length === 0) {
-      return permlinkRnd();
+      return generateRndStr();
     }
   }
 
   return perm;
 };
 
-export const extractWordAtIndex = (text:string, index:number) => {
+;export const extractWordAtIndex = (text:string, index:number) => {
 
   const RANGE = 50;
 
@@ -189,6 +191,27 @@ export const extractImageUrls = ({body, urls}:{body?:string, urls?:string[]}) =>
   })
 
   return imgUrls;
+}
+
+export const extractFilenameFromPath = ({path, mimeType}:{path:string, mimeType?:string}) => {
+  try{
+    if(!path){
+      throw new Error("path not provided");
+    }
+    const filenameIndex = path.lastIndexOf('/') + 1;
+    const extensionIndex = path.lastIndexOf('.');
+    if(filenameIndex < 0 || extensionIndex <= filenameIndex){
+      throw new Error("file name not present with extension");
+    }
+    return path.substring(path.lastIndexOf('/') + 1);
+
+  }catch(err){
+    let _ext = 'jpg';
+    if(mimeType){
+      _ext = MimeTypes.extension(mimeType)
+    }
+    return `${generateRndStr()}.${_ext}`;
+  }
 }
 
 export const extractMetadata = (body:string, thumbIndex?:number) => {

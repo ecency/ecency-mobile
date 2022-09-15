@@ -131,7 +131,9 @@
     "open_orders": "Órdenes abiertas",
     "conversions_requested": "Conversiones solicitadas",
     "expires": "caduca el",
-    "pending_requests": "Solicitudes pendientes"
+    "pending_requests": "Solicitudes pendientes",
+    "boost_account": "Impulsar",
+    "get_boost": "Obtener impulso"
   },
   "notification": {
     "vote": "votado",
@@ -248,7 +250,9 @@
     },
     "feedback_success": "Correo electrónico abierto con éxito",
     "feedback_fail": "Ocurrió un error al intentar abrir el cliente del correo electrónico",
-    "server_fail": "Servidor no disponible"
+    "server_fail": "Servidor no disponible",
+    "show_imgs": "Mostrar imágenes",
+    "delete_account": "Eliminar cuenta"
   },
   "voters": {
     "voters_info": "Información de votantes",
@@ -264,7 +268,9 @@
     "cancel": "cancelar",
     "login": "ACCEDER",
     "steemconnect_description": "Si no desea mantener su contraseña encriptada y guardada en su dispositivo, puede usar Hivesigner.",
-    "steemconnect_fee_description": "info."
+    "steemconnect_fee_description": "info.",
+    "not_loggedin_alert": "No conectado",
+    "not_loggedin_alert_desc": "Inicia tu sesión primero"
   },
   "register": {
     "button": "Registrarse",
@@ -543,6 +549,11 @@
     "confirm_report_title": "¡Confirmar Reporte!",
     "confirm_report_body": "¿Estás seguro de que quieres reportar?"
   },
+  "delete": {
+    "confirm_delete_title": "Confirmar eliminación",
+    "confirm_delete_body": "¿Estás seguro de que deseas eliminar la cuenta? Se borrarán todos tus datos",
+    "request_sent": "Su solicitud de eliminación está enviada"
+  },
   "favorites": {
     "title": "Favoritos",
     "load_error": "No se pudo cargar favoritos",
@@ -580,12 +591,13 @@
     "unpin-blog": "Desanclar del blog",
     "pin-community": "Anclar a la comunidad",
     "unpin-community": "Desanclar de la comunidad",
-    "edit-history": "Editar historial"
+    "edit-history": "Editar historial",
+    "mute": "Silenciar / Bloquear"
   },
   "deep_link": {
     "no_existing_user": "Usuario no existe",
     "no_existing_post": "Publicación no existe",
-    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
+    "invalid_link": "La Url no es válida, puedes intentarlo de nuevo con una url válida o intentar abrirla en el navegador web"
   },
   "search": {
     "posts": "Publicaciones",
@@ -671,7 +683,9 @@
     "account": {
       "title": "Obtener impulso de cuenta",
       "desc": "La delegación de 30 días impulsará sus votos y actividades sociales y le dará más acciones con más créditos de Recursos."
-    }
+    },
+    "confirm_purchase": "Confirmar compra @{username}",
+    "confirm_purchase_summary": "Comprando {points} por {username} a {price}"
   },
   "free_estm": {
     "title": "Puntos gratis",
@@ -824,7 +838,9 @@
   "qr": {
     "qr_scan": "Escaneo de QR",
     "open": "Abrir URL",
-    "detected_url": "URL detectada"
+    "detected_url": "URL detectada",
+    "unsupported_alert_title": "¡URL no soportada!",
+    "unsupported_alert_desc": "Por favor, escanee una url de ecency válida."
   },
   "history": {
     "edit": "Editar historial",

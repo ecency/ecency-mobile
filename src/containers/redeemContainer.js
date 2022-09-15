@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 
 import { promote, boost, isPostAvailable } from '../providers/hive/dhive';
 import { toastNotification } from '../redux/actions/uiAction';

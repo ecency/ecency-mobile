@@ -131,7 +131,9 @@
     "open_orders": "Atviri užsakymai",
     "conversions_requested": "Pokalbių užklausos",
     "expires": "galioja iki",
-    "pending_requests": "Laukiamos Užklausos"
+    "pending_requests": "Laukiamos Užklausos",
+    "boost_account": "Boost",
+    "get_boost": "Get Boost"
   },
   "notification": {
     "vote": "balsavo",
@@ -248,7 +250,9 @@
     },
     "feedback_success": "El. laiškas sėkmingai atidarytas",
     "feedback_fail": "El. pašto atidaryti nepavyko",
-    "server_fail": "Serveris neprieinamas"
+    "server_fail": "Serveris neprieinamas",
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Balsuotojo Informacija",
@@ -264,7 +268,9 @@
     "cancel": "atšaukti",
     "login": "PRISIJUNGTI",
     "steemconnect_description": "Jei nenorite, kad jūsų slaptažodis būtų įrašomas į jūsų įrenginį, galite naudoti Hivesighner.",
-    "steemconnect_fee_description": "informacija"
+    "steemconnect_fee_description": "informacija",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "Užsiregistruoti",
@@ -543,6 +549,11 @@
     "confirm_report_title": "Patvirtinkite skundą!",
     "confirm_report_body": "Ar tikrai norite pateikti skundą?"
   },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
+  },
   "favorites": {
     "title": "Mėgstamiausi",
     "load_error": "Nepavyko pakrauti mėgstamiausių",
@@ -580,7 +591,8 @@
     "unpin-blog": "Atsegti nuo tinklaraščio",
     "pin-community": "Prisegti prie bendruomenės",
     "unpin-community": "Atsegti nuo bendruomenės",
-    "edit-history": "Redaguoti istoriją"
+    "edit-history": "Redaguoti istoriją",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Nėra tokio vartotojo",
@@ -671,7 +683,9 @@
     "account": {
       "title": "Sustiprink paskyrą",
       "desc": "30 dienų delegacijos padidins jūsų balsų kiekį ir paspartins socialinę veiklą ir suteiks jums daugiau veiksmų su resursų kreditais."
-    }
+    },
+    "confirm_purchase": "Patvirtinkite pirkinį{username}",
+    "confirm_purchase_summary": "{points} pirkimas {username} už {price}"
   },
   "free_estm": {
     "title": "Nemokami taškai",
@@ -824,7 +838,9 @@
   "qr": {
     "qr_scan": "QR Scan",
     "open": "Atidaryti URL",
-    "detected_url": "Aptiktas URL"
+    "detected_url": "Aptiktas URL",
+    "unsupported_alert_title": "Nepalaikomas URL!",
+    "unsupported_alert_desc": "Please scan a valid ecency url."
   },
   "history": {
     "edit": "Redaguoti Istoriją",

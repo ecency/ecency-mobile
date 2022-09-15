@@ -31,10 +31,10 @@ class FollowsContainer extends Component {
 
   // Component Life Cycle Functions
   async componentDidMount() {
-    const { navigation } = this.props;
+    const { route } = this.props;
 
-    if (navigation.state && navigation.state.params) {
-      const { count, username, isFollowingPress } = navigation.state.params;
+    if (route && route.params) {
+      const { count, username, isFollowingPress } = route.params;
 
       this.setState({
         count,

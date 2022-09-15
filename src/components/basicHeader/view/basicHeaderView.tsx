@@ -12,6 +12,7 @@ import { TextInput } from '../../textInput';
 // Styles
 import styles from './basicHeaderStyles';
 import { OptionsModal } from '../../atoms';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const BasicHeaderView = ({
   disabled,
@@ -45,6 +46,7 @@ const BasicHeaderView = ({
   handleRewardChange,
   enableViewModeToggle,
   handleSettingsPress,
+  backIconName,
 }) => {
 
   const [isInputVisible, setIsInputVisible] = useState(false);
@@ -112,7 +114,7 @@ const BasicHeaderView = ({
           <IconButton
             iconStyle={[styles.backIcon, isModalHeader && styles.closeIcon]}
             iconType="MaterialIcons"
-            name="arrow-back"
+            name={backIconName || 'arrow-back'}
             onPress={() => (isModalHeader ? handleOnPressClose() : handleOnPressBackButton())}
             disabled={disabled}
           />
@@ -204,7 +206,7 @@ const BasicHeaderView = ({
                     onPress={() => handleOnSaveButtonPress && handleOnSaveButtonPress()}
                   />
                 ) : (
-                  <ActivityIndicator style={styles.textButtonWrapper} />
+                  <ActivityIndicator style={styles.textButtonWrapper} color={EStyleSheet.value('$primaryBlue')} />
                 )}
               </Fragment>
             )}
@@ -227,7 +229,7 @@ const BasicHeaderView = ({
                 text={rightButtonText}
               />
             ) : (
-              <ActivityIndicator style={[styles.textButtonWrapper]} />
+              <ActivityIndicator style={[styles.textButtonWrapper]}  color={EStyleSheet.value('$primaryBlue')} />
             )}
           </Fragment>
         )}

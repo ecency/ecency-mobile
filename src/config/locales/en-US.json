@@ -251,7 +251,8 @@
     "feedback_success": "Email successfully open",
     "feedback_fail": "Email client could not open",
     "server_fail": "Server not available",
-    "show_imgs": "Show Images"
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Voters Info",
@@ -268,6 +269,10 @@
     "login": "LOGIN",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
     "steemconnect_fee_description": "info",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later.",
     "deep_login_alert_title": "Easy Login @{username}",
     "deep_login_alert_body":"Verify direct login using access code",
     "deep_login_url_expired":"Login url expired, please use private key or password to login",
@@ -411,13 +416,15 @@
     "btn_cancel":"Cancel"
   },
   "uploads_modal":{
-    "label_no_images":"No Images Found",
+    "label_no_images":"No Existing Uploads...",
     "title":"Uploaded Images",
     "title_remove_confirmation":"Delete image",
     "btn_add":"Image",
     "btn_insert":"INSERT",
     "btn_delete":"DELETE",
+    "confirm_delete":"Are you sure you want to delete images from your uploads",
     "message_failed":"Failed to upload image",
+    "delete_failed":"Failed to delete image",
     "failed_count":"Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
@@ -550,6 +557,11 @@
     "confirm_report_title":"Confirm Report!",
     "confirm_report_body":"Are you sure you want report?"
   },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
+  },
   "favorites": {
     "title": "Favorites",
     "load_error": "Could not load favorites",
@@ -587,8 +599,8 @@
     "unpin-blog":"Unpin from blog",
     "pin-community":"Pin to community",
     "unpin-community":"Unpin from community",
-    "edit-history": "Edit History"
-
+    "edit-history": "Edit History",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "No existing user",
@@ -720,7 +732,8 @@
     "title": "Comments",
     "reveal_comment": "Reveal comment",
     "read_more": "Read more comments",
-    "more_replies": "replies"
+    "more_replies": "replies",
+    "no_comments":"Be the first to respond..."
   },
   "search_result": {
     "others": "Others",
@@ -813,7 +826,7 @@
     "year":"years"
   },
   "quick_reply":{
-    "placeholder":"Add a comment",
+    "placeholder":"Add a comment...",
     "comment": "Comment",
     "reply": "REPLY",
     "close":"CLOSE"

@@ -131,7 +131,9 @@
     "open_orders": "Open Orders",
     "conversions_requested": "Conversions Requested",
     "expires": "expires",
-    "pending_requests": "Pending Requests"
+    "pending_requests": "Pending Requests",
+    "boost_account": "Boost",
+    "get_boost": "Get Boost"
   },
   "notification": {
     "vote": "głosuj",
@@ -248,7 +250,9 @@
     },
     "feedback_success": "E-mail wysłany pomyślnie",
     "feedback_fail": "Błąd klienta poczty e-mail",
-    "server_fail": "Serwer niedostępny"
+    "server_fail": "Serwer niedostępny",
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Informacje o głosujących",
@@ -264,7 +268,9 @@
     "cancel": "anuluj",
     "login": "ZALOGUJ SIĘ",
     "steemconnect_description": "Jeśli nie chcesz zachować swojego hasła zaszyfrowanego i zapisanego na swoim urządzeniu, możesz użyć Hivesignera.",
-    "steemconnect_fee_description": "informacja"
+    "steemconnect_fee_description": "informacja",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "Zapisz się",
@@ -543,6 +549,11 @@
     "confirm_report_title": "Confirm Report!",
     "confirm_report_body": "Are you sure you want report?"
   },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
+  },
   "favorites": {
     "title": "Ulubione",
     "load_error": "Nie można załadować ulubionych",
@@ -580,7 +591,8 @@
     "unpin-blog": "Unpin from blog",
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
-    "edit-history": "Edit History"
+    "edit-history": "Edit History",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Brak istniejącego użytkownika",
@@ -671,7 +683,9 @@
     "account": {
       "title": "Uzyskaj zwiększenie konta",
       "desc": "30-dniowa delegacja zwiększy twoje głosy i aktywności społeczne i da Ci więcej działań z większą ilością zasobów kredytowych."
-    }
+    },
+    "confirm_purchase": "Confirm Purchase @{username}",
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
   "free_estm": {
     "title": "Darmowe Punkty",
@@ -824,7 +838,9 @@
   "qr": {
     "qr_scan": "QR Scan",
     "open": "Open URL",
-    "detected_url": "Detected URL"
+    "detected_url": "Detected URL",
+    "unsupported_alert_title": "Unsupported URL!",
+    "unsupported_alert_desc": "Please scan a valid ecency url."
   },
   "history": {
     "edit": "Edit History",

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, StatusBar, Platform, Keyboard } from 'react-native';
+import { View, Platform, Keyboard } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
@@ -84,7 +84,6 @@ class LoginScreen extends PureComponent {
     console.log('keyboardIsOpen : ', keyboardIsOpen);
     return (
       <View style={styles.container}>
-        <StatusBar hidden translucent />
         <LoginHeader
           isKeyboardOpen={keyboardIsOpen}
           title={intl.formatMessage({
@@ -166,7 +165,7 @@ class LoginScreen extends PureComponent {
                 style={styles.cancelButton}
                 onPress={() =>
                   navigation.navigate({
-                    routeName: ROUTES.DRAWER.MAIN,
+                    name: ROUTES.DRAWER.MAIN,
                   })
                 }
                 text={intl.formatMessage({

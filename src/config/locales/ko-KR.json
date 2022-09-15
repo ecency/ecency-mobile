@@ -51,11 +51,11 @@
     "to": "받는 사람",
     "estimated_value_desc": "구매 가치에 따라",
     "estimated_value": "추정 자산 가치",
-    "vote_value": "Vote value",
+    "vote_value": "보팅 가치",
     "delegated_hive_power": "Delegated hive power",
-    "powering_down_hive_power": "Powering down",
-    "received_hive_power": "Received hive power",
-    "total_hive_power": "Total hive power",
+    "powering_down_hive_power": "파워 다운 중",
+    "received_hive_power": "임대받은 하이브 파워",
+    "total_hive_power": "총 하이브 파워",
     "savings": "Savings",
     "estimated_amount": "보팅 가치",
     "amount_information": "슬라이드를 드래그해서 수량을 설정할 수 있습니다",
@@ -91,9 +91,9 @@
     "fill_transfer_from_savings": "안전 금고에 보관하였습니다.",
     "fill_vesting_withdraw": "스팀 파워 다운을 하였습니다.",
     "ecency": {
-      "title": "Points",
-      "name": "Ecency Points",
-      "buy": "GET POINTS"
+      "title": "포인트",
+      "name": "Ecency 포인트",
+      "buy": "포인트 받기"
     },
     "savinghive": {
       "title": "HIVE 안전 금고"
@@ -103,7 +103,7 @@
     },
     "hive": {
       "title": "HIVE",
-      "name": "Hive Token",
+      "name": "하이브 토큰",
       "buy": "HIVE 받기"
     },
     "hbd": {
@@ -112,26 +112,28 @@
     },
     "hive_power": {
       "title": "HIVE POWER",
-      "name": "Hive Power"
+      "name": "하이브 파워"
     },
     "hive_dollar": {
-      "name": "Hive Dollar"
+      "name": "하이트 달러"
     },
     "btc": {
       "title": "비트코인",
       "buy": "비트코인 구매하기",
       "address": "입금 주소"
     },
-    "last_updated": "Last Updated:",
-    "updating": "Updating...",
-    "coin_details": "Details",
-    "change": "Change",
-    "activities": "Activities",
+    "last_updated": "최근 업데이트:",
+    "updating": "업데이트 중...",
+    "coin_details": "상세",
+    "change": "변경",
+    "activities": "활동",
     "savings_withdrawal": "Pending Withdrawals",
-    "open_orders": "Open Orders",
+    "open_orders": "미체결 주문",
     "conversions_requested": "Conversions Requested",
-    "expires": "expires",
-    "pending_requests": "Pending Requests"
+    "expires": "만료",
+    "pending_requests": "진행중인 요청",
+    "boost_account": "부스트",
+    "get_boost": "부스트"
   },
   "notification": {
     "vote": "님이 보팅하였습니다.",
@@ -217,7 +219,7 @@
     "currency": "화폐",
     "language": "언어",
     "server": "서버",
-    "color_theme": "Appearance",
+    "color_theme": "디자인",
     "push_notification": "푸시 알림",
     "notification": {
       "follow": "팔로우",
@@ -226,7 +228,7 @@
       "mention": "언급",
       "reblog": "리블로그",
       "transfers": "전송",
-      "delegations": "Delegations"
+      "delegations": "임대"
     },
     "pincode": "PIN 코드",
     "biometric": "Finger Print / Face Unlock",
@@ -242,13 +244,15 @@
       "always_warn": "항상 경고 표시하기"
     },
     "theme": {
-      "system": "Device settings",
-      "light": "Light",
-      "dark": "Dark"
+      "system": "기기 설정",
+      "light": "밝은 테마",
+      "dark": "다크 테마"
     },
     "feedback_success": "이메일 클라이언트가 성공적으로 열렸습니다",
     "feedback_fail": "이메일 클라이언트를 열지 못했습니다",
-    "server_fail": "서버를 이용할 수 없습니다."
+    "server_fail": "서버를 이용할 수 없습니다.",
+    "show_imgs": "이미지 표시",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "투표자 정보",
@@ -264,7 +268,9 @@
     "cancel": "취소",
     "login": "로그인",
     "steemconnect_description": "암호화된 비밀번호를 기기에 저장하고 싶지 않다면, HiveSigner를 사용하시면 됩니다",
-    "steemconnect_fee_description": "정보"
+    "steemconnect_fee_description": "정보",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "가입",
@@ -287,7 +293,7 @@
     "friends": "친구",
     "communities": "커뮤니티",
     "popup_postfix": "게시된",
-    "scroll_top": "Scroll To Top"
+    "scroll_top": "맨 위로"
   },
   "side_menu": {
     "profile": "프로필",
@@ -306,7 +312,7 @@
     "add_an_existing_account": "기존 계정 추가",
     "accounts": "계정",
     "refer": "추천해서 혜택 받으세요",
-    "qr": "QR Scan"
+    "qr": "QR 코드 스캔"
   },
   "header": {
     "title": "맞춤형 피드를 원하신다면 로그인하세요",
@@ -317,7 +323,7 @@
     "search": "검색",
     "update": "업데이트",
     "reply": "댓글",
-    "schedule": "Schedule"
+    "schedule": "예약"
   },
   "editor": {
     "title": "제목",
@@ -339,7 +345,7 @@
     "limited_lastchar": "태그는 문자나 숫자로 끝나야 합니다.",
     "setting_schedule": "일정 시간",
     "setting_reward": "보상",
-    "setting_reblog": "Reblog",
+    "setting_reblog": "공유",
     "setting_beneficiary": "수령인",
     "setting_thumb": "썸네일 설정",
     "reward_default": "기본 50% / 50%",
@@ -367,25 +373,25 @@
     "select_thumb": "글 썸네일 선택",
     "add_more_imgs": "Add more images to post",
     "two_thumbs_required": "썸네일 이미지를 설정하기 전에 게시물에 더 많은 이미지를 추가하세요",
-    "scheduled_for": "Scheduled For",
-    "scheduled_immediate": "Immediate",
-    "scheduled_later": "Later",
-    "settings_title": "Post Options",
-    "done": "DONE",
-    "draft_save_title": "Saving Draft",
+    "scheduled_for": "예약 날짜:",
+    "scheduled_immediate": "즉시",
+    "scheduled_later": "나중에",
+    "settings_title": "글 설정",
+    "done": "완료",
+    "draft_save_title": "임시 저장 중",
     "draft_update": "Update current draft",
-    "draft_save_new": "Save as new draft",
-    "label": "Label",
-    "enter_label_placeholder": "Enter Label (Optional)",
+    "draft_save_new": "새 임시 저장",
+    "label": "라벨",
+    "enter_label_placeholder": "라벨 등록 (선택)",
     "url": "URL",
-    "enter_url_placeholder": "Enter URL",
+    "enter_url_placeholder": "URL 입력",
     "link_type_text": "Type of Link",
-    "insert_link": "Insert Link",
-    "preview": "Preview",
-    "invalid_url_error": "Please insert valid url",
-    "plain": "Plain",
-    "video": "Video",
-    "image": "Image"
+    "insert_link": "링크 삽입",
+    "preview": "미리 보기",
+    "invalid_url_error": "유효한 URL을 입력하세요",
+    "plain": "일반",
+    "video": "영상",
+    "image": "이미지"
   },
   "snippets": {
     "label_no_snippets": "스니펫 없음",
@@ -408,8 +414,8 @@
     "title": "이미지 업로드",
     "title_remove_confirmation": "이미지 삭제",
     "btn_add": "이미지",
-    "btn_insert": "INSERT",
-    "btn_delete": "DELETE",
+    "btn_insert": "삽입",
+    "btn_delete": "삭제",
     "message_failed": "이미지 업로드에 실패",
     "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
@@ -524,10 +530,10 @@
     "deleted": "예약된 글이 삭제되었습니다",
     "move": "임시 보관함으로 이동",
     "moved": "임시 보관함으로 이동했습니다",
-    "pending": "Pending",
-    "postponed": "Postponed",
-    "published": "Published",
-    "error": "Error"
+    "pending": "보류 중",
+    "postponed": "연기됨",
+    "published": "게시됨",
+    "error": "오류"
   },
   "bookmarks": {
     "title": "즐겨찾기",
@@ -542,6 +548,11 @@
     "added": "신고된 불쾌한 콘텐츠",
     "confirm_report_title": "신고 확인!",
     "confirm_report_body": "정말 신고하시겠습니까?"
+  },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
   },
   "favorites": {
     "title": "좋아하는 저자",
@@ -565,7 +576,7 @@
     "beneficiaries": "베네피셔리",
     "warn_zero_payout": "페이아웃이 되려면 보팅 총 금액이 0.02 달러 이상이어야만 합니다.",
     "breakdown": "중단",
-    "max_accepted": "Max Accepted"
+    "max_accepted": "최대 허용"
   },
   "post_dropdown": {
     "copy": "링크 복사",
@@ -576,11 +587,12 @@
     "promote": "홍보",
     "boost": "후원",
     "report": "신고",
-    "pin-blog": "Pin to blog",
-    "unpin-blog": "Unpin from blog",
+    "pin-blog": "맨 위로 고정",
+    "unpin-blog": "맨 위 고정 해제",
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
-    "edit-history": "Edit History"
+    "edit-history": "편집 내역",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "존재하지 않는 사용자입니다",
@@ -637,7 +649,7 @@
     "address_view": "지갑 주소 보기",
     "already_delegated": "Already delegated to ",
     "remain_hp": "Remaining HP",
-    "account_detail_head": "Account Details",
+    "account_detail_head": "계정 정보",
     "account_detail_subhead": "Enter username for HIVE Power delegation",
     "delegat_detail_head": "Delegation Details",
     "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
@@ -646,21 +658,21 @@
     "confirm": "Confirm Delegation",
     "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
     "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
-    "username_alert": "Username Error!",
+    "username_alert": "사용자 ID 오류!",
     "username_alert_detail": "Please select different username",
     "power_down": "파워 다운",
     "power_down_amount_head": "Withdraw Amount",
     "power_down_amount_subhead": "Enter amount for powering down hive power",
     "withdraw_accounts": "Withdraw Accounts",
     "amount_hp": "Amount (HP)",
-    "powering_down": "Powering Down",
-    "powering_down_subheading": "You are currently powering down.",
+    "powering_down": "파워 다운 중",
+    "powering_down_subheading": "현재 파워 다운 중입니다.",
     "powering_down_info": "Next power down is in {days} days, {hp} HIVE",
-    "invalid_amount": "Invalid Amount",
-    "invalid_amount_desc": "Please enter valid amount",
-    "account_select_title": "Account Details",
+    "invalid_amount": "잘못된 금액",
+    "invalid_amount_desc": "올바른 금액을 입력하세요",
+    "account_select_title": "계정 정보",
     "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
-    "amount_select_title": "Transfer Details",
+    "amount_select_title": "송금 세부 정보",
     "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
   },
   "boost": {
@@ -671,7 +683,9 @@
     "account": {
       "title": "계정 부스트 받기",
       "desc": "30일 임대는 투표와 사회 활동을 강화하고 더 많은 리소스 크레딧으로 더 많은 활동을 제공합니다."
-    }
+    },
+    "confirm_purchase": "Confirm Purchase @{username}",
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
   "free_estm": {
     "title": "무료 포인트",
@@ -778,7 +792,7 @@
     "username": "사용자 이름",
     "addAccount": "계정 추가",
     "save": "저장",
-    "cancel": "Cancel"
+    "cancel": "취소"
   },
   "welcome": {
     "label": "환영합니다",
@@ -791,7 +805,7 @@
     "line3_body": "자신이 소유한 커뮤니티를 구축하고 보상을 받고 다른 사람들에게 보상하세요.",
     "get_started": "시작!",
     "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
-    "terms_text": "Read Here!"
+    "terms_text": "더보기!"
   },
   "time": {
     "second": "초",
@@ -803,31 +817,33 @@
     "year": "년"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
-    "comment": "Comment",
-    "reply": "REPLY",
-    "close": "CLOSE"
+    "placeholder": "댓글 추가",
+    "comment": "댓글",
+    "reply": "답변",
+    "close": "닫기"
   },
   "walkthrough": {
     "load_draft_tooltip": "Load your lastest draft here"
   },
   "refer": {
-    "refer_earn": "Refer & Earn",
-    "refer": "Refer",
+    "refer_earn": "추천해서 혜택 받으세요",
+    "refer": "추천하기",
     "rewarded": "Referral points rewarded",
     "not_rewarded": "Referral reward pending",
     "delegate_hp": "Delegate HP",
-    "earned": "Earned Points",
+    "earned": "획득한 포인트",
     "pending": "Pending Points",
     "empty_text": "Refer your loved ones today and earn free points"
   },
   "qr": {
-    "qr_scan": "QR Scan",
-    "open": "Open URL",
-    "detected_url": "Detected URL"
+    "qr_scan": "QR 코드 스캔",
+    "open": "URL 열기",
+    "detected_url": "Detected URL",
+    "unsupported_alert_title": "지원하지 않는 URL입니다!",
+    "unsupported_alert_desc": "Please scan a valid ecency url."
   },
   "history": {
-    "edit": "Edit History",
-    "version": "Version"
+    "edit": "편집 내역",
+    "version": "버전"
   }
 }

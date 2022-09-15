@@ -37,6 +37,7 @@ interface PostOptionsModalProps {
   isEdit:boolean;
   isCommunityPost:boolean;
   rewardType: string;
+  isUploading: boolean;
   handleRewardChange:(rewardType:string)=>void;
   handleThumbSelection:(index:number)=>void;
   handleScheduleChange:(datetime:string|null)=>void;
@@ -51,6 +52,7 @@ const PostOptionsModal =  forwardRef(({
   isEdit,
   isCommunityPost,
   rewardType,
+  isUploading,
   handleRewardChange,
   handleThumbSelection,
   handleScheduleChange,
@@ -189,6 +191,7 @@ const PostOptionsModal =  forwardRef(({
             <ThumbSelectionContent 
               body={body}
               thumbIndex={thumbIndex}
+              isUploading={isUploading}
               onThumbSelection={_handleThumbIndexSelection}
             />
   

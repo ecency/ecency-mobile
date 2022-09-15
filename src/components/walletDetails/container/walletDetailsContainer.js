@@ -1,11 +1,9 @@
 import React, { PureComponent } from 'react';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { connect } from 'react-redux';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
-
-import { openPinCodeModal } from '../../../redux/actions/applicationActions';
 
 // Component
 import WalletDetailsView from '../view/walletDetailsView';
@@ -48,12 +46,13 @@ class WalletContainer extends PureComponent {
     }
 
     if (isPinCodeOpen) {
-      dispatch(
-        openPinCodeModal({
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.PINCODE,
+        params: {
           navigateTo: ROUTES.SCREENS.TRANSFER,
           navigateParams: { transferType, fundType, balance },
-        }),
-      );
+        },
+      });
     } else {
       navigation.navigate({
         routeName: ROUTES.SCREENS.TRANSFER,

@@ -131,7 +131,9 @@
     "open_orders": "Open Orders",
     "conversions_requested": "Conversions Requested",
     "expires": "expires",
-    "pending_requests": "Pending Requests"
+    "pending_requests": "Pending Requests",
+    "boost_account": "Boost",
+    "get_boost": "Get Boost"
   },
   "notification": {
     "vote": "səs verildi",
@@ -248,7 +250,9 @@
     },
     "feedback_success": "E-poçt uğurla açıldı",
     "feedback_fail": "E-poçt sifarişçisi açıla bilmədi",
-    "server_fail": "Server mövcud deyil"
+    "server_fail": "Server mövcud deyil",
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Səsverənlər",
@@ -264,7 +268,9 @@
     "cancel": "imtina",
     "login": "GİRİŞ",
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
-    "steemconnect_fee_description": "məlumat"
+    "steemconnect_fee_description": "məlumat",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "Qeydiyyatdan keç",
@@ -543,6 +549,11 @@
     "confirm_report_title": "Confirm Report!",
     "confirm_report_body": "Are you sure you want report?"
   },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
+  },
   "favorites": {
     "title": "Sevimlilər",
     "load_error": "Sevimlilər yüklənilə bilmədi",
@@ -580,7 +591,8 @@
     "unpin-blog": "Unpin from blog",
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
-    "edit-history": "Edit History"
+    "edit-history": "Edit History",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Heç bir istifadəçi yoxdur",
@@ -671,7 +683,9 @@
     "account": {
       "title": "Hesabı gücləndir",
       "desc": "30 days delegation will boost your votes and social activities and give you more actions with more Resource Credits."
-    }
+    },
+    "confirm_purchase": "Confirm Purchase @{username}",
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
   "free_estm": {
     "title": "Ödənişsiz xallar",
@@ -824,7 +838,9 @@
   "qr": {
     "qr_scan": "QR Scan",
     "open": "Open URL",
-    "detected_url": "Detected URL"
+    "detected_url": "Detected URL",
+    "unsupported_alert_title": "Unsupported URL!",
+    "unsupported_alert_desc": "Please scan a valid ecency url."
   },
   "history": {
     "edit": "Edit History",

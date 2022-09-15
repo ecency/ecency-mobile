@@ -131,7 +131,9 @@
     "open_orders": "Avoimet Tilaukset",
     "conversions_requested": "Pyydetyt muunnokset",
     "expires": "vanhenee",
-    "pending_requests": "Odottavat pyynnöt"
+    "pending_requests": "Odottavat pyynnöt",
+    "boost_account": "Tehosta",
+    "get_boost": "Hanki Tehostus"
   },
   "notification": {
     "vote": "äänesti",
@@ -248,7 +250,9 @@
     },
     "feedback_success": "Sähköposti avattu onnistuneesti",
     "feedback_fail": "Sähköpostipalvelin alhaalla",
-    "server_fail": "Ei yhteyttä palvelimeen"
+    "server_fail": "Ei yhteyttä palvelimeen",
+    "show_imgs": "Näytä kuvat",
+    "delete_account": "Poista tili"
   },
   "voters": {
     "voters_info": "Äänestystiedot",
@@ -264,7 +268,9 @@
     "cancel": "peruuta",
     "login": "KIRJAUDU SISÄÄN",
     "steemconnect_description": "Jos et halua säilyttää kryptattua salasanaa laitteessasi, voit käyttää Hivesigneriä.",
-    "steemconnect_fee_description": "tietoa"
+    "steemconnect_fee_description": "tietoa",
+    "not_loggedin_alert": "Ei Kirjautunut",
+    "not_loggedin_alert_desc": "Kirjaudu ensin sisään"
   },
   "register": {
     "button": "Luo tili",
@@ -543,6 +549,11 @@
     "confirm_report_title": "Vahvista ilmianto!",
     "confirm_report_body": "Haluatko varmasti tehdä ilmiannon?"
   },
+  "delete": {
+    "confirm_delete_title": "Vahvista poistaminen",
+    "confirm_delete_body": "Oletko varma, että haluat poistaa tilin? Se poistaa kaikki tietosi",
+    "request_sent": "Pyyntösi poistamisesta on lähetetty"
+  },
   "favorites": {
     "title": "Suosikit",
     "load_error": "Suosikkeja ei voitu ladata",
@@ -580,12 +591,13 @@
     "unpin-blog": "Irrota blogista",
     "pin-community": "Kiinnitä yhteisölle",
     "unpin-community": "Poista kiinnitys yhteisöstä",
-    "edit-history": "Muokkaushistoria"
+    "edit-history": "Muokkaushistoria",
+    "mute": "Mykistä / Estä"
   },
   "deep_link": {
     "no_existing_user": "Käyttäjää ei ole",
     "no_existing_post": "Julkaisua ei ole",
-    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
+    "invalid_link": "Url on virheellinen, voit yrittää uudelleen kelvollisella url-osoitteella tai kokeilla avata sen selaimessa"
   },
   "search": {
     "posts": "Julkaisut",
@@ -671,7 +683,9 @@
     "account": {
       "title": "Vastaanota Tilitehostus",
       "desc": "30 päivän valtuutus tehostaa ääniäsi ja sosiaalista toimintaa, antaen lisää toimintoja ja Resurssipisteitä."
-    }
+    },
+    "confirm_purchase": "Vahvista ostos @{username}",
+    "confirm_purchase_summary": "Ostetaan {points} {username} hintaan {price}"
   },
   "free_estm": {
     "title": "Ilmaiset Pisteet",
@@ -824,7 +838,9 @@
   "qr": {
     "qr_scan": "QR-koodi",
     "open": "Avaa URL",
-    "detected_url": "Havaittu URL"
+    "detected_url": "Havaittu URL",
+    "unsupported_alert_title": "URL-osoitetta ei tuettu!",
+    "unsupported_alert_desc": "Ole hyvä ja skannaa kelvollinen ecency url."
   },
   "history": {
     "edit": "Muokkaushistoria",

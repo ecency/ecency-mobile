@@ -32,7 +32,6 @@ import {
   setApi,
   isDarkTheme,
   isDefaultFooter,
-  openPinCodeModal,
   setNsfw,
   isPinCodeOpen,
   login,
@@ -41,9 +40,10 @@ import {
   setIsBiometricEnabled,
   setEncryptedUnlockPin,
   setHidePostsThumbnails,
+  logout,
 } from '../../../redux/actions/applicationActions';
-import { toastNotification } from '../../../redux/actions/uiAction';
-import { setPushToken, getNodes } from '../../../providers/ecency/ecency';
+import { showActionModal, toastNotification } from '../../../redux/actions/uiAction';
+import { setPushToken, getNodes, deleteAccount } from '../../../providers/ecency/ecency';
 import { checkClient } from '../../../providers/hive/dhive';
 import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
 // Middleware
@@ -61,6 +61,8 @@ import { encryptKey, decryptKey } from '../../../utils/crypto';
 // Component
 import SettingsScreen from '../screen/settingsScreen';
 import { SERVER_LIST } from '../../../constants/options/api';
+import ROUTES from '../../../constants/routeNames';
+import { withNavigation } from '@react-navigation/compat';
 
 /*
  *            Props Name        Description                                     Value
@@ -202,7 +204,7 @@ class SettingsContainer extends Component {
   };
 
   _handleToggleChanged = (action, actionType) => {
-    const { dispatch, isHideImages } = this.props;
+    const { dispatch, isHideImages, navigation } = this.props;
 
     switch (actionType) {
       case 'notification':
@@ -222,29 +224,25 @@ class SettingsContainer extends Component {
 
       case 'pincode':
         if (action) {
-          dispatch(
-            openPinCodeModal({
-              callback: () => this._enableDefaultUnlockPin(action),
-              isReset: true,
-              isOldPinVerified: true,
-              oldPinCode: Config.DEFAULT_PIN,
-            }),
-          );
+          navigation.navigate(ROUTES.SCREENS.PINCODE, {
+            callback: () => this._enableDefaultUnlockPin(action),
+            isReset: true,
+            isOldPinVerified: true,
+            oldPinCode: Config.DEFAULT_PIN,
+          })
+          
         } else {
-          dispatch(
-            openPinCodeModal({
-              callback: () => this._enableDefaultUnlockPin(action),
-            }),
-          );
+          navigation.navigate(ROUTES.SCREENS.PINCODE, {
+            callback: () => this._enableDefaultUnlockPin(action),
+          })
         }
         break;
 
       case 'biometric':
-        dispatch(
-          openPinCodeModal({
-            callback: () => dispatch(setIsBiometricEnabled(action)),
-          }),
-        );
+        navigation.navigate(ROUTES.SCREENS.PINCODE, {
+          callback: () => dispatch(setIsBiometricEnabled(action)),
+        });
+ 
         break;
       case settingsTypes.SHOW_HIDE_IMGS:
         dispatch(setHidePostsThumbnails(!isHideImages));
@@ -299,19 +297,22 @@ class SettingsContainer extends Component {
   };
 
   _handleButtonPress = (actionType) => {
-    const { dispatch } = this.props;
+    const { navigation } = this.props;
     switch (actionType) {
       case 'reset_pin':
-        dispatch(
-          openPinCodeModal({
-            isReset: true,
-          }),
-        );
+        navigation.navigate(ROUTES.SCREENS.PINCODE, {
+          isReset:true
+        })
         break;
 
       case 'feedback':
         this._handleSendFeedback();
         break;
+      
+      case settingsTypes.DELETE_ACCOUNT:
+        this._handleDeleteAccount();
+        break;
+
       default:
         break;
     }
@@ -389,6 +390,51 @@ class SettingsContainer extends Component {
     }
   };
 
+  _handleDeleteAccount = () => {
+    const { dispatch, intl, currentAccount } = this.props as any;
+
+    const _onConfirm = () => {
+      deleteAccount(currentAccount.username)
+        .then(() => {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'delete.request_sent',
+              }),
+            ),
+          );
+          dispatch(logout());
+        })
+        .catch(() => {
+          dispatch(
+            toastNotification(
+              intl.formatMessage({
+                id: 'delete.request_sent',
+              }),
+            ),
+          );
+          dispatch(logout());
+        });
+    };
+
+    dispatch(
+      showActionModal({
+        title: intl.formatMessage({ id: 'delete.confirm_delete_title' }),
+        body: intl.formatMessage({ id: 'delete.confirm_delete_body' }),
+        buttons: [
+          {
+            text: intl.formatMessage({ id: 'alert.cancel' }),
+            onPress: () => {},
+          },
+          {
+            text: intl.formatMessage({ id: 'alert.delete' }),
+            onPress: _onConfirm,
+          },
+        ],
+      }),
+    );
+
+  }
   _clearUserData = async () => {
     const { otherAccounts, dispatch } = this.props;
 
@@ -490,4 +536,4 @@ const mapStateToProps = (state) => ({
   isHideImages: state.application.hidePostsThumbnails,
 });
 
-export default injectIntl(connect(mapStateToProps)(SettingsContainer));
+export default withNavigation(injectIntl(connect(mapStateToProps)(SettingsContainer)));

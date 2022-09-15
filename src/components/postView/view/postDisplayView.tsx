@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState, Fragment } from 'react';
-import { View, Text, ScrollView, SafeAreaView, RefreshControl } from 'react-native';
+import { View, Text, ScrollView, RefreshControl } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Providers
-import { useSelector } from 'react-redux';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { userActivity } from '../../../providers/ecency/ePoint';
 
@@ -22,7 +21,6 @@ import { ParentPost } from '../../parentPost';
 // Styles
 import styles from './postDisplayStyles';
 import { OptionsModal } from '../../atoms';
-import { QuickReplyModal } from '../..';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { useAppDispatch } from '../../../hooks';
 import { showReplyModal } from '../../../redux/actions/uiAction';
@@ -37,7 +35,6 @@ const PostDisplayView = ({
   isNewPost,
   fetchPost,
   handleOnEditPress,
-  handleOnReplyPress,
   handleOnVotersPress,
   handleOnReblogsPress,
   post,
@@ -52,6 +49,11 @@ const PostDisplayView = ({
 }) => {
   const dispatch = useAppDispatch();
   const insets = useSafeAreaInsets();
+
+  const commentsRef = useRef<CommentsDisplay>();
+  const scrollRef = useRef<ScrollView>();
+  const commentsReached = useRef<boolean>(false);
+
 
   const [postHeight, setPostHeight] = useState(0);
   const [scrollHeight, setScrollHeight] = useState(0);
@@ -87,15 +89,29 @@ const PostDisplayView = ({
 
   const _handleOnScroll = (event) => {
     const { y } = event.nativeEvent.contentOffset;
-
+    console.log("scroll height", y)
     setScrollHeight(HEIGHT + y);
+
+    const _commentButtonBounceOffset = y + (HEIGHT/1.7);
+    if(!commentsReached.current && commentsRef.current && _commentButtonBounceOffset > postHeight ){
+      commentsRef.current.bounceCommentButton();
+      commentsReached.current = true;
+    }
   };
+
 
   const _handleOnPostLayout = (event) => {
     const { height } = event.nativeEvent.layout;
-
+    console.log('post height', height)
     setPostHeight(height);
   };
+
+  const _scrollToComments = () => {
+    if(scrollRef.current){
+      const pos = postHeight;
+      scrollRef.current.scrollTo({y:pos})
+    }
+  }
 
   const _handleOnReblogsPress = () => {
     if (reblogs.length > 0 && handleOnReblogsPress) {
@@ -144,7 +160,7 @@ const PostDisplayView = ({
               isClickable
               text={get(post, 'children', 0)}
               textMarginLeft={20}
-              onPress={() => _showQuickReplyModal(post)}
+              onPress={() => _scrollToComments()}
               // onPress={() => handleOnReplyPress && handleOnReplyPress()}
             />
           )}
@@ -211,9 +227,9 @@ const PostDisplayView = ({
   };
 
   // show quick reply modal
-  const _showQuickReplyModal = (post) => {
+  const _showQuickReplyModal = (_post = post) => {
     if (isLoggedIn) {
-      dispatch(showReplyModal(post));
+      dispatch(showReplyModal(_post));
     } else {
       console.log('Not LoggedIn');
     }
@@ -222,6 +238,7 @@ const PostDisplayView = ({
   return (
     <View style={styles.container}>
       <ScrollView
+        ref={scrollRef}
         style={styles.scroll}
         contentContainerStyle={[styles.scrollContent]}
         onScroll={(event) => _handleOnScroll(event)}
@@ -262,7 +279,9 @@ const PostDisplayView = ({
             )}
           </View>
           {post && !postBodyLoading && (isGetComment || isLoadedComments) && (
-            <CommentsDisplay
+
+             <CommentsDisplay
+              ref={commentsRef}
               author={author || post.author}
               mainAuthor={author || post.author}
               permlink={post.permlink}

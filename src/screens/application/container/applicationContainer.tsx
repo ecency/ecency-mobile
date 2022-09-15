@@ -1,12 +1,11 @@
 import { Component } from 'react';
-import { Platform, BackHandler, Alert, Linking, AppState, Appearance } from 'react-native';
+import { Platform, Alert, Linking, AppState, Appearance } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import Config from 'react-native-config';
 import get from 'lodash/get';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { NavigationActions } from 'react-navigation';
 import { bindActionCreators } from 'redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { isEmpty, some } from 'lodash';
@@ -19,7 +18,6 @@ import SplashScreen from 'react-native-splash-screen'
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
 import ROUTES from '../../../constants/routeNames';
-import postUrlParser from '../../../utils/postUrlParser';
 
 // Services
 import {
@@ -35,7 +33,7 @@ import {
   setLastUpdateCheck,
   getTheme,
 } from '../../../realm/realm';
-import { getUser, getPost, getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
+import { getUser, getDigitPinCode, getMutes } from '../../../providers/hive/dhive';
 import { getPointsSummary } from '../../../providers/ecency/ePoint';
 import {
   migrateToMasterKeyWithAccessToken,
@@ -48,7 +46,7 @@ import {
   getUnreadNotificationCount,
 } from '../../../providers/ecency/ecency';
 import { fetchLatestAppVersion } from '../../../providers/github/github';
-import { navigate, navigateBack } from '../../../navigation/service';
+import { navigate } from '../../../navigation/service';
 
 // Actions
 import {
@@ -62,9 +60,7 @@ import {
   isDarkTheme,
   login,
   logoutDone,
-  openPinCodeModal,
   setConnectivityStatus,
-  setAnalyticsStatus,
   setPinCode as savePinCode,
   isRenderRequired,
   logout,
@@ -92,22 +88,17 @@ import { purgeExpiredCache } from '../../../redux/actions/cacheActions';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
 import MigrationHelpers from '../../../utils/migrationHelpers';
 import { deepLinkParser } from '../../../utils/deepLinkParser';
+import bugsnapInstance from '../../../config/bugsnag';
 
-// Workaround
-let previousAppState = 'background';
-export const setPreviousAppState = () => {
-  previousAppState = AppState.currentState;
-  const appStateTimeout = setTimeout(() => {
-    previousAppState = AppState.currentState;
-    clearTimeout(appStateTimeout);
-  }, 500);
-};
 
 let firebaseOnNotificationOpenedAppListener = null;
 let firebaseOnMessageListener = null;
 let removeAppearanceListener = null;
 
 class ApplicationContainer extends Component {
+
+  _pinCodeTimer:any = null
+
   constructor(props) {
     super(props);
     this.state = {
@@ -119,7 +110,7 @@ class ApplicationContainer extends Component {
   }
 
   componentDidMount = () => {
-    const { isIos } = this.state;
+  
     const { dispatch, isAnalytics } = this.props;
 
     this._setNetworkListener();
@@ -130,13 +121,10 @@ class ApplicationContainer extends Component {
     });
 
     AppState.addEventListener('change', this._handleAppStateChange);
-    setPreviousAppState();
 
     this.removeAppearanceListener = Appearance.addChangeListener(this._appearanceChangeListener);
 
     this._createPushListener();
-
-    if (!isIos) BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
 
     //set avatar cache stamp to invalidate previous session avatars
     dispatch(setAvatarCacheStamp(new Date().getTime()));
@@ -159,6 +147,7 @@ class ApplicationContainer extends Component {
         console.log('error :>> ', error);
       },
     );
+
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -179,10 +168,8 @@ class ApplicationContainer extends Component {
   }
 
   componentWillUnmount() {
-    const { isIos } = this.state;
-    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
 
-    if (!isIos) BackHandler.removeEventListener('hardwareBackPress', this._onBackPress);
+    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
 
     //TOOD: listen for back press and cancel all pending api requests;
 
@@ -254,8 +241,6 @@ class ApplicationContainer extends Component {
           params,
           key: key,
         });
-      } else {
-        throw new Error(intl.formatMessage({id:'deep_link.invalid_link'}))
       }
     } catch(err){
       this._handleAlert(err.message)
@@ -327,16 +312,25 @@ class ApplicationContainer extends Component {
 
 
   _handleAppStateChange = (nextAppState) => {
+    const { isPinCodeOpen:_isPinCodeOpen } = this.props;
     const { appState } = this.state;
 
     if (appState.match(/inactive|background/) && nextAppState === 'active') {
       this._refreshGlobalProps();
+      if (_isPinCodeOpen && this._pinCodeTimer) {
+        clearTimeout(this._pinCodeTimer);
     }
-    setPreviousAppState();
+    }
+
+    if (appState.match(/active|forground/) && nextAppState === 'inactive') {
+      this._startPinCodeTimer();
+    }
+
     this.setState({
       appState: nextAppState,
     });
   };
+
 
 
   _fetchApp = async () => {
@@ -351,13 +345,24 @@ class ApplicationContainer extends Component {
     dispatch(purgeExpiredCache());
   };
 
+  _startPinCodeTimer = () => {
+    const {isPinCodeOpen:_isPinCodeOpen} = this.props;
+    if (_isPinCodeOpen) {
+        this._pinCodeTimer = setTimeout(() => {
+            navigate({
+              routeName:ROUTES.SCREENS.PINCODE
+            })
+        }, 1 * 60 * 1000);
+    }
+};
+
   _pushNavigate = (notification) => {
     const { dispatch } = this.props;
     let params = null;
     let key = null;
     let routeName = null;
 
-    if (previousAppState !== 'active' && !!notification) {
+    if (!!notification) {
       const push = get(notification, 'data');
       const type = get(push, 'type', '');
       const fullPermlink =
@@ -459,11 +464,11 @@ class ApplicationContainer extends Component {
 
     firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
       console.log('Notification Received: foreground', remoteMessage);
-      // this._showNotificationToast(remoteMessage);
+
       this.setState({
         foregroundNotificationData: remoteMessage,
       });
-      this._pushNavigate(remoteMessage);
+
     });
 
     firebaseOnNotificationOpenedAppListener = messaging().onNotificationOpenedApp(
@@ -488,18 +493,6 @@ class ApplicationContainer extends Component {
     }
   };
 
-  _onBackPress = () => {
-    navigateBack();
-    /* 
-    const { dispatch, nav } = this.props;
-    if (nav && nav[0].index !== 0) {
-      dispatch(NavigationActions.back());
-    } else {
-      BackHandler.exitApp();
-    }
-    */
-    return true;
-  };
 
   _refreshGlobalProps = () => {
     const { actions } = this.props;
@@ -568,7 +561,7 @@ class ApplicationContainer extends Component {
       realmObject[0].name = currentUsername;
       // If in dev mode pin code does not show
       if (_isPinCodeOpen) {
-        dispatch(openPinCodeModal());
+        navigate({routeName:ROUTES.SCREENS.PINCODE})
       } else if (!_isPinCodeOpen) {
         const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
         dispatch(savePinCode(encryptedPin));
@@ -666,26 +659,40 @@ class ApplicationContainer extends Component {
 
 
   //update notification settings and update push token for each signed accoutn useing access tokens
-  _registerDeviceForNotifications = (settings?:any) => {
-    const { otherAccounts, notificationDetails, isNotificationsEnabled } = this.props;
-    
+  _registerDeviceForNotifications = (settings?: any) => {
+    const { currentAccount, otherAccounts, notificationDetails, isNotificationsEnabled } = this.props;
+
     const isEnabled = settings ? !!settings.notification : isNotificationsEnabled;
     settings = settings || notificationDetails;
 
-
-    //updateing fcm token with settings;
-    otherAccounts.forEach((account) => {
-      //since there can be more than one accounts, process access tokens separate
+    const _enabledNotificationForAccount = (account) => {
       const encAccessToken = account?.local?.accessToken;
       //decrypt access token
       let accessToken = null;
       if (encAccessToken) {
         //NOTE: default pin decryption works also for custom pin as other account
         //keys are not yet being affected by changed pin, which I think we should dig more
-        accessToken = decryptKey(encAccessToken, Config.DEFAULT_PIN);
+        accessToken = decryptKey(account.name, Config.DEFAULT_PIN);
       }
 
       this._enableNotification(account.name, isEnabled, settings, accessToken);
+    }
+
+
+    //updateing fcm token with settings;
+    otherAccounts.forEach((account) => {
+      //since there can be more than one accounts, process access tokens separate
+      if (account?.local?.accessToken) {
+        _enabledNotificationForAccount(account)
+      } else {
+        console.warn("access token not present, reporting to bugsnag")
+        bugsnapInstance.notify(new Error(`Reporting missing access token in other accounts section: account:${account.name} with local data ${JSON.stringify(account?.local)}`))
+
+        //fallback to current account access token to register atleast logged in account
+        if (currentAccount.name === account.name) {
+          _enabledNotificationForAccount(currentAccount)
+        }
+      }
     });
   };
 
@@ -882,7 +889,6 @@ class ApplicationContainer extends Component {
       toastNotification,
       isDarkTheme: _isDarkTheme,
       children,
-      isPinCodeRequire,
       rcOffer,
     } = this.props;
     const { isRenderRequire, foregroundNotificationData } = this.state;
@@ -892,7 +898,6 @@ class ApplicationContainer extends Component {
       children({
         isConnected,
         isDarkTheme: _isDarkTheme,
-        isPinCodeRequire,
         isRenderRequire,
         locale: selectedLanguage,
         rcOffer,
@@ -913,8 +918,6 @@ export default connect(
     isLogingOut: state.application.isLogingOut,
     isLoggedIn: state.application.isLoggedIn, //TODO: remove as is not being used in this class
     isConnected: state.application.isConnected,
-    nav: state.nav.routes,
-    isPinCodeRequire: state.application.isPinCodeRequire,
     api: state.application.api,
     isGlobalRenderRequired: state.application.isRenderRequired,
     isAnalytics: state.application.isAnalytics,

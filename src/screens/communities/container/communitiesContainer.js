@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { shuffle, isEmpty } from 'lodash';
 import { useIntl } from 'react-intl';

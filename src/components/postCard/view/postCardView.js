@@ -123,7 +123,12 @@ const PostCardView = ({
           <Icon style={styles.pushPinIcon} size={20} name="pin" iconType="MaterialCommunityIcons" />
         )}
         <View style={styles.dropdownWrapper}>
-          <PostDropdown pageType={pageType} content={content} fetchPost={fetchPost} />
+          <PostDropdown
+            pageType={pageType}
+            content={content}
+            fetchPost={fetchPost}
+            isMuted={isMuted}
+          />
         </View>
       </View>
       <View style={styles.postBodyWrapper}>

@@ -157,6 +157,7 @@ const SettingsScreen = ({
               type="toggle"
               actionType="pincode"
               isOn={isPinCodeOpen}
+              toggleLatchBack={true}
               handleOnChange={handleOnChange}
             />
           )}
@@ -170,6 +171,7 @@ const SettingsScreen = ({
                 type="toggle"
                 actionType="biometric"
                 isOn={isBiometricEnabled}
+                toggleLatchBack={true}
                 handleOnChange={handleOnChange}
               />
 
@@ -182,6 +184,7 @@ const SettingsScreen = ({
                 })}
                 type="button"
                 actionType="reset_pin"
+                toggleLatchBack={true}
                 handleOnButtonPress={handleOnButtonPress}
               />
             </Fragment>
@@ -277,6 +280,19 @@ const SettingsScreen = ({
             actionType="feedback"
             handleOnButtonPress={handleOnButtonPress}
           />
+          {!!isLoggedIn && (
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.delete_account',
+              })}
+              text={intl.formatMessage({
+                id: 'settings.delete_account',
+              })}
+              type="icon"
+              actionType={settingsTypes.DELETE_ACCOUNT}
+              handleOnButtonPress={handleOnButtonPress}
+            />
+          )}
         </View>
       </ScrollView>
     </Fragment>

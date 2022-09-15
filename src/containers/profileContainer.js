@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { get, has, unionBy, update } from 'lodash';
 import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';

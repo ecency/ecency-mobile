@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Platform, Alert, Text } from 'react-native';
-import { withNavigation } from 'react-navigation';
-import RNIap, { Product, purchaseErrorListener, purchaseUpdatedListener } from 'react-native-iap';
+import { Platform, Alert } from 'react-native';
+import { withNavigation } from '@react-navigation/compat';
+import RNIap, { purchaseErrorListener, purchaseUpdatedListener } from 'react-native-iap';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 

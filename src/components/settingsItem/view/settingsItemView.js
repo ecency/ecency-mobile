@@ -4,11 +4,13 @@ import { View, Text } from 'react-native';
 // Constants
 
 // Components
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { DropdownButton } from '../../dropdownButton';
 import { TextButton } from '../../buttons';
 import { ToggleSwitch } from '../../toggleSwitch';
 // Styles
 import styles from './settingsItemStyles';
+import IconButton from '../../iconButton';
 
 class SettingsItemView extends PureComponent {
   /* Props
@@ -32,6 +34,7 @@ class SettingsItemView extends PureComponent {
       handleOnChange,
       text,
       isOn,
+      toggleLatchBack,
       actionType,
       defaultText,
       handleOnButtonPress,
@@ -61,6 +64,7 @@ class SettingsItemView extends PureComponent {
             size="large"
             isOn={isOn}
             onToggle={(e) => handleOnChange(e, type, actionType)}
+            latchBack={toggleLatchBack}
           />
         );
       case 'button':
@@ -70,6 +74,17 @@ class SettingsItemView extends PureComponent {
             textStyle={styles.textStyle}
             style={styles.textButton}
             text={text}
+          />
+        );
+
+      case 'icon':
+        return (
+          <IconButton
+            onPress={() => handleOnButtonPress(actionType)}
+            name="trash-bin-outline"
+            size={24}
+            color={EStyleSheet.value('$primaryRed')}
+            style={styles.iconBtn}
           />
         );
 

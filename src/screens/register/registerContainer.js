@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Alert } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import get from 'lodash/get';
 
 import { lookupAccounts } from '../../providers/hive/dhive';

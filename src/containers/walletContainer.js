@@ -8,9 +8,6 @@ import { toastNotification } from '../redux/actions/uiAction';
 // dhive
 import { getAccount, claimRewardBalance, getBtcAddress } from '../providers/hive/dhive';
 
-// Actions
-import { openPinCodeModal } from '../redux/actions/applicationActions';
-
 // Utils
 import { groomingWalletData, groomingTransactionData, transferTypes } from '../utils/wallet';
 import parseToken from '../utils/parseToken';
@@ -255,12 +252,13 @@ const WalletContainer = ({
     }
 
     if (isPinCodeOpen) {
-      dispatch(
-        openPinCodeModal({
+      navigate({
+        routeName: ROUTES.SCREENS.PINCODE,
+        params: {
           navigateTo: ROUTES.SCREENS.TRANSFER,
           navigateParams: { transferType, fundType, balance, tokenAddress },
-        }),
-      );
+        },
+      });
     } else {
       navigate({
         routeName: ROUTES.SCREENS.TRANSFER,

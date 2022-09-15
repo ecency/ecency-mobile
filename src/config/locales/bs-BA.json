@@ -131,7 +131,9 @@
     "open_orders": "Open Orders",
     "conversions_requested": "Conversions Requested",
     "expires": "expires",
-    "pending_requests": "Pending Requests"
+    "pending_requests": "Pending Requests",
+    "boost_account": "Boost",
+    "get_boost": "Get Boost"
   },
   "notification": {
     "vote": "glasano",
@@ -248,7 +250,9 @@
     },
     "feedback_success": "Email je uspješno otvoren",
     "feedback_fail": "Klijent nije mogao otvoriti email",
-    "server_fail": "Server nije dostupan"
+    "server_fail": "Server nije dostupan",
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Informacije o glasačima",
@@ -264,7 +268,9 @@
     "cancel": "otkaži",
     "login": "PRIJAVI SE",
     "steemconnect_description": "Ako ne želite da lozinka ostane šifrovana i sačuvana na uređaju, možete koristiti Hivesigner.",
-    "steemconnect_fee_description": "informacije"
+    "steemconnect_fee_description": "informacije",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first"
   },
   "register": {
     "button": "Registrujte se",
@@ -543,6 +549,11 @@
     "confirm_report_title": "Potvrdi prijavu!",
     "confirm_report_body": "Jeste li sigurni da želite izvještaj?"
   },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
+  },
   "favorites": {
     "title": "Favoriti",
     "load_error": "Nije moguće učitati favorite",
@@ -580,7 +591,8 @@
     "unpin-blog": "Unpin from blog",
     "pin-community": "Pin to community",
     "unpin-community": "Unpin from community",
-    "edit-history": "Edit History"
+    "edit-history": "Edit History",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Nema postojećeg korisnika",
@@ -671,7 +683,9 @@
     "account": {
       "title": "Dobijte pojačanje računa",
       "desc": "30-dnevna delegacija će povećati vaše glasove i društvene aktivnosti i dati vam više akcija s više resursa."
-    }
+    },
+    "confirm_purchase": "Confirm Purchase @{username}",
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
   "free_estm": {
     "title": "Besplatni bodovi",
@@ -824,7 +838,9 @@
   "qr": {
     "qr_scan": "QR Scan",
     "open": "Open URL",
-    "detected_url": "Detected URL"
+    "detected_url": "Detected URL",
+    "unsupported_alert_title": "Unsupported URL!",
+    "unsupported_alert_desc": "Please scan a valid ecency url."
   },
   "history": {
     "edit": "Edit History",
