@@ -95,6 +95,11 @@
             <data 
                 android:scheme="https" 
                 android:host="ecency.com"
+                android:path="/auth"
+            />
+           <data 
+                android:scheme="https" 
+                android:host="ecency.com"
                 android:path="/purchase"
             />
         </intent-filter>

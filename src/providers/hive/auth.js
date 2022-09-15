@@ -175,6 +175,7 @@ export const loginWithSC2 = async (code) => {
 
     if (isUserLoggedIn) {
       reject(new Error('auth.already_logged'));
+      return;
     }
 
     setUserData(account.local)

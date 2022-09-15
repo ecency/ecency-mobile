@@ -4,6 +4,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
 import { debounce } from 'lodash';
+import { withNavigation } from 'react-navigation';
 
 // Actions
 import HiveSigner from '../../steem-connect/hiveSigner';
@@ -147,6 +148,7 @@ class LoginScreen extends PureComponent {
                 secureTextEntry
                 type="password"
                 numberOfLines={1}
+                value={password}
                 inputStyle={styles.input}
               />
               <InformationArea
@@ -216,4 +218,4 @@ class LoginScreen extends PureComponent {
   }
 }
 
-export default injectIntl(LoginScreen);
+export default withNavigation(injectIntl(LoginScreen));

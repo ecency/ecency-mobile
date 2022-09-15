@@ -6,7 +6,7 @@ import Config from 'react-native-config';
 import messaging from '@react-native-firebase/messaging';
 
 // Services and Actions
-import { login } from '../../../providers/hive/auth';
+import { login, loginWithSC2 } from '../../../providers/hive/auth';
 import { lookupAccounts } from '../../../providers/hive/dhive';
 import { userActivity } from '../../../providers/ecency/ePoint';
 import {
@@ -18,7 +18,7 @@ import { login as loginAction, setPinCode } from '../../../redux/actions/applica
 import { setInitPosts, setFeedPosts } from '../../../redux/actions/postsAction';
 import { setPushTokenSaved, setExistUser } from '../../../realm/realm';
 import { setPushToken } from '../../../providers/ecency/ecency';
-import { encryptKey } from '../../../utils/crypto';
+import { decodeBase64, encryptKey } from '../../../utils/crypto';
 
 // Middleware
 
@@ -31,6 +31,8 @@ import ROUTES from '../../../constants/routeNames';
 import LoginScreen from '../screen/loginScreen';
 import persistAccountGenerator from '../../../utils/persistAccountGenerator';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
+import { showActionModal } from '../../../redux/actions/uiAction';
+import { UserAvatar } from '../../../components';
 
 /*
  *            Props Name        Description                                     Value
@@ -48,8 +50,109 @@ class LoginContainer extends PureComponent {
   }
 
   // Component Life Cycle Functions
+  componentDidMount(){
+    //TOOD: migrate getParam to routes.state.param after nt/navigaiton merge
+
+    const {navigation} = this.props;
+    const username = navigation.getParam('username', '')
+    const code:string = navigation.getParam('code', '')
+    
+    if(username && code){
+      this._confirmCodeLogin(username, code);
+    }
+  }
 
   // Component Functions
+  _confirmCodeLogin = (username, code) => {
+    const {dispatch, intl} = this.props;
+
+    try{
+      //check accessCode formatting and compare expiry
+      const dataStr = decodeBase64(code);
+      if(!dataStr){
+        throw new Error('login.deep_login_malformed_url');
+      }
+  
+      let data = JSON.parse(dataStr.slice(0, dataStr.lastIndexOf('}') + 1));
+      
+      const curTimestamp = new Date().getTime();
+      const expiryTimestamp = data && data.timestamp && ((data.timestamp * 1000) + 604800000) //add 7 day (604800000ms) expiry
+  
+      if(!expiryTimestamp || expiryTimestamp < curTimestamp){
+        throw new Error('login.deep_login_url_expired');
+      }
+  
+      //Everything is set, show login confirmation
+      dispatch(showActionModal({
+        title: intl.formatMessage({id: 'login.deep_login_alert_title'}, {username}),
+        body: intl.formatMessage({id: 'login.deep_login_alert_body'}),
+        buttons: [
+          {
+            text: intl.formatMessage({ id: 'alert.cancel' }),
+            onPress: () => console.log('Cancel'),
+            style:'cancel'
+          },
+          {
+            text: intl.formatMessage({ id: 'alert.confirm' }),
+            onPress: ()=> this._loginWithCode(code),
+          },
+        ],
+        headerContent: <UserAvatar username={username} size='xl' />,
+      }))
+    } catch(err){
+      console.warn("Failed to login using code", err)
+      Alert.alert(
+        intl.formatMessage({id: 'alert.fail'}),
+        intl.formatMessage({id: err.message})
+      )
+    }
+    
+  }
+
+
+
+  _loginWithCode = (code) => {
+    const {dispatch, isPinCodeOpen, navigation, intl} = this.props;
+    this.setState({ isLoading: true });
+    loginWithSC2(code)
+    .then((result) => {
+      if (result) {
+        const persistAccountData = persistAccountGenerator(result);
+
+        dispatch(updateCurrentAccount({ ...result }));
+        dispatch(fetchSubscribedCommunities(result.username));
+        dispatch(addOtherAccount({ ...persistAccountData }));
+        dispatch(loginAction(true));
+
+        if (isPinCodeOpen) {
+          dispatch(
+            openPinCodeModal({
+              accessToken: result.accessToken,
+              navigateTo: ROUTES.DRAWER.MAIN,
+            }),
+          );
+        } else {
+          navigation.navigate({
+            routeName: ROUTES.DRAWER.MAIN,
+            params: { accessToken: result.accessToken },
+          });
+        }
+      } else {
+        // TODO: Error alert (Toast Message)
+      }
+      this.setState({ isLoading: false });
+    })
+    .catch((error) => {
+      this.setState({ isLoading: false });
+      Alert.alert(
+        'Error',
+        intl.formatMessage({ id:
+        error.message,
+        }),
+      );
+      // TODO: return
+    });
+  }
 
   _handleOnPressLogin = (username, password) => {
     const { dispatch, intl, isPinCodeOpen, navigation } = this.props;
@@ -169,14 +272,12 @@ class LoginContainer extends PureComponent {
 
   render() {
     const { isLoading } = this.state;
-    const { navigation } = this.props;
     return (
       <LoginScreen
         handleOnPressLogin={this._handleOnPressLogin}
         getAccountsWithUsername={this._getAccountsWithUsername}
         handleSignUp={this._handleSignUp}
         isLoading={isLoading}
-        navigation={navigation}
       />
     );
   }

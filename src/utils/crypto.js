@@ -62,3 +62,12 @@ const processStampedData = (stampedData) => {
   }
   throw new Error('Possibly un-stamped legacy data');
 };
+
+export const decodeBase64 = (code) => {
+  try {
+    return CryptoJS.enc.Base64.parse(code).toString(CryptoJS.enc.Utf8);
+  } catch (err) {
+    console.warn('base64 decode failed', err.message);
+    return null;
+  }
+};

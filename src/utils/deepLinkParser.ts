@@ -1,6 +1,6 @@
 import { getPost, getUser } from '../providers/hive/dhive';
 import postUrlParser from './postUrlParser';
-import parseAuthUrl from './parseAuthUrl';
+import parseAuthUrl, { AUTH_MODES } from './parseAuthUrl';
 import get from 'lodash/get';
 import ROUTES from '../constants/routeNames';
 import parsePurchaseUrl from './parsePurchaseUrl';
@@ -14,6 +14,8 @@ export const deepLinkParser = async (url, currentAccount) => {
   let profile;
   let keey;
 
+
+  //profess url for post/content
   const postUrl = postUrlParser(url);
   console.log('postUrl : ', postUrl);
 
@@ -72,27 +74,43 @@ export const deepLinkParser = async (url, currentAccount) => {
     keey = `${feedType}/${tag || ''}`;
   }
 
+  //process url for authentication
   if (!routeName) {
-    const { mode, referredUser } = parseAuthUrl(url) || {};
-    if (mode === 'SIGNUP') {
-      routeName = ROUTES.SCREENS.REGISTER;
-      params = {
-        referredUser,
-      };
-      keey = `${mode}/${referredUser || ''}`;
-    }
+    const data = parseAuthUrl(url);
+    if(data){
+      const {mode, referredUser, username, code} = data;
 
-    //if url is for purchase
-    const { type, username, productId} = parsePurchaseUrl(url) || {};
-    // console.log('type, username, productId : ', type, username, productId);
-    if(type && type === 'boost'){
+      if (mode === AUTH_MODES.SIGNUP) {
+        routeName = ROUTES.SCREENS.REGISTER;
+        params = {
+          referredUser,
+        };
+        keey = `${mode}/${referredUser || ''}`;
+      }
+  
+      if (mode === AUTH_MODES.AUTH) {
+        routeName = ROUTES.SCREENS.LOGIN;
+        params = {
+          username,
+          code
+        };
+        keey = `${mode}/${username || ''}`;
+      }
+    }
+  }
+
+  //process url for purchasing
+  if (!routeName) {
+    const { type, username, productId } = parsePurchaseUrl(url) || {};
+
+    if (type && type === 'boost') {
       routeName = ROUTES.SCREENS.ACCOUNT_BOOST;
       params = {
         username,
       };
       keey = `${type}/${username || ''}`;
     }
-    if(type && type === 'points'){
+    if (type && type === 'points') {
       routeName = ROUTES.SCREENS.BOOST;
       params = {
         username,
@@ -100,8 +118,8 @@ export const deepLinkParser = async (url, currentAccount) => {
       };
       keey = `${type}/${username || ''}`;
     }
-
   }
+
 
   return {
     routeName: routeName,
