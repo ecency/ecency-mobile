@@ -57,7 +57,7 @@ export const DelegationsModal = forwardRef(({ }, ref) => {
         let resData:any = []
         let limit = 1000;
 
-        const response = await getVestingDelegations(currentAccount.username, startUsername);
+        const response = await getVestingDelegations(currentAccount.username, startUsername, limit);
         resData = response.map((item) => ({
             username: item.delegatee,
             vestingShares: item.vesting_shares,
