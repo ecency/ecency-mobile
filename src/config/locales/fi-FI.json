@@ -61,6 +61,7 @@
     "amount_information": "Siirrä kytkintä muuttaaksesi määrää",
     "amount": "Määrä",
     "memo": "Muistio",
+    "tap_update": "Tap to update",
     "information": "Haluatko varmasti siirtää varoja?",
     "amount_desc": "Saldo",
     "memo_desc": "Tämä muistio on julkinen",
@@ -272,7 +273,11 @@
     "not_loggedin_alert": "Ei Kirjautunut",
     "not_loggedin_alert_desc": "Kirjaudu ensin sisään",
     "login_failed": "Login Failed",
-    "login_failed_body": "try a different key or try again later."
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "Luo tili",
