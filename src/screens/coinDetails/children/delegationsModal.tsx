@@ -106,7 +106,7 @@ export const DelegationsModal = forwardRef(({ }, ref) => {
     }
 
 
-    const _handleOnUserPress = (username) => {
+    const _handleOnUserPress = (username:string) => {
         navigation.navigate({
             name: ROUTES.SCREENS.PROFILE,
             params: {
@@ -117,11 +117,27 @@ export const DelegationsModal = forwardRef(({ }, ref) => {
         setShowModal(false);
     };
 
+    const _handleOnPressUpdate = (username:string) => {
+        if(mode === MODES.DELEGATEED){
+            console.log('delegate HP!');
+            navigation.navigate({
+              name: ROUTES.SCREENS.TRANSFER,
+              params: {
+                transferType: 'delegate',
+                fundType: 'HIVE_POWER',
+                referredUsername: username,
+              },
+            });
+            setShowModal(false);
+        }
+    }
+
     const title = intl.formatMessage({ id: `wallet.${mode}` })
 
     const _renderItem = ({ item, index }: { item: DelegationItem, index: number }) => {
         const value = vestsToHp(item.vestingShares, globalProps.hivePerMVests).toFixed(3) + ' HP';
         const timeString = new Date(item.timestamp).toDateString();
+        const subRightText = mode === MODES.DELEGATEED && intl.formatMessage({id:"wallet.tap_update"})
 
         return (
             <UserListItem
@@ -131,8 +147,10 @@ export const DelegationsModal = forwardRef(({ }, ref) => {
                 description={timeString}
                 isHasRightItem
                 rightText={value}
+                subRightText={subRightText}
                 isLoggedIn
                 handleOnPress={() => _handleOnUserPress(item.username)}
+                onPressRightText={()=>_handleOnPressUpdate(item.username)}
                 isClickable
             />
         );
