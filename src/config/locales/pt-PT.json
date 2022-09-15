@@ -61,6 +61,7 @@
     "amount_information": "Arraste o controle deslizante para ajustar a quantia",
     "amount": "Quantia",
     "memo": "Memo",
+    "tap_update": "Tap to update",
     "information": "Tem certeza que deseja transferir fundos?",
     "amount_desc": "Balanço",
     "memo_desc": "Este memo é público",
@@ -270,7 +271,13 @@
     "steemconnect_description": "Se você não quiser manter sua senha criptográfica salva no dispositivo, você pode usar o Hivesigner.",
     "steemconnect_fee_description": "info",
     "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "Cadastre-se",
@@ -410,13 +417,15 @@
     "btn_cancel": "Cancelar"
   },
   "uploads_modal": {
-    "label_no_images": "Nenhuma Imagem Encontrada",
+    "label_no_images": "No Existing Uploads...",
     "title": "Imagens Enviadas",
     "title_remove_confirmation": "Deletar imagem",
     "btn_add": "Imagem",
     "btn_insert": "INSERIR",
     "btn_delete": "EXCLUIR",
+    "confirm_delete": "Are you sure you want to delete images from your uploads",
     "message_failed": "Falha ao carregar imagem",
+    "delete_failed": "Failed to delete image",
     "failed_count": "Falha ao enviar {failedCount} de {totalCount} foto(s) selecionada(s)"
   },
   "pincode": {
@@ -724,7 +733,8 @@
     "title": "Comentários",
     "reveal_comment": "Revelar comentário",
     "read_more": "Ler mais comentários",
-    "more_replies": "respostas"
+    "more_replies": "respostas",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Outros",
@@ -817,7 +827,7 @@
     "year": "anos"
   },
   "quick_reply": {
-    "placeholder": "Adicionar comentário",
+    "placeholder": "Adicionar um comentário...",
     "comment": "Comentário",
     "reply": "RESPONDER",
     "close": "FECHAR"

@@ -61,6 +61,7 @@
     "amount_information": "Vilkite slankiklį, kad sureguliuotumėte sumą",
     "amount": "Kiekis",
     "memo": "Atmintinė",
+    "tap_update": "Tap to update",
     "information": "Ar tikrai norite persiųsti lėšas?",
     "amount_desc": "Likutis",
     "memo_desc": "Ši atmintinė yra vieša",
@@ -270,7 +271,13 @@
     "steemconnect_description": "Jei nenorite, kad jūsų slaptažodis būtų įrašomas į jūsų įrenginį, galite naudoti Hivesighner.",
     "steemconnect_fee_description": "informacija",
     "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "Užsiregistruoti",
@@ -410,13 +417,15 @@
     "btn_cancel": "Atšaukti"
   },
   "uploads_modal": {
-    "label_no_images": "Vaizdų nerasta",
+    "label_no_images": "No Existing Uploads...",
     "title": "Įkelti vaizdai",
     "title_remove_confirmation": "Ištrinti vaizdą",
     "btn_add": "Vaizdas",
     "btn_insert": "ĮDĖKITE",
     "btn_delete": "IŠTRINTI",
+    "confirm_delete": "Are you sure you want to delete images from your uploads",
     "message_failed": "Nepavyko įkelti vaizdo",
+    "delete_failed": "Failed to delete image",
     "failed_count": "Nepavyko įkelti {failedCount} iš {totalCount} pasirinkto vaizdo(ų)"
   },
   "pincode": {
@@ -724,7 +733,8 @@
     "title": "Komentarai",
     "reveal_comment": "Rodyti komentarus",
     "read_more": "Skaityti daugiau komentarų",
-    "more_replies": "atsakytos žinutės"
+    "more_replies": "atsakytos žinutės",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Kita",
@@ -817,7 +827,7 @@
     "year": "metai"
   },
   "quick_reply": {
-    "placeholder": "Pridėti komentarą",
+    "placeholder": "Add a comment...",
     "comment": "Komentuoti",
     "reply": "ATSAKYTI",
     "close": "UŽDARYTI"

@@ -23,7 +23,7 @@
     "delegation": "委托",
     "delegations": "委托",
     "delegation_title": "委托奖励",
-    "delegation_desc": "Earn Points everyday for delegation",
+    "delegation_desc": "通过代理HP来赚取积分",
     "post_title": "发文的点数",
     "comment_title": "评论的点数",
     "vote_title": "投票的点数",
@@ -32,7 +32,7 @@
     "checkin_title": "在线的点数",
     "referral": "邀请",
     "referral_title": "邀请奖励",
-    "referral_desc": "Invite friends and earn Points",
+    "referral_desc": "邀请好友并赚取积分",
     "checkin_extra_title": "使用的奖金",
     "no_activity": "近期无活动",
     "outgoing_transfer_description": "",
@@ -51,24 +51,25 @@
     "to": "至",
     "estimated_value_desc": "取决于购买的价值",
     "estimated_value": "预估值",
-    "vote_value": "Vote value",
+    "vote_value": "点赞价值",
     "delegated_hive_power": "Delegated hive power",
     "powering_down_hive_power": "Powering down",
-    "received_hive_power": "Received hive power",
-    "total_hive_power": "Total hive power",
-    "savings": "Savings",
+    "received_hive_power": "已接收的 Hive Power",
+    "total_hive_power": "Hive Power 总量",
+    "savings": "储蓄",
     "estimated_amount": "点赞价值",
     "amount_information": "拖动滑块来调整数量",
     "amount": "数量",
     "memo": "备注(Memo)",
+    "tap_update": "Tap to update",
     "information": "您确定要转账资金吗？",
     "amount_desc": "余额",
     "memo_desc": "这个备注是公开的",
     "to_placeholder": "用户名",
     "memo_placeholder": "在此输入您的备注",
     "transfer_token": "转账",
-    "purchase_estm": "GET POINTS",
-    "points": "Gift Points to someone",
+    "purchase_estm": "获取积分",
+    "points": "赠送积分给他人",
     "transfer_to_saving": "转为储蓄",
     "transfer_to_vesting": "Power Up",
     "withdraw_to_saving": "提现到储蓄",
@@ -92,11 +93,11 @@
     "fill_vesting_withdraw": "释放 Steem Power 已执行",
     "ecency": {
       "title": "Points",
-      "name": "Ecency Points",
+      "name": "Ecency 积分",
       "buy": "GET POINTS"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "Hive 转入储蓄户口"
     },
     "savinghbd": {
       "title": "HBD Savings"
@@ -270,7 +271,13 @@
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
     "steemconnect_fee_description": "info",
     "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "Sign Up",
@@ -410,13 +417,15 @@
     "btn_cancel": "取消"
   },
   "uploads_modal": {
-    "label_no_images": "No Images Found",
+    "label_no_images": "No Existing Uploads...",
     "title": "Uploaded Images",
     "title_remove_confirmation": "Delete image",
     "btn_add": "Image",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
+    "confirm_delete": "Are you sure you want to delete images from your uploads",
     "message_failed": "Failed to upload image",
+    "delete_failed": "Failed to delete image",
     "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
@@ -724,7 +733,8 @@
     "title": "评论",
     "reveal_comment": "显示评论",
     "read_more": "查看更多评论",
-    "more_replies": "replies"
+    "more_replies": "replies",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "其它",
@@ -817,7 +827,7 @@
     "year": "years"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
+    "placeholder": "Add a comment...",
     "comment": "Comment",
     "reply": "REPLY",
     "close": "CLOSE"

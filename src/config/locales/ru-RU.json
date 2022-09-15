@@ -61,6 +61,7 @@
     "amount_information": "Потяните ползунок чтобы установить сумму",
     "amount": "Сумма",
     "memo": "Примечание",
+    "tap_update": "Tap to update",
     "information": "Вы уверены, что хотите перевести средства?",
     "amount_desc": "Баланс",
     "memo_desc": "Эта заметка публична",
@@ -252,7 +253,7 @@
     "feedback_fail": "Не удалось открыть почтовый клиент",
     "server_fail": "Сервер недоступен",
     "show_imgs": "Показать изображения",
-    "delete_account": "Delete Account"
+    "delete_account": "﻿Удалить учётную запись"
   },
   "voters": {
     "voters_info": "Детали голосов",
@@ -270,7 +271,13 @@
     "steemconnect_description": "Если вы не хотите хранить зашифрованные ключи на своем устройстве, используйте Hivesigner.",
     "steemconnect_fee_description": "информация",
     "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "Зарегистрироваться",
@@ -410,13 +417,15 @@
     "btn_cancel": "Отмена"
   },
   "uploads_modal": {
-    "label_no_images": "Изображения не найдены",
+    "label_no_images": "No Existing Uploads...",
     "title": "Загруженные изображения",
     "title_remove_confirmation": "Удалить изображение",
     "btn_add": "Изображение",
     "btn_insert": "ВСТАВИТЬ",
     "btn_delete": "УДАЛИТЬ",
+    "confirm_delete": "Are you sure you want to delete images from your uploads",
     "message_failed": "Не удалось загрузить изображение",
+    "delete_failed": "Failed to delete image",
     "failed_count": "Не удалось загрузить {failedCount} из {totalCount} выбранного изображения(ов)"
   },
   "pincode": {
@@ -550,9 +559,9 @@
     "confirm_report_body": "Вы уверены, что хотите подать жалобу?"
   },
   "delete": {
-    "confirm_delete_title": "Confirm Delete",
-    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
-    "request_sent": "Your request for deletion is sent"
+    "confirm_delete_title": "Подтвердите удаление",
+    "confirm_delete_body": "Вы уверены, что хотите удалить учетную запись? Это сотрет все ваши данные",
+    "request_sent": "Ваш запрос на удаление отправлен"
   },
   "favorites": {
     "title": "Избранное",
@@ -724,7 +733,8 @@
     "title": "Комментарии",
     "reveal_comment": "Показать комментарий",
     "read_more": "Читать больше комментариев",
-    "more_replies": "ответы"
+    "more_replies": "ответы",
+    "no_comments": "Прокомментируйте первым..."
   },
   "search_result": {
     "others": "Другое",
@@ -817,7 +827,7 @@
     "year": "лет"
   },
   "quick_reply": {
-    "placeholder": "Добавить комментарий",
+    "placeholder": "Add a comment...",
     "comment": "Комментарий",
     "reply": "ОТВЕТИТЬ",
     "close": "ЗАКРЫТЬ"

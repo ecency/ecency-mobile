@@ -61,6 +61,7 @@
     "amount_information": "슬라이드를 드래그해서 수량을 설정할 수 있습니다",
     "amount": "수량",
     "memo": "메모",
+    "tap_update": "Tap to update",
     "information": "자금을 전송하시겠습니까?",
     "amount_desc": "잔액",
     "memo_desc": "이 메모는 누구나 볼 수 있습니다",
@@ -270,7 +271,13 @@
     "steemconnect_description": "암호화된 비밀번호를 기기에 저장하고 싶지 않다면, HiveSigner를 사용하시면 됩니다",
     "steemconnect_fee_description": "정보",
     "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "가입",
@@ -410,13 +417,15 @@
     "btn_cancel": "취소"
   },
   "uploads_modal": {
-    "label_no_images": "사진 없음",
+    "label_no_images": "No Existing Uploads...",
     "title": "이미지 업로드",
     "title_remove_confirmation": "이미지 삭제",
     "btn_add": "이미지",
     "btn_insert": "삽입",
     "btn_delete": "삭제",
+    "confirm_delete": "Are you sure you want to delete images from your uploads",
     "message_failed": "이미지 업로드에 실패",
+    "delete_failed": "Failed to delete image",
     "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
@@ -724,7 +733,8 @@
     "title": "작성한 댓글",
     "reveal_comment": "명성도가 낮은 사용자의 댓글 보기",
     "read_more": "댓글 더 보기",
-    "more_replies": "댓글"
+    "more_replies": "댓글",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "기타",
@@ -817,7 +827,7 @@
     "year": "년"
   },
   "quick_reply": {
-    "placeholder": "댓글 추가",
+    "placeholder": "Add a comment...",
     "comment": "댓글",
     "reply": "답변",
     "close": "닫기"

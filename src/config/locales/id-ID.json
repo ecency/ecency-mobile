@@ -61,6 +61,7 @@
     "amount_information": "Seret penggeser untuk menyesuaikan jumlahnya",
     "amount": "Jumlah",
     "memo": "Memo",
+    "tap_update": "Tap to update",
     "information": "Anda yakin mentransfer dana?",
     "amount_desc": "Keseimbangan",
     "memo_desc": "Memo ini bersifat publik",
@@ -270,7 +271,13 @@
     "steemconnect_description": "Jika Anda tidak ingin menyimpan kata sandi Anda dienkripsi dan disimpan di perangkat Anda, Anda dapat menggunakan Hivesigner.",
     "steemconnect_fee_description": "info",
     "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "Daftar",
@@ -410,13 +417,15 @@
     "btn_cancel": "Batalkan"
   },
   "uploads_modal": {
-    "label_no_images": "Tidak Ada Gambar Ditemukan",
+    "label_no_images": "No Existing Uploads...",
     "title": "Gambar Diunggah",
     "title_remove_confirmation": "Hapus gambar",
     "btn_add": "Gambar",
     "btn_insert": "MASUKKAN",
     "btn_delete": "HAPUS",
+    "confirm_delete": "Are you sure you want to delete images from your uploads",
     "message_failed": "Gagal mengunggah gambar",
+    "delete_failed": "Failed to delete image",
     "failed_count": "Gagal mengunggah {failedCount} dari {totalCount} gambar yang dipilih"
   },
   "pincode": {
@@ -724,7 +733,8 @@
     "title": "Komentar",
     "reveal_comment": "Ungkapkan komentar",
     "read_more": "Baca lebih banyak komentar",
-    "more_replies": "balasan"
+    "more_replies": "balasan",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Lainnya",
@@ -817,7 +827,7 @@
     "year": "tahun"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
+    "placeholder": "Add a comment...",
     "comment": "Comment",
     "reply": "REPLY",
     "close": "CLOSE"

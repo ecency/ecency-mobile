@@ -61,6 +61,7 @@
     "amount_information": "Miqdorni belgilash uchun slayderni torting",
     "amount": "Miqdor",
     "memo": "Eslatma",
+    "tap_update": "Tap to update",
     "information": "Pul o'tkazishga ishonchingiz komilmi?",
     "amount_desc": "Balans",
     "memo_desc": "Ushbu eslatma ommaviy",
@@ -270,7 +271,13 @@
     "steemconnect_description": "Agar siz qurilmangizda shifrlangan kalitlarni saqlashni xohlamasangiz, Hivesignerdan foydalaning.",
     "steemconnect_fee_description": "ma'lumot",
     "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "Ro‘yxatdan o‘tish",
@@ -410,13 +417,15 @@
     "btn_cancel": "Bekor qilish"
   },
   "uploads_modal": {
-    "label_no_images": "Rasmlar topilmadi",
+    "label_no_images": "No Existing Uploads...",
     "title": "Rasmlarni yuklash",
     "title_remove_confirmation": "Rasmni o'chirish",
     "btn_add": "Rasm",
     "btn_insert": "KIRITISH",
     "btn_delete": "O'CHIRISH",
+    "confirm_delete": "Are you sure you want to delete images from your uploads",
     "message_failed": "Rasm yuklanmadi",
+    "delete_failed": "Failed to delete image",
     "failed_count": "Tanlangan {totalCount} ta rasmdan {failedCount} tasini yuklab bo‘lmadi"
   },
   "pincode": {
@@ -724,7 +733,8 @@
     "title": "Izohlar",
     "reveal_comment": "Izhohni ko'rsatish",
     "read_more": "Ko'proq izohlarni o'qish",
-    "more_replies": "javoblar"
+    "more_replies": "javoblar",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Boshqalar",
@@ -817,7 +827,7 @@
     "year": "yillar"
   },
   "quick_reply": {
-    "placeholder": "Izoh qo‘shish",
+    "placeholder": "Add a comment...",
     "comment": "Izoh",
     "reply": "JAVOB BERISH",
     "close": "YOPISH"
