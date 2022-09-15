@@ -120,18 +120,18 @@ export const DelegationsModal = forwardRef(({ }, ref) => {
     const _renderContent = () => {
         return (
             <AccountListContainer data={delegations}>
-                {({ data, filterResult, filterIndex, handleOnVotersDropdownSelect, handleSearch }) => (
+                {({ data, filterResult, handleSearch }) => (
                     <>
                         <BasicHeader
                             backIconName="close"
                             isModalHeader
-                            handleOnPressClose={() => { setShowModal(false)}}
+                            handleOnPressClose={() => { setShowModal(false) }}
                             title={`${title} (${data && data.length})`}
                             isHasSearch
-                            handleOnSearch={(text) => handleSearch(text, 'delagator')}
+                            handleOnSearch={(text) => handleSearch(text, 'username')}
                         />
                         <FlatList
-                            data={data}
+                            data={filterResult || data}
                             keyExtractor={(item) => item.delegator}
                             removeClippedSubviews={false}
                             renderItem={_renderItem}
