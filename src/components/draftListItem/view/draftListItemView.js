@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect, Fragment } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { injectIntl } from 'react-intl';
-import ImageSize from 'react-native-image-size';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
@@ -48,9 +47,15 @@ const DraftListItemView = ({
     let _isMounted = false;
     if (image) {
       if (!_isMounted) {
-        ImageSize.getSize(thumbnail.uri).then((size) => {
-          setCalcImgHeight(Math.floor((size.height / size.width) * dim.width));
-        });
+        Image.getSize(
+          thumbnail.uri,
+          (width, height) => {
+            setCalcImgHeight(Math.floor((height / width) * dim.width));
+          },
+          (err) => {
+            console.log('err: ', err.message);
+          },
+        );
       }
     }
     return () => {
