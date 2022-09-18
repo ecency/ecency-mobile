@@ -31,12 +31,14 @@ const ProgressiveImage = ({ thumbnailSource, source, style, ...props }) => {
     }*/
     Animated.timing(thumbnailAnimated, {
       toValue: 1,
+      useNativeDriver: true,
     }).start();
   };
 
   const onImageLoad = () => {
     Animated.timing(imageAnimated, {
       toValue: 1,
+      useNativeDriver: true,
     }).start();
   };
 
