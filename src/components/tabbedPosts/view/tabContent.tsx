@@ -43,7 +43,6 @@ const TabContent = ({
   //redux properties
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
-  const isAnalytics = useSelector((state) => state.application.isAnalytics);
   const nsfw = useSelector((state) => state.application.nsfw);
   const isConnected = useSelector((state) => state.application.isConnected);
   const currentAccount = useSelector((state) => state.account.currentAccount);
@@ -195,7 +194,6 @@ const TabContent = ({
       prevPosts:_posts,
       tabMeta:_tabMeta,
       isLoggedIn,
-      isAnalytics,
       nsfw,
       isConnected,
       isFeedScreen,

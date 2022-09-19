@@ -3,7 +3,7 @@ import isAndroidOreo from '../../../../utils/isAndroidOreo';
 
 export default EStyleSheet.create({
   container: {
-    // height: isAndroidOreo() ? 28 : 40,
+
   },
   textInput: {
     color: '$primaryBlack',
@@ -14,8 +14,7 @@ export default EStyleSheet.create({
     borderTopColor: '$primaryLightGray',
     borderBottomWidth: 1,
     borderBottomColor: '$primaryLightGray',
-    flex: 1,
-    height: isAndroidOreo() ? 28 : 40,
+    height: isAndroidOreo() ? 36: 40
   },
   warning: {
     color: '$primaryRed',

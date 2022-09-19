@@ -7,6 +7,7 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
+  TextStyle,
 } from 'react-native';
 import { renderPostBody, postBodySummary } from '@ecency/render-helper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,9 +23,7 @@ import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
 
 // Components
 import {
-  IconButton,
   PostBody,
-  StickyBar,
   TextInput,
   UserAvatar,
   TitleArea,
@@ -33,12 +32,9 @@ import {
   SummaryArea,
   Modal,
   SnippetsModal,
-  UploadsGalleryModal,
   Tooltip,
   InsertLinkModal,
 } from '../../index';
-
-import { ThemeContainer } from '../../../containers';
 
 // Styles
 import styles from '../styles/markdownEditorStyles';
@@ -52,6 +48,7 @@ import { walkthrough } from '../../../redux/constants/walkthroughConstants';
 import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 import { EditorToolbar } from '../children/editorToolbar';
 import { extractImageUrls } from '../../../utils/editor';
+import { useAppSelector } from '../../../hooks';
 
 const MIN_BODY_INPUT_HEIGHT = 300;
 
@@ -63,15 +60,12 @@ var bodySelection = { start: 0, end: 0 };
 const MarkdownEditorView = ({
   paramFiles,
   draftBody,
-  handleOpenImagePicker,
   intl,
   isPreviewActive,
   isReply,
   isLoading,
-  isUploading,
   initialFields,
   onChange,
-  uploadedImage,
   isEdit,
   post,
   fields,
@@ -86,12 +80,15 @@ const MarkdownEditorView = ({
 }) => {
   const dispatch = useDispatch();
 
+  const isDarkTheme = useAppSelector(state => state.application.isDarkTheme);
+
   const [editable, setEditable] = useState(true);
   const [bodyInputHeight, setBodyInputHeight] = useState(MIN_BODY_INPUT_HEIGHT);
   const [isSnippetsOpen, setIsSnippetsOpen] = useState(false);
   const [showDraftLoadButton, setShowDraftLoadButton] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [insertedMediaUrls, setInsertedMediaUrls] = useState([]);
+
 
   const inputRef = useRef(null);
   const clearRef = useRef(null);
@@ -199,20 +196,20 @@ const MarkdownEditorView = ({
   };
 
 
-  const _debouncedOnTextChange = useCallback(debounce(()=>{
+  const _debouncedOnTextChange = useCallback(debounce(() => {
     console.log("setting is editing to", false)
     setIsEditing(false)
-    const urls = extractImageUrls({body:bodyText})
-    if(urls.length !== insertedMediaUrls.length){
+    const urls = extractImageUrls({ body: bodyText })
+    if (urls.length !== insertedMediaUrls.length) {
       setInsertedMediaUrls(urls);
     }
-  }, 500),[])
+  }, 500), [])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const _changeText = useCallback((input) => {
     bodyText = input;
 
-    if(!isEditing){
+    if (!isEditing) {
       console.log('force setting is editing to true', true)
       setIsEditing(true)
     }
@@ -364,7 +361,7 @@ const MarkdownEditorView = ({
       _setTextAndSelection({ text: '', selection: { start: 0, end: 0 } });
     }
   };
-  const _renderEditor = () => (
+  const _renderEditor = (bodyInputStyle:TextStyle, editorScrollEnabled:boolean) => (
     <>
       {isReply && !isEdit && <SummaryArea summary={headerText} />}
       {!isReply && (
@@ -407,8 +404,6 @@ const MarkdownEditorView = ({
         </View>
       )}
       {!isPreviewActive ? (
-        <ThemeContainer>
-          {({ isDarkTheme }) => (
             <TextInput
               multiline
               autoCorrect={true}
@@ -420,55 +415,49 @@ const MarkdownEditorView = ({
               })}
               placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
               selectionColor="#357ce6"
-              style={{ ...styles.textWrapper, height: bodyInputHeight }}
+              style={{...styles.textWrapper, ...bodyInputStyle}}
               underlineColorAndroid="transparent"
               innerRef={inputRef}
               editable={editable}
               contextMenuHidden={false}
-              autoGrow={false}
-              scrollEnabled={false}
+              scrollEnabled={editorScrollEnabled}
               onContentSizeChange={_handleOnContentSizeChange}
             />
-          )}
-        </ThemeContainer>
       ) : (
         _renderPreview()
       )}
     </>
   );
 
-  const _renderEditorWithScroll = () => (
-    <ScrollView style={styles.container}>{_renderEditor()}</ScrollView>
-  );
-
-  const _renderEditorWithoutScroll = () => <View style={styles.container}>{_renderEditor()}</View>;
+  const _editorWithScroll = <ScrollView style={styles.container}>{_renderEditor({height:bodyInputHeight}, false)}</ScrollView>;
+  const _editorWithoutScroll = <View style={styles.container}>{_renderEditor({flex:1}, true)}</View>;
 
   const _renderContent = () => {
     const _innerContent = (
       <>
-        {isAndroidOreo() ? _renderEditorWithoutScroll() : _renderEditorWithScroll()}
+        {isAndroidOreo() ? _editorWithoutScroll : _editorWithScroll}
         <UsernameAutofillBar text={bodyText} selection={bodySelection} onApplyUsername={_onApplyUsername} />
         {_renderFloatingDraftButton()}
-       
-          <EditorToolbar
-            insertedMediaUrls={insertedMediaUrls}
-            isPreviewActive={isPreviewActive}
-            paramFiles={paramFiles}
-            setIsUploading={setIsUploading}
-            handleMediaInsert={_handleMediaInsert}
-            handleOnAddLinkPress={_handleOnAddLinkPress}
-            handleShowSnippets={() => setIsSnippetsOpen(true)}
-            handleOnClearPress={() => clearRef.current.show()}
-            handleOnMarkupButtonPress={(item) => {
-              item.onPress({
-                text: bodyText,
-                selection: bodySelection,
-                setTextAndSelection: _setTextAndSelection,
-                item
-              })
-            }}
-          />
-        
+
+        <EditorToolbar
+          insertedMediaUrls={insertedMediaUrls}
+          isPreviewActive={isPreviewActive}
+          paramFiles={paramFiles}
+          setIsUploading={setIsUploading}
+          handleMediaInsert={_handleMediaInsert}
+          handleOnAddLinkPress={_handleOnAddLinkPress}
+          handleShowSnippets={() => setIsSnippetsOpen(true)}
+          handleOnClearPress={() => clearRef.current.show()}
+          handleOnMarkupButtonPress={(item) => {
+            item.onPress({
+              text: bodyText,
+              selection: bodySelection,
+              setTextAndSelection: _setTextAndSelection,
+              item
+            })
+          }}
+        />
+
       </>
     );
 
