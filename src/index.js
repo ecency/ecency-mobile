@@ -10,17 +10,22 @@ import messages from './config/locales';
 
 import Application from './screens/application';
 import { store, persistor } from './redux/store/store';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 const _renderApp = ({ locale }) => (
-  <PersistGate loading={null} persistor={persistor}>
-    <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
-      <SafeAreaProvider>
-        <Host>
-          <Application />
-        </Host>
-      </SafeAreaProvider>
-    </IntlProvider>
-  </PersistGate>
+  <QueryClientProvider client={queryClient}>
+    <PersistGate loading={null} persistor={persistor}>
+      <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
+        <SafeAreaProvider>
+          <Host>
+            <Application />
+          </Host>
+        </SafeAreaProvider>
+      </IntlProvider>
+    </PersistGate>
+  </QueryClientProvider>
 );
 
 const mapStateToProps = (state) => ({

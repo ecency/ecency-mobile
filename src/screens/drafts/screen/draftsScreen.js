@@ -16,6 +16,7 @@ import globalStyles from '../../../globalStyles';
 import styles from './draftStyles';
 import { OptionsModal } from '../../../components/atoms';
 
+
 const DraftsScreen = ({
   currentAccount,
   removeDraft,
@@ -28,6 +29,9 @@ const DraftsScreen = ({
   moveScheduleToDraft,
   initialTabIndex,
 }) => {
+
+
+
   const [selectedId, setSelectedId] = useState(null);
   const ActionSheetRef = useRef(null);
 

@@ -22,8 +22,13 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 // Component
 import DraftsScreen from '../screen/draftsScreen';
+import { useQuery } from '@tanstack/react-query';
 
 const DraftsContainer = ({ currentAccount, intl, navigation, dispatch, route }) => {
+  const draftsQuery = useQuery(['draft-get'], getDrafts)
+
+  console.log("draft query", draftsQuery.isLoading, draftsQuery.data);
+
   const [drafts, setDrafts] = useState([]);
   const [schedules, setSchedules] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
