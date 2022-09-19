@@ -61,7 +61,7 @@
     "amount_information": "Siirrä kytkintä muuttaaksesi määrää",
     "amount": "Määrä",
     "memo": "Muistio",
-    "tap_update": "Tap to update",
+    "tap_update": "Napsauta päivittääksesi",
     "information": "Haluatko varmasti siirtää varoja?",
     "amount_desc": "Saldo",
     "memo_desc": "Tämä muistio on julkinen",
@@ -272,12 +272,12 @@
     "steemconnect_fee_description": "tietoa",
     "not_loggedin_alert": "Ei Kirjautunut",
     "not_loggedin_alert_desc": "Kirjaudu ensin sisään",
-    "login_failed": "Login Failed",
-    "login_failed_body": "try a different key or try again later.",
-    "deep_login_alert_title": "Easy Login @{username}",
-    "deep_login_alert_body": "Verify direct login using access code",
-    "deep_login_url_expired": "Login url expired, please use private key or password to login",
-    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
+    "login_failed": "Kirjautuminen epäonnistui",
+    "login_failed_body": "yritä toista avainta tai yritä myöhemmin uudelleen.",
+    "deep_login_alert_title": "Helppo kirjautuminen @{username}",
+    "deep_login_alert_body": "Vahvista suora kirjautuminen pääsykoodilla",
+    "deep_login_url_expired": "Kirjautumisosoite vanhentunut, käytä yksityistä avainta tai salasanaa kirjautuaksesi",
+    "deep_login_malformed_url": "Virheellinen sisäänkirjautumisosoite, käytä yksityistä avainta tai salasanaa kirjautumiseen"
   },
   "register": {
     "button": "Luo tili",
@@ -417,15 +417,15 @@
     "btn_cancel": "Peruuta"
   },
   "uploads_modal": {
-    "label_no_images": "No Existing Uploads...",
+    "label_no_images": "Ei Latauksia...",
     "title": "Ladatut kuvat",
     "title_remove_confirmation": "Poista kuva",
     "btn_add": "Kuva",
     "btn_insert": "Lisää",
     "btn_delete": "POISTA",
-    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "confirm_delete": "Haluatko varmasti poistaa kuvat latauksistasi",
     "message_failed": "Kuvan lataaminen epäonnistui",
-    "delete_failed": "Failed to delete image",
+    "delete_failed": "Kuvan poisto epäonnistui",
     "failed_count": "Ei voitu ladata {failedCount} valituista kuvista {totalCount}"
   },
   "pincode": {
@@ -827,7 +827,7 @@
     "year": "vuotta"
   },
   "quick_reply": {
-    "placeholder": "Add a comment...",
+    "placeholder": "Lisää kommentti...",
     "comment": "Kommentti",
     "reply": "VASTAA",
     "close": "SULJE"
