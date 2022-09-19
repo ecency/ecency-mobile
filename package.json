@@ -201,7 +201,7 @@
     "rn-nodeify": "^10.3.0"
   },
   "lint-staged": {
-    "*.js": [
+    "*.{js,jsx,ts,tsx}": [
       "yarn run lint:fix",
       "git add"
     ]
