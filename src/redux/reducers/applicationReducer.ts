@@ -7,7 +7,6 @@ import {
   CHANGE_VOTE_NOTIFICATION,
   CHANGE_ALL_NOTIFICATION_SETTINGS,
   IS_CONNECTED,
-  IS_ANALYTICS,
   IS_DARK_THEME,
   IS_DEFAULT_FOOTER,
   IS_LOGIN_DONE,
@@ -45,7 +44,6 @@ interface State {
   colorTheme: number;
   isDefaultFooter: boolean; //TODO: remove present of isDefaultFooter as it's no longer in use
   isLoggedIn: boolean; // Has any logged in user.
-  isAnalytics: boolean;
   isLoginDone: boolean;
   isLogingOut: boolean;
   isNotificationOpen: boolean;
@@ -85,7 +83,6 @@ const initialState:State = {
   colorTheme: 0, //values mapped from => src/constants/options/theme.ts
   isDefaultFooter: true, //TODO: remove present of isDefaultFooter as it's no longer in use
   isLoggedIn: false, // Has any logged in user.
-  isAnalytics: false,
   isLoginDone: false,
   isLogingOut: false,
   isNotificationOpen: true,
@@ -130,11 +127,7 @@ export default function (state = initialState, action):State {
         ...state,
         isConnected: action.payload,
       };
-    case IS_ANALYTICS:
-      return {
-        ...state,
-        isAnalytics: action.payload,
-      };
+
     case LOGOUT:
       return {
         ...state,

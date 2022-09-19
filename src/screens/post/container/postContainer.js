@@ -13,7 +13,7 @@ import PostScreen from '../screen/postScreen';
  *@props -->  content           which is include all post data                  Object
  *
  */
-const PostContainer = ({ currentAccount, isLoggedIn, isAnalytics, route }) => {
+const PostContainer = ({ currentAccount, isLoggedIn, route }) => {
   const [post, setPost] = useState(null);
   const [error, setError] = useState(null);
   const [isNewPost, setIsNewPost] = useState(false);
@@ -119,7 +119,6 @@ const PostContainer = ({ currentAccount, isLoggedIn, isAnalytics, route }) => {
 const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   isLoggedIn: state.application.isLoggedIn,
-  isAnalytics: state.application.isAnalytics,
 });
 
 export default connect(mapStateToProps)(PostContainer);
