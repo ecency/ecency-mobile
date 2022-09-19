@@ -110,7 +110,7 @@ class ApplicationContainer extends Component {
 
   componentDidMount = () => {
   
-    const { dispatch, isAnalytics } = this.props;
+    const { dispatch } = this.props;
 
     this._setNetworkListener();
 
@@ -919,7 +919,6 @@ export default connect(
     isConnected: state.application.isConnected,
     api: state.application.api,
     isGlobalRenderRequired: state.application.isRenderRequired,
-    isAnalytics: state.application.isAnalytics,
     lastUpdateCheck: state.application.lastUpdateCheck,
     settingsMigratedV2: state.application.settingsMigratedV2,
     isNotificationsEnabled: state.application.isNotificationOpen,

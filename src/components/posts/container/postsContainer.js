@@ -61,7 +61,6 @@ const PostsContainer = ({
   const isHideImages = useSelector((state) => state.application.hidePostsThumbnails);
   const username = useSelector((state) => state.account.currentAccount.name);
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
-  const isAnalytics = useSelector((state) => state.application.isAnalytics);
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const pinCode = useSelector((state) => state.application.pin);
   const leaderboard = useSelector((state) => state.user.leaderboard);
@@ -813,7 +812,6 @@ const PostsContainer = ({
       handleOnScroll={_handleOnScroll}
       isHideImage={isHideImages}
       isLoggedIn={isLoggedIn}
-      isAnalytics={isAnalytics}
       selectedOptionIndex={selectedOptionIndex}
       tag={tag}
       filterOptionsValue={filterOptionsValue}

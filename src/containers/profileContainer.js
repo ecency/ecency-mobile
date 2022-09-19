@@ -65,7 +65,6 @@ class ProfileContainer extends Component {
       navigation,
       isConnected,
       isLoggedIn,
-      isAnalytics,
       currentAccount: { name: currentAccountUsername },
     } = this.props;
     const username = get(navigation, 'state.params.username');
@@ -93,7 +92,6 @@ class ProfileContainer extends Component {
     const { isOwnProfile, comments, user } = this.state;
     const {
       currentAccount: { name: currentAccountUsername },
-      isAnalytics,
     } = this.props;
     this.setState({ isProfileLoading: true });
     let repliesAction;
@@ -585,7 +583,6 @@ const mapStateToProps = (state) => ({
   isDarkTheme: state.application.isDarkTheme,
   isLoggedIn: state.application.isLoggedIn,
   pinCode: state.application.pin,
-  isAnalytics: state.application.isAnalytics,
   activeBottomTab: state.ui.activeBottomTab,
   currentAccount: state.account.currentAccount,
   isHideImage: state.application.hidePostsThumbnails,
