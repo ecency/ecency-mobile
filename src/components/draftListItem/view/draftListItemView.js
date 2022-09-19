@@ -41,27 +41,6 @@ const DraftListItemView = ({
   isSchedules,
 }) => {
   const actionSheet = useRef(null);
-  const [calcImgHeight, setCalcImgHeight] = useState(300);
-  // Component Life Cycles
-  useEffect(() => {
-    let _isMounted = false;
-    if (image) {
-      if (!_isMounted) {
-        Image.getSize(
-          thumbnail.uri,
-          (width, height) => {
-            setCalcImgHeight(Math.floor((height / width) * dim.width));
-          },
-          (err) => {
-            console.log('err: ', err.message);
-          },
-        );
-      }
-    }
-    return () => {
-      _isMounted = true;
-    };
-  }, []);
 
   // consts
   const scheduleStatus =
@@ -130,10 +109,7 @@ const DraftListItemView = ({
               <ProgressiveImage
                 source={image}
                 thumbnailSource={thumbnail}
-                style={[
-                  styles.thumbnail,
-                  { width: dim.width - 16, height: Math.min(calcImgHeight, dim.height) },
-                ]}
+                style={[styles.thumbnail, { width: dim.width - 16, height: 300 }]}
               />
             )}
             <View style={[styles.postDescripton]}>
