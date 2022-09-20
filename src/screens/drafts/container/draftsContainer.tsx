@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Services and Actions
 import {
   moveScheduledToDraft,
-  deleteScheduledPost,
 } from '../../../providers/ecency/ecency';
 import { toastNotification } from '../../../redux/actions/uiAction';
 
@@ -19,27 +17,27 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 // Component
 import DraftsScreen from '../screen/draftsScreen';
-import { useDraftDeleteMutation, useGetDraftsQuery, useGetSchedulesQuery } from '../../../providers/queries/draftQueries';
+import { useDraftDeleteMutation, useGetDraftsQuery, useGetSchedulesQuery, useScheduleDeleteMutation } from '../../../providers/queries/draftQueries';
 
 
 const DraftsContainer = ({ currentAccount, intl, navigation, dispatch, route }) => {
 
-  const {mutate:deleteDraft, isLoading:isDeletingDraft} = useDraftDeleteMutation()
+  const { mutate: deleteDraft, isLoading: isDeletingDraft } = useDraftDeleteMutation()
+  const { mutate: deleteSchedule, isLoading: isDeletingSchedule } = useScheduleDeleteMutation();
 
-  const { 
-    isLoading:isLoadingDrafts, 
-    data: drafts = [], 
-    isFetching:isFetchingDrafts, 
-    refetch:refetchDrafts 
+  const {
+    isLoading: isLoadingDrafts,
+    data: drafts = [],
+    isFetching: isFetchingDrafts,
+    refetch: refetchDrafts
   } = useGetDraftsQuery();
 
-  const { 
-    isLoading:isLoadingSchedules,
-    data: schedules = [], 
-    isFetching:isFetchingSchedules,
-    refetch:refetchSchedules 
+  const {
+    isLoading: isLoadingSchedules,
+    data: schedules = [],
+    isFetching: isFetchingSchedules,
+    refetch: refetchSchedules
   } = useGetSchedulesQuery();
-  
 
 
   const [initialTabIndex] = useState(route.params?.showSchedules ? 1 : 0);
@@ -49,24 +47,6 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch, route }) 
     refetchDrafts();
     refetchSchedules();
   }
-
-  const _removeDraft = (id) => {
-    deleteDraft(id);
-  };
-
-  const _removeSchedule = (id) => {
-    deleteScheduledPost(id)
-      .then((res) => {
-        const newSchedules = [...schedules].filter((schedule) => schedule._id !== id);
-
-        // setSchedules(_sortDataS(newSchedules));
-      })
-      .catch(() => {
-        Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
-      });
-  };
-
-  
 
   const _moveScheduleToDraft = (id) => {
     moveScheduledToDraft(id)
@@ -101,7 +81,12 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch, route }) 
     });
   };
 
-  const _isLoading = isLoadingDrafts || isLoadingSchedules || isFetchingDrafts || isFetchingSchedules || isDeletingDraft;
+  const _isLoading = isLoadingDrafts
+    || isLoadingSchedules 
+    || isFetchingDrafts 
+    || isFetchingSchedules 
+    || isDeletingDraft 
+    || isDeletingSchedule
 
   return (
     <DraftsScreen
@@ -110,9 +95,9 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch, route }) 
       currentAccount={currentAccount}
       drafts={drafts}
       schedules={schedules}
-      removeDraft={_removeDraft}
+      removeDraft={deleteDraft}
       moveScheduleToDraft={_moveScheduleToDraft}
-      removeSchedule={_removeSchedule}
+      removeSchedule={deleteSchedule}
       onRefresh={_onRefresh}
       initialTabIndex={initialTabIndex}
     />

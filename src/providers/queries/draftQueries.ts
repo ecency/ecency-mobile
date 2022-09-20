@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { deleteDraft, getDrafts, getSchedules } from '../ecency/ecency';
+import { deleteDraft, deleteScheduledPost, getDrafts, getSchedules } from '../ecency/ecency';
 import QUERIES from './queryKeys';
 
 /** hook used to return user drafts */
@@ -23,6 +23,18 @@ export const useDraftDeleteMutation = () => {
         }
     })
 }
+
+export const useScheduleDeleteMutation = () => {
+    const queryClient = useQueryClient();
+    return useMutation(deleteScheduledPost, {
+        retry:3, 
+        onSuccess:(data)=>{
+            console.log("Success scheduled post delete", data);
+            queryClient.setQueryData([QUERIES.SCHEDULES.GET], _sortData(data));
+        }
+    })
+}
+
 
 const _getDrafts = async () => {
   try {
