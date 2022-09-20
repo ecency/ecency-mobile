@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { injectIntl } from 'react-intl';
-import { View, FlatList, Text, Platform } from 'react-native';
+import { View, FlatList, Text, Platform, RefreshControl } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 // Utils
@@ -16,22 +16,20 @@ import globalStyles from '../../../globalStyles';
 import styles from './draftStyles';
 import { OptionsModal } from '../../../components/atoms';
 
-
 const DraftsScreen = ({
   currentAccount,
   removeDraft,
   editDraft,
   removeSchedule,
   isLoading,
+  isFetching,
+  onRefresh,
   intl,
   drafts,
   schedules,
   moveScheduleToDraft,
   initialTabIndex,
 }) => {
-
-
-
   const [selectedId, setSelectedId] = useState(null);
   const ActionSheetRef = useRef(null);
 
@@ -115,6 +113,7 @@ const DraftsScreen = ({
         removeClippedSubviews={false}
         renderItem={({ item }) => _renderItem(item, type)}
         ListEmptyComponent={_renderEmptyContent()}
+        refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={isFetching} />}
       />
     </View>
   );

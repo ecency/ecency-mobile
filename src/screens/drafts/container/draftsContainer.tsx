@@ -5,9 +5,7 @@ import { injectIntl } from 'react-intl';
 
 // Services and Actions
 import {
-  getDrafts,
   deleteDraft,
-  getSchedules,
   moveScheduledToDraft,
   deleteScheduledPost,
 } from '../../../providers/ecency/ecency';
@@ -22,59 +20,37 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 // Component
 import DraftsScreen from '../screen/draftsScreen';
-import { useQuery } from '@tanstack/react-query';
+import { useGetDraftsQuery, useGetSchedulesQuery } from '../../../providers/queries/draftQueries';
+
+
 
 const DraftsContainer = ({ currentAccount, intl, navigation, dispatch, route }) => {
-  const draftsQuery = useQuery(['draft-get'], getDrafts)
 
-  console.log("draft query", draftsQuery.isLoading, draftsQuery.data);
+  const { 
+    isLoading, 
+    data: drafts = [], 
+    isFetching, 
+    refetch:refetchDrafts 
+  } = useGetDraftsQuery();
 
-  const [drafts, setDrafts] = useState([]);
-  const [schedules, setSchedules] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const { 
+    data: schedules = [], 
+    refetch:refetchSchedules 
+  } = useGetSchedulesQuery();
 
   const [initialTabIndex] = useState(route.params?.showSchedules ? 1 : 0);
 
-  useEffect(() => {
-    _getDrafts();
-    _getSchedules();
-  }, []);
-
   // Component Functions
-
-  const _getSchedules = () => {
-    setIsLoading(true);
-
-    getSchedules()
-      .then((data) => {
-        setSchedules(_sortDataS(data));
-        setIsLoading(false);
-      })
-      .catch(() => {
-        Alert.alert(intl.formatMessage({ id: 'drafts.load_error' }));
-        setIsLoading(false);
-      });
-  };
-
-  const _getDrafts = () => {
-    setIsLoading(true);
-
-    getDrafts()
-      .then((data) => {
-        setDrafts(_sortData(data));
-        setIsLoading(false);
-      })
-      .catch(() => {
-        Alert.alert(intl.formatMessage({ id: 'drafts.load_error' }));
-        setIsLoading(false);
-      });
-  };
+  const _onRefresh = () => {
+    refetchDrafts();
+    refetchSchedules();
+  }
 
   const _removeDraft = (id) => {
     deleteDraft(id)
       .then(() => {
         const newDrafts = [...drafts].filter((draft) => draft._id !== id);
-        setDrafts(_sortData(newDrafts));
+        // setDrafts(_sortData(newDrafts));
       })
       .catch(() => {
         Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
@@ -86,7 +62,7 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch, route }) 
       .then((res) => {
         const newSchedules = [...schedules].filter((schedule) => schedule._id !== id);
 
-        setSchedules(_sortDataS(newSchedules));
+        // setSchedules(_sortDataS(newSchedules));
       })
       .catch(() => {
         Alert.alert(intl.formatMessage({ id: 'alert.fail' }));
@@ -104,8 +80,8 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch, route }) 
           ),
         );
 
-        _getDrafts();
-        _getSchedules();
+        // _getDrafts();
+        // _getSchedules();
       })
       .catch((error) => {
         console.warn('Failed to move scheduled post to drafts');
@@ -121,30 +97,18 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch, route }) 
       key: `editor_draft_${id}`,
       params: {
         draft: selectedDraft,
-        fetchPost: _getDrafts,
+        fetchPost: refetchDrafts,
       },
     });
   };
 
-  const _sortData = (data) =>
-    data.sort((a, b) => {
-      const dateA = new Date(a.created).getTime();
-      const dateB = new Date(b.created).getTime();
 
-      return dateB > dateA ? 1 : -1;
-    });
 
-  const _sortDataS = (data) =>
-    data.sort((a, b) => {
-      const dateA = new Date(a.schedule).getTime();
-      const dateB = new Date(b.schedule).getTime();
-
-      return dateB > dateA ? 1 : -1;
-    });
 
   return (
     <DraftsScreen
-      isLoading={isLoading}
+      isLoading={isLoading || isFetching}
+      isFetching={isFetching}
       editDraft={_editDraft}
       currentAccount={currentAccount}
       drafts={drafts}
@@ -152,6 +116,7 @@ const DraftsContainer = ({ currentAccount, intl, navigation, dispatch, route }) 
       removeDraft={_removeDraft}
       moveScheduleToDraft={_moveScheduleToDraft}
       removeSchedule={_removeSchedule}
+      onRefresh={_onRefresh}
       initialTabIndex={initialTabIndex}
     />
   );
@@ -162,3 +127,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default injectIntl(connect(mapStateToProps)(DraftsContainer));
+
+

@@ -5,12 +5,12 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { IntlProvider } from 'react-intl';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Host } from 'react-native-portalize';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { flattenMessages } from './utils/flattenMessages';
 import messages from './config/locales';
 
 import Application from './screens/application';
 import { store, persistor } from './redux/store/store';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const queryClient = new QueryClient();
 
