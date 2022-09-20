@@ -22,7 +22,6 @@ const DraftsScreen = ({
   editDraft,
   removeSchedule,
   isLoading,
-  isFetching,
   onRefresh,
   intl,
   drafts,
@@ -113,7 +112,7 @@ const DraftsScreen = ({
         removeClippedSubviews={false}
         renderItem={({ item }) => _renderItem(item, type)}
         ListEmptyComponent={_renderEmptyContent()}
-        refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={isFetching} />}
+        refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={isLoading} />}
       />
     </View>
   );
