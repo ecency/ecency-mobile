@@ -10,7 +10,6 @@ import { isArray } from 'lodash';
 import { Buffer } from 'buffer';
 
 import {
-
   addDraft,
   updateDraft,
   getDrafts,
@@ -44,6 +43,8 @@ import EditorScreen from '../screen/editorScreen';
 import { removeBeneficiaries, setBeneficiaries } from '../../../redux/actions/editorActions';
 import { DEFAULT_USER_DRAFT_ID, TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
 import { deleteDraftCacheEntry, updateCommentCache, updateDraftCache } from '../../../redux/actions/cacheActions';
+import QUERIES from '../../../providers/queries/queryKeys';
+import { QueryClient } from '@tanstack/react-query';
 
 /*
  *            Props Name        Description                                     Value
@@ -368,8 +369,9 @@ class EditorContainer extends Component<any, any> {
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
     const { isDraftSaved, draftId, thumbIndex, isReply, rewardType } = this.state;
-    const { currentAccount, dispatch, intl } = this.props;
+    const { currentAccount, dispatch, intl, route } = this.props;
 
+    const queryClient = route.params?.queryClient;
 
     if (isReply) { 
       this._saveCurrentDraft(this._updatedDraftFields)
@@ -447,7 +449,9 @@ class EditorContainer extends Component<any, any> {
 
 
         //call fetch post to drafts screen
-        this._navigationBackFetchDrafts();
+        if(queryClient){
+          queryClient.invalidateQueries([QUERIES.DRAFTS.GET])
+        }
       }
     } catch (err) {
       console.warn('Failed to save draft to DB: ', err);
@@ -840,14 +844,6 @@ class EditorContainer extends Component<any, any> {
     }, 3000);
   };
 
-  _navigationBackFetchDrafts = () => {
-    const { route } = this.props;
-    const { isDraft } = this.state;
-
-    if (isDraft && route.params?.fetchPost) {
-      route.params.fetchPost
-    }
-  };
 
   _handleSubmit = (form: any) => {
     const { isReply, isEdit } = this.state;
