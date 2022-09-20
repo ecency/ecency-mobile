@@ -44,7 +44,7 @@ import { removeBeneficiaries, setBeneficiaries } from '../../../redux/actions/ed
 import { DEFAULT_USER_DRAFT_ID, TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
 import { deleteDraftCacheEntry, updateCommentCache, updateDraftCache } from '../../../redux/actions/cacheActions';
 import QUERIES from '../../../providers/queries/queryKeys';
-import { QueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 /*
  *            Props Name        Description                                     Value
@@ -369,9 +369,7 @@ class EditorContainer extends Component<any, any> {
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
     const { isDraftSaved, draftId, thumbIndex, isReply, rewardType } = this.state;
-    const { currentAccount, dispatch, intl, route } = this.props;
-
-    const queryClient = route.params?.queryClient;
+    const { currentAccount, dispatch, intl, route, queryClient } = this.props;
 
     if (isReply) { 
       this._saveCurrentDraft(this._updatedDraftFields)
@@ -1128,4 +1126,11 @@ const mapStateToProps = (state) => ({
   drafts: state.cache.drafts,
 });
 
-export default connect(mapStateToProps)(injectIntl(EditorContainer));
+
+
+export default connect(mapStateToProps)(injectIntl(
+  //NOTE: remove extra integration step once compoent converted to functional component
+  (props) => <EditorContainer {...props} queryClient={useQueryClient()} />) 
+);
+
+
