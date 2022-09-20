@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { injectIntl } from 'react-intl';
 import { View, FlatList, Text, Platform, RefreshControl } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
@@ -14,7 +14,7 @@ import { BasicHeader, TabBar, DraftListItem, PostCardPlaceHolder } from '../../.
 // Styles
 import globalStyles from '../../../globalStyles';
 import styles from './draftStyles';
-import { OptionsModal } from '../../../components/atoms';
+import { useAppSelector } from '../../../hooks';
 
 const DraftsScreen = ({
   currentAccount,
@@ -30,6 +30,10 @@ const DraftsScreen = ({
   moveScheduleToDraft,
   initialTabIndex,
 }) => {
+
+
+  const isDarkTheme = useAppSelector(state=>state.application.isDarkTheme);
+
   // Component Functions
   const _renderItem = (item, type) => {
     const tags = item.tags ? item.tags.split(/[ ,]+/) : [];
@@ -101,7 +105,13 @@ const DraftsScreen = ({
         removeClippedSubviews={false}
         renderItem={({ item }) => _renderItem(item, type)}
         ListEmptyComponent={_renderEmptyContent()}
-        refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={isLoading} />}
+        refreshControl={<RefreshControl
+          refreshing={isLoading}
+          onRefresh={onRefresh}
+          progressBackgroundColor="#357CE6"
+          tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+          titleColor="#fff"
+          colors={['#fff']} />}
       />
     </View>
   );
