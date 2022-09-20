@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
-import { getDrafts, getSchedules } from '../ecency/ecency';
-import QUERIES from './queries';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { deleteDraft, getDrafts, getSchedules } from '../ecency/ecency';
+import QUERIES from './queryKeys';
 
 /** hook used to return user drafts */
 export const useGetDraftsQuery = () => {
@@ -11,6 +11,18 @@ export const useGetDraftsQuery = () => {
 export const useGetSchedulesQuery = () => {
   return useQuery([QUERIES.SCHEDULES.GET], _getSchedules);
 };
+
+
+export const useDraftDeleteMutation = () => {
+    const queryClient = useQueryClient();
+    return useMutation(deleteDraft, {
+        retry:3, 
+        onSuccess:(data)=>{
+            console.log("Success draft delete", data);
+            queryClient.setQueryData([QUERIES.DRAFTS.GET], _sortData(data));
+        }
+    })
+}
 
 const _getDrafts = async () => {
   try {
