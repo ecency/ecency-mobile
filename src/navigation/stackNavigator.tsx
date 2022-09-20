@@ -35,14 +35,12 @@ import {
     PinCode,
 } from '../screens';
 import { DrawerNavigator } from './drawerNavigator';
-import { useQueryClient } from '@tanstack/react-query';
 
 
 const RootStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
 
 const MainStackNavigator = () => {
-    const queryClient = useQueryClient();
     return (
         <MainStack.Navigator screenOptions={{ headerShown: false, animation: 'slide_from_right' }} >
             <MainStack.Screen name={ROUTES.DRAWER.MAIN} component={DrawerNavigator} />
@@ -69,11 +67,7 @@ const MainStackNavigator = () => {
                 <MainStack.Screen name={ROUTES.SCREENS.VOTERS} component={Voters} />
                 <MainStack.Screen name={ROUTES.SCREENS.FOLLOWS} component={Follows} />
                 <MainStack.Screen name={ROUTES.SCREENS.TRANSFER} component={Transfer} />
-                <MainStack.Screen 
-                    name={ROUTES.SCREENS.EDITOR} 
-                    component={Editor} 
-                    initialParams={{queryClient}} //NOTE: remove once we have replacement to access query client from class component
-                />
+                <MainStack.Screen name={ROUTES.SCREENS.EDITOR} component={Editor} />
             </MainStack.Group>
         </MainStack.Navigator>
     )
