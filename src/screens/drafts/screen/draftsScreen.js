@@ -22,6 +22,7 @@ const DraftsScreen = ({
   editDraft,
   removeSchedule,
   isLoading,
+  isDeleting,
   onRefresh,
   intl,
   drafts,
@@ -29,15 +30,6 @@ const DraftsScreen = ({
   moveScheduleToDraft,
   initialTabIndex,
 }) => {
-  const [selectedId, setSelectedId] = useState(null);
-  const ActionSheetRef = useRef(null);
-
-  const _onActionPress = (index) => {
-    if (index === 0) {
-      moveScheduleToDraft(selectedId);
-    }
-  };
-
   // Component Functions
   const _renderItem = (item, type) => {
     const tags = item.tags ? item.tags.split(/[ ,]+/) : [];
@@ -54,12 +46,7 @@ const DraftsScreen = ({
     const isSchedules = type === 'schedules';
 
     const _onItemPress = () => {
-      if (isSchedules) {
-        setSelectedId(item._id);
-        if (ActionSheetRef.current) {
-          ActionSheetRef.current.show();
-        }
-      } else {
+      if (!isSchedules) {
         editDraft(item._id);
       }
     };
@@ -76,11 +63,13 @@ const DraftsScreen = ({
         username={currentAccount.name}
         reputation={currentAccount.reputation}
         handleOnPressItem={_onItemPress}
+        handleOnMovePress={moveScheduleToDraft}
         handleOnRemoveItem={isSchedules ? removeSchedule : removeDraft}
         id={item._id}
         key={item._id}
         status={item.status}
         isSchedules={isSchedules}
+        isDeleting={isDeleting}
       />
     );
   };
@@ -154,22 +143,6 @@ const DraftsScreen = ({
           {_getTabItem(schedules, 'schedules')}
         </View>
       </ScrollableTabView>
-      <OptionsModal
-        ref={ActionSheetRef}
-        title={intl.formatMessage({
-          id: 'alert.move_question',
-        })}
-        options={[
-          intl.formatMessage({
-            id: 'alert.move',
-          }),
-          intl.formatMessage({
-            id: 'alert.cancel',
-          }),
-        ]}
-        cancelButtonIndex={1}
-        onPress={_onActionPress}
-      />
     </View>
   );
 };

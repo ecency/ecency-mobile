@@ -8,7 +8,7 @@ import {
   useGetDraftsQuery,
   useGetSchedulesQuery,
   useMoveScheduleToDraftsMutation,
-  useScheduleDeleteMutation
+  useScheduleDeleteMutation,
 } from '../../../providers/queries/draftQueries';
 
 // Middleware
@@ -21,30 +21,27 @@ import { default as ROUTES } from '../../../constants/routeNames';
 // Component
 import DraftsScreen from '../screen/draftsScreen';
 
-
 const DraftsContainer = ({ currentAccount, navigation, route }) => {
-
-  const { mutate: deleteDraft, isLoading: isDeletingDraft } = useDraftDeleteMutation()
+  const { mutate: deleteDraft, isLoading: isDeletingDraft } = useDraftDeleteMutation();
   const { mutate: deleteSchedule, isLoading: isDeletingSchedule } = useScheduleDeleteMutation();
   const {
     mutate: moveScheduleToDrafts,
-    isLoading: isMovingToDrafts
-  } = useMoveScheduleToDraftsMutation()
+    isLoading: isMovingToDrafts,
+  } = useMoveScheduleToDraftsMutation();
 
   const {
     isLoading: isLoadingDrafts,
     data: drafts = [],
     isFetching: isFetchingDrafts,
-    refetch: refetchDrafts
+    refetch: refetchDrafts,
   } = useGetDraftsQuery();
 
   const {
     isLoading: isLoadingSchedules,
     data: schedules = [],
     isFetching: isFetchingSchedules,
-    refetch: refetchSchedules
+    refetch: refetchSchedules,
   } = useGetSchedulesQuery();
-
 
   const [initialTabIndex] = useState(route.params?.showSchedules ? 1 : 0);
 
@@ -52,9 +49,9 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
   const _onRefresh = () => {
     refetchDrafts();
     refetchSchedules();
-  }
+  };
 
-  const _editDraft = (id:string) => {
+  const _editDraft = (id: string) => {
     const selectedDraft = drafts.find((draft) => draft._id === id);
 
     navigation.navigate({
@@ -67,17 +64,15 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
     });
   };
 
-  const _isLoading = isLoadingDrafts
-    || isLoadingSchedules
-    || isFetchingDrafts
-    || isFetchingSchedules
-    || isDeletingDraft
-    || isDeletingSchedule
-    || isMovingToDrafts
+  const _isLoading =
+    isLoadingDrafts || isLoadingSchedules || isFetchingDrafts || isFetchingSchedules;
+
+  const _isDeleting = isDeletingDraft || isDeletingSchedule || isMovingToDrafts;
 
   return (
     <DraftsScreen
       isLoading={_isLoading}
+      isDeleting={_isDeleting}
       editDraft={_editDraft}
       currentAccount={currentAccount}
       drafts={drafts}
@@ -96,5 +91,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default injectIntl(connect(mapStateToProps)(DraftsContainer));
-
-
