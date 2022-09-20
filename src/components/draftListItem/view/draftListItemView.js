@@ -35,14 +35,27 @@ const DraftListItemView = ({
   thumbnail,
   handleOnPressItem,
   handleOnRemoveItem,
+  handleOnMovePress,
   id,
   intl,
   isFormatedDate,
   status,
   isSchedules,
+  isDeleting,
 }) => {
   const actionSheet = useRef(null);
+  const moveActionSheet = useRef(null);
+
   const [calcImgHeight, setCalcImgHeight] = useState(300);
+
+  const [deleteRequested, setIsDeleteRequested] = useState(false);
+
+  useEffect(() => {
+    if (deleteRequested && !isDeleting) {
+      setIsDeleteRequested(false);
+    }
+  }, [isDeleting]);
+
   // Component Life Cycles
   useEffect(() => {
     let _isMounted = false;
@@ -57,6 +70,15 @@ const DraftListItemView = ({
       _isMounted = true;
     };
   }, []);
+
+  const _onItemPress = () => {
+    if (isSchedules) {
+      moveActionSheet.current.show();
+      return;
+    }
+
+    handleOnPressItem(id);
+  };
 
   // consts
   const scheduleStatus =
@@ -116,11 +138,12 @@ const DraftListItemView = ({
               onPress={() => actionSheet.current.show()}
               style={[styles.rightItem]}
               color="#c1c5c7"
+              isLoading={isDeleting && deleteRequested}
             />
           </View>
         </View>
         <View style={styles.body}>
-          <TouchableOpacity onPress={() => handleOnPressItem(id)}>
+          <TouchableOpacity onPress={_onItemPress}>
             {image !== null && (
               <ProgressiveImage
                 source={image}
@@ -151,6 +174,29 @@ const DraftListItemView = ({
         onPress={(index) => {
           if (index === 0) {
             handleOnRemoveItem(id);
+            setIsDeleteRequested(true);
+          }
+        }}
+      />
+
+      <OptionsModal
+        ref={moveActionSheet}
+        title={intl.formatMessage({
+          id: 'alert.move_question',
+        })}
+        options={[
+          intl.formatMessage({
+            id: 'alert.move',
+          }),
+          intl.formatMessage({
+            id: 'alert.cancel',
+          }),
+        ]}
+        cancelButtonIndex={1}
+        onPress={(index) => {
+          if (index === 0) {
+            handleOnMovePress(id);
+            setIsDeleteRequested(true);
           }
         }}
       />

@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { injectIntl } from 'react-intl';
-import { View, FlatList, Text, Platform } from 'react-native';
+import { View, FlatList, Text, Platform, RefreshControl } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 // Utils
@@ -14,7 +14,7 @@ import { BasicHeader, TabBar, DraftListItem, PostCardPlaceHolder } from '../../.
 // Styles
 import globalStyles from '../../../globalStyles';
 import styles from './draftStyles';
-import { OptionsModal } from '../../../components/atoms';
+import { useAppSelector } from '../../../hooks';
 
 const DraftsScreen = ({
   currentAccount,
@@ -22,20 +22,17 @@ const DraftsScreen = ({
   editDraft,
   removeSchedule,
   isLoading,
+  isDeleting,
+  onRefresh,
   intl,
   drafts,
   schedules,
   moveScheduleToDraft,
   initialTabIndex,
 }) => {
-  const [selectedId, setSelectedId] = useState(null);
-  const ActionSheetRef = useRef(null);
 
-  const _onActionPress = (index) => {
-    if (index === 0) {
-      moveScheduleToDraft(selectedId);
-    }
-  };
+
+  const isDarkTheme = useAppSelector(state=>state.application.isDarkTheme);
 
   // Component Functions
   const _renderItem = (item, type) => {
@@ -53,12 +50,7 @@ const DraftsScreen = ({
     const isSchedules = type === 'schedules';
 
     const _onItemPress = () => {
-      if (isSchedules) {
-        setSelectedId(item._id);
-        if (ActionSheetRef.current) {
-          ActionSheetRef.current.show();
-        }
-      } else {
+      if (!isSchedules) {
         editDraft(item._id);
       }
     };
@@ -75,11 +67,13 @@ const DraftsScreen = ({
         username={currentAccount.name}
         reputation={currentAccount.reputation}
         handleOnPressItem={_onItemPress}
+        handleOnMovePress={moveScheduleToDraft}
         handleOnRemoveItem={isSchedules ? removeSchedule : removeDraft}
         id={item._id}
         key={item._id}
         status={item.status}
         isSchedules={isSchedules}
+        isDeleting={isDeleting}
       />
     );
   };
@@ -111,6 +105,13 @@ const DraftsScreen = ({
         removeClippedSubviews={false}
         renderItem={({ item }) => _renderItem(item, type)}
         ListEmptyComponent={_renderEmptyContent()}
+        refreshControl={<RefreshControl
+          refreshing={isLoading}
+          onRefresh={onRefresh}
+          progressBackgroundColor="#357CE6"
+          tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+          titleColor="#fff"
+          colors={['#fff']} />}
       />
     </View>
   );
@@ -152,22 +153,6 @@ const DraftsScreen = ({
           {_getTabItem(schedules, 'schedules')}
         </View>
       </ScrollableTabView>
-      <OptionsModal
-        ref={ActionSheetRef}
-        title={intl.formatMessage({
-          id: 'alert.move_question',
-        })}
-        options={[
-          intl.formatMessage({
-            id: 'alert.move',
-          }),
-          intl.formatMessage({
-            id: 'alert.cancel',
-          }),
-        ]}
-        cancelButtonIndex={1}
-        onPress={_onActionPress}
-      />
     </View>
   );
 };

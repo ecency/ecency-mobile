@@ -85,7 +85,7 @@ export const getReceivedVestingShares = async (username: string): Promise<Receiv
 export const getDrafts = async () => {
   try {
     const res = await ecencyApi.post('/private-api/drafts');
-    return res.data;
+    return res.data || [];
   } catch (error) {
     bugsnagInstance.notify(error);
     throw error;
@@ -101,7 +101,7 @@ export const deleteDraft = async (draftId: string) => {
   try {
     const data = { id: draftId }
     const res = await ecencyApi.post(`/private-api/drafts-delete`, data);
-    return res.data
+    return res.data || []
   } catch (error) {
     bugsnagInstance.notify(error);
     throw error;
@@ -623,7 +623,7 @@ export const addSchedule = async (
 export const getSchedules = async () => {
   try {
     const response = await ecencyApi.post(`/private-api/schedules`)
-    return response.data;
+    return response.data || [];
   } catch (error) {
     console.warn("Failed to get schedules")
     bugsnagInstance.notify(error)
@@ -640,7 +640,7 @@ export const deleteScheduledPost = async (id: string) => {
   try {
     const data = { id };
     const response = await ecencyApi.post(`/private-api/schedules-delete`, data);
-    return response;
+    return response.data || [];
   } catch (error) {
     console.warn("Failed to delete scheduled post")
     bugsnagInstance.notify(error)
