@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Alert } from 'react-native';
+import { Alert, AppState, AppStateStatus } from 'react-native';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-community/async-storage';
 import { isArray } from 'lodash';
@@ -55,6 +55,7 @@ import bugsnapInstance from '../../../config/bugsnag';
 class EditorContainer extends Component<any, any> {
   _isMounted = false;
   _updatedDraftFields = null;
+  _appState = AppState.currentState;
 
   constructor(props) {
     super(props);
@@ -174,13 +175,17 @@ class EditorContainer extends Component<any, any> {
       this._fetchDraftsForComparison(isReply);
     }
     this._requestKeyboardFocus();
+    
+    AppState.addEventListener('change', this._handleAppStateChange);
   }
 
   componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
     this._isMounted = false;
+
   }
 
-  componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {
+  componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>): void {
     if (
       prevState.rewardType !== this.state.rewardType ||
       prevProps.beneficiariesMap !== this.props.beneficiariesMap
@@ -189,8 +194,16 @@ class EditorContainer extends Component<any, any> {
       this._handleFormChanged();
     }
   }
+
+  _handleAppStateChange = (nextAppState:AppStateStatus) => {
+    if (this._appState.match(/active|forground/) && nextAppState === 'inactive') {
+      this._saveCurrentDraft(this._updatedDraftFields);
+    }
+    this._appState = nextAppState;
+  }
+
   _getStorageDraft = async (username, isReply, paramDraft) => {
-    const { drafts, dispatch } = this.props;
+    const { drafts } = this.props;
     if (isReply) {
       const _draft = drafts.get(paramDraft._id);
       if (_draft && _draft.body) {
@@ -293,7 +306,7 @@ class EditorContainer extends Component<any, any> {
    * @param isReply
    **/
   _fetchDraftsForComparison = async (isReply) => {
-    const { currentAccount, isLoggedIn, intl, dispatch, drafts } = this.props;
+    const { currentAccount, isLoggedIn, drafts } = this.props;
     const username = get(currentAccount, 'name', '');
 
     //initilizes editor with reply or non remote id less draft
