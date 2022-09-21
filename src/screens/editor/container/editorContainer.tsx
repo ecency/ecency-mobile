@@ -207,7 +207,9 @@ class EditorContainer extends Component<any, any> {
       //if _draft is returned and param draft is available, compare timestamp, use latest
       //if no draft, use result anayways
 
-      if (_localDraft && (!paramDraft || paramDraft.timestamp < _localDraft.updated)) {
+      const _remoteDraftModifiedAt = paramDraft ? new Date(paramDraft.modified).getTime() : 0;
+      const _useLocalDraft = _localDraft && _remoteDraftModifiedAt < _localDraft.updated;
+      if (_useLocalDraft) {
         this.setState({
           draftPost: {
             body: get(_localDraft, 'body', ''),
