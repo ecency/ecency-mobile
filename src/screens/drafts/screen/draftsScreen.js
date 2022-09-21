@@ -30,9 +30,7 @@ const DraftsScreen = ({
   moveScheduleToDraft,
   initialTabIndex,
 }) => {
-
-
-  const isDarkTheme = useAppSelector(state=>state.application.isDarkTheme);
+  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
 
   // Component Functions
   const _renderItem = (item, type) => {
@@ -105,13 +103,16 @@ const DraftsScreen = ({
         removeClippedSubviews={false}
         renderItem={({ item }) => _renderItem(item, type)}
         ListEmptyComponent={_renderEmptyContent()}
-        refreshControl={<RefreshControl
-          refreshing={isLoading}
-          onRefresh={onRefresh}
-          progressBackgroundColor="#357CE6"
-          tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-          titleColor="#fff"
-          colors={['#fff']} />}
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoading}
+            onRefresh={onRefresh}
+            progressBackgroundColor="#357CE6"
+            tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+            titleColor="#fff"
+            colors={['#fff']}
+          />
+        }
       />
     </View>
   );
