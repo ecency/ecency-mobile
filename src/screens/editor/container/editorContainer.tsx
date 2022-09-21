@@ -73,14 +73,12 @@ class EditorContainer extends Component<any, any> {
       uploadProgress: 0,
       post: null,
       uploadedImage: null,
-      isDraft: false,
       community: [],
       rewardType: 'default',
       sharedSnippetText: null,
       onLoadDraftPress: false,
       thumbIndex: 0,
       shouldReblog: false,
-      failedImageUploads: 0,
     };
   }
 
@@ -107,7 +105,6 @@ class EditorContainer extends Component<any, any> {
 
         this.setState({
           draftId: _draft._id,
-          isDraft: true,
         });
         this._getStorageDraft(username, isReply, _draft);
       }
@@ -179,11 +176,7 @@ class EditorContainer extends Component<any, any> {
     AppState.addEventListener('change', this._handleAppStateChange);
   }
 
-  componentWillUnmount() {
-    AppState.removeEventListener('change', this._handleAppStateChange);
-    this._isMounted = false;
 
-  }
 
   componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>): void {
     if (
@@ -193,6 +186,11 @@ class EditorContainer extends Component<any, any> {
       // update isDraftSaved when reward type or beneficiaries are changed in post options
       this._handleFormChanged();
     }
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
+    this._isMounted = false;
   }
 
   _handleAppStateChange = (nextAppState:AppStateStatus) => {
@@ -229,7 +227,6 @@ class EditorContainer extends Component<any, any> {
             body: get(_localDraft, 'body', ''),
             title: get(_localDraft, 'title', ''),
             tags: get(_localDraft, 'tags', '').split(','),
-            isDraft: paramDraft ? true : false,
             draftId: paramDraft ? paramDraft._id : null,
             meta: _localDraft.meta ? _localDraft.meta : null,
           },
@@ -250,7 +247,6 @@ class EditorContainer extends Component<any, any> {
             tags: _tags,
             meta: paramDraft.meta ? paramDraft.meta : null,
           },
-          isDraft: true,
           draftId: paramDraft._id,
         });
 
@@ -361,7 +357,6 @@ class EditorContainer extends Component<any, any> {
         //initilize editor as draft
         this.setState({
           draftId: _draft._id,
-          isDraft: true,
         });
         this._getStorageDraft(username, isReply, _draft);
       };
