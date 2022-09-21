@@ -44,6 +44,7 @@ import {
   updateDraftCache,
 } from '../../../redux/actions/cacheActions';
 import QUERIES from '../../../providers/queries/queryKeys';
+import bugsnapInstance from '../../../config/bugsnag';
 
 /*
  *            Props Name        Description                                     Value
@@ -378,8 +379,15 @@ class EditorContainer extends Component<any, any> {
     const { isDraftSaved, draftId, thumbIndex, isReply, rewardType } = this.state;
     const { currentAccount, dispatch, intl, queryClient } = this.props;
 
-    if (isReply) {
+    try {
+      //saves draft locallly
       this._saveCurrentDraft(this._updatedDraftFields);
+    } catch (err) {
+      console.warn('local draft safe failed, skipping for remote only', err);
+      bugsnapInstance.notify(err);
+    }
+
+    if (isReply) {
       return;
     }
 
@@ -469,9 +477,6 @@ class EditorContainer extends Component<any, any> {
           isDraftSaving: false,
           isDraftSaved: false,
         });
-
-        //saves draft locally if remote draft save fails
-        this._saveCurrentDraft(this._updatedDraftFields);
       }
 
       dispatch(
