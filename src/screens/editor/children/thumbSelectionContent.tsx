@@ -6,6 +6,9 @@ import { FlatList } from 'react-native-gesture-handler';
 import { extractImageUrls } from '../../../utils/editor';
 import styles from './styles';
 import ESStyleSheet from 'react-native-extended-stylesheet';
+import { Icon } from '../../../components';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { View as AnimatedView } from 'react-native-animatable';
 
 interface ThumbSelectionContentProps {
     body: string;
@@ -36,10 +39,10 @@ const ThumbSelectionContent = ({ body, thumbUrl, onThumbSelection, isUploading }
         }
 
         const _urlIndex = urls.indexOf(thumbUrl)
-        if(_urlIndex < 0){
+        if (_urlIndex < 0) {
             onThumbSelection(urls[0] || '');
             setThumbIndex(0);
-        } else{
+        } else {
             setThumbIndex(_urlIndex)
         }
 
@@ -53,22 +56,36 @@ const ThumbSelectionContent = ({ body, thumbUrl, onThumbSelection, isUploading }
             setThumbIndex(index);
         }
 
-        const selectedStyle = item === thumbUrl && index === thumbIndex ? styles.selectedStyle : null
+        const isSelected = item === thumbUrl && index === thumbIndex;
 
         return (
             <TouchableOpacity onPress={() => _onPress()} >
                 <FastImage
                     source={{ uri: item }}
-                    style={{ ...styles.thumbStyle, ...selectedStyle }}
+                    style={styles.thumbStyle}
                     resizeMode='cover'
                 />
+                {isSelected && (
+
+                    <AnimatedView duration={300} animation='zoomIn' style={{ position: 'absolute', top: 12, left: 6, backgroundColor: EStyleSheet.value('$pureWhite'), borderRadius: 12 }}>
+                        <Icon
+                            color={EStyleSheet.value('$primaryBlue')}
+                            iconType="MaterialCommunityIcons"
+                            name={'checkbox-marked-circle'}
+                            size={20}
+                        />
+                    </AnimatedView>
+                )}
+
+
+
             </TouchableOpacity>
         )
     }
 
     const _renderHeader = () => (
-        isUploading && 
-        <View style={{flex:1, justifyContent:'center', marginRight: 16}}>
+        isUploading &&
+        <View style={{ flex: 1, justifyContent: 'center', marginRight: 16 }}>
             <ActivityIndicator color={ESStyleSheet.value('$primaryBlack')} />
         </View>
 
