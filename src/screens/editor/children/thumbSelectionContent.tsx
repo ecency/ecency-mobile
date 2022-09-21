@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Text, TouchableOpacity, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { FlatList } from 'react-native-gesture-handler';
 import { extractImageUrls } from '../../../utils/editor';
@@ -9,38 +9,51 @@ import ESStyleSheet from 'react-native-extended-stylesheet';
 
 interface ThumbSelectionContentProps {
     body: string;
-    thumbIndex: number;
+    thumbUrl: string;
     isUploading: boolean;
-    onThumbSelection: (index: number) => void;
+    onThumbSelection: (url: string) => void;
 }
 
-const ThumbSelectionContent = ({ body, thumbIndex, onThumbSelection, isUploading }: ThumbSelectionContentProps) => {
+const ThumbSelectionContent = ({ body, thumbUrl, onThumbSelection, isUploading }: ThumbSelectionContentProps) => {
     const intl = useIntl();
 
     const [imageUrls, setImageUrls] = useState<string[]>([]);
     const [needMore, setNeedMore] = useState(true);
+    const [thumbIndex, setThumbIndex] = useState(0);
+
 
     useEffect(() => {
         const urls = extractImageUrls({ body });
 
         if (urls.length < 2) {
             setNeedMore(true);
-            onThumbSelection(0);
+            onThumbSelection(urls[0] || '');
+            setThumbIndex(0);
             setImageUrls([])
         } else {
             setNeedMore(false);
             setImageUrls(urls)
         }
+
+        const _urlIndex = urls.indexOf(thumbUrl)
+        if(_urlIndex < 0){
+            onThumbSelection(urls[0] || '');
+            setThumbIndex(0);
+        } else{
+            setThumbIndex(_urlIndex)
+        }
+
     }, [body])
 
 
     //VIEW_RENDERERS
     const _renderImageItem = ({ item, index }: { item: string, index: number }) => {
         const _onPress = () => {
-            onThumbSelection(index);
+            onThumbSelection(item);
+            setThumbIndex(index);
         }
 
-        const selectedStyle = index === thumbIndex ? styles.selectedStyle : null
+        const selectedStyle = item === thumbUrl && index === thumbIndex ? styles.selectedStyle : null
 
         return (
             <TouchableOpacity onPress={() => _onPress()} >

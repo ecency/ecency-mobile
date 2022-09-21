@@ -77,7 +77,7 @@ class EditorContainer extends Component<any, any> {
       rewardType: 'default',
       sharedSnippetText: null,
       onLoadDraftPress: false,
-      thumbIndex: 0,
+      thumbUrl: '',
       shouldReblog: false,
     };
   }
@@ -262,9 +262,8 @@ class EditorContainer extends Component<any, any> {
     const body = draft.body;
     if (draft.meta && draft.meta.image) {
       const urls = extractImageUrls({ body });
-      const draftThumbIndex = urls.indexOf(draft.meta.image[0]);
       this.setState({
-        thumbIndex: draftThumbIndex,
+        thumbUrl: draft.meta.image[0],
       });
     }
 
@@ -384,7 +383,7 @@ class EditorContainer extends Component<any, any> {
   };
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
-    const { isDraftSaved, draftId, thumbIndex, isReply, rewardType } = this.state;
+    const { isDraftSaved, draftId, thumbUrl, isReply, rewardType } = this.state;
     const { currentAccount, dispatch, intl, queryClient } = this.props;
 
     try {
@@ -418,7 +417,7 @@ class EditorContainer extends Component<any, any> {
           };
         }
 
-        const meta = Object.assign({}, extractMetadata(draftField.body, thumbIndex), {
+        const meta = Object.assign({}, extractMetadata(draftField.body, thumbUrl), {
           tags: draftField.tags,
           beneficiaries,
           rewardType,
@@ -544,7 +543,7 @@ class EditorContainer extends Component<any, any> {
       pinCode,
       // isDefaultFooter,
     } = this.props;
-    const { rewardType, isPostSending, thumbIndex, draftId, shouldReblog } = this.state;
+    const { rewardType, isPostSending, thumbUrl, draftId, shouldReblog } = this.state;
 
     const beneficiaries = this._extractBeneficiaries();
 
@@ -557,7 +556,7 @@ class EditorContainer extends Component<any, any> {
         isPostSending: true,
       });
 
-      const meta = extractMetadata(fields.body, thumbIndex);
+      const meta = extractMetadata(fields.body, thumbUrl);
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
 
       const jsonMeta = makeJsonMetadata(meta, _tags);
@@ -718,7 +717,7 @@ class EditorContainer extends Component<any, any> {
 
   _submitEdit = async (fields) => {
     const { currentAccount, pinCode, dispatch } = this.props;
-    const { post, isEdit, isPostSending, thumbIndex, isReply } = this.state;
+    const { post, isEdit, isPostSending, thumbUrl, isReply } = this.state;
 
     if (isPostSending) {
       return;
@@ -744,7 +743,7 @@ class EditorContainer extends Component<any, any> {
         newBody = patch;
       }
 
-      const meta = extractMetadata(fields.body, thumbIndex);
+      const meta = extractMetadata(fields.body, thumbUrl);
 
       let jsonMeta = {};
 
@@ -1034,9 +1033,9 @@ class EditorContainer extends Component<any, any> {
     });
   };
 
-  _handleSetThumbIndex = (index: number) => {
+  _handleSetThumbUrl = (url: string) => {
     this.setState({
-      thumbIndex: index,
+      thumbUrl: url,
     });
   };
 
@@ -1065,7 +1064,7 @@ class EditorContainer extends Component<any, any> {
       community,
       sharedSnippetText,
       onLoadDraftPress,
-      thumbIndex,
+      thumbUrl,
       uploadProgress,
       rewardType,
     } = this.state;
@@ -1105,8 +1104,8 @@ class EditorContainer extends Component<any, any> {
         draftId={draftId}
         sharedSnippetText={sharedSnippetText}
         onLoadDraftPress={onLoadDraftPress}
-        thumbIndex={thumbIndex}
-        setThumbIndex={this._handleSetThumbIndex}
+        thumbUrl={thumbUrl}
+        setThumbUrl={this._handleSetThumbUrl}
         uploadProgress={uploadProgress}
         rewardType={rewardType}
         getBeneficiaries={this._extractBeneficiaries}

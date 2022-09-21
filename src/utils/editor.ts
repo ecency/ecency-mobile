@@ -1,7 +1,6 @@
 import getSlug from 'speakingurl';
 import { diff_match_patch as diffMatchPatch } from 'diff-match-patch';
 import VersionNumber from 'react-native-version-number';
-import { PanGestureHandler } from 'react-native-gesture-handler';
 import MimeTypes from 'mime-types';
 
 export const getWordsCount = (text) =>
@@ -214,7 +213,7 @@ export const extractFilenameFromPath = ({path, mimeType}:{path:string, mimeType?
   }
 }
 
-export const extractMetadata = (body:string, thumbIndex?:number) => {
+export const extractMetadata = (body:string, thumbUrl?:string) => {
   const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
 
   const out = {};
@@ -239,8 +238,8 @@ export const extractMetadata = (body:string, thumbIndex?:number) => {
   }
 
   if (matchedImages.length) {
-    if(thumbIndex){
-      matchedImages.splice(0, 0, matchedImages.splice(thumbIndex, 1)[0]);
+    if(thumbUrl){
+      matchedImages.sort((item)=>item === thumbUrl ? -1 : 1);
     }
     
     out.image = matchedImages;
