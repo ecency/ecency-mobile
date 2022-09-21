@@ -1,4 +1,3 @@
-import { ViewStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 
@@ -20,9 +19,12 @@ export default EStyleSheet.create({
       borderRadius:12,
       backgroundColor:'$primaryLightGray'
     },
-    selectedStyle:{
-      borderWidth:4,
-      borderColor:'$primaryBlack'
+    checkContainer:{ 
+      position: 'absolute', 
+      top: 12, 
+      left: 6, 
+      backgroundColor: '$pureWhite', 
+      borderRadius: 12 
     },
     settingLabel:{
       color: '$primaryDarkGray',
