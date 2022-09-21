@@ -67,7 +67,7 @@ const ThumbSelectionContent = ({ body, thumbUrl, onThumbSelection, isUploading }
                 />
                 {isSelected && (
 
-                    <AnimatedView duration={300} animation='zoomIn' style={{ position: 'absolute', top: 12, left: 6, backgroundColor: EStyleSheet.value('$pureWhite'), borderRadius: 12 }}>
+                    <AnimatedView duration={300} animation='zoomIn' style={styles.checkContainer}>
                         <Icon
                             color={EStyleSheet.value('$primaryBlue')}
                             iconType="MaterialCommunityIcons"
