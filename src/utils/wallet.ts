@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import parseDate from './parseDate';
 import parseToken from './parseToken';
 import { vestsToHp } from './conversions';
-import { getAccount, getAccountHistory, getConversionRequests, getFeedHistory, getOpenOrders, getSavingsWithdrawFrom } from '../providers/hive/dhive';
+import { fetchGlobalProps, getAccount, getAccountHistory, getConversionRequests, getFeedHistory, getOpenOrders, getSavingsWithdrawFrom } from '../providers/hive/dhive';
 import { getCurrencyTokenRate, getLatestQuotes } from '../providers/ecency/ecency';
 import { CoinActivitiesCollection, CoinActivity, CoinBase, CoinData, DataPair, QuoteItem } from '../redux/reducers/walletReducer';
 import { GlobalProps } from '../redux/reducers/accountReducer';
@@ -64,7 +64,7 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
 
   const result = {
     iconType: 'MaterialIcons',
-    trxIndex:transaction[0]
+    trxIndex: transaction[0]
   };
 
   [result.textKey] = transaction[1].op;
@@ -370,7 +370,7 @@ export const fetchCoinActivities = async (
   coinSymbol: string,
   globalProps: GlobalProps,
   startIndex: number,
-  limit:number
+  limit: number
 
 ): Promise<CoinActivitiesCollection> => {
 
@@ -381,10 +381,10 @@ export const fetchCoinActivities = async (
     case COIN_IDS.ECENCY: {
 
       //TODO: remove condition when we have a way to fetch paginated points data
-      if(startIndex !== -1){
+      if (startIndex !== -1) {
         return {
-          completed:[],
-          pending:[]
+          completed: [],
+          pending: []
         }
       }
 
@@ -516,16 +516,16 @@ export const fetchCoinsData = async ({
   : Promise<{ [key: string]: CoinData }> => {
 
   const username = currentAccount.username;
-  const { base, quote, hivePerMVests } = globalProps
-
   const coinData = {} as { [key: string]: CoinData };
   const walletData = {} as any;
-
 
   if (!username) {
     return walletData;
   }
 
+  //fetch latest global props if refresh or data not available
+  const { base, quote, hivePerMVests } = refresh || !globalProps || !globalProps.hivePerMVests
+    ? await fetchGlobalProps() : globalProps;
   //TODO: Use already available accoutn for frist wallet start
   const userdata = refresh ? await getAccount(username) : currentAccount;
   const _pointsSummary = refresh ? await getPointsSummary(username) : currentAccount.pointsSummary
@@ -627,7 +627,7 @@ export const fetchCoinsData = async ({
         const estimateVoteValueStr = '$ ' + getEstimatedAmount(userdata, globalProps);
 
         //aaggregate extra data pairs
-        const extraDataPairs:DataPair[] = [];
+        const extraDataPairs: DataPair[] = [];
 
         if (delegatedHP) {
           extraDataPairs.push({
