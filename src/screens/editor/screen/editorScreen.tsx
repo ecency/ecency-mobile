@@ -192,10 +192,10 @@ class EditorScreen extends Component {
     }
   };
 
-  _handleOnThumbSelection = (index) => {
-    const { setThumbIndex } = this.props;
-    if (setThumbIndex) {
-      setThumbIndex(index);
+  _handleOnThumbSelection = (url:string) => {
+    const { setThumbUrl } = this.props;
+    if (setThumbUrl) {
+      setThumbUrl(url);
     }
   };
 
@@ -236,7 +236,7 @@ class EditorScreen extends Component {
   };
 
   _handleFormUpdate = (componentID, content) => {
-    const { handleFormChanged, thumbIndex, rewardType, getBeneficiaries } = this.props;
+    const { handleFormChanged, thumbUrl, rewardType, getBeneficiaries } = this.props;
     const { fields: _fields } = this.state;
     const fields = { ..._fields };
 
@@ -248,7 +248,7 @@ class EditorScreen extends Component {
       fields.tags = content;
     }
 
-    const meta = Object.assign({}, extractMetadata(fields.body, thumbIndex), {
+    const meta = Object.assign({}, extractMetadata(fields.body, thumbUrl), {
       tags: fields.tags,
       beneficiaries: getBeneficiaries(),
       rewardType,
@@ -381,7 +381,7 @@ class EditorScreen extends Component {
       autoFocusText,
       sharedSnippetText,
       onLoadDraftPress,
-      thumbIndex,
+      thumbUrl,
       uploadProgress,
       rewardType,
       setIsUploading,
@@ -484,7 +484,7 @@ class EditorScreen extends Component {
           ref={(componentRef) => (this.postOptionsModalRef = componentRef)}
           body={fields.body}
           draftId={draftId}
-          thumbIndex={thumbIndex}
+          thumbUrl={thumbUrl}
           isEdit={isEdit}
           isCommunityPost={selectedCommunity !== null}
           rewardType={rewardType}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Alert } from 'react-native';
+import { Alert, AppState, AppStateStatus } from 'react-native';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-community/async-storage';
 import { isArray } from 'lodash';
@@ -44,6 +44,7 @@ import {
   updateDraftCache,
 } from '../../../redux/actions/cacheActions';
 import QUERIES from '../../../providers/queries/queryKeys';
+import bugsnapInstance from '../../../config/bugsnag';
 
 /*
  *            Props Name        Description                                     Value
@@ -54,6 +55,7 @@ import QUERIES from '../../../providers/queries/queryKeys';
 class EditorContainer extends Component<any, any> {
   _isMounted = false;
   _updatedDraftFields = null;
+  _appState = AppState.currentState;
 
   constructor(props) {
     super(props);
@@ -71,14 +73,12 @@ class EditorContainer extends Component<any, any> {
       uploadProgress: 0,
       post: null,
       uploadedImage: null,
-      isDraft: false,
       community: [],
       rewardType: 'default',
       sharedSnippetText: null,
       onLoadDraftPress: false,
-      thumbIndex: 0,
+      thumbUrl: '',
       shouldReblog: false,
-      failedImageUploads: 0,
     };
   }
 
@@ -105,7 +105,6 @@ class EditorContainer extends Component<any, any> {
 
         this.setState({
           draftId: _draft._id,
-          isDraft: true,
         });
         this._getStorageDraft(username, isReply, _draft);
       }
@@ -173,13 +172,13 @@ class EditorContainer extends Component<any, any> {
       this._fetchDraftsForComparison(isReply);
     }
     this._requestKeyboardFocus();
+    
+    AppState.addEventListener('change', this._handleAppStateChange);
   }
 
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
 
-  componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {
+
+  componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>): void {
     if (
       prevState.rewardType !== this.state.rewardType ||
       prevProps.beneficiariesMap !== this.props.beneficiariesMap
@@ -188,8 +187,21 @@ class EditorContainer extends Component<any, any> {
       this._handleFormChanged();
     }
   }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
+    this._isMounted = false;
+  }
+
+  _handleAppStateChange = (nextAppState:AppStateStatus) => {
+    if (this._appState.match(/active|forground/) && nextAppState === 'inactive') {
+      this._saveCurrentDraft(this._updatedDraftFields);
+    }
+    this._appState = nextAppState;
+  }
+
   _getStorageDraft = async (username, isReply, paramDraft) => {
-    const { drafts, dispatch } = this.props;
+    const { drafts } = this.props;
     if (isReply) {
       const _draft = drafts.get(paramDraft._id);
       if (_draft && _draft.body) {
@@ -207,13 +219,14 @@ class EditorContainer extends Component<any, any> {
       //if _draft is returned and param draft is available, compare timestamp, use latest
       //if no draft, use result anayways
 
-      if (_localDraft && (!paramDraft || paramDraft.timestamp < _localDraft.updated)) {
+      const _remoteDraftModifiedAt = paramDraft ? new Date(paramDraft.modified).getTime() : 0;
+      const _useLocalDraft = _localDraft && _remoteDraftModifiedAt < _localDraft.updated;
+      if (_useLocalDraft) {
         this.setState({
           draftPost: {
             body: get(_localDraft, 'body', ''),
             title: get(_localDraft, 'title', ''),
             tags: get(_localDraft, 'tags', '').split(','),
-            isDraft: paramDraft ? true : false,
             draftId: paramDraft ? paramDraft._id : null,
             meta: _localDraft.meta ? _localDraft.meta : null,
           },
@@ -234,7 +247,6 @@ class EditorContainer extends Component<any, any> {
             tags: _tags,
             meta: paramDraft.meta ? paramDraft.meta : null,
           },
-          isDraft: true,
           draftId: paramDraft._id,
         });
 
@@ -250,9 +262,8 @@ class EditorContainer extends Component<any, any> {
     const body = draft.body;
     if (draft.meta && draft.meta.image) {
       const urls = extractImageUrls({ body });
-      const draftThumbIndex = urls.indexOf(draft.meta.image[0]);
       this.setState({
-        thumbIndex: draftThumbIndex,
+        thumbUrl: draft.meta.image[0],
       });
     }
 
@@ -290,7 +301,7 @@ class EditorContainer extends Component<any, any> {
    * @param isReply
    **/
   _fetchDraftsForComparison = async (isReply) => {
-    const { currentAccount, isLoggedIn, intl, dispatch, drafts } = this.props;
+    const { currentAccount, isLoggedIn, drafts } = this.props;
     const username = get(currentAccount, 'name', '');
 
     //initilizes editor with reply or non remote id less draft
@@ -345,7 +356,6 @@ class EditorContainer extends Component<any, any> {
         //initilize editor as draft
         this.setState({
           draftId: _draft._id,
-          isDraft: true,
         });
         this._getStorageDraft(username, isReply, _draft);
       };
@@ -373,11 +383,18 @@ class EditorContainer extends Component<any, any> {
   };
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
-    const { isDraftSaved, draftId, thumbIndex, isReply, rewardType } = this.state;
+    const { isDraftSaved, draftId, thumbUrl, isReply, rewardType } = this.state;
     const { currentAccount, dispatch, intl, queryClient } = this.props;
 
-    if (isReply) {
+    try {
+      //saves draft locallly
       this._saveCurrentDraft(this._updatedDraftFields);
+    } catch (err) {
+      console.warn('local draft safe failed, skipping for remote only', err);
+      bugsnapInstance.notify(err);
+    }
+
+    if (isReply) {
       return;
     }
 
@@ -400,7 +417,7 @@ class EditorContainer extends Component<any, any> {
           };
         }
 
-        const meta = Object.assign({}, extractMetadata(draftField.body, thumbIndex), {
+        const meta = Object.assign({}, extractMetadata(draftField.body, thumbUrl), {
           tags: draftField.tags,
           beneficiaries,
           rewardType,
@@ -467,9 +484,6 @@ class EditorContainer extends Component<any, any> {
           isDraftSaving: false,
           isDraftSaved: false,
         });
-
-        //saves draft locally if remote draft save fails
-        this._saveCurrentDraft(this._updatedDraftFields);
       }
 
       dispatch(
@@ -529,7 +543,7 @@ class EditorContainer extends Component<any, any> {
       pinCode,
       // isDefaultFooter,
     } = this.props;
-    const { rewardType, isPostSending, thumbIndex, draftId, shouldReblog } = this.state;
+    const { rewardType, isPostSending, thumbUrl, draftId, shouldReblog } = this.state;
 
     const beneficiaries = this._extractBeneficiaries();
 
@@ -542,7 +556,7 @@ class EditorContainer extends Component<any, any> {
         isPostSending: true,
       });
 
-      const meta = extractMetadata(fields.body, thumbIndex);
+      const meta = extractMetadata(fields.body, thumbUrl);
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
 
       const jsonMeta = makeJsonMetadata(meta, _tags);
@@ -703,7 +717,7 @@ class EditorContainer extends Component<any, any> {
 
   _submitEdit = async (fields) => {
     const { currentAccount, pinCode, dispatch } = this.props;
-    const { post, isEdit, isPostSending, thumbIndex, isReply } = this.state;
+    const { post, isEdit, isPostSending, thumbUrl, isReply } = this.state;
 
     if (isPostSending) {
       return;
@@ -729,7 +743,7 @@ class EditorContainer extends Component<any, any> {
         newBody = patch;
       }
 
-      const meta = extractMetadata(fields.body, thumbIndex);
+      const meta = extractMetadata(fields.body, thumbUrl);
 
       let jsonMeta = {};
 
@@ -1019,9 +1033,9 @@ class EditorContainer extends Component<any, any> {
     });
   };
 
-  _handleSetThumbIndex = (index: number) => {
+  _handleSetThumbUrl = (url: string) => {
     this.setState({
-      thumbIndex: index,
+      thumbUrl: url,
     });
   };
 
@@ -1050,7 +1064,7 @@ class EditorContainer extends Component<any, any> {
       community,
       sharedSnippetText,
       onLoadDraftPress,
-      thumbIndex,
+      thumbUrl,
       uploadProgress,
       rewardType,
     } = this.state;
@@ -1090,8 +1104,8 @@ class EditorContainer extends Component<any, any> {
         draftId={draftId}
         sharedSnippetText={sharedSnippetText}
         onLoadDraftPress={onLoadDraftPress}
-        thumbIndex={thumbIndex}
-        setThumbIndex={this._handleSetThumbIndex}
+        thumbUrl={thumbUrl}
+        setThumbUrl={this._handleSetThumbUrl}
         uploadProgress={uploadProgress}
         rewardType={rewardType}
         getBeneficiaries={this._extractBeneficiaries}
