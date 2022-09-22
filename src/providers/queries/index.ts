@@ -22,3 +22,7 @@ export const initQueryClient = () => {
     persistOptions: { persister: asyncStoragePersister },
   } as PersistQueryClientProviderProps;
 };
+
+
+export * from "./notificationQueries";
+

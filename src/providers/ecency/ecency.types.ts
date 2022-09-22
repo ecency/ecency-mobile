@@ -57,3 +57,14 @@ export enum ScheduledPostStatus {
     PUBLISHED = 3,
     ERROR = 4,
 }
+
+export enum NotificationFilters {
+    ACTIVITIES = "activities",
+    RVOTES = "rvotes",
+    MENTIONS = "mentions",
+    FOLLOWS = "follows",
+    REPLIES = "replies",
+    REBLOGS = "reblogs", 
+    TRANFERS = "transfers", 
+    DELEGATIONS = "delegations"
+}

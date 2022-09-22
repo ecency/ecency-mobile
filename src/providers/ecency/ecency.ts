@@ -7,7 +7,7 @@ import serverList from '../../config/serverListApi';
 import { SERVER_LIST } from '../../constants/options/api';
 import { parsePost } from '../../utils/postParser';
 import { convertCommentHistory, convertLatestQuotes, convertReferral, convertReferralStat } from './converters';
-import { CommentHistoryItem, LatestMarketPrices, ReceivedVestingShare, Referral, ReferralStat } from './ecency.types';
+import { CommentHistoryItem, LatestMarketPrices, NotificationFilters, ReceivedVestingShare, Referral, ReferralStat } from './ecency.types';
 
 
 
@@ -424,8 +424,9 @@ export const getLeaderboard = async (duration: 'day' | 'week' | 'month') => {
  * @returns array of notifications
  */
 export const getNotifications = async (data: {
-  filter?: "rvotes" | "mentions" | "follows" | "replies" | "reblogs" | "transfers" | "delegations",
-  since?: string
+  filter?: NotificationFilters,
+  since?: string,
+  limit?: number,
 }) => {
   try {
     const response = await ecencyApi.post(`/private-api/notifications`, data);

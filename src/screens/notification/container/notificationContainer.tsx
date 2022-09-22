@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unused-state */
 import React, { useRef, useState } from 'react';
-import { Alert } from 'react-native';
+import { Alert, Button } from 'react-native';
 import { useDispatch } from 'react-redux';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
@@ -20,10 +20,16 @@ import { showProfileModal } from '../../../redux/actions/uiAction';
 import { markHiveNotifications } from '../../../providers/hive/dhive';
 import bugsnapInstance from '../../../config/bugsnag';
 import { useAppSelector } from '../../../hooks';
+import { useNotificationsQuery } from '../../../providers/queries';
+import { NotificationFilters } from '../../../providers/ecency/ecency.types';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import QUERIES from '../../../providers/queries/queryKeys';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const NotificationContainer = ({ navigation }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
   const isConnected = useAppSelector((state) => state.application.isConnected);
@@ -37,64 +43,80 @@ const NotificationContainer = ({ navigation }) => {
   const [lastNotificationId, setLastNotificationId] = useState(null);
   const [isRefreshing, setIsRefershing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState('activities');
+  const [selectedFilter, setSelectedFilter] = useState<NotificationFilters>(NotificationFilters.ACTIVITIES);
   const [endOfNotification, setEndOfNotification] = useState(false);
+
+  const notificationsQuery = useNotificationsQuery(selectedFilter)
 
   useEffect(() => {
     setEndOfNotification(false);
     setNotificationsMap(new Map());
-    _getActivities(selectedFilter);
+    // _getActivities(selectedFilter);
+    notificationsQuery.refetch();
+    //TODO: later invalidate all queries on logout or account switch using query client
   }, [currentAccount.username]);
 
   useEffect(() => {
     if (currentAccount.unread_activity_count > unreadCountRef.current) {
-      notificationsMap.forEach((value, key) => {
-        console.log('fetching new activities for ', key);
-        _getActivities(key, false, true);
-      });
+      queryClient.refetchQueries([QUERIES.NOTIFICATIONS.GET]); //refetches all cahced quries starting with given ke
+      //TODO: handle new notification received, either invalidate filters or add data above
     }
     unreadCountRef.current = currentAccount.unread_activity_count;
   }, [currentAccount.unread_activity_count]);
 
-  const _getActivities = (type = 'activities', loadMore = false, loadUnread = false) => {
-    const since = loadMore ? lastNotificationId : null;
 
-    if (isLoading) {
-      return;
-    }
 
-    if (!endOfNotification || !loadMore || loadUnread) {
-      setIsLoading(true);
-      setIsRefershing(!loadMore);
-      getNotifications({ filter: type, since: since, limit: 20 })
-        .then((res) => {
-          const lastId = res.length > 0 ? [...res].pop().id : null;
 
-          if (loadMore && (lastId === lastNotificationId || res.length === 0)) {
-            setEndOfNotification(true);
-            setIsRefershing(false);
-            setIsLoading(false);
-          } else {
-            console.log('');
-            const stateNotifications = notificationsMap.get(type) || [];
-            const _notifications = loadMore
-              ? unionBy(stateNotifications, res, 'id')
-              : loadUnread
-              ? unionBy(res, stateNotifications, 'id')
-              : res;
-            notificationsMap.set(type, _notifications);
-            setNotificationsMap(notificationsMap);
-            setLastNotificationId(lastId);
-            setIsRefershing(false);
-            setIsLoading(false);
-          }
-        })
-        .catch(() => {
-          setIsRefershing(false);
-          setIsLoading(false);
-        });
-    }
+  const _getActivities = (loadMore = false, loadUnread = false) => {
+
+
+     if(loadMore){
+        console.log("load more notifications")
+     } else {
+        notificationsQuery.refetch();
+     }
+
+  //   const since = loadMore ? lastNotificationId : null;
+
+  //   if (isLoading) {
+  //     return;
+  //   }
+
+  //   if (!endOfNotification || !loadMore || loadUnread) {
+  //     setIsLoading(true);
+  //     setIsRefershing(!loadMore);
+  //     getNotifications({ filter: type, since: since, limit: 20 })
+  //       .then((res) => {
+  //         const lastId = res.length > 0 ? [...res].pop().id : null;
+
+  //         if (loadMore && (lastId === lastNotificationId || res.length === 0)) {
+  //           setEndOfNotification(true);
+  //           setIsRefershing(false);
+  //           setIsLoading(false);
+  //         } else {
+  //           console.log('');
+  //           const stateNotifications = notificationsMap.get(type) || [];
+  //           const _notifications = loadMore
+  //             ? unionBy(stateNotifications, res, 'id')
+  //             : loadUnread
+  //             ? unionBy(res, stateNotifications, 'id')
+  //             : res;
+  //           notificationsMap.set(type, _notifications);
+  //           setNotificationsMap(notificationsMap);
+  //           setLastNotificationId(lastId);
+  //           setIsRefershing(false);
+  //           setIsLoading(false);
+  //         }
+  //       })
+  //       .catch(() => {
+  //         setIsRefershing(false);
+  //         setIsLoading(false);
+  //       });
+  //   }
   };
+
+
+
 
   const _navigateToNotificationRoute = (data) => {
     const type = get(data, 'type');
@@ -189,9 +211,9 @@ const NotificationContainer = ({ navigation }) => {
     setEndOfNotification(false);
   };
 
-  const _notifications = notificationsMap.get(selectedFilter) || [];
+  const _notifications = notificationsQuery.data || [];
   return (
-    <NotificationScreen
+      <NotificationScreen
       getActivities={_getActivities}
       notifications={_notifications}
       navigateToNotificationRoute={_navigateToNotificationRoute}

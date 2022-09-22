@@ -47,14 +47,13 @@ class NotificationView extends PureComponent {
   // Component Functions
 
   _handleOnDropdownSelect = async (index) => {
-    const { getActivities, changeSelectedFilter, } = this.props;
+    const { changeSelectedFilter, } = this.props;
     const { filters, contentOffset } = this.state;
 
     const _selectedFilter = filters[index].key;
 
     this.setState({ selectedFilter: _selectedFilter, selectedIndex: index, contentOffset });
     await changeSelectedFilter(_selectedFilter, index);
-    getActivities(_selectedFilter, false);
     this.listRef.current?.scrollToOffset({ x: 0, y: 0, animated: false });
   };
 
@@ -228,7 +227,7 @@ class NotificationView extends PureComponent {
               ref={this.listRef}
               data={_notifications}
               keyExtractor={(item, index) => `${item.id}-${index}`}
-              onEndReached={() => getActivities(selectedFilter, true)}
+              onEndReached={() => getActivities(true)}
               onEndReachedThreshold={0.3}
               ListFooterComponent={this._renderFooterLoading}
               ListEmptyComponent={
@@ -242,7 +241,7 @@ class NotificationView extends PureComponent {
               refreshControl={
                 <RefreshControl
                   refreshing={isNotificationRefreshing}
-                  onRefresh={() => getActivities(selectedFilter)}
+                  onRefresh={() => getActivities()}
                   progressBackgroundColor="#357CE6"
                   tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
                   titleColor="#fff"
