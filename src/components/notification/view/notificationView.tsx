@@ -231,7 +231,7 @@ class NotificationView extends PureComponent {
               onEndReachedThreshold={0.3}
               ListFooterComponent={this._renderFooterLoading}
               ListEmptyComponent={
-                isLoading ? <ListPlaceHolder/> : (
+                isNotificationRefreshing ? <ListPlaceHolder/> : (
                 <Text style={globalStyles.hintText}>
                   {intl.formatMessage({ id: 'notification.noactivity' })}
                 </Text>

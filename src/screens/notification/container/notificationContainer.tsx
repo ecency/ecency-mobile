@@ -36,6 +36,7 @@ const NotificationContainer = ({ navigation }) => {
   const globalProps = useAppSelector((state) => state.account.globalProps);
 
   const unreadCountRef = useRef(currentAccount.unread_acitivity_count || 0);
+  const curUsername = useRef(currentAccount.username);
 
   const [selectedFilter, setSelectedFilter] = useState<NotificationFilters>(
     NotificationFilters.ACTIVITIES,
@@ -43,25 +44,31 @@ const NotificationContainer = ({ navigation }) => {
 
   const notificationsQuery = useNotificationsQuery(selectedFilter);
 
-  useEffect(() => {
-    queryClient.refetchQueries([QUERIES.NOTIFICATIONS.GET]);
-  }, [currentAccount.username]);
 
   useEffect(() => {
-    if (currentAccount.unread_activity_count > unreadCountRef.current) {
-      queryClient.refetchQueries([QUERIES.NOTIFICATIONS.GET], {
-        refetchPage: (page, index) => index === 0,
-      });
+    queryClient.removeQueries([QUERIES.NOTIFICATIONS.GET])
+    notificationsQuery.refetch();
+    curUsername.current = currentAccount.useranme
+
+  }, [currentAccount.username]);
+
+
+  useEffect(() => {
+    if (currentAccount.unread_activity_count < unreadCountRef.current) {
+      queryClient.invalidateQueries([QUERIES.NOTIFICATIONS.GET]);
     }
-    unreadCountRef.current = currentAccount.unread_activity_count;
-  }, [currentAccount.unread_activity_count]);
+    unreadCountRef.current = currentAccount.unread_activity_count
+  }, [currentAccount.unread_activity_count])
+
+
 
   const _getActivities = (loadMore = false) => {
     if (loadMore) {
       console.log('load more notifications');
       notificationsQuery.fetchNextPage();
     } else {
-      console.log('refetching all');
+      console.log('refreshing');
+      notificationsQuery.remove();
       notificationsQuery.refetch();
     }
   };
@@ -159,11 +166,8 @@ const NotificationContainer = ({ navigation }) => {
     setSelectedFilter(value);
   };
 
-  const _notifications = useMemo(
-    () =>
-      notificationsQuery.data?.pages?.reduce((prevData, curData) => prevData.concat(curData), []),
-    [notificationsQuery.data?.pages],
-  );
+  console.log("query data: ", notificationsQuery.data)
+  const _notifications = notificationsQuery.data?.pages?.flatMap(page => page);
 
   return (
     <NotificationScreen
