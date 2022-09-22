@@ -6,7 +6,6 @@ import QUERIES from './queryKeys';
 export const useNotificationsQuery = (filter: NotificationFilters) => {
   const _fetchLimit = 20;
 
-  
   return useInfiniteQuery<any[]>(
     [QUERIES.NOTIFICATIONS.GET, filter],
     async ({ pageParam }) => {
@@ -21,7 +20,8 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
         pages: [],
       },
       getNextPageParam: (lastPage) => {
-        const lastId = lastPage && lastPage.length === _fetchLimit ? lastPage.lastItem.id : undefined;
+        const lastId =
+          lastPage && lastPage.length === _fetchLimit ? lastPage.lastItem.id : undefined;
         console.log('extracting next page parameter', lastId);
         return lastId;
       },

@@ -47,7 +47,7 @@ class NotificationView extends PureComponent {
   // Component Functions
 
   _handleOnDropdownSelect = async (index) => {
-    const { changeSelectedFilter, } = this.props;
+    const { changeSelectedFilter } = this.props;
     const { filters, contentOffset } = this.state;
 
     const _selectedFilter = filters[index].key;
@@ -175,34 +175,40 @@ class NotificationView extends PureComponent {
     return 5;
   };
 
-
   _getActivityIndicator = () => (
     <View style={styles.loading}>
       <ActivityIndicator animating size="large" />
     </View>
   );
 
-
   _renderSectionHeader = ({ section: { title, index } }) => (
     <ContainerHeader hasSeperator={index !== 0} isBoldTitle title={title} key={title} />
-  )
-
+  );
 
   _renderItem = ({ item }) => (
     <>
-      {item.sectionTitle && <ContainerHeader hasSeperator={!item.firstSection} isBoldTitle title={item.sectionTitle} />}
+      {item.sectionTitle && (
+        <ContainerHeader hasSeperator={!item.firstSection} isBoldTitle title={item.sectionTitle} />
+      )}
       <NotificationLine
         notification={item}
         handleOnPressNotification={this.props.navigateToNotificationRoute}
-        handleOnUserPress={() => { this.props.handleOnUserPress(item.source) }}
+        handleOnUserPress={() => {
+          this.props.handleOnUserPress(item.source);
+        }}
         globalProps={this.props.globalProps}
       />
     </>
-  )
-
+  );
 
   render() {
-    const { readAllNotification, getActivities, isNotificationRefreshing, intl, isLoading } = this.props;
+    const {
+      readAllNotification,
+      getActivities,
+      isNotificationRefreshing,
+      intl,
+      isLoading,
+    } = this.props;
     const { filters, selectedFilter, selectedIndex } = this.state;
     const _notifications = this._getNotificationsArrays();
 
@@ -221,8 +227,7 @@ class NotificationView extends PureComponent {
           onRightIconPress={readAllNotification}
         />
         <ThemeContainer>
-          {({ isDarkTheme }) =>
-
+          {({ isDarkTheme }) => (
             <FlatList
               ref={this.listRef}
               data={_notifications}
@@ -231,12 +236,14 @@ class NotificationView extends PureComponent {
               onEndReachedThreshold={0.3}
               ListFooterComponent={this._renderFooterLoading}
               ListEmptyComponent={
-                isNotificationRefreshing ? <ListPlaceHolder/> : (
-                <Text style={globalStyles.hintText}>
-                  {intl.formatMessage({ id: 'notification.noactivity' })}
-                </Text>
+                isNotificationRefreshing ? (
+                  <ListPlaceHolder />
+                ) : (
+                  <Text style={globalStyles.hintText}>
+                    {intl.formatMessage({ id: 'notification.noactivity' })}
+                  </Text>
                 )
-                }
+              }
               contentContainerStyle={styles.listContentContainer}
               refreshControl={
                 <RefreshControl
@@ -250,8 +257,7 @@ class NotificationView extends PureComponent {
               }
               renderItem={this._renderItem}
             />
-
-          }
+          )}
         </ThemeContainer>
       </View>
     );

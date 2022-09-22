@@ -44,23 +44,18 @@ const NotificationContainer = ({ navigation }) => {
 
   const notificationsQuery = useNotificationsQuery(selectedFilter);
 
-
   useEffect(() => {
-    queryClient.removeQueries([QUERIES.NOTIFICATIONS.GET])
+    queryClient.removeQueries([QUERIES.NOTIFICATIONS.GET]);
     notificationsQuery.refetch();
-    curUsername.current = currentAccount.useranme
-
+    curUsername.current = currentAccount.useranme;
   }, [currentAccount.username]);
-
 
   useEffect(() => {
     if (currentAccount.unread_activity_count < unreadCountRef.current) {
       queryClient.invalidateQueries([QUERIES.NOTIFICATIONS.GET]);
     }
-    unreadCountRef.current = currentAccount.unread_activity_count
-  }, [currentAccount.unread_activity_count])
-
-
+    unreadCountRef.current = currentAccount.unread_activity_count;
+  }, [currentAccount.unread_activity_count]);
 
   const _getActivities = (loadMore = false) => {
     if (loadMore) {
@@ -166,8 +161,8 @@ const NotificationContainer = ({ navigation }) => {
     setSelectedFilter(value);
   };
 
-  console.log("query data: ", notificationsQuery.data)
-  const _notifications = notificationsQuery.data?.pages?.flatMap(page => page);
+  console.log('query data: ', notificationsQuery.data);
+  const _notifications = notificationsQuery.data?.pages?.flatMap((page) => page);
 
   return (
     <NotificationScreen
