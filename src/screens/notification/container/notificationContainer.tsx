@@ -7,6 +7,7 @@ import { useIntl } from 'react-intl';
 
 // Actions and Services
 import { useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { markNotifications } from '../../../providers/ecency/ecency';
 import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 
@@ -21,10 +22,7 @@ import bugsnapInstance from '../../../config/bugsnag';
 import { useAppSelector } from '../../../hooks';
 import { useNotificationsQuery } from '../../../providers/queries';
 import { NotificationFilters } from '../../../providers/ecency/ecency.types';
-import { useQueryClient } from '@tanstack/react-query';
 import QUERIES from '../../../providers/queries/queryKeys';
-
-
 
 const NotificationContainer = ({ navigation }) => {
   const intl = useIntl();
@@ -39,40 +37,34 @@ const NotificationContainer = ({ navigation }) => {
 
   const unreadCountRef = useRef(currentAccount.unread_acitivity_count || 0);
 
-  const [selectedFilter, setSelectedFilter] = useState<NotificationFilters>(NotificationFilters.ACTIVITIES);
+  const [selectedFilter, setSelectedFilter] = useState<NotificationFilters>(
+    NotificationFilters.ACTIVITIES,
+  );
 
-  const notificationsQuery = useNotificationsQuery(selectedFilter)
-
+  const notificationsQuery = useNotificationsQuery(selectedFilter);
 
   useEffect(() => {
     queryClient.refetchQueries([QUERIES.NOTIFICATIONS.GET]);
   }, [currentAccount.username]);
 
-
   useEffect(() => {
     if (currentAccount.unread_activity_count > unreadCountRef.current) {
       queryClient.refetchQueries([QUERIES.NOTIFICATIONS.GET], {
-        refetchPage: (page, index) => index === 0
+        refetchPage: (page, index) => index === 0,
       });
     }
     unreadCountRef.current = currentAccount.unread_activity_count;
   }, [currentAccount.unread_activity_count]);
 
-
-
-
   const _getActivities = (loadMore = false) => {
     if (loadMore) {
-      console.log("load more notifications")
+      console.log('load more notifications');
       notificationsQuery.fetchNextPage();
     } else {
-      console.log("refetching all")
+      console.log('refetching all');
       notificationsQuery.refetch();
     }
   };
-
-
-
 
   const _navigateToNotificationRoute = (data) => {
     const type = get(data, 'type');
@@ -122,7 +114,6 @@ const NotificationContainer = ({ navigation }) => {
     dispatch(showProfileModal(username));
   };
 
-
   //TODO: handle mark as read mutations
   const _readAllNotification = () => {
     if (!isConnected) {
@@ -168,10 +159,11 @@ const NotificationContainer = ({ navigation }) => {
     setSelectedFilter(value);
   };
 
-  const _notifications = useMemo(() =>
-    notificationsQuery.data?.pages?.reduce(
-      (prevData, curData) => prevData.concat(curData), []
-    ), [notificationsQuery.data?.pages]);
+  const _notifications = useMemo(
+    () =>
+      notificationsQuery.data?.pages?.reduce((prevData, curData) => prevData.concat(curData), []),
+    [notificationsQuery.data?.pages],
+  );
 
   return (
     <NotificationScreen
