@@ -51,7 +51,6 @@ const DraftListItemView = ({
     }
   }, [isDeleting]);
 
-
   const _onItemPress = () => {
     if (isSchedules) {
       moveActionSheet.current.show();
