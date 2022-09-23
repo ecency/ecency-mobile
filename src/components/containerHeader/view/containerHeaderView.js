@@ -25,16 +25,8 @@ class ContainerHeaderView extends PureComponent {
   // Component Functions
 
   render() {
-    const {
-      color,
-      defaultTitle,
-      fontSize,
-      hasSeperator,
-      iconName,
-      isBoldTitle,
-      title,
-      isCenter,
-    } = this.props;
+    const { color, defaultTitle, fontSize, hasSeperator, iconName, isBoldTitle, title, isCenter } =
+      this.props;
 
     return (
       <View style={[styles.wrapper, hasSeperator && styles.hasTopBorder]}>

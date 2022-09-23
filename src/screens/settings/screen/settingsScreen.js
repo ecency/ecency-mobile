@@ -37,6 +37,7 @@ const SettingsScreen = ({
   commentNotification,
   followNotification,
   mentionNotification,
+  favoriteNotification,
   reblogNotification,
   transfersNotification,
   voteNotification,
@@ -245,6 +246,15 @@ const SettingsScreen = ({
                 type="toggle"
                 actionType="notification.mention"
                 isOn={mentionNotification}
+                handleOnChange={handleOnChange}
+              />
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.notification.favorite',
+                })}
+                type="toggle"
+                actionType="notification.favorite"
+                isOn={favoriteNotification}
                 handleOnChange={handleOnChange}
               />
               <SettingsItem
