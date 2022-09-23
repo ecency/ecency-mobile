@@ -417,9 +417,9 @@ export const getLeaderboard = async (duration: 'day' | 'week' | 'month') => {
  * @returns array of notifications
  */
 export const getNotifications = async (data: {
-  filter?: NotificationFilters,
-  since?: string,
-  limit?: number,
+  filter?: NotificationFilters;
+  since?: string;
+  limit?: number;
 }) => {
   try {
     const response = await ecencyApi.post('/private-api/notifications', data);

@@ -16,7 +16,7 @@ export default EStyleSheet.create({
   },
   thumbnail: {
     width: '$deviceWidth - 16',
-    height: 300
+    height: 300,
   },
   postDescripton: {
     flexDirection: 'column',

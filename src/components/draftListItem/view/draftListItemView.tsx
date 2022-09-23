@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Utils
+import FastImage from 'react-native-fast-image';
 import { getTimeFromNow } from '../../../utils/time';
 
 // Components
@@ -14,8 +15,6 @@ import { OptionsModal } from '../../atoms';
 import styles from './draftListItemStyles';
 import { ScheduledPostStatus } from '../../../providers/ecency/ecency.types';
 import { PopoverWrapper } from '../../popoverWrapper/popoverWrapperView';
-import FastImage from 'react-native-fast-image';
-
 
 const DraftListItemView = ({
   title,
@@ -59,24 +58,24 @@ const DraftListItemView = ({
     status === ScheduledPostStatus.PENDING
       ? intl.formatMessage({ id: 'schedules.pending' })
       : status === ScheduledPostStatus.POSTPONED
-        ? intl.formatMessage({ id: 'schedules.postponed' })
-        : status === ScheduledPostStatus.PUBLISHED
-          ? intl.formatMessage({ id: 'schedules.published' })
-          : intl.formatMessage({ id: 'schedules.error' });
+      ? intl.formatMessage({ id: 'schedules.postponed' })
+      : status === ScheduledPostStatus.PUBLISHED
+      ? intl.formatMessage({ id: 'schedules.published' })
+      : intl.formatMessage({ id: 'schedules.error' });
   const statusIcon =
     status === ScheduledPostStatus.PENDING
       ? 'timer'
       : status === ScheduledPostStatus.POSTPONED
-        ? 'schedule'
-        : status === ScheduledPostStatus.PUBLISHED
-          ? 'check-circle'
-          : 'error';
+      ? 'schedule'
+      : status === ScheduledPostStatus.PUBLISHED
+      ? 'check-circle'
+      : 'error';
   const statusIconColor =
     status === ScheduledPostStatus.PUBLISHED
       ? '#4FD688'
       : status === ScheduledPostStatus.ERROR
-        ? '#e63535'
-        : '#c1c5c7';
+      ? '#e63535'
+      : '#c1c5c7';
 
   return (
     <Fragment>
