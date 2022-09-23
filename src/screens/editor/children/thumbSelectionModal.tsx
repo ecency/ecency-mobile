@@ -11,12 +11,12 @@ import { useIntl } from 'react-intl';
 
 
 export interface ThumbSelectionModalProps {
-  thumbIndex:number;
+  thumbUrl:string;
   onThumbSelection:(index:number)=>void;
 }
 
 
-const ThumbSelectionModal = ({ onThumbSelection, thumbIndex }:ThumbSelectionModalProps, ref) => {
+const ThumbSelectionModal = ({ onThumbSelection, thumbUrl }:ThumbSelectionModalProps, ref) => {
   const intl = useIntl();
 
   const [imageUrls, setImageUrls] = useState<string[]>([]);
@@ -57,7 +57,7 @@ const ThumbSelectionModal = ({ onThumbSelection, thumbIndex }:ThumbSelectionModa
           _onSelection(index);
       }
 
-      const selectedStyle = index === thumbIndex ? styles.selectedStyle : null
+      const selectedStyle = item === thumbUrl ? styles.selectedStyle : null
 
     return (
         <TouchableOpacity onPress={() => _onPress()} >

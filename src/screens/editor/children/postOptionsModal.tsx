@@ -33,13 +33,13 @@ export interface PostOptionsModalRef {
 interface PostOptionsModalProps {
   body:string;
   draftId:string;
-  thumbIndex:number,
+  thumbUrl:string,
   isEdit:boolean;
   isCommunityPost:boolean;
   rewardType: string;
   isUploading: boolean;
   handleRewardChange:(rewardType:string)=>void;
-  handleThumbSelection:(index:number)=>void;
+  handleThumbSelection:(url:string)=>void;
   handleScheduleChange:(datetime:string|null)=>void;
   handleShouldReblogChange:(shouldReblog:boolean)=>void;
   handleFormUpdate:()=>void;
@@ -48,7 +48,7 @@ interface PostOptionsModalProps {
 const PostOptionsModal =  forwardRef(({
   body,
   draftId,
-  thumbIndex,
+  thumbUrl,
   isEdit,
   isCommunityPost,
   rewardType,
@@ -121,8 +121,8 @@ const PostOptionsModal =  forwardRef(({
     }
  
     // handle index change here instead of useeffetc
-    const _handleThumbIndexSelection = (index:number) => {
-      handleThumbSelection(index)
+    const _handleThumbIndexSelection = (url:string) => {
+      handleThumbSelection(url)
     }
 
     const _renderContent = () => (
@@ -190,7 +190,7 @@ const PostOptionsModal =  forwardRef(({
   
             <ThumbSelectionContent 
               body={body}
-              thumbIndex={thumbIndex}
+              thumbUrl={thumbUrl}
               isUploading={isUploading}
               onThumbSelection={_handleThumbIndexSelection}
             />
