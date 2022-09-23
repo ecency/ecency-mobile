@@ -143,23 +143,23 @@ class EditorScreen extends Component {
   };
 
   _handleOnSaveButtonPress = () => {
-    const {draftId, intl} = this.props;
-    if(draftId){
-      Alert.alert(
-        intl.formatMessage({id:'editor.draft_save_title'}),
-        "",
-        [{
-          text:intl.formatMessage({id:'editor.draft_update'}),
-          onPress:()=>this._saveDraftToDB(),
-        },{
-          text:intl.formatMessage({id:'editor.draft_save_new'}),
-          onPress:()=>this._saveDraftToDB(true)
-        },{
-          text:intl.formatMessage({id:'alert.cancel'}),
-          onPress:()=>{},
-          style:'cancel'
-        }]
-      )
+    const { draftId, intl } = this.props;
+    if (draftId) {
+      Alert.alert(intl.formatMessage({ id: 'editor.draft_save_title' }), '', [
+        {
+          text: intl.formatMessage({ id: 'editor.draft_update' }),
+          onPress: () => this._saveDraftToDB(),
+        },
+        {
+          text: intl.formatMessage({ id: 'editor.draft_save_new' }),
+          onPress: () => this._saveDraftToDB(true),
+        },
+        {
+          text: intl.formatMessage({ id: 'alert.cancel' }),
+          onPress: () => {},
+          style: 'cancel',
+        },
+      ]);
       return;
     }
     this._saveDraftToDB();
@@ -174,7 +174,7 @@ class EditorScreen extends Component {
 
     this.changeTimer = setTimeout(() => {
       // saveCurrentDraft(fields);
-      updateDraftFields(fields)
+      updateDraftFields(fields);
     }, 300);
   };
 
@@ -182,7 +182,7 @@ class EditorScreen extends Component {
     const { handleOnSubmit, handleSchedulePress } = this.props;
     const { fields, scheduledFor } = this.state;
 
-    if(scheduledFor && handleSchedulePress){
+    if (scheduledFor && handleSchedulePress) {
       handleSchedulePress(scheduledFor, fields);
       return;
     }
@@ -192,29 +192,28 @@ class EditorScreen extends Component {
     }
   };
 
-  _handleOnThumbSelection = (url:string) => {
+  _handleOnThumbSelection = (url: string) => {
     const { setThumbUrl } = this.props;
     if (setThumbUrl) {
       setThumbUrl(url);
     }
   };
 
-
-  _handleScheduleChange = (datetime:string|null) => {
+  _handleScheduleChange = (datetime: string | null) => {
     this.setState({
-      scheduledFor:datetime,
-    })
-  }
+      scheduledFor: datetime,
+    });
+  };
 
   _handleRewardChange = (value) => {
     const { handleRewardChange } = this.props;
     handleRewardChange(value);
-  }
+  };
   _handleSettingsPress = () => {
-    if(this.postOptionsModalRef){
+    if (this.postOptionsModalRef) {
       this.postOptionsModalRef.show();
     }
-  }
+  };
 
   _handleIsFormValid = (bodyText) => {
     const { fields } = this.state;
@@ -255,7 +254,7 @@ class EditorScreen extends Component {
     });
     const jsonMeta = makeJsonMetadata(meta, fields.tags);
     fields.meta = jsonMeta;
-    
+
     if (
       get(fields, 'body', '').trim() !== get(_fields, 'body', '').trim() ||
       get(fields, 'title', '').trim() !== get(_fields, 'title', '').trim() ||
@@ -264,7 +263,7 @@ class EditorScreen extends Component {
     ) {
       console.log('jsonMeta : ', jsonMeta);
       handleFormChanged();
-  
+
       this._saveCurrentDraft(fields);
     }
 
@@ -338,7 +337,7 @@ class EditorScreen extends Component {
       });
   };
 
-  _saveDraftToDB(saveAsNew?:boolean) {
+  _saveDraftToDB(saveAsNew?: boolean) {
     const { saveDraftToDB } = this.props;
     const { fields } = this.state;
 
@@ -388,9 +387,14 @@ class EditorScreen extends Component {
     } = this.props;
 
     const rightButtonText = intl.formatMessage({
-      id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : scheduledFor ?  'basic_header.schedule' : 'basic_header.publish',
+      id: isEdit
+        ? 'basic_header.update'
+        : isReply
+        ? 'basic_header.reply'
+        : scheduledFor
+        ? 'basic_header.schedule'
+        : 'basic_header.publish',
     });
-
 
     const _renderCommunityModal = () => {
       return (
