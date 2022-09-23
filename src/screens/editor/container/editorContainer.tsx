@@ -172,11 +172,9 @@ class EditorContainer extends Component<any, any> {
       this._fetchDraftsForComparison(isReply);
     }
     this._requestKeyboardFocus();
-    
+
     AppState.addEventListener('change', this._handleAppStateChange);
   }
-
-
 
   componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>): void {
     if (
@@ -193,12 +191,12 @@ class EditorContainer extends Component<any, any> {
     this._isMounted = false;
   }
 
-  _handleAppStateChange = (nextAppState:AppStateStatus) => {
+  _handleAppStateChange = (nextAppState: AppStateStatus) => {
     if (this._appState.match(/active|forground/) && nextAppState === 'inactive') {
       this._saveCurrentDraft(this._updatedDraftFields);
     }
     this._appState = nextAppState;
-  }
+  };
 
   _getStorageDraft = async (username, isReply, paramDraft) => {
     const { drafts } = this.props;
