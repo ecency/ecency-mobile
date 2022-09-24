@@ -141,6 +141,7 @@
     "unvote": "downvoted",
     "reply": "cavablandı",
     "mention": "adı çəkildi",
+    "favorites": "made new post",
     "follow": "səni izlədi",
     "unfollow": "səni izləməkdən imtina etdi",
     "ignore": "səni əngəllədi",
@@ -227,6 +228,7 @@
       "vote": "Səsvermə",
       "comment": "Rəy",
       "mention": "Adını çəkmə",
+      "favorite": "Favorites",
       "reblog": "Paylaşma",
       "transfers": "Köçürmə",
       "delegations": "Delegations"
