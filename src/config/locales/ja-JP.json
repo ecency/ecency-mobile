@@ -141,6 +141,7 @@
     "unvote": "downvoted",
     "reply": "返信",
     "mention": "話題にされました",
+    "favorites": "made new post",
     "follow": "あなたをフォローしました",
     "unfollow": "あなたをフォロー解除しました",
     "ignore": "あなたをミュートしました",
@@ -227,6 +228,7 @@
       "vote": "ヴォート",
       "comment": "コメント",
       "mention": "メンション",
+      "favorite": "Favorites",
       "reblog": "リブログ",
       "transfers": "送金",
       "delegations": "Delegations"
