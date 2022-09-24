@@ -141,6 +141,7 @@
     "unvote": "downvoted",
     "reply": "válaszolt neked",
     "mention": "megemlített",
+    "favorites": "made new post",
     "follow": "követ téged",
     "unfollow": "már nem követ téged",
     "ignore": "mellőzött téged",
@@ -227,6 +228,7 @@
       "vote": "Szavazás",
       "comment": "Hozzászólás",
       "mention": "Említés",
+      "favorite": "Favorites",
       "reblog": "Megosztás",
       "transfers": "Átutalások",
       "delegations": "Delegations"
