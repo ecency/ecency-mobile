@@ -141,6 +141,7 @@
     "unvote": "downvoted",
     "reply": "odpowiedz na",
     "mention": "wspomniany w",
+    "favorites": "made new post",
     "follow": "zaczął cię śledzić",
     "unfollow": "przestał Cię obserwować",
     "ignore": "ignoruje cię",
@@ -227,6 +228,7 @@
       "vote": "Głos",
       "comment": "Komentarz",
       "mention": "Wzmianka",
+      "favorite": "Favorites",
       "reblog": "Resteem",
       "transfers": "Przelew",
       "delegations": "Delegations"
