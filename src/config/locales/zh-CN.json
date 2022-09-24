@@ -141,6 +141,7 @@
     "unvote": "downvoted",
     "reply": "回复给",
     "mention": "被提及，在",
+    "favorites": "made new post",
     "follow": "关注了您",
     "unfollow": "取消对您的关注",
     "ignore": "屏蔽了您",
@@ -227,6 +228,7 @@
       "vote": "投票",
       "comment": "评论",
       "mention": "提到",
+      "favorite": "Favorites",
       "reblog": "转发",
       "transfers": "转账",
       "delegations": "Delegations"
