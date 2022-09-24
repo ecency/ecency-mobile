@@ -141,6 +141,7 @@
     "unvote": "проголосовано против",
     "reply": "ответил",
     "mention": "упомянул вас в",
+    "favorites": "made new post",
     "follow": "подписан",
     "unfollow": "отписан",
     "ignore": "игнорирует",
@@ -227,6 +228,7 @@
       "vote": "Голоса",
       "comment": "Комментарии",
       "mention": "Упоминания",
+      "favorite": "Favorites",
       "reblog": "Репосты",
       "transfers": "Переводы",
       "delegations": "Делегации"
