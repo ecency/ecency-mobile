@@ -20,7 +20,6 @@ export const loadPosts = async ({
     pageType,
     tag,
     nsfw,
-    isAnalytics
 
 }:LoadPostsOptions) => {
     let filter = filterKey;

@@ -17,6 +17,7 @@ export default EStyleSheet.create({
     color: '$primaryBlack',
     backgroundColor: '$primaryBackgroundColor',
     textAlignVertical: 'top',
+    maxHeight: isAndroidOreo() ? '$deviceHeight' : undefined,
   },
   previewContainer: {
     flex: 1,

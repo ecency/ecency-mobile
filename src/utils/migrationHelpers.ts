@@ -104,7 +104,7 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
     }
 
 
-    try{
+    try {
         const pinData = {
             pinCode: Config.DEFAULT_PIN,
             username: currentAccount.username,
@@ -112,7 +112,7 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
         };
 
         const response = updatePinCode(pinData)
-        
+
         const _currentAccount = currentAccount;
         _currentAccount.local = response;
 
@@ -125,10 +125,10 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
         const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
         dispatch(setPinCode(encryptedPin));
 
-    } catch(err){
+    } catch (err) {
         console.warn('pin update failure: ', err);
     }
-    
+
 
     dispatch(setEncryptedUnlockPin(encUserPin))
 
@@ -139,54 +139,58 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
     _currentAccount.local = realmData[0];
 
     try {
-      const pinHash = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
-      //migration script for previously mast key based logged in user not having access token
-      if (
-        realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT &&
-        realmData[0].accessToken === ''
-      ) {
-        _currentAccount = await migrateToMasterKeyWithAccessToken(
-          _currentAccount,
-          realmData[0],
-          pinHash,
-        );
-      }
+        const pinHash = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
+        //migration script for previously mast key based logged in user not having access token
+        if (
+            realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT &&
+            realmData[0].accessToken === ''
+        ) {
+            _currentAccount = await migrateToMasterKeyWithAccessToken(
+                _currentAccount,
+                realmData[0],
+                pinHash,
+            );
+        }
 
-      //refresh access token
-      const encryptedAccessToken = await refreshSCToken(_currentAccount.local, Config.DEFAULT_PIN);
-      _currentAccount.local.accessToken = encryptedAccessToken;
+        //refresh access token
+        const encryptedAccessToken = await refreshSCToken(_currentAccount.local, Config.DEFAULT_PIN);
+        _currentAccount.local.accessToken = encryptedAccessToken;
     } catch (error) {
         onFailure(error)
     }
 
     //get unread notifications
     try {
-      _currentAccount.unread_activity_count = await getUnreadNotificationCount();
-      _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.username);
-      _currentAccount.mutes = await getMutes(_currentAccount.username);
+        _currentAccount.unread_activity_count = await getUnreadNotificationCount();
+        _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.username);
+        _currentAccount.mutes = await getMutes(_currentAccount.username);
     } catch (err) {
-      console.warn(
-        'Optional user data fetch failed, account can still function without them',
-        err,
-      );
+        console.warn(
+            'Optional user data fetch failed, account can still function without them',
+            err,
+        );
     }
 
     dispatch(updateCurrentAccount({ ..._currentAccount }));
     dispatch(fetchSubscribedCommunities(_currentAccount.username));
-    
+
 }
 
 
 
 const reduxMigrations = {
     0: (state) => {
-      const upvotePercent = state.application.upvotePercent;
-      state.application.postUpvotePercent = upvotePercent;
-      state.application.commentUpvotePercent = upvotePercent
-      state.application.upvotePercent = undefined;
-      return state
+        const upvotePercent = state.application.upvotePercent;
+        state.application.postUpvotePercent = upvotePercent;
+        state.application.commentUpvotePercent = upvotePercent
+        state.application.upvotePercent = undefined;
+        return state
+    },
+    1: (state) => {
+        state.application.notificationDetails.favoriteNotification = true
+        return state;
     }
-  }
+}
 
 export default {
     migrateSettings,

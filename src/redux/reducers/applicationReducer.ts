@@ -2,12 +2,12 @@ import {
   CHANGE_COMMENT_NOTIFICATION,
   CHANGE_FOLLOW_NOTIFICATION,
   CHANGE_MENTION_NOTIFICATION,
+  CHANGE_FAVORITE_NOTIFICATION,
   CHANGE_REBLOG_NOTIFICATION,
   CHANGE_TRANSFERS_NOTIFICATION,
   CHANGE_VOTE_NOTIFICATION,
   CHANGE_ALL_NOTIFICATION_SETTINGS,
   IS_CONNECTED,
-  IS_ANALYTICS,
   IS_DARK_THEME,
   IS_DEFAULT_FOOTER,
   IS_LOGIN_DONE,
@@ -30,50 +30,50 @@ import {
   HIDE_POSTS_THUMBNAILS,
   SET_TERMS_ACCEPTED,
   SET_IS_BIOMETRIC_ENABLED,
-  SET_ENC_UNLOCK_PIN
+  SET_ENC_UNLOCK_PIN,
 } from '../constants/constants';
 
 interface State {
   api: string;
   currency: {
-    currency: string,
-    currencyRate: number,
-    currencySymbol: string,
-  },
-  isConnected: boolean|null, // internet connectivity
+    currency: string;
+    currencyRate: number;
+    currencySymbol: string;
+  };
+  isConnected: boolean | null; // internet connectivity
   isDarkTheme: boolean;
   colorTheme: number;
   isDefaultFooter: boolean; //TODO: remove present of isDefaultFooter as it's no longer in use
   isLoggedIn: boolean; // Has any logged in user.
-  isAnalytics: boolean;
   isLoginDone: boolean;
   isLogingOut: boolean;
   isNotificationOpen: boolean;
-  language: string,
+  language: string;
   loading: boolean; // It is lock to all screen and shows loading animation.
   notificationDetails: {
-    commentNotification: boolean,
-    followNotification: boolean,
-    mentionNotification: boolean,
-    reblogNotification: boolean,
-    transfersNotification: boolean,
-    voteNotification: boolean,
-  },
+    commentNotification: boolean;
+    followNotification: boolean;
+    mentionNotification: boolean;
+    favoriteNotification: boolean;
+    reblogNotification: boolean;
+    transfersNotification: boolean;
+    voteNotification: boolean;
+  };
   postUpvotePercent: number;
   commentUpvotePercent: number;
   nsfw: string;
-  pin: string|null; //encrypted pin used for encrypting sensitive user data
+  pin: string | null; //encrypted pin used for encrypting sensitive user data
   isPinCodeOpen: boolean;
   isRenderRequired: boolean;
   encUnlockPin: string; //ecryped pin used for user defined lock screen pass code
-  lastAppVersion:string;
+  lastAppVersion: string;
   settingsMigratedV2: boolean;
   hidePostsThumbnails: boolean;
   isTermsAccepted: boolean;
   isBiometricEnabled: boolean;
 }
 
-const initialState:State = {
+const initialState: State = {
   api: 'rpc.ecency.com',
   currency: {
     currency: 'usd',
@@ -85,7 +85,6 @@ const initialState:State = {
   colorTheme: 0, //values mapped from => src/constants/options/theme.ts
   isDefaultFooter: true, //TODO: remove present of isDefaultFooter as it's no longer in use
   isLoggedIn: false, // Has any logged in user.
-  isAnalytics: false,
   isLoginDone: false,
   isLogingOut: false,
   isNotificationOpen: true,
@@ -95,6 +94,7 @@ const initialState:State = {
     commentNotification: true,
     followNotification: true,
     mentionNotification: true,
+    favoriteNotification: true,
     reblogNotification: true,
     transfersNotification: true,
     voteNotification: true,
@@ -106,14 +106,14 @@ const initialState:State = {
   isPinCodeOpen: false,
   isRenderRequired: false,
   encUnlockPin: '',
-  lastAppVersion:'',
+  lastAppVersion: '',
   settingsMigratedV2: false,
   hidePostsThumbnails: false,
   isTermsAccepted: false,
-  isBiometricEnabled: false
+  isBiometricEnabled: false,
 };
 
-export default function (state = initialState, action):State {
+export default function (state = initialState, action): State {
   switch (action.type) {
     case LOGIN:
       return {
@@ -130,11 +130,7 @@ export default function (state = initialState, action):State {
         ...state,
         isConnected: action.payload,
       };
-    case IS_ANALYTICS:
-      return {
-        ...state,
-        isAnalytics: action.payload,
-      };
+
     case LOGOUT:
       return {
         ...state,
@@ -183,6 +179,13 @@ export default function (state = initialState, action):State {
           mentionNotification: action.payload,
         },
       });
+    case CHANGE_FAVORITE_NOTIFICATION:
+      return Object.assign({}, state, {
+        notificationDetails: {
+          ...state.notificationDetails,
+          favoriteNotification: action.payload,
+        },
+      });
     case CHANGE_REBLOG_NOTIFICATION:
       return Object.assign({}, state, {
         notificationDetails: {
@@ -210,6 +213,7 @@ export default function (state = initialState, action):State {
         notificationDetails: {
           ...state.notificationDetails,
           mentionNotification: action.payload.mentionNotification,
+          favoriteNotification: action.payload.favoriteNotification,
           reblogNotification: action.payload.reblogNotification,
           transfersNotification: action.payload.transfersNotification,
           voteNotification: action.payload.voteNotification,
@@ -224,7 +228,7 @@ export default function (state = initialState, action):State {
     case SET_COLOR_THEME:
       return {
         ...state,
-        colorTheme:action.payload
+        colorTheme: action.payload,
       };
     case IS_PIN_CODE_OPEN:
       return Object.assign({}, state, {
@@ -256,42 +260,42 @@ export default function (state = initialState, action):State {
       return Object.assign({}, state, {
         isRenderRequired: action.payload,
       });
-    
+
     case SET_LAST_APP_VERSION:
       return {
         ...state,
-        lastAppVersion:action.payload
-      }
+        lastAppVersion: action.payload,
+      };
 
     case SET_SETTINGS_MIGRATED:
       return {
         ...state,
-        settingsMigratedV2:action.payload
-      }
+        settingsMigratedV2: action.payload,
+      };
 
     case HIDE_POSTS_THUMBNAILS:
       return {
         ...state,
-        hidePostsThumbnails:action.payload
-      }
-    
+        hidePostsThumbnails: action.payload,
+      };
+
     case SET_TERMS_ACCEPTED:
       return {
         ...state,
-        isTermsAccepted:action.payload
-      }
-    
+        isTermsAccepted: action.payload,
+      };
+
     case SET_IS_BIOMETRIC_ENABLED:
       return {
         ...state,
-        isBiometricEnabled:action.payload
-      }
+        isBiometricEnabled: action.payload,
+      };
 
     case SET_ENC_UNLOCK_PIN:
       return {
         ...state,
-        encUnlockPin:action.payload
-      }
+        encUnlockPin: action.payload,
+      };
 
     default:
       return state;

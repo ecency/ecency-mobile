@@ -13,7 +13,7 @@ import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
-import SplashScreen from 'react-native-splash-screen'
+import SplashScreen from 'react-native-splash-screen';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -89,14 +89,12 @@ import MigrationHelpers from '../../../utils/migrationHelpers';
 import { deepLinkParser } from '../../../utils/deepLinkParser';
 import bugsnapInstance from '../../../config/bugsnag';
 
-
 let firebaseOnNotificationOpenedAppListener = null;
 let firebaseOnMessageListener = null;
 let removeAppearanceListener = null;
 
 class ApplicationContainer extends Component {
-
-  _pinCodeTimer:any = null
+  _pinCodeTimer: any = null;
 
   constructor(props) {
     super(props);
@@ -109,8 +107,7 @@ class ApplicationContainer extends Component {
   }
 
   componentDidMount = () => {
-  
-    const { dispatch, isAnalytics } = this.props;
+    const { dispatch } = this.props;
 
     this._setNetworkListener();
 
@@ -133,20 +130,19 @@ class ApplicationContainer extends Component {
     this._fetchApp();
 
     ReceiveSharingIntent.getReceivedFiles(
-      files => {
+      (files) => {
         navigate({
           routeName: ROUTES.SCREENS.EDITOR,
           params: { hasSharedIntent: true, files },
         });
         // files returns as JSON Array example
         //[{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]
-        ReceiveSharingIntent.clearReceivedFiles();  // clear Intents
+        ReceiveSharingIntent.clearReceivedFiles(); // clear Intents
       },
       (error) => {
         console.log('error :>> ', error);
       },
     );
-
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -167,7 +163,6 @@ class ApplicationContainer extends Component {
   }
 
   componentWillUnmount() {
-
     const { isPinCodeOpen: _isPinCodeOpen } = this.props;
 
     //TOOD: listen for back press and cancel all pending api requests;
@@ -225,15 +220,14 @@ class ApplicationContainer extends Component {
   _handleDeepLink = async (url = '') => {
     const { currentAccount, intl } = this.props;
 
-    if(!url){
+    if (!url) {
       return;
     }
 
-
-    try{
+    try {
       const deepLinkData = await deepLinkParser(url, currentAccount);
       const { routeName, params, key } = deepLinkData || {};
-      
+
       if (routeName && key) {
         navigate({
           routeName,
@@ -241,10 +235,9 @@ class ApplicationContainer extends Component {
           key: key,
         });
       }
-    } catch(err){
-      this._handleAlert(err.message)
+    } catch (err) {
+      this._handleAlert(err.message);
     }
-    
   };
 
   _compareAndPromptForUpdate = async () => {
@@ -309,16 +302,15 @@ class ApplicationContainer extends Component {
     );
   };
 
-
   _handleAppStateChange = (nextAppState) => {
-    const { isPinCodeOpen:_isPinCodeOpen } = this.props;
+    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
     const { appState } = this.state;
 
     if (appState.match(/inactive|background/) && nextAppState === 'active') {
       this._refreshGlobalProps();
       if (_isPinCodeOpen && this._pinCodeTimer) {
         clearTimeout(this._pinCodeTimer);
-    }
+      }
     }
 
     if (appState.match(/active|forground/) && nextAppState === 'inactive') {
@@ -330,12 +322,10 @@ class ApplicationContainer extends Component {
     });
   };
 
-
-
   _fetchApp = async () => {
-    const {dispatch, settingsMigratedV2} = this.props;
+    const { dispatch, settingsMigratedV2 } = this.props;
 
-    await MigrationHelpers.migrateSettings(dispatch, settingsMigratedV2)
+    await MigrationHelpers.migrateSettings(dispatch, settingsMigratedV2);
 
     this._refreshGlobalProps();
     await this._getUserDataFromRealm();
@@ -345,15 +335,15 @@ class ApplicationContainer extends Component {
   };
 
   _startPinCodeTimer = () => {
-    const {isPinCodeOpen:_isPinCodeOpen} = this.props;
+    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
     if (_isPinCodeOpen) {
-        this._pinCodeTimer = setTimeout(() => {
-            navigate({
-              routeName:ROUTES.SCREENS.PINCODE
-            })
-        }, 1 * 60 * 1000);
+      this._pinCodeTimer = setTimeout(() => {
+        navigate({
+          routeName: ROUTES.SCREENS.PINCODE,
+        });
+      }, 1 * 60 * 1000);
     }
-};
+  };
 
   _pushNavigate = (notification) => {
     const { dispatch } = this.props;
@@ -361,7 +351,7 @@ class ApplicationContainer extends Component {
     let key = null;
     let routeName = null;
 
-    if (!!notification) {
+    if (notification) {
       const push = get(notification, 'data');
       const type = get(push, 'type', '');
       const fullPermlink =
@@ -467,7 +457,6 @@ class ApplicationContainer extends Component {
       this.setState({
         foregroundNotificationData: remoteMessage,
       });
-
     });
 
     firebaseOnNotificationOpenedAppListener = messaging().onNotificationOpenedApp(
@@ -491,7 +480,6 @@ class ApplicationContainer extends Component {
       dispatch(setConnectivityStatus(status));
     }
   };
-
 
   _refreshGlobalProps = () => {
     const { actions } = this.props;
@@ -556,11 +544,10 @@ class ApplicationContainer extends Component {
         await switchAccount(realmObject[0].username);
       }
 
-
       realmObject[0].name = currentUsername;
       // If in dev mode pin code does not show
       if (_isPinCodeOpen) {
-        navigate({routeName:ROUTES.SCREENS.PINCODE})
+        navigate({ routeName: ROUTES.SCREENS.PINCODE });
       } else if (!_isPinCodeOpen) {
         const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
         dispatch(savePinCode(encryptedPin));
@@ -568,7 +555,6 @@ class ApplicationContainer extends Component {
 
       if (isConnected) {
         this._fetchUserDataFromDsteem(realmObject[0]);
-      
       }
 
       return realmObject[0];
@@ -655,11 +641,10 @@ class ApplicationContainer extends Component {
     }
   };
 
-
-
   //update notification settings and update push token for each signed accoutn useing access tokens
   _registerDeviceForNotifications = (settings?: any) => {
-    const { currentAccount, otherAccounts, notificationDetails, isNotificationsEnabled } = this.props;
+    const { currentAccount, otherAccounts, notificationDetails, isNotificationsEnabled } =
+      this.props;
 
     const isEnabled = settings ? !!settings.notification : isNotificationsEnabled;
     settings = settings || notificationDetails;
@@ -675,27 +660,30 @@ class ApplicationContainer extends Component {
       }
 
       this._enableNotification(account.name, isEnabled, settings, accessToken);
-    }
-
+    };
 
     //updateing fcm token with settings;
     otherAccounts.forEach((account) => {
       //since there can be more than one accounts, process access tokens separate
       if (account?.local?.accessToken) {
-        _enabledNotificationForAccount(account)
+        _enabledNotificationForAccount(account);
       } else {
-        console.warn("access token not present, reporting to bugsnag")
-        bugsnapInstance.notify(new Error(`Reporting missing access token in other accounts section: account:${account.name} with local data ${JSON.stringify(account?.local)}`))
+        console.warn('access token not present, reporting to bugsnag');
+        bugsnapInstance.notify(
+          new Error(
+            `Reporting missing access token in other accounts section: account:${
+              account.name
+            } with local data ${JSON.stringify(account?.local)}`,
+          ),
+        );
 
         //fallback to current account access token to register atleast logged in account
         if (currentAccount.name === account.name) {
-          _enabledNotificationForAccount(currentAccount)
+          _enabledNotificationForAccount(currentAccount);
         }
       }
     });
   };
-
-
 
   _connectNotificationServer = (username) => {
     /* eslint no-undef: "warn" */
@@ -720,7 +708,6 @@ class ApplicationContainer extends Component {
       currentAccount: { name, local },
       dispatch,
       intl,
-
     } = this.props;
 
     removeUserData(name)
@@ -742,7 +729,7 @@ class ApplicationContainer extends Component {
           });
           setExistUser(false);
           dispatch(isPinCodeOpen(false));
-          dispatch(setEncryptedUnlockPin(encryptKey(Config.DEFAULT_KEU, Config.PIN_KEY)))
+          dispatch(setEncryptedUnlockPin(encryptKey(Config.DEFAULT_KEU, Config.PIN_KEY)));
           if (local.authType === AUTH_TYPE.STEEM_CONNECT) {
             removeSCAccount(name);
           }
@@ -771,6 +758,7 @@ class ApplicationContainer extends Component {
         commentNotification: 4,
         reblogNotification: 5,
         transfersNotification: 6,
+        favoriteNotification: 13,
       };
 
       Object.keys(settings).map((item) => {
@@ -835,7 +823,6 @@ class ApplicationContainer extends Component {
     dispatch(updateCurrentAccount(_currentAccount));
     dispatch(fetchSubscribedCommunities(_currentAccount.username));
   };
-
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     const {
@@ -919,7 +906,6 @@ export default connect(
     isConnected: state.application.isConnected,
     api: state.application.api,
     isGlobalRenderRequired: state.application.isRenderRequired,
-    isAnalytics: state.application.isAnalytics,
     lastUpdateCheck: state.application.lastUpdateCheck,
     settingsMigratedV2: state.application.settingsMigratedV2,
     isNotificationsEnabled: state.application.isNotificationOpen,

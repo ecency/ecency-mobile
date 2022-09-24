@@ -6,6 +6,7 @@ import VersionNumber from 'react-native-version-number';
 import Config from 'react-native-config';
 import { injectIntl } from 'react-intl';
 import messaging from '@react-native-firebase/messaging';
+import { withNavigation } from '@react-navigation/compat';
 import { languageRestart } from '../../../utils/I18nUtils';
 import THEME_OPTIONS from '../../../constants/options/theme';
 
@@ -53,7 +54,6 @@ import { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
 import { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
 import settingsTypes from '../../../constants/settingsTypes';
 
-
 // Utilities
 import { sendEmail } from '../../../utils/sendEmail';
 import { encryptKey, decryptKey } from '../../../utils/crypto';
@@ -62,7 +62,6 @@ import { encryptKey, decryptKey } from '../../../utils/crypto';
 import SettingsScreen from '../screen/settingsScreen';
 import { SERVER_LIST } from '../../../constants/options/api';
 import ROUTES from '../../../constants/routeNames';
-import { withNavigation } from '@react-navigation/compat';
 
 /*
  *            Props Name        Description                                     Value
@@ -212,6 +211,7 @@ class SettingsContainer extends Component {
       case 'notification.vote':
       case 'notification.comment':
       case 'notification.mention':
+      case 'notification.favorite':
       case 'notification.reblog':
       case 'notification.transfers':
         this._handleNotification(action, actionType);
@@ -229,12 +229,11 @@ class SettingsContainer extends Component {
             isReset: true,
             isOldPinVerified: true,
             oldPinCode: Config.DEFAULT_PIN,
-          })
-          
+          });
         } else {
           navigation.navigate(ROUTES.SCREENS.PINCODE, {
             callback: () => this._enableDefaultUnlockPin(action),
-          })
+          });
         }
         break;
 
@@ -242,7 +241,7 @@ class SettingsContainer extends Component {
         navigation.navigate(ROUTES.SCREENS.PINCODE, {
           callback: () => dispatch(setIsBiometricEnabled(action)),
         });
- 
+
         break;
       case settingsTypes.SHOW_HIDE_IMGS:
         dispatch(setHidePostsThumbnails(!isHideImages));
@@ -261,6 +260,7 @@ class SettingsContainer extends Component {
       comment: 4,
       reblog: 5,
       transfers: 6,
+      favorite: 13,
     };
     const notifyTypes = [];
 
@@ -301,14 +301,14 @@ class SettingsContainer extends Component {
     switch (actionType) {
       case 'reset_pin':
         navigation.navigate(ROUTES.SCREENS.PINCODE, {
-          isReset:true
-        })
+          isReset: true,
+        });
         break;
 
       case 'feedback':
         this._handleSendFeedback();
         break;
-      
+
       case settingsTypes.DELETE_ACCOUNT:
         this._handleDeleteAccount();
         break;
@@ -433,8 +433,7 @@ class SettingsContainer extends Component {
         ],
       }),
     );
-
-  }
+  };
   _clearUserData = async () => {
     const { otherAccounts, dispatch } = this.props;
 
@@ -473,7 +472,6 @@ class SettingsContainer extends Component {
       );
     }, 500);
   };
-
 
   _enableDefaultUnlockPin = (isEnabled) => {
     const { dispatch, encUnlockPin } = this.props;
@@ -524,6 +522,7 @@ const mapStateToProps = (state) => ({
   commentNotification: state.application.notificationDetails.commentNotification,
   followNotification: state.application.notificationDetails.followNotification,
   mentionNotification: state.application.notificationDetails.mentionNotification,
+  favoriteNotification: state.application.notificationDetails.favoriteNotification,
   reblogNotification: state.application.notificationDetails.reblogNotification,
   transfersNotification: state.application.notificationDetails.transfersNotification,
   voteNotification: state.application.notificationDetails.voteNotification,

@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect, Fragment } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { injectIntl } from 'react-intl';
-import ImageSize from 'react-native-image-size';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
@@ -9,20 +8,14 @@ import { getTimeFromNow } from '../../../utils/time';
 // Components
 import { PostHeaderDescription } from '../../postElements';
 import { IconButton } from '../../iconButton';
-import ProgressiveImage from '../../progressiveImage';
 import { OptionsModal } from '../../atoms';
 
 // Styles
 import styles from './draftListItemStyles';
 import { ScheduledPostStatus } from '../../../providers/ecency/ecency.types';
 import { PopoverWrapper } from '../../popoverWrapper/popoverWrapperView';
-import getWindowDimensions from '../../../utils/getWindowDimensions';
+import FastImage from 'react-native-fast-image';
 
-// Defaults
-const DEFAULT_IMAGE =
-  'https://images.ecency.com/DQmT8R33geccEjJfzZEdsRHpP3VE8pu3peRCnQa1qukU4KR/no_image_3x.png';
-
-const dim = getWindowDimensions();
 
 const DraftListItemView = ({
   title,
@@ -35,52 +28,55 @@ const DraftListItemView = ({
   thumbnail,
   handleOnPressItem,
   handleOnRemoveItem,
+  handleOnMovePress,
   id,
   intl,
   isFormatedDate,
   status,
   isSchedules,
+  isDeleting,
 }) => {
   const actionSheet = useRef(null);
-  const [calcImgHeight, setCalcImgHeight] = useState(300);
-  // Component Life Cycles
+  const moveActionSheet = useRef(null);
+  const [deleteRequested, setIsDeleteRequested] = useState(false);
   useEffect(() => {
-    let _isMounted = false;
-    if (image) {
-      if (!_isMounted) {
-        ImageSize.getSize(thumbnail.uri).then((size) => {
-          setCalcImgHeight(Math.floor((size.height / size.width) * dim.width));
-        });
-      }
+    if (deleteRequested && !isDeleting) {
+      setIsDeleteRequested(false);
     }
-    return () => {
-      _isMounted = true;
-    };
-  }, []);
+  }, [isDeleting]);
+
+  const _onItemPress = () => {
+    if (isSchedules) {
+      moveActionSheet.current.show();
+      return;
+    }
+
+    handleOnPressItem(id);
+  };
 
   // consts
   const scheduleStatus =
     status === ScheduledPostStatus.PENDING
       ? intl.formatMessage({ id: 'schedules.pending' })
       : status === ScheduledPostStatus.POSTPONED
-      ? intl.formatMessage({ id: 'schedules.postponed' })
-      : status === ScheduledPostStatus.PUBLISHED
-      ? intl.formatMessage({ id: 'schedules.published' })
-      : intl.formatMessage({ id: 'schedules.error' });
+        ? intl.formatMessage({ id: 'schedules.postponed' })
+        : status === ScheduledPostStatus.PUBLISHED
+          ? intl.formatMessage({ id: 'schedules.published' })
+          : intl.formatMessage({ id: 'schedules.error' });
   const statusIcon =
     status === ScheduledPostStatus.PENDING
       ? 'timer'
       : status === ScheduledPostStatus.POSTPONED
-      ? 'schedule'
-      : status === ScheduledPostStatus.PUBLISHED
-      ? 'check-circle'
-      : 'error';
+        ? 'schedule'
+        : status === ScheduledPostStatus.PUBLISHED
+          ? 'check-circle'
+          : 'error';
   const statusIconColor =
     status === ScheduledPostStatus.PUBLISHED
       ? '#4FD688'
       : status === ScheduledPostStatus.ERROR
-      ? '#e63535'
-      : '#c1c5c7';
+        ? '#e63535'
+        : '#c1c5c7';
 
   return (
     <Fragment>
@@ -116,19 +112,17 @@ const DraftListItemView = ({
               onPress={() => actionSheet.current.show()}
               style={[styles.rightItem]}
               color="#c1c5c7"
+              isLoading={isDeleting && deleteRequested}
             />
           </View>
         </View>
         <View style={styles.body}>
-          <TouchableOpacity onPress={() => handleOnPressItem(id)}>
+          <TouchableOpacity onPress={_onItemPress}>
             {image !== null && (
-              <ProgressiveImage
+              <FastImage
                 source={image}
-                thumbnailSource={thumbnail}
-                style={[
-                  styles.thumbnail,
-                  { width: dim.width - 16, height: Math.min(calcImgHeight, dim.height) },
-                ]}
+                style={styles.thumbnail}
+                resizeMode={FastImage.resizeMode.cover}
               />
             )}
             <View style={[styles.postDescripton]}>
@@ -151,6 +145,29 @@ const DraftListItemView = ({
         onPress={(index) => {
           if (index === 0) {
             handleOnRemoveItem(id);
+            setIsDeleteRequested(true);
+          }
+        }}
+      />
+
+      <OptionsModal
+        ref={moveActionSheet}
+        title={intl.formatMessage({
+          id: 'alert.move_question',
+        })}
+        options={[
+          intl.formatMessage({
+            id: 'alert.move',
+          }),
+          intl.formatMessage({
+            id: 'alert.cancel',
+          }),
+        ]}
+        cancelButtonIndex={1}
+        onPress={(index) => {
+          if (index === 0) {
+            handleOnMovePress(id);
+            setIsDeleteRequested(true);
           }
         }}
       />
