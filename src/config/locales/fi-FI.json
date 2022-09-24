@@ -141,6 +141,7 @@
     "unvote": "äänestetty alas",
     "reply": "vastasi",
     "mention": "mainittu",
+    "favorites": "made new post",
     "follow": "seurasi sinua",
     "unfollow": "lopetti seuraamisesi",
     "ignore": "sivuutti sinut",
@@ -227,6 +228,7 @@
       "vote": "Äänestys",
       "comment": "Kommentti",
       "mention": "Maininta",
+      "favorite": "Favorites",
       "reblog": "Jako",
       "transfers": "Siirrot",
       "delegations": "Valtuutukset"
