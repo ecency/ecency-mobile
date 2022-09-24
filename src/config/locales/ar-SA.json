@@ -141,6 +141,7 @@
     "unvote": "مصوت سلباً",
     "reply": "الرد على",
     "mention": "أشارك إليك في",
+    "favorites": "made new post",
     "follow": "قام بمتابعتك",
     "unfollow": "قام بإلغاء متابعتك",
     "ignore": "قام بتجاهلك",
@@ -227,6 +228,7 @@
       "vote": "تصويت",
       "comment": "تعليق",
       "mention": "إشارة",
+      "favorite": "Favorites",
       "reblog": "إعادة النشر",
       "transfers": "التحويلات",
       "delegations": "Delegations"
