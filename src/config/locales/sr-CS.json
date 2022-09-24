@@ -141,6 +141,7 @@
     "unvote": "downvoted",
     "reply": "odgovoreno",
     "mention": "spomenuto u",
+    "favorites": "made new post",
     "follow": "vas je zapratio",
     "unfollow": "vas ne prati više",
     "ignore": "vas je ignorisao",
@@ -227,6 +228,7 @@
       "vote": "Glasaj",
       "comment": "Komentar",
       "mention": "Pominjanje",
+      "favorite": "Favorites",
       "reblog": "Podeli",
       "transfers": "Prenosi",
       "delegations": "Delegations"
