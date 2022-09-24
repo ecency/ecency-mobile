@@ -141,6 +141,7 @@
     "unvote": "downvoted",
     "reply": "vastas",
     "mention": "mainis",
+    "favorites": "made new post",
     "follow": "hakkas sind jälgima",
     "unfollow": "enam ei jälgi sind",
     "ignore": "ignoreeris sind",
@@ -227,6 +228,7 @@
       "vote": "Hääleta",
       "comment": "Kommenteeri",
       "mention": "Maini",
+      "favorite": "Favorites",
       "reblog": "Jaga",
       "transfers": "Ülekanded",
       "delegations": "Delegations"
