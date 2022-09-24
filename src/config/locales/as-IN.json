@@ -141,6 +141,7 @@
     "unvote": "ডাউনভোট",
     "reply": "ৰিপ্লাই দিয়ে",
     "mention": "উল্লেখ হৈছে",
+    "favorites": "made new post",
     "follow": "ফʼলʼ কৰে",
     "unfollow": "ফʼলʼ কৰে",
     "ignore": "অৱহেলা কৰে",
@@ -227,6 +228,7 @@
       "vote": "ভোট কৰক",
       "comment": "মন্তব্য কৰক",
       "mention": "উল্লেখ",
+      "favorite": "Favorites",
       "reblog": "Reblog",
       "transfers": "Transfers",
       "delegations": "Delegations"
