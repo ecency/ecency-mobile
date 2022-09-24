@@ -141,6 +141,7 @@
     "unvote": "downvoted",
     "reply": "replied to",
     "mention": "mentioned in",
+    "favorites": "made new post",
     "follow": "ti sledi",
     "unfollow": "ti ne sledi več",
     "ignore": "te zdaj ignorira",
@@ -227,6 +228,7 @@
       "vote": "Vote",
       "comment": "Comment",
       "mention": "Mention",
+      "favorite": "Favorites",
       "reblog": "Reblog",
       "transfers": "Transfers",
       "delegations": "Delegations"
