@@ -141,6 +141,7 @@
     "unvote": "downvoted",
     "reply": "hate bersivandin",
     "mention": "hate behskirin",
+    "favorites": "made new post",
     "follow": "te şopand",
     "unfollow": "ji şopa te derket",
     "ignore": "te asteng kir",
@@ -227,6 +228,7 @@
       "vote": "Dengdan",
       "comment": "Şîrovekirin",
       "mention": "Behskirin",
+      "favorite": "Favorites",
       "reblog": "Dîsweşandin",
       "transfers": "Transfer",
       "delegations": "Delegations"
