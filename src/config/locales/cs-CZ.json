@@ -141,6 +141,7 @@
     "unvote": "hlas proti",
     "reply": "replied to",
     "mention": "zmíněný",
+    "favorites": "made new post",
     "follow": "vás sleduje",
     "unfollow": "unfollowed you",
     "ignore": "ignored you",
@@ -227,6 +228,7 @@
       "vote": "Vote",
       "comment": "Comment",
       "mention": "Mention",
+      "favorite": "Favorites",
       "reblog": "Reblog",
       "transfers": "Transfers",
       "delegations": "Delegations"
