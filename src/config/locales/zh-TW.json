@@ -141,6 +141,7 @@
     "unvote": "已踩",
     "reply": "回復給",
     "mention": "提及您，在",
+    "favorites": "made new post",
     "follow": "關注了您",
     "unfollow": "取消對您的關注",
     "ignore": "屏蔽了您",
@@ -227,6 +228,7 @@
       "vote": "投票",
       "comment": "評論",
       "mention": "提到",
+      "favorite": "Favorites",
       "reblog": "轉發",
       "transfers": "轉帳",
       "delegations": "代理"
