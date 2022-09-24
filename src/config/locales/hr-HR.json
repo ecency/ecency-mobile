@@ -141,6 +141,7 @@
     "unvote": "downvoted",
     "reply": "replied to",
     "mention": "mentioned in",
+    "favorites": "made new post",
     "follow": "te prati",
     "unfollow": "te prestao/la pratiti",
     "ignore": "te ignorira",
@@ -227,6 +228,7 @@
       "vote": "Vote",
       "comment": "Comment",
       "mention": "Mention",
+      "favorite": "Favorites",
       "reblog": "Reblog",
       "transfers": "Transfers",
       "delegations": "Delegations"
