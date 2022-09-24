@@ -141,6 +141,7 @@
     "unvote": "downvoted",
     "reply": "tumugon sa",
     "mention": "binanggit sa",
+    "favorites": "made new post",
     "follow": "sinundan ka",
     "unfollow": "hindi kana sinundan",
     "ignore": "ayaw kang makita",
@@ -227,6 +228,7 @@
       "vote": "Boto",
       "comment": "Komento",
       "mention": "Banggit",
+      "favorite": "Favorites",
       "reblog": "I-reblog",
       "transfers": "Ilipat",
       "delegations": "Delegations"
