@@ -141,6 +141,7 @@
     "unvote": "undi dibangkang",
     "reply": "balas kepada",
     "mention": "disebutkan dalam",
+    "favorites": "made new post",
     "follow": "mengikuti anda",
     "unfollow": "berhenti mengikuti anda",
     "ignore": "abaikan anda",
@@ -227,6 +228,7 @@
       "vote": "Vote",
       "comment": "Komen",
       "mention": "Menyebut",
+      "favorite": "Favorites",
       "reblog": "Reblog",
       "transfers": "Pindah",
       "delegations": "Delegations"
