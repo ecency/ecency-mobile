@@ -141,6 +141,7 @@
     "unvote": "qarshi ovoz berdi",
     "reply": "javob berdi",
     "mention": "eslatib o'tdi",
+    "favorites": "made new post",
     "follow": "sizni kuzatdi",
     "unfollow": "sizni kuzatishni to'xtatdi",
     "ignore": "sizni rad etdi",
@@ -227,6 +228,7 @@
       "vote": "Ovoz berish",
       "comment": "Izoh",
       "mention": "Eslatma",
+      "favorite": "Favorites",
       "reblog": "Qayta bloglash",
       "transfers": "O'tkazmalar",
       "delegations": "Delegatsiyalar"
