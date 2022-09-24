@@ -141,6 +141,7 @@
     "unvote": "downvoted",
     "reply": "відповів (-ла) вам",
     "mention": "згадав (-ла) вас",
+    "favorites": "made new post",
     "follow": "підписався(-лась) на вас",
     "unfollow": "відписався(-лась) від вас",
     "ignore": "ігнорує тебе",
@@ -227,6 +228,7 @@
       "vote": "Голоси",
       "comment": "Коментарі",
       "mention": "Згадування",
+      "favorite": "Favorites",
       "reblog": "Рестім",
       "transfers": "Перекази",
       "delegations": "Delegations"
