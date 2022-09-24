@@ -141,6 +141,7 @@
     "unvote": "įvertinta neigiamai",
     "reply": "atsakyta",
     "mention": "paminėjo",
+    "favorites": "made new post",
     "follow": "jus seka",
     "unfollow": "jūsų nebeseka",
     "ignore": "jus ignoravo",
@@ -227,6 +228,7 @@
       "vote": "Balsai",
       "comment": "Komentarai",
       "mention": "Paminėjimai",
+      "favorite": "Favorites",
       "reblog": "Pasidalinimai",
       "transfers": "Pervedimai",
       "delegations": "Delegacijos"
