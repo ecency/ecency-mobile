@@ -141,6 +141,7 @@
     "unvote": "downvoted",
     "reply": "پاسخ داد به",
     "mention": "نام برد به",
+    "favorites": "made new post",
     "follow": "شما را دنبال میکند",
     "unfollow": "شما را دنبال نمیکند",
     "ignore": "شما را نادیده گرفته",
@@ -227,6 +228,7 @@
       "vote": "رأی",
       "comment": "نظر",
       "mention": "اشاره کردن",
+      "favorite": "Favorites",
       "reblog": "اشتراک گذاری",
       "transfers": "تراکنش ها",
       "delegations": "Delegations"
