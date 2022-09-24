@@ -141,6 +141,7 @@
     "unvote": "downvoted",
     "reply": "a răspuns la",
     "mention": "te-a menționat in",
+    "favorites": "made new post",
     "follow": "te urmărește",
     "unfollow": "a anulat urmărirea",
     "ignore": "te-a ignorat",
@@ -227,6 +228,7 @@
       "vote": "Vot",
       "comment": "Comentarii",
       "mention": "Menționări",
+      "favorite": "Favorites",
       "reblog": "Reblog",
       "transfers": "Transferuri",
       "delegations": "Delegations"
