@@ -141,6 +141,7 @@
     "unvote": "downvoted",
     "reply": "жооп",
     "mention": "mentioned in",
+    "favorites": "made new post",
     "follow": "followed you",
     "unfollow": "unfollowed you",
     "ignore": "ignored you",
@@ -227,6 +228,7 @@
       "vote": "Добуштар",
       "comment": "Билдирүү",
       "mention": "Mention",
+      "favorite": "Favorites",
       "reblog": "Бөлүшүү",
       "transfers": "Transfers",
       "delegations": "Delegations"
