@@ -141,6 +141,7 @@
     "unvote": "негативен глас",
     "reply": "отговорено на",
     "mention": "споменато в",
+    "favorites": "made new post",
     "follow": "те последва",
     "unfollow": "не те следва вече",
     "ignore": "те игнорира",
@@ -227,6 +228,7 @@
       "vote": "Глас",
       "comment": "Коментар",
       "mention": "ви спомена",
+      "favorite": "Favorites",
       "reblog": "Споделяне",
       "transfers": "Преводи",
       "delegations": "Делегация/отдаване"
