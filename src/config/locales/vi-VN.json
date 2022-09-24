@@ -141,6 +141,7 @@
     "unvote": "downvoted",
     "reply": "replied to",
     "mention": "mentioned in",
+    "favorites": "made new post",
     "follow": "đã theo dõi bạn",
     "unfollow": "đã bỏ theo dõi bạn",
     "ignore": "đã bỏ qua bạn",
@@ -227,6 +228,7 @@
       "vote": "Bình chọn",
       "comment": "Câu bình luận",
       "mention": "Nhắc đến",
+      "favorite": "Favorites",
       "reblog": "Đăng lại",
       "transfers": "Những phần chuyển khoản",
       "delegations": "Delegations"
