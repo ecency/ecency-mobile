@@ -141,6 +141,7 @@
     "unvote": "voto negativo",
     "reply": "respondido a",
     "mention": "te mencionó en",
+    "favorites": "made new post",
     "follow": "te siguió",
     "unfollow": "dejó de seguirte",
     "ignore": "te ignoró",
@@ -227,6 +228,7 @@
       "vote": "Votar",
       "comment": "Comentario",
       "mention": "Mención",
+      "favorite": "Favorites",
       "reblog": "Reblogueo",
       "transfers": "Transferencias",
       "delegations": "Delegations"
