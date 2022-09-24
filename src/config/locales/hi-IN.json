@@ -141,6 +141,7 @@
     "unvote": "डाउनवोट किया",
     "reply": "को उत्तर दिया",
     "mention": "में वर्णित",
+    "favorites": "made new post",
     "follow": "आपके साथ जुड़ा",
     "unfollow": "आपका साथ छोड़ा",
     "ignore": "आपको अनदेखा किया",
@@ -227,6 +228,7 @@
       "vote": "वोट",
       "comment": "टिप्पणी",
       "mention": "उल्लेख",
+      "favorite": "Favorites",
       "reblog": "पुनर्प्रेशण",
       "transfers": "स्थानांतरण",
       "delegations": "डेलीगेशन्स"
