@@ -141,6 +141,7 @@
     "unvote": "oy geri alındı",
     "reply": "cevaplandı",
     "mention": "bahsedildi",
+    "favorites": "made new post",
     "follow": "seni takip etti",
     "unfollow": "seni takipetmeyi bıraktı",
     "ignore": "seni engelledi",
@@ -227,6 +228,7 @@
       "vote": "Oy",
       "comment": "Yorum",
       "mention": "Bahset",
+      "favorite": "Favorites",
       "reblog": "Yeniden yayınla",
       "transfers": "Transferler",
       "delegations": "Delegasyonlar"
