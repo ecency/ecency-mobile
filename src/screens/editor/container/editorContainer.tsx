@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Alert } from 'react-native';
+import { Alert, AppState, AppStateStatus } from 'react-native';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-community/async-storage';
 import { isArray } from 'lodash';
@@ -9,13 +9,8 @@ import { isArray } from 'lodash';
 // Services and Actions
 import { Buffer } from 'buffer';
 
-import {
-
-  addDraft,
-  updateDraft,
-  getDrafts,
-  addSchedule,
-} from '../../../providers/ecency/ecency';
+import { useQueryClient } from '@tanstack/react-query';
+import { addDraft, updateDraft, getDrafts, addSchedule } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
   postContent,
@@ -43,7 +38,13 @@ import {
 import EditorScreen from '../screen/editorScreen';
 import { removeBeneficiaries, setBeneficiaries } from '../../../redux/actions/editorActions';
 import { DEFAULT_USER_DRAFT_ID, TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
-import { deleteDraftCacheEntry, updateCommentCache, updateDraftCache } from '../../../redux/actions/cacheActions';
+import {
+  deleteDraftCacheEntry,
+  updateCommentCache,
+  updateDraftCache,
+} from '../../../redux/actions/cacheActions';
+import QUERIES from '../../../providers/queries/queryKeys';
+import bugsnapInstance from '../../../config/bugsnag';
 
 /*
  *            Props Name        Description                                     Value
@@ -54,6 +55,7 @@ import { deleteDraftCacheEntry, updateCommentCache, updateDraftCache } from '../
 class EditorContainer extends Component<any, any> {
   _isMounted = false;
   _updatedDraftFields = null;
+  _appState = AppState.currentState;
 
   constructor(props) {
     super(props);
@@ -71,14 +73,12 @@ class EditorContainer extends Component<any, any> {
       uploadProgress: 0,
       post: null,
       uploadedImage: null,
-      isDraft: false,
       community: [],
       rewardType: 'default',
       sharedSnippetText: null,
       onLoadDraftPress: false,
-      thumbIndex: 0,
+      thumbUrl: '',
       shouldReblog: false,
-      failedImageUploads: 0,
     };
   }
 
@@ -105,7 +105,6 @@ class EditorContainer extends Component<any, any> {
 
         this.setState({
           draftId: _draft._id,
-          isDraft: true,
         });
         this._getStorageDraft(username, isReply, _draft);
       }
@@ -124,8 +123,8 @@ class EditorContainer extends Component<any, any> {
 
       if (navigationParams.isReply) {
         ({ isReply } = navigationParams);
-        if(post){
-          draftId = `${currentAccount.name}/${post.author}/${post.permlink}`
+        if (post) {
+          draftId = `${currentAccount.name}/${post.author}/${post.permlink}`;
         }
 
         this.setState({
@@ -135,7 +134,7 @@ class EditorContainer extends Component<any, any> {
         });
         if (draftId) {
           this._getStorageDraft(username, isReply, { _id: draftId });
-        }        
+        }
       }
 
       if (navigationParams.isEdit) {
@@ -155,12 +154,12 @@ class EditorContainer extends Component<any, any> {
       }
 
       // handle file/text shared from ReceiveSharingIntent
-      if(hasSharedIntent){
+      if (hasSharedIntent) {
         const files = navigationParams.files;
         console.log('files : ', files);
-        
+
         files.forEach((el) => {
-           if (el.text) {
+          if (el.text) {
             this.setState({
               sharedSnippetText: el.text,
             });
@@ -173,20 +172,34 @@ class EditorContainer extends Component<any, any> {
       this._fetchDraftsForComparison(isReply);
     }
     this._requestKeyboardFocus();
+
+    AppState.addEventListener('change', this._handleAppStateChange);
   }
 
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-
-  componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {
-    if(prevState.rewardType !== this.state.rewardType || prevProps.beneficiariesMap !== this.props.beneficiariesMap){
+  componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>): void {
+    if (
+      prevState.rewardType !== this.state.rewardType ||
+      prevProps.beneficiariesMap !== this.props.beneficiariesMap
+    ) {
       // update isDraftSaved when reward type or beneficiaries are changed in post options
       this._handleFormChanged();
     }
   }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
+    this._isMounted = false;
+  }
+
+  _handleAppStateChange = (nextAppState: AppStateStatus) => {
+    if (this._appState.match(/active|forground/) && nextAppState === 'inactive') {
+      this._saveCurrentDraft(this._updatedDraftFields);
+    }
+    this._appState = nextAppState;
+  };
+
   _getStorageDraft = async (username, isReply, paramDraft) => {
-    const { drafts, dispatch } = this.props;
+    const { drafts } = this.props;
     if (isReply) {
       const _draft = drafts.get(paramDraft._id);
       if (_draft && _draft.body) {
@@ -204,15 +217,16 @@ class EditorContainer extends Component<any, any> {
       //if _draft is returned and param draft is available, compare timestamp, use latest
       //if no draft, use result anayways
 
-      if (_localDraft && (!paramDraft || paramDraft.timestamp < _localDraft.updated)) {
+      const _remoteDraftModifiedAt = paramDraft ? new Date(paramDraft.modified).getTime() : 0;
+      const _useLocalDraft = _localDraft && _remoteDraftModifiedAt < _localDraft.updated;
+      if (_useLocalDraft) {
         this.setState({
           draftPost: {
             body: get(_localDraft, 'body', ''),
             title: get(_localDraft, 'title', ''),
             tags: get(_localDraft, 'tags', '').split(','),
-            isDraft: paramDraft ? true : false,
             draftId: paramDraft ? paramDraft._id : null,
-            meta: _localDraft.meta ? _localDraft.meta : null
+            meta: _localDraft.meta ? _localDraft.meta : null,
           },
         });
         this._loadMeta(_localDraft); //load meta from local draft
@@ -229,15 +243,13 @@ class EditorContainer extends Component<any, any> {
             title: paramDraft.title,
             body: paramDraft.body,
             tags: _tags,
-            meta: paramDraft.meta ? paramDraft.meta : null
+            meta: paramDraft.meta ? paramDraft.meta : null,
           },
-          isDraft: true,
           draftId: paramDraft._id,
         });
 
         this._loadMeta(paramDraft); //load meta from param draft
       }
-
     }
   };
 
@@ -248,9 +260,8 @@ class EditorContainer extends Component<any, any> {
     const body = draft.body;
     if (draft.meta && draft.meta.image) {
       const urls = extractImageUrls({ body });
-      const draftThumbIndex = urls.indexOf(draft.meta.image[0]);
       this.setState({
-        thumbIndex: draftThumbIndex,
+        thumbUrl: draft.meta.image[0],
       });
     }
 
@@ -262,12 +273,14 @@ class EditorContainer extends Component<any, any> {
     }
 
     if (draft._id && draft.meta && draft.meta.beneficiaries) {
-      if(isArray(draft.meta.beneficiaries)){
-        const filteredBeneficiaries = draft.meta.beneficiaries.filter((item) => item.account !== currentAccount.username); //remove default beneficiary from array while saving
+      if (isArray(draft.meta.beneficiaries)) {
+        const filteredBeneficiaries = draft.meta.beneficiaries.filter(
+          (item) => item.account !== currentAccount.username,
+        ); //remove default beneficiary from array while saving
         dispatch(setBeneficiaries(draft._id || TEMP_BENEFICIARIES_ID, filteredBeneficiaries));
       }
     }
-  }
+  };
   _requestKeyboardFocus = () => {
     //50 ms timeout is added to avoid keyboard not showing up on android
     setTimeout(() => {
@@ -286,7 +299,7 @@ class EditorContainer extends Component<any, any> {
    * @param isReply
    **/
   _fetchDraftsForComparison = async (isReply) => {
-    const { currentAccount, isLoggedIn, intl, dispatch, drafts } = this.props;
+    const { currentAccount, isLoggedIn, drafts } = this.props;
     const username = get(currentAccount, 'name', '');
 
     //initilizes editor with reply or non remote id less draft
@@ -311,8 +324,8 @@ class EditorContainer extends Component<any, any> {
       }
 
       const remoteDrafts = await getDrafts(username);
-      
-      const idLessDraft = drafts.get(DEFAULT_USER_DRAFT_ID + username)
+
+      const idLessDraft = drafts.get(DEFAULT_USER_DRAFT_ID + username);
 
       const loadRecentDraft = () => {
         //if no draft available means local draft is recent
@@ -341,7 +354,6 @@ class EditorContainer extends Component<any, any> {
         //initilize editor as draft
         this.setState({
           draftId: _draft._id,
-          isDraft: true,
         });
         this._getStorageDraft(username, isReply, _draft);
       };
@@ -361,21 +373,28 @@ class EditorContainer extends Component<any, any> {
     const { draftId } = this.state;
     const { beneficiariesMap, currentAccount } = this.props;
 
-    return beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID]
-      || [{ account: currentAccount.name, weight: 10000 }];
-  }
-
+    return (
+      beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID] || [
+        { account: currentAccount.name, weight: 10000 },
+      ]
+    );
+  };
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
-    const { isDraftSaved, draftId, thumbIndex, isReply, rewardType } = this.state;
-    const { currentAccount, dispatch, intl } = this.props;
+    const { isDraftSaved, draftId, thumbUrl, isReply, rewardType } = this.state;
+    const { currentAccount, dispatch, intl, queryClient } = this.props;
 
-
-    if (isReply) { 
-      this._saveCurrentDraft(this._updatedDraftFields)
-      return;
+    try {
+      //saves draft locallly
+      this._saveCurrentDraft(this._updatedDraftFields);
+    } catch (err) {
+      console.warn('local draft safe failed, skipping for remote only', err);
+      bugsnapInstance.notify(err);
     }
 
+    if (isReply) {
+      return;
+    }
 
     const beneficiaries = this._extractBeneficiaries();
 
@@ -395,14 +414,14 @@ class EditorContainer extends Component<any, any> {
             tags: fields.tags.join(' '),
           };
         }
-        
-        const meta = Object.assign({}, extractMetadata(draftField.body, thumbIndex), {
+
+        const meta = Object.assign({}, extractMetadata(draftField.body, thumbUrl), {
           tags: draftField.tags,
           beneficiaries,
-          rewardType
+          rewardType,
         });
         const jsonMeta = makeJsonMetadata(meta, draftField.tags);
-        
+
         //update draft is draftId is present
         if (draftId && draftField && !saveAsNew) {
           await updateDraft(draftId, draftField.title, draftField.body, draftField.tags, jsonMeta);
@@ -417,7 +436,12 @@ class EditorContainer extends Component<any, any> {
 
         //create new darft otherwise
         else if (draftField) {
-          const response = await addDraft(draftField.title, draftField.body, draftField.tags, jsonMeta);
+          const response = await addDraft(
+            draftField.title,
+            draftField.body,
+            draftField.tags,
+            jsonMeta,
+          );
 
           if (this._isMounted) {
             this.setState({
@@ -426,16 +450,17 @@ class EditorContainer extends Component<any, any> {
               draftId: response._id,
             });
           }
-          const filteredBeneficiaries = beneficiaries.filter((item) => item.account !== currentAccount.username); //remove default beneficiary from array while saving
+          const filteredBeneficiaries = beneficiaries.filter(
+            (item) => item.account !== currentAccount.username,
+          ); //remove default beneficiary from array while saving
           dispatch(setBeneficiaries(response._id, filteredBeneficiaries));
           dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID));
 
           //clear local copy if darft save is successful
           const username = get(currentAccount, 'name', '');
 
-          dispatch(deleteDraftCacheEntry(draftId || (DEFAULT_USER_DRAFT_ID + username)))
+          dispatch(deleteDraftCacheEntry(draftId || DEFAULT_USER_DRAFT_ID + username));
         }
-
 
         dispatch(
           toastNotification(
@@ -445,9 +470,10 @@ class EditorContainer extends Component<any, any> {
           ),
         );
 
-
         //call fetch post to drafts screen
-        this._navigationBackFetchDrafts();
+        if (queryClient) {
+          queryClient.invalidateQueries([QUERIES.DRAFTS.GET]);
+        }
       }
     } catch (err) {
       console.warn('Failed to save draft to DB: ', err);
@@ -456,9 +482,6 @@ class EditorContainer extends Component<any, any> {
           isDraftSaving: false,
           isDraftSaved: false,
         });
-
-        //saves draft locally if remote draft save fails
-        this._saveCurrentDraft(this._updatedDraftFields)
       }
 
       dispatch(
@@ -471,11 +494,9 @@ class EditorContainer extends Component<any, any> {
     }
   };
 
-
   _updateDraftFields = (fields) => {
-      this._updatedDraftFields = fields;
-  }
-
+    this._updatedDraftFields = fields;
+  };
 
   _saveCurrentDraft = async (fields) => {
     const { draftId, isReply, isEdit, isPostSending } = this.state;
@@ -494,15 +515,15 @@ class EditorContainer extends Component<any, any> {
       tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
       author: username,
       meta: fields.meta && fields.meta,
-    }
+    };
 
     //save reply data
     if (isReply && draftField.body !== null) {
-      dispatch(updateDraftCache(draftId, draftField))
+      dispatch(updateDraftCache(draftId, draftField));
 
       //save existing draft data locally
     } else if (draftId) {
-      dispatch(updateDraftCache(draftId, draftField))
+      dispatch(updateDraftCache(draftId, draftField));
     }
 
     //update editor data locally
@@ -511,12 +532,7 @@ class EditorContainer extends Component<any, any> {
     }
   };
 
-
-
-
-
-  _submitPost = async ({ fields, scheduleDate }: { fields: any, scheduleDate?: string }) => {
-
+  _submitPost = async ({ fields, scheduleDate }: { fields: any; scheduleDate?: string }) => {
     const {
       currentAccount,
       dispatch,
@@ -525,10 +541,9 @@ class EditorContainer extends Component<any, any> {
       pinCode,
       // isDefaultFooter,
     } = this.props;
-    const { rewardType, isPostSending, thumbIndex, draftId, shouldReblog } = this.state;
+    const { rewardType, isPostSending, thumbUrl, draftId, shouldReblog } = this.state;
 
     const beneficiaries = this._extractBeneficiaries();
-
 
     if (isPostSending) {
       return;
@@ -539,7 +554,7 @@ class EditorContainer extends Component<any, any> {
         isPostSending: true,
       });
 
-      const meta = extractMetadata(fields.body, thumbIndex);
+      const meta = extractMetadata(fields.body, thumbUrl);
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
 
       const jsonMeta = makeJsonMetadata(meta, _tags);
@@ -553,7 +568,7 @@ class EditorContainer extends Component<any, any> {
         dublicatePost = null;
       }
 
-      if (dublicatePost && (dublicatePost.permlink === permlink)) {
+      if (dublicatePost && dublicatePost.permlink === permlink) {
         permlink = generatePermlink(fields.title, true);
       }
 
@@ -592,29 +607,25 @@ class EditorContainer extends Component<any, any> {
           voteWeight,
         )
           .then((response) => {
-
             console.log(response);
 
             //reblog if flag is active
             if (shouldReblog) {
-              reblog(
-                currentAccount,
-                pinCode,
-                author,
-                permlink
-              ).then((resp) => {
-                console.log("Successfully reblogged post", resp)
-              }).catch((err) => {
-                console.warn("Failed to reblog post", err)
-              })
+              reblog(currentAccount, pinCode, author, permlink)
+                .then((resp) => {
+                  console.log('Successfully reblogged post', resp);
+                })
+                .catch((err) => {
+                  console.warn('Failed to reblog post', err);
+                });
             }
 
             //post publish updates
-            dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name))
+            dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name));
 
-            dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID))
+            dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID));
             if (draftId) {
-              dispatch(removeBeneficiaries(draftId))
+              dispatch(removeBeneficiaries(draftId));
             }
 
             dispatch(
@@ -632,9 +643,10 @@ class EditorContainer extends Component<any, any> {
                 ROUTES.SCREENS.PROFILE,
                 {
                   username: get(currentAccount, 'name'),
-                }, {
-                key: get(currentAccount, 'name')
-              }
+                },
+                {
+                  key: get(currentAccount, 'name'),
+                },
               );
             }, 3000);
           })
@@ -665,7 +677,6 @@ class EditorContainer extends Component<any, any> {
       const parentPermlink = post.permlink;
       const parentTags = post.json_metadata.tags;
 
-
       await postComment(
         currentAccount,
         pinCode,
@@ -691,11 +702,10 @@ class EditorContainer extends Component<any, any> {
                 markdownBody: fields.body,
               },
               {
-                parentTags: parentTags || ['ecency']
-              }
-            )
-          )
-
+                parentTags: parentTags || ['ecency'],
+              },
+            ),
+          );
         })
         .catch((error) => {
           this._handleSubmitFailure(error);
@@ -705,7 +715,7 @@ class EditorContainer extends Component<any, any> {
 
   _submitEdit = async (fields) => {
     const { currentAccount, pinCode, dispatch } = this.props;
-    const { post, isEdit, isPostSending, thumbIndex, isReply } = this.state;
+    const { post, isEdit, isPostSending, thumbUrl, isReply } = this.state;
 
     if (isPostSending) {
       return;
@@ -731,7 +741,7 @@ class EditorContainer extends Component<any, any> {
         newBody = patch;
       }
 
-      const meta = extractMetadata(fields.body, thumbIndex);
+      const meta = extractMetadata(fields.body, thumbUrl);
 
       let jsonMeta = {};
 
@@ -773,13 +783,13 @@ class EditorContainer extends Component<any, any> {
                   author_reputation: post.author_reputation,
                   total_payout: post.total_payout,
                   created: post.created,
-                  json_metadata: jsonMeta
+                  json_metadata: jsonMeta,
                 },
                 {
-                  isUpdate: true
-                }
-              )
-            )
+                  isUpdate: true,
+                },
+              ),
+            );
           }
         })
         .catch((error) => {
@@ -799,10 +809,7 @@ class EditorContainer extends Component<any, any> {
     ) {
       //when RC is not enough, offer boosting account
       dispatch(setRcOffer(true));
-    } else if (
-      error &&
-      error.jse_shortmsg &&
-      error.jse_shortmsg.includes('wait to transact')) {
+    } else if (error && error.jse_shortmsg && error.jse_shortmsg.includes('wait to transact')) {
       //when RC is not enough, offer boosting account
       dispatch(setRcOffer(true));
     } else {
@@ -840,19 +847,9 @@ class EditorContainer extends Component<any, any> {
     }, 3000);
   };
 
-  _navigationBackFetchDrafts = () => {
-    const { route } = this.props;
-    const { isDraft } = this.state;
-
-    if (isDraft && route.params?.fetchPost) {
-      route.params.fetchPost
-    }
-  };
-
   _handleSubmit = (form: any) => {
     const { isReply, isEdit } = this.state;
     const { intl } = this.props;
-
 
     if (isReply && !isEdit) {
       this._submitReply(form.fields);
@@ -909,8 +906,6 @@ class EditorContainer extends Component<any, any> {
     }
   };
 
-
-
   _handleFormChanged = () => {
     const { isDraftSaved } = this.state;
 
@@ -920,7 +915,6 @@ class EditorContainer extends Component<any, any> {
       });
     }
   };
-
 
   _handleSchedulePress = async (datePickerValue, fields) => {
     const { currentAccount, pinCode, intl } = this.props;
@@ -998,13 +992,12 @@ class EditorContainer extends Component<any, any> {
           ),
         );
 
-        dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name))
+        dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name));
 
         setTimeout(() => {
-          navigation.replace(ROUTES.SCREENS.DRAFTS,
-            {
-              showSchedules: true
-            })
+          navigation.replace(ROUTES.SCREENS.DRAFTS, {
+            showSchedules: true,
+          });
         }, 3000);
       })
       .catch((error) => {
@@ -1018,10 +1011,10 @@ class EditorContainer extends Component<any, any> {
   _initialEditor = () => {
     const {
       currentAccount: { name },
-      dispatch
+      dispatch,
     } = this.props;
 
-    dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + name))
+    dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + name));
 
     this.setState({
       uploadedImage: null,
@@ -1032,26 +1025,23 @@ class EditorContainer extends Component<any, any> {
     this.setState({ rewardType: value });
   };
 
-
   _handleShouldReblogChange = (value: boolean) => {
     this.setState({
-      shouldReblog: value
-    })
-  }
+      shouldReblog: value,
+    });
+  };
 
-
-  _handleSetThumbIndex = (index: number) => {
+  _handleSetThumbUrl = (url: string) => {
     this.setState({
-      thumbIndex: index
-    })
-  }
+      thumbUrl: url,
+    });
+  };
 
-  _setIsUploading = (status:boolean) => {
+  _setIsUploading = (status: boolean) => {
     this.setState({
-      isUploading:status
-    })
-  }
-
+      isUploading: status,
+    });
+  };
 
   render() {
     const { isLoggedIn, isDarkTheme, currentAccount, route } = this.props;
@@ -1072,13 +1062,13 @@ class EditorContainer extends Component<any, any> {
       community,
       sharedSnippetText,
       onLoadDraftPress,
-      thumbIndex,
+      thumbUrl,
       uploadProgress,
       rewardType,
     } = this.state;
 
     const tags = route.params?.tags;
-	  const paramFiles = route.params?.files;
+    const paramFiles = route.params?.files;
     return (
       <EditorScreen
         paramFiles={paramFiles}
@@ -1088,7 +1078,7 @@ class EditorContainer extends Component<any, any> {
         handleShouldReblogChange={this._handleShouldReblogChange}
         handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
-        handleOnBackPress={() => { }}
+        handleOnBackPress={() => {}}
         handleOnSubmit={this._handleSubmit}
         initialEditor={this._initialEditor}
         isDarkTheme={isDarkTheme}
@@ -1102,7 +1092,7 @@ class EditorContainer extends Component<any, any> {
         quickReplyText={quickReplyText}
         isUploading={isUploading}
         post={post}
-        updateDraftFields = {this._updateDraftFields}
+        updateDraftFields={this._updateDraftFields}
         saveCurrentDraft={this._saveCurrentDraft}
         saveDraftToDB={this._saveDraftToDB}
         uploadedImage={uploadedImage}
@@ -1112,8 +1102,8 @@ class EditorContainer extends Component<any, any> {
         draftId={draftId}
         sharedSnippetText={sharedSnippetText}
         onLoadDraftPress={onLoadDraftPress}
-        thumbIndex={thumbIndex}
-        setThumbIndex={this._handleSetThumbIndex}
+        thumbUrl={thumbUrl}
+        setThumbUrl={this._handleSetThumbUrl}
         uploadProgress={uploadProgress}
         rewardType={rewardType}
         getBeneficiaries={this._extractBeneficiaries}
@@ -1132,4 +1122,10 @@ const mapStateToProps = (state) => ({
   drafts: state.cache.drafts,
 });
 
-export default connect(mapStateToProps)(injectIntl(EditorContainer));
+export default connect(mapStateToProps)(
+  injectIntl(
+    //NOTE: remove extra integration step once compoent converted to functional component
+    //TOOD: inject add and update draft mutation hooks as well
+    (props) => <EditorContainer {...props} queryClient={useQueryClient()} />,
+  ),
+);
