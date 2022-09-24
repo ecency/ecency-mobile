@@ -141,6 +141,7 @@
     "unvote": "downvoted",
     "reply": "follow am yarn",
     "mention": "talk am for inside",
+    "favorites": "made new post",
     "follow": "don dey follow you",
     "unfollow": "no follow you again",
     "ignore": "don dey ignore you",
@@ -227,6 +228,7 @@
       "vote": "Vote",
       "comment": "Comment",
       "mention": "Mention",
+      "favorite": "Favorites",
       "reblog": "Reblog am",
       "transfers": "Transfer",
       "delegations": "Delegations"
