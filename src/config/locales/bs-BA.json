@@ -141,6 +141,7 @@
     "unvote": "glasano protiv",
     "reply": "odgovoreno",
     "mention": "spomenuto u",
+    "favorites": "made new post",
     "follow": "zapratio te",
     "unfollow": "prestao te pratiti",
     "ignore": "ignorisao te",
@@ -227,6 +228,7 @@
       "vote": "Glasaj",
       "comment": "Komentar",
       "mention": "Pominjanje",
+      "favorite": "Favorites",
       "reblog": "Podijeli",
       "transfers": "Prijenosi",
       "delegations": "Povjeravanja"
