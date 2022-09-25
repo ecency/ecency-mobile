@@ -97,6 +97,7 @@ class ToggleSwitchView extends PureComponent {
     Animated.timing(this.offsetX, {
       toValue,
       duration,
+      useNativeDriver: true,
     }).start();
   };
 
