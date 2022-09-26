@@ -221,7 +221,8 @@ export const extractMetadata = (body: string, thumbUrl?: string) => {
   const mUrls = extractUrls(body);
   const mUsers = body && body.match(userReg);
 
-  const matchedImages = extractImageUrls({urls:mUrls}).filter((element,index) => index < 10); //filter only first 10 images
+  const extractedImages = extractImageUrls({urls:mUrls});
+  const matchedImages = extractedImages.length ? extractedImages.filter((element,index) => index < 10) : []; //filter only first 10 images
   const matchedLinks = [];
   const matchedUsers = [];
 
