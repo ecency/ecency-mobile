@@ -224,7 +224,7 @@ export const PostHtmlRenderer = memo(
             isAnchored={false}
             activeOpacity={0.8}
             onPress={_onPress}
-          />;
+          />
         );
       }
 
