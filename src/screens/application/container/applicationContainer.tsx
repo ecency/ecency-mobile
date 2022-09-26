@@ -643,8 +643,12 @@ class ApplicationContainer extends Component {
 
   //update notification settings and update push token for each signed accoutn useing access tokens
   _registerDeviceForNotifications = (settings?: any) => {
-    const { currentAccount, otherAccounts, notificationDetails, isNotificationsEnabled } =
-      this.props;
+    const {
+      currentAccount,
+      otherAccounts,
+      notificationDetails,
+      isNotificationsEnabled,
+    } = this.props;
 
     const isEnabled = settings ? !!settings.notification : isNotificationsEnabled;
     settings = settings || notificationDetails;

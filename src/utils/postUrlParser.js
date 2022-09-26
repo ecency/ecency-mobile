@@ -125,9 +125,12 @@ export default (url) => {
   }
 
   if (
-    ['https://ecency.com', 'https://hive.blog', 'https://peakd.com', 'https://leofinance.io'].some(
-      (x) => url.startsWith(x),
-    )
+    [
+      'https://ecency.com',
+      'https://hive.blog',
+      'https://peakd.com',
+      'https://leofinance.io',
+    ].some((x) => url.startsWith(x))
   ) {
     return parseAuthorPermlink(url);
   }
