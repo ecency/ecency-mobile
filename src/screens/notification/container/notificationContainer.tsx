@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unused-state */
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import get from 'lodash/get';
@@ -63,8 +63,7 @@ const NotificationContainer = ({ navigation }) => {
       notificationsQuery.fetchNextPage();
     } else {
       console.log('refreshing');
-      notificationsQuery.remove();
-      notificationsQuery.refetch();
+      notificationsQuery.refresh();
     }
   };
 
@@ -161,8 +160,7 @@ const NotificationContainer = ({ navigation }) => {
     setSelectedFilter(value);
   };
 
-  console.log('query data: ', notificationsQuery.data);
-  const _notifications = notificationsQuery.data?.pages?.flatMap((page) => page);
+  const _notifications = notificationsQuery.reducedData;
 
   return (
     <NotificationScreen
