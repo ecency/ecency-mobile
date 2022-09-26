@@ -66,5 +66,6 @@ export enum NotificationFilters {
     REPLIES = "replies",
     REBLOGS = "reblogs", 
     TRANFERS = "transfers", 
-    DELEGATIONS = "delegations"
+    DELEGATIONS = "delegations",
+    FAVOURITES = "nfavorites"
 }
