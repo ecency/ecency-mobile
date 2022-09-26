@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import RenderHTML, { CustomRendererProps, Element, TNode } from 'react-native-render-html';
 import styles from './postHtmlRendererStyles';
 import { LinkData, parseLinkData } from './linkDataParser';
@@ -152,22 +152,22 @@ export const PostHtmlRenderer = memo(
         onElementIsImage(imgUrl);
       }
 
-      
+
       //this avoids invalid rendering of first element of table pushing rest of columsn to extreme right.
-      if(element.tagName === 'table'){
+      if (element.tagName === 'table') {
         console.log('table detected')
 
-        element.children.forEach((child)=>{
-          if(child.name === 'tr'){
+        element.children.forEach((child) => {
+          if (child.name === 'tr') {
             let headerIndex = -1;
             let colIndex = -1;
-            
+
             child.children.forEach((gChild, index) => {
               //check if element of row in table is not a column while it's other siblings are columns
-              if(gChild.type === 'tag'){
-                if(gChild.name !== 'td' && headerIndex === -1){
+              if (gChild.type === 'tag') {
+                if (gChild.name !== 'td' && headerIndex === -1) {
                   headerIndex = index;
-                }else if(colIndex === -1){
+                } else if (colIndex === -1) {
                   colIndex = index
                 }
               }
@@ -175,7 +175,7 @@ export const PostHtmlRenderer = memo(
 
             //if row contans a header with column siblings
             //remove first child and place it as first separate row in table
-            if(headerIndex !== -1 && colIndex !== -1 && headerIndex < colIndex){
+            if (headerIndex !== -1 && colIndex !== -1 && headerIndex < colIndex) {
               console.log("time to do some switching", headerIndex, colIndex);
               const header = child.children[headerIndex];
               const headerRow = new Element('tr', {}, [header]);
@@ -286,7 +286,7 @@ export const PostHtmlRenderer = memo(
       // const tableProps = useHtmlTableProps(props);
 
       let maxColumns = 0;
-      props.tnode.children.forEach((child)=>
+      props.tnode.children.forEach((child) =>
         maxColumns = child.children.length > maxColumns ? child.children.length : maxColumns
       )
 
@@ -328,56 +328,99 @@ export const PostHtmlRenderer = memo(
 
     };
 
-    return (
-      <RenderHTML
-        source={{ html: body }}
-        contentWidth={contentWidth}
-        baseStyle={{ ...styles.baseStyle, width: contentWidth }}
-        classesStyles={{
+    const tagsStyles = useMemo(
+      () => ({
+        a: styles.a,
+        img: styles.img,
+        table: styles.table,
+        tr: { ...styles.tr, width: contentWidth }, //center tag causes tr to have 0 width if not exclusivly set, contentWidth help avoid that
+        th: { ...styles.th, minWidth: _minTableColWidth },
+        td: { ...styles.td, minWidth: _minTableColWidth },
+        div: { ...styles.div, maxWidth: contentWidth }, //makes sure width covers the available horizontal space for view and not exceed the contentWidth if parent bound id not defined
+        blockquote: styles.blockquote,
+        code: styles.code,
+        li: styles.li,
+        p: styles.p,
+        h6: styles.h6
+      }),
+      [contentWidth]
+    );
+
+    const baseStyle = useMemo(
+      () => (
+        { ...styles.baseStyle, width: contentWidth }
+      ),
+      [contentWidth]
+    );
+
+    const classesStyles = useMemo(
+      () => (
+        {
           phishy: styles.phishy,
           'text-justify': styles.textJustify,
           'text-center': styles.textCenter,
-        }}
-        tagsStyles={{
-          body: styles.body,
-          a: styles.a,
-          img: styles.img,
-          table: styles.table,
-          tr: { ...styles.tr, width: contentWidth }, //center tag causes tr to have 0 width if not exclusivly set, contentWidth help avoid that
-          th: { ...styles.th, minWidth: _minTableColWidth },
-          td: { ...styles.td, minWidth: _minTableColWidth },
-          div: { ...styles.div, maxWidth: contentWidth }, //makes sure width covers the available horizontal space for view and not exceed the contentWidth if parent bound id not defined
-          blockquote: styles.blockquote,
-          code: styles.code,
-          li: styles.li,
-          p: styles.p,
-          h6: styles.h6
-        }}
-        domVisitors={{
-          onElement: _onElement,
-        }}
-        renderers={{
+        }
+      ),
+      [],
+    );
+
+    const renderers = useMemo(
+      () => (
+        {
           img: _imageRenderer,
           a: _anchorRenderer,
           p: _paraRenderer,
           iframe: _iframeRenderer,
           table: _tableRenderer
-        }}
+        } as any
+      ),
+      [],
+    );
+
+    const domVisitors = useMemo(
+      () => (
+        {
+          onElement: _onElement,
+        }
+      ),
+      [],
+    );
+
+    const customHTMLElementModels = useMemo(
+      () => (
+        {
+          iframe: iframeModel,
+        }
+      ),
+      [],
+    );
+
+    const renderersProps = useMemo(
+      () => (
+        {
+          iframe: {
+            scalesPageToFit: true
+          },
+        }
+      ),
+      [],
+    );
+
+    return (
+      <RenderHTML
+        source={{ html: body }}
+        contentWidth={contentWidth}
+        baseStyle={baseStyle}
+        classesStyles={classesStyles}
+        tagsStyles={tagsStyles}
+        domVisitors={domVisitors}
+        renderers={renderers}
         onHTMLLoaded={onLoaded && onLoaded}
         defaultTextProps={{
           selectable: true,
         }}
-        customHTMLElementModels={{
-          iframe: iframeModel,
-        }}
-        renderersProps={{
-          iframe: {
-            scalesPageToFit: true,
-            webViewProps: {
-              /* Any prop you want to pass to iframe WebViews */
-            },
-          },
-        }}
+        customHTMLElementModels={customHTMLElementModels}
+        renderersProps={renderersProps}
         WebView={WebView}
       />
     );
