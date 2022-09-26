@@ -416,6 +416,9 @@ export const setNotificationSettings = async ({ type, action }) => {
       case 'notification.mention':
         setting.mentionNotification = action;
         break;
+      case 'notification.favorite':
+        setting.favoriteNotification = action;
+        break;
       case 'notification.reblog':
         setting.reblogNotification = action;
         break;
@@ -524,6 +527,7 @@ export const getSettings = async () => {
       voteNotification: true,
       commentNotification: true,
       mentionNotification: true,
+      favoriteNotification: true,
       reblogNotification: true,
       transfersNotification: true,
       isPinCodeOpen: false,

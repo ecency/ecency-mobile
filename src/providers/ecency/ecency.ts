@@ -416,7 +416,15 @@ export const getLeaderboard = async (duration: 'day' | 'week' | 'month') => {
  * @returns array of notifications
  */
 export const getNotifications = async (data: {
-  filter?: 'rvotes' | 'mentions' | 'follows' | 'replies' | 'reblogs' | 'transfers' | 'delegations';
+  filter?:
+    | 'rvotes'
+    | 'mentions'
+    | 'follows'
+    | 'replies'
+    | 'reblogs'
+    | 'transfers'
+    | 'delegations'
+    | 'nfavorites';
   since?: string;
 }) => {
   try {

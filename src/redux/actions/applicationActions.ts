@@ -4,6 +4,7 @@ import {
   CHANGE_COMMENT_NOTIFICATION,
   CHANGE_FOLLOW_NOTIFICATION,
   CHANGE_MENTION_NOTIFICATION,
+  CHANGE_FAVORITE_NOTIFICATION,
   CHANGE_REBLOG_NOTIFICATION,
   CHANGE_TRANSFERS_NOTIFICATION,
   CHANGE_ALL_NOTIFICATION_SETTINGS,
@@ -31,7 +32,7 @@ import {
   SET_IS_BIOMETRIC_ENABLED,
   SET_ENC_UNLOCK_PIN,
   SET_POST_UPVOTE_PERCENT,
-  SET_COMMENT_UPVOTE_PERCENT
+  SET_COMMENT_UPVOTE_PERCENT,
 } from '../constants/constants';
 
 export const login = (payload) => ({
@@ -51,9 +52,6 @@ export const isLoginDone = () => ({
   type: IS_LOGIN_DONE,
 });
 
-
-
-
 // Settings actions
 export const setLanguage = (payload) => ({
   payload,
@@ -64,7 +62,6 @@ export const setApi = (payload) => ({
   payload,
   type: SET_API,
 });
-
 
 export const setPostUpvotePercent = (payload) => ({
   payload,
@@ -107,6 +104,12 @@ export const changeNotificationSettings = (payload) => {
         type: CHANGE_MENTION_NOTIFICATION,
       };
 
+    case 'notification.favorite':
+      return {
+        payload: payload.action,
+        type: CHANGE_FAVORITE_NOTIFICATION,
+      };
+
     case 'notification.reblog':
       return {
         payload: payload.action,
@@ -135,10 +138,10 @@ export const isDarkTheme = (payload) => ({
   type: IS_DARK_THEME,
 });
 
-export const setColorTheme = (payload:number) => ({
+export const setColorTheme = (payload: number) => ({
   payload,
-  type: SET_COLOR_THEME
-})
+  type: SET_COLOR_THEME,
+});
 
 export const isPinCodeOpen = (payload) => ({
   payload,
@@ -166,11 +169,11 @@ export const isDefaultFooter = (payload) => ({
 export const setCurrency = (currency) => async (dispatch) => {
   const currencySymbol = getSymbolFromCurrency(currency);
 
-  const currencyRate = await getCurrencyRate(currency)
+  const currencyRate = await getCurrencyRate(currency);
   dispatch({
     type: SET_CURRENCY,
     payload: { currency, currencyRate, currencySymbol },
-  })
+  });
 };
 
 export const setPinCode = (data) => ({
@@ -183,34 +186,32 @@ export const isRenderRequired = (payload) => ({
   type: IS_RENDER_REQUIRED,
 });
 
-export const setLastAppVersion = (versionNumber:string) => ({
-  payload:versionNumber,
-  type: SET_LAST_APP_VERSION
-})
+export const setLastAppVersion = (versionNumber: string) => ({
+  payload: versionNumber,
+  type: SET_LAST_APP_VERSION,
+});
 
-export const setSettingsMigrated = (isMigrated:boolean) => ({
-  payload:isMigrated,
-  type: SET_SETTINGS_MIGRATED
-})
+export const setSettingsMigrated = (isMigrated: boolean) => ({
+  payload: isMigrated,
+  type: SET_SETTINGS_MIGRATED,
+});
 
-export const setHidePostsThumbnails = (shouldHide:boolean) => ({
-  payload:shouldHide,
+export const setHidePostsThumbnails = (shouldHide: boolean) => ({
+  payload: shouldHide,
   type: HIDE_POSTS_THUMBNAILS,
 });
 
-export const setIsTermsAccepted = (isTermsAccepted:boolean) => ({
-  payload:isTermsAccepted,
-  type: SET_TERMS_ACCEPTED
-})
+export const setIsTermsAccepted = (isTermsAccepted: boolean) => ({
+  payload: isTermsAccepted,
+  type: SET_TERMS_ACCEPTED,
+});
 
-export const setIsBiometricEnabled = (enabled:boolean) => ({
-  payload:enabled,
-  type: SET_IS_BIOMETRIC_ENABLED
-})
+export const setIsBiometricEnabled = (enabled: boolean) => ({
+  payload: enabled,
+  type: SET_IS_BIOMETRIC_ENABLED,
+});
 
-export const setEncryptedUnlockPin = (encryptedUnlockPin:string) => ({
-  payload:encryptedUnlockPin,
-  type: SET_ENC_UNLOCK_PIN
-})
-
-
+export const setEncryptedUnlockPin = (encryptedUnlockPin: string) => ({
+  payload: encryptedUnlockPin,
+  type: SET_ENC_UNLOCK_PIN,
+});
