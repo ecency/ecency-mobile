@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Animated, TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
+import Animated, { Easing } from 'react-native-reanimated';
 
 // Styles
 import styles from './toastNotificationStyles';
@@ -12,20 +13,17 @@ class ToastNotification extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      animatedValue: new Animated.Value(0),
-    };
+    this.animatedValue = new Animated.Value(0);
   }
 
   // Component Functions
   _showToast() {
     const { duration } = this.props;
-    const animatedValue = new Animated.Value(0);
-
-    this.setState({ animatedValue });
-
-    Animated.timing(animatedValue, { toValue: 1, duration: 350, useNativeDriver: true }).start();
-
+    Animated.timing(this.animatedValue, {
+      toValue: 1,
+      duration: 350,
+      easing: Easing.inOut(Easing.ease),
+    }).start();
     if (duration) {
       this.closeTimer = setTimeout(() => {
         this._hideToast();
@@ -34,16 +32,17 @@ class ToastNotification extends Component {
   }
 
   _hideToast() {
-    const { animatedValue } = this.state;
     const { onHide } = this.props;
 
-    Animated.timing(animatedValue, { toValue: 0.0, duration: 350, useNativeDriver: true }).start(
-      () => {
-        if (onHide) {
-          onHide();
-        }
-      },
-    );
+    Animated.timing(this.animatedValue, {
+      toValue: 0.0,
+      duration: 350,
+      easing: Easing.inOut(Easing.ease),
+    }).start(() => {
+      if (onHide) {
+        onHide();
+      }
+    });
 
     if (this.closeTimer) {
       clearTimeout(this.closeTimer);
@@ -57,13 +56,12 @@ class ToastNotification extends Component {
 
   render() {
     const { text, textStyle, style, onPress, isTop } = this.props;
-    const { animatedValue } = this.state;
     const outputRange = isTop ? [-50, 0] : [50, 0];
-    const y = animatedValue.interpolate({
+    const y = this.animatedValue.interpolate({
       inputRange: [0, 1],
       outputRange,
     });
-    const position = isTop ? { top: 100 } : { bottom: 100 };
+    const position = isTop ? { top: 150 } : { bottom: 150 };
 
     return (
       <TouchableOpacity disabled={!onPress} onPress={() => onPress && onPress()}>
@@ -72,7 +70,7 @@ class ToastNotification extends Component {
             ...styles.container,
             ...style,
             ...position,
-            opacity: animatedValue,
+            opacity: 0.75,
             transform: [{ translateY: y }],
           }}
         >
