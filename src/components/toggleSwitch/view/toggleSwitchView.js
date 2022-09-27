@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { View, TouchableOpacity, Animated, NativeModules } from 'react-native';
+import { View, TouchableOpacity, NativeModules } from 'react-native';
+import Animated, { Easing } from 'react-native-reanimated';
 
 // Constants
 
@@ -97,7 +98,7 @@ class ToggleSwitchView extends PureComponent {
     Animated.timing(this.offsetX, {
       toValue,
       duration,
-      useNativeDriver: true,
+      easing: Easing.inOut(Easing.ease),
     }).start();
   };
 
