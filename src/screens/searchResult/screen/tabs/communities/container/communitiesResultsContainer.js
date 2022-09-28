@@ -39,8 +39,9 @@ const CommunitiesResultsContainer = ({ children, searchValue }) => {
   // handle cache when searchResultsScreen data updates in communities reducer
   useEffect(() => {
     if (subscribingCommunitiesInSearchResultsScreen && selectedCommunityItem) {
-      const { status } =
-        subscribingCommunitiesInSearchResultsScreen[selectedCommunityItem.communityId];
+      const { status } = subscribingCommunitiesInSearchResultsScreen[
+        selectedCommunityItem.communityId
+      ];
       if (status === statusMessage.SUCCESS) {
         dispatch(updateSubscribedCommunitiesCache(selectedCommunityItem));
       }

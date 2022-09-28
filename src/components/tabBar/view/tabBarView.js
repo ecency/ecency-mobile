@@ -56,8 +56,13 @@ class TabBar extends PureComponent {
   };
 
   _renderUnderline = () => {
-    const { tabs, tabUnderlineDefaultWidth, tabUnderlineScaleX, scrollValue, underlineStyle } =
-      this.props;
+    const {
+      tabs,
+      tabUnderlineDefaultWidth,
+      tabUnderlineScaleX,
+      scrollValue,
+      underlineStyle,
+    } = this.props;
     const { activeColor } = this.state;
 
     const containerWidth = getWindowDimensions().nativeWidth;
