@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { Component } from 'react';
-import { Animated, Easing, View } from 'react-native';
+import { View } from 'react-native';
+import Animated, { Easing } from 'react-native-reanimated';
 
 // Styles
 import styles from './pinAnimatedInputStyles';
@@ -32,7 +33,7 @@ class PinAnimatedInput extends Component {
         Animated.timing(item, {
           toValue: 1,
           duration: 250,
-          easing: Easing.linear,
+          easing: Easing.linear(Easing.linear),
         }),
       ),
     ]).start((o) => {
