@@ -38,7 +38,7 @@ public class MainActivity extends ReactActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     SplashScreen.show(this);
-    super.onCreate(savedInstanceState);
+    super.onCreate(null); //https://stackoverflow.com/questions/57709742/unable-to-instantiate-fragment-com-swmansion-rnscreens-screen
   }
   //native side reference: https://github.com/facebook/react-native/issues/28823#issuecomment-642032481
   @Override
