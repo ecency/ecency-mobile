@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
-import Animated, { Easing } from 'react-native-reanimated';
+import * as Animatable from 'react-native-animatable';
 
 // Styles
 import styles from './toastNotificationStyles';
@@ -13,69 +13,60 @@ class ToastNotification extends Component {
 
   constructor(props) {
     super(props);
-    this.animatedValue = new Animated.Value(0);
   }
+
+  handleViewRef = (ref) => (this.view = ref);
 
   // Component Functions
-  _showToast() {
-    const { duration } = this.props;
-    Animated.timing(this.animatedValue, {
-      toValue: 1,
-      duration: 350,
-      easing: Easing.inOut(Easing.ease),
-    }).start();
-    if (duration) {
-      this.closeTimer = setTimeout(() => {
-        this._hideToast();
-      }, duration);
-    }
-  }
-
-  _hideToast() {
-    const { onHide } = this.props;
-
-    Animated.timing(this.animatedValue, {
-      toValue: 0.0,
-      duration: 350,
-      easing: Easing.inOut(Easing.ease),
-    }).start(() => {
-      if (onHide) {
-        onHide();
-      }
-    });
-
-    if (this.closeTimer) {
-      clearTimeout(this.closeTimer);
-    }
-  }
+  _showToast = () => {
+    const { duration, isTop } = this.props;
+    const initialPosition = isTop ? { top: 0 } : { bottom: 0 };
+    const finalPosition = isTop ? { top: 100 } : { bottom: 100 };
+    this.view
+      .animate({ 0: { opacity: 0, ...initialPosition }, 1: { opacity: 1, ...finalPosition } })
+      .then((endState) => {
+        if (duration) {
+          this.closeTimer = setTimeout(() => {
+            this._hideToast();
+          }, duration);
+        }
+      });
+  };
+  _hideToast = () => {
+    const { isTop } = this.props;
+    const finalPosition = isTop ? { top: 0 } : { bottom: 0 };
+    const initialPosition = isTop ? { top: 100 } : { bottom: 100 };
+    this.view
+      .animate({ 0: { opacity: 1, ...initialPosition }, 1: { opacity: 0, ...finalPosition } })
+      .then((endState) => {
+        const { onHide } = this.props;
+        if (onHide) {
+          onHide();
+        }
+      });
+  };
 
   // Component Life Cycles
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     this._showToast();
   }
 
   render() {
-    const { text, textStyle, style, onPress, isTop } = this.props;
-    const outputRange = isTop ? [-50, 0] : [50, 0];
-    const y = this.animatedValue.interpolate({
-      inputRange: [0, 1],
-      outputRange,
-    });
-    const position = isTop ? { top: 150 } : { bottom: 150 };
+    const { text, textStyle, style, onPress } = this.props;
 
     return (
       <TouchableOpacity disabled={!onPress} onPress={() => onPress && onPress()}>
-        <Animated.View
+        <Animatable.View
           style={{
             ...styles.container,
             ...style,
-            ...position,
-            opacity: 0.75,
-            transform: [{ translateY: y }],
           }}
+          easing="ease-in-out"
+          duration={500}
+          ref={this.handleViewRef}
         >
           <Text style={[styles.text, textStyle]}>{text}</Text>
-        </Animated.View>
+        </Animatable.View>
       </TouchableOpacity>
     );
   }
