@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import Animated, { Easing } from 'react-native-reanimated';
+import * as Animatable from 'react-native-animatable';
 
 // Styles
 import styles from './pinAnimatedInputStyles';
@@ -15,70 +15,21 @@ class PinAnimatedInput extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-
-    this.dots = [];
-
-    this.dots[0] = new Animated.Value(0);
-    this.dots[1] = new Animated.Value(0);
-    this.dots[2] = new Animated.Value(0);
-    this.dots[3] = new Animated.Value(0);
-  }
-
-  _startLoadingAnimation = () => {
-    [...Array(4)].map((item, index) => {
-      this.dots[index].setValue(0);
-    });
-    Animated.sequence([
-      ...this.dots.map((item) =>
-        Animated.timing(item, {
-          toValue: 1,
-          duration: 250,
-          easing: Easing.linear(Easing.linear),
-        }),
-      ),
-    ]).start((o) => {
-      if (o.finished) {
-        this._startLoadingAnimation();
-      }
-    });
-  };
-
-  _stopLoadingAnimation = () => {
-    [...Array(4)].map((item, index) => {
-      this.dots[index].stopAnimation();
-    });
-  };
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { loading } = this.props;
-    if (loading !== nextProps.loading) {
-      if (nextProps.loading) {
-        this._startLoadingAnimation();
-      } else {
-        this._stopLoadingAnimation();
-      }
-    }
   }
 
   render() {
     const { pin } = this.props;
-    const marginBottom = [];
-
-    [...Array(4)].map((item, index) => {
-      marginBottom[index] = this.dots[index].interpolate({
-        inputRange: [0, 0.5, 1],
-        outputRange: [0, 20, 0],
-      });
-    });
-
+    var dotsArr = Array(4).fill('');
     return (
       <View style={[styles.container]}>
-        {this.dots.map((val, index) => {
+        {dotsArr.map((val, index) => {
           if (pin.length > index) {
             return (
-              <Animated.View
+              <Animatable.View
+                animation="fadeIn"
                 key={`passwordItem-${index}`}
-                style={[styles.input, styles.inputWithBackground, { bottom: marginBottom[index] }]}
+                style={[styles.input, styles.inputWithBackground]}
+                useNativeDriver
               />
             );
           }
