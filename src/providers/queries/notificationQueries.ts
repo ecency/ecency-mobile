@@ -1,7 +1,13 @@
-import { QueryFunction, useInfiniteQuery } from '@tanstack/react-query';
+import { InfiniteData, useInfiniteQuery, useMutation, UseMutationOptions, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { getNotifications } from '../ecency/ecency';
+import { useIntl } from 'react-intl';
+import bugsnapInstance from '../../config/bugsnag';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { updateUnreadActivityCount } from '../../redux/actions/accountAction';
+import { toastNotification } from '../../redux/actions/uiAction';
+import { getNotifications, markNotifications } from '../ecency/ecency';
 import { NotificationFilters } from '../ecency/ecency.types';
+import { markHiveNotifications } from '../hive/dhive';
 import QUERIES from './queryKeys';
 
 export const useNotificationsQuery = (filter: NotificationFilters) => {
@@ -58,3 +64,50 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
     refresh: _refresh,
   };
 };
+
+
+export const useNotificationReadMutation = (filter: NotificationFilters) => {
+
+  const intl = useIntl();
+  const dispatch = useAppDispatch();  
+  const queryClient = useQueryClient();
+
+  const currentAccount = useAppSelector(state => state.account.currentAccount);
+  const pinCode = useAppSelector(state => state.application.pin);
+
+
+  const _mutationFn = async () => {
+    try {
+      await markNotifications();
+      console.log('Ecency notifications marked as Read');
+      await markHiveNotifications(currentAccount, pinCode)
+      console.log('Hive notifications marked as Read');
+
+    } catch (err) {
+      bugsnapInstance.notify(err);
+    }
+  }
+
+
+  const _options:UseMutationOptions<void, unknown, void, void> = {
+      onMutate: () => {
+        
+        //TODO: reset this routine
+        //update query data
+        const _data:InfiniteData<any[]>|undefined = queryClient.getQueryData([QUERIES.DRAFTS.GET, filter])
+        if(_data && _data.pages){
+          _data.pages = _data.pages.map((page) => page.map((item) => ({ ...item, read: 1 })))
+          queryClient.setQueryData([QUERIES.DRAFTS.GET, filter], _data);
+        }
+      },
+      onSuccess: async () => {
+        dispatch(updateUnreadActivityCount(0));
+        queryClient.invalidateQueries([QUERIES.NOTIFICATIONS.GET]);
+      },
+      onError:  () => {
+        dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+      }
+  }
+
+  return useMutation(_mutationFn, _options)
+}

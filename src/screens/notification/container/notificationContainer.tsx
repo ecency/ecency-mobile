@@ -20,7 +20,7 @@ import { showProfileModal } from '../../../redux/actions/uiAction';
 import { markHiveNotifications } from '../../../providers/hive/dhive';
 import bugsnapInstance from '../../../config/bugsnag';
 import { useAppSelector } from '../../../hooks';
-import { useNotificationsQuery } from '../../../providers/queries';
+import { useNotificationReadMutation, useNotificationsQuery } from '../../../providers/queries';
 import { NotificationFilters } from '../../../providers/ecency/ecency.types';
 import QUERIES from '../../../providers/queries/queryKeys';
 
@@ -43,6 +43,7 @@ const NotificationContainer = ({ navigation }) => {
   );
 
   const notificationsQuery = useNotificationsQuery(selectedFilter);
+  const notificationReadMutation = useNotificationReadMutation(selectedFilter)
 
   useEffect(() => {
     queryClient.removeQueries([QUERIES.NOTIFICATIONS.GET]);
@@ -50,12 +51,14 @@ const NotificationContainer = ({ navigation }) => {
     curUsername.current = currentAccount.useranme;
   }, [currentAccount.username]);
 
+
   useEffect(() => {
-    if (currentAccount.unread_activity_count < unreadCountRef.current) {
+    if (currentAccount.unread_activity_count > unreadCountRef.current) {
       queryClient.invalidateQueries([QUERIES.NOTIFICATIONS.GET]);
     }
     unreadCountRef.current = currentAccount.unread_activity_count;
   }, [currentAccount.unread_activity_count]);
+
 
   const _getActivities = (loadMore = false) => {
     if (loadMore) {
@@ -120,36 +123,7 @@ const NotificationContainer = ({ navigation }) => {
     if (!isConnected) {
       return;
     }
-
-    // setIsRefershing(true);
-
-    markNotifications()
-      .then(() => {
-        // notificationsMap.forEach((notifications, key) => {
-        // const updatedNotifications = notifications.map((item) => ({ ...item, read: 1 }));
-        // notificationsMap.set(key, updatedNotifications);
-        // });
-
-        dispatch(updateUnreadActivityCount(0));
-        markHiveNotifications(currentAccount, pinCode)
-          .then(() => {
-            console.log('Hive notifications marked as Read');
-          })
-          .catch((err) => {
-            bugsnapInstance.notify(err);
-          });
-
-        // setNotificationsMap(notificationsMap);
-        // setIsRefershing(false);
-      })
-      .catch(() => {
-        Alert.alert(
-          intl.formatMessage({ id: 'alert.error' }),
-          intl.formatMessage({ d: 'alert.unknow_error' }),
-        );
-
-        // setIsRefershing(false);
-      });
+    notificationReadMutation.mutate();
   };
 
   const _handleOnPressLogin = () => {
