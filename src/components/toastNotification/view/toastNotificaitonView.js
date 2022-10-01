@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
-import * as Animatable from 'react-native-animatable';
+import { View as AnimatedView } from 'react-native-animatable';
 
 // Styles
 import styles from './toastNotificationStyles';
@@ -13,6 +13,11 @@ class ToastNotification extends Component {
 
   constructor(props) {
     super(props);
+  }
+
+  // Component Life Cycles
+  componentDidMount() {
+    this._showToast();
   }
 
   handleViewRef = (ref) => (this.view = ref);
@@ -46,17 +51,12 @@ class ToastNotification extends Component {
       });
   };
 
-  // Component Life Cycles
-  componentDidMount() {
-    this._showToast();
-  }
-
   render() {
     const { text, textStyle, style, onPress } = this.props;
 
     return (
       <TouchableOpacity disabled={!onPress} onPress={() => onPress && onPress()}>
-        <Animatable.View
+        <AnimatedView
           style={{
             ...styles.container,
             ...style,
@@ -66,7 +66,7 @@ class ToastNotification extends Component {
           ref={this.handleViewRef}
         >
           <Text style={[styles.text, textStyle]}>{text}</Text>
-        </Animatable.View>
+        </AnimatedView>
       </TouchableOpacity>
     );
   }
