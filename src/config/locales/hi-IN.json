@@ -61,7 +61,7 @@
     "amount_information": "राशि समायोजित करने के लिए स्लाइडर को खींचें।",
     "amount": "रकम",
     "memo": "ज्ञापन",
-    "tap_update": "Tap to update",
+    "tap_update": "अपडेट करने के लिए टैप करें",
     "information": "क्या आप रकम स्थान्तरित करना चाहते हैं?",
     "amount_desc": "शेष रकम",
     "memo_desc": "यह ज्ञापन सार्वजनिक है",
@@ -94,7 +94,7 @@
     "ecency": {
       "title": "अंक",
       "name": "इसेंसी अंक",
-      "buy": "GET POINTS"
+      "buy": "अंक प्राप्त करें"
     },
     "savinghive": {
       "title": "हाइव बचत"
@@ -104,7 +104,7 @@
     },
     "hive": {
       "title": "हाइव",
-      "name": "Hive Token",
+      "name": "हाइव टोकन",
       "buy": "हाइव प्राप्त करें"
     },
     "hbd": {
@@ -113,35 +113,35 @@
     },
     "hive_power": {
       "title": "हाइव पावर",
-      "name": "Hive Power"
+      "name": "हाइव पावर"
     },
     "hive_dollar": {
-      "name": "Hive Dollar"
+      "name": "हाइव डॉलर"
     },
     "btc": {
       "title": "बीटीसी",
       "buy": "बीटीसी प्राप्त करें",
       "address": "प्राप्त करना"
     },
-    "last_updated": "Last Updated:",
-    "updating": "Updating...",
-    "coin_details": "Details",
-    "change": "Change",
-    "activities": "Activities",
-    "savings_withdrawal": "Pending Withdrawals",
-    "open_orders": "Open Orders",
-    "conversions_requested": "Conversions Requested",
-    "expires": "expires",
-    "pending_requests": "Pending Requests",
-    "boost_account": "Boost",
-    "get_boost": "Get Boost"
+    "last_updated": "अंतिम अद्यतन:",
+    "updating": "अपडेट हो रहा है...",
+    "coin_details": "विवरण",
+    "change": "परिवर्तन",
+    "activities": "क्रियाएँ",
+    "savings_withdrawal": "लंबित निकासी",
+    "open_orders": "खुला ऑर्डर्स",
+    "conversions_requested": "रूपांतरण का अनुरोध किया गया",
+    "expires": "समय सीमा समाप्त",
+    "pending_requests": "अनुरोध लंबित",
+    "boost_account": "बूस्ट",
+    "get_boost": "बूस्ट प्राप्त करें"
   },
   "notification": {
     "vote": "मतदान किया",
     "unvote": "डाउनवोट किया",
     "reply": "को उत्तर दिया",
     "mention": "में वर्णित",
-    "favorites": "made new post",
+    "favorites": "नई पोस्ट बनाई",
     "follow": "आपके साथ जुड़ा",
     "unfollow": "आपका साथ छोड़ा",
     "ignore": "आपको अनदेखा किया",
@@ -221,20 +221,20 @@
     "currency": "मुद्रा",
     "language": "भाषा",
     "server": "सर्वर",
-    "color_theme": "Appearance",
+    "color_theme": "स्वरूप",
     "push_notification": "संभर अधिसूचना",
     "notification": {
       "follow": "का पालन करें",
       "vote": "वोट",
       "comment": "टिप्पणी",
       "mention": "उल्लेख",
-      "favorite": "Favorites",
+      "favorite": "पसंदीदा",
       "reblog": "पुनर्प्रेशण",
       "transfers": "स्थानांतरण",
       "delegations": "डेलीगेशन्स"
     },
     "pincode": "Pincode",
-    "biometric": "Finger Print / Face Unlock",
+    "biometric": "फिंगर प्रिंट / फेस अनलॉक",
     "reset_pin": "पिन कोड रीसेट करें",
     "reset": "पुनः नियोजन",
     "nsfw_content": "एनडीएफडब्ल्यू",
@@ -247,15 +247,15 @@
       "always_warn": "हमेशा चेतावनी देते हैं"
     },
     "theme": {
-      "system": "Device settings",
-      "light": "Light",
-      "dark": "Dark"
+      "system": "डिवाइस सेटिंग",
+      "light": "लाइट",
+      "dark": "डार्क"
     },
     "feedback_success": "ईमेल सफलतापूर्वक खुला",
     "feedback_fail": "ईमेल क्लाइंट नहीं खोल सका",
     "server_fail": "Server उपलब्ध नहीं है",
-    "show_imgs": "Show Images",
-    "delete_account": "Delete Account"
+    "show_imgs": "छवियां दिखाएं",
+    "delete_account": "खाता हटा दो"
   },
   "voters": {
     "voters_info": "मतदाताओं की जानकारी",
@@ -272,14 +272,14 @@
     "login": "लॉगिन करें",
     "steemconnect_description": "यदि आप अपने पासवर्ड को अपने डिवाइस पर एन्क्रिप्ट और सहेज कर नहीं रखना चाहते हैं, तो आप हाइवसाईनरका उपयोग कर सकते हैं।",
     "steemconnect_fee_description": "जानकारी",
-    "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first",
-    "login_failed": "Login Failed",
-    "login_failed_body": "try a different key or try again later.",
-    "deep_login_alert_title": "Easy Login @{username}",
-    "deep_login_alert_body": "Verify direct login using access code",
-    "deep_login_url_expired": "Login url expired, please use private key or password to login",
-    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
+    "not_loggedin_alert": "लॉग इन नहीं है",
+    "not_loggedin_alert_desc": "पहले लॉगिन करें",
+    "login_failed": "लॉगिन असफल",
+    "login_failed_body": "कोई दूसरी कुंजी आज़माएं या बाद में फिर से कोशिश करें.",
+    "deep_login_alert_title": "आसान लॉगिन @{username}",
+    "deep_login_alert_body": "एक्सेस कोड का उपयोग करके सीधे लॉगिन सत्यापित करें",
+    "deep_login_url_expired": "लॉगिन यूआरएल समाप्त हो गया है, कृपया लॉगिन करने के लिए निजी कुंजी या पासवर्ड का उपयोग करें",
+    "deep_login_malformed_url": "विकृत लॉगिन यूआरएल, लॉग इन करने के लिए कृपया निजी कुंजी या पासवर्ड का उपयोग करें"
   },
   "register": {
     "button": "साइन अप करें",
@@ -321,7 +321,7 @@
     "add_an_existing_account": "एक मौजूदा खाता जोड़ें",
     "accounts": "खाते",
     "refer": "रेफर करें और कमाएं",
-    "qr": "QR Scan"
+    "qr": "क्यूआर स्कैन"
   },
   "header": {
     "title": "आपकी अपनी संभरण को अपने अनुकूल संयोजित करने के लिए लॉगिन करें",
@@ -390,17 +390,17 @@
     "draft_save_title": "ड्राफ्ट सहेजा जा रहा है",
     "draft_update": "वर्तमान ड्राफ्ट अपडेट करें",
     "draft_save_new": "नए ड्राफ़्ट के रूप में सहेजें",
-    "label": "Label",
-    "enter_label_placeholder": "Enter Label (Optional)",
-    "url": "URL",
-    "enter_url_placeholder": "Enter URL",
-    "link_type_text": "Type of Link",
+    "label": "लेबल",
+    "enter_label_placeholder": "लेबल दर्ज करें (वैकल्पिक)",
+    "url": "यूआरएल",
+    "enter_url_placeholder": "यू आर एल दर्ज करो",
+    "link_type_text": "लिंक का प्रकार",
     "insert_link": "लिंक डालें",
-    "preview": "Preview",
-    "invalid_url_error": "Please insert valid url",
-    "plain": "Plain",
-    "video": "Video",
-    "image": "Image"
+    "preview": "पूर्वावलोकन",
+    "invalid_url_error": "कृपया मान्य यूआरएल डालें",
+    "plain": "प्लेन",
+    "video": "वीडियो",
+    "image": "छवि"
   },
   "snippets": {
     "label_no_snippets": "कोई स्निपेट नहीं मिला",
@@ -419,7 +419,7 @@
     "btn_cancel": "रद्द करें"
   },
   "uploads_modal": {
-    "label_no_images": "No Existing Uploads...",
+    "label_no_images": "कोई मौजूदा अपलोड नहीं...",
     "title": "छवियाँ अपलोड की गईं",
     "title_remove_confirmation": "छवि हटाएं",
     "btn_add": "छवि",
