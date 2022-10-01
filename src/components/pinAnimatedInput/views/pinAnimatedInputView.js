@@ -27,6 +27,7 @@ class PinAnimatedInput extends Component {
             return (
               <Animatable.View
                 animation="fadeIn"
+                duration={100}
                 key={`passwordItem-${index}`}
                 style={[styles.input, styles.inputWithBackground]}
                 useNativeDriver
