@@ -221,7 +221,7 @@ export const extractMetadata = (body: string, thumbUrl?: string) => {
   const mUrls = extractUrls(body);
   const mUsers = body && body.match(userReg);
 
-  const matchedImages = extractImageUrls({urls:mUrls});
+  const matchedImages = extractImageUrls({ urls: mUrls });
   const matchedLinks = [];
   const matchedUsers = [];
 
