@@ -100,7 +100,7 @@ class ApplicationContainer extends Component {
     super(props);
     this.state = {
       isRenderRequire: true,
-      isIos: Platform.OS !== 'android',
+      // isIos: Platform.OS !== 'android',
       appState: AppState.currentState,
       foregroundNotificationData: null,
     };
@@ -145,7 +145,7 @@ class ApplicationContainer extends Component {
     );
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const { isGlobalRenderRequired, dispatch } = this.props;
 
     if (isGlobalRenderRequired !== prevProps.isGlobalRenderRequired && isGlobalRenderRequired) {
@@ -218,7 +218,7 @@ class ApplicationContainer extends Component {
   };
 
   _handleDeepLink = async (url = '') => {
-    const { currentAccount, intl } = this.props;
+    const { currentAccount } = this.props;
 
     if (!url) {
       return;
@@ -308,6 +308,7 @@ class ApplicationContainer extends Component {
 
     if (appState.match(/inactive|background/) && nextAppState === 'active') {
       this._refreshGlobalProps();
+      this._refreshUnreadActivityCount();
       if (_isPinCodeOpen && this._pinCodeTimer) {
         clearTimeout(this._pinCodeTimer);
       }
@@ -356,7 +357,7 @@ class ApplicationContainer extends Component {
       const type = get(push, 'type', '');
       const fullPermlink =
         get(push, 'permlink1', '') + get(push, 'permlink2', '') + get(push, 'permlink3', '');
-      const username = get(push, 'target', '');
+      // const username = get(push, 'target', '');
       const activity_id = get(push, 'id', '');
 
       switch (type) {
@@ -487,8 +488,14 @@ class ApplicationContainer extends Component {
     actions.fetchCoinQuotes();
   };
 
+  _refreshUnreadActivityCount = async () => {
+    const { dispatch } = this.props as any;
+    const unreadActivityCount = await getUnreadNotificationCount();
+    dispatch(updateUnreadActivityCount(unreadActivityCount));
+  };
+
   _getUserDataFromRealm = async () => {
-    const { dispatch, pinCode, isPinCodeOpen: _isPinCodeOpen, isConnected } = this.props;
+    const { dispatch, isPinCodeOpen: _isPinCodeOpen, isConnected } = this.props;
     let realmData = [];
 
     const res = await getAuthStatus();
