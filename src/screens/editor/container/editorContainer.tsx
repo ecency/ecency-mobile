@@ -8,8 +8,7 @@ import { isArray } from 'lodash';
 
 // Services and Actions
 import { Buffer } from 'buffer';
-
-import { useQueryClient } from '@tanstack/react-query';
+import { QueryClient, useQueryClient } from '@tanstack/react-query';
 import { addDraft, updateDraft, getDrafts, addSchedule } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
@@ -22,6 +21,7 @@ import {
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
+
 // Utilities
 import {
   generatePermlink,
@@ -34,6 +34,7 @@ import {
   extractImageUrls,
 } from '../../../utils/editor';
 // import { generateSignature } from '../../../utils/image';
+
 // Component
 import EditorScreen from '../screen/editorScreen';
 import { removeBeneficiaries, setBeneficiaries } from '../../../redux/actions/editorActions';
@@ -85,7 +86,7 @@ class EditorContainer extends Component<any, any> {
   // Component Life Cycle Functions
   componentDidMount() {
     this._isMounted = true;
-    const { currentAccount, route } = this.props;
+    const { currentAccount, route, queryClient } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
     let isReply;
     let draftId;
@@ -98,16 +99,22 @@ class EditorContainer extends Component<any, any> {
       const navigationParams = route.params;
       hasSharedIntent = navigationParams.hasSharedIntent;
 
-      if (navigationParams.draft) {
-        _draft = navigationParams.draft;
+      if (navigationParams.draftId) {
+        draftId = navigationParams.draftId;
+        const cachedDrafts: any = queryClient.getQueryData([QUERIES.DRAFTS.GET]);
 
-        // this._loadMeta(_draft);
+        if (cachedDrafts && cachedDrafts.length) {
+          //get draft from query cache
+          const _draft = cachedDrafts.find((draft) => draft._id === draftId);
 
-        this.setState({
-          draftId: _draft._id,
-        });
-        this._getStorageDraft(username, isReply, _draft);
+          this.setState({
+            draftId,
+          });
+
+          this._getStorageDraft(username, isReply, _draft);
+        }
       }
+
       if (navigationParams.community) {
         this.setState({
           community: navigationParams.community,
