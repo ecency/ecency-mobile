@@ -247,9 +247,9 @@ class EditorContainer extends Component<any, any> {
           : paramDraft.tags.split(',');
         this.setState({
           draftPost: {
-            title: paramDraft.title,
-            body: paramDraft.body,
-            tags: _tags,
+            title: paramDraft.title || '',
+            body: paramDraft.body || '',
+            tags: _tags || [],
             meta: paramDraft.meta ? paramDraft.meta : null,
           },
           draftId: paramDraft._id,
