@@ -78,10 +78,7 @@ const NotificationContainer = ({ navigation }) => {
     let params;
     let key;
     if (data && !data.read) {
-      markNotifications(data.id).then((result) => {
-        const { unread } = result;
-        dispatch(updateUnreadActivityCount(unread));
-      });
+      notificationReadMutation.mutate(data.id);
     }
 
     if (permlink && author) {
