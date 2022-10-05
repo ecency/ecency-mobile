@@ -1,15 +1,11 @@
 /* eslint-disable react/no-unused-state */
 import React, { useRef, useState } from 'react';
-import { Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import get from 'lodash/get';
-import { useIntl } from 'react-intl';
 
 // Actions and Services
 import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { markNotifications } from '../../../providers/ecency/ecency';
-import { updateUnreadActivityCount } from '../../../redux/actions/accountAction';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -17,39 +13,46 @@ import ROUTES from '../../../constants/routeNames';
 // Components
 import NotificationScreen from '../screen/notificationScreen';
 import { showProfileModal } from '../../../redux/actions/uiAction';
-import { markHiveNotifications } from '../../../providers/hive/dhive';
-import bugsnapInstance from '../../../config/bugsnag';
 import { useAppSelector } from '../../../hooks';
 import { useNotificationReadMutation, useNotificationsQuery } from '../../../providers/queries';
 import { NotificationFilters } from '../../../providers/ecency/ecency.types';
 import QUERIES from '../../../providers/queries/queryKeys';
 
 const NotificationContainer = ({ navigation }) => {
-  const intl = useIntl();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
 
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
   const isConnected = useAppSelector((state) => state.application.isConnected);
-  const pinCode = useAppSelector((state) => state.application.pin);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const globalProps = useAppSelector((state) => state.account.globalProps);
+
 
   const unreadCountRef = useRef(currentAccount.unread_acitivity_count || 0);
   const curUsername = useRef(currentAccount.username);
 
-  const [selectedFilter, setSelectedFilter] = useState<NotificationFilters>(
-    NotificationFilters.ACTIVITIES,
-  );
 
-  const notificationsQuery = useNotificationsQuery(selectedFilter);
-  const notificationReadMutation = useNotificationReadMutation(selectedFilter)
+  const notificationReadMutation = useNotificationReadMutation()
+  const allNotificationsQuery = useNotificationsQuery(NotificationFilters.ACTIVITIES);
+  const repliesNotificationsQuery = useNotificationsQuery(NotificationFilters.REPLIES);
+  const mentiosnNotificationsQuery = useNotificationsQuery(NotificationFilters.MENTIONS);
+
+  const [selectedFilter, setSelectedFilter] = useState(NotificationFilters.ACTIVITIES);
+
+  const selectedQuery = selectedFilter === NotificationFilters.REPLIES ?
+    repliesNotificationsQuery : selectedFilter === NotificationFilters.MENTIONS ?
+      mentiosnNotificationsQuery : allNotificationsQuery;
+
+
 
   useEffect(() => {
-    queryClient.removeQueries([QUERIES.NOTIFICATIONS.GET]);
-    notificationsQuery.refetch();
-    curUsername.current = currentAccount.useranme;
+    if (curUsername.current !== currentAccount.username) {
+      queryClient.removeQueries([QUERIES.NOTIFICATIONS.GET]);
+      selectedQuery.refresh();
+      curUsername.current = currentAccount.useranme;
+    }
   }, [currentAccount.username]);
+
 
 
   useEffect(() => {
@@ -60,15 +63,18 @@ const NotificationContainer = ({ navigation }) => {
   }, [currentAccount.unread_activity_count]);
 
 
+
   const _getActivities = (loadMore = false) => {
     if (loadMore) {
       console.log('load more notifications');
-      notificationsQuery.fetchNextPage();
+      selectedQuery.fetchNextPage();
     } else {
       console.log('refreshing');
-      notificationsQuery.refresh();
+      selectedQuery.refresh();
     }
   };
+
+
 
   const _navigateToNotificationRoute = (data) => {
     const type = get(data, 'type');
@@ -127,11 +133,8 @@ const NotificationContainer = ({ navigation }) => {
     navigation.navigate(ROUTES.SCREENS.LOGIN);
   };
 
-  const _changeSelectedFilter = async (value) => {
-    setSelectedFilter(value);
-  };
 
-  const _notifications = notificationsQuery.reducedData;
+  const _notifications = selectedQuery.data;
 
   return (
     <NotificationScreen
@@ -141,11 +144,11 @@ const NotificationContainer = ({ navigation }) => {
       handleOnUserPress={_handleOnUserPress}
       readAllNotification={_readAllNotification}
       handleLoginPress={_handleOnPressLogin}
-      isNotificationRefreshing={notificationsQuery.isFetching}
+      isNotificationRefreshing={selectedQuery.isRefreshing}
       isLoggedIn={isLoggedIn}
-      changeSelectedFilter={_changeSelectedFilter}
+      changeSelectedFilter={setSelectedFilter}
       globalProps={globalProps}
-      isLoading={notificationsQuery.isFetchingNextPage}
+      isLoading={selectedQuery.isLoading}
     />
   );
 };
