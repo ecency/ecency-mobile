@@ -69,6 +69,7 @@ const SnippetsModal = ({ handleOnSelect }: SnippetsModalProps) => {
     return (
       <TouchableOpacity onPress={_onPress}>
         <SnippetItem
+          id={item.id}
           title={item.title}
           body={item.body}
           index={index}
@@ -123,7 +124,7 @@ const SnippetsModal = ({ handleOnSelect }: SnippetsModalProps) => {
           ListEmptyComponent={_renderEmptyContent}
           refreshControl={
             <RefreshControl
-              refreshing={snippetsQuery.isLoading}
+              refreshing={snippetsQuery.isFetching}
               onRefresh={snippetsQuery.refetch}
             />
           }
@@ -133,9 +134,6 @@ const SnippetsModal = ({ handleOnSelect }: SnippetsModalProps) => {
 
       <SnippetEditorModal
         ref={editorRef}
-        onSnippetsUpdated={() => {
-          throw new Error('not implemented');
-        }}
       />
     </View>
   );
