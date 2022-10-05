@@ -23,7 +23,5 @@ export const initQueryClient = () => {
   } as PersistQueryClientProviderProps;
 };
 
-
-export * from "./notificationQueries";
-export * from "./draftQueries";
-
+export * from './notificationQueries';
+export * from './draftQueries';

@@ -27,23 +27,22 @@ const NotificationContainer = ({ navigation }) => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const globalProps = useAppSelector((state) => state.account.globalProps);
 
-
   const unreadCountRef = useRef(currentAccount.unread_acitivity_count || 0);
   const curUsername = useRef(currentAccount.username);
 
-
-  const notificationReadMutation = useNotificationReadMutation()
+  const notificationReadMutation = useNotificationReadMutation();
   const allNotificationsQuery = useNotificationsQuery(NotificationFilters.ACTIVITIES);
   const repliesNotificationsQuery = useNotificationsQuery(NotificationFilters.REPLIES);
   const mentiosnNotificationsQuery = useNotificationsQuery(NotificationFilters.MENTIONS);
 
   const [selectedFilter, setSelectedFilter] = useState(NotificationFilters.ACTIVITIES);
 
-  const selectedQuery = selectedFilter === NotificationFilters.REPLIES ?
-    repliesNotificationsQuery : selectedFilter === NotificationFilters.MENTIONS ?
-      mentiosnNotificationsQuery : allNotificationsQuery;
-
-
+  const selectedQuery =
+    selectedFilter === NotificationFilters.REPLIES
+      ? repliesNotificationsQuery
+      : selectedFilter === NotificationFilters.MENTIONS
+      ? mentiosnNotificationsQuery
+      : allNotificationsQuery;
 
   useEffect(() => {
     if (curUsername.current !== currentAccount.username) {
@@ -53,16 +52,12 @@ const NotificationContainer = ({ navigation }) => {
     }
   }, [currentAccount.username]);
 
-
-
   useEffect(() => {
     if (currentAccount.unread_activity_count > unreadCountRef.current) {
       queryClient.invalidateQueries([QUERIES.NOTIFICATIONS.GET]);
     }
     unreadCountRef.current = currentAccount.unread_activity_count;
   }, [currentAccount.unread_activity_count]);
-
-
 
   const _getActivities = (loadMore = false) => {
     if (loadMore) {
@@ -73,8 +68,6 @@ const NotificationContainer = ({ navigation }) => {
       selectedQuery.refresh();
     }
   };
-
-
 
   const _navigateToNotificationRoute = (data) => {
     const type = get(data, 'type');
@@ -132,7 +125,6 @@ const NotificationContainer = ({ navigation }) => {
   const _handleOnPressLogin = () => {
     navigation.navigate(ROUTES.SCREENS.LOGIN);
   };
-
 
   const _notifications = selectedQuery.data;
 
