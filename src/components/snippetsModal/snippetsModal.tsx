@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { View, FlatList, Text, TouchableOpacity, Alert } from 'react-native';
 import { useIntl } from 'react-intl';
-import { getFragments, deleteFragment } from '../../providers/ecency/ecency';
+import { deleteFragment } from '../../providers/ecency/ecency';
 import { MainButton } from '..';
 import styles from './snippetsModalStyles';
 import { RefreshControl } from 'react-native';
@@ -9,6 +9,7 @@ import SnippetEditorModal, { SnippetEditorModalRef } from '../snippetEditorModal
 import SnippetItem from './snippetItem';
 import { Snippet } from '../../models';
 import { useAppSelector } from '../../hooks';
+import { useSnippetsQuery } from '../../providers/queries';
 
 interface SnippetsModalProps {
   handleOnSelect:(snippetText:string)=>void,
@@ -20,43 +21,21 @@ const SnippetsModal = ({ handleOnSelect }:SnippetsModalProps) => {
 
   const isLoggedIn = useAppSelector(state => state.application.isLoggedIn)
 
-  const [snippets, setSnippets] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const snippetsQuery = useSnippetsQuery();
 
-  useEffect(() => {
-    _getSnippets();
-  }, []);
-
-
-
-  //fetch snippets from server
-  const _getSnippets = async () => {
-    try{
-
-        setIsLoading(true);
-        const snips = await getFragments()
-        console.log("snips received", snips)
-        setSnippets(snips);
-        setIsLoading(false);
-      
-    }catch(err){
-      console.warn("Failed to get snippets")
-      setIsLoading(false);
-    }
-  }
 
   //removes snippet from users snippet collection on user confirmation
   const _removeSnippet = async (id:string) => {
     try{
 
-        setIsLoading(true);
+        // setIsLoading(true);
         const snips = await deleteFragment(id)
-        setSnippets(snips);
-        setIsLoading(false);
+        // setSnippets(snips);
+        // setIsLoading(false);
       
     }catch(err){
       console.warn("Failed to get snippets")
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   }
 
@@ -148,14 +127,14 @@ const SnippetsModal = ({ handleOnSelect }:SnippetsModalProps) => {
     <View style={styles.container}>
       <View style={styles.bodyWrapper}>
         <FlatList
-          data={snippets}
+          data={snippetsQuery.data}
           keyExtractor={(item, index) => index.toString()}
           renderItem={_renderItem}
           ListEmptyComponent={_renderEmptyContent}
           refreshControl={
             <RefreshControl 
-              refreshing={isLoading}
-              onRefresh={_getSnippets}
+              refreshing={snippetsQuery.isLoading}
+              onRefresh={snippetsQuery.refetch}
             />
           }
         />
@@ -165,7 +144,7 @@ const SnippetsModal = ({ handleOnSelect }:SnippetsModalProps) => {
 
       <SnippetEditorModal 
           ref={editorRef}
-          onSnippetsUpdated={setSnippets}
+          onSnippetsUpdated={()=>{throw new Error("not implemented")}}
       />
     </View>
   );
