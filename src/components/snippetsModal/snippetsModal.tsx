@@ -11,7 +11,7 @@ import SnippetEditorModal, {
 import SnippetItem from './snippetItem';
 import { Snippet } from '../../models';
 import { useAppSelector } from '../../hooks';
-import { useSnippetsQuery } from '../../providers/queries';
+import { useSnippetDeleteMutation, useSnippetsQuery } from '../../providers/queries';
 
 interface SnippetsModalProps {
   handleOnSelect: (snippetText: string) => void;
@@ -25,40 +25,9 @@ const SnippetsModal = ({ handleOnSelect }: SnippetsModalProps) => {
 
   const snippetsQuery = useSnippetsQuery();
 
-  //removes snippet from users snippet collection on user confirmation
-  const _removeSnippet = async (id: string) => {
-    try {
-      // setIsLoading(true);
-      const snips = await deleteFragment(id);
-      // setSnippets(snips);
-      // setIsLoading(false);
-    } catch (err) {
-      console.warn('Failed to get snippets');
-      // setIsLoading(false);
-    }
-  };
-
   //render list item for snippet and handle actions;
   const _renderItem = ({ item, index }: { item: Snippet; index: number }) => {
     const _onPress = () => handleOnSelect(item.body);
-
-    //asks for remvoe confirmation and run remove routing upon confirming
-    const _onRemovePress = () => {
-      Alert.alert(
-        intl.formatMessage({ id: 'snippets.title_remove_confirmation' }),
-        intl.formatMessage({ id: 'snippets.message_remove_confirmation' }),
-        [
-          {
-            text: intl.formatMessage({ id: 'snippets.btn_cancel' }),
-            style: 'cancel',
-          },
-          {
-            text: intl.formatMessage({ id: 'snippets.btn_confirm' }),
-            onPress: () => _removeSnippet(item.id),
-          },
-        ],
-      );
-    };
 
     const _onEditPress = () => {
       if (editorRef.current) {
@@ -74,7 +43,6 @@ const SnippetsModal = ({ handleOnSelect }: SnippetsModalProps) => {
           body={item.body}
           index={index}
           onEditPress={_onEditPress}
-          onRemovePress={_onRemovePress}
         />
       </TouchableOpacity>
     );

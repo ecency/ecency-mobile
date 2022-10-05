@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
 import { useAppDispatch } from '../../hooks';
 import { toastNotification } from '../../redux/actions/uiAction';
-import { addFragment, getFragments, updateFragment } from '../ecency/ecency';
+import { addFragment, deleteFragment, getFragments, updateFragment } from '../ecency/ecency';
 import { Snippet } from '../ecency/ecency.types';
 import QUERIES from './queryKeys';
 
@@ -71,4 +71,20 @@ export const useSnippetsMutation = () => {
       },
     },
   );
+};
+
+export const useSnippetDeleteMutation = () => {
+  const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
+  const intl = useIntl();
+  return useMutation<Snippet[], undefined, string>(deleteFragment, {
+    retry: 3,
+    onSuccess: (data) => {
+      console.log('Success scheduled post delete', data);
+      queryClient.setQueryData([QUERIES.SNIPPETS.GET], data);
+    },
+    onError: () => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+    },
+  });
 };
