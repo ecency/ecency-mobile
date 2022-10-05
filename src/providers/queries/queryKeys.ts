@@ -7,6 +7,9 @@ const QUERIES = {
   },
   NOTIFICATIONS:{
     GET: 'QERUY_GET_NOTIFICATIONS'
+  },
+  SNIPPETS: {
+    GET: 'QUERY_GET_SNIPPETS',
   }
 };
 

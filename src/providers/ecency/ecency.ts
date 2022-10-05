@@ -19,6 +19,7 @@ import {
   ReceivedVestingShare,
   Referral,
   ReferralStat,
+  Snippet,
 } from './ecency.types';
 
 /**
@@ -327,7 +328,7 @@ export const deleteFavorite = async (targetUsername: string) => {
 export const getFragments = async () => {
   try {
     const response = await ecencyApi.post('/private-api/fragments');
-    return response.data;
+    return response.data as Snippet[];
   } catch (error) {
     console.warn('Failed to get fragments', error);
     bugsnagInstance.notify(error);
