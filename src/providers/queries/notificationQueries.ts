@@ -2,12 +2,11 @@ import {
   QueryKey,
   useMutation,
   UseMutationOptions,
-  useQuery,
+  useQueries,
   useQueryClient,
 } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
-import unionBy from 'lodash/unionBy';
 import bugsnapInstance from '../../config/bugsnag';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { updateUnreadActivityCount } from '../../redux/actions/accountAction';
@@ -20,11 +19,10 @@ import QUERIES from './queryKeys';
 const FETCH_LIMIT = 20;
 
 export const useNotificationsQuery = (filter: NotificationFilters) => {
-  const [paginatedData, setPaginatedData] = useState<any[]>([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [pageParam, setPageParam] = useState('');
+  const [pageParams, setPageParams] = useState(['']);
 
-  const _fetchNotifications = async () => {
+  const _fetchNotifications = async (pageParam: string) => {
     console.log('fetching page since:', pageParam);
     const response = await getNotifications({ filter, since: pageParam, limit: FETCH_LIMIT });
     console.log('new page fetched', response);
@@ -37,39 +35,33 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
     return lastId;
   };
 
-  const _onFetchSuccess = (data: any[]) => {
-    const _data = isRefreshing ? data : unionBy(paginatedData, data, 'id');
-
-    //extract next page param
-    setPaginatedData(_data || []);
-    setIsRefreshing(false);
-  };
-
   //query initialization
-  const notificationQuery = useQuery<any[]>(
-    [QUERIES.NOTIFICATIONS.GET, filter, pageParam],
-    _fetchNotifications,
-    {
-      initialData: [],
-      keepPreviousData: true,
-      onSuccess: _onFetchSuccess,
-    },
-  );
+  const notificationQueries = useQueries({
+    queries: pageParams.map((pageParam) => ({
+      queryKey: [QUERIES.NOTIFICATIONS.GET, filter, pageParam],
+      queryFn: () => _fetchNotifications(pageParam),
+    })),
+  });
 
   const _refresh = async () => {
     setIsRefreshing(true);
-    setPageParam('');
+    setPageParams(['']);
+    await notificationQueries[0].refetch();
+    setIsRefreshing(false);
   };
 
   const _fetchNextPage = () => {
-    const lastId = _getNextPageParam(paginatedData || []);
-    setPageParam(lastId);
+    const lastId = _getNextPageParam(notificationQueries.lastItem.data);
+    if (!pageParams.includes(lastId)) {
+      pageParams.push(lastId);
+      setPageParams([...pageParams]);
+    }
   };
 
   return {
-    data: paginatedData.length ? paginatedData : notificationQuery.data,
+    data: notificationQueries.flatMap((query) => query.data),
     isRefreshing,
-    isLoading: notificationQuery.isLoading || notificationQuery.isFetching,
+    isLoading: notificationQueries.lastItem.isLoading || notificationQueries.lastItem.isFetching,
     fetchNextPage: _fetchNextPage,
     refresh: _refresh,
   };
