@@ -55,6 +55,7 @@ const NotificationContainer = ({ navigation }) => {
   useEffect(() => {
     if (currentAccount.unread_activity_count > unreadCountRef.current) {
       queryClient.invalidateQueries([QUERIES.NOTIFICATIONS.GET]);
+      //TODO: fetch new notifications instead
     }
     unreadCountRef.current = currentAccount.unread_activity_count;
   }, [currentAccount.unread_activity_count]);

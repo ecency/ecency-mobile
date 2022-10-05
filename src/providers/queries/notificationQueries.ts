@@ -1,5 +1,4 @@
 import {
-  InfiniteData,
   QueryKey,
   useMutation,
   UseMutationOptions,
@@ -101,27 +100,24 @@ export const useNotificationReadMutation = () => {
   };
 
   const _options: UseMutationOptions<number, unknown, string | undefined, void> = {
-    onMutate: (notificationId) => {
+    onMutate: async (notificationId) => {
+      //TODO: find a way to optimise mutations by avoiding too many loops
       console.log('on mutate data', notificationId);
 
       //update query data
-      const queriesData: [
-        QueryKey,
-        InfiniteData<any[]> | undefined,
-      ][] = queryClient.getQueriesData([QUERIES.NOTIFICATIONS.GET]);
+      const queriesData: [QueryKey, any[] | undefined][] = queryClient.getQueriesData([
+        QUERIES.NOTIFICATIONS.GET,
+      ]);
       console.log('query data', queriesData);
 
-      queriesData.forEach((dataSet) => {
-        const queryKey = dataSet[0];
-        const _data = dataSet[1];
-        if (_data && _data.pages) {
-          _data.pages = _data.pages.map((page) =>
-            page.map((item) => ({
-              ...item,
-              read: !notificationId || notificationId === item.id ? 1 : item.read,
-            })),
-          );
-          queryClient.setQueryData(queryKey, _data);
+      queriesData.forEach(([queryKey, data]) => {
+        if (data) {
+          console.log('mutating data', queryKey);
+          const _mutatedData = data.map((item) => ({
+            ...item,
+            read: !notificationId || notificationId === item.id ? 1 : item.read,
+          }));
+          queryClient.setQueryData(queryKey, _mutatedData);
         }
       });
     },
