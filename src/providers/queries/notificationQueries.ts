@@ -40,6 +40,7 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
     queries: pageParams.map((pageParam) => ({
       queryKey: [QUERIES.NOTIFICATIONS.GET, filter, pageParam],
       queryFn: () => _fetchNotifications(pageParam),
+      initialData: [],
     })),
   });
 
