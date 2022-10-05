@@ -132,9 +132,7 @@ const SnippetsModal = ({ handleOnSelect }: SnippetsModalProps) => {
         {_renderFloatingButton()}
       </View>
 
-      <SnippetEditorModal
-        ref={editorRef}
-      />
+      <SnippetEditorModal ref={editorRef} />
     </View>
   );
 };
