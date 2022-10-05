@@ -9,7 +9,7 @@ import {
   useGetSchedulesQuery,
   useMoveScheduleToDraftsMutation,
   useScheduleDeleteMutation,
-} from '../../../providers/queries/draftQueries';
+} from '../../../providers/queries';
 
 // Middleware
 

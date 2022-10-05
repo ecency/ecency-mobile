@@ -15,6 +15,7 @@ import {
 import {
   CommentHistoryItem,
   LatestMarketPrices,
+  NotificationFilters,
   ReceivedVestingShare,
   Referral,
   ReferralStat,
@@ -417,16 +418,9 @@ export const getLeaderboard = async (duration: 'day' | 'week' | 'month') => {
  * @returns array of notifications
  */
 export const getNotifications = async (data: {
-  filter?:
-    | 'rvotes'
-    | 'mentions'
-    | 'follows'
-    | 'replies'
-    | 'reblogs'
-    | 'transfers'
-    | 'delegations'
-    | 'nfavorites';
+  filter?: NotificationFilters;
   since?: string;
+  limit?: number;
 }) => {
   try {
     const response = await ecencyApi.post('/private-api/notifications', data);
