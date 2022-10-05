@@ -5,6 +5,9 @@ const QUERIES = {
   SCHEDULES: {
     GET: 'QUERY_GET_SCHEDULES',
   },
+  SNIPPETS: {
+    GET: 'QUERY_GET_SNIPPETS',
+  },
 };
 
 export default QUERIES;
