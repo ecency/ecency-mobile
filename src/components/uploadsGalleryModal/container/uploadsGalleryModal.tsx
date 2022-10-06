@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { delay, extractFilenameFromPath } from '../../../utils/editor';
 import { toastNotification } from '../../../redux/actions/uiAction';
 import showLoginAlert from '../../../utils/showLoginAlert';
-import { useMediaQuery } from '../../../providers/queries';
+import { useMediaDeleteMutation, useMediaQuery } from '../../../providers/queries';
 
 export interface UploadsGalleryModalRef {
   showModal: () => void;
@@ -56,6 +56,7 @@ export const UploadsGalleryModal = forwardRef(
     const dispatch = useAppDispatch();
 
     const mediaQuery = useMediaQuery();
+    const deleteMediaMutation = useMediaDeleteMutation();
 
     const pendingInserts = useRef<MediaInsertData[]>([]);
 
