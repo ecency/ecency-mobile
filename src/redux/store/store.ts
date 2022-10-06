@@ -2,37 +2,38 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { persistStore, persistReducer, createTransform } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
+import createMigrate from 'redux-persist/es/createMigrate';
 import Reactotron from '../../../reactotron-config';
 
 import reducer from '../reducers';
-import createMigrate from 'redux-persist/es/createMigrate';
 import MigrationHelpers from '../../utils/migrationHelpers';
 
 const transformCacheVoteMap = createTransform(
-  (inboundState:any) => ({ 
-    ...inboundState, 
-    votes : Array.from(inboundState.votes),
-    comments : Array.from(inboundState.comments),
-    drafts : Array.from(inboundState.drafts),
-    subscribedCommunities: Array.from(inboundState.subscribedCommunities)
+  (inboundState: any) => ({
+    ...inboundState,
+    votes: Array.from(inboundState.votes),
+    comments: Array.from(inboundState.comments),
+    drafts: Array.from(inboundState.drafts),
+    subscribedCommunities: Array.from(inboundState.subscribedCommunities),
   }),
-  (outboundState) => ({ 
-    ...outboundState, 
-    votes:new Map(outboundState.votes),
-    comments:new Map(outboundState.comments),
+  (outboundState) => ({
+    ...outboundState,
+    votes: new Map(outboundState.votes),
+    comments: new Map(outboundState.comments),
     drafts: new Map(outboundState.drafts),
-    subscribedCommunities: new Map(outboundState.subscribedCommunities)
+    subscribedCommunities: new Map(outboundState.subscribedCommunities),
   }),
-  {whitelist:['cache']}
+  { whitelist: ['cache'] },
 );
 
 const transformWalkthroughMap = createTransform(
-  (inboundState:any) => ({ ...inboundState, walkthroughMap : Array.from(inboundState.walkthroughMap)}),
-  (outboundState) => ({ ...outboundState, walkthroughMap:new Map(outboundState.walkthroughMap)}),
-  {whitelist:['walkthrough']}
+  (inboundState: any) => ({
+    ...inboundState,
+    walkthroughMap: Array.from(inboundState.walkthroughMap),
+  }),
+  (outboundState) => ({ ...outboundState, walkthroughMap: new Map(outboundState.walkthroughMap) }),
+  { whitelist: ['walkthrough'] },
 );
-
-
 
 // Middleware: Redux Persist Config
 const persistConfig = {
@@ -44,11 +45,8 @@ const persistConfig = {
   // Blacklist (Don't Save Specific Reducers)
   blacklist: ['communities', 'user', 'ui'],
   timeout: 0,
-  transforms:[
-    transformCacheVoteMap,
-    transformWalkthroughMap
-  ],
-  migrate: createMigrate(MigrationHelpers.reduxMigrations, {debug:false})
+  transforms: [transformCacheVoteMap, transformWalkthroughMap],
+  migrate: createMigrate(MigrationHelpers.reduxMigrations, { debug: false }),
 };
 
 // Middleware: Redux Persist Persisted Reducer
@@ -66,8 +64,7 @@ const persistor = persistStore(store);
 
 export { store, persistor };
 
-
 // Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch;

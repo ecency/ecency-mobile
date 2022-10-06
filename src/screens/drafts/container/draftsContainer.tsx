@@ -9,7 +9,7 @@ import {
   useGetSchedulesQuery,
   useMoveScheduleToDraftsMutation,
   useScheduleDeleteMutation,
-} from '../../../providers/queries/draftQueries';
+} from '../../../providers/queries';
 
 // Middleware
 
@@ -52,14 +52,11 @@ const DraftsContainer = ({ currentAccount, navigation, route }) => {
   };
 
   const _editDraft = (id: string) => {
-    const selectedDraft = drafts.find((draft) => draft._id === id);
-
     navigation.navigate({
       name: ROUTES.SCREENS.EDITOR,
       key: `editor_draft_${id}`,
       params: {
-        draft: selectedDraft,
-        fetchPost: refetchDrafts,
+        draftId: id,
       },
     });
   };
