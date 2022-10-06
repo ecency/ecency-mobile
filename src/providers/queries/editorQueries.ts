@@ -2,7 +2,13 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
 import { useAppDispatch } from '../../hooks';
 import { toastNotification } from '../../redux/actions/uiAction';
-import { addFragment, deleteFragment, getFragments, updateFragment } from '../ecency/ecency';
+import {
+  addFragment,
+  deleteFragment,
+  getFragments,
+  getImages,
+  updateFragment,
+} from '../ecency/ecency';
 import { Snippet } from '../ecency/ecency.types';
 import QUERIES from './queryKeys';
 
@@ -12,10 +18,22 @@ interface SnippetMutationVars {
   body: string;
 }
 
+export const useMediaQuery = () => {
+  const intl = useIntl();
+  const dispatch = useAppDispatch();
+  return useQuery([QUERIES.MEDIA.GET], getImages, {
+    initialData: [],
+    onError: () => {
+      dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+    },
+  });
+};
+
 export const useSnippetsQuery = () => {
   const intl = useIntl();
   const dispatch = useAppDispatch();
   return useQuery<Snippet[]>([QUERIES.SNIPPETS.GET], getFragments, {
+    initialData: [],
     onError: () => {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
     },
