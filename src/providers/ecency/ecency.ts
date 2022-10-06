@@ -709,10 +709,10 @@ export const uploadImage = async (media, username, sign, uploadProgress = null) 
     if (!res || !res.data) {
       throw new Error('Returning response missing media data');
     }
-    return res;
+    return res.data;
   } catch (error) {
     console.warn('Image upload failed', error);
-    return { error };
+    throw error;
   }
 };
 

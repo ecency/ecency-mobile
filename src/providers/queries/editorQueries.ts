@@ -1,16 +1,20 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useIntl } from 'react-intl';
-import { useAppDispatch } from '../../hooks';
+import { Image } from 'react-native-image-crop-picker';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { toastNotification } from '../../redux/actions/uiAction';
 import {
     addFragment,
+    addImage,
     deleteFragment,
     deleteImage,
     getFragments,
     getImages,
     updateFragment,
+    uploadImage,
 } from '../ecency/ecency';
 import { MediaItem, Snippet } from '../ecency/ecency.types';
+import { signImage } from '../hive/dhive';
 import QUERIES from './queryKeys';
 
 interface SnippetMutationVars {
@@ -18,6 +22,12 @@ interface SnippetMutationVars {
     title: string;
     body: string;
 }
+
+interface MediaUploadVars {
+    media: Image;
+    addToUploads: boolean;
+}
+
 
 
 /** GET QUERIES **/
@@ -48,6 +58,60 @@ export const useSnippetsQuery = () => {
 
 
 /** ADD UPDATE MUTATIONS **/
+
+
+export const useAddToUploadsMutation = () => {
+    const intl = useIntl();
+    const dispatch = useAppDispatch();
+    const queryClient = useQueryClient();
+
+    return useMutation<any[], Error, string>(addImage, {
+        retry: 3,
+        onSuccess: (data) => {
+            queryClient.setQueryData([QUERIES.MEDIA.GET], data);
+        }, 
+        onError: (error) => {
+            if (error.toString().includes('code 409')) {
+                //means image ware already preset, refresh to get updated order
+                queryClient.invalidateQueries([QUERIES.MEDIA.GET]);
+            } else {
+                dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+            }
+
+        }
+    })
+}
+
+
+export const useMediaUploadMutation = () => {
+    const intl = useIntl();
+    const dispatch = useAppDispatch();
+
+    const addToUploadsMutation = useAddToUploadsMutation();
+
+    const currentAccount = useAppSelector(state => state.account.currentAccount);
+    const pinCode = useAppSelector(state => state.application.pin);
+
+    return useMutation<Image, undefined, MediaUploadVars>(
+        async ({ media }) => {
+            console.log('uploading media', media);
+            let sign = await signImage(media, currentAccount, pinCode);
+            return await uploadImage(media, currentAccount.name, sign);
+        },
+        {
+            retry: 3,
+            onSuccess: (response, { addToUploads }) => {
+                if (addToUploads && response && response.url) {
+                    console.log('adding image to gallery', response.url);
+                    addToUploadsMutation.mutate(response.url);
+                }
+            },
+            onError: () => {
+                dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
+            },
+        },
+    );
+}
 
 export const useSnippetsMutation = () => {
     const intl = useIntl();
@@ -119,7 +183,7 @@ export const useMediaDeleteMutation = () => {
             console.log('Success media deletion delete', deleteIds);
             const data: MediaItem[] | undefined = queryClient.getQueryData([QUERIES.MEDIA.GET]);
             if (data) {
-                const _newData = data.filter((item)=>(!deleteIds.includes(item._id)))
+                const _newData = data.filter((item) => (!deleteIds.includes(item._id)))
                 queryClient.setQueryData([QUERIES.MEDIA.GET], _newData);
             }
         },
