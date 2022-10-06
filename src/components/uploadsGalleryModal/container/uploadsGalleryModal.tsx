@@ -34,6 +34,7 @@ interface UploadsGalleryModalProps {
     username: string;
     isEditing: boolean;
     isPreviewActive: boolean;
+    hideToolbarExtension: () => void;
     handleMediaInsert: (data: Array<MediaInsertData>) => void;
     setIsUploading: (status: boolean) => void;
 }
@@ -46,6 +47,7 @@ export const UploadsGalleryModal = forwardRef(
             username,
             isEditing,
             isPreviewActive,
+            hideToolbarExtension,
             handleMediaInsert,
             setIsUploading,
         }: UploadsGalleryModalProps,
@@ -155,6 +157,7 @@ export const UploadsGalleryModal = forwardRef(
 
                 if (shouldInsert) {
                     setShowModal(false);
+                    hideToolbarExtension();
                     media.forEach((element, index) => {
                         if (element) {
                             media[index].filename =

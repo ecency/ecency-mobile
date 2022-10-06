@@ -182,6 +182,7 @@ export const EditorToolbar = ({
               paramFiles={paramFiles}
               isEditing={isEditing}
               username={currentAccount.username}
+              hideToolbarExtension={_hideExtension}
               handleMediaInsert={handleMediaInsert}
               setIsUploading={setIsUploading} />
           </View>
