@@ -4,7 +4,6 @@ import { TabbedPostsProps } from '../services/tabbedPostsModels';
 import { StackedTabBar, TabItem } from '../view/stackedTabBar';
 import TabContent from '../view/tabContent';
 
-
 export const TabbedPosts = ({
   filterOptions,
   filterOptionsValue,
@@ -19,70 +18,71 @@ export const TabbedPosts = ({
   stackedTabs,
   onTabChange,
   ...props
-}:TabbedPostsProps) => {
-
+}: TabbedPostsProps) => {
   //initialize state
-  const [initialTabIndex] = useState(selectedOptionIndex == 0 && stackedTabs ? filterOptions.length : selectedOptionIndex)
-
-  const mainFilters = filterOptions.map((label, index)=>({
-        filterKey:filterOptionsValue[index], 
-        label
-      } as TabItem));
+  const [initialTabIndex] = useState(
+    selectedOptionIndex == 0 && stackedTabs ? filterOptions.length : selectedOptionIndex,
+  );
+  const mainFilters = filterOptions.map(
+    (label, index) =>
+      ({
+        filterKey: filterOptionsValue[index],
+        label,
+      } as TabItem),
+  );
 
   const subFilters = feedSubfilterOptions
-    ? feedSubfilterOptions.map((label, index)=>({
-      filterKey:feedSubfilterOptionsValue[index], 
-      label
-    } as TabItem))
+    ? feedSubfilterOptions.map(
+        (label, index) =>
+          ({
+            filterKey: feedSubfilterOptionsValue[index],
+            label,
+          } as TabItem),
+      )
     : [];
 
-  const combinedFilters = [...mainFilters, ...subFilters]
-  
-  const [selectedFilter, setSelectedFilter] = useState(combinedFilters[initialTabIndex].filterKey)
-  const [filterScrollRequest, createFilterScrollRequest] = useState<string|null>(null)
+  const combinedFilters = [...mainFilters, ...subFilters];
 
+  const [selectedFilter, setSelectedFilter] = useState(combinedFilters[initialTabIndex].filterKey);
+  const [filterScrollRequest, createFilterScrollRequest] = useState<string | null>(null);
 
-
-    //components actions
-    const _onFilterSelect = (filter:string) => {
-      if(filter === selectedFilter){
-        createFilterScrollRequest(selectedFilter) 
-      }else{
-        setSelectedFilter(filter)
-      }
+  //components actions
+  const _onFilterSelect = (filter: string) => {
+    if (filter === selectedFilter) {
+      createFilterScrollRequest(selectedFilter);
+    } else {
+      setSelectedFilter(filter);
     }
+  };
 
-    const _onScrollRequestProcessed = () => {
-      createFilterScrollRequest(null);
-    }
-
-
+  const _onScrollRequestProcessed = () => {
+    createFilterScrollRequest(null);
+  };
 
   //initialize first set of pages
-  const pages = combinedFilters.map((filter, index)=>{
-    if(tabContentOverrides && tabContentOverrides.has(index)){
+  const pages = combinedFilters.map((filter, index) => {
+    if (tabContentOverrides && tabContentOverrides.has(index)) {
       return tabContentOverrides.get(index);
     }
-    return  (
+    return (
       <TabContent
         key={filter.filterKey}
         filterKey={filter.filterKey}
         isFeedScreen={isFeedScreen}
-        isInitialTab={ initialTabIndex == index }
+        isInitialTab={initialTabIndex == index}
         feedUsername={feedUsername}
         pageType={pageType}
         filterScrollRequest={filterScrollRequest}
         onScrollRequestProcessed={_onScrollRequestProcessed}
         {...props}
       />
-    )
+    );
   });
-
 
   //render tab bar
   const _renderTabBar = (props) => {
     return (
-      <StackedTabBar 
+      <StackedTabBar
         {...props}
         firstStack={mainFilters}
         secondStack={subFilters}
@@ -91,9 +91,8 @@ export const TabbedPosts = ({
         toggleHideImagesFlag={imagesToggleEnabled}
         pageType={pageType}
       />
-    )
-  }
-
+    );
+  };
 
   return (
     <ScrollableTabView
@@ -102,9 +101,9 @@ export const TabbedPosts = ({
       initialPage={initialTabIndex}
       renderTabBar={_renderTabBar}
       onTabChange={onTabChange}
-      >
+      style={{ width: '100%' }}
+    >
       {pages}
     </ScrollableTabView>
   );
-
-}
+};

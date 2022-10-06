@@ -1,19 +1,44 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { OrientationLocker, PORTRAIT } from 'react-native-orientation-locker';
+import Orientation, {
+  useDeviceOrientationChange,
+  useOrientationChange,
+} from 'react-native-orientation-locker';
 import { useDispatch } from 'react-redux';
+import { useWindowDimensions } from 'react-native';
 import ApplicationContainer from './container/applicationContainer';
 import ApplicationScreen from './children/applicationScreen';
 import ErrorBoundary from './children/errorBoundary';
-import { setDeviceOrientation } from '../../redux/actions/uiAction';
+import {
+  setDeviceHeight,
+  setDeviceOrientation,
+  setDeviceWidth,
+  setUiOrientation,
+} from '../../redux/actions/uiAction';
 
 const Application = () => {
   const dispatch = useDispatch();
+  const { width, height } = useWindowDimensions();
 
-  const _handleDeviceOrientationChange = (orientation) => {
-    console.log('device orientation changed at index : ', orientation);
-    dispatch(setDeviceOrientation(orientation));
-  };
+  useEffect(() => {
+    Orientation.lockToPortrait();
+  }, []);
+
+  useEffect(() => {
+    dispatch(setDeviceWidth(width));
+    dispatch(setDeviceHeight(height));
+  }, [width, height]);
+  useOrientationChange((o) => {
+    // Handle orientation change
+    console.log('orientation changed : ', o);
+    dispatch(setUiOrientation(o));
+  });
+
+  useDeviceOrientationChange((o) => {
+    // Handle device orientation change
+    console.log('device orientation changed at index : ', o);
+    dispatch(setDeviceOrientation(o));
+  });
 
   return (
     <ApplicationContainer>
@@ -26,16 +51,8 @@ const Application = () => {
         toastNotification,
         foregroundNotificationData,
       }) => {
-
         return (
           <ErrorBoundary>
-            <OrientationLocker
-              orientation={PORTRAIT}
-              onChange={(orientation) => console.log('orientation changed : ', orientation)}
-              onDeviceChange={_handleDeviceOrientationChange}
-            />
-
-          
             {isRenderRequire && (
               <ApplicationScreen
                 isConnected={isConnected}

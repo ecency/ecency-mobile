@@ -21,8 +21,9 @@ import styles from './postCardStyles';
 import { TextButton } from '../..';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import postTypes from '../../../constants/postTypes';
+import { useAppSelector } from '../../../hooks';
 
-const dim = getWindowDimensions();
+// const dim = getWindowDimensions();
 const DEFAULT_IMAGE =
   'https://images.ecency.com/DQmT8R33geccEjJfzZEdsRHpP3VE8pu3peRCnQa1qukU4KR/no_image_3x.png';
 const NSFW_IMAGE =
@@ -51,6 +52,8 @@ const PostCardView = ({
   const activeVotesCount = activeVotes ? activeVotes.length : 0;
   const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
   const [calcImgHeight, setCalcImgHeight] = useState(imageHeight || 300);
+  const deviceWidth = useAppSelector((state) => state.ui.deviceWidth);
+  const deviceHeight = useAppSelector((state) => state.ui.deviceHeight);
 
   // Component Functions
   const _handleOnUserPress = (username) => {
@@ -143,19 +146,19 @@ const PostCardView = ({
               style={[
                 styles.thumbnail,
                 {
-                  width: dim.width - 18,
-                  height: Math.min(calcImgHeight, dim.height),
+                  width: deviceWidth - 18,
+                  height: Math.min(calcImgHeight, deviceHeight),
                 },
               ]}
               resizeMode={
-                calcImgHeight < dim.height
+                calcImgHeight < deviceHeight
                   ? FastImage.resizeMode.contain
                   : FastImage.resizeMode.cover
               }
               onLoad={(evt) => {
                 if (!imageHeight) {
                   const height =
-                    (evt.nativeEvent.height / evt.nativeEvent.width) * (dim.width - 18);
+                    (evt.nativeEvent.height / evt.nativeEvent.width) * (deviceWidth - 24);
                   setCalcImgHeight(height);
                   setImageHeight(content.author + content.permlink, height);
                 }

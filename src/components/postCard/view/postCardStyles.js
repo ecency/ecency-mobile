@@ -4,6 +4,7 @@ export default EStyleSheet.create({
   post: {
     paddingTop: 10,
     marginBottom: 10,
+    marginHorizontal: 10,
     backgroundColor: '$primaryBackgroundColor',
     shadowOpacity: 0.2,
     shadowColor: '$shadowColor',

@@ -10,27 +10,33 @@ import {
   HIDE_PROFILE_MODAL,
   TOGGLE_QR_MODAL,
   SET_DEVICE_ORIENTATION,
+  SET_UI_ORIENTATION,
+  SET_DEVICE_WIDTH,
+  SET_DEVICE_HEIGHT,
   SHOW_REPLY_MODAL,
   HIDE_REPLY_MODAL,
 } from '../constants/constants';
 import { orientations } from '../constants/orientationsConstants';
 
 interface UiState {
-  activeBottomTab:string;
-  toastNotification:string;
-  rcOffer:boolean;
-  isVisibleAccountsBottomSheet:boolean;
-  actionModalVisible:boolean;
-  actionModalData:any;
-  avatarCacheStamp:number;
-  profileModalUsername:string;
-  isVisibleQRModal:boolean;
+  activeBottomTab: string;
+  toastNotification: string;
+  rcOffer: boolean;
+  isVisibleAccountsBottomSheet: boolean;
+  actionModalVisible: boolean;
+  actionModalData: any;
+  avatarCacheStamp: number;
+  profileModalUsername: string;
+  isVisibleQRModal: boolean;
   deviceOrientation: string;
-  replyModalVisible:boolean;
-  replyModalPost:any
+  uiOrientation: string;
+  deviceWidth: number;
+  deviceHeight: number;
+  replyModalVisible: boolean;
+  replyModalPost: any;
 }
 
-const initialState:UiState = {
+const initialState: UiState = {
   activeBottomTab: 'HomeTabbar',
   toastNotification: '',
   rcOffer: false,
@@ -41,11 +47,14 @@ const initialState:UiState = {
   profileModalUsername: '',
   isVisibleQRModal: false,
   deviceOrientation: orientations.PORTRAIT,
+  uiOrientation: orientations.PORTRAIT,
+  deviceWidth: 0,
+  deviceHeight: 0,
   replyModalPost: null,
   replyModalVisible: false,
 };
 
-export default function (state = initialState, action) : UiState {
+export default function (state = initialState, action): UiState {
   switch (action.type) {
     case UPDATE_ACTIVE_BOTTOM_TAB:
       return {
@@ -103,8 +112,8 @@ export default function (state = initialState, action) : UiState {
     case SET_AVATAR_CACHE_STAMP:
       return {
         ...state,
-        avatarCacheStamp: action.payload
-      }
+        avatarCacheStamp: action.payload,
+      };
     case TOGGLE_QR_MODAL:
       return {
         ...state,
@@ -114,19 +123,34 @@ export default function (state = initialState, action) : UiState {
       return {
         ...state,
         deviceOrientation: action.payload,
-    };
+      };
+    case SET_UI_ORIENTATION:
+      return {
+        ...state,
+        uiOrientation: action.payload,
+      };
+    case SET_DEVICE_WIDTH:
+      return {
+        ...state,
+        deviceWidth: action.payload,
+      };
+    case SET_DEVICE_HEIGHT:
+      return {
+        ...state,
+        deviceHeight: action.payload,
+      };
     case SHOW_REPLY_MODAL:
       return {
         ...state,
-        replyModalVisible:true,
-        replyModalPost:action.payload
-      }
+        replyModalVisible: true,
+        replyModalPost: action.payload,
+      };
     case HIDE_REPLY_MODAL:
       return {
         ...state,
-        replyModalVisible:false,
-        replyModalPost:null
-      }
+        replyModalVisible: false,
+        replyModalPost: null,
+      };
     default:
       return state;
   }
