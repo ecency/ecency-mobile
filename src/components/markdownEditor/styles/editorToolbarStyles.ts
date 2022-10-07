@@ -72,7 +72,7 @@ export default EStyleSheet.create({
   indicator: {
     height: 8,
     width: 44,
-    backgroundColor: '$primaryWhiteLightBackground',
+    backgroundColor: '$primaryLightBackground',
     borderRadius: 8,
     margin: 8,
     alignSelf: 'center'
