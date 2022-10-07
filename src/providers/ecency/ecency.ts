@@ -15,9 +15,11 @@ import {
 import {
   CommentHistoryItem,
   LatestMarketPrices,
+  NotificationFilters,
   ReceivedVestingShare,
   Referral,
   ReferralStat,
+  Snippet,
 } from './ecency.types';
 
 /**
@@ -326,7 +328,7 @@ export const deleteFavorite = async (targetUsername: string) => {
 export const getFragments = async () => {
   try {
     const response = await ecencyApi.post('/private-api/fragments');
-    return response.data;
+    return response.data as Snippet[];
   } catch (error) {
     console.warn('Failed to get fragments', error);
     bugsnagInstance.notify(error);
@@ -416,16 +418,9 @@ export const getLeaderboard = async (duration: 'day' | 'week' | 'month') => {
  * @returns array of notifications
  */
 export const getNotifications = async (data: {
-  filter?:
-    | 'rvotes'
-    | 'mentions'
-    | 'follows'
-    | 'replies'
-    | 'reblogs'
-    | 'transfers'
-    | 'delegations'
-    | 'nfavorites';
+  filter?: NotificationFilters;
   since?: string;
+  limit?: number;
 }) => {
   try {
     const response = await ecencyApi.post('/private-api/notifications', data);

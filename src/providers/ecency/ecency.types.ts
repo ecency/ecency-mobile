@@ -1,54 +1,61 @@
-import { QuoteItem } from "../../redux/reducers/walletReducer";
+import { QuoteItem } from '../../redux/reducers/walletReducer';
 
 export interface ReceivedVestingShare {
-    delegator:string;
-    delegatee:string;
-    vesting_shares:string;
-    timestamp:string;
+  delegator: string;
+  delegatee: string;
+  vesting_shares: string;
+  timestamp: string;
+}
+
+export interface Snippet {
+  id: string;
+  title: string;
+  body: string;
+  created: string;
+  modified: string;
 }
 
 export interface EcencyUser {
-    username:string;
-    points:string;
-    unclaimed_points:string;
-    points_by_type:{[key:string]:string};
-    unclaimed_points_by_type:{[key:string]:string};
+  username: string;
+  points: string;
+  unclaimed_points: string;
+  points_by_type: { [key: string]: string };
+  unclaimed_points_by_type: { [key: string]: string };
 }
 
 export interface Referral {
-    id:number;
-    referral:string;
-    rewarded:boolean;
-    username:string;
-    created:string
+  id: number;
+  referral: string;
+  rewarded: boolean;
+  username: string;
+  created: string;
 }
 
 export interface ReferralStat {
-    total: number;
-    rewarded: number;
+  total: number;
+  rewarded: number;
 }
 
 export interface UserPoint {
-    id: number;
-    type: number;
-    amount: string;
-    created:string;
-    memo?: string;
-    receiver?: string;
-    sender?: string;
-
+  id: number;
+  type: number;
+  amount: string;
+  created: string;
+  memo?: string;
+  receiver?: string;
+  sender?: string;
 }
 
 export interface LatestQuotes {
-   [key:string]:QuoteItem
+  [key: string]: QuoteItem;
 }
 
 export interface CommentHistoryItem {
-    body: string;
-    tags: [string];
-    title: string;
-    timestamp:string;
-    v: number;
+  body: string;
+  tags: [string];
+  title: string;
+  timestamp: string;
+  v: number;
 }
 
 export enum ScheduledPostStatus {
@@ -56,4 +63,16 @@ export enum ScheduledPostStatus {
     POSTPONED = 2,
     PUBLISHED = 3,
     ERROR = 4,
+}
+
+export enum NotificationFilters {
+    ACTIVITIES = "activities",
+    RVOTES = "rvotes",
+    MENTIONS = "mentions",
+    FOLLOWS = "follows",
+    REPLIES = "replies",
+    REBLOGS = "reblogs", 
+    TRANFERS = "transfers", 
+    DELEGATIONS = "delegations",
+    FAVOURITES = "nfavorites"
 }

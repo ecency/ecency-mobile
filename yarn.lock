@@ -8933,7 +8933,11 @@ react-native-image-zoom-viewer@^2.2.27:
   dependencies:
     react-native-image-pan-zoom "^2.1.9"
 
-react-native-iphone-x-helper@^1.0.3, react-native-iphone-x-helper@^1.3.1:
+react-native-iphone-x-helper@Norcy/react-native-iphone-x-helper:
+  version "2.0.0"
+  resolved "https://codeload.github.com/Norcy/react-native-iphone-x-helper/tar.gz/aff3730b2614947a72bcdd86e35ba0217ca1054c"
+
+react-native-iphone-x-helper@^1.0.3:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
   integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==

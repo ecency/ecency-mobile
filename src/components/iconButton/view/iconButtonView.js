@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { TouchableOpacity, ActivityIndicator } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { Icon } from '../../icon';
 
 import styles from './iconButtonStyles';
@@ -47,7 +48,10 @@ const IconButton = ({
           badgeCount={badgeCount}
         />
       ) : (
-        <ActivityIndicator color="white" style={styles.activityIndicator} />
+        <ActivityIndicator
+          color={color || EStyleSheet.value('$primaryBlack')}
+          style={styles.activityIndicator}
+        />
       )}
     </TouchableOpacity>
   </Fragment>
