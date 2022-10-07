@@ -6,8 +6,7 @@ export const PATH_CONTRACTS = 'contracts';
 
 const coingeckoApi = axios.create({
   baseURL: `${BASE_URL}/${PATH_RPC}`,
-  headers: { "Content-type": "application/json" }
+  headers: { 'Content-type': 'application/json' },
 });
-
 
 export default coingeckoApi;
