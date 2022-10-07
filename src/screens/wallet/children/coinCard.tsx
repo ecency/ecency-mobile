@@ -11,7 +11,8 @@ export interface CoinCardProps {
   id: string;
   chartData: number[];
   name: string;
-  notCrypto: boolean;
+  notCrypto?: boolean;
+  isEngine?: boolean;
   symbol: string;
   currencySymbol: string;
   changePercent: number;
@@ -30,6 +31,7 @@ export interface CoinCardProps {
 export const CoinCard = ({
   id,
   notCrypto,
+  isEngine,
   chartData,
   name,
   currencySymbol,
@@ -63,17 +65,20 @@ export const CoinCard = ({
     onClaimPress();
   }
 
+  const _name = !!intl.messages[`wallet.${id}.name`] ? intl.formatMessage({ id: `wallet.${id}.name` }) : name
+  const value = `${isEngine ? ownedTokens.toFixed(6):ownedTokens} ${isEngine?'':symbol}`
+
   const _renderHeader = (
     <View style={styles.cardHeader}>
       {/* <View style={styles.logo} /> */}
       <View style={styles.cardTitleContainer}>
         <Text style={styles.textTitle} >{symbol}</Text>
-        <Text style={styles.textSubtitle}>{intl.formatMessage({ id: `wallet.${id}.name` })}</Text>
+        <Text style={styles.textSubtitle}>{_name}</Text>
       </View>
       <View style={styles.cardValuesContainer}>
         <Text
           style={styles.textTitle}>
-          {`${ownedTokens.toFixed(3)} ${symbol}`}
+           {value}
         </Text>
         <Text style={styles.textSubtitleRight}>
           {`${(ownedTokens * currentValue).toFixed(2)}${currencySymbol}`}

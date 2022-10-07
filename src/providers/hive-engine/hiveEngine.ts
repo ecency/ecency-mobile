@@ -1,4 +1,3 @@
-import axios from 'axios';
 import hiveEngineApi, { PATH_CONTRACTS } from '../../config/hiveEngineApi';
 // import HiveEngineToken from "../helper/hive-engine-wallet";
 // import { TransactionConfirmation } from "@hiveio/dhive";
@@ -54,7 +53,7 @@ export const fetchTokens = (tokens: string[]): Promise<Token[]> => {
     id: EngineIds.ONE,
   };
 
-  return axios
+  return hiveEngineApi
     .post(PATH_CONTRACTS, data)
     .then((r) => r.data.result)
     .catch((e) => {
@@ -81,7 +80,7 @@ export const fetchHiveEngineTokenBalances = async (
 };
 
 export const getUnclaimedRewards = async (account: string): Promise<TokenStatus[]> => {
-  return (axios
+  return (hiveEngineApi
     .get(`https://scot-api.hive-engine.com/@${account}?hive=1`)
     .then((r) => r.data)
     .then((r) => Object.values(r))

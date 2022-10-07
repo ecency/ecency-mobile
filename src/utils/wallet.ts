@@ -34,6 +34,8 @@ import {
   SavingsWithdrawRequest,
 } from '../providers/hive/hive.types';
 import parseAsset from './parseAsset';
+import { fetchHiveEngineTokenBalances, fetchTokenBalances } from '../providers/hive-engine/hiveEngine';
+import { PickerIOSItem } from 'react-native';
 
 export const transferTypes = [
   'curation_reward',
@@ -112,9 +114,8 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
         .toFixed(3)
         .replace(',', '.');
 
-      result.value = `${hbdPayout > 0 ? `${hbdPayout} HBD` : ''} ${
-        hivePayout > 0 ? `${hivePayout} HIVE` : ''
-      } ${vestingPayout > 0 ? `${vestingPayout} HP` : ''}`;
+      result.value = `${hbdPayout > 0 ? `${hbdPayout} HBD` : ''} ${hivePayout > 0 ? `${hivePayout} HIVE` : ''
+        } ${vestingPayout > 0 ? `${vestingPayout} HP` : ''}`;
 
       result.details = author && permlink ? `@${author}/${permlink}` : null;
       if (result.textKey === 'comment_benefactor_reward') {
@@ -128,9 +129,8 @@ export const groomingTransactionData = (transaction, hivePerMVests) => {
       rewardHive = parseToken(rewardHive).toFixed(3).replace(',', '.');
       rewardVests = vestsToHp(parseToken(rewardVests), hivePerMVests).toFixed(3).replace(',', '.');
 
-      result.value = `${rewardHdb > 0 ? `${rewardHdb} HBD` : ''} ${
-        rewardHive > 0 ? `${rewardHive} HIVE` : ''
-      } ${rewardVests > 0 ? `${rewardVests} HP` : ''}`;
+      result.value = `${rewardHdb > 0 ? `${rewardHdb} HBD` : ''} ${rewardHive > 0 ? `${rewardHive} HIVE` : ''
+        } ${rewardVests > 0 ? `${rewardVests} HP` : ''}`;
       break;
     case 'transfer':
     case 'transfer_to_savings':
@@ -399,13 +399,13 @@ export const fetchCoinActivities = async (
       const completed =
         pointActivities && pointActivities.length
           ? pointActivities.map((item) =>
-              groomingPointsTransactionData({
-                ...item,
-                icon: get(POINTS[get(item, 'type')], 'icon'),
-                iconType: get(POINTS[get(item, 'type')], 'iconType'),
-                textKey: get(POINTS[get(item, 'type')], 'textKey'),
-              }),
-            )
+            groomingPointsTransactionData({
+              ...item,
+              icon: get(POINTS[get(item, 'type')], 'icon'),
+              iconType: get(POINTS[get(item, 'type')], 'iconType'),
+              textKey: get(POINTS[get(item, 'type')], 'textKey'),
+            }),
+          )
           : [];
       return {
         completed,
@@ -470,8 +470,8 @@ export const fetchCoinActivities = async (
   );
   const filterdActivities: CoinActivity[] = activities
     ? activities.filter((item) => {
-        return item && item.value && item.value.includes(coinSymbol);
-      })
+      return item && item.value && item.value.includes(coinSymbol);
+    })
     : [];
 
   console.log('FILTERED comap', activities.length, filterdActivities.length);
@@ -516,6 +516,8 @@ export const fetchCoinsData = async ({
   const _pointsSummary = refresh ? await getPointsSummary(username) : currentAccount.pointsSummary;
   //TODO: cache data in redux or fetch once on wallet startup
   const _prices = !refresh && quotes ? quotes : await getLatestQuotes(currencyRate); //TODO: figure out a way to handle other currencies
+
+
 
   coins.forEach((coinBase) => {
     switch (coinBase.id) {
@@ -595,9 +597,9 @@ export const fetchCoinsData = async ({
 
         const nextVestingSharesWithdrawal = isPoweringDown
           ? Math.min(
-              parseAsset(userdata.vesting_withdraw_rate).amount,
-              (Number(userdata.to_withdraw) - Number(userdata.withdrawn)) / 1e6,
-            )
+            parseAsset(userdata.vesting_withdraw_rate).amount,
+            (Number(userdata.to_withdraw) - Number(userdata.withdrawn)) / 1e6,
+          )
           : 0;
         const nextVestingSharesWithdrawalHive = isPoweringDown
           ? vestsToHp(nextVestingSharesWithdrawal, hivePerMVests)
@@ -679,6 +681,37 @@ export const fetchCoinsData = async ({
         break;
     }
   });
+
+
+  const engineData = await fetchHiveEngineTokenBalances(username);
+  if (engineData) {
+    engineData.forEach((item) => {
+
+      if(item){
+        const balance = item.balance;
+        const savings = item.stake;
+        const ppHive = _prices['hive'].price;
+  
+        coinData[item.symbol] = {
+          name: item.name || '',
+          symbol:item.symbol,
+          balance: balance,
+          estimateValue: (balance + savings) * ppHive,
+          savings:savings,
+          vsCurrency: vsCurrency,
+          currentPrice: ppHive,
+          unclaimedBalance: '',
+          isEngine:true,
+          // actions: HIVE_ACTIONS,
+          actions: []
+        };
+  
+      }
+
+
+    })
+  }
+
 
   //TODO:discard unnessacry data processings towards the end of PR
   walletData.rewardHiveBalance = parseToken(userdata.reward_hive_balance);

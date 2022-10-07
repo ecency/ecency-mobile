@@ -14,6 +14,9 @@ export interface CoinBase {
 }
 
 export interface CoinData {
+    name:string;
+    symbol:string;
+    iconUrl:string
     currentPrice:number;
     balance:number;
     savings?:number;
@@ -22,6 +25,8 @@ export interface CoinData {
     vsCurrency:string;
     actions:string[];
     extraDataPairs?:DataPair[];
+    isEngine?:boolean;
+
 }
 
 export interface PriceHistory {
@@ -98,7 +103,7 @@ export default function (state = initialState, action) {
     case SET_SELECTED_COINS:{
         return {
             ...state,
-            selectedCoin:payload
+            selectedCoins:payload
         }
     }
     case SET_COINS_DATA:{

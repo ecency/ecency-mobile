@@ -16,6 +16,22 @@ const DEFAULT_COINS = [{
     id:'hive_dollar',
     symbol:'HBD',
     notCrypto:false
+},{
+    id:'POB',
+    symbol:'POB',
+    notCrypto:true
+},{
+    id:'ARCHON',
+    symbol:'ARCHON',
+    notCrypto:true
+},{
+    id:'WAIV',
+    symbol:'WAIV',
+    notCrypto:true
+},{
+    id:'CCC',
+    symbol:'CCC',
+    notCrypto:true
 }] as CoinBase[]
 
 export const COIN_IDS = {

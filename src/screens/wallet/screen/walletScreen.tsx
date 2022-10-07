@@ -204,7 +204,7 @@ const WalletScreen = ({navigation}) => {
     const _tokenMarketData:number[] = priceHistories[item.id] ? priceHistories[item.id].data : [];
 
     const _balance = coinData.balance + (coinData.savings || 0);
-    const quote = quotes ? quotes[item.id] : {};
+    const quote = quotes && quotes[item.id] ? quotes[item.id] : quotes[COIN_IDS.HIVE];
 
     const _onCardPress = () => {
       navigation.navigate(ROUTES.SCREENS.COIN_DETAILS, {
@@ -231,6 +231,7 @@ const WalletScreen = ({navigation}) => {
 
     return (
       <CoinCard 
+        name={coinData.name}
         chartData={_tokenMarketData || []} 
         currentValue={quote.price || 0}
         changePercent={quote.percentChange || 0}
@@ -240,6 +241,7 @@ const WalletScreen = ({navigation}) => {
         enableBuy={!coinData.unclaimedBalance && item.id === COIN_IDS.ECENCY}
         isClaiming={isClaiming}
         isLoading={isLoading}
+        isEngine={coinData.isEngine}
         onCardPress={_onCardPress}
         onClaimPress={_onClaimPress}
         onBoostAccountPress={_onBoostAccountPress}

@@ -65,7 +65,7 @@ export enum JSON_RPC {
 }
 
 export enum EngineContracts {
-  TOKENS = 'Tokens',
+  TOKENS = 'tokens',
 }
 
 export enum EngineTables {
