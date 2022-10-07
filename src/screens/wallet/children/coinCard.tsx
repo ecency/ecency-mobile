@@ -1,9 +1,9 @@
-import { View, Text,  TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import React, { ComponentType, Fragment, useEffect, useState } from 'react';
-import styles from './children.styles';
-import { Icon, MainButton, SimpleChart } from '../../../components';
 import { useIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import styles from './children.styles';
+import { Icon, MainButton, SimpleChart } from '../../../components';
 import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { COIN_IDS } from '../../../constants/defaultCoins';
 
@@ -22,7 +22,7 @@ export interface CoinCardProps {
   enableBuy?: boolean;
   isClaiming?: boolean;
   isLoading?: boolean;
-  footerComponent: ComponentType<any>
+  footerComponent: ComponentType<any>;
   onCardPress: () => void;
   onClaimPress: () => void;
   onBoostAccountPress: () => void;
@@ -46,9 +46,8 @@ export const CoinCard = ({
   isLoading,
   onCardPress,
   onClaimPress,
-  onBoostAccountPress
+  onBoostAccountPress,
 }: CoinCardProps) => {
-
   const intl = useIntl();
 
   const [claimExpected, setClaimExpected] = useState(false);
@@ -57,37 +56,33 @@ export const CoinCard = ({
     if (!isClaiming && claimExpected) {
       setClaimExpected(false);
     }
-  }, [isClaiming])
-
+  }, [isClaiming]);
 
   const _onClaimPress = () => {
-    setClaimExpected(unclaimedRewards ? true : false)
+    setClaimExpected(unclaimedRewards ? true : false);
     onClaimPress();
-  }
+  };
 
-  const _name = !!intl.messages[`wallet.${id}.name`] ? intl.formatMessage({ id: `wallet.${id}.name` }) : name
-  const value = `${isEngine ? ownedTokens.toFixed(6):ownedTokens} ${isEngine?'':symbol}`
+  const _name = intl.messages[`wallet.${id}.name`]
+    ? intl.formatMessage({ id: `wallet.${id}.name` })
+    : name;
+  const value = `${isEngine ? ownedTokens.toFixed(6) : ownedTokens} ${isEngine ? '' : symbol}`;
 
   const _renderHeader = (
     <View style={styles.cardHeader}>
       {/* <View style={styles.logo} /> */}
       <View style={styles.cardTitleContainer}>
-        <Text style={styles.textTitle} >{symbol}</Text>
+        <Text style={styles.textTitle}>{symbol}</Text>
         <Text style={styles.textSubtitle}>{_name}</Text>
       </View>
       <View style={styles.cardValuesContainer}>
-        <Text
-          style={styles.textTitle}>
-           {value}
-        </Text>
+        <Text style={styles.textTitle}>{value}</Text>
         <Text style={styles.textSubtitleRight}>
           {`${(ownedTokens * currentValue).toFixed(2)}${currencySymbol}`}
         </Text>
       </View>
-
     </View>
   );
-
 
   const _renderClaimSection = () => {
     if (unclaimedRewards || enableBuy) {
@@ -96,12 +91,20 @@ export const CoinCard = ({
         : intl.formatMessage({ id: `wallet.${id}.buy` });
 
       const _rightComponent = isLoading ? (
-        <ActivityIndicator color={EStyleSheet.value('$pureWhite')} style={styles.claimActivityIndicator} />
+        <ActivityIndicator
+          color={EStyleSheet.value('$pureWhite')}
+          style={styles.claimActivityIndicator}
+        />
       ) : (
         <View style={styles.claimIconWrapper}>
-          <Icon name="add" iconType="MaterialIcons" color={EStyleSheet.value('$primaryBlue')} size={23} />
+          <Icon
+            name="add"
+            iconType="MaterialIcons"
+            color={EStyleSheet.value('$primaryBlue')}
+            size={23}
+          />
         </View>
-      )
+      );
 
       return (
         <View style={styles.claimContainer}>
@@ -113,16 +116,14 @@ export const CoinCard = ({
             onPress={_onClaimPress}
           >
             <Fragment>
-              <Text style={styles.claimBtnTitle}>
-                {btnTitle}
-              </Text>
+              <Text style={styles.claimBtnTitle}>{btnTitle}</Text>
               {_rightComponent}
             </Fragment>
           </MainButton>
         </View>
-      )
+      );
     }
-  }
+  };
 
   const _renderBoostAccount = () => {
     if (id === COIN_IDS.HP && ownedTokens < 50) {
@@ -142,7 +143,7 @@ export const CoinCard = ({
           <MainButton style={styles.claimBtn} height={50} onPress={onBoostAccountPress}>
             <Fragment>
               <Text style={styles.claimBtnTitle}>
-                {intl.formatMessage({ id: `wallet.get_boost` })}
+                {intl.formatMessage({ id: 'wallet.get_boost' })}
               </Text>
               {_rightComponent}
             </Fragment>
@@ -150,31 +151,28 @@ export const CoinCard = ({
         </View>
       );
     }
-  }
+  };
 
   const _renderGraph = () => {
     const _baseWidth = getWindowDimensions().width - 32;
     return (
       <View style={styles.chartContainer}>
-        <SimpleChart
-          data={chartData}
-          baseWidth={_baseWidth}
-          showLine={false}
-          chartHeight={130}
-        />
+        <SimpleChart data={chartData} baseWidth={_baseWidth} showLine={false} chartHeight={130} />
       </View>
-    )
-  }
+    );
+  };
 
   const _renderFooter = (
     <View style={styles.cardFooter}>
       <Text style={styles.textCurValue}>{`${currencySymbol} ${currentValue.toFixed(2)}`}</Text>
-      <Text style={changePercent > 0 ? styles.textDiffPositive : styles.textDiffNegative}>{`${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(1)}%`}</Text>
+      <Text style={changePercent > 0 ? styles.textDiffPositive : styles.textDiffNegative}>{`${
+        changePercent >= 0 ? '+' : ''
+      }${changePercent.toFixed(1)}%`}</Text>
     </View>
-  )
+  );
 
   return (
-    <TouchableOpacity onPress={onCardPress} >
+    <TouchableOpacity onPress={onCardPress}>
       <View style={styles.cardContainer}>
         {_renderHeader}
         {_renderClaimSection()}
@@ -183,9 +181,6 @@ export const CoinCard = ({
         {!notCrypto ? _renderFooter : <View style={{ height: 12 }} />}
         {footerComponent && footerComponent}
       </View>
-
     </TouchableOpacity>
-
   );
 };
-
