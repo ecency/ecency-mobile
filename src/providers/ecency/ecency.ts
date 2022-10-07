@@ -15,6 +15,7 @@ import {
 import {
   CommentHistoryItem,
   LatestMarketPrices,
+  MediaItem,
   NotificationFilters,
   ReceivedVestingShare,
   Referral,
@@ -672,7 +673,7 @@ export const addImage = async (url: string) => {
   try {
     const data = { url };
     const response = await ecencyApi.post('/private-api/images-add', data);
-    return response.data;
+    return response.data as MediaItem[];
   } catch (error) {
     console.warn('Failed to add image', error);
     bugsnagInstance.notify(error);
@@ -708,10 +709,10 @@ export const uploadImage = async (media, username, sign, uploadProgress = null) 
     if (!res || !res.data) {
       throw new Error('Returning response missing media data');
     }
-    return res;
+    return res.data;
   } catch (error) {
     console.warn('Image upload failed', error);
-    return { error };
+    throw error;
   }
 };
 

@@ -7,6 +7,13 @@ export interface ReceivedVestingShare {
   timestamp: string;
 }
 
+export interface MediaItem {
+  _id: string;
+  url: string;
+  created: string;
+  timestamp: number;
+}
+
 export interface Snippet {
   id: string;
   title: string;
@@ -59,20 +66,20 @@ export interface CommentHistoryItem {
 }
 
 export enum ScheduledPostStatus {
-    PENDING = 1,
-    POSTPONED = 2,
-    PUBLISHED = 3,
-    ERROR = 4,
+  PENDING = 1,
+  POSTPONED = 2,
+  PUBLISHED = 3,
+  ERROR = 4,
 }
 
 export enum NotificationFilters {
-    ACTIVITIES = "activities",
-    RVOTES = "rvotes",
-    MENTIONS = "mentions",
-    FOLLOWS = "follows",
-    REPLIES = "replies",
-    REBLOGS = "reblogs", 
-    TRANFERS = "transfers", 
-    DELEGATIONS = "delegations",
-    FAVOURITES = "nfavorites"
+  ACTIVITIES = "activities",
+  RVOTES = "rvotes",
+  MENTIONS = "mentions",
+  FOLLOWS = "follows",
+  REPLIES = "replies",
+  REBLOGS = "reblogs",
+  TRANFERS = "transfers",
+  DELEGATIONS = "delegations",
+  FAVOURITES = "nfavorites"
 }
