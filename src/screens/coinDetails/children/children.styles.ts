@@ -141,7 +141,7 @@ export default EStyleSheet.create({
   },
   textUnderline:{
     textDecorationLine:'underline', 
-    textDecorationColor:'$primaryLightGray'
+    textDecorationColor:'$primaryDarkText'
   }
 });
 
