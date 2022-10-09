@@ -14,8 +14,10 @@ import PushNotification from 'react-native-push-notification';
 import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 import SplashScreen from 'react-native-splash-screen';
+import DeviceInfo from 'react-native-device-info';
 
 // Constants
+import Orientation from 'react-native-orientation-locker';
 import AUTH_TYPE from '../../../constants/authType';
 import ROUTES from '../../../constants/routeNames';
 
@@ -88,6 +90,7 @@ import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAc
 import MigrationHelpers from '../../../utils/migrationHelpers';
 import { deepLinkParser } from '../../../utils/deepLinkParser';
 import bugsnapInstance from '../../../config/bugsnag';
+import isAndroidTablet from '../../../utils/isAndroidTablet';
 
 let firebaseOnNotificationOpenedAppListener = null;
 let firebaseOnMessageListener = null;
@@ -876,6 +879,14 @@ class ApplicationContainer extends Component {
 
   UNSAFE_componentWillMount() {
     const { isDarkTheme: _isDarkTheme } = this.props;
+    // check for device landscape status and lcok orientation accordingly. Fix for orientation bug on android tablet devices
+    DeviceInfo.isLandscape().then((isLandscape) => {
+      if (isLandscape && isAndroidTablet()) {
+        Orientation.lockToLandscape();
+      } else {
+        Orientation.lockToPortrait();
+      }
+    });
     EStyleSheet.build(_isDarkTheme ? darkTheme : lightTheme);
   }
 
