@@ -71,6 +71,7 @@ import {
 } from '../../../redux/actions/applicationActions';
 import {
   setAvatarCacheStamp,
+  setLockedOrientation,
   showActionModal,
   toastNotification,
   updateActiveBottomTab,
@@ -91,6 +92,7 @@ import MigrationHelpers from '../../../utils/migrationHelpers';
 import { deepLinkParser } from '../../../utils/deepLinkParser';
 import bugsnapInstance from '../../../config/bugsnag';
 import isAndroidTablet from '../../../utils/isAndroidTablet';
+import { orientations } from '../../../redux/constants/orientationsConstants';
 
 let firebaseOnNotificationOpenedAppListener = null;
 let firebaseOnMessageListener = null;
@@ -878,13 +880,15 @@ class ApplicationContainer extends Component {
   }
 
   UNSAFE_componentWillMount() {
-    const { isDarkTheme: _isDarkTheme } = this.props;
+    const { isDarkTheme: _isDarkTheme, dispatch } = this.props as any;
     // check for device landscape status and lcok orientation accordingly. Fix for orientation bug on android tablet devices
     DeviceInfo.isLandscape().then((isLandscape) => {
       if (isLandscape && isAndroidTablet()) {
         Orientation.lockToLandscape();
+        dispatch(setLockedOrientation(orientations.LANDSCAPE));
       } else {
         Orientation.lockToPortrait();
+        dispatch(setLockedOrientation(orientations.PORTRAIT));
       }
     });
     EStyleSheet.build(_isDarkTheme ? darkTheme : lightTheme);
