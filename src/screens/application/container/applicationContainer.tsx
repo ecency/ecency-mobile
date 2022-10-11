@@ -7,7 +7,6 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import { isEmpty, some } from 'lodash';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
@@ -78,8 +77,6 @@ import { fetchCoinQuotes } from '../../../redux/actions/walletActions';
 
 import { decryptKey, encryptKey } from '../../../utils/crypto';
 
-import darkTheme from '../../../themes/darkTheme';
-import lightTheme from '../../../themes/lightTheme';
 import persistAccountGenerator from '../../../utils/persistAccountGenerator';
 import parseVersionNumber from '../../../utils/parseVersionNumber';
 import { setMomentLocale } from '../../../utils/time';
@@ -872,11 +869,6 @@ class ApplicationContainer extends Component {
     if (isConnected !== null && isConnected !== nextProps.isConnected && nextProps.isConnected) {
       this._fetchApp();
     }
-  }
-
-  UNSAFE_componentWillMount() {
-    const { isDarkTheme: _isDarkTheme } = this.props;
-    EStyleSheet.build(_isDarkTheme ? darkTheme : lightTheme);
   }
 
   render() {

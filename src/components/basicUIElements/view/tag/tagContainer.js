@@ -31,6 +31,7 @@ const TagContainer = ({
   communityTitle,
   prefix,
   suffix,
+  removeEnabled,
 }) => {
   const [label, setLabel] = useState(value);
   const [isCommunity, setIsCommunity] = useState(false);
@@ -96,6 +97,7 @@ const TagContainer = ({
       disabled={disabled}
       prefix={prefix}
       suffix={suffix}
+      removeEnabled={removeEnabled}
     />
   );
 };

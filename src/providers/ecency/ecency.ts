@@ -15,9 +15,12 @@ import {
 import {
   CommentHistoryItem,
   LatestMarketPrices,
+  MediaItem,
+  NotificationFilters,
   ReceivedVestingShare,
   Referral,
   ReferralStat,
+  Snippet,
 } from './ecency.types';
 
 /**
@@ -326,7 +329,7 @@ export const deleteFavorite = async (targetUsername: string) => {
 export const getFragments = async () => {
   try {
     const response = await ecencyApi.post('/private-api/fragments');
-    return response.data;
+    return response.data as Snippet[];
   } catch (error) {
     console.warn('Failed to get fragments', error);
     bugsnagInstance.notify(error);
@@ -416,16 +419,9 @@ export const getLeaderboard = async (duration: 'day' | 'week' | 'month') => {
  * @returns array of notifications
  */
 export const getNotifications = async (data: {
-  filter?:
-    | 'rvotes'
-    | 'mentions'
-    | 'follows'
-    | 'replies'
-    | 'reblogs'
-    | 'transfers'
-    | 'delegations'
-    | 'nfavorites';
+  filter?: NotificationFilters;
   since?: string;
+  limit?: number;
 }) => {
   try {
     const response = await ecencyApi.post('/private-api/notifications', data);
@@ -677,7 +673,7 @@ export const addImage = async (url: string) => {
   try {
     const data = { url };
     const response = await ecencyApi.post('/private-api/images-add', data);
-    return response.data;
+    return response.data as MediaItem[];
   } catch (error) {
     console.warn('Failed to add image', error);
     bugsnagInstance.notify(error);
@@ -713,10 +709,10 @@ export const uploadImage = async (media, username, sign, uploadProgress = null) 
     if (!res || !res.data) {
       throw new Error('Returning response missing media data');
     }
-    return res;
+    return res.data;
   } catch (error) {
     console.warn('Image upload failed', error);
-    return { error };
+    throw error;
   }
 };
 
