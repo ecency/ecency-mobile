@@ -89,7 +89,7 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
           scrollRef.current.scrollToEnd();
         }
       }, 100);
-    }, 200),
+    }, 500),
     [tags],
   );
 
