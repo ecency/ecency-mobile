@@ -16,7 +16,7 @@ const Tag = ({
   disabled,
   prefix,
   suffix,
-  removeEnabled
+  removeEnabled,
 }) => (
   <TouchableOpacity
     hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
@@ -43,14 +43,14 @@ const Tag = ({
         {`${prefix ? prefix : ''} ${label}${suffix ? suffix : ''}`}
       </Text>
       {removeEnabled && (
-        <Icon name="close"
+        <Icon
+          name="close"
           iconType="MaterialCommunityIcons"
           color={EStyleSheet.value('$primaryDarkText')}
           size={12}
-          style={{paddingLeft:6}}
-          />
+          style={{ paddingLeft: 6 }}
+        />
       )}
-
     </View>
   </TouchableOpacity>
 );

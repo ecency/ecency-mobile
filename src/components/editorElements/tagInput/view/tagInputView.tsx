@@ -68,7 +68,10 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
   }
 
   const _registerTag = (tag) => {
-    tags.push(tag);
+    if(!tags.includes(tag)){
+      tags.push(tag);
+    }
+
     
     setTags([...tags])
     setText('');
