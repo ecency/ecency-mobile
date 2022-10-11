@@ -24,15 +24,17 @@ const ITEM_SKUS = Platform.select({
 
 const ACCOUNT_BOOST_VESTS = 553311;
 
-
 const AccountBoost = ({ route }) => {
   const intl = useIntl();
   const currentAccount = useSelector((state) => state.account.currentAccount);
-  const globalProps = useSelector(state=>state.account.globalProps);
+  const globalProps = useSelector((state) => state.account.globalProps);
 
   const { username } = route.params ?? {};
 
-  const delegateAmount = useMemo(()=>vestsToHp(ACCOUNT_BOOST_VESTS, globalProps.hivePerMVests).toFixed(1),[]);
+  const delegateAmount = useMemo(
+    () => vestsToHp(ACCOUNT_BOOST_VESTS, globalProps.hivePerMVests).toFixed(1),
+    [],
+  );
 
   return (
     <InAppPurchaseContainer skus={ITEM_SKUS} username={username} isNoSpin>
