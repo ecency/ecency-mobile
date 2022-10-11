@@ -1,121 +1,118 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { View, Text, Platform } from 'react-native';
+import { debounce } from 'lodash';
 // Constants
 
 // Components
+import { ScrollView } from 'react-native-gesture-handler';
 import { TextInput } from '../../../textInput';
 
 // Styles
 import styles from './tagInputStyles';
 import globalStyles from '../../../../globalStyles';
 
-import { ScrollView } from 'react-native-gesture-handler';
-import { useAppSelector } from '../../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { Tag } from '../../../basicUIElements';
 import { isCommunity } from '../../../../utils/communityValidation';
+import { toastNotification } from '../../../../redux/actions/uiAction';
 
 const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, setCommunity }) => {
-  const isDarkTheme = useAppSelector(state => state.application.isDarkTheme);
+  const dispatch = useAppDispatch();
+  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
 
-  const scrollRef = useRef<ScrollView>()
+  const scrollRef = useRef<ScrollView>();
 
   const [tags, setTags] = useState<string[]>([]);
   const [text, setText] = useState('');
   const [warning, setWarning] = useState(null);
 
-
   useEffect(() => {
     //read and add tag items
     if (typeof value === 'string') {
-      setTags(value.split(' '))
+      setTags(value.split(' '));
     } else {
       setTags(value);
     }
   }, [value]);
 
-
-
-
-  // Component Functions
-  // const _handleOnChange = (_text) => {
-
-  //   if (cats.length > 0) {
-  //     if (isCommunity(cats[0])) {
-  //       setCommunity(cats[0]);
-  //     }
-  //   }
-  // };
-
-
-  const _verifyTagsUpdate = (tags:string[]) => {
+  const _verifyTagsUpdate = (tags: string[]) => {
     if (tags.length > 0) {
       tags.length > 10
         ? setWarning(intl.formatMessage({ id: 'editor.limited_tags' }))
         : tags.find((c) => c.length > 24)
-          ? setWarning(intl.formatMessage({ id: 'editor.limited_length' }))
-          : tags.find((c) => c.split('-').length > 2)
-            ? setWarning(intl.formatMessage({ id: 'editor.limited_dash' }))
-            : tags.find((c) => c.indexOf(',') >= 0)
-              ? setWarning(intl.formatMessage({ id: 'editor.limited_space' }))
-              : tags.find((c) => /[A-Z]/.test(c))
-                ? setWarning(intl.formatMessage({ id: 'editor.limited_lowercase' }))
-                : tags.find((c) => !/^[a-z0-9-#]+$/.test(c))
-                  ? setWarning(intl.formatMessage({ id: 'editor.limited_characters' }))
-                  : tags.find((c) => !/[a-z0-9]$/.test(c))
-                    ? setWarning(intl.formatMessage({ id: 'editor.limited_lastchar' }))
-                    : setWarning(null);
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_length' }))
+        : tags.find((c) => c.split('-').length > 2)
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_dash' }))
+        : tags.find((c) => c.indexOf(',') >= 0)
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_space' }))
+        : tags.find((c) => /[A-Z]/.test(c))
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_lowercase' }))
+        : tags.find((c) => !/^[a-z0-9-#]+$/.test(c))
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_characters' }))
+        : tags.find((c) => !/[a-z0-9]$/.test(c))
+        ? setWarning(intl.formatMessage({ id: 'editor.limited_lastchar' }))
+        : setWarning(null);
     }
-  }
+  };
 
-  const _registerTag = (tag) => {
-    if(!tags.includes(tag)){
-      tags.push(tag);
-    }
+  const _registerNewTags = useCallback(
+    debounce((newTags: string[], skipLast = true) => {
+      let inputVal = newTags.length > 0 && skipLast && newTags.pop();
 
-    
-    setTags([...tags])
-    setText('');
-    if(handleTagChanged){
-      handleTagChanged([...tags]);
-    }
-    setTimeout(() => {
-      if (scrollRef.current) {
-        scrollRef.current.scrollToEnd()
+      newTags.forEach((tag) => {
+        if (!tag.length) {
+          return;
+        }
+        if (!tags.includes(tag)) {
+          //check if tag is community and post communtiy is not already selected
+          if (isCommunity(tag) && !isCommunity(tags[0])) {
+            //add community tag
+            tags.splice(0, 0, tag);
+            setCommunity(tag);
+            dispatch(toastNotification(intl.formatMessage({ id: 'editor.community_selected' })));
+          } else {
+            //add simple tag
+            tags.push(tag);
+          }
+        } else {
+          dispatch(toastNotification(intl.formatMessage({ id: 'editor.tag_duplicate' })));
+        }
+      });
+
+      setTags([...tags]);
+      setText(inputVal || '');
+      if (handleTagChanged) {
+        handleTagChanged([...tags]);
       }
-    }, 100)
-  }
+      setTimeout(() => {
+        if (scrollRef.current) {
+          scrollRef.current.scrollToEnd();
+        }
+      }, 100);
+    }, 200),
+    [tags],
+  );
 
-
-  const _handleOnChange = (text: string) => {
-    const lstChr = text.length > 1 && text[text.length - 1];
-    if (lstChr === ' ' || lstChr === ',') {
-      const tag = text.substring(0, text.length - 1);
-      _registerTag(tag)
-    } else {
-      setText(text)
-    }
-  }
-
-
+  const _handleOnChange = (val: string) => {
+    setText(val);
+    _registerNewTags(val.split(' '));
+  };
 
   const _handleOnEnd = () => {
     if (text.length > 1) {
-      text.trim();
-      _registerTag(text)
+      _registerNewTags(text.split(' '), false);
     }
-  }
-
+  };
 
   const _renderTag = (tag, index) => {
-
     const _onPress = () => {
       tags.splice(index, 1);
-      setTags([...tags])
-      _verifyTagsUpdate(tags)
-      if(handleTagChanged){
+      setTags([...tags]);
+      _verifyTagsUpdate(tags);
+      if (handleTagChanged) {
         handleTagChanged([...tags]);
       }
-    }
+    };
 
     return (
       <Tag
@@ -126,14 +123,18 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
         removeEnabled={true}
         onPress={_onPress}
       />
-    )
-  }
-
+    );
+  };
 
   console.log('text : ', text, '\nvalue : ', value);
   return (
     <View style={[globalStyles.containerHorizontal16, styles.container]}>
-      <ScrollView ref={scrollRef} style={{ width: "100%" }} contentContainerStyle={{ alignItems: 'center' }} horizontal>
+      <ScrollView
+        ref={scrollRef}
+        style={{ width: '100%' }}
+        contentContainerStyle={{ alignItems: 'center' }}
+        horizontal
+      >
         {tags.map(_renderTag)}
         <TextInput
           style={styles.textInput}
@@ -156,7 +157,6 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
           value={text}
         />
       </ScrollView>
-
 
       {warning && <Text style={styles.warning}>{warning}</Text>}
     </View>
