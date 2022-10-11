@@ -54,7 +54,6 @@ const PostDisplayView = ({
   const scrollRef = useRef<ScrollView>();
   const commentsReached = useRef<boolean>(false);
 
-
   const [postHeight, setPostHeight] = useState(0);
   const [scrollHeight, setScrollHeight] = useState(0);
   const [cacheVoteIcrement, setCacheVoteIcrement] = useState(0);
@@ -89,29 +88,32 @@ const PostDisplayView = ({
 
   const _handleOnScroll = (event) => {
     const { y } = event.nativeEvent.contentOffset;
-    console.log("scroll height", y)
+    console.log('scroll height', y);
     setScrollHeight(HEIGHT + y);
 
-    const _commentButtonBounceOffset = y + (HEIGHT/1.7);
-    if(!commentsReached.current && commentsRef.current && _commentButtonBounceOffset > postHeight ){
+    const _commentButtonBounceOffset = y + HEIGHT / 1.7;
+    if (
+      !commentsReached.current &&
+      commentsRef.current &&
+      _commentButtonBounceOffset > postHeight
+    ) {
       commentsRef.current.bounceCommentButton();
       commentsReached.current = true;
     }
   };
 
-
   const _handleOnPostLayout = (event) => {
     const { height } = event.nativeEvent.layout;
-    console.log('post height', height)
+    console.log('post height', height);
     setPostHeight(height);
   };
 
   const _scrollToComments = () => {
-    if(scrollRef.current){
+    if (scrollRef.current) {
       const pos = postHeight;
-      scrollRef.current.scrollTo({y:pos})
+      scrollRef.current.scrollTo({ y: pos });
     }
-  }
+  };
 
   const _handleOnReblogsPress = () => {
     if (reblogs.length > 0 && handleOnReblogsPress) {
@@ -160,8 +162,8 @@ const PostDisplayView = ({
               isClickable
               text={get(post, 'children', 0)}
               textMarginLeft={20}
+              onLongPress={_showQuickReplyModal}
               onPress={() => _scrollToComments()}
-              // onPress={() => handleOnReplyPress && handleOnReplyPress()}
             />
           )}
           {!isLoggedIn && (
@@ -279,8 +281,7 @@ const PostDisplayView = ({
             )}
           </View>
           {post && !postBodyLoading && (isGetComment || isLoadedComments) && (
-
-             <CommentsDisplay
+            <CommentsDisplay
               ref={commentsRef}
               author={author || post.author}
               mainAuthor={author || post.author}

@@ -13,6 +13,7 @@ const TextWithIcon = ({
   iconSize,
   wrapperStyle,
   textStyle,
+  onLongPress,
 }) => {
   const [ltext, setLtext] = useState(text);
   useEffect(() => {
@@ -25,6 +26,7 @@ const TextWithIcon = ({
         underlayColor="transparent"
         disabled={!isClickable || !onPress}
         onPress={() => onPress && onPress()}
+        onLongPress={() => onLongPress && onLongPress()}
       >
         <Fragment>
           <Icon

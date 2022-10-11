@@ -21,6 +21,8 @@ export default EStyleSheet.create({
     height: 22,
     backgroundColor: '$iconColor',
     borderRadius: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   isFilter: {
     backgroundColor: 'transparent',
