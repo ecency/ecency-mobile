@@ -7,17 +7,14 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import { isEmpty, some } from 'lodash';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 import SplashScreen from 'react-native-splash-screen';
-import DeviceInfo from 'react-native-device-info';
 
 // Constants
-import Orientation from 'react-native-orientation-locker';
 import AUTH_TYPE from '../../../constants/authType';
 import ROUTES from '../../../constants/routeNames';
 
@@ -71,7 +68,6 @@ import {
 } from '../../../redux/actions/applicationActions';
 import {
   setAvatarCacheStamp,
-  setLockedOrientation,
   showActionModal,
   toastNotification,
   updateActiveBottomTab,
@@ -81,8 +77,6 @@ import { fetchCoinQuotes } from '../../../redux/actions/walletActions';
 
 import { decryptKey, encryptKey } from '../../../utils/crypto';
 
-import darkTheme from '../../../themes/darkTheme';
-import lightTheme from '../../../themes/lightTheme';
 import persistAccountGenerator from '../../../utils/persistAccountGenerator';
 import parseVersionNumber from '../../../utils/parseVersionNumber';
 import { setMomentLocale } from '../../../utils/time';
@@ -91,8 +85,6 @@ import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAc
 import MigrationHelpers from '../../../utils/migrationHelpers';
 import { deepLinkParser } from '../../../utils/deepLinkParser';
 import bugsnapInstance from '../../../config/bugsnag';
-import isAndroidTablet from '../../../utils/isAndroidTablet';
-import { orientations } from '../../../redux/constants/orientationsConstants';
 
 let firebaseOnNotificationOpenedAppListener = null;
 let firebaseOnMessageListener = null;
@@ -877,21 +869,6 @@ class ApplicationContainer extends Component {
     if (isConnected !== null && isConnected !== nextProps.isConnected && nextProps.isConnected) {
       this._fetchApp();
     }
-  }
-
-  UNSAFE_componentWillMount() {
-    const { isDarkTheme: _isDarkTheme, dispatch } = this.props as any;
-    // check for device landscape status and lcok orientation accordingly. Fix for orientation bug on android tablet devices
-    DeviceInfo.isLandscape().then((isLandscape) => {
-      if (isLandscape && isAndroidTablet()) {
-        Orientation.lockToLandscape();
-        dispatch(setLockedOrientation(orientations.LANDSCAPE));
-      } else {
-        Orientation.lockToPortrait();
-        dispatch(setLockedOrientation(orientations.PORTRAIT));
-      }
-    });
-    EStyleSheet.build(_isDarkTheme ? darkTheme : lightTheme);
   }
 
   render() {
