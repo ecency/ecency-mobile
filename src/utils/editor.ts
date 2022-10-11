@@ -234,7 +234,7 @@ export const extractMetadata = (body: string, thumbUrl?: string) => {
   }
 
   if (matchedLinks.length) {
-    out.links = matchedLinks;
+    out.links = matchedLinks.slice(0, 10); // return only first 10 links
   }
 
   if (matchedImages.length) {
@@ -252,7 +252,7 @@ export const extractMetadata = (body: string, thumbUrl?: string) => {
   }
 
   if (matchedUsers.length) {
-    out.users = matchedUsers;
+    out.users = matchedUsers.slice(0, 10); // return only first 10 users
   }
 
   return out;
