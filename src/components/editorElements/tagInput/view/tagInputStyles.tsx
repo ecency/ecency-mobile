@@ -12,11 +12,12 @@ export default EStyleSheet.create({
     borderBottomColor: '$primaryDarkGray',
   },
   tagContainer:{
-    borderWidth:EStyleSheet.hairlineWidth,
-    borderColor: '$primaryDarkGray',
+    marginLeft:0,
+    marginRight:12,
     backgroundColor: '$primaryLightBackground'
   } as ViewStyle,
   tagText:{
+    marginBottom:2,
     color: '$primaryDarkText',
   } as TextStyle,
   textInput: {
@@ -24,6 +25,7 @@ export default EStyleSheet.create({
     fontSize: 15,
     fontFamily: '$editorFont',
     height: isAndroidOreo() ? 36 : 40,
+    minWidth: 250
   } as TextStyle,
   warning: {
     color: '$primaryRed',
