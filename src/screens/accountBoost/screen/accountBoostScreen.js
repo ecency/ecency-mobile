@@ -22,7 +22,7 @@ const ITEM_SKUS = Platform.select({
   android: ['999boosts'],
 });
 
-const ACCOUNT_BOOST_VESTS = 55331;
+const ACCOUNT_BOOST_VESTS = 553311;
 
 
 const AccountBoost = ({ route }) => {
