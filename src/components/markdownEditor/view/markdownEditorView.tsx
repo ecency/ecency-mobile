@@ -2,12 +2,10 @@ import React, { useState, useRef, useEffect, useCallback, Fragment } from 'react
 import {
   View,
   KeyboardAvoidingView,
-  FlatList,
   Text,
   Platform,
   ScrollView,
   TouchableOpacity,
-  TextStyle,
 } from 'react-native';
 import { renderPostBody, postBodySummary } from '@ecency/render-helper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -227,11 +225,6 @@ const MarkdownEditorView = ({
     bodySelection = event.nativeEvent.selection;
   };
 
-  const _handleOnContentSizeChange = async (event) => {
-    const height = Math.max(MIN_BODY_INPUT_HEIGHT, event.nativeEvent.contentSize.height + 100);
-    setBodyInputHeight(height);
-  };
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const _setTextAndSelection = useCallback(({ selection: _selection, text: _text }) => {
     // console.log('_text : ', _text);
@@ -361,7 +354,7 @@ const MarkdownEditorView = ({
       _setTextAndSelection({ text: '', selection: { start: 0, end: 0 } });
     }
   };
-  const _renderEditor = (bodyInputStyle:TextStyle, editorScrollEnabled:boolean) => (
+  const _renderEditor = (editorScrollEnabled:boolean) => (
     <>
       {isReply && !isEdit && <SummaryArea summary={headerText} />}
       {!isReply && (
@@ -415,13 +408,12 @@ const MarkdownEditorView = ({
               })}
               placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
               selectionColor="#357ce6"
-              style={{...styles.textWrapper, ...bodyInputStyle}}
+              style={styles.textWrapper}
               underlineColorAndroid="transparent"
               innerRef={inputRef}
               editable={editable}
               contextMenuHidden={false}
               scrollEnabled={editorScrollEnabled}
-              onContentSizeChange={_handleOnContentSizeChange}
             />
       ) : (
         _renderPreview()
@@ -429,8 +421,8 @@ const MarkdownEditorView = ({
     </>
   );
 
-  const _editorWithScroll = <ScrollView style={styles.container}>{_renderEditor({height:bodyInputHeight}, false)}</ScrollView>;
-  const _editorWithoutScroll = <View style={styles.container}>{_renderEditor({flex:1}, true)}</View>;
+  const _editorWithScroll = <ScrollView style={styles.container}>{_renderEditor(false)}</ScrollView>;
+  const _editorWithoutScroll = <View style={styles.container}>{_renderEditor(true)}</View>;
 
   const _renderContent = () => {
     const _innerContent = (
