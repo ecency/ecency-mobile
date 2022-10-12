@@ -39,7 +39,7 @@ class PostFormView extends PureComponent {
                 this._handleOnSubmitEditing(child.props.returnKeyType, item),
               onChange: debounce(
                 (value) => this._handleOnChange(child.props.componentID, value),
-                500,
+                1000,
               ),
               returnKeyType: isFormValid ? 'done' : 'next',
               isPreviewActive,
