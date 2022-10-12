@@ -8,7 +8,7 @@ import { isArray } from 'lodash';
 
 // Services and Actions
 import { Buffer } from 'buffer';
-import { QueryClient, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { addDraft, updateDraft, getDrafts, addSchedule } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
@@ -46,6 +46,7 @@ import {
 } from '../../../redux/actions/cacheActions';
 import QUERIES from '../../../providers/queries/queryKeys';
 import bugsnapInstance from '../../../config/bugsnag';
+import { useDraftDeleteMutation, useDraftMutation } from '../../../providers/queries';
 
 /*
  *            Props Name        Description                                     Value
@@ -387,13 +388,15 @@ class EditorContainer extends Component<any, any> {
     );
   };
 
-  _saveDraftToDB = async (fields, saveAsNew = false) => {
+  _saveDraftToDB = async (fields, saveAsNew = false, silent = false) => {
     const { isDraftSaved, draftId, thumbUrl, isReply, rewardType } = this.state;
-    const { currentAccount, dispatch, intl, queryClient } = this.props;
+    const { currentAccount, dispatch, intl, queryClient, draftMutation } = this.props;
 
     try {
       //saves draft locallly
-      this._saveCurrentDraft(this._updatedDraftFields);
+      if (isReply) {
+        this._saveCurrentDraft(this._updatedDraftFields);
+      }
     } catch (err) {
       console.warn('local draft safe failed, skipping for remote only', err);
       bugsnapInstance.notify(err);
@@ -409,7 +412,7 @@ class EditorContainer extends Component<any, any> {
       if (!isDraftSaved) {
         let draftField;
 
-        if (this._isMounted) {
+        if (this._isMounted && !silent) {
           this.setState({
             isDraftSaving: true,
           });
@@ -429,61 +432,69 @@ class EditorContainer extends Component<any, any> {
         });
         const jsonMeta = makeJsonMetadata(meta, draftField.tags);
 
-        //update draft is draftId is present
-        if (draftId && draftField && !saveAsNew) {
-          await updateDraft(draftId, draftField.title, draftField.body, draftField.tags, jsonMeta);
+        const savingNewDraft = saveAsNew || !draftId
+
+        if (draftField) {
+          const response = await draftMutation.mutateAsync({
+            id: !savingNewDraft ? draftId : null,
+            title: draftField.title,
+            body: draftField.body,
+            tags: draftField.tags,
+            jsonMeta
+          });
+
+
+
+          if(savingNewDraft){
+            const filteredBeneficiaries = beneficiaries.filter(
+              (item) => item.account !== currentAccount.username,
+            ); //remove default beneficiary from array while saving
+            dispatch(setBeneficiaries(response._id, filteredBeneficiaries));
+            dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID));
+  
+            //clear local copy if darft save is successful
+            const username = get(currentAccount, 'name', '');
+  
+            dispatch(deleteDraftCacheEntry(draftId || DEFAULT_USER_DRAFT_ID + username));
+          }
+
 
           if (this._isMounted) {
-            this.setState({
-              isDraftSaved: true,
-              isDraftSaving: false,
-            });
+            this.setState(state => {
+              if (saveAsNew || !draftId) {
+                state.draftId = response._id;
+              }
+              return {
+                ...state,
+                isDraftSaved: !silent && true,
+                isDraftSaving: false,
+              }
+            })
           }
-        }
+          
 
-        //create new darft otherwise
-        else if (draftField) {
-          const response = await addDraft(
-            draftField.title,
-            draftField.body,
-            draftField.tags,
-            jsonMeta,
-          );
+          if (!silent) {
+            dispatch(
+              toastNotification(
+                intl.formatMessage({
+                  id: 'editor.draft_save_success',
+                }),
+              ),
+            );
 
-          if (this._isMounted) {
-            this.setState({
-              isDraftSaved: true,
-              isDraftSaving: false,
-              draftId: response._id,
-            });
+            //call fetch post to drafts screen
+            if (queryClient && !silent) {
+              queryClient.invalidateQueries([QUERIES.DRAFTS.GET]);
+            }
           }
-          const filteredBeneficiaries = beneficiaries.filter(
-            (item) => item.account !== currentAccount.username,
-          ); //remove default beneficiary from array while saving
-          dispatch(setBeneficiaries(response._id, filteredBeneficiaries));
-          dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID));
-
-          //clear local copy if darft save is successful
-          const username = get(currentAccount, 'name', '');
-
-          dispatch(deleteDraftCacheEntry(draftId || DEFAULT_USER_DRAFT_ID + username));
-        }
-
-        dispatch(
-          toastNotification(
-            intl.formatMessage({
-              id: 'editor.draft_save_success',
-            }),
-          ),
-        );
-
-        //call fetch post to drafts screen
-        if (queryClient) {
-          queryClient.invalidateQueries([QUERIES.DRAFTS.GET]);
         }
       }
+
     } catch (err) {
       console.warn('Failed to save draft to DB: ', err);
+
+      this._saveCurrentDraft(this._updatedDraftFields)
+
       if (this._isMounted) {
         this.setState({
           isDraftSaving: false,
@@ -1085,7 +1096,7 @@ class EditorContainer extends Component<any, any> {
         handleShouldReblogChange={this._handleShouldReblogChange}
         handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
-        handleOnBackPress={() => {}}
+        handleOnBackPress={() => { }}
         handleOnSubmit={this._handleSubmit}
         initialEditor={this._initialEditor}
         isDarkTheme={isDarkTheme}
@@ -1133,6 +1144,12 @@ export default connect(mapStateToProps)(
   injectIntl(
     //NOTE: remove extra integration step once compoent converted to functional component
     //TOOD: inject add and update draft mutation hooks as well
-    (props) => <EditorContainer {...props} queryClient={useQueryClient()} />,
+    (props) => (
+      <EditorContainer
+        {...props}
+        queryClient={useQueryClient()}
+        draftMutation={useDraftMutation()}
+      />
+    ),
   ),
 );
