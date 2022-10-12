@@ -153,7 +153,10 @@ const CommentBody = ({
     actionLink.current.show();
   }
 
-  const _handleSetSelectedImage = (imageLink:string) => {
+  const _handleSetSelectedImage = (imageLink:string, postImgUrls:string[]) => {
+    if(postImages.length !== postImgUrls.length){
+      setPostImages(postImgUrls);
+    }
     setSelectedImage(imageLink);
     actionImage.current.show();
   }
@@ -282,17 +285,6 @@ const CommentBody = ({
   };
 
 
- 
-
-
-  const _onElementIsImage = useCallback((imgUrl) =>{
-    if(postImages.indexOf(imgUrl) == -1){
-        postImages.push(imgUrl);
-        setPostImages(postImages);
-      }
-  },[postImages])
-
-
   return (
     <Fragment>
       <Modal key={`mkey-${created.toString()}`} visible={isImageModalOpen} transparent={true}>
@@ -337,7 +329,6 @@ const CommentBody = ({
               contentWidth={_contentWidth}
               body={body}
               isComment={true}
-              onElementIsImage={_onElementIsImage}
               setSelectedImage={_handleSetSelectedImage}
               setSelectedLink={_handleSetSelectedLink}
               handleOnPostPress={_handleOnPostPress}

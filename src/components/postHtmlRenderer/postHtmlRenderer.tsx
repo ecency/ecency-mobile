@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo, useMemo, useRef } from 'react';
 import RenderHTML, { CustomRendererProps, Element, TNode } from 'react-native-render-html';
 import { useHtmlIframeProps, iframeModel } from '@native-html/iframe-plugin';
 import styles from './postHtmlRendererStyles';
@@ -7,7 +7,6 @@ import VideoThumb from './videoThumb';
 import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
 import WebView from 'react-native-webview';
 import { VideoPlayer } from '..';
-import { useHtmlTableProps } from '@native-html/table-plugin';
 import { ScrollView } from 'react-native-gesture-handler';
 import { prependChild, removeElement } from 'htmlparser2/node_modules/domutils';
 
@@ -16,9 +15,8 @@ interface PostHtmlRendererProps {
   body: string;
   isComment?: boolean;
   onLoaded?: () => void;
-  setSelectedImage: (imgUrl: string) => void;
+  setSelectedImage: (imgUrl: string, postImageUrls:string[]) => void;
   setSelectedLink: (url: string) => void;
-  onElementIsImage: (imgUrl: string) => void;
   handleOnPostPress: (permlink: string, authro: string) => void;
   handleOnUserPress: (username: string) => void;
   handleTagPress: (tag: string, filter?: string) => void;
@@ -34,13 +32,15 @@ export const PostHtmlRenderer = memo(
     onLoaded,
     setSelectedImage,
     setSelectedLink,
-    onElementIsImage,
     handleOnPostPress,
     handleOnUserPress,
     handleTagPress,
     handleVideoPress,
     handleYoutubePress,
   }: PostHtmlRendererProps) => {
+
+    const postImgUrlsRef = useRef<string[]>([]);
+
     //new renderer functions
     body = body.replace(/<center>/g, '<div class="text-center">').replace(/<\/center>/g, '</div>');
 
@@ -146,7 +146,9 @@ export const PostHtmlRenderer = memo(
       if (element.tagName === 'img' && element.attribs.src) {
         const imgUrl = element.attribs.src;
         console.log('img element detected', imgUrl);
-        onElementIsImage(imgUrl);
+        if(!postImgUrlsRef.current.includes(imgUrl)){
+          postImgUrlsRef.current.push(imgUrl)
+        }
       }
 
       //this avoids invalid rendering of first element of table pushing rest of columsn to extreme right.
@@ -235,7 +237,7 @@ export const PostHtmlRenderer = memo(
       const imgUrl = tnode.attributes.src;
       const _onPress = () => {
         console.log('Image Pressed:', imgUrl);
-        setSelectedImage(imgUrl);
+        setSelectedImage(imgUrl, postImgUrlsRef.current);
       };
 
       const isVideoThumb = tnode.classes?.indexOf('video-thumbnail') >= 0;
