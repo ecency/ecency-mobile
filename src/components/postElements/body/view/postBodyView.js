@@ -256,19 +256,15 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
     }
   };
 
-  const _onElementIsImage = (imgUrl) => {
-    if (postImages.indexOf(imgUrl) == -1) {
-      postImages.push(imgUrl);
-      setPostImages(postImages);
-    }
-  };
-
   const _handleSetSelectedLink = (link) => {
     setSelectedLink(link);
     actionLink.current.show();
   };
 
-  const _handleSetSelectedImage = (imageLink) => {
+  const _handleSetSelectedImage = (imageLink, postImgUrls) => {
+    if (postImages.length !== postImgUrls.length) {
+      setPostImages(postImgUrls);
+    }
     setSelectedImage(imageLink);
     actionImage.current.show();
   };
@@ -335,7 +331,6 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
           body={html}
           contentWidth={width ? width : WIDTH - 32}
           onLoaded={_handleLoadEnd}
-          onElementIsImage={_onElementIsImage}
           setSelectedImage={_handleSetSelectedImage}
           setSelectedLink={_handleSetSelectedLink}
           handleOnPostPress={_handleOnPostPress}
