@@ -60,9 +60,14 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
       let inputVal = newTags.length > 0 && skipLast && newTags.pop();
 
       newTags.forEach((tag) => {
+        if (tag.startsWith('#')) {
+          tag = tag.substring(1);
+        }
+
         if (!tag.length) {
           return;
         }
+
         if (!tags.includes(tag)) {
           //check if tag is community and post communtiy is not already selected
           if (isCommunity(tag) && !isCommunity(tags[0])) {
@@ -121,6 +126,7 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
         style={styles.tagContainer}
         textStyle={styles.tagText}
         removeEnabled={true}
+        isFilter={true}
         onPress={_onPress}
       />
     );
