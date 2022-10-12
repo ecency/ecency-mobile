@@ -86,6 +86,7 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
 
       setTags([...tags]);
       setText(inputVal || '');
+      _verifyTagsUpdate(tags);
       if (handleTagChanged) {
         handleTagChanged([...tags]);
       }
