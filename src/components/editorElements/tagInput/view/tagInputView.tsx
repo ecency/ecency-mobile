@@ -16,6 +16,9 @@ import { Tag } from '../../../basicUIElements';
 import { isCommunity } from '../../../../utils/communityValidation';
 import { toastNotification } from '../../../../redux/actions/uiAction';
 
+
+const SEPARATOR_REGEX = /[,\s]/
+
 const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, setCommunity }) => {
   const dispatch = useAppDispatch();
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
@@ -101,12 +104,12 @@ const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, s
 
   const _handleOnChange = (val: string) => {
     setText(val);
-    _registerNewTags(val.split(' '));
+    _registerNewTags(val.split(SEPARATOR_REGEX));
   };
 
   const _handleOnEnd = () => {
     if (text.length > 1) {
-      _registerNewTags(text.split(' '), false);
+      _registerNewTags(text.split(SEPARATOR_REGEX), false);
     }
   };
 
