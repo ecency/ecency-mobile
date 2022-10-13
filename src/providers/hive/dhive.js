@@ -793,7 +793,7 @@ export const vote = async (account, pin, author, permlink, weight) => {
     console.log('Returning vote response', resp);
 
     //TODO: remove userActivity
-    userActivity(120, resp.id);
+    // userActivity(120, resp.id);
     return resp;
   } catch (err) {
     console.warn('Failed to complete vote', err);

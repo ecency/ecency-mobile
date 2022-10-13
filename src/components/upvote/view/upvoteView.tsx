@@ -22,6 +22,9 @@ import { vote } from '../../../providers/hive/dhive';
 import styles from './upvoteStyles';
 import { useAppSelector } from '../../../hooks';
 import postTypes from '../../../constants/postTypes';
+import { useUserActivityMutation } from '../../../providers/queries';
+import { generateRndStr } from '../../../utils/editor';
+import { EPointActivityIds } from '../../../providers/ecency/ecency.types';
 
 interface UpvoteViewProps {
   isDeclinedPayout: boolean;
@@ -76,6 +79,7 @@ const UpvoteView = ({
   parentType,
 }: UpvoteViewProps) => {
   const intl = useIntl();
+  const userActivityMutation = useUserActivityMutation();
 
   const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
@@ -133,8 +137,14 @@ const UpvoteView = ({
       console.log('casting up vote: ' + weight);
       vote(currentAccount, pinCode, author, permlink, weight)
         .then((response) => {
-          //TODO: update user points
           console.log('Vote response: ', response);
+          //record user points
+          userActivityMutation.mutate({
+            localId: generateRndStr(),
+            pointsTy: EPointActivityIds.VOTE,
+            transactionId: response.id
+          })
+
           if (!response || !response.id) {
             Alert.alert(
               intl.formatMessage({
@@ -202,8 +212,13 @@ const UpvoteView = ({
 
       console.log('casting down vote: ' + weight);
       vote(currentAccount, pinCode, author, permlink, weight)
-        .then(() => {
-          //TODO: update usr points
+        .then((response) => {
+          //record usr points
+          userActivityMutation.mutate({
+            localId: generateRndStr(),
+            pointsTy: EPointActivityIds.VOTE,
+            transactionId: response.id
+          })
           setUpvote(!!sliderValue);
           setIsVoting(false);
           onVote(amount, true);
