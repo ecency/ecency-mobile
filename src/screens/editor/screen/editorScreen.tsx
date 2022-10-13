@@ -173,8 +173,8 @@ class EditorScreen extends Component {
     }
 
     this.changeTimer = setTimeout(() => {
+      // saveCurrentDraft(fields);
       updateDraftFields(fields);
-      this._saveDraftToDB(false, true);
     }, 300);
   };
 
@@ -337,13 +337,13 @@ class EditorScreen extends Component {
       });
   };
 
-  _saveDraftToDB(saveAsNew?: boolean, silent?:boolean) {
+  _saveDraftToDB(saveAsNew?: boolean) {
     const { saveDraftToDB } = this.props;
     const { fields } = this.state;
 
     //save draft only if any of field is valid
     if (fields.body || fields.title) {
-      saveDraftToDB(fields, saveAsNew, silent);
+      saveDraftToDB(fields, saveAsNew);
     }
   }
 

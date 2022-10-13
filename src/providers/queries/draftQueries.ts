@@ -1,27 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { isArray } from 'lodash';
 import { useIntl } from 'react-intl';
 import { useAppDispatch } from '../../hooks';
 import { toastNotification } from '../../redux/actions/uiAction';
-import { Draft } from '../../redux/reducers/cacheReducer';
 import {
-  addDraft,
   deleteDraft,
   deleteScheduledPost,
   getDrafts,
   getSchedules,
   moveScheduledToDraft,
-  updateDraft,
 } from '../ecency/ecency';
 import QUERIES from './queryKeys';
-
-interface DraftMutationVars {
-  id: string | null;
-  title: string;
-  body: string;
-  tags: string;
-  metaData: Object;
-}
 
 /** hook used to return user drafts */
 export const useGetDraftsQuery = () => {
@@ -48,58 +36,6 @@ export const useDraftDeleteMutation = () => {
     },
   });
 };
-
-
-export const useDraftMutation = () => {
-  const queryClient = useQueryClient();
-  
-  return useMutation<Draft[] | Draft, Error, DraftMutationVars>(
-    async ({ id, title, body, tags, metaData }) => {
-      if (id) {
-        return await updateDraft(id, title, body, tags, metaData);
-      } else {
-        return await addDraft(title, body, tags, metaData);
-      }
-    }, {
-    onMutate: async ({ id, title, body, tags, metaData }) => {
-      if(id){
-        queryClient.setQueryData([QUERIES.DRAFTS.GET], (oldData:Draft[]|undefined)=>{
-          if(oldData){
-            const draftIndex = oldData.findIndex((draft)=>draft._id===id);
-            if(draftIndex > -1){
-              oldData[draftIndex] = {
-                ...oldData[draftIndex],
-                body,
-                title,
-                tags,
-                meta:metaData
-              }
-            }
-          }
-          return oldData;
-        })
-      }
-    },
-    onSuccess: (data) => {
-      console.log('Success draft update', data);
-
-      queryClient.setQueryData([QUERIES.DRAFTS.GET], (oldData:Draft[]|undefined) => {
-        if (isArray(data)) {
-          return _sortData(data)
-        } else if (oldData && isArray(oldData)) {
-          return [data, ...oldData]
-        } else {
-          return [data];
-        }
-      })
-
-    },
-    onError: () => {
-      // dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
-    },
-  });
-}
-
 
 export const useScheduleDeleteMutation = () => {
   const queryClient = useQueryClient();
