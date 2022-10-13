@@ -83,3 +83,7 @@ export enum NotificationFilters {
   DELEGATIONS = "delegations",
   FAVOURITES = "nfavorites"
 }
+
+export enum EPointActivityIds {
+  VOTE = 120
+}

@@ -29,6 +29,7 @@ export const userActivity = async (ty: number, tx: string = '', bl: string | num
   } catch (error) {
     console.warn("Failed to push user activity point", error);
     bugsnagInstance.notify(error)
+    throw error
   }
 }
 
