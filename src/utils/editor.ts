@@ -46,6 +46,7 @@ export const generatePermlink = (title, random = false) => {
 };
 
 export const extractWordAtIndex = (text: string, index: number) => {
+
   const RANGE = 50;
 
   const _start = index - RANGE;

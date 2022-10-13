@@ -626,11 +626,13 @@ class EditorContainer extends Component<any, any> {
         )
           .then((response) => {
             console.log(response);
+            //TODO: track user activity ty=110 for comment, ty=100 for blog
 
             //reblog if flag is active
             if (shouldReblog) {
               reblog(currentAccount, pinCode, author, permlink)
                 .then((resp) => {
+                  //TODO: track user activity ty=130
                   console.log('Successfully reblogged post', resp);
                 })
                 .catch((err) => {
@@ -705,6 +707,7 @@ class EditorContainer extends Component<any, any> {
         parentTags,
       )
         .then(() => {
+          //TODO: track user activity ty = 110
           AsyncStorage.setItem('temp-reply', '');
           this._handleSubmitSuccess();
 

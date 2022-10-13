@@ -171,6 +171,7 @@ class LoginContainer extends PureComponent {
           dispatch(setInitPosts([]));
           dispatch(setFeedPosts([]));
 
+          //TODO: track user activity with react query
           userActivity(20);
           setExistUser(true);
           this._setPushToken(result.name);

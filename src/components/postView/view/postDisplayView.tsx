@@ -66,6 +66,7 @@ const PostDisplayView = ({
   // Component Life Cycles
   useEffect(() => {
     if (isLoggedIn && get(currentAccount, 'name') && !isNewPost) {
+      //TODO: track user activity with react-query 
       userActivity(10);
     }
   }, []);

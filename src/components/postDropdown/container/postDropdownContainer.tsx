@@ -332,6 +332,7 @@ class PostDropdownContainer extends PureComponent {
     if (isLoggedIn) {
       reblog(currentAccount, pinCode, content.author, get(content, 'permlink', ''))
         .then(() => {
+          //TODO: track user activity points ty=130
           dispatch(
             toastNotification(
               intl.formatMessage({

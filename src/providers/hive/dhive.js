@@ -791,6 +791,8 @@ export const vote = async (account, pin, author, permlink, weight) => {
   try {
     const resp = await _vote(account, pin, author, permlink, weight);
     console.log('Returning vote response', resp);
+
+    //TODO: remove userActivity
     userActivity(120, resp.id);
     return resp;
   } catch (err) {
@@ -1412,6 +1414,7 @@ export const postContent = (
       const t = title ? 100 : 110;
       const { id } = resp;
       if (!isEdit) {
+        //TODO: remove userActivity
         userActivity(t, id);
       }
       return resp;
@@ -1460,6 +1463,7 @@ export const postComment = (
       const t = 110;
       const { id } = resp;
       if (!isEdit) {
+        //TODO: remove userActivity
         userActivity(t, id);
       }
       return resp;
@@ -1588,6 +1592,7 @@ const _postContent = async (
 // TODO: remove pinCode
 export const reblog = (account, pinCode, author, permlink) =>
   _reblog(account, pinCode, author, permlink).then((resp) => {
+    //TODO: remove userActivity
     userActivity(130, resp.id);
     return resp;
   });

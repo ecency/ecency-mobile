@@ -141,6 +141,7 @@ const UpvoteView = ({
       console.log('casting up vote: ' + weight);
       vote(currentAccount, pinCode, author, permlink, weight)
         .then((response) => {
+          //TODO: update user points
           console.log("Vote response: ",response);
           if(!response || !response.id){
             Alert.alert(
@@ -213,6 +214,7 @@ const UpvoteView = ({
       console.log('casting down vote: ' + weight);
       vote(currentAccount, pinCode, author, permlink, weight)
         .then(() => {
+          //TODO: update usr points
           setUpvote(!!sliderValue);
           setIsVoting(false);
           onVote(amount, true);
