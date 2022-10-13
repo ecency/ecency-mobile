@@ -432,7 +432,7 @@ class EditorContainer extends Component<any, any> {
         });
         const jsonMeta = makeJsonMetadata(meta, draftField.tags);
 
-        const savingNewDraft = saveAsNew || !draftId
+        const savingNewDraft = saveAsNew || !draftId;
 
         if (draftField) {
           const response = await draftMutation.mutateAsync({
@@ -440,27 +440,24 @@ class EditorContainer extends Component<any, any> {
             title: draftField.title,
             body: draftField.body,
             tags: draftField.tags,
-            jsonMeta
+            jsonMeta,
           });
 
-
-
-          if(savingNewDraft){
+          if (savingNewDraft) {
             const filteredBeneficiaries = beneficiaries.filter(
               (item) => item.account !== currentAccount.username,
             ); //remove default beneficiary from array while saving
             dispatch(setBeneficiaries(response._id, filteredBeneficiaries));
             dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID));
-  
+
             //clear local copy if darft save is successful
             const username = get(currentAccount, 'name', '');
-  
+
             dispatch(deleteDraftCacheEntry(draftId || DEFAULT_USER_DRAFT_ID + username));
           }
 
-
           if (this._isMounted) {
-            this.setState(state => {
+            this.setState((state) => {
               if (saveAsNew || !draftId) {
                 state.draftId = response._id;
               }
@@ -468,10 +465,9 @@ class EditorContainer extends Component<any, any> {
                 ...state,
                 isDraftSaved: !silent && true,
                 isDraftSaving: false,
-              }
-            })
+              };
+            });
           }
-          
 
           if (!silent) {
             dispatch(
@@ -489,11 +485,10 @@ class EditorContainer extends Component<any, any> {
           }
         }
       }
-
     } catch (err) {
       console.warn('Failed to save draft to DB: ', err);
 
-      this._saveCurrentDraft(this._updatedDraftFields)
+      this._saveCurrentDraft(this._updatedDraftFields);
 
       if (this._isMounted) {
         this.setState({
@@ -1099,7 +1094,7 @@ class EditorContainer extends Component<any, any> {
         handleShouldReblogChange={this._handleShouldReblogChange}
         handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
-        handleOnBackPress={() => { }}
+        handleOnBackPress={() => {}}
         handleOnSubmit={this._handleSubmit}
         initialEditor={this._initialEditor}
         isDarkTheme={isDarkTheme}
