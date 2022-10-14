@@ -24,7 +24,7 @@ import { useAppSelector } from '../../../hooks';
 import postTypes from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries';
 import { generateRndStr } from '../../../utils/editor';
-import { EPointActivityIds } from '../../../providers/ecency/ecency.types';
+import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 
 interface UpvoteViewProps {
   isDeclinedPayout: boolean;
@@ -141,7 +141,7 @@ const UpvoteView = ({
           //record user points
           userActivityMutation.mutate({
             localId: generateRndStr(),
-            pointsTy: EPointActivityIds.VOTE,
+            pointsTy: PointActivityIds.VOTE,
             transactionId: response.id
           })
 
@@ -216,7 +216,7 @@ const UpvoteView = ({
           //record usr points
           userActivityMutation.mutate({
             localId: generateRndStr(),
-            pointsTy: EPointActivityIds.VOTE,
+            pointsTy: PointActivityIds.VOTE,
             transactionId: response.id
           })
           setUpvote(!!sliderValue);

@@ -25,7 +25,7 @@ import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { generateRndStr } from '../../../utils/editor';
-import { EPointActivityIds } from '../../../providers/ecency/ecency.types';
+import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 
 /*
  *            Props Name        Description                                     Value
@@ -349,7 +349,7 @@ class PostDropdownContainer extends PureComponent {
         .then((response) => {
           //track user activity points ty=130
           userActivityMutation.mutate({
-            pointsTy:EPointActivityIds.REBLOG,
+            pointsTy:PointActivityIds.REBLOG,
             transactionId:response.id
           })
 

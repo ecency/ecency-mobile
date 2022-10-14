@@ -1,4 +1,17 @@
-import { PURGE_EXPIRED_CACHE, UPDATE_VOTE_CACHE, UPDATE_COMMENT_CACHE, DELETE_COMMENT_CACHE_ENTRY, DELETE_DRAFT_CACHE_ENTRY, UPDATE_DRAFT_CACHE, UPDATE_SUBSCRIBED_COMMUNITY_CACHE, DELETE_SUBSCRIBED_COMMUNITY_CACHE, CLEAR_SUBSCRIBED_COMMUNITIES_CACHE, UPDATE_COMMENT_CACHE_ENTRY_STATUS, } from "../constants/constants";
+import { PointActivity } from "../../providers/ecency/ecency.types";
+import {
+    PURGE_EXPIRED_CACHE,
+    UPDATE_VOTE_CACHE,
+    UPDATE_COMMENT_CACHE,
+    DELETE_COMMENT_CACHE_ENTRY,
+    DELETE_DRAFT_CACHE_ENTRY,
+    UPDATE_DRAFT_CACHE,
+    UPDATE_SUBSCRIBED_COMMUNITY_CACHE,
+    DELETE_SUBSCRIBED_COMMUNITY_CACHE,
+    CLEAR_SUBSCRIBED_COMMUNITIES_CACHE,
+    UPDATE_POINT_ACTIVITY_CACHE,
+    DELETE_POINT_ACTIVITY_CACHE_ENTRY
+} from "../constants/constants";
 
 export enum CommentCacheStatus {
     PENDING = 'PENDING',
@@ -48,11 +61,14 @@ export interface SubscribedCommunity {
     data: Array<any>,
     expiresAt?: number;
 }
+
+
 interface State {
     votes: Map<string, Vote>
     comments: Map<string, Comment> //TODO: handle comment array per post, if parent is same
     drafts: Map<string, Draft>
     subscribedCommunities: Map<string, SubscribedCommunity>
+    pointActivities: Map<string, PointActivity>
     lastUpdate: {
         postPath: string,
         updatedAt: number,
@@ -65,6 +81,7 @@ const initialState: State = {
     comments: new Map(),
     drafts: new Map(),
     subscribedCommunities: new Map(),
+    pointActivities: new Map(),
     lastUpdate: null,
 };
 
@@ -154,6 +171,21 @@ export default function (state = initialState, action) {
         case CLEAR_SUBSCRIBED_COMMUNITIES_CACHE:
             state.subscribedCommunities = new Map<string, SubscribedCommunity>();
 
+            return { ...state }
+
+        case UPDATE_POINT_ACTIVITY_CACHE:
+            if (!state.pointActivities) {
+                state.pointActivities = new Map<string, PointActivity>();
+            }
+            state.pointActivities.set(payload.id, payload.pointActivity);
+            return {
+                ...state, //spread operator in requried here, otherwise persist do not register change
+            };
+
+        case DELETE_POINT_ACTIVITY_CACHE_ENTRY:
+            if (state.pointActivities && state.pointActivities.has(payload)) {
+                state.pointActivities.delete(payload);
+            }
             return { ...state }
 
         case PURGE_EXPIRED_CACHE:

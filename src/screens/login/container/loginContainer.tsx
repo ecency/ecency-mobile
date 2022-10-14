@@ -34,7 +34,7 @@ import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAc
 import { showActionModal } from '../../../redux/actions/uiAction';
 import { UserAvatar } from '../../../components';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
-import { EPointActivityIds } from '../../../providers/ecency/ecency.types';
+import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 
 /*
  *            Props Name        Description                                     Value
@@ -168,7 +168,7 @@ class LoginContainer extends PureComponent {
           dispatch(setFeedPosts([]));
 
           //track user activity for login
-          userActivityMutation.mutate({ pointsTy:EPointActivityIds.LOGIN })
+          userActivityMutation.mutate({ pointsTy:PointActivityIds.LOGIN })
           setExistUser(true);
           this._setPushToken(result.name);
           const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);

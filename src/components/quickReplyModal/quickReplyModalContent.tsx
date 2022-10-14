@@ -21,7 +21,7 @@ import { Draft } from '../../redux/reducers/cacheReducer';
 import { RootState } from '../../redux/store/store';
 import { useImperativeHandle } from 'react';
 import { forwardRef } from 'react';
-import { EPointActivityIds } from '../../providers/ecency/ecency.types';
+import { PointActivityIds } from '../../providers/ecency/ecency.types';
 import { useUserActivityMutation } from '../../providers/queries/pointQueries';
 
 export interface QuickReplyModalContentProps {
@@ -153,7 +153,7 @@ export const QuickReplyModalContent = forwardRef(({
       )
         .then((response) => {
           userActivityMutation.mutate({
-            pointsTy:EPointActivityIds.COMMENT,
+            pointsTy:PointActivityIds.COMMENT,
             transactionId:response.id
           })
           setIsSending(false);

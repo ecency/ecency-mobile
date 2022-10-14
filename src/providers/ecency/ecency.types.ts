@@ -65,6 +65,13 @@ export interface CommentHistoryItem {
   v: number;
 }
 
+export interface PointActivity {
+  pointsTy:number;
+  username?:string;
+  transactionId?:string;
+  blockNum?:number|string;
+}
+
 export enum ScheduledPostStatus {
   PENDING = 1,
   POSTPONED = 2,
@@ -84,7 +91,8 @@ export enum NotificationFilters {
   FAVOURITES = "nfavorites"
 }
 
-export enum EPointActivityIds {
+
+export enum PointActivityIds {
   VIEW_POST = 10,
   LOGIN = 20,
   POST = 100,

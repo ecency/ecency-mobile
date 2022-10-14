@@ -47,7 +47,7 @@ import {
 import QUERIES from '../../../providers/queries/queryKeys';
 import bugsnapInstance from '../../../config/bugsnag';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
-import { EPointActivityIds } from '../../../providers/ecency/ecency.types';
+import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 
 /*
  *            Props Name        Description                                     Value
@@ -621,7 +621,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             console.log(response);
             // track user activity for points
             userActivityMutation.mutate({
-              pointsTy:EPointActivityIds.POST,
+              pointsTy:PointActivityIds.POST,
               transactionId:response.id
             })
 
@@ -631,7 +631,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
                 .then((resp) => {
                   //track user activity for points on reblog
                   userActivityMutation.mutate({
-                    pointsTy:EPointActivityIds.REBLOG,
+                    pointsTy:PointActivityIds.REBLOG,
                     transactionId:resp.id
                   })
                   console.log('Successfully reblogged post', resp);
@@ -710,7 +710,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         .then((response) => {
           //record user activity for points
           userActivityMutation.mutate({
-            pointsTy:EPointActivityIds.COMMENT,
+            pointsTy:PointActivityIds.COMMENT,
             transactionId:response.id
           })
 

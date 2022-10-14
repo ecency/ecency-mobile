@@ -25,7 +25,7 @@ import { useAppDispatch } from '../../../hooks';
 import { showReplyModal } from '../../../redux/actions/uiAction';
 import postTypes from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
-import { EPointActivityIds } from '../../../providers/ecency/ecency.types';
+import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 
 const HEIGHT = getWindowDimensions().height;
 const WIDTH = getWindowDimensions().width;
@@ -70,7 +70,7 @@ const PostDisplayView = ({
     if (isLoggedIn && get(currentAccount, 'name') && !isNewPost) {
       //track user activity for view post
       userActivityMutation.mutate({
-        pointsTy:EPointActivityIds.VIEW_POST
+        pointsTy:PointActivityIds.VIEW_POST
       })
     }
   }, []);
