@@ -21,7 +21,6 @@ export const useUserActivityMutation = () => {
 
 
     const _mutationFn = async ({ pointsTy, blockNum, transactionId }: UserActivityMutationVars) => {
-        throw new Error("failed")
         await userActivity(pointsTy, transactionId, blockNum)
         return true;
     }
