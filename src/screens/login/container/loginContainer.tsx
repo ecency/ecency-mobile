@@ -8,7 +8,7 @@ import messaging from '@react-native-firebase/messaging';
 // Services and Actions
 import { login, loginWithSC2 } from '../../../providers/hive/auth';
 import { lookupAccounts } from '../../../providers/hive/dhive';
-import { userActivity } from '../../../providers/ecency/ePoint';
+
 import {
   failedAccount,
   addOtherAccount,
@@ -33,6 +33,8 @@ import persistAccountGenerator from '../../../utils/persistAccountGenerator';
 import { fetchSubscribedCommunities } from '../../../redux/actions/communitiesAction';
 import { showActionModal } from '../../../redux/actions/uiAction';
 import { UserAvatar } from '../../../components';
+import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
+import { EPointActivityIds } from '../../../providers/ecency/ecency.types';
 
 /*
  *            Props Name        Description                                     Value
@@ -149,7 +151,7 @@ class LoginContainer extends PureComponent {
   };
 
   _handleOnPressLogin = (username, password) => {
-    const { dispatch, intl, isPinCodeOpen, navigation } = this.props;
+    const { dispatch, intl, isPinCodeOpen, navigation, userActivityMutation } = this.props;
 
     this.setState({ isLoading: true });
 
@@ -165,8 +167,8 @@ class LoginContainer extends PureComponent {
           dispatch(setInitPosts([]));
           dispatch(setFeedPosts([]));
 
-          //TODO: track user activity with react query
-          userActivity(20);
+          //track user activity for login
+          userActivityMutation.mutate({ pointsTy:EPointActivityIds.LOGIN })
           setExistUser(true);
           this._setPushToken(result.name);
           const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
@@ -191,8 +193,8 @@ class LoginContainer extends PureComponent {
         const errorDescription = err?.response?.data?.error_description
           ? err?.response?.data?.error_description
           : intl.formatMessage({
-              id: err.message,
-            });
+            id: err.message,
+          });
         Alert.alert(
           intl.formatMessage({
             id: 'login.login_failed',
@@ -288,4 +290,10 @@ const mapStateToProps = (state) => ({
   isPinCodeOpen: state.application.isPinCodeOpen,
 });
 
-export default injectIntl(connect(mapStateToProps)(LoginContainer));
+const mapQueriesToProps = () => ({
+  userActivityMutation: useUserActivityMutation()
+})
+
+export default connect(mapStateToProps)(injectIntl((props) => (
+  <LoginContainer {...props} {...mapQueriesToProps()} />
+)));

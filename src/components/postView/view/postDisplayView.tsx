@@ -5,7 +5,6 @@ import get from 'lodash/get';
 
 // Providers
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { userActivity } from '../../../providers/ecency/ePoint';
 
 // Utils
 import { getTimeFromNow } from '../../../utils/time';
@@ -25,6 +24,8 @@ import getWindowDimensions from '../../../utils/getWindowDimensions';
 import { useAppDispatch } from '../../../hooks';
 import { showReplyModal } from '../../../redux/actions/uiAction';
 import postTypes from '../../../constants/postTypes';
+import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
+import { EPointActivityIds } from '../../../providers/ecency/ecency.types';
 
 const HEIGHT = getWindowDimensions().height;
 const WIDTH = getWindowDimensions().width;
@@ -49,6 +50,7 @@ const PostDisplayView = ({
 }) => {
   const dispatch = useAppDispatch();
   const insets = useSafeAreaInsets();
+  const userActivityMutation = useUserActivityMutation();
 
   const commentsRef = useRef<CommentsDisplay>();
   const scrollRef = useRef<ScrollView>();
@@ -66,8 +68,10 @@ const PostDisplayView = ({
   // Component Life Cycles
   useEffect(() => {
     if (isLoggedIn && get(currentAccount, 'name') && !isNewPost) {
-      //TODO: track user activity with react-query
-      userActivity(10);
+      //track user activity for view post
+      userActivityMutation.mutate({
+        pointsTy:EPointActivityIds.VIEW_POST
+      })
     }
   }, []);
 

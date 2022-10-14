@@ -85,5 +85,10 @@ export enum NotificationFilters {
 }
 
 export enum EPointActivityIds {
-  VOTE = 120
+  VIEW_POST = 10,
+  LOGIN = 20,
+  POST = 100,
+  COMMENT = 110,
+  VOTE = 120,
+  REBLOG = 130,
 }

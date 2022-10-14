@@ -5,7 +5,7 @@ import { View, Text, Alert, TouchableOpacity, Keyboard, Platform } from 'react-n
 import { useIntl } from 'react-intl';
 import { IconButton, MainButton, TextButton, TextInput, UserAvatar } from '..';
 import { useSelector, useDispatch } from 'react-redux';
-import { delay, generateReplyPermlink } from '../../utils/editor';
+import { delay, generateReplyPermlink, generateRndStr } from '../../utils/editor';
 import { postComment } from '../../providers/hive/dhive';
 import { toastNotification } from '../../redux/actions/uiAction';
 import {
@@ -14,13 +14,15 @@ import {
   updateDraftCache,
 } from '../../redux/actions/cacheActions';
 import { default as ROUTES } from '../../constants/routeNames';
-import { get, debounce } from 'lodash';
+import { get } from 'lodash';
 import { navigate } from '../../navigation/service';
 import { postBodySummary } from '@ecency/render-helper';
 import { Draft } from '../../redux/reducers/cacheReducer';
 import { RootState } from '../../redux/store/store';
 import { useImperativeHandle } from 'react';
 import { forwardRef } from 'react';
+import { EPointActivityIds } from '../../providers/ecency/ecency.types';
+import { useUserActivityMutation } from '../../providers/queries/pointQueries';
 
 export interface QuickReplyModalContentProps {
   selectedPost?: any;
@@ -34,6 +36,7 @@ export const QuickReplyModalContent = forwardRef(({
 }: QuickReplyModalContentProps, ref) => {
   const intl = useIntl();
   const dispatch = useDispatch();
+  const userActivityMutation = useUserActivityMutation();
 
   const inputRef = useRef(null);
 
@@ -148,8 +151,11 @@ export const QuickReplyModalContent = forwardRef(({
         commentValue,
         parentTags,
       )
-        .then(() => {
-
+        .then((response) => {
+          userActivityMutation.mutate({
+            pointsTy:EPointActivityIds.COMMENT,
+            transactionId:response.id
+          })
           setIsSending(false);
           setCommentValue('');
 

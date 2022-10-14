@@ -8,7 +8,7 @@ import { isArray } from 'lodash';
 
 // Services and Actions
 import { Buffer } from 'buffer';
-import { QueryClient, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { addDraft, updateDraft, getDrafts, addSchedule } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
@@ -46,6 +46,8 @@ import {
 } from '../../../redux/actions/cacheActions';
 import QUERIES from '../../../providers/queries/queryKeys';
 import bugsnapInstance from '../../../config/bugsnag';
+import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
+import { EPointActivityIds } from '../../../providers/ecency/ecency.types';
 
 /*
  *            Props Name        Description                                     Value
@@ -53,7 +55,8 @@ import bugsnapInstance from '../../../config/bugsnag';
  *
  */
 
-class EditorContainer extends Component<any, any> {
+
+class EditorContainer extends Component<EditorContainerProps, any> {
   _isMounted = false;
   _updatedDraftFields = null;
   _appState = AppState.currentState;
@@ -546,6 +549,7 @@ class EditorContainer extends Component<any, any> {
       intl,
       navigation,
       pinCode,
+      userActivityMutation
       // isDefaultFooter,
     } = this.props;
     const { rewardType, isPostSending, thumbUrl, draftId, shouldReblog } = this.state;
@@ -615,13 +619,21 @@ class EditorContainer extends Component<any, any> {
         )
           .then((response) => {
             console.log(response);
-            //TODO: track user activity ty=110 for comment, ty=100 for blog
+            // track user activity for points
+            userActivityMutation.mutate({
+              pointsTy:EPointActivityIds.POST,
+              transactionId:response.id
+            })
 
             //reblog if flag is active
             if (shouldReblog) {
               reblog(currentAccount, pinCode, author, permlink)
                 .then((resp) => {
-                  //TODO: track user activity ty=130
+                  //track user activity for points on reblog
+                  userActivityMutation.mutate({
+                    pointsTy:EPointActivityIds.REBLOG,
+                    transactionId:resp.id
+                  })
                   console.log('Successfully reblogged post', resp);
                 })
                 .catch((err) => {
@@ -667,7 +679,7 @@ class EditorContainer extends Component<any, any> {
   };
 
   _submitReply = async (fields) => {
-    const { currentAccount, pinCode, dispatch } = this.props;
+    const { currentAccount, pinCode, dispatch, userActivityMutation } = this.props;
     const { isPostSending } = this.state;
 
     if (isPostSending) {
@@ -695,8 +707,13 @@ class EditorContainer extends Component<any, any> {
         fields.body,
         parentTags,
       )
-        .then(() => {
-          //TODO: track user activity ty = 110
+        .then((response) => {
+          //record user activity for points
+          userActivityMutation.mutate({
+            pointsTy:EPointActivityIds.COMMENT,
+            transactionId:response.id
+          })
+
           AsyncStorage.setItem('temp-reply', '');
           this._handleSubmitSuccess();
 
@@ -1132,10 +1149,11 @@ const mapStateToProps = (state) => ({
   drafts: state.cache.drafts,
 });
 
+const mapQueriesToProps = () => ({
+  queryClient:useQueryClient(),
+  userActivityMutation:useUserActivityMutation()
+})
+
 export default connect(mapStateToProps)(
-  injectIntl(
-    //NOTE: remove extra integration step once compoent converted to functional component
-    //TOOD: inject add and update draft mutation hooks as well
-    (props) => <EditorContainer {...props} queryClient={useQueryClient()} />,
-  ),
+  injectIntl((props) => <EditorContainer {...props} {...mapQueriesToProps()} />),
 );

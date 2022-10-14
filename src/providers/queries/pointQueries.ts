@@ -5,8 +5,8 @@ import { userActivity } from "../ecency/ePoint"
 
 
 interface UserActivityVars {
-    localId: string;
     pointsTy: EPointActivityIds;
+    localId?: string; //use for redux storage
     blockNum?: string;
     transactionId?: string;
 }
@@ -25,10 +25,16 @@ export const useUserActivityMutation = () => {
         onSuccess: (data, vars) => {
             console.log("successfully logged activity", data, vars)
             //remove entry from redux
+            if(vars.localId){
+                console.log("must remove from redux")
+            }
         },
         onError: (error, vars) => {
             console.log("failed to log activity", error, vars)
             //add entry in redux
+            if(!vars.localId){
+                console.log("must add to from redux")
+            }
         }
     })
 }

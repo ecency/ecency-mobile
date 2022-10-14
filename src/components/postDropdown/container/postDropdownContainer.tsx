@@ -23,6 +23,9 @@ import PostDropdownView from '../view/postDropdownView';
 import { OptionsModal } from '../../atoms';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import showLoginAlert from '../../../utils/showLoginAlert';
+import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
+import { generateRndStr } from '../../../utils/editor';
+import { EPointActivityIds } from '../../../providers/ecency/ecency.types';
 
 /*
  *            Props Name        Description                                     Value
@@ -79,11 +82,11 @@ class PostDropdownContainer extends PureComponent {
     const _canUpdateCommunityPin =
       subscribedCommunities.data && !!content && content.community
         ? subscribedCommunities.data.reduce((role, subscription) => {
-            if (content.community === subscription[0]) {
-              return ['owner', 'admin', 'mod'].includes(subscription[2]);
-            }
-            return role;
-          }, false)
+          if (content.community === subscription[0]) {
+            return ['owner', 'admin', 'mod'].includes(subscription[2]);
+          }
+          return role;
+        }, false)
         : false;
     const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
 
@@ -287,7 +290,7 @@ class PostDropdownContainer extends PureComponent {
         buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: () => {},
+            onPress: () => { },
           },
           {
             text: intl.formatMessage({ id: 'alert.confirm' }),
@@ -326,7 +329,16 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _reblog = () => {
-    const { content, currentAccount, dispatch, intl, isLoggedIn, pinCode, navigation } = this
+    const { 
+      content, 
+      currentAccount, 
+      dispatch, 
+      intl, 
+      isLoggedIn, 
+      pinCode, 
+      navigation,
+      userActivityMutation
+     } = this
       .props as any;
     if (!isLoggedIn) {
       showLoginAlert({ navigation, intl });
@@ -334,8 +346,13 @@ class PostDropdownContainer extends PureComponent {
     }
     if (isLoggedIn) {
       reblog(currentAccount, pinCode, content.author, get(content, 'permlink', ''))
-        .then(() => {
-          //TODO: track user activity points ty=130
+        .then((response) => {
+          //track user activity points ty=130
+          userActivityMutation.mutate({
+            pointsTy:EPointActivityIds.REBLOG,
+            transactionId:response.id
+          })
+
           dispatch(
             toastNotification(
               intl.formatMessage({
@@ -367,7 +384,7 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _updatePinnedPost = async ({ unpinPost }: { unpinPost: boolean } = { unpinPost: false }) => {
-    const { content, currentAccount, pinCode, dispatch, intl, isLoggedIn } = this.props;
+    const { content, currentAccount, pinCode, dispatch, intl } = this.props;
 
     const params = {
       ...currentAccount.about.profile,
@@ -499,4 +516,10 @@ const mapStateToProps = (state) => ({
   subscribedCommunities: state.communities.subscribedCommunities,
 });
 
-export default withNavigation(connect(mapStateToProps)(injectIntl(PostDropdownContainer)));
+const mapQueriesToProps = () => ({
+  userActivityMutation: useUserActivityMutation()
+})
+
+export default withNavigation(connect(mapStateToProps)(injectIntl((props) => (
+  <PostDropdownContainer {...props} {...mapQueriesToProps()} />)))
+);

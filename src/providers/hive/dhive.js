@@ -1415,7 +1415,7 @@ export const postContent = (
       const { id } = resp;
       if (!isEdit) {
         //TODO: remove userActivity
-        userActivity(t, id);
+        // userActivity(t, id);
       }
       return resp;
     })
@@ -1464,7 +1464,7 @@ export const postComment = (
       const { id } = resp;
       if (!isEdit) {
         //TODO: remove userActivity
-        userActivity(t, id);
+        // userActivity(t, id);
       }
       return resp;
     })
@@ -1593,7 +1593,7 @@ const _postContent = async (
 export const reblog = (account, pinCode, author, permlink) =>
   _reblog(account, pinCode, author, permlink).then((resp) => {
     //TODO: remove userActivity
-    userActivity(130, resp.id);
+    // userActivity(130, resp.id);
     return resp;
   });
 
