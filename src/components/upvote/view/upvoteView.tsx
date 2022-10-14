@@ -22,29 +22,31 @@ import { vote } from '../../../providers/hive/dhive';
 import styles from './upvoteStyles';
 import { useAppSelector } from '../../../hooks';
 import postTypes from '../../../constants/postTypes';
+import { useUserActivityMutation } from '../../../providers/queries';
+import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 
 interface UpvoteViewProps {
-  isDeclinedPayout:boolean;
-  isShowPayoutValue:boolean;
-  totalPayout:number;
-  maxPayout:number;
-  payoutDeclined:boolean;
-  pendingPayout:number;
-  promotedPayout:number;
-  authorPayout:number;
-  curationPayout:number;
-  payoutDate:string;
-  isDownVoted:boolean;
-  beneficiaries:string[];
-  warnZeroPayout:boolean;
-  breakdownPayout:string;
-  globalProps:any;
-  author:string;
-  handleSetUpvotePercent:(value:number)=>void;
-  permlink:string;
-  dispatch:any
-  onVote:(amount:string, downvote:boolean)=>void;
-  isVoted:boolean;
+  isDeclinedPayout: boolean;
+  isShowPayoutValue: boolean;
+  totalPayout: number;
+  maxPayout: number;
+  payoutDeclined: boolean;
+  pendingPayout: number;
+  promotedPayout: number;
+  authorPayout: number;
+  curationPayout: number;
+  payoutDate: string;
+  isDownVoted: boolean;
+  beneficiaries: string[];
+  warnZeroPayout: boolean;
+  breakdownPayout: string;
+  globalProps: any;
+  author: string;
+  handleSetUpvotePercent: (value: number) => void;
+  permlink: string;
+  dispatch: any;
+  onVote: (amount: string, downvote: boolean) => void;
+  isVoted: boolean;
   postUpvotePercent: number;
   commentUpvotePercent: number;
   parentType: string;
@@ -74,13 +76,13 @@ const UpvoteView = ({
   postUpvotePercent,
   commentUpvotePercent,
   parentType,
-}:UpvoteViewProps) => {
+}: UpvoteViewProps) => {
   const intl = useIntl();
+  const userActivityMutation = useUserActivityMutation();
 
-  const isLoggedIn = useAppSelector(state => state.application.isLoggedIn);
-  const currentAccount = useAppSelector(state => state.account.currentAccount);
-  const pinCode = useAppSelector(state => state.application.pin);
-
+  const isLoggedIn = useAppSelector((state) => state.application.isLoggedIn);
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
+  const pinCode = useAppSelector((state) => state.application.pin);
 
   const [sliderValue, setSliderValue] = useState(1);
   const [amount, setAmount] = useState('0.00000');
@@ -92,7 +94,7 @@ const UpvoteView = ({
 
   useEffect(() => {
     _calculateEstimatedAmount();
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (parentType === postTypes.POST) {
@@ -101,34 +103,27 @@ const UpvoteView = ({
     if (parentType === postTypes.COMMENT) {
       setUpvotePercent(commentUpvotePercent);
     }
-  },[postUpvotePercent, commentUpvotePercent, parentType])
-  
+  }, [postUpvotePercent, commentUpvotePercent, parentType]);
+
   useEffect(() => {
-    const value = (isVoted || isDownVoted) 
-    ? 1 
-    : upvotePercent <= 1
-      ? upvotePercent 
-      : 1;
+    const value = isVoted || isDownVoted ? 1 : upvotePercent <= 1 ? upvotePercent : 1;
 
     setSliderValue(value);
     _calculateEstimatedAmount(value);
-  }, [upvotePercent])
-
+  }, [upvotePercent]);
 
   useEffect(() => {
-    if(isVoted !== null && isVoted !== upvote){
+    if (isVoted !== null && isVoted !== upvote) {
       setUpvote(isVoted || false);
     }
-  }, [isVoted])
-
+  }, [isVoted]);
 
   // Component Functions
-  const _calculateEstimatedAmount = async (value:number = sliderValue) => {
+  const _calculateEstimatedAmount = async (value: number = sliderValue) => {
     if (currentAccount && Object.entries(currentAccount).length !== 0) {
-      setAmount(getEstimatedAmount(currentAccount, globalProps, value))
+      setAmount(getEstimatedAmount(currentAccount, globalProps, value));
     }
   };
-
 
   const _upvoteContent = (closePopover) => {
     if (!downvote) {
@@ -141,8 +136,14 @@ const UpvoteView = ({
       console.log('casting up vote: ' + weight);
       vote(currentAccount, pinCode, author, permlink, weight)
         .then((response) => {
-          console.log("Vote response: ",response);
-          if(!response || !response.id){
+          console.log('Vote response: ', response);
+          //record user points
+          userActivityMutation.mutate({
+            pointsTy: PointActivityIds.VOTE,
+            transactionId: response.id
+          })
+
+          if (!response || !response.id) {
             Alert.alert(
               intl.formatMessage({
                 id: 'alert.fail',
@@ -199,20 +200,22 @@ const UpvoteView = ({
     }
   };
 
-
-
   const _downvoteContent = (closePopover) => {
     if (downvote) {
       closePopover();
       setIsVoting(true);
       handleSetUpvotePercent(sliderValue);
-      
 
       const weight = sliderValue ? Math.trunc(sliderValue * 100) * -100 : 0;
 
       console.log('casting down vote: ' + weight);
       vote(currentAccount, pinCode, author, permlink, weight)
-        .then(() => {
+        .then((response) => {
+          //record usr points
+          userActivityMutation.mutate({
+            pointsTy: PointActivityIds.VOTE,
+            transactionId: response.id
+          })
           setUpvote(!!sliderValue);
           setIsVoting(false);
           onVote(amount, true);
@@ -228,15 +231,11 @@ const UpvoteView = ({
     }
   };
 
-
-
   const _handleOnPopoverClose = () => {
     setTimeout(() => {
       setIsShowDetails(false);
     }, 300);
   };
-
-  
 
   let iconName = 'upcircleo';
   const iconType = 'AntDesign';
@@ -269,173 +268,166 @@ const UpvoteView = ({
 
   return (
     <PopoverController>
-        {({ openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect }) => (
-          <Fragment>
-            <TouchableOpacity
-              ref={setPopoverAnchor}
-              onPress={openPopover}
-              style={styles.upvoteButton}
-              disabled={!isLoggedIn}
-            >
-              <Fragment>
-                {isVoting ? (
-                  <View style={{ width: 19 }}>
-                    <PulseAnimation
-                      color="#357ce6"
-                      numPulses={1}
-                      diameter={20}
-                      speed={100}
-                      duration={1500}
-                      isShow={!isVoting}
-                    />
-                  </View>
-                ) : (
-                  <View hitSlop={{ top: 10, bottom: 10, left: 10, right: 5 }}>
-                    <Icon
-                      style={[styles.upvoteIcon, isDownVoted && { color: '#ec8b88' }]}
-                      active={!isLoggedIn}
-                      iconType={iconType}
-                      name={isDownVoted ? downVoteIconName : iconName}
-                    />
-                  </View>
-                )}
-              </Fragment>
-            </TouchableOpacity>
-            <View style={styles.payoutTextButton}>
-              {isShowPayoutValue && (
-                <TextButton
-                  style={styles.payoutTextButton}
-                  textStyle={[styles.payoutValue, isDeclinedPayout && styles.declinedPayout]}
-                  text={<FormattedCurrency value={_shownPayout || '0.000'} />}
-                  onPress={() => {
-                    openPopover();
-                    setIsShowDetails(true);
-                  }}
-                />
+      {({ openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect }) => (
+        <Fragment>
+          <TouchableOpacity
+            ref={setPopoverAnchor}
+            onPress={openPopover}
+            style={styles.upvoteButton}
+            disabled={!isLoggedIn}
+          >
+            <Fragment>
+              {isVoting ? (
+                <View style={{ width: 19 }}>
+                  <PulseAnimation
+                    color="#357ce6"
+                    numPulses={1}
+                    diameter={20}
+                    speed={100}
+                    duration={1500}
+                    isShow={!isVoting}
+                  />
+                </View>
+              ) : (
+                <View hitSlop={{ top: 10, bottom: 10, left: 10, right: 5 }}>
+                  <Icon
+                    style={[styles.upvoteIcon, isDownVoted && { color: '#ec8b88' }]}
+                    active={!isLoggedIn}
+                    iconType={iconType}
+                    name={isDownVoted ? downVoteIconName : iconName}
+                  />
+                </View>
               )}
-            </View>
+            </Fragment>
+          </TouchableOpacity>
+          <View style={styles.payoutTextButton}>
+            {isShowPayoutValue && (
+              <TextButton
+                style={styles.payoutTextButton}
+                textStyle={[styles.payoutValue, isDeclinedPayout && styles.declinedPayout]}
+                text={<FormattedCurrency value={_shownPayout || '0.000'} />}
+                onPress={() => {
+                  openPopover();
+                  setIsShowDetails(true);
+                }}
+              />
+            )}
+          </View>
 
-            <Popover
-              contentStyle={isShowDetails ? styles.popoverDetails : styles.popoverSlider}
-              arrowStyle={isShowDetails ? styles.arrow : styles.hideArrow}
-              backgroundStyle={styles.overlay}
-              visible={popoverVisible}
-              onClose={() => {
-                closePopover();
-                _handleOnPopoverClose();
-              }}
-              fromRect={popoverAnchorRect}
-              placement="top"
-              supportedOrientations={['portrait', 'landscape']}
-            >
-              <View style={styles.popoverWrapper}>
-                {isShowDetails ? (
-                  <View style={styles.popoverContent}>
-                    {promotedPayout > 0 &&
-                      _payoutPopupItem(
-                        intl.formatMessage({ id: 'payout.promoted' }),
-                        <FormattedCurrency value={promotedPayout} isApproximate={true} />,
-                      )}
+          <Popover
+            contentStyle={isShowDetails ? styles.popoverDetails : styles.popoverSlider}
+            arrowStyle={isShowDetails ? styles.arrow : styles.hideArrow}
+            backgroundStyle={styles.overlay}
+            visible={popoverVisible}
+            onClose={() => {
+              closePopover();
+              _handleOnPopoverClose();
+            }}
+            fromRect={popoverAnchorRect}
+            placement="top"
+            supportedOrientations={['portrait', 'landscape']}
+          >
+            <View style={styles.popoverWrapper}>
+              {isShowDetails ? (
+                <View style={styles.popoverContent}>
+                  {promotedPayout > 0 &&
+                    _payoutPopupItem(
+                      intl.formatMessage({ id: 'payout.promoted' }),
+                      <FormattedCurrency value={promotedPayout} isApproximate={true} />,
+                    )}
 
-                    {pendingPayout > 0 &&
-                      _payoutPopupItem(
-                        intl.formatMessage({ id: 'payout.potential_payout' }),
-                        <FormattedCurrency value={pendingPayout} isApproximate={true} />,
-                      )}
+                  {pendingPayout > 0 &&
+                    _payoutPopupItem(
+                      intl.formatMessage({ id: 'payout.potential_payout' }),
+                      <FormattedCurrency value={pendingPayout} isApproximate={true} />,
+                    )}
 
-                    {authorPayout > 0 &&
-                      _payoutPopupItem(
-                        intl.formatMessage({ id: 'payout.author_payout' }),
-                        <FormattedCurrency value={authorPayout} isApproximate={true} />,
-                      )}
+                  {authorPayout > 0 &&
+                    _payoutPopupItem(
+                      intl.formatMessage({ id: 'payout.author_payout' }),
+                      <FormattedCurrency value={authorPayout} isApproximate={true} />,
+                    )}
 
-                    {curationPayout > 0 &&
-                      _payoutPopupItem(
-                        intl.formatMessage({ id: 'payout.curation_payout' }),
-                        <FormattedCurrency value={curationPayout} isApproximate={true} />,
-                      )}
-                    {payoutLimitHit &&
+                  {curationPayout > 0 &&
+                    _payoutPopupItem(
+                      intl.formatMessage({ id: 'payout.curation_payout' }),
+                      <FormattedCurrency value={curationPayout} isApproximate={true} />,
+                    )}
+                  {payoutLimitHit &&
                     _payoutPopupItem(
                       intl.formatMessage({ id: 'payout.max_accepted' }),
                       <FormattedCurrency value={maxPayout} isApproximate={true} />,
                     )}
 
-                    {!!breakdownPayout &&
-                      pendingPayout > 0 &&
-                      _payoutPopupItem(
-                        intl.formatMessage({ id: 'payout.breakdown' }),
-                        breakdownPayout,
-                      )}
+                  {!!breakdownPayout &&
+                    pendingPayout > 0 &&
+                    _payoutPopupItem(
+                      intl.formatMessage({ id: 'payout.breakdown' }),
+                      breakdownPayout,
+                    )}
 
-                    {beneficiaries.length > 0 &&
-                      _payoutPopupItem(
-                        intl.formatMessage({ id: 'payout.beneficiaries' }),
-                        beneficiaries,
-                      )}
+                  {beneficiaries.length > 0 &&
+                    _payoutPopupItem(
+                      intl.formatMessage({ id: 'payout.beneficiaries' }),
+                      beneficiaries,
+                    )}
 
-                    {!!payoutDate &&
-                      _payoutPopupItem(
-                        intl.formatMessage({ id: 'payout.payout_date' }),
-                        payoutDate,
-                      )}
+                  {!!payoutDate &&
+                    _payoutPopupItem(intl.formatMessage({ id: 'payout.payout_date' }), payoutDate)}
 
-                    {warnZeroPayout &&
-                      _payoutPopupItem(intl.formatMessage({ id: 'payout.warn_zero_payout' }), '')}
-
-         
-                  </View>
-                ) : (
-                  <Fragment>
-                    <TouchableOpacity
-                      onPress={() => {
-                        _upvoteContent(closePopover);
-                      }}
-                      style={styles.upvoteButton}
-                    >
-                      <Icon
-                        size={20}
-                        style={[styles.upvoteIcon, { color: '#007ee5' }]}
-                        active={!isLoggedIn}
-                        iconType="AntDesign"
-                        name={iconName}
-                      />
-                    </TouchableOpacity>
-                    <Text style={styles.amount}>{_amount}</Text>
-                    <Slider
-                      style={styles.slider}
-                      minimumTrackTintColor={sliderColor}
-                      trackStyle={styles.track}
-                      thumbStyle={styles.thumb}
-                      thumbTintColor="#007ee5"
-                      value={sliderValue}
-                      onValueChange={(value) => {
-                        setSliderValue(value);
-                        _calculateEstimatedAmount(value);
-                      }}
+                  {warnZeroPayout &&
+                    _payoutPopupItem(intl.formatMessage({ id: 'payout.warn_zero_payout' }), '')}
+                </View>
+              ) : (
+                <Fragment>
+                  <TouchableOpacity
+                    onPress={() => {
+                      _upvoteContent(closePopover);
+                    }}
+                    style={styles.upvoteButton}
+                  >
+                    <Icon
+                      size={20}
+                      style={[styles.upvoteIcon, { color: '#007ee5' }]}
+                      active={!isLoggedIn}
+                      iconType="AntDesign"
+                      name={iconName}
                     />
-                    <Text style={styles.percent}>{_percent}</Text>
-                    <TouchableOpacity
-                      onPress={() => _downvoteContent(closePopover)}
-                      style={styles.upvoteButton}
-                    >
-                      <Icon
-                        size={20}
-                        style={[styles.upvoteIcon, { color: '#ec8b88' }]}
-                        active={!isLoggedIn}
-                        iconType="AntDesign"
-                        name={downVoteIconName}
-                      />
-                    </TouchableOpacity>
-                  </Fragment>
-                )}
-              </View>
-            </Popover>
-          </Fragment>
-        )}
-      </PopoverController>
-  )
-}
-
-
+                  </TouchableOpacity>
+                  <Text style={styles.amount}>{_amount}</Text>
+                  <Slider
+                    style={styles.slider}
+                    minimumTrackTintColor={sliderColor}
+                    trackStyle={styles.track}
+                    thumbStyle={styles.thumb}
+                    thumbTintColor="#007ee5"
+                    value={sliderValue}
+                    onValueChange={(value) => {
+                      setSliderValue(value);
+                      _calculateEstimatedAmount(value);
+                    }}
+                  />
+                  <Text style={styles.percent}>{_percent}</Text>
+                  <TouchableOpacity
+                    onPress={() => _downvoteContent(closePopover)}
+                    style={styles.upvoteButton}
+                  >
+                    <Icon
+                      size={20}
+                      style={[styles.upvoteIcon, { color: '#ec8b88' }]}
+                      active={!isLoggedIn}
+                      iconType="AntDesign"
+                      name={downVoteIconName}
+                    />
+                  </TouchableOpacity>
+                </Fragment>
+              )}
+            </View>
+          </Popover>
+        </Fragment>
+      )}
+    </PopoverController>
+  );
+};
 
 export default UpvoteView;

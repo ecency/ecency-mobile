@@ -791,7 +791,7 @@ export const vote = async (account, pin, author, permlink, weight) => {
   try {
     const resp = await _vote(account, pin, author, permlink, weight);
     console.log('Returning vote response', resp);
-    userActivity(120, resp.id);
+
     return resp;
   } catch (err) {
     console.warn('Failed to complete vote', err);
@@ -1409,11 +1409,6 @@ export const postContent = (
     voteWeight,
   )
     .then((resp) => {
-      const t = title ? 100 : 110;
-      const { id } = resp;
-      if (!isEdit) {
-        userActivity(t, id);
-      }
       return resp;
     })
     .catch((err) => {
@@ -1457,11 +1452,6 @@ export const postComment = (
     null,
   )
     .then((resp) => {
-      const t = 110;
-      const { id } = resp;
-      if (!isEdit) {
-        userActivity(t, id);
-      }
       return resp;
     })
     .catch((err) => {
@@ -1588,7 +1578,6 @@ const _postContent = async (
 // TODO: remove pinCode
 export const reblog = (account, pinCode, author, permlink) =>
   _reblog(account, pinCode, author, permlink).then((resp) => {
-    userActivity(130, resp.id);
     return resp;
   });
 

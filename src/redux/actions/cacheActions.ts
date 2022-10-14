@@ -1,6 +1,7 @@
 import { renderPostBody } from '@ecency/render-helper';
 import { Platform } from 'react-native';
-import { makeJsonMetadataReply } from '../../utils/editor';
+import { PointActivity } from '../../providers/ecency/ecency.types';
+import { generateRndStr, makeJsonMetadataReply } from '../../utils/editor';
 import {
   UPDATE_VOTE_CACHE,
   PURGE_EXPIRED_CACHE,
@@ -10,10 +11,11 @@ import {
   DELETE_DRAFT_CACHE_ENTRY,
   UPDATE_SUBSCRIBED_COMMUNITY_CACHE,
   DELETE_SUBSCRIBED_COMMUNITY_CACHE,
-  CLEAR_SUBSCRIBED_COMMUNITIES_CACHE
+  CLEAR_SUBSCRIBED_COMMUNITIES_CACHE,
+  DELETE_POINT_ACTIVITY_CACHE_ENTRY,
+  UPDATE_POINT_ACTIVITY_CACHE
 } from '../constants/constants';
 import { Comment, CommentCacheStatus, Draft, SubscribedCommunity, Vote } from '../reducers/cacheReducer';
-
 
 
 
@@ -123,6 +125,18 @@ export const clearSubscribedCommunitiesCache = () => ({
   type: CLEAR_SUBSCRIBED_COMMUNITIES_CACHE
 })
 
+export const updatePointActivityCache = (id:string, pointActivity: PointActivity) => ({
+  payload: {
+    id,
+    pointActivity
+  },
+  type: UPDATE_POINT_ACTIVITY_CACHE
+})
+
+export const deletePointActivityCache = (id: string) => ({
+  payload: id,
+  type: DELETE_POINT_ACTIVITY_CACHE_ENTRY
+})
 
 export const purgeExpiredCache = () => ({
   type: PURGE_EXPIRED_CACHE

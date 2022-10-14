@@ -12,7 +12,7 @@ import { toastNotification, setRcOffer, showActionModal } from '../../../redux/a
 
 // Constants
 import OPTIONS from '../../../constants/options/post';
-import  ROUTES from '../../../constants/routeNames';
+import ROUTES from '../../../constants/routeNames';
 
 // Utilities
 import { writeToClipboard } from '../../../utils/clipboard';
@@ -23,6 +23,9 @@ import PostDropdownView from '../view/postDropdownView';
 import { OptionsModal } from '../../atoms';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import showLoginAlert from '../../../utils/showLoginAlert';
+import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
+import { generateRndStr } from '../../../utils/editor';
+import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 
 /*
  *            Props Name        Description                                     Value
@@ -35,19 +38,19 @@ class PostDropdownContainer extends PureComponent {
     super(props);
 
     this.state = {
-      options: OPTIONS
+      options: OPTIONS,
     };
   }
 
   componentDidMount = () => {
     this._initOptions();
-  }
+  };
 
   UNSAFE_componentWillReceiveProps = (nextProps) => {
     if (nextProps.content?.permlink !== this.props.content?.permlink) {
       this._initOptions(nextProps);
     }
-  }
+  };
 
   // Component Life Cycle Functions
   componentWillUnmount = () => {
@@ -67,22 +70,25 @@ class PostDropdownContainer extends PureComponent {
     }
   };
 
-  _initOptions = ({ content, currentAccount, pageType, subscribedCommunities, isMuted } = this.props) => {    
+  _initOptions = (
+    { content, currentAccount, pageType, subscribedCommunities, isMuted } = this.props,
+  ) => {
     //check if post is owned by current user or not, if so pinned or not
-    const _canUpdateBlogPin = !!pageType && !!content && !!currentAccount && currentAccount.name === content.author
+    const _canUpdateBlogPin =
+      !!pageType && !!content && !!currentAccount && currentAccount.name === content.author;
     const _isPinnedInProfile = !!content && content.stats?.is_pinned_blog;
 
-
     //check community pin update eligibility
-    const _canUpdateCommunityPin = subscribedCommunities.data && !!content && content.community
-      ? subscribedCommunities.data.reduce((role, subscription) => {
-        if (content.community === subscription[0]) {
-          return ['owner', 'admin', 'mod'].includes(subscription[2]);
-        }
-        return role;
-      }, false) : false;
+    const _canUpdateCommunityPin =
+      subscribedCommunities.data && !!content && content.community
+        ? subscribedCommunities.data.reduce((role, subscription) => {
+          if (content.community === subscription[0]) {
+            return ['owner', 'admin', 'mod'].includes(subscription[2]);
+          }
+          return role;
+        }, false)
+        : false;
     const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
-    
 
     //cook options list based on collected flags
     const options = OPTIONS.filter((option) => {
@@ -98,18 +104,18 @@ class PostDropdownContainer extends PureComponent {
         default:
           return true;
       }
-    })
+    });
 
-    this.setState({ options })
-  }
+    this.setState({ options });
+  };
 
   // Component Functions
   _handleOnDropdownSelect = async (index) => {
-    const {currentAccount, content, dispatch, intl, navigation, isMuted } = this.props as any;
+    const { currentAccount, content, dispatch, intl, navigation, isMuted } = this.props as any;
     const username = content.author;
     const isOwnProfile = !username || currentAccount.username === username;
     const { options } = this.state;
-    
+
     switch (options[index]) {
       case 'copy':
         await writeToClipboard(getPostUrl(get(content, 'url')));
@@ -188,13 +194,14 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _muteUser = () => {
-    const { currentAccount, pinCode, dispatch, intl, content, isLoggedIn, navigation } = this.props as any;
+    const { currentAccount, pinCode, dispatch, intl, content, isLoggedIn, navigation } = this
+      .props as any;
     const username = content.author;
     const follower = currentAccount.name;
     const following = username;
-   
-    if(!isLoggedIn){
-      showLoginAlert({navigation, intl});
+
+    if (!isLoggedIn) {
+      showLoginAlert({ navigation, intl });
       return;
     }
     ignoreUser(currentAccount, pinCode, {
@@ -219,7 +226,6 @@ class PostDropdownContainer extends PureComponent {
       .catch((err) => {
         this._profileActionDone({ error: err });
       });
- 
   };
 
   _profileActionDone = ({ error = null }) => {
@@ -275,7 +281,7 @@ class PostDropdownContainer extends PureComponent {
             ),
           );
         });
-    }
+    };
 
     dispatch(
       showActionModal({
@@ -293,13 +299,12 @@ class PostDropdownContainer extends PureComponent {
         ],
       }),
     );
-
   };
 
   _addToBookmarks = () => {
     const { content, dispatch, intl, isLoggedIn, navigation } = this.props as any;
-    if(!isLoggedIn){
-      showLoginAlert({navigation, intl});
+    if (!isLoggedIn) {
+      showLoginAlert({ navigation, intl });
       return;
     }
     addBookmark(get(content, 'author'), get(content, 'permlink'))
@@ -324,14 +329,30 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _reblog = () => {
-    const { content, currentAccount, dispatch, intl, isLoggedIn, pinCode, navigation } = this.props as any;
-    if(!isLoggedIn){
-      showLoginAlert({navigation, intl});
+    const { 
+      content, 
+      currentAccount, 
+      dispatch, 
+      intl, 
+      isLoggedIn, 
+      pinCode, 
+      navigation,
+      userActivityMutation
+     } = this
+      .props as any;
+    if (!isLoggedIn) {
+      showLoginAlert({ navigation, intl });
       return;
     }
     if (isLoggedIn) {
       reblog(currentAccount, pinCode, content.author, get(content, 'permlink', ''))
-        .then(() => {
+        .then((response) => {
+          //track user activity points ty=130
+          userActivityMutation.mutate({
+            pointsTy:PointActivityIds.REBLOG,
+            transactionId:response.id
+          })
+
           dispatch(
             toastNotification(
               intl.formatMessage({
@@ -363,13 +384,12 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _updatePinnedPost = async ({ unpinPost }: { unpinPost: boolean } = { unpinPost: false }) => {
-    const { content, currentAccount, pinCode, dispatch, intl, isLoggedIn } = this.props;
+    const { content, currentAccount, pinCode, dispatch, intl } = this.props;
 
     const params = {
       ...currentAccount.about.profile,
-      pinned: unpinPost ? null : content.permlink
+      pinned: unpinPost ? null : content.permlink,
     };
-
 
     try {
       await profileUpdate(params, pinCode, currentAccount);
@@ -380,8 +400,6 @@ class PostDropdownContainer extends PureComponent {
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
 
       //TOOD: signal posts or pinned post refresh
-
-
     } catch (err) {
       Alert.alert(
         intl.formatMessage({
@@ -390,17 +408,25 @@ class PostDropdownContainer extends PureComponent {
         get(err, 'message', err.toString()),
       );
     }
-  }
+  };
 
-  _updatePinnedPostCommunity = async ({ unpinPost }: { unpinPost: boolean } = { unpinPost: false }) => {
+  _updatePinnedPostCommunity = async (
+    { unpinPost }: { unpinPost: boolean } = { unpinPost: false },
+  ) => {
     const { content, currentAccount, pinCode, dispatch, intl } = this.props;
 
     try {
-      await pinCommunityPost(currentAccount, pinCode, content.community, content.author, content.permlink, unpinPost);
+      await pinCommunityPost(
+        currentAccount,
+        pinCode,
+        content.community,
+        content.author,
+        content.permlink,
+        unpinPost,
+      );
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
-
     } catch (err) {
-      console.warn("Failed to update pin status of community post", err);
+      console.warn('Failed to update pin status of community post', err);
       Alert.alert(
         intl.formatMessage({
           id: 'alert.fail',
@@ -408,8 +434,7 @@ class PostDropdownContainer extends PureComponent {
         get(err, 'message', err.toString()),
       );
     }
-
-  }
+  };
 
   _redirectToReply = () => {
     const { content, fetchPost, isLoggedIn, navigation } = this.props as any;
@@ -437,13 +462,12 @@ class PostDropdownContainer extends PureComponent {
 
     if (isPinCodeOpen) {
       navigation.navigate({
-        routeName:ROUTES.SCREENS.PINCODE,
-        params:{
+        routeName: ROUTES.SCREENS.PINCODE,
+        params: {
           navigateTo: routeName,
           navigateParams: params,
-        } 
-      })
-     
+        },
+      });
     } else if (isLoggedIn) {
       navigation.navigate({
         routeName,
@@ -457,10 +481,10 @@ class PostDropdownContainer extends PureComponent {
       intl,
       currentAccount: { name },
       content,
-      isMuted
+      isMuted,
     } = this.props;
     const { options } = this.state;
-    
+
     return (
       <Fragment>
         <PostDropdownView
@@ -492,4 +516,10 @@ const mapStateToProps = (state) => ({
   subscribedCommunities: state.communities.subscribedCommunities,
 });
 
-export default withNavigation(connect(mapStateToProps)(injectIntl(PostDropdownContainer)));
+const mapQueriesToProps = () => ({
+  userActivityMutation: useUserActivityMutation()
+})
+
+export default withNavigation(connect(mapStateToProps)(injectIntl((props) => (
+  <PostDropdownContainer {...props} {...mapQueriesToProps()} />)))
+);
