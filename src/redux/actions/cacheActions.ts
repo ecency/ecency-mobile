@@ -125,9 +125,9 @@ export const clearSubscribedCommunitiesCache = () => ({
   type: CLEAR_SUBSCRIBED_COMMUNITIES_CACHE
 })
 
-export const updatePointActivityCache = (pointActivity: PointActivity) => ({
+export const updatePointActivityCache = (id:string, pointActivity: PointActivity) => ({
   payload: {
-    id:generateRndStr(),
+    id,
     pointActivity
   },
   type: UPDATE_POINT_ACTIVITY_CACHE

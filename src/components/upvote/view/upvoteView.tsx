@@ -23,7 +23,6 @@ import styles from './upvoteStyles';
 import { useAppSelector } from '../../../hooks';
 import postTypes from '../../../constants/postTypes';
 import { useUserActivityMutation } from '../../../providers/queries';
-import { generateRndStr } from '../../../utils/editor';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 
 interface UpvoteViewProps {
@@ -140,7 +139,6 @@ const UpvoteView = ({
           console.log('Vote response: ', response);
           //record user points
           userActivityMutation.mutate({
-            localId: generateRndStr(),
             pointsTy: PointActivityIds.VOTE,
             transactionId: response.id
           })
@@ -215,7 +213,6 @@ const UpvoteView = ({
         .then((response) => {
           //record usr points
           userActivityMutation.mutate({
-            localId: generateRndStr(),
             pointsTy: PointActivityIds.VOTE,
             transactionId: response.id
           })
