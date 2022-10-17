@@ -1,7 +1,10 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+
+import {configureStore} from '@reduxjs/toolkit';
 import { persistStore, persistReducer, createTransform } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// import FilesystemStorage from 'redux-persist-filesystem-storage'
 import createMigrate from 'redux-persist/es/createMigrate';
 import Reactotron from '../../../reactotron-config';
 
@@ -38,31 +41,38 @@ const transformWalkthroughMap = createTransform(
 );
 
 // Middleware: Redux Persist Config
-const persistConfig = {
-  // Root
-  key: 'root',
-  // Storage Method (React Native)
-  storage: AsyncStorage,
-  version: 1, // New version 0, default or previous version -1, versions are useful migrations
-  // Blacklist (Don't Save Specific Reducers)
-  blacklist: ['communities', 'user', 'ui'],
-  timeout: 0,
-  transforms: [transformCacheVoteMap, transformWalkthroughMap],
-  migrate: createMigrate(MigrationHelpers.reduxMigrations, { debug: false }),
-};
+// const persistConfig = {
+//   // Root
+//   key: 'root',
+//   // Storage Method (React Native)
+//   storage: FilesystemStorage,
+//   // version: 1, // New version 0, default or previous version -1, versions are useful migrations
+//   // migrate: createMigrate(MigrationHelpers.reduxMigrations, { debug: false }),
+//   // Blacklist (Don't Save Specific Reducers)
+//   blacklist: ['communities', 'user', 'ui'],
+//   timeout: 0,
+//   // transforms: [transformCacheVoteMap, transformWalkthroughMap],
+
+// };
 
 // Middleware: Redux Persist Persisted Reducer
-const persistedReducer = persistReducer(persistConfig, reducer as any);
+// const persistedReducer = persistReducer(persistConfig, reducer as any);
 
 const middleware = [thunk];
 
-const enhancers = __DEV__
-  ? compose(applyMiddleware(...middleware), Reactotron.createEnhancer())
-  : applyMiddleware(...middleware);
+// const enhancers = __DEV__
+//   ? compose(applyMiddleware(...middleware), Reactotron.createEnhancer())
+//   : applyMiddleware(...middleware);
 
-const store = createStore(persistedReducer, enhancers);
+const store = configureStore({
+  reducer,
+  middleware
+}) 
 
-const persistor = persistStore(store);
+
+// (persistedReducer, enhancers);
+
+const persistor = {}// persistStore(store);
 
 export { store, persistor };
 

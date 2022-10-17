@@ -1,4 +1,5 @@
 import React from 'react';
+import {View, Text} from 'react-native'
 import 'react-native-gesture-handler';
 import { Provider, connect } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -16,17 +17,18 @@ import { initQueryClient } from './providers/queries';
 const queryClientProviderProps = initQueryClient();
 
 const _renderApp = ({ locale }) => (
-  <PersistQueryClientProvider {...queryClientProviderProps}>
-    <PersistGate loading={null} persistor={persistor}>
+   <PersistQueryClientProvider {...queryClientProviderProps}>
+     {/* <PersistGate loading={null} persistor={persistor}> */}
       <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
         <SafeAreaProvider>
           <Host>
-            <Application />
-          </Host>
-        </SafeAreaProvider>
-      </IntlProvider>
-    </PersistGate>
-  </PersistQueryClientProvider>
+             {/* <Application /> */}
+            <View style={{flex:1, justifyContent:'center', alignItems:'center', backgroundColor:'yellow'}}><Text style={{color:'green'}}>App is Working!</Text></View>
+           </Host>
+         </SafeAreaProvider>
+       </IntlProvider>
+      {/* </PersistGate> */}
+   </PersistQueryClientProvider>
 );
 
 const mapStateToProps = (state) => ({
@@ -38,7 +40,7 @@ const App = connect(mapStateToProps)(_renderApp);
 export default () => {
   return (
     <Provider store={store}>
-      <App />
-    </Provider>
+       <App />
+     </Provider>
   );
 };
