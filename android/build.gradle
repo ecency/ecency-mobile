@@ -28,7 +28,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath('com.android.tools.build:gradle:4.1.0')
+        classpath('com.android.tools.build:gradle:4.2.2')
         classpath 'com.google.gms:google-services:4.3.10'
         classpath 'com.bugsnag:bugsnag-android-gradle-plugin:5.+'
         // NOTE: Do not place your application dependencies here; they belong
@@ -39,7 +39,6 @@ buildscript {
 allprojects {
     repositories {
         google()
-        mavenCentral()
         mavenLocal()
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
@@ -51,6 +50,14 @@ allprojects {
         }
 
         maven { url "https://www.jitpack.io" }
+
+        mavenCentral {
+            // We don't want to fetch react-native from Maven Central as there are
+            // older versions over there.
+            content {
+                excludeGroup "com.facebook.react"
+            }
+        }
 
 
         //TODO: remove when replacement for selective groups is available
