@@ -21,6 +21,7 @@ buildscript {
         googlePlayServicesVisionVersion = "17.0.2"
         googlePlayServicesVersion = "16.+"
         firebaseVersion = "17.3.4"
+        ndkVersion = "21.4.7075529"
     }
     repositories {
         google()
