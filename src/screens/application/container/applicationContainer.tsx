@@ -12,7 +12,6 @@ import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
-import SplashScreen from 'react-native-splash-screen';
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -122,7 +121,6 @@ class ApplicationContainer extends Component {
     //set avatar cache stamp to invalidate previous session avatars
     dispatch(setAvatarCacheStamp(new Date().getTime()));
 
-    SplashScreen.hide();
     setMomentLocale();
     this._fetchApp();
 

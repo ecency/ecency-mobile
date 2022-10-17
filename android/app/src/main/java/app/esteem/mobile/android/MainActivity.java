@@ -6,7 +6,6 @@ import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 import android.content.Intent;
 import android.content.res.Configuration;
-import org.devio.rn.splashscreen.SplashScreen;
 import android.os.Bundle;
 
 public class MainActivity extends ReactActivity {
@@ -38,7 +37,6 @@ public class MainActivity extends ReactActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(null); //https://stackoverflow.com/questions/57709742/unable-to-instantiate-fragment-com-swmansion-rnscreens-screen
-    SplashScreen.show(this);
   }
   //native side reference: https://github.com/facebook/react-native/issues/28823#issuecomment-642032481
   @Override
