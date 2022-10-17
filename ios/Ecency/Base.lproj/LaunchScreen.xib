@@ -14,7 +14,7 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SplashImage" translatesAutoresizingMaskIntoConstraints="NO" id="mLz-pt-VGN">
                 </imageView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="mLz-pt-VGN" secondAttribute="bottom" constant="0" id="KJO-J3-fkg"/>
                 <constraint firstAttribute="trailing" secondItem="mLz-pt-VGN" secondAttribute="trailing" constant="0" id="eqZ-Y5-FHH"/>
