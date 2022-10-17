@@ -60,7 +60,7 @@ export const UsernameAutofillBar = ({ text, selection, onApplyUsername }: Props)
       200,
       { leading: true },
     ),
-    []
+    [],
   );
 
   const _onUserSelect = (username) => {

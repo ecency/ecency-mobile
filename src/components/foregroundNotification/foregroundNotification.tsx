@@ -80,7 +80,6 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
     hideTimeoutRef.current = setTimeout(() => {
       hide();
     }, duration);
-
   };
 
   const hide = async () => {
@@ -88,7 +87,7 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
       await containerRef.current.fadeOutUp(300);
 
       setIsVisible(false);
-      if (hideTimeoutRef.current){
+      if (hideTimeoutRef.current) {
         clearTimeout(hideTimeoutRef.current);
       }
     }
@@ -113,7 +112,6 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
     });
     hide();
   };
-
 
   return (
     isVisible && (

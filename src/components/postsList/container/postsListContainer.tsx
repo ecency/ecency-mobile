@@ -35,7 +35,6 @@ const postsListContainer = (
   }: postsListContainerProps,
   ref,
 ) => {
-
   const flatListRef = useRef(null);
 
   const [imageHeights, setImageHeights] = useState(new Map<string, number>());
@@ -64,7 +63,6 @@ const postsListContainer = (
         animated: false,
       });
     }
-
   }, [posts]);
 
   useEffect(() => {
@@ -73,7 +71,6 @@ const postsListContainer = (
       offset: posts && posts.length == 0 ? 0 : scrollPosition,
       animated: false,
     });
-
   }, [scrollPosition]);
 
   const _setImageHeightInMap = (mapKey: string, height: number) => {
@@ -116,7 +113,6 @@ const postsListContainer = (
           posts &&
           posts.filter((x) => x.permlink === p.permlink).length <= 0
         ) {
-
           //get image height from cache if available
           const localId = p.author + p.permlink;
           const imgHeight = imageHeights.get(localId);
@@ -135,7 +131,6 @@ const postsListContainer = (
           );
         }
       }
-
 
       let isMuted = mutes && mutes.indexOf(item.author) > -1;
       if (!isMuted && get(item, 'author', null)) {
@@ -157,7 +152,7 @@ const postsListContainer = (
         );
       }
       return e;
-    };
+    }
 
     return (
       <ThemeContainer>
@@ -199,7 +194,6 @@ const postsListContainer = (
       </ThemeContainer>
     );
   };
-}
+};
 
-
-  export default forwardRef(postsListContainer);
+export default forwardRef(postsListContainer);

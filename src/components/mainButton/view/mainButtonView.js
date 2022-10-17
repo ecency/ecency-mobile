@@ -37,16 +37,8 @@ class MainButton extends Component {
   };
 
   _getBody = () => {
-    const {
-      isLoading,
-      text,
-      secondText,
-      iconColor,
-      iconName,
-      source,
-      iconType,
-      textStyle,
-    } = this.props;
+    const { isLoading, text, secondText, iconColor, iconName, source, iconType, textStyle } =
+      this.props;
 
     if (isLoading) {
       this._getIndicator();

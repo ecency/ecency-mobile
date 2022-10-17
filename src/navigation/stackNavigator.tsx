@@ -76,8 +76,8 @@ export const StackNavigator = ({ initRoute }) => {
   return (
     <RootStack.Navigator
       initialRouteName={initRoute}
-      screenOptions={{ headerShown: false, animation: 'slide_from_bottom' }}>
-
+      screenOptions={{ headerShown: false, animation: 'slide_from_bottom' }}
+    >
       <RootStack.Screen name={ROUTES.STACK.MAIN} component={MainStackNavigator} />
 
       <RootStack.Screen name={ROUTES.SCREENS.REGISTER} component={Register} />
@@ -91,5 +91,3 @@ export const StackNavigator = ({ initRoute }) => {
     </RootStack.Navigator>
   );
 };
-
-
