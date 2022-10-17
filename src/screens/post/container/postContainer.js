@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
+import { connect, useSelector } from 'react-redux';
 import get from 'lodash/get';
 
-// Services and Actions
-import Matomo from 'react-native-matomo-sdk';
+// Services and Action
 import { getPost } from '../../../providers/hive/dhive';
-// import { matomo } from '../../../providers/ecency/analytics';
 
 // Component
 import PostScreen from '../screen/postScreen';
@@ -16,20 +13,34 @@ import PostScreen from '../screen/postScreen';
  *@props -->  content           which is include all post data                  Object
  *
  */
-const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) => {
+const PostContainer = ({ currentAccount, isLoggedIn, route }) => {
   const [post, setPost] = useState(null);
   const [error, setError] = useState(null);
   const [isNewPost, setIsNewPost] = useState(false);
   const [isPostUnavailable, setIsPostUnavailable] = useState(false);
   const [parentPost, setParentPost] = useState(null);
 
+  const deviceOrientation = useSelector((state) => state.ui.deviceOrientation);
+
   let author;
 
+  // Commented Orientation Locker causing issues on Android. Can be enabled later
+  /*
   useEffect(() => {
-    const { content, permlink, author: _author, isNewPost: _isNewPost } = get(
-      navigation,
-      'state.params',
-    );
+    return () => Orientation.lockToPortrait();
+  }, []);
+
+  useEffect(() => {
+    if (deviceOrientation === 'LANDSCAPE-RIGHT' || deviceOrientation === 'LANDSCAPE-LEFT') {
+      Orientation.unlockAllOrientations();
+    } else {
+      Orientation.lockToPortrait();
+    }
+  }, [deviceOrientation]);
+  */
+
+  useEffect(() => {
+    const { content, permlink, author: _author, isNewPost: _isNewPost } = route.params ?? {};
     if (_isNewPost) {
       setIsNewPost(_isNewPost);
     }
@@ -40,22 +51,9 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
       } else {
         setPost(content);
       }
-      // tracking info
-      if (isAnalytics) {
-        Matomo.trackView([`${content.url}`]).catch((error) =>
-          console.warn('Failed to track screen', error),
-        );
-      }
     } else if (_author && permlink) {
       _loadPost(_author, permlink);
       author = _author;
-
-      // tracking info
-      if (isAnalytics) {
-        Matomo.trackView([`/post/@${_author}/${permlink}`]).catch((error) =>
-          console.warn('Failed to track screen', error),
-        );
-      }
     }
   }, []);
 
@@ -83,13 +81,13 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
   };
 
   useEffect(() => {
-    const { isFetch: nextIsFetch } = navigation.state.params;
+    const { isFetch: nextIsFetch } = route.params ?? {};
     if (nextIsFetch) {
-      const { author: _author, permlink } = get(navigation, 'state.params');
+      const { author: _author, permlink } = route.params;
 
       _loadPost(_author, permlink);
     }
-  }, [navigation.state.params.isFetch]);
+  }, [route.params.isFetch]);
 
   if (
     !parentPost &&
@@ -113,6 +111,7 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
       parentPost={parentPost}
       post={post}
       isPostUnavailable={isPostUnavailable}
+      orientation={deviceOrientation}
     />
   );
 };
@@ -120,7 +119,6 @@ const PostContainer = ({ navigation, currentAccount, isLoggedIn, isAnalytics }) 
 const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
   isLoggedIn: state.application.isLoggedIn,
-  isAnalytics: state.application.isAnalytics,
 });
 
-export default connect(mapStateToProps)(withNavigation(PostContainer));
+export default connect(mapStateToProps)(PostContainer);

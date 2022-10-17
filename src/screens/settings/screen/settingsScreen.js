@@ -10,18 +10,22 @@ import { groomingServerName } from '../../../utils/settings';
 import LANGUAGE, { VALUE as LANGUAGE_VALUE } from '../../../constants/options/language';
 import CURRENCY, { VALUE as CURRENCY_VALUE } from '../../../constants/options/currency';
 import NSFW from '../../../constants/options/nsfw';
+import THEME_OPTIONS from '../../../constants/options/theme';
 
 // Components
 import { BasicHeader, SettingsItem, CollapsibleCard } from '../../../components';
 
 // Styles
 import styles from './settingsStyles';
+import settingsTypes from '../../../constants/settingsTypes';
 
 const SettingsScreen = ({
   handleOnChange,
   intl,
   isDarkTheme,
+  colorThemeIndex,
   isPinCodeOpen,
+  isBiometricEnabled,
   isLoggedIn,
   isNotificationSettingsOpen,
   nsfw,
@@ -33,11 +37,13 @@ const SettingsScreen = ({
   commentNotification,
   followNotification,
   mentionNotification,
+  favoriteNotification,
   reblogNotification,
   transfersNotification,
   voteNotification,
   handleOnButtonPress,
   isLoading,
+  isHideImages,
 }) => {
   return (
     <Fragment>
@@ -118,13 +124,32 @@ const SettingsScreen = ({
           />
           <SettingsItem
             title={intl.formatMessage({
-              id: 'settings.dark_theme',
+              id: 'settings.color_theme',
             })}
-            type="toggle"
+            type="dropdown"
             actionType="theme"
-            isOn={isDarkTheme}
+            options={THEME_OPTIONS.map((item) =>
+              intl.formatMessage({
+                id: item.key,
+              }),
+            )}
+            selectedOptionIndex={colorThemeIndex}
             handleOnChange={handleOnChange}
           />
+
+          <SettingsItem
+            title={intl.formatMessage({
+              id: 'settings.show_imgs',
+            })}
+            text={intl.formatMessage({
+              id: 'settings.show_imgs',
+            })}
+            type="toggle"
+            actionType={settingsTypes.SHOW_HIDE_IMGS}
+            handleOnChange={handleOnChange}
+            isOn={!isHideImages}
+          />
+
           {!!isLoggedIn && (
             <SettingsItem
               title={intl.formatMessage({
@@ -133,12 +158,24 @@ const SettingsScreen = ({
               type="toggle"
               actionType="pincode"
               isOn={isPinCodeOpen}
+              toggleLatchBack={true}
               handleOnChange={handleOnChange}
             />
           )}
 
           {!!isLoggedIn && !!isPinCodeOpen && (
             <Fragment>
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.biometric',
+                })}
+                type="toggle"
+                actionType="biometric"
+                isOn={isBiometricEnabled}
+                toggleLatchBack={true}
+                handleOnChange={handleOnChange}
+              />
+
               <SettingsItem
                 title={intl.formatMessage({
                   id: 'settings.reset_pin',
@@ -148,18 +185,10 @@ const SettingsScreen = ({
                 })}
                 type="button"
                 actionType="reset_pin"
+                toggleLatchBack={true}
                 handleOnButtonPress={handleOnButtonPress}
               />
             </Fragment>
-            //  <SettingsItem
-            //   title={intl.formatMessage({
-            //     id: 'settings.default_footer',
-            //   })}
-            //   type="toggle"
-            //   actionType="default_footer"
-            //   isOn={isDefaultFooter}
-            //   handleOnChange={handleOnChange}
-            // />
           )}
         </View>
         {!!isLoggedIn && (
@@ -221,6 +250,15 @@ const SettingsScreen = ({
               />
               <SettingsItem
                 title={intl.formatMessage({
+                  id: 'settings.notification.favorite',
+                })}
+                type="toggle"
+                actionType="notification.favorite"
+                isOn={favoriteNotification}
+                handleOnChange={handleOnChange}
+              />
+              <SettingsItem
+                title={intl.formatMessage({
                   id: 'settings.notification.reblog',
                 })}
                 type="toggle"
@@ -252,6 +290,19 @@ const SettingsScreen = ({
             actionType="feedback"
             handleOnButtonPress={handleOnButtonPress}
           />
+          {!!isLoggedIn && (
+            <SettingsItem
+              title={intl.formatMessage({
+                id: 'settings.delete_account',
+              })}
+              text={intl.formatMessage({
+                id: 'settings.delete_account',
+              })}
+              type="icon"
+              actionType={settingsTypes.DELETE_ACCOUNT}
+              handleOnButtonPress={handleOnButtonPress}
+            />
+          )}
         </View>
       </ScrollView>
     </Fragment>

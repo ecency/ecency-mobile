@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { View, TouchableOpacity, Animated, NativeModules } from 'react-native';
+import { View, TouchableOpacity, NativeModules } from 'react-native';
+import Animated, { Easing } from 'react-native-reanimated';
 
 // Constants
 
@@ -71,7 +72,7 @@ class ToggleSwitchView extends PureComponent {
   };
 
   _onToggle = () => {
-    const { onToggle } = this.props;
+    const { onToggle, latchBack } = this.props;
     const { isOn } = this.state;
     this.setState({ isOn: !isOn });
 
@@ -80,7 +81,14 @@ class ToggleSwitchView extends PureComponent {
       if (onToggle) {
         onToggle(!isOn);
       }
+      // this.setState({isOn})
     }, 300);
+
+    if (latchBack) {
+      setTimeout(() => {
+        this.setState({ isOn });
+      }, 500);
+    }
   };
 
   _triggerAnimation = () => {
@@ -90,8 +98,15 @@ class ToggleSwitchView extends PureComponent {
     Animated.timing(this.offsetX, {
       toValue,
       duration,
+      easing: Easing.inOut(Easing.ease),
     }).start();
   };
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.isOn !== this.props.isOn) {
+      this.setState({ isOn: nextProps.isOn });
+    }
+  }
 
   UNSAFE_componentWillMount() {
     this.setState({ duration: 0 });

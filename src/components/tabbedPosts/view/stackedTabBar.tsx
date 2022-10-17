@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { CustomiseFiltersModal, FilterBar } from "../..";
-import { hidePostsThumbnails } from "../../../redux/actions/uiAction";
+import { setHidePostsThumbnails } from "../../../redux/actions/applicationActions";
 import { CustomiseFiltersModalRef } from "../../customiseFiltersModal/customiseFiltersModal";
 
 export interface TabItem {
@@ -42,7 +42,7 @@ export const StackedTabBar = ({
     const customiseModalRef = useRef<CustomiseFiltersModalRef>();
     
     //redux properties
-    const isHideImages = useSelector((state) => state.ui.hidePostsThumbnails);
+    const isHideImages = useSelector((state) => state.application.hidePostsThumbnails);
 
     const [selectedFilterIndex, setSelectedFilterIndex] = useState(initialFirstStackIndex);
     const [selectedSecondStackIndex, setSelectedSecondStackIndex] = useState(0);
@@ -57,7 +57,7 @@ export const StackedTabBar = ({
     }
 
     const _onToggleImagesPress = () => {
-      dispatch(hidePostsThumbnails(!isHideImages))
+      dispatch(setHidePostsThumbnails(!isHideImages))
     }
 
     return (

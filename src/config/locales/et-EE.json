@@ -7,7 +7,9 @@
     "transfer": "Ülekanne",
     "power_up": "To Vesting",
     "transfer_from_savings": "Hoiusest",
+    "withdraw_savings": "Withdraw Savings",
     "withdraw_vesting": "Vähenda Hive Powerit",
+    "open_order": "Open Order",
     "fill_order": "Täida Tellimus",
     "post": "Postitus",
     "comment": "Kommenteeri",
@@ -49,10 +51,17 @@
     "to": "Kellele",
     "estimated_value_desc": "Vastavalt ostu väärtusele",
     "estimated_value": "Hinnanguline väärtus",
+    "vote_value": "Vote value",
+    "delegated_hive_power": "Delegated hive power",
+    "powering_down_hive_power": "Powering down",
+    "received_hive_power": "Received hive power",
+    "total_hive_power": "Total hive power",
+    "savings": "Savings",
     "estimated_amount": "Hääle väärtus",
     "amount_information": "Koguse muutmiseks liiguta liugurit",
     "amount": "Kogus",
     "memo": "Märge",
+    "tap_update": "Tap to update",
     "information": "Oled kindel, et soovid raha üle kanda?",
     "amount_desc": "Saldo",
     "memo_desc": "See märge on avalik",
@@ -68,10 +77,11 @@
     "next": "EDASI",
     "delegate": "Volita",
     "power_down": "Vähenda Hive Powerit",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HBD",
+    "withdraw_hive": "Withdraw Savings",
+    "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "Hoiusesse",
     "convert": "Konverteeri",
+    "convert_request": "Convert Request",
     "escrow_transfer": "Deposiidi ülekanne",
     "escrow_dispute": "Deposiidi Vaidlustamine",
     "escrow_release": "Deposiidi Vabastamine",
@@ -81,32 +91,50 @@
     "fill_convert_request": "Vahetamine alustatud",
     "fill_transfer_from_savings": "Hoius alustatud",
     "fill_vesting_withdraw": "Hive Poweri vähendamist alustatud",
-    "estm": {
+    "ecency": {
       "title": "Punktid",
+      "name": "Ecency punktid",
       "buy": "OSTA PUNKTE"
     },
     "savinghive": {
-      "title": "HIVE Savings"
+      "title": "HIVE Hoius"
     },
     "savinghbd": {
-      "title": "HBD Savings"
+      "title": "HBD Hoius"
     },
     "hive": {
       "title": "HIVE",
-      "buy": "GET HIVE"
+      "name": "Hive Token",
+      "buy": "OSTA HIVE"
     },
     "hbd": {
       "title": "HBD",
-      "buy": "GET HBD"
+      "buy": "OSTA HBD"
     },
     "hive_power": {
-      "title": "HIVE POWER"
+      "title": "HIVE POWER",
+      "name": "Hive Power"
+    },
+    "hive_dollar": {
+      "name": "Hive Dollar"
     },
     "btc": {
       "title": "BTC",
       "buy": "OSTA BTC",
       "address": "VÕTA VASTU"
-    }
+    },
+    "last_updated": "Last Updated:",
+    "updating": "Updating...",
+    "coin_details": "Üksikasjad",
+    "change": "Change",
+    "activities": "Activities",
+    "savings_withdrawal": "Pending Withdrawals",
+    "open_orders": "Open Orders",
+    "conversions_requested": "Conversions Requested",
+    "expires": "expires",
+    "pending_requests": "Pending Requests",
+    "boost_account": "Boost",
+    "get_boost": "Get Boost"
   },
   "notification": {
     "vote": "hääletatud",
@@ -118,6 +146,7 @@
     "ignore": "ignoreeris sind",
     "reblog": "jagatud",
     "transfer": "ülekanne tehtud",
+    "delegations": "delegated",
     "spin": "Aeg teenida rohkem Punkte",
     "inactive": "Ole aktiivne! Postita, jätka teenimist",
     "referral": "liitus sinu kutsega, tervita neid",
@@ -191,7 +220,7 @@
     "currency": "Valuuta",
     "language": "Keel",
     "server": "Server",
-    "dark_theme": "Tume Kujundus",
+    "color_theme": "Appearance",
     "push_notification": "Teavitused",
     "notification": {
       "follow": "Jälgi",
@@ -199,9 +228,11 @@
       "comment": "Kommenteeri",
       "mention": "Maini",
       "reblog": "Jaga",
-      "transfers": "Ülekanded"
+      "transfers": "Ülekanded",
+      "delegations": "Delegations"
     },
     "pincode": "Pincode",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "Lähtesta Pin-kood",
     "reset": "Algseisundi Taastamine",
     "nsfw_content": "18+",
@@ -213,9 +244,16 @@
       "always_hide": "Peida alati",
       "always_warn": "Alati hoiata"
     },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
+    },
     "feedback_success": "Email edukalt avatud",
     "feedback_fail": "Emaili rakendus ei avanenud",
-    "server_fail": "Server pole kättesaadav"
+    "server_fail": "Server pole kättesaadav",
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Hääletaja info",
@@ -231,7 +269,15 @@
     "cancel": "tühista",
     "login": "LOGI SISSE",
     "steemconnect_description": "Kui sa ei soovi hoida oma parooli krüpteerituna ja salvestatuna oma seadmes, kasuta Hivesigner'it.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_fee_description": "info",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "Loo konto",
@@ -272,7 +318,8 @@
     "create_a_new_account": "Registreeri uus kasutaja",
     "add_an_existing_account": "Lisa olemasolev kasutaja",
     "accounts": "Kasutajad",
-    "refer": "Refer & Earn"
+    "refer": "Refer & Earn",
+    "qr": "QR Scan"
   },
   "header": {
     "title": "Logi sisse, et kohandada oma voogu",
@@ -340,7 +387,18 @@
     "done": "DONE",
     "draft_save_title": "Saving Draft",
     "draft_update": "Update current draft",
-    "draft_save_new": "Save as new draft"
+    "draft_save_new": "Save as new draft",
+    "label": "Label",
+    "enter_label_placeholder": "Enter Label (Optional)",
+    "url": "URL",
+    "enter_url_placeholder": "Enter URL",
+    "link_type_text": "Type of Link",
+    "insert_link": "Insert Link",
+    "preview": "Preview",
+    "invalid_url_error": "Please insert valid url",
+    "plain": "Plain",
+    "video": "Video",
+    "image": "Image"
   },
   "snippets": {
     "label_no_snippets": "Katkeid ei leitud",
@@ -359,13 +417,16 @@
     "btn_cancel": "Tühista"
   },
   "uploads_modal": {
-    "label_no_images": "No Images Found",
+    "label_no_images": "No Existing Uploads...",
     "title": "Uploaded Images",
     "title_remove_confirmation": "Delete image",
     "btn_add": "Image",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
-    "message_failed": "Failed to upload image"
+    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "message_failed": "Failed to upload image",
+    "delete_failed": "Failed to delete image",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "Enter pin to unlock",
@@ -374,7 +435,8 @@
     "forgot_text": "Ups, ma unustasin...",
     "pin_not_matched": "Vale PIN, palun proovi uuesti.",
     "attempts_postfix": "ebaõnnestunud katse(d)",
-    "message_reset_warning": "User data will be wiped on next failed attempt"
+    "message_reset_warning": "User data will be wiped on next failed attempt",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "Edukas!",
@@ -442,7 +504,10 @@
     "failed_to_open": "Failed to open a link",
     "restart_ecency": "Restart Ecency?",
     "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response": "Could not process request, Try again later."
+    "invalid_response": "Could not process request, Try again later.",
+    "wallet_updating": "Wallet update in progress, try again as update finishes",
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
+    "connection_issues": "The server is unreachable, please check your connection and try again."
   },
   "post": {
     "reblog_alert": "Oled sa kindel, et soovid seda jagada?",
@@ -473,7 +538,11 @@
     "empty_list": "Siin pole midagi",
     "deleted": "Ajastatud postitus kustutatud",
     "move": "Teisalda mustanditesse",
-    "moved": "Teisaldatud mustanditesse"
+    "moved": "Teisaldatud mustanditesse",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Järjehoidjad",
@@ -488,6 +557,11 @@
     "added": "Teavitatud ebasobivast sisust",
     "confirm_report_title": "Confirm Report!",
     "confirm_report_body": "Are you sure you want report?"
+  },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
   },
   "favorites": {
     "title": "Lemmikud",
@@ -521,11 +595,18 @@
     "bookmarks": "lisa järjehoidjatesse",
     "promote": "reklaami",
     "boost": "võimenda",
-    "report": "teavita"
+    "report": "teavita",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community",
+    "edit-history": "Edit History",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Kasutaja ei eksisteeri",
-    "no_existing_post": "Postitus ei eksisteeri"
+    "no_existing_post": "Postitus ei eksisteeri",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Postitused",
@@ -564,11 +645,11 @@
     "stop_information": "Oled kindel, et soovid peatada?",
     "percent": "Protsent",
     "auto_vests": "Automaatne Tulu",
+    "vests": "Vests",
     "save": "SALVESTA",
     "percent_information": "Protsendi info",
     "next": "EDASI",
     "delegate": "Volita",
-    "power_down": "Vähenda Hive Powerit",
     "withdraw_hive": "Withdraw HIVE",
     "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Sissetulevad varad",
@@ -580,23 +661,40 @@
     "account_detail_head": "Account Details",
     "account_detail_subhead": "Enter username for HIVE Power delegation",
     "delegat_detail_head": "Delegation Details",
-    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "New Amount",
     "review": "REVIEW",
     "confirm": "Confirm Delegation",
     "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
     "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
     "username_alert": "Username Error!",
-    "username_alert_detail": "Please select different username"
+    "username_alert_detail": "Please select different username",
+    "power_down": "Vähenda Hive Powerit",
+    "power_down_amount_head": "Withdraw Amount",
+    "power_down_amount_subhead": "Enter amount for powering down hive power",
+    "withdraw_accounts": "Withdraw Accounts",
+    "amount_hp": "Amount (HP)",
+    "powering_down": "Powering Down",
+    "powering_down_subheading": "You are currently powering down.",
+    "powering_down_info": "Next power down is in {days} days, {hp} HIVE",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Please enter valid amount",
+    "account_select_title": "Account Details",
+    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
+    "amount_select_title": "Transfer Details",
+    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
   },
   "boost": {
     "title": "Osta Punkte",
     "buy": "OSTA Punkte",
     "next": "EDASI",
+    "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Võimenda kasutajat",
       "desc": "30-päevane volitus suurendab teie häält ja sotsiaalset tegevusi ning annab teile rohkem tegevusi koos rohkemate ressursipunktidega."
-    }
+    },
+    "confirm_purchase": "Confirm Purchase @{username}",
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
   "free_estm": {
     "title": "Tasuta punktid",
@@ -635,7 +733,8 @@
     "title": "Kommentaarid",
     "reveal_comment": "Näita kommentaari",
     "read_more": "Näita veel kommentaare",
-    "more_replies": "replies"
+    "more_replies": "replies",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Muud",
@@ -686,7 +785,8 @@
     "remove_from_favourites": "REMOVE FROM FAVOURITES",
     "mute": "MUTE / BLOCK",
     "unmute": "UNMUTE / UNBLOCK",
-    "report": "REPORT USER"
+    "report": "REPORT USER",
+    "delegate": "DELEGATE HIVE POWER"
   },
   "communities": {
     "joined": "Liikmelisus",
@@ -713,7 +813,9 @@
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "Join Ecency communities!",
     "line3_body": "Build community you own, get rewarded and reward others.",
-    "get_started": "Get started!"
+    "get_started": "Get started!",
+    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
+    "terms_text": "Read Here!"
   },
   "time": {
     "second": "seconds",
@@ -725,7 +827,7 @@
     "year": "years"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
+    "placeholder": "Add a comment...",
     "comment": "Comment",
     "reply": "REPLY",
     "close": "CLOSE"
@@ -742,5 +844,16 @@
     "earned": "Earned Points",
     "pending": "Pending Points",
     "empty_text": "Refer your loved ones today and earn free points"
+  },
+  "qr": {
+    "qr_scan": "QR Scan",
+    "open": "Open URL",
+    "detected_url": "Detected URL",
+    "unsupported_alert_title": "Unsupported URL!",
+    "unsupported_alert_desc": "Please scan a valid ecency url."
+  },
+  "history": {
+    "edit": "Edit History",
+    "version": "Version"
   }
 }

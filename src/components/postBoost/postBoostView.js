@@ -8,7 +8,7 @@ import { Icon, TextInput } from '..';
 import { hsOptions } from '../../constants/hsOptions';
 
 // Services and Actions
-import { getUser } from '../../providers/ecency/ePoint';
+import { getPointsSummary } from '../../providers/ecency/ePoint';
 import { searchPath } from '../../providers/ecency/ecency';
 
 // Components
@@ -21,6 +21,7 @@ import { Modal } from '../modal';
 // Styles
 import styles from './postBoostStyles';
 import { OptionsModal } from '../atoms';
+import postUrlParser from '../../utils/postUrlParser';
 
 class BoostPostScreen extends PureComponent {
   /* Props
@@ -40,6 +41,7 @@ class BoostPostScreen extends PureComponent {
     };
 
     this.startActionSheet = React.createRef();
+    this.urlInputRef = React.createRef();
   }
 
   // Component Life Cycles
@@ -92,7 +94,7 @@ class BoostPostScreen extends PureComponent {
   );
 
   _getUserBalance = async (username) => {
-    await getUser(username)
+    await getPointsSummary(username)
       .then((userPoints) => {
         const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
         this.setState({ balance });
@@ -112,6 +114,21 @@ class BoostPostScreen extends PureComponent {
     handleOnSubmit(redeemType, amount, fullPermlink, selectedUser);
   };
 
+  _validateUrl = () => {
+    const { permlink, isValid } = this.state;
+    if (!isValid) {
+      const postUrl = postUrlParser(permlink);
+      if (postUrl && postUrl.author && postUrl.permlink) {
+        let postPermlink = `${postUrl.author}/${postUrl.permlink}`;
+        this.setState({
+          permlink: postPermlink,
+          isValid: true,
+        });
+      } else {
+        this.setState({ isValid: false });
+      }
+    }
+  };
   render() {
     const { intl } = this.props;
     const { selectedUser, balance, factor, permlinkSuggestions, permlink, isValid } = this.state;
@@ -126,15 +143,16 @@ class BoostPostScreen extends PureComponent {
       isSCModalOpen,
       handleOnSCModalClose,
       getESTMPrice,
+      user,
     } = this.props;
 
     const calculatedESTM = 150 + 50 * factor;
-
+    // console.log('this.state.permlink : ', this.state.permlink);
     return (
       <Fragment>
         <BasicHeader title={intl.formatMessage({ id: 'boostPost.title' })} />
         <View style={styles.container}>
-          <ScrollView>
+          <ScrollView keyboardShouldPersistTaps="handled">
             <View style={styles.middleContent}>
               <TransferFormItem
                 label={intl.formatMessage({ id: 'promote.user' })}
@@ -166,18 +184,22 @@ class BoostPostScreen extends PureComponent {
                       placeholder={intl.formatMessage({ id: 'promote.permlinkPlaceholder' })}
                       placeholderTextColor="#c1c5c7"
                       autoCapitalize="none"
+                      returnKeyType="done"
+                      onBlur={() => this._validateUrl()}
+                      innerRef={this.urlInputRef}
                     />
                   )}
                   renderItem={({ item }) => (
                     <TouchableOpacity
                       key={item}
-                      onPress={() =>
+                      onPress={() => {
+                        this.urlInputRef.current?.blur();
                         this.setState({
                           permlink: item,
                           isValid: true,
                           permlinkSuggestions: [],
-                        })
-                      }
+                        });
+                      }}
                     >
                       <Text style={styles.autocompleteItemText}>{item}</Text>
                     </TouchableOpacity>
@@ -225,6 +247,16 @@ class BoostPostScreen extends PureComponent {
             </View>
 
             <View style={styles.bottomContent}>
+              <View style={styles.infoWrapper}>
+                <Icon
+                  size={20}
+                  style={styles.infoIcon}
+                  iconType="MaterialIcons"
+                  name="info-outline"
+                />
+                <Text style={styles.infoText}>{intl.formatMessage({ id: 'boost.info' })}</Text>
+              </View>
+
               <MainButton
                 style={styles.button}
                 isDisable={

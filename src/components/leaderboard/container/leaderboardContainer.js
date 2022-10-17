@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
@@ -8,10 +8,11 @@ import { connect } from 'react-redux';
 import { getLeaderboard } from '../../../providers/ecency/ecency';
 
 // Constants
-import ROUTES from '../../../constants/routeNames';
+import FILTER_OPTIONS, { VALUE } from '../../../constants/options/leaderboard';
 
 // Component
 import LeaderboardView from '../view/leaderboardView';
+import { showProfileModal } from '../../../redux/actions/uiAction';
 
 /*
  *            Props Name        Description                                     Value
@@ -39,14 +40,8 @@ class LeaderboardContainer extends PureComponent {
   }
 
   _handleOnUserPress = (username) => {
-    const { navigation } = this.props;
-
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.PROFILE,
-      params: {
-        username,
-      },
-    });
+    const { dispatch } = this.props;
+    dispatch(showProfileModal(username));
   };
 
   _fetchLeaderBoard = async (selectedFilter, index) => {
@@ -55,6 +50,7 @@ class LeaderboardContainer extends PureComponent {
 
     if (index === undefined) {
       index = selectedIndex;
+      selectedFilter = FILTER_OPTIONS[selectedIndex];
     }
     let users;
 

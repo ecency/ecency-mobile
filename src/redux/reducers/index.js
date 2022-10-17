@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import accountReducer from './accountReducer';
 import applicationReducer from './applicationReducer';
-import nav from './nav';
 import ui from './uiReducer';
 import postsReducer from './postsReducer';
 import communities from './communitiesReducer';
@@ -10,6 +9,7 @@ import customTabsReducer from './customTabsReducer';
 import editorReducer from './editorReducer';
 import cacheReducer from './cacheReducer';
 import walkthroughReducer from './walkthroughReducer';
+import walletReducer from './walletReducer';
 
 export default combineReducers({
   account: accountReducer,
@@ -17,10 +17,10 @@ export default combineReducers({
   posts: postsReducer,
   customTabs: customTabsReducer,
   editor: editorReducer,
-  nav,
   ui,
   communities,
   user,
   cache: cacheReducer,
   walkthrough: walkthroughReducer,
+  wallet: walletReducer,
 });

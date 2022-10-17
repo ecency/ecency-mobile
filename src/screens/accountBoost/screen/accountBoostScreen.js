@@ -1,9 +1,10 @@
-import React from 'react';
-import { View, Platform, ScrollView, Image, Text } from 'react-native';
+import React, { useMemo } from 'react';
+import { View, Platform, SafeAreaView, Image, Text } from 'react-native';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 
 // Components
+import { useSelector } from 'react-redux';
 import { BasicHeader, BoostPlaceHolder, ProductItemLine } from '../../../components';
 
 import LOGO_ESTM from '../../../assets/esteemcoin_boost.png';
@@ -12,56 +13,69 @@ import LOGO_ESTM from '../../../assets/esteemcoin_boost.png';
 import { InAppPurchaseContainer } from '../../../containers';
 
 // Styles
-import globalStyles from '../../../globalStyles';
 import styles from './accountBoostStyles';
+import UserRibbon from '../../../components/userRibbon/userRibbon';
+import { vestsToHp } from '../../../utils/conversions';
 
 const ITEM_SKUS = Platform.select({
   ios: ['999boosts'],
   android: ['999boosts'],
 });
 
-const AccountBoost = () => {
+const ACCOUNT_BOOST_VESTS = 553311;
+
+const AccountBoost = ({ route }) => {
   const intl = useIntl();
+  const currentAccount = useSelector((state) => state.account.currentAccount);
+  const globalProps = useSelector((state) => state.account.globalProps);
+
+  const { username } = route.params ?? {};
+
+  const delegateAmount = useMemo(
+    () => vestsToHp(ACCOUNT_BOOST_VESTS, globalProps.hivePerMVests).toFixed(1),
+    [],
+  );
 
   return (
-    <InAppPurchaseContainer skus={ITEM_SKUS} isNoSpin>
+    <InAppPurchaseContainer skus={ITEM_SKUS} username={username} isNoSpin>
       {({ buyItem, productList, isLoading, isProcessing }) => (
-        <View style={globalStyles.container}>
+        <SafeAreaView style={styles.container}>
           <BasicHeader
             disabled={isProcessing}
             title={intl.formatMessage({
               id: 'boost.account.title',
             })}
           />
-          <>
-            <View style={styles.container}>
-              <Image style={styles.logoEstm} source={LOGO_ESTM} />
-              <Text style={styles.desc}>
-                {intl.formatMessage({
-                  id: 'boost.account.desc',
-                })}
-              </Text>
+
+          {isLoading ? (
+            <BoostPlaceHolder />
+          ) : (
+            <View style={styles.contentContainer}>
+              <UserRibbon username={username ? username : currentAccount.name} />
+              <View style={styles.iconContainer}>
+                <Image style={styles.logoEstm} source={LOGO_ESTM} />
+                <Text style={styles.desc}>
+                  {intl.formatMessage({
+                    id: 'boost.account.desc',
+                  })}
+                </Text>
+              </View>
+
+              <View style={styles.productsWrapper}>
+                {productList.map((product) => (
+                  <ProductItemLine
+                    key={get(product, 'title')}
+                    isLoading={isLoading}
+                    disabled={isProcessing}
+                    product={product}
+                    title={`Boost+  |  ${delegateAmount} HP`}
+                    handleOnButtonPress={(id) => buyItem(id)}
+                  />
+                ))}
+              </View>
             </View>
-            {isLoading ? (
-              <BoostPlaceHolder />
-            ) : (
-              <ScrollView>
-                <View style={styles.productsWrapper}>
-                  {productList.map((product) => (
-                    <ProductItemLine
-                      key={get(product, 'title')}
-                      isLoading={isLoading}
-                      disabled={isProcessing}
-                      product={product}
-                      title="Boost+"
-                      handleOnButtonPress={(id) => buyItem(id)}
-                    />
-                  ))}
-                </View>
-              </ScrollView>
-            )}
-          </>
-        </View>
+          )}
+        </SafeAreaView>
       )}
     </InAppPurchaseContainer>
   );

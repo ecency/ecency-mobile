@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useIntl } from 'react-intl';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 
 // Components
 import { SearchModal } from '../../searchModal';
@@ -18,7 +18,7 @@ import styles from './headerStyles';
 const HeaderView = ({
   displayName,
   handleOnPressBackButton,
-  handleOnViewModePress,
+  handleOnQRPress,
   handleOpenDrawer,
   isDarkTheme,
   isLoggedIn,
@@ -28,7 +28,7 @@ const HeaderView = ({
   username,
   navigation,
   hideUser,
-  enableViewModeToggle,
+  showQR,
 }) => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const intl = useIntl();
@@ -110,13 +110,13 @@ const HeaderView = ({
         </View>
       ) : (
         <View style={styles.backButtonWrapper}>
-          {enableViewModeToggle && (
+          {showQR && (
             <IconButton
               style={styles.viewIconContainer}
               iconStyle={styles.viewIcon}
-              name="view-module"
-              iconType="MaterialIcons"
-              onPress={handleOnViewModePress}
+              name="qr-code-sharp"
+              iconType="IonIcons"
+              onPress={handleOnQRPress}
             />
           )}
           <IconButton iconStyle={styles.backIcon} name="md-search" onPress={_onPressSearchButton} />

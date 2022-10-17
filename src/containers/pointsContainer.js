@@ -3,11 +3,10 @@ import { Alert } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 
 // Services and Actions
-import { getUser, getUserPoints, claimPoints } from '../providers/ecency/ePoint';
-import { openPinCodeModal } from '../redux/actions/applicationActions';
+import { getPointsSummary, claimPoints, getPointsHistory } from '../providers/ecency/ePoint';
 import { getAccount, boost } from '../providers/hive/dhive';
 import { getUserDataWithUsername } from '../realm/realm';
 import { toastNotification } from '../redux/actions/uiAction';
@@ -100,12 +99,13 @@ const PointsContainer = ({
     }
 
     if (isPinCodeOpen) {
-      dispatch(
-        openPinCodeModal({
-          navigateTo,
-          navigateParams,
-        }),
-      );
+      navigation.navigate({
+        routeName: ROUTES.SCREENS.PINCODE,
+        params: {
+          routeName: navigateTo,
+          params: navigateParams,
+        },
+      });
     } else {
       navigation.navigate({
         routeName: navigateTo,
@@ -130,7 +130,7 @@ const PointsContainer = ({
     }
     setRefreshing(true);
 
-    await getUser(_username)
+    await getPointsSummary(_username)
       .then(async (userPointsP) => {
         const _balance = Math.round(get(userPointsP, 'points') * 1000) / 1000;
         setUserPoints(userPointsP);
@@ -141,7 +141,7 @@ const PointsContainer = ({
         Alert.alert(get(err, 'message', 'Error'));
       });
 
-    await getUserPoints(_username)
+    await getPointsHistory(_username)
       .then((userActivitiesP) => {
         if (Object.entries(userActivitiesP).length !== 0) {
           setUserActivities(_groomUserActivities(userActivitiesP));
@@ -158,7 +158,7 @@ const PointsContainer = ({
   }, []);
 
   const _getUserBalance = async (_username) => {
-    await getUser(_username)
+    await getPointsSummary(_username)
       .then((_userPoints) => {
         const _balance = Math.round(get(_userPoints, 'points') * 1000) / 1000;
         return _balance;

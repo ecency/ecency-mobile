@@ -20,13 +20,16 @@ export default EStyleSheet.create({
   },
   buttonContent: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   buttonText: {
     color: '$pureWhite',
     fontSize: 14,
     fontWeight: 'bold',
     alignSelf: 'center',
-    width: 100,
+    marginRight: 16,
+    minWidth: 110,
+    maxWidth: 140,
   },
   buttonIconWrapper: {
     backgroundColor: '$pureWhite',

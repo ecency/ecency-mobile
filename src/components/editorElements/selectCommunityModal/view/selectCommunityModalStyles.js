@@ -13,5 +13,6 @@ export default EStyleSheet.create({
     marginLeft: 16,
     marginBottom: 8,
     color: '$primaryBlack',
+    textAlign: 'left',
   },
 });

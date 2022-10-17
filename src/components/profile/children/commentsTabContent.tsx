@@ -5,7 +5,6 @@ import { Comments, NoPost } from '../..';
 import { useAppSelector } from '../../../hooks';
 import { getAccountPosts } from '../../../providers/hive/dhive';
 import styles from '../profileStyles';
-import Matomo from 'react-native-matomo-sdk';
 import {unionBy } from 'lodash';
 
 interface CommentsTabContentProps {
@@ -20,8 +19,7 @@ const CommentsTabContent = ({isOwnProfile, username, type, onScroll, selectedUse
 
     const intl = useIntl();
 
-    const isHideImage = useAppSelector(state => state.ui.hidePostsThumbnails);
-    const isAnalytics = useAppSelector(state => state.application.isAnalytics);
+    const isHideImage = useAppSelector(state => state.application.hidePostsThumbnails);
 
     const [data, setData] = useState([]);
     const [lastAuthor, setLastAuthor] = useState('');
@@ -56,13 +54,6 @@ const CommentsTabContent = ({isOwnProfile, username, type, onScroll, selectedUse
             observer:'',
             sort:type
         };
-
-
-        if (isAnalytics && selectedUser.user) {
-            Matomo.trackView([`/@${selectedUser.name}/${type}`]).catch((error) =>
-                console.warn('Failed to track screen', error),
-            );
-        }
 
         const result = await getAccountPosts(query)
         let _comments:any[] = refresh ? result : unionBy(data, result, 'permlink');

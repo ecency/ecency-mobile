@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { Dimensions, Linking, Modal, PermissionsAndroid, Platform, View } from 'react-native';
+import { Linking, Modal, PermissionsAndroid, Platform, View } from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { useIntl, injectIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -19,10 +19,12 @@ import { OptionsModal } from '../../../atoms';
 import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
 import { PostHtmlRenderer, VideoPlayer } from '../../..';
+import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
-const WIDTH = Dimensions.get('window').width;
+const WIDTH = getWindowDimensions().width;
 
-const PostBody = ({ navigation, body, dispatch, onLoadEnd }) => {
+const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
+  console.log('body : ', body);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
   const [postImages, setPostImages] = useState([]);
@@ -254,19 +256,15 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd }) => {
     }
   };
 
-  const _onElementIsImage = (imgUrl) => {
-    if (postImages.indexOf(imgUrl) == -1) {
-      postImages.push(imgUrl);
-      setPostImages(postImages);
-    }
-  };
-
   const _handleSetSelectedLink = (link) => {
     setSelectedLink(link);
     actionLink.current.show();
   };
 
-  const _handleSetSelectedImage = (imageLink) => {
+  const _handleSetSelectedImage = (imageLink, postImgUrls) => {
+    if (postImages.length !== postImgUrls.length) {
+      setPostImages(postImgUrls);
+    }
     setSelectedImage(imageLink);
     actionImage.current.show();
   };
@@ -331,9 +329,8 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd }) => {
       <View>
         <PostHtmlRenderer
           body={html}
-          contentWidth={WIDTH - 32}
+          contentWidth={width ? width : WIDTH - 32}
           onLoaded={_handleLoadEnd}
-          onElementIsImage={_onElementIsImage}
           setSelectedImage={_handleSetSelectedImage}
           setSelectedLink={_handleSetSelectedLink}
           handleOnPostPress={_handleOnPostPress}
@@ -348,7 +345,7 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd }) => {
 };
 
 const areEqual = (prevProps, nextProps) => {
-  if (prevProps.body !== nextProps.body) {
+  if (prevProps.body === nextProps.body) {
     return true;
   }
   return false;

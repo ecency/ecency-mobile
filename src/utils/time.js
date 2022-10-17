@@ -134,3 +134,24 @@ export const isEmptyContentDate = (value) => {
 };
 
 export const isEmptyDate = (s) => parseInt(s.split('-')[0], 10) < 1980;
+
+/**
+ * Accepts javascript date , returns number of days between given date and todays date.
+ *
+ **/
+export const daysTillDate = (dateObj) => {
+  var given = moment(dateObj);
+  var current = moment();
+  return Math.round(moment.duration(given.diff(current)).asDays());
+};
+
+/**
+ * Accepts javascript date and moment format, returns date formatted with given format.
+ * For example d = '2022-04-13T18:16:42+00:00' , format = 'LL' will return 'April 13, 2022'
+ *
+ **/
+export const dateToFormatted = (d, format = 'LLLL') => {
+  const isTimeZoned = d.indexOf('.') !== -1 || d.indexOf('+') !== -1 ? d : `${d}.000Z`;
+  const dm = moment(new Date(isTimeZoned));
+  return dm.format(format);
+};

@@ -5,12 +5,12 @@ import { LoadPostsOptions, TabContentProps, TabMeta } from '../services/tabbedPo
 import {useSelector, useDispatch } from 'react-redux';
 import TabEmptyView from './listEmptyView';
 import { setInitPosts } from '../../../redux/actions/postsAction';
+import { showReplyModal } from '../../../redux/actions/uiAction';
 import { calculateTimeLeftForPostCheck } from '../services/tabbedPostsHelpers';
 import { AppState, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { PostsListRef } from '../../postsList/container/postsListContainer';
 import ScrollTopPopup from './scrollTopPopup';
 import { debounce } from 'lodash';
-import { QuickReplyModal } from '../..';
 
 const DEFAULT_TAB_META = {
     startAuthor:'',
@@ -32,6 +32,7 @@ const TabContent = ({
   filterScrollRequest,
   feedUsername,
   tag,
+  pinnedPermlink,
   onScrollRequestProcessed,
   handleOnScroll,
   ...props
@@ -42,11 +43,13 @@ const TabContent = ({
   //redux properties
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
-  const isAnalytics = useSelector((state) => state.application.isAnalytics);
   const nsfw = useSelector((state) => state.application.nsfw);
   const isConnected = useSelector((state) => state.application.isConnected);
-  const username = useSelector((state) => state.account.currentAccount.name);
+  const currentAccount = useSelector((state) => state.account.currentAccount);
   const initPosts = useSelector((state) => state.posts.initPosts)
+
+  const username = currentAccount.username;
+  const userPinned = currentAccount.about?.profile?.pinned;
 
 
   //state
@@ -57,17 +60,19 @@ const TabContent = ({
   const [latestPosts, setLatestPosts] = useState<any[]>([]);
   const [postFetchTimer, setPostFetchTimer] = useState(0)
   const [enableScrollTop, setEnableScrollTop] = useState(false);
+  const [curPinned, setCurPinned] = useState(pinnedPermlink)
 
   //refs
   let postsListRef = useRef<PostsListRef>()
   const appState = useRef(AppState.currentState);
   const postsRef = useRef(posts);
   const sessionUserRef = useRef(sessionUser);
-  const quickReplyModalRef = useRef(null)
 
   //init state refs;
   postsRef.current = posts;
   sessionUserRef.current = sessionUser;
+
+
 
 
   //side effects
@@ -97,6 +102,15 @@ const TabContent = ({
       }
     }
   }, [filterScrollRequest])
+
+  useEffect(()=>{
+    console.log("curPinned change", userPinned);
+    if(pageType === 'ownProfile' && userPinned !== curPinned ){
+      _scrollToTop();
+      _loadPosts({shouldReset:true, _pinnedPermlink:userPinned})
+      setCurPinned(userPinned);
+    }
+  },[userPinned])
 
 
   const _cleanup = () => {
@@ -160,7 +174,7 @@ const TabContent = ({
     _feedUsername = isFeedScreen? sessionUserRef.current:feedUsername,
     _posts = postsRef.current,
     _tabMeta = tabMeta,
-
+    _pinnedPermlink = curPinned
   }:{
     shouldReset?:boolean;
     isLatestPostsCheck?:boolean;
@@ -168,6 +182,7 @@ const TabContent = ({
     _feedUsername?:string;
     _posts?:any[]; 
     _tabMeta?:TabMeta;
+    _pinnedPermlink?:string
   }) => {
     const options = {
       setTabMeta:(meta:TabMeta) => {
@@ -179,7 +194,6 @@ const TabContent = ({
       prevPosts:_posts,
       tabMeta:_tabMeta,
       isLoggedIn,
-      isAnalytics,
       nsfw,
       isConnected,
       isFeedScreen,
@@ -187,6 +201,7 @@ const TabContent = ({
       pageType,
       isLatestPostsCheck,
       feedUsername:_feedUsername,
+      pinnedPermlink:_pinnedPermlink,
       tag,
       ...props
     } as LoadPostsOptions
@@ -202,7 +217,7 @@ const TabContent = ({
 
 
   const _getPromotedPosts = async () => {
-    if(pageType === 'profile' || pageType === 'ownProfile'){
+    if(pageType === 'profile' || pageType === 'ownProfile' || pageType === 'community'){
       return;
     }
     const pPosts = await fetchPromotedEntries(username)
@@ -317,13 +332,12 @@ const TabContent = ({
 
   // show quick reply modal
   const _showQuickReplyModal = (post:any) => {
-    // console.log('post: ', post);
     if (isLoggedIn) {
-      quickReplyModalRef.current.show(post);
+      dispatch(showReplyModal(post))
     } else {
+      //TODO: show proper alert message 
       console.log('Not LoggedIn');
     }
-    
   }
 
   return (
@@ -357,7 +371,6 @@ const TabContent = ({
         setEnableScrollTop(false);
       }}
     />
-    <QuickReplyModal ref={quickReplyModalRef} />
   </>
   );
 };

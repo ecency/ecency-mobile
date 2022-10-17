@@ -144,7 +144,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
-        versionName "3.0.27"
+        versionName "3.0.35"
         resValue "string", "build_config_package", "app.esteem.mobile.android"
         multiDexEnabled true
         // react-native-image-crop-picker
@@ -153,6 +153,8 @@ android {
             abiFilters "armeabi-v7a",'x86',"arm64-v8a",'x86_64'
         }
         missingDimensionStrategy 'store', 'play'
+        missingDimensionStrategy 'react-native-camera', 'general'
+        missingDimensionStrategy 'react-native-camera', 'mlkit'
         
     }
     dexOptions {
@@ -208,8 +210,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
     implementation 'com.android.support:multidex:2.0.1'
-    implementation project(':@react-native-community_viewpager')
-    implementation 'com.google.firebase:firebase-analytics:17.2.3'
+    implementation project(':react-native-pager-view')
     implementation 'com.getkeepsafe.relinker:relinker:1.4.4'
 
     if (enableHermes) {

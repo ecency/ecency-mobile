@@ -28,7 +28,7 @@ import { navigate } from '../../navigation/service';
 import { useAppSelector } from '../../hooks';
 import { useDispatch } from 'react-redux';
 
-const ReferScreen = ({ navigation }) => {
+const ReferScreen = () => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const currentAccount = useAppSelector((state) => state.account.currentAccount);

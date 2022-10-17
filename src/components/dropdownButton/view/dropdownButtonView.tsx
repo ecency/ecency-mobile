@@ -75,7 +75,7 @@ const DropdownButtonView = ({
       renderRowProps={{ underlayColor: EStyleSheet.value('$modalBackground'), style:styles.rowWrapper}}
       style={[!style ? styles.button : style]}
       textStyle={[textStyle || styles.buttonText]}
-      dropdownStyle={[styles.dropdown, dropdownStyle, !selectedOptionIndex && { height: 35 * (options.length + 1) }]}
+      dropdownStyle={[styles.dropdown, dropdownStyle, { height: 32 * (options.length + 1.5) }]}
       dropdownTextStyle={[dropdownTextStyle || styles.dropdownText]}
       dropdownTextHighlightStyle={styles.dropdownTextHighlight}
       options={options}
@@ -83,7 +83,7 @@ const DropdownButtonView = ({
       defaultIndex={selectedOptionIndex}
       defaultValue={defaultText}
       renderSeparator={() => null}
-  
+      showsVerticalScrollIndicator={false}
       renderRow={(rowData, rowID, highlighted) =>
         renderDropdownRow(
           rowData,

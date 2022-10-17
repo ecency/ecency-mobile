@@ -7,7 +7,9 @@
     "transfer": "Transfer",
     "power_up": "Untuk Menjamin",
     "transfer_from_savings": "Dari Tabungan",
+    "withdraw_savings": "Tarik Tabungan",
     "withdraw_vesting": "Turunkan Daya Kekuatan",
+    "open_order": "Buka Pesanan",
     "fill_order": "Isi pesanan",
     "post": "Kiriman",
     "comment": "Komentar",
@@ -49,10 +51,17 @@
     "to": "Kepada",
     "estimated_value_desc": "Menurut nilai pembelian",
     "estimated_value": "Nilai perkiraan",
+    "vote_value": "Nilai Voting",
+    "delegated_hive_power": "Kekuatan Hive yang Didelegasikan",
+    "powering_down_hive_power": "Menurunkan kekuatan",
+    "received_hive_power": "Kekuatan Hive yang diterima",
+    "total_hive_power": "Jumlah kekuatan Hive",
+    "savings": "Tabungan",
     "estimated_amount": "Nilai suara",
     "amount_information": "Seret penggeser untuk menyesuaikan jumlahnya",
     "amount": "Jumlah",
     "memo": "Memo",
+    "tap_update": "Tap to update",
     "information": "Anda yakin mentransfer dana?",
     "amount_desc": "Keseimbangan",
     "memo_desc": "Memo ini bersifat publik",
@@ -68,10 +77,11 @@
     "next": "LANJUT",
     "delegate": "Delegasikan",
     "power_down": "Turunkan Daya Kekuatan",
-    "withdraw_hive": "Tarik HIVE",
-    "withdraw_hbd": "Tarik HBD",
+    "withdraw_hive": "Tarik Tabungan",
+    "withdraw_hbd": "Tarik Tabungan",
     "transfer_to_savings": "Untuk Tabungan",
     "convert": "Mengkonversi",
+    "convert_request": "Permintaan Konversi",
     "escrow_transfer": "Transfer Escrow",
     "escrow_dispute": "Sengketa Escrow",
     "escrow_release": "Escrow Release",
@@ -81,8 +91,9 @@
     "fill_convert_request": "Konversi Dieksekusi",
     "fill_transfer_from_savings": "Tabungan Dieksekusi",
     "fill_vesting_withdraw": "PowerDown dieksekusi",
-    "estm": {
+    "ecency": {
       "title": "Poin",
+      "name": "Poin Ecency",
       "buy": "DAPATKAN POIN"
     },
     "savinghive": {
@@ -93,6 +104,7 @@
     },
     "hive": {
       "title": "HIVE",
+      "name": "Token Hive",
       "buy": "DAPATKAN HIVE"
     },
     "hbd": {
@@ -100,13 +112,29 @@
       "buy": "DAPATKAN HBD"
     },
     "hive_power": {
-      "title": "KEKUATAN HIVE"
+      "title": "KEKUATAN HIVE",
+      "name": "Kekuatan Hive"
+    },
+    "hive_dollar": {
+      "name": "Hive Dolar"
     },
     "btc": {
       "title": "BTC",
       "buy": "DAPATKAN BTC",
       "address": "TERIMA"
-    }
+    },
+    "last_updated": "Pembaruan Terakhir:",
+    "updating": "Memperbarui...",
+    "coin_details": "Rincian",
+    "change": "Mengganti",
+    "activities": "Aktifitas",
+    "savings_withdrawal": "Penarikan Tertunda",
+    "open_orders": "Membuka Pesanan",
+    "conversions_requested": "Permintaan Konversi",
+    "expires": "kadaluwarsa",
+    "pending_requests": "Permintaan Tertunda",
+    "boost_account": "Boost",
+    "get_boost": "Get Boost"
   },
   "notification": {
     "vote": "voted",
@@ -118,6 +146,7 @@
     "ignore": "mengabaikan anda",
     "reblog": "reblogged",
     "transfer": "ditransfer",
+    "delegations": "didelegasikan",
     "spin": "Waktunya untuk mendapatkan lebih banyak poin",
     "inactive": "Ayo aktif! Tulislah postingan, teruskan mengumpulkan pendapatan",
     "referral": "bergabunglah dengan referral Anda, sambutlah mereka",
@@ -191,7 +220,7 @@
     "currency": "Nilai Tukar Mata Uang",
     "language": "Bahasa",
     "server": "Server",
-    "dark_theme": "Tema Gelap",
+    "color_theme": "Tampilan",
     "push_notification": "Notifikasi Gegas",
     "notification": {
       "follow": "Ikuti",
@@ -199,9 +228,11 @@
       "comment": "Komentar",
       "mention": "Menyebutkan",
       "reblog": "Reblog",
-      "transfers": "Transfer"
+      "transfers": "Transfer",
+      "delegations": "Delagasi"
     },
     "pincode": "Kode PIN",
+    "biometric": "Buka dengan Sidik Jari / Wajah",
     "reset_pin": "Setel Ulang Kode Pin",
     "reset": "Setel Ulang",
     "nsfw_content": "NSFW",
@@ -213,9 +244,16 @@
       "always_hide": "Selalu menyembunyikan",
       "always_warn": "Selalu memperingatkan"
     },
+    "theme": {
+      "system": "Pengaturan perangkat",
+      "light": "Ringan",
+      "dark": "Gelap"
+    },
     "feedback_success": "Email berhasil dibuka",
     "feedback_fail": "Klien email tidak bisa dibuka",
-    "server_fail": "Server tidak tersedia"
+    "server_fail": "Server tidak tersedia",
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Info Pemilih",
@@ -231,7 +269,15 @@
     "cancel": "batal",
     "login": "MASUK",
     "steemconnect_description": "Jika Anda tidak ingin menyimpan kata sandi Anda dienkripsi dan disimpan di perangkat Anda, Anda dapat menggunakan Hivesigner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_fee_description": "info",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "Daftar",
@@ -254,7 +300,7 @@
     "friends": "Teman",
     "communities": "Komunitas",
     "popup_postfix": "Diposting",
-    "scroll_top": "Scroll To Top"
+    "scroll_top": "Gulir ke Atas"
   },
   "side_menu": {
     "profile": "Profil",
@@ -272,7 +318,8 @@
     "create_a_new_account": "Buat akun baru",
     "add_an_existing_account": "Tambahkan akun yang ada",
     "accounts": "Akun",
-    "refer": "Rekomendasikan Dan Dapatkan"
+    "refer": "Rekomendasikan Dan Dapatkan",
+    "qr": "Scan QR"
   },
   "header": {
     "title": "Login untuk menyesuaikan feed Anda",
@@ -283,7 +330,7 @@
     "search": "Cari",
     "update": "Pembaruan",
     "reply": "Balas",
-    "schedule": "Schedule"
+    "schedule": "Jadwal"
   },
   "editor": {
     "title": "Judul",
@@ -305,7 +352,7 @@
     "limited_lastchar": "Tag harus diakhiri dengan huruf atau angka",
     "setting_schedule": "Waktu Penjadwalan",
     "setting_reward": "Hadiah",
-    "setting_reblog": "Reblog",
+    "setting_reblog": "Tampilkan kembali",
     "setting_beneficiary": "Penerima manfaat",
     "setting_thumb": "Atur Gambar Mini",
     "reward_default": "Default 50% / 50%",
@@ -331,16 +378,27 @@
     "draft_save_success": "Draf Disimpan",
     "draft_save_fail": "Gagal menyimpan draf",
     "select_thumb": "Pilih Thumbnail Postingan",
-    "add_more_imgs": "Add more images to post",
+    "add_more_imgs": "Tambahkan banyak foto dalam postingan",
     "two_thumbs_required": "Tambahkan lebih banyak gambar di postinganmu sebelum mengatur thumbnail",
-    "scheduled_for": "Scheduled For",
-    "scheduled_immediate": "Immediate",
-    "scheduled_later": "Later",
+    "scheduled_for": "Dijadwalkan untuk",
+    "scheduled_immediate": "Segera",
+    "scheduled_later": "Nanti",
     "settings_title": "Post Options",
-    "done": "DONE",
-    "draft_save_title": "Saving Draft",
-    "draft_update": "Update current draft",
-    "draft_save_new": "Save as new draft"
+    "done": "SELESAI",
+    "draft_save_title": "Simpan Konsep",
+    "draft_update": "Perbarui konsep ini",
+    "draft_save_new": "Simpan sebagai konsep baru",
+    "label": "Label",
+    "enter_label_placeholder": "Label (Opsional)",
+    "url": "URL",
+    "enter_url_placeholder": "Masukkan URL",
+    "link_type_text": "Jenis Tautan",
+    "insert_link": "Masukkan Tautan",
+    "preview": "Tinjauan",
+    "invalid_url_error": "Masukkan url yang valid",
+    "plain": "Polos",
+    "video": "Video",
+    "image": "Gambar"
   },
   "snippets": {
     "label_no_snippets": "Cuplikan Tidak Ditemukan",
@@ -359,13 +417,16 @@
     "btn_cancel": "Batalkan"
   },
   "uploads_modal": {
-    "label_no_images": "Tidak Ada Gambar Ditemukan",
+    "label_no_images": "No Existing Uploads...",
     "title": "Gambar Diunggah",
     "title_remove_confirmation": "Hapus gambar",
     "btn_add": "Gambar",
-    "btn_insert": "INSERT",
-    "btn_delete": "DELETE",
-    "message_failed": "Gagal mengunggah gambar"
+    "btn_insert": "MASUKKAN",
+    "btn_delete": "HAPUS",
+    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "message_failed": "Gagal mengunggah gambar",
+    "delete_failed": "Failed to delete image",
+    "failed_count": "Gagal mengunggah {failedCount} dari {totalCount} gambar yang dipilih"
   },
   "pincode": {
     "enter_text": "Masukkan PIN untuk membuka kunci",
@@ -374,7 +435,8 @@
     "forgot_text": "Oh, saya lupa...",
     "pin_not_matched": "PIN tidak cocok, Tolong coba lagi.",
     "attempts_postfix": "percobaan gagal",
-    "message_reset_warning": "Data pengguna akan dihapus pada percobaan berikutnya"
+    "message_reset_warning": "Data pengguna akan dihapus pada percobaan berikutnya",
+    "biometric_desc": "Pindai sidik jari anda pada alat pemindai untuk melanjutkan"
   },
   "alert": {
     "success": "Sukses!",
@@ -440,9 +502,12 @@
     "update": "Perbaharui sekarang",
     "remind_later": "Ingatkan nanti",
     "failed_to_open": "Gagal membuka sebuah tautan",
-    "restart_ecency": "Restart Ecency?",
-    "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response": "Could not process request, Try again later."
+    "restart_ecency": "Muat ulang Ecency?",
+    "restart_ecency_desc": "Perubahan yang dilakukan memerlukan pemuatan ulang.",
+    "invalid_response": "Tidak dapat memproses permintaan Anda, coba lagi nanti.",
+    "wallet_updating": "Pembaruan dompet sedang dalam pengerjaan, coba lagi ketika pembaruan sudah selesai",
+    "claim_failed": "Gagal mengklaim hadiah, {message}\nCoba lagi atau tanya ke support@ecency.com",
+    "connection_issues": "Server tidak dapat diakses, silakan periksa koneksi anda dan coba kembali."
   },
   "post": {
     "reblog_alert": "Anda yakin, anda ingin me-reblog?",
@@ -473,7 +538,11 @@
     "empty_list": "Disini belum ada apa-apa",
     "deleted": "Tulisan terjadwal dihapus",
     "move": "Pindahkan ke konsep",
-    "moved": "Pindahkan ke konsep"
+    "moved": "Pindahkan ke konsep",
+    "pending": "Tertunda",
+    "postponed": "Ditunda",
+    "published": "Diterbitkan",
+    "error": "Kesalahan"
   },
   "bookmarks": {
     "title": "Tandai",
@@ -488,6 +557,11 @@
     "added": "Konten yang tidak pantas dilaporkan",
     "confirm_report_title": "Konfirmasi Laporan!",
     "confirm_report_body": "Yakin mau membuat laporan?"
+  },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
   },
   "favorites": {
     "title": "Favorit",
@@ -511,7 +585,7 @@
     "beneficiaries": "Penerima manfaat",
     "warn_zero_payout": "Jumlah harus mencapai $ 0,02 untuk pembayaran",
     "breakdown": "Kerusakan",
-    "max_accepted": "Max Accepted"
+    "max_accepted": "Jumlah maksimum yang diterima"
   },
   "post_dropdown": {
     "copy": "salin tautan",
@@ -521,11 +595,18 @@
     "bookmarks": "tambah ke penanda",
     "promote": "promosikan",
     "boost": "menaikkan",
-    "report": "laporan"
+    "report": "laporan",
+    "pin-blog": "Sematkan ke blog",
+    "unpin-blog": "Lepas sematan di blog",
+    "pin-community": "Semat untuk komunitas",
+    "unpin-community": "Lepaskan sematan dari komunitas",
+    "edit-history": "Riwayat Penyuntingan",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Tidak ada pengguna yang ada",
-    "no_existing_post": "Tidak ada post yang ada"
+    "no_existing_post": "Tidak ada post yang ada",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Kiriman",
@@ -564,39 +645,56 @@
     "stop_information": "Anda yakin ingin berhenti?",
     "percent": "Persen",
     "auto_vests": "Vests Otomatis",
+    "vests": "Rompi",
     "save": "Simpan",
     "percent_information": "Informasi persen",
     "next": "LANJUT",
     "delegate": "Delegasikan",
-    "power_down": "Menurunkan daya",
     "withdraw_hive": "Tarik HIVE",
     "withdraw_hbd": "Tarik Hive Dolar",
     "incoming_funds": "Dana masuk",
     "stop": "Berhenti",
     "sc_power_down_error": "Fitur ini belum diimplementasikan untuk login dengan Hivesigner",
     "address_view": "Lihat alamat",
-    "already_delegated": "Already delegated to ",
-    "remain_hp": "Remaining HP",
-    "account_detail_head": "Account Details",
-    "account_detail_subhead": "Enter username for HIVE Power delegation",
-    "delegat_detail_head": "Delegation Details",
-    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
-    "new_amount": "New Amount",
-    "review": "REVIEW",
-    "confirm": "Confirm Delegation",
+    "already_delegated": "Telah didelegasikan pada ",
+    "remain_hp": "Sisa HP",
+    "account_detail_head": "Rincian Akun",
+    "account_detail_subhead": "Masukkan nama pengguna untuk mendelegasikan HIVE Power",
+    "delegat_detail_head": "Detil Delegasi",
+    "delegat_detail_subhead": "Menuliskan jumlah baru HIVE Power yang didelegasikan ",
+    "new_amount": "Nilai Baru",
+    "review": "TINJAUAN",
+    "confirm": "Konfirmasikan Delegasi",
     "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
     "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
-    "username_alert": "Username Error!",
-    "username_alert_detail": "Please select different username"
+    "username_alert": "Kesalahan nama pengguna!",
+    "username_alert_detail": "Silakan coba nama pengguna yang berbeda",
+    "power_down": "Menurunkan daya",
+    "power_down_amount_head": "Withdraw Amount",
+    "power_down_amount_subhead": "Enter amount for powering down hive power",
+    "withdraw_accounts": "Withdraw Accounts",
+    "amount_hp": "Amount (HP)",
+    "powering_down": "Powering Down",
+    "powering_down_subheading": "You are currently powering down.",
+    "powering_down_info": "Next power down is in {days} days, {hp} HIVE",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Please enter valid amount",
+    "account_select_title": "Account Details",
+    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
+    "amount_select_title": "Transfer Details",
+    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
   },
   "boost": {
     "title": "Dapatkan Poin",
     "buy": "DAPATKAN Poin",
     "next": "LANJUT",
+    "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Lakukan Peningkatan Akun",
       "desc": "Delegasi 30 hari akan meningkatkan suara dan aktivitas sosial Anda dan memberi Anda lebih banyak tindakan dengan lebih banyak Kredit Sumber Daya."
-    }
+    },
+    "confirm_purchase": "Confirm Purchase @{username}",
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
   "free_estm": {
     "title": "Poin Gratis",
@@ -635,7 +733,8 @@
     "title": "Komentar",
     "reveal_comment": "Ungkapkan komentar",
     "read_more": "Baca lebih banyak komentar",
-    "more_replies": "balasan"
+    "more_replies": "balasan",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Lainnya",
@@ -686,7 +785,8 @@
     "remove_from_favourites": "HAPUS DARI FAVORIT",
     "mute": "BISUKAN/BLOK",
     "unmute": "HIDUPKAN/BUKA",
-    "report": "LAPORKAN PENGGUNA"
+    "report": "LAPORKAN PENGGUNA",
+    "delegate": "DELEGATE HIVE POWER"
   },
   "communities": {
     "joined": "Keanggotaan",
@@ -713,7 +813,9 @@
     "line2_body": "Memanfaatkan blockchain, bebas sensor, terdesentralisasi, dan bermanfaat.",
     "line3_heading": "Bergabunglah dengan Komunitas Ecency!",
     "line3_body": "Bangun komunitas yang Anda miliki, dapatkan imbalan, dan beri penghargaan kepada orang lain.",
-    "get_started": "Mulai!"
+    "get_started": "Mulai!",
+    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
+    "terms_text": "Read Here!"
   },
   "time": {
     "second": "detik",
@@ -725,7 +827,7 @@
     "year": "tahun"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
+    "placeholder": "Add a comment...",
     "comment": "Comment",
     "reply": "REPLY",
     "close": "CLOSE"
@@ -742,5 +844,16 @@
     "earned": "Earned Points",
     "pending": "Pending Points",
     "empty_text": "Refer your loved ones today and earn free points"
+  },
+  "qr": {
+    "qr_scan": "QR Scan",
+    "open": "Open URL",
+    "detected_url": "Detected URL",
+    "unsupported_alert_title": "Unsupported URL!",
+    "unsupported_alert_desc": "Please scan a valid ecency url."
+  },
+  "history": {
+    "edit": "Edit History",
+    "version": "Version"
   }
 }

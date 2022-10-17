@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
-import { TouchableOpacity, Text, View, Dimensions } from 'react-native';
+import { TouchableOpacity, Text, View } from 'react-native';
 import { injectIntl } from 'react-intl';
-import ImageSize from 'react-native-image-size';
 
 // Utils
 import FastImage from 'react-native-fast-image';
@@ -13,14 +12,17 @@ import { getTimeFromNow } from '../../../utils/time';
 import { PostHeaderDescription } from '../../postElements';
 import { PostDropdown } from '../../postDropdown';
 import { TextWithIcon } from '../../basicUIElements';
+import { Icon } from '../../icon';
 
 // STEEM
 import { Upvote } from '../../upvote';
 // Styles
 import styles from './postCardStyles';
 import { TextButton } from '../..';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
+import postTypes from '../../../constants/postTypes';
 
-const dim = Dimensions.get('window');
+const dim = getWindowDimensions();
 const DEFAULT_IMAGE =
   'https://images.ecency.com/DQmT8R33geccEjJfzZEdsRHpP3VE8pu3peRCnQa1qukU4KR/no_image_3x.png';
 const NSFW_IMAGE =
@@ -43,6 +45,7 @@ const PostCardView = ({
   imageHeight,
   setImageHeight,
   isMuted,
+  pageType,
 }) => {
   //local state to manage fake upvote if available
   const activeVotesCount = activeVotes ? activeVotes.length : 0;
@@ -116,8 +119,16 @@ const PostCardView = ({
           rebloggedBy={rebloggedBy}
           isPromoted={get(content, 'is_promoted')}
         />
+        {(content?.stats?.is_pinned || content?.stats?.is_pinned_blog) && (
+          <Icon style={styles.pushPinIcon} size={20} name="pin" iconType="MaterialCommunityIcons" />
+        )}
         <View style={styles.dropdownWrapper}>
-          <PostDropdown content={content} fetchPost={fetchPost} />
+          <PostDropdown
+            pageType={pageType}
+            content={content}
+            fetchPost={fetchPost}
+            isMuted={isMuted}
+          />
         </View>
       </View>
       <View style={styles.postBodyWrapper}>
@@ -173,6 +184,7 @@ const PostCardView = ({
             isShowPayoutValue
             content={content}
             handleCacheVoteIncrement={_handleCacheVoteIncrement}
+            parentType={postTypes.POST}
           />
           <TouchableOpacity style={styles.commentButton} onPress={_handleOnVotersPress}>
             <TextWithIcon

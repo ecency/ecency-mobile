@@ -7,7 +7,9 @@
     "transfer": "تحويل",
     "power_up": "إلى استحقاق",
     "transfer_from_savings": "من المدخرات",
+    "withdraw_savings": "Withdraw Savings",
     "withdraw_vesting": "سحب الطاقة",
+    "open_order": "Open Order",
     "fill_order": "ملئ الطلب",
     "post": "منشور",
     "comment": "تعليق",
@@ -49,10 +51,17 @@
     "to": "إلى",
     "estimated_value_desc": "حسب قيمة الشراء",
     "estimated_value": "القيمه المتوقعه",
+    "vote_value": "Vote value",
+    "delegated_hive_power": "Delegated hive power",
+    "powering_down_hive_power": "Powering down",
+    "received_hive_power": "Received hive power",
+    "total_hive_power": "Total hive power",
+    "savings": "Savings",
     "estimated_amount": "قيمة التصويت",
     "amount_information": "اسحب شريط التمرير لضبط المبلغ",
     "amount": "كمية",
     "memo": "مذكرة",
+    "tap_update": "Tap to update",
     "information": "هل أنت متأكد من تحويل الأموال؟",
     "amount_desc": "الرصيد",
     "memo_desc": "هذه المذكرة عامة",
@@ -68,10 +77,11 @@
     "next": "التالي",
     "delegate": "تفويض",
     "power_down": "سحب الطاقة",
-    "withdraw_hive": "سحب HIVE",
-    "withdraw_hbd": "سحب HBD",
+    "withdraw_hive": "Withdraw Savings",
+    "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "إلى المدخرات",
     "convert": "تحويل",
+    "convert_request": "Convert Request",
     "escrow_transfer": "تحويل بضمان",
     "escrow_dispute": "نزاع الضمان",
     "escrow_release": "إصدار الضمان",
@@ -81,9 +91,10 @@
     "fill_convert_request": "تم التحويل بنجاح",
     "fill_transfer_from_savings": "تم الإدخار بنجاح",
     "fill_vesting_withdraw": "تم تنفيذ إنقاص نفوذك",
-    "estm": {
-      "title": "نقاط",
-      "buy": "احصل على نقاط"
+    "ecency": {
+      "title": "Points",
+      "name": "Ecency Points",
+      "buy": "GET POINTS"
     },
     "savinghive": {
       "title": "مدخرات HIVE"
@@ -93,6 +104,7 @@
     },
     "hive": {
       "title": "HIVE",
+      "name": "Hive Token",
       "buy": "احصل على HIVE"
     },
     "hbd": {
@@ -100,13 +112,29 @@
       "buy": "GET HBD"
     },
     "hive_power": {
-      "title": "قوة HIVE"
+      "title": "قوة HIVE",
+      "name": "Hive Power"
+    },
+    "hive_dollar": {
+      "name": "Hive Dollar"
     },
     "btc": {
       "title": "BTC",
       "buy": "احصل على BTC",
       "address": "إستلام"
-    }
+    },
+    "last_updated": "Last Updated:",
+    "updating": "Updating...",
+    "coin_details": "Details",
+    "change": "Change",
+    "activities": "Activities",
+    "savings_withdrawal": "Pending Withdrawals",
+    "open_orders": "Open Orders",
+    "conversions_requested": "Conversions Requested",
+    "expires": "expires",
+    "pending_requests": "Pending Requests",
+    "boost_account": "Boost",
+    "get_boost": "Get Boost"
   },
   "notification": {
     "vote": "تم التصويت",
@@ -118,6 +146,7 @@
     "ignore": "قام بتجاهلك",
     "reblog": "تمت إعادة النشر",
     "transfer": "تم التحويل",
+    "delegations": "delegated",
     "spin": "حان وقت كسب المزيد من النقاط",
     "inactive": "كن نشطًا! اكتب منشور، واصل الكسب",
     "referral": "انضمو برابط إحالتك ، رحب بهم",
@@ -191,7 +220,7 @@
     "currency": "عملة",
     "language": "لغة",
     "server": "الخادم",
-    "dark_theme": "الوضع المظلم",
+    "color_theme": "Appearance",
     "push_notification": "دفع الإشعارات",
     "notification": {
       "follow": "تابع",
@@ -199,9 +228,11 @@
       "comment": "تعليق",
       "mention": "إشارة",
       "reblog": "إعادة النشر",
-      "transfers": "التحويلات"
+      "transfers": "التحويلات",
+      "delegations": "Delegations"
     },
     "pincode": "رمز PIN",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "إعادة تعيين رمز Pin",
     "reset": "إعادة",
     "nsfw_content": "ليس آمنًا للمشاهدة",
@@ -213,9 +244,16 @@
       "always_hide": "إخفاء دوماً",
       "always_warn": "التحذير دوماً"
     },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
+    },
     "feedback_success": "تم فتح البريد الإلكتروني بنجاح",
     "feedback_fail": "لا يمكن فتح عميل البريد الإلكتروني",
-    "server_fail": "الخادم غير متوفر"
+    "server_fail": "الخادم غير متوفر",
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "معلومات عن المصوتين",
@@ -231,7 +269,15 @@
     "cancel": "إلغاء",
     "login": "تسجيل الدخول",
     "steemconnect_description": "إذا كنت لا ترغب في إبقاء كلمة المرور مشفرة وحفظها على جهازك، يمكنك استخدام Hivesigner.",
-    "steemconnect_fee_description": "معلومات"
+    "steemconnect_fee_description": "معلومات",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "إنشاء حساب",
@@ -272,7 +318,8 @@
     "create_a_new_account": "إنشاء حساب جديد",
     "add_an_existing_account": "إضافة حساب آخر",
     "accounts": "الحسابات",
-    "refer": "رشح أصدقائك واربح"
+    "refer": "رشح أصدقائك واربح",
+    "qr": "QR Scan"
   },
   "header": {
     "title": "تسجيل الدخول لتخصيص خلاصتك",
@@ -340,7 +387,18 @@
     "done": "DONE",
     "draft_save_title": "Saving Draft",
     "draft_update": "Update current draft",
-    "draft_save_new": "Save as new draft"
+    "draft_save_new": "Save as new draft",
+    "label": "Label",
+    "enter_label_placeholder": "Enter Label (Optional)",
+    "url": "URL",
+    "enter_url_placeholder": "Enter URL",
+    "link_type_text": "Type of Link",
+    "insert_link": "Insert Link",
+    "preview": "Preview",
+    "invalid_url_error": "Please insert valid url",
+    "plain": "Plain",
+    "video": "Video",
+    "image": "Image"
   },
   "snippets": {
     "label_no_snippets": "لم يتم العثور على مقتطفات",
@@ -359,13 +417,16 @@
     "btn_cancel": "إلغاء"
   },
   "uploads_modal": {
-    "label_no_images": "لم يتم العثور على صور",
+    "label_no_images": "No Existing Uploads...",
     "title": "الصور المرفوعة",
     "title_remove_confirmation": "حذف الصورة",
     "btn_add": "الصورة",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
-    "message_failed": "فشل في تحميل الصورة"
+    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "message_failed": "فشل في تحميل الصورة",
+    "delete_failed": "Failed to delete image",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "أدخل الرقم السري للفتح",
@@ -374,7 +435,8 @@
     "forgot_text": "أوه، لقد نسيت ذلك...",
     "pin_not_matched": "كلمة المرور ليست متطابقة. الرجاء المحاولة مرة أخرى.",
     "attempts_postfix": "المحاولات الفاشلة",
-    "message_reset_warning": "سيتم مسح بيانات المستخدم في المحاولة الفاشلة التالية"
+    "message_reset_warning": "سيتم مسح بيانات المستخدم في المحاولة الفاشلة التالية",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "تم بنجاح!",
@@ -442,7 +504,10 @@
     "failed_to_open": "فشل في فتح رابط",
     "restart_ecency": "Restart Ecency?",
     "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response": "Could not process request, Try again later."
+    "invalid_response": "Could not process request, Try again later.",
+    "wallet_updating": "Wallet update in progress, try again as update finishes",
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
+    "connection_issues": "The server is unreachable, please check your connection and try again."
   },
   "post": {
     "reblog_alert": "هل أنت متأكد من رغبتك في إعادة التدوين؟",
@@ -473,7 +538,11 @@
     "empty_list": "لا شيء هنا",
     "deleted": "تم مسح المشاركة المجدولة",
     "move": "نقل إلى المسودات",
-    "moved": "تم النقل إلى المسودات"
+    "moved": "تم النقل إلى المسودات",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "إشارات مرجعية",
@@ -488,6 +557,11 @@
     "added": "المحتوى المرفوض المبلغ عنه",
     "confirm_report_title": "تأكيد التقرير!",
     "confirm_report_body": "هل أنت متأكد من أنك تريد الإبلاغ؟"
+  },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
   },
   "favorites": {
     "title": "المفضلات",
@@ -521,11 +595,18 @@
     "bookmarks": "إضافة إلى الإشارات المرجعية",
     "promote": "قم بالترويج لمقالك",
     "boost": "تعزيز منشورك",
-    "report": "الإبلاغ"
+    "report": "الإبلاغ",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community",
+    "edit-history": "Edit History",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "لا يوجد أي مستخدم حاليا",
-    "no_existing_post": "لا يوجد أي منشور حالياً"
+    "no_existing_post": "لا يوجد أي منشور حالياً",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "منشورات",
@@ -564,11 +645,11 @@
     "stop_information": "هل أنت متأكد من أنك تريد التوقف؟",
     "percent": "النسبة المئوية",
     "auto_vests": "استحقاقات تلقائية",
+    "vests": "Vests",
     "save": "حفظ",
     "percent_information": "معلومات النسبة المئوية",
     "next": "التالي",
     "delegate": "تفويض",
-    "power_down": "سحب الطاقة",
     "withdraw_hive": "سحب HIVE",
     "withdraw_hbd": "سحب دولار HIVE",
     "incoming_funds": "الأموال الواردة",
@@ -580,23 +661,40 @@
     "account_detail_head": "Account Details",
     "account_detail_subhead": "Enter username for HIVE Power delegation",
     "delegat_detail_head": "Delegation Details",
-    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "New Amount",
     "review": "REVIEW",
     "confirm": "Confirm Delegation",
     "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
     "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
     "username_alert": "Username Error!",
-    "username_alert_detail": "Please select different username"
+    "username_alert_detail": "Please select different username",
+    "power_down": "سحب الطاقة",
+    "power_down_amount_head": "Withdraw Amount",
+    "power_down_amount_subhead": "Enter amount for powering down hive power",
+    "withdraw_accounts": "Withdraw Accounts",
+    "amount_hp": "Amount (HP)",
+    "powering_down": "Powering Down",
+    "powering_down_subheading": "You are currently powering down.",
+    "powering_down_info": "Next power down is in {days} days, {hp} HIVE",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Please enter valid amount",
+    "account_select_title": "Account Details",
+    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
+    "amount_select_title": "Transfer Details",
+    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
   },
   "boost": {
     "title": "احصل على نقاط",
     "buy": "احصل على نقاط",
     "next": "التالي",
+    "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "الحصول على تعزيز الحساب",
       "desc": "30 يومًا من التفويض سيعزز أصواتك وأنشطتك الاجتماعية ويمنحك المزيد من الإجراءات مع المزيد من رصيد الموارد."
-    }
+    },
+    "confirm_purchase": "Confirm Purchase @{username}",
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
   "free_estm": {
     "title": "النقاط المجانية",
@@ -635,7 +733,8 @@
     "title": "التعليقات",
     "reveal_comment": "كشف التعليق",
     "read_more": "المزيد من التعليقات",
-    "more_replies": "ردود"
+    "more_replies": "ردود",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "أخرى",
@@ -686,7 +785,8 @@
     "remove_from_favourites": "إزالة من المفضلات",
     "mute": "كتم / صد",
     "unmute": "إلغاء الكتم / إلغاء الصد",
-    "report": "تبليغ عن المستخدم"
+    "report": "تبليغ عن المستخدم",
+    "delegate": "DELEGATE HIVE POWER"
   },
   "communities": {
     "joined": "العضوية",
@@ -713,7 +813,9 @@
     "line2_body": "استخدام البلوكشين الخالية من الرقابة واللامركزية والمكافأة.",
     "line3_heading": "انضم إلى مجتمع Ecency!",
     "line3_body": "قم ببناء مجتمع خاص بك، احصل على مكافأت وكافئ الآخرين.",
-    "get_started": "ابدأ هنا!"
+    "get_started": "ابدأ هنا!",
+    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
+    "terms_text": "Read Here!"
   },
   "time": {
     "second": "ثواني",
@@ -725,7 +827,7 @@
     "year": "سنوات"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
+    "placeholder": "Add a comment...",
     "comment": "Comment",
     "reply": "REPLY",
     "close": "CLOSE"
@@ -742,5 +844,16 @@
     "earned": "Earned Points",
     "pending": "Pending Points",
     "empty_text": "Refer your loved ones today and earn free points"
+  },
+  "qr": {
+    "qr_scan": "QR Scan",
+    "open": "Open URL",
+    "detected_url": "Detected URL",
+    "unsupported_alert_title": "Unsupported URL!",
+    "unsupported_alert_desc": "Please scan a valid ecency url."
+  },
+  "history": {
+    "edit": "Edit History",
+    "version": "Version"
   }
 }

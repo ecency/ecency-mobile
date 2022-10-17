@@ -50,7 +50,7 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
   post.author_reputation = parseReputation(post.author_reputation);
   post.avatar = getResizedAvatar(get(post, 'author'));
   if (!isList) {
-    post.body = renderPostBody({...post, last_update:post.updated}, true, webp);
+    post.body = renderPostBody({ ...post, last_update: post.updated }, true, webp);
   }
   post.summary = postBodySummary(post, 150, Platform.OS);
   post.max_payout = parseAsset(post.max_accepted_payout).amount || 0;
@@ -82,25 +82,25 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
 };
 
 
-export const parseCommentThreads = async (commentsMap:any, author:string, permlink:string) => {
+export const parseCommentThreads = async (commentsMap: any, author: string, permlink: string) => {
   const MAX_THREAD_LEVEL = 3;
   const comments = [];
-  
-  if(!commentsMap){
+
+  if (!commentsMap) {
     return null;
   }
 
 
   //traverse map to curate threads
-  const parseReplies = (commentsMap:any, replies:any[], level:number) => {
-    if(replies && replies.length > 0 && MAX_THREAD_LEVEL > level){
-      return replies.map((pathKey)=>{
+  const parseReplies = (commentsMap: any, replies: any[], level: number) => {
+    if (replies && replies.length > 0 && MAX_THREAD_LEVEL > level) {
+      return replies.map((pathKey) => {
         const comment = commentsMap[pathKey];
-        if(comment){
+        if (comment) {
           const parsedComment = parseComment(comment);
           parsedComment.replies = parseReplies(commentsMap, parsedComment.replies, level + 1)
           return parsedComment;
-        }else{
+        } else {
           return null;
         }
       });
@@ -108,17 +108,18 @@ export const parseCommentThreads = async (commentsMap:any, author:string, permli
     return [];
   }
 
-  for(const key in commentsMap){
-    if(commentsMap.hasOwnProperty(key)){
+  for (const key in commentsMap) {
+    if (commentsMap.hasOwnProperty(key)) {
 
-      const comment = parseComment(commentsMap[key]);
+      const comment = commentsMap[key];
 
-      if(comment && comment.parent_author === author && comment.parent_permlink === permlink){
-        //extract replies
-        comment.replies = parseReplies(commentsMap, comment.replies, 1)
-        comments.push(comment);
+      //prcoess first level comment
+      if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
+        let _parsedComment = parseComment(comment);
+        _parsedComment.replies = parseReplies(commentsMap, _parsedComment.replies, 1)
+        comments.push(_parsedComment);
       }
-      
+
     }
   }
 
@@ -127,20 +128,20 @@ export const parseCommentThreads = async (commentsMap:any, author:string, permli
 
 
 
-export const parseComments = (comments:any[]) => {
-  if(!comments){
+export const parseComments = (comments: any[]) => {
+  if (!comments) {
     return null;
   }
 
-  return comments.map((comment)=>parseComment(comment));
+  return comments.map((comment) => parseComment(comment));
 };
 
-export const parseComment = (comment:any) => {
+export const parseComment = (comment: any) => {
   comment.pending_payout_value = parseFloat(get(comment, 'pending_payout_value', 0)).toFixed(3);
   comment.author_reputation = parseReputation(get(comment, 'author_reputation'));
   comment.avatar = getResizedAvatar(get(comment, 'author'));
   comment.markdownBody = get(comment, 'body');
-  comment.body = renderPostBody({...comment, last_update:comment.updated}, true, webp);
+  comment.body = renderPostBody({ ...comment, last_update: comment.updated }, true, webp);
 
   //parse json meta;
   if (typeof comment.json_metadata === 'string' || comment.json_metadata instanceof String) {
@@ -153,7 +154,7 @@ export const parseComment = (comment:any) => {
 
   //adjust tags type as it can be string sometimes;
   comment = parseTags(comment);
-  
+
   comment.max_payout = parseAsset(comment.max_accepted_payout).amount || 0;
   comment.is_declined_payout = comment.max_payout === 0;
 
@@ -164,6 +165,8 @@ export const parseComment = (comment:any) => {
     parseAsset(comment.curator_payout_value).amount;
 
   comment.total_payout = totalPayout;
+
+  comment.isDeletable = !(comment.active_votes?.length > 0 || comment.children > 0 || comment.net_rshares > 0 || comment.is_paidout);
 
   //stamp comments with fetched time;
   comment.post_fetched_at = new Date().getTime();
@@ -201,8 +204,8 @@ export const parseActiveVotes = (post) => {
   const totalPayout =
     post.total_payout ||
     parseFloat(post.pending_payout_value) +
-      parseFloat(post.total_payout_value) +
-      parseFloat(post.curator_payout_value);
+    parseFloat(post.total_payout_value) +
+    parseFloat(post.curator_payout_value);
 
   const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
   const ratio = totalPayout / voteRshares || 0;
@@ -220,14 +223,14 @@ export const parseActiveVotes = (post) => {
 };
 
 
-const parseTags = (post:any) => {
-  if(post.json_metadata){
-    let _tags =  get(post.json_metadata, 'tags', []);
-    if(typeof _tags === 'string'){
+const parseTags = (post: any) => {
+  if (post.json_metadata) {
+    let _tags = get(post.json_metadata, 'tags', []);
+    if (typeof _tags === 'string') {
       let separator = ' ';
-      if(_tags.indexOf(', ') > -1){
+      if (_tags.indexOf(', ') > -1) {
         separator = ', ';
-      }else if(_tags.indexOf(',') > -1){
+      } else if (_tags.indexOf(',') > -1) {
         separator = ',';
       }
       post.json_metadata.tags = _tags.split(separator)

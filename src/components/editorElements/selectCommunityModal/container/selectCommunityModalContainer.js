@@ -3,26 +3,27 @@ import { useSelector, useDispatch } from 'react-redux';
 import { debounce } from 'lodash';
 
 // HIVE
-import { getCommunities, getSubscriptions } from '../../../../providers/hive/dhive';
+import { getCommunities } from '../../../../providers/hive/dhive';
 
 import SelectCommunityModalView from '../view/selectCommunityModalView';
 
 // Actions
 import {
   fetchCommunities,
-  fetchCommunitiesSuccess,
   fetchSubscribedCommunities,
-  fetchSubscribedCommunitiesSuccess,
 } from '../../../../redux/actions/communitiesAction';
+import { mergeSubCommunitiesCacheInSubList } from '../../../../utils/communitiesUtils';
 
 const SelectCommunityModalContainer = ({ onPressCommunity, currentAccount, onCloseModal }) => {
   const dispatch = useDispatch();
 
   const [searchedCommunities, setSearchedCommunities] = useState([]);
   const [showSearchedCommunities, setShowSearchedCommunities] = useState(false);
+  const [subscriptions, setSubscriptions] = useState(null);
 
   const topCommunities = useSelector((state) => state.communities.communities);
   const subscribedCommunities = useSelector((state) => state.communities.subscribedCommunities);
+  const subscribedCommunitiesCache = useSelector((state) => state.cache.subscribedCommunities);
 
   useEffect(() => {
     callTopCommunities();
@@ -31,7 +32,22 @@ const SelectCommunityModalContainer = ({ onPressCommunity, currentAccount, onClo
 
   const callTopCommunities = () => dispatch(fetchCommunities('', 15, '', 'rank'));
 
-  const callSubscribedCommunities = () => dispatch(fetchSubscribedCommunities(currentAccount.name));
+  const callSubscribedCommunities = () => {
+    if (
+      subscribedCommunities &&
+      subscribedCommunities.data &&
+      subscribedCommunities.data.length > 0
+    ) {
+      const updatedSubsList = mergeSubCommunitiesCacheInSubList(
+        subscribedCommunities.data,
+        subscribedCommunitiesCache,
+      );
+      if (updatedSubsList && updatedSubsList.length > 0) {
+        setSubscriptions(updatedSubsList.filter((item) => item[4] === true));
+      }
+    }
+    dispatch(fetchSubscribedCommunities(currentAccount.name));
+  };
 
   const handleChangeSearch = (text) => {
     if (text.length >= 3) {
@@ -53,7 +69,7 @@ const SelectCommunityModalContainer = ({ onPressCommunity, currentAccount, onClo
       <SelectCommunityModalView
         onPressCommunity={onPressCommunity}
         topCommunities={topCommunities}
-        subscribedCommunities={subscribedCommunities}
+        subscribedCommunities={subscriptions}
         onChangeSearch={debounce(handleChangeSearch, 500)}
         searchedCommunities={searchedCommunities}
         showSearchedCommunities={showSearchedCommunities}

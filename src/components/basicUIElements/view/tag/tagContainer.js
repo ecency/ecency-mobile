@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 
 // Services and Actions
 import { getCommunityTitle } from '../../../../providers/hive/dhive';
@@ -31,6 +31,7 @@ const TagContainer = ({
   communityTitle,
   prefix,
   suffix,
+  removeEnabled,
 }) => {
   const [label, setLabel] = useState(value);
   const [isCommunity, setIsCommunity] = useState(false);
@@ -96,6 +97,7 @@ const TagContainer = ({
       disabled={disabled}
       prefix={prefix}
       suffix={suffix}
+      removeEnabled={removeEnabled}
     />
   );
 };

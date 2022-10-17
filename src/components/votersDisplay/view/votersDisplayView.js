@@ -1,6 +1,6 @@
 import React from 'react';
 import { SafeAreaView, FlatList, Text } from 'react-native';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { useIntl } from 'react-intl';
 
 // Utils

@@ -7,6 +7,7 @@ export default EStyleSheet.create({
   },
   leftContainer: {
     flexDirection: 'column',
+    flex: 1,
   },
   primaryDetails: {
     flexDirection: 'row',
@@ -86,6 +87,11 @@ export default EStyleSheet.create({
   },
   ownerIndicator: {
     color: '$primaryBlue',
+    alignSelf: 'center',
+    marginLeft: 8,
+  },
+  pushPinIcon: {
+    color: '$primaryRed',
     alignSelf: 'center',
     marginLeft: 8,
   },

@@ -9,6 +9,9 @@
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.camera.front" android:required="false" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 
     <queries>
         <intent>
@@ -25,17 +28,25 @@
       android:allowBackup="false"
       android:largeHeap="true"
       android:theme="@style/AppTheme">
+
+      <!-- Add this SplashActivity -->
+        <activity
+          android:name=".SplashActivity"
+          android:theme="@style/SplashTheme"
+          android:label="@string/app_name">
+          <intent-filter>
+              <action android:name="android.intent.action.MAIN" />
+              <category android:name="android.intent.category.LAUNCHER" />
+          </intent-filter>
+        </activity>
+
       <activity
         android:name=".MainActivity"
         android:launchMode="singleTask"
         android:label="@string/app_name"
-        android:screenOrientation="portrait"
-        android:configChanges="keyboard|keyboardHidden|screenSize|uiMode"
-        android:windowSoftInputMode="adjustPan">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+        android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
+        android:windowSoftInputMode="adjustResize"
+        android:exported="true">
         
         <intent-filter android:label="Ecency" android:autoVerify="true">
             <action android:name="android.intent.action.VIEW" />
@@ -80,6 +91,16 @@
                 android:scheme="https" 
                 android:host="ecency.com"
                 android:path="/signup"
+            />
+            <data 
+                android:scheme="https" 
+                android:host="ecency.com"
+                android:path="/auth"
+            />
+           <data 
+                android:scheme="https" 
+                android:host="ecency.com"
+                android:path="/purchase"
             />
         </intent-filter>
         <intent-filter android:label="Ecency" >

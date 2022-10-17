@@ -1,16 +1,20 @@
-import { Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import getWindowDimensions from '../../../utils/getWindowDimensions';
 
 export default EStyleSheet.create({
   container: {
-    backgroundColor: '$primaryBackgroundColor',
     flex: 1,
+    backgroundColor: '$primaryBackgroundColor',
   },
   header: {
     marginHorizontal: 16,
   },
+  stickyBar: {
+    backgroundColor: '$primaryBackgroundColor',
+  },
   headerLine: {
-    bottom: 10,
+    marginTop: -4,
+    marginBottom: 4,
   },
   title: {
     fontSize: 24,
@@ -23,12 +27,13 @@ export default EStyleSheet.create({
     flexDirection: 'row',
   },
   scroll: {
-    height: '$deviceHeight',
+    // height: '$deviceHeight',
     backgroundColor: '$primaryBackgroundColor',
-    marginBottom: 40,
   },
   scrollContent: {
-    minHeight: Dimensions.get('window').height,
+    minHeight: getWindowDimensions().height,
+    paddingBottom: 50,
+    alignItems: 'center',
   },
   footer: {
     flexDirection: 'column',
@@ -51,6 +56,7 @@ export default EStyleSheet.create({
   stickyWrapper: {
     flexDirection: 'row',
     paddingHorizontal: 16,
+    paddingVertical: 8,
     width: '$deviceWidth',
     alignItems: 'center',
     alignSelf: 'center',

@@ -27,7 +27,10 @@ const AddressView = ({
 
   return (
     <Fragment>
-      <BasicHeader title={intl.formatMessage({ id: `transfer.${transferType}` })} />
+      <BasicHeader
+        title={intl.formatMessage({ id: `transfer.${transferType}` })}
+        backIconName="close"
+      />
       <View style={styles.container}>
         <ScrollView>
           {accountType !== 'postingKey' &&

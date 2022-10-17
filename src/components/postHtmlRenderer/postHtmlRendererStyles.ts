@@ -12,13 +12,18 @@ export default EStyleSheet.create({
   body: {
     color: '$primaryBlack',
   } as TextStyle,
+  div: {
+    width:'100%',
+  },
   p:{
     marginTop:6,
     marginBottom:6,
     flexDirection:'row',
     alignItems:'center',
     flexWrap:'wrap'
-
+  } as TextStyle,
+  h6:{
+    fontSize:14,
   } as TextStyle,
   pLi:{
     marginTop:0,
@@ -31,7 +36,8 @@ export default EStyleSheet.create({
     width: '100%',
     alignSelf:'center',
     marginTop:4,
-    marginBottom:4
+    marginBottom:4,
+    backgroundColor:'red'
   } as ImageStyle,
   th:{
     flex: 1,
@@ -39,11 +45,11 @@ export default EStyleSheet.create({
     alignItems:'center',
     fontWeight: 'bold',
     color: '$primaryBlack',
+    backgroundColor:'$darkIconColor',
     fontSize: 14,
     padding: 10,
   } as TextStyle,
   tr:{
-    backgroundColor:'$darkIconColor',
     flexDirection:'row',
   } as ViewStyle,
   td:{
@@ -53,6 +59,7 @@ export default EStyleSheet.create({
     borderColor: '$tableBorderColor',
     backgroundColor: '$tableTrColor',
     alignItems:'center',
+    justifyContent:'center',
   } as ViewStyle,
   table:{
       width: '100%',
@@ -77,9 +84,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
   } as TextStyle,
   phishy:{
-    color:'red',
-    flexDirection:'row', 
-    flexWrap:'wrap'
+    color:'$primaryRed',
   } as TextStyle,
   textJustify:{
     textAlign: Platform.select({ios:'justify', android:'auto'}), //justify with selectable on android causes ends of text getting clipped, 

@@ -1,11 +1,12 @@
 import getSlug from 'speakingurl';
 import { diff_match_patch as diffMatchPatch } from 'diff-match-patch';
 import VersionNumber from 'react-native-version-number';
+import MimeTypes from 'mime-types';
 
 export const getWordsCount = (text) =>
   text && typeof text === 'string' ? text.replace(/^\s+|\s+$/g, '').split(/\s+/).length : 0;
 
-const permlinkRnd = () => (Math.random() + 1).toString(16).substring(2);
+export const generateRndStr = () => (Math.random() + 1).toString(16).substring(2);
 
 export const generatePermlink = (title, random = false) => {
   if (!title) {
@@ -24,7 +25,7 @@ export const generatePermlink = (title, random = false) => {
     }
 
     if (random) {
-      const rnd = permlinkRnd();
+      const rnd = generateRndStr();
       perm = `${perm}-${rnd}`;
     }
 
@@ -37,34 +38,46 @@ export const generatePermlink = (title, random = false) => {
     perm = perm.toLowerCase().replace(/[^a-z0-9-]+/g, '');
 
     if (perm.length === 0) {
-      return permlinkRnd();
+      return generateRndStr();
     }
   }
 
   return perm;
 };
 
-export const extractWordAtIndex = (text:string, index:number) => {
-  const END_REGEX = /[\s,]/
+export const extractWordAtIndex = (text: string, index: number) => {
+  const RANGE = 50;
+
+  const _start = index - RANGE;
+  const _end = index + RANGE;
+
+  const _length = text.length;
+
+  const textChunk = text.substring(_start > 0 ? _start : 0, _end < _length ? _end : _length);
+  const indexChunk =
+    index < 50 ? index : _length - index < 50 ? textChunk.length - (_length - index) : RANGE;
+
+  console.log('char at index: ', textChunk[indexChunk]);
+
+  const END_REGEX = /[\s,]/;
   let word = '';
-  for(let i = index; i >= 0 && (!END_REGEX.test(text[i]) || i === index); i--){
-    if(text[i]){
-      word += text[i];
+  for (let i = indexChunk; i >= 0 && (!END_REGEX.test(textChunk[i]) || i === indexChunk); i--) {
+    if (textChunk[i]) {
+      word += textChunk[i];
     }
   }
   word = word.split('').reverse().join('');
-  
-  if(!END_REGEX.test(text[index])){
-    for(let i = index + 1; i < text.length && !END_REGEX.test(text[i]); i++){
-      if(text[i]){
-        word += text[i];
+
+  if (!END_REGEX.test(textChunk[indexChunk])) {
+    for (let i = indexChunk + 1; i < textChunk.length && !END_REGEX.test(textChunk[i]); i++) {
+      if (textChunk[i]) {
+        word += textChunk[i];
       }
     }
   }
- 
+
   return word;
- 
-}
+};
 
 export const generateReplyPermlink = (toAuthor) => {
   if (!toAuthor) {
@@ -152,31 +165,55 @@ export const makeJsonMetadataForUpdate = (oldJson, meta, tags) => {
   return Object.assign({}, oldJson, mergedMeta, { tags });
 };
 
-
-const extractUrls = (body:string) => {
+const extractUrls = (body: string) => {
   const urlReg = /(\b(https?|ftp):\/\/[A-Z0-9+&@#/%?=~_|!:,.;-]*[-A-Z0-9+&@#/%=~_|])/gim;
   const mUrls = body && body.match(urlReg);
   return mUrls || [];
-}
+};
 
-
-export const extractImageUrls = ({body, urls}:{body?:string, urls?:string[]}) => {
+export const extractImageUrls = ({ body, urls }: { body?: string; urls?: string[] }) => {
   const imgReg = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|heic|webp))/gim;
 
   let imgUrls = [];
   const mUrls = urls || extractUrls(body);
 
-  mUrls.forEach((url)=>{
+  mUrls.forEach((url) => {
     const isImage = url.match(imgReg);
     if (isImage) {
       imgUrls.push(url);
     }
-  })
+  });
 
   return imgUrls;
-}
+};
 
-export const extractMetadata = (body:string, thumbIndex?:number) => {
+export const extractFilenameFromPath = ({
+  path,
+  mimeType,
+}: {
+  path: string;
+  mimeType?: string;
+}) => {
+  try {
+    if (!path) {
+      throw new Error('path not provided');
+    }
+    const filenameIndex = path.lastIndexOf('/') + 1;
+    const extensionIndex = path.lastIndexOf('.');
+    if (filenameIndex < 0 || extensionIndex <= filenameIndex) {
+      throw new Error('file name not present with extension');
+    }
+    return path.substring(path.lastIndexOf('/') + 1);
+  } catch (err) {
+    let _ext = 'jpg';
+    if (mimeType) {
+      _ext = MimeTypes.extension(mimeType);
+    }
+    return `${generateRndStr()}.${_ext}`;
+  }
+};
+
+export const extractMetadata = (body: string, thumbUrl?: string) => {
   const userReg = /(^|\s)(@[a-z][-.a-z\d]+[a-z\d])/gim;
 
   const out = {};
@@ -184,28 +221,28 @@ export const extractMetadata = (body:string, thumbIndex?:number) => {
   const mUrls = extractUrls(body);
   const mUsers = body && body.match(userReg);
 
-  const matchedImages = extractImageUrls({urls:mUrls});
+  const matchedImages = extractImageUrls({ urls: mUrls });
   const matchedLinks = [];
   const matchedUsers = [];
 
   if (mUrls) {
-    mUrls.forEach((url)=>{
-      if(matchedImages.indexOf(url) < 0){
+    mUrls.forEach((url) => {
+      if (matchedImages.indexOf(url) < 0) {
         matchedLinks.push(url);
       }
-    })
+    });
   }
 
   if (matchedLinks.length) {
-    out.links = matchedLinks;
+    out.links = matchedLinks.slice(0, 10); // return only first 10 links
   }
 
   if (matchedImages.length) {
-    if(thumbIndex){
-      matchedImages.splice(0, 0, matchedImages.splice(thumbIndex, 1)[0]);
+    if (thumbUrl) {
+      matchedImages.sort((item) => (item === thumbUrl ? -1 : 1));
     }
-    
-    out.image = matchedImages;
+
+    out.image = matchedImages.slice(0, 10); // return only first 10 images
   }
 
   if (mUsers) {
@@ -215,7 +252,7 @@ export const extractMetadata = (body:string, thumbIndex?:number) => {
   }
 
   if (matchedUsers.length) {
-    out.users = matchedUsers;
+    out.users = matchedUsers.slice(0, 10); // return only first 10 users
   }
 
   return out;
@@ -232,3 +269,5 @@ export const createPatch = (text1, text2) => {
 
   return patch;
 };
+
+export const delay = (ms) => new Promise((res) => setTimeout(res, ms));

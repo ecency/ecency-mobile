@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, StatusBar, Platform } from 'react-native';
+import { View, Platform, Keyboard } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { injectIntl } from 'react-intl';
@@ -41,6 +41,11 @@ class LoginScreen extends PureComponent {
     };
   }
 
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
   _handleOnPasswordChange = (value) => {
     this.setState({ password: value });
   };
@@ -62,13 +67,22 @@ class LoginScreen extends PureComponent {
     this.setState({ isModalOpen: !isModalOpen });
   };
 
+  UNSAFE_componentWillMount() {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () =>
+      this.setState({ keyboardIsOpen: true }),
+    );
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () =>
+      this.setState({ keyboardIsOpen: false }),
+    );
+  }
+
   render() {
     const { navigation, intl, handleOnPressLogin, handleSignUp, isLoading } = this.props;
     const { username, isUsernameValid, keyboardIsOpen, password, isModalOpen } = this.state;
 
+    console.log('keyboardIsOpen : ', keyboardIsOpen);
     return (
       <View style={styles.container}>
-        <StatusBar hidden translucent />
         <LoginHeader
           isKeyboardOpen={keyboardIsOpen}
           title={intl.formatMessage({
@@ -102,8 +116,6 @@ class LoginScreen extends PureComponent {
             style={styles.tabbarItem}
           >
             <KeyboardAwareScrollView
-              onKeyboardWillShow={() => this.setState({ keyboardIsOpen: true })}
-              onKeyboardWillHide={() => this.setState({ keyboardIsOpen: false })}
               enableAutoAutomaticScroll={Platform.OS === 'ios'}
               contentContainerStyle={styles.formWrapper}
               enableOnAndroid={true}
@@ -134,6 +146,8 @@ class LoginScreen extends PureComponent {
                 isEditable
                 secureTextEntry
                 type="password"
+                numberOfLines={1}
+                value={password}
                 inputStyle={styles.input}
               />
               <InformationArea
@@ -150,7 +164,7 @@ class LoginScreen extends PureComponent {
                 style={styles.cancelButton}
                 onPress={() =>
                   navigation.navigate({
-                    routeName: ROUTES.DRAWER.MAIN,
+                    name: ROUTES.DRAWER.MAIN,
                   })
                 }
                 text={intl.formatMessage({
@@ -164,6 +178,7 @@ class LoginScreen extends PureComponent {
                 text={intl.formatMessage({
                   id: 'login.login',
                 })}
+                textStyle={styles.mainBtnText}
                 isDisable={!isUsernameValid || password.length < 2 || username.length < 2}
                 isLoading={isLoading}
               />

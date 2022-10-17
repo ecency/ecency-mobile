@@ -174,43 +174,87 @@ export const fetchGlobalProps = async () => {
 };
 
 /**
- * @method getAccount get account data
- * @param user username
+ * fetches all tranding orders that are not full-filled yet
+ * @param {string} username
+ * @returns {Promise<OpenOrderItem[]>} array of openorders both hive and hbd
  */
-export const getAccount = (user) =>
-  new Promise((resolve, reject) => {
-    try {
-      const account = client.database.getAccounts([user]);
-      resolve(account);
-    } catch (error) {
-      reject(error);
+export const getOpenOrders = async (username) => {
+  try {
+    const rawData = await client.call('condenser_api', 'get_open_orders', [username]);
+    if (!rawData || !rawData.length) {
+      return [];
     }
+    return rawData;
+  } catch (err) {
+    console.warn('Failed to get open orders', err);
+    return [];
+  }
+};
+
+/**
+ * fetchs all pending converstion requests that are yet to be fullfilled
+ * @param {string} account
+ * @returns {Promise<ConversionRequest[]>}  array of conversion requests
+ */
+export const getConversionRequests = async (username) => {
+  try {
+    const rawData = await client.database.call('get_conversion_requests', [username]);
+    if (!rawData || !rawData.length) {
+      return [];
+    }
+    return rawData;
+  } catch (err) {
+    console.warn('Failed to get open orders', err);
+    return [];
+  }
+};
+
+/**
+ * fetchs all pending converstion requests that are yet to be fullfilled
+ * @param {string} account
+ * @returns {Promise<SavingsWithdrawRequest[]>}  array of requested savings withdraw
+ */
+
+export const getSavingsWithdrawFrom = async (username) => {
+  try {
+    const rawData = await client.database.call('get_savings_withdraw_from', [username]);
+    if (!rawData || !rawData.length) {
+      return [];
+    }
+    return rawData;
+  } catch (err) {
+    console.warn('Failed to get open orders', err);
+    return [];
+  }
+};
+
+/**
+ * @method getAccount fetch raw account data without post processings
+ * @param username username
+ */
+export const getAccount = (username) =>
+  new Promise((resolve, reject) => {
+    client.database
+      .getAccounts([username])
+      .then((response) => {
+        if (response.length) {
+          resolve(response[0]);
+        }
+        throw new Error('Account not found, ' + JSON.stringify(response));
+      })
+      .catch((error) => {
+        reject(error);
+      });
   });
 
-export const getAccountHistory = (user, type_token) =>
+export const getAccountHistory = (user, operations, startIndex = -1, limit = 1000) =>
   new Promise((resolve, reject) => {
-    const op = utils.operationOrders;
-    let wallet_operations_bitmask = utils.makeBitMaskFilter([
-      op.transfer, //HIVE
-      op.author_reward, //HBD, HP
-      op.curation_reward, //HP
-      op.transfer_to_vesting, //HIVE, HP
-      op.withdraw_vesting, //HIVE, HP
-      op.interest, //HP
-      op.transfer_to_savings, //HIVE, HBD
-      op.transfer_from_savings, //HIVE, HBD
-      op.fill_convert_request, //HBD
-      op.fill_order, //HIVE, HBD
-      op.claim_reward_balance, //HP
-      op.sps_fund, //HBD
-      op.comment_benefactor_reward, //HP
-      op.return_vesting_delegation, //HP
-    ]);
+    let wallet_operations_bitmask = utils.makeBitMaskFilter(operations);
     try {
       const ah = client.call('condenser_api', 'get_account_history', [
         user,
-        -1,
-        1000,
+        startIndex,
+        limit,
         ...wallet_operations_bitmask,
       ]);
       resolve(ah);
@@ -747,7 +791,7 @@ export const vote = async (account, pin, author, permlink, weight) => {
   try {
     const resp = await _vote(account, pin, author, permlink, weight);
     console.log('Returning vote response', resp);
-    userActivity(120, resp.id);
+
     return resp;
   } catch (err) {
     console.warn('Failed to complete vote', err);
@@ -773,6 +817,7 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
           resolve(result.result);
         })
         .catch((err) => {
+          bugsnagInstance.notify(err);
           reject(err);
         });
     });
@@ -803,6 +848,7 @@ const _vote = (currentAccount, pin, author, permlink, weight) => {
           if (err && get(err, 'jse_info.code') === 4030100) {
             err.message = getDsteemDateErrorMessage(err);
           }
+          bugsnagInstance.notify(err);
           reject(err);
         });
     });
@@ -1102,6 +1148,34 @@ export const delegateVestingShares = (currentAccount, pin, data) => {
   );
 };
 
+/**
+ *
+ * @param {string} username
+ * @param {string} fromDelegatee
+ * @param {number} limit
+ * @returns {Array} Array of vesting delegation objects [{
+ *  delegatee:string;
+ *  delegator:string;
+ *  id: number;
+ *  min_delegation_time: string;
+ *  vesting_shares": string'
+ * }]
+ */
+export const getVestingDelegations = async (username, fromDelegatee = '', limit = 1000) => {
+  try {
+    const response = await client.database.call('get_vesting_delegations', [
+      username,
+      fromDelegatee,
+      limit,
+    ]);
+    console.log('Vested delegatees response', response);
+    return response;
+  } catch (err) {
+    console.warn('Failed to get vested delegatees');
+    bugsnagInstance.notify(err);
+  }
+};
+
 export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(
@@ -1335,11 +1409,6 @@ export const postContent = (
     voteWeight,
   )
     .then((resp) => {
-      const t = title ? 100 : 110;
-      const { id } = resp;
-      if (!isEdit) {
-        userActivity(t, id);
-      }
       return resp;
     })
     .catch((err) => {
@@ -1383,11 +1452,6 @@ export const postComment = (
     null,
   )
     .then((resp) => {
-      const t = 110;
-      const { id } = resp;
-      if (!isEdit) {
-        userActivity(t, id);
-      }
       return resp;
     })
     .catch((err) => {
@@ -1514,7 +1578,6 @@ const _postContent = async (
 // TODO: remove pinCode
 export const reblog = (account, pinCode, author, permlink) =>
   _reblog(account, pinCode, author, permlink).then((resp) => {
-    userActivity(130, resp.id);
     return resp;
   });
 
@@ -1830,8 +1893,8 @@ export const profileUpdate = async (params, pin, currentAccount) => {
 };
 
 export const subscribeCommunity = (currentAccount, pinCode, data) => {
-  const pin = getDigitPinCode(pinCode);
-  const key = getActiveKey(get(currentAccount, 'local'), pin);
+  const digitPinCode = getDigitPinCode(pinCode);
+  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
   const username = get(currentAccount, 'name');
 
   const json = JSON.stringify([
@@ -1839,16 +1902,71 @@ export const subscribeCommunity = (currentAccount, pinCode, data) => {
     { community: data.communityId },
   ]);
 
+  const op = {
+    id: 'community',
+    json,
+    required_auths: [],
+    required_posting_auths: [username],
+  };
+  const opArray = [['custom_json', op]];
+
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const api = new hsClient({
+      accessToken: token,
+    });
+    return api.broadcast(opArray);
+  }
+
   if (key) {
     const privateKey = PrivateKey.fromString(key);
+    return sendHiveOperations(opArray, privateKey);
+  }
 
-    const op = {
-      id: 'community',
-      json,
-      required_auths: [],
-      required_posting_auths: [username],
-    };
-    const opArray = [['custom_json', op]];
+  return Promise.reject(
+    new Error('Check private key permission! Required private active key or above.'),
+  );
+};
+
+export const pinCommunityPost = (
+  currentAccount,
+  pinCode,
+  communityId,
+  author,
+  permlink,
+  unpinPost = false,
+) => {
+  const digitPinCode = getDigitPinCode(pinCode);
+  const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
+  const username = get(currentAccount, 'name');
+
+  const json = JSON.stringify([
+    unpinPost ? 'unpinPost' : 'pinPost',
+    {
+      community: communityId,
+      account: author,
+      permlink,
+    },
+  ]);
+
+  const op = {
+    id: 'community',
+    json,
+    required_auths: [],
+    required_posting_auths: [username],
+  };
+  const opArray = [['custom_json', op]];
+
+  if (currentAccount.local.authType === AUTH_TYPE.STEEM_CONNECT) {
+    const token = decryptKey(currentAccount.local.accessToken, digitPinCode);
+    const api = new hsClient({
+      accessToken: token,
+    });
+    return api.broadcast(opArray);
+  }
+
+  if (key) {
+    const privateKey = PrivateKey.fromString(key);
     return sendHiveOperations(opArray, privateKey);
   }
 

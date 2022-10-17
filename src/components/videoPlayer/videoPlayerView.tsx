@@ -1,11 +1,14 @@
-import React, { useState, useRef } from 'react';
-import { Dimensions } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
+
 import WebView from 'react-native-webview';
 import YoutubeIframe, { InitialPlayerParams } from 'react-native-youtube-iframe';
 import Video from 'react-native-video';
 import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
-import EStyleSheet from 'react-native-extended-stylesheet';
+import Orientation from 'react-native-orientation-locker';
+import { useSelector } from 'react-redux';
+import getWindowDimensions from '../../utils/getWindowDimensions';
+import { orientations } from '../../redux/constants/orientationsConstants';
 
 interface VideoPlayerProps {
   mode: 'uri' | 'youtube';
@@ -21,7 +24,7 @@ const VideoPlayer = ({
   youtubeVideoId,
   startTime,
   uri,
-  contentWidth = Dimensions.get('screen').width,
+  contentWidth = getWindowDimensions().width,
   mode,
   disableAutoplay,
 }: VideoPlayerProps) => {
@@ -37,6 +40,20 @@ const VideoPlayer = ({
   const [paused, setPaused] = useState(true);
   const [playerState, setPlayerState] = useState(PLAYER_STATES.PAUSED);
   const [screenType, setScreenType] = useState('contain');
+  const lockedOrientation = useSelector((state) => state.ui.lockedOrientation);
+
+  useEffect(() => {
+    if (isFullScreen) {
+      Orientation.unlockAllOrientations();
+    } else {
+      // handle landscape/portrait lock according to initial lock setting
+      if (lockedOrientation === orientations.LANDSCAPE) {
+        !Orientation.isLocked() && Orientation.lockToLandscape();
+      } else {
+        !Orientation.isLocked() && Orientation.lockToPortrait();
+      }
+    }
+  }, [isFullScreen]);
 
   // react-native-youtube-iframe handlers
   const [shouldPlay, setShouldPlay] = useState(false);
@@ -123,7 +140,7 @@ const VideoPlayer = ({
           onError={onError}
           paused={paused}
           ref={videoPlayer}
-          resizeMode={'cover'}
+          resizeMode="cover"
           fullscreen={isFullScreen}
           style={styles.mediaPlayer}
           volume={10}
@@ -133,7 +150,7 @@ const VideoPlayer = ({
         <MediaControls
           duration={duration}
           isLoading={isLoading}
-          mainColor={'#3c4449'}
+          mainColor="#3c4449"
           onFullScreen={onFullScreen}
           onPaused={onPaused}
           onReplay={onReplay}
@@ -148,6 +165,37 @@ const VideoPlayer = ({
       </View>
     );
   };
+
+  const htmlIframeVideoPlayer = (uri) =>
+    `
+      <!DOCTYPE html>
+        <html>
+          <head>
+            <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0" />
+              <style>
+                * {
+                    padding: 0;
+                    margin: 0;
+                    box-sizing: border-box;
+                  }
+                #iframeWrapper {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    height: 100%;
+                  }
+                </style>
+            </head> 
+            <body>
+              <div id="iframeWrapper">
+                <iframe width="100%" height="100%" src="${uri}" frameborder="0"  allowfullscreen>
+                </iframe>
+                </div>
+          </body>
+        </html>
+                `;
   return (
     <View style={styles.container}>
       {mode === 'youtube' && youtubeVideoId && (
@@ -160,6 +208,7 @@ const VideoPlayer = ({
             play={shouldPlay}
             onChangeState={_onChangeState}
             onError={_onError}
+            onFullScreenChange={(status) => setIsFullScreen(status)}
           />
         </View>
       )}
@@ -172,25 +221,29 @@ const VideoPlayer = ({
               scalesPageToFit={true}
               bounces={false}
               javaScriptEnabled={true}
-              automaticallyAdjustContentInsets={false}
+              automaticallyAdjustContentInsets={true}
               onLoadEnd={() => {
                 setIsLoading(false);
               }}
               onLoadStart={() => {
                 setIsLoading(true);
               }}
-              source={{ uri: uri }}
+              source={{ html: htmlIframeVideoPlayer(uri) }}
               style={[styles.barkBackground, { width: contentWidth, height: PLAYER_HEIGHT }]}
               startInLoadingState={true}
               onShouldStartLoadWithRequest={() => true}
               mediaPlaybackRequiresUserAction={true}
               allowsInlineMediaPlayback={true}
+              allowsFullscreenVideo={true}
+              useWebKit={true}
+              domStorageEnabled
+              originWhitelist={['*']}
             />
           )}
         </View>
       )}
       {isLoading && (
-        <ActivityIndicator size={'large'} color="white" style={styles.activityIndicator} />
+        <ActivityIndicator size="large" color="white" style={styles.activityIndicator} />
       )}
     </View>
   );

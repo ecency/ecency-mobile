@@ -1,5 +1,4 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import autoMergeLevel1 from 'redux-persist/es/stateReconciler/autoMergeLevel1';
 
 export default EStyleSheet.create({
   container: {
@@ -12,12 +11,9 @@ export default EStyleSheet.create({
   },
   footerButtons: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    alignSelf: 'flex-end',
-    marginRight: 10,
-    bottom: 24,
-    right: 24,
+    height: 80,
   },
   cancelButton: {
     marginRight: 10,
@@ -25,6 +21,7 @@ export default EStyleSheet.create({
   formWrapper: {
     marginHorizontal: 30,
     marginVertical: 10,
+    flex: 1,
   },
   input: {
     color: '$primaryDarkText',

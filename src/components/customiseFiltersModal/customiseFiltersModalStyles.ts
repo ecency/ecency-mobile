@@ -1,5 +1,6 @@
-import { TextStyle, StyleSheet, ViewStyle, ImageStyle, Dimensions } from 'react-native';
+import { TextStyle, StyleSheet, ViewStyle, ImageStyle } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import getWindowDimensions from '../../utils/getWindowDimensions';
 
 export default EStyleSheet.create({
     modalStyle: {
@@ -72,7 +73,7 @@ export default EStyleSheet.create({
     } as ViewStyle,
 
     checkView: {
-        width:Dimensions.get('screen').width - 80,
+        width:getWindowDimensions().width - 80,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems:'center',

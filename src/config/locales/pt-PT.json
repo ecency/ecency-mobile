@@ -7,7 +7,9 @@
     "transfer": "Transferir",
     "power_up": "Power Up",
     "transfer_from_savings": "Das poupanças",
+    "withdraw_savings": "Sacar da Poupança",
     "withdraw_vesting": "Descarregar Poder",
+    "open_order": "Abrir Ordem",
     "fill_order": "Preencher pedido",
     "post": "Publicar",
     "comment": "Comentar",
@@ -49,10 +51,17 @@
     "to": "Para",
     "estimated_value_desc": "De acordo com o valor da compra",
     "estimated_value": "Valor estimado",
+    "vote_value": "Valor do voto",
+    "delegated_hive_power": "Hive Power delegado",
+    "powering_down_hive_power": "Baixando poder",
+    "received_hive_power": "Hive Power recebido",
+    "total_hive_power": "Hive Power total",
+    "savings": "Poupança",
     "estimated_amount": "Valor do voto",
     "amount_information": "Arraste o controle deslizante para ajustar a quantia",
     "amount": "Quantia",
     "memo": "Memo",
+    "tap_update": "Tap to update",
     "information": "Tem certeza que deseja transferir fundos?",
     "amount_desc": "Balanço",
     "memo_desc": "Este memo é público",
@@ -61,17 +70,18 @@
     "transfer_token": "Transferir",
     "purchase_estm": "GANHE PONTOS",
     "points": "Dê Pontos a alguém",
-    "transfer_to_saving": "Para poupança",
+    "transfer_to_saving": "Depositar na Poupança",
     "transfer_to_vesting": "Transferência para Hive Power",
     "withdraw_to_saving": "Levantar das poupanças",
     "steemconnect_title": "Transferência por Hivesigner",
     "next": "SEGUINTE",
     "delegate": "Delegar",
     "power_down": "Descarregar Hive Power",
-    "withdraw_hive": "Sacar HIVE",
-    "withdraw_hbd": "Sacar HBD",
-    "transfer_to_savings": "Para poupança",
+    "withdraw_hive": "Sacar da Poupança",
+    "withdraw_hbd": "Sacar da Poupança",
+    "transfer_to_savings": "Depositar nas Poupanças",
     "convert": "Converter",
+    "convert_request": "Requerimento de Conversão",
     "escrow_transfer": "Transferência do Escrow",
     "escrow_dispute": "Disputa Escrow",
     "escrow_release": "Lançamento de Escrow",
@@ -81,9 +91,10 @@
     "fill_convert_request": "Conversão executada",
     "fill_transfer_from_savings": "Poupanças executadas",
     "fill_vesting_withdraw": "PowerDown executado",
-    "estm": {
+    "ecency": {
       "title": "Pontos",
-      "buy": "OBTER PONTOS"
+      "name": "Pontos Ecency",
+      "buy": "ADQUIRIR PONTOS"
     },
     "savinghive": {
       "title": "Poupança de HIVE"
@@ -93,6 +104,7 @@
     },
     "hive": {
       "title": "HIVE",
+      "name": "Token Hive",
       "buy": "OBTER HIVE"
     },
     "hbd": {
@@ -100,13 +112,29 @@
       "buy": "OBTER HBD"
     },
     "hive_power": {
-      "title": "HIVE POWER"
+      "title": "HIVE POWER",
+      "name": "Hive Power"
+    },
+    "hive_dollar": {
+      "name": "Hive Dollar"
     },
     "btc": {
       "title": "BTC",
       "buy": "OBTER BTC",
       "address": "RECEBER"
-    }
+    },
+    "last_updated": "Última Atualização:",
+    "updating": "Atualizando...",
+    "coin_details": "Detalhes",
+    "change": "Alterar",
+    "activities": "Atividades",
+    "savings_withdrawal": "Saques Pendentes",
+    "open_orders": "Ordens Abertas",
+    "conversions_requested": "Conversões Solicitadas",
+    "expires": "expira em",
+    "pending_requests": "Solicitações Pendentes",
+    "boost_account": "Boost",
+    "get_boost": "Get Boost"
   },
   "notification": {
     "vote": "votou",
@@ -118,6 +146,7 @@
     "ignore": "ignorou você",
     "reblog": "repostado",
     "transfer": "transferido",
+    "delegations": "delegado",
     "spin": "Hora de ganhar mais Pontos",
     "inactive": "Fique ativo! Escreva uma publicação, e continue a ganhar",
     "referral": "entrou com sua indicação. Dê boas vindas",
@@ -191,7 +220,7 @@
     "currency": "Moeda",
     "language": "Língua",
     "server": "Servidor",
-    "dark_theme": "Tema Escuro",
+    "color_theme": "Aparência",
     "push_notification": "Puxar Notificações",
     "notification": {
       "follow": "Seguir",
@@ -199,9 +228,11 @@
       "comment": "Comentar",
       "mention": "Menção",
       "reblog": "Republicar",
-      "transfers": "Transferências"
+      "transfers": "Transferências",
+      "delegations": "Delegações"
     },
     "pincode": "Código PIN",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "Redefinir o código Pin",
     "reset": "Reiniciar",
     "nsfw_content": "NSFW",
@@ -213,9 +244,16 @@
       "always_hide": "Ocultar sempre",
       "always_warn": "Avisar sempre"
     },
+    "theme": {
+      "system": "Configurações do dispositivo",
+      "light": "Claro",
+      "dark": "Escuro"
+    },
     "feedback_success": "Email aberto com sucesso",
     "feedback_fail": "Não se pôde abrir o cliente de e-mail",
-    "server_fail": "Servidor não disponível"
+    "server_fail": "Servidor não disponível",
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Informação de eleitores",
@@ -231,7 +269,15 @@
     "cancel": "cancelar",
     "login": "ENTRAR",
     "steemconnect_description": "Se você não quiser manter sua senha criptográfica salva no dispositivo, você pode usar o Hivesigner.",
-    "steemconnect_fee_description": "info"
+    "steemconnect_fee_description": "info",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "Cadastre-se",
@@ -249,7 +295,7 @@
     "top": "Cima",
     "hot": "Quente",
     "new": "Novo",
-    "blog": "Blogue",
+    "blog": "Blog",
     "posts": "Posts",
     "friends": "Amigos",
     "communities": "Comunidades",
@@ -272,7 +318,8 @@
     "create_a_new_account": "Criar nova conta",
     "add_an_existing_account": "Adicionar uma conta existente",
     "accounts": "Contas",
-    "refer": "Indique & Ganhe"
+    "refer": "Indique & Ganhe",
+    "qr": "Leitor QR"
   },
   "header": {
     "title": "Login para personalizar o seu feed",
@@ -340,7 +387,18 @@
     "done": "FEITO",
     "draft_save_title": "Salvando o rascunho",
     "draft_update": "Atualizar o rascunho atual",
-    "draft_save_new": "Salvo como novo rascunho"
+    "draft_save_new": "Salvo como novo rascunho",
+    "label": "Rótulo",
+    "enter_label_placeholder": "Digite o Rótulo (Opcional)",
+    "url": "URL",
+    "enter_url_placeholder": "Introduzir URL",
+    "link_type_text": "Tipo de Link",
+    "insert_link": "Inserir Link",
+    "preview": "Visualizar",
+    "invalid_url_error": "Por favor, insira um URL válido",
+    "plain": "Simples",
+    "video": "Vídeo",
+    "image": "Imagem"
   },
   "snippets": {
     "label_no_snippets": "Nenhum Snippet Encontrado",
@@ -359,13 +417,16 @@
     "btn_cancel": "Cancelar"
   },
   "uploads_modal": {
-    "label_no_images": "Nenhuma Imagem Encontrada",
+    "label_no_images": "No Existing Uploads...",
     "title": "Imagens Enviadas",
     "title_remove_confirmation": "Deletar imagem",
     "btn_add": "Imagem",
-    "btn_insert": "INSERT",
+    "btn_insert": "INSERIR",
     "btn_delete": "EXCLUIR",
-    "message_failed": "Falha ao carregar imagem"
+    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "message_failed": "Falha ao carregar imagem",
+    "delete_failed": "Failed to delete image",
+    "failed_count": "Falha ao enviar {failedCount} de {totalCount} foto(s) selecionada(s)"
   },
   "pincode": {
     "enter_text": "Insira PIN para desbloquear",
@@ -374,7 +435,8 @@
     "forgot_text": "Oh, esqueci disso...",
     "pin_not_matched": "PIN incorreto. Por favor, tente novamente.",
     "attempts_postfix": "tentativa(s) errada(s)",
-    "message_reset_warning": "Os dados do usuário serão apagados na próxima tentativa mal-sucedida"
+    "message_reset_warning": "Os dados do usuário serão apagados na próxima tentativa mal-sucedida",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "Sucesso!",
@@ -442,7 +504,10 @@
     "failed_to_open": "Falhou em abrir o link",
     "restart_ecency": "Reiniciar a Ecency?",
     "restart_ecency_desc": "Aplicar alterações exigirá uma reinicialização.",
-    "invalid_response": "Não foi possível processar o pedido. Tente mais tarde."
+    "invalid_response": "Não foi possível processar o pedido. Tente mais tarde.",
+    "wallet_updating": "Atualização da carteira em andamento. Tente novamente quando terminada",
+    "claim_failed": "Falha ao reivindicar recompensas, {message}\nTente novamente ou escreva para support@ecency.com",
+    "connection_issues": "O servidor está inacessível. Por favor, verifique sua conexão e tente novamente."
   },
   "post": {
     "reblog_alert": "Tem certeza de que deseja reblogar?",
@@ -473,7 +538,11 @@
     "empty_list": "Nada aqui",
     "deleted": "Post programado excluído",
     "move": "Mover para Rascunhos",
-    "moved": "Movido para Rascunhos"
+    "moved": "Movido para Rascunhos",
+    "pending": "Pendente",
+    "postponed": "Adiado",
+    "published": "Publicado",
+    "error": "Erro"
   },
   "bookmarks": {
     "title": "Marcadores",
@@ -488,6 +557,11 @@
     "added": "Conteúdo questionável reportado",
     "confirm_report_title": "Confirmar Relatório!",
     "confirm_report_body": "Tem certeza que quer denunciar?"
+  },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
   },
   "favorites": {
     "title": "Favoritos",
@@ -521,11 +595,18 @@
     "bookmarks": "adicionar aos marcadores",
     "promote": "promover",
     "boost": "reforço",
-    "report": "relatório"
+    "report": "relatório",
+    "pin-blog": "Fixar ao blog",
+    "unpin-blog": "Desafixar do blog",
+    "pin-community": "Fixar na comunidade",
+    "unpin-community": "Desafixar da comunidade",
+    "edit-history": "Histórico de Edição",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Usuário não existe",
-    "no_existing_post": "Post não existe"
+    "no_existing_post": "Post não existe",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Posts",
@@ -564,39 +645,56 @@
     "stop_information": "Tem certeza que deseja parar?",
     "percent": "Percentagem",
     "auto_vests": "Auto Vests",
+    "vests": "Alocações",
     "save": "SALVAR",
     "percent_information": "Info de porcentagem",
     "next": "SEGUINTE",
     "delegate": "Delegar",
-    "power_down": "Decarregar Poder",
     "withdraw_hive": "Sacar HIVE",
     "withdraw_hbd": "Sacar HIVE Dólar",
     "incoming_funds": "Fundos Recebidos",
     "stop": "Parar",
     "sc_power_down_error": "Esse recurso ainda não está implementado para fazer login através do Hivesigner, por enquanto",
     "address_view": "Ver endereço",
-    "already_delegated": "Already delegated to ",
-    "remain_hp": "Remaining HP",
-    "account_detail_head": "Account Details",
-    "account_detail_subhead": "Enter username for HIVE Power delegation",
-    "delegat_detail_head": "Delegation Details",
-    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
-    "new_amount": "New Amount",
+    "already_delegated": "Já delegado para ",
+    "remain_hp": "HP restante",
+    "account_detail_head": "Detalhes da Conta",
+    "account_detail_subhead": "Digite o nome da conta para delegação de HIVE Power",
+    "delegat_detail_head": "Detalhes da Delegação",
+    "delegat_detail_subhead": "Nova quantia substitui a quantidade de Poder HIVE já delegado ",
+    "new_amount": "Nova Quantia",
     "review": "REVER",
     "confirm": "Confirmar Delegação",
-    "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
-    "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
+    "confirm_summary": "Delegar {hp} HP ({vests} VESTS) A @{delegator{delegatee}} de@{delegatee} ",
+    "confirm_summary_para": "Isso substituirá a sua delegação anterior de {prev} HP para esta conta.",
     "username_alert": "Erro no nome!",
-    "username_alert_detail": "Please select different username"
+    "username_alert_detail": "Por favor, selecione um nome diferente",
+    "power_down": "Decarregar Poder",
+    "power_down_amount_head": "Sacar Quantia",
+    "power_down_amount_subhead": "Defina a quantia de Hive Power para reduzir",
+    "withdraw_accounts": "Contas de retirada",
+    "amount_hp": "Quantia (HP)",
+    "powering_down": "Diminuindo Hive Power",
+    "powering_down_subheading": "Você está atualmente fazendo power down.",
+    "powering_down_info": "O próximo power down será em {days} dias, {hp} HIVE",
+    "invalid_amount": "Quantia Inválida",
+    "invalid_amount_desc": "Por favor, insira uma quantia válida",
+    "account_select_title": "Detalhes da Conta",
+    "account_select_description": "Operações de envio monetário são irreversíveis. Certifique-se que o nome da conta dos destinatários está correto",
+    "amount_select_title": "Detalhes da Transferência",
+    "amount_select_description": "Insira uma quantia a ser transferida dentro do seu saldo disponível. O valor deverá ser superior a 0.001"
   },
   "boost": {
     "title": "Obter Pontos",
     "buy": "OBTER Pontos",
     "next": "SEGUINTE",
+    "info": "O valor real de voto que você recebe pode variar",
     "account": {
       "title": "Obter Impulso na Conta",
       "desc": "30 dias de delegação irão impulsionar seus votos e atividades sociais, permitindo mais ações com o aumento dos Créditos de Recursos disponibilizados."
-    }
+    },
+    "confirm_purchase": "Confirm Purchase @{username}",
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
   "free_estm": {
     "title": "Pontos Grátis",
@@ -635,7 +733,8 @@
     "title": "Comentários",
     "reveal_comment": "Revelar comentário",
     "read_more": "Ler mais comentários",
-    "more_replies": "respostas"
+    "more_replies": "respostas",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Outros",
@@ -686,7 +785,8 @@
     "remove_from_favourites": "REMOVER DOS FAVORITOS",
     "mute": "MUTAR / BLOQUEAR",
     "unmute": "NÃO SILENCIAR / DESBLOQUEAR",
-    "report": "DENUNCIAR USUÁRIO"
+    "report": "DENUNCIAR USUÁRIO",
+    "delegate": "DELEGAR HIVE POWER"
   },
   "communities": {
     "joined": "Membros",
@@ -713,7 +813,9 @@
     "line2_body": "Utilizando uma blockchain livre de censura, descentralizada e recompensante.",
     "line3_heading": "Junte-se às comunidades da Ecency!",
     "line3_body": "Crie e seja dono de uma comunidade. Seja recompensado e recompense.",
-    "get_started": "Comece agora!"
+    "get_started": "Comece agora!",
+    "terms_description": "Ao aceitar, você concorda com nossos Termos de Serviço e Políticas de Privacidade.",
+    "terms_text": "Leia Aqui!"
   },
   "time": {
     "second": "segundos",
@@ -725,22 +827,33 @@
     "year": "anos"
   },
   "quick_reply": {
-    "placeholder": "Adicionar comentário",
+    "placeholder": "Adicionar um comentário...",
     "comment": "Comentário",
     "reply": "RESPONDER",
     "close": "FECHAR"
   },
   "walkthrough": {
-    "load_draft_tooltip": "Load your lastest draft here"
+    "load_draft_tooltip": "Carregue o seu último rascunho aqui"
   },
   "refer": {
-    "refer_earn": "Refer & Earn",
-    "refer": "Refer",
-    "rewarded": "Referral points rewarded",
-    "not_rewarded": "Referral reward pending",
-    "delegate_hp": "Delegate HP",
-    "earned": "Earned Points",
-    "pending": "Pending Points",
-    "empty_text": "Refer your loved ones today and earn free points"
+    "refer_earn": "Indique & Ganhe",
+    "refer": "Indique",
+    "rewarded": "Ganho de pontos por indicação",
+    "not_rewarded": "Recompensa de indicação pendente",
+    "delegate_hp": "Delegar HP",
+    "earned": "Pontos Ganhos",
+    "pending": "Pontos Pendentes",
+    "empty_text": "Indique aos amigos e ganhe pontos"
+  },
+  "qr": {
+    "qr_scan": "Leitor QR",
+    "open": "Abrir URL",
+    "detected_url": "URL detectada",
+    "unsupported_alert_title": "Unsupported URL!",
+    "unsupported_alert_desc": "Please scan a valid ecency url."
+  },
+  "history": {
+    "edit": "Editar Histórico",
+    "version": "Versão"
   }
 }

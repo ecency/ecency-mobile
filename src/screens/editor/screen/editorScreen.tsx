@@ -1,25 +1,19 @@
 import React, { Component } from 'react';
 import { Alert, View } from 'react-native';
 import { injectIntl } from 'react-intl';
-import { get, isNull } from 'lodash';
+import { get, isNull, isEqual } from 'lodash';
 
 // Utils
-import { getWordsCount } from '../../../utils/editor';
+import { extractMetadata, getWordsCount, makeJsonMetadata } from '../../../utils/editor';
 
 // Components
 import {
   BasicHeader,
-  TitleArea,
-  TagArea,
-  TagInput,
-  SummaryArea,
   PostForm,
   MarkdownEditor,
   SelectCommunityAreaView,
   SelectCommunityModalContainer,
   Modal,
-  UserAvatar,
-  MainButton,
 } from '../../../components';
 
 // dhive
@@ -31,7 +25,6 @@ import globalStyles from '../../../globalStyles';
 import { isCommunity } from '../../../utils/communityValidation';
 
 import styles from './editorScreenStyles';
-import ThumbSelectionModal from '../children/thumbSelectionModal';
 import PostOptionsModal from '../children/postOptionsModal';
 
 class EditorScreen extends Component {
@@ -39,7 +32,6 @@ class EditorScreen extends Component {
    * ------------------------------------------------
    *   @prop { type }    name                - Description....
    */
-  thumbSelectionModalRef = null;
   postOptionsModalRef = null;
 
   constructor(props) {
@@ -59,7 +51,7 @@ class EditorScreen extends Component {
       isCommunitiesListModalOpen: false,
       selectedCommunity: null,
       selectedAccount: null,
-      scheduledFor:null
+      scheduledFor: null,
     };
   }
 
@@ -79,8 +71,8 @@ class EditorScreen extends Component {
   }
 
   componentWillUnmount() {
-    const { isReply, isEdit } = this.props;
-    if (!isReply && !isEdit) {
+    const { isEdit } = this.props;
+    if (!isEdit) {
       this._saveDraftToDB();
     }
   }
@@ -151,37 +143,38 @@ class EditorScreen extends Component {
   };
 
   _handleOnSaveButtonPress = () => {
-    const {draftId, intl} = this.props;
-    if(draftId){
-      Alert.alert(
-        intl.formatMessage({id:'editor.draft_save_title'}),
-        "",
-        [{
-          text:intl.formatMessage({id:'editor.draft_update'}),
-          onPress:()=>this._saveDraftToDB(),
-        },{
-          text:intl.formatMessage({id:'editor.draft_save_new'}),
-          onPress:()=>this._saveDraftToDB(true)
-        },{
-          text:intl.formatMessage({id:'alert.cancel'}),
-          onPress:()=>{},
-          style:'cancel'
-        }]
-      )
+    const { draftId, intl } = this.props;
+    if (draftId) {
+      Alert.alert(intl.formatMessage({ id: 'editor.draft_save_title' }), '', [
+        {
+          text: intl.formatMessage({ id: 'editor.draft_update' }),
+          onPress: () => this._saveDraftToDB(),
+        },
+        {
+          text: intl.formatMessage({ id: 'editor.draft_save_new' }),
+          onPress: () => this._saveDraftToDB(true),
+        },
+        {
+          text: intl.formatMessage({ id: 'alert.cancel' }),
+          onPress: () => {},
+          style: 'cancel',
+        },
+      ]);
       return;
     }
     this._saveDraftToDB();
   };
 
   _saveCurrentDraft = (fields) => {
-    const { saveCurrentDraft } = this.props;
+    const { saveCurrentDraft, updateDraftFields } = this.props;
 
     if (this.changeTimer) {
       clearTimeout(this.changeTimer);
     }
 
     this.changeTimer = setTimeout(() => {
-      saveCurrentDraft(fields);
+      // saveCurrentDraft(fields);
+      updateDraftFields(fields);
     }, 300);
   };
 
@@ -189,7 +182,7 @@ class EditorScreen extends Component {
     const { handleOnSubmit, handleSchedulePress } = this.props;
     const { fields, scheduledFor } = this.state;
 
-    if(scheduledFor && handleSchedulePress){
+    if (scheduledFor && handleSchedulePress) {
       handleSchedulePress(scheduledFor, fields);
       return;
     }
@@ -199,31 +192,28 @@ class EditorScreen extends Component {
     }
   };
 
-  _handleOnThumbSelection = (index) => {
-    const { setThumbIndex } = this.props;
-    if (setThumbIndex) {
-      setThumbIndex(index);
+  _handleOnThumbSelection = (url: string) => {
+    const { setThumbUrl } = this.props;
+    if (setThumbUrl) {
+      setThumbUrl(url);
     }
   };
 
-  _showThumbSelectionModal = () => {
-    const { fields } = this.state;
-    if (this.thumbSelectionModalRef) {
-      this.thumbSelectionModalRef.show(fields.body);
-    }
-  };
-
-  _handleScheduleChange = (datetime:string|null) => {
+  _handleScheduleChange = (datetime: string | null) => {
     this.setState({
-      scheduledFor:datetime
-    })
-  }
+      scheduledFor: datetime,
+    });
+  };
 
+  _handleRewardChange = (value) => {
+    const { handleRewardChange } = this.props;
+    handleRewardChange(value);
+  };
   _handleSettingsPress = () => {
-    if(this.postOptionsModalRef){
+    if (this.postOptionsModalRef) {
       this.postOptionsModalRef.show();
     }
-  }
+  };
 
   _handleIsFormValid = (bodyText) => {
     const { fields } = this.state;
@@ -245,7 +235,7 @@ class EditorScreen extends Component {
   };
 
   _handleFormUpdate = (componentID, content) => {
-    const { handleFormChanged } = this.props;
+    const { handleFormChanged, thumbUrl, rewardType, getBeneficiaries } = this.props;
     const { fields: _fields } = this.state;
     const fields = { ..._fields };
 
@@ -257,12 +247,23 @@ class EditorScreen extends Component {
       fields.tags = content;
     }
 
+    const meta = Object.assign({}, extractMetadata(fields.body, thumbUrl), {
+      tags: fields.tags,
+      beneficiaries: getBeneficiaries(),
+      rewardType,
+    });
+    const jsonMeta = makeJsonMetadata(meta, fields.tags);
+    fields.meta = jsonMeta;
+
     if (
       get(fields, 'body', '').trim() !== get(_fields, 'body', '').trim() ||
       get(fields, 'title', '').trim() !== get(_fields, 'title', '').trim() ||
-      get(fields, 'tags') !== get(_fields, 'tags')
+      get(fields, 'tags') !== get(_fields, 'tags') ||
+      !isEqual(get(fields, 'meta'), get(_fields, 'meta'))
     ) {
+      console.log('jsonMeta : ', jsonMeta);
       handleFormChanged();
+
       this._saveCurrentDraft(fields);
     }
 
@@ -336,7 +337,7 @@ class EditorScreen extends Component {
       });
   };
 
-  _saveDraftToDB(saveAsNew?:boolean) {
+  _saveDraftToDB(saveAsNew?: boolean) {
     const { saveDraftToDB } = this.props;
     const { fields } = this.state;
 
@@ -358,6 +359,7 @@ class EditorScreen extends Component {
       scheduledFor,
     } = this.state;
     const {
+      paramFiles,
       handleOnImagePicker,
       intl,
       isDraftSaved,
@@ -378,13 +380,21 @@ class EditorScreen extends Component {
       autoFocusText,
       sharedSnippetText,
       onLoadDraftPress,
-      thumbIndex,
+      thumbUrl,
+      uploadProgress,
+      rewardType,
+      setIsUploading,
     } = this.props;
 
     const rightButtonText = intl.formatMessage({
-      id: isEdit ? 'basic_header.update' : isReply ? 'basic_header.reply' : scheduledFor ?  'basic_header.schedule' : 'basic_header.publish',
+      id: isEdit
+        ? 'basic_header.update'
+        : isReply
+        ? 'basic_header.reply'
+        : scheduledFor
+        ? 'basic_header.schedule'
+        : 'basic_header.publish',
     });
-
 
     const _renderCommunityModal = () => {
       return (
@@ -426,11 +436,11 @@ class EditorScreen extends Component {
           isReply={isReply}
           quickTitle={wordsCount > 0 && `${wordsCount} words`}
           rightButtonText={rightButtonText}
-          showThumbSelectionModal={this._showThumbSelectionModal}
           handleSettingsPress={this._handleSettingsPress}
         />
         <PostForm
           handleFormUpdate={this._handleFormUpdate}
+          handleBodyChange={this._setWordsCount}
           handleOnSubmit={this._handleOnSubmit}
           isFormValid={isFormValid}
           isPreviewActive={isPreviewActive}
@@ -446,11 +456,9 @@ class EditorScreen extends Component {
             />
           )}
           <MarkdownEditor
+            paramFiles={paramFiles}
             componentID="body"
             draftBody={fields && fields.body}
-            handleOnTextChange={this._setWordsCount}
-            handleFormUpdate={this._handleFormUpdate}
-            handleIsFormValid={this._handleIsFormValid}
             isFormValid={isFormValid}
             handleOpenImagePicker={handleOnImagePicker}
             intl={intl}
@@ -469,25 +477,27 @@ class EditorScreen extends Component {
             autoFocusText={autoFocusText}
             sharedSnippetText={sharedSnippetText}
             onLoadDraftPress={onLoadDraftPress}
+            uploadProgress={uploadProgress}
+            setIsUploading={setIsUploading}
           />
         </PostForm>
+
         {_renderCommunityModal()}
-        <ThumbSelectionModal
-          ref={(componentRef) => (this.thumbSelectionModalRef = componentRef)}
-          thumbIndex={thumbIndex}
-          onThumbSelection={this._handleOnThumbSelection}
-        />
+
         <PostOptionsModal
           ref={(componentRef) => (this.postOptionsModalRef = componentRef)}
           body={fields.body}
           draftId={draftId}
-          thumbIndex={thumbIndex}
+          thumbUrl={thumbUrl}
           isEdit={isEdit}
           isCommunityPost={selectedCommunity !== null}
+          rewardType={rewardType}
+          isUploading={isUploading}
           handleThumbSelection={this._handleOnThumbSelection}
-          handleRewardChange={handleRewardChange}
+          handleRewardChange={this._handleRewardChange}
           handleScheduleChange={this._handleScheduleChange}
           handleShouldReblogChange={handleShouldReblogChange}
+          handleFormUpdate={this._handleFormUpdate}
         />
       </View>
     );

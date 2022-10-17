@@ -8,9 +8,6 @@ import { toastNotification } from '../redux/actions/uiAction';
 // dhive
 import { getAccount, claimRewardBalance, getBtcAddress } from '../providers/hive/dhive';
 
-// Actions
-import { openPinCodeModal } from '../redux/actions/applicationActions';
-
 // Utils
 import { groomingWalletData, groomingTransactionData, transferTypes } from '../utils/wallet';
 import parseToken from '../utils/parseToken';
@@ -20,6 +17,7 @@ import { getEstimatedAmount } from '../utils/vote';
 
 // Constants
 import ROUTES from '../constants/routeNames';
+import { COIN_IDS } from '../constants/defaultCoins';
 
 const HIVE_DROPDOWN = [
   'purchase_estm',
@@ -36,6 +34,7 @@ const HIVE_POWER_DROPDOWN = ['delegate', 'power_down'];
 const WalletContainer = ({
   children,
   currentAccount,
+  coinSymbol,
   globalProps,
   handleOnScroll,
   pinCode,
@@ -166,13 +165,13 @@ const WalletContainer = ({
 
     getAccount(currentAccount.name)
       .then((account) => {
-        isHasUnclaimedRewards = _isHasUnclaimedRewards(account[0]);
+        isHasUnclaimedRewards = _isHasUnclaimedRewards(account);
         if (isHasUnclaimedRewards) {
           const {
             reward_hive_balance: hiveBal,
             reward_hbd_balance: hbdBal,
             reward_vesting_balance: vestingBal,
-          } = account[0];
+          } = account;
           return claimRewardBalance(currentAccount, pinCode, hiveBal, hbdBal, vestingBal);
         }
         setIsClaiming(false);
@@ -253,12 +252,13 @@ const WalletContainer = ({
     }
 
     if (isPinCodeOpen) {
-      dispatch(
-        openPinCodeModal({
+      navigate({
+        routeName: ROUTES.SCREENS.PINCODE,
+        params: {
           navigateTo: ROUTES.SCREENS.TRANSFER,
           navigateParams: { transferType, fundType, balance, tokenAddress },
-        }),
-      );
+        },
+      });
     } else {
       navigate({
         routeName: ROUTES.SCREENS.TRANSFER,
@@ -272,6 +272,26 @@ const WalletContainer = ({
       // console.log(getBtcAddress(pinCode, currentAccount));
     }
   };
+
+  //process symbol based data
+  let balance = 0;
+  let estimateValue = 0;
+  let savings = 0;
+  switch (coinSymbol) {
+    case COIN_IDS.HIVE:
+      balance = hiveBalance;
+      estimateValue = estimatedHiveValue;
+      savings = hiveSavingBalance;
+      break;
+    case COIN_IDS.HBD:
+      balance = hbdBalance;
+      estimateValue = estimatedHbdValue;
+      savings = hbdSavingBalance;
+      break;
+
+    default:
+      break;
+  }
 
   return (
     children &&
@@ -309,6 +329,11 @@ const WalletContainer = ({
       hivePowerDropdown: HIVE_POWER_DROPDOWN,
       unclaimedBalance: unclaimedBalance && unclaimedBalance.trim(),
       estimatedAmount,
+
+      //symbol based data
+      balance,
+      estimateValue,
+      savings,
     })
   );
 };

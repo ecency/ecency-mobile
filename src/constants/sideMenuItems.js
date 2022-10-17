@@ -20,10 +20,23 @@ const authMenuItems = [
     id: 'drafts',
   },
   {
+    name: 'Schedules',
+    route: ROUTES.SCREENS.DRAFTS,
+    icon: 'clock',
+    id: 'schedules',
+  },
+  {
     name: 'Communities',
     route: ROUTES.SCREENS.COMMUNITIES,
     icon: 'people',
     id: 'communities',
+  },
+  {
+    name: 'QR Scan',
+    route: '',
+    icon: 'qrcode-scan',
+    iconType: 'MaterialCommunityIcons',
+    id: 'qr',
   },
   {
     name: 'Refer $ Earn',

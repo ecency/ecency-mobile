@@ -1,4 +1,5 @@
-import { Dimensions, Platform, StatusBar } from 'react-native';
+import { Platform, StatusBar } from 'react-native';
+import getWindowDimensions from '../utils/getWindowDimensions';
 
 export default {
   // Primary Colors
@@ -7,6 +8,7 @@ export default {
   $primaryLightBackground: '#f6f6f6',
   $primaryGrayBackground: '#f5f5f5',
   $primaryWhiteLightBackground: '#ffffff',
+  $darkGrayBackground: '#788187',
   $modalBackground: '#ededed',
   $white: '#FFFFFF',
   $black: '#000000',
@@ -17,6 +19,7 @@ export default {
   $primaryDarkGray: '#788187',
   $primaryLightGray: '#f6f6f6',
   $primaryRed: '#e63535',
+  $primaryGreen: '#4FD688',
   $companyRed: '#c10000',
   $primaryBlack: '#3c4449',
   $primaryDarkText: '#788187',
@@ -42,12 +45,15 @@ export default {
   $noConnectionColor: '#788187',
   $borderedButtonBlue: '#357ce6',
 
+  $chartBlue: '#357CE6',
+  $chartText: '#357ce6',
+
   // Devices Sizes
   $deviceHeight:
     Platform.OS === 'ios'
-      ? Dimensions.get('window').height
-      : Dimensions.get('window').height + StatusBar.currentHeight,
-  $deviceWidth: Dimensions.get('window').width,
+      ? getWindowDimensions().height
+      : getWindowDimensions().height + StatusBar.currentHeight,
+  $deviceWidth: getWindowDimensions().width,
 
   // Fonts Properties
   $primaryFont: 'Roboto',

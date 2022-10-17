@@ -1,34 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Alert, Platform } from 'react-native';
-import ImagePicker from 'react-native-image-crop-picker';
+import { Alert, AppState, AppStateStatus } from 'react-native';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-community/async-storage';
+import { isArray } from 'lodash';
 
 // Services and Actions
 import { Buffer } from 'buffer';
-import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
-import {
-  uploadImage,
-  addDraft,
-  updateDraft,
-  getDrafts,
-  addSchedule,
-} from '../../../providers/ecency/ecency';
+import { useQueryClient } from '@tanstack/react-query';
+import { addDraft, updateDraft, getDrafts, addSchedule } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer } from '../../../redux/actions/uiAction';
 import {
   postContent,
   getPurePost,
   grantPostingPermission,
-  signImage,
   reblog,
   postComment,
 } from '../../../providers/hive/dhive';
-import { setDraftPost, getDraftPost } from '../../../realm/realm';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
+
 // Utilities
 import {
   generatePermlink,
@@ -41,12 +34,20 @@ import {
   extractImageUrls,
 } from '../../../utils/editor';
 // import { generateSignature } from '../../../utils/image';
+
 // Component
 import EditorScreen from '../screen/editorScreen';
-import bugsnapInstance from '../../../config/bugsnag';
 import { removeBeneficiaries, setBeneficiaries } from '../../../redux/actions/editorActions';
-import { TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
-import { updateCommentCache } from '../../../redux/actions/cacheActions';
+import { DEFAULT_USER_DRAFT_ID, TEMP_BENEFICIARIES_ID } from '../../../redux/constants/constants';
+import {
+  deleteDraftCacheEntry,
+  updateCommentCache,
+  updateDraftCache,
+} from '../../../redux/actions/cacheActions';
+import QUERIES from '../../../providers/queries/queryKeys';
+import bugsnapInstance from '../../../config/bugsnag';
+import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
+import { PointActivityIds } from '../../../providers/ecency/ecency.types';
 
 /*
  *            Props Name        Description                                     Value
@@ -54,8 +55,11 @@ import { updateCommentCache } from '../../../redux/actions/cacheActions';
  *
  */
 
-class EditorContainer extends Component {
+
+class EditorContainer extends Component<EditorContainerProps, any> {
   _isMounted = false;
+  _updatedDraftFields = null;
+  _appState = AppState.currentState;
 
   constructor(props) {
     super(props);
@@ -68,53 +72,52 @@ class EditorContainer extends Component {
       isEdit: false,
       isPostSending: false,
       isReply: false,
+      quickReplyText: '',
       isUploading: false,
+      uploadProgress: 0,
       post: null,
       uploadedImage: null,
-      isDraft: false,
       community: [],
       rewardType: 'default',
       sharedSnippetText: null,
       onLoadDraftPress: false,
-      thumbIndex: 0,
-      shouldReblog:false,
+      thumbUrl: '',
+      shouldReblog: false,
     };
   }
 
   // Component Life Cycle Functions
   componentDidMount() {
     this._isMounted = true;
-    const { currentAccount, navigation } = this.props;
+    const { currentAccount, route, queryClient } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
     let isReply;
+    let draftId;
     let isEdit;
     let post;
     let _draft;
     let hasSharedIntent = false;
 
-    if (navigation.state && navigation.state.params) {
-      const navigationParams = navigation.state.params;
+    if (route.params) {
+      const navigationParams = route.params;
       hasSharedIntent = navigationParams.hasSharedIntent;
 
-      if (navigationParams.draft) {
-        _draft = navigationParams.draft;
-        
-        // if meta exist on draft, get the index of 1st image in meta from images urls in body
-        const body = _draft.body
-        if(_draft.meta && _draft.meta.image){
-          const urls = extractImageUrls({body});
-          const draftThumbIndex = urls.indexOf(_draft.meta.image[0])
-          this.setState({
-            thumbIndex:draftThumbIndex,
-          })
-        }
+      if (navigationParams.draftId) {
+        draftId = navigationParams.draftId;
+        const cachedDrafts: any = queryClient.getQueryData([QUERIES.DRAFTS.GET]);
 
-        this.setState({
-          draftId: _draft._id,
-          isDraft: true,
-        });
-        this._getStorageDraft(username, isReply, _draft);
+        if (cachedDrafts && cachedDrafts.length) {
+          //get draft from query cache
+          const _draft = cachedDrafts.find((draft) => draft._id === draftId);
+
+          this.setState({
+            draftId,
+          });
+
+          this._getStorageDraft(username, isReply, _draft);
+        }
       }
+
       if (navigationParams.community) {
         this.setState({
           community: navigationParams.community,
@@ -130,9 +133,18 @@ class EditorContainer extends Component {
 
       if (navigationParams.isReply) {
         ({ isReply } = navigationParams);
+        if (post) {
+          draftId = `${currentAccount.name}/${post.author}/${post.permlink}`;
+        }
+
         this.setState({
           isReply,
+          draftId,
+          autoFocusText: true,
         });
+        if (draftId) {
+          this._getStorageDraft(username, isReply, { _id: draftId });
+        }
       }
 
       if (navigationParams.isEdit) {
@@ -150,90 +162,135 @@ class EditorContainer extends Component {
       if (navigationParams.action) {
         this._handleRoutingAction(navigationParams.action);
       }
-    }
 
-    if (!isEdit && !_draft && !hasSharedIntent) {
-      this._fetchDraftsForComparison(isReply);
-    }
-    this._requestKeyboardFocus();
+      // handle file/text shared from ReceiveSharingIntent
+      if (hasSharedIntent) {
+        const files = navigationParams.files;
+        console.log('files : ', files);
 
-    ReceiveSharingIntent.getReceivedFiles(
-      (files) => {
         files.forEach((el) => {
-          if (el.filePath && el.fileName) {
-            const _media = {
-              path: el.filePath,
-              mime: el.mimeType,
-              filename: el.fileName || `img_${Math.random()}.jpg`,
-            };
-
-            this._uploadImage(_media, { shouldInsert: true });
-          } else if (el.text) {
+          if (el.text) {
             this.setState({
               sharedSnippetText: el.text,
             });
           }
         });
-        // To clear Intents
-        ReceiveSharingIntent.clearReceivedFiles();
-      },
-      (error) => {
-        console.log('error :>> ', error);
-      },
-    );
+      }
+    }
+
+    if (!isEdit && !_draft && !draftId && !hasSharedIntent) {
+      this._fetchDraftsForComparison(isReply);
+    }
+    this._requestKeyboardFocus();
+
+    AppState.addEventListener('change', this._handleAppStateChange);
+  }
+
+  componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>): void {
+    if (
+      prevState.rewardType !== this.state.rewardType ||
+      prevProps.beneficiariesMap !== this.props.beneficiariesMap
+    ) {
+      // update isDraftSaved when reward type or beneficiaries are changed in post options
+      this._handleFormChanged();
+    }
   }
 
   componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
     this._isMounted = false;
   }
 
-  _getStorageDraft = async (username, isReply, paramDraft) => {
-    if (isReply) {
-      const draftReply = await AsyncStorage.getItem('temp-reply');
+  _handleAppStateChange = (nextAppState: AppStateStatus) => {
+    if (this._appState.match(/active|forground/) && nextAppState === 'inactive') {
+      this._saveCurrentDraft(this._updatedDraftFields);
+    }
+    this._appState = nextAppState;
+  };
 
-      if (draftReply) {
+  _getStorageDraft = async (username, isReply, paramDraft) => {
+    const { drafts } = this.props;
+    if (isReply) {
+      const _draft = drafts.get(paramDraft._id);
+      if (_draft && _draft.body) {
         this.setState({
           draftPost: {
-            body: draftReply,
+            body: _draft.body,
           },
         });
       }
     } else {
-      getDraftPost(username, paramDraft && paramDraft._id).then((result) => {
-        //if result is return and param draft available, compare timestamp, use latest
-        //if no draft, use result anayways
-        if (result && (!paramDraft || paramDraft.timestamp < result.timestamp)) {
-          this.setState({
-            draftPost: {
-              body: get(result, 'body', ''),
-              title: get(result, 'title', ''),
-              tags: get(result, 'tags', '').split(','),
-              isDraft: paramDraft ? true : false,
-              draftId: paramDraft ? paramDraft._id : null,
-            },
-          });
-        }
+      //TOOD: get draft from redux after reply side is complete
+      const _draftId = paramDraft ? paramDraft._id : DEFAULT_USER_DRAFT_ID + username;
+      const _localDraft = drafts.get(_draftId);
 
-        //if above fails with either no result returned or timestamp is old,
-        // and use draft form nav param if available.
-        else if (paramDraft) {
-          const _tags = paramDraft.tags.includes(' ')
-            ? paramDraft.tags.split(' ')
-            : paramDraft.tags.split(',');
-          this.setState({
-            draftPost: {
-              title: paramDraft.title,
-              body: paramDraft.body,
-              tags: _tags,
-            },
-            isDraft: true,
-            draftId: paramDraft._id,
-          });
-        }
-      });
+      //if _draft is returned and param draft is available, compare timestamp, use latest
+      //if no draft, use result anayways
+
+      const _remoteDraftModifiedAt = paramDraft ? new Date(paramDraft.modified).getTime() : 0;
+      const _useLocalDraft = _localDraft && _remoteDraftModifiedAt < _localDraft.updated;
+      if (_useLocalDraft) {
+        this.setState({
+          draftPost: {
+            body: get(_localDraft, 'body', ''),
+            title: get(_localDraft, 'title', ''),
+            tags: get(_localDraft, 'tags', '').split(','),
+            draftId: paramDraft ? paramDraft._id : null,
+            meta: _localDraft.meta ? _localDraft.meta : null,
+          },
+        });
+        this._loadMeta(_localDraft); //load meta from local draft
+      }
+
+      //if above fails with either no result returned or timestamp is old,
+      // and use draft form nav param if available.
+      else if (paramDraft) {
+        const _tags = paramDraft.tags.includes(' ')
+          ? paramDraft.tags.split(' ')
+          : paramDraft.tags.split(',');
+        this.setState({
+          draftPost: {
+            title: paramDraft.title || '',
+            body: paramDraft.body || '',
+            tags: _tags || [],
+            meta: paramDraft.meta ? paramDraft.meta : null,
+          },
+          draftId: paramDraft._id,
+        });
+
+        this._loadMeta(paramDraft); //load meta from param draft
+      }
     }
   };
 
+  // load meta from local/param drfat into state
+  _loadMeta = (draft: any) => {
+    const { dispatch, currentAccount } = this.props;
+    // if meta exist on draft, get the index of 1st image in meta from images urls in body
+    const body = draft.body;
+    if (draft.meta && draft.meta.image) {
+      const urls = extractImageUrls({ body });
+      this.setState({
+        thumbUrl: draft.meta.image[0],
+      });
+    }
+
+    // load beneficiaries and rewards data from meta field of draft
+    if (draft.meta && draft.meta.rewardType) {
+      this.setState({
+        rewardType: draft.meta.rewardType,
+      });
+    }
+
+    if (draft._id && draft.meta && draft.meta.beneficiaries) {
+      if (isArray(draft.meta.beneficiaries)) {
+        const filteredBeneficiaries = draft.meta.beneficiaries.filter(
+          (item) => item.account !== currentAccount.username,
+        ); //remove default beneficiary from array while saving
+        dispatch(setBeneficiaries(draft._id || TEMP_BENEFICIARIES_ID, filteredBeneficiaries));
+      }
+    }
+  };
   _requestKeyboardFocus = () => {
     //50 ms timeout is added to avoid keyboard not showing up on android
     setTimeout(() => {
@@ -245,14 +302,14 @@ class EditorContainer extends Component {
   };
 
   /**
-   * this fucntion is run if editor is access used mid tab or reply section
+   * this fucntion is run if editor is access fused mid tab or reply section
    * it fetches fresh drafts and run some comparions to load one of following
    * empty editor, load non-remote draft or most recent remote draft based on timestamps
    * prompts user as well
    * @param isReply
    **/
   _fetchDraftsForComparison = async (isReply) => {
-    const { currentAccount, isLoggedIn, intl, dispatch } = this.props;
+    const { currentAccount, isLoggedIn, drafts } = this.props;
     const username = get(currentAccount, 'name', '');
 
     //initilizes editor with reply or non remote id less draft
@@ -276,28 +333,29 @@ class EditorContainer extends Component {
         return;
       }
 
-      const drafts = await getDrafts(username);
-      const idLessDraft = await getDraftPost(username);
+      const remoteDrafts = await getDrafts(username);
+
+      const idLessDraft = drafts.get(DEFAULT_USER_DRAFT_ID + username);
 
       const loadRecentDraft = () => {
         //if no draft available means local draft is recent
-        if (drafts.length == 0) {
+        if (remoteDrafts.length == 0) {
           _getStorageDraftGeneral(false);
           return;
         }
 
         //sort darts based on timestamps
-        drafts.sort((d1, d2) =>
+        remoteDrafts.sort((d1, d2) =>
           new Date(d1.modified).getTime() < new Date(d2.modified).getTime() ? 1 : -1,
         );
-        const _draft = drafts[0];
+        const _draft = remoteDrafts[0];
 
         //if unsaved local draft is more latest then remote draft, use that instead
         //if editor was opened from draft screens, this code will be skipped anyways.
         if (
           idLessDraft &&
           (idLessDraft.title !== '' || idLessDraft.tags !== '' || idLessDraft.body !== '') &&
-          new Date(_draft.modified).getTime() < idLessDraft.timestamp
+          new Date(_draft.modified).getTime() < idLessDraft.updated
         ) {
           _getStorageDraftGeneral(false);
           return;
@@ -306,12 +364,11 @@ class EditorContainer extends Component {
         //initilize editor as draft
         this.setState({
           draftId: _draft._id,
-          isDraft: true,
         });
         this._getStorageDraft(username, isReply, _draft);
       };
 
-      if (drafts.length > 0 || (idLessDraft && idLessDraft.timestamp > 0)) {
+      if (remoteDrafts.length > 0 || (idLessDraft && idLessDraft.updated > 0)) {
         this.setState({
           onLoadDraftPress: loadRecentDraft,
         });
@@ -323,157 +380,31 @@ class EditorContainer extends Component {
   };
 
   _extractBeneficiaries = () => {
-    const {draftId} = this.state;
-    const {beneficiariesMap, currentAccount} = this.props;
+    const { draftId } = this.state;
+    const { beneficiariesMap, currentAccount } = this.props;
 
-    return beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID] 
-      || { account: currentAccount.name, weight: 10000};
-  }
-
-  _handleRoutingAction = (routingAction) => {
-    if (routingAction === 'camera') {
-      this._handleOpenCamera();
-    } else if (routingAction === 'image') {
-      this._handleOpenImagePicker();
-    }
-  };
-
-  _handleOpenImagePicker = () => {
-    ImagePicker.openPicker({
-      includeBase64: true,
-      multiple: true,
-      mediaType: 'photo',
-      smartAlbums: ['UserLibrary', 'Favorites', 'PhotoStream', 'Panoramas', 'Bursts'],
-    })
-      .then((images) => {
-        this._handleMediaOnSelected(images);
-      })
-      .catch((e) => {
-        this._handleMediaOnSelectFailure(e);
-      });
-  };
-
-  _handleOpenCamera = () => {
-    ImagePicker.openCamera({
-      includeBase64: true,
-      mediaType: 'photo',
-    })
-      .then((image) => {
-        this._handleMediaOnSelected(image);
-      })
-      .catch((e) => {
-        this._handleMediaOnSelectFailure(e);
-      });
-  };
-
-  _handleMediaOnSelected = async (media) => {
-
-    try {
-      if (media.length > 0) {
-        for (let index = 0; index < media.length; index++) {
-          const element = media[index];
-          await this._uploadImage(element);
-        }
-      } else {
-        await this._uploadImage(media);
-      }
-    } catch (error) {
-      console.log("Failed to upload image", error)
-      bugsnapInstance.notify(error);
-    }
-
-  };
-
-  _uploadImage = async (media, { shouldInsert } = { shouldInsert: false }) => {
-    const { intl, currentAccount, pinCode, isLoggedIn } = this.props;
-
-    if (!isLoggedIn) return;
-
-    this.setState({
-      isUploading: true,
-    });
-
-    let sign = await signImage(media, currentAccount, pinCode);
-
-    try {
-      const res = await uploadImage(media, currentAccount.name, sign);
-      if (res.data && res.data.url) {
-        res.data.hash = res.data.url.split('/').pop();
-        res.data.shouldInsert = shouldInsert;
-
-        this.setState({
-          isUploading: false,
-          uploadedImage: res.data,
-        });
-      }
-    } catch (error) {
-      console.log(error, error.message);
-      if (error.toString().includes('code 413')) {
-        Alert.alert(
-          intl.formatMessage({
-            id: 'alert.fail',
-          }),
-          intl.formatMessage({
-            id: 'alert.payloadTooLarge',
-          }),
-        );
-      } else if (error.toString().includes('code 429')) {
-        Alert.alert(
-          intl.formatMessage({
-            id: 'alert.fail',
-          }),
-          intl.formatMessage({
-            id: 'alert.quotaExceeded',
-          }),
-        );
-      } else if (error.toString().includes('code 400')) {
-        Alert.alert(
-          intl.formatMessage({
-            id: 'alert.fail',
-          }),
-          intl.formatMessage({
-            id: 'alert.invalidImage',
-          }),
-        );
-      } else {
-        Alert.alert(
-          intl.formatMessage({
-            id: 'alert.fail',
-          }),
-          error.message || error.toString(),
-        );
-      }
-      this.setState({
-        isUploading: false,
-      });
-    }
-  };
-
-  _handleMediaOnSelectFailure = (error) => {
-    const { intl } = this.props;
-
-    if (get(error, 'code') === 'E_PERMISSION_MISSING') {
-      Alert.alert(
-        intl.formatMessage({
-          id: 'alert.permission_denied',
-        }),
-        intl.formatMessage({
-          id: 'alert.permission_text',
-        }),
-      );
-    } else {
-      Alert.alert(
-        intl.formatMessage({
-          id: 'alert.fail',
-        }),
-        error.message || JSON.stringify(error),
-      );
-    }
+    return (
+      beneficiariesMap[draftId || TEMP_BENEFICIARIES_ID] || [
+        { account: currentAccount.name, weight: 10000 },
+      ]
+    );
   };
 
   _saveDraftToDB = async (fields, saveAsNew = false) => {
-    const { isDraftSaved, draftId, thumbIndex } = this.state;
-    const { currentAccount, dispatch, intl } = this.props;
+    const { isDraftSaved, draftId, thumbUrl, isReply, rewardType } = this.state;
+    const { currentAccount, dispatch, intl, queryClient } = this.props;
+
+    try {
+      //saves draft locallly
+      this._saveCurrentDraft(this._updatedDraftFields);
+    } catch (err) {
+      console.warn('local draft safe failed, skipping for remote only', err);
+      bugsnapInstance.notify(err);
+    }
+
+    if (isReply) {
+      return;
+    }
 
     const beneficiaries = this._extractBeneficiaries();
 
@@ -494,9 +425,16 @@ class EditorContainer extends Component {
           };
         }
 
+        const meta = Object.assign({}, extractMetadata(draftField.body, thumbUrl), {
+          tags: draftField.tags,
+          beneficiaries,
+          rewardType,
+        });
+        const jsonMeta = makeJsonMetadata(meta, draftField.tags);
+
         //update draft is draftId is present
         if (draftId && draftField && !saveAsNew) {
-          await updateDraft(draftId, draftField.title, draftField.body, draftField.tags, thumbIndex);
+          await updateDraft(draftId, draftField.title, draftField.body, draftField.tags, jsonMeta);
 
           if (this._isMounted) {
             this.setState({
@@ -508,7 +446,12 @@ class EditorContainer extends Component {
 
         //create new darft otherwise
         else if (draftField) {
-          const response = await addDraft(draftField.title, draftField.body, draftField.tags, thumbIndex);
+          const response = await addDraft(
+            draftField.title,
+            draftField.body,
+            draftField.tags,
+            jsonMeta,
+          );
 
           if (this._isMounted) {
             this.setState({
@@ -517,25 +460,18 @@ class EditorContainer extends Component {
               draftId: response._id,
             });
           }
-
-          dispatch(setBeneficiaries(response._id, beneficiaries));
+          const filteredBeneficiaries = beneficiaries.filter(
+            (item) => item.account !== currentAccount.username,
+          ); //remove default beneficiary from array while saving
+          dispatch(setBeneficiaries(response._id, filteredBeneficiaries));
           dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID));
 
           //clear local copy if darft save is successful
           const username = get(currentAccount, 'name', '');
-          setDraftPost(
-            {
-              title: '',
-              body: '',
-              tags: '',
-              timestamp: 0,
-            },
-            username,
-            saveAsNew ? draftId : undefined
-          );
+
+          dispatch(deleteDraftCacheEntry(draftId || DEFAULT_USER_DRAFT_ID + username));
         }
 
-        
         dispatch(
           toastNotification(
             intl.formatMessage({
@@ -543,10 +479,11 @@ class EditorContainer extends Component {
             }),
           ),
         );
-        
 
         //call fetch post to drafts screen
-        this._navigationBackFetchDrafts();
+        if (queryClient) {
+          queryClient.invalidateQueries([QUERIES.DRAFTS.GET]);
+        }
       }
     } catch (err) {
       console.warn('Failed to save draft to DB: ', err);
@@ -567,6 +504,10 @@ class EditorContainer extends Component {
     }
   };
 
+  _updateDraftFields = (fields) => {
+    this._updatedDraftFields = fields;
+  };
+
   _saveCurrentDraft = async (fields) => {
     const { draftId, isReply, isEdit, isPostSending } = this.state;
 
@@ -575,43 +516,45 @@ class EditorContainer extends Component {
       return;
     }
 
-    const { currentAccount } = this.props;
+    const { currentAccount, dispatch } = this.props;
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
 
     const draftField = {
-      ...fields,
+      title: fields.title,
+      body: fields.body,
       tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
+      author: username,
+      meta: fields.meta && fields.meta,
     };
 
     //save reply data
     if (isReply && draftField.body !== null) {
-      await AsyncStorage.setItem('temp-reply', draftField.body);
+      dispatch(updateDraftCache(draftId, draftField));
 
       //save existing draft data locally
     } else if (draftId) {
-      setDraftPost(draftField, username, draftId);
+      dispatch(updateDraftCache(draftId, draftField));
     }
 
     //update editor data locally
     else if (!isReply) {
-      setDraftPost(draftField, username);
+      dispatch(updateDraftCache(DEFAULT_USER_DRAFT_ID + username, draftField));
     }
   };
 
-  _submitPost = async ({ fields, scheduleDate }: { fields: any, scheduleDate?: string }) => {
-
+  _submitPost = async ({ fields, scheduleDate }: { fields: any; scheduleDate?: string }) => {
     const {
       currentAccount,
       dispatch,
       intl,
       navigation,
       pinCode,
+      userActivityMutation
       // isDefaultFooter,
     } = this.props;
-    const { rewardType, isPostSending, thumbIndex, draftId, shouldReblog} = this.state;
+    const { rewardType, isPostSending, thumbUrl, draftId, shouldReblog } = this.state;
 
     const beneficiaries = this._extractBeneficiaries();
-
 
     if (isPostSending) {
       return;
@@ -622,7 +565,7 @@ class EditorContainer extends Component {
         isPostSending: true,
       });
 
-      const meta = extractMetadata(fields.body, thumbIndex);
+      const meta = extractMetadata(fields.body, thumbUrl);
       const _tags = fields.tags.filter((tag) => tag && tag !== ' ');
 
       const jsonMeta = makeJsonMetadata(meta, _tags);
@@ -636,7 +579,7 @@ class EditorContainer extends Component {
         dublicatePost = null;
       }
 
-      if (dublicatePost && (dublicatePost.permlink === permlink)) {
+      if (dublicatePost && dublicatePost.permlink === permlink) {
         permlink = generatePermlink(fields.title, true);
       }
 
@@ -675,37 +618,35 @@ class EditorContainer extends Component {
           voteWeight,
         )
           .then((response) => {
-
             console.log(response);
-            
+            // track user activity for points
+            userActivityMutation.mutate({
+              pointsTy:PointActivityIds.POST,
+              transactionId:response.id
+            })
+
             //reblog if flag is active
-            if(shouldReblog){
-              reblog(
-                currentAccount,
-                pinCode,
-                author,
-                permlink
-              ).then((resp)=>{
-                console.log("Successfully reblogged post", resp)
-              }).catch((err)=>{
-                console.warn("Failed to reblog post", err)
-              })
+            if (shouldReblog) {
+              reblog(currentAccount, pinCode, author, permlink)
+                .then((resp) => {
+                  //track user activity for points on reblog
+                  userActivityMutation.mutate({
+                    pointsTy:PointActivityIds.REBLOG,
+                    transactionId:resp.id
+                  })
+                  console.log('Successfully reblogged post', resp);
+                })
+                .catch((err) => {
+                  console.warn('Failed to reblog post', err);
+                });
             }
 
             //post publish updates
-            setDraftPost(
-              {
-                title: '',
-                body: '',
-                tags: '',
-                timestamp: 0,
-              },
-              currentAccount.name,
-            );
+            dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name));
 
-            dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID))
-            if(draftId){
-              dispatch(removeBeneficiaries(draftId))
+            dispatch(removeBeneficiaries(TEMP_BENEFICIARIES_ID));
+            if (draftId) {
+              dispatch(removeBeneficiaries(draftId));
             }
 
             dispatch(
@@ -723,9 +664,10 @@ class EditorContainer extends Component {
                 ROUTES.SCREENS.PROFILE,
                 {
                   username: get(currentAccount, 'name'),
-                },{
-                  key:get(currentAccount, 'name')
-                }
+                },
+                {
+                  key: get(currentAccount, 'name'),
+                },
               );
             }, 3000);
           })
@@ -737,7 +679,7 @@ class EditorContainer extends Component {
   };
 
   _submitReply = async (fields) => {
-    const { currentAccount, pinCode, dispatch } = this.props;
+    const { currentAccount, pinCode, dispatch, userActivityMutation } = this.props;
     const { isPostSending } = this.state;
 
     if (isPostSending) {
@@ -755,7 +697,6 @@ class EditorContainer extends Component {
       const parentAuthor = post.author;
       const parentPermlink = post.permlink;
       const parentTags = post.json_metadata.tags;
- 
 
       await postComment(
         currentAccount,
@@ -766,7 +707,13 @@ class EditorContainer extends Component {
         fields.body,
         parentTags,
       )
-        .then(() => {
+        .then((response) => {
+          //record user activity for points
+          userActivityMutation.mutate({
+            pointsTy:PointActivityIds.COMMENT,
+            transactionId:response.id
+          })
+
           AsyncStorage.setItem('temp-reply', '');
           this._handleSubmitSuccess();
 
@@ -775,18 +722,17 @@ class EditorContainer extends Component {
             updateCommentCache(
               `${parentAuthor}/${parentPermlink}`,
               {
-                author:currentAccount.name,
+                author: currentAccount.name,
                 permlink,
-                parent_author:parentAuthor,
-                parent_permlink:parentPermlink,
+                parent_author: parentAuthor,
+                parent_permlink: parentPermlink,
                 markdownBody: fields.body,
               },
               {
-                parentTags: parentTags || ['ecency']
-              }
-            )
-          )
-          
+                parentTags: parentTags || ['ecency'],
+              },
+            ),
+          );
         })
         .catch((error) => {
           this._handleSubmitFailure(error);
@@ -796,7 +742,7 @@ class EditorContainer extends Component {
 
   _submitEdit = async (fields) => {
     const { currentAccount, pinCode, dispatch } = this.props;
-    const { post, isEdit, isPostSending, thumbIndex, isReply } = this.state;
+    const { post, isEdit, isPostSending, thumbUrl, isReply } = this.state;
 
     if (isPostSending) {
       return;
@@ -822,7 +768,7 @@ class EditorContainer extends Component {
         newBody = patch;
       }
 
-      const meta = extractMetadata(fields.body, thumbIndex);
+      const meta = extractMetadata(fields.body, thumbUrl);
 
       let jsonMeta = {};
 
@@ -832,7 +778,7 @@ class EditorContainer extends Component {
       } catch (e) {
         jsonMeta = makeJsonMetadata(meta, tags);
       }
-      
+
       await postContent(
         currentAccount,
         pinCode,
@@ -848,29 +794,29 @@ class EditorContainer extends Component {
       )
         .then(() => {
           this._handleSubmitSuccess();
-          if(isReply){
+          if (isReply) {
             AsyncStorage.setItem('temp-reply', '');
             dispatch(
               updateCommentCache(
                 `${parentAuthor}/${parentPermlink}`,
                 {
-                  author:currentAccount.name,
+                  author: currentAccount.name,
                   permlink,
-                  parent_author:parentAuthor,
-                  parent_permlink:parentPermlink,
-                  markdownBody:body,
-                  active_votes:post.active_votes,
-                  net_rshares:post.net_rshares,
-                  author_reputation:post.author_reputation,
-                  total_payout:post.total_payout,
-                  created:post.created,
-                  json_metadata:jsonMeta
+                  parent_author: parentAuthor,
+                  parent_permlink: parentPermlink,
+                  markdownBody: body,
+                  active_votes: post.active_votes,
+                  net_rshares: post.net_rshares,
+                  author_reputation: post.author_reputation,
+                  total_payout: post.total_payout,
+                  created: post.created,
+                  json_metadata: jsonMeta,
                 },
                 {
-                  isUpdate:true
-                }
-              )
-            )
+                  isUpdate: true,
+                },
+              ),
+            );
           }
         })
         .catch((error) => {
@@ -890,10 +836,7 @@ class EditorContainer extends Component {
     ) {
       //when RC is not enough, offer boosting account
       dispatch(setRcOffer(true));
-    } else if (
-      error &&
-      error.jse_shortmsg &&
-      error.jse_shortmsg.includes('wait to transact')) {
+    } else if (error && error.jse_shortmsg && error.jse_shortmsg.includes('wait to transact')) {
       //when RC is not enough, offer boosting account
       dispatch(setRcOffer(true));
     } else {
@@ -915,12 +858,14 @@ class EditorContainer extends Component {
   };
 
   _handleSubmitSuccess = () => {
-    const { navigation } = this.props;
+    const { navigation, route } = this.props;
 
     this.stateTimer = setTimeout(() => {
       if (navigation) {
         navigation.goBack();
-        navigation.state.params.fetchPost();
+      }
+      if (route.params?.fetchPost) {
+        route.params.fetchPost();
       }
       this.setState({
         isPostSending: false,
@@ -929,19 +874,9 @@ class EditorContainer extends Component {
     }, 3000);
   };
 
-  _navigationBackFetchDrafts = () => {
-    const { navigation } = this.props;
-    const { isDraft } = this.state;
-
-    if (isDraft && navigation.state.params) {
-      navigation.state.params.fetchPost();
-    }
-  };
-
   _handleSubmit = (form: any) => {
     const { isReply, isEdit } = this.state;
     const { intl } = this.props;
-
 
     if (isReply && !isEdit) {
       this._submitReply(form.fields);
@@ -998,8 +933,6 @@ class EditorContainer extends Component {
     }
   };
 
-
-
   _handleFormChanged = () => {
     const { isDraftSaved } = this.state;
 
@@ -1009,7 +942,6 @@ class EditorContainer extends Component {
       });
     }
   };
-
 
   _handleSchedulePress = async (datePickerValue, fields) => {
     const { currentAccount, pinCode, intl } = this.props;
@@ -1086,21 +1018,13 @@ class EditorContainer extends Component {
             }),
           ),
         );
-        setDraftPost(
-          {
-            title: '',
-            body: '',
-            tags: '',
-            timestamp: 0,
-          },
-          currentAccount.name,
-        );
+
+        dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + currentAccount.name));
 
         setTimeout(() => {
-          navigation.replace(ROUTES.SCREENS.DRAFTS,
-          {
-            showSchedules:true
-          })   
+          navigation.replace(ROUTES.SCREENS.DRAFTS, {
+            showSchedules: true,
+          });
         }, 3000);
       })
       .catch((error) => {
@@ -1114,17 +1038,10 @@ class EditorContainer extends Component {
   _initialEditor = () => {
     const {
       currentAccount: { name },
+      dispatch,
     } = this.props;
 
-    setDraftPost(
-      {
-        title: '',
-        body: '',
-        tags: '',
-        timestamp: 0,
-      },
-      name,
-    );
+    dispatch(deleteDraftCacheEntry(DEFAULT_USER_DRAFT_ID + name));
 
     this.setState({
       uploadedImage: null,
@@ -1135,21 +1052,26 @@ class EditorContainer extends Component {
     this.setState({ rewardType: value });
   };
 
-  _handleShouldReblogChange = (value:boolean) => {
+  _handleShouldReblogChange = (value: boolean) => {
     this.setState({
-      shouldReblog:value
-    })
-  }
+      shouldReblog: value,
+    });
+  };
 
-
-  _handleSetThumbIndex = (index: number) => {
+  _handleSetThumbUrl = (url: string) => {
     this.setState({
-      thumbIndex: index
-    })
-  }
+      thumbUrl: url,
+    });
+  };
+
+  _setIsUploading = (status: boolean) => {
+    this.setState({
+      isUploading: status,
+    });
+  };
 
   render() {
-    const { isLoggedIn, isDarkTheme, navigation, currentAccount } = this.props;
+    const { isLoggedIn, isDarkTheme, currentAccount, route } = this.props;
     const {
       autoFocusText,
       draftPost,
@@ -1160,27 +1082,30 @@ class EditorContainer extends Component {
       isOpenCamera,
       isPostSending,
       isReply,
+      quickReplyText,
       isUploading,
       post,
       uploadedImage,
       community,
       sharedSnippetText,
       onLoadDraftPress,
-      thumbIndex
+      thumbUrl,
+      uploadProgress,
+      rewardType,
     } = this.state;
 
-    const tags = navigation.state.params && navigation.state.params.tags;
-    
+    const tags = route.params?.tags;
+    const paramFiles = route.params?.files;
     return (
       <EditorScreen
+        paramFiles={paramFiles}
         autoFocusText={autoFocusText}
         draftPost={draftPost}
         handleRewardChange={this._handleRewardChange}
         handleShouldReblogChange={this._handleShouldReblogChange}
         handleSchedulePress={this._handleSchedulePress}
         handleFormChanged={this._handleFormChanged}
-        handleOnBackPress={() => { }}
-        handleOnImagePicker={this._handleRoutingAction}
+        handleOnBackPress={() => {}}
         handleOnSubmit={this._handleSubmit}
         initialEditor={this._initialEditor}
         isDarkTheme={isDarkTheme}
@@ -1191,8 +1116,10 @@ class EditorContainer extends Component {
         isOpenCamera={isOpenCamera}
         isPostSending={isPostSending}
         isReply={isReply}
+        quickReplyText={quickReplyText}
         isUploading={isUploading}
         post={post}
+        updateDraftFields={this._updateDraftFields}
         saveCurrentDraft={this._saveCurrentDraft}
         saveDraftToDB={this._saveDraftToDB}
         uploadedImage={uploadedImage}
@@ -1202,8 +1129,12 @@ class EditorContainer extends Component {
         draftId={draftId}
         sharedSnippetText={sharedSnippetText}
         onLoadDraftPress={onLoadDraftPress}
-        thumbIndex={thumbIndex}
-        setThumbIndex={this._handleSetThumbIndex}
+        thumbUrl={thumbUrl}
+        setThumbUrl={this._handleSetThumbUrl}
+        uploadProgress={uploadProgress}
+        rewardType={rewardType}
+        getBeneficiaries={this._extractBeneficiaries}
+        setIsUploading={this._setIsUploading}
       />
     );
   }
@@ -1214,7 +1145,15 @@ const mapStateToProps = (state) => ({
   isDefaultFooter: state.account.isDefaultFooter,
   isLoggedIn: state.application.isLoggedIn,
   pinCode: state.application.pin,
-  beneficiariesMap: state.editor.beneficiariesMap
+  beneficiariesMap: state.editor.beneficiariesMap,
+  drafts: state.cache.drafts,
 });
 
-export default connect(mapStateToProps)(injectIntl(EditorContainer));
+const mapQueriesToProps = () => ({
+  queryClient:useQueryClient(),
+  userActivityMutation:useUserActivityMutation()
+})
+
+export default connect(mapStateToProps)(
+  injectIntl((props) => <EditorContainer {...props} {...mapQueriesToProps()} />),
+);

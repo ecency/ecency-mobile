@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { get, isEmpty } from 'lodash';
 import unionBy from 'lodash/unionBy';
-import Matomo from 'react-native-matomo-sdk';
 import { useIntl } from 'react-intl';
 import { Alert, AppState } from 'react-native';
 
@@ -25,7 +24,6 @@ import {
   setOtherPosts,
   setInitPosts,
 } from '../../../redux/actions/postsAction';
-import { hidePostsThumbnails } from '../../../redux/actions/uiAction';
 import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';
 import {
   subscribeCommunity,
@@ -34,6 +32,7 @@ import {
 } from '../../../redux/actions/communitiesAction';
 
 import useIsMountedRef from '../../../customHooks/useIsMountedRef';
+import { setHidePostsThumbnails } from '../../../redux/actions/applicationActions';
 
 const PostsContainer = ({
   changeForceLoadPostState,
@@ -59,10 +58,9 @@ const PostsContainer = ({
   const nsfw = useSelector((state) => state.application.nsfw);
   const initPosts = useSelector((state) => state.posts.initPosts);
   const isConnected = useSelector((state) => state.application.isConnected);
-  const isHideImages = useSelector((state) => state.ui.hidePostsThumbnails);
+  const isHideImages = useSelector((state) => state.application.hidePostsThumbnails);
   const username = useSelector((state) => state.account.currentAccount.name);
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
-  const isAnalytics = useSelector((state) => state.application.isAnalytics);
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const pinCode = useSelector((state) => state.application.pin);
   const leaderboard = useSelector((state) => state.user.leaderboard);
@@ -467,7 +465,7 @@ const PostsContainer = ({
   };
 
   const _handleImagesHide = () => {
-    dispatch(hidePostsThumbnails(!isHideImages));
+    dispatch(setHidePostsThumbnails(!isHideImages));
   };
 
   const _getPromotePosts = async () => {
@@ -656,23 +654,6 @@ const PostsContainer = ({
         },
       });
     }
-
-    // track filter and tag views
-    if (isAnalytics) {
-      if (tag) {
-        Matomo.trackView([`/${selectedFilterValue}/${tag}`]).catch((error) =>
-          console.warn('Failed to track screen', error),
-        );
-      } else if (selectedFilterValue === 'feed') {
-        Matomo.trackView([`/@${feedUsername}/${selectedFilterValue}`]).catch((error) =>
-          console.warn('Failed to track screen', error),
-        );
-      } else {
-        Matomo.trackView([`/${selectedFilterValue}`]).catch((error) =>
-          console.warn('Failed to track screen', error),
-        );
-      }
-    }
   };
 
   const _handleOnRefreshPosts = () => {
@@ -831,7 +812,6 @@ const PostsContainer = ({
       handleOnScroll={_handleOnScroll}
       isHideImage={isHideImages}
       isLoggedIn={isLoggedIn}
-      isAnalytics={isAnalytics}
       selectedOptionIndex={selectedOptionIndex}
       tag={tag}
       filterOptionsValue={filterOptionsValue}

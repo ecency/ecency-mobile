@@ -11,27 +11,22 @@ import { InAppPurchaseContainer } from '../../../containers';
 
 // Styles
 import globalStyles from '../../../globalStyles';
+import UserRibbon from '../../../components/userRibbon/userRibbon';
+import styles from './styles';
 
 const ITEM_SKUS = Platform.select({
   ios: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
   android: ['099points', '199points', '499points', '999points', '4999points', '9999points'],
 });
 
-const _getTitle = (title) => {
-  let _title = title.toUpperCase();
-  if (_title !== 'FREE POINTS') {
-    _title = _title.replace(/[^0-9]+/g, '') + ' POINTS';
-  }
-
-  return _title;
-};
-
-const BoostScreen = () => {
+const BoostScreen = ({ route }) => {
   const intl = useIntl();
+
+  const username = route.params?.username ?? '';
 
   return (
     <InAppPurchaseContainer skus={ITEM_SKUS}>
-      {({ buyItem, productList, isLoading, isProcessing }) => (
+      {({ buyItem, productList, isLoading, isProcessing, getTitle }) => (
         <View style={globalStyles.container}>
           <BasicHeader
             disabled={isProcessing}
@@ -39,18 +34,20 @@ const BoostScreen = () => {
               id: 'boost.title',
             })}
           />
-
+          {username ? (
+            <UserRibbon username={username} containerStyle={styles.userRibbonContainer} />
+          ) : null}
           {isLoading ? (
             <BoostPlaceHolder />
           ) : (
-            <ScrollView>
+            <ScrollView contentContainerStyle={styles.listContainer}>
               {productList.map((product) => (
                 <ProductItemLine
                   key={get(product, 'title')}
                   isLoading={isLoading}
                   disabled={isProcessing}
                   product={product}
-                  title={_getTitle(get(product, 'title'))}
+                  title={getTitle(get(product, 'title'))}
                   handleOnButtonPress={(id) => buyItem(id)}
                 />
               ))}

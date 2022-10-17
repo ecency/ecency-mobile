@@ -1,6 +1,7 @@
-import { Dimensions, PixelRatio, Platform } from 'react-native';
+import { PixelRatio, Platform } from 'react-native';
+import getWindowDimensions from './getWindowDimensions';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const { width: SCREEN_WIDTH } = getWindowDimensions();
 
 // based on iphone X's scale
 const scale = SCREEN_WIDTH / 414;

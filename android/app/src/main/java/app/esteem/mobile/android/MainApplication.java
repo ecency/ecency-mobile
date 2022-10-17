@@ -12,11 +12,12 @@ import com.facebook.soloader.SoLoader;
 import androidx.multidex.MultiDexApplication;
 import com.getkeepsafe.relinker.ReLinker;
 import com.bugsnag.android.Bugsnag;
+import org.wonday.orientation.OrientationActivityLifecycle;
 
 //See below, Webview debugging
 //import android.webkit.WebView; 
 
-import com.reactnativecommunity.viewpager.RNCViewPagerPackage;
+import com.reactnativepagerview.PagerViewPackage;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -39,7 +40,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
       // Packages that cannot be autolinked yet can be added manually here, for
       // example:
       // packages.add(new MyReactNativePackage());
-      packages.add(new RNCViewPagerPackage());
+      packages.add(new PagerViewPackage());
       return packages;
     }
 
@@ -70,5 +71,6 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     SoLoader.init(this, /* native exopackage */ false);
     // Uncomment below line to Debug Webview
     // WebView.setWebContentsDebuggingEnabled(true);
+    registerActivityLifecycleCallbacks(OrientationActivityLifecycle.getInstance());
   }
 }

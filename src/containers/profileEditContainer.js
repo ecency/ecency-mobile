@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 
 import { uploadImage } from '../providers/ecency/ecency';
 
@@ -58,6 +58,7 @@ class ProfileEditContainer extends Component {
       location: get(props.currentAccount, 'about.profile.location'),
       website: get(props.currentAccount, 'about.profile.website'),
       coverUrl: get(props.currentAccount, 'about.profile.cover_image'),
+      pinned: get(props.currentAccount, 'about.profile.pinned'),
       avatarUrl: get(props.currentAccount, 'avatar'),
     };
   }
@@ -145,10 +146,11 @@ class ProfileEditContainer extends Component {
 
   _handleOnSubmit = async () => {
     const { currentAccount, pinCode, dispatch, navigation, intl } = this.props;
-    const { name, location, website, about, coverUrl, avatarUrl } = this.state;
+    const { name, location, website, about, coverUrl, avatarUrl, pinned } = this.state;
 
     this.setState({ isLoading: true });
 
+    //TOOD: preserve pinned post permlink
     const params = {
       profile_image: avatarUrl,
       cover_image: coverUrl,
@@ -156,6 +158,7 @@ class ProfileEditContainer extends Component {
       website,
       about,
       location,
+      pinned,
       version: 2,
     };
 

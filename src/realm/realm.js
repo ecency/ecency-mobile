@@ -348,31 +348,6 @@ export const setDefaultFooter = async (isDefaultFooter) => {
   }
 };
 
-export const setUpvotePercent = async (percent) => {
-  try {
-    const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-
-    setting.upvotePercent = percent;
-    await setItemToStorage(SETTINGS_SCHEMA, setting);
-
-    return true;
-  } catch (error) {
-    return error;
-  }
-};
-
-export const getUpvotePercent = async () => {
-  try {
-    const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-    if (setting) {
-      return setting.upvotePercent;
-    }
-    return false;
-  } catch (error) {
-    return error;
-  }
-};
-
 export const getNsfw = async () => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
@@ -440,6 +415,9 @@ export const setNotificationSettings = async ({ type, action }) => {
         break;
       case 'notification.mention':
         setting.mentionNotification = action;
+        break;
+      case 'notification.favorite':
+        setting.favoriteNotification = action;
         break;
       case 'notification.reblog':
         setting.reblogNotification = action;
@@ -549,6 +527,7 @@ export const getSettings = async () => {
       voteNotification: true,
       commentNotification: true,
       mentionNotification: true,
+      favoriteNotification: true,
       reblogNotification: true,
       transfersNotification: true,
       isPinCodeOpen: false,

@@ -3,18 +3,19 @@ import { View, Alert, StatusBar } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 
 import { loginWithSC2 } from '../../providers/hive/auth';
 import { hsOptions } from '../../constants/hsOptions';
 
 // Actions
 import { addOtherAccount, updateCurrentAccount } from '../../redux/actions/accountAction';
-import { login as loginAction, openPinCodeModal } from '../../redux/actions/applicationActions';
+import { login as loginAction } from '../../redux/actions/applicationActions';
 
 // Constants
 import { default as ROUTES } from '../../constants/routeNames';
 import persistAccountGenerator from '../../utils/persistAccountGenerator';
+import { fetchSubscribedCommunities } from '../../redux/actions/communitiesAction';
 
 class HiveSigner extends PureComponent {
   constructor(props) {
@@ -39,22 +40,24 @@ class HiveSigner extends PureComponent {
       if (!isLoading) {
         this.setState({ isLoading: true });
         handleOnModalClose();
-        loginWithSC2(code[1], isPinCodeOpen)
+        loginWithSC2(code[1])
           .then((result) => {
             if (result) {
               const persistAccountData = persistAccountGenerator(result);
 
               dispatch(updateCurrentAccount({ ...result }));
+              dispatch(fetchSubscribedCommunities(result.username));
               dispatch(addOtherAccount({ ...persistAccountData }));
               dispatch(loginAction(true));
 
               if (isPinCodeOpen) {
-                dispatch(
-                  openPinCodeModal({
+                navigation.navigate({
+                  routeName: ROUTES.SCREENS.PINCODE,
+                  params: {
                     accessToken: result.accessToken,
                     navigateTo: ROUTES.DRAWER.MAIN,
-                  }),
-                );
+                  },
+                });
               } else {
                 navigation.navigate({
                   routeName: ROUTES.DRAWER.MAIN,

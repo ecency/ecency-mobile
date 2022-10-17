@@ -7,10 +7,17 @@ import get from 'lodash/get';
 // Components
 import { UserAvatar } from '../../userAvatar';
 
+import { vestsToHp } from '../../../utils/conversions';
+
 // Styles
 import styles from './notificationLineStyles';
 
-const NotificationLineView = ({ notification, handleOnPressNotification, handleOnUserPress }) => {
+const NotificationLineView = ({
+  notification,
+  handleOnPressNotification,
+  handleOnUserPress,
+  globalProps,
+}) => {
   const [isRead, setIsRead] = useState(notification.read);
   const intl = useIntl();
   let _title;
@@ -29,8 +36,14 @@ const NotificationLineView = ({ notification, handleOnPressNotification, handleO
     handleOnPressNotification(notification);
   };
 
-  if (notification.type === 'transfer') {
-    titleExtra = notification.amount;
+  if (notification.type === 'transfer' || notification.type === 'delegations') {
+    if (notification.type === 'delegations') {
+      titleExtra = `${
+        Math.round(vestsToHp(notification.amount, get(globalProps, 'hivePerMVests')) * 1000) / 1000
+      } HP`;
+    } else {
+      titleExtra = notification.amount;
+    }
   } else if (notification.weight) {
     const _percent = `${parseFloat((notification.weight / 100).toFixed(2))}% `;
     titleExtra = _percent;
@@ -43,6 +56,7 @@ const NotificationLineView = ({ notification, handleOnPressNotification, handleO
   if (
     notification.type === 'vote' ||
     notification.type === 'reblog' ||
+    notification.type === 'favorites' ||
     (notification.type === 'mention' && notification.post)
   ) {
     _moreinfo = notification.title || notification.permlink;

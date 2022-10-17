@@ -33,7 +33,7 @@ export default EStyleSheet.create({
   },
   icon: {
     fontSize: 24,
-    color: '$primaryDarkText',
+    color: '$darkGrayBackground',
   },
   badge: {
     position: 'absolute',

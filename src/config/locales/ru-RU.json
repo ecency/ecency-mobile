@@ -7,7 +7,9 @@
     "transfer": "Перевод",
     "power_up": "В Силу",
     "transfer_from_savings": "Из сейфа",
+    "withdraw_savings": "Вывести сбережения",
     "withdraw_vesting": "Понижение силы",
+    "open_order": "Открыть ордер",
     "fill_order": "Заполнить ордер",
     "post": "Пост",
     "comment": "Комментарии",
@@ -49,10 +51,17 @@
     "to": "Кому",
     "estimated_value_desc": "По стоимости покупки",
     "estimated_value": "Расчетная стоимость",
+    "vote_value": "Величина голоса",
+    "delegated_hive_power": "Делегированная Сила Голоса",
+    "powering_down_hive_power": "Понижение Силы Голоса",
+    "received_hive_power": "Делегированная Сила Голоса",
+    "total_hive_power": "Всего Силы Голоса",
+    "savings": "Сбережения",
     "estimated_amount": "Стоимость голоса",
     "amount_information": "Потяните ползунок чтобы установить сумму",
     "amount": "Сумма",
     "memo": "Примечание",
+    "tap_update": "Tap to update",
     "information": "Вы уверены, что хотите перевести средства?",
     "amount_desc": "Баланс",
     "memo_desc": "Эта заметка публична",
@@ -68,10 +77,11 @@
     "next": "ДАЛЕЕ",
     "delegate": "Делегировать",
     "power_down": "Понижение силы",
-    "withdraw_hive": "Вывести HIVE",
-    "withdraw_hbd": "Вывести HBD",
+    "withdraw_hive": "Вывести сбережения",
+    "withdraw_hbd": "Вывести сбережения",
     "transfer_to_savings": "В Сейф",
     "convert": "Конвертировать",
+    "convert_request": "Преобразовать запрос",
     "escrow_transfer": "Передача на депозит",
     "escrow_dispute": "Спор по депозиту",
     "escrow_release": "Выпуск депозита",
@@ -81,8 +91,9 @@
     "fill_convert_request": "Конвертация выполнена",
     "fill_transfer_from_savings": "Сбережения сняты",
     "fill_vesting_withdraw": "Понижение Силы выполнено",
-    "estm": {
+    "ecency": {
       "title": "Баллы",
+      "name": "Баллы Ecency",
       "buy": "Получить Баллы"
     },
     "savinghive": {
@@ -93,6 +104,7 @@
     },
     "hive": {
       "title": "HIVE",
+      "name": "Hive токен",
       "buy": "Купить HIVE"
     },
     "hbd": {
@@ -100,13 +112,29 @@
       "buy": "Купить HBD"
     },
     "hive_power": {
-      "title": "HIVE СИЛА"
+      "title": "HIVE СИЛА",
+      "name": "Hive Сила"
+    },
+    "hive_dollar": {
+      "name": "Hive Доллар"
     },
     "btc": {
       "title": "BTC",
       "buy": "Купить BTC",
       "address": "ПОЛУЧИТЬ"
-    }
+    },
+    "last_updated": "Последнее обновление:",
+    "updating": "Обновление...",
+    "coin_details": "Детали",
+    "change": "Изменить",
+    "activities": "Активности",
+    "savings_withdrawal": "Ожидающие вывода",
+    "open_orders": "Открытые ордеры",
+    "conversions_requested": "Запрашиваемые конверсии",
+    "expires": "истекает",
+    "pending_requests": "Ожидающие рассмотрения запросы",
+    "boost_account": "Усилить",
+    "get_boost": "Усилить"
   },
   "notification": {
     "vote": "проголосовал",
@@ -118,6 +146,7 @@
     "ignore": "игнорирует",
     "reblog": "сделал репост",
     "transfer": "переведено",
+    "delegations": "делегировано",
     "spin": "Пора заработать больше Баллов",
     "inactive": "Будьте активны! Напишите пост, продолжайте зарабатывать",
     "referral": "присоединился по вашей ссылке. Поприветствуйте его",
@@ -191,7 +220,7 @@
     "currency": "Валюта",
     "language": "Язык",
     "server": "Сервер",
-    "dark_theme": "Тёмная тема",
+    "color_theme": "Внешний вид",
     "push_notification": "Уведомления",
     "notification": {
       "follow": "Подписки",
@@ -199,9 +228,11 @@
       "comment": "Комментарии",
       "mention": "Упоминания",
       "reblog": "Репосты",
-      "transfers": "Переводы"
+      "transfers": "Переводы",
+      "delegations": "Делегации"
     },
     "pincode": "Пинкод",
+    "biometric": "Отпечаток пальца / Разблокировка по лицу",
     "reset_pin": "Сбросить пин-код",
     "reset": "Сбросить",
     "nsfw_content": "NSFW",
@@ -213,9 +244,16 @@
       "always_hide": "Всегда скрывать",
       "always_warn": "Всегда предупреждать"
     },
+    "theme": {
+      "system": "Настройки устройства",
+      "light": "Светлая",
+      "dark": "Тёмная"
+    },
     "feedback_success": "Письмо успешно отправлено",
     "feedback_fail": "Не удалось открыть почтовый клиент",
-    "server_fail": "Сервер недоступен"
+    "server_fail": "Сервер недоступен",
+    "show_imgs": "Показать изображения",
+    "delete_account": "﻿Удалить учётную запись"
   },
   "voters": {
     "voters_info": "Детали голосов",
@@ -231,7 +269,15 @@
     "cancel": "отмена",
     "login": "Войти",
     "steemconnect_description": "Если вы не хотите хранить зашифрованные ключи на своем устройстве, используйте Hivesigner.",
-    "steemconnect_fee_description": "информация"
+    "steemconnect_fee_description": "информация",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "Зарегистрироваться",
@@ -254,7 +300,7 @@
     "friends": "Друзья",
     "communities": "Сообщества",
     "popup_postfix": "Опубликовано",
-    "scroll_top": "Scroll To Top"
+    "scroll_top": "Наверх"
   },
   "side_menu": {
     "profile": "Профиль",
@@ -272,7 +318,8 @@
     "create_a_new_account": "Создать новый аккаунт",
     "add_an_existing_account": "Добавить существующий аккаунт",
     "accounts": "Аккаунты",
-    "refer": "Расскажите и заработайте"
+    "refer": "Расскажите и заработайте",
+    "qr": "QR Скан"
   },
   "header": {
     "title": "Войдите, чтобы настроить свою ленту",
@@ -283,7 +330,7 @@
     "search": "Поиск",
     "update": "Обновить",
     "reply": "Ответить",
-    "schedule": "Schedule"
+    "schedule": "Запланировать"
   },
   "editor": {
     "title": "Заголовок",
@@ -305,7 +352,7 @@
     "limited_lastchar": "Тег должен заканчиваться буквой или цифрой",
     "setting_schedule": "Запланированное время",
     "setting_reward": "Вознаграждение",
-    "setting_reblog": "Reblog",
+    "setting_reblog": "Репост",
     "setting_beneficiary": "Бенефициар",
     "setting_thumb": "Установить Миниатюру",
     "reward_default": "По умолчанию 50% / 50%",
@@ -331,16 +378,27 @@
     "draft_save_success": "Черновик сохранён",
     "draft_save_fail": "Не удалось сохранить черновик",
     "select_thumb": "Выбрать Миниатюру для Поста",
-    "add_more_imgs": "Add more images to post",
+    "add_more_imgs": "Добавить больше изображений к статье",
     "two_thumbs_required": "Добавьте больше изображений в ваше сообщение перед настройкой миниаютюры",
-    "scheduled_for": "Scheduled For",
-    "scheduled_immediate": "Immediate",
-    "scheduled_later": "Later",
-    "settings_title": "Post Options",
-    "done": "DONE",
-    "draft_save_title": "Saving Draft",
-    "draft_update": "Update current draft",
-    "draft_save_new": "Save as new draft"
+    "scheduled_for": "Запланировано на",
+    "scheduled_immediate": "Немедленно",
+    "scheduled_later": "Позже",
+    "settings_title": "Параметры статьи",
+    "done": "ГОТОВО",
+    "draft_save_title": "Сохранение черновика",
+    "draft_update": "Обновить текущий черновик",
+    "draft_save_new": "Сохранить как новый черновик",
+    "label": "Метка",
+    "enter_label_placeholder": "Введите метку (необязательно)",
+    "url": "Ссылка",
+    "enter_url_placeholder": "Введите Ссылку",
+    "link_type_text": "Тип ссылки",
+    "insert_link": "Вставить ссылку",
+    "preview": "Предпросмотр",
+    "invalid_url_error": "Пожалуйста, введите действительную ссылку",
+    "plain": "Обычный",
+    "video": "Видео",
+    "image": "Изображение"
   },
   "snippets": {
     "label_no_snippets": "Сниппеты не найдены",
@@ -359,13 +417,16 @@
     "btn_cancel": "Отмена"
   },
   "uploads_modal": {
-    "label_no_images": "Изображения не найдены",
+    "label_no_images": "No Existing Uploads...",
     "title": "Загруженные изображения",
     "title_remove_confirmation": "Удалить изображение",
     "btn_add": "Изображение",
-    "btn_insert": "INSERT",
-    "btn_delete": "DELETE",
-    "message_failed": "Не удалось загрузить изображение"
+    "btn_insert": "ВСТАВИТЬ",
+    "btn_delete": "УДАЛИТЬ",
+    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "message_failed": "Не удалось загрузить изображение",
+    "delete_failed": "Failed to delete image",
+    "failed_count": "Не удалось загрузить {failedCount} из {totalCount} выбранного изображения(ов)"
   },
   "pincode": {
     "enter_text": "Чтобы разблокировать введите пин-код",
@@ -374,7 +435,8 @@
     "forgot_text": "Запамятовал...",
     "pin_not_matched": "Пароли не совпадают, попробуйте еще раз.",
     "attempts_postfix": "неудачные попытки",
-    "message_reset_warning": "Данные пользователя будут удалены при следующей неудачной попытке"
+    "message_reset_warning": "Данные пользователя будут удалены при следующей неудачной попытке",
+    "biometric_desc": "Отсканируйте отпечаток пальца на сканере девайса, чтобы продолжить"
   },
   "alert": {
     "success": "Успех!",
@@ -440,9 +502,12 @@
     "update": "Обновить сейчас",
     "remind_later": "Напомнить позже",
     "failed_to_open": "Не удалось открыть ссылку",
-    "restart_ecency": "Restart Ecency?",
-    "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response": "Could not process request, Try again later."
+    "restart_ecency": "Перезапустить Ecency?",
+    "restart_ecency_desc": "Применение изменений потребует перезагрузки.",
+    "invalid_response": "Не удалось обработать запрос, повторите попытку позже.",
+    "wallet_updating": "Выполняется обновление кошелька, попробуйте еще раз после завершения обновления",
+    "claim_failed": "Не удалось получить награды, {message}\nПовторите попытку или напишите нам на support@ecency.com",
+    "connection_issues": "Сервер недоступен, проверьте подключение и повторите попытку."
   },
   "post": {
     "reblog_alert": "Вы уверены, что хотите сделать репост?",
@@ -473,7 +538,11 @@
     "empty_list": "Ничего нет",
     "deleted": "Отложенный пост удалён",
     "move": "Переместить в черновики",
-    "moved": "Перемещён в черновики"
+    "moved": "Перемещён в черновики",
+    "pending": "В ожидании",
+    "postponed": "Отложено",
+    "published": "Опубликовано",
+    "error": "Ошибка"
   },
   "bookmarks": {
     "title": "Закладки",
@@ -488,6 +557,11 @@
     "added": "Было сообщено о нежелательном содержании",
     "confirm_report_title": "Подтвердить Жалобу!",
     "confirm_report_body": "Вы уверены, что хотите подать жалобу?"
+  },
+  "delete": {
+    "confirm_delete_title": "Подтвердите удаление",
+    "confirm_delete_body": "Вы уверены, что хотите удалить учетную запись? Это сотрет все ваши данные",
+    "request_sent": "Ваш запрос на удаление отправлен"
   },
   "favorites": {
     "title": "Избранное",
@@ -521,11 +595,18 @@
     "bookmarks": "добавить в закладки",
     "promote": "продвинуть",
     "boost": "усилить",
-    "report": "пожаловаться"
+    "report": "пожаловаться",
+    "pin-blog": "Закрепить в блоге",
+    "unpin-blog": "Открепить от блога",
+    "pin-community": "Закрепить в сообществе",
+    "unpin-community": "Открепить от сообщества",
+    "edit-history": "История изменений",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Несуществующий пользователь",
-    "no_existing_post": "Несуществующий пост"
+    "no_existing_post": "Несуществующий пост",
+    "invalid_link": "Неверный Url, вы можете попробовать еще раз с корректным url или попытаться открыть его в веб-браузере"
   },
   "search": {
     "posts": "Посты",
@@ -564,39 +645,56 @@
     "stop_information": "Вы действительно хотите остановить?",
     "percent": "Процент",
     "auto_vests": "Авто Vests",
+    "vests": "Vests",
     "save": "СОХРАНИТЬ",
     "percent_information": "Информация о %",
     "next": "ДАЛЕЕ",
     "delegate": "Делегировать",
-    "power_down": "Понижение Силы",
     "withdraw_hive": "Вывести HIVE",
     "withdraw_hbd": "Вывести Hive Доллар",
     "incoming_funds": "Входящие средства",
     "stop": "Остановить",
     "sc_power_down_error": "Эта функция еще не реализована для логина через Hivesigner",
     "address_view": "Посмотреть адрес",
-    "already_delegated": "Already delegated to ",
-    "remain_hp": "Remaining HP",
-    "account_detail_head": "Account Details",
-    "account_detail_subhead": "Enter username for HIVE Power delegation",
-    "delegat_detail_head": "Delegation Details",
-    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
-    "new_amount": "New Amount",
-    "review": "REVIEW",
-    "confirm": "Confirm Delegation",
-    "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
-    "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
-    "username_alert": "Username Error!",
-    "username_alert_detail": "Please select different username"
+    "already_delegated": "Уже делегировано ",
+    "remain_hp": "Осталось HP",
+    "account_detail_head": "Детали учетной записи",
+    "account_detail_subhead": "Введите имя пользователя для делегирования HIVE Power",
+    "delegat_detail_head": "Детали делегирования",
+    "delegat_detail_subhead": "Новая сумма перезаписывает уже делегированную HIVE Power ",
+    "new_amount": "Новая сумма",
+    "review": "ОБЗОР",
+    "confirm": "Подтвердите делегирование",
+    "confirm_summary": "Делегат {hp} HP ({vests} VESTS) в @{delegator} от @{delegatee} ",
+    "confirm_summary_para": "Это перезапишет вашу предыдущую передачу {prev} HP этому пользователю.",
+    "username_alert": "Ошибка в имени пользователя!",
+    "username_alert_detail": "Пожалуйста, выберите другое имя пользователя",
+    "power_down": "Понижение Силы",
+    "power_down_amount_head": "Вывести сумму",
+    "power_down_amount_subhead": "Введите количество для понижения hive power",
+    "withdraw_accounts": "Аккаунт для вывода",
+    "amount_hp": "Сумма (HP)",
+    "powering_down": "Понижение Силы",
+    "powering_down_subheading": "В настоящее время вы понижаете Силу.",
+    "powering_down_info": "Следующее снижение силы— через {days} дней, {hp} HIVE",
+    "invalid_amount": "Неверное значение",
+    "invalid_amount_desc": "Пожалуйста, введите правильную сумму",
+    "account_select_title": "Детали аккаунта",
+    "account_select_description": "Операции, связанные с фондами необратимы, убедитесь, что имя получателя верно",
+    "amount_select_title": "Детали перевода",
+    "amount_select_description": "Введите сумму перевода в пределах максимально доступного баланса и не меньше 0.001"
   },
   "boost": {
     "title": "Получить Баллы",
     "buy": "Получить Баллы",
     "next": "ДАЛЕЕ",
+    "info": "Фактическое значение голоса, которое вы получите, может варьироваться",
     "account": {
       "title": "Получить усиление аккаунта",
       "desc": "30-дневная делегация увеличит ваши голоса и социальную активность, а также даст вам больше действий с использованием Ресурс Кредитов."
-    }
+    },
+    "confirm_purchase": "Подтвердите покупку @{username}",
+    "confirm_purchase_summary": "Покупка {points} для {username} по {price}"
   },
   "free_estm": {
     "title": "Бесплатные Баллы",
@@ -635,7 +733,8 @@
     "title": "Комментарии",
     "reveal_comment": "Показать комментарий",
     "read_more": "Читать больше комментариев",
-    "more_replies": "ответы"
+    "more_replies": "ответы",
+    "no_comments": "Прокомментируйте первым..."
   },
   "search_result": {
     "others": "Другое",
@@ -686,7 +785,8 @@
     "remove_from_favourites": "УДАЛИТЬ ИЗ ИЗБРАННЫХ",
     "mute": "ОТКЛЮЧИТЬ / ЗАБЛОКИРОВАТЬ",
     "unmute": "ВКЛЮЧИТЬ / РАЗБЛОКИРОВАТЬ",
-    "report": "ПОЖАЛОВАТЬСЯ НА ПОЛЬЗОВАТЕЛЯ"
+    "report": "ПОЖАЛОВАТЬСЯ НА ПОЛЬЗОВАТЕЛЯ",
+    "delegate": "ДЕЛЕГИРОВАТЬ СИЛУ HIVE"
   },
   "communities": {
     "joined": "Членство",
@@ -702,7 +802,7 @@
     "username": "Имя пользователя",
     "addAccount": "Добавить аккаунт",
     "save": "Сохранить",
-    "cancel": "Cancel"
+    "cancel": "Отмена"
   },
   "welcome": {
     "label": "Добро пожаловать в",
@@ -713,7 +813,9 @@
     "line2_body": "Использование блокчейна, без цензуры, децентрализованное и награждающее.",
     "line3_heading": "Присоединяйтесь к Ecency сообществам!",
     "line3_body": "Постройте собственное сообщество, получайте награды и награждайте других.",
-    "get_started": "Начать!"
+    "get_started": "Начать!",
+    "terms_description": "Принимая, вы соглашаетесь с нашими Условиями использования и Политикой конфиденциальности.",
+    "terms_text": "Подробнее!"
   },
   "time": {
     "second": "секунд",
@@ -725,22 +827,33 @@
     "year": "лет"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
-    "comment": "Comment",
-    "reply": "REPLY",
-    "close": "CLOSE"
+    "placeholder": "Add a comment...",
+    "comment": "Комментарий",
+    "reply": "ОТВЕТИТЬ",
+    "close": "ЗАКРЫТЬ"
   },
   "walkthrough": {
-    "load_draft_tooltip": "Load your lastest draft here"
+    "load_draft_tooltip": "Загрузите последний черновик здесь"
   },
   "refer": {
-    "refer_earn": "Refer & Earn",
-    "refer": "Refer",
-    "rewarded": "Referral points rewarded",
-    "not_rewarded": "Referral reward pending",
-    "delegate_hp": "Delegate HP",
-    "earned": "Earned Points",
-    "pending": "Pending Points",
-    "empty_text": "Refer your loved ones today and earn free points"
+    "refer_earn": "Расскажите и заработайте",
+    "refer": "Привлеките",
+    "rewarded": "Награда за привлечение",
+    "not_rewarded": "Выплата награды за привлечение",
+    "delegate_hp": "Делегировать HP",
+    "earned": "Заработанные баллы",
+    "pending": "Ожидаемые поинты",
+    "empty_text": "Пригласите своих близких сегодня и зарабатывайте бесплатные баллы"
+  },
+  "qr": {
+    "qr_scan": "QR Скан",
+    "open": "Открыть Ссылку",
+    "detected_url": "Обнаружена Ссылка",
+    "unsupported_alert_title": "Неподдерживаемый URL!",
+    "unsupported_alert_desc": "Пожалуйста, отсканируйте корректный адрес ecency."
+  },
+  "history": {
+    "edit": "История изменений",
+    "version": "Версия"
   }
 }

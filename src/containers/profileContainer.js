@@ -1,11 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { get, has, unionBy, update } from 'lodash';
 import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
-import Matomo from 'react-native-matomo-sdk';
 
 // Providers
 import {
@@ -66,7 +65,6 @@ class ProfileContainer extends Component {
       navigation,
       isConnected,
       isLoggedIn,
-      isAnalytics,
       currentAccount: { name: currentAccountUsername },
     } = this.props;
     const username = get(navigation, 'state.params.username');
@@ -88,18 +86,12 @@ class ProfileContainer extends Component {
     }
 
     this._loadProfile(targetUsername);
-    if (isAnalytics) {
-      Matomo.trackView([`/@${targetUsername}`]).catch((error) =>
-        console.warn('Failed to track screen', error),
-      );
-    }
   }
 
   _getReplies = async (query) => {
     const { isOwnProfile, comments, user } = this.state;
     const {
       currentAccount: { name: currentAccountUsername },
-      isAnalytics,
     } = this.props;
     this.setState({ isProfileLoading: true });
     let repliesAction;
@@ -116,12 +108,6 @@ class ProfileContainer extends Component {
         query.observer = '';
         query.sort = 'comments';
       }
-
-      if (isAnalytics && user) {
-        Matomo.trackView([`/@${user.name}/comments`]).catch((error) =>
-          console.warn('Failed to track screen', error),
-        );
-      }
     } else {
       repliesAction = getAccountPosts;
       if (query) {
@@ -133,12 +119,6 @@ class ProfileContainer extends Component {
         query.limit = 5;
         query.observer = '';
         query.sort = 'replies';
-      }
-
-      if (isAnalytics) {
-        Matomo.trackView([`/@${currentAccountUsername}/replies`]).catch((error) =>
-          console.warn('Failed to track screen', error),
-        );
       }
     }
 
@@ -456,6 +436,18 @@ class ProfileContainer extends Component {
     );
   };
 
+  _handleDelegateHp = () => {
+    const { navigation } = this.props;
+    const username = get(navigation, 'state.params.username');
+    navigation.navigate({
+      routeName: ROUTES.SCREENS.TRANSFER,
+      params: {
+        transferType: 'delegate',
+        fundType: 'HIVE_POWER',
+        referredUsername: username,
+      },
+    });
+  };
   _handleOnBackPress = () => {
     const { navigation } = this.props;
     const navigationParams = get(navigation.state, 'params');
@@ -566,6 +558,7 @@ class ProfileContainer extends Component {
         handleOnFollowsPress: this._handleFollowsPress,
         handleOnPressProfileEdit: this._handleOnPressProfileEdit,
         handleReportUser: this._handleReportUser,
+        handleDelegateHp: this._handleDelegateHp,
         isDarkTheme,
         isFavorite,
         isFollowing,
@@ -590,10 +583,9 @@ const mapStateToProps = (state) => ({
   isDarkTheme: state.application.isDarkTheme,
   isLoggedIn: state.application.isLoggedIn,
   pinCode: state.application.pin,
-  isAnalytics: state.application.isAnalytics,
   activeBottomTab: state.ui.activeBottomTab,
   currentAccount: state.account.currentAccount,
-  isHideImage: state.ui.hidePostsThumbnails,
+  isHideImage: state.application.hidePostsThumbnails,
 });
 
 export default connect(mapStateToProps)(injectIntl(withNavigation(ProfileContainer)));

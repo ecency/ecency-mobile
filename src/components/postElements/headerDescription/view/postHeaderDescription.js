@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { injectIntl } from 'react-intl';
 
 // Components
@@ -86,10 +86,11 @@ class PostHeaderDescription extends PureComponent {
       secondaryContentComponent,
       showDotMenuButton,
       handleOnDotPress,
+      isPinned,
     } = this.props;
 
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <View style={[styles.container, customStyle]}>
           <TouchableOpacity
             style={styles.avatarNameWrapper}

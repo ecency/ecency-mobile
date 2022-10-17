@@ -34,7 +34,8 @@ export default EStyleSheet.create({
     borderWidth: 1,
     borderColor: '$borderColor',
     borderRadius: 8,
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
     color: '$primaryBlack',
     width: 172,
   },
@@ -43,7 +44,7 @@ export default EStyleSheet.create({
     borderColor: '$borderColor',
     borderRadius: 8,
     padding: 2,
-    color: '$primaryBlack',
+    // color: '$primaryBlack',
     width: 172,
     marginRight: 33,
   },
@@ -110,7 +111,7 @@ export default EStyleSheet.create({
   },
   dropdownText: {
     fontSize: 14,
-    paddingLeft: 16,
+    paddingLeft: 12,
     paddingHorizontal: 14,
     color: '$primaryDarkGray',
   },
@@ -130,7 +131,7 @@ export default EStyleSheet.create({
   },
   dropdown: {
     flexGrow: 1,
-    width: 150,
+    width: 130,
   },
   slider: {
     flex: 1,
@@ -171,5 +172,24 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
+  },
+  infoWrapper: {
+    backgroundColor: '$primaryLightBackground',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 16,
+    paddingHorizontal: 16,
+    borderRadius: 16,
+    paddingVertical: 8,
+    marginTop: 40,
+  },
+  infoIcon: {
+    color: '$primaryDarkGray',
+  },
+  infoText: {
+    fontSize: 16,
+    marginLeft: 8,
+    color: '$primaryDarkGray',
   },
 });

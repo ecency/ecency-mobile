@@ -1,17 +1,15 @@
 import getSymbolFromCurrency from 'currency-symbol-map';
 import { getCurrencyRate } from '../../providers/ecency/ecency';
 import {
-  ACTIVE_APPLICATION,
   CHANGE_COMMENT_NOTIFICATION,
   CHANGE_FOLLOW_NOTIFICATION,
   CHANGE_MENTION_NOTIFICATION,
+  CHANGE_FAVORITE_NOTIFICATION,
   CHANGE_REBLOG_NOTIFICATION,
   CHANGE_TRANSFERS_NOTIFICATION,
   CHANGE_ALL_NOTIFICATION_SETTINGS,
   CHANGE_VOTE_NOTIFICATION,
-  CLOSE_PIN_CODE_MODAL,
   IS_CONNECTED,
-  IS_ANALYTICS,
   IS_DARK_THEME,
   IS_DEFAULT_FOOTER,
   IS_LOGIN_DONE,
@@ -19,15 +17,22 @@ import {
   LOGIN,
   LOGOUT_DONE,
   LOGOUT,
-  OPEN_PIN_CODE_MODAL,
   SET_API,
   SET_CURRENCY,
   SET_LANGUAGE,
   SET_NSFW,
-  SET_UPVOTE_PERCENT,
   SET_PIN_CODE,
   IS_PIN_CODE_OPEN,
   IS_RENDER_REQUIRED,
+  SET_LAST_APP_VERSION,
+  SET_COLOR_THEME,
+  SET_SETTINGS_MIGRATED,
+  HIDE_POSTS_THUMBNAILS,
+  SET_TERMS_ACCEPTED,
+  SET_IS_BIOMETRIC_ENABLED,
+  SET_ENC_UNLOCK_PIN,
+  SET_POST_UPVOTE_PERCENT,
+  SET_COMMENT_UPVOTE_PERCENT,
 } from '../constants/constants';
 
 export const login = (payload) => ({
@@ -47,19 +52,6 @@ export const isLoginDone = () => ({
   type: IS_LOGIN_DONE,
 });
 
-export const openPinCodeModal = (payload) => ({
-  payload,
-  type: OPEN_PIN_CODE_MODAL,
-});
-
-export const closePinCodeModal = () => ({
-  type: CLOSE_PIN_CODE_MODAL,
-});
-
-export const activeApplication = () => ({
-  type: ACTIVE_APPLICATION,
-});
-
 // Settings actions
 export const setLanguage = (payload) => ({
   payload,
@@ -71,9 +63,14 @@ export const setApi = (payload) => ({
   type: SET_API,
 });
 
-export const setUpvotePercent = (payload) => ({
+export const setPostUpvotePercent = (payload) => ({
   payload,
-  type: SET_UPVOTE_PERCENT,
+  type: SET_POST_UPVOTE_PERCENT,
+});
+
+export const setCommentUpvotePercent = (payload) => ({
+  payload,
+  type: SET_COMMENT_UPVOTE_PERCENT,
 });
 
 export const changeAllNotificationSettings = (payload) => ({
@@ -107,6 +104,12 @@ export const changeNotificationSettings = (payload) => {
         type: CHANGE_MENTION_NOTIFICATION,
       };
 
+    case 'notification.favorite':
+      return {
+        payload: payload.action,
+        type: CHANGE_FAVORITE_NOTIFICATION,
+      };
+
     case 'notification.reblog':
       return {
         payload: payload.action,
@@ -135,6 +138,11 @@ export const isDarkTheme = (payload) => ({
   type: IS_DARK_THEME,
 });
 
+export const setColorTheme = (payload: number) => ({
+  payload,
+  type: SET_COLOR_THEME,
+});
+
 export const isPinCodeOpen = (payload) => ({
   payload,
   type: IS_PIN_CODE_OPEN,
@@ -143,11 +151,6 @@ export const isPinCodeOpen = (payload) => ({
 export const setConnectivityStatus = (payload) => ({
   payload,
   type: IS_CONNECTED,
-});
-
-export const setAnalyticsStatus = (payload) => ({
-  payload,
-  type: IS_ANALYTICS,
 });
 
 export const setNsfw = (payload) => ({
@@ -163,15 +166,14 @@ export const isDefaultFooter = (payload) => ({
 /**
  * MW
  */
-export const setCurrency = (currency) => (dispatch) => {
+export const setCurrency = (currency) => async (dispatch) => {
   const currencySymbol = getSymbolFromCurrency(currency);
 
-  getCurrencyRate(currency).then((currencyRate) =>
-    dispatch({
-      type: SET_CURRENCY,
-      payload: { currency, currencyRate, currencySymbol },
-    }),
-  );
+  const currencyRate = await getCurrencyRate(currency);
+  dispatch({
+    type: SET_CURRENCY,
+    payload: { currency, currencyRate, currencySymbol },
+  });
 };
 
 export const setPinCode = (data) => ({
@@ -184,3 +186,32 @@ export const isRenderRequired = (payload) => ({
   type: IS_RENDER_REQUIRED,
 });
 
+export const setLastAppVersion = (versionNumber: string) => ({
+  payload: versionNumber,
+  type: SET_LAST_APP_VERSION,
+});
+
+export const setSettingsMigrated = (isMigrated: boolean) => ({
+  payload: isMigrated,
+  type: SET_SETTINGS_MIGRATED,
+});
+
+export const setHidePostsThumbnails = (shouldHide: boolean) => ({
+  payload: shouldHide,
+  type: HIDE_POSTS_THUMBNAILS,
+});
+
+export const setIsTermsAccepted = (isTermsAccepted: boolean) => ({
+  payload: isTermsAccepted,
+  type: SET_TERMS_ACCEPTED,
+});
+
+export const setIsBiometricEnabled = (enabled: boolean) => ({
+  payload: enabled,
+  type: SET_IS_BIOMETRIC_ENABLED,
+});
+
+export const setEncryptedUnlockPin = (encryptedUnlockPin: string) => ({
+  payload: encryptedUnlockPin,
+  type: SET_ENC_UNLOCK_PIN,
+});

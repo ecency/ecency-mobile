@@ -19,11 +19,12 @@ import {
 } from '../providers/hive/dhive';
 import { toastNotification } from '../redux/actions/uiAction';
 import { getUserDataWithUsername } from '../realm/realm';
-import { getUser } from '../providers/ecency/ePoint';
+import { getPointsSummary } from '../providers/ecency/ePoint';
 
 // Utils
 import { countDecimals } from '../utils/number';
 import bugsnagInstance from '../config/bugsnag';
+import { fetchAndSetCoinsData } from '../redux/actions/walletActions';
 
 /*
  *            Props Name        Description                                     Value
@@ -35,11 +36,11 @@ class TransferContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fundType: props.navigation.getParam('fundType', ''),
-      balance: props.navigation.getParam('balance', ''),
-      tokenAddress: props.navigation.getParam('tokenAddress', ''),
-      transferType: props.navigation.getParam('transferType', ''),
-      referredUsername: props.navigation.getParam('referredUsername'),
+      fundType: props.route.params?.fundType ?? '',
+      balance: props.route.params?.balance ?? '',
+      tokenAddress: props.route.params?.tokenAddress ?? '',
+      transferType: props.route.params?.transferType ?? '',
+      referredUsername: props.route.params?.referredUsername,
       selectedAccount: props.currentAccount,
     };
   }
@@ -56,7 +57,7 @@ class TransferContainer extends Component {
   // Component Functions
 
   _getUserPointsBalance = async (username) => {
-    await getUser(username)
+    await getPointsSummary(username)
       .then((userPoints) => {
         const balance = Math.round(get(userPoints, 'points') * 1000) / 1000;
         this.setState({ balance });
@@ -78,7 +79,7 @@ class TransferContainer extends Component {
         (transferType === 'purchase_estm' || transferType === 'transfer_token') &&
         fundType === 'HIVE'
       ) {
-        balance = account[0].balance.replace(fundType, '');
+        balance = account.balance.replace(fundType, '');
       }
       if (
         (transferType === 'purchase_estm' ||
@@ -86,19 +87,19 @@ class TransferContainer extends Component {
           transferType === 'transfer_token') &&
         fundType === 'HBD'
       ) {
-        balance = account[0].hbd_balance.replace(fundType, '');
+        balance = account.hbd_balance.replace(fundType, '');
       }
       if (transferType === 'points' && fundType === 'ESTM') {
         this._getUserPointsBalance(username);
       }
       if (transferType === 'transfer_to_savings' && fundType === 'HIVE') {
-        balance = account[0].balance.replace(fundType, '');
+        balance = account.balance.replace(fundType, '');
       }
       if (transferType === 'transfer_to_savings' && fundType === 'HBD') {
-        balance = account[0].hbd_balance.replace(fundType, '');
+        balance = account.hbd_balance.replace(fundType, '');
       }
       if (transferType === 'transfer_to_vesting' && fundType === 'HIVE') {
-        balance = account[0].balance.replace(fundType, '');
+        balance = account.balance.replace(fundType, '');
       }
       if (transferType === 'address_view' && fundType === 'BTC') {
         //TODO implement transfer of custom tokens
@@ -112,7 +113,7 @@ class TransferContainer extends Component {
       }
 
       this.setState({
-        selectedAccount: { ...account[0], local: local[0] },
+        selectedAccount: { ...account, local: local[0] },
       });
     });
   };
@@ -122,13 +123,20 @@ class TransferContainer extends Component {
     return validUsers;
   };
 
+  _delayedRefreshCoinsData = () => {
+    const { dispatch } = this.props;
+    setTimeout(() => {
+      dispatch(fetchAndSetCoinsData(true));
+    }, 3000);
+  };
+
   _transferToAccount = async (from, destination, amount, memo) => {
-    const { pinCode, navigation, dispatch, intl } = this.props;
+    const { pinCode, navigation, dispatch, intl, route } = this.props;
     let { currentAccount } = this.props;
     const { selectedAccount } = this.state;
 
-    const transferType = navigation.getParam('transferType', '');
-    const fundType = navigation.getParam('fundType', '');
+    const transferType = route.params?.transferType ?? '';
+    const fundType = route.params?.fundType ?? '';
     let func;
 
     const data = {
@@ -192,6 +200,7 @@ class TransferContainer extends Component {
     return func(currentAccount, pinCode, data)
       .then(() => {
         dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
+        this._delayedRefreshCoinsData();
         navigation.goBack();
       })
       .catch((err) => {
@@ -218,22 +227,23 @@ class TransferContainer extends Component {
 
   _handleOnModalClose = () => {
     const { navigation } = this.props;
+    this._delayedRefreshCoinsData();
     navigation.goBack();
   };
 
   render() {
     const {
       accounts,
-      navigation,
       children,
       hivePerMVests,
       currentAccount,
       actionModalVisible,
       dispatch,
+      route,
     } = this.props;
     const { balance, fundType, selectedAccount, tokenAddress, referredUsername } = this.state;
 
-    const transferType = navigation.getParam('transferType', '');
+    const transferType = route.params?.transferType ?? '';
 
     return (
       children &&

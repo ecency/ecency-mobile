@@ -21,7 +21,10 @@ const TransactionView = ({ item, index }) => {
       text={intl.formatMessage({
         id: `wallet.${get(item, 'textKey')}`,
       })}
-      description={getTimeFromNow(get(item, 'created'))}
+      description={
+        (item.expires ? intl.formatMessage({ id: 'wallet.expires' }) + ' ' : '') +
+        getTimeFromNow(item.expires || item.created)
+      }
       isCircleIcon
       isThin
       circleIconColor="white"

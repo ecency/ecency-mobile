@@ -4,7 +4,7 @@ import { BasicHeader } from './basicHeader';
 import { BoostIndicatorAnimation, PulseAnimation, SpinIndicator } from './animations';
 import BeneficiaryModal from './beneficiaryModal/beneficiaryModal';
 import SnippetsModal from './snippetsModal/snippetsModal';
-import { UploadsGalleryModal } from './uploadsGalleryModal/uploadsGalleryModal';
+import { UploadsGalleryModal } from './uploadsGalleryModal/container/uploadsGalleryModal';
 import { BottomTabBar } from './bottomTabBar';
 import { CheckBox } from './checkbox';
 import { CircularButton, TextButton, SquareButton } from './buttons';
@@ -69,7 +69,7 @@ import { HorizontalIconList } from './horizontalIconList/horizontalIconListView'
 import { PopoverWrapper } from './popoverWrapper/popoverWrapperView';
 import CommunitiesList from './communitiesList';
 import SubscribedCommunitiesList from './subscribedCommunitiesList';
-
+import { InsertLinkModal } from './insertLinkModal/insertLinkModal';
 // View
 import { Comment } from './comment';
 import { Comments } from './comments';
@@ -95,6 +95,11 @@ import { QuickProfileModal } from './organisms';
 import QuickReplyModal from './quickReplyModal/quickReplyModalView';
 import Tooltip from './tooltip/tooltipView';
 import VideoPlayer from './videoPlayer/videoPlayerView';
+import QRModal from './qrModal/qrModalView';
+import { SimpleChart } from './simpleChart';
+import BeneficiarySelectionContent from './beneficiarySelectionContent/beneficiarySelectionContent';
+import TransferAccountSelector from './transferAccountSelector/transferAccountSelector';
+import TransferAmountInputSection from './transferAmountInputSection/transferAmountInputSection';
 
 // Basic UI Elements
 import {
@@ -238,4 +243,10 @@ export {
   QuickReplyModal,
   Tooltip,
   VideoPlayer,
+  InsertLinkModal,
+  QRModal,
+  SimpleChart,
+  BeneficiarySelectionContent,
+  TransferAccountSelector,
+  TransferAmountInputSection,
 };

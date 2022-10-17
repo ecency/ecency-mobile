@@ -12,6 +12,7 @@ import { injectIntl, useIntl } from 'react-intl';
 import LinearGradient from 'react-native-linear-gradient';
 import VersionNumber from 'react-native-version-number';
 import { isEmpty } from 'lodash';
+import { useDispatch } from 'react-redux';
 import { getStorageType } from '../../../realm/realm';
 
 // Components
@@ -21,6 +22,7 @@ import { TextWithIcon } from '../../basicUIElements';
 
 // Constants
 import MENU from '../../../constants/sideMenuItems';
+import ROUTES from '../../../constants/routeNames';
 
 //Utils
 import { getVotingPower } from '../../../utils/manaBar';
@@ -28,6 +30,7 @@ import { getVotingPower } from '../../../utils/manaBar';
 // Styles
 import styles from './sideMenuStyles';
 import { OptionsModal } from '../../atoms';
+import { toggleQRModal } from '../../../redux/actions/uiAction';
 
 // Images
 const SIDE_MENU_BACKGROUND = require('../../../assets/side_menu_background.png');
@@ -40,6 +43,7 @@ const SideMenuView = ({
   handlePressOptions,
 }) => {
   const intl = useIntl();
+  const dispatch = useDispatch();
   const ActionSheetRef = useRef(null);
 
   const [menuItems, setMenuItems] = useState(
@@ -74,13 +78,20 @@ const SideMenuView = ({
       return;
     }
 
-    /* if (item.id === 'refer') {
-      const shareUrl = `https://ecency.com/signup?referral=${currentAccount.username}`;
-      Share.share({
-        message: shareUrl,
+    if (item.id === 'qr') {
+      dispatch(toggleQRModal(true));
+      return;
+    }
+
+    if (item.id === 'schedules') {
+      navigateToRoute({
+        name: ROUTES.SCREENS.DRAFTS,
+        params: {
+          showSchedules: true,
+        },
       });
       return;
-    } */
+    }
 
     navigateToRoute(item.route);
   };
@@ -102,7 +113,11 @@ const SideMenuView = ({
     >
       <View style={styles.itemWrapper}>
         {item.item.icon && (
-          <Icon iconType="SimpleLineIcons" style={styles.listItemIcon} name={item.item.icon} />
+          <Icon
+            iconType={item.item.iconType ? item.item.iconType : 'SimpleLineIcons'}
+            style={styles.listItemIcon}
+            name={item.item.icon}
+          />
         )}
         {item.item.username && (
           <UserAvatar noAction username={item.item.username} style={styles.otherUserAvatar} />
@@ -114,8 +129,8 @@ const SideMenuView = ({
     </TouchableOpacity>
   );
 
-  return (
-    <View style={styles.container}>
+  const _renderHeader = () => {
+    return (
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
@@ -162,6 +177,12 @@ const SideMenuView = ({
           )}
         </ImageBackground>
       </LinearGradient>
+    );
+  };
+
+  return (
+    <View style={styles.container}>
+      {_renderHeader()}
       <View style={styles.contentView}>
         <FlatList data={menuItems} keyExtractor={(item) => item.id} renderItem={_renderItem} />
       </View>

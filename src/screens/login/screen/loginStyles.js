@@ -27,9 +27,9 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'flex-end',
-    marginRight: 10,
-    bottom: 24,
-    right: 24,
+    paddingRight: 24,
+    paddingBottom: 24,
+    backgroundColor: '$primaryBackgroundColor',
   },
   cancelButton: {
     marginRight: 10,
@@ -41,5 +41,9 @@ export default EStyleSheet.create({
   },
   input: {
     color: '$primaryDarkText',
+    flexGrow: 1,
+  },
+  mainBtnText: {
+    marginRight: 12,
   },
 });

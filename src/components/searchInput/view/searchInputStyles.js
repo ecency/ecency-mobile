@@ -1,4 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { isRTL } from '../../../utils/I18nUtils';
 
 export default EStyleSheet.create({
   container: {
@@ -40,6 +41,7 @@ export default EStyleSheet.create({
     fontSize: 24,
     color: '$iconColor',
     justifyContent: 'center',
+    transform: [{ rotate: isRTL() ? '-180deg' : '0deg' }],
   },
   backButtonContainer: {
     flex: 1,

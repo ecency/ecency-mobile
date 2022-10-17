@@ -7,7 +7,9 @@
     "transfer": "Transfer",
     "power_up": "To Vesting",
     "transfer_from_savings": "From wia you keep am",
+    "withdraw_savings": "Withdraw Savings",
     "withdraw_vesting": "Power Down",
+    "open_order": "Open Order",
     "fill_order": "Fill Order",
     "post": "Tori",
     "comment": "Comment",
@@ -49,10 +51,17 @@
     "to": "To",
     "estimated_value_desc": "Based on the money wey u take buy am",
     "estimated_value": "The value wey we use eye gauge",
+    "vote_value": "Vote value",
+    "delegated_hive_power": "Delegated hive power",
+    "powering_down_hive_power": "Powering down",
+    "received_hive_power": "Received hive power",
+    "total_hive_power": "Total hive power",
+    "savings": "Savings",
     "estimated_amount": "Wetin your vote dey give",
     "amount_information": "Move d slider so you go fit change d amount as u like",
     "amount": "Amount",
     "memo": "Memo",
+    "tap_update": "Tap to update",
     "information": "You sure say u wan send d money?",
     "amount_desc": "Balance",
     "memo_desc": "Na everybody go see this memo",
@@ -68,10 +77,11 @@
     "next": "NEXT",
     "delegate": "Wetin dem dash you",
     "power_down": "Power Down",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HBD",
+    "withdraw_hive": "Withdraw Savings",
+    "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "To wia you keep am",
     "convert": "Turn am",
+    "convert_request": "Convert Request",
     "escrow_transfer": "Carry am go Escrow",
     "escrow_dispute": "Wahala for Escrow",
     "escrow_release": "Escrow don comot hand",
@@ -81,9 +91,10 @@
     "fill_convert_request": "Turn am don dey kampe",
     "fill_transfer_from_savings": "We don keep am kampe",
     "fill_vesting_withdraw": "To comot money don start",
-    "estm": {
+    "ecency": {
       "title": "Points",
-      "buy": "COLLECT SOME THINGS"
+      "name": "Ecency Points",
+      "buy": "GET POINTS"
     },
     "savinghive": {
       "title": "HIVE Savings"
@@ -93,6 +104,7 @@
     },
     "hive": {
       "title": "HIVE",
+      "name": "Hive Token",
       "buy": "GET HIVE"
     },
     "hbd": {
@@ -100,13 +112,29 @@
       "buy": "GET HBD"
     },
     "hive_power": {
-      "title": "HIVE POWER"
+      "title": "HIVE POWER",
+      "name": "Hive Power"
+    },
+    "hive_dollar": {
+      "name": "Hive Dollar"
     },
     "btc": {
       "title": "BTC",
       "buy": "COLLECT BTC",
       "address": "COLLECT AM"
-    }
+    },
+    "last_updated": "Last Updated:",
+    "updating": "Updating...",
+    "coin_details": "Details",
+    "change": "Change",
+    "activities": "Activities",
+    "savings_withdrawal": "Pending Withdrawals",
+    "open_orders": "Open Orders",
+    "conversions_requested": "Conversions Requested",
+    "expires": "expires",
+    "pending_requests": "Pending Requests",
+    "boost_account": "Boost",
+    "get_boost": "Get Boost"
   },
   "notification": {
     "vote": "sama am love",
@@ -118,6 +146,7 @@
     "ignore": "don dey ignore you",
     "reblog": "e don reblog",
     "transfer": "give am",
+    "delegations": "delegated",
     "spin": "Na when you gaz collect plenty some things",
     "inactive": "Dey online wella! put something dow, make you fit collect",
     "referral": "enter based on person wey send dem come, greet dem",
@@ -191,7 +220,7 @@
     "currency": "Currency",
     "language": "Language",
     "server": "Server",
-    "dark_theme": "Theme wey dark",
+    "color_theme": "Appearance",
     "push_notification": "Your Alert",
     "notification": {
       "follow": "Follow am",
@@ -199,9 +228,11 @@
       "comment": "Comment",
       "mention": "Mention",
       "reblog": "Reblog am",
-      "transfers": "Transfer"
+      "transfers": "Transfer",
+      "delegations": "Delegations"
     },
     "pincode": "PIN code",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "Format your pin code",
     "reset": "Reset",
     "nsfw_content": "E no good to dey watch am outside",
@@ -213,9 +244,16 @@
       "always_hide": "Hide everytime",
       "always_warn": "Warn everytime"
     },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
+    },
     "feedback_success": "Email don open successfully",
     "feedback_fail": "Email no gree open",
-    "server_fail": "Server no dey"
+    "server_fail": "Server no dey",
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "People Wey Vote informate",
@@ -231,7 +269,15 @@
     "cancel": "cancel",
     "login": "LOGIN",
     "steemconnect_description": "If you no wan make ur key dey safe and make we put am for ur fone, you fit use HiveSigner.",
-    "steemconnect_fee_description": "informate"
+    "steemconnect_fee_description": "informate",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "Register for here",
@@ -272,7 +318,8 @@
     "create_a_new_account": "Create a new account",
     "add_an_existing_account": "Add an existing account",
     "accounts": "Accounts",
-    "refer": "Refer & Earn"
+    "refer": "Refer & Earn",
+    "qr": "QR Scan"
   },
   "header": {
     "title": "Login to arrange your tori",
@@ -340,7 +387,18 @@
     "done": "DONE",
     "draft_save_title": "Saving Draft",
     "draft_update": "Update current draft",
-    "draft_save_new": "Save as new draft"
+    "draft_save_new": "Save as new draft",
+    "label": "Label",
+    "enter_label_placeholder": "Enter Label (Optional)",
+    "url": "URL",
+    "enter_url_placeholder": "Enter URL",
+    "link_type_text": "Type of Link",
+    "insert_link": "Insert Link",
+    "preview": "Preview",
+    "invalid_url_error": "Please insert valid url",
+    "plain": "Plain",
+    "video": "Video",
+    "image": "Image"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -359,13 +417,16 @@
     "btn_cancel": "Cancel"
   },
   "uploads_modal": {
-    "label_no_images": "No Images Found",
+    "label_no_images": "No Existing Uploads...",
     "title": "Uploaded Images",
     "title_remove_confirmation": "Delete image",
     "btn_add": "Image",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
-    "message_failed": "Failed to upload image"
+    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "message_failed": "Failed to upload image",
+    "delete_failed": "Failed to delete image",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "Enter your PIN to open am",
@@ -374,7 +435,8 @@
     "forgot_text": "Chai, I don forget am...",
     "pin_not_matched": "PIN do not match, Please try again.",
     "attempts_postfix": "failed attempt(s)",
-    "message_reset_warning": "User data will be wiped on next failed attempt"
+    "message_reset_warning": "User data will be wiped on next failed attempt",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "E don Successful!",
@@ -442,7 +504,10 @@
     "failed_to_open": "Failed to open a link",
     "restart_ecency": "Restart Ecency?",
     "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response": "Could not process request, Try again later."
+    "invalid_response": "Could not process request, Try again later.",
+    "wallet_updating": "Wallet update in progress, try again as update finishes",
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
+    "connection_issues": "The server is unreachable, please check your connection and try again."
   },
   "post": {
     "reblog_alert": "You sure say you wan reblog am?",
@@ -473,7 +538,11 @@
     "empty_list": "Here empty oo",
     "deleted": "Tori wey you time don delete",
     "move": "Move am go draft",
-    "moved": "E don move go draft"
+    "moved": "E don move go draft",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Bookmarks",
@@ -488,6 +557,11 @@
     "added": "Tell Oga dem for dis content wey dey objectionable",
     "confirm_report_title": "Confirm Report!",
     "confirm_report_body": "Are you sure you want report?"
+  },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
   },
   "favorites": {
     "title": "Favorites",
@@ -521,11 +595,18 @@
     "bookmarks": "add am to bookmark",
     "promote": "loud am",
     "boost": "give am push",
-    "report": "tell Oga"
+    "report": "tell Oga",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community",
+    "edit-history": "Edit History",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "The person no exist",
-    "no_existing_post": "The post no exist"
+    "no_existing_post": "The post no exist",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Tori",
@@ -564,11 +645,11 @@
     "stop_information": "You sure say you wan stop am?",
     "percent": "Percent",
     "auto_vests": "Vests wey computer dey do",
+    "vests": "Vests",
     "save": "KEEP AM",
     "percent_information": "Informate of dem Percent",
     "next": "NEXT",
     "delegate": "Wetin you wan dash",
-    "power_down": "Power am Down",
     "withdraw_hive": "Withdraw HIVE",
     "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Money wey dey enta",
@@ -580,23 +661,40 @@
     "account_detail_head": "Account Details",
     "account_detail_subhead": "Enter username for HIVE Power delegation",
     "delegat_detail_head": "Delegation Details",
-    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "New Amount",
     "review": "REVIEW",
     "confirm": "Confirm Delegation",
     "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
     "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
     "username_alert": "Username Error!",
-    "username_alert_detail": "Please select different username"
+    "username_alert_detail": "Please select different username",
+    "power_down": "Power am Down",
+    "power_down_amount_head": "Withdraw Amount",
+    "power_down_amount_subhead": "Enter amount for powering down hive power",
+    "withdraw_accounts": "Withdraw Accounts",
+    "amount_hp": "Amount (HP)",
+    "powering_down": "Powering Down",
+    "powering_down_subheading": "You are currently powering down.",
+    "powering_down_info": "Next power down is in {days} days, {hp} HIVE",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Please enter valid amount",
+    "account_select_title": "Account Details",
+    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
+    "amount_select_title": "Transfer Details",
+    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
   },
   "boost": {
     "title": "Collect dem tins",
     "buy": "COLLECT dem tins",
     "next": "ONTO D NEXT ONE",
+    "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Give Account Push",
       "desc": "Wetin dem dash u for 30 days go push your votes dem and all dose flexing tinz and go give u more energy wit dem Resource Credits."
-    }
+    },
+    "confirm_purchase": "Confirm Purchase @{username}",
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
   "free_estm": {
     "title": "Collect dem Free tins",
@@ -635,7 +733,8 @@
     "title": "Comments",
     "reveal_comment": "Show dis comment",
     "read_more": "Check dem comments",
-    "more_replies": "replies"
+    "more_replies": "replies",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Others",
@@ -686,7 +785,8 @@
     "remove_from_favourites": "REMOVE FROM FAVOURITES",
     "mute": "MUTE / BLOCK",
     "unmute": "UNMUTE / UNBLOCK",
-    "report": "REPORT USER"
+    "report": "REPORT USER",
+    "delegate": "DELEGATE HIVE POWER"
   },
   "communities": {
     "joined": "Membership",
@@ -713,7 +813,9 @@
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "Join Ecency communities!",
     "line3_body": "Build community you own, get rewarded and reward others.",
-    "get_started": "Get started!"
+    "get_started": "Get started!",
+    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
+    "terms_text": "Read Here!"
   },
   "time": {
     "second": "seconds",
@@ -725,7 +827,7 @@
     "year": "years"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
+    "placeholder": "Add a comment...",
     "comment": "Comment",
     "reply": "REPLY",
     "close": "CLOSE"
@@ -742,5 +844,16 @@
     "earned": "Earned Points",
     "pending": "Pending Points",
     "empty_text": "Refer your loved ones today and earn free points"
+  },
+  "qr": {
+    "qr_scan": "QR Scan",
+    "open": "Open URL",
+    "detected_url": "Detected URL",
+    "unsupported_alert_title": "Unsupported URL!",
+    "unsupported_alert_desc": "Please scan a valid ecency url."
+  },
+  "history": {
+    "edit": "Edit History",
+    "version": "Version"
   }
 }

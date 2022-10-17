@@ -7,7 +7,9 @@
     "transfer": "Átutalás",
     "power_up": "To Vesting",
     "transfer_from_savings": "A megtakarításoktól",
+    "withdraw_savings": "Withdraw Savings",
     "withdraw_vesting": "Power Down",
+    "open_order": "Open Order",
     "fill_order": "Megrendelés Kitöltése",
     "post": "Bejegyzés",
     "comment": "Hozzászólás",
@@ -49,10 +51,17 @@
     "to": "Címzett",
     "estimated_value_desc": "A vételár szerint",
     "estimated_value": "Becsült érték",
+    "vote_value": "Vote value",
+    "delegated_hive_power": "Delegated hive power",
+    "powering_down_hive_power": "Powering down",
+    "received_hive_power": "Received hive power",
+    "total_hive_power": "Total hive power",
+    "savings": "Savings",
     "estimated_amount": "A szavazat értéke",
     "amount_information": "A csúszka húzásával állítsd be a mennyiséget",
     "amount": "Összeg",
     "memo": "Üzenet",
+    "tap_update": "Tap to update",
     "information": "Bistoz átutalod?",
     "amount_desc": "Egyenleg",
     "memo_desc": "Ez az üzenet nyilvános",
@@ -68,10 +77,11 @@
     "next": "KÖVETKEZŐ",
     "delegate": "Delegálás",
     "power_down": "Power Down",
-    "withdraw_hive": "Withdraw HIVE",
-    "withdraw_hbd": "Withdraw HBD",
+    "withdraw_hive": "Withdraw Savings",
+    "withdraw_hbd": "Withdraw Savings",
     "transfer_to_savings": "A megtakarításokhoz",
     "convert": "Konvertálás",
+    "convert_request": "Convert Request",
     "escrow_transfer": "Letéti átutalás",
     "escrow_dispute": "Letéti vita",
     "escrow_release": "Letéti engedély",
@@ -81,9 +91,10 @@
     "fill_convert_request": "Konvertálás végrehajtva",
     "fill_transfer_from_savings": "A megtakarításoktól végrehajtva",
     "fill_vesting_withdraw": "PowerDown végrehajtva",
-    "estm": {
-      "title": "Pontok",
-      "buy": "VÁSÁROLJ PONTOKAT"
+    "ecency": {
+      "title": "Points",
+      "name": "Ecency Points",
+      "buy": "GET POINTS"
     },
     "savinghive": {
       "title": "HIVE Savings"
@@ -93,6 +104,7 @@
     },
     "hive": {
       "title": "HIVE",
+      "name": "Hive Token",
       "buy": "GET HIVE"
     },
     "hbd": {
@@ -100,13 +112,29 @@
       "buy": "GET HBD"
     },
     "hive_power": {
-      "title": "HIVE POWER"
+      "title": "HIVE POWER",
+      "name": "Hive Power"
+    },
+    "hive_dollar": {
+      "name": "Hive Dollar"
     },
     "btc": {
       "title": "BTC",
       "buy": "BTC VÁSÁRLÁS",
       "address": "KAP"
-    }
+    },
+    "last_updated": "Last Updated:",
+    "updating": "Updating...",
+    "coin_details": "Details",
+    "change": "Change",
+    "activities": "Activities",
+    "savings_withdrawal": "Pending Withdrawals",
+    "open_orders": "Open Orders",
+    "conversions_requested": "Conversions Requested",
+    "expires": "expires",
+    "pending_requests": "Pending Requests",
+    "boost_account": "Boost",
+    "get_boost": "Get Boost"
   },
   "notification": {
     "vote": "szavazott",
@@ -118,6 +146,7 @@
     "ignore": "mellőzött téged",
     "reblog": "megosztotta",
     "transfer": "átutalva",
+    "delegations": "delegated",
     "spin": "Pontszerzés ideje",
     "inactive": "Légy aktív! Írj egy bejegyzést és folytasd a cryptoszerzést",
     "referral": "regisztrált a te ajánlásoddal, üdvözöld őt",
@@ -191,7 +220,7 @@
     "currency": "Pénznem",
     "language": "Nyelv",
     "server": "Szerver",
-    "dark_theme": "Sötét téma",
+    "color_theme": "Appearance",
     "push_notification": "Értesítések Bekapcsolása",
     "notification": {
       "follow": "Követés",
@@ -199,9 +228,11 @@
       "comment": "Hozzászólás",
       "mention": "Említés",
       "reblog": "Megosztás",
-      "transfers": "Átutalások"
+      "transfers": "Átutalások",
+      "delegations": "Delegations"
     },
     "pincode": "PIN kód",
+    "biometric": "Finger Print / Face Unlock",
     "reset_pin": "Pin kód beállítása",
     "reset": "Visszaállítás",
     "nsfw_content": "NSFW",
@@ -213,9 +244,16 @@
       "always_hide": "Mindig rejtve",
       "always_warn": "Mindig figyelmeztess"
     },
+    "theme": {
+      "system": "Device settings",
+      "light": "Light",
+      "dark": "Dark"
+    },
     "feedback_success": "Email sikeresen megnyitva",
     "feedback_fail": "A levelezőprogram nem nyitható meg",
-    "server_fail": "A szerver nem elérhető"
+    "server_fail": "A szerver nem elérhető",
+    "show_imgs": "Show Images",
+    "delete_account": "Delete Account"
   },
   "voters": {
     "voters_info": "Infó a szavazókról",
@@ -231,7 +269,15 @@
     "cancel": "visszavonom",
     "login": "BEJELENTKEZÉS",
     "steemconnect_description": "Ha nem szeretnéd a jelszavad a készülékeden elmentve tárolni, használhatod a Hivesigner-t.",
-    "steemconnect_fee_description": "infó"
+    "steemconnect_fee_description": "infó",
+    "not_loggedin_alert": "Not LoggedIn",
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "Regisztráció",
@@ -272,7 +318,8 @@
     "create_a_new_account": "Create a new account",
     "add_an_existing_account": "Add an existing account",
     "accounts": "Accounts",
-    "refer": "Refer & Earn"
+    "refer": "Refer & Earn",
+    "qr": "QR Scan"
   },
   "header": {
     "title": "Jelentkezz be a hírfolyam testreszabásához",
@@ -340,7 +387,18 @@
     "done": "DONE",
     "draft_save_title": "Saving Draft",
     "draft_update": "Update current draft",
-    "draft_save_new": "Save as new draft"
+    "draft_save_new": "Save as new draft",
+    "label": "Label",
+    "enter_label_placeholder": "Enter Label (Optional)",
+    "url": "URL",
+    "enter_url_placeholder": "Enter URL",
+    "link_type_text": "Type of Link",
+    "insert_link": "Insert Link",
+    "preview": "Preview",
+    "invalid_url_error": "Please insert valid url",
+    "plain": "Plain",
+    "video": "Video",
+    "image": "Image"
   },
   "snippets": {
     "label_no_snippets": "No Snippets Found",
@@ -359,13 +417,16 @@
     "btn_cancel": "Cancel"
   },
   "uploads_modal": {
-    "label_no_images": "No Images Found",
+    "label_no_images": "No Existing Uploads...",
     "title": "Uploaded Images",
     "title_remove_confirmation": "Delete image",
     "btn_add": "Image",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
-    "message_failed": "Failed to upload image"
+    "confirm_delete": "Are you sure you want to delete images from your uploads",
+    "message_failed": "Failed to upload image",
+    "delete_failed": "Failed to delete image",
+    "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
     "enter_text": "Feloldáshoz írd be a PIN kódot",
@@ -374,7 +435,8 @@
     "forgot_text": "Ó, elfelejtettem...",
     "pin_not_matched": "PIN do not match, Please try again.",
     "attempts_postfix": "failed attempt(s)",
-    "message_reset_warning": "User data will be wiped on next failed attempt"
+    "message_reset_warning": "User data will be wiped on next failed attempt",
+    "biometric_desc": "Scan your fingerprint on the device scanner to continue"
   },
   "alert": {
     "success": "Sikerült!",
@@ -442,7 +504,10 @@
     "failed_to_open": "Failed to open a link",
     "restart_ecency": "Restart Ecency?",
     "restart_ecency_desc": "Applying changes will require a restart.",
-    "invalid_response": "Could not process request, Try again later."
+    "invalid_response": "Could not process request, Try again later.",
+    "wallet_updating": "Wallet update in progress, try again as update finishes",
+    "claim_failed": "Failed to claim rewards, {message}\nTry again or write to support@ecency.com",
+    "connection_issues": "The server is unreachable, please check your connection and try again."
   },
   "post": {
     "reblog_alert": "Biztos, hogy megosztod?",
@@ -473,7 +538,11 @@
     "empty_list": "Itt nincs semmi",
     "deleted": "A beütemezett bejegyzés törölve",
     "move": "Áthelyezés a vázlatokhoz",
-    "moved": "Áthelyezve a vázlatokhoz"
+    "moved": "Áthelyezve a vázlatokhoz",
+    "pending": "Pending",
+    "postponed": "Postponed",
+    "published": "Published",
+    "error": "Error"
   },
   "bookmarks": {
     "title": "Könyvjelzők",
@@ -488,6 +557,11 @@
     "added": "Jelentett kifogásolható tartalom",
     "confirm_report_title": "Confirm Report!",
     "confirm_report_body": "Are you sure you want report?"
+  },
+  "delete": {
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_body": "Are you sure you want to delete account? It will erase all of your data",
+    "request_sent": "Your request for deletion is sent"
   },
   "favorites": {
     "title": "Kedvencek",
@@ -521,11 +595,18 @@
     "bookmarks": "hozzáadás a könyvjelzőkhöz",
     "promote": "hirdetés",
     "boost": "felpörgetés",
-    "report": "jelentés"
+    "report": "jelentés",
+    "pin-blog": "Pin to blog",
+    "unpin-blog": "Unpin from blog",
+    "pin-community": "Pin to community",
+    "unpin-community": "Unpin from community",
+    "edit-history": "Edit History",
+    "mute": "Mute / Block"
   },
   "deep_link": {
     "no_existing_user": "Nem létező felhasználó",
-    "no_existing_post": "Nem létező bejegyzés"
+    "no_existing_post": "Nem létező bejegyzés",
+    "invalid_link": "Url is invalid, you may try again with valid url or try opening it in web browser"
   },
   "search": {
     "posts": "Bejegyzések",
@@ -564,11 +645,11 @@
     "stop_information": "Bistos megállítod?",
     "percent": "Százalék",
     "auto_vests": "Auto Vests",
+    "vests": "Vests",
     "save": "MENTÉS",
     "percent_information": "Százalék információ",
     "next": "KÖVETKEZŐ",
     "delegate": "Delegálás",
-    "power_down": "Power Down",
     "withdraw_hive": "Withdraw HIVE",
     "withdraw_hbd": "Withdraw HIVE Dollar",
     "incoming_funds": "Bejövő tőke",
@@ -580,23 +661,40 @@
     "account_detail_head": "Account Details",
     "account_detail_subhead": "Enter username for HIVE Power delegation",
     "delegat_detail_head": "Delegation Details",
-    "delegat_detail_subhead": "New mount overwrites already delegated HIVE Power ",
+    "delegat_detail_subhead": "New amount overwrites already delegated HIVE Power ",
     "new_amount": "New Amount",
     "review": "REVIEW",
     "confirm": "Confirm Delegation",
     "confirm_summary": "Delegate {hp} HP ({vests} VESTS) To @{delegator} from @{delegatee} ",
     "confirm_summary_para": "This will overwrite your previous delegation of {prev} HP to this user.",
     "username_alert": "Username Error!",
-    "username_alert_detail": "Please select different username"
+    "username_alert_detail": "Please select different username",
+    "power_down": "Power Down",
+    "power_down_amount_head": "Withdraw Amount",
+    "power_down_amount_subhead": "Enter amount for powering down hive power",
+    "withdraw_accounts": "Withdraw Accounts",
+    "amount_hp": "Amount (HP)",
+    "powering_down": "Powering Down",
+    "powering_down_subheading": "You are currently powering down.",
+    "powering_down_info": "Next power down is in {days} days, {hp} HIVE",
+    "invalid_amount": "Invalid Amount",
+    "invalid_amount_desc": "Please enter valid amount",
+    "account_select_title": "Account Details",
+    "account_select_description": "Operations related to funds are irreversible, make sure receivers username is correct",
+    "amount_select_title": "Transfer Details",
+    "amount_select_description": "Enter transfer amount within maximum available balance and must be greater than 0.001"
   },
   "boost": {
     "title": "Szerezz Pontokat",
     "buy": "VÁSÁROLJ Pontokat",
     "next": "KÖVETKEZŐ",
+    "info": "Actual value of vote you receive may vary",
     "account": {
       "title": "Fiók felpörgetés",
       "desc": "A 30 napos delegálás növelni fogja a szavazataidat, közösségi tevékenységeidet és több cselekvést engedélyez több erőforrás-jóváírás segítségével."
-    }
+    },
+    "confirm_purchase": "Confirm Purchase @{username}",
+    "confirm_purchase_summary": "Buying {points} for {username} at {price}"
   },
   "free_estm": {
     "title": "Ingyenes pontok",
@@ -635,7 +733,8 @@
     "title": "Hozzászólások",
     "reveal_comment": "Hozzászólás megjelenítése",
     "read_more": "Még több hozzáaszólás",
-    "more_replies": "replies"
+    "more_replies": "replies",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Others",
@@ -686,7 +785,8 @@
     "remove_from_favourites": "REMOVE FROM FAVOURITES",
     "mute": "MUTE / BLOCK",
     "unmute": "UNMUTE / UNBLOCK",
-    "report": "REPORT USER"
+    "report": "REPORT USER",
+    "delegate": "DELEGATE HIVE POWER"
   },
   "communities": {
     "joined": "Membership",
@@ -713,7 +813,9 @@
     "line2_body": "Utilizing blockchain, censorship-free, decentralized and rewarding.",
     "line3_heading": "Join Ecency communities!",
     "line3_body": "Build community you own, get rewarded and reward others.",
-    "get_started": "Get started!"
+    "get_started": "Get started!",
+    "terms_description": "By accepting, you agree to our Terms of Service and Privacy Policies.",
+    "terms_text": "Read Here!"
   },
   "time": {
     "second": "seconds",
@@ -725,7 +827,7 @@
     "year": "years"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
+    "placeholder": "Add a comment...",
     "comment": "Comment",
     "reply": "REPLY",
     "close": "CLOSE"
@@ -742,5 +844,16 @@
     "earned": "Earned Points",
     "pending": "Pending Points",
     "empty_text": "Refer your loved ones today and earn free points"
+  },
+  "qr": {
+    "qr_scan": "QR Scan",
+    "open": "Open URL",
+    "detected_url": "Detected URL",
+    "unsupported_alert_title": "Unsupported URL!",
+    "unsupported_alert_desc": "Please scan a valid ecency url."
+  },
+  "history": {
+    "edit": "Edit History",
+    "version": "Version"
   }
 }

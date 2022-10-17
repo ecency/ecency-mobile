@@ -5,6 +5,10 @@ export default EStyleSheet.create({
     flex: 1,
     backgroundColor: '$primaryBackgroundColor',
   },
+  keyboardAwareScrollContainer: {
+    backgroundColor: '$primaryBackgroundColor',
+    padding: 16,
+  },
   stepOneContainer: {
     zIndex: 2,
     paddingVertical: 16,
@@ -30,12 +34,11 @@ export default EStyleSheet.create({
     paddingVertical: 16,
     marginTop: 16,
   },
+  scroll: {},
   middleContent: {
-    flex: 3,
-    justifyContent: 'center',
+    flex: 1,
   },
   bottomContent: {
-    flex: 2,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -43,9 +46,10 @@ export default EStyleSheet.create({
     borderWidth: 1,
     borderColor: '$borderColor',
     borderRadius: 8,
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
     color: '$primaryBlack',
-    width: 172,
+    // width: 172,
+    flex: 1,
     minHeight: 35,
   },
   amountInput: {
@@ -67,7 +71,7 @@ export default EStyleSheet.create({
     borderRadius: 8,
     padding: 10,
     color: '$primaryBlack',
-    width: 172,
+    flex: 1,
     height: 75,
   },
   description: {
@@ -78,13 +82,15 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     fontWeight: 'bold',
+    marginVertical: 16,
   },
   stopButton: {
     width: '$deviceWidth / 3',
     marginTop: 30,
+    marginBottom: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'red',
+    backgroundColor: '$primaryRed',
     fontWeight: 'bold',
   },
   buttonText: {
@@ -102,7 +108,7 @@ export default EStyleSheet.create({
   },
   dropdownText: {
     fontSize: 14,
-    paddingLeft: 16,
+    paddingLeft: 12,
     paddingHorizontal: 14,
     color: '$primaryDarkGray',
   },
@@ -116,9 +122,8 @@ export default EStyleSheet.create({
     borderColor: '$borderColor',
     borderWidth: 1,
     height: 44,
-    width: 172,
+    width: '100%',
     borderRadius: 8,
-    marginHorizontal: 2,
   },
   dropdown: {
     flexGrow: 1,
@@ -248,6 +253,10 @@ export default EStyleSheet.create({
     padding: 16,
     backgroundColor: '$primaryBackgroundColor',
   },
+  avoidingViewContainer: {
+    flex: 1,
+    backgroundColor: '$primaryBackgroundColor',
+  },
   elevate: {
     zIndex: 1,
   },
@@ -317,5 +326,45 @@ export default EStyleSheet.create({
   },
   grow: {
     flexGrow: 1,
+  },
+  fullHeight: {
+    height: '100%',
+  },
+  beneficiaryContainer: {
+    paddingHorizontal: 12,
+    zIndex: 2,
+    borderRadius: 12,
+    backgroundColor: '$primaryLightBackground',
+  },
+  scrollContentContainer: {
+    flexGrow: 1,
+    padding: 16,
+  },
+  estimatedContainer: {
+    flexDirection: 'row',
+    marginTop: 12,
+  },
+  leftEstimated: {
+    flex: 1,
+  },
+  rightEstimated: {
+    flex: 2,
+    fontSize: 12,
+    color: '$primaryBlack',
+    fontWeight: '600',
+    textAlign: 'right',
+    paddingRight: 16,
+  },
+  powerDownKeyboadrAvoidingContainer: {
+    flex: 1,
+    backgroundColor: '$primaryBackgroundColor',
+  },
+  powerDownInfoContainer: {
+    marginTop: 16,
+    paddingHorizontal: 12,
+    zIndex: 2,
+    paddingVertical: 16,
+    borderRadius: 12,
+    backgroundColor: '$primaryLightBackground',
   },
 });

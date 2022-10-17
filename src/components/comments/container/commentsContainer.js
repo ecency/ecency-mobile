@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Platform } from 'react-native';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
@@ -19,7 +19,8 @@ import ROUTES from '../../../constants/routeNames';
 // Component
 import CommentsView from '../view/commentsView';
 import { useAppSelector } from '../../../hooks';
-import { deleteCommentCacheEntry } from '../../../redux/actions/cacheActions';
+import { updateCommentCache } from '../../../redux/actions/cacheActions';
+import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
 
 const CommentsContainer = ({
   author,
@@ -38,7 +39,7 @@ const CommentsContainer = ({
   isLoggedIn,
   commentNumber,
   mainAuthor,
-  selectedPermlink: _selectedPermlink,
+  selectedPermlink,
   isHideImage,
   isShowSubComments,
   hasManyComments,
@@ -47,13 +48,13 @@ const CommentsContainer = ({
   flatListProps,
   fetchedAt,
   incrementRepliesCount,
+  handleOnReplyPress,
 }) => {
   const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
   const cachedComments = useAppSelector((state) => state.cache.comments);
 
   const [lcomments, setLComments] = useState([]);
-  const [replies, setReplies] = useState(comments);
-  const [selectedPermlink, setSelectedPermlink] = useState('');
+  const [propComments, setPropComments] = useState(comments);
 
   useEffect(() => {
     _getComments();
@@ -61,9 +62,17 @@ const CommentsContainer = ({
 
   useEffect(() => {
     _getComments();
-    const shortedComments = _shortComments(selectedFilter);
-    setLComments(shortedComments);
+    const sortedComments = _sortComments(selectedFilter);
+    setLComments(sortedComments);
   }, [commentCount, selectedFilter]);
+
+  useEffect(() => {
+    let _comments = comments;
+    if (_comments) {
+      _comments = _handleCachedComment(comments);
+    }
+    setPropComments(_comments);
+  }, [comments]);
 
   useEffect(() => {
     const postPath = `${author || ''}/${permlink || ''}`;
@@ -81,7 +90,7 @@ const CommentsContainer = ({
 
   // Component Functions
 
-  const _shortComments = (sortOrder, _comments) => {
+  const _sortComments = (sortOrder = 'trending', _comments) => {
     const sortedComments = _comments || lcomments;
 
     const absNegative = (a) => a.net_rshares < 0;
@@ -162,15 +171,12 @@ const CommentsContainer = ({
   const _getComments = async () => {
     if (isOwnProfile) {
       fetchPost();
-    } else if (author && permlink && !replies) {
+    } else if (author && permlink && !propComments) {
       await getComments(author, permlink, name)
         .then((__comments) => {
-          //TODO: favourable place for merging comment cache
+          //favourable place for merging comment cache
           __comments = _handleCachedComment(__comments);
-
-          if (selectedFilter) {
-            __comments = _shortComments(selectedFilter, __comments);
-          }
+          __comments = _sortComments(selectedFilter, __comments);
 
           setLComments(__comments);
         })
@@ -181,7 +187,7 @@ const CommentsContainer = ({
   };
 
   const _handleCachedComment = (passedComments = null) => {
-    const _comments = passedComments || replies || lcomments;
+    const _comments = passedComments || propComments || lcomments || [];
     const postPath = `${author || ''}/${permlink || ''}`;
 
     if (cachedComments.has(postPath)) {
@@ -189,12 +195,15 @@ const CommentsContainer = ({
 
       var ignoreCache = false;
       var replaceAtIndex = -1;
+      var removeAtIndex = -1;
       _comments.forEach((comment, index) => {
         if (cachedComment.permlink === comment.permlink) {
           if (cachedComment.updated < comment.updated) {
             //comment is present with latest data
             ignoreCache = true;
             console.log('Ignore cache as comment is now present');
+          } else if (cachedComment.status === CommentCacheStatus.DELETED) {
+            removeAtIndex = index;
           } else {
             //comment is present in list but data is old
             replaceAtIndex = index;
@@ -202,10 +211,18 @@ const CommentsContainer = ({
         }
       });
 
+      //means deleted comment is not being retuend in fresh data, cache needs to be ignored
+      if (cachedComment.status === CommentCacheStatus.DELETED && removeAtIndex < 0) {
+        ignoreCache = true;
+      }
+
       //manipulate comments with cached data
       if (!ignoreCache) {
         let newComments = [];
-        if (replaceAtIndex >= 0) {
+        if (removeAtIndex >= 0) {
+          newComments = _comments;
+          newComments.splice(removeAtIndex, 1);
+        } else if (replaceAtIndex >= 0) {
           _comments[replaceAtIndex] = cachedComment;
           newComments = [..._comments];
         } else {
@@ -215,8 +232,8 @@ const CommentsContainer = ({
         console.log('updated comments with cached comment');
         if (passedComments) {
           return newComments;
-        } else if (replies) {
-          setReplies(newComments);
+        } else if (propComments) {
+          setPropComments(newComments);
         } else {
           setLComments(newComments);
         }
@@ -265,10 +282,11 @@ const CommentsContainer = ({
     let filteredComments;
 
     deleteComment(currentAccount, pinCode, _permlink).then(() => {
-      let cachePath = null;
+      let deletedItem = null;
+
       const _applyFilter = (item) => {
         if (item.permlink === _permlink) {
-          cachePath = `${item.parent_author}/${item.parent_permlink}`;
+          deletedItem = item;
           return false;
         }
         return true;
@@ -278,12 +296,17 @@ const CommentsContainer = ({
         filteredComments = lcomments.filter(_applyFilter);
         setLComments(filteredComments);
       } else {
-        filteredComments = replies.filter(_applyFilter);
-        setReplies(filteredComments);
+        filteredComments = propComments.filter(_applyFilter);
+        setPropComments(filteredComments);
       }
 
       // remove cached entry based on parent
-      dispatch(deleteCommentCacheEntry(cachePath));
+      if (deletedItem) {
+        const cachePath = `${deletedItem.parent_author}/${deletedItem.parent_permlink}`;
+        deletedItem.status = CommentCacheStatus.DELETED;
+        delete deletedItem.updated;
+        dispatch(updateCommentCache(cachePath, deletedItem, { isUpdate: true }));
+      }
     });
   };
 
@@ -326,15 +349,15 @@ const CommentsContainer = ({
       hasManyComments={hasManyComments}
       hideManyCommentsButton={hideManyCommentsButton}
       selectedFilter={selectedFilter}
-      selectedPermlink={_selectedPermlink || selectedPermlink}
+      selectedPermlink={selectedPermlink}
       author={author}
       mainAuthor={mainAuthor}
       commentNumber={commentNumber || 1}
       commentCount={commentCount}
-      comments={lcomments.length > 0 ? lcomments : replies}
+      comments={lcomments.length > 0 ? lcomments : propComments}
       currentAccountUsername={currentAccount.name}
       handleOnEditPress={_handleOnEditPress}
-      handleOnReplyPress={_handleOnReplyPress}
+      handleOnReplyPress={handleOnReplyPress}
       isLoggedIn={isLoggedIn}
       fetchPost={fetchPost}
       handleDeleteComment={_handleDeleteComment}

@@ -1,14 +1,27 @@
 import { useState, useEffect } from 'react';
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from '@react-navigation/compat';
 import { useSelector, useDispatch } from 'react-redux';
-import { shuffle } from 'lodash';
+import { shuffle, isEmpty } from 'lodash';
 import { useIntl } from 'react-intl';
 
 import ROUTES from '../../../constants/routeNames';
 
 import { getCommunities, getSubscriptions } from '../../../providers/hive/dhive';
 
-import { subscribeCommunity, leaveCommunity } from '../../../redux/actions/communitiesAction';
+import {
+  subscribeCommunity,
+  leaveCommunity,
+  fetchSubscribedCommunitiesSuccess,
+} from '../../../redux/actions/communitiesAction';
+import { statusMessage } from '../../../redux/constants/communitiesConstants';
+import {
+  deleteSubscribedCommunityCacheEntry,
+  updateSubscribedCommunitiesCache,
+} from '../../../redux/actions/cacheActions';
+import {
+  mergeSubCommunitiesCacheInDiscoverList,
+  mergeSubCommunitiesCacheInSubList,
+} from '../../../utils/communitiesUtils';
 
 const CommunitiesContainer = ({ children, navigation }) => {
   const dispatch = useDispatch();
@@ -17,23 +30,67 @@ const CommunitiesContainer = ({ children, navigation }) => {
   const [discovers, setDiscovers] = useState([]);
   const [subscriptions, setSubscriptions] = useState([]);
   const [isSubscriptionsLoading, setIsSubscriptionsLoading] = useState(true);
+  const [isDiscoversLoading, setIsDiscoversLoading] = useState(true);
+  const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
 
   const currentAccount = useSelector((state) => state.account.currentAccount);
   const pinCode = useSelector((state) => state.application.pin);
+  const subscribedCommunities = useSelector((state) => state.communities.subscribedCommunities);
   const subscribingCommunitiesInDiscoverTab = useSelector(
     (state) => state.communities.subscribingCommunitiesInCommunitiesScreenDiscoverTab,
   );
   const subscribingCommunitiesInJoinedTab = useSelector(
     (state) => state.communities.subscribingCommunitiesInCommunitiesScreenJoinedTab,
   );
+  const subscribedCommunitiesCache = useSelector((state) => state.cache.subscribedCommunities);
 
   useEffect(() => {
     _getSubscriptions();
   }, []);
 
+  // handle cache in joined/membership tab
+  useEffect(() => {
+    if (subscribingCommunitiesInJoinedTab && selectedCommunityItem) {
+      const { status } = subscribingCommunitiesInJoinedTab[selectedCommunityItem.communityId];
+      if (status === statusMessage.SUCCESS) {
+        dispatch(updateSubscribedCommunitiesCache(selectedCommunityItem));
+      }
+    }
+  }, [subscribingCommunitiesInJoinedTab]);
+
+  // handle cache in discover tab
+  useEffect(() => {
+    if (subscribingCommunitiesInDiscoverTab && selectedCommunityItem) {
+      const { status } = subscribingCommunitiesInDiscoverTab[selectedCommunityItem.communityId];
+      if (status === statusMessage.SUCCESS) {
+        dispatch(updateSubscribedCommunitiesCache(selectedCommunityItem));
+      }
+    }
+  }, [subscribingCommunitiesInDiscoverTab]);
+
+  // side effect for subscribed communities cache update
+  useEffect(() => {
+    if (
+      subscribedCommunitiesCache &&
+      subscribedCommunitiesCache.size &&
+      subscriptions &&
+      subscriptions.length > 0
+    ) {
+      const updatedSubsList = mergeSubCommunitiesCacheInSubList(
+        subscriptions,
+        subscribedCommunitiesCache,
+      );
+      const updatedDiscoversList = mergeSubCommunitiesCacheInDiscoverList(
+        discovers,
+        subscribedCommunitiesCache,
+      );
+      setSubscriptions(updatedSubsList.slice());
+      setDiscovers(updatedDiscoversList);
+    }
+  }, [subscribedCommunitiesCache]);
+
   useEffect(() => {
     const discoversData = [...discovers];
-
     Object.keys(subscribingCommunitiesInDiscoverTab).map((communityId) => {
       if (!subscribingCommunitiesInDiscoverTab[communityId].loading) {
         if (!subscribingCommunitiesInDiscoverTab[communityId].error) {
@@ -58,37 +115,54 @@ const CommunitiesContainer = ({ children, navigation }) => {
   }, [subscribingCommunitiesInDiscoverTab]);
 
   useEffect(() => {
-    const subscribedsData = [...subscriptions];
-
-    Object.keys(subscribingCommunitiesInJoinedTab).map((communityId) => {
-      if (!subscribingCommunitiesInJoinedTab[communityId].loading) {
-        if (!subscribingCommunitiesInJoinedTab[communityId].error) {
-          if (subscribingCommunitiesInJoinedTab[communityId].isSubscribed) {
-            subscribedsData.forEach((item) => {
-              if (item[0] === communityId) {
-                item[4] = true;
-              }
-            });
-          } else {
-            subscribedsData.forEach((item) => {
-              if (item[0] === communityId) {
-                item[4] = false;
-              }
-            });
+    if (!isEmpty(subscribingCommunitiesInJoinedTab)) {
+      const subscribedsData = mergeSubCommunitiesCacheInSubList(
+        subscribedCommunities.data,
+        subscribedCommunitiesCache,
+      );
+      Object.keys(subscribingCommunitiesInJoinedTab).map((communityId) => {
+        if (!subscribingCommunitiesInJoinedTab[communityId].loading) {
+          if (!subscribingCommunitiesInJoinedTab[communityId].error) {
+            if (subscribingCommunitiesInJoinedTab[communityId].isSubscribed) {
+              subscribedsData.forEach((item) => {
+                if (item[0] === communityId) {
+                  item[4] = true;
+                }
+              });
+            } else {
+              subscribedsData.forEach((item) => {
+                if (item[0] === communityId) {
+                  item[4] = false;
+                }
+              });
+            }
           }
         }
-      }
-    });
+      });
 
-    setSubscriptions(subscribedsData);
+      setSubscriptions(subscribedsData);
+    }
   }, [subscribingCommunitiesInJoinedTab]);
 
   const _getSubscriptions = () => {
     setIsSubscriptionsLoading(true);
+    setIsDiscoversLoading(true);
+    if (
+      subscribedCommunities &&
+      subscribedCommunities.data &&
+      subscribedCommunities.data.length > 0
+    ) {
+      const updatedSubsList = mergeSubCommunitiesCacheInSubList(
+        subscribedCommunities.data,
+        subscribedCommunitiesCache,
+      );
+      setSubscriptions(updatedSubsList.slice());
+      setIsSubscriptionsLoading(false);
+    }
     getSubscriptions(currentAccount.username)
       .then((subs) => {
-        setIsSubscriptionsLoading(false);
         subs.forEach((item) => item.push(true));
+        _invalidateSubscribedCommunityCache(subs); // invalidate subscribed communities cache item when latest data is available
         getCommunities('', 50, null, 'rank').then((communities) => {
           communities.forEach((community) =>
             Object.assign(community, {
@@ -98,16 +172,30 @@ const CommunitiesContainer = ({ children, navigation }) => {
             }),
           );
 
-          setSubscriptions(subs);
-          setDiscovers(shuffle(communities));
+          setSubscriptions(mergeSubCommunitiesCacheInSubList(subs, subscribedCommunitiesCache)); //merge cache with fetched data
+          setDiscovers(communities);
+          setIsSubscriptionsLoading(false);
+          setIsDiscoversLoading(false);
+          dispatch(
+            fetchSubscribedCommunitiesSuccess(subs.sort((a, b) => a[1].localeCompare(b[1]))),
+          ); //register subscribed data in communities store
         });
       })
       .catch((err) => {
         console.warn('Failed to get subscriptions', err);
         setIsSubscriptionsLoading(false);
+        setIsDiscoversLoading(false);
       });
   };
 
+  const _invalidateSubscribedCommunityCache = (fetchedList) => {
+    fetchedList.map((listItem) => {
+      let itemExists = subscribedCommunitiesCache.get(listItem[0]);
+      if (itemExists) {
+        dispatch(deleteSubscribedCommunityCacheEntry(listItem[0]));
+      }
+    });
+  };
   // Component Functions
   const _handleOnPress = (name) => {
     navigation.navigate({
@@ -119,6 +207,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
   };
 
   const _handleSubscribeButtonPress = (data, screen) => {
+    setSelectedCommunityItem(data); //set selected item to handle its cache
     let subscribeAction;
     let successToastText = '';
     let failToastText = '';
@@ -156,6 +245,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
       subscribingCommunitiesInDiscoverTab,
       subscribingCommunitiesInJoinedTab,
       isSubscriptionsLoading,
+      isDiscoversLoading,
       handleOnPress: _handleOnPress,
       handleSubscribeButtonPress: _handleSubscribeButtonPress,
       handleGetSubscriptions: _getSubscriptions,

@@ -25,6 +25,7 @@ const ProfileScreen = () => (
       handleOnFollowsPress,
       handleOnPressProfileEdit,
       handleReportUser,
+      handleDelegateHp,
       isDarkTheme,
       isFavorite,
       isFollowing,
@@ -63,6 +64,7 @@ const ProfileScreen = () => (
         handleOnFollowsPress={handleOnFollowsPress}
         handleOnPressProfileEdit={handleOnPressProfileEdit}
         handleReportUser={handleReportUser}
+        handleDelegateHp={handleDelegateHp}
         isDarkTheme={isDarkTheme}
         isFavorite={isFavorite}
         isFollowing={isFollowing}
@@ -72,11 +74,11 @@ const ProfileScreen = () => (
         isProfileLoading={isProfileLoading}
         isReady={isReady}
         quickProfile={quickProfile}
-        resourceCredits={resourceCredits}
+        resourceCredits={resourceCredits || 0}
         selectedUser={selectedUser}
         setEstimatedWalletValue={setEstimatedWalletValue}
         username={username}
-        votingPower={votingPower}
+        votingPower={votingPower || 0}
         isHideImage={isHideImage}
         reverseHeader={reverseHeader}
         deepLinkFilter={deepLinkFilter}

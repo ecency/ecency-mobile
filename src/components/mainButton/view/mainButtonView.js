@@ -37,7 +37,16 @@ class MainButton extends Component {
   };
 
   _getBody = () => {
-    const { isLoading, text, secondText, iconColor, iconName, source, iconType } = this.props;
+    const {
+      isLoading,
+      text,
+      secondText,
+      iconColor,
+      iconName,
+      source,
+      iconType,
+      textStyle,
+    } = this.props;
 
     if (isLoading) {
       this._getIndicator();
@@ -58,7 +67,7 @@ class MainButton extends Component {
               />
             )
           )}
-          <Text style={styles.text}>
+          <Text style={[styles.text, textStyle]}>
             {text}
             {secondText && <Text style={styles.secondText}>{secondText}</Text>}
           </Text>

@@ -3,52 +3,57 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   sheetContent: {
     backgroundColor: '$primaryBackgroundColor',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    zIndex: 999,
-  },
-  container:{
-    flex:1,
-  },
-  modalContainer: {
-    // paddingVertical: 4,
+    marginTop:132,
   },
 
+  container: {
+    flex: 1,
+    justifyContent:"flex-end",
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+  },
+
+  modalContainer: {
+    margin:16,
+    borderRadius:16,
+    backgroundColor: '$primaryBackgroundColor',
+    paddingTop: 16,
+    paddingBottom: 16,
+  },
 
   cancelButton: {
     marginRight: 10,
   },
   modalHeader: {
     paddingHorizontal: 12,
-    paddingVertical:8,
+    paddingVertical: 8,
   },
   titleBtnTxt: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '$primaryBlack',
   },
-  summaryStyle:{
-    fontSize:12,
+  summaryStyle: {
+    fontSize: 16,
+    paddingHorizontal: 16,
+    color: '$primaryDarkGray',
+    fontWeight: '500',
   },
   inputContainer: {
-    paddingHorizontal: 16,
-    paddingVertical:8,
-    height:120,
-
+    paddingVertical: 6,
+    height: 120,
   },
   textInput: {
     color: '$primaryBlack',
+    paddingHorizontal:16,
     fontSize: 16,
     flexGrow: 1,
     fontWeight: '500',
   },
   footer: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal:16,
+    paddingHorizontal: 16,
   },
   commentBtn: {
     width: 100,
@@ -56,11 +61,15 @@ export default EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-
+  replyBtnContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   replySection: {
     paddingTop: 10,
     paddingBottom: 0,
   },
+
   accountTile: {
     height: 60,
     flexDirection: 'row',
@@ -71,9 +80,9 @@ export default EStyleSheet.create({
   avatarAndNameContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal:16,
-    paddingTop:12,
-    paddingBottom:8,
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: 8,
   },
   nameContainer: {
     marginLeft: 2,
@@ -82,5 +91,14 @@ export default EStyleSheet.create({
     marginLeft: 4,
     color: '$primaryDarkGray',
   },
-  
+  titleContainer: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: '$primaryBackgroundColor',
+  },
+  titleText: {
+    color: '$primaryBlack',
+    fontWeight: 'bold',
+    fontSize: 10,
+  },
 });

@@ -2,6 +2,7 @@ const DRAWER_SUFFIX = 'Drawer';
 const MODAL_SUFFIX = 'Modal';
 const SCREEN_SUFFIX = 'Screen';
 const TABBAR_SUFFIX = 'Tabbar';
+const STACK_SUFFIX = 'Stack';
 
 export default {
   SCREENS: {
@@ -32,6 +33,10 @@ export default {
     COMMUNITIES: `Communities${SCREEN_SUFFIX}`,
     WEB_BROWSER: `WebBrowser${SCREEN_SUFFIX}`,
     REFER: `Refer${SCREEN_SUFFIX}`,
+    QR: `QR${SCREEN_SUFFIX}`,
+    COIN_DETAILS: `CoinDetails${SCREEN_SUFFIX}`,
+    EDIT_HISTORY: `EditHistory${SCREEN_SUFFIX}`,
+    WELCOME: `Welcome${SCREEN_SUFFIX}`,
   },
   DRAWER: {
     MAIN: `Main${DRAWER_SUFFIX}`,
@@ -43,7 +48,7 @@ export default {
     POST_BUTTON: `PostButton${TABBAR_SUFFIX}`,
     PROFILE: `Profile${TABBAR_SUFFIX}`,
   },
-  MODAL: {
-    LOGOUT: `Logout${MODAL_SUFFIX}`,
+  STACK: {
+    MAIN: `Main${STACK_SUFFIX}`,
   },
 };

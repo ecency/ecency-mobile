@@ -9,6 +9,7 @@ import { FilterBar } from '../../filterBar';
 import FILTER_OPTIONS, { VALUE } from '../../../constants/options/leaderboard';
 // Styles
 import styles from './leaderboardStyles';
+import EmptyScreenView from '../../basicUIElements/view/emptyScreen/emptyScreenView';
 
 class LeaderboardView extends PureComponent {
   /* Props
@@ -38,6 +39,11 @@ class LeaderboardView extends PureComponent {
         rightTooltipText={intl.formatMessage({ id: 'leaderboard.tooltip_earn' })}
       />
     );
+  };
+
+  _renderEmptyView = () => {
+    const { refreshing } = this.props;
+    return <>{refreshing ? <ListPlaceHolder /> : <EmptyScreenView />}</>;
   };
 
   render() {
@@ -70,7 +76,7 @@ class LeaderboardView extends PureComponent {
             refreshing={refreshing}
             keyExtractor={(item) => get(item, '_id', Math.random()).toString()}
             removeClippedSubviews={false}
-            ListEmptyComponent={<ListPlaceHolder />}
+            ListEmptyComponent={this._renderEmptyView}
             onRefresh={() => fetchLeaderBoard()}
             renderItem={this._renderItem}
             contentContainerStyle={styles.listContentContainer}
