@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ActivityIndicator, TouchableHighlight} from 'react-native';
+import { View, Text, ActivityIndicator, TouchableHighlight } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 // External components
 import ModalDropdown from 'react-native-modal-dropdown';
@@ -25,28 +25,28 @@ const renderDropdownRow = (
   noHighlight,
   dropdownRowWrapper,
 ) => (
-    <View
+  <View
+    style={[
+      styles.dropdownRow,
+      dropdownRowWrapper,
+      !noHighlight && highlighted && styles.highlightedRow,
+    ]}
+  >
+    <Text
       style={[
-        styles.dropdownRow,
-        dropdownRowWrapper,
-        !noHighlight && highlighted && styles.highlightedRow,
+        rowTextStyle || styles.rowText,
+        !noHighlight && highlighted && styles.highlightedRowText,
       ]}
     >
-      <Text
-        style={[
-          rowTextStyle || styles.rowText,
-          !noHighlight && highlighted && styles.highlightedRowText,
-        ]}
-      >
-        {rowData}
-      </Text>
-    </View>
+      {rowData}
+    </Text>
+  </View>
 );
-const adjustDropdownFrame = (style:any) => {
-  style.left = 'auto'
-  style.right = 10
-  return style
-}
+const adjustDropdownFrame = (style: any) => {
+  style.left = 'auto';
+  style.right = 10;
+  return style;
+};
 const DropdownButtonView = ({
   childIconWrapperStyle,
   children,
@@ -72,7 +72,10 @@ const DropdownButtonView = ({
     <ModalDropdown
       ref={dropdownRef}
       renderRowComponent={TouchableHighlight}
-      renderRowProps={{ underlayColor: EStyleSheet.value('$modalBackground'), style:styles.rowWrapper}}
+      renderRowProps={{
+        underlayColor: EStyleSheet.value('$modalBackground'),
+        style: styles.rowWrapper,
+      }}
       style={[!style ? styles.button : style]}
       textStyle={[textStyle || styles.buttonText]}
       dropdownStyle={[styles.dropdown, dropdownStyle, { height: 32 * (options.length + 1.5) }]}
@@ -94,13 +97,11 @@ const DropdownButtonView = ({
           dropdownRowWrapper,
         )
       }
-      adjustFrame={(style: any) => adjustDropdownFrame(style) }
+      adjustFrame={(style: any) => adjustDropdownFrame(style)}
     >
       {isHasChildIcon && !isLoading ? (
         <View style={styles.childrenWrapper}>
-          <Text style={[textStyle || styles.buttonText]}>
-            {defaultText}
-          </Text>
+          <Text style={[textStyle || styles.buttonText]}>{defaultText}</Text>
           <View style={[styles.iconWrapper, childIconWrapperStyle && childIconWrapperStyle]}>
             <Icon
               style={[styles.dropdownIcon, iconStyle]}

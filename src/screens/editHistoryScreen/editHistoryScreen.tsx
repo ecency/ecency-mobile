@@ -1,23 +1,15 @@
-import React, { Fragment } from 'react';
-import { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
+
 import { useIntl } from 'react-intl';
-import {
-  Alert,
-  
-  FlatList,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Alert, FlatList, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import AutoHeightWebView from 'react-native-autoheight-webview';
 import { BasicHeader, Icon, PostPlaceHolder, TextInput } from '../../components';
 
 // styles
-import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './editHistoryScreenStyles';
 import { getCommentHistory } from '../../providers/ecency/ecency';
 import { dateToFormatted } from '../../utils/time';
-import AutoHeightWebView from 'react-native-autoheight-webview';
 import historyBuilder from './historyBuilder';
 import getWindowDimensions from '../../utils/getWindowDimensions';
 
@@ -84,14 +76,9 @@ const EditHistoryScreen = ({ route }) => {
     }
   `;
 
-  const diffIconStyle = 
-    {
-      color: showDiff
-        ? EStyleSheet.value('$primaryBlue')
-        : EStyleSheet.value('$iconColor'),
-    }
-  ;
-
+  const diffIconStyle = {
+    color: showDiff ? EStyleSheet.value('$primaryBlue') : EStyleSheet.value('$iconColor'),
+  };
   useEffect(() => {
     _getCommentHistory();
   }, []);
@@ -107,7 +94,6 @@ const EditHistoryScreen = ({ route }) => {
     setEditHistory(historyBuilder(responseData));
     setIsLoading(false);
   };
-
 
   const _renderVersionsListItem = ({
     item,
@@ -140,7 +126,6 @@ const EditHistoryScreen = ({ route }) => {
     );
   };
 
-
   const _renderVersionsList = () => (
     <View style={styles.versionsListContainer}>
       <FlatList
@@ -160,14 +145,13 @@ const EditHistoryScreen = ({ route }) => {
       <View style={styles.diffContainer}>
         <AutoHeightWebView source={{ html: item.titleDiff }} customStyle={customTitleStyle} />
         <View style={styles.tagsContainer}>
-          <Icon style={styles.tagIcon} iconType="AntDesign" name={'tag'} />
+          <Icon style={styles.tagIcon} iconType="AntDesign" name="tag" />
           <AutoHeightWebView source={{ html: item.tagsDiff }} customStyle={customTagsStyle} />
         </View>
         <AutoHeightWebView source={{ html: item.bodyDiff }} customStyle={customBodyStyle} />
       </View>
     );
   };
-
 
   const _renderPlainBody = (selectedItem: CommentHistoryListItemDiff) => {
     return (
@@ -180,7 +164,7 @@ const EditHistoryScreen = ({ route }) => {
             editable={false}
           />
           <View style={styles.tagsContainer}>
-            <Icon style={styles.tagIcon} iconType="AntDesign" name={'tag'} />
+            <Icon style={styles.tagIcon} iconType="AntDesign" name="tag" />
             <Text style={styles.tags}>{selectedItem.tags}</Text>
           </View>
         </View>
@@ -195,7 +179,6 @@ const EditHistoryScreen = ({ route }) => {
       </>
     );
   };
-
 
   const _renderBody = () => {
     const selectedItem = editHistory.find((x) => x.v === versionSelected);

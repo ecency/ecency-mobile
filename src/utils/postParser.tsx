@@ -14,9 +14,7 @@ const webp = Platform.OS === 'ios' ? false : true;
 
 export const parsePosts = (posts, currentUserName) => {
   if (posts) {
-    const formattedPosts = posts.map((post) =>
-      parsePost(post, currentUserName, false, true),
-    );
+    const formattedPosts = posts.map((post) => parsePost(post, currentUserName, false, true));
     return formattedPosts;
   }
   return null;
@@ -42,7 +40,6 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
   //adjust tags type as it can be string sometimes;
   post = parseTags(post);
 
-
   //extract cover image and thumbnail from post body
   post.image = catchPostImage(post, 600, 500, webp ? 'webp' : 'match');
   post.thumbnail = catchPostImage(post, 10, 7, webp ? 'webp' : 'match');
@@ -63,8 +60,6 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
 
   post.total_payout = totalPayout;
 
-
-
   //stamp posts with fetched time;
   post.post_fetched_at = new Date().getTime();
 
@@ -81,7 +76,6 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
   return post;
 };
 
-
 export const parseCommentThreads = async (commentsMap: any, author: string, permlink: string) => {
   const MAX_THREAD_LEVEL = 3;
   const comments = [];
@@ -90,7 +84,6 @@ export const parseCommentThreads = async (commentsMap: any, author: string, perm
     return null;
   }
 
-
   //traverse map to curate threads
   const parseReplies = (commentsMap: any, replies: any[], level: number) => {
     if (replies && replies.length > 0 && MAX_THREAD_LEVEL > level) {
@@ -98,7 +91,7 @@ export const parseCommentThreads = async (commentsMap: any, author: string, perm
         const comment = commentsMap[pathKey];
         if (comment) {
           const parsedComment = parseComment(comment);
-          parsedComment.replies = parseReplies(commentsMap, parsedComment.replies, level + 1)
+          parsedComment.replies = parseReplies(commentsMap, parsedComment.replies, level + 1);
           return parsedComment;
         } else {
           return null;
@@ -106,27 +99,23 @@ export const parseCommentThreads = async (commentsMap: any, author: string, perm
       });
     }
     return [];
-  }
+  };
 
   for (const key in commentsMap) {
     if (commentsMap.hasOwnProperty(key)) {
-
       const comment = commentsMap[key];
 
       //prcoess first level comment
       if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
         let _parsedComment = parseComment(comment);
-        _parsedComment.replies = parseReplies(commentsMap, _parsedComment.replies, 1)
+        _parsedComment.replies = parseReplies(commentsMap, _parsedComment.replies, 1);
         comments.push(_parsedComment);
       }
-
     }
   }
 
   return comments;
 };
-
-
 
 export const parseComments = (comments: any[]) => {
   if (!comments) {
@@ -166,7 +155,12 @@ export const parseComment = (comment: any) => {
 
   comment.total_payout = totalPayout;
 
-  comment.isDeletable = !(comment.active_votes?.length > 0 || comment.children > 0 || comment.net_rshares > 0 || comment.is_paidout);
+  comment.isDeletable = !(
+    comment.active_votes?.length > 0 ||
+    comment.children > 0 ||
+    comment.net_rshares > 0 ||
+    comment.is_paidout
+  );
 
   //stamp comments with fetched time;
   comment.post_fetched_at = new Date().getTime();
@@ -204,8 +198,8 @@ export const parseActiveVotes = (post) => {
   const totalPayout =
     post.total_payout ||
     parseFloat(post.pending_payout_value) +
-    parseFloat(post.total_payout_value) +
-    parseFloat(post.curator_payout_value);
+      parseFloat(post.total_payout_value) +
+      parseFloat(post.curator_payout_value);
 
   const voteRshares = post.active_votes.reduce((a, b) => a + parseFloat(b.rshares), 0);
   const ratio = totalPayout / voteRshares || 0;
@@ -222,7 +216,6 @@ export const parseActiveVotes = (post) => {
   return post.active_votes;
 };
 
-
 const parseTags = (post: any) => {
   if (post.json_metadata) {
     let _tags = get(post.json_metadata, 'tags', []);
@@ -233,8 +226,8 @@ const parseTags = (post: any) => {
       } else if (_tags.indexOf(',') > -1) {
         separator = ',';
       }
-      post.json_metadata.tags = _tags.split(separator)
+      post.json_metadata.tags = _tags.split(separator);
     }
   }
   return post;
-}
+};

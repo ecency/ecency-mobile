@@ -1,5 +1,5 @@
-import { CommentHistoryItem } from '../../providers/ecency/ecency.types';
 import { diff_match_patch } from 'diff-match-patch';
+import { CommentHistoryItem } from '../../providers/ecency/ecency.types';
 
 const dmp = new diff_match_patch();
 

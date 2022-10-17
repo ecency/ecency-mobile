@@ -55,7 +55,6 @@ import { PointActivityIds } from '../../../providers/ecency/ecency.types';
  *
  */
 
-
 class EditorContainer extends Component<EditorContainerProps, any> {
   _isMounted = false;
   _updatedDraftFields = null;
@@ -549,7 +548,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       intl,
       navigation,
       pinCode,
-      userActivityMutation
+      userActivityMutation,
       // isDefaultFooter,
     } = this.props;
     const { rewardType, isPostSending, thumbUrl, draftId, shouldReblog } = this.state;
@@ -621,9 +620,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             console.log(response);
             // track user activity for points
             userActivityMutation.mutate({
-              pointsTy:PointActivityIds.POST,
-              transactionId:response.id
-            })
+              pointsTy: PointActivityIds.POST,
+              transactionId: response.id,
+            });
 
             //reblog if flag is active
             if (shouldReblog) {
@@ -631,9 +630,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
                 .then((resp) => {
                   //track user activity for points on reblog
                   userActivityMutation.mutate({
-                    pointsTy:PointActivityIds.REBLOG,
-                    transactionId:resp.id
-                  })
+                    pointsTy: PointActivityIds.REBLOG,
+                    transactionId: resp.id,
+                  });
                   console.log('Successfully reblogged post', resp);
                 })
                 .catch((err) => {
@@ -710,9 +709,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         .then((response) => {
           //record user activity for points
           userActivityMutation.mutate({
-            pointsTy:PointActivityIds.COMMENT,
-            transactionId:response.id
-          })
+            pointsTy: PointActivityIds.COMMENT,
+            transactionId: response.id,
+          });
 
           AsyncStorage.setItem('temp-reply', '');
           this._handleSubmitSuccess();
@@ -1150,9 +1149,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapQueriesToProps = () => ({
-  queryClient:useQueryClient(),
-  userActivityMutation:useUserActivityMutation()
-})
+  queryClient: useQueryClient(),
+  userActivityMutation: useUserActivityMutation(),
+});
 
 export default connect(mapStateToProps)(
   injectIntl((props) => <EditorContainer {...props} {...mapQueriesToProps()} />),

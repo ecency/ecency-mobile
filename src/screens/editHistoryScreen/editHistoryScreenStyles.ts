@@ -1,8 +1,8 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  mainContainer:{
-    flex:1,
+  mainContainer: {
+    flex: 1,
     backgroundColor: '$primaryBackgroundColor',
   },
   versionsListContainer: {
@@ -10,7 +10,7 @@ export default EStyleSheet.create({
     paddingTop: 16,
   },
   versionsListContentContainer: {
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
   },
   versionItemBtn: {
     // backgroundColor: '$primaryBlue',
@@ -25,7 +25,7 @@ export default EStyleSheet.create({
   versionItemBtnText: {
     color: '$pureWhite',
     fontSize: 14,
-    fontWeight: '700'
+    fontWeight: '700',
   },
   versionItemBtnDate: {
     color: '$black',
@@ -34,9 +34,7 @@ export default EStyleSheet.create({
   previewScrollContentContainer: {
     paddingHorizontal: 16,
   },
-  postHeaderContainer: {
-    
-  },
+  postHeaderContainer: {},
   postHeaderTitle: {
     fontSize: 24,
     color: '$primaryBlack',
@@ -44,7 +42,7 @@ export default EStyleSheet.create({
     fontFamily: '$primaryFont',
     marginBottom: 11,
   },
-  postBodyText:{
+  postBodyText: {
     fontSize: 16,
     color: '$primaryBlack',
     fontFamily: '$primaryFont',

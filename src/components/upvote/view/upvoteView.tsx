@@ -140,8 +140,8 @@ const UpvoteView = ({
           //record user points
           userActivityMutation.mutate({
             pointsTy: PointActivityIds.VOTE,
-            transactionId: response.id
-          })
+            transactionId: response.id,
+          });
 
           if (!response || !response.id) {
             Alert.alert(
@@ -214,8 +214,8 @@ const UpvoteView = ({
           //record usr points
           userActivityMutation.mutate({
             pointsTy: PointActivityIds.VOTE,
-            transactionId: response.id
-          })
+            transactionId: response.id,
+          });
           setUpvote(!!sliderValue);
           setIsVoting(false);
           onVote(amount, true);

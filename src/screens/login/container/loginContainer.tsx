@@ -168,7 +168,7 @@ class LoginContainer extends PureComponent {
           dispatch(setFeedPosts([]));
 
           //track user activity for login
-          userActivityMutation.mutate({ pointsTy:PointActivityIds.LOGIN })
+          userActivityMutation.mutate({ pointsTy: PointActivityIds.LOGIN });
           setExistUser(true);
           this._setPushToken(result.name);
           const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
@@ -193,8 +193,8 @@ class LoginContainer extends PureComponent {
         const errorDescription = err?.response?.data?.error_description
           ? err?.response?.data?.error_description
           : intl.formatMessage({
-            id: err.message,
-          });
+              id: err.message,
+            });
         Alert.alert(
           intl.formatMessage({
             id: 'login.login_failed',
@@ -291,9 +291,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapQueriesToProps = () => ({
-  userActivityMutation: useUserActivityMutation()
-})
+  userActivityMutation: useUserActivityMutation(),
+});
 
-export default connect(mapStateToProps)(injectIntl((props) => (
-  <LoginContainer {...props} {...mapQueriesToProps()} />
-)));
+export default connect(mapStateToProps)(
+  injectIntl((props) => <LoginContainer {...props} {...mapQueriesToProps()} />),
+);

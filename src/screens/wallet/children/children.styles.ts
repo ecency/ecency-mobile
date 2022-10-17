@@ -11,7 +11,7 @@ export default EStyleSheet.create({
     borderRadius: 12,
     overflow: 'hidden',
     borderWidth: 2,
-    borderColor: "$primaryLightBackground",
+    borderColor: '$primaryLightBackground',
   } as ViewStyle,
 
   cardHeader: {
@@ -29,19 +29,19 @@ export default EStyleSheet.create({
   cardValuesContainer: {
     marginHorizontal: 8,
 
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   } as ViewStyle,
 
   claimContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 8
+    marginTop: 8,
   } as ViewStyle,
 
   claimBtn: {
     flexDirection: 'row',
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
   } as ViewStyle,
 
   claimBtnTitle: {
@@ -49,7 +49,7 @@ export default EStyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     alignSelf: 'center',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
   } as TextStyle,
 
   claimIconWrapper: {
@@ -90,7 +90,7 @@ export default EStyleSheet.create({
     left: isRTL() ? 16 : 76,
     right: isRTL() ? 76 : 16,
     paddingTop: 8,
-    flexDirection: isRTL() ? "row-reverse" : "row",
+    flexDirection: isRTL() ? 'row-reverse' : 'row',
     justifyContent: 'space-between',
     borderColor: '$chartText',
     borderTopWidth: EStyleSheet.hairlineWidth,
@@ -127,10 +127,9 @@ export default EStyleSheet.create({
     fontSize: 14,
     color: '$primaryDarkText',
     fontWeight: '300',
-    textAlign: 'right'
+    textAlign: 'right',
   } as TextStyle,
   claimActivityIndicator: {
-    marginLeft: 16
-  } as ViewStyle
-
+    marginLeft: 16,
+  } as ViewStyle,
 });

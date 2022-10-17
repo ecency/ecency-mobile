@@ -1,7 +1,7 @@
+import get from 'lodash/get';
 import { getPost, getUser } from '../providers/hive/dhive';
 import postUrlParser from './postUrlParser';
 import parseAuthUrl, { AUTH_MODES } from './parseAuthUrl';
-import get from 'lodash/get';
 import ROUTES from '../constants/routeNames';
 import parsePurchaseUrl from './parsePurchaseUrl';
 
@@ -13,7 +13,6 @@ export const deepLinkParser = async (url, currentAccount) => {
   let content;
   let profile;
   let keey;
-
 
   //profess url for post/content
   const postUrl = postUrlParser(url);
@@ -77,8 +76,8 @@ export const deepLinkParser = async (url, currentAccount) => {
   //process url for authentication
   if (!routeName) {
     const data = parseAuthUrl(url);
-    if(data){
-      const {mode, referredUser, username, code} = data;
+    if (data) {
+      const { mode, referredUser, username, code } = data;
 
       if (mode === AUTH_MODES.SIGNUP) {
         routeName = ROUTES.SCREENS.REGISTER;
@@ -87,12 +86,12 @@ export const deepLinkParser = async (url, currentAccount) => {
         };
         keey = `${mode}/${referredUser || ''}`;
       }
-  
+
       if (mode === AUTH_MODES.AUTH) {
         routeName = ROUTES.SCREENS.LOGIN;
         params = {
           username,
-          code
+          code,
         };
         keey = `${mode}/${username || ''}`;
       }
@@ -114,12 +113,11 @@ export const deepLinkParser = async (url, currentAccount) => {
       routeName = ROUTES.SCREENS.BOOST;
       params = {
         username,
-        productId
+        productId,
       };
       keey = `${type}/${username || ''}`;
     }
   }
-
 
   return {
     routeName: routeName,

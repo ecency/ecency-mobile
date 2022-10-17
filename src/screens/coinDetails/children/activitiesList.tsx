@@ -1,4 +1,4 @@
-import React, { ComponentType, JSXElementConstructor, ReactElement } from 'react'
+import React, { ComponentType, JSXElementConstructor, ReactElement } from 'react';
 import { useIntl } from 'react-intl';
 import { SectionList, Text, RefreshControl, ActivityIndicator } from 'react-native';
 import { Transaction } from '../../../components';
@@ -7,7 +7,7 @@ import { CoinActivity } from '../../../redux/reducers/walletReducer';
 import styles from './children.styles';
 
 interface ActivitiesListProps {
-  header: ComponentType<any> | ReactElement<any, string | JSXElementConstructor<any>>
+  header: ComponentType<any> | ReactElement<any, string | JSXElementConstructor<any>>;
   pendingActivities: CoinActivity[];
   completedActivities: CoinActivity[];
   refreshing: boolean;
@@ -16,7 +16,6 @@ interface ActivitiesListProps {
   onRefresh: () => void;
 }
 
-
 const ActivitiesList = ({
   header,
   loading,
@@ -24,31 +23,29 @@ const ActivitiesList = ({
   completedActivities,
   pendingActivities,
   onEndReached,
-  onRefresh
+  onRefresh,
 }: ActivitiesListProps) => {
   const intl = useIntl();
 
-  const isDarkTheme = useAppSelector(state => state.ui.isDarkTheme);
+  const isDarkTheme = useAppSelector((state) => state.ui.isDarkTheme);
 
   const _renderActivityItem = ({ item, index }) => {
-    return <Transaction item={item} index={index} />
-  }
+    return <Transaction item={item} index={index} />;
+  };
 
   const sections = [];
 
   if (pendingActivities && pendingActivities.length) {
     sections.push({
       title: intl.formatMessage({ id: 'wallet.pending_requests' }),
-      data: pendingActivities
-    })
+      data: pendingActivities,
+    });
   }
-
 
   sections.push({
     title: intl.formatMessage({ id: 'wallet.activities' }),
-    data: completedActivities || []
-  })
-
+    data: completedActivities || [],
+  });
 
   const _refreshControl = (
     <RefreshControl
@@ -59,8 +56,7 @@ const ActivitiesList = ({
       titleColor="#fff"
       colors={['#fff']}
     />
-  )
-
+  );
 
   return (
     <SectionList
@@ -72,14 +68,16 @@ const ActivitiesList = ({
       renderSectionHeader={({ section: { title } }) => (
         <Text style={styles.textActivities}>{title}</Text>
       )}
-      ListFooterComponent={loading && <ActivityIndicator style={styles.activitiesFooterIndicator} />}
+      ListFooterComponent={
+        loading && <ActivityIndicator style={styles.activitiesFooterIndicator} />
+      }
       ListHeaderComponent={header}
       refreshControl={_refreshControl}
-      onEndReached={()=>{onEndReached()}}
+      onEndReached={() => {
+        onEndReached();
+      }}
     />
-  )
-}
+  );
+};
 
-export default ActivitiesList
-
-
+export default ActivitiesList;

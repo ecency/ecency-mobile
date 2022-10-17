@@ -47,18 +47,15 @@ class InAppPurchaseContainer extends Component {
     RNIap.endConnection();
   }
 
-
   _initContainer = async () => {
-    const {
-      intl,
-    } = this.props;
+    const { intl } = this.props;
     try {
       await RNIap.initConnection();
       if (Platform.OS === 'android') {
-        await RNIap.flushFailedPurchasesCachedAsPendingAndroid(); 
+        await RNIap.flushFailedPurchasesCachedAsPendingAndroid();
       }
 
-      await this._consumeAvailablePurchases()
+      await this._consumeAvailablePurchases();
       this._getItems();
       this._purchaseUpdatedListener();
       await this._handleQrPurchase();
@@ -70,31 +67,28 @@ class InAppPurchaseContainer extends Component {
         intl.formatMessage({
           id: 'alert.connection_issues',
         }),
-        err.message
+        err.message,
       );
     }
-   
-  }
+  };
 
-
-  //this snippet consumes all previously bought purchases 
+  //this snippet consumes all previously bought purchases
   //that are set to be consumed yet
   _consumeAvailablePurchases = async () => {
-    try{
+    try {
       //get available purchase
       const purchases = await RNIap.getAvailablePurchases();
       //check consumeable status
       for (let i = 0; i < purchases.length; i++) {
-        //consume item using finishTransactionx      
+        //consume item using finishTransactionx
         await RNIap.finishTransaction(purchases[i], true);
       }
-    }catch(err){
+    } catch (err) {
       bugsnagInstance.notify(err);
       console.warn(err.code, err.message);
     }
-  }
+  };
 
-  
   // Component Functions
 
   _purchaseUpdatedListener = () => {
@@ -157,7 +151,7 @@ class InAppPurchaseContainer extends Component {
           intl.formatMessage({
             id: 'alert.warning',
           }),
-          error.message
+          error.message,
         );
       }
       this.setState({ isProcessing: false });
@@ -169,7 +163,7 @@ class InAppPurchaseContainer extends Component {
     if (_title !== 'FREE POINTS') {
       _title = _title.replace(/[^0-9]+/g, '') + ' POINTS';
     }
-  
+
     return _title;
   };
 
@@ -183,11 +177,11 @@ class InAppPurchaseContainer extends Component {
     } catch (err) {
       bugsnagInstance.notify(err);
       Alert.alert(
-          intl.formatMessage({
-            id: 'alert.connection_issues',
-          }),
-          error.message
-        );
+        intl.formatMessage({
+          id: 'alert.connection_issues',
+        }),
+        error.message,
+      );
     }
 
     this.setState({ isLoading: false });
@@ -219,23 +213,29 @@ class InAppPurchaseContainer extends Component {
     const productId = navigation.getParam('productId', '');
     const username = navigation.getParam('username', '');
 
-    const product:Product = productId && products && products.find((product) => product.productId === productId)
-    
+    const product: Product =
+      productId && products && products.find((product) => product.productId === productId);
+
     if (product) {
-
-      let body = intl.formatMessage({
-         id: 'boost.confirm_purchase_summary' 
-        }, {
+      let body = intl.formatMessage(
+        {
+          id: 'boost.confirm_purchase_summary',
+        },
+        {
           points: this._getTitle(product.title),
-           username,
-           price: `${product.currency} ${product.price}`
-          });
+          username,
+          price: `${product.currency} ${product.price}`,
+        },
+      );
 
-          let title = intl.formatMessage({
-            id: 'boost.confirm_purchase' 
-           }, {
-              username,
-             });
+      let title = intl.formatMessage(
+        {
+          id: 'boost.confirm_purchase',
+        },
+        {
+          username,
+        },
+      );
 
       dispatch(
         showActionModal({
@@ -251,13 +251,12 @@ class InAppPurchaseContainer extends Component {
               onPress: async () => await this._buyItem(productId),
             },
           ],
-          headerContent: <UserAvatar username={username} size='xl' />,
+          headerContent: <UserAvatar username={username} size="xl" />,
         }),
       );
     }
-  }
+  };
 
-  
   render() {
     const { children, isNoSpin, navigation } = this.props;
     const { productList, isLoading, isProcessing } = this.state;
@@ -276,7 +275,7 @@ class InAppPurchaseContainer extends Component {
         getItems: this._getItems,
         getTitle: this._getTitle,
         spinProduct: productList.filter((item) => item.productId.includes('spins')),
-        navigation: navigation
+        navigation: navigation,
       })
     );
   }

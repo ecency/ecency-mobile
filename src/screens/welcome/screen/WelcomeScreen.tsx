@@ -20,38 +20,32 @@ const WelcomeScreen = () => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
-
-  const isTermsAccepted = useAppSelector(state => state.application.isTermsAccepted);
+  const isTermsAccepted = useAppSelector((state) => state.application.isTermsAccepted);
   const [showAnimation, setShowAnimation] = useState(true);
   const [isConsentChecked, setIsConsentChecked] = useState(isTermsAccepted);
   const [appVersion] = useState(VersionNumber.appVersion);
 
-
   useEffect(() => {
     _showWelcomeModal();
-  }, [])
-
+  }, []);
 
   const _showWelcomeModal = () => {
-
     setShowAnimation(true);
     setTimeout(() => {
       setShowAnimation(false);
     }, 3550);
-  }
-
+  };
 
   const _handleButtonPress = () => {
-    dispatch(setLastAppVersion(appVersion))
+    dispatch(setLastAppVersion(appVersion));
     dispatch(setIsTermsAccepted(isConsentChecked));
 
-    navigation.navigate(ROUTES.STACK.MAIN)
-  }
+    navigation.navigate(ROUTES.STACK.MAIN);
+  };
 
   const _onCheckPress = (value, isCheck) => {
     setIsConsentChecked(isCheck);
   };
-
 
   const _renderInfo = (iconName, headingIntlId, bodyIntlId) => (
     <View style={styles.sectionRow}>
@@ -67,7 +61,6 @@ const WelcomeScreen = () => {
       </View>
     </View>
   );
-
 
   const _renderConsent = () => (
     <View style={styles.consentContainer}>
@@ -90,10 +83,8 @@ const WelcomeScreen = () => {
     </View>
   );
 
-
   return (
     <SafeAreaView style={styles.root}>
-
       <View style={styles.container}>
         <Image
           style={styles.mascot}
@@ -106,16 +97,13 @@ const WelcomeScreen = () => {
           <Text style={styles.ecencyText}>{intl.formatMessage({ id: 'welcome.title' })}</Text>
         </View>
 
-        <ScrollView contentContainerStyle={styles.contentContainer} >
-          <TouchableOpacity disabled={!isConsentChecked} onPress={_handleButtonPress} >
-
+        <ScrollView contentContainerStyle={styles.contentContainer}>
+          <TouchableOpacity disabled={!isConsentChecked} onPress={_handleButtonPress}>
             {_renderInfo('question', 'welcome.line1_heading', 'welcome.line1_body')}
             {_renderInfo('emotsmile', 'welcome.line2_heading', 'welcome.line2_body')}
             {_renderInfo('people', 'welcome.line3_heading', 'welcome.line3_body')}
-
           </TouchableOpacity>
         </ScrollView>
-
 
         <View style={styles.bottomContainer}>
           {_renderConsent()}
@@ -127,13 +115,11 @@ const WelcomeScreen = () => {
             text={intl.formatMessage({ id: 'welcome.get_started' })}
           />
         </View>
-
       </View>
 
       {showAnimation && <LaunchScreen />}
     </SafeAreaView>
   );
-}
-
+};
 
 export default WelcomeScreen;

@@ -16,8 +16,7 @@ import { Tag } from '../../../basicUIElements';
 import { isCommunity } from '../../../../utils/communityValidation';
 import { toastNotification } from '../../../../redux/actions/uiAction';
 
-
-const SEPARATOR_REGEX = /[,\s]/
+const SEPARATOR_REGEX = /[,\s]/;
 
 const TagInput = ({ value, handleTagChanged, intl, isPreviewActive, autoFocus, setCommunity }) => {
   const dispatch = useAppDispatch();

@@ -10,22 +10,19 @@ import { setTopLevelNavigator } from './service';
 import ROUTES from '../constants/routeNames';
 import parseVersionNumber from '../utils/parseVersionNumber';
 
-
-
 export const AppNavigator = () => {
-
-  const lastAppVersion = useAppSelector(state => state.application.lastAppVersion)
+  const lastAppVersion = useAppSelector((state) => state.application.lastAppVersion);
 
   const [appVersion] = useState(VersionNumber.appVersion);
 
-  const _initRoute = (!lastAppVersion || (parseVersionNumber(lastAppVersion) < parseVersionNumber(appVersion))) ?
-    ROUTES.SCREENS.WELCOME : ROUTES.SCREENS.FEED;
-  
+  const _initRoute =
+    !lastAppVersion || parseVersionNumber(lastAppVersion) < parseVersionNumber(appVersion)
+      ? ROUTES.SCREENS.WELCOME
+      : ROUTES.SCREENS.FEED;
 
   return (
-    <NavigationContainer ref={ref=>setTopLevelNavigator(ref)}>
+    <NavigationContainer ref={(ref) => setTopLevelNavigator(ref)}>
       <StackNavigator initRoute={_initRoute} />
     </NavigationContainer>
-  )
-}
-
+  );
+};

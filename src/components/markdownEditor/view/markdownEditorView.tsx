@@ -50,7 +50,7 @@ import { useAppSelector } from '../../../hooks';
 
 const MIN_BODY_INPUT_HEIGHT = 300;
 
-//These variable keep track of body text input state, 
+//These variable keep track of body text input state,
 //this helps keep load on minimal compared to both useState and useRef;
 var bodyText = '';
 var bodySelection = { start: 0, end: 0 };
@@ -74,11 +74,11 @@ const MarkdownEditorView = ({
   autoFocusText,
   sharedSnippetText,
   onLoadDraftPress,
-  setIsUploading
+  setIsUploading,
 }) => {
   const dispatch = useDispatch();
 
-  const isDarkTheme = useAppSelector(state => state.application.isDarkTheme);
+  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
 
   const [editable, setEditable] = useState(true);
   const [bodyInputHeight, setBodyInputHeight] = useState(MIN_BODY_INPUT_HEIGHT);
@@ -86,7 +86,6 @@ const MarkdownEditorView = ({
   const [showDraftLoadButton, setShowDraftLoadButton] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [insertedMediaUrls, setInsertedMediaUrls] = useState([]);
-
 
   const inputRef = useRef(null);
   const clearRef = useRef(null);
@@ -164,7 +163,6 @@ const MarkdownEditorView = ({
     }
   }, [isLoading]);
 
-
   useEffect(() => {
     bodyText = draftBody;
   }, [draftBody]);
@@ -177,8 +175,6 @@ const MarkdownEditorView = ({
       }, 1000);
     }
   }, [autoFocusText]);
-
-
 
   const changeUser = async () => {
     dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
@@ -193,33 +189,37 @@ const MarkdownEditorView = ({
     });
   };
 
-
-  const _debouncedOnTextChange = useCallback(debounce(() => {
-    console.log("setting is editing to", false)
-    setIsEditing(false)
-    const urls = extractImageUrls({ body: bodyText })
-    if (urls.length !== insertedMediaUrls.length) {
-      setInsertedMediaUrls(urls);
-    }
-  }, 500), [])
+  const _debouncedOnTextChange = useCallback(
+    debounce(() => {
+      console.log('setting is editing to', false);
+      setIsEditing(false);
+      const urls = extractImageUrls({ body: bodyText });
+      if (urls.length !== insertedMediaUrls.length) {
+        setInsertedMediaUrls(urls);
+      }
+    }, 500),
+    [],
+  );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const _changeText = useCallback((input) => {
-    bodyText = input;
+  const _changeText = useCallback(
+    (input) => {
+      bodyText = input;
 
-    if (!isEditing) {
-      console.log('force setting is editing to true', true)
-      setIsEditing(true)
-    }
+      if (!isEditing) {
+        console.log('force setting is editing to true', true);
+        setIsEditing(true);
+      }
 
-    _debouncedOnTextChange();
+      _debouncedOnTextChange();
 
-    //NOTE: onChange method is called by direct parent of MarkdownEditor that is PostForm, do not remove
-    if (onChange) {
-      onChange(input);
-    }
-  }, [isEditing]);
-
+      //NOTE: onChange method is called by direct parent of MarkdownEditor that is PostForm, do not remove
+      if (onChange) {
+        onChange(input);
+      }
+    },
+    [isEditing],
+  );
 
   const _handleOnSelectionChange = async (event) => {
     bodySelection = event.nativeEvent.selection;
@@ -233,11 +233,11 @@ const MarkdownEditorView = ({
     });
 
     const _updateSelection = () => {
-      bodySelection = _selection
+      bodySelection = _selection;
       inputRef?.current?.setNativeProps({
         selection: _selection,
       });
-    }
+    };
 
     // Workaround for iOS selection update issue
     if (Platform.OS === 'ios') {
@@ -245,7 +245,7 @@ const MarkdownEditorView = ({
         _updateSelection();
       }, 100);
     } else {
-      _updateSelection()
+      _updateSelection();
     }
 
     if (isSnippetsOpen) {
@@ -275,8 +275,6 @@ const MarkdownEditorView = ({
     setIsSnippetsOpen(false);
   };
 
-
-
   const _handleMediaInsert = (mediaArray: MediaInsertData[]) => {
     if (mediaArray.length) {
       applyMediaLink({
@@ -287,9 +285,6 @@ const MarkdownEditorView = ({
       });
     }
   };
-
-
-
 
   const _handleOnAddLinkPress = () => {
     insertLinkModalRef.current?.showModal({
@@ -313,7 +308,6 @@ const MarkdownEditorView = ({
 
     insertLinkModalRef.current?.hideModal();
   };
-
 
   const _renderFloatingDraftButton = () => {
     if (showDraftLoadButton) {
@@ -354,7 +348,7 @@ const MarkdownEditorView = ({
       _setTextAndSelection({ text: '', selection: { start: 0, end: 0 } });
     }
   };
-  const _renderEditor = (editorScrollEnabled:boolean) => (
+  const _renderEditor = (editorScrollEnabled: boolean) => (
     <>
       {isReply && !isEdit && <SummaryArea summary={headerText} />}
       {!isReply && (
@@ -397,38 +391,44 @@ const MarkdownEditorView = ({
         </View>
       )}
       {!isPreviewActive ? (
-            <TextInput
-              multiline
-              autoCorrect={true}
-              autoFocus={!draftBtnTooltipRegistered ? false : true}
-              onChangeText={_changeText}
-              onSelectionChange={_handleOnSelectionChange}
-              placeholder={intl.formatMessage({
-                id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
-              })}
-              placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
-              selectionColor="#357ce6"
-              style={styles.textWrapper}
-              underlineColorAndroid="transparent"
-              innerRef={inputRef}
-              editable={editable}
-              contextMenuHidden={false}
-              scrollEnabled={editorScrollEnabled}
-            />
+        <TextInput
+          multiline
+          autoCorrect={true}
+          autoFocus={!draftBtnTooltipRegistered ? false : true}
+          onChangeText={_changeText}
+          onSelectionChange={_handleOnSelectionChange}
+          placeholder={intl.formatMessage({
+            id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
+          })}
+          placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
+          selectionColor="#357ce6"
+          style={styles.textWrapper}
+          underlineColorAndroid="transparent"
+          innerRef={inputRef}
+          editable={editable}
+          contextMenuHidden={false}
+          scrollEnabled={editorScrollEnabled}
+        />
       ) : (
         _renderPreview()
       )}
     </>
   );
 
-  const _editorWithScroll = <ScrollView style={styles.container}>{_renderEditor(false)}</ScrollView>;
+  const _editorWithScroll = (
+    <ScrollView style={styles.container}>{_renderEditor(false)}</ScrollView>
+  );
   const _editorWithoutScroll = <View style={styles.container}>{_renderEditor(true)}</View>;
 
   const _renderContent = () => {
     const _innerContent = (
       <>
         {isAndroidOreo() ? _editorWithoutScroll : _editorWithScroll}
-        <UsernameAutofillBar text={bodyText} selection={bodySelection} onApplyUsername={_onApplyUsername} />
+        <UsernameAutofillBar
+          text={bodyText}
+          selection={bodySelection}
+          onApplyUsername={_onApplyUsername}
+        />
         {_renderFloatingDraftButton()}
 
         <EditorToolbar
@@ -445,11 +445,10 @@ const MarkdownEditorView = ({
               text: bodyText,
               selection: bodySelection,
               setTextAndSelection: _setTextAndSelection,
-              item
-            })
+              item,
+            });
           }}
         />
-
       </>
     );
 
@@ -479,8 +478,6 @@ const MarkdownEditorView = ({
       >
         <SnippetsModal handleOnSelect={_handleOnSnippetReceived} />
       </Modal>
-
-
 
       <InsertLinkModal
         ref={insertLinkModalRef}

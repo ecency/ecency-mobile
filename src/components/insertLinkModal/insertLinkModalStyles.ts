@@ -19,7 +19,7 @@ export default EStyleSheet.create({
     paddingTop: 32,
     paddingBottom: 16,
   },
-  
+
   container: {
     paddingVertical: 8,
     backgroundColor: '$primaryBackgroundColor',

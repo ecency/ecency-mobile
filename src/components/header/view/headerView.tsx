@@ -46,13 +46,8 @@ const HeaderView = ({
     });
   };
 
-
   const _renderAvatar = () => (
-    <TouchableOpacity
-      style={styles.avatarWrapper}
-      onPress={handleOpenDrawer}
-      disabled={isReverse}
-    >
+    <TouchableOpacity style={styles.avatarWrapper} onPress={handleOpenDrawer} disabled={isReverse}>
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
@@ -69,14 +64,17 @@ const HeaderView = ({
         />
       </LinearGradient>
     </TouchableOpacity>
-  )
-
+  );
 
   const _renderTitle = () => (
     <>
       {displayName || username ? (
         <View style={[styles.titleWrapper, isReverse && styles.titleWrapperReverse]}>
-          {displayName && <Text numberOfLines={1} style={styles.title}>{displayName}</Text>}
+          {displayName && (
+            <Text numberOfLines={1} style={styles.title}>
+              {displayName}
+            </Text>
+          )}
           <Text style={styles.subTitle}>
             {`@${username}`}
             {reputation && ` (${reputation})`}
@@ -94,8 +92,7 @@ const HeaderView = ({
         </View>
       )}
     </>
-  )
-
+  );
 
   const _renderActionButtons = () => (
     <>
@@ -123,11 +120,10 @@ const HeaderView = ({
         </View>
       )}
     </>
-  )
+  );
 
   return (
     <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
-      
       {!hideUser && (
         <>
           <SearchModal

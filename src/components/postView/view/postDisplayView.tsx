@@ -70,8 +70,8 @@ const PostDisplayView = ({
     if (isLoggedIn && get(currentAccount, 'name') && !isNewPost) {
       //track user activity for view post
       userActivityMutation.mutate({
-        pointsTy:PointActivityIds.VIEW_POST
-      })
+        pointsTy: PointActivityIds.VIEW_POST,
+      });
     }
   }, []);
 

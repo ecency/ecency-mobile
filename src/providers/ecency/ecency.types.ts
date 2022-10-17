@@ -66,10 +66,10 @@ export interface CommentHistoryItem {
 }
 
 export interface PointActivity {
-  pointsTy:number;
-  username?:string;
-  transactionId?:string;
-  blockNum?:number|string;
+  pointsTy: number;
+  username?: string;
+  transactionId?: string;
+  blockNum?: number | string;
 }
 
 export enum ScheduledPostStatus {
@@ -80,17 +80,16 @@ export enum ScheduledPostStatus {
 }
 
 export enum NotificationFilters {
-  ACTIVITIES = "activities",
-  RVOTES = "rvotes",
-  MENTIONS = "mentions",
-  FOLLOWS = "follows",
-  REPLIES = "replies",
-  REBLOGS = "reblogs",
-  TRANFERS = "transfers",
-  DELEGATIONS = "delegations",
-  FAVOURITES = "nfavorites"
+  ACTIVITIES = 'activities',
+  RVOTES = 'rvotes',
+  MENTIONS = 'mentions',
+  FOLLOWS = 'follows',
+  REPLIES = 'replies',
+  REBLOGS = 'reblogs',
+  TRANFERS = 'transfers',
+  DELEGATIONS = 'delegations',
+  FAVOURITES = 'nfavorites',
 }
-
 
 export enum PointActivityIds {
   VIEW_POST = 10,

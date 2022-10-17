@@ -23,7 +23,7 @@ const transformCacheVoteMap = createTransform(
     comments: new Map(outboundState.comments),
     drafts: new Map(outboundState.drafts),
     subscribedCommunities: new Map(outboundState.subscribedCommunities),
-    pointActivities: new Map(outboundState.pointActivities)
+    pointActivities: new Map(outboundState.pointActivities),
   }),
   { whitelist: ['cache'] },
 );

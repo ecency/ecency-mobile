@@ -1,26 +1,31 @@
-import { Keyboard, View, ViewStyle } from 'react-native'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { IconButton, UploadsGalleryModal } from '../..'
-import { FlatList, HandlerStateChangeEvent, PanGestureHandler, PanGestureHandlerEventPayload } from 'react-native-gesture-handler';
+import { Keyboard, View, ViewStyle } from 'react-native';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  FlatList,
+  HandlerStateChangeEvent,
+  PanGestureHandler,
+  PanGestureHandlerEventPayload,
+} from 'react-native-gesture-handler';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
+import Animated, { Easing, Extrapolate } from 'react-native-reanimated';
+import { IconButton, UploadsGalleryModal } from '../..';
 import styles from '../styles/editorToolbarStyles';
 import { useAppSelector } from '../../../hooks';
 import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 import Formats from './formats/formats';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
-import Animated, { Easing, Extrapolate } from 'react-native-reanimated';
 
 type Props = {
-  insertedMediaUrls: string[],
-  paramFiles: any[]
-  isEditing: boolean,
-  isPreviewActive: boolean,
+  insertedMediaUrls: string[];
+  paramFiles: any[];
+  isEditing: boolean;
+  isPreviewActive: boolean;
   setIsUploading: (isUploading: boolean) => void;
   handleMediaInsert: (data: MediaInsertData[]) => void;
   handleOnAddLinkPress: () => void;
   handleOnClearPress: () => void;
   handleOnMarkupButtonPress: (item) => void;
   handleShowSnippets: () => void;
-}
+};
 
 export const EditorToolbar = ({
   insertedMediaUrls,
@@ -32,11 +37,9 @@ export const EditorToolbar = ({
   handleOnAddLinkPress,
   handleOnClearPress,
   handleOnMarkupButtonPress,
-  handleShowSnippets
-
+  handleShowSnippets,
 }: Props) => {
-
-  const currentAccount = useAppSelector(state => state.account.currentAccount)
+  const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const uploadsGalleryModalRef = useRef<typeof UploadsGalleryModal>(null);
   const translateY = useRef(new Animated.Value(200));
   const shouldHideExtension = useRef(false);
@@ -47,18 +50,12 @@ export const EditorToolbar = ({
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      () => {
-        setKeyboardVisible(true); // or some other action
-      }
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      () => {
-        setKeyboardVisible(false); // or some other action
-      }
-    );
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      setKeyboardVisible(true); // or some other action
+    });
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardVisible(false); // or some other action
+    });
 
     return () => {
       keyboardDidHideListener.remove();
@@ -74,7 +71,9 @@ export const EditorToolbar = ({
         iconStyle={styles.icon}
         iconType={item.iconType}
         name={item.icon}
-        onPress={() => { handleOnMarkupButtonPress && handleOnMarkupButtonPress(item) }}
+        onPress={() => {
+          handleOnMarkupButtonPress && handleOnMarkupButtonPress(item);
+        }}
       />
     </View>
   );
@@ -86,8 +85,7 @@ export const EditorToolbar = ({
       uploadsGalleryModalRef.current.toggleModal(true);
       _revealExtension();
     }
-  }
-
+  };
 
   //handles extension closing
   const _onGestureEvent = Animated.event(
@@ -99,30 +97,38 @@ export const EditorToolbar = ({
       },
     ],
     {
-      useNativeDriver: false
-    }
+      useNativeDriver: false,
+    },
   );
 
-
-  const consY = useMemo(() => translateY.current.interpolate({
-    inputRange: [0, 500],
-    outputRange: [0, 500],
-    extrapolate: Extrapolate.CLAMP
-  }), [translateY.current]);
-
+  const consY = useMemo(
+    () =>
+      translateY.current.interpolate({
+        inputRange: [0, 500],
+        outputRange: [0, 500],
+        extrapolate: Extrapolate.CLAMP,
+      }),
+    [translateY.current],
+  );
 
   const _animatedStyle = {
     transform: [
       {
         translateY: consY,
       },
-    ]
-  }
+    ],
+  };
 
   const _onPanHandlerStateChange = (e: HandlerStateChangeEvent<PanGestureHandlerEventPayload>) => {
-    console.log("handler state change", e.nativeEvent.velocityY, e.nativeEvent.velocityY > 300, e.nativeEvent.translationY);
-    shouldHideExtension.current = e.nativeEvent.velocityY > 300 || e.nativeEvent.translationY > (extensionHeight.current / 2);
-  }
+    console.log(
+      'handler state change',
+      e.nativeEvent.velocityY,
+      e.nativeEvent.velocityY > 300,
+      e.nativeEvent.translationY,
+    );
+    shouldHideExtension.current =
+      e.nativeEvent.velocityY > 300 || e.nativeEvent.translationY > extensionHeight.current / 2;
+  };
 
   const _revealExtension = () => {
     if (!isExtensionVisible) {
@@ -135,9 +141,8 @@ export const EditorToolbar = ({
       duration: 200,
       toValue: 0,
       easing: Easing.inOut(Easing.ease),
-    }).start()
-  }
-
+    }).start();
+  };
 
   const _hideExtension = () => {
     Animated.timing(translateY.current, {
@@ -151,29 +156,31 @@ export const EditorToolbar = ({
         uploadsGalleryModalRef.current.toggleModal(false);
       }
     });
-  }
-
+  };
 
   const _onPanEnded = () => {
     if (shouldHideExtension.current) {
-      _hideExtension()
+      _hideExtension();
     } else {
       _revealExtension();
     }
-  }
-
+  };
 
   const _renderExtension = () => {
     return (
-      <PanGestureHandler onGestureEvent={_onGestureEvent}
+      <PanGestureHandler
+        onGestureEvent={_onGestureEvent}
         onHandlerStateChange={_onPanHandlerStateChange}
-        onEnded={_onPanEnded}>
-        <Animated.View  style={_animatedStyle}>
-          <View onLayout={(e) => {
-          extensionHeight.current = e.nativeEvent.layout.height;
-          console.log('extension height', extensionHeight.current)
-
-        }} style={styles.dropShadow}>
+        onEnded={_onPanEnded}
+      >
+        <Animated.View style={_animatedStyle}>
+          <View
+            onLayout={(e) => {
+              extensionHeight.current = e.nativeEvent.layout.height;
+              console.log('extension height', extensionHeight.current);
+            }}
+            style={styles.dropShadow}
+          >
             {isExtensionVisible && <View style={styles.indicator} />}
             <UploadsGalleryModal
               ref={uploadsGalleryModalRef}
@@ -184,23 +191,25 @@ export const EditorToolbar = ({
               username={currentAccount.username}
               hideToolbarExtension={_hideExtension}
               handleMediaInsert={handleMediaInsert}
-              setIsUploading={setIsUploading} />
+              setIsUploading={setIsUploading}
+            />
           </View>
         </Animated.View>
       </PanGestureHandler>
-    )
-  }
+    );
+  };
 
-  const _containerStyle: ViewStyle = isExtensionVisible ? styles.container : styles.shadowedContainer;
+  const _containerStyle: ViewStyle = isExtensionVisible
+    ? styles.container
+    : styles.shadowedContainer;
   const _buttonsContainerStyle: ViewStyle = {
     ...styles.buttonsContainer,
     borderTopWidth: isExtensionVisible ? 1 : 0,
-    paddingBottom: !isKeyboardVisible ? getBottomSpace() : 0
-  }
+    paddingBottom: !isKeyboardVisible ? getBottomSpace() : 0,
+  };
 
   return (
     <View style={_containerStyle}>
-
       {_renderExtension()}
 
       {!isPreviewActive && (
@@ -220,10 +229,14 @@ export const EditorToolbar = ({
               iconStyle={styles.icon}
               iconType="FontAwesome"
               name="link"
-              onPress={() => { handleOnAddLinkPress && handleOnAddLinkPress() }}
+              onPress={() => {
+                handleOnAddLinkPress && handleOnAddLinkPress();
+              }}
             />
             <IconButton
-              onPress={() => { handleShowSnippets && handleShowSnippets() }}
+              onPress={() => {
+                handleShowSnippets && handleShowSnippets();
+              }}
               style={styles.rightIcons}
               size={20}
               iconStyle={styles.icon}
@@ -240,7 +253,9 @@ export const EditorToolbar = ({
             />
             <View style={styles.clearButtonWrapper}>
               <IconButton
-                onPress={() => { handleOnClearPress && handleOnClearPress() }}
+                onPress={() => {
+                  handleOnClearPress && handleOnClearPress();
+                }}
                 size={20}
                 iconStyle={styles.clearIcon}
                 iconType="FontAwesome"
@@ -251,9 +266,6 @@ export const EditorToolbar = ({
           </View>
         </View>
       )}
-
-
-
     </View>
-  )
-}
+  );
+};

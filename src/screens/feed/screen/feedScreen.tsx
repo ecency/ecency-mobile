@@ -11,28 +11,25 @@ import { AccountContainer } from '../../../containers';
 // Styles
 import styles from './feedStyles';
 
-import {
-  getDefaultFilters, getFilterMap,
-} from '../../../constants/options/filters';
+import { getDefaultFilters, getFilterMap } from '../../../constants/options/filters';
 
 import { useAppSelector } from '../../../hooks';
 
 const FeedScreen = () => {
-
-  const mainTabs = useAppSelector((state) => state.customTabs.mainTabs || getDefaultFilters('main'));
+  const mainTabs = useAppSelector(
+    (state) => state.customTabs.mainTabs || getDefaultFilters('main'),
+  );
   const filterOptions = mainTabs.map((key) => getFilterMap('main')[key]);
 
   const [lazyLoad, setLazyLoad] = useState(false);
 
-  
-
   const _lazyLoadContent = () => {
-    if(!lazyLoad){
+    if (!lazyLoad) {
       setTimeout(() => {
         setLazyLoad(true);
-      }, 100)
+      }, 100);
     }
-  }
+  };
 
   return (
     <AccountContainer>
@@ -40,7 +37,6 @@ const FeedScreen = () => {
         <Fragment>
           <Header showQR={true} />
           <SafeAreaView style={styles.container} onLayout={_lazyLoadContent}>
-
             {lazyLoad && (
               <TabbedPosts
                 key={JSON.stringify(filterOptions)} //this hack of key change resets tabbedposts whenever filters chanage, effective to remove filter change android bug
@@ -50,11 +46,9 @@ const FeedScreen = () => {
                 selectedOptionIndex={get(currentAccount, 'name', null) ? 0 : 2}
                 feedUsername={get(currentAccount, 'name', null)}
                 isFeedScreen={true}
-                pageType='main'
+                pageType="main"
               />
-
             )}
-
           </SafeAreaView>
         </Fragment>
       )}

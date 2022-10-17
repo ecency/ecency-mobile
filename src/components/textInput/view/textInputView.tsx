@@ -7,13 +7,13 @@ import { useAppSelector } from '../../../hooks';
 import styles from './textInputStyles';
 
 interface Props extends TextInputProps {
-  innerRef: Ref<TextInput>,
-  height: number,
-  style: TextStyle
+  innerRef: Ref<TextInput>;
+  height: number;
+  style: TextStyle;
 }
 
 const TextInputView = ({ innerRef, height, style, ...props }: Props) => {
-  const isDarkTheme = useAppSelector(state => state.application.isDarkTheme);
+  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
   return (
     <TextInput
       ref={innerRef}
@@ -22,7 +22,7 @@ const TextInputView = ({ innerRef, height, style, ...props }: Props) => {
       {...props}
       style={[styles.input, { minHeight: height }, style]}
     />
-  )
+  );
 };
 
 export default TextInputView;

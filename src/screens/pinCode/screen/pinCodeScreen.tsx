@@ -1,36 +1,23 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { BackHandler } from 'react-native';
 import PinCodeContainer from '../container/pinCodeContainer';
 
-
 const PinCodeScreen = ({ route, navigation }) => {
-
-  const hideCloseButton = route.params ?
-    (route.params.hideCloseButton ?? false) :
-    true;
+  const hideCloseButton = route.params ? route.params.hideCloseButton ?? false : true;
 
   useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', _handleBackPress)
-    
+    BackHandler.addEventListener('hardwareBackPress', _handleBackPress);
+
     return _unmount;
-  }, [navigation])
+  }, [navigation]);
 
   const _unmount = () => {
-    BackHandler.removeEventListener('hardwareBackPress', _handleBackPress)
-  }
+    BackHandler.removeEventListener('hardwareBackPress', _handleBackPress);
+  };
 
-  const _handleBackPress = () => hideCloseButton ? true : false;
+  const _handleBackPress = () => (hideCloseButton ? true : false);
 
+  return <PinCodeContainer hideCloseButton={hideCloseButton} pinCodeParams={route.params ?? {}} />;
+};
 
-  return (
-
-    <PinCodeContainer
-      hideCloseButton={hideCloseButton}
-      pinCodeParams={route.params ?? {}}
-    />
-
-
-  )
-}
-
-export default PinCodeScreen
+export default PinCodeScreen;

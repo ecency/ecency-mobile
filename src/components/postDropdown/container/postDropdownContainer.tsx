@@ -82,11 +82,11 @@ class PostDropdownContainer extends PureComponent {
     const _canUpdateCommunityPin =
       subscribedCommunities.data && !!content && content.community
         ? subscribedCommunities.data.reduce((role, subscription) => {
-          if (content.community === subscription[0]) {
-            return ['owner', 'admin', 'mod'].includes(subscription[2]);
-          }
-          return role;
-        }, false)
+            if (content.community === subscription[0]) {
+              return ['owner', 'admin', 'mod'].includes(subscription[2]);
+            }
+            return role;
+          }, false)
         : false;
     const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
 
@@ -290,7 +290,7 @@ class PostDropdownContainer extends PureComponent {
         buttons: [
           {
             text: intl.formatMessage({ id: 'alert.cancel' }),
-            onPress: () => { },
+            onPress: () => {},
           },
           {
             text: intl.formatMessage({ id: 'alert.confirm' }),
@@ -329,17 +329,16 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _reblog = () => {
-    const { 
-      content, 
-      currentAccount, 
-      dispatch, 
-      intl, 
-      isLoggedIn, 
-      pinCode, 
+    const {
+      content,
+      currentAccount,
+      dispatch,
+      intl,
+      isLoggedIn,
+      pinCode,
       navigation,
-      userActivityMutation
-     } = this
-      .props as any;
+      userActivityMutation,
+    } = this.props as any;
     if (!isLoggedIn) {
       showLoginAlert({ navigation, intl });
       return;
@@ -349,9 +348,9 @@ class PostDropdownContainer extends PureComponent {
         .then((response) => {
           //track user activity points ty=130
           userActivityMutation.mutate({
-            pointsTy:PointActivityIds.REBLOG,
-            transactionId:response.id
-          })
+            pointsTy: PointActivityIds.REBLOG,
+            transactionId: response.id,
+          });
 
           dispatch(
             toastNotification(
@@ -517,9 +516,11 @@ const mapStateToProps = (state) => ({
 });
 
 const mapQueriesToProps = () => ({
-  userActivityMutation: useUserActivityMutation()
-})
+  userActivityMutation: useUserActivityMutation(),
+});
 
-export default withNavigation(connect(mapStateToProps)(injectIntl((props) => (
-  <PostDropdownContainer {...props} {...mapQueriesToProps()} />)))
+export default withNavigation(
+  connect(mapStateToProps)(
+    injectIntl((props) => <PostDropdownContainer {...props} {...mapQueriesToProps()} />),
+  ),
 );

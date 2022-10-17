@@ -1,21 +1,15 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import {
-  Platform,
-  Text,
-  TouchableOpacity,
-  View,
-  ActivityIndicator,
-} from 'react-native';
+import { Platform, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import { renderPostBody } from '@ecency/render-helper';
+import { ScrollView } from 'react-native-gesture-handler';
+import Clipboard from '@react-native-clipboard/clipboard';
 import { MainButton, PostBody, TextButton } from '..';
 import styles from './insertLinkModalStyles';
 import TextInput from '../textInput';
 import { delay } from '../../utils/editor';
 import { isStringWebLink } from '../markdownEditor/children/formats/utils';
-import { renderPostBody } from '@ecency/render-helper';
-import { ScrollView } from 'react-native-gesture-handler';
 import applyWebLinkFormat from '../markdownEditor/children/formats/applyWebLinkFormat';
-import Clipboard from '@react-native-clipboard/clipboard';
 import getWindowDimensions from '../../utils/getWindowDimensions';
 import Modal from '../modal';
 
@@ -48,7 +42,6 @@ export const InsertLinkModal = forwardRef(
 
     const labelInputRef = useRef(null);
     const urlInputRef = useRef(null);
-
 
     useImperativeHandle(ref, () => ({
       showModal: async ({ selectedText, selection }) => {
@@ -141,8 +134,8 @@ export const InsertLinkModal = forwardRef(
         <View style={styles.floatingContainer}>
           <TextButton
             style={styles.cancelButton}
-            onPress={() => setVisible(false)}// sheetModalRef.current?.setModalVisible(false)}
-            text={'Cancel'}
+            onPress={() => setVisible(false)} // sheetModalRef.current?.setModalVisible(false)}
+            text="Cancel"
           />
           <MainButton
             style={styles.insertBtn}
@@ -277,13 +270,13 @@ export const InsertLinkModal = forwardRef(
                 ) : null}
               </View>
             </ScrollView>
-            {isLoading && <ActivityIndicator color={'$primaryBlue'} />}
+            {isLoading && <ActivityIndicator color="$primaryBlue" />}
           </View>
         </>
       );
     };
     const _renderContent = (
-      <ScrollView style={styles.container} keyboardShouldPersistTaps={'handled'}>
+      <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
         {_renderInputs()}
         {_renderPreview()}
         {_renderFloatingPanel()}
@@ -291,7 +284,6 @@ export const InsertLinkModal = forwardRef(
     );
 
     return (
-
       <Modal
         isOpen={visible}
         handleOnModalClose={_handleOnCloseSheet}
@@ -302,7 +294,6 @@ export const InsertLinkModal = forwardRef(
       >
         {_renderContent}
       </Modal>
-
     );
   },
 );

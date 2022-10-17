@@ -1,7 +1,18 @@
-import React, { Fragment } from 'react';
-import { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
+
 import { useIntl } from 'react-intl';
-import { ActivityIndicator, FlatList, RefreshControl, Share, Text, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  Share,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import get from 'lodash/get';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { useDispatch } from 'react-redux';
 import {
   BasicHeader,
   Icon,
@@ -10,13 +21,11 @@ import {
   PopoverWrapper,
   UserListItem,
 } from '../../components';
-import get from 'lodash/get';
 // utils
 import { getReferralsList, getReferralsStats } from '../../providers/ecency/ecency';
 import { Referral } from '../../models';
 
 // styles
-import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './referScreenStyles';
 
 // constants
@@ -26,19 +35,18 @@ import ROUTES from '../../constants/routeNames';
 import { showProfileModal } from '../../redux/actions/uiAction';
 import { navigate } from '../../navigation/service';
 import { useAppSelector } from '../../hooks';
-import { useDispatch } from 'react-redux';
 
 const ReferScreen = () => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
-  const isDarkTheme = useAppSelector((state)=>state.application.isDarkTheme)
+  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
 
   const [referralsList, setReferralsList] = useState<Referral[]>([]);
   const [earnedPoints, setEarnedPoint] = useState(0);
   const [pendingPoints, setPendingPoint] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false)
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     _getReferralsStats();
@@ -47,19 +55,18 @@ const ReferScreen = () => {
 
   console.log('-----referralsList----- : ', referralsList);
 
-  const _getReferralsList = async (refresh?:boolean) => {
-    if(refresh){
+  const _getReferralsList = async (refresh?: boolean) => {
+    if (refresh) {
       setRefreshing(true);
     }
-    setLoading(true)
+    setLoading(true);
 
-    const lastReferralId = refresh || !referralsList.length 
-      ? null 
-      : referralsList[referralsList.length - 1]._id;
-    
+    const lastReferralId =
+      refresh || !referralsList.length ? null : referralsList[referralsList.length - 1]._id;
+
     const responseData = await getReferralsList(currentAccount.name, lastReferralId);
 
-    setReferralsList(refresh ? responseData : [...referralsList, ...responseData])
+    setReferralsList(refresh ? responseData : [...referralsList, ...responseData]);
     setRefreshing(false);
     setLoading(false);
   };
@@ -70,10 +77,10 @@ const ReferScreen = () => {
     const referralStats = await getReferralsStats(currentAccount.name);
     const earnedPoints = referralStats.rewarded * 100;
     const unearnedPoints = (referralStats.total - referralStats.rewarded) * 100;
-    setEarnedPoint(earnedPoints)
-    setPendingPoint(unearnedPoints)
+    setEarnedPoint(earnedPoints);
+    setPendingPoint(unearnedPoints);
     setLoading(false);
-  }
+  };
 
   const _handleRefer = () => {
     const shareUrl = `https://ecency.com/signup?referral=${currentAccount.username}`;
@@ -94,7 +101,7 @@ const ReferScreen = () => {
     });
   };
 
-  const _handleOnItemPress = (username:string) => {
+  const _handleOnItemPress = (username: string) => {
     dispatch(showProfileModal(username));
   };
 
@@ -181,10 +188,10 @@ const ReferScreen = () => {
   );
 
   const _renderFooterView = (
-    <View style={{height:72, justifyContent:'center'}}>
-        {loading && <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} />}
+    <View style={{ height: 72, justifyContent: 'center' }}>
+      {loading && <ActivityIndicator color={EStyleSheet.value('$primaryBlue')} />}
     </View>
-  )
+  );
 
   const _renderReferralListItem = ({ item, index }: { item: Referral; index: number }) => {
     return (
@@ -206,7 +213,7 @@ const ReferScreen = () => {
     return (
       <View style={styles.referralsListContainer}>
         <FlatList
-        data={referralsList}
+          data={referralsList}
           keyExtractor={(item, index) => `item ${index}`}
           removeClippedSubviews={false}
           ListEmptyComponent={_renderEmptyView}
@@ -216,9 +223,9 @@ const ReferScreen = () => {
           contentContainerStyle={styles.listContentContainer}
           showsVerticalScrollIndicator={false}
           onEndReachedThreshold={0.3}
-          onEndReached={()=>_getReferralsList()}
+          onEndReached={() => _getReferralsList()}
           refreshControl={
-            <RefreshControl 
+            <RefreshControl
               refreshing={refreshing}
               onRefresh={() => _getReferralsList(true)}
               progressBackgroundColor="#357CE6"
@@ -238,9 +245,7 @@ const ReferScreen = () => {
           id: 'refer.refer_earn',
         })}
       />
-      <View style={styles.mainContainer}>
-        {_renderReferralsList()}
-      </View>
+      <View style={styles.mainContainer}>{_renderReferralsList()}</View>
     </Fragment>
   );
 };

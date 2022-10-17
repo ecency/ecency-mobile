@@ -1,21 +1,21 @@
 import React, { memo, useMemo, useRef } from 'react';
 import RenderHTML, { CustomRendererProps, Element, TNode } from 'react-native-render-html';
 import { useHtmlIframeProps, iframeModel } from '@native-html/iframe-plugin';
+import WebView from 'react-native-webview';
+import { ScrollView } from 'react-native-gesture-handler';
+import { prependChild, removeElement } from 'htmlparser2/node_modules/domutils';
 import styles from './postHtmlRendererStyles';
 import { LinkData, parseLinkData } from './linkDataParser';
 import VideoThumb from './videoThumb';
 import { AutoHeightImage } from '../autoHeightImage/autoHeightImage';
-import WebView from 'react-native-webview';
 import { VideoPlayer } from '..';
-import { ScrollView } from 'react-native-gesture-handler';
-import { prependChild, removeElement } from 'htmlparser2/node_modules/domutils';
 
 interface PostHtmlRendererProps {
   contentWidth: number;
   body: string;
   isComment?: boolean;
   onLoaded?: () => void;
-  setSelectedImage: (imgUrl: string, postImageUrls:string[]) => void;
+  setSelectedImage: (imgUrl: string, postImageUrls: string[]) => void;
   setSelectedLink: (url: string) => void;
   handleOnPostPress: (permlink: string, authro: string) => void;
   handleOnUserPress: (username: string) => void;
@@ -38,7 +38,6 @@ export const PostHtmlRenderer = memo(
     handleVideoPress,
     handleYoutubePress,
   }: PostHtmlRendererProps) => {
-
     const postImgUrlsRef = useRef<string[]>([]);
 
     //new renderer functions
@@ -146,8 +145,8 @@ export const PostHtmlRenderer = memo(
       if (element.tagName === 'img' && element.attribs.src) {
         const imgUrl = element.attribs.src;
         console.log('img element detected', imgUrl);
-        if(!postImgUrlsRef.current.includes(imgUrl)){
-          postImgUrlsRef.current.push(imgUrl)
+        if (!postImgUrlsRef.current.includes(imgUrl)) {
+          postImgUrlsRef.current.push(imgUrl);
         }
       }
 
@@ -290,7 +289,6 @@ export const PostHtmlRenderer = memo(
         </ScrollView>
       );
     };
-
 
     // iframe renderer for rendering iframes in body
     const _iframeRenderer = function IframeRenderer(props) {
