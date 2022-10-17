@@ -3,7 +3,7 @@ import RenderHTML, { CustomRendererProps, Element, TNode } from 'react-native-re
 import { useHtmlIframeProps, iframeModel } from '@native-html/iframe-plugin';
 import WebView from 'react-native-webview';
 import { ScrollView } from 'react-native-gesture-handler';
-import { prependChild, removeElement } from 'htmlparser2/node_modules/domutils';
+// import { prependChild, removeElement } from 'htmlparser2/node_modules/domutils'; 
 import styles from './postHtmlRendererStyles';
 import { LinkData, parseLinkData } from './linkDataParser';
 import VideoThumb from './videoThumb';
@@ -177,8 +177,9 @@ export const PostHtmlRenderer = memo(
               const header = child.children[headerIndex];
               const headerRow = new Element('tr', {}, [header]);
 
-              removeElement(header);
-              prependChild(element, headerRow);
+              //TODO: put back repalcement for domutils
+              // removeElement(header);
+              // prependChild(element, headerRow);
             }
           }
         });

@@ -36,7 +36,7 @@ const postsListContainer = (
   ref,
 ) => {
 
-    const flatListRef = useRef(null);
+  const flatListRef = useRef(null);
 
   const [imageHeights, setImageHeights] = useState(new Map<string, number>());
 
@@ -65,7 +65,7 @@ const postsListContainer = (
       });
     }
 
-    }, [posts]);
+  }, [posts]);
 
   useEffect(() => {
     console.log('Scroll Position: ', scrollPosition);
@@ -74,7 +74,7 @@ const postsListContainer = (
       animated: false,
     });
 
-    }, [scrollPosition]);
+  }, [scrollPosition]);
 
   const _setImageHeightInMap = (mapKey: string, height: number) => {
     if (mapKey && height) {
@@ -115,6 +115,7 @@ const postsListContainer = (
           get(p, 'author', null) &&
           posts &&
           posts.filter((x) => x.permlink === p.permlink).length <= 0
+        ) {
 
           //get image height from cache if available
           const localId = p.author + p.permlink;
@@ -134,70 +135,71 @@ const postsListContainer = (
           );
         }
       }
-    }
 
-    let isMuted = mutes && mutes.indexOf(item.author) > -1;
-    if (!isMuted && get(item, 'author', null)) {
-      //get image height from cache if available
-      const localId = item.author + item.permlink;
-      const imgHeight = imageHeights.get(localId);
 
-      e.push(
-        <PostCard
-          key={`${item.author}-${item.permlink}`}
-          content={item}
-          isHideImage={isHideImages}
-          imageHeight={imgHeight}
-          setImageHeight={_setImageHeightInMap}
-          pageType={pageType}
-          showQuickReplyModal={showQuickReplyModal}
-          mutes={mutes}
-        />,
-      );
-    }
-    return e;
+      let isMuted = mutes && mutes.indexOf(item.author) > -1;
+      if (!isMuted && get(item, 'author', null)) {
+        //get image height from cache if available
+        const localId = item.author + item.permlink;
+        const imgHeight = imageHeights.get(localId);
+
+        e.push(
+          <PostCard
+            key={`${item.author}-${item.permlink}`}
+            content={item}
+            isHideImage={isHideImages}
+            imageHeight={imgHeight}
+            setImageHeight={_setImageHeightInMap}
+            pageType={pageType}
+            showQuickReplyModal={showQuickReplyModal}
+            mutes={mutes}
+          />,
+        );
+      }
+      return e;
+    };
+
+    return (
+      <ThemeContainer>
+        {({ isDarkTheme }) => (
+          <FlatList
+            ref={flatListRef}
+            data={posts}
+            showsVerticalScrollIndicator={false}
+            renderItem={_renderItem}
+            keyExtractor={(content, index) => `${content.author}/${content.permlink}-${index}`}
+            removeClippedSubviews
+            onEndReachedThreshold={1}
+            maxToRenderPerBatch={3}
+            initialNumToRender={3}
+            windowSize={5}
+            extraData={imageHeights}
+            onEndReached={_onEndReached}
+            onMomentumScrollBegin={() => {
+              _onEndReachedCalledDuringMomentum = false;
+            }}
+            ListFooterComponent={_renderFooter}
+            refreshControl={
+              <RefreshControl
+                refreshing={isRefreshing}
+                onRefresh={() => {
+                  if (onLoadPosts) {
+                    onLoadPosts(true);
+                  }
+                }}
+                progressBackgroundColor="#357CE6"
+                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+                titleColor="#fff"
+                colors={['#fff']}
+              />
+            }
+            {...props}
+          />
+        )}
+      </ThemeContainer>
+    );
   };
-
-  return (
-    <ThemeContainer>
-      {({ isDarkTheme }) => (
-        <FlatList
-          ref={flatListRef}
-          data={posts}
-          showsVerticalScrollIndicator={false}
-          renderItem={_renderItem}
-          keyExtractor={(content, index) => `${content.author}/${content.permlink}-${index}`}
-          removeClippedSubviews
-          onEndReachedThreshold={1}
-          maxToRenderPerBatch={3}
-          initialNumToRender={3}
-          windowSize={5}
-          extraData={imageHeights}
-          onEndReached={_onEndReached}
-          onMomentumScrollBegin={() => {
-            _onEndReachedCalledDuringMomentum = false;
-          }}
-          ListFooterComponent={_renderFooter}
-          refreshControl={
-            <RefreshControl
-              refreshing={isRefreshing}
-              onRefresh={() => {
-                if (onLoadPosts) {
-                  onLoadPosts(true);
-                }
-              }}
-              progressBackgroundColor="#357CE6"
-              tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-              titleColor="#fff"
-              colors={['#fff']}
-            />
-          }
-          {...props}
-        />
-      )}
-    </ThemeContainer>
-  );
-};
+}
 
 
-export default forwardRef(postsListContainer);
+  export default forwardRef(postsListContainer);

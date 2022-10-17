@@ -142,7 +142,7 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
           <IconButton name="close" color="white" size={28} onPress={hide} />
         </View>
       </AnimatedView>
-    );
+    )
   );
 };
 

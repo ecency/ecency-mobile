@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, FlatList, Text, TouchableOpacity } from 'react-native';
-import {debounce} from 'lodash';
+import { debounce } from 'lodash';
 import { UserAvatar } from '../..';
 import { lookupAccounts } from '../../../providers/hive/dhive';
 import { extractWordAtIndex } from '../../../utils/editor';
@@ -56,11 +56,11 @@ export const UsernameAutofillBar = ({ text, selection, onApplyUsername }: Props)
           }
           setSearchedUsers(users);
         }
-
+      },
       200,
       { leading: true },
     ),
-
+    []
   );
 
   const _onUserSelect = (username) => {

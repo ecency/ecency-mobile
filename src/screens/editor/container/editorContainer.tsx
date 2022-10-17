@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { Alert, AppState, AppStateStatus } from 'react-native';
 import get from 'lodash/get';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isArray } from 'lodash';
 
 // Services and Actions
