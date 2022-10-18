@@ -1,6 +1,5 @@
 import React from 'react';
 import { SafeAreaView, FlatList, Text } from 'react-native';
-import { withNavigation } from '@react-navigation/compat';
 import { useIntl } from 'react-intl';
 
 // Utils
@@ -14,8 +13,10 @@ import ROUTES from '../../../constants/routeNames';
 
 // Styles
 import styles from './votersDisplayStyles';
+import { useNavigation } from '@react-navigation/native';
 
 const VotersDisplayView = ({ votes, navigation, createdAt = '2010-01-01T00:00:00' }) => {
+  const navigation = useNavigation();
   const intl = useIntl();
 
   /*getActiveVotes(get(content, 'author'), get(content, 'permlink'))
@@ -29,7 +30,7 @@ const VotersDisplayView = ({ votes, navigation, createdAt = '2010-01-01T00:00:00
 
   const _handleOnUserPress = (username) => {
     navigation.navigate({
-      routeName: ROUTES.SCREENS.PROFILE,
+      name: ROUTES.SCREENS.PROFILE,
       params: {
         username,
       },
@@ -78,4 +79,4 @@ const VotersDisplayView = ({ votes, navigation, createdAt = '2010-01-01T00:00:00
   );
 };
 
-export default withNavigation(VotersDisplayView);
+export default VotersDisplayView;

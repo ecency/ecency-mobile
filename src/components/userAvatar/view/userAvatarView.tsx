@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { ActivityIndicator, TouchableOpacity, ViewStyle } from 'react-native';
-import { connect } from 'react-redux';
+
 
 import FastImage from 'react-native-fast-image';
 import styles from './userAvatarStyles';
@@ -10,14 +10,15 @@ import { navigate } from '../../../navigation/service';
 import ROUTES from '../../../constants/routeNames';
 
 // Utils
-import { getResizedAvatar } from '../../../utils/image';
+
 import { useAppSelector } from '../../../hooks';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { getResizedAvatar } from '../../../utils/image';
 
 const DEFAULT_IMAGE = require('../../../assets/avatar_default.png');
 
 /* Props
- * ------------------------------------------------
+ * ------------------------------------------------f
  *   @prop { type }    name                - Description....
  */
 
