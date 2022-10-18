@@ -15,7 +15,7 @@ import ROUTES from '../../../constants/routeNames';
 import styles from './votersDisplayStyles';
 import { useNavigation } from '@react-navigation/native';
 
-const VotersDisplayView = ({ votes, navigation, createdAt = '2010-01-01T00:00:00' }) => {
+const VotersDisplayView = ({ votes, createdAt = '2010-01-01T00:00:00' }) => {
   const navigation = useNavigation();
   const intl = useIntl();
 
