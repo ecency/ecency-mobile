@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, Text} from 'react-native'
+import React, { useEffect } from 'react';
+import { View, Text, Alert } from 'react-native';
 import 'react-native-gesture-handler';
 import { Provider, connect } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -13,22 +13,44 @@ import messages from './config/locales';
 import Application from './screens/application';
 import { store } from './redux/store/store';
 import { initQueryClient } from './providers/queries';
+import { useAppSelector } from './hooks';
 
 const queryClientProviderProps = initQueryClient();
 
+const Dummy = () => {
+  const language = useAppSelector(state=>state.application.language);
+
+  useEffect(()=>{
+    // Alert.alert(language);
+  },[])
+
+  return (
+    <View
+    style={{
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'yellow',
+    }}
+  >
+    <Text style={{ color: 'green' }}>App is Working!</Text>
+  </View>
+  )
+}
+
 const _renderApp = ({ locale }) => (
-   <PersistQueryClientProvider {...queryClientProviderProps}>
-     {/* <PersistGate loading={null} persistor={persistor}> */}
-      <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
-        <SafeAreaProvider>
-          <Host>
-             {/* <Application /> */}
-            <View style={{flex:1, justifyContent:'center', alignItems:'center', backgroundColor:'yellow'}}><Text style={{color:'green'}}>App is Working!</Text></View>
-           </Host>
-         </SafeAreaProvider>
-       </IntlProvider>
-      {/* </PersistGate> */}
-   </PersistQueryClientProvider>
+  <PersistQueryClientProvider {...queryClientProviderProps}>
+    {/* <PersistGate loading={null} persistor={persistor}> */}
+    <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
+      <SafeAreaProvider>
+        <Host>
+          {/* <Application /> */}
+          <Dummy/>
+        </Host>
+      </SafeAreaProvider>
+    </IntlProvider>
+    {/* </PersistGate> */}
+  </PersistQueryClientProvider>
 );
 
 const mapStateToProps = (state) => ({
@@ -39,8 +61,8 @@ const App = connect(mapStateToProps)(_renderApp);
 
 export default () => {
   return (
-    <Provider store={ store }>
-        <App />
+    <Provider store={store}>
+      <App />
     </Provider>
   );
 };
