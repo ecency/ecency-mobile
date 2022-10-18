@@ -10,7 +10,6 @@ import {
   Button,
 } from 'react-native';
 import { useIntl } from 'react-intl';
-import { withNavigation } from '@react-navigation/compat';
 import { get } from 'lodash';
 
 // COMPONENTS
@@ -33,6 +32,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 import globalStyles from '../../../globalStyles';
 import PostsList from '../../postsList';
 import { isDarkTheme } from '../../../redux/actions/applicationActions';
+import { useNavigation } from '@react-navigation/native';
 
 let _onEndReachedCalledDuringMomentum = true;
 
@@ -42,7 +42,6 @@ const PostsView = ({
   handleImagesHide,
   isLoggedIn,
   handleOnScroll,
-  navigation,
   isLoading,
   refreshing,
   selectedFilterIndex,
@@ -72,6 +71,8 @@ const PostsView = ({
   newPostsPopupPictures,
   setNewPostsPopupPictures,
 }) => {
+  const navigation = useNavigation();
+
   const intl = useIntl();
   const postsList = useRef(null);
 
@@ -176,7 +177,7 @@ const PostsView = ({
                     onPressRightText={handleFollowUserButtonPress}
                     handleOnPress={(username) =>
                       navigation.navigate({
-                        routeName: ROUTES.SCREENS.PROFILE,
+                        name: ROUTES.SCREENS.PROFILE,
                         params: {
                           username,
                         },
@@ -211,7 +212,7 @@ const PostsView = ({
                     name={item.name}
                     handleOnPress={(name) =>
                       navigation.navigate({
-                        routeName: ROUTES.SCREENS.COMMUNITY,
+                        name: ROUTES.SCREENS.COMMUNITY,
                         params: {
                           tag: name,
                         },
@@ -393,5 +394,5 @@ const PostsView = ({
   );
 };
 
-export default withNavigation(PostsView);
+export default PostsView;
 /* eslint-enable */

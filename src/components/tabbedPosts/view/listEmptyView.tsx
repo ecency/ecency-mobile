@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { get } from 'lodash';
 import { Text, View, FlatList } from 'react-native';
-import { withNavigation } from '@react-navigation/compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { NoPost, PostCardPlaceHolder, UserListItem } from '../..';
 import globalStyles from '../../../globalStyles';
@@ -16,16 +15,18 @@ import {
 } from '../../../redux/actions/communitiesAction';
 import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';
 import { getCommunity } from '../../../providers/hive/dhive';
+import { useNavigation } from '@react-navigation/native';
 
 interface TabEmptyViewProps {
   filterKey: string;
   isNoPost: boolean;
-  navigation: any;
 }
 
-const TabEmptyView = ({ filterKey, isNoPost, navigation }: TabEmptyViewProps) => {
+const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
   const intl = useIntl();
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+  
   //redux properties
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
   const subscribingCommunities = useSelector(
@@ -267,7 +268,7 @@ const TabEmptyView = ({ filterKey, isNoPost, navigation }: TabEmptyViewProps) =>
                 onPressRightText={_handleFollowUserButtonPress}
                 handleOnPress={(username) =>
                   navigation.navigate({
-                    routeName: ROUTES.SCREENS.PROFILE,
+                    name: ROUTES.SCREENS.PROFILE,
                     params: {
                       username,
                     },
@@ -302,7 +303,7 @@ const TabEmptyView = ({ filterKey, isNoPost, navigation }: TabEmptyViewProps) =>
                 name={item.name}
                 handleOnPress={(name) =>
                   navigation.navigate({
-                    routeName: ROUTES.SCREENS.COMMUNITY,
+                    name: ROUTES.SCREENS.COMMUNITY,
                     params: {
                       tag: name,
                     },
@@ -332,4 +333,4 @@ const TabEmptyView = ({ filterKey, isNoPost, navigation }: TabEmptyViewProps) =>
   );
 };
 
-export default withNavigation(TabEmptyView);
+export default TabEmptyView;

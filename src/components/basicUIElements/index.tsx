@@ -13,7 +13,7 @@ import CommunityListItem from './view/communityListItem/communityListItem';
 import Separator from './view/separator/separatorView';
 import EmptyScreen from './view/emptyScreen/emptyScreenView';
 
-// Placeholders
+// // Placeholders
 import ListItemPlaceHolder from './view/placeHolder/listItemPlaceHolderView';
 import PostCardPlaceHolder from './view/placeHolder/postCardPlaceHolderView';
 import PostPlaceHolder from './view/placeHolder/postPlaceHolderView';

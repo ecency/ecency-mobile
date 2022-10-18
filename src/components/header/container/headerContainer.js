@@ -1,5 +1,4 @@
 import React from 'react';
-import { withNavigation } from '@react-navigation/compat';
 import get from 'lodash/get';
 import has from 'lodash/has';
 
@@ -10,16 +9,18 @@ import HeaderView from '../view/headerView';
 import { AccountContainer, ThemeContainer } from '../../../containers';
 import { parseReputation } from '../../../utils/user';
 import { toggleQRModal } from '../../../redux/actions/uiAction';
+import { useNavigation } from '@react-navigation/native';
 
 const HeaderContainer = ({
   selectedUser,
   isReverse,
-  navigation,
   handleOnBackPress,
   hideUser,
   showQR,
 }) => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
+
 
   const _handleOpenDrawer = () => {
     if (has(navigation, 'openDrawer') && typeof get(navigation, 'openDrawer') === 'function') {
@@ -70,4 +71,4 @@ const HeaderContainer = ({
   );
 };
 
-export default withNavigation(HeaderContainer);
+export default HeaderContainer;

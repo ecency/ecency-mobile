@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useIntl } from 'react-intl';
-import { withNavigation } from '@react-navigation/compat';
 
 // Components
 import { SearchModal } from '../../searchModal';
@@ -14,6 +13,7 @@ import ROUTES from '../../../constants/routeNames';
 
 // Styles
 import styles from './headerStyles';
+import { useNavigation } from '@react-navigation/native';
 
 const HeaderView = ({
   displayName,
@@ -26,10 +26,12 @@ const HeaderView = ({
   isReverse,
   reputation,
   username,
-  navigation,
   hideUser,
   showQR,
 }) => {
+
+  const navigation = useNavigation();
+
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const intl = useIntl();
   let gradientColor;
@@ -41,9 +43,7 @@ const HeaderView = ({
   }
 
   const _onPressSearchButton = () => {
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.SEARCH_RESULT,
-    });
+    navigation.navigate( ROUTES.SCREENS.SEARCH_RESULT );
   };
 
   const _renderAvatar = () => (
@@ -143,4 +143,4 @@ const HeaderView = ({
   );
 };
 
-export default withNavigation(HeaderView);
+export default HeaderView;

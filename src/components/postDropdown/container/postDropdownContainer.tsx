@@ -1,6 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { withNavigation } from '@react-navigation/compat';
 import { Alert, Share } from 'react-native';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
@@ -24,8 +23,8 @@ import { OptionsModal } from '../../atoms';
 import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
-import { generateRndStr } from '../../../utils/editor';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
+import { useNavigation } from '@react-navigation/native';
 
 /*
  *            Props Name        Description                                     Value
@@ -178,7 +177,7 @@ class PostDropdownContainer extends PureComponent {
         break;
       case 'edit-history':
         navigation.navigate({
-          routeName: ROUTES.SCREENS.EDIT_HISTORY,
+          name: ROUTES.SCREENS.EDIT_HISTORY,
           params: {
             author: content?.author || '',
             permlink: content?.permlink || '',
@@ -440,7 +439,7 @@ class PostDropdownContainer extends PureComponent {
 
     if (isLoggedIn) {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.EDITOR,
+        name: ROUTES.SCREENS.EDITOR,
         key: `editor_post_${content.permlink}`,
         params: {
           isReply: true,
@@ -451,7 +450,7 @@ class PostDropdownContainer extends PureComponent {
     }
   };
 
-  _redirectToPromote = (routeName, from, redeemType) => {
+  _redirectToPromote = (name, from, redeemType) => {
     const { content, isLoggedIn, navigation, isPinCodeOpen } = this.props as any;
     const params = {
       from,
@@ -461,15 +460,15 @@ class PostDropdownContainer extends PureComponent {
 
     if (isPinCodeOpen) {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.PINCODE,
+        name: ROUTES.SCREENS.PINCODE,
         params: {
-          navigateTo: routeName,
+          navigateTo: name,
           navigateParams: params,
         },
       });
     } else if (isLoggedIn) {
       navigation.navigate({
-        routeName,
+        name,
         params,
       });
     }
@@ -515,12 +514,12 @@ const mapStateToProps = (state) => ({
   subscribedCommunities: state.communities.subscribedCommunities,
 });
 
-const mapQueriesToProps = () => ({
+const mapHooksToProps = () => ({
   userActivityMutation: useUserActivityMutation(),
+  navigation:useNavigation()
 });
 
-export default withNavigation(
+export default 
   connect(mapStateToProps)(
-    injectIntl((props) => <PostDropdownContainer {...props} {...mapQueriesToProps()} />),
-  ),
-);
+    injectIntl((props) => <PostDropdownContainer {...props} {...mapHooksToProps()} />),
+  );
