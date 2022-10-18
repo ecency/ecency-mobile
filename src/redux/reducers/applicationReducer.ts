@@ -80,7 +80,7 @@ const initialState: State = {
     currencyRate: 1,
     currencySymbol: '$',
   },
-  isConnected: null, // internet connectivity
+  isConnected: true, // internet connectivity
   isDarkTheme: false,
   colorTheme: 0, //values mapped from => src/constants/options/theme.ts
   isDefaultFooter: true, //TODO: remove present of isDefaultFooter as it's no longer in use

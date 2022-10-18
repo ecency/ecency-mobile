@@ -9,7 +9,7 @@ import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
 import { isEmpty, some } from 'lodash';
 import messaging from '@react-native-firebase/messaging';
-import PushNotification from 'react-native-push-notification';
+// import PushNotification from 'react-native-push-notification';
 import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 
@@ -444,8 +444,9 @@ class ApplicationContainer extends Component {
   _createPushListener = () => {
     (async () => await messaging().requestPermission())();
 
-    PushNotification.setApplicationIconBadgeNumber(0);
-    PushNotification.cancelAllLocalNotifications();
+    //TODO: find a replacemenmt for badge setting
+    // PushNotification.setApplicationIconBadgeNumber(0);
+    // PushNotification.cancelAllLocalNotifications();
 
     firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
       console.log('Notification Received: foreground', remoteMessage);

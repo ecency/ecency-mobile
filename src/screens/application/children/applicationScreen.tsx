@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { injectIntl } from 'react-intl';
 
-import { AppNavigator } from '../../../navigation';
+// import { AppNavigator } from '../../../navigation';
 import { navigate } from '../../../navigation/service';
 
 // Services
@@ -115,7 +115,8 @@ class ApplicationScreen extends Component {
       <Fragment>
         {!isConnected && <NoInternetConnection />}
 
-        <AppNavigator />
+        {/* <AppNavigator /> */}
+        <Text style={{flex:1, justifyContent:'center', alignItems:'center', color:'green'}}>I am working though</Text>
       </Fragment>
     );
   }
