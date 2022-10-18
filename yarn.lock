@@ -1575,10 +1575,10 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/eslint-plugin/-/eslint-plugin-1.2.0.tgz#7d6d789ae8edf73dc9bed1246cd48277edea8066"
   integrity sha512-o6aam+0Ug1xGK3ABYmBm0B1YuEKfM/5kaoZO0eHbZwSpw9UzDX4G5y4Nx/K20FHqUmJHkZmLvOUFYwN4N+HqKA==
 
-"@react-native-community/netinfo@^5.3.3":
-  version "5.9.10"
-  resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-5.9.10.tgz#97d3a9fa62a3a4838ec7a6ec91cfec5a26e365b6"
-  integrity sha512-1NPlBA2Hu/KWc3EnQcDRPRX0x8Dg9tuQlQQVWVQjlg+u+PjCq7ANEtbikOFKp5yQqfF8tqzU5+84/IfDO8zpiA==
+"@react-native-community/netinfo@^9.3.5":
+  version "9.3.5"
+  resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-9.3.5.tgz#0c60c798b5e0e14dd3b3fbab629a6e9609f709fd"
+  integrity sha512-Mqbh/J8YCfc+EqSjq5OJn2USmcD8On4048pKEfyCsCDty3lQs1SNcmHqJdu9idNU2v//aM73T8F+re59cf78Ig==
 
 "@react-native-community/push-notification-ios@^1.2.0":
   version "1.10.1"
@@ -1679,7 +1679,7 @@
     "@react-navigation/elements" "^1.3.6"
     warn-once "^0.1.0"
 
-"@react-navigation/native@^6.0.11":
+"@react-navigation/native@^6.0.13":
   version "6.0.13"
   resolved "https://registry.yarnpkg.com/@react-navigation/native/-/native-6.0.13.tgz#ec504120e193ea6a7f24ffa765a1338be5a3160a"
   integrity sha512-CwaJcAGbhv3p3ECablxBkw8QBCGDWXqVRwQ4QbelajNW623m3sNTC9dOF6kjp8au6Rg9B5e0KmeuY0xWbPk79A==
@@ -8730,11 +8730,6 @@ react-native-progress@^5.0.0:
   dependencies:
     prop-types "^15.7.2"
 
-react-native-push-notification@^7.3.1:
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/react-native-push-notification/-/react-native-push-notification-7.4.0.tgz#81192356eddfee8eeaf72a9a696c7c90bf5b0ece"
-  integrity sha512-Ac3Ep71e2D8Q/Vy0OHBAO5JwhsFsNSuf9knkpXQWS0B9488nIZJLEMuTpF8610xPvGw7XxVrL/q0oZO5F1pOzw==
-
 react-native-qrcode-scanner@^1.5.5:
   version "1.5.5"
   resolved "https://registry.yarnpkg.com/react-native-qrcode-scanner/-/react-native-qrcode-scanner-1.5.5.tgz#0d20101712715da108742a2bbbd0397569031b01"
@@ -8798,10 +8793,10 @@ react-native-restart@^0.0.23:
   resolved "https://registry.yarnpkg.com/react-native-restart/-/react-native-restart-0.0.23.tgz#9b53062ebc692f469d0662c06879cb4d34c62520"
   integrity sha512-BTs3YNl0MFyTgYgq6oQOspVV7+8Umm2QeuHWJ8xfRsjdHIUBoKF/Bxe1IMGAO5vHPcNwN+lHE6Mf58Tu4HS9/w==
 
-react-native-safe-area-context@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-3.4.1.tgz#c967a52903d55fe010b2428e5368b42f1debc0a7"
-  integrity sha512-xfpVd0CiZR7oBhuwJ2HcZMehg5bjha1Ohu1XHpcT+9ykula0TgovH2BNU0R5Krzf/jBR1LMjR6VabxdlUjqxcA==
+react-native-safe-area-context@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-4.4.1.tgz#239c60b8a9a80eac70a38a822b04c0f1d15ffc01"
+  integrity sha512-N9XTjiuD73ZpVlejHrUWIFZc+6Z14co1K/p1IFMkImU7+avD69F3y+lhkqA2hN/+vljdZrBSiOwXPkuo43nFQA==
 
 react-native-safe-modules@^1.0.3:
   version "1.0.3"
