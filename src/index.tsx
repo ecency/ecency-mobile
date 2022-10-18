@@ -13,6 +13,7 @@ import messages from './config/locales';
 import Application from './screens/application';
 import { persistor, store } from './redux/store/store';
 import { initQueryClient } from './providers/queries';
+import { Icon } from './components';
 
 const queryClientProviderProps = initQueryClient();
 
@@ -27,6 +28,8 @@ const Dummy = () => {
       backgroundColor: 'yellow',
     }}
   >
+    <Icon iconType="MaterialIcons" name="info" size={28} color='blue'/>
+    {/* <NoInternetConnection/> */}
     <Text style={{ color: 'green' }}>App is Working!</Text>
   </View>
   )

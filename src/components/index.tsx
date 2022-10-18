@@ -36,7 +36,6 @@ import { PostForm } from './postForm';
 import { PostHeaderDescription, PostBody, Tags } from './postElements';
 import { DraftListItem } from './draftListItem';
 import { ProfileSummary } from './profileSummary';
-import { ProgressiveImage } from './progressiveImage';
 
 import { SearchInput } from './searchInput';
 import { SearchModal } from './searchModal';
@@ -60,16 +59,20 @@ import { ToggleSwitch } from './toggleSwitch';
 import { TransferFormItem } from './transferFormItem';
 import { Upvote } from './upvote';
 import { UserAvatar } from './userAvatar';
+
+
 import Logo from './logo/logo';
 import PostButton from './postButton/postButtonView';
 import ProfileEditForm from './profileEditForm/profileEditFormView';
 import ScaleSlider from './scaleSlider/scaleSliderView';
 import { ProductItemLine } from './productItemLine/productItemLineView';
 import { HorizontalIconList } from './horizontalIconList/horizontalIconListView';
+
 import { PopoverWrapper } from './popoverWrapper/popoverWrapperView';
 import CommunitiesList from './communitiesList';
 import SubscribedCommunitiesList from './subscribedCommunitiesList';
 import { InsertLinkModal } from './insertLinkModal/insertLinkModal';
+
 // View
 import { Comment } from './comment';
 import { Comments } from './comments';

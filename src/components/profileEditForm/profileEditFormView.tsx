@@ -1,9 +1,8 @@
 import React from 'react';
-import { withNavigation } from '@react-navigation/compat';
 import { View, TouchableOpacity, Text, Platform, ActivityIndicator } from 'react-native';
 import { View as AnimatedView } from 'react-native-animatable';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { injectIntl } from 'react-intl';
+import { injectIntl, useIntl } from 'react-intl';
 
 // Images
 import FastImage from 'react-native-fast-image';
@@ -21,6 +20,7 @@ import { getResizedImage } from '../../utils/image';
 // Styles
 import styles from './profileEditFormStyles';
 import { MainButton } from '../mainButton';
+import { useNavigation } from '@react-navigation/native';
 
 interface ProfileEditFormProps {
   coverUrl: string;
@@ -40,15 +40,17 @@ const ProfileEditFormView = ({
   formData,
   handleOnItemChange,
   handleOnSubmit,
-  intl,
   isDarkTheme,
   isLoading,
   isUploading,
   showImageUploadActions,
   saveEnabled,
   ...props
-}: ProfileEditFormProps) => (
-  <View style={styles.container}>
+}: ProfileEditFormProps) => {
+  const intl = useIntl();
+
+  return (
+    <View style={styles.container}>
     <KeyboardAwareScrollView
       enableAutoAutomaticScroll={Platform.OS === 'ios'}
       contentContainerStyle={styles.contentContainer}
@@ -119,6 +121,7 @@ const ProfileEditFormView = ({
       </AnimatedView>
     )}
   </View>
-);
+  )
+} 
 
-export default injectIntl(withNavigation(ProfileEditFormView));
+export default injectIntl(ProfileEditFormView);
