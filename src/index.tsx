@@ -11,7 +11,7 @@ import { flattenMessages } from './utils/flattenMessages';
 import messages from './config/locales';
 
 import Application from './screens/application';
-import { store, persistor } from './redux/store/store';
+import { store } from './redux/store/store';
 import { initQueryClient } from './providers/queries';
 
 const queryClientProviderProps = initQueryClient();
@@ -39,8 +39,8 @@ const App = connect(mapStateToProps)(_renderApp);
 
 export default () => {
   return (
-    <Provider store={store}>
-       <App />
-     </Provider>
+    <Provider store={ store }>
+        <App />
+    </Provider>
   );
 };
