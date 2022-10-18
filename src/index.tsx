@@ -11,18 +11,12 @@ import { flattenMessages } from './utils/flattenMessages';
 import messages from './config/locales';
 
 import Application from './screens/application';
-import { store } from './redux/store/store';
+import { persistor, store } from './redux/store/store';
 import { initQueryClient } from './providers/queries';
-import { useAppSelector } from './hooks';
 
 const queryClientProviderProps = initQueryClient();
 
 const Dummy = () => {
-  const language = useAppSelector(state=>state.application.language);
-
-  useEffect(()=>{
-    // Alert.alert(language);
-  },[])
 
   return (
     <View
@@ -40,7 +34,7 @@ const Dummy = () => {
 
 const _renderApp = ({ locale }) => (
   <PersistQueryClientProvider {...queryClientProviderProps}>
-    {/* <PersistGate loading={null} persistor={persistor}> */}
+    <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
     <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
       <SafeAreaProvider>
         <Host>
@@ -49,7 +43,7 @@ const _renderApp = ({ locale }) => (
         </Host>
       </SafeAreaProvider>
     </IntlProvider>
-    {/* </PersistGate> */}
+    </PersistGate>
   </PersistQueryClientProvider>
 );
 
