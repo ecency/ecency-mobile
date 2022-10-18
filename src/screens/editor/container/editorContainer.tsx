@@ -31,7 +31,6 @@ import {
   extractMetadata,
   makeJsonMetadataForUpdate,
   createPatch,
-  extractImageUrls,
 } from '../../../utils/editor';
 // import { generateSignature } from '../../../utils/image';
 
@@ -54,7 +53,6 @@ import { PointActivityIds } from '../../../providers/ecency/ecency.types';
  *@props -->  props name here   description here                                Value Type Here
  *
  */
-
 
 class EditorContainer extends Component<EditorContainerProps, any> {
   _isMounted = false;
@@ -267,9 +265,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   _loadMeta = (draft: any) => {
     const { dispatch, currentAccount } = this.props;
     // if meta exist on draft, get the index of 1st image in meta from images urls in body
-    const body = draft.body;
+    // const body = draft.body;
     if (draft.meta && draft.meta.image) {
-      const urls = extractImageUrls({ body });
+      // const urls = extractImageUrls({ body });
       this.setState({
         thumbUrl: draft.meta.image[0],
       });
@@ -434,7 +432,13 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
         //update draft is draftId is present
         if (draftId && draftField && !saveAsNew) {
-          await updateDraft(draftId, draftField.title, draftField.body, draftField.tags, jsonMeta);
+          await updateDraft(
+            draftId,
+            draftField.title || '',
+            draftField.body,
+            draftField.tags,
+            jsonMeta,
+          );
 
           if (this._isMounted) {
             this.setState({
@@ -447,7 +451,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         //create new darft otherwise
         else if (draftField) {
           const response = await addDraft(
-            draftField.title,
+            draftField.title || '',
             draftField.body,
             draftField.tags,
             jsonMeta,
@@ -520,7 +524,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     const username = currentAccount && currentAccount.name ? currentAccount.name : '';
 
     const draftField = {
-      title: fields.title,
+      title: fields.title || '',
       body: fields.body,
       tags: fields.tags && fields.tags.length > 0 ? fields.tags.toString() : '',
       author: username,
@@ -549,7 +553,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       intl,
       navigation,
       pinCode,
-      userActivityMutation
+      userActivityMutation,
       // isDefaultFooter,
     } = this.props;
     const { rewardType, isPostSending, thumbUrl, draftId, shouldReblog } = this.state;
@@ -570,7 +574,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
       const jsonMeta = makeJsonMetadata(meta, _tags);
       // TODO: check if permlink is available github: #314 https://github.com/ecency/ecency-mobile/pull/314
-      let permlink = generatePermlink(fields.title);
+      let permlink = generatePermlink(fields.title || '');
 
       let dublicatePost;
       try {
@@ -580,7 +584,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
       }
 
       if (dublicatePost && dublicatePost.permlink === permlink) {
-        permlink = generatePermlink(fields.title, true);
+        permlink = generatePermlink(fields.title || '', true);
       }
 
       const author = currentAccount.name;
@@ -611,7 +615,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
           '',
           parentPermlink,
           permlink,
-          fields.title,
+          fields.title || '',
           fields.body,
           jsonMeta,
           options,
@@ -621,9 +625,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
             console.log(response);
             // track user activity for points
             userActivityMutation.mutate({
-              pointsTy:PointActivityIds.POST,
-              transactionId:response.id
-            })
+              pointsTy: PointActivityIds.POST,
+              transactionId: response.id,
+            });
 
             //reblog if flag is active
             if (shouldReblog) {
@@ -631,9 +635,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
                 .then((resp) => {
                   //track user activity for points on reblog
                   userActivityMutation.mutate({
-                    pointsTy:PointActivityIds.REBLOG,
-                    transactionId:resp.id
-                  })
+                    pointsTy: PointActivityIds.REBLOG,
+                    transactionId: resp.id,
+                  });
                   console.log('Successfully reblogged post', resp);
                 })
                 .catch((err) => {
@@ -710,9 +714,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         .then((response) => {
           //record user activity for points
           userActivityMutation.mutate({
-            pointsTy:PointActivityIds.COMMENT,
-            transactionId:response.id
-          })
+            pointsTy: PointActivityIds.COMMENT,
+            transactionId: response.id,
+          });
 
           AsyncStorage.setItem('temp-reply', '');
           this._handleSubmitSuccess();
@@ -785,7 +789,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
         parentAuthor || '',
         parentPermlink || '',
         permlink,
-        title,
+        title || '',
         newBody,
         jsonMeta,
         null,
@@ -1001,7 +1005,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
 
     addSchedule(
       data.permlink,
-      data.fields.title,
+      data.fields.title || '',
       data.fields.body,
       data.jsonMeta,
       options,
@@ -1150,9 +1154,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapQueriesToProps = () => ({
-  queryClient:useQueryClient(),
-  userActivityMutation:useUserActivityMutation()
-})
+  queryClient: useQueryClient(), // eslint-disable-line
+  userActivityMutation: useUserActivityMutation(), // eslint-disable-line
+});
 
 export default connect(mapStateToProps)(
   injectIntl((props) => <EditorContainer {...props} {...mapQueriesToProps()} />),
