@@ -3,7 +3,6 @@ import { View, Alert, StatusBar } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { withNavigation } from '@react-navigation/compat';
 
 import { loginWithSC2 } from '../../providers/hive/auth';
 import { hsOptions } from '../../constants/hsOptions';
@@ -16,6 +15,7 @@ import { login as loginAction } from '../../redux/actions/applicationActions';
 import { default as ROUTES } from '../../constants/routeNames';
 import persistAccountGenerator from '../../utils/persistAccountGenerator';
 import { fetchSubscribedCommunities } from '../../redux/actions/communitiesAction';
+import { useNavigation } from '@react-navigation/native';
 
 class HiveSigner extends PureComponent {
   constructor(props) {
@@ -52,7 +52,7 @@ class HiveSigner extends PureComponent {
 
               if (isPinCodeOpen) {
                 navigation.navigate({
-                  routeName: ROUTES.SCREENS.PINCODE,
+                  name: ROUTES.SCREENS.PINCODE,
                   params: {
                     accessToken: result.accessToken,
                     navigateTo: ROUTES.DRAWER.MAIN,
@@ -60,7 +60,7 @@ class HiveSigner extends PureComponent {
                 });
               } else {
                 navigation.navigate({
-                  routeName: ROUTES.DRAWER.MAIN,
+                  name: ROUTES.DRAWER.MAIN,
                   params: { accessToken: result.accessToken },
                 });
               }
@@ -107,4 +107,9 @@ const mapStateToProps = (state) => ({
   isPinCodeOpen: state.application.isPinCodeOpen,
 });
 
-export default injectIntl(connect(mapStateToProps)(withNavigation(HiveSigner)));
+const mapHooksToProps = (props) => ({
+  ...props,
+  navigation:useNavigation()
+})
+
+export default connect(mapStateToProps)((props)=><HiveSigner {...mapHooksToProps(props)} />);
