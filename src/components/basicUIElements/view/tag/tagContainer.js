@@ -12,7 +12,6 @@ import ROUTES from '../../../../constants/routeNames';
 
 // Component
 import TagView from './tagView';
-import { useNavigation } from '@react-navigation/native';
 
 /*
  *            Props Name        Description                                     Value

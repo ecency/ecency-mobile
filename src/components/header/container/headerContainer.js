@@ -10,7 +10,6 @@ import HeaderView from '../view/headerView';
 import { AccountContainer, ThemeContainer } from '../../../containers';
 import { parseReputation } from '../../../utils/user';
 import { toggleQRModal } from '../../../redux/actions/uiAction';
-import { useNavigation } from '@react-navigation/native';
 
 const HeaderContainer = ({
   selectedUser,

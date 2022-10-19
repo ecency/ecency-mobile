@@ -21,7 +21,6 @@ import CommentsView from '../view/commentsView';
 import { useAppSelector } from '../../../hooks';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
-import { useNavigation } from '@react-navigation/native';
 
 const CommentsContainer = ({
   author,

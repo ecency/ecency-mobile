@@ -5,7 +5,6 @@ import { useNavigation } from '@react-navigation/native';
 import { default as ROUTES } from '../../../constants/routeNames';
 
 import styles from './parentPostStyles';
-import { useNavigation } from '@react-navigation/native';
 
 const ParentPost = ({ post }) => {
   const navigation = useNavigation();

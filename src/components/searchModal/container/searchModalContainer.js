@@ -16,7 +16,6 @@ import postUrlParser from '../../../utils/postUrlParser';
 
 // Component
 import SearchModalView from '../view/searchModalView';
-import { useNavigation } from '@react-navigation/native';
 
 /*
  *            Props name        Description                                     Value
