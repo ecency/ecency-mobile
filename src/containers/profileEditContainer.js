@@ -227,11 +227,10 @@ const mapStateToProps = (state) => ({
   pinCode: state.application.pin,
 });
 
-
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
-  return <ProfileEditContainer {...props} navigation={navigation} />
-}
+  return <ProfileEditContainer {...props} navigation={navigation} />;
+};
 
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));
 

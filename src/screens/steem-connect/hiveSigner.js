@@ -109,7 +109,7 @@ const mapStateToProps = (state) => ({
 
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
-  return <HiveSigner {...props} navigation={navigation} />
-}
+  return <HiveSigner {...props} navigation={navigation} />;
+};
 
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));

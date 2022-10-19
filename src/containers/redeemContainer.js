@@ -149,11 +149,9 @@ const mapStateToProps = (state) => ({
   globalProps: state.account.globalProps,
 });
 
-
-
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
-  return <RedeemContainer {...props} navigation={navigation} />
-}
+  return <RedeemContainer {...props} navigation={navigation} />;
+};
 
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));

@@ -80,11 +80,9 @@ const mapStateToProps = (state) => ({
   isPinCodeOpen: state.application.isPinCodeOpen,
 });
 
-const mapHooksToProps = (props) => ({
-  ...props,
-  navigation: useNavigation(),
-});
+const mapHooksToProps = (props) => {
+  const navigation = useNavigation();
+  return <WalletContainer {...props} navigation={navigation} />;
+};
 
-export default connect(mapStateToProps)(
-  injectIntl((props) => <WalletContainer {...mapHooksToProps(props)} />),
-);
+export default connect(mapStateToProps)(injectIntl(mapHooksToProps));

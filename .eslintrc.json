@@ -49,7 +49,7 @@
     "no-param-reassign": "off",
     "no-case-declarations": "off",
     "import/no-cycle": "off",
-    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/rules-of-hooks": "warn",
     "react-hooks/exhaustive-deps": "off",
     "react/destructuring-assignment": [1, "always"],
     "import/no-extraneous-dependencies": [
