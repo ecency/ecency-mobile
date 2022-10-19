@@ -33,7 +33,6 @@ import { default as ROUTES } from '../../../constants/routeNames';
 import globalStyles from '../../../globalStyles';
 import PostsList from '../../postsList';
 import { isDarkTheme } from '../../../redux/actions/applicationActions';
-import { useNavigation } from '@react-navigation/native';
 
 let _onEndReachedCalledDuringMomentum = true;
 

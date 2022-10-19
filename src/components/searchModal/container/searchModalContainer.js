@@ -23,13 +23,7 @@ import SearchModalView from '../view/searchModalView';
  *
  */
 
-const SearchModalContainer = ({
-  isConnected,
-  handleOnClose,
-  username,
-  isOpen,
-  placeholder,
-}) => {
+const SearchModalContainer = ({ isConnected, handleOnClose, username, isOpen, placeholder }) => {
   const navigation = useNavigation();
   const [searchResults, setSearchResults] = useState({});
 

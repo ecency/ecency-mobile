@@ -16,7 +16,6 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 // Component
 import PostDisplayView from '../view/postDisplayView';
-import { useNavigation } from '@react-navigation/native';
 
 const PostDisplayContainer = ({
   post,

@@ -14,7 +14,6 @@ import styles from './postHeaderDescriptionStyles';
 import { default as ROUTES } from '../../../../constants/routeNames';
 import { IconButton } from '../../..';
 import { showProfileModal } from '../../../../redux/actions/uiAction';
-import { useNavigation } from '@react-navigation/native';
 
 // Constants
 const DEFAULT_IMAGE = require('../../../../assets/ecency.png');

@@ -49,7 +49,6 @@ const CommentsContainer = ({
   incrementRepliesCount,
   handleOnReplyPress,
 }) => {
-
   const navigation = useNavigation();
 
   const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
@@ -78,8 +77,8 @@ const CommentsContainer = ({
 
   useEffect(() => {
     const postPath = `${author || ''}/${permlink || ''}`;
-    //this conditional makes sure on targetted already fetched post is updated
-    //with new cache status, this is to avoid duplicate cache merging
+    // this conditional makes sure on targetted already fetched post is updated
+    // with new cache status, this is to avoid duplicate cache merging
     if (
       lastCacheUpdate &&
       lastCacheUpdate.postPath === postPath &&
@@ -176,7 +175,7 @@ const CommentsContainer = ({
     } else if (author && permlink && !propComments) {
       await getComments(author, permlink, name)
         .then((__comments) => {
-          //favourable place for merging comment cache
+          // favourable place for merging comment cache
           __comments = _handleCachedComment(__comments);
           __comments = _sortComments(selectedFilter, __comments);
 
@@ -195,30 +194,30 @@ const CommentsContainer = ({
     if (cachedComments.has(postPath)) {
       const cachedComment = cachedComments.get(postPath);
 
-      var ignoreCache = false;
-      var replaceAtIndex = -1;
-      var removeAtIndex = -1;
+      let ignoreCache = false;
+      let replaceAtIndex = -1;
+      let removeAtIndex = -1;
       _comments.forEach((comment, index) => {
         if (cachedComment.permlink === comment.permlink) {
           if (cachedComment.updated < comment.updated) {
-            //comment is present with latest data
+            // comment is present with latest data
             ignoreCache = true;
             console.log('Ignore cache as comment is now present');
           } else if (cachedComment.status === CommentCacheStatus.DELETED) {
             removeAtIndex = index;
           } else {
-            //comment is present in list but data is old
+            // comment is present in list but data is old
             replaceAtIndex = index;
           }
         }
       });
 
-      //means deleted comment is not being retuend in fresh data, cache needs to be ignored
+      // means deleted comment is not being retuend in fresh data, cache needs to be ignored
       if (cachedComment.status === CommentCacheStatus.DELETED && removeAtIndex < 0) {
         ignoreCache = true;
       }
 
-      //manipulate comments with cached data
+      // manipulate comments with cached data
       if (!ignoreCache) {
         let newComments = [];
         if (removeAtIndex >= 0) {

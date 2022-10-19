@@ -13,7 +13,6 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 // Styles
 import styles from './walletHeaderStyles';
-import { useNavigation } from '@react-navigation/native';
 
 const WalletHeaderView = ({
   claim,

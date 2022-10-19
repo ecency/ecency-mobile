@@ -20,7 +20,6 @@ import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
 import { PostHtmlRenderer, VideoPlayer } from '../../..';
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
-import { useNavigation } from '@react-navigation/native';
 
 const WIDTH = getWindowDimensions().width;
 
