@@ -168,7 +168,7 @@ const PostsView = ({
                         ? intl.formatMessage({ id: 'user.unfollow' })
                         : intl.formatMessage({ id: 'user.follow' })
                     }
-                    //isRightColor={item.isFollowing}
+                    // isRightColor={item.isFollowing}
                     isLoggedIn={isLoggedIn}
                     isFollowing={item.isFollowing}
                     isLoadingRightAction={
@@ -292,7 +292,7 @@ const PostsView = ({
               _onEndReachedCalledDuringMomentum = false;
             }}
             removeClippedSubviews
-            //TODO: we can avoid 2 more rerenders by carefully moving these call to postsListContainer
+            // TODO: we can avoid 2 more rerenders by carefully moving these call to postsListContainer
             refreshing={refreshing}
             onRefresh={handleOnRefreshPosts}
             onEndReachedThreshold={1}

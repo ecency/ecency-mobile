@@ -40,7 +40,6 @@ class PinCodeContainer extends Component {
     super(props);
 
     this.state = {
-      isExistUser: null,
       informationText: '',
       newPinCode: null,
       isOldPinVerified: get(props.pinCodeParams, 'isOldPinVerified', false),

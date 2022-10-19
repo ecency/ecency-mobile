@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, ImageBackground } from 'react-native';
+import { View, ImageBackground } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 import { IconButton } from '..';
 import styles from './postHtmlRendererStyles';
 

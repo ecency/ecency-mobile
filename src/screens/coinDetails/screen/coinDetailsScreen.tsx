@@ -6,7 +6,7 @@ import { CoinSummary } from '../children';
 import styles from './screen.styles';
 import ActivitiesList from '../children/activitiesList';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { CoinActivitiesCollection, QuoteItem } from '../../../redux/reducers/walletReducer';
+import { CoinActivitiesCollection, CoinData, QuoteItem } from '../../../redux/reducers/walletReducer';
 import { fetchCoinActivities } from '../../../utils/wallet';
 import { fetchAndSetCoinsData, setCoinActivities } from '../../../redux/actions/walletActions';
 import RootNavigation from '../../../navigation/rootNavigation';

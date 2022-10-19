@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef, useCallback } from 'react';
+import React, { Fragment, useState, useRef } from 'react';
 import { Linking, Modal, PermissionsAndroid, Platform, View } from 'react-native';
 import { useIntl } from 'react-intl';
 import CameraRoll from '@react-native-community/cameraroll';
@@ -235,7 +235,7 @@ const CommentBody = ({
         uri = `file://${await _downloadImage(uri)}`;
       }
       CameraRoll.saveToCameraRoll(uri)
-        .then((res) => {
+        .then(() => {
           dispatch(
             toastNotification(
               intl.formatMessage({
@@ -244,7 +244,7 @@ const CommentBody = ({
             ),
           );
         })
-        .catch((error) => {
+        .catch(() => {
           dispatch(
             toastNotification(
               intl.formatMessage({

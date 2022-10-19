@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { RangeSelector } from '.';
 import { SimpleChart } from '../../../components';

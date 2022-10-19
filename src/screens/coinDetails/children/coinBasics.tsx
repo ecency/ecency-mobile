@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
-import { View, Text, Alert } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { View, Text, } from 'react-native';
 import { DataPair } from '../../../redux/reducers/walletReducer';
 import styles from './children.styles';
 

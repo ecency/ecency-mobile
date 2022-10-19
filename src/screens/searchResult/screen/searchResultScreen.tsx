@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { View, SafeAreaView } from 'react-native';
+import React, { useState } from 'react';
+import { View } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { useIntl } from 'react-intl';
 import { debounce } from 'lodash';
 
 // Components
-import { SearchInput, TabBar, IconButton } from '../../../components';
+import { SearchInput, TabBar } from '../../../components';
 import Communities from './tabs/communities/view/communitiesResults';
 import PostsResults from './tabs/best/view/postsResults';
 import TopicsResults from './tabs/topics/view/topicsResults';

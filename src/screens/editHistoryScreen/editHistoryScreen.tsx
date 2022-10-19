@@ -97,7 +97,6 @@ const EditHistoryScreen = ({ route }) => {
 
   const _renderVersionsListItem = ({
     item,
-    index,
   }: {
     item: CommentHistoryListItemDiff;
     index: number;

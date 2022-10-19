@@ -1,5 +1,5 @@
-import React, { Fragment, useState, useEffect } from 'react';
-import { ActivityIndicator, SafeAreaView } from 'react-native';
+import React, { Fragment, useState } from 'react';
+import { SafeAreaView } from 'react-native';
 import get from 'lodash/get';
 
 // Components

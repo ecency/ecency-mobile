@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
-import { Icon } from '../../icon';
+import { View } from 'react-native';
 
 // Components
 import { LineBreak, Tag } from '../../basicUIElements';
@@ -66,7 +65,7 @@ const FilterBarView = ({
         )}
       </View>
     ) : (
-      <View style={styles.rightIconPlaceholder} />;
+      <View style={styles.rightIconPlaceholder} />
     );
 
   return (

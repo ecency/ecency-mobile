@@ -19,7 +19,6 @@ import { Client as hsClient } from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
 import { getServer, getCache, setCache } from '../../realm/realm';
-import { userActivity } from '../ecency/ePoint';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';

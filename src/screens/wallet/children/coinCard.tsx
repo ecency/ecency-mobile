@@ -31,7 +31,6 @@ export const CoinCard = ({
   id,
   notCrypto,
   chartData,
-  name,
   currencySymbol,
   symbol,
   changePercent,

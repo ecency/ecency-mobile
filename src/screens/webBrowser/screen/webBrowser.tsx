@@ -3,7 +3,6 @@ import { Alert, StatusBar, View, Text } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { get } from 'lodash';
 import styles from './webBrowserStyles';
 import { IconButton } from '../../../components';
 

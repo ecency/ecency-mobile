@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
-import { View, FlatList, Text, TouchableOpacity, Alert, RefreshControl } from 'react-native';
+import { View, FlatList, Text, TouchableOpacity, RefreshControl } from 'react-native';
 import { useIntl } from 'react-intl';
-import { deleteFragment } from '../../providers/ecency/ecency';
 import { MainButton } from '..';
 import styles from './snippetsModalStyles';
 
@@ -11,7 +10,7 @@ import SnippetEditorModal, {
 import SnippetItem from './snippetItem';
 import { Snippet } from '../../models';
 import { useAppSelector } from '../../hooks';
-import { useSnippetDeleteMutation, useSnippetsQuery } from '../../providers/queries';
+import { useSnippetsQuery } from '../../providers/queries';
 
 interface SnippetsModalProps {
   handleOnSelect: (snippetText: string) => void;

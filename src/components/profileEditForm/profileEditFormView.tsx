@@ -7,7 +7,6 @@ import { injectIntl, useIntl } from 'react-intl';
 // Images
 import FastImage from 'react-native-fast-image';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { useNavigation } from '@react-navigation/native';
 import LIGHT_COVER_IMAGE from '../../assets/default_cover_image.png';
 import DARK_COVER_IMAGE from '../../assets/dark_cover_image.png';
 

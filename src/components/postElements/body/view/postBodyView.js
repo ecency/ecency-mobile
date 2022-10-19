@@ -66,11 +66,11 @@ const PostBody = ({ body, dispatch, onLoadEnd, width }) => {
 
   const handleImagePress = (ind) => {
     if (ind === 1) {
-      //open gallery mode
+      // open gallery mode
       setIsImageModalOpen(true);
     }
     if (ind === 0) {
-      //copy to clipboard
+      // copy to clipboard
       writeToClipboard(selectedImage).then(() => {
         dispatch(
           toastNotification(
@@ -82,7 +82,7 @@ const PostBody = ({ body, dispatch, onLoadEnd, width }) => {
       });
     }
     if (ind === 2) {
-      //save to local
+      // save to local
       _saveImage(selectedImage);
     }
 
@@ -91,7 +91,7 @@ const PostBody = ({ body, dispatch, onLoadEnd, width }) => {
 
   const handleLinkPress = (ind) => {
     if (ind === 1) {
-      //open link
+      // open link
       if (selectedLink) {
         Linking.canOpenURL(selectedLink).then((supported) => {
           if (supported) {
@@ -109,7 +109,7 @@ const PostBody = ({ body, dispatch, onLoadEnd, width }) => {
       }
     }
     if (ind === 0) {
-      //copy to clipboard
+      // copy to clipboard
       writeToClipboard(selectedLink).then(() => {
         dispatch(
           toastNotification(
@@ -141,7 +141,7 @@ const PostBody = ({ body, dispatch, onLoadEnd, width }) => {
 
   const _handleOnPostPress = (permlink, author) => {
     if (permlink) {
-      //snippets checks if there is anchored post inside permlink and use that instead
+      // snippets checks if there is anchored post inside permlink and use that instead
       const anchoredPostRegex = /(.*?\#\@)(.*)\/(.*)/;
       const matchedLink = permlink.match(anchoredPostRegex);
       if (matchedLink) {
@@ -149,7 +149,7 @@ const PostBody = ({ body, dispatch, onLoadEnd, width }) => {
         permlink = matchedLink[3];
       }
 
-      //check if permlink has trailing query param, remove that if is the case
+      // check if permlink has trailing query param, remove that if is the case
       const queryIndex = permlink.lastIndexOf('?');
       if (queryIndex > -1) {
         permlink = permlink.substring(0, queryIndex);
@@ -203,7 +203,7 @@ const PostBody = ({ body, dispatch, onLoadEnd, width }) => {
     })
       .fetch('GET', uri)
       .then((res) => {
-        let status = res.info().status;
+        const { status } = res.info();
 
         if (status == 200) {
           return res.path();
@@ -331,7 +331,7 @@ const PostBody = ({ body, dispatch, onLoadEnd, width }) => {
       <View>
         <PostHtmlRenderer
           body={html}
-          contentWidth={width ? width : WIDTH - 32}
+          contentWidth={width || WIDTH - 32}
           onLoaded={_handleLoadEnd}
           setSelectedImage={_handleSetSelectedImage}
           setSelectedLink={_handleSetSelectedLink}

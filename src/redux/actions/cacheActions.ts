@@ -1,7 +1,7 @@
 import { renderPostBody } from '@ecency/render-helper';
 import { Platform } from 'react-native';
 import { PointActivity } from '../../providers/ecency/ecency.types';
-import { generateRndStr, makeJsonMetadataReply } from '../../utils/editor';
+import { makeJsonMetadataReply } from '../../utils/editor';
 import {
   UPDATE_VOTE_CACHE,
   PURGE_EXPIRED_CACHE,
