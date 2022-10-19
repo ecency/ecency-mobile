@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Platform, Alert } from 'react-native';
-import { withNavigation } from '@react-navigation/compat';
 import RNIap, { purchaseErrorListener, purchaseUpdatedListener } from 'react-native-iap';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
@@ -15,6 +14,7 @@ import { purchaseOrder } from '../providers/ecency/ecency';
 import { default as ROUTES } from '../constants/routeNames';
 import { showActionModal } from '../redux/actions/uiAction';
 import { UserAvatar } from '../components';
+import { useNavigation } from '@react-navigation/native';
 
 class InAppPurchaseContainer extends Component {
   purchaseUpdateSubscription = null;
@@ -208,16 +208,16 @@ class InAppPurchaseContainer extends Component {
       }
     } else {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.SPIN_GAME,
+        name: ROUTES.SCREENS.SPIN_GAME,
       });
     }
   };
 
   _handleQrPurchase = async () => {
-    const { navigation, skus, dispatch, intl } = this.props as any;
+    const { skus, dispatch, intl, route} = this.props as any;
     const products = await RNIap.getProducts(skus);
-    const productId = navigation.getParam('productId', '');
-    const username = navigation.getParam('username', '');
+    const productId = route.param?.productId ?? ''
+    const username = route.param?.username ?? ''
 
     const product:Product = productId && products && products.find((product) => product.productId === productId)
     
@@ -286,5 +286,10 @@ const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
 });
 
-export default withNavigation(injectIntl(connect(mapStateToProps)(InAppPurchaseContainer)));
+const mapHooksToProps = (props) => ({
+  ...props,
+  navigation:useNavigation()
+})
+
+export default connect(mapStateToProps)(injectIntl((props)=><InAppPurchaseContainer {...mapHooksToProps(props)}/>));
 /* eslint-enable */
