@@ -12,7 +12,7 @@ import { getAccount, claimRewardBalance, getBtcAddress } from '../providers/hive
 import { groomingWalletData, groomingTransactionData, transferTypes } from '../utils/wallet';
 import parseToken from '../utils/parseToken';
 import { vestsToHp } from '../utils/conversions';
-import { navigate } from '../navigation/service';
+import RootNavigation from '../navigation/rootNavigation';
 import { getEstimatedAmount } from '../utils/vote';
 
 // Constants
@@ -252,16 +252,16 @@ const WalletContainer = ({
     }
 
     if (isPinCodeOpen) {
-      navigate({
-        routeName: ROUTES.SCREENS.PINCODE,
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.PINCODE,
         params: {
           navigateTo: ROUTES.SCREENS.TRANSFER,
           navigateParams: { transferType, fundType, balance, tokenAddress },
         },
       });
     } else {
-      navigate({
-        routeName: ROUTES.SCREENS.TRANSFER,
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.TRANSFER,
         params: { transferType, fundType, balance, tokenAddress },
       });
     }

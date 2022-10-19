@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { withNavigation } from '@react-navigation/compat';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 
 // Services
+import { useNavigation } from '@react-navigation/native';
 import { getPost } from '../../../providers/hive/dhive';
 import { getPostReblogs } from '../../../providers/ecency/ecency';
 
@@ -20,8 +20,6 @@ import { showProfileModal } from '../../../redux/actions/uiAction';
  */
 
 const PostCardContainer = ({
-  // isRefresh,
-  navigation,
   currentAccount,
   content,
   isHideImage,
@@ -32,6 +30,7 @@ const PostCardContainer = ({
   showQuickReplyModal,
   mutes,
 }) => {
+  const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
   const [_content, setContent] = useState(content);
@@ -90,7 +89,7 @@ const PostCardContainer = ({
   const _handleOnContentPress = (value) => {
     if (value) {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.POST,
+        name: ROUTES.SCREENS.POST,
         params: {
           content: value,
         },
@@ -101,7 +100,7 @@ const PostCardContainer = ({
 
   const _handleOnVotersPress = () => {
     navigation.navigate({
-      routeName: ROUTES.SCREENS.VOTERS,
+      name: ROUTES.SCREENS.VOTERS,
       params: {
         activeVotes,
         content: _content,
@@ -112,7 +111,7 @@ const PostCardContainer = ({
 
   const _handleOnReblogsPress = () => {
     navigation.navigate({
-      routeName: ROUTES.SCREENS.REBLOGS,
+      name: ROUTES.SCREENS.REBLOGS,
       params: {
         reblogs,
       },
@@ -154,4 +153,4 @@ const mapStateToProps = (state) => ({
   nsfw: state.application.nsfw,
 });
 
-export default withNavigation(connect(mapStateToProps)(PostCardContainer));
+export default connect(mapStateToProps)(PostCardContainer);

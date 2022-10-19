@@ -8,7 +8,7 @@ import ActionsSheetView from 'react-native-actions-sheet';
 
 // import AutoHeightWebView from 'react-native-autoheight-webview';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { navigate } from '../../../../navigation/service';
+import RootNavigation from '../../../../navigation/rootNavigation';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
@@ -135,10 +135,10 @@ const CommentBody = ({
 
   const _handleTagPress = (tag:string, filter:string = GLOBAL_POST_FILTERS_VALUE[0]) => {
     if (tag) {
-      const routeName = isCommunity(tag) ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT;
+      const name = isCommunity(tag) ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT;
       const key = `${filter}/${tag}`;
-      navigate({
-        routeName,
+      RootNavigation.navigate({
+        name,
         params: {
           tag,
           filter,
@@ -167,8 +167,8 @@ const CommentBody = ({
       return;
     }
     if (permlink) {
-      navigate({
-        routeName: ROUTES.SCREENS.POST,
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.POST,
         params: {
           author,
           permlink,
@@ -184,8 +184,8 @@ const CommentBody = ({
       return;
     }
     if (username) {
-      navigate({
-        routeName: ROUTES.SCREENS.PROFILE,
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.PROFILE,
         params: {
           username,
         },

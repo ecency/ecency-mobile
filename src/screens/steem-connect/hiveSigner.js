@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react';
 import { View, Alert, StatusBar } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
-import { withNavigation } from '@react-navigation/compat';
 
+import { useNavigation } from '@react-navigation/native';
+import { injectIntl } from 'react-intl';
 import { loginWithSC2 } from '../../providers/hive/auth';
 import { hsOptions } from '../../constants/hsOptions';
 
@@ -27,7 +27,7 @@ class HiveSigner extends PureComponent {
 
   _onNavigationStateChange = (event) => {
     let code;
-    const { dispatch, handleOnModalClose, intl, isPinCodeOpen, navigation } = this.props;
+    const { dispatch, handleOnModalClose, isPinCodeOpen, navigation } = this.props;
     const { isLoading } = this.state;
     if (event.url.indexOf('?code=') > -1) {
       this.webview.stopLoading();
@@ -52,7 +52,7 @@ class HiveSigner extends PureComponent {
 
               if (isPinCodeOpen) {
                 navigation.navigate({
-                  routeName: ROUTES.SCREENS.PINCODE,
+                  name: ROUTES.SCREENS.PINCODE,
                   params: {
                     accessToken: result.accessToken,
                     navigateTo: ROUTES.DRAWER.MAIN,
@@ -60,7 +60,7 @@ class HiveSigner extends PureComponent {
                 });
               } else {
                 navigation.navigate({
-                  routeName: ROUTES.DRAWER.MAIN,
+                  name: ROUTES.DRAWER.MAIN,
                   params: { accessToken: result.accessToken },
                 });
               }
@@ -107,4 +107,9 @@ const mapStateToProps = (state) => ({
   isPinCodeOpen: state.application.isPinCodeOpen,
 });
 
-export default injectIntl(connect(mapStateToProps)(withNavigation(HiveSigner)));
+const mapHooksToProps = (props) => {
+  const navigation = useNavigation();
+  return <HiveSigner {...props} navigation={navigation} />;
+};
+
+export default connect(mapStateToProps)(injectIntl(mapHooksToProps));

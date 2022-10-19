@@ -1,7 +1,6 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { Linking, Modal, PermissionsAndroid, Platform, View } from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
-import { withNavigation } from '@react-navigation/compat';
 import { useIntl, injectIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -10,6 +9,7 @@ import ActionSheetView from 'react-native-actions-sheet';
 import { connect } from 'react-redux';
 
 // Services and Actions
+import { useNavigation } from '@react-navigation/native';
 import { writeToClipboard } from '../../../../utils/clipboard';
 import { toastNotification } from '../../../../redux/actions/uiAction';
 
@@ -23,8 +23,10 @@ import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
 const WIDTH = getWindowDimensions().width;
 
-const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
+const PostBody = ({ body, dispatch, onLoadEnd, width }) => {
   console.log('body : ', body);
+  const navigation = useNavigation();
+
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
   const [postImages, setPostImages] = useState([]);
@@ -124,10 +126,10 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
 
   const _handleTagPress = (tag, filter = GLOBAL_POST_FILTERS_VALUE[0]) => {
     if (tag) {
-      const routeName = isCommunity(tag) ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT;
+      const name = isCommunity(tag) ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT;
       const key = `${filter}/${tag}`;
       navigation.navigate({
-        routeName,
+        name,
         params: {
           tag,
           filter,
@@ -154,7 +156,7 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
       }
 
       navigation.navigate({
-        routeName: ROUTES.SCREENS.POST,
+        name: ROUTES.SCREENS.POST,
         params: {
           author,
           permlink,
@@ -167,7 +169,7 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
   const _handleOnUserPress = (username) => {
     if (username) {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.PROFILE,
+        name: ROUTES.SCREENS.PROFILE,
         params: {
           username,
         },
@@ -353,4 +355,4 @@ const areEqual = (prevProps, nextProps) => {
 
 const mapStateToProps = (state) => ({});
 
-export default React.memo(injectIntl(withNavigation(connect(mapStateToProps)(PostBody))), areEqual);
+export default React.memo(injectIntl(connect(mapStateToProps)(PostBody)), areEqual);

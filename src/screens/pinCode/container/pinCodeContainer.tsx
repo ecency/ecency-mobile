@@ -8,7 +8,7 @@ import FingerprintScanner from 'react-native-fingerprint-scanner';
 
 
 // Actions & Services
-import { navigate } from '../../../navigation/service';
+import RootNavigation from '../../../navigation/rootNavigation';
 import {
   updatePinCode,
 } from '../../../providers/hive/auth';
@@ -33,8 +33,8 @@ import { encryptKey, decryptKey } from '../../../utils/crypto';
 import MigrationHelpers from '../../../utils/migrationHelpers';
 
 // Component
-import { withNavigation } from '@react-navigation/compat';
 import PinCodeView from '../children/pinCodeView';
+import { useNavigation } from '@react-navigation/native';
 
 
 class PinCodeContainer extends Component {
@@ -160,8 +160,8 @@ class PinCodeContainer extends Component {
           }
 
           if (navigateTo) {
-            navigate({
-              routeName: navigateTo,
+            RootNavigation.navigate({
+              name: navigateTo,
               params: navigateParams,
             });
           } else {
@@ -280,8 +280,8 @@ class PinCodeContainer extends Component {
       }
 
       if (navigateTo) {
-        navigate({
-          routeName: navigateTo,
+        RootNavigation.navigate({
+          name: navigateTo,
           params: navigateParams,
         });
       } else {
@@ -447,4 +447,11 @@ const mapStateToProps = (state) => ({
   isBiometricEnabled: state.application.isBiometricEnabled,
 });
 
-export default withNavigation(injectIntl(connect(mapStateToProps)(PinCodeContainer)));
+
+
+const mapHooksToProps = (props) => {
+  const navigation = useNavigation();
+  return <PinCodeContainer {...props} navigation={navigation} />
+}
+
+export default connect(mapStateToProps)(injectIntl(mapHooksToProps));

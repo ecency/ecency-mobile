@@ -25,7 +25,7 @@ const BoostScreen = ({ route }) => {
   const username = route.params?.username ?? '';
 
   return (
-    <InAppPurchaseContainer skus={ITEM_SKUS}>
+    <InAppPurchaseContainer route={route} skus={ITEM_SKUS}>
       {({ buyItem, productList, isLoading, isProcessing, getTitle }) => (
         <View style={globalStyles.container}>
           <BasicHeader

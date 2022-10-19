@@ -1,24 +1,18 @@
 import React from 'react';
-import { withNavigation } from '@react-navigation/compat';
 import get from 'lodash/get';
 import has from 'lodash/has';
 
 // Component
 import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import HeaderView from '../view/headerView';
 
 import { AccountContainer, ThemeContainer } from '../../../containers';
 import { parseReputation } from '../../../utils/user';
 import { toggleQRModal } from '../../../redux/actions/uiAction';
 
-const HeaderContainer = ({
-  selectedUser,
-  isReverse,
-  navigation,
-  handleOnBackPress,
-  hideUser,
-  showQR,
-}) => {
+const HeaderContainer = ({ selectedUser, isReverse, handleOnBackPress, hideUser, showQR }) => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const _handleOpenDrawer = () => {
@@ -70,4 +64,4 @@ const HeaderContainer = ({
   );
 };
 
-export default withNavigation(HeaderContainer);
+export default HeaderContainer;

@@ -45,7 +45,7 @@ import {
   getUnreadNotificationCount,
 } from '../../../providers/ecency/ecency';
 import { fetchLatestAppVersion } from '../../../providers/github/github';
-import { navigate } from '../../../navigation/service';
+import RootNavigation from '../../../navigation/rootNavigation';
 
 // Actions
 import {
@@ -128,8 +128,8 @@ class ApplicationContainer extends Component {
 
     ReceiveSharingIntent.getReceivedFiles(
       (files) => {
-        navigate({
-          routeName: ROUTES.SCREENS.EDITOR,
+        RootNavigation.navigate({
+          name: ROUTES.SCREENS.EDITOR,
           params: { hasSharedIntent: true, files },
         });
         // files returns as JSON Array example
@@ -223,11 +223,11 @@ class ApplicationContainer extends Component {
 
     try {
       const deepLinkData = await deepLinkParser(url, currentAccount);
-      const { routeName, params, key } = deepLinkData || {};
+      const { name, params, key } = deepLinkData || {};
 
-      if (routeName && key) {
-        navigate({
-          routeName,
+      if (name && key) {
+        RootNavigation.navigate({
+          name,
           params,
           key: key,
         });
@@ -336,8 +336,8 @@ class ApplicationContainer extends Component {
     const { isPinCodeOpen: _isPinCodeOpen } = this.props;
     if (_isPinCodeOpen) {
       this._pinCodeTimer = setTimeout(() => {
-        navigate({
-          routeName: ROUTES.SCREENS.PINCODE,
+        RootNavigation.navigate({
+          name: ROUTES.SCREENS.PINCODE,
         });
       }, 1 * 60 * 1000);
     }
@@ -425,8 +425,8 @@ class ApplicationContainer extends Component {
       });
 
       if (!some(params, isEmpty)) {
-        navigate({
-          routeName,
+        RootNavigation.navigate({
+          name:routeName,
           params,
           key,
         });
@@ -551,7 +551,7 @@ class ApplicationContainer extends Component {
       realmObject[0].name = currentUsername;
       // If in dev mode pin code does not show
       if (_isPinCodeOpen) {
-        navigate({ routeName: ROUTES.SCREENS.PINCODE });
+        RootNavigation.navigate({ name: ROUTES.SCREENS.PINCODE });
       } else if (!_isPinCodeOpen) {
         const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
         dispatch(savePinCode(encryptedPin));

@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks'
 import { CoinActivitiesCollection, QuoteItem } from '../../../redux/reducers/walletReducer';
 import { fetchCoinActivities } from '../../../utils/wallet';
 import { fetchAndSetCoinsData, setCoinActivities } from '../../../redux/actions/walletActions';
-import { navigate } from '../../../navigation/service';
+import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import { COIN_IDS } from '../../../constants/defaultCoins';
 import { useIntl } from 'react-intl';
@@ -137,16 +137,16 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
     }
 
     if (isPinCodeOpen) {
-      navigate({
-        routeName: ROUTES.SCREENS.PINCODE,
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.PINCODE,
         params:{
           navigateTo,
           navigateParams,
         }
       })
     } else {
-      navigate({
-        routeName: navigateTo,
+      RootNavigation.navigate({
+        name: navigateTo,
         params: navigateParams
       });
     }

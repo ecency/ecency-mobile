@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { withNavigation } from '@react-navigation/compat';
 import get from 'lodash/get';
+import { useNavigation } from '@react-navigation/native';
 import { default as ROUTES } from '../../../constants/routeNames';
 
 import styles from './parentPostStyles';
 
-const ParentPost = (props) => {
-  const { navigation, post } = props;
+const ParentPost = ({ post }) => {
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -15,7 +15,7 @@ const ParentPost = (props) => {
         onPress={() =>
           get(navigation, 'navigate')
             ? navigation.navigate({
-                routeName: ROUTES.SCREENS.POST,
+                name: ROUTES.SCREENS.POST,
                 params: {
                   content: post,
                 },
@@ -31,4 +31,4 @@ const ParentPost = (props) => {
   );
 };
 
-export default withNavigation(ParentPost);
+export default ParentPost;

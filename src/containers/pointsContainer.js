@@ -3,9 +3,9 @@ import { Alert } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
-import { withNavigation } from '@react-navigation/compat';
 
 // Services and Actions
+import { useNavigation } from '@react-navigation/native';
 import { getPointsSummary, claimPoints, getPointsHistory } from '../providers/ecency/ePoint';
 import { getAccount, boost } from '../providers/hive/dhive';
 import { getUserDataWithUsername } from '../realm/realm';
@@ -29,7 +29,6 @@ import { groomingPointsTransactionData, getPointsEstimate } from '../utils/walle
 const PointsContainer = ({
   username,
   isConnected,
-  navigation,
   children,
   accounts,
   currentAccount,
@@ -39,7 +38,10 @@ const PointsContainer = ({
   globalProps,
   pinCode,
   currency,
+  route,
 }) => {
+  const navigation = useNavigation();
+
   const [userPoints, setUserPoints] = useState({});
   const [userActivities, setUserActivities] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
@@ -56,12 +58,12 @@ const PointsContainer = ({
       _fetchUserPointActivities(username);
     }
 
-    if (get(navigation, 'state.params', null)) {
-      const _navigationParams = get(navigation, 'state.params');
+    if (route && route.params) {
+      const _navigationParams = route.params;
 
       setNavigationParams(_navigationParams);
     }
-  }, [_fetchUserPointActivities, isConnected, navigation, username]);
+  }, [_fetchUserPointActivities, isConnected, route, username]);
 
   useEffect(() => {
     if (isConnected && activeBottomTab === ROUTES.TABBAR.WALLET && username) {
@@ -100,15 +102,15 @@ const PointsContainer = ({
 
     if (isPinCodeOpen) {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.PINCODE,
+        name: ROUTES.SCREENS.PINCODE,
         params: {
-          routeName: navigateTo,
-          params: navigateParams,
+          navigateTo,
+          navigateParams,
         },
       });
     } else {
       navigation.navigate({
-        routeName: navigateTo,
+        name: navigateTo,
         params: navigateParams,
       });
     }
@@ -254,4 +256,4 @@ const mapStateToProps = (state) => ({
   currency: state.application.currency.currency,
 });
 
-export default withNavigation(connect(mapStateToProps)(PointsContainer));
+export default connect(mapStateToProps)(PointsContainer);

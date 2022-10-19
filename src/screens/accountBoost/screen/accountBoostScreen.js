@@ -37,7 +37,7 @@ const AccountBoost = ({ route }) => {
   );
 
   return (
-    <InAppPurchaseContainer skus={ITEM_SKUS} username={username} isNoSpin>
+    <InAppPurchaseContainer route={route} skus={ITEM_SKUS} username={username} isNoSpin>
       {({ buyItem, productList, isLoading, isProcessing }) => (
         <SafeAreaView style={styles.container}>
           <BasicHeader

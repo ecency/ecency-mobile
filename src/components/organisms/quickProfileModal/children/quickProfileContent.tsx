@@ -15,16 +15,15 @@ import { getTimeFromNowNative } from '../../../../utils/time'
 import { useAppDispatch, useAppSelector } from '../../../../hooks'
 import { toastNotification } from '../../../../redux/actions/uiAction'
 import bugsnapInstance from '../../../../config/bugsnag'
+import RootNavigation from '../../../../navigation/rootNavigation'
 
 interface QuickProfileContentProps {
     username:string,
-    navigation:any;
     onClose:()=>void;
 }
 
 export const QuickProfileContent = ({
     username,
-    navigation,
     onClose
 }:QuickProfileContentProps) => {
     const intl = useIntl();
@@ -185,10 +184,10 @@ export const QuickProfileContent = ({
         };
   
         if (isOwnProfile) {
-          navigation.navigate(ROUTES.TABBAR.PROFILE);
+          RootNavigation.navigate(ROUTES.TABBAR.PROFILE);
         } else {
-          navigation.navigate({
-            routeName: ROUTES.SCREENS.PROFILE,
+            RootNavigation.navigate({
+            name: ROUTES.SCREENS.PROFILE,
             params,
             key: username,
           });

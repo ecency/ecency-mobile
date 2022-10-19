@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { withNavigation } from '@react-navigation/compat';
 import { injectIntl } from 'react-intl';
 
 // Components
+import { useNavigation } from '@react-navigation/native';
 import { Tag } from '../../../basicUIElements';
 import { Icon } from '../../../icon';
 import { UserAvatar } from '../../../userAvatar';
@@ -37,7 +37,7 @@ class PostHeaderDescription extends PureComponent {
 
     if (content && content.category && /hive-[1-3]\d{4,6}$/.test(content.category)) {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.COMMUNITY,
+        name: ROUTES.SCREENS.COMMUNITY,
         params: {
           tag: content.category,
         },
@@ -45,7 +45,7 @@ class PostHeaderDescription extends PureComponent {
     }
     if (content && content.category && !/hive-[1-3]\d{4,6}$/.test(content.category)) {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.TAG_RESULT,
+        name: ROUTES.SCREENS.TAG_RESULT,
         params: {
           tag: content.category,
         },
@@ -53,7 +53,7 @@ class PostHeaderDescription extends PureComponent {
     }
     if (content && typeof content === 'string' && /hive-[1-3]\d{4,6}$/.test(content)) {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.COMMUNITY,
+        name: ROUTES.SCREENS.COMMUNITY,
         params: {
           tag: content,
         },
@@ -61,7 +61,7 @@ class PostHeaderDescription extends PureComponent {
     }
     if (content && typeof content === 'string' && !/hive-[1-3]\d{4,6}$/.test(content)) {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.TAG_RESULT,
+        name: ROUTES.SCREENS.TAG_RESULT,
         params: {
           tag: content,
         },
@@ -179,4 +179,10 @@ class PostHeaderDescription extends PureComponent {
 
 const mapStateToProps = () => ({});
 
-export default connect(mapStateToProps)(withNavigation(injectIntl(PostHeaderDescription)));
+const mapHookToProps = () => ({
+  navigation: useNavigation(),
+});
+
+export default connect(mapStateToProps)(
+  injectIntl((props) => <PostHeaderDescription {...props} {...mapHookToProps()} />),
+);

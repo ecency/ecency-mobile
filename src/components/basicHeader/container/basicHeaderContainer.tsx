@@ -1,5 +1,5 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { withNavigation } from '@react-navigation/compat';
 
 // Constants
 import { default as ROUTES } from '../../../constants/routeNames';
@@ -9,21 +9,21 @@ import { setHidePostsThumbnails } from '../../../redux/actions/applicationAction
 // Components
 import BasicHeaderView from '../view/basicHeaderView';
 
-
 interface BackHeaderProps {
-  backIconName:'close'|'arrow-back';
+  backIconName: 'close' | 'arrow-back';
 }
 
-const BasicHeaderContainer = (props:BackHeaderProps) => {
+const BasicHeaderContainer = (props: BackHeaderProps) => {
   const dispatch = useAppDispatch();
+  const navigation = useNavigation();
   const isHideImages = useAppSelector((state) => state.application.hidePostsThumbnails);
 
   const _handleOnPressBackButton = () => {
-    const { navigation, isNewPost, handleOnBackPress } = props;
+    const {isNewPost, handleOnBackPress } = props;
 
     if (isNewPost) {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.FEED,
+        name: ROUTES.SCREENS.FEED,
       });
     } else {
       navigation.goBack();
@@ -47,4 +47,4 @@ const BasicHeaderContainer = (props:BackHeaderProps) => {
   );
 };
 
-export default withNavigation(BasicHeaderContainer);
+export default BasicHeaderContainer;

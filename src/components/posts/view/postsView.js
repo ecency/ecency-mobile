@@ -10,11 +10,11 @@ import {
   Button,
 } from 'react-native';
 import { useIntl } from 'react-intl';
-import { withNavigation } from '@react-navigation/compat';
 import { get } from 'lodash';
 
 // COMPONENTS
 import FastImage from 'react-native-fast-image';
+import { useNavigation } from '@react-navigation/native';
 import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
 import {
@@ -42,7 +42,6 @@ const PostsView = ({
   handleImagesHide,
   isLoggedIn,
   handleOnScroll,
-  navigation,
   isLoading,
   refreshing,
   selectedFilterIndex,
@@ -72,6 +71,8 @@ const PostsView = ({
   newPostsPopupPictures,
   setNewPostsPopupPictures,
 }) => {
+  const navigation = useNavigation();
+
   const intl = useIntl();
   const postsList = useRef(null);
 
@@ -176,7 +177,7 @@ const PostsView = ({
                     onPressRightText={handleFollowUserButtonPress}
                     handleOnPress={(username) =>
                       navigation.navigate({
-                        routeName: ROUTES.SCREENS.PROFILE,
+                        name: ROUTES.SCREENS.PROFILE,
                         params: {
                           username,
                         },
@@ -211,7 +212,7 @@ const PostsView = ({
                     name={item.name}
                     handleOnPress={(name) =>
                       navigation.navigate({
-                        routeName: ROUTES.SCREENS.COMMUNITY,
+                        name: ROUTES.SCREENS.COMMUNITY,
                         params: {
                           tag: name,
                         },
@@ -393,5 +394,5 @@ const PostsView = ({
   );
 };
 
-export default withNavigation(PostsView);
+export default PostsView;
 /* eslint-enable */
