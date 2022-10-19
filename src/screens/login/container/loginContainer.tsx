@@ -35,6 +35,7 @@ import { showActionModal } from '../../../redux/actions/uiAction';
 import { UserAvatar } from '../../../components';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
+import { useNavigation } from '@react-navigation/core';
 
 /*
  *            Props Name        Description                                     Value
@@ -134,7 +135,7 @@ class LoginContainer extends PureComponent {
             );
           } else {
             navigation.navigate({
-              routeName: ROUTES.DRAWER.MAIN,
+              name: ROUTES.DRAWER.MAIN,
               params: { accessToken: result.accessToken },
             });
           }
@@ -290,10 +291,11 @@ const mapStateToProps = (state) => ({
   isPinCodeOpen: state.application.isPinCodeOpen,
 });
 
-const mapQueriesToProps = () => ({
+const mapHooksToProps = () => ({
+  navigation:useNavigation(),
   userActivityMutation: useUserActivityMutation()
 })
 
 export default connect(mapStateToProps)(injectIntl((props) => (
-  <LoginContainer {...props} {...mapQueriesToProps()} />
+  <LoginContainer {...props} {...mapHooksToProps()} />
 )));

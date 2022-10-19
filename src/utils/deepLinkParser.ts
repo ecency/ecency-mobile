@@ -122,7 +122,7 @@ export const deepLinkParser = async (url, currentAccount) => {
 
 
   return {
-    routeName: routeName,
+    name: routeName,
     params: params,
     key: keey,
   };

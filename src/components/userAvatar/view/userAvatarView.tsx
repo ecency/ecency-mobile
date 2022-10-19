@@ -4,7 +4,7 @@ import { ActivityIndicator, TouchableOpacity, ViewStyle } from 'react-native';
 
 import FastImage from 'react-native-fast-image';
 import styles from './userAvatarStyles';
-import { navigate } from '../../../navigation/service';
+import RootNavigation from '../../../navigation/rootNavigation';
 
 // Constants
 import ROUTES from '../../../constants/routeNames';
@@ -47,9 +47,9 @@ const UserAvatarView = ({
 
     // Component Functions
     const _handleOnAvatarPress = (username:string) => {
-      const routeName = curUsername === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE;
-      navigate({
-        routeName,
+      const name = curUsername === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE;
+      RootNavigation.navigate({
+        name,
         params: {
           username,
         },

@@ -15,7 +15,7 @@ import {
 } from '../../redux/actions/cacheActions';
 import { default as ROUTES } from '../../constants/routeNames';
 import { get } from 'lodash';
-import { navigate } from '../../navigation/service';
+import RootNavigation from '../../navigation/rootNavigation';
 import { postBodySummary } from '@ecency/render-helper';
 import { Draft } from '../../redux/reducers/cacheReducer';
 import { RootState } from '../../redux/store/store';
@@ -104,8 +104,8 @@ export const QuickReplyModalContent = forwardRef(({
   const _handleOnSummaryPress = () => {
     Keyboard.dismiss();
     onClose();
-    navigate({
-      routeName: ROUTES.SCREENS.POST,
+    RootNavigation.navigate({
+      name: ROUTES.SCREENS.POST,
       params: {
         content: selectedPost,
       },
@@ -221,8 +221,8 @@ export const QuickReplyModalContent = forwardRef(({
       Keyboard.dismiss();
       onClose();
       await delay(50);
-      navigate({
-        routeName: ROUTES.SCREENS.EDITOR,
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.EDITOR,
         key: 'editor_replay',
         params: {
           isReply: true,

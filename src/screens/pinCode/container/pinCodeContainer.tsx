@@ -8,7 +8,7 @@ import FingerprintScanner from 'react-native-fingerprint-scanner';
 
 
 // Actions & Services
-import { navigate } from '../../../navigation/service';
+import RootNavigation from '../../../navigation/rootNavigation';
 import {
   updatePinCode,
 } from '../../../providers/hive/auth';
@@ -160,8 +160,8 @@ class PinCodeContainer extends Component {
           }
 
           if (navigateTo) {
-            navigate({
-              routeName: navigateTo,
+            RootNavigation.navigate({
+              name: navigateTo,
               params: navigateParams,
             });
           } else {
@@ -280,8 +280,8 @@ class PinCodeContainer extends Component {
       }
 
       if (navigateTo) {
-        navigate({
-          routeName: navigateTo,
+        RootNavigation.navigate({
+          name: navigateTo,
           params: navigateParams,
         });
       } else {

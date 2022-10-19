@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { navigate } from '../../../navigation/service';
+import RootNavigation from '../../../navigation/rootNavigation';
 
 import { removeOtherAccount, updateCurrentAccount } from '../../../redux/actions/accountAction';
 import { isPinCodeOpen, isRenderRequired, login, logout, logoutDone } from '../../../redux/actions/applicationActions';
@@ -47,11 +47,11 @@ const AccountsBottomSheetContainer = ({ navigation }) => {
     }
   }, [isVisibleAccountsBottomSheet]);
 
-  const _navigateToRoute = (routeName = null) => {
+  const _navigateToRoute = (name = null) => {
     dispatch(toggleAccountsBottomSheet(false));
     accountsBottomSheetViewRef.current?.closeAccountsBottomSheet();
-    if (routeName) {
-      navigate({ routeName });
+    if (name) {
+      RootNavigation.navigate({ name });
     }
   };
 

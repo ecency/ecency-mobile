@@ -24,7 +24,7 @@ import ROUTES from '../../constants/routeNames';
 
 // Redux / Services
 import { showProfileModal } from '../../redux/actions/uiAction';
-import { navigate } from '../../navigation/service';
+import RootNavigation from '../../navigation/rootNavigation';
 import { useAppSelector } from '../../hooks';
 import { useDispatch } from 'react-redux';
 
@@ -84,8 +84,8 @@ const ReferScreen = () => {
 
   const _handleDelegateHP = (item: Referral) => {
     console.log('delegate HP!');
-    navigate({
-      routeName: ROUTES.SCREENS.TRANSFER,
+    RootNavigation.navigate({
+      name: ROUTES.SCREENS.TRANSFER,
       params: {
         transferType: 'delegate',
         fundType: 'HIVE_POWER',

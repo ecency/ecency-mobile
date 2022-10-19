@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
 import { AppNavigator } from '../../../navigation';
-import { navigate } from '../../../navigation/service';
+import RootNavigation from '../../../navigation/rootNavigation';
 
 // Services
 import {
@@ -66,8 +66,8 @@ class ApplicationScreen extends Component {
             {
               text: 'OK',
               onPress: () => {
-                navigate({
-                  routeName: ROUTES.SCREENS.ACCOUNT_BOOST,
+                RootNavigation.navigate({
+                  name: ROUTES.SCREENS.ACCOUNT_BOOST,
                 });
                 dispatch(setRcOffer(false));
               },
@@ -135,7 +135,7 @@ class ApplicationScreen extends Component {
     return (
       <>
         <ForegroundNotification remoteMessage={foregroundNotificationData} />
-        <QuickProfileModal navigation={{ navigate }} />
+        <QuickProfileModal />
         <AccountsBottomSheet />
         <ActionModal />
         <QuickReplyModal />
