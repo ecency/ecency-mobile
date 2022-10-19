@@ -1,5 +1,4 @@
 import React from 'react';
-import { withNavigation } from '@react-navigation/compat';
 import { View, TouchableOpacity, Text, Platform, ActivityIndicator } from 'react-native';
 import { View as AnimatedView } from 'react-native-animatable';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -49,6 +48,8 @@ const ProfileEditFormView = ({
   saveEnabled,
   ...props
 }:ProfileEditFormProps) => (
+
+
 
   <View style={styles.container}>
 
@@ -130,4 +131,4 @@ const ProfileEditFormView = ({
   </View>
 );
 
-export default injectIntl(withNavigation(ProfileEditFormView));
+export default injectIntl(ProfileEditFormView);
