@@ -19,7 +19,7 @@ const BasicHeaderContainer = (props: BackHeaderProps) => {
   const isHideImages = useAppSelector((state) => state.application.hidePostsThumbnails);
 
   const _handleOnPressBackButton = () => {
-    const {isNewPost, handleOnBackPress } = props;
+    const { isNewPost, handleOnBackPress } = props;
 
     if (isNewPost) {
       navigation.navigate({

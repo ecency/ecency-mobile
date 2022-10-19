@@ -110,7 +110,7 @@ const PostsContainer = ({
       return;
     }
 
-    //schedules refresh 30 minutes after last post creation time
+    // schedules refresh 30 minutes after last post creation time
     const currentTime = new Date().getTime();
     const createdAt = new Date(get(firstPost, 'created')).getTime();
 
@@ -165,7 +165,7 @@ const PostsContainer = ({
 
     switch (action.type) {
       case 'is-filter-loading': {
-        const filter = action.payload.filter;
+        const { filter } = action.payload;
         const loading = action.payload.isLoading;
         state.cachedData[filter].isLoading = loading;
 
@@ -173,9 +173,9 @@ const PostsContainer = ({
       }
 
       case 'update-filter-cache': {
-        const filter = action.payload.filter;
+        const { filter } = action.payload;
         const nextPosts = action.payload.posts;
-        const shouldReset = action.payload.shouldReset;
+        const { shouldReset } = action.payload;
         let _posts = nextPosts;
 
         const cachedEntry = state.cachedData[filter];
@@ -192,9 +192,9 @@ const PostsContainer = ({
             _posts = unionBy(prevPosts, _posts, 'permlink');
           }
         }
-        //cache latest posts for main tab for returning user
+        // cache latest posts for main tab for returning user
         else if (isFeedScreen) {
-          //schedule refetch of new posts by checking time of current post
+          // schedule refetch of new posts by checking time of current post
           _scheduleLatestPostsCheck(nextPosts[0]);
 
           if (filter == (get(currentAccount, 'name', null) == null ? 'hot' : 'friends')) {
@@ -202,14 +202,14 @@ const PostsContainer = ({
           }
         }
 
-        //update stat
+        // update stat
         cachedEntry.startAuthor = _posts[_posts.length - 1] && _posts[_posts.length - 1].author;
         cachedEntry.startPermlink = _posts[_posts.length - 1] && _posts[_posts.length - 1].permlink;
         cachedEntry.posts = _posts;
 
         state.cachedData[filter] = cachedEntry;
 
-        //dispatch to redux
+        // dispatch to redux
         if (
           filter === (state.currentFilter !== 'feed' ? state.currentFilter : state.currentSubFilter)
         ) {
@@ -230,7 +230,7 @@ const PostsContainer = ({
 
         state.cachedData[filter] = cachedEntry;
 
-        //dispatch to redux
+        // dispatch to redux
         _setFeedPosts([]);
 
         return state;
@@ -255,7 +255,7 @@ const PostsContainer = ({
         const filter = action.payload.currentSubFilter;
         state.currentSubFilter = filter;
 
-        //dispatch to redux;
+        // dispatch to redux;
         const data = state.cachedData[filter];
         _setFeedPosts(data.posts, data.scrollPosition);
         if (isFeedScreen) {
@@ -277,7 +277,7 @@ const PostsContainer = ({
       }
 
       case 'reset-cache': {
-        //dispatch to redux
+        // dispatch to redux
         _setFeedPosts([]);
         _setInitPosts([]);
 
@@ -364,7 +364,7 @@ const PostsContainer = ({
   ]);
 
   useEffect(() => {
-    let filter = selectedFilterValue == 'feed' ? selectedFeedSubfilterValue : selectedFilterValue;
+    const filter = selectedFilterValue == 'feed' ? selectedFeedSubfilterValue : selectedFilterValue;
     const sAuthor = cache.cachedData[filter].startAuthor;
     const sPermlink = cache.cachedData[filter].startPermlink;
 
@@ -492,7 +492,7 @@ const PostsContainer = ({
   };
 
   const _matchFreshPosts = async (posts, reducerFilter) => {
-    let cachedPosts = cache.cachedData[reducerFilter].posts.slice(0, 5);
+    const cachedPosts = cache.cachedData[reducerFilter].posts.slice(0, 5);
 
     let newPosts = [];
     posts.forEach((post, index) => {
@@ -605,7 +605,7 @@ const PostsContainer = ({
 
       if (isMountedRef.current) {
         if (result.length > 0) {
-          let _posts = result;
+          const _posts = result;
 
           if (filter === 'reblogs') {
             for (let i = _posts.length - 1; i >= 0; i--) {
@@ -784,7 +784,7 @@ const PostsContainer = ({
       handleOnScroll();
     }
 
-    //memorize filter position
+    // memorize filter position
     const scrollPosition = event.nativeEvent.contentOffset.y;
     cacheDispatch({
       type: 'scroll-position-change',
@@ -798,7 +798,7 @@ const PostsContainer = ({
     setNewPostsPopupPictures(data);
     const cacheFilter =
       cache.currentFilter !== 'feed' ? cache.currentFilter : cache.currentSubFilter;
-    const posts = cache.cachedData[cacheFilter].posts;
+    const { posts } = cache.cachedData[cacheFilter];
     if (posts.length > 0) {
       _scheduleLatestPostsCheck(posts[0]);
     }

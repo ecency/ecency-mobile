@@ -12,7 +12,7 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
     borderTopWidth: 0.1,
     shadowOpacity: 0.2,
-    //height: scalePx(50),
+    // height: scalePx(50),
     elevation: 15,
   },
   subContent: {

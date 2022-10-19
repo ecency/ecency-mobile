@@ -93,7 +93,7 @@ class ToggleSwitchView extends PureComponent {
 
   _triggerAnimation = () => {
     const { width, translateX, isOn, duration } = this.state;
-    const toValue = isOn ? width - (NativeModules.I18nManager.isRTL ? 100 : translateX) : 0; //in rtl layout, set the translate value to 100
+    const toValue = isOn ? width - (NativeModules.I18nManager.isRTL ? 100 : translateX) : 0; // in rtl layout, set the translate value to 100
 
     Animated.timing(this.offsetX, {
       toValue,

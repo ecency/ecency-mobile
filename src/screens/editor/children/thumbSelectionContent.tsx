@@ -51,7 +51,7 @@ const ThumbSelectionContent = ({
     }
   }, [body]);
 
-  //VIEW_RENDERERS
+  // VIEW_RENDERERS
   const _renderImageItem = ({ item, index }: { item: string; index: number }) => {
     const _onPress = () => {
       onThumbSelection(item);

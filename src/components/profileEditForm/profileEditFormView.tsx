@@ -7,6 +7,7 @@ import { injectIntl, useIntl } from 'react-intl';
 // Images
 import FastImage from 'react-native-fast-image';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { useNavigation } from '@react-navigation/native';
 import LIGHT_COVER_IMAGE from '../../assets/default_cover_image.png';
 import DARK_COVER_IMAGE from '../../assets/dark_cover_image.png';
 
@@ -20,7 +21,6 @@ import { getResizedImage } from '../../utils/image';
 // Styles
 import styles from './profileEditFormStyles';
 import { MainButton } from '../mainButton';
-import { useNavigation } from '@react-navigation/native';
 
 interface ProfileEditFormProps {
   coverUrl: string;
@@ -51,77 +51,77 @@ const ProfileEditFormView = ({
 
   return (
     <View style={styles.container}>
-    <KeyboardAwareScrollView
-      enableAutoAutomaticScroll={Platform.OS === 'ios'}
-      contentContainerStyle={styles.contentContainer}
-      enableOnAndroid={true}
-    >
-      <TouchableOpacity style={styles.coverImgWrapper} onPress={showImageUploadActions}>
-        <FastImage
-          style={styles.coverImg}
-          source={
-            coverUrl
-              ? { uri: getResizedImage(coverUrl, 600) }
-              : isDarkTheme
-              ? DARK_COVER_IMAGE
-              : LIGHT_COVER_IMAGE
-          }
-        />
-        {isUploading && (
-          <ActivityIndicator
-            style={styles.activityIndicator}
-            color={EStyleSheet.value('$white')}
-            size="large"
+      <KeyboardAwareScrollView
+        enableAutoAutomaticScroll={Platform.OS === 'ios'}
+        contentContainerStyle={styles.contentContainer}
+        enableOnAndroid={true}
+      >
+        <TouchableOpacity style={styles.coverImgWrapper} onPress={showImageUploadActions}>
+          <FastImage
+            style={styles.coverImg}
+            source={
+              coverUrl
+                ? { uri: getResizedImage(coverUrl, 600) }
+                : isDarkTheme
+                ? DARK_COVER_IMAGE
+                : LIGHT_COVER_IMAGE
+            }
           />
-        )}
+          {isUploading && (
+            <ActivityIndicator
+              style={styles.activityIndicator}
+              color={EStyleSheet.value('$white')}
+              size="large"
+            />
+          )}
 
-        <IconButton
-          iconStyle={styles.addIcon}
-          style={styles.addButton}
-          iconType="MaterialCommunityIcons"
-          name="plus"
-          onPress={showImageUploadActions}
-          size={15}
-        />
-      </TouchableOpacity>
-
-      {formData.map((item) => (
-        <View style={styles.formItem} key={item.valueKey}>
-          <Text style={styles.label}>
-            {intl.formatMessage({
-              id: `profile.edit.${item.label}`,
-            })}
-          </Text>
-          <FormInput
-            wrapperStyle={styles.formStyle}
-            isValid
-            height={40}
-            onChange={(value) => handleOnItemChange(value, item.valueKey)}
-            placeholder={item.placeholder}
-            isEditable
-            type="none"
-            value={props[item.valueKey]}
-            inputStyle={styles.input}
+          <IconButton
+            iconStyle={styles.addIcon}
+            style={styles.addButton}
+            iconType="MaterialCommunityIcons"
+            name="plus"
+            onPress={showImageUploadActions}
+            size={15}
           />
-        </View>
-      ))}
-    </KeyboardAwareScrollView>
+        </TouchableOpacity>
 
-    {saveEnabled && (
-      <AnimatedView style={styles.floatingContainer} animation="bounceInRight">
-        <MainButton
-          style={{ width: isLoading ? null : 120, marginBottom: 24, alignSelf: 'flex-end' }}
-          onPress={handleOnSubmit}
-          iconName="save"
-          iconType="MaterialIcons"
-          iconColor="white"
-          text="SAVE"
-          isLoading={isLoading}
-        />
-      </AnimatedView>
-    )}
-  </View>
-  )
-} 
+        {formData.map((item) => (
+          <View style={styles.formItem} key={item.valueKey}>
+            <Text style={styles.label}>
+              {intl.formatMessage({
+                id: `profile.edit.${item.label}`,
+              })}
+            </Text>
+            <FormInput
+              wrapperStyle={styles.formStyle}
+              isValid
+              height={40}
+              onChange={(value) => handleOnItemChange(value, item.valueKey)}
+              placeholder={item.placeholder}
+              isEditable
+              type="none"
+              value={props[item.valueKey]}
+              inputStyle={styles.input}
+            />
+          </View>
+        ))}
+      </KeyboardAwareScrollView>
+
+      {saveEnabled && (
+        <AnimatedView style={styles.floatingContainer} animation="bounceInRight">
+          <MainButton
+            style={{ width: isLoading ? null : 120, marginBottom: 24, alignSelf: 'flex-end' }}
+            onPress={handleOnSubmit}
+            iconName="save"
+            iconType="MaterialIcons"
+            iconColor="white"
+            text="SAVE"
+            isLoading={isLoading}
+          />
+        </AnimatedView>
+      )}
+    </View>
+  );
+};
 
 export default injectIntl(ProfileEditFormView);

@@ -33,7 +33,7 @@ class PinAnimatedInput extends Component {
           toValue: 1,
           duration: 250,
           easing: Easing.linear,
-          useNativeDriver: false, //setting it to false as animation is not being used
+          useNativeDriver: false, // setting it to false as animation is not being used
         }),
       ),
     ]).start((o) => {

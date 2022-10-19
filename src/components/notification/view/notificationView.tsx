@@ -34,7 +34,7 @@ class NotificationView extends PureComponent {
         { key: 'activities', value: 'ALL' },
         { key: 'replies', value: 'REPLIES' },
         { key: 'mentions', value: 'MENTIONS' },
-        //{ key: 'reblogs', value: 'REBLOGS' },
+        // { key: 'reblogs', value: 'REBLOGS' },
       ],
       selectedFilter: 'activities',
       selectedIndex: 0,
@@ -202,13 +202,8 @@ class NotificationView extends PureComponent {
   );
 
   render() {
-    const {
-      readAllNotification,
-      getActivities,
-      isNotificationRefreshing,
-      intl,
-      isLoading,
-    } = this.props;
+    const { readAllNotification, getActivities, isNotificationRefreshing, intl, isLoading } =
+      this.props;
     const { filters, selectedFilter, selectedIndex } = this.state;
     const _notifications = this._getNotificationsArrays();
 

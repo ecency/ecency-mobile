@@ -133,11 +133,11 @@ const UpvoteView = ({
 
       const weight = sliderValue ? Math.trunc(sliderValue * 100) * 100 : 0;
 
-      console.log('casting up vote: ' + weight);
+      console.log(`casting up vote: ${weight}`);
       vote(currentAccount, pinCode, author, permlink, weight)
         .then((response) => {
           console.log('Vote response: ', response);
-          //record user points
+          // record user points
           userActivityMutation.mutate({
             pointsTy: PointActivityIds.VOTE,
             transactionId: response.id,
@@ -165,17 +165,17 @@ const UpvoteView = ({
             err.response.jse_shortmsg &&
             err.response.jse_shortmsg.includes('wait to transact')
           ) {
-            //when RC is not enough, offer boosting account
+            // when RC is not enough, offer boosting account
             setUpvote(false);
             setIsVoting(false);
             dispatch(setRcOffer(true));
           } else if (err && err.jse_shortmsg && err.jse_shortmsg.includes('wait to transact')) {
-            //when RC is not enough, offer boosting account
+            // when RC is not enough, offer boosting account
             setUpvote(false);
             setIsVoting(false);
             dispatch(setRcOffer(true));
           } else {
-            //when voting with same percent or other errors
+            // when voting with same percent or other errors
             if (err.message && err.message.indexOf(':') > 0) {
               Alert.alert(
                 intl.formatMessage({
@@ -208,10 +208,10 @@ const UpvoteView = ({
 
       const weight = sliderValue ? Math.trunc(sliderValue * 100) * -100 : 0;
 
-      console.log('casting down vote: ' + weight);
+      console.log(`casting down vote: ${weight}`);
       vote(currentAccount, pinCode, author, permlink, weight)
         .then((response) => {
-          //record usr points
+          // record usr points
           userActivityMutation.mutate({
             pointsTy: PointActivityIds.VOTE,
             transactionId: response.id,

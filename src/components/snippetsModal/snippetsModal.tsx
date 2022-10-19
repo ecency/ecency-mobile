@@ -25,7 +25,7 @@ const SnippetsModal = ({ handleOnSelect }: SnippetsModalProps) => {
 
   const snippetsQuery = useSnippetsQuery();
 
-  //render list item for snippet and handle actions;
+  // render list item for snippet and handle actions;
   const _renderItem = ({ item, index }: { item: Snippet; index: number }) => {
     const _onPress = () => handleOnSelect(item.body);
 
@@ -48,7 +48,7 @@ const SnippetsModal = ({ handleOnSelect }: SnippetsModalProps) => {
     );
   };
 
-  //render empty list placeholder
+  // render empty list placeholder
   const _renderEmptyContent = () => {
     return (
       <>
@@ -57,7 +57,7 @@ const SnippetsModal = ({ handleOnSelect }: SnippetsModalProps) => {
     );
   };
 
-  //renders footer with add snipept button and shows new snippet modal
+  // renders footer with add snipept button and shows new snippet modal
   const _renderFloatingButton = () => {
     if (!isLoggedIn) {
       return null;

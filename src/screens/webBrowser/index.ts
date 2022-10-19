@@ -1,1 +1,1 @@
-export {default as WebBrowser} from './screen/webBrowser';
+export { default as WebBrowser } from './screen/webBrowser';

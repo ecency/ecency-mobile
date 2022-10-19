@@ -24,10 +24,8 @@ import DraftsScreen from '../screen/draftsScreen';
 const DraftsContainer = ({ currentAccount, navigation, route }) => {
   const { mutate: deleteDraft, isLoading: isDeletingDraft } = useDraftDeleteMutation();
   const { mutate: deleteSchedule, isLoading: isDeletingSchedule } = useScheduleDeleteMutation();
-  const {
-    mutate: moveScheduleToDrafts,
-    isLoading: isMovingToDrafts,
-  } = useMoveScheduleToDraftsMutation();
+  const { mutate: moveScheduleToDrafts, isLoading: isMovingToDrafts } =
+    useMoveScheduleToDraftsMutation();
 
   const {
     isLoading: isLoadingDrafts,

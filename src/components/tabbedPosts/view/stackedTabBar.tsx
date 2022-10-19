@@ -39,7 +39,7 @@ export const StackedTabBar = ({
 
   const customiseModalRef = useRef<CustomiseFiltersModalRef>();
 
-  //redux properties
+  // redux properties
   const isHideImages = useSelector((state) => state.application.hidePostsThumbnails);
 
   const [selectedFilterIndex, setSelectedFilterIndex] = useState(initialFirstStackIndex);

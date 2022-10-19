@@ -39,7 +39,7 @@ const FeedScreen = () => {
           <SafeAreaView style={styles.container} onLayout={_lazyLoadContent}>
             {lazyLoad && (
               <TabbedPosts
-                key={JSON.stringify(filterOptions)} //this hack of key change resets tabbedposts whenever filters chanage, effective to remove filter change android bug
+                key={JSON.stringify(filterOptions)} // this hack of key change resets tabbedposts whenever filters chanage, effective to remove filter change android bug
                 filterOptions={filterOptions}
                 filterOptionsValue={mainTabs}
                 getFor={get(currentAccount, 'name', null) ? 'feed' : 'hot'}

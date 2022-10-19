@@ -43,13 +43,13 @@ import {
 } from '../redux/actions/uiAction';
 import { decryptKey, encryptKey } from './crypto';
 
-//migrates settings from realm to redux once and do no user realm for settings again;
+// migrates settings from realm to redux once and do no user realm for settings again;
 export const migrateSettings = async (dispatch: any, settingsMigratedV2: boolean) => {
   if (settingsMigratedV2) {
     return;
   }
 
-  //reset certain properties
+  // reset certain properties
   dispatch(hideActionModal());
   dispatch(hideProfileModal());
   dispatch(toastNotification(''));
@@ -69,7 +69,7 @@ export const migrateSettings = async (dispatch: any, settingsMigratedV2: boolean
       dispatch(setPostUpvotePercent(percent));
       dispatch(setCommentUpvotePercent(percent));
     }
-    if (settings.isDefaultFooter !== '') dispatch(isDefaultFooter(settings.isDefaultFooter)); //TODO: remove as not being used
+    if (settings.isDefaultFooter !== '') dispatch(isDefaultFooter(settings.isDefaultFooter)); // TODO: remove as not being used
 
     if (settings.nsfw !== '') dispatch(setNsfw(settings.nsfw));
 
@@ -90,7 +90,7 @@ export const migrateSettings = async (dispatch: any, settingsMigratedV2: boolean
   }
 };
 
-//migrates local user data to use default pin encruption instead of user pin encryption
+// migrates local user data to use default pin encruption instead of user pin encryption
 export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin, onFailure) => {
   const oldPinCode = decryptKey(encUserPin, Config.PIN_KEY);
 
@@ -132,7 +132,7 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
 
   try {
     const pinHash = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
-    //migration script for previously mast key based logged in user not having access token
+    // migration script for previously mast key based logged in user not having access token
     if (realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT && realmData[0].accessToken === '') {
       _currentAccount = await migrateToMasterKeyWithAccessToken(
         _currentAccount,
@@ -141,14 +141,14 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
       );
     }
 
-    //refresh access token
+    // refresh access token
     const encryptedAccessToken = await refreshSCToken(_currentAccount.local, Config.DEFAULT_PIN);
     _currentAccount.local.accessToken = encryptedAccessToken;
   } catch (error) {
     onFailure(error);
   }
 
-  //get unread notifications
+  // get unread notifications
   try {
     _currentAccount.unread_activity_count = await getUnreadNotificationCount();
     _currentAccount.pointsSummary = await getPointsSummary(_currentAccount.username);
@@ -163,7 +163,7 @@ export const migrateUserEncryption = async (dispatch, currentAccount, encUserPin
 
 const reduxMigrations = {
   0: (state) => {
-    const upvotePercent = state.application.upvotePercent;
+    const { upvotePercent } = state.application;
     state.application.postUpvotePercent = upvotePercent;
     state.application.commentUpvotePercent = upvotePercent;
     state.application.upvotePercent = undefined;

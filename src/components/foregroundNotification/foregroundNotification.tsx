@@ -11,7 +11,8 @@ import ROUTES from '../../constants/routeNames';
 
 // Styles
 import styles, { CONTAINER_HEIGHT } from './styles';
-import { navigate } from '../../navigation/service';
+import RootNavigation from '../../navigation/rootNavigation';
+import { useIntl } from 'react-intl';
 
 interface RemoteMessage {
   data: {
@@ -102,11 +103,11 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
       author: get(data, 'source', ''),
       permlink: fullPermlink,
     };
-    let key = fullPermlink;
-    let routeName = ROUTES.SCREENS.POST;
+    let key = fullPermlink
+    let name = ROUTES.SCREENS.POST;
 
-    navigate({
-      routeName,
+    RootNavigation.navigate({
+      name,
       params,
       key,
     });

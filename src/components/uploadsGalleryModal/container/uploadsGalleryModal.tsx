@@ -91,7 +91,7 @@ export const UploadsGalleryModal = forwardRef(
       if (paramFiles) {
         console.log('files : ', paramFiles);
 
-        //delay is a workaround to let editor ready before initiating uploads on mount
+        // delay is a workaround to let editor ready before initiating uploads on mount
         delay(500).then(() => {
           const _mediaItems = paramFiles.map((el) => {
             if (el.filePath && el.fileName) {
@@ -304,11 +304,11 @@ export const UploadsGalleryModal = forwardRef(
       }
     };
 
-    //fetch images from server
+    // fetch images from server
     const _getMediaUploads = async () => {
       try {
         if (username) {
-          console.log('getting images for: ' + username);
+          console.log(`getting images for: ${username}`);
           const images = await getImages();
           console.log('images received', images);
           setMediaUploads(images || []);
@@ -319,7 +319,7 @@ export const UploadsGalleryModal = forwardRef(
       setIsAddingToUploads(false);
     };
 
-    //inserts media items in post body
+    // inserts media items in post body
     const _insertMedia = async (map: Map<number, boolean>) => {
       const data: MediaInsertData[] = [];
       for (const index of map.keys()) {

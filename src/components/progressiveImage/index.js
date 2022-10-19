@@ -21,15 +21,15 @@ const styles = StyleSheet.create({
 const AnimatedFastImage = Animated.createAnimatedComponent(FastImage);
 
 const ProgressiveImage = ({ thumbnailSource, source, style, ...props }) => {
-  //const [calcImgHeight, setCalcImgHeight] = useState(300);
+  // const [calcImgHeight, setCalcImgHeight] = useState(300);
   const thumbnailAnimated = new Animated.Value(0);
   const imageAnimated = new Animated.Value(0);
 
   const handleThumbnailLoad = (e) => {
-    /*if (e) {
+    /* if (e) {
       setCalcImgHeight(Math.floor((e.nativeEvent.height / e.nativeEvent.width) * dim.width));
       console.log(e.nativeEvent.width, e.nativeEvent.height);
-    }*/
+    } */
     Animated.timing(thumbnailAnimated, {
       toValue: 1,
       easing: Easing.inOut(Easing.ease),

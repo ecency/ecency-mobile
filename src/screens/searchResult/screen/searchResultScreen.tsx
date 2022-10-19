@@ -37,9 +37,10 @@ const SearchResultScreen = ({ navigation }) => {
     setSearchValue(value);
   }, 1000);
 
-  let clippedSearchValue = searchValue.startsWith('#') || searchValue.startsWith('@') 
-    ? searchValue.substring(1) 
-    : searchValue
+  const clippedSearchValue =
+    searchValue.startsWith('#') || searchValue.startsWith('@')
+      ? searchValue.substring(1)
+      : searchValue;
 
   return (
     <View style={styles.container}>

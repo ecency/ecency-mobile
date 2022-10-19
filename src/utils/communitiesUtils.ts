@@ -5,7 +5,7 @@ import { SubscribedCommunity } from '../redux/reducers/cacheReducer';
  * Returns single array with union of both lists, sorted alphabatically
  * Example subList = [['id', 'title', 'role', 'label', 'true/false'],['id', 'title', 'role', 'label', 'true/false']]
  *
- **/
+ * */
 export const mergeSubCommunitiesCacheInSubList = (
   subList: any[],
   cacheMap: Map<string, SubscribedCommunity>,
@@ -15,7 +15,7 @@ export const mergeSubCommunitiesCacheInSubList = (
   }
   const cacheList = Array.from(cacheMap, ([path, item]) => item.data);
   cacheList.map((cacheListItem) => {
-    let index = subList.findIndex((subListItem) => subListItem[0] === cacheListItem[0]);
+    const index = subList.findIndex((subListItem) => subListItem[0] === cacheListItem[0]);
     if (index !== -1) {
       subList[index] = [...cacheListItem];
     } else {
@@ -29,7 +29,7 @@ export const mergeSubCommunitiesCacheInSubList = (
  * Accepts Array of discover items arrays as 1st argument, community cache map as second argument.
  * Returns discovers list with updated isSubscribed status
  *
- **/
+ * */
 export const mergeSubCommunitiesCacheInDiscoverList = (
   discoverList: any[],
   cacheMap: Map<string, SubscribedCommunity>,
@@ -38,7 +38,7 @@ export const mergeSubCommunitiesCacheInDiscoverList = (
     return discoverList;
   }
   discoverList.forEach((discoverListItem) => {
-    let itemExist = cacheMap.get(discoverListItem.name);
+    const itemExist = cacheMap.get(discoverListItem.name);
     if (itemExist) {
       discoverListItem.isSubscribed = itemExist.data[4];
     }

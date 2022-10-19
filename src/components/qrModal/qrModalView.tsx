@@ -9,7 +9,7 @@ import styles from './qrModalStyles';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { toggleQRModal } from '../../redux/actions/uiAction';
 import { deepLinkParser } from '../../utils/deepLinkParser';
-import { navigate } from '../../navigation/service';
+import RootNavigation from '../../navigation/rootNavigation';
 import getWindowDimensions from '../../utils/getWindowDimensions';
 
 export interface QRModalProps {}
@@ -103,12 +103,12 @@ export const QRModal = ({}: QRModalProps) => {
   const _handleDeepLink = async (url) => {
     setIsProcessing(true);
     const deepLinkData = await deepLinkParser(url, currentAccount);
-    const { routeName, params, key } = deepLinkData || {};
+    const { name, params, key } = deepLinkData || {};
     setIsProcessing(false);
-    if (routeName && params && key) {
+    if (name && params && key) {
       setIsScannerActive(false);
       _onClose();
-      navigate(deepLinkData);
+      RootNavigation.navigate(deepLinkData);
     } else {
       Alert.alert(
         intl.formatMessage({ id: 'qr.unsupported_alert_title' }),

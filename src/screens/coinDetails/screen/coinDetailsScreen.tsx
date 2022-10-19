@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { CoinActivitiesCollection, QuoteItem } from '../../../redux/reducers/walletReducer';
 import { fetchCoinActivities } from '../../../utils/wallet';
 import { fetchAndSetCoinsData, setCoinActivities } from '../../../redux/actions/walletActions';
-import { navigate } from '../../../navigation/service';
+import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import { COIN_IDS } from '../../../constants/defaultCoins';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
@@ -34,11 +34,11 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
     throw new Error('Coin symbol must be passed');
   }
 
-  //refs
+  // refs
   const appState = useRef(AppState.currentState);
   const delegationsModalRef = useRef(null);
 
-  //redux props
+  // redux props
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const globalProps = useAppSelector((state) => state.account.globalProps);
   const selectedCoins = useAppSelector((state) => state.wallet.selectedCoins);
@@ -51,14 +51,14 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
   );
   const isPinCodeOpen = useAppSelector((state) => state.application.isPinCodeOpen);
 
-  //state
+  // state
   const [symbol] = useState(selectedCoins.find((item) => item.id === coinId).symbol);
   const [refreshing, setRefreshing] = useState(true);
   const [loading, setLoading] = useState(false);
   const [completedActivities, setCompletedActivities] = useState(coinActivities?.completed || []);
   const [noMoreActivities, setNoMoreActivities] = useState(false);
 
-  //side-effects
+  // side-effects
   useEffect(() => {
     _fetchDetails(true);
     AppState.addEventListener('change', _handleAppStateChange);
@@ -151,16 +151,16 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
     }
 
     if (isPinCodeOpen) {
-      navigate({
-        routeName: ROUTES.SCREENS.PINCODE,
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.PINCODE,
         params: {
           navigateTo,
           navigateParams,
         },
       });
     } else {
-      navigate({
-        routeName: navigateTo,
+      RootNavigation.navigate({
+        name: navigateTo,
         params: navigateParams,
       });
     }

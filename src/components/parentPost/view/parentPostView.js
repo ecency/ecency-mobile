@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import get from 'lodash/get';
+import { useNavigation } from '@react-navigation/native';
 import { default as ROUTES } from '../../../constants/routeNames';
 
 import styles from './parentPostStyles';

@@ -4,6 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { useIntl } from 'react-intl';
 
 // Components
+import { useNavigation } from '@react-navigation/native';
 import { SearchModal } from '../../searchModal';
 import { IconButton } from '../../iconButton';
 import { UserAvatar } from '../../userAvatar';
@@ -13,7 +14,6 @@ import ROUTES from '../../../constants/routeNames';
 
 // Styles
 import styles from './headerStyles';
-import { useNavigation } from '@react-navigation/native';
 
 const HeaderView = ({
   displayName,
@@ -29,7 +29,6 @@ const HeaderView = ({
   hideUser,
   showQR,
 }) => {
-
   const navigation = useNavigation();
 
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
@@ -43,7 +42,7 @@ const HeaderView = ({
   }
 
   const _onPressSearchButton = () => {
-    navigation.navigate( ROUTES.SCREENS.SEARCH_RESULT );
+    navigation.navigate(ROUTES.SCREENS.SEARCH_RESULT);
   };
 
   const _renderAvatar = () => (

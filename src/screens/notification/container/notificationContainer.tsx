@@ -55,7 +55,7 @@ const NotificationContainer = ({ navigation }) => {
   useEffect(() => {
     if (currentAccount.unread_activity_count > unreadCountRef.current) {
       queryClient.invalidateQueries([QUERIES.NOTIFICATIONS.GET]);
-      //TODO: fetch new notifications instead
+      // TODO: fetch new notifications instead
     }
     unreadCountRef.current = currentAccount.unread_activity_count;
   }, [currentAccount.unread_activity_count]);
@@ -115,7 +115,7 @@ const NotificationContainer = ({ navigation }) => {
     dispatch(showProfileModal(username));
   };
 
-  //TODO: handle mark as read mutations
+  // TODO: handle mark as read mutations
   const _readAllNotification = () => {
     if (!isConnected) {
       return;

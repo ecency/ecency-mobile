@@ -6,7 +6,7 @@ import { useAppSelector } from '../hooks';
 
 // Screens
 import { StackNavigator } from './stackNavigator';
-import { setTopLevelNavigator } from './service';
+import { navigationRef } from './rootNavigation';
 import ROUTES from '../constants/routeNames';
 import parseVersionNumber from '../utils/parseVersionNumber';
 
@@ -21,7 +21,7 @@ export const AppNavigator = () => {
       : ROUTES.SCREENS.FEED;
 
   return (
-    <NavigationContainer ref={(ref) => setTopLevelNavigator(ref)}>
+    <NavigationContainer ref={navigationRef}>
       <StackNavigator initRoute={_initRoute} />
     </NavigationContainer>
   );

@@ -17,7 +17,7 @@ interface Args {
 }
 
 export default async ({ text, selection, setTextAndSelection, items }: Args) => {
-  //TODO: check if placeholder already present in text body
+  // TODO: check if placeholder already present in text body
   // check if cursor position is after or before media position
   // replace placeholder with url or failure message
   // calclulate change of cursor position
@@ -70,21 +70,21 @@ export default async ({ text, selection, setTextAndSelection, items }: Args) => 
     const _placeholder = item.filename && `${placeholderPrefix}${item.filename}`;
 
     switch (item.status) {
-      case MediaInsertStatus.UPLOADING: //means only filename is available
+      case MediaInsertStatus.UPLOADING: // means only filename is available
         if (!_placeholder) return;
         _insertFormatedString(item.text, _placeholder);
         break;
 
-      case MediaInsertStatus.READY: //means url is ready but filename may be available
+      case MediaInsertStatus.READY: // means url is ready but filename may be available
         if (_placeholder && newText.includes(_placeholder)) {
-          //means placeholder is preset is needs replacing
+          // means placeholder is preset is needs replacing
           _replaceFormatedString(_placeholder, item.url);
         } else if (item.url) {
           _insertFormatedString(item.text, item.url);
         }
         break;
 
-      case MediaInsertStatus.FAILED: //filename available but upload failed
+      case MediaInsertStatus.FAILED: // filename available but upload failed
         if (_placeholder && newText.includes(_placeholder)) {
           _removeFormatedString(_placeholder);
         }

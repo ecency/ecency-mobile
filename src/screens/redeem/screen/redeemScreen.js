@@ -14,9 +14,10 @@ class RedeemScreen extends PureComponent {
   // Component Functions
 
   render() {
+    const { route } = this.props;
     return (
       <Fragment>
-        <PointsContainer>
+        <PointsContainer route={route}>
           {({
             accounts,
             currentAccountName,

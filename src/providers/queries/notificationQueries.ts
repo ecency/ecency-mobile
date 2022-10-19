@@ -35,7 +35,7 @@ export const useNotificationsQuery = (filter: NotificationFilters) => {
     return lastId;
   };
 
-  //query initialization
+  // query initialization
   const notificationQueries = useQueries({
     queries: pageParams.map((pageParam) => ({
       queryKey: [QUERIES.NOTIFICATIONS.GET, filter, pageParam],
@@ -76,7 +76,7 @@ export const useNotificationReadMutation = () => {
   const currentAccount = useAppSelector((state) => state.account.currentAccount);
   const pinCode = useAppSelector((state) => state.application.pin);
 
-  //id is options, if no id is provided program marks all notifications as read;
+  // id is options, if no id is provided program marks all notifications as read;
   const _mutationFn = async (id?: string) => {
     try {
       const response = await markNotifications(id);
@@ -94,10 +94,10 @@ export const useNotificationReadMutation = () => {
 
   const _options: UseMutationOptions<number, unknown, string | undefined, void> = {
     onMutate: async (notificationId) => {
-      //TODO: find a way to optimise mutations by avoiding too many loops
+      // TODO: find a way to optimise mutations by avoiding too many loops
       console.log('on mutate data', notificationId);
 
-      //update query data
+      // update query data
       const queriesData: [QueryKey, any[] | undefined][] = queryClient.getQueriesData([
         QUERIES.NOTIFICATIONS.GET,
       ]);

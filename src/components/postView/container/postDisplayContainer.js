@@ -4,6 +4,7 @@ import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Action
+import { useNavigation } from '@react-navigation/native';
 import { toastNotification } from '../../../redux/actions/uiAction';
 
 // Dsteem

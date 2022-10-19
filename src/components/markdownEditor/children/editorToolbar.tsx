@@ -87,7 +87,7 @@ export const EditorToolbar = ({
     }
   };
 
-  //handles extension closing
+  // handles extension closing
   const _onGestureEvent = Animated.event(
     [
       {

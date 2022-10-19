@@ -5,6 +5,7 @@ import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 import { postBodySummary } from '@ecency/render-helper';
+import { useNavigation } from '@react-navigation/native';
 import { getComments, deleteComment } from '../../../providers/hive/dhive';
 // Services and Actions
 import { writeToClipboard } from '../../../utils/clipboard';

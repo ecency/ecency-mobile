@@ -43,7 +43,7 @@ interface State {
   isConnected: boolean | null; // internet connectivity
   isDarkTheme: boolean;
   colorTheme: number;
-  isDefaultFooter: boolean; //TODO: remove present of isDefaultFooter as it's no longer in use
+  isDefaultFooter: boolean; // TODO: remove present of isDefaultFooter as it's no longer in use
   isLoggedIn: boolean; // Has any logged in user.
   isLoginDone: boolean;
   isLogingOut: boolean;
@@ -62,10 +62,10 @@ interface State {
   postUpvotePercent: number;
   commentUpvotePercent: number;
   nsfw: string;
-  pin: string | null; //encrypted pin used for encrypting sensitive user data
+  pin: string | null; // encrypted pin used for encrypting sensitive user data
   isPinCodeOpen: boolean;
   isRenderRequired: boolean;
-  encUnlockPin: string; //ecryped pin used for user defined lock screen pass code
+  encUnlockPin: string; // ecryped pin used for user defined lock screen pass code
   lastAppVersion: string;
   settingsMigratedV2: boolean;
   hidePostsThumbnails: boolean;
@@ -82,8 +82,8 @@ const initialState: State = {
   },
   isConnected: true, // internet connectivity
   isDarkTheme: false,
-  colorTheme: 0, //values mapped from => src/constants/options/theme.ts
-  isDefaultFooter: true, //TODO: remove present of isDefaultFooter as it's no longer in use
+  colorTheme: 0, // values mapped from => src/constants/options/theme.ts
+  isDefaultFooter: true, // TODO: remove present of isDefaultFooter as it's no longer in use
   isLoggedIn: false, // Has any logged in user.
   isLoginDone: false,
   isLogingOut: false,

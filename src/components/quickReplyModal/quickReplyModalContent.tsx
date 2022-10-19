@@ -23,7 +23,7 @@ import {
   updateDraftCache,
 } from '../../redux/actions/cacheActions';
 import { default as ROUTES } from '../../constants/routeNames';
-import { navigate } from '../../navigation/service';
+import RootNavigation from '../../navigation/rootNavigation';
 import { Draft } from '../../redux/reducers/cacheReducer';
 import { RootState } from '../../redux/store/store';
 
@@ -96,12 +96,12 @@ export const QuickReplyModalContent = forwardRef(
       onClose();
     };
 
-    // navigate to post on summary press
-    const _handleOnSummaryPress = () => {
-      Keyboard.dismiss();
-      onClose();
-      navigate({
-        routeName: ROUTES.SCREENS.POST,
+  // navigate to post on summary press
+  const _handleOnSummaryPress = () => {
+    Keyboard.dismiss();
+    onClose();
+    RootNavigation.navigate({
+      name: ROUTES.SCREENS.POST,
         params: {
           content: selectedPost,
         },

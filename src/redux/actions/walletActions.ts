@@ -51,7 +51,7 @@ export const resetWalletData = () => ({
 });
 
 export const fetchCoinQuotes = () => (dispatch, getState) => {
-  const currency = getState().application.currency;
+  const { currency } = getState().application;
   console.log('fetching quotes for currency', currency);
   getLatestQuotes(currency.currencyRate).then((quotes) => {
     console.log('Fetched quotes', quotes);
@@ -62,25 +62,24 @@ export const fetchCoinQuotes = () => (dispatch, getState) => {
   });
 };
 
-export const fetchAndSetCoinsData = (refresh: boolean = false) => async (
-  dispatch: AppDispatch,
-  getState: RootState,
-) => {
-  const coins = getState().wallet.selectedCoins;
-  const quotes = getState().wallet.quotes;
-  const currentAccount = getState().account.currentAccount;
-  const currency = getState().application.currency;
-  const globalProps = getState().account.globalProps;
+export const fetchAndSetCoinsData =
+  (refresh: boolean = false) =>
+  async (dispatch: AppDispatch, getState: RootState) => {
+    const coins = getState().wallet.selectedCoins;
+    const { quotes } = getState().wallet;
+    const { currentAccount } = getState().account;
+    const { currency } = getState().application;
+    const { globalProps } = getState().account;
 
-  const coinsData = await fetchCoinsData({
-    coins,
-    currentAccount,
-    vsCurrency: currency.currency,
-    currencyRate: currency.currencyRate,
-    globalProps,
-    quotes,
-    refresh,
-  });
+    const coinsData = await fetchCoinsData({
+      coins,
+      currentAccount,
+      vsCurrency: currency.currency,
+      currencyRate: currency.currencyRate,
+      globalProps,
+      quotes,
+      refresh,
+    });
 
-  return dispatch(setCoinsData(coinsData, currency.currency, currentAccount.username));
-};
+    return dispatch(setCoinsData(coinsData, currency.currency, currentAccount.username));
+  };

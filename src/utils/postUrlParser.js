@@ -101,7 +101,7 @@ export default (url) => {
     };
   }
 
-  let profile = url.match(/^https?:\/\/(.*)\/(@[\w.\d-]+)$/);
+  const profile = url.match(/^https?:\/\/(.*)\/(@[\w.\d-]+)$/);
   if (profile) {
     if (profile && profile.length === 3) {
       return {

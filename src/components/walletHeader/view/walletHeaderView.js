@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Components
+import { useNavigation } from '@react-navigation/native';
 import { Icon, MainButton, DropdownButton, WalletLineItem } from '../..';
 
 // Constants

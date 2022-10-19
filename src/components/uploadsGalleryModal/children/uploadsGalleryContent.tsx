@@ -101,7 +101,7 @@ const UploadsGalleryContent = ({
     }
   };
 
-  //render list item for snippet and handle actions;
+  // render list item for snippet and handle actions;
   const _renderItem = ({ item, index }: { item: UploadedMedia; index: number }) => {
     const _onPress = () => {
       if (isDeleteMode) {
@@ -233,7 +233,7 @@ const UploadsGalleryContent = ({
     </View>
   );
 
-  //render empty list placeholder
+  // render empty list placeholder
   const _renderEmptyContent = () => {
     return (
       <>

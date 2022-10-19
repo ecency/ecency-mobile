@@ -17,7 +17,7 @@ const initialState = {
   posts: [],
   loading: false,
   selectedFilterValue: '',
-  feedScreenFilters:DEFAULT_FEED_FILTERS
+  feedScreenFilters: DEFAULT_FEED_FILTERS,
 };
 
 export default function (state = initialState, action) {
@@ -70,8 +70,8 @@ export default function (state = initialState, action) {
     case SET_FEED_SCREEN_FILTERS:
       return {
         ...state,
-        feedScreenFilters:action.payload
-      }
+        feedScreenFilters: action.payload,
+      };
     default:
       return state;
   }

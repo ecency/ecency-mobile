@@ -514,12 +514,16 @@ const mapStateToProps = (state) => ({
   subscribedCommunities: state.communities.subscribedCommunities,
 });
 
-const mapHooksToProps = () => ({
-  userActivityMutation: useUserActivityMutation(),
-  navigation:useNavigation()
-});
+
+const mapHooksToProps = (props) => {
+  const navigation = useNavigation();
+  const userActivityMutation = useUserActivityMutation()
+  return <PostDropdownContainer 
+    {...props} 
+    navigation={navigation} 
+    userActivityMutation={userActivityMutation}
+  />
+}
 
 export default 
-  connect(mapStateToProps)(
-    injectIntl((props) => <PostDropdownContainer {...props} {...mapHooksToProps()} />),
-  );
+  connect(mapStateToProps)(injectIntl(mapHooksToProps));

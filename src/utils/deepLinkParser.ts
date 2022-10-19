@@ -14,7 +14,7 @@ export const deepLinkParser = async (url, currentAccount) => {
   let profile;
   let keey;
 
-  //profess url for post/content
+  // profess url for post/content
   const postUrl = postUrlParser(url);
   console.log('postUrl : ', postUrl);
 
@@ -39,13 +39,13 @@ export const deepLinkParser = async (url, currentAccount) => {
       params = {
         username: get(profile, 'name'),
         reputation: get(profile, 'reputation'),
-        deepLinkFilter, //TODO: process this in profile screen
+        deepLinkFilter, // TODO: process this in profile screen
       };
       keey = get(profile, 'name');
     } else if (permlink === 'communities') {
       routeName = ROUTES.SCREENS.WEB_BROWSER;
       params = {
-        url: url,
+        url,
       };
       keey = 'WebBrowser';
     } else if (permlink) {
@@ -73,7 +73,7 @@ export const deepLinkParser = async (url, currentAccount) => {
     keey = `${feedType}/${tag || ''}`;
   }
 
-  //process url for authentication
+  // process url for authentication
   if (!routeName) {
     const data = parseAuthUrl(url);
     if (data) {
@@ -98,7 +98,7 @@ export const deepLinkParser = async (url, currentAccount) => {
     }
   }
 
-  //process url for purchasing
+  // process url for purchasing
   if (!routeName) {
     const { type, username, productId } = parsePurchaseUrl(url) || {};
 
@@ -120,8 +120,8 @@ export const deepLinkParser = async (url, currentAccount) => {
   }
 
   return {
-    routeName: routeName,
-    params: params,
+    name: routeName,
+    params,
     key: keey,
   };
 };

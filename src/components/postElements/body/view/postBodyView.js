@@ -9,6 +9,7 @@ import ActionSheetView from 'react-native-actions-sheet';
 import { connect } from 'react-redux';
 
 // Services and Actions
+import { useNavigation } from '@react-navigation/native';
 import { writeToClipboard } from '../../../../utils/clipboard';
 import { toastNotification } from '../../../../redux/actions/uiAction';
 

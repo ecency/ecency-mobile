@@ -15,7 +15,7 @@ const PinCodeScreen = ({ route, navigation }) => {
     BackHandler.removeEventListener('hardwareBackPress', _handleBackPress);
   };
 
-  const _handleBackPress = () => (hideCloseButton ? true : false);
+  const _handleBackPress = () => !!hideCloseButton;
 
   return <PinCodeContainer hideCloseButton={hideCloseButton} pinCodeParams={route.params ?? {}} />;
 };

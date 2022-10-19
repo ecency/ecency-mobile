@@ -23,12 +23,12 @@ export default function (state = initialState, action) {
     case SET_BENEFICIARIES:
       state.beneficiariesMap[payload.draftId] = payload.benficiaries;
       return {
-        ...state, //spread operator in requried here, otherwise persist do not register change
+        ...state, // spread operator in requried here, otherwise persist do not register change
       };
     case REMOVE_BENEFICIARIES:
       delete state.beneficiariesMap[payload.draftId];
       return {
-        ...state, //spread operator in requried here, otherwise persist do not register change
+        ...state, // spread operator in requried here, otherwise persist do not register change
       };
     default:
       return state;

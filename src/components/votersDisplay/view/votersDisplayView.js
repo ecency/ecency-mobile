@@ -3,6 +3,7 @@ import { SafeAreaView, FlatList, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 
 // Utils
+import { useNavigation } from '@react-navigation/native';
 import { getTimeFromNow } from '../../../utils/time';
 
 // Components

@@ -40,7 +40,7 @@ export interface Comment {
   active_votes?: Array<{ rshares: number; voter: string }>;
   json_metadata?: any;
   isDeletable?: boolean;
-  created?: string; //handle created and updated separatly
+  created?: string; // handle created and updated separatly
   updated?: string;
   expiresAt?: number;
   status: CommentCacheStatus;
@@ -64,7 +64,7 @@ export interface SubscribedCommunity {
 
 interface State {
   votes: Map<string, Vote>;
-  comments: Map<string, Comment>; //TODO: handle comment array per post, if parent is same
+  comments: Map<string, Comment>; // TODO: handle comment array per post, if parent is same
   drafts: Map<string, Draft>;
   subscribedCommunities: Map<string, SubscribedCommunity>;
   pointActivities: Map<string, PointActivity>;
@@ -93,7 +93,7 @@ export default function (state = initialState, action) {
       }
       state.votes.set(payload.postPath, payload.vote);
       return {
-        ...state, //spread operator in requried here, otherwise persist do not register change
+        ...state, // spread operator in requried here, otherwise persist do not register change
         lastUpdate: {
           postPath: payload.postPath,
           updatedAt: new Date().getTime(),
@@ -107,7 +107,7 @@ export default function (state = initialState, action) {
       }
       state.comments.set(payload.commentPath, payload.comment);
       return {
-        ...state, //spread operator in requried here, otherwise persist do not register change
+        ...state, // spread operator in requried here, otherwise persist do not register change
         lastUpdate: {
           postPath: payload.commentPath,
           updatedAt: new Date().getTime(),
@@ -136,7 +136,7 @@ export default function (state = initialState, action) {
 
       state.drafts.set(payload.id, payloadDraft);
       return {
-        ...state, //spread operator in requried here, otherwise persist do not register change
+        ...state, // spread operator in requried here, otherwise persist do not register change
         lastUpdate: {
           postPath: payload.id,
           updatedAt: new Date().getTime(),
@@ -157,8 +157,8 @@ export default function (state = initialState, action) {
       const subscribedCommunities = new Map(state.subscribedCommunities);
       subscribedCommunities.set(payload.path, payload.subscribedCommunity);
       return {
-        ...state, //spread operator in requried here, otherwise persist do not register change
-        subscribedCommunities: subscribedCommunities,
+        ...state, // spread operator in requried here, otherwise persist do not register change
+        subscribedCommunities,
       };
 
     case DELETE_SUBSCRIBED_COMMUNITY_CACHE:
@@ -178,7 +178,7 @@ export default function (state = initialState, action) {
       }
       state.pointActivities.set(payload.id, payload.pointActivity);
       return {
-        ...state, //spread operator in requried here, otherwise persist do not register change
+        ...state, // spread operator in requried here, otherwise persist do not register change
       };
 
     case DELETE_POINT_ACTIVITY_CACHE_ENTRY:

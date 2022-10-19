@@ -38,7 +38,7 @@ const BottomTabBarView = ({
       canPreventDefault: true,
     });
 
-    //TODO: also enable tap to scroll up feature
+    // TODO: also enable tap to scroll up feature
     if (!isFocused && !event.defaultPrevented) {
       navigation.navigate(route.name);
     }
@@ -49,7 +49,7 @@ const BottomTabBarView = ({
     const isFocused = index == idx;
     const iconColor = isFocused ? tabBarActiveTintColor : tabBarInactiveTintColor;
 
-    let _iconProps = {
+    const _iconProps = {
       iconType: 'MaterialIcons',
       style: { padding: 15 },
       name: route.params.iconName,

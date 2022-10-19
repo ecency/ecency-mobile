@@ -33,11 +33,11 @@ class ProfileEditScreen extends PureComponent {
   };
 
   render() {
-    const { intl } = this.props;
+    const { intl, route } = this.props;
     const { selectedUploadAction } = this.state;
 
     return (
-      <ProfileEditContainer>
+      <ProfileEditContainer route={route}>
         {({
           currentAccount,
           isDarkTheme,

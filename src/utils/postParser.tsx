@@ -10,7 +10,7 @@ import parseAsset from './parseAsset';
 import { getResizedAvatar } from './image';
 import { parseReputation } from './user';
 
-const webp = Platform.OS === 'ios' ? false : true;
+const webp = Platform.OS !== 'ios';
 
 export const parsePosts = (posts, currentUserName) => {
   if (posts) {
@@ -37,10 +37,10 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
     }
   }
 
-  //adjust tags type as it can be string sometimes;
+  // adjust tags type as it can be string sometimes;
   post = parseTags(post);
 
-  //extract cover image and thumbnail from post body
+  // extract cover image and thumbnail from post body
   post.image = catchPostImage(post, 600, 500, webp ? 'webp' : 'match');
   post.thumbnail = catchPostImage(post, 10, 7, webp ? 'webp' : 'match');
 
@@ -60,15 +60,15 @@ export const parsePost = (post, currentUserName, isPromoted, isList = false) => 
 
   post.total_payout = totalPayout;
 
-  //stamp posts with fetched time;
+  // stamp posts with fetched time;
   post.post_fetched_at = new Date().getTime();
 
-  //discard post body if list
+  // discard post body if list
   if (isList) {
     post.body = '';
   }
 
-  //cache image
+  // cache image
   if (post.image) {
     FastImage.preload([{ uri: post.image }]);
   }
@@ -84,7 +84,7 @@ export const parseCommentThreads = async (commentsMap: any, author: string, perm
     return null;
   }
 
-  //traverse map to curate threads
+  // traverse map to curate threads
   const parseReplies = (commentsMap: any, replies: any[], level: number) => {
     if (replies && replies.length > 0 && MAX_THREAD_LEVEL > level) {
       return replies.map((pathKey) => {
@@ -105,9 +105,9 @@ export const parseCommentThreads = async (commentsMap: any, author: string, perm
     if (commentsMap.hasOwnProperty(key)) {
       const comment = commentsMap[key];
 
-      //prcoess first level comment
+      // prcoess first level comment
       if (comment && comment.parent_author === author && comment.parent_permlink === permlink) {
-        let _parsedComment = parseComment(comment);
+        const _parsedComment = parseComment(comment);
         _parsedComment.replies = parseReplies(commentsMap, _parsedComment.replies, 1);
         comments.push(_parsedComment);
       }
@@ -132,7 +132,7 @@ export const parseComment = (comment: any) => {
   comment.markdownBody = get(comment, 'body');
   comment.body = renderPostBody({ ...comment, last_update: comment.updated }, true, webp);
 
-  //parse json meta;
+  // parse json meta;
   if (typeof comment.json_metadata === 'string' || comment.json_metadata instanceof String) {
     try {
       comment.json_metadata = JSON.parse(comment.json_metadata);
@@ -141,13 +141,13 @@ export const parseComment = (comment: any) => {
     }
   }
 
-  //adjust tags type as it can be string sometimes;
+  // adjust tags type as it can be string sometimes;
   comment = parseTags(comment);
 
   comment.max_payout = parseAsset(comment.max_accepted_payout).amount || 0;
   comment.is_declined_payout = comment.max_payout === 0;
 
-  //calculate and set total_payout to show to user.
+  // calculate and set total_payout to show to user.
   const totalPayout =
     parseAsset(comment.pending_payout_value).amount +
     parseAsset(comment.author_payout_value).amount +
@@ -162,7 +162,7 @@ export const parseComment = (comment: any) => {
     comment.is_paidout
   );
 
-  //stamp comments with fetched time;
+  // stamp comments with fetched time;
   comment.post_fetched_at = new Date().getTime();
 
   return comment;
@@ -218,7 +218,7 @@ export const parseActiveVotes = (post) => {
 
 const parseTags = (post: any) => {
   if (post.json_metadata) {
-    let _tags = get(post.json_metadata, 'tags', []);
+    const _tags = get(post.json_metadata, 'tags', []);
     if (typeof _tags === 'string') {
       let separator = ' ';
       if (_tags.indexOf(', ') > -1) {

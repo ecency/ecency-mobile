@@ -96,7 +96,7 @@ export const catchImageFromMetadata = (meta, format = 'match', thumbnail = false
 };
 
 export const getResizedImage = (url, size = 600, format = 'match') => {
-  //TODO: implement fallback onError, for imagehoster is down case
+  // TODO: implement fallback onError, for imagehoster is down case
   format = whatOs === 'android' ? 'webp' : 'match';
   if (!url) {
     return '';

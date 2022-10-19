@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 
 import { injectIntl } from 'react-intl';
 
+import RootNavigation from '../../../navigation/rootNavigation';
 // import { AppNavigator } from '../../../navigation';
-import { navigate } from '../../../navigation/service';
 
 // Services
 import {
@@ -44,7 +44,7 @@ class ApplicationScreen extends Component {
     const { rcOffer, dispatch, intl } = this.props;
     const { rcOffer: rcOfferPrev } = prevProps;
 
-    //TODO: display action modal instead
+    // TODO: display action modal instead
     if (!rcOfferPrev && rcOffer) {
       setTimeout(() => {
         Alert.alert(
@@ -63,8 +63,8 @@ class ApplicationScreen extends Component {
             {
               text: 'OK',
               onPress: () => {
-                navigate({
-                  routeName: ROUTES.SCREENS.ACCOUNT_BOOST,
+                RootNavigation.navigate({
+                  name: ROUTES.SCREENS.ACCOUNT_BOOST,
                 });
                 dispatch(setRcOffer(false));
               },
@@ -116,7 +116,9 @@ class ApplicationScreen extends Component {
         {!isConnected && <NoInternetConnection />}
 
         {/* <AppNavigator /> */}
-        <Text style={{flex:1, justifyContent:'center', alignItems:'center', color:'green'}}>I am working though</Text>
+        <Text style={{ flex: 1, justifyContent: 'center', alignItems: 'center', color: 'green' }}>
+          I am working though
+        </Text>
       </Fragment>
     );
   }
@@ -128,7 +130,7 @@ class ApplicationScreen extends Component {
     return (
       <>
         <ForegroundNotification remoteMessage={foregroundNotificationData} />
-        <QuickProfileModal navigation={{ navigate }} />
+        <QuickProfileModal />
         <AccountsBottomSheet />
         <ActionModal />
         <QuickReplyModal />

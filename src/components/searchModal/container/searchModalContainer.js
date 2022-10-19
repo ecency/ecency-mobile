@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 
 // Services and Actions
+import { useNavigation } from '@react-navigation/native';
 import { search } from '../../../providers/ecency/ecency';
 import { lookupAccounts, getTrendingTags, getPurePost } from '../../../providers/hive/dhive';
 

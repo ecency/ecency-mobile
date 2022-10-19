@@ -18,7 +18,7 @@ const api = axios.create({
 api.interceptors.request.use((request) => {
   console.log('Starting ecency Request', request);
 
-  //skip code addition is register and token refresh endpoint is triggered
+  // skip code addition is register and token refresh endpoint is triggered
   if (
     request.url === '/private-api/account-create' ||
     request.url === '/auth-api/hs-token-refresh' ||
@@ -33,7 +33,7 @@ api.interceptors.request.use((request) => {
   }
 
   if (!request.data?.code) {
-    //if access code not already set, decrypt access token
+    // if access code not already set, decrypt access token
     const state = store.getState();
     const token = get(state, 'account.currentAccount.local.accessToken');
     const pin = get(state, 'application.pin');
@@ -47,7 +47,7 @@ api.interceptors.request.use((request) => {
       request.data.code = accessToken;
       console.log('Added access token:', accessToken);
     } else {
-      const isLoggedIn = state.application.isLoggedIn;
+      const { isLoggedIn } = state.application;
       console.warn('Failed to inject accessToken', `isLoggedIn:${isLoggedIn}`);
       bugsnagInstance.notify(
         new Error(

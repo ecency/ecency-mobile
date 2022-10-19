@@ -25,7 +25,7 @@ export default (urlString: string): ParsedAuthUrl | null => {
     };
   } else if (url.pathname === '/auth') {
     const username = url.searchParams.get('username');
-    const code = url.searchParams.get('code'); //TODO: process encryption when in place
+    const code = url.searchParams.get('code'); // TODO: process encryption when in place
 
     return {
       mode: AUTH_MODES.AUTH,

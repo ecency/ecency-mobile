@@ -4,6 +4,7 @@ import has from 'lodash/has';
 
 // Component
 import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import HeaderView from '../view/headerView';
 
 import { AccountContainer, ThemeContainer } from '../../../containers';

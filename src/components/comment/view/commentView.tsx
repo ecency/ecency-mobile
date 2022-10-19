@@ -82,15 +82,15 @@ const CommentView = ({
 
   useEffect(() => {
     const postPath = `${comment.author || ''}/${comment.permlink || ''}`;
-    //this conditional makes sure on targetted already fetched post is updated
-    //with new cache status, this is to avoid duplicate cache merging
+    // this conditional makes sure on targetted already fetched post is updated
+    // with new cache status, this is to avoid duplicate cache merging
     if (
       lastCacheUpdate &&
       lastCacheUpdate.postPath === postPath &&
       lastCacheUpdate.type === 'comment' &&
       lastCacheUpdate.updatedAt > fetchedAt
     ) {
-      //TODO: update comment count and show sub comment if required;
+      // TODO: update comment count and show sub comment if required;
       const cachedComment = cachedComments.get(postPath);
       if (cachedComment.updated === cachedComment.created) {
         if (commentNumber > 1 && incrementRepliesCount) {
@@ -126,7 +126,7 @@ const CommentView = ({
   };
 
   const _handleCacheVoteIncrement = () => {
-    //fake increment vote using based on local change
+    // fake increment vote using based on local change
     setCacheVoteIcrement(1);
   };
 

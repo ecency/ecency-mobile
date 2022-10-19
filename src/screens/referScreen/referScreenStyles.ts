@@ -1,8 +1,8 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
-  mainContainer:{
-    flex:1,
+  mainContainer: {
+    flex: 1,
     backgroundColor: '$primaryBackgroundColor',
   },
   pointsContainer: {
@@ -33,13 +33,13 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     marginTop: 5,
   },
-  emptyText:{
+  emptyText: {
     color: '$primaryDarkText',
     fontSize: 16,
     justifyContent: 'center',
     marginTop: 5,
     padding: 32,
-    textAlign:'center'
+    textAlign: 'center',
   },
   mainButton: {
     marginTop: 16,
@@ -65,9 +65,7 @@ export default EStyleSheet.create({
   referralsListContainer: {
     flex: 1,
   },
-  listContentContainer:{
-    
-  },
+  listContentContainer: {},
   rewardText: {
     width: 120,
   },
@@ -80,15 +78,15 @@ export default EStyleSheet.create({
   blueDollarSign: {
     color: '$primaryBlue',
   },
-  rightItemRendererContainer:{
-    paddingHorizontal:8,
-    height:40,    
-    justifyContent:'center'
+  rightItemRendererContainer: {
+    paddingHorizontal: 8,
+    height: 40,
+    justifyContent: 'center',
   },
-  rightItemText:{
-    textAlign:'right',
+  rightItemText: {
+    textAlign: 'right',
     color: '$primaryBlue',
     fontSize: 14,
     fontWeight: 'bold',
-  }
+  },
 });

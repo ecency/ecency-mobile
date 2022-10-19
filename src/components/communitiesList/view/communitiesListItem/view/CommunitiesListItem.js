@@ -28,10 +28,7 @@ const CommunitiesListItem = ({
   const intl = useIntl();
 
   const _handleSubscribeButtonPress = () => {
-    handleSubscribeButtonPress(
-      { isSubscribed: isSubscribed, communityId: name, communityTitle: title },
-      screen,
-    );
+    handleSubscribeButtonPress({ isSubscribed, communityId: name, communityTitle: title }, screen);
   };
 
   return (

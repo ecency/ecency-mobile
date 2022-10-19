@@ -30,16 +30,15 @@ const UserListItem = ({
   searchValue,
   rightTooltipText,
   leftItemRenderer,
-  rightItemRenderer
+  rightItemRenderer,
 }) => {
   const _handleRightButtonPress = () => {
-    if(onPressRightText){
+    if (onPressRightText){
       const _data = {};
       _data.following = username;
-  
+
       onPressRightText(_data, isFollowing);
     }
-
   };
 
   return (
@@ -97,33 +96,32 @@ const UserListItem = ({
               <ActivityIndicator style={{ width: 30 }} />
             </View>
           ) : (
-
             <PopoverController>
-                {({
-                  openPopover,
-                  closePopover,
-                  popoverVisible,
-                  setPopoverAnchor,
-                  popoverAnchorRect,
-                }) => (
+              {({
+                openPopover,
+                closePopover,
+                popoverVisible,
+                setPopoverAnchor,
+                popoverAnchorRect,
+              }) => (
                 <Fragment>
-                  <TouchableOpacity 
+                  <TouchableOpacity
                     ref={setPopoverAnchor}
-                    style={styles.rightWrapper} 
+                    style={styles.rightWrapper}
                     onPress={() => {
-                      if(rightTooltipText){
+                      if (rightTooltipText){
                         openPopover();
                       }
-                      _handleRightButtonPress()
-                      
-                      }}>
+                      _handleRightButtonPress();
+
+                  >
                     <>
                       <Text
                         style={[
-                          styles.value, 
-                          isBlackRightColor && styles.valueBlack, 
+                          styles.value,
+                          isBlackRightColor && styles.valueBlack,
                           rightTextStyle,
-                          isFollowing && styles.unfollowText
+                          isFollowing && styles.unfollowText,
                         ]}
                       >
                         {rightText}
@@ -138,15 +136,13 @@ const UserListItem = ({
                     visible={popoverVisible}
                     onClose={closePopover}
                     fromRect={popoverAnchorRect}
-                    
+
                     supportedOrientations={['portrait', 'landscape']}>
                     <Text>{rightTooltipText}</Text>
                   </Popover>
                 </Fragment>
-                )}
+              )}
             </PopoverController>
-            
-
           ))}
       </View>
     </TouchableOpacity>

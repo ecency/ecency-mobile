@@ -9,7 +9,7 @@ import ActionsSheetView from 'react-native-actions-sheet';
 // import AutoHeightWebView from 'react-native-autoheight-webview';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { LongPressGestureHandler, State } from 'react-native-gesture-handler';
-import { navigate } from '../../../../navigation/service';
+import RootNavigation from '../../../../navigation/rootNavigation';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
@@ -71,11 +71,11 @@ const CommentBody = ({
 
   const handleImagePress = (ind) => {
     if (ind === 1) {
-      //open gallery mode
+      // open gallery mode
       setIsImageModalOpen(true);
     }
     if (ind === 0) {
-      //copy to clipboard
+      // copy to clipboard
       writeToClipboard(selectedImage).then(() => {
         dispatch(
           toastNotification(
@@ -87,7 +87,7 @@ const CommentBody = ({
       });
     }
     if (ind === 2) {
-      //save to local
+      // save to local
       _saveImage(selectedImage);
     }
 
@@ -96,7 +96,7 @@ const CommentBody = ({
 
   const handleLinkPress = (ind) => {
     if (ind === 1) {
-      //open link
+      // open link
       if (selectedLink) {
         Linking.canOpenURL(selectedLink).then((supported) => {
           if (supported) {
@@ -114,7 +114,7 @@ const CommentBody = ({
       }
     }
     if (ind === 0) {
-      //copy to clipboard
+      // copy to clipboard
       writeToClipboard(selectedLink).then(() => {
         dispatch(
           toastNotification(
@@ -131,10 +131,10 @@ const CommentBody = ({
 
   const _handleTagPress = (tag: string, filter: string = GLOBAL_POST_FILTERS_VALUE[0]) => {
     if (tag) {
-      const routeName = isCommunity(tag) ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT;
+      const name = isCommunity(tag) ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT;
       const key = `${filter}/${tag}`;
-      navigate({
-        routeName,
+      RootNavigation.navigate({
+        name,
         params: {
           tag,
           filter,
@@ -163,8 +163,8 @@ const CommentBody = ({
       return;
     }
     if (permlink) {
-      navigate({
-        routeName: ROUTES.SCREENS.POST,
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.POST,
         params: {
           author,
           permlink,
@@ -180,8 +180,8 @@ const CommentBody = ({
       return;
     }
     if (username) {
-      navigate({
-        routeName: ROUTES.SCREENS.PROFILE,
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.PROFILE,
         params: {
           username,
         },
@@ -215,7 +215,7 @@ const CommentBody = ({
     })
       .fetch('GET', uri)
       .then((res) => {
-        let status = res.info().status;
+        const { status } = res.info();
 
         if (status == 200) {
           return res.path();

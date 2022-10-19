@@ -71,8 +71,8 @@ const UpvoteContainer = (props) => {
 
   useEffect(() => {
     const postPath = `${content.author || ''}/${content.permlink || ''}`;
-    //this conditional makes sure on targetted already fetched post is updated
-    //with new cache status, this is to avoid duplicate cache merging
+    // this conditional makes sure on targetted already fetched post is updated
+    // with new cache status, this is to avoid duplicate cache merging
     if (
       lastCacheUpdate &&
       lastCacheUpdate.postPath === postPath &&
@@ -111,13 +111,13 @@ const UpvoteContainer = (props) => {
         handleCacheVoteIncrement();
       }
 
-      setIsDownVoted(isDownvote ? true : false);
-      setIsVoted(isDownvote ? false : true);
+      setIsDownVoted(!!isDownvote);
+      setIsVoted(!isDownvote);
     }
   };
 
   const _onVote = (amount, isDownvote) => {
-    //do all relevant processing here to show local upvote
+    // do all relevant processing here to show local upvote
     const amountNum = parseFloat(amount);
 
     let incrementStep = 0;
@@ -125,7 +125,7 @@ const UpvoteContainer = (props) => {
       incrementStep = 1;
     }
 
-    //update redux
+    // update redux
     const postPath = `${content.author || ''}/${content.permlink || ''}`;
     const curTime = new Date().getTime();
     const vote = {
@@ -165,7 +165,7 @@ const UpvoteContainer = (props) => {
     warnZeroPayout = true;
   }
 
-  //assemble breakdown
+  // assemble breakdown
   const base = get(globalProps, 'base', 0);
   const quote = get(globalProps, 'quote', 0);
   const hbdPrintRate = get(globalProps, 'hbdPrintRate', 0);

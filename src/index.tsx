@@ -18,13 +18,13 @@ const queryClientProviderProps = initQueryClient();
 const _renderApp = ({ locale }) => (
   <PersistQueryClientProvider {...queryClientProviderProps}>
     <PersistGate loading={null} persistor={persistor}>
-    <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
-      <SafeAreaProvider>
-        <Host>
-          <Application />
-        </Host>
-      </SafeAreaProvider>
-    </IntlProvider>
+      <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
+        <SafeAreaProvider>
+          <Host>
+            <Application />
+          </Host>
+        </SafeAreaProvider>
+      </IntlProvider>
     </PersistGate>
   </PersistQueryClientProvider>
 );

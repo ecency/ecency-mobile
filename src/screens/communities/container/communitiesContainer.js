@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { withNavigation } from '@react-navigation/compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { shuffle, isEmpty } from 'lodash';
 import { useIntl } from 'react-intl';
 
+import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../constants/routeNames';
 
 import { getCommunities, getSubscriptions } from '../../../providers/hive/dhive';
@@ -23,7 +23,8 @@ import {
   mergeSubCommunitiesCacheInSubList,
 } from '../../../utils/communitiesUtils';
 
-const CommunitiesContainer = ({ children, navigation }) => {
+const CommunitiesContainer = ({ children }) => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const intl = useIntl();
 
@@ -172,13 +173,13 @@ const CommunitiesContainer = ({ children, navigation }) => {
             }),
           );
 
-          setSubscriptions(mergeSubCommunitiesCacheInSubList(subs, subscribedCommunitiesCache)); //merge cache with fetched data
+          setSubscriptions(mergeSubCommunitiesCacheInSubList(subs, subscribedCommunitiesCache)); // merge cache with fetched data
           setDiscovers(communities);
           setIsSubscriptionsLoading(false);
           setIsDiscoversLoading(false);
           dispatch(
             fetchSubscribedCommunitiesSuccess(subs.sort((a, b) => a[1].localeCompare(b[1]))),
-          ); //register subscribed data in communities store
+          ); // register subscribed data in communities store
         });
       })
       .catch((err) => {
@@ -190,7 +191,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
 
   const _invalidateSubscribedCommunityCache = (fetchedList) => {
     fetchedList.map((listItem) => {
-      let itemExists = subscribedCommunitiesCache.get(listItem[0]);
+      const itemExists = subscribedCommunitiesCache.get(listItem[0]);
       if (itemExists) {
         dispatch(deleteSubscribedCommunityCacheEntry(listItem[0]));
       }
@@ -199,7 +200,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
   // Component Functions
   const _handleOnPress = (name) => {
     navigation.navigate({
-      routeName: ROUTES.SCREENS.COMMUNITY,
+      name: ROUTES.SCREENS.COMMUNITY,
       params: {
         tag: name,
       },
@@ -207,7 +208,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
   };
 
   const _handleSubscribeButtonPress = (data, screen) => {
-    setSelectedCommunityItem(data); //set selected item to handle its cache
+    setSelectedCommunityItem(data); // set selected item to handle its cache
     let subscribeAction;
     let successToastText = '';
     let failToastText = '';
@@ -253,4 +254,4 @@ const CommunitiesContainer = ({ children, navigation }) => {
   );
 };
 
-export default withNavigation(CommunitiesContainer);
+export default CommunitiesContainer;

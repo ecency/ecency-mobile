@@ -23,7 +23,7 @@ export const BottomTabNavigator = () => {
         name={ROUTES.TABBAR.FEED}
         component={Feed}
         initialParams={{
-          iconName: 'view-day', //read in bottomTabBarView
+          iconName: 'view-day', // read in bottomTabBarView
         }}
       />
 
@@ -31,7 +31,7 @@ export const BottomTabNavigator = () => {
         name={ROUTES.TABBAR.NOTIFICATION}
         component={Notification}
         initialParams={{
-          iconName: 'notifications', //read in bottomTabBarView
+          iconName: 'notifications', // read in bottomTabBarView
         }}
       />
 
@@ -39,7 +39,7 @@ export const BottomTabNavigator = () => {
         name={ROUTES.TABBAR.POST_BUTTON}
         component={EmptyScreen}
         initialParams={{
-          iconName: 'pencil', //read in bottomTabBarView
+          iconName: 'pencil', // read in bottomTabBarView
         }}
       />
 
@@ -47,7 +47,7 @@ export const BottomTabNavigator = () => {
         name={ROUTES.TABBAR.WALLET}
         component={Wallet}
         initialParams={{
-          iconName: 'account-balance-wallet', //read in bottomTabBarView
+          iconName: 'account-balance-wallet', // read in bottomTabBarView
         }}
       />
 
@@ -55,7 +55,7 @@ export const BottomTabNavigator = () => {
         name={ROUTES.TABBAR.PROFILE}
         component={Profile}
         initialParams={{
-          iconName: 'person', //read in bottomTabBarView
+          iconName: 'person', // read in bottomTabBarView
         }}
       />
     </Tab.Navigator>

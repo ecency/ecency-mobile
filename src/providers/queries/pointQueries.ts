@@ -31,7 +31,7 @@ export const useUserActivityMutation = () => {
     retry: 2,
     onSuccess: (data, vars) => {
       console.log('successfully logged activity', data, vars);
-      //remove entry from redux
+      // remove entry from redux
       if (vars.cacheId) {
         console.log('must remove from redux');
         dispatch(deletePointActivityCache(vars.cacheId));
@@ -39,7 +39,7 @@ export const useUserActivityMutation = () => {
     },
     onError: (error, vars) => {
       console.log('failed to log activity', error, vars);
-      //add entry in redux
+      // add entry in redux
       if (!vars.cacheId && currentAccount) {
         console.log('must add to from redux');
         const cacheId = generateRndStr();
@@ -51,7 +51,7 @@ export const useUserActivityMutation = () => {
 
   const lazyMutatePendingActivities = () => {
     setTimeout(() => {
-      //read pending activities from redux
+      // read pending activities from redux
       if (currentAccount && pointActivitiesCache && pointActivitiesCache.size) {
         Array.from(pointActivitiesCache).forEach(([id, activity]) => {
           if (currentAccount.username === activity.username) {

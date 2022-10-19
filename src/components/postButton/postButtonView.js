@@ -9,7 +9,6 @@ import scalePx from '../../utils/scalePx';
 
 const PostButtonView = () => {
   const navigation = useNavigation();
-
   return (
     <TouchableOpacity
       onPress={() =>
@@ -28,8 +27,7 @@ const PostButtonView = () => {
         size={scalePx(26)}
       />
     </TouchableOpacity>
-  )
-}
-
+  );
+};
 
 export default PostButtonView;

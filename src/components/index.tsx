@@ -60,7 +60,6 @@ import { TransferFormItem } from './transferFormItem';
 import { Upvote } from './upvote';
 import { UserAvatar } from './userAvatar';
 
-
 import Logo from './logo/logo';
 import PostButton from './postButton/postButtonView';
 import ProfileEditForm from './profileEditForm/profileEditFormView';

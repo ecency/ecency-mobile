@@ -1,3 +1,3 @@
 export default {
-    writerMascot:require("./writer_mascot.png")
-}
+  writerMascot: require('./writer_mascot.png'),
+};

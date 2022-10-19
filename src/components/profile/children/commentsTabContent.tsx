@@ -59,7 +59,7 @@ const CommentsTabContent = ({
     };
 
     const result = await getAccountPosts(query);
-    let _comments: any[] = refresh ? result : unionBy(data, result, 'permlink');
+    const _comments: any[] = refresh ? result : unionBy(data, result, 'permlink');
 
     if (Array.isArray(_comments)) {
       setData(_comments);
@@ -111,7 +111,7 @@ const CommentsTabContent = ({
         isHideImage={isHideImage}
         flatListProps={{
           onEndReached: _fetchData,
-          onScroll: onScroll,
+          onScroll,
           ListEmptyComponent: _renderListEmpty,
           ListFooterComponent: _renderListFooter,
           onEndReachedThreshold: 1,

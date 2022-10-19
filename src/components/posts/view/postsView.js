@@ -14,6 +14,7 @@ import { get } from 'lodash';
 
 // COMPONENTS
 import FastImage from 'react-native-fast-image';
+import { useNavigation } from '@react-navigation/native';
 import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
 import {

@@ -22,7 +22,7 @@ const PostsResults = ({ navigation, searchValue }) => {
   const _renderItem = (item, index) => {
     const reputation =
       get(item, 'author_rep', undefined) || get(item, 'author_reputation', undefined);
-    //console.log(item);
+    // console.log(item);
     const votes = get(item, 'up_votes', 0) || get(item, 'stats.total_votes', 0);
     const body = get(item, 'summary', '') || get(item, 'body_marked', '');
 

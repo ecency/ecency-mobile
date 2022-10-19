@@ -122,7 +122,7 @@ export const removeAllSCAccounts = async () => {
 export const setDraftPost = async (fields, username, draftId) => {
   try {
     let draft = await getItemFromStorage(DRAFT_SCHEMA);
-    let timestamp = new Date().getTime();
+    const timestamp = new Date().getTime();
 
     const data = {
       username,
@@ -134,7 +134,7 @@ export const setDraftPost = async (fields, username, draftId) => {
     };
 
     if (draft && draft.some((e) => e.username === username)) {
-      //check if entry esist
+      // check if entry esist
       const draftIndex = draft.findIndex(
         (item) => draftId === undefined || item.draftId === draftId,
       );
