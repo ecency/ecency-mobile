@@ -3,8 +3,8 @@ import React from 'react';
 import { Profile } from '../../../components';
 import { ProfileContainer } from '../../../containers';
 
-const ProfileScreen = () => (
-  <ProfileContainer>
+const ProfileScreen = ({ route }) => (
+  <ProfileContainer route={route}>
     {({
       about,
       activePage,

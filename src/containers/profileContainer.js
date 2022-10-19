@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withNavigation } from '@react-navigation/compat';
 import { get, has, unionBy, update } from 'lodash';
 import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
@@ -28,13 +27,14 @@ import { toastNotification, setRcOffer, showActionModal } from '../redux/actions
 // Constants
 import { default as ROUTES } from '../constants/routeNames';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
+import { useNavigation } from '@react-navigation/native';
 
 class ProfileContainer extends Component {
   constructor(props) {
     super(props);
 
     //check if is signed in user profile
-    const username = props.navigation.getParam('username');
+    const username = props.route.params?.username ?? '';
     const {
       currentAccount: { name: currentAccountUsername },
     } = props;
@@ -52,22 +52,23 @@ class ProfileContainer extends Component {
       isOwnProfile,
       user: null,
       quickProfile: {
-        reputation: get(props, 'navigation.state.params.reputation', ''),
-        name: get(props, 'navigation.state.params.username', ''),
+        reputation: get(props, 'route.params.reputation', ''),
+        name: get(props, 'route.params.username', ''),
       },
       reverseHeader: !!username,
-      deepLinkFilter: get(props, 'navigation.state.params.deepLinkFilter'),
+      deepLinkFilter: get(props, 'route.params.deepLinkFilter'),
     };
   }
 
   componentDidMount() {
     const {
+      route,
       navigation,
       isConnected,
       isLoggedIn,
       currentAccount: { name: currentAccountUsername },
     } = this.props;
-    const username = get(navigation, 'state.params.username');
+    const username = route.params?.username || '';
 
     const { isOwnProfile } = this.state;
     let targetUsername = currentAccountUsername;
@@ -345,7 +346,7 @@ class ProfileContainer extends Component {
     const count = get(follows, !isFollowingPress ? 'follower_count' : 'following_count');
 
     navigation.navigate({
-      routeName: ROUTES.SCREENS.FOLLOWS,
+      name: ROUTES.SCREENS.FOLLOWS,
       params: {
         isFollowingPress,
         count,
@@ -437,10 +438,10 @@ class ProfileContainer extends Component {
   };
 
   _handleDelegateHp = () => {
-    const { navigation } = this.props;
-    const username = get(navigation, 'state.params.username');
+    const { route, navigation } = this.props;
+    const username = route.params?.username ?? '';
     navigation.navigate({
-      routeName: ROUTES.SCREENS.TRANSFER,
+      name: ROUTES.SCREENS.TRANSFER,
       params: {
         transferType: 'delegate',
         fundType: 'HIVE_POWER',
@@ -449,10 +450,9 @@ class ProfileContainer extends Component {
     });
   };
   _handleOnBackPress = () => {
-    const { navigation } = this.props;
-    const navigationParams = get(navigation.state, 'params');
+    const { route } = this.props;
 
-    if (get(navigationParams, 'fetchData')) {
+    if (route && route.params && route.params.fetchData) {
       navigationParams.fetchData();
     }
   };
@@ -465,7 +465,7 @@ class ProfileContainer extends Component {
     const { navigation, currentAccount } = this.props;
 
     navigation.navigate({
-      routeName: ROUTES.SCREENS.PROFILE_EDIT,
+      name: ROUTES.SCREENS.PROFILE_EDIT,
       params: {
         fetchUser: () => this.setState({ user: currentAccount }),
       },
@@ -521,8 +521,9 @@ class ProfileContainer extends Component {
       reverseHeader,
       deepLinkFilter,
     } = this.state;
-    const { currency, isDarkTheme, isLoggedIn, navigation, children, isHideImage } = this.props;
-    const activePage = get(navigation.state.params, 'state', 0);
+    const { currency, isDarkTheme, isLoggedIn, children, isHideImage, route } = this.props;
+    
+    const activePage = route.params?.state ?? 0;
     const { currencyRate, currencySymbol } = currency;
 
     let votingPower;
@@ -588,5 +589,10 @@ const mapStateToProps = (state) => ({
   isHideImage: state.application.hidePostsThumbnails,
 });
 
-export default connect(mapStateToProps)(injectIntl(withNavigation(ProfileContainer)));
+const mapHooksToProps = (props) => ({
+  ...props,
+  navigation:useNavigation()
+})
+
+export default connect(mapStateToProps)(injectIntl((props)=><ProfileContainer {...mapHooksToProps(props)}/>));
 /* eslint-enable */
