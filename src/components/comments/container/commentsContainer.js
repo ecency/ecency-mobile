@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Platform } from 'react-native';
-import { withNavigation } from '@react-navigation/compat';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
@@ -21,6 +20,7 @@ import CommentsView from '../view/commentsView';
 import { useAppSelector } from '../../../hooks';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
+import { useNavigation } from '@react-navigation/native';
 
 const CommentsContainer = ({
   author,
@@ -29,7 +29,6 @@ const CommentsContainer = ({
   currentAccount: { name },
   isOwnProfile,
   fetchPost,
-  navigation,
   currentAccount,
   pinCode,
   comments,
@@ -50,6 +49,9 @@ const CommentsContainer = ({
   incrementRepliesCount,
   handleOnReplyPress,
 }) => {
+
+  const navigation = useNavigation();
+
   const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
   const cachedComments = useAppSelector((state) => state.cache.comments);
 
@@ -244,7 +246,7 @@ const CommentsContainer = ({
 
   const _handleOnReplyPress = (item) => {
     navigation.navigate({
-      routeName: ROUTES.SCREENS.EDITOR,
+      name: ROUTES.SCREENS.EDITOR,
       key: 'editor_reply',
       params: {
         isReply: true,
@@ -256,7 +258,7 @@ const CommentsContainer = ({
 
   const _handleOnVotersPress = (activeVotes, content) => {
     navigation.navigate({
-      routeName: ROUTES.SCREENS.VOTERS,
+      name: ROUTES.SCREENS.VOTERS,
       params: {
         activeVotes,
         content,
@@ -267,7 +269,7 @@ const CommentsContainer = ({
 
   const _handleOnEditPress = (item) => {
     navigation.navigate({
-      routeName: ROUTES.SCREENS.EDITOR,
+      name: ROUTES.SCREENS.EDITOR,
       key: `editor_edit_reply_${item.permlink}`,
       params: {
         isEdit: true,
@@ -312,7 +314,7 @@ const CommentsContainer = ({
 
   const _openReplyThread = (comment) => {
     navigation.navigate({
-      routeName: ROUTES.SCREENS.POST,
+      name: ROUTES.SCREENS.POST,
       key: comment.permlink,
       params: {
         author: comment.author,
@@ -381,4 +383,4 @@ const mapStateToProps = (state) => ({
   pinCode: state.application.pin,
 });
 
-export default withNavigation(connect(mapStateToProps)(injectIntl(CommentsContainer)));
+export default connect(mapStateToProps)(injectIntl(CommentsContainer));
