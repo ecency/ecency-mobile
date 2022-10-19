@@ -9,7 +9,6 @@ import { IconButton } from '../iconButton';
 // Styles
 import styles from './avatarHeaderStyles';
 
-
 const AvatarHeader = ({
   username,
   name,
@@ -18,7 +17,6 @@ const AvatarHeader = ({
   showImageUploadActions,
   isUploading,
 }) => () => {
-
   const navigation = useNavigation();
 
   return (
@@ -66,5 +64,5 @@ const AvatarHeader = ({
       </SafeAreaView>
     </LinearGradient>
   );
-}
+};
 export default AvatarHeader;

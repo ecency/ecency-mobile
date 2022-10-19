@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
 // Components
+import { useNavigation } from '@react-navigation/native';
 import { Tag } from '../../../basicUIElements';
 import { Icon } from '../../../icon';
 import { UserAvatar } from '../../../userAvatar';
@@ -13,7 +14,6 @@ import styles from './postHeaderDescriptionStyles';
 import { default as ROUTES } from '../../../../constants/routeNames';
 import { IconButton } from '../../..';
 import { showProfileModal } from '../../../../redux/actions/uiAction';
-import { useNavigation } from '@react-navigation/native';
 
 // Constants
 const DEFAULT_IMAGE = require('../../../../assets/ecency.png');
@@ -180,7 +180,9 @@ class PostHeaderDescription extends PureComponent {
 const mapStateToProps = () => ({});
 
 const mapHookToProps = () => ({
-  navigation:useNavigation()
-})
+  navigation: useNavigation(),
+});
 
-export default connect(mapStateToProps)(injectIntl((props)=><PostHeaderDescription {...props} {...mapHookToProps()} />));
+export default connect(mapStateToProps)(
+  injectIntl((props) => <PostHeaderDescription {...props} {...mapHookToProps()} />),
+);

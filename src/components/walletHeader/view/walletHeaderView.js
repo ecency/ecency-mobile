@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Components
+import { useNavigation } from '@react-navigation/native';
 import { Icon, MainButton, DropdownButton, WalletLineItem } from '../..';
 
 // Constants
@@ -12,7 +13,6 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 // Styles
 import styles from './walletHeaderStyles';
-import { useNavigation } from '@react-navigation/native';
 
 const WalletHeaderView = ({
   claim,

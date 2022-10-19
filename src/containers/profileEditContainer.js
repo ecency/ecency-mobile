@@ -5,12 +5,12 @@ import { injectIntl } from 'react-intl';
 import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
 
+import { useNavigation } from '@react-navigation/native';
 import { uploadImage } from '../providers/ecency/ecency';
 
 import { profileUpdate, signImage } from '../providers/hive/dhive';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
 import { setAvatarCacheStamp } from '../redux/actions/uiAction';
-import { useNavigation } from '@react-navigation/native';
 
 // import ROUTES from '../constants/routeNames';
 
@@ -145,7 +145,7 @@ class ProfileEditContainer extends Component {
   };
 
   _handleOnSubmit = async () => {
-    const { currentAccount, pinCode, dispatch, navigation, intl, route} = this.props;
+    const { currentAccount, pinCode, dispatch, navigation, intl, route } = this.props;
     const { name, location, website, about, coverUrl, avatarUrl, pinned } = this.state;
 
     this.setState({ isLoading: true });
@@ -229,10 +229,12 @@ const mapStateToProps = (state) => ({
 
 const mapHooksToProps = (props) => ({
   ...props,
-  navigation:useNavigation()
-})
+  navigation: useNavigation(),
+});
 
-export default connect(mapStateToProps)(injectIntl((props)=><ProfileEditContainer {...mapHooksToProps(props)}/>));
+export default connect(mapStateToProps)(
+  injectIntl((props) => <ProfileEditContainer {...mapHooksToProps(props)} />),
+);
 
 const IMAGE_PICKER_AVATAR_OPTIONS = {
   includeBase64: true,

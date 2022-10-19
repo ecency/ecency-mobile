@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 
 // Services
+import { useNavigation } from '@react-navigation/native';
 import { getPost } from '../../../providers/hive/dhive';
 import { getPostReblogs } from '../../../providers/ecency/ecency';
 
@@ -12,7 +13,6 @@ import PostCardView from '../view/postCardView';
 import { default as ROUTES } from '../../../constants/routeNames';
 import { useAppDispatch } from '../../../hooks';
 import { showProfileModal } from '../../../redux/actions/uiAction';
-import { useNavigation } from '@react-navigation/native';
 /*
  *            Props Name        Description                                     Value
  *@props -->  props name here   description here                                Value Type Here

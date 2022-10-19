@@ -3,6 +3,7 @@ import { SafeAreaView, FlatList, Text } from 'react-native';
 import { useIntl } from 'react-intl';
 
 // Utils
+import { useNavigation } from '@react-navigation/native';
 import { getTimeFromNow } from '../../../utils/time';
 
 // Components
@@ -13,7 +14,6 @@ import ROUTES from '../../../constants/routeNames';
 
 // Styles
 import styles from './votersDisplayStyles';
-import { useNavigation } from '@react-navigation/native';
 
 const VotersDisplayView = ({ votes, createdAt = '2010-01-01T00:00:00' }) => {
   const navigation = useNavigation();

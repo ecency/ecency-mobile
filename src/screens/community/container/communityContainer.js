@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 
+import { useNavigation } from '@react-navigation/native';
 import { getCommunity } from '../../../providers/hive/dhive';
 
 import { subscribeCommunity, leaveCommunity } from '../../../redux/actions/communitiesAction';
@@ -9,9 +10,8 @@ import { subscribeCommunity, leaveCommunity } from '../../../redux/actions/commu
 import ROUTES from '../../../constants/routeNames';
 import { updateSubscribedCommunitiesCache } from '../../../redux/actions/cacheActions';
 import { statusMessage } from '../../../redux/constants/communitiesConstants';
-import { useNavigation } from '@react-navigation/native';
 
-const CommunityContainer = ({tag, children, currentAccount, pinCode, isLoggedIn }) => {
+const CommunityContainer = ({ tag, children, currentAccount, pinCode, isLoggedIn }) => {
   const navigation = useNavigation();
   const [data, setData] = useState(null);
   const [isSubscribed, setIsSubscribed] = useState(false);

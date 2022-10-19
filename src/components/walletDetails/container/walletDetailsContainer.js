@@ -82,7 +82,9 @@ const mapStateToProps = (state) => ({
 
 const mapHooksToProps = (props) => ({
   ...props,
-  navigation:useNavigation()
-})
+  navigation: useNavigation(),
+});
 
-export default connect(mapStateToProps)(injectIntl((props)=><WalletContainer {...mapHooksToProps(props)}/>));
+export default connect(mapStateToProps)(
+  injectIntl((props) => <WalletContainer {...mapHooksToProps(props)} />),
+);

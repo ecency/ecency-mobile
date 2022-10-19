@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 
 // Services and Actions
+import { useNavigation } from '@react-navigation/native';
 import { search } from '../../../providers/ecency/ecency';
 import { lookupAccounts, getTrendingTags, getPurePost } from '../../../providers/hive/dhive';
 
@@ -15,7 +16,6 @@ import postUrlParser from '../../../utils/postUrlParser';
 
 // Component
 import SearchModalView from '../view/searchModalView';
-import { useNavigation } from '@react-navigation/native';
 
 /*
  *            Props name        Description                                     Value
@@ -23,13 +23,7 @@ import { useNavigation } from '@react-navigation/native';
  *
  */
 
-const SearchModalContainer = ({
-  isConnected,
-  handleOnClose,
-  username,
-  isOpen,
-  placeholder,
-}) => {
+const SearchModalContainer = ({ isConnected, handleOnClose, username, isOpen, placeholder }) => {
   const navigation = useNavigation();
   const [searchResults, setSearchResults] = useState({});
 

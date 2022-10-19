@@ -4,10 +4,10 @@ import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import get from 'lodash/get';
 
+import { useNavigation } from '@react-navigation/native';
 import { lookupAccounts } from '../../providers/hive/dhive';
 import { signUp } from '../../providers/ecency/ecency';
 import ROUTES from '../../constants/routeNames';
-import { useNavigation } from '@react-navigation/native';
 
 const RegisterContainer = ({ children }) => {
   const navigation = useNavigation();

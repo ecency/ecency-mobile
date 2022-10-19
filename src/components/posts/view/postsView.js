@@ -14,6 +14,7 @@ import { get } from 'lodash';
 
 // COMPONENTS
 import FastImage from 'react-native-fast-image';
+import { useNavigation } from '@react-navigation/native';
 import { PostCard } from '../../postCard';
 import { FilterBar } from '../../filterBar';
 import {
@@ -32,7 +33,6 @@ import { default as ROUTES } from '../../../constants/routeNames';
 import globalStyles from '../../../globalStyles';
 import PostsList from '../../postsList';
 import { isDarkTheme } from '../../../redux/actions/applicationActions';
-import { useNavigation } from '@react-navigation/native';
 
 let _onEndReachedCalledDuringMomentum = true;
 

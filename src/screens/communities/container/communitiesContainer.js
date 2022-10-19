@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { shuffle, isEmpty } from 'lodash';
 import { useIntl } from 'react-intl';
 
+import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../constants/routeNames';
 
 import { getCommunities, getSubscriptions } from '../../../providers/hive/dhive';
@@ -21,7 +22,6 @@ import {
   mergeSubCommunitiesCacheInDiscoverList,
   mergeSubCommunitiesCacheInSubList,
 } from '../../../utils/communitiesUtils';
-import { useNavigation } from '@react-navigation/native';
 
 const CommunitiesContainer = ({ children }) => {
   const navigation = useNavigation();

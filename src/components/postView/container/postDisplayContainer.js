@@ -4,6 +4,7 @@ import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Action
+import { useNavigation } from '@react-navigation/native';
 import { toastNotification } from '../../../redux/actions/uiAction';
 
 // Dsteem
@@ -15,7 +16,6 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 // Component
 import PostDisplayView from '../view/postDisplayView';
-import { useNavigation } from '@react-navigation/native';
 
 const PostDisplayContainer = ({
   post,

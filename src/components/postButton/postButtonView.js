@@ -1,11 +1,11 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Icon } from '../icon';
 
 // Constant
 import { default as ROUTES } from '../../constants/routeNames';
 import scalePx from '../../utils/scalePx';
-import { useNavigation } from '@react-navigation/native';
 
 const PostButtonView = () => {
   const navigation = useNavigation();
@@ -27,7 +27,7 @@ const PostButtonView = () => {
         size={scalePx(26)}
       />
     </TouchableOpacity>
-  )
+  );
 };
 
 export default PostButtonView;

@@ -6,6 +6,7 @@ import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Providers
+import { useNavigation } from '@react-navigation/native';
 import {
   followUser,
   unfollowUser,
@@ -27,7 +28,6 @@ import { toastNotification, setRcOffer, showActionModal } from '../redux/actions
 // Constants
 import { default as ROUTES } from '../constants/routeNames';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
-import { useNavigation } from '@react-navigation/native';
 
 class ProfileContainer extends Component {
   constructor(props) {
@@ -453,7 +453,7 @@ class ProfileContainer extends Component {
     const { route } = this.props;
 
     if (route && route.params && route.params.fetchData) {
-      navigationParams.fetchData();
+      route.params.fetchData();
     }
   };
 
@@ -522,7 +522,7 @@ class ProfileContainer extends Component {
       deepLinkFilter,
     } = this.state;
     const { currency, isDarkTheme, isLoggedIn, children, isHideImage, route } = this.props;
-    
+
     const activePage = route.params?.state ?? 0;
     const { currencyRate, currencySymbol } = currency;
 
@@ -591,8 +591,10 @@ const mapStateToProps = (state) => ({
 
 const mapHooksToProps = (props) => ({
   ...props,
-  navigation:useNavigation()
-})
+  navigation: useNavigation(),
+});
 
-export default connect(mapStateToProps)(injectIntl((props)=><ProfileContainer {...mapHooksToProps(props)}/>));
+export default connect(mapStateToProps)(
+  injectIntl((props) => <ProfileContainer {...mapHooksToProps(props)} />),
+);
 /* eslint-enable */

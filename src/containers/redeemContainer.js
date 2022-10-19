@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
 
+import { useNavigation } from '@react-navigation/native';
 import { promote, boost, isPostAvailable } from '../providers/hive/dhive';
 import { toastNotification } from '../redux/actions/uiAction';
 import { getUserDataWithUsername } from '../realm/realm';
-import { useNavigation } from '@react-navigation/native';
 
 /*
  *            Props Name        Description                                     Value
@@ -151,7 +151,9 @@ const mapStateToProps = (state) => ({
 
 const mapHooksToProps = (props) => ({
   ...props,
-  navigation:useNavigation()
-})
+  navigation: useNavigation(),
+});
 
-export default connect(mapStateToProps)(injectIntl((props)=><RedeemContainer {...mapHooksToProps(props)}/>));
+export default connect(mapStateToProps)(
+  injectIntl((props) => <RedeemContainer {...mapHooksToProps(props)} />),
+);

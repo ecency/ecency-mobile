@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // Services and Actions
+import { useNavigation } from '@react-navigation/native';
 import { getCommunityTitle } from '../../../../providers/hive/dhive';
 // Middleware
 
@@ -11,7 +12,6 @@ import ROUTES from '../../../../constants/routeNames';
 
 // Component
 import TagView from './tagView';
-import { useNavigation } from '@react-navigation/native';
 
 /*
  *            Props Name        Description                                     Value

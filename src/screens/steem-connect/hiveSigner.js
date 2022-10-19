@@ -3,6 +3,8 @@ import { View, Alert, StatusBar } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { connect } from 'react-redux';
 
+import { useNavigation } from '@react-navigation/native';
+import { injectIntl } from 'react-intl';
 import { loginWithSC2 } from '../../providers/hive/auth';
 import { hsOptions } from '../../constants/hsOptions';
 
@@ -14,7 +16,6 @@ import { login as loginAction } from '../../redux/actions/applicationActions';
 import { default as ROUTES } from '../../constants/routeNames';
 import persistAccountGenerator from '../../utils/persistAccountGenerator';
 import { fetchSubscribedCommunities } from '../../redux/actions/communitiesAction';
-import { useNavigation } from '@react-navigation/native';
 
 class HiveSigner extends PureComponent {
   constructor(props) {
@@ -108,7 +109,9 @@ const mapStateToProps = (state) => ({
 
 const mapHooksToProps = (props) => ({
   ...props,
-  navigation:useNavigation()
-})
+  navigation: useNavigation(),
+});
 
-export default connect(mapStateToProps)((props)=><HiveSigner {...mapHooksToProps(props)} />);
+export default connect(mapStateToProps)(
+  injectIntl((props) => <HiveSigner {...mapHooksToProps(props)} />),
+);

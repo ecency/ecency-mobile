@@ -9,6 +9,7 @@ import ActionSheetView from 'react-native-actions-sheet';
 import { connect } from 'react-redux';
 
 // Services and Actions
+import { useNavigation } from '@react-navigation/native';
 import { writeToClipboard } from '../../../../utils/clipboard';
 import { toastNotification } from '../../../../redux/actions/uiAction';
 
@@ -19,7 +20,6 @@ import { isCommunity } from '../../../../utils/communityValidation';
 import { GLOBAL_POST_FILTERS_VALUE } from '../../../../constants/options/filters';
 import { PostHtmlRenderer, VideoPlayer } from '../../..';
 import getWindowDimensions from '../../../../utils/getWindowDimensions';
-import { useNavigation } from '@react-navigation/native';
 
 const WIDTH = getWindowDimensions().width;
 

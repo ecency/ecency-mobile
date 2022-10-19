@@ -5,6 +5,7 @@ import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 
 // Services and Actions
+import { useNavigation } from '@react-navigation/native';
 import { getPointsSummary, claimPoints, getPointsHistory } from '../providers/ecency/ePoint';
 import { getAccount, boost } from '../providers/hive/dhive';
 import { getUserDataWithUsername } from '../realm/realm';
@@ -18,7 +19,6 @@ import ROUTES from '../constants/routeNames';
 
 // Utils
 import { groomingPointsTransactionData, getPointsEstimate } from '../utils/wallet';
-import { useNavigation } from '@react-navigation/native';
 
 /*
  *            Props Name        Description                                     Value
@@ -38,9 +38,8 @@ const PointsContainer = ({
   globalProps,
   pinCode,
   currency,
-  route
+  route,
 }) => {
-
   const navigation = useNavigation();
 
   const [userPoints, setUserPoints] = useState({});

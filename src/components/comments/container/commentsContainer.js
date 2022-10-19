@@ -5,6 +5,7 @@ import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 import { postBodySummary } from '@ecency/render-helper';
+import { useNavigation } from '@react-navigation/native';
 import { getComments, deleteComment } from '../../../providers/hive/dhive';
 // Services and Actions
 import { writeToClipboard } from '../../../utils/clipboard';
@@ -20,7 +21,6 @@ import CommentsView from '../view/commentsView';
 import { useAppSelector } from '../../../hooks';
 import { updateCommentCache } from '../../../redux/actions/cacheActions';
 import { CommentCacheStatus } from '../../../redux/reducers/cacheReducer';
-import { useNavigation } from '@react-navigation/native';
 
 const CommentsContainer = ({
   author,
@@ -49,7 +49,6 @@ const CommentsContainer = ({
   incrementRepliesCount,
   handleOnReplyPress,
 }) => {
-
   const navigation = useNavigation();
 
   const lastCacheUpdate = useAppSelector((state) => state.cache.lastUpdate);
