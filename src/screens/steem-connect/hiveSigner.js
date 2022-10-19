@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { View, Alert, StatusBar } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
 
 import { loginWithSC2 } from '../../providers/hive/auth';
 import { hsOptions } from '../../constants/hsOptions';
@@ -27,7 +26,7 @@ class HiveSigner extends PureComponent {
 
   _onNavigationStateChange = (event) => {
     let code;
-    const { dispatch, handleOnModalClose, intl, isPinCodeOpen, navigation } = this.props;
+    const { dispatch, handleOnModalClose, isPinCodeOpen, navigation } = this.props;
     const { isLoading } = this.state;
     if (event.url.indexOf('?code=') > -1) {
       this.webview.stopLoading();
