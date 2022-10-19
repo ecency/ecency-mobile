@@ -589,12 +589,11 @@ const mapStateToProps = (state) => ({
   isHideImage: state.application.hidePostsThumbnails,
 });
 
-const mapHooksToProps = (props) => ({
-  ...props,
-  navigation: useNavigation(),
-});
 
-export default connect(mapStateToProps)(
-  injectIntl((props) => <ProfileContainer {...mapHooksToProps(props)} />),
-);
+const mapHooksToProps = (props) => {
+  const navigation = useNavigation();
+  return <ProfileContainer {...props} navigation={navigation} />
+}
+
+export default connect(mapStateToProps)(injectIntl(mapHooksToProps));
 /* eslint-enable */

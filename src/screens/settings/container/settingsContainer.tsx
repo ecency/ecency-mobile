@@ -535,9 +535,9 @@ const mapStateToProps = (state) => ({
   isHideImages: state.application.hidePostsThumbnails,
 });
 
-const mapHooksToProps = (props) => ({
-  ...props,
-  navigation:useNavigation(),
-})
 
-export default connect(mapStateToProps)(injectIntl(props=><SettingsContainer {...mapHooksToProps(props)}/>));
+const mapHooksToProps = (props) => {
+  const navigation = useNavigation();
+  return <SettingsContainer {...props} navigation={navigation} />
+}
+export default connect(mapStateToProps)(injectIntl(mapHooksToProps));

@@ -227,14 +227,13 @@ const mapStateToProps = (state) => ({
   pinCode: state.application.pin,
 });
 
-const mapHooksToProps = (props) => ({
-  ...props,
-  navigation: useNavigation(),
-});
 
-export default connect(mapStateToProps)(
-  injectIntl((props) => <ProfileEditContainer {...mapHooksToProps(props)} />),
-);
+const mapHooksToProps = (props) => {
+  const navigation = useNavigation();
+  return <ProfileEditContainer {...props} navigation={navigation} />
+}
+
+export default connect(mapStateToProps)(injectIntl(mapHooksToProps));
 
 const IMAGE_PICKER_AVATAR_OPTIONS = {
   includeBase64: true,

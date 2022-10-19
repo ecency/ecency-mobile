@@ -90,10 +90,11 @@ class FollowsScreen extends PureComponent {
   }
 }
 
-const mapHooksToProps = (props) => ({
-  ...props,
-  navigation: useNavigation(),
-});
 
-export default injectIntl((props) => <FollowsScreen {...mapHooksToProps(props)} />);
+const mapHooksToProps = (props) => {
+  const navigation = useNavigation();
+  return <FollowsScreen {...props} navigation={navigation} />
+}
+
+export default injectIntl(mapHooksToProps);
 /* eslint-enable */

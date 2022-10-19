@@ -448,9 +448,10 @@ const mapStateToProps = (state) => ({
 });
 
 
-const mapHooksToProps = (props) => ({
-  ...props,
-  navigation:useNavigation()
-})
 
-export default connect(mapStateToProps)(injectIntl(props=><PinCodeContainer {...mapHooksToProps(props)} />));
+const mapHooksToProps = (props) => {
+  const navigation = useNavigation();
+  return <PinCodeContainer {...props} navigation={navigation} />
+}
+
+export default connect(mapStateToProps)(injectIntl(mapHooksToProps));

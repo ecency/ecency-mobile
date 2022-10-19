@@ -286,10 +286,11 @@ const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
 });
 
-const mapHooksToProps = (props) => ({
-  ...props,
-  navigation:useNavigation()
-})
 
-export default connect(mapStateToProps)(injectIntl((props)=><InAppPurchaseContainer {...mapHooksToProps(props)}/>));
+const mapHooksToProps = (props) => {
+  const navigation = useNavigation();
+  return <InAppPurchaseContainer {...props} navigation={navigation} />
+}
+
+export default connect(mapStateToProps)(injectIntl(mapHooksToProps));
 /* eslint-enable */
