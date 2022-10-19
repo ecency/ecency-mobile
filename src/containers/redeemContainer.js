@@ -3,11 +3,11 @@ import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
-import { withNavigation } from '@react-navigation/compat';
 
 import { promote, boost, isPostAvailable } from '../providers/hive/dhive';
 import { toastNotification } from '../redux/actions/uiAction';
 import { getUserDataWithUsername } from '../realm/realm';
+import { useNavigation } from '@react-navigation/native';
 
 /*
  *            Props Name        Description                                     Value
@@ -149,4 +149,9 @@ const mapStateToProps = (state) => ({
   globalProps: state.account.globalProps,
 });
 
-export default withNavigation(connect(mapStateToProps)(injectIntl(RedeemContainer)));
+const mapHooksToProps = (props) => ({
+  ...props,
+  navigation:useNavigation()
+})
+
+export default connect(mapStateToProps)(injectIntl((props)=><RedeemContainer {...mapHooksToProps(props)}/>));
