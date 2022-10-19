@@ -105,8 +105,8 @@ const PointsContainer = ({
       navigation.navigate({
         name: ROUTES.SCREENS.PINCODE,
         params: {
-          routeName: navigateTo,
-          params: navigateParams,
+          navigateTo,
+          navigateParams,
         },
       });
     } else {

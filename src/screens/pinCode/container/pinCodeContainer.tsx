@@ -33,8 +33,8 @@ import { encryptKey, decryptKey } from '../../../utils/crypto';
 import MigrationHelpers from '../../../utils/migrationHelpers';
 
 // Component
-import { withNavigation } from '@react-navigation/compat';
 import PinCodeView from '../children/pinCodeView';
+import { useNavigation } from '@react-navigation/native';
 
 
 class PinCodeContainer extends Component {
@@ -447,4 +447,10 @@ const mapStateToProps = (state) => ({
   isBiometricEnabled: state.application.isBiometricEnabled,
 });
 
-export default withNavigation(injectIntl(connect(mapStateToProps)(PinCodeContainer)));
+
+const mapHooksToProps = (props) => ({
+  ...props,
+  navigation:useNavigation()
+})
+
+export default connect(mapStateToProps)(injectIntl(props=><PinCodeContainer {...mapHooksToProps(props)} />));
