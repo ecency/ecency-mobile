@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import { withNavigation } from '@react-navigation/compat';
-import get from 'lodash/get';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 
@@ -11,13 +9,14 @@ import { subscribeCommunity, leaveCommunity } from '../../../redux/actions/commu
 import ROUTES from '../../../constants/routeNames';
 import { updateSubscribedCommunitiesCache } from '../../../redux/actions/cacheActions';
 import { statusMessage } from '../../../redux/constants/communitiesConstants';
+import { useNavigation } from '@react-navigation/native';
 
-const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isLoggedIn }) => {
+const CommunityContainer = ({tag, children, currentAccount, pinCode, isLoggedIn }) => {
+  const navigation = useNavigation();
   const [data, setData] = useState(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
 
-  const tag = get(navigation, 'state.params.tag');
   const dispatch = useDispatch();
   const intl = useIntl();
 
@@ -102,7 +101,7 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isL
 
   const _handleNewPostButtonPress = () => {
     navigation.navigate({
-      routeName: ROUTES.SCREENS.EDITOR,
+      name: ROUTES.SCREENS.EDITOR,
       key: 'editor_community_post',
       params: {
         community: [tag],
@@ -128,4 +127,4 @@ const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
 });
 
-export default connect(mapStateToProps)(withNavigation(CommunityContainer));
+export default connect(mapStateToProps)(CommunityContainer);

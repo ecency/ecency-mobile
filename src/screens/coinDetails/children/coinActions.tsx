@@ -2,7 +2,6 @@ import React, { Fragment } from 'react'
 import { useIntl } from 'react-intl'
 import { View, Text } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { withNavigation } from '@react-navigation/compat'
 import styles from './children.styles'
 
 interface CoinActionsProps {
@@ -10,7 +9,7 @@ interface CoinActionsProps {
     onActionPress: (action: string) => void;
 }
 
-export const CoinActions = withNavigation(({ actions, onActionPress }: CoinActionsProps) => {
+export const CoinActions = ({ actions, onActionPress }: CoinActionsProps) => {
     const intl = useIntl();
 
     const _renderItem = (item: string, index: number) => {
@@ -35,4 +34,4 @@ export const CoinActions = withNavigation(({ actions, onActionPress }: CoinActio
             {actions.map(_renderItem)}
         </View>
     )
-});
+};

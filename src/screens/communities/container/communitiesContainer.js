@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { withNavigation } from '@react-navigation/compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { shuffle, isEmpty } from 'lodash';
 import { useIntl } from 'react-intl';
@@ -22,8 +21,10 @@ import {
   mergeSubCommunitiesCacheInDiscoverList,
   mergeSubCommunitiesCacheInSubList,
 } from '../../../utils/communitiesUtils';
+import { useNavigation } from '@react-navigation/native';
 
-const CommunitiesContainer = ({ children, navigation }) => {
+const CommunitiesContainer = ({ children }) => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const intl = useIntl();
 
@@ -199,7 +200,7 @@ const CommunitiesContainer = ({ children, navigation }) => {
   // Component Functions
   const _handleOnPress = (name) => {
     navigation.navigate({
-      routeName: ROUTES.SCREENS.COMMUNITY,
+      name: ROUTES.SCREENS.COMMUNITY,
       params: {
         tag: name,
       },
@@ -253,4 +254,4 @@ const CommunitiesContainer = ({ children, navigation }) => {
   );
 };
 
-export default withNavigation(CommunitiesContainer);
+export default CommunitiesContainer;
