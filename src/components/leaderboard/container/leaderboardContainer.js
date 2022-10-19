@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { withNavigation } from '@react-navigation/compat';
 import { Alert } from 'react-native';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
@@ -91,4 +90,4 @@ const mapStateToProps = (state) => ({
   isConnected: state.application.isConnected,
 });
 
-export default injectIntl(withNavigation(connect(mapStateToProps)(LeaderboardContainer)));
+export default connect(mapStateToProps)(injectIntl(LeaderboardContainer));

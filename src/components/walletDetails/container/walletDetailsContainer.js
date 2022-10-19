@@ -1,5 +1,5 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { PureComponent } from 'react';
-import { withNavigation } from '@react-navigation/compat';
 import { connect } from 'react-redux';
 
 // Constants
@@ -47,7 +47,7 @@ class WalletContainer extends PureComponent {
 
     if (isPinCodeOpen) {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.PINCODE,
+        name: ROUTES.SCREENS.PINCODE,
         params: {
           navigateTo: ROUTES.SCREENS.TRANSFER,
           navigateParams: { transferType, fundType, balance },
@@ -55,7 +55,7 @@ class WalletContainer extends PureComponent {
       });
     } else {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.TRANSFER,
+        name: ROUTES.SCREENS.TRANSFER,
         params: { transferType, fundType, balance },
       });
     }
@@ -79,4 +79,9 @@ const mapStateToProps = (state) => ({
   isPinCodeOpen: state.application.isPinCodeOpen,
 });
 
-export default connect(mapStateToProps)(withNavigation(WalletContainer));
+const mapHooksToProps = (props) => ({
+  ...props,
+  navigation:useNavigation()
+})
+
+export default connect(mapStateToProps)(injectIntl((props)=><WalletContainer {...mapHooksToProps(props)}/>));
