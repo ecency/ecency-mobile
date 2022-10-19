@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { PureComponent } from 'react';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 
 // Constants
