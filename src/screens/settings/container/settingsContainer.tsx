@@ -6,6 +6,7 @@ import VersionNumber from 'react-native-version-number';
 import Config from 'react-native-config';
 import { injectIntl } from 'react-intl';
 import messaging from '@react-native-firebase/messaging';
+import { useNavigation } from '@react-navigation/native';
 import { languageRestart } from '../../../utils/I18nUtils';
 import THEME_OPTIONS from '../../../constants/options/theme';
 
@@ -61,7 +62,6 @@ import { encryptKey, decryptKey } from '../../../utils/crypto';
 import SettingsScreen from '../screen/settingsScreen';
 import { SERVER_LIST } from '../../../constants/options/api';
 import ROUTES from '../../../constants/routeNames';
-import { useNavigation } from '@react-navigation/native';
 
 /*
  *            Props Name        Description                                     Value
@@ -212,6 +212,7 @@ class SettingsContainer extends Component {
       case 'notification.comment':
       case 'notification.mention':
       case 'notification.favorite':
+      case 'notification.bookmark':
       case 'notification.reblog':
       case 'notification.transfers':
         this._handleNotification(action, actionType);
@@ -261,6 +262,7 @@ class SettingsContainer extends Component {
       reblog: 5,
       transfers: 6,
       favorite: 13,
+      bookmark: 14,
     };
     const notifyTypes = [];
 
@@ -523,6 +525,7 @@ const mapStateToProps = (state) => ({
   followNotification: state.application.notificationDetails.followNotification,
   mentionNotification: state.application.notificationDetails.mentionNotification,
   favoriteNotification: state.application.notificationDetails.favoriteNotification,
+  bookmarkNotification: state.application.notificationDetails.bookmarkNotification,
   reblogNotification: state.application.notificationDetails.reblogNotification,
   transfersNotification: state.application.notificationDetails.transfersNotification,
   voteNotification: state.application.notificationDetails.voteNotification,
@@ -535,9 +538,8 @@ const mapStateToProps = (state) => ({
   isHideImages: state.application.hidePostsThumbnails,
 });
 
-
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
-  return <SettingsContainer {...props} navigation={navigation} />
-}
+  return <SettingsContainer {...props} navigation={navigation} />;
+};
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));

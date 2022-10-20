@@ -426,7 +426,7 @@ class ApplicationContainer extends Component {
 
       if (!some(params, isEmpty)) {
         RootNavigation.navigate({
-          name:routeName,
+          name: routeName,
           params,
           key,
         });
@@ -767,6 +767,7 @@ class ApplicationContainer extends Component {
         reblogNotification: 5,
         transfersNotification: 6,
         favoriteNotification: 13,
+        bookmarkNotification: 14,
       };
 
       Object.keys(settings).map((item) => {
