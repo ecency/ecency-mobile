@@ -62,7 +62,11 @@ const NotificationLineView = ({
     _moreinfo = notification.title || notification.permlink;
   }
 
-  if (notification.type === 'reply' || (notification.type === 'mention' && !notification.post)) {
+  if (
+    notification.type === 'reply' ||
+    notification.type === 'bookmarks' ||
+    (notification.type === 'mention' && !notification.post)
+  ) {
     _moreinfo = notification.parent_title || notification.parent_permlink || notification.permlink;
   }
 
