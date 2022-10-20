@@ -262,7 +262,7 @@ class SettingsContainer extends Component {
       reblog: 5,
       transfers: 6,
       favorite: 13,
-      bookmark: 14,
+      bookmark: 15,
     };
     const notifyTypes = [];
 

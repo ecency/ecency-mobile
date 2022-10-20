@@ -767,7 +767,7 @@ class ApplicationContainer extends Component {
         reblogNotification: 5,
         transfersNotification: 6,
         favoriteNotification: 13,
-        bookmarkNotification: 14,
+        bookmarkNotification: 15,
       };
 
       Object.keys(settings).map((item) => {
