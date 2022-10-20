@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { SafeAreaView } from 'react-native';
+import { View, Text } from 'react-native';
 import get from 'lodash/get';
 
 // Components
@@ -36,7 +36,8 @@ const FeedScreen = () => {
       {({ currentAccount }) => (
         <Fragment>
           <Header showQR={true} />
-          <SafeAreaView style={styles.container} onLayout={_lazyLoadContent}>
+          <View style={styles.container} onLayout={_lazyLoadContent}>
+ 
             {lazyLoad && (
               <TabbedPosts
                 key={JSON.stringify(filterOptions)} // this hack of key change resets tabbedposts whenever filters chanage, effective to remove filter change android bug
@@ -49,7 +50,7 @@ const FeedScreen = () => {
                 pageType="main"
               />
             )}
-          </SafeAreaView>
+          </View>
         </Fragment>
       )}
     </AccountContainer>

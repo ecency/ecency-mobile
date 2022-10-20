@@ -3,7 +3,6 @@ import { get } from 'lodash';
 import { FlatListProps, FlatList, RefreshControl, ActivityIndicator, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import PostCard from '../../postCard';
-import { ThemeContainer } from '../../../containers';
 import styles from '../view/postsListStyles';
 
 export interface PostsListRef {
@@ -40,6 +39,7 @@ const postsListContainer = (
   const [imageHeights, setImageHeights] = useState(new Map<string, number>());
 
   const isHideImages = useSelector((state) => state.application.hidePostsThumbnails);
+  const isDarkTheme = useSelector((state) => state.application.isDarkThem);
   const posts = useSelector((state) => {
     return isFeedScreen ? state.posts.feedPosts : state.posts.otherPosts;
   });
@@ -152,48 +152,46 @@ const postsListContainer = (
         );
       }
       return e;
-    }
+    }};
 
     return (
-      <ThemeContainer>
-        {({ isDarkTheme }) => (
-          <FlatList
-            ref={flatListRef}
-            data={posts}
-            showsVerticalScrollIndicator={false}
-            renderItem={_renderItem}
-            keyExtractor={(content, index) => `${content.author}/${content.permlink}-${index}`}
-            removeClippedSubviews
-            onEndReachedThreshold={1}
-            maxToRenderPerBatch={3}
-            initialNumToRender={3}
-            windowSize={5}
-            extraData={imageHeights}
-            onEndReached={_onEndReached}
-            onMomentumScrollBegin={() => {
-              _onEndReachedCalledDuringMomentum = false;
+
+      <FlatList
+        ref={flatListRef}
+        data={posts}
+        showsVerticalScrollIndicator={false}
+        renderItem={_renderItem}
+        keyExtractor={(content, index) => `${content.author}/${content.permlink}-${index}`}
+        removeClippedSubviews
+        onEndReachedThreshold={1}
+        maxToRenderPerBatch={3}
+        initialNumToRender={3}
+        windowSize={5}
+        extraData={imageHeights}
+        onEndReached={_onEndReached}
+        onMomentumScrollBegin={() => {
+          _onEndReachedCalledDuringMomentum = false;
+        }}
+        ListFooterComponent={_renderFooter}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={() => {
+              if (onLoadPosts) {
+                onLoadPosts(true);
+              }
             }}
-            ListFooterComponent={_renderFooter}
-            refreshControl={
-              <RefreshControl
-                refreshing={isRefreshing}
-                onRefresh={() => {
-                  if (onLoadPosts) {
-                    onLoadPosts(true);
-                  }
-                }}
-                progressBackgroundColor="#357CE6"
-                tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-                titleColor="#fff"
-                colors={['#fff']}
-              />
-            }
-            {...props}
+            progressBackgroundColor="#357CE6"
+            tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+            titleColor="#fff"
+            colors={['#fff']}
           />
-        )}
-      </ThemeContainer>
+        }
+        {...props}
+      />
+
     );
   };
-};
+
 
 export default forwardRef(postsListContainer);

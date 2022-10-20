@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { StatusBar, Platform, View, Alert, Text } from 'react-native';
+import { StatusBar, Platform, View, Alert } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 
@@ -116,9 +116,7 @@ class ApplicationScreen extends Component {
         {!isConnected && <NoInternetConnection />}
 
         <AppNavigator />
-        {/* <Text style={{ flex: 1, justifyContent: 'center', alignItems: 'center', color: 'green' }}> */}
-          {/* I am working though */}
-        {/* </Text> */}
+ 
       </Fragment>
     );
   }
