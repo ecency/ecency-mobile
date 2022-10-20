@@ -33,7 +33,7 @@ const UserListItem = ({
   rightItemRenderer,
 }) => {
   const _handleRightButtonPress = () => {
-    if (onPressRightText){
+    if (onPressRightText) {
       const _data = {};
       _data.following = username;
 
@@ -109,12 +109,11 @@ const UserListItem = ({
                     ref={setPopoverAnchor}
                     style={styles.rightWrapper}
                     onPress={() => {
-                      if (rightTooltipText){
+                      if (rightTooltipText) {
                         openPopover();
                       }
                       _handleRightButtonPress();
-
-                  >
+                    }}>
                     <>
                       <Text
                         style={[

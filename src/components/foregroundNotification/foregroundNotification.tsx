@@ -12,7 +12,6 @@ import ROUTES from '../../constants/routeNames';
 // Styles
 import styles, { CONTAINER_HEIGHT } from './styles';
 import RootNavigation from '../../navigation/rootNavigation';
-import { useIntl } from 'react-intl';
 
 interface RemoteMessage {
   data: {
