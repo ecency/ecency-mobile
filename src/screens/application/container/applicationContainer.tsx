@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Platform, Alert, Linking, AppState, Appearance } from 'react-native';
+import { Platform, Alert, Linking, AppState, Appearance, NativeEventSubscription, EventSubscription } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import Config from 'react-native-config';
 import get from 'lodash/get';
@@ -88,6 +88,8 @@ import bugsnapInstance from '../../../config/bugsnag';
 let firebaseOnNotificationOpenedAppListener = null;
 let firebaseOnMessageListener = null;
 let removeAppearanceListener = null;
+let appStateSub:NativeEventSubscription|null = null;
+let linkingEventSub:EventSubscription|null = null;
 
 class ApplicationContainer extends Component {
   _pinCodeTimer: any = null;
@@ -107,12 +109,13 @@ class ApplicationContainer extends Component {
 
     this._setNetworkListener();
 
-    Linking.addEventListener('url', this._handleOpenURL);
-    Linking.getInitialURL().then((url) => {
-      this._handleDeepLink(url);
-    });
+    linkingEventSub = Linking.addEventListener('url', this._handleOpenURL);
+    //TOOD: read initial URL
+    // Linking.getInitialURL().then((url) => {
+    //   this._handleDeepLink(url);
+    // });
 
-    AppState.addEventListener('change', this._handleAppStateChange);
+    appStateSub = AppState.addEventListener('change', this._handleAppStateChange);
 
     this.removeAppearanceListener = Appearance.addChangeListener(this._appearanceChangeListener);
 
@@ -161,10 +164,13 @@ class ApplicationContainer extends Component {
     const { isPinCodeOpen: _isPinCodeOpen } = this.props;
 
     //TOOD: listen for back press and cancel all pending api requests;
+    if(linkingEventSub){
+      linkingEventSub.remove();
+    }
 
-    Linking.removeEventListener('url', this._handleOpenURL);
-
-    AppState.removeEventListener('change', this._handleAppStateChange);
+    if(appStateSub){
+      appStateSub.remove();
+    }
 
     if (_isPinCodeOpen) {
       clearTimeout(this._pinCodeTimer);

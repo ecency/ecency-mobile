@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker';
 import { isLandscape } from 'react-native-device-info';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { AppState } from 'react-native';
+import { AppState, NativeEventSubscription } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
@@ -16,6 +16,7 @@ export const useInitApplication = () => {
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
 
   const appState = useRef(AppState.currentState);
+  const appStateSubRef = useRef<NativeEventSubscription|null>(null);
 
   const userActivityMutation = useUserActivityMutation();
 
@@ -26,7 +27,7 @@ export const useInitApplication = () => {
   });
 
   useEffect(() => {
-    AppState.addEventListener('change', _handleAppStateChange);
+    appStateSubRef.current = AppState.addEventListener('change', _handleAppStateChange);
 
     // check for device landscape status and lcok orientation accordingly. Fix for orientation bug on android tablet devices
     isLandscape().then((isLandscape) => {
@@ -46,7 +47,9 @@ export const useInitApplication = () => {
   }, []);
 
   const _cleanup = () => {
-    AppState.removeEventListener('change', _handleAppStateChange);
+    if(appStateSubRef.current){
+      appStateSubRef.current.remove();
+    }
   };
 
   const _handleAppStateChange = (nextAppState) => {
