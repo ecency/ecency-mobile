@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 // Services and Actions
 import { useNavigation } from '@react-navigation/native';
 import { writeToClipboard } from '../../../../utils/clipboard';
-import { toastNotification } from '../../../../redux/actions/uiAction';
+import { showProfileModal, toastNotification } from '../../../../redux/actions/uiAction';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
@@ -168,13 +168,7 @@ const PostBody = ({ body, dispatch, onLoadEnd, width }) => {
 
   const _handleOnUserPress = (username) => {
     if (username) {
-      navigation.navigate({
-        name: ROUTES.SCREENS.PROFILE,
-        params: {
-          username,
-        },
-        key: username,
-      });
+      dispatch(showProfileModal(username));
     } else {
       dispatch(
         toastNotification(
