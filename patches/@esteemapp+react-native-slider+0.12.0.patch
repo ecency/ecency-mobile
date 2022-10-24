@@ -1,0 +1,21 @@
+diff --git a/node_modules/@esteemapp/react-native-slider/src/Slider.js b/node_modules/@esteemapp/react-native-slider/src/Slider.js
+index 62a724f..7733ac9 100644
+--- a/node_modules/@esteemapp/react-native-slider/src/Slider.js
++++ b/node_modules/@esteemapp/react-native-slider/src/Slider.js
+@@ -12,6 +12,7 @@ import {
+ } from 'react-native';
+ 
+ import PropTypes from 'prop-types';
++import { ImagePropTypes } from 'deprecated-react-native-prop-types';
+ 
+ const TRACK_SIZE = 4;
+ const THUMB_SIZE = 20;
+@@ -146,7 +147,7 @@ export default class Slider extends PureComponent {
+     /**
+      * Sets an image for the thumb.
+      */
+-    thumbImage: Image.propTypes.source,
++    thumbImage: ImagePropTypes.source,
+ 
+     /**
+      * Set this to true to visually see the thumb touch rect in green.
