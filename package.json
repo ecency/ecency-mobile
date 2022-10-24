@@ -24,7 +24,7 @@
     "bump-patch": "npm version patch --no-git-tag-version",
     "bump-minor": "npm version minor --no-git-tag-version",
     "bump-major": "npm version major --no-git-tag-version",
-    "postinstall": "node_modules/.bin/rn-nodeify --install --hack --yarn && cd ios && pod install"
+    "postinstall": "patch-package && node_modules/.bin/rn-nodeify --install --hack --yarn && cd ios && pod install"
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.16.7",
