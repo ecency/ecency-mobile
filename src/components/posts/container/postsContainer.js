@@ -49,11 +49,13 @@ const PostsContainer = ({
   feedSubfilterOptionsValue,
   isFeedScreen = false,
 }) => {
-  const appState = useRef(AppState.currentState);
 
   const dispatch = useDispatch();
   const intl = useIntl();
   let _postFetchTimer = null;
+
+  const appState = useRef(AppState.currentState);
+  const appStateSubRef = useRef(null);
 
   const nsfw = useSelector((state) => state.application.nsfw);
   const initPosts = useSelector((state) => state.posts.initPosts);
@@ -295,8 +297,9 @@ const PostsContainer = ({
   const isMountedRef = useIsMountedRef();
 
   useEffect(() => {
+    let appStateSub;
     if (isFeedScreen) {
-      AppState.addEventListener('change', _handleAppStateChange);
+      appStateSub = AppState.addEventListener('change', _handleAppStateChange);
       _setFeedPosts(initPosts || []);
     } else {
       _setFeedPosts([]);
@@ -306,8 +309,8 @@ const PostsContainer = ({
       if (_postFetchTimer) {
         clearTimeout(_postFetchTimer);
       }
-      if (isFeedScreen) {
-        AppState.removeEventListener('change', _handleAppStateChange);
+      if (isFeedScreen && appStateSub) {
+        appStateSub.remove();
       }
     };
   }, []);

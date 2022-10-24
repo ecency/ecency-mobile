@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { AppState, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
+import { AppState, NativeEventSubscription, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { debounce } from 'lodash';
 import PostsList from '../../postsList';
 import { fetchPromotedEntries, loadPosts } from '../services/tabbedPostsFetch';
@@ -63,6 +63,7 @@ const TabContent = ({
   //refs
   let postsListRef = useRef<PostsListRef>();
   const appState = useRef(AppState.currentState);
+  const appStateSubRef = useRef<NativeEventSubscription|null>()
   const postsRef = useRef(posts);
   const sessionUserRef = useRef(sessionUser);
 
@@ -73,7 +74,7 @@ const TabContent = ({
   //side effects
   useEffect(() => {
     if (isFeedScreen) {
-      AppState.addEventListener('change', _handleAppStateChange);
+      appStateSubRef.current = AppState.addEventListener('change', _handleAppStateChange);
     }
 
     _initContent(true, feedUsername);
@@ -110,8 +111,8 @@ const TabContent = ({
     if (postFetchTimer) {
       clearTimeout(postFetchTimer);
     }
-    if (isFeedScreen) {
-      AppState.removeEventListener('change', _handleAppStateChange);
+    if (isFeedScreen && appStateSubRef.current) {
+      appStateSubRef.current.remove();
     }
   };
 
