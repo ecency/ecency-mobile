@@ -47,6 +47,7 @@ import QUERIES from '../../../providers/queries/queryKeys';
 import bugsnapInstance from '../../../config/bugsnag';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
+import { NativeEventSubscription } from 'react-native';
 
 /*
  *            Props Name        Description                                     Value
@@ -58,6 +59,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   _isMounted = false;
 
   _updatedDraftFields = null;
+  _appStateSub:NativeEventSubscription|null = null
 
   _appState = AppState.currentState;
 
@@ -183,7 +185,7 @@ class EditorContainer extends Component<EditorContainerProps, any> {
     }
     this._requestKeyboardFocus();
 
-    AppState.addEventListener('change', this._handleAppStateChange);
+    this._appStateSub = AppState.addEventListener('change', this._handleAppStateChange);
   }
 
   componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>): void {
@@ -197,7 +199,9 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   }
 
   componentWillUnmount() {
-    AppState.removeEventListener('change', this._handleAppStateChange);
+    if(this._appStateSub){
+      this._appStateSub.remove()
+    }
     this._isMounted = false;
   }
 

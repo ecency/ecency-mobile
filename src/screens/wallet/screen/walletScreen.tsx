@@ -73,12 +73,16 @@ const WalletScreen = ({ navigation }) => {
 
   //side-effects
   useEffect(() => {
-    AppState.addEventListener('change', _handleAppStateChange);
+    const appStateSub = AppState.addEventListener('change', _handleAppStateChange);
 
     //if coinsData is empty, initilise wallet without a fresh acount fetch
     _fetchData(Object.keys(coinsData).length ? true : false);
 
-    return _cleanup;
+    return ()=>{
+      if(appStateSub){
+        appStateSub.remove()
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -88,9 +92,7 @@ const WalletScreen = ({ navigation }) => {
     }
   }, [currency, currentAccount]);
 
-  const _cleanup = () => {
-    AppState.removeEventListener('change', _handleAppStateChange);
-  };
+
 
   //actions
   const _handleAppStateChange = (nextAppState: AppStateStatus) => {

@@ -1,4 +1,4 @@
-import { View, Alert, AppState, AppStateStatus } from 'react-native';
+import { View, Alert, AppState, AppStateStatus, NativeEventSubscription } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { BasicHeader } from '../../../components';
@@ -61,12 +61,16 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
   // side-effects
   useEffect(() => {
     _fetchDetails(true);
-    AppState.addEventListener('change', _handleAppStateChange);
-    return _cleanup;
+    const appStateSub = AppState.addEventListener('change', _handleAppStateChange);
+    return _cleanup(appStateSub);
   }, []);
 
-  const _cleanup = () => {
-    AppState.removeEventListener('change', _handleAppStateChange);
+  const _cleanup = (appStateSub:NativeEventSubscription) => {
+    return () => {
+      if(appStateSub){
+        appStateSub.remove()
+      }
+    }
   };
 
   const _handleAppStateChange = (nextAppState: AppStateStatus) => {
