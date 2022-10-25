@@ -521,7 +521,7 @@ const mapHooksToProps = (props) => {
       {...props}
       navigation={navigation}
       userActivityMutation={userActivityMutation}
-    />;
+    />
   );
 };
 
