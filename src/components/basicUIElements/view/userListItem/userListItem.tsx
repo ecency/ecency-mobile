@@ -113,7 +113,8 @@ const UserListItem = ({
                         openPopover();
                       }
                       _handleRightButtonPress();
-                    }}>
+                    }}
+                  >
                     <>
                       <Text
                         style={[
@@ -135,8 +136,8 @@ const UserListItem = ({
                     visible={popoverVisible}
                     onClose={closePopover}
                     fromRect={popoverAnchorRect}
-
-                    supportedOrientations={['portrait', 'landscape']}>
+                    supportedOrientations={['portrait', 'landscape']}
+                  >
                     <Text>{rightTooltipText}</Text>
                   </Popover>
                 </Fragment>

@@ -5,6 +5,7 @@ import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Services and Actions
+import { useNavigation } from '@react-navigation/native';
 import { ignoreUser, pinCommunityPost, profileUpdate, reblog } from '../../../providers/hive/dhive';
 import { addBookmark, addReport } from '../../../providers/ecency/ecency';
 import { toastNotification, setRcOffer, showActionModal } from '../../../redux/actions/uiAction';
@@ -24,7 +25,6 @@ import { updateCurrentAccount } from '../../../redux/actions/accountAction';
 import showLoginAlert from '../../../utils/showLoginAlert';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
-import { useNavigation } from '@react-navigation/native';
 
 /*
  *            Props Name        Description                                     Value
@@ -72,12 +72,12 @@ class PostDropdownContainer extends PureComponent {
   _initOptions = (
     { content, currentAccount, pageType, subscribedCommunities, isMuted } = this.props,
   ) => {
-    //check if post is owned by current user or not, if so pinned or not
+    // check if post is owned by current user or not, if so pinned or not
     const _canUpdateBlogPin =
       !!pageType && !!content && !!currentAccount && currentAccount.name === content.author;
     const _isPinnedInProfile = !!content && content.stats?.is_pinned_blog;
 
-    //check community pin update eligibility
+    // check community pin update eligibility
     const _canUpdateCommunityPin =
       subscribedCommunities.data && !!content && content.community
         ? subscribedCommunities.data.reduce((role, subscription) => {
@@ -89,7 +89,7 @@ class PostDropdownContainer extends PureComponent {
         : false;
     const _isPinnedInCommunity = !!content && content.stats?.is_pinned;
 
-    //cook options list based on collected flags
+    // cook options list based on collected flags
     const options = OPTIONS.filter((option) => {
       switch (option) {
         case 'pin-blog':
@@ -110,7 +110,7 @@ class PostDropdownContainer extends PureComponent {
 
   // Component Functions
   _handleOnDropdownSelect = async (index) => {
-    const { currentAccount, content, dispatch, intl, navigation, isMuted } = this.props as any;
+    const { currentAccount, content, dispatch, intl, navigation, isMuted } = this.props;
     const username = content.author;
     const isOwnProfile = !username || currentAccount.username === username;
     const { options } = this.state;
@@ -193,8 +193,7 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _muteUser = () => {
-    const { currentAccount, pinCode, dispatch, intl, content, isLoggedIn, navigation } = this
-      .props as any;
+    const { currentAccount, pinCode, dispatch, intl, content, isLoggedIn, navigation } = this.props;
     const username = content.author;
     const follower = currentAccount.name;
     const following = username;
@@ -210,7 +209,7 @@ class PostDropdownContainer extends PureComponent {
       .then(() => {
         const curMutes = currentAccount.mutes || [];
         if (curMutes.indexOf(username) < 0) {
-          //check to avoid double entry corner case
+          // check to avoid double entry corner case
           currentAccount.mutes = [username, ...curMutes];
         }
         dispatch(updateCurrentAccount(currentAccount));
@@ -228,14 +227,14 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _profileActionDone = ({ error = null }) => {
-    const { intl, dispatch, content } = this.props as any;
+    const { intl, dispatch, content } = this.props;
 
     this.setState({
       isProfileLoading: false,
     });
     if (error) {
       if (error.jse_shortmsg && error.jse_shortmsg.includes('wait to transact')) {
-        //when RC is not enough, offer boosting account
+        // when RC is not enough, offer boosting account
         dispatch(setRcOffer(true));
       } else {
         Alert.alert(
@@ -249,7 +248,7 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _share = () => {
-    const { content } = this.props as any;
+    const { content } = this.props;
     const postUrl = getPostUrl(get(content, 'url'));
 
     Share.share({
@@ -258,7 +257,7 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _report = (url) => {
-    const { dispatch, intl } = this.props as any;
+    const { dispatch, intl } = this.props;
 
     const _onConfirm = () => {
       addReport('content', url)
@@ -301,7 +300,7 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _addToBookmarks = () => {
-    const { content, dispatch, intl, isLoggedIn, navigation } = this.props as any;
+    const { content, dispatch, intl, isLoggedIn, navigation } = this.props;
     if (!isLoggedIn) {
       showLoginAlert({ navigation, intl });
       return;
@@ -337,7 +336,7 @@ class PostDropdownContainer extends PureComponent {
       pinCode,
       navigation,
       userActivityMutation,
-    } = this.props as any;
+    } = this.props;
     if (!isLoggedIn) {
       showLoginAlert({ navigation, intl });
       return;
@@ -345,7 +344,7 @@ class PostDropdownContainer extends PureComponent {
     if (isLoggedIn) {
       reblog(currentAccount, pinCode, content.author, get(content, 'permlink', ''))
         .then((response) => {
-          //track user activity points ty=130
+          // track user activity points ty=130
           userActivityMutation.mutate({
             pointsTy: PointActivityIds.REBLOG,
             transactionId: response.id,
@@ -370,10 +369,10 @@ class PostDropdownContainer extends PureComponent {
             );
           } else {
             if (error && error.jse_shortmsg.split(': ')[1].includes('wait to transact')) {
-              //when RC is not enough, offer boosting account
+              // when RC is not enough, offer boosting account
               dispatch(setRcOffer(true));
             } else {
-              //when other errors
+              // when other errors
               dispatch(toastNotification(intl.formatMessage({ id: 'alert.fail' })));
             }
           }
@@ -397,7 +396,7 @@ class PostDropdownContainer extends PureComponent {
       dispatch(updateCurrentAccount({ ...currentAccount }));
       dispatch(toastNotification(intl.formatMessage({ id: 'alert.successful' })));
 
-      //TOOD: signal posts or pinned post refresh
+      // TOOD: signal posts or pinned post refresh
     } catch (err) {
       Alert.alert(
         intl.formatMessage({
@@ -435,7 +434,7 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _redirectToReply = () => {
-    const { content, fetchPost, isLoggedIn, navigation } = this.props as any;
+    const { content, fetchPost, isLoggedIn, navigation } = this.props;
 
     if (isLoggedIn) {
       navigation.navigate({
@@ -451,7 +450,7 @@ class PostDropdownContainer extends PureComponent {
   };
 
   _redirectToPromote = (name, from, redeemType) => {
-    const { content, isLoggedIn, navigation, isPinCodeOpen } = this.props as any;
+    const { content, isLoggedIn, navigation, isPinCodeOpen } = this.props;
     const params = {
       from,
       permlink: `${get(content, 'author')}/${get(content, 'permlink')}`,
@@ -514,16 +513,17 @@ const mapStateToProps = (state) => ({
   subscribedCommunities: state.communities.subscribedCommunities,
 });
 
-
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
-  const userActivityMutation = useUserActivityMutation()
-  return <PostDropdownContainer 
-    {...props} 
-    navigation={navigation} 
-    userActivityMutation={userActivityMutation}
-  />
-}
+  const userActivityMutation = useUserActivityMutation();
+  return (
+    <PostDropdownContainer
+      {...props}
+      navigation={navigation}
+      userActivityMutation={userActivityMutation}
+    />;
+  );
+};
 
-export default 
+export default
   connect(mapStateToProps)(injectIntl(mapHooksToProps));

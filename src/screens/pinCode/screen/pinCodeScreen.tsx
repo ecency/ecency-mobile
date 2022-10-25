@@ -8,13 +8,12 @@ const PinCodeScreen = ({ route, navigation }) => {
   useEffect(() => {
     const backEventSub = BackHandler.addEventListener('hardwareBackPress', _handleBackPress);
 
-    return ()=>{
-      if(backEventSub){
+    return () => {
+      if (backEventSub) {
         backEventSub.remove();
       }
     };
   }, [navigation]);
-
 
   const _handleBackPress = () => !!hideCloseButton;
 

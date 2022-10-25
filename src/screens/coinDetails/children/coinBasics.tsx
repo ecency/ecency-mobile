@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { useIntl } from 'react-intl';
-import { View, Text, } from 'react-native';
+import { View, Text } from 'react-native';
 import { DataPair } from '../../../redux/reducers/walletReducer';
 import styles from './children.styles';
 

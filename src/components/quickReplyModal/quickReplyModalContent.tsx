@@ -52,11 +52,10 @@ export const QuickReplyModalContent = forwardRef(
     const [isSending, setIsSending] = useState(false);
 
     const headerText =
-      selectedPost &&
-      (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS as any));
-    let parentAuthor = selectedPost ? selectedPost.author : '';
-    let parentPermlink = selectedPost ? selectedPost.permlink : '';
-    let draftId = `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; //different draftId for each user acount
+      selectedPost && (selectedPost.summary || postBodySummary(selectedPost, 150, Platform.OS));
+    const parentAuthor = selectedPost ? selectedPost.author : '';
+    const parentPermlink = selectedPost ? selectedPost.permlink : '';
+    const draftId = `${currentAccount.name}/${parentAuthor}/${parentPermlink}`; // different draftId for each user acount
 
     useImperativeHandle(ref, () => ({
       handleSheetClose() {
@@ -87,7 +86,7 @@ export const QuickReplyModalContent = forwardRef(
         body: value,
       };
 
-      //add quick comment cache entry
+      // add quick comment cache entry
       dispatch(updateDraftCache(draftId, quickCommentDraftData));
     };
 
@@ -96,12 +95,12 @@ export const QuickReplyModalContent = forwardRef(
       onClose();
     };
 
-  // navigate to post on summary press
-  const _handleOnSummaryPress = () => {
-    Keyboard.dismiss();
-    onClose();
-    RootNavigation.navigate({
-      name: ROUTES.SCREENS.POST,
+    // navigate to post on summary press
+    const _handleOnSummaryPress = () => {
+      Keyboard.dismiss();
+      onClose();
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.POST,
         params: {
           content: selectedPost,
         },
@@ -167,7 +166,7 @@ export const QuickReplyModalContent = forwardRef(
               ),
             );
 
-            //add comment cache entry
+            // add comment cache entry
             dispatch(
               updateCommentCache(
                 `${parentAuthor}/${parentPermlink}`,
@@ -189,7 +188,7 @@ export const QuickReplyModalContent = forwardRef(
               dispatch(deleteDraftCacheEntry(draftId));
             }
 
-            //close should alwasy be called at method end
+            // close should alwasy be called at method end
             onClose();
           })
           .catch((error) => {
@@ -202,7 +201,7 @@ export const QuickReplyModalContent = forwardRef(
             );
 
             setIsSending(false);
-            _addQuickCommentIntoCache(); //add comment value into cache if there is error while posting comment
+            _addQuickCommentIntoCache(); // add comment value into cache if there is error while posting comment
           });
         console.log('status : ', status);
       }
@@ -224,16 +223,16 @@ export const QuickReplyModalContent = forwardRef(
       }
     };
 
-    //REMOVED FOR TESTING, CAN BE PUT BACK IF APP STILL CRASHES
+    // REMOVED FOR TESTING, CAN BE PUT BACK IF APP STILL CRASHES
     // const _deboucedCacheUpdate = useCallback(debounce(_addQuickCommentIntoCache, 500), [])
 
     const _onChangeText = (value) => {
       setCommentValue(value);
-      //REMOVED FOR TESTING, CAN BE PUT BACK IF APP STILL CRASHES
+      // REMOVED FOR TESTING, CAN BE PUT BACK IF APP STILL CRASHES
       // _deboucedCacheUpdate(value)
     };
 
-    //VIEW_RENDERERS
+    // VIEW_RENDERERS
 
     const _renderSummary = () => (
       <TouchableOpacity onPress={() => _handleOnSummaryPress()}>

@@ -6,7 +6,11 @@ import { CoinSummary } from '../children';
 import styles from './screen.styles';
 import ActivitiesList from '../children/activitiesList';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { CoinActivitiesCollection, CoinData, QuoteItem } from '../../../redux/reducers/walletReducer';
+import {
+  CoinActivitiesCollection,
+  CoinData,
+  QuoteItem,
+} from '../../../redux/reducers/walletReducer';
 import { fetchCoinActivities } from '../../../utils/wallet';
 import { fetchAndSetCoinsData, setCoinActivities } from '../../../redux/actions/walletActions';
 import RootNavigation from '../../../navigation/rootNavigation';
@@ -65,12 +69,12 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
     return _cleanup(appStateSub);
   }, []);
 
-  const _cleanup = (appStateSub:NativeEventSubscription) => {
+  const _cleanup = (appStateSub: NativeEventSubscription) => {
     return () => {
-      if(appStateSub){
-        appStateSub.remove()
+      if (appStateSub) {
+        appStateSub.remove();
       }
-    }
+    };
   };
 
   const _handleAppStateChange = (nextAppState: AppStateStatus) => {

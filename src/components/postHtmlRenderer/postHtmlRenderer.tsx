@@ -40,7 +40,7 @@ export const PostHtmlRenderer = memo(
   }: PostHtmlRendererProps) => {
     const postImgUrlsRef = useRef<string[]>([]);
 
-    //new renderer functions
+    // new renderer functions
     body = body.replace(/<center>/g, '<div class="text-center">').replace(/<\/center>/g, '</div>');
 
     console.log('Comment body:', body);
@@ -99,7 +99,7 @@ export const PostHtmlRenderer = memo(
 
             break;
 
-          //unused cases
+          // unused cases
           case 'markdown-witnesses-link':
             setSelectedLink(href);
             break;
@@ -109,7 +109,7 @@ export const PostHtmlRenderer = memo(
             break;
 
           case 'markdown-community-link':
-            //tag press also handles community by default
+            // tag press also handles community by default
             if (handleTagPress) {
               handleTagPress(community, filter);
             }
@@ -121,26 +121,26 @@ export const PostHtmlRenderer = memo(
       } catch (error) {}
     };
 
-    //this method checks if image is a child of table column
-    //and calculates img width accordingly,
-    //returns full width if img is not part of table
+    // this method checks if image is a child of table column
+    // and calculates img width accordingly,
+    // returns full width if img is not part of table
     const getMaxImageWidth = (tnode: TNode) => {
-      //return full width if not parent exist
+      // return full width if not parent exist
       if (!tnode.parent || tnode.parent.tagName === 'body') {
         return contentWidth;
       }
 
-      //return divided width based on number td tags
+      // return divided width based on number td tags
       if (tnode.parent.tagName === 'td' || tnode.parent.tagName === 'th') {
         const cols = tnode.parent.parent.children.length;
         return contentWidth / cols;
       }
 
-      //check next parent
+      // check next parent
       return getMaxImageWidth(tnode.parent);
     };
 
-    //Does some needed dom modifications for proper rendering
+    // Does some needed dom modifications for proper rendering
     const _onElement = (element: Element) => {
       if (element.tagName === 'img' && element.attribs.src) {
         const imgUrl = element.attribs.src;
@@ -150,7 +150,7 @@ export const PostHtmlRenderer = memo(
         }
       }
 
-      //this avoids invalid rendering of first element of table pushing rest of columsn to extreme right.
+      // this avoids invalid rendering of first element of table pushing rest of columsn to extreme right.
       if (element.tagName === 'table') {
         console.log('table detected');
 
@@ -160,7 +160,7 @@ export const PostHtmlRenderer = memo(
             let colIndex = -1;
 
             child.children.forEach((gChild, index) => {
-              //check if element of row in table is not a column while it's other siblings are columns
+              // check if element of row in table is not a column while it's other siblings are columns
               if (gChild.type === 'tag') {
                 if (gChild.name !== 'td' && headerIndex === -1) {
                   headerIndex = index;
@@ -170,14 +170,14 @@ export const PostHtmlRenderer = memo(
               }
             });
 
-            //if row contans a header with column siblings
-            //remove first child and place it as first separate row in table
+            // if row contans a header with column siblings
+            // remove first child and place it as first separate row in table
             if (headerIndex !== -1 && colIndex !== -1 && headerIndex < colIndex) {
               console.log('time to do some switching', headerIndex, colIndex);
               const header = child.children[headerIndex];
               const headerRow = new Element('tr', {}, [header]);
 
-              //TODO: put back repalcement for domutils
+              // TODO: put back repalcement for domutils
               // removeElement(header);
               // prependChild(element, headerRow);
             }
@@ -194,11 +194,11 @@ export const PostHtmlRenderer = memo(
         _handleOnLinkPress(data);
       };
 
-      //process video link
+      // process video link
       if (tnode.classes?.indexOf('markdown-video-link') >= 0) {
         if (isComment) {
           const imgElement = tnode.children.find((child) => {
-            return child.classes.indexOf('video-thumbnail') > 0 ? true : false;
+            return child.classes.indexOf('video-thumbnail') > 0;
           });
           if (!imgElement) {
             return <VideoThumb contentWidth={contentWidth} onPress={_onPress} />;
@@ -270,7 +270,7 @@ export const PostHtmlRenderer = memo(
       return <TDefaultRenderer {...props} />;
     };
 
-    //based on number of columns a table have, sets scroll enabled or disable, also adjust table full width
+    // based on number of columns a table have, sets scroll enabled or disable, also adjust table full width
     const _tableRenderer = ({ InternalRenderer, ...props }: CustomRendererProps<TNode>) => {
       // const tableProps = useHtmlTableProps(props);
 
@@ -313,10 +313,10 @@ export const PostHtmlRenderer = memo(
         a: styles.a,
         img: styles.img,
         table: styles.table,
-        tr: { ...styles.tr, width: contentWidth }, //center tag causes tr to have 0 width if not exclusivly set, contentWidth help avoid that
+        tr: { ...styles.tr, width: contentWidth }, // center tag causes tr to have 0 width if not exclusivly set, contentWidth help avoid that
         th: { ...styles.th, minWidth: _minTableColWidth },
         td: { ...styles.td, minWidth: _minTableColWidth },
-        div: { ...styles.div, maxWidth: contentWidth }, //makes sure width covers the available horizontal space for view and not exceed the contentWidth if parent bound id not defined
+        div: { ...styles.div, maxWidth: contentWidth }, // makes sure width covers the available horizontal space for view and not exceed the contentWidth if parent bound id not defined
         blockquote: styles.blockquote,
         code: styles.code,
         li: styles.li,
@@ -338,14 +338,13 @@ export const PostHtmlRenderer = memo(
     );
 
     const renderers = useMemo(
-      () =>
-        ({
-          img: _imageRenderer,
-          a: _anchorRenderer,
-          p: _paraRenderer,
-          iframe: _iframeRenderer,
-          table: _tableRenderer,
-        } as any),
+      () => ({
+        img: _imageRenderer,
+        a: _anchorRenderer,
+        p: _paraRenderer,
+        iframe: _iframeRenderer,
+        table: _tableRenderer,
+      }),
       [],
     );
 

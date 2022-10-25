@@ -92,5 +92,4 @@ const FilterBarView = ({
   );
 };
 
-
 export default FilterBarView;

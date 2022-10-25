@@ -49,7 +49,6 @@ const PostsContainer = ({
   feedSubfilterOptionsValue,
   isFeedScreen = false,
 }) => {
-
   const dispatch = useDispatch();
   const intl = useIntl();
   let _postFetchTimer = null;
@@ -408,7 +407,7 @@ const PostsContainer = ({
   useEffect(() => {
     const recommendeds = [...recommendedUsers];
 
-    Object.keys(followingUsers).map((following) => {
+    Object.keys(followingUsers).forEach((following) => {
       if (!followingUsers[following].loading) {
         if (!followingUsers[following].error) {
           if (followingUsers[following].isFollowing) {
@@ -434,7 +433,7 @@ const PostsContainer = ({
   useEffect(() => {
     const recommendeds = [...recommendedCommunities];
 
-    Object.keys(subscribingCommunities).map((communityId) => {
+    Object.keys(subscribingCommunities).forEach((communityId) => {
       if (!subscribingCommunities[communityId].loading) {
         if (!subscribingCommunities[communityId].error) {
           if (subscribingCommunities[communityId].isSubscribed) {

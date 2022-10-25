@@ -27,22 +27,16 @@ import { useMediaDeleteMutation } from '../../../providers/queries';
 type Props = {
   insertedMediaUrls: string[];
   mediaUploads: any[];
-  indices: Map<number, boolean>;
   isAddingToUploads: boolean;
-  getMediaUploads: () => void;
-  deleteMedia: (ids: string) => Promise<boolean>;
   insertMedia: (map: Map<number, boolean>) => void;
   handleOpenGallery: (addToUploads?: boolean) => void;
   handleOpenCamera: () => void;
-  handleOpenForUpload: () => void;
 };
 
 const UploadsGalleryContent = ({
   insertedMediaUrls,
   mediaUploads,
   isAddingToUploads,
-  getMediaUploads,
-  deleteMedia,
   insertMedia,
   handleOpenGallery,
   handleOpenCamera,

@@ -140,7 +140,7 @@ export const EditorToolbar = ({
     Animated.timing(translateY.current, {
       duration: 200,
       toValue: 0,
-       easing: EasingNode.inOut(EasingNode.ease),
+      easing: EasingNode.inOut(EasingNode.ease),
     }).start();
   };
 

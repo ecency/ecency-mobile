@@ -6,6 +6,7 @@ import VersionNumber from 'react-native-version-number';
 import Config from 'react-native-config';
 import { injectIntl } from 'react-intl';
 import messaging from '@react-native-firebase/messaging';
+import { useNavigation } from '@react-navigation/native';
 import { languageRestart } from '../../../utils/I18nUtils';
 import THEME_OPTIONS from '../../../constants/options/theme';
 
@@ -61,7 +62,6 @@ import { encryptKey, decryptKey } from '../../../utils/crypto';
 import SettingsScreen from '../screen/settingsScreen';
 import { SERVER_LIST } from '../../../constants/options/api';
 import ROUTES from '../../../constants/routeNames';
-import { useNavigation } from '@react-navigation/native';
 
 /*
  *            Props Name        Description                                     Value
@@ -105,7 +105,7 @@ class SettingsContainer extends Component {
       case 'language':
         await dispatch(setLanguage(LANGUAGE_VALUE[action]));
         await setLanguage2DB(LANGUAGE_VALUE[action]);
-        await languageRestart(selectedLanguage, LANGUAGE_VALUE[action], intl); //restart the app and flip change layout according to lang direction
+        await languageRestart(selectedLanguage, LANGUAGE_VALUE[action], intl); // restart the app and flip change layout according to lang direction
         break;
 
       case 'api':
@@ -118,12 +118,12 @@ class SettingsContainer extends Component {
         break;
 
       case 'theme':
-        let setting = THEME_OPTIONS[action].value;
+        const setting = THEME_OPTIONS[action].value;
         const systemTheme = Appearance.getColorScheme();
 
         dispatch(isDarkTheme(setting === null ? systemTheme === 'dark' : setting));
         dispatch(setColorTheme(action));
-        setTheme(setting); //TODO: remove before merging
+        setTheme(setting); // TODO: remove before merging
 
         break;
 
@@ -270,7 +270,7 @@ class SettingsContainer extends Component {
         type: actionType,
       }),
     );
-    //TODO: remove setting notification settings
+    // TODO: remove setting notification settings
     setNotificationSettings({
       action,
       type: actionType,
@@ -391,7 +391,7 @@ class SettingsContainer extends Component {
   };
 
   _handleDeleteAccount = () => {
-    const { dispatch, intl, currentAccount } = this.props as any;
+    const { dispatch, intl, currentAccount } = this.props;
 
     const _onConfirm = () => {
       deleteAccount(currentAccount.username)
@@ -434,6 +434,7 @@ class SettingsContainer extends Component {
       }),
     );
   };
+
   _clearUserData = async () => {
     const { otherAccounts, dispatch } = this.props;
 
@@ -535,9 +536,8 @@ const mapStateToProps = (state) => ({
   isHideImages: state.application.hidePostsThumbnails,
 });
 
-
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
-  return <SettingsContainer {...props} navigation={navigation} />
-}
+  return <SettingsContainer {...props} navigation={navigation} />;
+};
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));

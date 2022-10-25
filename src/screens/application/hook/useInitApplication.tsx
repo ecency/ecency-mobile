@@ -16,7 +16,7 @@ export const useInitApplication = () => {
   const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
 
   const appState = useRef(AppState.currentState);
-  const appStateSubRef = useRef<NativeEventSubscription|null>(null);
+  const appStateSubRef = useRef<NativeEventSubscription | null>(null);
 
   const userActivityMutation = useUserActivityMutation();
 
@@ -47,7 +47,7 @@ export const useInitApplication = () => {
   }, []);
 
   const _cleanup = () => {
-    if(appStateSubRef.current){
+    if (appStateSubRef.current) {
       appStateSubRef.current.remove();
     }
   };

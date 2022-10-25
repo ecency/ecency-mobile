@@ -23,14 +23,14 @@ export const loadPosts = async ({
 }: LoadPostsOptions) => {
   let filter = filterKey;
 
-  //match filter with api if is friends
+  // match filter with api if is friends
   if (filter === 'friends') {
     filter = 'feed';
   }
 
   const { isLoading, startPermlink, startAuthor } = tabMeta;
 
-  //reject update if already loading
+  // reject update if already loading
   if (
     isLoading ||
     !isConnected ||
@@ -40,7 +40,7 @@ export const loadPosts = async ({
     return;
   }
 
-  //reject update if no connection
+  // reject update if no connection
   if (!isConnected && (refreshing || isLoading)) {
     setTabMeta({
       ...tabMeta,
@@ -56,7 +56,7 @@ export const loadPosts = async ({
     isRefreshing: refreshing,
   });
 
-  let options = {} as any;
+  let options = {};
   const limit = isLatestPostsCheck ? 5 : POSTS_FETCH_COUNT;
   let func = null;
 
@@ -107,7 +107,7 @@ export const loadPosts = async ({
   }
 
   try {
-    //fetching posts
+    // fetching posts
     const result: any[] = await func(options, feedUsername, nsfw);
 
     if (result.length > 0) {
@@ -129,7 +129,7 @@ export const loadPosts = async ({
       }
     }
 
-    //if filter is feed convert back to reducer filter
+    // if filter is feed convert back to reducer filter
     if (filter === 'feed') {
       filter = 'friends';
     }
@@ -161,7 +161,7 @@ export const loadPosts = async ({
       retData.updatedPosts = updatedPosts;
     }
 
-    //fetch add pinned posts if applicable
+    // fetch add pinned posts if applicable
     if (
       retData.updatedPosts &&
       pinnedPermlink &&

@@ -7,6 +7,7 @@ import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Services
+import { useNavigation } from '@react-navigation/native';
 import bugsnagInstance from '../config/bugsnag';
 import { purchaseOrder } from '../providers/ecency/ecency';
 
@@ -14,10 +15,10 @@ import { purchaseOrder } from '../providers/ecency/ecency';
 import { default as ROUTES } from '../constants/routeNames';
 import { showActionModal } from '../redux/actions/uiAction';
 import { UserAvatar } from '../components';
-import { useNavigation } from '@react-navigation/native';
 
 class InAppPurchaseContainer extends Component {
   purchaseUpdateSubscription = null;
+
   purchaseErrorSubscription = null;
 
   constructor(props) {
@@ -72,15 +73,15 @@ class InAppPurchaseContainer extends Component {
     }
   };
 
-  //this snippet consumes all previously bought purchases
-  //that are set to be consumed yet
+  // this snippet consumes all previously bought purchases
+  // that are set to be consumed yet
   _consumeAvailablePurchases = async () => {
     try {
-      //get available purchase
+      // get available purchase
       const purchases = await RNIap.getAvailablePurchases();
-      //check consumeable status
+      // check consumeable status
       for (let i = 0; i < purchases.length; i++) {
-        //consume item using finishTransactionx
+        // consume item using finishTransactionx
         await RNIap.finishTransaction(purchases[i], true);
       }
     } catch (err) {
@@ -108,7 +109,7 @@ class InAppPurchaseContainer extends Component {
           platform: Platform.OS === 'android' ? 'play_store' : 'app_store',
           product: get(purchase, 'productId'),
           receipt: Platform.OS === 'android' ? token : receipt,
-          user: username ? username : name, //username from passed in props from nav params i-e got from url qr scan
+          user: username || name, // username from passed in props from nav params i-e got from url qr scan
         };
 
         purchaseOrder(data)
@@ -161,7 +162,7 @@ class InAppPurchaseContainer extends Component {
   _getTitle = (title) => {
     let _title = title.toUpperCase();
     if (_title !== 'FREE POINTS') {
-      _title = _title.replace(/[^0-9]+/g, '') + ' POINTS';
+      _title = `${_title.replace(/[^0-9]+/g, '')} POINTS`;
     }
 
     return _title;
@@ -208,16 +209,16 @@ class InAppPurchaseContainer extends Component {
   };
 
   _handleQrPurchase = async () => {
-    const { skus, dispatch, intl, route} = this.props as any;
+    const { skus, dispatch, intl, route } = this.props;
     const products = await RNIap.getProducts(skus);
-    const productId = route.param?.productId ?? ''
-    const username = route.param?.username ?? ''
+    const productId = route.param?.productId ?? '';
+    const username = route.param?.username ?? '';
 
     const product: Product =
       productId && products && products.find((product) => product.productId === productId);
 
     if (product) {
-      let body = intl.formatMessage(
+      const body = intl.formatMessage(
         {
           id: 'boost.confirm_purchase_summary',
         },
@@ -228,7 +229,7 @@ class InAppPurchaseContainer extends Component {
         },
       );
 
-      let title = intl.formatMessage(
+      const title = intl.formatMessage(
         {
           id: 'boost.confirm_purchase',
         },
@@ -275,7 +276,7 @@ class InAppPurchaseContainer extends Component {
         getItems: this._getItems,
         getTitle: this._getTitle,
         spinProduct: productList.filter((item) => item.productId.includes('spins')),
-        navigation: navigation,
+        navigation,
       })
     );
   }
@@ -285,11 +286,10 @@ const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
 });
 
-
 const mapHooksToProps = (props) => {
   const navigation = useNavigation();
-  return <InAppPurchaseContainer {...props} navigation={navigation} />
-}
+  return <InAppPurchaseContainer {...props} navigation={navigation} />;
+};
 
 export default connect(mapStateToProps)(injectIntl(mapHooksToProps));
 /* eslint-enable */

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Alert, AppState, AppStateStatus } from 'react-native';
+import { Alert, AppState, AppStateStatus, NativeEventSubscription } from 'react-native';
 import get from 'lodash/get';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isArray } from 'lodash';
@@ -47,7 +47,6 @@ import QUERIES from '../../../providers/queries/queryKeys';
 import bugsnapInstance from '../../../config/bugsnag';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
-import { NativeEventSubscription } from 'react-native';
 
 /*
  *            Props Name        Description                                     Value
@@ -59,7 +58,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   _isMounted = false;
 
   _updatedDraftFields = null;
-  _appStateSub:NativeEventSubscription|null = null
+
+  _appStateSub: NativeEventSubscription | null = null;
 
   _appState = AppState.currentState;
 
@@ -199,8 +199,8 @@ class EditorContainer extends Component<EditorContainerProps, any> {
   }
 
   componentWillUnmount() {
-    if(this._appStateSub){
-      this._appStateSub.remove()
+    if (this._appStateSub) {
+      this._appStateSub.remove();
     }
     this._isMounted = false;
   }

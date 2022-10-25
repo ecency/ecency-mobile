@@ -99,13 +99,13 @@ const postsListContainer = (
   };
 
   const _renderItem = ({ item, index }: { item: any; index: number }) => {
-    const e = [] as any;
+    const e = [];
 
     if (index % 3 === 0) {
       const ix = index / 3 - 1;
       if (promotedPosts[ix] !== undefined) {
         const p = promotedPosts[ix];
-        let isMuted = mutes && mutes.indexOf(p.author) > -1;
+        const isMuted = mutes && mutes.indexOf(p.author) > -1;
 
         if (
           !isMuted &&
@@ -113,7 +113,7 @@ const postsListContainer = (
           posts &&
           posts.filter((x) => x.permlink === p.permlink).length <= 0
         ) {
-          //get image height from cache if available
+          // get image height from cache if available
           const localId = p.author + p.permlink;
           const imgHeight = imageHeights.get(localId);
 
@@ -132,9 +132,9 @@ const postsListContainer = (
         }
       }
 
-      let isMuted = mutes && mutes.indexOf(item.author) > -1;
+      const isMuted = mutes && mutes.indexOf(item.author) > -1;
       if (!isMuted && get(item, 'author', null)) {
-        //get image height from cache if available
+        // get image height from cache if available
         const localId = item.author + item.permlink;
         const imgHeight = imageHeights.get(localId);
 
@@ -152,46 +152,44 @@ const postsListContainer = (
         );
       }
       return e;
-    }};
-
-    return (
-
-      <FlatList
-        ref={flatListRef}
-        data={posts}
-        showsVerticalScrollIndicator={false}
-        renderItem={_renderItem}
-        keyExtractor={(content, index) => `${content.author}/${content.permlink}-${index}`}
-        removeClippedSubviews
-        onEndReachedThreshold={1}
-        maxToRenderPerBatch={3}
-        initialNumToRender={3}
-        windowSize={5}
-        extraData={imageHeights}
-        onEndReached={_onEndReached}
-        onMomentumScrollBegin={() => {
-          _onEndReachedCalledDuringMomentum = false;
-        }}
-        ListFooterComponent={_renderFooter}
-        refreshControl={
-          <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={() => {
-              if (onLoadPosts) {
-                onLoadPosts(true);
-              }
-            }}
-            progressBackgroundColor="#357CE6"
-            tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
-            titleColor="#fff"
-            colors={['#fff']}
-          />
-        }
-        {...props}
-      />
-
-    );
+    }
   };
 
+  return (
+    <FlatList
+      ref={flatListRef}
+      data={posts}
+      showsVerticalScrollIndicator={false}
+      renderItem={_renderItem}
+      keyExtractor={(content, index) => `${content.author}/${content.permlink}-${index}`}
+      removeClippedSubviews
+      onEndReachedThreshold={1}
+      maxToRenderPerBatch={3}
+      initialNumToRender={3}
+      windowSize={5}
+      extraData={imageHeights}
+      onEndReached={_onEndReached}
+      onMomentumScrollBegin={() => {
+        _onEndReachedCalledDuringMomentum = false;
+      }}
+      ListFooterComponent={_renderFooter}
+      refreshControl={
+        <RefreshControl
+          refreshing={isRefreshing}
+          onRefresh={() => {
+            if (onLoadPosts) {
+              onLoadPosts(true);
+            }
+          }}
+          progressBackgroundColor="#357CE6"
+          tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
+          titleColor="#fff"
+          colors={['#fff']}
+        />
+      }
+      {...props}
+    />
+  );
+};
 
 export default forwardRef(postsListContainer);

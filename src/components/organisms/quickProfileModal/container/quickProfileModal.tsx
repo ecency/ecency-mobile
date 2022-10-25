@@ -30,8 +30,8 @@ export const QuickProfileModal = () => {
       gestureEnabled={true}
       containerStyle={styles.sheetContent}
       onClose={_onClose}
-      indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}>
-
+      indicatorColor={EStyleSheet.value('$primaryWhiteLightBackground')}
+    >
       <QuickProfileContent username={profileModalUsername} onClose={_onClose} />
     </ActionSheet>
   );

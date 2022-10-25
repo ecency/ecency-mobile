@@ -42,7 +42,7 @@ export const parseLinkData = (tnode: TNode): LinkData => {
   }
 
   if (tnode.classes.includes('markdown-author-link')) {
-    var author = tnode.attributes['data-author'];
+    const author = tnode.attributes['data-author'];
     return {
       type: 'markdown-author-link',
       author,
@@ -50,7 +50,7 @@ export const parseLinkData = (tnode: TNode): LinkData => {
   }
 
   if (tnode.classes.includes('markdown-post-link')) {
-    var author = tnode.attributes['data-author'];
+    let author = tnode.attributes['data-author'];
     let permlink = tnode.attributes['data-permlink'];
 
     // snippets checks if there is anchored post inside permlink and use that instead

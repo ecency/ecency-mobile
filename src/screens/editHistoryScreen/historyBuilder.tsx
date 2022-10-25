@@ -16,7 +16,7 @@ export default (raw: CommentHistoryItem[]) => {
   for (let l = 0; l < raw.length; l += 1) {
     if (raw[l].body.startsWith('@@')) {
       const p = dmp.patch_fromText(raw[l].body);
-      h = dmp.patch_apply(p, h)[0] as any;
+      h = dmp.patch_apply(p, h)[0];
       raw[l].body = h;
     } else {
       h = raw[l].body;

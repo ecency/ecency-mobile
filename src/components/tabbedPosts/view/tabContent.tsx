@@ -19,8 +19,8 @@ const DEFAULT_TAB_META = {
   isRefreshing: false,
 } as TabMeta;
 
-var scrollOffset = 0;
-var blockPopup = false;
+let scrollOffset = 0;
+let blockPopup = false;
 const SCROLL_POPUP_THRESHOLD = 5000;
 
 const TabContent = ({
@@ -310,8 +310,8 @@ const TabContent = ({
   );
 
   const _onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    var currentOffset = event.nativeEvent.contentOffset.y;
-    var scrollUp = currentOffset < scrollOffset;
+    let currentOffset = event.nativeEvent.contentOffset.y;
+    let scrollUp = currentOffset < scrollOffset;
     scrollOffset = currentOffset;
 
     if (scrollUp && !blockPopup && currentOffset > SCROLL_POPUP_THRESHOLD) {

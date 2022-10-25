@@ -116,7 +116,6 @@ class ApplicationScreen extends Component {
         {!isConnected && <NoInternetConnection />}
 
         <AppNavigator />
- 
       </Fragment>
     );
   }

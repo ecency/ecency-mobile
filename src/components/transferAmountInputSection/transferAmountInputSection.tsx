@@ -37,7 +37,7 @@ const TransferAmountInputSection = ({
   setAmount,
   transferType,
   fundType,
-}): JSX.Element => {
+}) => {
   const intl = useIntl();
 
   const _handleOnChange = (state, val) => {

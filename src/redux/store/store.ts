@@ -1,12 +1,12 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 
-import Reactotron from '../../../reactotron-config';
-
 import thunk from 'redux-thunk';
-import reducers from '../reducers';
-import MigrationHelpers from '../../utils/migrationHelpers';
 import { createMigrate, createTransform, persistReducer, persistStore } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
+import Reactotron from '../../../reactotron-config';
+
+import reducers from '../reducers';
+import MigrationHelpers from '../../utils/migrationHelpers';
 
 const transformCacheVoteMap = createTransform(
   (inboundState: any) => ({
@@ -51,7 +51,7 @@ const persistConfig = {
 };
 
 // // Middleware: Redux Persist Persisted Reducer
-const persistedReducer = persistReducer(persistConfig, reducers as any);
+const persistedReducer = persistReducer(persistConfig, reducers);
 
 const middleware = [thunk];
 

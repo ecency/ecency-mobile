@@ -98,12 +98,12 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
     const fullPermlink =
       get(data, 'permlink1', '') + get(data, 'permlink2', '') + get(data, 'permlink3', '');
 
-    let params = {
+    const params = {
       author: get(data, 'source', ''),
       permlink: fullPermlink,
     };
-    let key = fullPermlink
-    let name = ROUTES.SCREENS.POST;
+    const key = fullPermlink;
+    const name = ROUTES.SCREENS.POST;
 
     RootNavigation.navigate({
       name,
