@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, TouchableHighlight } from 'react-native';
-import Animated, { Easing } from 'react-native-reanimated';
+import Animated, { EasingNode } from 'react-native-reanimated';
 
 // Constants
 
@@ -51,7 +51,7 @@ class CollapsibleCardView extends PureComponent {
     Animated.timing(this.anime.height, {
       toValue: this.anime.expanded ? this._getMinValue() : this._getMaxValue() + (moreHeight || 0),
       duration: 200,
-      easing: Easing.inOut(Easing.ease),
+      easing: EasingNode.inOut(EasingNode.ease),
     }).start();
     this.anime.expanded = !this.anime.expanded;
 

@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 import { View as AnimatedView } from 'react-native-animatable';
-import Animated, { Easing } from 'react-native-reanimated';
+import Animated, { EasingNode } from 'react-native-reanimated';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import FastImage from 'react-native-fast-image';
 import { FlatList } from 'react-native-gesture-handler';
@@ -255,7 +255,7 @@ const UploadsGalleryContent = ({
         Animated.timing(animatedHeightRef.current, {
           toValue: isExpandedMode ? COMPACT_HEIGHT : EXPANDED_HEIGHT,
           duration: 300,
-          easing: Easing.inOut(Easing.cubic),
+          easing: EasingNode.inOut(EasingNode.cubic),
         }).start(() => {
           setIsExpandedMode(!isExpandedMode);
         });

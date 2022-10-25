@@ -7,7 +7,7 @@ import {
   PanGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
-import Animated, { Easing, Extrapolate } from 'react-native-reanimated';
+import Animated, { EasingNode, Extrapolate } from 'react-native-reanimated';
 import { IconButton, UploadsGalleryModal } from '../..';
 import styles from '../styles/editorToolbarStyles';
 import { useAppSelector } from '../../../hooks';
@@ -140,7 +140,7 @@ export const EditorToolbar = ({
     Animated.timing(translateY.current, {
       duration: 200,
       toValue: 0,
-      easing: Easing.inOut(Easing.ease),
+       easing: EasingNode.inOut(EasingNode.ease),
     }).start();
   };
 
@@ -148,7 +148,7 @@ export const EditorToolbar = ({
     Animated.timing(translateY.current, {
       toValue: extensionHeight.current,
       duration: 200,
-      easing: Easing.inOut(Easing.ease),
+      easing: EasingNode.inOut(EasingNode.ease),
     }).start(() => {
       shouldHideExtension.current = false;
       setIsExtensionVisible(false);

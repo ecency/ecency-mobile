@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import Animated, { Easing } from 'react-native-reanimated';
+import Animated, { EasingNode } from 'react-native-reanimated';
 
 const styles = StyleSheet.create({
   imageOverlay: {
@@ -32,14 +32,14 @@ const ProgressiveImage = ({ thumbnailSource, source, style, ...props }) => {
     } */
     Animated.timing(thumbnailAnimated, {
       toValue: 1,
-      easing: Easing.inOut(Easing.ease),
+      easing: EasingNode.inOut(EasingNode.ease),
     }).start();
   };
 
   const onImageLoad = () => {
     Animated.timing(imageAnimated, {
       toValue: 1,
-      easing: Easing.inOut(Easing.ease),
+      easing: EasingNode.inOut(EasingNode.ease),
     }).start();
   };
 
