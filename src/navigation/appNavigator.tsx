@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import VersionNumber from 'react-native-version-number';
 import { NavigationContainer } from '@react-navigation/native';
-
+import RNBootSplash from 'react-native-bootsplash';
 import { useAppSelector } from '../hooks';
 
 // Screens
@@ -15,13 +15,17 @@ export const AppNavigator = () => {
 
   const [appVersion] = useState(VersionNumber.appVersion);
 
+  const _onReady = () => {
+    RNBootSplash.hide();
+  }
+
   const _initRoute =
     !lastAppVersion || parseVersionNumber(lastAppVersion) < parseVersionNumber(appVersion)
       ? ROUTES.SCREENS.WELCOME
       : ROUTES.SCREENS.FEED;
 
   return (
-    <NavigationContainer ref={navigationRef}>
+    <NavigationContainer ref={navigationRef} onReady={_onReady}>
       <StackNavigator initRoute={_initRoute} />
     </NavigationContainer>
   );

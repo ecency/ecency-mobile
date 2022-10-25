@@ -87,7 +87,7 @@ import bugsnapInstance from '../../../config/bugsnag';
 
 let firebaseOnNotificationOpenedAppListener = null;
 let firebaseOnMessageListener = null;
-let removeAppearanceListener = null;
+let removeAppearanceListener:NativeEventSubscription|null = null;
 let appStateSub:NativeEventSubscription|null = null;
 let linkingEventSub:EventSubscription|null = null;
 
@@ -118,6 +118,7 @@ class ApplicationContainer extends Component {
     appStateSub = AppState.addEventListener('change', this._handleAppStateChange);
 
     removeAppearanceListener = Appearance.addChangeListener(this._appearanceChangeListener);
+
 
     this._createPushListener();
 
@@ -185,7 +186,7 @@ class ApplicationContainer extends Component {
     }
 
     if (removeAppearanceListener) {
-      removeAppearanceListener();
+      removeAppearanceListener.remove();
     }
 
     this.netListener();
