@@ -9,7 +9,7 @@ import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
 import { isEmpty, some } from 'lodash';
 import messaging from '@react-native-firebase/messaging';
-// import notifee from '@notifee/react-native';
+import notifee from '@notifee/react-native';
 import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 
@@ -451,9 +451,8 @@ class ApplicationContainer extends Component {
   _createPushListener = () => {
     (async () => await messaging().requestPermission())();
 
-    //TODO: reinstall notifee after RN upgrade 0.68
-    // notifee.setBadgeCount(0)
-    // notifee.cancelAllNotifications();
+    notifee.setBadgeCount(0)
+    notifee.cancelAllNotifications();
 
     firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
       console.log('Notification Received: foreground', remoteMessage);
