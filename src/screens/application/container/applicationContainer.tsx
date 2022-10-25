@@ -111,9 +111,9 @@ class ApplicationContainer extends Component {
 
     linkingEventSub = Linking.addEventListener('url', this._handleOpenURL);
     //TOOD: read initial URL
-    // Linking.getInitialURL().then((url) => {
-    //   this._handleDeepLink(url);
-    // });
+    Linking.getInitialURL().then((url) => {
+      this._handleDeepLink(url);
+    });
 
     appStateSub = AppState.addEventListener('change', this._handleAppStateChange);
 
@@ -219,7 +219,7 @@ class ApplicationContainer extends Component {
     this._handleDeepLink(event.url);
   };
 
-  _handleDeepLink = async (url = '') => {
+  _handleDeepLink = async (url:string|null) => {
     const { currentAccount } = this.props;
 
     if (!url) {
