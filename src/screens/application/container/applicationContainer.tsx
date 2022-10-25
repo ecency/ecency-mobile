@@ -117,7 +117,7 @@ class ApplicationContainer extends Component {
 
     appStateSub = AppState.addEventListener('change', this._handleAppStateChange);
 
-    this.removeAppearanceListener = Appearance.addChangeListener(this._appearanceChangeListener);
+    removeAppearanceListener = Appearance.addChangeListener(this._appearanceChangeListener);
 
     this._createPushListener();
 
