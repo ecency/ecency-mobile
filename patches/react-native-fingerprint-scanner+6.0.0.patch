@@ -2148,11 +2148,11 @@ index 0000000..e54204b
 +int xml rn_dev_preferences 0x0
 diff --git a/node_modules/react-native-fingerprint-scanner/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
 new file mode 100644
-index 0000000..0936746
+index 0000000..ba3d646
 --- /dev/null
 +++ b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
 @@ -0,0 +1 @@
-+#Mon Oct 24 14:47:07 PKT 2022
++#Mon Oct 24 18:34:25 PKT 2022
 diff --git a/node_modules/react-native-fingerprint-scanner/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml b/node_modules/react-native-fingerprint-scanner/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml
 new file mode 100644
 index 0000000..35bd856
@@ -3897,6 +3897,28 @@ diff --git a/node_modules/react-native-fingerprint-scanner/android/build/tmp/com
 new file mode 100644
 index 0000000..e34b4f1
 Binary files /dev/null and b/node_modules/react-native-fingerprint-scanner/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin differ
+diff --git a/node_modules/react-native-fingerprint-scanner/examples/src/Application.container.js b/node_modules/react-native-fingerprint-scanner/examples/src/Application.container.js
+index 181f1d2..74b00ea 100644
+--- a/node_modules/react-native-fingerprint-scanner/examples/src/Application.container.js
++++ b/node_modules/react-native-fingerprint-scanner/examples/src/Application.container.js
+@@ -31,13 +31,15 @@ class Application extends Component {
+   };
+ 
+   componentDidMount() {
+-    AppState.addEventListener('change', this.handleAppStateChange);
++    this.appStateSub = AppState.addEventListener('change', this.handleAppStateChange);
+     // Get initial fingerprint enrolled
+     this.detectFingerprintAvailable();
+   }
+ 
+   componentWillUnmount() {
+-    AppState.removeEventListener('change', this.handleAppStateChange);
++    if(this.appStateSub){
++      this.appStateSub.remove()
++    }
+   }
+ 
+   detectFingerprintAvailable = () => {
 diff --git a/node_modules/react-native-fingerprint-scanner/examples/src/ShakingText.component.js b/node_modules/react-native-fingerprint-scanner/examples/src/ShakingText.component.js
 index 19cb20f..1403e65 100644
 --- a/node_modules/react-native-fingerprint-scanner/examples/src/ShakingText.component.js
