@@ -10,7 +10,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.config.ReactFeatureFlags;
 import com.facebook.soloader.SoLoader;
-import com.ecency.newarchitecture.MainApplicationReactNativeHost;
+import app.esteem.mobile.android.newarchitecture.MainApplicationReactNativeHost;
 import androidx.multidex.MultiDexApplication;
 import com.getkeepsafe.relinker.ReLinker;
 import com.bugsnag.android.Bugsnag;

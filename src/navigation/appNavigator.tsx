@@ -16,7 +16,7 @@ export const AppNavigator = () => {
   const [appVersion] = useState(VersionNumber.appVersion);
 
   const _onReady = () => {
-    RNBootSplash.hide();
+      RNBootSplash.hide({fade:true});
   }
 
   const _initRoute =

@@ -27,7 +27,7 @@
       android:icon="@mipmap/ic_launcher"
       android:allowBackup="false"
       android:largeHeap="true"
-      android:theme="@style/AppTheme">
+      android:theme="@style/BootTheme">
 
       <activity
         android:name=".MainActivity"

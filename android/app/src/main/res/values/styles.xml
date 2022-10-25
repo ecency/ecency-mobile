@@ -14,10 +14,11 @@
         <item name="android:windowBackground">@color/app_bg</item>
     </style>
 
-    <!-- Adds the splash screen definition -->
-    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/splashscreen_bg</item>
-        <item name="android:background">@drawable/background_splash</item>
+    <!-- BootTheme should inherit from Theme.SplashScreen -->
+    <style name="BootTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splashscreen_bg</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/background_splash</item>
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>
 
 </resources>
