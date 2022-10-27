@@ -2667,39 +2667,38 @@ anymatch@^3.0.3:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-appcenter-analytics@4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/appcenter-analytics/-/appcenter-analytics-4.1.0.tgz#eb3270a6894bcf3d14e1772c4ccf21d7fb88fa85"
-  integrity sha512-pEsz08wer7J3+zjNV78eSB0FY1bjMxmFHukV6PimAoMpIm8E+X7saGP0QQw2cQTUFiexMujHRvZfM259ksg6hg==
+appcenter-analytics@4.4.5:
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/appcenter-analytics/-/appcenter-analytics-4.4.5.tgz#08328f4cdc1722d7e2aa2a210191e8518b23e979"
+  integrity sha512-zqDrI1zmjrrQFTrOyZXTmEu8ZKNkvPfI+lGG2TY94mpABB5HLqytdnZFs9hUJijXgfCHZ0bEpGm+MP3yanWpcg==
   dependencies:
-    appcenter "4.1.0"
+    appcenter "4.4.5"
 
-appcenter-crashes@4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/appcenter-crashes/-/appcenter-crashes-4.1.0.tgz#1d7a1a27c61f6a37d904f3d435de2f30ee0454e5"
-  integrity sha512-erl7387yAPRKa7d8L7KxNd82OAZ+EQwThpsu7tZLQYn3iuIT4P98dNFCnJKO6y64li4dn4B9rCF3s0PN7tPb1A==
+appcenter-crashes@4.4.5:
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/appcenter-crashes/-/appcenter-crashes-4.4.5.tgz#56f42072279967d36ff7fe277f8b0b3cd68cf9f4"
+  integrity sha512-B1kgD9U0SFtnrO9RRV4GmFAs5ZfU2mepnobSlzrmm2Gw2y+U55JXsf0TaQozEBBWrM1wf1COZgRr4em578dNlg==
   dependencies:
-    appcenter "4.1.0"
+    appcenter "4.4.5"
 
-appcenter-link-scripts@4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/appcenter-link-scripts/-/appcenter-link-scripts-4.1.0.tgz#ff9d337fb7841c2cbf86cd5f34bd7310e945d0f5"
-  integrity sha512-sTd8H4H9wNwBkUKHasvDGNBln34+dHEFlaT/P6O0gvs6TWU3JxlY8uXpB/IqAi2lSWPs3TMgQ7NGXTjvC6oZig==
+appcenter-link-scripts@4.4.5:
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/appcenter-link-scripts/-/appcenter-link-scripts-4.4.5.tgz#0d2550b15b5828df904ee0ce76d5fca1e4edd206"
+  integrity sha512-bs++S1eFm2+noAYC7+5lZESg2IvRJ1rl2o41Re3L+dg6UtKrIf/34LgIsnOM7Ufn+pophkmqkO5GRapVDGTO4Q==
   dependencies:
     debug "4.1.1"
     glob "5.0.15"
-    minimist "1.2.5"
     mkdirp "0.5.3"
-    plist "3.0.1"
+    plist "^3.0.2"
     which "1.2.11"
     xcode "2.0.0"
 
-appcenter@4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/appcenter/-/appcenter-4.1.0.tgz#d4c9b43adcaac32a328dc8e9f9f0607e0a7d5691"
-  integrity sha512-JUwb/4sMw68CN2AlJEp1G5iVl/Rzv8fg8t9CzeRaEcnOku42h6+vlYbYe3P5YW18kAIA/hCH0uoDaa0kc9qfDA==
+appcenter@4.4.5:
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/appcenter/-/appcenter-4.4.5.tgz#800008cc5566f5092dba4797f6d7940d5ae65203"
+  integrity sha512-3OPM8yOgwYyd1pBLVxra9+rAscCTEEySyxYhJYwzPw8ZjnGIJNTgDQ+YwuajoYG8vPJRbl8ZmG16wcdcMYk14g==
   dependencies:
-    appcenter-link-scripts "4.1.0"
+    appcenter-link-scripts "4.4.5"
 
 appdirsjs@^1.2.4:
   version "1.2.7"
@@ -7936,11 +7935,6 @@ minimatch@^5.0.1:
   dependencies:
     brace-expansion "^2.0.1"
 
-minimist@1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
-  integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
-
 minimist@^1.1.1, minimist@^1.1.2, minimist@^1.2.0, minimist@^1.2.5, minimist@^1.2.6:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.7.tgz#daa1c4d91f507390437c6a8bc01078e7000c4d18"
@@ -8703,16 +8697,7 @@ please-upgrade-node@^3.0.2, please-upgrade-node@^3.2.0:
   dependencies:
     semver-compare "^1.0.0"
 
-plist@3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/plist/-/plist-3.0.1.tgz#a9b931d17c304e8912ef0ba3bdd6182baf2e1f8c"
-  integrity sha512-GpgvHHocGRyQm74b6FWEZZVRroHKE1I0/BTjAmySaohK+cUn+hZpbqXkc3KWgW3gQYkqcQej35FohcT0FRlkRQ==
-  dependencies:
-    base64-js "^1.2.3"
-    xmlbuilder "^9.0.7"
-    xmldom "0.1.x"
-
-plist@^3.0.1, plist@^3.0.5:
+plist@^3.0.1, plist@^3.0.2, plist@^3.0.5:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/plist/-/plist-3.0.6.tgz#7cfb68a856a7834bca6dbfe3218eb9c7740145d3"
   integrity sha512-WiIVYyrp8TD4w8yCvyeIr+lkmrGRd5u0VbRnU+tP/aRLxP/YadJUYOMZJ/6hIa3oUyVCsycXvtNRgd5XBJIbiA==
@@ -11682,11 +11667,6 @@ xmlbuilder@^15.1.1:
   resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-15.1.1.tgz#9dcdce49eea66d8d10b42cae94a79c3c8d0c2ec5"
   integrity sha512-yMqGBqtXyeN1e3TGYvgNgDVZ3j84W4cwkOXQswghol6APgZWaff9lnbvN7MHYJOiXsvGPXtjTYJEiC9J2wv9Eg==
 
-xmlbuilder@^9.0.7:
-  version "9.0.7"
-  resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-9.0.7.tgz#132ee63d2ec5565c557e20f4c22df9aca686b10d"
-  integrity sha512-7YXTQc3P2l9+0rjaUbLwMKRhtmwg1M1eDf6nag7urC7pIPYLD9W/jmzQ4ptRSUbodw5S0jfoGTflLemQibSpeQ==
-
 xmlbuilder@~11.0.0:
   version "11.0.1"
   resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-11.0.1.tgz#be9bae1c8a046e76b31127726347d0ad7002beb3"
@@ -11696,11 +11676,6 @@ xmlchars@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/xmlchars/-/xmlchars-2.2.0.tgz#060fe1bcb7f9c76fe2a17db86a9bc3ab894210cb"
   integrity sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==
-
-xmldom@0.1.x:
-  version "0.1.31"
-  resolved "https://registry.yarnpkg.com/xmldom/-/xmldom-0.1.31.tgz#b76c9a1bd9f0a9737e5a72dc37231cf38375e2ff"
-  integrity sha512-yS2uJflVQs6n+CyjHoaBmVSqIDevTAWrzMmjG1Gc7h1qQ7uVozNhEPJAwZXWyGQ/Gafo3fCwrcaokezLPupVyQ==
 
 xmldom@^0.5.0:
   version "0.5.0"
