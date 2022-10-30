@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { Text, Image, View, SafeAreaView, TouchableOpacity, Linking } from 'react-native';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { ScrollView } from 'react-native-gesture-handler';
+import { gestureHandlerRootHOC, ScrollView } from 'react-native-gesture-handler';
 import VersionNumber from 'react-native-version-number';
 
 import { CheckBox, Icon, MainButton } from '../../../components';
@@ -122,4 +122,4 @@ const WelcomeScreen = () => {
   );
 };
 
-export default WelcomeScreen;
+export default gestureHandlerRootHOC(WelcomeScreen);

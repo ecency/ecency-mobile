@@ -7,6 +7,7 @@ import { getPost } from '../../../providers/hive/dhive';
 
 // Component
 import PostScreen from '../screen/postScreen';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 /*
  *            Props Name        Description                                     Value
@@ -121,4 +122,4 @@ const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
 });
 
-export default connect(mapStateToProps)(PostContainer);
+export default gestureHandlerRootHOC(connect(mapStateToProps)(PostContainer));

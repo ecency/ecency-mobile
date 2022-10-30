@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 // Containers
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { useIntl } from 'react-intl';
 import moment from 'moment';
 import { LoggedInContainer } from '../../../containers';
@@ -298,5 +298,5 @@ const WalletScreen = ({ navigation }) => {
   );
 };
 
-export default WalletScreen;
+export default gestureHandlerRootHOC(WalletScreen);
 /* eslint-enable */

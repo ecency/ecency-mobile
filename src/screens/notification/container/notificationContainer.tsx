@@ -17,6 +17,7 @@ import { useAppSelector } from '../../../hooks';
 import { useNotificationReadMutation, useNotificationsQuery } from '../../../providers/queries';
 import { NotificationFilters } from '../../../providers/ecency/ecency.types';
 import QUERIES from '../../../providers/queries/queryKeys';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const NotificationContainer = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -146,5 +147,5 @@ const NotificationContainer = ({ navigation }) => {
   );
 };
 
-export default NotificationContainer;
+export default gestureHandlerRootHOC(NotificationContainer);
 /* eslint-enable */

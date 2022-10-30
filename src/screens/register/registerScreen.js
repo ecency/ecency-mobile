@@ -25,6 +25,7 @@ import styles from './registerStyles';
 import ESTEEM_LOGO from '../../assets/like_new.png';
 import ESTEEM_SMALL_LOGO from '../../assets/ecency_logo_transparent.png';
 import getWindowDimensions from '../../utils/getWindowDimensions';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const RegisterScreen = ({ navigation, route }) => {
   const intl = useIntl();
@@ -223,4 +224,4 @@ const hideAnimation = {
     height: 0,
   },
 };
-export default RegisterScreen;
+export default gestureHandlerRootHOC(RegisterScreen);

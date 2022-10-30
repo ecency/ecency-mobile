@@ -17,6 +17,7 @@ import RootNavigation from '../../../navigation/rootNavigation';
 import ROUTES from '../../../constants/routeNames';
 import { COIN_IDS } from '../../../constants/defaultCoins';
 import { DelegationsModal, MODES } from '../children/delegationsModal';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 export interface CoinDetailsScreenParams {
   coinId: string;
@@ -206,4 +207,4 @@ const CoinDetailsScreen = ({ navigation, route }: CoinDetailsScreenProps) => {
   );
 };
 
-export default CoinDetailsScreen;
+export default gestureHandlerRootHOC(CoinDetailsScreen);

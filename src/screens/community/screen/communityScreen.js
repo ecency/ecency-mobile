@@ -14,6 +14,7 @@ import styles from './communityStyles';
 import { getDefaultFilters, getFilterMap } from '../../../constants/options/filters';
 import { useAppSelector } from '../../../hooks';
 import { TagResult } from '../..';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const CommunityScreen = ({ route }) => {
   const tag = route.params?.tag ?? '';
@@ -125,4 +126,4 @@ const CommunityScreen = ({ route }) => {
   );
 };
 
-export default CommunityScreen;
+export default gestureHandlerRootHOC(CommunityScreen);

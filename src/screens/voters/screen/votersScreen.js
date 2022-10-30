@@ -12,6 +12,7 @@ import AccountListContainer from '../../../containers/accountListContainer';
 import { getActiveVotes } from '../../../providers/hive/dhive';
 import { parseActiveVotes } from '../../../utils/postParser';
 import { getResizedAvatar } from '../../../utils/image';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const filterOptions = ['rewards', 'percent', 'time'];
 
@@ -78,4 +79,4 @@ const VotersScreen = ({ route }) => {
   );
 };
 
-export default VotersScreen;
+export default gestureHandlerRootHOC(VotersScreen);

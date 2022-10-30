@@ -9,6 +9,7 @@ import get from 'lodash/get';
 import { getFollowers, getFollowing, getFollowSearch } from '../../../providers/hive/dhive';
 // Component
 import FollowsScreen from '../screen/followsScreen';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 /*
  *            Props Name        Description                                     Value
@@ -138,4 +139,4 @@ class FollowsContainer extends Component {
   }
 }
 
-export default FollowsContainer;
+export default gestureHandlerRootHOC(FollowsContainer);

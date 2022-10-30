@@ -9,6 +9,7 @@ import { SearchInput, TabbedPosts } from '../../../components';
 import styles from './tagResultStyles';
 
 import { GLOBAL_POST_FILTERS, GLOBAL_POST_FILTERS_VALUE } from '../../../constants/options/filters';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const TagResultScreen = ({ navigation, route }) => {
   const initTag = route.params?.tag ?? '';
@@ -65,4 +66,4 @@ const TagResultScreen = ({ navigation, route }) => {
   );
 };
 
-export default TagResultScreen;
+export default gestureHandlerRootHOC(TagResultScreen);

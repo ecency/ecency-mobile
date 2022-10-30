@@ -6,6 +6,7 @@ import TransferView from './screen/transferScreen';
 import AddressView from './screen/addressScreen';
 import PowerDownView from './screen/powerDownScreen';
 import DelegateView from './screen/delegateScreen';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const Transfer = ({ navigation, route }) => (
   <TransferContainer navigation={navigation} route={route}>
@@ -106,4 +107,4 @@ const Transfer = ({ navigation, route }) => (
   </TransferContainer>
 );
 
-export default Transfer;
+export default gestureHandlerRootHOC(Transfer);

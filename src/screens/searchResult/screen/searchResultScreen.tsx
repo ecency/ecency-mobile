@@ -14,6 +14,7 @@ import PeopleResults from './tabs/people/view/peopleResults';
 // Styles
 import styles from './searchResultStyles';
 import globalStyles from '../../../globalStyles';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const SearchResultScreen = ({ navigation }) => {
   const [searchValue, setSearchValue] = useState('');
@@ -87,4 +88,4 @@ const SearchResultScreen = ({ navigation }) => {
   );
 };
 
-export default SearchResultScreen;
+export default gestureHandlerRootHOC(SearchResultScreen);

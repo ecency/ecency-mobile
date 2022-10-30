@@ -12,6 +12,7 @@ import { getCommentHistory } from '../../providers/ecency/ecency';
 import { dateToFormatted } from '../../utils/time';
 import historyBuilder from './historyBuilder';
 import getWindowDimensions from '../../utils/getWindowDimensions';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 export interface CommentHistoryListItemDiff {
   title: string;
@@ -218,4 +219,4 @@ const EditHistoryScreen = ({ route }) => {
   );
 };
 
-export default EditHistoryScreen;
+export default gestureHandlerRootHOC(EditHistoryScreen);

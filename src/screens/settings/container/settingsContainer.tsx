@@ -62,6 +62,7 @@ import { encryptKey, decryptKey } from '../../../utils/crypto';
 import SettingsScreen from '../screen/settingsScreen';
 import { SERVER_LIST } from '../../../constants/options/api';
 import ROUTES from '../../../constants/routeNames';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 /*
  *            Props Name        Description                                     Value
@@ -540,4 +541,4 @@ const mapHooksToProps = (props) => {
   const navigation = useNavigation();
   return <SettingsContainer {...props} navigation={navigation} />;
 };
-export default connect(mapStateToProps)(injectIntl(mapHooksToProps));
+export default gestureHandlerRootHOC(connect(mapStateToProps)(injectIntl(mapHooksToProps)));

@@ -35,6 +35,7 @@ import ROUTES from '../../constants/routeNames';
 import { showProfileModal } from '../../redux/actions/uiAction';
 import RootNavigation from '../../navigation/rootNavigation';
 import { useAppSelector } from '../../hooks';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const ReferScreen = () => {
   const intl = useIntl();
@@ -250,4 +251,4 @@ const ReferScreen = () => {
   );
 };
 
-export default ReferScreen;
+export default gestureHandlerRootHOC(ReferScreen);

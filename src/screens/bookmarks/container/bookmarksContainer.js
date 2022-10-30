@@ -18,6 +18,7 @@ import ROUTES from '../../../constants/routeNames';
 
 // Component
 import BookmarksScreen from '../screen/bookmarksScreen';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const BookmarksContainer = ({ currentAccount, intl, navigation }) => {
   const [favorites, setFavorites] = useState([]);
@@ -135,4 +136,4 @@ const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
 });
 
-export default connect(mapStateToProps)(injectIntl(BookmarksContainer));
+export default gestureHandlerRootHOC(connect(mapStateToProps)(injectIntl(BookmarksContainer)));

@@ -15,6 +15,7 @@ import CommunitiesContainer from '../container/communitiesContainer';
 
 import styles from './communitiesScreenStyles';
 import globalStyles from '../../../globalStyles';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const CommunitiesScreen = () => {
   const intl = useIntl();
@@ -99,4 +100,4 @@ const CommunitiesScreen = () => {
   );
 };
 
-export default CommunitiesScreen;
+export default gestureHandlerRootHOC(CommunitiesScreen);

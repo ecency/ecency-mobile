@@ -36,6 +36,7 @@ import { showActionModal } from '../../../redux/actions/uiAction';
 import { UserAvatar } from '../../../components';
 import { useUserActivityMutation } from '../../../providers/queries/pointQueries';
 import { PointActivityIds } from '../../../providers/ecency/ecency.types';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 /*
  *            Props Name        Description                                     Value
@@ -296,6 +297,6 @@ const mapHooksToProps = () => ({
   userActivityMutation: useUserActivityMutation(),
 });
 
-export default connect(mapStateToProps)(
+export default gestureHandlerRootHOC(connect(mapStateToProps)(
   injectIntl((props) => <LoginContainer {...props} {...mapHooksToProps()} />),
-);
+));

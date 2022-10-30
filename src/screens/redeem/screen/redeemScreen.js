@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { RedeemContainer, PointsContainer } from '../../../containers';
 
 import { Promote, PostBoost } from '../../../components';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 class RedeemScreen extends PureComponent {
   constructor(props) {
@@ -72,4 +73,4 @@ class RedeemScreen extends PureComponent {
   }
 }
 
-export default RedeemScreen;
+export default gestureHandlerRootHOC(RedeemScreen);

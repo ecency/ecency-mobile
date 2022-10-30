@@ -12,6 +12,7 @@ import AccountListContainer from '../../../containers/accountListContainer';
 // Utils
 import globalStyles from '../../../globalStyles';
 import { getTimeFromNow } from '../../../utils/time';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const renderUserListItem = (item, index, handleOnUserPress) => {
   return (
@@ -55,4 +56,4 @@ const ReblogScreen = ({ navigation, route }) => {
   );
 };
 
-export default ReblogScreen;
+export default gestureHandlerRootHOC(ReblogScreen);

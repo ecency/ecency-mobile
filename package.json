@@ -195,7 +195,7 @@
     "eslint-plugin-react-native": "^3.7.0",
     "husky": "^3.1.0",
     "jest": "^26.6.3",
-    "jetifier": "^1.6.3",
+    "jetifier": "^2.0.0",
     "lint-staged": "^7.2.0",
     "metro-react-native-babel-preset": "0.72.3",
     "prettier": "^2.0.2",

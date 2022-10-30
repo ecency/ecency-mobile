@@ -1,5 +1,4 @@
 import React from 'react';
-import 'react-native-gesture-handler';
 import { Provider, connect } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { IntlProvider } from 'react-intl';
@@ -12,21 +11,26 @@ import messages from './config/locales';
 import Application from './screens/application';
 import { persistor, store } from './redux/store/store';
 import { initQueryClient } from './providers/queries';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const queryClientProviderProps = initQueryClient();
 
 const _renderApp = ({ locale }) => (
+
   <PersistQueryClientProvider {...queryClientProviderProps}>
     <PersistGate loading={null} persistor={persistor}>
       <IntlProvider locale={locale} messages={flattenMessages(messages[locale])}>
-        <SafeAreaProvider>
-          <Host>
-            <Application />
-          </Host>
-        </SafeAreaProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <SafeAreaProvider>
+            <Host>
+              <Application />
+            </Host>
+          </SafeAreaProvider>
+        </GestureHandlerRootView>
       </IntlProvider>
     </PersistGate>
   </PersistQueryClientProvider>
+
 );
 
 const mapStateToProps = (state) => ({

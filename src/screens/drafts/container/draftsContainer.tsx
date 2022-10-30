@@ -20,6 +20,7 @@ import { default as ROUTES } from '../../../constants/routeNames';
 
 // Component
 import DraftsScreen from '../screen/draftsScreen';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const DraftsContainer = ({ currentAccount, navigation, route }) => {
   const { mutate: deleteDraft, isLoading: isDeletingDraft } = useDraftDeleteMutation();
@@ -85,4 +86,4 @@ const mapStateToProps = (state) => ({
   currentAccount: state.account.currentAccount,
 });
 
-export default injectIntl(connect(mapStateToProps)(DraftsContainer));
+export default gestureHandlerRootHOC(injectIntl(connect(mapStateToProps)(DraftsContainer)));

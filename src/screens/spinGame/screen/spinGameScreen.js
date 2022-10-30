@@ -4,8 +4,9 @@ import React from 'react';
 import { SpinGameContainer, InAppPurchaseContainer } from '../../../containers';
 
 import { SpinGame } from '../../../components';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
-const SpinGameScreen = ({ route }) => {
+const SpinGameScreen = gestureHandlerRootHOC(({ route }) => {
   return (
     <SpinGameContainer>
       {({ startGame, score, gameRight, nextDate, isLoading, statusCheck }) => (
@@ -27,6 +28,6 @@ const SpinGameScreen = ({ route }) => {
       )}
     </SpinGameContainer>
   );
-};
+});
 
 export { SpinGameScreen as SpinGame };

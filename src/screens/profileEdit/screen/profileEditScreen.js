@@ -7,6 +7,7 @@ import { ProfileEditContainer } from '../../../containers';
 
 import { AvatarHeader, ProfileEditForm } from '../../../components';
 import { OptionsModal } from '../../../components/atoms';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 class ProfileEditScreen extends PureComponent {
   /* Props
@@ -109,4 +110,4 @@ class ProfileEditScreen extends PureComponent {
   }
 }
 
-export default injectIntl(ProfileEditScreen);
+export default gestureHandlerRootHOC(injectIntl(ProfileEditScreen));

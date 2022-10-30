@@ -5,6 +5,7 @@ import { WebView } from 'react-native-webview';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './webBrowserStyles';
 import { IconButton } from '../../../components';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 export interface WebBrowserParams {
   url: string;
@@ -59,4 +60,4 @@ const WebBrowser = ({ navigation, route }: Props) => {
   );
 };
 
-export default WebBrowser;
+export default gestureHandlerRootHOC(WebBrowser);

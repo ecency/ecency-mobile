@@ -14,6 +14,7 @@ import styles from './feedStyles';
 import { getDefaultFilters, getFilterMap } from '../../../constants/options/filters';
 
 import { useAppSelector } from '../../../hooks';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const FeedScreen = () => {
   const mainTabs = useAppSelector(
@@ -56,4 +57,4 @@ const FeedScreen = () => {
   );
 };
 
-export default FeedScreen;
+export default gestureHandlerRootHOC(FeedScreen);
