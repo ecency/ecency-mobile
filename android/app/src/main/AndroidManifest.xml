@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
   package="app.esteem.mobile.android">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -159,6 +160,7 @@
           android:name="com.bugsnag.android.API_KEY"
           android:value="88a8a25738939a80ba49f1d5289dbc80" />
       <meta-data 
+            tools:replace="android:value"
             android:name="google_analytics_adid_collection_enabled" 
             android:value="false" />
     </application>
