@@ -67,22 +67,6 @@ allprojects {
                 excludeGroup "com.facebook.react"
             }
         }
-
-
-        //TODO: remove when replacement for selective groups is available
-        //the jcenter will be accessible as read-only indefinitely so we should be
-        //good for now with these selective packages as they are not available off of 
-        //jCenter
-        jcenter() {
-            content {
-                // these groups only available in jcenter otherwise we don't want to rely on jcenter.
-                includeGroup("com.facebook.yoga")
-                includeGroup("com.facebook.fbjni")
-                includeGroup("com.henninghall.android")
-                includeModule("com.yqritc", "android-scalablevideoview")
-                includeModule("com.wei.android.lib", "fingerprintidentify")
-            }
-        }
     }
 }
 
