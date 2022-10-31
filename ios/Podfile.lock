@@ -410,7 +410,7 @@ PODS:
     - React-Core
   - react-native-render-html (6.3.4):
     - React-Core
-  - react-native-restart (0.0.23):
+  - react-native-restart (0.0.24):
     - React-Core
   - react-native-safe-area-context (4.4.1):
     - RCT-Folly
@@ -928,7 +928,7 @@ SPEC CHECKSUMS:
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-receive-sharing-intent: 62ab28c50e6ae56d32b9e841d7452091312a0bc7
   react-native-render-html: 984dfe2294163d04bf5fe25d7c9f122e60e05ebe
-  react-native-restart: aaad36f3ed7031daac3565f4a79d67e4f3884a50
+  react-native-restart: 45c8dca02491980f2958595333cbccd6877cb57e
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
   react-native-udp: 8864b1211857e9d8224ae5cbaf8580970fb99de1
   react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
