@@ -1,0 +1,22 @@
+diff --git a/node_modules/react-native-pager-view/android/build.gradle b/node_modules/react-native-pager-view/android/build.gradle
+index 260b52f..e929c19 100644
+--- a/node_modules/react-native-pager-view/android/build.gradle
++++ b/node_modules/react-native-pager-view/android/build.gradle
+@@ -4,7 +4,7 @@ buildscript {
+ 
+   repositories {
+     google()
+-    jcenter()
++    mavenCentral() //patched
+   }
+ 
+   dependencies {
+@@ -51,7 +51,7 @@ android {
+ 
+ repositories {
+   mavenCentral()
+-  jcenter()
++  mavenCentral() //patched
+   google()
+ 
+   def found = false
