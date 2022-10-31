@@ -135,7 +135,7 @@
     "react-native-reanimated": "^2.4.1",
     "react-native-receive-sharing-intent": "^2.0.0",
     "react-native-render-html": "^6.0.5",
-    "react-native-restart": "^0.0.23",
+    "react-native-restart": "^0.0.24",
     "react-native-safe-area-context": "^4.4.1",
     "react-native-screens": "3.14.0",
     "react-native-scrollable-tab-view": "ecency/react-native-scrollable-tab-view",
