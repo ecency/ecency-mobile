@@ -48,6 +48,12 @@ target 'Ecency' do
       target.build_configurations.each do |config|
         config.build_settings["ONLY_ACTIVE_ARCH"] = "NO"
       end
+      if target.name == 'TcpSockets'
+        source_files = target.source_build_phase.files
+        gcd_async_socket = source_files[0] #First file in build phases is GCDAsyncSocket.m, chage index if not the case
+        puts "Deleting source file #{gcd_async_socket.inspect} from target #{target.inspect}."
+        source_files.delete gcd_async_socket
+    end
     end
   end
 
