@@ -17,8 +17,8 @@
 		05B6C49224C306CE00B7FA60 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		05B6C49424C306CE00B7FA60 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58190B3B23294814000EA0E1 /* StoreKit.framework */; };
 		05B6C49724C306CE00B7FA60 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		05B6C49824C306CE00B7FA60 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		05B6C4A724C306CE00B7FA60 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 588019232355C26B008397D1 /* AppCenter-Config.plist */; };
+		06844A5529119F05002FCC34 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06844A5429119F05002FCC34 /* BootSplash.storyboard */; };
 		06F72CA3290B2159003392F3 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 06F72CA2290B2159003392F3 /* AppDelegate.mm */; };
 		06F72CA6290B2D7F003392F3 /* hermes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F72CA5290B2D7F003392F3 /* hermes.xcframework */; };
 		070D165EE2426D3BFD0F009C /* libPods-Ecency.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A20A4091C647F3817494D39A /* libPods-Ecency.a */; };
@@ -98,12 +98,12 @@
 		053EA30226B2BA150082FEB9 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		05A14D162518B03000EB7509 /* Ecency-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ecency-Bridging-Header.h"; sourceTree = "<group>"; };
 		05B6C4B724C306CE00B7FA60 /* Ecency.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ecency.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		06844A5429119F05002FCC34 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = Ecency/BootSplash.storyboard; sourceTree = "<group>"; };
 		06F72CA2290B2159003392F3 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = Ecency/AppDelegate.mm; sourceTree = "<group>"; };
 		06F72CA5290B2D7F003392F3 /* hermes.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = hermes.xcframework; path = "Pods/hermes-engine/destroot/Library/Frameworks/universal/hermes.xcframework"; sourceTree = "<group>"; };
 		112758B0BBF9458381CE41FD /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		11CAB2F9B4B7425ABCAB4007 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Ecency/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Ecency/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Ecency/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Ecency/main.m; sourceTree = "<group>"; };
@@ -223,6 +223,7 @@
 		13B07FAE1A68108700A75B9A /* Ecency */ = {
 			isa = PBXGroup;
 			children = (
+				06844A5429119F05002FCC34 /* BootSplash.storyboard */,
 				06F72CA2290B2159003392F3 /* AppDelegate.mm */,
 				58C9F50B24CE084600A026DD /* EcencyDebug.entitlements */,
 				58F9BCC224793C61004F0790 /* GoogleService-Info.plist */,
@@ -232,7 +233,6 @@
 				053EA2FF26B2B9920082FEB9 /* File.swift */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				05A14D162518B03000EB7509 /* Ecency-Bridging-Header.h */,
 			);
@@ -558,11 +558,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				05B6C49724C306CE00B7FA60 /* Images.xcassets in Resources */,
-				05B6C49824C306CE00B7FA60 /* LaunchScreen.xib in Resources */,
 				1CD0B89E258019B600A7D78E /* GoogleService-Info.plist in Resources */,
 				05B6C4A724C306CE00B7FA60 /* AppCenter-Config.plist in Resources */,
 				021526F0AF8A45FCB60C9C56 /* Roboto-medium.ttf in Resources */,
 				89D99F65314A416290F8D921 /* Roboto.ttf in Resources */,
+				06844A5529119F05002FCC34 /* BootSplash.storyboard in Resources */,
 				92082305364D41A4A673F950 /* RobotoMono-Regular.ttf in Resources */,
 				A57EE8B63D4948F0A05218E3 /* rubicon-icon-font.ttf in Resources */,
 				7C8D083700274C80BADEB3D6 /* Sansation_Bold.ttf in Resources */,
@@ -920,15 +920,6 @@
 				0516470D24D2C513005DE9C5 /* Base */,
 			);
 			name = MainInterface.storyboard;
-			sourceTree = "<group>";
-		};
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13B07FB21A68108700A75B9A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			path = Ecency;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

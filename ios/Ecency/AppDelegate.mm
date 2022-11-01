@@ -12,6 +12,7 @@
 
 #import <React/RCTAppSetupUtils.h>
 #import <React/RCTLinkingManager.h>
+#import "RNBootSplash.h"
 #import "Orientation.h"
 
 #if RCT_NEW_ARCH_ENABLED
@@ -59,15 +60,6 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 {
   RCTAppSetupPrepareApp(application);
 
-  if ([FIRApp defaultApp] == nil) {
-    [FIRApp configure];
-  }
-  [AppCenterReactNative register];
-  [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];
-  [AppCenterReactNativeCrashes registerWithAutomaticProcessing];
-  [Bugsnag start];
-
-
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
 
 #if RCT_NEW_ARCH_ENABLED
@@ -92,6 +84,16 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  
+  //third party initiations
+  if ([FIRApp defaultApp] == nil) {
+    [FIRApp configure];
+  }
+  [AppCenterReactNative register];
+  [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];
+  [AppCenterReactNativeCrashes registerWithAutomaticProcessing];
+  [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
+  [Bugsnag start];
 
   return YES;
 }
