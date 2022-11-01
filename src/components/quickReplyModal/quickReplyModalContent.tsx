@@ -212,7 +212,7 @@ export const QuickReplyModalContent = forwardRef(
         Keyboard.dismiss();
         onClose();
         await delay(50);
-        navigate({
+        RootNavigation.navigate({
           routeName: ROUTES.SCREENS.EDITOR,
           key: 'editor_replay',
           params: {
