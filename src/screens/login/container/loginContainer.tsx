@@ -216,6 +216,8 @@ class LoginContainer extends PureComponent {
       comment: 4,
       reblog: 5,
       transfers: 6,
+      favorite: 13,
+      bookmark: 15,
     };
     const notifyTypes = [];
 
@@ -236,9 +238,11 @@ class LoginContainer extends PureComponent {
           system: `fcm-${Platform.OS}`,
           allows_notify: Number(notificationSettings),
           notify_types: notifyTypes,
+          
         };
         setPushToken(data).then(() => {
           setPushTokenSaved(true);
+          
         });
       });
   };

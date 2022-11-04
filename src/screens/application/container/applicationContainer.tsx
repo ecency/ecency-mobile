@@ -776,7 +776,7 @@ class ApplicationContainer extends Component {
         }
       });
     } else {
-      notify_types = [1, 2, 3, 4, 5, 6];
+      notify_types = [1, 2, 3, 4, 5, 6, 13, 15];
     }
 
     messaging()
