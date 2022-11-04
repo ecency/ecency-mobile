@@ -114,8 +114,8 @@ export const changeNotificationSettings = (payload) => {
     case 'notification.bookmark':
       return {
         payload: payload.action,
-        type: CHANGE_BOOKMARK_NOTIFICATION
-      }
+        type: CHANGE_BOOKMARK_NOTIFICATION,
+      };
 
     case 'notification.reblog':
       return {
