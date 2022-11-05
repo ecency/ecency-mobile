@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { PureComponent } from 'react';
-import { View, FlatList, ActivityIndicator, RefreshControl, Text } from 'react-native';
+import { View, ActivityIndicator, RefreshControl, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Constants
@@ -18,6 +18,7 @@ import { isToday, isYesterday, isThisWeek, isLastWeek, isThisMonth } from '../..
 // Styles
 import styles from './notificationStyles';
 import globalStyles from '../../../globalStyles';
+import { FlatList } from 'react-native-gesture-handler';
 
 class NotificationView extends PureComponent {
   /* Props
