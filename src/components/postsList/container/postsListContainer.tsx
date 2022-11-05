@@ -131,28 +131,30 @@ const postsListContainer = (
           );
         }
       }
-
-      const isMuted = mutes && mutes.indexOf(item.author) > -1;
-      if (!isMuted && get(item, 'author', null)) {
-        // get image height from cache if available
-        const localId = item.author + item.permlink;
-        const imgHeight = imageHeights.get(localId);
-
-        e.push(
-          <PostCard
-            key={`${item.author}-${item.permlink}`}
-            content={item}
-            isHideImage={isHideImages}
-            imageHeight={imgHeight}
-            setImageHeight={_setImageHeightInMap}
-            pageType={pageType}
-            showQuickReplyModal={showQuickReplyModal}
-            mutes={mutes}
-          />,
-        );
-      }
-      return e;
     }
+
+    const isMuted = mutes && mutes.indexOf(item.author) > -1;
+    if (!isMuted && get(item, 'author', null)) {
+      // get image height from cache if available
+      const localId = item.author + item.permlink;
+      const imgHeight = imageHeights.get(localId);
+
+      e.push(
+        <PostCard
+          key={`${item.author}-${item.permlink}`}
+          content={item}
+          isHideImage={isHideImages}
+          imageHeight={imgHeight}
+          setImageHeight={_setImageHeightInMap}
+          pageType={pageType}
+          showQuickReplyModal={showQuickReplyModal}
+          mutes={mutes}
+        />,
+      );
+    }
+
+    return e;
+
   };
 
   return (
