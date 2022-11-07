@@ -50,6 +50,7 @@ interface UpvoteViewProps {
   postUpvotePercent: number;
   commentUpvotePercent: number;
   parentType: string;
+  boldPayout?: boolean;
 }
 
 const UpvoteView = ({
@@ -76,6 +77,7 @@ const UpvoteView = ({
   postUpvotePercent,
   commentUpvotePercent,
   parentType,
+  boldPayout,
 }: UpvoteViewProps) => {
   const intl = useIntl();
   const userActivityMutation = useUserActivityMutation();
@@ -304,7 +306,11 @@ const UpvoteView = ({
             {isShowPayoutValue && (
               <TextButton
                 style={styles.payoutTextButton}
-                textStyle={[styles.payoutValue, isDeclinedPayout && styles.declinedPayout]}
+                textStyle={[
+                  styles.payoutValue,
+                  isDeclinedPayout && styles.declinedPayout,
+                  boldPayout && styles.boldText,
+                ]}
                 text={<FormattedCurrency value={_shownPayout || '0.000'} />}
                 onPress={() => {
                   openPopover();

@@ -140,6 +140,7 @@ const PostDisplayView = ({
             content={post}
             handleCacheVoteIncrement={_handleCacheVoteIncrement}
             parentType={parentPost ? postTypes.COMMENT : postTypes.POST}
+            boldPayout={true}
           />
           <TextWithIcon
             iconName="heart-outline"

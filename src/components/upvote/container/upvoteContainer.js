@@ -40,6 +40,7 @@ const UpvoteContainer = (props) => {
     handleCacheVoteIncrement,
     fetchPost,
     parentType,
+    boldPayout,
   } = props;
 
   const [isVoted, setIsVoted] = useState(null);
@@ -213,6 +214,7 @@ const UpvoteContainer = (props) => {
       breakdownPayout={breakdownPayout}
       fetchPost={fetchPost}
       onVote={_onVote}
+      boldPayout={boldPayout}
     />
   );
 };
