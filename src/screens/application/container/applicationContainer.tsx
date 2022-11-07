@@ -775,6 +775,7 @@ class ApplicationContainer extends Component {
         reblogNotification: 5,
         transfersNotification: 6,
         favoriteNotification: 13,
+        bookmarkNotification: 15,
       };
 
       Object.keys(settings).map((item) => {
@@ -783,7 +784,7 @@ class ApplicationContainer extends Component {
         }
       });
     } else {
-      notify_types = [1, 2, 3, 4, 5, 6];
+      notify_types = [1, 2, 3, 4, 5, 6, 13, 15];
     }
 
     messaging()

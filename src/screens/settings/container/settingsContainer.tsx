@@ -213,6 +213,7 @@ class SettingsContainer extends Component {
       case 'notification.comment':
       case 'notification.mention':
       case 'notification.favorite':
+      case 'notification.bookmark':
       case 'notification.reblog':
       case 'notification.transfers':
         this._handleNotification(action, actionType);
@@ -262,6 +263,7 @@ class SettingsContainer extends Component {
       reblog: 5,
       transfers: 6,
       favorite: 13,
+      bookmark: 15,
     };
     const notifyTypes = [];
 
@@ -525,6 +527,7 @@ const mapStateToProps = (state) => ({
   followNotification: state.application.notificationDetails.followNotification,
   mentionNotification: state.application.notificationDetails.mentionNotification,
   favoriteNotification: state.application.notificationDetails.favoriteNotification,
+  bookmarkNotification: state.application.notificationDetails.bookmarkNotification,
   reblogNotification: state.application.notificationDetails.reblogNotification,
   transfersNotification: state.application.notificationDetails.transfersNotification,
   voteNotification: state.application.notificationDetails.voteNotification,

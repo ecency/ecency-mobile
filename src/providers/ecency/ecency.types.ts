@@ -89,6 +89,7 @@ export enum NotificationFilters {
   TRANFERS = 'transfers',
   DELEGATIONS = 'delegations',
   FAVOURITES = 'nfavorites',
+  BOOKMARKS = 'nbookmarks',
 }
 
 export enum PointActivityIds {

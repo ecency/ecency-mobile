@@ -3,6 +3,7 @@ import {
   CHANGE_FOLLOW_NOTIFICATION,
   CHANGE_MENTION_NOTIFICATION,
   CHANGE_FAVORITE_NOTIFICATION,
+  CHANGE_BOOKMARK_NOTIFICATION,
   CHANGE_REBLOG_NOTIFICATION,
   CHANGE_TRANSFERS_NOTIFICATION,
   CHANGE_VOTE_NOTIFICATION,
@@ -184,6 +185,13 @@ export default function (state = initialState, action): State {
         notificationDetails: {
           ...state.notificationDetails,
           favoriteNotification: action.payload,
+        },
+      });
+    case CHANGE_BOOKMARK_NOTIFICATION:
+      return Object.assign({}, state, {
+        notificationDetails: {
+          ...state.notificationDetails,
+          bookmarkNotification: action.payload,
         },
       });
     case CHANGE_REBLOG_NOTIFICATION:

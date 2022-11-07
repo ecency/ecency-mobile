@@ -173,6 +173,10 @@ const reduxMigrations = {
     state.application.notificationDetails.favoriteNotification = true;
     return state;
   },
+  2: (state) => {
+    state.application.notificationDetails.bookmarkNotification = true;
+    return state;
+  },
 };
 
 export default {
