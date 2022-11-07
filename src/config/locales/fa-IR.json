@@ -142,6 +142,7 @@
     "reply": "پاسخ داد به",
     "mention": "نام برد به",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "شما را دنبال میکند",
     "unfollow": "شما را دنبال نمیکند",
     "ignore": "شما را نادیده گرفته",
@@ -229,6 +230,7 @@
       "comment": "نظر",
       "mention": "اشاره کردن",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "اشتراک گذاری",
       "transfers": "تراکنش ها",
       "delegations": "Delegations"
