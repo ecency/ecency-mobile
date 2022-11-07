@@ -142,6 +142,7 @@
     "reply": "replied to",
     "mention": "mentioned in",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "afarlaistida þuk",
     "unfollow": "unlaistida þuk",
     "ignore": "ignored you",
@@ -229,6 +230,7 @@
       "comment": "Qiþ waiht",
       "mention": "Hait",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Aftrablaugei",
       "transfers": "Transfers",
       "delegations": "Delegations"
