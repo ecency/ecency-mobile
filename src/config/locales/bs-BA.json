@@ -142,6 +142,7 @@
     "reply": "odgovoreno",
     "mention": "spomenuto u",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "zapratio te",
     "unfollow": "prestao te pratiti",
     "ignore": "ignorisao te",
@@ -229,6 +230,7 @@
       "comment": "Komentar",
       "mention": "Pominjanje",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Podijeli",
       "transfers": "Prijenosi",
       "delegations": "Povjeravanja"
