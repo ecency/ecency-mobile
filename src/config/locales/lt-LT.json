@@ -142,6 +142,7 @@
     "reply": "atsakyta",
     "mention": "paminėjo",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "jus seka",
     "unfollow": "jūsų nebeseka",
     "ignore": "jus ignoravo",
@@ -229,6 +230,7 @@
       "comment": "Komentarai",
       "mention": "Paminėjimai",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Pasidalinimai",
       "transfers": "Pervedimai",
       "delegations": "Delegacijos"
