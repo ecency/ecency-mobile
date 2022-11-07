@@ -18,7 +18,6 @@ import { getSettings, getUserDataWithUsername } from '../realm/realm';
 import { updateCurrentAccount } from '../redux/actions/accountAction';
 
 import {
-  isDarkTheme,
   changeNotificationSettings,
   changeAllNotificationSettings,
   setApi,
@@ -33,6 +32,7 @@ import {
   setEncryptedUnlockPin,
   setPostUpvotePercent,
   setCommentUpvotePercent,
+  setIsDarkTheme,
 } from '../redux/actions/applicationActions';
 import { fetchSubscribedCommunities } from '../redux/actions/communitiesAction';
 import {
@@ -59,7 +59,7 @@ export const migrateSettings = async (dispatch: any, settingsMigratedV2: boolean
 
   if (settings) {
     const isDarkMode = Appearance.getColorScheme() === 'dark';
-    dispatch(isDarkTheme(settings.isDarkTheme !== null ? settings.isDarkTheme : isDarkMode));
+    dispatch(setIsDarkTheme(settings.isDarkTheme !== null ? settings.isDarkTheme : isDarkMode));
     dispatch(setColorTheme(THEME_OPTIONS.findIndex((item) => item.value === settings.isDarkTheme)));
     await dispatch(isPinCodeOpen(!!settings.isPinCodeOpen));
     if (settings.language !== '') dispatch(setLanguage(settings.language));

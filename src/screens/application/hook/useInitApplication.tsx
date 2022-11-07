@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import Orientation, { useDeviceOrientationChange } from 'react-native-orientation-locker';
 import { isLandscape } from 'react-native-device-info';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { AppState, NativeEventSubscription } from 'react-native';
+import { AppState, NativeEventSubscription, useColorScheme } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { setDeviceOrientation, setLockedOrientation } from '../../../redux/actions/uiAction';
 import { orientations } from '../../../redux/constants/orientationsConstants';
@@ -10,10 +10,14 @@ import isAndroidTablet from '../../../utils/isAndroidTablet';
 import darkTheme from '../../../themes/darkTheme';
 import lightTheme from '../../../themes/lightTheme';
 import { useUserActivityMutation } from '../../../providers/queries';
+import THEME_OPTIONS from '../../../constants/options/theme';
+import { setIsDarkTheme } from '../../../redux/actions/applicationActions';
 
 export const useInitApplication = () => {
   const dispatch = useAppDispatch();
-  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+  const { isDarkTheme, colorTheme } = useAppSelector((state) => state.application);
+
+  const systemColorScheme = useColorScheme();
 
   const appState = useRef(AppState.currentState);
   const appStateSubRef = useRef<NativeEventSubscription | null>(null);
@@ -45,6 +49,12 @@ export const useInitApplication = () => {
 
     return _cleanup;
   }, []);
+
+  useEffect(() => {
+    if (THEME_OPTIONS[colorTheme].value === null) {
+      dispatch(setIsDarkTheme(systemColorScheme === 'dark'));
+    }
+  }, [systemColorScheme]);
 
   const _cleanup = () => {
     if (appStateSubRef.current) {

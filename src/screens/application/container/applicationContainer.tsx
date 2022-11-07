@@ -63,7 +63,6 @@ import {
   fetchGlobalProperties,
 } from '../../../redux/actions/accountAction';
 import {
-  isDarkTheme,
   login,
   logoutDone,
   setConnectivityStatus,
@@ -95,7 +94,6 @@ import bugsnapInstance from '../../../config/bugsnag';
 
 let firebaseOnNotificationOpenedAppListener = null;
 let firebaseOnMessageListener = null;
-let removeAppearanceListener: NativeEventSubscription | null = null;
 let appStateSub: NativeEventSubscription | null = null;
 let linkingEventSub: EventSubscription | null = null;
 
@@ -124,8 +122,6 @@ class ApplicationContainer extends Component {
     });
 
     appStateSub = AppState.addEventListener('change', this._handleAppStateChange);
-
-    removeAppearanceListener = Appearance.addChangeListener(this._appearanceChangeListener);
 
     this._createPushListener();
 
@@ -192,10 +188,6 @@ class ApplicationContainer extends Component {
       firebaseOnNotificationOpenedAppListener();
     }
 
-    if (removeAppearanceListener) {
-      removeAppearanceListener.remove();
-    }
-
     this.netListener();
   }
 
@@ -205,19 +197,6 @@ class ApplicationContainer extends Component {
       if (state.isConnected !== isConnected) {
         dispatch(setConnectivityStatus(state.isConnected));
         this._fetchApp();
-      }
-    });
-  };
-
-  // change app theme on the fly
-  _appearanceChangeListener = () => {
-    const { dispatch } = this.props;
-
-    // workaround for bug with Appearece package: https://github.com/facebook/react-native/issues/28525#issuecomment-841812810
-    const colorScheme = Appearance.getColorScheme();
-    getTheme().then((darkThemeSetting) => {
-      if (darkThemeSetting === null) {
-        dispatch(isDarkTheme(colorScheme === 'dark'));
       }
     });
   };

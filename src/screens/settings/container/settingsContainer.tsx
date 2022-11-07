@@ -19,7 +19,6 @@ import {
   setNotificationSettings,
   setLanguage as setLanguage2DB,
   setNsfw as setNsfw2DB,
-  setTheme,
   removePinCode,
   setAuthStatus,
   setExistUser,
@@ -32,7 +31,6 @@ import {
   changeNotificationSettings,
   setCurrency,
   setApi,
-  isDarkTheme,
   isDefaultFooter,
   setNsfw,
   isPinCodeOpen,
@@ -43,6 +41,7 @@ import {
   setEncryptedUnlockPin,
   setHidePostsThumbnails,
   logout,
+  setIsDarkTheme,
 } from '../../../redux/actions/applicationActions';
 import { showActionModal, toastNotification } from '../../../redux/actions/uiAction';
 import { setPushToken, getNodes, deleteAccount } from '../../../providers/ecency/ecency';
@@ -122,9 +121,8 @@ class SettingsContainer extends Component {
         const setting = THEME_OPTIONS[action].value;
         const systemTheme = Appearance.getColorScheme();
 
-        dispatch(isDarkTheme(setting === null ? systemTheme === 'dark' : setting));
+        dispatch(setIsDarkTheme(setting === null ? systemTheme === 'dark' : setting));
         dispatch(setColorTheme(action));
-        setTheme(setting); // TODO: remove before merging
 
         break;
 

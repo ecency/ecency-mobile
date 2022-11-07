@@ -285,31 +285,6 @@ export const setPinCodeOpen = async (status) => {
   }
 };
 
-export const setTheme = async (isDarkTheme) => {
-  try {
-    const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-
-    setting.isDarkTheme = isDarkTheme;
-    await setItemToStorage(SETTINGS_SCHEMA, setting);
-
-    return true;
-  } catch (error) {
-    return error;
-  }
-};
-
-export const getTheme = async () => {
-  try {
-    const setting = await getItemFromStorage(SETTINGS_SCHEMA);
-    if (setting) {
-      return setting.isDarkTheme;
-    }
-    return false;
-  } catch (error) {
-    return error;
-  }
-};
-
 export const getLastUpdateCheck = async (lastUpdateCheck) => {
   try {
     const setting = await getItemFromStorage(SETTINGS_SCHEMA);
