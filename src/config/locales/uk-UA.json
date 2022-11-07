@@ -142,6 +142,7 @@
     "reply": "відповів (-ла) вам",
     "mention": "згадав (-ла) вас",
     "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "підписався(-лась) на вас",
     "unfollow": "відписався(-лась) від вас",
     "ignore": "ігнорує тебе",
@@ -229,6 +230,7 @@
       "comment": "Коментарі",
       "mention": "Згадування",
       "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Рестім",
       "transfers": "Перекази",
       "delegations": "Delegations"
