@@ -12,7 +12,7 @@ const UserRibbon = ({ username, containerStyle }: UserRibbonProps) => {
     <View style={[styles.userContainer, containerStyle]}>
       <UserAvatar username={username} style={styles.avatarStyle} disableSize />
       <View style={styles.usernameContainer}>
-        <Text style={styles.usernameText}>{'@' + username}</Text>
+        <Text style={styles.usernameText}>{`@${username}`}</Text>
       </View>
     </View>
   );

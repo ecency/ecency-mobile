@@ -1,1 +1,1 @@
-export {default as CustomiseFiltersModal} from './customiseFiltersModal';
+export { default as CustomiseFiltersModal } from './customiseFiltersModal';

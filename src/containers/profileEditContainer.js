@@ -1,11 +1,11 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import ImagePicker from 'react-native-image-crop-picker';
 import get from 'lodash/get';
-import { withNavigation } from '@react-navigation/compat';
 
+import { useNavigation } from '@react-navigation/native';
 import { uploadImage } from '../providers/ecency/ecency';
 
 import { profileUpdate, signImage } from '../providers/hive/dhive';
@@ -76,7 +76,7 @@ class ProfileEditContainer extends Component {
 
     this.setState({ isUploading: true });
 
-    let sign = await signImage(media, currentAccount, pinCode);
+    const sign = await signImage(media, currentAccount, pinCode);
 
     uploadImage(media, currentAccount.name, sign)
       .then((res) => {
@@ -145,12 +145,12 @@ class ProfileEditContainer extends Component {
   };
 
   _handleOnSubmit = async () => {
-    const { currentAccount, pinCode, dispatch, navigation, intl } = this.props;
+    const { currentAccount, pinCode, dispatch, navigation, intl, route } = this.props;
     const { name, location, website, about, coverUrl, avatarUrl, pinned } = this.state;
 
     this.setState({ isLoading: true });
 
-    //TOOD: preserve pinned post permlink
+    // TOOD: preserve pinned post permlink
     const params = {
       profile_image: avatarUrl,
       cover_image: coverUrl,
@@ -171,7 +171,7 @@ class ProfileEditContainer extends Component {
       dispatch(updateCurrentAccount(_currentAccount));
       dispatch(setAvatarCacheStamp(new Date().getTime()));
       this.setState({ isLoading: false });
-      navigation.state.params.fetchUser();
+      route.params.fetchUser();
       navigation.goBack();
     } catch (err) {
       Alert.alert(
@@ -227,7 +227,12 @@ const mapStateToProps = (state) => ({
   pinCode: state.application.pin,
 });
 
-export default connect(mapStateToProps)(injectIntl(withNavigation(ProfileEditContainer)));
+const mapHooksToProps = (props) => {
+  const navigation = useNavigation();
+  return <ProfileEditContainer {...props} navigation={navigation} />;
+};
+
+export default connect(mapStateToProps)(injectIntl(mapHooksToProps));
 
 const IMAGE_PICKER_AVATAR_OPTIONS = {
   includeBase64: true,

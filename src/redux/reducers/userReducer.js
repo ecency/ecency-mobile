@@ -12,11 +12,11 @@ import {
 
 const initialState = {
   followingUsersInFeedScreen: {
-    //['username']: {
+    // ['username']: {
     //  isFollowing: false,
     //  loading: false,
     //  error: false
-    //}
+    // }
   },
   leaderboard: {
     data: [],

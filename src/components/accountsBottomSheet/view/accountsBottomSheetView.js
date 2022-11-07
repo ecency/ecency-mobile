@@ -34,7 +34,7 @@ const AccountsBottomSheet = forwardRef(
       },
     }));
 
-    //_handlePressAccountTile(item)
+    // _handlePressAccountTile(item)
     const _renderAccountTile = ({ item }) => (
       <TouchableOpacity style={styles.accountTile} onPress={() => switchAccount(item)}>
         <View style={styles.avatarAndNameContainer}>

@@ -151,7 +151,7 @@ class ProfileSummaryView extends PureComponent {
       coverImageUrl = { uri: coverImageUrl };
     }
 
-    //compile dropdown options
+    // compile dropdown options
     dropdownOptions = [
       intl.formatMessage({
         id: isFavorite ? 'user.remove_from_favourites' : 'user.add_to_favourites',

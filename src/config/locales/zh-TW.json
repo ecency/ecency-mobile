@@ -61,6 +61,7 @@
     "amount_information": "拖動指標來調整數量",
     "amount": "數量",
     "memo": "備註（Memo）",
+    "tap_update": "Tap to update",
     "information": "您確定要轉帳資金嗎？",
     "amount_desc": "餘額",
     "memo_desc": "這個備註是公開的",
@@ -270,7 +271,13 @@
     "steemconnect_description": "假如您不想將您的密碼保存在手機，您可以使用Hivesigner。",
     "steemconnect_fee_description": "資訊",
     "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "註冊",
@@ -410,13 +417,15 @@
     "btn_cancel": "取消"
   },
   "uploads_modal": {
-    "label_no_images": "找不到圖片",
+    "label_no_images": "No Existing Uploads...",
     "title": "已上傳的圖片",
     "title_remove_confirmation": "刪除圖片",
     "btn_add": "圖片",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
+    "confirm_delete": "Are you sure you want to delete images from your uploads",
     "message_failed": "圖片上傳失效",
+    "delete_failed": "Failed to delete image",
     "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
@@ -724,7 +733,8 @@
     "title": "評論",
     "reveal_comment": "顯示評論",
     "read_more": "查看更多評論",
-    "more_replies": "回復"
+    "more_replies": "回復",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "其他選項",
@@ -817,7 +827,7 @@
     "year": "years"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
+    "placeholder": "Add a comment...",
     "comment": "Comment",
     "reply": "REPLY",
     "close": "CLOSE"

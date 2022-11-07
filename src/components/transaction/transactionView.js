@@ -22,7 +22,7 @@ const TransactionView = ({ item, index }) => {
         id: `wallet.${get(item, 'textKey')}`,
       })}
       description={
-        (item.expires ? intl.formatMessage({ id: 'wallet.expires' }) + ' ' : '') +
+        (item.expires ? `${intl.formatMessage({ id: 'wallet.expires' })} ` : '') +
         getTimeFromNow(item.expires || item.created)
       }
       isCircleIcon

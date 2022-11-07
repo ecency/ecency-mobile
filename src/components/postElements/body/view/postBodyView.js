@@ -1,7 +1,6 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { Linking, Modal, PermissionsAndroid, Platform, View } from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
-import { withNavigation } from '@react-navigation/compat';
 import { useIntl, injectIntl } from 'react-intl';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -10,8 +9,9 @@ import ActionSheetView from 'react-native-actions-sheet';
 import { connect } from 'react-redux';
 
 // Services and Actions
+import { useNavigation } from '@react-navigation/native';
 import { writeToClipboard } from '../../../../utils/clipboard';
-import { toastNotification } from '../../../../redux/actions/uiAction';
+import { showProfileModal, toastNotification } from '../../../../redux/actions/uiAction';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
@@ -23,8 +23,10 @@ import getWindowDimensions from '../../../../utils/getWindowDimensions';
 
 const WIDTH = getWindowDimensions().width;
 
-const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
+const PostBody = ({ body, dispatch, onLoadEnd, width }) => {
   console.log('body : ', body);
+  const navigation = useNavigation();
+
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
   const [postImages, setPostImages] = useState([]);
@@ -64,11 +66,11 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
 
   const handleImagePress = (ind) => {
     if (ind === 1) {
-      //open gallery mode
+      // open gallery mode
       setIsImageModalOpen(true);
     }
     if (ind === 0) {
-      //copy to clipboard
+      // copy to clipboard
       writeToClipboard(selectedImage).then(() => {
         dispatch(
           toastNotification(
@@ -80,7 +82,7 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
       });
     }
     if (ind === 2) {
-      //save to local
+      // save to local
       _saveImage(selectedImage);
     }
 
@@ -89,7 +91,7 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
 
   const handleLinkPress = (ind) => {
     if (ind === 1) {
-      //open link
+      // open link
       if (selectedLink) {
         Linking.canOpenURL(selectedLink).then((supported) => {
           if (supported) {
@@ -107,7 +109,7 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
       }
     }
     if (ind === 0) {
-      //copy to clipboard
+      // copy to clipboard
       writeToClipboard(selectedLink).then(() => {
         dispatch(
           toastNotification(
@@ -124,10 +126,10 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
 
   const _handleTagPress = (tag, filter = GLOBAL_POST_FILTERS_VALUE[0]) => {
     if (tag) {
-      const routeName = isCommunity(tag) ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT;
+      const name = isCommunity(tag) ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT;
       const key = `${filter}/${tag}`;
       navigation.navigate({
-        routeName,
+        name,
         params: {
           tag,
           filter,
@@ -139,7 +141,7 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
 
   const _handleOnPostPress = (permlink, author) => {
     if (permlink) {
-      //snippets checks if there is anchored post inside permlink and use that instead
+      // snippets checks if there is anchored post inside permlink and use that instead
       const anchoredPostRegex = /(.*?\#\@)(.*)\/(.*)/;
       const matchedLink = permlink.match(anchoredPostRegex);
       if (matchedLink) {
@@ -147,14 +149,14 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
         permlink = matchedLink[3];
       }
 
-      //check if permlink has trailing query param, remove that if is the case
+      // check if permlink has trailing query param, remove that if is the case
       const queryIndex = permlink.lastIndexOf('?');
       if (queryIndex > -1) {
         permlink = permlink.substring(0, queryIndex);
       }
 
       navigation.navigate({
-        routeName: ROUTES.SCREENS.POST,
+        name: ROUTES.SCREENS.POST,
         params: {
           author,
           permlink,
@@ -166,13 +168,7 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
 
   const _handleOnUserPress = (username) => {
     if (username) {
-      navigation.navigate({
-        routeName: ROUTES.SCREENS.PROFILE,
-        params: {
-          username,
-        },
-        key: username,
-      });
+      dispatch(showProfileModal(username));
     } else {
       dispatch(
         toastNotification(
@@ -201,7 +197,7 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
     })
       .fetch('GET', uri)
       .then((res) => {
-        let status = res.info().status;
+        const { status } = res.info();
 
         if (status == 200) {
           return res.path();
@@ -256,19 +252,15 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
     }
   };
 
-  const _onElementIsImage = (imgUrl) => {
-    if (postImages.indexOf(imgUrl) == -1) {
-      postImages.push(imgUrl);
-      setPostImages(postImages);
-    }
-  };
-
   const _handleSetSelectedLink = (link) => {
     setSelectedLink(link);
     actionLink.current.show();
   };
 
-  const _handleSetSelectedImage = (imageLink) => {
+  const _handleSetSelectedImage = (imageLink, postImgUrls) => {
+    if (postImages.length !== postImgUrls.length) {
+      setPostImages(postImgUrls);
+    }
     setSelectedImage(imageLink);
     actionImage.current.show();
   };
@@ -333,9 +325,8 @@ const PostBody = ({ navigation, body, dispatch, onLoadEnd, width }) => {
       <View>
         <PostHtmlRenderer
           body={html}
-          contentWidth={width ? width : WIDTH - 32}
+          contentWidth={width || WIDTH - 32}
           onLoaded={_handleLoadEnd}
-          onElementIsImage={_onElementIsImage}
           setSelectedImage={_handleSetSelectedImage}
           setSelectedLink={_handleSetSelectedLink}
           handleOnPostPress={_handleOnPostPress}
@@ -358,4 +349,4 @@ const areEqual = (prevProps, nextProps) => {
 
 const mapStateToProps = (state) => ({});
 
-export default React.memo(injectIntl(withNavigation(connect(mapStateToProps)(PostBody))), areEqual);
+export default React.memo(injectIntl(connect(mapStateToProps)(PostBody)), areEqual);

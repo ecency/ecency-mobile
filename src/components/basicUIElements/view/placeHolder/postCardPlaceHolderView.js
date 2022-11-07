@@ -26,7 +26,7 @@ const PostCardPlaceHolder = () => {
               colorFilters={[
                 {
                   keypath: 'postList',
-                  color: color,
+                  color,
                 },
               ]}
             />

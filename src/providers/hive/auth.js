@@ -175,6 +175,7 @@ export const loginWithSC2 = async (code) => {
 
     if (isUserLoggedIn) {
       reject(new Error('auth.already_logged'));
+      return;
     }
 
     setUserData(account.local)
@@ -426,10 +427,10 @@ const isLoggedInUser = async (username) => {
  * accessToken is required for all ecency api calls even for non hivesigner users.
  */
 export const migrateToMasterKeyWithAccessToken = async (account, userData, pinHash) => {
-  //get username, user local data from account;
+  // get username, user local data from account;
   const username = account.name;
 
-  //decrypt password from local data
+  // decrypt password from local data
   const pinCode = getDigitPinCode(pinHash);
   const password = decryptKey(
     userData.masterKey || userData.activeKey || userData.postingKey || userData.memoKey,
@@ -447,15 +448,15 @@ export const migrateToMasterKeyWithAccessToken = async (account, userData, pinHa
   await setSCAccount(scTokens);
   const accessToken = scTokens.access_token;
 
-  //update data
+  // update data
   const localData = {
     ...userData,
     accessToken: encryptKey(accessToken, pinCode),
   };
-  //update realm
+  // update realm
   await updateUserData(localData);
 
-  //return account with update local data
+  // return account with update local data
   account.local = localData;
   return account;
 };

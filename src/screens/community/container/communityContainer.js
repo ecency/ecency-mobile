@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { withNavigation } from '@react-navigation/compat';
-import get from 'lodash/get';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 
+import { useNavigation } from '@react-navigation/native';
 import { getCommunity } from '../../../providers/hive/dhive';
 
 import { subscribeCommunity, leaveCommunity } from '../../../redux/actions/communitiesAction';
@@ -12,12 +11,12 @@ import ROUTES from '../../../constants/routeNames';
 import { updateSubscribedCommunitiesCache } from '../../../redux/actions/cacheActions';
 import { statusMessage } from '../../../redux/constants/communitiesConstants';
 
-const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isLoggedIn }) => {
+const CommunityContainer = ({ tag, children, currentAccount, pinCode, isLoggedIn }) => {
+  const navigation = useNavigation();
   const [data, setData] = useState(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [selectedCommunityItem, setSelectedCommunityItem] = useState(null);
 
-  const tag = get(navigation, 'state.params.tag');
   const dispatch = useDispatch();
   const intl = useIntl();
 
@@ -54,21 +53,21 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isL
         subscribedCommunitiesCache.get(data.name)
       ) {
         const itemExistInCache = subscribedCommunitiesCache.get(data.name);
-        setIsSubscribed(itemExistInCache.data[4]); //if item exist in cache, get isSubscribed value from cache
+        setIsSubscribed(itemExistInCache.data[4]); // if item exist in cache, get isSubscribed value from cache
       } else {
         // check in subscribed communities list if selected community exists
         const itemExist = subscribedCommunities.data.find((item) => item[0] === data.name);
-        setIsSubscribed(itemExist ? true : false);
+        setIsSubscribed(!!itemExist);
       }
     }
   }, [data]);
 
   const _handleSubscribeButtonPress = () => {
     const _data = {
-      isSubscribed: isSubscribed,
+      isSubscribed,
       communityId: data.name,
     };
-    setSelectedCommunityItem(_data); //set selected item to handle its cache
+    setSelectedCommunityItem(_data); // set selected item to handle its cache
     const screen = 'communitiesScreenDiscoverTab';
     let subscribeAction;
     let successToastText = '';
@@ -102,7 +101,7 @@ const CommunityContainer = ({ children, navigation, currentAccount, pinCode, isL
 
   const _handleNewPostButtonPress = () => {
     navigation.navigate({
-      routeName: ROUTES.SCREENS.EDITOR,
+      name: ROUTES.SCREENS.EDITOR,
       key: 'editor_community_post',
       params: {
         community: [tag],
@@ -128,4 +127,4 @@ const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
 });
 
-export default connect(mapStateToProps)(withNavigation(CommunityContainer));
+export default connect(mapStateToProps)(CommunityContainer);

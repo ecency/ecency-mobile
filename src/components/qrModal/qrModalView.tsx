@@ -2,14 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, PermissionsAndroid, Platform, Text, View } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import { useIntl } from 'react-intl';
+import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
 import styles from './qrModalStyles';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { toggleQRModal } from '../../redux/actions/uiAction';
-import QRCodeScanner from 'react-native-qrcode-scanner';
 import { deepLinkParser } from '../../utils/deepLinkParser';
-import { useIntl } from 'react-intl';
-import { navigate } from '../../navigation/service';
-import { check, request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
+import RootNavigation from '../../navigation/rootNavigation';
 import getWindowDimensions from '../../utils/getWindowDimensions';
 
 export interface QRModalProps {}
@@ -103,12 +103,12 @@ export const QRModal = ({}: QRModalProps) => {
   const _handleDeepLink = async (url) => {
     setIsProcessing(true);
     const deepLinkData = await deepLinkParser(url, currentAccount);
-    const { routeName, params, key } = deepLinkData || {};
+    const { name, params, key } = deepLinkData || {};
     setIsProcessing(false);
-    if (routeName && params && key) {
+    if (name && params && key) {
       setIsScannerActive(false);
       _onClose();
-      navigate(deepLinkData);
+      RootNavigation.navigate(deepLinkData);
     } else {
       Alert.alert(
         intl.formatMessage({ id: 'qr.unsupported_alert_title' }),
@@ -155,7 +155,7 @@ export const QRModal = ({}: QRModalProps) => {
         />
         {isProcessing && (
           <View style={styles.activityIndicatorContainer}>
-            <ActivityIndicator color={'white'} style={styles.activityIndicator} />
+            <ActivityIndicator color="white" style={styles.activityIndicator} />
           </View>
         )}
       </View>

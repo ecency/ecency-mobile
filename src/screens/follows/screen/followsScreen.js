@@ -4,7 +4,7 @@ import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Constants
-import { withNavigation } from '@react-navigation/compat';
+import { useNavigation } from '@react-navigation/native';
 import ROUTES from '../../../constants/routeNames';
 
 // Components
@@ -31,7 +31,7 @@ class FollowsScreen extends PureComponent {
     const { navigation } = this.props;
 
     navigation.navigate({
-      routeName: ROUTES.SCREENS.PROFILE,
+      name: ROUTES.SCREENS.PROFILE,
       params: {
         username,
       },
@@ -90,5 +90,10 @@ class FollowsScreen extends PureComponent {
   }
 }
 
-export default withNavigation(injectIntl(FollowsScreen));
+const mapHooksToProps = (props) => {
+  const navigation = useNavigation();
+  return <FollowsScreen {...props} navigation={navigation} />;
+};
+
+export default injectIntl(mapHooksToProps);
 /* eslint-enable */

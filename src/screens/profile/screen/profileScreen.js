@@ -1,10 +1,11 @@
 import React from 'react';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 import { Profile } from '../../../components';
 import { ProfileContainer } from '../../../containers';
 
-const ProfileScreen = () => (
-  <ProfileContainer>
+const ProfileScreen = ({ route }) => (
+  <ProfileContainer route={route}>
     {({
       about,
       activePage,
@@ -87,4 +88,4 @@ const ProfileScreen = () => (
   </ProfileContainer>
 );
 
-export default ProfileScreen;
+export default gestureHandlerRootHOC(ProfileScreen);

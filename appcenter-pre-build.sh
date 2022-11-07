@@ -62,8 +62,6 @@ printf "\n.env created with contents:\n"
 cat .env
 printf "\nEND OF .env\n"
 
-npx jetify
-
 cd ios && pod install && cd ..
 
 cd android && ./gradlew clean && cd ..

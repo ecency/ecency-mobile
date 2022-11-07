@@ -8,7 +8,8 @@ import ActionsSheetView from 'react-native-actions-sheet';
 
 // import AutoHeightWebView from 'react-native-autoheight-webview';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { navigate } from '../../../../navigation/service';
+import { LongPressGestureHandler, State } from 'react-native-gesture-handler';
+import RootNavigation from '../../../../navigation/rootNavigation';
 
 // Constants
 import { default as ROUTES } from '../../../../constants/routeNames';
@@ -21,8 +22,7 @@ import styles from './commentBodyStyles';
 // Services and Actions
 import { writeToClipboard } from '../../../../utils/clipboard';
 import { toastNotification } from '../../../../redux/actions/uiAction';
-import { LongPressGestureHandler, State } from 'react-native-gesture-handler';
-import { useCallback } from 'react';
+
 import { OptionsModal } from '../../../atoms';
 import { useAppDispatch } from '../../../../hooks';
 import { isCommunity } from '../../../../utils/communityValidation';
@@ -39,10 +39,9 @@ const CommentBody = ({
   created,
   commentDepth,
   reputation = 25,
-  isMuted
+  isMuted,
 }) => {
-
-  const _contentWidth = WIDTH - (40 + 28 + (commentDepth > 2 ? 44 : 0))
+  const _contentWidth = WIDTH - (40 + 28 + (commentDepth > 2 ? 44 : 0));
 
   const dispatch = useAppDispatch();
 
@@ -52,7 +51,7 @@ const CommentBody = ({
   const [selectedLink, setSelectedLink] = useState(null);
   const [revealComment, setRevealComment] = useState(reputation > 0 && !isMuted);
   const [videoUrl, setVideoUrl] = useState(null);
-  const [youtubeVideoId, setYoutubeVideoId] = useState(null)
+  const [youtubeVideoId, setYoutubeVideoId] = useState(null);
   const [videoStartTime, setVideoStartTime] = useState(0);
 
   const intl = useIntl();
@@ -60,25 +59,23 @@ const CommentBody = ({
   const actionLink = useRef(null);
   const youtubePlayerRef = useRef(null);
 
-
-  const _onLongPressStateChange = ({nativeEvent}) => {
-    if(nativeEvent.state === State.ACTIVE){
+  const _onLongPressStateChange = ({ nativeEvent }) => {
+    if (nativeEvent.state === State.ACTIVE) {
       handleOnLongPress();
     }
-  }
+  };
 
   const _showLowComment = () => {
     setRevealComment(true);
   };
 
-
   const handleImagePress = (ind) => {
     if (ind === 1) {
-      //open gallery mode
+      // open gallery mode
       setIsImageModalOpen(true);
     }
     if (ind === 0) {
-      //copy to clipboard
+      // copy to clipboard
       writeToClipboard(selectedImage).then(() => {
         dispatch(
           toastNotification(
@@ -90,7 +87,7 @@ const CommentBody = ({
       });
     }
     if (ind === 2) {
-      //save to local
+      // save to local
       _saveImage(selectedImage);
     }
 
@@ -99,7 +96,7 @@ const CommentBody = ({
 
   const handleLinkPress = (ind) => {
     if (ind === 1) {
-      //open link
+      // open link
       if (selectedLink) {
         Linking.canOpenURL(selectedLink).then((supported) => {
           if (supported) {
@@ -117,7 +114,7 @@ const CommentBody = ({
       }
     }
     if (ind === 0) {
-      //copy to clipboard
+      // copy to clipboard
       writeToClipboard(selectedLink).then(() => {
         dispatch(
           toastNotification(
@@ -128,17 +125,16 @@ const CommentBody = ({
         );
       });
     }
-    
+
     setSelectedLink(null);
-    
   };
 
-  const _handleTagPress = (tag:string, filter:string = GLOBAL_POST_FILTERS_VALUE[0]) => {
+  const _handleTagPress = (tag: string, filter: string = GLOBAL_POST_FILTERS_VALUE[0]) => {
     if (tag) {
-      const routeName = isCommunity(tag) ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT;
+      const name = isCommunity(tag) ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT;
       const key = `${filter}/${tag}`;
-      navigate({
-        routeName,
+      RootNavigation.navigate({
+        name,
         params: {
           tag,
           filter,
@@ -148,24 +144,27 @@ const CommentBody = ({
     }
   };
 
-  const _handleSetSelectedLink = (link:string) => {
-    setSelectedLink(link)
+  const _handleSetSelectedLink = (link: string) => {
+    setSelectedLink(link);
     actionLink.current.show();
-  }
+  };
 
-  const _handleSetSelectedImage = (imageLink:string) => {
+  const _handleSetSelectedImage = (imageLink: string, postImgUrls: string[]) => {
+    if (postImages.length !== postImgUrls.length) {
+      setPostImages(postImgUrls);
+    }
     setSelectedImage(imageLink);
     actionImage.current.show();
-  }
+  };
 
   const _handleOnPostPress = (permlink, author) => {
-    if(handleOnPostPress){
+    if (handleOnPostPress) {
       handleOnUserPress(permlink, author);
       return;
     }
     if (permlink) {
-      navigate({
-        routeName: ROUTES.SCREENS.POST,
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.POST,
         params: {
           author,
           permlink,
@@ -176,13 +175,13 @@ const CommentBody = ({
   };
 
   const _handleOnUserPress = (username) => {
-    if(handleOnUserPress){
+    if (handleOnUserPress) {
       handleOnUserPress(username);
       return;
     }
     if (username) {
-      navigate({
-        routeName: ROUTES.SCREENS.PROFILE,
+      RootNavigation.navigate({
+        name: ROUTES.SCREENS.PROFILE,
         params: {
           username,
         },
@@ -216,7 +215,7 @@ const CommentBody = ({
     })
       .fetch('GET', uri)
       .then((res) => {
-        let status = res.info().status;
+        const { status } = res.info();
 
         if (status == 200) {
           return res.path();
@@ -236,7 +235,7 @@ const CommentBody = ({
         uri = `file://${await _downloadImage(uri)}`;
       }
       CameraRoll.saveToCameraRoll(uri)
-        .then((res) => {
+        .then(() => {
           dispatch(
             toastNotification(
               intl.formatMessage({
@@ -245,7 +244,7 @@ const CommentBody = ({
             ),
           );
         })
-        .catch((error) => {
+        .catch(() => {
           dispatch(
             toastNotification(
               intl.formatMessage({
@@ -276,28 +275,16 @@ const CommentBody = ({
   const _handleVideoPress = (embedUrl) => {
     if (embedUrl && youtubePlayerRef.current) {
       setVideoUrl(embedUrl);
-      setVideoStartTime(0)
+      setVideoStartTime(0);
       youtubePlayerRef.current.setModalVisible(true);
     }
   };
-
-
- 
-
-
-  const _onElementIsImage = useCallback((imgUrl) =>{
-    if(postImages.indexOf(imgUrl) == -1){
-        postImages.push(imgUrl);
-        setPostImages(postImages);
-      }
-  },[postImages])
-
 
   return (
     <Fragment>
       <Modal key={`mkey-${created.toString()}`} visible={isImageModalOpen} transparent={true}>
         <ImageViewer
-          imageUrls={postImages.map((url)=>({url}))}
+          imageUrls={postImages.map((url) => ({ url }))}
           enableSwipeDown
           onCancel={() => setIsImageModalOpen(false)}
           onClick={() => setIsImageModalOpen(false)}
@@ -337,7 +324,6 @@ const CommentBody = ({
               contentWidth={_contentWidth}
               body={body}
               isComment={true}
-              onElementIsImage={_onElementIsImage}
               setSelectedImage={_handleSetSelectedImage}
               setSelectedLink={_handleSetSelectedLink}
               handleOnPostPress={_handleOnPostPress}
@@ -348,7 +334,6 @@ const CommentBody = ({
             />
           </View>
         </LongPressGestureHandler>
-        
       ) : (
         <TextButton
           style={styles.revealButton}
@@ -368,11 +353,11 @@ const CommentBody = ({
           setVideoUrl(null);
         }}
       >
-        <VideoPlayer 
+        <VideoPlayer
           mode={youtubeVideoId ? 'youtube' : 'uri'}
-          youtubeVideoId={youtubeVideoId} 
-          uri={videoUrl} 
-          startTime={videoStartTime} 
+          youtubeVideoId={youtubeVideoId}
+          uri={videoUrl}
+          startTime={videoStartTime}
         />
       </ActionsSheetView>
     </Fragment>
@@ -380,4 +365,3 @@ const CommentBody = ({
 };
 
 export default CommentBody;
-

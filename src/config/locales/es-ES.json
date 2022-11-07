@@ -61,6 +61,7 @@
     "amount_information": "Arrastra el deslizador para ajustar la cantidad",
     "amount": "Cantidad",
     "memo": "Memo",
+    "tap_update": "Toca para actualizar",
     "information": "¿Está seguro de transferir los fondos?",
     "amount_desc": "Balance",
     "memo_desc": "Este memo es público",
@@ -93,7 +94,7 @@
     "ecency": {
       "title": "Puntos",
       "name": "Puntos Ecency",
-      "buy": "GANAR PINTOS"
+      "buy": "GANAR PUNTOS"
     },
     "savinghive": {
       "title": "Ahorros HIVE"
@@ -270,7 +271,13 @@
     "steemconnect_description": "Si no desea mantener su contraseña encriptada y guardada en su dispositivo, puede usar Hivesigner.",
     "steemconnect_fee_description": "info.",
     "not_loggedin_alert": "No conectado",
-    "not_loggedin_alert_desc": "Inicia tu sesión primero"
+    "not_loggedin_alert_desc": "Inicia tu sesión primero",
+    "login_failed": "Error al iniciar sesión",
+    "login_failed_body": "prueba una clave diferente o inténtalo de nuevo más tarde.",
+    "deep_login_alert_title": "Inicio de sesión fácil @{username}",
+    "deep_login_alert_body": "Verificar inicio de sesión directo usando el código de acceso",
+    "deep_login_url_expired": "Inicio de sesión expirado, por favor usa una clave privada o una contraseña para iniciar sesión",
+    "deep_login_malformed_url": "URL de inicio de sesión incorrecta, por favor usa una clave privada o contraseña para iniciar sesión"
   },
   "register": {
     "button": "Registrarse",
@@ -410,13 +417,15 @@
     "btn_cancel": "Cancelar"
   },
   "uploads_modal": {
-    "label_no_images": "No se encontraron imágenes",
+    "label_no_images": "No hay subidas existentes...",
     "title": "Imágenes subidas",
     "title_remove_confirmation": "Eliminar imagen",
     "btn_add": "Imágen",
     "btn_insert": "INSERTAR",
     "btn_delete": "BORRAR",
+    "confirm_delete": "¿Está seguro que desea eliminar las imágenes de sus subidas?",
     "message_failed": "Error al subir la imagen",
+    "delete_failed": "Error al eliminar la imagen",
     "failed_count": "Error al subir {failedCount} de {totalCount} imagen(es) seleccionada(s)"
   },
   "pincode": {
@@ -724,7 +733,8 @@
     "title": "Comentarios",
     "reveal_comment": "Revelar comentario",
     "read_more": "Cargar más comentarios",
-    "more_replies": "respuestas"
+    "more_replies": "respuestas",
+    "no_comments": "Sé el primero en responder..."
   },
   "search_result": {
     "others": "Otros",
@@ -817,7 +827,7 @@
     "year": "años"
   },
   "quick_reply": {
-    "placeholder": "Añade un comentario",
+    "placeholder": "Añade un comentario...",
     "comment": "Comentario",
     "reply": "RESPONDER",
     "close": "CERRADO"

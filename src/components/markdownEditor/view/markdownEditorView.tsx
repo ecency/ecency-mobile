@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect, useCallback, Fragment } from 'react
 import {
   View,
   KeyboardAvoidingView,
-  FlatList,
   Text,
   Platform,
   ScrollView,
@@ -22,9 +21,7 @@ import { toggleAccountsBottomSheet } from '../../../redux/actions/uiAction';
 
 // Components
 import {
-  IconButton,
   PostBody,
-  StickyBar,
   TextInput,
   UserAvatar,
   TitleArea,
@@ -33,12 +30,9 @@ import {
   SummaryArea,
   Modal,
   SnippetsModal,
-  UploadsGalleryModal,
   Tooltip,
   InsertLinkModal,
 } from '../../index';
-
-import { ThemeContainer } from '../../../containers';
 
 // Styles
 import styles from '../styles/markdownEditorStyles';
@@ -52,26 +46,24 @@ import { walkthrough } from '../../../redux/constants/walkthroughConstants';
 import { MediaInsertData } from '../../uploadsGalleryModal/container/uploadsGalleryModal';
 import { EditorToolbar } from '../children/editorToolbar';
 import { extractImageUrls } from '../../../utils/editor';
+import { useAppSelector } from '../../../hooks';
 
-const MIN_BODY_INPUT_HEIGHT = 300;
+// const MIN_BODY_INPUT_HEIGHT = 300;
 
-//These variable keep track of body text input state, 
-//this helps keep load on minimal compared to both useState and useRef;
-var bodyText = '';
-var bodySelection = { start: 0, end: 0 };
+// These variable keep track of body text input state,
+// this helps keep load on minimal compared to both useState and useRef;
+let bodyText = '';
+let bodySelection = { start: 0, end: 0 };
 
 const MarkdownEditorView = ({
   paramFiles,
   draftBody,
-  handleOpenImagePicker,
   intl,
   isPreviewActive,
   isReply,
   isLoading,
-  isUploading,
   initialFields,
   onChange,
-  uploadedImage,
   isEdit,
   post,
   fields,
@@ -82,21 +74,23 @@ const MarkdownEditorView = ({
   autoFocusText,
   sharedSnippetText,
   onLoadDraftPress,
-  setIsUploading
+  setIsUploading,
 }) => {
   const dispatch = useDispatch();
 
+  const isDarkTheme = useAppSelector((state) => state.application.isDarkTheme);
+
   const [editable, setEditable] = useState(true);
-  const [bodyInputHeight, setBodyInputHeight] = useState(MIN_BODY_INPUT_HEIGHT);
+  // const [bodyInputHeight, setBodyInputHeight] = useState(MIN_BODY_INPUT_HEIGHT);
   const [isSnippetsOpen, setIsSnippetsOpen] = useState(false);
   const [showDraftLoadButton, setShowDraftLoadButton] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [insertedMediaUrls, setInsertedMediaUrls] = useState([]);
 
-  const inputRef = useRef(null);
-  const clearRef = useRef(null);
-  const insertLinkModalRef = useRef(null);
-  const tooltipRef = useRef(null);
+  const inputRef = useRef<any>(null);
+  const clearRef = useRef<any>(null);
+  const insertLinkModalRef = useRef<any>(null);
+  const tooltipRef = useRef<any>(null);
 
   const isVisibleAccountsBottomSheet = useSelector(
     (state) => state.ui.isVisibleAccountsBottomSheet,
@@ -129,7 +123,7 @@ const MarkdownEditorView = ({
 
   useEffect(() => {
     if (bodyText === '' && draftBody !== '') {
-      let draftBodyLength = draftBody.length;
+      const draftBodyLength = draftBody.length;
       _setTextAndSelection({
         selection: { start: draftBodyLength, end: draftBodyLength },
         text: draftBody,
@@ -138,9 +132,9 @@ const MarkdownEditorView = ({
   }, [draftBody]);
 
   useEffect(() => {
-    //hide draft button if fields changes and button was visible
+    // hide draft button if fields changes and button was visible
     if (showDraftLoadButton) {
-      let isCreating =
+      const isCreating =
         get(fields, 'title', '') !== '' ||
         get(fields, 'body', '') !== '' ||
         get(fields, 'tags', []) !== [];
@@ -169,7 +163,6 @@ const MarkdownEditorView = ({
     }
   }, [isLoading]);
 
-
   useEffect(() => {
     bodyText = draftBody;
   }, [draftBody]);
@@ -178,12 +171,10 @@ const MarkdownEditorView = ({
     if (isReply || (autoFocusText && inputRef && inputRef.current && draftBtnTooltipRegistered)) {
       // added delay to open keyboard, solves the issue of keyboard not opening
       setTimeout(() => {
-        inputRef.current.focus();
+        inputRef?.current?.focus();
       }, 1000);
     }
   }, [autoFocusText]);
-
-
 
   const changeUser = async () => {
     dispatch(toggleAccountsBottomSheet(!isVisibleAccountsBottomSheet));
@@ -198,41 +189,40 @@ const MarkdownEditorView = ({
     });
   };
 
-
-  const _debouncedOnTextChange = useCallback(debounce(()=>{
-    console.log("setting is editing to", false)
-    setIsEditing(false)
-    const urls = extractImageUrls({body:bodyText})
-    if(urls.length !== insertedMediaUrls.length){
-      setInsertedMediaUrls(urls);
-    }
-  }, 500),[])
+  const _debouncedOnTextChange = useCallback(
+    debounce(() => {
+      console.log('setting is editing to', false);
+      setIsEditing(false);
+      const urls = extractImageUrls({ body: bodyText });
+      if (urls.length !== insertedMediaUrls.length) {
+        setInsertedMediaUrls(urls);
+      }
+    }, 500),
+    [],
+  );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const _changeText = useCallback((input) => {
-    bodyText = input;
+  const _changeText = useCallback(
+    (input) => {
+      bodyText = input;
 
-    if(!isEditing){
-      console.log('force setting is editing to true', true)
-      setIsEditing(true)
-    }
+      if (!isEditing) {
+        console.log('force setting is editing to true', true);
+        setIsEditing(true);
+      }
 
-    _debouncedOnTextChange();
+      _debouncedOnTextChange();
 
-    //NOTE: onChange method is called by direct parent of MarkdownEditor that is PostForm, do not remove
-    if (onChange) {
-      onChange(input);
-    }
-  }, [isEditing]);
-
+      // NOTE: onChange method is called by direct parent of MarkdownEditor that is PostForm, do not remove
+      if (onChange) {
+        onChange(input);
+      }
+    },
+    [isEditing],
+  );
 
   const _handleOnSelectionChange = async (event) => {
     bodySelection = event.nativeEvent.selection;
-  };
-
-  const _handleOnContentSizeChange = async (event) => {
-    const height = Math.max(MIN_BODY_INPUT_HEIGHT, event.nativeEvent.contentSize.height + 100);
-    setBodyInputHeight(height);
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -243,11 +233,11 @@ const MarkdownEditorView = ({
     });
 
     const _updateSelection = () => {
-      bodySelection = _selection
+      bodySelection = _selection;
       inputRef?.current?.setNativeProps({
         selection: _selection,
       });
-    }
+    };
 
     // Workaround for iOS selection update issue
     if (Platform.OS === 'ios') {
@@ -255,7 +245,7 @@ const MarkdownEditorView = ({
         _updateSelection();
       }, 100);
     } else {
-      _updateSelection()
+      _updateSelection();
     }
 
     if (isSnippetsOpen) {
@@ -268,7 +258,7 @@ const MarkdownEditorView = ({
   const _renderPreview = () => (
     <ScrollView style={styles.previewContainer}>
       {bodyText ? (
-        <PostBody body={renderPostBody(bodyText, true, Platform.OS === 'ios' ? false : true)} />
+        <PostBody body={renderPostBody(bodyText, true, Platform.OS !== 'ios')} />
       ) : (
         <Text>...</Text>
       )}
@@ -285,8 +275,6 @@ const MarkdownEditorView = ({
     setIsSnippetsOpen(false);
   };
 
-
-
   const _handleMediaInsert = (mediaArray: MediaInsertData[]) => {
     if (mediaArray.length) {
       applyMediaLink({
@@ -298,19 +286,16 @@ const MarkdownEditorView = ({
     }
   };
 
-
-
-
   const _handleOnAddLinkPress = () => {
     insertLinkModalRef.current?.showModal({
       selectedText: bodyText.slice(bodySelection.start, bodySelection.end),
       selection: bodySelection,
     });
-    inputRef.current?.blur();
+    inputRef?.current?.blur();
   };
 
   const _handleOnAddLinkSheetClose = () => {
-    inputRef.current?.focus();
+    inputRef?.current?.focus();
   };
 
   const _handleInsertLink = ({ snippetText, selection }) => {
@@ -323,7 +308,6 @@ const MarkdownEditorView = ({
 
     insertLinkModalRef.current?.hideModal();
   };
-
 
   const _renderFloatingDraftButton = () => {
     if (showDraftLoadButton) {
@@ -364,7 +348,7 @@ const MarkdownEditorView = ({
       _setTextAndSelection({ text: '', selection: { start: 0, end: 0 } });
     }
   };
-  const _renderEditor = () => (
+  const _renderEditor = (editorScrollEnabled: boolean) => (
     <>
       {isReply && !isEdit && <SummaryArea summary={headerText} />}
       {!isReply && (
@@ -407,68 +391,64 @@ const MarkdownEditorView = ({
         </View>
       )}
       {!isPreviewActive ? (
-        <ThemeContainer>
-          {({ isDarkTheme }) => (
-            <TextInput
-              multiline
-              autoCorrect={true}
-              autoFocus={!draftBtnTooltipRegistered ? false : true}
-              onChangeText={_changeText}
-              onSelectionChange={_handleOnSelectionChange}
-              placeholder={intl.formatMessage({
-                id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
-              })}
-              placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
-              selectionColor="#357ce6"
-              style={{ ...styles.textWrapper, height: bodyInputHeight }}
-              underlineColorAndroid="transparent"
-              innerRef={inputRef}
-              editable={editable}
-              contextMenuHidden={false}
-              autoGrow={false}
-              scrollEnabled={false}
-              onContentSizeChange={_handleOnContentSizeChange}
-            />
-          )}
-        </ThemeContainer>
+        <TextInput
+          multiline
+          autoCorrect={true}
+          autoFocus={!!draftBtnTooltipRegistered}
+          onChangeText={_changeText}
+          onSelectionChange={_handleOnSelectionChange}
+          placeholder={intl.formatMessage({
+            id: isReply ? 'editor.reply_placeholder' : 'editor.default_placeholder',
+          })}
+          placeholderTextColor={isDarkTheme ? '#526d91' : '#c1c5c7'}
+          selectionColor="#357ce6"
+          style={styles.textWrapper}
+          underlineColorAndroid="transparent"
+          innerRef={inputRef}
+          editable={editable}
+          contextMenuHidden={false}
+          scrollEnabled={editorScrollEnabled}
+        />
       ) : (
         _renderPreview()
       )}
     </>
   );
 
-  const _renderEditorWithScroll = () => (
-    <ScrollView style={styles.container}>{_renderEditor()}</ScrollView>
+  const _editorWithScroll = (
+    <ScrollView style={styles.container}>{_renderEditor(false)}</ScrollView>
   );
-
-  const _renderEditorWithoutScroll = () => <View style={styles.container}>{_renderEditor()}</View>;
+  const _editorWithoutScroll = <View style={styles.container}>{_renderEditor(true)}</View>;
 
   const _renderContent = () => {
     const _innerContent = (
       <>
-        {isAndroidOreo() ? _renderEditorWithoutScroll() : _renderEditorWithScroll()}
-        <UsernameAutofillBar text={bodyText} selection={bodySelection} onApplyUsername={_onApplyUsername} />
+        {isAndroidOreo() ? _editorWithoutScroll : _editorWithScroll}
+        <UsernameAutofillBar
+          text={bodyText}
+          selection={bodySelection}
+          onApplyUsername={_onApplyUsername}
+        />
         {_renderFloatingDraftButton()}
-       
-          <EditorToolbar
-            insertedMediaUrls={insertedMediaUrls}
-            isPreviewActive={isPreviewActive}
-            paramFiles={paramFiles}
-            setIsUploading={setIsUploading}
-            handleMediaInsert={_handleMediaInsert}
-            handleOnAddLinkPress={_handleOnAddLinkPress}
-            handleShowSnippets={() => setIsSnippetsOpen(true)}
-            handleOnClearPress={() => clearRef.current.show()}
-            handleOnMarkupButtonPress={(item) => {
-              item.onPress({
-                text: bodyText,
-                selection: bodySelection,
-                setTextAndSelection: _setTextAndSelection,
-                item
-              })
-            }}
-          />
-        
+
+        <EditorToolbar
+          insertedMediaUrls={insertedMediaUrls}
+          isPreviewActive={isPreviewActive}
+          paramFiles={paramFiles}
+          setIsUploading={setIsUploading}
+          handleMediaInsert={_handleMediaInsert}
+          handleOnAddLinkPress={_handleOnAddLinkPress}
+          handleShowSnippets={() => setIsSnippetsOpen(true)}
+          handleOnClearPress={() => clearRef.current.show()}
+          handleOnMarkupButtonPress={(item) => {
+            item.onPress({
+              text: bodyText,
+              selection: bodySelection,
+              setTextAndSelection: _setTextAndSelection,
+              item,
+            });
+          }}
+        />
       </>
     );
 
@@ -498,8 +478,6 @@ const MarkdownEditorView = ({
       >
         <SnippetsModal handleOnSelect={_handleOnSnippetReceived} />
       </Modal>
-
-
 
       <InsertLinkModal
         ref={insertLinkModalRef}

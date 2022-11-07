@@ -19,7 +19,6 @@ import { Client as hsClient } from 'hivesigner';
 import Config from 'react-native-config';
 import { get, has } from 'lodash';
 import { getServer, getCache, setCache } from '../../realm/realm';
-import { userActivity } from '../ecency/ePoint';
 
 // Utils
 import { decryptKey } from '../../utils/crypto';
@@ -49,7 +48,7 @@ let client = new Client(DEFAULT_SERVER, {
 });
 
 export const checkClient = async () => {
-  let selectedServer = DEFAULT_SERVER;
+  const selectedServer = DEFAULT_SERVER;
 
   await getServer().then((response) => {
     if (response) {
@@ -79,7 +78,7 @@ export const generateTrxId = (transaction) => {
   }
   buffer.flip();
   const transactionData = Buffer.from(buffer.toBuffer());
-  return sha256(transactionData).toString('hex').slice(0, 40); //CryptoJS.enc.Hex
+  return sha256(transactionData).toString('hex').slice(0, 40); // CryptoJS.enc.Hex
 };
 
 export const sendHiveOperations = async (
@@ -94,17 +93,17 @@ export const sendHiveOperations = async (
     'beeab0de00000000000000000000000000000000000000000000000000000000',
     'hex',
   );
-  const expiration = new Date(new Date(time + 'Z').getTime() + expireTime)
+  const expiration = new Date(new Date(`${time}Z`).getTime() + expireTime)
     .toISOString()
     .slice(0, -5);
   const extensions = [];
 
   const tx: Transaction = {
-    expiration: expiration,
-    extensions: extensions,
-    operations: operations,
-    ref_block_num: ref_block_num,
-    ref_block_prefix: ref_block_prefix,
+    expiration,
+    extensions,
+    operations,
+    ref_block_num,
+    ref_block_prefix,
   };
 
   const transaction = await cryptoUtils.signTransaction(tx, key, chainId);
@@ -240,7 +239,7 @@ export const getAccount = (username) =>
         if (response.length) {
           resolve(response[0]);
         }
-        throw new Error('Account not found, ' + JSON.stringify(response));
+        throw new Error(`Account not found, ${JSON.stringify(response)}`);
       })
       .catch((error) => {
         reject(error);
@@ -249,7 +248,7 @@ export const getAccount = (username) =>
 
 export const getAccountHistory = (user, operations, startIndex = -1, limit = 1000) =>
   new Promise((resolve, reject) => {
-    let wallet_operations_bitmask = utils.makeBitMaskFilter(operations);
+    const wallet_operations_bitmask = utils.makeBitMaskFilter(operations);
     try {
       const ah = client.call('condenser_api', 'get_account_history', [
         user,
@@ -286,7 +285,7 @@ export const getUser = async (user, loggedIn = true) => {
     const _account = {
       ...account[0],
     };
-    let unreadActivityCount = 0;
+    const unreadActivityCount = 0;
 
     if (account && account.length < 1) {
       return null;
@@ -352,7 +351,7 @@ export const getCommunity = async (tag, observer = '') =>
     try {
       const community = await client.call('bridge', 'get_community', {
         name: tag,
-        observer: observer,
+        observer,
       });
       if (community) {
         resolve(community);
@@ -591,7 +590,7 @@ export const getRankedPosts = async (query, currentUserName, filterNsfw) => {
         return updatedPosts;
       }
     }
-    console.log('Returning fetched posts: ' + posts ? posts.length : null);
+    console.log(`Returning fetched posts: ${posts}` ? posts.length : null);
     return posts;
   } catch (error) {
     return error;
@@ -612,7 +611,7 @@ export const getAccountPosts = async (query, currentUserName, filterNsfw) => {
         return updatedPosts;
       }
     }
-    console.log('Returning fetched posts: ' + posts ? posts.length : null);
+    console.log(`Returning fetched posts: ${posts}` ? posts.length : null);
     return posts;
   } catch (error) {
     return error;
@@ -711,9 +710,9 @@ export const getComments = async (author, permlink) => {
   try {
     const commentsMap = await client.call('bridge', 'get_discussion', { author, permlink });
 
-    //it appear the get_discussion fetches the parent post as an intry in thread
-    //may be later we can make use of this to save post fetch call in post display
-    //for now, deleting to keep the change footprint small for PR
+    // it appear the get_discussion fetches the parent post as an intry in thread
+    // may be later we can make use of this to save post fetch call in post display
+    // for now, deleting to keep the change footprint small for PR
     delete commentsMap[`${author}/${permlink}`];
 
     const groomedComments = parseCommentThreads(commentsMap, author, permlink);
@@ -791,7 +790,7 @@ export const vote = async (account, pin, author, permlink, weight) => {
   try {
     const resp = await _vote(account, pin, author, permlink, weight);
     console.log('Returning vote response', resp);
-    userActivity(120, resp.id);
+
     return resp;
   } catch (err) {
     console.warn('Failed to complete vote', err);
@@ -1148,6 +1147,34 @@ export const delegateVestingShares = (currentAccount, pin, data) => {
   );
 };
 
+/**
+ *
+ * @param {string} username
+ * @param {string} fromDelegatee
+ * @param {number} limit
+ * @returns {Array} Array of vesting delegation objects [{
+ *  delegatee:string;
+ *  delegator:string;
+ *  id: number;
+ *  min_delegation_time: string;
+ *  vesting_shares": string'
+ * }]
+ */
+export const getVestingDelegations = async (username, fromDelegatee = '', limit = 1000) => {
+  try {
+    const response = await client.database.call('get_vesting_delegations', [
+      username,
+      fromDelegatee,
+      limit,
+    ]);
+    console.log('Vested delegatees response', response);
+    return response;
+  } catch (err) {
+    console.warn('Failed to get vested delegatees');
+    bugsnagInstance.notify(err);
+  }
+};
+
 export const setWithdrawVestingRoute = (currentAccount, pin, data) => {
   const digitPinCode = getDigitPinCode(pin);
   const key = getAnyPrivateKey(
@@ -1341,7 +1368,7 @@ export const lookupAccounts = async (username) => {
     return users;
   } catch (error) {
     return [];
-    //throw error;
+    // throw error;
   }
 };
 
@@ -1351,7 +1378,7 @@ export const getTrendingTags = async (tag, number = 20) => {
     return tags;
   } catch (error) {
     return [];
-    //throw error;
+    // throw error;
   }
 };
 
@@ -1381,11 +1408,6 @@ export const postContent = (
     voteWeight,
   )
     .then((resp) => {
-      const t = title ? 100 : 110;
-      const { id } = resp;
-      if (!isEdit) {
-        userActivity(t, id);
-      }
       return resp;
     })
     .catch((err) => {
@@ -1429,11 +1451,6 @@ export const postComment = (
     null,
   )
     .then((resp) => {
-      const t = 110;
-      const { id } = resp;
-      if (!isEdit) {
-        userActivity(t, id);
-      }
       return resp;
     })
     .catch((err) => {
@@ -1560,7 +1577,6 @@ const _postContent = async (
 // TODO: remove pinCode
 export const reblog = (account, pinCode, author, permlink) =>
   _reblog(account, pinCode, author, permlink).then((resp) => {
-    userActivity(130, resp.id);
     return resp;
   });
 
@@ -1959,7 +1975,7 @@ export const pinCommunityPost = (
 };
 
 export const getBtcAddress = (pin, currentAccount) => {
-  /*const digitPinCode = getDigitPinCode(pin);
+  /* const digitPinCode = getDigitPinCode(pin);
   const key = getActiveKey(get(currentAccount, 'local'), digitPinCode);
 
   if (key) {

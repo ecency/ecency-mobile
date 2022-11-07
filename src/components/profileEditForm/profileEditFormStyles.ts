@@ -13,7 +13,7 @@ export default EStyleSheet.create({
     marginTop: 8,
   },
   label: {
-    marginTop:8,
+    marginTop: 8,
     fontSize: 14,
     color: '$primaryDarkText',
     fontWeight: '500',
@@ -67,15 +67,15 @@ export default EStyleSheet.create({
     color: '$primaryBlack',
     alignSelf: 'flex-start',
     width: '100%',
-    paddingBottom:10,
+    paddingBottom: 10,
   },
   contentContainer: {
     flexGrow: 1,
   },
-    activityIndicator: {
-    position:'absolute', 
-    alignSelf:'center', 
-    top:0, 
-    bottom:8
-  }
+  activityIndicator: {
+    position: 'absolute',
+    alignSelf: 'center',
+    top: 0,
+    bottom: 8,
+  },
 });

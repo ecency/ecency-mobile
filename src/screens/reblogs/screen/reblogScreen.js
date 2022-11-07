@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Components
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { BasicHeader, UserListItem } from '../../../components';
 
 // Container
@@ -55,4 +56,4 @@ const ReblogScreen = ({ navigation, route }) => {
   );
 };
 
-export default ReblogScreen;
+export default gestureHandlerRootHOC(ReblogScreen);

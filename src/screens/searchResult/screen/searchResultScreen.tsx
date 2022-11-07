@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { View, SafeAreaView } from 'react-native';
+import React, { useState } from 'react';
+import { View } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { useIntl } from 'react-intl';
 import { debounce } from 'lodash';
 
 // Components
-import { SearchInput, TabBar, IconButton } from '../../../components';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { SearchInput, TabBar } from '../../../components';
 import Communities from './tabs/communities/view/communitiesResults';
 import PostsResults from './tabs/best/view/postsResults';
 import TopicsResults from './tabs/topics/view/topicsResults';
@@ -37,9 +38,10 @@ const SearchResultScreen = ({ navigation }) => {
     setSearchValue(value);
   }, 1000);
 
-  let clippedSearchValue = searchValue.startsWith('#') || searchValue.startsWith('@') 
-    ? searchValue.substring(1) 
-    : searchValue
+  const clippedSearchValue =
+    searchValue.startsWith('#') || searchValue.startsWith('@')
+      ? searchValue.substring(1)
+      : searchValue;
 
   return (
     <View style={styles.container}>
@@ -86,4 +88,4 @@ const SearchResultScreen = ({ navigation }) => {
   );
 };
 
-export default SearchResultScreen;
+export default gestureHandlerRootHOC(SearchResultScreen);

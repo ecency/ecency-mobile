@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { View, TouchableOpacity, Animated, NativeModules } from 'react-native';
+import { View, TouchableOpacity, NativeModules } from 'react-native';
+import Animated, { EasingNode } from 'react-native-reanimated';
 
 // Constants
 
@@ -92,11 +93,12 @@ class ToggleSwitchView extends PureComponent {
 
   _triggerAnimation = () => {
     const { width, translateX, isOn, duration } = this.state;
-    const toValue = isOn ? width - (NativeModules.I18nManager.isRTL ? 100 : translateX) : 0; //in rtl layout, set the translate value to 100
+    const toValue = isOn ? width - (NativeModules.I18nManager.isRTL ? 100 : translateX) : 0; // in rtl layout, set the translate value to 100
 
     Animated.timing(this.offsetX, {
       toValue,
       duration,
+      easing: EasingNode.inOut(EasingNode.ease),
     }).start();
   };
 

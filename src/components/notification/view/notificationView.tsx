@@ -1,11 +1,12 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { PureComponent } from 'react';
-import { View, FlatList, ActivityIndicator, RefreshControl, Text } from 'react-native';
+import { View, ActivityIndicator, RefreshControl, Text } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Constants
 
 // Components
+import { FlatList } from 'react-native-gesture-handler';
 import { ContainerHeader } from '../../containerHeader';
 import { FilterBar } from '../../filterBar';
 import { NotificationLine } from '../..';
@@ -34,7 +35,7 @@ class NotificationView extends PureComponent {
         { key: 'activities', value: 'ALL' },
         { key: 'replies', value: 'REPLIES' },
         { key: 'mentions', value: 'MENTIONS' },
-        //{ key: 'reblogs', value: 'REBLOGS' },
+        // { key: 'reblogs', value: 'REBLOGS' },
       ],
       selectedFilter: 'activities',
       selectedIndex: 0,
@@ -47,14 +48,13 @@ class NotificationView extends PureComponent {
   // Component Functions
 
   _handleOnDropdownSelect = async (index) => {
-    const { getActivities, changeSelectedFilter, } = this.props;
+    const { changeSelectedFilter } = this.props;
     const { filters, contentOffset } = this.state;
 
     const _selectedFilter = filters[index].key;
 
     this.setState({ selectedFilter: _selectedFilter, selectedIndex: index, contentOffset });
     await changeSelectedFilter(_selectedFilter, index);
-    getActivities(_selectedFilter, false);
     this.listRef.current?.scrollToOffset({ x: 0, y: 0, animated: false });
   };
 
@@ -176,34 +176,35 @@ class NotificationView extends PureComponent {
     return 5;
   };
 
-
   _getActivityIndicator = () => (
     <View style={styles.loading}>
       <ActivityIndicator animating size="large" />
     </View>
   );
 
-
   _renderSectionHeader = ({ section: { title, index } }) => (
     <ContainerHeader hasSeperator={index !== 0} isBoldTitle title={title} key={title} />
-  )
-
+  );
 
   _renderItem = ({ item }) => (
     <>
-      {item.sectionTitle && <ContainerHeader hasSeperator={!item.firstSection} isBoldTitle title={item.sectionTitle} />}
+      {item.sectionTitle && (
+        <ContainerHeader hasSeperator={!item.firstSection} isBoldTitle title={item.sectionTitle} />
+      )}
       <NotificationLine
         notification={item}
         handleOnPressNotification={this.props.navigateToNotificationRoute}
-        handleOnUserPress={() => { this.props.handleOnUserPress(item.source) }}
+        handleOnUserPress={() => {
+          this.props.handleOnUserPress(item.source);
+        }}
         globalProps={this.props.globalProps}
       />
     </>
-  )
-
+  );
 
   render() {
-    const { readAllNotification, getActivities, isNotificationRefreshing, intl, isLoading } = this.props;
+    const { readAllNotification, getActivities, isNotificationRefreshing, intl, isLoading } =
+      this.props;
     const { filters, selectedFilter, selectedIndex } = this.state;
     const _notifications = this._getNotificationsArrays();
 
@@ -222,27 +223,28 @@ class NotificationView extends PureComponent {
           onRightIconPress={readAllNotification}
         />
         <ThemeContainer>
-          {({ isDarkTheme }) =>
-
+          {({ isDarkTheme }) => (
             <FlatList
               ref={this.listRef}
               data={_notifications}
               keyExtractor={(item, index) => `${item.id}-${index}`}
-              onEndReached={() => getActivities(selectedFilter, true)}
+              onEndReached={() => getActivities(true)}
               onEndReachedThreshold={0.3}
               ListFooterComponent={this._renderFooterLoading}
               ListEmptyComponent={
-                isLoading ? <ListPlaceHolder/> : (
-                <Text style={globalStyles.hintText}>
-                  {intl.formatMessage({ id: 'notification.noactivity' })}
-                </Text>
+                isNotificationRefreshing ? (
+                  <ListPlaceHolder />
+                ) : (
+                  <Text style={globalStyles.hintText}>
+                    {intl.formatMessage({ id: 'notification.noactivity' })}
+                  </Text>
                 )
-                }
+              }
               contentContainerStyle={styles.listContentContainer}
               refreshControl={
                 <RefreshControl
                   refreshing={isNotificationRefreshing}
-                  onRefresh={() => getActivities(selectedFilter)}
+                  onRefresh={() => getActivities()}
                   progressBackgroundColor="#357CE6"
                   tintColor={!isDarkTheme ? '#357ce6' : '#96c0ff'}
                   titleColor="#fff"
@@ -251,8 +253,7 @@ class NotificationView extends PureComponent {
               }
               renderItem={this._renderItem}
             />
-
-          }
+          )}
         </ThemeContainer>
       </View>
     );

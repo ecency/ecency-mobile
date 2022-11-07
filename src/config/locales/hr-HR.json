@@ -61,6 +61,7 @@
     "amount_information": "Drag the slider to adjust the amount",
     "amount": "Amount",
     "memo": "Memo",
+    "tap_update": "Tap to update",
     "information": "Are you sure to transfer funds?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
@@ -270,7 +271,13 @@
     "steemconnect_description": "If you don't want to keep your password encrypted and saved on your device, you can use Hivesigner.",
     "steemconnect_fee_description": "info",
     "not_loggedin_alert": "Not LoggedIn",
-    "not_loggedin_alert_desc": "Please login first"
+    "not_loggedin_alert_desc": "Please login first",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "Sign Up",
@@ -410,13 +417,15 @@
     "btn_cancel": "Cancel"
   },
   "uploads_modal": {
-    "label_no_images": "No Images Found",
+    "label_no_images": "No Existing Uploads...",
     "title": "Uploaded Images",
     "title_remove_confirmation": "Delete image",
     "btn_add": "Image",
     "btn_insert": "INSERT",
     "btn_delete": "DELETE",
+    "confirm_delete": "Are you sure you want to delete images from your uploads",
     "message_failed": "Failed to upload image",
+    "delete_failed": "Failed to delete image",
     "failed_count": "Failed to upload {failedCount} of {totalCount} selected image(s)"
   },
   "pincode": {
@@ -724,7 +733,8 @@
     "title": "Komentari",
     "reveal_comment": "Reveal comment",
     "read_more": "Read more comments",
-    "more_replies": "replies"
+    "more_replies": "replies",
+    "no_comments": "Be the first to respond..."
   },
   "search_result": {
     "others": "Others",
@@ -817,7 +827,7 @@
     "year": "years"
   },
   "quick_reply": {
-    "placeholder": "Add a comment",
+    "placeholder": "Add a comment...",
     "comment": "Comment",
     "reply": "REPLY",
     "close": "CLOSE"

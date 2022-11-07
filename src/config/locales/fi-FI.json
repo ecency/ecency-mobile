@@ -61,6 +61,7 @@
     "amount_information": "Siirrä kytkintä muuttaaksesi määrää",
     "amount": "Määrä",
     "memo": "Muistio",
+    "tap_update": "Tap to update",
     "information": "Haluatko varmasti siirtää varoja?",
     "amount_desc": "Saldo",
     "memo_desc": "Tämä muistio on julkinen",
@@ -270,7 +271,13 @@
     "steemconnect_description": "Jos et halua säilyttää kryptattua salasanaa laitteessasi, voit käyttää Hivesigneriä.",
     "steemconnect_fee_description": "tietoa",
     "not_loggedin_alert": "Ei Kirjautunut",
-    "not_loggedin_alert_desc": "Kirjaudu ensin sisään"
+    "not_loggedin_alert_desc": "Kirjaudu ensin sisään",
+    "login_failed": "Login Failed",
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body": "Verify direct login using access code",
+    "deep_login_url_expired": "Login url expired, please use private key or password to login",
+    "deep_login_malformed_url": "Malformed login url, please use private key or password to login"
   },
   "register": {
     "button": "Luo tili",
@@ -410,13 +417,15 @@
     "btn_cancel": "Peruuta"
   },
   "uploads_modal": {
-    "label_no_images": "Kuvia ei löytynyt",
+    "label_no_images": "No Existing Uploads...",
     "title": "Ladatut kuvat",
     "title_remove_confirmation": "Poista kuva",
     "btn_add": "Kuva",
     "btn_insert": "Lisää",
     "btn_delete": "POISTA",
+    "confirm_delete": "Are you sure you want to delete images from your uploads",
     "message_failed": "Kuvan lataaminen epäonnistui",
+    "delete_failed": "Failed to delete image",
     "failed_count": "Ei voitu ladata {failedCount} valituista kuvista {totalCount}"
   },
   "pincode": {
@@ -724,7 +733,8 @@
     "title": "Kommentit",
     "reveal_comment": "Näytä kommentti",
     "read_more": "Lue lisää kommentteja",
-    "more_replies": "vastaukset"
+    "more_replies": "vastaukset",
+    "no_comments": "Ole ensimmäinen kommentoija..."
   },
   "search_result": {
     "others": "Muut",
@@ -817,7 +827,7 @@
     "year": "vuotta"
   },
   "quick_reply": {
-    "placeholder": "Lisää kommentti",
+    "placeholder": "Add a comment...",
     "comment": "Kommentti",
     "reply": "VASTAA",
     "close": "SULJE"

@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 
 // Components
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { BasicHeader, BoostPlaceHolder, ProductItemLine } from '../../../components';
 
 // Container
@@ -25,7 +26,7 @@ const BoostScreen = ({ route }) => {
   const username = route.params?.username ?? '';
 
   return (
-    <InAppPurchaseContainer skus={ITEM_SKUS}>
+    <InAppPurchaseContainer route={route} skus={ITEM_SKUS}>
       {({ buyItem, productList, isLoading, isProcessing, getTitle }) => (
         <View style={globalStyles.container}>
           <BasicHeader
@@ -59,4 +60,4 @@ const BoostScreen = ({ route }) => {
   );
 };
 
-export default BoostScreen;
+export default gestureHandlerRootHOC(BoostScreen);

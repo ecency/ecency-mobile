@@ -5,16 +5,16 @@ import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 export const CONTAINER_HEIGHT = getStatusBarHeight() + 100;
 
 export default EStyleSheet.create({
-  container:{
+  container: {
     position: 'absolute',
-    top:0,
-    justifyContent:'center',
+    top: 0,
+    justifyContent: 'center',
     zIndex: 9999,
-    marginHorizontal:8,
-    paddingTop:16,
+    marginHorizontal: 8,
+    paddingTop: 16,
     marginTop: Platform.select({
-      ios:getStatusBarHeight() + 12,
-      android:8,
+      ios: getStatusBarHeight() + 12,
+      android: 8,
     }),
     backgroundColor: '$darkGrayBackground',
     shadowColor: '#5f5f5fbf',
@@ -23,20 +23,20 @@ export default EStyleSheet.create({
       height: 5,
     },
     elevation: 3,
-    borderRadius:12,
+    borderRadius: 12,
     width: '$deviceWidth - 16',
   },
-  contentContainer:{
-    flexDirection:'row', 
-    justifyContent:'space-between', 
-    alignItems:'center', 
-    paddingBottom:16, 
-    paddingHorizontal:16
+  contentContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingBottom: 16,
+    paddingHorizontal: 16,
   },
   text: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 14,
-    paddingLeft:16,
+    paddingLeft: 16,
   },
 });

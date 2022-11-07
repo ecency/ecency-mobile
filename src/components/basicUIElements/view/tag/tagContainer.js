@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { withNavigation } from '@react-navigation/compat';
 
 // Services and Actions
+import { useNavigation } from '@react-navigation/native';
 import { getCommunityTitle } from '../../../../providers/hive/dhive';
 // Middleware
 
@@ -20,7 +20,6 @@ import TagView from './tagView';
  */
 const TagContainer = ({
   value,
-  navigation,
   onPress,
   isPin,
   isPostCardTag,
@@ -31,7 +30,10 @@ const TagContainer = ({
   communityTitle,
   prefix,
   suffix,
+  removeEnabled,
 }) => {
+  const navigation = useNavigation();
+
   const [label, setLabel] = useState(value);
   const [isCommunity, setIsCommunity] = useState(false);
 
@@ -75,7 +77,7 @@ const TagContainer = ({
       onPress();
     } else {
       navigation.navigate({
-        routeName: isCommunity ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT,
+        name: isCommunity ? ROUTES.SCREENS.COMMUNITY : ROUTES.SCREENS.TAG_RESULT,
         params: {
           tag: value,
         },
@@ -96,8 +98,9 @@ const TagContainer = ({
       disabled={disabled}
       prefix={prefix}
       suffix={suffix}
+      removeEnabled={removeEnabled}
     />
   );
 };
 
-export default withNavigation(TagContainer);
+export default TagContainer;

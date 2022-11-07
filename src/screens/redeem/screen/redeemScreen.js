@@ -1,4 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { RedeemContainer, PointsContainer } from '../../../containers';
 
 import { Promote, PostBoost } from '../../../components';
@@ -14,9 +15,10 @@ class RedeemScreen extends PureComponent {
   // Component Functions
 
   render() {
+    const { route } = this.props;
     return (
       <Fragment>
-        <PointsContainer>
+        <PointsContainer route={route}>
           {({
             accounts,
             currentAccountName,
@@ -71,4 +73,4 @@ class RedeemScreen extends PureComponent {
   }
 }
 
-export default RedeemScreen;
+export default gestureHandlerRootHOC(RedeemScreen);

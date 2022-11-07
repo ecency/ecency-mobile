@@ -147,6 +147,7 @@ class LoginScreen extends PureComponent {
                 secureTextEntry
                 type="password"
                 numberOfLines={1}
+                value={password}
                 inputStyle={styles.input}
               />
               <InformationArea

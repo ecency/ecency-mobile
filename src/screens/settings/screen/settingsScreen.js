@@ -37,6 +37,8 @@ const SettingsScreen = ({
   commentNotification,
   followNotification,
   mentionNotification,
+  favoriteNotification,
+  bookmarkNotification,
   reblogNotification,
   transfersNotification,
   voteNotification,
@@ -245,6 +247,24 @@ const SettingsScreen = ({
                 type="toggle"
                 actionType="notification.mention"
                 isOn={mentionNotification}
+                handleOnChange={handleOnChange}
+              />
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.notification.favorite',
+                })}
+                type="toggle"
+                actionType="notification.favorite"
+                isOn={favoriteNotification}
+                handleOnChange={handleOnChange}
+              />
+              <SettingsItem
+                title={intl.formatMessage({
+                  id: 'settings.notification.bookmark',
+                })}
+                type="toggle"
+                actionType="notification.bookmark"
+                isOn={bookmarkNotification}
                 handleOnChange={handleOnChange}
               />
               <SettingsItem

@@ -61,6 +61,7 @@
     "amount_information": "Drag the slider to adjust the amount",
     "amount": "Amount",
     "memo": "Memo",
+    "tap_update":"Tap to update",
     "information": "Are you sure to transfer funds?",
     "amount_desc": "Balance",
     "memo_desc": "This memo is public",
@@ -140,6 +141,8 @@
     "unvote": "downvoted",
     "reply": "replied to",
     "mention": "mentioned in",
+    "favorites": "made new post",
+    "bookmarks": "made new reply on",
     "follow": "followed you",
     "unfollow": "unfollowed you",
     "ignore": "ignored you",
@@ -226,6 +229,8 @@
       "vote": "Vote",
       "comment": "Comment",
       "mention": "Mention",
+      "favorite": "Favorites",
+      "bookmark": "Bookmarks",
       "reblog": "Reblog",
       "transfers": "Transfers",
       "delegations": "Delegations"
@@ -272,8 +277,11 @@
     "not_loggedin_alert": "Not LoggedIn",
     "not_loggedin_alert_desc": "Please login first",
     "login_failed": "Login Failed",
-    "login_failed_body": "try a different key or try again later."
-
+    "login_failed_body": "try a different key or try again later.",
+    "deep_login_alert_title": "Easy Login @{username}",
+    "deep_login_alert_body":"Verify direct login using access code",
+    "deep_login_url_expired":"Login url expired, please use private key or password to login",
+    "deep_login_malformed_url":"Malformed login url, please use private key or password to login" 
   },
   "register": {
     "button": "Sign Up",
@@ -346,6 +354,7 @@
     "limited_characters": "Use only lowercase letters, digits and one dash",
     "limited_firstchar": "Tag must start with a letter",
     "limited_lastchar": "Tag must end with letter or number",
+    "tag_duplicate":"Tag exists already",
     "setting_schedule": "Scheduling Time",
     "setting_reward": "Reward",
     "setting_reblog": "Reblog",
@@ -358,6 +367,7 @@
     "options": "Options",
     "my_blog": "My Blog",
     "select_community":"Choose a community",
+    "community_selected":"Community Selected",
     "my_communities": "My Communities",
     "top_communities": "Top Communities",
     "schedule_modal_title": "Schedule Post",

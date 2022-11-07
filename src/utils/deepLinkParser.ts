@@ -1,7 +1,7 @@
+import get from 'lodash/get';
 import { getPost, getUser } from '../providers/hive/dhive';
 import postUrlParser from './postUrlParser';
-import parseAuthUrl from './parseAuthUrl';
-import get from 'lodash/get';
+import parseAuthUrl, { AUTH_MODES } from './parseAuthUrl';
 import ROUTES from '../constants/routeNames';
 import parsePurchaseUrl from './parsePurchaseUrl';
 
@@ -14,6 +14,7 @@ export const deepLinkParser = async (url, currentAccount) => {
   let profile;
   let keey;
 
+  // profess url for post/content
   const postUrl = postUrlParser(url);
   console.log('postUrl : ', postUrl);
 
@@ -38,13 +39,13 @@ export const deepLinkParser = async (url, currentAccount) => {
       params = {
         username: get(profile, 'name'),
         reputation: get(profile, 'reputation'),
-        deepLinkFilter, //TODO: process this in profile screen
+        deepLinkFilter, // TODO: process this in profile screen
       };
       keey = get(profile, 'name');
     } else if (permlink === 'communities') {
       routeName = ROUTES.SCREENS.WEB_BROWSER;
       params = {
-        url: url,
+        url,
       };
       keey = 'WebBrowser';
     } else if (permlink) {
@@ -72,40 +73,55 @@ export const deepLinkParser = async (url, currentAccount) => {
     keey = `${feedType}/${tag || ''}`;
   }
 
+  // process url for authentication
   if (!routeName) {
-    const { mode, referredUser } = parseAuthUrl(url) || {};
-    if (mode === 'SIGNUP') {
-      routeName = ROUTES.SCREENS.REGISTER;
-      params = {
-        referredUser,
-      };
-      keey = `${mode}/${referredUser || ''}`;
-    }
+    const data = parseAuthUrl(url);
+    if (data) {
+      const { mode, referredUser, username, code } = data;
 
-    //if url is for purchase
-    const { type, username, productId} = parsePurchaseUrl(url) || {};
-    // console.log('type, username, productId : ', type, username, productId);
-    if(type && type === 'boost'){
+      if (mode === AUTH_MODES.SIGNUP) {
+        routeName = ROUTES.SCREENS.REGISTER;
+        params = {
+          referredUser,
+        };
+        keey = `${mode}/${referredUser || ''}`;
+      }
+
+      if (mode === AUTH_MODES.AUTH) {
+        routeName = ROUTES.SCREENS.LOGIN;
+        params = {
+          username,
+          code,
+        };
+        keey = `${mode}/${username || ''}`;
+      }
+    }
+  }
+
+  // process url for purchasing
+  if (!routeName) {
+    const { type, username, productId } = parsePurchaseUrl(url) || {};
+
+    if (type && type === 'boost') {
       routeName = ROUTES.SCREENS.ACCOUNT_BOOST;
       params = {
         username,
       };
       keey = `${type}/${username || ''}`;
     }
-    if(type && type === 'points'){
+    if (type && type === 'points') {
       routeName = ROUTES.SCREENS.BOOST;
       params = {
         username,
-        productId
+        productId,
       };
       keey = `${type}/${username || ''}`;
     }
-
   }
 
   return {
-    routeName: routeName,
-    params: params,
+    name: routeName,
+    params,
     key: keey,
   };
 };

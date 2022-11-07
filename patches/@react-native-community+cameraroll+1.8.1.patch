@@ -1,0 +1,22 @@
+diff --git a/node_modules/@react-native-community/cameraroll/android/build.gradle b/node_modules/@react-native-community/cameraroll/android/build.gradle
+index 5582c37..55c446d 100644
+--- a/node_modules/@react-native-community/cameraroll/android/build.gradle
++++ b/node_modules/@react-native-community/cameraroll/android/build.gradle
+@@ -2,7 +2,7 @@
+ buildscript {
+   repositories {
+     google()
+-    jcenter()
++    mavenCentral() //patched
+   }
+ 
+   dependencies {
+@@ -32,7 +32,7 @@ android {
+ 
+ repositories {
+   google()
+-  jcenter()
++  mavenCentral() //patched
+   mavenCentral()
+ }
+ 

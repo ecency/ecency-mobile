@@ -10,11 +10,11 @@ const _dropShadow = {
   },
   backgroundColor: '$primaryBackgroundColor',
   borderColor: '$primaryLightBackground',
-  borderTopWidth : Platform.select({
+  borderTopWidth: Platform.select({
     android: 1,
-    ios: 0
-  })
-}
+    ios: 0,
+  }),
+};
 
 export default EStyleSheet.create({
   container: {
@@ -22,13 +22,13 @@ export default EStyleSheet.create({
     elevation: 3,
     backgroundColor: '$primaryBackgroundColor',
   },
-  shadowedContainer:{
+  shadowedContainer: {
     elevation: 3,
     width: '$deviceWidth',
-    ..._dropShadow
+    ..._dropShadow,
   },
   dropShadow: {
-    ..._dropShadow
+    ..._dropShadow,
   },
   buttonsContainer: {
     justifyContent: 'space-between',
@@ -36,7 +36,7 @@ export default EStyleSheet.create({
     width: '$deviceWidth',
     backgroundColor: '$primaryBackgroundColor',
     borderColor: '$primaryLightBackground',
-    paddingBottom: getBottomSpace()
+    paddingBottom: getBottomSpace(),
   },
   clearIcon: {
     color: '$primaryLightGray',
@@ -72,11 +72,9 @@ export default EStyleSheet.create({
   indicator: {
     height: 8,
     width: 44,
-    backgroundColor: '$primaryWhiteLightBackground',
+    backgroundColor: '$primaryLightBackground',
     borderRadius: 8,
     margin: 8,
-    alignSelf: 'center'
-  }
+    alignSelf: 'center',
+  },
 });
-
-

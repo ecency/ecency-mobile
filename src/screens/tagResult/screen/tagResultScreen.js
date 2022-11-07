@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { debounce } from 'lodash';
 
 // Components
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SearchInput, TabbedPosts } from '../../../components';
 
 // Styles
@@ -65,4 +66,4 @@ const TagResultScreen = ({ navigation, route }) => {
   );
 };
 
-export default TagResultScreen;
+export default gestureHandlerRootHOC(TagResultScreen);

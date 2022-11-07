@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useIntl } from 'react-intl';
-import { withNavigation } from '@react-navigation/compat';
 
 // Components
+import { useNavigation } from '@react-navigation/native';
 import { SearchModal } from '../../searchModal';
 import { IconButton } from '../../iconButton';
 import { UserAvatar } from '../../userAvatar';
@@ -26,10 +26,11 @@ const HeaderView = ({
   isReverse,
   reputation,
   username,
-  navigation,
   hideUser,
   showQR,
 }) => {
+  const navigation = useNavigation();
+
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const intl = useIntl();
   let gradientColor;
@@ -41,18 +42,11 @@ const HeaderView = ({
   }
 
   const _onPressSearchButton = () => {
-    navigation.navigate({
-      routeName: ROUTES.SCREENS.SEARCH_RESULT,
-    });
+    navigation.navigate(ROUTES.SCREENS.SEARCH_RESULT);
   };
 
-
   const _renderAvatar = () => (
-    <TouchableOpacity
-      style={styles.avatarWrapper}
-      onPress={handleOpenDrawer}
-      disabled={isReverse}
-    >
+    <TouchableOpacity style={styles.avatarWrapper} onPress={handleOpenDrawer} disabled={isReverse}>
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
@@ -69,14 +63,17 @@ const HeaderView = ({
         />
       </LinearGradient>
     </TouchableOpacity>
-  )
-
+  );
 
   const _renderTitle = () => (
     <>
       {displayName || username ? (
         <View style={[styles.titleWrapper, isReverse && styles.titleWrapperReverse]}>
-          {displayName && <Text numberOfLines={1} style={styles.title}>{displayName}</Text>}
+          {displayName && (
+            <Text numberOfLines={1} style={styles.title}>
+              {displayName}
+            </Text>
+          )}
           <Text style={styles.subTitle}>
             {`@${username}`}
             {reputation && ` (${reputation})`}
@@ -94,8 +91,7 @@ const HeaderView = ({
         </View>
       )}
     </>
-  )
-
+  );
 
   const _renderActionButtons = () => (
     <>
@@ -123,11 +119,10 @@ const HeaderView = ({
         </View>
       )}
     </>
-  )
+  );
 
   return (
     <SafeAreaView style={[styles.container, isReverse && styles.containerReverse]}>
-      
       {!hideUser && (
         <>
           <SearchModal
@@ -147,4 +142,4 @@ const HeaderView = ({
   );
 };
 
-export default withNavigation(HeaderView);
+export default HeaderView;

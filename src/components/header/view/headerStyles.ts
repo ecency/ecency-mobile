@@ -29,18 +29,18 @@ export default EStyleSheet.create({
   avatarDefault: {
     borderTopRightRadius: 68 / 2,
     borderBottomRightRadius: 68 / 2,
-    overflow:'hidden'
+    overflow: 'hidden',
   },
   titleWrapper: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
     marginHorizontal: 8,
-    flex:2,
+    flex: 2,
   },
   titleWrapperReverse: {
-    alignItems:'flex-end',
-  },  
+    alignItems: 'flex-end',
+  },
   title: {
     fontSize: 14,
     fontWeight: 'bold',

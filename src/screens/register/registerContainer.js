@@ -2,14 +2,15 @@ import { useEffect, useRef, useState } from 'react';
 import { Alert } from 'react-native';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { withNavigation } from '@react-navigation/compat';
 import get from 'lodash/get';
 
+import { useNavigation } from '@react-navigation/native';
 import { lookupAccounts } from '../../providers/hive/dhive';
 import { signUp } from '../../providers/ecency/ecency';
 import ROUTES from '../../constants/routeNames';
 
-const RegisterContainer = ({ children, navigation }) => {
+const RegisterContainer = ({ children }) => {
+  const navigation = useNavigation();
   const intl = useIntl();
 
   const buyAccountModalRef = useRef(null);
@@ -40,9 +41,7 @@ const RegisterContainer = ({ children, navigation }) => {
     signUp(username, email, refUsername)
       .then((result) => {
         if (result) {
-          navigation.navigate({
-            routeName: ROUTES.DRAWER.MAIN,
-          });
+          navigation.navigate(ROUTES.DRAWER.MAIN);
           Alert.alert(
             'Success',
             'Hurrah, you did it! Expect email from us with further instructions.',
@@ -95,4 +94,4 @@ const RegisterContainer = ({ children, navigation }) => {
   );
 };
 
-export default withNavigation(RegisterContainer);
+export default RegisterContainer;

@@ -14,22 +14,32 @@ def getNpmVersionArray() { // major [0], minor [1], patch [2]
 
 buildscript {
     ext {
-        buildToolsVersion = "30.0.2"
-        minSdkVersion = 21
-        compileSdkVersion = 30
-        targetSdkVersion = 30
+        buildToolsVersion = "31.0.0"
+        minSdkVersion = 23
+        compileSdkVersion = 33
+        targetSdkVersion = 33
         googlePlayServicesVisionVersion = "17.0.2"
         googlePlayServicesVersion = "16.+"
         firebaseVersion = "17.3.4"
+        kotlinVersion = "1.6.0"
+        if (System.properties['os.arch'] == "aarch64") {
+            // For M1 Users we need to use the NDK 24 which added support for aarch64
+            ndkVersion = "24.0.8215888"
+        } else {
+            // Otherwise we default to the side-by-side NDK version from AGP.
+            ndkVersion = "21.4.7075529"
+        }
     }
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath('com.android.tools.build:gradle:4.1.0')
+        classpath("com.android.tools.build:gradle:7.2.1")
         classpath 'com.google.gms:google-services:4.3.10'
-        classpath 'com.bugsnag:bugsnag-android-gradle-plugin:5.+'
+        classpath("com.facebook.react:react-native-gradle-plugin")
+        classpath("de.undercouch:gradle-download-task:5.0.1")
+        classpath 'com.bugsnag:bugsnag-android-gradle-plugin:7.+'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -38,7 +48,6 @@ buildscript {
 allprojects {
     repositories {
         google()
-        mavenCentral()
         mavenLocal()
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
@@ -51,19 +60,11 @@ allprojects {
 
         maven { url "https://www.jitpack.io" }
 
-
-        //TODO: remove when replacement for selective groups is available
-        //the jcenter will be accessible as read-only indefinitely so we should be
-        //good for now with these selective packages as they are not available off of 
-        //jCenter
-        jcenter() {
+        mavenCentral {
+            // We don't want to fetch react-native from Maven Central as there are
+            // older versions over there.
             content {
-                // these groups only available in jcenter otherwise we don't want to rely on jcenter.
-                includeGroup("com.facebook.yoga")
-                includeGroup("com.facebook.fbjni")
-                includeGroup("com.henninghall.android")
-                includeModule("com.yqritc", "android-scalablevideoview")
-                includeModule("com.wei.android.lib", "fingerprintidentify")
+                excludeGroup "com.facebook.react"
             }
         }
     }

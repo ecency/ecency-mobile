@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { View as AnimatedView } from 'react-native-animatable';
 import { useDispatch } from 'react-redux';
+import { useIntl } from 'react-intl';
 import { IconButton } from '..';
 import { toastNotification } from '../../redux/actions/uiAction';
 import UserAvatar from '../userAvatar';
@@ -10,8 +11,7 @@ import ROUTES from '../../constants/routeNames';
 
 // Styles
 import styles, { CONTAINER_HEIGHT } from './styles';
-import { navigate } from '../../navigation/service';
-import { useIntl } from 'react-intl';
+import RootNavigation from '../../navigation/rootNavigation';
 
 interface RemoteMessage {
   data: {
@@ -26,14 +26,12 @@ interface RemoteMessage {
   notification: {
     body: string;
     title: string;
-  }
-
+  };
 }
 
 interface Props {
-  remoteMessage: RemoteMessage
+  remoteMessage: RemoteMessage;
 }
-
 
 const ForegroundNotification = ({ remoteMessage }: Props) => {
   const intl = useIntl();
@@ -48,26 +46,23 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
 
-
   useEffect(() => {
-
     if (remoteMessage) {
       const { source, target, type, id } = remoteMessage.data;
       if (activeId !== id && (type === 'reply' || type === 'mention')) {
-
         let titlePrefixId = '';
         switch (type) {
           case 'reply':
-            titlePrefixId = 'notification.reply_on'
+            titlePrefixId = 'notification.reply_on';
             break;
           case 'mention':
-            titlePrefixId = 'notification.mention_on'
+            titlePrefixId = 'notification.mention_on';
             break;
         }
 
         setActiveId(id);
         setUsername(source);
-        setTitle(`${intl.formatMessage({ id: titlePrefixId })} @${target}`)
+        setTitle(`${intl.formatMessage({ id: titlePrefixId })} @${target}`);
         setBody(intl.formatMessage({ id: 'notification.reply_body' }));
         show();
       }
@@ -77,15 +72,14 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
       if (hideTimeoutRef.current) {
         clearTimeout(hideTimeoutRef.current);
       }
-    }
+    };
   }, [remoteMessage]);
 
   const show = () => {
-    setIsVisible(true)
+    setIsVisible(true);
     hideTimeoutRef.current = setTimeout(() => {
       hide();
-    }, duration)
-
+    }, duration);
   };
 
   const hide = async () => {
@@ -93,67 +87,61 @@ const ForegroundNotification = ({ remoteMessage }: Props) => {
       await containerRef.current.fadeOutUp(300);
 
       setIsVisible(false);
-      if(hideTimeoutRef.current){
+      if (hideTimeoutRef.current) {
         clearTimeout(hideTimeoutRef.current);
       }
-
     }
   };
-
 
   const _onPress = () => {
     const { data } = remoteMessage;
     const fullPermlink =
       get(data, 'permlink1', '') + get(data, 'permlink2', '') + get(data, 'permlink3', '');
 
-    let params = {
+    const params = {
       author: get(data, 'source', ''),
       permlink: fullPermlink,
     };
-    let key = fullPermlink
-    let routeName = ROUTES.SCREENS.POST;
+    const key = fullPermlink;
+    const name = ROUTES.SCREENS.POST;
 
-    navigate({
-      routeName,
+    RootNavigation.navigate({
+      name,
       params,
       key,
     });
     hide();
-
-  }
-
+  };
 
   return (
-     isVisible &&
-    <AnimatedView
-      ref={containerRef}
-      style={styles.container}
-      animation='slideInDown'
-      duration={500}>
+    isVisible && (
+      <AnimatedView
+        ref={containerRef}
+        style={styles.container}
+        animation="slideInDown"
+        duration={500}
+      >
+        <View style={styles.contentContainer}>
+          <TouchableOpacity onPress={_onPress} style={{ flexShrink: 1 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 24 }}>
+              <UserAvatar username={username} />
 
-      <View style={styles.contentContainer}>
-
-        <TouchableOpacity onPress={_onPress} style={{ flexShrink: 1 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 24 }}>
-            <UserAvatar username={username} />
-
-            <View style={{ flexShrink: 1 }}>
-              <Text style={styles.text} numberOfLines={1}>{title}</Text>
-              <Text style={styles.text} numberOfLines={1}>{body}</Text>
+              <View style={{ flexShrink: 1 }}>
+                <Text style={styles.text} numberOfLines={1}>
+                  {title}
+                </Text>
+                <Text style={styles.text} numberOfLines={1}>
+                  {body}
+                </Text>
+              </View>
             </View>
-          </View>
-        </TouchableOpacity>
+          </TouchableOpacity>
 
-        <IconButton
-          name='close'
-          color="white"
-          size={28}
-          onPress={hide}
-        />
-      </View>
-    </AnimatedView>
-  )
-}
-
+          <IconButton name="close" color="white" size={28} onPress={hide} />
+        </View>
+      </AnimatedView>
+    )
+  );
+};
 
 export default ForegroundNotification;

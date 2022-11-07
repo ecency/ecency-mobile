@@ -3,6 +3,7 @@ import { View, Text, ActivityIndicator, SafeAreaView } from 'react-native';
 import { injectIntl } from 'react-intl';
 
 // Components
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { TextButton } from '../..';
 import { IconButton } from '../../iconButton';
 import { DropdownButton } from '../../dropdownButton';
@@ -12,7 +13,6 @@ import { TextInput } from '../../textInput';
 // Styles
 import styles from './basicHeaderStyles';
 import { OptionsModal } from '../../atoms';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 const BasicHeaderView = ({
   disabled,
@@ -48,10 +48,8 @@ const BasicHeaderView = ({
   handleSettingsPress,
   backIconName,
 }) => {
-
   const [isInputVisible, setIsInputVisible] = useState(false);
   const rewardMenuRef = useRef(null);
-
 
   /**
    *
@@ -79,7 +77,6 @@ const BasicHeaderView = ({
     handleOnSearch(value);
   };
 
-
   const _handleRewardMenuSelect = (index) => {
     let rewardType = 'default';
 
@@ -98,8 +95,6 @@ const BasicHeaderView = ({
       handleRewardChange(rewardType);
     }
   };
-
-
 
   /**
    *
@@ -206,7 +201,10 @@ const BasicHeaderView = ({
                     onPress={() => handleOnSaveButtonPress && handleOnSaveButtonPress()}
                   />
                 ) : (
-                  <ActivityIndicator style={styles.textButtonWrapper} color={EStyleSheet.value('$primaryBlue')} />
+                  <ActivityIndicator
+                    style={styles.textButtonWrapper}
+                    color={EStyleSheet.value('$primaryBlue')}
+                  />
                 )}
               </Fragment>
             )}
@@ -229,12 +227,14 @@ const BasicHeaderView = ({
                 text={rightButtonText}
               />
             ) : (
-              <ActivityIndicator style={[styles.textButtonWrapper]}  color={EStyleSheet.value('$primaryBlue')} />
+              <ActivityIndicator
+                style={[styles.textButtonWrapper]}
+                color={EStyleSheet.value('$primaryBlue')}
+              />
             )}
           </Fragment>
         )}
       </View>
-
 
       <OptionsModal
         ref={rewardMenuRef}
@@ -248,7 +248,6 @@ const BasicHeaderView = ({
         title="Reward"
         onPress={_handleRewardMenuSelect}
       />
-
     </SafeAreaView>
   );
 };

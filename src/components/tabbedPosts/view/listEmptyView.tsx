@@ -1,33 +1,33 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { get } from 'lodash';
 import { Text, View, FlatList } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import { NoPost, PostCardPlaceHolder, UserListItem } from '../..';
 import globalStyles from '../../../globalStyles';
 import { CommunityListItem, EmptyScreen } from '../../basicUIElements';
 import styles from './tabbedPostsStyles';
 import { default as ROUTES } from '../../../constants/routeNames';
-import { withNavigation } from '@react-navigation/compat';
-import {useSelector, useDispatch } from 'react-redux';
-import { fetchCommunities, leaveCommunity, subscribeCommunity } from '../../../redux/actions/communitiesAction';
+import {
+  fetchCommunities,
+  leaveCommunity,
+  subscribeCommunity,
+} from '../../../redux/actions/communitiesAction';
 import { fetchLeaderboard, followUser, unfollowUser } from '../../../redux/actions/userAction';
 import { getCommunity } from '../../../providers/hive/dhive';
 
 interface TabEmptyViewProps {
-  filterKey:string,
-  isNoPost:boolean,
-  navigation:any,
+  filterKey: string;
+  isNoPost: boolean;
 }
 
-const TabEmptyView = ({
-  filterKey,
-  isNoPost,
-  navigation,
-}: TabEmptyViewProps) => {
-
+const TabEmptyView = ({ filterKey, isNoPost }: TabEmptyViewProps) => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  //redux properties
+  const navigation = useNavigation();
+
+  // redux properties
   const isLoggedIn = useSelector((state) => state.application.isLoggedIn);
   const subscribingCommunities = useSelector(
     (state) => state.communities.subscribingCommunitiesInFeedScreen,
@@ -41,25 +41,24 @@ const TabEmptyView = ({
   const leaderboard = useSelector((state) => state.user.leaderboard);
   const communities = useSelector((state) => state.communities.communities);
 
-  //hooks
+  // hooks
 
-  useEffect(()=>{
+  useEffect(() => {
     if (isNoPost) {
       if (filterKey === 'friends') {
         if (recommendedUsers.length === 0) {
           _getRecommendedUsers();
         }
-      } else if(filterKey === 'communities') {
+      } else if (filterKey === 'communities') {
         if (recommendedCommunities.length === 0) {
           _getRecommendedCommunities();
         }
       }
     }
-  }, [isNoPost])
-
+  }, [isNoPost]);
 
   useEffect(() => {
-    const {loading, error, data} = leaderboard;
+    const { loading, error, data } = leaderboard;
     if (!loading) {
       if (!error && data && data.length > 0) {
         _formatRecommendedUsers(data);
@@ -68,14 +67,13 @@ const TabEmptyView = ({
   }, [leaderboard]);
 
   useEffect(() => {
-    const {loading, error, data} = communities;
+    const { loading, error, data } = communities;
     if (!loading) {
       if (!error && data && data?.length > 0) {
         _formatRecommendedCommunities(data);
       }
     }
   }, [communities]);
-
 
   useEffect(() => {
     const recommendeds = [...recommendedCommunities];
@@ -103,8 +101,6 @@ const TabEmptyView = ({
     setRecommendedCommunities(recommendeds);
   }, [subscribingCommunities]);
 
-
-
   useEffect(() => {
     const recommendeds = [...recommendedUsers];
 
@@ -130,13 +126,12 @@ const TabEmptyView = ({
 
     setRecommendedUsers(recommendeds);
   }, [followingUsers]);
-  
 
-  //fetching
+  // fetching
   const _getRecommendedUsers = () => dispatch(fetchLeaderboard());
   const _getRecommendedCommunities = () => dispatch(fetchCommunities('', 10));
 
-  //formating 
+  // formating
   const _formatRecommendedCommunities = async (communitiesArray) => {
     try {
       const ecency = await getCommunity('hive-125125');
@@ -161,7 +156,7 @@ const TabEmptyView = ({
     setRecommendedUsers(recommendeds);
   };
 
-  //actions related routines
+  // actions related routines
   const _handleSubscribeCommunityButtonPress = (data) => {
     let subscribeAction;
     let successToastText = '';
@@ -191,7 +186,6 @@ const TabEmptyView = ({
       subscribeAction(currentAccount, pinCode, data, successToastText, failToastText, 'feedScreen'),
     );
   };
-
 
   const _handleFollowUserButtonPress = (data, isFollowing) => {
     let followAction;
@@ -223,14 +217,15 @@ const TabEmptyView = ({
     dispatch(followAction(currentAccount, pinCode, data, successToastText, failToastText));
   };
 
-
   const _handleOnPressLogin = () => {
     navigation.navigate(ROUTES.SCREENS.LOGIN);
   };
 
-
-//render related operations
-  if ((filterKey === 'feed' || filterKey === 'friends' || filterKey === 'communities') && !isLoggedIn) {
+  // render related operations
+  if (
+    (filterKey === 'feed' || filterKey === 'friends' || filterKey === 'communities') &&
+    !isLoggedIn
+  ) {
     return (
       <NoPost
         imageStyle={styles.noImage}
@@ -245,92 +240,89 @@ const TabEmptyView = ({
 
   if (isNoPost) {
     if (filterKey === 'friends') {
-     
-        return (
-          <>
-            <Text style={[globalStyles.subTitle, styles.noPostTitle]}>
-              {intl.formatMessage({ id: 'profile.follow_people' })}
-            </Text>
-            <FlatList
-              data={recommendedUsers}
-              extraData={recommendedUsers}
-              keyExtractor={(item, index) => `${item._id || item.id}${index}`}
-              renderItem={({ item, index }) => (
-                <UserListItem
-                  index={index}
-                  username={item._id}
-                  isHasRightItem
-                  rightText={
-                    item.isFollowing
-                      ? intl.formatMessage({ id: 'user.unfollow' })
-                      : intl.formatMessage({ id: 'user.follow' })
-                  }
-                  rightTextStyle={[styles.followText, item.isFollowing && styles.unfollowText]}
-                  isLoggedIn={isLoggedIn}
-                  isFollowing={item.isFollowing}
-                  isLoadingRightAction={
-                    followingUsers.hasOwnProperty(item._id) && followingUsers[item._id].loading
-                  }
-                  onPressRightText={_handleFollowUserButtonPress}
-                  handleOnPress={(username) =>
-                    navigation.navigate({
-                      routeName: ROUTES.SCREENS.PROFILE,
-                      params: {
-                        username,
-                      },
-                      key: username,
-                    })
-                  }
-                />
-              )}
-            />
-          </>
-        );
-      } else if (filterKey === 'communities') {
-        return (
-          <>
-            <Text style={[globalStyles.subTitle, styles.noPostTitle]}>
-              {intl.formatMessage({ id: 'profile.follow_communities' })}
-            </Text>
-            <FlatList
-              data={recommendedCommunities}
-              keyExtractor={(item, index) => `${item.id || item.title}${index}`}
-              renderItem={({ item, index }) => (
-                <CommunityListItem
-                  index={index}
-                  title={item.title}
-                  about={item.about}
-                  admins={item.admins}
-                  id={item.id}
-                  authors={item.num_authors}
-                  posts={item.num_pending}
-                  subscribers={item.subscribers}
-                  isNsfw={item.is_nsfw}
-                  name={item.name}
-                  handleOnPress={(name) =>
-                    navigation.navigate({
-                      routeName: ROUTES.SCREENS.COMMUNITY,
-                      params: {
-                        tag: name,
-                      },
-                    })
-                  }
-                  handleSubscribeButtonPress={_handleSubscribeCommunityButtonPress}
-                  isSubscribed={item.isSubscribed}
-                  isLoadingRightAction={
-                    subscribingCommunities.hasOwnProperty(item.name) &&
-                    subscribingCommunities[item.name].loading
-                  }
-                  isLoggedIn={isLoggedIn}
-                />
-              )}
-            />
-          </>
-        );
-    } else {
       return (
-        <EmptyScreen style={styles.emptyAnimationContainer} />
-      )
+        <>
+          <Text style={[globalStyles.subTitle, styles.noPostTitle]}>
+            {intl.formatMessage({ id: 'profile.follow_people' })}
+          </Text>
+          <FlatList
+            data={recommendedUsers}
+            extraData={recommendedUsers}
+            keyExtractor={(item, index) => `${item._id || item.id}${index}`}
+            renderItem={({ item, index }) => (
+              <UserListItem
+                index={index}
+                username={item._id}
+                isHasRightItem
+                rightText={
+                  item.isFollowing
+                    ? intl.formatMessage({ id: 'user.unfollow' })
+                    : intl.formatMessage({ id: 'user.follow' })
+                }
+                rightTextStyle={[styles.followText, item.isFollowing && styles.unfollowText]}
+                isLoggedIn={isLoggedIn}
+                isFollowing={item.isFollowing}
+                isLoadingRightAction={
+                  followingUsers.hasOwnProperty(item._id) && followingUsers[item._id].loading
+                }
+                onPressRightText={_handleFollowUserButtonPress}
+                handleOnPress={(username) =>
+                  navigation.navigate({
+                    name: ROUTES.SCREENS.PROFILE,
+                    params: {
+                      username,
+                    },
+                    key: username,
+                  })
+                }
+              />
+            )}
+          />
+        </>
+      );
+    } else if (filterKey === 'communities') {
+      return (
+        <>
+          <Text style={[globalStyles.subTitle, styles.noPostTitle]}>
+            {intl.formatMessage({ id: 'profile.follow_communities' })}
+          </Text>
+          <FlatList
+            data={recommendedCommunities}
+            keyExtractor={(item, index) => `${item.id || item.title}${index}`}
+            renderItem={({ item, index }) => (
+              <CommunityListItem
+                index={index}
+                title={item.title}
+                about={item.about}
+                admins={item.admins}
+                id={item.id}
+                authors={item.num_authors}
+                posts={item.num_pending}
+                subscribers={item.subscribers}
+                isNsfw={item.is_nsfw}
+                name={item.name}
+                handleOnPress={(name) =>
+                  navigation.navigate({
+                    name: ROUTES.SCREENS.COMMUNITY,
+                    params: {
+                      tag: name,
+                    },
+                  })
+                }
+                handleSubscribeButtonPress={_handleSubscribeCommunityButtonPress}
+                isSubscribed={item.isSubscribed}
+                isLoadingRightAction={
+                  subscribingCommunities.hasOwnProperty(item.name) &&
+                  subscribingCommunities[item.name].loading
+                }
+                isLoggedIn={isLoggedIn}
+              />
+            )}
+          />
+        </>
+      );
+    } else {
+      return <EmptyScreen style={styles.emptyAnimationContainer} />;
     }
   }
 
@@ -341,5 +333,4 @@ const TabEmptyView = ({
   );
 };
 
-export default withNavigation(TabEmptyView);
-
+export default TabEmptyView;

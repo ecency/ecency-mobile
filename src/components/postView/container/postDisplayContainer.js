@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { withNavigation } from '@react-navigation/compat';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import get from 'lodash/get';
 
 // Action
+import { useNavigation } from '@react-navigation/native';
 import { toastNotification } from '../../../redux/actions/uiAction';
 
 // Dsteem
@@ -18,7 +18,6 @@ import { default as ROUTES } from '../../../constants/routeNames';
 import PostDisplayView from '../view/postDisplayView';
 
 const PostDisplayContainer = ({
-  navigation,
   post,
   fetchPost,
   isFetchPost,
@@ -33,6 +32,8 @@ const PostDisplayContainer = ({
   isPostUnavailable,
   author,
 }) => {
+  const navigation = useNavigation();
+
   const [activeVotes, setActiveVotes] = useState([]);
   const [activeVotesCount, setActiveVotesCount] = useState(0);
   const [reblogs, setReblogs] = useState([]);
@@ -56,7 +57,7 @@ const PostDisplayContainer = ({
   // Component Functions
   const _handleOnVotersPress = () => {
     navigation.navigate({
-      routeName: ROUTES.SCREENS.VOTERS,
+      name: ROUTES.SCREENS.VOTERS,
       params: {
         activeVotes,
         content: post,
@@ -69,7 +70,7 @@ const PostDisplayContainer = ({
   const _handleOnReblogsPress = () => {
     if (reblogs.length > 0) {
       navigation.navigate({
-        routeName: ROUTES.SCREENS.REBLOGS,
+        name: ROUTES.SCREENS.REBLOGS,
         params: {
           reblogs,
         },
@@ -80,7 +81,7 @@ const PostDisplayContainer = ({
 
   const _handleOnReplyPress = () => {
     navigation.navigate({
-      routeName: ROUTES.SCREENS.EDITOR,
+      name: ROUTES.SCREENS.EDITOR,
       key: 'editor_replay',
       params: {
         isReply: true,
@@ -95,7 +96,7 @@ const PostDisplayContainer = ({
       const isReply = post.parent_author;
 
       navigation.navigate({
-        routeName: ROUTES.SCREENS.EDITOR,
+        name: ROUTES.SCREENS.EDITOR,
         key: `editor_post_${post.permlink}`,
         params: {
           isEdit: true,
@@ -154,4 +155,4 @@ const mapStateToProps = (state) => ({
   isLoggedIn: state.application.isLoggedIn,
 });
 
-export default withNavigation(connect(mapStateToProps)(injectIntl(PostDisplayContainer)));
+export default connect(mapStateToProps)(injectIntl(PostDisplayContainer));

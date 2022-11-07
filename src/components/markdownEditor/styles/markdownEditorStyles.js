@@ -9,14 +9,16 @@ export default EStyleSheet.create({
     backgroundColor: '$primaryBackgroundColor',
   },
   textWrapper: {
-    fontSize: 12,
-    lineHeight: 18,
+    flex: 1,
+    fontSize: 14,
     paddingTop: isAndroidOreo() ? 6 : 16,
-    paddingBottom: Platform.OS === 'ios' ? 32 : 0, // On android side, textinput has default padding
+    paddingBottom: 32,
     paddingHorizontal: 16,
     color: '$primaryBlack',
     backgroundColor: '$primaryBackgroundColor',
     textAlignVertical: 'top',
+    minHeight: isAndroidOreo() ? undefined : '$deviceHeight/2',
+    maxHeight: isAndroidOreo() ? '$deviceHeight' : undefined,
   },
   previewContainer: {
     flex: 1,
@@ -69,13 +71,13 @@ export default EStyleSheet.create({
     paddingBottom: 16,
   },
   floatingContainer: Platform.select({
-    //absolute positioning makes button hide behind keyboard on ios
+    // absolute positioning makes button hide behind keyboard on ios
     ios: {
       alignItems: 'flex-end',
       margin: 16,
       marginBottom: 24,
     },
-    //on android the appearing of button was causing momentary glitch with ios variant style
+    // on android the appearing of button was causing momentary glitch with ios variant style
     android: {
       position: 'absolute',
       right: 16,
@@ -83,12 +85,12 @@ export default EStyleSheet.create({
     },
   }),
   searchAccountsContainer: Platform.select({
-    //absolute positioning makes button hide behind keyboard on ios
+    // absolute positioning makes button hide behind keyboard on ios
     ios: {
       marginBottom: 12,
       paddingTop: 8,
     },
-    //on android the appearing of button was causing momentary glitch with ios variant style
+    // on android the appearing of button was causing momentary glitch with ios variant style
     android: {
       position: 'absolute',
       bottom: 56,

@@ -4,6 +4,7 @@ import { View } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 // Components
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import {
   TabBar,
   BasicHeader,
@@ -99,4 +100,4 @@ const CommunitiesScreen = () => {
   );
 };
 
-export default CommunitiesScreen;
+export default gestureHandlerRootHOC(CommunitiesScreen);

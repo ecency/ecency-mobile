@@ -6,6 +6,7 @@ import get from 'lodash/get';
 // Utilities
 
 // Services and Actions
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { getFollowers, getFollowing, getFollowSearch } from '../../../providers/hive/dhive';
 // Component
 import FollowsScreen from '../screen/followsScreen';
@@ -138,4 +139,4 @@ class FollowsContainer extends Component {
   }
 }
 
-export default FollowsContainer;
+export default gestureHandlerRootHOC(FollowsContainer);

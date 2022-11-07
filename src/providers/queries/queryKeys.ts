@@ -1,0 +1,19 @@
+const QUERIES = {
+  DRAFTS: {
+    GET: 'QUERY_GET_DRAFTS',
+  },
+  SCHEDULES: {
+    GET: 'QUERY_GET_SCHEDULES',
+  },
+  NOTIFICATIONS: {
+    GET: 'QERUY_GET_NOTIFICATIONS',
+  },
+  SNIPPETS: {
+    GET: 'QUERY_GET_SNIPPETS',
+  },
+  MEDIA: {
+    GET: 'QUERY_GET_UPLOADS',
+  },
+};
+
+export default QUERIES;

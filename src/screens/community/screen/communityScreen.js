@@ -3,6 +3,7 @@ import { View, Text, ScrollView } from 'react-native';
 import { useIntl } from 'react-intl';
 
 // Components
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { CollapsibleCard, BasicHeader, TabbedPosts } from '../../../components';
 import { Tag, ProfileSummaryPlaceHolder } from '../../../components/basicUIElements';
 
@@ -13,6 +14,7 @@ import styles from './communityStyles';
 
 import { getDefaultFilters, getFilterMap } from '../../../constants/options/filters';
 import { useAppSelector } from '../../../hooks';
+import { TagResult } from '../..';
 
 const CommunityScreen = ({ route }) => {
   const tag = route.params?.tag ?? '';
@@ -36,7 +38,7 @@ const CommunityScreen = ({ route }) => {
   };
 
   return (
-    <CommunityContainer>
+    <CommunityContainer tag={tag}>
       {({
         data,
         handleSubscribeButtonPress,
@@ -124,4 +126,4 @@ const CommunityScreen = ({ route }) => {
   );
 };
 
-export default CommunityScreen;
+export default gestureHandlerRootHOC(CommunityScreen);

@@ -216,7 +216,7 @@ class ProfileView extends PureComponent {
     const pageType = isOwnProfile ? 'ownProfile' : 'profile';
     const tabs = (isOwnProfile ? ownProfileTabs : profileTabs) || getDefaultFilters(pageType);
 
-    //set initial tab based on deep link filter if available
+    // set initial tab based on deep link filter if available
     let selectedIndex = 0;
     if (deepLinkFilter) {
       selectedIndex = tabs.indexOf(deepLinkFilter);
@@ -229,7 +229,7 @@ class ProfileView extends PureComponent {
 
     const filterOptions = tabs.map((key) => getFilterMap(pageType)[key]);
 
-    //compile content overrides
+    // compile content overrides
     const tabContentOverrides = new Map();
 
     tabContentOverrides.set(tabs.indexOf('replies'), this._contentComentsTab('replies'));

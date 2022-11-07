@@ -3,7 +3,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import ROUTES from '../constants/routeNames';
-import { navigate } from '../navigation/service';
+import RootNavigation from '../navigation/rootNavigation';
 
 import { NoPost } from '../components';
 
@@ -18,7 +18,7 @@ const LoggedInContainer = ({ isLoggedIn, isLoginDone, children }) => {
         defaultText={intl.formatMessage({
           id: 'profile.login_to_see',
         })}
-        handleOnButtonPress={() => navigate({ routeName: ROUTES.SCREENS.LOGIN })}
+        handleOnButtonPress={() => RootNavigation.navigate({ name: ROUTES.SCREENS.LOGIN })}
       />
     );
   }

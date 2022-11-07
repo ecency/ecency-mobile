@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { TransferContainer } from '../../containers';
 
 import TransferView from './screen/transferScreen';
@@ -106,4 +107,4 @@ const Transfer = ({ navigation, route }) => (
   </TransferContainer>
 );
 
-export default Transfer;
+export default gestureHandlerRootHOC(Transfer);

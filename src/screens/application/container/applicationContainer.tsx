@@ -1,5 +1,13 @@
 import { Component } from 'react';
-import { Platform, Alert, Linking, AppState, Appearance } from 'react-native';
+import {
+  Platform,
+  Alert,
+  Linking,
+  AppState,
+  Appearance,
+  NativeEventSubscription,
+  EventSubscription,
+} from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import Config from 'react-native-config';
 import get from 'lodash/get';
@@ -7,13 +15,11 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import { isEmpty, some } from 'lodash';
 import messaging from '@react-native-firebase/messaging';
-import PushNotification from 'react-native-push-notification';
+import notifee from '@notifee/react-native';
 import VersionNumber from 'react-native-version-number';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
-import SplashScreen from 'react-native-splash-screen'
 
 // Constants
 import AUTH_TYPE from '../../../constants/authType';
@@ -46,7 +52,7 @@ import {
   getUnreadNotificationCount,
 } from '../../../providers/ecency/ecency';
 import { fetchLatestAppVersion } from '../../../providers/github/github';
-import { navigate } from '../../../navigation/service';
+import RootNavigation from '../../../navigation/rootNavigation';
 
 // Actions
 import {
@@ -57,7 +63,6 @@ import {
   fetchGlobalProperties,
 } from '../../../redux/actions/accountAction';
 import {
-  isDarkTheme,
   login,
   logoutDone,
   setConnectivityStatus,
@@ -78,8 +83,6 @@ import { fetchCoinQuotes } from '../../../redux/actions/walletActions';
 
 import { decryptKey, encryptKey } from '../../../utils/crypto';
 
-import darkTheme from '../../../themes/darkTheme';
-import lightTheme from '../../../themes/lightTheme';
 import persistAccountGenerator from '../../../utils/persistAccountGenerator';
 import parseVersionNumber from '../../../utils/parseVersionNumber';
 import { setMomentLocale } from '../../../utils/time';
@@ -89,67 +92,62 @@ import MigrationHelpers from '../../../utils/migrationHelpers';
 import { deepLinkParser } from '../../../utils/deepLinkParser';
 import bugsnapInstance from '../../../config/bugsnag';
 
-
 let firebaseOnNotificationOpenedAppListener = null;
 let firebaseOnMessageListener = null;
-let removeAppearanceListener = null;
+let appStateSub: NativeEventSubscription | null = null;
+let linkingEventSub: EventSubscription | null = null;
 
 class ApplicationContainer extends Component {
-
-  _pinCodeTimer:any = null
+  _pinCodeTimer: any = null;
 
   constructor(props) {
     super(props);
     this.state = {
       isRenderRequire: true,
-      isIos: Platform.OS !== 'android',
+      // isIos: Platform.OS !== 'android',
       appState: AppState.currentState,
       foregroundNotificationData: null,
     };
   }
 
   componentDidMount = () => {
-  
-    const { dispatch, isAnalytics } = this.props;
+    const { dispatch } = this.props;
 
     this._setNetworkListener();
 
-    Linking.addEventListener('url', this._handleOpenURL);
+    linkingEventSub = Linking.addEventListener('url', this._handleOpenURL);
+    // TOOD: read initial URL
     Linking.getInitialURL().then((url) => {
       this._handleDeepLink(url);
     });
 
-    AppState.addEventListener('change', this._handleAppStateChange);
-
-    this.removeAppearanceListener = Appearance.addChangeListener(this._appearanceChangeListener);
+    appStateSub = AppState.addEventListener('change', this._handleAppStateChange);
 
     this._createPushListener();
 
-    //set avatar cache stamp to invalidate previous session avatars
+    // set avatar cache stamp to invalidate previous session avatars
     dispatch(setAvatarCacheStamp(new Date().getTime()));
 
-    SplashScreen.hide();
     setMomentLocale();
     this._fetchApp();
 
     ReceiveSharingIntent.getReceivedFiles(
-      files => {
-        navigate({
-          routeName: ROUTES.SCREENS.EDITOR,
+      (files) => {
+        RootNavigation.navigate({
+          name: ROUTES.SCREENS.EDITOR,
           params: { hasSharedIntent: true, files },
         });
         // files returns as JSON Array example
-        //[{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]
-        ReceiveSharingIntent.clearReceivedFiles();  // clear Intents
+        // [{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]
+        ReceiveSharingIntent.clearReceivedFiles(); // clear Intents
       },
       (error) => {
         console.log('error :>> ', error);
       },
     );
-
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const { isGlobalRenderRequired, dispatch } = this.props;
 
     if (isGlobalRenderRequired !== prevProps.isGlobalRenderRequired && isGlobalRenderRequired) {
@@ -167,14 +165,16 @@ class ApplicationContainer extends Component {
   }
 
   componentWillUnmount() {
-
     const { isPinCodeOpen: _isPinCodeOpen } = this.props;
 
-    //TOOD: listen for back press and cancel all pending api requests;
+    // TOOD: listen for back press and cancel all pending api requests;
+    if (linkingEventSub) {
+      linkingEventSub.remove();
+    }
 
-    Linking.removeEventListener('url', this._handleOpenURL);
-
-    AppState.removeEventListener('change', this._handleAppStateChange);
+    if (appStateSub) {
+      appStateSub.remove();
+    }
 
     if (_isPinCodeOpen) {
       clearTimeout(this._pinCodeTimer);
@@ -186,10 +186,6 @@ class ApplicationContainer extends Component {
 
     if (firebaseOnNotificationOpenedAppListener) {
       firebaseOnNotificationOpenedAppListener();
-    }
-
-    if (removeAppearanceListener) {
-      removeAppearanceListener();
     }
 
     this.netListener();
@@ -205,50 +201,35 @@ class ApplicationContainer extends Component {
     });
   };
 
-  //change app theme on the fly
-  _appearanceChangeListener = () => {
-    const { dispatch } = this.props;
-
-    //workaround for bug with Appearece package: https://github.com/facebook/react-native/issues/28525#issuecomment-841812810
-    const colorScheme = Appearance.getColorScheme();
-    getTheme().then((darkThemeSetting) => {
-      if (darkThemeSetting === null) {
-        dispatch(isDarkTheme(colorScheme === 'dark'));
-      }
-    });
-  };
-
   _handleOpenURL = (event) => {
     this._handleDeepLink(event.url);
   };
 
-  _handleDeepLink = async (url = '') => {
-    const { currentAccount, intl } = this.props;
+  _handleDeepLink = async (url: string | null) => {
+    const { currentAccount } = this.props;
 
-    if(!url){
+    if (!url) {
       return;
     }
 
-
-    try{
+    try {
       const deepLinkData = await deepLinkParser(url, currentAccount);
-      const { routeName, params, key } = deepLinkData || {};
-      
-      if (routeName && key) {
-        navigate({
-          routeName,
+      const { name, params, key } = deepLinkData || {};
+
+      if (name && key) {
+        RootNavigation.navigate({
+          name,
           params,
-          key: key,
+          key,
         });
       }
-    } catch(err){
-      this._handleAlert(err.message)
+    } catch (err) {
+      this._handleAlert(err.message);
     }
-    
   };
 
   _compareAndPromptForUpdate = async () => {
-    const recheckInterval = 48 * 3600 * 1000; //2 days
+    const recheckInterval = 48 * 3600 * 1000; // 2 days
     const { dispatch, intl } = this.props;
 
     const lastUpdateCheck = await getLastUpdateCheck();
@@ -309,16 +290,16 @@ class ApplicationContainer extends Component {
     );
   };
 
-
   _handleAppStateChange = (nextAppState) => {
-    const { isPinCodeOpen:_isPinCodeOpen } = this.props;
+    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
     const { appState } = this.state;
 
     if (appState.match(/inactive|background/) && nextAppState === 'active') {
       this._refreshGlobalProps();
+      this._refreshUnreadActivityCount();
       if (_isPinCodeOpen && this._pinCodeTimer) {
         clearTimeout(this._pinCodeTimer);
-    }
+      }
     }
 
     if (appState.match(/active|forground/) && nextAppState === 'inactive') {
@@ -330,12 +311,10 @@ class ApplicationContainer extends Component {
     });
   };
 
-
-
   _fetchApp = async () => {
-    const {dispatch, settingsMigratedV2} = this.props;
+    const { dispatch, settingsMigratedV2 } = this.props;
 
-    await MigrationHelpers.migrateSettings(dispatch, settingsMigratedV2)
+    await MigrationHelpers.migrateSettings(dispatch, settingsMigratedV2);
 
     this._refreshGlobalProps();
     await this._getUserDataFromRealm();
@@ -345,15 +324,15 @@ class ApplicationContainer extends Component {
   };
 
   _startPinCodeTimer = () => {
-    const {isPinCodeOpen:_isPinCodeOpen} = this.props;
+    const { isPinCodeOpen: _isPinCodeOpen } = this.props;
     if (_isPinCodeOpen) {
-        this._pinCodeTimer = setTimeout(() => {
-            navigate({
-              routeName:ROUTES.SCREENS.PINCODE
-            })
-        }, 1 * 60 * 1000);
+      this._pinCodeTimer = setTimeout(() => {
+        RootNavigation.navigate({
+          name: ROUTES.SCREENS.PINCODE,
+        });
+      }, 1 * 60 * 1000);
     }
-};
+  };
 
   _pushNavigate = (notification) => {
     const { dispatch } = this.props;
@@ -361,12 +340,12 @@ class ApplicationContainer extends Component {
     let key = null;
     let routeName = null;
 
-    if (!!notification) {
+    if (notification) {
       const push = get(notification, 'data');
       const type = get(push, 'type', '');
       const fullPermlink =
         get(push, 'permlink1', '') + get(push, 'permlink2', '') + get(push, 'permlink3', '');
-      const username = get(push, 'target', '');
+      // const username = get(push, 'target', '');
       const activity_id = get(push, 'id', '');
 
       switch (type) {
@@ -437,8 +416,8 @@ class ApplicationContainer extends Component {
       });
 
       if (!some(params, isEmpty)) {
-        navigate({
-          routeName,
+        RootNavigation.navigate({
+          name: routeName,
           params,
           key,
         });
@@ -458,8 +437,8 @@ class ApplicationContainer extends Component {
   _createPushListener = () => {
     (async () => await messaging().requestPermission())();
 
-    PushNotification.setApplicationIconBadgeNumber(0);
-    PushNotification.cancelAllLocalNotifications();
+    notifee.setBadgeCount(0);
+    notifee.cancelAllNotifications();
 
     firebaseOnMessageListener = messaging().onMessage((remoteMessage) => {
       console.log('Notification Received: foreground', remoteMessage);
@@ -467,7 +446,6 @@ class ApplicationContainer extends Component {
       this.setState({
         foregroundNotificationData: remoteMessage,
       });
-
     });
 
     firebaseOnNotificationOpenedAppListener = messaging().onNotificationOpenedApp(
@@ -492,15 +470,20 @@ class ApplicationContainer extends Component {
     }
   };
 
-
   _refreshGlobalProps = () => {
     const { actions } = this.props;
     actions.fetchGlobalProperties();
     actions.fetchCoinQuotes();
   };
 
+  _refreshUnreadActivityCount = async () => {
+    const { dispatch } = this.props;
+    const unreadActivityCount = await getUnreadNotificationCount();
+    dispatch(updateUnreadActivityCount(unreadActivityCount));
+  };
+
   _getUserDataFromRealm = async () => {
-    const { dispatch, pinCode, isPinCodeOpen: _isPinCodeOpen, isConnected } = this.props;
+    const { dispatch, isPinCodeOpen: _isPinCodeOpen, isConnected } = this.props;
     let realmData = [];
 
     const res = await getAuthStatus();
@@ -556,11 +539,10 @@ class ApplicationContainer extends Component {
         await switchAccount(realmObject[0].username);
       }
 
-
       realmObject[0].name = currentUsername;
       // If in dev mode pin code does not show
       if (_isPinCodeOpen) {
-        navigate({routeName:ROUTES.SCREENS.PINCODE})
+        RootNavigation.navigate({ name: ROUTES.SCREENS.PINCODE });
       } else if (!_isPinCodeOpen) {
         const encryptedPin = encryptKey(Config.DEFAULT_PIN, Config.PIN_KEY);
         dispatch(savePinCode(encryptedPin));
@@ -568,7 +550,6 @@ class ApplicationContainer extends Component {
 
       if (isConnected) {
         this._fetchUserDataFromDsteem(realmObject[0]);
-      
       }
 
       return realmObject[0];
@@ -623,14 +604,14 @@ class ApplicationContainer extends Component {
       let accountData = await getUser(realmObject.username);
       accountData.local = realmObject;
 
-      //cannot migrate or refresh token since pin would null while pin code modal is open
+      // cannot migrate or refresh token since pin would null while pin code modal is open
       if (!isPinCodeOpen || encUnlockPin) {
-        //migration script for previously mast key based logged in user not having access token
+        // migration script for previously mast key based logged in user not having access token
         if (realmObject.authType !== AUTH_TYPE.STEEM_CONNECT && realmObject.accessToken === '') {
           accountData = await migrateToMasterKeyWithAccessToken(accountData, realmObject, pinCode);
         }
 
-        //refresh access token
+        // refresh access token
         accountData = await this._refreshAccessToken(accountData);
       }
 
@@ -647,7 +628,7 @@ class ApplicationContainer extends Component {
       dispatch(updateCurrentAccount(accountData));
       dispatch(fetchSubscribedCommunities(realmObject.username));
       this._connectNotificationServer(accountData.name);
-      //TODO: better update device push token here after access token refresh
+      // TODO: better update device push token here after access token refresh
     } catch (err) {
       Alert.alert(
         `${intl.formatMessage({ id: 'alert.fetch_error' })} \n${err.message.substr(0, 20)}`,
@@ -655,47 +636,49 @@ class ApplicationContainer extends Component {
     }
   };
 
-
-
-  //update notification settings and update push token for each signed accoutn useing access tokens
+  // update notification settings and update push token for each signed accoutn useing access tokens
   _registerDeviceForNotifications = (settings?: any) => {
-    const { currentAccount, otherAccounts, notificationDetails, isNotificationsEnabled } = this.props;
+    const { currentAccount, otherAccounts, notificationDetails, isNotificationsEnabled } =
+      this.props;
 
     const isEnabled = settings ? !!settings.notification : isNotificationsEnabled;
     settings = settings || notificationDetails;
 
     const _enabledNotificationForAccount = (account) => {
       const encAccessToken = account?.local?.accessToken;
-      //decrypt access token
+      // decrypt access token
       let accessToken = null;
       if (encAccessToken) {
-        //NOTE: default pin decryption works also for custom pin as other account
-        //keys are not yet being affected by changed pin, which I think we should dig more
+        // NOTE: default pin decryption works also for custom pin as other account
+        // keys are not yet being affected by changed pin, which I think we should dig more
         accessToken = decryptKey(account.name, Config.DEFAULT_PIN);
       }
 
       this._enableNotification(account.name, isEnabled, settings, accessToken);
-    }
+    };
 
-
-    //updateing fcm token with settings;
+    // updateing fcm token with settings;
     otherAccounts.forEach((account) => {
-      //since there can be more than one accounts, process access tokens separate
+      // since there can be more than one accounts, process access tokens separate
       if (account?.local?.accessToken) {
-        _enabledNotificationForAccount(account)
+        _enabledNotificationForAccount(account);
       } else {
-        console.warn("access token not present, reporting to bugsnag")
-        bugsnapInstance.notify(new Error(`Reporting missing access token in other accounts section: account:${account.name} with local data ${JSON.stringify(account?.local)}`))
+        console.warn('access token not present, reporting to bugsnag');
+        bugsnapInstance.notify(
+          new Error(
+            `Reporting missing access token in other accounts section: account:${
+              account.name
+            } with local data ${JSON.stringify(account?.local)}`,
+          ),
+        );
 
-        //fallback to current account access token to register atleast logged in account
+        // fallback to current account access token to register atleast logged in account
         if (currentAccount.name === account.name) {
-          _enabledNotificationForAccount(currentAccount)
+          _enabledNotificationForAccount(currentAccount);
         }
       }
     });
   };
-
-
 
   _connectNotificationServer = (username) => {
     /* eslint no-undef: "warn" */
@@ -720,7 +703,6 @@ class ApplicationContainer extends Component {
       currentAccount: { name, local },
       dispatch,
       intl,
-
     } = this.props;
 
     removeUserData(name)
@@ -742,7 +724,7 @@ class ApplicationContainer extends Component {
           });
           setExistUser(false);
           dispatch(isPinCodeOpen(false));
-          dispatch(setEncryptedUnlockPin(encryptKey(Config.DEFAULT_KEU, Config.PIN_KEY)))
+          dispatch(setEncryptedUnlockPin(encryptKey(Config.DEFAULT_KEU, Config.PIN_KEY)));
           if (local.authType === AUTH_TYPE.STEEM_CONNECT) {
             removeSCAccount(name);
           }
@@ -761,7 +743,7 @@ class ApplicationContainer extends Component {
   };
 
   _enableNotification = async (username, isEnable, settings, accessToken = null) => {
-    //compile notify_types
+    // compile notify_types
     let notify_types = [];
     if (settings) {
       const notifyTypesConst = {
@@ -771,6 +753,8 @@ class ApplicationContainer extends Component {
         commentNotification: 4,
         reblogNotification: 5,
         transfersNotification: 6,
+        favoriteNotification: 13,
+        bookmarkNotification: 15,
       };
 
       Object.keys(settings).map((item) => {
@@ -779,7 +763,7 @@ class ApplicationContainer extends Component {
         }
       });
     } else {
-      notify_types = [1, 2, 3, 4, 5, 6];
+      notify_types = [1, 2, 3, 4, 5, 6, 13, 15];
     }
 
     messaging()
@@ -812,7 +796,7 @@ class ApplicationContainer extends Component {
     _currentAccount.username = accountData.name;
     [_currentAccount.local] = realmData;
 
-    //migreate account to use access token for master key auth type
+    // migreate account to use access token for master key auth type
     if (realmData[0].authType !== AUTH_TYPE.STEEM_CONNECT && realmData[0].accessToken === '') {
       _currentAccount = await migrateToMasterKeyWithAccessToken(
         _currentAccount,
@@ -821,7 +805,7 @@ class ApplicationContainer extends Component {
       );
     }
 
-    //update refresh token
+    // update refresh token
     _currentAccount = await this._refreshAccessToken(_currentAccount);
 
     try {
@@ -835,7 +819,6 @@ class ApplicationContainer extends Component {
     dispatch(updateCurrentAccount(_currentAccount));
     dispatch(fetchSubscribedCommunities(_currentAccount.username));
   };
-
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     const {
@@ -876,11 +859,6 @@ class ApplicationContainer extends Component {
     }
   }
 
-  UNSAFE_componentWillMount() {
-    const { isDarkTheme: _isDarkTheme } = this.props;
-    EStyleSheet.build(_isDarkTheme ? darkTheme : lightTheme);
-  }
-
   render() {
     const {
       selectedLanguage,
@@ -915,11 +893,10 @@ export default connect(
     isPinCodeOpen: state.application.isPinCodeOpen,
     encUnlockPin: state.application.encUnlockPin,
     isLogingOut: state.application.isLogingOut,
-    isLoggedIn: state.application.isLoggedIn, //TODO: remove as is not being used in this class
+    isLoggedIn: state.application.isLoggedIn, // TODO: remove as is not being used in this class
     isConnected: state.application.isConnected,
     api: state.application.api,
     isGlobalRenderRequired: state.application.isRenderRequired,
-    isAnalytics: state.application.isAnalytics,
     lastUpdateCheck: state.application.lastUpdateCheck,
     settingsMigratedV2: state.application.settingsMigratedV2,
     isNotificationsEnabled: state.application.isNotificationOpen,

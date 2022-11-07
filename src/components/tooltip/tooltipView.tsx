@@ -6,6 +6,7 @@ import { registerTooltip } from '../../redux/actions/walkthroughActions';
 import { Walkthrough } from '../../redux/reducers/walkthroughReducer';
 
 import styles from './tooltipStyles';
+
 interface TooltipProps {
   children?: any;
   text?: string;
@@ -28,7 +29,7 @@ const Tooltip = ({ children, text, walkthroughIndex }: TooltipProps, ref) => {
     closeTooltip() {
       if (!tooltipRegistered || (tooltipRegistered && !tooltipRegistered.isShown)) {
         const walkthrough: Walkthrough = {
-          walkthroughIndex: walkthroughIndex,
+          walkthroughIndex,
           isShown: true,
         };
         dispatch(registerTooltip(walkthrough));
@@ -62,7 +63,6 @@ const Tooltip = ({ children, text, walkthroughIndex }: TooltipProps, ref) => {
         onClose={() => ref?.current?.closeTooltip()}
         fromRect={popoverAnchor}
         supportedOrientations={['portrait', 'landscape']}
-
       >
         <Text>{text}</Text>
       </Popover>
@@ -70,4 +70,4 @@ const Tooltip = ({ children, text, walkthroughIndex }: TooltipProps, ref) => {
   );
 };
 
-export default forwardRef(Tooltip as any);
+export default forwardRef(Tooltip);

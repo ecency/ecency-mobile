@@ -14,16 +14,9 @@ export default EStyleSheet.create({
   body: {
     marginHorizontal: 9,
   },
-  image: {
-    margin: 0,
-    alignItems: 'center',
-    alignSelf: 'center',
-    //height: 200,
-    //width: '$deviceWidth - 16',
-    borderRadius: 8,
-    backgroundColor: '$primaryLightGray',
-    // paddingVertical: 10,
-    marginVertical: 5,
+  thumbnail: {
+    width: '$deviceWidth - 16',
+    height: 300,
   },
   postDescripton: {
     flexDirection: 'column',

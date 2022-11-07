@@ -75,9 +75,9 @@ const TransferView = ({
 
   let path;
   if (hsTransfer) {
-    //NOTE: Keepping point purchase url here for referemnce in case we have to put it back again,
-    //the path formatting seems quite complex so perhaps it's better to just let it live here
-    //as comment
+    // NOTE: Keepping point purchase url here for referemnce in case we have to put it back again,
+    // the path formatting seems quite complex so perhaps it's better to just let it live here
+    // as comment
     // if (transferType === transferTypes.PURCHASE_ESTM) {
     //   const json = JSON.stringify({
     //     sender: get(selectedAccount, 'name'),

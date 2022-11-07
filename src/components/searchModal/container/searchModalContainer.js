@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { withNavigation } from '@react-navigation/compat';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 
 // Services and Actions
+import { useNavigation } from '@react-navigation/native';
 import { search } from '../../../providers/ecency/ecency';
 import { lookupAccounts, getTrendingTags, getPurePost } from '../../../providers/hive/dhive';
 
@@ -18,19 +18,13 @@ import postUrlParser from '../../../utils/postUrlParser';
 import SearchModalView from '../view/searchModalView';
 
 /*
- *            Props Name        Description                                     Value
+ *            Props name        Description                                     Value
  *@props -->  props name here   description here                                Value Type Here
  *
  */
 
-const SearchModalContainer = ({
-  navigation,
-  isConnected,
-  handleOnClose,
-  username,
-  isOpen,
-  placeholder,
-}) => {
+const SearchModalContainer = ({ isConnected, handleOnClose, username, isOpen, placeholder }) => {
+  const navigation = useNavigation();
   const [searchResults, setSearchResults] = useState({});
 
   const _handleCloseButton = () => {
@@ -128,7 +122,7 @@ const SearchModalContainer = ({
                 data: [{ text: `#${tag}`, tag, filter: feedType }],
               });
               // navigation.navigate({
-              //   routeName: ROUTES.SCREENS.SEARCH_RESULT,
+              //   name: ROUTES.SCREENS.SEARCH_RESULT,
               //   params: {
               //     tag: tag,
               //     filter: feedType,
@@ -140,7 +134,7 @@ const SearchModalContainer = ({
                 data: [{ text: `#${feedType}`, filter: feedType }],
               });
               // navigation.navigate({
-              //   routeName: ROUTES.SCREENS.SEARCH_RESULT,
+              //   name: ROUTES.SCREENS.SEARCH_RESULT,
               //   params: {
               //     filter: feedType,
               //   },
@@ -166,7 +160,7 @@ const SearchModalContainer = ({
   };
 
   const _handleOnPressListItem = (type, item) => {
-    let routeName = null;
+    let name = null;
     let params = null;
     let key = null;
 
@@ -175,14 +169,14 @@ const SearchModalContainer = ({
 
     switch (type) {
       case 'user':
-        routeName = get(item, 'text') === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE;
+        name = get(item, 'text') === username ? ROUTES.TABBAR.PROFILE : ROUTES.SCREENS.PROFILE;
         params = {
           username: get(item, 'text'),
         };
         key = item.text;
         break;
       case 'content':
-        routeName = ROUTES.SCREENS.POST;
+        name = ROUTES.SCREENS.POST;
         params = {
           author: get(item, 'author'),
           permlink: get(item, 'permlink'),
@@ -190,14 +184,14 @@ const SearchModalContainer = ({
         key = get(item, 'permlink');
         break;
       case 'tag':
-        routeName = ROUTES.SCREENS.SEARCH_RESULT;
+        name = ROUTES.SCREENS.SEARCH_RESULT;
         params = {
           tag: get(item, 'text', '').substr(1),
         };
         break;
 
       case 'feedType':
-        routeName = ROUTES.SCREENS.SEARCH_RESULT;
+        name = ROUTES.SCREENS.SEARCH_RESULT;
         if (get(item, 'tag', false)) {
           params = {
             tag: get(item, 'tag', ''),
@@ -214,9 +208,9 @@ const SearchModalContainer = ({
         break;
     }
 
-    if (routeName) {
+    if (name) {
       navigation.navigate({
-        routeName,
+        name,
         params,
         key,
       });
@@ -241,4 +235,4 @@ const mapStateToProps = (state) => ({
   isConnected: state.application.isConnected,
 });
 
-export default connect(mapStateToProps)(withNavigation(SearchModalContainer));
+export default connect(mapStateToProps)(SearchModalContainer);
